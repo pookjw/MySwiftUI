@@ -17,15 +17,23 @@ open class _UIHostingView<Content> : UIView where Content : View {
         fatalError("TODO")
     }
     
-    private let _base: UIHostingViewBase
-    private var _rootView: Content
+    private let _base = UIHostingViewBase(
+        rootViewType: Content.self,
+        options: UIHostingViewBase.Options(rawValue: 0x1d)
+    )
     
-    var shouldDisableUIKitAnimations: Bool {
-        /*
-         "SwiftUI._UIHostingView.shouldDisableUIKitAnimations.getter : Swift.Bool", mangled="$s7SwiftUI14_UIHostingViewC28shouldDisableUIKitAnimationsSbvg"
-         */
-        fatalError("TODO")
+    private var base: UIHostingViewBase {
+        if _base.uiView == nil {
+            _base.uiView = self
+            _base.animationDelegate = self
+            
+            // TODO:SwiftUI.DisplayList.ViewRenderer.host.setter = self
+        }
+        
+        return _base
     }
+    
+    private var _rootView: Content
     
     public var rootView: Content {
         set {
@@ -39,5 +47,14 @@ open class _UIHostingView<Content> : UIView where Content : View {
     open override func layoutSubviews() {
         super.layoutSubviews()
         
+    }
+}
+
+extension _UIHostingView: UIHostingViewBaseAnimationDelegate {
+    var shouldDisableUIKitAnimations: Bool {
+        /*
+         "SwiftUI._UIHostingView.shouldDisableUIKitAnimations.getter : Swift.Bool", mangled="$s7SwiftUI14_UIHostingViewC28shouldDisableUIKitAnimationsSbvg"
+         */
+        return false
     }
 }

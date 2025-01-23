@@ -1,0 +1,4 @@
+module _MySwiftUICShims {
+    header "_MySwiftUICShims.h"
+    export *
+}
