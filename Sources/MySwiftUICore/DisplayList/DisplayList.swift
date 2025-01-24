@@ -13,7 +13,22 @@ package struct DisplayList {
     }
     
     package init(_ item: Item) {
-        fatalError()
+        let items: [Item]
+        let features: Features
+        let properties: Properties
+        
+        switch item.value {
+        case .empty:
+            items = []
+            features = []
+            properties = []
+        default:
+            fatalError()
+        }
+        
+        self.items = items
+        self.features = features
+        self.properties = properties
     }
     
     func nextUpdate(after time: Time) -> Time {
