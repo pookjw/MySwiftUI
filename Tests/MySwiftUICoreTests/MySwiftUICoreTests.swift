@@ -1,8 +1,12 @@
-//
-//  File.swift
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 1/22/25.
-//
+import Testing
+@testable import MySwiftUICore
 
-import Foundation
+struct MySwiftUICoreTests {
+    @Test func test() {
+        _test()
+    }
+}
+
+private func _test() {
+    
+}

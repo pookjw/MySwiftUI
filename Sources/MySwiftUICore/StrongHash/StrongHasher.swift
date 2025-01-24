@@ -6,7 +6,7 @@ package struct StrongHasher {
     @inline(__always)
     package init() {
         state = withUnsafeTemporaryAllocation(of: CC_SHA1_CTX.self, capacity: 1) { pointer in
-            assert(CC_SHA1_Init(pointer.baseAddress) == 0)
+            assert(CC_SHA1_Init(pointer.baseAddress) == 1)
             return pointer.baseAddress.unsafelyUnwrapped.pointee
         }
     }
@@ -28,7 +28,7 @@ package struct StrongHasher {
         
         return withUnsafeTemporaryAllocation(of: StrongHash.self, capacity: 1) { pointer in
             assert(MemoryLayout<StrongHash>.size == MemoryLayout<(UInt32, UInt32, UInt32, UInt32, UInt32)>.size)
-            assert(CC_SHA1_Final(pointer.baseAddress, &state) == 0)
+            assert(CC_SHA1_Final(pointer.baseAddress, &state) == 1)
             return pointer.baseAddress.unsafelyUnwrapped.pointee
         }
     }
@@ -36,7 +36,7 @@ package struct StrongHasher {
     @inline(__always)
     package mutating func combineBytes(_ bytes: UnsafeRawPointer, count: Int) {
         withUnsafeMutablePointer(to: &state) { pointer in
-            assert(CC_SHA1_Update(pointer, bytes, CC_LONG(count)) != 0)
+            assert(CC_SHA1_Update(pointer, bytes, CC_LONG(count)) == 1)
         }
     }
     

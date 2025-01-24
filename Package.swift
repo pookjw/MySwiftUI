@@ -32,6 +32,7 @@ let package = Package(
         .target(
             name: "MySwiftUICore",
             swiftSettings: [
+                .unsafeFlags(["-enable-private-imports"]),
                 .enableExperimentalFeature("RawLayout")
             ]
         ),

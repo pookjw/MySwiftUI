@@ -1,7 +1,8 @@
 import QuartzCore
+import CoreFoundation
 
 package struct Time: Sendable {
-    private var secounds: CFTimeInterval
+    package var secounds: CFTimeInterval
     
     package init() {
         secounds = 0
@@ -56,21 +57,15 @@ extension Time {
         Time(seconds: lhs.secounds / rhs.secounds)
     }
     
-    package static func -= (lhs: inout Time, rhs: Time) -> Time {
-        var result = lhs
-        result.secounds -= rhs.secounds
-        return result
+    package static func -= (lhs: inout Time, rhs: Time) {
+        lhs.secounds -= rhs.secounds
     }
     
-    package static func *= (lhs: inout Time, rhs: Time) -> Time {
-        var result = lhs
-        result.secounds *= rhs.secounds
-        return result
+    package static func *= (lhs: inout Time, rhs: Time) {
+        lhs.secounds *= rhs.secounds
     }
     
-    package static func /= (lhs: inout Time, rhs: Time) -> Time {
-        var result = lhs
-        result.secounds /= rhs.secounds
-        return result
+    package static func /= (lhs: inout Time, rhs: Time) {
+        lhs.secounds /= rhs.secounds
     }
 }
