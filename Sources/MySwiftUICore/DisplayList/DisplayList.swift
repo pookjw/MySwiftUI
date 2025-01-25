@@ -68,7 +68,7 @@ extension DisplayList {
         
         package var properties: Properties {
             // value를 switch 돌면서 뭔가 하는 것 같다
-            fatalError()
+            fatalError("TODO")
         }
         
         fileprivate init(_ value: Value, frame: CGRect, identity: _DisplayList_Identity, version: Version) {
@@ -80,6 +80,42 @@ extension DisplayList {
         
         package func nextUpdate(after time: Time) -> Time {
             fatalError()
+        }
+        
+        fileprivate func canonicalizeIdentityEffectlist(list: DisplayList) {
+            fatalError("TODO")
+        }
+        
+        fileprivate func opaqueContentPath() -> (Path, FillStyle) {
+            fatalError("TODO")
+        }
+        
+        fileprivate func paint(in rect /* frame? bounds? */: CGRect) -> AnyResolvedPoint? {
+            fatalError("TODO")
+        }
+        
+        fileprivate func colorMatrix(size: CGSize) -> (_ColorMatrix, DisplayList)? {
+            fatalError("TODO")
+        }
+        
+        fileprivate func addExtent(to rect: CGRect) {
+            fatalError("TODO")
+        }
+        
+        fileprivate func print(into printer: inout SExpPrinter) {
+            fatalError("TODO")
+        }
+        
+        fileprivate func printMinimally(into printer: inout SExpPrinter) {
+            fatalError("TODO")
+        }
+        
+        fileprivate func rewriteVibrancyFilterAsBackdrop(matrix: _ColorMatrix, list: DisplayList) {
+            fatalError("TODO")
+        }
+        
+        fileprivate func discardContainingClips(state: inout DisplayList.ViewUpdater.Model.State) -> Bool {
+            fatalError("TODO")
         }
         
         static package func == (lhs: DisplayList.Item, rhs: DisplayList.Item) -> Bool {
@@ -172,7 +208,7 @@ extension DisplayList {
 
 private nonisolated(unsafe) var lastIdentity: UInt32 = 0
 
-private struct _DisplayList_Identity: Codable, Hashable, CustomStringConvertible, Sendable {
+struct _DisplayList_Identity: Codable, Hashable, CustomStringConvertible, Sendable {
     let value: UInt32
     
     init() {

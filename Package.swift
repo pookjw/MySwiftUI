@@ -25,12 +25,14 @@ let package = Package(
         .target(
             name: "MySwiftUI",
             dependencies: [
-                .byName(name: "MySwiftUICore"),
-                .byName(name: "_MySwiftUICShims")
+                .byName(name: "MySwiftUICore")
             ]
         ),
         .target(
             name: "MySwiftUICore",
+            dependencies: [
+                .byName(name: "_MySwiftUICShims")
+            ],
             swiftSettings: [
                 .unsafeFlags(["-enable-private-imports"]),
                 .enableExperimentalFeature("RawLayout")
