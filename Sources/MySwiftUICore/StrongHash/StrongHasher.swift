@@ -3,7 +3,6 @@ import CommonCrypto
 package struct StrongHasher {
     private var state: CC_SHA1state_st
     
-    @inline(__always)
     package init() {
         state = withUnsafeTemporaryAllocation(of: CC_SHA1_CTX.self, capacity: 1) { pointer in
             assert(CC_SHA1_Init(pointer.baseAddress) == 1)
@@ -11,12 +10,10 @@ package struct StrongHasher {
         }
     }
     
-    @inline(__always)
     package mutating func combine<H>(_ value: H) where H: StronglyHashable {
         value.hash(into: &self)
     }
     
-    @inline(__always)
     package mutating func finialize() -> StrongHash {
         /*
          https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/CC_SHA1_Final.3cc.html
@@ -33,14 +30,12 @@ package struct StrongHasher {
         }
     }
     
-    @inline(__always)
     package mutating func combineBytes(_ bytes: UnsafeRawPointer, count: Int) {
         withUnsafeMutablePointer(to: &state) { pointer in
             assert(CC_SHA1_Update(pointer, bytes, CC_LONG(count)) == 1)
         }
     }
     
-    @inline(__always)
     package mutating func combineBitPattern<T>(_ value: T) {
         withUnsafePointer(to: value) { pointer in
             combineBytes(pointer, count: MemoryLayout<T>.size)
