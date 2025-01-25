@@ -7,18 +7,19 @@ let package = Package(
     products: [
         .library(
             name: "MySwiftUI",
-            type: .dynamic,
             targets: ["MySwiftUI"]
         ),
         .library(
             name: "MySwiftUICore",
-            type: .static,
             targets: ["MySwiftUICore"]
         ),
         .library(
             name: "_MySwiftUICShims",
-            type: .static,
             targets: ["_MySwiftUICShims"]
+        ),
+        .library(
+            name: "_MyObservation",
+            targets: ["_MyObservation"]
         )
     ],
     targets: [
@@ -31,7 +32,8 @@ let package = Package(
         .target(
             name: "MySwiftUICore",
             dependencies: [
-                .byName(name: "_MySwiftUICShims")
+                .byName(name: "_MySwiftUICShims"),
+                .byName(name: "_MyObservation")
             ],
             swiftSettings: [
                 .unsafeFlags(["-enable-private-imports"]),
@@ -48,6 +50,10 @@ let package = Package(
         .testTarget(
             name: "MySwiftUICoreTests",
             dependencies: ["MySwiftUICore"]
+        ),
+        .binaryTarget(
+            name: "_MyObservation",
+            path: "Sources/_MyObservation/_MyObservation.xcframework"
         )
     ]
 )
