@@ -20,6 +20,10 @@ let package = Package(
         .library(
             name: "_MyObservation",
             targets: ["_MyObservation"]
+        ),
+        .library(
+            name: "AttributeGraph",
+            targets: ["AttributeGraph"]
         )
     ],
     targets: [
@@ -33,7 +37,8 @@ let package = Package(
             name: "MySwiftUICore",
             dependencies: [
                 .byName(name: "_MySwiftUICShims"),
-                .byName(name: "_MyObservation")
+                .byName(name: "_MyObservation"),
+                .byName(name: "AttributeGraph")
             ],
             swiftSettings: [
                 .unsafeFlags(["-enable-private-imports"]),
@@ -54,6 +59,10 @@ let package = Package(
         .binaryTarget(
             name: "_MyObservation",
             path: "Sources/_MyObservation/_MyObservation.xcframework"
+        ),
+        .binaryTarget(
+            name: "AttributeGraph",
+            path: "Sources/AttributeGraph/AttributeGraph.xcframework"
         )
     ]
 )

@@ -1,3 +1,3 @@
 # MySwiftUI
 
-SwiftUI.PlatformViewHost
+Inspired by [OpenSwiftUI](https://github.com/OpenSwiftUIProject/OpenSwiftUI)

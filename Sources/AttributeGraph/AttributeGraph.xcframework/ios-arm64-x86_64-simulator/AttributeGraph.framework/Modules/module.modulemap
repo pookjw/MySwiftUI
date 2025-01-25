@@ -1,0 +1,9 @@
+framework module AttributeGraph {
+  umbrella header "AttributeGraph.h"
+  export *
+  module * { export * }
+}
+
+module AttributeGraph.Swift {
+  requires objc
+}

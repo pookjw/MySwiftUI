@@ -1,4 +1,4 @@
-#warning("TODO AttributeGraph")
+import AttributeGraph
 
 package final class ViewGraph {
     package init<C>(
