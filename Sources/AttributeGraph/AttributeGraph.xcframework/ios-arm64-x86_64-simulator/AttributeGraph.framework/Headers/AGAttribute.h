@@ -1,11 +1,5 @@
-#ifndef AGGraph_h
-#define AGGraph_h
-
-#import <AttributeGraph/AGBase.h>
-#import <CoreFoundation/CFBase.h>
-
-typedef struct CF_BRIDGED_TYPE(id) AGGraphStorage *AGGraphRef;
-typedef struct CF_BRIDGED_TYPE(id) AGSubgraph *AGSubgraphRef;
+#ifndef AGAttribute_h
+#define AGAttribute_h
 
 /*
 uint32_t인 이유 (추정)
@@ -17,4 +11,4 @@ uint32_t인 이유 (추정)
 */
 typedef uint32_t AGAttribute __attribute__((swift_wrapper(struct)));
 
-#endif /* AGGraph_h */
+#endif /* AGAttribute_h */

@@ -1,4 +1,4 @@
-import MySwiftUICore
+@_spi(MySwiftUICorePrivate) import MySwiftUICore
 
 #warning("TODO")
 

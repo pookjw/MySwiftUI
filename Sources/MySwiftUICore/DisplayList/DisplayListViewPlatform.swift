@@ -3,6 +3,7 @@ import QuartzCore
 
 // TODO: SwiftUI.UIViewPlatformViewDefinition
 // SwiftUI(Core).CAHostingLayerPlatformDefinition
+@_spi(MySwiftUICorePrivate)
 open class PlatformViewDefinition: @unchecked Sendable {
     open class func setAllowsWindowActivationEvents(_ flag: Bool?, for object: Swift.AnyObject) {
         // override me

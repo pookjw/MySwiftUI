@@ -1,8 +1,5 @@
 import AttributeGraph
 
-/*
- reflection metadata field descriptor SwiftUI.ViewGraph을 보면 super class를 알 수 있음
- */
 package final class ViewGraph: GraphHost {
     package init<C>(
         rootViewType: C.Type = C.self,

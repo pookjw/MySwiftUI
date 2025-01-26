@@ -14,6 +14,7 @@ extension GraphHost {
         @AttributeGraph.Attribute package var updateSeed: UInt32
         @AttributeGraph.Attribute package var graph: AttributeGraph.AGGraph?
         @AttributeGraph.Attribute package var globalSubgraph: AttributeGraph.AGSubgraph
+        @AttributeGraph.Attribute package var rootSubgraph: AttributeGraph.AGSubgraph
         @AttributeGraph.Attribute package var isRemoved: Bool
         @AttributeGraph.Attribute package var isHiddenForReuse: Bool
 #warning("마저 더 하기")

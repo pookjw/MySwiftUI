@@ -14,10 +14,118 @@ public struct Attribute<Value> {
         set
     }
 
-    public var projectedValue: Attribute<Value> {
+    public var projectedValue: AttributeGraph.Attribute<Value> {
         get
         set
     }
     
     public init(value: Value)
 }
+
+public struct AnyOptionalAttribute {
+    static var current: AnyOptionalAttribute {
+        get
+    }
+
+    public var attribute: AttributeGraph.AGAttribute? {
+        get
+        set
+    }
+
+    public var identifier: AttributeGraph.AGAttribute {
+        get
+        set
+    }
+
+    public init(attribute: AttributeGraph.AGAttribute)
+    public init(attribute: AttributeGraph.AGAttribute?)
+    public init()
+    public init(_: AttributeGraph.AGWeakAttribute)
+    public init<Value>(_: AttributeGraph.OptionalAttribute<Value>)
+}
+
+extension AttributeGraph.AnyOptionalAttribute: Swift.Hashable {}
+extension AttributeGraph.AnyOptionalAttribute: Swift.CustomStringConvertible {}
+
+@dynamicMemberLookup
+@propertyWrapper
+public struct OptionalAttribute<Value> {
+    public var base: AttributeGraph.AnyOptionalAttribute {
+        get
+        set
+    }
+
+    public var attribute: AttributeGraph.Attribute<Value>? {
+        get
+        set
+    }
+
+    public var value: Value? {
+        get
+    }
+
+    public var wrappedValue: Value? {
+        get
+    }
+
+    public var projectedValue: AttributeGraph.Attribute<Value>? {
+        get
+        set
+    }
+
+    public init()
+    // public init(_: AttributeGraph.WeakAttribute<Value>)
+    public init(_: AttributeGraph.Attribute<Value>?)
+    public init(_: AttributeGraph.Attribute<Value>)
+    
+    // public func changedValue(options: AGValueOption) -> (value: Value, changed: Bool)?
+    public func map<Subject>(_: (AttributeGraph.Attribute<Value>) -> Subject) -> Subject?
+
+    public subscript<Subject>(dynamicMember keyPath: Swift.KeyPath<Value, Subject>) -> AttributeGraph.Attribute<Subject>? {
+        get
+    }
+}
+
+extension AttributeGraph.OptionalAttribute: Swift.Hashable {}
+extension AttributeGraph.OptionalAttribute: Swift.CustomStringConvertible {}
+
+@dynamicMemberLookup
+@propertyWrapper
+public struct WeakAttribute<Value> {
+    public var wrappedValue: Value? {
+        get
+    }
+
+    public var projectedValue: AttributeGraph.Attribute<Value>? {
+        get
+        set
+    }
+
+    public var base: AGWeakAttribute {
+        get
+        set
+    }
+
+    public var attribute: AttributeGraph.Attribute<Value>? {
+        get
+        set
+    }
+
+    public var value: Value? {
+        get
+    }
+
+    public init(base: AGWeakAttribute)
+    public init()
+    public init(_: AttributeGraph.Attribute<Value>?)
+    public init(_: AttributeGraph.Attribute<Value>)
+
+    // public func changedValue(options: AGValueOption) -> (value: Value, changed: Bool)?
+    
+    public subscript<Subject>(dynamicMember keyPath: Swift.KeyPath<Value, Subject>) -> AttributeGraph.Attribute<Subject>? {
+        get
+    }
+}
+
+extension AttributeGraph.WeakAttribute: Swift.Hashable {}
+extension AttributeGraph.WeakAttribute: Swift.CustomStringConvertible {}
