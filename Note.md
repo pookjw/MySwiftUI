@@ -8,9 +8,11 @@
 
 - Superclass 알아내기 : `reflection metadata field descriptor SwiftUI.ViewGraph`
 
+- property 알아내기 : `direct field offset for SwiftUI.PropertyList.Element.keyType : Any.Type`, `SwiftUI.PropertyList.elements.getter : SwiftUI.PropertyList.Element?`
+
 ## Enum
 
-- Case 알아내기 : `enum case for SwiftUI.ContentOffsetAdjustmentReason.translation(SwiftUI.ContentOffsetAdjustmentReason.Type) -> SwiftUI.ContentOffsetAdjustmentReason`
+- Case 알아내기 : `enum case for SwiftUI.ContentOffsetAdjustmentReason.translation(SwiftUI.ContentOffsetAdjustmentReason.Type) -> SwiftUI.ContentOffsetAdjustmentReason`, `nominal type descriptor for SwiftUI.ScrollPhase`
 
 ## Function
 
@@ -33,3 +35,9 @@
 - _GraphInput
 - SwiftUI._GraphInputs.customInputs.getter : SwiftUI.PropertyList
 - PropertyList
+
+검토
+- PlatformDrawableOptions.base: RasterizationOptions
+- RasterizationOptions.init(colorMode: SwiftUI.ColorRenderingMode...)
+- ColorRenderingMode.protobufValue
+- Protobuf

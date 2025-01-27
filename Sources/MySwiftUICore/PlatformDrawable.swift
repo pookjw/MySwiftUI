@@ -1,5 +1,6 @@
 import QuartzCore
 
+@_spi(MySwiftUICorePrivate)
 public protocol PlatformDrawable {
     static var allowsContentsMultiplyColor: Bool { get }
     var options: PlatformDrawableOptions { get set }

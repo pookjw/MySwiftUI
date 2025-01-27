@@ -40,11 +40,11 @@ extension DisplayList.ViewUpdater.Model {
 
 extension DisplayList.ViewUpdater {
     package struct Platform {
-        private let identifier: UInt
+        private let rawValue: UInt
         
         package init(definition: PlatformViewDefinition.Type) {
             let system = definition.system
-            identifier = UInt(system.base.rawValue) | UInt(bitPattern: ObjectIdentifier(definition))
+            rawValue = UInt(system.base.rawValue) | UInt(bitPattern: ObjectIdentifier(definition))
         }
         
         package func viewLayer(_ object: AnyObject) -> CALayer {
@@ -86,21 +86,25 @@ extension DisplayList.ViewUpdater {
 
 extension DisplayList {
     package struct Index: Equatable {
-        var identity: _DisplayList_Identity { id.identity }
-        var serial: UInt32 { id.serial }
-        var archiveIdentity: _DisplayList_Identity { id.archiveIdentity }
-        var archiveSerial: UInt32 { id.archiveSerial }
-        let id: ID
+        let identity: _DisplayList_Identity
+        let serial: UInt32
+        let archiveIdentity: _DisplayList_Identity
+        let archiveSerial: UInt32
+        var id: ID {
+            ID(
+                identity: identity,
+                serial: serial,
+                archiveIdentity: archiveIdentity,
+                archiveSerial: archiveSerial
+            )
+        }
         fileprivate let restored: RestoreOptions
         
         package init() {
-            id = ID(
-                identity: _DisplayList_Identity(decodedValue: 0),
-                serial: 0,
-                archiveIdentity: _DisplayList_Identity(decodedValue: 0),
-                archiveSerial: 0
-            )
-            
+            identity = _DisplayList_Identity(decodedValue: 0)
+            serial = 0
+            archiveIdentity = _DisplayList_Identity(decodedValue: 0)
+            archiveSerial = 0
             restored = RestoreOptions(rawValue: 0)
         }
     }

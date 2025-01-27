@@ -87,9 +87,13 @@ extension StrongHash: Codable {
 }
 
 extension StrongHash: ProtobufEncodableMessage {
-    
+    package func encode(to encoder: ProtobufEncoder) throws {
+        fatalError("TODO")
+    }
 }
 
 extension StrongHash: ProtobufDecodableMessage {
-    
+    package init(from decoder: inout ProtobufDecoder) {
+        fatalError("TODO")
+    }
 }

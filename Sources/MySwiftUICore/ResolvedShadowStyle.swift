@@ -1,3 +1,4 @@
-public struct ResolvedShadowStyle {
+// internal?
+package struct ResolvedShadowStyle: Hashable {
     
 }
