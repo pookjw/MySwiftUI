@@ -57,7 +57,8 @@ let package = Package(
         ),
         .testTarget(
             name: "MySwiftUICoreTests",
-            dependencies: ["MySwiftUICore"]
+            dependencies: ["MySwiftUICore"],
+            resources: [.process("Resources")]
         ),
         .binaryTarget(
             name: "_MyObservation",

@@ -13,7 +13,7 @@ package struct ProtobufDecoder {
     private var packedField: ProtobufFormat.Field
     private var packedEnd: UnsafeRawPointer
     private var stack: [UnsafeRawPointer]
-    private var userInfo: [CodingUserInfoKey: Any]
+    package var userInfo: [CodingUserInfoKey: Any]
     
     package init(_ data: Data) {
         let nsData = data as NSData

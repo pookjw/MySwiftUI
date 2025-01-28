@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-@_private(sourceFile: "ArchiveData.swift") import SwiftUICore
+import SwiftUICore
 
 struct ContentView: View {
     var body: some View {
@@ -18,11 +18,24 @@ struct ContentView: View {
         }
         .padding()
         .onAppear {
-            BloomFilter()
+            let url = Bundle.main.url(forResource: "archived_view_0", withExtension: nil)!
             
-            ArchiveReader.readerKey
+            let fileHandle = FileHandle(forUpdatingAtPath: url.path()).unsafelyUnwrapped
             
-            try! ArchiveReader.init(buffer: .init(_empty: ()))
+            let reader: ArchiveReader = try! FileArchiveReader.init(file: fileHandle)
+            
+//            for child in Mirror(reflecting: reader).children {
+//                print(child)
+//            }
+            
+            var total = 0
+            reader
+                .forEach { data in
+                    print(data)
+                    total += data.count
+                }
+            
+            print(total)
         }
     }
 }
