@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftUICore
+import os
 
 struct ContentView: View {
     var body: some View {
@@ -18,24 +19,20 @@ struct ContentView: View {
         }
         .padding()
         .onAppear {
-            let url = Bundle.main.url(forResource: "archived_view_0", withExtension: nil)!
-            
-            let fileHandle = FileHandle(forUpdatingAtPath: url.path()).unsafelyUnwrapped
-            
-            let reader: ArchiveReader = try! FileArchiveReader.init(file: fileHandle)
-            
-//            for child in Mirror(reflecting: reader).children {
-//                print(child)
-//            }
-            
-            var total = 0
-            reader
-                .forEach { data in
-                    print(data)
-                    total += data.count
-                }
-            
-            print(total)
+//            let url = Bundle.main.url(forResource: "archived_view_0", withExtension: nil)!
+//            
+//            let fileHandle = FileHandle(forUpdatingAtPath: url.path()).unsafelyUnwrapped
+//            
+//            let reader: ArchiveReader = try! FileArchiveReader.init(file: fileHandle)
+//            
+//            var total = 0
+//            reader
+//                .forEach { data in
+//                    print(data)
+//                    total += data.count
+//                }
+//            
+//            print(total)
         }
     }
 }

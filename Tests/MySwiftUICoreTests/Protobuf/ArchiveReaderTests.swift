@@ -15,6 +15,9 @@ struct ArchiveReaderTests {
             )
             
             // TODO: subscript 검증
+            for data in reader {
+                #expect(!data.isEmpty)
+            }
             
             #expect(reader.attachments.size == 0xa)
         }

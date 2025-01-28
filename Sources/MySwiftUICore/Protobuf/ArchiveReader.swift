@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 /*
  TODO:
@@ -9,13 +10,13 @@ import Foundation
  DataArchiveWrite
  */
 
-package final class ArchiveReader {
+package class ArchiveReader: RandomAccessCollection {
     package static let readerKey = CodingUserInfoKey(rawValue: "com.apple.SwiftUI.ArchiveReader").unsafelyUnwrapped
     package static let cacheKey = CodingUserInfoKey(rawValue: "com.apple.SwiftUI.ArchiveReader.cache").unsafelyUnwrapped
     package static let namedImagesKey = CodingUserInfoKey(rawValue: "com.apple.SwiftUI.ArchiveReader.namedImages").unsafelyUnwrapped
     
     private let buffer: UnsafeBufferPointer<UInt8>
-    private let attachments: (offset: UInt, size: UInt)
+    private let attachments: (offset: UInt64, size: UInt64)
     
     fileprivate init(buffer: UnsafeBufferPointer<UInt8>) throws {
         let x0 = UnsafeRawPointer(buffer.baseAddress.unsafelyUnwrapped)
@@ -61,7 +62,7 @@ package final class ArchiveReader {
         }
         
         self.buffer = buffer
-        attachments = (offset: x12, size: x11)
+        attachments = (offset: UInt64(x12), size: UInt64(x11))
         
         if x11 == 0 {
             return
@@ -100,17 +101,15 @@ package final class ArchiveReader {
             throw Error.invalidAttachment
         }
     }
-}
-
-extension ArchiveReader: RandomAccessCollection {
-    package var startIndex: Int { 0 }
-    package var endIndex: Int { Int(attachments.size) }
     
-    package subscript(index: Int) -> Data {
+    package final var startIndex: Int { 0 }
+    package final var endIndex: Int { Int(attachments.size) }
+    
+    package final subscript(index: Int) -> Data {
         var x22 = UInt(index)
         let x23 = UInt(bitPattern: buffer.baseAddress)
         assert(x23 != 0)
-        var x8 = attachments.offset
+        var x8 = UInt(attachments.offset)
         x8 = x8 + (x22 << 4)
         let x24 = UnsafePointer<UInt>(bitPattern: x8).unsafelyUnwrapped.pointee
         
@@ -122,6 +121,85 @@ extension ArchiveReader: RandomAccessCollection {
         
         let data = Data.init(bytesNoCopy: UnsafeMutableRawPointer(bitPattern: x23).unsafelyUnwrapped, count: Int(x22), deallocator: .none)
         return data
+    }
+}
+
+package class ArchiveWriter {
+    package static let writerKey = CodingUserInfoKey(rawValue: "com.apple.SwiftUI.ArchiveWriter").unsafelyUnwrapped
+    
+    private var isFinal: Bool
+    private var attachments: (offset: UInt64, size: UInt64)
+    private var attachmentHashes: [StrongHash]
+    private var currentOffset: UInt
+    private var currentHasher: StrongHasher?
+    private var cache: [AnyHashable: Int]
+    private var signposter: OSSignposter
+    
+    package init() {
+        isFinal = false
+        attachments = (0, 0)
+        attachmentHashes = []
+        currentOffset = 0
+        currentHasher = nil
+        cache = [:]
+        signposter = Signpost.archiving
+    }
+    
+    package func finalize() throws {
+        guard !isFinal else {
+            return
+        }
+        
+        fatalError("TODO")
+    }
+    
+    package final func addAttachment(
+        hash: StrongHash?,
+        from body: ((ArchiveWriter) throws -> ())
+    ) throws -> Int {
+        let state = signposter.beginInterval("addAttachment", id: .exclusive, "")
+        signposter.emitEvent("addAttachment")
+        
+        if currentHasher == nil {
+            currentHasher = StrongHasher()
+        }
+        
+        let array = try Array<UInt8>(unsafeUninitializedCapacity: 16) { buffer, initializedCount in
+            // append에서 CC_SHA1_Update가 이뤄짐
+            try append(UnsafeBufferPointer<UInt8>(buffer))
+        }
+        
+        if currentHasher == nil {
+            fatalError("TODO")
+        }
+        
+        fatalError("TODO")
+    }
+    
+    package func append<Value>(_ buffer: UnsafeBufferPointer<Value>) throws {
+        // override me
+        fatalError()
+    }
+    
+    package func append(_ data: Data) throws {
+        // override me
+        fatalError()
+    }
+}
+
+package class DataArchiveWriter: ArchiveWriter {
+    private var data: Data
+    
+    package override init() {
+        fatalError("TODO")
+    }
+    
+    package override func append<Value>(_ buffer: UnsafeBufferPointer<Value>) throws {
+        fatalError("TODO")
+    }
+    
+    package override func append(_ data: Data) throws {
+        fatalError("TODO")
     }
 }
 
