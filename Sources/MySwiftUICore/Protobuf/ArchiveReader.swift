@@ -169,6 +169,7 @@ package class ArchiveWriter {
             try append(UnsafeBufferPointer<UInt8>(buffer))
         }
         
+        // x21 또는 x29 또는 x8, #-0x100
         if currentHasher == nil {
             fatalError("TODO")
         }
