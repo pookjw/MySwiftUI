@@ -12,16 +12,30 @@ import os
 @main
 struct PrivateSwiftUIDemoApp: App {
     init() {
-        print(MemoryLayout<UInt8>.stride, MemoryLayout<UInt32>.stride)
-        let words: (UInt32, UInt32, UInt32, UInt32, UInt32) = (1, 2, 3, 4, .max)
-        let hash = unsafeBitCast(words, to: StrongHash.self)
-//        print(ArchiveWriter.writerKey)
-        let writer = MyWriter()
-        
-        try! writer.addAttachment(hash: hash) { writer in
-            
-            
+        for _ in 0..<500 {
+//            autoreleasepool {
+                _ = Array<UInt8>(unsafeUninitializedCapacity: 100) { buffer, initializedCount in
+//                    for value in buffer {
+//                        assert(value == 0)
+//                    }
+                    let raw = UnsafeRawPointer(buffer.baseAddress!)
+                    
+                    for index in 0..<100 {
+                        assert(raw.assumingMemoryBound(to: UInt8.self).advanced(by: index).pointee == 0)
+                    }
+                }
+//            }
         }
+//        print(MemoryLayout<StrongHash>.stride, MemoryLayout<StrongHash?>.stride)
+//        let words: (UInt32, UInt32, UInt32, UInt32, UInt32) = (1, 2, 3, 4, .max)
+//        let hash = unsafeBitCast(words, to: StrongHash.self)
+////        print(ArchiveWriter.writerKey)
+//        let writer = MyWriter()
+//        
+//        try! writer.addAttachment(hash: hash) { writer in
+//            
+//            
+//        }
     }
     
     var body: some Scene {
@@ -40,9 +54,9 @@ final class MyWriter: ArchiveWriter {
     override func append<Value>(_ buffer: UnsafeBufferPointer<Value>) throws {
 //        unsafeBitCast(buffer, to: UnsafeMutableBufferPointer<Value>.self).]
         if Value.self == UInt8.self {
-            
-            unsafeBitCast(buffer, to: UnsafeMutableBufferPointer<UInt8>.self).baseAddress.unsafelyUnwrapped.initialize(to: 3)
-//            UnsafeMutableBufferPointer.init(mutating: buffer).baseAddress.unsafelyUnwrapped.initialize(to: 3)
+            for value in unsafeBitCast(buffer, to: UnsafeMutableBufferPointer<Value>.self) {
+                print(value)
+            }
         }
     }
 }

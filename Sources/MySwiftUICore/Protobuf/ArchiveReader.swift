@@ -131,7 +131,7 @@ package class ArchiveWriter {
     private var attachments: (offset: UInt64, size: UInt64)
     private var attachmentHashes: [StrongHash]
     private var currentOffset: UInt
-    private var currentHasher: StrongHasher? // 0x28
+    private var currentHasher: StrongHasher?
     private var cache: [AnyHashable: Int]
     private var signposter: OSSignposter
     
@@ -182,30 +182,28 @@ package class ArchiveWriter {
         
         let state = signposter.beginInterval("addAttachment", id: .exclusive, "")
         
-        if currentHasher != nil {
+        if currentHasher == nil {
             if hash == nil {
-                // 정말 self 할당이 맞는지 검증
                 currentHasher = StrongHasher()
             }
             
             try body(self)
-            
-            // ?? <+944>
-            if false {
-                // currentHasher = nil 해줘야 하는지?
-                // endInterval이 안 불리는 구조임
-                return /* ??? */
-            }
-            
-            let finalHash = currentHasher!.finialize()
-            currentHasher = nil
         } else {
-            let array = try Array<UInt8>(unsafeUninitializedCapacity: 16) { buffer, initializedCount in
+            _ = try Array<UInt8>(unsafeUninitializedCapacity: 16) { buffer, initializedCount in
                 initializedCount = 16
                 // append에서 CC_SHA1_Update가 이뤄짐
                 try append(UnsafeBufferPointer<UInt8>(buffer))
             }
+            
+            if hash == nil {
+                currentHasher = StrongHasher()
+            }
+            
+            try body(self)
         }
+        
+        let finalHash = currentHasher!.finialize()
+        currentHasher = nil
         
         signposter.endInterval("addAttachment", state)
         
