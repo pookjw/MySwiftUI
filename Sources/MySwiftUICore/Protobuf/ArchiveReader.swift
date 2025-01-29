@@ -131,7 +131,7 @@ package class ArchiveWriter {
     private var attachments: (offset: UInt64, size: UInt64)
     private var attachmentHashes: [StrongHash]
     private var currentOffset: UInt
-    private var currentHasher: StrongHasher?
+    private var currentHasher: StrongHasher? // 0x28
     private var cache: [AnyHashable: Int]
     private var signposter: OSSignposter
     
@@ -157,22 +157,57 @@ package class ArchiveWriter {
         hash: StrongHash?,
         from body: ((ArchiveWriter) throws -> ())
     ) throws -> Int {
+        /*
+         hash
+         0x1d44bde78 <+200>:  ldr    x8, [x23]
+     ->  0x1d44bde7c <+204>:  sub    x9, x29, #0x30
+         0x1d44bde80 <+208>:  stur   x8, [x9, #-0x100]
+         0x1d44bde84 <+212>:  ldr    x8, [x23, #0x8]
+         0x1d44bde88 <+216>:  sub    x9, x29, #0x38
+         0x1d44bde8c <+220>:  stur   x8, [x9, #-0x100]
+         0x1d44bde90 <+224>:  ldr    w8, [x23, #0x10]
+         0x1d44bde94 <+228>:  sub    x9, x29, #0x48
+         0x1d44bde98 <+232>:  stur   w8, [x9, #-0x100]
+         0x1d44bde9c <+236>:  ldrb   w8, [x23, #0x14]
+         0x1d44bdea0 <+240>:  sub    x9, x29, #0x18
+         0x1d44bdea4 <+244>:  stur   w8, [x9, #-0x100]
+         
+         body
+         0x1d44bdde0 <+48>:   sub    x8, x29, #0x20
+         0x1d44bdde4 <+52>:   stur   x1, [x8, #-0x100]
+         
+         self = *(self *)($x29 - 0xf8) <+256>
+         x26 = error pointer
+         */
+        
         let state = signposter.beginInterval("addAttachment", id: .exclusive, "")
-        signposter.emitEvent("addAttachment")
         
-        if currentHasher == nil {
-            currentHasher = StrongHasher()
+        if currentHasher != nil {
+            if hash == nil {
+                // 정말 self 할당이 맞는지 검증
+                currentHasher = StrongHasher()
+            }
+            
+            try body(self)
+            
+            // ?? <+944>
+            if false {
+                // currentHasher = nil 해줘야 하는지?
+                // endInterval이 안 불리는 구조임
+                return /* ??? */
+            }
+            
+            let finalHash = currentHasher!.finialize()
+            currentHasher = nil
+        } else {
+            let array = try Array<UInt8>(unsafeUninitializedCapacity: 16) { buffer, initializedCount in
+                initializedCount = 16
+                // append에서 CC_SHA1_Update가 이뤄짐
+                try append(UnsafeBufferPointer<UInt8>(buffer))
+            }
         }
         
-        let array = try Array<UInt8>(unsafeUninitializedCapacity: 16) { buffer, initializedCount in
-            // append에서 CC_SHA1_Update가 이뤄짐
-            try append(UnsafeBufferPointer<UInt8>(buffer))
-        }
-        
-        // x21 또는 x29 또는 x8, #-0x100
-        if currentHasher == nil {
-            fatalError("TODO")
-        }
+        signposter.endInterval("addAttachment", state)
         
         fatalError("TODO")
     }

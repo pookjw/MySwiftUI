@@ -12,17 +12,14 @@ import os
 @main
 struct PrivateSwiftUIDemoApp: App {
     init() {
-        Array<UInt8>.init(unsafeUninitializedCapacity: 16) { buffer, initializedCount in
-//                initializedCount = 5
-//            buffer.baseAddress.unsafelyUnwrapped.initialize(to: 5)
-            initializedCount = 5
-            print(initializedCount)
-        }
-        let words: (UInt32, UInt32, UInt32, UInt32, UInt32) = (3, 3, 3, 3, 3)
+        print(MemoryLayout<UInt8>.stride, MemoryLayout<UInt32>.stride)
+        let words: (UInt32, UInt32, UInt32, UInt32, UInt32) = (1, 2, 3, 4, .max)
         let hash = unsafeBitCast(words, to: StrongHash.self)
-        print(ArchiveWriter.writerKey)
+//        print(ArchiveWriter.writerKey)
         let writer = MyWriter()
+        
         try! writer.addAttachment(hash: hash) { writer in
+            
             
         }
     }
