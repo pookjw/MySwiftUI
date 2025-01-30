@@ -1,5 +1,6 @@
 import Foundation
 import os
+import CoreGraphics
 
 /*
  TODO:
@@ -160,7 +161,7 @@ package class ArchiveWriter {
         /*
          hash
          0x1d44bde78 <+200>:  ldr    x8, [x23]
-     ->  0x1d44bde7c <+204>:  sub    x9, x29, #0x30
+         0x1d44bde7c <+204>:  sub    x9, x29, #0x30
          0x1d44bde80 <+208>:  stur   x8, [x9, #-0x100]
          0x1d44bde84 <+212>:  ldr    x8, [x23, #0x8]
          0x1d44bde88 <+216>:  sub    x9, x29, #0x38
@@ -177,7 +178,7 @@ package class ArchiveWriter {
          0x1d44bdde4 <+52>:   stur   x1, [x8, #-0x100]
          
          self = *(self *)($x29 - 0xf8) <+256>
-         0x1d44bdfd4 <+548>:  ldur   x19, [x29, #-0xf8]
+         <+548>:  ldur   x19, [x29, #-0xf8]
          x19 = self
          
          x26 = error pointer
@@ -228,53 +229,81 @@ package class ArchiveWriter {
          0x1d44be160 <+944>:  ldr    x8, [x19, #0x28]
          0x1d44be164 <+948>:  subs   x8, x8, x27
          
-         newOffset
+         diff
          0x1d44be168 <+952>:  sub    x9, x29, #0x20
          0x1d44be16c <+956>:  stur   x8, [x9, #-0x100]
          */
         let offsetDiff = newOffset - oldOffset
         
-        if hash == nil {
-            let hash = currentHasher!.finialize()
-            /*
-             TODO
-             0x1d44be200 <+1104>: mov    w8, #0x1                  ; =1
-             0x1d44be204 <+1108>: strb   w8, [x19, #0x90]
-             */
-            
-            if let index = attachmentHashes.firstIndex(of: hash) {
-                /*
-                 index
-                 mov    x25, x0
-                 */
-                
-                /*
-                 0x1d44be19c <+1004>: sub    x9, x29, #0x80
-                 0x1d44be1a0 <+1008>: stur   x27, [x9, #-0x100]
-                 x27 = oldOffset
-                 
-                 0x1d44be28c <+1244>: sub    x9, x29, #0x80
-                 0x1d44be290 <+1248>: ldur   x22, [x9, #-0x100]
-                 */
-                try rewind(to: UInt64(oldOffset))
-                /*
-                 x22 = oldOffset
-                 <+1288>: str    x22, [x19, #0x28]
-                 */
-                
-                currentOffset = oldOffset
-                
-                return index
-            }
-            
-            // TODO: <+1296>
+        /*
+         <+964>:  sub    x8, x29, #0x18
+         <+968>:  ldur   w8, [x8, #-0x100]
+         ...
+         <+1012>: tbz    w8, #0x0, 0x1d44be20c     ; <+1116>
+         */
+        let _hash: StrongHash
+        if let hash {
+            _hash = hash
+        } else {
+            _hash = currentHasher!.finialize()
         }
         
+        if let index = attachmentHashes.firstIndex(of: _hash) {
+            /*
+             index
+             mov    x25, x0
+             */
+            
+            /*
+             0x1d44be19c <+1004>: sub    x9, x29, #0x80
+             0x1d44be1a0 <+1008>: stur   x27, [x9, #-0x100]
+             x27 = oldOffset
+             
+             0x1d44be28c <+1244>: sub    x9, x29, #0x80
+             0x1d44be290 <+1248>: ldur   x22, [x9, #-0x100]
+             */
+            try rewind(to: UInt64(oldOffset))
+            /*
+             x22 = oldOffset
+             <+1288>: str    x22, [x19, #0x28]
+             */
+            
+            currentOffset = oldOffset
+            
+            return index
+        }
+        
+        /*
+         <+1348>: sub    x8, x29, #0x80
+         <+1352>: ldur   x24, [x8, #-0x100]
+         x24 = oldOffset
+         
+         <+1384>: sub    x8, x29, #0x20
+         <+1388>: ldur   x9, [x8, #-0x100]
+         x9 = offsetDiff
+         
+         <+1404>: stp    x24, x9, [x8, #0x20]
+         */
+        attachments = (offset: UInt64(oldOffset), size: UInt64(offsetDiff))
+        attachmentHashes.append(_hash)
+        
         signposter.endInterval("addAttachment", state)
+        
+        return attachmentHashes.count
     }
     
-    func rewind(to: UInt64) throws {
+    package func rewind(to: UInt64) throws {
+        // override me
+        fatalError()
+    }
+    
+    func didAppendBytes(ptr: UnsafeRawPointer?, count: Int) {
+        guard count > 0 else { return }
         
+        if var currentHasher {
+            currentHasher.combineBytes(ptr.unsafelyUnwrapped, count: count)
+            self.currentHasher = currentHasher
+        }
     }
     
     package func append<Value>(_ buffer: UnsafeBufferPointer<Value>) throws {
@@ -285,6 +314,10 @@ package class ArchiveWriter {
     package func append(_ data: Data) throws {
         // override me
         fatalError()
+    }
+    
+    package func withDataConsumer(do block: (CGDataConsumer) throws -> ()) rethrows {
+        fatalError("TODO")
     }
 }
 
