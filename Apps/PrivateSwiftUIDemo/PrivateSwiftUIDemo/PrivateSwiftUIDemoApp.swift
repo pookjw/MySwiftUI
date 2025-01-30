@@ -12,30 +12,25 @@ import os
 @main
 struct PrivateSwiftUIDemoApp: App {
     init() {
-        for _ in 0..<500 {
-//            autoreleasepool {
-                _ = Array<UInt8>(unsafeUninitializedCapacity: 100) { buffer, initializedCount in
-//                    for value in buffer {
-//                        assert(value == 0)
-//                    }
-                    let raw = UnsafeRawPointer(buffer.baseAddress!)
-                    
-                    for index in 0..<100 {
-                        assert(raw.assumingMemoryBound(to: UInt8.self).advanced(by: index).pointee == 0)
-                    }
-                }
-//            }
-        }
-//        print(MemoryLayout<StrongHash>.stride, MemoryLayout<StrongHash?>.stride)
-//        let words: (UInt32, UInt32, UInt32, UInt32, UInt32) = (1, 2, 3, 4, .max)
-//        let hash = unsafeBitCast(words, to: StrongHash.self)
-////        print(ArchiveWriter.writerKey)
-//        let writer = MyWriter()
+        print(MemoryLayout<StrongHash>.stride, MemoryLayout<StrongHash?>.stride)
+        let words: (UInt32, UInt32, UInt32, UInt32, UInt32) = (1, 2, 3, 4, .max)
+        let hash = unsafeBitCast(words, to: StrongHash.self)
+//        print(ArchiveWriter.writerKey)
+        let writer = MyWriter()
+        
+//        UnsafeMutableRawPointer(Unmanaged.passUnretained(writer).toOpaque())
+//            .advanced(by: 0x28)
+//            .assumingMemoryBound(to: UInt.self)
+//            .pointee = 3
 //        
-//        try! writer.addAttachment(hash: hash) { writer in
-//            
-//            
+//        for child in Mirror(reflecting: writer).children {
+//            print(child)
 //        }
+        
+        try! writer.addAttachment(hash: nil) { writer in
+            
+            
+        }
     }
     
     var body: some Scene {

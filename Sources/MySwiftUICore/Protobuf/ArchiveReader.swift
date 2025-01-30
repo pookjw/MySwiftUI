@@ -133,7 +133,7 @@ package class ArchiveWriter {
     private var currentOffset: UInt
     private var currentHasher: StrongHasher?
     private var cache: [AnyHashable: Int]
-    private var signposter: OSSignposter
+    private let signposter: OSSignposter
     
     package init() {
         isFinal = false
@@ -153,7 +153,7 @@ package class ArchiveWriter {
         fatalError("TODO")
     }
     
-    package final func addAttachment(
+    func addAttachment(
         hash: StrongHash?,
         from body: ((ArchiveWriter) throws -> ())
     ) throws -> Int {
@@ -177,37 +177,104 @@ package class ArchiveWriter {
          0x1d44bdde4 <+52>:   stur   x1, [x8, #-0x100]
          
          self = *(self *)($x29 - 0xf8) <+256>
+         0x1d44bdfd4 <+548>:  ldur   x19, [x29, #-0xf8]
+         x19 = self
+         
          x26 = error pointer
          */
         
         let state = signposter.beginInterval("addAttachment", id: .exclusive, "")
         
-        if currentHasher == nil {
-            if hash == nil {
-                currentHasher = StrongHasher()
-            }
-            
-            try body(self)
-        } else {
+        /*
+         currentHahser 비교
+         0x1d44bdfd4 <+548>:  ldur   x19, [x29, #-0xf8]
+         0x1d44bdfd8 <+552>:  ldr    x8, [x19, #0x28]
+         ...
+         0x1d44bdfe4 <+564>:  cbz    x8, 0x1d44be0f8           ; <+840>
+         
+         // hash 비교
+         0x1d44bdfe8 <+568>:  sub    x8, x29, #0x18
+         0x1d44bdfec <+572>:  ldur   w8, [x8, #-0x100]
+         0x1d44bdff0 <+576>:  cbz    w8, 0x1d44be0c4           ; <+788>
+         */
+        if currentHasher != nil {
             _ = try Array<UInt8>(unsafeUninitializedCapacity: 16) { buffer, initializedCount in
+                let raw = UnsafeMutablePointer(buffer.baseAddress.unsafelyUnwrapped)
+                memset(raw, 0, buffer.count * MemoryLayout<UInt8>.size)
+                
                 initializedCount = 16
                 // append에서 CC_SHA1_Update가 이뤄짐
                 try append(UnsafeBufferPointer<UInt8>(buffer))
             }
             
-            if hash == nil {
-                currentHasher = StrongHasher()
-            }
-            
-            try body(self)
+            /*
+             0x1d44bde40 <+144>:  mov    x25, x0
+             */
+            return 0
         }
         
-        let finalHash = currentHasher!.finialize()
-        currentHasher = nil
+        if hash == nil {
+            currentHasher = StrongHasher()
+        }
+        
+        let oldOffset = currentOffset
+        try body(self)
+        let newOffset = currentOffset
+        /*
+         x27 = oldOffset
+         0x1d44be0c4 <+788>:  ldr    x27, [x19, #0x28]
+         
+         
+         0x1d44be160 <+944>:  ldr    x8, [x19, #0x28]
+         0x1d44be164 <+948>:  subs   x8, x8, x27
+         
+         newOffset
+         0x1d44be168 <+952>:  sub    x9, x29, #0x20
+         0x1d44be16c <+956>:  stur   x8, [x9, #-0x100]
+         */
+        let offsetDiff = newOffset - oldOffset
+        
+        if hash == nil {
+            let hash = currentHasher!.finialize()
+            /*
+             TODO
+             0x1d44be200 <+1104>: mov    w8, #0x1                  ; =1
+             0x1d44be204 <+1108>: strb   w8, [x19, #0x90]
+             */
+            
+            if let index = attachmentHashes.firstIndex(of: hash) {
+                /*
+                 index
+                 mov    x25, x0
+                 */
+                
+                /*
+                 0x1d44be19c <+1004>: sub    x9, x29, #0x80
+                 0x1d44be1a0 <+1008>: stur   x27, [x9, #-0x100]
+                 x27 = oldOffset
+                 
+                 0x1d44be28c <+1244>: sub    x9, x29, #0x80
+                 0x1d44be290 <+1248>: ldur   x22, [x9, #-0x100]
+                 */
+                try rewind(to: UInt64(oldOffset))
+                /*
+                 x22 = oldOffset
+                 <+1288>: str    x22, [x19, #0x28]
+                 */
+                
+                currentOffset = oldOffset
+                
+                return index
+            }
+            
+            // TODO: <+1296>
+        }
         
         signposter.endInterval("addAttachment", state)
+    }
+    
+    func rewind(to: UInt64) throws {
         
-        fatalError("TODO")
     }
     
     package func append<Value>(_ buffer: UnsafeBufferPointer<Value>) throws {
