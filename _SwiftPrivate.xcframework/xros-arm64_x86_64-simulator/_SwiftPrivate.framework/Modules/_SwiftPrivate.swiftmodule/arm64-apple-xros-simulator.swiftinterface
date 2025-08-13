@@ -1,0 +1,47 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.16.14 clang-1700.3.16.4)
+// swift-module-flags: -target arm64-apple-xros26.0-simulator -enable-objc-interop -enable-library-evolution -module-link-name swiftCore -parse-stdlib -swift-version 5 -O -library-level api -enforce-exclusivity=unchecked -target-min-inlining-version min -enable-experimental-concise-pound-file -disable-objc-attr-requires-foundation-module -enable-experimental-feature NoncopyableGenerics2 -enable-experimental-feature SuppressedAssociatedTypes -enable-experimental-feature SE427NoInferenceOnExtension -enable-experimental-feature NonescapableTypes -enable-experimental-feature LifetimeDependence -enable-experimental-feature InoutLifetimeDependence -enable-experimental-feature LifetimeDependenceMutableAccessors -enable-experimental-feature MemberImportVisibility -enable-experimental-feature TypedThrows -enable-experimental-feature Macros -enable-experimental-feature FreestandingMacros -enable-experimental-feature BitwiseCopyable -enable-experimental-feature Extern -enable-experimental-feature AllowUnsafeAttribute -enable-experimental-feature ValueGenerics -enable-experimental-feature AddressableParameters -enable-experimental-feature AddressableTypes -user-module-version 6.2.0.16.15 -module-name _SwiftPrivate -module-abi-name Swift
+// swift-module-flags-ignorable: -enable-lexical-lifetimes=false -enable-ossa-modules -strict-memory-safety -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
+@_exported import Swift
+
+@discardableResult
+public func _forEachField(
+  of type: Any.Type,
+  options: _SwiftPrivate._EachFieldOptions = [],
+  body: (Swift.UnsafePointer<Swift.CChar>, Swift.Int, Any.Type, _SwiftPrivate._MetadataKind) -> Swift.Bool
+) -> Bool
+
+public struct _EachFieldOptions: Swift.OptionSet {
+  public var rawValue: Swift.UInt32 {
+    get
+    set
+  }
+
+  public init(rawValue: Swift.UInt32)
+
+  public static var classType: _SwiftPrivate._EachFieldOptions {
+    get
+  }
+  public static var ignoreUnknown: _SwiftPrivate._EachFieldOptions {
+    get
+  }
+}
+
+public enum _MetadataKind: Swift.UInt {
+  case `class`
+  case `struct`
+  case `enum`
+  case optional
+  case foreignClass
+  case opaque
+  case tuple
+  case function
+  case existential
+  case metatype
+  case objcClassWrapper
+  case existentialMetatype
+  case heapLocalVariable
+  case heapGenericLocalVariable
+  case errorObject
+  case unknown
+}

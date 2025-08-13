@@ -1,7 +1,5 @@
-#warning("WIP")
+#warning("TODO")
 
-@preconcurrency
-@MainActor
-public protocol View {
+@MainActor public protocol View {
     
-}
+} 

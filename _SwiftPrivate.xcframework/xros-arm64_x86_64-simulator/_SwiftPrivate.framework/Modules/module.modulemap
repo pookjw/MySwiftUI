@@ -1,0 +1,4 @@
+framework module _SwiftPrivate {
+    export *
+    module * { export * }
+}

@@ -1,3 +1,0 @@
-package struct _ViewInputs {
-    
-}

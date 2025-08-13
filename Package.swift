@@ -1,72 +1,45 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
+// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "MySwiftUI",
     platforms: [
-        .iOS(.v18)
+        .visionOS(.v26)
     ],
     products: [
         .library(
             name: "MySwiftUI",
-            targets: ["MySwiftUI"]
+            targets: [
+                "MySwiftUI"
+            ]
         ),
-        .library(
-            name: "MySwiftUICore",
-            targets: ["MySwiftUICore"]
-        ),
-        .library(
-            name: "_MySwiftUICShims",
-            targets: ["_MySwiftUICShims"]
-        ),
-        .library(
-            name: "_MyObservation",
-            targets: ["_MyObservation"]
-        ),
-        .library(
-            name: "AttributeGraph",
-            targets: ["AttributeGraph"]
-        )
     ],
     targets: [
         .target(
             name: "MySwiftUI",
             dependencies: [
+                .byName(name: "_UIKitPrivate"),
+                .byName(name: "_UIKitShims"),
                 .byName(name: "MySwiftUICore")
             ]
         ),
         .target(
             name: "MySwiftUICore",
             dependencies: [
-                .byName(name: "_MySwiftUICShims"),
-                .byName(name: "_MyObservation"),
-                .byName(name: "AttributeGraph")
-            ],
-            swiftSettings: [
-                .unsafeFlags(["-enable-private-imports"]),
-                .enableExperimentalFeature("RawLayout")
             ]
         ),
         .target(
-            name: "_MySwiftUICShims"
-        ),
-        .testTarget(
-            name: "MySwiftUITests",
-            dependencies: ["MySwiftUI"]
-        ),
-        .testTarget(
-            name: "MySwiftUICoreTests",
-            dependencies: ["MySwiftUICore"],
-            resources: [.process("Resources")]
-        ),
-        .binaryTarget(
-            name: "_MyObservation",
-            path: "Sources/_MyObservation/_MyObservation.xcframework"
+            name: "_UIKitShims"
         ),
         .binaryTarget(
             name: "AttributeGraph",
-            path: "Sources/AttributeGraph/AttributeGraph.xcframework"
+            path: "AttributeGraph.xcframework"
+        ),
+        .binaryTarget(
+            name: "_UIKitPrivate",
+            path: "_UIKitPrivate.xcframework"
         )
     ]
 )

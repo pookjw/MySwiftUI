@@ -1,0 +1,80 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.16.14 clang-1700.3.16.4)
+// swift-module-flags: -target arm64-apple-xros26.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 7.0.83.1.501 -module-name AttributeGraph -package-name AttributeGraph
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
+@_exported import AttributeGraph
+@_exported import Swift
+
+public struct WeakAttribute<T> {
+
+}
+
+public struct Attribute<T> {
+    public init<C: AttributeGraph.Rule>(_ rule: C) where C.Value == T
+    public init<C: AttributeGraph.Rule>(_ rule: C, initialValue: T) where C.Value == T
+    public init<C: AttributeGraph.StatefulRule>(_ rule: C) where C.Value == T
+    public init<C: AttributeGraph.StatefulRule>(_ rule: C, initialValue: T) where C.Value == T
+
+    public subscript<C>(keyPath: Swift.KeyPath<T, C>) -> AttributeGraph.Attribute<C> {
+        get
+    }
+
+    // public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AGAttribute) -> ())
+    // public init(identifier: AttributeGraph.AGAttribute)
+}
+
+public struct IndirectAttribute<T> {
+
+}
+
+public struct AnyRuleContext<T> {
+
+}
+
+public struct RuleContext<T> {
+
+}
+
+public struct _External {
+
+}
+
+public struct External<T> {
+
+}
+
+public struct Focus<Key, Value> {
+
+}
+
+public struct Map<Key, Value> {
+
+}
+
+public struct PointerOffset<A, B> {
+
+}
+
+public struct AnyOptionalAttribute {
+
+}
+
+public struct OptionalAttribute<T> {
+
+}
+
+public protocol _AttributeBody {}
+
+public protocol Rule : AttributeGraph._AttributeBody {
+    associatedtype Value
+}
+
+public protocol StatefulRule : AttributeGraph._AttributeBody {
+    associatedtype Value
+}
+
+public protocol ObservedAttribute : AttributeGraph._AttributeBody {
+}
+
+public protocol AttributeBodyVisitor {
+}

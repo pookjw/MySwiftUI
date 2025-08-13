@@ -1,0 +1,5 @@
+framework module _SwiftUIPrivate {
+    umbrella header "_SwiftUIPrivate.h"
+    export *
+    module * { export * }
+}
