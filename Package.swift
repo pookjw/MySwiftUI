@@ -28,6 +28,7 @@ let package = Package(
         .target(
             name: "MySwiftUICore",
             dependencies: [
+                .byName(name: "AttributeGraph")
             ]
         ),
         .target(
@@ -40,6 +41,17 @@ let package = Package(
         .binaryTarget(
             name: "_UIKitPrivate",
             path: "_UIKitPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "_SwiftUIPrivate",
+            path: "_SwiftUIPrivate.xcframework"
+        ),
+        .testTarget(
+            name: "MySwiftUITests",
+            dependencies: [
+                .byName(name: "MySwiftUI"),
+                .byName(name: "_SwiftUIPrivate")
+            ]
         )
     ]
 )
