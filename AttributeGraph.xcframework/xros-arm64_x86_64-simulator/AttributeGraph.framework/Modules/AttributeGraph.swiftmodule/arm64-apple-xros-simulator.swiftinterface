@@ -5,8 +5,15 @@
 @_exported import AttributeGraph
 @_exported import Swift
 
+@frozen
+@propertyWrapper
 public struct WeakAttribute<T> {
-
+    public var base: AttributeGraph.AGWeakAttribute
+    public var wrappedValue: T?
+    
+    @_alwaysEmitIntoClient public init(base: AttributeGraph.AGWeakAttribute) {
+        self.base = base
+    }
 }
 
 public struct Attribute<T> {

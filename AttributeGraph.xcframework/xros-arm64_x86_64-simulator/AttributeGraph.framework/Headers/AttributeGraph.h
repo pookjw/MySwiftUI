@@ -2,3 +2,4 @@
 #import <AttributeGraph/Misc.h>
 #import <AttributeGraph/AGSubgraph.h>
 #import <AttributeGraph/AGAttribute.h>
+#import <AttributeGraph/AGWeakAttribute.h>

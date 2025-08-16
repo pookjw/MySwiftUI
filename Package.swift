@@ -22,17 +22,22 @@ let package = Package(
             dependencies: [
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "_UIKitShims"),
-                .byName(name: "MySwiftUICore")
+                .byName(name: "MySwiftUICore"),
+                .byName(name: "MRUIKit")
             ]
         ),
         .target(
             name: "MySwiftUICore",
             dependencies: [
+                .byName(name: "_DyldPrivate"),
                 .byName(name: "AttributeGraph")
             ]
         ),
         .target(
             name: "_UIKitShims"
+        ),
+        .target(
+            name: "_DyldPrivate"
         ),
         .binaryTarget(
             name: "AttributeGraph",
@@ -45,6 +50,10 @@ let package = Package(
         .binaryTarget(
             name: "_SwiftUIPrivate",
             path: "_SwiftUIPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "MRUIKit",
+            path: "MRUIKit.xcframework"
         ),
         .testTarget(
             name: "MySwiftUITests",

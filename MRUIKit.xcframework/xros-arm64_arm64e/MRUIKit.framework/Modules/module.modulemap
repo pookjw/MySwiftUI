@@ -1,0 +1,5 @@
+framework module MRUIKit {
+    umbrella header "MRUIKit.h"
+    export *
+    module * { export * }
+}

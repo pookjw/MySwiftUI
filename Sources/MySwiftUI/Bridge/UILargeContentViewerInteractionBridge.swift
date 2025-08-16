@@ -1,5 +1,8 @@
 #warning("TODO")
+internal import Foundation
 
-class UILargeContentViewerInteractionBridge {
-    
+class UILargeContentViewerInteractionBridge: NSObject {
+    override init() {
+        fatalError("TODO")
+    }
 }

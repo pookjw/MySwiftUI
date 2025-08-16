@@ -24,7 +24,7 @@ class ViewController: UIViewController {
          id (0x40)
          // _typeByName("7SwiftUI20UIKitStatusBarBridgeC")!
          */
-        _forEachField(of: _typeByName("7SwiftUI20UIKitStatusBarBridgeC")!, options: [.classType]) { name, offset, type, kind in
+        _forEachField(of: _typeByName("7SwiftUI23InteractiveResizeBridgeC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (0x%lx)", name, offset))
             return true
         }

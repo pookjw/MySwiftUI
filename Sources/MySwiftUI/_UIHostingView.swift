@@ -62,31 +62,37 @@ open class _UIHostingView<Content: View>: UIView {
     private var scenePresentationBridge: ScenePresentationBridge? = nil
     private var pointerBridge: PointerBridge? = nil
     private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>? = nil
-    private let mruiPreferenceExporter: MRUIPreferenceExporter
-    private var renderingMarginsBridge: RenderingMarginsBridge<Content>?
-    private var objectManipluateBridge: UIKitObjectManipulationBridge<Content>
-    private var remoteSessionController: RemoteScenes.SessionController?
-//    private lazy var feedbackCache: UIKitSensoryFeedbackCache?
-    private var contextMenuBridge: ContextMenuBridge
-    private var interactiveResizeBridge: InteractiveResizeBridge
-    private var shouldUpdateAccessibilityFocus: Bool
-    private let largeContentViewerInteractionBridge: UILargeContentViewerInteractionBridge
-//    private lazy var presentationModeLocation: LocationBox<UIKitPresentationModeLocation<Content>>?
-//    private lazy var scenePresentationModeLocation: LocationBox<UIKitScenePresentationModeLocation<Content>>?
-    private var sceneSize: CGSize
-    private var _boundsDepth: CGFloat
-    private var scrollTest: ScrollTest?
-    private weak var delegate: UIHostingViewDelegate?
-    private var rootViewDelegate: RootViewDelegate?
-    private var focusedValues: FocusedValues
-    private var disallowAnimations: Bool
-    private weak var windowGeometryScene: UIWindowScene?
-    private var invalidatesIntrinsicContentSizeOnIdealSizeChange: Bool
-    private var appliesContainerBackgroundColor: Bool
-    private var containerBackgroundColor: UIColor?
-    private let surpressGraphUpdateIfNotInHierarchy: Bool
-//    private lazy var foreignSubviews: NSHashTable<UIView>?
-    private var insertingManagedSubviews: Int
+    private let mruiPreferenceExporter: MRUIPreferenceExporter = MRUIPreferenceExporter()
+    private var renderingMarginsBridge: RenderingMarginsBridge<Content>? = nil
+    private var objectManipluateBridge: UIKitObjectManipulationBridge<Content> = UIKitObjectManipulationBridge()
+    private var remoteSessionController: RemoteScenes.SessionController? = nil
+    private lazy var feedbackCache: UIKitSensoryFeedbackCache? = nil
+    private var contextMenuBridge: ContextMenuBridge = ContextMenuBridge()
+    private var interactiveResizeBridge: InteractiveResizeBridge = InteractiveResizeBridge()
+    private var shouldUpdateAccessibilityFocus: Bool = false
+    private let largeContentViewerInteractionBridge: UILargeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
+    private lazy var presentationModeLocation: LocationBox<UIKitPresentationModeLocation<Content>>? = nil
+    private lazy var scenePresentationModeLocation: LocationBox<UIKitScenePresentationModeLocation<Content>>? = nil
+    private var sceneSize: CGSize = .zero
+    private var _boundsDepth: CGFloat = 0
+    private var scrollTest: ScrollTest? = nil
+    private weak var delegate: UIHostingViewDelegate? = nil
+    private var rootViewDelegate: RootViewDelegate? = nil
+    private var focusedValues: FocusedValues = FocusedValues()
+    private var disallowAnimations: Bool = false
+    private weak var windowGeometryScene: UIWindowScene? = nil
+    private var invalidatesIntrinsicContentSizeOnIdealSizeChange: Bool = false
+    private var appliesContainerBackgroundColor: Bool = false
+    private var containerBackgroundColor: UIColor? = nil
+    private let surpressGraphUpdateIfNotInHierarchy: Bool = {
+        if Bundle.main.bundleIdentifier == "com.studiolanes.ticker" {
+            return isLinkedOnOrAfter(.v6)
+        } else {
+            return false
+        }
+    }()
+    private lazy var foreignSubviews: NSHashTable<UIView>? = nil
+    private var insertingManagedSubviews: Int = 0
     
     public required init(rootView: Content) {
         fatalError("TODO")
