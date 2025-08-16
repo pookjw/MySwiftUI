@@ -5,7 +5,8 @@ install-name:    '/System/Library/PrivateFrameworks/AttributeGraph.framework/Att
 swift-abi-version: 7
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
-    symbols:              [ _AGMakeUniqueID ]
+    symbols:              [ _AGMakeUniqueID,
+    _AGSubgraphGetCurrent ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

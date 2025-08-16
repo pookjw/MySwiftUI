@@ -78,3 +78,5 @@ public protocol ObservedAttribute : AttributeGraph._AttributeBody {
 
 public protocol AttributeBodyVisitor {
 }
+
+extension AttributeGraph.AGAttribute: Swift.Hashable {}

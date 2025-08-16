@@ -39,20 +39,29 @@ open class _UIHostingView<Content: View>: UIView {
         isChangingIdentity: false,
         style: .alert
     )
-    private let deprecatedActionSheetBridge: DeprecatedAlertBridge<ActionSheet.Presentation>
+    private let deprecatedActionSheetBridge: DeprecatedAlertBridge<ActionSheet.Presentation> = DeprecatedAlertBridge<ActionSheet.Presentation>(
+        host: nil,
+        isShown: false,
+        seed: .empty,
+        alertController: nil,
+        lastEnvironment: EnvironmentValues(),
+        lastPresentation: nil,
+        isChangingIdentity: false,
+        style: .alert
+    )
 //    private lazy var sheetBridge: SheetBridge<SheetPreference.Key>??
-    private var focusBridge: FocusBridge
-    private let dragBridge: DragAndDropBridge
-    private var inspectorBridge: UIKitInspectorBridgeV3?
-    private var tooltipBridge: TooltipBridge
-    private var editMenuBridge: EditMenuBridge
-    private var sharingActivityPickerBridge: SharingActivityPickerBridge?
-    private var shareConfigurationBridge: ShareConfigurationBridge?
-    private var statusBarBridge: UIKitStatusBarBridge
-    private weak var sceneBridge: SceneBridge?
-    private var scenePresentationBridge: ScenePresentationBridge?
-    private var pointerBridge: PointerBridge?
-    private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>?
+    private var focusBridge: FocusBridge = FocusBridge()
+    private let dragBridge: DragAndDropBridge = DragAndDropBridge()
+    private var inspectorBridge: UIKitInspectorBridgeV3? = nil
+    private var tooltipBridge: TooltipBridge = TooltipBridge()
+    private var editMenuBridge: EditMenuBridge = EditMenuBridge()
+    private var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
+    private var shareConfigurationBridge: ShareConfigurationBridge? = nil
+    private var statusBarBridge: UIKitStatusBarBridge = UIKitStatusBarBridge()
+    private weak var sceneBridge: SceneBridge? = nil
+    private var scenePresentationBridge: ScenePresentationBridge? = nil
+    private var pointerBridge: PointerBridge? = nil
+    private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>? = nil
     private let mruiPreferenceExporter: MRUIPreferenceExporter
     private var renderingMarginsBridge: RenderingMarginsBridge<Content>?
     private var objectManipluateBridge: UIKitObjectManipulationBridge<Content>

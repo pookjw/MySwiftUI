@@ -34,7 +34,7 @@
         fatalError("TODO")
     }
     
-    package subscript<T: PropertyKey>(_ type: T.Type) -> T {
+    package subscript<T: PropertyKey>(_ type: T.Type) -> T.Value {
         get {
             fatalError("TODO")
         }
@@ -68,7 +68,12 @@
     }
     
     package subscript<T: DerivedPropertyKey>(_ type: T.Type) -> T.Value {
-        fatalError("TODO")
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
     }
     
     package func prependValue<T: PropertyKey>(_ value: T.Value, for type: T.Type) {
@@ -220,6 +225,10 @@ package protocol PropertyKeyLookup {
 
 package protocol PropertyKey {
     associatedtype Value
+    
+    static var defaultValue: Value {
+        get
+    }
 }
 
 package protocol DerivedPropertyKey {
