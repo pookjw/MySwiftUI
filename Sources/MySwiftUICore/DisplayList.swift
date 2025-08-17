@@ -37,11 +37,23 @@ extension DisplayList {
 
 extension DisplayList {
     package struct Version {
-        var value: Int
+        package private(set) var value: Int
         
         package init() {
-            fatalError()
+            value = 0
         }
+    }
+}
+
+extension DisplayList {
+    class ViewUpdater {
+        // TODO
+    }
+}
+
+extension DisplayList {
+    class ViewRenderer {
+        // TODO
     }
 }
 

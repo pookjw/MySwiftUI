@@ -1,0 +1,5 @@
+framework module RealitySimulationServices {
+    umbrella header "RealitySimulationServices.h"
+    export *
+    module * { export * }
+}

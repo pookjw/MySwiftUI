@@ -6,7 +6,13 @@ swift-abi-version: 7
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
     symbols:              [ _AGMakeUniqueID,
-    _AGSubgraphGetCurrent ]
+    _AGSubgraphGetCurrent,
+    _$s14AttributeGraph04WeakA0VMa,
+    _$s14AttributeGraph04WeakA0VMn,
+    _$s14AttributeGraph08OptionalA0VMa,
+    _$s14AttributeGraph08OptionalA0VMn,
+    _$s14AttributeGraph0A0VMa,
+    _$s14AttributeGraph0A0VMn ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

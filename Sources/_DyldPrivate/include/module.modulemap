@@ -1,4 +1,4 @@
-framework module _DyldPrivate {
+module _DyldPrivate {
     umbrella header "_DyldPrivate.h"
     export *
 }

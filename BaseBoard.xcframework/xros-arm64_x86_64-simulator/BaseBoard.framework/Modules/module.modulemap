@@ -1,0 +1,5 @@
+framework module BaseBoard {
+    umbrella header "BaseBoard.h"
+    export *
+    module * { export * }
+}

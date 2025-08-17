@@ -14,4 +14,12 @@ package struct VersionSeed {
     package static var empty: VersionSeed {
         return VersionSeed(value: 0)
     }
+    
+    package mutating func merge(_ other: VersionSeed) {
+        fatalError("TODO")
+    }
+    
+    package func matches(_ other: VersionSeed) -> Bool {
+        fatalError("TODO")
+    }
 }

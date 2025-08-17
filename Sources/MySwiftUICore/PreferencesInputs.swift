@@ -10,6 +10,10 @@ struct PreferenceKeys {
     var keys: [(any PreferenceKey).Type]
 }
 
-protocol PreferenceKey {
+package protocol PreferenceKey {
     associatedtype Value
+    
+    static var defaultValue: Value {
+        get
+    }
 }

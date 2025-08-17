@@ -1,0 +1,32 @@
+//
+//  MovableLock.h
+//  MySwiftUI
+//
+//  Created by Jinwoo Kim on 8/18/25.
+//
+
+#include <pthread.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "Defines.h"
+
+typedef struct MovableLock_s {
+    pthread_mutex_t mutex; // 0x0
+    pthread_cond_t cond; // 0x40
+    pthread_t thread; // 0x70
+    pthread_t owner; // 0x78
+    uint32_t count; // 0x80
+    bool flag; // 0x84
+} MovableLock_t;
+
+typedef MovableLock_t * MovableLock __attribute((swift_newtype(struct)));
+
+MSUI_EXTERN MovableLock _msui_MovableLockCreate(void) __attribute__((swift_name("MovableLock.create()")));
+MSUI_EXTERN void _msui_MovableLockDestroy(MovableLock lock) __attribute__((swift_name("MovableLock.destory(self:)")));
+MSUI_EXTERN bool _msui_MovableLockIsOwner(MovableLock lock) __attribute__((swift_name("MovableLock.isOwner(self:)")));
+MSUI_EXTERN bool _msui_MovableLockIsOutermostOwner(MovableLock lock);
+MSUI_EXTERN void _msui_MovableLockLock(MovableLock lock);
+MSUI_EXTERN void _msui_MovableLockUnlock(MovableLock lock);
+MSUI_EXTERN void _msui_MovableLockSyncMain(MovableLock lock);
+MSUI_EXTERN void _msui_MovableLockWait(MovableLock lock);
+MSUI_EXTERN void _msui_MovableLockBroadcast(MovableLock lock/*, ??? */);

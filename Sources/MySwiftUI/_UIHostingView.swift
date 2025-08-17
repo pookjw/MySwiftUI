@@ -95,6 +95,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var insertingManagedSubviews: Int = 0
     
     public required init(rootView: Content) {
+        Update.begin()
         fatalError("TODO")
     }
     

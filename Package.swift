@@ -23,14 +23,26 @@ let package = Package(
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "_UIKitShims"),
                 .byName(name: "MySwiftUICore"),
-                .byName(name: "MRUIKit")
+                .byName(name: "RealitySimulationServices"),
+                .byName(name: "MRUIKit"),
+                .byName(name: "BaseBoard"),
             ]
         ),
         .target(
             name: "MySwiftUICore",
             dependencies: [
                 .byName(name: "_DyldPrivate"),
-                .byName(name: "AttributeGraph")
+                .byName(name: "AttributeGraph"),
+                .byName(name: "_MySwiftUIShims")
+            ]
+        ),
+        .target(
+            name: "_MySwiftUIShims",
+            dependencies: [
+                .byName(name: "_UIKitPrivate")
+            ],
+            cSettings: [
+                .unsafeFlags(["-fno-objc-arc"])
             ]
         ),
         .target(
@@ -54,6 +66,14 @@ let package = Package(
         .binaryTarget(
             name: "MRUIKit",
             path: "MRUIKit.xcframework"
+        ),
+        .binaryTarget(
+            name: "BaseBoard",
+            path: "BaseBoard.xcframework"
+        ),
+        .binaryTarget(
+            name: "RealitySimulationServices",
+            path: "RealitySimulationServices.xcframework"
         ),
         .testTarget(
             name: "MySwiftUITests",

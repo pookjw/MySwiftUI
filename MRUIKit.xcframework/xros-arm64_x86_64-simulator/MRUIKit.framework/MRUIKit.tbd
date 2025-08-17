@@ -5,7 +5,10 @@ install-name:    '/System/Library/PrivateFrameworks/MRUIKit.framework/MRUIKit'
 swift-abi-version: 7
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
-    symbols:              [  ]
-    objc-classes:         [  ]
+    symbols:              [ _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVMa,
+    _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVMn,
+    _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVSHAAMc ]
+    objc-classes:         [ MRUIPreferenceKey,
+    MRUIPreferenceHost ]
     objc-ivars:           [  ]
 ...
