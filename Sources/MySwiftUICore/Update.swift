@@ -1,16 +1,31 @@
 #warning("TODO")
 private import os.signpost
+private import os.log
 private import _MySwiftUIShims
 
 package enum Update {
     private static let _lock = MovableLock.create()
+    private static nonisolated(unsafe) var depth: Int = 0
+    static nonisolated(unsafe) let traceHost: AnyObject = TraceHost()
     
     package static func enqueueAction(reason: CustomEventTrace.ActionEventType.Reason?, _ action: () -> ()) -> UInt32 {
         fatalError("TODO")
     }
     
     package static func begin() {
-        fatalError("TODO")
+        Update._lock.lock()
+        Update.depth += 1
+        
+        guard Update.depth == 1 else {
+            return
+        }
+        
+        Signpost.viewHost.traceEvent(
+            type: .begin,
+            object: Update.traceHost,
+            "ViewHost: (%p) update began PlatformHost [ %p ]",
+            args: [0, UInt(bitPattern: Unmanaged.passUnretained(traceHost).toOpaque())]
+        )
     }
     
     package static var threadIsUpdating: Bool {
@@ -67,5 +82,10 @@ package enum Update {
     
     package static func assertIsLocked() {
         fatalError("TODO")
+    }
+}
+
+extension Update {
+    fileprivate class TraceHost {
     }
 }

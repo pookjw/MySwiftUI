@@ -9,8 +9,8 @@ package struct ViewIdentity {
     init() {
         let seed = ViewIdentity.nextSeed
         
-        var (next, overflow) = seed.addingReportingOverflow(1)
-        if overflow {
+        var next = seed &+ 1
+        if next == 0 {
             next = 1
         }
         ViewIdentity.nextSeed = next

@@ -2,3 +2,5 @@
 #import "CoreGlue2.h"
 #import "UIAccessibilityHUDGestureManager+MySwiftUI.h"
 #include "MovableLock.h"
+#include "AppleInternal.h"
+#include "kdebug_private.h"
