@@ -4,3 +4,5 @@
 #include "MovableLock.h"
 #include "AppleInternal.h"
 #include "kdebug_private.h"
+#import "CoreSystem.h"
+#import "ViewSystem.h"

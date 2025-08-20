@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import _SwiftPrivate
+import _SwiftUIPrivate
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
@@ -44,5 +45,12 @@ class ViewController: UIViewController {
 //                return true
 //            }
 //        }
+        
+//        let resolved = Color.cyan.resolveHDR(in: .init())
+//        for child in Mirror(reflecting: resolved).children {
+//            print(type(of: child.value))
+//        }
+//        print(resolved)
+        print(PlatformColorDefinition.resolvedHDRColor(UIColor.black, environment: .init()))
     }
 }

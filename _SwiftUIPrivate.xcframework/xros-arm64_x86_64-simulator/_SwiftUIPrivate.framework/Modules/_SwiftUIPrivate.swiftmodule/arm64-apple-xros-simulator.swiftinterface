@@ -13,3 +13,9 @@ public struct HostingViewTransparentBackgroundReason: Swift.OptionSet, Swift.Cus
     get
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class PlatformColorDefinition {
+  public class func resolvedHDRColor(_: Swift.AnyObject, environment: SwiftUI.EnvironmentValues) -> SwiftUI.Color.ResolvedHDR?
+}

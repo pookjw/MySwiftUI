@@ -40,9 +40,9 @@ struct Signpost {
     
     @inlinable
     func traceEvent(type: OSSignpostType, object: AnyObject?, _ message: StaticString, args: @autoclosure () -> [CVarArg]) {
-//        guard isEnabled else {
-//            return
-//        }
+        guard isEnabled else {
+            return
+        }
         
         let signpostID: OSSignpostID
         if let object {

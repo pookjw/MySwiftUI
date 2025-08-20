@@ -1,7 +1,7 @@
 #warning("TODO")
 
 public import UIKit
-public import MySwiftUICore
+@_spi(Internal) public import MySwiftUICore
 private import _UIKitShims
 private import _UIKitPrivate
 
@@ -96,6 +96,10 @@ open class _UIHostingView<Content: View>: UIView {
     
     public required init(rootView: Content) {
         Update.begin()
+        PlatformColorDefinition.setInternalDefinition(UIKitPlatformColorDefinition.self, system: .uiKit)
+        PlatformScrollEdgeEffectTagDefinition.setDefinition(ScrollEdgeEffectTagModifierDefinition.self)
+        let viewDefinition = PlatformViewDefinition.for(UIView.self)!
+        
         fatalError("TODO")
     }
     
