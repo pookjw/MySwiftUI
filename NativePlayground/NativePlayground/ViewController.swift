@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        _ = GraphHost.Data()
+        
         /*
          keyType (0x10)
          before (0x18)
@@ -25,7 +27,7 @@ class ViewController: UIViewController {
          id (0x40)
          // _typeByName("7SwiftUI20UIKitStatusBarBridgeC")!
          */
-        _forEachField(of: _typeByName("7SwiftUI23InteractiveResizeBridgeC")!, options: [.classType]) { name, offset, type, kind in
+        _forEachField(of: GraphHost.Data.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (0x%lx)", name, offset))
             return true
         }
@@ -45,12 +47,5 @@ class ViewController: UIViewController {
 //                return true
 //            }
 //        }
-        
-//        let resolved = Color.cyan.resolveHDR(in: .init())
-//        for child in Mirror(reflecting: resolved).children {
-//            print(type(of: child.value))
-//        }
-//        print(resolved)
-        print(PlatformColorDefinition.resolvedHDRColor(UIColor.black, environment: .init()))
     }
 }

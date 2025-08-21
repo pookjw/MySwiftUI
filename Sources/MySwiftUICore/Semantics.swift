@@ -18,27 +18,27 @@ package struct Semantics: Hashable, Comparable, CustomStringConvertible {
         return lhs.value <= rhs.value
     }
     
-    package static let firstRelease = Semantics(value: MySwiftUI_V1().platform)
-    package static let latest = Semantics(value: .max - 1)
-    package static let maximal = Semantics(value: .max)
+    package static var firstRelease: Semantics { Semantics(value: MySwiftUI_V1().platform) }
+    package static var latest: Semantics { Semantics(value: .max - 1) }
+    package static var maximal: Semantics { Semantics(value: .max) }
     
-    package static let v1 = Semantics(value: MySwiftUI_V1().platform)
-    package static let v1_3_1 = Semantics(value: MySwiftUI_V1_3_1().platform)
-    package static let v1_4 = Semantics(value: MySwiftUI_V1_4().platform)
-    package static let v2 = Semantics(value: MySwiftUI_V2().platform)
-    package static let v2_1 = Semantics(value: MySwiftUI_V2_1().platform)
-    package static let v2_3 = Semantics(value: MySwiftUI_V2_3().platform)
-    package static let v3 = Semantics(value: MySwiftUI_V3().platform)
-    package static let v3_2 = Semantics(value: MySwiftUI_V3_2().platform)
-    package static let v3_4 = Semantics(value: MySwiftUI_V3_4().platform)
-    package static let v4 = Semantics(value: MySwiftUI_V4().platform)
-    package static let v5 = Semantics(value: MySwiftUI_V5().platform)
-    package static let v5_2 = Semantics(value: MySwiftUI_V5_2().platform)
-    package static let v6 = Semantics(value: MySwiftUI_V6().platform)
-    package static let v6_1 = Semantics(value: MySwiftUI_V6_1().platform)
-    package static let v6_2 = Semantics(value: MySwiftUI_V6_2().platform)
-    package static let v6_4 = Semantics(value: MySwiftUI_V6_4().platform)
-    package static let v7 = Semantics(value: MySwiftUI_V7().platform)
+    package static var v1: Semantics { Semantics(value: MySwiftUI_V1().platform) }
+    package static var v1_3_1: Semantics { Semantics(value: MySwiftUI_V1_3_1().platform) }
+    package static var v1_4: Semantics { Semantics(value: MySwiftUI_V1_4().platform) }
+    package static var v2: Semantics { Semantics(value: MySwiftUI_V2().platform) }
+    package static var v2_1: Semantics { Semantics(value: MySwiftUI_V2_1().platform) }
+    package static var v2_3: Semantics { Semantics(value: MySwiftUI_V2_3().platform) }
+    package static var v3: Semantics { Semantics(value: MySwiftUI_V3().platform) }
+    package static var v3_2: Semantics { Semantics(value: MySwiftUI_V3_2().platform) }
+    package static var v3_4: Semantics { Semantics(value: MySwiftUI_V3_4().platform) }
+    package static var v4: Semantics { Semantics(value: MySwiftUI_V4().platform) }
+    package static var v5: Semantics { Semantics(value: MySwiftUI_V5().platform) }
+    package static var v5_2: Semantics { Semantics(value: MySwiftUI_V5_2().platform) }
+    package static var v6: Semantics { Semantics(value: MySwiftUI_V6().platform) }
+    package static var v6_1: Semantics { Semantics(value: MySwiftUI_V6_1().platform) }
+    package static var v6_2: Semantics { Semantics(value: MySwiftUI_V6_2().platform) }
+    package static var v6_4: Semantics { Semantics(value: MySwiftUI_V6_4().platform) }
+    package static var v7: Semantics { Semantics(value: MySwiftUI_V7().platform) }
     
     package static nonisolated(unsafe) var forced: Semantics.Forced = Semantics.Forced()
     

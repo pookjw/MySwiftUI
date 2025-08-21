@@ -1,10 +1,10 @@
 struct HostingViewTransparentBackgroundReason: OptionSet, CustomStringConvertible {
-    static let `default` = HostingViewTransparentBackgroundReason(rawValue: 1 << 0)
-    static let catalystSidebar = HostingViewTransparentBackgroundReason(rawValue: 1 << 1)
-    static let catalystPresentation = HostingViewTransparentBackgroundReason(rawValue: 1 << 2)
-    static let legacyPresentationSPI = HostingViewTransparentBackgroundReason(rawValue: 1 << 3)
-    static let containerBackground = HostingViewTransparentBackgroundReason(rawValue: 1 << 4)
-    static let listItemBackground = HostingViewTransparentBackgroundReason(rawValue: 1 << 5)
+    static var `default`: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 0) }
+    static var catalystSidebar: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 1) }
+    static var catalystPresentation: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 2) }
+    static var legacyPresentationSPI: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 3) }
+    static var containerBackground: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 4) }
+    static var listItemBackground: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 5) }
     
     var rawValue: UInt32
     

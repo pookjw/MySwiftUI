@@ -1,0 +1,5 @@
+framework module _QuartzCorePrivate {
+    umbrella header "_QuartzCorePrivate.h"
+    export *
+    module * { export * }
+}

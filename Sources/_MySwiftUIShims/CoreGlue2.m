@@ -1,6 +1,7 @@
 #import "CoreGlue2.h"
 #include <dlfcn.h>
 #include <mach-o/dyld.h>
+#include "include/Utils.h"
 
 extern void abort_report_np(const char *, ...);
 
@@ -9,17 +10,17 @@ Class __getMySwiftUIGlue2ClassSymbolLoc() {
     
     void (^get)(void) = ^{
         // original : _sl_dlopen(const char **, os_log_t)
-        uint32_t count = _dyld_image_count();
-        for (uint32_t idx = 0; idx < count; idx++) {
-            const char *name = _dyld_get_image_name(idx);
-            int result = strcmp(name, "MySwiftUI");
-            if ((result == 0) || (result == 1)) {
-                void *handle = dlopen(name, RTLD_NOW);
-                void *sym = dlsym(handle, "MySwiftUIGlue2Class");
-                if (sym != NULL) {
-                    ptr = ((Class (*)(void))sym)();
-                    break;
-                }
+        bool found;
+        uint32_t idx = __getMySwiftUIImageIndex(&found);
+        assert(found);
+        
+        const char *name = _dyld_get_image_name(idx);
+        int result = strcmp(name, "MySwiftUI");
+        if ((result == 0) || (result == 1)) {
+            void *handle = dlopen(name, RTLD_NOW);
+            void *sym = dlsym(handle, "MySwiftUIGlue2Class");
+            if (sym != NULL) {
+                ptr = ((Class (*)(void))sym)();
             }
         }
         

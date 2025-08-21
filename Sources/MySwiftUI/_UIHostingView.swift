@@ -99,6 +99,8 @@ open class _UIHostingView<Content: View>: UIView {
         PlatformColorDefinition.setInternalDefinition(UIKitPlatformColorDefinition.self, system: .uiKit)
         PlatformScrollEdgeEffectTagDefinition.setDefinition(ScrollEdgeEffectTagModifierDefinition.self)
         let viewDefinition = PlatformViewDefinition.for(UIView.self)!
+        let viewGraphHost = ViewGraphHost(rootViewType: Content.self, outputs: .defaults, viewDefinition: viewDefinition)
+        let viewGraph = viewGraphHost.viewGraph
         
         fatalError("TODO")
     }

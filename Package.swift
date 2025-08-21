@@ -75,6 +75,10 @@ let package = Package(
             name: "RealitySimulationServices",
             path: "RealitySimulationServices.xcframework"
         ),
+        .binaryTarget(
+            name: "_QuartzCorePrivate",
+            path: "_QuartzCorePrivate.xcframework"
+        ),
         .testTarget(
             name: "MySwiftUITests",
             dependencies: [

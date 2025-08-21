@@ -57,7 +57,12 @@ public import QuartzCore
     }
     
     package static func `for`(_ type: AnyObject.Type) -> PlatformViewDefinition.Type? {
-        fatalError("TODO")
+        guard let nsObjectType = type as? NSObject.Type else {
+            return nil
+        }
+        
+        let viewDefinition = nsObjectType._mySwiftUI_platformViewDefinition()
+        return unsafeBitCast(viewDefinition, to: PlatformViewDefinition.Type.self)
     }
     
     package static func canSupportMixedHierarchy(system: PlatformViewDefinition.System) -> Bool {

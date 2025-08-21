@@ -124,7 +124,7 @@ struct Signpost {
         fatalError("TODO")
     }
     
-    static let viewHost = Signpost(style: .kdebug(164, 0), level: .published) 
+    static var viewHost: Signpost { Signpost(style: .kdebug(164, 0), level: .published) } 
     
     static var platformView: Signpost {
         fatalError("TODO")

@@ -6,3 +6,4 @@
 #include "kdebug_private.h"
 #import "CoreSystem.h"
 #import "ViewSystem.h"
+#import "NSObject+MySwiftUI.h"

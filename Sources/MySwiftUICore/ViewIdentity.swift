@@ -1,7 +1,7 @@
 #warning("TODO")
 
 package struct ViewIdentity {
-    package static let invalid: ViewIdentity = ViewIdentity(seed: 0)
+    package static var invalid: ViewIdentity { ViewIdentity(seed: 0) }
     private let seed: UInt32
     
     private static nonisolated(unsafe) var nextSeed: UInt32 = 0

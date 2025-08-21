@@ -9,14 +9,22 @@
 @propertyWrapper
 public struct WeakAttribute<T> {
     public var base: AttributeGraph.AGWeakAttribute
-    public var wrappedValue: T?
+    public var wrappedValue: T? {
+        get
+    }
     
     @_alwaysEmitIntoClient public init(base: AttributeGraph.AGWeakAttribute) {
         self.base = base
     }
 }
 
+@frozen
+@propertyWrapper
 public struct Attribute<T> {
+    public var wrappedValue: T {
+        get
+    }
+
     public init<C: AttributeGraph.Rule>(_ rule: C) where C.Value == T
     public init<C: AttributeGraph.Rule>(_ rule: C, initialValue: T) where C.Value == T
     public init<C: AttributeGraph.StatefulRule>(_ rule: C) where C.Value == T
@@ -66,8 +74,12 @@ public struct AnyOptionalAttribute {
 
 }
 
+@frozen
+@propertyWrapper
 public struct OptionalAttribute<T> {
-
+    public var wrappedValue: T? {
+        get
+    }
 }
 
 public protocol _AttributeBody {}

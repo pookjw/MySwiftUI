@@ -19,3 +19,35 @@ public struct HostingViewTransparentBackgroundReason: Swift.OptionSet, Swift.Cus
 public class PlatformColorDefinition {
   public class func resolvedHDRColor(_: Swift.AnyObject, environment: SwiftUI.EnvironmentValues) -> SwiftUI.Color.ResolvedHDR?
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class GraphHost {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUIPrivate.GraphHost {
+  public struct Data {
+    public init()
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class ViewGraph: _SwiftUIPrivate.GraphHost {
+  public init<T: SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUIPrivate.ViewGraph.Outputs)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUIPrivate.ViewGraph {
+  public struct Outputs: Swift.OptionSet {
+    public var rawValue: Swift.UInt8 {
+      get
+      set
+    }
+
+    public init(rawValue: Swift.UInt8)
+  }
+}

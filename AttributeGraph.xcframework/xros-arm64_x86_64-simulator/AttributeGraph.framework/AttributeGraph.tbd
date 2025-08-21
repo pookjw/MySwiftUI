@@ -12,7 +12,15 @@ exports:
     _$s14AttributeGraph08OptionalA0VMa,
     _$s14AttributeGraph08OptionalA0VMn,
     _$s14AttributeGraph0A0VMa,
-    _$s14AttributeGraph0A0VMn ]
+    _$s14AttributeGraph0A0VMn,
+    _$s14AttributeGraph04WeakA0V12wrappedValuexSgvg,
+    _$s14AttributeGraph08OptionalA0V12wrappedValuexSgvg,
+    _$s14AttributeGraph0A0V12wrappedValuexvg,
+    _AGSubgraphSetCurrent,
+    _AGGraphCreateShared,
+    _AGGraphCreate,
+    _AGGraphSetTrace,
+    _AGSubgraphCreate ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
