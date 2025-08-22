@@ -20,7 +20,10 @@ exports:
     _AGGraphCreateShared,
     _AGGraphCreate,
     _AGGraphSetTrace,
-    _AGSubgraphCreate ]
+    _AGSubgraphCreate,
+    _$s14AttributeGraph0A0V4body5value5flags6updateACyxGSPyqd__G_SPyxGSgSo20AGAttributeTypeFlagsVySv_So0G0atcyXEtcAA01_A4BodyRd__lufC,
+    _$s14AttributeGraph0A0V5valueACyxGx_tcfC,
+    _AGSubgraphAddChild ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -1,7 +1,8 @@
 #warning("TODO")
+internal import AttributeGraph
 
 package struct CustomEventTrace {
-    
+    static nonisolated(unsafe) var recorder: Recorder? = nil
 }
 
 extension CustomEventTrace {
@@ -32,5 +33,17 @@ extension CustomEventTrace.ActionEventType {
         case onFocusChanged
         case navStackPush
         case navStackPop
+    }
+}
+
+extension CustomEventTrace {
+    class Recorder {
+        private(set) var graph: AGGraphRef
+        private(set) var cefOp: UnsafeMutablePointer<Int8>
+        
+        init(graph: AGGraphRef) {
+            // inlined
+            fatalError("TODO")
+        }
     }
 }

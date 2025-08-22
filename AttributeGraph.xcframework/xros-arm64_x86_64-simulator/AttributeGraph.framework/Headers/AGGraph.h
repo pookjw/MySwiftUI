@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 AG_EXTERN AGGraphRef AGGraphCreateShared(void);
 AG_EXTERN AGGraphRef AGGraphCreate(void);
+AG_EXTERN void AGGraphAddTraceEvent(AGGraphRef, int8_t *, void * /* ??? */, void * _Nullable);
 
 NS_ASSUME_NONNULL_END
 

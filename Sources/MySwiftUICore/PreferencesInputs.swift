@@ -8,6 +8,10 @@ package struct PreferencesInputs {
 
 struct PreferenceKeys {
     var keys: [(any PreferenceKey).Type]
+    
+    init() {
+        keys = []
+    }
 }
 
 package protocol PreferenceKey {

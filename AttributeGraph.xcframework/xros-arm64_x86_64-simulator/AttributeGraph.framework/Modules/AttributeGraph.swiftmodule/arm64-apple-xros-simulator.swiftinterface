@@ -29,12 +29,13 @@ public struct Attribute<T> {
     public init<C: AttributeGraph.Rule>(_ rule: C, initialValue: T) where C.Value == T
     public init<C: AttributeGraph.StatefulRule>(_ rule: C) where C.Value == T
     public init<C: AttributeGraph.StatefulRule>(_ rule: C, initialValue: T) where C.Value == T
+    public init(value: T)
 
     public subscript<C>(keyPath: Swift.KeyPath<T, C>) -> AttributeGraph.Attribute<C> {
         get
     }
 
-    // public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AGAttribute) -> ())
+    public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AGAttribute) -> ())
     // public init(identifier: AttributeGraph.AGAttribute)
 }
 

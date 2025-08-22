@@ -11,6 +11,10 @@ public struct _GraphInputs {
     var options: _GraphInputs.Options
     var mergedInputs: Set<AGAttribute>
     
+    init(time: Attribute<Time>, phase: Attribute<_GraphInputs.Phase>, environment: Attribute<EnvironmentValues>, transaction: Attribute<Transaction>) {
+        fatalError("TODO")
+    }
+    
     subscript<T: GraphInput>(_ type: T.Type) -> T.Value {
         get {
             return customInputs[type]

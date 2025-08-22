@@ -14,6 +14,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        print(CustomEventCategory.unknown.rawValue)
+//        print(CustomEventCategory.observable.rawValue)
+//        print(CustomEventCategory.transaction.rawValue)
+//        print(CustomEventCategory.action.rawValue)
+//        print(CustomEventCategory.graph.rawValue)
+//        print(CustomEventCategory.animation.rawValue)
+//        print(CustomEventCategory.instantiation.rawValue)
+//        print(CustomEventCategory.dynamicProperties.rawValue)
+        
 //        _ = GraphHost.Data()
         
         /*
@@ -30,6 +39,12 @@ class ViewController: UIViewController {
         _forEachField(of: GraphHost.Data.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (0x%lx)", name, offset))
             return true
+        }
+        
+        do {
+            
+            let emptyView = EmptyView()
+            let hostingView = _UIHostingView(rootView: emptyView)
         }
         
         let emptyView = EmptyView()

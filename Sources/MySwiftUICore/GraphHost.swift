@@ -86,20 +86,94 @@ extension GraphHost {
         @Attribute private var transaction: Transaction
         @Attribute private var updateSeed: UInt32
         @Attribute private var transactionSeed: UInt32
-        @Attribute private var inputs: _GraphInputs
+        private var inputs: _GraphInputs
         
         init() {
-            self.graph = AGGraphCreateShared()
+            // TODO: defer 있음
+            let graph = AGGraphCreateShared()
+            self.graph = graph
             
-            let globalSubgraph = AGSubgraphCreate()
+            let globalSubgraph = AGSubgraphCreate(graph)
             self.globalSubgraph = globalSubgraph
             
             let oldCurrentSubgraph = AGSubgraphGetCurrent()
             AGSubgraphSetCurrent(globalSubgraph)
             
+            defer {
+                AGSubgraphSetCurrent(oldCurrentSubgraph)
+                
+                if
+                    CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
+                    let recorder = CustomEventTrace.recorder
+                {
+                    // TODO: 검증 필요
+                    let pointer = unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
+                        .advanced(by: 4)
+                    let subgraphPointer = UnsafeMutableRawPointer(pointer)
+                        .assumingMemoryBound(to: AGSubgraphRef?.self)
+                    subgraphPointer.pointee = globalSubgraph
+                    subgraphPointer.advanced(by: 1).pointee = globalSubgraph
+                    
+                    withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 1) { pointer in
+                        AGGraphAddTraceEvent(recorder.graph, recorder.cefOp, pointer.baseAddress.unsafelyUnwrapped, nil)
+                    }
+                }
+            }
             
+            if
+                CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
+                let recorder = CustomEventTrace.recorder
+            {
+                // TODO: 검증 필요
+                unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
+                    .advanced(by: 4)
+                    .pointee = 0x4243
+                
+                withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 1) { pointer in
+                    AGGraphAddTraceEvent(recorder.graph, recorder.cefOp, pointer.baseAddress.unsafelyUnwrapped, nil)
+                }
+            }
             
-            fatalError("TODO")
+            let time = Attribute(value: Time.zero)
+            self._time = time
+            
+            let environment = Attribute(value: EnvironmentValues())
+            if
+                CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
+                let recorder = CustomEventTrace.recorder
+            {
+                // TODO: 검증 필요
+                unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
+                    .advanced(by: 4)
+                    .pointee = 0x4643
+                
+                withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 1) { pointer in
+                    AGGraphAddTraceEvent(recorder.graph, recorder.cefOp, pointer.baseAddress.unsafelyUnwrapped, nil)
+                }
+            }
+            self._environment = environment
+            
+            let phase = Attribute(value: _GraphInputs.Phase())
+            self._phase = phase
+            self._hostPreferenceKeys = Attribute(value: PreferenceKeys())
+            
+            let transaction = Attribute(value: Transaction())
+            self._transaction = transaction
+            
+            self._updateSeed = Attribute(value: 0)
+            self._transactionSeed = Attribute(value: 0)
+            self.inputs = _GraphInputs(
+                time: time,
+                phase: phase,
+                environment: environment,
+                transaction: transaction
+            )
+            
+            let subgraph = AGSubgraphCreate(graph)
+            AGSubgraphAddChild(globalSubgraph, subgraph)
+            
+            self.isRemoved = false
+            self.isHiddenForReuse = false
         }
     }
 }
@@ -122,18 +196,18 @@ fileprivate struct AsyncTransaction {
 }
 
 enum CustomEventCategory: Int8 {
-    fileprivate static nonisolated(unsafe) var enabledCategories: [Bool] = Array(repeating: false, count: 32)
+    fileprivate static nonisolated(unsafe) var enabledCategories: [Bool] = Array(repeating: false, count: 256)
     
     static func setEnabledCategory(_ category: CustomEventCategory, enabled: Bool) {
         enabledCategories[Int(category.rawValue)] = enabled
     }
     
-    case unknown
-    case observable
-    case transaction
-    case action
-    case graph
-    case animation
-    case instantiation
-    case dynamicProperties
+    case unknown = 0
+    case observable = 79
+    case transaction = 84
+    case action = 65
+    case graph = 71
+    case animation = 66
+    case instantiation = 67
+    case dynamicProperties = 68
 }

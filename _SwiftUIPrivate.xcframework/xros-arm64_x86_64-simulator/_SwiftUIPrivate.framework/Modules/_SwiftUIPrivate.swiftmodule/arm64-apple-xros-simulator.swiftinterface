@@ -51,3 +51,35 @@ extension _SwiftUIPrivate.ViewGraph {
     public init(rawValue: Swift.UInt8)
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum CustomEventCategory: Swift.Int8 {
+    public static func setEnabledCategory(_ category: _SwiftUIPrivate.CustomEventCategory, enabled: Swift.Bool)
+    
+    public var rawValue: Swift.Int8 {
+      get
+    }
+
+    case unknown
+    case observable
+    case transaction
+    case action
+    case graph
+    case animation
+    case instantiation
+    case dynamicProperties
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct CustomEventTrace {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUIPrivate.CustomEventTrace {
+  public class Recorder {
+    
+  }
+}
