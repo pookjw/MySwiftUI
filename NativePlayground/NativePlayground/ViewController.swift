@@ -45,7 +45,7 @@ class ViewController: UIViewController {
          // _typeByName("7SwiftUI20UIKitStatusBarBridgeC")!
          */
         print(ViewGraph.self)
-        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
+        _forEachField(of: GraphHost.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (0x%lx)", name, offset))
             return true
         }

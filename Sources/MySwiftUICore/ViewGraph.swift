@@ -62,6 +62,9 @@ package class ViewGraph: GraphHost {
         self.mainUpdates = 0
         self.nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
         self.preferenceBridge = nil
+        self.rootViewType = rootViewType
+        self.requestedOutputs = requestedOutputs
+        self.bridgedPreferences = []
         
         fatalError("TODO")
     }
@@ -108,7 +111,7 @@ extension ViewGraph {
 extension ViewGraph {
     package struct NextUpdate {
         private var time: Time = .infinity
-        private var _internal: TimeInterval = .infinity
+        private var _internal: TimeInterval = .greatestFiniteMagnitude
         private var _defaultIntervalWasRequested: Bool = false
         private var reasons: Set<UInt32> = []
     }

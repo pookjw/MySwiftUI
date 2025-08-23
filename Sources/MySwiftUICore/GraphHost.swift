@@ -64,6 +64,17 @@ package class GraphHost {
     private var removedState: GraphHost.RemovedState
     
     init(data: GraphHost.Data) {
+        self.data = data
+        self.constants = [:]
+        self.isInstantiated = false
+        self.hostPreferenceValues = WeakAttribute()
+        self.lastHostPreferencesSeed = VersionSeed(value: .max)
+        self.pendingTransactions = []
+        self.inTransaction = false
+        self.continuations = []
+        self.mayDeferUpdate = true
+        self.removedState = GraphHost.RemovedState(rawValue: 0)
+        
         fatalError("TODO")
     }
     
@@ -89,7 +100,6 @@ extension GraphHost {
         private var inputs: _GraphInputs
         
         init() {
-            // TODO: defer 있음
             let graph = AGGraphCreateShared()
             self.graph = graph
             
@@ -180,7 +190,7 @@ extension GraphHost {
 
 extension GraphHost {
     struct RemovedState {
-        
+        let rawValue: UInt8
     }
 }
 
