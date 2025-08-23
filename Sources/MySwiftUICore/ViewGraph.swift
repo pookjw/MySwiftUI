@@ -5,7 +5,7 @@ private import CoreGraphics
 package class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
     private let makeRootView: (AGAttribute, _ViewInputs) -> _ViewOutputs
-    private weak var delegate: ViewGraphDelegate? = nil
+    private weak var delegate: ViewGraphDelegate?
     private var features: ViewGraphFeatureBuffer
     private var centersRootView: Bool
     private let rootView: AGAttribute
@@ -46,6 +46,23 @@ package class ViewGraph: GraphHost {
     }
     
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
+        self.delegate = nil
+        self.centersRootView = true
+        self._containerSize = OptionalAttribute()
+        self._rootPhase = OptionalAttribute()
+        self._gestureDebug = OptionalAttribute()
+        self._gestureCategory = OptionalAttribute()
+        self.eventSubgraph = nil
+        self._rootLayoutComputer = WeakAttribute()
+        self._rootDisplayList = WeakAttribute()
+        self._rootResponders = WeakAttribute()
+        self.sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
+        self.accessibilityEnabled = false
+        self.disabledOutputs = ViewGraph.Outputs(rawValue: 0)
+        self.mainUpdates = 0
+        self.nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
+        self.preferenceBridge = nil
+        
         fatalError("TODO")
     }
 }
@@ -90,6 +107,9 @@ extension ViewGraph {
 
 extension ViewGraph {
     package struct NextUpdate {
-        
+        private var time: Time = .infinity
+        private var _internal: TimeInterval = .infinity
+        private var _defaultIntervalWasRequested: Bool = false
+        private var reasons: Set<UInt32> = []
     }
 }
