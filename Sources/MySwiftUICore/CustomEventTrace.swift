@@ -38,10 +38,10 @@ extension CustomEventTrace.ActionEventType {
 
 extension CustomEventTrace {
     class Recorder {
-        private(set) var graph: AGGraphRef
+        private(set) var graph: Graph
         private(set) var cefOp: UnsafeMutablePointer<Int8>
         
-        init(graph: AGGraphRef) {
+        init(graph: Graph) {
             // inlined
             fatalError("TODO")
         }

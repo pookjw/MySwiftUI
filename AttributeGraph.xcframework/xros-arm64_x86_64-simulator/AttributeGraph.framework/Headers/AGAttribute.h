@@ -8,8 +8,7 @@ typedef NS_OPTIONS(uint32_t, AGAttributeTypeFlags) {
     AGAttributeTypeFlagsUnknown = 10
 };
 
-struct AGAttribute {};
-typedef struct AGAttribute AGAttribute;
+typedef uint32_t AGAttribute __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AnyAttribute);
 
 AG_EXTERN const AGAttribute AGAttributeNil;
 

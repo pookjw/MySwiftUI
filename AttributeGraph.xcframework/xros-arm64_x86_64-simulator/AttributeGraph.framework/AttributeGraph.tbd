@@ -26,7 +26,13 @@ exports:
     _AGSubgraphAddChild,
     _$s14AttributeGraph04WeakA0VACyxGycfC,
     _$s14AttributeGraph08OptionalA0VACyxGycfC,
-    _AGAttributeNil ]
+    _AGAttributeNil,
+    _AGGraphSetUpdateCallback,
+    _AGGraphSetContext,
+    _AGGraphGetContext,
+    _$sSo10AGGraphRefa14AttributeGraphE14onInvalidationyyySo11AGAttributeacF,
+    _$sSo10AGGraphRefa14AttributeGraphE8onUpdateyyyycF,
+    _$sSo11AGAttributeaSH14AttributeGraphMc ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -4,14 +4,17 @@
 #import <Foundation/Foundation.h>
 #import <AttributeGraph/Defines.h>
 
-struct AGGraph {};
-typedef struct AGGraph * AGGraphRef;
+typedef struct CF_BRIDGED_TYPE(id) AGGraph * AGGraphRef NS_SWIFT_NAME(Graph);
+struct AGGraph;
 
 NS_ASSUME_NONNULL_BEGIN
 
-AG_EXTERN AGGraphRef AGGraphCreateShared(void);
-AG_EXTERN AGGraphRef AGGraphCreate(void);
+AG_EXTERN AGGraphRef AGGraphCreateShared(AGGraphRef) NS_SWIFT_NAME(Graph.init(shared:));
+AG_EXTERN AGGraphRef AGGraphCreate(void) NS_SWIFT_NAME(Graph.init());
 AG_EXTERN void AGGraphAddTraceEvent(AGGraphRef, int8_t *, void * /* ??? */, void * _Nullable);
+AG_EXTERN NS_REFINED_FOR_SWIFT void AGGraphSetUpdateCallback(AGGraphRef, void (* _Nullable)(const void * _Nullable __attribute__((swift_context))) __attribute__((swiftcall)), const void * _Nullable);
+AG_EXTERN void AGGraphSetContext(AGGraphRef, const void * _Nullable context);
+AG_EXTERN const void * _Nullable AGGraphGetContext(AGGraphRef);
 
 NS_ASSUME_NONNULL_END
 

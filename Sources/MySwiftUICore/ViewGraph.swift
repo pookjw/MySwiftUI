@@ -4,11 +4,11 @@ private import CoreGraphics
 
 package class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
-    private let makeRootView: (AGAttribute, _ViewInputs) -> _ViewOutputs
+    private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
     private weak var delegate: ViewGraphDelegate?
     private var features: ViewGraphFeatureBuffer
     private var centersRootView: Bool
-    private let rootView: AGAttribute
+    private let rootView: AnyAttribute
     @Attribute private var rootTransform: ViewTransform
     @Attribute private var transform: ViewTransform
     @Attribute private var zeroPoint: CGPoint
@@ -27,7 +27,7 @@ package class ViewGraph: GraphHost {
     @OptionalAttribute private var gestureDebug: GestureDebug.Data?
     @OptionalAttribute private var gestureCategory: GestureCategory?
     @Attribute private var gesturePreferenceKeys: PreferenceKeys
-    private var eventSubgraph: AGSubgraphRef?
+    private var eventSubgraph: Subgraph?
     @Attribute private var defaultLayoutComputer: LayoutComputer
     @WeakAttribute private var rootResponders: [ViewResponder]?
     @WeakAttribute private var rootLayoutComputer: LayoutComputer?
@@ -39,7 +39,7 @@ package class ViewGraph: GraphHost {
     private var mainUpdates: Int
     private var nextUpdate: (views: ViewGraph.NextUpdate, gestures: ViewGraph.NextUpdate)
     private weak var preferenceBridge: PreferenceBridge?
-    private var bridgedPreferences: [(PreferenceKey.Type, AGAttribute)]
+    private var bridgedPreferences: [(PreferenceKey.Type, AnyAttribute)]
     
     package override func addPrefence<T>(_ key: T.Type) where T : HostPreferenceKey {
         fatalError("TODO")

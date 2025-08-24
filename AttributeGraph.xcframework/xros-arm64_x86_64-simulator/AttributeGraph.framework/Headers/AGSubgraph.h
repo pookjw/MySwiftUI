@@ -5,15 +5,15 @@
 #import <AttributeGraph/AGGraph.h>
 #import <AttributeGraph/Defines.h>
 
-struct AGSubgraph {};
-typedef struct AGSubgraph * AGSubgraphRef;
+typedef struct CF_BRIDGED_TYPE(id) AGSubgraph * AGSubgraphRef NS_SWIFT_NAME(Subgraph);
+struct AGSubgraph;
 
 NS_ASSUME_NONNULL_BEGIN
 
-AG_EXTERN AGSubgraphRef AGSubgraphCreate(AGGraphRef);
-AG_EXTERN AGSubgraphRef _Nullable AGSubgraphGetCurrent(void);
-AG_EXTERN void AGSubgraphSetCurrent(AGSubgraphRef _Nullable);
-AG_EXTERN void AGSubgraphAddChild(AGSubgraphRef, AGSubgraphRef);
+AG_EXTERN AGSubgraphRef AGSubgraphCreate(AGGraphRef) NS_SWIFT_NAME(Subgraph.init(graph:));
+AG_EXTERN AGSubgraphRef _Nullable AGSubgraphGetCurrent(void) NS_SWIFT_NAME(getter:AGSubgraphRef.current());
+AG_EXTERN void AGSubgraphSetCurrent(AGSubgraphRef _Nullable) NS_SWIFT_NAME(setter:AGSubgraphRef.current(_:));
+AG_EXTERN void AGSubgraphAddChild(AGSubgraphRef, AGSubgraphRef) NS_SWIFT_NAME(Subgraph.addChild(self:_:));
 
 NS_ASSUME_NONNULL_END
 

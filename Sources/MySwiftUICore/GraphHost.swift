@@ -22,20 +22,20 @@ fileprivate nonisolated(unsafe) let threadAssertionTrace = AGTraceType(
     block_17: { _, _, _ in fatalError("TODO") }
 )
 
-func handleTraceNotification(graph: AGGraphRef, token: Int32) {
+func handleTraceNotification(graph: Graph, token: Int32) {
     fatalError("TODO")
 }
 
 package class GraphHost {
-    fileprivate static nonisolated(unsafe) let sharedGraph: AGGraphRef = {
-        let graph = AGGraphCreate()
+    fileprivate static nonisolated(unsafe) let sharedGraph: Graph = {
+        let graph = Graph()
         // original : "SWIFTUI_ASSERT_LOCKS"
         let assertLocks = getenv("MYSWIFTUI_ASSERT_LOCKS")
         
         if assertLocks != nil {
             let integer = atoi(assertLocks)
             if integer != 0 {
-                AGGraphSetTrace(graph, threadAssertionTrace)
+                graph.setTrace(threadAssertionTrace)
             }
         }
         
@@ -53,7 +53,7 @@ package class GraphHost {
     }() 
     
     private var data: GraphHost.Data
-    private var constants: [ConstantKey: AGAttribute]
+    private var constants: [ConstantKey: AnyAttribute]
     private var isInstantiated: Bool
     private var hostPreferenceValues: WeakAttribute<PreferenceValues>
     private var lastHostPreferencesSeed: VersionSeed
@@ -75,7 +75,30 @@ package class GraphHost {
         self.mayDeferUpdate = true
         self.removedState = GraphHost.RemovedState(rawValue: 0)
         
-        fatalError("TODO")
+        if
+            CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
+            let recorder = CustomEventTrace.recorder
+        {
+            // TODO: 검증 필요
+            let pointer = unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
+                .advanced(by: 4)
+            
+            pointer.pointee = 0x4143
+            
+            withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 1) { pointer in
+                AGGraphAddTraceEvent(recorder.graph, recorder.cefOp, pointer.baseAddress.unsafelyUnwrapped, nil)
+            }
+        }
+        
+        self.data.graph!.onUpdate { [weak self] in
+            fatalError("TODO")
+        }
+        
+        self.data.graph!.onInvalidation { [weak self] attribute in
+            fatalError("TODO")
+        }
+        
+        AGGraphSetContext(self.data.graph!, Unmanaged.passUnretained(self).toOpaque())
     }
     
     package func addPrefence<T: HostPreferenceKey>(_ key: T.Type) {
@@ -85,9 +108,9 @@ package class GraphHost {
 
 extension GraphHost {
     struct Data {
-        private var graph: AGGraphRef?
-        private var globalSubgraph: AGSubgraphRef?
-        private var rootSugraph: AGSubgraphRef?
+        var graph: Graph?
+        private var globalSubgraph: Subgraph?
+        private var rootSugraph: Subgraph?
         private var isRemoved: Bool
         private var isHiddenForReuse: Bool
         @Attribute private var time: Time
@@ -100,17 +123,17 @@ extension GraphHost {
         private var inputs: _GraphInputs
         
         init() {
-            let graph = AGGraphCreateShared()
+            let graph = Graph(shared: GraphHost.sharedGraph)
             self.graph = graph
             
-            let globalSubgraph = AGSubgraphCreate(graph)
+            let globalSubgraph = Subgraph(graph: graph)
             self.globalSubgraph = globalSubgraph
             
-            let oldCurrentSubgraph = AGSubgraphGetCurrent()
-            AGSubgraphSetCurrent(globalSubgraph)
+            let oldCurrentSubgraph = Subgraph.current
+            Subgraph.current = globalSubgraph
             
             defer {
-                AGSubgraphSetCurrent(oldCurrentSubgraph)
+                Subgraph.current = oldCurrentSubgraph
                 
                 if
                     CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
@@ -119,8 +142,11 @@ extension GraphHost {
                     // TODO: 검증 필요
                     let pointer = unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
                         .advanced(by: 4)
+                    
+                    pointer.pointee = 0x4343
+                    
                     let subgraphPointer = UnsafeMutableRawPointer(pointer)
-                        .assumingMemoryBound(to: AGSubgraphRef?.self)
+                        .assumingMemoryBound(to: Subgraph?.self)
                     subgraphPointer.pointee = globalSubgraph
                     subgraphPointer.advanced(by: 1).pointee = globalSubgraph
                     
@@ -179,8 +205,8 @@ extension GraphHost {
                 transaction: transaction
             )
             
-            let subgraph = AGSubgraphCreate(graph)
-            AGSubgraphAddChild(globalSubgraph, subgraph)
+            let subgraph = Subgraph(graph: graph)
+            globalSubgraph.addChild(subgraph)
             
             self.isRemoved = false
             self.isHiddenForReuse = false

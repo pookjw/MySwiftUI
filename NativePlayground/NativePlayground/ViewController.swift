@@ -50,6 +50,12 @@ class ViewController: UIViewController {
             return true
         }
         
+        print(GraphHost.Data.self)
+        _forEachField(of: GraphHost.Data.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (0x%lx)", name, offset))
+            return true
+        }
+        
         do {
             
             let emptyView = EmptyView()

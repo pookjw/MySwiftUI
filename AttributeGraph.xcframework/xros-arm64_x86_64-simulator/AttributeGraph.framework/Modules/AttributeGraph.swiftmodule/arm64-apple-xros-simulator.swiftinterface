@@ -39,8 +39,8 @@ public struct Attribute<T> {
         get
     }
 
-    public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AGAttribute) -> ())
-    // public init(identifier: AttributeGraph.AGAttribute)
+    public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
+    // public init(identifier: AttributeGraph.AnyAttribute)
 }
 
 public struct IndirectAttribute<T> {
@@ -106,4 +106,9 @@ public protocol ObservedAttribute : AttributeGraph._AttributeBody {
 public protocol AttributeBodyVisitor {
 }
 
-extension AttributeGraph.AGAttribute: Swift.Hashable {}
+extension AttributeGraph.AnyAttribute: Swift.Hashable {}
+
+extension AttributeGraph.Graph {
+    public func onUpdate(_ callback: @escaping () -> Swift.Void)
+    public func onInvalidation(_ callback: @escaping (AttributeGraph.AnyAttribute) -> Swift.Void)
+}

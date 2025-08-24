@@ -9,7 +9,7 @@ public struct _GraphInputs {
     var transaction: Attribute<Transaction>
     var changedDebugProperties: _ViewDebug.Properties
     var options: _GraphInputs.Options
-    var mergedInputs: Set<AGAttribute>
+    var mergedInputs: Set<AnyAttribute>
     
     init(time: Attribute<Time>, phase: Attribute<_GraphInputs.Phase>, environment: Attribute<EnvironmentValues>, transaction: Attribute<Transaction>) {
         fatalError("TODO")
