@@ -46,7 +46,9 @@ package class ViewGraph: GraphHost {
     }
     
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
+        // TODO: Trace 처리 안한 곳 있음, Trace Helper 추가
         self.delegate = nil
+        self.features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
         self.centersRootView = true
         self._containerSize = OptionalAttribute()
         self._rootPhase = OptionalAttribute()
@@ -62,10 +64,25 @@ package class ViewGraph: GraphHost {
         self.mainUpdates = 0
         self.nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
         self.preferenceBridge = nil
+        self.bridgedPreferences = []
         self.rootViewType = rootViewType
         self.requestedOutputs = requestedOutputs
-        self.bridgedPreferences = []
+        self.makeRootView = { _, _ in
+            fatalError("TODO")
+        }
+        self.rootView = Attribute(type: rootViewType).identifier
         
+        // 검증 필요
+        let tramsform = Attribute(type: ViewTransform.self)
+        self._rootTransform = tramsform
+        self._transform = tramsform
+        self._zeroPoint = Attribute(value: .zero)
+        self._proposedSize = Attribute(value: ViewSize())
+        self._safeAreaInsets = Attribute(value: _SafeAreaInsetsModifier())
+        self._containerShape = Attribute(type: UnevenRoundedRectangle.self)
+        self._rootGeometry = Attribute(type: ViewGeometry.self)
+        
+        super.init(data: GraphHost.Data())
         fatalError("TODO")
     }
 }

@@ -27,6 +27,11 @@ public struct Attribute<T> {
         get
     }
 
+    public var identifier: AttributeGraph.AnyAttribute {
+        get
+        set
+    }
+
     public init<C: AttributeGraph.Rule>(_ rule: C) where C.Value == T
     public init<C: AttributeGraph.Rule>(_ rule: C, initialValue: T) where C.Value == T
     public init<C: AttributeGraph.StatefulRule>(_ rule: C) where C.Value == T
@@ -34,6 +39,8 @@ public struct Attribute<T> {
 
     // TODO: Inline 같음
     public init(value: T)
+    // 이것도
+    public init(type: T.Type)
 
     public subscript<C>(keyPath: Swift.KeyPath<T, C>) -> AttributeGraph.Attribute<C> {
         get
@@ -55,8 +62,10 @@ public struct RuleContext<T> {
 
 }
 
-public struct _External {
-
+public struct _External: Swift.CustomStringConvertible {
+    public var description: Swift.String {
+        get
+    }
 }
 
 public struct External<T> {

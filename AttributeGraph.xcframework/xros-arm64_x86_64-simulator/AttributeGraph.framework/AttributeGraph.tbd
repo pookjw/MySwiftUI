@@ -32,7 +32,15 @@ exports:
     _AGGraphGetContext,
     _$sSo10AGGraphRefa14AttributeGraphE14onInvalidationyyySo11AGAttributeacF,
     _$sSo10AGGraphRefa14AttributeGraphE8onUpdateyyyycF,
-    _$sSo11AGAttributeaSH14AttributeGraphMc ]
+    _$sSo11AGAttributeaSH14AttributeGraphMc,
+    _$s14AttributeGraph0A0V4typeACyxGxm_tcfC,
+    _$s14AttributeGraph9_ExternalV11descriptionSSvg,
+    _$s14AttributeGraph9_ExternalVMa,
+    _$s14AttributeGraph9_ExternalVs23CustomStringConvertibleAAMc,
+    _$s14AttributeGraph9_ExternalV11descriptionSSvpMV,
+    _$s14AttributeGraph9_ExternalVAA01_A4BodyAAMc,
+    _$s14AttributeGraph9_ExternalVMn,
+    _$s14AttributeGraph9_ExternalVN ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
