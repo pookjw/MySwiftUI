@@ -70,6 +70,9 @@ package class ViewGraph: GraphHost {
         self.makeRootView = { _, _ in
             fatalError("TODO")
         }
+        
+        let data = GraphHost.Data()
+        Subgraph.current = data.globalSubgraph
         self.rootView = Attribute(type: rootViewType).identifier
         
         // 검증 필요
@@ -82,7 +85,7 @@ package class ViewGraph: GraphHost {
         self._containerShape = Attribute(type: UnevenRoundedRectangle.self)
         self._rootGeometry = Attribute(type: ViewGeometry.self)
         
-        super.init(data: GraphHost.Data())
+//        super.init(data: GraphHost.Data())
         fatalError("TODO")
     }
 }

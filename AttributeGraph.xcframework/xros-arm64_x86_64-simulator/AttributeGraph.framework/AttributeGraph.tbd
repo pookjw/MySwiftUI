@@ -40,7 +40,10 @@ exports:
     _$s14AttributeGraph9_ExternalV11descriptionSSvpMV,
     _$s14AttributeGraph9_ExternalVAA01_A4BodyAAMc,
     _$s14AttributeGraph9_ExternalVMn,
-    _$s14AttributeGraph9_ExternalVN ]
+    _$s14AttributeGraph9_ExternalVN,
+    _$s14AttributeGraph0A0V10identifierSo11AGAttributeavg,
+    _$s14AttributeGraph0A0V10identifierSo11AGAttributeavs,
+    _$s14AttributeGraph0A0V10identifierSo11AGAttributeavM ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

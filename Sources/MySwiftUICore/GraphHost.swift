@@ -109,7 +109,7 @@ package class GraphHost {
 extension GraphHost {
     struct Data {
         var graph: Graph?
-        private var globalSubgraph: Subgraph?
+        var globalSubgraph: Subgraph?
         private var rootSugraph: Subgraph?
         private var isRemoved: Bool
         private var isHiddenForReuse: Bool
