@@ -1,29 +1,75 @@
 #warning("TODO")
 internal import AttributeGraph
 private import notify
+private import Darwin.POSIX.dlfcn
 
-fileprivate nonisolated(unsafe) let threadAssertionTrace = AGTraceType(
-    block_1: { _, _, _ in fatalError("TODO") },
-    block_2: { _, _ in fatalError("TODO") },
-    block_3: { _, _ in fatalError("TODO") },
-    block_4: { _, _ in fatalError("TODO") },
-    block_5: { _, _, _ in fatalError("TODO") },
-    block_6: { _, _, _, _, _ in fatalError("TODO") },
-    block_7: { _, _ in fatalError("TODO") },
+// AGGraphCreateShared -> SwiftUICore`@objc closure #7 (Swift.UnsafeMutableRawPointer, __C.AGGraphRef) -> () in closure #1 () -> Swift.UnsafeMutablePointer<__C._AGTraceType> in variable initialization expression of SwiftUI.threadAssertionTrace : Swift.UnsafeMutablePointer<__C._AGTraceType>:
+fileprivate nonisolated(unsafe) let threadAssertionTrace = AGTrace(
+    unknown_block_1: nil,
+    unknown_block_2: nil,
+    unknown_block_3: nil,
+    block_4: { _, _, _ in fatalError("TODO") },
+    unknown_block_5: nil,
+    block_6: { _, _ in fatalError("TODO") },
+    unknown_block_7: nil,
     block_8: { _, _ in fatalError("TODO") },
-    block_9: { _, _ in fatalError("TODO") },
+    unknown_block_9: nil,
     block_10: { _, _ in fatalError("TODO") },
-    block_11: { _, _ in fatalError("TODO") },
-    block_12: { _, _ in fatalError("TODO") },
-    block_13: { _, _, _ in fatalError("TODO") },
-    block_14: { _, _ in fatalError("TODO") },
-    block_15: { _, _ in fatalError("TODO") },
-    block_16: { _, _, _ in fatalError("TODO") },
-    block_17: { _, _, _ in fatalError("TODO") }
+    unknown_block_11: nil,
+    block_12: { _, _, _ in fatalError("TODO") },
+    unknown_block_13: nil,
+    unknown_block_14: nil,
+    unknown_block_15: nil,
+    unknown_block_16: nil,
+    unknown_block_17: nil,
+    block_18: { _, _ in fatalError("TODO") },
+    block_19: { _, _ in fatalError("TODO") },
+    block_20: { _, _ in fatalError("TODO") },
+    block_21: { _, _ in fatalError("TODO") },
+    block_22: { _, _ in fatalError("TODO") },
+    unknown_block_23: nil,
+    unknown_block_24: nil,
+    block_25: { _, _ in fatalError("TODO") },
+    unknown_block_26: nil,
+    unknown_block_27: nil,
+    unknown_block_28: nil,
+    unknown_block_29: nil,
+    unknown_block_30: nil,
+    block_31: { _, _, _ in fatalError("TODO") },
+    block_32: { _, _ in fatalError("TODO") },
+    block_33: { _, _ in fatalError("TODO") },
+    block_34: { _, _, _ in fatalError("TODO") },
+    block_35: { _, _, _ in fatalError("TODO") },
+    unknown_block_36: nil,
+    block_37: { _, _, _, _, _ in fatalError("TODO") },
+    unknown_block_38: nil,
+    unknown_block_39: nil,
+    unknown_block_40: nil,
+    unknown_block_41: nil,
+    unknown_block_42: nil
 )
 
 func handleTraceNotification(graph: Graph, token: Int32) {
-    fatalError("TODO")
+    let state = withUnsafeTemporaryAllocation(of: UInt64.self, capacity: 1) { pointer in
+        notify_get_state(token, pointer.baseAddress)
+        return pointer.baseAddress.unsafelyUnwrapped.pointee
+    }
+    
+    guard state == 1 else {
+        return
+    }
+    
+    guard let SwiftUITracingSupport = dlopen("/System/Library/PrivateFrameworks/SwiftUITracingSupport.framework/SwiftUITracingSupport", RTLD_LOCAL) else {
+        return
+    }
+    
+    guard let swiftUITraceRegister = dlsym(SwiftUITracingSupport, "swiftUITraceRegister") else {
+        return
+    }
+    
+    Update.locked {
+        fatalError("TODO")
+    }
 }
 
 package class GraphHost {
@@ -35,16 +81,18 @@ package class GraphHost {
         if assertLocks != nil {
             let integer = atoi(assertLocks)
             if integer != 0 {
-                graph.setTrace(threadAssertionTrace, threadAssertionTrace)
+                withUnsafePointer(to: threadAssertionTrace) { pointer in
+                    graph.setTrace(pointer, pointer)
+                }
             }
         }
         
-        let (token, _): (Int32, UInt32) = withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
-            let result = notify_register_dispatch("com.apple.swiftuitrace.state", outToken.baseAddress, .main, { _ in
-                fatalError("TODO")
+        let token: Int32 = withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+            notify_register_dispatch("com.apple.swiftuitrace.state", outToken.baseAddress, .main, { token in
+                handleTraceNotification(graph: graph, token: token)
             })
             
-            return (outToken.baseAddress.unsafelyUnwrapped.pointee, result)
+            return outToken.baseAddress.unsafelyUnwrapped.pointee
         }
         
         handleTraceNotification(graph: graph, token: token)
