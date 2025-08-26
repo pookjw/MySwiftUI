@@ -30,7 +30,7 @@ struct AGTraceType {
 };
 typedef struct AGTraceType AGTraceType;
 
-AG_EXTERN void AGGraphSetTrace(AGGraphRef graph, AGTraceType trace) NS_SWIFT_NAME(Graph.setTrace(self:_:));
+AG_EXTERN void AGGraphSetTrace(AGGraphRef graph, AGTraceType, AGTraceType) NS_SWIFT_NAME(Graph.setTrace(self:_:_:));
 
 NS_ASSUME_NONNULL_END
 

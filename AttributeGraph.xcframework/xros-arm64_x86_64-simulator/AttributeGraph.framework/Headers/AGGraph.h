@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 #import <AttributeGraph/Defines.h>
 
-typedef struct CF_BRIDGED_TYPE(id) AGGraph * AGGraphRef NS_SWIFT_NAME(Graph);
+typedef struct CF_BRIDGED_TYPE(id) AGGraphStorage * AGGraphRef NS_SWIFT_NAME(Graph);
 struct AGGraph;
 
 NS_ASSUME_NONNULL_BEGIN

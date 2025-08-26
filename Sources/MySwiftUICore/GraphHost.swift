@@ -35,7 +35,7 @@ package class GraphHost {
         if assertLocks != nil {
             let integer = atoi(assertLocks)
             if integer != 0 {
-                graph.setTrace(threadAssertionTrace)
+                graph.setTrace(threadAssertionTrace, threadAssertionTrace)
             }
         }
         
