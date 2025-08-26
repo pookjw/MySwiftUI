@@ -3,8 +3,7 @@ internal import AttributeGraph
 private import notify
 private import Darwin.POSIX.dlfcn
 
-// AGGraphCreateShared -> SwiftUICore`@objc closure #7 (Swift.UnsafeMutableRawPointer, __C.AGGraphRef) -> () in closure #1 () -> Swift.UnsafeMutablePointer<__C._AGTraceType> in variable initialization expression of SwiftUI.threadAssertionTrace : Swift.UnsafeMutablePointer<__C._AGTraceType>:
-fileprivate nonisolated(unsafe) let threadAssertionTrace = AGTrace(
+fileprivate nonisolated(unsafe) let threadAssertionTrace = Trace(
     unknown_block_1: nil,
     unknown_block_2: nil,
     unknown_block_3: nil,
@@ -22,7 +21,7 @@ fileprivate nonisolated(unsafe) let threadAssertionTrace = AGTrace(
     unknown_block_15: nil,
     unknown_block_16: nil,
     unknown_block_17: nil,
-    block_18: { _, _ in fatalError("TODO") },
+    block_18: { _, _ in fatalError("TODO") }, // AGGraphCreateShared
     block_19: { _, _ in fatalError("TODO") },
     block_20: { _, _ in fatalError("TODO") },
     block_21: { _, _ in fatalError("TODO") },
@@ -82,7 +81,7 @@ package class GraphHost {
             let integer = atoi(assertLocks)
             if integer != 0 {
                 withUnsafePointer(to: threadAssertionTrace) { pointer in
-                    graph.setTrace(pointer, pointer)
+                    graph.setTrace(pointer)
                 }
             }
         }

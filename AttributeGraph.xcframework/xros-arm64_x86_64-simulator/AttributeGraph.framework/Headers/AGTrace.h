@@ -108,9 +108,9 @@ struct AGTraceType {
     __unsafe_unretained void (^ _Nullable unknown_block_41)(void);
     __unsafe_unretained void (^ _Nullable unknown_block_42)(void);
 };
-typedef struct AGTraceType AGTrace;
+typedef struct AGTraceType AGTrace NS_SWIFT_NAME(Trace);
 
-AG_EXTERN void AGGraphSetTrace(AGGraphRef graph, const AGTrace * _Nullable, const AGTrace * _Nullable) NS_SWIFT_NAME(Graph.setTrace(self:_:_:));
+AG_EXTERN void AGGraphSetTrace(AGGraphRef graph, const AGTrace *) NS_SWIFT_NAME(Graph.setTrace(self:_:));
 
 NS_ASSUME_NONNULL_END
 
