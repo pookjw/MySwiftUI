@@ -81,7 +81,10 @@ package enum Update {
     }
     
     package static func assertIsLocked() {
-        fatalError("TODO")
+        if !Update._lock.isOwner() {
+            // original : "SwiftUI is active without having taken its own lock - missing Update.ensure()?"
+            fatalError("MySwiftUI is active without having taken its own lock - missing Update.ensure()?")
+        }
     }
 }
 

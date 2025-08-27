@@ -3,7 +3,7 @@ internal import AttributeGraph
 private import notify
 private import Darwin.POSIX.dlfcn
 
-fileprivate nonisolated(unsafe) let threadAssertionTrace = Trace(
+fileprivate nonisolated(unsafe) var threadAssertionTrace = Trace(
     unknown_block_1: nil,
     unknown_block_2: nil,
     unknown_block_3: nil,
@@ -21,20 +21,28 @@ fileprivate nonisolated(unsafe) let threadAssertionTrace = Trace(
     unknown_block_15: nil,
     unknown_block_16: nil,
     unknown_block_17: nil,
-    block_18: { _, _ in fatalError("TODO") }, // AGGraphCreateShared
+    didCreateGraph: { _, _ in
+        Update.assertIsLocked()
+    },
     block_19: { _, _ in fatalError("TODO") },
     block_20: { _, _ in fatalError("TODO") },
-    block_21: { _, _ in fatalError("TODO") },
+    didCreateSubgraph: { _, _ in
+        Update.assertIsLocked()
+    },
     block_22: { _, _ in fatalError("TODO") },
     unknown_block_23: nil,
     unknown_block_24: nil,
-    block_25: { _, _ in fatalError("TODO") },
+    didAddValue: { _, _ in
+        Update.assertIsLocked()
+    },
     unknown_block_26: nil,
     unknown_block_27: nil,
     unknown_block_28: nil,
     unknown_block_29: nil,
     unknown_block_30: nil,
-    block_31: { _, _, _ in fatalError("TODO") },
+    didSetValue: { _, _, _ in
+        Update.assertIsLocked()
+    },
     block_32: { _, _ in fatalError("TODO") },
     block_33: { _, _ in fatalError("TODO") },
     block_34: { _, _, _ in fatalError("TODO") },
@@ -80,7 +88,7 @@ package class GraphHost {
         if assertLocks != nil {
             let integer = atoi(assertLocks)
             if integer != 0 {
-                withUnsafePointer(to: threadAssertionTrace) { pointer in
+                withUnsafePointer(to: &threadAssertionTrace) { pointer in
                     graph.setTrace(pointer)
                 }
             }

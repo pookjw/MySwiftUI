@@ -2,7 +2,17 @@
 internal import AttributeGraph
 
 public struct _GraphInputs {
-    var customInputs: PropertyList
+    /*
+     customInputs (0x0)
+     time (0x8)
+     cachedEnvironment (0x10)
+     phase (0x18)
+     transaction (0x1c)
+     changedDebugProperties (0x20)
+     options (0x24)
+     mergedInputs (0x28)
+     */
+    var customInputs: PropertyList = PropertyList()
     var time: Attribute<Time>
     var cachedEnvironment: MutableBox<CachedEnvironment>
     var phase: Attribute<_GraphInputs.Phase>
@@ -12,6 +22,10 @@ public struct _GraphInputs {
     var mergedInputs: Set<AnyAttribute>
     
     init(time: Attribute<Time>, phase: Attribute<_GraphInputs.Phase>, environment: Attribute<EnvironmentValues>, transaction: Attribute<Transaction>) {
+        self.changedDebugProperties = _ViewDebug.Properties(rawValue: .max)
+        self.options = _GraphInputs.Options(rawValue: 0)
+        self.time = time
+        self.phase = phase
         fatalError("TODO")
     }
     
