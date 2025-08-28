@@ -75,18 +75,26 @@ package class ViewGraph: GraphHost {
         Subgraph.current = data.globalSubgraph
         self.rootView = Attribute(type: rootViewType).identifier
         
-        // 검증 필요
-        let tramsform = Attribute(type: ViewTransform.self)
+        let tramsform = Attribute(RootTransform())
         self._rootTransform = tramsform
         self._transform = tramsform
         self._zeroPoint = Attribute(value: .zero)
         self._proposedSize = Attribute(value: ViewSize())
+        // TODO
         self._safeAreaInsets = Attribute(value: _SafeAreaInsetsModifier())
-        self._containerShape = Attribute(type: UnevenRoundedRectangle.self)
-        self._rootGeometry = Attribute(type: ViewGeometry.self)
+        self._containerShape = Attribute(RootContainerShape())
+        // TODO
+        self._rootGeometry = Attribute(RootGeometry())
+        self._position = Attribute(identifier: self._rootGeometry.identifier.createOffsetAttribute2(offset: 0, size: 16))
+        self._dimensions = Attribute(identifier: self._rootGeometry.identifier.createOffsetAttribute2(offset: 32, size: 32))
+        self._gestureTime = Attribute(value: Time.zero)
+        self._gestureEvents = Attribute(value: [:])
+        self._inheritedPhase = Attribute(value: _GestureInputs.InheritedPhase.defaultValue)
+        self._gestureResetSeed = Attribute(value: 0)
+        self._gesturePreferenceKeys = Attribute(value: PreferenceKeys())
+        self._defaultLayoutComputer = Attribute(value: LayoutComputer.defaultValue)
         
-//        super.init(data: GraphHost.Data())
-        fatalError("TODO")
+        super.init(data: GraphHost.Data())
     }
 }
 
@@ -134,5 +142,11 @@ extension ViewGraph {
         private var _internal: TimeInterval = .greatestFiniteMagnitude
         private var _defaultIntervalWasRequested: Bool = false
         private var reasons: Set<UInt32> = []
+    }
+}
+
+fileprivate struct RootTransform: Rule {
+    var value: ViewTransform {
+        fatalError("TODO")
     }
 }

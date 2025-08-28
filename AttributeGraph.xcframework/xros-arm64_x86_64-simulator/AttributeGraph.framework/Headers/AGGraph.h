@@ -1,11 +1,7 @@
 #ifndef AGGraph_h
 #define AGGraph_h
 
-#import <Foundation/Foundation.h>
 #import <AttributeGraph/Defines.h>
-
-typedef struct CF_BRIDGED_TYPE(id) AGGraphStorage * AGGraphRef NS_SWIFT_NAME(Graph);
-struct AGGraph;
 
 NS_ASSUME_NONNULL_BEGIN
 

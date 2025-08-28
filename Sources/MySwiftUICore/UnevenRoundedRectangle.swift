@@ -1,5 +1,6 @@
 #warning("TODO")
 public import CoreGraphics
+internal import AttributeGraph
 
 public struct UnevenRoundedRectangle {
     public var cornerRadii: RectangleCornerRadii
@@ -20,5 +21,11 @@ public struct UnevenRoundedRectangle {
             ),
             style: style
         )
+    }
+}
+
+struct RootContainerShape: Rule {
+    var value: UnevenRoundedRectangle {
+        fatalError("TODO")
     }
 }

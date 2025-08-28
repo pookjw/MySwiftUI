@@ -47,7 +47,7 @@ public struct Attribute<T> {
     }
 
     public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
-    // public init(identifier: AttributeGraph.AnyAttribute)
+    public init(identifier: AttributeGraph.AnyAttribute)
 }
 
 public struct IndirectAttribute<T> {
@@ -103,6 +103,40 @@ public protocol _AttributeBody {}
 
 public protocol Rule : AttributeGraph._AttributeBody {
     associatedtype Value
+
+    var value: Self.Value {
+        get
+    }
+
+    static var initialValue: Self.Value? {
+        get
+    }
+}
+
+extension AttributeGraph.Rule {
+    public static var initialValue: Self.Value? {
+        get
+    }
+
+    public static func _update(_: UnsafeMutableRawPointer, attribute: AttributeGraph.AnyAttribute)
+
+    public var context: AttributeGraph.RuleContext<Self.Value> {
+        get
+    }
+
+    public static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
+}
+
+extension AttributeGraph.Rule where Value : Swift.Hashable {
+    public func cachedValue(options: AttributeGraph.AGCachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value
+    public static func _cachedValue(options: AttributeGraph.AGCachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeMutableRawPointer, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ()) -> Swift.UnsafePointer<Self.Value>
+    public func cachedValueIfExists(options: AttributeGraph.AGCachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value?
+}
+
+extension AttributeGraph.Rule {
+    public var attribute: AttributeGraph.Attribute<Self.Value> {
+        get
+    }
 }
 
 public protocol StatefulRule : AttributeGraph._AttributeBody {

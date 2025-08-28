@@ -1,12 +1,8 @@
 #ifndef AGSubgraph_h
 #define AGSubgraph_h
 
-#import <Foundation/Foundation.h>
 #import <AttributeGraph/AGGraph.h>
 #import <AttributeGraph/Defines.h>
-
-typedef struct CF_BRIDGED_TYPE(id) AGSubgraph * AGSubgraphRef NS_SWIFT_NAME(Subgraph);
-struct AGSubgraph;
 
 NS_ASSUME_NONNULL_BEGIN
 
