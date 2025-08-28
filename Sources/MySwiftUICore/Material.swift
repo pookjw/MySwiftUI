@@ -1,4 +1,5 @@
 #warning("TODO")
+internal import Foundation
 
 public struct Material: Sendable {
     private var id: Material.ID
@@ -6,12 +7,32 @@ public struct Material: Sendable {
 }
 
 extension Material {
-    public static let regular: Material
-    public static let thick: Material
-    public static let thin: Material
-    public static let ultraThin: Material
-    public static let ultraThick: Material
-    public static let bar: Material
+    public static let regular: Material = { fatalError("TODO") }()
+    public static let thick: Material = { fatalError("TODO") }()
+    public static let thin: Material = { fatalError("TODO") }()
+    public static let ultraThin: Material = { fatalError("TODO") }()
+    public static let ultraThick: Material = { fatalError("TODO") }()
+    public static let bar: Material = { fatalError("TODO") }()
+}
+
+extension Material {
+    enum Substrate {
+        case caLayer
+        case graphicsContext
+        case archive
+    }
+    
+    struct ResolvedMaterial {
+        private var id: Material.ID
+        private var flags: Material.ResolvedMaterial.Flags
+        private var styieID: ContentStyle.ID?
+    }
+}
+
+extension Material.ResolvedMaterial {
+    struct Flags: OptionSet {
+        let rawValue: UInt32
+    }
 }
 
 extension Material: ShapeStyle {
@@ -19,7 +40,60 @@ extension Material: ShapeStyle {
 }
 
 extension Material {
-//    public func materialActiveAppearance(_ appearance: MaterialActiveAppearance) -> Material
+    //    public func materialActiveAppearance(_ appearance: MaterialActiveAppearance) -> Material
+}
+
+extension Material {
+    // TODO: Sendable 확인 필요
+    enum ID: @unchecked Sendable {
+        case coreMaterial(light: String, dark: String, bundle: Bundle?)
+        case provider(MaterialProviderBoxBase)
+        case layers(Material.Layers)
+        case ultraThin
+        case thin
+        case regular
+        case thick
+        case ultraThick
+        case systemBars
+        case intelligenceLightSource_Unreactive
+        case intelligenceLightSource_AudioReactive
+        case pinched
+        case selected
+        case disabled
+        case vibrantGlassContent
+        case darkerGlass
+        case lighterGlass
+        case ultraDarkerGlass
+    }
+}
+
+extension Material {
+    struct Layers {
+        private var layers: [Layer]
+    }
+    
+    struct Layer {
+        private var storage: Material.Layer.Storage
+        private var _opacity: Float
+        private var _blendMode: GraphicsBlendMode
+    }
+}
+
+extension Material.Layer {
+    enum Storage {
+        case color(Color.ResolvedHDR)
+        case backdropSwiftUI(BackdropEffect)
+        case sdfLayer(Material.Layer.SDFLayer)
+        case intelligenceLightSource(IntelligenceLightSourceLayer)
+    }
+    
+    struct SDFLayer {
+        // TODO
+    }
+}
+
+class MaterialProviderBoxBase {
+    
 }
 
 extension ShapeStyle where Self == Material {

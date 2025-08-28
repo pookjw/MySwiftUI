@@ -1,18 +1,26 @@
 #warning("TODO")
-private import AttributeGraph
+internal import AttributeGraph
 private import CoreGraphics
 
 struct CachedEnvironment {
     private var environment: Attribute<EnvironmentValues>
-    private var mapItems: [MapItem]
-    private var animatedFrame: [AnimatedFrame]
-    private var resolvedShapeStyles: [ResolvedShapeStyles]
-    private var platformCache: CachedEnvironment.PlatformCache
+    private var mapItems: [MapItem] = []
+    private var animatedFrame: [AnimatedFrame] = []
+    private var resolvedShapeStyles: [ResolvedShapeStyles] = []
+    private var platformCache = CachedEnvironment.PlatformCache()
+    
+    init(environment: Attribute<EnvironmentValues>) {
+        self.environment = environment
+    }
 }
 
 extension CachedEnvironment {
     struct ID {
         var base: UniqueID
+    }
+    
+    struct PlatformCache {
+        private var animatedDepth: AnimatedDepth? = nil
     }
 }
 
@@ -46,4 +54,13 @@ fileprivate struct ResolvedShapeStyles {
     private let role: ShapeRole
     private let substrate: Material.Substrate?
     private let animationsDisabled: Bool
+}
+
+fileprivate struct AnimatedDepth {
+    let transform: Attribute<ViewTransform>
+    let pixelLength: Attribute<CGFloat>
+    let time: Attribute<Time>
+    let transaction: Attribute<Transaction>
+    let viewPhase: Attribute<_GraphInputs.Phase>
+    let animatedDepth: Attribute<ViewDepth>
 }
