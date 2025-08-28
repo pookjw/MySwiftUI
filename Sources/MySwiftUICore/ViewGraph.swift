@@ -46,7 +46,7 @@ package class ViewGraph: GraphHost {
     }
     
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
-        // TODO: Trace 처리 안한 곳 있음, Trace Helper 추가
+        // TODO: Trace 처리 안한 곳 있음, Trace Helper 추가, defer
         self.delegate = nil
         self.features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
         self.centersRootView = true
@@ -85,8 +85,24 @@ package class ViewGraph: GraphHost {
         self._containerShape = Attribute(RootContainerShape())
         // TODO
         self._rootGeometry = Attribute(RootGeometry())
-        self._position = Attribute(identifier: self._rootGeometry.identifier.createOffsetAttribute2(offset: 0, size: 16))
-        self._dimensions = Attribute(identifier: self._rootGeometry.identifier.createOffsetAttribute2(offset: 32, size: 32))
+        self._position = Attribute(
+            identifier: self
+                ._rootGeometry
+                .identifier
+                .createOffsetAttribute2(
+                    offset: UInt64(MemoryLayout<ViewGeometry>.offset(of: \.origin).unsafelyUnwrapped),
+                    size: UInt32(MemoryLayout<CGPoint>.size)
+                )
+        )
+        self._dimensions = Attribute(
+            identifier: self
+                ._rootGeometry
+                .identifier
+                .createOffsetAttribute2(
+                    offset: UInt64(MemoryLayout<ViewGeometry>.offset(of: \.dimensions).unsafelyUnwrapped),
+                    size: UInt32(MemoryLayout<ViewDimensions>.size)
+                )
+        )
         self._gestureTime = Attribute(value: Time.zero)
         self._gestureEvents = Attribute(value: [:])
         self._inheritedPhase = Attribute(value: _GestureInputs.InheritedPhase.defaultValue)
