@@ -46,7 +46,6 @@ package class ViewGraph: GraphHost {
     }
     
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
-        // TODO: Trace 처리 안한 곳 있음, Trace Helper 추가, defer
         self.rootViewType = rootViewType
         self.requestedOutputs = requestedOutputs
         self.makeRootView = { _, _ in
