@@ -27,6 +27,22 @@ struct _SafeAreaInsetsModifier {
 }
 
 @frozen public struct SafeAreaRegions: OptionSet {
+    public static var all: SafeAreaRegions {
+        SafeAreaRegions(rawValue: .max)
+    }
+    
+    public static var container: SafeAreaRegions {
+        SafeAreaRegions(rawValue: 1 << 0)
+    }
+    
+    public static var keyboard: SafeAreaRegions {
+        SafeAreaRegions(rawValue: 1 << 1)
+    }
+    
+    public static var background: SafeAreaRegions {
+        SafeAreaRegions(rawValue: 1 << 0)
+    }
+    
     public let rawValue: UInt
     
     @inlinable

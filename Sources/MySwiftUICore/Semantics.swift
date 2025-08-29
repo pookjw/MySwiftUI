@@ -59,7 +59,7 @@ extension Semantics {
         package var deploymentTarget: Semantics?
         
         package init() {
-            fatalError("TODO")
+//            fatalError("TODO")
         }
     }
 }

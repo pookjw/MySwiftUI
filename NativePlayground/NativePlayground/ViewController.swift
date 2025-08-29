@@ -33,11 +33,11 @@ class ViewController: UIViewController {
         
 //        _ = GraphHost.Data()
         
-        let v: RoundedCornerStyle? = nil
-        withUnsafePointer(to: v) { pointer in
-            let p = UnsafeRawPointer(pointer).assumingMemoryBound(to: UInt32.self)
-            print(p.pointee)
-        }
+//        let v: RoundedCornerStyle? = nil
+//        withUnsafePointer(to: v) { pointer in
+//            let p = UnsafeRawPointer(pointer).assumingMemoryBound(to: UInt32.self)
+//            print(p.pointee)
+//        }
         /*
          keyType (0x10)
          before (0x18)
@@ -49,8 +49,8 @@ class ViewController: UIViewController {
          id (0x40)
          // _typeByName("7SwiftUI20UIKitStatusBarBridgeC")!
          */
-        print(ViewGraph.self)
-        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
+        print(GraphHost.Data.self)
+        _forEachField(of: GraphHost.Data.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (0x%lx)", name, offset))
             return true
         }

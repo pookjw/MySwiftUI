@@ -5,9 +5,9 @@ private import CoreGraphics
 package class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
-    private weak var delegate: ViewGraphDelegate?
-    private var features: ViewGraphFeatureBuffer
-    private var centersRootView: Bool
+    private weak var delegate: ViewGraphDelegate? = nil
+    private var features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
+    private var centersRootView = true
     private let rootView: AnyAttribute
     @Attribute private var rootTransform: ViewTransform
     @Attribute private var transform: ViewTransform
@@ -27,19 +27,19 @@ package class ViewGraph: GraphHost {
     @OptionalAttribute private var gestureDebug: GestureDebug.Data?
     @OptionalAttribute private var gestureCategory: GestureCategory?
     @Attribute private var gesturePreferenceKeys: PreferenceKeys
-    private var eventSubgraph: Subgraph?
+    private var eventSubgraph: Subgraph? = nil
     @Attribute private var defaultLayoutComputer: LayoutComputer
     @WeakAttribute private var rootResponders: [ViewResponder]?
     @WeakAttribute private var rootLayoutComputer: LayoutComputer?
     @WeakAttribute private var rootDisplayList: (DisplayList, DisplayList.Version)?
-    private var sizeThatFitsObservers: ViewGraphGeometryObservers<SizeThatFitsMeasurer>
-    private var accessibilityEnabled: Bool
+    private var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
+    private var accessibilityEnabled = false
     private var requestedOutputs: ViewGraph.Outputs
-    private var disabledOutputs: ViewGraph.Outputs
-    private var mainUpdates: Int
-    private var nextUpdate: (views: ViewGraph.NextUpdate, gestures: ViewGraph.NextUpdate)
-    private weak var preferenceBridge: PreferenceBridge?
-    private var bridgedPreferences: [(PreferenceKey.Type, AnyAttribute)]
+    private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
+    private var mainUpdates: Int = 0
+    private var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
+    private weak var _preferenceBridge: PreferenceBridge? = nil
+    private var bridgedPreferences: [(PreferenceKey.Type, AnyAttribute)] = []
     
     package override func addPrefence<T>(_ key: T.Type) where T : HostPreferenceKey {
         fatalError("TODO")
@@ -47,24 +47,6 @@ package class ViewGraph: GraphHost {
     
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
         // TODO: Trace 처리 안한 곳 있음, Trace Helper 추가, defer
-        self.delegate = nil
-        self.features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
-        self.centersRootView = true
-        self._containerSize = OptionalAttribute()
-        self._rootPhase = OptionalAttribute()
-        self._gestureDebug = OptionalAttribute()
-        self._gestureCategory = OptionalAttribute()
-        self.eventSubgraph = nil
-        self._rootLayoutComputer = WeakAttribute()
-        self._rootDisplayList = WeakAttribute()
-        self._rootResponders = WeakAttribute()
-        self.sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
-        self.accessibilityEnabled = false
-        self.disabledOutputs = ViewGraph.Outputs(rawValue: 0)
-        self.mainUpdates = 0
-        self.nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
-        self.preferenceBridge = nil
-        self.bridgedPreferences = []
         self.rootViewType = rootViewType
         self.requestedOutputs = requestedOutputs
         self.makeRootView = { _, _ in
@@ -72,45 +54,74 @@ package class ViewGraph: GraphHost {
         }
         
         let data = GraphHost.Data()
+        let oldCurrent = Subgraph.current
         Subgraph.current = data.globalSubgraph
+        
+        defer {
+            Subgraph.current = oldCurrent
+            CustomEventTrace.instantiateEnd(data.rootSugraph)
+        }
+        
+        CustomEventTrace.instantiateBegin(data.rootSugraph)
         self.rootView = Attribute(type: rootViewType).identifier
         
-        let tramsform = Attribute(RootTransform())
+        let tramsform = CustomEventTrace.instantiate(root: data.rootSugraph) { 
+            Attribute(RootTransform())
+        }
         self._rootTransform = tramsform
         self._transform = tramsform
+        
+        
         self._zeroPoint = Attribute(value: .zero)
-        self._proposedSize = Attribute(value: ViewSize())
-        // TODO
-        self._safeAreaInsets = Attribute(value: _SafeAreaInsetsModifier())
+        
+        self._proposedSize = CustomEventTrace.instantiate(root: data.rootSugraph) { 
+            Attribute(value: ViewSize.zero)
+        }
+        
+        self._containerSize = CustomEventTrace.instantiate(root: data.rootSugraph) {
+            OptionalAttribute(Attribute(value: ViewSize.zero))
+        }
+        
+        self._safeAreaInsets = CustomEventTrace.instantiate(root: data.rootSugraph) {
+            let safeAreaInsets: Attribute<_SafeAreaInsetsModifier>
+            if isLinkedOnOrAfter(.v7) {
+                safeAreaInsets = Attribute(
+                    value: _SafeAreaInsetsModifier(
+                        elements: [],
+                        nextInsets: nil
+                    )
+                )
+            } else {
+                safeAreaInsets = Attribute(
+                    value: _SafeAreaInsetsModifier(
+                        elements: [
+                            SafeAreaInsets.Element(
+                                regions: .container,
+                                insets: .zero,
+                                cornerInsets: nil
+                            )
+                        ],
+                        nextInsets: nil
+                    )
+                )
+            }
+            
+            return safeAreaInsets
+        }
+        
         self._containerShape = Attribute(RootContainerShape())
-        // TODO
-        self._rootGeometry = Attribute(RootGeometry())
-        self._position = Attribute(
-            identifier: self
-                ._rootGeometry
-                .identifier
-                .createOffsetAttribute2(
-                    offset: UInt64(MemoryLayout<ViewGeometry>.offset(of: \.origin).unsafelyUnwrapped),
-                    size: UInt32(MemoryLayout<CGPoint>.size)
-                )
-        )
-        self._dimensions = Attribute(
-            identifier: self
-                ._rootGeometry
-                .identifier
-                .createOffsetAttribute2(
-                    offset: UInt64(MemoryLayout<ViewGeometry>.offset(of: \.dimensions).unsafelyUnwrapped),
-                    size: UInt32(MemoryLayout<ViewDimensions>.size)
-                )
-        )
+        self._defaultLayoutComputer = Attribute(value: LayoutComputer.defaultValue)
         self._gestureTime = Attribute(value: Time.zero)
         self._gestureEvents = Attribute(value: [:])
         self._inheritedPhase = Attribute(value: _GestureInputs.InheritedPhase.defaultValue)
         self._gestureResetSeed = Attribute(value: 0)
         self._gesturePreferenceKeys = Attribute(value: PreferenceKeys())
-        self._defaultLayoutComputer = Attribute(value: LayoutComputer.defaultValue)
         
-        super.init(data: GraphHost.Data())
+        self._rootGeometry = Attribute(RootGeometry(proposedSize: self._proposedSize, safeAreaInsets: OptionalAttribute(self._safeAreaInsets)))
+        self._position = self._rootGeometry.origin()
+        self._dimensions = self._rootGeometry.size()
+        
+        super.init(data: data)
     }
 }
 

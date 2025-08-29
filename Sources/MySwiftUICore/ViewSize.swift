@@ -1,7 +1,18 @@
 #warning("TODO")
-private import CoreGraphics
+internal import CoreGraphics
+internal import AttributeGraph
 
 package struct ViewSize {
-    private var value: CGSize = .zero
-    private var _proposal: CGSize = .zero
+    package static var zero: ViewSize {
+        return ViewSize(value: .zero, _proposal: .zero)
+    }
+    
+    private var value: CGSize
+    private var _proposal: CGSize
+}
+
+extension Attribute where T == ViewSize {
+    func size() -> Attribute<CGSize> {
+        fatalError("TODO")
+    }
 }

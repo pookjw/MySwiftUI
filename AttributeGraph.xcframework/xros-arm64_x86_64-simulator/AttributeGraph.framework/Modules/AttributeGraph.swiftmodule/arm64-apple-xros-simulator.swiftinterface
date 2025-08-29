@@ -22,11 +22,13 @@ public struct WeakAttribute<T> {
 
 @frozen
 @propertyWrapper
+@dynamicMemberLookup
 public struct Attribute<T> {
     public var wrappedValue: T {
         get
     }
 
+    @_hasStorage
     public var identifier: AttributeGraph.AnyAttribute {
         get
         set
@@ -42,12 +44,20 @@ public struct Attribute<T> {
     // 이것도
     public init(type: T.Type)
 
-    public subscript<C>(keyPath: Swift.KeyPath<T, C>) -> AttributeGraph.Attribute<C> {
+    public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
+    public init(identifier: AttributeGraph.AnyAttribute)
+
+    public subscript<U>(keyPath keyPath: Swift.KeyPath<T, U>) -> AttributeGraph.Attribute<U> {
         get
     }
 
-    public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
-    public init(identifier: AttributeGraph.AnyAttribute)
+    public subscript<U>(dynamicMember keyPath: Swift.KeyPath<T, U>) -> AttributeGraph.Attribute<U> {
+        get
+    }
+
+    public subscript<U>(offset body: (inout T) -> AttributeGraph.PointerOffset<T, U>) -> AttributeGraph.Attribute<U> {
+        get
+    }
 }
 
 public struct IndirectAttribute<T> {
@@ -95,8 +105,10 @@ public struct OptionalAttribute<T> {
         get
     }
 
-    // TODO: Inline 같음
     public init()
+    public init(_: AttributeGraph.Attribute<T>)
+    public init(_: AttributeGraph.WeakAttribute<T>)
+    public init(_: AttributeGraph.Attribute<T>?)
 }
 
 public protocol _AttributeBody {}
@@ -154,4 +166,9 @@ extension AttributeGraph.AnyAttribute: Swift.Hashable {}
 extension AttributeGraph.Graph {
     public func onUpdate(_ callback: @escaping () -> Swift.Void)
     public func onInvalidation(_ callback: @escaping (AttributeGraph.AnyAttribute) -> Swift.Void)
+}
+
+extension AttributeGraph.Graph {
+    public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, context: Swift.UnsafePointer<T>)
+    public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, value: T)
 }

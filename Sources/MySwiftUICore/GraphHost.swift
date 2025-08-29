@@ -44,7 +44,9 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = Trace(
         Update.assertIsLocked()
     },
     block_32: { _, _ in fatalError("TODO") },
-    block_33: { _, _ in fatalError("TODO") },
+    didAddIndirect: { _, _ in
+        Update.assertIsLocked()
+    },
     block_34: { _, _, _ in fatalError("TODO") },
     block_35: { _, _, _ in fatalError("TODO") },
     unknown_block_36: nil,
@@ -130,20 +132,7 @@ package class GraphHost {
         self.mayDeferUpdate = true
         self.removedState = GraphHost.RemovedState(rawValue: 0)
         
-        if
-            CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
-            let recorder = CustomEventTrace.recorder
-        {
-            // TODO: 검증 필요
-            let pointer = unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
-                .advanced(by: 4)
-            
-            pointer.pointee = 0x4143
-            
-            withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 1) { pointer in
-                AGGraphAddTraceEvent(recorder.graph, recorder.cefOp, pointer.baseAddress.unsafelyUnwrapped, nil)
-            }
-        }
+        CustomEventTrace.recordGraphHostRoot(data.graph, data.globalSubgraph, newRoot: data.rootSugraph, self)
         
         self.data.graph!.onUpdate { [weak self] in
             fatalError("TODO")
@@ -164,8 +153,8 @@ package class GraphHost {
 extension GraphHost {
     struct Data {
         var graph: Graph?
-        var globalSubgraph: Subgraph?
-        private var rootSugraph: Subgraph?
+        var globalSubgraph: Subgraph
+        var rootSugraph: Subgraph
         private var isRemoved: Bool
         private var isHiddenForReuse: Bool
         @Attribute private var time: Time
@@ -189,58 +178,16 @@ extension GraphHost {
             
             defer {
                 Subgraph.current = oldCurrentSubgraph
-                
-                if
-                    CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
-                    let recorder = CustomEventTrace.recorder
-                {
-                    // TODO: 검증 필요
-                    let pointer = unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
-                        .advanced(by: 4)
-                    
-                    pointer.pointee = 0x4343
-                    
-                    let subgraphPointer = UnsafeMutableRawPointer(pointer)
-                        .assumingMemoryBound(to: Subgraph?.self)
-                    subgraphPointer.pointee = globalSubgraph
-                    subgraphPointer.advanced(by: 1).pointee = globalSubgraph
-                    
-                    withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 1) { pointer in
-                        AGGraphAddTraceEvent(recorder.graph, recorder.cefOp, pointer.baseAddress.unsafelyUnwrapped, nil)
-                    }
-                }
+                CustomEventTrace.instantiateEnd(globalSubgraph)
             }
             
-            if
-                CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
-                let recorder = CustomEventTrace.recorder
-            {
-                // TODO: 검증 필요
-                unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
-                    .advanced(by: 4)
-                    .pointee = 0x4243
-                
-                withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 1) { pointer in
-                    AGGraphAddTraceEvent(recorder.graph, recorder.cefOp, pointer.baseAddress.unsafelyUnwrapped, nil)
-                }
-            }
+            CustomEventTrace.instantiateBegin(globalSubgraph)
             
             let time = Attribute(value: Time.zero)
             self._time = time
             
-            let environment = Attribute(value: EnvironmentValues())
-            if
-                CustomEventCategory.enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
-                let recorder = CustomEventTrace.recorder
-            {
-                // TODO: 검증 필요
-                unsafeBitCast(recorder.cefOp.pointee, to: UnsafeMutablePointer<UInt16>.self)
-                    .advanced(by: 4)
-                    .pointee = 0x4643
-                
-                withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 1) { pointer in
-                    AGGraphAddTraceEvent(recorder.graph, recorder.cefOp, pointer.baseAddress.unsafelyUnwrapped, nil)
-                }
+            let environment = CustomEventTrace.instantiate(root: globalSubgraph) {
+                Attribute(value: EnvironmentValues())
             }
             self._environment = environment
             
@@ -261,6 +208,7 @@ extension GraphHost {
             )
             
             let subgraph = Subgraph(graph: graph)
+            self.rootSugraph = subgraph
             globalSubgraph.addChild(subgraph)
             
             self.isRemoved = false
@@ -284,21 +232,4 @@ fileprivate struct ConstantKey: Hashable {
 
 fileprivate struct AsyncTransaction {
     
-}
-
-enum CustomEventCategory: Int8 {
-    fileprivate static nonisolated(unsafe) var enabledCategories: [Bool] = Array(repeating: false, count: 256)
-    
-    static func setEnabledCategory(_ category: CustomEventCategory, enabled: Bool) {
-        enabledCategories[Int(category.rawValue)] = enabled
-    }
-    
-    case unknown = 0
-    case observable = 79
-    case transaction = 84
-    case action = 65
-    case graph = 71
-    case animation = 66
-    case instantiation = 67
-    case dynamicProperties = 68
 }
