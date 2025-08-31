@@ -64,7 +64,7 @@ void _msui_MovableLockLock(MovableLock lock) {
 }
 
 void _msui_MovableLockUnlock(MovableLock lock) {
-    if (lock->count-- == 1) {
+    if (lock->count-- != 1) {
         return;
     }
     
@@ -72,8 +72,7 @@ void _msui_MovableLockUnlock(MovableLock lock) {
         pthread_cond_broadcast(&lock->cond);
     }
     
-    lock->count = 0;
-    lock->unknown1 = 0;
+    lock->owner = NULL;
     pthread_mutex_unlock(&lock->mutex);
 }
 

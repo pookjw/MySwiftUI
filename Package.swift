@@ -85,6 +85,12 @@ let package = Package(
                 .byName(name: "MySwiftUI"),
                 .byName(name: "_SwiftUIPrivate")
             ]
+        ),
+        .testTarget(
+            name: "MySwiftUICoreTests",
+            dependencies: [
+                .byName(name: "MySwiftUICore")
+            ]
         )
     ]
 )
