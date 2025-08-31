@@ -41,7 +41,7 @@ bool _msui_MovableLockIsOwner(MovableLock lock) {
 
 bool _msui_MovableLockIsOutermostOwner(MovableLock lock) {
     pthread_t thread = pthread_self();
-    if (thread == lock->owner) {
+    if (thread != lock->owner) {
         return false;
     }
     return lock->count == 1;
@@ -54,7 +54,7 @@ void _msui_MovableLockLock(MovableLock lock) {
     } else {
         pthread_mutex_lock(&lock->mutex);
         
-        while (lock->owner != 0) {
+        while (lock->owner != NULL) {
             msui_wait_for_lock(lock, thread);
         }
         

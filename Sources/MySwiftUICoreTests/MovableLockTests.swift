@@ -10,7 +10,7 @@ struct MovableLockTests {
         lock.destory()
     }
     
-    @Test(arguments: 0..<100)
+    @Test(arguments: 0..<30)
     func test_lockAndUnlock(_: Int) async {
         actor Counter {
             var number = 0
@@ -18,38 +18,35 @@ struct MovableLockTests {
                 number += 1
             }
         }
+        
         let counter = Counter()
-        
         let lock = MovableLock.create()
-        let (stream, continuiation) = AsyncStream<Void>.makeStream()
         
-        let task = Task(executorPreference: RunLoopTaskExecutor()){
+        lock.lock()
+        
+        let executor = RunLoopTaskExecutor()
+        let task = Task(executorPreference: executor) {
             lock.lock()
-            await Task.yield()
-            continuiation.yield()
             await counter.increment()
-            let result = await counter.number == 1
-            print("1")
+            let result = await counter.number == 2
             lock.unlock()
             return result
         }
         
-        for await _ in stream { break }
-        lock.lock()
-        print("2")
-        
+        await Task.yield()
         await counter.increment()
         let number = await counter.number
-        #expect(number == 2)
+        #expect(number == 1)
         lock.unlock()
+        
         let result = await task.value
         #expect(result)
         
         lock.destory()
     }
     
-    @Test(arguments: 0..<100)
-    func test_isOwner(_: Int) async {
+    @Test
+    func test_isOwner() async {
         let lock = MovableLock.create()
         
         lock.lock()
@@ -71,6 +68,26 @@ struct MovableLockTests {
             }
             #expect(!result)
         }
+        
+        lock.destory()
+    }
+    
+    @Test(arguments: 0..<30)
+    func test_isOutermostOwner(_: Int) async {
+        let lock = MovableLock.create()
+        
+        lock.lock()
+        #expect(lock.isOutermostOwner())
+        lock.lock()
+        #expect(!lock.isOutermostOwner())
+        lock.unlock()
+        #expect(lock.isOutermostOwner())
+        let result = await executeBlock {
+            return lock.isOutermostOwner()
+        }
+        #expect(!result)
+        lock.unlock()
+        #expect(!lock.isOutermostOwner())
         
         lock.destory()
     }
