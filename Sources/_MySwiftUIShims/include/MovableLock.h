@@ -13,7 +13,7 @@
 typedef struct MovableLock_s {
     pthread_mutex_t mutex; // 0x0
     pthread_cond_t cond; // 0x40
-    pthread_t _Nullable thread; // 0x70
+    pthread_t _Nullable main; // 0x70
     pthread_t _Nullable owner; // 0x78
     uint32_t count; // 0x80
     uint32_t unknown1; // 0x84

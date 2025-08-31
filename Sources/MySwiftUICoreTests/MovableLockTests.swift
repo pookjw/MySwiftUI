@@ -91,4 +91,84 @@ struct MovableLockTests {
         
         lock.destory()
     }
+    
+    @Test
+    func test_syncMain_1() async {
+        let lock = MovableLock.create()
+        
+        let task = Task(executorPreference: globalConcurrentExecutor) { 
+            var result = false
+            lock.lock()
+            lock.syncMain(context: &result) { pointer in
+                let casted = pointer.assumingMemoryBound(to: Bool.self)
+                casted.pointee = (pthread_main_np() != 0)
+            }
+            lock.unlock()
+            return result
+        }
+        
+        await Task.yield()
+        
+        await MainActor.run {
+            lock.lock()
+            lock.unlock()
+        }
+        
+        lock.destory()
+        
+        let result = await task.value
+        #expect(result)
+    }
+    
+    @Test
+    func test_syncMain_2() async {
+        let lock = MovableLock.create()
+        
+        let result = await MainActor.run {
+            var result = false
+            lock.lock()
+            lock.syncMain(context: &result) { pointer in
+                let casted = pointer.assumingMemoryBound(to: Bool.self)
+                casted.pointee = (pthread_main_np() != 0)
+            }
+            lock.unlock()
+            return result
+        }
+        
+        lock.destory()
+        #expect(result)
+    }
+    
+    @Test
+    func test_lockWaitAndBroadcast() async {
+        actor Context {
+            var count = 0
+            func increment() {
+                count += 1
+            }
+        }
+        let lock = MovableLock.create()
+        let context = Context()
+        
+        let task = Task(executorPreference: RunLoopTaskExecutor()) {
+            lock.lock()
+            lock.lockWait()
+            lock.unlock()
+            await context.increment()
+        }
+        
+        await Task.yield()
+        var value = await context.count
+        #expect(value == 0)
+        
+        await MainActor.run {
+            lock.broadcast()
+        }
+        
+        await task.value
+        value = await context.count
+        #expect(value == 1)
+        
+        lock.destory()
+    }
 }
