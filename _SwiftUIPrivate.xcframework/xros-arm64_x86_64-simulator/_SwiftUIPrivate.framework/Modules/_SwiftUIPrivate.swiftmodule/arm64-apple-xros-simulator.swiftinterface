@@ -109,6 +109,10 @@ public struct RootGeometry {
 
 }
 
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class ViewGraphHost {}
+
 //@available(visionOS 26.0, *)
 //@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 //public struct BloomFilter: Swift.Equatable {

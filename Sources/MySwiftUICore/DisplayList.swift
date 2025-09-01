@@ -51,9 +51,45 @@ extension DisplayList {
     }
 }
 
+extension DisplayList.ViewUpdater {
+    struct Platform {
+        private var encoding: DisplayList.ViewUpdater.Platform.Encoding
+    }
+}
+
+extension DisplayList.ViewUpdater.Platform {
+    fileprivate struct Encoding: OptionSet {
+        // TODO
+        let rawValue: UInt
+        
+        init(rawValue: UInt) {
+            self.rawValue = rawValue
+        }
+        
+        // method 많음
+    }
+}
+
 extension DisplayList {
     class ViewRenderer {
+        private let platform: DisplayList.ViewUpdater.Platform
+        private var configuration: _RendererConfiguration
+        private weak var host: ViewRendererHost?
+        private var state: DisplayList.ViewRenderer.State
+        private var configChanged: Bool
+        
         // TODO
+        init() {
+            fatalError()
+        }
+    }
+}
+
+extension DisplayList.ViewRenderer {
+    fileprivate enum State {
+        case none
+        case updating
+        case rasterizing
     }
 }
 

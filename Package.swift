@@ -24,8 +24,7 @@ let package = Package(
                 .byName(name: "_UIKitShims"),
                 .byName(name: "MySwiftUICore"),
                 .byName(name: "RealitySimulationServices"),
-                .byName(name: "MRUIKit"),
-                .byName(name: "BaseBoard"),
+                .byName(name: "MRUIKit")
             ],
             swiftSettings: [
                 .enableExperimentalFeature("SymbolLinkageMarkers")
@@ -42,7 +41,8 @@ let package = Package(
         .target(
             name: "_MySwiftUIShims",
             dependencies: [
-                .byName(name: "_UIKitPrivate")
+                .byName(name: "_UIKitPrivate"),
+                .byName(name: "BaseBoard")
             ],
             cSettings: [
                 .unsafeFlags(["-fno-objc-arc"])
@@ -82,6 +82,9 @@ let package = Package(
             name: "_QuartzCorePrivate",
             path: "_QuartzCorePrivate.xcframework"
         ),
+        .target(
+            name: "MySwiftUITestUtils"
+        ),
         .testTarget(
             name: "MySwiftUITests",
             dependencies: [
@@ -96,9 +99,6 @@ let package = Package(
                 .byName(name: "MySwiftUICore"),
                 .byName(name: "MySwiftUITestUtils")
             ]
-        ),
-        .target(
-            name: "MySwiftUITestUtils"
         )
     ]
 )
