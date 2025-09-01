@@ -1,6 +1,6 @@
 #warning("TODO")
 
-@_spi(Internal) public import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 public import UIKit
 
 class UIViewPlatformViewDefinition: PlatformViewDefinition {

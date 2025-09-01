@@ -51,6 +51,10 @@ package struct Semantics: Hashable, Comparable, CustomStringConvertible {
     package var description: String {
         fatalError("TODO")
     }
+    
+    package func test<T>(as: WritableKeyPath<Semantics.Forced, Semantics?>, _ body: () throws -> T) rethrows -> T {
+        fatalError("TODO")
+    }
 }
 
 extension Semantics {
@@ -59,7 +63,15 @@ extension Semantics {
         package var deploymentTarget: Semantics?
         
         package init() {
-//            fatalError("TODO")
+            let firstRelease = Semantics.firstRelease
+            let flag = dyld_program_sdk_at_least(dyld_build_version_t(platform: firstRelease.value, version: 0xffffffff))
+            if flag {
+                sdk = nil
+                deploymentTarget = nil
+            } else {
+                sdk = firstRelease
+                deploymentTarget = firstRelease
+            }
         }
     }
 }

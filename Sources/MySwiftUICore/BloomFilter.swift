@@ -1,5 +1,5 @@
 struct BloomFilter: Equatable {
-    private var value: UInt
+    @usableFromInline var value: UInt
     
     init() {
         value = 0
@@ -12,6 +12,10 @@ struct BloomFilter: Equatable {
     
     init(hashValue: Int) {
         value = ((0x1 << hashValue) >> 0x4) | ((0x1 << hashValue) >> 0xa) | ((0x1 << hashValue) >> 0x10)
+    }
+    
+    init<T: Hashable>(value: T) {
+        self.init(hashValue: value.hashValue)
     }
     
     @inlinable

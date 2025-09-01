@@ -1,7 +1,6 @@
 internal import Testing
 private import _MySwiftUIShims
-private import Foundation
-private import _DarwinFoundation3.pthread
+private import MySwiftUITestUtils
 
 struct MovableLockTests {
     @Test

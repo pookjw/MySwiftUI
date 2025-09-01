@@ -30,7 +30,7 @@
     __block bool once = false;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __getMySwiftUIImageIndex(&found);
+        found = (__getMySwiftUIImageHandle() != NULL);
         once = true;
     });
     assert(found);

@@ -26,6 +26,9 @@ let package = Package(
                 .byName(name: "RealitySimulationServices"),
                 .byName(name: "MRUIKit"),
                 .byName(name: "BaseBoard"),
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("SymbolLinkageMarkers")
             ]
         ),
         .target(
@@ -83,14 +86,19 @@ let package = Package(
             name: "MySwiftUITests",
             dependencies: [
                 .byName(name: "MySwiftUI"),
-                .byName(name: "_SwiftUIPrivate")
+                .byName(name: "_SwiftUIPrivate"),
+                .byName(name: "MySwiftUITestUtils")
             ]
         ),
         .testTarget(
             name: "MySwiftUICoreTests",
             dependencies: [
-                .byName(name: "MySwiftUICore")
+                .byName(name: "MySwiftUICore"),
+                .byName(name: "MySwiftUITestUtils")
             ]
+        ),
+        .target(
+            name: "MySwiftUITestUtils"
         )
     ]
 )

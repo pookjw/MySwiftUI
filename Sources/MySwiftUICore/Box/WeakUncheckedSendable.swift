@@ -1,5 +1,5 @@
-package struct WeakUncheckedSendable<T>: @unchecked Sendable {
-    package var value: T?
+package struct WeakUncheckedSendable<T: AnyObject>: @unchecked Sendable {
+    package weak var value: T?
     
     package init(_ value: T) {
         self.value = value

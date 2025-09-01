@@ -6,45 +6,39 @@
 #include <dlfcn.h>
 #include <assert.h>
 
-uint32_t __getMySwiftUIImageIndex(bool * _Nullable found) {
+void * __getMySwiftUIImageHandle(void) {
     uint32_t count = _dyld_image_count();
+    
+    const char *name = NULL;
     for (uint32_t idx = 0; idx < count; idx++) {
-        const char *name = _dyld_get_image_name(idx);
-        int result = strcmp(name, "MySwiftUI");
+        const char *_name = _dyld_get_image_name(idx);
+        int result = strcmp(_name, "MySwiftUI");
         if ((result == 0) || (result == 1)) {
-            if (found != NULL) {
-                *found = true;
+            name = _name;
+            break;
+        }
+    }
+    
+    if (name == NULL) {
+        void *buffer[1];
+        int btCount = backtrace(buffer, 1);
+        
+        if (btCount != 1) {
+            return NULL;
+        }
+        
+        struct dl_info info;
+        assert(dladdr(buffer[0], &info) != 0);
+        
+        for (uint32_t idx = 0; idx < count; idx++) {
+            const char *name = _dyld_get_image_name(idx);
+            printf("%s\n", name);
+            int result = strcmp(name, info.dli_fname);
+            if (result == 0) {
+                return info.dli_fbase;
             }
-            return idx;
         }
+    } else {
+        return dlopen(name, RTLD_NOW);
     }
-    
-    void *buffer[1];
-    int btCount = backtrace(buffer, 1);
-    
-    if (btCount != 1) {
-        if (found != NULL) {
-            *found = false;
-        }
-        return 0;
-    }
-    
-    struct dl_info info;
-    assert(dladdr(buffer[0], &info) != 0);
-    
-    for (uint32_t idx = 0; idx < count; idx++) {
-        const char *name = _dyld_get_image_name(idx);
-        int result = strcmp(name, info.dli_fname);
-        if (result == 0) {
-            if (found != NULL) {
-                *found = true;
-            }
-            return idx;
-        }
-    }
-    
-    if (found != NULL) {
-        *found = false;
-    }
-    return 0;
 }
