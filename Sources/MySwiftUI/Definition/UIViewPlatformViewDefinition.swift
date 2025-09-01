@@ -4,7 +4,9 @@
 public import UIKit
 
 class UIViewPlatformViewDefinition: PlatformViewDefinition {
-    
+    override class var system: PlatformViewDefinition.System {
+        return .uiView
+    }
 }
 
 extension UIView {

@@ -125,3 +125,8 @@ public class ViewGraphHost {}
 //  public mutating func formUnion(_ other: _SwiftUIPrivate.BloomFilter)
 //  public func union(_ other: _SwiftUIPrivate.BloomFilter) -> _SwiftUIPrivate.BloomFilter
 //}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DisplayList {
+}

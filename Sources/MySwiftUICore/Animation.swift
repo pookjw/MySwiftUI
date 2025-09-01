@@ -8,7 +8,7 @@ public struct Animation {
 }
 
 extension Animation {
-    package indirect enum Function {
+    package enum Function {
         case linear(duration: Double)
         case circularEaseIn(duration: Double)
         case circularEaseOut(duration: Double)
@@ -16,9 +16,9 @@ extension Animation {
         case bezier(duration: Double, CGPoint)
         case spring(duration: Double, mass: Double, stiffness: Double, damping: Double, initialVelocity: Double)
         case customFunction(Double, (inout AnimationContext<Double>) -> Double?)
-        case delay(Double, Animation.Function)
-        case speed(Double, Animation.Function)
-        case `repeat`(count: Double, autoreverses: Bool, Animation.Function)
+        indirect case delay(Double, Animation.Function)
+        indirect case speed(Double, Animation.Function)
+        indirect case `repeat`(count: Double, autoreverses: Bool, Animation.Function)
     }
 }
 

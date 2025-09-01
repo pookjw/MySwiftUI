@@ -1,6 +1,6 @@
 #warning("TODO")
 
-private import _MySwiftUIShims
+internal import _MySwiftUIShims
 public import QuartzCore
 
 @_spi(Internal) open class PlatformViewDefinition {
@@ -75,7 +75,7 @@ extension PlatformViewDefinition {
         public static var uiView: System { System(base: .uiView) }
         public static var nsView: System { System(base: .nsView) }
         
-        private var base: MySwiftUIViewSystem
+        private(set) var base: MySwiftUIViewSystem
     }
 }
 

@@ -27,20 +27,20 @@ package class ViewGraphHost {
         viewDefinition: PlatformViewDefinition.Type
     ) {
         self.viewGraph = ViewGraph(rootViewType: rootViewType, requestedOutputs: outputs)
-        fatalError("TODO")
+        self.renderer = DisplayList.ViewRenderer(platform: DisplayList.ViewUpdater.Platform(definition: viewDefinition))
     }
 }
 
 extension ViewGraphHost {
     struct Idiom: Hashable {
-        static var phone: Idiom { return .phone }
-        static var pad: Idiom { return .pad }
-        static var tv: Idiom { return .tv }
-        static var watch: Idiom { return .watch }
-        static var carPlay: Idiom { return .carPlay }
-        static var mac: Idiom { return .mac }
-        static var macCatalyst: Idiom { return .macCatalyst }
-        static var vision: Idiom { return .vision }
+        static var phone: Idiom { return Idiom(.phone) }
+        static var pad: Idiom { return Idiom(.pad) }
+        static var tv: Idiom { return Idiom(.tv) }
+        static var watch: Idiom { return Idiom(.watch) }
+        static var carPlay: Idiom { return Idiom(.carPlay) }
+        static var mac: Idiom { return Idiom(.mac) }
+        static var macCatalyst: Idiom { return Idiom(.macCatalyst) }
+        static var vision: Idiom { return Idiom(.vision) }
         
         var base: InterfaceIdiom
         

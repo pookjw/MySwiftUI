@@ -40,5 +40,4 @@ extension Angle: Hashable, Comparable {
 }
 
 extension Angle: Codable {}
-
-//extension Angle: AnimatableData {}
+extension Angle: AnimatableData {}

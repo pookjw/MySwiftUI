@@ -15,8 +15,8 @@ extension SafeAreaInsets {
 }
 
 extension SafeAreaInsets {
-    indirect enum OptionalValue {
-        case insets(SafeAreaInsets)
+    enum OptionalValue {
+        indirect case insets(SafeAreaInsets)
         case empty
     }
 }

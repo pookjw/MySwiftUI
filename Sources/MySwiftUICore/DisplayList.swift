@@ -54,6 +54,14 @@ extension DisplayList {
 extension DisplayList.ViewUpdater {
     struct Platform {
         private var encoding: DisplayList.ViewUpdater.Platform.Encoding
+        
+        init(definition: PlatformViewDefinition.Type) {
+            let system = definition.system
+            self.encoding = Encoding(rawValue: UInt(bitPattern: ObjectIdentifier(definition)) | UInt(system.base.rawValue))
+        }
+        
+        // TODO
+        // method 많음
     }
 }
 
@@ -61,26 +69,19 @@ extension DisplayList.ViewUpdater.Platform {
     fileprivate struct Encoding: OptionSet {
         // TODO
         let rawValue: UInt
-        
-        init(rawValue: UInt) {
-            self.rawValue = rawValue
-        }
-        
-        // method 많음
     }
 }
 
 extension DisplayList {
     class ViewRenderer {
         private let platform: DisplayList.ViewUpdater.Platform
-        private var configuration: _RendererConfiguration
-        private weak var host: ViewRendererHost?
-        private var state: DisplayList.ViewRenderer.State
-        private var configChanged: Bool
+        private var configuration = _RendererConfiguration(renderer: .default)
+        private weak var host: ViewRendererHost? = nil
+        private var state: DisplayList.ViewRenderer.State = .none
+        private var configChanged: Bool = false
         
-        // TODO
-        init() {
-            fatalError()
+        init(platform: DisplayList.ViewUpdater.Platform) {
+            self.platform = platform
         }
     }
 }

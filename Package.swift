@@ -49,7 +49,10 @@ let package = Package(
             ]
         ),
         .target(
-            name: "_UIKitShims"
+            name: "_UIKitShims",
+            dependencies: [
+                .byName(name: "MySwiftUICore")
+            ]
         ),
         .target(
             name: "_DyldPrivate"

@@ -49,7 +49,9 @@ open class _UIHostingView<Content: View>: UIView {
         isChangingIdentity: false,
         style: .alert
     )
-//    private lazy var sheetBridge: SheetBridge<SheetPreference.Key>??
+    private lazy var sheetBridge: SheetBridge<SheetPreference.Key>?? = {
+        fatalError("TODO")
+    }()
     private var focusBridge: FocusBridge = FocusBridge()
     private let dragBridge: DragAndDropBridge = DragAndDropBridge()
     private var inspectorBridge: UIKitInspectorBridgeV3? = nil
@@ -102,6 +104,15 @@ open class _UIHostingView<Content: View>: UIView {
         let viewGraphHost = ViewGraphHost(rootViewType: Content.self, outputs: .defaults, viewDefinition: viewDefinition)
         let viewGraph = viewGraphHost.viewGraph
         
+        var configuration = UIHostingViewBase.Configuration()
+        configuration.options.insert(.allowKeyboardSafeArea)
+        
+        if !Geometry3DEffectImpl._affectsLayout {
+            configuration.options.insert(.allowUnregisteredGeometryChanges)
+        }
+        
+        // <+3752>
+        
         fatalError("TODO")
     }
     
@@ -113,3 +124,6 @@ open class _UIHostingView<Content: View>: UIView {
 protocol UIHostingViewDelegate: AnyObject {
     
 }
+
+// SwiftUI에서 Geometry3DEffect를 conform하는 Type이 존재하지 않음
+fileprivate struct Geometry3DEffectImpl: Geometry3DEffect {}
