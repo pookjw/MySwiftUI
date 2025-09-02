@@ -1,5 +1,5 @@
 #warning("TODO")
-internal import AttributeGraph
+package import AttributeGraph
 private import notify
 private import Darwin.POSIX.dlfcn
 
@@ -108,6 +108,10 @@ package class GraphHost {
         
         return graph
     }() 
+    
+    package var globalSubgraph: Subgraph {
+        return data.globalSubgraph
+    }
     
     private var data: GraphHost.Data
     private var constants: [ConstantKey: AnyAttribute]

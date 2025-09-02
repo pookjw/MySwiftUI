@@ -3,39 +3,41 @@ package import UIKit
 private import _UIKitPrivate
 
 package class UIHostingViewBase: NSObject {
-    private weak var uiView: UIView?
-    private weak var delegate: UIHostingViewBaseDelegate?
-    private var safeAreaRegions: SafeAreaRegions
+    private weak var uiView: UIView? = nil
+    private weak var delegate: UIHostingViewBaseDelegate? = nil
+    private var safeAreaRegions: SafeAreaRegions = .all
     private let configuration: UIHostingViewBase.Configuration
     private let viewGraph: ViewGraphHost
-    private var inheritedEnvironment: EnvironmentValues?
-    private var environmentOverride: EnvironmentValues?
+    private var inheritedEnvironment: EnvironmentValues? = nil
+    private var environmentOverride: EnvironmentValues? = nil
     private var traitCollectionOverride: UITraitCollection?
     private var cachedContainerShape: UnevenRoundedRectangle?
-    private var canAdvanceTimeAutomatically: Bool
-    private var allowUIKitAnimationsForNextUpdate: Bool
-    private var lastRenderTime: Time
-    private var pendingPreferencesUpdate: Bool
-    private var pendingPostDisappearPreferencesUpdate: Bool
-    private var _updateFidelity: _UpdateFidelity
-    private var isHiddenForReuse: Bool
-    private var isEnteringForeground: Bool
-    private var isExitingForeground: Bool
-    private var isCapturingSnapshots: Bool
-    private var isRotatingWindow: Bool
-    private var isResizingWindow: Bool
-    private var _sceneActivationState: UIScene.ActivationState?
-    private var registeredForGeometryChanges: Bool
-    private weak var observedWindow: UIWindow?
-    private weak var observedScene: UIWindowScene?
-    private var keyboardFrame: CGRect?
-    private var inactiveKeyboardFrame: CGRect?
-    private var keyboardSeed: UInt32
-    private lazy var trackingElement: UICoreHostingKeyboardTrackingElement? = { fatalError("TODO") }()
-    private var isUpdatingKeyboard: Bool
+    private var canAdvanceTimeAutomatically: Bool = true
+    private var allowUIKitAnimationsForNextUpdate: Bool = false
+    private var lastRenderTime: Time = .zero
+    private var pendingPreferencesUpdate: Bool = false
+    private var pendingPostDisappearPreferencesUpdate: Bool = false
+    private var _updateFidelity: _UpdateFidelity = .milliseconds
+    private var isHiddenForReuse: Bool = false
+    private var isEnteringForeground: Bool = false
+    private var isExitingForeground: Bool = false
+    private var isCapturingSnapshots: Bool = false
+    private var isRotatingWindow: Bool = false
+    private var isResizingWindow: Bool = false
+    private var _sceneActivationState: UIScene.ActivationState? = nil
+    private var registeredForGeometryChanges: Bool = false
+    private weak var observedWindow: UIWindow? = nil
+    private weak var observedScene: UIWindowScene? = nil
+    private var keyboardFrame: CGRect? = nil
+    private var inactiveKeyboardFrame: CGRect? = nil
+    private var keyboardSeed: UInt32 = 0
+    private lazy var trackingElement: UICoreHostingKeyboardTrackingElement? = nil
+    private var isUpdatingKeyboard: Bool = false
     
     package init(viewGraph: ViewGraphHost, configuration: UIHostingViewBase.Configuration) {
-        fatalError("TODO")
+        self.viewGraph = viewGraph
+        self.configuration = configuration
+        super.init()
     }
 }
 

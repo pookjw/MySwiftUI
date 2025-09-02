@@ -34,12 +34,12 @@ package class ViewGraph: GraphHost {
     @WeakAttribute private var rootDisplayList: (DisplayList, DisplayList.Version)?
     private var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
     private var accessibilityEnabled = false
-    private var requestedOutputs: ViewGraph.Outputs
+    package private(set) var requestedOutputs: ViewGraph.Outputs
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
     private var mainUpdates: Int = 0
     private var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
     private weak var _preferenceBridge: PreferenceBridge? = nil
-    private var bridgedPreferences: [(PreferenceKey.Type, AnyAttribute)] = []
+    private var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
     
     package override func addPrefence<T>(_ key: T.Type) where T : HostPreferenceKey {
         fatalError("TODO")
