@@ -1,0 +1,16 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+install-name:    '/usr/lib/swift/libswift_Concurrency.dylib'
+swift-abi-version: 7
+exports:
+  - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+    symbols:              [ _$ss15RunLoopExecutorPScFTb,
+    _$ss15RunLoopExecutorTL,
+    _$ss15RunLoopExecutorMp,
+    _$ss15RunLoopExecutor_pMF,
+    _symbolic $ss15RunLoopExecutorP,
+    _$ss25UnimplementedMainExecutorCs07RunLoopC0ssACP8runUntilyySbyXEKFTW ]
+    objc-classes:         [  ]
+    objc-ivars:           [  ]
+...

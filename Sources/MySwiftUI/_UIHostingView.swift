@@ -111,7 +111,9 @@ open class _UIHostingView<Content: View>: UIView {
             configuration.options.insert(.allowUnregisteredGeometryChanges)
         }
         
-        // <+3752>
+        self._base = UIHostingViewBase(viewGraph: viewGraphHost, configuration: configuration)
+        let focusViewGraph = FocusViewGraph(graph: viewGraph)
+        // <+3864>
         
         fatalError("TODO")
     }
