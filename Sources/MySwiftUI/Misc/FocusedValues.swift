@@ -6,6 +6,8 @@ public struct FocusedValues {
     var storageOptions: FocusedValues.StorageOptions = []
     var navigationDepth: Int = 0
     var version: DisplayList.Version = DisplayList.Version()
+    
+    init() {}
 }
 
 extension FocusedValues {

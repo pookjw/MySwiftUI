@@ -1,10 +1,10 @@
 #warning("TODO")
-internal import AttributeGraph
+package import AttributeGraph
 
 package struct CustomEventTrace {
     static nonisolated(unsafe) var recorder: Recorder? = nil
     
-    static func instantiateBegin(_ subgraph: Subgraph) {
+    public static func instantiateBegin(_ subgraph: Subgraph) {
 //        guard
 //            enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
 //            let recorder
@@ -17,71 +17,71 @@ package struct CustomEventTrace {
 //        fatalError("TODO")
     }
     
-    static func register(graph: Graph) {
+    public static func register(graph: Graph) {
 //        fatalError("TODO")
     }
     
-    static var isEnabled: Bool {
+    public static var isEnabled: Bool {
         return recorder != nil
     }
     
-    static func setEnabledCategory(_ category: CustomEventCategory, enabled: Bool) {
+    public static func setEnabledCategory(_ category: CustomEventCategory, enabled: Bool) {
         enabledCategories[Int(category.rawValue)] = enabled
     }
     
-    static func trace<T>(_ cateogry: CustomEventCategory, _: Int8, value: T) {
+    public static func trace<T>(_ cateogry: CustomEventCategory, _: Int8, value: T) {
 //        fatalError("TODO")
     }
     
-    static func getNextTrace(id: inout UInt32) -> UInt32 {
+    public static func getNextTrace(id: inout UInt32) -> UInt32 {
         fatalError("TODO")
     }
     
-    static func observableFireWithTransaction(transaction: UInt32, key: AnyKeyPath?, attribute: AnyAttribute) {
+    public static func observableFireWithTransaction(transaction: UInt32, key: AnyKeyPath?, attribute: AnyAttribute) {
 //        fatalError("TODO")
     }
     
-    static func transactionBegin(_: UInt32) {
+    public static func transactionBegin(_: UInt32) {
 //        fatalError("TODO")
     }
     
-    static func transactionEnd(_: UInt32) {
+    public static func transactionEnd(_: UInt32) {
 //        fatalError("TODO")
     }
     
-    static func transactionAppend(_: UInt32) {
+    public static func transactionAppend(_: UInt32) {
 //        fatalError("TODO")
     }
     
-    static func transactionEnqueue(_: UInt32) {
+    public static func transactionEnqueue(_: UInt32) {
 //        fatalError("TODO")
     }
     
-    static func transactionContinueAsNewTransaction(_: UInt32) {
+    public static func transactionContinueAsNewTransaction(_: UInt32) {
 //        fatalError("TODO")
     }
     
-    static func transactionContinueAsContinuation(_: GraphHost) {
+    public static func transactionContinueAsContinuation(_: GraphHost) {
 //        fatalError("TODO")
     }
     
-    static func enqueueAction(_: UInt32, _: CustomEventTrace.ActionEventType.Reason?) {
+    public static func enqueueAction(_: UInt32, _: CustomEventTrace.ActionEventType.Reason?) {
 //        fatalError("TODO")
     }
     
-    static func startAction(_: UInt32, _: CustomEventTrace.ActionEventType.Reason?) {
+    public static func startAction(_: UInt32, _: CustomEventTrace.ActionEventType.Reason?) {
 //        fatalError("TODO")
     }
     
-    static func finishAction(_: UInt32, _: CustomEventTrace.ActionEventType.Reason?) {
+    public static func finishAction(_: UInt32, _: CustomEventTrace.ActionEventType.Reason?) {
 //        fatalError("TODO")
     }
     
-    static func additionalInfo(_: UInt32, info: AnyAttribute?) {
+    public static func additionalInfo(_: UInt32, info: AnyAttribute?) {
 //        fatalError("TODO")
     }
     
-    static func setNeedsUpdate(values: ViewGraphRootValues, graph: Graph) {
+    public static func setNeedsUpdate(values: ViewGraphRootValues, graph: Graph) {
 //        fatalError("TODO")
     }
     
@@ -89,54 +89,54 @@ package struct CustomEventTrace {
 //        fatalError("TODO")
     }
     
-    static func animationBegin(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
+    public static func animationBegin(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
 //        fatalError("TODO")
     }
     
-    static func animationEnd(_: AnyAttribute?) {
+    public static func animationEnd(_: AnyAttribute?) {
 //        fatalError("TODO")
     }
     
-    static func animationAttrUpdate(_: AnyAttribute?) {
+    public static func animationAttrUpdate(_: AnyAttribute?) {
 //        fatalError("TODO")
     }
     
-    static func animationScheduleTick(attribute: AnyAttribute?, time: Time) {
+    public static func animationScheduleTick(attribute: AnyAttribute?, time: Time) {
 //        fatalError("TODO")
     }
     
-    static func animationTick(onMain: Bool, time: Time) {
+    public static func animationTick(onMain: Bool, time: Time) {
 //        fatalError("TODO")
     }
     
-    static func animationRetarget(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
+    public static func animationRetarget(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
 //        fatalError("TODO")
     }
     
-    static func recordGraphHostRoot(_: Graph?, _: Subgraph, newRoot: Subgraph, _: GraphHost) {
+    public static func recordGraphHostRoot(_: Graph?, _: Subgraph, newRoot: Subgraph, _: GraphHost) {
 //        fatalError("TODO")
     }
     
-    static func recordNamedProperty<T>(_: ViewGraphRootValues, _: Attribute<T>) {
+    public static func recordNamedProperty<T>(_: ViewGraphRootValues, _: Attribute<T>) {
 //        fatalError("TODO")
     }
     
-    static func instantiateEnd(_: Subgraph) {
+    public static func instantiateEnd(_: Subgraph) {
 //        fatalError("TODO")
     }
     
-    static func instantiate<T>(root: Subgraph, closure: () -> T) -> T {
+    public static func instantiate<T>(root: Subgraph, closure: () -> T) -> T {
 //        fatalError("TODO")
         return closure()
     }
     
-    static func uninstantiate<T>(root: Subgraph, closure: () -> T) -> T {
+    public static func uninstantiate<T>(root: Subgraph, closure: () -> T) -> T {
         // defer 있음
 //        fatalError("TODO")
         return closure()
     }
     
-    static func dynamicBodyUpdate(buffer: _DynamicPropertyBuffer, hasValue: Bool, bodyChanged: Bool) {
+    public static func dynamicBodyUpdate(buffer: _DynamicPropertyBuffer, hasValue: Bool, bodyChanged: Bool) {
 //        fatalError("TODO")
     }
     
@@ -186,7 +186,7 @@ extension CustomEventTrace {
     }
 }
 
-enum CustomEventCategory: Int8 {
+package enum CustomEventCategory: Int8 {
     case unknown = 0
     case observable = 79
     case transaction = 84

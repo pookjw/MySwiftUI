@@ -11,7 +11,6 @@ struct FocusViewGraph {
     private var wasFocusSystemEnabled: Bool
     private var needsFocusSystemEnabledUpdate: Bool
     
-    @inline(never)
     init(graph: ViewGraph) {
         let oldSubgraph = Subgraph.current
         Subgraph.current = graph.globalSubgraph
@@ -25,7 +24,20 @@ struct FocusViewGraph {
         let needsFocusSystemEnabledUpdate = false
         
         if graph.requestedOutputs.isSuperset(of: .focus) {
-            fatalError("TODO")
+            let focustedItemAttribute = Attribute<FocusItem?>(value: nil)
+            CustomEventTrace.recordNamedProperty(.focustedItem, focustedItemAttribute)
+            focusedItem = OptionalAttribute(focustedItemAttribute)
+            
+            let focusedValuesAttribute = Attribute(value: FocusedValues())
+            CustomEventTrace.recordNamedProperty(.focustedValues, focusedValuesAttribute)
+            focusedValues = OptionalAttribute(focusedValuesAttribute)
+            
+            let focusStoreAttribute = Attribute(value: FocusStore())
+            CustomEventTrace.recordNamedProperty(.focusStore, focusStoreAttribute)
+            focusStore = OptionalAttribute(focusStoreAttribute)
+            
+            _ = CoreTesting.isRunning
+            isFocusSystemEnabled = OptionalAttribute(Attribute(value: false))
         } else {
             focusedItem = OptionalAttribute()
             focusedValues = OptionalAttribute()

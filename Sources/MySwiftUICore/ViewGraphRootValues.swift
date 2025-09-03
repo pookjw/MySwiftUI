@@ -1,17 +1,17 @@
 #warning("TODO")
 
-struct ViewGraphRootValues: OptionSet {
-    static var rootView: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 0)) }
-    static var environment: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 1)) }
-    static var transform: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 2)) }
-    static var size: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 3)) }
-    static var safeArea: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 4)) }
-    static var containerSize: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 5)) }
-    static var focusStore: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 6)) }
-    static var focustedItem: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 7)) }
-    static var focustedValues: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 8)) }
+package struct ViewGraphRootValues: OptionSet {
+    package static var rootView: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 0)) }
+    package static var environment: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 1)) }
+    package static var transform: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 2)) }
+    package static var size: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 3)) }
+    package static var safeArea: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 4)) }
+    package static var containerSize: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 5)) }
+    package static var focusStore: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 6)) }
+    package static var focustedItem: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 7)) }
+    package static var focustedValues: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 8)) }
     
-    static var all: ViewGraphRootValues {
+    package static var all: ViewGraphRootValues {
         return [
             .rootView,
             .environment,
@@ -25,9 +25,9 @@ struct ViewGraphRootValues: OptionSet {
         ]
     }
     
-    let rawValue: UInt16
+    package let rawValue: UInt16
     
-    init(rawValue: UInt16) {
+    package init(rawValue: UInt16) {
         self.rawValue = rawValue
     }
 }

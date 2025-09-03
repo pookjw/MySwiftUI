@@ -35,5 +35,36 @@ struct FocusStore {
 }
 
 struct FocusItem {
+    private var base: FocusItem.Base
+    private var prefersFocusSystem: Bool
+    private weak var responder: FocusResponder?
+    private var version: DisplayList.Version
+}
+
+extension FocusItem {
+    struct ViewItem {
+        private var id: ViewIdentity
+        private var isFocusable: Bool
+        private var options: FocusableOptions
+        private var onFocusChange: (Bool) -> ()
+    }
+}
+
+extension FocusItem {
+    fileprivate enum Base {
+        case view(FocusItem.ViewItem)
+        case platformItem
+        case platformResponder(WeakBox<UIView>)
+    }
+}
+
+struct FocusableOptions: OptionSet {
+    static var fromMouse: FocusableOptions { return FocusableOptions(rawValue: 1 << 0) }
+    static var fromKeyboard: FocusableOptions { return FocusableOptions(rawValue: 1 << 1) }
+    static var platformItemDrawsFocusRingMask: FocusableOptions { return FocusableOptions(rawValue: 1 << 2) }
+    static var platformContainerHandlesFocus: FocusableOptions { return FocusableOptions(rawValue: 1 << 3) }
+    static var preventNavigationToSubviews: FocusableOptions { return FocusableOptions(rawValue: 1 << 4) }
+    static var all: FocusableOptions { return [.fromMouse, .fromKeyboard, .platformItemDrawsFocusRingMask] /* 0x7 */ }
     
+    let rawValue: Int
 }
