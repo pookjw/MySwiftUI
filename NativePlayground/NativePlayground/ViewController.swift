@@ -72,6 +72,13 @@ class ViewController: UIViewController {
             return true
         }
         
+        print(MemoryLayout<MyClass_1>.size)
+        print(MemoryLayout<MyClass_1>.stride)
+        print(MemoryLayout<MyClass_2>.size)
+        print(MemoryLayout<MyClass_2>.stride)
+        UnsafeHeterogeneousBuffer().append(MyClass_1(), vtable: MyVTable.self)
+        UnsafeHeterogeneousBuffer().append(MyClass_2(), vtable: MyVTable.self)
+        
         do {
             
             let emptyView = EmptyView()
@@ -94,4 +101,17 @@ class ViewController: UIViewController {
 //            }
 //        }
     }
+}
+
+@_weakLinked
+class MyVTable: _UnsafeHeterogeneousBuffer_VTable {
+    
+}
+
+struct MyClass_1 {
+    var num = (3, 3, 3,3,3,3,3,3)
+}
+
+struct MyClass_2 {
+    
 }

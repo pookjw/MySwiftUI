@@ -133,4 +133,13 @@ public struct DisplayList {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct UnsafeHeterogeneousBuffer {}
+public struct UnsafeHeterogeneousBuffer {
+  public struct Index {}
+  public init()
+  @discardableResult public func append<T>(_ value: T, vtable: _SwiftUIPrivate._UnsafeHeterogeneousBuffer_VTable.Type) -> _SwiftUIPrivate.UnsafeHeterogeneousBuffer.Index
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+open class _UnsafeHeterogeneousBuffer_VTable {
+}

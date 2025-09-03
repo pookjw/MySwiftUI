@@ -15,17 +15,24 @@ struct UnsafeHeterogeneousBuffer {
         fatalError("TODO")
     }
     
+    @discardableResult
     func append<T>(_ value: T, vtable: _UnsafeHeterogeneousBuffer_VTable.Type) -> UnsafeHeterogeneousBuffer.Index {
         // x8 = self
         // x0 = value
         // x1 = vtable
         // x2 = T type
+        let bytes: UInt64 = UInt64(MemoryLayout<T>.size + 0x10 + 0xf) & 0xfffffffffffffff0
+        let pointer = allocate(bytes: Int(bytes))
         
-        allocate(bytes: MemoryLayout<T>.size)
         fatalError("TODO")
     }
     
     private func allocate(bytes: Int) -> UnsafeMutableRawPointer {
+        fatalError("TODO")
+    }
+    
+    private func growBuffer(by bytes: Int, capacity: Int) {
+        let total = (bytes + capacity)
         fatalError("TODO")
     }
     // TODO
@@ -39,14 +46,6 @@ extension UnsafeHeterogeneousBuffer {
 }
 
 class _UnsafeHeterogeneousBuffer_VTable {
-    init() {
-        // nop
-    }
-    
-    deinit {
-        // nop
-    }
-    
     class var type: Any.Type {
         fatalError() // abstract
     }
