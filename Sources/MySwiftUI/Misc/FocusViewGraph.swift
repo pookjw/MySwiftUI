@@ -55,3 +55,7 @@ struct FocusViewGraph {
         self._isFocusSystemEnabled = isFocusSystemEnabled
     }
 }
+
+extension FocusViewGraph: ViewGraphFeature {
+    // TODO
+}

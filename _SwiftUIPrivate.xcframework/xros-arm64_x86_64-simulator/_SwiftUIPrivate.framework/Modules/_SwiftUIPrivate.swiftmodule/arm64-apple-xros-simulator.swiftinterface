@@ -130,3 +130,7 @@ public class ViewGraphHost {}
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct DisplayList {
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct UnsafeHeterogeneousBuffer {}

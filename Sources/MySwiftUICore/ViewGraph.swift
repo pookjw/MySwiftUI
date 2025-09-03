@@ -122,6 +122,10 @@ package class ViewGraph: GraphHost {
         
         super.init(data: data)
     }
+    
+    package func append<T: ViewGraphFeature>(feature: T) {
+        features.append(feature: feature)
+    }
 }
 
 extension ViewGraph {
@@ -175,4 +179,8 @@ fileprivate struct RootTransform: Rule {
     var value: ViewTransform {
         fatalError("TODO")
     }
+}
+
+package protocol ViewGraphFeature {
+    // TODO
 }

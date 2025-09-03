@@ -50,8 +50,24 @@ class ViewController: UIViewController {
          id (0x40)
          // _typeByName("7SwiftUI20UIKitStatusBarBridgeC")!
          */
-        print(UIHostingViewBase.self)
-        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
+        print(_UIHostingView<EmptyView>.self)
+        _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
+        print(ViewGraph.self)
+        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
+        print(UnsafeHeterogeneousBuffer.self)
+        _forEachField(of: UnsafeHeterogeneousBuffer.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

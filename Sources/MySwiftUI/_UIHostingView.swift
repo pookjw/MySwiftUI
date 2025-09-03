@@ -113,6 +113,7 @@ open class _UIHostingView<Content: View>: UIView {
         
         self._base = UIHostingViewBase(viewGraph: viewGraphHost, configuration: configuration)
         let focusViewGraph = FocusViewGraph(graph: viewGraph)
+        viewGraph.append(feature: focusViewGraph)
         // <+3864>
         
         fatalError("TODO")
