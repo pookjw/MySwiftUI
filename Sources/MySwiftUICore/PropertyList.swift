@@ -17,7 +17,7 @@
     
     @inlinable package var isEmpty: Bool {
         get {
-            return elements === nil
+            return elements == nil
         }
     }
     
@@ -165,7 +165,7 @@ extension PropertyList {
             var skipFilter = BloomFilter(type: keyType)
             
             if let before {
-                var length = before.length + 1
+                var length = before.length &+ 1
                 if let after {
                     length += after.length
                 }
@@ -175,7 +175,7 @@ extension PropertyList {
                 self.skipFilter = skipFilter
                 self.skip = .passUnretained(self)
             } else if let after {
-                let length = after.length + 1
+                let length = after.length &+ 1
                 if after.skipCount > 15 {
                     self.length = length
                     self.skipCount = 1
@@ -183,7 +183,7 @@ extension PropertyList {
                     self.skipFilter = skipFilter
                 } else {
                     self.length = length
-                    self.skipCount = after.skipCount + 1
+                    self.skipCount = after.skipCount &+ 1
                     self.skip = after.skip
                     self.skipFilter = after.skipFilter.union(skipFilter)
                 }

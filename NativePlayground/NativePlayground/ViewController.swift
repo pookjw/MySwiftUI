@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 import _SwiftPrivate
 import _SwiftUIPrivate
-import _UIKitPrivate
+//import _UIKitPrivate
 
 struct Foo: ViewGraphGeometryMeasurer {
     typealias Proposal = CGSize

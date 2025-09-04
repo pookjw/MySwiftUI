@@ -11,7 +11,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private var _rootView: Content
-    private let _base: UIHostingViewBase
+    private let _base: _UIKitShims.UIHostingViewBase
     private var isBaseConfigured: Bool = false
     private let eventBindingManager: EventBindingManager = EventBindingManager()
     private var allowUIKitAnimations: Int32 = 0

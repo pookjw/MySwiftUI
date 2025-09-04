@@ -176,14 +176,14 @@ extension Signpost {
             repeat {
                 if kClass == DBG_MISC {
                     let arg2 = base
-                        .advanced(by: pointer.count - remaining)
+                        .advanced(by: pointer.count &- remaining)
                         .pointee
                         .kdebugValue(debugid)
                     
                     let arg3: (arg: UInt64, destroy: Bool)
-                    if (pointer.count - remaining + 1) < pointer.count {
+                    if (pointer.count &- remaining &+ 1) < pointer.count {
                         arg3 = base
-                            .advanced(by: pointer.count - remaining + 1)
+                            .advanced(by: pointer.count &- remaining &+ 1)
                             .pointee
                             .kdebugValue(debugid)
                     } else {
@@ -191,9 +191,9 @@ extension Signpost {
                     }
                     
                     let arg4: (arg: UInt64, destroy: Bool)
-                    if (pointer.count - remaining + 2) < pointer.count {
+                    if (pointer.count &- remaining &+ 2) < pointer.count {
                         arg4 = base
-                            .advanced(by: pointer.count - remaining + 2)
+                            .advanced(by: pointer.count &- remaining &+ 2)
                             .pointee
                             .kdebugValue(debugid)
                     } else {
@@ -217,14 +217,14 @@ extension Signpost {
                     remaining -= 3
                 } else {
                     let arg1 = base
-                        .advanced(by: pointer.count - remaining)
+                        .advanced(by: pointer.count &- remaining)
                         .pointee
                         .kdebugValue(debugid)
                     
                     let arg2: (arg: UInt64, destroy: Bool)
-                    if (pointer.count - remaining + 1) < pointer.count {
+                    if (pointer.count &- remaining &+ 1) < pointer.count {
                         arg2 = base
-                            .advanced(by: pointer.count - remaining + 1)
+                            .advanced(by: pointer.count &- remaining &+ 1)
                             .pointee
                             .kdebugValue(debugid)
                     } else {
@@ -232,9 +232,9 @@ extension Signpost {
                     }
                     
                     let arg3: (arg: UInt64, destroy: Bool)
-                    if (pointer.count - remaining + 2) < pointer.count {
+                    if (pointer.count &- remaining &+ 2) < pointer.count {
                         arg3 = base
-                            .advanced(by: pointer.count - remaining + 2)
+                            .advanced(by: pointer.count &- remaining &+ 2)
                             .pointee
                             .kdebugValue(debugid)
                     } else {
@@ -242,9 +242,9 @@ extension Signpost {
                     }
                     
                     let arg4: (arg: UInt64, destroy: Bool)
-                    if (pointer.count - remaining + 3) < pointer.count {
+                    if (pointer.count &- remaining &+ 3) < pointer.count {
                         arg4 = base
-                            .advanced(by: pointer.count - remaining + 3)
+                            .advanced(by: pointer.count &- remaining &+ 3)
                             .pointee
                             .kdebugValue(debugid)
                     } else {

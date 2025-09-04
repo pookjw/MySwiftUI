@@ -51,6 +51,7 @@ let package = Package(
         .target(
             name: "_UIKitShims",
             dependencies: [
+                .byName(name: "_UIKitPrivate"),
                 .byName(name: "MySwiftUICore")
             ]
         ),

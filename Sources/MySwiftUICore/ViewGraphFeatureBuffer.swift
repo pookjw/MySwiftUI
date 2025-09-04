@@ -7,7 +7,7 @@ struct ViewGraphFeatureBuffer {
         self.contents = contents
     }
     
-    func append<T: ViewGraphFeature>(feature: T) {
+    mutating func append<T: ViewGraphFeature>(feature: T) {
         contents.append(feature, vtable: _VTable.self)
     }
 }

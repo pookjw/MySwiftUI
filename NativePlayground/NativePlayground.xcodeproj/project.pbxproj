@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F21100F2E668DC600803B98 /* _UIKitPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F21100E2E668DC600803B98 /* _UIKitPrivate.xcframework */; };
 		4F48088C2E4CE8E3004F6972 /* _SwiftPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F48088B2E4CE8E3004F6972 /* _SwiftPrivate.xcframework */; };
 		4FE8D0C82E55D05300352E55 /* RealityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8D0C72E55D05300352E55 /* RealityKit.framework */; };
 		4FE8D0F72E560F0F00352E55 /* _SwiftUIPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8D0F62E560F0F00352E55 /* _SwiftUIPrivate.xcframework */; };
@@ -49,11 +48,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FE8D0FB2E560F5600352E55 /* SwiftUI.framework in Frameworks */,
-				4F21100F2E668DC600803B98 /* _UIKitPrivate.xcframework in Frameworks */,
-				4FE8D0C82E55D05300352E55 /* RealityKit.framework in Frameworks */,
 				4FE8D0F72E560F0F00352E55 /* _SwiftUIPrivate.xcframework in Frameworks */,
 				4F48088C2E4CE8E3004F6972 /* _SwiftPrivate.xcframework in Frameworks */,
+				4FE8D0FB2E560F5600352E55 /* SwiftUI.framework in Frameworks */,
+				4FE8D0C82E55D05300352E55 /* RealityKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,12 +1,12 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.16.14 clang-1700.3.16.4)
-// swift-module-flags: -target arm64-apple-xros26.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 7.0.83.1.501 -module-name _UIKitPrivate -package-name _UIKitPrivate
-// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
-//@_exported import _UIKitPrivate
+// swift-module-flags: -target arm64-apple-xros26.0-simulator -enable-objc-interop -autolink-force-load -enable-library-evolution -module-link-name swiftUIKit -swift-version 5 -enforce-exclusivity=checked -O -library-level api -module-abi-name UIKit -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 9088.1.507 -module-name _UIKitPrivate
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 @_exported import UIKit
 @_exported import Foundation
+@_exported import _UIKitPrivate
 
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "UIKit", visionOS 26.0)
-public class UIHostingViewBase: Foundation.NSObject {
-}
+//@available(visionOS 26.0, *)
+//@_originallyDefinedIn(module: "UIKit", visionOS 26.0)
+//public class UIHostingViewBase: Foundation.NSObject {
+//}
