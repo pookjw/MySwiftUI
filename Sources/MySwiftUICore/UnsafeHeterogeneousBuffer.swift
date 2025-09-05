@@ -13,7 +13,47 @@ struct UnsafeHeterogeneousBuffer: @unsafe Collection {
     }
     
     func destroy() {
-        fatalError("TODO")
+        // x19
+        let buf = buf
+        let count = _count
+        
+        if count != 0 {
+            // <+36>
+            let buf = buf!
+            var w22: Int32 = 0
+            var w21 = count &- 1
+            
+            while true {
+                let x8 = buf.advanced(by: Int(w22))
+                
+                if w21 != 0 {
+                    // <+52>
+                    w22 &+= x8.assumingMemoryBound(to: UnsafeHeterogeneousBuffer.Item.self).pointee.size
+                } else {
+                    w22 = 0
+                }
+                
+                // <+60>
+                let w23 = (w21 | w22)
+                x8
+                    .assumingMemoryBound(to: UnsafeHeterogeneousBuffer.Item.self)
+                    .pointee
+                    .vtable
+                    .deinitialize(
+                        elt: _UnsafeHeterogeneousBuffer_Element(
+                            item: x8.assumingMemoryBound(to: UnsafeHeterogeneousBuffer.Item.self)
+                        )
+                    )
+                
+                w21 &-= 1
+                
+                if w23 == 0 {
+                    break
+                }
+            }
+        }
+        
+        buf?.deallocate()
     }
     
     @discardableResult
@@ -114,21 +154,20 @@ struct UnsafeHeterogeneousBuffer: @unsafe Collection {
         let w8 = available
         var w9 = _count
         
-        var x21: UInt32
+        var x21: Int
         if w9 == 0 {
             // <+88>
             x21 = 0
             // <+92>
         } else {
-            #warning("TODO 검증")
             // <+32>
             var x11 = buf!
-            var w10: UInt32 = 0
+            var w10: Int = 0
             x21 = 0
             x11 = x11.advanced(by: MemoryLayout<Item>.offset(of: \.size)!)
             
             repeat {
-                let x12 = x11.advanced(by: Int(w10)).assumingMemoryBound(to: UInt32.self).pointee
+                let x12 = Int(x11.advanced(by: Int(w10)).assumingMemoryBound(to: Int32.self).pointee)
                 w10 &+= x12
                 w9 &-= 1
                 
@@ -147,7 +186,7 @@ struct UnsafeHeterogeneousBuffer: @unsafe Collection {
             // <+116>
         } else {
             // <+100>
-            growBuffer(by: bytes, capacity: Int(x21 + UInt32(w8)))
+            growBuffer(by: bytes, capacity: x21 + Int(w8))
         }
         
         let buf = buf!
