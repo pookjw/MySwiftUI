@@ -164,10 +164,10 @@ struct UnsafeHeterogeneousBuffer: @unsafe Collection {
             var x11 = buf!
             var w10: Int = 0
             x21 = 0
-            x11 = x11.advanced(by: MemoryLayout<Item>.offset(of: \.size)!)
+            x11 = x11.advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.offset(of: \.size)!)
             
             repeat {
-                let x12 = Int(x11.advanced(by: Int(w10)).assumingMemoryBound(to: Int32.self).pointee)
+                let x12 = Int(x11.advanced(by: w10).assumingMemoryBound(to: Int32.self).pointee)
                 w10 &+= x12
                 w9 &-= 1
                 
@@ -196,12 +196,13 @@ struct UnsafeHeterogeneousBuffer: @unsafe Collection {
     
     private mutating func growBuffer(by bytes: Int, capacity: Int) {
         let total = (bytes + capacity)
-        var x22 = Swift.max((capacity << 1), 0x40)
-        let newBuf = UnsafeMutableRawPointer.allocate(byteCount: x22, alignment: 0)
         
+        var x22 = Swift.max((capacity &<< 1), 0x40)
         while x22 < total {
-            x22 = (x22 << 1)
+            x22 = (x22 &<< 2)
         }
+        
+        let newBuf = UnsafeMutableRawPointer.allocate(byteCount: x22, alignment: 0)
         
         if let buf {
             /*
@@ -215,7 +216,7 @@ struct UnsafeHeterogeneousBuffer: @unsafe Collection {
             
             if count != 0 {
                 var w27: Int32 = 0
-                let x25 = newBuf.advanced(by: 0x8)
+                let x25 = buf.advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.offset(of: \.size)!)
                 var w26 = count - 1
                 var x28 = buf
                 var x23 = newBuf
@@ -226,15 +227,15 @@ struct UnsafeHeterogeneousBuffer: @unsafe Collection {
                         w27 &+= w8
                     }
                     
-                    let w21 = (w26 | w27)
+                    let w21 = (w26 == 0) || (w27 == 0)
                     
                     /*
                      x19 = size
                      */
-                    let item = buf.assumingMemoryBound(to: Item.self).pointee
-                    newBuf.assumingMemoryBound(to: Item.self).initialize(to: item)
+                    let item = x28.assumingMemoryBound(to: Item.self).pointee
+                    x23.assumingMemoryBound(to: Item.self).initialize(to: item)
                     
-                    buf
+                    x28
                         .assumingMemoryBound(to: Item.self)
                         .pointee
                         .vtable
@@ -247,7 +248,7 @@ struct UnsafeHeterogeneousBuffer: @unsafe Collection {
                     x23 = x23.advanced(by: Int(item.size))
                     w26 &-= 1
                     
-                    if w21 == 0 {
+                    if w21 {
                         break
                     }
                 } while true

@@ -18,6 +18,40 @@ extension ViewGraphFeatureBuffer {
     }
     
     fileprivate class _VTable: VTable {
+        override class var type: any Any.Type {
+            fatalError("TODO")
+        }
         
+        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+            fatalError("TODO")
+        }
+        
+        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+            fatalError("TODO")
+        }
+        
+        static func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: _ViewInputs, graph: ViewGraph) {
+            fatalError("TODO")
+        }
+        
+        static func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: _ViewOutputs, graph: ViewGraph) {
+            fatalError("TODO")
+        }
+        
+        static func uninstantiate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+            fatalError("TODO")
+        }
+        
+        static func needsUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
+            fatalError("TODO")
+        }
+        
+        static func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
+            fatalError("TODO")
+        }
+        
+        static func update(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+            fatalError("TODO")
+        }
     }
 }
