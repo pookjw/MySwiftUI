@@ -2,7 +2,7 @@ package import UIKit
 @_spi(Internal) package import MySwiftUICore
 private import _UIKitPrivate
 
-package class UIHostingViewBase: NSObject {
+package final class UIHostingViewBase: NSObject {
     private weak var uiView: UIView? = nil
     private weak var delegate: UIHostingViewBaseDelegate? = nil
     private var safeAreaRegions: SafeAreaRegions = .all
@@ -39,6 +39,44 @@ package class UIHostingViewBase: NSObject {
         self.configuration = configuration
         super.init()
     }
+    
+    package func setUp() {
+        let viewGraphHost = viewGraph
+        viewGraphHost.renderDelegate = self
+        viewGraphHost.delegate = self
+        viewGraphHost.setUp()
+        
+        addNotificationObservers()
+    }
+    
+    private func addNotificationObservers() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(willBeginSnapshotSession), name: .applicationWillBeginSnapshotSessionNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(didEndSnapshotSession), name: .applicationDidEndSnapshotSessionNotification, object: nil)
+        
+        var names: [Notification.Name] = [
+            Notification.Name(rawValue: CFNotificationName.cfLocaleCurrentLocaleDidChange!.rawValue as String),
+            Notification.Name(rawValue: CFNotificationName.cfTimeZoneSystemTimeZoneDidChange!.rawValue as String),
+            .NSProcessInfoPowerStateDidChange
+        ]
+        names.append(PlatformAccessibilitySettingsDefinition.notification)
+        
+        for name in names {
+            notificationCenter.addObserver(self, selector: #selector(externalEnvironmentDidChange), name: name, object: nil)
+        }
+    }
+    
+    @objc private func willBeginSnapshotSession() {
+        fatalError("TODO")
+    }
+    
+    @objc private func didEndSnapshotSession() {
+        fatalError("TODO")
+    }
+    
+    @objc private func externalEnvironmentDidChange() {
+        fatalError("TODO")
+    }
 }
 
 extension UIHostingViewBase {
@@ -64,6 +102,9 @@ extension UIHostingViewBase {
         }
     }
 }
+
+extension UIHostingViewBase: ViewGraphRenderDelegate {}
+extension UIHostingViewBase: ViewGraphHostDelegate {}
 
 protocol UIHostingViewBaseDelegate: AnyObject {
     func baseShouldDisableUIKitAnimationsWhenRendering(_ base: UIHostingViewBase) -> Bool

@@ -21,6 +21,15 @@ typedef NS_OPTIONS(uint32_t, AGAttributeTypeFlags) {
     AGAttributeTypeFlagsUnknown = 10
 };
 
+typedef NS_OPTIONS(uint32_t, AGValueOptions) {
+    AGValueOptionsNone = 0
+};
+
+typedef NS_OPTIONS(uint32_t, AGChangedValueFlags) {
+    AGChangedValueFlagsUnchanged = 0,
+    AGChangedValueFlagsChanged = 1,
+};
+
 typedef uint32_t AGAttribute __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AnyAttribute);
 
 typedef struct CF_BRIDGED_TYPE(id) AGGraphStorage * AGGraphRef NS_SWIFT_NAME(Graph);

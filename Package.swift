@@ -37,6 +37,9 @@ let package = Package(
                 .byName(name: "AttributeGraph"),
                 .byName(name: "_MySwiftUIShims"),
                 .byName(name: "FeatureFlags")
+            ],
+            linkerSettings: [
+                .linkedFramework("UIKit")  
             ]
         ),
         .target(

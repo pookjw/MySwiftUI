@@ -137,6 +137,9 @@ open class _UIHostingView<Content: View>: UIView {
         self.eventBridge = UIKitEventBindingBridge(eventBindingManager: eventBindingManager)
         super.init(frame: .zero)
         
+        viewGraph.append(feature: HostViewGraph(host: self))
+        self._base.setUp()
+        
         fatalError("TODO")
     }
     
@@ -152,6 +155,16 @@ protocol UIHostingViewDelegate: AnyObject {
 extension _UIHostingView {
     struct EnableVFDFeature: ViewGraphFeature {
         
+    }
+}
+
+extension _UIHostingView {
+    fileprivate struct HostViewGraph<T: View>: ViewGraphFeature {
+        private weak var host: _UIHostingView<T>?
+        
+        init(host: _UIHostingView<T>) {
+            self.host = host
+        }
     }
 }
 

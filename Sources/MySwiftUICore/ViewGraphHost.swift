@@ -1,13 +1,14 @@
 #warning("TODO")
 private import Foundation
+private import AttributeGraph
 
 package class ViewGraphHost {
     package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true
     package static nonisolated(unsafe) var defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
     
     private weak var updateDelegate: ViewGraphRootValueUpdater? = nil
-    private weak var renderDelegate: ViewGraphRenderDelegate? = nil
-    private weak var delegate: ViewGraphHostDelegate? = nil
+    package weak var renderDelegate: ViewGraphRenderDelegate? = nil
+    package weak var delegate: ViewGraphHostDelegate? = nil
     private var idiom: ViewGraphHost.Idiom? = nil
     private var initialInheritedEnvironment: EnvironmentValues? = nil
     package let viewGraph: ViewGraph
@@ -29,6 +30,29 @@ package class ViewGraphHost {
         self.viewGraph = ViewGraph(rootViewType: rootViewType, requestedOutputs: outputs)
         self.renderer = DisplayList.ViewRenderer(platform: DisplayList.ViewUpdater.Platform(definition: viewDefinition))
     }
+    
+    package func setUp() {
+        let viewGraph = viewGraph
+        viewGraph.append(feature: ViewGraphHost.GraphFeature(host: self))
+        viewGraph.append(feature: HitTestBindingFeature())
+        updateDelegate?.initializeViewGraph()
+        setupInitialInheritedEnvironment()
+    }
+    
+    private func setupInitialInheritedEnvironment() {
+        guard let current = RepresentableContextValues.current else {
+            return
+        }
+        
+        switch current.environmentStorage {
+        case .eager(let environmentValues):
+            initialInheritedEnvironment = environmentValues
+        case .lazy(let attribute, let context):
+            Update.begin()
+            initialInheritedEnvironment = context.valueAndFlags(of: attribute, options: []).value
+            Update.end()
+        }
+    }
 }
 
 extension ViewGraphHost {
@@ -46,6 +70,16 @@ extension ViewGraphHost {
         
         init(_ idiom: InterfaceIdiom) {
             self.base = idiom
+        }
+    }
+}
+
+extension ViewGraphHost {
+    struct GraphFeature: ViewGraphFeature {
+        private weak var host: ViewGraphHost?
+        
+        init(host: ViewGraphHost) {
+            self.host = host
         }
     }
 }

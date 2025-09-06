@@ -64,8 +64,9 @@ public struct IndirectAttribute<T> {
 
 }
 
-public struct AnyRuleContext<T> {
-
+public struct AnyRuleContext {
+    public func valueAndFlags<T>(of: AttributeGraph.Attribute<T>, options: AttributeGraph.AGValueOptions) -> (value: T, flags: AGChangedValueFlags)
+    public func changedValue<T>(of: AttributeGraph.Attribute<T>, options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
 }
 
 public struct RuleContext<T> {

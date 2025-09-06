@@ -1,5 +1,5 @@
 #warning("TODO")
 
-protocol ViewGraphRenderDelegate: AnyObject {
+package protocol ViewGraphRenderDelegate: AnyObject {
     
 }

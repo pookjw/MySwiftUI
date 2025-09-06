@@ -150,3 +150,7 @@ public struct GestureContainerFeature {
   public static var isEnabled: Swift.Bool { get }
   public static var isEnabledOverride: Swift.Bool? { get set }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct RepresentableContextValues {}

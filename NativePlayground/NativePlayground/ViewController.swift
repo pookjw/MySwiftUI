@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 import _SwiftPrivate
 import _SwiftUIPrivate
-//import _UIKitPrivate
+import _UIKitPrivate
 
 struct Foo: ViewGraphGeometryMeasurer {
     typealias Proposal = CGSize
@@ -23,41 +23,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(GestureContainerFeature.isEnabled)
-//        print(GestureContainerFeature.isEnabledOverride)
-        GestureContainerFeature.isEnabledOverride = false
-        
-        for size in ControlSize.allCases {
-            print(size)
-        }
-        
-//        print(CustomEventCategory.unknown.rawValue)
-//        print(CustomEventCategory.observable.rawValue)
-//        print(CustomEventCategory.transaction.rawValue)
-//        print(CustomEventCategory.action.rawValue)
-//        print(CustomEventCategory.graph.rawValue)
-//        print(CustomEventCategory.animation.rawValue)
-//        print(CustomEventCategory.instantiation.rawValue)
-//        print(CustomEventCategory.dynamicProperties.rawValue)
-        
-//        _ = GraphHost.Data()
-        
-//        let v: RoundedCornerStyle? = nil
-//        withUnsafePointer(to: v) { pointer in
-//            let p = UnsafeRawPointer(pointer).assumingMemoryBound(to: UInt32.self)
-//            print(p.pointee)
-//        }
-        /*
-         keyType (0x10)
-         before (0x18)
-         after (0x20)
-         skip (0x28)
-         length (0x30)
-         skipCount (0x34)
-         skipFilter (0x38)
-         id (0x40)
-         // _typeByName("7SwiftUI20UIKitStatusBarBridgeC")!
-         */
         print(_UIHostingView<EmptyView>.self)
         _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
@@ -66,11 +31,35 @@ class ViewController: UIViewController {
         
         print("===")
         
-//        print(ViewGraph.self)
-//        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
+        print(UIHostingViewBase.self)
+        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
+        print(ViewGraphHost.self)
+        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
+        print(ViewGraph.self)
+        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
+        print(RepresentableContextValues.self)
+        _forEachField(of: RepresentableContextValues.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
 //        
 //        print("===")
 //        

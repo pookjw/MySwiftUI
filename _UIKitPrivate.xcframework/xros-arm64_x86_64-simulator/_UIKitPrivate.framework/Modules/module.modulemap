@@ -1,4 +1,4 @@
-framework module _UIKitPrivate {
+framework module _UIKitPrivate [extern_c] {
     umbrella header "_UIKitPrivate.h"
     export *
     module * { export * }
