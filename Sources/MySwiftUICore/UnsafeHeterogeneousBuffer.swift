@@ -1,4 +1,3 @@
-#warning("TODO")
 private import _DarwinFoundation2._string
 
 struct UnsafeHeterogeneousBuffer: @unsafe Collection {
