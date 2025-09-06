@@ -35,7 +35,8 @@ let package = Package(
             dependencies: [
                 .byName(name: "_DyldPrivate"),
                 .byName(name: "AttributeGraph"),
-                .byName(name: "_MySwiftUIShims")
+                .byName(name: "_MySwiftUIShims"),
+                .byName(name: "FeatureFlags")
             ]
         ),
         .target(
@@ -85,6 +86,10 @@ let package = Package(
         .binaryTarget(
             name: "_QuartzCorePrivate",
             path: "_QuartzCorePrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "FeatureFlags",
+            path: "FeatureFlags.xcframework"
         ),
         .target(
             name: "MySwiftUITestUtils"

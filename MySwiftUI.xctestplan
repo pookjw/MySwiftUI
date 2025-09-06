@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "8D2C2588-CDD2-484C-8FCE-D084AA5EA7A1",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "MySwiftUICoreTests",
+        "name" : "MySwiftUICoreTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "MySwiftUITests",
+        "name" : "MySwiftUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

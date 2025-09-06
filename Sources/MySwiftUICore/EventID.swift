@@ -1,5 +1,5 @@
 #warning("TODO")
 
-struct EventID: Hashable {
+package struct EventID: Hashable {
     
 }

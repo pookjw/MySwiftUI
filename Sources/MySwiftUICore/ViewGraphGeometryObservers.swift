@@ -9,7 +9,7 @@ protocol ViewGraphGeometryMeasurer {
     associatedtype Proposal
     associatedtype Size
     
-    func measure(given: Proposal, in: ViewGraph) -> Size
-    func measure(proposal: Proposal, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size
-    var invalidValue: Size { get }
+    static func measure(given: Proposal, in: ViewGraph) -> Size
+    static func measure(proposal: Proposal, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size
+    static var invalidValue: Size { get }
 }

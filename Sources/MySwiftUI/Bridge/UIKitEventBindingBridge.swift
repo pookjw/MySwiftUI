@@ -2,11 +2,20 @@
 @_spi(Internal) internal import MySwiftUICore
 
 class UIKitEventBindingBridge: EventBindingBridge {
-    var gestureRecognizer: UIKitGestureRecognizer?
-    var hoverGestureRecognizer: UIKitHoverGestureRecognizer
-    var keyPressResponder: UIKitKeyPressResponder?
+    private var gestureRecognizer: UIKitGestureRecognizer? = nil
+    private var hoverGestureRecognizer: UIKitHoverGestureRecognizer
+    private var keyPressResponder: UIKitKeyPressResponder? = nil
     
-    init(eventBindingManager: EventBindingManager) {
-        fatalError()
+    @MainActor
+    override init(eventBindingManager: EventBindingManager) {
+        if !GestureContainerFeature.isEnabled {
+            gestureRecognizer = UIKitGestureRecognizer()
+        }
+        self.hoverGestureRecognizer = UIKitHoverGestureRecognizer()
+        
+        super.init(eventBindingManager: eventBindingManager)
+        
+        self.gestureRecognizer?.eventBridge = self
+        self.hoverGestureRecognizer.eventBridge = self
     }
 }

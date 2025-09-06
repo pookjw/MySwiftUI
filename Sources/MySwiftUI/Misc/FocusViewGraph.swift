@@ -3,10 +3,10 @@ internal import MySwiftUICore
 private import AttributeGraph
 
 struct FocusViewGraph {
-    private var _focusedItem: OptionalAttribute<FocusItem?>
-    private var _focusedValues: OptionalAttribute<FocusedValues>
-    private var _focusStore: OptionalAttribute<FocusStore>
-    private var _isFocusSystemEnabled: OptionalAttribute<Bool>
+    @OptionalAttribute private var focusedItem: FocusItem??
+    @OptionalAttribute private var focusedValues: FocusedValues?
+    @OptionalAttribute private var focusStore: FocusStore?
+    @OptionalAttribute private var isFocusSystemEnabled: Bool?
     private var needsFocusUpdate: Bool
     private var wasFocusSystemEnabled: Bool
     private var needsFocusSystemEnabledUpdate: Bool

@@ -28,7 +28,11 @@ open class _UIHostingView<Content: View>: UIView {
     private var eventBridge: UIKitEventBindingBridge
     private var dumpLayerNotificationTokens: Int32? = nil
     private var colorAppearanceSeed: UInt32 = 0
-    private var colorScheme: ColorScheme? = .light
+    private var colorScheme: ColorScheme? = .light {
+        didSet {
+            fatalError("TODO")
+        }
+    }
     private let deprecatedAlertBridge: DeprecatedAlertBridge<Alert.Presentation> = DeprecatedAlertBridge<Alert.Presentation>(
         host: nil,
         isShown: false,
@@ -97,7 +101,10 @@ open class _UIHostingView<Content: View>: UIView {
     private var insertingManagedSubviews: Int = 0
     
     public required init(rootView: Content) {
+        self._rootView = rootView
+        
         Update.begin()
+        
         PlatformColorDefinition.setInternalDefinition(UIKitPlatformColorDefinition.self, system: .uiKit)
         PlatformScrollEdgeEffectTagDefinition.setDefinition(ScrollEdgeEffectTagModifierDefinition.self)
         let viewDefinition = PlatformViewDefinition.for(UIView.self)!
@@ -112,9 +119,23 @@ open class _UIHostingView<Content: View>: UIView {
         }
         
         self._base = UIHostingViewBase(viewGraph: viewGraphHost, configuration: configuration)
-        let focusViewGraph = FocusViewGraph(graph: viewGraph)
-        viewGraph.append(feature: focusViewGraph)
-        // <+3864>
+        
+        viewGraph.append(feature: FocusViewGraph(graph: viewGraph))
+        viewGraph.append(feature: PlatformItemListViewGraph())
+        
+        if _UIUpdateAdaptiveRateNeeded() {
+            viewGraph.append(feature: EnableVFDFeature())
+        }
+        
+        viewGraph.append(feature: ViewGraph3D(graph: viewGraph))
+        viewGraph.append(feature: AccessibilityViewGraph(graph: viewGraph))
+        viewGraph.append(feature: InteractiveResizeChangeViewGraphFeature(viewGraph: viewGraph, bridge: interactiveResizeBridge))
+        
+        eventBindingManager.addForwardedEventDispatcher(HoverEventDispatcher3D())
+        eventBindingManager.addForwardedEventDispatcher(KeyEventDispatcher())
+        
+        self.eventBridge = UIKitEventBindingBridge(eventBindingManager: eventBindingManager)
+        super.init(frame: .zero)
         
         fatalError("TODO")
     }
@@ -126,6 +147,12 @@ open class _UIHostingView<Content: View>: UIView {
 
 protocol UIHostingViewDelegate: AnyObject {
     
+}
+
+extension _UIHostingView {
+    struct EnableVFDFeature: ViewGraphFeature {
+        
+    }
 }
 
 // SwiftUI에서 Geometry3DEffect를 conform하는 Type이 존재하지 않음

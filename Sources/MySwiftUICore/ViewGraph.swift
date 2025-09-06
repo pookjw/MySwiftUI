@@ -1,5 +1,5 @@
 #warning("TODO")
-private import AttributeGraph
+internal import AttributeGraph
 private import CoreGraphics
 
 package class ViewGraph: GraphHost {
@@ -10,10 +10,10 @@ package class ViewGraph: GraphHost {
     private var centersRootView = true
     private let rootView: AnyAttribute
     @Attribute private var rootTransform: ViewTransform
-    @Attribute private var transform: ViewTransform
+    @Attribute var transform: ViewTransform
     @Attribute private var zeroPoint: CGPoint
-    @Attribute private var proposedSize: ViewSize
-    @Attribute private var safeAreaInsets: _SafeAreaInsetsModifier
+    @Attribute var proposedSize: ViewSize
+    @Attribute var safeAreaInsets: _SafeAreaInsetsModifier
     @Attribute private var containerShape: UnevenRoundedRectangle
     @Attribute private var rootGeometry: ViewGeometry
     @Attribute private var position: CGPoint
@@ -172,6 +172,19 @@ extension ViewGraph {
         private var _internal: TimeInterval = .greatestFiniteMagnitude
         private var _defaultIntervalWasRequested: Bool = false
         private var reasons: Set<UInt32> = []
+    }
+}
+
+extension ViewGraph {
+    // 원래 없음
+    var rootDepthTransform: RootDepthTransform {
+        return RootDepthTransform(
+            transform: _transform,
+            layoutDirection: OptionalAttribute(),
+            proposedSize: _proposedSize,
+            safeAreaInsets: OptionalAttribute(_safeAreaInsets),
+            childLayoutComputer: OptionalAttribute()
+        )
     }
 }
 

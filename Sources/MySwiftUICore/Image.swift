@@ -47,3 +47,27 @@ extension Image.DynamicRange {
         case high
     }
 }
+
+extension Image {
+    package struct Resolved {
+        private var image: GraphicsImage
+//        private var label: AccessibilityImageLabel?
+//        private var _basePlatformItemImage: EquatableOptionalObject<AnyObject>
+//        private var _layoutMetrics: IndirectOptional<Image.LayoutMetrics>
+        private var decorative: Bool
+//        private var backgroundShape: SymbolVariants.Shape?
+        private var backgroundCornerRadius: Float?
+        private var styleResolverMode: _ShapeStyle_ResolverMode
+    }
+}
+
+extension Image {
+    package struct NamedResolved {
+        private var name: String
+//        private var location: Image.Location
+        private var value: Float?
+//        private var symbolRenderingMode: SymbolRenderingMode.Storage?
+        private var isTemplate: Bool
+        private var environment: EnvironmentValues
+    }
+}

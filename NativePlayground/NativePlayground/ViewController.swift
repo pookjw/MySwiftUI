@@ -23,6 +23,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(GestureContainerFeature.isEnabled)
+//        print(GestureContainerFeature.isEnabledOverride)
+        GestureContainerFeature.isEnabledOverride = false
+        
+        for size in ControlSize.allCases {
+            print(size)
+        }
+        
 //        print(CustomEventCategory.unknown.rawValue)
 //        print(CustomEventCategory.observable.rawValue)
 //        print(CustomEventCategory.transaction.rawValue)

@@ -1,5 +1,6 @@
 #warning("TODO")
 private import CoreGraphics
+internal import AttributeGraph
 
 package struct ViewTransform {
     private var head: AnyElement?
@@ -31,5 +32,31 @@ fileprivate class CoordinateSpaceNode {
     
     init() {
         fatalError("TODO")
+    }
+}
+
+struct RootDepthTransform: Rule {
+    var value: ViewTransform {
+        fatalError("TODO")
+    }
+    
+    @Attribute private var transform: ViewTransform
+    @OptionalAttribute private var layoutDirection: LayoutDirection?
+    @Attribute private var proposedSize: ViewSize
+    @OptionalAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?
+    @OptionalAttribute private var childLayoutComputer: LayoutComputer?
+    
+    init(
+        transform: Attribute<ViewTransform>,
+        layoutDirection: OptionalAttribute<LayoutDirection>,
+        proposedSize: Attribute<ViewSize>,
+        safeAreaInsets: OptionalAttribute<_SafeAreaInsetsModifier>,
+        childLayoutComputer: OptionalAttribute<LayoutComputer>
+    ) {
+        self._transform = transform
+        self._layoutDirection = layoutDirection
+        self._proposedSize = proposedSize
+        self._safeAreaInsets = safeAreaInsets
+        self._childLayoutComputer = childLayoutComputer
     }
 }

@@ -8,7 +8,7 @@ struct ViewGraphFeatureBuffer {
     }
     
     mutating func append<T: ViewGraphFeature>(feature: T) {
-        contents.append(feature, vtable: _VTable.self)
+        contents.append(feature, vtable: _VTable<T>.self)
     }
 }
 
@@ -17,13 +17,15 @@ extension ViewGraphFeatureBuffer {
         
     }
     
-    fileprivate class _VTable: VTable {
+    fileprivate class _VTable<T: ViewGraphFeature>: VTable {
         override class var type: any Any.Type {
-            fatalError("TODO")
+            return T.self
         }
         
         override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
-            fatalError("TODO")
+            let new = elt.body(as: T.self)
+            let old = from.body(as: T.self)
+            new.initialize(to: old.move())
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
