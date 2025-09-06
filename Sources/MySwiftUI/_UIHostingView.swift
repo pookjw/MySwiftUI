@@ -141,7 +141,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     public required init?(coder: NSCoder) {
-        fatalError("TODO")
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

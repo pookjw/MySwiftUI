@@ -5,7 +5,7 @@ private import UIKit
 struct _UIHostingViewTests {
     @Test
     @MainActor
-    func test_init() {
+    func test_initWithRootView() {
         let rootView = EmptyView()
         let hostingView = _UIHostingView(rootView: rootView)
     }

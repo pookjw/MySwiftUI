@@ -66,31 +66,23 @@ class ViewController: UIViewController {
         
         print("===")
         
-        print(ViewGraph.self)
-        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        
-        print("===")
-        
-        print(UnsafeHeterogeneousBuffer.self)
-        _forEachField(of: UnsafeHeterogeneousBuffer.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        
-        print(MemoryLayout<MyClass_1>.size)
-        print(MemoryLayout<MyClass_1>.stride)
-        print(MemoryLayout<MyClass_2>.size)
-        print(MemoryLayout<MyClass_2>.stride)
-        UnsafeHeterogeneousBuffer().append(MyClass_1(), vtable: MyVTable.self)
-        UnsafeHeterogeneousBuffer().append(MyClass_2(), vtable: MyVTable.self)
+//        print(ViewGraph.self)
+//        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        
+//        print("===")
+//        
+//        print(UnsafeHeterogeneousBuffer.self)
+//        _forEachField(of: UnsafeHeterogeneousBuffer.self, options: []) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
         
         do {
-            
-            let emptyView = EmptyView()
-            let hostingView = _UIHostingView(rootView: emptyView)
+//            let emptyView = EmptyView()
+//            let hostingView = _UIHostingView<EmptyView>(coder: NSCoder())
         }
         
         let emptyView = EmptyView()
