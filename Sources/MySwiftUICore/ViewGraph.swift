@@ -41,10 +41,6 @@ package class ViewGraph: GraphHost {
     private weak var _preferenceBridge: PreferenceBridge? = nil
     private var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
     
-    package override func addPrefence<T>(_ key: T.Type) where T : HostPreferenceKey {
-        fatalError("TODO")
-    }
-    
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
         self.rootViewType = rootViewType
         self.requestedOutputs = requestedOutputs

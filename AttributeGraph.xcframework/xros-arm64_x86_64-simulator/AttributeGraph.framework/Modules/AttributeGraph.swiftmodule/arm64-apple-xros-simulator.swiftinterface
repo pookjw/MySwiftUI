@@ -26,6 +26,7 @@ public struct WeakAttribute<T> {
 public struct Attribute<T> {
     public var wrappedValue: T {
         get
+        nonmutating set 
     }
 
     @_hasStorage
@@ -172,4 +173,5 @@ extension AttributeGraph.Graph {
 extension AttributeGraph.Graph {
     public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, context: Swift.UnsafePointer<T>)
     public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, value: T)
+    public static func withoutUpdate<T>(_: () -> T) -> T
 }

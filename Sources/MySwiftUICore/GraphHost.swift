@@ -149,8 +149,10 @@ package class GraphHost {
         AGGraphSetContext(self.data.graph!, Unmanaged.passUnretained(self).toOpaque())
     }
     
-    package func addPrefence<T: HostPreferenceKey>(_ key: T.Type) {
-        fatalError("TODO")
+    package final func addPrefence<T: HostPreferenceKey>(_ key: T.Type) {
+        Graph.withoutUpdate {
+            data.hostPreferenceKeys.add(key)
+        }
     }
 }
 
@@ -164,7 +166,7 @@ extension GraphHost {
         @Attribute private var time: Time
         @Attribute private var environment: EnvironmentValues
         @Attribute private var phase: _GraphInputs.Phase
-        @Attribute private var hostPreferenceKeys: PreferenceKeys
+        @Attribute fileprivate var hostPreferenceKeys: PreferenceKeys
         @Attribute private var transaction: Transaction
         @Attribute private var updateSeed: UInt32
         @Attribute private var transactionSeed: UInt32

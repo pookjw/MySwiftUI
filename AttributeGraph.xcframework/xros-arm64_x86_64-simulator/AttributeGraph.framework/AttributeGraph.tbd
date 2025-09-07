@@ -76,7 +76,11 @@ exports:
     _$s14AttributeGraph14AnyRuleContextV13valueAndFlags2of7optionsx0F0_So014AGChangedValueH0V5flagstAA0A0VyxG_So14AGValueOptionsVtlF,
     _$s14AttributeGraph14AnyRuleContextV12changedValue2of7optionsx5value_Sb0F0tAA0A0VyxG_So14AGValueOptionsVtlF,
     _$s14AttributeGraph14AnyRuleContextVMa,
-    _$s14AttributeGraph14AnyRuleContextVMn ]
+    _$s14AttributeGraph14AnyRuleContextVMn,
+    _$sSo10AGGraphRefa14AttributeGraphE13withoutUpdateyxxyXElFZ,
+    _$s14AttributeGraph0A0V12wrappedValuexvlu,
+    _$s14AttributeGraph0A0V12wrappedValuexvs,
+    _$s14AttributeGraph0A0V12wrappedValuexvM ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -44,14 +44,7 @@ package class ViewGraphHost {
             return
         }
         
-        switch current.environmentStorage {
-        case .eager(let environmentValues):
-            initialInheritedEnvironment = environmentValues
-        case .lazy(let attribute, let context):
-            Update.begin()
-            initialInheritedEnvironment = context.valueAndFlags(of: attribute, options: []).value
-            Update.end()
-        }
+        initialInheritedEnvironment = current.environment
     }
 }
 

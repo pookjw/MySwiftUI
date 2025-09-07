@@ -55,6 +55,14 @@ class ViewController: UIViewController {
         
         print("===")
         
+        print(GraphHost.self)
+        _forEachField(of: GraphHost.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
         print(RepresentableContextValues.self)
         _forEachField(of: RepresentableContextValues.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))

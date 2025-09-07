@@ -154,3 +154,18 @@ public struct GestureContainerFeature {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct RepresentableContextValues {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol PreferenceKey {
+  associatedtype Value
+    
+  static var defaultValue: Value {
+      get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol HostPreferenceKey: _SwiftUIPrivate.PreferenceKey {
+}

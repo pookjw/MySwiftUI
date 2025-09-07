@@ -1,5 +1,5 @@
 #warning("TODO")
 
-class PreferenceBridge {
+package class PreferenceBridge {
     
 }

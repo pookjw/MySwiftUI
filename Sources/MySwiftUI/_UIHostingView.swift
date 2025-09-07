@@ -53,7 +53,7 @@ open class _UIHostingView<Content: View>: UIView {
         isChangingIdentity: false,
         style: .alert
     )
-    private lazy var sheetBridge: SheetBridge<SheetPreference.Key>?? = {
+    private lazy var sheetBridge: SheetBridge<SheetPreference.Key>? = {
         fatalError("TODO")
     }()
     private var focusBridge: FocusBridge = FocusBridge()
@@ -63,7 +63,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var editMenuBridge: EditMenuBridge = EditMenuBridge()
     private var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
     private var shareConfigurationBridge: ShareConfigurationBridge? = nil
-    private var statusBarBridge: UIKitStatusBarBridge = UIKitStatusBarBridge()
+    private var statusBarBridge = UIKitStatusBarBridge()
     private weak var sceneBridge: SceneBridge? = nil
     private var scenePresentationBridge: ScenePresentationBridge? = nil
     private var pointerBridge: PointerBridge? = nil
@@ -72,13 +72,17 @@ open class _UIHostingView<Content: View>: UIView {
     private var renderingMarginsBridge: RenderingMarginsBridge<Content>? = nil
     private var objectManipluateBridge: UIKitObjectManipulationBridge<Content> = UIKitObjectManipulationBridge()
     private var remoteSessionController: RemoteScenes.SessionController? = nil
-    private lazy var feedbackCache: UIKitSensoryFeedbackCache? = nil
+    private lazy var feedbackCache = UIKitSensoryFeedbackCache()
     private var contextMenuBridge: ContextMenuBridge = ContextMenuBridge()
     private var interactiveResizeBridge: InteractiveResizeBridge = InteractiveResizeBridge()
     private var shouldUpdateAccessibilityFocus: Bool = false
     private let largeContentViewerInteractionBridge: UILargeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
-    private lazy var presentationModeLocation: LocationBox<UIKitPresentationModeLocation<Content>>? = nil
-    private lazy var scenePresentationModeLocation: LocationBox<UIKitScenePresentationModeLocation<Content>>? = nil
+    private lazy var presentationModeLocation: LocationBox<UIKitPresentationModeLocation<Content>> = {
+        fatalError("TODO")
+    }()
+    private lazy var scenePresentationModeLocation: LocationBox<UIKitScenePresentationModeLocation<Content>> = {
+        fatalError("TODO")
+    }()
     private var sceneSize: CGSize = .zero
     private var _boundsDepth: CGFloat = 0
     private var scrollTest: ScrollTest? = nil
@@ -97,8 +101,23 @@ open class _UIHostingView<Content: View>: UIView {
             return false
         }
     }()
-    private lazy var foreignSubviews: NSHashTable<UIView>? = nil
+    private lazy var foreignSubviews: NSHashTable<UIView> = {
+        fatalError("TODO")
+    }()
     private var insertingManagedSubviews: Int = 0
+    
+    private var inheritedEnvironment: EnvironmentValues? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private var shouldDeferToChildViewController: Bool {
+        return statusBarBridge.shouldDeferToChildViewController
+    }
     
     public required init(rootView: Content) {
         self._rootView = rootView
@@ -140,6 +159,19 @@ open class _UIHostingView<Content: View>: UIView {
         viewGraph.append(feature: HostViewGraph(host: self))
         self._base.setUp()
         
+        if let values = RepresentableContextValues.current {
+            if let preferenceBridge = values.preferenceBridge {
+                self.setPreferenceBridge(preferenceBridge)
+            }
+            
+            self.inheritedEnvironment = values.environment
+        }
+        
+        feedbackCache.host = self
+        
+        let statusBarBridge = statusBarBridge
+        statusBarBridge.host = self
+        statusBarBridge.addPreferences(to: viewGraph)
         fatalError("TODO")
     }
     
@@ -165,6 +197,76 @@ extension _UIHostingView {
         init(host: _UIHostingView<T>) {
             self.host = host
         }
+    }
+}
+
+extension _UIHostingView: @preconcurrency ViewRendererHost {
+    package func updateRootView() {
+        fatalError("TODO")
+    }
+    
+    package func updateEnvironment() {
+        fatalError("TODO")
+    }
+    
+    package func updateTransform() {
+        fatalError("TODO")
+    }
+    
+    package func updateSize() {
+        fatalError("TODO")
+    }
+    
+    package func updateSafeArea() {
+        fatalError("TODO")
+    }
+    
+    package func updateContainerSize() {
+        fatalError("TODO")
+    }
+    
+    package func updateFocusStore() {
+        fatalError("TODO")
+    }
+    
+    package func updateFocusedItem() {
+        fatalError("TODO")
+    }
+    
+    package func updateFocusedValues() {
+        fatalError("TODO")
+    }
+    
+    package func updateAccessibilityEnvironment() {
+        fatalError("TODO")
+    }
+    
+    package func `as`<T>(_ type: T.Type) -> T? {
+        fatalError("TODO")
+    }
+    
+    package func requestUpdate(after time: Double) {
+        fatalError("TODO")
+    }
+    
+    package func setNeedsUpdate() {
+        fatalError("TODO")
+    }
+    
+    package func updateGraph<T>(body: (MySwiftUICore.GraphHost) -> T) -> T {
+        fatalError("TODO")
+    }
+    
+    package func graphDidChange() {
+        fatalError("TODO")
+    }
+    
+    package func preferencesDidChange() {
+        fatalError("TODO")
+    }
+    
+    package func beginTransaction() {
+        fatalError("TODO")
     }
 }
 
