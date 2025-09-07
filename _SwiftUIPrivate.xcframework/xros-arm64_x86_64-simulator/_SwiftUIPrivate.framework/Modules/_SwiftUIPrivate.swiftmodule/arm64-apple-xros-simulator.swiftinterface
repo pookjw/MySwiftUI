@@ -169,3 +169,17 @@ public protocol PreferenceKey {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol HostPreferenceKey: _SwiftUIPrivate.PreferenceKey {
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PreferenceKeys: Swift.Equatable, Swift.RandomAccessCollection {
+  public init()
+  public mutating func remove(_ key: any (_SwiftUIPrivate.PreferenceKey).Type)
+  public func contains(_ key: any (_SwiftUIPrivate.PreferenceKey).Type) -> Swift.Bool
+  public mutating func add(_ key: any (_SwiftUIPrivate.PreferenceKey.Type))
+  public subscript(_ index: Swift.Int) -> any (_SwiftUIPrivate.PreferenceKey).Type { get }
+  public var isEmpty: Swift.Bool { get }
+  public var startIndex: Swift.Int { get }
+  public var endIndex: Swift.Int { get }
+  public func union(_ keys: _SwiftUIPrivate.PreferenceKeys) -> _SwiftUIPrivate.PreferenceKeys
+}

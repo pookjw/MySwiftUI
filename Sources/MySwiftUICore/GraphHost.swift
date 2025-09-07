@@ -149,7 +149,7 @@ package class GraphHost {
         AGGraphSetContext(self.data.graph!, Unmanaged.passUnretained(self).toOpaque())
     }
     
-    package final func addPrefence<T: HostPreferenceKey>(_ key: T.Type) {
+    package final func addPreference<T: HostPreferenceKey>(_ key: T.Type) {
         Graph.withoutUpdate {
             data.hostPreferenceKeys.add(key)
         }

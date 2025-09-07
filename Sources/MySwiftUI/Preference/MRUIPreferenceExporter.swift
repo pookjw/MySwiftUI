@@ -78,7 +78,7 @@ fileprivate struct ExportedPreference<T: MRUIBridgedPreferenceKey>: AnyExportedP
     }
     
     func addPreference(to graph: ViewGraph) {
-        graph.addPrefence(key)
+        graph.addPreference(key)
     }
     
     mutating func preferencesDidChange(_ values: PreferenceValues) {

@@ -38,6 +38,12 @@ let package = Package(
                 .byName(name: "_MySwiftUIShims"),
                 .byName(name: "FeatureFlags")
             ],
+            swiftSettings: [
+                .unsafeFlags([
+                    "-Xfrontend",
+                    "-enable-private-imports"
+                ])
+            ],
             linkerSettings: [
                 .linkedFramework("UIKit")  
             ]

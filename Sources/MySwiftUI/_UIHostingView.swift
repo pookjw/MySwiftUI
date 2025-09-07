@@ -6,6 +6,10 @@ private import _UIKitShims
 private import _UIKitPrivate
 
 open class _UIHostingView<Content: View>: UIView {
+    class var ignoresPresentations: Bool {
+        return false
+    }
+    
     public var rootView: Content {
         _rootView
     }
@@ -54,7 +58,10 @@ open class _UIHostingView<Content: View>: UIView {
         style: .alert
     )
     private lazy var sheetBridge: SheetBridge<SheetPreference.Key>? = {
-        fatalError("TODO")
+        guard Self.ignoresPresentations else {
+            return nil
+        }
+        return SheetBridge<SheetPreference.Key>()
     }()
     private var focusBridge: FocusBridge = FocusBridge()
     private let dragBridge: DragAndDropBridge = DragAndDropBridge()
@@ -73,7 +80,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var objectManipluateBridge: UIKitObjectManipulationBridge<Content> = UIKitObjectManipulationBridge()
     private var remoteSessionController: RemoteScenes.SessionController? = nil
     private lazy var feedbackCache = UIKitSensoryFeedbackCache()
-    private var contextMenuBridge: ContextMenuBridge = ContextMenuBridge()
+    private var contextMenuBridge = ContextMenuBridge()
     private var interactiveResizeBridge: InteractiveResizeBridge = InteractiveResizeBridge()
     private var shouldUpdateAccessibilityFocus: Bool = false
     private let largeContentViewerInteractionBridge: UILargeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
@@ -157,7 +164,7 @@ open class _UIHostingView<Content: View>: UIView {
         super.init(frame: .zero)
         
         viewGraph.append(feature: HostViewGraph(host: self))
-        self._base.setUp()
+        _base.setUp()
         
         if let values = RepresentableContextValues.current {
             if let preferenceBridge = values.preferenceBridge {
@@ -172,6 +179,19 @@ open class _UIHostingView<Content: View>: UIView {
         let statusBarBridge = statusBarBridge
         statusBarBridge.host = self
         statusBarBridge.addPreferences(to: viewGraph)
+        
+        contextMenuBridge.host = self
+        deprecatedAlertBridge.host = self
+        viewGraph.addPreference(Alert.Presentation.Key.self)
+        deprecatedActionSheetBridge.host = self
+        viewGraph.addPreference(ActionSheet.Presentation.Key.self)
+        
+        if let sheetBridge {
+            sheetBridge.host = self
+            sheetBridge.transitioningDelegate.host = self
+        }
+        
+        // <+5572>
         fatalError("TODO")
     }
     

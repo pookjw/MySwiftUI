@@ -25,7 +25,7 @@ class UIKitStatusBarBridge {
     }
     
     func addPreferences(to viewGraph: ViewGraph) {
-        viewGraph.addPrefence(StatusBarKey.self)
+        viewGraph.addPreference(StatusBarKey.self)
         seedTracker.addPreference(StatusBarKey.self)
         
         if !isLinkedOnOrAfter(.v7) {

@@ -12,8 +12,12 @@ struct VersionSeedSetTracker {
         fatalError("TODO")
     }
     
-    func updateSeedsToEmpty() {
-        fatalError("TODO")
+    mutating func updateSeedsToEmpty() {
+        var copy = values
+        for index in copy.indices {
+            copy[index].seed = .empty
+        }
+        self.values = copy
     }
     
     func updateSeeds(to values: PreferenceValues) {

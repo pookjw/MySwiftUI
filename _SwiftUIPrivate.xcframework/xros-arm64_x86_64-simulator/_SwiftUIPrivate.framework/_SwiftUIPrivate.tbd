@@ -8,11 +8,17 @@ exports:
     symbols:              [  ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
+reexported-libraries:
+  - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+    libraries:            [ '/System/Library/Frameworks/SwiftUICore.framework/SwiftUICore' ]
 --- !tapi-tbd
 tbd-version:     4
 targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
 install-name:    '/System/Library/Frameworks/SwiftUICore.framework/SwiftUICore'
 swift-abi-version: 7
+allowable-clients:
+  - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+    clients:         [ SwiftUI ]
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
     symbols:              [  ]

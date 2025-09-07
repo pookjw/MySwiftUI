@@ -15,3 +15,9 @@ extension Alert {
         let sourceRect: CGRect
     }
 }
+
+extension Alert.Presentation {
+    struct Key: HostPreferenceKey {
+        typealias Value = Never? // TODO
+    }
+}
