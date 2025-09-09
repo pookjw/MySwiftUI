@@ -6,7 +6,7 @@ package class ViewGraphHost {
     package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true
     package static nonisolated(unsafe) var defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
     
-    private weak var updateDelegate: ViewGraphRootValueUpdater? = nil
+    package weak var updateDelegate: ViewGraphRootValueUpdater? = nil
     package weak var renderDelegate: ViewGraphRenderDelegate? = nil
     package weak var delegate: ViewGraphHostDelegate? = nil
     private var idiom: ViewGraphHost.Idiom? = nil

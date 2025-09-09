@@ -7,7 +7,7 @@ package final class UIHostingViewBase: NSObject {
     private weak var delegate: UIHostingViewBaseDelegate? = nil
     private var safeAreaRegions: SafeAreaRegions = .all
     private let configuration: UIHostingViewBase.Configuration
-    private let viewGraph: ViewGraphHost
+    package let viewGraph: ViewGraphHost
     private var inheritedEnvironment: EnvironmentValues? = nil
     private var environmentOverride: EnvironmentValues? = nil
     private var traitCollectionOverride: UITraitCollection?

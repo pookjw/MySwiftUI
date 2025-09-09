@@ -4,18 +4,32 @@ internal import MySwiftUICore
 internal import _UIKitPrivate
 
 class DragAndDropBridge: AnyDragAndDropBridge {
-    weak var host: (any ViewRendererHost)? = nil
-    var hasDragItemsSeed: VersionSeed = .empty
-    var dragTimingsSeed: VersionSeed = .empty
-    var dragInteraction: UIDragInteraction? = nil
-    var canDropSeed: VersionSeed = .empty
-    var dropInteraction: UIDropInteraction? = nil
-    var canSpringLoadSeed: VersionSeed = .empty
-    var springLoadedInteraction: UISpringLoadedInteraction? = nil
-    var activeSpringLoadedResponder: SpringLoadedViewResponder? = nil
-    var activeDrop: DropDestination? = DropDestination()
-    var onSessionBegan: (() -> Void)? = nil
-    var onSessionEnded: (() -> Void)? = nil
+    private weak var host: (any ViewRendererHost)? = nil
+    private var hasDragItemsSeed: VersionSeed = .empty
+    private var dragTimingsSeed: VersionSeed = .empty
+    private var dragInteraction: UIDragInteraction? = nil
+    private var canDropSeed: VersionSeed = .empty
+    private var dropInteraction: UIDropInteraction? = nil
+    private var canSpringLoadSeed: VersionSeed = .empty
+    private var springLoadedInteraction: UISpringLoadedInteraction? = nil
+    private var activeSpringLoadedResponder: SpringLoadedViewResponder? = nil
+    private var activeDrop: DropDestination? = DropDestination()
+    private var onSessionBegan: (() -> Void)? = nil
+    private var onSessionEnded: (() -> Void)? = nil
+    
+    // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
+    // 원래 없음
+    final func setUp(host: (any ViewRendererHost), viewGraph: ViewGraph) {
+        self.host = host
+        if self.host!.shouldCreateUIInteractions {
+            viewGraph.addPreference(HasDragItemsKey.self)
+            viewGraph.addPreference(DragItemTimings.Key.self)
+            viewGraph.addPreference(CanDropKey.self)
+            viewGraph.addPreference(CanSpringLoadKey.self)
+        }
+        
+        viewGraph.addPreference(OutlineRootConfiguration.Key.self)
+    }
 }
 
 extension DragAndDropBridge: UIDragInteractionDelegate {

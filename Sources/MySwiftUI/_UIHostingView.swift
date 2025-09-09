@@ -17,7 +17,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var _rootView: Content
     private let _base: _UIKitShims.UIHostingViewBase
     private var isBaseConfigured: Bool = false
-    private let eventBindingManager: EventBindingManager = EventBindingManager()
+    internal let eventBindingManager: EventBindingManager = EventBindingManager()
     private var allowUIKitAnimations: Int32 = 0
     private var disabledBackgroundColor: Bool = false
     private var allowFrameChanges: Bool = true
@@ -64,8 +64,8 @@ open class _UIHostingView<Content: View>: UIView {
         return SheetBridge<SheetPreference.Key>()
     }()
     private var focusBridge = FocusBridge()
-    private let dragBridge: DragAndDropBridge = DragAndDropBridge()
-    private var inspectorBridge: UIKitInspectorBridgeV3? = nil
+    private let dragBridge = DragAndDropBridge()
+    internal var inspectorBridge: UIKitInspectorBridgeV3? = nil
     private var tooltipBridge: TooltipBridge = TooltipBridge()
     private var editMenuBridge: EditMenuBridge = EditMenuBridge()
     private var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
@@ -162,6 +162,7 @@ open class _UIHostingView<Content: View>: UIView {
         
         self.eventBridge = UIKitEventBindingBridge(eventBindingManager: eventBindingManager)
         super.init(frame: .zero)
+        viewGraphHost.updateDelegate = self
         
         viewGraph.append(feature: HostViewGraph(host: self))
         _base.setUp()
@@ -193,8 +194,7 @@ open class _UIHostingView<Content: View>: UIView {
         
         sheetBridge?.addPreferences(to: viewGraph)
         focusBridge.setUp(host: self)
-        
-        // <+5824>
+        dragBridge.setUp(host: self, viewGraph: viewGraph)
         fatalError("TODO")
     }
     
@@ -225,7 +225,7 @@ extension _UIHostingView {
 
 extension _UIHostingView: @preconcurrency ViewRendererHost {
     package var viewGraph: MySwiftUICore.ViewGraph {
-        fatalError("TODO")
+        return self._base.viewGraph.viewGraph
     }
     
     package var currentTimestamp: MySwiftUICore.Time {
@@ -330,6 +330,31 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     
     package func beginTransaction() {
         fatalError("TODO")
+    }
+}
+
+extension _UIHostingView: @preconcurrency UIHostingViewProvider {
+    var environmentOverride: EnvironmentValues? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    func renderForPreferences(updateDisplayList: Bool) {
+        fatalError("TODO")
+    }
+    
+    var shouldCreateUIInteractions: Bool {
+        return true
+    }
+}
+
+extension _UIHostingView: @preconcurrency UICoreViewControllerProvider {
+    var coreUIViewController: UIViewController? {
+        return viewController
     }
 }
 
