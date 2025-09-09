@@ -3,15 +3,28 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
 class FocusBridge {
-    var flags: Flags = []
-    weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil
-    var focusStore: FocusStore = FocusStore()
-    var currentEnvironment: EnvironmentValues = EnvironmentValues()
-    var _focusItem: FocusItem? = nil
-    weak var parentFocusBridge: FocusBridge? = nil
-    var requestedFocusItem: FocusItem? = nil
-    var defaultFocusNamespace: Namespace.ID? = nil
-    var ignoreTextFocusEvents: Bool = false
+    private var flags: Flags = []
+    private weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil
+    private var focusStore: FocusStore = FocusStore()
+    private var currentEnvironment: EnvironmentValues = EnvironmentValues()
+    private var _focusItem: FocusItem? = nil
+    private weak var parentFocusBridge: FocusBridge? = nil
+    private var requestedFocusItem: FocusItem? = nil
+    private var defaultFocusNamespace: Namespace.ID? = nil
+    private var ignoreTextFocusEvents: Bool = false
+    
+    var host: (UIView & FocusBridgeProvider & FocusHost)? {
+        fatalError("TODO")
+    }
+    
+    final func setUp(host: (UIView & FocusBridgeProvider & FocusHost)) {
+        _host = host
+        if let host = self.host {
+            let viewGraph = host.viewGraph
+            viewGraph.addPreference(FocusedValueList.Key.self)
+            viewGraph.addPreference(FocusStoreList.Key.self)
+        }
+    }
 }
 
 extension FocusBridge {
@@ -20,7 +33,7 @@ extension FocusBridge {
     }
 }
 
-protocol FocusBridgeProvider {
+protocol FocusBridgeProvider: ViewRendererHost {
     
 }
 
@@ -67,4 +80,40 @@ struct FocusableOptions: OptionSet {
     static var all: FocusableOptions { return [.fromMouse, .fromKeyboard, .platformItemDrawsFocusRingMask] /* 0x7 */ }
     
     let rawValue: Int
+}
+
+struct FocusedValueList {
+    private var items: [FocusedValueList.Item]
+}
+
+extension FocusedValueList {
+    struct Item {
+        private var version: DisplayList.Version
+        private var isFocused: Bool
+        private var update: (inout FocusedValues) -> ()
+    }
+    
+    struct Key: HostPreferenceKey {
+        typealias Value = Never? // TODO
+    }
+}
+
+struct FocusStoreList {
+    private var items: [FocusStoreList.Item]
+}
+
+extension FocusStoreList {
+    struct Item {
+        private var version: DisplayList.Version
+        private var propertyID: ObjectIdentifier
+//        private var bindingUpdateAction: FocusStateBindingUpdateAction
+//        private var storeUpdateAction: FocusStoreUpdateAction
+        private weak var responder: ResponderNode?
+        private weak var bridge: FocusBridge?
+        private var isFocused: Bool
+    }
+    
+    struct Key: HostPreferenceKey {
+        typealias Value = Never? // TODO
+    }
 }

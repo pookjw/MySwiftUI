@@ -1,6 +1,6 @@
 #warning("TODO")
 
-enum ViewRenderingPhase {
+package enum ViewRenderingPhase {
     case none
     case rendering
     case renderingAsync

@@ -1,5 +1,6 @@
 internal import Testing
 @testable private import MySwiftUI
+@testable private import MySwiftUICore
 private import UIKit
 
 struct _UIHostingViewTests {

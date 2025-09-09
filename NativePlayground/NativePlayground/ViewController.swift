@@ -22,6 +22,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        print(#function)
+        _SwiftUIPrivate.Log.internalError("Foo")
+//        _SwiftUIPrivate.Log.runtimeIssuesLog
+        print(_SwiftUIPrivate.Log.archiving)
+        os_log(.default, log: .runtimeIssuesLog, "Hello")
+        
         var keys_1 = PreferenceKeys()
         keys_1.add(Foo_1.self)
         

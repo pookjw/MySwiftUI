@@ -58,12 +58,12 @@ open class _UIHostingView<Content: View>: UIView {
         style: .alert
     )
     private lazy var sheetBridge: SheetBridge<SheetPreference.Key>? = {
-        guard Self.ignoresPresentations else {
+        guard !Self.ignoresPresentations else {
             return nil
         }
         return SheetBridge<SheetPreference.Key>()
     }()
-    private var focusBridge: FocusBridge = FocusBridge()
+    private var focusBridge = FocusBridge()
     private let dragBridge: DragAndDropBridge = DragAndDropBridge()
     private var inspectorBridge: UIKitInspectorBridgeV3? = nil
     private var tooltipBridge: TooltipBridge = TooltipBridge()
@@ -191,7 +191,10 @@ open class _UIHostingView<Content: View>: UIView {
             sheetBridge.transitioningDelegate.host = self
         }
         
-        // <+5572>
+        sheetBridge?.addPreferences(to: viewGraph)
+        focusBridge.setUp(host: self)
+        
+        // <+5824>
         fatalError("TODO")
     }
     
@@ -221,6 +224,46 @@ extension _UIHostingView {
 }
 
 extension _UIHostingView: @preconcurrency ViewRendererHost {
+    package var viewGraph: MySwiftUICore.ViewGraph {
+        fatalError("TODO")
+    }
+    
+    package var currentTimestamp: MySwiftUICore.Time {
+        get {
+            fatalError("TODO")
+        }
+        set(newValue) {
+            fatalError("TODO")
+        }
+    }
+    
+    package var valuesNeedingUpdate: MySwiftUICore.ViewGraphRootValues {
+        get {
+            fatalError("TODO")
+        }
+        set(newValue) {
+            fatalError("TODO")
+        }
+    }
+    
+    package var renderingPhase: MySwiftUICore.ViewRenderingPhase {
+        get {
+            fatalError("TODO")
+        }
+        set(newValue) {
+            fatalError("TODO")
+        }
+    }
+    
+    package var externalUpdateCount: Int {
+        get {
+            fatalError("TODO")
+        }
+        set(newValue) {
+            fatalError("TODO")
+        }
+    }
+    
     package func updateRootView() {
         fatalError("TODO")
     }
@@ -288,6 +331,14 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     package func beginTransaction() {
         fatalError("TODO")
     }
+}
+
+extension _UIHostingView: FocusHost {
+    
+}
+
+extension _UIHostingView: FocusBridgeProvider {
+    
 }
 
 // SwiftUI에서 Geometry3DEffect를 conform하는 Type이 존재하지 않음

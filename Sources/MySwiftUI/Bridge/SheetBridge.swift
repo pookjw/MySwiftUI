@@ -17,4 +17,13 @@ class SheetBridge<T>: NSObject {
     private var presentationState = PresentationState()
     private weak var presenterOverride: UIViewController? = nil
     private var lastEnvironment = EnvironmentValues()
+    
+    func addPreferences(to viewGraph: ViewGraph) {
+        viewGraph.addPreference(SheetPreference.Key.self)
+        viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
+        viewGraph.addPreference(PresentationOptionsPreferenceKey.self)
+        viewGraph.addPreference(InteractiveDismissAttemptKey.self)
+        viewGraph.addPreference(InteractiveDismissDisabledKey.self)
+        viewGraph.addPreference(RemotePresentationDelayKey.self)
+    }
 }

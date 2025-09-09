@@ -4,6 +4,9 @@
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 @_exported import Swift
 @_exported import SwiftUI
+@_exported import os.log
+@_exported import os
+@_exported import OSLog
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -182,4 +185,20 @@ public struct PreferenceKeys: Swift.Equatable, Swift.RandomAccessCollection {
   public var startIndex: Swift.Int { get }
   public var endIndex: Swift.Int { get }
   public func union(_ keys: _SwiftUIPrivate.PreferenceKeys) -> _SwiftUIPrivate.PreferenceKeys
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum Log {
+  public static func internalWarning(_ message: @autoclosure () -> Swift.String)
+  public static func internalError(_ message: @autoclosure () -> Swift.String)
+  public static var runtimeIssuesLog: os.OSLog { get }
+  public static var eventDebuggingLog: os.OSLog { get }
+  public static var archiving: os.Logger { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension os.OSLog {
+  public static var runtimeIssuesLog: os.OSLog { get }
 }
