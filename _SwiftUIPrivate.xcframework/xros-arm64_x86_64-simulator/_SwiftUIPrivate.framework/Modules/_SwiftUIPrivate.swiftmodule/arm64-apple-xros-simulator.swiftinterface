@@ -195,6 +195,124 @@ public enum Log {
   public static var runtimeIssuesLog: os.OSLog { get }
   public static var eventDebuggingLog: os.OSLog { get }
   public static var archiving: os.Logger { get }
+  public static var archivedToggle: os.Logger { get }
+  public static var archivedPlaybackButton: os.Logger { get }
+  public static var events: os.Logger { get }
+  public static var metadataExtraction: os.Logger { get }
+  public static var unitTests: os.Logger { get }
+  public static var timelineScheduleSequences: os.Logger { get }
+  public static var archivedButton: os.Logger { get }
+  public static var scenes: os.Logger? { get }
+  public static var immersiveSpace: os.Logger { get }
+}
+
+@_silgen_name("$s7SwiftUI3LogOAAE5focus2os6LoggerVSgvgZ")
+public func getFocus() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE10navigation2os6LoggerVSgvgZ")
+public func getNavigation() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE13listSelection2os6LoggerVSgvgZ")
+public func getListSelection() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE11listDiffing2os6LoggerVSgvgZ")
+public func getListDiffing() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE8listPerf2os6LoggerVSgvgZ")
+public func getListPerf() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE8listMisc2os6LoggerVSgvgZ")
+public func getListMisc() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE5table2os6LoggerVSgvgZ")
+public func getTable() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE12presentation2os6LoggerVSgvgZ")
+public func getPresentation() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE7tabView2os6LoggerVSgvgZ")
+public func getTabView() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE11urlHandling2os6LoggerVSgvgZ")
+public func getURLHandling() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE19splitViewVisibility2os6LoggerVSgvgZ")
+public func getSplitViewVisibility() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE11dragAndDrop2os6LoggerVSgvgZ")
+public func getDragAndDrop() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE9documents2os6LoggerVSgvgZ")
+public func getDocuments() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE6resize2os6LoggerVSgvgZ")
+public func getResize() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE11attachments2os6LoggerVSgvgZ")
+public func getAttachments() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE7toolbar2os6LoggerVSgvgZ")
+public func getToolbar() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE9lazyStack2os6LoggerVSgvgZ")
+public func getLazyStack() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE15lazyLayoutReuse2os6LoggerVSgvgZ")
+public func getLazyLayoutReuse() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE18lazyLayoutPrefetch2os6LoggerVSgvgZ")
+public func getLazyLayoutPrefetch() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE10graphReuse2os6LoggerVSgvgZ")
+public func getGraphReuse() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE6scroll2os6LoggerVSgvgZ")
+public func getScroll() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE8printing2os6LoggerVSgvgZ")
+public func getPrinting() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE12remoteScenes2os6LoggerVSgvgZ")
+public func getRemoteScenes() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE10textEditor2os6LoggerVSgvgZ")
+public func getTextEditor() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE9textField2os6LoggerVSgvgZ")
+public func getTextField() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE9openScene2os6LoggerVSgvgZ")
+public func getOpenScene() -> os.Logger?
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUIPrivate.Log {
+  public static var focus: os.Logger? { get }
+  public static var navigation: os.Logger? { get }
+  public static var listSelection: os.Logger? { get }
+  public static var listDiffing: os.Logger? { get }
+  public static var listPerf: os.Logger? { get }
+  public static var listMisc: os.Logger? { get }
+  public static var table: os.Logger? { get }
+  public static var presentation: os.Logger? { get }
+  public static var tabView: os.Logger? { get }
+  public static var urlHandling: os.Logger? { get }
+  public static var splitViewVisibility: os.Logger? { get }
+  public static var dragAndDrop: os.Logger? { get }
+  public static var documents: os.Logger? { get }
+  public static var resize: os.Logger? { get }
+  public static var attachments: os.Logger? { get }
+  public static var toolbar: os.Logger? { get }
+  public static var lazyStack: os.Logger? { get }
+  public static var lazyLayoutReuse: os.Logger? { get }
+  public static var lazyLayoutPrefetch: os.Logger? { get }
+  public static var graphReuse: os.Logger? { get }
+  public static var scroll: os.Logger? { get }
+  public static var printing: os.Logger? { get }
+  public static var remoteScenes: os.Logger? { get }
+  public static var textEditor: os.Logger? { get }
+  public static var textField: os.Logger? { get }
+  public static var openScene: os.Logger? { get }
 }
 
 @available(visionOS 26.0, *)
@@ -202,3 +320,7 @@ public enum Log {
 extension os.OSLog {
   public static var runtimeIssuesLog: os.OSLog { get }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public func changedBodyProperties<T>(of type: T.Type) -> [String]

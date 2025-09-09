@@ -1,210 +1,284 @@
 #warning("TODO")
-internal import os.log
-internal import OSLog
+package import os.log
+private import Foundation
 
-func logChangedBodyProperties<T>(of: T.Type) {
+package func changedBodyProperties<T>(of type: T.Type) -> [String] {
     fatalError("TODO")
 }
 
-func log(_: [(_Benchmark, [Double])]) {
+package func logChangedBodyProperties<T>(of type: T.Type) {
+    let todo = changedBodyProperties(of: type)
+    fatalError("TODO")
+}
+
+package func log(_: [(_Benchmark, [Double])]) {
     fatalError("TODO")
 }
 
 package enum Log {
-    static func externalWarning(_ message: String) {
+    package static func externalWarning(_ message: String) {
         Log.unlocatedIssuesLog.fault("\(message)")
     }
     
-    static func internalWarning(_ message: @autoclosure @escaping () -> String) {
+    package static func internalWarning(_ message: @autoclosure @escaping () -> String) {
         Log.internalWarning(message(), file: #fileID, line: #line)
     }
     
-    static func internalError(_ message: @autoclosure @escaping () -> String) {
+    package static func internalError(_ message: @autoclosure @escaping () -> String) {
         Log.internalError(message(), file: #fileID, line: #line)
     }
     
-    static func eventDebug(_ message: String) {
+    package static func eventDebug(_ message: String) {
         Log.events.log(level: .default, "\(message)")
     }
     
-    static fileprivate(set) nonisolated(unsafe) var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
+    package static fileprivate(set) nonisolated(unsafe) var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
     
-    static func log(_: @autoclosure () -> String) {
+    package static func log(_: @autoclosure () -> String) {
         // nop
     }
     
-    static var subsystem: String {
+    package static var subsystem: String {
         return "com.apple.SwiftUI"
     }
     
-    static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool, file: StaticString, line: UInt) {
+    package static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool, file: StaticString, line: UInt) {
         // nop
     }
     
-    static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool, file: StaticString) {
+    package static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool, file: StaticString) {
         // nop
     }
     
-    static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool) {
+    package static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool) {
         // nop
     }
     
-    static func internalWarning(_ message: @autoclosure @escaping () -> String, file: StaticString, line: UInt) {
+    package static func internalWarning(_ message: @autoclosure @escaping () -> String, file: StaticString, line: UInt) {
         print("\(message()) - \(file):\(line) - please file a bug report.")
     }
     
-    static func internalError(_ message: @autoclosure @escaping () -> String, file: StaticString, line: UInt) {
+    package static func internalError(_ message: @autoclosure @escaping () -> String, file: StaticString, line: UInt) {
         os_log(.fault, log: Log.internalErrorsLog, "%s - %s:%s", message(), file.description, line.description)
         print("\(message()) - \(file):\(line) - please file a bug report.")
     }
     
-    static nonisolated(unsafe) var propertyChangeLog = Logger(subsystem: Log.subsystem, category: "Changed Body Properties")
-    static nonisolated(unsafe) var unlocatedIssuesLog = Logger(subsystem: Log.subsystem, category: "Invalid Configuration")
-    static nonisolated(unsafe) var internalErrorsLog = OSLog(subsystem: Log.subsystem, category: "SwiftUI")
-    static nonisolated(unsafe) var eventDebuggingLog = OSLog(subsystem: "com.apple.diagnostics.events", category: "SwiftUI")
-    static nonisolated(unsafe) var archiving = Logger(subsystem: Log.subsystem, category: "Archiving")
-    
-    static var archivedToggle: Logger {
-        fatalError("TODO")
-    }
-    
-    static var archivedButton: Logger {
-        fatalError("TODO")
-    }
-    
-    static var archivedPlaybackButton: Logger {
-        fatalError("TODO")
-    }
-    
-    static var events: Logger {
-        fatalError("TODO")
-    }
-    
-    static var metadataExtraction: Logger {
-        fatalError("TODO")
-    }
-    
-    static var unitTests: Logger {
-        fatalError("TODO")
-    }
-    
-    static var timelineScheduleSequences: Logger {
-        fatalError("TODO")
-    }
-    
-    static var scenes: Logger? {
-        fatalError("TODO")
-    }
-    
-    static var immersiveSpace: Logger {
-        fatalError("TODO")
-    }
+    package static nonisolated(unsafe) var propertyChangeLog = Logger(subsystem: Log.subsystem, category: "Changed Body Properties")
+    package static nonisolated(unsafe) var unlocatedIssuesLog = Logger(subsystem: Log.subsystem, category: "Invalid Configuration")
+    package static nonisolated(unsafe) var internalErrorsLog = OSLog(subsystem: Log.subsystem, category: "SwiftUI")
+    package static nonisolated(unsafe) var eventDebuggingLog = OSLog(subsystem: "com.apple.diagnostics.events", category: "SwiftUI")
+    package static nonisolated(unsafe) var archiving = Logger(subsystem: Log.subsystem, category: "Archiving")
+    package static let archivedToggle = Logger(subsystem: Log.subsystem, category: "ArchivedToggle")
+    package static let archivedButton = Logger(subsystem: Log.subsystem, category: "ArchivedButton")
+    package static let archivedPlaybackButton = Logger(subsystem: Log.subsystem, category: "ArchivedPlaybackButton")
+    package static let events = Logger(subsystem: Log.subsystem, category: "Events")
+    package static let metadataExtraction = Logger(subsystem: Log.subsystem, category: "MetadataExtraction")
+    package static let unitTests = Logger(subsystem: Log.subsystem, category: "UnitTests")
+    package static let timelineScheduleSequences = Logger(subsystem: Log.subsystem, category: "TimelineSchedule Sequences")
+    package static let scenes: Logger? = {
+        let key = "com.apple.SwiftUI.EnableSceneLogging"
+        let flag: Bool
+        if UserDefaults.standard.object(forKey: key) != nil {
+            flag = UserDefaults.standard.bool(forKey: key)
+        } else {
+            flag = true
+        }
+        
+        if flag {
+            return Logger(subsystem: Log.subsystem, category: "Scenes")
+        } else {
+            return nil
+        }
+    }()
+    package static let immersiveSpace = Logger(subsystem: Log.subsystem, category: "ImmersiveSpace")
 }
 
 extension Log {
-    static var navigation: Logger? {
-        fatalError("TODO")
+    package static let focus: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableFocusLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "Focus")
+    }()
+    
+    package static var navigation: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableNavigationLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "Navigation")
     }
     
-    static var listSelection: Logger? {
-        fatalError("TODO")
+    package static var listSelection: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListSelectionLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "ListSelection")
     }
     
-    static var listDiffing: Logger? {
-        fatalError("TODO")
+    package static var listDiffing: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListDiffingLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "listDiffing")
     }
     
-    static var listPerf: Logger? {
-        fatalError("TODO")
+    package static var listPerf: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListPerfLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "listPerf")
     }
     
-    static var listMisc: Logger? {
-        fatalError("TODO")
+    package static var listMisc: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListMiscLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "listMisc")
     }
     
-    static var table: Logger? {
-        fatalError("TODO")
+    package static var table: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableTableLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "table")
     }
     
-    static var presentation: Logger? {
-        fatalError("TODO")
+    package static var presentation: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnablePresentationLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "Presentation")
     }
     
-    static var tabView: Logger? {
-        fatalError("TODO")
+    package static var tabView: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableTabViewLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "TabView")
     }
     
-    static var urlHandling: Logger? {
-        fatalError("TODO")
+    package static var urlHandling: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableURLHandlingLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "URLHandling")
     }
     
-    static var splitViewVisibility: Logger? {
-        fatalError("TODO")
+    package static var splitViewVisibility: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableSplitViewVisibilityLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "SplitViewVisibility")
     }
     
-    static var dragAndDrop: Logger? {
-        fatalError("TODO")
+    package static var dragAndDrop: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableDragAndDropLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "DragAndDrop")
     }
     
-    static var documents: Logger? {
-        fatalError("TODO")
+    package static var documents: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableDocumentsLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "DocumentBasedApps")
     }
     
-    static var resize: Logger? {
-        fatalError("TODO")
+    package static var resize: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableResizeLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "Resize")
     }
     
-    static var attachments: Logger? {
-        fatalError("TODO")
+    package static var attachments: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableAttachmentLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "Attachments")
     }
     
-    static var toolbar: Logger? {
-        fatalError("TODO")
+    package static var toolbar: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableToolbarLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "Toolbar")
     }
     
-    static var lazyStack: Logger? {
-        fatalError("TODO")
+    package static var lazyStack: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyStackLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "LazyStack")
     }
     
-    static var lazyLayoutReuse: Logger? {
-        fatalError("TODO")
+    package static var lazyLayoutReuse: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyLayoutReuseLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "LazyLayoutReuse")
     }
     
-    static var lazyLayoutPrefetch: Logger? {
-        fatalError("TODO")
+    package static var lazyLayoutPrefetch: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyLayoutPrefetchLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "LazyLayoutPrefetch")
     }
     
-    static var graphReuse: Logger? {
-        fatalError("TODO")
+    package static var graphReuse: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.GraphReuseLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "GraphReuse")
     }
     
-    static var scroll: Logger? {
-        fatalError("TODO")
+    package static var scroll: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.ScrollLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "Scroll")
     }
     
-    static var printing: Logger? {
-        fatalError("TODO")
+    package static var printing: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.PrintingLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "Printing")
     }
     
-    static var remoteScenes: Logger? {
-        fatalError("TODO")
+    package static var remoteScenes: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.RemoteScenesLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "RemoteScenes")
     }
     
-    static var textEditor: Logger? {
-        fatalError("TODO")
+    package static var textEditor: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.TextEditorLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "TextEditor")
     }
     
-    static var textField: Logger? {
-        fatalError("TODO")
+    package static var textField: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.TextFieldLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "TextField")
     }
     
-    static var openScene: Logger? {
-        fatalError("TODO")
+    package static var openScene: Logger? {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.OpenSceneLogging") else {
+            return nil
+        }
+        return Logger(subsystem: Log.subsystem, category: "OpenScene")
     }
 }
 
 extension OSLog {
-    static nonisolated(unsafe) var runtimeIssuesLog: OSLog {
+    package static nonisolated(unsafe) var runtimeIssuesLog: OSLog {
         get {
             return Log.runtimeIssuesLog
         }

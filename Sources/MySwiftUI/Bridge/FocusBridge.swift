@@ -14,9 +14,18 @@ class FocusBridge {
     private var ignoreTextFocusEvents: Bool = false
     
     var host: (UIView & FocusBridgeProvider & FocusHost)? {
-        fatalError("TODO")
+        guard let host = _host else {
+            if let logger = Log.focus {
+                logger.log(level: .default, "Focus bridge \(String(describing: self)) has no host.")
+            }
+            return nil
+        }
+        
+        return host
     }
     
+    // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
+    // 원래 없음
     final func setUp(host: (UIView & FocusBridgeProvider & FocusHost)) {
         _host = host
         if let host = self.host {

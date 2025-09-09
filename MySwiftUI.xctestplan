@@ -9,6 +9,89 @@
     }
   ],
   "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-com.apple.SwiftUI.EnableFocusLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableNavigationLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableListSelectionLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableListDiffingLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableListPerfLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableListMiscLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableTableLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnablePresentationLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableTabViewLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableURLHandlingLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableSplitViewVisibilityLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableDragAndDropLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableDocumentsLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableResizeLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableAttachmentLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableToolbarLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.LazyStackLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.LazyLayoutReuseLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.LazyLayoutPrefetchLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.GraphReuseLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.ScrollLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.PrintingLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.RemoteScenesLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.TextEditorLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.TextFieldLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.OpenSceneLogging YES"
+      },
+      {
+        "argument" : "-com.apple.SwiftUI.EnableSceneLogging YES"
+      }
+    ],
     "performanceAntipatternCheckerEnabled" : true
   },
   "testTargets" : [

@@ -22,11 +22,103 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print(#function)
-        _SwiftUIPrivate.Log.internalError("Foo")
-//        _SwiftUIPrivate.Log.runtimeIssuesLog
-        print(_SwiftUIPrivate.Log.archiving)
-        os_log(.default, log: .runtimeIssuesLog, "Hello")
+        print(changedBodyProperties(of: Color.self))
+        // MARK: - Log
+//        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableSceneLogging")
+        UserDefaults.standard.removeObject(forKey: "com.apple.SwiftUI.EnableSceneLogging")
+//        _ = _SwiftUIPrivate.Log.runtimeIssuesLog
+        _ = _SwiftUIPrivate.Log.eventDebuggingLog
+        _ = _SwiftUIPrivate.Log.archiving
+        _ = _SwiftUIPrivate.Log.archivedToggle
+        _ = _SwiftUIPrivate.Log.archivedPlaybackButton
+        _ = _SwiftUIPrivate.Log.events
+        _ = _SwiftUIPrivate.Log.metadataExtraction
+        _ = _SwiftUIPrivate.Log.unitTests
+        _ = _SwiftUIPrivate.Log.timelineScheduleSequences
+        _ = _SwiftUIPrivate.Log.archivedButton
+        _ = _SwiftUIPrivate.Log.scenes!
+        _ = _SwiftUIPrivate.Log.immersiveSpace
+        
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableFocusLogging")
+        _ = getFocus()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableNavigationLogging")
+        _ = getNavigation()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableListSelectionLogging")
+        _ = getListSelection()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableListDiffingLogging")
+        _ = getListDiffing()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableListPerfLogging")
+        _ = getListPerf()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableListMiscLogging")
+        _ = getListMisc()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableTableLogging")
+        _ = getTable()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnablePresentationLogging")
+        _ = getPresentation()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableTabViewLogging")
+        _ = getTabView()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableURLHandlingLogging")
+        _ = getURLHandling()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableSplitViewVisibilityLogging")
+        _ = getSplitViewVisibility()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableDragAndDropLogging")
+        _ = getDragAndDrop()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableDocumentsLogging")
+        _ = getDocuments()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableResizeLogging")
+        _ = getResize()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableAttachmentLogging")
+        _ = getAttachments()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableToolbarLogging")
+        _ = getToolbar()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.LazyStackLogging")
+        _ = getLazyStack()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.LazyLayoutReuseLogging")
+        _ = getLazyLayoutReuse()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.LazyLayoutPrefetchLogging")
+        _ = getLazyLayoutPrefetch()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.GraphReuseLogging")
+        _ = getGraphReuse()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.ScrollLogging")
+        _ = getScroll()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.PrintingLogging")
+        _ = getPrinting()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.RemoteScenesLogging")
+        _ = getRemoteScenes()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.TextEditorLogging")
+        _ = getTextEditor()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.TextFieldLogging")
+        _ = getTextField()!
+
+        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.OpenSceneLogging")
+        _ = getOpenScene()!
+
+
         
         var keys_1 = PreferenceKeys()
         keys_1.add(Foo_1.self)
