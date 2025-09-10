@@ -6,7 +6,7 @@ class UIKitStatusBarBridge {
     private var statusBarHidden: Bool? = nil
     private var _shouldDeferToChildViewController: Bool? = nil
     private var seedTracker = VersionSeedSetTracker()
-    weak var host: ViewRendererHost? = nil
+    private weak var host: ViewRendererHost? = nil
     
     var shouldDeferToChildViewController: Bool {
         guard isLinkedOnOrAfter(.v7) else {
@@ -22,6 +22,13 @@ class UIKitStatusBarBridge {
         }
         
         return false
+    }
+    
+    // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
+    // 원래 없음
+    @inlinable
+    final func setUp(host: (any ViewRendererHost)) {
+        self.host = host
     }
     
     func addPreferences(to viewGraph: ViewGraph) {

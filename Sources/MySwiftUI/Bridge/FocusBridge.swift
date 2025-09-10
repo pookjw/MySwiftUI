@@ -26,6 +26,7 @@ class FocusBridge {
     
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
+    @inlinable
     final func setUp(host: (UIView & FocusBridgeProvider & FocusHost)) {
         _host = host
         if let host = self.host {

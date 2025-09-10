@@ -11,6 +11,7 @@ AG_EXTERN void AGGraphAddTraceEvent(AGGraphRef, int8_t *, void * /* ??? */, void
 AG_EXTERN NS_REFINED_FOR_SWIFT void AGGraphSetUpdateCallback(AGGraphRef, void (* _Nullable)(const void * _Nullable __attribute__((swift_context))) __attribute__((swiftcall)), const void * _Nullable);
 AG_EXTERN void AGGraphSetContext(AGGraphRef, const void * _Nullable context);
 AG_EXTERN const void * _Nullable AGGraphGetContext(AGGraphRef);
+AG_EXTERN unsigned long AGGraphGetCounter(AGGraphRef, AGGraphCounterOptions options) NS_SWIFT_NAME(AGGraphRef.counter(self:options:));
 
 NS_ASSUME_NONNULL_END
 

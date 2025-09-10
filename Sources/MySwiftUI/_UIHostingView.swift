@@ -66,7 +66,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var focusBridge = FocusBridge()
     private let dragBridge = DragAndDropBridge()
     internal var inspectorBridge: UIKitInspectorBridgeV3? = nil
-    private var tooltipBridge: TooltipBridge = TooltipBridge()
+    private var tooltipBridge = TooltipBridge()
     private var editMenuBridge: EditMenuBridge = EditMenuBridge()
     private var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
     private var shareConfigurationBridge: ShareConfigurationBridge? = nil
@@ -178,23 +178,20 @@ open class _UIHostingView<Content: View>: UIView {
         feedbackCache.host = self
         
         let statusBarBridge = statusBarBridge
-        statusBarBridge.host = self
+        statusBarBridge.setUp(host: self)
         statusBarBridge.addPreferences(to: viewGraph)
         
-        contextMenuBridge.host = self
-        deprecatedAlertBridge.host = self
-        viewGraph.addPreference(Alert.Presentation.Key.self)
-        deprecatedActionSheetBridge.host = self
-        viewGraph.addPreference(ActionSheet.Presentation.Key.self)
+        contextMenuBridge.setUp(host: self)
+        deprecatedAlertBridge.setUp(host: self, viewGraph: viewGraph, isActionSheet: false)
+        deprecatedActionSheetBridge.setUp(host: self, viewGraph: viewGraph, isActionSheet: true)
         
-        if let sheetBridge {
-            sheetBridge.host = self
-            sheetBridge.transitioningDelegate.host = self
-        }
-        
+        sheetBridge?.setUp(host: self)
         sheetBridge?.addPreferences(to: viewGraph)
         focusBridge.setUp(host: self)
         dragBridge.setUp(host: self, viewGraph: viewGraph)
+        tooltipBridge.setUp(host: self, viewGraph: viewGraph)
+        
+        // <+6208>
         fatalError("TODO")
     }
     
@@ -305,7 +302,49 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package func `as`<T>(_ type: T.Type) -> T? {
-        fatalError("TODO")
+        if let result = _base._as(type) {
+            return result
+        } else if let result = viewController?._as(type) {
+            return result
+        } else if let result = _specialize(self as (any FocusHost), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any PlatformItemListHost), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any AccessibilityHost), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any UICoreViewControllerProvider), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any EventGraphHost), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any PointerHost), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any WindowLayoutHost), for: T.self) {
+            return result
+        } else if T.self == UIView.self {
+            return unsafeBitCast(self, to: T.self)
+        } else if let result = _specialize(self as (any CurrentEventProvider), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any FallbackResponderProvider), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any ContainerBackgroundHost), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any RootTransformProvider), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any RootTransformUpdater), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any ViewRendererHost), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any UIHostingViewProvider), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any ViewGraphRenderObserver), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any ToolbarInputFeatureDelegate), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any SensoryFeedbackCacheHost), for: T.self) {
+            return result
+        } else {
+            return nil
+        }
     }
     
     package func requestUpdate(after time: Double) {
@@ -363,6 +402,58 @@ extension _UIHostingView: FocusHost {
 }
 
 extension _UIHostingView: FocusBridgeProvider {
+    
+}
+
+extension _UIHostingView: PlatformItemListHost {
+    
+}
+
+extension _UIHostingView: AccessibilityHost {
+    
+}
+
+extension _UIHostingView: EventGraphHost {
+    
+}
+
+extension _UIHostingView: PointerHost {
+    
+}
+
+extension _UIHostingView: WindowLayoutHost {
+    
+}
+
+extension _UIHostingView: CurrentEventProvider {
+    
+}
+
+extension _UIHostingView: FallbackResponderProvider {
+    
+}
+
+extension _UIHostingView: ContainerBackgroundHost {
+    
+}
+
+extension _UIHostingView: RootTransformProvider {
+    
+}
+
+extension _UIHostingView: RootTransformUpdater {
+    
+}
+
+extension _UIHostingView: ViewGraphRenderObserver {
+    
+}
+
+extension _UIHostingView: ToolbarInputFeatureDelegate {
+    
+}
+
+extension _UIHostingView: SensoryFeedbackCacheHost {
     
 }
 

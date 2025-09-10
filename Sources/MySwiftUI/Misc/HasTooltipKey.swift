@@ -1,6 +1,6 @@
 #warning("TODO")
 internal import MySwiftUICore
 
-struct RemotePresentationDelayKey: HostPreferenceKey {
+struct HasTooltipKey: HostPreferenceKey {
     typealias Value = Never? // TODO
 }

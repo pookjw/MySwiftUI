@@ -4,8 +4,8 @@ internal import MySwiftUICore
 internal import UIKit
 
 class DeprecatedAlertBridge<T>: NSObject {
-    weak var host: (any ViewRendererHost)?
-    var isShown: Bool
+    private weak var host: (any ViewRendererHost)?
+    private var isShown: Bool
     private var seed: VersionSeed
     private var alertController: PlatformAlertController?
     private var lastEnvironment: EnvironmentValues
@@ -23,5 +23,18 @@ class DeprecatedAlertBridge<T>: NSObject {
         self.isChangingIdentity = isChangingIdentity
         self.style = style
         super.init()
+    }
+    
+    // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
+    // 원래 없음
+    @inlinable
+    final func setUp(host: (any ViewRendererHost), viewGraph: ViewGraph, isActionSheet: Bool) {
+        self.host = host
+        
+        if isActionSheet {
+            viewGraph.addPreference(ActionSheet.Presentation.Key.self)
+        } else {
+            viewGraph.addPreference(Alert.Presentation.Key.self)
+        }
     }
 }

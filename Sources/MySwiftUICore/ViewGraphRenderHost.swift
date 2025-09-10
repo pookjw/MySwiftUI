@@ -1,0 +1,3 @@
+#warning("TODO")
+
+protocol ViewGraphRenderHost {}

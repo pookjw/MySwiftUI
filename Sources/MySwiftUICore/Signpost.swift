@@ -26,7 +26,7 @@ struct Signpost {
         switch style {
         case .kdebug(let kClass, _):
             let debugid = style.debugID(.begin)
-            kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, type: .begin, args: args)
+            kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, args: args)
             let result = closure()
             kdebug_trace(style.debugID(.end), signpostID.rawValue, 0, 0, 0)
             return result
@@ -55,8 +55,8 @@ struct Signpost {
         
         switch style {
         case .kdebug(let kClass, _):
-            let debugid = style.debugID(.begin)
-            kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, type: .begin, args: args)
+            let debugid = style.debugID(type)
+            kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, args: args)
         case .os_log(let name):
             os_signpost(type, log: _signpostLog, name: name, signpostID: signpostID, message, args)
         }
@@ -165,7 +165,7 @@ extension Signpost {
         case published
     }
     
-    private func kdebugTrace(kClass: UInt8, debugid: UInt32, signpostID: OSSignpostID, type: OSSignpostType, args: [CVarArg]) {
+    private func kdebugTrace(kClass: UInt8, debugid: UInt32, signpostID: OSSignpostID, args: [CVarArg]) {
         args.withUnsafeBufferPointer { (pointer: UnsafeBufferPointer<any CVarArg>) in
             let base = pointer
                 .baseAddress

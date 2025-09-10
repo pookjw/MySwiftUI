@@ -113,7 +113,7 @@ package class GraphHost {
         return data.globalSubgraph
     }
     
-    private var data: GraphHost.Data
+    package private(set) var data: GraphHost.Data
     private var constants: [ConstantKey: AnyAttribute]
     private var isInstantiated: Bool
     private var hostPreferenceValues: WeakAttribute<PreferenceValues>
@@ -157,10 +157,10 @@ package class GraphHost {
 }
 
 extension GraphHost {
-    struct Data {
-        var graph: Graph?
-        var globalSubgraph: Subgraph
-        var rootSugraph: Subgraph
+    package struct Data {
+        package private(set) var graph: Graph?
+        private(set) var globalSubgraph: Subgraph
+        private(set) var rootSugraph: Subgraph
         private var isRemoved: Bool
         private var isHiddenForReuse: Bool
         @Attribute private var time: Time

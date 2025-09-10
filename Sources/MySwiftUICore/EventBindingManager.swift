@@ -17,7 +17,7 @@ internal import Foundation
     }
 }
 
-protocol EventGraphHost: AnyObject {
+package protocol EventGraphHost: AnyObject {
     
 }
 

@@ -5,7 +5,7 @@ private import CoreGraphics
 package class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
-    private weak var delegate: ViewGraphDelegate? = nil
+    weak var delegate: ViewGraphDelegate? = nil
     private var features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
     private var centersRootView = true
     private let rootView: AnyAttribute
@@ -182,6 +182,10 @@ extension ViewGraph {
             childLayoutComputer: OptionalAttribute()
         )
     }
+}
+
+extension ViewGraph: ViewGraphRenderHost {
+    
 }
 
 fileprivate struct RootTransform: Rule {

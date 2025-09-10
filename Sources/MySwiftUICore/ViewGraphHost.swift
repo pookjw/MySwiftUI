@@ -13,10 +13,10 @@ package class ViewGraphHost {
     private var initialInheritedEnvironment: EnvironmentValues? = nil
     package let viewGraph: ViewGraph
     private let renderer: DisplayList.ViewRenderer
-    private var currentTimestamp: Time = .zero
-    private var valuesNeedingUpdate: ViewGraphRootValues = .all
-    private var renderingPhase: ViewRenderingPhase = .none
-    private var externalUpdateCount: Int = 0
+    package var currentTimestamp: Time = .zero
+    package var valuesNeedingUpdate: ViewGraphRootValues = .all
+    package var renderingPhase: ViewRenderingPhase = .none
+    package var externalUpdateCount: Int = 0
     private var parentPhase: _GraphInputs.Phase? = nil
     private var displayLink: ViewGraphDisplayLink? = nil
     private var nextTimerTime: Time? = nil
@@ -29,6 +29,20 @@ package class ViewGraphHost {
     ) {
         self.viewGraph = ViewGraph(rootViewType: rootViewType, requestedOutputs: outputs)
         self.renderer = DisplayList.ViewRenderer(platform: DisplayList.ViewUpdater.Platform(definition: viewDefinition))
+    }
+    
+    package func `as`<T>(_ type: T.Type) -> T? {
+        if let result = _specialize(self as (any ViewGraphOwner), for: T.self) {
+            return result
+        } else if let result = _specialize(renderer, for: T.self) {
+            return result
+        } else if let result = _specialize(renderDelegate, for: T.self) {
+            return result
+        } else if let result = _specialize(viewGraph as (any ViewGraphRenderHost), for: T.self) {
+            return result
+        } else {
+            return nil
+        }
     }
     
     package func setUp() {
@@ -76,3 +90,5 @@ extension ViewGraphHost {
         }
     }
 }
+
+extension ViewGraphHost: ViewGraphOwner {}

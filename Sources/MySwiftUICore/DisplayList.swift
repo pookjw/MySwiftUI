@@ -73,7 +73,7 @@ extension DisplayList.ViewUpdater.Platform {
 }
 
 extension DisplayList {
-    class ViewRenderer {
+    final class ViewRenderer {
         private let platform: DisplayList.ViewUpdater.Platform
         private var configuration = _RendererConfiguration(renderer: .default)
         private weak var host: ViewRendererHost? = nil

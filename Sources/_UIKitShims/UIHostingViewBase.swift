@@ -40,6 +40,18 @@ package final class UIHostingViewBase: NSObject {
         super.init()
     }
     
+    package func _as<T>(_ type: T.Type) -> T? {
+        if let result = viewGraph.as(type) {
+            return result
+        } else if let result = _specialize(self as (any ViewGraphRenderDelegate), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any RootContainerShapeProvider), for: T.self) {
+            return result
+        } else {
+            return nil
+        }
+    }
+    
     package func setUp() {
         let viewGraphHost = viewGraph
         viewGraphHost.renderDelegate = self
@@ -105,6 +117,7 @@ extension UIHostingViewBase {
 
 extension UIHostingViewBase: ViewGraphRenderDelegate {}
 extension UIHostingViewBase: ViewGraphHostDelegate {}
+extension UIHostingViewBase: RootContainerShapeProvider {}
 
 protocol UIHostingViewBaseDelegate: AnyObject {
     func baseShouldDisableUIKitAnimationsWhenRendering(_ base: UIHostingViewBase) -> Bool
