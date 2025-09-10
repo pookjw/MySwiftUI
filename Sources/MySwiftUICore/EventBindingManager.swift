@@ -2,8 +2,8 @@
 internal import Foundation
 
 @_spi(Internal) public class EventBindingManager {
-    private weak var host: EventGraphHost? = nil
-    private weak var delegate: EventBindingManagerDelegate? = nil
+    package weak var host: EventGraphHost? = nil
+    package weak var delegate: EventBindingManagerDelegate? = nil
     private var forwardedEventDispatchers: [ObjectIdentifier : ForwardedEventDispatcher] = [:]
     private var eventBindings: [EventID : EventBinding] = [:]
     private var isActive: Bool = false
@@ -17,11 +17,11 @@ internal import Foundation
     }
 }
 
-package protocol EventGraphHost: AnyObject {
+package protocol EventGraphHost: AnyObject, EventBindingManagerDelegate {
     
 }
 
-protocol EventBindingManagerDelegate: AnyObject {
+package protocol EventBindingManagerDelegate: AnyObject {
     
 }
 

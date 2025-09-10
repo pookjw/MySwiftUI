@@ -11,6 +11,12 @@
         "string_view": "cpp",
         "unordered_map": "cpp",
         "vector": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "__node_handle": "cpp",
+        "bitset": "cpp",
+        "limits": "cpp",
+        "locale": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp"
     }
 }

@@ -92,6 +92,12 @@
         "argument" : "-com.apple.SwiftUI.EnableSceneLogging YES"
       }
     ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "SWIFTUI_GESTURE_CONTAINER",
+        "value" : "0"
+      }
+    ],
     "performanceAntipatternCheckerEnabled" : true
   },
   "testTargets" : [

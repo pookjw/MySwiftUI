@@ -4,7 +4,7 @@ internal import UIKit
 
 class FocusBridge {
     private var flags: Flags = []
-    private weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil
+    weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil
     private var focusStore: FocusStore = FocusStore()
     private var currentEnvironment: EnvironmentValues = EnvironmentValues()
     private var _focusItem: FocusItem? = nil
@@ -27,8 +27,7 @@ class FocusBridge {
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    final func setUp(host: (UIView & FocusBridgeProvider & FocusHost)) {
-        _host = host
+    final func addPreferences(to viewGraph: ViewGraph) {
         if let host = self.host {
             let viewGraph = host.viewGraph
             viewGraph.addPreference(FocusedValueList.Key.self)

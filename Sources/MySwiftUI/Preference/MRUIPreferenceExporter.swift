@@ -6,7 +6,7 @@ private import UIKit
 
 class MRUIPreferenceExporter {
     // $s7SwiftUI25MRUIBridgedPreferenceKeysO03allE0_WZ
-    static let allKeys: [MRUIBridgedPreferenceKey.Type] = [
+    static nonisolated(unsafe) let allKeys: [any MRUIBridgedPreferenceKey.Type] = [
         PreferredAnchoredPlaneKey.self,
 //        VideoPassthroughBrightnessKey.self,
 //        SystemDefinedSurroundingsEffectKey.self,
@@ -29,6 +29,15 @@ class MRUIPreferenceExporter {
                 key.visitKey(&visitor)
                 return visitor.exportedPreference
             }
+    }
+    
+    // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
+    // 원래 없음
+    @inlinable
+    final func addPreferences(to viewGraph: ViewGraph) {
+        for preference in exportedPreferences {
+            preference.addPreference(to: viewGraph)
+        }
     }
 }
 

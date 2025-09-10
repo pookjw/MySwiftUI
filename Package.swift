@@ -36,7 +36,8 @@ let package = Package(
                 .byName(name: "_DyldPrivate"),
                 .byName(name: "AttributeGraph"),
                 .byName(name: "_MySwiftUIShims"),
-                .byName(name: "FeatureFlags")
+                .byName(name: "FeatureFlags"),
+                .byName(name: "StopwatchSupport")
             ],
             swiftSettings: [
                 .unsafeFlags([
@@ -99,6 +100,10 @@ let package = Package(
         .binaryTarget(
             name: "FeatureFlags",
             path: "FeatureFlags.xcframework"
+        ),
+        .binaryTarget(
+            name: "StopwatchSupport",
+            path: "StopwatchSupport.xcframework"
         ),
         .target(
             name: "MySwiftUITestUtils"

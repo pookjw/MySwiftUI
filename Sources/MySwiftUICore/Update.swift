@@ -33,7 +33,11 @@ package enum Update {
     }
     
     package static func ensure<T>(_ handler: () throws -> T) rethrows -> T {
-        fatalError("TODO")
+        Update._lock.lock()
+        defer {
+            Update._lock.unlock()
+        }
+        return try handler()
     }
     
     package static func locked<T>(_ handler: () throws -> T) rethrows -> T {

@@ -17,7 +17,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var _rootView: Content
     private let _base: _UIKitShims.UIHostingViewBase
     private var isBaseConfigured: Bool = false
-    internal let eventBindingManager: EventBindingManager = EventBindingManager()
+    internal let eventBindingManager = EventBindingManager()
     private var allowUIKitAnimations: Int32 = 0
     private var disabledBackgroundColor: Bool = false
     private var allowFrameChanges: Bool = true
@@ -75,15 +75,15 @@ open class _UIHostingView<Content: View>: UIView {
     private var scenePresentationBridge: ScenePresentationBridge? = nil
     private var pointerBridge: PointerBridge? = nil
     private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>? = nil
-    private let mruiPreferenceExporter: MRUIPreferenceExporter = MRUIPreferenceExporter()
+    private let mruiPreferenceExporter = MRUIPreferenceExporter()
     private var renderingMarginsBridge: RenderingMarginsBridge<Content>? = nil
-    private var objectManipluateBridge: UIKitObjectManipulationBridge<Content> = UIKitObjectManipulationBridge()
+    private var objectManipluateBridge = UIKitObjectManipulationBridge<Content>()
     private var remoteSessionController: RemoteScenes.SessionController? = nil
     private lazy var feedbackCache = UIKitSensoryFeedbackCache()
     private var contextMenuBridge = ContextMenuBridge()
-    private var interactiveResizeBridge: InteractiveResizeBridge = InteractiveResizeBridge()
+    private var interactiveResizeBridge = InteractiveResizeBridge()
     private var shouldUpdateAccessibilityFocus: Bool = false
-    private let largeContentViewerInteractionBridge: UILargeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
+    private let largeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
     private lazy var presentationModeLocation: LocationBox<UIKitPresentationModeLocation<Content>> = {
         fatalError("TODO")
     }()
@@ -178,21 +178,73 @@ open class _UIHostingView<Content: View>: UIView {
         feedbackCache.host = self
         
         let statusBarBridge = statusBarBridge
-        statusBarBridge.setUp(host: self)
+        statusBarBridge.host = self
         statusBarBridge.addPreferences(to: viewGraph)
         
-        contextMenuBridge.setUp(host: self)
-        deprecatedAlertBridge.setUp(host: self, viewGraph: viewGraph, isActionSheet: false)
-        deprecatedActionSheetBridge.setUp(host: self, viewGraph: viewGraph, isActionSheet: true)
+        contextMenuBridge.host = self
         
-        sheetBridge?.setUp(host: self)
-        sheetBridge?.addPreferences(to: viewGraph)
-        focusBridge.setUp(host: self)
-        dragBridge.setUp(host: self, viewGraph: viewGraph)
-        tooltipBridge.setUp(host: self, viewGraph: viewGraph)
+        let deprecatedAlertBridge = deprecatedAlertBridge
+        deprecatedAlertBridge.host = self
+        deprecatedAlertBridge.addPreferences(to: viewGraph, isActionSheet: false)
         
-        // <+6208>
+        let deprecatedActionSheetBridge = deprecatedActionSheetBridge
+        deprecatedActionSheetBridge.host = self
+        deprecatedActionSheetBridge.addPreferences(to: viewGraph, isActionSheet: true)
+        
+        if let sheetBridge = sheetBridge {
+            sheetBridge.host = self
+            sheetBridge.transitioningDelegate.host = self
+            sheetBridge.addPreferences(to: viewGraph)
+        }
+        
+        let focusBridge = focusBridge
+        focusBridge._host = self
+        focusBridge.addPreferences(to: viewGraph)
+        
+        let dragBridge = dragBridge
+        dragBridge.host = self
+        dragBridge.addPreferences(to: viewGraph)
+        
+        let tooltipBridge = tooltipBridge
+        tooltipBridge.host = self
+        tooltipBridge.addPreferences(to: viewGraph)
+        
+        let editMenuBridge = editMenuBridge
+        editMenuBridge.host = self
+        editMenuBridge.addPreferences(to: viewGraph)
+        
+        if self.traitCollection.userInterfaceIdiom == .vision {
+            self.feedbackBridge = UIKitFeedbackGeneratorBridge<Content>()
+            self.feedbackBridge?.host = self
+            self.feedbackBridge?.addPreferences(to: viewGraph)
+            
+            self.objectManipluateBridge.host = self
+            self.objectManipluateBridge.addPreferences(to: viewGraph)
+        }
+        
+        if self.traitCollection.userInterfaceIdiom == .pad || self.traitCollection.userInterfaceIdiom == .vision {
+            let pointerBridge = PointerBridge()
+            pointerBridge.host = self
+            self.pointerBridge = pointerBridge
+        }
+        
+        contextMenuBridge.addPreferences(to: viewGraph)
+        mruiPreferenceExporter.host = self
+        mruiPreferenceExporter.addPreferences(to: viewGraph)
+        largeContentViewerInteractionBridge.host = self
+        largeContentViewerInteractionBridge.updateRequestedPreferences(for: viewGraph)
+        eventBindingManager.host = self
+        eventBindingManager.delegate = self
+        
+        if let gestureRecognizer = eventBridge.gestureRecognizer {
+            addGestureRecognizer(gestureRecognizer.twoHandedInteractionRelationshipGesture)
+            addGestureRecognizer(gestureRecognizer)
+        }
+        
+        // <+7588>
         fatalError("TODO")
+        
+        Update.end()
     }
     
     public required init?(coder: NSCoder) {

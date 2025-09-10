@@ -1,0 +1,5 @@
+framework module StopwatchSupport {
+    umbrella header "StopwatchSupport.h"
+    export *
+    module * { export * }
+}

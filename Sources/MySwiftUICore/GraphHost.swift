@@ -154,6 +154,12 @@ package class GraphHost {
             data.hostPreferenceKeys.add(key)
         }
     }
+    
+    package final func removePreference<T: HostPreferenceKey>(_ key: T.Type) {
+        Graph.withoutUpdate {
+            data.hostPreferenceKeys.remove(key)
+        }
+    }
 }
 
 extension GraphHost {

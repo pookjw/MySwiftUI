@@ -3,7 +3,7 @@ internal import UIKit
 internal import MySwiftUICore
 
 class ContextMenuBridge: NSObject {
-    private weak var host: (any ViewRendererHost)? = nil
+    weak var host: (any ViewRendererHost)? = nil
     private var interaction: UIContextMenuInteraction? = nil
     private var menuOrder: MenuOrder = .automatic
     private var hasContextMenuSeed: VersionSeed = .empty
@@ -16,7 +16,13 @@ class ContextMenuBridge: NSObject {
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    final func setUp(host: (any ViewRendererHost)) {
-        self.host = host
+    final func addPreferences(to viewGraph: ViewGraph) {
+        guard host!.shouldCreateUIInteractions else {
+            return
+        }
+        
+        viewGraph.addPreference(HasContextMenuKey.self)
+        viewGraph.addPreference(MenuOrderPreferenceKey.self)
+        viewGraph.addPreference(ContextMenuPresentation.Key.self)
     }
 }

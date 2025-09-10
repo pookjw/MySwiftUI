@@ -2,7 +2,7 @@
 @_spi(Internal) internal import MySwiftUICore
 
 class UIKitEventBindingBridge: EventBindingBridge {
-    private var gestureRecognizer: UIKitGestureRecognizer? = nil
+    private(set) var gestureRecognizer: UIKitGestureRecognizer? = nil
     private var hoverGestureRecognizer: UIKitHoverGestureRecognizer
     private var keyPressResponder: UIKitKeyPressResponder? = nil
     

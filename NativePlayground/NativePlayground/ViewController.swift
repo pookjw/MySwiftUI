@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         
         print(changedBodyProperties(of: Color.self))
         // MARK: - Log
+        UserDefaults.standard.setValue(false, forKey: "com.apple.SwiftUI.GestureContainers")
 //        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableSceneLogging")
         UserDefaults.standard.removeObject(forKey: "com.apple.SwiftUI.EnableSceneLogging")
 //        _ = _SwiftUIPrivate.Log.runtimeIssuesLog

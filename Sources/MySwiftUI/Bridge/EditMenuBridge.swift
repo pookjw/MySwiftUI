@@ -4,11 +4,19 @@ internal import MySwiftUICore
 
 class EditMenuBridge: NSObject {
     weak var host: ViewRendererHost? = nil
-    weak var listCell: ListCollectionViewCell? = nil
-    var interaction: UIEditMenuInteraction? = nil
-    var editMenuPresentationSeed: VersionSeed = .empty
-    var lastEditMenuPresentation: EditMenuPresentation? = nil
-    var presentedMenu: ActiveEditMenu? = nil
+    private weak var listCell: ListCollectionViewCell? = nil
+    private var interaction: UIEditMenuInteraction? = nil
+    private var editMenuPresentationSeed: VersionSeed = .empty
+    private var lastEditMenuPresentation: EditMenuPresentation? = nil
+    private var presentedMenu: ActiveEditMenu? = nil
+    
+    // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
+    // 원래 없음
+    @inlinable
+    final func addPreferences(to viewGraph: ViewGraph) {
+        viewGraph.addPreference(EditMenuPresentation.Key.self)
+        viewGraph.addPreference(HasEditMenuKey.self)
+    }
 }
 
 extension EditMenuBridge: UIEditMenuInteractionDelegate {
