@@ -1,4 +1,4 @@
-module _DyldPrivate {
+module _DyldPrivate [extern_c] {
     umbrella header "_DyldPrivate.h"
     export *
 }

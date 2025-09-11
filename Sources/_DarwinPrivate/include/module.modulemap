@@ -1,0 +1,4 @@
+module _DarwinPrivate [extern_c] {
+    umbrella header "_DarwinPrivate.h"
+    export *
+}

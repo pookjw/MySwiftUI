@@ -35,6 +35,7 @@ let package = Package(
             dependencies: [
                 .byName(name: "_DyldPrivate"),
                 .byName(name: "AttributeGraph"),
+                .byName(name: "_KernPrivate"),
                 .byName(name: "_MySwiftUIShims"),
                 .byName(name: "FeatureFlags"),
                 .byName(name: "StopwatchSupport")
@@ -46,14 +47,15 @@ let package = Package(
                 ])
             ],
             linkerSettings: [
-                .linkedFramework("UIKit")  
+                .linkedFramework("UIKit")
             ]
         ),
         .target(
             name: "_MySwiftUIShims",
             dependencies: [
                 .byName(name: "_UIKitPrivate"),
-                .byName(name: "BaseBoard")
+                .byName(name: "BaseBoard"),
+                .byName(name: "_DarwinPrivate")
             ],
             cSettings: [
                 .unsafeFlags(["-fno-objc-arc"])
@@ -104,6 +106,12 @@ let package = Package(
         .binaryTarget(
             name: "StopwatchSupport",
             path: "StopwatchSupport.xcframework"
+        ),
+        .target(
+            name: "_KernPrivate",
+        ),
+        .target(
+            name: "_DarwinPrivate"
         ),
         .target(
             name: "MySwiftUITestUtils"

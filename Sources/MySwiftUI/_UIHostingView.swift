@@ -4,6 +4,7 @@ public import UIKit
 @_spi(Internal) public import MySwiftUICore
 private import _UIKitShims
 private import _UIKitPrivate
+private import notify
 
 open class _UIHostingView<Content: View>: UIView {
     class var ignoresPresentations: Bool {
@@ -236,19 +237,73 @@ open class _UIHostingView<Content: View>: UIView {
         eventBindingManager.host = self
         eventBindingManager.delegate = self
         
+        let eventBridge = eventBridge
         if let gestureRecognizer = eventBridge.gestureRecognizer {
             addGestureRecognizer(gestureRecognizer.twoHandedInteractionRelationshipGesture)
             addGestureRecognizer(gestureRecognizer)
         }
+        addGestureRecognizer(eventBridge.hoverGestureRecognizer)
         
-        // <+7588>
-        fatalError("TODO")
+        let notificationCenter = NotificationCenter.default
+        
+        if isAppleInternalBuild() && isWindowRoot {
+            let pid = getpid()
+            withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+                _ = notify_register_dispatch("NameLayerTree-\(pid)", outToken.baseAddress, .main, { [weak self] token in
+                    self?.setLayerDebugName()
+                })
+            }
+            withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+                _ = notify_register_dispatch("NameLayerTree", outToken.baseAddress, .main, { [pid, weak self] token in
+                    let state64 = withUnsafeTemporaryAllocation(of: UInt64.self, capacity: 1) { outState64 in
+                        notify_get_state(token, outState64.baseAddress)
+                        return outState64.baseAddress.unsafelyUnwrapped.pointee
+                    }
+                    
+                    if pid != -1 && state64 == pid {
+                        self?.setLayerDebugName()
+                    }
+                })
+            }
+        }
+        
+        notificationCenter.addObserver(self, selector: #selector(accessibilityFocusedElementDidChange(_:)), name: UIAccessibility.elementFocusedNotification, object: nil)
+        addToHostingViewRegistry()
+        
+        if !Spacing.hasSetupDefaultValue {
+            Spacing.hasSetupDefaultValue = true
+        }
         
         Update.end()
     }
     
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    package var isWindowRoot: Bool {
+        guard let window else {
+            return false
+        }
+        guard let rootViewController = window.rootViewController else {
+            return false
+        }
+        guard let rootView = rootViewController.viewIfLoaded else {
+            return false
+        }
+        return self == rootView
+    }
+    
+    private func setLayerDebugName() {
+        fatalError("TODO")
+    }
+    
+    @objc private func accessibilityFocusedElementDidChange(_ notification: Notification) {
+        fatalError("TODO")
+    }
+    
+    private func addToHostingViewRegistry() {
+        HostingViewRegistry.shared.add(self)
     }
 }
 
@@ -449,6 +504,12 @@ extension _UIHostingView: @preconcurrency UICoreViewControllerProvider {
     }
 }
 
+extension _UIHostingView: @preconcurrency HostingViewProtocol {
+    func convertAnchor<T>(_ anchor: MySwiftUICore.Anchor<T>) -> T {
+        fatalError("TODO")
+    }
+}
+
 extension _UIHostingView: FocusHost {
     
 }
@@ -507,6 +568,10 @@ extension _UIHostingView: ToolbarInputFeatureDelegate {
 
 extension _UIHostingView: SensoryFeedbackCacheHost {
     
+}
+
+extension Spacing {
+    fileprivate static nonisolated(unsafe) var hasSetupDefaultValue = false
 }
 
 // SwiftUI에서 Geometry3DEffect를 conform하는 Type이 존재하지 않음

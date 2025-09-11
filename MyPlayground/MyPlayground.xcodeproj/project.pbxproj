@@ -11,6 +11,8 @@
 		4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2777112E5247CD00867E37 /* BaseBoard.xcframework */; };
 		4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */; };
 		4F4808652E4CB076004F6972 /* MySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4F4808642E4CB076004F6972 /* MySwiftUI */; };
+		4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A46872E728FF500BD29EF /* FeatureFlags.xcframework */; };
+		4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A468B2E72900000BD29EF /* StopwatchSupport.xcframework */; };
 		4F8F091E2E51DA7A00EFC573 /* AttributeGraph.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */; };
 		4F8F09252E51DA7A00EFC573 /* _UIKitPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09212E51DA7A00EFC573 /* _UIKitPrivate.xcframework */; };
 		4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09232E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework */; };
@@ -24,6 +26,8 @@
 		4F2777112E5247CD00867E37 /* BaseBoard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BaseBoard.xcframework; path = ../BaseBoard.xcframework; sourceTree = "<group>"; };
 		4F48083C2E4CAFAF004F6972 /* MyPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AttributeGraph.xcframework; path = ../AttributeGraph.xcframework; sourceTree = "<group>"; };
+		4F7A46872E728FF500BD29EF /* FeatureFlags.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FeatureFlags.xcframework; path = ../FeatureFlags.xcframework; sourceTree = "<group>"; };
+		4F7A468B2E72900000BD29EF /* StopwatchSupport.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = StopwatchSupport.xcframework; path = ../StopwatchSupport.xcframework; sourceTree = "<group>"; };
 		4F8F09212E51DA7A00EFC573 /* _UIKitPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _UIKitPrivate.xcframework; path = ../_UIKitPrivate.xcframework; sourceTree = "<group>"; };
 		4F8F09222E51DA7A00EFC573 /* _SwiftPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftPrivate.xcframework; path = ../_SwiftPrivate.xcframework; sourceTree = "<group>"; };
 		4F8F09232E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftUIPrivate.xcframework; path = ../_SwiftUIPrivate.xcframework; sourceTree = "<group>"; };
@@ -62,8 +66,10 @@
 				4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */,
 				4F8F09252E51DA7A00EFC573 /* _UIKitPrivate.xcframework in Frameworks */,
 				4FACF25F2E63E3FC000CB163 /* _SwiftPrivate.xcframework in Frameworks */,
+				4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */,
 				4FE8D0FD2E56AA8200352E55 /* _QuartzCorePrivate.xcframework in Frameworks */,
 				4F4808652E4CB076004F6972 /* MySwiftUI in Frameworks */,
+				4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */,
 				4F8F091E2E51DA7A00EFC573 /* AttributeGraph.xcframework in Frameworks */,
 				4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */,
 				4F27770E2E520A1F00867E37 /* RealitySimulationServices.xcframework in Frameworks */,
@@ -93,6 +99,8 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F7A468B2E72900000BD29EF /* StopwatchSupport.xcframework */,
+				4F7A46872E728FF500BD29EF /* FeatureFlags.xcframework */,
 				4FE8D0FC2E56AA8200352E55 /* _QuartzCorePrivate.xcframework */,
 				4F2777112E5247CD00867E37 /* BaseBoard.xcframework */,
 				4F27770D2E520A1F00867E37 /* RealitySimulationServices.xcframework */,

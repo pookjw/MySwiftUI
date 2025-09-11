@@ -8,7 +8,7 @@
 #import "include/NSObject+MySwiftUI.h"
 #include <dlfcn.h>
 #include <pthread.h>
-#include "include/Utils.h"
+#include "private/Utils.h"
 
 @implementation NSObject (MySwiftUI)
 

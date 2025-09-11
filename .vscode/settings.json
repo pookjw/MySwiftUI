@@ -17,6 +17,8 @@
         "limits": "cpp",
         "locale": "cpp",
         "optional": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }

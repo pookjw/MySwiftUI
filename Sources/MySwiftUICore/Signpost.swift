@@ -1,6 +1,6 @@
 #warning("TODO")
-private import _MySwiftUIShims
 internal import os.signpost
+private import _KernPrivate
 
 let _signpostLog = OSLog(subsystem: "com.apple.SwiftUI", category: "PlatformViewUpdate")
 
@@ -77,7 +77,7 @@ struct Signpost {
         case .disabled, .verbose:
             return false
         case .internal:
-            return _MySwiftUIIsAppleInternalBuild()
+            return isAppleInternalBuild()
         case .published:
             switch style {
             case .kdebug:

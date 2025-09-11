@@ -1,4 +1,4 @@
-framework module _QuartzCorePrivate {
+framework module _QuartzCorePrivate [extern_c] {
     umbrella header "_QuartzCorePrivate.h"
     export *
     module * { export * }

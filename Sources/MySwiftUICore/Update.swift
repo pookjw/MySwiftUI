@@ -20,11 +20,12 @@ package enum Update {
             return
         }
         
+        let traceHost = Update.traceHost
         Signpost.viewHost.traceEvent(
             type: .begin,
-            object: Update.traceHost,
+            object: traceHost,
             "ViewHost: (%p) update began PlatformHost [ %p ]",
-            args: [0, UInt(bitPattern: Unmanaged.passUnretained(traceHost).toOpaque())]
+            args: [0, UInt(bitPattern: ObjectIdentifier(traceHost))]
         )
     }
     
@@ -49,7 +50,18 @@ package enum Update {
     }
     
     package static func end() {
-        fatalError("TODO")
+        if Update.depth == 1 {
+            let traceHost = Update.traceHost
+            Signpost.viewHost.traceEvent(
+                type: .end,
+                object: traceHost,
+                "ViewHost: (%p) update ended PlatformHost [ %p ]",
+                args: [0, UInt(bitPattern: ObjectIdentifier(traceHost))]
+            )
+        }
+        
+        Update.depth -= 1
+        Update._lock.unlock()
     }
     
     package static func lock() {

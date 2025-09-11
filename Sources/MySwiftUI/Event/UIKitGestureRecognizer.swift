@@ -1,5 +1,4 @@
 #warning("TODO")
-
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
@@ -14,6 +13,17 @@ class UIKitGestureRecognizer: UIGestureRecognizer {
     
     init() {
         super.init(target: nil, action: nil)
-        fatalError("TODO")
+        
+        allowedPressTypes = [
+            NSNumber(integerLiteral: UIPress.PressType.upArrow.rawValue),
+            NSNumber(integerLiteral: UIPress.PressType.downArrow.rawValue),
+            NSNumber(integerLiteral: UIPress.PressType.leftArrow.rawValue),
+            NSNumber(integerLiteral: UIPress.PressType.rightArrow.rawValue),
+            NSNumber(integerLiteral: UIPress.PressType.select.rawValue),
+            NSNumber(integerLiteral: UIPress.PressType.menu.rawValue),
+            NSNumber(integerLiteral: UIPress.PressType.playPause.rawValue),
+            NSNumber(integerLiteral: UIPress.PressType.back.rawValue)
+        ]
+        delaysTouchesEnded = false
     }
 }

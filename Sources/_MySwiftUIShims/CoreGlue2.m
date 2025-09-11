@@ -1,6 +1,6 @@
 #import "CoreGlue2.h"
 #include <objc/runtime.h>
-#include "include/Utils.h"
+#include "private/Utils.h"
 
 extern void abort_report_np(const char *, ...);
 

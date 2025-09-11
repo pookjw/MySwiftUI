@@ -3,7 +3,7 @@
 
 class UIKitEventBindingBridge: EventBindingBridge {
     private(set) var gestureRecognizer: UIKitGestureRecognizer? = nil
-    private var hoverGestureRecognizer: UIKitHoverGestureRecognizer
+    private(set) var hoverGestureRecognizer: UIKitHoverGestureRecognizer
     private var keyPressResponder: UIKitKeyPressResponder? = nil
     
     @MainActor
