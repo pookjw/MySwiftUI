@@ -17,6 +17,15 @@ class EditMenuBridge: NSObject {
         viewGraph.addPreference(EditMenuPresentation.Key.self)
         viewGraph.addPreference(HasEditMenuKey.self)
     }
+    
+    // 원래 없음
+    @inlinable
+    @MainActor
+    final func hostRemovedFromWindow() {
+        UIView.performWithoutAnimation {
+            self.interaction?.dismissMenu()
+        }
+    }
 }
 
 extension EditMenuBridge: UIEditMenuInteractionDelegate {

@@ -281,6 +281,52 @@ open class _UIHostingView<Content: View>: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    open override func didMoveToWindow() {
+        Update.begin()
+        
+        eventBridge.hostingView(self, didMoveToWindow: window)
+        
+        if rootViewDelegate == nil, isWindowRoot {
+            rootViewDelegate = RootViewDelegate()
+            if let delegate {
+                rootViewDelegate?.nextDelegate = delegate
+            }
+            
+            self.delegate = rootViewDelegate
+        }
+        
+        if let delegate {
+            delegate.hostingView(self, didMoveTo: window)
+        }
+        
+        if window == nil {
+            contextMenuBridge.hostRemovedFromWindow()
+            editMenuBridge.hostRemovedFromWindow()
+        }
+        
+        if window == nil {
+            sharingActivityPickerBridge?.hostRemovedFromWindow()
+        }
+        
+        if window != nil {
+            updateEventBridge()
+        }
+        updateWindowGeometryScene()
+        
+        if let windowScene = window?.windowScene {
+            // <+1392>
+            let size = windowScene.effectiveGeometry._size
+            fatalError("TODO")
+        }
+        // <+1508>
+        fatalError("TODO")
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        fatalError("TODO")
+    }
+    
     package var isWindowRoot: Bool {
         guard let window else {
             return false
@@ -305,10 +351,23 @@ open class _UIHostingView<Content: View>: UIView {
     private func addToHostingViewRegistry() {
         HostingViewRegistry.shared.add(self)
     }
+    
+    private func updateEventBridge() {
+        fatalError("TODO")
+    }
+    
+    private func updateWindowGeometryScene() {
+        fatalError("TODO")
+    }
 }
 
 protocol UIHostingViewDelegate: AnyObject {
-    
+    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?)
+    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout EnvironmentValues)
+    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didUpdate values: EnvironmentValues)
+    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: PreferenceValues)
+    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList)
+    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs)
 }
 
 extension _UIHostingView {

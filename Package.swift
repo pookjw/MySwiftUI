@@ -20,6 +20,8 @@ let package = Package(
         .target(
             name: "MySwiftUI",
             dependencies: [
+                .byName(name: "_QuartzCorePrivate"),
+                .byName(name: "StopwatchSupport"),
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "_UIKitShims"),
                 .byName(name: "MySwiftUICore"),

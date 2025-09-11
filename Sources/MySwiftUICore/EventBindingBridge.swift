@@ -3,7 +3,7 @@
 @_spi(Internal)
 open class EventBindingBridge {
     public weak var eventBindingManager: EventBindingManager? = nil
-//    private var trackedEvents: [EventID : EventBindingBridge.TrackedEventState] = [:]
+//    private var trackedEvents: [EventID: EventBindingBridge.TrackedEventState] = [:]
     
     @MainActor
     @_alwaysEmitIntoClient

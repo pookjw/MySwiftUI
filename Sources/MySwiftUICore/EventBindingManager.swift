@@ -5,7 +5,7 @@ internal import Foundation
     package weak var host: EventGraphHost? = nil
     package weak var delegate: EventBindingManagerDelegate? = nil
     private var forwardedEventDispatchers: [ObjectIdentifier : ForwardedEventDispatcher] = [:]
-    private var eventBindings: [EventID : EventBinding] = [:]
+    private var eventBindings: [EventID: EventBinding] = [:]
     private var isActive: Bool = false
     private var eventTimer: Timer? = nil
     

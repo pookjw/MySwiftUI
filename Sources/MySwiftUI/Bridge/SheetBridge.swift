@@ -1,6 +1,5 @@
 #warning("TODO")
 internal import MySwiftUICore
-internal import Foundation
 internal import UIKit
 
 class SheetBridge<T>: NSObject {

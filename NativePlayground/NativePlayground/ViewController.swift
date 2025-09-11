@@ -19,11 +19,7 @@ struct Foo_2: _SwiftUIPrivate.PreferenceKey {
 }
 
 class ViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        print(changedBodyProperties(of: Color.self))
-        // MARK: - Log
+    override func loadView() {
         UserDefaults.standard.setValue(false, forKey: "com.apple.SwiftUI.GestureContainers")
 //        UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.EnableSceneLogging")
         UserDefaults.standard.removeObject(forKey: "com.apple.SwiftUI.EnableSceneLogging")
@@ -195,9 +191,15 @@ class ViewController: UIViewController {
         
         let emptyView = EmptyView()
         let hostingView = _UIHostingView(rootView: emptyView)
-        view.addSubview(hostingView)
-        hostingView.frame = view.bounds
-        hostingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view = hostingView
+        
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            self.view = UIView()
+//        }
+//        view.addSubview(hostingView)
+//        hostingView.frame = view.bounds
+//        hostingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
 //        Task {
 //            try await Task.sleep(for: .seconds(1))

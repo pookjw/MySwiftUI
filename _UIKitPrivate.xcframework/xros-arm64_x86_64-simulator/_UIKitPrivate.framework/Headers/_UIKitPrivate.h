@@ -4,4 +4,8 @@
 #import <_UIKitPrivate/UIAccessibilityHUDGestureManager.h>
 #import <_UIKitPrivate/UICoreKeyboardTrackingElement.h>
 #import <_UIKitPrivate/Configurations.h>
-#import <_UIKitPrivate/Geometry.h>
+#import <_UIKitPrivate/UIGestureRecognizer+Private.h>
+#import <_UIKitPrivate/UIWindow+Private.h>
+#import <_UIKitPrivate/_UISceneZoomInteraction.h>
+#import <_UIKitPrivate/_UIContextMenuInteractionDelegate3D.h>
+#import <_UIKitPrivate/UIWindowSceneGeometry+Private.h>

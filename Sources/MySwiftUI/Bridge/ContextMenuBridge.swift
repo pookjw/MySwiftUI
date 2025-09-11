@@ -1,6 +1,7 @@
 #warning("TODO")
 internal import UIKit
 internal import MySwiftUICore
+internal import _UIKitPrivate
 
 class ContextMenuBridge: NSObject {
     weak var host: (any ViewRendererHost)? = nil
@@ -24,5 +25,46 @@ class ContextMenuBridge: NSObject {
         viewGraph.addPreference(HasContextMenuKey.self)
         viewGraph.addPreference(MenuOrderPreferenceKey.self)
         viewGraph.addPreference(ContextMenuPresentation.Key.self)
+    }
+    
+    // 원래 없음
+    @inlinable
+    @MainActor
+    final func hostRemovedFromWindow() {
+        if let interaction {
+            UIView.performWithoutAnimation {
+                interaction.dismissMenu()
+            }
+        }
+    }
+}
+
+extension ContextMenuBridge: _UIContextMenuInteractionDelegate3D {
+    func _contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation3D location3D: CAPoint3D) -> UIContextMenuConfiguration? {
+        fatalError("TODO")
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        fatalError("TODO")
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForDismissingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        fatalError("TODO")
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        fatalError("TODO")
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, willDisplayMenuFor configuration: UIContextMenuConfiguration, animator: (any UIContextMenuInteractionAnimating)?) {
+        fatalError("TODO")
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, willEndFor configuration: UIContextMenuConfiguration, animator: (any UIContextMenuInteractionAnimating)?) {
+        fatalError("TODO")
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: any UIContextMenuInteractionCommitAnimating) {
+        fatalError("TODO")
     }
 }

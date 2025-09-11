@@ -1,5 +1,5 @@
 #warning("TODO")
-public import Foundation
+public import ObjectiveC
 private import _MySwiftUIShims
 
 @_spi(Internal)

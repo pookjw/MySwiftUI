@@ -1,5 +1,4 @@
 #warning("TODO")
-internal import Foundation
 private import MySwiftUICore
 internal import UIKit
 
