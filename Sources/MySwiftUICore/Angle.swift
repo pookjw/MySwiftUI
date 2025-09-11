@@ -31,6 +31,10 @@
     @inlinable public static func degrees(_ degrees: Double) -> Angle {
         return Angle(degrees: degrees)
     }
+    
+    @inlinable public static var zero: Angle {
+        return Angle(radians: 0)
+    }
 }
 
 extension Angle: Hashable, Comparable {

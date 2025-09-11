@@ -7,13 +7,12 @@ class UIKitGestureRecognizer: UIGestureRecognizer {
     weak var eventBridge: EventBindingBridge? = nil
     let twoHandedInteractionRelationshipGesture = UIKitRelationshipGestureRecognizer()
     private var inFlightTouchSerialIDs: [ObjectIdentifier : UInt32] = [:]
-    private var initialScale: CGFloat
-    private var initialAngle: Angle
-    private var scrollConverter: ScrollEventConverter
-    private var gestureCategory: GestureCategory
+    private var initialScale: CGFloat = 1.0
+    private var initialAngle: Angle = .zero
+    private var scrollConverter = ScrollEventConverter()
+    private var gestureCategory = GestureCategory(rawValue: 0)
     
     init() {
-        fatalError("TODO")
         super.init(target: nil, action: nil)
         fatalError("TODO")
     }
