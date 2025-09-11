@@ -61,6 +61,10 @@ package final class UIHostingViewBase: NSObject {
         addNotificationObservers()
     }
     
+    package func didMoveToWindow() {
+        fatalError("TODO")
+    }
+    
     private func addNotificationObservers() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(willBeginSnapshotSession), name: .applicationWillBeginSnapshotSessionNotification, object: nil)

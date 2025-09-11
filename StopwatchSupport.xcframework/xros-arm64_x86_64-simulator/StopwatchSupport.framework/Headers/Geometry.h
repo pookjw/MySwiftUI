@@ -20,7 +20,7 @@ struct SPVector3D {
 typedef struct SPVector3D SPVector3D;
 
 union SPSize3D {
-    CGFloat x, y, z;
+    CGFloat width, height, depth;
     SPVector3D vector;
 };
 typedef union SPSize3D SPSize3D;

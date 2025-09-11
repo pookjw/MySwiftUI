@@ -28,4 +28,12 @@ class SheetBridge<T>: NSObject {
         viewGraph.addPreference(InteractiveDismissDisabledKey.self)
         viewGraph.addPreference(RemotePresentationDelayKey.self)
     }
+    
+    func didMoveToWindow() {
+        fatalError("TODO")
+    }
+    
+    private func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
+        fatalError("TODO")
+    }
 }

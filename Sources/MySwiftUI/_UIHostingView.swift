@@ -127,6 +127,16 @@ open class _UIHostingView<Content: View>: UIView {
         return statusBarBridge.shouldDeferToChildViewController
     }
     
+    private var boundsDepth: CGFloat {
+        get {
+            return _boundsDepth
+        }
+        set {
+            _boundsDepth = newValue
+            immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace()
+        }
+    }
+    
     public required init(rootView: Content) {
         self._rootView = rootView
         
@@ -314,17 +324,27 @@ open class _UIHostingView<Content: View>: UIView {
         updateWindowGeometryScene()
         
         if let windowScene = window?.windowScene {
-            // <+1392>
             let size = windowScene.effectiveGeometry._size
-            fatalError("TODO")
+            if allowFrameChanges {
+                boundsDepth = size.depth
+            }
+            immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace()
         }
-        // <+1508>
-        fatalError("TODO")
+        
+        if let renderingMarginsBridge {
+            renderingMarginsBridge.hostDidMove(to: window?.windowScene)
+        }
+        
+        _ = focusBridge.host
+        viewController?._viewDidMoveToWindow()
+        
+        sheetBridge?.didMoveToWindow()
+        _base.didMoveToWindow()
     }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        fatalError("TODO")
+//        fatalError("TODO")
     }
     
     package var isWindowRoot: Bool {
@@ -353,10 +373,18 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private func updateEventBridge() {
+        let eventBridge = eventBridge
+        guard traitCollection.userInterfaceIdiom == .carPlay else {
+            return
+        }
         fatalError("TODO")
     }
     
     private func updateWindowGeometryScene() {
+        fatalError("TODO")
+    }
+    
+    private func immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace() {
         fatalError("TODO")
     }
 }
