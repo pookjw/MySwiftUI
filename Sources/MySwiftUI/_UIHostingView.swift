@@ -6,6 +6,8 @@ private import _UIKitShims
 private import _UIKitPrivate
 private import notify
 
+fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
+
 open class _UIHostingView<Content: View>: UIView {
     class var ignoresPresentations: Bool {
         return false
@@ -372,20 +374,35 @@ open class _UIHostingView<Content: View>: UIView {
         HostingViewRegistry.shared.add(self)
     }
     
-    private func updateEventBridge() {
+    func updateEventBridge() {
         let eventBridge = eventBridge
         guard traitCollection.userInterfaceIdiom == .carPlay else {
             return
         }
-        fatalError("TODO")
+        guard let gestureRecognizer = eventBridge.gestureRecognizer else {
+            return
+        }
+        
+        gestureRecognizer.allowedTouchTypes = [NSNumber(integerLiteral: UITouch.TouchType.direct.rawValue)]
     }
     
     private func updateWindowGeometryScene() {
-        fatalError("TODO")
+        let windowScene = window?.windowScene
+        
+        guard windowScene != windowGeometryScene else {
+            return
+        }
+        
+        windowGeometryScene?.removeObserver(self, forKeyPath: #keyPath(UIWindowScene.effectiveGeometry))
+        
+        if let windowScene {
+            windowScene.addObserver(self, forKeyPath: #keyPath(UIWindowScene.effectiveGeometry), options: .new, context: &effectiveGeometryObservationContext)
+        }
+        windowGeometryScene = windowScene
     }
     
     private func immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace() {
-        fatalError("TODO")
+        invalidateProperties([.transform], mayDeferUpdate: true)
     }
 }
 
@@ -399,9 +416,7 @@ protocol UIHostingViewDelegate: AnyObject {
 }
 
 extension _UIHostingView {
-    struct EnableVFDFeature: ViewGraphFeature {
-        
-    }
+    struct EnableVFDFeature: ViewGraphFeature {}
 }
 
 extension _UIHostingView {

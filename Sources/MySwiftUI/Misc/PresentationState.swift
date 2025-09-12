@@ -1,9 +1,19 @@
 #warning("TODO")
 private import UIKit
-private import MySwiftUICore
+internal import MySwiftUICore
 
 struct PresentationState {
+    var delayedPresentation : (presentation: SheetPreference, presentedVC: PresentationHostingController<AnyView>?, animated: Bool)? {
+        fatalError("TODO")
+    }
+    
     private var base: PresentationState.Base = .noPresentation
+    
+    func presentPreemptingDismissal(_ sheetPreference: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
+        fatalError("TODO")
+    }
+    
+    @inlinable func 
 }
 
 extension PresentationState {

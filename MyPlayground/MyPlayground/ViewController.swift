@@ -9,13 +9,12 @@ import UIKit
 import MySwiftUI
 
 class ViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func loadView() {
         let emptyView = EmptyView()
         let hostingView = _UIHostingView(rootView: emptyView)
-        view.addSubview(hostingView)
-        hostingView.frame = view.bounds
-        hostingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view = hostingView
+//        view.addSubview(hostingView)
+//        hostingView.frame = view.bounds
+//        hostingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
 }

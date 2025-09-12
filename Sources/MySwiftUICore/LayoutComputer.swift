@@ -1,27 +1,34 @@
 #warning("TODO")
+private import AttributeGraph
 
 struct LayoutComputer {
     @inline(never)
-    static nonisolated(unsafe) let defaultValue = LayoutComputer(DefaultEngine())
-    
+    static nonisolated(unsafe) let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())
     @inline(never)
-    static var defaultValue3D: LayoutComputer {
-        fatalError("TODO")
-    }
+    static nonisolated(unsafe) let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())
     
     private var box: AnyLayoutEngineBox
     private var seed: Int
     
     init<T: LayoutEngine>(_ engine: T) {
-        // TODO: LayoutTrace Recorder
-        self.box = LayoutEngineBox(engine: engine)
+        if LayoutTrace.recorder != nil {
+            self.box = TracingLayoutEngineBox(engine: engine)
+        } else {
+            self.box = LayoutEngineBox(engine: engine)
+        }
+        
         self.seed = 0
     }
 }
 
-protocol LayoutEngine {}
-struct DefaultEngine: LayoutEngine {}
-struct DefaultEngine3D: LayoutEngine {}
+protocol LayoutEngine {
+    // TODO
+}
+
+extension LayoutComputer {
+    struct DefaultEngine: LayoutEngine {}
+    struct DefaultEngine3D: LayoutEngine {}
+}
 
 fileprivate class AnyLayoutEngineBox {}
 
@@ -33,4 +40,10 @@ fileprivate class LayoutEngineBox<T>: AnyLayoutEngineBox {
     }
 }
 
-fileprivate class TracingLayoutEngineBox<T>: LayoutEngineBox<T> {}
+fileprivate class TracingLayoutEngineBox<T>: LayoutEngineBox<T> {
+    var attribute: AnyAttribute?
+    
+    override init(engine: T) {
+        fatalError("TODO")
+    }
+}

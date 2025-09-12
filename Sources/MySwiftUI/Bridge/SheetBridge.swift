@@ -30,6 +30,23 @@ class SheetBridge<T>: NSObject {
     }
     
     func didMoveToWindow() {
+        if host!.uiView?.window != nil {
+            hasWindow = true
+            
+            let presentationState = presentationState
+            if let delayedPresentation = presentationState.delayedPresentation {
+                
+            }
+            
+            fatalError("TODO")
+            
+        } else {
+            hasWindow = false
+            // <+1112>
+            fatalError("TODO")
+            
+        }
+        
         fatalError("TODO")
     }
     
