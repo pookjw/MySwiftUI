@@ -139,6 +139,15 @@ open class _UIHostingView<Content: View>: UIView {
         }
     }
     
+    private var base: _UIKitShims.UIHostingViewBase {
+        let base = _base
+        base.uiView = self
+        base.delegate = self
+        base.updateDelegate = self
+        base.viewGraph.renderer.host = self
+        return base
+    }
+    
     public required init(rootView: Content) {
         self._rootView = rootView
         
@@ -291,6 +300,14 @@ open class _UIHostingView<Content: View>: UIView {
     
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    open override var frame: CGRect {
+        didSet {
+            let oldValue = self.frame
+            super.frame = frame
+            base.frameDidChange(oldValue: oldValue)
+        }
     }
     
     open override func didMoveToWindow() {
@@ -608,6 +625,32 @@ extension _UIHostingView: @preconcurrency UICoreViewControllerProvider {
 
 extension _UIHostingView: @preconcurrency HostingViewProtocol {
     func convertAnchor<T>(_ anchor: MySwiftUICore.Anchor<T>) -> T {
+        fatalError("TODO")
+    }
+}
+
+extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
+    fileprivate func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims.UIHostingViewBase) -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func baseDidMoveToScene(_ base: _UIKitShims.UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {
+        fatalError("TODO")
+    }
+    
+    fileprivate func baseSceneActivationStateDidChange(_ base: _UIKitShims.UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {
+        fatalError("TODO")
+    }
+    
+    fileprivate func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims.UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
+        fatalError("TODO")
+    }
+    
+    fileprivate func baseSceneBecameKey(_ base: _UIKitShims.UIHostingViewBase) {
+        fatalError("TODO")
+    }
+    
+    fileprivate func baseSceneResignedKey(_ base: _UIKitShims.UIHostingViewBase) {
         fatalError("TODO")
     }
 }

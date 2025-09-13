@@ -9,3 +9,7 @@
 #import <_UIKitPrivate/_UISceneZoomInteraction.h>
 #import <_UIKitPrivate/_UIContextMenuInteractionDelegate3D.h>
 #import <_UIKitPrivate/UIWindowSceneGeometry+Private.h>
+#import <_UIKitPrivate/UIKeyboardSceneDelegate.h>
+#import <_UIKitPrivate/UICoreKeyboardTracking.h>
+#import <_UIKitPrivate/UIUpdate.h>
+#import <_UIKitPrivate/UIApplication+Private.h>

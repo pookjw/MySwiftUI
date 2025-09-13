@@ -114,29 +114,21 @@ class ViewController: UIViewController {
 
         UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.OpenSceneLogging")
         _ = getOpenScene()!
-
-
         
-        var keys_1 = PreferenceKeys()
-        keys_1.add(Foo_1.self)
-        
-        var keys_2 = PreferenceKeys()
-        keys_2.add(Foo_2.self)
-        
-        _forEachField(of: type(of: _UIHostingView<EmptyView>.self).self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        
-        print("===")
-        
-        print(_UIHostingView<EmptyView>.self)
-        _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        
-        print("===")
+//        _forEachField(of: type(of: _UIHostingView<EmptyView>.self).self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        
+//        print("===")
+//        
+//        print(_UIHostingView<EmptyView>.self)
+//        _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        
+//        print("===")
         
         print(UIHostingViewBase.self)
         _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
@@ -146,35 +138,35 @@ class ViewController: UIViewController {
         
         print("===")
         
-        print(ViewGraphHost.self)
-        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        
-        print("===")
-        
-        print(ViewGraph.self)
-        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        
-        print("===")
-        
-        print(GraphHost.self)
-        _forEachField(of: GraphHost.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        
-        print("===")
-        
-        print(RepresentableContextValues.self)
-        _forEachField(of: RepresentableContextValues.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
+//        print(ViewGraphHost.self)
+//        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        
+//        print("===")
+//        
+//        print(ViewGraph.self)
+//        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        
+//        print("===")
+//        
+//        print(GraphHost.self)
+//        _forEachField(of: GraphHost.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        
+//        print("===")
+//        
+//        print(RepresentableContextValues.self)
+//        _forEachField(of: RepresentableContextValues.self, options: []) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
 //        
 //        print("===")
 //        

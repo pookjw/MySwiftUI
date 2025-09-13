@@ -2,9 +2,9 @@ package import UIKit
 @_spi(Internal) package import MySwiftUICore
 private import _UIKitPrivate
 
-package final class UIHostingViewBase: NSObject {
-    private weak var uiView: UIView? = nil
-    private weak var delegate: UIHostingViewBaseDelegate? = nil
+package class UIHostingViewBase: NSObject {    
+    package weak var uiView: UIView? = nil
+    package weak var delegate: UIHostingViewBaseDelegate? = nil
     private var safeAreaRegions: SafeAreaRegions = .all
     private let configuration: UIHostingViewBase.Configuration
     package let viewGraph: ViewGraphHost
@@ -31,8 +31,25 @@ package final class UIHostingViewBase: NSObject {
     private var keyboardFrame: CGRect? = nil
     private var inactiveKeyboardFrame: CGRect? = nil
     private var keyboardSeed: UInt32 = 0
-    private lazy var trackingElement: UICoreHostingKeyboardTrackingElement? = nil
+    @MainActor private lazy var trackingElement: UICoreHostingKeyboardTrackingElement = {
+        let element = UICoreHostingKeyboardTrackingElement()
+        element.base = self
+        return element
+    }()
     private var isUpdatingKeyboard: Bool = false
+    
+    package var updateDelegate: ViewGraphRootValueUpdater? {
+        get {
+            return viewGraph.updateDelegate
+        }
+        set {
+            viewGraph.updateDelegate = newValue
+        }
+    }
+    
+    package init(viewGraph: ViewGraphHost, options: UIHostingViewBase.Options) {
+        fatalError("TODO")
+    }
     
     package init(viewGraph: ViewGraphHost, configuration: UIHostingViewBase.Configuration) {
         self.viewGraph = viewGraph
@@ -61,10 +78,163 @@ package final class UIHostingViewBase: NSObject {
         addNotificationObservers()
     }
     
+    @MainActor
+    package func frameDidChange(oldValue: CGRect) {
+        guard
+            let uiView,
+            let updateDelegate = viewGraph.updateDelegate
+        else {
+            return
+        }
+        
+        guard uiView.bounds != oldValue else {
+            return
+        }
+        
+        _ = UICoreHostingViewForUIKitTester()
+        updateDelegate.invalidateProperties([.size, .containerSize, .safeArea], mayDeferUpdate: false)
+    }
+    
+    @MainActor
     package func didMoveToWindow() {
+        guard let uiView else {
+            return
+        }
+        
+        let viewGraph = viewGraph
+        
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return
+        }
+        
+        let observedWindow = observedWindow
+        addOrRemoveKeyboardTracking(oldWindow: observedWindow)
+        
+        let newWindow = uiView.window
+        if newWindow != nil {
+            let traitCollectionOverride = traitCollectionOverride
+            self.traitCollectionOverride = nil
+            
+            if
+                traitCollectionOverride != nil,
+                let updateDelegate = viewGraph.updateDelegate
+            {
+                updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
+            }
+            
+            viewGraph.initialInheritedEnvironment = nil
+            updateDelegate.invalidateProperties([.transform], mayDeferUpdate: true)
+        }
+        
+        if isChaaranaApp {
+            if newWindow == nil {
+                if !pendingPostDisappearPreferencesUpdate && isLinkedOnOrAfter(.v6) {
+                    UIHostingViewBase.UpdateCycle.addPreCommitObserver { [weak self] in
+                        fatalError("TODO")
+                    }
+                }
+            }
+        } else {
+            if !pendingPostDisappearPreferencesUpdate && isLinkedOnOrAfter(.v6) {
+                UIHostingViewBase.UpdateCycle.addPreCommitObserver { [weak self] in
+                    fatalError("TODO")
+                }
+            }
+        }
+        
+        if newWindow == nil {
+            if let application = UIApp {
+                application._performBlockAfterCATransactionCommits { [weak self] in
+                    guard let self else { return }
+                    self.updateRemovedState(uiView: nil)
+                }
+            }
+        } else {
+            updateRemovedState(uiView: nil)
+        }
+        
+        if isHiddenForReuse {
+            clearDisplayLink()
+        }
+        
+        updateRemovedState(uiView: nil)
+        ___lldb_unnamed_symbol317396()
+        ___lldb_unnamed_symbol317397()
+        requestUpdateForFidelity()
+        
+        if newWindow == nil {
+            isRotatingWindow = false
+        }
+        
+        updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
+    }
+    
+    package final func updateRemovedState(uiView: UIView?) {
+        guard let uiView = uiView ?? self.uiView else {
+            return
+        } 
+        
+        let window = uiView.window
+        let isHiddenForReuse = isHiddenForReuse
+        if isHiddenForReuse {
+            clearDisplayLink()
+        }
+        viewGraph.updateRemovedState(isUnattached: window == nil, isHiddenForReuse: isHiddenForReuse)
+    }
+    
+    private func ___lldb_unnamed_symbol317396() {
         fatalError("TODO")
     }
     
+    private func ___lldb_unnamed_symbol317397() {
+        fatalError("TODO")
+    }
+    
+    package func requestUpdateForFidelity() {
+        fatalError("TODO")
+    }
+    
+    package func clearDisplayLink() {
+        viewGraph.clearDisplayLink()
+    }
+    
+    // ___lldb_unnamed_symbol320011
+    @MainActor
+    private func addOrRemoveKeyboardTracking(oldWindow: UIWindow?) {
+        guard isLinkedOnOrAfter(.v2) else {
+            return
+        }
+        guard let uiView else {
+            return
+        }
+        guard configuration.options.contains(.allowKeyboardSafeArea) else {
+            return
+        }
+        
+        if let oldWindow {
+            guard uiView.window == nil else {
+                return
+            }
+            
+            guard let keyboardSceneDelegate = uiView.keyboardSceneDelegate else {
+                return
+            }
+            
+            _UICoreKeyboardTrackingClass().remove(trackingElement, window: oldWindow, keyboardDelegate: keyboardSceneDelegate)
+        } else {
+            guard let window = uiView.window else {
+                return
+            }
+            
+            guard let keyboardSceneDelegate = uiView.keyboardSceneDelegate else {
+                return
+            }
+            
+            _UICoreKeyboardTrackingClass().add(trackingElement, window: window, keyboardDelegate: keyboardSceneDelegate)
+        }
+    }
+    
+    // ___lldb_unnamed_symbol317388
     private func addNotificationObservers() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(willBeginSnapshotSession), name: .applicationWillBeginSnapshotSessionNotification, object: nil)
@@ -97,11 +267,10 @@ package final class UIHostingViewBase: NSObject {
 
 extension UIHostingViewBase {
     package struct Configuration {
-        package var options = UIHostingViewBase.Options.allowContainerShape
+        package var options = UIHostingViewBase.Options.allowKeyboardSafeArea
         package var colorDefinitions: PlatformColorDefinition.Type? = nil
         
-        package init() {
-        }
+        package init() {}
     }
 }
 
@@ -123,7 +292,7 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {}
 extension UIHostingViewBase: ViewGraphHostDelegate {}
 extension UIHostingViewBase: RootContainerShapeProvider {}
 
-protocol UIHostingViewBaseDelegate: AnyObject {
+package protocol UIHostingViewBaseDelegate: AnyObject {
     func baseShouldDisableUIKitAnimationsWhenRendering(_ base: UIHostingViewBase) -> Bool
     func baseDidMoveToScene(_ base: UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?)
     func baseSceneActivationStateDidChange(_ base: UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?)
@@ -131,3 +300,7 @@ protocol UIHostingViewBaseDelegate: AnyObject {
     func baseSceneBecameKey(_ base: UIHostingViewBase)
     func baseSceneResignedKey(_ base: UIHostingViewBase)
 }
+
+fileprivate let isChaaranaApp: Bool = {
+    return Bundle.main.bundleIdentifier == "com.parjanya.ChaaranaVision"
+}()

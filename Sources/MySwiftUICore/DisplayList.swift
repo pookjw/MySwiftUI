@@ -73,10 +73,10 @@ extension DisplayList.ViewUpdater.Platform {
 }
 
 extension DisplayList {
-    final class ViewRenderer {
+    package final class ViewRenderer {
         private let platform: DisplayList.ViewUpdater.Platform
         private var configuration = _RendererConfiguration(renderer: .default)
-        private weak var host: ViewRendererHost? = nil
+        package weak var host: ViewRendererHost? = nil
         private var state: DisplayList.ViewRenderer.State = .none
         private var configChanged: Bool = false
         

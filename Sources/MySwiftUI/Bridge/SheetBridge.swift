@@ -29,25 +29,27 @@ class SheetBridge<T>: NSObject {
         viewGraph.addPreference(RemotePresentationDelayKey.self)
     }
     
+    @MainActor
     func didMoveToWindow() {
         if host!.uiView?.window != nil {
             hasWindow = true
             
-            let presentationState = presentationState
-            if let delayedPresentation = presentationState.delayedPresentation {
-                
+            var presentationState = presentationState
+            let delayedPresentation = presentationState.delayedPresentation
+            presentationState.didMoveToNonNilWindow()
+            self.presentationState = presentationState
+            
+            if
+                let delayedPresentation,
+                let viewController = presenterOverride ?? host!.uiPresenterViewController
+            {
+                present(delayedPresentation.presentation, from: viewController, animated: delayedPresentation.animated, existingPresentedVC: nil, isPreempting: false)
             }
             
-            fatalError("TODO")
-            
+            self.presentationState = presentationState
         } else {
             hasWindow = false
-            // <+1112>
-            fatalError("TODO")
-            
         }
-        
-        fatalError("TODO")
     }
     
     private func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {

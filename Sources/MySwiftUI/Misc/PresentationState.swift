@@ -4,7 +4,16 @@ internal import MySwiftUICore
 
 struct PresentationState {
     var delayedPresentation : (presentation: SheetPreference, presentedVC: PresentationHostingController<AnyView>?, animated: Bool)? {
-        fatalError("TODO")
+        switch base {
+        case .delayedPresentationPendingDismissal(let presentation, let presentedVC, let animated):
+            return (presentation, presentedVC, animated)
+        case .delayedPresentationPendingNonSheetBridgeDismissal(let presentation, _, let animated):
+            return (presentation, nil, animated)
+        case .delayedPresentationPendingNonNilWindow(let presentation, let animated):
+            return (presentation, nil, animated)
+        default:
+            return nil
+        }
     }
     
     private var base: PresentationState.Base = .noPresentation
@@ -13,7 +22,12 @@ struct PresentationState {
         fatalError("TODO")
     }
     
-    @inlinable func 
+    // 원래 없음
+    @inlinable mutating func didMoveToNonNilWindow() {
+        if case .delayedPresentationPendingNonNilWindow = base {
+            base = .waitingToPresentDelayedPresentationSheetPreference
+        }
+    }
 }
 
 extension PresentationState {
@@ -26,7 +40,7 @@ extension PresentationState {
         case dismissingToPresentAgain(PresentationHostingController<AnyView>, last: SheetPreference)
         case dormantInspector(last: SheetPreference)
         case waitingToPresentAgain(PresentationHostingController<AnyView>)
-        case delayedPresentationPendingDismissal7SwiftUI15SheetPreferenceV_7SwiftUI29PresentationHostingControllerCy7SwiftUI7AnyViewVGSg11presentedVCSb8animatedAA4lastt
+        case delayedPresentationPendingDismissal(SheetPreference, presentedVC: PresentationHostingController<AnyView>, animated: Bool)
         case delayedPresentationPendingNonSheetBridgeDismissal(SheetPreference, presentedVC: UIViewController, animated: Bool)
         case delayedPresentationPendingNonNilWindow(SheetPreference, animated: Bool)
         case waitingToPresentDelayedPresentationSheetPreference

@@ -9,7 +9,7 @@ extension ViewGraphDelegate {
     }
     
     var uiView: UIView? {
-        fatalError("TODO")
+        return self.as(UIView.self)
     }
     
     var uiPresenterViewController: UIViewController? {

@@ -10,9 +10,9 @@ package class ViewGraphHost {
     package weak var renderDelegate: ViewGraphRenderDelegate? = nil
     package weak var delegate: ViewGraphHostDelegate? = nil
     private var idiom: ViewGraphHost.Idiom? = nil
-    private var initialInheritedEnvironment: EnvironmentValues? = nil
+    package var initialInheritedEnvironment: EnvironmentValues? = nil
     package let viewGraph: ViewGraph
-    private let renderer: DisplayList.ViewRenderer
+    package let renderer: DisplayList.ViewRenderer
     package var currentTimestamp: Time = .zero
     package var valuesNeedingUpdate: ViewGraphRootValues = .all
     package var renderingPhase: ViewRenderingPhase = .none
@@ -59,6 +59,14 @@ package class ViewGraphHost {
         }
         
         initialInheritedEnvironment = current.environment
+    }
+    
+    package func clearDisplayLink() {
+        fatalError("TODO")
+    }
+    
+    package func updateRemovedState(isUnattached: Bool, isHiddenForReuse: Bool) {
+        fatalError("TODO")
     }
 }
 
