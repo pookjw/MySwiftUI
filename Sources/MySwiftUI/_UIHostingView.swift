@@ -574,6 +574,11 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package func requestUpdate(after time: Double) {
+        ViewGraphHostUpdate.lock()
+        defer {
+            ViewGraphHostUpdate.unlock()
+        }
+        
         fatalError("TODO")
     }
     

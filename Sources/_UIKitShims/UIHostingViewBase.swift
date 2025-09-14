@@ -65,8 +65,26 @@ package class UIHostingViewBase: NSObject {
         }
     }
     
+    @MainActor
     package var updatesWillBeVisible: Bool {
-        fatalError("TODO")
+        guard uiView?.window?._windowHostingScene() != nil else {
+            return false
+        }
+        
+        guard let sceneActivationState = _sceneActivationState else {
+            return false
+        }
+        
+        guard !isHiddenForReuse else {
+            return false
+        }
+        
+        switch sceneActivationState {
+        case .unattached, .foregroundActive:
+            return true
+        default:
+            return isEnteringForeground || isCapturingSnapshots
+        }
     }
     
     package init(viewGraph: ViewGraphHost, options: UIHostingViewBase.Options) {
