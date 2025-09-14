@@ -143,10 +143,11 @@ struct AGTraceType {
 };
 typedef struct AGTraceType AGTrace NS_SWIFT_NAME(Trace);
 
-typedef struct AGWeakAttribute {
-    uint32_t attribute;
+struct AGWeakAttribute {
+    AGAttribute attribute;
     uint32_t id;
-} AGWeakAttribute;
+} NS_SWIFT_NAME(AnyWeakAttribute);
+typedef struct AGWeakAttribute AGWeakAttribute;
 
 NS_ASSUME_NONNULL_END
 

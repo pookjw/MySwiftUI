@@ -26,6 +26,12 @@ public class PlatformColorDefinition {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public class GraphHost {
+  public var parentHost : _SwiftUIPrivate.GraphHost? {
+    get
+  }
+
+  public init(data: _SwiftUIPrivate.GraphHost.Data)
+  public func isHiddenForReuseDidChange()
 }
 
 @available(visionOS 26.0, *)

@@ -5,5 +5,5 @@ internal import AttributeGraph
 
 class InteractiveResizeBridge {
     var lastValue: Bool = false
-    var isInteractivelyResizing: WeakAttribute<Bool> = WeakAttribute(base: AGWeakAttribute())
+    var isInteractivelyResizing: WeakAttribute<Bool> = WeakAttribute(base: AnyWeakAttribute())
 }

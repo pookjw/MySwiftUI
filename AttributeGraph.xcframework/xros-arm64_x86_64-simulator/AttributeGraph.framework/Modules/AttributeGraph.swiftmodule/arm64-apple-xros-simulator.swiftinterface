@@ -8,12 +8,12 @@
 @frozen
 @propertyWrapper
 public struct WeakAttribute<T> {
-    public var base: AttributeGraph.AGWeakAttribute
+    public var base: AttributeGraph.AnyWeakAttribute
     public var wrappedValue: T? {
         get
     }
     
-    @_alwaysEmitIntoClient public init(base: AttributeGraph.AGWeakAttribute) {
+    @_alwaysEmitIntoClient public init(base: AttributeGraph.AnyWeakAttribute) {
         self.base = base
     }
 

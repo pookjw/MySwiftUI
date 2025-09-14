@@ -113,6 +113,10 @@ package class GraphHost {
         return data.globalSubgraph
     }
     
+    package var parentHost : GraphHost? {
+        return nil
+    }
+    
     package private(set) var data: GraphHost.Data
     private var constants: [ConstantKey: AnyAttribute]
     private var isInstantiated: Bool
@@ -160,6 +164,46 @@ package class GraphHost {
             data.hostPreferenceKeys.remove(key)
         }
     }
+    
+    package final func updateRemovedState() {
+        var removedState: GraphHost.RemovedState // w22
+        let isRemoved: Bool // w21
+        if self.removedState.isEmpty {
+            if let parentHost {
+                let parentRemovedState = parentHost.removedState
+                removedState = parentRemovedState
+                isRemoved = parentRemovedState.contains(.unattached)
+            } else {
+                removedState = []
+                isRemoved = false
+            }
+        } else {
+            removedState = .unattached
+            isRemoved = true
+        }
+        
+        let isHiddenForReuse = removedState.contains(.hiddenForReuse) // w22
+        
+        if isRemoved != data.isRemoved {
+            if isRemoved {
+                data.rootSugraph.willRemove()
+                data.globalSubgraph.removeChild(data.rootSugraph)
+            } else {
+                data.globalSubgraph.addChild(data.rootSugraph)
+                data.rootSugraph.didReinsert()
+            }
+            data.isRemoved = isRemoved
+        }
+        
+        if isHiddenForReuse != data.isHiddenForReuse {
+            data.isHiddenForReuse = isHiddenForReuse
+            isHiddenForReuseDidChange()
+        }
+    }
+    
+    package func isHiddenForReuseDidChange() {
+        // nop
+    }
 }
 
 extension GraphHost {
@@ -167,8 +211,8 @@ extension GraphHost {
         package private(set) var graph: Graph?
         private(set) var globalSubgraph: Subgraph
         private(set) var rootSugraph: Subgraph
-        private var isRemoved: Bool
-        private var isHiddenForReuse: Bool
+        fileprivate var isRemoved: Bool
+        fileprivate var isHiddenForReuse: Bool
         @Attribute private var time: Time
         @Attribute private var environment: EnvironmentValues
         @Attribute private var phase: _GraphInputs.Phase
@@ -230,8 +274,11 @@ extension GraphHost {
 }
 
 extension GraphHost {
-    struct RemovedState {
+    struct RemovedState: OptionSet {
         let rawValue: UInt8
+        
+        static var unattached: GraphHost.RemovedState { GraphHost.RemovedState(rawValue: 1 << 0) }
+        static var hiddenForReuse: GraphHost.RemovedState { GraphHost.RemovedState(rawValue: 1 << 1) }
     }
 }
 

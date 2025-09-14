@@ -65,11 +65,11 @@ package enum Update {
     }
     
     package static func lock() {
-        fatalError("TODO")
+        Update._lock.lock()
     }
     
     package static func unlock() {
-        fatalError("TODO")
+        Update._lock.unlock()
     }
     
     package static func dispatchImmediately<T>(reason: CustomEventTrace.ActionEventType.Reason?, _ handler: () -> T) -> T {

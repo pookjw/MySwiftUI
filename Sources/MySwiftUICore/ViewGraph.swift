@@ -119,6 +119,18 @@ package class ViewGraph: GraphHost {
         super.init(data: data)
     }
     
+    package override var parentHost: GraphHost? {
+        guard let preferenceBridge = _preferenceBridge else {
+            return nil
+        }
+        
+        return preferenceBridge.viewGraph
+    }
+    
+    package override func isHiddenForReuseDidChange() {
+        fatalError("TODO")
+    }
+    
     package func append<T: ViewGraphFeature>(feature: T) {
         features.append(feature: feature)
     }

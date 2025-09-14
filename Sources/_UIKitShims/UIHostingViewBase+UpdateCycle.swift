@@ -1,5 +1,7 @@
 private import _UIKitPrivate
 
+@MainActor private var insertedItems: [UnsafeRawPointer] = []
+
 extension UIHostingViewBase {
     enum UpdateCycle {
         @MainActor package static func addPreCommitObserver(_ handler: @MainActor @escaping () -> Void) {
@@ -7,11 +9,11 @@ extension UIHostingViewBase {
                 return
             }
             
-            _UIUpdateSequenceInsertItem(_UIUpdateSequenceCATransactionCommitItemInternal, false, "UICoreHostingViewFlush", false) { _ in
+            let item = _UIUpdateSequenceInsertItem(_UIUpdateSequenceCATransactionCommitItemInternal, false, "UICoreHostingViewFlush", false) { _ in
                 fatalError("TODO")
             }
             
-            fatalError("TODO")
+            insertedItems.append(item)
         }
         
         package static var isEnabled: Bool {

@@ -66,7 +66,9 @@ package class ViewGraphHost {
     }
     
     package func updateRemovedState(isUnattached: Bool, isHiddenForReuse: Bool) {
-        fatalError("TODO")
+        Update.lock()
+        viewGraph.updateRemovedState()
+        Update.unlock()
     }
 }
 
