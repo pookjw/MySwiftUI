@@ -1,0 +1,11 @@
+#import <UIKit/UIKit.h>
+
+NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+
+UIKIT_EXTERN const NSNotificationName _UIWindowSceneDidUpdateSystemUserInterfaceStyle NS_SWIFT_NONISOLATED;
+UIKIT_EXTERN const NSNotificationName _UIWindowSceneDidBeginLiveResizeNotification NS_SWIFT_NONISOLATED;
+UIKIT_EXTERN const NSNotificationName _UIWindowSceneDidEndLiveResizeNotification NS_SWIFT_NONISOLATED;
+UIKIT_EXTERN const NSNotificationName _UISceneDidBecomeKeyNotification NS_SWIFT_NONISOLATED;
+UIKIT_EXTERN const NSNotificationName _UISceneDidResignKeyNotification NS_SWIFT_NONISOLATED;
+
+NS_HEADER_AUDIT_END(nullability, sendability)

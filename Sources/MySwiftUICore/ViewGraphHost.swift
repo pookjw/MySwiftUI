@@ -65,6 +65,14 @@ package class ViewGraphHost {
         fatalError("TODO")
     }
     
+    package func clearUpdateTimer() {
+        fatalError("TODO")
+    }
+    
+    package func cancelAsyncRendering() {
+        fatalError("TODO")
+    }
+    
     package func updateRemovedState(isUnattached: Bool, isHiddenForReuse: Bool) {
         Update.lock()
         viewGraph.updateRemovedState()

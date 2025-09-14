@@ -47,6 +47,28 @@ package class UIHostingViewBase: NSObject {
         }
     }
     
+    @MainActor
+    package var sceneActivationState: UIScene.ActivationState? {
+        get {
+            guard let uiView else {
+                return .foregroundInactive
+            }
+            
+            guard uiView.window?._windowHostingScene() != nil else {
+                return .foregroundActive
+            }
+            
+            return _sceneActivationState
+        }
+        set {
+            _sceneActivationState = newValue
+        }
+    }
+    
+    package var updatesWillBeVisible: Bool {
+        fatalError("TODO")
+    }
+    
     package init(viewGraph: ViewGraphHost, options: UIHostingViewBase.Options) {
         fatalError("TODO")
     }
@@ -158,8 +180,8 @@ package class UIHostingViewBase: NSObject {
         }
         
         updateRemovedState(uiView: nil)
-        ___lldb_unnamed_symbol317396()
-        ___lldb_unnamed_symbol317397()
+        windowSceneDidChange()
+        windowDidChange()
         requestUpdateForFidelity()
         
         if newWindow == nil {
@@ -169,6 +191,7 @@ package class UIHostingViewBase: NSObject {
         updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
     }
     
+    @MainActor
     package final func updateRemovedState(uiView: UIView?) {
         guard let uiView = uiView ?? self.uiView else {
             return
@@ -182,16 +205,153 @@ package class UIHostingViewBase: NSObject {
         viewGraph.updateRemovedState(isUnattached: window == nil, isHiddenForReuse: isHiddenForReuse)
     }
     
-    private func ___lldb_unnamed_symbol317396() {
-        fatalError("TODO")
+    // ___lldb_unnamed_symbol317396
+    @MainActor
+    private func windowSceneDidChange() {
+        guard let uiView else {
+            return
+        }
+        
+        let newScene = uiView.window?.windowScene // x22
+        let oldScene = observedScene
+        
+        let flag: Bool
+        if newScene == nil {
+            flag = (oldScene != nil)
+        } else {
+            if oldScene == nil {
+                flag = true
+            } else {
+                flag = (newScene != oldScene)
+            }
+        }
+        
+        guard flag else { return }
+        
+        let notificationCenter = NotificationCenter.default
+        
+        if let oldScene = observedScene {
+            notificationCenter.removeObserver(self, name: UIScene.willDeactivateNotification, object: oldScene)
+            notificationCenter.removeObserver(self, name: UIScene.didActivateNotification, object: oldScene)
+            notificationCenter.removeObserver(self, name: UIScene.didEnterBackgroundNotification, object: oldScene)
+            notificationCenter.removeObserver(self, name: UIScene.willEnterForegroundNotification, object: oldScene)
+            notificationCenter.removeObserver(self, name: ._UIWindowSceneDidUpdateSystemUserInterfaceStyle, object: oldScene)
+            notificationCenter.removeObserver(self, name: ._UIWindowSceneDidBeginLiveResize, object: oldScene)
+            notificationCenter.removeObserver(self, name: ._UIWindowSceneDidEndLiveResize, object: oldScene)
+            notificationCenter.removeObserver(self, name: ._UISceneDidBecomeKey, object: oldScene)
+            notificationCenter.removeObserver(self, name: ._UISceneDidResignKey, object: oldScene)
+            notificationCenter.removeObserver(self, name: .sceneDidUpdateSystemSceneDisplacementNotification, object: nil)
+            notificationCenter.removeObserver(self, name: .sceneDidChangeRelativeTransformNotification, object: nil)
+            notificationCenter.removeObserver(self, name: .windowSceneWorldTrackingCapabilitiesDidChange, object: nil)
+        }
+        
+        if let newScene {
+            notificationCenter.addObserver(self, selector: #selector(sceneWillDeactivate), name: UIScene.willDeactivateNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidActivate), name: UIScene.didActivateNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidEnterBackground), name: UIScene.didEnterBackgroundNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneWillEnterForeground), name: ._UIWindowSceneDidUpdateSystemUserInterfaceStyle, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidBeginResize), name: ._UIWindowSceneDidBeginLiveResize, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidEndResize), name: ._UIWindowSceneDidEndLiveResize, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidBecomeKey), name: ._UISceneDidBecomeKey, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidResignKey), name: ._UISceneDidResignKey, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidUpdateSystemSceneDisplacement), name: .sceneDidUpdateSystemSceneDisplacementNotification, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidChangeRelativeTransform(_:)), name: .sceneDidChangeRelativeTransformNotification, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidChangeWorldTrackingLimitations(_:)), name: .windowSceneWorldTrackingCapabilitiesDidChange, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(snappingUpdate(_:)), name: .windowSceneDidBeginSnapToSurfaceNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(snappingUpdate(_:)), name: .windowSceneDidChangeSnappingSurfaceClassificationNotification, object: newScene)
+        }
+        
+        if let delegate {
+            delegate.baseDidMoveToScene(self, oldScene: observedScene, newScene: newScene)
+        }
+        
+        observedScene = newScene
+        updateSceneActivationState()
     }
     
-    private func ___lldb_unnamed_symbol317397() {
-        fatalError("TODO")
+    @MainActor
+    private func updateSceneActivationState() {
+        let activationState: UIScene.ActivationState
+        if let observedScene {
+            activationState = observedScene.activationState
+        } else {
+            activationState = .foregroundActive
+        }
+        
+        if let delegate {
+            delegate.baseSceneActivationStateDidChange(self, oldState: sceneActivationState, newState: activationState)
+        }
+        
+        sceneActivationState = activationState
     }
     
+    // ___lldb_unnamed_symbol317397
+    @MainActor
+    private func windowDidChange() {
+        guard let uiView else {
+            return
+        }
+        
+        let newWindow = uiView.window // x19
+        let oldWindow = observedWindow
+        
+        let flag: Bool
+        if newWindow == nil {
+            flag = (oldWindow != nil)
+        } else {
+            if oldWindow == nil {
+                flag = true
+            } else {
+                flag = (newWindow != oldWindow)
+            }
+        }
+        
+        guard flag else {
+            return
+        }
+        
+        let notificationCenter = NotificationCenter.default
+        
+        if let oldWindow {
+            notificationCenter.removeObserver(self, name: .UIWindowWillRotate, object: oldWindow)
+            notificationCenter.removeObserver(self, name: .UIWindowDidRotate, object: oldWindow)
+            notificationCenter.removeObserver(self, name: .windowDidMoveToSceneNotification, object: oldWindow)
+        }
+        
+        if let newWindow {
+            notificationCenter.addObserver(self, selector: #selector(windowWillRotateWithNotification(_:)), name: .UIWindowWillRotate, object: newWindow)
+            notificationCenter.addObserver(self, selector: #selector(windowWillRotateWithNotification(_:)), name: .UIWindowDidRotate, object: newWindow)
+            notificationCenter.addObserver(self, selector: #selector(windowDidMoveToSceneWithNotification(_:)), name: .windowDidMoveToSceneNotification, object: newWindow)
+        }
+        
+        observedWindow = newWindow
+    }
+    
+    @MainActor
     package func requestUpdateForFidelity() {
-        fatalError("TODO")
+        guard let uiView else {
+            return
+        }
+        
+        if !updatesWillBeVisible {
+            uiView.setNeedsLayout()
+            
+            guard let updateDelegate = viewGraph.updateDelegate else {
+                return
+            }
+            
+            updateDelegate.requestUpdate(after: 0)
+        } else {
+            // <+156>
+            let viewGraph = viewGraph
+            viewGraph.clearDisplayLink()
+            viewGraph.clearUpdateTimer()
+            
+            let needsLayout = uiView.layer.needsLayout()
+            if needsLayout {
+                _setNeedsUpdate()
+            }
+        }
     }
     
     package func clearDisplayLink() {
@@ -252,6 +412,31 @@ package class UIHostingViewBase: NSObject {
         }
     }
     
+    @MainActor
+    func _setNeedsUpdate() {
+        guard let uiView else {
+            return
+        }
+        
+        viewGraph.cancelAsyncRendering()
+        
+        guard !updatesWillBeVisible else {
+            uiView.setNeedsLayout()
+            return
+        }
+        
+        guard !pendingPreferencesUpdate else {
+            return
+        }
+        
+        self.pendingPreferencesUpdate = true
+        DispatchQueue.main.async {
+            // ___lldb_unnamed_symbol312705
+            self.isEnteringForeground = false
+            self.updateSceneActivationState()
+        }
+    }
+    
     @objc private func willBeginSnapshotSession() {
         fatalError("TODO")
     }
@@ -261,6 +446,66 @@ package class UIHostingViewBase: NSObject {
     }
     
     @objc private func externalEnvironmentDidChange() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneWillDeactivate() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidActivate() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidEnterBackground() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneWillEnterForeground() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidUpdateSystemUserInterfaceStyle() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidBeginResize() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidEndResize() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidBecomeKey() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidResignKey() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidUpdateSystemSceneDisplacement() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidChangeRelativeTransform(_ notification: Notification) {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidChangeWorldTrackingLimitations(_ notification: Notification) {
+        fatalError("TODO")
+    }
+    
+    @objc private func snappingUpdate(_ notification: Notification) {
+        fatalError("TODO")
+    }
+    
+    @objc private func windowWillRotateWithNotification(_ notification: Notification) {
+        fatalError("TODO")
+    }
+    
+    @objc private func windowDidMoveToSceneWithNotification(_ notification: Notification) {
         fatalError("TODO")
     }
 }

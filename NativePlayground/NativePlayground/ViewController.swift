@@ -130,13 +130,13 @@ class ViewController: UIViewController {
 //        
 //        print("===")
         
-//        print(UIHostingViewBase.self)
-//        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
-//        
-//        print("===")
+        print(UIHostingViewBase.self)
+        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
         
 //        print(ViewGraphHost.self)
 //        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
