@@ -14,3 +14,4 @@
 #import <_UIKitPrivate/UIUpdate.h>
 #import <_UIKitPrivate/UIApplication+Private.h>
 #import <_UIKitPrivate/UIWindowScene+Private.h>
+#import <_UIKitPrivate/Misc.h>

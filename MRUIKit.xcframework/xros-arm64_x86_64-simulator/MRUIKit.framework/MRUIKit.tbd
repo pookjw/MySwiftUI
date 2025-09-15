@@ -7,7 +7,8 @@ exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
     symbols:              [ _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVMa,
     _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVMn,
-    _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVSHAAMc ]
+    _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVSHAAMc,
+    __MRUISceneDidChangeImmersionStateNotification ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost ]
     objc-ivars:           [  ]

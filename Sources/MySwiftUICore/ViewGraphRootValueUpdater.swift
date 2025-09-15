@@ -54,7 +54,23 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func invalidateProperties(_ values: ViewGraphRootValues, mayDeferUpdate: Bool) {
-        fatalError("TODO")
+        guard let owner = self.as(ViewGraphOwner.self) else {
+            return
+        }
+        
+        Update.ensure {
+            /*
+             values = x26
+             mayDeferUpdate = x27
+             */
+            let viewGraph = owner.viewGraph
+            let valuesNeedingUpdate = owner.valuesNeedingUpdate
+            
+            if !valuesNeedingUpdate.isSuperset(of: values) {
+                owner.valuesNeedingUpdate = valuesNeedingUpdate.union(values)
+                viewGraph.setNeedsUpdate(mayDeferUpdate: mayDeferUpdate, values: valuesNeedingUpdate.union(values))
+            }
+        }
     }
     
     package func _sizeThatFits(_ proposedSize: ProposedViewSize) -> CGSize {

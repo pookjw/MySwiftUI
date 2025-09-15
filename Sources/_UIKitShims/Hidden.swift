@@ -13,8 +13,8 @@ extension Notification.Name {
     static let windowDidMoveToSceneNotification = Notification.Name(rawValue: "_UIWindowDidMoveToSceneNotification")
 }
 
-func _UICoreKeyboardTrackingClass() -> AnyClass {
-    return objc_lookUpClass("_UICoreKeyboardTracking")!
+func UICoreKeyboardTrackingClass() -> AnyClass {
+    return objc_lookUpClass("UICoreKeyboardTracking")!
 }
 
 @MainActor var _UIUpdateSequenceScheduledItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {

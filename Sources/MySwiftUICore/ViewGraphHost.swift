@@ -1,6 +1,7 @@
 #warning("TODO")
 private import Foundation
 private import AttributeGraph
+package import QuartzCore
 
 package class ViewGraphHost {
     package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true
@@ -70,13 +71,45 @@ package class ViewGraphHost {
     }
     
     package func cancelAsyncRendering() {
-        fatalError("TODO")
+        Update.lock()
+        if let displayLink {
+            displayLink.nextThread = .main
+        }
+        Update.unlock()
     }
     
     package func updateRemovedState(isUnattached: Bool, isHiddenForReuse: Bool) {
         Update.lock()
         viewGraph.updateRemovedState()
         Update.unlock()
+    }
+    
+    package final nonisolated func startDisplayLink(delay: Double, makeCADisplayLink: (Any, Selector) -> CADisplayLink?) {
+        let displayLink: ViewGraphDisplayLink
+        if let _displayLink = self.displayLink {
+            displayLink = _displayLink
+        } else {
+            let _displayLink = ViewGraphDisplayLink(host: self)
+            if let caDisplayLink = makeCADisplayLink(_displayLink, #selector(ViewGraphDisplayLink.displayLinkTimer(_:))) {
+                _displayLink.link = caDisplayLink
+                caDisplayLink.add(to: .main, forMode: .common)
+                self.displayLink = _displayLink
+            }
+            
+            if let _displayLink = self.displayLink {
+                displayLink = _displayLink
+            } else {
+                startUpdateTimer(delay: delay)
+                return
+            }
+        }
+        
+        displayLink.setNextUpdate(delay: delay, interval: (delay.isFinite ? delay : 0), reasons: [])
+        clearUpdateTimer()
+    }
+    
+    package func startUpdateTimer(delay: Double) {
+        fatalError("TODO")
     }
 }
 

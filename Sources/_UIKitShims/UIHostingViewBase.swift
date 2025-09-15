@@ -398,7 +398,7 @@ package class UIHostingViewBase: NSObject {
                 return
             }
             
-            _UICoreKeyboardTrackingClass().remove(trackingElement, window: oldWindow, keyboardDelegate: keyboardSceneDelegate)
+            UICoreKeyboardTrackingClass().remove(trackingElement, window: oldWindow, keyboardDelegate: keyboardSceneDelegate)
         } else {
             guard let window = uiView.window else {
                 return
@@ -408,7 +408,7 @@ package class UIHostingViewBase: NSObject {
                 return
             }
             
-            _UICoreKeyboardTrackingClass().add(trackingElement, window: window, keyboardDelegate: keyboardSceneDelegate)
+            UICoreKeyboardTrackingClass().add(trackingElement, window: window, keyboardDelegate: keyboardSceneDelegate)
         }
     }
     
@@ -431,7 +431,7 @@ package class UIHostingViewBase: NSObject {
     }
     
     @MainActor
-    func _setNeedsUpdate() {
+    package func _setNeedsUpdate() {
         guard let uiView else {
             return
         }

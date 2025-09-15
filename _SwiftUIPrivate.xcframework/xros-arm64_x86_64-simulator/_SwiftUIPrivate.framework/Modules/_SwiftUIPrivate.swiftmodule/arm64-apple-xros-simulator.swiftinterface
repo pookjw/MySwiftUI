@@ -7,6 +7,8 @@
 @_exported import os.log
 @_exported import os
 @_exported import OSLog
+@_exported import QuartzCore
+@_exported import ObjectiveC
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -120,7 +122,30 @@ public struct RootGeometry {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public class ViewGraphHost {}
+public class PlatformViewDefinition {
+
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class ViewGraphHost {
+  public init<A>(rootViewType: A.Type, outputs: _SwiftUIPrivate.ViewGraph.Outputs, viewDefinition: _SwiftUIPrivate.PlatformViewDefinition.Type) where A: SwiftUI.View
+  public final func startDisplayLink(delay: Swift.Double, makeCADisplayLink: (Any, ObjectiveC.Selector) -> QuartzCore.CADisplayLink?)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class ViewGraphDisplayLink: ObjectiveC.NSObject {
+
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct Time: Swift.Hashable, Swift.Comparable {
+  public static var zero: _SwiftUIPrivate.Time { get }
+  public static var infinity: _SwiftUIPrivate.Time { get }
+  public init(seconds: Swift.Double)
+}
 
 //@available(visionOS 26.0, *)
 //@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)

@@ -125,7 +125,7 @@ package class GraphHost {
     private var pendingTransactions: [AsyncTransaction]
     private var inTransaction: Bool
     private var continuations: [any GraphMutation]
-    private var mayDeferUpdate: Bool
+    package private(set) nonisolated var mayDeferUpdate: Bool
     private var removedState: GraphHost.RemovedState
     
     init(data: GraphHost.Data) {
@@ -203,6 +203,10 @@ package class GraphHost {
     
     package func isHiddenForReuseDidChange() {
         // nop
+    }
+    
+    package func setNeedsUpdate(mayDeferUpdate: Bool, values: ViewGraphRootValues) {
+        fatalError("TODO")
     }
 }
 

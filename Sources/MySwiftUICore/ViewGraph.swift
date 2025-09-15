@@ -1,6 +1,7 @@
 #warning("TODO")
 internal import AttributeGraph
 private import CoreGraphics
+package import QuartzCore
 
 package class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
@@ -117,6 +118,10 @@ package class ViewGraph: GraphHost {
         self._dimensions = self._rootGeometry.size()
         
         super.init(data: data)
+    }
+    
+    package var updatesWillBeVisible: Bool {
+        fatalError("TODO")
     }
     
     package override var parentHost: GraphHost? {

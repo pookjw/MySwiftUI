@@ -14,6 +14,6 @@ struct _UIUpdateSequenceItemInternal {
 typedef struct _UIUpdateSequenceItemInternal _UIUpdateSequenceItemInternal;
 
 UIKIT_EXTERN BOOL _UIUpdateCycleEnabled(void);
-UIKIT_EXTERN void * _UIUpdateSequenceInsertItem(_UIUpdateSequenceItemInternal *item, BOOL, const char *, BOOL, void (^)(_UIUpdateTiming));
+UIKIT_EXTERN void * _UIUpdateSequenceInsertItem(_UIUpdateSequenceItemInternal *item, BOOL, const char *, BOOL, void * _Nullable, void (^)(_UIUpdateTiming));
 
 NS_HEADER_AUDIT_END(nullability, sendability)

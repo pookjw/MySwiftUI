@@ -6,11 +6,11 @@ package struct ViewGraphHostUpdate {
     }
     
     package static func begin() {
-        Update.lock()
+        fatalError("TODO")
     }
     
     package static func end() {
-        Update.unlock()
+        fatalError("TODO")
     }
     
     package static func ensure<T>(_ body: () throws -> T) rethrows -> T {
@@ -22,11 +22,11 @@ package struct ViewGraphHostUpdate {
     }
     
     package static func lock() {
-        fatalError("TODO")
+        Update.lock()
     }
     
     package static func unlock() {
-        fatalError("TODO")
+        Update.unlock()
     }
     
     package static func dispatchImmediately<T>(_ body: () -> T) {

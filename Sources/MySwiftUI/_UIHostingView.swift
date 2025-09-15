@@ -5,6 +5,7 @@ public import UIKit
 private import _UIKitShims
 private import _UIKitPrivate
 private import notify
+private import MRUIKit
 
 fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
 
@@ -418,8 +419,16 @@ open class _UIHostingView<Content: View>: UIView {
         windowGeometryScene = windowScene
     }
     
-    private func immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace() {
+    @objc private func immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace() {
         invalidateProperties([.transform], mayDeferUpdate: true)
+    }
+    
+    @objc private func immersiveSpaceAuthorityDidChangeImmersion() {
+        fatalError("TODO")
+    }
+    
+    @objc private func sceneDidChangeImmersionState() {
+        fatalError("TODO")
     }
 }
 
@@ -447,7 +456,7 @@ extension _UIHostingView {
 }
 
 extension _UIHostingView: @preconcurrency ViewRendererHost {
-    package var viewGraph: MySwiftUICore.ViewGraph {
+    package nonisolated var viewGraph: MySwiftUICore.ViewGraph {
         return self._base.viewGraph.viewGraph
     }
     
@@ -573,17 +582,47 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package func requestUpdate(after time: Double) {
+    package nonisolated func requestUpdate(after time: Double) {
         ViewGraphHostUpdate.lock()
         defer {
             ViewGraphHostUpdate.unlock()
         }
         
+        if (time == 0) && viewGraph.mayDeferUpdate {
+            if Thread.isMainThread {
+                MainActor.assumeIsolated {
+                    setNeedsUpdate()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.setNeedsUpdate()
+                }
+            }
+            
+            return
+        }
+        
+        let actualTime = (time * Double(UIAnimationDragCoefficient()))
+        guard actualTime < 0.25 else {
+            startUpdateTimer(delay: actualTime)
+            return
+        }
+        
+        guard uiView != nil else {
+            return
+        }
+        
+        base.viewGraph.startDisplayLink(delay: actualTime) { _, _ in
+            fatalError("TODO")
+        }
+    }
+    
+    package nonisolated func startUpdateTimer(delay: Double) {
         fatalError("TODO")
     }
     
     package func setNeedsUpdate() {
-        fatalError("TODO")
+        base._setNeedsUpdate()
     }
     
     package func updateGraph<T>(body: (MySwiftUICore.GraphHost) -> T) -> T {
@@ -600,6 +639,26 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     
     package func beginTransaction() {
         fatalError("TODO")
+    }
+    
+    package func updateImmersiveSpaceAuthorityNotifications(oldScene: UIScene?, newScene: UIScene?) {
+        /*
+         oldScene = x21
+         newScene = x19
+         */
+        let notificationCenter = NotificationCenter.default
+        
+        if oldScene != nil {
+            notificationCenter.removeObserver(self, name: ImmersiveSpaceAuthority.didChangeCurrentImmersiveSpace, object: nil)
+            notificationCenter.removeObserver(self, name: ImmersiveSpaceAuthority.didChangeImmersion, object: nil)
+            notificationCenter.removeObserver(self, name: ._MRUISceneDidChangeImmersionState, object: nil)
+        }
+        
+        if newScene != nil {
+            notificationCenter.addObserver(self, selector: #selector(immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace), name: ImmersiveSpaceAuthority.didChangeCurrentImmersiveSpace, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(immersiveSpaceAuthorityDidChangeImmersion), name: ImmersiveSpaceAuthority.didChangeImmersion, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidChangeImmersionState), name: ._MRUISceneDidChangeImmersionState, object: nil)
+        }
     }
 }
 
@@ -640,7 +699,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
     }
     
     fileprivate func baseDidMoveToScene(_ base: _UIKitShims.UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {
-        fatalError("TODO")
+        updateImmersiveSpaceAuthorityNotifications(oldScene: oldScene, newScene: newScene)
     }
     
     fileprivate func baseSceneActivationStateDidChange(_ base: _UIKitShims.UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {

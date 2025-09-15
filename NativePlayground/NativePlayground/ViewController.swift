@@ -11,6 +11,12 @@ import _SwiftPrivate
 import _SwiftUIPrivate
 import _UIKitPrivate
 
+final class PrivateSelectors: NSObject {
+    @objc(_swiftUI_platformViewDefinition) class func _swiftUI_platformViewDefinition() -> AnyClass {
+        fatalError("TODO")
+    }
+}
+
 struct Foo_1: _SwiftUIPrivate.PreferenceKey {
     public static var defaultValue: Bool { return false }
 }
@@ -115,52 +121,62 @@ class ViewController: UIViewController {
         UserDefaults.standard.set(true, forKey: "com.apple.SwiftUI.OpenSceneLogging")
         _ = getOpenScene()!
         
-//        _forEachField(of: type(of: _UIHostingView<EmptyView>.self).self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
-//        
-//        print("===")
-//        
-//        print(_UIHostingView<EmptyView>.self)
-//        _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
-//        
-//        print("===")
-        
-        print(UIHostingViewBase.self)
-        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
+        print(_UIHostingView<EmptyView>.self)
+        _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
-        
-        print("===")
-        
+//        
+//        print("===")
+//        
 //        print(ViewGraphHost.self)
 //        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
 //            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
 //            return true
 //        }
 //        
+//        print("===")
+//        
+//        print(ViewGraphDisplayLink.self)
+//        _forEachField(of: ViewGraphDisplayLink.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
         
-        print(GraphHost(data: .init()).isHiddenForReuseDidChange())
-        print("===")
+//        let viewDefinition = (UIView.self as AnyClass)._swiftUI_platformViewDefinition() as! PlatformViewDefinition.Type
+//        let viewGraphHost = ViewGraphHost.init(rootViewType: EmptyView.self, outputs: .init(rawValue: 0), viewDefinition: viewDefinition)
+//        print(viewGraphHost)
+//        viewGraphHost.startDisplayLink(delay: 0.002) { object, selector in
+//            CADisplayLink(target: object, selector: selector)
+//        }
         
-        print(ViewGraph.self)
-        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
+//        print(UIHostingViewBase.self)
+//        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        
+//        print("===")
         
-        print("===")
+//        print(ViewGraphHost.self)
+//        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
         
-        print(ViewGraph.Data.self)
-        _forEachField(of: ViewGraph.Data.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
+//        print(ViewGraph.self)
+//        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        
+//        print("===")
+//        
+//        print(ViewGraph.Data.self)
+//        _forEachField(of: ViewGraph.Data.self, options: []) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
 //        
 //        print("===")
 //        

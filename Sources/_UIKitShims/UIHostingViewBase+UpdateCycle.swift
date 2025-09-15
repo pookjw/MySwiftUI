@@ -9,7 +9,7 @@ extension UIHostingViewBase {
                 return
             }
             
-            let item = _UIUpdateSequenceInsertItem(_UIUpdateSequenceCATransactionCommitItemInternal, false, "UICoreHostingViewFlush", false) { _ in
+            let item = _UIUpdateSequenceInsertItem(_UIUpdateSequenceCATransactionCommitItemInternal, false, "UICoreHostingViewFlush", false, nil) { _ in
                 fatalError("TODO")
             }
             
