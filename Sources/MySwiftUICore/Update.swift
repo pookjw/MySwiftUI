@@ -8,8 +8,14 @@ package enum Update {
     private static nonisolated(unsafe) var depth: Int = 0
     static nonisolated(unsafe) let traceHost: AnyObject = TraceHost()
     
-    package static func enqueueAction(reason: CustomEventTrace.ActionEventType.Reason?, _ action: () -> ()) -> UInt32 {
+    package static var canDispatch: Bool {
         fatalError("TODO")
+    }
+    
+    package static func enqueueAction(reason: CustomEventTrace.ActionEventType.Reason?, _ action: () -> ()) -> UInt32 {
+        Update.begin()
+        fatalError("TODO")
+        Update.end()
     }
     
     package static func begin() {
@@ -106,5 +112,27 @@ package enum Update {
 
 extension Update {
     fileprivate class TraceHost {
+    }
+}
+
+extension Update {
+    struct Action {
+        static nonisolated(unsafe) var nextActionID: UInt32 = 1
+        private let reason: CustomEventTrace.ActionEventType.Reason?
+        private let thunk: () -> Void
+        private let actionID: UInt32
+        
+        init(reason: CustomEventTrace.ActionEventType.Reason?, thunk: () -> Void) {
+            let w23 = (Update.Action.nextActionID &>> 1) & 1
+            let w8 = Update.Action.nextActionID
+            Update.Action.nextActionID = (w8 + 2)
+            self.actionID = w23
+            
+            fatalError("TODO")
+        }
+        
+        func callAsFunction() {
+            fatalError("TODO")
+        }
     }
 }

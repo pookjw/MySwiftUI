@@ -704,7 +704,22 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
     }
     
     fileprivate final func baseSceneActivationStateDidChange(_ base: _UIKitShims.UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {
-        fatalError("TODO")
+        guard let newState else {
+            return
+        }
+        
+        guard newState == .foregroundActive else {
+            return
+        }
+        
+        guard let rootViewDelegate else {
+            return
+        }
+        
+        Update.enqueueAction(reason: nil) {
+            // partial apply forwarder for closure #1 () -> () in SwiftUI._UIHostingView.baseSceneActivationStateDidChange(_: UIKit.UIHostingViewBase, oldState: __C.UISceneActivationState?, newState: __C.UISceneActivationState?) -> ()
+            fatalError("TODO")
+        }
     }
     
     fileprivate final func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims.UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
@@ -712,7 +727,13 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
     }
     
     fileprivate final func baseSceneBecameKey(_ base: _UIKitShims.UIHostingViewBase) {
-        fatalError("TODO")
+        guard let rootViewDelegate else {
+            return
+        }
+        
+        Update.enqueueAction(reason: nil) { 
+            rootViewDelegate.updateAppFocus(view: self)
+        }
     }
     
     fileprivate final func baseSceneResignedKey(_ base: _UIKitShims.UIHostingViewBase) {

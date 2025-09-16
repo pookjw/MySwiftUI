@@ -14,7 +14,7 @@ package struct CustomEventTrace {
 //        
 //        // TODO
 //        recorder.graph.addTraceEvent(recorder.cefOp, value: -1)
-//        fatalError("TODO")
+        fatalError("TODO")
     }
     
     public static func register(graph: Graph) {

@@ -287,8 +287,10 @@ package final class UIHostingViewBase: NSObject {
         updateSceneActivationState()
     }
     
+    // ___lldb_unnamed_symbol317386
     @MainActor
     private func updateSceneActivationState() {
+        // x22
         let activationState: UIScene.ActivationState
         if let observedScene {
             activationState = observedScene.activationState
@@ -351,7 +353,7 @@ package final class UIHostingViewBase: NSObject {
             return
         }
         
-        if !updatesWillBeVisible {
+        if updatesWillBeVisible {
             uiView.setNeedsLayout()
             
             guard let updateDelegate else {
@@ -496,7 +498,11 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @objc private func sceneDidBecomeKey() {
-        fatalError("TODO")
+        guard let delegate else {
+            return
+        }
+        
+        delegate.baseSceneBecameKey(self)
     }
     
     @objc private func sceneDidResignKey() {

@@ -202,13 +202,13 @@ class ViewController: UIViewController {
 //            return true
 //        }
 //        
-//        print("===")
-//        
-//        print(UnsafeHeterogeneousBuffer.self)
-//        _forEachField(of: UnsafeHeterogeneousBuffer.self, options: []) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
+        print("===")
+        
+        print(Update.Action.self)
+        _forEachField(of: Update.Action.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
         
         do {
 //            let emptyView = EmptyView()

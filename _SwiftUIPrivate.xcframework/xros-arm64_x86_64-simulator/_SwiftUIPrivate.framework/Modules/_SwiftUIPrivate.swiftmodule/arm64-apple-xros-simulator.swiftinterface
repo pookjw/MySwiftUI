@@ -220,6 +220,13 @@ public struct PreferenceKeys: Swift.Equatable, Swift.RandomAccessCollection {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum Update {
+  public struct Action {
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public enum Log {
   public static func internalWarning(_ message: @autoclosure () -> Swift.String)
   public static func internalError(_ message: @autoclosure () -> Swift.String)
