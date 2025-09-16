@@ -55,55 +55,54 @@ package final class ViewGraph: GraphHost {
         
         defer {
             Subgraph.current = oldCurrent
-            CustomEventTrace.instantiateEnd(data.rootSugraph)
+            CustomEventTrace.instantiateEnd(data.rootSubgraph)
         }
         
-        CustomEventTrace.instantiateBegin(data.rootSugraph)
-        self.rootView = Attribute(type: rootViewType).identifier
+        CustomEventTrace.instantiateBegin(data.rootSubgraph)
         
-        let tramsform = CustomEventTrace.instantiate(root: data.rootSugraph) { 
-            Attribute(RootTransform())
-        }
+        let rootView = Attribute(type: rootViewType)
+        CustomEventTrace.recordNamedProperty(.rootView, rootView)
+        self.rootView = rootView.identifier
+        
+        let tramsform = Attribute(RootTransform())
+        CustomEventTrace.recordNamedProperty(.transform, tramsform)
         self._rootTransform = tramsform
         self._transform = tramsform
         
-        
         self._zeroPoint = Attribute(value: .zero)
         
-        self._proposedSize = CustomEventTrace.instantiate(root: data.rootSugraph) { 
-            Attribute(value: ViewSize.zero)
-        }
+        let proposedSize = Attribute(value: ViewSize.zero)
+        CustomEventTrace.recordNamedProperty(.size, proposedSize)
+        self._proposedSize = proposedSize
         
-        self._containerSize = CustomEventTrace.instantiate(root: data.rootSugraph) {
-            OptionalAttribute(Attribute(value: ViewSize.zero))
-        }
+        let containerSize = Attribute(value: ViewSize.zero)
+        CustomEventTrace.recordNamedProperty(.containerSize, containerSize)
+        self._containerSize = OptionalAttribute(containerSize)
         
-        self._safeAreaInsets = CustomEventTrace.instantiate(root: data.rootSugraph) {
-            let safeAreaInsets: Attribute<_SafeAreaInsetsModifier>
-            if isLinkedOnOrAfter(.v7) {
-                safeAreaInsets = Attribute(
-                    value: _SafeAreaInsetsModifier(
-                        elements: [],
-                        nextInsets: nil
-                    )
+        let safeAreaInsets: Attribute<_SafeAreaInsetsModifier>
+        if isLinkedOnOrAfter(.v7) {
+            safeAreaInsets = Attribute(
+                value: _SafeAreaInsetsModifier(
+                    elements: [],
+                    nextInsets: nil
                 )
-            } else {
-                safeAreaInsets = Attribute(
-                    value: _SafeAreaInsetsModifier(
-                        elements: [
-                            SafeAreaInsets.Element(
-                                regions: .container,
-                                insets: .zero,
-                                cornerInsets: nil
-                            )
-                        ],
-                        nextInsets: nil
-                    )
+            )
+        } else {
+            safeAreaInsets = Attribute(
+                value: _SafeAreaInsetsModifier(
+                    elements: [
+                        SafeAreaInsets.Element(
+                            regions: .container,
+                            insets: .zero,
+                            cornerInsets: nil
+                        )
+                    ],
+                    nextInsets: nil
                 )
-            }
-            
-            return safeAreaInsets
+            )
         }
+        CustomEventTrace.recordNamedProperty(.safeArea, safeAreaInsets)
+        self._safeAreaInsets = safeAreaInsets
         
         self._containerShape = Attribute(RootContainerShape())
         self._defaultLayoutComputer = Attribute(value: LayoutComputer.defaultValue)

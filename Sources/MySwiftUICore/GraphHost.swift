@@ -140,7 +140,7 @@ package class GraphHost {
         self.mayDeferUpdate = true
         self.removedState = GraphHost.RemovedState(rawValue: 0)
         
-        CustomEventTrace.recordGraphHostRoot(data.graph, data.globalSubgraph, newRoot: data.rootSugraph, self)
+        CustomEventTrace.recordGraphHostRoot(data.graph, data.globalSubgraph, newRoot: data.rootSubgraph, self)
         
         self.data.graph!.onUpdate { [weak self] in
             fatalError("TODO")
@@ -151,6 +151,10 @@ package class GraphHost {
         }
         
         AGGraphSetContext(self.data.graph!, Unmanaged.passUnretained(self).toOpaque())
+    }
+    
+    package func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
+        return .view
     }
     
     package final func addPreference<T: HostPreferenceKey>(_ key: T.Type) {
@@ -186,11 +190,11 @@ package class GraphHost {
         
         if isRemoved != data.isRemoved {
             if isRemoved {
-                data.rootSugraph.willRemove()
-                data.globalSubgraph.removeChild(data.rootSugraph)
+                data.rootSubgraph.willRemove()
+                data.globalSubgraph.removeChild(data.rootSubgraph)
             } else {
-                data.globalSubgraph.addChild(data.rootSugraph)
-                data.rootSugraph.didReinsert()
+                data.globalSubgraph.addChild(data.rootSubgraph)
+                data.rootSubgraph.didReinsert()
             }
             data.isRemoved = isRemoved
         }
@@ -214,7 +218,7 @@ extension GraphHost {
     package struct Data {
         package private(set) var graph: Graph?
         private(set) var globalSubgraph: Subgraph
-        private(set) var rootSugraph: Subgraph
+        private(set) var rootSubgraph: Subgraph
         fileprivate var isRemoved: Bool
         fileprivate var isHiddenForReuse: Bool
         @Attribute private var time: Time
@@ -246,9 +250,8 @@ extension GraphHost {
             let time = Attribute(value: Time.zero)
             self._time = time
             
-            let environment = CustomEventTrace.instantiate(root: globalSubgraph) {
-                Attribute(value: EnvironmentValues())
-            }
+            let environment = Attribute(value: EnvironmentValues())
+            CustomEventTrace.recordNamedProperty(.environment, environment)
             self._environment = environment
             
             let phase = Attribute(value: _GraphInputs.Phase())
@@ -268,7 +271,7 @@ extension GraphHost {
             )
             
             let subgraph = Subgraph(graph: graph)
-            self.rootSugraph = subgraph
+            self.rootSubgraph = subgraph
             globalSubgraph.addChild(subgraph)
             
             self.isRemoved = false

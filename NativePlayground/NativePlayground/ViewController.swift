@@ -127,13 +127,13 @@ class ViewController: UIViewController {
             return true
         }
 //        
-//        print("===")
-//        
-//        print(ViewGraphHost.self)
-//        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
+        print("===")
+        
+        print(GraphHost.Data.self)
+        _forEachField(of: GraphHost.Data.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
 //        
 //        print("===")
 //        
@@ -206,6 +206,14 @@ class ViewController: UIViewController {
         
         print(Update.Action.self)
         _forEachField(of: Update.Action.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        print(CustomEventTrace.Recorder.self)
+        _forEachField(of: CustomEventTrace.Recorder.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

@@ -6,16 +6,19 @@ private import _MySwiftUIShims
 package enum Update {
     private static let _lock = MovableLock.create()
     private static nonisolated(unsafe) var depth: Int = 0
+    private static nonisolated(unsafe) var actions: [Update.Action] = []
     static nonisolated(unsafe) let traceHost: AnyObject = TraceHost()
     
     package static var canDispatch: Bool {
         fatalError("TODO")
     }
     
-    package static func enqueueAction(reason: CustomEventTrace.ActionEventType.Reason?, _ action: () -> ()) -> UInt32 {
+    package static func enqueueAction(reason: CustomEventTrace.ActionEventType.Reason?, _ action: @escaping () -> ()) -> UInt32 {
         Update.begin()
-        fatalError("TODO")
+        let action = Update.Action(reason: reason, thunk: action)
+        actions.append(action)
         Update.end()
+        return action.actionID
     }
     
     package static func begin() {
@@ -120,19 +123,27 @@ extension Update {
         static nonisolated(unsafe) var nextActionID: UInt32 = 1
         private let reason: CustomEventTrace.ActionEventType.Reason?
         private let thunk: () -> Void
-        private let actionID: UInt32
+        fileprivate let actionID: UInt32
         
-        init(reason: CustomEventTrace.ActionEventType.Reason?, thunk: () -> Void) {
+        init(reason: CustomEventTrace.ActionEventType.Reason?, thunk: @escaping () -> Void) {
+            self.reason = reason
+            self.thunk = thunk
+            
             let w23 = (Update.Action.nextActionID &>> 1) & 1
             let w8 = Update.Action.nextActionID
             Update.Action.nextActionID = (w8 + 2)
             self.actionID = w23
             
-            fatalError("TODO")
+            CustomEventTrace.enqueueAction(w23, reason)
         }
         
         func callAsFunction() {
-            fatalError("TODO")
+            let reason = reason
+            let actionID = actionID
+            
+            CustomEventTrace.startAction(actionID, reason)
+            thunk()
+            CustomEventTrace.finishAction(actionID, reason)
         }
     }
 }

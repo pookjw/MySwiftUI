@@ -93,6 +93,77 @@ extension _SwiftUIPrivate.CustomEventTrace {
   public class Recorder {
     
   }
+
+  public enum ActionEventType: Swift.Int8, Swift.Hashable {
+    case enqueue
+    case start
+    case finish
+    case gestureMetadata
+
+    public var rawValue: Swift.Int8 { get }
+  }
+
+  public enum AnimationEventType: Swift.Int8, Swift.Hashable {
+    case animationBegin
+    case animationEnd
+    case animationAttrUpdate
+    case animationScheduleTick
+    case animationTick
+    case animationRetarget
+
+    public var rawValue: Swift.Int8 { get }
+  }
+
+  public enum InstantiationEventType: Swift.Int8, Swift.Hashable {
+    case assign
+    case instantiateBegin
+    case instantiateEnd
+    case uninstantiateBegin
+    case uninstantiateEnd
+    case recordNamedProperty
+
+    public var rawValue: Swift.Int8 { get }
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUIPrivate.CustomEventTrace.ActionEventType {
+  public enum Reason: Swift.UInt32, Swift.Hashable {
+    case onAppear
+    case onChange
+    case onDisappear
+    case gesture
+    case didReleaseButton
+    case animationLogicallyCompleted
+    case animationRemoved
+    case hoverChanged
+    case scrollChanged
+    case scrollPrefetch
+    case signalPrefetch
+    case navSelectionUpdate
+    case splitSidebarVisibilityChanged
+    case preferenceChange
+    case onFocusChanged
+    case navStackPush
+    case navStackPop
+
+    public var rawValue: Swift.UInt32 { get }
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUIPrivate.CustomEventTrace.InstantiationEventType {
+  public enum Kind: Swift.Int8, Swift.Hashable {
+    case graph
+    case app
+    case view
+    case gesture
+    case widget
+
+    public var rawValue: Swift.Int8 { get }
+  }
 }
 
 @available(visionOS 26.0, *)
