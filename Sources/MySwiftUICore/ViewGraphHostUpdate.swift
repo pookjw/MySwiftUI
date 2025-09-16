@@ -30,6 +30,8 @@ package struct ViewGraphHostUpdate {
     }
     
     package static func dispatchImmediately<T>(_ body: () -> T) {
-        fatalError("TODO")
+        return Update.dispatchImmediately(reason: nil) { 
+            body()
+        }
     }
 }

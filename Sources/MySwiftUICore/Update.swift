@@ -82,7 +82,18 @@ package enum Update {
     }
     
     package static func dispatchImmediately<T>(reason: CustomEventTrace.ActionEventType.Reason?, _ handler: () -> T) -> T {
-        fatalError("TODO")
+        Update.begin()
+        
+        let actionID = Update.Action.nextActionID
+        Update.Action.nextActionID += 2
+        
+        defer {
+            CustomEventTrace.finishAction(actionID, reason)
+            Update.end()
+        }
+        
+        CustomEventTrace.startAction(actionID, nil)
+        return handler()
     }
     
     package static func syncMain(_ handler: () -> Void) {
@@ -107,8 +118,7 @@ package enum Update {
     
     package static func assertIsLocked() {
         if !Update._lock.isOwner() {
-            // original : "SwiftUI is active without having taken its own lock - missing Update.ensure()?"
-            fatalError("MySwiftUI is active without having taken its own lock - missing Update.ensure()?")
+            fatalError("SwiftUI is active without having taken its own lock - missing Update.ensure()?")
         }
     }
 }
@@ -129,9 +139,8 @@ extension Update {
             self.reason = reason
             self.thunk = thunk
             
-            let w23 = (Update.Action.nextActionID &>> 1) & 1
-            let w8 = Update.Action.nextActionID
-            Update.Action.nextActionID = (w8 + 2)
+            let w23 = (Update.Action.nextActionID &>> 1) + 1
+            Update.Action.nextActionID += 2
             self.actionID = w23
             
             CustomEventTrace.enqueueAction(w23, reason)

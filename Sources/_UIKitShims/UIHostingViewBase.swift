@@ -518,11 +518,43 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @objc private func sceneDidChangeRelativeTransform(_ notification: Notification) {
-        fatalError("TODO")
+        guard let uiView else {
+            return
+        }
+        
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return
+        }
+        
+        guard let windowScene = uiView.window?.windowScene else {
+            return
+        }
+        
+        guard let scene = notification.object as? UIScene, scene == windowScene else {
+            return
+        }
+        
+        updateDelegate.invalidateProperties([.transform], mayDeferUpdate: true)
     }
     
     @objc private func sceneDidChangeWorldTrackingLimitations(_ notification: Notification) {
-        fatalError("TODO")
+        guard let uiView else {
+            return
+        }
+        
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return
+        }
+        
+        guard let windowScene = uiView.window?.windowScene else {
+            return
+        }
+        
+        guard let scene = notification.object as? UIScene, scene == windowScene else {
+            return
+        }
+        
+        updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
     }
     
     @objc private func snappingUpdate(_ notification: Notification) {
