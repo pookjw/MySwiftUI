@@ -473,8 +473,10 @@ package final class UIHostingViewBase: NSObject {
         fatalError("TODO")
     }
     
-    @objc private func sceneDidActivate() {
-        fatalError("TODO")
+    @MainActor @objc private func sceneDidActivate() {
+        updateSceneActivationState()
+        isExitingForeground = false
+        requestUpdateForFidelity()
     }
     
     @objc private func sceneDidEnterBackground() {
@@ -510,7 +512,9 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @objc private func sceneDidUpdateSystemSceneDisplacement() {
-        fatalError("TODO")
+        if let updateDelegate = viewGraph.updateDelegate {
+            updateDelegate.invalidateProperties(.environment, mayDeferUpdate: true)
+        }
     }
     
     @objc private func sceneDidChangeRelativeTransform(_ notification: Notification) {
