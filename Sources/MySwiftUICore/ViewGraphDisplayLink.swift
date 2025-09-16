@@ -1,7 +1,7 @@
 #warning("TODO")
 internal import QuartzCore
 
-class ViewGraphDisplayLink: NSObject {
+final class ViewGraphDisplayLink: NSObject {
     var link: CADisplayLink? = nil
     private weak var host: ViewGraphHost? = nil
     private var nextUpdate: Time = .infinity
@@ -47,7 +47,7 @@ class ViewGraphDisplayLink: NSObject {
         fatalError("TODO")
     }
     
-    @objc class func asyncThreadWithArg(_: Any) {
+    @objc static func asyncThreadWithArg(_: Any) {
         fatalError("TODO")
     }
 }

@@ -2,7 +2,7 @@
 internal import MySwiftUICore
 internal import UIKit
 
-class SheetBridge<T>: NSObject {
+final class SheetBridge<T>: NSObject {
     weak var host: ViewRendererHost? = nil
     private var seed: VersionSeed = .empty
     private var presentationOptionsTracker = VersionSeedTracker<PresentationOptionsPreferenceKey>(seed: .empty)
@@ -20,7 +20,7 @@ class SheetBridge<T>: NSObject {
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    final func addPreferences(to viewGraph: ViewGraph) {
+    func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(SheetPreference.Key.self)
         viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
         viewGraph.addPreference(PresentationOptionsPreferenceKey.self)

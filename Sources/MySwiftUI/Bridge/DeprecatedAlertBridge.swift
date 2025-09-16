@@ -2,7 +2,7 @@
 internal import MySwiftUICore
 internal import UIKit
 
-class DeprecatedAlertBridge<T>: NSObject {
+final class DeprecatedAlertBridge<T>: NSObject {
     weak var host: (any ViewRendererHost)?
     private var isShown: Bool
     private var seed: VersionSeed
@@ -27,7 +27,7 @@ class DeprecatedAlertBridge<T>: NSObject {
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    final func addPreferences(to viewGraph: ViewGraph, isActionSheet: Bool) {
+    func addPreferences(to viewGraph: ViewGraph, isActionSheet: Bool) {
         if isActionSheet {
             viewGraph.addPreference(ActionSheet.Presentation.Key.self)
         } else {

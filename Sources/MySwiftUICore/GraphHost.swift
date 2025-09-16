@@ -109,7 +109,7 @@ package class GraphHost {
         return graph
     }() 
     
-    package var globalSubgraph: Subgraph {
+    package final var globalSubgraph: Subgraph {
         return data.globalSubgraph
     }
     
@@ -117,7 +117,7 @@ package class GraphHost {
         return nil
     }
     
-    package private(set) var data: GraphHost.Data
+    package private(set) final var data: GraphHost.Data
     private var constants: [ConstantKey: AnyAttribute]
     private var isInstantiated: Bool
     private var hostPreferenceValues: WeakAttribute<PreferenceValues>
@@ -125,7 +125,7 @@ package class GraphHost {
     private var pendingTransactions: [AsyncTransaction]
     private var inTransaction: Bool
     private var continuations: [any GraphMutation]
-    package private(set) nonisolated var mayDeferUpdate: Bool
+    package private(set) nonisolated final var mayDeferUpdate: Bool
     private var removedState: GraphHost.RemovedState
     
     init(data: GraphHost.Data) {
@@ -205,7 +205,7 @@ package class GraphHost {
         // nop
     }
     
-    package func setNeedsUpdate(mayDeferUpdate: Bool, values: ViewGraphRootValues) {
+    package final func setNeedsUpdate(mayDeferUpdate: Bool, values: ViewGraphRootValues) {
         fatalError("TODO")
     }
 }

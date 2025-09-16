@@ -83,7 +83,7 @@
 
 extension PropertyList {
     @usableFromInline
-    package class Tracker {
+    package final class Tracker {
         @AtomicBox var data: TrackerData
         
         public init() {
@@ -148,7 +148,7 @@ extension PropertyList {
 
 extension PropertyList {
     @usableFromInline
-    class Element: CustomStringConvertible {
+    final class Element: CustomStringConvertible {
         fileprivate let keyType: Any.Type
         fileprivate let before: Element?
         fileprivate var after: Element?

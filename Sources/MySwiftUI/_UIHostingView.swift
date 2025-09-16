@@ -69,7 +69,7 @@ open class _UIHostingView<Content: View>: UIView {
     }()
     private var focusBridge = FocusBridge()
     private let dragBridge = DragAndDropBridge()
-    internal var inspectorBridge: UIKitInspectorBridgeV3? = nil
+    internal final var inspectorBridge: UIKitInspectorBridgeV3? = nil
     private var tooltipBridge = TooltipBridge()
     private var editMenuBridge: EditMenuBridge = EditMenuBridge()
     private var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
@@ -248,6 +248,7 @@ open class _UIHostingView<Content: View>: UIView {
         if self.traitCollection.userInterfaceIdiom == .pad || self.traitCollection.userInterfaceIdiom == .vision {
             let pointerBridge = PointerBridge()
             pointerBridge.host = self
+            pointerBridge.addPreferences(to: viewGraph)
             self.pointerBridge = pointerBridge
         }
         
@@ -303,7 +304,7 @@ open class _UIHostingView<Content: View>: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override var frame: CGRect {
+    open override dynamic var frame: CGRect {
         didSet {
             let oldValue = self.frame
             super.frame = frame
@@ -311,7 +312,7 @@ open class _UIHostingView<Content: View>: UIView {
         }
     }
     
-    open override func didMoveToWindow() {
+    open override dynamic func didMoveToWindow() {
         Update.begin()
         
         eventBridge.hostingView(self, didMoveToWindow: window)
@@ -362,12 +363,12 @@ open class _UIHostingView<Content: View>: UIView {
         _base.didMoveToWindow()
     }
     
-    open override func layoutSubviews() {
+    open override dynamic func layoutSubviews() {
         super.layoutSubviews()
 //        fatalError("TODO")
     }
     
-    package var isWindowRoot: Bool {
+    package final var isWindowRoot: Bool {
         guard let window else {
             return false
         }
@@ -392,7 +393,7 @@ open class _UIHostingView<Content: View>: UIView {
         HostingViewRegistry.shared.add(self)
     }
     
-    func updateEventBridge() {
+    final func updateEventBridge() {
         let eventBridge = eventBridge
         guard traitCollection.userInterfaceIdiom == .carPlay else {
             return
@@ -456,11 +457,11 @@ extension _UIHostingView {
 }
 
 extension _UIHostingView: @preconcurrency ViewRendererHost {
-    package nonisolated var viewGraph: MySwiftUICore.ViewGraph {
+    package nonisolated final var viewGraph: MySwiftUICore.ViewGraph {
         return self._base.viewGraph.viewGraph
     }
     
-    package var currentTimestamp: MySwiftUICore.Time {
+    package final var currentTimestamp: MySwiftUICore.Time {
         get {
             fatalError("TODO")
         }
@@ -469,7 +470,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package var valuesNeedingUpdate: MySwiftUICore.ViewGraphRootValues {
+    package final var valuesNeedingUpdate: MySwiftUICore.ViewGraphRootValues {
         get {
             fatalError("TODO")
         }
@@ -478,7 +479,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package var renderingPhase: MySwiftUICore.ViewRenderingPhase {
+    package final var renderingPhase: MySwiftUICore.ViewRenderingPhase {
         get {
             fatalError("TODO")
         }
@@ -487,7 +488,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package var externalUpdateCount: Int {
+    package final var externalUpdateCount: Int {
         get {
             fatalError("TODO")
         }
@@ -496,47 +497,47 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package func updateRootView() {
+    package final func updateRootView() {
         fatalError("TODO")
     }
     
-    package func updateEnvironment() {
+    package final func updateEnvironment() {
         fatalError("TODO")
     }
     
-    package func updateTransform() {
+    package final func updateTransform() {
         fatalError("TODO")
     }
     
-    package func updateSize() {
+    package final func updateSize() {
         fatalError("TODO")
     }
     
-    package func updateSafeArea() {
+    package final func updateSafeArea() {
         fatalError("TODO")
     }
     
-    package func updateContainerSize() {
+    package final func updateContainerSize() {
         fatalError("TODO")
     }
     
-    package func updateFocusStore() {
+    package final func updateFocusStore() {
         fatalError("TODO")
     }
     
-    package func updateFocusedItem() {
+    package final func updateFocusedItem() {
         fatalError("TODO")
     }
     
-    package func updateFocusedValues() {
+    package final func updateFocusedValues() {
         fatalError("TODO")
     }
     
-    package func updateAccessibilityEnvironment() {
+    package final func updateAccessibilityEnvironment() {
         fatalError("TODO")
     }
     
-    package func `as`<T>(_ type: T.Type) -> T? {
+    package final func `as`<T>(_ type: T.Type) -> T? {
         if let result = _base._as(type) {
             return result
         } else if let result = viewController?._as(type) {
@@ -582,7 +583,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package nonisolated func requestUpdate(after time: Double) {
+    package nonisolated final func requestUpdate(after time: Double) {
         ViewGraphHostUpdate.lock()
         defer {
             ViewGraphHostUpdate.unlock()
@@ -617,31 +618,31 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package nonisolated func startUpdateTimer(delay: Double) {
+    package nonisolated final func startUpdateTimer(delay: Double) {
         fatalError("TODO")
     }
     
-    package func setNeedsUpdate() {
+    package final func setNeedsUpdate() {
         base._setNeedsUpdate()
     }
     
-    package func updateGraph<T>(body: (MySwiftUICore.GraphHost) -> T) -> T {
+    package final func updateGraph<T>(body: (MySwiftUICore.GraphHost) -> T) -> T {
         fatalError("TODO")
     }
     
-    package func graphDidChange() {
+    package final func graphDidChange() {
         fatalError("TODO")
     }
     
-    package func preferencesDidChange() {
+    package final func preferencesDidChange() {
         fatalError("TODO")
     }
     
-    package func beginTransaction() {
+    package final func beginTransaction() {
         fatalError("TODO")
     }
     
-    package func updateImmersiveSpaceAuthorityNotifications(oldScene: UIScene?, newScene: UIScene?) {
+    package final func updateImmersiveSpaceAuthorityNotifications(oldScene: UIScene?, newScene: UIScene?) {
         /*
          oldScene = x21
          newScene = x19
@@ -663,7 +664,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
 }
 
 extension _UIHostingView: @preconcurrency UIHostingViewProvider {
-    var environmentOverride: EnvironmentValues? {
+    final var environmentOverride: EnvironmentValues? {
         get {
             fatalError("TODO")
         }
@@ -672,49 +673,49 @@ extension _UIHostingView: @preconcurrency UIHostingViewProvider {
         }
     }
     
-    func renderForPreferences(updateDisplayList: Bool) {
+    final func renderForPreferences(updateDisplayList: Bool) {
         fatalError("TODO")
     }
     
-    var shouldCreateUIInteractions: Bool {
+    final var shouldCreateUIInteractions: Bool {
         return true
     }
 }
 
 extension _UIHostingView: @preconcurrency UICoreViewControllerProvider {
-    var coreUIViewController: UIViewController? {
+    final var coreUIViewController: UIViewController? {
         return viewController
     }
 }
 
 extension _UIHostingView: @preconcurrency HostingViewProtocol {
-    func convertAnchor<T>(_ anchor: MySwiftUICore.Anchor<T>) -> T {
+    final func convertAnchor<T>(_ anchor: MySwiftUICore.Anchor<T>) -> T {
         fatalError("TODO")
     }
 }
 
 extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
-    fileprivate func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims.UIHostingViewBase) -> Bool {
+    fileprivate final func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims.UIHostingViewBase) -> Bool {
         fatalError("TODO")
     }
     
-    fileprivate func baseDidMoveToScene(_ base: _UIKitShims.UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {
+    fileprivate final func baseDidMoveToScene(_ base: _UIKitShims.UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {
         updateImmersiveSpaceAuthorityNotifications(oldScene: oldScene, newScene: newScene)
     }
     
-    fileprivate func baseSceneActivationStateDidChange(_ base: _UIKitShims.UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {
+    fileprivate final func baseSceneActivationStateDidChange(_ base: _UIKitShims.UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {
         fatalError("TODO")
     }
     
-    fileprivate func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims.UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
+    fileprivate final func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims.UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
         fatalError("TODO")
     }
     
-    fileprivate func baseSceneBecameKey(_ base: _UIKitShims.UIHostingViewBase) {
+    fileprivate final func baseSceneBecameKey(_ base: _UIKitShims.UIHostingViewBase) {
         fatalError("TODO")
     }
     
-    fileprivate func baseSceneResignedKey(_ base: _UIKitShims.UIHostingViewBase) {
+    fileprivate final func baseSceneResignedKey(_ base: _UIKitShims.UIHostingViewBase) {
         fatalError("TODO")
     }
 }

@@ -3,7 +3,7 @@ private import Foundation
 private import AttributeGraph
 package import QuartzCore
 
-package class ViewGraphHost {
+package final class ViewGraphHost {
     package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true
     package static nonisolated(unsafe) var defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
     

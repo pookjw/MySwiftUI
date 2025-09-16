@@ -2,7 +2,7 @@
 internal import UIKit
 internal import MySwiftUICore
 
-class EditMenuBridge: NSObject {
+final class EditMenuBridge: NSObject {
     weak var host: ViewRendererHost? = nil
     private weak var listCell: ListCollectionViewCell? = nil
     private var interaction: UIEditMenuInteraction? = nil
@@ -13,7 +13,7 @@ class EditMenuBridge: NSObject {
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    final func addPreferences(to viewGraph: ViewGraph) {
+    func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(EditMenuPresentation.Key.self)
         viewGraph.addPreference(HasEditMenuKey.self)
     }
@@ -21,7 +21,7 @@ class EditMenuBridge: NSObject {
     // 원래 없음
     @inlinable
     @MainActor
-    final func hostRemovedFromWindow() {
+    func hostRemovedFromWindow() {
         UIView.performWithoutAnimation {
             self.interaction?.dismissMenu()
         }

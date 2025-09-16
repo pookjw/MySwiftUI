@@ -1,5 +1,5 @@
 @propertyWrapper
-package class MutableBox<T> {
+package final class MutableBox<T> {
     package var value: T
     
     @inlinable

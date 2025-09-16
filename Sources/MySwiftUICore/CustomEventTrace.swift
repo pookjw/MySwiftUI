@@ -175,6 +175,7 @@ extension CustomEventTrace.ActionEventType {
 }
 
 extension CustomEventTrace {
+    // TODO: final인지 검증
     class Recorder {
         private(set) var graph: Graph
         private(set) var cefOp: UnsafeMutablePointer<Int8>

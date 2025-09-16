@@ -2,7 +2,7 @@
 private import MySwiftUICore
 internal import UIKit
 
-class PointerBridge: NSObject {
+final class PointerBridge: NSObject {
     weak var host: ViewRendererHost? = nil
     private var interaction: UIPointerInteraction? = nil
     private var hasHoverEffectSeed = VersionSeed.empty

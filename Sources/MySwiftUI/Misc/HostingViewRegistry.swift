@@ -1,7 +1,7 @@
 #warning("TODO")
 private import MySwiftUICore
 
-class HostingViewRegistry {
+final class HostingViewRegistry {
     static nonisolated(unsafe) let shared = HostingViewRegistry()
     private var elements: [ObjectIdentifier : WeakBox<AnyObject>] = [:]
     

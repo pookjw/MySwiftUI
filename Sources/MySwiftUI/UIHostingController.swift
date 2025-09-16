@@ -3,11 +3,11 @@
 public import UIKit
 
 open class UIHostingController<Content: View>: UIViewController {
-    package func _as<T>(_ type: T.Type) -> T? {
+    package final func _as<T>(_ type: T.Type) -> T? {
         fatalError("TODO")
     }
     
-    func _viewDidMoveToWindow() {
+    final func _viewDidMoveToWindow() {
         fatalError("TODO")
     }
 }

@@ -2,7 +2,7 @@
 internal import UIKit
 internal import MySwiftUICore
 
-class TooltipBridge: NSObject {
+final class TooltipBridge: NSObject {
     weak var host: ViewRendererHost? = nil
     var hasTooltipSeed: VersionSeed = .empty
     var tooltipInteraction: UIToolTipInteraction? = nil

@@ -3,7 +3,7 @@ private import UIKit
 private import MySwiftUICore
 private import AttributeGraph
 
-class SharingActivityPickerBridge {
+final class SharingActivityPickerBridge {
     private weak var host: ViewRendererHost?
     private var overrideArrowDirections: UIPopoverArrowDirection?
     private weak var presenterOverride: UIViewController?
@@ -21,7 +21,7 @@ class SharingActivityPickerBridge {
     // 원래 없음
     @inlinable
     @MainActor
-    final func hostRemovedFromWindow() {
+    func hostRemovedFromWindow() {
         onNextMainRunLoop {
             self.reset()
         }

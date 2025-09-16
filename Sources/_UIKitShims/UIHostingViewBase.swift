@@ -2,7 +2,7 @@ package import UIKit
 @_spi(Internal) package import MySwiftUICore
 private import _UIKitPrivate
 
-package class UIHostingViewBase: NSObject {    
+package final class UIHostingViewBase: NSObject {    
     package weak var uiView: UIView? = nil
     package weak var delegate: UIHostingViewBaseDelegate? = nil
     private var safeAreaRegions: SafeAreaRegions = .all
@@ -122,7 +122,7 @@ package class UIHostingViewBase: NSObject {
     package func frameDidChange(oldValue: CGRect) {
         guard
             let uiView,
-            let updateDelegate = viewGraph.updateDelegate
+            let updateDelegate
         else {
             return
         }
@@ -354,7 +354,7 @@ package class UIHostingViewBase: NSObject {
         if !updatesWillBeVisible {
             uiView.setNeedsLayout()
             
-            guard let updateDelegate = viewGraph.updateDelegate else {
+            guard let updateDelegate else {
                 return
             }
             

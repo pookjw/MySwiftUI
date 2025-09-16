@@ -1,7 +1,7 @@
 #warning("TODO")
 internal import Foundation
 
-@_spi(Internal) public class EventBindingManager {
+@_spi(Internal) public final class EventBindingManager {
     package weak var host: EventGraphHost? = nil
     package weak var delegate: EventBindingManagerDelegate? = nil
     private var forwardedEventDispatchers: [ObjectIdentifier : ForwardedEventDispatcher] = [:]

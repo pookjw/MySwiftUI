@@ -3,7 +3,7 @@ internal import AttributeGraph
 private import CoreGraphics
 package import QuartzCore
 
-package class ViewGraph: GraphHost {
+package final class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
     weak var delegate: ViewGraphDelegate? = nil

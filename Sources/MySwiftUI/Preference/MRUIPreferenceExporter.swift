@@ -4,7 +4,7 @@ private import MySwiftUICore
 private import BaseBoard
 private import UIKit
 
-class MRUIPreferenceExporter {
+final class MRUIPreferenceExporter {
     // $s7SwiftUI25MRUIBridgedPreferenceKeysO03allE0_WZ
     static nonisolated(unsafe) let allKeys: [any MRUIBridgedPreferenceKey.Type] = [
         PreferredAnchoredPlaneKey.self,
@@ -34,7 +34,7 @@ class MRUIPreferenceExporter {
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    final func addPreferences(to viewGraph: ViewGraph) {
+    func addPreferences(to viewGraph: ViewGraph) {
         for preference in exportedPreferences {
             preference.addPreference(to: viewGraph)
         }

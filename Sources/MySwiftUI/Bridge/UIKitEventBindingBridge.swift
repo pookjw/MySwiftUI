@@ -3,7 +3,7 @@
 internal import UIKit
 private import _UIKitPrivate
 
-class UIKitEventBindingBridge: EventBindingBridge {
+final class UIKitEventBindingBridge: EventBindingBridge {
     private(set) var gestureRecognizer: UIKitGestureRecognizer? = nil
     private(set) var hoverGestureRecognizer: UIKitHoverGestureRecognizer
     private var keyPressResponder: UIKitKeyPressResponder? = nil

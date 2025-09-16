@@ -3,7 +3,7 @@ internal import UIKit
 internal import MySwiftUICore
 internal import _UIKitPrivate
 
-class DragAndDropBridge: AnyDragAndDropBridge {
+final class DragAndDropBridge: AnyDragAndDropBridge {
     weak var host: (any ViewRendererHost)? = nil
     private var hasDragItemsSeed: VersionSeed = .empty
     private var dragTimingsSeed: VersionSeed = .empty
@@ -20,7 +20,7 @@ class DragAndDropBridge: AnyDragAndDropBridge {
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    final func addPreferences(to viewGraph: ViewGraph) {
+    func addPreferences(to viewGraph: ViewGraph) {
         if self.host!.shouldCreateUIInteractions {
             viewGraph.addPreference(HasDragItemsKey.self)
             viewGraph.addPreference(DragItemTimings.Key.self)

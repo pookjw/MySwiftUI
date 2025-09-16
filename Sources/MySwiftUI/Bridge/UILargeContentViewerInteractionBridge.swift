@@ -3,7 +3,7 @@ internal import UIKit
 internal import MySwiftUICore
 private import _UIKitPrivate
 
-@MainActor class UILargeContentViewerInteractionBridge: NSObject {
+@MainActor final class UILargeContentViewerInteractionBridge: NSObject {
     weak var host: (UIView & ViewRendererHost)? = nil
     private var interaction: UILargeContentViewerInteraction? = nil
     private weak var gesture: UIGestureRecognizer? = nil
@@ -32,7 +32,7 @@ private import _UIKitPrivate
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    final func updateRequestedPreferences(for viewGraph: ViewGraph) {
+    func updateRequestedPreferences(for viewGraph: ViewGraph) {
         Update.ensure { 
             if showLargeContentViewer {
                 viewGraph.addPreference(AccessibilityLargeContentViewTree.Key.self)

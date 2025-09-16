@@ -2,6 +2,7 @@
 private import MySwiftUICore
 internal import UIKit
 
+// TODO: final인지 검증
 class RootViewDelegate {
     private var colorSchemeSeed = VersionSeedTracker<PreferredColorSchemeKey>(seed: .invalid)
     weak var nextDelegate: UIHostingViewDelegate? = nil
