@@ -59,6 +59,8 @@ public struct Attribute<T> {
     public subscript<U>(offset body: (inout T) -> AttributeGraph.PointerOffset<T, U>) -> AttributeGraph.Attribute<U> {
         get
     }
+
+    @discardableResult public func setValue(_: T) -> Swift.Bool
 }
 
 public struct IndirectAttribute<T> {

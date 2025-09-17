@@ -298,6 +298,50 @@ public enum Update {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct Signpost {
+  public static var render: _SwiftUIPrivate.Signpost { get }
+  public static var renderUpdate: _SwiftUIPrivate.Signpost { get }
+  public static var postUpdateActions: _SwiftUIPrivate.Signpost { get }
+  public static var renderDisplayList: _SwiftUIPrivate.Signpost { get }
+  public static var bodyInvoke: _SwiftUIPrivate.Signpost { get }
+  public static var linkCreate: _SwiftUIPrivate.Signpost { get }
+  public static var linkUpdate: _SwiftUIPrivate.Signpost { get }
+  public static var linkDestroy: _SwiftUIPrivate.Signpost { get }
+  public static var viewHost: _SwiftUIPrivate.Signpost { get }
+  public static var platformView: _SwiftUIPrivate.Signpost { get }
+  public static var platformUpdate: _SwiftUIPrivate.Signpost { get }
+  public static var animationState: _SwiftUIPrivate.Signpost { get }
+  public static var eventHandling: _SwiftUIPrivate.Signpost { get }
+  public static var prefetchMakeView: _SwiftUIPrivate.Signpost { get }
+  public static var prefetchOutputs: _SwiftUIPrivate.Signpost { get }
+  public static var prefetchNotifyRender: _SwiftUIPrivate.Signpost { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol UserDefaultKeyedFeature {
+    static var key: Swift.String { get }
+    static var defaultFeatureValue: Swift.Bool { get }
+    static var defaults: Foundation.UserDefaults { get }
+    static var cachedValue: Swift.Bool? { get set }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUIPrivate.UserDefaultKeyedFeature {
+  public static func test<T>(enabled: Swift.Bool, _ body: () throws -> T) rethrows -> T
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DisableRemoteEffects: _SwiftUIPrivate.UserDefaultKeyedFeature {
+    public static var key: Swift.String { get }
+    public static var defaultFeatureValue: Swift.Bool { get }
+    public static var cachedValue: Swift.Bool? { get set }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public enum Log {
   public static func internalWarning(_ message: @autoclosure () -> Swift.String)
   public static func internalError(_ message: @autoclosure () -> Swift.String)

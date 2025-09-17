@@ -117,6 +117,10 @@ package class GraphHost {
         return nil
     }
     
+    package var graphDelegate: ViewGraphDelegate? {
+        return nil
+    }
+    
     package private(set) final var data: GraphHost.Data
     private var constants: [ConstantKey: AnyAttribute]
     private var isInstantiated: Bool
@@ -211,6 +215,23 @@ package class GraphHost {
     
     package final func setNeedsUpdate(mayDeferUpdate: Bool, values: ViewGraphRootValues) {
         fatalError("TODO")
+    }
+    
+    package final func flushTransactions() {
+        guard data.graph != nil else {
+            return
+        }
+        
+        let pendingTransactions = pendingTransactions
+        guard !pendingTransactions.isEmpty else {
+            return
+        }
+        
+        self.pendingTransactions = []
+        
+        if let graphDelegate {
+            graphDelegate.graphDidChange()
+        }
     }
 }
 

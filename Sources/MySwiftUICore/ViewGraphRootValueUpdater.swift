@@ -40,6 +40,10 @@ extension ViewGraphRootValueUpdater {
          updateDisplayList = x26
          targetTimestamp = x20
          */
+        guard let owner = self.as(ViewGraphOwner.self) else {
+            return
+        }
+        
         Update.begin()
         defer {
             Update.end()
@@ -49,8 +53,23 @@ extension ViewGraphRootValueUpdater {
             return
         }
         
-//        Signpost.render.traceInterval(object: <#T##AnyObject?#>, <#T##message: StaticString##StaticString#>, <#T##args: [any CVarArg]##[any CVarArg]#>, closure: <#T##() -> T#>)
-        fatalError("TODO")
+        Signpost.render.traceInterval(object: self, nil) {
+            // closure #1 () -> () in SwiftUI.ViewGraphRootValueUpdater.render(interval: Swift.Double, updateDisplayList: Swift.Bool, targetTimestamp: Swift.Optional<SwiftUI.Time>) -> ()
+            let viewGraph = owner.viewGraph
+            owner.currentTimestamp = (targetTimestamp ?? .zero) + interval
+            
+            let currentTimestamp = owner.currentTimestamp
+            
+            viewGraph.flushTransactions()
+            // x21
+            let update = Graph.clearUpdate()
+            self.updateGraph()
+            Graph.setUpdate(update)
+            
+            // TODO: 검증 필요
+            owner.renderingPhase = .rendering
+            fatalError("TODO")
+        }
     }
     
     package func renderAsync(interval: Double, targetTimestamp: Time?) {
@@ -122,11 +141,41 @@ extension ViewGraphRootValueUpdater {
     }
     
     package var isRendering: Bool {
-        fatalError("TODO")
+        guard let owner = self.as(ViewGraphOwner.self) else {
+            return false
+        }
+        
+        return (owner.renderingPhase != .none)
     }
     
     package func updateGraph() {
-        fatalError("TODO")
+        guard let owner = self.as(ViewGraphOwner.self) else {
+            return
+        }
+        
+        let valuesNeedingUpdate = owner.valuesNeedingUpdate
+        guard !valuesNeedingUpdate.isEmpty else {
+            return
+        }
+        
+        Update.syncMain {
+            // closure #1 () -> () in SwiftUI.ViewGraphRootValueUpdater.updateGraph() -> ()
+            
+            // valuesNeedingUpdate = x20
+            // owner = x21
+            if !valuesNeedingUpdate.isEmpty {
+                owner.valuesNeedingUpdate.remove(.rootView)
+                self.updateRootView()
+            }
+            
+            owner.valuesNeedingUpdate.remove(.environment)
+            owner.valuesNeedingUpdate.remove(.transform)
+            owner.valuesNeedingUpdate.remove(.size)
+            owner.valuesNeedingUpdate.remove(.safeArea)
+            owner.valuesNeedingUpdate.remove(.containerSize)
+            owner.valuesNeedingUpdate.remove(.focusStore)
+            owner.valuesNeedingUpdate.remove(.focustedItem)
+        }
     }
     
     package func _idealSize() -> CGSize {

@@ -498,7 +498,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final func updateRootView() {
-        fatalError("TODO")
+        viewGraph.setRootView(_rootView)
     }
     
     package final func updateEnvironment() {

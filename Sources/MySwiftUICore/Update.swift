@@ -2,6 +2,8 @@
 private import os.signpost
 private import os.log
 private import _MySwiftUIShims
+private import Foundation
+private import AttributeGraph
 
 package enum Update {
     private static let _lock = MovableLock.create()
@@ -97,7 +99,11 @@ package enum Update {
     }
     
     package static func syncMain(_ handler: () -> Void) {
-        fatalError("TODO")
+        if Thread.isMainThread {
+            handler()
+        } else {
+            fatalError("TODO")
+        }
     }
     
     package static func wait() {

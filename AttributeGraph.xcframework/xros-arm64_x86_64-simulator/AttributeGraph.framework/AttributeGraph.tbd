@@ -82,7 +82,10 @@ exports:
     _$s14AttributeGraph0A0V12wrappedValuexvs,
     _$s14AttributeGraph0A0V12wrappedValuexvM,
     _AGGraphGetCounter,
-    _AGSubgraphRemoveChild ]
+    _AGSubgraphRemoveChild,
+    _AGGraphClearUpdate,
+    _AGGraphSetUpdate,
+    _$s14AttributeGraph0A0V8setValueySbxF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

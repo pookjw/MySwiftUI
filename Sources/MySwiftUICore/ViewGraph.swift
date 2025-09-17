@@ -123,6 +123,10 @@ package final class ViewGraph: GraphHost {
         fatalError("TODO")
     }
     
+    package override var graphDelegate: (any ViewGraphDelegate)? {
+        return delegate
+    }
+    
     package override var parentHost: GraphHost? {
         guard let preferenceBridge = _preferenceBridge else {
             return nil
@@ -135,8 +139,12 @@ package final class ViewGraph: GraphHost {
         fatalError("TODO")
     }
     
-    package func append<T: ViewGraphFeature>(feature: T) {
+    package final func append<T: ViewGraphFeature>(feature: T) {
         features.append(feature: feature)
+    }
+    
+    package final func setRootView<Content: View>(_ rootView: Content) {
+        Attribute(identifier: self.rootView).setValue(rootView)
     }
 }
 

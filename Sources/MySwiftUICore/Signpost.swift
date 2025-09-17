@@ -9,7 +9,7 @@ struct Signpost {
     private let level: Level
     
     @inlinable
-    func traceInterval<T>(object: AnyObject?, _ message: StaticString, _ args: @autoclosure () -> [CVarArg], closure: () -> T) -> T {
+    func traceInterval<T>(object: AnyObject?, _ message: StaticString?, _ args: @autoclosure () -> [CVarArg], closure: () -> T) -> T {
         guard isEnabled else {
             return closure()
         }
@@ -31,7 +31,7 @@ struct Signpost {
             kdebug_trace(style.debugID(.end), signpostID.rawValue, 0, 0, 0)
             return result
         case .os_log(let name):
-            os_signpost(.begin, log: _signpostLog, name: name, signpostID: signpostID, message, args)
+            os_signpost(.begin, log: _signpostLog, name: name, signpostID: signpostID, message ?? "", args)
             let result = closure()
             os_signpost(.end, log: _signpostLog, name: name, signpostID: signpostID)
             return result
@@ -39,7 +39,12 @@ struct Signpost {
     }
     
     @inlinable
-    func traceEvent(type: OSSignpostType, object: AnyObject?, _ message: StaticString, args: @autoclosure () -> [CVarArg]) {
+    func traceInterval<T>(object: AnyObject?, _ message: StaticString?, closure: () -> T) -> T {
+        return traceInterval(object: object, message, [], closure: closure)
+    }
+    
+    @inlinable
+    func traceEvent(type: OSSignpostType, object: AnyObject?, _ message: StaticString?, args: @autoclosure () -> [CVarArg]) {
         guard isEnabled else {
             return
         }
@@ -58,7 +63,7 @@ struct Signpost {
             let debugid = style.debugID(type)
             kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, args: args)
         case .os_log(let name):
-            os_signpost(type, log: _signpostLog, name: name, signpostID: signpostID, message, args)
+            os_signpost(type, log: _signpostLog, name: name, signpostID: signpostID, message ?? "", args)
         }
     }
     
@@ -92,67 +97,85 @@ struct Signpost {
         }
     }
     
-    static var render: Signpost {
-        fatalError("TODO")
-    }
+    static let render = Signpost(
+        style: .kdebug(20, 0),
+        level: .published
+    )
     
-    static var renderUpdate: Signpost {
-        fatalError("TODO")
-    }
+    static let renderUpdate = Signpost(
+        style: .kdebug(20, 3),
+        level: .published
+    )
     
-    static var postUpdateActions: Signpost {
-        fatalError("TODO")
-    }
+    static let postUpdateActions = Signpost(
+        style: .kdebug(20, 2),
+        level: .published
+    )
     
-    static var renderDisplayList: Signpost {
-        fatalError("TODO")
-    }
+    static let renderDisplayList = Signpost(
+        style: .kdebug(20, 4),
+        level: .published
+    )
     
-    static var bodyInvoke: Signpost {
-        fatalError("TODO")
-    }
+    static let bodyInvoke = Signpost(
+        style: .kdebug(20, 5),
+        level: .published
+    )
     
-    static var linkCreate: Signpost {
-        fatalError("TODO")
-    }
+    static let linkCreate = Signpost(
+        style: .os_log("LinkCreate"),
+        level: .published
+    )
     
-    static var linkUpdate: Signpost {
-        fatalError("TODO")
-    }
+    static let linkUpdate = Signpost(
+        style: .os_log("LinkUpdate"),
+        level: .published
+    )
     
-    static var linkDestroy: Signpost {
-        fatalError("TODO")
-    }
+    static let linkDestroy = Signpost(
+        style: .os_log("LinkDestroy"),
+        level: .published
+    )
     
-    static var viewHost: Signpost { Signpost(style: .kdebug(164, 0), level: .published) } 
+    static let viewHost = Signpost(
+        style: .kdebug(20, 9),
+        level: .published
+    )
     
-    static var platformView: Signpost {
-        fatalError("TODO")
-    }
+    static let platformView = Signpost(
+        style: .os_log("ViewMapping"),
+        level: .published
+    )
     
-    static var platformUpdate: Signpost {
-        fatalError("TODO")
-    }
+    static let platformUpdate = Signpost(
+        style: .os_log("PlatformViewUpdate"),
+        level: .published
+    )
     
-    static var animationState: Signpost {
-        fatalError("TODO")
-    }
+    static let animationState = Signpost(
+        style: .os_log("AnimationState"),
+        level: .published
+    )
     
-    static var eventHandling: Signpost {
-        fatalError("TODO")
-    }
+    static let eventHandling = Signpost(
+        style: .os_log("EventHandling"),
+        level: .published
+    )
     
-    static var prefetchMakeView: Signpost {
-        fatalError("TODO")
-    }
+    static let prefetchMakeView = Signpost(
+        style: .kdebug(43, 5050),
+        level: .internal
+    )
     
-    static var prefetchOutputs: Signpost {
-        fatalError("TODO")
-    }
+    static let prefetchOutputs = Signpost(
+        style: .kdebug(43, 5051),
+        level: .internal
+    )
     
-    static var prefetchNotifyRender: Signpost {
-        fatalError("TODO")
-    }
+    static let prefetchNotifyRender = Signpost(
+        style: .kdebug(43, 5052),
+        level: .internal
+    )
     
     static let moduleName: String = Tracing.libraryName(defining: Signpost.self)
 }
