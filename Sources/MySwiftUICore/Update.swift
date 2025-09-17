@@ -127,6 +127,10 @@ package enum Update {
             fatalError("SwiftUI is active without having taken its own lock - missing Update.ensure()?")
         }
     }
+    
+    package static func dispatchActions() {
+        fatalError("TODO")
+    }
 }
 
 extension Update {

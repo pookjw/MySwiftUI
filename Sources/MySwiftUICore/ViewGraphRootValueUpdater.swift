@@ -66,8 +66,14 @@ extension ViewGraphRootValueUpdater {
             self.updateGraph()
             Graph.setUpdate(update)
             
-            // TODO: 검증 필요
             owner.renderingPhase = .rendering
+            
+            Signpost.renderUpdate.traceInterval(object: viewGraph, nil) {
+                // <+628>
+                let data = viewGraph.data
+                Update.dispatchActions()
+                fatalError("TODO")
+            }
             fatalError("TODO")
         }
     }
