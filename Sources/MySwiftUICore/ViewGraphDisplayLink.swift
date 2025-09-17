@@ -4,7 +4,7 @@ internal import QuartzCore
 final class ViewGraphDisplayLink: NSObject {
     var link: CADisplayLink? = nil
     private weak var host: ViewGraphHost? = nil
-    private var nextUpdate: Time = .infinity
+    private(set) var nextUpdate: Time = .infinity
     private var currentUpdate: Time? = nil
     private var interval: Double = 0
     private var reasons: Set<UInt32> = []

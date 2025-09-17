@@ -134,14 +134,16 @@ class ViewController: UIViewController {
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
-//        
-//        print("===")
-//        
-//        print(ViewGraphDisplayLink.self)
-//        _forEachField(of: ViewGraphDisplayLink.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
+        
+        print("===")
+        
+        print(ViewGraphDisplayLink.self)
+        _forEachField(of: ViewGraphDisplayLink.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
         
 //        let viewDefinition = (UIView.self as AnyClass)._swiftUI_platformViewDefinition() as! PlatformViewDefinition.Type
 //        let viewGraphHost = ViewGraphHost.init(rootViewType: EmptyView.self, outputs: .init(rawValue: 0), viewDefinition: viewDefinition)
@@ -150,27 +152,29 @@ class ViewController: UIViewController {
 //            CADisplayLink(target: object, selector: selector)
 //        }
         
-//        print(UIHostingViewBase.self)
-//        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
-//        
-//        print("===")
+        print(UIHostingViewBase.self)
+        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
         
-//        print(ViewGraphHost.self)
-//        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
+        print("===")
         
-//        print(ViewGraph.self)
-//        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
-//        
-//        print("===")
+        print(ViewGraphHost.self)
+        _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
+        print(ViewGraph.self)
+        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
 //        
 //        print(ViewGraph.Data.self)
 //        _forEachField(of: ViewGraph.Data.self, options: []) { name, offset, type, kind in

@@ -177,7 +177,23 @@ package final class UIHostingViewBase: NSObject {
         } else {
             if !pendingPostDisappearPreferencesUpdate && isLinkedOnOrAfter(.v6) {
                 UIHostingViewBase.UpdateCycle.addPreCommitObserver { [weak self] in
-                    fatalError("TODO")
+                    // ___lldb_unnamed_symbol317393
+                    guard let self else {
+                        return
+                    }
+                    
+                    let viewGraph = self.viewGraph
+                    guard let updateDelegate = viewGraph.updateDelegate else {
+                        return
+                    }
+                    
+                    guard self.canAdvanceTimeAutomatically else {
+                        return
+                    }
+                    
+                    let interval = self.interval(time: CACurrentMediaTime()) / Double(UIAnimationDragCoefficient())
+                    updateDelegate.render(interval: interval, updateDisplayList: false, targetTimestamp: nil)
+                    self.pendingPostDisappearPreferencesUpdate = false
                 }
             }
         }
@@ -207,6 +223,63 @@ package final class UIHostingViewBase: NSObject {
         }
         
         updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
+    }
+    
+    // ___lldb_unnamed_symbol317399
+    package func interval(time: Double) -> Double {
+        // time = x19
+        // x23
+        var lastRenderTime = lastRenderTime
+        let zeroTime = Time.zero
+        
+        if lastRenderTime <= zeroTime {
+            // <+320>
+            lastRenderTime = Time(seconds: time - 1.0e-06)
+            self.lastRenderTime = lastRenderTime
+        }
+        
+        // <+396>
+        let result = time - lastRenderTime.seconds
+        self.lastRenderTime = Time(seconds: time)
+        return result
+    }
+    
+    package nonisolated func _requestUpdate(after time: Double) {
+        ViewGraphHostUpdate.lock()
+        defer {
+            ViewGraphHostUpdate.unlock()
+        }
+        
+        let viewGraph = viewGraph
+        
+        if (time == 0) && !viewGraph.mayDeferUpdate {
+            if Thread.isMainThread {
+                MainActor.assumeIsolated {
+                    self._setNeedsUpdate()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self._setNeedsUpdate()
+                }
+            }
+            
+            return
+        }
+        
+        let actualTime = (time * Double(UIAnimationDragCoefficient()))
+        guard actualTime < 0.25 else {
+            viewGraph.startUpdateTimer(delay: actualTime)
+            return
+        }
+        
+        guard uiView != nil else {
+            return
+        }
+        
+        viewGraph.startDisplayLink(delay: actualTime) { _, _ in
+            // ___lldb_unnamed_symbol317443
+            fatalError("TODO")
+        }
     }
     
     @MainActor
@@ -609,3 +682,5 @@ package protocol UIHostingViewBaseDelegate: AnyObject {
 fileprivate let isChaaranaApp: Bool = {
     return Bundle.main.bundleIdentifier == "com.parjanya.ChaaranaVision"
 }()
+
+extension UIHostingViewBase: @unchecked Sendable {}

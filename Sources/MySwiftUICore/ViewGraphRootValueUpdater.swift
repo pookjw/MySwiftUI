@@ -2,6 +2,7 @@
 private import AttributeGraph
 package import CoreGraphics
 package import StopwatchSupport
+private import _UIKitPrivate
 
 package protocol ViewGraphRootValueUpdater: ViewGraphDelegate {
     func updateRootView()
@@ -34,6 +35,21 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func render(interval: Double, updateDisplayList: Bool, targetTimestamp: Time?) {
+        /*
+         interval = d8
+         updateDisplayList = x26
+         targetTimestamp = x20
+         */
+        Update.begin()
+        defer {
+            Update.end()
+        }
+        
+        guard !isRendering else {
+            return
+        }
+        
+//        Signpost.render.traceInterval(object: <#T##AnyObject?#>, <#T##message: StaticString##StaticString#>, <#T##args: [any CVarArg]##[any CVarArg]#>, closure: <#T##() -> T#>)
         fatalError("TODO")
     }
     

@@ -13,7 +13,7 @@ package struct Time: Hashable, Comparable {
         return Time(seconds: CACurrentMediaTime())
     }
     
-    var seconds: Double
+    package var seconds: Double
     
     @inlinable
     package init(seconds: Double) {
@@ -85,3 +85,6 @@ package struct Time: Hashable, Comparable {
         return lhs.seconds == rhs.seconds
     }
 }
+
+// UIKitCore - ___lldb_unnamed_symbol317399에서 memcpy
+extension Time: BitwiseCopyable {}

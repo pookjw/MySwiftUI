@@ -584,38 +584,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package nonisolated final func requestUpdate(after time: Double) {
-        ViewGraphHostUpdate.lock()
-        defer {
-            ViewGraphHostUpdate.unlock()
-        }
-        
-        if (time == 0) && viewGraph.mayDeferUpdate {
-            if Thread.isMainThread {
-                MainActor.assumeIsolated {
-                    setNeedsUpdate()
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.setNeedsUpdate()
-                }
-            }
-            
-            return
-        }
-        
-        let actualTime = (time * Double(UIAnimationDragCoefficient()))
-        guard actualTime < 0.25 else {
-            startUpdateTimer(delay: actualTime)
-            return
-        }
-        
-        guard uiView != nil else {
-            return
-        }
-        
-        base.viewGraph.startDisplayLink(delay: actualTime) { _, _ in
-            fatalError("TODO")
-        }
+        base._requestUpdate(after: time)
     }
     
     package nonisolated final func startUpdateTimer(delay: Double) {

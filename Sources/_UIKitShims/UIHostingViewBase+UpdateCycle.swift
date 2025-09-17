@@ -15,20 +15,14 @@ extension UIHostingViewBase {
             }
             
             let item = _UIUpdateSequenceInsertItem(_UIUpdateSequenceCATransactionCommitItemInternal, false, "UICoreHostingViewFlush", false, nil) { _, a, b in
-                // ___lldb_unnamed_symbol317968
-                // ___lldb_unnamed_symbol317973
-                
-                let insertedItems = insertedItems
                 guard insertedItems.count == 1 else {
                     return
                 }
                 
-                let item = insertedItems[0]
+                insertedItems = []
                 
                 ViewGraphHostUpdate.dispatchImmediately {
-                    // ___lldb_unnamed_symbol311502
-                    // ___lldb_unnamed_symbol317393
-                    fatalError("TODO")
+                    handler()
                 }
             }
             

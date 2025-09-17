@@ -84,7 +84,19 @@ package final class ViewGraphHost {
         Update.unlock()
     }
     
-    package final nonisolated func startDisplayLink(delay: Double, makeCADisplayLink: (Any, Selector) -> CADisplayLink?) {
+    package var mayDeferUpdate: Bool {
+        guard viewGraph.mayDeferUpdate else {
+            return false
+        }
+        
+        guard let displayLink else {
+            return false
+        }
+        
+        return displayLink.nextUpdate != .infinity
+    }
+    
+    package nonisolated func startDisplayLink(delay: Double, makeCADisplayLink: (Any, Selector) -> CADisplayLink?) {
         let displayLink: ViewGraphDisplayLink
         if let _displayLink = self.displayLink {
             displayLink = _displayLink
@@ -110,6 +122,18 @@ package final class ViewGraphHost {
     
     package func startUpdateTimer(delay: Double) {
         fatalError("TODO")
+    }
+    
+    package func nextRenderInterval(interval: () -> Double) -> Double {
+        if let displayLink {
+            let nextUpdate = displayLink.nextUpdate
+            guard nextUpdate != .infinity else {
+                return 0
+            }
+            return interval()
+        } else {
+            return interval()
+        }
     }
 }
 
