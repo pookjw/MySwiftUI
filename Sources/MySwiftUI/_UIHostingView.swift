@@ -67,7 +67,7 @@ open class _UIHostingView<Content: View>: UIView {
         }
         return SheetBridge<SheetPreference.Key>()
     }()
-    private var focusBridge = FocusBridge()
+    private(set) final var focusBridge = FocusBridge()
     private let dragBridge = DragAndDropBridge()
     internal final var inspectorBridge: UIKitInspectorBridgeV3? = nil
     private var tooltipBridge = TooltipBridge()
@@ -692,8 +692,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
         }
         
         Update.enqueueAction(reason: nil) {
-            // partial apply forwarder for closure #1 () -> () in SwiftUI._UIHostingView.baseSceneActivationStateDidChange(_: UIKit.UIHostingViewBase, oldState: __C.UISceneActivationState?, newState: __C.UISceneActivationState?) -> ()
-            fatalError("TODO")
+            rootViewDelegate.updateAppFocus(view: self)
         }
     }
     

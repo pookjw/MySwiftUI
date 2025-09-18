@@ -2,10 +2,10 @@
 internal import MySwiftUICore
 
 public struct FocusedValues {
-    var plist: PropertyList = PropertyList()
+    var plist = PropertyList()
     var storageOptions: FocusedValues.StorageOptions = []
     var navigationDepth: Int = 0
-    var version: DisplayList.Version = DisplayList.Version()
+    var version = DisplayList.Version()
     
     init() {}
 }

@@ -148,6 +148,19 @@ package final class ViewGraph: GraphHost {
     }
     
     package func updateOutputs(at time: Time) {
+        self.beginNextUpdate(at: time)
+        
+        // x29 - 0x68
+        let sizeThatFitsObservers = self.sizeThatFitsObservers
+        // sp + 0x60
+        let features = self.features
+        // sp + 0x48
+        let data = self.data
+        
+        fatalError("TODO")
+    }
+    
+    private func beginNextUpdate(at time: Time) {
         fatalError("TODO")
     }
 }

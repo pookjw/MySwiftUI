@@ -6,6 +6,16 @@
 //
 
 import UIKit
+import SwiftUI
+
+//@main
+//struct MyApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            EmptyView()
+//        }
+//    }
+//}
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {

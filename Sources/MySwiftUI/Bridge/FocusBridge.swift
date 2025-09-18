@@ -5,7 +5,7 @@ internal import UIKit
 final class FocusBridge {
     private var flags: Flags = []
     weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil
-    private var focusStore: FocusStore = FocusStore()
+    private(set) var focusStore = FocusStore()
     private var currentEnvironment: EnvironmentValues = EnvironmentValues()
     private var _focusItem: FocusItem? = nil
     private weak var parentFocusBridge: FocusBridge? = nil
@@ -51,7 +51,7 @@ protocol FocusHost: AnyObject {
 }
 
 struct FocusStore {
-    var version: DisplayList.Version = DisplayList.Version()
+    var version = DisplayList.Version()
     var focusedResponders: [WeakBox<ViewResponder>] = []
     var plists: [ObjectIdentifier: PropertyList] = [:]
 }

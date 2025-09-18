@@ -418,6 +418,7 @@ package final class UIHostingViewBase: NSObject {
         }
         
         observedWindow = newWindow
+        updateSceneActivationState()
     }
     
     @MainActor
