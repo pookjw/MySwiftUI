@@ -295,16 +295,19 @@ struct _UnsafeHeterogeneousBuffer_Element {
         self.item = item
     }
     
+    @inlinable
     var type: Any.Type {
         return item.pointee.vtable.type
     }
     
+    @inlinable
     func body<T>(as: T.Type) -> UnsafeMutablePointer<T> {
         return UnsafeMutableRawPointer(item)
             .advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.size)
             .assumingMemoryBound(to: T.self)
     }
     
+    @inlinable
     func vtable<T: _UnsafeHeterogeneousBuffer_VTable>(as: T.Type) -> T.Type {
         return UnsafeRawPointer(item)
             .advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.offset(of: \.vtable)!)
@@ -312,10 +315,12 @@ struct _UnsafeHeterogeneousBuffer_Element {
             .pointee
     }
     
+    @inlinable
     var address: UnsafeRawPointer {
         return UnsafeRawPointer(item)
     }
     
+    @inlinable
     var flags: UInt32 {
         get {
             return item.pointee.flags

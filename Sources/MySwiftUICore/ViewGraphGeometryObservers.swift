@@ -3,6 +3,10 @@ private import CoreGraphics
 
 struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
     private var store: [CGSize: ViewGraphGeometryObservers<T>] = [:]
+    
+    func needsUpdate(graph: ViewGraph) -> Bool {
+        fatalError("TODO")
+    }
 }
 
 protocol ViewGraphGeometryMeasurer {

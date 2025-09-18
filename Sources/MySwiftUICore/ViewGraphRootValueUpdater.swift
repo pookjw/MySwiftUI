@@ -113,7 +113,7 @@ extension ViewGraphRootValueUpdater {
                 let maxVersion = DisplayList.Version(forUpdate: ())
                 Signpost.renderDisplayList.traceInterval(object: viewGraph, nil) {
                     // <+2740>
-                    let time = viewGraph.renderDisplayList(rootDisplayList.0, asynchronously: false, time: currentTimestamp, nextTime: nextTime, targetTimestamp: targetTimestamp, version: version, maxVersion: maxVersion)
+                    _ = viewGraph.renderDisplayList(rootDisplayList.0, asynchronously: false, time: currentTimestamp, nextTime: nextTime, targetTimestamp: targetTimestamp, version: version, maxVersion: maxVersion)
                 }
             }
             

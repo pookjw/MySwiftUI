@@ -233,6 +233,18 @@ func handleTraceNotification(graph: Graph, token: Int32) {
             graphDelegate.graphDidChange()
         }
     }
+    
+    package final func runTransaction() {
+        fatalError("TODO")
+    }
+    
+    package final func runTransaction(_ transaction: Transaction?, do block: () -> Void, id: UInt32?) {
+        fatalError("TODO")
+    }
+    
+    package final func updatePreferences() -> Bool {
+        fatalError("TODO")
+    }
 }
 
 extension GraphHost {

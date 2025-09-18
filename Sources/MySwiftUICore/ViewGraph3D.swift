@@ -14,4 +14,32 @@ package struct ViewGraph3D {
     }
 }
 
-extension ViewGraph3D: ViewGraphFeature {}
+extension ViewGraph3D: ViewGraphFeature {
+    package func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        fatalError("TODO")
+    }
+    
+    package func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+        fatalError("TODO")
+    }
+    
+    package func uninstantiate(graph: ViewGraph) {
+        fatalError("TODO")
+    }
+    
+    package func isHiddenForReuseDidChange(graph: ViewGraph) {
+        fatalError("TODO")
+    }
+    
+    package func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
+        fatalError("TODO")
+    }
+    
+    package func needsUpdate(graph: ViewGraph) -> Bool {
+        fatalError("TODO")
+    }
+    
+    package func update(graph: ViewGraph) {
+        fatalError("TODO")
+    }
+}

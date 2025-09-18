@@ -153,10 +153,54 @@ package final class ViewGraph: GraphHost {
         // x29 - 0x68
         let sizeThatFitsObservers = self.sizeThatFitsObservers
         // sp + 0x60
-        let features = self.features
+        _ = self.features
         // sp + 0x48
         let data = self.data
         
+        // sp, #0xc
+        var featureNeedsUpdate = false
+        // w25
+        var updated = false
+        // w23
+        var needsUpdate = false
+        
+        for _ in 0..<8 {
+            self.runTransaction()
+            // w25
+            updated = (updated || self.updatePreferences())
+            // w23
+            needsUpdate = (needsUpdate || self.sizeThatFitsObservers.needsUpdate(graph: self))
+            
+            for element in self.features {
+                guard element.flags == 0 else {
+                    featureNeedsUpdate = true
+                    continue
+                }
+                
+                guard element.needsUpdate(graph: self) else {
+                    continue
+                }
+                
+                element.flags |= 1
+                featureNeedsUpdate = true
+            }
+            
+            // <+360>
+            guard self.data.globalSubgraph.isDirty else {
+                break
+            }
+        }
+        
+        // <+388>
+        if updated {
+            // <+392>
+            fatalError("TODO")
+        } else {
+            // <+552>
+            fatalError("TODO")
+        }
+        
+        // <+564>
         fatalError("TODO")
     }
     
@@ -238,5 +282,12 @@ fileprivate struct RootTransform: Rule {
 }
 
 package protocol ViewGraphFeature {
+    func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph)
+    func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph)
+    func uninstantiate(graph: ViewGraph)
+    func isHiddenForReuseDidChange(graph: ViewGraph)
+    func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
+    func needsUpdate(graph: ViewGraph) -> Bool
+    func update(graph: ViewGraph)
     // TODO
 }
