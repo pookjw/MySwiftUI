@@ -1,5 +1,5 @@
 #warning("TODO")
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 internal import UIKit
 
 final class PointerBridge: NSObject {

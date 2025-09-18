@@ -11,6 +11,7 @@ AG_EXTERN AGSubgraphRef _Nullable AGSubgraphGetCurrent(void) NS_SWIFT_NAME(gette
 AG_EXTERN void AGSubgraphSetCurrent(AGSubgraphRef _Nullable) NS_SWIFT_NAME(setter:AGSubgraphRef.current(_:));
 AG_EXTERN void AGSubgraphAddChild(AGSubgraphRef, AGSubgraphRef) NS_SWIFT_NAME(Subgraph.addChild(self:_:));
 AG_EXTERN void AGSubgraphRemoveChild(AGSubgraphRef parent, AGSubgraphRef child) NS_SWIFT_NAME(Subgraph.removeChild(self:_:));
+AG_EXTERN BOOL AGSubgraphIsDirty(AGSubgraphRef) NS_SWIFT_NAME(getter:Subgraph.isDirty(self:));
 
 NS_ASSUME_NONNULL_END
 

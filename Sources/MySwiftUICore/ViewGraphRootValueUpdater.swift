@@ -37,8 +37,6 @@ extension ViewGraphRootValueUpdater {
     package func render(interval: Double, updateDisplayList: Bool, targetTimestamp: Time?) {
         /*
          interval = d8
-         updateDisplayList = x26
-         targetTimestamp = x20
          */
         guard let owner = self.as(ViewGraphOwner.self) else {
             return
@@ -56,8 +54,10 @@ extension ViewGraphRootValueUpdater {
         Signpost.render.traceInterval(object: self, nil) {
             // closure #1 () -> () in SwiftUI.ViewGraphRootValueUpdater.render(interval: Swift.Double, updateDisplayList: Swift.Bool, targetTimestamp: Swift.Optional<SwiftUI.Time>) -> ()
             let viewGraph = owner.viewGraph
+            // nil 확인하는 코드가 없으며 nil이면 모두 0일 것이기에 Time.zero로 추정
             owner.currentTimestamp = (targetTimestamp ?? .zero) + interval
             
+            // x29 - 0xc0, d8
             let currentTimestamp = owner.currentTimestamp
             
             viewGraph.flushTransactions()
@@ -68,13 +68,61 @@ extension ViewGraphRootValueUpdater {
             
             owner.renderingPhase = .rendering
             
-            Signpost.renderUpdate.traceInterval(object: viewGraph, nil) {
+            // x29 - 0x164 ~
+            let rootDisplayList: (DisplayList, DisplayList.Version) = Signpost.renderUpdate.traceInterval(object: viewGraph, nil) {
                 // <+628>
+                // x29 - #0x80
                 let data = viewGraph.data
                 Update.dispatchActions()
-                fatalError("TODO")
+                viewGraph.updateOutputs(at: currentTimestamp)
+                viewGraph.flushTransactions()
+                
+                var rootDisplayList: (DisplayList, DisplayList.Version)
+                if updateDisplayList {
+                    rootDisplayList = viewGraph.rootDisplayList ?? (DisplayList(), DisplayList.Version())
+                } else {
+                    rootDisplayList = (DisplayList(), DisplayList.Version())
+                }
+                
+                // <+1152>
+                Update.assertIsLocked()
+                
+                guard data.globalSubgraph.isDirty else {
+                    return rootDisplayList
+                }
+                
+                Update.dispatchActions()
+                viewGraph.updateOutputs(at: currentTimestamp)
+                viewGraph.flushTransactions()
+                
+                if updateDisplayList {
+                    rootDisplayList = viewGraph.rootDisplayList ?? (DisplayList(), DisplayList.Version())
+                } else {
+                    rootDisplayList = (DisplayList(), DisplayList.Version())
+                }
+                
+                Update.assertIsLocked()
+                return rootDisplayList
             }
-            fatalError("TODO")
+            
+            // d9
+            let nextTime = viewGraph.nextUpdate.views.time
+            
+            if updateDisplayList, let owner = self.as(ViewGraphOwner.self) {
+                let version = DisplayList.Version()
+                let maxVersion = DisplayList.Version(forUpdate: ())
+                Signpost.renderDisplayList.traceInterval(object: viewGraph, nil) {
+                    // <+2740>
+                    let time = viewGraph.renderDisplayList(rootDisplayList.0, asynchronously: false, time: currentTimestamp, nextTime: nextTime, targetTimestamp: targetTimestamp, version: version, maxVersion: maxVersion)
+                }
+            }
+            
+            // <+3160>
+            owner.renderingPhase = .none
+            
+            if abs(nextTime.seconds) <= Double.greatestFiniteMagnitude {
+                self.requestUpdate(after: max(nextTime.seconds - currentTimestamp.seconds, 1e-6))
+            }
         }
     }
     

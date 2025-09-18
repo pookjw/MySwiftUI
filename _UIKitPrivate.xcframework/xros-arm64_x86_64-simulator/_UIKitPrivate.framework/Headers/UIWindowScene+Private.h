@@ -8,4 +8,8 @@ UIKIT_EXTERN const NSNotificationName _UIWindowSceneDidEndLiveResizeNotification
 UIKIT_EXTERN const NSNotificationName _UISceneDidBecomeKeyNotification NS_SWIFT_NONISOLATED;
 UIKIT_EXTERN const NSNotificationName _UISceneDidResignKeyNotification NS_SWIFT_NONISOLATED;
 
+@interface UIWindowScene (Private)
+@property (nonatomic) BOOL _isKeyWindowScene;
+@end
+
 NS_HEADER_AUDIT_END(nullability, sendability)

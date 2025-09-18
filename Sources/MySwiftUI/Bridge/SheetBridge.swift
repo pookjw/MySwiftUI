@@ -1,5 +1,5 @@
 #warning("TODO")
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
 final class SheetBridge<T>: NSObject {

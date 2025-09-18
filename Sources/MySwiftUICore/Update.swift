@@ -4,6 +4,15 @@ private import os.log
 private import _MySwiftUIShims
 private import Foundation
 private import AttributeGraph
+private import _DarwinFoundation3._stdlib
+
+fileprivate let lockAssertionsAreEnabled: Bool = {
+    guard let value = getenv("SWIFTUI_ASSERT_LOCKS") else {
+        return false
+    }
+    
+    return atoi(value) != 0
+}()
 
 package enum Update {
     private static let _lock = MovableLock.create()
@@ -57,11 +66,13 @@ package enum Update {
     }
     
     package static var isOwner: Bool {
-        fatalError("TODO")
+        return Update._lock.isOwner()
     }
     
     package static func end() {
         if Update.depth == 1 {
+            Update.dispatchActions()
+            
             let traceHost = Update.traceHost
             Signpost.viewHost.traceEvent(
                 type: .end,
@@ -123,13 +134,26 @@ package enum Update {
     }
     
     package static func assertIsLocked() {
-        if !Update._lock.isOwner() {
-            fatalError("SwiftUI is active without having taken its own lock - missing Update.ensure()?")
+        if lockAssertionsAreEnabled {
+            if !Update._lock.isOwner() {
+                fatalError("SwiftUI is active without having taken its own lock - missing Update.ensure()?")
+            }
         }
     }
     
     package static func dispatchActions() {
-        fatalError("TODO")
+        Update.assertIsLocked()
+        onMainThread {
+            let traceHost = Update.traceHost
+            Signpost.postUpdateActions.traceInterval(object: traceHost, nil) { 
+                Update.begin()
+                for action in Update.actions {
+                    action()
+                }
+                Update.actions.removeAll()
+                Update.end()
+            }
+        }
     }
 }
 

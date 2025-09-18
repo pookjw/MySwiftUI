@@ -85,7 +85,11 @@ exports:
     _AGSubgraphRemoveChild,
     _AGGraphClearUpdate,
     _AGGraphSetUpdate,
-    _$s14AttributeGraph0A0V8setValueySbxF ]
+    _$s14AttributeGraph0A0V8setValueySbxF,
+    _AGSubgraphIsDirty,
+    _$s14AttributeGraph0A0V5valuexvg,
+    _$s14AttributeGraph0A0V5valuexvM,
+    _$s14AttributeGraph0A0V5valuexvs ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

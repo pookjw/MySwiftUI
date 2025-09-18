@@ -21,7 +21,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var _rootView: Content
     private let _base: _UIKitShims.UIHostingViewBase
     private var isBaseConfigured: Bool = false
-    internal let eventBindingManager = EventBindingManager()
+    internal final let eventBindingManager = EventBindingManager()
     private var allowUIKitAnimations: Int32 = 0
     private var disabledBackgroundColor: Bool = false
     private var allowFrameChanges: Bool = true
@@ -99,7 +99,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var scrollTest: ScrollTest? = nil
     private weak var delegate: UIHostingViewDelegate? = nil
     private var rootViewDelegate: RootViewDelegate? = nil
-    private var focusedValues: FocusedValues = FocusedValues()
+    private(set) final var focusedValues = FocusedValues()
     private var disallowAnimations: Bool = false
     private weak var windowGeometryScene: UIWindowScene? = nil
     private var invalidatesIntrinsicContentSizeOnIdealSizeChange: Bool = false
@@ -361,6 +361,8 @@ open class _UIHostingView<Content: View>: UIView {
         
         sheetBridge?.didMoveToWindow()
         _base.didMoveToWindow()
+        
+        Update.end()
     }
     
     open override dynamic func layoutSubviews() {
@@ -648,6 +650,10 @@ extension _UIHostingView: @preconcurrency UIHostingViewProvider {
     
     final var shouldCreateUIInteractions: Bool {
         return true
+    }
+    
+    final var sceneActivationState: UIScene.ActivationState? {
+        return base.sceneActivationState
     }
 }
 

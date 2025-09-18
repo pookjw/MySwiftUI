@@ -26,6 +26,15 @@ struct Foo_2: _SwiftUIPrivate.PreferenceKey {
 
 class ViewController: UIViewController {
     override func loadView() {
+        print(DisplayList.self)
+        _forEachField(of: DisplayList.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        
         print(_UIHostingView<EmptyView>.self)
         _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))

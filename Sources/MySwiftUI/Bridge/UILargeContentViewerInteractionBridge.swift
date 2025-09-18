@@ -1,6 +1,6 @@
 #warning("TODO")
 internal import UIKit
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import _UIKitPrivate
 
 @MainActor final class UILargeContentViewerInteractionBridge: NSObject {

@@ -1,13 +1,57 @@
 #warning("TODO")
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 internal import UIKit
+private import _UIKitPrivate
+private import AttributeGraph
 
-// TODO: final인지 검증
-class RootViewDelegate {
+final class RootViewDelegate {
     private var colorSchemeSeed = VersionSeedTracker<PreferredColorSchemeKey>(seed: .invalid)
     weak var nextDelegate: UIHostingViewDelegate? = nil
     
     func updateAppFocus<Content: View>(view: _UIHostingView<Content>) {
+        // view = x20
+        
+        // x29 - 0x98에 값이 저장되지만 읽지 않고 SwiftUI._UIHostingView.focusedValues.getter : SwiftUI.FocusedValues이 해당 주소에 값을 저장함
+        _ = view.sceneActivationState
+        
+        // x27
+        guard let window = view.window else {
+            return
+        }
+        
+        // x25
+        guard let windowScene = window.windowScene else {
+            return
+        }
+        
+        guard windowScene._isKeyWindowScene else {
+            return
+        }
+        
+        // x29 - 0x98
+        let viewFocusedValues: FocusedValues? = view.focusedValues
+        // x28
+        let appFocusValues: FocusedValues?
+        
+        // <+736>
+        if let appGraph = AppGraph.shared {
+            appFocusValues = appGraph.focusedValues
+        } else {
+            appFocusValues = nil
+        }
+        
+        // viewFocusedValues = x19
+        // appFocusValues = x24
+        // viewFocusedValues = x24 + x25
+        
+        // <+932>
+        if let appFocusValues {
+            // <+1048>
+            fatalError("TODO")
+        } else {
+            // <+960>
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
 }

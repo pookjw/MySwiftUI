@@ -32,13 +32,13 @@ package final class ViewGraph: GraphHost {
     @Attribute private var defaultLayoutComputer: LayoutComputer
     @WeakAttribute private var rootResponders: [ViewResponder]?
     @WeakAttribute private var rootLayoutComputer: LayoutComputer?
-    @WeakAttribute private var rootDisplayList: (DisplayList, DisplayList.Version)?
+    @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
     private var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
     private var accessibilityEnabled = false
     package private(set) var requestedOutputs: ViewGraph.Outputs
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
     private var mainUpdates: Int = 0
-    private var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
+    private(set) var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
     private weak var _preferenceBridge: PreferenceBridge? = nil
     private var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
     
@@ -146,6 +146,10 @@ package final class ViewGraph: GraphHost {
     package final func setRootView<Content: View>(_ rootView: Content) {
         Attribute(identifier: self.rootView).setValue(rootView)
     }
+    
+    package func updateOutputs(at time: Time) {
+        fatalError("TODO")
+    }
 }
 
 extension ViewGraph {
@@ -188,7 +192,7 @@ extension ViewGraph {
 
 extension ViewGraph {
     package struct NextUpdate {
-        private var time: Time = .infinity
+        private(set) var time: Time = .infinity
         private var _internal: TimeInterval = .greatestFiniteMagnitude
         private var _defaultIntervalWasRequested: Bool = false
         private var reasons: Set<UInt32> = []
@@ -209,7 +213,9 @@ extension ViewGraph {
 }
 
 extension ViewGraph: ViewGraphRenderHost {
-    
+    func renderDisplayList(_ displayList: DisplayList, asynchronously: Bool, time: Time, nextTime: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time {
+        fatalError("TODO")
+    }
 }
 
 fileprivate struct RootTransform: Rule {

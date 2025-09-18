@@ -1,6 +1,6 @@
 #warning("TODO")
 internal import MRUIKit
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 private import BaseBoard
 private import UIKit
 

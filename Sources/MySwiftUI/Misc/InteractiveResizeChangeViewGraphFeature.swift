@@ -1,5 +1,5 @@
 #warning("TODO")
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 package import AttributeGraph
 
 struct InteractiveResizeChangeViewGraphFeature {

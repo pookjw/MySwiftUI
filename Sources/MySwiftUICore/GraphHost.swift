@@ -81,7 +81,7 @@ func handleTraceNotification(graph: Graph, token: Int32) {
     }
 }
 
-package class GraphHost {
+@_spi(Internal) open class GraphHost {
     fileprivate static nonisolated(unsafe) let sharedGraph: Graph = {
         let graph = Graph()
         // original : "SWIFTUI_ASSERT_LOCKS"

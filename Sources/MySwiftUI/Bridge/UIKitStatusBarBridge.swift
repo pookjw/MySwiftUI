@@ -1,6 +1,6 @@
 #warning("TODO")
 internal import UIKit
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 class UIKitStatusBarBridge {
     private var statusBarHidden: Bool? = nil

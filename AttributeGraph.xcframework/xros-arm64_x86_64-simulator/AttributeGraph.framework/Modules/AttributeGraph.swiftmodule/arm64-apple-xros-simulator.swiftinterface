@@ -29,6 +29,11 @@ public struct Attribute<T> {
         nonmutating set 
     }
 
+    public var value: T {
+        get
+        set
+    }
+
     @_hasStorage
     public var identifier: AttributeGraph.AnyAttribute {
         get
