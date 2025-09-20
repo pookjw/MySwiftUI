@@ -35,7 +35,7 @@ class UIKitStatusBarBridge {
         seedTracker.updateSeedsToEmpty()
     }
     
-    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+    final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         fatalError("TODO")
     }
     

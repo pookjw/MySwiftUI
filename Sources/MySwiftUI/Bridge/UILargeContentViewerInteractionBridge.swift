@@ -41,6 +41,10 @@ private import _UIKitPrivate
             }
         }
     }
+    
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 extension UILargeContentViewerInteractionBridge {

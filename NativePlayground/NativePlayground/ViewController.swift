@@ -29,6 +29,8 @@ class ViewController: UIViewController {
         print(CGSize.init(width: -CGFloat.infinity, height: -CGFloat.infinity))
         print(SizeThatFitsMeasurer.invalidValue)
         
+        print((_typeByName("7SwiftUI23ContainerBackgroundKeysO16HostTransparencyV")! as! (any HostPreferenceKey).Type))
+        
         print(_typeByName("7SwiftUI22AccessibilityViewGraphV")!)
         _forEachField(of: _typeByName("7SwiftUI22AccessibilityViewGraphV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))

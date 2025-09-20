@@ -27,6 +27,10 @@ final class SharingActivityPickerBridge {
         }
     }
     
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
     private func reset() {
         fatalError("TODO")
     }

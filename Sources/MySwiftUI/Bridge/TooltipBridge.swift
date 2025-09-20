@@ -13,6 +13,14 @@ final class TooltipBridge: NSObject {
     func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(HasTooltipKey.self)
     }
+    
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
+    func updateState(hasTooltip: PreferenceValues.Value<Bool>) {
+        fatalError("TODO")
+    }
 }
 
 extension TooltipBridge: UIToolTipInteractionDelegate {

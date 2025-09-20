@@ -4,8 +4,15 @@ internal import MySwiftUICore
 enum ContainerBackgroundKeys {}
 
 extension ContainerBackgroundKeys {
+    enum Transparency {
+        case transparent
+        case notTransparent
+        case automatic
+    }
+    
     struct HostTransparency: HostPreferenceKey {
-        // TODO
-        typealias Value = Never?
+        static var defaultValue: Transparency {
+            fatalError("TODO")
+        }
     }
 }

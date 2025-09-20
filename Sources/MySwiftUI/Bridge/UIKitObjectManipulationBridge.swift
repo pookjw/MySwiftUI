@@ -13,6 +13,10 @@ class UIKitObjectManipulationBridge<Content: View> {
         viewGraph.addPreference(HasObjectManipulationKey.self)
         viewGraph.addPreference(ManipulationTargetGeometryPreferenceKey.self)
     }
+    
+    final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 extension UIKitObjectManipulationBridge {

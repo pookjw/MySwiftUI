@@ -37,10 +37,6 @@ extension InteractiveResizeChangeViewGraphFeature: ViewGraphFeature {
         fatalError("TODO")
     }
     
-    func needsUpdate(graph: ViewGraph) -> Bool {
-        fatalError("TODO")
-    }
-    
     func update(graph: ViewGraph) {
         fatalError("TODO")
     }

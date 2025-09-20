@@ -2,5 +2,7 @@
 internal import MySwiftUICore
 
 struct HasTooltipKey: HostPreferenceKey {
-    typealias Value = Never? // TODO
+    static var defaultValue: Bool {
+        fatalError("TODO")
+    }
 }

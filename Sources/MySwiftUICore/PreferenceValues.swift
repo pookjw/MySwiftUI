@@ -1,6 +1,11 @@
 #warning("TODO")
 
 package struct PreferenceValues {
+    private var entries: [PreferenceValues.Entry] = []
+    
+    @inlinable
+    init() {}
+    
     var seed: VersionSeed {
         fatalError("TODO")
     }
@@ -23,5 +28,11 @@ extension PreferenceValues {
         // TODO
         package var value: T
         package var seed: VersionSeed
+    }
+}
+
+extension PreferenceValues {
+    fileprivate struct Entry {
+        // TODO
     }
 }

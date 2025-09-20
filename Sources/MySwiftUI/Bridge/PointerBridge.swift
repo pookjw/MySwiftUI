@@ -15,6 +15,10 @@ final class PointerBridge: NSObject {
     func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(HasHoverEffectKey.self)
     }
+    
+    func preferencesDidChange(_: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 extension PointerBridge: UIPointerInteractionDelegate {

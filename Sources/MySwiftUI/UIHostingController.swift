@@ -1,6 +1,6 @@
 #warning("TODO")
-
 public import UIKit
+internal import MySwiftUICore
 
 open class UIHostingController<Content: View>: UIViewController {
     package final func _as<T>(_ type: T.Type) -> T? {
@@ -8,6 +8,10 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func _viewDidMoveToWindow() {
+        fatalError("TODO")
+    }
+    
+    final func preferencesDidChange(_: PreferenceValues) {
         fatalError("TODO")
     }
 }

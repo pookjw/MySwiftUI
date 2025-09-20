@@ -52,13 +52,12 @@ extension AccessibilityViewGraph: ViewGraphFeature {
     }
     
     func needsUpdate(graph: ViewGraph) -> Bool {
-        fatalError("TODO")
-        
         guard graph.accessibilityEnabled else {
             return false
         }
         
         if graph.requestedOutputs.isSuperset(of: .focus) {
+            fatalError("TODO")
             // <+484>
         }
         

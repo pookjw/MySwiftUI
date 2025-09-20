@@ -351,6 +351,16 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             // nop
         }
     }
+    
+    package final func preferenceValues() -> PreferenceValues {
+        instantiateIfNeeded()
+        
+        if let values = hostPreferenceValues.wrappedValue {
+            return values
+        } else {
+            return PreferenceValues()
+        }
+    }
 }
 
 extension GraphHost {

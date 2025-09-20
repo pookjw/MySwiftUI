@@ -334,7 +334,36 @@ package protocol ViewGraphFeature {
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
     mutating func needsUpdate(graph: ViewGraph) -> Bool
     func update(graph: ViewGraph)
-    // TODO
+}
+
+extension ViewGraphFeature {
+    package func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+        // nop
+    }
+    
+    package func uninstantiate(graph: ViewGraph) {
+        // nop
+    }
+    
+    package func isHiddenForReuseDidChange(graph: ViewGraph) {
+        // nop
+    }
+    
+    package func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
+        return false
+    }
+    
+    package func needsUpdate(graph: ViewGraph) -> Bool {
+        return false
+    }
+    
+    package func update(graph: ViewGraph) {
+        // nop
+    }
+    
+    package func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        // nop
+    }
 }
 
 struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {

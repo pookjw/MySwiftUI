@@ -16,6 +16,14 @@ extension AnyShareConfiguration {
     }
 }
 
+extension AnyShareConfiguration {
+    struct Key: HostPreferenceKey {
+        static var defaultValue: AnyShareConfiguration {
+            fatalError("TODO")
+        }
+    }
+}
+
 struct AnySharePreview {
     private var title: Text?
     private var image: () -> NSItemProvider?

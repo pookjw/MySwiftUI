@@ -39,6 +39,10 @@ final class MRUIPreferenceExporter {
             preference.addPreference(to: viewGraph)
         }
     }
+    
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 fileprivate protocol AnyExportedPreference {

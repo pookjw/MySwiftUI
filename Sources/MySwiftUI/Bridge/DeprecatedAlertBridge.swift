@@ -34,4 +34,8 @@ final class DeprecatedAlertBridge<T>: NSObject {
             viewGraph.addPreference(Alert.Presentation.Key.self)
         }
     }
+    
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
 }

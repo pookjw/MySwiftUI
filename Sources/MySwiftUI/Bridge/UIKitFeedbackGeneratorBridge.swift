@@ -12,4 +12,8 @@ class UIKitFeedbackGeneratorBridge<Content: View> {
     func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(FeedbackRequest.PreferenceKey.self)
     }
+    
+    final func preferencesDidChange(_: PreferenceValues) {
+        fatalError("TODO")
+    }
 }

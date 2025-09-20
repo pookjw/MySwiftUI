@@ -52,6 +52,10 @@ final class SheetBridge<T>: NSObject {
         }
     }
     
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
     private func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
         fatalError("TODO")
     }

@@ -71,7 +71,7 @@ open class _UIHostingView<Content: View>: UIView {
     private let dragBridge = DragAndDropBridge()
     internal final var inspectorBridge: UIKitInspectorBridgeV3? = nil
     private var tooltipBridge = TooltipBridge()
-    private var editMenuBridge: EditMenuBridge = EditMenuBridge()
+    private var editMenuBridge = EditMenuBridge()
     private var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
     private var shareConfigurationBridge: ShareConfigurationBridge? = nil
     private var statusBarBridge = UIKitStatusBarBridge()
@@ -214,7 +214,7 @@ open class _UIHostingView<Content: View>: UIView {
         deprecatedActionSheetBridge.host = self
         deprecatedActionSheetBridge.addPreferences(to: viewGraph, isActionSheet: true)
         
-        if let sheetBridge = sheetBridge {
+        if let sheetBridge {
             sheetBridge.host = self
             sheetBridge.transitioningDelegate.host = self
             sheetBridge.addPreferences(to: viewGraph)
@@ -487,30 +487,6 @@ extension _UIHostingView {
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
             fatalError("TODO")
         }
-        
-        func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            fatalError("TODO")
-        }
-        
-        func uninstantiate(graph: ViewGraph) {
-            fatalError("TODO")
-        }
-        
-        func isHiddenForReuseDidChange(graph: ViewGraph) {
-            fatalError("TODO")
-        }
-        
-        func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-            fatalError("TODO")
-        }
-        
-        func needsUpdate(graph: ViewGraph) -> Bool {
-            fatalError("TODO")
-        }
-        
-        func update(graph: ViewGraph) {
-            fatalError("TODO")
-        }
     }
 }
 
@@ -658,7 +634,69 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final func preferencesDidChange() {
-        fatalError("TODO")
+        // x25
+        let preferenceValues = viewGraph.preferenceValues()
+        
+        if let viewController {
+            viewController.preferencesDidChange(preferenceValues)
+        }
+        
+        dragBridge.preferencesDidChange(preferenceValues)
+        if let pointerBridge {
+            pointerBridge.preferencesDidChange(preferenceValues)
+        }
+        if let feedbackBridge {
+            feedbackBridge.preferencesDidChange(preferenceValues)
+        }
+        contextMenuBridge.preferencesDidChange(preferenceValues)
+        statusBarBridge.preferencesDidChange(preferenceValues)
+        if let sceneBridge {
+            sceneBridge.preferencesDidChange(preferenceValues)
+        }
+        if let scenePresentationBridge {
+            scenePresentationBridge.preferencesDidChange(preferenceValues)
+        }
+        deprecatedAlertBridge.preferencesDidChange(preferenceValues)
+        deprecatedActionSheetBridge.preferencesDidChange(preferenceValues)
+        if let inspectorBridge {
+            inspectorBridge.updateInspectorIfNeeded(preferenceValues)
+            let presentation = preferenceValues[PopoverPresentation.Key.self]
+            let options = preferenceValues[PresentationOptionsPreferenceKey.self]
+            let host = preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
+            
+            inspectorBridge.updatePopoverIfNeeded(presentation, presentationOptionsPreference: options, backgroundPreference: host)
+        }
+        editMenuBridge.preferencesDidChange(preferenceValues)
+        if let sheetBridge {
+            sheetBridge.preferencesDidChange(preferenceValues)
+        }
+        focusBridge.preferencesDidChange(preferenceValues)
+        if let sharingActivityPickerBridge {
+            sharingActivityPickerBridge.preferencesDidChange(preferenceValues)
+        }
+        if let shareConfigurationBridge {
+            let pref = preferenceValues[AnyShareConfiguration.Key.self]
+            if !shareConfigurationBridge.shareConfigurationSeed.seed.matches(pref.seed) {
+                fatalError("TODO") // 검증 필요
+                shareConfigurationBridge.shareConfigurationSeed.seed.merge(pref.seed)
+                shareConfigurationBridge.shareConfigurationDidChange(pref.value)
+            }
+        }
+        
+        largeContentViewerInteractionBridge.preferencesDidChange(preferenceValues)
+        mruiPreferenceExporter.preferencesDidChange(preferenceValues)
+        if let renderingMarginsBridge {
+            renderingMarginsBridge.preferencesDidChange(preferenceValues)
+        }
+        objectManipluateBridge.preferencesDidChange(preferenceValues)
+        
+        let tooltipBridge = tooltipBridge
+        tooltipBridge.preferencesDidChange(preferenceValues)
+        tooltipBridge.updateState(hasTooltip: preferenceValues[HasTooltipKey.self])
+        
+        if let delegate {
+            delegate.hostingView(self, didChangePreferences: preferenceValues)
+        }
     }
     
     package final func beginTransaction() {

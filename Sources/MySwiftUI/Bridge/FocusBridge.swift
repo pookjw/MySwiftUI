@@ -34,6 +34,10 @@ final class FocusBridge {
             viewGraph.addPreference(FocusStoreList.Key.self)
         }
     }
+    
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 extension FocusBridge {

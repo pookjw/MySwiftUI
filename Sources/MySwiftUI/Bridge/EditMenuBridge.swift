@@ -26,6 +26,10 @@ final class EditMenuBridge: NSObject {
             self.interaction?.dismissMenu()
         }
     }
+    
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 extension EditMenuBridge: UIEditMenuInteractionDelegate {

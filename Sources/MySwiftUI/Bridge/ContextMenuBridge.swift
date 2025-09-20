@@ -37,6 +37,10 @@ final class ContextMenuBridge: NSObject {
             }
         }
     }
+    
+    func preferencesDidChange(_: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 extension ContextMenuBridge: _UIContextMenuInteractionDelegate3D {

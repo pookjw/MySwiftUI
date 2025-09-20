@@ -30,6 +30,10 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
         
         viewGraph.addPreference(OutlineRootConfiguration.Key.self)
     }
+    
+    final func preferencesDidChange(_: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 extension DragAndDropBridge: UIDragInteractionDelegate {

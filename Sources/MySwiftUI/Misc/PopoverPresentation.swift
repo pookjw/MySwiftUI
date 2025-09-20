@@ -1,5 +1,18 @@
 #warning("TODO")
 internal import UIKit
+internal import MySwiftUICore
+
+struct PopoverPresentation {
+    // TODO
+}
+
+extension PopoverPresentation {
+    struct Key: HostPreferenceKey {
+        static var defaultValue: [PopoverPresentation] {
+            return []
+        }
+    }
+}
 
 // TODO: final인지 검증
 class PopoverPresentationDelegate: NSObject {
