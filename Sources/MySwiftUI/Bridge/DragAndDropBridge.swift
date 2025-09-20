@@ -32,6 +32,13 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
     }
     
     final func preferencesDidChange(_: PreferenceValues) {
+        let host = host!
+        
+        guard host.shouldCreateUIInteractions else {
+            fatalError("TODO")
+            return
+        }
+        
         fatalError("TODO")
     }
 }

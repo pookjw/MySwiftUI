@@ -466,7 +466,7 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
 extension ViewGraphGeometryObservers {
     fileprivate struct Observer {
         fileprivate var storage: ViewGraphGeometryObservers.Observer.Storage
-        fileprivate let callback: (T.Size, T) -> Void
+        fileprivate let callback: (T.Size, T.Size) -> Void // TODO
     }
 }
 
