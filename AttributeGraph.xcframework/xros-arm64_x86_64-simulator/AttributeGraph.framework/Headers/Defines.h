@@ -31,7 +31,9 @@ typedef NS_OPTIONS(uint32_t, AGChangedValueFlags) {
 };
 
 typedef NS_OPTIONS(uint32_t, AGGraphCounterOptions) {
-    AGGraphCounterOptionsUnknown = 4,
+    AGGraphCounterOptionsUnknown2 = 1 << 1,
+    AGGraphCounterOptionsUnknown4 = 1 << 2,
+    AGGraphCounterOptionsUnknown8 = 1 << 3,
 };
 
 typedef uint32_t AGAttribute __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AnyAttribute);

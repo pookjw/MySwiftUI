@@ -2,6 +2,7 @@
 package import AttributeGraph
 private import notify
 private import Darwin.POSIX.dlfcn
+private import _DarwinFoundation3._stdlib
 
 fileprivate nonisolated(unsafe) var threadAssertionTrace = Trace(
     unknown_block_1: nil,
@@ -80,6 +81,16 @@ func handleTraceNotification(graph: Graph, token: Int32) {
         fatalError("TODO")
     }
 }
+
+fileprivate let waitingForPreviewThunks: Bool = {
+    guard let value = getenv("XCODE_RUNNING_FOR_PREVIEWS") else {
+        return false
+    }
+    
+    return atoi(value) != 0
+}()
+
+fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = []
 
 @_spi(Internal) open class GraphHost {
     fileprivate static nonisolated(unsafe) let sharedGraph: Graph = {
@@ -235,15 +246,110 @@ func handleTraceNotification(graph: Graph, token: Int32) {
     }
     
     package final func runTransaction() {
-        fatalError("TODO")
+        runTransaction(nil, do: {}, id: nil)
     }
     
     package final func runTransaction(_ transaction: Transaction?, do block: () -> Void, id: UInt32?) {
-        fatalError("TODO")
+        instantiateIfNeeded()
+        
+        if let transaction {
+            self.data.transaction = transaction
+        }
+        
+        startTransactionUpdate(id: id)
+        block()
+        
+        // x19, #0x10
+        let graph = data.graph
+        // x23
+        let globalSubgraph = data.globalSubgraph
+        
+        for _ in 0..<8 {
+            for continuation in continuations {
+                continuation.apply()
+            }
+            
+            // <+296>
+            globalSubgraph.update(1)
+        }
+        
+        // <+340>
+        if let id {
+            CustomEventTrace.transactionEnd(id)
+        }
+        
+        // <+472>
+        self.inTransaction = false
+        
+        if let transaction {
+            data.transaction = transaction
+        }
     }
     
     package final func updatePreferences() -> Bool {
+        let seed: VersionSeed
+        if let hostPreferenceValues = hostPreferenceValues.wrappedValue {
+            seed = hostPreferenceValues.seed
+        } else {
+            seed = .empty
+        }
+        
+        let lastHostPreferencesSeed = lastHostPreferencesSeed
+        let result = !seed.matches(lastHostPreferencesSeed)
+        self.lastHostPreferencesSeed = seed
+        return result
+    }
+    
+    package final func graphInvalidation(from attribute: AnyAttribute?) {
         fatalError("TODO")
+    }
+    
+    package final func instantiateIfNeeded() {
+        guard !isInstantiated else {
+            return
+        }
+        
+        if waitingForPreviewThunks {
+            // <+76>
+            for graphHost in blockedGraphHosts {
+                if graphHost.toOpaque() == Unmanaged.passUnretained(self).toOpaque() {
+                    return
+                }
+            }
+            
+            // <+172>
+            blockedGraphHosts.append(Unmanaged.passUnretained(self))
+        } else {
+            // <+164>
+            instantiate()
+            return
+        }
+    }
+    
+    package final func startTransactionUpdate(id: UInt32?) {
+        self.inTransaction = true
+        
+        if let id {
+            CustomEventTrace.transactionBegin(id)
+        }
+        
+        // <+144>
+        data.transactionSeed += 1
+    }
+    
+    package final func instantiate() {
+        guard !isInstantiated else {
+            return
+        }
+        
+        if let graphDelegate {
+            graphDelegate.updateGraph(body: { _ in })
+        }
+        
+        CustomEventTrace.instantiate(root: data.rootSubgraph) { 
+            // function signature specialization <Arg[0] = Dead> of static SwiftUI.CustomEventTrace.instantiate<τ_0_0>(root: __C.AGSubgraphRef, closure: () -> τ_0_0) -> τ_0_0.$defer<τ_0_0>() -> ()
+            // nop
+        }
     }
 }
 
@@ -253,14 +359,14 @@ extension GraphHost {
         private(set) var globalSubgraph: Subgraph
         private(set) var rootSubgraph: Subgraph
         fileprivate var isRemoved: Bool
-        fileprivate var isHiddenForReuse: Bool
-        @Attribute private var time: Time
+        fileprivate(set) var isHiddenForReuse: Bool
+        @Attribute var time: Time
         @Attribute private var environment: EnvironmentValues
         @Attribute private var phase: _GraphInputs.Phase
-        @Attribute fileprivate var hostPreferenceKeys: PreferenceKeys
-        @Attribute private var transaction: Transaction
-        @Attribute private var updateSeed: UInt32
-        @Attribute private var transactionSeed: UInt32
+        @Attribute var hostPreferenceKeys: PreferenceKeys
+        @Attribute fileprivate var transaction: Transaction
+        @Attribute var updateSeed: UInt32
+        @Attribute fileprivate var transactionSeed: UInt32
         private var inputs: _GraphInputs
         
         init() {
@@ -323,6 +429,8 @@ extension GraphHost {
 }
 
 protocol GraphMutation {
+    func apply()
+    func combine<T: GraphMutation>(with other: T) -> Bool
 }
 
 fileprivate struct ConstantKey: Hashable {
@@ -330,5 +438,8 @@ fileprivate struct ConstantKey: Hashable {
 }
 
 fileprivate struct AsyncTransaction {
-    
+    private let transaction: Transaction
+    private let transactionID: Transaction.ID
+    private let traceID: UInt32
+    private var mutations: [GraphMutation]
 }

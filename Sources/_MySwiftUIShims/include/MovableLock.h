@@ -27,14 +27,14 @@ typedef MovableLock_t * MovableLock __attribute((swift_newtype(struct)));
 
 _Pragma("clang assume_nonnull begin")
 
-MSUI_EXTERN MovableLock _msui_MovableLockCreate(void) __attribute__((swift_name("MovableLock.create()")));
-MSUI_EXTERN void _msui_MovableLockDestroy(MovableLock lock) __attribute__((swift_name("MovableLock.destory(self:)")));
-MSUI_EXTERN bool _msui_MovableLockIsOwner(MovableLock lock) __attribute__((swift_name("MovableLock.isOwner(self:)")));
-MSUI_EXTERN bool _msui_MovableLockIsOutermostOwner(MovableLock lock) __attribute__((swift_name("MovableLock.isOutermostOwner(self:)")));
-MSUI_EXTERN void _msui_MovableLockLock(MovableLock lock) __attribute__((swift_name("MovableLock.lock(self:)")));
-MSUI_EXTERN void _msui_MovableLockUnlock(MovableLock lock) __attribute__((swift_name("MovableLock.unlock(self:)")));
-MSUI_EXTERN void _msui_MovableLockSyncMain(MovableLock lock, void * _Nullable context, void (* _Nullable function)(void *)) __attribute__((swift_name("MovableLock.syncMain(self:context:function:)")));
-MSUI_EXTERN void _msui_MovableLockWait(MovableLock lock) __attribute__((swift_name("MovableLock.lockWait(self:)")));
-MSUI_EXTERN void _msui_MovableLockBroadcast(MovableLock lock) __attribute__((swift_name("MovableLock.broadcast(self:)")));
+MSUI_EXTERN MovableLock _MovableLockCreate(void) __attribute__((swift_name("MovableLock.create()")));
+MSUI_EXTERN void _MovableLockDestroy(MovableLock lock) __attribute__((swift_name("MovableLock.destory(self:)")));
+MSUI_EXTERN bool _MovableLockIsOwner(MovableLock lock) __attribute__((swift_name("MovableLock.isOwner(self:)")));
+MSUI_EXTERN bool _MovableLockIsOutermostOwner(MovableLock lock) __attribute__((swift_name("MovableLock.isOutermostOwner(self:)")));
+MSUI_EXTERN void _MovableLockLock(MovableLock lock) __attribute__((swift_name("MovableLock.lock(self:)")));
+MSUI_EXTERN void _MovableLockUnlock(MovableLock lock) __attribute__((swift_name("MovableLock.unlock(self:)")));
+MSUI_EXTERN void _MovableLockSyncMain(MovableLock lock, void * _Nullable context, void (* _Nullable function)(void *)) __attribute__((swift_name("MovableLock.syncMain(self:context:function:)")));
+MSUI_EXTERN void _MovableLockWait(MovableLock lock) __attribute__((swift_name("MovableLock.lockWait(self:)")));
+MSUI_EXTERN void _MovableLockBroadcast(MovableLock lock) __attribute__((swift_name("MovableLock.broadcast(self:)")));
 
 _Pragma("clang assume_nonnull end")

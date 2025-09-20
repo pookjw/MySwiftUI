@@ -1,7 +1,7 @@
 #warning("TODO")
 
-package struct VersionSeed {
-    private var value: UInt32
+package struct VersionSeed: CustomStringConvertible {
+    private(set) var value: UInt32
     
     package init(value: UInt32) {
         self.value = value
@@ -19,7 +19,16 @@ package struct VersionSeed {
         fatalError("TODO")
     }
     
+    @inlinable
     package func matches(_ other: VersionSeed) -> Bool {
+        if self.value != .max {
+            return self.value == other.value
+        } else {
+            return false
+        }
+    }
+    
+    package var description: String {
         fatalError("TODO")
     }
 }

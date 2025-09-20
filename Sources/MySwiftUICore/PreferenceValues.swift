@@ -1,6 +1,10 @@
 #warning("TODO")
 
 package struct PreferenceValues {
+    var seed: VersionSeed {
+        fatalError("TODO")
+    }
+    
     package subscript<T: PreferenceKey>(_ key: T.Type) -> Value<T.Value> {
         get {
             fatalError("TODO")

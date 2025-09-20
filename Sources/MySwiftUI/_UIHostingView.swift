@@ -653,10 +653,6 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         base._setNeedsUpdate()
     }
     
-    package final func updateGraph<T>(body: (MySwiftUICore.GraphHost) -> T) -> T {
-        fatalError("TODO")
-    }
-    
     package final func graphDidChange() {
         fatalError("TODO")
     }

@@ -151,17 +151,17 @@ package final class ViewGraph: GraphHost {
         self.beginNextUpdate(at: time)
         
         // x29 - 0x68
-        let sizeThatFitsObservers = self.sizeThatFitsObservers
+        _ = self.sizeThatFitsObservers
         // sp + 0x60
         _ = self.features
         // sp + 0x48
-        let data = self.data
+        _ = self.data
         
         // sp, #0xc
         var featureNeedsUpdate = false
         // w25
         var updated = false
-        // w23
+        // w23/w26
         var needsUpdate = false
         
         for _ in 0..<8 {
@@ -171,17 +171,17 @@ package final class ViewGraph: GraphHost {
             // w23
             needsUpdate = (needsUpdate || self.sizeThatFitsObservers.needsUpdate(graph: self))
             
-            for element in self.features {
-                guard element.flags == 0 else {
+            for feature in self.features {
+                guard feature.flags == 0 else {
                     featureNeedsUpdate = true
                     continue
                 }
                 
-                guard element.needsUpdate(graph: self) else {
+                guard feature.needsUpdate(graph: self) else {
                     continue
                 }
                 
-                element.flags |= 1
+                feature.flags |= 1
                 featureNeedsUpdate = true
             }
             
@@ -189,23 +189,55 @@ package final class ViewGraph: GraphHost {
             guard self.data.globalSubgraph.isDirty else {
                 break
             }
+            
+            // needsUpdate = w26 (w23 아님)
         }
         
         // <+388>
         if updated {
             // <+392>
-            fatalError("TODO")
+            if let delegate {
+                delegate.preferencesDidChange()
+            }
+            
+            if self._preferenceBridge != nil {
+                let hostPreferenceKeys = data.$hostPreferenceKeys
+                self.graphInvalidation(from: hostPreferenceKeys.identifier)
+            }
+            
+            // <+564>
         } else {
             // <+552>
-            fatalError("TODO")
+            guard (featureNeedsUpdate || needsUpdate) else {
+                // <+728>
+                return
+            }
+            // <+564>
         }
         
         // <+564>
-        fatalError("TODO")
+        if featureNeedsUpdate {
+            // <+568>
+            for feature in self.features {
+                feature.update(graph: self)
+                feature.flags &= ~1
+            }
+        }
+        
+        // <+688>
+        if needsUpdate {
+            sizeThatFitsObservers.notify()
+        }
     }
     
     private func beginNextUpdate(at time: Time) {
-        fatalError("TODO")
+        if data.time != time {
+            data.time = time
+            nextUpdate.views = ViewGraph.NextUpdate()
+        }
+        
+        data.updateSeed += 1
+        mainUpdates = Int(data.graph!.counter(options: [.unknown2, .unknown8]))
     }
 }
 
@@ -249,10 +281,12 @@ extension ViewGraph {
 
 extension ViewGraph {
     package struct NextUpdate {
-        private(set) var time: Time = .infinity
-        private var _internal: TimeInterval = .greatestFiniteMagnitude
+        var time: Time = .infinity
+        var _internal: TimeInterval = .infinity
         private var _defaultIntervalWasRequested: Bool = false
         private var reasons: Set<UInt32> = []
+        
+        init() {}
     }
 }
 

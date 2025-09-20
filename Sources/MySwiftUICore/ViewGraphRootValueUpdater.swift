@@ -26,7 +26,7 @@ extension ViewGraphRootValueUpdater {
         let viewGraph = owner.viewGraph
         viewGraph.delegate = self
         
-        let counter = viewGraph.data.graph!.counter(options: .unknown)
+        let counter = viewGraph.data.graph!.counter(options: .unknown4)
         Signpost.viewHost.traceEvent(type: .event, object: self, "ViewHost: (%p) initialized PlatformHost [ %p ]", args: [counter, UInt(bitPattern: ObjectIdentifier(self))])
     }
     
@@ -183,7 +183,7 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func updateGraph<T>(body: (GraphHost) -> T) -> T {
-        fatalError("TODO")
+        return _updateViewGraph(body: body)!
     }
     
     package func graphDidChange() {
@@ -237,7 +237,22 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func _updateViewGraph<T>(body: (ViewGraph) -> T) -> T? {
-        fatalError("TODO")
+        guard let owner = self.as(ViewGraphOwner.self) else {
+            return nil
+        }
+        
+        let viewGraph = owner.viewGraph
+        
+        Update.begin()
+        
+        let old = Graph.clearUpdate()
+        self.updateGraph()
+        let result = body(viewGraph)
+        Graph.setUpdate(old)
+        
+        Update.end()
+        
+        return result
     }
     
     package func _explicitAlignment(of: HorizontalAlignment, at: CGSize) -> CGFloat? {

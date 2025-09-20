@@ -150,7 +150,7 @@ class ViewController: UIViewController {
         }
         
         let emptyView = EmptyView()
-        let hostingView = _UIHostingView(rootView: emptyView)
+        let hostingView = _UIHostingView(rootView: EmptyView())
         self.view = hostingView
         
 //        Task {

@@ -12,6 +12,11 @@ public struct WeakAttribute<T> {
     public var wrappedValue: T? {
         get
     }
+
+    public var projectedValue: AttributeGraph.Attribute<T>? {
+        get
+        set
+    }
     
     @_alwaysEmitIntoClient public init(base: AttributeGraph.AnyWeakAttribute) {
         self.base = base
@@ -27,6 +32,11 @@ public struct Attribute<T> {
     public var wrappedValue: T {
         get
         nonmutating set 
+    }
+
+    public var projectedValue: AttributeGraph.Attribute<T> {
+        get
+        set
     }
 
     public var value: T {
@@ -112,6 +122,11 @@ public struct AnyOptionalAttribute {
 public struct OptionalAttribute<T> {
     public var wrappedValue: T? {
         get
+    }
+
+    public var projectedValue: AttributeGraph.Attribute<T>? {
+        get
+        set
     }
 
     public init()

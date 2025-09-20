@@ -5,6 +5,14 @@ struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
     private var store: [CGSize: ViewGraphGeometryObservers<T>] = [:]
     
     func needsUpdate(graph: ViewGraph) -> Bool {
+        guard !graph.data.isHiddenForReuse else {
+            return false
+        }
+        
+        fatalError("TODO")
+    }
+    
+    func notify() {
         fatalError("TODO")
     }
 }

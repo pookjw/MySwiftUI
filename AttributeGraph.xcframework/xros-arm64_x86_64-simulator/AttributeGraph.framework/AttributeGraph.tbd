@@ -89,7 +89,17 @@ exports:
     _AGSubgraphIsDirty,
     _$s14AttributeGraph0A0V5valuexvg,
     _$s14AttributeGraph0A0V5valuexvM,
-    _$s14AttributeGraph0A0V5valuexvs ]
+    _$s14AttributeGraph0A0V5valuexvs,
+    _$s14AttributeGraph04WeakA0V14projectedValueAA0A0VyxGSgvg,
+    _$s14AttributeGraph04WeakA0V14projectedValueAA0A0VyxGSgvs,
+    _$s14AttributeGraph04WeakA0V14projectedValueAA0A0VyxGSgvM,
+    _$s14AttributeGraph0A0V14projectedValueACyxGvg,
+    _$s14AttributeGraph0A0V14projectedValueACyxGvM,
+    _$s14AttributeGraph0A0V14projectedValueACyxGvs,
+    _$s14AttributeGraph08OptionalA0V14projectedValueAA0A0VyxGSgvg,
+    _$s14AttributeGraph08OptionalA0V14projectedValueAA0A0VyxGSgvs,
+    _$s14AttributeGraph08OptionalA0V14projectedValueAA0A0VyxGSgvM,
+    _AGSubgraphUpdate ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

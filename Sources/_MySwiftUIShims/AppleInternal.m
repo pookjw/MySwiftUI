@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 @import _DarwinPrivate;
 
-bool _MySwiftUIIsAppleInternalBuild(void) {
+bool _SwiftUIIsAppleInternalBuild(void) {
     static bool result;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
