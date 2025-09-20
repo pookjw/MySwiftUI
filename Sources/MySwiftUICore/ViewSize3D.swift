@@ -1,7 +1,7 @@
 #warning("TODO")
-private import StopwatchSupport
+private import Spatial
 
 struct ViewSize3D {
-    private var value: SPSize3D
-    private var _proposal: SPSize3D
+    private var value: Size3D
+    private var _proposal: Size3D
 }

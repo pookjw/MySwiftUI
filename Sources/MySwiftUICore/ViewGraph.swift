@@ -2,11 +2,12 @@
 internal import AttributeGraph
 private import CoreGraphics
 package import QuartzCore
+private import Spatial
 
 package final class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
-    weak var delegate: ViewGraphDelegate? = nil
+    package internal(set) weak var delegate: ViewGraphDelegate? = nil
     private var features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
     private var centersRootView = true
     private let rootView: AnyAttribute
@@ -31,10 +32,10 @@ package final class ViewGraph: GraphHost {
     private var eventSubgraph: Subgraph? = nil
     @Attribute private var defaultLayoutComputer: LayoutComputer
     @WeakAttribute private var rootResponders: [ViewResponder]?
-    @WeakAttribute private var rootLayoutComputer: LayoutComputer?
+    @WeakAttribute fileprivate var rootLayoutComputer: LayoutComputer?
     @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
     private var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
-    private var accessibilityEnabled = false
+    package private(set) var accessibilityEnabled = false
     package private(set) var requestedOutputs: ViewGraph.Outputs
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
     private var mainUpdates: Int = 0
@@ -230,6 +231,10 @@ package final class ViewGraph: GraphHost {
         }
     }
     
+    package var rootViewInsets: EdgeInsets {
+        fatalError("TODO")
+    }
+    
     private func beginNextUpdate(at time: Time) {
         if data.time != time {
             data.time = time
@@ -309,6 +314,12 @@ extension ViewGraph: ViewGraphRenderHost {
     }
 }
 
+extension ViewGraph {
+    static func sizeThatFits(_: _ProposedSize, layoutComputer: LayoutComputer?, insets: EdgeInsets) -> CGSize {
+        fatalError("TODO")
+    }
+}
+
 fileprivate struct RootTransform: Rule {
     var value: ViewTransform {
         fatalError("TODO")
@@ -321,7 +332,129 @@ package protocol ViewGraphFeature {
     func uninstantiate(graph: ViewGraph)
     func isHiddenForReuseDidChange(graph: ViewGraph)
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
-    func needsUpdate(graph: ViewGraph) -> Bool
+    mutating func needsUpdate(graph: ViewGraph) -> Bool
     func update(graph: ViewGraph)
     // TODO
+}
+
+struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
+    private var store: [T.Size: ViewGraphGeometryObservers<T>.Observer] = [:]
+    
+    func notify() {
+        fatalError("TODO")
+    }
+}
+
+extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
+    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+        guard !graph.data.isHiddenForReuse else {
+            return false
+        }
+        
+        guard !store.isEmpty else {
+            return false
+        }
+        
+        let rootLayoutComputer = graph.$rootLayoutComputer
+        
+        for size in store.keys {
+            guard graph.requestedOutputs.contains(.layout) else {
+                fatalError("Cannot fetch layout computer without layout output")
+            }
+            
+            graph.instantiateIfNeeded()
+            
+            // (d9, d8)
+            let sizeThatFits = ViewGraph.sizeThatFits(
+                _ProposedSize(size),
+                layoutComputer: rootLayoutComputer?.wrappedValue,
+                insets: graph.rootViewInsets
+            )
+            
+            let observer = store[size]!
+            let currentSize: CGSize
+            switch observer.storage {
+            case .value(let size):
+                currentSize = size
+            case .pending(let size, _):
+                currentSize = size
+            case .none, .invalid:
+                let invalidValue = SizeThatFitsMeasurer.invalidValue
+                store[size]!.storage = .pending(invalidValue, invalidValue)
+                return true
+            }
+            
+            if sizeThatFits != currentSize {
+                store[size]!.storage = .pending(currentSize, sizeThatFits)
+                return true
+            }
+        }
+        
+        return false
+    }
+}
+
+extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
+    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+        guard !graph.data.isHiddenForReuse else {
+            return false
+        }
+        
+        guard !store.isEmpty else {
+            return false
+        }
+        
+        for size in store.keys {
+            // d10, d9
+            let measuredSize = VolumeThatFitsMeasurer.measure(
+                given: _ProposedSize3D(size),
+                in: graph
+            )
+            
+            let observer = store[size]!
+            let currentSize: Size3D
+            switch observer.storage {
+            case .value(let size):
+                currentSize = size
+            case .pending(let size, _):
+                currentSize = size
+            case .none, .invalid:
+                let invalidValue = VolumeThatFitsMeasurer.invalidValue
+                store[size]!.storage = .pending(invalidValue, invalidValue)
+                return true
+            }
+            
+            if size != measuredSize {
+                store[size]!.storage = .pending(currentSize, measuredSize)
+                return true
+            }
+        }
+        
+        return false
+    }
+}
+
+extension ViewGraphGeometryObservers {
+    fileprivate struct Observer {
+        fileprivate var storage: ViewGraphGeometryObservers.Observer.Storage
+        fileprivate let callback: (T.Size, T) -> Void
+    }
+}
+
+extension ViewGraphGeometryObservers.Observer {
+    fileprivate enum Storage {
+        case value(T.Size)
+        case pending(T.Size, T.Size)
+        case none
+        case invalid
+    }
+}
+
+protocol ViewGraphGeometryMeasurer {
+    associatedtype Proposal
+    associatedtype Size: Hashable
+    
+    static func measure(given: Proposal, in: ViewGraph) -> Size
+    static func measure(proposal: Proposal, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size
+    static var invalidValue: Size { get }
 }

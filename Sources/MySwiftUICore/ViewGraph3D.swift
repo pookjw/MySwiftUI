@@ -35,8 +35,8 @@ extension ViewGraph3D: ViewGraphFeature {
         fatalError("TODO")
     }
     
-    package func needsUpdate(graph: ViewGraph) -> Bool {
-        fatalError("TODO")
+    package mutating func needsUpdate(graph: ViewGraph) -> Bool {
+        return volumeThatFitsObservers.needsUpdate(graph: graph)
     }
     
     package func update(graph: ViewGraph) {

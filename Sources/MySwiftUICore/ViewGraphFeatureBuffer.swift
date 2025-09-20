@@ -174,7 +174,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func needsUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
-            fatalError("TODO")
+            return elt.body(as: T.self).pointee.needsUpdate(graph: graph)
         }
         
         override class func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {

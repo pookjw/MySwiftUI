@@ -10,7 +10,5 @@ struct SizeThatFitsMeasurer: ViewGraphGeometryMeasurer {
         fatalError("TODO")
     }
     
-    static var invalidValue: CGSize {
-        fatalError("TODO")
-    }
+    static let invalidValue = CGSize(width: -CGFloat.infinity, height: -CGFloat.infinity)
 }

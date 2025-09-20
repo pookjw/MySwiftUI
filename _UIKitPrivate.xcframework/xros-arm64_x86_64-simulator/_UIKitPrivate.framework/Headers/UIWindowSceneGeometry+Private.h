@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import <StopwatchSupport/Geometry.h>
+#import <Spatial/Spatial.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 

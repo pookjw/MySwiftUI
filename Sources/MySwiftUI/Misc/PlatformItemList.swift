@@ -6,7 +6,7 @@ private import ObjectiveC
 struct PlatformItemListViewGraph {
     private var rootList = WeakAttribute<PlatformItemList>()
     private var wasReadSinceLastUpdate: Bool = false
-    private var needsUpdate: Bool  = false
+    private var needsUpdate: Bool = false
 }
 
 extension PlatformItemListViewGraph: ViewGraphFeature {
@@ -30,8 +30,25 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
         fatalError("TODO")
     }
     
-    func needsUpdate(graph: ViewGraph) -> Bool {
-        fatalError("TODO")
+    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+        guard !needsUpdate else {
+            return true
+        }
+        
+        guard !wasReadSinceLastUpdate else {
+            return false
+        }
+        
+        guard graph.requestedOutputs.isSuperset(of: .platformItemList) else {
+            return false
+        }
+        
+        guard let value = rootList.wrappedValue else {
+            return false
+        }
+        
+        needsUpdate = true
+        return true
     }
     
     func update(graph: ViewGraph) {

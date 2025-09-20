@@ -1,6 +1,7 @@
 #warning("TODO")
 @_spi(Internal) internal import MySwiftUICore
 private import AttributeGraph
+private import UIKit
 
 struct FocusViewGraph {
     @OptionalAttribute private var focusedItem: FocusItem??
@@ -77,8 +78,20 @@ extension FocusViewGraph: ViewGraphFeature {
         fatalError("TODO")
     }
     
-    func needsUpdate(graph: ViewGraph) -> Bool {
-        fatalError("TODO")
+    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+        let needsFocusUpdate = needsFocusUpdate
+        
+        if
+            let delegate = graph.delegate,
+            let uiView = delegate.uiView
+        {
+            let w8 = (UIFocusSystem.focusSystem(for: uiView) != nil)
+            let w9 = (w8 || wasFocusSystemEnabled)
+            self.needsFocusSystemEnabledUpdate = w9
+            self.wasFocusSystemEnabled = w8
+        }
+        
+        return needsFocusUpdate || needsFocusSystemEnabledUpdate
     }
     
     func update(graph: ViewGraph) {

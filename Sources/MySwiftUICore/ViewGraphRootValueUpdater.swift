@@ -1,7 +1,7 @@
 #warning("TODO")
 private import AttributeGraph
 package import CoreGraphics
-package import StopwatchSupport
+package import Spatial
 private import _UIKitPrivate
 
 package protocol ViewGraphRootValueUpdater: ViewGraphDelegate {
@@ -271,11 +271,11 @@ extension ViewGraphRootValueUpdater {
         fatalError("TODO")
     }
     
-    package func _explicitAlignment(of: DepthAlignment, at: SPSize3D) -> CGFloat? {
+    package func _explicitAlignment(of: DepthAlignment, at: Size3D) -> CGFloat? {
         fatalError("TODO")
     }
     
-    package func _alignment(of: DepthAlignment, at: SPSize3D) -> CGFloat {
+    package func _alignment(of: DepthAlignment, at: Size3D) -> CGFloat {
         fatalError("TODO")
     }
 }

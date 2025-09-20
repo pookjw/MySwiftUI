@@ -53,6 +53,17 @@ extension AccessibilityViewGraph: ViewGraphFeature {
     
     func needsUpdate(graph: ViewGraph) -> Bool {
         fatalError("TODO")
+        
+        guard graph.accessibilityEnabled else {
+            return false
+        }
+        
+        if graph.requestedOutputs.isSuperset(of: .focus) {
+            // <+484>
+        }
+        
+        // <+664>
+        fatalError("TODO")
     }
     
     func update(graph: ViewGraph) {

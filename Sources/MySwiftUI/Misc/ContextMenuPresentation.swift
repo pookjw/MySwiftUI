@@ -1,12 +1,12 @@
 #warning("TODO")
 internal import MySwiftUICore
 private import MRUIKit
-private import StopwatchSupport
+private import Spatial
 
 struct ContextMenuPresentation {
     private var isPresented: Binding<Bool>
     private var isPresentedValue: Bool
-    private var location: Anchor<SPPoint3D>
+    private var location: Anchor<Point3D>
 }
 
 extension ContextMenuPresentation {
