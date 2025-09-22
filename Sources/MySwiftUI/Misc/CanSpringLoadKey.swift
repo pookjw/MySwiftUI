@@ -2,5 +2,7 @@
 internal import MySwiftUICore
 
 struct CanSpringLoadKey: HostPreferenceKey {
-    typealias Value = Never? // TODO
+    static var defaultValue: Bool {
+        return false
+    }
 }

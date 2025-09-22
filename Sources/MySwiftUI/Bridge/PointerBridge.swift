@@ -16,8 +16,48 @@ final class PointerBridge: NSObject {
         viewGraph.addPreference(HasHoverEffectKey.self)
     }
     
-    func preferencesDidChange(_: PreferenceValues) {
-        fatalError("TODO")
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        let pref = preferenceValues[HasHoverEffectKey.self]
+        
+        guard !pref.seed.matches(hasHoverEffectSeed) else {
+            return
+        }
+        
+        let host = host!
+        
+        if let uiView = host.uiView {
+            // <+408>
+            if let interaction {
+                // <+424>
+                if !pref.value {
+                    uiView.removeInteraction(interaction)
+                    self.interaction = nil
+                    // <+616>
+                } else {
+                    // <+616>
+                }
+            } else {
+                // <+520>
+                if pref.value {
+                    // <+548>
+                    let interaction = UIPointerInteraction(delegate: self)
+                    uiView.addManagedInteraction(interaction)
+                    self.interaction = interaction
+                    // <+616>
+                } else {
+                    // <+736>
+                    // interaction이 존재하면 <+424>로 갈 것이며 이는 불가능함
+                    // <+616>
+                }
+            }
+             
+            // <+616>
+            hasHoverEffectSeed = pref.seed
+        } else {
+            // <+496>
+            // nop
+            return
+        }
     }
 }
 

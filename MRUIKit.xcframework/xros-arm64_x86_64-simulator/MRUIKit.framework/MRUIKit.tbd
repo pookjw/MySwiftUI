@@ -8,7 +8,8 @@ exports:
     symbols:              [ _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVMa,
     _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVMn,
     _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVSHAAMc,
-    __MRUISceneDidChangeImmersionStateNotification ]
+    __MRUISceneDidChangeImmersionStateNotification,
+    __MRUICadenzaNameForFeedback ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost ]
     objc-ivars:           [  ]

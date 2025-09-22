@@ -1,3 +1,4 @@
 #warning("TODO")
+internal import RealityKit
 
-class AudioFeedbackEntity {}
+class AudioFeedbackEntity: Entity {}

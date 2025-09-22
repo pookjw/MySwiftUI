@@ -48,6 +48,6 @@ extension ViewGraphDelegate {
     }
     
     var hostingView: UIHostingViewProvider? {
-        return self.as((UICoreViewControllerProvider & UIHostingViewProvider).self)
+        return self.as(UIHostingViewProvider.self)
     }
 }

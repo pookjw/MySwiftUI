@@ -22,6 +22,7 @@ let package = Package(
             dependencies: [
                 .byName(name: "_QuartzCorePrivate"),
                 .byName(name: "StopwatchSupport"),
+                .byName(name: "CoreRE"),
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "_UIKitShims"),
                 .byName(name: "MySwiftUICore"),
@@ -108,6 +109,10 @@ let package = Package(
         .binaryTarget(
             name: "StopwatchSupport",
             path: "StopwatchSupport.xcframework"
+        ),
+        .binaryTarget(
+            name: "CoreRE",
+            path: "CoreRE.xcframework"
         ),
         .target(
             name: "_KernPrivate",

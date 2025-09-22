@@ -39,6 +39,13 @@ final class ContextMenuBridge: NSObject {
     }
     
     func preferencesDidChange(_: PreferenceValues) {
+        // defer 있음
+        let host = host!
+        
+        guard host.shouldCreateUIInteractions else {
+            return
+        }
+        
         fatalError("TODO")
     }
 }

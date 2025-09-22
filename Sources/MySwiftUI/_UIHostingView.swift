@@ -14,6 +14,10 @@ open class _UIHostingView<Content: View>: UIView {
         return false
     }
     
+    class var createsUIInteractions: Bool {
+        return true
+    }
+    
     public var rootView: Content {
         _rootView
     }
@@ -433,6 +437,10 @@ open class _UIHostingView<Content: View>: UIView {
     @objc private func sceneDidChangeImmersionState() {
         fatalError("TODO")
     }
+    
+    override func addManagedInteraction(_ interaction: any UIInteraction) {
+        fatalError("TODO")
+    }
 }
 
 protocol UIHostingViewDelegate: AnyObject {
@@ -739,7 +747,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewProvider {
     }
     
     final var shouldCreateUIInteractions: Bool {
-        return true
+        return Self.createsUIInteractions
     }
     
     final var sceneActivationState: UIScene.ActivationState? {

@@ -1,0 +1,5 @@
+framework module CoreRE {
+    umbrella header "CoreRE.h"
+    export *
+    module * { export * }
+}

@@ -278,6 +278,10 @@ public protocol HostPreferenceKey: _SwiftUIPrivate.PreferenceKey {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PreferenceValues {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct PreferenceKeys: Swift.Equatable, Swift.RandomAccessCollection {
   public init()
   public mutating func remove(_ key: any (_SwiftUIPrivate.PreferenceKey).Type)

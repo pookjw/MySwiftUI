@@ -2,5 +2,7 @@
 internal import MySwiftUICore
 
 struct CanDropKey: HostPreferenceKey {
-    typealias Value = Never? // TODO
+    static var defaultValue: Bool {
+        return false
+    }
 }

@@ -96,7 +96,7 @@ struct FocusableOptions: OptionSet {
 }
 
 struct FocusedValueList {
-    private var items: [FocusedValueList.Item]
+    private var items: [FocusedValueList.Item] = []
 }
 
 extension FocusedValueList {
@@ -107,12 +107,14 @@ extension FocusedValueList {
     }
     
     struct Key: HostPreferenceKey {
-        typealias Value = Never? // TODO
+        static var defaultValue: FocusedValueList {
+            return FocusedValueList()
+        }
     }
 }
 
 struct FocusStoreList {
-    private var items: [FocusStoreList.Item]
+    private var items: [FocusStoreList.Item] = []
 }
 
 extension FocusStoreList {
@@ -127,6 +129,8 @@ extension FocusStoreList {
     }
     
     struct Key: HostPreferenceKey {
-        typealias Value = Never? // TODO
+        static var defaultValue: FocusStoreList {
+            return FocusStoreList()
+        }
     }
 }

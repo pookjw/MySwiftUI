@@ -13,6 +13,6 @@ extension ActionSheet {
 
 extension ActionSheet.Presentation {
     struct Key: HostPreferenceKey {
-        typealias Value = Never? // TODO
+        typealias Value = ActionSheet.Presentation?
     }
 }

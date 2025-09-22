@@ -3,6 +3,6 @@ internal import MySwiftUICore
 
 struct HasTooltipKey: HostPreferenceKey {
     static var defaultValue: Bool {
-        fatalError("TODO")
+        return false
     }
 }

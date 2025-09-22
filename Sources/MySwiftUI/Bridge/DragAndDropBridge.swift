@@ -31,14 +31,28 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
         viewGraph.addPreference(OutlineRootConfiguration.Key.self)
     }
     
-    final func preferencesDidChange(_: PreferenceValues) {
+    final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         let host = host!
         
         guard host.shouldCreateUIInteractions else {
-            fatalError("TODO")
             return
         }
         
+        updateDragInteraction(preferenceValues[HasDragItemsKey.self], preferenceValues[DragItemTimings.Key.self])
+        updateDropInteraction(preferenceValues[CanDropKey.self])
+        updateSpringLoadedInteraction(preferenceValues[CanSpringLoadKey.self])
+    }
+    
+    private func updateDragInteraction(_: PreferenceValues.Value<Bool>, _: PreferenceValues.Value<DragItemTimings>) {
+        let host = host!
+        fatalError("TODO")
+    }
+    
+    private func updateDropInteraction(_: PreferenceValues.Value<Bool>) {
+        fatalError("TODO")
+    }
+    
+    private func updateSpringLoadedInteraction(_: PreferenceValues.Value<Bool>) {
         fatalError("TODO")
     }
 }

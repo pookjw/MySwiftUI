@@ -15,3 +15,5 @@
 #import <_UIKitPrivate/UIApplication+Private.h>
 #import <_UIKitPrivate/UIWindowScene+Private.h>
 #import <_UIKitPrivate/Misc.h>
+#import <_UIKitPrivate/UITraitCollection+Private.h>
+#import <_UIKitPrivate/_UIFeedback.h>

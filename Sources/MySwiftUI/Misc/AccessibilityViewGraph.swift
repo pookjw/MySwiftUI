@@ -28,6 +28,10 @@ struct AccessibilityViewGraph {
         
         Subgraph.current = oldCurrent
     }
+    
+    private var rootFocusStoreList: AccessibilityFocusStoreList? {
+        fatalError("TODO")
+    }
 }
 
 extension AccessibilityViewGraph: ViewGraphFeature {
@@ -51,18 +55,44 @@ extension AccessibilityViewGraph: ViewGraphFeature {
         fatalError("TODO")
     }
     
-    func needsUpdate(graph: ViewGraph) -> Bool {
+    mutating func needsUpdate(graph: ViewGraph) -> Bool {
         guard graph.accessibilityEnabled else {
             return false
         }
         
         if graph.requestedOutputs.isSuperset(of: .focus) {
-            fatalError("TODO")
-            // <+484>
+            if !focusStoreEnabled {
+                if graph.parentHost == nil {
+                    graph.addPreference(AccessibilityFocusStoreList.Key.self)
+                    focusStoreEnabled = true
+                    return true
+                }
+                
+                if let rootFocusStoreList {
+                    guard lastStoreVersion == rootFocusStoreList.version else {
+                        graph.addPreference(AccessibilityFocusStoreList.Key.self)
+                        focusStoreEnabled = true
+                        return true
+                    }
+                }
+            }
         }
         
         // <+664>
-        fatalError("TODO")
+        
+        guard nodesReadSinceLastUpdate else {
+            return false
+        }
+        
+        guard let rootNodes else {
+            return needsFocusUpdate
+        }
+        
+        guard lastNodeVersion == rootNodes.version else {
+            return true
+        }
+        
+        return needsFocusUpdate
     }
     
     func update(graph: ViewGraph) {
