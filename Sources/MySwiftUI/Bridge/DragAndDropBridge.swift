@@ -3,6 +3,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import _UIKitPrivate
 
+@MainActor
 final class DragAndDropBridge: AnyDragAndDropBridge {
     weak var host: (any ViewRendererHost)? = nil
     private var hasDragItemsSeed: VersionSeed = .empty
@@ -31,7 +32,7 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
         viewGraph.addPreference(OutlineRootConfiguration.Key.self)
     }
     
-    final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         let host = host!
         
         guard host.shouldCreateUIInteractions else {
@@ -43,17 +44,146 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
         updateSpringLoadedInteraction(preferenceValues[CanSpringLoadKey.self])
     }
     
-    private func updateDragInteraction(_: PreferenceValues.Value<Bool>, _: PreferenceValues.Value<DragItemTimings>) {
+    private func updateDragInteraction(_ hasDragItemsValue: PreferenceValues.Value<Bool>, _ dragItemTimingsValue: PreferenceValues.Value<DragItemTimings>) {
+        /*
+         hasDragItemsValue = x26 / x29 - 0x60 - 0x100
+         dragItemTimingsValue = x28 / x29 - 0x70 - 0x100
+         */
         let host = host!
-        fatalError("TODO")
+        
+        // x24 / x29 - 0x58 - 0x100
+        guard let uiView = host.uiView else {
+            return
+        }
+        
+        if !hasDragItemsValue.seed.matches(hasDragItemsSeed) {
+            if let dragInteraction {
+                // <+392>
+                // dragInteraction = x28
+                if !hasDragItemsValue.value {
+                    uiView.removeInteraction(dragInteraction)
+                    self.dragInteraction = nil
+                }
+                // <+588>
+            } else {
+                // <+464>
+                if hasDragItemsValue.value {
+                    // <+496>
+                    let dragInteraction = UIDragInteraction(delegate: self)
+                    dragInteraction.isEnabled = true
+                    uiView.addManagedInteraction(dragInteraction)
+                    self.dragInteraction = dragInteraction
+                    // <+588>
+                } else {
+                    // <+392>
+                    // nop - dragInteraction 없음
+                    // <+588>
+                }
+            }
+            
+            // <+588>
+            self.hasDragItemsSeed = hasDragItemsValue.seed
+        }
+        
+        // <+668>
+        if let dragInteraction {
+            if !dragItemTimingsValue.seed.matches(self.dragTimingsSeed) {
+                // <+872>
+                dragItemTimingsValue.value.apply(to: dragInteraction)
+                self.dragTimingsSeed = dragItemTimingsValue.seed
+            }
+        }
     }
     
-    private func updateDropInteraction(_: PreferenceValues.Value<Bool>) {
-        fatalError("TODO")
+    private func updateDropInteraction(_ canDropValue: PreferenceValues.Value<Bool>) {
+        guard !canDropValue.seed.matches(self.canDropSeed) else {
+            return
+        }
+        
+        let host = host!
+        
+        // x25
+        guard let uiView = host.uiView else {
+            return
+        }
+        
+        if let dropInteraction {
+            // <+348>
+            if canDropValue.value {
+                // <+512>
+                // nop
+            } else {
+                // <+384>
+                uiView.removeInteraction(dropInteraction)
+                self.dropInteraction = nil
+                // <+516>
+            }
+        } else {
+            // <+420>
+            if canDropValue.value {
+                // <+448>
+                let dropInteraction = UIDropInteraction(delegate: self)
+                uiView.addManagedInteraction(dropInteraction)
+                // <+516>
+            } else {
+                // <+616>
+                // <+348>
+                // nop - dropInteraction 없음
+                // <+512>
+            }
+        }
+        
+        self.canDropSeed = canDropValue.seed
     }
     
-    private func updateSpringLoadedInteraction(_: PreferenceValues.Value<Bool>) {
-        fatalError("TODO")
+    private func updateSpringLoadedInteraction(_ canSpringLoadValue: PreferenceValues.Value<Bool>) {
+        guard !canSpringLoadValue.seed.matches(self.canSpringLoadSeed) else {
+            return
+        }
+        
+        let host = host!
+        
+        // x25
+        guard let uiView = host.uiView else {
+            return
+        }
+        
+        if let springLoadedInteraction {
+            // <+356>
+            if canSpringLoadValue.value {
+                // nop
+                // <+956>
+            } else {
+                // <+384>
+                uiView.removeInteraction(springLoadedInteraction)
+                self.springLoadedInteraction = nil
+                // <+956>
+            }
+        } else {
+            // <+420>
+            if canSpringLoadValue.value {
+                // x29, #-0xd8
+                let behavior = DragAndDropBridge.SpringLoadedBehavior(bridge: self)
+                // x29, #-0xe0
+                let effect = DragAndDropBridge.SpringLoadedEffect(bridge: self)
+                
+                let springLoadedInteraction = UISpringLoadedInteraction(interactionBehavior: behavior, interactionEffect: effect) { interaction, context in
+                    // partial apply forwarder for closure #1 (__C.UISpringLoadedInteraction, __C.UISpringLoadedInteractionContext) -> () in SwiftUI.DragAndDropBridge.updateSpringLoadedInteraction(SwiftUI.PreferenceValues.Value<Swift.Bool>) -> ()
+                    fatalError("TODO")
+                }
+                
+                uiView.addManagedInteraction(springLoadedInteraction)
+                self.springLoadedInteraction = springLoadedInteraction
+                // <+960>
+            } else {
+                // <+1060>
+                // <+352>
+                // nop - dropInteraction 없음
+                // <+956>
+            }
+        }
+        
+        self.canSpringLoadSeed = canSpringLoadValue.seed
     }
 }
 
@@ -130,5 +260,42 @@ extension DragAndDropBridge: UIDropInteractionDelegate {
     
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: any UIDropSession) -> UIDropProposal {
         fatalError("TODO")
+    }
+}
+
+extension DragAndDropBridge {
+    @MainActor
+    final class SpringLoadedBehavior: NSObject, UISpringLoadedInteractionBehavior {
+        private weak var bridge: DragAndDropBridge? = nil
+        private let base: any UISpringLoadedInteractionBehavior = UISpringLoadedInteraction._defaultInteractionBehavior()
+        
+        init(bridge: DragAndDropBridge) {
+            self.bridge = bridge
+            super.init()
+        }
+        
+        func interactionDidFinish(_ interaction: UISpringLoadedInteraction) {
+            fatalError("TODO")
+        }
+        
+        func shouldAllow(_ interaction: UISpringLoadedInteraction, with context: any UISpringLoadedInteractionContext) -> Bool {
+            fatalError("TODO")
+        }
+    }
+    
+    @MainActor
+    final class SpringLoadedEffect: NSObject, UISpringLoadedInteractionEffect {
+        private weak var bridge: DragAndDropBridge? = nil
+        private var blinkTimer: Timer? = nil
+        private var previousHighlightState: SpringLoadingBehavior.HighlightState = .none
+        
+        init(bridge: DragAndDropBridge) {
+            self.bridge = bridge
+            super.init()
+        }
+        
+        func interaction(_ interaction: UISpringLoadedInteraction, didChangeWith context: any UISpringLoadedInteractionContext) {
+            fatalError("TODO")
+        }
     }
 }

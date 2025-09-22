@@ -17,3 +17,4 @@
 #import <_UIKitPrivate/Misc.h>
 #import <_UIKitPrivate/UITraitCollection+Private.h>
 #import <_UIKitPrivate/_UIFeedback.h>
+#import <_UIKitPrivate/UISpringLoadedInteraction+Private.h>

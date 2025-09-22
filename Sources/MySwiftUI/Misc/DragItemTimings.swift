@@ -1,6 +1,7 @@
 #warning("TODO")
 internal import MySwiftUICore
 private import CoreGraphics
+internal import UIKit
 
 struct DragItemTimings {
     private var liftDelay: Double? = nil
@@ -10,6 +11,10 @@ struct DragItemTimings {
     private var liftMoveHysteresis: CGFloat? = nil
     private var pointerLiftMoveHysteresis: CGFloat? = nil
     private var allowsPointerDragBeforeLiftDelay: Bool? = nil
+    
+    func apply(to: UIDragInteraction) {
+        fatalError("TODO")
+    }
 }
 
 extension DragItemTimings {

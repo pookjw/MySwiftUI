@@ -1,9 +1,9 @@
 internal import MySwiftUICore
 
 public struct SpringLoadingBehavior: Hashable, Sendable {
-    public static let automatic: SpringLoadingBehavior = SpringLoadingBehavior(guts: .automatic)
-    public static let enabled: SpringLoadingBehavior = SpringLoadingBehavior(guts: .enabled)
-    public static let disabled: SpringLoadingBehavior = SpringLoadingBehavior(guts: .disabled)
+    public static let automatic = SpringLoadingBehavior(guts: .automatic)
+    public static let enabled = SpringLoadingBehavior(guts: .enabled)
+    public static let disabled = SpringLoadingBehavior(guts: .disabled)
     
     private var guts: Guts
 }
