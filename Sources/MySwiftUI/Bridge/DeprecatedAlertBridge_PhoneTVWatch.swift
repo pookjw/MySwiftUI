@@ -34,8 +34,54 @@ final class DeprecatedAlertBridge<T>: NSObject {
             viewGraph.addPreference(Alert.Presentation.Key.self)
         }
     }
-    
+}
+
+extension DeprecatedAlertBridge where T == Alert.Presentation {
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        // x28
+        let presentationValue = preferenceValues[Alert.Presentation.Key.self]
+        
+        guard !seed.matches(presentationValue.seed) else {
+            return
+        }
+        
+        // <+944>
+        /*
+         presentationValue = x19 + 0xe0
+         self = x19 + 0x38
+         */
+        
+        let host = host!
+        
+        guard let presenter = host.uiPresenterViewController else {
+            return
+        }
+        
+        guard !isChangingIdentity else {
+            return
+        }
+        
+        self.seed = presentationValue.seed
+        
+        if let alertController {
+            // <+1228>
+            fatalError("TODO")
+        } else {
+            // <+1348>
+            fatalError("TODO")
+        }
+        fatalError("TODO")
+    }
+}
+
+extension DeprecatedAlertBridge where T == ActionSheet.Presentation {
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        let presentationValue = preferenceValues[ActionSheet.Presentation.Key.self]
+        
+        guard !seed.matches(presentationValue.seed) else {
+            return
+        }
+        
         fatalError("TODO")
     }
 }

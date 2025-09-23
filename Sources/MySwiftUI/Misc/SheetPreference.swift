@@ -14,13 +14,15 @@ extension SheetPreference {
         
     }
     
-    struct Value {
-        
+    enum Value {
+        case notPresented(views: [Namespace.ID: Transaction])
+        case sheet(SheetPreference)
+        case unspecified
     }
     
     struct Key: HostPreferenceKey {
         static var defaultValue: SheetPreference.Value {
-            fatalError("TODO")
+            return .unspecified
         }
     }
 }

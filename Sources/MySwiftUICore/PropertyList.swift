@@ -34,9 +34,12 @@
         fatalError("TODO")
     }
     
-    package subscript<T: PropertyKey>(_ type: T.Type) -> T.Value {
+    package subscript<T: PropertyKey>(_ key: T.Type) -> T.Value {
         get {
-            fatalError("TODO")
+            withExtendedLifetime(elements) { elements in
+                find1(elements.map { .passUnretained($0) }, key: key, filter: BloomFilter(type: key))
+                fatalError("TODO")
+            }
         }
         set {
             fatalError("TODO")
@@ -86,7 +89,7 @@ extension PropertyList {
     package final class Tracker {
         @AtomicBox var data: TrackerData
         
-        public init() {
+        package init() {
             let trackerData = TrackerData(
                 plistID: UniqueID(value: 0),
                 values: [:],
@@ -97,7 +100,7 @@ extension PropertyList {
             _data = AtomicBox(wrappedValue: trackerData)
         }
         
-        public func reset() {
+        package func reset() {
             _data.access { value in
                 value.plistID = UniqueID(value: 0)
                 value.values.removeAll()
@@ -107,7 +110,7 @@ extension PropertyList {
             }
         }
         
-        public func hasDifferentUsedValues(_ other: PropertyList) -> Bool {
+        package func hasDifferentUsedValues(_ other: PropertyList) -> Bool {
             let selfData = _data.wrappedValue
             guard !selfData.unrecordedDependencies else {
                 return true
@@ -116,31 +119,35 @@ extension PropertyList {
             fatalError("TODO")
         }
         
-        public func initializeValues(from other: PropertyList) {
+        package func initializeValues(from other: PropertyList) {
             fatalError("TODO")
         }
         
-        public func invalidateAllValues(from: PropertyList, to: PropertyList) {
+        package func invalidateAllValues(from: PropertyList, to: PropertyList) {
             fatalError("TODO")
         }
         
-        public func formUnion(_: PropertyList.Tracker) {
+        package func formUnion(_: PropertyList.Tracker) {
             fatalError("TODO")
         }
         
-        public func valueWithSecondaryLookup<T: PropertyKeyLookup>(_ other: PropertyList, secondaryLookupHandler: T.Type) -> T.Primary.Value {
+        package func valueWithSecondaryLookup<T: PropertyKeyLookup>(_ other: PropertyList, secondaryLookupHandler: T.Type) -> T.Primary.Value {
             fatalError("TODO")
         }
         
-        public func value<T: PropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
+        package func value<T: PropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
             fatalError("TODO")
         }
         
-        public func invalidateValue<T: PropertyKey>(for type: T.Type, from: PropertyList, to: PropertyList) {
+        package func invalidateValue<T: PropertyKey>(for type: T.Type, from: PropertyList, to: PropertyList) {
             fatalError("TODO")
         }
         
-        public func derivedValue<T: DerivedPropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
+        package func derivedValue<T: DerivedPropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
+            fatalError("TODO")
+        }
+        
+        final func forEach(filter: BloomFilter, _ body: (Unmanaged<PropertyList.Element>, inout Bool) -> Void) -> Bool {
             fatalError("TODO")
         }
     }
@@ -148,7 +155,7 @@ extension PropertyList {
 
 extension PropertyList {
     @safe @usableFromInline
-    final class Element: CustomStringConvertible {
+    class Element: CustomStringConvertible {
         fileprivate let keyType: Any.Type
         fileprivate let before: Element?
         fileprivate var after: Element?
@@ -233,4 +240,32 @@ package protocol PropertyKey {
 
 package protocol DerivedPropertyKey {
     associatedtype Value
+}
+
+fileprivate func find1<T: PropertyKey>(_: Unmanaged<PropertyList.Element>?, key: T.Type, filter: BloomFilter) -> Unmanaged<TypedElement<T>>? {
+    fatalError("TODO")
+}
+
+fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
+    let value: Key.Value
+    
+    init() {
+        fatalError("TODO")
+    }
+    
+    override var description: String {
+        fatalError("TODO")
+    }
+    
+    override func matches(_: PropertyList.Element, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
+        fatalError("TODO")
+    }
+    
+    override func copy(before: PropertyList.Element?, after: PropertyList.Element?) -> PropertyList.Element {
+        fatalError("TODO")
+    }
+    
+    override func value<T>(as type: T.Type) -> T {
+        fatalError("TODO")
+    }
 }

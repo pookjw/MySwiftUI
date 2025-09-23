@@ -12,7 +12,7 @@ final class ContextMenuBridge: NSObject {
     private var inspectorBridgeToken: UncheckedSendable<NSObject>? = nil
     private var lastPresentationValues: [ViewIdentity : ContextMenuPresentation] = [:]
     private var presentationSeed: VersionSeed = .empty
-    private var presentedMenu: ActiveContextMenu = ActiveContextMenu()
+    private var presentedMenu = ActiveContextMenu()
     
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
@@ -38,15 +38,94 @@ final class ContextMenuBridge: NSObject {
         }
     }
     
-    func preferencesDidChange(_: PreferenceValues) {
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         // defer 있음
-        let host = host!
-        
-        guard host.shouldCreateUIInteractions else {
+        guard host!.shouldCreateUIInteractions else {
             return
         }
         
-        fatalError("TODO")
+        guard let uiView = host!.uiView else {
+            return
+        }
+        
+        // x21 / x29, #-0xe8
+        let hasContextMenuValue = preferenceValues[HasContextMenuKey.self]
+        // x26 / x29, #-0xf0
+        let menuOrderPreferenceValue = preferenceValues[MenuOrderPreferenceKey.self]
+        
+        let currentHasContextMenuSeed = hasContextMenuSeed
+        let newHasContextMenuSeed = hasContextMenuValue.seed
+        self.hasContextMenuSeed = newHasContextMenuSeed
+        if newHasContextMenuSeed.matches(currentHasContextMenuSeed) {
+            let currentMenuOrderSeed = menuOrderSeed
+            let newMenuOrderSeed = menuOrderPreferenceValue.seed
+            self.menuOrderSeed = newMenuOrderSeed
+            if newMenuOrderSeed.matches(currentMenuOrderSeed) {
+                return
+            }
+        }
+        
+        // <+956>
+        // x24
+        let contextMenuPresentationValue = preferenceValues[ContextMenuPresentation.Key.self]
+        
+        let currentPresentationSeed = presentationSeed
+        let newPresentationSeed = contextMenuPresentationValue.seed
+        self.presentationSeed = newPresentationSeed
+        if newPresentationSeed.matches(currentPresentationSeed) {
+            return
+        }
+        
+        // <+1148>
+        if let interaction {
+            // <+1180>
+            if hasContextMenuValue.value {
+                // <+1356>
+                // nop
+            } else {
+                // <+1212>
+                interaction.dismissMenu()
+                uiView.removeInteraction(interaction)
+                self.interaction = nil
+                // <+1356>
+            }
+        } else {
+            // <+1264>
+            if hasContextMenuValue.value {
+                // <+1292>
+                let interaction = UIContextMenuInteraction(delegate: self)
+                uiView.addManagedInteraction(interaction)
+                self.interaction = interaction
+            } else {
+                // <+1824>
+                // nop - interaction 없음
+                // <+1360>
+            }
+        }
+        
+        // <+1356>
+        defer {
+            self.hasContextMenuSeed = hasContextMenuValue.seed
+            self.presentationSeed = contextMenuPresentationValue.seed
+            self.lastPresentationValues = contextMenuPresentationValue.value
+            self.menuOrderSeed = menuOrderPreferenceValue.seed
+        }
+        
+        self.menuOrder = menuOrderPreferenceValue.value
+        
+        let presentedMenu = presentedMenu
+        
+        guard presentedMenu.id != .invalid else {
+            return
+        }
+        
+        if
+            let presentation = contextMenuPresentationValue.value[presentedMenu.id],
+            !presentation.isPresented.wrappedValue,
+            let interaction
+        {
+            interaction.dismissMenu()
+        }
     }
 }
 

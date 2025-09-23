@@ -2,5 +2,5 @@
 internal import MySwiftUICore
 
 struct StatusBarKey: HostPreferenceKey {
-    typealias Value = Never? // TODO
+    typealias Value = Bool?
 }

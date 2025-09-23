@@ -2,5 +2,7 @@
 internal import MySwiftUICore
 
 struct MenuOrderPreferenceKey: HostPreferenceKey {
-    typealias Value = Never? // TODO
+    static var defaultValue: MenuOrder {
+        return .automatic
+    }
 }

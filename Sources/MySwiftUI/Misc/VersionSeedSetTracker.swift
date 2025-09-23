@@ -8,8 +8,14 @@ struct VersionSeedSetTracker {
         values.append(VersionSeedSetTracker.Value(key: key, seed: .invalid))
     }
     
-    func hasChanges(in values: PreferenceValues) -> Bool {
-        fatalError("TODO")
+    func hasChanges(in preferenceValues: PreferenceValues) -> Bool {
+        for value in values {
+            if !value.seed.matches(preferenceValues.seed(for: value.key)) {
+                return true
+            }
+        }
+        
+        return false
     }
     
     mutating func updateSeedsToEmpty() {
@@ -29,5 +35,11 @@ extension VersionSeedSetTracker {
     fileprivate struct Value {
         var key: any PreferenceKey.Type
         var seed: VersionSeed
+    }
+}
+
+extension PreferenceValues {
+    fileprivate func seed<T: PreferenceKey>(for type: T.Type) -> VersionSeed {
+        return self[type].seed
     }
 }

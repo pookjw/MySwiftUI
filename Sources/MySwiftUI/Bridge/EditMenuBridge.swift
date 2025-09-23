@@ -28,6 +28,12 @@ final class EditMenuBridge: NSObject {
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        let preferenceValue = preferenceValues[EditMenuPresentation.Key.self]
+        
+        guard !preferenceValue.seed.matches(editMenuPresentationSeed) else {
+            return
+        }
+        
         fatalError("TODO")
     }
 }

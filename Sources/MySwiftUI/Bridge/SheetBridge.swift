@@ -53,6 +53,10 @@ final class SheetBridge<T>: NSObject {
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        // 0x248
+        let sheetPreferenceValue = preferenceValues[SheetPreference.Key.self]
+        let lastEnvironment = lastEnvironment
+        lastEnvironment.presentationWantsTransparentBackground
         fatalError("TODO")
     }
     

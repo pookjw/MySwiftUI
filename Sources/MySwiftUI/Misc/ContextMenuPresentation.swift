@@ -4,7 +4,7 @@ private import MRUIKit
 private import Spatial
 
 struct ContextMenuPresentation {
-    private var isPresented: Binding<Bool>
+    private(set) var isPresented: Binding<Bool>
     private var isPresentedValue: Bool
     private var location: Anchor<Point3D>
 }

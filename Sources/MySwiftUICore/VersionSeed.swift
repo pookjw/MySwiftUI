@@ -32,3 +32,5 @@ package struct VersionSeed: CustomStringConvertible {
         fatalError("TODO")
     }
 }
+
+extension VersionSeed: BitwiseCopyable {}

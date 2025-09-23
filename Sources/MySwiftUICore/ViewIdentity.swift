@@ -24,3 +24,4 @@ package struct ViewIdentity {
 }
 
 extension ViewIdentity: Hashable {}
+extension ViewIdentity: BitwiseCopyable {}
