@@ -164,6 +164,10 @@ extension RootViewDelegate: UIHostingViewDelegate {
         fatalError("TODO")
     }
     
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : View {
+        fatalError("TODO")
+    }
+    
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
         fatalError("TODO")
     }

@@ -36,4 +36,8 @@ struct BloomFilter: Equatable {
         copy.value |= other.value
         return copy
     }
+    
+    var isEmpty: Bool {
+        return value == 0
+    }
 }

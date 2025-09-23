@@ -1,5 +1,5 @@
 #warning("TODO")
 
-protocol Feature: ViewInputBoolFlag {
+package protocol Feature: ViewInputBoolFlag {
     
 }

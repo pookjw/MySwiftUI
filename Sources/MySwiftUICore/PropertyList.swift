@@ -242,7 +242,24 @@ package protocol DerivedPropertyKey {
     associatedtype Value
 }
 
-fileprivate func find1<T: PropertyKey>(_: Unmanaged<PropertyList.Element>?, key: T.Type, filter: BloomFilter) -> Unmanaged<TypedElement<T>>? {
+fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type, filter: BloomFilter) -> Unmanaged<TypedElement<T>>? {
+    guard let element else {
+        return nil
+    }
+    
+    var skip: Unmanaged<PropertyList.Element>? = element
+    while true {
+        if let _skip = skip {
+            if _skip.takeUnretainedValue().skipFilter.mayContain(filter) {
+                break
+            } else {
+                skip = _skip.takeUnretainedValue().skip
+            }
+        } else {
+            return nil
+        }
+    }
+    
     fatalError("TODO")
 }
 

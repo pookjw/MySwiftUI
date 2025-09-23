@@ -10,6 +10,8 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 @property (nonatomic, readonly, nullable) UIKeyboardSceneDelegate *keyboardSceneDelegate;
 + (void)_animateWithAnimationSettings:(BSAnimationSettings * _Nullable)animationSettings animations:(void (^)(void))animations completion:(void (^)(UIViewAnimatingPosition position))completion;
 - (__kindof UIViewController * _Nullable)_viewControllerForAncestor;
+- (BOOL)_ancestorHasInvertFilterApplied;
+- (UIColor *)_undimmedTintColor;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

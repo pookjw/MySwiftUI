@@ -10,6 +10,15 @@ import SwiftUI
 import _SwiftPrivate
 import _SwiftUIPrivate
 import _UIKitPrivate
+import ObjectiveC.runtime
+import ObjectiveC.message
+
+
+func swizzle() {
+    let method = class_getInstanceMethod(_UIHostingView<EmptyView>.self, #selector(UIView.layoutSubviews))
+    let empty: (@convention(c) (AnyObject, Selector) -> Void) = { _, _ in }
+    method_setImplementation(method!, unsafeBitCast(empty, to: IMP.self))
+}
 
 final class PrivateSelectors: NSObject {
     @objc(_swiftUI_platformViewDefinition) class func _swiftUI_platformViewDefinition() -> AnyClass {
@@ -26,6 +35,8 @@ struct Foo_2: _SwiftUIPrivate.PreferenceKey {
 
 class ViewController: UIViewController {
     override func loadView() {
+        swizzle()
+        UserDefaults.standard.set(false, forKey: "com.apple.SwiftUI.ViewGraphBridgePropertiesAreInput")
         
         print(PreferenceValues.self)
         _forEachField(of: PreferenceValues.self, options: []) { name, offset, type, kind in
@@ -39,6 +50,15 @@ class ViewController: UIViewController {
         
         print(_typeByName("7SwiftUI11SheetBridgeCyAA0C10PreferenceV3KeyVG")!)
         _forEachField(of: _typeByName("7SwiftUI11SheetBridgeCyAA0C10PreferenceV3KeyVG")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        //     
+        print("===")
+        
+        print(_typeByName("7SwiftUI24HostingControllerBridgesV")!)
+        _forEachField(of: _typeByName("7SwiftUI24HostingControllerBridgesV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

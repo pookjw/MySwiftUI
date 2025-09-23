@@ -10,7 +10,7 @@ package final class UIHostingViewBase: NSObject {
     package let viewGraph: ViewGraphHost
     private var inheritedEnvironment: EnvironmentValues? = nil
     private var environmentOverride: EnvironmentValues? = nil
-    private var traitCollectionOverride: UITraitCollection?
+    package var traitCollectionOverride: UITraitCollection?
     private var cachedContainerShape: UnevenRoundedRectangle?
     private var canAdvanceTimeAutomatically: Bool = true
     private var allowUIKitAnimationsForNextUpdate: Bool = false
@@ -452,6 +452,10 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.clearDisplayLink()
     }
     
+    package func _updateEnvironment(_: inout EnvironmentValues) {
+        fatalError("TODO")
+    }
+    
     // ___lldb_unnamed_symbol320011
     @MainActor
     private func addOrRemoveKeyboardTracking(oldWindow: UIWindow?) {
@@ -529,6 +533,10 @@ package final class UIHostingViewBase: NSObject {
             self.isEnteringForeground = false
             self.updateSceneActivationState()
         }
+    }
+    
+    package func _startUpdateEnvironment() -> EnvironmentValues {
+        fatalError("TODO")
     }
     
     @objc private func willBeginSnapshotSession() {

@@ -1,4 +1,5 @@
 #warning("TODO")
+package import UIKit
 
 public struct EnvironmentValues: CustomStringConvertible {
     private var _plist: PropertyList
@@ -63,6 +64,16 @@ public struct EnvironmentValues: CustomStringConvertible {
     }
     
     func setValue<K: EnvironmentKey>(_ value: K.Value, for type: K.Type) {
+        fatalError("TODO")
+    }
+    
+    package func configureForPlatform(traitCollection: UITraitCollection?) {
+        fatalError("TODO")
+    }
+}
+
+extension EnvironmentValues {
+    package init(_: EnvironmentValues) {
         fatalError("TODO")
     }
 }

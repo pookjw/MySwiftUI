@@ -15,3 +15,9 @@ open class UIHostingController<Content: View>: UIViewController {
         fatalError("TODO")
     }
 }
+
+extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {
+    final func resolveRequiredBridges(_: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
+        fatalError("TODO")
+    }
+}

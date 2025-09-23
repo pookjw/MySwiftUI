@@ -1,6 +1,11 @@
 #warning("TODO")
+package import Foundation
 
 public struct Color: Hashable, CustomStringConvertible, Sendable {
+    package init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
+        fatalError("TODO")
+    }
+    
     public var description: String {
         fatalError("TODO")
     }

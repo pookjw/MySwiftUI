@@ -153,6 +153,14 @@ open class _UIHostingView<Content: View>: UIView {
         return base
     }
     
+    private var traitCollectionOverride: UITraitCollection? {
+        return base.traitCollectionOverride
+    }
+    
+    private var accessibilityEnabled: Bool {
+        fatalError("TODO")
+    }
+    
     public required init(rootView: Content) {
         self._rootView = rootView
         
@@ -447,6 +455,7 @@ protocol UIHostingViewDelegate: AnyObject {
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?)
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout EnvironmentValues)
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didUpdate values: EnvironmentValues)
+    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties)
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: PreferenceValues)
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList)
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs)
@@ -544,6 +553,62 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final func updateEnvironment() {
+        // x24 / x19 + 0xa8
+        let environment = base._startUpdateEnvironment()
+        
+        // x24
+        var resolved: EnvironmentValues
+        do {
+            let traitCollection = self.traitCollection
+            let resolved_1 = traitCollection.resolvedPreEnvironment(base: EnvironmentValues(environment))
+            let resolved_2 = traitCollection.coreResolvedBaseEnvironment(base: resolved_1)
+            let resolved_3 = traitCollection.resolvedPostEnvironment(base: resolved_2)
+            _ = consume traitCollection
+            resolved = resolved_3
+        }
+        
+        resolved.configureForPlatform(traitCollection: self.traitCollection)
+        resolved[InheritedColorSeedKey.self] = colorAppearanceSeed
+        
+        if let delegate {
+            delegate.hostingView(self, willUpdate: &resolved)
+        }
+        
+        // <+1384>
+        if !ViewGraphBridgePropertiesAreInput.isEnabled {
+            if let delegate {
+                delegate.hostingView(self, willUpdate: &resolved.viewGraphBridgeProperties)
+            }
+            
+            // <+1544>
+            if let viewController {
+                viewController.resolveRequiredBridges(resolved.viewGraphBridgeProperties, allowedActions: [.unknown1, .unknown2])
+            }
+        }
+        
+        // <+1640>
+        base._updateEnvironment(&resolved)
+        
+        // x19, #0x98
+        let traitCollection = traitCollectionOverride ?? self.traitCollection
+        
+        // <+1700>
+        if resolved.accessibilityInvertColors {
+            resolved.ignoreInvertColorsFilterActive = _ancestorHasInvertFilterApplied()
+        }
+        
+        // <+1764>
+        if window != nil {
+            resolved.accentColor = Color(_platformColor: _undimmedTintColor(), definition: UIKitPlatformColorDefinition.self)
+        }
+        
+        // <+1868>
+        if tintAdjustmentMode == .dimmed {
+            // <+1892>
+            resolved.effectiveTintAdjustmentMode = .desaturated
+        }
+        
+        // <+1952>
         fatalError("TODO")
     }
     
@@ -873,6 +938,12 @@ extension _UIHostingView: ToolbarInputFeatureDelegate {
 
 extension _UIHostingView: SensoryFeedbackCacheHost {
     
+}
+
+extension _UIHostingView: @preconcurrency ViewGraphBridgePropertiesDelegate {
+    final func resolveRequiredBridges(_: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
+        fatalError("TODO")
+    }
 }
 
 extension Spacing {

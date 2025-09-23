@@ -1,7 +1,7 @@
 #warning("TODO")
-internal import Foundation
+package import Foundation
 
-protocol UserDefaultKeyedFeature: Feature {
+package protocol UserDefaultKeyedFeature: Feature {
     static var key: String { get }
     static var defaultFeatureValue: Bool { get }
     static var defaults: UserDefaults { get }
@@ -9,7 +9,7 @@ protocol UserDefaultKeyedFeature: Feature {
 }
 
 extension UserDefaultKeyedFeature {
-    static var isEnabled: Bool {
+    package static var isEnabled: Bool {
         if let cachedValue {
             return cachedValue
         }
@@ -21,11 +21,11 @@ extension UserDefaultKeyedFeature {
         }
     }
     
-    static var defaults: UserDefaults {
+    package static var defaults: UserDefaults {
         return UserDefaults.standard
     }
     
-    static var defaultFeatureValue: Bool {
+    package static var defaultFeatureValue: Bool {
         return false
     }
     

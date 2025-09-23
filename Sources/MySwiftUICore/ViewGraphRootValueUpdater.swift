@@ -222,6 +222,11 @@ extension ViewGraphRootValueUpdater {
                 self.updateRootView()
             }
             
+            if valuesNeedingUpdate.contains(.rootView) {
+                owner.valuesNeedingUpdate.remove(.environment)
+                updateEnvironment()
+            }
+            
             owner.valuesNeedingUpdate.remove(.environment)
             owner.valuesNeedingUpdate.remove(.transform)
             owner.valuesNeedingUpdate.remove(.size)
