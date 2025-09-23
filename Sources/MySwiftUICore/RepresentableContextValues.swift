@@ -14,10 +14,10 @@ package struct RepresentableContextValues {
     }
     
     package func asCurrent<T>(do block: () -> T) -> T {
-        let oldCurrent = RepresentableContextValues.current
-        RepresentableContextValues.current = self
+        let oldCurrent = unsafe RepresentableContextValues.current
+        unsafe RepresentableContextValues.current = self
         let result = block()
-        RepresentableContextValues.current = oldCurrent
+        unsafe RepresentableContextValues.current = oldCurrent
         return result
     }
     

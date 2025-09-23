@@ -30,6 +30,7 @@ let package = Package(
                 .byName(name: "MRUIKit")
             ],
             swiftSettings: [
+                .strictMemorySafety(),
                 .enableExperimentalFeature("SymbolLinkageMarkers")
             ]
         ),
@@ -44,6 +45,7 @@ let package = Package(
                 .byName(name: "StopwatchSupport")
             ],
             swiftSettings: [
+                .strictMemorySafety(),
                 .unsafeFlags([
                     "-Xfrontend",
                     "-enable-private-imports"
@@ -69,6 +71,9 @@ let package = Package(
             dependencies: [
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "MySwiftUICore")
+            ],
+            swiftSettings: [
+                .strictMemorySafety()
             ]
         ),
         .target(
@@ -129,6 +134,9 @@ let package = Package(
                 .byName(name: "MySwiftUI"),
                 .byName(name: "_SwiftUIPrivate"),
                 .byName(name: "MySwiftUITestUtils")
+            ],
+            swiftSettings: [
+                .strictMemorySafety()
             ]
         ),
         .testTarget(
@@ -136,6 +144,9 @@ let package = Package(
             dependencies: [
                 .byName(name: "MySwiftUICore"),
                 .byName(name: "MySwiftUITestUtils")
+            ],
+            swiftSettings: [
+                .strictMemorySafety()
             ]
         )
     ]

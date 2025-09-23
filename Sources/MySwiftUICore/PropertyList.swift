@@ -147,7 +147,7 @@ extension PropertyList {
 }
 
 extension PropertyList {
-    @usableFromInline
+    @safe @usableFromInline
     final class Element: CustomStringConvertible {
         fileprivate let keyType: Any.Type
         fileprivate let before: Element?
@@ -173,24 +173,24 @@ extension PropertyList {
                 self.skipCount = 0
                 skipFilter = BloomFilter(value: .max)
                 self.skipFilter = skipFilter
-                self.skip = .passUnretained(self)
+                unsafe self.skip = .passUnretained(self)
             } else if let after {
                 let length = after.length &+ 1
                 if after.skipCount > 15 {
                     self.length = length
                     self.skipCount = 1
-                    self.skip = .passUnretained(after)
+                    unsafe self.skip = .passUnretained(after)
                     self.skipFilter = skipFilter
                 } else {
                     self.length = length
                     self.skipCount = after.skipCount &+ 1
-                    self.skip = after.skip
+                    unsafe self.skip = after.skip
                     self.skipFilter = after.skipFilter.union(skipFilter)
                 }
             } else {
                 self.length = 1
                 self.skipCount = 1
-                self.skip = nil
+                unsafe self.skip = nil
                 self.skipFilter = skipFilter
             }
         }

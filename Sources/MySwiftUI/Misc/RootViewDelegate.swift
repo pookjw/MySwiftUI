@@ -8,7 +8,7 @@ final class RootViewDelegate {
     private var colorSchemeSeed = VersionSeedTracker<PreferredColorSchemeKey>(seed: .invalid)
     weak var nextDelegate: UIHostingViewDelegate? = nil
     
-    func updateAppFocus<Content: View>(view: _UIHostingView<Content>) {
+    @MainActor func updateAppFocus<Content: View>(view: _UIHostingView<Content>) {
         // view = x20
         
         // x29 - 0x98에 값이 저장되지만 읽지 않고 SwiftUI._UIHostingView.focusedValues.getter : SwiftUI.FocusedValues이 해당 주소에 값을 저장함
@@ -34,7 +34,7 @@ final class RootViewDelegate {
         let appFocusValues: FocusedValues?
         
         // <+736>
-        if let appGraph = AppGraph.shared {
+        if let appGraph = unsafe AppGraph.shared {
             appFocusValues = appGraph.focusedValues
         } else {
             appFocusValues = nil
@@ -77,7 +77,7 @@ final class RootViewDelegate {
         
         // x21
         let appFocusStore: FocusStore?
-        if let appGraph = AppGraph.shared {
+        if let appGraph = unsafe AppGraph.shared {
             appFocusStore = appGraph.focusStore
         } else {
             appFocusStore = nil
@@ -102,7 +102,7 @@ final class RootViewDelegate {
             }
         } else {
             // <+1604>
-            if let appFocusStore {
+            if appFocusStore != nil {
                 // <+1652>
                 result = flag
                 // result ? <+1924> : <+2096>
@@ -115,12 +115,12 @@ final class RootViewDelegate {
         
         if result {
             // <+1924>
-            if let appGraph = AppGraph.shared {
+            if let appGraph = unsafe AppGraph.shared {
                 // <+1940>
                 // w19
-                let value_1 = appGraph.updateFocusedValues(viewFocusedValues.unsafelyUnwrapped)
+                let value_1 = appGraph.updateFocusedValues(unsafe viewFocusedValues.unsafelyUnwrapped)
                 // w0
-                let value_2 = appGraph.updateFocusStore(viewFocusStore.unsafelyUnwrapped)
+                let value_2 = appGraph.updateFocusStore(unsafe viewFocusStore.unsafelyUnwrapped)
                 
                 if value_1 || value_2 {
                     appGraph.graphDidChange()
@@ -128,7 +128,7 @@ final class RootViewDelegate {
             }
             
             // <+2020>
-            if let appDelegate = AppDelegate.shared {
+            if let appDelegate = unsafe AppDelegate.shared {
                 if let mainMenuController = appDelegate.mainMenuController {
                     mainMenuController.commandsDidChange()
                 }

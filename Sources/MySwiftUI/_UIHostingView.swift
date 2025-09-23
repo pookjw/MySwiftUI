@@ -194,7 +194,7 @@ open class _UIHostingView<Content: View>: UIView {
         viewGraph.append(feature: HostViewGraph(host: self))
         _base.setUp()
         
-        if let values = RepresentableContextValues.current {
+        if let values = unsafe RepresentableContextValues.current {
             if let preferenceBridge = values.preferenceBridge {
                 self.setPreferenceBridge(preferenceBridge)
             }
@@ -275,16 +275,16 @@ open class _UIHostingView<Content: View>: UIView {
         
         if isAppleInternalBuild() && isWindowRoot {
             let pid = getpid()
-            withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
-                _ = notify_register_dispatch("NameLayerTree-\(pid)", outToken.baseAddress, .main, { [weak self] token in
+            unsafe withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+                _ = unsafe notify_register_dispatch("NameLayerTree-\(pid)", outToken.baseAddress, .main, { [weak self] token in
                     self?.setLayerDebugName()
                 })
             }
-            withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
-                _ = notify_register_dispatch("NameLayerTree", outToken.baseAddress, .main, { [pid, weak self] token in
-                    let state64 = withUnsafeTemporaryAllocation(of: UInt64.self, capacity: 1) { outState64 in
-                        notify_get_state(token, outState64.baseAddress)
-                        return outState64.baseAddress.unsafelyUnwrapped.pointee
+            unsafe withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+                _ = unsafe notify_register_dispatch("NameLayerTree", outToken.baseAddress, .main, { [pid, weak self] token in
+                    let state64 = unsafe withUnsafeTemporaryAllocation(of: UInt64.self, capacity: 1) { outState64 in
+                        unsafe notify_get_state(token, outState64.baseAddress)
+                        return unsafe outState64.baseAddress.unsafelyUnwrapped.pointee
                     }
                     
                     if pid != -1 && state64 == pid {
@@ -294,11 +294,11 @@ open class _UIHostingView<Content: View>: UIView {
             }
         }
         
-        notificationCenter.addObserver(self, selector: #selector(accessibilityFocusedElementDidChange(_:)), name: UIAccessibility.elementFocusedNotification, object: nil)
+        unsafe notificationCenter.addObserver(self, selector: #selector(accessibilityFocusedElementDidChange(_:)), name: UIAccessibility.elementFocusedNotification, object: nil)
         addToHostingViewRegistry()
         
-        if !Spacing.hasSetupDefaultValue {
-            Spacing.hasSetupDefaultValue = true
+        if unsafe !Spacing.hasSetupDefaultValue {
+            unsafe Spacing.hasSetupDefaultValue = true
         }
         
         Update.end()
@@ -396,7 +396,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private func addToHostingViewRegistry() {
-        HostingViewRegistry.shared.add(self)
+        unsafe HostingViewRegistry.shared.add(self)
     }
     
     final func updateEventBridge() {
@@ -421,7 +421,7 @@ open class _UIHostingView<Content: View>: UIView {
         windowGeometryScene?.removeObserver(self, forKeyPath: #keyPath(UIWindowScene.effectiveGeometry))
         
         if let windowScene {
-            windowScene.addObserver(self, forKeyPath: #keyPath(UIWindowScene.effectiveGeometry), options: .new, context: &effectiveGeometryObservationContext)
+            unsafe windowScene.addObserver(self, forKeyPath: #keyPath(UIWindowScene.effectiveGeometry), options: .new, context: &effectiveGeometryObservationContext)
         }
         windowGeometryScene = windowScene
     }
@@ -599,7 +599,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         } else if let result = _specialize(self as (any WindowLayoutHost), for: T.self) {
             return result
         } else if T.self == UIView.self {
-            return unsafeBitCast(self, to: T.self)
+            return unsafe unsafeBitCast(self, to: T.self)
         } else if let result = _specialize(self as (any CurrentEventProvider), for: T.self) {
             return result
         } else if let result = _specialize(self as (any FallbackResponderProvider), for: T.self) {
@@ -626,7 +626,9 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package nonisolated final func requestUpdate(after time: Double) {
-        base._requestUpdate(after: time)
+        MainActor.assumeIsolated {
+            base._requestUpdate(after: time)
+        }
     }
     
     package nonisolated final func startUpdateTimer(delay: Double) {

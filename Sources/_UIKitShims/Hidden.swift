@@ -14,7 +14,7 @@ extension Notification.Name {
 }
 
 func UICoreKeyboardTrackingClass() -> AnyClass {
-    return objc_lookUpClass("UICoreKeyboardTracking")!
+    return unsafe objc_lookUpClass("UICoreKeyboardTracking")!
 }
 
 @MainActor var _UIUpdateSequenceScheduledItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
@@ -46,26 +46,26 @@ func UICoreKeyboardTrackingClass() -> AnyClass {
 }
 
 fileprivate func item(from phase: UIUpdateActionPhase) -> UnsafeMutablePointer<_UIUpdateSequenceItemInternal>? {
-    let (ivarsCount, ivars) = withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
-        let ivars = class_copyIvarList(UIUpdateActionPhase.self, pointer.baseAddress)
-        return (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
+    let (ivarsCount, ivars) = unsafe withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
+        let ivars = unsafe class_copyIvarList(UIUpdateActionPhase.self, pointer.baseAddress)
+        return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
     }
     defer {
-        ivars.deallocate()
+        unsafe ivars.deallocate()
     }
     
-    let span = Span(_unsafeElements: UnsafeBufferPointer<Ivar>.init(start: ivars, count: Int(ivarsCount)))
+    let span = unsafe Span(_unsafeElements: UnsafeBufferPointer<Ivar>(start: ivars, count: Int(ivarsCount)))
     
-    for i in span.indices {
-        let ivar = span[i]
+    for i in unsafe span.indices {
+        let ivar = unsafe span[i]
         
         if
-            let cName = ivar_getName(ivar),
-            String(cString: cName) == "_item"
+            let cName = unsafe ivar_getName(ivar),
+            unsafe String(cString: cName) == "_item"
         {
-            let pointer = UnsafeMutableRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(phase)) + ivar_getOffset(ivar))!
-            let casted = pointer.assumingMemoryBound(to: UnsafeMutablePointer<_UIUpdateSequenceItemInternal>.self)
-            return casted.pointee
+            let pointer = unsafe UnsafeMutableRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(phase)) + ivar_getOffset(ivar))!
+            let casted = unsafe pointer.assumingMemoryBound(to: UnsafeMutablePointer<_UIUpdateSequenceItemInternal>.self)
+            return unsafe casted.pointee
         }
     }
     

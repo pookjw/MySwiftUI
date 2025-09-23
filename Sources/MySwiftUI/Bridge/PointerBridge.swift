@@ -16,7 +16,7 @@ final class PointerBridge: NSObject {
         viewGraph.addPreference(HasHoverEffectKey.self)
     }
     
-    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+    @MainActor func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         let pref = preferenceValues[HasHoverEffectKey.self]
         
         guard !pref.seed.matches(hasHoverEffectSeed) else {

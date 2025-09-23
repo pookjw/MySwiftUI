@@ -62,7 +62,7 @@ public import QuartzCore
         }
         
         let viewDefinition = nsObjectType._mySwiftUI_platformViewDefinition()
-        return unsafeBitCast(viewDefinition, to: PlatformViewDefinition.Type.self)
+        return unsafe unsafeBitCast(viewDefinition, to: PlatformViewDefinition.Type.self)
     }
     
     package static func canSupportMixedHierarchy(system: PlatformViewDefinition.System) -> Bool {

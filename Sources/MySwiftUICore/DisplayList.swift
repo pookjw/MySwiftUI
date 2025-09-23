@@ -83,13 +83,13 @@ extension DisplayList {
         }
         
         package init(decodedValue: Int) {
-            DisplayList.Version.lastValue = max(DisplayList.Version.lastValue, decodedValue)
+            unsafe DisplayList.Version.lastValue = max(unsafe DisplayList.Version.lastValue, decodedValue)
             self.value = decodedValue
         }
         
         package init(forUpdate: Void) {
-            let value = DisplayList.Version.lastValue + 1
-            DisplayList.Version.lastValue = value
+            let value = unsafe DisplayList.Version.lastValue + 1
+            unsafe DisplayList.Version.lastValue = value
             self.value = value
         }
     }

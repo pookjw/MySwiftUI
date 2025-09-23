@@ -11,7 +11,7 @@ struct LayoutComputer {
     private var seed: Int
     
     init<T: LayoutEngine>(_ engine: T) {
-        if LayoutTrace.recorder != nil {
+        if unsafe LayoutTrace.recorder != nil {
             self.box = TracingLayoutEngineBox(engine: engine)
         } else {
             self.box = LayoutEngineBox(engine: engine)

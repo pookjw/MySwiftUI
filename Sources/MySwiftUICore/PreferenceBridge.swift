@@ -1,7 +1,7 @@
 #warning("TODO")
 private import AttributeGraph
 
-package final class PreferenceBridge {
+@safe package final class PreferenceBridge {
     private(set) weak var viewGraph: ViewGraph?
     private var isValid: Bool
     private var children: [Unmanaged<ViewGraph>]

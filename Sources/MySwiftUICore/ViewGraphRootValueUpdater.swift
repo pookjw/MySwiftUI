@@ -64,7 +64,7 @@ extension ViewGraphRootValueUpdater {
             // x21
             let update = Graph.clearUpdate()
             self.updateGraph()
-            Graph.setUpdate(update)
+            unsafe Graph.setUpdate(update)
             
             owner.renderingPhase = .rendering
             
@@ -111,7 +111,7 @@ extension ViewGraphRootValueUpdater {
             if updateDisplayList, let owner = self.as(ViewGraphOwner.self) {
                 let version = DisplayList.Version()
                 let maxVersion = DisplayList.Version(forUpdate: ())
-                Signpost.renderDisplayList.traceInterval(object: viewGraph, nil) {
+                Signpost.renderDisplayList.traceInterval(object: owner, nil) {
                     // <+2740>
                     _ = viewGraph.renderDisplayList(rootDisplayList.0, asynchronously: false, time: currentTimestamp, nextTime: nextTime, targetTimestamp: targetTimestamp, version: version, maxVersion: maxVersion)
                 }
@@ -248,7 +248,7 @@ extension ViewGraphRootValueUpdater {
         let old = Graph.clearUpdate()
         self.updateGraph()
         let result = body(viewGraph)
-        Graph.setUpdate(old)
+        unsafe Graph.setUpdate(old)
         
         Update.end()
         

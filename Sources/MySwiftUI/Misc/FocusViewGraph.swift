@@ -37,7 +37,7 @@ struct FocusViewGraph {
             CustomEventTrace.recordNamedProperty(.focusStore, focusStoreAttribute)
             focusStore = OptionalAttribute(focusStoreAttribute)
             
-            _ = CoreTesting.isRunning
+            _ = unsafe CoreTesting.isRunning
             isFocusSystemEnabled = OptionalAttribute(Attribute(value: false))
         } else {
             focusedItem = OptionalAttribute()
@@ -85,7 +85,7 @@ extension FocusViewGraph: ViewGraphFeature {
             let delegate = graph.delegate,
             let uiView = delegate.uiView
         {
-            let w8 = (UIFocusSystem.focusSystem(for: uiView) != nil)
+            let w8 = MainActor.assumeIsolated { UIFocusSystem.focusSystem(for: uiView) != nil }
             let w9 = (w8 || wasFocusSystemEnabled)
             self.needsFocusSystemEnabledUpdate = w9
             self.wasFocusSystemEnabled = w8

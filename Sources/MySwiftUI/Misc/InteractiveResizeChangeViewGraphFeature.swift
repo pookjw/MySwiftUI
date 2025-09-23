@@ -1,6 +1,6 @@
 #warning("TODO")
 @_spi(Internal) internal import MySwiftUICore
-package import AttributeGraph
+internal import AttributeGraph
 
 struct InteractiveResizeChangeViewGraphFeature {
     private var bridge: InteractiveResizeBridge

@@ -14,5 +14,5 @@ func onMainThread(do block: @MainActor @Sendable @escaping () -> Void) {
 
 @inlinable
 package func onNextMainRunLoop(do block: @MainActor @Sendable @escaping () -> Void) {
-    RunLoop.main.perform(inModes: [.common], block: unsafeBitCast(block, to: (@Sendable () -> Void).self))
+    unsafe RunLoop.main.perform(inModes: [.common], block: unsafeBitCast(block, to: (@Sendable () -> Void).self))
 }

@@ -11,6 +11,6 @@ struct ContextMenuPresentation {
 
 extension ContextMenuPresentation {
     struct Key: HostPreferenceKey {
-        static nonisolated(unsafe) let defaultValue: [ViewIdentity: ContextMenuPresentation] = [:]
+        static let defaultValue: [ViewIdentity: ContextMenuPresentation] = [:]
     }
 }

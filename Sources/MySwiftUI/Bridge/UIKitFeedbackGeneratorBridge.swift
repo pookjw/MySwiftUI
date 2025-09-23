@@ -15,7 +15,7 @@ class UIKitFeedbackGeneratorBridge<Content: View> {
         viewGraph.addPreference(FeedbackRequest.PreferenceKey.self)
     }
     
-    final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+    @MainActor final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         // x23 / x19 + 0x10
         let pref = preferenceValues[FeedbackRequest.PreferenceKey.self]
         
@@ -68,7 +68,7 @@ class UIKitFeedbackGeneratorBridge<Content: View> {
                             continue
                         }
                         
-                        feedback.entityRef = entity.__coreEntity.__as(UnsafePointer<REEntity>.self)
+                        unsafe feedback.entityRef = unsafe entity.__coreEntity.__as(UnsafePointer<REEntity>.self)
                         feedback.play()
                     }
                 }

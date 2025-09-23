@@ -17,7 +17,7 @@ package func log(_: [(_Benchmark, [Double])]) {
 
 package enum Log {
     package static func externalWarning(_ message: String) {
-        Log.unlocatedIssuesLog.fault("\(message)")
+        unsafe Log.unlocatedIssuesLog.fault("\(message)")
     }
     
     package static func internalWarning(_ message: @autoclosure @escaping () -> String) {
@@ -59,7 +59,7 @@ package enum Log {
     }
     
     package static func internalError(_ message: @autoclosure @escaping () -> String, file: StaticString, line: UInt) {
-        os_log(.fault, log: Log.internalErrorsLog, "%s - %s:%s", message(), file.description, line.description)
+        unsafe os_log(.fault, log: Log.internalErrorsLog, "%s - %s:%s", message(), file.description, line.description)
         print("\(message()) - \(file):\(line) - please file a bug report.")
     }
     
@@ -280,10 +280,10 @@ extension Log {
 extension OSLog {
     package static nonisolated(unsafe) var runtimeIssuesLog: OSLog {
         get {
-            return Log.runtimeIssuesLog
+            return unsafe Log.runtimeIssuesLog
         }
         set {
-            Log.runtimeIssuesLog = newValue
+            unsafe Log.runtimeIssuesLog = newValue
         }
     }
 }

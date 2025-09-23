@@ -9,7 +9,7 @@ open class PlatformScrollEdgeEffectTagDefinition {
     package static nonisolated(unsafe) var definition: PlatformScrollEdgeEffectTagDefinition.Type?
     
     package static func setDefinition(_ type: PlatformScrollEdgeEffectTagDefinition.Type) {
-        definition = type
+        unsafe definition = type
     }
     
     open class var modifier: PlatformScrollEdgeEffectTagModifier.Type {

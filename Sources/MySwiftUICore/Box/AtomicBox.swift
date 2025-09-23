@@ -7,26 +7,26 @@ package struct AtomicBox<T> {
     @inlinable
     package var wrappedValue: T {
         get {
-            buffer.withUnsafeMutablePointers { pointer, lock in
+            unsafe buffer.withUnsafeMutablePointers { pointer, lock in
                 let value: T
-                os_unfair_lock_lock(lock)
-                value = pointer.pointee
-                os_unfair_lock_unlock(lock)
+                unsafe os_unfair_lock_lock(lock)
+                value = unsafe pointer.pointee
+                unsafe os_unfair_lock_unlock(lock)
                 return value
             }
         }
         nonmutating set {
-            buffer.withUnsafeMutablePointers { pointer, lock in
-                os_unfair_lock_lock(lock)
-                pointer.pointee = newValue
-                os_unfair_lock_unlock(lock)
+            unsafe buffer.withUnsafeMutablePointers { pointer, lock in
+                unsafe os_unfair_lock_lock(lock)
+                unsafe pointer.pointee = newValue
+                unsafe os_unfair_lock_unlock(lock)
             }
         }
         nonmutating _modify {
-            let (pointer, lock) = buffer.withUnsafeMutablePointers { ($0, $1) }
-            os_unfair_lock_lock(lock)
+            let (pointer, lock) = unsafe buffer.withUnsafeMutablePointers { unsafe ($0, $1) }
+            unsafe os_unfair_lock_lock(lock)
             defer {
-                os_unfair_lock_unlock(lock)
+                unsafe os_unfair_lock_unlock(lock)
             }
             yield unsafe &pointer.pointee
         }
@@ -39,15 +39,15 @@ package struct AtomicBox<T> {
     
     @inlinable
     package func access<S>(_ handler: (_ value: inout T) throws -> S) rethrows -> S {
-        try buffer.withUnsafeMutablePointers { pointer, lock in
+        try unsafe buffer.withUnsafeMutablePointers { pointer, lock in
             let result: Result<S, any Error>
-            os_unfair_lock_lock(lock)
+            unsafe os_unfair_lock_lock(lock)
             do {
-                result = try .success(handler(&pointer.pointee))
+                result = try unsafe .success(handler(&pointer.pointee))
             } catch {
                 result = .failure(error)
             }
-            os_unfair_lock_unlock(lock)
+            unsafe os_unfair_lock_unlock(lock)
             
             return try result.get()
         }
@@ -59,13 +59,13 @@ extension AtomicBox {
         @inlinable
         static func allocate<U>(value: U) -> AtomicBuffer<U> {
             let buffer = ManagedBuffer<U, os_unfair_lock_s>.create(minimumCapacity: 1) { buffer in
-                buffer.withUnsafeMutablePointerToElements { pointer in
-                    pointer.initialize(to: os_unfair_lock_s())
+                unsafe buffer.withUnsafeMutablePointerToElements { pointer in
+                    unsafe pointer.initialize(to: os_unfair_lock_s())
                 }
                 return value
             }
             
-            return unsafeBitCast(buffer, to: AtomicBuffer<U>.self)
+            return unsafe unsafeDowncast(buffer, to: AtomicBuffer<U>.self)
         }
     }
 }

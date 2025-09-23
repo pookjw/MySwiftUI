@@ -4,7 +4,7 @@ private import notify
 private import Darwin.POSIX.dlfcn
 private import _DarwinFoundation3._stdlib
 
-fileprivate nonisolated(unsafe) var threadAssertionTrace = Trace(
+fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     unknown_block_1: nil,
     unknown_block_2: nil,
     unknown_block_3: nil,
@@ -60,20 +60,20 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = Trace(
 )
 
 func handleTraceNotification(graph: Graph, token: Int32) {
-    let state = withUnsafeTemporaryAllocation(of: UInt64.self, capacity: 1) { pointer in
-        notify_get_state(token, pointer.baseAddress)
-        return pointer.baseAddress.unsafelyUnwrapped.pointee
+    let state = unsafe withUnsafeTemporaryAllocation(of: UInt64.self, capacity: 1) { pointer in
+        unsafe notify_get_state(token, pointer.baseAddress)
+        return unsafe pointer.baseAddress.unsafelyUnwrapped.pointee
     }
     
     guard state == 1 else {
         return
     }
     
-    guard let SwiftUITracingSupport = dlopen("/System/Library/PrivateFrameworks/SwiftUITracingSupport.framework/SwiftUITracingSupport", RTLD_LOCAL) else {
+    guard let SwiftUITracingSupport = unsafe dlopen("/System/Library/PrivateFrameworks/SwiftUITracingSupport.framework/SwiftUITracingSupport", RTLD_LOCAL) else {
         return
     }
     
-    guard let swiftUITraceRegister = dlsym(SwiftUITracingSupport, "swiftUITraceRegister") else {
+    guard let swiftUITraceRegister = unsafe dlsym(SwiftUITracingSupport, "swiftUITraceRegister") else {
         return
     }
     
@@ -83,36 +83,36 @@ func handleTraceNotification(graph: Graph, token: Int32) {
 }
 
 fileprivate let waitingForPreviewThunks: Bool = {
-    guard let value = getenv("XCODE_RUNNING_FOR_PREVIEWS") else {
+    guard let value = unsafe getenv("XCODE_RUNNING_FOR_PREVIEWS") else {
         return false
     }
     
-    return atoi(value) != 0
+    return unsafe atoi(value) != 0
 }()
 
-fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = []
+fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = unsafe []
 
 @_spi(Internal) open class GraphHost {
     fileprivate static nonisolated(unsafe) let sharedGraph: Graph = {
         let graph = Graph()
         // original : "SWIFTUI_ASSERT_LOCKS"
-        let assertLocks = getenv("MYSWIFTUI_ASSERT_LOCKS")
+        let assertLocks = unsafe getenv("MYSWIFTUI_ASSERT_LOCKS")
         
-        if assertLocks != nil {
-            let integer = atoi(assertLocks)
+        if unsafe assertLocks != nil {
+            let integer = unsafe atoi(assertLocks)
             if integer != 0 {
-                withUnsafePointer(to: &threadAssertionTrace) { pointer in
-                    graph.setTrace(pointer)
+                unsafe withUnsafePointer(to: &threadAssertionTrace) { pointer in
+                    unsafe graph.setTrace(pointer)
                 }
             }
         }
         
-        let token: Int32 = withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
-            notify_register_dispatch("com.apple.swiftuitrace.state", outToken.baseAddress, .main, { token in
+        let token: Int32 = unsafe withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+            unsafe notify_register_dispatch("com.apple.swiftuitrace.state", outToken.baseAddress, .main, { token in
                 handleTraceNotification(graph: graph, token: token)
             })
             
-            return outToken.baseAddress.unsafelyUnwrapped.pointee
+            return unsafe outToken.baseAddress.unsafelyUnwrapped.pointee
         }
         
         handleTraceNotification(graph: graph, token: token)
@@ -165,7 +165,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             fatalError("TODO")
         }
         
-        AGGraphSetContext(self.data.graph!, Unmanaged.passUnretained(self).toOpaque())
+        unsafe AGGraphSetContext(self.data.graph!, Unmanaged.passUnretained(self).toOpaque())
     }
     
     package func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
@@ -259,8 +259,6 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         startTransactionUpdate(id: id)
         block()
         
-        // x19, #0x10
-        let graph = data.graph
         // x23
         let globalSubgraph = data.globalSubgraph
         
@@ -311,14 +309,14 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         
         if waitingForPreviewThunks {
             // <+76>
-            for graphHost in blockedGraphHosts {
-                if graphHost.toOpaque() == Unmanaged.passUnretained(self).toOpaque() {
+            for unsafe graphHost in unsafe blockedGraphHosts {
+                if unsafe graphHost.toOpaque() == Unmanaged.passUnretained(self).toOpaque() {
                     return
                 }
             }
             
             // <+172>
-            blockedGraphHosts.append(Unmanaged.passUnretained(self))
+            unsafe blockedGraphHosts.append(Unmanaged.passUnretained(self))
         } else {
             // <+164>
             instantiate()
@@ -380,7 +378,7 @@ extension GraphHost {
         private var inputs: _GraphInputs
         
         init() {
-            let graph = Graph(shared: GraphHost.sharedGraph)
+            let graph = unsafe Graph(shared: GraphHost.sharedGraph)
             self.graph = graph
             
             let globalSubgraph = Subgraph(graph: graph)

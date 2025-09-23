@@ -591,7 +591,7 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    @objc private func sceneDidChangeRelativeTransform(_ notification: Notification) {
+    @objc @MainActor private func sceneDidChangeRelativeTransform(_ notification: Notification) {
         guard let uiView else {
             return
         }
@@ -611,7 +611,7 @@ package final class UIHostingViewBase: NSObject {
         updateDelegate.invalidateProperties([.transform], mayDeferUpdate: true)
     }
     
-    @objc private func sceneDidChangeWorldTrackingLimitations(_ notification: Notification) {
+    @objc @MainActor private func sceneDidChangeWorldTrackingLimitations(_ notification: Notification) {
         guard let uiView else {
             return
         }

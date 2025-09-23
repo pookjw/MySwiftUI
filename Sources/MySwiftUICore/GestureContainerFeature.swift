@@ -4,11 +4,11 @@ private import _DarwinFoundation3._stdlib
 
 package struct GestureContainerFeature {
     package static nonisolated(unsafe) var isEnabled: Bool {
-        if let isEnabledOverride {
+        if let isEnabledOverride = unsafe isEnabledOverride {
             return isEnabledOverride
         }
         
-        if CoreTesting.isRunning {
+        if unsafe CoreTesting.isRunning {
             return false
         }
         
@@ -42,11 +42,11 @@ package struct GestureContainerFeature {
     }()
     
     fileprivate static let envValue: Bool? = {
-        guard let value = getenv("SWIFTUI_GESTURE_CONTAINER") else {
+        guard let value = unsafe getenv("SWIFTUI_GESTURE_CONTAINER") else {
             return nil
         }
         
-        return atoi(value) != 0
+        return unsafe atoi(value) != 0
     }()
 }
 

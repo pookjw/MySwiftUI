@@ -1,6 +1,6 @@
 #warning("TODO")
 
-package import AttributeGraph
+internal import AttributeGraph
 internal import CoreGraphics
 
 public struct _ViewInputs {

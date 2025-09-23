@@ -4,10 +4,10 @@
 
 extension Edge {
     @_alwaysEmitIntoClient init(vertical edge: VerticalEdge) {
-        self = Edge(rawValue: edge.rawValue << 1).unsafelyUnwrapped
+        self = unsafe Edge(rawValue: edge.rawValue << 1).unsafelyUnwrapped
     }
     @_alwaysEmitIntoClient init(horizontal edge: HorizontalEdge) {
-        self = Edge(rawValue: 1 &+ (edge.rawValue << 1)).unsafelyUnwrapped
+        self = unsafe Edge(rawValue: 1 &+ (edge.rawValue << 1)).unsafelyUnwrapped
     }
 }
 

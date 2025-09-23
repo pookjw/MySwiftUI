@@ -43,7 +43,7 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
             return false
         }
         
-        guard let value = rootList.wrappedValue else {
+        guard rootList.wrappedValue != nil else {
             return false
         }
         

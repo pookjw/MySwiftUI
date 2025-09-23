@@ -10,7 +10,7 @@ final class UIKitEventBindingBridge: EventBindingBridge {
     
     @MainActor
     override init(eventBindingManager: EventBindingManager) {
-        if !GestureContainerFeature.isEnabled {
+        if unsafe !GestureContainerFeature.isEnabled {
             gestureRecognizer = UIKitGestureRecognizer()
         }
         self.hoverGestureRecognizer = UIKitHoverGestureRecognizer()

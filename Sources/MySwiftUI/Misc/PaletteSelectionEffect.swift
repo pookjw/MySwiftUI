@@ -1,5 +1,5 @@
 #warning("TODO")
-package import MySwiftUICore
+internal import MySwiftUICore
 
 public struct PaletteSelectionEffect: Sendable, Equatable { 
     let guts: PaletteSelectionEffect.Guts

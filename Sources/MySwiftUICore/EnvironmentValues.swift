@@ -21,14 +21,14 @@ public struct EnvironmentValues {
     package let tracker: PropertyList.Tracker?
     
     package init() {
-        if ViewGraphHost.isDefaultEnvironmentConfigured {
-            let defaultEnvironment = ViewGraphHost.defaultEnvironment
+        if unsafe ViewGraphHost.isDefaultEnvironmentConfigured {
+            let defaultEnvironment = unsafe ViewGraphHost.defaultEnvironment
             self._plist = defaultEnvironment._plist
             self.tracker = defaultEnvironment.tracker
         } else {
             self._plist = PropertyList()
             self.tracker = nil
-            CoreGlue2.shared.configureEmptyEnvironment(&self)
+            unsafe CoreGlue2.shared.configureEmptyEnvironment(&self)
         }
     }
     

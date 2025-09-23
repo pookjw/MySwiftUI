@@ -22,7 +22,7 @@ final class MRUIPreferenceExporter {
     
     init() {
         self.host = nil
-        self.exportedPreferences = MRUIPreferenceExporter
+        self.exportedPreferences = unsafe MRUIPreferenceExporter
             .allKeys
             .compactMap { key in
                 var visitor = ExportPreferenceVisitor()

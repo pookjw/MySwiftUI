@@ -31,9 +31,9 @@ struct Signpost {
             kdebug_trace(style.debugID(.end), signpostID.rawValue, 0, 0, 0)
             return result
         case .os_log(let name):
-            os_signpost(.begin, log: _signpostLog, name: name, signpostID: signpostID, message ?? "", args)
+            unsafe os_signpost(.begin, log: _signpostLog, name: name, signpostID: signpostID, message ?? "", args)
             let result = closure()
-            os_signpost(.end, log: _signpostLog, name: name, signpostID: signpostID)
+            unsafe os_signpost(.end, log: _signpostLog, name: name, signpostID: signpostID)
             return result
         }
     }
@@ -63,7 +63,7 @@ struct Signpost {
             let debugid = style.debugID(type)
             kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, args: args)
         case .os_log(let name):
-            os_signpost(type, log: _signpostLog, name: name, signpostID: signpostID, message ?? "", args)
+            unsafe os_signpost(type, log: _signpostLog, name: name, signpostID: signpostID, message ?? "", args)
         }
     }
     
@@ -87,7 +87,7 @@ struct Signpost {
             switch style {
             case .kdebug:
                 return kdebug_is_enabled(style.debugID(.event))
-            case .os_log(let staticString):
+            case .os_log:
                 guard kdebug_is_enabled(style.debugID(.event)) else {
                     return false
                 }
@@ -189,8 +189,8 @@ extension Signpost {
     }
     
     private func kdebugTrace(kClass: UInt8, debugid: UInt32, signpostID: OSSignpostID, args: [CVarArg]) {
-        args.withUnsafeBufferPointer { (pointer: UnsafeBufferPointer<any CVarArg>) in
-            let base = pointer
+        unsafe args.withUnsafeBufferPointer { (pointer: UnsafeBufferPointer<any CVarArg>) in
+            let base = unsafe pointer
                 .baseAddress
                 .unsafelyUnwrapped
             
@@ -198,14 +198,14 @@ extension Signpost {
             
             repeat {
                 if kClass == DBG_MISC {
-                    let arg2 = base
+                    let arg2 = unsafe base
                         .advanced(by: pointer.count &- remaining)
                         .pointee
                         .kdebugValue(debugid)
                     
                     let arg3: (arg: UInt64, destroy: Bool)
                     if (pointer.count &- remaining &+ 1) < pointer.count {
-                        arg3 = base
+                        arg3 = unsafe base
                             .advanced(by: pointer.count &- remaining &+ 1)
                             .pointee
                             .kdebugValue(debugid)
@@ -215,7 +215,7 @@ extension Signpost {
                     
                     let arg4: (arg: UInt64, destroy: Bool)
                     if (pointer.count &- remaining &+ 2) < pointer.count {
-                        arg4 = base
+                        arg4 = unsafe base
                             .advanced(by: pointer.count &- remaining &+ 2)
                             .pointee
                             .kdebugValue(debugid)
@@ -239,14 +239,14 @@ extension Signpost {
                     
                     remaining -= 3
                 } else {
-                    let arg1 = base
+                    let arg1 = unsafe base
                         .advanced(by: pointer.count &- remaining)
                         .pointee
                         .kdebugValue(debugid)
                     
                     let arg2: (arg: UInt64, destroy: Bool)
                     if (pointer.count &- remaining &+ 1) < pointer.count {
-                        arg2 = base
+                        arg2 = unsafe base
                             .advanced(by: pointer.count &- remaining &+ 1)
                             .pointee
                             .kdebugValue(debugid)
@@ -256,7 +256,7 @@ extension Signpost {
                     
                     let arg3: (arg: UInt64, destroy: Bool)
                     if (pointer.count &- remaining &+ 2) < pointer.count {
-                        arg3 = base
+                        arg3 = unsafe base
                             .advanced(by: pointer.count &- remaining &+ 2)
                             .pointee
                             .kdebugValue(debugid)
@@ -266,7 +266,7 @@ extension Signpost {
                     
                     let arg4: (arg: UInt64, destroy: Bool)
                     if (pointer.count &- remaining &+ 3) < pointer.count {
-                        arg4 = base
+                        arg4 = unsafe base
                             .advanced(by: pointer.count &- remaining &+ 3)
                             .pointee
                             .kdebugValue(debugid)
@@ -361,8 +361,8 @@ extension CVarArg {
             if string == Signpost.moduleName {
                 return (0, false)
             } else {
-                return string.withCString { pointer in
-                    return (kdebug_trace_string(debueId, 0, pointer), true)
+                return unsafe string.withCString { pointer in
+                    return unsafe (kdebug_trace_string(debueId, 0, pointer), true)
                 }
             }
         } else {
@@ -375,8 +375,8 @@ extension CVarArg {
                 if string == Signpost.moduleName {
                     return (0, false)
                 } else {
-                    return string.withCString { pointer in
-                        return (kdebug_trace_string(debueId, 0, pointer), true)
+                    return unsafe string.withCString { pointer in
+                        return unsafe (kdebug_trace_string(debueId, 0, pointer), true)
                     }
                 }
             }

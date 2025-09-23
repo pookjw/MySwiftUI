@@ -1,24 +1,24 @@
 #warning("TODO")
 
-struct ViewGraphFeatureBuffer: Collection, CustomDebugStringConvertible {        
+@safe struct ViewGraphFeatureBuffer: Collection, CustomDebugStringConvertible {        
     private var contents: UnsafeHeterogeneousBuffer
     
     init(contents: UnsafeHeterogeneousBuffer) {
-        self.contents = contents
+        unsafe self.contents = contents
     }
     
     mutating func append<T: ViewGraphFeature>(feature: T) {
-        contents.append(feature, vtable: _VTable<T>.self)
+        unsafe contents.append(feature, vtable: _VTable<T>.self)
     }
     
     func index(after index: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
-        return contents.index(after: index)
+        return unsafe contents.index(after: index)
     }
     
     subscript<T: ViewGraphFeature>(_ type: T.Type) -> UnsafeMutablePointer<T>? {
-        for element in contents {
-            if element.type == type {
-                return element.body(as: type)
+        for unsafe element in unsafe contents {
+            if unsafe element.type == type {
+                return unsafe element.body(as: type)
             }
         }
         return nil
@@ -26,24 +26,24 @@ struct ViewGraphFeatureBuffer: Collection, CustomDebugStringConvertible {
     
     subscript(_ index: UnsafeHeterogeneousBuffer.Index) -> ViewGraphFeatureBuffer.Element {
         _read {
-            yield ViewGraphFeatureBuffer.Element(base: contents[index])
+            yield unsafe ViewGraphFeatureBuffer.Element(base: contents[index])
         }
     }
     
     var startIndex: UnsafeHeterogeneousBuffer.Index {
-        return contents.startIndex
+        return unsafe contents.startIndex
     }
     
     var endIndex: UnsafeHeterogeneousBuffer.Index {
-        return contents.endIndex
+        return unsafe contents.endIndex
     }
     
     var count: Int {
-        return contents.count
+        return unsafe contents.count
     }
     
     var isEmpty: Bool {
-        return contents.isEmpty
+        return unsafe contents.isEmpty
     }
     
     private var featureTypes: [Any.Type] {
@@ -56,56 +56,56 @@ struct ViewGraphFeatureBuffer: Collection, CustomDebugStringConvertible {
 }
 
 extension ViewGraphFeatureBuffer {
-    struct Element: ViewGraphFeature {
+    @safe struct Element: ViewGraphFeature {
         private var base: _UnsafeHeterogeneousBuffer_Element
         
         fileprivate init(base: _UnsafeHeterogeneousBuffer_Element) {
-            self.base = base
+            unsafe self.base = base
         }
         
         // 아래 모두 원래 없으며 추정임
         @inlinable
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewInputs(elt: base, inputs: inputs, graph: graph)
+            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewInputs(elt: base, inputs: inputs, graph: graph)
         }
         
         @inlinable
         func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewOutputs(elt: base, outputs: outputs, inputs: inputs, graph: graph)
+            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewOutputs(elt: base, outputs: outputs, inputs: inputs, graph: graph)
         }
         
         @inlinable
         func uninstantiate(graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).uninstantiate(elt: base, graph: graph)
+            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).uninstantiate(elt: base, graph: graph)
         }
         
         @inlinable
         func isHiddenForReuseDidChange(graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).isHiddenForReuseDidChange(elt: base, graph: graph)
+            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).isHiddenForReuseDidChange(elt: base, graph: graph)
         }
         
         @inlinable
         func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-            return base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).allowsAsyncUpdate(elt: base, graph: graph)
+            return unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).allowsAsyncUpdate(elt: base, graph: graph)
         }
         
         @inlinable
         func needsUpdate(graph: ViewGraph) -> Bool {
-            return base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).needsUpdate(elt: base, graph: graph)
+            return unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).needsUpdate(elt: base, graph: graph)
         }
         
         @inlinable
         func update(graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).update(elt: base, graph: graph)
+            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).update(elt: base, graph: graph)
         }
         
         @inlinable
         var flags: UInt32 {
             get {
-                return base.flags
+                return unsafe base.flags
             }
             nonmutating set {
-                base.flags = newValue
+                unsafe base.flags = newValue
             }
         }
     }
@@ -148,9 +148,9 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
-            let new = elt.body(as: T.self)
-            let old = from.body(as: T.self)
-            new.initialize(to: old.move())
+            let new = unsafe elt.body(as: T.self)
+            let old = unsafe from.body(as: T.self)
+            unsafe new.initialize(to: old.move())
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
@@ -174,7 +174,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func needsUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
-            return elt.body(as: T.self).pointee.needsUpdate(graph: graph)
+            return unsafe elt.body(as: T.self).pointee.needsUpdate(graph: graph)
         }
         
         override class func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {

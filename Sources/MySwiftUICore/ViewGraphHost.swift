@@ -55,7 +55,7 @@ package final class ViewGraphHost {
     }
     
     private func setupInitialInheritedEnvironment() {
-        guard let current = RepresentableContextValues.current else {
+        guard let current = unsafe RepresentableContextValues.current else {
             return
         }
         

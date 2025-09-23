@@ -3,11 +3,11 @@ private import _DarwinFoundation3._stdlib
 
 package enum CoreTesting {
     package static nonisolated(unsafe) var isRunning: Bool = {
-        guard let value = getenv("XCODE_RUNNING_FOR_PREVIEWS") else {
+        guard let value = unsafe getenv("XCODE_RUNNING_FOR_PREVIEWS") else {
             return false
         }
         
-        return atoi(value) != 0
+        return unsafe atoi(value) != 0
     }()
     
     package static var needsRender: Bool {

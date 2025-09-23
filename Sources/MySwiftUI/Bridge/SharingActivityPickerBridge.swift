@@ -36,7 +36,7 @@ final class SharingActivityPickerBridge {
     }
 }
 
-fileprivate struct SharingActivityPickerPresentation {
+fileprivate struct SharingActivityPickerPresentation: @unchecked Sendable {
     private var source: SharingPickerSource
     private var anchor: Anchor<CGRect?>
     private var environmentAttr: Attribute<EnvironmentValues>
@@ -44,6 +44,6 @@ fileprivate struct SharingActivityPickerPresentation {
 
 extension SharingActivityPickerPresentation {
     struct Key: HostPreferenceKey {
-        static nonisolated(unsafe) let defaultValue: [SharingActivityPickerPresentation] = []
+        static let defaultValue: [SharingActivityPickerPresentation] = []
     }
 }

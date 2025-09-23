@@ -7,11 +7,11 @@ private import AttributeGraph
 private import _DarwinFoundation3._stdlib
 
 fileprivate let lockAssertionsAreEnabled: Bool = {
-    guard let value = getenv("SWIFTUI_ASSERT_LOCKS") else {
+    guard let value = unsafe getenv("SWIFTUI_ASSERT_LOCKS") else {
         return false
     }
     
-    return atoi(value) != 0
+    return unsafe atoi(value) != 0
 }()
 
 package enum Update {
@@ -24,23 +24,24 @@ package enum Update {
         fatalError("TODO")
     }
     
+    @discardableResult
     package static func enqueueAction(reason: CustomEventTrace.ActionEventType.Reason?, _ action: @escaping () -> ()) -> UInt32 {
         Update.begin()
         let action = Update.Action(reason: reason, thunk: action)
-        actions.append(action)
+        unsafe actions.append(action)
         Update.end()
         return action.actionID
     }
     
     package static func begin() {
         Update._lock.lock()
-        Update.depth += 1
+        unsafe Update.depth += 1
         
-        guard Update.depth == 1 else {
+        guard unsafe Update.depth == 1 else {
             return
         }
         
-        let traceHost = Update.traceHost
+        let traceHost = unsafe Update.traceHost
         Signpost.viewHost.traceEvent(
             type: .begin,
             object: traceHost,
@@ -70,10 +71,10 @@ package enum Update {
     }
     
     package static func end() {
-        if Update.depth == 1 {
+        if unsafe Update.depth == 1 {
             Update.dispatchActions()
             
-            let traceHost = Update.traceHost
+            let traceHost = unsafe Update.traceHost
             Signpost.viewHost.traceEvent(
                 type: .end,
                 object: traceHost,
@@ -82,7 +83,7 @@ package enum Update {
             )
         }
         
-        Update.depth -= 1
+        unsafe Update.depth -= 1
         Update._lock.unlock()
     }
     
@@ -97,8 +98,8 @@ package enum Update {
     package static func dispatchImmediately<T>(reason: CustomEventTrace.ActionEventType.Reason?, _ handler: () -> T) -> T {
         Update.begin()
         
-        let actionID = Update.Action.nextActionID
-        Update.Action.nextActionID += 2
+        let actionID = unsafe Update.Action.nextActionID
+        unsafe Update.Action.nextActionID += 2
         
         defer {
             CustomEventTrace.finishAction(actionID, reason)
@@ -144,13 +145,13 @@ package enum Update {
     package static func dispatchActions() {
         Update.assertIsLocked()
         onMainThread {
-            let traceHost = Update.traceHost
+            let traceHost = unsafe Update.traceHost
             Signpost.postUpdateActions.traceInterval(object: traceHost, nil) { 
                 Update.begin()
-                for action in Update.actions {
+                for action in unsafe Update.actions {
                     action()
                 }
-                Update.actions.removeAll()
+                unsafe Update.actions.removeAll()
                 Update.end()
             }
         }
@@ -173,8 +174,8 @@ extension Update {
             self.reason = reason
             self.thunk = thunk
             
-            let w23 = (Update.Action.nextActionID &>> 1) + 1
-            Update.Action.nextActionID += 2
+            let w23 = unsafe (Update.Action.nextActionID &>> 1) + 1
+            unsafe Update.Action.nextActionID += 2
             self.actionID = w23
             
             CustomEventTrace.enqueueAction(w23, reason)

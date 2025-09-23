@@ -1,14 +1,14 @@
 #warning("TODO")
 internal import AttributeGraph
 private import CoreGraphics
-package import QuartzCore
+internal import QuartzCore
 private import Spatial
 
 package final class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
     package internal(set) weak var delegate: ViewGraphDelegate? = nil
-    private var features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
+    private var features = unsafe ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
     private var centersRootView = true
     private let rootView: AnyAttribute
     @Attribute private var rootTransform: ViewTransform
@@ -106,7 +106,7 @@ package final class ViewGraph: GraphHost {
         self._safeAreaInsets = safeAreaInsets
         
         self._containerShape = Attribute(RootContainerShape())
-        self._defaultLayoutComputer = Attribute(value: LayoutComputer.defaultValue)
+        self._defaultLayoutComputer = Attribute(value: unsafe LayoutComputer.defaultValue)
         self._gestureTime = Attribute(value: Time.zero)
         self._gestureEvents = Attribute(value: [:])
         self._inheritedPhase = Attribute(value: _GestureInputs.InheritedPhase.defaultValue)

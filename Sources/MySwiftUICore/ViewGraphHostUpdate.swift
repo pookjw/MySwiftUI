@@ -29,9 +29,9 @@ package struct ViewGraphHostUpdate {
         Update.unlock()
     }
     
-    package static func dispatchImmediately<T>(_ body: () -> T) {
+    package static func dispatchImmediately<T>(_ body: () -> T) -> T {
         return Update.dispatchImmediately(reason: nil) { 
-            body()
+            return body()
         }
     }
 }

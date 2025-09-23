@@ -2,7 +2,7 @@
 package import _DyldPrivate
 
 package func isLinkedOnOrAfter(_ semantics: Semantics) -> Bool {
-    if let sdk = Semantics.forced.sdk {
+    if let sdk = unsafe Semantics.forced.sdk {
         return semantics.value <= sdk.value
     } else {
         return dyld_program_sdk_at_least(dyld_build_version_t(platform: .max, version: semantics.value))

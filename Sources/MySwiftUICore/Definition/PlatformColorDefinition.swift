@@ -42,9 +42,9 @@ open class PlatformColorDefinition {
     package static func setInternalDefinition(_ type: PlatformColorDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .uiKit:
-            uiKitType = type
+            unsafe uiKitType = type
         case .appKit:
-            appKitType = type
+            unsafe appKitType = type
         default:
             break
         }

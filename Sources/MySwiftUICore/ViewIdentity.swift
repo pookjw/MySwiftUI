@@ -7,13 +7,13 @@ package struct ViewIdentity {
     private static nonisolated(unsafe) var nextSeed: UInt32 = 0
     
     init() {
-        let seed = ViewIdentity.nextSeed
+        let seed = unsafe ViewIdentity.nextSeed
         
         var next = seed &+ 1
         if next == 0 {
             next = 1
         }
-        ViewIdentity.nextSeed = next
+        unsafe ViewIdentity.nextSeed = next
         
         self.seed = seed
     }

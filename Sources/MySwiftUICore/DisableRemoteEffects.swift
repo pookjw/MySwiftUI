@@ -1,6 +1,6 @@
 #warning("TODO")
 
-struct DisableRemoteEffects: UserDefaultKeyedFeature {
+struct DisableRemoteEffects: @unsafe UserDefaultKeyedFeature {
     static var key: String {
         return "com.apple.SwiftUI.DisableRemoteEffects"
     }
@@ -9,6 +9,6 @@ struct DisableRemoteEffects: UserDefaultKeyedFeature {
     static nonisolated(unsafe) var defaultFeatureValue: Bool = false    
 }
 
-extension DisableRemoteEffects: PropertyKey {
+extension DisableRemoteEffects: @unsafe PropertyKey {
     
 }

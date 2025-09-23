@@ -1,5 +1,5 @@
 #warning("TODO")
-public import AttributeGraph
+internal import AttributeGraph
 
 @_spi(Internal) open class DefaultLayoutViewResponder: MultiViewResponder {
     let inputs: _ViewInputs
