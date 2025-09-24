@@ -14,6 +14,14 @@ open class UIHostingController<Content: View>: UIViewController {
     final func preferencesDidChange(_: PreferenceValues) {
         fatalError("TODO")
     }
+    
+    final func update(_: inout EnvironmentValues) {
+        fatalError("TODO")
+    }
+    
+    final func updateViewGraphBridges(_: inout ViewGraphBridgeProperties) {
+        fatalError("TODO")
+    }
 }
 
 extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {

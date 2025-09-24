@@ -12,4 +12,12 @@ public struct Binding<Value> {
             fatalError("TOOD")
         }
     }
+    
+    public static func constant(_ value: Value) -> Binding<Value> {
+        fatalError("TOOD")
+    }
+    
+    package init(value: Value, location: AnyLocation<Value>) {
+        fatalError("TOOD")
+    }
 }

@@ -193,14 +193,10 @@ class ViewController: UIViewController {
             return true
         }
         
-        do {
-//            let emptyView = EmptyView()
-//            let hostingView = _UIHostingView<EmptyView>(coder: NSCoder())
-        }
-        
-        let emptyView = EmptyView()
-        let hostingView = _UIHostingView(rootView: EmptyView())
-        self.view = hostingView
+//        let emptyView = EmptyView()
+//        let hostingView = _UIHostingView(rootView: EmptyView())
+//        self.view = hostingView
+        super.loadView()
         
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))
@@ -219,6 +215,17 @@ class ViewController: UIViewController {
 //                return true
 //            }
 //        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let hostingController = UIHostingController(rootView: EmptyView())
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.frame = view.bounds
+        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        hostingController.didMove(toParent: self)
     }
 }
 

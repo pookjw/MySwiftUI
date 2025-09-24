@@ -161,6 +161,14 @@ open class _UIHostingView<Content: View>: UIView {
         fatalError("TODO")
     }
     
+    private var isPresentedInModalViewController: Bool {
+        fatalError("TODO")
+    }
+    
+    private var isPresentedInNavigationController: Bool {
+        fatalError("TODO")
+    }
+    
     public required init(rootView: Content) {
         self._rootView = rootView
         
@@ -609,6 +617,63 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+1952>
+        if accessibilityEnabled {
+            resolved.accessibilityEnabled = true
+        }
+        
+        // <+1976>
+        if let windowScene = window?.windowScene {
+            let systemUserInterfaceStyle = windowScene._systemUserInterfaceStyle
+            switch systemUserInterfaceStyle {
+            case .light:
+                resolved.systemColorScheme = .light
+            case .dark:
+                resolved.systemColorScheme = .dark
+            default:
+                break
+            }
+        }
+        
+        // <+2228>
+        resolved.windowScene = window?.windowScene
+        resolved.undoManager = undoManager
+        
+        let focusAction: AccessibilityRequestFocusAction
+        if accessibilityEnabled {
+            focusAction = AccessibilityRequestFocusAction(onAccessibilityFocus: { _, _ in
+                // partial apply forwarder for closure #2 (Swift.AnyHashable, SwiftUI.Namespace.ID) -> () in SwiftUI._UIHostingView.updateEnvironment() -> ()
+                fatalError("TODO")
+            })
+        } else {
+            focusAction = AccessibilityRequestFocusAction(onAccessibilityFocus: nil)
+        }
+        
+        resolved.presentationMode = Binding(
+            value: PresentationMode(isPresented: (isPresentedInModalViewController || isPresentedInNavigationController)),
+            location: presentationModeLocation
+        )
+        
+        resolved.dismissWindow.presentationMode = Binding(
+            value: PresentationMode(isPresented: (window?.windowScene != nil)),
+            location: scenePresentationModeLocation
+        )
+        
+        // <+3000>
+        // x29, #-0xf0
+        var viewGraphBridgeProperties = resolved.viewGraphBridgeProperties
+        
+        if let viewController {
+            viewController.update(&resolved)
+        }
+        
+        if
+            ViewGraphBridgePropertiesAreInput.isEnabled,
+            let viewController
+        {
+            viewController.updateViewGraphBridges(&viewGraphBridgeProperties)
+        }
+        
+        // <+3140>
         fatalError("TODO")
     }
     

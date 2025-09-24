@@ -18,4 +18,13 @@ extension EnvironmentValues {
             accessibilityInvertColors = newValue
         }
     }
+    
+    public var accessibilityEnabled: Bool {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
 }
