@@ -27,5 +27,5 @@ extension EnvironmentValues {
 }
 
 fileprivate struct PresentationModeKey: EnvironmentKey {
-    static nonisolated(unsafe) let defaultValue = Binding<PresentationMode>.constant(PresentationMode(isPresented: false))
+    static let defaultValue = Binding<PresentationMode>.constant(PresentationMode(isPresented: false))
 }

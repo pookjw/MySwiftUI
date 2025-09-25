@@ -38,6 +38,7 @@ final class ContextMenuBridge: NSObject {
         }
     }
     
+    @MainActor
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         // defer 있음
         guard host!.shouldCreateUIInteractions else {

@@ -53,7 +53,7 @@ extension DeprecatedAlertBridge where T == Alert.Presentation {
         
         let host = host!
         
-        guard let presenter = host.uiPresenterViewController else {
+        guard host.uiPresenterViewController != nil else {
             return
         }
         

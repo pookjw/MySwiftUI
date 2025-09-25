@@ -7,7 +7,7 @@ extension EnvironmentValues {
             return self[UndoManagerKey.self]
         }
         set {
-            self[UndoManagerKey.self]
+            self[UndoManagerKey.self] = newValue
         }
     }
 }

@@ -598,6 +598,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         base._updateEnvironment(&resolved)
         
         // x19, #0x98
+        fatalError("TODO") // 이거 안 쓰이고 있다고 함 검토
         let traitCollection = traitCollectionOverride ?? self.traitCollection
         
         // <+1700>
@@ -638,6 +639,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         resolved.windowScene = window?.windowScene
         resolved.undoManager = undoManager
         
+        fatalError("TODO") // 이거 안 쓰이고 있다고 함 검토
         let focusAction: AccessibilityRequestFocusAction
         if accessibilityEnabled {
             focusAction = AccessibilityRequestFocusAction(onAccessibilityFocus: { _, _ in
