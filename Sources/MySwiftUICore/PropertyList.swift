@@ -1,4 +1,5 @@
 #warning("TODO")
+package import Foundation
 
 @usableFromInline
 @frozen package struct PropertyList: CustomStringConvertible {
@@ -285,4 +286,47 @@ fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
     override func value<T>(as type: T.Type) -> T {
         fatalError("TODO")
     }
+}
+
+package final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
+    package static var supportsSecureCoding: Bool {
+        return true
+    }
+    
+    package var environment = EnvironmentValues()
+    var phase = ViewGraphHost.Phase()
+    
+    package init?(coder: NSCoder) {
+        fatalError("TODO")
+    }
+    
+    package func encode(with coder: NSCoder) {
+        fatalError("TODO")
+    }
+    
+    package override func isEqual(_ object: Any?) -> Bool {
+        guard let casted = object as? ViewGraphHostEnvironmentWrapper else {
+            return false
+        }
+        
+        guard self.phase.base.value != casted.phase.base.value else {
+            return false
+        }
+        
+        let selfElement = self.environment.plist.elements
+        let otherElement = casted.environment.plist.elements
+        
+        if let selfElement, let otherElement {
+            var ignoreTypes: [ObjectIdentifier] = []
+            return compareLists(Unmanaged.passUnretained(selfElement), Unmanaged.passUnretained(otherElement), ignoreTypes: &ignoreTypes)
+        } else if (selfElement == nil) && (otherElement == nil) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+fileprivate func compareLists(_: Unmanaged<PropertyList.Element>, _: Unmanaged<PropertyList.Element>, ignoreTypes: inout [ObjectIdentifier]) -> Bool {
+    fatalError("TODO")
 }

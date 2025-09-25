@@ -8,6 +8,8 @@
 import UIKit
 import SwiftUI
 import _SwiftPrivate
+import _SwiftUIPrivate
+import _UIKitPrivate
 
 @main
 struct MyApp: App {
@@ -17,6 +19,13 @@ struct MyApp: App {
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        print("=====")
+        print(UIHostingViewBase.self)
+        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        print("=====")
     }
     
     

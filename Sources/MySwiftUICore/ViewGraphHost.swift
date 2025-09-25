@@ -154,6 +154,11 @@ extension ViewGraphHost {
             self.base = idiom
         }
     }
+    
+    struct Phase {
+        // TODO
+        var base = _GraphInputs.Phase()
+    }
 }
 
 extension ViewGraphHost {

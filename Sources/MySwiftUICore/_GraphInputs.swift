@@ -42,7 +42,7 @@ public struct _GraphInputs {
 
 extension _GraphInputs {
     public struct Phase {
-        
+        var value: UInt32 = 0
     }
 }
 

@@ -452,8 +452,59 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.clearDisplayLink()
     }
     
+    @MainActor
     package func _startUpdateEnvironment() -> EnvironmentValues {
-        fatalError("TODO")
+        guard let uiView else {
+            return EnvironmentValues()
+        }
+        
+        // x29, #-0xc8
+        let traitCollection = traitCollectionOverride ?? uiView.traitCollection
+        
+        // x23
+        let environmentValues: EnvironmentValues
+        // <+492>
+        if traitCollection._environmentWrapper != nil {
+            // <+496>
+            // x26
+            if let inheritedEnvironment {
+                // <+824>
+                environmentValues = inheritedEnvironment
+                // <+940>
+            } else {
+                // <+576>
+                environmentValues = traitCollection.environmentValues()
+                // x26의 nil 여부를 확인하지만 nil이기에 의미 없음
+                // <+940>
+            }
+        } else {
+            // <+644>
+            // x28 (copy)
+            if let inheritedEnvironment {
+                // <+852>
+                environmentValues = inheritedEnvironment
+                // <+940>
+            } else {
+                // <+720>
+                // x19
+                if let initialInheritedEnvironment = viewGraph.initialInheritedEnvironment {
+                    // <+876>
+                    environmentValues = initialInheritedEnvironment
+                    // <+940>
+                } else {
+                    // <+768>
+                    // x23
+                    environmentValues = traitCollection.environmentValues()
+                    // x19, x28의 nil 여부를 확인하지만 모두 nil이기에 의미 없음
+                    // <+940>
+                }
+            }
+        }
+        
+        // <+940>
+        // environmentValues = x26 (copy)
+        self.environmentOverride = environmentValues
+        return environmentValues
     }
     
     package func _updateEnvironment(_: inout EnvironmentValues) {
