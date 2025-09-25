@@ -3,28 +3,40 @@ public import Foundation
 extension EnvironmentValues {
     public var locale: Locale {
         get {
-            fatalError("TODO")
+            return self[LocaleKey.self]
         }
         set {
-            fatalError("TODO")
+            self[LocaleKey.self] = newValue
         }
     }
     
     public var calendar: Calendar {
         get {
-            fatalError("TODO")
+            return self[CalendarKey.self]
         }
         set {
-            fatalError("TODO")
+            self[CalendarKey.self] = newValue
         }
     }
     
     public var timezone: TimeZone {
         get {
-            fatalError("TODO")
+            return self[TimezoneKey.self]
         }
         set {
-            fatalError("TODO")
+            self[TimezoneKey.self] = newValue
         }
     }
+}
+
+fileprivate struct LocaleKey: EnvironmentKey {
+    static let defaultValue = Locale(identifier: "")
+}
+
+fileprivate struct CalendarKey: EnvironmentKey {
+    static let defaultValue = Calendar.autoupdatingCurrent
+}
+
+fileprivate struct TimezoneKey: EnvironmentKey {
+    static let defaultValue = TimeZone.autoupdatingCurrent
 }

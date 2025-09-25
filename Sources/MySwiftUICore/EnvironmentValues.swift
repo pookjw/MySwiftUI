@@ -51,24 +51,32 @@ public struct EnvironmentValues: CustomStringConvertible {
         fatalError("TODO")
     }
     
-    func getValue<K: EnvironmentKey>(for type: K.Type) -> K.Value {
+    func getValue<Key: EnvironmentKey>(for key: Key.Type) -> Key.Value {
         /*
          _plist = x19
          tracker = x23
          */
         if let tracker {
-            return tracker.value(_plist, for: EnvironmentPropertyKey<K>.self)
+            return tracker.value(_plist, for: EnvironmentPropertyKey<Key>.self)
         } else {
-            return _plist[EnvironmentPropertyKey<K>.self]
+            return _plist[EnvironmentPropertyKey<Key>.self]
         }
     }
     
-    func setValue<K: EnvironmentKey>(_ value: K.Value, for type: K.Type) {
-        fatalError("TODO")
+    mutating func setValue<K: EnvironmentKey>(_ value: K.Value, for type: K.Type) {
+        _set(value, for: type)
     }
     
     package func configureForPlatform(traitCollection: UITraitCollection?) {
         fatalError("TODO")
+    }
+    
+    private mutating func _set<Key: EnvironmentKey>(_ value: Key.Value, for key: Key.Type) {
+        let old = _plist
+        _plist[EnvironmentPropertyKey<Key>.self] = value
+        if let tracker {
+            tracker.invalidateValue(for: EnvironmentPropertyKey<Key>.self, from: old, to: _plist)
+        }
     }
 }
 

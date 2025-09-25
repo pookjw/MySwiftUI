@@ -35,7 +35,8 @@ package import Foundation
         fatalError("TODO")
     }
     
-    package subscript<T: PropertyKey>(_ key: T.Type) -> T.Value {
+    // Algorithm들을 모두 구현해야 inline이 무엇인지 알 수 있을 것 같음
+    package subscript<Key: PropertyKey>(_ key: Key.Type) -> Key.Value {
         get {
             withExtendedLifetime(elements) { elements in
                 find1(elements.map { .passUnretained($0) }, key: key, filter: BloomFilter(type: key))

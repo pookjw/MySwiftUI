@@ -11,32 +11,32 @@ import _SwiftPrivate
 import _SwiftUIPrivate
 import _UIKitPrivate
 
-@main
-struct MyApp: App {
-    init() {
-        print(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!)
-        _forEachField(of: _typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        print("=====")
-        print(UIHostingViewBase.self)
-        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        print("=====")
-    }
-    
-    
-    var body: some Scene {
-        WindowGroup {
-            EmptyView()
-        }
-    }
-}
-
 //@main
+//struct MyApp: App {
+//    init() {
+//        print(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!)
+//        _forEachField(of: _typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        print("=====")
+//        print(UIHostingViewBase.self)
+//        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            return true
+//        }
+//        print("=====")
+//    }
+//    
+//    
+//    var body: some Scene {
+//        WindowGroup {
+//            EmptyView()
+//        }
+//    }
+//}
+
+@main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true
