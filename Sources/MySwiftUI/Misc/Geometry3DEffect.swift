@@ -11,3 +11,6 @@ extension Geometry3DEffect {
         return true
     }
 }
+
+// SwiftUI에서 Geometry3DEffect를 conform하는 Type이 존재하지 않음
+struct Geometry3DEffectImpl: Geometry3DEffect {}

@@ -1,18 +1,25 @@
 #warning("TODO")
 private import CoreGraphics
 internal import AttributeGraph
+package import Spatial
 
 package struct ViewTransform {
     private var head: AnyElement?
     private var spaces: CoordinateSpaceNode?
     private var positionAdjustment: CGSize
     private var pendingTranslation: CGSize
+    private var depth: ViewDepth
     
     package init() {
         self.head = nil
         self.spaces = nil
         self.positionAdjustment = .zero
         self.pendingTranslation = .zero
+        self.depth = ViewDepth()
+    }
+    
+    package mutating func appendAffineTransform3D(_: AffineTransform3D, inverse: Bool) {
+        fatalError("TODO")
     }
 }
 

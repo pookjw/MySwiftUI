@@ -7,17 +7,27 @@
 
 import UIKit
 import SwiftUI
-
-//@main
-//struct MyApp: App {
-//    var body: some Scene {
-//        WindowGroup {
-//            EmptyView()
-//        }
-//    }
-//}
+import _SwiftPrivate
 
 @main
+struct MyApp: App {
+    init() {
+        print(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!)
+        _forEachField(of: _typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+    }
+    
+    
+    var body: some Scene {
+        WindowGroup {
+            EmptyView()
+        }
+    }
+}
+
+//@main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true

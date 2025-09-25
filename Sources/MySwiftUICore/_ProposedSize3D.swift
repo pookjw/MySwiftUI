@@ -3,9 +3,9 @@ internal import CoreGraphics
 internal import Spatial
 
 struct _ProposedSize3D {
-    private var width: CGFloat?
-    private var height: CGFloat?
-    private var depth: CGFloat?
+    var width: CGFloat?
+    var height: CGFloat?
+    var depth: CGFloat?
     
     init(width: CGFloat?, height: CGFloat?, depth: CGFloat?) {
         self.width = width

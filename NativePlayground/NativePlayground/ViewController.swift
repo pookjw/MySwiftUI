@@ -46,10 +46,10 @@ class ViewController: UIViewController {
         //        
         print("===")
         
-        // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x103173ea0, to: AnyObject.self)))
+        // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x105d57730, to: AnyObject.self)))
         
-        print(_typeByName("7SwiftUI11SheetBridgeCyAA0C10PreferenceV3KeyVG")!)
-        _forEachField(of: _typeByName("7SwiftUI11SheetBridgeCyAA0C10PreferenceV3KeyVG")!, options: [.classType]) { name, offset, type, kind in
+        print(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!)
+        _forEachField(of: _typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

@@ -17,6 +17,10 @@ class UIKitObjectManipulationBridge<Content: View> {
     final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         fatalError("TODO")
     }
+    
+    final func updateEnvironment(_: inout EnvironmentValues) {
+        fatalError("TODO")
+    }
 }
 
 extension UIKitObjectManipulationBridge {

@@ -6,6 +6,7 @@ private import _UIKitShims
 private import _UIKitPrivate
 private import notify
 private import MRUIKit
+private import RealityKit
 
 fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
 
@@ -166,6 +167,10 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private var isPresentedInNavigationController: Bool {
+        fatalError("TODO")
+    }
+    
+    private var popoverBridge: UIKitPopoverBridge? {
         fatalError("TODO")
     }
     
@@ -457,6 +462,10 @@ open class _UIHostingView<Content: View>: UIView {
     override func addManagedInteraction(_ interaction: any UIInteraction) {
         fatalError("TODO")
     }
+    
+    private func updateSnappingState(environment: inout EnvironmentValues) {
+        fatalError("TODO")
+    }
 }
 
 protocol UIHostingViewDelegate: AnyObject {
@@ -598,8 +607,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         base._updateEnvironment(&resolved)
         
         // x19, #0x98
-        fatalError("TODO") // 이거 안 쓰이고 있다고 함 검토
-        let traitCollection = traitCollectionOverride ?? self.traitCollection
+        _ = traitCollectionOverride ?? self.traitCollection
         
         // <+1700>
         if resolved.accessibilityInvertColors {
@@ -639,7 +647,6 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         resolved.windowScene = window?.windowScene
         resolved.undoManager = undoManager
         
-        fatalError("TODO") // 이거 안 쓰이고 있다고 함 검토
         let focusAction: AccessibilityRequestFocusAction
         if accessibilityEnabled {
             focusAction = AccessibilityRequestFocusAction(onAccessibilityFocus: { _, _ in
@@ -649,6 +656,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         } else {
             focusAction = AccessibilityRequestFocusAction(onAccessibilityFocus: nil)
         }
+        resolved.requestAccessibilityFocus = focusAction
         
         resolved.presentationMode = Binding(
             value: PresentationMode(isPresented: (isPresentedInModalViewController || isPresentedInNavigationController)),
@@ -676,7 +684,146 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+3140>
-        fatalError("TODO")
+        resolved.activeContextMenu = contextMenuBridge.presentedMenu
+        deprecatedAlertBridge.update(environment: resolved)
+        deprecatedActionSheetBridge.update(environment: resolved)
+        
+        if let sheetBridge {
+            sheetBridge.update(environment: resolved)
+        }
+        
+        // <+3364>
+        if
+            !ViewGraphBridgePropertiesAreInput.isEnabled,
+            let sheetBridge
+        {
+            sheetBridge.hostingView(self, willUpdate: &viewGraphBridgeProperties)
+        }
+        
+        // <+3440>
+        focusBridge.updateEnvironment(&resolved)
+        
+        if let popoverBridge {
+            if resolved.scenePhase == .background {
+                popoverBridge.wasBackgrounded = true
+            } else if popoverBridge.wasBackgrounded {
+                popoverBridge.wasBackgrounded = false
+                popoverBridge.updateAnchor()
+            }
+        }
+        
+        // <+3584>
+        resolved.activeEditMenu = editMenuBridge.presentedMenu
+        objectManipluateBridge.updateEnvironment(&resolved)
+        updateSnappingState(environment: &resolved)
+        
+        if let renderingMarginsBridge {
+            renderingMarginsBridge.updateEffectiveClippingMargins(environment: &resolved)
+        }
+        
+        if let appDelegate = AppDelegate.shared {
+            let immersiveSpaceAuthority = appDelegate.immersiveSpaceAuthority
+            let windowScene = window?.windowScene
+            let immersiveSpaceScene = immersiveSpaceAuthority.immersiveSpaceScene
+            
+            var pose: Pose3D
+            let flag: Bool // true -> <+4224>
+            if let windowScene {
+                if let immersiveSpaceScene {
+                    if immersiveSpaceScene == windowScene {
+                        // <+3988>
+                        if let casted = immersiveSpaceScene as? UIWindowScene {
+                            // <+4020>
+                            pose = casted._mrui_systemSceneDisplacement()
+                            // <+4224>
+                            flag = true
+                        } else {
+                            // +4180>
+                            pose = Pose3D(position: .zero, rotation: simd_quatd(ix: 0, iy: 1, iz: 0, r: 0))
+                            // <+4224>
+                            flag = true
+                        }
+                    } else {
+                        // <+4112>
+                        pose = Pose3D.identity
+                        // <+4456>
+                        flag = false
+                    }
+                } else {
+                    // <+4104>
+                    pose = Pose3D.identity
+                    // <+4456>
+                    flag = false
+                }
+            } else {
+                if let immersiveSpaceScene {
+                    // <+4112>
+                    pose = Pose3D.identity
+                    // <+4456>
+                    flag = false
+                } else {
+                    // <+4144>
+                    pose = Pose3D(position: .zero, rotation: simd_quatd(ix: 0, iy: 1, iz: 0, r: 0))
+                    // <+4224>
+                    flag = true
+                }
+            }
+            
+            if flag {
+                // <+4224>
+                pose.position = resolved.pointScale.convert(pose.position, to: .meters)
+            }
+            
+            // <+4456>
+            resolved.systemExperienceDisplacement = pose
+            
+            if immersiveSpaceAuthority.immersiveSpaceScene == nil {
+                resolved.immersion = nil
+            } else {
+                resolved.immersion = immersiveSpaceAuthority._immersion
+            }
+            
+            if let remoteSessionController {
+                resolved.remoteSessionController = remoteSessionController
+            }
+        }
+        
+        // <+4608>
+        if let sceneBridge, ClientSideSceneClipping3DDuringResize.isEnabled {
+            resolved.isAnimatingSceneResize = sceneBridge.isAnimatingSceneResize
+        }
+        
+        // <+4832>
+        if let windowScene = window?.windowScene {
+            let capabilities = windowScene._worldTrackingCapabilities()
+            var worldTrackingLimitations: Set<WorldTrackingLimitation> = []
+            if capabilities.contains(.translation) {
+                worldTrackingLimitations.insert(.translation)
+            }
+            if capabilities.contains(.orientation) {
+                worldTrackingLimitations.insert(.orientation)
+            }
+            resolved.worldTrackingLimitations = worldTrackingLimitations
+        }
+        
+        // <+5068>
+        if let layerEntity = window?.layerEntity {
+            resolved.realityScene = WeakBox(layerEntity.scene)
+        } else {
+            resolved.realityScene = WeakBox(nil)
+        }
+        
+        // <+5268>
+        if !ViewGraphBridgePropertiesAreInput.isEnabled {
+            resolved.viewGraphBridgeProperties = viewGraphBridgeProperties
+        }
+        
+        // <+5352>
+        if let delegate {
+            delegate.hostingView(self, didUpdate: resolved)
+        }
+        
+        base._endUpdateEnvironment(resolved)
     }
     
     package final func updateTransform() {
@@ -1016,6 +1163,3 @@ extension _UIHostingView: @preconcurrency ViewGraphBridgePropertiesDelegate {
 extension Spacing {
     fileprivate static nonisolated(unsafe) var hasSetupDefaultValue = false
 }
-
-// SwiftUI에서 Geometry3DEffect를 conform하는 Type이 존재하지 않음
-fileprivate struct Geometry3DEffectImpl: Geometry3DEffect {}

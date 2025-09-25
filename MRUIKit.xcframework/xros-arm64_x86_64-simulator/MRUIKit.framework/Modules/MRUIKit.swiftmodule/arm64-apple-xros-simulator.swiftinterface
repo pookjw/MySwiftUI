@@ -5,6 +5,8 @@
 @_exported import Swift
 @_exported import MRUIKit
 @_exported import Foundation
+@_exported import RealityKit
+@_exported import UIKit
 
 public class _MRUIObjectTransformInteraction: Foundation.NSObject {
     
@@ -20,4 +22,8 @@ extension MRUIKit._MRUIObjectTransformInteraction.Target {
     public struct ID: Swift.Hashable {
         // TODO
     }
+}
+
+extension UIKit.UIView {
+    public var layerEntity: RealityKit.Entity? { get }
 }

@@ -38,6 +38,10 @@ final class FocusBridge {
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         fatalError("TODO")
     }
+    
+    func updateEnvironment(_: inout EnvironmentValues) {
+        fatalError("TODO")
+    }
 }
 
 extension FocusBridge {

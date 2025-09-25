@@ -34,6 +34,10 @@ final class DeprecatedAlertBridge<T>: NSObject {
             viewGraph.addPreference(Alert.Presentation.Key.self)
         }
     }
+    
+    func update(environment: EnvironmentValues) {
+        fatalError("TODO")
+    }
 }
 
 extension DeprecatedAlertBridge where T == Alert.Presentation {

@@ -10,4 +10,8 @@ final class RenderingMarginsBridge<Content: View> {
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         fatalError("TODO")
     }
+    
+    func updateEffectiveClippingMargins(environment: inout EnvironmentValues) {
+        fatalError("TODO")
+    }
 }

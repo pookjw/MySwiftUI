@@ -452,7 +452,15 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.clearDisplayLink()
     }
     
+    package func _startUpdateEnvironment() -> EnvironmentValues {
+        fatalError("TODO")
+    }
+    
     package func _updateEnvironment(_: inout EnvironmentValues) {
+        fatalError("TODO")
+    }
+    
+    package func _endUpdateEnvironment(_: EnvironmentValues) {
         fatalError("TODO")
     }
     
@@ -533,10 +541,6 @@ package final class UIHostingViewBase: NSObject {
             self.isEnteringForeground = false
             self.updateSceneActivationState()
         }
-    }
-    
-    package func _startUpdateEnvironment() -> EnvironmentValues {
-        fatalError("TODO")
     }
     
     @objc private func willBeginSnapshotSession() {
