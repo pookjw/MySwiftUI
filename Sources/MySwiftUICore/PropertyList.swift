@@ -35,15 +35,16 @@ package import Foundation
         fatalError("TODO")
     }
     
-    // Algorithm들을 모두 구현해야 inline이 무엇인지 알 수 있을 것 같음
     package subscript<Key: PropertyKey>(_ key: Key.Type) -> Key.Value {
         get {
+            // $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluig
             withExtendedLifetime(elements) { elements in
-                find1(elements.map { .passUnretained($0) }, key: key, filter: BloomFilter(type: key))
+                find(elements.map { .passUnretained($0) }, key: key)
                 fatalError("TODO")
             }
         }
         set {
+            // $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluis
             fatalError("TODO")
         }
     }
@@ -209,11 +210,11 @@ extension PropertyList {
             fatalError() // abstract
         }
         
-        func matches(_ other: Element, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
+        fileprivate func matches(_ other: Element, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
             fatalError() // abstract
         }
         
-        func copy(before: Element?, after: Element?) -> Element {
+        fileprivate func copy(before: Element?, after: Element?) -> Element {
             fatalError() // abstract
         }
         
@@ -262,6 +263,31 @@ fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element
         }
     }
     
+    fatalError("TODO")
+}
+
+fileprivate func compareLists(_ source: Unmanaged<PropertyList.Element>, _ against: Unmanaged<PropertyList.Element>, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
+    fatalError("TODO")
+}
+
+fileprivate func move(_ source: [ObjectIdentifier: AnyTrackedValue], to destination: inout [AnyTrackedValue]) {
+    fatalError("TODO")
+}
+
+fileprivate func compare(_ source: [ObjectIdentifier: AnyTrackedValue], against: PropertyList) -> Bool {
+    fatalError("TODO")
+}
+
+fileprivate func find<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type) -> Unmanaged<TypedElement<T>>? {
+    return find1(element, key: key, filter: BloomFilter(type: key))
+}
+
+fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
+    _: Unmanaged<PropertyList.Element>?,
+    secondaryLookupHandler: T.Type,
+    filter: BloomFilter,
+    secondaryFilter: BloomFilter
+) -> T.Primary.Value? {
     fatalError("TODO")
 }
 
