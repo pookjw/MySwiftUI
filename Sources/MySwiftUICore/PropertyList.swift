@@ -297,20 +297,50 @@ fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element
 }
 
 fileprivate func compareLists(_ source: Unmanaged<PropertyList.Element>, _ against: Unmanaged<PropertyList.Element>, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
-    fatalError("TODO")
+    guard source.takeUnretainedValue().length == against.takeUnretainedValue().length else {
+        return false
+    }
+    
+    /*
+     source = x20
+     against = x19
+     */
+    guard source == against else {
+        return false
+    }
+    
+    // ignoredTypes = x21
+    guard source.takeUnretainedValue().matches(against.takeUnretainedValue(), ignoredTypes: &ignoredTypes) else {
+        return false
+    }
+    
+    return true
 }
 
-fileprivate func move(_ source: [ObjectIdentifier: AnyTrackedValue], to destination: inout [AnyTrackedValue]) {
-    fatalError("TODO")
+fileprivate func move(_ source: inout [ObjectIdentifier: AnyTrackedValue], to destination: inout [AnyTrackedValue]) {
+    /*
+     source = x20
+     destination = x21
+     */
+    guard !source.isEmpty else {
+        return
+    }
+    
+    destination.append(contentsOf: source.values)
+    source.removeAll()
 }
 
 fileprivate func compare(_ source: [ObjectIdentifier: AnyTrackedValue], against: PropertyList) -> Bool {
     /*
      source = x19
-     aginst = x21
+     against = x21
      */
-    
-    fatalError("TODO")
+    for value in source.values {
+        guard value.hasMatchingValue(in: against) else {
+            return false
+        }
+    }
+    return true
 }
 
 fileprivate func find<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type) -> Unmanaged<TypedElement<T>>? {
