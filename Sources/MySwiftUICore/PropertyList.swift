@@ -253,12 +253,19 @@ fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
 ) -> T.Primary.Value? {
     /*
      element = x21
+     secondaryLookupHandler = x29 - 0x88 ~ - 0x90
+     filter = x27
+     secondaryFilter = x20
+     T = x23
      */
     guard let element else {
         return nil
     }
     
-    
+    var skip: Unmanaged<PropertyList.Element> = element
+    while true {
+        
+    }
     fatalError("TODO")
 }
 
@@ -268,28 +275,31 @@ fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element
     }
     
     // filter = x22
-    var skip: Unmanaged<PropertyList.Element>? = element
-    while let _skip = skip {
-        if _skip.takeUnretainedValue().skipFilter.mayContain(filter) {
+    var skip: Unmanaged<PropertyList.Element> = element
+    while true {
+        if skip.takeUnretainedValue().skipFilter.mayContain(filter) {
             if
-                let before = _skip.takeUnretainedValue().before,
+                let before = skip.takeUnretainedValue().before,
                 let result = find1(Unmanaged.passUnretained(before), key: key, filter: filter)
             {
                 return result
             }
             
-            if _skip.takeUnretainedValue().keyType == key {
-                return Unmanaged.fromOpaque(_skip.toOpaque())
+            if skip.takeUnretainedValue().keyType == key {
+                return Unmanaged.fromOpaque(skip.toOpaque())
             }
             
-            if let after = _skip.takeUnretainedValue().after {
+            if let after = skip.takeUnretainedValue().after {
                 skip = .passUnretained(after)
                 continue
             }
             
             return nil
         } else {
-            skip = _skip.takeUnretainedValue().skip
+            guard let newSkip = skip.takeUnretainedValue().skip else {
+                return nil
+            }
+            skip = newSkip
         }
     }
     
