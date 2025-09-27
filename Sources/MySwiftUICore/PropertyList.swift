@@ -90,7 +90,7 @@ package import Foundation
 extension PropertyList {
     @usableFromInline
     package final class Tracker {
-        @AtomicBox var data: TrackerData
+        @AtomicBox private var data: TrackerData
         
         package init() {
             let trackerData = TrackerData(
@@ -269,37 +269,30 @@ fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element
     
     // filter = x22
     var skip: Unmanaged<PropertyList.Element>? = element
-    while true {
-        if let _skip = skip {
-            if _skip.takeUnretainedValue().skipFilter.mayContain(filter) {
-                break
-            } else {
-                skip = _skip.takeUnretainedValue().skip
+    while let _skip = skip {
+        if _skip.takeUnretainedValue().skipFilter.mayContain(filter) {
+            if
+                let before = _skip.takeUnretainedValue().before,
+                let result = find1(Unmanaged.passUnretained(before), key: key, filter: filter)
+            {
+                return result
             }
-        } else {
+            
+            if _skip.takeUnretainedValue().keyType == key {
+                return Unmanaged.fromOpaque(_skip.toOpaque())
+            }
+            
+            if let after = _skip.takeUnretainedValue().after {
+                skip = .passUnretained(after)
+                continue
+            }
+            
             return nil
+        } else {
+            skip = _skip.takeUnretainedValue().skip
         }
     }
     
-    guard let skip else {
-        return nil
-    }
-    
-    if
-        let before = skip.takeUnretainedValue().before,
-        let result = find1(Unmanaged.passUnretained(before), key: key, filter: filter)
-    {
-        return result
-    }
-    
-    if skip.takeUnretainedValue().keyType == key {
-        return Unmanaged.fromOpaque(skip.toOpaque())
-    }
-    
-    if let after = skip.takeUnretainedValue().after {
-        return Unmanaged.fromOpaque(Unmanaged.passUnretained(after).toOpaque())
-    }
-   
     return nil
 }
 
@@ -312,6 +305,11 @@ fileprivate func move(_ source: [ObjectIdentifier: AnyTrackedValue], to destinat
 }
 
 fileprivate func compare(_ source: [ObjectIdentifier: AnyTrackedValue], against: PropertyList) -> Bool {
+    /*
+     source = x19
+     aginst = x21
+     */
+    
     fatalError("TODO")
 }
 
@@ -320,10 +318,12 @@ fileprivate func find<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>
 }
 
 fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
-    let value: Key.Value
+    let value: Key.Value // 0x48
     
-    init() {
-        fatalError("TODO")
+    @inlinable
+    init(value: Key.Value, before: PropertyList.Element?, after: PropertyList.Element?) {
+        self.value = value
+        super.init(keyType: Key.self, before: before, after: after)
     }
     
     override var description: String {
@@ -373,7 +373,7 @@ package final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
         
         if let selfElement, let otherElement {
             var ignoreTypes: [ObjectIdentifier] = []
-            return compareLists(Unmanaged.passUnretained(selfElement), Unmanaged.passUnretained(otherElement), ignoreTypes: &ignoreTypes)
+            return compareLists(Unmanaged.passUnretained(selfElement), Unmanaged.passUnretained(otherElement), ignoredTypes: &ignoreTypes)
         } else if (selfElement == nil) && (otherElement == nil) {
             return true
         } else {
@@ -382,6 +382,30 @@ package final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
     }
 }
 
-fileprivate func compareLists(_: Unmanaged<PropertyList.Element>, _: Unmanaged<PropertyList.Element>, ignoreTypes: inout [ObjectIdentifier]) -> Bool {
-    fatalError("TODO")
+fileprivate struct TrackerData {
+    var plistID: UniqueID
+    var values: [ObjectIdentifier: any AnyTrackedValue]
+    var derivedValues: [ObjectIdentifier: any AnyTrackedValue]
+    var invalidValues: [any AnyTrackedValue]
+    var unrecordedDependencies: Bool
+    
+    @inlinable
+    init(
+        plistID: UniqueID,
+        values: [ObjectIdentifier : any AnyTrackedValue],
+        derivedValues: [ObjectIdentifier : any AnyTrackedValue],
+        invalidValues: [any AnyTrackedValue],
+        unrecordedDependencies: Bool
+    ) {
+        self.plistID = plistID
+        self.values = values
+        self.derivedValues = derivedValues
+        self.invalidValues = invalidValues
+        self.unrecordedDependencies = unrecordedDependencies
+    }
+}
+
+fileprivate protocol AnyTrackedValue {
+    func unwrap<Value>() -> Value
+    func hasMatchingValue(in propertyList: PropertyList) -> Bool
 }
