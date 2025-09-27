@@ -56,18 +56,20 @@ extension ViewTransform: LengthUnitConvertible {
             return
         }
         
-        let transform = AffineTransform3D(scale: Size3D(width: 1, height: 1, depth: 1).scaled(by: scale))
+        var size = Size3D(width: 1, height: 1, depth: 1)
+        size.uniformlyScale(by: scale)
+        let transform = AffineTransform3D(scale: size)
         appendAffineTransform3D(transform, inverse: true)
     }
 }
 
 extension _ProposedSize: LengthUnitConvertible {
     mutating func scale(by scale: Double) {
-        if var width {
+        if let width {
             self.width = width * scale
         }
         
-        if var height {
+        if let height {
             self.height = height * scale
         }
     }
@@ -82,15 +84,15 @@ extension CGSize: LengthUnitConvertible {
 
 extension _ProposedSize3D: LengthUnitConvertible {
     mutating func scale(by scale: Double) {
-        if var width {
+        if let width {
             self.width = width * scale
         }
         
-        if var height {
+        if let height {
             self.height = height * scale
         }
         
-        if var depth {
+        if let depth {
             self.depth = depth * scale
         }
     }

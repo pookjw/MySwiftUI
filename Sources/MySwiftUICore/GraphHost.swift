@@ -310,7 +310,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         if waitingForPreviewThunks {
             // <+76>
             for unsafe graphHost in unsafe blockedGraphHosts {
-                if unsafe graphHost.toOpaque() == Unmanaged.passUnretained(self).toOpaque() {
+                if unsafe graphHost == Unmanaged.passUnretained(self) {
                     return
                 }
             }

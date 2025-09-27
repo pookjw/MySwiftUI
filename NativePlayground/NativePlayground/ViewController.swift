@@ -33,10 +33,24 @@ struct Foo_2: _SwiftUIPrivate.PreferenceKey {
     public static var defaultValue: Bool { return false }
 }
 
+fileprivate struct Type1 {}
+fileprivate struct Type2 {}
+
 class ViewController: UIViewController {
     override func loadView() {
         swizzle()
         UserDefaults.standard.set(false, forKey: "com.apple.SwiftUI.ViewGraphBridgePropertiesAreInput")
+        
+        let filter = BloomFilter(type: Type1.self)
+        print(filter.mayContain(BloomFilter(type: Type2.self)))
+        
+        print(_typeByName("7SwiftUI12PropertyListV7ElementC")!)
+        _forEachField(of: _typeByName("7SwiftUI12PropertyListV7ElementC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
         
         print(PreferenceValues.self)
         _forEachField(of: PreferenceValues.self, options: []) { name, offset, type, kind in

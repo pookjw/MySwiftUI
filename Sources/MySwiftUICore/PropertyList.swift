@@ -181,7 +181,7 @@ extension PropertyList {
                 }
                 self.length = length
                 self.skipCount = 0
-                skipFilter = BloomFilter(value: .max)
+                skipFilter.value = .max
                 self.skipFilter = skipFilter
                 unsafe self.skip = .passUnretained(self)
             } else if let after {
@@ -245,11 +245,29 @@ package protocol DerivedPropertyKey {
     associatedtype Value
 }
 
+fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
+    _ element: Unmanaged<PropertyList.Element>?,
+    secondaryLookupHandler: T.Type,
+    filter: BloomFilter,
+    secondaryFilter: BloomFilter
+) -> T.Primary.Value? {
+    /*
+     element = x21
+     */
+    guard let element else {
+        return nil
+    }
+    
+    
+    fatalError("TODO")
+}
+
 fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type, filter: BloomFilter) -> Unmanaged<TypedElement<T>>? {
     guard let element else {
         return nil
     }
     
+    // filter = x22
     var skip: Unmanaged<PropertyList.Element>? = element
     while true {
         if let _skip = skip {
@@ -263,7 +281,26 @@ fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element
         }
     }
     
-    fatalError("TODO")
+    guard let skip else {
+        return nil
+    }
+    
+    if
+        let before = skip.takeUnretainedValue().before,
+        let result = find1(Unmanaged.passUnretained(before), key: key, filter: filter)
+    {
+        return result
+    }
+    
+    if skip.takeUnretainedValue().keyType == key {
+        return Unmanaged.fromOpaque(skip.toOpaque())
+    }
+    
+    if let after = skip.takeUnretainedValue().after {
+        return Unmanaged.fromOpaque(Unmanaged.passUnretained(after).toOpaque())
+    }
+   
+    return nil
 }
 
 fileprivate func compareLists(_ source: Unmanaged<PropertyList.Element>, _ against: Unmanaged<PropertyList.Element>, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
@@ -280,15 +317,6 @@ fileprivate func compare(_ source: [ObjectIdentifier: AnyTrackedValue], against:
 
 fileprivate func find<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type) -> Unmanaged<TypedElement<T>>? {
     return find1(element, key: key, filter: BloomFilter(type: key))
-}
-
-fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
-    _: Unmanaged<PropertyList.Element>?,
-    secondaryLookupHandler: T.Type,
-    filter: BloomFilter,
-    secondaryFilter: BloomFilter
-) -> T.Primary.Value? {
-    fatalError("TODO")
 }
 
 fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {

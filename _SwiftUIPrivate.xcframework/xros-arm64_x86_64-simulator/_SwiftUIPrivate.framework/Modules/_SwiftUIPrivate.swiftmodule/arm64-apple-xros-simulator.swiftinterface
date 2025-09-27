@@ -219,18 +219,18 @@ public struct Time: Swift.Hashable, Swift.Comparable {
   public init(seconds: Swift.Double)
 }
 
-//@available(visionOS 26.0, *)
-//@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-//public struct BloomFilter: Swift.Equatable {
-//  public init()
-//  public init(value: Swift.UInt)
-//  public init(hashValue: Swift.Int)
-//  public init<T: Swift.Hashable>(value: T)
-//  public init(type: Any.Type)
-//  public func mayContain(_ other: _SwiftUIPrivate.BloomFilter) -> Swift.Bool
-//  public mutating func formUnion(_ other: _SwiftUIPrivate.BloomFilter)
-//  public func union(_ other: _SwiftUIPrivate.BloomFilter) -> _SwiftUIPrivate.BloomFilter
-//}
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct BloomFilter: Swift.Equatable {
+  public init()
+  public init(value: Swift.UInt)
+  public init(hashValue: Swift.Int)
+  public init<T: Swift.Hashable>(value: T)
+  public init(type: Any.Type)
+  public func mayContain(_ other: _SwiftUIPrivate.BloomFilter) -> Swift.Bool
+  public mutating func formUnion(_ other: _SwiftUIPrivate.BloomFilter)
+  public func union(_ other: _SwiftUIPrivate.BloomFilter) -> _SwiftUIPrivate.BloomFilter
+}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)

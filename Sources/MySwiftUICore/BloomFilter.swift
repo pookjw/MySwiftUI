@@ -5,13 +5,8 @@ struct BloomFilter: Equatable {
         value = 0
     }
     
-    @inlinable
-    init(value: UInt) {
-        self.value = value
-    }
-    
     init(hashValue: Int) {
-        value = ((0x1 << hashValue) >> 0x4) | ((0x1 << hashValue) >> 0xa) | ((0x1 << hashValue) >> 0x10)
+        value = (1 &<< ((hashValue &>> 4))) | (1 &<< ((hashValue &>> 10))) | (1 &<< ((hashValue >> 16)))
     }
     
     init<T: Hashable>(value: T) {
@@ -24,7 +19,7 @@ struct BloomFilter: Equatable {
     }
     
     func mayContain(_ other: BloomFilter) -> Bool {
-        return ((value & ~other.value) == 0)
+        return ((other.value & ~value) == 0)
     }
     
     mutating func formUnion(_ other: BloomFilter) {

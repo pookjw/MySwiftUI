@@ -1,5 +1,6 @@
 #warning("TODO")
 package import CoreGraphics
+public import Spatial
 
 public struct Animation {
     package var function: Function {
@@ -32,6 +33,26 @@ public protocol VectorArithmetic : AdditiveArithmetic {
 }
 
 extension Double: VectorArithmetic {
+    public mutating func scale(by rhs: Double) {
+        fatalError("TODO")
+    }
+    
+    public var magnitudeSquared: Double {
+        fatalError("TODO")
+    }
+}
+
+extension Vector3D: VectorArithmetic {
+    public mutating func scale(by rhs: Double) {
+        fatalError("TODO")
+    }
+    
+    public var magnitudeSquared: Double {
+        fatalError("TODO")
+    }
+}
+
+extension Size3D: VectorArithmetic {
     public mutating func scale(by rhs: Double) {
         fatalError("TODO")
     }
