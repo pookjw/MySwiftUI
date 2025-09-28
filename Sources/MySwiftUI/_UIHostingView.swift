@@ -1222,10 +1222,6 @@ extension UITraitCollection {
         return environmentValues
     }
     
-    fileprivate func coreResolvedBaseEnvironment(base: EnvironmentValues) -> EnvironmentValues {
-        fatalError("TODO")
-    }
-    
     fileprivate func resolvedPostEnvironment(base: EnvironmentValues) -> EnvironmentValues {
         fatalError("TODO")
     }
