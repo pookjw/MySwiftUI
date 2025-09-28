@@ -7,7 +7,7 @@ package enum AnchoredPlane: Hashable {
 
 extension EnvironmentValues {
     package var anchoredPlane: AnchoredPlane? {
-        return _anchoredPlane
+        return self[AnchoredPlaneKey.self]
     }
     
     package var _anchoredPlane: AnchoredPlane? {

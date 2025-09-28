@@ -46,7 +46,34 @@ extension UITraitCollection {
             break
         }
         
-        self.displayGamut
+        if let displayGamut = DisplayGamut(rawValue: self.displayGamut.rawValue) {
+            result.displayGamut = displayGamut
+        }
+        
+        switch self.accessibilityContrast {
+        case .normal:
+            result._colorSchemeContrast = .standard
+        case .high:
+            result._colorSchemeContrast = .increased
+        @unknown default:
+            break
+        }
+        
+        result.systemColorScheme = self.colorScheme
+        
+        // <+2340>
         fatalError("TODO")
+    }
+    
+    // ___lldb_unnamed_symbol316116
+    private var colorScheme: ColorScheme {
+        switch self.userInterfaceStyle {
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        default:
+            return .light
+        }
     }
 }
