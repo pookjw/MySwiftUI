@@ -39,6 +39,7 @@ fileprivate struct Type2 {}
 class ViewController: UIViewController {
     override func loadView() {
         swizzle()
+        print(EnvironmentValues().backgroundMaterial)
         UserDefaults.standard.set(false, forKey: "com.apple.SwiftUI.ViewGraphBridgePropertiesAreInput")
         
         let filter = BloomFilter(type: Type1.self)

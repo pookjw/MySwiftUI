@@ -1163,3 +1163,74 @@ extension _UIHostingView: @preconcurrency ViewGraphBridgePropertiesDelegate {
 extension Spacing {
     fileprivate static nonisolated(unsafe) var hasSetupDefaultValue = false
 }
+
+extension UITraitCollection {
+    fileprivate func resolvedPreEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+        /*
+         self = x25
+         base = x24
+         */
+        
+        var environmentValues = base
+        environmentValues[BridgedEnvironmentKeysKey.self] = []
+        environmentValues[InheritedTraitCollectionKey.self] = self._traitCollectionByRemovingEnvironmentWrapper()
+        
+        if let placementTarget = mrui_placementTarget {
+            switch placementTarget.anchoredPlane() {
+            case .vertical:
+                environmentValues._anchoredPlane = .vertical
+                break
+            case .horizontal:
+                environmentValues._anchoredPlane = .horizontal
+                break
+            default:
+                // <+940>
+                break
+            }
+        }
+        
+        // <+940>
+        if self._platterGroundingShadowVisibility() != .automatic {
+            environmentValues.platterGroundingShadowVisibility = Visibility(rawValue: self._platterGroundingShadowVisibility().rawValue).unsafelyUnwrapped
+        }
+        
+        // <+992>
+        environmentValues.isInOrnament = self.mrui_ornamentStatus
+        
+        if self.userInterfaceIdiom == .vision {
+            let material: MySwiftUICore.Material?
+            switch _containerVibrancy() {
+            case .ligherGlass:
+                material = .lighterGlass
+            case .darkerGlass:
+                material = .darkerGlass
+            case .ultraDarkerGlass:
+                material = .ultraDarkerGlass
+            @unknown default:
+                material = nil
+            }
+            environmentValues.backgroundMaterial = material
+            
+            if (environmentValues.backgroundMaterial == nil) && environmentValues.isContainedInPlatter {
+                environmentValues.backgroundMaterial = .vibrantGlassContent
+            }
+            
+            environmentValues.isVisionEnabled = (self.userInterfaceIdiom == .vision)
+        }
+        
+        environmentValues.accessibilitySettingsDefinition = PlatformSystemDefinition.uiKit
+        return environmentValues
+    }
+    
+    fileprivate func coreResolvedBaseEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+        fatalError("TODO")
+    }
+    
+    fileprivate func resolvedPostEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct BridgedEnvironmentKeysKey: EnvironmentKey {
+    static let defaultValue: [(any EnvironmentKey).Type] = []
+}

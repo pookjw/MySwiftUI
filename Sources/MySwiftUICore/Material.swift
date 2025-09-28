@@ -120,4 +120,36 @@ extension ShapeStyle where Self == Material {
     @_alwaysEmitIntoClient public static var bar: Material {
         return .bar
     }
+    
+    package static var experimentalGlassMaterial: Material {
+        fatalError()
+    }
+    
+    package static var vibrantGlassContent: Material {
+        fatalError()
+    }
+    
+    package static var darkerGlass: Material {
+        fatalError()
+    }
+    
+    package static var lighterGlass: Material {
+        fatalError()
+    }
+    
+    package static var ultraDarkerGlass: Material {
+        fatalError()
+    }
+    
+    package static var modal: Material {
+        fatalError()
+    }
+    
+    package static var toolbarButton: Material {
+        fatalError()
+    }
+    
+    package static func _intelligenceLightSource(prefersAudioReactivity: Bool) -> Material {
+        fatalError()
+    }
 }

@@ -36,6 +36,15 @@ typedef NS_OPTIONS(uint32_t, AGGraphCounterOptions) {
     AGGraphCounterOptionsUnknown8 = 1 << 3,
 };
 
+typedef NS_ENUM(NSUInteger, AGComparisonMode) {
+    AGComparisonModeUndefined = 0
+};
+
+typedef NS_OPTIONS(uint32_t, AGComparisonOptions) {
+    AGComparisonOptionsUnknown1 = 1 << 0,
+    AGComparisonOptionsUnknown2 = 1 << 1
+};
+
 typedef uint32_t AGAttribute __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AnyAttribute);
 
 typedef struct CF_BRIDGED_TYPE(id) AGGraphStorage * AGGraphRef NS_SWIFT_NAME(Graph);

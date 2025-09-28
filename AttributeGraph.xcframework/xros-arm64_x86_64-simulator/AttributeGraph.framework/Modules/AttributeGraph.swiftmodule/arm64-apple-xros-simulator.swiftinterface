@@ -197,3 +197,6 @@ extension AttributeGraph.Graph {
     public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, value: T)
     public static func withoutUpdate<T>(_: () -> T) -> T
 }
+
+public func compareValues<T>(_: T, _: T, mode: AttributeGraph.AGComparisonMode) -> Swift.Bool
+public func compareValues<T>(_: T, _: T, options: AttributeGraph.AGComparisonOptions) -> Swift.Bool

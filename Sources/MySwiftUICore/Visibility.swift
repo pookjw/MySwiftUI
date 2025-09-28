@@ -1,7 +1,7 @@
 #warning("TODO")
 
 @frozen
-public enum Visibility: Hashable, CaseIterable {
+public enum Visibility: Int, Hashable, CaseIterable {
     case automatic
     case visible
     case hidden

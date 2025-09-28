@@ -4,7 +4,7 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-@interface UIWindowScene (Private)
+@interface UIWindowScene (MRUIPrivate)
 - (SPPose3D)_mrui_systemSceneDisplacement;
 - (MRUIWorldTrackingCapabilities)_worldTrackingCapabilities;
 @end

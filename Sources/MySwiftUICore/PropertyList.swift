@@ -1,5 +1,6 @@
 #warning("TODO")
 package import Foundation
+private import AttributeGraph
 
 @usableFromInline
 @frozen package struct PropertyList: CustomStringConvertible {
@@ -39,13 +40,29 @@ package import Foundation
         get {
             // $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluig
             withExtendedLifetime(elements) { elements in
-                find(elements.map { .passUnretained($0) }, key: key)
-                fatalError("TODO")
+                if let result = find(elements.map { .passUnretained($0) }, key: key) {
+                    return result.takeUnretainedValue().value
+                } else {
+                    return key.defaultValue
+                }
             }
         }
         set {
             // $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluis
-            fatalError("TODO")
+            let ref: Unmanaged<PropertyList.Element>?
+            if let elements {
+                ref = .passUnretained(elements)
+            } else {
+                ref = nil
+            }
+            
+            if let element = find(ref, key: key) {
+                if key.valuesEqual(newValue, element.takeUnretainedValue().value) {
+                    return
+                }
+            }
+            
+            prependValue(newValue, for: key)
         }
     }
     
@@ -82,8 +99,8 @@ package import Foundation
         }
     }
     
-    package func prependValue<T: PropertyKey>(_ value: T.Value, for type: T.Type) {
-        fatalError("TODO")
+    package mutating func prependValue<T: PropertyKey>(_ value: T.Value, for type: T.Type) {
+        self.elements = TypedElement<T>(value: value, before: nil, after: elements)
     }
 }
 
@@ -231,6 +248,8 @@ extension PropertyList {
 package protocol PropertyKeyLookup {
     associatedtype Primary: PropertyKey
     associatedtype Secondary: PropertyKey
+    
+    static func lookup(in: Secondary.Value) -> Primary.Value?
 } 
 
 package protocol PropertyKey {
@@ -238,6 +257,20 @@ package protocol PropertyKey {
     
     static var defaultValue: Value {
         get
+    }
+    
+    static func valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool
+}
+
+extension PropertyKey {
+    package static func valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool {
+        return compareValues(lhs, rhs, options: [.unknown1, .unknown2])
+    }
+}
+
+extension PropertyKey where Value : Equatable {
+    package static func valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool {
+        return lhs == rhs
     }
 }
 
@@ -257,16 +290,59 @@ fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
      filter = x27
      secondaryFilter = x20
      T = x23
+     Primary = x28
+     Secondary = x29 = 0x80
      */
     guard let element else {
         return nil
     }
     
+    // x21
     var skip: Unmanaged<PropertyList.Element> = element
     while true {
-        
+        if skip.takeUnretainedValue().skipFilter.mayContain(filter) {
+            if
+                let before = skip.takeUnretainedValue().before,
+                let result = findValueWithSecondaryLookup(Unmanaged.passUnretained(before), secondaryLookupHandler: secondaryLookupHandler, filter: filter, secondaryFilter: secondaryFilter)
+            {
+                return result
+            }
+            
+            let keyType = skip.takeUnretainedValue().keyType
+            if keyType == T.Primary.self {
+                // <+876>
+                // offset 0x48에 접근하는 것을 보아 TypedElement.value를 가져오는 것으로 보임
+                let element = Unmanaged<TypedElement<T.Primary>>.fromOpaque(skip.toOpaque())
+                let value = element.takeUnretainedValue().value
+                return value
+            }
+            
+            if keyType == T.Secondary.self {
+                // <+672>
+                // offset 0x48에 접근하는 것을 보아 TypedElement.value를 가져오는 것으로 보임
+                let element = Unmanaged<TypedElement<T.Secondary>>.fromOpaque(skip.toOpaque())
+                let value = element.takeUnretainedValue().value
+                guard let result = T.lookup(in: value) else {
+                    continue
+                }
+                return result
+            }
+            
+            if let after = skip.takeUnretainedValue().after {
+                skip = .passUnretained(after)
+                continue
+            }
+            
+            return nil
+        } else {
+            guard let newSkip = skip.takeUnretainedValue().skip else {
+                return nil
+            }
+            skip = newSkip
+        }
     }
-    fatalError("TODO")
+    
+    return nil
 }
 
 fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type, filter: BloomFilter) -> Unmanaged<TypedElement<T>>? {

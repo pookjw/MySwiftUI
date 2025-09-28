@@ -99,7 +99,9 @@ exports:
     _$s14AttributeGraph08OptionalA0V14projectedValueAA0A0VyxGSgvg,
     _$s14AttributeGraph08OptionalA0V14projectedValueAA0A0VyxGSgvs,
     _$s14AttributeGraph08OptionalA0V14projectedValueAA0A0VyxGSgvM,
-    _AGSubgraphUpdate ]
+    _AGSubgraphUpdate,
+    _$s14AttributeGraph13compareValues__4modeSbx_xSo16AGComparisonModeVtlF,
+    _$s14AttributeGraph13compareValues__7optionsSbx_xSo19AGComparisonOptionsVtlF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

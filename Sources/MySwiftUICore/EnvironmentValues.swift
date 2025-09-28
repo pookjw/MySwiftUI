@@ -81,8 +81,9 @@ public struct EnvironmentValues: CustomStringConvertible {
 }
 
 extension EnvironmentValues {
-    package init(_: EnvironmentValues) {
-        fatalError("TODO")
+    package init(_ environmentValues: EnvironmentValues) {
+        self._plist = environmentValues.plist
+        self.tracker = nil
     }
 }
 
