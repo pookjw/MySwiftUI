@@ -8,10 +8,16 @@ public enum ColorScheme {
 extension EnvironmentValues {
     package var systemColorScheme: ColorScheme {
         get {
-            fatalError("TODO")
+            return self[SystemColorSchemeKey.self]
         }
         set {
-            fatalError("TODO")
+            self[SystemColorSchemeKey.self] = newValue
         }
+    }
+}
+
+fileprivate struct SystemColorSchemeKey: EnvironmentKey {
+    static var defaultValue: ColorScheme {
+        return .light
     }
 }

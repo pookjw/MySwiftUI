@@ -14,6 +14,8 @@ typedef NS_ENUM(NSInteger, UIUserInterfaceContainerVibrancy) {
     UIUserInterfaceContainerVibrancyUltraDarkerGlass = 2
 };
 
+UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_SWIFT_NONISOLATED;
+
 @interface UITraitCollection (Private)
 @property (nonatomic, readonly, nullable) NSObject *_environmentWrapper;
 @property (nonatomic, readonly) BOOL mrui_ornamentStatus;
@@ -22,6 +24,9 @@ typedef NS_ENUM(NSInteger, UIUserInterfaceContainerVibrancy) {
 - (void)_setEnvironmentWrapper:(NSObject * _Nullable)wrapper;
 - (UIPlatterGroundingShadowVisibility)_platterGroundingShadowVisibility;
 - (UIUserInterfaceContainerVibrancy)_containerVibrancy;
+- (CGFloat)displayCornerRadius;
+- (NSInteger)_platterStatus;
+- (NSInteger)_userInterfaceRenderingMode;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

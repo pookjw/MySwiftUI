@@ -1,6 +1,7 @@
 internal import UIKit
 private import _UIKitPrivate
 package import MySwiftUICore
+private import _DyldPrivate
 
 extension UITraitCollection {
     // ___lldb_unnamed_symbol316127
@@ -62,6 +63,58 @@ extension UITraitCollection {
         result.systemColorScheme = self.colorScheme
         
         // <+2340>
+        var displayScale = self.displayScale
+        if displayScale == 0 {
+            displayScale = 1
+        }
+        result.displayScale = displayScale
+        
+        switch self.horizontalSizeClass {
+        case .compact:
+            result.horizontalSizeClass = .compact
+        case .regular:
+            result.horizontalSizeClass = .regular
+        default:
+            result.horizontalSizeClass = nil
+        }
+        
+        switch self.verticalSizeClass {
+        case .compact:
+            result.verticalSizeClass = .compact
+        case .regular:
+            result.verticalSizeClass = .regular
+        default:
+            result.verticalSizeClass = nil
+        }
+        
+        result.backgroundLevel = self.userInterfaceLevel.rawValue
+        
+        let displayCornerRadius = self.displayCornerRadius()
+        if displayCornerRadius == _UITraitCollectionDisplayCornerRadiusUnspecified {
+            result.displayCornerRadius = 0
+        } else {
+            result.displayCornerRadius = displayCornerRadius
+        }
+        
+        if displayCornerRadius != 0 {
+            result.pointsPerMeter = self._pointsPerMeter()
+        }
+        
+        if self.userInterfaceIdiom == .vision {
+            result.isContainedInPlatter = (self._platterStatus() == 1)
+        }
+        
+        if self._userInterfaceRenderingMode() == 2 {
+            result.isVibrantColorStyleEnabled = true
+        }
+        
+        if #available(iOS 18.0, visionOS 2.0, *) {
+            result.isVibrantColorStyleEnabled = true
+        }
+        
+        result.windowAppearsActive = (self.activeAppearance == .active)
+        
+        // <+2960>
         fatalError("TODO")
     }
     

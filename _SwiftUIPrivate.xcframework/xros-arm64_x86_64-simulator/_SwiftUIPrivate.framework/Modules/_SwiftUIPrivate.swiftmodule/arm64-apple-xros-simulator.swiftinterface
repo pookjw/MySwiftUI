@@ -492,3 +492,6 @@ extension os.OSLog {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public func changedBodyProperties<T>(of type: T.Type) -> [String]
+
+@_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE26isVibrantColorStyleEnabledSbvs")
+public func set(isVibrantColorStyleEnabled: Bool)

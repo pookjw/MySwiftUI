@@ -116,6 +116,10 @@ let package = Package(
             path: "StopwatchSupport.xcframework"
         ),
         .binaryTarget(
+            name: "_CoreFoundationPrivate",
+            path: "_CoreFoundationPrivate.xcframework"
+        ),
+        .binaryTarget(
             name: "CoreRE",
             path: "CoreRE.xcframework"
         ),

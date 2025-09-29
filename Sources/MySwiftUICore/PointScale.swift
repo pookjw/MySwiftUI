@@ -10,6 +10,15 @@ extension EnvironmentValues {
             self[PointScaleKey.self] = newValue
         }
     }
+    
+    package var pointsPerMeter: CGFloat {
+        get {
+            return self[PointScaleKey.self].pointsPerMeter
+        }
+        set {
+            self[PointScaleKey.self] = PointScale(pointsPerMeter: newValue)
+        }
+    }
 }
 
 package struct PointScale {
@@ -24,7 +33,7 @@ package struct PointScale {
     }
 }
 
-struct PointScaleKey: EnvironmentKey {
+struct PointScaleKey: BridgedEnvironmentKey {
     static var defaultValue: PointScale {
         return PointScale(pointsPerMeter: 1280)
     }

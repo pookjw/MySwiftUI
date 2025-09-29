@@ -26,10 +26,16 @@ public enum DynamicTypeSize : Hashable, Comparable, CaseIterable, Sendable {
 extension EnvironmentValues {
     public var dynamicTypeSize: DynamicTypeSize {
         get {
-            fatalError("TODO")
+            return self[DynamicTypeSizeKey.self]
         }
         set {
-            fatalError("TODO")
+            self[DynamicTypeSizeKey.self] = newValue
         }
+    }
+}
+
+fileprivate struct DynamicTypeSizeKey: EnvironmentKey {
+    static var defaultValue: DynamicTypeSize {
+        return .large
     }
 }

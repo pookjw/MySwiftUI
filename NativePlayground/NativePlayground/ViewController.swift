@@ -39,6 +39,9 @@ fileprivate struct Type2 {}
 class ViewController: UIViewController {
     override func loadView() {
         swizzle()
+//        print(EnvironmentValues().isVibrantColorStyleEnabled)
+//        set(isVibrantColorStyleEnabled: true)
+        
         print(EnvironmentValues().backgroundMaterial)
         UserDefaults.standard.set(false, forKey: "com.apple.SwiftUI.ViewGraphBridgePropertiesAreInput")
         
