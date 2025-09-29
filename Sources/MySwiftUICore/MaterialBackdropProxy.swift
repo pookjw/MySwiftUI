@@ -25,11 +25,29 @@ package struct MaterialBackdropProxy {
     }
     
     package func removeObserver(_ observer: any MaterialBackdropObserver) {
-        fatalError("TODO")
+        storage.data.withLockUnchecked { data in
+            if let firstIndex = data.observers.firstIndex(where: { other in
+                guard let other = other.observer else {
+                    return false
+                }
+                return ObjectIdentifier(other) == ObjectIdentifier(observer)
+            }) {
+                data.observers.remove(at: firstIndex)
+            }
+        }
     }
     
     package func addObserver(_ observer: any MaterialBackdropObserver) {
-        fatalError("TODO")
+        storage.data.withLockUnchecked { data in
+            if !data.observers.contains(where: { other in
+                guard let other = other.observer else {
+                    return false
+                }
+                return ObjectIdentifier(other) == ObjectIdentifier(observer)
+            }) {
+                data.observers.append(MaterialBackdropProxy.Observer(observer: observer))
+            }
+        }
     }
 }
 
