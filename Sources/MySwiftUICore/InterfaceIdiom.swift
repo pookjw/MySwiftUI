@@ -1,3 +1,5 @@
+#warning("TODO")
+
 struct InterfaceIdiom: Hashable {
     static var phone: InterfaceIdiom { return InterfaceIdiom(role: .phone) }
     static var pad: InterfaceIdiom { return InterfaceIdiom(role: .pad) }
@@ -32,4 +34,37 @@ extension InterfaceIdiom {
         case vision
         case nokit
     }
+}
+
+package struct AnyInterfaceIdiom: Hashable {
+    private let base: (any AnyInterfaceIdiomBox.Type)
+    
+    init(idiom: InterfaceIdiom) {
+        fatalError("TODO")
+    }
+    
+    init<T: InterfaceIdiomProtocol>(_ idiom: T) {
+        self.base = InterfaceIdiomBox<T>.self
+    }
+}
+
+protocol InterfaceIdiomProtocol {
+    func accepts<T: InterfaceIdiomProtocol>(_ idiom: T.Type) -> Bool
+    var interfaceIdiom: InterfaceIdiom { get }
+}
+
+fileprivate struct InterfaceIdiomBox<P: InterfaceIdiomProtocol>: AnyInterfaceIdiomBox, Hashable {
+    func accepts<T>(_ idiom: T.Type) -> Bool where T : InterfaceIdiomProtocol {
+        fatalError("TODO")
+    }
+    
+    func isEqual(to box: any AnyInterfaceIdiomBox.Type) -> Bool {
+        fatalError("TODO")
+    }
+}
+
+fileprivate protocol AnyInterfaceIdiomBox {
+    func accepts<T: InterfaceIdiomProtocol>(_ idiom: T.Type) -> Bool
+    func hash(into hasher: inout Hasher)
+    func isEqual(to box: (any AnyInterfaceIdiomBox.Type)) -> Bool
 }

@@ -19,12 +19,17 @@ extension EnvironmentValues {
         // x25
         let mainScreen = MyUIScreen.main
         
+        let userInterfaceIdiom: UIUserInterfaceIdiom
         if let traitCollection {
             // <+324>
-            fatalError("TODO")
+            userInterfaceIdiom = traitCollection.userInterfaceIdiom
+        } else {
+            // <+380>
+            userInterfaceIdiom = UIDevice.current.userInterfaceIdiom
         }
         
         // <+380>
+        userInterfaceIdiom.viewGraphIdiom
         fatalError("TODO")
     }
 }

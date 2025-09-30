@@ -138,7 +138,7 @@ package final class ViewGraphHost {
 }
 
 extension ViewGraphHost {
-    struct Idiom: Hashable {
+    package struct Idiom: Hashable {
         static var phone: Idiom { return Idiom(.phone) }
         static var pad: Idiom { return Idiom(.pad) }
         static var tv: Idiom { return Idiom(.tv) }
