@@ -5,8 +5,14 @@
 import UIKit
 import Foundation
 @_exported import _UIKitPrivate
+import SwiftUI
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "UIKit", visionOS 26.0)
 public class UIHostingViewBase: Foundation.NSObject {
+}
+
+extension UIKit.UITraitCollection {
+    @_silgen_name("$sSo17UITraitCollectionC5UIKitE27coreResolvedBaseEnvironment4base7SwiftUI0G6ValuesVAH_tF")
+    public func private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues) -> SwiftUI.EnvironmentValues
 }

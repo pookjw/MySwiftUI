@@ -3,7 +3,7 @@
 // swift-module-flags: -target arm64-apple-xros26.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 7.0.83.1.501 -module-name _SwiftUIPrivate -package-name _SwiftUIPrivate
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 @_exported import Swift
-@_exported import SwiftUI
+import SwiftUI
 @_exported import os.log
 @_exported import os
 @_exported import OSLog
@@ -495,3 +495,22 @@ public func changedBodyProperties<T>(of type: T.Type) -> [String]
 
 @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE26isVibrantColorStyleEnabledSbvs")
 public func set(isVibrantColorStyleEnabled: Bool)
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct MaterialBackdropProxy: Swift.Equatable {
+  public static func == (lhs: _SwiftUIPrivate.MaterialBackdropProxy, rhs: _SwiftUIPrivate.MaterialBackdropProxy) -> Swift.Bool
+  public var luminance: Swift.Float? {
+    get
+    nonmutating set
+  }
+  public init()
+  public func removeObserver(_: any _SwiftUIPrivate.MaterialBackdropObserver)
+  public func addObserver(_: any _SwiftUIPrivate.MaterialBackdropObserver)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol MaterialBackdropObserver: AnyObject {
+  func luminanceDidChange(_: Swift.Float?)
+}

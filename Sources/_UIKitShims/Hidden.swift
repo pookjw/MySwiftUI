@@ -1,6 +1,21 @@
-internal import UIKit
-internal import ObjectiveC
+private import UIKit
+private import ObjectiveC.runtime
+private import ObjectiveC.message
 internal import _UIKitPrivate
+#if SwiftUICompataibility
+internal import _SwiftUIPrivate
+#endif
+private import SwiftUI
+
+final class PrivateSelectors {
+    @objc(_swiftTypeName) var _swiftTypeName: NSString {
+        fatalError()
+    }
+    
+    @objc(_swiftValue) var _swiftValue: UnsafeRawPointer {
+        fatalError()
+    }
+}
 
 extension Notification.Name {
     static let applicationWillBeginSnapshotSessionNotification = Notification.Name(rawValue: "_UIApplicationWillBeginSnapshotSessionNotification")
@@ -15,6 +30,35 @@ extension Notification.Name {
 
 func UICoreKeyboardTrackingClass() -> AnyClass {
     return unsafe objc_lookUpClass("UICoreKeyboardTracking")!
+}
+
+func MaterialBackdropContextTraitToken() -> Any? {
+    /*
+     ___lldb_unnamed_symbol311478은 내부적으로
+     1. Shared Lock (_TtCV5UIKitP33_2B7F8531C57DD9B1FF22BDF345CB17E114_UISwiftTraits10UnfairLock) 생성 및 Lock/Unlock
+     2. +[UITraitCollection _defineObjectTraitWithName:identifier:defaultValue:affectsColorAppearance:defaultValueRepresentsUnspecified:isPrivate:placeholderToken:]을 통해 Trait를 정의
+     3. 그러면 Token이 한 번만 생성됨
+     
+     나는 1번 및 3번을 가져올 방법이 없어, 1~3을 처리하고 UITraitCollection으로 Token을 가져온다.
+     */
+    _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
+    let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "MaterialBackdropContext", identifier: "UIMaterialBackdropContext")!
+    
+    // ___lldb_unnamed_symbol316098의 동작
+    guard !UITraitCollection._isPlaceholderTraitToken(token) else {
+        return nil
+    }
+    
+    return token
+}
+
+func materialBackdropProxy(materialBackdropContext context: AnyObject) -> _SwiftUIPrivate.MaterialBackdropProxy? {
+    // context -> storage -> proxy
+    let storage = context._swiftValue!
+        .assumingMemoryBound(to: AnyObject.self)
+        .pointee
+    
+    return Mirror(reflecting: storage).descendant("proxy") as? _SwiftUIPrivate.MaterialBackdropProxy
 }
 
 @MainActor var _UIUpdateSequenceScheduledItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {

@@ -42,6 +42,18 @@ class ViewController: UIViewController {
 //        print(EnvironmentValues().isVibrantColorStyleEnabled)
 //        set(isVibrantColorStyleEnabled: true)
         
+        print(type(of: objc_lookUpClass("_TtCV5UIKitP33_2B7F8531C57DD9B1FF22BDF345CB17E114_UISwiftTraits10UnfairLock")!))
+        _forEachField(of:type(of: objc_lookUpClass("_TtCV5UIKitP33_2B7F8531C57DD9B1FF22BDF345CB17E114_UISwiftTraits10UnfairLock")!.alloc()), options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print(_typeByName("5UIKit28MaterialBackdropContextTraitV")!)
+        _forEachField(of: _typeByName("5UIKit28MaterialBackdropContextTraitV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+//        print(type(of: objc_lookUpClass("_TtCV5UIKit23MaterialBackdropContextP33_B4E1891EFAA97781768AA47DAB5BDF997Storage")!))
         print(EnvironmentValues().backgroundMaterial)
         UserDefaults.standard.set(false, forKey: "com.apple.SwiftUI.ViewGraphBridgePropertiesAreInput")
         

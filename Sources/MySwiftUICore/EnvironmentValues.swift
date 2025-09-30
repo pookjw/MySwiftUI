@@ -110,8 +110,8 @@ struct EnvironmentPropertyKey<T: EnvironmentKey>: PropertyKey {
         return T.defaultValue
     }
     
-    static func valuesEqual(_: T.Value, _: T.Value) -> Bool {
-        fatalError("TODO")
+    static func valuesEqual(_ lhs: T.Value, _ rhs: T.Value) -> Bool {
+        return T._valuesEqual(lhs, rhs)
     }
 }
 

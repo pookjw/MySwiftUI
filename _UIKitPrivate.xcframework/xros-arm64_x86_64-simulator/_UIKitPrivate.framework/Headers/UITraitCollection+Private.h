@@ -17,6 +17,8 @@ typedef NS_ENUM(NSInteger, UIUserInterfaceContainerVibrancy) {
 UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_SWIFT_NONISOLATED;
 
 @interface UITraitCollection (Private)
++ (id _Nullable)_existingTraitTokenReservingPlaceholderIfNecessaryWithName:(NSString *)name identifier:(NSString *)identifier;
++ (BOOL)_isPlaceholderTraitToken:(id)token;
 @property (nonatomic, readonly, nullable) NSObject *_environmentWrapper;
 @property (nonatomic, readonly) BOOL mrui_ornamentStatus;
 - (CGFloat)_pointsPerMeter;
@@ -27,6 +29,8 @@ UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_S
 - (CGFloat)displayCornerRadius;
 - (NSInteger)_platterStatus;
 - (NSInteger)_userInterfaceRenderingMode;
+- (id _Nullable)_objectForTraitToken:(id)token;
+- (NSInteger)_valueForNSIntegerTraitToken:(id)token;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

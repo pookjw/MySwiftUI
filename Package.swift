@@ -16,6 +16,10 @@ let package = Package(
             ]
         ),
     ],
+    traits: [
+        .trait(name: "SwiftUICompataibility"),
+        .`default`(enabledTraits: ["SwiftUICompataibility"])
+    ],
     targets: [
         .target(
             name: "MySwiftUI",
@@ -42,7 +46,8 @@ let package = Package(
                 .byName(name: "_KernPrivate"),
                 .byName(name: "_MySwiftUIShims"),
                 .byName(name: "FeatureFlags"),
-                .byName(name: "StopwatchSupport")
+                .byName(name: "StopwatchSupport"),
+                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"]))
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -70,7 +75,8 @@ let package = Package(
             name: "_UIKitShims",
             dependencies: [
                 .byName(name: "_UIKitPrivate"),
-                .byName(name: "MySwiftUICore")
+                .byName(name: "MySwiftUICore"),
+                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"]))
             ],
             swiftSettings: [
                 .strictMemorySafety()

@@ -1,10 +1,12 @@
 extension EnvironmentValues {
     package var accessibilitySettingsDefinition: PlatformSystemDefinition? {
         get {
-            return self[AccessibilitySettingsDefinitionKey.self]
+            // 다름
+            fatalError()
         }
         set {
-            self[AccessibilitySettingsDefinitionKey.self] = newValue
+            // 다름
+            fatalError()
         }
     }
 }

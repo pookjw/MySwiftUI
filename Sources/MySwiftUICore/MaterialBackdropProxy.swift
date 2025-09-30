@@ -1,6 +1,31 @@
+#if SwiftUICompataibility
+package import _SwiftUIPrivate
+
+fileprivate struct MaterialBackdropProxyKey: EnvironmentKey {
+    static var defaultValue: _SwiftUIPrivate.MaterialBackdropProxy? {
+        return nil
+    }
+}
+
+extension EnvironmentValues {
+    package var materialBackdropProxy: _SwiftUIPrivate.MaterialBackdropProxy? {
+        get {
+            return self[MaterialBackdropProxyKey.self]
+        }
+        set {
+            self[MaterialBackdropProxyKey.self] = newValue
+        }
+    }
+}
+
+#else
 private import os.lock
 
-package struct MaterialBackdropProxy {
+package struct MaterialBackdropProxy: Equatable {
+    package static func == (lhs: MaterialBackdropProxy, rhs: MaterialBackdropProxy) -> Bool {
+        return ObjectIdentifier(lhs.storage) == ObjectIdentifier(rhs.storage)
+    }
+    
     private var storage = MaterialBackdropProxy.Storage()
     
     package var luminance: Float? {
@@ -9,10 +34,15 @@ package struct MaterialBackdropProxy {
                 return data.luminance
             }
         }
-        set {
+        nonmutating set {
             let observers = storage.data.withLockUnchecked { data in
+                let oldValue = data.luminance
                 data.luminance = newValue
-                return data.observers
+                if oldValue == newValue {
+                    return []
+                } else {
+                    return data.observers
+                }
             }
             
             for observer in observers {
@@ -71,3 +101,21 @@ extension MaterialBackdropProxy.Storage {
 package protocol MaterialBackdropObserver: AnyObject {
     func luminanceDidChange(_ luminance: Float?)
 }
+
+fileprivate struct MaterialBackdropProxyKey: EnvironmentKey {
+    static var defaultValue: MaterialBackdropProxy? {
+        return nil
+    }
+}
+
+extension EnvironmentValues {
+    package var materialBackdropProxy: MaterialBackdropProxy? {
+        get {
+            return self[MaterialBackdropProxyKey.self]
+        }
+        set {
+            self[MaterialBackdropProxyKey.self] = newValue
+        }
+    }
+}
+#endif

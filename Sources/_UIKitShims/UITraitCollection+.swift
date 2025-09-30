@@ -1,7 +1,10 @@
 internal import UIKit
 private import _UIKitPrivate
-package import MySwiftUICore
+@_spi(Internal) package import MySwiftUICore
 private import _DyldPrivate
+#if SwiftUICompataibility
+private import _SwiftUIPrivate
+#endif
 
 extension UITraitCollection {
     // ___lldb_unnamed_symbol316127
@@ -115,6 +118,17 @@ extension UITraitCollection {
         result.windowAppearsActive = (self.activeAppearance == .active)
         
         // <+2960>
+#if SwiftUICompataibility
+        result.materialBackdropProxy = materialBackdropProxy(materialBackdropContext: self.materialBackdropContext!)
+#else
+#error("Unsupported")
+#endif
+        
+        // <+3052>
+        result.accessibilitySettingsDefinition = PlatformSystemDefinition.uiKit
+        
+        // TODO
+        let value = self._value(forNSIntegerTraitToken: MaterialBackdropContextTraitToken()!)
         fatalError("TODO")
     }
     
@@ -128,5 +142,14 @@ extension UITraitCollection {
         default:
             return .light
         }
+    }
+    
+    // ___lldb_unnamed_symbol311478
+    private var materialBackdropContext: AnyObject? {
+#if SwiftUICompataibility
+        return self._object(forTraitToken: MaterialBackdropContextTraitToken()!) as? AnyObject
+#else
+#error("Unsupported")
+#endif
     }
 }
