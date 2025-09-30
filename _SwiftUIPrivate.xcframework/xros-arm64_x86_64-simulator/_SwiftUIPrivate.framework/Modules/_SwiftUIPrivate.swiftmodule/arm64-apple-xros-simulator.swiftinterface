@@ -514,3 +514,52 @@ public struct MaterialBackdropProxy: Swift.Equatable {
 public protocol MaterialBackdropObserver: AnyObject {
   func luminanceDidChange(_: Swift.Float?)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class PlatformAccessibilitySettingsDefinition {
+  public init()
+
+  public enum Setting: Swift.Hashable {
+    case differentiateWithoutColors
+    case reduceTransparency
+    case reduceMotion
+    case prefersCrossFadeTransitions
+    case invertColors
+    case boldText
+    case buttonShapes
+    case dimFlashingLights
+    case playAnimatedImages
+    case headAnchorAlternative
+    case increaseFocusState
+    case reduceHoverReveal
+    case onOffLabels
+    case quickActions
+    case largeContentViewer
+    case voiceOver
+    case switchControl
+    case fullKeyboardAccess
+    case voiceControl
+    case hoverText
+  }
+
+  public func currentValue(for setting: _SwiftUIPrivate.PlatformAccessibilitySettingsDefinition.Setting) -> Swift.Bool
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PlatformSystemDefinition: Swift.Hashable {
+  public static var uiKit: _SwiftUIPrivate.PlatformSystemDefinition { get }
+  public static var appKit: _SwiftUIPrivate.PlatformSystemDefinition { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.EnvironmentValues {
+  public var accessibilitySettingsDefinition: _SwiftUIPrivate.PlatformSystemDefinition? {
+    @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE31accessibilitySettingsDefinitionAA014PlatformSystemG0VSgvg")
+    get
+    @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE31accessibilitySettingsDefinitionAA014PlatformSystemG0VSgvs")
+    set
+  }
+}

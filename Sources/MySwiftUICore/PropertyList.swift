@@ -57,7 +57,7 @@ private import AttributeGraph
             }
             
             if let element = find(ref, key: key) {
-                if key.valuesEqual(newValue, element.takeUnretainedValue().value) {
+                if Key.valuesEqual(newValue, element.takeUnretainedValue().value) {
                     return
                 }
             }

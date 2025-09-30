@@ -14,6 +14,12 @@ typedef NS_ENUM(NSInteger, UIUserInterfaceContainerVibrancy) {
     UIUserInterfaceContainerVibrancyUltraDarkerGlass = 2
 };
 
+typedef NS_ENUM(NSInteger, UIColorMaterialRenderingMode) {
+    UIColorMaterialRenderingModeAutomatic = 0,
+    UIColorMaterialRenderingModeAdaptiveSystemColors = 1,
+    UIColorMaterialRenderingModeAdaptiveAllColors = 2
+};
+
 UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_SWIFT_NONISOLATED;
 
 @interface UITraitCollection (Private)

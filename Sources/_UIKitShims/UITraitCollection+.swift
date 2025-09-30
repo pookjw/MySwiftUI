@@ -121,15 +121,24 @@ extension UITraitCollection {
 #if SwiftUICompataibility
         result.materialBackdropProxy = materialBackdropProxy(materialBackdropContext: self.materialBackdropContext!)
 #else
-#error("Unsupported")
+#error("TODO")
 #endif
         
         // <+3052>
-        result.accessibilitySettingsDefinition = PlatformSystemDefinition.uiKit
+        result.accessibilitySettingsDefinition = .uiKit
         
-        // TODO
-        let value = self._value(forNSIntegerTraitToken: MaterialBackdropContextTraitToken()!)
-        fatalError("TODO")
+        switch UIColorMaterialRenderingMode(rawValue: self._value(forNSIntegerTraitToken: ColorMaterialRenderingMode()!)) {
+        case .automatic:
+            result.materialColorRenderingMode = .automatic
+        case .adaptiveSystemColors:
+            result.materialColorRenderingMode = .adaptiveSystemColors
+        case .adaptiveAllColors:
+            result.materialColorRenderingMode = .adaptiveAllColors
+        @unknown default:
+            result.materialColorRenderingMode = .automatic
+        }
+        
+        return result
     }
     
     // ___lldb_unnamed_symbol316116
@@ -149,7 +158,7 @@ extension UITraitCollection {
 #if SwiftUICompataibility
         return self._object(forTraitToken: MaterialBackdropContextTraitToken()!) as? AnyObject
 #else
-#error("Unsupported")
+#error("TODO")
 #endif
     }
 }

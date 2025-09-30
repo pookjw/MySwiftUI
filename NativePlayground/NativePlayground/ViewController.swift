@@ -42,8 +42,16 @@ class ViewController: UIViewController {
 //        print(EnvironmentValues().isVibrantColorStyleEnabled)
 //        set(isVibrantColorStyleEnabled: true)
         
-        print(type(of: objc_lookUpClass("_TtCV5UIKitP33_2B7F8531C57DD9B1FF22BDF345CB17E114_UISwiftTraits10UnfairLock")!))
-        _forEachField(of:type(of: objc_lookUpClass("_TtCV5UIKitP33_2B7F8531C57DD9B1FF22BDF345CB17E114_UISwiftTraits10UnfairLock")!.alloc()), options: [.classType]) { name, offset, type, kind in
+//        do {
+//            var env = EnvironmentValues()
+//            print(env.accessibilitySettingsDefinition)
+//            env.accessibilitySettingsDefinition = .uiKit
+//            print(env.accessibilitySettingsDefinition)
+//        }
+        print(PlatformAccessibilitySettingsDefinition.init().currentValue(for: .boldText))
+        
+        print(PlatformAccessibilitySettingsDefinition.self)
+        _forEachField(of: PlatformAccessibilitySettingsDefinition.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

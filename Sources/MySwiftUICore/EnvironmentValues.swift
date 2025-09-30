@@ -1,5 +1,6 @@
 #warning("TODO")
 package import UIKit
+private import AttributeGraph
 
 public struct EnvironmentValues: CustomStringConvertible {
     private var _plist: PropertyList
@@ -95,13 +96,13 @@ public protocol EnvironmentKey {
 
 extension EnvironmentKey {
     public static func _valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool {
-        fatalError("TODO")
+        return compareValues(lhs, rhs, mode: .unknown103)
     }
 }
 
 extension EnvironmentKey where Self.Value : Equatable {
   public static func _valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool {
-      fatalError("TODO")
+      return lhs == rhs
   }
 }
 

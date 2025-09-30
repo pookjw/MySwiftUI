@@ -44,10 +44,12 @@ func MaterialBackdropContextTraitToken() -> Any? {
     _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "MaterialBackdropContext", identifier: "UIMaterialBackdropContext")!
     
-    // ___lldb_unnamed_symbol316098의 동작
-    guard !UITraitCollection._isPlaceholderTraitToken(token) else {
-        return nil
-    }
+    return token
+}
+
+func ColorMaterialRenderingMode() -> Any? {
+    _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
+    let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "UIColor.materialRenderingMode", identifier: "UITraitColorMaterialRenderingMode")!
     
     return token
 }
