@@ -1,5 +1,4 @@
 #warning("TODO")
-package import UIKit
 private import AttributeGraph
 
 public struct EnvironmentValues: CustomStringConvertible {
@@ -66,10 +65,6 @@ public struct EnvironmentValues: CustomStringConvertible {
     
     mutating func setValue<K: EnvironmentKey>(_ value: K.Value, for type: K.Type) {
         _set(value, for: type)
-    }
-    
-    package func configureForPlatform(traitCollection: UITraitCollection?) {
-        fatalError("TODO")
     }
     
     private mutating func _set<Key: EnvironmentKey>(_ value: Key.Value, for key: Key.Type) {

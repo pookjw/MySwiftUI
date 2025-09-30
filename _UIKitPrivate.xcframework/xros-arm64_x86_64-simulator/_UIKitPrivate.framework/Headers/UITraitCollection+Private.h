@@ -9,6 +9,7 @@ typedef NS_ENUM(NSInteger, UIPlatterGroundingShadowVisibility) {
 };
 
 typedef NS_ENUM(NSInteger, UIUserInterfaceContainerVibrancy) {
+    UIUserInterfaceContainerVibrancyUndefined = -1,
     UIUserInterfaceContainerVibrancyLigherGlass = 0,
     UIUserInterfaceContainerVibrancyDarkerGlass = 1,
     UIUserInterfaceContainerVibrancyUltraDarkerGlass = 2
@@ -19,6 +20,9 @@ typedef NS_ENUM(NSInteger, UIColorMaterialRenderingMode) {
     UIColorMaterialRenderingModeAdaptiveSystemColors = 1,
     UIColorMaterialRenderingModeAdaptiveAllColors = 2
 };
+
+typedef NSInteger UIPlatterStatus;
+typedef NSInteger UIUserInterfaceVibrancy;
 
 UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_SWIFT_NONISOLATED;
 
@@ -33,10 +37,11 @@ UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_S
 - (UIPlatterGroundingShadowVisibility)_platterGroundingShadowVisibility;
 - (UIUserInterfaceContainerVibrancy)_containerVibrancy;
 - (CGFloat)displayCornerRadius;
-- (NSInteger)_platterStatus;
+- (UIPlatterStatus)_platterStatus;
 - (NSInteger)_userInterfaceRenderingMode;
 - (id _Nullable)_objectForTraitToken:(id)token;
 - (NSInteger)_valueForNSIntegerTraitToken:(id)token;
+- (UIUserInterfaceVibrancy)_vibrancy;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

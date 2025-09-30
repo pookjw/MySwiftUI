@@ -1206,7 +1206,7 @@ extension UITraitCollection {
                 material = .darkerGlass
             case .ultraDarkerGlass:
                 material = .ultraDarkerGlass
-            @unknown default:
+            default:
                 material = nil
             }
             environmentValues.backgroundMaterial = material
@@ -1223,7 +1223,41 @@ extension UITraitCollection {
     }
     
     fileprivate func resolvedPostEnvironment(base: EnvironmentValues) -> EnvironmentValues {
-        fatalError("TODO")
+        var result = base
+        
+        guard self._vibrancy() == 1 else {
+            return result
+        }
+        
+        guard isLinkedOnOrAfter(.v5) else {
+            return result
+        }
+        
+        guard let backgroundMaterial = result.backgroundMaterial else {
+            return result
+        }
+        
+        switch self._containerVibrancy() {
+        case .ligherGlass:
+            result.backgroundMaterial = .lighterGlass
+        case .darkerGlass:
+            result.backgroundMaterial = .darkerGlass
+        case .ultraDarkerGlass:
+            result.backgroundMaterial = .ultraDarkerGlass
+        default:
+            result.backgroundMaterial = nil
+        }
+        
+        guard result.backgroundMaterial == nil else {
+            return result
+        }
+        
+        guard result.isContainedInPlatter else {
+            return result
+        }
+        
+        result.backgroundMaterial = .vibrantGlassContent
+        return result
     }
 }
 
