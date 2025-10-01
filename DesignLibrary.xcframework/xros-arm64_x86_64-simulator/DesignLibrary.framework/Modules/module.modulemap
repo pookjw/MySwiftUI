@@ -1,0 +1,5 @@
+framework module DesignLibrary {
+    umbrella header "DesignLibrary.h"
+    export *
+    module * { export * }
+}

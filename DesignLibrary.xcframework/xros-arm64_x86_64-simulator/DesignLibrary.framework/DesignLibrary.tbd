@@ -1,0 +1,31 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+install-name:    '/System/Library/PrivateFrameworks/DesignLibrary.framework/DesignLibrary'
+swift-abi-version: 7
+exports:
+  - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+    symbols:         [ _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE11designIdiomAD0eH0Ovg,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE11designIdiomAD0eH0Ovs,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE11designIdiomAD0eH0OvM,
+    _$s13DesignLibrary0A5IdiomO2eeoiySbAC_ACtFZ,
+    _$s13DesignLibrary0A5IdiomO4hash4intoys6HasherVz_tF,
+    _$s13DesignLibrary0A5IdiomO9hashValueSivg,
+    _$s13DesignLibrary0A5IdiomOMa,
+    _$s13DesignLibrary0A5IdiomOSQAAMc,
+    _$s13DesignLibrary0A5IdiomOSHAAMc,
+    _$s13DesignLibrary0A5IdiomO9hashValueSivpMV,
+    _$s13DesignLibrary0A5IdiomO9universalyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO3macyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO5phoneyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO3padyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO2tvyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO5watchyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO7spatialyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO7carPlayyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO8touchBaryA2CmFWC,
+    _$s13DesignLibrary0A5IdiomOMn
+    ]
+    objc-classes:         [  ]
+    objc-ivars:           [  ]
+...

@@ -562,4 +562,11 @@ extension SwiftUI.EnvironmentValues {
     @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE31accessibilitySettingsDefinitionAA014PlatformSystemG0VSgvs")
     set
   }
+
+  public var viewGraphRenderingRootView: Swift.AnyObject? {
+    @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE26viewGraphRenderingRootViewyXlSgvg")
+    get
+    @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE26viewGraphRenderingRootViewyXlSgvs")
+    set
+  }
 }

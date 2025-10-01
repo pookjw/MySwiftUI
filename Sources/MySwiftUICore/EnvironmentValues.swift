@@ -8,7 +8,7 @@ public struct EnvironmentValues: CustomStringConvertible {
         get {
             return _plist
         }
-        set {
+        mutating set {
             tracker?.invalidateAllValues(from: _plist, to: newValue)
             _plist = newValue
         }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */; };
+		4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */; };
 		4F27770E2E520A1F00867E37 /* RealitySimulationServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F27770D2E520A1F00867E37 /* RealitySimulationServices.xcframework */; };
 		4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2777112E5247CD00867E37 /* BaseBoard.xcframework */; };
 		4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoreRE.xcframework; path = ../CoreRE.xcframework; sourceTree = "<group>"; };
+		4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DesignLibrary.xcframework; path = ../DesignLibrary.xcframework; sourceTree = "<group>"; };
 		4F27770D2E520A1F00867E37 /* RealitySimulationServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealitySimulationServices.xcframework; path = ../RealitySimulationServices.xcframework; sourceTree = "<group>"; };
 		4F2777112E5247CD00867E37 /* BaseBoard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BaseBoard.xcframework; path = ../BaseBoard.xcframework; sourceTree = "<group>"; };
 		4F48083C2E4CAFAF004F6972 /* MyPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +77,7 @@
 				4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */,
 				4FE8D0FD2E56AA8200352E55 /* _QuartzCorePrivate.xcframework in Frameworks */,
 				4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */,
+				4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */,
 				4F8F091E2E51DA7A00EFC573 /* AttributeGraph.xcframework in Frameworks */,
 				4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */,
 				4F27770E2E520A1F00867E37 /* RealitySimulationServices.xcframework in Frameworks */,
@@ -105,6 +108,7 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */,
 				4FACEFA72E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework */,
 				4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */,
 				4F7A468B2E72900000BD29EF /* StopwatchSupport.xcframework */,

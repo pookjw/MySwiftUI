@@ -150,7 +150,7 @@ extension ViewGraphHost {
         
         var base: InterfaceIdiom
         
-        init(_ idiom: InterfaceIdiom) {
+        package init(_ idiom: InterfaceIdiom) {
             self.base = idiom
         }
     }
@@ -171,6 +171,20 @@ extension ViewGraphHost {
         
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
             fatalError("TODO")
+        }
+    }
+}
+
+extension ViewGraphHost {
+    package struct AssetCatalogConfiguration: Equatable {
+        package var referenceBounds: CGRect
+        package var pointsPerInch: CGFloat
+        package var preferredArtworkSubtype: Int
+        
+        package init(referenceBounds: CGRect, pointsPerInch: CGFloat, preferredArtworkSubtype: Int) {
+            self.referenceBounds = referenceBounds
+            self.pointsPerInch = pointsPerInch
+            self.preferredArtworkSubtype = preferredArtworkSubtype
         }
     }
 }

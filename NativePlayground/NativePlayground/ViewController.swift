@@ -12,6 +12,7 @@ import _SwiftUIPrivate
 import _UIKitPrivate
 import ObjectiveC.runtime
 import ObjectiveC.message
+import DesignLibrary
 
 
 func swizzle() {
@@ -39,6 +40,7 @@ fileprivate struct Type2 {}
 class ViewController: UIViewController {
     override func loadView() {
         swizzle()
+        print(EnvironmentValues().viewGraphRenderingRootView)
 //        print(EnvironmentValues().isVibrantColorStyleEnabled)
 //        set(isVibrantColorStyleEnabled: true)
         

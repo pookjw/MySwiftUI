@@ -31,7 +31,9 @@ let package = Package(
                 .byName(name: "_UIKitShims"),
                 .byName(name: "MySwiftUICore"),
                 .byName(name: "RealitySimulationServices"),
-                .byName(name: "MRUIKit")
+                .byName(name: "MRUIKit"),
+                .byName(name: "DesignLibrary"),
+                .byName(name: "_DesignLibraryShims")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -83,6 +85,13 @@ let package = Package(
             ]
         ),
         .target(
+            name: "_DesignLibraryShims",
+            dependencies: [
+                .byName(name: "DesignLibrary"),
+                .byName(name: "MySwiftUICore")
+            ]
+        ),
+        .target(
             name: "_DyldPrivate"
         ),
         .binaryTarget(
@@ -128,6 +137,10 @@ let package = Package(
         .binaryTarget(
             name: "CoreRE",
             path: "CoreRE.xcframework"
+        ),
+        .binaryTarget(
+            name: "DesignLibrary",
+            path: "DesignLibrary.xcframework"
         ),
         .target(
             name: "_KernPrivate",

@@ -11,6 +11,7 @@
 		4F129C0E2E6CA3BC00AE98B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F129C0D2E6CA3BC00AE98B6 /* UIKit.framework */; };
 		4F129C102E6CA3F000AE98B6 /* BaseBoard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F129C0F2E6CA3F000AE98B6 /* BaseBoard.xcframework */; };
 		4F12FB2F2E8163FE00E88FF1 /* CoreRE.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F12FB2E2E8163FE00E88FF1 /* CoreRE.xcframework */; };
+		4F147C8F2E8D58E200FAE51D /* DesignLibrary.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147C8E2E8D58E200FAE51D /* DesignLibrary.xcframework */; };
 		4F3DD3D92E71BD8B00F1652A /* StopwatchSupport.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3DD3D82E71BD8B00F1652A /* StopwatchSupport.xcframework */; };
 		4F3DD3DB2E71BDA700F1652A /* MRUIKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3DD3DA2E71BDA700F1652A /* MRUIKit.xcframework */; };
 		4F48088C2E4CE8E3004F6972 /* _SwiftPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F48088B2E4CE8E3004F6972 /* _SwiftPrivate.xcframework */; };
@@ -25,6 +26,7 @@
 		4F129C0D2E6CA3BC00AE98B6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4F129C0F2E6CA3F000AE98B6 /* BaseBoard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BaseBoard.xcframework; path = ../BaseBoard.xcframework; sourceTree = "<group>"; };
 		4F12FB2E2E8163FE00E88FF1 /* CoreRE.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoreRE.xcframework; path = ../CoreRE.xcframework; sourceTree = "<group>"; };
+		4F147C8E2E8D58E200FAE51D /* DesignLibrary.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DesignLibrary.xcframework; path = ../DesignLibrary.xcframework; sourceTree = "<group>"; };
 		4F21100E2E668DC600803B98 /* _UIKitPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _UIKitPrivate.xcframework; path = ../_UIKitPrivate.xcframework; sourceTree = "<group>"; };
 		4F3DD3D82E71BD8B00F1652A /* StopwatchSupport.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = StopwatchSupport.xcframework; path = ../StopwatchSupport.xcframework; sourceTree = "<group>"; };
 		4F3DD3DA2E71BDA700F1652A /* MRUIKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MRUIKit.xcframework; path = ../MRUIKit.xcframework; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				4F129C102E6CA3F000AE98B6 /* BaseBoard.xcframework in Frameworks */,
 				4FACEF952E895EB300467C05 /* RealitySimulationServices.xcframework in Frameworks */,
 				4F3DD3DB2E71BDA700F1652A /* MRUIKit.xcframework in Frameworks */,
+				4F147C8F2E8D58E200FAE51D /* DesignLibrary.xcframework in Frameworks */,
 				4F7A46A62E72ECBC00BD29EF /* _QuartzCorePrivate.xcframework in Frameworks */,
 				4F3DD3D92E71BD8B00F1652A /* StopwatchSupport.xcframework in Frameworks */,
 				4FE8D0F72E560F0F00352E55 /* _SwiftUIPrivate.xcframework in Frameworks */,
@@ -102,6 +105,7 @@
 		4F48088A2E4CE8E3004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F147C8E2E8D58E200FAE51D /* DesignLibrary.xcframework */,
 				4FACEF942E895EB300467C05 /* RealitySimulationServices.xcframework */,
 				4F12FB2E2E8163FE00E88FF1 /* CoreRE.xcframework */,
 				4F7A46A92E72ECD700BD29EF /* QuartzCore.framework */,
