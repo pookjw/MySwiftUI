@@ -151,6 +151,8 @@ extension EnvironmentValues {
                 if let _traitCollection = traitCollection {
                     // <+124>
                     self.plist = PropertyList()
+                } else {
+                    return
                 }
             }
         } else {
