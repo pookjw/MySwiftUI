@@ -546,7 +546,7 @@ package final class UIHostingViewBase: NSObject {
         
         // <+988>
         environmentValues.isLowPowerModeEnabled = UIGlobalState.shared.isLowPowerModeEnabled
-        ___lldb_unnamed_symbol318321()
+        ___lldb_unnamed_symbol318321(environmentValues: &environmentValues)
         
         if let uiView = self.uiView {
             let traitCollection: UITraitCollection
@@ -564,21 +564,19 @@ package final class UIHostingViewBase: NSObject {
         fatalError("TODO")
     }
     
-    private func ___lldb_unnamed_symbol318321() {
-        /*
-         ___lldb_unnamed_symbol324429 = shared:getter = x24
-         */
+    private func ___lldb_unnamed_symbol318321(environmentValues: inout EnvironmentValues) {
         // x23
         guard let uiView else {
             return
         }
         
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
+        
         /*
-         -[UIView _typedStorage]
-         ___lldb_unnamed_symbol324271 (self = typedstorage)
-         
+         typedStorage가 내부적으로 Dictionary를 가지고 있고
+         Dicctionary의 어떤 값이 nil이면 return, 아니면 EnvironmentValues 설정
          */
+        let typedStorage = uiView.typedStorage
         fatalError("TODO")
     }
     

@@ -71,8 +71,8 @@ class ViewController: UIViewController {
             return true
         }
         
-        print(_typeByName("5UIKit28MaterialBackdropContextTraitV")!)
-        _forEachField(of: _typeByName("5UIKit28MaterialBackdropContextTraitV")!, options: []) { name, offset, type, kind in
+        print(_typeByName("So6UIViewC5UIKitE8MaterialP")!)
+        _forEachField(of: _typeByName("So6UIViewC5UIKitE8MaterialP")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

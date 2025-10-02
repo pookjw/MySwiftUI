@@ -117,3 +117,39 @@ fileprivate func item(from phase: UIUpdateActionPhase) -> UnsafeMutablePointer<_
     
     return nil
 }
+
+extension UIView {
+    var typedStorage: AnyObject {
+        let (ivarsCount, ivars) = unsafe withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
+            let ivars = unsafe class_copyIvarList(UIView.self, pointer.baseAddress)
+            return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
+        }
+        defer {
+            unsafe ivars.deallocate()
+        }
+        
+        let span = unsafe Span(_unsafeElements: UnsafeBufferPointer<Ivar>(start: ivars, count: Int(ivarsCount)))
+        
+        for i in unsafe span.indices {
+            let ivar = unsafe span[i]
+            
+            if
+                let cName = unsafe ivar_getName(ivar),
+                unsafe String(cString: cName) == "_typedStorage"
+            {
+                let pointer = unsafe UnsafeMutableRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(self)) + ivar_getOffset(ivar))!
+                let casted = unsafe pointer.assumingMemoryBound(to: AnyObject?.self)
+                
+                if let typedStorage = casted.pointee {
+                    return typedStorage
+                }
+                
+                let typedStorage = (objc_lookUpClass("_UITypedStorage") as! AnyObject).perform(Selector(("new")))!.takeUnretainedValue()
+                casted.initialize(to: typedStorage)
+                return typedStorage
+            }
+        }
+        
+        fatalError()
+    }
+}

@@ -10,7 +10,11 @@ import _SwiftUIPrivate
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "UIKit", visionOS 26.0)
-public class UIHostingViewBase: Foundation.NSObject {
+public final class UIHostingViewBase: Foundation.NSObject {
+    public weak var uiView: UIKit.UIView? {
+        get set
+    }
+    public func _updateEnvironment(_: inout Swift.EnvironmentValues)
 }
 
 extension UIKit.UITraitCollection {
