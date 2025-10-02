@@ -507,13 +507,81 @@ package final class UIHostingViewBase: NSObject {
         return environmentValues
     }
     
-    package func _updateEnvironment(_: inout EnvironmentValues) {
-        fatalError("TODO")
+    package func _updateEnvironment(_ environmentValues: inout EnvironmentValues) {
+        guard let uiView else {
+            return
+        }
+        
+        if let uiView = self.uiView {
+            // <+364>
+            if let idiom = ViewGraphHost.Idiom(_uiIdiom: uiView.traitCollection.userInterfaceIdiom) {
+                environmentValues.viewGraphIdiom = idiom
+            }
+        }
+        
+        let screen = MyUIScreen._mainScreen
+        environmentValues.viewGraphAssetCatalogConfiguration = ViewGraphHost.AssetCatalogConfiguration(
+            referenceBounds: screen._referenceBounds,
+            pointsPerInch: screen._pointsPerInch,
+            preferredArtworkSubtype: 0
+        )
+        
+        if let undimmedTintColor = uiView.window?._undimmedTintColor() {
+            // <+728>
+            environmentValues._accentColor = Color.init(_platformColor: undimmedTintColor, definition: UICorePlatformColorDefinition.self)
+        }
+        
+        // <+808>
+        if uiView.traitCollection.userInterfaceIdiom == .vision {
+            environmentValues._defaultAccentColor = .white
+        }
+        
+        environmentValues._defaultAccentColor = .blue
+        
+        // <+888>
+        if let uiView = self.uiView, uiView.tintAdjustmentMode == .dimmed {
+            // <+924>
+            environmentValues.tintAdjustmentMode = .desaturated
+        }
+        
+        // <+988>
+        environmentValues.isLowPowerModeEnabled = UIGlobalState.shared.isLowPowerModeEnabled
+        ___lldb_unnamed_symbol318321()
+        
+        if let uiView = self.uiView {
+            let traitCollection: UITraitCollection
+            if let traitCollectionOverride {
+                traitCollection = traitCollectionOverride
+            } else {
+                traitCollection = uiView.traitCollection
+            }
+            
+            environmentValues.appearsActive = (traitCollection.activeAppearance != .inactive)
+        }
     }
     
     package func _endUpdateEnvironment(_: EnvironmentValues) {
         fatalError("TODO")
     }
+    
+    private func ___lldb_unnamed_symbol318321() {
+        /*
+         ___lldb_unnamed_symbol324429 = shared:getter = x24
+         */
+        // x23
+        guard let uiView else {
+            return
+        }
+        
+        let traitCollection = traitCollectionOverride ?? uiView.traitCollection
+        /*
+         -[UIView _typedStorage]
+         ___lldb_unnamed_symbol324271 (self = typedstorage)
+         
+         */
+        fatalError("TODO")
+    }
+    
     
     // ___lldb_unnamed_symbol320011
     @MainActor

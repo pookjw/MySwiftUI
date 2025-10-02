@@ -156,16 +156,22 @@ extension RootViewDelegate: UIHostingViewDelegate {
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate environmentValues: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+        environmentValues.explicitPreferredColorScheme = hostingView.colorScheme
+        
+        if let nextDelegate {
+            nextDelegate.hostingView(hostingView, willUpdate: &environmentValues)
+        }
     }
     
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
         fatalError("TODO")
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : View {
-        fatalError("TODO")
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties) where Content : View {
+        if let nextDelegate {
+            nextDelegate.hostingView(hostingView, willUpdate: &properties)
+        }
     }
     
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {

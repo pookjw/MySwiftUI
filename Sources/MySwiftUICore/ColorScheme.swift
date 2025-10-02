@@ -14,10 +14,25 @@ extension EnvironmentValues {
             self[SystemColorSchemeKey.self] = newValue
         }
     }
+    
+    package var explicitPreferredColorScheme: ColorScheme? {
+        get {
+            return self[ExplicitPreferredColorSchemeKey.self]
+        }
+        set {
+            self[ExplicitPreferredColorSchemeKey.self] = newValue 
+        }
+    }
 }
 
 fileprivate struct SystemColorSchemeKey: EnvironmentKey {
     static var defaultValue: ColorScheme {
         return .light
+    }
+}
+
+fileprivate struct ExplicitPreferredColorSchemeKey: EnvironmentKey {
+    static var defaultValue: ColorScheme? {
+        return nil
     }
 }

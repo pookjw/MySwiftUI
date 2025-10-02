@@ -14,6 +14,11 @@ package struct MyUIScreen {
         return MyUIScreen(screen: casted(UIScreenClass, cmd))
     }
     
+    package static var _mainScreen: MyUIScreen {
+        // (Direct) +[UIScreen _mainScreen]
+        return .main
+    }
+    
     private init(screen: AnyObject) {
         self.screen = screen
     }

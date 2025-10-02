@@ -34,13 +34,25 @@ struct Foo_2: _SwiftUIPrivate.PreferenceKey {
     public static var defaultValue: Bool { return false }
 }
 
+final class EmptyClass {}
+
+@_silgen_name("_swift_setClassMetadata")
+internal func _swift_setClassMetadata<T>(_ x: T.Type, onObject: AnyObject) -> Bool
+
 fileprivate struct Type1 {}
 fileprivate struct Type2 {}
 
 class ViewController: UIViewController {
     override func loadView() {
         swizzle()
-        print(EnvironmentValues().viewGraphRenderingRootView)
+        
+        for child in Mirror(reflecting: Color.blue).children {
+            print(child)
+        }
+        
+//        var hasher = Hasher()
+//        print(Color.black.hash(into: &hasher))
+//        print(EnvironmentValues().viewGraphRenderingRootView)
 //        print(EnvironmentValues().isVibrantColorStyleEnabled)
 //        set(isVibrantColorStyleEnabled: true)
         
@@ -50,6 +62,7 @@ class ViewController: UIViewController {
 //            env.accessibilitySettingsDefinition = .uiKit
 //            print(env.accessibilitySettingsDefinition)
 //        }
+        _ = Color.black
         print(PlatformAccessibilitySettingsDefinition.init().currentValue(for: .boldText))
         
         print(PlatformAccessibilitySettingsDefinition.self)

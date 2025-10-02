@@ -27,6 +27,15 @@ extension EnvironmentValues {
             self[TimezoneKey.self] = newValue
         }
     }
+    
+    package var isLowPowerModeEnabled: Bool {
+        get {
+            return self[IsLowPowerModeEnabledKey.self]
+        }
+        set {
+            self[IsLowPowerModeEnabledKey.self] = newValue
+        }
+    }
 }
 
 fileprivate struct LocaleKey: EnvironmentKey {
@@ -39,4 +48,10 @@ fileprivate struct CalendarKey: EnvironmentKey {
 
 fileprivate struct TimezoneKey: EnvironmentKey {
     static let defaultValue = TimeZone.autoupdatingCurrent
+}
+
+fileprivate struct IsLowPowerModeEnabledKey: EnvironmentKey {
+    static var defaultValue: Bool {
+        return false
+    }
 }

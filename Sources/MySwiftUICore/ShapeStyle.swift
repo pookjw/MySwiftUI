@@ -1,17 +1,26 @@
 #warning("TODO")
 
 public protocol ShapeStyle: Sendable {
-//    @available(*, deprecated, message: "obsolete")
-//    static func _makeView<S>(view: _GraphValue<_ShapeView<S, Self>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape
-//    
-//    func _apply(to shape: inout _ShapeStyle_Shape)
-//    
-//    static func _apply(to type: inout _ShapeStyle_ShapeType)
-    @_weakLinked associatedtype Resolved : ShapeStyle = Never
-    
-//    func resolve(in environment: EnvironmentValues) -> Self.Resolved
+    // TODO
 }
 
 extension Never: ShapeStyle {
     public typealias Resolved = Never
+}
+
+@usableFromInline
+package class AnyShapeStyleBox: @unchecked Sendable {
+    init() {}
+    
+    package func apply(to: inout _ShapeStyle_Shape) {
+        // nop
+    }
+    
+    package func isEqual(to other: AnyShapeStyleBox) -> Bool {
+        return false
+    }
+}
+
+public struct _ShapeStyle_Shape {
+    
 }

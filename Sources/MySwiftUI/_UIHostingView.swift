@@ -41,7 +41,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var eventBridge: UIKitEventBindingBridge
     private var dumpLayerNotificationTokens: Int32? = nil
     private var colorAppearanceSeed: UInt32 = 0
-    private var colorScheme: ColorScheme? = .light {
+    private(set) final var colorScheme: ColorScheme? = .light {
         didSet {
             fatalError("TODO")
         }

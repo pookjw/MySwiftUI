@@ -203,6 +203,8 @@ public class PlatformViewDefinition {
 public class ViewGraphHost {
   public init<A>(rootViewType: A.Type, outputs: _SwiftUIPrivate.ViewGraph.Outputs, viewDefinition: _SwiftUIPrivate.PlatformViewDefinition.Type) where A: SwiftUI.View
   public final func startDisplayLink(delay: Swift.Double, makeCADisplayLink: (Any, ObjectiveC.Selector) -> QuartzCore.CADisplayLink?)
+
+  public struct Idiom: Swift.Hashable {}
 }
 
 @available(visionOS 26.0, *)
@@ -569,4 +571,17 @@ extension SwiftUI.EnvironmentValues {
     @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE26viewGraphRenderingRootViewyXlSgvs")
     set
   }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class AnyShapeStyleBox: @unchecked Swift.Sendable {
+  public init()
+  public func apply(to: inout SwiftUI._ShapeStyle_Shape)  
+  public func isEqual(to: _SwiftUIPrivate.AnyShapeStyleBox) -> Swift.Bool
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class AnyColorBox: _SwiftUIPrivate.AnyShapeStyleBox, @unchecked Sendable {
 }

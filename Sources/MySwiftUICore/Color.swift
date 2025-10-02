@@ -1,26 +1,399 @@
 #warning("TODO")
 package import Foundation
+package import CoreGraphics
 
 public struct Color: Hashable, CustomStringConvertible, Sendable {
+    public static func == (lhs: Color, rhs: Color) -> Bool {
+        if ObjectIdentifier(lhs.provider) == ObjectIdentifier(rhs.provider) {
+            return true
+        }
+        return lhs.provider.isEqual(to: rhs.provider)
+    }
+    
+    package var provider: AnyColorBox
+    
     package init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
+        fatalError("TODO")
+    }
+    
+    package init(box: AnyColorBox) {
+        self.provider = box
+    }
+    
+    package init(_ resolved: Color.ResolvedHDR) {
+        self.provider = ColorBox(ResolvedColorProvider(color: resolved))
+    }
+    
+    package init(_ resolved: Color.Resolved) {
         fatalError("TODO")
     }
     
     public var description: String {
         fatalError("TODO")
     }
+    
+    public func hash(into hasher: inout Hasher) {
+        provider.hash(into: &hasher)
+    }
 }
 
 //extension Color: View {}
 
+@usableFromInline
+package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
+    package func hash(into hasher: inout Hasher) {
+        fatalError() // abstract
+    }
+}
+
+final class ColorBox<T>: AnyColorBox {
+    private let base: T
+    
+    init(_ base: T) {
+        self.base = base
+    }
+}
+
+struct ResolvedColorProvider: Hashable, ColorProvider {
+    private var color: Color.ResolvedHDR
+    
+    init(color: Color.ResolvedHDR) {
+        self.color = color
+    }
+    
+    var tag: Color.ProviderTag {
+        return .accent
+    }
+    
+    func resolve(in: EnvironmentValues) -> Color.Resolved {
+        return color.base
+    }
+    
+    func resolveHDR(in: EnvironmentValues) -> Color.ResolvedHDR {
+        return color
+    }
+    
+    func apply(color: Color, to: inout _ShapeStyle_Shape) {
+        fatalError("TODO")
+    }
+    
+    var staticColor: CGColor? {
+        fatalError("TODO")
+    }
+    
+    var kitColor: AnyObject? {
+        fatalError("TODO")
+    }
+    
+    var colorDescription: String {
+        fatalError("TODO")
+    }
+    
+    func opacity(at: Int, environment: EnvironmentValues) -> Float {
+        fatalError("TODO")
+    }
+}
+
+protocol ColorProvider: Serializable {
+    var tag: Color.ProviderTag { get }
+    func resolve(in: EnvironmentValues) -> Color.Resolved
+    func resolveHDR(in: EnvironmentValues) -> Color.ResolvedHDR
+    func apply(color: Color, to: inout _ShapeStyle_Shape)
+    var staticColor: CGColor? { get }
+    var kitColor: AnyObject? { get }
+    var colorDescription: String { get }
+    func opacity(at: Int, environment: EnvironmentValues) -> Float
+}
+
+protocol PlatformColorProvider: ColorProvider {}
+
 extension Color {
-    public struct Resolved: Hashable {
+    enum ProviderTag {
+        case platform(Color.ProviderTag.PlatformTag)
+        case custom
+        case customHDR
+        case foreground
+        case _background
+        case accent
+        case constant
+        case p3
+        case _contentStyle
+        case system
+        case _keyColor
+        case _customKeyColor
+        case _tintAdjustment
+        case _desaturation
+        case gradient
+        case named
+        case opacity
+        case _settingOpacity
+        case _hierarchicalOpacity
+        case _destinationOver
+        case mix
+        case coreGraphics
+        case uiKitColor
+        case appKitColor
+        case _destructive
+        case headroom
+        case linearScale
         
+        // TODO: CodingKeys
+    }
+}
+
+extension Color.ProviderTag {
+    struct PlatformTag {
+        var tag: Color.ProviderTag.AnyPlatformTag
+    }
+    
+    class AnyPlatformTag {}
+}
+
+extension Color {
+    public struct Resolved: Hashable, BitwiseCopyable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
+        private var linearRed: Float
+        private var linearGreen: Float
+        private var linearBlue: Float
+        private var opacity: Float
+        
+        init(linearRed: Float, linearGreen: Float, linearBlue: Float, opacity: Float) {
+            self.linearRed = linearRed
+            self.linearGreen = linearGreen
+            self.linearBlue = linearBlue
+            self.opacity = opacity
+        }
+        
+        public var description: String {
+            fatalError("TODO")
+        }
     }
 }
 
 extension Color {
     @frozen public struct ResolvedHDR: Hashable, Sendable {
+        fileprivate private(set) var base: Color.Resolved
+        private var _headroom: Float
         
+        static var clear: Color.ResolvedHDR {
+            return Color.ResolvedHDR(
+                base: Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
+                _headroom: 0
+            )
+        }
+        
+        static var black: Color.ResolvedHDR {
+            return Color.ResolvedHDR(
+                base: Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 1),
+                _headroom: .nan
+            )
+        }
+        
+        static var white: Color.ResolvedHDR {
+            return Color.ResolvedHDR(
+                base: Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
+                _headroom: .nan
+            )
+        }
+    }
+}
+
+extension Color: ShapeStyle {
+    
+}
+
+extension Color {
+    public static let red: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let orange: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let yellow: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let green: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let mint: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let teal: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let cyan: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let blue = Color(box: ColorBox(SystemColorType.blue))
+    
+    public static let indigo: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let purple: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let pink: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let brown: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let white = Color(.white)
+    
+    public static let gray: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let black = Color(.black)
+    
+    public static let clear = Color(.clear)
+    
+    public static let primary: Color = {
+        fatalError("TODO")
+    }()
+    
+    public static let secondary: Color = {
+        fatalError("TODO")
+    }()
+    
+    package static let _background: Color = {
+        fatalError("TODO")
+    }()
+}
+
+enum SystemColorType: CodableSerializable, Hashable, ColorProvider, Codable {
+    case red
+    case orange
+    case yellow
+    case green
+    case teal
+    case mint
+    case cyan
+    case blue
+    case indigo
+    case purple
+    case pink
+    case brown
+    case gray
+    case primary
+    case secondary
+    case tertiary
+    case quaternary
+    case quinary
+    case primaryFill
+    case secondaryFill
+    case tertiaryFill
+    case quaternaryFill
+    
+    var tag: Color.ProviderTag {
+        fatalError("TODO")
+    }
+    
+    func resolve(in: EnvironmentValues) -> Color.Resolved {
+        fatalError("TODO")
+    }
+    
+    func resolveHDR(in: EnvironmentValues) -> Color.ResolvedHDR {
+        fatalError("TODO")
+    }
+    
+    func apply(color: Color, to: inout _ShapeStyle_Shape) {
+        fatalError("TODO")
+    }
+    
+    var staticColor: CGColor? {
+        fatalError("TODO")
+    }
+    
+    var kitColor: AnyObject? {
+        fatalError("TODO")
+    }
+    
+    var colorDescription: String {
+        fatalError("TODO")
+    }
+    
+    func opacity(at: Int, environment: EnvironmentValues) -> Float {
+        fatalError("TODO")
+    }
+    
+    // TODO: CodingKeys
+    
+    
+}
+
+extension ShapeStyle where Self == Color {
+    @_alwaysEmitIntoClient public static var red: Color {
+        return .red
+    }
+    
+    @_alwaysEmitIntoClient public static var orange: Color {
+        return .orange
+    }
+    
+    @_alwaysEmitIntoClient public static var yellow: Color {
+        return .yellow
+    }
+    
+    @_alwaysEmitIntoClient public static var green: Color {
+        return .green
+    }
+    
+    @_alwaysEmitIntoClient public static var mint: Color {
+        return .mint
+    }
+    
+    @_alwaysEmitIntoClient public static var teal: Color {
+        return .teal
+    }
+    
+    @_alwaysEmitIntoClient public static var cyan: Color {
+        return .cyan
+    }
+    
+    @_alwaysEmitIntoClient public static var blue: Color {
+        return .blue
+    }
+    
+    @_alwaysEmitIntoClient public static var indigo: Color {
+        return .indigo
+    }
+    
+    @_alwaysEmitIntoClient public static var purple: Color {
+        return .purple
+    }
+    
+    @_alwaysEmitIntoClient public static var pink: Color {
+        return .pink
+    }
+    
+    @_alwaysEmitIntoClient public static var brown: Color {
+        return .brown
+    }
+    
+    @_alwaysEmitIntoClient public static var white: Color {
+        return .white
+    }
+    
+    @_alwaysEmitIntoClient public static var gray: Color {
+        return .gray
+    }
+    
+    @_alwaysEmitIntoClient public static var black: Color {
+        return .black
+    }
+    
+    @_alwaysEmitIntoClient public static var clear: Color {
+        return .clear
     }
 }
