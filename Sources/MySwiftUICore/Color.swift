@@ -13,7 +13,7 @@ public struct Color: Hashable, CustomStringConvertible, Sendable {
     package var provider: AnyColorBox
     
     package init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
-        fatalError("TODO")
+        self.provider = ColorBox(UIKitPlatformColorProvider(platformColor: _platformColor))
     }
     
     package init(box: AnyColorBox) {
@@ -330,6 +330,54 @@ enum SystemColorType: CodableSerializable, Hashable, ColorProvider, Codable {
     // TODO: CodingKeys
     
     
+}
+
+struct UIKitPlatformColorProvider: PlatformColorProvider, Hashable, Serializable {
+    private var platformColor: (NSObject & NSSecureCoding)
+    
+    init(platformColor: NSObject & NSSecureCoding) {
+        self.platformColor = platformColor
+    }
+    
+    var hashValue: Int {
+        return platformColor.hashValue
+    }
+    
+    static func == (lhs: UIKitPlatformColorProvider, rhs: UIKitPlatformColorProvider) -> Bool {
+        return lhs.platformColor.isEqual(rhs.platformColor)
+    }
+    
+    var tag: Color.ProviderTag {
+        fatalError("TODO")
+    }
+    
+    func resolve(in: EnvironmentValues) -> Color.Resolved {
+        fatalError("TODO")
+    }
+    
+    func resolveHDR(in: EnvironmentValues) -> Color.ResolvedHDR {
+        fatalError("TODO")
+    }
+    
+    func apply(color: Color, to: inout _ShapeStyle_Shape) {
+        fatalError("TODO")
+    }
+    
+    var staticColor: CGColor? {
+        fatalError("TODO")
+    }
+    
+    var kitColor: AnyObject? {
+        fatalError("TODO")
+    }
+    
+    var colorDescription: String {
+        fatalError("TODO")
+    }
+    
+    func opacity(at: Int, environment: EnvironmentValues) -> Float {
+        fatalError("TODO")
+    }
 }
 
 extension ShapeStyle where Self == Color {

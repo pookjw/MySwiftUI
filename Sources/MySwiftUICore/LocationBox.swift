@@ -1,10 +1,14 @@
 #warning("TODO")
 
-package class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked Sendable {
-    package private(set) var location: any Location
-//    @AtomicBox private var cache: LocationProjectionCache
+package final class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked Sendable {
+    package private(set) var location: T
+    @AtomicBox private var cache = LocationProjectionCache()
     
-    package init(location: any Location) {
-        fatalError("TODO")
+    package init(location: T) {
+        self.location = location
     }
+}
+
+struct LocationProjectionCache {
+    private var cache: [AnyHashable2: WeakBox<AnyLocationBase>] = [:]
 }

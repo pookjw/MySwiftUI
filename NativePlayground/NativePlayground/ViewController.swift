@@ -65,8 +65,6 @@ class ViewController: UIViewController {
 //            env.accessibilitySettingsDefinition = .uiKit
 //            print(env.accessibilitySettingsDefinition)
 //        }
-        _ = Color.black
-        print(PlatformAccessibilitySettingsDefinition.init().currentValue(for: .boldText))
         
         print(PlatformAccessibilitySettingsDefinition.self)
         _forEachField(of: PlatformAccessibilitySettingsDefinition.self, options: [.classType]) { name, offset, type, kind in
@@ -247,6 +245,10 @@ class ViewController: UIViewController {
         let emptyView = EmptyView()
         let hostingView = _UIHostingView(rootView: EmptyView())
         self.view = hostingView
+        print(hostingView)
+        print(NSStringFromClass(object_getClass(hostingView)!))
+        let base = Mirror(reflecting: hostingView).descendant("_base")!
+        print(base)
 //        super.loadView()
         
 //        Task {

@@ -3,10 +3,10 @@
 extension EnvironmentValues {
     public private(set) var accessibilityInvertColors: Bool {
         get {
-            fatalError("TODO")
+            return self[AccessibilityInvertColorsKey.self] == true
         }
         set {
-            fatalError("TODO")
+            self[AccessibilityInvertColorsKey.self] = newValue
         }
     }
     
@@ -26,5 +26,11 @@ extension EnvironmentValues {
         set {
             fatalError("TODO")
         }
+    }
+}
+
+fileprivate struct AccessibilityInvertColorsKey: EnvironmentKey {
+    static var defaultValue: Bool? {
+        return nil
     }
 }

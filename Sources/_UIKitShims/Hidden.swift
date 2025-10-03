@@ -3,9 +3,9 @@ private import ObjectiveC.runtime
 private import ObjectiveC.message
 internal import _UIKitPrivate
 #if SwiftUICompataibility
+private import SwiftUI
 internal import _SwiftUIPrivate
 #endif
-private import SwiftUI
 
 final class PrivateSelectors {
     @objc(_swiftTypeName) var _swiftTypeName: NSString {

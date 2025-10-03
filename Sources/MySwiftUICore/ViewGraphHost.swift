@@ -46,6 +46,15 @@ package final class ViewGraphHost {
         }
     }
     
+    package var accessibilityEnabled: Bool {
+        get {
+            return viewGraph.accessibilityEnabled
+        }
+        set {
+            viewGraph.accessibilityEnabled = newValue
+        }
+    }
+    
     package func setUp() {
         let viewGraph = viewGraph
         viewGraph.append(feature: ViewGraphHost.GraphFeature(host: self))

@@ -93,6 +93,23 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
+    package var accessibilityEnabled: Bool {
+        get {
+            return viewGraph.accessibilityEnabled
+        }
+        set {
+            let oldValue = viewGraph.accessibilityEnabled
+            viewGraph.accessibilityEnabled = newValue
+            
+            if
+                oldValue != newValue,
+                let updateDelegate
+            {
+                updateDelegate.invalidateProperties(.environment, mayDeferUpdate: true)
+            }
+        }
+    }
+    
     package init(viewGraph: MySwiftUICore.ViewGraphHost, options: UIHostingViewBase.Options) {
         fatalError("TODO")
     }

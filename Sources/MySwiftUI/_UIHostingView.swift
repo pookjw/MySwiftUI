@@ -93,9 +93,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var interactiveResizeBridge = InteractiveResizeBridge()
     private var shouldUpdateAccessibilityFocus: Bool = false
     private let largeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
-    private lazy var presentationModeLocation: LocationBox<UIKitPresentationModeLocation<Content>> = {
-        fatalError("TODO")
-    }()
+    private lazy var presentationModeLocation = LocationBox(location: UIKitPresentationModeLocation(host: self))
     private lazy var scenePresentationModeLocation: LocationBox<UIKitScenePresentationModeLocation<Content>> = {
         fatalError("TODO")
     }()
@@ -159,15 +157,39 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private var accessibilityEnabled: Bool {
-        fatalError("TODO")
+        get {
+            return _base.accessibilityEnabled
+        }
+        set {
+            let oldValue = _base.accessibilityEnabled
+            _base.accessibilityEnabled = newValue
+            
+            if oldValue != newValue {
+                AccessibilityFocus.changed(from: nil, to: nil, within: self)
+            }
+        }
     }
     
     private var isPresentedInModalViewController: Bool {
-        fatalError("TODO")
+        guard let viewController else {
+            return false
+        }
+        
+        return (viewController.presentingViewController != nil)
     }
     
     private var isPresentedInNavigationController: Bool {
-        fatalError("TODO")
+        guard let navigationController = self.viewController?.navigationController else {
+            return false
+        }
+        
+        let viewControllers = navigationController.viewControllers
+        
+        guard !viewControllers.isEmpty else {
+            return false
+        }
+        
+        return (navigationController.topViewController == self.viewController)
     }
     
     private var popoverBridge: UIKitPopoverBridge? {

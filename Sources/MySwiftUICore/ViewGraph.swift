@@ -35,7 +35,7 @@ package final class ViewGraph: GraphHost {
     @WeakAttribute fileprivate var rootLayoutComputer: LayoutComputer?
     @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
     private var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
-    package private(set) var accessibilityEnabled = false
+    package internal(set) var accessibilityEnabled = false
     package private(set) var requestedOutputs: ViewGraph.Outputs
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
     private var mainUpdates: Int = 0
