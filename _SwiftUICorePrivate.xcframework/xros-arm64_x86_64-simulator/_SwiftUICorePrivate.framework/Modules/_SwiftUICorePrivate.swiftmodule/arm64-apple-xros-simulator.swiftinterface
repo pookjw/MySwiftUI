@@ -1,0 +1,593 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.16.14 clang-1700.3.16.4)
+// swift-module-flags: -target arm64-apple-xros26.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 7.0.83.1.501 -module-name _SwiftUICorePrivate -package-name _SwiftUICorePrivate
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
+@_exported import Swift
+import SwiftUI
+@_exported import os.log
+@_exported import os
+@_exported import OSLog
+@_exported import QuartzCore
+@_exported import ObjectiveC
+@_exported import CoreGraphics
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct HostingViewTransparentBackgroundReason: Swift.OptionSet, Swift.CustomStringConvertible {
+  public typealias RawValue = Swift.UInt32
+  public var description: Swift.String {
+    get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class PlatformColorDefinition {
+  public class func resolvedHDRColor(_: Swift.AnyObject, environment: SwiftUI.EnvironmentValues) -> SwiftUI.Color.ResolvedHDR?
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class GraphHost {
+  public var parentHost : _SwiftUICorePrivate.GraphHost? {
+    get
+  }
+
+  public init(data: _SwiftUICorePrivate.GraphHost.Data)
+  public func isHiddenForReuseDidChange()
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.GraphHost {
+  public struct Data {
+    public init()
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class ViewGraph: _SwiftUICorePrivate.GraphHost {
+  public init<T: SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUICorePrivate.ViewGraph.Outputs)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.ViewGraph {
+  public struct Outputs: Swift.OptionSet {
+    public var rawValue: Swift.UInt8 {
+      get
+      set
+    }
+
+    public init(rawValue: Swift.UInt8)
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum CustomEventCategory: Swift.Int8 {
+    public static func setEnabledCategory(_ category: _SwiftUICorePrivate.CustomEventCategory, enabled: Swift.Bool)
+    
+    public var rawValue: Swift.Int8 {
+      get
+    }
+
+    case unknown
+    case observable
+    case transaction
+    case action
+    case graph
+    case animation
+    case instantiation
+    case dynamicProperties
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct CustomEventTrace {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.CustomEventTrace {
+  public class Recorder {
+    
+  }
+
+  public enum ActionEventType: Swift.Int8, Swift.Hashable {
+    case enqueue
+    case start
+    case finish
+    case gestureMetadata
+
+    public var rawValue: Swift.Int8 { get }
+  }
+
+  public enum AnimationEventType: Swift.Int8, Swift.Hashable {
+    case animationBegin
+    case animationEnd
+    case animationAttrUpdate
+    case animationScheduleTick
+    case animationTick
+    case animationRetarget
+
+    public var rawValue: Swift.Int8 { get }
+  }
+
+  public enum InstantiationEventType: Swift.Int8, Swift.Hashable {
+    case assign
+    case instantiateBegin
+    case instantiateEnd
+    case uninstantiateBegin
+    case uninstantiateEnd
+    case recordNamedProperty
+
+    public var rawValue: Swift.Int8 { get }
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.CustomEventTrace.ActionEventType {
+  public enum Reason: Swift.UInt32, Swift.Hashable {
+    case onAppear
+    case onChange
+    case onDisappear
+    case gesture
+    case didReleaseButton
+    case animationLogicallyCompleted
+    case animationRemoved
+    case hoverChanged
+    case scrollChanged
+    case scrollPrefetch
+    case signalPrefetch
+    case navSelectionUpdate
+    case splitSidebarVisibilityChanged
+    case preferenceChange
+    case onFocusChanged
+    case navStackPush
+    case navStackPop
+
+    public var rawValue: Swift.UInt32 { get }
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.CustomEventTrace.InstantiationEventType {
+  public enum Kind: Swift.Int8, Swift.Hashable {
+    case graph
+    case app
+    case view
+    case gesture
+    case widget
+
+    public var rawValue: Swift.Int8 { get }
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewGraphGeometryObservers<T: _SwiftUICorePrivate.ViewGraphGeometryMeasurer> {
+
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ViewGraphGeometryMeasurer {
+  associatedtype Proposal
+  associatedtype Size
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct CachedEnvironment {
+
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct RootGeometry {
+
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class PlatformViewDefinition {
+
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class ViewGraphHost {
+  public init<A>(rootViewType: A.Type, outputs: _SwiftUICorePrivate.ViewGraph.Outputs, viewDefinition: _SwiftUICorePrivate.PlatformViewDefinition.Type) where A: SwiftUI.View
+  public final func startDisplayLink(delay: Swift.Double, makeCADisplayLink: (Any, ObjectiveC.Selector) -> QuartzCore.CADisplayLink?)
+
+  public struct Idiom: Swift.Hashable {}
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class ViewGraphDisplayLink: ObjectiveC.NSObject {
+
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct Time: Swift.Hashable, Swift.Comparable {
+  public static var zero: _SwiftUICorePrivate.Time { get }
+  public static var infinity: _SwiftUICorePrivate.Time { get }
+  public init(seconds: Swift.Double)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct BloomFilter: Swift.Equatable {
+  public init()
+  public init(value: Swift.UInt)
+  public init(hashValue: Swift.Int)
+  public init<T: Swift.Hashable>(value: T)
+  public init(type: Any.Type)
+  public func mayContain(_ other: _SwiftUICorePrivate.BloomFilter) -> Swift.Bool
+  public mutating func formUnion(_ other: _SwiftUICorePrivate.BloomFilter)
+  public func union(_ other: _SwiftUICorePrivate.BloomFilter) -> _SwiftUICorePrivate.BloomFilter
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DisplayList {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct UnsafeHeterogeneousBuffer {
+  public struct Index {}
+  public init()
+  @discardableResult public func append<T>(_ value: T, vtable: _SwiftUICorePrivate._UnsafeHeterogeneousBuffer_VTable.Type) -> _SwiftUICorePrivate.UnsafeHeterogeneousBuffer.Index
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+open class _UnsafeHeterogeneousBuffer_VTable {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct GestureContainerFeature {
+  public static var isEnabled: Swift.Bool { get }
+  public static var isEnabledOverride: Swift.Bool? { get set }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct RepresentableContextValues {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol PreferenceKey {
+  associatedtype Value
+    
+  static var defaultValue: Value {
+      get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol HostPreferenceKey: _SwiftUICorePrivate.PreferenceKey {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PreferenceValues {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PreferenceKeys: Swift.Equatable, Swift.RandomAccessCollection {
+  public init()
+  public mutating func remove(_ key: any (_SwiftUICorePrivate.PreferenceKey).Type)
+  public func contains(_ key: any (_SwiftUICorePrivate.PreferenceKey).Type) -> Swift.Bool
+  public mutating func add(_ key: any (_SwiftUICorePrivate.PreferenceKey.Type))
+  public subscript(_ index: Swift.Int) -> any (_SwiftUICorePrivate.PreferenceKey).Type { get }
+  public var isEmpty: Swift.Bool { get }
+  public var startIndex: Swift.Int { get }
+  public var endIndex: Swift.Int { get }
+  public func union(_ keys: _SwiftUICorePrivate.PreferenceKeys) -> _SwiftUICorePrivate.PreferenceKeys
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum Update {
+  public struct Action {
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct Signpost {
+  public static var render: _SwiftUICorePrivate.Signpost { get }
+  public static var renderUpdate: _SwiftUICorePrivate.Signpost { get }
+  public static var postUpdateActions: _SwiftUICorePrivate.Signpost { get }
+  public static var renderDisplayList: _SwiftUICorePrivate.Signpost { get }
+  public static var bodyInvoke: _SwiftUICorePrivate.Signpost { get }
+  public static var linkCreate: _SwiftUICorePrivate.Signpost { get }
+  public static var linkUpdate: _SwiftUICorePrivate.Signpost { get }
+  public static var linkDestroy: _SwiftUICorePrivate.Signpost { get }
+  public static var viewHost: _SwiftUICorePrivate.Signpost { get }
+  public static var platformView: _SwiftUICorePrivate.Signpost { get }
+  public static var platformUpdate: _SwiftUICorePrivate.Signpost { get }
+  public static var animationState: _SwiftUICorePrivate.Signpost { get }
+  public static var eventHandling: _SwiftUICorePrivate.Signpost { get }
+  public static var prefetchMakeView: _SwiftUICorePrivate.Signpost { get }
+  public static var prefetchOutputs: _SwiftUICorePrivate.Signpost { get }
+  public static var prefetchNotifyRender: _SwiftUICorePrivate.Signpost { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol UserDefaultKeyedFeature {
+    static var key: Swift.String { get }
+    static var defaultFeatureValue: Swift.Bool { get }
+    static var defaults: Foundation.UserDefaults { get }
+    static var cachedValue: Swift.Bool? { get set }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.UserDefaultKeyedFeature {
+  public static func test<T>(enabled: Swift.Bool, _ body: () throws -> T) rethrows -> T
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DisableRemoteEffects: _SwiftUICorePrivate.UserDefaultKeyedFeature {
+    public static var key: Swift.String { get }
+    public static var defaultFeatureValue: Swift.Bool { get }
+    public static var cachedValue: Swift.Bool? { get set }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct SizeThatFitsMeasurer {
+  public static var invalidValue: CoreGraphics.CGSize { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct AccessibilityViewGraph {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum Log {
+  public static func internalWarning(_ message: @autoclosure () -> Swift.String)
+  public static func internalError(_ message: @autoclosure () -> Swift.String)
+  public static var runtimeIssuesLog: os.OSLog { get }
+  public static var eventDebuggingLog: os.OSLog { get }
+  public static var archiving: os.Logger { get }
+  public static var archivedToggle: os.Logger { get }
+  public static var archivedPlaybackButton: os.Logger { get }
+  public static var events: os.Logger { get }
+  public static var metadataExtraction: os.Logger { get }
+  public static var unitTests: os.Logger { get }
+  public static var timelineScheduleSequences: os.Logger { get }
+  public static var archivedButton: os.Logger { get }
+  public static var scenes: os.Logger? { get }
+  public static var immersiveSpace: os.Logger { get }
+}
+
+@_silgen_name("$s7SwiftUI3LogOAAE5focus2os6LoggerVSgvgZ")
+public func getFocus() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE10navigation2os6LoggerVSgvgZ")
+public func getNavigation() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE13listSelection2os6LoggerVSgvgZ")
+public func getListSelection() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE11listDiffing2os6LoggerVSgvgZ")
+public func getListDiffing() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE8listPerf2os6LoggerVSgvgZ")
+public func getListPerf() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE8listMisc2os6LoggerVSgvgZ")
+public func getListMisc() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE5table2os6LoggerVSgvgZ")
+public func getTable() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE12presentation2os6LoggerVSgvgZ")
+public func getPresentation() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE7tabView2os6LoggerVSgvgZ")
+public func getTabView() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE11urlHandling2os6LoggerVSgvgZ")
+public func getURLHandling() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE19splitViewVisibility2os6LoggerVSgvgZ")
+public func getSplitViewVisibility() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE11dragAndDrop2os6LoggerVSgvgZ")
+public func getDragAndDrop() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE9documents2os6LoggerVSgvgZ")
+public func getDocuments() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE6resize2os6LoggerVSgvgZ")
+public func getResize() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE11attachments2os6LoggerVSgvgZ")
+public func getAttachments() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE7toolbar2os6LoggerVSgvgZ")
+public func getToolbar() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE9lazyStack2os6LoggerVSgvgZ")
+public func getLazyStack() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE15lazyLayoutReuse2os6LoggerVSgvgZ")
+public func getLazyLayoutReuse() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE18lazyLayoutPrefetch2os6LoggerVSgvgZ")
+public func getLazyLayoutPrefetch() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE10graphReuse2os6LoggerVSgvgZ")
+public func getGraphReuse() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE6scroll2os6LoggerVSgvgZ")
+public func getScroll() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE8printing2os6LoggerVSgvgZ")
+public func getPrinting() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE12remoteScenes2os6LoggerVSgvgZ")
+public func getRemoteScenes() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE10textEditor2os6LoggerVSgvgZ")
+public func getTextEditor() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE9textField2os6LoggerVSgvgZ")
+public func getTextField() -> os.Logger?
+
+@_silgen_name("$s7SwiftUI3LogOAAE9openScene2os6LoggerVSgvgZ")
+public func getOpenScene() -> os.Logger?
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.Log {
+  public static var focus: os.Logger? { get }
+  public static var navigation: os.Logger? { get }
+  public static var listSelection: os.Logger? { get }
+  public static var listDiffing: os.Logger? { get }
+  public static var listPerf: os.Logger? { get }
+  public static var listMisc: os.Logger? { get }
+  public static var table: os.Logger? { get }
+  public static var presentation: os.Logger? { get }
+  public static var tabView: os.Logger? { get }
+  public static var urlHandling: os.Logger? { get }
+  public static var splitViewVisibility: os.Logger? { get }
+  public static var dragAndDrop: os.Logger? { get }
+  public static var documents: os.Logger? { get }
+  public static var resize: os.Logger? { get }
+  public static var attachments: os.Logger? { get }
+  public static var toolbar: os.Logger? { get }
+  public static var lazyStack: os.Logger? { get }
+  public static var lazyLayoutReuse: os.Logger? { get }
+  public static var lazyLayoutPrefetch: os.Logger? { get }
+  public static var graphReuse: os.Logger? { get }
+  public static var scroll: os.Logger? { get }
+  public static var printing: os.Logger? { get }
+  public static var remoteScenes: os.Logger? { get }
+  public static var textEditor: os.Logger? { get }
+  public static var textField: os.Logger? { get }
+  public static var openScene: os.Logger? { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension os.OSLog {
+  public static var runtimeIssuesLog: os.OSLog { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public func changedBodyProperties<T>(of type: T.Type) -> [String]
+
+@_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE26isVibrantColorStyleEnabledSbvs")
+public func set(isVibrantColorStyleEnabled: Bool)
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct MaterialBackdropProxy: Swift.Equatable {
+  public static func == (lhs: _SwiftUICorePrivate.MaterialBackdropProxy, rhs: _SwiftUICorePrivate.MaterialBackdropProxy) -> Swift.Bool
+  public var luminance: Swift.Float? {
+    get
+    nonmutating set
+  }
+  public init()
+  public func removeObserver(_: any _SwiftUICorePrivate.MaterialBackdropObserver)
+  public func addObserver(_: any _SwiftUICorePrivate.MaterialBackdropObserver)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol MaterialBackdropObserver: AnyObject {
+  func luminanceDidChange(_: Swift.Float?)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class PlatformAccessibilitySettingsDefinition {
+  public init()
+
+  public enum Setting: Swift.Hashable {
+    case differentiateWithoutColors
+    case reduceTransparency
+    case reduceMotion
+    case prefersCrossFadeTransitions
+    case invertColors
+    case boldText
+    case buttonShapes
+    case dimFlashingLights
+    case playAnimatedImages
+    case headAnchorAlternative
+    case increaseFocusState
+    case reduceHoverReveal
+    case onOffLabels
+    case quickActions
+    case largeContentViewer
+    case voiceOver
+    case switchControl
+    case fullKeyboardAccess
+    case voiceControl
+    case hoverText
+  }
+
+  public func currentValue(for setting: _SwiftUICorePrivate.PlatformAccessibilitySettingsDefinition.Setting) -> Swift.Bool
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PlatformSystemDefinition: Swift.Hashable {
+  public static var uiKit: _SwiftUICorePrivate.PlatformSystemDefinition { get }
+  public static var appKit: _SwiftUICorePrivate.PlatformSystemDefinition { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.EnvironmentValues {
+  public var accessibilitySettingsDefinition: _SwiftUICorePrivate.PlatformSystemDefinition? {
+    @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE31accessibilitySettingsDefinitionAA014PlatformSystemG0VSgvg")
+    get
+    @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE31accessibilitySettingsDefinitionAA014PlatformSystemG0VSgvs")
+    set
+  }
+
+  public var viewGraphRenderingRootView: Swift.AnyObject? {
+    @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE26viewGraphRenderingRootViewyXlSgvg")
+    get
+    @_silgen_name("$s7SwiftUI17EnvironmentValuesVAAE26viewGraphRenderingRootViewyXlSgvs")
+    set
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class AnyShapeStyleBox: @unchecked Swift.Sendable {
+  public init()
+  public func apply(to: inout SwiftUI._ShapeStyle_Shape)  
+  public func isEqual(to: _SwiftUICorePrivate.AnyShapeStyleBox) -> Swift.Bool
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class AnyColorBox: _SwiftUICorePrivate.AnyShapeStyleBox, @unchecked Sendable {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol MaterialProvider {
+  
+}

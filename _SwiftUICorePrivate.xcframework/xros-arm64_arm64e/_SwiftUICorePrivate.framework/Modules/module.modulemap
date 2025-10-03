@@ -1,0 +1,4 @@
+framework module _SwiftUICorePrivate {
+    export *
+    module * { export * }
+}

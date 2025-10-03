@@ -21,4 +21,12 @@ extension SwiftUI.EnvironmentValues {
     public var designIdiom: DesignLibrary.DesignIdiom {
         get set
     }
+
+    public var glassMaterialContainerStyle: DesignLibrary.GlassMaterialProvider.ResolvedStyle? {
+        get set
+    }
+}
+
+public struct GlassMaterialProvider {
+    public struct ResolvedStyle {}
 }

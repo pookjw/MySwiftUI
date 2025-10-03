@@ -8,19 +8,19 @@ private import _SwiftUIPrivate
 
 extension UITraitCollection {
     // ___lldb_unnamed_symbol316127
-    func environmentValues() -> EnvironmentValues {
+    func environmentValues() -> MySwiftUICore.EnvironmentValues {
         if let environmentWrapper = _environmentWrapper as? ViewGraphHostEnvironmentWrapper {
             return environmentWrapper.environment
         }
         
-        var enviromentValues = EnvironmentValues()
+        var enviromentValues = MySwiftUICore.EnvironmentValues()
         enviromentValues.locale = .current
         enviromentValues.calendar = .current
         enviromentValues.timezone = .current
         return enviromentValues
     }
     
-    package func coreResolvedBaseEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+    package func coreResolvedBaseEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
         /*
          base = x26
          self = x24
@@ -141,8 +141,12 @@ extension UITraitCollection {
         return result
     }
     
+    package func coreResolvedGlassMaterialEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
+        fatalError("TODO")
+    }
+    
     // ___lldb_unnamed_symbol316116
-    private var colorScheme: ColorScheme {
+    var colorScheme: MySwiftUICore.ColorScheme {
         switch self.userInterfaceStyle {
         case .light:
             return .light
@@ -157,6 +161,15 @@ extension UITraitCollection {
     private var materialBackdropContext: AnyObject? {
 #if SwiftUICompataibility
         return self._object(forTraitToken: MaterialBackdropContextTraitToken()!) as? AnyObject
+#else
+#error("TODO")
+#endif
+    }
+    
+    // ___lldb_unnamed_symbol311482
+    var resolvedProvider: AnyObject? {
+#if SwiftUICompataibility
+        return self._object(forTraitToken: ResolvedProviderTraitToken()!) as? AnyObject
 #else
 #error("TODO")
 #endif

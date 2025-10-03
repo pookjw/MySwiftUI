@@ -78,6 +78,9 @@ let package = Package(
             dependencies: [
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "MySwiftUICore"),
+                .byName(name: "DesignLibrary"),
+                .byName(name: "_DesignLibraryShims"),
+                .byName(name: "_SwiftUICorePrivate", condition: .when(traits: ["SwiftUICompataibility"])),
                 .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"]))
             ],
             swiftSettings: [
@@ -105,6 +108,10 @@ let package = Package(
         .binaryTarget(
             name: "_SwiftUIPrivate",
             path: "_SwiftUIPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "_SwiftUICorePrivate",
+            path: "_SwiftUICorePrivate.xcframework"
         ),
         .binaryTarget(
             name: "MRUIKit",

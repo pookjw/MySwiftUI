@@ -23,6 +23,15 @@ extension EnvironmentValues {
             self[ExplicitPreferredColorSchemeKey.self] = newValue 
         }
     }
+    
+    package var glassColorScheme: ColorScheme? {
+        get {
+            return self[ExplicitPreferredColorSchemeKey.self]
+        }
+        set {
+            self[ExplicitPreferredColorSchemeKey.self] = newValue 
+        }
+    }
 }
 
 fileprivate struct SystemColorSchemeKey: EnvironmentKey {

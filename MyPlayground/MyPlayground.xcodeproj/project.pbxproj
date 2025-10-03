@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */; };
 		4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */; };
+		4F147CCE2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147CCD2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework */; };
 		4F27770E2E520A1F00867E37 /* RealitySimulationServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F27770D2E520A1F00867E37 /* RealitySimulationServices.xcframework */; };
 		4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2777112E5247CD00867E37 /* BaseBoard.xcframework */; };
 		4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoreRE.xcframework; path = ../CoreRE.xcframework; sourceTree = "<group>"; };
 		4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DesignLibrary.xcframework; path = ../DesignLibrary.xcframework; sourceTree = "<group>"; };
+		4F147CCD2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftUICorePrivate.xcframework; path = ../_SwiftUICorePrivate.xcframework; sourceTree = "<group>"; };
 		4F27770D2E520A1F00867E37 /* RealitySimulationServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealitySimulationServices.xcframework; path = ../RealitySimulationServices.xcframework; sourceTree = "<group>"; };
 		4F2777112E5247CD00867E37 /* BaseBoard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BaseBoard.xcframework; path = ../BaseBoard.xcframework; sourceTree = "<group>"; };
 		4F48083C2E4CAFAF004F6972 /* MyPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +73,7 @@
 				4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */,
 				4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */,
 				4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */,
+				4F147CCE2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework in Frameworks */,
 				4F8F09252E51DA7A00EFC573 /* _UIKitPrivate.xcframework in Frameworks */,
 				4FACEFA82E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework in Frameworks */,
 				4FACF25F2E63E3FC000CB163 /* _SwiftPrivate.xcframework in Frameworks */,
@@ -108,6 +111,7 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F147CCD2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework */,
 				4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */,
 				4FACEFA72E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework */,
 				4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */,

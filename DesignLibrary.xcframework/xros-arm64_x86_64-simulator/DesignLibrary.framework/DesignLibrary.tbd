@@ -24,7 +24,11 @@ exports:
     _$s13DesignLibrary0A5IdiomO7spatialyA2CmFWC,
     _$s13DesignLibrary0A5IdiomO7carPlayyA2CmFWC,
     _$s13DesignLibrary0A5IdiomO8touchBaryA2CmFWC,
-    _$s13DesignLibrary0A5IdiomOMn
+    _$s13DesignLibrary0A5IdiomOMn,
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVMn,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE27glassMaterialContainerStyleAD05GlassH8ProviderV08ResolvedJ0VSgvg,
+    _$s13DesignLibrary21GlassMaterialProviderV013ResolvedStyleE0VMa,
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVMa
     ]
     objc-classes:         [  ]
     objc-ivars:           [  ]

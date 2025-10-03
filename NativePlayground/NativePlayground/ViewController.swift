@@ -13,6 +13,7 @@ import _UIKitPrivate
 import ObjectiveC.runtime
 import ObjectiveC.message
 import DesignLibrary
+import _SwiftUICorePrivate
 
 
 func swizzle() {
@@ -27,10 +28,10 @@ final class PrivateSelectors: NSObject {
     }
 }
 
-struct Foo_1: _SwiftUIPrivate.PreferenceKey {
+struct Foo_1: _SwiftUICorePrivate.PreferenceKey {
     public static var defaultValue: Bool { return false }
 }
-struct Foo_2: _SwiftUIPrivate.PreferenceKey {
+struct Foo_2: _SwiftUICorePrivate.PreferenceKey {
     public static var defaultValue: Bool { return false }
 }
 
@@ -45,6 +46,8 @@ fileprivate struct Type2 {}
 class ViewController: UIViewController {
     override func loadView() {
         swizzle()
+        
+        print(EnvironmentValues().glassMaterialContainerStyle)
         
         for child in Mirror(reflecting: Color.blue).children {
             print(child)
@@ -71,11 +74,6 @@ class ViewController: UIViewController {
             return true
         }
         
-        print(_typeByName("So6UIViewC5UIKitE8MaterialP")!)
-        _forEachField(of: _typeByName("So6UIViewC5UIKitE8MaterialP")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
 //        print(type(of: objc_lookUpClass("_TtCV5UIKit23MaterialBackdropContextP33_B4E1891EFAA97781768AA47DAB5BDF997Storage")!))
         print(EnvironmentValues().backgroundMaterial)
         UserDefaults.standard.set(false, forKey: "com.apple.SwiftUI.ViewGraphBridgePropertiesAreInput")

@@ -11,10 +11,25 @@ extension EnvironmentValues {
         }
     }
     
+    package var glassMaterialContainerStyle: GlassMaterialProvider.ResolvedStyle? {
+        get {
+            return self[__Key_glassMaterialContainerStyle.self]
+        }
+        set {
+            self[__Key_glassMaterialContainerStyle.self] = newValue
+        }
+    }
+    
     // TODO: Entry Macro
     fileprivate struct __Key_designIdiom: EnvironmentKey {
         static var defaultValue: DesignIdiom {
             return .universal
+        }
+    }
+    
+    fileprivate struct __Key_glassMaterialContainerStyle: EnvironmentKey {
+        static var defaultValue: GlassMaterialProvider.ResolvedStyle? {
+            return nil
         }
     }
 }

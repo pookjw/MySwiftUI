@@ -1,5 +1,8 @@
 #warning("TODO")
 internal import Foundation
+#if SwiftUICompataibility
+public import _SwiftUIPrivate
+#endif
 
 public struct Material: Sendable {
     private var id: Material.ID
@@ -13,6 +16,12 @@ extension Material {
     public static let ultraThin: Material = { fatalError("TODO") }()
     public static let ultraThick: Material = { fatalError("TODO") }()
     public static let bar: Material = { fatalError("TODO") }()
+}
+
+extension Material {
+    package init<T: MaterialProvider>(provider: T) {
+        fatalError("TODO")
+    }
 }
 
 extension Material {
@@ -92,6 +101,20 @@ extension Material.Layer {
     }
 }
 
+package protocol MaterialProvider {
+    
+}
+
+#if SwiftUICompataibility
+@_spi(Internal) public struct MaterialProviderNativeBridge: MySwiftUICore.MaterialProvider {
+    private let base: _SwiftUIPrivate.MaterialProvider
+    
+    public init(base: _SwiftUIPrivate.MaterialProvider) {
+        self.base = base
+    }
+}
+#endif
+
 class MaterialProviderBoxBase {
     
 }
@@ -151,5 +174,22 @@ extension ShapeStyle where Self == Material {
     
     package static func _intelligenceLightSource(prefersAudioReactivity: Bool) -> Material {
         fatalError()
+    }
+}
+
+extension EnvironmentValues {
+    package var backgroundMaterial: Material? {
+        get {
+            return self[BackgroundMaterialKey.self]
+        }
+        set {
+            self[BackgroundMaterialKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct BackgroundMaterialKey: EnvironmentKey {
+    static var defaultValue: Material? {
+        return nil
     }
 }

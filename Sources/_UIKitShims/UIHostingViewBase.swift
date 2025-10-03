@@ -1,20 +1,26 @@
 package import UIKit
 @_spi(Internal) package import MySwiftUICore
 private import _UIKitPrivate
+#if SwiftUICompataibility
+private import SwiftUI
+private import _SwiftUIPrivate
+#endif
+private import DesignLibrary
+private import _DesignLibraryShims
 
 package final class UIHostingViewBase: NSObject {    
     package weak var uiView: UIView? = nil
     package weak var delegate: UIHostingViewBaseDelegate? = nil
-    private var safeAreaRegions: SafeAreaRegions = .all
+    private var safeAreaRegions: MySwiftUICore.SafeAreaRegions = .all
     private let configuration: UIHostingViewBase.Configuration
-    package let viewGraph: ViewGraphHost
-    private var inheritedEnvironment: EnvironmentValues? = nil
-    private var environmentOverride: EnvironmentValues? = nil
+    package let viewGraph: MySwiftUICore.ViewGraphHost
+    private var inheritedEnvironment: MySwiftUICore.EnvironmentValues? = nil
+    private var environmentOverride: MySwiftUICore.EnvironmentValues? = nil
     package var traitCollectionOverride: UITraitCollection?
-    private var cachedContainerShape: UnevenRoundedRectangle?
+    private var cachedContainerShape: MySwiftUICore.UnevenRoundedRectangle?
     private var canAdvanceTimeAutomatically: Bool = true
     private var allowUIKitAnimationsForNextUpdate: Bool = false
-    private var lastRenderTime: Time = .zero
+    private var lastRenderTime: MySwiftUICore.Time = .zero
     private var pendingPreferencesUpdate: Bool = false
     private var pendingPostDisappearPreferencesUpdate: Bool = false
     private var _updateFidelity: _UpdateFidelity = .milliseconds
@@ -87,11 +93,11 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    package init(viewGraph: ViewGraphHost, options: UIHostingViewBase.Options) {
+    package init(viewGraph: MySwiftUICore.ViewGraphHost, options: UIHostingViewBase.Options) {
         fatalError("TODO")
     }
     
-    package init(viewGraph: ViewGraphHost, configuration: UIHostingViewBase.Configuration) {
+    package init(viewGraph: MySwiftUICore.ViewGraphHost, configuration: UIHostingViewBase.Configuration) {
         self.viewGraph = viewGraph
         self.configuration = configuration
         super.init()
@@ -230,7 +236,7 @@ package final class UIHostingViewBase: NSObject {
         // time = x19
         // x23
         var lastRenderTime = lastRenderTime
-        let zeroTime = Time.zero
+        let zeroTime = MySwiftUICore.Time.zero
         
         if lastRenderTime <= zeroTime {
             // <+320>
@@ -453,16 +459,16 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @MainActor
-    package func _startUpdateEnvironment() -> EnvironmentValues {
+    package func _startUpdateEnvironment() -> MySwiftUICore.EnvironmentValues {
         guard let uiView else {
-            return EnvironmentValues()
+            return MySwiftUICore.EnvironmentValues()
         }
         
         // x29, #-0xc8
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
         
         // x23
-        let environmentValues: EnvironmentValues
+        let environmentValues: MySwiftUICore.EnvironmentValues
         // <+492>
         if traitCollection._environmentWrapper != nil {
             // <+496>
@@ -507,14 +513,14 @@ package final class UIHostingViewBase: NSObject {
         return environmentValues
     }
     
-    package func _updateEnvironment(_ environmentValues: inout EnvironmentValues) {
+    package func _updateEnvironment(_ environmentValues: inout MySwiftUICore.EnvironmentValues) {
         guard let uiView else {
             return
         }
         
         if let uiView = self.uiView {
             // <+364>
-            if let idiom = ViewGraphHost.Idiom(_uiIdiom: uiView.traitCollection.userInterfaceIdiom) {
+            if let idiom = MySwiftUICore.ViewGraphHost.Idiom(_uiIdiom: uiView.traitCollection.userInterfaceIdiom) {
                 environmentValues.viewGraphIdiom = idiom
             }
         }
@@ -560,11 +566,11 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    package func _endUpdateEnvironment(_: EnvironmentValues) {
+    package func _endUpdateEnvironment(_: MySwiftUICore.EnvironmentValues) {
         fatalError("TODO")
     }
     
-    private func ___lldb_unnamed_symbol318321(environmentValues: inout EnvironmentValues) {
+    private func ___lldb_unnamed_symbol318321(environmentValues: inout MySwiftUICore.EnvironmentValues) {
         // x23
         guard let uiView else {
             return
@@ -572,14 +578,33 @@ package final class UIHostingViewBase: NSObject {
         
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
         
+#if SwiftUICompataibility
+        var nativeEnvironmentValues = SwiftUI.EnvironmentValues()
+        let hostingView = SwiftUI._UIHostingView(rootView: EmptyView())
+        let base = unsafeBitCast(Mirror(reflecting: hostingView).descendant("_base")!, to: _UIKitPrivate.UIHostingViewBase.self)
+        base.uiView = self.uiView
+        base._updateEnvironment(&nativeEnvironmentValues)
+        
+        guard let glassMaterialContainerStyle = nativeEnvironmentValues.glassMaterialContainerStyle else {
+            return
+        }
+        environmentValues.glassMaterialContainerStyle = glassMaterialContainerStyle
+        
+        if let resolvedProvider = traitCollection.resolvedProvider as? _SwiftUICorePrivate.MaterialProvider {
+            environmentValues.glassColorScheme = traitCollection.colorScheme
+            environmentValues.backgroundMaterial = Material(provider: MaterialProviderNativeBridge(base: resolvedProvider))
+        }
+#else
         /*
          typedStorage가 내부적으로 Dictionary를 가지고 있고
-         Dicctionary의 어떤 값이 nil이면 return, 아니면 EnvironmentValues 설정
+         Dicctionary의 어떤 값이 nil이면 return
+         값이 있다면 그 값으로 glassMaterialContainerStyle 설정
          */
         let typedStorage = uiView.typedStorage
+#error("TODO")
         fatalError("TODO")
+#endif
     }
-    
     
     // ___lldb_unnamed_symbol320011
     @MainActor
@@ -776,7 +801,7 @@ package final class UIHostingViewBase: NSObject {
 extension UIHostingViewBase {
     package struct Configuration {
         package var options = UIHostingViewBase.Options.allowKeyboardSafeArea
-        package var colorDefinitions: PlatformColorDefinition.Type? = nil
+        package var colorDefinitions: MySwiftUICore.PlatformColorDefinition.Type? = nil
         
         package init() {}
     }

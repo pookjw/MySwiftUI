@@ -6,7 +6,7 @@ import UIKit
 import Foundation
 @_exported import _UIKitPrivate
 import SwiftUI
-import _SwiftUIPrivate
+import _SwiftUICorePrivate
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "UIKit", visionOS 26.0)
@@ -14,17 +14,20 @@ public final class UIHostingViewBase: Foundation.NSObject {
     public weak var uiView: UIKit.UIView? {
         get set
     }
-    public func _updateEnvironment(_: inout Swift.EnvironmentValues)
+    public func _updateEnvironment(_: inout SwiftUI.EnvironmentValues)
 }
 
 extension UIKit.UITraitCollection {
     @_silgen_name("$sSo17UITraitCollectionC5UIKitE27coreResolvedBaseEnvironment4base7SwiftUI0G6ValuesVAH_tF")
     public func private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues) -> SwiftUI.EnvironmentValues
+
+    @_silgen_name("$sSo17UITraitCollectionC5UIKitE36coreResolvedGlassMaterialEnvironment4base7SwiftUI0H6ValuesVAH_tF")
+    public func private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues) -> SwiftUI.EnvironmentValues
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "UIKit", visionOS 26.0)
-extension _SwiftUIPrivate.ViewGraphHost.Idiom {
+extension _SwiftUICorePrivate.ViewGraphHost.Idiom {
     @_silgen_name("$s7SwiftUI13ViewGraphHostC5IdiomV5UIKitE03_uiF0AESgSo015UIUserInterfaceF0V_tcfC")
     public init?(_uiIdiom: UIKit.UIUserInterfaceIdiom)
 }
