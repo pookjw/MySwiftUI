@@ -7,7 +7,7 @@ public struct Alert {
 }
 
 extension Alert {
-    struct Presentation {
+    struct Presentation: AlertControllerConvertible {
         let alert: Alert
         let onDismiss: (() -> Void)?
         let viewID: ViewIdentity

@@ -66,8 +66,8 @@ class ViewController: UIViewController {
 //            print(env.accessibilitySettingsDefinition)
 //        }
         
-        print(PlatformAccessibilitySettingsDefinition.self)
-        _forEachField(of: PlatformAccessibilitySettingsDefinition.self, options: [.classType]) { name, offset, type, kind in
+        print(_typeByName("7SwiftUI11FocusBridgeC")!)
+        _forEachField(of: _typeByName("7SwiftUI11FocusBridgeC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
@@ -79,8 +79,8 @@ class ViewController: UIViewController {
         let filter = BloomFilter(type: Type1.self)
         print(filter.mayContain(BloomFilter(type: Type2.self)))
         
-        print(_typeByName("7SwiftUI12PropertyListV7ElementC")!)
-        _forEachField(of: _typeByName("7SwiftUI12PropertyListV7ElementC")!, options: [.classType]) { name, offset, type, kind in
+        print(_typeByName("7SwiftUI21DeprecatedAlertBridgeCyAA11ActionSheetV12PresentationVG")!)
+        _forEachField(of: _typeByName("7SwiftUI21DeprecatedAlertBridgeCyAA11ActionSheetV12PresentationVG")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
@@ -95,7 +95,7 @@ class ViewController: UIViewController {
         //        
         print("===")
         
-        // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x105d57730, to: AnyObject.self)))
+        // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x105778a50, to: AnyObject.self)))
         
         print(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!)
         _forEachField(of: _typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, options: [.classType]) { name, offset, type, kind in

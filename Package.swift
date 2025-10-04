@@ -33,7 +33,8 @@ let package = Package(
                 .byName(name: "RealitySimulationServices"),
                 .byName(name: "MRUIKit"),
                 .byName(name: "DesignLibrary"),
-                .byName(name: "_DesignLibraryShims")
+                .byName(name: "_DesignLibraryShims"),
+                .byName(name: "TCC")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -148,6 +149,10 @@ let package = Package(
         .binaryTarget(
             name: "DesignLibrary",
             path: "DesignLibrary.xcframework"
+        ),
+        .binaryTarget(
+            name: "TCC",
+            path: "TCC.xcframework"
         ),
         .target(
             name: "_KernPrivate",

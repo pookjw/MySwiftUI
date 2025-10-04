@@ -2,10 +2,16 @@
 package import CoreGraphics
 public import Spatial
 
-public struct Animation {
+public struct Animation: Equatable, Sendable {
     package var function: Function {
         fatalError("TODO")
     }
+}
+
+extension Animation {
+    public static let `default`: Animation = {
+        fatalError("TODO")
+    }()
 }
 
 extension Animation {

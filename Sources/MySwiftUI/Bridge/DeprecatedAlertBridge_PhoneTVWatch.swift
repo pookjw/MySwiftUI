@@ -2,7 +2,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
-final class DeprecatedAlertBridge<T>: NSObject {
+final class DeprecatedAlertBridge<T: AlertControllerConvertible>: NSObject {
     weak var host: (any ViewRendererHost)?
     private var isShown: Bool
     private var seed: VersionSeed
@@ -35,8 +35,16 @@ final class DeprecatedAlertBridge<T>: NSObject {
         }
     }
     
+    @MainActor
     func update(environment: EnvironmentValues) {
-        fatalError("TODO")
+        self.lastEnvironment = environment
+        
+        if
+            let lastPresentation,
+            let alertController
+        {
+            alertController.update(for: lastPresentation, with: environment, environmentChanged: true)
+        }
     }
 }
 

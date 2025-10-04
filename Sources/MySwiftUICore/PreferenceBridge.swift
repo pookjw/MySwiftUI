@@ -22,3 +22,20 @@ extension PreferenceBridge {
         private var combiner: AnyWeakAttribute
     }
 }
+
+extension EnvironmentValues {
+    package var preferenceBridge: PreferenceBridge? {
+        get {
+            return self[PreferenceBridgeKey.self].base
+        }
+        set {
+            self[PreferenceBridgeKey.self] = WeakBox(newValue)
+        }
+    }
+    
+    fileprivate struct PreferenceBridgeKey: EnvironmentKey {
+        static var defaultValue: WeakBox<PreferenceBridge> {
+            return WeakBox(nil)
+        }
+    }
+}

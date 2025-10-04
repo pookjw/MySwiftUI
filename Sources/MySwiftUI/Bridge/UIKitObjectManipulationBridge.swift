@@ -3,7 +3,7 @@
 internal import MRUIKit
 internal import AttributeGraph
 
-class UIKitObjectManipulationBridge<Content: View> {
+class UIKitObjectManipulationBridge<Content: View>: AnyObjectManipulationBridge {
     weak var host: _UIHostingView<Content>? = nil
     var mapping: [_MRUIObjectTransformInteraction.Target.ID: UIKitObjectManipulationBridge<Content>.Context] = [:]
     var proxyGeometries: [UUID : Attribute<ObjectManipulationGeometry>] = [:]
@@ -18,8 +18,8 @@ class UIKitObjectManipulationBridge<Content: View> {
         fatalError("TODO")
     }
     
-    final func updateEnvironment(_: inout EnvironmentValues) {
-        fatalError("TODO")
+    final func updateEnvironment(_ environmentValues: inout EnvironmentValues) {
+        environmentValues.objectManipulationBridge = ObjectManipulationBridgeWrapper(bridge: self)
     }
 }
 

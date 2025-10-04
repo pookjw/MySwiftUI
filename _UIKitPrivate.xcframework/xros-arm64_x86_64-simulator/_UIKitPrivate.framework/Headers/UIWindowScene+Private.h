@@ -11,6 +11,7 @@ UIKIT_EXTERN const NSNotificationName _UISceneDidResignKeyNotification NS_SWIFT_
 @interface UIWindowScene (Private)
 @property (nonatomic) BOOL _isKeyWindowScene;
 @property (nonatomic, readonly) UIUserInterfaceStyle _systemUserInterfaceStyle;
+@property (nonatomic, readonly) BOOL isSnappedToSurface;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

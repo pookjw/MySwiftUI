@@ -1,0 +1,5 @@
+framework module TCC {
+    umbrella header "TCC.h"
+    export *
+    module * { export * }
+}

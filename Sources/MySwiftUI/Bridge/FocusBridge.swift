@@ -24,6 +24,22 @@ final class FocusBridge {
         return host
     }
     
+    var isHostContainedInFocusedItem: Bool {
+        guard let host else {
+            return false
+        }
+        
+        guard let focusSystem = UIFocusSystem.focusSystem(for: host) else {
+            return false
+        }
+        
+        guard let focusedItem = focusSystem.focusedItem else {
+            return false
+        }
+        
+        return focusedItem.contains(host)
+    }
+    
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
@@ -39,8 +55,57 @@ final class FocusBridge {
         fatalError("TODO")
     }
     
-    func updateEnvironment(_: inout EnvironmentValues) {
-        fatalError("TODO")
+    func updateEnvironment(_ environmentValues: inout EnvironmentValues) {
+        guard let host else {
+            return
+        }
+        
+        environmentValues.focusBridge = self
+        
+        if !environmentValues.isFocused {
+            environmentValues.isFocused = isHostContainedInFocusedItem
+        }
+        
+        // <+360>
+        // x24
+        if let window = host.window {
+            environmentValues.isPlatformFocusSystemEnabled = (UIFocusSystem.focusSystem(for: window) != nil)
+        }
+        
+        // <+480>
+        if self.currentEnvironment.preferenceBridge != nil {
+            if environmentValues.preferenceBridge != nil {
+                // <+796>
+            } else {
+                // <+688>
+                if let host = self.host {
+                    // <+700>
+                    host.viewGraph.addPreference(FocusedValueList.Key.self)
+                    host.viewGraph.addPreference(FocusStoreList.Key.self)
+                    // <+796>
+                } else {
+                    // <+792>
+                }
+            }
+        } else {
+            // <+572>
+            if environmentValues.preferenceBridge != nil {
+                // <+584>
+                if let host = self.host {
+                    // <+600>
+                    host.viewGraph.removePreference(FocusedValueList.Key.self)
+                    host.viewGraph.removePreference(FocusStoreList.Key.self)
+                    // <+784>
+                } else {
+                    // <+792>
+                }
+            } else {
+                // <+792>
+            }
+        }
+        
+        // <+796>
+        self.currentEnvironment = environmentValues
     }
 }
 
@@ -136,5 +201,22 @@ extension FocusStoreList {
         static var defaultValue: FocusStoreList {
             return FocusStoreList()
         }
+    }
+}
+
+extension EnvironmentValues {
+    var focusBridge: FocusBridge? {
+        get {
+            return self[FocusBridgeKey.self].base
+        }
+        set {
+            self[FocusBridgeKey.self] = WeakBox(newValue)
+        }
+    }
+}
+
+fileprivate struct FocusBridgeKey: EnvironmentKey {
+    static var defaultValue: WeakBox<FocusBridge> {
+        return WeakBox(nil)
     }
 }

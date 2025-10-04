@@ -7,6 +7,7 @@ private import _UIKitPrivate
 private import notify
 private import MRUIKit
 private import RealityKit
+private import TCC
 
 fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
 
@@ -74,6 +75,7 @@ open class _UIHostingView<Content: View>: UIView {
     }()
     private(set) final var focusBridge = FocusBridge()
     private let dragBridge = DragAndDropBridge()
+    private var popoverBridge: UIKitPopoverBridge?
     internal final var inspectorBridge: UIKitInspectorBridgeV3? = nil
     private var tooltipBridge = TooltipBridge()
     private var editMenuBridge = EditMenuBridge()
@@ -94,9 +96,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var shouldUpdateAccessibilityFocus: Bool = false
     private let largeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
     private lazy var presentationModeLocation = LocationBox(location: UIKitPresentationModeLocation(host: self))
-    private lazy var scenePresentationModeLocation: LocationBox<UIKitScenePresentationModeLocation<Content>> = {
-        fatalError("TODO")
-    }()
+    private lazy var scenePresentationModeLocation = LocationBox(location: UIKitScenePresentationModeLocation(host: self))
     private var sceneSize: CGSize = .zero
     private var _boundsDepth: CGFloat = 0
     private var scrollTest: ScrollTest? = nil
@@ -190,10 +190,6 @@ open class _UIHostingView<Content: View>: UIView {
         }
         
         return (navigationController.topViewController == self.viewController)
-    }
-    
-    private var popoverBridge: UIKitPopoverBridge? {
-        fatalError("TODO")
     }
     
     public required init(rootView: Content) {
@@ -486,6 +482,15 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private func updateSnappingState(environment: inout EnvironmentValues) {
+        // environment = x24
+        // x27
+        guard let windowScene = window?.windowScene else {
+            return
+        }
+        
+        let surfaceSnappingInfo = environment.surfaceSnappingInfo
+        let isSnappedToSurface = windowScene.isSnappedToSurface
+        // <+380>
         fatalError("TODO")
     }
 }
