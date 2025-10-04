@@ -242,9 +242,9 @@ package final class ViewGraph: GraphHost {
             return
         }
         
-        if (newParentPhase.value ^ oldParentPhase.value) >= 2 {
+        if abs(Int(newParentPhase.resetSeed) - Int(oldParentPhase.resetSeed)) >= 1 {
             // <+112>
-            data.phase.value += 2
+            data.phase.resetSeed &+= 1
             
             if let delegate {
                 delegate.graphDidChange()
@@ -252,11 +252,8 @@ package final class ViewGraph: GraphHost {
         }
         
         // <+264>
-        let w8 = (oldParentPhase.isInserted ? 1 : 0) ^ newParentPhase.value
-        if w8 == 0 {
-            let w21 = newParentPhase.value & 1
-            let oldPhase = data.phase
-            data.phase = _GraphInputs.Phase(value: (oldPhase.value & ~1) | w21)
+        if (oldParentPhase.isInserted != newParentPhase.isInserted) {
+            data.phase.isBeingRemoved = newParentPhase.isBeingRemoved
         }
         
         // <+364>

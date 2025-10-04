@@ -484,7 +484,7 @@ package final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
             return false
         }
         
-        guard self.phase.base.value != casted.phase.base.value else {
+        guard self.phase.base != casted.phase.base else {
             return false
         }
         

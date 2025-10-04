@@ -178,7 +178,8 @@ let package = Package(
             name: "MySwiftUICoreTests",
             dependencies: [
                 .byName(name: "MySwiftUICore"),
-                .byName(name: "MySwiftUITestUtils")
+                .byName(name: "MySwiftUITestUtils"),
+                .byName(name: "_SwiftUICorePrivate"),
             ],
             swiftSettings: [
                 .strictMemorySafety()
