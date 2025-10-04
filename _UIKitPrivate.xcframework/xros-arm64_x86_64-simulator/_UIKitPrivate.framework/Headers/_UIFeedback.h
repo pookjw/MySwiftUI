@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import <CoreRE/CoreRE.h>
+#import <CoreRE/Defines.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 

@@ -10,6 +10,7 @@ import SwiftUI
 @_exported import QuartzCore
 @_exported import ObjectiveC
 @_exported import CoreGraphics
+import AttributeGraph
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -29,6 +30,10 @@ public class PlatformColorDefinition {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public class GraphHost {
+  public final var data: _SwiftUICorePrivate.GraphHost.Data {
+    get set
+  }
+
   public var parentHost : _SwiftUICorePrivate.GraphHost? {
     get
   }
@@ -42,6 +47,10 @@ public class GraphHost {
 extension _SwiftUICorePrivate.GraphHost {
   public struct Data {
     public init()
+
+    @AttributeGraph.Attribute public var phase: SwiftUICore._GraphInputs.Phase {
+      get set
+    }
   }
 }
 
@@ -49,6 +58,7 @@ extension _SwiftUICorePrivate.GraphHost {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public class ViewGraph: _SwiftUICorePrivate.GraphHost {
   public init<T: SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUICorePrivate.ViewGraph.Outputs)
+  public final func updateGraphPhase(oldParentPhase: SwiftUICore._GraphInputs.Phase?, newParentPhase: SwiftUICore._GraphInputs.Phase)
 }
 
 @available(visionOS 26.0, *)
@@ -61,6 +71,10 @@ extension _SwiftUICorePrivate.ViewGraph {
     }
 
     public init(rawValue: Swift.UInt8)
+
+    public static var defaults: _SwiftUICorePrivate.ViewGraph.Outputs {
+      get
+    }
   }
 }
 
@@ -602,5 +616,35 @@ public final class ViewGraphHostEnvironmentWrapper: Foundation.NSObject, Foundat
 
   public var environment: SwiftUI.EnvironmentValues {
     get set
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUICore._GraphInputs {
+  public struct Phase: Swift.Equatable {
+    public var resetSeed: Swift.UInt32 {
+      get set
+    }
+
+    public var isInserted: Swift.Bool {
+      get
+    }
+
+    public init()
+
+    public var isBeingRemoved: Swift.Bool {
+      get set
+    }
+
+    public init(value: Swift.UInt32)
+
+    public mutating func merge(_: SwiftUICore._GraphInputs.Phase)
+
+    public static var invalid: SwiftUICore._GraphInputs.Phase {
+      get
+    }
+
+    public static func == (lhs: SwiftUICore._GraphInputs.Phase, rhs: SwiftUICore._GraphInputs.Phase) -> Swift.Bool
   }
 }
