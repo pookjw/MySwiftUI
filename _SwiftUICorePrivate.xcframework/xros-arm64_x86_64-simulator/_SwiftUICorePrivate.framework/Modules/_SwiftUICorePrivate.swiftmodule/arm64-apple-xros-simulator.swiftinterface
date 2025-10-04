@@ -591,3 +591,16 @@ public class AnyColorBox: _SwiftUICorePrivate.AnyShapeStyleBox, @unchecked Senda
 public protocol MaterialProvider {
   
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public final class ViewGraphHostEnvironmentWrapper: Foundation.NSObject, Foundation.NSSecureCoding {
+   public static var supportsSecureCoding: Swift.Bool { get }
+   public init?(coder: Foundation.NSCoder)
+   public func encode(with coder: Foundation.NSCoder)
+   public override func isEqual(_ object: Any?) -> Swift.Bool
+
+  public var environment: SwiftUI.EnvironmentValues {
+    get set
+  }
+}

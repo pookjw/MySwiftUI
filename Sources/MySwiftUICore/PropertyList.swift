@@ -467,12 +467,16 @@ package final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
     package var environment = EnvironmentValues()
     var phase = ViewGraphHost.Phase()
     
-    package init?(coder: NSCoder) {
-        fatalError("TODO")
+    package convenience init?(coder: NSCoder) {
+        self.init()
+    }
+    
+    package override init() {
+        super.init()
     }
     
     package func encode(with coder: NSCoder) {
-        fatalError("TODO")
+        // nop
     }
     
     package override func isEqual(_ object: Any?) -> Bool {

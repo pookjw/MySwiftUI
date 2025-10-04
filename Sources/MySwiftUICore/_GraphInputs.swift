@@ -41,8 +41,50 @@ public struct _GraphInputs {
 }
 
 extension _GraphInputs {
-    public struct Phase {
-        var value: UInt32 = 0
+    struct Phase: Equatable {
+        var value: UInt32
+        
+        init(value: UInt32) {
+            self.value = value
+        }
+        
+        init() {
+            self.value = 0
+        }
+        
+        var resetSeed: UInt32 {
+            get {
+                return value &>> 1
+            }
+            set {
+                value = (value & 1) | ((newValue & 0x7FFFFFFF) << 1)
+            }
+        }
+        
+        var isInserted: Bool {
+            return (value & 1) == 0
+        }
+        
+        var isBeingRemoved: Bool {
+            get {
+                return (value & 1) != 0
+            }
+            set {
+                if newValue {
+                    value |= 1
+                } else {
+                    value &= ~1
+                }
+            }
+        }
+        
+        mutating func merge(_ other: _GraphInputs.Phase) {
+            value = ((value & ~1) &+ other.value) | (value & 1)
+        }
+        
+        static var invalid: _GraphInputs.Phase {
+            return _GraphInputs.Phase(value: 0xFFFFFFF0)
+        }
     }
 }
 

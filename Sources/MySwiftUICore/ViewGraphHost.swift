@@ -144,6 +144,25 @@ package final class ViewGraphHost {
             return interval()
         }
     }
+    
+    package func setEnvironment(_ environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) {
+        /*
+         self = x19
+         wrapper = x22
+         environment = x21 + x24
+         */
+         // x20
+        let viewGraph = self.viewGraph
+        viewGraph.data.environment = environment
+        
+        let newParentPhase = wrapper.phase.base
+        viewGraph.updateGraphPhase(oldParentPhase: parentPhase, newParentPhase: newParentPhase)
+        parentPhase = newParentPhase
+        
+        viewGraph.updatePreferenceBridge(environment: environment) { 
+            fatalError("TODO")
+        }
+    }
 }
 
 extension ViewGraphHost {

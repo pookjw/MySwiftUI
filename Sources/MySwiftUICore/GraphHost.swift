@@ -369,8 +369,8 @@ extension GraphHost {
         fileprivate var isRemoved: Bool
         fileprivate(set) var isHiddenForReuse: Bool
         @Attribute var time: Time
-        @Attribute private var environment: EnvironmentValues
-        @Attribute private var phase: _GraphInputs.Phase
+        @Attribute var environment: EnvironmentValues
+        @Attribute var phase: _GraphInputs.Phase
         @Attribute var hostPreferenceKeys: PreferenceKeys
         @Attribute fileprivate var transaction: Transaction
         @Attribute var updateSeed: UInt32

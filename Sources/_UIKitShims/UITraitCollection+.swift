@@ -2,14 +2,11 @@ internal import UIKit
 private import _UIKitPrivate
 @_spi(Internal) package import MySwiftUICore
 private import _DyldPrivate
-#if SwiftUICompataibility
-private import _SwiftUIPrivate
-#endif
 
 extension UITraitCollection {
     // ___lldb_unnamed_symbol316127
     func environmentValues() -> MySwiftUICore.EnvironmentValues {
-        if let environmentWrapper = _environmentWrapper as? ViewGraphHostEnvironmentWrapper {
+        if let environmentWrapper = _environmentWrapper as? MySwiftUICore.ViewGraphHostEnvironmentWrapper {
             return environmentWrapper.environment
         }
         

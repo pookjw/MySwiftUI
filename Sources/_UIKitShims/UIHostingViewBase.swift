@@ -583,8 +583,23 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    package func _endUpdateEnvironment(_: MySwiftUICore.EnvironmentValues) {
-        fatalError("TODO")
+    package func _endUpdateEnvironment(_ environmentValues: MySwiftUICore.EnvironmentValues) {
+        guard let uiView else {
+            return
+        }
+        
+        let traitCollection = traitCollectionOverride ?? uiView.traitCollection
+        
+        let environmentWrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper
+        if let _environmentWrapper = traitCollection._environmentWrapper as? MySwiftUICore.ViewGraphHostEnvironmentWrapper {
+            // <+180>
+            environmentWrapper = _environmentWrapper
+        } else {
+            // <+240>
+            environmentWrapper = MySwiftUICore.ViewGraphHostEnvironmentWrapper()
+        }
+        
+        viewGraph.setEnvironment(environmentValues, wrapper: environmentWrapper)
     }
     
     private func ___lldb_unnamed_symbol318321(environmentValues: inout MySwiftUICore.EnvironmentValues) {

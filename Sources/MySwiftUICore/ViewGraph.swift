@@ -231,6 +231,46 @@ package final class ViewGraph: GraphHost {
         }
     }
     
+    func updateGraphPhase(oldParentPhase: _GraphInputs.Phase?, newParentPhase: _GraphInputs.Phase) {
+        /*
+         oldParentPhase = w23
+         newParentPhase = w22
+         */
+        guard let oldParentPhase else {
+            // <+52>
+            data.phase = newParentPhase
+            return
+        }
+        
+        if (newParentPhase.value ^ oldParentPhase.value) >= 2 {
+            // <+112>
+            data.phase.value += 2
+            
+            if let delegate {
+                delegate.graphDidChange()
+            }
+        }
+        
+        // <+264>
+        let w8 = (oldParentPhase.isInserted ? 1 : 0) ^ newParentPhase.value
+        if w8 == 0 {
+            let w21 = newParentPhase.value & 1
+            let oldPhase = data.phase
+            data.phase = _GraphInputs.Phase(value: (oldPhase.value & ~1) | w21)
+        }
+        
+        // <+364>
+    }
+    
+    func updatePreferenceBridge(environment: EnvironmentValues, deferredUpdate: () -> Void) {
+        /*
+         self = x23
+         environment = x20, x21
+         deferredUpdate = x22
+         */
+        fatalError("TODO")
+    }
+    
     package var rootViewInsets: EdgeInsets {
         fatalError("TODO")
     }

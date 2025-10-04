@@ -72,6 +72,12 @@ class ViewController: UIViewController {
             return true
         }
         
+        print(ViewGraphHostEnvironmentWrapper.self)
+        _forEachField(of: ViewGraphHostEnvironmentWrapper.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
 //        print(type(of: objc_lookUpClass("_TtCV5UIKit23MaterialBackdropContextP33_B4E1891EFAA97781768AA47DAB5BDF997Storage")!))
         print(EnvironmentValues().backgroundMaterial)
         UserDefaults.standard.set(false, forKey: "com.apple.SwiftUI.ViewGraphBridgePropertiesAreInput")
