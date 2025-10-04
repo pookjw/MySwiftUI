@@ -8,6 +8,7 @@ private import notify
 private import MRUIKit
 private import RealityKit
 private import TCC
+private import ARKit
 
 fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
 
@@ -483,15 +484,62 @@ open class _UIHostingView<Content: View>: UIView {
     
     private func updateSnappingState(environment: inout EnvironmentValues) {
         // environment = x24
-        // x27
+        // x27/x29, #-0xa0
         guard let windowScene = window?.windowScene else {
             return
         }
         
-        let surfaceSnappingInfo = environment.surfaceSnappingInfo
-        let isSnappedToSurface = windowScene.isSnappedToSurface
+        // x21
+        var surfaceSnappingInfo = environment.surfaceSnappingInfo
+        surfaceSnappingInfo.isSnapped = windowScene.isSnappedToSurface
         // <+380>
-        fatalError("TODO")
+        // x19
+        var authorization = tcc_authorization_preflight(kTCCServiceWorldSensing, nil)
+        
+        if
+            let wantsDetailedSurfaceInfo = Bundle.main.infoDictionary?["UIWantsDetailedSurfaceInfo"] as? Bool,
+            wantsDetailedSurfaceInfo,
+            authorization == 1,
+            windowScene.isSnappedToSurface
+        {
+            tcc_authorization_request(kTCCServiceWorldSensing, nil) { result in
+                // $s7SwiftUI14_UIHostingViewC19updateSnappingState11environmentyAA17EnvironmentValuesVz_tFySo25tcc_authorization_right_tacfU_TA
+                authorization = result
+            }
+        }
+        
+        // environment = x19
+        // <+872>
+        // x29, #-0x90 (value), w19 (Optional)
+        let surfaceClassification: SurfaceClassification?
+        if authorization == 0 {
+            // <+1064>
+            SurfaceSnappingInfo.authorizationStatus = .denied
+            surfaceClassification = nil
+            // <+1272>
+        } else if authorization != 2 {
+            // <+1120>
+            SurfaceSnappingInfo.authorizationStatus = .notDetermined
+            surfaceClassification = nil
+            // <+1272>
+        } else {
+            // <+928>
+            SurfaceSnappingInfo.authorizationStatus = .authorized
+            
+            if windowScene.isSnappedToSurface {
+                // <+1028>
+                surfaceClassification = SurfaceClassification(windowScene.snappingSurfaceClassification)
+                // <+1216>
+            } else {
+                surfaceClassification = nil
+            }
+            
+            // <+1272>
+        }
+        
+        // <+1272>
+        surfaceSnappingInfo.classification = surfaceClassification
+        environment.surfaceSnappingInfo = surfaceSnappingInfo
     }
 }
 

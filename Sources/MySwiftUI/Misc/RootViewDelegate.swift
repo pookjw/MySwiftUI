@@ -151,7 +151,6 @@ extension RootViewDelegate: UIHostingViewDelegate {
         }
         
         if let nextDelegate {
-            // 확실하지 않음
             nextDelegate.hostingView(hostingView, didMoveTo: window)
         }
     }
@@ -165,7 +164,9 @@ extension RootViewDelegate: UIHostingViewDelegate {
     }
     
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        if let nextDelegate {
+            nextDelegate.hostingView(hostingView, didUpdate: values)
+        }
     }
     
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties) where Content : View {

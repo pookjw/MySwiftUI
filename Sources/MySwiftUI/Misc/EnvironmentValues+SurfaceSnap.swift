@@ -2,12 +2,19 @@ public import ARKit
 public import MySwiftUICore
 
 public struct SurfaceSnappingInfo: Equatable, Sendable, CustomDebugStringConvertible {
-    public static var authorizationStatus: SurfaceSnappingInfo.AuthorizationStatus {
-        fatalError("TODO")
+    fileprivate static nonisolated(unsafe) let __authorizationStatus = AtomicBox<AuthorizationStatus>(wrappedValue: .notDetermined)
+    
+    public internal(set) static var authorizationStatus: SurfaceSnappingInfo.AuthorizationStatus {
+        get {
+            return __authorizationStatus.wrappedValue
+        }
+        set {
+            __authorizationStatus.wrappedValue = newValue
+        }
     }
     
-    public private(set) var isSnapped = false
-    public private(set) var classification: ARKit.SurfaceClassification? = nil
+    public internal(set) var isSnapped = false
+    public internal(set) var classification: ARKit.SurfaceClassification? = nil
     
     public var debugDescription: String {
         fatalError("TODO")
@@ -43,7 +50,7 @@ enum _SurfaceClassificationStatus: Equatable, CustomDebugStringConvertible {
 }
 
 extension EnvironmentValues {
-    public private(set) var surfaceSnappingInfo: SurfaceSnappingInfo {
+    public internal(set) var surfaceSnappingInfo: SurfaceSnappingInfo {
         get {
             return self[SurfaceSnappingInfoKey.self]
         }
