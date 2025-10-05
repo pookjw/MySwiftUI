@@ -94,7 +94,27 @@ extension FocusViewGraph: ViewGraphFeature {
         return needsFocusUpdate || needsFocusSystemEnabledUpdate
     }
     
-    func update(graph: ViewGraph) {
-        fatalError("TODO")
+    mutating func update(graph: ViewGraph) {
+        if needsFocusUpdate {
+            // <+164>
+            needsFocusUpdate = false
+            if let delegate = graph.delegate {
+                if let focusHost = delegate.as(FocusHost.self) {
+                    focusHost.focusDidChange()
+                }
+            }
+        }
+        
+        // <+280>
+        if
+            needsFocusSystemEnabledUpdate,
+            _isFocusSystemEnabled.base.identifier != .empty
+        {
+            // <+316>
+            needsFocusSystemEnabledUpdate = false
+            fatalError("TODO")
+        }
+        
+        // <+504>
     }
 }

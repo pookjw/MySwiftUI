@@ -66,8 +66,8 @@ class ViewController: UIViewController {
 //            print(env.accessibilitySettingsDefinition)
 //        }
         
-        print(_typeByName("7SwiftUI11FocusBridgeC")!)
-        _forEachField(of: _typeByName("7SwiftUI11FocusBridgeC")!, options: [.classType]) { name, offset, type, kind in
+        print(_typeByName("7SwiftUI14FocusViewGraphV")!)
+        _forEachField(of: _typeByName("7SwiftUI14FocusViewGraphV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
@@ -85,8 +85,8 @@ class ViewController: UIViewController {
         let filter = BloomFilter(type: Type1.self)
         print(filter.mayContain(BloomFilter(type: Type2.self)))
         
-        print(_typeByName("7SwiftUI21DeprecatedAlertBridgeCyAA11ActionSheetV12PresentationVG")!)
-        _forEachField(of: _typeByName("7SwiftUI21DeprecatedAlertBridgeCyAA11ActionSheetV12PresentationVG")!, options: [.classType]) { name, offset, type, kind in
+        print(_typeByName("7SwiftUI37UILargeContentViewerInteractionBridgeC")!)
+        _forEachField(of: _typeByName("7SwiftUI37UILargeContentViewerInteractionBridgeC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
@@ -101,7 +101,7 @@ class ViewController: UIViewController {
         //        
         print("===")
         
-        // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x105778a50, to: AnyObject.self)))
+        // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
         
         print(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!)
         _forEachField(of: _typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, options: [.classType]) { name, offset, type, kind in
@@ -255,6 +255,7 @@ class ViewController: UIViewController {
         print(NSStringFromClass(object_getClass(hostingView)!))
         let base = Mirror(reflecting: hostingView).descendant("_base")!
         print(base)
+        print(Mirror(reflecting: hostingView).descendant("colorScheme")!)
 //        super.loadView()
         
 //        Task {

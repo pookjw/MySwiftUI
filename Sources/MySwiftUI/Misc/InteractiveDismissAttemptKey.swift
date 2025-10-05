@@ -2,6 +2,7 @@
 internal import MySwiftUICore
 
 struct InteractiveDismissAttemptKey: HostPreferenceKey {
-    // TODO
-    typealias Value = Never?
+    static var defaultValue: (() -> Void)? {
+        return nil
+    }
 }

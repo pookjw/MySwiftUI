@@ -52,9 +52,13 @@ package struct PreferenceValues {
 
 extension PreferenceValues {
     package struct Value<T> {
-        // TODO
         package var value: T
         package var seed: VersionSeed
+        
+        package init(value: T, seed: VersionSeed) {
+            self.value = value
+            self.seed = seed
+        }
     }
 }
 

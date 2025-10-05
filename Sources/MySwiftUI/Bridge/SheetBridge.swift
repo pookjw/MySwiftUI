@@ -52,11 +52,68 @@ final class SheetBridge<T>: NSObject {
         }
     }
     
-    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
-        // 0x248
+    @MainActor func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        /*
+         self = x28
+         preferenceValues = x21
+         */
+        // x29 - 0xe8
         let sheetPreferenceValue = preferenceValues[SheetPreference.Key.self]
+        // x29 - 0x70
         let lastEnvironment = lastEnvironment
-        lastEnvironment.presentationWantsTransparentBackground
+        // x29 - 0x88
+        let presentationWantsTransparentBackground = lastEnvironment.presentationWantsTransparentBackground
+        
+        // x25
+        let value: PreferenceValues.Value<ContainerBackgroundKeys.Transparency>
+        if presentationWantsTransparentBackground {
+            // <+1892>
+            value = PreferenceValues.Value(value: .transparent, seed: .empty)
+        } else {
+            // <+1936>
+            value = preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
+        }
+        
+        // <+1968>
+        // x29 - 0xd8
+        let presentationOptions = preferenceValues[PresentationOptionsPreferenceKey.self]
+        
+        // x22
+        let interactiveDismissAttempt = preferenceValues[InteractiveDismissAttemptKey.self]
+        
+        if !interactiveDismissHandlerSeed.seed.matches(interactiveDismissAttempt.seed) {
+            // <+2128>
+            interactiveDismissHandlerSeed = VersionSeedTracker<InteractiveDismissAttemptKey>(seed: interactiveDismissAttempt.seed)
+            interactiveDismissHandler = interactiveDismissAttempt.value
+        }
+        
+        // <+2252>
+        _ = consume presentationWantsTransparentBackground
+        
+        // x20
+        // x23 = address
+        let host = self.host!
+        // x19
+        if let uiViewController = host.uiViewController as? PresentationHostingController<AnyView> {
+            // <+2376>
+            fatalError("TODO")
+        }
+        
+        // <+2824>
+        if self.seed.matches(value.seed) {
+            // <+2960>
+            if let uiViewController = host.uiViewController {
+                // <+4384>
+                return
+            } else {
+                // <+3036>
+                fatalError("TODO")
+            }
+            fatalError("TODO")
+        } else {
+            // <+3816>
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
     

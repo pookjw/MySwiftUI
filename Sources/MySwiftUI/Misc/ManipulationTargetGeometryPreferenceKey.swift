@@ -1,6 +1,9 @@
-#warning("TODO")
 internal import MySwiftUICore
+internal import AttributeGraph
+internal import Foundation
 
 struct ManipulationTargetGeometryPreferenceKey: HostPreferenceKey {
-    typealias Value = Never? // TODO
+    static var defaultValue: [UUID : Attribute<ObjectManipulationGeometry>] {
+        return [:]
+    }
 }

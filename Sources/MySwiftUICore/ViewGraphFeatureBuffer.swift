@@ -182,7 +182,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func update(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError("TODO")
+            elt.body(as: T.self).pointee.update(graph: graph)
         }
     }
 }

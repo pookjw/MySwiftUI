@@ -395,7 +395,7 @@ package protocol ViewGraphFeature {
     func isHiddenForReuseDidChange(graph: ViewGraph)
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
     mutating func needsUpdate(graph: ViewGraph) -> Bool
-    func update(graph: ViewGraph)
+    mutating func update(graph: ViewGraph)
 }
 
 extension ViewGraphFeature {

@@ -52,6 +52,56 @@ final class FocusBridge {
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        /*
+         self = x29, #-0xf8
+         preferenceValues = x29, #-0xa8
+         */
+        guard let host else {
+            return
+        }
+        
+        // x21 / x29 - 0x8 - 0x100
+        let focusStoreList = preferenceValues[FocusStoreList.Key.self]
+        let value_1 = focusStoreList.value
+        
+        // x27
+        var version_1 = DisplayList.Version()
+        for item in value_1 {
+            version_1.combine(with: item.version)
+        }
+        
+        // <+840>
+        // self = x28
+        // x24
+        let focusStore = self.focusStore
+        
+        if focusStore.version != version_1 {
+            // <+1024>
+            //x29 - 0x88
+            let value = focusStoreList.value
+            // x22
+            var version = DisplayList.Version()
+            fatalError("TODO")
+        }
+        
+        // <+1244>
+        // x22
+        let focusedValueList = preferenceValues[FocusedValueList.Key.self]
+        // x29 - 0x88
+        let values_2 = focusedValueList.value
+        // x27
+        let version_2 = values_2.version
+        // x24
+        let focusedValues = host.focusedValues
+        
+        if focusedValues.version == version_2 {
+            // <+1484>
+            // <+1864>
+            return
+        } else {
+            // <+1516>
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
     
@@ -120,7 +170,17 @@ protocol FocusBridgeProvider: ViewRendererHost {
 }
 
 protocol FocusHost: AnyObject {
+    var focustedItem: FocusItem? {
+        get
+    }
     
+    var focusedValues: FocusedValues {
+        get
+        set
+    }
+    
+    func focus(item: FocusItem)
+    func focusDidChange()
 }
 
 struct FocusStore {
@@ -166,11 +226,21 @@ struct FocusableOptions: OptionSet {
 
 struct FocusedValueList {
     private var items: [FocusedValueList.Item] = []
+    
+    var version: DisplayList.Version {
+        var version = DisplayList.Version()
+        
+        for item in items {
+            version = max(version, item.version)
+        }
+        
+        return version
+    }
 }
 
 extension FocusedValueList {
     struct Item {
-        private var version: DisplayList.Version
+        fileprivate var version: DisplayList.Version
         private var isFocused: Bool
         private var update: (inout FocusedValues) -> ()
     }
@@ -182,13 +252,61 @@ extension FocusedValueList {
     }
 }
 
-struct FocusStoreList {
-    private var items: [FocusStoreList.Item] = []
+struct FocusStoreList: Equatable, Collection {
+    private var items: [FocusStoreList.Item]
+    
+    init() {
+        items = []
+    }
+    
+    func index(after i: [FocusStoreList.Item].Index) -> [FocusStoreList.Item].Index {
+        return items.index(after: i)
+    }
+    
+    var indices: [FocusStoreList.Item].Indices {
+        return items.indices
+    }
+    
+    var startIndex: [FocusStoreList.Item].Index {
+        return items.startIndex
+    }
+    
+    var endIndex: [FocusStoreList.Item].Index {
+        return items.endIndex
+    }
+    
+    func makeIterator() -> [FocusStoreList.Item].Iterator {
+        return items.makeIterator()
+    }
+    
+    subscript(position: Int) -> FocusStoreList.Item {
+        _read {
+            yield items[position]
+        }
+    }
+    
+    static func == (lhs: FocusStoreList, rhs: FocusStoreList) -> Bool {
+        var displayList_1 = DisplayList.Version()
+        for item in lhs.items {
+            displayList_1.combine(with: item.version)
+        }
+        
+        var displayList_2 = DisplayList.Version()
+        for item in rhs.items {
+            displayList_2.combine(with: item.version)
+        }
+        
+        return displayList_1 == displayList_2
+    }
+    
+    func replaceSubrange<C>(_ subrange: Range<[FocusStoreList.Item].Index>, with newElements: C) where C : Collection, C.Element == FocusStoreList.Item {
+        fatalError("TODO")
+    }
 }
 
 extension FocusStoreList {
     struct Item {
-        private var version: DisplayList.Version
+        private(set) var version: DisplayList.Version
         private var propertyID: ObjectIdentifier
 //        private var bindingUpdateAction: FocusStateBindingUpdateAction
 //        private var storeUpdateAction: FocusStoreUpdateAction

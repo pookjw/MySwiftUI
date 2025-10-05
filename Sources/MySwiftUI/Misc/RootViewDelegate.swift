@@ -176,7 +176,17 @@ extension RootViewDelegate: UIHostingViewDelegate {
     }
     
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        updateAppFocus(view: hostingView)
+        
+        let value = values[PreferredColorSchemeKey.self]
+        if !colorSchemeSeed.seed.matches(value.seed) {
+            colorSchemeSeed.seed = value.seed
+            hostingView.colorScheme = value.value
+        }
+        
+        if let nextDelegate {
+            nextDelegate.hostingView(hostingView, didChangePreferences: values)
+        }
     }
     
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {

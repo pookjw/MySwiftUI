@@ -92,6 +92,10 @@ extension DisplayList {
             unsafe DisplayList.Version.lastValue = value
             self.value = value
         }
+        
+        package mutating func combine(with other: DisplayList.Version) {
+            self.value = max(other.value, self.value)
+        }
     }
 }
 

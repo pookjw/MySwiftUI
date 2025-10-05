@@ -14,11 +14,16 @@ final class TooltipBridge: NSObject {
         viewGraph.addPreference(HasTooltipKey.self)
     }
     
+    // 원래 없음
+    @inlinable
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
-        fatalError("TODO")
+        updateState(hasTooltip: preferenceValues[HasTooltipKey.self])
     }
     
-    func updateState(hasTooltip: PreferenceValues.Value<Bool>) {
+    private func updateState(hasTooltip: PreferenceValues.Value<Bool>) {
+        guard !hasTooltip.seed.matches(hasTooltipSeed) else {
+            return
+        }
         fatalError("TODO")
     }
 }

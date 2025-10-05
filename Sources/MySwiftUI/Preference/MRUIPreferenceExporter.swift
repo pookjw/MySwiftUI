@@ -40,8 +40,18 @@ final class MRUIPreferenceExporter {
         }
     }
     
+    @MainActor
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
-        fatalError("TODO")
+        guard let host else {
+            return
+        }
+        
+        for index in exportedPreferences.indices {
+            var preference = exportedPreferences[index]
+            preference.preferencesDidChange(preferenceValues)
+            preference.apply(to: host)
+            exportedPreferences[index] = preference
+        }
     }
 }
 

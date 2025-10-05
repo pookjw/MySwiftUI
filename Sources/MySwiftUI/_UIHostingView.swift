@@ -43,9 +43,9 @@ open class _UIHostingView<Content: View>: UIView {
     private var eventBridge: UIKitEventBindingBridge
     private var dumpLayerNotificationTokens: Int32? = nil
     private var colorAppearanceSeed: UInt32 = 0
-    private(set) final var colorScheme: ColorScheme? = .light {
+    final var colorScheme: ColorScheme? = nil {
         didSet {
-            fatalError("TODO")
+            didChangeColorScheme(from: oldValue)
         }
     }
     private let deprecatedAlertBridge: DeprecatedAlertBridge<Alert.Presentation> = DeprecatedAlertBridge<Alert.Presentation>(
@@ -103,7 +103,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var scrollTest: ScrollTest? = nil
     private weak var delegate: UIHostingViewDelegate? = nil
     private var rootViewDelegate: RootViewDelegate? = nil
-    private(set) final var focusedValues = FocusedValues()
+    final var focusedValues = FocusedValues()
     private var disallowAnimations: Bool = false
     private weak var windowGeometryScene: UIWindowScene? = nil
     private var invalidatesIntrinsicContentSizeOnIdealSizeChange: Bool = false
@@ -540,6 +540,19 @@ open class _UIHostingView<Content: View>: UIView {
         // <+1272>
         surfaceSnappingInfo.classification = surfaceClassification
         environment.surfaceSnappingInfo = surfaceSnappingInfo
+    }
+    
+    private func didChangeColorScheme(from oldColorScheme: ColorScheme?) {
+        // oldColorScheme = x27 -> (copy) x23
+        // x26 -> (copy) x23 + x19
+        let newColorScheme = self.colorScheme
+        
+        guard (oldColorScheme != nil) || (newColorScheme != nil) else {
+            return
+        }
+        
+        // <+436>
+        fatalError("TODO")
     }
 }
 
@@ -1056,7 +1069,6 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         
         let tooltipBridge = tooltipBridge
         tooltipBridge.preferencesDidChange(preferenceValues)
-        tooltipBridge.updateState(hasTooltip: preferenceValues[HasTooltipKey.self])
         
         if let delegate {
             delegate.hostingView(self, didChangePreferences: preferenceValues)
@@ -1169,8 +1181,18 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
     }
 }
 
-extension _UIHostingView: FocusHost {
+extension _UIHostingView: @preconcurrency FocusHost {
+    var focustedItem: FocusItem? {
+        fatalError("TODO")
+    }
     
+    func focus(item: FocusItem) {
+        fatalError("TODO")
+    }
+    
+    func focusDidChange() {
+        fatalError("TODO")
+    }
 }
 
 extension _UIHostingView: FocusBridgeProvider {

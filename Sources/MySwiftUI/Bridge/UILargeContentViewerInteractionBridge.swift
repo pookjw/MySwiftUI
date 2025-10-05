@@ -43,6 +43,14 @@ private import _UIKitPrivate
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        // x24
+        let accessibilityLargeContentViewTree = preferenceValues[AccessibilityLargeContentViewTree.Key.self]
+        
+        guard !accessibilityLargeContentViewTree.seed.matches(largeContentViewTreeSeed) else {
+            return
+        }
+        
+        // <+424>
         fatalError("TODO")
     }
 }

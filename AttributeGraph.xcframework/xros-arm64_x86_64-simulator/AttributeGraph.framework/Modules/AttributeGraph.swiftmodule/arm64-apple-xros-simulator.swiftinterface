@@ -114,7 +114,10 @@ public struct PointerOffset<A, B> {
 }
 
 public struct AnyOptionalAttribute {
-
+    public var identifier: AttributeGraph.AnyAttribute {
+        get
+        set
+    }
 }
 
 @frozen
@@ -125,6 +128,16 @@ public struct OptionalAttribute<T> {
     }
 
     public var projectedValue: AttributeGraph.Attribute<T>? {
+        get
+        set
+    }
+
+    public var attribute: AttributeGraph.Attribute<T>? {
+        get
+        set
+    }
+
+    public var base: AttributeGraph.AnyOptionalAttribute {
         get
         set
     }

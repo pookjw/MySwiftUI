@@ -3,7 +3,7 @@
 internal import MRUIKit
 internal import AttributeGraph
 
-class UIKitObjectManipulationBridge<Content: View>: AnyObjectManipulationBridge {
+final class UIKitObjectManipulationBridge<Content: View>: AnyObjectManipulationBridge {
     weak var host: _UIHostingView<Content>? = nil
     var mapping: [_MRUIObjectTransformInteraction.Target.ID: UIKitObjectManipulationBridge<Content>.Context] = [:]
     var proxyGeometries: [UUID : Attribute<ObjectManipulationGeometry>] = [:]
@@ -14,12 +14,38 @@ class UIKitObjectManipulationBridge<Content: View>: AnyObjectManipulationBridge 
         viewGraph.addPreference(ManipulationTargetGeometryPreferenceKey.self)
     }
     
-    final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
-        fatalError("TODO")
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        /*
+         self = x19
+         preferenceValues = x22
+         */
+        // x23
+        let hasObjectManipulation = preferenceValues[HasObjectManipulationKey.self]
+        updateState(hasManipulationItem: hasObjectManipulation)
+        
+        let manipulationTargetGeometryPreference = preferenceValues[ManipulationTargetGeometryPreferenceKey.self]
+        self.proxyGeometries = manipulationTargetGeometryPreference.value
     }
     
-    final func updateEnvironment(_ environmentValues: inout EnvironmentValues) {
+    func updateEnvironment(_ environmentValues: inout EnvironmentValues) {
         environmentValues.objectManipulationBridge = ObjectManipulationBridgeWrapper(bridge: self)
+    }
+    
+    private func updateState(hasManipulationItem: PreferenceValues.Value<Bool>) {
+        guard let host else {
+            return
+        }
+        
+        guard let uiView = host.uiView else {
+            return
+        }
+        
+        guard !hasManipulationItem.seed.matches(hasManipulationItemSeed) else {
+            return
+        }
+        
+        // <+368>
+        fatalError("TODO")
     }
 }
 
