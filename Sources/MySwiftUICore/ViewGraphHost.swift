@@ -159,8 +159,8 @@ package final class ViewGraphHost {
         viewGraph.updateGraphPhase(oldParentPhase: parentPhase, newParentPhase: newParentPhase)
         parentPhase = newParentPhase
         
-        viewGraph.updatePreferenceBridge(environment: environment) { 
-            fatalError("TODO")
+        viewGraph.updatePreferenceBridge(environment: environment) { [weak updateDelegate] in
+            updateDelegate?.updateEnvironment()
         }
     }
 }

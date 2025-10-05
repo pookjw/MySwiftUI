@@ -120,6 +120,10 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return graph
     }() 
     
+    static var isUpdating: Bool {
+        return GraphHost.sharedGraph.counter(options: [.unknown1, .unknown2, .unknown4]) != 0
+    }
+    
     package final var globalSubgraph: Subgraph {
         return data.globalSubgraph
     }

@@ -259,13 +259,34 @@ package final class ViewGraph: GraphHost {
         // <+364>
     }
     
-    func updatePreferenceBridge(environment: EnvironmentValues, deferredUpdate: () -> Void) {
+    func updatePreferenceBridge(environment: EnvironmentValues, deferredUpdate: @escaping () -> Void) {
         /*
          self = x23
          environment = x20, x21
          deferredUpdate = x22
          */
-        fatalError("TODO")
+        // x21
+        guard let preferenceBridge_1 = environment.preferenceBridge else {
+            return
+        }
+        
+        if
+            let preferenceBridge_2 = _preferenceBridge,
+            preferenceBridge_1 === preferenceBridge_2
+        {
+            // <+300>
+        } else {
+            // <+148>
+            if GraphHost.isUpdating {
+                // <+184>
+                Update.enqueueAction(reason: nil) { 
+                    deferredUpdate()
+                }
+            } else {
+                // <+268>
+                self.setPreferenceBridge(to: preferenceBridge_1, isInvalidating: false)
+            }
+        }
     }
     
     package var rootViewInsets: EdgeInsets {
@@ -280,6 +301,10 @@ package final class ViewGraph: GraphHost {
         
         data.updateSeed += 1
         mainUpdates = Int(data.graph!.counter(options: [.unknown2, .unknown8]))
+    }
+    
+    private func setPreferenceBridge(to: PreferenceBridge?, isInvalidating: Bool) {
+        fatalError("TODO")
     }
 }
 

@@ -31,6 +31,7 @@ typedef NS_OPTIONS(uint32_t, AGChangedValueFlags) {
 };
 
 typedef NS_OPTIONS(uint32_t, AGGraphCounterOptions) {
+    AGGraphCounterOptionsUnknown1 = 1 << 0,
     AGGraphCounterOptionsUnknown2 = 1 << 1,
     AGGraphCounterOptionsUnknown4 = 1 << 2,
     AGGraphCounterOptionsUnknown8 = 1 << 3,
