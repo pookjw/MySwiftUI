@@ -43,28 +43,88 @@ package struct CustomEventTrace {
         fatalError("TODO")
     }
     
-    public static func transactionBegin(_: UInt32) {
-        fatalError("TODO")
+    public static func transactionBegin(_ transaction: UInt32) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.transaction.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.TransactionEventType.begin.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionEnd(_: UInt32) {
-        fatalError("TODO")
+    public static func transactionEnd(_ transaction: UInt32) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.transaction.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.TransactionEventType.end.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionAppend(_: UInt32) {
-        fatalError("TODO")
+    public static func transactionAppend(_ transaction: UInt32) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.transaction.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.TransactionEventType.append.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionEnqueue(_: UInt32) {
-        fatalError("TODO")
+    public static func transactionEnqueue(_ transaction: UInt32) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.transaction.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.TransactionEventType.enqueue.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionContinueAsNewTransaction(_: UInt32) {
-        fatalError("TODO")
+    public static func transactionContinueAsNewTransaction(_ transaction: UInt32) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.transaction.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.TransactionEventType.continueAsNewTransaction.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionContinueAsContinuation(_: GraphHost) {
-        fatalError("TODO")
+    public static func transactionContinueAsContinuation(_ graphHost: GraphHost) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.transaction.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.TransactionEventType.continueAsContinuation.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: graphHost)
     }
     
     public static func enqueueAction(_ actionID: UInt32, _ reason: CustomEventTrace.ActionEventType.Reason?) {

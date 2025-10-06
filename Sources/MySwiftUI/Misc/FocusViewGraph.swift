@@ -112,9 +112,33 @@ extension FocusViewGraph: ViewGraphFeature {
         {
             // <+316>
             needsFocusSystemEnabledUpdate = false
-            fatalError("TODO")
+            let wasFocusSystemEnabled = wasFocusSystemEnabled
+            
+            graph.asyncTransaction(
+                mutation: IsFocusSystemEnabledMutation(value: wasFocusSystemEnabled),
+                style: .deferred
+            )
         }
         
         // <+504>
+    }
+}
+
+extension FocusViewGraph {
+    fileprivate struct IsFocusSystemEnabledMutation: GraphMutation {
+        var attr = WeakAttribute<Bool>()
+        var value: Bool
+        
+        init(value: Bool) {
+            self.value = value
+        }
+        
+        func apply() {
+            fatalError("TODO")
+        }
+        
+        func combine<T>(with other: T) -> Bool where T : MySwiftUICore.GraphMutation {
+            fatalError("TODO")
+        }
     }
 }

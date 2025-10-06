@@ -363,6 +363,49 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             return PreferenceValues()
         }
     }
+    
+    package final func asyncTransaction<T: GraphMutation>(
+        _ transaction: Transaction = Transaction(),
+        id: Transaction.ID = Transaction.id,
+        mutation: T,
+        style: _GraphMutation_Style = .deferred,
+        mayDeferUpdate: Bool = true
+    ) -> UInt32 {
+        /*
+         transaction = x24
+         id = w19
+         mutation = x25
+         style = w26
+         mayDeferUpdate = x20
+         T = x23
+         ?? = x22
+         
+         self = x21
+         */
+        Update.ensure { 
+            guard let graph = data.graph else {
+                return
+            }
+            
+            let w22: Bool
+            switch style {
+            case .immediate:
+                w22 = (graph.counter(options: [.unknown2, .unknown4]) != 0)
+            case .deferred:
+                w22 = true
+            }
+            
+            self.mayDeferUpdate = (self.mayDeferUpdate && mayDeferUpdate)
+            
+            var pendingTransactions = pendingTransactions
+            for index in pendingTransactions.indices {
+                fatalError("TODO")
+            }
+            fatalError("TODO")
+            
+        }
+        fatalError("TODO")
+    }
 }
 
 extension GraphHost {
@@ -440,7 +483,7 @@ extension GraphHost {
     }
 }
 
-protocol GraphMutation {
+package protocol GraphMutation {
     func apply()
     func combine<T: GraphMutation>(with other: T) -> Bool
 }
@@ -450,8 +493,19 @@ fileprivate struct ConstantKey: Hashable {
 }
 
 fileprivate struct AsyncTransaction {
+    static nonisolated(unsafe) var nextTraceID: UInt32 = 1
+    
     private let transaction: Transaction
     private let transactionID: Transaction.ID
     private let traceID: UInt32
-    private var mutations: [GraphMutation]
+    private var mutations: [any GraphMutation]
+    
+    func append<T: GraphMutation>(_ mutation: T) {
+        fatalError("TODO")
+    }
+}
+
+package enum _GraphMutation_Style: Hashable {
+    case immediate
+    case deferred
 }

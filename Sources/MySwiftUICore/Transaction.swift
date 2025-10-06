@@ -14,7 +14,7 @@ public struct Transaction {
 }
 
 extension Transaction {
-    struct ID: Hashable {
+    package struct ID: Hashable {
         private var value: UInt32
         
         fileprivate init(value: UInt32) {
