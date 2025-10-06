@@ -1054,7 +1054,6 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         if let shareConfigurationBridge {
             let pref = preferenceValues[AnyShareConfiguration.Key.self]
             if !shareConfigurationBridge.shareConfigurationSeed.seed.matches(pref.seed) {
-                fatalError("TODO") // 검증 필요
                 shareConfigurationBridge.shareConfigurationSeed.seed.merge(pref.seed)
                 shareConfigurationBridge.shareConfigurationDidChange(pref.value)
             }
@@ -1076,7 +1075,15 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final func beginTransaction() {
-        fatalError("TODO")
+        onMainThread { [weak self] in
+            if UIKitUpdateCycle.defaultUseSetNeedsLayout {
+                if let self {
+                    self.base._setNeedsUpdate()
+                }
+            }
+            
+            fatalError("TODO")
+        }
     }
     
     package final func updateImmersiveSpaceAuthorityNotifications(oldScene: UIScene?, newScene: UIScene?) {

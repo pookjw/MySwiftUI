@@ -2,7 +2,7 @@
 public import Foundation
 
 @inlinable
-func onMainThread(do block: @MainActor @Sendable @escaping () -> Void) {
+package func onMainThread(do block: @MainActor @Sendable @escaping () -> Void) {
     if Thread.isMainThread {
         MainActor.assumeIsolated { 
             block()

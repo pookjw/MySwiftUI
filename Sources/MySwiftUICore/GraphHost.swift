@@ -249,7 +249,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     package final func flushTransactions() {
-        guard data.graph != nil else {
+        guard isValid else {
             return
         }
         
@@ -259,6 +259,18 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         
         self.pendingTransactions = []
+        
+        for transaction in pendingTransactions {
+            runTransaction(
+                transaction.transaction,
+                do: { 
+                    // $s7SwiftUI15withTransactionyxAA0D0V_xyKXEtKlFxyKXEfU_yt_Tg503$s7A74UI16AsyncTransaction33_F9F204BD2F8DB167A76F17F3FB1B3335LLV5applyyyFyyXEfU_AA0gD001_ijklmnopqR0LLVTf1nnc_n
+                    // withTransaction
+                    fatalError("TODO")
+                },
+                id: transaction.traceID
+            )
+        }
         
         if let graphDelegate {
             graphDelegate.graphDidChange()
