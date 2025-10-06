@@ -6,10 +6,18 @@ public struct Transaction {
         return Transaction.ID(value: _threadTransactionID(false))
     }
     
+    var isEmpty: Bool {
+        return plist.isEmpty
+    }
+    
     var plist: PropertyList
     
     init() {
         self.plist = PropertyList()
+    }
+    
+    package func mayConcatenate(with other: Transaction) -> Bool {
+        return !plist.mayNotBeEqual(to: other.plist)
     }
 }
 

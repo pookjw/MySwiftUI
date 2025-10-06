@@ -32,8 +32,16 @@ private import AttributeGraph
         fatalError("TODO")
     }
     
-    package func mayNotBeEqual(to: PropertyList) -> Bool {
-        fatalError("TODO")
+    package func mayNotBeEqual(to other: PropertyList) -> Bool {
+        guard
+            let selfElements = elements,
+            let otherElements = other.elements
+        else {
+            return !((elements == nil) && (other.elements == nil))
+        }
+        
+        var ignoredTypes: [ObjectIdentifier] = []
+        return !compareLists(Unmanaged.passUnretained(otherElements), Unmanaged.passUnretained(selfElements), ignoredTypes: &ignoredTypes)
     }
     
     package subscript<Key: PropertyKey>(_ key: Key.Type) -> Key.Value {

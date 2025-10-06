@@ -20,6 +20,8 @@ let package = Package(
         .trait(name: "SwiftUICompataibility"),
         .`default`(enabledTraits: ["SwiftUICompataibility"])
     ],
+    dependencies: [
+    ],
     targets: [
         .target(
             name: "MySwiftUI",

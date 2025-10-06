@@ -147,7 +147,7 @@ extension ViewGraphRootValueUpdater {
             return
         }
         
-        Update.ensure {
+        Update.locked {
             /*
              values = x26
              mayDeferUpdate = x27

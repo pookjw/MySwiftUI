@@ -147,6 +147,22 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     package private(set) nonisolated final var mayDeferUpdate: Bool
     private var removedState: GraphHost.RemovedState
     
+    final var isValid: Bool {
+        return data.graph != nil
+    }
+    
+    final var hasPendingTransactions: Bool {
+        return !pendingTransactions.isEmpty
+    }
+    
+    final var isUpdating: Bool {
+        guard let graph = data.graph else {
+            return false
+        }
+        
+        return (graph.counter(options: [.unknown2, .unknown4]) != 0)
+    }
+    
     init(data: GraphHost.Data) {
         self.data = data
         self.constants = [:]
@@ -364,6 +380,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
     }
     
+    @discardableResult
     package final func asyncTransaction<T: GraphMutation>(
         _ transaction: Transaction = Transaction(),
         id: Transaction.ID = Transaction.id,
@@ -382,9 +399,9 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
          
          self = x21
          */
-        Update.ensure { 
+        return Update.locked {
             guard let graph = data.graph else {
-                return
+                return 0
             }
             
             let w22: Bool
@@ -397,14 +414,84 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             
             self.mayDeferUpdate = (self.mayDeferUpdate && mayDeferUpdate)
             
+            // x26
             var pendingTransactions = pendingTransactions
-            for index in pendingTransactions.indices {
-                fatalError("TODO")
-            }
-            fatalError("TODO")
             
+            let count = pendingTransactions.count
+            if count != 0 {
+                /*
+                 true = <+440>
+                 false = <+708>
+                 */
+                let flag: Bool
+                
+                var lastTransaction = pendingTransactions[count - 1]
+                if lastTransaction.transactionID == id {
+                    if lastTransaction.transaction.isEmpty {
+                        if transaction.isEmpty {
+                            // <+440>
+                            flag = true
+                        } else {
+                            // <+708>
+                            flag = false
+                        }
+                    } else {
+                        if transaction.isEmpty {
+                            // <+708>
+                            flag = false
+                        } else {
+                            // <+328>
+                            if transaction.mayConcatenate(with: lastTransaction.transaction) {
+                                // <+440>
+                                flag = true
+                            } else {
+                                // <+708>
+                                flag = false
+                            }
+                        }
+                    }
+                } else {
+                    // <+708>
+                    flag = false
+                }
+                
+                if flag {
+                    // <+440>
+                    lastTransaction.append(mutation)
+                    CustomEventTrace.transactionAppend(lastTransaction.traceID)
+                    pendingTransactions[count - 1] = lastTransaction
+                    self.pendingTransactions = pendingTransactions
+                    
+                    if !w22 {
+                        // <+588>
+                        self.pendingTransactions.removeLast()
+                        flushTransactions()
+                        self.pendingTransactions.append(lastTransaction)
+                    }
+                    return lastTransaction.traceID
+                } else {
+                    // <+708>
+                    if w22 {
+                        flushTransactions()
+                    }
+                    // <+736>
+                }
+            } else {
+                // <+648>
+                if let graphDelegate {
+                    graphDelegate.beginTransaction()
+                }
+                
+                // <+736>
+            }
+            
+            // <+736>
+            let asyncTransaction = AsyncTransaction(transaction: transaction, transactionID: id, mutations: [mutation])
+            pendingTransactions.append(asyncTransaction)
+            self.pendingTransactions = pendingTransactions
+            CustomEventTrace.transactionEnqueue(asyncTransaction.traceID)
+            return asyncTransaction.traceID
         }
-        fatalError("TODO")
     }
 }
 
@@ -495,12 +582,21 @@ fileprivate struct ConstantKey: Hashable {
 fileprivate struct AsyncTransaction {
     static nonisolated(unsafe) var nextTraceID: UInt32 = 1
     
-    private let transaction: Transaction
-    private let transactionID: Transaction.ID
-    private let traceID: UInt32
+    fileprivate let transaction: Transaction
+    fileprivate let transactionID: Transaction.ID
+    fileprivate let traceID: UInt32
     private var mutations: [any GraphMutation]
     
-    func append<T: GraphMutation>(_ mutation: T) {
+    init(transaction: Transaction, transactionID: Transaction.ID, mutations: [any GraphMutation]) {
+        self.transaction = transaction
+        self.transactionID = transactionID
+        
+        self.traceID = unsafe (AsyncTransaction.nextTraceID &>> 1) + 1
+        unsafe AsyncTransaction.nextTraceID &+= 2
+        self.mutations = mutations
+    }
+    
+    mutating func append<T: GraphMutation>(_ mutation: T) {
         fatalError("TODO")
     }
 }

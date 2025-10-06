@@ -54,16 +54,24 @@ package enum Update {
         fatalError("TODO")
     }
     
+    @inlinable
     package static func ensure<T>(_ handler: () throws -> T) rethrows -> T {
+        return try Update.locked { 
+            Update.begin()
+            defer {
+                Update.end()
+            }
+            return try handler()
+        }
+    }
+    
+    @inlinable
+    package static func locked<T>(_ handler: () throws -> T) rethrows -> T {
         Update._lock.lock()
         defer {
             Update._lock.unlock()
         }
         return try handler()
-    }
-    
-    package static func locked<T>(_ handler: () throws -> T) rethrows -> T {
-        fatalError("TODO")
     }
     
     package static var isOwner: Bool {
@@ -87,10 +95,12 @@ package enum Update {
         Update._lock.unlock()
     }
     
+    @inlinable
     package static func lock() {
         Update._lock.lock()
     }
     
+    @inlinable
     package static func unlock() {
         Update._lock.unlock()
     }
@@ -99,7 +109,7 @@ package enum Update {
         Update.begin()
         
         let actionID = unsafe Update.Action.nextActionID
-        unsafe Update.Action.nextActionID += 2
+        unsafe Update.Action.nextActionID &+= 2
         
         defer {
             CustomEventTrace.finishAction(actionID, reason)
@@ -175,7 +185,7 @@ extension Update {
             self.thunk = thunk
             
             let w23 = unsafe (Update.Action.nextActionID &>> 1) + 1
-            unsafe Update.Action.nextActionID += 2
+            unsafe Update.Action.nextActionID &+= 2
             self.actionID = w23
             
             CustomEventTrace.enqueueAction(w23, reason)
