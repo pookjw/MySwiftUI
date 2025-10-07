@@ -1,10 +1,10 @@
-private import _UIKitPrivate
+package import _UIKitPrivate
 private import MySwiftUICore
 
 @MainActor private var insertedItems: [UnsafeRawPointer] = unsafe []
 
 extension UIHostingViewBase {
-    enum UpdateCycle {
+    package enum UpdateCycle {
         @MainActor package static func addPreCommitObserver(_ handler: @MainActor @escaping () -> Void) {
             guard UIHostingViewBase.UpdateCycle.isEnabled else {
                 return
@@ -29,6 +29,7 @@ extension UIHostingViewBase {
             unsafe insertedItems.append(item)
         }
         
+        @_transparent
         package static var isEnabled: Bool {
             return _UIUpdateCycleEnabled()
         }

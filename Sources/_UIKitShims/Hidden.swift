@@ -82,12 +82,7 @@ func ColorMaterialRenderingMode() -> Any? {
 }
 
 func materialBackdropProxy(materialBackdropContext context: AnyObject) -> _SwiftUIPrivate.MaterialBackdropProxy? {
-    // context -> storage -> proxy
-    let storage = context._swiftValue!
-        .assumingMemoryBound(to: AnyObject.self)
-        .pointee
-    
-    return Mirror(reflecting: storage).descendant("proxy") as? _SwiftUIPrivate.MaterialBackdropProxy
+    return Mirror(reflecting: context).descendant("proxy") as? _SwiftUIPrivate.MaterialBackdropProxy
 }
 
 @MainActor var _UIUpdateSequenceScheduledItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {

@@ -1082,7 +1082,25 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
                 }
             }
             
-            fatalError("TODO")
+            if UIHostingViewBase.UpdateCycle.isEnabled {
+                UIHostingViewBase.UpdateCycle.addPreCommitObserver {
+                    Update.ensure {
+                        guard let self else { return }
+                        self.updateGraph { graphHost in
+                            graphHost.flushTransactions()
+                        }
+                    }
+                }
+            }
+            
+            RunLoop.addObserver {
+                Update.ensure { 
+                    guard let self else { return }
+                    self.updateGraph { graphHost in
+                        graphHost.flushTransactions()
+                    }
+                }
+            }
         }
     }
     
