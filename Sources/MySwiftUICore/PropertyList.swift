@@ -89,8 +89,26 @@ private import AttributeGraph
         fatalError("TODO")
     }
     
-    package func merge(_ other: PropertyList) {
-        fatalError("TODO")
+    package mutating func merge(_ other: PropertyList) {
+        /*
+         self = x19
+         self.elements = x22
+         other.elements = x21
+         */
+        let otherElements = other.elements
+        
+        if let elements {
+            guard let otherElements else {
+                return
+            }
+            
+            // <+68>
+            fatalError("TODO")
+        } else {
+            // <+252>
+            self.elements = otherElements
+            return
+        }
     }
     
     package var id: UniqueID {

@@ -76,13 +76,13 @@ extension Transaction {
 }
 
 public func withTransaction<Result>(_ transaction: Transaction, _ body: () throws -> Result) rethrows -> Result {
-    return try withExtendedLifetime(transaction) { 
+    return try withExtendedLifetime(transaction) { transaction in
         let oldCurrent = Transaction.current
         
         var newCurrent = transaction
         if isLinkedOnOrAfter(.v5) {
             // <+192>
-            transaction.plist.merge(Transaction.current.plist)
+            newCurrent.plist.merge(Transaction.current.plist)
         }
         
         Transaction.current = newCurrent
