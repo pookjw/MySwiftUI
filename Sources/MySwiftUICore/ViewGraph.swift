@@ -151,30 +151,29 @@ package final class ViewGraph: GraphHost {
     package func updateOutputs(at time: Time) {
         self.beginNextUpdate(at: time)
         
-        // x29 - 0x68
-        _ = self.sizeThatFitsObservers
-        // sp + 0x60
-        _ = self.features
-        // sp + 0x48
-        _ = self.data
+        var w27 = false
+        var sp = false
+        var sp04 = false
+        var w28 = false
+        var w21 = false
+        var w25 = false
         
-        // sp, #0xc
-        var featureNeedsUpdate = false
-        // w25
-        var updated = false
-        // w23/w26
-        var needsUpdate = false
-        
+        // sp + 0x8
         for _ in 0..<8 {
             self.runTransaction()
-            // w25
-            updated = (updated || self.updatePreferences())
-            // w23
-            needsUpdate = (needsUpdate || self.sizeThatFitsObservers.needsUpdate(graph: self))
+            
+            let updated = self.updatePreferences()
+            w28 = (w28 || updated)
+            w21 = (w21 || updated)
+            
+            let needsUpdate = self.sizeThatFitsObservers.needsUpdate(graph: self)
+            w27 = (needsUpdate || w27)
+            w25 = (needsUpdate || w25)
             
             for feature in self.features {
                 guard feature.flags == 0 else {
-                    featureNeedsUpdate = true
+                    sp = true
+                    sp04 = true
                     continue
                 }
                 
@@ -183,50 +182,85 @@ package final class ViewGraph: GraphHost {
                 }
                 
                 feature.flags |= 1
-                featureNeedsUpdate = true
+                sp = true
+                sp04 = true
             }
             
-            // <+360>
+            // <+384>
             guard self.data.globalSubgraph.isDirty else {
                 break
             }
-            
-            // needsUpdate = w26 (w23 아님)
         }
         
-        // <+388>
-        if updated {
-            // <+392>
+        // <+416>
+        var w8 = sp
+        let x29_51 = w8
+        w8 = (w8 && w25)
+        let x29_52 = w8
+        w8 = (w8 && w21)
+        let sp_18 = w8
+        w8 = (w8 || w28 || w27)
+        
+        guard w8 else {
+            return
+        }
+        
+        /*
+         x0 = x29_51
+         x1 = self
+         w2 = 0
+         x3 = sp_18
+         x4 = x29_52
+         ---
+         x29_51 = x23
+         self = x19
+         0 = x22
+         sp_18 = x24
+         x29_52 = x21
+         */
+        _updateOutputs(x23: x29_51, x22: false, x24: sp_18, x21: x29_52)
+    }
+    
+    // function signature specialization <Arg[0] = Stack Promoted from Box, Arg[3] = Stack Promoted from Box, Arg[4] = Stack Promoted from Box> of update() -> ()
+    private func _updateOutputs(
+        x23: Bool,
+        x22: Bool, // 쓰이고는 있지만 분기 변경에 영향을 끼치지 않음
+        x24: Bool,
+        x21: Bool
+    ) {
+        // self = x19
+        if x23 {
+            for feature in self.features {
+                if feature.flags != 0 {
+                    feature.outputsDidChange(graph: self)
+                }
+            }
+        }
+        
+        // <+216>
+        if x24 {
             if let delegate {
                 delegate.preferencesDidChange()
             }
             
-            if self._preferenceBridge != nil {
-                let hostPreferenceKeys = data.$hostPreferenceKeys
-                self.graphInvalidation(from: hostPreferenceKeys.identifier)
+            // x24
+            if let preferenceBridge = _preferenceBridge {
+                let identifier = data.$hostPreferenceKeys.projectedValue.identifier
+                if let graph = preferenceBridge.viewGraph {
+                    graph.graphInvalidation(from: identifier)
+                }
             }
-            
-            // <+564>
-        } else {
-            // <+552>
-            guard (featureNeedsUpdate || needsUpdate) else {
-                // <+728>
-                return
-            }
-            // <+564>
         }
         
-        // <+564>
-        if featureNeedsUpdate {
-            // <+568>
-            for feature in self.features {
+        // <+420>
+        for feature in self.features {
+            if feature.flags != 0 {
                 feature.update(graph: self)
-                feature.flags &= ~1
+                feature.flags &= 0xfffffffe
             }
         }
         
-        // <+688>
-        if needsUpdate {
+        if x21 {
             sizeThatFitsObservers.notify()
         }
     }
@@ -396,6 +430,7 @@ package protocol ViewGraphFeature {
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
     mutating func needsUpdate(graph: ViewGraph) -> Bool
     mutating func update(graph: ViewGraph)
+    func outputsDidChange(graph: ViewGraph)
 }
 
 extension ViewGraphFeature {
@@ -424,6 +459,10 @@ extension ViewGraphFeature {
     }
     
     package func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        // nop
+    }
+    
+    package func outputsDidChange(graph: ViewGraph) {
         // nop
     }
 }
