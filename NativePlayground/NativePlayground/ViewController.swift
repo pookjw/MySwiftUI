@@ -47,11 +47,6 @@ class ViewController: UIViewController {
     override func loadView() {
         swizzle()
         
-        withTransaction(Transaction()) { 
-            print("123")
-        }
-        
-        print(EnvironmentValues().glassMaterialContainerStyle)
         
         for child in Mirror(reflecting: Color.blue).children {
             print(child)
