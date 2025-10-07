@@ -2,11 +2,11 @@
 internal import CoreGraphics
 
 struct SizeThatFitsMeasurer: ViewGraphGeometryMeasurer {
-    static func measure(proposal: _ProposedSize, layoutComputer: LayoutComputer, insets: EdgeInsets) -> CGSize {
+    static func measure(given: _ProposedSize, in graph: ViewGraph) -> CGSize {
         fatalError("TODO")
     }
     
-    static func measure(given: _ProposedSize, in: ViewGraph) -> CGSize {
+    static func measure(proposal: _ProposedSize, layoutComputer: LayoutComputer, insets: EdgeInsets) -> CGSize {
         fatalError("TODO")
     }
     

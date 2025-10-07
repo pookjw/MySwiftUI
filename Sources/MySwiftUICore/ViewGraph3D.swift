@@ -40,6 +40,6 @@ extension ViewGraph3D: ViewGraphFeature {
     }
     
     package func update(graph: ViewGraph) {
-        fatalError("TODO")
+        volumeThatFitsObservers.notify()
     }
 }

@@ -34,7 +34,7 @@ package final class ViewGraph: GraphHost {
     @WeakAttribute private var rootResponders: [ViewResponder]?
     @WeakAttribute fileprivate var rootLayoutComputer: LayoutComputer?
     @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
-    private var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
+    private(set) var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
     package internal(set) var accessibilityEnabled = false
     package private(set) var requestedOutputs: ViewGraph.Outputs
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
@@ -431,10 +431,61 @@ extension ViewGraphFeature {
 struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
     private var store: [T.Size: ViewGraphGeometryObservers<T>.Observer] = [:]
     
-    func notify() {
+    func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
+        fatalError("TODO")
+    }
+    
+    func stopObserving(proposal: T.Proposal) {
+        fatalError("TODO")
+    }
+    
+    func removeAll() {
+        fatalError("TODO")
+    }
+    
+    func resetObserver(for proposal: T.Proposal) {
         fatalError("TODO")
     }
 }
+
+extension ViewGraphGeometryObservers {
+    fileprivate final class Observer {
+        fileprivate var storage: ViewGraphGeometryObservers.Observer.Storage
+        private let callback: (T.Size, T.Size) -> Void
+        
+        init(
+            storage: ViewGraphGeometryObservers.Observer.Storage,
+            callback: @escaping (T.Size, T.Size) -> Void
+        ) {
+            self.storage = storage
+            self.callback = callback
+        }
+        
+        func reset() {
+            storage = .invalid
+        }
+    }
+}
+
+extension ViewGraphGeometryObservers.Observer {
+    fileprivate enum Storage {
+        case value(T.Size)
+        case pending(T.Size, T.Size)
+        case none
+        case invalid
+    }
+}
+
+protocol ViewGraphGeometryMeasurer {
+    associatedtype Proposal
+    associatedtype Size: Hashable
+    
+    static func measure(given: Proposal, in graph: ViewGraph) -> Size
+    static func measure(proposal: Proposal, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size
+    static var invalidValue: Size { get }
+}
+
+#warning("TODO 아래 지우기")
 
 extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
     mutating func needsUpdate(graph: ViewGraph) -> Bool {
@@ -483,6 +534,10 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
         
         return false
     }
+    
+    func notify() {
+        fatalError("TODO")
+    }
 }
 
 extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
@@ -523,29 +578,8 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
         
         return false
     }
-}
-
-extension ViewGraphGeometryObservers {
-    fileprivate struct Observer {
-        fileprivate var storage: ViewGraphGeometryObservers.Observer.Storage
-        fileprivate let callback: (T.Size, T.Size) -> Void // TODO
-    }
-}
-
-extension ViewGraphGeometryObservers.Observer {
-    fileprivate enum Storage {
-        case value(T.Size)
-        case pending(T.Size, T.Size)
-        case none
-        case invalid
-    }
-}
-
-protocol ViewGraphGeometryMeasurer {
-    associatedtype Proposal
-    associatedtype Size: Hashable
     
-    static func measure(given: Proposal, in: ViewGraph) -> Size
-    static func measure(proposal: Proposal, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size
-    static var invalidValue: Size { get }
+    func notify() {
+        fatalError("TODO")
+    }
 }

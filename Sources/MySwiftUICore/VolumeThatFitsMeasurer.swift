@@ -4,7 +4,8 @@ private import Spatial
 private import CoreGraphics
 
 struct VolumeThatFitsMeasurer: ViewGraphGeometryMeasurer {
-    static func measure(given: _ProposedSize3D, in: ViewGraph) -> Size3D {
+    static func measure(given: _ProposedSize3D, in graph: ViewGraph) -> Size3D {
+        graph.sizeThatFitsObservers
         fatalError("TODO")
     }
     

@@ -7,6 +7,10 @@ struct PlatformItemListViewGraph {
     private var rootList = WeakAttribute<PlatformItemList>()
     private var wasReadSinceLastUpdate: Bool = false
     private var needsUpdate: Bool = false
+    
+    private func readAndUpdate(graph: ViewGraph) {
+        fatalError("TODO")
+    }
 }
 
 extension PlatformItemListViewGraph: ViewGraphFeature {
@@ -52,7 +56,13 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
     }
     
     func update(graph: ViewGraph) {
-        fatalError("TODO")
+        guard needsUpdate else {
+            return
+        }
+        
+        if graph.requestedOutputs.isSuperset(of: .platformItemList) {
+            readAndUpdate(graph: graph)
+        }
     }
 }
 
