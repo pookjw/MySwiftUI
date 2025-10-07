@@ -260,15 +260,20 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         
         self.pendingTransactions = []
         
-        for transaction in pendingTransactions {
+        for pendingTransaction in pendingTransactions {
+            let transaction = pendingTransaction.transaction
+            
             runTransaction(
-                transaction.transaction,
+                transaction,
                 do: { 
                     // $s7SwiftUI15withTransactionyxAA0D0V_xyKXEtKlFxyKXEfU_yt_Tg503$s7A74UI16AsyncTransaction33_F9F204BD2F8DB167A76F17F3FB1B3335LLV5applyyyFyyXEfU_AA0gD001_ijklmnopqR0LLVTf1nnc_n
-                    // withTransaction
-                    fatalError("TODO")
+                    withTransaction(transaction) {
+                        for mutation in pendingTransaction.mutations {
+                            mutation.apply()
+                        }
+                    }
                 },
-                id: transaction.traceID
+                id: pendingTransaction.traceID
             )
         }
         
@@ -597,7 +602,7 @@ fileprivate struct AsyncTransaction {
     fileprivate let transaction: Transaction
     fileprivate let transactionID: Transaction.ID
     fileprivate let traceID: UInt32
-    private var mutations: [any GraphMutation]
+    fileprivate private(set) var mutations: [any GraphMutation]
     
     init(transaction: Transaction, transactionID: Transaction.ID, mutations: [any GraphMutation]) {
         self.transaction = transaction

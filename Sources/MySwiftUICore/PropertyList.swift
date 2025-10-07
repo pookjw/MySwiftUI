@@ -74,8 +74,11 @@ private import AttributeGraph
         }
     }
     
+    @inlinable
     package init(data: AnyObject?) {
-        fatalError("TODO")
+        if let data {
+            self.elements = data as! PropertyList.Element
+        }
     }
     
     package func override(with other: PropertyList) {
@@ -111,6 +114,9 @@ private import AttributeGraph
         self.elements = TypedElement<T>(value: value, before: nil, after: elements)
     }
 }
+
+@available(*, unavailable)
+extension PropertyList: Sendable {}
 
 extension PropertyList {
     @usableFromInline
@@ -252,6 +258,9 @@ extension PropertyList {
         }
     }
 }
+
+@available(*, unavailable)
+extension PropertyList.Element: Sendable {}
 
 package protocol PropertyKeyLookup {
     associatedtype Primary: PropertyKey
