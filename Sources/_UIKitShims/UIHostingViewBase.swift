@@ -828,6 +828,10 @@ package final class UIHostingViewBase: NSObject {
     @objc private func windowDidMoveToSceneWithNotification(_ notification: Notification) {
         fatalError("TODO")
     }
+    
+    @MainActor package func layoutSubviews() {
+        fatalError("TODO")
+    }
 }
 
 extension UIHostingViewBase {

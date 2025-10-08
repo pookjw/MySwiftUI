@@ -45,7 +45,7 @@ fileprivate struct Type2 {}
 
 class ViewController: UIViewController {
     override func loadView() {
-        swizzle()
+//        swizzle()
         
         
         for child in Mirror(reflecting: Color.blue).children {
@@ -65,8 +65,8 @@ class ViewController: UIViewController {
 //            print(env.accessibilitySettingsDefinition)
 //        }
         
-        print(_typeByName("7SwiftUI14FocusViewGraphV")!)
-        _forEachField(of: _typeByName("7SwiftUI14FocusViewGraphV")!, options: []) { name, offset, type, kind in
+        print(_typeByName("7SwiftUI12PropertyListV7ElementC")!)
+        _forEachField(of: _typeByName("7SwiftUI12PropertyListV7ElementC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

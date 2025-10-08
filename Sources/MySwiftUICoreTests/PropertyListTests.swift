@@ -72,8 +72,28 @@ struct PropertyListTests {
         propertyList[MyPropertyKey_2.self] = 20
         #expect(propertyList[MyPropertyKey_2.self] == 20)
         
+        propertyList[MyPropertyKey_2.self] = 200
+        #expect(propertyList[MyPropertyKey_2.self] == 200)
+        
         propertyList[MyPropertyKey_3.self] = 30
         #expect(propertyList[MyPropertyKey_3.self] == 30)
+    }
+    
+    @Test func test_merge() {
+        var propertyList_1 = PropertyList()
+        var propertyList_2 = PropertyList()
+        
+        propertyList_1[MyPropertyKey_1.self] = 10
+        propertyList_1[MyPropertyKey_3.self] = 30
+        
+        propertyList_2[MyPropertyKey_1.self] = 100
+        propertyList_2[MyPropertyKey_2.self] = 20
+        
+        propertyList_1.merge(propertyList_2)
+        
+        #expect(propertyList_1[MyPropertyKey_1.self] == 100)
+        #expect(propertyList_1[MyPropertyKey_2.self] == 20)
+        #expect(propertyList_1[MyPropertyKey_3.self] == 30)
     }
 }
 

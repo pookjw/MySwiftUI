@@ -92,18 +92,121 @@ private import AttributeGraph
     package mutating func merge(_ other: PropertyList) {
         /*
          self = x19
-         self.elements = x22
-         other.elements = x21
          */
+        // x22
+        let selfElements = self.elements
+        // x21
         let otherElements = other.elements
         
-        if let elements {
+        if let selfElements {
             guard let otherElements else {
                 return
             }
             
             // <+68>
-            fatalError("TODO")
+            guard selfElements !== otherElements else {
+                return
+            }
+            
+            /*
+             otherElements = x24
+             */
+            // x20
+            var depth: Int = 0
+            // x23
+            var x23 = selfElements
+            var x24 = otherElements
+            /*
+             true = <+328>
+             false = <+388>
+             */
+            var flag = false
+            while true {
+                // <+164>
+                if x23.length >= x24.length {
+                    // <+224>
+                    depth += 1
+                    if let _x24 = x24.after {
+                        x24 = _x24
+                        // x24 = x29, #-0x60
+                        // <+192>
+                    } else {
+                        // <+388>
+                        flag = false
+                        break
+                    }
+                    continue
+                }
+                
+                // <+180>
+                if let _x23 = x23.after {
+                    x23 = _x23
+                    // <+188>
+                } else {
+                    // <+388>
+                    flag = false
+                    break
+                }
+                
+                // <+192>
+                if x23 !== x24 {
+                    continue // <+164>
+                }
+                
+                // <+328>
+                flag = true
+                break
+            }
+            
+            if flag {
+                // <+328>
+                // depth = x29, #-0x78
+                if x23 === x24 {
+                    if x24 === otherElements {
+                        return
+                    }
+                    
+                    // <+564>
+                    if let selfElement = self.elements,
+                       selfElement === x23 {
+                        self.elements = otherElements
+                        return
+                    }
+                    
+                    // <+592>
+                    if depth == 0 {
+                        return
+                    }
+                    
+                    // <+628>
+                    let afterOtherElements: [PropertyList.Element] = .init(unsafeUninitializedCapacity: depth) { buffer, initializedCount in
+                        initializedCount = depth
+                        var current: PropertyList.Element = otherElements
+                        for i in 0..<depth {
+                            buffer.baseAddress.unsafelyUnwrapped.initialize(to: current)
+                            current = current.after!
+                        }
+                    }
+                    
+                    for element in afterOtherElements.reversed() {
+                        self.elements = element.copy(before: element.before, after: self.elements)
+                    }
+                    return
+                } else {
+                    // <+388>
+                }
+            }
+            
+            // <+388>
+            if let before = selfElements.before {
+                // <+396>
+                self.elements = PropertyList.Element(keyType: EmptyKey.self, before: otherElements, after: selfElements)
+                return
+            } else {
+                // <+484>
+                self.elements = selfElements.copy(before: otherElements, after: selfElements.after)
+                return
+            }
         } else {
             // <+252>
             self.elements = otherElements
@@ -215,7 +318,7 @@ extension PropertyList {
         fileprivate let length: UInt32
         fileprivate let skipCount: UInt32
         fileprivate let skipFilter: BloomFilter
-        fileprivate let id: UniqueID = UniqueID()
+        fileprivate let id = UniqueID()
         
         fileprivate init(keyType: Any.Type, before: Element?, after: Element?) {
             self.keyType = keyType
@@ -486,7 +589,7 @@ fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
     }
     
     override func copy(before: PropertyList.Element?, after: PropertyList.Element?) -> PropertyList.Element {
-        fatalError("TODO")
+        return TypedElement(value: value, before: before, after: after)
     }
     
     override func value<T>(as type: T.Type) -> T {
@@ -563,4 +666,8 @@ fileprivate struct TrackerData {
 fileprivate protocol AnyTrackedValue {
     func unwrap<Value>() -> Value
     func hasMatchingValue(in propertyList: PropertyList) -> Bool
+}
+
+fileprivate struct EmptyKey: PropertyKey {
+    static let defaultValue = ()
 }

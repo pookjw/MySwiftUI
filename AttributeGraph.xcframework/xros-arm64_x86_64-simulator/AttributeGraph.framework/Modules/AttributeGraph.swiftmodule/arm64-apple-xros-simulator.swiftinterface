@@ -41,7 +41,7 @@ public struct Attribute<T> {
 
     public var value: T {
         get
-        set
+        nonmutating set
     }
 
     @_hasStorage

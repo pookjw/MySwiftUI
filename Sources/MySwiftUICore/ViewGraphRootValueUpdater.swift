@@ -187,7 +187,11 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func graphDidChange() {
-        fatalError("TODO")
+        Update.locked {
+            if !self.isRendering {
+                self.requestUpdate(after: 0)
+            }
+        }
     }
     
     package func preferencesDidChange() {

@@ -411,7 +411,7 @@ open class _UIHostingView<Content: View>: UIView {
     
     open override dynamic func layoutSubviews() {
         super.layoutSubviews()
-//        fatalError("TODO")
+        base.layoutSubviews()
     }
     
     package final var isWindowRoot: Bool {
@@ -1004,10 +1004,6 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     
     package final func setNeedsUpdate() {
         base._setNeedsUpdate()
-    }
-    
-    package final func graphDidChange() {
-        fatalError("TODO")
     }
     
     package final func preferencesDidChange() {

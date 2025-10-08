@@ -114,6 +114,7 @@ extension FocusViewGraph: ViewGraphFeature {
             needsFocusSystemEnabledUpdate = false
             let wasFocusSystemEnabled = wasFocusSystemEnabled
             
+            // OnFocusModifier
             graph.asyncTransaction(
                 mutation: IsFocusSystemEnabledMutation(value: wasFocusSystemEnabled),
                 style: .deferred
@@ -134,7 +135,7 @@ extension FocusViewGraph {
         }
         
         func apply() {
-            fatalError("TODO")
+            attr.projectedValue?.value = value
         }
         
         func combine<T>(with other: T) -> Bool where T : MySwiftUICore.GraphMutation {
