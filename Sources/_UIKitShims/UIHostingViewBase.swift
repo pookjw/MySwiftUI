@@ -830,7 +830,55 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @MainActor package func layoutSubviews() {
-        fatalError("TODO")
+        let viewGraph = viewGraph
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return 
+        }
+        
+        guard let uiView else {
+            return
+        }
+        
+        guard let window = uiView.window else {
+            return
+        }
+        
+        guard canAdvanceTimeAutomatically else {
+            return
+        }
+        
+        Update.locked { 
+            viewGraph.cancelAsyncRendering()
+            let interval = viewGraph.nextRenderInterval { 
+                return renderInterval(from: .systemUptime) / Double(UIAnimationDragCoefficient())
+            }
+            
+            updateDelegate.render(interval: interval, updateDisplayList: true, targetTimestamp: nil)
+        }
+    }
+    
+    // ___lldb_unnamed_symbol318822
+    private func renderInterval(from time: MySwiftUICore.Time) -> Double {
+        /*
+         self = x21
+         time (Time *) = x19
+         */
+        let flag: Bool
+        if lastRenderTime == .zero {
+            self.lastRenderTime = Time(seconds: time.seconds - Double(1E-6))
+        } else {
+            if (time < lastRenderTime) {
+                self.lastRenderTime = Time(seconds: time.seconds - Double(1E-6))
+            }
+        }
+        
+        // <+396>
+        let lastRenderTime = self.lastRenderTime
+        var d8 = time.seconds
+        let d9 = lastRenderTime.seconds
+        d8 = (d8 - d9)
+        self.lastRenderTime = time
+        return d8
     }
 }
 

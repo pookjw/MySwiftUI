@@ -406,6 +406,37 @@ extension ViewGraph {
 
 extension ViewGraph: ViewGraphRenderHost {
     func renderDisplayList(_ displayList: DisplayList, asynchronously: Bool, time: Time, nextTime: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time {
+        /*
+         asynchronously = x25
+         result pointer = x24
+         displayList = ((x29 - 0x100) & (x29 - 0xf4) & w23)
+         time = d8
+         nextTime = d9
+         targetTimestamp = x27 (value) / w28 (case)
+         version = x21
+         maxVersion = x19
+         */
+        // x22
+        if let delegate {
+            // <+140>
+            
+            // w23(displayList.properties) = (x29 - 0x14 - 0x100)
+            // x21(version) = (x29 - 0x10 - 0x100)
+            // x19(maxVersion) = (x29 = 0x8 - 0x100)
+            
+            if
+                // x21
+                let renderDelegate = delegate.as(ViewGraphRenderDelegate.self),
+                // x23
+                let renderer = delegate.as(DisplayList.ViewRenderer.self)
+            {
+                // <+276>
+                fatalError("TODO")
+            }
+            // nop
+        }
+        
+        // <+1092>
         fatalError("TODO")
     }
 }
