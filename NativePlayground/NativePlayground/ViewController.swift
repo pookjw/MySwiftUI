@@ -65,14 +65,14 @@ class ViewController: UIViewController {
 //            print(env.accessibilitySettingsDefinition)
 //        }
         
-        print(_typeByName("7SwiftUI11SceneBridgeC")!)
-        _forEachField(of: _typeByName("7SwiftUI11SceneBridgeC")!, options: [.classType]) { name, offset, type, kind in
+        print(_typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!)
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
         
-        print(_RendererConfiguration.self)
-        _forEachField(of: _RendererConfiguration.self, options: []) { name, offset, type, kind in
+        print(_RendererConfiguration.RasterizationOptions.self)
+        _forEachField(of: _RendererConfiguration.RasterizationOptions.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

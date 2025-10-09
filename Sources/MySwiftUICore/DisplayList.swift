@@ -1,6 +1,6 @@
 #warning("TODO")
-
 internal import CoreGraphics
+private import _MySwiftUIShims
 
 package struct DisplayList {
     package var items: [Item] = []
@@ -17,6 +17,43 @@ extension DisplayList {
         var version: DisplayList.Version
         var value: Item.Value
         var identity: _DisplayList_Identity
+    }
+    
+    struct Seed: Hashable {
+        private(set) var value: UInt16
+        
+        init() {
+            value = 0
+        }
+        
+        init(decodedValue: UInt16) {
+            value = decodedValue
+        }
+        
+        init(_ version: DisplayList.Version) {
+            var w9 = version.value
+            if w9 == 0 {
+                value = 0
+            } else {
+                var w10 = (w9 &>> 0x10)
+                w10 = (w10 &+ (w10 &<< 5))
+                w9 = (w10 ^ w9)
+                w10 = 1
+                w9 = (w10 | (w9 &<< 1))
+                value = UInt16(w9)
+            }
+        }
+        
+        mutating func invalidate() {
+            guard value != 0 else {
+                return
+            }
+            value = (~value | 1)
+        }
+        
+        static var undefined: DisplayList.Seed {
+            return DisplayList.Seed(decodedValue: 2)
+        }
     }
 }
 
@@ -101,6 +138,10 @@ extension DisplayList {
 
 extension DisplayList {
     final class ViewUpdater: ViewRendererBase {
+        init(rootPlatform: DisplayList.ViewUpdater.Platform, host: (any ViewRendererHost)?) {
+            fatalError("TODO")
+        }
+        
         var rootPlatform: Platform {
             fatalError("TODO")
         }
@@ -125,6 +166,98 @@ extension DisplayList {
             fatalError("TODO")
         }
     }
+    
+    fileprivate final class ViewRasterizer: ViewRendererBase {
+        let rootPlatform: DisplayList.ViewUpdater.Platform // 0x10
+        private weak var host: ViewRendererHost? // 0x18
+        private var drawingView: AnyObject? // 0x20
+        var options: _RendererConfiguration.RasterizationOptions // 0x30
+        private let renderer: DisplayList.GraphicsRenderer // 0x48
+        private var seed = DisplayList.Seed() // 0x50
+        private var lastContentsScale: CGFloat = 0 // 0x58
+        
+        // 원래 없음
+        @inlinable
+        init(
+            rootPlatform: DisplayList.ViewUpdater.Platform,
+            host: ViewRendererHost?,
+            drawingView: AnyObject?,
+            rasterizationOptions: _RendererConfiguration.RasterizationOptions
+        ) {
+            self.rootPlatform = rootPlatform
+            self.host = host
+            self.drawingView = drawingView
+            self.options = rasterizationOptions
+            
+            let platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode
+            if rasterizationOptions.drawsPlatformViews {
+                platformViewMode = .rendered(update: true)
+            } else {
+                platformViewMode = .unsupported
+            }
+            self.renderer = DisplayList.GraphicsRenderer(platformViewMode: platformViewMode)
+        }
+        
+        // 원래 없음
+        @inlinable
+        func update(rasterizationOptions: _RendererConfiguration.RasterizationOptions, host: ViewRendererHost?) {
+            self.options = rasterizationOptions
+            
+            let platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode
+            if rasterizationOptions.drawsPlatformViews {
+                platformViewMode = .rendered(update: true)
+            } else {
+                platformViewMode = .unsupported
+            }
+            self.renderer.platformViewMode = platformViewMode
+            
+            self.host = host
+        }
+        
+        var exportedObject: AnyObject? {
+            fatalError("TODO")
+        }
+        
+        func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: DisplayList.ViewRenderer.Environment) -> Time {
+            fatalError("TODO")
+        }
+        
+        func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
+            fatalError("TODO")
+        }
+        
+        func destroy(rootView: AnyObject) {
+            fatalError("TODO")
+        }
+        
+        var viewCacheIsEmpty: Bool {
+            fatalError("TODO")
+        }
+    }
+    
+    final class GraphicsRenderer {
+//        private var oldCache: DisplayList.GraphicsRenderer.Cache
+//        private var newCache: DisplayList.GraphicsRenderer.Cache
+//        private var index: DisplayList.Index
+//        private var time: Time
+//        private var nextTime: Time
+//        private var stableIDs: _DisplayList_StableIdentityMap?
+//        private var inTransitionGroup: Bool
+//        private var stateHashes: [StrongHash]
+        fileprivate var platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode
+        
+        init(platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode) {
+            fatalError("TODO")
+        }
+    }
+}
+
+extension DisplayList.GraphicsRenderer {
+    enum PlatformViewMode {
+        case rendered(update: Bool)
+        case ignored
+        case unsupported
+    }
 }
 
 extension DisplayList.ViewUpdater {
@@ -134,6 +267,15 @@ extension DisplayList.ViewUpdater {
         init(definition: PlatformViewDefinition.Type) {
             let system = definition.system
             self.encoding = Encoding(rawValue: UInt(bitPattern: ObjectIdentifier(definition)) | UInt(system.base.rawValue))
+        }
+        
+        // 원래 없음
+        @inlinable
+        func addDrawingView(rootView: AnyObject, options: PlatformDrawableOptions) {
+            let definition = unsafeBitCast(encoding.rawValue & 0xfffffffffffffff8, to: PlatformViewDefinition.Type.self)
+            let drawingView = definition.makeDrawingView(options: options)
+            let flag = (encoding.rawValue & 3) != 0
+            CoreViewAddSubview(flag, rootView, flag, drawingView, 0)
         }
         
         // TODO
@@ -155,14 +297,14 @@ extension DisplayList {
         package weak var host: ViewRendererHost? = nil
         private var state: DisplayList.ViewRenderer.State = .none
         private(set) var renderer: ViewRendererBase? = nil
-        private(set) var configChanged: Bool = false
+        private(set) var configChanged: Bool = true
         
         init(platform: DisplayList.ViewUpdater.Platform) {
             self.platform = platform
         }
         
         init(definition: PlatformViewDefinition.Type) {
-            fatalError("TODO")
+            self.platform = DisplayList.ViewUpdater.Platform(definition: definition)
         }
         
         var definition: PlatformViewDefinition.Type {
@@ -195,7 +337,70 @@ extension DisplayList {
         }
         
         fileprivate func updateRenderer(rootView: AnyObject) -> ViewRendererBase {
-            fatalError("TODO")
+            guard configChanged else {
+                return renderer!
+            }
+            
+            configChanged = false
+            
+            let state = state
+            let newState: DisplayList.ViewRenderer.State
+            switch configuration.renderer {
+            case .default:
+                newState = .updating
+            case .rasterized:
+                newState = .rasterizing
+            }
+            
+            if newState == state {
+                // <+200>
+            } else {
+                if let renderer {
+                    // <+112>
+                    renderer.destroy(rootView: rootView)
+                } else {
+                    // <+184>
+                }
+                // <+188>
+                self.renderer = nil
+                self.state = .none
+            }
+            
+            // <+200>
+            if let renderer {
+                switch configuration.renderer {
+                case .default:
+                    // <+896>
+                    return self.renderer!
+                case .rasterized(let options):
+                    // <+216>
+                    let viewRasterizer = renderer as! DisplayList.ViewRasterizer
+                    // <+260>
+                    viewRasterizer.update(rasterizationOptions: options, host: host)
+                    return self.renderer!
+                }
+            } else {
+                // <+416>
+                switch configuration.renderer {
+                case .default:
+                    // <+940>
+                    self.renderer = DisplayList.ViewUpdater(rootPlatform: platform, host: host)
+                    return self.renderer!
+                case .rasterized(let options):
+                    // <+420>
+                    // x23
+                    let renderer = DisplayList.ViewRasterizer(rootPlatform: platform, host: host, drawingView: rootView, rasterizationOptions: options)
+                    
+                    // <+668>
+                    let rasterizationOptions = RasterizationOptions(options)
+                    platform.addDrawingView(rootView: rootView, options: PlatformDrawableOptions(base: rasterizationOptions))
+                    
+                    // <+860>
+                    self.renderer = renderer
+                    self.state = .rasterizing
+                    return self.renderer!
+                }
+            }
         }
     }
 }
