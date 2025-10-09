@@ -1,10 +1,10 @@
 #warning("TODO")
-private import CoreGraphics
+internal import CoreGraphics
 
 public struct _RendererConfiguration {
     public var renderer: Renderer
     public var minFrameInterval: Double = 0
-    private var contentsScale: CGFloat? = nil
+    private(set) var contentsScale: CGFloat? = nil
     
     init(renderer: _RendererConfiguration.Renderer) {
         self.renderer = renderer

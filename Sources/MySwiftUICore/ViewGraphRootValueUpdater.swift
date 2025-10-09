@@ -216,8 +216,13 @@ extension ViewGraphRootValueUpdater {
             return
         }
         
+        let ownerBox = UncheckedSendable(owner)
+        let selfBox = UncheckedSendable(self)
+        
         Update.syncMain {
             // closure #1 () -> () in SwiftUI.ViewGraphRootValueUpdater.updateGraph() -> ()
+            let owner = ownerBox.value
+            let `self` = selfBox.value
             
             // valuesNeedingUpdate = x20
             // owner = x21
@@ -228,7 +233,7 @@ extension ViewGraphRootValueUpdater {
             
             if valuesNeedingUpdate.contains(.rootView) {
                 owner.valuesNeedingUpdate.remove(.environment)
-                updateEnvironment()
+                self.updateEnvironment()
             }
             
             owner.valuesNeedingUpdate.remove(.environment)

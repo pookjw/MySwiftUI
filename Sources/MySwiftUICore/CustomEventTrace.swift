@@ -177,32 +177,100 @@ package struct CustomEventTrace {
         fatalError("TODO")
     }
     
-    fileprivate static func extractFunctionData(_: Animation.Function, _: inout Double, _: inout Double, _: inout Double, _: inout Double) {
-        fatalError("TODO")
-    }
-    
     public static func animationBegin(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
-        fatalError("TODO")
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        var d0: Double = 1.0
+        var d1: Double = 1.0
+        var d2: Double = .nan
+        var d3: Double = .nan
+        CustomEventTrace.extractFunctionData(function, &d0, &d1, &d2, &d3)
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.animation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.AnimationEventType.animationBegin.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: (attribute, propertyType, d0, d1, d2, d3))
     }
     
-    public static func animationEnd(_: AnyAttribute?) {
-        fatalError("TODO")
+    public static func animationEnd(attribute: AnyAttribute?) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.animation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.AnimationEventType.animationEnd.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: attribute)
     }
     
-    public static func animationAttrUpdate(_: AnyAttribute?) {
-        fatalError("TODO")
+    public static func animationAttrUpdate(_ attribute: AnyAttribute?) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.animation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.AnimationEventType.animationAttrUpdate.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: attribute)
     }
     
     public static func animationScheduleTick(attribute: AnyAttribute?, time: Time) {
-        fatalError("TODO")
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.animation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.AnimationEventType.animationScheduleTick.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: (attribute, time.seconds))
     }
     
     public static func animationTick(onMain: Bool, time: Time) {
-        fatalError("TODO")
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.animation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.AnimationEventType.animationTick.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: (onMain, time.seconds))
     }
     
     public static func animationRetarget(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
-        fatalError("TODO")
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        var d0: Double = 1.0
+        var d1: Double = 1.0
+        var d2: Double = .nan
+        var d3: Double = .nan
+        CustomEventTrace.extractFunctionData(function, &d0, &d1, &d2, &d3)
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.animation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.AnimationEventType.animationRetarget.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: (attribute, propertyType, d0, d1, d2, d3))
     }
     
     public static func recordGraphHostRoot(_ graph: Graph?, _ globalGraph: Subgraph, newRoot: Subgraph, _ host: GraphHost) {
@@ -263,6 +331,10 @@ package struct CustomEventTrace {
     }
     
     fileprivate static nonisolated(unsafe) var enabledCategories: [Bool] = Array(repeating: false, count: 256)
+    
+    fileprivate static func extractFunctionData(_ function: Animation.Function, _ d0: inout Double, _ d1: inout Double, _ d2: inout Double, _ d3: inout Double) {
+        fatalError("TODO")
+    }
 }
 
 extension CustomEventTrace {

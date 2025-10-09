@@ -82,13 +82,63 @@ public struct IndirectAttribute<T> {
 
 }
 
-public struct AnyRuleContext {
+public struct AnyRuleContext: Swift.Equatable {
+    public var attribute: AttributeGraph.AnyAttribute {
+        get set
+    }
+
+    public init(attribute: AttributeGraph.AnyAttribute)
+    public init<T>(_: AttributeGraph.RuleContext<T>)
+
+    public func unsafeCast<T>(to: T.Type) -> AttributeGraph.RuleContext<T>
+
+   public subscript<T>(_: AttributeGraph.Attribute<T>) -> T {
+        get
+    }
+
+    public subscript<T>(_: AttributeGraph.WeakAttribute<T>) -> T {
+        get
+    }
+
+    public subscript<T>(_: AttributeGraph.OptionalAttribute<T>) -> T {
+        get
+    }
+
     public func valueAndFlags<T>(of: AttributeGraph.Attribute<T>, options: AttributeGraph.AGValueOptions) -> (value: T, flags: AGChangedValueFlags)
     public func changedValue<T>(of: AttributeGraph.Attribute<T>, options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
+    public func update(body: () -> Void)
 }
 
-public struct RuleContext<T> {
+public struct RuleContext<T>: Swift.Equatable {
+    public init(attribute: AttributeGraph.Attribute<T>)
 
+    public var attribute: AttributeGraph.Attribute<T> {
+        get set
+    }
+
+    public var hasValue: Swift.Bool {
+        get
+    }
+
+    public var value: T {
+        get set
+    }
+
+    public subscript<U>(_: AttributeGraph.Attribute<U>) -> U {
+        get
+    }
+
+    public subscript<U>(_: AttributeGraph.WeakAttribute<U>) -> U {
+        get
+    }
+
+    public subscript<U>(_: AttributeGraph.OptionalAttribute<U>) -> U {
+        get
+    }
+
+    public func valueAndFlags<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, flags: AGChangedValueFlags)
+    public func changedValue<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, changed: Swift.Bool)
+    public func update(body: () -> Void)
 }
 
 public struct _External: Swift.CustomStringConvertible {

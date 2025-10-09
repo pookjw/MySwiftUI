@@ -19,7 +19,7 @@ package final class UIHostingViewBase: NSObject {
     package var traitCollectionOverride: UITraitCollection?
     private var cachedContainerShape: MySwiftUICore.UnevenRoundedRectangle?
     private var canAdvanceTimeAutomatically: Bool = true
-    private var allowUIKitAnimationsForNextUpdate: Bool = false
+    package private(set) var allowUIKitAnimationsForNextUpdate: Bool = false
     private var lastRenderTime: MySwiftUICore.Time = .zero
     private var pendingPreferencesUpdate: Bool = false
     private var pendingPostDisappearPreferencesUpdate: Bool = false
@@ -28,7 +28,7 @@ package final class UIHostingViewBase: NSObject {
     private var isEnteringForeground: Bool = false
     private var isExitingForeground: Bool = false
     private var isCapturingSnapshots: Bool = false
-    private var isRotatingWindow: Bool = false
+    package private(set) var isRotatingWindow: Bool = false
     private var isResizingWindow: Bool = false
     private var _sceneActivationState: UIScene.ActivationState? = nil
     private var registeredForGeometryChanges: Bool = false
@@ -905,7 +905,64 @@ extension UIHostingViewBase {
     }
 }
 
-extension UIHostingViewBase: ViewGraphRenderDelegate {}
+extension UIHostingViewBase: ViewGraphRenderDelegate {
+    package var renderingRootView: AnyObject {
+        if let uiView {
+            return uiView
+        } else {
+            return UIView()
+        }
+    }
+    
+    package func updateRenderContext(_ context: inout MySwiftUICore.ViewGraphRenderContext) {
+        guard let uiView else {
+            return
+        }
+        
+        if let window = uiView.window {
+            context.contentsScale = (window.myUIScreen?.scale ?? 0)
+        } else {
+            context.contentsScale = 1
+        }
+    }
+    
+    package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> MySwiftUICore.Time) -> MySwiftUICore.Time {
+        let baseShouldDisableUIKitAnimationsWhenRendering: Bool
+        if let delegate {
+            baseShouldDisableUIKitAnimationsWhenRendering = delegate.baseShouldDisableUIKitAnimationsWhenRendering(self)
+        } else {
+            baseShouldDisableUIKitAnimationsWhenRendering = false
+        }
+        
+        // <+148>
+        if !UIView.areAnimationsEnabled || !baseShouldDisableUIKitAnimationsWhenRendering {
+            // <+204>
+            let result = body()
+            if !wasAsync {
+                allowUIKitAnimationsForNextUpdate = false
+            }
+            return result
+        } else {
+            if wasAsync {
+                // <+188>
+                return body()
+            } else {
+                // <+256>
+                var result = MySwiftUICore.Time.infinity
+                UIView.performWithoutAnimation {
+                    result = body()
+                }
+                allowUIKitAnimationsForNextUpdate = false
+                return result
+            }
+        }
+    }
+    
+    package func renderIntervalForDisplayLink(timestamp: MySwiftUICore.Time) -> Double {
+        fatalError("TODO")
+    }
+}
+
 extension UIHostingViewBase: ViewGraphHostDelegate {}
 extension UIHostingViewBase: RootContainerShapeProvider {}
 

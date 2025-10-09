@@ -41,7 +41,7 @@ struct MovableLockTests {
         let result = await task.value
         #expect(result)
         
-        lock.destory()
+        lock.destroy()
     }
     
     @Test
@@ -68,7 +68,7 @@ struct MovableLockTests {
             #expect(!result)
         }
         
-        lock.destory()
+        lock.destroy()
     }
     
     @Test(arguments: 0..<30)
@@ -88,7 +88,7 @@ struct MovableLockTests {
         lock.unlock()
         #expect(!lock.isOutermostOwner())
         
-        lock.destory()
+        lock.destroy()
     }
     
     @Test
@@ -113,7 +113,7 @@ struct MovableLockTests {
             lock.unlock()
         }
         
-        lock.destory()
+        lock.destroy()
         
         let result = await task.value
         #expect(result)
@@ -134,7 +134,7 @@ struct MovableLockTests {
             return result
         }
         
-        lock.destory()
+        lock.destroy()
         #expect(result)
     }
     
@@ -168,6 +168,6 @@ struct MovableLockTests {
         value = await context.count
         #expect(value == 1)
         
-        lock.destory()
+        lock.destroy()
     }
 }

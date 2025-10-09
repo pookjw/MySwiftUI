@@ -9,6 +9,7 @@ UIKIT_EXTERN const NSNotificationName UIWindowDidRotateNotification NS_SWIFT_NON
 @interface UIWindow (Private)
 @property (retain, nonatomic, nullable, setter=_setSceneZoomInteraction:) _UISceneZoomInteraction *_sceneZoomInteraction;
 - (UIScene * _Nullable)_windowHostingScene;
+- (UISheetPresentationController * _Nullable)_rootSheetPresentationController;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

@@ -1,6 +1,6 @@
 #warning("TODO")
 internal import AttributeGraph
-private import CoreGraphics
+package import CoreGraphics
 internal import QuartzCore
 private import Spatial
 
@@ -416,28 +416,90 @@ extension ViewGraph: ViewGraphRenderHost {
          version = x21
          maxVersion = x19
          */
+        // x29 = sp + 0x70
         // x22
-        if let delegate {
-            // <+140>
-            
-            // w23(displayList.properties) = (x29 - 0x14 - 0x100)
-            // x21(version) = (x29 - 0x10 - 0x100)
-            // x19(maxVersion) = (x29 = 0x8 - 0x100)
-            
-            if
-                // x21
-                let renderDelegate = delegate.as(ViewGraphRenderDelegate.self),
-                // x23
-                let renderer = delegate.as(DisplayList.ViewRenderer.self)
-            {
-                // <+276>
-                fatalError("TODO")
-            }
-            // nop
+        guard let delegate else {
+            return Time(seconds: .nan)
         }
         
-        // <+1092>
-        fatalError("TODO")
+        // <+140>
+        
+        // w23(displayList.properties) = (x29 - 0x14 - 0x100)
+        // x21(version) = (x29 - 0x10 - 0x100)
+        // x19(maxVersion) = (x29 = 0x8 - 0x100)
+        
+        guard
+            // x21
+            let renderDelegate = delegate.as(ViewGraphRenderDelegate.self),
+            // x23
+            let viewRenderer = delegate.as(DisplayList.ViewRenderer.self)
+        else {
+            return Time(seconds: .nan) 
+        }
+        
+        let renderDelegateBox = UncheckedSendable(renderDelegate)
+        let viewRendererBox = UncheckedSendable(viewRenderer)
+        
+        @MainActor
+        func renderOnMainThread() -> Time {
+            let renderDelegate = renderDelegateBox.value
+            let viewRenderer = viewRendererBox.value
+            
+            var context = ViewGraphRenderContext(contentsScale: 0, opaqueBackground: false)
+            renderDelegate.updateRenderContext(&context)
+            CustomEventTrace.animationTick(onMain: true, time: time)
+            
+            let renderingRootView = renderDelegate.renderingRootView
+            return renderDelegate.withMainThreadRender(wasAsync: true) {
+                // closure #1 () -> SwiftUI.Time in renderOnMainThread() -> SwiftUI.Time
+                let environment = DisplayList.ViewRenderer.Environment(contentsScale: viewRenderer.configuration.contentsScale ?? context.contentsScale)
+                return viewRenderer.render(rootView: renderingRootView, from: displayList, time: time, version: version, maxVersion: maxVersion, environment: environment)
+            }
+        }
+        
+        // <+276>
+        if asynchronously {
+            CustomEventTrace.animationTick(onMain: false, time: time)
+            if
+                !viewRenderer.configChanged,
+                let renderer = viewRenderer.renderer
+            {
+                // x29 - 0xa8
+                let renderAsyncTime = renderer.renderAsync(to: displayList, time: time, targetTimestamp: targetTimestamp, version: version, maxVersion: maxVersion)
+                // d10
+                if let renderAsyncTime {
+                    // <+1772>
+                    // d9
+                    let d9: Time
+                    if nextTime < renderAsyncTime {
+                        d9 = nextTime
+                    } else {
+                        d9 = renderAsyncTime
+                    }
+                    
+                    let d10 = viewRenderer.configuration.minFrameInterval
+                    let d0: Time
+                    if d9.seconds < d10 {
+                        d0 = d9
+                    } else {
+                        d0 = Time(seconds: d10)
+                    }
+                    return d0
+                }
+            }
+            
+            // <+552>
+            var nextTime = nextTime
+            Update.syncMain {
+                nextTime = renderOnMainThread()
+            }
+            return nextTime
+        } else {
+            // <+1164>
+            return MainActor.assumeIsolated {
+                return renderOnMainThread()
+            }
+        }
     }
 }
 
@@ -652,4 +714,21 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     func notify() {
         fatalError("TODO")
     }
+}
+
+package protocol ViewGraphRenderDelegate: AnyObject {
+    @MainActor var renderingRootView: AnyObject {
+        get
+    }
+    
+    func updateRenderContext(_ context: inout ViewGraphRenderContext)
+    
+    @MainActor func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time
+    
+    func renderIntervalForDisplayLink(timestamp: Time) -> Double
+}
+
+package struct ViewGraphRenderContext: Sendable {
+    package var contentsScale: CGFloat
+    package var opaqueBackground: Bool
 }

@@ -120,11 +120,38 @@ package enum Update {
         return handler()
     }
     
-    package static func syncMain(_ handler: () -> Void) {
+    @inlinable
+    package static func syncMain(_ handler: @MainActor () -> Void) {
         if Thread.isMainThread {
-            handler()
+            MainActor.assumeIsolated {
+                handler()
+            }
         } else {
-            fatalError("TODO")
+            withoutActuallyEscaping(handler) { escapingClosure in
+                final class Context {
+                    let current = Subgraph.current
+                    let currentRuleContext = AnyRuleContext(attribute: .current)
+                    let block: @MainActor () -> Void
+                    
+                    init(block: @escaping @MainActor () -> Void) {
+                        self.block = block
+                    }
+                }
+                let context = Unmanaged.passRetained(Context(block: escapingClosure))
+                
+                Update._lock.syncMain(context: context.toOpaque()) { pointer in
+                    let context = Unmanaged<Context>.fromOpaque(pointer)
+                    let current = Subgraph.current
+                    Subgraph.current = context.takeUnretainedValue().current
+                    
+                    context.takeUnretainedValue().currentRuleContext.update {
+                        context.takeUnretainedValue().block()
+                    }
+                    
+                    Subgraph.current = current
+                    context.release()
+                }
+            }
         }
     }
     

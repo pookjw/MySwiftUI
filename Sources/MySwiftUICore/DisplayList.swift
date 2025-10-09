@@ -100,8 +100,30 @@ extension DisplayList {
 }
 
 extension DisplayList {
-    class ViewUpdater {
-        // TODO
+    final class ViewUpdater: ViewRendererBase {
+        var rootPlatform: Platform {
+            fatalError("TODO")
+        }
+        
+        var exportedObject: AnyObject? {
+            fatalError("TODO")
+        }
+        
+        func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: DisplayList.ViewRenderer.Environment) -> Time {
+            fatalError("TODO")
+        }
+        
+        func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
+            fatalError("TODO")
+        }
+        
+        func destroy(rootView: AnyObject) {
+            fatalError("TODO")
+        }
+        
+        var viewCacheIsEmpty: Bool {
+            fatalError("TODO")
+        }
     }
 }
 
@@ -127,20 +149,90 @@ extension DisplayList.ViewUpdater.Platform {
 }
 
 extension DisplayList {
-    package final class ViewRenderer {
+    package final class ViewRenderer: ViewRendererBase {
         private let platform: DisplayList.ViewUpdater.Platform
-        private var configuration = _RendererConfiguration(renderer: .default)
+        private(set) var configuration = _RendererConfiguration(renderer: .default)
         package weak var host: ViewRendererHost? = nil
         private var state: DisplayList.ViewRenderer.State = .none
-        private var configChanged: Bool = false
+        private(set) var renderer: ViewRendererBase? = nil
+        private(set) var configChanged: Bool = false
         
         init(platform: DisplayList.ViewUpdater.Platform) {
             self.platform = platform
         }
+        
+        init(definition: PlatformViewDefinition.Type) {
+            fatalError("TODO")
+        }
+        
+        var definition: PlatformViewDefinition.Type {
+            fatalError("TODO")
+        }
+        
+        var rootPlatform: DisplayList.ViewUpdater.Platform {
+            fatalError("TODO")
+        }
+        
+        var exportedObject: AnyObject? {
+            fatalError("TODO")
+        }
+        
+        func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: Environment) -> Time {
+            let renderer = updateRenderer(rootView: rootView)
+            return renderer.render(rootView: rootView, from: displayList, time: time, version: version, maxVersion: maxVersion, environment: environment)
+        }
+        
+        func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
+            fatalError("TODO")
+        }
+        
+        func destroy(rootView: AnyObject) {
+            fatalError("TODO")
+        }
+        
+        var viewCacheIsEmpty: Bool {
+            fatalError("TODO")
+        }
+        
+        fileprivate func updateRenderer(rootView: AnyObject) -> ViewRendererBase {
+            fatalError("TODO")
+        }
+    }
+}
+
+protocol ViewRendererBase: AnyObject {
+    var rootPlatform: DisplayList.ViewUpdater.Platform {
+        get
+    }
+    
+    var exportedObject: AnyObject? {
+        get
+    }
+    
+    func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: DisplayList.ViewRenderer.Environment) -> Time
+    
+    func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time?
+    
+    func destroy(rootView: AnyObject)
+    
+    var viewCacheIsEmpty: Bool {
+        get
     }
 }
 
 extension DisplayList.ViewRenderer {
+    struct Environment: Equatable {
+        static var invalid: DisplayList.ViewRenderer.Environment {
+            return DisplayList.ViewRenderer.Environment(contentsScale: 0)
+        }
+        
+        var contentsScale: CGFloat
+        
+        init(contentsScale: CGFloat) {
+            self.contentsScale = contentsScale
+        }
+    }
+    
     fileprivate enum State {
         case none
         case updating

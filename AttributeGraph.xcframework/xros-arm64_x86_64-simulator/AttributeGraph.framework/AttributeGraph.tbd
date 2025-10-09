@@ -119,7 +119,10 @@ exports:
     _$s14AttributeGraph011AnyOptionalA0V10identifierSo11AGAttributeavs,
     _$s14AttributeGraph011AnyOptionalA0V10identifierSo11AGAttributeavM,
     _$s14AttributeGraph011AnyOptionalA0V10identifierSo11AGAttributeavpMV,
-    _$s14AttributeGraph08OptionalA0V4baseAA03AnycA0VvpMV ]
+    _$s14AttributeGraph08OptionalA0V4baseAA03AnycA0VvpMV,
+    _AGGraphGetCurrentAttribute,
+    _$s14AttributeGraph14AnyRuleContextV9attributeACSo11AGAttributea_tcfC,
+    _$s14AttributeGraph14AnyRuleContextV6update4bodyyyyXE_tF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

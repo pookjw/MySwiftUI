@@ -56,6 +56,7 @@ let package = Package(
             ],
             swiftSettings: [
                 .strictMemorySafety(),
+                .enableExperimentalFeature("Extern"),
                 .unsafeFlags([
                     "-Xfrontend",
                     "-enable-private-imports"

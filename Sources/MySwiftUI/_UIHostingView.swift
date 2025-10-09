@@ -554,6 +554,71 @@ open class _UIHostingView<Content: View>: UIView {
         // <+436>
         fatalError("TODO")
     }
+    
+    private var shouldDisableUIKitAnimation: Bool {
+        if let sceneBridge, sceneBridge.isAnimatingSceneResize {
+            return true
+        }
+        
+        // <+48>
+        if allowUIKitAnimations != 0 {
+            return false
+        } else if base.allowUIKitAnimationsForNextUpdate {
+            return false
+        } else if isInSizeTransition {
+            return false
+        } else if isResizingSheet {
+            return false
+        } else if isRotatingWindow {
+            return false
+        } else if isTabSidebarMorphing {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    private var isRotatingWindow: Bool {
+        return base.isRotatingWindow
+    }
+    
+    private var isResizingSheet: Bool {
+        let w19: Bool
+        if let window {
+            if let rootSheetPresentationController = window._rootSheetPresentationController() {
+                w19 = rootSheetPresentationController._isGeneratingAnimations
+            } else {
+                w19 = false
+            }
+        } else {
+            w19 = false
+        }
+        
+        let w21: Bool
+        if let containingViewController {
+            if let activePresentationController = containingViewController.activePresentationController as? UISheetPresentationController {
+                w21 = activePresentationController._isGeneratingAnimations
+            } else {
+                w21 = false
+            }
+        } else {
+            w21 = false
+        }
+        
+        return (w19 || w21)
+    }
+    
+    private var isTabSidebarMorphing: Bool {
+        guard let uiViewController else {
+            return false
+        }
+        
+        guard let tabBarController = uiViewController.tabBarController else {
+            return false
+        }
+        
+        return tabBarController._inSidebarTransition
+    }
 }
 
 protocol UIHostingViewDelegate: AnyObject {
@@ -1158,7 +1223,7 @@ extension _UIHostingView: @preconcurrency HostingViewProtocol {
 
 extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
     fileprivate final func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims.UIHostingViewBase) -> Bool {
-        fatalError("TODO")
+        return shouldDisableUIKitAnimation
     }
     
     fileprivate final func baseDidMoveToScene(_ base: _UIKitShims.UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {

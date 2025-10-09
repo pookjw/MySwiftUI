@@ -28,7 +28,7 @@ typedef MovableLock_t * MovableLock __attribute((swift_newtype(struct)));
 _Pragma("clang assume_nonnull begin")
 
 MSUI_EXTERN MovableLock _MovableLockCreate(void) __attribute__((swift_name("MovableLock.create()")));
-MSUI_EXTERN void _MovableLockDestroy(MovableLock lock) __attribute__((swift_name("MovableLock.destory(self:)")));
+MSUI_EXTERN void _MovableLockDestroy(MovableLock lock) __attribute__((swift_name("MovableLock.destroy(self:)")));
 MSUI_EXTERN bool _MovableLockIsOwner(MovableLock lock) __attribute__((swift_name("MovableLock.isOwner(self:)")));
 MSUI_EXTERN bool _MovableLockIsOutermostOwner(MovableLock lock) __attribute__((swift_name("MovableLock.isOutermostOwner(self:)")));
 MSUI_EXTERN void _MovableLockLock(MovableLock lock) __attribute__((swift_name("MovableLock.lock(self:)")));

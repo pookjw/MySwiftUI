@@ -18,3 +18,5 @@
 #import <_UIKitPrivate/UITraitCollection+Private.h>
 #import <_UIKitPrivate/_UIFeedback.h>
 #import <_UIKitPrivate/UISpringLoadedInteraction+Private.h>
+#import <_UIKitPrivate/UISheetPresentationController+Private.h>
+#import <_UIKitPrivate/UITabBarController+Private.h>

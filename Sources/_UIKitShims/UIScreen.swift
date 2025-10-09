@@ -19,7 +19,7 @@ package struct MyUIScreen {
         return .main
     }
     
-    private init(screen: AnyObject) {
+    fileprivate init(screen: AnyObject) {
         self.screen = screen
     }
     
@@ -37,5 +37,28 @@ package struct MyUIScreen {
         let impl = method_getImplementation(method)
         let casted = unsafeBitCast(impl, to: (@convention(c) (AnyObject, Selector) -> CGFloat).self)
         return casted(screen, cmd)
+    }
+    
+    package var scale: CGFloat {
+        let cmd = Selector(("scale"))
+        let method = class_getInstanceMethod(UIScreenClass, cmd)!
+        let impl = method_getImplementation(method)
+        let casted = unsafeBitCast(impl, to: (@convention(c) (AnyObject, Selector) -> CGFloat).self)
+        return casted(screen, cmd)
+    }
+}
+
+extension UIWindow {
+    package var myUIScreen: MyUIScreen? {
+        let cmd = Selector(("screen"))
+        let method = class_getInstanceMethod(object_getClass(self)!, cmd)!
+        let impl = method_getImplementation(method)
+        let casted = unsafeBitCast(impl, to: (@convention(c) (AnyObject, Selector) -> AnyObject?).self)
+        
+        guard let screen = casted(self, cmd) else {
+            return nil
+        }
+        
+        return MyUIScreen(screen: screen)
     }
 }
