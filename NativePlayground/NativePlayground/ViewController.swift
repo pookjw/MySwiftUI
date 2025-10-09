@@ -84,8 +84,8 @@ class ViewController: UIViewController {
         let filter = BloomFilter(type: Type1.self)
         print(filter.mayContain(BloomFilter(type: Type2.self)))
         
-        print(_typeByName("7SwiftUI37UILargeContentViewerInteractionBridgeC")!)
-        _forEachField(of: _typeByName("7SwiftUI37UILargeContentViewerInteractionBridgeC")!, options: [.classType]) { name, offset, type, kind in
+        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!)
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
