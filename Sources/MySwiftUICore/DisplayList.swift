@@ -274,8 +274,9 @@ extension DisplayList.ViewUpdater {
         func addDrawingView(rootView: AnyObject, options: PlatformDrawableOptions) {
             let definition = unsafeBitCast(encoding.rawValue & 0xfffffffffffffff8, to: PlatformViewDefinition.Type.self)
             let drawingView = definition.makeDrawingView(options: options)
-            let flag = (encoding.rawValue & 3) != 0
-            CoreViewAddSubview(flag, rootView, flag, drawingView, 0)
+            let all = UInt(MySwiftUIViewSystem.caLayer.rawValue + MySwiftUIViewSystem.uiView.rawValue + MySwiftUIViewSystem.nsView.rawValue)
+            let system = MySwiftUIViewSystem(rawValue: UInt8(encoding.rawValue & all))!
+            CoreViewAddSubview(system, rootView, system, drawingView, 0)
         }
         
         // TODO

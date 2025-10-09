@@ -1,5 +1,5 @@
 #include "include/CoreViewAddSubview.h"
 
-void CoreViewAddSubview(BOOL, id, BOOL, id, unsigned int) {
+void CoreViewAddSubview(MySwiftUIViewSystem, id, MySwiftUIViewSystem, id, unsigned int) {
     abort();
 }
