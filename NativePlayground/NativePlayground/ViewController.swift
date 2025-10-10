@@ -71,6 +71,12 @@ class ViewController: UIViewController {
             return true
         }
         
+        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!)
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
         print(_RendererConfiguration.RasterizationOptions.self)
         _forEachField(of: _RendererConfiguration.RasterizationOptions.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))

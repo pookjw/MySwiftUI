@@ -162,6 +162,61 @@ extension DisplayList {
         }
         
         func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: DisplayList.ViewRenderer.Environment) -> Time {
+            /*
+             self = x19
+             rootView = x22
+             return pointer = x25
+             displayList = x23
+             time = d8
+             version = x24
+             maxVersion = x28
+             */
+            if lastEnv != environment {
+                lastEnv = environment
+                isValid = false
+                viewCache.invalidateAll()
+                seed = DisplayList.Seed()
+            }
+            
+            /*
+             true = <+208>
+             false = <+220>
+             */
+            let flag: Bool
+            if isValid {
+                let seed = seed
+                if version.value != 0 {
+                    // <+172>
+                    if seed == DisplayList.Seed(version) {
+                        // <+208>
+                        flag = true
+                    } else {
+                        // <+220>
+                        flag = false
+                    }
+                } else {
+                    // <+204>
+                    if seed.value == 0 {
+                        // <+208>
+                        flag = true
+                    } else {
+                        // <+220>
+                        flag = false
+                    }
+                }
+            } else {
+                // <+220>
+                flag = false
+            }
+            
+            if flag {
+                // <+208>
+                if nextUpdate >= time {
+                    return nextUpdate
+                }
+            }
+            
+            // <+220>
             fatalError("TODO")
         }
         
@@ -319,6 +374,12 @@ extension DisplayList.ViewUpdater {
         private var currentList = DisplayList()
         
         init() {}
+        
+        func invalidateAll() {
+            // self = sp + 0x8
+            
+            fatalError("TODO")
+        }
     }
     
     struct ViewInfo {
