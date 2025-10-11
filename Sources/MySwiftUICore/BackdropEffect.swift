@@ -6,3 +6,8 @@ public struct BackdropEffect {
     private var filters: [GraphicsFilter]
     private var captureOnly: Bool
 }
+
+enum BackdropGroupID {
+    case index(DisplayList.Index.ID)
+    case name(String)
+}

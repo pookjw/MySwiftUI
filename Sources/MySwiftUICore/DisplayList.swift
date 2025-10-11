@@ -9,7 +9,7 @@ private import _DarwinFoundation3._stdlib
 fileprivate nonisolated(unsafe) var printTree: Bool? = nil
 
 package struct DisplayList {
-    package var items: [Item] = []
+    package var items: [DisplayList.Item] = []
     package var features = DisplayList.Features(rawValue: 0)
     package var properties = DisplayList.Properties(rawValue: 0)
     
@@ -269,7 +269,53 @@ extension DisplayList {
              maxVersion = sp + 0x60
              */
             
-            var viewCache = DisplayList.ViewUpdater.ViewCache()
+            var globals = DisplayList.ViewUpdater.Model.State.Globals(
+                updater: self,
+                time: time,
+                maxVersion: maxVersion,
+                environment: environment
+            )
+            
+            withUnsafeTemporaryAllocation(of: DisplayList.ViewUpdater.Model.State.Globals.self, capacity: 1) { globals in
+                globals.baseAddress.unsafelyUnwrapped.initialize(
+                    to: DisplayList.ViewUpdater.Model.State.Globals(
+                        updater: self,
+                        time: time,
+                        maxVersion: maxVersion,
+                        environment: environment
+                    )
+                )
+                
+                var state = DisplayList.ViewUpdater.Model.State(globals: globals.baseAddress.unsafelyUnwrapped)
+                
+                self.viewCache.index = DisplayList.Index()
+                self.viewCache.currentList = displayList
+                self.viewCache.clearAsyncValues()
+                
+                let viewLayer = rootPlatform.viewLayer(rootView)
+                // x26
+                let oldNeedsDisplayOnBoundsChange = viewLayer.needsDisplayOnBoundsChange
+                viewLayer.needsDisplayOnBoundsChange = false
+                
+                // <+1284>
+                for item in displayList.items {
+                    if item.identity.value != 0 {
+                        self.viewCache.index.identity = item.identity
+                    }
+                    
+                    var item = item
+                    viewCache.prepare(item: &item, platform: rootPlatform, parentState: &state)
+                    
+                    var container = DisplayList.ViewUpdater.Container() // TODO
+                    self.updateInheritedView(container: &container, from: item, parentState: &state)
+                    
+                    // self.viewCache에 뭔가 하는듯
+                    fatalError("TODO")
+                }
+                
+                // <+1828>
+                fatalError("TODO")
+            }
             
             fatalError("TODO")
         }
@@ -283,6 +329,10 @@ extension DisplayList {
         }
         
         var viewCacheIsEmpty: Bool {
+            fatalError("TODO")
+        }
+        
+        fileprivate func updateInheritedView(container: inout DisplayList.ViewUpdater.Container, from: DisplayList.Item, parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>) {
             fatalError("TODO")
         }
     }
@@ -413,58 +463,7 @@ extension DisplayList.GraphicsRenderer.Cache {
     }
 }
 
-extension DisplayList.ViewUpdater {
-    struct ViewCache {
-        fileprivate var map: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewInfo] = [:]
-        fileprivate var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key /* DisplayCache.Key이라고 표기되어 있는데 이런건 없음 */] = [:]
-        fileprivate var removed: Set<DisplayList.ViewUpdater.ViewCache.Key> = []
-        fileprivate var animators: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewCache.AnimatorInfo] = [:]
-        fileprivate var asyncValues: [ObjectIdentifier: DisplayList.ViewUpdater.ViewCache.AsyncValues] = [:]
-        fileprivate var pendingAsyncValues: [ObjectIdentifier: [DisplayList.ViewUpdater.ViewCache.PendingAsyncValue]] = [:]
-        fileprivate var asyncModifierGroup: CAPresentationModifierGroup? = nil
-        fileprivate var pendingAsyncUpdates: [() -> Void] = []
-        fileprivate var index = DisplayList.Index()
-        fileprivate var cacheSeed: UInt32 = 0
-        fileprivate var currentList = DisplayList()
-        
-        fileprivate init() {}
-        
-        mutating func invalidateAll() {
-            // self = sp + 0x8
-            var map = map
-            
-            for (key, value) in self.map {
-                var value = value
-                value.isInvalid = true
-                map[key] = value
-            }
-            
-            self.map = map
-        }
-    }
-    
-    struct ViewInfo {
-        private var platform: DisplayList.ViewUpdater.Platform
-        private var view: AnyObject
-        private var layer: CALayer
-        private var container: AnyObject
-        private var state: DisplayList.ViewUpdater.Platform.State
-        private var id: DisplayList.ViewUpdater.ViewInfo.ID
-        private var parentID: DisplayList.ViewUpdater.ViewInfo.ID
-        private var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
-        private var cacheSeed: UInt32
-        private var isRemoved: Bool
-        fileprivate var isInvalid: Bool
-        private var nextUpdate: Time
-    }
-    
-    struct PlatformViewInfo {
-        private let view: AnyObject
-        private let kind: PlatformViewDefinition.ViewKind
-        private var state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>
-        private var seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>
-    }
-}
+
 
 extension DisplayList.ViewUpdater.PlatformViewInfo {
     struct Seeds {
@@ -517,42 +516,31 @@ extension DisplayList.ViewUpdater.ViewInfo {
     }
 }
 
-extension DisplayList.ViewUpdater.ViewCache {
-    struct Key: Hashable {
-        private var id: DisplayList.Index.ID
-        private var system: PlatformViewDefinition.System
-        private var tag: DisplayList.ViewUpdater.ViewCache.Tag
-        
-        static func == (lhs: DisplayList.ViewUpdater.ViewCache.Key, rhs: DisplayList.ViewUpdater.ViewCache.Key) -> Bool {
-            fatalError("TODO")
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            fatalError("TODO")
-        }
+extension DisplayList.ViewUpdater {
+    struct ViewInfo {
+        private var platform: DisplayList.ViewUpdater.Platform
+        private var view: AnyObject
+        private var layer: CALayer
+        private var container: AnyObject
+        private var state: DisplayList.ViewUpdater.Platform.State
+        private var id: DisplayList.ViewUpdater.ViewInfo.ID
+        private var parentID: DisplayList.ViewUpdater.ViewInfo.ID
+        private var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
+        private var cacheSeed: UInt32
+        private var isRemoved: Bool
+        var isInvalid: Bool
+        private var nextUpdate: Time
     }
     
-    fileprivate struct AsyncValues {
-        private var animations: Set<String>
-        private var modifiers: [String: CAPresentationModifier]
+    struct PlatformViewInfo {
+        private let view: AnyObject
+        private let kind: PlatformViewDefinition.ViewKind
+        private var state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>
+        private var seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>
     }
     
-    fileprivate struct PendingAsyncValue {
-        private var keyPath: String
-        private var value: NSObject
-        private var usesPresentationModifier: Bool
-    }
-}
-
-extension DisplayList.ViewUpdater.ViewCache {
-    fileprivate struct AnimatorInfo {
-        private var state: DisplayList.ViewUpdater.ViewCache.AnimatorInfo.State
-        private var deadline: Time
-    }
-    
-    enum Tag {
-        case item
-        case inherited
+    fileprivate struct Container {
+        // TODO
     }
 }
 
@@ -581,14 +569,6 @@ extension DisplayList {
 //        case identity
 //        case geometryGroup
 //        case compositingGroup
-    }
-}
-
-extension DisplayList.ViewUpdater.ViewCache.AnimatorInfo {
-    fileprivate enum State {
-        case active(any _DisplayList_AnyEffectAnimator)
-        case finished(DisplayList.Effect, DisplayList.Version)
-        case idle
     }
 }
 
@@ -849,26 +829,94 @@ extension DisplayList.ViewUpdater {
 extension DisplayList.ViewUpdater {
     enum Model {
         struct PlatformState {
-            // TODO
+            private var zPosition: CGFloat = 0
+            private var renderingTechnique: RenderingTechnique = .texture
+            private var separatedState: SeparatedState = .none
+            private var separatedOptions = SeparatedOptionValues()
+            private var remoteEffects = RemoteEffectsPlatformState()
+            private var hitTestsAsOpaque: Bool = false
+            private var serverResponderID: UInt32? = nil
+            private var separatedModifiers: [any _DisplayList_SeparatedItemModifier] = []
+            private var hierarchicalProjectiveShadow: ProjectiveShadow? = nil
+            private var currentProjectiveShadow: ProjectiveShadow? = nil
+            private var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions()
+            
+            init() {}
+        }
+        
+        struct Clip {
+            private var path: Path
+            private var transform: CGAffineTransform?
+            private var style: FillStyle
         }
         
         struct State {
-//            var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
-//            var opacity: Float
-//            var blend: GraphicsBlendMode
-//            var transform: CGAffineTransform
-//            var clips: [DisplayList.ViewUpdater.Model.Clip]
-//            var filters: [GraphicsFilter]
-//            var shadow: Indirect<SwiftUI.ResolvedShadowStyle>?
-//            var properties: DisplayList.Properties
-//            var rewriteVibrantColorMatrix: Bool
-//            var backdropAwareColorMatrices: Bool
-//            var compositingGroup: Bool
-//            var backdropGroupID: BackdropGroupID?
-//            var stateHashes: [StrongHash]
-//            var platformState: DisplayList.ViewUpdater.Model.PlatformState
-//            var versions: DisplayList.ViewUpdater.Model.State.Versions
+            private var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
+            private var opacity: Float = 1
+            private var blend: GraphicsBlendMode = .normal
+            private var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+            private var clips: [DisplayList.ViewUpdater.Model.Clip] = []
+            private var filters: [GraphicsFilter] = []
+            private var shadow: Indirect<ResolvedShadowStyle>? = nil
+            private var properties: DisplayList.Properties = []
+            private var rewriteVibrantColorMatrix: Bool = false
+            private var backdropAwareColorMatrices: Bool = false
+            private var compositingGroup: Bool = false
+            private var backdropGroupID: BackdropGroupID? = nil
+            private var stateHashes: [StrongHash] = []
+            private var platformState = DisplayList.ViewUpdater.Model.PlatformState()
+            private var versions = DisplayList.ViewUpdater.Model.State.Versions()
+            
+            init(
+                globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
+            ) {
+                self.globals = globals
+            }
         }
+    }
+}
+
+extension DisplayList.ViewUpdater.Model.State {
+    struct Globals {
+        private var updater: DisplayList.ViewUpdater
+        private var time: Time
+        private var maxVersion: DisplayList.Version
+        private var environment: DisplayList.ViewRenderer.Environment
+        
+        init(updater: DisplayList.ViewUpdater, time: Time, maxVersion: DisplayList.Version, environment: DisplayList.ViewRenderer.Environment) {
+            self.updater = updater
+            self.time = time
+            self.maxVersion = maxVersion
+            self.environment = environment
+        }
+    }
+    
+    struct Versions {
+        private var opacity = DisplayList.Version()
+        private var blend = DisplayList.Version()
+        private var transform = DisplayList.Version()
+        private var clips = DisplayList.Version()
+        private var filters = DisplayList.Version()
+        private var shadow = DisplayList.Version()
+        private var properties = DisplayList.Version()
+        
+        init() {}
+    }
+}
+
+extension DisplayList.ViewUpdater.Model.PlatformState {
+    struct Versions {
+        private var zPosition = DisplayList.Version()
+        private var separatedState = DisplayList.Version()
+        private var separatedOptions = DisplayList.Version()
+        private var remoteEffects = DisplayList.Version()
+        private var hitTestsAsOpaque = DisplayList.Version()
+        private var serverResponderID = DisplayList.Version()
+        private var renderingTechnique = DisplayList.Version()
+        private var hierarchicalProjectiveShadow = DisplayList.Version()
+        private var currentProjectiveShadow = DisplayList.Version()
+        
+        init() {}
     }
 }
 
@@ -905,11 +953,11 @@ extension DisplayList.ViewUpdater.Platform {
 
 extension DisplayList {
     struct Index {
-        private var identity = _DisplayList_Identity(value: 0)
-        private var serial: UInt32 = 0
-        private var archiveIdentity = _DisplayList_Identity(value: 0)
-        private var archiveSerial: UInt32 = 0
-        private var restored = DisplayList.Index.RestoreOptions(rawValue: 0)
+        fileprivate var identity = _DisplayList_Identity(value: 0)
+        fileprivate var serial: UInt32 = 0
+        fileprivate var archiveIdentity = _DisplayList_Identity(value: 0)
+        fileprivate var archiveSerial: UInt32 = 0
+        fileprivate var restored = DisplayList.Index.RestoreOptions(rawValue: 0)
         
         init() {}
     }

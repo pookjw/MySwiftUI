@@ -71,6 +71,12 @@ class ViewController: UIViewController {
             return true
         }
         
+        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!)
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
         print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
@@ -91,6 +97,12 @@ class ViewController: UIViewController {
         
         print(_typeByName("7SwiftUI19ResolvedShadowStyleV")!)
         _forEachField(of: _typeByName("7SwiftUI19ResolvedShadowStyleV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV")!)
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

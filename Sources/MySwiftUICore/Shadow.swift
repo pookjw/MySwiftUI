@@ -24,3 +24,5 @@ extension ShadowStyle {
         let rawValue: UInt8
     }
 }
+
+struct ProjectiveShadow {}

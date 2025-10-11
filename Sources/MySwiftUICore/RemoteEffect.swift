@@ -2,9 +2,9 @@
 
 enum RemoteEffectInfo {
     case group(RemoteEffectGroupInfo)
-//    case property(RemotePropertyEffectInfo)
-//    case external(RemoteExternalEffectInfo)
-//    case glowEffect(RemoteGlowEffect)
+    //    case property(RemotePropertyEffectInfo)
+    //    case external(RemoteExternalEffectInfo)
+    //    case glowEffect(RemoteGlowEffect)
 }
 
 extension RemoteEffectInfo {
@@ -69,4 +69,61 @@ extension RemoteEffectGroupInfo {
         case local
         case globa
     }
+}
+
+struct RemoteEffectsPlatformState {
+    var legacyEffects: [_DisplayList_Identity: RemoteEffectGroup.Resolved] = [:]
+    var hoverEffectState = HoverEffectState()
+}
+
+struct RemoteEffectGroup {
+    var effects: [any RemoteEffect]
+    var accessibilityOptions: RemoteEffectAccessibilityOptions
+    var properties: RemoteEffectGroup.Properties
+}
+
+extension RemoteEffectGroup {
+    struct Resolved {
+        var effects: [RemoteEffectEntry]
+        var accessibilityID: Int?
+        var properties: RemoteEffectGroup.Properties
+    }
+    
+    struct Properties {
+        var groupID: RemoteEffectGroupInfo.ID
+        var blendFactor: Double
+        var options: RemoteEffectOptions
+    }
+}
+
+protocol RemoteEffect {
+    // TODO
+}
+
+struct RemoteEffectAccessibilityOptions {
+    var accessibilityID: Namespace.ID
+//    var attachmentBehavior: RemoteEffectAccessibilityOptions.AttachmentBehavior
+}
+
+struct HoverEffectState {
+//    var groups: [HoverEffectState.GroupEffect] = []
+//    var leafEffects: [HoverEffectState.LeafEffect] = []
+}
+
+enum RemoteEffectEntry {
+//    case property(RemotePropertyEffect)
+//    case external(RemoteExternalEffectInfo)
+//    case glowEffect(RemoteGlowEffect)
+}
+
+struct RemoteEffectOptions {
+    var applyInPlace: Bool
+//    var overrideState: RemoteEffectState?
+//    var allowedTouchTypes: Set<TouchType>?
+//    var hitTestProperties: RemoteEffectOptions.HitTestProperties
+    var isFrozen: Bool
+//    var _dwellHover: RemoteEffectDwellDelay
+//    var _dwellIdle: RemoteEffectDwellDelay
+//    var namespaceScope: RemoteEffectNamespaceScope
+//    var kind: RemoteEffectOptions.Kind
 }
