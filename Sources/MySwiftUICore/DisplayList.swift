@@ -4,6 +4,9 @@ private import _MySwiftUIShims
 private import _QuartzCorePrivate
 internal import QuartzCore
 internal import Spatial
+private import _DarwinFoundation3._stdlib
+
+fileprivate nonisolated(unsafe) var printTree: Bool? = nil
 
 package struct DisplayList {
     package var items: [Item] = []
@@ -168,7 +171,7 @@ extension DisplayList {
              self = x19
              rootView = x22
              return pointer = x25
-             displayList = x23
+             displayList = x23 + w21 + w26
              time = d8
              version = x24
              maxVersion = x28
@@ -228,6 +231,46 @@ extension DisplayList {
             }
             
             // <+304>
+            if version.value != 0 {
+                self.seed = DisplayList.Seed(version)
+                self.asyncSeed = DisplayList.Seed(version)
+            } else {
+                self.seed = DisplayList.Seed()
+                self.asyncSeed = DisplayList.Seed()
+            }
+            
+            self.wasValid = self.isValid
+            self.isValid = true
+            self.lastList = displayList
+            self.lastTime = time
+            
+            let _printTree: Bool
+            if let printTree {
+                _printTree = printTree
+            } else {
+                if let value = getenv("SWIFTUI_PRINT_TREE") {
+                    _printTree = (atoi(value) != 0)
+                } else {
+                    _printTree = false
+                }
+                printTree = _printTree
+            }
+            
+            if _printTree {
+                print("View at \(time)\n:\(displayList)")
+            }
+            
+            // <+836>
+            // sp, #0x68
+            let lastEnv = self.lastEnv
+            /*
+             self = sp + 0x50
+             time = sp + 0x58
+             maxVersion = sp + 0x60
+             */
+            
+            var viewCache = DisplayList.ViewUpdater.ViewCache()
+            
             fatalError("TODO")
         }
         
@@ -372,17 +415,17 @@ extension DisplayList.GraphicsRenderer.Cache {
 
 extension DisplayList.ViewUpdater {
     struct ViewCache {
-        private var map: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewInfo] = [:]
-        private var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key /* DisplayCache.Key이라고 표기되어 있는데 이런건 없음 */] = [:]
-        private var removed: Set<DisplayList.ViewUpdater.ViewCache.Key> = []
-        private var animators: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewCache.AnimatorInfo] = [:]
-        private var asyncValues: [ObjectIdentifier: DisplayList.ViewUpdater.ViewCache.AsyncValues] = [:]
-        private var pendingAsyncValues: [ObjectIdentifier: [DisplayList.ViewUpdater.ViewCache.PendingAsyncValue]] = [:]
-        private var asyncModifierGroup: CAPresentationModifierGroup? = nil
-        private var pendingAsyncUpdates: [() -> Void] = []
-        private var index = DisplayList.Index()
-        private var cacheSeed: UInt32 = 0
-        private var currentList = DisplayList()
+        fileprivate var map: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewInfo] = [:]
+        fileprivate var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key /* DisplayCache.Key이라고 표기되어 있는데 이런건 없음 */] = [:]
+        fileprivate var removed: Set<DisplayList.ViewUpdater.ViewCache.Key> = []
+        fileprivate var animators: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewCache.AnimatorInfo] = [:]
+        fileprivate var asyncValues: [ObjectIdentifier: DisplayList.ViewUpdater.ViewCache.AsyncValues] = [:]
+        fileprivate var pendingAsyncValues: [ObjectIdentifier: [DisplayList.ViewUpdater.ViewCache.PendingAsyncValue]] = [:]
+        fileprivate var asyncModifierGroup: CAPresentationModifierGroup? = nil
+        fileprivate var pendingAsyncUpdates: [() -> Void] = []
+        fileprivate var index = DisplayList.Index()
+        fileprivate var cacheSeed: UInt32 = 0
+        fileprivate var currentList = DisplayList()
         
         fileprivate init() {}
         

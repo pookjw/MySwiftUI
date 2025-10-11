@@ -14,7 +14,7 @@ MSUI_EXTERN void _CAFilterArrayAppend(id, CAFilter *);
 MSUI_EXTERN void CoreViewSetFilters(MySwiftUIViewSystem, id /* view */, id);
 
 MSUI_EXTERN void CoreViewAddSubview(MySwiftUIViewSystem, id, MySwiftUIViewSystem, id, unsigned int);
-MSUI_EXTERN CALayer * CoreViewLayer(MySwiftUIViewSystem, id);
+MSUI_EXTERN CALayer * CoreViewLayer(MySwiftUIViewSystem system, id object);
 MSUI_EXTERN id CoreViewLayerView(MySwiftUIViewSystem, CALayer *, BOOL *);
 MSUI_EXTERN void CoreViewSetShadow(MySwiftUIViewSystem, id, CGColorRef _Nullable, CGFloat radius, CGSize offset);
 
