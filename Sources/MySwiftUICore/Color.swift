@@ -1,6 +1,6 @@
 #warning("TODO")
 package import Foundation
-package import CoreGraphics
+public import CoreGraphics
 
 public struct Color: Hashable, CustomStringConvertible, Sendable {
     public static func == (lhs: Color, rhs: Color) -> Bool {
@@ -193,6 +193,10 @@ extension Color {
                 base: Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
                 _headroom: .nan
             )
+        }
+        
+        public var cgColor: CGColor? {
+            fatalError("TODO")
         }
     }
 }

@@ -2,9 +2,9 @@
 internal import CoreGraphics
 
 struct ResolvedShadowStyle {
-    private var color: Color.ResolvedHDR
-    private var radius: CGFloat
-    private var offset: CGSize
+    private(set) var color: Color.ResolvedHDR
+    private(set) var radius: CGFloat
+    private(set) var offset: CGSize
     private var midpoint: Float
     private var kind: ShadowStyle.Kind
 }

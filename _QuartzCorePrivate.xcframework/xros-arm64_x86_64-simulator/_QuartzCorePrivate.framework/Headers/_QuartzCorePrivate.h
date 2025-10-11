@@ -4,3 +4,5 @@
 #import <_QuartzCorePrivate/CAPresentationModifier.h>
 #import <_QuartzCorePrivate/CARemoteEffect.h>
 #import <_QuartzCorePrivate/CARemoteEffectGroup.h>
+#import <_QuartzCorePrivate/CAFilter.h>
+#import <_QuartzCorePrivate/CALayer+Private.h>

@@ -71,7 +71,8 @@ let package = Package(
             dependencies: [
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "BaseBoard"),
-                .byName(name: "_DarwinPrivate")
+                .byName(name: "_DarwinPrivate"),
+                .byName(name: "_QuartzCorePrivate")
             ],
             cSettings: [
                 .unsafeFlags(["-fno-objc-arc", "-std=gnu23"])

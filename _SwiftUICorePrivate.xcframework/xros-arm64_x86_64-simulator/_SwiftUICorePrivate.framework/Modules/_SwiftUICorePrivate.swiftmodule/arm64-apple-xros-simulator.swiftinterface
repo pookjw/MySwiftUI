@@ -648,3 +648,17 @@ extension SwiftUICore._GraphInputs {
     public static func == (lhs: SwiftUICore._GraphInputs.Phase, rhs: SwiftUICore._GraphInputs.Phase) -> Swift.Bool
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.DisplayList {
+  public final class ViewUpdater {
+
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.DisplayList.ViewUpdater {
+  // public struct ViewCache {}
+}

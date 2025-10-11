@@ -1,5 +1,7 @@
 #warning("TODO")
 private import CoreGraphics
+private import QuartzCore
+internal import _MySwiftUIShims
 
 enum GraphicsFilter {
     case blur(BlurStyle)
@@ -28,6 +30,25 @@ enum GraphicsFilter {
     case averageColor
     case luminanceToAlpha
     case colorInvert
+    
+    fileprivate func makeCAFilter() -> CAFilter? {
+        fatalError("TODO")
+    }
+}
+
+// 원래 없음
+extension Array where Element == GraphicsFilter {
+    var caFilters: Any {
+        let array = _CAFilterArrayCreate()
+        
+        for element in self {
+            if let caFilter = element.makeCAFilter() {
+                _CAFilterArrayAppend(array, caFilter)
+            }
+        }
+        
+        return array
+    }
 }
 
 extension GraphicsFilter {
@@ -90,5 +111,20 @@ extension GraphicsFilter {
 extension GraphicsFilter.VibrantColorMatrix {
     struct Options: OptionSet {
         let rawValue: UInt8
+    }
+}
+
+struct VariableBlurStyle {
+    private var radius: CGFloat
+    private var isOpaque: Bool
+    private var dither: Bool
+    private var mask: VariableBlurStyle.Mask
+}
+
+extension VariableBlurStyle {
+    enum Mask {
+        case image(GraphicsImage)
+        case layerIndex(UInt)
+        case none
     }
 }
