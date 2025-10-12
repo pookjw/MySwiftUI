@@ -290,7 +290,10 @@ extension DisplayList {
                 
                 self.viewCache.index = DisplayList.Index()
                 self.viewCache.currentList = displayList
-                // sp + 0x20 = self.viewCache.identity
+                // sp + 0x20
+                let oldIdentity = self.viewCache.index.identity
+                let oldSerial = self.viewCache.index.serial
+                
                 self.viewCache.clearAsyncValues()
                 
                 let viewLayer = rootPlatform.viewLayer(rootView)
@@ -326,20 +329,16 @@ extension DisplayList {
                     
                     self.updateInheritedView(container: &container, from: item, parentState: &state)
                     
-                    if viewCache.index.restored == [.unknown4, .unknown8] {
-                        // nop
-                    } else {
-                        if viewCache.index.restored.contains(.unknown4) {
-                            // <+1792>
-                            viewCache.index.identity = viewCache.index.archiveIdentity
-                            viewCache.index.serial = viewCache.index.archiveSerial
-                        }
-                        
-                        if viewCache.index.restored.contains([.unknown8]) {
-                            // <+1804>
-                            viewCache.index.archiveIdentity = viewCache.index.identity
-                            viewCache.index.archiveSerial = viewCache.index.serial
-                        }
+                    if viewCache.index.restored.contains(.unknown4) {
+                        // <+1792>
+                        viewCache.index.identity = viewCache.index.archiveIdentity
+                        viewCache.index.serial = viewCache.index.archiveSerial
+                    }
+                    
+                    if viewCache.index.restored.contains([.unknown8]) {
+                        // <+1804>
+                        viewCache.index.archiveIdentity = oldIdentity
+                        viewCache.index.archiveSerial = oldSerial
                     }
                     
                     if viewCache.index.restored.contains(.unknown1) {
