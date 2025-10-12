@@ -54,3 +54,7 @@ NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem, id) {
 id CoreViewSubviewAtIndex(MySwiftUIViewSystem, id, NSUInteger) {
     abort();
 }
+
+void CoreViewRemoveFromSuperview(MySwiftUIViewSystem, id) {
+    abort();
+}

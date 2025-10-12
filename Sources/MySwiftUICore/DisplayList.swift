@@ -598,7 +598,7 @@ extension DisplayList.ViewUpdater {
         private var parentID: DisplayList.ViewUpdater.ViewInfo.ID
         private var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
         private var cacheSeed: UInt32
-        private var isRemoved: Bool
+        var isRemoved: Bool
         var isInvalid: Bool
         private var nextUpdate: Time
     }
@@ -616,17 +616,33 @@ extension DisplayList.ViewUpdater {
         let unknown: UInt
         
         func removeRemaining(viewCache: inout DisplayList.ViewUpdater.ViewCache) {
+            // viewCache = x26
             // x22
             let system = encoding.system
             
+            // x27
+            let reverseMap = viewCache.reverseMap
+            // x24 = sp, #0x1d0
             // x23
             for index in 0..<CoreViewSubviewsCount(system, rootView) {
                 // sp, #0x68
-                let subview = CoreViewSubviewAtIndex(system, rootView, index)
+                let subview = unsafeBitCast(CoreViewSubviewAtIndex(system, rootView, index), to: AnyObject.self)
+                guard let key = reverseMap[OpaquePointer(Unmanaged.passUnretained(subview).toOpaque())] else {
+                    continue
+                }
                 
+                // x9
+                var viewInfo = viewCache.map[key]!
+                
+                if !viewInfo.isRemoved {
+                    // <+516>
+                    fatalError("TODO")
+                }
                 fatalError("TODO")
+                
+                viewCache.map[key] = viewInfo
+                CoreViewRemoveFromSuperview(system, subview)
             }
-            fatalError("TODO")
         }
     }
 }
