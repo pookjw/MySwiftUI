@@ -30,6 +30,10 @@ extension DisplayList.ViewUpdater {
         }
         
         mutating func clearAsyncValues() {
+            // self = x20 = sp
+            // x19
+            let asyncValues = self.asyncValues
+            
             fatalError("TODO")
         }
         

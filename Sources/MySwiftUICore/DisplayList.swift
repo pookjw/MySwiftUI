@@ -290,9 +290,7 @@ extension DisplayList {
                 
                 self.viewCache.index = DisplayList.Index()
                 self.viewCache.currentList = displayList
-                // sp + 0x20
-                let oldIdentity = self.viewCache.index.identity
-                let oldSerial = self.viewCache.index.serial
+                // sp + 0x20 = viewCache.index의 주소
                 
                 self.viewCache.clearAsyncValues()
                 
@@ -329,25 +327,31 @@ extension DisplayList {
                     
                     self.updateInheritedView(container: &container, from: item, parentState: &state)
                     
-                    if viewCache.index.restored.contains(.unknown4) {
-                        // <+1792>
-                        viewCache.index.identity = viewCache.index.archiveIdentity
-                        viewCache.index.serial = viewCache.index.archiveSerial
+                    let restored = viewCache.index.restored
+                    if restored.contains(.unknown4) || restored.contains(.unknown8) {
+                        let oldIdentity = viewCache.index.identity
+                        let oldSerial = viewCache.index.serial
+                        
+                        if restored.contains(.unknown4) {
+                            // <+1792>
+                            viewCache.index.identity = viewCache.index.archiveIdentity
+                            viewCache.index.serial = viewCache.index.archiveSerial
+                        }
+                        
+                        if restored.contains([.unknown8]) {
+                            // <+1804>
+                            viewCache.index.archiveIdentity = oldIdentity
+                            viewCache.index.archiveSerial = oldSerial
+                        }
                     }
                     
-                    if viewCache.index.restored.contains([.unknown8]) {
-                        // <+1804>
-                        viewCache.index.archiveIdentity = oldIdentity
-                        viewCache.index.archiveSerial = oldSerial
-                    }
-                    
-                    if viewCache.index.restored.contains(.unknown1) {
+                    if restored.contains(.unknown1) {
                         // <+1812>
                         viewCache.index.identity = oldIndex.identity
                         viewCache.index.serial = oldIndex.serial
                     }
                     
-                    if viewCache.index.restored.contains(.unknown2) {
+                    if restored.contains(.unknown2) {
                         // <+1820>
                         viewCache.index.archiveIdentity = oldIndex.archiveIdentity
                         viewCache.index.archiveSerial = oldIndex.archiveSerial
