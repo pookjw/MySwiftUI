@@ -9,6 +9,7 @@
 #include <dlfcn.h>
 #include <pthread.h>
 #include "private/Utils.h"
+#import <UIKit/UIKit.h>
 
 @implementation NSObject (MySwiftUI)
 
@@ -40,6 +41,10 @@
     } else {
         return NULL;
     }
+}
+
+- (void)myswiftui_insertManagedSubview:(id)subview atIndex:(NSInteger)index {
+    [(UIView *)self insertSubview:subview atIndex:index];
 }
 
 @end

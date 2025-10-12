@@ -3,6 +3,9 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
+CG_EXTERN id _Nullable CALayerGetDelegate(CALayer *layer);
+CG_EXTERN CALayer * _Nullable CALayerGetSuperlayer(CALayer *layer);
+
 @interface CALayer (Private)
 @property BOOL allowsGroupBlending;
 @property (copy) NSArray<CAPresentationModifier *> *presentationModifiers;

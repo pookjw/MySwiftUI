@@ -12,6 +12,7 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 - (__kindof UIViewController * _Nullable)_viewControllerForAncestor;
 - (BOOL)_ancestorHasInvertFilterApplied;
 - (UIColor *)_undimmedTintColor;
+- (void)_invalidateSubviewCache;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

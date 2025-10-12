@@ -9,17 +9,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-MSUI_EXTERN id _CAFilterArrayCreate(void);
+MSUI_EXTERN id _CAFilterArrayCreate(void) NS_RETURNS_RETAINED;
 MSUI_EXTERN void _CAFilterArrayAppend(id, CAFilter *);
 MSUI_EXTERN void CoreViewSetFilters(MySwiftUIViewSystem, id /* view */, id);
 
-MSUI_EXTERN void CoreViewAddSubview(MySwiftUIViewSystem, id, MySwiftUIViewSystem, id, unsigned int);
+MSUI_EXTERN void CoreViewAddSubview(MySwiftUIViewSystem toSystem, id toView, MySwiftUIViewSystem fromSystem, id fromView, NSInteger index);
 MSUI_EXTERN CALayer * CoreViewLayer(MySwiftUIViewSystem system, id object);
-MSUI_EXTERN id CoreViewLayerView(MySwiftUIViewSystem, CALayer *, BOOL *);
+MSUI_EXTERN id CoreViewLayerView(MySwiftUIViewSystem system, CALayer *layer, MySwiftUIViewSystem *outSystem);
 MSUI_EXTERN void CoreViewSetShadow(MySwiftUIViewSystem, id, CGColorRef _Nullable, CGFloat radius, CGSize offset);
-MSUI_EXTERN NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem, id);
-MSUI_EXTERN id CoreViewSubviewAtIndex(MySwiftUIViewSystem, id, NSUInteger);
-MSUI_EXTERN void CoreViewRemoveFromSuperview(MySwiftUIViewSystem, id);
+MSUI_EXTERN NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem system, id view);
+MSUI_EXTERN id CoreViewSubviewAtIndex(MySwiftUIViewSystem system, id view, NSInteger index, MySwiftUIViewSystem *outSystem);
+MSUI_EXTERN void CoreViewRemoveFromSuperview(MySwiftUIViewSystem system, id view);
 
 NS_ASSUME_NONNULL_END
 

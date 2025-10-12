@@ -626,7 +626,13 @@ extension DisplayList.ViewUpdater {
             // x23
             for index in 0..<CoreViewSubviewsCount(system, rootView) {
                 // sp, #0x68
-                let subview = unsafeBitCast(CoreViewSubviewAtIndex(system, rootView, index), to: AnyObject.self)
+                var outSystem = system
+                let subview = unsafeBitCast(CoreViewSubviewAtIndex(system, rootView, Int(index), &outSystem), to: AnyObject.self)
+                
+                guard system == outSystem else {
+                    continue
+                }
+                
                 guard let key = reverseMap[OpaquePointer(Unmanaged.passUnretained(subview).toOpaque())] else {
                     continue
                 }
@@ -635,10 +641,8 @@ extension DisplayList.ViewUpdater {
                 var viewInfo = viewCache.map[key]!
                 
                 if !viewInfo.isRemoved {
-                    // <+516>
-                    fatalError("TODO")
+                    viewInfo.isRemoved = true
                 }
-                fatalError("TODO")
                 
                 viewCache.map[key] = viewInfo
                 CoreViewRemoveFromSuperview(system, subview)
@@ -713,7 +717,7 @@ extension DisplayList.ViewUpdater {
         func setShadow(_ style: ResolvedShadowStyle?, layer: CALayer) {
             let system = encoding.system
             
-            let view = withUnsafeTemporaryAllocation(of: ObjCBool.self, capacity: 1) { pointer in
+            let view = withUnsafeTemporaryAllocation(of: MySwiftUIViewSystem.self, capacity: 1) { pointer in
                 return CoreViewLayerView(system, layer, pointer.baseAddress.unsafelyUnwrapped)
             }
             
