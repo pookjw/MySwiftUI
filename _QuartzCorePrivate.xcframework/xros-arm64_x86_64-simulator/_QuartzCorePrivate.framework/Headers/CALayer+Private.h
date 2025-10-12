@@ -1,6 +1,5 @@
 #import <QuartzCore/QuartzCore.h>
 #import <_QuartzCorePrivate/CAPresentationModifier.h>
-#import <_QuartzCorePrivate/CAFilter.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
