@@ -81,15 +81,27 @@ CALayer * CoreViewLayer(MySwiftUIViewSystem system, id object) {
 }
 
 id _CAFilterArrayCreate(void) {
-    abort();
+    CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
 }
 
-void _CAFilterArrayAppend(id, CAFilter *) {
-    abort();
+void _CAFilterArrayAppend(id array, CAFilter *filter) {
+    CFArrayAppendValue((CFMutableArrayRef)array, (const void *)filter);
 }
 
-void CoreViewSetFilters(MySwiftUIViewSystem, id /* view */, id) {
-    abort();
+void CoreViewSetFilters(MySwiftUIViewSystem system, id view, id array) {
+    CALayer *layer;
+    switch (system) {
+        case MySwiftUIViewSystemCALayer:
+            layer = (CALayer *)view;
+            break;
+        case MySwiftUIViewSystemUIView:
+            layer = ((UIView *)view).layer;
+            break;
+        default:
+            return;
+    }
+    
+    layer.filters = array;
 }
 
 id CoreViewLayerView(MySwiftUIViewSystem system, CALayer *layer, MySwiftUIViewSystem *outSystem) {
@@ -120,8 +132,27 @@ id CoreViewLayerView(MySwiftUIViewSystem system, CALayer *layer, MySwiftUIViewSy
     }
 }
 
-void CoreViewSetShadow(MySwiftUIViewSystem, id, CGColorRef _Nullable, CGFloat radius, CGSize offset) {
-    abort();
+void CoreViewSetShadow(MySwiftUIViewSystem system, id view, CGColorRef _Nullable color, CGFloat radius, CGSize offset) {
+    CALayer *layer;
+    switch (system) {
+        case MySwiftUIViewSystemCALayer:
+            layer = (CALayer *)view;
+            break;
+        case MySwiftUIViewSystemUIView:
+            layer = ((UIView *)view).layer;
+            break;
+        default:
+            return;
+    }
+    
+    if (color != NULL) {
+        layer.shadowOpacity = 1.f;
+        layer.shadowColor = color;
+        layer.shadowRadius = radius;
+        layer.shadowOffset = offset;
+    } else {
+        layer.shadowOpacity = 0.f;
+    }
 }
 
 NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem system, id view) {
