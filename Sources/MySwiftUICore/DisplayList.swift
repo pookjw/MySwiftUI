@@ -300,7 +300,7 @@ extension DisplayList {
                 viewLayer.needsDisplayOnBoundsChange = false
                 
                 // sp + 0x28
-                var container = DisplayList.ViewUpdater.Container(definition: rootPlatform.encoding.definition, rootView: rootView, unknown: 0)
+                var container = DisplayList.ViewUpdater.Container(encoding: rootPlatform.encoding, rootView: rootView, unknown: 0)
                 
                 // <+1284>
                 // sp, #0x40
@@ -611,11 +611,21 @@ extension DisplayList.ViewUpdater {
     }
     
     fileprivate struct Container: ~Copyable {
-        let definition: PlatformViewDefinition.Type
+        let encoding: DisplayList.ViewUpdater.Platform.Encoding
         let rootView: AnyObject
         let unknown: UInt
         
         func removeRemaining(viewCache: inout DisplayList.ViewUpdater.ViewCache) {
+            // x22
+            let system = encoding.system
+            
+            // x23
+            for index in 0..<CoreViewSubviewsCount(system, rootView) {
+                // sp, #0x68
+                let subview = CoreViewSubviewAtIndex(system, rootView, index)
+                
+                fatalError("TODO")
+            }
             fatalError("TODO")
         }
     }

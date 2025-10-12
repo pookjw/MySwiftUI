@@ -46,3 +46,11 @@ id CoreViewLayerView(MySwiftUIViewSystem, CALayer *, BOOL *) {
 void CoreViewSetShadow(MySwiftUIViewSystem, id, CGColorRef _Nullable, CGFloat radius, CGSize offset) {
     abort();
 }
+
+NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem, id) {
+    abort();
+}
+
+id CoreViewSubviewAtIndex(MySwiftUIViewSystem, id, NSUInteger) {
+    abort();
+}
