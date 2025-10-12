@@ -290,6 +290,7 @@ extension DisplayList {
                 
                 self.viewCache.index = DisplayList.Index()
                 self.viewCache.currentList = displayList
+                // sp + 0x20 = self.viewCache.identity
                 self.viewCache.clearAsyncValues()
                 
                 let viewLayer = rootPlatform.viewLayer(rootView)
@@ -297,23 +298,65 @@ extension DisplayList {
                 let oldNeedsDisplayOnBoundsChange = viewLayer.needsDisplayOnBoundsChange
                 viewLayer.needsDisplayOnBoundsChange = false
                 
+                // sp + 0x28
+                var container = DisplayList.ViewUpdater.Container(definition: rootPlatform.encoding.definition, rootView: rootView, unknown: 0)
+                
                 // <+1284>
                 for item in displayList.items {
+                    // w22, w26, d9
+                    var oldIndex: DisplayList.Index
                     if item.identity.value != 0 {
+                        oldIndex = self.viewCache.index
                         self.viewCache.index.identity = item.identity
+                        self.viewCache.index.serial = 0
+                        self.viewCache.index.restored = [.unknown1]
+                    } else {
+                        oldIndex = self.viewCache.index
+                        oldIndex.serial += 1
+                        self.viewCache.index.serial = oldIndex.serial
+                        self.viewCache.index.restored = []
                     }
                     
                     var item = item
                     viewCache.prepare(item: &item, platform: rootPlatform, parentState: &state)
                     
-                    var container = DisplayList.ViewUpdater.Container() // TODO
                     self.updateInheritedView(container: &container, from: item, parentState: &state)
                     
-                    // self.viewCache에 뭔가 하는듯
-                    fatalError("TODO")
+                    if viewCache.index.restored == [.unknown4, .unknown8] {
+                        continue
+                    }
+                    
+                    if viewCache.index.restored.contains(.unknown2) {
+                        // <+1792>
+                        viewCache.index.identity = viewCache.index.archiveIdentity
+                        viewCache.index.serial = viewCache.index.archiveSerial
+                    }
+                    
+                    if viewCache.index.restored.contains([.unknown1, .unknown2]) {
+                        // <+1804>
+                        viewCache.index.archiveIdentity = viewCache.index.identity
+                        viewCache.index.archiveSerial = viewCache.index.serial
+                    }
+                    
+                    if !viewCache.index.restored.isEmpty {
+                        // <+1812>
+                        viewCache.index.identity = oldIndex.identity
+                        viewCache.index.serial = oldIndex.serial
+                    }
+                    
+                    if viewCache.index.restored.contains(.unknown1) {
+                        // <+1820>
+                        viewCache.index.archiveIdentity = oldIndex.archiveIdentity
+                        viewCache.index.archiveSerial = oldIndex.archiveSerial
+                    }
                 }
                 
                 // <+1828>
+                container.removeRemaining(viewCache: &viewCache)
+                // time = sp + 0x300
+                viewCache.reclaim(time: time)
+                
+                // <+1992>
                 fatalError("TODO")
             }
             
@@ -539,8 +582,14 @@ extension DisplayList.ViewUpdater {
         private var seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>
     }
     
-    fileprivate struct Container {
-        // TODO
+    fileprivate struct Container: ~Copyable {
+        let definition: PlatformViewDefinition.Type
+        let rootView: AnyObject
+        let unknown: UInt
+        
+        func removeRemaining(viewCache: inout DisplayList.ViewUpdater.ViewCache) {
+            fatalError("TODO")
+        }
     }
 }
 
@@ -583,7 +632,7 @@ extension DisplayList.ViewUpdater {
     }
     
     struct Platform: Equatable, CustomStringConvertible {
-        private var encoding: DisplayList.ViewUpdater.Platform.Encoding
+        fileprivate private(set) var encoding: DisplayList.ViewUpdater.Platform.Encoding
         
         init(definition: PlatformViewDefinition.Type) {
             self.encoding = DisplayList.ViewUpdater.Platform.Encoding(definition: definition)
@@ -972,6 +1021,11 @@ extension DisplayList.Index {
     }
     
     fileprivate struct RestoreOptions: OptionSet {
+        static let unknown1 = RestoreOptions(rawValue: 1 << 0)
+        static let unknown2 = RestoreOptions(rawValue: 1 << 1)
+        static let unknown4 = RestoreOptions(rawValue: 1 << 2)
+        static let unknown8 = RestoreOptions(rawValue: 1 << 3)
+        
         let rawValue: UInt8
     }
 }

@@ -40,6 +40,10 @@ extension DisplayList.ViewUpdater {
         ) -> Time {
             fatalError("TODO")
         }
+        
+        func reclaim(time: Time) {
+            fatalError("TODO")
+        }
     }
 }
 
