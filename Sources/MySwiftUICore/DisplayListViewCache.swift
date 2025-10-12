@@ -1,4 +1,5 @@
 internal import _QuartzCorePrivate
+private import QuartzCore
 
 extension DisplayList.ViewUpdater {
     struct ViewCache {
@@ -32,9 +33,22 @@ extension DisplayList.ViewUpdater {
         mutating func clearAsyncValues() {
             // self = x20 = sp
             // x19
-            let asyncValues = self.asyncValues
-            
-            fatalError("TODO")
+            for (key, value) in self.asyncValues {
+                // x19
+                let animations = value.animations
+                // x21
+                let modifiers = value.modifiers
+                
+                let layer = unsafeBitCast(key, to: CALayer.self)
+                
+                for animation in animations {
+                    layer.removeAnimation(forKey: animation)
+                }
+                
+                for modifier in modifiers.values {
+                    layer.removePresentationModifier(modifier)
+                }
+            }
         }
         
         func prepare(
@@ -68,8 +82,8 @@ extension DisplayList.ViewUpdater.ViewCache {
     }
     
     fileprivate struct AsyncValues {
-        private var animations: Set<String>
-        private var modifiers: [String: CAPresentationModifier]
+        var animations: Set<String>
+        var modifiers: [String: CAPresentationModifier]
     }
     
     fileprivate struct PendingAsyncValue {
