@@ -1325,8 +1325,10 @@ extension _UIHostingView: RootTransformUpdater {
     
 }
 
-extension _UIHostingView: ViewGraphRenderObserver {
-    
+extension _UIHostingView: @preconcurrency ViewGraphRenderObserver {
+    package func didRender() {
+        fatalError("TODO")
+    }
 }
 
 extension _UIHostingView: ToolbarInputFeatureDelegate {

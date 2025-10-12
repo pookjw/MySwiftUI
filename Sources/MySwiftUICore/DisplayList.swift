@@ -276,7 +276,7 @@ extension DisplayList {
                 environment: environment
             )
             
-            withUnsafeTemporaryAllocation(of: DisplayList.ViewUpdater.Model.State.Globals.self, capacity: 1) { globals in
+            return withUnsafeTemporaryAllocation(of: DisplayList.ViewUpdater.Model.State.Globals.self, capacity: 1) { globals in
                 globals.baseAddress.unsafelyUnwrapped.initialize(
                     to: DisplayList.ViewUpdater.Model.State.Globals(
                         updater: self,
@@ -302,6 +302,9 @@ extension DisplayList {
                 var container = DisplayList.ViewUpdater.Container(definition: rootPlatform.encoding.definition, rootView: rootView, unknown: 0)
                 
                 // <+1284>
+                // sp, #0x40
+                var result: Time = .infinity
+                
                 for item in displayList.items {
                     // w22, w26, d9
                     var oldIndex: DisplayList.Index
@@ -318,33 +321,34 @@ extension DisplayList {
                     }
                     
                     var item = item
-                    viewCache.prepare(item: &item, platform: rootPlatform, parentState: &state)
+                    let time = viewCache.prepare(item: &item, platform: rootPlatform, parentState: &state)
+                    result = min(time, result)
                     
                     self.updateInheritedView(container: &container, from: item, parentState: &state)
                     
                     if viewCache.index.restored == [.unknown4, .unknown8] {
-                        continue
+                        // nop
+                    } else {
+                        if viewCache.index.restored.contains(.unknown4) {
+                            // <+1792>
+                            viewCache.index.identity = viewCache.index.archiveIdentity
+                            viewCache.index.serial = viewCache.index.archiveSerial
+                        }
+                        
+                        if viewCache.index.restored.contains([.unknown8]) {
+                            // <+1804>
+                            viewCache.index.archiveIdentity = viewCache.index.identity
+                            viewCache.index.archiveSerial = viewCache.index.serial
+                        }
                     }
                     
-                    if viewCache.index.restored.contains(.unknown2) {
-                        // <+1792>
-                        viewCache.index.identity = viewCache.index.archiveIdentity
-                        viewCache.index.serial = viewCache.index.archiveSerial
-                    }
-                    
-                    if viewCache.index.restored.contains([.unknown1, .unknown2]) {
-                        // <+1804>
-                        viewCache.index.archiveIdentity = viewCache.index.identity
-                        viewCache.index.archiveSerial = viewCache.index.serial
-                    }
-                    
-                    if !viewCache.index.restored.isEmpty {
+                    if viewCache.index.restored.contains(.unknown1) {
                         // <+1812>
                         viewCache.index.identity = oldIndex.identity
                         viewCache.index.serial = oldIndex.serial
                     }
                     
-                    if viewCache.index.restored.contains(.unknown1) {
+                    if viewCache.index.restored.contains(.unknown2) {
                         // <+1820>
                         viewCache.index.archiveIdentity = oldIndex.archiveIdentity
                         viewCache.index.archiveSerial = oldIndex.archiveSerial
@@ -357,10 +361,31 @@ extension DisplayList {
                 viewCache.reclaim(time: time)
                 
                 // <+1992>
-                fatalError("TODO")
+                viewCache.pendingAsyncUpdates = []
+                viewCache.index = DisplayList.Index()
+                viewCache.cacheSeed = 0
+                
+                // sp, #0x88
+                let result2 = result
+                
+                if !isValid {
+                    // <+2040>
+                    result = time
+                }
+                
+                if let host {
+                    // <+2192>
+                    if let observer = host.as(ViewGraphRenderObserver.self), result2 != .zero {
+                        observer.didRender()
+                    }
+                }
+                
+                // <+2220>
+                viewLayer.needsDisplayOnBoundsChange = oldNeedsDisplayOnBoundsChange
+                
+                self.nextUpdate = result
+                return result
             }
-            
-            fatalError("TODO")
         }
         
         func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
