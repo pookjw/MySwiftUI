@@ -20,6 +20,8 @@ MSUI_EXTERN void CoreViewSetShadow(MySwiftUIViewSystem system, id view, CGColorR
 MSUI_EXTERN NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem system, id view);
 MSUI_EXTERN id CoreViewSubviewAtIndex(MySwiftUIViewSystem system, id view, NSInteger index, MySwiftUIViewSystem *outSystem);
 MSUI_EXTERN void CoreViewRemoveFromSuperview(MySwiftUIViewSystem system, id view);
+MSUI_EXTERN id _Nullable CoreViewMaskView(MySwiftUIViewSystem system, id view);
+MSUI_EXTERN void CoreViewSetMaskView3D(MySwiftUIViewSystem toSystem, id toView, MySwiftUIViewSystem fromSystem, id fromView);
 
 NS_ASSUME_NONNULL_END
 

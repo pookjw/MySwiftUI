@@ -201,3 +201,18 @@ void CoreViewRemoveFromSuperview(MySwiftUIViewSystem system, id view) {
             break;
     }
 }
+
+id _Nullable CoreViewMaskView(MySwiftUIViewSystem system, id view) {
+    switch (system) {
+        case MySwiftUIViewSystemCALayer:
+            return ((CALayer *)view).mask;
+        case MySwiftUIViewSystemUIView:
+            return ((UIView *)view).maskView;
+        default:
+            return (id)system;
+    }
+}
+
+void CoreViewSetMaskView3D(MySwiftUIViewSystem toSystem, id toView, MySwiftUIViewSystem fromSystem, id fromView) {
+    abort();
+}
