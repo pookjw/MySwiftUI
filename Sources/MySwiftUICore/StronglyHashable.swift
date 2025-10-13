@@ -1,5 +1,0 @@
-#warning("TODO")
-
-protocol StronglyHashable {
-    
-}

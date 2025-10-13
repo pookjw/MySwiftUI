@@ -25,4 +25,8 @@ package enum ToggleState: UInt, Codable, CaseIterable, Hashable, StronglyHashabl
     package static func stateFor<A, B>(item: A, in: B) where A: Equatable, B: Collection, B.Element == (Binding<A>) -> ToggleState {
         fatalError("TODO")
     }
+    
+    func hash(into hasher: inout StrongHasher) {
+        fatalError("TODO")
+    }
 }
