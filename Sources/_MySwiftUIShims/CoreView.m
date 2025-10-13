@@ -12,6 +12,15 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+Class _uiViewClass(void) {
+    static Class __uiViewClass;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        __uiViewClass = NSClassFromString(@"UIView");
+    });
+    return __uiViewClass;
+}
+
 void _UIKitAddSubview(UIView *fromView, UIView *toView, NSInteger index) {
     /*
      fromView = x25
@@ -88,14 +97,14 @@ void _CAFilterArrayAppend(id array, CAFilter *filter) {
     CFArrayAppendValue((CFMutableArrayRef)array, (const void *)filter);
 }
 
-void CoreViewSetFilters(MySwiftUIViewSystem system, id view, id array) {
+void CoreViewSetFilters(MySwiftUIViewSystem system, id object, id array) {
     CALayer *layer;
     switch (system) {
         case MySwiftUIViewSystemCALayer:
-            layer = (CALayer *)view;
+            layer = (CALayer *)object;
             break;
         case MySwiftUIViewSystemUIView:
-            layer = ((UIView *)view).layer;
+            layer = ((UIView *)object).layer;
             break;
         default:
             return;
@@ -116,13 +125,7 @@ id CoreViewLayerView(MySwiftUIViewSystem system, CALayer *layer, MySwiftUIViewSy
             return layer;
         }
         
-        static Class __uiViewClass;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            __uiViewClass = NSClassFromString(@"UIView");
-        });
-        
-        if (![delegate isKindOfClass:__uiViewClass]) {
+        if (![delegate isKindOfClass:_uiViewClass()]) {
             *outSystem = MySwiftUIViewSystemCALayer;
             return layer;
         }
@@ -132,14 +135,14 @@ id CoreViewLayerView(MySwiftUIViewSystem system, CALayer *layer, MySwiftUIViewSy
     }
 }
 
-void CoreViewSetShadow(MySwiftUIViewSystem system, id view, CGColorRef _Nullable color, CGFloat radius, CGSize offset) {
+void CoreViewSetShadow(MySwiftUIViewSystem system, id object, CGColorRef _Nullable color, CGFloat radius, CGSize offset) {
     CALayer *layer;
     switch (system) {
         case MySwiftUIViewSystemCALayer:
-            layer = (CALayer *)view;
+            layer = (CALayer *)object;
             break;
         case MySwiftUIViewSystemUIView:
-            layer = ((UIView *)view).layer;
+            layer = ((UIView *)object).layer;
             break;
         default:
             return;
@@ -155,14 +158,14 @@ void CoreViewSetShadow(MySwiftUIViewSystem system, id view, CGColorRef _Nullable
     }
 }
 
-NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem system, id view) {
+NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem system, id object) {
     CALayer *layer;
     switch (system) {
         case MySwiftUIViewSystemCALayer:
-            layer = (CALayer *)view;
+            layer = (CALayer *)object;
             break;
         case MySwiftUIViewSystemUIView:
-            layer = ((UIView *)view).layer;
+            layer = ((UIView *)object).layer;
         default:
             return 0;
     }
@@ -170,15 +173,15 @@ NSUInteger CoreViewSubviewsCount(MySwiftUIViewSystem system, id view) {
     return layer.sublayers.count;
 }
 
-id CoreViewSubviewAtIndex(MySwiftUIViewSystem system, id view, NSInteger index, MySwiftUIViewSystem *outSystem) {
+id CoreViewSubviewAtIndex(MySwiftUIViewSystem system, id object, NSInteger index, MySwiftUIViewSystem *outSystem) {
     switch (system) {
         case MySwiftUIViewSystemCALayer: {
-            CALayer *layer = (CALayer *)view;
+            CALayer *layer = (CALayer *)object;
             CALayer *sublayer = layer.sublayers[index];
             return CoreViewLayerView(system, sublayer, outSystem);
         }
         case MySwiftUIViewSystemUIView:
-            CALayer *layer = ((UIView *)view).layer;
+            CALayer *layer = ((UIView *)object).layer;
             CALayer *sublayer = layer.sublayers[index];
             return CoreViewLayerView(system, sublayer, outSystem);
         default:
@@ -186,33 +189,72 @@ id CoreViewSubviewAtIndex(MySwiftUIViewSystem system, id view, NSInteger index, 
     }
 }
 
-void CoreViewRemoveFromSuperview(MySwiftUIViewSystem system, id view) {
+void CoreViewRemoveFromSuperview(MySwiftUIViewSystem system, id object) {
     switch (system) {
         case MySwiftUIViewSystemCALayer:
-            [(CALayer *)view removeFromSuperlayer];
+            [(CALayer *)object removeFromSuperlayer];
             break;
         case MySwiftUIViewSystemUIView:
         case MySwiftUIViewSystemNSView:
 #if TARGET_OS_IPHONE
-            [(UIView *)view removeFromSuperview];
+            [(UIView *)object removeFromSuperview];
 #elif TARGET_OS_OSX
-            [(UIView *)view removeFromSuperview];
+            [(UIView *)object removeFromSuperview];
 #endif
             break;
     }
 }
 
-id _Nullable CoreViewMaskView(MySwiftUIViewSystem system, id view) {
+id _Nullable CoreViewMaskView(MySwiftUIViewSystem system, id object) {
     switch (system) {
         case MySwiftUIViewSystemCALayer:
-            return ((CALayer *)view).mask;
+            return ((CALayer *)object).mask;
         case MySwiftUIViewSystemUIView:
-            return ((UIView *)view).maskView;
+            return ((UIView *)object).maskView;
         default:
             return (id)system;
     }
 }
 
 void CoreViewSetMaskView3D(MySwiftUIViewSystem toSystem, id toView, MySwiftUIViewSystem fromSystem, id fromView) {
-    abort();
+    if (toSystem == MySwiftUIViewSystemCALayer) {
+        assert(fromSystem == MySwiftUIViewSystemCALayer);
+        ((CALayer *)fromView).mask = (CALayer *)toView;
+    } else if (toSystem == MySwiftUIViewSystemUIView) {
+        if (fromSystem == MySwiftUIViewSystemCALayer) {
+            ((UIView *)fromView).layer.mask = (CALayer *)toView;
+        } else {
+            assert(fromSystem == MySwiftUIViewSystemUIView);
+            ((UIView *)fromView).maskView = (UIView *)fromView;
+        }
+    }
+}
+
+CALayer * _Nullable CoreViewSpeculativeLayer(id object) {
+    if ([object isKindOfClass:[CALayer class]]) {
+        return (CALayer *)object;
+    } else if ([object isKindOfClass:_uiViewClass()]) {
+        return ((UIView *)object).layer;
+    } else {
+        return nil;
+    }
+}
+
+void CoreViewSetNeedsDisplay(MySwiftUIViewSystem system, id layer) {
+    if (system == MySwiftUIViewSystemCALayer) {
+        [layer setNeedsDisplay];
+    }
+}
+
+void CoreViewSetOpacity(MySwiftUIViewSystem system, id object, CGFloat opacity) {
+    switch (system) {
+        case MySwiftUIViewSystemCALayer:
+            ((CALayer *)object).opacity = opacity;
+            break;
+        case MySwiftUIViewSystemUIView:
+            ((UIView *)object).alpha = opacity;
+            break;
+        default:
+            break;
+    }
 }
