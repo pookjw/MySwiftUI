@@ -16,8 +16,13 @@ import DesignLibrary
 import _SwiftUICorePrivate
 
 
-func swizzle() {
-    let method = class_getInstanceMethod(_UIHostingView<EmptyView>.self, #selector(UIView.layoutSubviews))
+func swizzle_1() {
+    let method = class_getInstanceMethod(_UIHostingView<EmptyView>.self, #selector(setter:UIView.frame))
+    let empty: (@convention(c) (AnyObject, Selector) -> Void) = { _, _ in }
+    method_setImplementation(method!, unsafeBitCast(empty, to: IMP.self))
+}
+func swizzle_2() {
+    let method = class_getInstanceMethod(_UIHostingView<EmptyView>.self, #selector(setter:UIView.bounds))
     let empty: (@convention(c) (AnyObject, Selector) -> Void) = { _, _ in }
     method_setImplementation(method!, unsafeBitCast(empty, to: IMP.self))
 }
@@ -45,6 +50,9 @@ fileprivate struct Type2 {}
 
 class ViewController: UIViewController {
     override func loadView() {
+//        swizzle_1()
+//        swizzle_2()
+        
         print(_typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
@@ -287,10 +295,46 @@ class ViewController: UIViewController {
             return true
         }
         
-        let hostingView = _UIHostingView(rootView: EmptyView())
+        struct MyView: UIViewRepresentable {
+            class CustomView: UIView {
+                override class var layerClass: AnyClass {
+                    CustomLayer.self
+                }
+                override func draw(_ rect: CGRect) {
+                    super.draw(rect)
+                }
+                override func didMoveToSuperview() {
+                    super.didMoveToSuperview()
+                }
+            }
+            class CustomLayer: CALayer {
+                override init() {
+                    super.init()
+                }
+                
+                required init?(coder: NSCoder) {
+                    fatalError("init(coder:) has not been implemented")
+                }
+                override func draw(in ctx: CGContext) {
+                    fatalError()
+                }
+            }
+            
+            func makeUIView(context: Context) -> some UIView {
+                let view = CustomView()
+                view.backgroundColor = .green
+                return view
+            }
+            
+            func updateUIView(_ uiView: UIViewType, context: Context) {
+                
+            }
+        }
+        
+        let hostingView = _UIHostingView(rootView: MyView())
         self.view = hostingView
-        print(hostingView)
         print(NSStringFromClass(object_getClass(hostingView)!))
+        print(hostingView)
     }
     
 //    override func viewDidLoad() {

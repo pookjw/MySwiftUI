@@ -540,7 +540,7 @@ extension ViewGraphFeature {
     }
     
     package func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        return false
+        return true
     }
     
     package func needsUpdate(graph: ViewGraph) -> Bool {

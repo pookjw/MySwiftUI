@@ -349,9 +349,29 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override dynamic var frame: CGRect {
-        didSet {
+        get {
+            return super.frame
+        }
+        set {
+            guard allowFrameChanges else {
+                return
+            }
             let oldValue = self.frame
-            super.frame = frame
+            super.frame = newValue
+            base.frameDidChange(oldValue: oldValue)
+        }
+    }
+    
+    open override dynamic var bounds: CGRect {
+        get {
+            return super.bounds
+        }
+        set {
+            guard allowFrameChanges else {
+                return
+            }
+            let oldValue = self.bounds
+            super.bounds = newValue
             base.frameDidChange(oldValue: oldValue)
         }
     }
