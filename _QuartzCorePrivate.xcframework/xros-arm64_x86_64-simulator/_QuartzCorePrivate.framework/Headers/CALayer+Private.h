@@ -8,6 +8,7 @@ CG_EXTERN CALayer * _Nullable CALayerGetSuperlayer(CALayer *layer);
 
 @interface CALayer (Private)
 @property BOOL allowsGroupBlending;
+@property (getter=isSeparated) BOOL separated;
 @property (copy) NSArray<CAPresentationModifier *> *presentationModifiers;
 - (void)addPresentationModifier:(CAPresentationModifier *)arg1 NS_SWIFT_NAME(addPresentationModifier(_:));
 - (void)removePresentationModifier:(CAPresentationModifier *)arg1 NS_SWIFT_NAME(removePresentationModifier(_:));

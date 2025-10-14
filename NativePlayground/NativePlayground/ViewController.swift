@@ -45,80 +45,84 @@ fileprivate struct Type2 {}
 
 class ViewController: UIViewController {
     override func loadView() {
-//        swizzle()
-        
-        
-        for child in Mirror(reflecting: Color.blue).children {
-            print(child)
-        }
-        
-//        var hasher = Hasher()
-//        print(Color.black.hash(into: &hasher))
-//        print(EnvironmentValues().viewGraphRenderingRootView)
-//        print(EnvironmentValues().isVibrantColorStyleEnabled)
-//        set(isVibrantColorStyleEnabled: true)
-        
-//        do {
-//            var env = EnvironmentValues()
-//            print(env.accessibilitySettingsDefinition)
-//            env.accessibilitySettingsDefinition = .uiKit
-//            print(env.accessibilitySettingsDefinition)
-//        }
-        
         print(_typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
         
         print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
         
         print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
         
         print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
         
         print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
         
         print(_typeByName("7SwiftUI19ResolvedShadowStyleV")!)
         _forEachField(of: _typeByName("7SwiftUI19ResolvedShadowStyleV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
         
         print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
+        
+        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV5StateV")!)
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV5StateV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }   
+        print("===")
+        
+        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV5SeedsV")!)
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV5SeedsV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
         
         print(_RendererConfiguration.RasterizationOptions.self)
         _forEachField(of: _RendererConfiguration.RasterizationOptions.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
-        
-//        print(type(of: objc_lookUpClass("_TtCV5UIKit23MaterialBackdropContextP33_B4E1891EFAA97781768AA47DAB5BDF997Storage")!))
-        print(EnvironmentValues().backgroundMaterial)
-        UserDefaults.standard.set(false, forKey: "com.apple.SwiftUI.ViewGraphBridgePropertiesAreInput")
-        
-        let filter = BloomFilter(type: Type1.self)
-        print(filter.mayContain(BloomFilter(type: Type2.self)))
+        //        
+        print("===")
         
         print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!, options: [.classType]) { name, offset, type, kind in
@@ -283,33 +287,10 @@ class ViewController: UIViewController {
             return true
         }
         
-        let emptyView = EmptyView()
         let hostingView = _UIHostingView(rootView: EmptyView())
         self.view = hostingView
         print(hostingView)
         print(NSStringFromClass(object_getClass(hostingView)!))
-        let base = Mirror(reflecting: hostingView).descendant("_base")!
-        print(base)
-        print(Mirror(reflecting: hostingView).descendant("colorScheme")!)
-//        super.loadView()
-        
-//        Task {
-//            try! await Task.sleep(for: .seconds(1))
-//            self.view = UIView()
-//        }
-//        view.addSubview(hostingView)
-//        hostingView.frame = view.bounds
-//        hostingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-//        Task {
-//            try await Task.sleep(for: .seconds(1))
-//            
-//            _forEachField(of: type(of: hostingView), options: [.classType]) { name, offset, type, kind in
-//                print(String(cString: name))
-//                print(String(format: "%lx", offset))
-//                return true
-//            }
-//        }
     }
     
 //    override func viewDidLoad() {

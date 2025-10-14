@@ -1,10 +1,11 @@
 internal import _QuartzCorePrivate
 private import QuartzCore
+private import _MySwiftUIShims
 
 extension DisplayList.ViewUpdater {
     struct ViewCache {
         var map: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewInfo] = [:]
-        var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key /* DisplayCache.Key이라고 표기되어 있는데 이런건 없음 */] = [:]
+        var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key] = [:]
         var removed: Set<DisplayList.ViewUpdater.ViewCache.Key> = []
         fileprivate var animators: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewCache.AnimatorInfo] = [:]
         fileprivate var asyncValues: [ObjectIdentifier: DisplayList.ViewUpdater.ViewCache.AsyncValues] = [:]
@@ -59,7 +60,103 @@ extension DisplayList.ViewUpdater {
             fatalError("TODO")
         }
         
-        func reclaim(time: Time) {
+        mutating func reclaim(time: Time) {
+            for removedKey in self.removed {
+                guard let viewInfo = map[removedKey] else {
+                    continue
+                }
+                
+                guard viewInfo.isRemoved else {
+                    continue
+                }
+                
+                map.removeValue(forKey: removedKey)
+                // x25
+                let view = viewInfo.view
+                reverseMap.removeValue(forKey: OpaquePointer(Unmanaged.passUnretained(view).toOpaque()))
+                
+                // w24
+                let kind = viewInfo.state.kind
+                switch kind {
+                case .inherited:
+                    break
+                case .color:
+                    continue
+                case .image:
+                    continue
+                case .shape:
+                    continue
+                case .sdfLayer:
+                    continue
+                case .sdfEffect:
+                    break
+                case .shadow:
+                    continue
+                case .backdrop:
+                    continue
+                case .chameleonColor:
+                    continue
+                case .drawing:
+                    continue
+                case .compositing:
+                    break
+                case .geometry:
+                    break
+                case .projection:
+                    break
+                case .affine3D:
+                    break
+                case .mask:
+                    break
+                case .platformView:
+                    continue
+                case .platformGroup:
+                    break
+                case .platformLayer:
+                    continue
+                case .platformEffect:
+                    break
+                }
+                
+                removeChildren(platform: viewInfo.platform, container: viewInfo.container)
+                
+                guard kind == .mask else {
+                    continue
+                }
+                
+                // w20
+                let system = viewInfo.platform.system
+                var maskView = CoreViewMaskView(system, view)
+                
+                while let _maskView = maskView {
+                    removeChildren(platform: viewInfo.platform, container: unsafeBitCast(maskView, to: AnyObject.self))
+                    
+                    guard (system == .caLayer) || (system == .uiView) else {
+                        break
+                    }
+                    
+                    let layer = CoreViewLayer(system, view)
+                    
+                    if layer.isSeparated {
+                        if layer.value(forKeyPath: "separatedOptions.platter.enabled") as? Bool == true {
+                            break
+                        }
+                    }
+                    
+                    guard CoreViewSubviewsCount(system, view) == 1 else {
+                        break
+                    }
+                    
+                    guard isPlatter(system, view) else {
+                        break
+                    }
+                    
+                    maskView = CoreViewMaskView(system, _maskView)
+                }
+            }
+        }
+        
+        fileprivate func removeChildren(platform: DisplayList.ViewUpdater.Platform, container: AnyObject) {
             fatalError("TODO")
         }
     }
@@ -111,4 +208,8 @@ extension DisplayList.ViewUpdater.ViewCache.AnimatorInfo {
         case finished(DisplayList.Effect, DisplayList.Version)
         case idle
     }
+}
+
+fileprivate func isPlatter(_: MySwiftUIViewSystem, _: AnyObject) -> Bool {
+    fatalError("TODO")
 }

@@ -1,6 +1,6 @@
 #warning("TODO")
 internal import CoreGraphics
-private import _MySwiftUIShims
+internal import _MySwiftUIShims
 private import _QuartzCorePrivate
 internal import QuartzCore
 internal import Spatial
@@ -553,7 +553,7 @@ extension DisplayList.ViewUpdater.Platform {
     struct State {
         private var position: CGPoint
         private var size: CGSize
-        private let kind: PlatformViewDefinition.ViewKind
+        let kind: PlatformViewDefinition.ViewKind
         private var flags: DisplayList.ViewUpdater.Platform.ViewFlags
         private var platformState: DisplayList.ViewUpdater.Platform.PlatformState
     }
@@ -589,11 +589,11 @@ extension DisplayList.ViewUpdater.ViewInfo {
 
 extension DisplayList.ViewUpdater {
     struct ViewInfo {
-        private var platform: DisplayList.ViewUpdater.Platform
-        private var view: AnyObject
+        private(set) var platform: DisplayList.ViewUpdater.Platform
+        private(set) var view: AnyObject
         private var layer: CALayer
-        private var container: AnyObject
-        private var state: DisplayList.ViewUpdater.Platform.State
+        private(set) var container: AnyObject
+        private(set) var state: DisplayList.ViewUpdater.Platform.State
         private var id: DisplayList.ViewUpdater.ViewInfo.ID
         private var parentID: DisplayList.ViewUpdater.ViewInfo.ID
         private var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
@@ -929,6 +929,18 @@ extension DisplayList.ViewUpdater {
         
         func maskContainerView(_: AnyObject, item: DisplayList.Item) -> AnyObject? {
             fatalError("TODO")
+        }
+        
+        // 원래 없음
+        @inlinable
+        var definition: PlatformViewDefinition.Type {
+            return encoding.definition
+        }
+        
+        // 원래 없음
+        @inlinable
+        var system: MySwiftUIViewSystem {
+            return encoding.system
         }
     }
 }
