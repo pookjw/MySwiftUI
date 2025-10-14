@@ -22,6 +22,10 @@ open class UIHostingController<Content: View>: UIViewController {
     final func updateViewGraphBridges(_: inout ViewGraphBridgeProperties) {
         fatalError("TODO")
     }
+    
+    final func didRender() {
+        fatalError("TODO")
+    }
 }
 
 extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {

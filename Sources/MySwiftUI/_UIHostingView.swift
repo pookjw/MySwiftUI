@@ -1327,7 +1327,9 @@ extension _UIHostingView: RootTransformUpdater {
 
 extension _UIHostingView: @preconcurrency ViewGraphRenderObserver {
     package func didRender() {
-        fatalError("TODO")
+        if let viewController {
+            viewController.didRender()
+        }
     }
 }
 
