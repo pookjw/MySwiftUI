@@ -324,6 +324,28 @@ package final class ViewGraph: GraphHost {
     }
     
     package override func instantiateOutputs() {
+        data.rootSubgraph.apply {
+            // self = x22
+            // x29 - 0x80
+            var inputs = _ViewInputs(
+                data.inputs,
+                position: $position,
+                size: $dimensions,
+                transform: $transform,
+                containerPosition: $zeroPoint,
+                hostPreferenceKeys: data.$hostPreferenceKeys
+            )
+            
+            if requestedOutputs.contains(.layout) {
+                // <+176>
+                inputs.base.options.insert([.viewRequestsLayoutComputer, .viewNeedsGeometry])
+                inputs.containerSize = _containerSize
+            }
+            
+            // <+200>
+            _ = inputs.preferences.keys.contains(HostPreferencesKey.self)
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
     

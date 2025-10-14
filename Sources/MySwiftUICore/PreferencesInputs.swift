@@ -2,8 +2,19 @@
 internal import AttributeGraph
 
 package struct PreferencesInputs {
-    private var keys: PreferenceKeys
-    private var hostKeys: Attribute<PreferenceKeys>
+    private(set) var keys: PreferenceKeys
+    private(set) var hostKeys: Attribute<PreferenceKeys>
+    
+    init(keys: PreferenceKeys, hostKeys: Attribute<PreferenceKeys>) {
+        self.keys = keys
+        self.hostKeys = hostKeys
+    }
+}
+
+struct HostPreferencesKey: PreferenceKey {
+    static var defaultValue: PreferenceKeys {
+        return PreferenceKeys()
+    }
 }
 
 struct PreferenceKeys: Equatable, RandomAccessCollection {
@@ -32,7 +43,7 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         keys = []
     }
     
-    private init (keys: [any (PreferenceKey).Type]) {
+    private init(keys: [any (PreferenceKey).Type]) {
         self.keys = keys
     }
     

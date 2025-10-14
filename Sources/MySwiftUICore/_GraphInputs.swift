@@ -89,7 +89,61 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    public struct Options {
+    struct Options: OptionSet {
+        static var viewRequestsLayoutComputer: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 1))
+        }
+        
+        static var viewNeedsGeometry: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 5))
+        }
+        
+        static var viewDisplayListAccessibility: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 4))
+        }
+        
+        static var viewNeedsGeometryAccessibility: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 6))
+        }
+        
+        static var viewStackOrientationIsDefined: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 2))
+        }
+        
+        static var viewStackOrientationIsHorizontal: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 3))
+        }
+        
+        static var viewStackOrientationIsDepth: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 9))
+        }
+        
+        static var supportsVariableFrameDuration: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 10))
+        }
+        
+        static var needsStableDisplayListIDs: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 8))
+        }
+        
+        static var needsDynamicLayout: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 11))
+        }
+        
+        static var animationsDisabled: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 0))
+        }
+        
+        static var needsAccessibility: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 12))
+        }
+        
+        static var doNotScrape: _GraphInputs.Options {
+            return _GraphInputs.Options(rawValue: (1 << 13))
+        }
+        
         let rawValue: UInt32
     }
 }
+
+//extension _GraphInputs: Sendable {}

@@ -263,3 +263,7 @@ extension AttributeGraph.Graph {
 
 public func compareValues<T>(_: T, _: T, mode: AttributeGraph.AGComparisonMode) -> Swift.Bool
 public func compareValues<T>(_: T, _: T, options: AttributeGraph.AGComparisonOptions) -> Swift.Bool
+
+extension AttributeGraph.Subgraph {
+    public func apply<T>(_: () -> T) -> T
+}

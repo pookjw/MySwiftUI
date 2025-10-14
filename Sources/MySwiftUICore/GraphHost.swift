@@ -546,7 +546,7 @@ extension GraphHost {
         @Attribute fileprivate var transaction: Transaction
         @Attribute var updateSeed: UInt32
         @Attribute fileprivate var transactionSeed: UInt32
-        private var inputs: _GraphInputs
+        private(set) var inputs: _GraphInputs
         
         init() {
             let graph = unsafe Graph(shared: GraphHost.sharedGraph)
