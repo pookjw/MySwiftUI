@@ -126,7 +126,10 @@ extension DisplayList.ViewUpdater {
                 
                 // w20
                 let system = viewInfo.platform.system
+                // x26
                 var maskView = CoreViewMaskView(system, view)
+                // x25
+                var subview = view
                 
                 while let _maskView = maskView {
                     removeChildren(platform: viewInfo.platform, container: unsafeBitCast(maskView, to: AnyObject.self))
@@ -135,7 +138,7 @@ extension DisplayList.ViewUpdater {
                         break
                     }
                     
-                    let layer = CoreViewLayer(system, view)
+                    let layer = CoreViewLayer(system, subview)
                     
                     if layer.isSeparated {
                         if layer.value(forKeyPath: "separatedOptions.platter.enabled") as? Bool == true {
@@ -143,15 +146,18 @@ extension DisplayList.ViewUpdater {
                         }
                     }
                     
-                    guard CoreViewSubviewsCount(system, view) == 1 else {
+                    guard CoreViewSubviewsCount(system, subview) == 1 else {
                         break
                     }
                     
-                    guard isPlatter(system, view) else {
+                    var outSystem = system
+                    subview = unsafeBitCast(CoreViewSubviewAtIndex(system, subview, 0, &outSystem), to: AnyObject.self)
+                    
+                    guard isPlatter(system, subview) else {
                         break
                     }
                     
-                    maskView = CoreViewMaskView(system, _maskView)
+                    maskView = CoreViewMaskView(system, subview)
                 }
             }
         }
