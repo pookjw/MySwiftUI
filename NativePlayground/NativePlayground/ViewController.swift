@@ -331,7 +331,7 @@ class ViewController: UIViewController {
             }
         }
         
-        let hostingView = _UIHostingView(rootView: MyView())
+        let hostingView = _UIHostingView(rootView: Color.orange)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)

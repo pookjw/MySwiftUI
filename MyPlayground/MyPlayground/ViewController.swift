@@ -10,8 +10,8 @@ import MySwiftUI
 
 class ViewController: UIViewController {
     override func loadView() {
-        let emptyView = EmptyView()
-        let hostingView = _UIHostingView(rootView: emptyView)
+        let rootView = Color.black
+        let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
 //        view.addSubview(hostingView)
 //        hostingView.frame = view.bounds

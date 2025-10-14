@@ -323,6 +323,14 @@ package final class ViewGraph: GraphHost {
         }
     }
     
+    package override func instantiateOutputs() {
+        fatalError("TODO")
+    }
+    
+    package override func uninstantiateOutputs() {
+        fatalError("TODO")
+    }
+    
     package var rootViewInsets: EdgeInsets {
         fatalError("TODO")
     }

@@ -95,8 +95,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
 @_spi(Internal) open class GraphHost {
     fileprivate static nonisolated(unsafe) let sharedGraph: Graph = {
         let graph = Graph()
-        // original : "SWIFTUI_ASSERT_LOCKS"
-        let assertLocks = unsafe getenv("MYSWIFTUI_ASSERT_LOCKS")
+        let assertLocks = unsafe getenv("SWIFTUI_ASSERT_LOCKS")
         
         if unsafe assertLocks != nil {
             let integer = unsafe atoi(assertLocks)
@@ -299,13 +298,26 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         // x23
         let globalSubgraph = data.globalSubgraph
         
-        for _ in 0..<8 {
+        var i = 0
+        while true {
+            let continuations = self.continuations
+            self.continuations = []
+            
             for continuation in continuations {
                 continuation.apply()
             }
             
             // <+296>
             globalSubgraph.update(1)
+            
+            i += 1
+            if i == 8 {
+                break
+            }
+            
+            if self.continuations.isEmpty{
+                break
+            }
         }
         
         // <+340>
@@ -382,9 +394,17 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         
         CustomEventTrace.instantiate(root: data.rootSubgraph) { 
-            // function signature specialization <Arg[0] = Dead> of static SwiftUI.CustomEventTrace.instantiate<τ_0_0>(root: __C.AGSubgraphRef, closure: () -> τ_0_0) -> τ_0_0.$defer<τ_0_0>() -> ()
-            // nop
+            instantiateOutputs()
+            isInstantiated = true
         }
+    }
+    
+    package func instantiateOutputs() {
+        // nop
+    }
+    
+    package func uninstantiateOutputs() {
+        // nop
     }
     
     package final func preferenceValues() -> PreferenceValues {

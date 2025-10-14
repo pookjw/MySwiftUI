@@ -62,9 +62,9 @@ extension ViewGraphRootValueUpdater {
             
             viewGraph.flushTransactions()
             // x21
-            let update = Graph.clearUpdate()
-            self.updateGraph()
-            unsafe Graph.setUpdate(update)
+            Graph.withoutUpdate {
+                self.updateGraph()
+            }
             
             owner.renderingPhase = .rendering
             
@@ -259,10 +259,10 @@ extension ViewGraphRootValueUpdater {
         
         Update.begin()
         
-        let old = Graph.clearUpdate()
-        self.updateGraph()
-        let result = body(viewGraph)
-        unsafe Graph.setUpdate(old)
+        let result = Graph.withoutUpdate {
+            self.updateGraph()
+            return body(viewGraph)
+        }
         
         Update.end()
         

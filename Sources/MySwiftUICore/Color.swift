@@ -37,7 +37,7 @@ public struct Color: Hashable, CustomStringConvertible, Sendable {
     }
 }
 
-//extension Color: View {}
+extension Color: View {}
 
 @usableFromInline
 package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
