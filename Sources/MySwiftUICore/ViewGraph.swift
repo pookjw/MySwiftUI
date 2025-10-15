@@ -373,7 +373,11 @@ package final class ViewGraph: GraphHost {
             }
             
             // <+980>
-            $rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { _ in
+            $rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { geometry in
+                /*
+                 geometry = x19
+                 self = x20
+                 */
                 fatalError("TODO")
             }
             

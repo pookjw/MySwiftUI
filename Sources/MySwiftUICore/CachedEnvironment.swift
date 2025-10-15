@@ -3,6 +3,8 @@ internal import AttributeGraph
 private import CoreGraphics
 
 struct CachedEnvironment {
+    static let layoutDirection = CachedEnvironment.ID(base: UniqueID())
+    
     private var environment: Attribute<EnvironmentValues>
     private var mapItems: [MapItem] = []
     private var animatedFrame: [AnimatedFrame] = []
