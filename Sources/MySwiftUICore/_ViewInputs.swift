@@ -98,9 +98,7 @@ extension _ViewInputs {
 
 extension _ViewInputs {
     var layoutDirection: Attribute<LayoutDirection> {
-        let cachedEnvironment = base.cachedEnvironment
-        
-        return CachedEnvironment.attribute(id: CachedEnvironment.layoutDirection) { environmentValues in
+        return base.cachedEnvironment.value.attribute(id: .layoutDirection) { environmentValues in
             fatalError("TODO")
         }
     }

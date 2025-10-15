@@ -3,9 +3,7 @@ internal import AttributeGraph
 private import CoreGraphics
 
 struct CachedEnvironment {
-    static let layoutDirection = CachedEnvironment.ID(base: UniqueID())
-    
-    static func attribute<T>(id: CachedEnvironment.ID, _: (EnvironmentValues) -> T) -> Attribute<T> {
+    func attribute<T>(id: CachedEnvironment.ID, _: (EnvironmentValues) -> T) -> Attribute<T> {
         fatalError("TODO")
     }
     
@@ -22,6 +20,8 @@ struct CachedEnvironment {
 
 extension CachedEnvironment {
     struct ID {
+        static let layoutDirection = CachedEnvironment.ID(base: UniqueID())
+        
         var base: UniqueID
     }
     
