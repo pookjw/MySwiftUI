@@ -5,6 +5,10 @@ private import CoreGraphics
 struct CachedEnvironment {
     static let layoutDirection = CachedEnvironment.ID(base: UniqueID())
     
+    static func attribute<T>(id: CachedEnvironment.ID, _: (EnvironmentValues) -> T) -> Attribute<T> {
+        fatalError("TODO")
+    }
+    
     private var environment: Attribute<EnvironmentValues>
     private var mapItems: [MapItem] = []
     private var animatedFrame: [AnimatedFrame] = []

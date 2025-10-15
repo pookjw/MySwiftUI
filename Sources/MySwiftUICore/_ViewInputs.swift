@@ -95,3 +95,13 @@ extension _ViewInputs {
         return base.options.contains(.supportsVariableFrameDuration)
     }
 }
+
+extension _ViewInputs {
+    var layoutDirection: Attribute<LayoutDirection> {
+        let cachedEnvironment = base.cachedEnvironment
+        
+        return CachedEnvironment.attribute(id: CachedEnvironment.layoutDirection) { environmentValues in
+            fatalError("TODO")
+        }
+    }
+}
