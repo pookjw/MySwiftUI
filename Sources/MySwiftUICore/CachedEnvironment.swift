@@ -3,7 +3,7 @@ internal import AttributeGraph
 private import CoreGraphics
 
 struct CachedEnvironment {
-    func attribute<T>(id: CachedEnvironment.ID, _: (EnvironmentValues) -> T) -> Attribute<T> {
+    func attribute<T>(id: CachedEnvironment.ID, _ body: (EnvironmentValues) -> T) -> Attribute<T> {
         fatalError("TODO")
     }
     

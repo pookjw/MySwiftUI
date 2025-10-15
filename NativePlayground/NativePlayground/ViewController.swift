@@ -180,6 +180,15 @@ class ViewController: UIViewController {
             return true
         }
         
+        //     
+        print("===")
+        
+        print(_typeByName("7SwiftUI17CachedEnvironmentV")!)
+        _forEachField(of: _typeByName("7SwiftUI17CachedEnvironmentV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
         //        
         print("===")
         
