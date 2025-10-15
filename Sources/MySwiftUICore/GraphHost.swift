@@ -395,8 +395,9 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         
         CustomEventTrace.instantiate(root: data.rootSubgraph) { 
             instantiateOutputs()
-            isInstantiated = true
         }
+        
+        isInstantiated = true
     }
     
     package func instantiateOutputs() {
