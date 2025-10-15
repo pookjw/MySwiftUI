@@ -7,6 +7,10 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
         return PreferredValue()
     }
     
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        fatalError("TODO")
+    }
+    
     static var bridgedKey: MRUIPreferenceKey<RSSPlacementTarget>.Type {
         fatalError()
     }

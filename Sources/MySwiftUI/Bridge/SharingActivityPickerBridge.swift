@@ -45,5 +45,9 @@ fileprivate struct SharingActivityPickerPresentation: @unchecked Sendable {
 extension SharingActivityPickerPresentation {
     struct Key: HostPreferenceKey {
         static let defaultValue: [SharingActivityPickerPresentation] = []
+        
+        static func reduce(value: inout [SharingActivityPickerPresentation], nextValue: () -> [SharingActivityPickerPresentation]) {
+            fatalError("TODO")
+        }
     }
 }

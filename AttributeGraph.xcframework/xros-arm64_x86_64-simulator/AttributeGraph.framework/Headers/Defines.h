@@ -11,11 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 #define AG_EXTERN           extern
 #endif
 
-#if defined(__LLP64__) && __LLP64__
-typedef unsigned long long AGTypeID;
-#else
-typedef unsigned long AGTypeID;
-#endif
+typedef struct AGSwiftMetadata {} AGSwiftMetadata;
+typedef const AGSwiftMetadata * AGTypeID __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TypeID);
+
+typedef struct AGTypeSignature {
+    uint32_t words[5];
+} AGTypeSignature NS_SWIFT_NAME(Signature);
 
 typedef NS_OPTIONS(uint32_t, AGAttributeTypeFlags) {
     AGAttributeTypeFlagsUnknown = 10

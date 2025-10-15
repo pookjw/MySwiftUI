@@ -324,10 +324,10 @@ package final class ViewGraph: GraphHost {
     }
     
     package override func instantiateOutputs() {
-        data.rootSubgraph.apply {
+        let outputs = data.rootSubgraph.apply {
             // self = x22
             // x29 - 0x80
-            var inputs = _ViewInputs(
+            let original = _ViewInputs(
                 data.inputs,
                 position: $position,
                 size: $dimensions,
@@ -335,18 +335,90 @@ package final class ViewGraph: GraphHost {
                 containerPosition: $zeroPoint,
                 hostPreferenceKeys: data.$hostPreferenceKeys
             )
+            // x29 - 0xe0
+            var inputs = original
+            
+            // w27
+            let requestedOutputs = requestedOutputs
             
             if requestedOutputs.contains(.layout) {
                 // <+176>
-                inputs.base.options.insert([.viewRequestsLayoutComputer, .viewNeedsGeometry])
+                inputs.requestsLayoutComputer = true
+                inputs.needsGeometry = true
                 inputs.containerSize = _containerSize
             }
             
             // <+200>
-            _ = inputs.preferences.keys.contains(HostPreferencesKey.self)
+            inputs.preferences.keys.add(HostPreferencesKey.self)
+            
+            // <+600>
+            if requestedOutputs.contains(.viewResponders) {
+                inputs.preferences.keys.add(ViewRespondersKey.self)
+            }
+            
+            // <+792>
+            if let preferenceBridge = _preferenceBridge {
+                preferenceBridge.wrapInputs(&inputs)
+            }
+            
+            _ViewDebug.initialize(inputs: &inputs)
+            
+            if original.needsGeometry {
+                inputs.makeRootMatchedGeometryScope()
+            }
+            
+            if original.base.options.contains(.needsStableDisplayListIDs) {
+                // <+1560>
+                inputs.base.pushStableType(rootViewType)
+            }
+            
+            // <+980>
+            $rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { _ in
+                fatalError("TODO")
+            }
+            
+            for feature in self.features {
+                feature.modifyViewInputs(inputs: &inputs, graph: self)
+            }
+            
+            var outputs = makeRootView(rootView, inputs)
+            
+            for feature in self.features {
+                feature.modifyViewOutputs(outputs: &outputs, inputs: inputs, graph: self)
+            }
+            
+            return outputs
+        }
+        
+        // <+148>
+        $rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { _ in
             fatalError("TODO")
         }
-        fatalError("TODO")
+        
+        if
+            !requestedOutputs.isEmpty,
+            let displayList = outputs.preferences[DisplayList.Key.self] // x25
+        {
+            // <+256>
+            self._rootDisplayList = data.rootSubgraph.apply {
+                let attribute = Attribute(RootDisplayList(content: displayList, time: data.$time))
+                return WeakAttribute(attribute)
+            }
+        }
+        
+        // <+448>
+        if requestedOutputs.contains(.viewResponders) {
+            self._rootResponders = WeakAttribute(outputs.preferences[ViewRespondersKey.self])
+        }
+        
+        // <+504>
+        if requestedOutputs.contains(.layout) {
+            self._rootLayoutComputer = WeakAttribute(outputs.$layoutComputer)
+        }
+        
+        // <+524>
+        self.hostPreferenceValues = WeakAttribute(outputs.preferences[HostPreferencesKey.self])
+        self.makePreferenceOutlets(outputs: outputs)
     }
     
     package override func uninstantiateOutputs() {
@@ -368,6 +440,10 @@ package final class ViewGraph: GraphHost {
     }
     
     private func setPreferenceBridge(to: PreferenceBridge?, isInvalidating: Bool) {
+        fatalError("TODO")
+    }
+    
+    private func makePreferenceOutlets(outputs: _ViewOutputs) {
         fatalError("TODO")
     }
 }
@@ -761,4 +837,13 @@ package protocol ViewGraphRenderDelegate: AnyObject {
 package struct ViewGraphRenderContext: Sendable {
     package var contentsScale: CGFloat
     package var opaqueBackground: Bool
+}
+
+fileprivate struct RootDisplayList: AsyncAttribute, Rule {
+    @Attribute var content: DisplayList
+    @Attribute var time: Time
+    
+    var value: (DisplayList, DisplayList.Version) {
+        fatalError("TODO")
+    }
 }

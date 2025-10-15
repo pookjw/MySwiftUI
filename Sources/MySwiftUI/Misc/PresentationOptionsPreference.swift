@@ -20,4 +20,8 @@ struct PresentationOptionsPreference {
 
 struct PresentationOptionsPreferenceKey: HostPreferenceKey {
     static let defaultValue = PresentationOptionsPreference()
+    
+    static func reduce(value: inout PresentationOptionsPreference, nextValue: () -> PresentationOptionsPreference) {
+        fatalError("TODO")
+    }
 }

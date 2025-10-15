@@ -16,6 +16,10 @@ extension FeedbackRequest {
     
     struct PreferenceKey: HostPreferenceKey {
         static let defaultValue: [ViewIdentity: (Size3D, [FeedbackRequest])] = [:]
+        
+        static func reduce(value: inout [ViewIdentity : (Size3D, [FeedbackRequest])], nextValue: () -> [ViewIdentity : (Size3D, [FeedbackRequest])]) {
+            fatalError("TODO")
+        }
     }
 }
 

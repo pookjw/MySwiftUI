@@ -1,6 +1,7 @@
 #warning("TODO")
 private import CommonCrypto
 internal import Foundation
+private import AttributeGraph
 
 protocol StronglyHashableByBitPattern: StronglyHashable {
 }
@@ -32,6 +33,10 @@ struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable,
     
     init() {
         words = (0, 0, 0, 0, 0)
+    }
+    
+    fileprivate init(words: (UInt32, UInt32, UInt32, UInt32, UInt32)) {
+        self.words = words
     }
     
     init<T: Encodable>(encodable: T) throws {
@@ -99,6 +104,10 @@ struct StrongHasher {
     mutating func combineType(_ type: Any.Type) {
         fatalError("TODO")
     }
+}
+
+func makeStableTypeData(_ type: Any.Type) -> StrongHash {
+    return StrongHash(words: TypeID(type).signature.words)
 }
 
 extension UUID: StronglyHashable {

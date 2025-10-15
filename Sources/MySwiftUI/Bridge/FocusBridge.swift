@@ -249,6 +249,10 @@ extension FocusedValueList {
         static var defaultValue: FocusedValueList {
             return FocusedValueList()
         }
+        
+        static func reduce(value: inout FocusedValueList, nextValue: () -> FocusedValueList) {
+            fatalError("TODO")
+        }
     }
 }
 
@@ -318,6 +322,10 @@ extension FocusStoreList {
     struct Key: HostPreferenceKey {
         static var defaultValue: FocusStoreList {
             return FocusStoreList()
+        }
+        
+        static func reduce(value: inout FocusStoreList, nextValue: () -> FocusStoreList) {
+            fatalError("TODO")
         }
     }
 }

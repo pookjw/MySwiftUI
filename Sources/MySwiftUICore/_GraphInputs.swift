@@ -38,6 +38,14 @@ public struct _GraphInputs {
             fatalError("TODO")
         }
     }
+    
+    func pushScope<T: StronglyHashable>(id: T) {
+        fatalError("TODO")
+    }
+    
+    func pushStableType(_ type: Any.Type) {
+        pushScope(id: makeStableTypeData(type))
+    }
 }
 
 extension _GraphInputs {

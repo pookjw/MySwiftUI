@@ -52,8 +52,13 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "MYSWIFTUI_ASSERT_LOCKS"
+            key = "SWIFTUI_ASSERT_LOCKS"
             value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "SWIFTUI_VIEW_DEBUG"
+            value = "511"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

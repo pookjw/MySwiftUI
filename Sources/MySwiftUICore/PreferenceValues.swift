@@ -26,6 +26,10 @@ package struct PreferenceValues {
         }
     }
     
+    package mutating func combine(with values: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
     private func index<T: PreferenceKey>(of key: T.Type) -> Int? {
         let index = _index(of: key.self)
         let count = entries.count

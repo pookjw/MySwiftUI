@@ -48,4 +48,50 @@ public struct _ViewInputs {
             base[type] = newValue
         }
     }
+    
+    func makeRootMatchedGeometryScope() {
+        fatalError("TODO")
+    }
+}
+
+extension _ViewInputs {
+    var requestsLayoutComputer: Bool {
+        get {
+            return base.options.contains(.viewRequestsLayoutComputer)
+        }
+        set {
+            base.options.insert(.viewRequestsLayoutComputer)
+        }
+    }
+    
+    var needsGeometry: Bool {
+        get {
+            return base.options.contains(.viewNeedsGeometry)
+        }
+        set {
+            base.options.insert(.viewNeedsGeometry)
+        }
+    }
+    
+    var needsDisplayListAccessibility: Bool {
+        get {
+            return base.options.contains(.viewDisplayListAccessibility)
+        }
+        set {
+            base.options.insert(.viewDisplayListAccessibility)
+        }
+    }
+    
+    var needsAccessibilityGeometry: Bool {
+        get {
+            return base.options.contains(.viewNeedsGeometryAccessibility)
+        }
+        set {
+            base.options.insert(.viewNeedsGeometryAccessibility)
+        }
+    }
+    
+    var supportsVFD: Bool {
+        return base.options.contains(.supportsVariableFrameDuration)
+    }
 }

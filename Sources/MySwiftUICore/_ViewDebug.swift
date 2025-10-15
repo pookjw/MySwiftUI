@@ -1,6 +1,25 @@
 #warning("TODO")
+private import _DarwinFoundation3._stdlib
+private import AttributeGraph
 
 public enum _ViewDebug {
+    static nonisolated(unsafe) var isInitialized = false
+    static nonisolated(unsafe) var properties: _ViewDebug.Properties = []
+}
+
+extension _ViewDebug {
+    static func initialize(inputs: inout _ViewInputs) {
+        if !_ViewDebug.isInitialized {
+            if let value = getenv("SWIFTUI_VIEW_DEBUG") {
+                _ViewDebug.properties = _ViewDebug.Properties(rawValue: UInt32(atoi(value)))
+            }
+            _ViewDebug.isInitialized = true
+        }
+        
+        if !_ViewDebug.properties.isEmpty {
+            Subgraph.setShouldRecordTree()
+        }
+    }
 }
 
 extension _ViewDebug {

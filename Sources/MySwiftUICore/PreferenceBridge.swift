@@ -14,6 +14,10 @@ private import AttributeGraph
     init() {
         fatalError("TODO")
     }
+    
+    func wrapInputs(_: inout _ViewInputs) {
+        fatalError("TODO")
+    }
 }
 
 extension PreferenceBridge {

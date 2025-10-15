@@ -24,5 +24,9 @@ extension SheetPreference {
         static var defaultValue: SheetPreference.Value {
             return .unspecified
         }
+        
+        static func reduce(value: inout SheetPreference.Value, nextValue: () -> SheetPreference.Value) {
+            fatalError("TODO")
+        }
     }
 }

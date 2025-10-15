@@ -11,6 +11,10 @@ extension PopoverPresentation {
         static var defaultValue: [PopoverPresentation] {
             return []
         }
+        
+        static func reduce(value: inout [PopoverPresentation], nextValue: () -> [PopoverPresentation]) {
+            fatalError("TODO")
+        }
     }
 }
 

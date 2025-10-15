@@ -21,6 +21,10 @@ extension AnyShareConfiguration {
         static var defaultValue: AnyShareConfiguration {
             fatalError("TODO")
         }
+        
+        static func reduce(value: inout AnyShareConfiguration, nextValue: () -> AnyShareConfiguration) {
+            fatalError("TODO")
+        }
     }
 }
 

@@ -19,3 +19,13 @@ extension ViewResponder {
         var children: [ViewResponder]
     }
 }
+
+struct ViewRespondersKey: PreferenceKey {
+    static var defaultValue: [ViewResponder] {
+        return []
+    }
+    
+    static func reduce(value: inout [ViewResponder], nextValue: () -> [ViewResponder]) {
+        return value.append(contentsOf: nextValue())
+    }
+}

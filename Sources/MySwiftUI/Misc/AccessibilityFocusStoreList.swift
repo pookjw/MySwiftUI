@@ -18,5 +18,9 @@ extension AccessibilityFocusStoreList {
         static var defaultValue: AccessibilityFocusStoreList {
             return AccessibilityFocusStoreList()
         }
+        
+        static func reduce(value: inout AccessibilityFocusStoreList, nextValue: () -> AccessibilityFocusStoreList) {
+            fatalError("TODO")
+        }
     }
 }

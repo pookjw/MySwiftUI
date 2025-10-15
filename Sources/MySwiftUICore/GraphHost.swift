@@ -138,7 +138,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     package private(set) final var data: GraphHost.Data
     private var constants: [ConstantKey: AnyAttribute]
     private var isInstantiated: Bool
-    private var hostPreferenceValues: WeakAttribute<PreferenceValues>
+    final var hostPreferenceValues: WeakAttribute<PreferenceValues>
     private var lastHostPreferencesSeed: VersionSeed
     private var pendingTransactions: [AsyncTransaction]
     private var inTransaction: Bool

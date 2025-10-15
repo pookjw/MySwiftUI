@@ -23,6 +23,8 @@ public struct WeakAttribute<T> {
     }
 
     public init()
+    public init(_: AttributeGraph.Attribute<T>)
+    public init(_: AttributeGraph.Attribute<T>?)
 }
 
 @frozen
@@ -76,6 +78,8 @@ public struct Attribute<T> {
     }
 
     @discardableResult public func setValue(_: T) -> Swift.Bool
+
+    public func mutateBody<T>(as: T.Type, invalidating: Swift.Bool, _: (inout T) -> ())
 }
 
 public struct IndirectAttribute<T> {
@@ -250,6 +254,10 @@ public protocol AttributeBodyVisitor {
 
 extension AttributeGraph.AnyAttribute: Swift.Hashable {}
 
+extension AttributeGraph.AnyAttribute {
+    public func mutateBody<T>(as: T.Type, invalidating: Swift.Bool, _: (inout T) -> ())
+}
+
 extension AttributeGraph.Graph {
     public func onUpdate(_ callback: @escaping () -> Swift.Void)
     public func onInvalidation(_ callback: @escaping (AttributeGraph.AnyAttribute) -> Swift.Void)
@@ -266,4 +274,10 @@ public func compareValues<T>(_: T, _: T, options: AttributeGraph.AGComparisonOpt
 
 extension AttributeGraph.Subgraph {
     public func apply<T>(_: () -> T) -> T
+}
+
+extension AttributeGraph.TypeID: Swift.Hashable, Swift.CustomStringConvertible {
+    public init(_: Any.Type)
+    public var type: Any.Type { get }
+    public var description: Swift.String { get }
 }

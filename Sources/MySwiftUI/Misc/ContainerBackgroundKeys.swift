@@ -14,6 +14,10 @@ extension ContainerBackgroundKeys {
         static var defaultValue: Transparency {
             return .automatic
         }
+        
+        static func reduce(value: inout ContainerBackgroundKeys.Transparency, nextValue: () -> ContainerBackgroundKeys.Transparency) {
+            fatalError("TODO")
+        }
     }
 }
 

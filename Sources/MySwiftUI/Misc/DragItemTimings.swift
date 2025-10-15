@@ -22,5 +22,9 @@ extension DragItemTimings {
         static var defaultValue: DragItemTimings {
             return DragItemTimings()
         }
+        
+        static func reduce(value: inout DragItemTimings, nextValue: () -> DragItemTimings) {
+            fatalError("TODO")
+        }
     }
 }

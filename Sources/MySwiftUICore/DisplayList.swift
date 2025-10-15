@@ -15,6 +15,10 @@ package struct DisplayList {
     
     package init() {
     }
+    
+    mutating func append(contentsOf other: DisplayList) {
+        fatalError("TODO")
+    }
 }
 
 extension DisplayList {
@@ -1274,4 +1278,18 @@ extension DisplayList.ViewRenderer {
 
 package struct _DisplayList_Identity: Hashable {
     var value: UInt32
+}
+
+extension DisplayList {
+    struct Key: PreferenceKey {
+        static var _includesRemovedValues: Bool {
+            return true
+        }
+        
+        static let defaultValue = DisplayList()
+        
+        static func reduce(value: inout DisplayList, nextValue: () -> DisplayList) {
+            value.append(contentsOf: nextValue())
+        }
+    }
 }
