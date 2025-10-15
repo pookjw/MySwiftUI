@@ -3,8 +3,19 @@ internal import AttributeGraph
 private import CoreGraphics
 
 struct CachedEnvironment {
-    func attribute<T>(id: CachedEnvironment.ID, _ body: (EnvironmentValues) -> T) -> Attribute<T> {
-        fatalError("TODO")
+    mutating func attribute<T>(id: CachedEnvironment.ID, _ body: @escaping (EnvironmentValues) -> T) -> Attribute<T> {
+        for mapItem in mapItems {
+            if mapItem.key == id {
+                return Attribute(identifier: mapItem.value)
+            }
+        }
+        
+        let map = Map<EnvironmentValues, T>(environment, body)
+        let attribute = Attribute(map)
+        let mapItem = MapItem(key: id, value: attribute.identifier)
+        mapItems.append(mapItem)
+        
+        return attribute
     }
     
     private var environment: Attribute<EnvironmentValues>
@@ -19,7 +30,7 @@ struct CachedEnvironment {
 }
 
 extension CachedEnvironment {
-    struct ID {
+    struct ID: Equatable {
         static let layoutDirection = CachedEnvironment.ID(base: UniqueID())
         
         var base: UniqueID

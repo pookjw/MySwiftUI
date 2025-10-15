@@ -132,7 +132,23 @@ exports:
     _$s14AttributeGraph0A0V10mutateBody2as12invalidating_yqd__m_Sbyqd__zXEtlF,
     _$sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlF,
     _$s14AttributeGraph04WeakA0VyACyxGAA0A0VyxGcfC,
-    _$s14AttributeGraph04WeakA0VyACyxGAA0A0VyxGSgcfC ]
+    _$s14AttributeGraph04WeakA0VyACyxGAA0A0VyxGSgcfC,
+    _$s14AttributeGraph3MapV11descriptionSSvg,
+    _$s14AttributeGraph3MapVyACyxq_GAA0A0VyxG_q_xctcfC,
+    _$s14AttributeGraph3MapV5flagsSo20AGAttributeTypeFlagsVvgZ,
+    _$s14AttributeGraph3MapV3argAA0A0VyxGvg,
+    _$s14AttributeGraph3MapV3argAA0A0VyxGvs,
+    _$s14AttributeGraph3MapV3argAA0A0VyxGvM,
+    _$s14AttributeGraph3MapV4bodyyq_xcvg,
+    _$s14AttributeGraph3MapV5valueq_vg,
+    _$s14AttributeGraph3MapVMa,
+    _$s14AttributeGraph3MapVyxq_Gs23CustomStringConvertibleAAMc,
+    _$s14AttributeGraph3MapVyxq_GAA4RuleAAMc,
+    _$s14AttributeGraph3MapVyxq_GAA01_A4BodyAAMc,
+    _$s14AttributeGraph3MapV3argAA0A0VyxGvpMV,
+    _$s14AttributeGraph3MapV4bodyyq_xcvpMV,
+    _$s14AttributeGraph3MapVMn,
+    _$s14AttributeGraph3MapVyxq_GAA01_A4BodyAAWP ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

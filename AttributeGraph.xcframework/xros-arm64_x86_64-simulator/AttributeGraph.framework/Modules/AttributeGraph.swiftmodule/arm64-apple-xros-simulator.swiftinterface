@@ -159,10 +159,6 @@ public struct Focus<Key, Value> {
 
 }
 
-public struct Map<Key, Value> {
-
-}
-
 public struct PointerOffset<A, B> {
 
 }
@@ -280,4 +276,32 @@ extension AttributeGraph.TypeID: Swift.Hashable, Swift.CustomStringConvertible {
     public init(_: Any.Type)
     public var type: Any.Type { get }
     public var description: Swift.String { get }
+}
+
+@frozen
+public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule {
+    public static var flags: AttributeGraph.AGAttributeTypeFlags {
+        get
+    }
+
+    @_hasStorage
+    public var arg: AttributeGraph.Attribute<T> {
+        get set
+    }
+
+    @_hasStorage
+    public var body: (T) -> U {
+        get
+    }
+
+    public var value: U {
+        get
+    }
+
+    public init(_: AttributeGraph.Attribute<T>, _: @escaping (T) -> U)
+
+    public var description: Swift.String {
+        get
+    }
+
 }

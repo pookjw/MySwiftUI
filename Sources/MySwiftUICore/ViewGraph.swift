@@ -374,12 +374,7 @@ package final class ViewGraph: GraphHost {
             
             // <+980>
             $rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { geometry in
-                /*
-                 geometry = x19
-                 */
-                let data = self.data
-                inputs.layoutDirection
-                fatalError("TODO")
+                geometry.$layoutDirection = inputs.layoutDirection
             }
             
             for feature in self.features {

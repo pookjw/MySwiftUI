@@ -8,7 +8,7 @@ struct ViewGeometry {
 }
 
 struct RootGeometry: Rule {
-    @OptionalAttribute private var layoutDirection: LayoutDirection?
+    @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute private var proposedSize: ViewSize
     @OptionalAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?
     @OptionalAttribute private var childLayoutComputer: LayoutComputer?

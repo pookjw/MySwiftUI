@@ -99,7 +99,7 @@ extension _ViewInputs {
 extension _ViewInputs {
     var layoutDirection: Attribute<LayoutDirection> {
         return base.cachedEnvironment.value.attribute(id: .layoutDirection) { environmentValues in
-            fatalError("TODO")
+            return environmentValues.layoutDirection
         }
     }
 }
