@@ -321,3 +321,9 @@ package struct InterfaceIdiomInput: ViewInput {
         return nil
     }
 }
+
+extension _GraphInputs {
+    package var interfaceIdiom: AnyInterfaceIdiom {
+        return self[InterfaceIdiomInput.self] ?? AnyInterfaceIdiom(idiom: .phone)
+    }
+}

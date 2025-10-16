@@ -743,7 +743,9 @@ extension _UIHostingView {
             }
             
             // <+1128>
-            fatalError("TODO")
+            let viewStyle = ViewStyleRegistry.InterfaceIdiom(idiom: inputs.base.interfaceIdiom)
+            let overrides = ViewStyleRegistry.overrides(for: viewStyle)
+            overrides.register(in: &inputs)
         }
     }
 }
