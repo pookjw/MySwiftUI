@@ -652,7 +652,7 @@ protocol UIHostingViewDelegate: AnyObject {
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties)
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: PreferenceValues)
     @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList)
-    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs)
+    func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs)
 }
 
 extension _UIHostingView {
@@ -703,8 +703,26 @@ extension _UIHostingView {
             inputs.base[EventBindingBridgeFactoryInput.self] = UIKitResponderEventBindingBridge.Factory.self
             inputs.base[GestureContainerFactoryInput.self] = ViewResponderGestureContainerFactory.self
             inputs.animationsDisabled = host.disallowAnimations
+            inputs.base.platformProvidersDefinition = SwiftUIPlatformProvidersDefinition.self
+            inputs.base.coreInteractionResponderProvider = UIInteractionResponderProvider.self
             
             // <+532>
+            inputs.base.updateCycleUseSetNeedsLayout = UIKitUpdateCycle.defaultUseSetNeedsLayout
+            
+            if let delegate = host.delegate {
+                delegate.hostingView(host, willModifyViewInputs: &inputs)
+            }
+            
+            // <+808>
+            var inputsBox = UncheckedSendable(inputs)
+            Update.syncMain {
+                // $s7SwiftUI14_UIHostingViewC04HostD5Graph33_FAF0B683EB49BE9BABC9009857940A1ELLV06modifyD6Inputs6inputs5graphyAA01_dN0Vz_AA0dF0CtFyyXEfU_
+                let idiom = host.traitCollection.userInterfaceIdiom
+                let other = inputsBox.value[InterfaceIdiomInput.self]
+                fatalError("TODO")
+            }
+            inputs = inputsBox.value
+            _ = consume inputsBox
             fatalError("TODO")
         }
     }

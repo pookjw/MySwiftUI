@@ -298,10 +298,6 @@ struct InterfaceIdiomPredicate<T> {
     // TODO
 }
 
-struct InterfaceIdiomInput {
-    // TODO
-}
-
 extension EnvironmentValues {
     package var viewGraphIdiom: ViewGraphHost.Idiom {
         get {
@@ -317,5 +313,11 @@ extension EnvironmentValues {
         static var defaultValue: ViewGraphHost.Idiom {
             return .phone
         }
+    }
+}
+
+package struct InterfaceIdiomInput: ViewInput {
+    package static var defaultValue: AnyInterfaceIdiom? {
+        return nil
     }
 }

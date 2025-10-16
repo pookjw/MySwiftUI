@@ -193,7 +193,7 @@ extension RootViewDelegate: UIHostingViewDelegate {
         fatalError("TODO")
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
+        // nop
     }
 }
