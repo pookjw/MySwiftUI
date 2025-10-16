@@ -198,7 +198,16 @@ extension ViewGraphHost {
         }
         
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-            fatalError("TODO")
+            if let host {
+                let definition = host.renderer.platform.definition
+                if definition.system == .uiView {
+                    inputs.base.platformSystem = .uiKit
+                }
+            }
+            
+            if let delegate = host?.delegate {
+                delegate.updateGraphInputs(&inputs.base)
+            }
         }
     }
 }

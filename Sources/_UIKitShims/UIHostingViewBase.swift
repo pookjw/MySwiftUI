@@ -963,7 +963,12 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
     }
 }
 
-extension UIHostingViewBase: ViewGraphHostDelegate {}
+extension UIHostingViewBase: ViewGraphHostDelegate {
+    package func updateGraphInputs(_ inputs: inout MySwiftUICore._GraphInputs) {
+        fatalError("TODO")
+    }
+}
+
 extension UIHostingViewBase: RootContainerShapeProvider {}
 
 package protocol UIHostingViewBaseDelegate: AnyObject {

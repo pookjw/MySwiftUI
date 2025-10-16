@@ -1123,7 +1123,7 @@ struct _DisplayList_StableIdentityMap {
 
 extension DisplayList {
     package final class ViewRenderer: ViewRendererBase {
-        private let platform: DisplayList.ViewUpdater.Platform
+        let platform: DisplayList.ViewUpdater.Platform
         private(set) var configuration = _RendererConfiguration(renderer: .default)
         package weak var host: ViewRendererHost? = nil
         private var state: DisplayList.ViewRenderer.State = .none
