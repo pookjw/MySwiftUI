@@ -9,6 +9,7 @@ private import MRUIKit
 private import RealityKit
 private import TCC
 private import ARKit
+private import AttributeGraph
 
 fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
 
@@ -451,6 +452,14 @@ open class _UIHostingView<Content: View>: UIView {
         return self == rootView
     }
     
+    private final var navigationBridge: NavigationBridge_PhoneTV? {
+        guard let viewController else {
+            return nil
+        }
+        
+        return viewController.navigationBridge
+    }
+    
     private func setLayerDebugName() {
         fatalError("TODO")
     }
@@ -726,6 +735,14 @@ extension _UIHostingView {
             _ = consume inputsBox
             
             // <+856>
+            inputs.uiKitHostContainerFocusItem = Attribute(value: WeakBox(host))
+            
+            // <+1016>
+            if let navigationBridge = host.navigationBridge {
+                navigationBridge.hasSearch = inputs[IsSearchAllowedInput.self]
+            }
+            
+            // <+1128>
             fatalError("TODO")
         }
     }

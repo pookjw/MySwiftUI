@@ -26,6 +26,10 @@ open class UIHostingController<Content: View>: UIViewController {
     final func didRender() {
         fatalError("TODO")
     }
+    
+    final var navigationBridge: NavigationBridge_PhoneTV? {
+        fatalError("TODO")
+    }
 }
 
 extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {

@@ -1,6 +1,7 @@
 #warning("TODO")
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
+internal import AttributeGraph
 
 final class FocusBridge {
     private var flags: Flags = []
@@ -344,5 +345,24 @@ extension EnvironmentValues {
 fileprivate struct FocusBridgeKey: EnvironmentKey {
     static var defaultValue: WeakBox<FocusBridge> {
         return WeakBox(nil)
+    }
+}
+
+struct UIKitHostContainerFocusItemInput: ViewInput {
+    static nonisolated(unsafe) let defaultValue = Attribute<WeakBox<UIView>>(identifier: .empty) 
+}
+
+extension _ViewInputs {
+    // 원래 없음
+    var uiKitHostContainerFocusItem: Attribute<WeakBox<UIView>> {
+        get {
+            return self[UIKitHostContainerFocusItemInput.self]
+        }
+        set {
+            self[UIKitHostContainerFocusItemInput.self] = newValue
+        }
+        _modify {
+            yield &self[UIKitHostContainerFocusItemInput.self]
+        }
     }
 }
