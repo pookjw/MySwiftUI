@@ -349,11 +349,11 @@ package final class ViewGraph: GraphHost {
             }
             
             // <+200>
-            inputs.preferences.keys.add(HostPreferencesKey.self)
+            inputs.preferences.add(HostPreferencesKey.self)
             
             // <+600>
             if requestedOutputs.contains(.viewResponders) {
-                inputs.preferences.keys.add(ViewRespondersKey.self)
+                inputs.preferences.add(ViewRespondersKey.self)
             }
             
             // <+792>
@@ -622,7 +622,7 @@ fileprivate struct RootTransform: Rule {
 }
 
 package protocol ViewGraphFeature {
-    func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph)
+    mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph)
     func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph)
     func uninstantiate(graph: ViewGraph)
     func isHiddenForReuseDidChange(graph: ViewGraph)

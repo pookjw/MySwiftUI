@@ -14,12 +14,11 @@ struct PlatformItemListViewGraph {
 }
 
 extension PlatformItemListViewGraph: ViewGraphFeature {
-    func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+    mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         if graph.requestedOutputs.isSuperset(of: .platformItemList) {
-            inputs.addPlatformItemListKey
+            inputs.addPlatformItemListKey(flags: AllPlatformItemListFlags.self, editOperation: nil)
             wasReadSinceLastUpdate = true
         }
-        fatalError("TODO")
     }
     
     func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
@@ -166,5 +165,11 @@ extension PlatformItemList.Item {
     struct SecondaryNavigationBehavior {
         private var value: AnyNavigationLinkPresentedValue?
         private var action: () -> ()?
+    }
+}
+
+struct AllPlatformItemListFlags: PlatformItemListFlags {
+    static var flags: PlatformItemListFlagsSet {
+        return PlatformItemListFlagsSet(rawValue: .max)
     }
 }

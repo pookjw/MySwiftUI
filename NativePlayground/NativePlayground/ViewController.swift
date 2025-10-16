@@ -202,6 +202,13 @@ class ViewController: UIViewController {
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        print("===")
+        
+        print(_typeByName("7SwiftUI11ViewGraph3DV")!)
+        _forEachField(of: _typeByName("7SwiftUI11ViewGraph3DV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
         
         //        
         print("===")

@@ -36,6 +36,16 @@ struct AccessibilityViewGraph {
 
 extension AccessibilityViewGraph: ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        /*
+         self = x19
+         inputs = x25
+         graph = x28
+         */
+        
+        inputs.needsAccessibility = true
+        inputs.preferences.add(AccessibilityNodesKey.self)
+        inputs.textAccessibilityProvider = SwiftUITextAccessibilityProvider.self
+        
         fatalError("TODO")
     }
     
@@ -98,4 +108,18 @@ extension AccessibilityViewGraph: ViewGraphFeature {
     func update(graph: ViewGraph) {
         fatalError("TODO")
     }
+}
+
+struct AccessibilityNodesKey: PreferenceKey {
+    static nonisolated(unsafe) let defaultValue: AccessibilityNodeList = {
+        fatalError("TODO")
+    }()
+    
+    static func reduce(value: inout AccessibilityNodeList, nextValue: () -> AccessibilityNodeList) {
+        fatalError("TODO")
+    }
+}
+
+struct SwiftUITextAccessibilityProvider: TextAccessibilityProvider {
+    typealias Body = StyledTextContentView
 }

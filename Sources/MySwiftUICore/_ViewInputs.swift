@@ -1,12 +1,12 @@
 #warning("TODO")
 
-internal import AttributeGraph
+package import AttributeGraph
 internal import CoreGraphics
 
 public struct _ViewInputs {
     package var base: _GraphInputs
-    var preferences: PreferencesInputs
-    private var transform: Attribute<ViewTransform>
+    package var preferences: PreferencesInputs
+    package var transform: Attribute<ViewTransform>
     private var position: Attribute<CGPoint>
     private var containerPosition: Attribute<CGPoint>
     private var size: Attribute<ViewSize>
@@ -60,7 +60,11 @@ extension _ViewInputs {
             return base.options.contains(.viewRequestsLayoutComputer)
         }
         set {
-            base.options.insert(.viewRequestsLayoutComputer)
+            if newValue {
+                base.options.insert(.viewRequestsLayoutComputer)
+            } else {
+                base.options.remove(.viewRequestsLayoutComputer)
+            }
         }
     }
     
@@ -69,7 +73,11 @@ extension _ViewInputs {
             return base.options.contains(.viewNeedsGeometry)
         }
         set {
-            base.options.insert(.viewNeedsGeometry)
+            if newValue {
+                base.options.insert(.viewNeedsGeometry)
+            } else {
+                base.options.remove(.viewNeedsGeometry)
+            }
         }
     }
     
@@ -78,28 +86,56 @@ extension _ViewInputs {
             return base.options.contains(.viewDisplayListAccessibility)
         }
         set {
-            base.options.insert(.viewDisplayListAccessibility)
+            if newValue {
+                base.options.insert(.viewDisplayListAccessibility)
+            } else {
+                base.options.remove(.viewDisplayListAccessibility)
+            }
         }
     }
     
-    var needsAccessibilityGeometry: Bool {
+    package var needsAccessibilityGeometry: Bool {
         get {
             return base.options.contains(.viewNeedsGeometryAccessibility)
         }
         set {
-            base.options.insert(.viewNeedsGeometryAccessibility)
+            if newValue {
+                base.options.insert(.viewNeedsGeometryAccessibility)
+            } else {
+                base.options.remove(.viewNeedsGeometryAccessibility)
+            }
+        }
+    }
+    
+    package var needsAccessibility: Bool {
+        get {
+            return base.options.contains(.needsAccessibility)
+        }
+        set {
+            if newValue {
+                base.options.insert(.needsAccessibility)
+            } else {
+                base.options.remove(.needsAccessibility)
+            }
         }
     }
     
     var supportsVFD: Bool {
         return base.options.contains(.supportsVariableFrameDuration)
     }
-}
-
-extension _ViewInputs {
+    
     var layoutDirection: Attribute<LayoutDirection> {
         return base.cachedEnvironment.value.attribute(id: .layoutDirection) { environmentValues in
             return environmentValues.layoutDirection
+        }
+    }
+    
+    package var textAccessibilityProvider: (any TextAccessibilityProvider.Type) {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
         }
     }
 }
