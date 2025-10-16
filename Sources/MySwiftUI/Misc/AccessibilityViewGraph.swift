@@ -35,7 +35,8 @@ struct AccessibilityViewGraph {
 }
 
 extension AccessibilityViewGraph: ViewGraphFeature {
-    func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+    mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        // $s7SwiftUI22AccessibilityViewGraphV06modifyD6Inputs6inputs5graphyAA01_dG0Vz_AA0dE0CtF
         /*
          self = x19
          inputs = x25
@@ -45,7 +46,28 @@ extension AccessibilityViewGraph: ViewGraphFeature {
         inputs.needsAccessibility = true
         inputs.preferences.add(AccessibilityNodesKey.self)
         inputs.textAccessibilityProvider = SwiftUITextAccessibilityProvider.self
+        inputs.imageAccessibilityProvider = SwiftUIImageAccessibilityProvider.self
+        inputs.privacyReductionAccessibilityProvider = SwiftUIPrivacyReductionAccessibilityProvider.self
+        inputs.layoutAccessibilityProvider = SwiftUILayoutAccessibilityProvider.self
+        inputs.gestureAccessibilityProvider = SwiftUIGestureAccessibilityProvider.self
+        inputs.opacityAccessibilityProvider = SwiftUIOpacityAccessibilityProvider.self
+        inputs.contentShapeAccessibilityProvider = SwiftUIContentShapeAccessibilityProvider.self
+        inputs.allowsHitTestingAccessibilityProvider = SwiftUIAllowsHitTestingAccessibilityProvider.self
+        inputs.hiddenAccessibilityProvider = SwiftUIHiddenAccessibilityProvider.self
+        inputs.customHoverEffectAccessibilityProvider = SwiftUICustomHoverEffectsAccessibilityProvider.self
+        inputs.remoteEffectsAccessibilityProvider = SwiftUIRemoteEffectsAccessibilityProvider.self
         
+        // <+436>
+        if graph.requestedOutputs.isSuperset(of: .layout) {
+            inputs.needsAccessibilityGeometry = true
+            inputs.base[AccessibilityCapturesViewResponders.self] = true
+        }
+        
+        // <+624>
+        inputs.makeRootAccessibilityRelationshipScope()
+        self.relationshipScope = inputs[AccessibilityRelationshipScope.self]
+        
+        // <+712>
         fatalError("TODO")
     }
     
@@ -121,5 +143,49 @@ struct AccessibilityNodesKey: PreferenceKey {
 }
 
 struct SwiftUITextAccessibilityProvider: TextAccessibilityProvider {
-    typealias Body = StyledTextContentView
+    
+}
+
+struct SwiftUIImageAccessibilityProvider: ImageAccessibilityProvider {
+    
+}
+
+struct SwiftUIPrivacyReductionAccessibilityProvider: PrivacyReductionAccessibilityProvider {
+    
+}
+
+struct SwiftUILayoutAccessibilityProvider: LayoutAccessibilityProvider {
+    
+}
+
+struct SwiftUIGestureAccessibilityProvider: GestureAccessibilityProvider {
+    
+}
+
+struct SwiftUIOpacityAccessibilityProvider: OpacityAccessibilityProvider {
+    
+}
+
+struct SwiftUIContentShapeAccessibilityProvider: ContentShapeAccessibilityProvider {
+    
+}
+
+struct SwiftUIAllowsHitTestingAccessibilityProvider: AllowsHitTestingAccessibilityProvider {
+    
+}
+
+struct SwiftUIHiddenAccessibilityProvider: HiddenAccessibilityProvider {
+    
+}
+
+struct SwiftUICustomHoverEffectsAccessibilityProvider: CustomHoverEffectAccessibilityProvider {
+    
+}
+
+struct SwiftUIRemoteEffectsAccessibilityProvider: RemoteEffectsAccessibilityProvider {
+    
+}
+
+fileprivate struct AccessibilityCapturesViewResponders: ViewInputBoolFlag {
+    
 }

@@ -1,5 +1,27 @@
 #warning("TODO")
 
-package protocol TextAccessibilityProvider {
-    associatedtype Body: View
+package protocol TextAccessibilityProvider: View {
+    
+}
+
+extension _GraphInputs {
+    var textAccessibilityProvider: (any TextAccessibilityProvider.Type) {
+        get {
+            return self[TextAccessibilityProviderKey.self]
+        }
+        set {
+            self[TextAccessibilityProviderKey.self] = newValue
+        }
+        _modify {
+            yield &self[TextAccessibilityProviderKey.self]
+        }
+    }
+    
+    fileprivate struct TextAccessibilityProviderKey: GraphInput {
+        static nonisolated(unsafe) let defaultValue: (any TextAccessibilityProvider.Type) = EmptyTextAccessibilityProvider.self
+    }
+}
+
+struct EmptyTextAccessibilityProvider: TextAccessibilityProvider {
+    
 }

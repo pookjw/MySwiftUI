@@ -132,10 +132,133 @@ extension _ViewInputs {
     
     package var textAccessibilityProvider: (any TextAccessibilityProvider.Type) {
         get {
-            fatalError("TODO")
+            return base.textAccessibilityProvider
         }
         set {
-            fatalError("TODO")
+            base.textAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.textAccessibilityProvider
+        }
+    }
+    
+    package var imageAccessibilityProvider: (any ImageAccessibilityProvider.Type) {
+        get {
+            return base.imageAccessibilityProvider
+        }
+        set {
+            base.imageAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.imageAccessibilityProvider
+        }
+    }
+    
+    package var privacyReductionAccessibilityProvider: (any PrivacyReductionAccessibilityProvider.Type) {
+        get {
+            return base.privacyReductionAccessibilityProvider
+        }
+        set {
+            base.privacyReductionAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.privacyReductionAccessibilityProvider
+        }
+    }
+    
+    package var layoutAccessibilityProvider: (any LayoutAccessibilityProvider.Type) {
+        get {
+            return base.layoutAccessibilityProvider
+        }
+        set {
+            base.layoutAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.layoutAccessibilityProvider
+        }
+    }
+    
+    package var gestureAccessibilityProvider: (any GestureAccessibilityProvider.Type) {
+        get {
+            return base.gestureAccessibilityProvider
+        }
+        set {
+            base.gestureAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.gestureAccessibilityProvider
+        }
+    }
+    
+    package var opacityAccessibilityProvider: (any OpacityAccessibilityProvider.Type) {
+        get {
+            return base.opacityAccessibilityProvider
+        }
+        set {
+            base.opacityAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.opacityAccessibilityProvider
+        }
+    }
+    
+    package var contentShapeAccessibilityProvider: (any ContentShapeAccessibilityProvider.Type) {
+        get {
+            return base.contentShapeAccessibilityProvider
+        }
+        set {
+            base.contentShapeAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.contentShapeAccessibilityProvider
+        }
+    }
+    
+    package var allowsHitTestingAccessibilityProvider: (any AllowsHitTestingAccessibilityProvider.Type) {
+        get {
+            return base.allowsHitTestingAccessibilityProvider
+        }
+        set {
+            base.allowsHitTestingAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.allowsHitTestingAccessibilityProvider
+        }
+    }
+    
+    package var hiddenAccessibilityProvider: (any HiddenAccessibilityProvider.Type) {
+        get {
+            return base.hiddenAccessibilityProvider
+        }
+        set {
+            base.hiddenAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.hiddenAccessibilityProvider
+        }
+    }
+    
+    package var customHoverEffectAccessibilityProvider: (any CustomHoverEffectAccessibilityProvider.Type) {
+        get {
+            return base.customHoverEffectAccessibilityProvider
+        }
+        set {
+            base.customHoverEffectAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.customHoverEffectAccessibilityProvider
+        }
+    }
+    
+    package var remoteEffectsAccessibilityProvider: (any RemoteEffectsAccessibilityProvider.Type) {
+        get {
+            return base.remoteEffectsAccessibilityProvider
+        }
+        set {
+            base.remoteEffectsAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.remoteEffectsAccessibilityProvider
         }
     }
 }

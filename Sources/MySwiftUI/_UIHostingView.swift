@@ -21,6 +21,10 @@ open class _UIHostingView<Content: View>: UIView {
         return true
     }
     
+    class var defaultViewGraphOutputs: ViewGraph.Outputs {
+        return ViewGraph.Outputs.defaults
+    }
+    
     public var rootView: Content {
         _rootView
     }

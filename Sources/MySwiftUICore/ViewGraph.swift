@@ -477,11 +477,11 @@ extension ViewGraph {
         }
         
         package static var all: Outputs {
-            return [.displayList, .viewResponders, .layout, .focus]
+            return Outputs(rawValue: .max)
         }
         
         package static var defaults: Outputs {
-            return Outputs(rawValue: .max)
+            return [.displayList, .viewResponders, .layout, .focus]
         }
     }
 }

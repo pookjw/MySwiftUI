@@ -28,6 +28,9 @@ public struct _GraphInputs {
         set {
             customInputs[type] = newValue
         }
+        _modify {
+            yield &customInputs[type]
+        }
     }
     
     subscript<T: GraphInput>(_ type: T.Type) -> T.Value where T.Value : GraphReusable {
@@ -35,6 +38,9 @@ public struct _GraphInputs {
             return customInputs[type]
         }
         set {
+            fatalError("TODO")
+        }
+        _modify {
             fatalError("TODO")
         }
     }
