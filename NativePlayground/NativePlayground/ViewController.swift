@@ -209,6 +209,13 @@ class ViewController: UIViewController {
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        print("===")
+        
+        print(_typeByName("7SwiftUI22AccessibilityViewGraphV")!)
+        _forEachField(of: _typeByName("7SwiftUI22AccessibilityViewGraphV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
         
         //        
         print("===")
@@ -231,8 +238,8 @@ class ViewController: UIViewController {
         print("===")
         
         
-        print(_UIHostingView<EmptyView>.self)
-        _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
+        print(_UIHostingView<Color>.self)
+        _forEachField(of: _UIHostingView<Color>.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

@@ -696,6 +696,15 @@ extension _UIHostingView {
         }
         
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+            guard let host else {
+                return
+            }
+            
+            inputs.base[EventBindingBridgeFactoryInput.self] = UIKitResponderEventBindingBridge.Factory.self
+            inputs.base[GestureContainerFactoryInput.self] = ViewResponderGestureContainerFactory.self
+            inputs.animationsDisabled = host.disallowAnimations
+            
+            // <+532>
             fatalError("TODO")
         }
     }

@@ -148,7 +148,11 @@ exports:
     _$s14AttributeGraph3MapV3argAA0A0VyxGvpMV,
     _$s14AttributeGraph3MapV4bodyyq_xcvpMV,
     _$s14AttributeGraph3MapVMn,
-    _$s14AttributeGraph3MapVyxq_GAA01_A4BodyAAWP ]
+    _$s14AttributeGraph3MapVyxq_GAA01_A4BodyAAWP,
+    _$s14AttributeGraph08OptionalA0V4baseACyxGAA03AnycA0V_tcfC,
+    _$s14AttributeGraph011AnyOptionalA0V9attributeSo11AGAttributeaSgvg,
+    _$s14AttributeGraph011AnyOptionalA0VyACSo11AGAttributeaSgcfC,
+    _$s14AttributeGraph011AnyOptionalA0VyACSo11AGAttributeacfC ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

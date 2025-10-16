@@ -68,7 +68,12 @@ extension AccessibilityViewGraph: ViewGraphFeature {
         self.relationshipScope = inputs[AccessibilityRelationshipScope.self]
         
         // <+712>
-        fatalError("TODO")
+        inputs.base.accessibilityFocusStore = OptionalAttribute(base: AnyOptionalAttribute(_accessibilityFocusStore.base.identifier))
+        inputs.base.accessibilityFocus = OptionalAttribute(base: AnyOptionalAttribute(_accessibilityFocus.base.identifier))
+        
+        if graph.requestedOutputs.contains(.focus) && focusStoreEnabled && (graph.parentHost != nil) {
+            graph.removePreference(AccessibilityFocusStoreList.Key.self)
+        }
     }
     
     func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {

@@ -18,7 +18,7 @@ struct InteractiveResizeChangeViewGraphFeature {
 
 extension InteractiveResizeChangeViewGraphFeature: ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-        fatalError("TODO")
+        inputs.base.interactiveResize = WeakAttribute(_isInteractivelyResizing)
     }
     
     func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
@@ -39,5 +39,26 @@ extension InteractiveResizeChangeViewGraphFeature: ViewGraphFeature {
     
     func update(graph: ViewGraph) {
         fatalError("TODO")
+    }
+}
+
+extension _GraphInputs {
+    // 원래 없음
+    var interactiveResize: WeakAttribute<Bool> {
+        get {
+            return self[InteractiveResizeInput.self]
+        }
+        set {
+            self[InteractiveResizeInput.self] = newValue
+        }
+        _modify {
+            yield &self[InteractiveResizeInput.self]
+        }
+    }
+}
+
+fileprivate struct InteractiveResizeInput: ViewInput {
+    static var defaultValue: WeakAttribute<Bool> {
+        return WeakAttribute()
     }
 }

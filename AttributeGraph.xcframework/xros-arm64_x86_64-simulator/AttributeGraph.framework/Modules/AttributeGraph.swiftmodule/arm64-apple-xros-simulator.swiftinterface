@@ -163,13 +163,6 @@ public struct PointerOffset<A, B> {
 
 }
 
-public struct AnyOptionalAttribute {
-    public var identifier: AttributeGraph.AnyAttribute {
-        get
-        set
-    }
-}
-
 @frozen
 @propertyWrapper
 public struct OptionalAttribute<T> {
@@ -196,6 +189,7 @@ public struct OptionalAttribute<T> {
     public init(_: AttributeGraph.Attribute<T>)
     public init(_: AttributeGraph.WeakAttribute<T>)
     public init(_: AttributeGraph.Attribute<T>?)
+    public init(base: AttributeGraph.AnyOptionalAttribute)
 }
 
 public protocol _AttributeBody {}
@@ -303,5 +297,21 @@ public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule {
     public var description: Swift.String {
         get
     }
+}
 
+public struct AnyOptionalAttribute: Swift.Hashable, Swift.CustomStringConvertible {
+    public init(_: AttributeGraph.AnyAttribute)
+    public init(_: AttributeGraph.AnyAttribute?)
+
+    public var identifier: AttributeGraph.AnyAttribute {
+        get set
+    }
+
+    public var attribute: AttributeGraph.AnyAttribute? {
+        get set
+    }
+
+    public var description: Swift.String {
+        get
+    }
 }

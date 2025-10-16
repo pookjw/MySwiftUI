@@ -124,6 +124,22 @@ extension _ViewInputs {
         return base.options.contains(.supportsVariableFrameDuration)
     }
     
+    package var animationsDisabled: Bool {
+        get {
+            return base.options.contains(.animationsDisabled)
+        }
+        set {
+            if newValue {
+                base.options.insert(.animationsDisabled)
+            } else {
+                base.options.remove(.animationsDisabled)
+            }
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
     var layoutDirection: Attribute<LayoutDirection> {
         return base.cachedEnvironment.value.attribute(id: .layoutDirection) { environmentValues in
             return environmentValues.layoutDirection
