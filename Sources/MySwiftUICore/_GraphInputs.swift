@@ -2,7 +2,7 @@
 internal import AttributeGraph
 
 public struct _GraphInputs {
-    var customInputs: PropertyList = PropertyList()
+    var customInputs = PropertyList()
     var time: Attribute<Time>
     var cachedEnvironment: MutableBox<CachedEnvironment>
     var phase: Attribute<_GraphInputs.Phase>
@@ -21,12 +21,12 @@ public struct _GraphInputs {
         self.transaction = transaction
     }
     
-    subscript<T: GraphInput>(_ type: T.Type) -> T.Value {
+    package subscript<T: GraphInput>(_ type: T.Type) -> T.Value {
         get {
             return customInputs[type]
         }
         set {
-            fatalError("TODO")
+            customInputs[type] = newValue
         }
     }
     

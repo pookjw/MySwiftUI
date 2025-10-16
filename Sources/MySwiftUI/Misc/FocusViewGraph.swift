@@ -1,6 +1,6 @@
 #warning("TODO")
 @_spi(Internal) internal import MySwiftUICore
-private import AttributeGraph
+internal import AttributeGraph
 private import UIKit
 
 struct FocusViewGraph {
@@ -59,6 +59,9 @@ struct FocusViewGraph {
 
 extension FocusViewGraph: ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        inputs.base[FocusedItemInputKey.self] = _focusedItem
+        inputs.base[FocusedValuesInputKey.self] = _focusedValues
+        inputs.base[FocusStoreInputKey.self] = _focusStore
         fatalError("TODO")
     }
     
@@ -141,5 +144,23 @@ extension FocusViewGraph {
         func combine<T>(with other: T) -> Bool where T : MySwiftUICore.GraphMutation {
             fatalError("TODO")
         }
+    }
+}
+
+fileprivate struct FocusedItemInputKey: ViewInput {
+    static var defaultValue: OptionalAttribute<FocusItem?> {
+        return OptionalAttribute()
+    }
+}
+
+struct FocusedValuesInputKey: ViewInput {
+    static var defaultValue: OptionalAttribute<FocusedValues> {
+        return OptionalAttribute()
+    }
+}
+
+struct FocusStoreInputKey: ViewInput {
+    static var defaultValue: OptionalAttribute<FocusStore> {
+        return OptionalAttribute()
     }
 }

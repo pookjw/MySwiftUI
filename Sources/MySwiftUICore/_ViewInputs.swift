@@ -4,7 +4,7 @@ internal import AttributeGraph
 internal import CoreGraphics
 
 public struct _ViewInputs {
-    var base: _GraphInputs
+    package var base: _GraphInputs
     var preferences: PreferencesInputs
     private var transform: Attribute<ViewTransform>
     private var position: Attribute<CGPoint>

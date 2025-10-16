@@ -66,12 +66,12 @@ extension ViewGraphFeatureBuffer {
         // 아래 모두 원래 없으며 추정임
         @inlinable
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewInputs(elt: base, inputs: inputs, graph: graph)
+            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewInputs(elt: base, inputs: &inputs, graph: graph)
         }
         
         @inlinable
         func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewOutputs(elt: base, outputs: outputs, inputs: inputs, graph: graph)
+            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewOutputs(elt: base, outputs: &outputs, inputs: inputs, graph: graph)
         }
         
         @inlinable
@@ -113,11 +113,11 @@ extension ViewGraphFeatureBuffer {
 
 extension ViewGraphFeatureBuffer {
     fileprivate class VTable: _UnsafeHeterogeneousBuffer_VTable {
-        class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: _ViewInputs, graph: ViewGraph) {
+        class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
             fatalError() // abstract
         }
         
-        class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+        class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
             fatalError() // abstract
         }
         
@@ -157,11 +157,11 @@ extension ViewGraphFeatureBuffer {
             fatalError("TODO")
         }
         
-        override class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: _ViewInputs, graph: ViewGraph) {
-            fatalError("TODO")
+        override class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
+            elt.body(as: T.self).pointee.modifyViewInputs(inputs: &inputs, graph: graph)
         }
         
-        override class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+        override class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
             fatalError("TODO")
         }
         

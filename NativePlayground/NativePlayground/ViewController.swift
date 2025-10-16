@@ -187,6 +187,13 @@ class ViewController: UIViewController {
         _forEachField(of: _typeByName("7SwiftUI17CachedEnvironmentV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
+        }  
+        print("===")
+        
+        print(_typeByName("7SwiftUI14FocusViewGraphV")!)
+        _forEachField(of: _typeByName("7SwiftUI14FocusViewGraphV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
         }
         
         //        
