@@ -15,6 +15,10 @@ struct PlatformItemListViewGraph {
 
 extension PlatformItemListViewGraph: ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        if graph.requestedOutputs.isSuperset(of: .platformItemList) {
+            inputs.addPlatformItemListKey
+            wasReadSinceLastUpdate = true
+        }
         fatalError("TODO")
     }
     
