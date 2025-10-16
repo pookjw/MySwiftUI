@@ -718,11 +718,14 @@ extension _UIHostingView {
             Update.syncMain {
                 // $s7SwiftUI14_UIHostingViewC04HostD5Graph33_FAF0B683EB49BE9BABC9009857940A1ELLV06modifyD6Inputs6inputs5graphyAA01_dN0Vz_AA0dF0CtFyyXEfU_
                 let idiom = host.traitCollection.userInterfaceIdiom
-                let other = inputsBox.value[InterfaceIdiomInput.self]
-                fatalError("TODO")
+                if inputsBox.value[InterfaceIdiomInput.self] == nil {
+                    inputsBox.value[InterfaceIdiomInput.self] = idiom.idiom
+                }
             }
             inputs = inputsBox.value
             _ = consume inputsBox
+            
+            // <+856>
             fatalError("TODO")
         }
     }
