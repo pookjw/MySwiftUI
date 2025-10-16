@@ -1,5 +1,6 @@
 // F00DE100DEB1EA63E29A46C946A53E51
 #warning("TODO")
+private import _MySwiftUIShims
 
 package enum ViewStyleRegistry {
     package static func registerOverrides(_: ViewStyleOverrides, for: ViewStyleRegistry.InterfaceIdiom) {
@@ -49,8 +50,36 @@ package struct ViewStyleOverrides {
     }
     
     package func register(in inputs: inout _ViewInputs) {
-        // 뭔가를 forEach해서 static SwiftUI.DefaultStyleModifier.registerDefaultStyle(in: inout SwiftUI._ViewInputs) 호출하는 것 같음
-        fatalError("TODO")
+        print("TODO: SWSApplyVisualStyles에서 registerDefaultButtonBehaviorStyleType 같은 걸로 미리 Style 넣어줘야함")
+        
+        let defaultStyleModifierProtocolDescriptor = _defaultStyleModifierProtocolDescriptor()
+        registeredStyles
+            .forEach { key, value in
+                guard swift_conformsToProtocol(value, defaultStyleModifierProtocolDescriptor) != nil else {
+                    return
+                }
+                
+                unsafeBitCast(value, to: (any DefaultStyleModifier.Type).self).registerDefaultStyle(in: &inputs)
+            }
+        
+        let styleOverrideModifierProtocolDescriptor = _styleOverrideModifierProtocolDescriptor()
+        registeredStyleOverrides
+            .forEach { key, value in
+                guard swift_conformsToProtocol(value, styleOverrideModifierProtocolDescriptor) != nil else {
+                    return
+                }
+                
+                unsafeBitCast(value, to: (any StyleOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
+            }
+        
+        registeredStyleWriterOverrides
+            .forEach { key, value in
+                guard swift_conformsToProtocol(value, _styleWriterOverrideModifierProtocolDescriptor()) != nil else {
+                    return
+                }
+                
+                unsafeBitCast(value, to: (any StyleWriterOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
+            }
     }
     
     func registerDefaultStyle(_: Any.Type?, in: inout _ViewInputs) {
@@ -78,4 +107,38 @@ protocol StyleModifier: MultiViewModifier, PrimitiveViewModifier, View {
 
 protocol AnyDefaultStyle {
     // TODO
+}
+
+protocol DefaultStyleModifier: StyleModifier, AnyDefaultStyle {
+    // TODO
+}
+
+extension DefaultStyleModifier {
+    static nonisolated func registerDefaultStyle(in: inout _ViewInputs) {
+        fatalError("TODO")
+    }
+}
+
+protocol StyleOverrideModifier: DefaultStyleModifier {
+    static nonisolated func injectStyleOverride(in: inout _ViewInputs)
+}
+
+extension StyleOverrideModifier {
+    static nonisolated func injectStyleOverride(in: inout _ViewInputs) {
+        fatalError("TODO")
+    }
+}
+
+protocol StyleWriterOverrideModifier: AnyDefaultStyle {
+    associatedtype OriginalStyle
+    associatedtype StyleOverride
+    
+    static func injectStyleOverride(in: inout _ViewInputs)
+    // TODO
+}
+
+extension StyleWriterOverrideModifier {
+    static nonisolated func injectStyleOverride<T: ViewInputPredicate>(in: inout _ViewInputs, requiring: T.Type) {
+        fatalError("TODO")
+    }
 }
