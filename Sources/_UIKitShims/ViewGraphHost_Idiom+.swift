@@ -23,4 +23,8 @@ extension ViewGraphHost.Idiom {
             return nil
         }
     }
+    
+    init?(_msui_uiIdiom idiom: UIUserInterfaceIdiom) {
+        self.init(_uiIdiom: idiom)
+    }
 }

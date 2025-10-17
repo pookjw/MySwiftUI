@@ -189,6 +189,27 @@ extension ViewGraphHost {
     }
 }
 
+extension _GraphInputs {
+    package var viewGraphHostIdiom: ViewGraphHost.Idiom? {
+        get {
+            guard let idiom = self[InterfaceIdiomInput.self] else {
+                return nil
+            }
+            return ViewGraphHost.Idiom(idiom.interfaceIdiom)
+        }
+        set {
+            if let newValue {
+                self[InterfaceIdiomInput.self] = AnyInterfaceIdiom(idiom: newValue.base)
+            } else {
+                self[InterfaceIdiomInput.self] = nil
+            }
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+}
+
 extension ViewGraphHost {
     struct GraphFeature: ViewGraphFeature {
         private weak var host: ViewGraphHost?

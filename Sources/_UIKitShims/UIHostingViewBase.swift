@@ -965,7 +965,20 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
 
 extension UIHostingViewBase: ViewGraphHostDelegate {
     package func updateGraphInputs(_ inputs: inout MySwiftUICore._GraphInputs) {
-        fatalError("TODO")
+        // x20
+        guard let uiView else {
+            return
+        }
+        
+        guard let idiom = ViewGraphHost.Idiom(_msui_uiIdiom: uiView.traitCollection.userInterfaceIdiom) else {
+            return
+        }
+        
+        guard inputs.viewGraphHostIdiom == nil else {
+            return
+        }
+        
+        inputs.viewGraphHostIdiom = idiom
     }
 }
 

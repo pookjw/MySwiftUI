@@ -46,7 +46,11 @@ package final class ViewGraph: GraphHost {
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
         self.rootViewType = rootViewType
         self.requestedOutputs = requestedOutputs
-        self.makeRootView = { _, _ in
+        self.makeRootView = { attribute, inputs in
+            /*
+             attribute = sp, #0xc
+             inputs = x29, #-0xc0
+             */
             fatalError("TODO")
         }
         
