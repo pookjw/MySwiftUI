@@ -278,3 +278,9 @@ extension _ViewInputs {
         }
     }
 }
+
+extension _ViewInputs {
+    func setContainerShape<T: RoundedRectangularShape>(_: Attribute<T>, isSystemShape: Bool) {
+        fatalError("TODO")
+    }
+}
