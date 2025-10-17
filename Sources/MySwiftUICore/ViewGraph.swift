@@ -44,18 +44,13 @@ package final class ViewGraph: GraphHost {
     private var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
     
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
+        // <+224>
         self.rootViewType = rootViewType
         self.requestedOutputs = requestedOutputs
-        self.makeRootView = { attribute, inputs in
-            /*
-             attribute = sp, #0xc
-             inputs = x29, #-0xc0
-             */
-//            inputs.setContainerShape(MySwiftUICore.UnevenRoundedRectangle.self, isSystemShape: true)
-            fatalError("TODO")
-        }
         
+        // x29 - 0xc8
         let data = GraphHost.Data()
+        
         let oldCurrent = Subgraph.current
         Subgraph.current = data.globalSubgraph
         
@@ -70,21 +65,26 @@ package final class ViewGraph: GraphHost {
         CustomEventTrace.recordNamedProperty(.rootView, rootView)
         self.rootView = rootView.identifier
         
+        // <+588>
         let tramsform = Attribute(RootTransform())
         CustomEventTrace.recordNamedProperty(.transform, tramsform)
         self._rootTransform = tramsform
         self._transform = tramsform
         
+        // <+752>
         self._zeroPoint = Attribute(value: .zero)
         
+        // <+824>
         let proposedSize = Attribute(value: ViewSize.zero)
         CustomEventTrace.recordNamedProperty(.size, proposedSize)
         self._proposedSize = proposedSize
         
+        // <+976>
         let containerSize = Attribute(value: ViewSize.zero)
         CustomEventTrace.recordNamedProperty(.containerSize, containerSize)
         self._containerSize = OptionalAttribute(containerSize)
         
+        // <+1148>
         let safeAreaInsets: Attribute<_SafeAreaInsetsModifier>
         if isLinkedOnOrAfter(.v7) {
             safeAreaInsets = Attribute(
@@ -110,17 +110,48 @@ package final class ViewGraph: GraphHost {
         CustomEventTrace.recordNamedProperty(.safeArea, safeAreaInsets)
         self._safeAreaInsets = safeAreaInsets
         
+        // <+1644>
         self._containerShape = Attribute(RootContainerShape())
+        // <+1724>
         self._defaultLayoutComputer = Attribute(value: unsafe LayoutComputer.defaultValue)
+        // <+1816>
         self._gestureTime = Attribute(value: Time.zero)
+        // <+1864>
         self._gestureEvents = Attribute(value: [:])
+        // <+1936>
         self._inheritedPhase = Attribute(value: _GestureInputs.InheritedPhase.defaultValue)
+        // <+1984>
         self._gestureResetSeed = Attribute(value: 0)
+        // <+2024>
         self._gesturePreferenceKeys = Attribute(value: PreferenceKeys())
-        
+        // <+2068>
         self._rootGeometry = Attribute(RootGeometry(proposedSize: self._proposedSize, safeAreaInsets: OptionalAttribute(self._safeAreaInsets)))
+        // <+2148>
         self._position = self._rootGeometry.origin()
+        // <+2168>
         self._dimensions = self._rootGeometry.size()
+        
+        // <+2244>
+        self.makeRootView = { attribute, inputs in
+            /*
+             ->  0x14d205ef0 <+0>:  ldp    x6, x7, [x20, #0x10]
+             
+             _zeroPoint (Attribute<CGPoint>) (0xf8)
+             _proposedSize (Attribute<ViewSize>) (0xfc)
+             _safeAreaInsets (Attribute<_SafeAreaInsetsModifier>) (0x100)
+             _containerShape (Attribute<UnevenRoundedRectangle>) (0x104)
+             
+                 0x14d205ef4 <+4>:  ldp    w2, w3, [x20, #0x20]
+                 0x14d205ef8 <+8>:  ldp    w4, w5, [x20, #0x28]
+             */
+            /*
+             attribute = sp, #0xc
+             inputs = x29, #-0xc0
+             */
+            
+//            inputs.setContainerShape(MySwiftUICore.UnevenRoundedRectangle.self, isSystemShape: true)
+            fatalError("TODO")
+        }
         
         super.init(data: data)
     }

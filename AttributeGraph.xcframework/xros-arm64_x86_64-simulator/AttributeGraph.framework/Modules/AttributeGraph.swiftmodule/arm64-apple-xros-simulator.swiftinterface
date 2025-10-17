@@ -57,9 +57,7 @@ public struct Attribute<T> {
     public init<C: AttributeGraph.StatefulRule>(_ rule: C) where C.Value == T
     public init<C: AttributeGraph.StatefulRule>(_ rule: C, initialValue: T) where C.Value == T
 
-    // TODO: Inline 같음
     public init(value: T)
-    // 이것도
     public init(type: T.Type)
 
     public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
