@@ -152,7 +152,11 @@ exports:
     _$s14AttributeGraph08OptionalA0V4baseACyxGAA03AnycA0V_tcfC,
     _$s14AttributeGraph011AnyOptionalA0V9attributeSo11AGAttributeaSgvg,
     _$s14AttributeGraph011AnyOptionalA0VyACSo11AGAttributeaSgcfC,
-    _$s14AttributeGraph011AnyOptionalA0VyACSo11AGAttributeacfC ]
+    _$s14AttributeGraph011AnyOptionalA0VyACSo11AGAttributeacfC,
+    _AGSubgraphShouldRecordTree,
+    _$sSo13AGSubgraphRefa14AttributeGraphE16beginTreeElement5value5flagsyAC0C0VyxG_s6UInt32VtlFZ,
+    _$sSo13AGSubgraphRefa14AttributeGraphE12addTreeValue_6forKey5flagsyAC0C0VyxG_SPys4Int8VGs6UInt32VtlFZ,
+    _$sSo13AGSubgraphRefa14AttributeGraphE14endTreeElement5valueyAC0C0VyxG_tlFZ ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

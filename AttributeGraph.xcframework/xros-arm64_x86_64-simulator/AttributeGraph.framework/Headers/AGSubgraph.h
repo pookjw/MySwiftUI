@@ -14,6 +14,7 @@ AG_EXTERN void AGSubgraphRemoveChild(AGSubgraphRef parent, AGSubgraphRef child) 
 AG_EXTERN BOOL AGSubgraphIsDirty(AGSubgraphRef) NS_SWIFT_NAME(getter:Subgraph.isDirty(self:));
 AG_EXTERN void AGSubgraphUpdate(AGSubgraphRef, unsigned int) NS_SWIFT_NAME(Subgraph.update(self:_:));
 AG_EXTERN void AGSubgraphSetShouldRecordTree(void) NS_SWIFT_NAME(Subgraph.setShouldRecordTree());
+AG_EXTERN BOOL AGSubgraphShouldRecordTree(void) NS_SWIFT_NAME(getter:Subgraph.shouldRecordTree());
 
 NS_ASSUME_NONNULL_END
 

@@ -132,24 +132,38 @@ package final class ViewGraph: GraphHost {
         self._dimensions = self._rootGeometry.size()
         
         // <+2244>
-        self.makeRootView = { attribute, inputs in
-            /*
-             ->  0x14d205ef0 <+0>:  ldp    x6, x7, [x20, #0x10]
-             
-             _zeroPoint (Attribute<CGPoint>) (0xf8)
-             _proposedSize (Attribute<ViewSize>) (0xfc)
-             _safeAreaInsets (Attribute<_SafeAreaInsetsModifier>) (0x100)
-             _containerShape (Attribute<UnevenRoundedRectangle>) (0x104)
-             
-                 0x14d205ef4 <+4>:  ldp    w2, w3, [x20, #0x20]
-                 0x14d205ef8 <+8>:  ldp    w4, w5, [x20, #0x28]
-             */
+        self.makeRootView = { [containerShape = _containerShape, safeAreaInsets = _safeAreaInsets] attribute, inputs in
             /*
              attribute = sp, #0xc
              inputs = x29, #-0xc0
+             
+             T = sp + 0x10
+             protocol witness T: View = sp + 0x18
+             _zeroPoint = sp + 0x3b0 & sp + 0x3b4
+             _proposedSize = sp + 0x3b8
+             _containerShape = x25
+             _safeAreaInsets = x28
              */
+            // sp + 0x370(0x310)
+            var copy_1 = inputs
+            copy_1.setContainerShape(containerShape, isSystemShape: true)
             
-//            inputs.setContainerShape(MySwiftUICore.UnevenRoundedRectangle.self, isSystemShape: true)
+            // x25
+            let shouldRecordTree = Subgraph.shouldRecordTree
+            // sp + 0x2b0
+            var copy_2: _ViewInputs
+            if shouldRecordTree {
+                // <+232>
+                copy_1 = inputs
+                copy_2 = copy_1
+                Subgraph.beginTreeElement(value: safeAreaInsets, flags: 0)
+            } else {
+                // <+280>
+                copy_1 = inputs
+                copy_2 = copy_1
+            }
+            
+            // <+304>
             fatalError("TODO")
         }
         
