@@ -297,7 +297,7 @@ extension PropertyList {
             fatalError("TODO")
         }
         
-        package func invalidateValue<T: PropertyKey>(for type: T.Type, from: PropertyList, to: PropertyList) {
+        package func invalidateValue<Key: PropertyKey>(for: Key.Type, from: PropertyList, to: PropertyList) {
             fatalError("TODO")
         }
         

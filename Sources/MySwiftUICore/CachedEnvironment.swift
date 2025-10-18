@@ -3,6 +3,16 @@ internal import AttributeGraph
 private import CoreGraphics
 
 struct CachedEnvironment {
+    var environment: Attribute<EnvironmentValues>
+    private var mapItems: [MapItem] = []
+    private var animatedFrame: [AnimatedFrame] = []
+    private var resolvedShapeStyles: [ResolvedShapeStyles] = []
+    private var platformCache = CachedEnvironment.PlatformCache()
+    
+    init(environment: Attribute<EnvironmentValues>) {
+        self.environment = environment
+    }
+    
     mutating func attribute<T>(id: CachedEnvironment.ID, _ body: @escaping (EnvironmentValues) -> T) -> Attribute<T> {
         for mapItem in mapItems {
             if mapItem.key == id {
@@ -18,21 +28,15 @@ struct CachedEnvironment {
         return attribute
     }
     
-    private var environment: Attribute<EnvironmentValues>
-    private var mapItems: [MapItem] = []
-    private var animatedFrame: [AnimatedFrame] = []
-    private var resolvedShapeStyles: [ResolvedShapeStyles] = []
-    private var platformCache = CachedEnvironment.PlatformCache()
-    
-    init(environment: Attribute<EnvironmentValues>) {
-        self.environment = environment
-    }
-    
-    func animatedPosition(for: _ViewInputs) -> Attribute<CGPoint> {
+    func animatedPosition(for inputs: _ViewInputs) -> Attribute<CGPoint> {
         fatalError("TODO")
     }
     
-    func animatedSize(for: _ViewInputs) -> Attribute<ViewSize> {
+    func animatedSize(for inputs: _ViewInputs) -> Attribute<ViewSize> {
+        fatalError("TODO")
+    }
+    
+    func animatedCGSize(for inputs: _ViewInputs) -> Attribute<CGSize> {
         fatalError("TODO")
     }
 }

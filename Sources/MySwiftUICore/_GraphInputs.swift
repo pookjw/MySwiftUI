@@ -21,6 +21,18 @@ public struct _GraphInputs {
         self.transaction = transaction
     }
     
+    var environment: Attribute<EnvironmentValues> {
+        get {
+            return cachedEnvironment.value.environment
+        }
+        set {
+            cachedEnvironment.value.environment = newValue
+        }
+        _modify {
+            yield &cachedEnvironment.value.environment
+        }
+    }
+    
     package subscript<T: GraphInput>(_ type: T.Type) -> T.Value {
         get {
             return customInputs[type]

@@ -40,7 +40,7 @@ struct _SafeAreaInsetsModifier {
         // sp + 0x1a0
         var copy_1 = inputs
         // x25
-        let uniqueID = UniqueID()
+        let id = CoordinateSpace.ID(value: UniqueID())
         // x23
         let cachedEnvironment = copy_1.base.cachedEnvironment
         // w22
@@ -56,7 +56,7 @@ struct _SafeAreaInsetsModifier {
         
         // sp, #0x140
         let transformRule = _SafeAreaInsetsModifier.Transform(
-            space: CoordinateSpace.ID(value: uniqueID),
+            space: id,
             transform: transform,
             position: animatedPosition,
             size: animatedSize
@@ -66,7 +66,7 @@ struct _SafeAreaInsetsModifier {
         
         // sp, #0x140
         let insetsRule = _SafeAreaInsetsModifier.Insets(
-            space: CoordinateSpace.ID(value: uniqueID),
+            space: id,
             modifier: modifier.value,
             next: copy_1.safeAreaInsets
         )
