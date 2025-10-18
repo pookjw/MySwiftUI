@@ -29,6 +29,19 @@ struct CachedEnvironment {
     }
     
     func animatedPosition(for inputs: _ViewInputs) -> Attribute<CGPoint> {
+        /*
+         x29 = sp + 0x220
+         x23 = sp + 0x60
+         */
+        // sp + 0x180 (x29 - 0xa0 / x23 + 0x120)
+        var copy_1 = inputs
+        
+        guard !copy_1.base.options.isEmpty else {
+            return inputs.position
+        }
+        
+        // <+80>
+        // inputs = x19
         fatalError("TODO")
     }
     
