@@ -42,6 +42,9 @@ struct CachedEnvironment {
         
         // <+80>
         // inputs = x19
+        // sp + 0x120 (x29 - 0x1c0 / x23 + 0xc0)
+        var copy_2 = inputs
+        let savedTransactions = copy_2.savedTransactions
         fatalError("TODO")
     }
     
