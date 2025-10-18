@@ -132,39 +132,57 @@ package final class ViewGraph: GraphHost {
         self._dimensions = self._rootGeometry.size()
         
         // <+2244>
-        self.makeRootView = { [containerShape = _containerShape, safeAreaInsets = _safeAreaInsets] attribute, inputs in
+        self.makeRootView = { [zeroPoint = _zeroPoint, proposedSize = _proposedSize, containerShape = _containerShape, safeAreaInsets = _safeAreaInsets] attribute, inputs in
+            // x29 = sp + 0x490
             /*
              attribute = sp, #0xc
-             inputs = x29, #-0xc0
+             inputs = x29 - 0xc0 (sp + 0x3d0) 
              
              T = sp + 0x10
              protocol witness T: View = sp + 0x18
-             _zeroPoint = sp + 0x3b0 & sp + 0x3b4
-             _proposedSize = sp + 0x3b8
              _containerShape = x25
              _safeAreaInsets = x28
              */
-            // sp + 0x370(0x310)
+            // sp + 0x310
             var copy_1 = inputs
-            copy_1.setContainerShape(containerShape, isSystemShape: true)
+            // sp + 0x370
+            var copy_2 = inputs
+            copy_2.position = zeroPoint
+            copy_2.containerPosition = zeroPoint
+            copy_2.size = proposedSize
+            
+            copy_2.setContainerShape(containerShape, isSystemShape: true)
+            copy_1 = copy_2
             
             // x25
             let shouldRecordTree = Subgraph.shouldRecordTree
-            // sp + 0x2b0
-            var copy_2: _ViewInputs
             if shouldRecordTree {
                 // <+232>
-                copy_1 = inputs
-                copy_2 = copy_1
                 Subgraph.beginTreeElement(value: safeAreaInsets, flags: 0)
-            } else {
-                // <+280>
-                copy_1 = inputs
-                copy_2 = copy_1
             }
             
             // <+304>
-            fatalError("TODO")
+            // sp + 0x250
+            var copy_4 = copy_1
+            // sp, #0x8
+            let p = copy_4.base.changedDebugProperties
+            copy_4.base.changedDebugProperties = []
+            
+            // inlined : <+392>~<+1004>
+            // x22
+            var outputs = _SafeAreaInsetsModifier._makeView(modifier: _GraphValue(value: safeAreaInsets), inputs: copy_4) { _, inputs in
+                // $s7SwiftUI9ViewGraphC04rootC4Type16requestedOutputsACxm_AC0H0VtcAA0C0RzlufcAA01_cH0VSo11AGAttributea_AA01_C6InputsVtcfU_AjA01_D0V_ANtcfU_Tf0nnnsnn_n
+                fatalError()
+            }
+            
+            // <+1004>
+            if shouldRecordTree {
+                // value -> safeAreaInsets인지 검증 필요
+                _ViewDebug.reallyWrap(&outputs, value: _GraphValue(value: safeAreaInsets), inputs: &copy_4)
+                Subgraph.endTreeElement(value: safeAreaInsets)
+            }
+            
+            return outputs
         }
         
         super.init(data: data)

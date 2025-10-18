@@ -6,11 +6,23 @@ internal import CoreGraphics
 public struct _ViewInputs {
     package var base: _GraphInputs
     package var preferences: PreferencesInputs
-    package var transform: Attribute<ViewTransform>
-    private var position: Attribute<CGPoint>
-    private var containerPosition: Attribute<CGPoint>
-    private var size: Attribute<ViewSize>
-    private var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
+    package var transform: Attribute<ViewTransform> {
+        didSet {
+            base.changedDebugProperties.insert(.transform)
+        }
+    }
+    var position: Attribute<CGPoint> {
+        didSet {
+            base.changedDebugProperties.insert(.position)
+        }
+    }
+    var containerPosition: Attribute<CGPoint>
+    var size: Attribute<ViewSize> {
+        didSet {
+            base.changedDebugProperties.insert(.size)
+        }
+    }
+    private(set) var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
     var containerSize: OptionalAttribute<ViewSize>
     
     init(

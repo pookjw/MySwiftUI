@@ -27,6 +27,14 @@ struct CachedEnvironment {
     init(environment: Attribute<EnvironmentValues>) {
         self.environment = environment
     }
+    
+    func animatedPosition(for: _ViewInputs) -> Attribute<CGPoint> {
+        fatalError("TODO")
+    }
+    
+    func animatedSize(for: _ViewInputs) -> Attribute<ViewSize> {
+        fatalError("TODO")
+    }
 }
 
 extension CachedEnvironment {

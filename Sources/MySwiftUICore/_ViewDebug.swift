@@ -20,6 +20,11 @@ extension _ViewDebug {
             Subgraph.setShouldRecordTree()
         }
     }
+    
+    static func reallyWrap<T>(_: inout _ViewOutputs, value: _GraphValue<T>, inputs: UnsafePointer<_ViewInputs>) {
+        // value는 안 쓰이는 값으로 추정
+        fatalError("TODO")
+    }
 }
 
 extension _ViewDebug {
