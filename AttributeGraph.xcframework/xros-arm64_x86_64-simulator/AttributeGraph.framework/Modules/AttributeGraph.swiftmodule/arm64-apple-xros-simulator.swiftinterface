@@ -30,7 +30,9 @@ public struct WeakAttribute<T> {
 @frozen
 @propertyWrapper
 @dynamicMemberLookup
-public struct Attribute<T> {
+public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible {
+    public static func == (lhs: AttributeGraph.Attribute<T>, rhs: AttributeGraph.Attribute<T>) -> Swift.Bool
+
     public var wrappedValue: T {
         get
         nonmutating set 
@@ -78,6 +80,16 @@ public struct Attribute<T> {
     @discardableResult public func setValue(_: T) -> Swift.Bool
 
     public func mutateBody<T>(as: T.Type, invalidating: Swift.Bool, _: (inout T) -> ())
+
+    public func hash(into: inout Swift.Hasher)
+    public var description: Swift.String {
+        get
+    }
+
+    public var flags: AttributeGraph.AnyAttribute.Flags {
+        get
+        nonmutating set
+    }
 }
 
 public struct IndirectAttribute<T> {
@@ -232,9 +244,11 @@ extension AttributeGraph.Rule {
 
 public protocol StatefulRule : AttributeGraph._AttributeBody {
     associatedtype Value
+    func updateValue()
 }
 
 public protocol ObservedAttribute : AttributeGraph._AttributeBody {
+    func destroy()
 }
 
 public protocol AttributeBodyVisitor {

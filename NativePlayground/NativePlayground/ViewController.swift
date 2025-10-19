@@ -131,6 +131,22 @@ class ViewController: UIViewController {
         //        
         print("===")
         
+        print(_typeByName("7SwiftUI17CachedEnvironmentV13AnimatedFrameV")!)
+        _forEachField(of: _typeByName("7SwiftUI17CachedEnvironmentV13AnimatedFrameV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        print(_typeByName("7SwiftUI24AnimatableFrameAttributeV")!)
+        _forEachField(of: _typeByName("7SwiftUI24AnimatableFrameAttributeV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
+        
         print(_GraphInputs.self)
         _forEachField(of: _GraphInputs.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
@@ -213,6 +229,14 @@ class ViewController: UIViewController {
         
         print(_typeByName("7SwiftUI22AccessibilityViewGraphV")!)
         _forEachField(of: _typeByName("7SwiftUI22AccessibilityViewGraphV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }      
+        print("===")
+        
+        
+        print(AnimatableAttributeHelper<Double>.self)
+        _forEachField(of: AnimatableAttributeHelper<Double>.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }

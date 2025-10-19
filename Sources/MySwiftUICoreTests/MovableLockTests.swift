@@ -4,9 +4,9 @@ private import MySwiftUITestUtils
 
 struct MovableLockTests {
     @Test
-    func test_createAndDestory() {
+    func test_createAndDestroy() {
         let lock = MovableLock.create()
-        lock.destory()
+        lock.destroy()
     }
     
     @Test(arguments: 0..<30)

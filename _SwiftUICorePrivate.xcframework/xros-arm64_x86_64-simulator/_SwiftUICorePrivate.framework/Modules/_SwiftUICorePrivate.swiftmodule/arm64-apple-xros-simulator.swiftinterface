@@ -665,3 +665,7 @@ extension _SwiftUICorePrivate.DisplayList {
 extension _SwiftUICorePrivate.DisplayList.ViewUpdater {
   // public struct ViewCache {}
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct AnimatableAttributeHelper<T: SwiftUI.Animatable> {}

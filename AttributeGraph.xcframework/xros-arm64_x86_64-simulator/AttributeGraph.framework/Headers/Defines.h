@@ -162,6 +162,11 @@ struct AGWeakAttribute {
 } NS_SWIFT_NAME(AnyWeakAttribute);
 typedef struct AGWeakAttribute AGWeakAttribute;
 
+typedef NS_OPTIONS(uint8_t, AGAttributeFlags) {
+    AGAttributeFlagsNone = 0,
+    AGAttributeFlagsUnknown1 = 1
+} NS_SWIFT_NAME(AnyAttribute.Flags);
+
 NS_ASSUME_NONNULL_END
 
 #endif

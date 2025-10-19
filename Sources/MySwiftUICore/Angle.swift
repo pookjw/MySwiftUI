@@ -44,4 +44,6 @@ extension Angle: Hashable, Comparable {
 }
 
 extension Angle: Codable {}
-extension Angle: AnimatableData {}
+extension Angle: Animatable {
+    public typealias AnimatableData = Double // TODO
+}

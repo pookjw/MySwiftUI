@@ -1,3 +1,4 @@
+// B62A4B04AF9F1325924A089D63071424
 #warning("TODO")
 internal import AttributeGraph
 private import CoreGraphics
@@ -5,7 +6,7 @@ private import CoreGraphics
 struct CachedEnvironment {
     var environment: Attribute<EnvironmentValues>
     private var mapItems: [MapItem] = []
-    private var animatedFrame: [AnimatedFrame] = []
+    private var animatedFrame: AnimatedFrame?
     private var resolvedShapeStyles: [ResolvedShapeStyles] = []
     private var platformCache = CachedEnvironment.PlatformCache()
     
@@ -28,7 +29,7 @@ struct CachedEnvironment {
         return attribute
     }
     
-    func animatedPosition(for inputs: _ViewInputs) -> Attribute<CGPoint> {
+    mutating func animatedPosition(for inputs: _ViewInputs) -> Attribute<CGPoint> {
         /*
          x29 = sp + 0x220
          x23 = sp + 0x60
@@ -44,8 +45,16 @@ struct CachedEnvironment {
         // inputs = x19
         // sp + 0x120 (x29 - 0x1c0 / x23 + 0xc0)
         var copy_2 = inputs
-        let savedTransactions = copy_2.savedTransactions
-        fatalError("TODO")
+        // w24
+        var transaction = copy_2.base.transaction
+        if let saved = copy_2.savedTransactions.first {
+            transaction = saved
+        }
+        
+        // inlined
+        return withAnimatedFrame(for: copy_2) { animatedFrame in
+            return animatedFrame.position
+        }
     }
     
     func animatedSize(for inputs: _ViewInputs) -> Attribute<ViewSize> {
@@ -55,11 +64,28 @@ struct CachedEnvironment {
     func animatedCGSize(for inputs: _ViewInputs) -> Attribute<CGSize> {
         fatalError("TODO")
     }
+    
+    private mutating func withAnimatedFrame<T>(for inputs: _ViewInputs, body: (inout CachedEnvironment.AnimatedFrame) -> T) -> T {
+        let pixelLength = attribute(id: .pixelLength) { environment in
+            return environment.pixelLength
+        }
+        
+        var animatedFrame: CachedEnvironment.AnimatedFrame
+        if let _animatedFrame = self.animatedFrame, _animatedFrame.transaction == inputs.base.transaction {
+            animatedFrame = _animatedFrame
+        } else {
+            animatedFrame = CachedEnvironment.AnimatedFrame(inputs: inputs, pixelLength: pixelLength, environment: environment)
+        }
+        let result = body(&animatedFrame)
+        self.animatedFrame = animatedFrame
+        return result
+    }
 }
 
 extension CachedEnvironment {
     struct ID: Equatable {
-        static let layoutDirection = CachedEnvironment.ID(base: UniqueID())
+        static nonisolated(unsafe) let layoutDirection = CachedEnvironment.ID(base: UniqueID())
+        static nonisolated(unsafe) let pixelLength = CachedEnvironment.ID(base: UniqueID())
         
         var base: UniqueID
     }
@@ -71,16 +97,66 @@ extension CachedEnvironment {
 
 extension CachedEnvironment {
     struct AnimatedFrame {
-        private let position: Attribute<CGPoint>
+        fileprivate let position: Attribute<CGPoint>
         private let size: Attribute<ViewSize>
         private let pixelLength: Attribute<CGFloat>
         private let time: Attribute<Time>
-        private let transaction: Attribute<Transaction>
+        fileprivate let transaction: Attribute<Transaction>
         private let viewPhase: Attribute<_GraphInputs.Phase>
         private let animatedFrame: Attribute<ViewFrame>
         private var _animatedPosition: Attribute<CGPoint>?
         private var _animatedSize: Attribute<ViewSize>?
         private var _animatedCGSize: Attribute<CGSize>?
+        
+        fileprivate init(inputs: _ViewInputs, pixelLength: Attribute<CGFloat>, environment: Attribute<EnvironmentValues>) {
+            /*
+             x29 = sp + 0x1f0
+             pixelLength = x20
+             environment = x2
+             */
+            // sp + 0x140 (x29 - 0xb0)
+            var copy = inputs
+            let animatedFrame: Attribute<ViewFrame>
+            if !copy.base.options.contains(.supportsVariableFrameDuration) {
+                // <+120>
+                /*
+                pixelLength -> sp, #0xb0
+                environment -> sp, #0xb4
+                 */
+                let attribute = AnimatableFrameAttribute(
+                    position: copy.position,
+                    size: copy.size,
+                    pixelLength: pixelLength,
+                    environment: environment,
+                    phase: copy.base.phase,
+                    time: copy.base.time,
+                    transaction: copy.base.transaction,
+                    animationsDisabled: true
+                )
+                animatedFrame = Attribute(attribute)
+            } else {
+                // <+272>
+                fatalError("TODO")
+            }
+            fatalError("TODO")
+            
+            // <+468>
+            animatedFrame.flags = .unknown1
+            self.animatedFrame = animatedFrame
+            self.position = copy.position
+            self.size = copy.size
+            self.pixelLength = pixelLength
+            self.time = copy.base.time
+            self.transaction = copy.base.transaction
+            self.viewPhase = copy.base.phase
+            self._animatedPosition = nil
+            self._animatedSize = nil
+            self._animatedCGSize = nil
+        }
+        
+        fileprivate init(inputs: _ViewInputs, position: Attribute<CGPoint>, size: Attribute<ViewSize>, pixelLength: Attribute<CGFloat>, animatedFrame: Attribute<ViewFrame>, enviromment: Attribute<EnvironmentValues>) {
+            fatalError("TODO")
+        }
     }
 }
 

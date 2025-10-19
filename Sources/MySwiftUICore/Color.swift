@@ -151,6 +151,8 @@ extension Color.ProviderTag {
 
 extension Color {
     public struct Resolved: Hashable, BitwiseCopyable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
+        public typealias AnimatableData = Double // TODO
+        
         private var linearRed: Float
         private var linearGreen: Float
         private var linearBlue: Float
