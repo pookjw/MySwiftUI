@@ -170,15 +170,16 @@ package final class ViewGraph: GraphHost {
             
             // inlined : <+392>~<+1004>
             // x22
-            var outputs = _SafeAreaInsetsModifier._makeView(modifier: _GraphValue(value: safeAreaInsets), inputs: copy_4) { _, inputs in
+            var outputs = _SafeAreaInsetsModifier._makeView(modifier: _GraphValue(safeAreaInsets), inputs: copy_4) { _, inputs in
                 // $s7SwiftUI9ViewGraphC04rootC4Type16requestedOutputsACxm_AC0H0VtcAA0C0RzlufcAA01_cH0VSo11AGAttributea_AA01_C6InputsVtcfU_AjA01_D0V_ANtcfU_Tf0nnnsnn_n
+                let viewValue = _GraphValue(Attribute<T>(identifier: attribute))
                 fatalError()
             }
             
             // <+1004>
             if shouldRecordTree {
                 // value -> safeAreaInsets인지 검증 필요
-                _ViewDebug.reallyWrap(&outputs, value: _GraphValue(value: safeAreaInsets), inputs: &copy_4)
+                _ViewDebug.reallyWrap(&outputs, value: _GraphValue(safeAreaInsets), inputs: &copy_4)
                 Subgraph.endTreeElement(value: safeAreaInsets)
             }
             
