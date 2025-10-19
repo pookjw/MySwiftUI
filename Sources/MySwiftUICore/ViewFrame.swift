@@ -1,9 +1,9 @@
 #warning("TODO")
-private import CoreGraphics
+internal import CoreGraphics
 
 struct ViewFrame {
-    private var origin: CGPoint
-    private var size: ViewSize
+    private(set) var origin: CGPoint
+    private(set) var size: ViewSize
 }
 
 extension ViewFrame: Animatable {

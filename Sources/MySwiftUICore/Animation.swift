@@ -1,6 +1,6 @@
 // 35ADF281214A25133F1A6DF28858952D
 #warning("TODO")
-package import CoreGraphics
+public import CoreGraphics
 public import Spatial
 internal import AttributeGraph
 
@@ -40,6 +40,16 @@ public protocol VectorArithmetic : AdditiveArithmetic {
     var magnitudeSquared: Double { get }
 }
 
+extension CGFloat: VectorArithmetic {
+    public mutating func scale(by rhs: Double) {
+        fatalError("TODO")
+    }
+    
+    public var magnitudeSquared: Double {
+        fatalError("TODO")
+    }
+}
+
 extension Double: VectorArithmetic {
     public mutating func scale(by rhs: Double) {
         fatalError("TODO")
@@ -76,7 +86,7 @@ public protocol Animatable {
     //    static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs)
 }
 
-@frozen public struct AnimatablePair<First: VectorArithmetic, Second: VectorArithmetic> {
+@frozen public struct AnimatablePair<First: VectorArithmetic, Second: VectorArithmetic>: VectorArithmetic {
     public var first: First
     public var second: Second
     
@@ -177,7 +187,9 @@ struct AnimatableFrameAttribute: StatefulRule, AsyncAttribute, ObservedAttribute
     }
 }
 
-struct AnimatableFrameAttributeVFD {
+struct AnimatableFrameAttributeVFD: StatefulRule, AsyncAttribute, ObservedAttribute {
+    typealias Value = ViewFrame
+    
     @Attribute private var position: CGPoint
     @Attribute private var size: ViewSize
     @Attribute private var pixelLength: CGFloat
@@ -185,11 +197,42 @@ struct AnimatableFrameAttributeVFD {
     private var helper: AnimatableAttributeHelper<ViewFrame>
     private var velocityFilter: FrameVelocityFilter
     private let animationsDisabled: Bool
+    
+    init(
+        position: Attribute<CGPoint>,
+        size: Attribute<ViewSize>,
+        pixelLength: Attribute<CGFloat>,
+        environment: Attribute<EnvironmentValues>,
+        phase: Attribute<_GraphInputs.Phase>,
+        time: Attribute<Time>,
+        transaction: Attribute<Transaction>,
+        animationsDisabled: Bool
+    ) {
+        self._position = position
+        self._size = size
+        self._pixelLength = pixelLength
+        self._environment = environment
+        self.helper = AnimatableAttributeHelper(phase: phase, time: time, transaction: transaction)
+        self.velocityFilter = FrameVelocityFilter(currentVelocity: nil, previous: nil)
+        self.animationsDisabled = animationsDisabled
+    }
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+    
+    func destroy() {
+        fatalError("TODO")
+    }
 }
 
 fileprivate struct FrameVelocityFilter {
     var currentVelocity: Double?
+    var previous: ((Time, AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>))?
     
+    func addSample(_: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>, time: Time) {
+        fatalError("TODO")
+    }
 }
 
 struct AnimatableAttributeHelper<T: Animatable> {

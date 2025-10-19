@@ -234,6 +234,21 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeByName("7SwiftUI27AnimatableFrameAttributeVFDV")!)
+        _forEachField(of: _typeByName("7SwiftUI27AnimatableFrameAttributeVFDV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            
+            if String(cString: name) == "velocityFilter" {
+                print("FrameVelocityFilter")
+                _forEachField(of: type, options: []) { name, offset, type, kind in
+                    print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+                    return true
+                }    
+            }
+            return true
+        }      
+        print("===")
+        
         
         print(AnimatableAttributeHelper<Double>.self)
         _forEachField(of: AnimatableAttributeHelper<Double>.self, options: []) { name, offset, type, kind in

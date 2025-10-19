@@ -50,19 +50,55 @@ struct CachedEnvironment {
         if let saved = copy_2.savedTransactions.first {
             transaction = saved
         }
+        copy_2.base.transaction = transaction
         
         // inlined
         return withAnimatedFrame(for: copy_2) { animatedFrame in
-            return animatedFrame.position
+            return animatedFrame.animatedPosition()
         }
     }
     
-    func animatedSize(for inputs: _ViewInputs) -> Attribute<ViewSize> {
-        fatalError("TODO")
+    mutating func animatedSize(for inputs: _ViewInputs) -> Attribute<ViewSize> {
+        var copy = inputs
+        guard copy.base.options.contains(.viewNeedsGeometry) else {
+            return copy.size
+        }
+        
+        // <+112>
+        var transaction = copy.base.transaction
+        if let saved = copy.savedTransactions.first {
+            transaction = saved
+        }
+        copy.base.transaction = transaction
+        
+        // inlined
+        return withAnimatedFrame(for: copy) { animatedFrame in
+            return animatedFrame.animatedSize()
+        }
     }
     
-    func animatedCGSize(for inputs: _ViewInputs) -> Attribute<CGSize> {
-        fatalError("TODO")
+    mutating func animatedCGSize(for inputs: _ViewInputs) -> Attribute<CGSize> {
+        /*
+         x29 = sp + 0x220
+         x23 = sp + 0x60
+         */
+        // sp + 0x180
+        var copy = inputs
+        guard copy.base.options.contains(.viewNeedsGeometry) else {
+            return Attribute(identifier: copy.size.identifier.createOffsetAttribute2(offset: 0, size: UInt32(MemoryLayout<CGSize>.size)))
+        }
+        
+        // <+112>
+        var transaction = copy.base.transaction
+        if let saved = copy.savedTransactions.first {
+            transaction = saved
+        }
+        copy.base.transaction = transaction
+        
+        // inlined
+        return withAnimatedFrame(for: copy) { animatedFrame in
+            return animatedFrame.animatedCGSize()
+        }
     }
     
     private mutating func withAnimatedFrame<T>(for inputs: _ViewInputs, body: (inout CachedEnvironment.AnimatedFrame) -> T) -> T {
@@ -98,7 +134,7 @@ extension CachedEnvironment {
 extension CachedEnvironment {
     struct AnimatedFrame {
         fileprivate let position: Attribute<CGPoint>
-        private let size: Attribute<ViewSize>
+        fileprivate let size: Attribute<ViewSize>
         private let pixelLength: Attribute<CGFloat>
         private let time: Attribute<Time>
         fileprivate let transaction: Attribute<Transaction>
@@ -119,10 +155,6 @@ extension CachedEnvironment {
             let animatedFrame: Attribute<ViewFrame>
             if !copy.base.options.contains(.supportsVariableFrameDuration) {
                 // <+120>
-                /*
-                pixelLength -> sp, #0xb0
-                environment -> sp, #0xb4
-                 */
                 let attribute = AnimatableFrameAttribute(
                     position: copy.position,
                     size: copy.size,
@@ -136,9 +168,18 @@ extension CachedEnvironment {
                 animatedFrame = Attribute(attribute)
             } else {
                 // <+272>
-                fatalError("TODO")
+                let attribute = AnimatableFrameAttributeVFD(
+                    position: copy.position,
+                    size: copy.size,
+                    pixelLength: pixelLength,
+                    environment: environment,
+                    phase: copy.base.phase,
+                    time: copy.base.time,
+                    transaction: copy.base.transaction,
+                    animationsDisabled: true
+                )
+                animatedFrame = Attribute(attribute)
             }
-            fatalError("TODO")
             
             // <+468>
             animatedFrame.flags = .unknown1
@@ -156,6 +197,54 @@ extension CachedEnvironment {
         
         fileprivate init(inputs: _ViewInputs, position: Attribute<CGPoint>, size: Attribute<ViewSize>, pixelLength: Attribute<CGFloat>, animatedFrame: Attribute<ViewFrame>, enviromment: Attribute<EnvironmentValues>) {
             fatalError("TODO")
+        }
+        
+        @inlinable
+        func animatedPosition() -> Attribute<CGPoint> {
+            if let _animatedPosition {
+                return _animatedPosition
+            } else {
+                return Attribute(
+                    identifier: animatedFrame
+                        .identifier
+                        .createOffsetAttribute2(
+                            offset: UInt(MemoryLayout.offset(of: \ViewFrame.origin)!),
+                            size: UInt32(MemoryLayout<CGPoint>.size)
+                        )
+                )
+            }
+        }
+        
+        @inlinable
+        func animatedSize() -> Attribute<ViewSize> {
+            if let _animatedSize {
+                return _animatedSize
+            } else {
+                return Attribute(
+                    identifier: animatedFrame
+                        .identifier
+                        .createOffsetAttribute2(
+                            offset: UInt(MemoryLayout.offset(of: \ViewFrame.size)!),
+                            size: UInt32(MemoryLayout<ViewSize>.size)
+                        )
+                )
+            }
+        }
+        
+        @inlinable
+        func animatedCGSize() -> Attribute<CGSize> {
+            if let _animatedCGSize {
+                return _animatedCGSize
+            } else {
+                return Attribute(
+                    identifier: animatedFrame
+                        .identifier
+                        .createOffsetAttribute2(
+                            offset: UInt(MemoryLayout.offset(of: \ViewFrame.size)!),
+                            size: UInt32(MemoryLayout<CGSize>.size)
+                        )
+                )
+            }
         }
     }
 }
