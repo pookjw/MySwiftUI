@@ -148,7 +148,9 @@ struct AccessibilityNodesKey: PreferenceKey {
 }
 
 struct SwiftUITextAccessibilityProvider: TextAccessibilityProvider {
-    
+    public var body: Never {
+        fatalError("TODO")
+    } // TODO
 }
 
 struct SwiftUIImageAccessibilityProvider: ImageAccessibilityProvider {

@@ -23,5 +23,7 @@ extension _GraphInputs {
 }
 
 struct EmptyTextAccessibilityProvider: TextAccessibilityProvider {
-    
+    public var body: Never {
+        fatalError("TODO")
+    } // TODO
 }

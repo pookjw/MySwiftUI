@@ -37,7 +37,11 @@ public struct Color: Hashable, CustomStringConvertible, Sendable {
     }
 }
 
-extension Color: View {}
+extension Color: View {
+    public var body: Never {
+        fatalError("TODO")
+    } // TODO
+}
 
 @usableFromInline
 package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
