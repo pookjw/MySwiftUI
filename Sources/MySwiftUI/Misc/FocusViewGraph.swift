@@ -65,10 +65,6 @@ extension FocusViewGraph: ViewGraphFeature {
         inputs.base[_GraphInputs.IsFocusSystemEnabledKey.self] = _isFocusSystemEnabled
     }
     
-    func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-        fatalError("TODO")
-    }
-    
     func uninstantiate(graph: ViewGraph) {
         fatalError("TODO")
     }

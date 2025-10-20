@@ -1,3 +1,6 @@
+// CE84B1BFBEAEAB6361605407E54625A3
+
+#warning("TODO")
 internal import AttributeGraph
 private import Foundation
 private import MySwiftUICore
@@ -21,8 +24,13 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
         }
     }
     
-    func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-        fatalError("TODO")
+    mutating func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+        /*
+         self = x19
+         outputs = x20
+         */
+        let items: Attribute<PlatformItemList>? = outputs.preferences[PlatformItemList.Key.self]
+        self.rootList = WeakAttribute(items)
     }
     
     func uninstantiate(graph: ViewGraph) {
@@ -70,7 +78,17 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
 }
 
 struct PlatformItemList {
-    private var items: [PlatformItemList.Item]
+    fileprivate var items: [PlatformItemList.Item]
+}
+
+extension PlatformItemList {
+    fileprivate struct Key: PreferenceKey {
+        static nonisolated(unsafe) let defaultValue = PlatformItemList(items: [])
+        
+        static func reduce(value: inout PlatformItemList, nextValue: () -> PlatformItemList) {
+            value.items.append(contentsOf: nextValue().items)
+        }
+    }
 }
 
 extension PlatformItemList {

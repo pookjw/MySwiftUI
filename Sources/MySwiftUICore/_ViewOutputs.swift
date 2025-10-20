@@ -2,7 +2,7 @@
 internal import AttributeGraph
 
 public struct _ViewOutputs {
-    private(set) var preferences = PreferencesOutputs()
+    package private(set) var preferences = PreferencesOutputs()
     @OptionalAttribute var layoutComputer: LayoutComputer?
     
     init() {

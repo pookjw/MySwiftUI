@@ -463,7 +463,7 @@ package final class ViewGraph: GraphHost {
         
         if
             !requestedOutputs.isEmpty,
-            let displayList = outputs.preferences[DisplayList.Key.self] // x25
+            let displayList: Attribute<DisplayList> = outputs.preferences[DisplayList.Key.self] // x25
         {
             // <+256>
             self._rootDisplayList = data.rootSubgraph.apply {
@@ -474,7 +474,8 @@ package final class ViewGraph: GraphHost {
         
         // <+448>
         if requestedOutputs.contains(.viewResponders) {
-            self._rootResponders = WeakAttribute(outputs.preferences[ViewRespondersKey.self])
+            let value: Attribute<[ViewResponder]>? = outputs.preferences[ViewRespondersKey.self]
+            self._rootResponders = WeakAttribute(value)
         }
         
         // <+504>
@@ -483,7 +484,8 @@ package final class ViewGraph: GraphHost {
         }
         
         // <+524>
-        self.hostPreferenceValues = WeakAttribute(outputs.preferences[HostPreferencesKey.self])
+        let preferenceValues: Attribute<PreferenceValues>? = outputs.preferences[HostPreferencesKey.self]
+        self.hostPreferenceValues = WeakAttribute(preferenceValues)
         self.makePreferenceOutlets(outputs: outputs)
     }
     
@@ -689,7 +691,7 @@ fileprivate struct RootTransform: Rule {
 
 package protocol ViewGraphFeature {
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph)
-    func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph)
+    mutating func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph)
     func uninstantiate(graph: ViewGraph)
     func isHiddenForReuseDidChange(graph: ViewGraph)
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
