@@ -34,7 +34,7 @@ extension Never: View {
 }
 
 extension View {
-    var bodyError: Never {
+    func bodyError() -> Never {
         fatalError()
     }
 }

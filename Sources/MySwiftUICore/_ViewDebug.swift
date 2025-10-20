@@ -1,3 +1,5 @@
+// 43DA1754B0518AF1D72B90677BF266DB
+
 #warning("TODO")
 private import _DarwinFoundation3._stdlib
 private import AttributeGraph
@@ -19,11 +21,6 @@ extension _ViewDebug {
         if !_ViewDebug.properties.isEmpty {
             Subgraph.setShouldRecordTree()
         }
-    }
-    
-    static func reallyWrap<T>(_: inout _ViewOutputs, value: _GraphValue<T>, inputs: UnsafePointer<_ViewInputs>) {
-        // value는 안 쓰이는 값으로 추정
-        fatalError("TODO")
     }
 }
 
@@ -69,5 +66,67 @@ extension _ViewDebug {
 extension _ViewDebug {
     public struct Data {
         
+    }
+}
+
+extension _ViewDebug {
+    fileprivate static func reallyWrap<T>(_: inout _ViewOutputs, value: _GraphValue<T>, inputs: UnsafePointer<_ViewInputs>) {
+        // value는 안 쓰이는 값으로 추정
+        // $s7SwiftUI10_ViewDebugOAAE10reallyWrap33_43DA1754B0518AF1D72B90677BF266DBLL_5value6inputsyAA01_C7OutputsVz_AA11_GraphValueVyxGSPyAA01_C6InputsVGtlFZAA06_ShapeC0VyAA9RectangleVAAE17AsymmetricalInsetVAA15ForegroundStyleVG_Tt0t2g5Tm
+        fatalError("TODO")
+    }
+}
+
+extension View {
+    @inline(__always)
+    static func makeDebuggableView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        let shouldRecordTree = Subgraph.shouldRecordTree
+        if shouldRecordTree {
+            Subgraph.beginTreeElement(value: view.value, flags: 0)
+        }
+        
+        var copy = inputs
+        copy.base.changedDebugProperties = []
+        
+        var outputs = Self._makeView(view: view, inputs: copy)
+        
+        if shouldRecordTree {
+            _ViewDebug.reallyWrap(&outputs, value: view, inputs: &copy)
+            Subgraph.endTreeElement(value: view.value)
+        }
+        
+        return outputs
+    }
+    
+    static func makeDebuggableViewList<T>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+}
+
+extension ViewModifier {
+    @inline(__always)
+    @MainActor static func makeDebuggableView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @MainActor @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        let shouldRecordTree = Subgraph.shouldRecordTree
+        if shouldRecordTree {
+            Subgraph.beginTreeElement(value: modifier.value, flags: 0)
+        }
+        
+        var copy = inputs
+        copy.base.changedDebugProperties = []
+        
+        var outputs = Self._makeView(modifier: modifier, inputs: inputs) { graph, inputs in
+            return body(graph, inputs)
+        }
+        
+        if shouldRecordTree {
+            _ViewDebug.reallyWrap(&outputs, value: modifier, inputs: &copy)
+            Subgraph.endTreeElement(value: modifier.value)
+        }
+        
+        return outputs
+    }
+    
+    static func makeDebuggableViewList<T>(modifier: _GraphValue<T>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        fatalError("TODO")
     }
 }

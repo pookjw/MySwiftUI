@@ -9,3 +9,6 @@ public struct _ViewOutputs {
         self._layoutComputer = OptionalAttribute()
     }
 }
+
+@available(*, unavailable)
+extension _ViewOutputs: Sendable {}

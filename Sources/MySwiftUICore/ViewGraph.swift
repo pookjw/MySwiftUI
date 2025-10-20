@@ -1,3 +1,5 @@
+// 7D9EDEF832940A362646A6E979F296C8
+
 #warning("TODO")
 internal import AttributeGraph
 package import CoreGraphics
@@ -154,34 +156,29 @@ package final class ViewGraph: GraphHost {
             copy_2.setContainerShape(containerShape, isSystemShape: true)
             copy_1 = copy_2
             
-            // x25
-            let shouldRecordTree = Subgraph.shouldRecordTree
-            if shouldRecordTree {
-                // <+232>
-                Subgraph.beginTreeElement(value: safeAreaInsets, flags: 0)
-            }
-            
-            // <+304>
-            // sp + 0x250
-            var copy_4 = copy_1
-            // sp, #0x8
-            let p = copy_4.base.changedDebugProperties
-            copy_4.base.changedDebugProperties = []
-            
-            // inlined : <+392>~<+1004>
-            // x22
-            var outputs = _SafeAreaInsetsModifier._makeView(modifier: _GraphValue(safeAreaInsets), inputs: copy_4) { _, inputs in
-                // $s7SwiftUI9ViewGraphC04rootC4Type16requestedOutputsACxm_AC0H0VtcAA0C0RzlufcAA01_cH0VSo11AGAttributea_AA01_C6InputsVtcfU_AjA01_D0V_ANtcfU_Tf0nnnsnn_n
-                let viewValue = _GraphValue(Attribute<T>(identifier: attribute))
-                fatalError()
-            }
-            
-            // <+1004>
-            if shouldRecordTree {
-                // value -> safeAreaInsets인지 검증 필요
-                _ViewDebug.reallyWrap(&outputs, value: _GraphValue(safeAreaInsets), inputs: &copy_4)
-                Subgraph.endTreeElement(value: safeAreaInsets)
-            }
+            // inlined
+            let unchecked = UncheckedSendable((copy_1, safeAreaInsets, inputs))
+            let outputs = MainActor.assumeIsolated { 
+                let outputs = _SafeAreaInsetsModifier.makeDebuggableView(modifier: _GraphValue(unchecked.value.1), inputs: unchecked.value.0) { [oldInputs = unchecked.value.2] _, inputs in
+                    /*
+                     inputs = x19
+                     oldInputs = x3
+                     T = x20
+                     protocol conformance T: View = x22
+                     */
+                    // x29 = sp + 0x320
+                    // $s7SwiftUI9ViewGraphC04rootC4Type16requestedOutputsACxm_AC0H0VtcAA0C0RzlufcAA01_cH0VSo11AGAttributea_AA01_C6InputsVtcfU_AjA01_D0V_ANtcfU_Tf0nnnsnn_n
+                    var copy = inputs
+                    copy.position = oldInputs.position
+                    copy.containerPosition = oldInputs.containerPosition
+                    copy.size = oldInputs.size
+                    
+                    // <+252>
+                    // inlined
+                    return T.makeDebuggableView(view: _GraphValue(Attribute<T>(identifier: attribute)), inputs: copy)
+                }
+                return UncheckedSendable(outputs)
+            }.value
             
             return outputs
         }

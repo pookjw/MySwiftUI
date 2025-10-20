@@ -20,7 +20,7 @@
     }
     
     public var body: Never {
-        bodyError
+        bodyError()
     }
 }
 

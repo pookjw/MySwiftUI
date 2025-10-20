@@ -24,9 +24,13 @@ extension SafeAreaInsets {
     }
 }
 
-struct _SafeAreaInsetsModifier {
+struct _SafeAreaInsetsModifier: ViewModifier {
     var elements: [SafeAreaInsets.Element] = []
     var nextInsets: SafeAreaInsets.OptionalValue? = nil
+    
+    func body(content: Content) -> some View {
+        fatalError("TODO") // TODO
+    }
     
     @inlinable
     @inline(__always)

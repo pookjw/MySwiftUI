@@ -158,7 +158,9 @@ struct SwiftUIImageAccessibilityProvider: ImageAccessibilityProvider {
 }
 
 struct SwiftUIPrivacyReductionAccessibilityProvider: PrivacyReductionAccessibilityProvider {
-    
+    func body(content: Content) -> Never {
+        fatalError("TODO") // TODO
+    }
 }
 
 struct SwiftUILayoutAccessibilityProvider: LayoutAccessibilityProvider {
