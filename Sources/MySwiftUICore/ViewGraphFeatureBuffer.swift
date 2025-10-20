@@ -162,7 +162,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            fatalError("TODO")
+            elt.body(as: T.self).pointee.modifyViewOutputs(outputs: &outputs, inputs: inputs, graph: graph)
         }
         
         override class func uninstantiate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {

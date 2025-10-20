@@ -70,10 +70,51 @@ extension _ViewDebug {
 }
 
 extension _ViewDebug {
-    fileprivate static func reallyWrap<T>(_: inout _ViewOutputs, value: _GraphValue<T>, inputs: UnsafePointer<_ViewInputs>) {
+    fileprivate static func reallyWrap<T>(_ outputs: inout _ViewOutputs, value: _GraphValue<T>, inputs: UnsafePointer<_ViewInputs>) {
         // value는 안 쓰이는 값으로 추정
         // $s7SwiftUI10_ViewDebugOAAE10reallyWrap33_43DA1754B0518AF1D72B90677BF266DBLL_5value6inputsyAA01_C7OutputsVz_AA11_GraphValueVyxGSPyAA01_C6InputsVGtlFZAA06_ShapeC0VyAA9RectangleVAAE17AsymmetricalInsetVAA15ForegroundStyleVG_Tt0t2g5Tm
-        fatalError("TODO")
+        /*
+         outputs = x20
+         inputs = x19
+         */
+        // w22
+        var debugProperties = outputs.preferences.debugProperties.union(inputs.pointee.base.changedDebugProperties)
+        
+        if debugProperties.contains(.layoutComputer) && outputs.layoutComputer == nil {
+            // <+48>
+            debugProperties.remove(.layoutComputer)
+        }
+        
+        // <+76>
+        guard !debugProperties.subtracting(.displayList).isEmpty else {
+            // <+360>
+            return
+        }
+        
+        // <+84>
+        guard Subgraph.shouldRecordTree else {
+            return
+        }
+        
+        // <+92>
+        if debugProperties.contains(.transform) {
+            Subgraph.addTreeValue(inputs.pointee.transform, forKey: "transform", flags: 0)
+        }
+        if debugProperties.contains(.position) {
+            Subgraph.addTreeValue(inputs.pointee.position, forKey: "position", flags: 0)
+        }
+        if debugProperties.contains(.size) {
+            Subgraph.addTreeValue(inputs.pointee.size, forKey: "size", flags: 0)
+        }
+        if debugProperties.contains(.environment) {
+            Subgraph.addTreeValue(inputs.pointee.base.environment, forKey: "environment", flags: 0)
+        }
+        if debugProperties.contains(.phase) {
+            Subgraph.addTreeValue(inputs.pointee.base.phase, forKey: "phase", flags: 0)
+        }
+        if debugProperties.contains(.layoutComputer) {
+            Subgraph.addTreeValue(outputs.$layoutComputer!, forKey: "layoutComputer", flags: 0)
+        }
     }
 }
 

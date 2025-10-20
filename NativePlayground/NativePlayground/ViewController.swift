@@ -162,6 +162,14 @@ class ViewController: UIViewController {
         //        
         print("===")
         
+        print(_ViewOutputs.self)
+        _forEachField(of: _ViewOutputs.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
+        
         print(_RendererConfiguration.RasterizationOptions.self)
         _forEachField(of: _RendererConfiguration.RasterizationOptions.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
