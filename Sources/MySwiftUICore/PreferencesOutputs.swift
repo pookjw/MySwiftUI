@@ -34,6 +34,10 @@ package struct PreferencesOutputs {
             return nil
         }
         set {
+            if anyKey == DisplayList.Key.self {
+                debugProperties.insert(.displayList)
+            }
+            
             fatalError("TODO")
         }
         _modify {
