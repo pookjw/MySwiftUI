@@ -66,6 +66,8 @@ extension AccessibilityViewModifier {
         // <+1000>
         // outputs -> sp + 0x338
         // size -> sp + 0x318
+        // x28
+        let updater: AccessibilityViewResponderUpdater
         if includeGeometry && inputs.needsGeometry {
             // <+1044>
             if inputs.base.accessibilityCapturesViewResponders {
