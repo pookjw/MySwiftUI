@@ -2,7 +2,7 @@
 
 #warning("TODO")
 internal import AttributeGraph
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 protocol AccessibilityViewModifier: PrimitiveViewModifier, MultiViewModifier {}
 
@@ -32,17 +32,18 @@ extension AccessibilityViewModifier {
         scrapeableID: ScrapeableID
     ) -> Attribute<AccessibilityNodeList> {
         // $s7SwiftUI25AccessibilityViewModifierPAAE23makePropertiesTransform33_71F62EDC1DAE3BBC7A74521E45BA5A66LL8modifier6inputs7outputs15includeGeometry010resolvableE012scrapeableID14AttributeGraph0Y0VyAA0C8NodeListVGSo11AGAttributea_AA01_D6InputsVAA01_D7OutputsVSbAA010ResolvableE0AELLVSgAA010ScrapeableX0VtFZAA0c9ContainerE0V_Tt5g5
-        // x29 = sp + 0x160
+        // x29 = sp + 0x440
+        // x26 = sp + 0x170
         /*
-         modifier = sp + 0x64
-         inputs = sp + 0xd8
+         modifier = sp + 0x344
+         inputs = sp + 0x3b8
          outputs = x22
-         includeGeometry = sp + 0xb0
-         resolvableModifier = sp + 0x98
-         scrapeableID = sp + 0x80
+         includeGeometry = sp + 0x390
+         resolvableModifier = sp + 0x378
+         scrapeableID = sp + 0x360
          */
         // <+828>
-        // sp + 0xc4 / sp + 0xb4
+        // sp + 0x3a4 / sp + 0x31c
         let treeAttribute: AnyAttribute
         if inputs.preferences.contains(AccessibilityAttachment.Key.self) {
             // <+884>
@@ -59,19 +60,28 @@ extension AccessibilityViewModifier {
          outputs = x27
          */
         let size = inputs.size // x22
-        let position = inputs.position // sp + 0xc0
-        let transform = inputs.transform // sp + 0xbc
+        let position = inputs.position // sp + 0x3a0
+        let transform = inputs.transform // sp + 0x39c
         
         // <+1000>
-        // outputs -> sp + 0x58
-        // size -> sp + 0x38
+        // outputs -> sp + 0x338
+        // size -> sp + 0x318
         if includeGeometry && inputs.needsGeometry {
             // <+1044>
             if inputs.base.accessibilityCapturesViewResponders {
                 // <+1116>
                 // x19
-                let viewResponders = outputs[ViewRespondersKey.self]
-                // x26인지 무엇인지 몰라서 보류
+                let viewResponders: Attribute<[ViewResponder]>? = outputs[ViewRespondersKey.self]
+                
+                // x28
+//                let updater = AccessibilityViewResponderUpdater(
+//                    viewResponders: OptionalAttribute(base: AnyOptionalAttribute(viewResponders?.identifier ?? treeAttribute)),
+//                    kind: OptionalAttribute(base: AnyOptionalAttribute(treeAttribute)),
+//                    token: AccessibilityAttachmentToken.identifier(<#T##UInt32#>),
+//                    idHash: 0,
+//                    attachment: nil,
+//                    subgraph: .current!
+//                )
                 fatalError("TODO")
             } else {
                 // <+1400>
