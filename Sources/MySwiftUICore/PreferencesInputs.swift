@@ -13,4 +13,21 @@ package struct PreferencesInputs {
     package mutating func add<Key: PreferenceKey>(_ key: Key.Type) {
         keys.add(key)
     }
+    
+    package func contains<Key: PreferenceKey>(_ key: Key.Type) -> Bool {
+        return contains(key, includeHostPreferences: false)
+    }
+    
+    package func contains<Key: PreferenceKey>(_ key: Key.Type, includeHostPreferences: Bool) -> Bool {
+        if keys.contains(key) {
+            return true
+        } else {
+            if key._isReadableByHost {
+                // <+120>
+                return keys.contains(HostPreferencesKey.self)
+            } else {
+                return false
+            }
+        }
+    }
 }

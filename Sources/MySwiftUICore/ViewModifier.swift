@@ -29,11 +29,11 @@ extension ViewModifier {
     }
 }
 
-@MainActor protocol MultiViewModifier: ViewModifier {
+@MainActor package protocol MultiViewModifier: ViewModifier {
     
 }
 
-@MainActor protocol PrimitiveViewModifier: ViewModifier {
+@MainActor package protocol PrimitiveViewModifier: ViewModifier {
     
 } 
 

@@ -1,12 +1,12 @@
 #warning("TODO")
 private import AttributeGraph
 
-struct HostPreferencesKey: PreferenceKey {
-    static var defaultValue: PreferenceValues {
+package struct HostPreferencesKey: PreferenceKey {
+    package static var defaultValue: PreferenceValues {
         return PreferenceValues()
     }
     
-    static func reduce(value: inout PreferenceValues, nextValue: () -> PreferenceValues) {
+    package static func reduce(value: inout PreferenceValues, nextValue: () -> PreferenceValues) {
         value.combine(with: nextValue())
     }
     

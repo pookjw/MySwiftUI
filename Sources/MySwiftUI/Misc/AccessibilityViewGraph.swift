@@ -76,8 +76,30 @@ extension AccessibilityViewGraph: ViewGraphFeature {
         }
     }
     
-    func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-        fatalError("TODO")
+    mutating func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+        /*
+         self = x19
+         inputs = x20
+         outputs = x22
+         */
+        // x23
+        var copy = inputs
+        copy.base.accessibilityCapturesViewResponders = false
+        
+        let nodeList = MainActor.assumeIsolated { [unchecked = UncheckedSendable((copy, outputs))] in
+            let nodeList = AccessibilityContainerModifier
+                .makeResolvableTransform(
+                    inputs: unchecked.value.0,
+                    outputs: unchecked.value.1,
+                    includeGeometry: true,
+                    for: AccessibilityContainerResolver<AccessibilityChildBehavior.Host>.self
+                )
+            return UncheckedSendable(nodeList)
+        }.value
+        
+        outputs[AccessibilityNodesKey.self] = nodeList
+        self._rootNodes = WeakAttribute(outputs[AccessibilityNodesKey.self])
+        self._hostPreferences = WeakAttribute(outputs[HostPreferencesKey.self])
     }
     
     func uninstantiate(graph: ViewGraph) {
@@ -133,16 +155,6 @@ extension AccessibilityViewGraph: ViewGraphFeature {
     }
     
     func update(graph: ViewGraph) {
-        fatalError("TODO")
-    }
-}
-
-struct AccessibilityNodesKey: PreferenceKey {
-    static nonisolated(unsafe) let defaultValue: AccessibilityNodeList = {
-        fatalError("TODO")
-    }()
-    
-    static func reduce(value: inout AccessibilityNodeList, nextValue: () -> AccessibilityNodeList) {
         fatalError("TODO")
     }
 }

@@ -21,7 +21,56 @@ extension ViewGraph3D: ViewGraphFeature {
     }
     
     package func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-        fatalError("TODO")
+        /*
+         outputs = x19
+         */
+        // sp + 0x50
+        var inputsCopy = inputs
+        // w20
+        let depthTransform = $depthTransform
+        depthTransform.mutateBody(as: RootDepthTransform.self, invalidating: true) { [inputsCopy, outputs] transform in
+            // $s7SwiftUI11ViewGraph3DV06modifyC7Outputs7outputs6inputs5graphyAA01_cF0Vz_AA01_C6InputsVAA0C5GraphCtFyAA18RootDepthTransformVzXEfU_
+            // sp + 0x50
+            let layoutDirection = inputsCopy.base.cachedEnvironment.value.attribute(id: .layoutDirection) { environmentValues in
+                // $s7SwiftUI12_GraphInputsVAAE15layoutDirection09AttributeC00G0VyAA06LayoutF0OGvgAiA17EnvironmentValuesVcfU_
+                return environmentValues.layoutDirection
+            }
+            
+            transform.$layoutDirection = layoutDirection
+            transform.$childLayoutComputer = outputs.$layoutComputer
+        }
+        
+        // <+132>
+        guard inputsCopy.base.customInputs[EnableLayoutDepthStashing.self] else {
+            return
+        }
+        
+        // w21
+        var layoutComputer = outputs.$layoutComputer
+        if let _layoutComputer = layoutComputer {
+            let viewDepth = depthTransform
+                .identifier
+                .createOffsetAttribute2(
+                    offset: UInt(MemoryLayout<ViewTransform>.offset(of: \.depth)!),
+                    size: UInt32(MemoryLayout<ViewDepth>.size)
+                )
+            
+            /*
+             layoutComputer -> sp
+             viewSize = sp + 0x4
+             */
+            let depthStashingLayoutComputer = DepthStashingLayoutComputer(
+                layoutComputer: _layoutComputer,
+                depth: Attribute<ViewDepth>(identifier: viewDepth)
+            )
+            layoutComputer = Attribute(depthStashingLayoutComputer)
+        }
+        outputs.$layoutComputer = layoutComputer
+        
+        // <+256>
+        if !outputs.preferences.debugProperties.contains(.layoutComputer) {
+            outputs.preferences.debugProperties.insert(.layoutComputer)
+        }
     }
     
     package func uninstantiate(graph: ViewGraph) {

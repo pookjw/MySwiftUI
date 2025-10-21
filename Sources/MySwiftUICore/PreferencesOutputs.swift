@@ -3,7 +3,7 @@ package import AttributeGraph
 
 package struct PreferencesOutputs {
     private var preferences: [PreferencesOutputs.KeyValue] = []
-    private(set) var debugProperties: _ViewDebug.Properties = []
+    var debugProperties: _ViewDebug.Properties = []
     
     init() {}
     
@@ -38,7 +38,17 @@ package struct PreferencesOutputs {
                 debugProperties.insert(.displayList)
             }
             
-            fatalError("TODO")
+            if let index = preferences.firstIndex(where: { $0.key == anyKey }) {
+                if let newValue {
+                    preferences[index].value = newValue
+                } else {
+                    preferences.remove(at: index)
+                }
+            } else {
+                newValue.map {
+                    preferences.append(KeyValue(key: anyKey, value: $0))
+                }
+            }
         }
         _modify {
             fatalError("TODO")

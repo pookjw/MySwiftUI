@@ -20,3 +20,11 @@ extension SwiftUI._UIHostingView {
   //  get
   //}
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewTransform {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewDepth {}

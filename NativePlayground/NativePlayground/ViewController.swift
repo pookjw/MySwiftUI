@@ -258,6 +258,24 @@ class ViewController: UIViewController {
         print("===")
         
         
+        print(ViewTransform.self)
+        _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
+        
+        print(ViewDepth.self, "\(MemoryLayout<ViewDepth>.size)")
+        _forEachField(of: ViewDepth.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        
+        print("===")
+        
+        
         print(AnimatableAttributeHelper<Double>.self)
         _forEachField(of: AnimatableAttributeHelper<Double>.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))

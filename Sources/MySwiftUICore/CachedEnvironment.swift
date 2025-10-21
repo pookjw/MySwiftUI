@@ -1,9 +1,9 @@
 // B62A4B04AF9F1325924A089D63071424
 #warning("TODO")
-internal import AttributeGraph
+package import AttributeGraph
 private import CoreGraphics
 
-struct CachedEnvironment {
+package struct CachedEnvironment {
     var environment: Attribute<EnvironmentValues>
     private var mapItems: [MapItem] = []
     private var animatedFrame: AnimatedFrame?
@@ -14,7 +14,7 @@ struct CachedEnvironment {
         self.environment = environment
     }
     
-    mutating func attribute<T>(id: CachedEnvironment.ID, _ body: @escaping (EnvironmentValues) -> T) -> Attribute<T> {
+    package mutating func attribute<T>(id: CachedEnvironment.ID, _ body: @escaping (EnvironmentValues) -> T) -> Attribute<T> {
         for mapItem in mapItems {
             if mapItem.key == id {
                 return Attribute(identifier: mapItem.value)
@@ -119,7 +119,7 @@ struct CachedEnvironment {
 }
 
 extension CachedEnvironment {
-    struct ID: Equatable {
+    package struct ID: Equatable {
         static nonisolated(unsafe) let layoutDirection = CachedEnvironment.ID(base: UniqueID())
         static nonisolated(unsafe) let pixelLength = CachedEnvironment.ID(base: UniqueID())
         

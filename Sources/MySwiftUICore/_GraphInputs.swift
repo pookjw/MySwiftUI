@@ -2,9 +2,9 @@
 internal import AttributeGraph
 
 public struct _GraphInputs {
-    var customInputs = PropertyList()
+    package internal(set) var customInputs = PropertyList()
     var time: Attribute<Time>
-    private(set) var cachedEnvironment: MutableBox<CachedEnvironment>
+    package private(set) var cachedEnvironment: MutableBox<CachedEnvironment>
     private(set) var phase: Attribute<_GraphInputs.Phase>
     var transaction: Attribute<Transaction>
     var changedDebugProperties: _ViewDebug.Properties

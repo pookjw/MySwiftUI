@@ -1,12 +1,33 @@
 #warning("TODO")
-internal import AttributeGraph
+package import AttributeGraph
 
 public struct _ViewOutputs {
-    package private(set) var preferences = PreferencesOutputs()
+    package internal(set) var preferences = PreferencesOutputs()
     @OptionalAttribute var layoutComputer: LayoutComputer?
     
     init() {
         self._layoutComputer = OptionalAttribute()
+    }
+    
+    package subscript<Key: PreferenceKey>(_ key: Key.Type) -> Attribute<Key.Value>? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    package subscript(anyKey: (any PreferenceKey.Type)) -> AnyAttribute? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+        _modify {
+            fatalError("TODO")
+        }
     }
 }
 

@@ -157,8 +157,7 @@ package final class ViewGraph: GraphHost {
             copy_1 = copy_2
             
             // inlined
-            let unchecked = UncheckedSendable((copy_1, safeAreaInsets, inputs))
-            let outputs = MainActor.assumeIsolated { 
+            let outputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable((copy_1, safeAreaInsets, inputs))] in
                 let outputs = _SafeAreaInsetsModifier.makeDebuggableView(modifier: _GraphValue(unchecked.value.1), inputs: unchecked.value.0) { [oldInputs = unchecked.value.2] _, inputs in
                     /*
                      inputs = x19

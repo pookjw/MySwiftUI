@@ -8,7 +8,7 @@ package struct ViewTransform {
     private var spaces: CoordinateSpaceNode?
     private var positionAdjustment: CGSize
     private var pendingTranslation: CGSize
-    private var depth: ViewDepth
+    private(set) var depth: ViewDepth
     
     package init() {
         self.head = nil
@@ -48,10 +48,10 @@ struct RootDepthTransform: Rule {
     }
     
     @Attribute private var transform: ViewTransform
-    @OptionalAttribute private var layoutDirection: LayoutDirection?
+    @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute private var proposedSize: ViewSize
     @OptionalAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?
-    @OptionalAttribute private var childLayoutComputer: LayoutComputer?
+    @OptionalAttribute var childLayoutComputer: LayoutComputer?
     
     init(
         transform: Attribute<ViewTransform>,
