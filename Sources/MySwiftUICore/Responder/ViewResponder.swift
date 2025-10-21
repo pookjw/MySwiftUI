@@ -20,12 +20,12 @@ extension ViewResponder {
     }
 }
 
-struct ViewRespondersKey: PreferenceKey {
-    static var defaultValue: [ViewResponder] {
+package struct ViewRespondersKey: PreferenceKey {
+    package static var defaultValue: [ViewResponder] {
         return []
     }
     
-    static func reduce(value: inout [ViewResponder], nextValue: () -> [ViewResponder]) {
+    package static func reduce(value: inout [ViewResponder], nextValue: () -> [ViewResponder]) {
         return value.append(contentsOf: nextValue())
     }
 }

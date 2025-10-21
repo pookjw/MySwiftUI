@@ -11,13 +11,13 @@ public struct _ViewInputs {
             base.changedDebugProperties.insert(.transform)
         }
     }
-    var position: Attribute<CGPoint> {
+    package internal(set) var position: Attribute<CGPoint> {
         didSet {
             base.changedDebugProperties.insert(.position)
         }
     }
     var containerPosition: Attribute<CGPoint>
-    var size: Attribute<ViewSize> {
+    package internal(set) var size: Attribute<ViewSize> {
         didSet {
             base.changedDebugProperties.insert(.size)
         }
@@ -80,7 +80,7 @@ extension _ViewInputs {
         }
     }
     
-    var needsGeometry: Bool {
+    package internal(set) var needsGeometry: Bool {
         get {
             return base.options.contains(.viewNeedsGeometry)
         }

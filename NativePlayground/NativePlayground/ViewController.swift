@@ -239,7 +239,21 @@ class ViewController: UIViewController {
         _forEachField(of: _typeByName("7SwiftUI22AccessibilityViewGraphV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
-        }      
+        }   
+        print("===")
+        
+        print(_typeByName("7SwiftUI23AccessibilityAttachmentV")!)
+        _forEachField(of: _typeByName("7SwiftUI23AccessibilityAttachmentV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }         
+        print("===")
+        
+        print(_typeByName("7SwiftUI28AccessibilityAttachmentTokenO")!)
+        _forEachField(of: _typeByName("7SwiftUI28AccessibilityAttachmentTokenO")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }         
         print("===")
         
         print(_typeByName("7SwiftUI27AnimatableFrameAttributeVFDV")!)
