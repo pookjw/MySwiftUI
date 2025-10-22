@@ -1,7 +1,7 @@
 // 0EC4D15D4D4D8FD0340271BA6BA4D1B4
 
 #warning("TODO")
-private import AttributeGraph
+package import AttributeGraph
 
 package struct ScrapeableID: Hashable, GraphReusable {
     package static var none: ScrapeableID {
@@ -45,4 +45,8 @@ extension _ViewInputs {
             return ScrapeableID(value: 0)
         }
     }
+}
+
+package protocol ScrapeableAttribute: _AttributeBody {
+    // TODO
 }
