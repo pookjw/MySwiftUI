@@ -68,11 +68,11 @@ extension AccessibilityViewModifier {
         // <+1000>
         // outputs -> sp + 0x338
         // size -> sp + 0x318
+        // sp + 0x50
+        let responderUpdater: AccessibilityViewResponderUpdater?
         // sp + 0xd0
         let geometryUpdater: AccessibilityGeometryUpdater?
         if includeGeometry && inputs.needsGeometry {
-            // sp + 0x50
-            let responderUpdater: AccessibilityViewResponderUpdater?
             // <+1044>
             if inputs.base.accessibilityCapturesViewResponders {
                 // <+1116>
@@ -117,48 +117,45 @@ extension AccessibilityViewModifier {
             // <+1772>
         } else {
             // <+1320>
+            responderUpdater = nil
             geometryUpdater = nil
             // <+1772>
         }
         
         // <+1772>
-        // sp + 0xb0
-        let scrapeableParentID = inputs.scrapeableParentID
-        // sp + 0x2d0
-        let interfaceIdiom = inputs.base.interfaceIdiom
-        // sp + 0x3b0
-        let environment = inputs.environment
-        // sp + 0x3a8
-        let viewPhase = inputs.viewPhase
-        // w21
-        let nodes = outputs[AccessibilityNodesKey.self] ?? empty
-        let needsGeometry = inputs.needsGeometry
-        
+        // x25
         let propertiesTransform = PropertiesTransform(
-            accessor: <#T##AnyAccessibilityViewModifierAccessor.Type#>,
-            modifier: <#T##AnyAttribute#>,
-            localID: <#T##ScrapeableID#>,
-            parentID: <#T##ScrapeableID#>,
-            idiom: <#T##AnyInterfaceIdiom#>,
-            position: <#T##Attribute<CGPoint>#>,
-            size: <#T##Attribute<ViewSize>#>,
-            transform: <#T##Attribute<ViewTransform>#>,
-            environment: <#T##Attribute<EnvironmentValues>#>,
-            phase: <#T##Attribute<_GraphInputs.Phase>#>,
-            deferredAttachment: <#T##OptionalAttribute<AccessibilityAttachment.Tree>#>,
-            nodeList: <#T##Attribute<AccessibilityNodeList>#>,
-            resolvableModifier: <#T##ResolvableModifier?#>,
-            responderUpdater: <#T##AccessibilityViewResponderUpdater?#>,
-            geometryUpdater: <#T##AccessibilityGeometryUpdater?#>,
-            isInPlatformItemList: <#T##Bool#>,
-            parentNode: <#T##AccessibilityNode?#>,
-            removedParentNode: <#T##AccessibilityNode?#>,
-            resetSeed: <#T##UInt32#>
+            accessor: AccessibilityViewModifierAccessor<AccessibilityAttachmentModifier>.self,
+            modifier: modifier,
+            localID: scrapeableID,
+            parentID: inputs.scrapeableParentID,
+            idiom: inputs.base.interfaceIdiom,
+            position: position,
+            size: size,
+            transform: transform,
+            environment: inputs.environment,
+            phase: inputs.viewPhase,
+            deferredAttachment: OptionalAttribute(base: AnyOptionalAttribute(treeAttribute)),
+            nodeList: Attribute(identifier: outputs[AccessibilityNodesKey.self] ?? empty),
+            resolvableModifier: resolvableModifier,
+            responderUpdater: responderUpdater,
+            geometryUpdater: geometryUpdater,
+            isInPlatformItemList: inputs.needsGeometry,
+            parentNode: nil,
+            removedParentNode: nil,
+            resetSeed: 0
         )
         
+        // x22
         let attribute = Attribute(propertiesTransform)
-        // TODO
-        fatalError("TODO")
+        // <+2404>
+        attribute.flags = .removable
+        
+        if scrapeableID != .none {
+            attribute.flags.insert(.scrapeable)
+        }
+        
+        return attribute
     }
 }
 
@@ -192,25 +189,25 @@ fileprivate final class AccessibilityViewModifierAccessor<T>: AnyAccessibilityVi
 }
 
 fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, RemovableAttribute, CustomStringConvertible {
-    let accessor: AnyAccessibilityViewModifierAccessor.Type
-    var modifier: AnyAttribute
-    let localID: ScrapeableID
-    let parentID: ScrapeableID
-    let idiom: AnyInterfaceIdiom
-    @Attribute var position: CGPoint
-    @Attribute var size: ViewSize
-    @Attribute var transform: ViewTransform
-    @Attribute var environment: EnvironmentValues
-    @Attribute var phase: _GraphInputs.Phase
-    @OptionalAttribute var deferredAttachment: AccessibilityAttachment.Tree?
-    @Attribute var nodeList: AccessibilityNodeList
-    var resolvableModifier: ResolvableModifier?
-    var responderUpdater: AccessibilityViewResponderUpdater?
-    var geometryUpdater: AccessibilityGeometryUpdater?
-    var isInPlatformItemList: Bool
-    var parentNode: AccessibilityNode?
-    weak var removedParentNode: AccessibilityNode?
-    var resetSeed: UInt32
+    let accessor: AnyAccessibilityViewModifierAccessor.Type // 0x0
+    var modifier: AnyAttribute // 0x8
+    let localID: ScrapeableID // 0xc
+    let parentID: ScrapeableID // 0x10
+    let idiom: AnyInterfaceIdiom // 0x18
+    @Attribute var position: CGPoint // 0x28
+    @Attribute var size: ViewSize // 0x2c
+    @Attribute var transform: ViewTransform // 0x30
+    @Attribute var environment: EnvironmentValues // 0x34
+    @Attribute var phase: _GraphInputs.Phase // 0x38
+    @OptionalAttribute var deferredAttachment: AccessibilityAttachment.Tree? // 0x3c
+    @Attribute var nodeList: AccessibilityNodeList // 0x40
+    var resolvableModifier: ResolvableModifier? // 0x48
+    var responderUpdater: AccessibilityViewResponderUpdater? // ??
+    var geometryUpdater: AccessibilityGeometryUpdater? // ??
+    var isInPlatformItemList: Bool // 0xe0
+    var parentNode: AccessibilityNode? // 0xe8
+    weak var removedParentNode: AccessibilityNode? // 0xf0
+    var resetSeed: UInt32 // 0xf8
     
     init(
         accessor: AnyAccessibilityViewModifierAccessor.Type,
@@ -261,6 +258,12 @@ fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, Remov
     typealias Value = AccessibilityNodeList
     
     func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+public struct AccessibilityAttachmentModifier: ViewModifier {
+    public func body(content: Content) -> some View {
         fatalError("TODO")
     }
 }
