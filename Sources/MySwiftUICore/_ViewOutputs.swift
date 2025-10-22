@@ -11,22 +11,22 @@ public struct _ViewOutputs {
     
     package subscript<Key: PreferenceKey>(_ key: Key.Type) -> Attribute<Key.Value>? {
         get {
-            fatalError("TODO")
+            return preferences[key]
         }
         set {
-            fatalError("TODO")
+            preferences[key] = newValue
         }
     }
     
     package subscript(anyKey: (any PreferenceKey.Type)) -> AnyAttribute? {
         get {
-            fatalError("TODO")
+            return preferences[anyKey]
         }
         set {
-            fatalError("TODO")
+            preferences[anyKey] = newValue
         }
         _modify {
-            fatalError("TODO")
+            yield &preferences[anyKey]
         }
     }
 }
