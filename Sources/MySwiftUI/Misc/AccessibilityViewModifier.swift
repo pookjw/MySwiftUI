@@ -136,7 +136,7 @@ extension AccessibilityViewModifier {
             environment: inputs.environment,
             phase: inputs.viewPhase,
             deferredAttachment: OptionalAttribute(base: AnyOptionalAttribute(treeAttribute)),
-            nodeList: Attribute(identifier: outputs[AccessibilityNodesKey.self] ?? empty),
+            nodeList: outputs[AccessibilityNodesKey.self] ?? Attribute(identifier: empty),
             resolvableModifier: resolvableModifier,
             responderUpdater: responderUpdater,
             geometryUpdater: geometryUpdater,
