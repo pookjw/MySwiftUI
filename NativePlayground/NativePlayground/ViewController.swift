@@ -186,6 +186,14 @@ class ViewController: UIViewController {
         //        
         print("===")
         
+        print(_typeByName("7SwiftUI28AccessibilityGeometryUpdaterV")!)
+        _forEachField(of: _typeByName("7SwiftUI28AccessibilityGeometryUpdaterV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
+        
         print(PreferenceValues.self)
         _forEachField(of: PreferenceValues.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))

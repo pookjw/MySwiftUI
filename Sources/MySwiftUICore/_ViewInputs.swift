@@ -52,6 +52,14 @@ public struct _ViewInputs {
         }
     }
     
+    package var environment: Attribute<EnvironmentValues> {
+        return base.environment
+    }
+    
+    package var viewPhase: Attribute<_GraphInputs.Phase> {
+        return base.phase
+    }
+    
     package subscript<T: ViewInput>(_ type: T.Type) -> T.Value {
         get {
             return base[type]

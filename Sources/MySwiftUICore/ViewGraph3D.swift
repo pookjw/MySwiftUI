@@ -41,7 +41,7 @@ extension ViewGraph3D: ViewGraphFeature {
         }
         
         // <+132>
-        guard inputsCopy.base.customInputs[EnableLayoutDepthStashing.self] else {
+        guard inputsCopy.customInputs[EnableLayoutDepthStashing.self] else {
             return
         }
         

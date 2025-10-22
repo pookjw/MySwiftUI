@@ -3,10 +3,20 @@
 #warning("TODO")
 @_spi(Internal) internal import MySwiftUICore
 internal import AttributeGraph
+internal import CoreGraphics
 
 struct AccessibilityNodeList {
-    //    private var nodes: [AccessibilityNode]
+    private var nodes: [AccessibilityNode] = []
     private(set) var version: DisplayList.Version
+    
+    init(nodes: [AccessibilityNode], version: DisplayList.Version) {
+        self.nodes = nodes
+        self.version = version
+    }
+}
+
+final class AccessibilityNode {
+    // TODO
 }
 
 extension _GraphInputs {
@@ -26,7 +36,7 @@ fileprivate struct AccessibilityCapturesViewResponders: ViewInputBoolFlag {
 }
 
 struct AccessibilityNodesKey: PreferenceKey {
-    static nonisolated(unsafe) let defaultValue = AccessibilityNodeList(/*nodes: [], */version: DisplayList.Version())
+    static nonisolated(unsafe) let defaultValue = AccessibilityNodeList(nodes: [], version: DisplayList.Version())
     
     static func reduce(value: inout AccessibilityNodeList, nextValue: () -> AccessibilityNodeList) {
         fatalError("TODO")
@@ -66,5 +76,42 @@ extension AccessibilityGeometryStorage {
     struct Responders {
         private var responders: [ViewResponder]
         private var seed: UInt32
+    }
+    
+    struct Size {
+        private var transform: ViewTransform
+        private var size: CGSize
+        private var seed: UInt32
+    }
+}
+
+struct AccessibilityGeometryUpdater {
+    @Attribute private var size: ViewSize
+    @Attribute private var position: CGPoint
+    @Attribute private var transform: ViewTransform
+    @OptionalAttribute private var kind: ContentShapeKinds?
+    private let token: AccessibilityAttachmentToken?
+    private var id: UniqueID
+    private var attachment: WeakAttribute<AccessibilityGeometryStorage.Size>?
+    private var subgraph: Subgraph
+    
+    init(
+        size: Attribute<ViewSize>,
+        position: Attribute<CGPoint>,
+        transform: Attribute<ViewTransform>,
+        kind: OptionalAttribute<ContentShapeKinds>,
+        token: AccessibilityAttachmentToken?,
+        id: UniqueID,
+        attachment: WeakAttribute<AccessibilityGeometryStorage.Size>?,
+        subgraph: Subgraph
+    ) {
+        self._size = size
+        self._position = position
+        self._transform = transform
+        self._kind = kind
+        self.token = token
+        self.id = id
+        self.attachment = attachment
+        self.subgraph = subgraph
     }
 }

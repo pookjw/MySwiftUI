@@ -33,7 +33,7 @@ extension AccessibilityViewModifier {
     ) -> Attribute<AccessibilityNodeList> {
         // $s7SwiftUI25AccessibilityViewModifierPAAE23makePropertiesTransform33_71F62EDC1DAE3BBC7A74521E45BA5A66LL8modifier6inputs7outputs15includeGeometry010resolvableE012scrapeableID14AttributeGraph0Y0VyAA0C8NodeListVGSo11AGAttributea_AA01_D6InputsVAA01_D7OutputsVSbAA010ResolvableE0AELLVSgAA010ScrapeableX0VtFZAA0c9ContainerE0V_Tt5g5
         // x29 = sp + 0x440
-        // x26 = sp + 0x170
+        // x28 = sp + 0x50
         /*
          modifier = sp + 0x344
          inputs = sp + 0x3b8
@@ -43,7 +43,9 @@ extension AccessibilityViewModifier {
          scrapeableID = sp + 0x360
          */
         // <+828>
-        // sp + 0x3a4 / sp + 0x31c
+        // sp + 0x3a4
+        let empty = AnyAttribute.empty
+        // sp + 0x31c
         let treeAttribute: AnyAttribute
         if inputs.preferences.contains(AccessibilityAttachment.Key.self) {
             // <+884>
@@ -66,36 +68,71 @@ extension AccessibilityViewModifier {
         // <+1000>
         // outputs -> sp + 0x338
         // size -> sp + 0x318
-        // x28
-        let updater: AccessibilityViewResponderUpdater
+        // sp + 0xd0
+        let geometryUpdater: AccessibilityGeometryUpdater?
         if includeGeometry && inputs.needsGeometry {
+            // sp + 0x50
+            let responderUpdater: AccessibilityViewResponderUpdater?
             // <+1044>
             if inputs.base.accessibilityCapturesViewResponders {
                 // <+1116>
                 // x19
                 let viewResponders: Attribute<[ViewResponder]>? = outputs[ViewRespondersKey.self]
                 
-                // x28
-//                let updater = AccessibilityViewResponderUpdater(
-//                    viewResponders: OptionalAttribute(base: AnyOptionalAttribute(viewResponders?.identifier ?? treeAttribute)),
-//                    kind: OptionalAttribute(base: AnyOptionalAttribute(treeAttribute)),
-//                    token: AccessibilityAttachmentToken.identifier(<#T##UInt32#>),
-//                    idHash: 0,
-//                    attachment: nil,
-//                    subgraph: .current!
-//                )
-                fatalError("TODO")
+                responderUpdater = AccessibilityViewResponderUpdater(
+                    viewResponders: OptionalAttribute(base: AnyOptionalAttribute(viewResponders?.identifier ?? .empty)),
+                    kind: OptionalAttribute(base: AnyOptionalAttribute(.empty)),
+                    token: nil,
+                    idHash: 0,
+                    attachment: nil,
+                    subgraph: .current!
+                )
+                // <+1432>
             } else {
                 // <+1400>
-                fatalError("TODO")
+                responderUpdater = nil
+                // <+1432>
             }
-            fatalError("TODO")
+            
+            // <+1432>
+            if inputs.needsAccessibilityGeometry {
+                // <+1476>
+                geometryUpdater = AccessibilityGeometryUpdater(
+                    size: size,
+                    position: position,
+                    transform: transform,
+                    kind: OptionalAttribute(base: AnyOptionalAttribute(empty)),
+                    token: nil,
+                    id: UniqueID(),
+                    attachment: nil,
+                    subgraph: .current!
+                )
+                // <+1740>
+            } else {
+                // <+1700>
+                geometryUpdater = nil
+                // <+1740>
+            }
+            // <+1740>
+            // <+1772>
         } else {
             // <+1320>
-            fatalError("TODO")
+            geometryUpdater = nil
+            // <+1772>
         }
         
         // <+1772>
+        // sp + 0xb0
+        let scrapeableParentID = inputs.scrapeableParentID
+        // sp + 0x2d0
+        let interfaceIdiom = inputs.base.interfaceIdiom
+        // sp + 0x3b0
+        let environment = inputs.environment
+        // sp + 0x3a8
+        let viewPhase = inputs.viewPhase
+        // sp + 0x438
+        let nodes = outputs[AccessibilityNodesKey.self]
+        // <+1944>
         fatalError("TODO")
     }
 }
