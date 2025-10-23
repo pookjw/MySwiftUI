@@ -90,6 +90,10 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible {
         get
         nonmutating set
     }
+
+    public func valueAndFlags(options: AttributeGraph.AGValueOptions) -> (value: T, flags: AttributeGraph.AGChangedValueFlags)
+
+    public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
 }
 
 public struct IndirectAttribute<T> {
@@ -330,4 +334,12 @@ public struct AnyOptionalAttribute: Swift.Hashable, Swift.CustomStringConvertibl
     public var description: Swift.String {
         get
     }
+}
+
+extension Graph {
+    @_silgen_name("AGGraphGetOutputValue")
+    public static func outputValue<Value>() -> Swift.UnsafePointer<Value>?
+
+    @_silgen_name("AGGraphSetOutputValue")
+    public static func setOutputValue<Value>(_ value: Swift.UnsafePointer<Value>?)
 }

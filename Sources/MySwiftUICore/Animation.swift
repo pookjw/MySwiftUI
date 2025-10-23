@@ -1,4 +1,5 @@
 // 35ADF281214A25133F1A6DF28858952D
+
 #warning("TODO")
 public import CoreGraphics
 public import Spatial
@@ -179,7 +180,32 @@ struct AnimatableFrameAttribute: StatefulRule, AsyncAttribute, ObservedAttribute
     }
     
     func updateValue() {
-        fatalError("TODO")
+        // self = x19
+        let (position, positionChanged) = $position.changedValue(options: [])
+        let (size, sizeChanged) = $size.changedValue(options: [])
+        let (pixelLength, pixelLengthChanged) = $pixelLength.changedValue(options: [])
+        // sp, #0x80
+        var changed = (positionChanged || sizeChanged || pixelLengthChanged)
+        
+        var frame = ViewFrame(origin: position, size: size)
+        frame.round(toMultipleOf: pixelLength)
+        
+        if !animationsDisabled {
+            var lvalue = (value: frame, changed: changed)
+            helper.update(value: &lvalue, defaultAnimation: nil, environment: $environment)
+            frame = lvalue.value
+            changed = lvalue.changed
+        }
+        
+        // <+216>
+        var flag = changed
+        if !changed {
+            let outputValue: UnsafePointer<ViewFrame>? = Graph.outputValue()
+            flag = (outputValue == nil)
+        }
+        if flag {
+            Graph.setOutputValue(&frame)
+        }
     }
     
     func destroy() {
@@ -249,6 +275,10 @@ struct AnimatableAttributeHelper<T: Animatable> {
         self._transaction = transaction
         self.animatorState = nil
         self.resetSeed = 0
+    }
+    
+    func update(value: inout (value: T, changed: Bool), defaultAnimation: Animation?, environment: Attribute<EnvironmentValues>) {
+        fatalError("TODO")
     }
 }
 

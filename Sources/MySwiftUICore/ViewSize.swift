@@ -7,7 +7,7 @@ package struct ViewSize {
         return ViewSize(value: .zero, _proposal: .zero)
     }
     
-    private var value: CGSize
+    var value: CGSize
     private var _proposal: CGSize
 }
 
