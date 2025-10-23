@@ -1,11 +1,12 @@
 #warning("TODO")
-private import CoreGraphics
+public import CoreGraphics
 
+@frozen
 public struct EdgeInsets {
-    private var top: CGFloat
-    private var leading: CGFloat
-    private var bottom: CGFloat
-    private var trailing: CGFloat
+    public var top: CGFloat
+    public var leading: CGFloat
+    public var bottom: CGFloat
+    public var trailing: CGFloat
     
     public static var zero: EdgeInsets {
         return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)

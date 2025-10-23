@@ -330,9 +330,16 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         startTransactionUpdate(id: id)
         block()
         
-        // x23
-        let globalSubgraph = data.globalSubgraph
+        // inlined
+        self.finishTransactionUpdate(in: data.globalSubgraph, id: id)
         
+        if let transaction {
+            data.transaction = transaction
+        }
+    }
+    
+    @inline(__always)
+    package final func finishTransactionUpdate(in subgraph: Subgraph, postUpdate: (Bool) -> Void = { _ in }, id: UInt32?) {
         var i = 0
         while true {
             let continuations = self.continuations
@@ -342,8 +349,8 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
                 continuation.apply()
             }
             
-            // <+296>
-            globalSubgraph.update(1)
+            subgraph.update(1)
+            postUpdate(!self.continuations.isEmpty)
             
             i += 1
             if i == 8 {
@@ -355,17 +362,11 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             }
         }
         
-        // <+340>
         if let id {
             CustomEventTrace.transactionEnd(id)
         }
         
-        // <+472>
         self.inTransaction = false
-        
-        if let transaction {
-            data.transaction = transaction
-        }
     }
     
     package final func updatePreferences() -> Bool {
