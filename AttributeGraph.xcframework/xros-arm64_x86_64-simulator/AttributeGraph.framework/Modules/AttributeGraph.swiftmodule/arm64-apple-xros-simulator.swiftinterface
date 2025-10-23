@@ -341,5 +341,5 @@ extension Graph {
     public static func outputValue<Value>() -> Swift.UnsafePointer<Value>?
 
     @_silgen_name("AGGraphSetOutputValue")
-    public static func setOutputValue<Value>(_ value: Swift.UnsafePointer<Value>?)
+    public static func setOutputValue<Value>(_ value: Swift.UnsafePointer<Value>)
 }

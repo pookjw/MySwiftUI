@@ -8,7 +8,7 @@ package struct ViewSize {
     }
     
     var value: CGSize
-    private var _proposal: CGSize
+    var _proposal: CGSize
 }
 
 extension Attribute where T == ViewSize {
