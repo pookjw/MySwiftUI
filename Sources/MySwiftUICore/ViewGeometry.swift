@@ -11,7 +11,7 @@ struct RootGeometry: Rule {
     @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute private var proposedSize: ViewSize
     @OptionalAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?
-    @OptionalAttribute private var childLayoutComputer: LayoutComputer?
+    @OptionalAttribute var childLayoutComputer: LayoutComputer?
     
     init(
         layoutDirection: OptionalAttribute<LayoutDirection> = OptionalAttribute(),

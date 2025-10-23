@@ -1,3 +1,5 @@
+// F9F204BD2F8DB167A76F17F3FB1B3335
+
 #warning("TODO")
 package import AttributeGraph
 private import notify
@@ -8,15 +10,27 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     unknown_block_1: nil,
     unknown_block_2: nil,
     unknown_block_3: nil,
-    block_4: { _, _, _ in fatalError("TODO") },
+    willUpdateSubGraph: { _, _, _ in
+        Update.assertIsLocked()
+    },
     unknown_block_5: nil,
-    block_6: { _, _ in fatalError("TODO") },
+    didUpdateSubGraph: { _, _ in
+        Update.assertIsLocked()
+    },
     unknown_block_7: nil,
-    block_8: { _, _ in fatalError("TODO") },
+    didUpdateGraph: { _, _ in
+        Update.assertIsLocked()
+    },
     unknown_block_9: nil,
-    block_10: { _, _ in fatalError("TODO") },
+    block_10: { _, _ in
+        Update.assertIsLocked()
+        fatalError("TODO: block name")
+    },
     unknown_block_11: nil,
-    block_12: { _, _, _ in fatalError("TODO") },
+    block_12: { _, _, _ in
+        Update.assertIsLocked()
+        fatalError("TODO: block name")
+    },
     unknown_block_13: nil,
     unknown_block_14: nil,
     unknown_block_15: nil,
@@ -124,7 +138,24 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     static var currentHost: GraphHost {
-        fatalError("TODO")
+        let currentAttribute = AnyAttribute.current
+        let graph: Graph?
+        if currentAttribute != .empty {
+            // <+84>
+            graph = currentAttribute.graph
+        } else {
+            if let subgraph = Subgraph.current {
+                graph = subgraph.graph
+            } else {
+                graph = nil
+            }
+        }
+        
+        guard let context = graph?.context else {
+            fatalError("no current graph host")
+        }
+        
+        return unsafeBitCast(context, to: GraphHost.self)
     }
     
     package final var globalSubgraph: Subgraph {
@@ -536,8 +567,29 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
     }
     
-    final func intern<T>(_: T, for: Any.Type = T.self, id: GraphHost.ConstantID) -> Attribute<T> {
-        fatalError("TODO")
+    final func intern<T>(_ value: T, for type: Any.Type = T.self, id: GraphHost.ConstantID) -> Attribute<T> {
+        /*
+         self = x19
+         value = x23
+         type = x22
+         id = x21
+         */
+        // x20
+        let constants = constants
+        
+        if isValid {
+            let key = ConstantKey(type: type, id: id)
+            if let value = constants[key] {
+                return Attribute(identifier: value)
+            }
+        }
+        
+        // <+120>
+        let attribute = data.globalSubgraph.apply { 
+            Attribute(value: value)
+        }
+        self.constants[ConstantKey(type: type, id: id)] = attribute.identifier
+        return attribute
     }
 }
 
@@ -632,7 +684,22 @@ package protocol GraphMutation {
 }
 
 fileprivate struct ConstantKey: Hashable {
+    static func == (lhs: ConstantKey, rhs: ConstantKey) -> Bool {
+        return (lhs.type == rhs.type) && (lhs.id == rhs.id)
+    }
     
+    private var type: Any.Type
+    private var id: GraphHost.ConstantID
+    
+    init(type: Any.Type, id: GraphHost.ConstantID) {
+        self.type = type
+        self.id = id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(type))
+        hasher.combine(id)
+    }
 }
 
 fileprivate struct AsyncTransaction {

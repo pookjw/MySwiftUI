@@ -64,19 +64,19 @@ struct AGTraceType {
     void (* _Nullable unknown_block_3)(void) __attribute__((swiftcall));
     
     // Offset 0x18
-    void (* _Nullable block_4)(void *, AGSubgraphRef, uint32_t) __attribute__((swiftcall));
+    void (* _Nullable willUpdateSubGraph)(void *, AGSubgraphRef, uint32_t) __attribute__((swiftcall));
     
     // Offset 0x20
     void (* _Nullable unknown_block_5)(void) __attribute__((swiftcall));
     
     // Offset 0x28
-    void (* _Nullable block_6)(void *, AGAttribute) __attribute__((swiftcall));
+    void (* _Nullable didUpdateSubGraph)(void *, AGAttribute) __attribute__((swiftcall));
     
     // Offset 0x30
     void (* _Nullable unknown_block_7)(void) __attribute__((swiftcall));
     
     // Offset 0x38
-    void (* _Nullable block_8)(void *, AGAttribute) __attribute__((swiftcall));
+    void (* _Nullable didUpdateGraph)(void *, AGAttribute) __attribute__((swiftcall));
     
     // Offset 0x40
     void (* _Nullable unknown_block_9)(void) __attribute__((swiftcall));

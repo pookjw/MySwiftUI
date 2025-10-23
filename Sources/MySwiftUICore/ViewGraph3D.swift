@@ -37,7 +37,7 @@ extension ViewGraph3D: ViewGraphFeature {
             }
             
             transform.$layoutDirection = layoutDirection
-            transform.$childLayoutComputer = outputs.$layoutComputer
+            transform.$childLayoutComputer = outputs.layoutComputer
         }
         
         // <+132>
@@ -46,7 +46,7 @@ extension ViewGraph3D: ViewGraphFeature {
         }
         
         // w21
-        var layoutComputer = outputs.$layoutComputer
+        var layoutComputer = outputs.layoutComputer
         if let _layoutComputer = layoutComputer {
             let viewDepth = depthTransform
                 .identifier
@@ -65,7 +65,7 @@ extension ViewGraph3D: ViewGraphFeature {
             )
             layoutComputer = Attribute(depthStashingLayoutComputer)
         }
-        outputs.$layoutComputer = layoutComputer
+        outputs.layoutComputer = layoutComputer
         
         // <+256>
         if !outputs.preferences.debugProperties.contains(.layoutComputer) {

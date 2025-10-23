@@ -15,6 +15,7 @@ AG_EXTERN BOOL AGSubgraphIsDirty(AGSubgraphRef) NS_SWIFT_NAME(getter:Subgraph.is
 AG_EXTERN void AGSubgraphUpdate(AGSubgraphRef, unsigned int) NS_SWIFT_NAME(Subgraph.update(self:_:));
 AG_EXTERN void AGSubgraphSetShouldRecordTree(void) NS_SWIFT_NAME(Subgraph.setShouldRecordTree());
 AG_EXTERN BOOL AGSubgraphShouldRecordTree(void) NS_SWIFT_NAME(getter:Subgraph.shouldRecordTree());
+AG_EXTERN AGGraphRef AGSubgraphGetGraph(AGSubgraphRef) NS_SWIFT_NAME(getter:Subgraph.graph(self:));
 
 NS_ASSUME_NONNULL_END
 

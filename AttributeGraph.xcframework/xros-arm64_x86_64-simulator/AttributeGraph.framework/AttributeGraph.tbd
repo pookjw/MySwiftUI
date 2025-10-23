@@ -173,7 +173,9 @@ exports:
     _$s14AttributeGraph0A0V_12initialValueACyxGqd___xtc0D0Qyd__RszAA12StatefulRuleRd__lufC,
     _$s14AttributeGraph0A0V5flagsSo16AGAttributeFlagsVvg,
     _$s14AttributeGraph0A0V5flagsSo16AGAttributeFlagsVvs,
-    _$s14AttributeGraph0A0V5flagsSo16AGAttributeFlagsVvM ]
+    _$s14AttributeGraph0A0V5flagsSo16AGAttributeFlagsVvM,
+    _AGGraphGetAttributeGraph,
+    _AGSubgraphGetGraph ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

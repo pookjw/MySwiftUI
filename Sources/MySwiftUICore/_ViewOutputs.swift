@@ -3,7 +3,16 @@ package import AttributeGraph
 
 public struct _ViewOutputs {
     package internal(set) var preferences = PreferencesOutputs()
-    @OptionalAttribute var layoutComputer: LayoutComputer?
+    var _layoutComputer: OptionalAttribute<LayoutComputer>
+    var layoutComputer: Attribute<LayoutComputer>? {
+        get {
+            return _layoutComputer.attribute
+        }
+        set {
+            _layoutComputer = OptionalAttribute(newValue)
+            preferences.debugProperties.insert(.layoutComputer)
+        }
+    }
     
     init() {
         self._layoutComputer = OptionalAttribute()

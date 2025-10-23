@@ -23,7 +23,7 @@ struct HitTestBindingFeature: ViewGraphFeature {
         // <+400>
         // x22
         let viewResponders: Attribute<[ViewResponder]>
-        if let _viewResponders: Attribute<[ViewResponder]> = outputs[ViewRespondersKey.self] {
+        if let _viewResponders: Attribute<[ViewResponder]> = outputs.preferences[ViewRespondersKey.self] {
             viewResponders = _viewResponders
         } else {
             // <+424>

@@ -113,7 +113,7 @@ extension _ViewDebug {
             Subgraph.addTreeValue(inputs.pointee.base.phase, forKey: "phase", flags: 0)
         }
         if debugProperties.contains(.layoutComputer) {
-            Subgraph.addTreeValue(outputs.$layoutComputer!, forKey: "layoutComputer", flags: 0)
+            Subgraph.addTreeValue(outputs.layoutComputer!, forKey: "layoutComputer", flags: 0)
         }
     }
 }

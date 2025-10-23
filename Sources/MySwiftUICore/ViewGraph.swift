@@ -461,8 +461,8 @@ package final class ViewGraph: GraphHost {
         }
         
         // <+148>
-        $rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { _ in
-            fatalError("TODO")
+        $rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { geometry in
+            geometry.$childLayoutComputer = outputs.layoutComputer
         }
         
         if
@@ -479,12 +479,12 @@ package final class ViewGraph: GraphHost {
         // <+448>
         if requestedOutputs.contains(.viewResponders) {
             let value: Attribute<[ViewResponder]>? = outputs.preferences[ViewRespondersKey.self]
-            self._rootResponders = WeakAttribute(value)
+            self.$rootResponders = value
         }
         
         // <+504>
         if requestedOutputs.contains(.layout) {
-            self._rootLayoutComputer = WeakAttribute(outputs.$layoutComputer)
+            self._rootLayoutComputer = WeakAttribute(base: AnyWeakAttribute(attribute: outputs._layoutComputer.base.identifier, id: 0))
         }
         
         // <+524>
@@ -516,6 +516,15 @@ package final class ViewGraph: GraphHost {
     }
     
     private func makePreferenceOutlets(outputs: _ViewOutputs) {
+        /*
+         self = x21
+         outputs = x22
+         */
+        // x19
+        guard let preferenceBridge = _preferenceBridge else {
+            return
+        }
+        
         fatalError("TODO")
     }
 }

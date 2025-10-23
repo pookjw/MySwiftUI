@@ -300,6 +300,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeByName("7SwiftUI12RootGeometryV")!)
+        _forEachField(of: _typeByName("7SwiftUI12RootGeometryV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }      
+        print("===")
+        
         
         print(ViewTransform.self)
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in
@@ -346,8 +353,8 @@ class ViewController: UIViewController {
         print("===")
         
         
-        print(_UIHostingView<Color>.self)
-        _forEachField(of: _UIHostingView<Color>.self, options: [.classType]) { name, offset, type, kind in
+        print(_UIHostingView<EmptyView>.self)
+        _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
@@ -491,7 +498,7 @@ class ViewController: UIViewController {
             }
         }
         
-        let hostingView = _UIHostingView(rootView: Color.orange)
+        let hostingView = _UIHostingView(rootView: EmptyView())
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)
