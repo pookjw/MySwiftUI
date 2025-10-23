@@ -251,6 +251,17 @@ public protocol StatefulRule : AttributeGraph._AttributeBody {
     func updateValue()
 }
 
+extension AttributeGraph.StatefulRule {
+    public var hasValue: Swift.Bool {
+        get
+    }
+    
+    public var value: Value {
+        get
+        nonmutating set
+    }
+}
+
 public protocol ObservedAttribute : AttributeGraph._AttributeBody {
     func destroy()
 }

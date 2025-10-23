@@ -200,11 +200,10 @@ struct AnimatableFrameAttribute: StatefulRule, AsyncAttribute, ObservedAttribute
         // <+216>
         var flag = changed
         if !changed {
-            let outputValue: UnsafePointer<ViewFrame>? = Graph.outputValue()
-            flag = (outputValue == nil)
+            flag = !self.hasValue
         }
         if flag {
-            Graph.setOutputValue(&frame)
+            self.value = frame
         }
     }
     

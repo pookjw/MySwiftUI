@@ -3,7 +3,7 @@
 #warning("TODO")
 internal import CoreGraphics
 
-struct ViewFrame {
+struct ViewFrame: Equatable {
     private(set) var origin: CGPoint
     private(set) var size: ViewSize
     
