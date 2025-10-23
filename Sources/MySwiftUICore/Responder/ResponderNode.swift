@@ -13,7 +13,7 @@
         fatalError("TODO")
     }
     
-    public init() {
+    package init() {
     }
     
     open func isDescendant(of other: ResponderNode) -> Bool {
@@ -30,6 +30,10 @@
     }
     
     open func firstAncestor<T>(ofType type: T.Type) -> T? {
+        fatalError("TODO")
+    }
+    
+    open func bindEvent(_ type: EventType) {
         fatalError("TODO")
     }
 }

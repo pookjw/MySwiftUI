@@ -123,6 +123,10 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return GraphHost.sharedGraph.counter(options: [.unknown1, .unknown2, .unknown4]) != 0
     }
     
+    static var currentHost: GraphHost {
+        fatalError("TODO")
+    }
+    
     package final var globalSubgraph: Subgraph {
         return data.globalSubgraph
     }
@@ -531,6 +535,10 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             return asyncTransaction.traceID
         }
     }
+    
+    final func intern<T>(_: T, for: Any.Type = T.self, id: GraphHost.ConstantID) -> Attribute<T> {
+        fatalError("TODO")
+    }
 }
 
 extension GraphHost {
@@ -596,6 +604,16 @@ extension GraphHost {
             self.isRemoved = false
             self.isHiddenForReuse = false
         }
+    }
+    
+    enum ConstantID: Int8, Hashable {
+        case defaultValue
+        case implicitViewRoot
+        case trueValue
+        case defaultValue3D
+        case failedValue
+        case placeholder
+        case preferenceKeyDefault
     }
 }
 

@@ -7,6 +7,11 @@ internal import QuartzCore
 private import Spatial
 
 package final class ViewGraph: GraphHost {
+    @inline(__always)
+    static var current: ViewGraph {
+        return GraphHost.currentHost as! ViewGraph
+    }
+    
     private let rootViewType: Any.Type
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
     package internal(set) weak var delegate: ViewGraphDelegate? = nil

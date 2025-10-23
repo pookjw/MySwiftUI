@@ -286,6 +286,20 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeByName("7SwiftUI13ViewResponderC")!)
+        _forEachField(of: _typeByName("7SwiftUI13ViewResponderC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }      
+        print("===")
+        
+        print(_typeByName("7SwiftUI26DefaultLayoutViewResponderC")!)
+        _forEachField(of: _typeByName("7SwiftUI26DefaultLayoutViewResponderC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }      
+        print("===")
+        
         
         print(ViewTransform.self)
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in

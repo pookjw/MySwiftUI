@@ -1,5 +1,5 @@
 #warning("TODO")
 
-protocol EventType {
+@_spi(Internal) public protocol EventType {
     
 }

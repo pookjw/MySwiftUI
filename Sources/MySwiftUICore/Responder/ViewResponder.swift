@@ -1,9 +1,25 @@
 #warning("TODO")
 
 @_spi(Internal) open class ViewResponder: ResponderNode {
-    package private(set) weak var host: (any ViewGraphDelegate)? = nil
-    private var serverResponderID: UInt32? = nil
-    private weak var parent: ViewResponder? = nil
+    package private(set) weak var host: (any ViewGraphDelegate)?
+    private var serverResponderID: UInt32?
+    private weak var parent: ViewResponder?
+    
+    @inline(__always)
+    package override init() {
+        self.host = nil
+        self.serverResponderID = nil
+        self.parent = nil
+        self.host = ViewGraph.current.delegate
+    }
+    
+    @inline(__always)
+    package init(host: (any ViewGraphDelegate)?) {
+        self.host = nil
+        self.serverResponderID = nil
+        self.parent = nil
+        self.host = host
+    }
 }
 
 extension ViewResponder {

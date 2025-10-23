@@ -12,5 +12,14 @@
             )
         )
     )
-    var observers: ContentPathObservers = ContentPathObservers()
+    var observers = ContentPathObservers()
+    
+    @inline(__always)
+    package override init() {
+        super.init()
+    }
+    
+    open override func bindEvent(_ type: any EventType) {
+        fatalError("TODO")
+    }
 }
