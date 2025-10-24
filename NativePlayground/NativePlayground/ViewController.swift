@@ -18,7 +18,7 @@ import _SwiftUICorePrivate
 
 func swizzle() {
     let method = class_getInstanceMethod(_UIHostingView<EmptyView>.self, #selector(UIView.traitCollectionDidChange(_:)))
-    let empty: (@convention(c) (AnyObject, Selector, AnyObject) -> Void) = { _, _, _ in }
+    let empty: (@convention(c) (AnyObject, Selector, AnyObject?) -> Void) = { _, _, _ in }
     method_setImplementation(method!, unsafeBitCast(empty, to: IMP.self))
 }
 
