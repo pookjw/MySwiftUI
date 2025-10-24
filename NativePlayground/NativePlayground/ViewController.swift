@@ -16,14 +16,9 @@ import DesignLibrary
 import _SwiftUICorePrivate
 
 
-func swizzle_1() {
-    let method = class_getInstanceMethod(_UIHostingView<EmptyView>.self, #selector(setter:UIView.frame))
-    let empty: (@convention(c) (AnyObject, Selector) -> Void) = { _, _ in }
-    method_setImplementation(method!, unsafeBitCast(empty, to: IMP.self))
-}
-func swizzle_2() {
-    let method = class_getInstanceMethod(_UIHostingView<EmptyView>.self, #selector(setter:UIView.bounds))
-    let empty: (@convention(c) (AnyObject, Selector) -> Void) = { _, _ in }
+func swizzle() {
+    let method = class_getInstanceMethod(_UIHostingView<EmptyView>.self, #selector(UIView.traitCollectionDidChange(_:)))
+    let empty: (@convention(c) (AnyObject, Selector, AnyObject) -> Void) = { _, _, _ in }
     method_setImplementation(method!, unsafeBitCast(empty, to: IMP.self))
 }
 
@@ -50,8 +45,7 @@ fileprivate struct Type2 {}
 
 class ViewController: UIViewController {
     override func loadView() {
-//        swizzle_1()
-//        swizzle_2()
+//        swizzle()
         
         print(_typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!)
         _forEachField(of: _typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!, options: [.classType]) { name, offset, type, kind in

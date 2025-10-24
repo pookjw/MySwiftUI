@@ -439,6 +439,11 @@ open class _UIHostingView<Content: View>: UIView {
         base.layoutSubviews()
     }
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        fatalError("TODO")
+    }
+    
     package final var isWindowRoot: Bool {
         guard let window else {
             return false
