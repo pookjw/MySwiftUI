@@ -80,6 +80,8 @@ struct _SafeAreaInsetsModifier: ViewModifier {
         // <+424>
         // sp, #0x80
         var copy_3 = inputs
+        copy_3.transform = transformAttribute
+        copy_3.safeAreaInsets = OptionalAttribute(insetsAttribute)
         // sp, #0x20
         var copy_4 = copy_3
         

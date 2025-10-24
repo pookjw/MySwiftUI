@@ -75,6 +75,7 @@ extension ViewGraphRootValueUpdater {
                 let data = viewGraph.data
                 Update.dispatchActions()
                 viewGraph.updateOutputs(at: currentTimestamp)
+                Update.dispatchActions()
                 viewGraph.flushTransactions()
                 
                 var rootDisplayList: (DisplayList, DisplayList.Version)

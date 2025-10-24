@@ -22,7 +22,7 @@ public struct _ViewInputs {
             base.changedDebugProperties.insert(.size)
         }
     }
-    private(set) var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
+    var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
     var containerSize: OptionalAttribute<ViewSize>
     
     init(
