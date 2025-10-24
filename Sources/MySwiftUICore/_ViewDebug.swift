@@ -156,11 +156,13 @@ extension ViewModifier {
         }
         
         var copy = inputs
+        let prev = copy.base.changedDebugProperties
         copy.base.changedDebugProperties = []
         
         var outputs = Self._makeView(modifier: modifier, inputs: inputs) { graph, inputs in
             return body(graph, inputs)
         }
+        copy.base.changedDebugProperties = prev
         
         if shouldRecordTree {
             _ViewDebug.reallyWrap(&outputs, value: modifier, inputs: &copy)
