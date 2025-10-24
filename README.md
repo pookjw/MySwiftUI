@@ -1,0 +1,1 @@
+- Native에서 PreferencesOutputs - debugProperties.insert(.displayList)이 언제 불리는지 검증

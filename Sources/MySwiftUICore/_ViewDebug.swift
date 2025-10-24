@@ -79,6 +79,7 @@ extension _ViewDebug {
          */
         // w22
         var debugProperties = outputs.preferences.debugProperties.union(inputs.pointee.base.changedDebugProperties)
+        outputs.preferences.debugProperties = []
         
         if debugProperties.contains(.layoutComputer) && outputs.layoutComputer == nil {
             // <+48>
@@ -127,9 +128,11 @@ extension View {
         }
         
         var copy = inputs
+        let prev = copy.base.changedDebugProperties
         copy.base.changedDebugProperties = []
         
         var outputs = Self._makeView(view: view, inputs: copy)
+        copy.base.changedDebugProperties = prev
         
         if shouldRecordTree {
             _ViewDebug.reallyWrap(&outputs, value: view, inputs: &copy)

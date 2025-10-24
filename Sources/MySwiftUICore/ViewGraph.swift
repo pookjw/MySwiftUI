@@ -466,7 +466,7 @@ package final class ViewGraph: GraphHost {
         }
         
         if
-            !requestedOutputs.isEmpty,
+            requestedOutputs.contains(.displayList),
             let displayList: Attribute<DisplayList> = outputs.preferences[DisplayList.Key.self] // x25
         {
             // <+256>
