@@ -6,3 +6,4 @@
 #import <_QuartzCorePrivate/CARemoteEffectGroup.h>
 #import <_QuartzCorePrivate/CAFilter.h>
 #import <_QuartzCorePrivate/CALayer+Private.h>
+#import <_QuartzCorePrivate/CATransactionCompletionItem.h>

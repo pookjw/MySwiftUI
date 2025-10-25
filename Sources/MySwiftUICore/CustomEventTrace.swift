@@ -174,7 +174,16 @@ package struct CustomEventTrace {
     }
     
     public static func setNeedsUpdate(values: ViewGraphRootValues, graph: Graph) {
-        fatalError("TODO")
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.graph.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.graph.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: (values, graph))
     }
     
     public static func animationBegin(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {

@@ -17,6 +17,7 @@ AG_EXTERN const void * _Nullable AGGraphGetContext(AGGraphRef) NS_SWIFT_NAME(get
 AG_EXTERN AGGraphRef AGGraphGetAttributeGraph(AGAttribute) NS_SWIFT_NAME(getter:AnyAttribute.graph(self:));
 AG_EXTERN const void * _Nullable AGGraphGetOutputValue(AGTypeID);
 AG_EXTERN void AGGraphSetOutputValue(const void * _Nullable, AGTypeID);
+AG_EXTERN void AGGraphSetNeedsUpdate(AGGraphRef) NS_SWIFT_NAME(AGGraphRef.setNeedsUpdate(self:));
 
 NS_ASSUME_NONNULL_END
 

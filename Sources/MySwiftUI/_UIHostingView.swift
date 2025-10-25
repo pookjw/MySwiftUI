@@ -440,8 +440,33 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        /*
+         self = x21
+         previousTraitCollection = x19
+         */
         super.traitCollectionDidChange(previousTraitCollection)
-        fatalError("TODO")
+        
+        if
+            (shouldDisableUIKitAnimation && isLinkedOnOrAfter(.v3)),
+            let transaction = Transaction.currentUIViewTransaction(canDisableAnimations: true)
+        {
+            viewGraph.emptyTransaction(transaction)
+        }
+        
+        // <+164>
+        let userInterfaceIdiom = self.traitCollection.userInterfaceIdiom
+        if let previousTraitCollection, userInterfaceIdiom == previousTraitCollection.userInterfaceIdiom {
+            // nop
+        } else {
+            updateEventBridge()
+        }
+        
+        if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            colorAppearanceSeed &+= 1
+        }
+        
+        // <+332>
+        base.traitCollectionDidChange(previousTraitCollection)
     }
     
     package final var isWindowRoot: Bool {

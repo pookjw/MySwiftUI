@@ -182,7 +182,8 @@ exports:
     _AGGraphSetOutputValue,
     _$s14AttributeGraph12StatefulRulePAAE5value5ValueQzvg,
     _$s14AttributeGraph12StatefulRulePAAE5value5ValueQzvs,
-    _$s14AttributeGraph12StatefulRulePAAE8hasValueSbvg ]
+    _$s14AttributeGraph12StatefulRulePAAE8hasValueSbvg,
+    _AGGraphSetNeedsUpdate ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -22,9 +22,8 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
         Update.assertIsLocked()
     },
     unknown_block_9: nil,
-    block_10: { _, _ in
+    willUpdateGraph: { _, _ in
         Update.assertIsLocked()
-        fatalError("TODO: block name")
     },
     unknown_block_11: nil,
     block_12: { _, _, _ in
@@ -40,7 +39,9 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
         Update.assertIsLocked()
     },
     block_19: { _, _ in fatalError("TODO") },
-    block_20: { _, _ in fatalError("TODO") },
+    didSetNeedsUpdate: { _, _ in
+        Update.assertIsLocked()
+    },
     didCreateSubgraph: { _, _ in
         Update.assertIsLocked()
     },
@@ -279,7 +280,19 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     package final func setNeedsUpdate(mayDeferUpdate: Bool, values: ViewGraphRootValues) {
-        fatalError("TODO")
+        /*
+         self = x20
+         mayDeferUpdate = x21
+         values = x19
+         */
+        self.mayDeferUpdate = (self.mayDeferUpdate && mayDeferUpdate)
+        
+        guard let graph = data.graph else {
+            return
+        }
+        
+        CustomEventTrace.setNeedsUpdate(values: values, graph: graph)
+        graph.setNeedsUpdate()
     }
     
     package final func flushTransactions() {
@@ -591,6 +604,11 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         self.constants[ConstantKey(type: type, id: id)] = attribute.identifier
         return attribute
+    }
+    
+    @discardableResult
+    package final func emptyTransaction(_ transaction: Transaction = Transaction()) -> UInt32 {
+        fatalError("TODO")
     }
 }
 

@@ -42,6 +42,10 @@ public struct Transaction {
         self.plist = plist
     }
     
+    package init(animation: Animation?) {
+        fatalError("TODO")
+    }
+    
     public subscript<K: TransactionKey>(key: K.Type) -> K.Value {
         get {
             fatalError("TODO")
@@ -53,6 +57,22 @@ public struct Transaction {
     
     package func mayConcatenate(with other: Transaction) -> Bool {
         return !plist.mayNotBeEqual(to: other.plist)
+    }
+    
+    package var disablesAnimations: Bool {
+        get {
+            fatalError("TODO")
+        }
+        nonmutating set {
+            fatalError("TODO")
+        }
+        nonmutating _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    package func addAnimationListener(allFinished: () -> Void) {
+        fatalError("TODO")
     }
 }
 

@@ -159,6 +159,7 @@ extension ViewGraphRootValueUpdater {
             if !valuesNeedingUpdate.isSuperset(of: values) {
                 owner.valuesNeedingUpdate = valuesNeedingUpdate.union(values)
                 viewGraph.setNeedsUpdate(mayDeferUpdate: mayDeferUpdate, values: valuesNeedingUpdate.union(values))
+                requestUpdate(after: 0)
             }
         }
     }

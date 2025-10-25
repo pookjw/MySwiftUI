@@ -248,6 +248,33 @@ package final class UIHostingViewBase: NSObject {
         updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
     }
     
+    package func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        /*
+         self = x19
+         previousTraitCollection = x26
+         */
+        // x22
+        let viewGraph = viewGraph
+        
+        // x21
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return
+        }
+        
+        // x23
+        guard let uiview = self.uiView else {
+            return
+        }
+        
+        updateDelegate.invalidateProperties(.environment, mayDeferUpdate: true)
+        
+        guard _UIViewMaskingConfigurationSPIEnabled() else {
+            return
+        }
+        
+        fatalError("TODO")
+    }
+    
     // ___lldb_unnamed_symbol317399
     package func interval(time: Double) -> Double {
         // time = x19
