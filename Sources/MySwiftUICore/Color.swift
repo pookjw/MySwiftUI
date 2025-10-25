@@ -37,10 +37,10 @@ public struct Color: Hashable, CustomStringConvertible, Sendable {
     }
 }
 
-extension Color: View {
+extension Color: PrimitiveView {
     public var body: Never {
-        fatalError("TODO")
-    } // TODO
+        fatalError("body() should not be called on Color.")
+    }
 }
 
 @usableFromInline

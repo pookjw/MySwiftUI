@@ -492,7 +492,9 @@ class ViewController: UIViewController {
             }
         }
         
-        let hostingView = _UIHostingView(rootView: EmptyView())
+//        let rootView = EmptyView()
+        let rootView = AnyView(EmptyView())
+        let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)

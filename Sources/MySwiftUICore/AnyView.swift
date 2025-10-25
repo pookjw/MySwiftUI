@@ -1,9 +1,19 @@
-#warning("TODO")
+// 7578D05D331D7F1A2E0C2F8DEF38AAD4
 
-@frozen public struct AnyView: View {
-    //    var storage: AnyViewStorageBase
+#warning("TODO")
+private import AttributeGraph
+
+@frozen public struct AnyView: PrimitiveView {
+    var storage: AnyViewStorageBase
+    
     public init<V>(_ view: V) where V : View {
-        fatalError("TODO")
+        let storage: AnyViewStorageBase
+        if let anyView = view as? AnyView {
+            storage = anyView.storage
+        } else {
+            storage = AnyViewStorage(view: view)
+        }
+        self.storage = storage
     }
     
     @_alwaysEmitIntoClient public init<V>(erasing view: V) where V : View {
@@ -23,9 +33,73 @@
     }
     
     public var body: Never {
-        fatalError("TODO")
-    } // TODO
+        fatalError("body() should not be called on AnyView.")
+    }
 }
+
+//extension AnyView: DynamicView {
+//    typealias Metadata = <#type#>
+//    typealias ID = UniqueID
+//    
+//    static var canTransition: Bool {
+//        <#code#>
+//    }
+//    
+//    
+//}
 
 @available(*, unavailable)
 extension AnyView: Sendable {}
+
+@usableFromInline class AnyViewStorageBase {
+    fileprivate var childType: any Any.Type {
+        fatalError() // abstract
+    }
+    
+    fileprivate func makeChildView(view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
+        fatalError() // abstract
+    }
+    
+    fileprivate func makeChildViewList(view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError() // abstract
+    }
+    
+    fileprivate func visitContent<T: ViewVisitor>(_ visitor: inout T) {
+        fatalError() // abstract
+    }
+    
+    fileprivate var content: any View {
+        fatalError() // abstract
+    }
+}
+
+@available(*, unavailable)
+extension AnyViewStorageBase: Sendable {}
+
+fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
+    let view: Content
+    
+    init(view: Content) {
+        self.view = view
+    }
+    
+    override var content: any View {
+        return view
+    }
+    
+    override var childType: any Any.Type {
+        return Content.self
+    }
+    
+    override func visitContent<T>(_ visitor: inout T) where T : ViewVisitor {
+        fatalError("TODO")
+    }
+    
+    override func makeChildView(view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    override func makeChildViewList(view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+}

@@ -11,7 +11,8 @@ import MySwiftUI
 class ViewController: UIViewController {
     override func loadView() {
 //        let rootView = Color.black
-        let rootView = EmptyView()
+//        let rootView = EmptyView()
+        let rootView = AnyView(EmptyView())
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
 //        view.addSubview(hostingView)
