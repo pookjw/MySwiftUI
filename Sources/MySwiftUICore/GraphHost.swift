@@ -213,7 +213,15 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         CustomEventTrace.recordGraphHostRoot(data.graph, data.globalSubgraph, newRoot: data.rootSubgraph, self)
         
         self.data.graph!.onUpdate { [weak self] in
-            fatalError("TODO")
+            guard let self else {
+                return
+            }
+            
+            guard let graphDelegate = self.graphDelegate else {
+                return
+            }
+            
+            graphDelegate.updateGraph { _ in }
         }
         
         self.data.graph!.onInvalidation { [weak self] attribute in
