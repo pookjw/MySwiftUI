@@ -37,7 +37,7 @@ package final class ViewGraph: GraphHost {
     @OptionalAttribute private var gestureCategory: GestureCategory?
     @Attribute private var gesturePreferenceKeys: PreferenceKeys
     private var eventSubgraph: Subgraph? = nil
-    @Attribute private var defaultLayoutComputer: LayoutComputer
+    @Attribute private(set) var defaultLayoutComputer: LayoutComputer
     @WeakAttribute private var rootResponders: [ViewResponder]?
     @WeakAttribute fileprivate var rootLayoutComputer: LayoutComputer?
     @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
@@ -484,7 +484,7 @@ package final class ViewGraph: GraphHost {
         
         // <+504>
         if requestedOutputs.contains(.layout) {
-            self._rootLayoutComputer = WeakAttribute(base: AnyWeakAttribute(attribute: outputs._layoutComputer.base.identifier, id: 0))
+            self._rootLayoutComputer = WeakAttribute(outputs.layoutComputer)
         }
         
         // <+524>

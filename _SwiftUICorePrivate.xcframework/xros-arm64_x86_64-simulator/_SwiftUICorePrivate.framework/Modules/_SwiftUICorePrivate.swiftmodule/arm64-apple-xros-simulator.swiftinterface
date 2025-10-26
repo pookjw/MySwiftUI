@@ -669,3 +669,22 @@ extension _SwiftUICorePrivate.DisplayList.ViewUpdater {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct AnimatableAttributeHelper<T: SwiftUI.Animatable> {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol DynamicView : SwiftUI.View {
+  associatedtype Metadata
+  associatedtype ID
+  
+  static var canTransition: Swift.Bool {
+      get
+  }
+    
+  static var traitKeysDependOnView: Swift.Bool {
+      get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct UniqueID {}

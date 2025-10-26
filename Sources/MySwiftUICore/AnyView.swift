@@ -1,7 +1,7 @@
 // 7578D05D331D7F1A2E0C2F8DEF38AAD4
 
 #warning("TODO")
-private import AttributeGraph
+internal import AttributeGraph
 
 @frozen public struct AnyView: PrimitiveView {
     var storage: AnyViewStorageBase
@@ -25,7 +25,7 @@ private import AttributeGraph
     }
     
     public static nonisolated func _makeView(view: _GraphValue<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
+        return makeDynamicView(metadata: (), view: _GraphValue(view.value), inputs: inputs)
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -37,16 +37,26 @@ private import AttributeGraph
     }
 }
 
-//extension AnyView: DynamicView {
-//    typealias Metadata = <#type#>
-//    typealias ID = UniqueID
-//    
-//    static var canTransition: Bool {
-//        <#code#>
-//    }
-//    
-//    
-//}
+extension AnyView: @preconcurrency DynamicView {
+    typealias Metadata = Void
+    typealias ID = UniqueID
+    
+    static nonisolated var canTransition: Bool {
+        return false
+    }
+    
+    nonisolated func childInfo(metadata: Void) -> (any Any.Type, UniqueID?) {
+        fatalError("TODO")
+    }
+    
+    nonisolated func makeChildView(metadata: Void, view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    nonisolated func makeChildViewList(metadata: Void, view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+}
 
 @available(*, unavailable)
 extension AnyView: Sendable {}

@@ -30,4 +30,8 @@ package struct PreferencesInputs {
             }
         }
     }
+    
+    func makeIndirectOutputs() -> PreferencesOutputs {
+        fatalError("TODO")
+    }
 }

@@ -183,7 +183,12 @@ exports:
     _$s14AttributeGraph12StatefulRulePAAE5value5ValueQzvg,
     _$s14AttributeGraph12StatefulRulePAAE5value5ValueQzvs,
     _$s14AttributeGraph12StatefulRulePAAE8hasValueSbvg,
-    _AGGraphSetNeedsUpdate ]
+    _AGGraphSetNeedsUpdate,
+    _AGGraphSetIndirectDependency,
+    _$sSo11AGAttributea14AttributeGraphE18indirectDependencyABSgvg,
+    _$sSo11AGAttributea14AttributeGraphE18indirectDependencyABSgvs,
+    _$sSo11AGAttributea14AttributeGraphE18indirectDependencyABSgvM,
+    _$s14AttributeGraph08IndirectA0V6sourceACyxGAA0A0VyxG_tcfC ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

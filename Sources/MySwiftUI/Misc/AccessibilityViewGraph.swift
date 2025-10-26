@@ -68,8 +68,8 @@ extension AccessibilityViewGraph: ViewGraphFeature {
         self.relationshipScope = inputs[AccessibilityRelationshipScope.self]
         
         // <+712>
-        inputs.base.accessibilityFocusStore = OptionalAttribute(base: AnyOptionalAttribute(_accessibilityFocusStore.base.identifier))
-        inputs.base.accessibilityFocus = OptionalAttribute(base: AnyOptionalAttribute(_accessibilityFocus.base.identifier))
+        inputs.base.accessibilityFocusStore = _accessibilityFocusStore
+        inputs.base.accessibilityFocus = _accessibilityFocus
         
         if graph.requestedOutputs.contains(.focus) && focusStoreEnabled && (graph.parentHost != nil) {
             graph.removePreference(AccessibilityFocusStoreList.Key.self)

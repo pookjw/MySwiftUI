@@ -54,6 +54,13 @@ package struct PreferencesOutputs {
             fatalError("TODO")
         }
     }
+    
+    @inline(__always)
+    func setIndirectDependency(_ attribute: AnyAttribute?) {
+        for preference in preferences {
+            preference.value.indirectDependency = attribute
+        }
+    }
 }
 
 extension PreferencesOutputs {

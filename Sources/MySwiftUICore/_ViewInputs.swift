@@ -298,3 +298,19 @@ extension _ViewInputs {
         }
     }
 }
+
+extension _ViewInputs {
+    func makeIndirectOutputs() -> _ViewOutputs {
+        // sp + 0x10
+        let prefOutputs = preferences.makeIndirectOutputs()
+        
+        let layoutComputer: OptionalAttribute<LayoutComputer>
+        if base.options.contains(.viewRequestsLayoutComputer) {
+            layoutComputer = OptionalAttribute(IndirectAttribute(source: ViewGraph.current.$defaultLayoutComputer).identifier)
+        } else {
+            layoutComputer = OptionalAttribute()
+        }
+        
+        return _ViewOutputs(preferences: prefOutputs, layoutComputer: layoutComputer)
+    }
+}

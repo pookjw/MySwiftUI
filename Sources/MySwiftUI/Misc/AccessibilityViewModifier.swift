@@ -80,8 +80,8 @@ extension AccessibilityViewModifier {
                 let viewResponders: Attribute<[ViewResponder]>? = outputs[ViewRespondersKey.self]
                 
                 responderUpdater = AccessibilityViewResponderUpdater(
-                    viewResponders: OptionalAttribute(base: AnyOptionalAttribute(viewResponders?.identifier ?? .empty)),
-                    kind: OptionalAttribute(base: AnyOptionalAttribute(.empty)),
+                    viewResponders: OptionalAttribute(viewResponders),
+                    kind: OptionalAttribute(),
                     token: nil,
                     idHash: 0,
                     attachment: nil,
@@ -101,7 +101,7 @@ extension AccessibilityViewModifier {
                     size: size,
                     position: position,
                     transform: transform,
-                    kind: OptionalAttribute(base: AnyOptionalAttribute(empty)),
+                    kind: OptionalAttribute(),
                     token: nil,
                     id: UniqueID(),
                     attachment: nil,

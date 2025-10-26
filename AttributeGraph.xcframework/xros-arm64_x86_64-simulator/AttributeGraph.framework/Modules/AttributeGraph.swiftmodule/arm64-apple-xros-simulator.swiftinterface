@@ -8,7 +8,12 @@
 @frozen
 @propertyWrapper
 public struct WeakAttribute<T> {
-    public var base: AttributeGraph.AnyWeakAttribute
+    @_hasStorage
+    public var base: AttributeGraph.AnyWeakAttribute {
+        get
+        set
+    }
+
     public var wrappedValue: T? {
         get
     }
@@ -96,8 +101,21 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible {
     public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
 }
 
+@frozen
+@propertyWrapper
 public struct IndirectAttribute<T> {
+    @_hasStorage
+    public var identifier: AttributeGraph.Attribute<T> {
+        get
+    }
 
+    public init(source: AttributeGraph.Attribute<T>)
+
+    public var wrappedValue: T {
+        get
+        nonmutating set
+        nonmutating _modify
+    }
 }
 
 public struct AnyRuleContext: Swift.Equatable {
@@ -194,6 +212,7 @@ public struct OptionalAttribute<T> {
         set
     }
 
+    @_hasStorage
     public var base: AttributeGraph.AnyOptionalAttribute {
         get
         set
@@ -273,6 +292,12 @@ extension AttributeGraph.AnyAttribute: Swift.Hashable {}
 
 extension AttributeGraph.AnyAttribute {
     public func mutateBody<T>(as: T.Type, invalidating: Swift.Bool, _: (inout T) -> ())
+
+    public var indirectDependency: AttributeGraph.AnyAttribute? {
+        get
+        nonmutating set
+        nonmutating _modify
+    }
 }
 
 extension AttributeGraph.Graph {

@@ -3,7 +3,7 @@ package import AttributeGraph
 
 public struct _ViewOutputs {
     package internal(set) var preferences = PreferencesOutputs()
-    var _layoutComputer: OptionalAttribute<LayoutComputer>
+    private var _layoutComputer: OptionalAttribute<LayoutComputer>
     var layoutComputer: Attribute<LayoutComputer>? {
         get {
             return _layoutComputer.attribute
@@ -16,6 +16,13 @@ public struct _ViewOutputs {
     
     init() {
         self._layoutComputer = OptionalAttribute()
+    }
+    
+    // 원래 없음
+    @inline(__always)
+    init(preferences: PreferencesOutputs, layoutComputer: OptionalAttribute<LayoutComputer>) {
+        self.preferences = preferences
+        self._layoutComputer = layoutComputer
     }
     
     package subscript<Key: PreferenceKey>(_ key: Key.Type) -> Attribute<Key.Value>? {
