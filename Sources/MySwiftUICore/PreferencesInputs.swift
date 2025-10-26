@@ -32,6 +32,22 @@ package struct PreferencesInputs {
     }
     
     func makeIndirectOutputs() -> PreferencesOutputs {
-        fatalError("TODO")
+        // x29 = sp + 0xa0
+        // self = x19
+        // empty = sp + 0x1c
+        // sp + 0x40
+        var outputs = PreferencesOutputs()
+        
+        for key in keys {
+            func wrap<Key: PreferenceKey>(key: Key.Type) {
+                let attribute = GraphHost.currentHost.intern(key.defaultValue, for: key.self, id: .preferenceKeyDefault)
+                let indirect = IndirectAttribute(source: attribute)
+                outputs.appendPreference(key: key, value: indirect.identifier)
+            }
+            
+            wrap(key: key)
+        }
+        
+        return outputs
     }
 }

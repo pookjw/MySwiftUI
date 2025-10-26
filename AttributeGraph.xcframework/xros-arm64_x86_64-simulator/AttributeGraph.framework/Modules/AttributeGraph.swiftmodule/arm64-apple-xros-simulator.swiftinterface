@@ -116,6 +116,10 @@ public struct IndirectAttribute<T> {
         nonmutating set
         nonmutating _modify
     }
+
+    public var projectedValue: AttributeGraph.Attribute<T> {
+        get
+    }
 }
 
 public struct AnyRuleContext: Swift.Equatable {
@@ -355,10 +359,11 @@ public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule {
     }
 }
 
-public struct AnyOptionalAttribute: Swift.Hashable, Swift.CustomStringConvertible {
+@frozen public struct AnyOptionalAttribute: Swift.Hashable, Swift.CustomStringConvertible {
     public init(_: AttributeGraph.AnyAttribute)
     public init(_: AttributeGraph.AnyAttribute?)
 
+    @_hasStorage
     public var identifier: AttributeGraph.AnyAttribute {
         get set
     }

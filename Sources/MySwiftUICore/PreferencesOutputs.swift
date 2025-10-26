@@ -61,6 +61,17 @@ package struct PreferencesOutputs {
             preference.value.indirectDependency = attribute
         }
     }
+    
+    mutating func appendPreference<Key: PreferenceKey>(key: Key.Type, value: Attribute<Key.Value>) {
+        /*
+         self = x23
+         x22 = key
+         x19 = value
+         x21 = witness
+         */
+        let keyValue = KeyValue(key: key, value: value.identifier)
+        preferences.append(keyValue)
+    }
 }
 
 extension PreferencesOutputs {
