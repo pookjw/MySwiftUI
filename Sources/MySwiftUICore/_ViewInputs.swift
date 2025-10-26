@@ -305,7 +305,7 @@ extension _ViewInputs {
         var prefOutputs = preferences.makeIndirectOutputs()
         
         let layoutComputer: OptionalAttribute<LayoutComputer>
-        if base.options.contains(.viewRequestsLayoutComputer) {
+        if requestsLayoutComputer {
             layoutComputer = OptionalAttribute(IndirectAttribute(source: ViewGraph.current.$defaultLayoutComputer).identifier)
             prefOutputs.debugProperties.insert(.layoutComputer)
         } else {
