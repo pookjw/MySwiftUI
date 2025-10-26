@@ -188,7 +188,8 @@ exports:
     _$sSo11AGAttributea14AttributeGraphE18indirectDependencyABSgvg,
     _$sSo11AGAttributea14AttributeGraphE18indirectDependencyABSgvs,
     _$sSo11AGAttributea14AttributeGraphE18indirectDependencyABSgvM,
-    _$s14AttributeGraph08IndirectA0V6sourceACyxGAA0A0VyxG_tcfC ]
+    _$s14AttributeGraph08IndirectA0V6sourceACyxGAA0A0VyxG_tcfC,
+    _AGSubgraphInvalidate ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

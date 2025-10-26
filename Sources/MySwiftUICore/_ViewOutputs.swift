@@ -45,6 +45,14 @@ public struct _ViewOutputs {
             yield &preferences[anyKey]
         }
     }
+    
+    @inline(__always)
+    func detachIndirectOutputs() {
+        preferences.detachIndirectOutputs()
+        if let layoutComputer {
+            layoutComputer.identifier.indirectDependency = .empty
+        }
+    }
 }
 
 @available(*, unavailable)

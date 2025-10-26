@@ -99,14 +99,69 @@ fileprivate struct DynamicViewContainer<Content: DynamicView>: StatefulRule {
     }
     
     func updateValue() {
+//        // self = x26
+//        // x20
+//        let childInfo = view.childInfo(metadata: metadata)
+//        
+//        /*
+//         sp + 0x10 -> Value.id (Enum Case)
+//         sp + 0x18 -> Value.id
+//         sp + 0x20 -> outputValue.type
+//         sp + 0x28 -> childInfo.0
+//         x25 -> Subgraph?
+//         */
+//        // x25
+//        let subgraph: Subgraph?
+//        // sp + 0x20
+//        let oldType: (any Any.Type)?
+//        // sp + 0x28
+//        let newType: (any Any.Type)?
+//        // sp + 0x10(case), 0x18
+//        let oldID: Content.ID?
+//        
+//        if let outputValue: UnsafePointer<DynamicViewContainer.Value> = Graph.outputValue() {
+//            // <+152>
+//            let _oldType = outputValue.pointee.type
+//            if _oldType == childInfo.0 {
+//                return
+//            }
+//            
+//            oldType = _oldType
+//            newType = childInfo.0
+//            oldID = outputValue.pointee.id
+//            
+//            // x25
+//            let _subgraph = outputValue.pointee.subgraph
+//            subgraph = _subgraph
+//            outputs.detachIndirectOutputs()
+//            _subgraph.willInvalidate(isInserted: true)
+//            _subgraph.invalidate()
+//        } else {
+//            // <+288>
+////            oldID = 
+//            oldType = nil
+//            newType = childInfo.0
+//            subgraph = nil
+//        }
+//        
+//        // <+304>
+//        fatalError("TODO")
+        
+        /*
+         self = x23
+         x25 = Content
+         x29 = sp + 0xe0
+         */
+        
+        let childInfo = view.childInfo(metadata: metadata)
         fatalError("TODO")
     }
 }
 
 extension DynamicViewContainer {
     fileprivate struct Value {
-        private var type: any Any.Type
-        private var id: Content.ID?
-        private var subgraph: Subgraph
+        private(set) var type: any Any.Type
+        private(set) var id: Content.ID?
+        private(set) var subgraph: Subgraph
     }
 }

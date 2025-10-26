@@ -62,6 +62,11 @@ package struct PreferencesOutputs {
         }
     }
     
+    @inline(__always)
+    func detachIndirectOutputs() {
+        setIndirectDependency(.empty)
+    }
+    
     mutating func appendPreference<Key: PreferenceKey>(key: Key.Type, value: Attribute<Key.Value>) {
         /*
          self = x23
