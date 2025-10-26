@@ -67,6 +67,11 @@ package struct PreferencesOutputs {
         setIndirectDependency(.empty)
     }
     
+    @inline(__always)
+    func attachIndirectOutputs(to other: PreferencesOutputs) {
+        fatalError("TODO")
+    }
+    
     mutating func appendPreference<Key: PreferenceKey>(key: Key.Type, value: Attribute<Key.Value>) {
         /*
          self = x23

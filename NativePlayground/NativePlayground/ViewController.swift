@@ -14,6 +14,36 @@ import ObjectiveC.runtime
 import ObjectiveC.message
 import DesignLibrary
 import _SwiftUICorePrivate
+import AttributeGraph
+
+struct MyDynamicView: DynamicView {
+    static func makeID() -> _SwiftUICorePrivate.UniqueID {
+        .init()
+    }
+    
+    func childInfo(metadata: Void) -> (any Any.Type, _SwiftUICorePrivate.UniqueID?) {
+        (EmptyView.self, nil)
+    }
+    
+    func makeChildView(metadata: Void, view: AttributeGraph.Attribute<MyDynamicView>, inputs: _ViewInputs) -> _ViewOutputs {
+        .init()
+    }
+    
+    func makeChildViewList(metadata: Void, view: AttributeGraph.Attribute<MyDynamicView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError()
+    }
+    
+    typealias Metadata = Void
+    typealias ID = UniqueID
+    
+    static var canTransition: Bool {
+        return true
+    }
+    
+    static var traitKeysDependOnView: Bool {
+        return false
+    }
+}
 
 
 func swizzle() {
@@ -491,6 +521,21 @@ class ViewController: UIViewController {
                 
             }
         }
+        
+        let graph = Graph()
+        let subgraph = Subgraph(graph: graph)
+        Subgraph.current = subgraph
+        let attribute = Attribute(value: MyDynamicView())
+        _ = MyDynamicView.makeDynamicView(
+            metadata: (),
+            view: .init(attribute),
+            inputs: .init(
+                .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)), position: .init(identifier: .empty), size: .init(identifier: .empty), transform: .init(identifier: .empty), containerPosition: .init(identifier: .empty), hostPreferenceKeys: .init(identifier: .empty))
+        )
+        Subgraph.current = nil
+        graph.setNeedsUpdate()
+        subgraph.update(1)
+        _ = consume graph
         
 //        let rootView = EmptyView()
         let rootView = AnyView(EmptyView())

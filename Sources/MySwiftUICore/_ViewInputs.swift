@@ -43,6 +43,10 @@ public struct _ViewInputs {
         self.containerSize = OptionalAttribute()
     }
     
+    init(withoutGeometry: _GraphInputs) {
+        fatalError("TODO")
+    }
+    
     package var customInputs: PropertyList {
         get {
             return base.customInputs
@@ -67,6 +71,11 @@ public struct _ViewInputs {
         set {
             base[type] = newValue
         }
+    }
+    
+    @inline(__always)
+    package mutating func copyCaches() {
+        base.cachedEnvironment = MutableBox(base.cachedEnvironment.value)
     }
     
     func makeRootMatchedGeometryScope() {

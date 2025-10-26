@@ -672,7 +672,7 @@ public struct AnimatableAttributeHelper<T: SwiftUI.Animatable> {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol DynamicView : SwiftUI.View {
+public protocol DynamicView {
   associatedtype Metadata
   associatedtype ID
   
@@ -683,8 +683,71 @@ public protocol DynamicView : SwiftUI.View {
   static var traitKeysDependOnView: Swift.Bool {
       get
   }
+    
+  static nonisolated func makeID() -> ID
+    
+  nonisolated func childInfo(metadata: Metadata) -> (Any.Type, ID?)
+    
+  nonisolated func makeChildView(metadata: Metadata, view: AttributeGraph.Attribute<Self>, inputs: SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs
+    
+  nonisolated func makeChildViewList(metadata: Metadata, view: AttributeGraph.Attribute<Self>, inputs: SwiftUI._ViewListInputs) -> SwiftUI._ViewListOutputs
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct UniqueID {}
+extension _SwiftUICorePrivate.DynamicView {
+  public static nonisolated func makeDynamicView(metadata: Metadata, view: _SwiftUICorePrivate._GraphValue<Self>, inputs: SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct UniqueID {
+  public init()
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._ViewInputs {
+  @_silgen_name("$s7SwiftUI11_ViewInputsVAAE15withoutGeometryAcA06_GraphD0V_tcfC")
+  public init(withoutGeometry: SwiftUI._GraphInputs)
+
+  @_silgen_name("$s7SwiftUI11_ViewInputsV_8position4size9transform17containerPosition18hostPreferenceKeysAcA06_GraphD0V_09AttributeM00N0VySo7CGPointVGAMyAA0C4SizeVGAMyAA0C9TransformVGApMyAA0kL0VGtcfC")
+  public init(_: SwiftUI._GraphInputs, position: AttributeGraph.Attribute<CoreGraphics.CGPoint>, size: AttributeGraph.Attribute<_SwiftUICorePrivate.ViewSize>, transform: AttributeGraph.Attribute<_SwiftUICorePrivate.ViewTransform>, containerPosition: AttributeGraph.Attribute<CoreGraphics.CGPoint>, hostPreferenceKeys: AttributeGraph.Attribute<_SwiftUICorePrivate.PreferenceKeys>)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._GraphInputs {
+  public init(time: AttributeGraph.Attribute<_SwiftUICorePrivate.Time>, phase: AttributeGraph.Attribute<SwiftUI._GraphInputs.Phase>, environment: AttributeGraph.Attribute<SwiftUI.EnvironmentValues>, transaction: AttributeGraph.Attribute<SwiftUI.Transaction>)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _GraphValue<T> {
+  public init(_: AttributeGraph.Attribute<T>)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewSize {
+  public init(_: CoreGraphics.CGSize, proposal: SwiftUI._ProposedSize)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._ProposedSize {
+  public init(_: CoreGraphics.CGSize)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewTransform {
+  public init()
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._ViewOutputs {
+  @_silgen_name("$s7SwiftUI12_ViewOutputsVACycfC")
+  public init()
+}

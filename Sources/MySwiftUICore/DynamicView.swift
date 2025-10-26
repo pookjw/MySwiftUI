@@ -3,9 +3,9 @@
 #warning("TODO")
 internal import AttributeGraph
 
-protocol DynamicView: View {
+protocol DynamicView {
     associatedtype Metadata
-    associatedtype ID
+    associatedtype ID : Equatable
     
     static nonisolated var canTransition: Bool {
         get
@@ -47,17 +47,12 @@ extension DynamicView {
             metadata: metadata,
             view: view.value,
             inputs: inputs,
-            outputs: outputs,
-            parentSubgraph: .current!
+            outputs: outputs
         )
         // x24
         let containerAttribute = Attribute(container)
         containerAttribute.flags = .unknown1
-        outputs.preferences.setIndirectDependency(containerAttribute.identifier)
-        
-        if let layoutComputer = outputs.layoutComputer {
-            layoutComputer.identifier.indirectDependency = containerAttribute.identifier
-        }
+        outputs.setIndirectDependency(containerAttribute.identifier)
         
         return outputs
     }
@@ -89,72 +84,55 @@ fileprivate struct DynamicViewContainer<Content: DynamicView>: StatefulRule {
         view: Attribute<Content>,
         inputs: _ViewInputs,
         outputs: _ViewOutputs,
-        parentSubgraph: Subgraph
     ) {
         self.metadata = metadata
         self._view = view
         self.inputs = inputs
         self.outputs = outputs
-        self.parentSubgraph = parentSubgraph
+        self.parentSubgraph = .current!
     }
     
     func updateValue() {
-//        // self = x26
-//        // x20
-//        let childInfo = view.childInfo(metadata: metadata)
-//        
-//        /*
-//         sp + 0x10 -> Value.id (Enum Case)
-//         sp + 0x18 -> Value.id
-//         sp + 0x20 -> outputValue.type
-//         sp + 0x28 -> childInfo.0
-//         x25 -> Subgraph?
-//         */
-//        // x25
-//        let subgraph: Subgraph?
-//        // sp + 0x20
-//        let oldType: (any Any.Type)?
-//        // sp + 0x28
-//        let newType: (any Any.Type)?
-//        // sp + 0x10(case), 0x18
-//        let oldID: Content.ID?
-//        
-//        if let outputValue: UnsafePointer<DynamicViewContainer.Value> = Graph.outputValue() {
-//            // <+152>
-//            let _oldType = outputValue.pointee.type
-//            if _oldType == childInfo.0 {
-//                return
-//            }
-//            
-//            oldType = _oldType
-//            newType = childInfo.0
-//            oldID = outputValue.pointee.id
-//            
-//            // x25
-//            let _subgraph = outputValue.pointee.subgraph
-//            subgraph = _subgraph
-//            outputs.detachIndirectOutputs()
-//            _subgraph.willInvalidate(isInserted: true)
-//            _subgraph.invalidate()
-//        } else {
-//            // <+288>
-////            oldID = 
-//            oldType = nil
-//            newType = childInfo.0
-//            subgraph = nil
-//        }
-//        
-//        // <+304>
-//        fatalError("TODO")
-        
+        // x29 = sp + 0x170
         /*
-         self = x23
-         x25 = Content
+         self/sp + 0xc0 = x23
+         x25/sp + 0xd8 = Content
          x29 = sp + 0xe0
          */
-        
+        // x23
         let childInfo = view.childInfo(metadata: metadata)
-        fatalError("TODO")
+        // x22
+        let oldValue: Self.Value? = (hasValue ? value : nil)
+        // <+524>
+        guard oldValue.map({ $0.matches(type: childInfo.0, id: childInfo.1) }) != true else {
+            return
+        }
+        
+        // <+696>
+        /*
+         self = 0xa8
+         oldValue = 0xb0
+         */
+        if let oldValue {
+            // <+780>
+            outputs.detachIndirectOutputs()
+            oldValue.subgraph.willInvalidate(isInserted: true)
+            oldValue.subgraph.invalidate()
+        }
+        
+        // <+944>
+        let graph = Subgraph(graph: parentSubgraph.graph)
+        parentSubgraph.addChild(graph)
+        
+        self.value = graph.apply {
+            // $s7SwiftUI20DynamicViewContainer031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyFAD0O0Vyx_GyXEfU0_
+            var inputs = inputs
+            inputs.copyCaches()
+            let childOutputs = view.makeChildView(metadata: metadata, view: $view, inputs: inputs)
+            outputs.attachIndirectOutputs(to: childOutputs)
+            let value = DynamicViewContainer.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)
+            return value
+        }
     }
 }
 
@@ -163,5 +141,19 @@ extension DynamicViewContainer {
         private(set) var type: any Any.Type
         private(set) var id: Content.ID?
         private(set) var subgraph: Subgraph
+        
+        init(type: any Any.Type, id: Content.ID? = nil, subgraph: Subgraph) {
+            self.type = type
+            self.id = id
+            self.subgraph = subgraph
+        }
+        
+        func matches(type: any Any.Type, id: Content.ID?) -> Bool {
+            guard self.type == type else {
+                return false
+            }
+            
+            return id.map { self.id == $0 } != false
+        }
     }
 }

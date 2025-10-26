@@ -3,7 +3,7 @@
 #warning("TODO")
 internal import AttributeGraph
 
-@frozen public struct AnyView: PrimitiveView {
+@frozen public struct AnyView: PrimitiveView, View {
     var storage: AnyViewStorageBase
     
     public init<V>(_ view: V) where V : View {
@@ -49,9 +49,8 @@ extension AnyView: @preconcurrency DynamicView {
         return (storage.childType, nil)
     }
     
-    // $s7SwiftUI14AnyViewStorage33_7578D05D331D7F1A2E0C2F8DEF38AAD4LLC09makeChildD04view6inputsAA01_D7OutputsV14AttributeGraph0U0VyAA0cD0VG_AA01_D6InputsVtF
     nonisolated func makeChildView(metadata: Void, view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
+        return storage.makeChildView(view: view, inputs: inputs)
     }
     
     nonisolated func makeChildViewList(metadata: Void, view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -106,7 +105,16 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
         fatalError("TODO")
     }
     
+    // $s7SwiftUI14AnyViewStorage33_7578D05D331D7F1A2E0C2F8DEF38AAD4LLC09makeChildD04view6inputsAA01_D7OutputsV14AttributeGraph0U0VyAA0cD0VG_AA01_D6InputsVtF
     override func makeChildView(view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
+        // x29 = sp + 0x380
+        // x28 = sp + 0x80
+        /*
+         view = x21
+         */
+        // sp + 0x2c0
+        var copy = inputs
+        
         fatalError("TODO")
     }
     

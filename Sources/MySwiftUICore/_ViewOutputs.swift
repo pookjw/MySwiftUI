@@ -53,6 +53,22 @@ public struct _ViewOutputs {
             layoutComputer.identifier.indirectDependency = .empty
         }
     }
+    
+    @inline(__always)
+    func setIndirectDependency(_ attribute: AnyAttribute?) {
+        preferences.setIndirectDependency(attribute)
+        if let layoutComputer {
+            layoutComputer.identifier.indirectDependency = attribute
+        }
+    }
+    
+    @inline(__always)
+    func attachIndirectOutputs(to other: _ViewOutputs) {
+        self.preferences.attachIndirectOutputs(to: other.preferences)
+        if let layoutComputer, let otherLayoutComputer = other.layoutComputer {
+            layoutComputer.identifier.indirectDependency = otherLayoutComputer.identifier
+        }
+    }
 }
 
 @available(*, unavailable)
