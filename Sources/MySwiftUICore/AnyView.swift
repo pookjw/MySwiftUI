@@ -127,7 +127,7 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
         let graphValue = _GraphValue(child)
         
         // inlined
-        return Content._makeView(view: graphValue, inputs: inputs)
+        return Content.makeDebuggableView(view: graphValue, inputs: inputs)
     }
     
     override func makeChildViewList(view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
