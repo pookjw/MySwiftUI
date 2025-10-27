@@ -111,14 +111,37 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
         // x28 = sp + 0x80
         /*
          view = x21
+         Content = x23
          */
         // sp + 0x2c0
-        var copy = inputs
+        var copy_1 = inputs
+        // sp + 0x260
+        var copy_2 = inputs
+        copy_2.base.pushStableType(Content.self)
         
+        // <+156>
         fatalError("TODO")
     }
     
     override func makeChildViewList(view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct AnyViewChild<Content>: CustomStringConvertible, AsyncAttribute, StatefulRule {
+    @Attribute private var view: AnyView
+    
+    init(view: Attribute<AnyView>) {
+        self._view = view
+    }
+    
+    typealias Value = Content
+    
+    var description: String {
+        fatalError("TODO")
+    }
+    
+    func updateValue() {
         fatalError("TODO")
     }
 }

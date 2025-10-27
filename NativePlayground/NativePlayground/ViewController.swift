@@ -522,20 +522,20 @@ class ViewController: UIViewController {
             }
         }
         
-        let graph = Graph()
-        let subgraph = Subgraph(graph: graph)
-        Subgraph.current = subgraph
-        let attribute = Attribute(value: MyDynamicView())
-        _ = MyDynamicView.makeDynamicView(
-            metadata: (),
-            view: .init(attribute),
-            inputs: .init(
-                .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)), position: .init(identifier: .empty), size: .init(identifier: .empty), transform: .init(identifier: .empty), containerPosition: .init(identifier: .empty), hostPreferenceKeys: .init(identifier: .empty))
-        )
-        Subgraph.current = nil
-        graph.setNeedsUpdate()
-        subgraph.update(1)
-        _ = consume graph
+//        let graph = Graph()
+//        let subgraph = Subgraph(graph: graph)
+//        Subgraph.current = subgraph
+//        let attribute = Attribute(value: MyDynamicView())
+//        _ = MyDynamicView.makeDynamicView(
+//            metadata: (),
+//            view: .init(attribute),
+//            inputs: .init(
+//                .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)), position: .init(identifier: .empty), size: .init(identifier: .empty), transform: .init(identifier: .empty), containerPosition: .init(identifier: .empty), hostPreferenceKeys: .init(identifier: .empty))
+//        )
+//        Subgraph.current = nil
+//        graph.setNeedsUpdate()
+//        subgraph.update(1)
+//        _ = consume graph
         
 //        let rootView = EmptyView()
         let rootView = AnyView(EmptyView())
