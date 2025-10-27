@@ -7,7 +7,13 @@ package struct PreferenceValues {
     init() {}
     
     var seed: VersionSeed {
-        fatalError("TODO")
+        var seed = VersionSeed.empty
+        
+        for entry in entries {
+            seed.merge(entry.seed)
+        }
+        
+        return seed
     }
     
     package subscript<T: PreferenceKey>(_ key: T.Type) -> Value<T.Value> {

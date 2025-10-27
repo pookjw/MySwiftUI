@@ -109,6 +109,7 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
     override func makeChildView(view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
         // x29 = sp + 0x380
         // x28 = sp + 0x80
+        // x19 = sp
         /*
          view = x21
          Content = x23
@@ -120,7 +121,13 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
         copy_2.base.pushStableType(Content.self)
         
         // <+156>
-        fatalError("TODO")
+        // view = sp + 0x200
+        let child = Attribute(AnyViewChild<Content>(view: view))
+        child.value = self.view
+        let graphValue = _GraphValue(child)
+        
+        // inlined
+        return Content._makeView(view: graphValue, inputs: inputs)
     }
     
     override func makeChildViewList(view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
