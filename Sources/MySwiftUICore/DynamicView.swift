@@ -5,7 +5,7 @@ internal import AttributeGraph
 
 protocol DynamicView {
     associatedtype Metadata
-    associatedtype ID : Equatable
+    associatedtype ID : Hashable
     
     static nonisolated var canTransition: Bool {
         get
@@ -153,7 +153,7 @@ extension DynamicViewContainer {
                 return false
             }
             
-            return id.map { self.id == $0 } != false
+            return id.map { $0 == self.id } != false
         }
     }
 }
