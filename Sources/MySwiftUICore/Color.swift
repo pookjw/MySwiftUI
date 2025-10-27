@@ -1,9 +1,10 @@
 #warning("TODO")
+// protocol conformance descriptor for SwiftUI.Color :
 package import Foundation
 public import CoreGraphics
 
-public struct Color: Hashable, CustomStringConvertible, Sendable {
-    public static func == (lhs: Color, rhs: Color) -> Bool {
+public struct Color: View, Hashable, CustomStringConvertible, Sendable {
+    public static nonisolated func == (lhs: Color, rhs: Color) -> Bool {
         if ObjectIdentifier(lhs.provider) == ObjectIdentifier(rhs.provider) {
             return true
         }
@@ -28,20 +29,26 @@ public struct Color: Hashable, CustomStringConvertible, Sendable {
         fatalError("TODO")
     }
     
-    public var description: String {
+    public nonisolated var description: String {
         fatalError("TODO")
     }
     
-    public func hash(into hasher: inout Hasher) {
+    public nonisolated func hash(into hasher: inout Hasher) {
         provider.hash(into: &hasher)
     }
 }
 
-extension Color: PrimitiveView {
-    public var body: Never {
-        fatalError("body() should not be called on Color.")
+extension Color: EnvironmentalView {
+    func body(environment: EnvironmentValues) -> ColorView {
+        fatalError("TODO")
     }
 }
+
+extension Color: Paint {
+    typealias ResolvedPaintType = Never // TODO
+}
+
+extension Color: Serializable {}
 
 @usableFromInline
 package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
@@ -175,6 +182,8 @@ extension Color {
     }
 }
 
+extension Color.Resolved: BitwiseCopyable {}
+
 extension Color {
     @frozen public struct ResolvedHDR: Hashable, Sendable {
         fileprivate private(set) var base: Color.Resolved
@@ -207,9 +216,7 @@ extension Color {
     }
 }
 
-extension Color: ShapeStyle {
-    
-}
+extension Color.ResolvedHDR: BitwiseCopyable, ShapeStyle {}
 
 extension Color {
     public static let red: Color = {
@@ -453,5 +460,17 @@ extension ShapeStyle where Self == Color {
     
     @_alwaysEmitIntoClient public static var clear: Color {
         return .clear
+    }
+}
+
+struct ColorView: ResolvedPaint, RendererLeafView {
+    typealias AnimatableData = Double // Never
+    
+    private var color: Color.ResolvedHDR
+    private var isAntialiased: Bool
+    private var allowedDynamicRange: Image.DynamicRange
+    
+    static nonisolated func == (lhs: ColorView, rhs: ColorView) -> Bool {
+        fatalError("TODO")
     }
 }

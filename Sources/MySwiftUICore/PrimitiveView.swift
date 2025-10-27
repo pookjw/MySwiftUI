@@ -5,7 +5,7 @@ protocol PrimitiveView: View {
 }
 
 extension PrimitiveView {
-    var body: Body {
+    public var body: Never {
         bodyError()
     }
 }

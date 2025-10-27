@@ -3,7 +3,7 @@
 #warning("TODO")
 internal import AttributeGraph
 
-@frozen public struct AnyView: PrimitiveView, View {
+@frozen public struct AnyView: PrimitiveView {
     var storage: AnyViewStorageBase
     
     public init<V>(_ view: V) where V : View {
@@ -30,10 +30,6 @@ internal import AttributeGraph
     
     public static nonisolated func _makeViewList(view: _GraphValue<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
         fatalError("TODO")
-    }
-    
-    public var body: Never {
-        fatalError("body() should not be called on AnyView.")
     }
 }
 

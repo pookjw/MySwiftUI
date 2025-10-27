@@ -1,10 +1,6 @@
 #warning("TODO")
 
 public struct EmptyView: PrimitiveView {
-    public var body: Never {
-        fatalError("body() should not be called on EmptyView.")
-    }
-    
     public init() {
         #warning("TODO: Implement EmptyView")
     }

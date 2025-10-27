@@ -538,7 +538,8 @@ class ViewController: UIViewController {
 //        _ = consume graph
         
 //        let rootView = EmptyView()
-        let rootView = AnyView(EmptyView())
+//        let rootView = AnyView(EmptyView())
+        let rootView = Color.black
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
