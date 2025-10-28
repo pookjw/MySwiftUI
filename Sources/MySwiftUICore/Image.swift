@@ -37,6 +37,10 @@ extension Image {
     
     struct DynamicRange {
         private var storage: Image.DynamicRange.Storage
+        
+        init(storage: Image.DynamicRange.Storage) {
+            self.storage = storage
+        }
     }
 }
 

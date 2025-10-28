@@ -751,3 +751,36 @@ extension SwiftUI._ViewOutputs {
   @_silgen_name("$s7SwiftUI12_ViewOutputsVACycfC")
   public init()
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol PrimitiveView: SwiftUICore.View {
+  typealias Body = Swift.Never
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.PrimitiveView {
+  public var body: Swift.Never { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol UnaryView: SwiftUICore.View {
+  nonisolated static func _makeView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
+  nonisolated static func _makeViewList(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewListInputs) -> SwiftUICore._ViewListOutputs
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol EnvironmentalView: _SwiftUICorePrivate.PrimitiveView, _SwiftUICorePrivate.UnaryView {
+  associatedtype EnvironmentBody : SwiftUICore.View
+    
+  func body(environment: SwiftUICore.EnvironmentValues) -> EnvironmentBody
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.EnvironmentalView {
+  nonisolated public static func _makeView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
+}

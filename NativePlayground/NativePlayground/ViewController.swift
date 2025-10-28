@@ -540,6 +540,7 @@ class ViewController: UIViewController {
 //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
         let rootView = Color.black
+//        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
@@ -556,6 +557,14 @@ class ViewController: UIViewController {
 //        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //        hostingController.didMove(toParent: self)
 //    }
+    
+//    MyEnvView
+}
+
+struct MyEnvView: EnvironmentalView {
+    func body(environment: EnvironmentValues) -> some View {
+        Color.green
+    }
 }
 
 @_weakLinked

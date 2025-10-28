@@ -473,4 +473,18 @@ struct ColorView: ResolvedPaint, RendererLeafView {
     static nonisolated func == (lhs: ColorView, rhs: ColorView) -> Bool {
         fatalError("TODO")
     }
+    
+    static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        /*
+         $s7SwiftUI9ColorViewV05_makeD04view6inputsAA01_D7OutputsVAA11_GraphValueVyACG_AA01_D6InputsVtFZ
+         inlined
+         */
+        fatalError("TODO")
+    }
+    
+    fileprivate init(_ color: Color.ResolvedHDR, isAntialiased: Bool = true, allowedDynamicRange: Image.DynamicRange = Image.DynamicRange(storage: .standard)) {
+        self.color = color
+        self.isAntialiased = isAntialiased
+        self.allowedDynamicRange = allowedDynamicRange
+    }
 }
