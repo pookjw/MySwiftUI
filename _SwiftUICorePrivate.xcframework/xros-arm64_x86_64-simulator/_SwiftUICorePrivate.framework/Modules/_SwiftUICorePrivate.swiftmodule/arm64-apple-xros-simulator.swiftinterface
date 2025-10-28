@@ -267,6 +267,7 @@ extension _SwiftUICorePrivate.DisplayList {
 extension _SwiftUICorePrivate.DisplayList.Content {
   public enum Value {
     case drawing
+    case placeholder(id: _SwiftUICorePrivate._DisplayList_Identity)
   }
 }
 
@@ -817,4 +818,10 @@ public protocol RendererLeafView: _SwiftUICorePrivate.ContentResponder, _SwiftUI
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.RendererLeafView {
     public static nonisolated func makeLeafView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _DisplayList_Identity {
+  public init()
 }

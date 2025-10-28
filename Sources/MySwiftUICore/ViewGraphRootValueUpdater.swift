@@ -53,6 +53,7 @@ extension ViewGraphRootValueUpdater {
         
         Signpost.render.traceInterval(object: self, nil) {
             // closure #1 () -> () in SwiftUI.ViewGraphRootValueUpdater.render(interval: Swift.Double, updateDisplayList: Swift.Bool, targetTimestamp: Swift.Optional<SwiftUI.Time>) -> ()
+            // x21
             let viewGraph = owner.viewGraph
             // nil 확인하는 코드가 없으며 nil이면 모두 0일 것이기에 Time.zero로 추정
             owner.currentTimestamp = (targetTimestamp ?? .zero) + interval

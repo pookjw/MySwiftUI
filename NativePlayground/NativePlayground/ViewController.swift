@@ -500,41 +500,7 @@ class ViewController: UIViewController {
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
         
-        struct MyView: UIViewRepresentable {
-            class CustomView: UIView {
-                override class var layerClass: AnyClass {
-                    CustomLayer.self
-                }
-                override func draw(_ rect: CGRect) {
-                    super.draw(rect)
-                }
-                override func didMoveToSuperview() {
-                    super.didMoveToSuperview()
-                }
-            }
-            class CustomLayer: CALayer {
-                override init() {
-                    super.init()
-                }
-                
-                required init?(coder: NSCoder) {
-                    fatalError("init(coder:) has not been implemented")
-                }
-                override func draw(in ctx: CGContext) {
-                    fatalError()
-                }
-            }
-            
-            func makeUIView(context: Context) -> some UIView {
-                let view = CustomView()
-                view.backgroundColor = .green
-                return view
-            }
-            
-            func updateUIView(_ uiView: UIViewType, context: Context) {
-                
-            }
-        }
+       
         
 //        let graph = Graph()
 //        let subgraph = Subgraph(graph: graph)
@@ -551,13 +517,11 @@ class ViewController: UIViewController {
         //        subgraph.update(1)
         //        _ = consume graph
         
-        MyLeafView.makeLeafView(view: .init(.init(identifier: .empty)), inputs: .init(
-            .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)), position: .init(identifier: .empty), size: .init(identifier: .empty), transform: .init(identifier: .empty), containerPosition: .init(identifier: .empty), hostPreferenceKeys: .init(identifier: .empty)))
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
         let rootView = Color.black
-//        let rootView = MyEnvView()
+//        let rootView = MyLeafView()
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
@@ -584,7 +548,7 @@ struct MyLeafView: RendererLeafView {
     }
     
     func content() -> _SwiftUICorePrivate.DisplayList.Content.Value {
-        fatalError()
+        return .placeholder(id: .init())
     }
 }
 

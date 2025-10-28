@@ -421,6 +421,11 @@ package final class ViewGraph: GraphHost {
             // <+200>
             inputs.preferences.add(HostPreferencesKey.self)
             
+            // <+408>
+            if requestedOutputs.contains(.displayList) {
+                inputs.preferences.add(DisplayList.Key.self)
+            }
+            
             // <+600>
             if requestedOutputs.contains(.viewResponders) {
                 inputs.preferences.add(ViewRespondersKey.self)
@@ -925,6 +930,11 @@ fileprivate struct RootDisplayList: AsyncAttribute, Rule {
     @Attribute var time: Time
     
     var value: (DisplayList, DisplayList.Version) {
-        fatalError("TODO")
+        // $s14AttributeGraph0A0VyACyxGqd__c5ValueQyd__RszAA4RuleRd__lufcADSPyqd__GXEfU_ySv_So11AGAttributeatcyXEfU_ySv_AJtcfu_7SwiftUI11DisplayListV_AM7VersionVt_AK04RoothI033_7D9EDEF832940A362646A6E979F296C8LLVTt1g5
+        var displayList = content
+        let version = DisplayList.Version(forUpdate: ())
+        displayList.applyViewGraphTransform(time: $time, version: version)
+        
+        return (displayList, version)
     }
 }
