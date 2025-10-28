@@ -1293,3 +1293,30 @@ extension DisplayList {
         }
     }
 }
+
+extension DisplayList {
+    struct Content {
+        private var value: DisplayList.Content.Value
+        private var seed: DisplayList.Seed
+    }
+}
+
+extension DisplayList.Content {
+    enum Value {
+        case backdrop(BackdropEffect)
+        case color(ColorView)
+//        case chameleonColor(DisplayList.ChameleonColor)
+        case image(GraphicsImage)
+        case shape(Path, AnyResolvedPaint, FillStyle)
+        case sdfShape(SDFShape)
+        case sdfMask(DisplayList, Material.Layer.SDFLayer)
+        case shadow(Path, ResolvedShadowStyle)
+//        case platformView(PlatformViewFactory)
+//        case platformLayer(PlatformLayerFactory)
+//        case text(StyledTextContentView, CGSize)
+        case flattened(DisplayList, CGPoint, RasterizationOptions)
+        case drawing
+        case view(_DisplayList_ViewFactory)
+        case placeholder(id: _DisplayList_Identity)
+    }
+}

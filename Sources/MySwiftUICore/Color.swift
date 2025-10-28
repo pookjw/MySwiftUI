@@ -162,8 +162,6 @@ extension Color.ProviderTag {
 
 extension Color {
     public struct Resolved: Hashable, BitwiseCopyable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
-        public typealias AnimatableData = Double // TODO
-        
         private var linearRed: Float
         private var linearGreen: Float
         private var linearBlue: Float
@@ -178,6 +176,15 @@ extension Color {
         
         public var description: String {
             fatalError("TODO")
+        }
+        
+        public var animatableData: Double {
+            get {
+                fatalError("TODO")
+            }
+            set {
+                fatalError("TODO")
+            }
         }
     }
 }
@@ -464,8 +471,6 @@ extension ShapeStyle where Self == Color {
 }
 
 struct ColorView: ResolvedPaint, RendererLeafView {
-    typealias AnimatableData = Double // Never
-    
     private var color: Color.ResolvedHDR
     private var isAntialiased: Bool
     private var allowedDynamicRange: Image.DynamicRange
@@ -486,5 +491,14 @@ struct ColorView: ResolvedPaint, RendererLeafView {
         self.color = color
         self.isAntialiased = isAntialiased
         self.allowedDynamicRange = allowedDynamicRange
+    }
+    
+    nonisolated var animatableData: Double {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
     }
 }

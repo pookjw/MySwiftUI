@@ -21,5 +21,12 @@ struct ViewFrame: Equatable {
 }
 
 extension ViewFrame: Animatable {
-    public typealias AnimatableData = Double // TODO
+    var animatableData: Double {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
 }

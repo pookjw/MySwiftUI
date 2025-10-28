@@ -83,8 +83,15 @@ extension Size3D: VectorArithmetic {
 
 public protocol Animatable {
     associatedtype AnimatableData : VectorArithmetic
-    //    var animatableData: Self.AnimatableData { get set }
-    //    static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs)
+    
+    var animatableData: Self.AnimatableData { get set }
+    static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs)
+}
+
+extension Animatable {
+    public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
+        fatalError("TODO")
+    }
 }
 
 @frozen public struct AnimatablePair<First: VectorArithmetic, Second: VectorArithmetic>: VectorArithmetic {
