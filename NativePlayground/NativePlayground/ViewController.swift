@@ -335,6 +335,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeByName("7SwiftUI32_DisplayList_StableIdentityScopeV")!)
+        _forEachField(of: _typeByName("7SwiftUI32_DisplayList_StableIdentityScopeV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }      
+        print("===")
+        
         
         print(ViewTransform.self)
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in

@@ -1,3 +1,5 @@
+// F37E3733E490AA5E3BDC045E3D34D9F8
+
 #warning("TODO")
 internal import CoreGraphics
 internal import _MySwiftUIShims
@@ -5,6 +7,7 @@ private import _QuartzCorePrivate
 internal import QuartzCore
 internal import Spatial
 private import _DarwinFoundation3._stdlib
+internal import AttributeGraph
 
 fileprivate nonisolated(unsafe) var printTree: Bool? = nil
 
@@ -1076,9 +1079,9 @@ extension DisplayList.ViewUpdater.Platform {
 
 extension DisplayList {
     struct Index {
-        fileprivate var identity = _DisplayList_Identity(value: 0)
+        fileprivate var identity = _DisplayList_Identity(decodedValue: 0)
         fileprivate var serial: UInt32 = 0
-        fileprivate var archiveIdentity = _DisplayList_Identity(value: 0)
+        fileprivate var archiveIdentity = _DisplayList_Identity(decodedValue: 0)
         fileprivate var archiveSerial: UInt32 = 0
         fileprivate var restored = DisplayList.Index.RestoreOptions(rawValue: 0)
         
@@ -1118,7 +1121,7 @@ struct _DisplayList_StableIdentity {
 }
 
 struct _DisplayList_StableIdentityMap {
-    private var map: [_DisplayList_Identity: _DisplayList_StableIdentity]
+    fileprivate var map: [_DisplayList_Identity: _DisplayList_StableIdentity]
 }
 
 extension DisplayList {
@@ -1276,8 +1279,28 @@ extension DisplayList.ViewRenderer {
     }
 }
 
-package struct _DisplayList_Identity: Hashable {
+fileprivate nonisolated(unsafe) var lastIdentity: UInt32 = 0
+
+package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible {
     var value: UInt32
+    
+    init() {
+        let identity = (lastIdentity &+ 1)
+        lastIdentity = identity
+        self.value = identity
+    }
+    
+    init(decodedValue: UInt32) {
+        self.value = decodedValue
+    }
+    
+    static var none: _DisplayList_Identity {
+        return _DisplayList_Identity(decodedValue: 0)
+    }
+    
+    package var description: String {
+        fatalError("TODO")
+    }
 }
 
 extension DisplayList {
@@ -1318,5 +1341,66 @@ extension DisplayList.Content {
         case drawing
 //        case view(_DisplayList_ViewFactory)
         case placeholder(id: _DisplayList_Identity)
+    }
+}
+
+extension DisplayList {
+    struct Options: OptionSet, ViewInput {
+        let rawValue: UInt8
+        
+        init(rawValue: UInt8) {
+            self.rawValue = rawValue
+        }
+        
+        static var defaultValue: DisplayList.Options {
+            return DisplayList.Options(rawValue: 0)
+        }
+        
+        static var disableCanonicalization: DisplayList.Options {
+            return DisplayList.Options(rawValue: 1 << 0)
+        }
+    }
+}
+
+struct _DisplayList_StableIdentityScope: ViewInput {
+    static nonisolated(unsafe) let defaultValue = WeakAttribute<_DisplayList_StableIdentityScope>()
+    
+    let root: _DisplayList_StableIdentityRoot
+    let hash: StrongHash
+    var map: _DisplayList_StableIdentityMap
+    var serial: UInt32
+    
+    mutating func pushIdentity(identity: _DisplayList_Identity) {
+        map.map[identity] = makeIdentity()
+    }
+    
+    mutating func makeIdentity() -> _DisplayList_StableIdentity {
+        let serial = (serial &+ 1)
+        self.serial = serial
+        return _DisplayList_StableIdentity(hash: hash, serial: serial)
+    }
+}
+
+final class _DisplayList_StableIdentityRoot {
+    private var scopes: [WeakAttribute<_DisplayList_StableIdentityScope>]
+    private var map: _DisplayList_StableIdentityMap?
+    
+    init() {
+        self.scopes = []
+        self.map = nil
+    }
+    
+    subscript(_ identity: _DisplayList_Identity) -> _DisplayList_StableIdentity? {
+        fatalError("TODO")
+    }
+}
+
+extension _ViewInputs {
+    func pushIdentity(_ identity: _DisplayList_Identity) {
+        guard base.needsStableDisplayListIDs else {
+            return
+        }
+        
+        self[_DisplayList_StableIdentityScope.self].projectedValue!.value.pushIdentity(identity: identity)
     }
 }

@@ -81,6 +81,21 @@ public struct _ViewInputs {
     func makeRootMatchedGeometryScope() {
         fatalError("TODO")
     }
+    
+    @inline(__always)
+    func animatedPosition() -> Attribute<CGPoint> {
+        return base.cachedEnvironment.value.animatedPosition(for: self)
+    }
+    
+    @inline(__always)
+    func animatedSize() -> Attribute<ViewSize> {
+        return base.cachedEnvironment.value.animatedSize(for: self)
+    }
+    
+    @inline(__always)
+    func animatedCGSize() -> Attribute<CGSize> {
+        return base.cachedEnvironment.value.animatedCGSize(for: self)
+    }
 }
 
 extension _ViewInputs {

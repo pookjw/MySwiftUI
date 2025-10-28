@@ -164,4 +164,10 @@ extension _GraphInputs {
     }
 }
 
+extension _GraphInputs {
+    var needsStableDisplayListIDs: Bool {
+        return options.contains(.needsStableDisplayListIDs)
+    }
+}
+
 //extension _GraphInputs: Sendable {}
