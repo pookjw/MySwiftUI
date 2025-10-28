@@ -88,9 +88,112 @@ public protocol Animatable {
     static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs)
 }
 
-extension Animatable {
+extension Animatable where Self : VectorArithmetic {
+    public var animatableData: Self {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+}
+
+extension Animatable where Self.AnimatableData == EmptyAnimatableData {
+    public var animatableData: EmptyAnimatableData {
+        @inlinable get {
+            return EmptyAnimatableData()
+        }
+        @inlinable set {}
+    }
+    
     public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
         fatalError("TODO")
+    }
+}
+
+extension Animatable {
+    public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
+        // x29 = sp + 0x70
+        /*
+         value = x19
+         inputs = x24
+         */
+        guard !inputs.options.contains(.animationsDisabled) else {
+            return
+        }
+        
+        // <+164>
+        let attribute = AnimatableAttribute(source: value.value, phase: inputs.phase, time: inputs.time, transaction: inputs.transaction, environment: inputs.environment)
+        value = _GraphValue(Attribute(attribute))
+    }
+    
+    @inline(__always)
+    static func makeAnimatable(value: _GraphValue<Self>, inputs: _GraphInputs) -> Attribute<Self> {
+        var value = value
+        _makeAnimatable(value: &value, inputs: inputs)
+        return value.value
+    }
+}
+
+extension Animatable {
+    @inline(__always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.Type where T : VectorArithmetic {
+        get {
+            T.self
+        }
+    }
+    
+    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.AnimatableData.Type where T : Animatable {
+        get {
+            T.AnimatableData.self
+        }
+    }
+    
+    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.Type {
+        get {
+            T.self
+        }
+    }
+    
+    @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> T where T : VectorArithmetic {
+        get {
+            self[keyPath: keyPath]
+        }
+        set {
+            self[keyPath: keyPath] = newValue
+        }
+    }
+    
+    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> T.AnimatableData where T : Animatable {
+        get {
+            self[keyPath: keyPath].animatableData
+        }
+        set {
+            self[keyPath: keyPath].animatableData = newValue
+        }
+    }
+    
+    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> EmptyAnimatableData {
+        get {
+            .zero
+        }
+        nonmutating set {
+            
+        }
+    }
+    
+    @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: ReferenceWritableKeyPath<Self, T>) -> T where T : VectorArithmetic {
+        get { self[keyPath: keyPath] }
+        nonmutating set { self[keyPath: keyPath] = newValue }
+    }
+    
+    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: ReferenceWritableKeyPath<Self, T>) -> T.AnimatableData where T : Animatable {
+        get {
+            self[keyPath: keyPath].animatableData
+        }
+        nonmutating set {
+            self[keyPath: keyPath].animatableData = newValue
+        }
     }
 }
 
@@ -288,6 +391,38 @@ struct AnimatableAttributeHelper<T: Animatable> {
     }
 }
 
+struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribute, ObservedAttribute, StatefulRule {
+    @Attribute private var source: T
+    @Attribute private var environment: EnvironmentValues
+    private var helper: AnimatableAttributeHelper<T>
+    
+    fileprivate init(
+        source: Attribute<T>,
+        phase: Attribute<_GraphInputs.Phase>,
+        time: Attribute<Time>,
+        transaction: Attribute<Transaction>,
+        environment: Attribute<EnvironmentValues>
+    ) {
+        self._source = source
+        self._environment = environment
+        self.helper = AnimatableAttributeHelper(phase: phase, time: time, transaction: transaction)
+    }
+    
+    var description: String {
+        fatalError("TODO")
+    }
+    
+    typealias Value = T
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+    
+    func destroy() {
+        fatalError("TODO")
+    }
+}
+
 final class AnimatorState<T> {
     //    var animation: Animation
     //    var state: AnimationState<T>
@@ -305,6 +440,36 @@ final class AnimatorState<T> {
     //    var forks: AnimatorState<T>.Fork
     
     init() {
+        fatalError("TODO")
+    }
+}
+
+@frozen public struct EmptyAnimatableData : VectorArithmetic {
+    @inlinable public init() {}
+    
+    @inlinable public static var zero: EmptyAnimatableData {
+        get { return .init() }
+    }
+    
+    @inlinable public static func += (lhs: inout EmptyAnimatableData, rhs: EmptyAnimatableData) {}
+    
+    @inlinable public static func -= (lhs: inout EmptyAnimatableData, rhs: EmptyAnimatableData) {}
+    
+    @inlinable public static func + (lhs: EmptyAnimatableData, rhs: EmptyAnimatableData) -> EmptyAnimatableData {
+        return .zero
+    }
+    
+    @inlinable public static func - (lhs: EmptyAnimatableData, rhs: EmptyAnimatableData) -> EmptyAnimatableData {
+        return .zero
+    }
+    
+    @inlinable public mutating func scale(by rhs: Double) {}
+    
+    @inlinable public var magnitudeSquared: Double {
+        get { return 0 }
+    }
+    
+    public static func == (a: EmptyAnimatableData, b: EmptyAnimatableData) -> Bool {
         fatalError("TODO")
     }
 }

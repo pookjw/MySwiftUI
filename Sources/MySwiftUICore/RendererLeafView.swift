@@ -11,7 +11,12 @@ protocol RendererLeafView: ContentResponder, PrimitiveView, UnaryView {
 }
 
 extension RendererLeafView {
-    static func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    static nonisolated func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        // x29 = sp + 0x1a0
+        /*
+         view = w27
+         
+         */
         fatalError("TODO")
     }
     
@@ -19,7 +24,7 @@ extension RendererLeafView {
         fatalError("TODO")
     }
     
-    var requiresMainThread: Bool {
+    static var requiresMainThread: Bool {
         fatalError("TODO")
     }
 }

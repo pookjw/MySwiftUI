@@ -73,6 +73,10 @@ internal func _swift_setClassMetadata<T>(_ x: T.Type, onObject: AnyObject) -> Bo
 fileprivate struct Type1 {}
 fileprivate struct Type2 {}
 
+struct AnimatableFoo: Animatable {
+    var animatableData: Double
+}
+
 class ViewController: UIViewController {
     override func loadView() {
 //        swizzle()
@@ -486,6 +490,9 @@ class ViewController: UIViewController {
             return true
         }
         
+//        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
+//        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
+        
         struct MyView: UIViewRepresentable {
             class CustomView: UIView {
                 override class var layerClass: AnyClass {
@@ -532,12 +539,15 @@ class ViewController: UIViewController {
 //            inputs: .init(
 //                .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)), position: .init(identifier: .empty), size: .init(identifier: .empty), transform: .init(identifier: .empty), containerPosition: .init(identifier: .empty), hostPreferenceKeys: .init(identifier: .empty))
 //        )
-//        Subgraph.current = nil
-//        graph.setNeedsUpdate()
-//        subgraph.update(1)
-//        _ = consume graph
+        //        Subgraph.current = nil
+        //        graph.setNeedsUpdate()
+        //        subgraph.update(1)
+        //        _ = consume graph
         
-//        let rootView = EmptyView()
+        MyLeafView.makeLeafView(view: .init(.init(identifier: .empty)), inputs: .init(
+            .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)), position: .init(identifier: .empty), size: .init(identifier: .empty), transform: .init(identifier: .empty), containerPosition: .init(identifier: .empty), hostPreferenceKeys: .init(identifier: .empty)))
+        
+        //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
         let rootView = Color.black
 //        let rootView = MyEnvView()
@@ -559,6 +569,16 @@ class ViewController: UIViewController {
 //    }
     
 //    MyEnvView
+}
+
+struct MyLeafView: RendererLeafView {
+    static var requiresMainThread: Bool {
+        false
+    }
+    
+    func content() -> _SwiftUICorePrivate.DisplayList.Content.Value {
+        fatalError()
+    }
 }
 
 struct MyEnvView: EnvironmentalView {

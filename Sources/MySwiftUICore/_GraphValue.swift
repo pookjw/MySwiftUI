@@ -1,14 +1,23 @@
 #warning("TODO")
 internal import AttributeGraph
 
-public struct _GraphValue<T>: Equatable {
-    var value: Attribute<T>
+public struct _GraphValue<Value>: Equatable {
+    var value: Attribute<Value>
     
-    init(_ value: Attribute<T>) {
+    init(_ value: Attribute<Value>) {
         self.value = value
     }
     
-    public static func == (lhs: _GraphValue<T>, rhs: _GraphValue<T>) -> Bool {
+    public subscript<U>(keyPath: KeyPath<Value, U>) -> _GraphValue<U> {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    public static func == (lhs: _GraphValue<Value>, rhs: _GraphValue<Value>) -> Bool {
         fatalError("TODO")
     }
 }
+
+@available(*, unavailable)
+extension _GraphValue: Sendable {}

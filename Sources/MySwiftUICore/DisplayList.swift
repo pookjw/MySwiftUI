@@ -1316,7 +1316,7 @@ extension DisplayList.Content {
 //        case text(StyledTextContentView, CGSize)
         case flattened(DisplayList, CGPoint, RasterizationOptions)
         case drawing
-        case view(_DisplayList_ViewFactory)
+//        case view(_DisplayList_ViewFactory)
         case placeholder(id: _DisplayList_Identity)
     }
 }

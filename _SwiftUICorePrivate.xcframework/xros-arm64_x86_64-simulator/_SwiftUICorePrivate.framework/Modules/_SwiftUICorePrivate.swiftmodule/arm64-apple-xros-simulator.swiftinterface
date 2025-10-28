@@ -258,6 +258,20 @@ public struct DisplayList {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.DisplayList {
+  public struct Content {}
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.DisplayList.Content {
+  public enum Value {
+    case drawing
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct UnsafeHeterogeneousBuffer {
   public struct Index {}
   public init()
@@ -696,7 +710,7 @@ public protocol DynamicView {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.DynamicView {
-  public static nonisolated func makeDynamicView(metadata: Metadata, view: _SwiftUICorePrivate._GraphValue<Self>, inputs: SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs
+  public static nonisolated func makeDynamicView(metadata: Metadata, view: SwiftUICore._GraphValue<Self>, inputs: SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs
 }
 
 @available(visionOS 26.0, *)
@@ -723,8 +737,8 @@ extension SwiftUI._GraphInputs {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct _GraphValue<T> {
-  public init(_: AttributeGraph.Attribute<T>)
+extension SwiftUICore._GraphValue {
+  public init(_: AttributeGraph.Attribute<Value>)
 }
 
 @available(visionOS 26.0, *)
@@ -783,4 +797,24 @@ public protocol EnvironmentalView: _SwiftUICorePrivate.PrimitiveView, _SwiftUICo
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.EnvironmentalView {
   nonisolated public static func _makeView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ContentResponder {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol RendererLeafView: _SwiftUICorePrivate.ContentResponder, _SwiftUICorePrivate.PrimitiveView, _SwiftUICorePrivate.UnaryView {
+  static var requiresMainThread: Swift.Bool {
+    get
+  }
+    
+  func content() -> _SwiftUICorePrivate.DisplayList.Content.Value
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.RendererLeafView {
+    public static nonisolated func makeLeafView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
 }

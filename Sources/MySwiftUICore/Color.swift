@@ -484,7 +484,8 @@ struct ColorView: ResolvedPaint, RendererLeafView {
          $s7SwiftUI9ColorViewV05_makeD04view6inputsAA01_D7OutputsVAA11_GraphValueVyACG_AA01_D6InputsVtFZ
          inlined
          */
-        fatalError("TODO")
+        let view = makeAnimatable(value: view, inputs: inputs.base)
+        return makeLeafView(view: _GraphValue(view), inputs: inputs)
     }
     
     fileprivate init(_ color: Color.ResolvedHDR, isAntialiased: Bool = true, allowedDynamicRange: Image.DynamicRange = Image.DynamicRange(storage: .standard)) {
@@ -500,5 +501,14 @@ struct ColorView: ResolvedPaint, RendererLeafView {
         set {
             fatalError("TODO")
         }
+    }
+    
+    static var requiresMainThread: Bool {
+        fatalError("TODO")
+    }
+    
+    // $s7SwiftUI9ColorViewVAA012RendererLeafD0A2aDP7contentAA11DisplayListV7ContentV5ValueOyFTW
+    func content() -> DisplayList.Content.Value {
+        fatalError("TODO")
     }
 }
