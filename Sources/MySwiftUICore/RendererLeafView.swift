@@ -23,6 +23,7 @@ extension RendererLeafView {
         var outputs = _ViewOutputs()
         var copy_1 = inputs
         
+        assert(copy_1.preferences.contains(DisplayList.Key.self))
         if copy_1.preferences.contains(DisplayList.Key.self) {
             // <+284>
             let identity = _DisplayList_Identity()
