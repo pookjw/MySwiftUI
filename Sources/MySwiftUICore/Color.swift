@@ -46,7 +46,15 @@ extension Color: ShapeStyle {
 
 extension Color: EnvironmentalView {
     func body(environment: EnvironmentValues) -> ColorView {
-        fatalError("TODO")
+        let resolvedHDR = provider.resolveHDR(in: environment)
+        let dynamicRange: Image.DynamicRange
+        if resolvedHDR._headroom <= 1 {
+            dynamicRange = Image.DynamicRange(storage: .standard)
+        } else {
+            dynamicRange = environment.effectiveAllowedDynamicRange(explicitRange: nil)
+        }
+        
+        return ColorView.init(resolvedHDR, isAntialiased: true, allowedDynamicRange: dynamicRange)
     }
 }
 
@@ -61,6 +69,10 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     package func hash(into hasher: inout Hasher) {
         fatalError() // abstract
     }
+    
+    package func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+        fatalError() // abstract
+    }
 }
 
 final class ColorBox<T>: AnyColorBox {
@@ -68,6 +80,10 @@ final class ColorBox<T>: AnyColorBox {
     
     init(_ base: T) {
         self.base = base
+    }
+    
+    override func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+        fatalError("TODO")
     }
 }
 
@@ -200,7 +216,7 @@ extension Color.Resolved: BitwiseCopyable {}
 extension Color {
     @frozen public struct ResolvedHDR: Hashable, Sendable {
         fileprivate private(set) var base: Color.Resolved
-        private var _headroom: Float
+        fileprivate var _headroom: Float
         
         static var clear: Color.ResolvedHDR {
             return Color.ResolvedHDR(
@@ -515,6 +531,16 @@ struct ColorView: ResolvedPaint, RendererLeafView {
     
     // $s7SwiftUI9ColorViewVAA012RendererLeafD0A2aDP7contentAA11DisplayListV7ContentV5ValueOyFTW
     func content() -> DisplayList.Content.Value {
+        fatalError("TODO")
+    }
+}
+
+extension EnvironmentValues {
+    func effectiveAllowedDynamicRange(hdrContent: Bool, explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
+        fatalError("TODO")
+    }
+    
+    func effectiveAllowedDynamicRange(explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
         fatalError("TODO")
     }
 }
