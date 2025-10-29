@@ -825,6 +825,7 @@ extension _SwiftUICorePrivate.RendererLeafView {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct _DisplayList_Identity {
   public init()
+  public static var none: _SwiftUICorePrivate._DisplayList_Identity { get }
 }
 
 @available(visionOS 26.0, *)

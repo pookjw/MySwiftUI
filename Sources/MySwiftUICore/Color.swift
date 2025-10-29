@@ -1,5 +1,5 @@
 #warning("TODO")
-// protocol conformance descriptor for SwiftUI.Color :
+
 package import Foundation
 public import CoreGraphics
 
@@ -39,6 +39,10 @@ public struct Color: View, Hashable, CustomStringConvertible, Sendable {
 }
 
 extension Color: ShapeStyle {
+    public nonisolated func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+        fatalError("TODO")
+    }
+    
     @_alwaysEmitIntoClient public static nonisolated func _makeView<S>(view: _GraphValue<_ShapeView<S, Color>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
         _ShapeView<S, Self>._makeView(view: view, inputs: inputs)
     }
@@ -48,13 +52,13 @@ extension Color: EnvironmentalView {
     func body(environment: EnvironmentValues) -> ColorView {
         let resolvedHDR = provider.resolveHDR(in: environment)
         let dynamicRange: Image.DynamicRange
-        if resolvedHDR._headroom <= 1 {
-            dynamicRange = Image.DynamicRange(storage: .standard)
-        } else {
+        if let headroom = resolvedHDR.headroom, headroom > 1 {
             dynamicRange = environment.effectiveAllowedDynamicRange(explicitRange: nil)
+        } else {
+            dynamicRange = Image.DynamicRange(storage: .standard)
         }
         
-        return ColorView(resolvedHDR, isAntialiased: true, allowedDynamicRange: dynamicRange)
+        return ColorView(resolvedHDR, allowedDynamicRange: dynamicRange)
     }
 }
 
@@ -75,7 +79,7 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     }
 }
 
-final class ColorBox<T>: AnyColorBox {
+final class ColorBox<T: ColorProvider>: AnyColorBox {
     private let base: T
     
     init(_ base: T) {
@@ -83,7 +87,7 @@ final class ColorBox<T>: AnyColorBox {
     }
     
     override func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        fatalError("TODO")
+        return base.resolveHDR(in: environment)
     }
 }
 
@@ -184,10 +188,14 @@ extension Color.ProviderTag {
 
 extension Color {
     public struct Resolved: Hashable, BitwiseCopyable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
-        private var linearRed: Float
-        private var linearGreen: Float
-        private var linearBlue: Float
-        private var opacity: Float
+        public var linearRed: Float
+        public var linearGreen: Float
+        public var linearBlue: Float
+        public var opacity: Float
+        
+        public init(_ resolved: Color.Resolved) {
+            fatalError("TODO")
+        }
         
         init(linearRed: Float, linearGreen: Float, linearBlue: Float, opacity: Float) {
             self.linearRed = linearRed
@@ -208,6 +216,45 @@ extension Color {
                 fatalError("TODO")
             }
         }
+        
+        public init(colorSpace: Color.RGBColorSpace = .sRGB, red: Float, green: Float, blue: Float, opacity: Float = 1) {
+            fatalError("TODO")
+        }
+        
+        public init(_ colorSpace: Color.RGBColorSpace = .sRGB, white: Double, opacity: Double = 1) {
+            fatalError("TODO")
+        }
+        
+        public init(hue: Double, saturation: Double, brightness: Double, opacity: Double = 1) {
+            fatalError("TODO")
+        }
+        
+        public var red: Float {
+            get {
+                fatalError("TODO")
+            }
+            set {
+                fatalError("TODO")
+            }
+        }
+        
+        public var green: Float {
+            get {
+                fatalError("TODO")
+            }
+            set {
+                fatalError("TODO")
+            }
+        }
+        
+        public var blue: Float {
+            get {
+                fatalError("TODO")
+            }
+            set {
+                fatalError("TODO")
+            }
+        }
     }
 }
 
@@ -215,32 +262,109 @@ extension Color.Resolved: BitwiseCopyable {}
 
 extension Color {
     @frozen public struct ResolvedHDR: Hashable, Sendable {
-        fileprivate private(set) var base: Color.Resolved
-        fileprivate var _headroom: Float
+        @usableFromInline var base: Color.Resolved
+        @usableFromInline var _headroom: Float
+        
+        @_alwaysEmitIntoClient public init(_ color: Color.Resolved, headroom: Float? = nil) {
+            base = color
+            _headroom = headroom ?? .nan
+        }
         
         static var clear: Color.ResolvedHDR {
             return Color.ResolvedHDR(
-                base: Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
-                _headroom: 0
+                Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
+                headroom: 0
             )
         }
         
         static var black: Color.ResolvedHDR {
             return Color.ResolvedHDR(
-                base: Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 1),
-                _headroom: .nan
+                Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 1),
+                headroom: .nan
             )
         }
         
         static var white: Color.ResolvedHDR {
             return Color.ResolvedHDR(
-                base: Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
-                _headroom: .nan
+                Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
+                headroom: .nan
             )
+        }
+        
+        @_alwaysEmitIntoClient public var linearRed: Float {
+            get {
+                return base.linearRed
+            }
+            set {
+                base.linearRed = newValue
+            }
+        }
+        
+        @_alwaysEmitIntoClient public var linearGreen: Float {
+            get {
+                return base.linearGreen
+            }
+            set {
+                base.linearGreen = newValue
+            }
+        }
+        
+        @_alwaysEmitIntoClient public var linearBlue: Float {
+            get {
+                return base.linearBlue
+            }
+            set {
+                base.linearBlue = newValue
+            }
+        }
+        
+        @_alwaysEmitIntoClient public var red: Float {
+            get {
+                return base.red
+            }
+            set {
+                base.red = newValue
+            }
+        }
+        
+        @_alwaysEmitIntoClient public var green: Float {
+            get {
+                return base.green
+            }
+            set {
+                base.green = newValue
+            }
+        }
+        
+        @_alwaysEmitIntoClient public var blue: Float {
+            get {
+                return base.blue
+            }
+            set {
+                base.blue = newValue
+            }
+        }
+        
+        @_alwaysEmitIntoClient public var opacity: Float {
+            get {
+                return base.opacity
+            }
+            set {
+                base.opacity = newValue
+            }
         }
         
         public var cgColor: CGColor? {
             fatalError("TODO")
+        }
+        
+        @_alwaysEmitIntoClient public var headroom: Float? {
+            get {
+                return _headroom == _headroom ? _headroom : nil
+            }
+            set {
+                _headroom = newValue ?? .nan
+            }
         }
     }
 }
@@ -542,5 +666,13 @@ extension EnvironmentValues {
     
     func effectiveAllowedDynamicRange(explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
         fatalError("TODO")
+    }
+}
+
+extension Color {
+    public enum RGBColorSpace: Sendable, Hashable {
+        case sRGB
+        case sRGBLinear
+        case displayP3
     }
 }
