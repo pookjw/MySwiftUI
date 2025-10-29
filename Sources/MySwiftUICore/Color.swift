@@ -54,7 +54,7 @@ extension Color: EnvironmentalView {
             dynamicRange = environment.effectiveAllowedDynamicRange(explicitRange: nil)
         }
         
-        return ColorView.init(resolvedHDR, isAntialiased: true, allowedDynamicRange: dynamicRange)
+        return ColorView(resolvedHDR, isAntialiased: true, allowedDynamicRange: dynamicRange)
     }
 }
 
