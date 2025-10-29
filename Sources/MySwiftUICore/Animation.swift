@@ -371,11 +371,11 @@ fileprivate struct FrameVelocityFilter {
 }
 
 struct AnimatableAttributeHelper<T: Animatable> {
-    @Attribute private var phase: _GraphInputs.Phase
-    @Attribute private var time: Time
-    @Attribute private var transaction: Transaction
-    private var previousModelData: T.AnimatableData?
-    private var animatorState: AnimatorState<T.AnimatableData>?
+    @Attribute private var phase: _GraphInputs.Phase // 0x0
+    @Attribute private var time: Time // 0x4
+    @Attribute private var transaction: Transaction // 0x8
+    private var previousModelData: T.AnimatableData? // 0x10
+    private var animatorState: AnimatorState<T.AnimatableData>? // 0x20
     private var resetSeed: UInt32
     
     init(phase: Attribute<_GraphInputs.Phase>, time: Attribute<Time>, transaction: Attribute<Transaction>) {
@@ -387,6 +387,26 @@ struct AnimatableAttributeHelper<T: Animatable> {
     }
     
     func update(value: inout (value: T, changed: Bool), defaultAnimation: Animation?, environment: Attribute<EnvironmentValues>) {
+        // x29 = sp + 0x2f0
+        /*
+         value = x26
+         defaultAnimation = sp + 0x60
+         environment = sp + 0xb8
+         */
+        // <+744>
+        let time: Time
+        if animatorState == nil {
+            time = -Time.infinity
+        } else {
+            let (_time, flags) = $time.valueAndFlags(options: [])
+            if flags == .changed {
+                time = _time
+            } else {
+                time = -Time.infinity
+            }
+        }
+        
+        // <+804>
         fatalError("TODO")
     }
 }
