@@ -409,6 +409,10 @@ struct AnimatableAttributeHelper<T: Animatable> {
         // <+804>
         fatalError("TODO")
     }
+    
+    func checkReset() -> Bool {
+        fatalError("TODO")
+    }
 }
 
 struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribute, ObservedAttribute, StatefulRule {
