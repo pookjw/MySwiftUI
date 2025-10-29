@@ -66,6 +66,47 @@ struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, Custo
     typealias Value = Content.EnvironmentBody
     
     func updateValue() {
+        // x29 = sp + 0x1b0
+        // sp + 0x98
+        let tracker = self.tracker
+        // x25 / sp + 0x78, x24
+        let (view, viewFlags) = $view.valueAndFlags(options: [])
+        // x27 + x22, x19
+        let (env, envFlags) = $env.valueAndFlags(options: [])
+        
+        if viewFlags != .changed {
+            // <+560>
+            let hasDiff: Bool
+            if envFlags != .unchanged {
+                if tracker.hasDifferentUsedValues(env.plist) {
+                    hasDiff = true 
+                } else {
+                    hasDiff = (self.value == nil)
+                }
+            } else {
+                hasDiff = (self.value == nil)
+            }
+            
+            guard hasDiff else {
+                return
+            }
+        }
+        
+        // <+708>
+        tracker.reset()
+        tracker.initializeValues(from: env.plist)
+        
+        Signpost.bodyInvoke.traceInterval(
+            object: nil,
+            "%{public}@.body [in %{public}@]",
+            [
+                TypeID(Content.self).description,
+                Tracing.libraryName(defining: Content.self)
+            ]
+        ) { [view = UncheckedSendable(view).value] in 
+            // $s7SwiftUI22EnvironmentalViewChildV11updateValueyyF15EnvironmentBodyQzyXEfU_
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
 }

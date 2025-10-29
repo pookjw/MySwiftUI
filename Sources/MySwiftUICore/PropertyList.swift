@@ -1,3 +1,5 @@
+// D64CE6C88E7413721C59A34C0C940F2C
+
 #warning("TODO")
 package import Foundation
 private import AttributeGraph
@@ -278,7 +280,7 @@ extension PropertyList {
         }
         
         package func initializeValues(from other: PropertyList) {
-            fatalError("TODO")
+            data.plistID = other.elements?.id ?? UniqueID(value: 0)
         }
         
         package func invalidateAllValues(from: PropertyList, to: PropertyList) {
@@ -321,7 +323,7 @@ extension PropertyList {
         fileprivate let length: UInt32
         fileprivate let skipCount: UInt32
         fileprivate let skipFilter: BloomFilter
-        fileprivate let id = UniqueID()
+        final let id = UniqueID()
         
         fileprivate init(keyType: Any.Type, before: Element?, after: Element?) {
             self.keyType = keyType

@@ -415,7 +415,16 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
     typealias Value = T
     
     func updateValue() {
-        fatalError("TODO")
+        // self = x20
+        var value = (value: source, changed: false)
+        helper.update(value: &value, defaultAnimation: nil, environment: $environment)
+        
+        guard value.changed, self.value == nil else {
+            return
+        }
+        
+        // <+300>
+        self.value = value.value
     }
     
     func destroy() {

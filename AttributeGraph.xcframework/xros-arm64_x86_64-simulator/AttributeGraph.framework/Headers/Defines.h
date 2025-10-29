@@ -26,7 +26,7 @@ typedef NS_OPTIONS(uint32_t, AGValueOptions) {
     AGValueOptionsNone = 0
 };
 
-typedef NS_OPTIONS(uint32_t, AGChangedValueFlags) {
+typedef NS_ENUM(uint32_t, AGChangedValueFlags) {
     AGChangedValueFlagsUnchanged = 0,
     AGChangedValueFlagsChanged = 1,
 };
