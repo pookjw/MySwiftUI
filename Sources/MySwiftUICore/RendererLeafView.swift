@@ -10,7 +10,7 @@ protocol RendererLeafView: ContentResponder, PrimitiveView, UnaryView {
         get
     }
     
-    func content() -> DisplayList.Content.Value
+    nonisolated func content() -> DisplayList.Content.Value
 }
 
 extension RendererLeafView {
@@ -106,14 +106,33 @@ fileprivate struct LeafDisplayList<Content: RendererLeafView>: CustomStringConve
     
     typealias Value = DisplayList
     
-    func updateValue() {
+    mutating func updateValue() {
         /*
          self = x24
          */
-        // x22
-        let view = self.view
+        let (view, flags) = self.$view.valueAndFlags(options: [])
+        // x23
+        let content = view.content()
+        // x28
+        let version = DisplayList.Version(forUpdate: ())
         
-        fatalError("TODO")
+        if flags == .changed {
+            self.contentSeed = DisplayList.Seed(version)
+        }
+        
+        // <+244>
+        let position = position
+        let containerPosition = containerPosition
+        let origin = CGPoint(x: position.x - containerPosition.x, y: position.y - containerPosition.y)
+        let item = DisplayList.Item(
+            frame: CGRect(origin: origin, size: size),
+            version: version,
+            value: .content(DisplayList.Content(content, seed: contentSeed)),
+            identity: identity
+        )
+        item.canonicalize(options: options)
+        
+        self.value = DisplayList(item)
     }
 }
 
@@ -140,4 +159,8 @@ struct LeafResponderFilter<T>: StatefulRule {
 
 final class LeafViewResponder<T>: ViewResponder {
 //    private var helper: ContentResponderHelper<T>
+}
+
+protocol LeafViewLayout {
+    
 }

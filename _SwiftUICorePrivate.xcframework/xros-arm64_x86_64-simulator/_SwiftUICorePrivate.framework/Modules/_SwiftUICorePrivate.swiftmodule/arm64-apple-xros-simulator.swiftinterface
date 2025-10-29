@@ -751,6 +751,7 @@ public struct ViewSize {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI._ProposedSize {
+  @_silgen_name("$s7SwiftUI13_ProposedSizeVAAEyACSo6CGSizeVcfC")
   public init(_: CoreGraphics.CGSize)
 }
 
@@ -824,4 +825,12 @@ extension _SwiftUICorePrivate.RendererLeafView {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct _DisplayList_Identity {
   public init()
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUICore._ViewInputs {
+  public var base: SwiftUICore._GraphInputs {
+    get set
+  }
 }

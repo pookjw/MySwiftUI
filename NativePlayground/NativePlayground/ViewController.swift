@@ -505,23 +505,43 @@ class ViewController: UIViewController {
 //        let graph = Graph()
 //        let subgraph = Subgraph(graph: graph)
 //        Subgraph.current = subgraph
-//        let attribute = Attribute(value: MyDynamicView())
-//        _ = MyDynamicView.makeDynamicView(
-//            metadata: (),
-//            view: .init(attribute),
-//            inputs: .init(
-//                .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)), position: .init(identifier: .empty), size: .init(identifier: .empty), transform: .init(identifier: .empty), containerPosition: .init(identifier: .empty), hostPreferenceKeys: .init(identifier: .empty))
+////        let attribute = Attribute(value: MyDynamicView())
+////        _ = MyDynamicView.makeDynamicView(
+////            metadata: (),
+////            view: .init(attribute),
+////            inputs: .init(
+////                .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)), position: .init(identifier: .empty), size: .init(identifier: .empty), transform: .init(identifier: .empty), containerPosition: .init(identifier: .empty), hostPreferenceKeys: .init(identifier: .empty))
+////        )
+//        
+//        let attribute = Attribute(value: MyLeafView())
+//        let base = _GraphInputs(
+//            time: Attribute(value: Time(seconds: 0)),
+//            phase: Attribute(value: _GraphInputs.Phase(value: 0)),
+//            environment: Attribute(value: EnvironmentValues()),
+//            transaction: Attribute(value: Transaction())
 //        )
-        //        Subgraph.current = nil
-        //        graph.setNeedsUpdate()
-        //        subgraph.update(1)
-        //        _ = consume graph
+//        MyLeafView.makeLeafView(
+//            view: .init(attribute),
+//            inputs: _ViewInputs(
+//                base,
+//                position: Attribute(value: CGPoint.zero),
+//                size: Attribute(value: ViewSize(.zero, proposal: _ProposedSize.init(.zero))),
+//                transform: Attribute(value: ViewTransform()),
+//                containerPosition: Attribute(value: .zero),
+//                hostPreferenceKeys: Attribute(value: PreferenceKeys())
+//            )
+//        )
+//        
+//        Subgraph.current = nil
+//        graph.setNeedsUpdate()
+//        subgraph.update(1)
+//        _ = consume graph
         
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-        let rootView = Color.black
-//        let rootView = MyLeafView()
+//        let rootView = Color.black
+        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
@@ -542,19 +562,27 @@ class ViewController: UIViewController {
 //    MyEnvView
 }
 
-struct MyLeafView: RendererLeafView {
+struct MyLeafView: RendererLeafView, Animatable {
+    var animatableData: Double = 3
+    
     static var requiresMainThread: Bool {
-        false
+        true
     }
     
     func content() -> _SwiftUICorePrivate.DisplayList.Content.Value {
         return .placeholder(id: .init())
     }
+    
+    static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        var view = view
+        _makeAnimatable(value: &view, inputs: inputs.base)
+        return makeLeafView(view: view, inputs: inputs)
+    }
 }
 
 struct MyEnvView: EnvironmentalView {
-    func body(environment: EnvironmentValues) -> some View {
-        Color.green
+    func body(environment: EnvironmentValues) -> MyLeafView {
+        MyLeafView()
     }
 }
 

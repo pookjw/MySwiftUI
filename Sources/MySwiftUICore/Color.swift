@@ -38,6 +38,12 @@ public struct Color: View, Hashable, CustomStringConvertible, Sendable {
     }
 }
 
+extension Color: ShapeStyle {
+    @_alwaysEmitIntoClient public static nonisolated func _makeView<S>(view: _GraphValue<_ShapeView<S, Color>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
+        _ShapeView<S, Self>._makeView(view: view, inputs: inputs)
+    }
+}
+
 extension Color: EnvironmentalView {
     func body(environment: EnvironmentValues) -> ColorView {
         fatalError("TODO")

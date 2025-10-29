@@ -271,7 +271,7 @@ extension AttributeGraph.Rule {
 
 public protocol StatefulRule : AttributeGraph._AttributeBody {
     associatedtype Value
-    func updateValue()
+    mutating func updateValue()
 }
 
 extension AttributeGraph.StatefulRule {

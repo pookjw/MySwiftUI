@@ -631,6 +631,7 @@ extension ViewGraph: ViewGraphRenderHost {
         
         let renderDelegateBox = UncheckedSendable(renderDelegate)
         let viewRendererBox = UncheckedSendable(viewRenderer)
+        let unchecked = UncheckedSendable(displayList)
         
         @MainActor
         func renderOnMainThread() -> Time {
@@ -642,7 +643,7 @@ extension ViewGraph: ViewGraphRenderHost {
             CustomEventTrace.animationTick(onMain: true, time: time)
             
             let renderingRootView = renderDelegate.renderingRootView
-            return renderDelegate.withMainThreadRender(wasAsync: true) {
+            return renderDelegate.withMainThreadRender(wasAsync: true) { [displayList = unchecked.value] in
                 // closure #1 () -> SwiftUI.Time in renderOnMainThread() -> SwiftUI.Time
                 let environment = DisplayList.ViewRenderer.Environment(contentsScale: viewRenderer.configuration.contentsScale ?? context.contentsScale)
                 return viewRenderer.render(rootView: renderingRootView, from: displayList, time: time, version: version, maxVersion: maxVersion, environment: environment)

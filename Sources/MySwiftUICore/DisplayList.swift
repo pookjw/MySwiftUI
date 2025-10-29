@@ -19,6 +19,10 @@ package struct DisplayList {
     package init() {
     }
     
+    init(_ item: DisplayList.Item) {
+        fatalError("TODO")
+    }
+    
     mutating func append(contentsOf other: DisplayList) {
         fatalError("TODO")
     }
@@ -28,8 +32,12 @@ extension DisplayList {
     package struct Item {
         var frame: CGRect
         var version: DisplayList.Version
-        var value: Item.Value
+        var value: DisplayList.Item.Value
         var identity: _DisplayList_Identity
+        
+        func canonicalize(options: DisplayList.Options) {
+            fatalError("TODO")
+        }
     }
     
     struct Seed: Hashable {
@@ -71,8 +79,11 @@ extension DisplayList {
 }
 
 extension DisplayList.Item {
-    package enum Value {
-        
+    enum Value {
+        case content(DisplayList.Content)
+        case effect(DisplayList.Effect, DisplayList)
+        case states([(StrongHash, DisplayList)])
+        case empty
     }
 }
 
@@ -1309,7 +1320,7 @@ extension DisplayList {
             return true
         }
         
-        static let defaultValue = DisplayList()
+        static nonisolated(unsafe) let defaultValue = DisplayList()
         
         static func reduce(value: inout DisplayList, nextValue: () -> DisplayList) {
             value.append(contentsOf: nextValue())
@@ -1321,6 +1332,11 @@ extension DisplayList {
     struct Content {
         private var value: DisplayList.Content.Value
         private var seed: DisplayList.Seed
+        
+        init(_ value: DisplayList.Content.Value, seed: DisplayList.Seed) {
+            self.value = value
+            self.seed = seed
+        }
     }
 }
 
