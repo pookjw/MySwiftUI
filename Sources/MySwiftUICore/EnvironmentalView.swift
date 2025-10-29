@@ -96,17 +96,24 @@ struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, Custo
         tracker.reset()
         tracker.initializeValues(from: env.plist)
         
-        Signpost.bodyInvoke.traceInterval(
+        // 원래는 view만 UncheckedSendable
+        let body = Signpost.bodyInvoke.traceInterval(
             object: nil,
             "%{public}@.body [in %{public}@]",
             [
                 TypeID(Content.self).description,
                 Tracing.libraryName(defining: Content.self)
             ]
-        ) { [view = UncheckedSendable(view).value] in 
-            // $s7SwiftUI22EnvironmentalViewChildV11updateValueyyF15EnvironmentBodyQzyXEfU_
-            fatalError("TODO")
-        }
-        fatalError("TODO")
+        ) { [unchecked = UncheckedSendable((view, env))] in
+            // $s7SwiftUI22EnvironmentalViewChildV11updateValueyyF15EnvironmentBodyQzyXEfU_ 
+            return MainActor.assumeIsolated {
+                let view = unchecked.value.0
+                let env = unchecked.value.1
+                let body = view.body(environment: env)
+                return UncheckedSendable(body)
+            }
+        }.value
+        
+        self.value = body
     }
 }

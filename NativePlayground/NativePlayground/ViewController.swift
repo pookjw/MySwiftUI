@@ -547,8 +547,8 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-//        let rootView = Color.black
-        let rootView = MyEnvView()
+        let rootView = Color.black
+//        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
