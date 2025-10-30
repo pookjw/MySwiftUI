@@ -2,7 +2,7 @@
 package import _DyldPrivate
 
 package func isLinkedOnOrAfter(_ semantics: Semantics) -> Bool {
-    if let sdk = unsafe Semantics.forced.sdk {
+    if let sdk = Semantics.forced.sdk {
         return semantics.value <= sdk.value
     } else {
         return dyld_program_sdk_at_least(dyld_build_version_t(platform: .max, version: semantics.value))
@@ -40,7 +40,7 @@ package struct Semantics: Hashable, Comparable, CustomStringConvertible {
     package static var v6_4: Semantics { Semantics(value: MySwiftUI_V6_4().version) }
     package static var v7: Semantics { Semantics(value: MySwiftUI_V7().version) }
     
-    package static nonisolated(unsafe) var forced: Semantics.Forced = Semantics.Forced()
+    @safe package static nonisolated(unsafe) var forced: Semantics.Forced = Semantics.Forced()
     
     fileprivate var value: UInt32
     

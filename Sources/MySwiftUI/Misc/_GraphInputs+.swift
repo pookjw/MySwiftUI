@@ -2,7 +2,7 @@ internal import MySwiftUICore
 internal import AttributeGraph
 
 extension _GraphInputs {
-    struct IsFocusSystemEnabledKey: @unsafe ViewInput {
-        static nonisolated(unsafe) let defaultValue = OptionalAttribute<Bool>()
+    struct IsFocusSystemEnabledKey: ViewInput {
+        static let defaultValue = OptionalAttribute<Bool>()
     }
 }

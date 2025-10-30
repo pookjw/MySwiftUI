@@ -7,7 +7,7 @@
 
 @frozen
 @propertyWrapper
-public struct WeakAttribute<T> {
+public struct WeakAttribute<T> : Swift.Sendable {
     @_hasStorage
     public var base: AttributeGraph.AnyWeakAttribute {
         get
@@ -35,7 +35,7 @@ public struct WeakAttribute<T> {
 @frozen
 @propertyWrapper
 @dynamicMemberLookup
-public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible {
+public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
     public static func == (lhs: AttributeGraph.Attribute<T>, rhs: AttributeGraph.Attribute<T>) -> Swift.Bool
 
     public var wrappedValue: T {
@@ -103,7 +103,7 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible {
 
 @frozen
 @propertyWrapper
-public struct IndirectAttribute<T> {
+public struct IndirectAttribute<T> : Swift.Sendable {
     @_hasStorage
     public var identifier: AttributeGraph.Attribute<T> {
         get
@@ -122,7 +122,7 @@ public struct IndirectAttribute<T> {
     }
 }
 
-public struct AnyRuleContext: Swift.Equatable {
+public struct AnyRuleContext: Swift.Equatable, Swift.Sendable {
     public var attribute: AttributeGraph.AnyAttribute {
         get set
     }
@@ -149,7 +149,7 @@ public struct AnyRuleContext: Swift.Equatable {
     public func update(body: () -> Void)
 }
 
-public struct RuleContext<T>: Swift.Equatable {
+public struct RuleContext<T>: Swift.Equatable, Swift.Sendable {
     public init(attribute: AttributeGraph.Attribute<T>)
 
     public var attribute: AttributeGraph.Attribute<T> {
@@ -181,7 +181,7 @@ public struct RuleContext<T>: Swift.Equatable {
     public func update(body: () -> Void)
 }
 
-public struct _External: Swift.CustomStringConvertible {
+public struct _External: Swift.CustomStringConvertible, Swift.Sendable {
     public var description: Swift.String {
         get
     }
@@ -201,7 +201,7 @@ public struct PointerOffset<A, B> {
 
 @frozen
 @propertyWrapper
-public struct OptionalAttribute<T> {
+public struct OptionalAttribute<T> : Swift.Sendable {
     public var wrappedValue: T? {
         get
     }
@@ -333,7 +333,7 @@ extension AttributeGraph.TypeID: Swift.Hashable, Swift.CustomStringConvertible {
 }
 
 @frozen
-public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule {
+public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule, Swift.Sendable {
     public static var flags: AttributeGraph.AGAttributeTypeFlags {
         get
     }
@@ -359,7 +359,7 @@ public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule {
     }
 }
 
-@frozen public struct AnyOptionalAttribute: Swift.Hashable, Swift.CustomStringConvertible {
+@frozen public struct AnyOptionalAttribute: Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
     public init(_: AttributeGraph.AnyAttribute)
     public init(_: AttributeGraph.AnyAttribute?)
 

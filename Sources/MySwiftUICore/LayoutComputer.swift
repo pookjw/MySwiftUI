@@ -3,9 +3,9 @@ internal import AttributeGraph
 
 struct LayoutComputer {
     @inline(never)
-    static nonisolated(unsafe) let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())
+    @safe static nonisolated(unsafe) let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())
     @inline(never)
-    static nonisolated(unsafe) let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())
+    @safe static nonisolated(unsafe) let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())
     
     private var box: AnyLayoutEngineBox
     private var seed: Int
@@ -64,12 +64,12 @@ struct DepthStashingLayoutComputer: StatefulRule, AsyncAttribute {
     }
 }
 
-struct EnableLayoutDepthStashing: @unsafe UserDefaultKeyedFeature, ViewInputBoolFlag, PropertyKey {
+struct EnableLayoutDepthStashing: UserDefaultKeyedFeature, ViewInputBoolFlag, PropertyKey {
     static var key: String {
         return "com.apple.SwiftUI.EnableLayoutDepthStashing"
     }
     
-    static nonisolated(unsafe) var cachedValue: Bool? = nil
+    @safe static nonisolated(unsafe) var cachedValue: Bool? = nil
     
-    static nonisolated(unsafe) var defaultFeatureValue: Bool = true
+    @safe static nonisolated(unsafe) var defaultFeatureValue: Bool = true
 }

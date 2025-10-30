@@ -6,7 +6,7 @@ private import UIKit
 
 final class MRUIPreferenceExporter {
     // $s7SwiftUI25MRUIBridgedPreferenceKeysO03allE0_WZ
-    static nonisolated(unsafe) let allKeys: [any MRUIBridgedPreferenceKey.Type] = [
+    @safe static nonisolated(unsafe) let allKeys: [any MRUIBridgedPreferenceKey.Type] = [
         PreferredAnchoredPlaneKey.self,
 //        VideoPassthroughBrightnessKey.self,
 //        SystemDefinedSurroundingsEffectKey.self,
@@ -22,7 +22,7 @@ final class MRUIPreferenceExporter {
     
     init() {
         self.host = nil
-        self.exportedPreferences = unsafe MRUIPreferenceExporter
+        self.exportedPreferences = MRUIPreferenceExporter
             .allKeys
             .compactMap { key in
                 var visitor = ExportPreferenceVisitor()

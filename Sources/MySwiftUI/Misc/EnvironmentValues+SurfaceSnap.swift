@@ -2,14 +2,14 @@ public import ARKit
 public import MySwiftUICore
 
 public struct SurfaceSnappingInfo: Equatable, Sendable, CustomDebugStringConvertible {
-    fileprivate static nonisolated(unsafe) let __authorizationStatus = AtomicBox<AuthorizationStatus>(wrappedValue: .notDetermined)
+    fileprivate static let __authorizationStatus = AtomicBox<AuthorizationStatus>(wrappedValue: .notDetermined)
     
     public internal(set) static var authorizationStatus: SurfaceSnappingInfo.AuthorizationStatus {
         get {
-            return unsafe __authorizationStatus.wrappedValue
+            return __authorizationStatus.wrappedValue
         }
         set {
-            unsafe __authorizationStatus.wrappedValue = newValue
+            __authorizationStatus.wrappedValue = newValue
         }
     }
     

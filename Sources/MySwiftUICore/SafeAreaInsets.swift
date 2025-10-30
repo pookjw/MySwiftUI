@@ -24,9 +24,23 @@ extension SafeAreaInsets {
     }
 }
 
-struct _SafeAreaInsetsModifier: ViewModifier {
-    var elements: [SafeAreaInsets.Element] = []
-    var nextInsets: SafeAreaInsets.OptionalValue? = nil
+struct _SafeAreaInsetsModifier: ViewModifier, _RemoveGlobalActorIsolation {
+    var elements: [SafeAreaInsets.Element]
+    var nextInsets: SafeAreaInsets.OptionalValue?
+    
+    init(insets: EdgeInsets, cornerInsets: AbsoluteRectangleCornerInsets?, nextInsets: SafeAreaInsets.OptionalValue?) {
+        fatalError("TODO") // TODO
+    }
+    
+    init() {
+        self.elements = []
+        self.nextInsets = nil
+    }
+    
+    init(elements: [SafeAreaInsets.Element], nextInsets: SafeAreaInsets.OptionalValue?) {
+        self.elements = elements
+        self.nextInsets = nextInsets
+    }
     
     func body(content: Content) -> some View {
         fatalError("TODO") // TODO

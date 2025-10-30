@@ -90,7 +90,7 @@ func handleTraceNotification(graph: Graph, token: Int32) {
         return
     }
     
-    guard let swiftUITraceRegister = unsafe dlsym(SwiftUITracingSupport, "swiftUITraceRegister") else {
+    guard unsafe (unsafe dlsym(SwiftUITracingSupport, "swiftUITraceRegister")) != nil else {
         return
     }
     
@@ -110,7 +110,7 @@ fileprivate let waitingForPreviewThunks: Bool = {
 fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = unsafe []
 
 @_spi(Internal) open class GraphHost {
-    fileprivate static nonisolated(unsafe) let sharedGraph: Graph = {
+    @safe fileprivate static nonisolated(unsafe) let sharedGraph: Graph = {
         let graph = Graph()
         let assertLocks = unsafe getenv("SWIFTUI_ASSERT_LOCKS")
         
@@ -137,7 +137,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }() 
     
     static var isUpdating: Bool {
-        return unsafe GraphHost.sharedGraph.counter(options: [.unknown1, .unknown2, .unknown4]) != 0
+        return GraphHost.sharedGraph.counter(options: [.unknown1, .unknown2, .unknown4]) != 0
     }
     
     static var currentHost: GraphHost {
@@ -639,7 +639,7 @@ extension GraphHost {
         private(set) var inputs: _GraphInputs
         
         init() {
-            let graph = unsafe Graph(shared: GraphHost.sharedGraph)
+            let graph = Graph(shared: GraphHost.sharedGraph)
             self.graph = graph
             
             let globalSubgraph = Subgraph(graph: graph)
@@ -732,7 +732,7 @@ fileprivate struct ConstantKey: Hashable {
 }
 
 fileprivate struct AsyncTransaction {
-    static nonisolated(unsafe) var nextTraceID: UInt32 = 1
+    @safe static nonisolated(unsafe) var nextTraceID: UInt32 = 1
     
     fileprivate let transaction: Transaction
     fileprivate let transactionID: Transaction.ID
@@ -743,8 +743,8 @@ fileprivate struct AsyncTransaction {
         self.transaction = transaction
         self.transactionID = transactionID
         
-        self.traceID = unsafe (AsyncTransaction.nextTraceID &>> 1) + 1
-        unsafe AsyncTransaction.nextTraceID &+= 2
+        self.traceID = (AsyncTransaction.nextTraceID &>> 1) + 1
+        AsyncTransaction.nextTraceID &+= 2
         self.mutations = mutations
     }
     

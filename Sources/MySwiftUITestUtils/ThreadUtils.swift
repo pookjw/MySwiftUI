@@ -12,7 +12,7 @@ public final class RunLoopTaskExecutor: TaskExecutor {
         var executor: UnownedTaskExecutor?
     }
     
-    private nonisolated(unsafe) var thread: pthread_t?
+    @safe private nonisolated(unsafe) var thread: pthread_t?
     private let storage = Storage()
     
     public init() {

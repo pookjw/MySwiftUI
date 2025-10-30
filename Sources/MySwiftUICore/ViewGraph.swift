@@ -120,7 +120,7 @@ package final class ViewGraph: GraphHost {
         // <+1644>
         self._containerShape = Attribute(RootContainerShape())
         // <+1724>
-        self._defaultLayoutComputer = Attribute(value: unsafe LayoutComputer.defaultValue)
+        self._defaultLayoutComputer = Attribute(value: LayoutComputer.defaultValue)
         // <+1816>
         self._gestureTime = Attribute(value: Time.zero)
         // <+1864>

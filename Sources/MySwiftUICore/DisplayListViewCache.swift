@@ -3,7 +3,7 @@ private import QuartzCore
 private import _MySwiftUIShims
 
 extension DisplayList.ViewUpdater {
-    struct ViewCache {
+    @safe struct ViewCache {
         var map: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewInfo] = [:]
         var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key] = unsafe [:]
         var removed: Set<DisplayList.ViewUpdater.ViewCache.Key> = []

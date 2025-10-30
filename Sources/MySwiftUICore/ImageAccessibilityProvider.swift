@@ -7,18 +7,18 @@ package protocol ImageAccessibilityProvider {
 extension _GraphInputs {
     var imageAccessibilityProvider: (any ImageAccessibilityProvider.Type) {
         get {
-            return unsafe self[ImageAccessibilityProviderKey.self]
+            return self[ImageAccessibilityProviderKey.self]
         }
         set {
-            unsafe self[ImageAccessibilityProviderKey.self] = newValue
+            self[ImageAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield unsafe &self[ImageAccessibilityProviderKey.self]
+            yield &self[ImageAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct ImageAccessibilityProviderKey: @unsafe GraphInput {
-        static nonisolated(unsafe) let defaultValue: (any ImageAccessibilityProvider.Type) = EmptyImageAccessibilityProvider.self
+    fileprivate struct ImageAccessibilityProviderKey: GraphInput {
+        @safe static nonisolated(unsafe) let defaultValue: (any ImageAccessibilityProvider.Type) = EmptyImageAccessibilityProvider.self
     }
 }
 

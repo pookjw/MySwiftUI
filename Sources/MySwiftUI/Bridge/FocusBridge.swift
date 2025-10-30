@@ -348,21 +348,21 @@ fileprivate struct FocusBridgeKey: EnvironmentKey {
     }
 }
 
-struct UIKitHostContainerFocusItemInput: @unsafe ViewInput {
-    static nonisolated(unsafe) let defaultValue = Attribute<WeakBox<UIView>>(identifier: .empty) 
+struct UIKitHostContainerFocusItemInput: ViewInput {
+    static let defaultValue = Attribute<WeakBox<UIView>>(identifier: .empty) 
 }
 
 extension _ViewInputs {
     // 원래 없음
     var uiKitHostContainerFocusItem: Attribute<WeakBox<UIView>> {
         get {
-            return unsafe self[UIKitHostContainerFocusItemInput.self]
+            return self[UIKitHostContainerFocusItemInput.self]
         }
         set {
-            unsafe self[UIKitHostContainerFocusItemInput.self] = newValue
+            self[UIKitHostContainerFocusItemInput.self] = newValue
         }
         _modify {
-            yield unsafe &self[UIKitHostContainerFocusItemInput.self]
+            yield &self[UIKitHostContainerFocusItemInput.self]
         }
     }
 }

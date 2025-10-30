@@ -16,7 +16,7 @@ protocol StronglyHashable {
     func hash(into hasher: inout StrongHasher)
 }
 
-struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable, CustomStringConvertible, ProtobufEncodableMessage, ProtobufDecodableMessage {
+struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable, CustomStringConvertible, ProtobufEncodableMessage, ProtobufDecodableMessage, Sendable {
     static var random: StrongHash {
         return StrongHash(of: UUID())
     }

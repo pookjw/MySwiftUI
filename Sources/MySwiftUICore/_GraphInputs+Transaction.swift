@@ -19,17 +19,17 @@ extension _ViewInputs {
 extension _GraphInputs {
     var savedTransactions: [Attribute<Transaction>] {
         get {
-            return unsafe self[SavedTransactionKey.self]
+            return self[SavedTransactionKey.self]
         }
         set {
-            unsafe self[SavedTransactionKey.self] = newValue
+            self[SavedTransactionKey.self] = newValue
         }
         _modify {
-            yield unsafe &self[SavedTransactionKey.self]
+            yield &self[SavedTransactionKey.self]
         }
     }
     
-    fileprivate struct SavedTransactionKey: @unsafe ViewInput {
-        static nonisolated(unsafe) let defaultValue: [Attribute<Transaction>] = [] 
+    fileprivate struct SavedTransactionKey: ViewInput {
+        static let defaultValue: [Attribute<Transaction>] = [] 
     }
 }

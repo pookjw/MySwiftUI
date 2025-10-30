@@ -2,43 +2,43 @@
 #warning("TODO")
 private import _MySwiftUIShims
 
-package enum ViewStyleRegistry {
+package enum ViewStyleRegistry: Sendable {
     package static func registerOverrides(_: ViewStyleOverrides, for: ViewStyleRegistry.InterfaceIdiom) {
         fatalError("TODO")
     }
     
     package static func overrides(for idiom: ViewStyleRegistry.InterfaceIdiom) -> ViewStyleOverrides {
-        return unsafe registries[idiom.idiom] ?? fallbackOverrides
+        return registries[idiom.idiom] ?? fallbackOverrides
     }
     
-    static nonisolated(unsafe) var registries: [AnyInterfaceIdiom: ViewStyleOverrides] = [:]
-    static nonisolated(unsafe) var fallbackOverrides = ViewStyleOverrides()
+    @safe static nonisolated(unsafe) var registries: [AnyInterfaceIdiom: ViewStyleOverrides] = [:]
+    @safe static nonisolated(unsafe) var fallbackOverrides = ViewStyleOverrides()
 }
 
 extension ViewStyleRegistry {
-    package struct InterfaceIdiom {
+    package struct InterfaceIdiom: Sendable {
         package let idiom: AnyInterfaceIdiom
         
         package init(idiom: AnyInterfaceIdiom) {
             self.idiom = idiom
         }
         
-        package static nonisolated(unsafe) let carPlay = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .carPlay))
-        package static nonisolated(unsafe) let clarityUI = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .clarityUI))
-        package static nonisolated(unsafe) let complication = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .complication))
-        package static nonisolated(unsafe) let mac = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .mac))
-        package static nonisolated(unsafe) let macCatalyst = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .macCatalyst))
-        package static nonisolated(unsafe) let phone = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .phone))
-        package static nonisolated(unsafe) let pad = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .pad))
-        package static nonisolated(unsafe) let tv = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .tv))
-        package static nonisolated(unsafe) let touchBar = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .touchBar))
-        package static nonisolated(unsafe) let watch = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .watch))
-        package static nonisolated(unsafe) var vision = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
-        package static nonisolated(unsafe) var reality = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
+        package static let carPlay = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .carPlay))
+        package static let clarityUI = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .clarityUI))
+        package static let complication = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .complication))
+        package static let mac = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .mac))
+        package static let macCatalyst = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .macCatalyst))
+        package static let phone = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .phone))
+        package static let pad = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .pad))
+        package static let tv = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .tv))
+        package static let touchBar = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .touchBar))
+        package static let watch = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .watch))
+        @safe package static nonisolated(unsafe) var vision = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
+        @safe package static nonisolated(unsafe) var reality = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
     }
 }
 
-package struct ViewStyleOverrides {
+package struct ViewStyleOverrides: Sendable {
     private var registeredStyles: [ObjectIdentifier: Any.Type] = [:]
     private var registeredStyleOverrides: [ObjectIdentifier: Any.Type] = [:]
     private var registeredStyleWriterOverrides: [ObjectIdentifier: Any.Type] = [:]

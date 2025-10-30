@@ -11,12 +11,12 @@ package struct HostPreferencesKey: PreferenceKey {
     }
     
     static func makeNoteId() -> UInt32 {
-        let id = unsafe HostPreferencesKey.nodeId
-        unsafe HostPreferencesKey.nodeId &+= 1
+        let id = HostPreferencesKey.nodeId
+        HostPreferencesKey.nodeId &+= 1
         return id
     }
     
-    fileprivate static nonisolated(unsafe) var nodeId: UInt32 = 0
+    @safe fileprivate static nonisolated(unsafe) var nodeId: UInt32 = 0
 }
 
 struct PreferenceKeys: Equatable, RandomAccessCollection {

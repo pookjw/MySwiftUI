@@ -6,10 +6,10 @@ open class PlatformScrollEdgeEffectTagDefinition {
         fatalError("TODO")
     }
     
-    package static nonisolated(unsafe) var definition: PlatformScrollEdgeEffectTagDefinition.Type?
+    @safe package static nonisolated(unsafe) var definition: PlatformScrollEdgeEffectTagDefinition.Type?
     
     package static func setDefinition(_ type: PlatformScrollEdgeEffectTagDefinition.Type) {
-        unsafe definition = type
+        definition = type
     }
     
     open class var modifier: any PlatformScrollEdgeEffectTagModifier.Type {

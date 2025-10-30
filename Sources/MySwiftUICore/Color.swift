@@ -13,15 +13,15 @@ public struct Color: View, Hashable, CustomStringConvertible, Sendable {
     
     package var provider: AnyColorBox
     
-    package init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
+    package nonisolated init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
         self.provider = ColorBox(UIKitPlatformColorProvider(platformColor: _platformColor))
     }
     
-    package init(box: AnyColorBox) {
+    package nonisolated init(box: AnyColorBox) {
         self.provider = box
     }
     
-    package init(_ resolved: Color.ResolvedHDR) {
+    package nonisolated init(_ resolved: Color.ResolvedHDR) {
         self.provider = ColorBox(ResolvedColorProvider(color: resolved))
     }
     
@@ -79,7 +79,7 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     }
 }
 
-final class ColorBox<T: ColorProvider>: AnyColorBox {
+final class ColorBox<T: ColorProvider>: AnyColorBox, @unchecked Sendable {
     private let base: T
     
     init(_ base: T) {
@@ -372,71 +372,71 @@ extension Color {
 extension Color.ResolvedHDR: BitwiseCopyable, ShapeStyle {}
 
 extension Color {
-    public static let red: Color = {
+    public static nonisolated let red: Color = {
         fatalError("TODO")
     }()
     
-    public static let orange: Color = {
+    public static nonisolated let orange: Color = {
         fatalError("TODO")
     }()
     
-    public static let yellow: Color = {
+    public static nonisolated let yellow: Color = {
         fatalError("TODO")
     }()
     
-    public static let green: Color = {
+    public static nonisolated let green: Color = {
         fatalError("TODO")
     }()
     
-    public static let mint: Color = {
+    public static nonisolated let mint: Color = {
         fatalError("TODO")
     }()
     
-    public static let teal: Color = {
+    public static nonisolated let teal: Color = {
         fatalError("TODO")
     }()
     
-    public static let cyan: Color = {
+    public static nonisolated let cyan: Color = {
         fatalError("TODO")
     }()
     
-    public static let blue = Color(box: ColorBox(SystemColorType.blue))
+    public static nonisolated let blue = Color(box: ColorBox(SystemColorType.blue))
     
-    public static let indigo: Color = {
+    public static nonisolated let indigo: Color = {
         fatalError("TODO")
     }()
     
-    public static let purple: Color = {
+    public static nonisolated let purple: Color = {
         fatalError("TODO")
     }()
     
-    public static let pink: Color = {
+    public static nonisolated let pink: Color = {
         fatalError("TODO")
     }()
     
-    public static let brown: Color = {
+    public static nonisolated let brown: Color = {
         fatalError("TODO")
     }()
     
-    public static let white = Color(.white)
+    public static nonisolated let white = Color(.white)
     
-    public static let gray: Color = {
+    public static nonisolated let gray: Color = {
         fatalError("TODO")
     }()
     
-    public static let black = Color(.black)
+    public static nonisolated let black = Color(.black)
     
-    public static let clear = Color(.clear)
+    public static nonisolated let clear = Color(.clear)
     
-    public static let primary: Color = {
+    public static nonisolated let primary: Color = {
         fatalError("TODO")
     }()
     
-    public static let secondary: Color = {
+    public static nonisolated let secondary: Color = {
         fatalError("TODO")
     }()
     
-    package static let _background: Color = {
+    package static nonisolated let _background: Color = {
         fatalError("TODO")
     }()
 }
@@ -509,8 +509,8 @@ struct UIKitPlatformColorProvider: PlatformColorProvider, Hashable, Serializable
         self.platformColor = platformColor
     }
     
-    var hashValue: Int {
-        return platformColor.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(platformColor)
     }
     
     static func == (lhs: UIKitPlatformColorProvider, rhs: UIKitPlatformColorProvider) -> Bool {

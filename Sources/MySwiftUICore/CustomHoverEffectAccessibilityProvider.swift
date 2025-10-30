@@ -5,18 +5,18 @@ package protocol CustomHoverEffectAccessibilityProvider {
 extension _GraphInputs {
     var customHoverEffectAccessibilityProvider: (any CustomHoverEffectAccessibilityProvider.Type) {
         get {
-            return unsafe self[CustomHoverEffectAccessibilityProviderKey.self]
+            return self[CustomHoverEffectAccessibilityProviderKey.self]
         }
         set {
-            unsafe self[CustomHoverEffectAccessibilityProviderKey.self] = newValue
+            self[CustomHoverEffectAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield unsafe &self[CustomHoverEffectAccessibilityProviderKey.self]
+            yield &self[CustomHoverEffectAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct CustomHoverEffectAccessibilityProviderKey: @unsafe GraphInput {
-        static nonisolated(unsafe) let defaultValue: (any CustomHoverEffectAccessibilityProvider.Type) = EmptyCustomHoverEffectAccessibilityProvider.self
+    fileprivate struct CustomHoverEffectAccessibilityProviderKey: GraphInput {
+        @safe static nonisolated(unsafe) let defaultValue: (any CustomHoverEffectAccessibilityProvider.Type) = EmptyCustomHoverEffectAccessibilityProvider.self
     }
 }
 

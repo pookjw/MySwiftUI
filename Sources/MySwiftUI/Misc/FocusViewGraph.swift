@@ -37,7 +37,7 @@ struct FocusViewGraph {
             CustomEventTrace.recordNamedProperty(.focusStore, focusStoreAttribute)
             focusStore = OptionalAttribute(focusStoreAttribute)
             
-            _ = unsafe CoreTesting.isRunning
+            _ = CoreTesting.isRunning
             isFocusSystemEnabled = OptionalAttribute(Attribute(value: false))
         } else {
             focusedItem = OptionalAttribute()
@@ -62,7 +62,7 @@ extension FocusViewGraph: ViewGraphFeature {
         inputs.base[FocusedItemInputKey.self] = _focusedItem
         inputs.base[FocusedValuesInputKey.self] = _focusedValues
         inputs.base[FocusStoreInputKey.self] = _focusStore
-        unsafe inputs.base[_GraphInputs.IsFocusSystemEnabledKey.self] = _isFocusSystemEnabled
+        inputs.base[_GraphInputs.IsFocusSystemEnabledKey.self] = _isFocusSystemEnabled
     }
     
     func uninstantiate(graph: ViewGraph) {

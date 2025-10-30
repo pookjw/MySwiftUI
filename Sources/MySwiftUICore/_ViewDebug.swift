@@ -5,20 +5,20 @@ private import _DarwinFoundation3._stdlib
 private import AttributeGraph
 
 public enum _ViewDebug {
-    static nonisolated(unsafe) var isInitialized = false
-    static nonisolated(unsafe) var properties: _ViewDebug.Properties = []
+    @safe static nonisolated(unsafe) var isInitialized = false
+    @safe static nonisolated(unsafe) var properties: _ViewDebug.Properties = []
 }
 
 extension _ViewDebug {
     static func initialize(inputs: inout _ViewInputs) {
-        if unsafe !_ViewDebug.isInitialized {
+        if !_ViewDebug.isInitialized {
             if let value = unsafe getenv("SWIFTUI_VIEW_DEBUG") {
-                unsafe _ViewDebug.properties = unsafe _ViewDebug.Properties(rawValue: UInt32(atoi(value)))
+                _ViewDebug.properties = unsafe _ViewDebug.Properties(rawValue: UInt32(atoi(value)))
             }
-            unsafe _ViewDebug.isInitialized = true
+            _ViewDebug.isInitialized = true
         }
         
-        if unsafe !_ViewDebug.properties.isEmpty {
+        if !_ViewDebug.properties.isEmpty {
             Subgraph.setShouldRecordTree()
         }
     }

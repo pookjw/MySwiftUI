@@ -90,3 +90,5 @@ extension AtomicBox: Hashable where T: Hashable {
         wrappedValue.hash(into: &hasher)
     }
 }
+
+extension AtomicBox: @unchecked Sendable {}

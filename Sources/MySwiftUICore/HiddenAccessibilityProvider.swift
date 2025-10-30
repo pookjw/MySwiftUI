@@ -5,18 +5,18 @@ package protocol HiddenAccessibilityProvider {
 extension _GraphInputs {
     var hiddenAccessibilityProvider: (any HiddenAccessibilityProvider.Type) {
         get {
-            return unsafe self[HiddenAccessibilityProviderKey.self]
+            return self[HiddenAccessibilityProviderKey.self]
         }
         set {
-            unsafe self[HiddenAccessibilityProviderKey.self] = newValue
+            self[HiddenAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield unsafe &self[HiddenAccessibilityProviderKey.self]
+            yield &self[HiddenAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct HiddenAccessibilityProviderKey: @unsafe GraphInput {
-        static nonisolated(unsafe) let defaultValue: (any HiddenAccessibilityProvider.Type) = EmptyHiddenAccessibilityProvider.self
+    fileprivate struct HiddenAccessibilityProviderKey: GraphInput {
+        @safe static nonisolated(unsafe) let defaultValue: (any HiddenAccessibilityProvider.Type) = EmptyHiddenAccessibilityProvider.self
     }
 }
 

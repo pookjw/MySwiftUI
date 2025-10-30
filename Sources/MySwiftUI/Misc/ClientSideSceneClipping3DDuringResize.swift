@@ -3,12 +3,12 @@ private import FeatureFlags
 
 struct ClientSideSceneClipping3DDuringResize: Feature {
     @usableFromInline
-    static nonisolated(unsafe) var isEnabledForTesting: Bool = false
+    @safe static nonisolated(unsafe) var isEnabledForTesting: Bool = false
     
     @inlinable
     static var isEnabled: Bool {
         let result: Bool
-        if unsafe ClientSideSceneClipping3DDuringResize.isEnabledForTesting {
+        if ClientSideSceneClipping3DDuringResize.isEnabledForTesting {
             result = true
         } else {
             result = isFeatureEnabled(ClientSideSceneClipping3DDuringResize.Key())

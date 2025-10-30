@@ -1,6 +1,6 @@
 #warning("TODO")
 
-package struct InterfaceIdiom: Hashable {
+package struct InterfaceIdiom: Hashable, Sendable {
     package static var phone: InterfaceIdiom { return InterfaceIdiom(role: .phone) }
     package static var pad: InterfaceIdiom { return InterfaceIdiom(role: .pad) }
     package static var tv: InterfaceIdiom { return InterfaceIdiom(role: .tv) }
@@ -19,7 +19,7 @@ package struct InterfaceIdiom: Hashable {
 }
 
 extension InterfaceIdiom {
-    private enum Role {
+    private enum Role: Sendable {
         case carPlay
         case clarityUI
         case complication
@@ -36,7 +36,7 @@ extension InterfaceIdiom {
     }
 }
 
-package struct AnyInterfaceIdiom: Hashable {
+package struct AnyInterfaceIdiom: Hashable, Sendable {
     package static func == (lhs: AnyInterfaceIdiom, rhs: AnyInterfaceIdiom) -> Bool {
         return lhs.base == rhs.base
     }

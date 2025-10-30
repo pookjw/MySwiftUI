@@ -17,7 +17,7 @@ package func onNextMainRunLoop(do block: @MainActor @Sendable @escaping () -> Vo
 }
 
 fileprivate nonisolated(unsafe) var observer: CFRunLoopObserver?
-fileprivate nonisolated(unsafe) var observerActions: [() -> Void] = []
+@safe fileprivate nonisolated(unsafe) var observerActions: [() -> Void] = []
 
 extension RunLoop {
     package static func addObserver(_ action: @escaping () -> Void) {
@@ -49,22 +49,22 @@ extension RunLoop {
             }
         }
         
-        unsafe observerActions.append(action)
+        observerActions.append(action)
     }
     
     package static func flushObservers() {
         while true {
-            let actions = unsafe observerActions
+            let actions = observerActions
             guard !actions.isEmpty else {
                 break
             }
             
-            unsafe observerActions = []
+            observerActions = []
             
             Update.begin()
             
-            let actionID = unsafe Update.Action.nextActionID
-            unsafe Update.Action.nextActionID &+= 2
+            let actionID = Update.Action.nextActionID
+            Update.Action.nextActionID &+= 2
             
             for action in actions {
                 CustomEventTrace.startAction(actionID, nil)

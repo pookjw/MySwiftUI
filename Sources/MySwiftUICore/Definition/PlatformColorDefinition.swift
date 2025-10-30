@@ -1,8 +1,8 @@
 #warning("TODO")
 public import Foundation
 
-fileprivate nonisolated(unsafe) var uiKitType: PlatformColorDefinition.Type?
-fileprivate nonisolated(unsafe) var appKitType: PlatformColorDefinition.Type?
+@safe fileprivate nonisolated(unsafe) var uiKitType: PlatformColorDefinition.Type?
+@safe fileprivate nonisolated(unsafe) var appKitType: PlatformColorDefinition.Type?
 
 @_spi(Internal)
 open class PlatformColorDefinition {
@@ -30,10 +30,10 @@ open class PlatformColorDefinition {
         fatalError("TODO")
     }
     
-    package static nonisolated(unsafe) var uiKit: PlatformColorDefinition?
-    package static nonisolated(unsafe) var uiKitInternal: PlatformColorDefinition?
-    package static nonisolated(unsafe) var appKit: PlatformColorDefinition?
-    package static nonisolated(unsafe) var appKitInternal: PlatformColorDefinition?
+    @safe package static nonisolated(unsafe) var uiKit: PlatformColorDefinition?
+    @safe package static nonisolated(unsafe) var uiKitInternal: PlatformColorDefinition?
+    @safe package static nonisolated(unsafe) var appKit: PlatformColorDefinition?
+    @safe package static nonisolated(unsafe) var appKitInternal: PlatformColorDefinition?
     
     package static func setDefinition(_ type: PlatformColorDefinition.Type, system: PlatformSystemDefinition) {
         fatalError("TODO")
@@ -42,9 +42,9 @@ open class PlatformColorDefinition {
     package static func setInternalDefinition(_ type: PlatformColorDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .uiKit:
-            unsafe uiKitType = type
+            uiKitType = type
         case .appKit:
-            unsafe appKitType = type
+            appKitType = type
         default:
             break
         }

@@ -5,3 +5,5 @@ package struct WeakBox<T: AnyObject> {
         self.base = base
     }
 }
+
+extension WeakBox : Sendable where T : Sendable {}

@@ -2,7 +2,7 @@
 private import MySwiftUICore
 
 final class HostingViewRegistry {
-    static nonisolated(unsafe) let shared = HostingViewRegistry()
+    @safe static nonisolated(unsafe) let shared = HostingViewRegistry()
     private var elements: [ObjectIdentifier : WeakBox<AnyObject>] = [:]
     
     func add<T: HostingViewProtocol>(_ view: T) {

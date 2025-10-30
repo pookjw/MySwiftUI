@@ -11,7 +11,7 @@ private import TCC
 private import ARKit
 private import AttributeGraph
 
-fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
+@safe fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
 
 open class _UIHostingView<Content: View>: UIView {
     class var ignoresPresentations: Bool {
@@ -342,8 +342,8 @@ open class _UIHostingView<Content: View>: UIView {
         unsafe notificationCenter.addObserver(self, selector: #selector(accessibilityFocusedElementDidChange(_:)), name: UIAccessibility.elementFocusedNotification, object: nil)
         addToHostingViewRegistry()
         
-        if unsafe !Spacing.hasSetupDefaultValue {
-            unsafe Spacing.hasSetupDefaultValue = true
+        if !Spacing.hasSetupDefaultValue {
+            Spacing.hasSetupDefaultValue = true
         }
         
         Update.end()
@@ -499,7 +499,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private func addToHostingViewRegistry() {
-        unsafe HostingViewRegistry.shared.add(self)
+        HostingViewRegistry.shared.add(self)
     }
     
     final func updateEventBridge() {
@@ -848,7 +848,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+1384>
-        if unsafe !ViewGraphBridgePropertiesAreInput.isEnabled {
+        if !ViewGraphBridgePropertiesAreInput.isEnabled {
             if let delegate {
                 delegate.hostingView(self, willUpdate: &resolved.viewGraphBridgeProperties)
             }
@@ -933,7 +933,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         if
-            unsafe ViewGraphBridgePropertiesAreInput.isEnabled,
+            ViewGraphBridgePropertiesAreInput.isEnabled,
             let viewController
         {
             viewController.updateViewGraphBridges(&viewGraphBridgeProperties)
@@ -950,7 +950,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         
         // <+3364>
         if
-            unsafe !ViewGraphBridgePropertiesAreInput.isEnabled,
+            !ViewGraphBridgePropertiesAreInput.isEnabled,
             let sheetBridge
         {
             sheetBridge.hostingView(self, willUpdate: &viewGraphBridgeProperties)
@@ -977,7 +977,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
             renderingMarginsBridge.updateEffectiveClippingMargins(environment: &resolved)
         }
         
-        if let appDelegate = unsafe AppDelegate.shared {
+        if let appDelegate = AppDelegate.shared {
             let immersiveSpaceAuthority = appDelegate.immersiveSpaceAuthority
             let windowScene = window?.windowScene
             let immersiveSpaceScene = immersiveSpaceAuthority.immersiveSpaceScene
@@ -1070,7 +1070,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+5268>
-        if unsafe !ViewGraphBridgePropertiesAreInput.isEnabled {
+        if !ViewGraphBridgePropertiesAreInput.isEnabled {
             resolved.viewGraphBridgeProperties = viewGraphBridgeProperties
         }
         
@@ -1451,7 +1451,7 @@ extension _UIHostingView: @preconcurrency ViewGraphBridgePropertiesDelegate {
 }
 
 extension Spacing {
-    fileprivate static nonisolated(unsafe) var hasSetupDefaultValue = false
+    @safe fileprivate static nonisolated(unsafe) var hasSetupDefaultValue = false
 }
 
 extension UITraitCollection {
@@ -1552,5 +1552,5 @@ extension UITraitCollection {
 }
 
 fileprivate struct BridgedEnvironmentKeysKey: EnvironmentKey {
-    static let defaultValue: [(any EnvironmentKey).Type] = []
+    @safe static nonisolated(unsafe) let defaultValue: [(any EnvironmentKey).Type] = []
 }

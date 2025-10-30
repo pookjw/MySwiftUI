@@ -40,7 +40,10 @@ let package = Package(
             ],
             swiftSettings: [
                 .strictMemorySafety(),
-                .enableExperimentalFeature("SymbolLinkageMarkers")
+                .enableExperimentalFeature("SymbolLinkageMarkers"),
+//                .defaultIsolation(MainActor.self),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
             ]
         ),
         .target(
@@ -60,7 +63,10 @@ let package = Package(
                 .unsafeFlags([
                     "-Xfrontend",
                     "-enable-private-imports"
-                ])
+                ]),
+//                .defaultIsolation(MainActor.self),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
             ],
             linkerSettings: [
                 .linkedFramework("UIKit")
@@ -89,7 +95,10 @@ let package = Package(
                 .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"]))
             ],
             swiftSettings: [
-                .strictMemorySafety()
+                .strictMemorySafety(),
+//                .defaultIsolation(MainActor.self),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
             ]
         ),
         .target(
@@ -175,7 +184,10 @@ let package = Package(
                 .byName(name: "MySwiftUITestUtils")
             ],
             swiftSettings: [
-                .strictMemorySafety()
+                .strictMemorySafety(),
+//                .defaultIsolation(MainActor.self),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
             ]
         ),
         .testTarget(
@@ -186,7 +198,10 @@ let package = Package(
                 .byName(name: "_SwiftUICorePrivate"),
             ],
             swiftSettings: [
-                .strictMemorySafety()
+                .strictMemorySafety(),
+//                .defaultIsolation(MainActor.self),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
             ]
         )
     ]

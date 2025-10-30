@@ -1,9 +1,7 @@
 #warning("TODO")
 
-public struct EmptyView: PrimitiveView {
-    public init() {
-        #warning("TODO: Implement EmptyView")
-    }
+@frozen public struct EmptyView: PrimitiveView {
+    @inlinable public nonisolated init() {}
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         fatalError("TODO")

@@ -16,7 +16,7 @@ fileprivate let lockAssertionsAreEnabled: Bool = {
 
 package enum Update {
     private static let _lock = MovableLock.create()
-    private static nonisolated(unsafe) var depth: Int = 0
+    @safe private static nonisolated(unsafe) var depth: Int = 0
     private static nonisolated(unsafe) var actions: [Update.Action] = []
     static nonisolated(unsafe) let traceHost: AnyObject = TraceHost()
     
@@ -35,9 +35,9 @@ package enum Update {
     
     package static func begin() {
         Update._lock.lock()
-        unsafe Update.depth += 1
+        Update.depth += 1
         
-        guard unsafe Update.depth == 1 else {
+        guard Update.depth == 1 else {
             return
         }
         
@@ -79,7 +79,7 @@ package enum Update {
     }
     
     package static func end() {
-        if unsafe Update.depth == 1 {
+        if Update.depth == 1 {
             Update.dispatchActions()
             
             let traceHost = unsafe Update.traceHost
@@ -91,7 +91,7 @@ package enum Update {
             )
         }
         
-        unsafe Update.depth -= 1
+        Update.depth -= 1
         Update._lock.unlock()
     }
     
@@ -108,8 +108,8 @@ package enum Update {
     package static func dispatchImmediately<T>(reason: CustomEventTrace.ActionEventType.Reason?, _ handler: () -> T) -> T {
         Update.begin()
         
-        let actionID = unsafe Update.Action.nextActionID
-        unsafe Update.Action.nextActionID &+= 2
+        let actionID = Update.Action.nextActionID
+        Update.Action.nextActionID &+= 2
         
         defer {
             CustomEventTrace.finishAction(actionID, reason)
@@ -202,7 +202,7 @@ extension Update {
 
 extension Update {
     struct Action {
-        static nonisolated(unsafe) var nextActionID: UInt32 = 1
+        @safe static nonisolated(unsafe) var nextActionID: UInt32 = 1
         private let reason: CustomEventTrace.ActionEventType.Reason?
         private let thunk: () -> Void
         fileprivate let actionID: UInt32
@@ -211,8 +211,8 @@ extension Update {
             self.reason = reason
             self.thunk = thunk
             
-            let w23 = unsafe (Update.Action.nextActionID &>> 1) + 1
-            unsafe Update.Action.nextActionID &+= 2
+            let w23 = (Update.Action.nextActionID &>> 1) + 1
+            Update.Action.nextActionID &+= 2
             self.actionID = w23
             
             CustomEventTrace.enqueueAction(w23, reason)

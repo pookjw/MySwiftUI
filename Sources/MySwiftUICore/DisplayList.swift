@@ -9,7 +9,7 @@ internal import Spatial
 private import _DarwinFoundation3._stdlib
 internal import AttributeGraph
 
-fileprivate nonisolated(unsafe) var printTree: Bool? = nil
+@safe fileprivate nonisolated(unsafe) var printTree: Bool? = nil
 
 package struct DisplayList {
     package var items: [DisplayList.Item] = []
@@ -131,7 +131,7 @@ extension DisplayList {
 
 extension DisplayList {
     package struct Version: Comparable, Hashable {
-        private static nonisolated(unsafe) var lastValue: Int = 0
+        @safe private static nonisolated(unsafe) var lastValue: Int = 0
         
         package static func < (lhs: DisplayList.Version, rhs: DisplayList.Version) -> Bool {
             return lhs.value < rhs.value
@@ -144,13 +144,13 @@ extension DisplayList {
         }
         
         package init(decodedValue: Int) {
-            unsafe DisplayList.Version.lastValue = max(unsafe DisplayList.Version.lastValue, decodedValue)
+            DisplayList.Version.lastValue = max( DisplayList.Version.lastValue, decodedValue)
             self.value = decodedValue
         }
         
         package init(forUpdate: Void) {
-            let value = unsafe DisplayList.Version.lastValue + 1
-            unsafe DisplayList.Version.lastValue = value
+            let value = DisplayList.Version.lastValue + 1
+            DisplayList.Version.lastValue = value
             self.value = value
         }
         
@@ -263,7 +263,7 @@ extension DisplayList {
             self.lastTime = time
             
             let _printTree: Bool
-            if let printTree = unsafe printTree {
+            if let printTree = printTree {
                 _printTree = printTree
             } else {
                 if let value = unsafe getenv("SWIFTUI_PRINT_TREE") {
@@ -271,7 +271,7 @@ extension DisplayList {
                 } else {
                     _printTree = false
                 }
-                unsafe printTree = _printTree
+                printTree = _printTree
             }
             
             if _printTree {
@@ -621,7 +621,7 @@ extension DisplayList.ViewUpdater {
         private var nextUpdate: Time
     }
     
-    struct PlatformViewInfo {
+    @safe struct PlatformViewInfo {
         private let view: AnyObject
         private let kind: PlatformViewDefinition.ViewKind
         private var state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>
@@ -698,7 +698,7 @@ extension DisplayList {
 }
 
 extension DisplayList.ViewUpdater {
-    struct AsyncLayer {
+    @safe struct AsyncLayer {
         private var layer: CALayer
         private let cache: UnsafeMutablePointer<DisplayList.ViewUpdater.ViewCache>
         private let kind: PlatformViewDefinition.ViewKind
@@ -987,7 +987,7 @@ extension DisplayList.ViewUpdater {
             private var style: FillStyle
         }
         
-        struct State {
+        @unsafe struct State {
             private var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
             private var opacity: Float = 1
             private var blend: GraphicsBlendMode = unsafe .normal
@@ -1126,12 +1126,12 @@ protocol _DisplayList_AnyEffectAnimator {
     // TODO
 }
 
-struct _DisplayList_StableIdentity {
+struct _DisplayList_StableIdentity: Sendable {
     var hash: StrongHash
     var serial: UInt32
 }
 
-struct _DisplayList_StableIdentityMap {
+struct _DisplayList_StableIdentityMap: Sendable {
     fileprivate var map: [_DisplayList_Identity: _DisplayList_StableIdentity]
 }
 
@@ -1290,14 +1290,14 @@ extension DisplayList.ViewRenderer {
     }
 }
 
-fileprivate nonisolated(unsafe) var lastIdentity: UInt32 = 0
+@safe fileprivate nonisolated(unsafe) var lastIdentity: UInt32 = 0
 
-package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible {
+package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible, Sendable {
     var value: UInt32
     
     init() {
-        let identity = unsafe (lastIdentity &+ 1)
-        unsafe lastIdentity = identity
+        let identity = (lastIdentity &+ 1)
+        lastIdentity = identity
         self.value = identity
     }
     
@@ -1320,7 +1320,7 @@ extension DisplayList {
             return true
         }
         
-        static nonisolated(unsafe) let defaultValue = DisplayList()
+        @safe static nonisolated(unsafe) let defaultValue = DisplayList()
         
         static func reduce(value: inout DisplayList, nextValue: () -> DisplayList) {
             value.append(contentsOf: nextValue())
@@ -1378,8 +1378,8 @@ extension DisplayList {
     }
 }
 
-struct _DisplayList_StableIdentityScope: @unsafe ViewInput {
-    static nonisolated(unsafe) let defaultValue = WeakAttribute<_DisplayList_StableIdentityScope>()
+struct _DisplayList_StableIdentityScope: ViewInput {
+    static let defaultValue = WeakAttribute<_DisplayList_StableIdentityScope>()
     
     let root: _DisplayList_StableIdentityRoot
     let hash: StrongHash
@@ -1417,6 +1417,6 @@ extension _ViewInputs {
             return
         }
         
-        unsafe self[_DisplayList_StableIdentityScope.self].projectedValue!.value.pushIdentity(identity: identity)
+        self[_DisplayList_StableIdentityScope.self].projectedValue!.value.pushIdentity(identity: identity)
     }
 }

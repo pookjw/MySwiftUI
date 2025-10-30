@@ -18,6 +18,26 @@
     }
 }
 
+extension ViewBuilder {
+    @_alwaysEmitIntoClient public static func buildIf<Content>(_ content: Content?) -> Content? where Content : View {
+        content
+    }
+    
+//    @_alwaysEmitIntoClient public static func buildEither<TrueContent, FalseContent>(first: TrueContent) -> _ConditionalContent<TrueContent, FalseContent> where TrueContent : View, FalseContent : View {
+//        .init(storage: .trueContent(first))
+//    }
+//    
+//    @_alwaysEmitIntoClient public static func buildEither<TrueContent, FalseContent>(second: FalseContent) -> _ConditionalContent<TrueContent, FalseContent> where TrueContent : View, FalseContent : View {
+//        .init(storage: .falseContent(second))
+//    }
+}
+
+extension ViewBuilder {
+    @_alwaysEmitIntoClient public static func buildLimitedAvailability<Content>(_ content: Content) -> AnyView where Content : View {
+        .init(content)
+    }
+}
+
 @available(*, unavailable)
 extension ViewBuilder : Sendable {
 }

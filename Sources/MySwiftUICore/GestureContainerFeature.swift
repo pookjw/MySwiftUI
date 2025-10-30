@@ -3,12 +3,12 @@ private import Foundation
 private import _DarwinFoundation3._stdlib
 
 package struct GestureContainerFeature {
-    package static nonisolated(unsafe) var isEnabled: Bool {
-        if let isEnabledOverride = unsafe isEnabledOverride {
+    @safe package static nonisolated(unsafe) var isEnabled: Bool {
+        if let isEnabledOverride = isEnabledOverride {
             return isEnabledOverride
         }
         
-        if unsafe CoreTesting.isRunning {
+        if CoreTesting.isRunning {
             return false
         }
         
@@ -31,7 +31,7 @@ package struct GestureContainerFeature {
         return isLinkedOnOrAfter(.v6)
     }
     
-    static nonisolated(unsafe) var isEnabledOverride: Bool? = nil
+    @safe static nonisolated(unsafe) var isEnabledOverride: Bool? = nil
     
     fileprivate static let userDefaultsValue: Bool? = {
         guard let boolValue = UserDefaults.standard.object(forKey: "com.apple.SwiftUI.GestureContainers") as? Bool else {

@@ -128,7 +128,7 @@ final class RootViewDelegate {
             }
             
             // <+2020>
-            if let appDelegate = unsafe AppDelegate.shared {
+            if let appDelegate = AppDelegate.shared {
                 if let mainMenuController = appDelegate.mainMenuController {
                     mainMenuController.commandsDidChange()
                 }

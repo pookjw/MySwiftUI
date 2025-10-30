@@ -82,7 +82,7 @@ private import AttributeGraph
     @inlinable
     package init(data: AnyObject?) {
         if let data {
-            self.elements = data as! PropertyList.Element
+            self.elements = (data as! PropertyList.Element)
         }
     }
     
