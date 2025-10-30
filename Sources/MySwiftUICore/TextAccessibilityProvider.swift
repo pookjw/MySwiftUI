@@ -7,17 +7,17 @@ package protocol TextAccessibilityProvider: View {
 extension _GraphInputs {
     var textAccessibilityProvider: (any TextAccessibilityProvider.Type) {
         get {
-            return self[TextAccessibilityProviderKey.self]
+            return unsafe self[TextAccessibilityProviderKey.self]
         }
         set {
-            self[TextAccessibilityProviderKey.self] = newValue
+            unsafe self[TextAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield &self[TextAccessibilityProviderKey.self]
+            yield unsafe &self[TextAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct TextAccessibilityProviderKey: GraphInput {
+    fileprivate struct TextAccessibilityProviderKey: @unsafe GraphInput {
         static nonisolated(unsafe) let defaultValue: (any TextAccessibilityProvider.Type) = EmptyTextAccessibilityProvider.self
     }
 }

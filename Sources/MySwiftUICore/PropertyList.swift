@@ -43,15 +43,15 @@ private import AttributeGraph
         }
         
         var ignoredTypes: [ObjectIdentifier] = []
-        return !compareLists(Unmanaged.passUnretained(otherElements), Unmanaged.passUnretained(selfElements), ignoredTypes: &ignoredTypes)
+        return unsafe !compareLists(Unmanaged.passUnretained(otherElements), Unmanaged.passUnretained(selfElements), ignoredTypes: &ignoredTypes)
     }
     
     package subscript<Key: PropertyKey>(_ key: Key.Type) -> Key.Value {
         get {
             // $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluig
             withExtendedLifetime(elements) { elements in
-                if let result = find(elements.map { .passUnretained($0) }, key: key) {
-                    return result.takeUnretainedValue().value
+                if let result = unsafe find(elements.map { unsafe .passUnretained($0) }, key: key) {
+                    return unsafe result.takeUnretainedValue().value
                 } else {
                     return key.defaultValue
                 }
@@ -61,13 +61,13 @@ private import AttributeGraph
             // $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluis
             let ref: Unmanaged<PropertyList.Element>?
             if let elements {
-                ref = .passUnretained(elements)
+                unsafe ref = unsafe .passUnretained(elements)
             } else {
-                ref = nil
+                unsafe ref = nil
             }
             
-            if let element = find(ref, key: key) {
-                if Key.valuesEqual(newValue, element.takeUnretainedValue().value) {
+            if let element = unsafe find(ref, key: key) {
+                if unsafe Key.valuesEqual(newValue, element.takeUnretainedValue().value) {
                     return
                 }
             }
@@ -184,11 +184,11 @@ private import AttributeGraph
                     }
                     
                     // <+628>
-                    let afterOtherElements: [PropertyList.Element] = .init(unsafeUninitializedCapacity: depth) { buffer, initializedCount in
+                    let afterOtherElements: [PropertyList.Element] = unsafe .init(unsafeUninitializedCapacity: depth) { buffer, initializedCount in
                         initializedCount = depth
                         var current: PropertyList.Element = otherElements
-                        for i in 0..<depth {
-                            buffer.baseAddress.unsafelyUnwrapped.initialize(to: current)
+                        for _ in 0..<depth {
+                            unsafe buffer.baseAddress.unsafelyUnwrapped.initialize(to: current)
                             current = current.after!
                         }
                     }
@@ -203,7 +203,7 @@ private import AttributeGraph
             }
             
             // <+388>
-            if let before = selfElements.before {
+            if selfElements.before != nil {
                 // <+396>
                 self.elements = PropertyList.Element(keyType: EmptyKey.self, before: otherElements, after: selfElements)
                 return
@@ -436,52 +436,52 @@ fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
      Primary = x28
      Secondary = x29 = 0x80
      */
-    guard let element else {
+    guard let element = unsafe element else {
         return nil
     }
     
     // x21
-    var skip: Unmanaged<PropertyList.Element> = element
+    var skip: Unmanaged<PropertyList.Element> = unsafe element
     while true {
-        if skip.takeUnretainedValue().skipFilter.mayContain(filter) {
+        if unsafe skip.takeUnretainedValue().skipFilter.mayContain(filter) {
             if
-                let before = skip.takeUnretainedValue().before,
-                let result = findValueWithSecondaryLookup(Unmanaged.passUnretained(before), secondaryLookupHandler: secondaryLookupHandler, filter: filter, secondaryFilter: secondaryFilter)
+                let before = unsafe skip.takeUnretainedValue().before,
+                let result = unsafe findValueWithSecondaryLookup(Unmanaged.passUnretained(before), secondaryLookupHandler: secondaryLookupHandler, filter: filter, secondaryFilter: secondaryFilter)
             {
                 return result
             }
             
-            let keyType = skip.takeUnretainedValue().keyType
+            let keyType = unsafe skip.takeUnretainedValue().keyType
             if keyType == T.Primary.self {
                 // <+876>
                 // offset 0x48에 접근하는 것을 보아 TypedElement.value를 가져오는 것으로 보임
-                let element = Unmanaged<TypedElement<T.Primary>>.fromOpaque(skip.toOpaque())
-                let value = element.takeUnretainedValue().value
+                let element = unsafe Unmanaged<TypedElement<T.Primary>>.fromOpaque(skip.toOpaque())
+                let value = unsafe element.takeUnretainedValue().value
                 return value
             }
             
             if keyType == T.Secondary.self {
                 // <+672>
                 // offset 0x48에 접근하는 것을 보아 TypedElement.value를 가져오는 것으로 보임
-                let element = Unmanaged<TypedElement<T.Secondary>>.fromOpaque(skip.toOpaque())
-                let value = element.takeUnretainedValue().value
+                let element = unsafe Unmanaged<TypedElement<T.Secondary>>.fromOpaque(skip.toOpaque())
+                let value = unsafe element.takeUnretainedValue().value
                 guard let result = T.lookup(in: value) else {
                     continue
                 }
                 return result
             }
             
-            if let after = skip.takeUnretainedValue().after {
-                skip = .passUnretained(after)
+            if let after = unsafe skip.takeUnretainedValue().after {
+                unsafe skip = unsafe .passUnretained(after)
                 continue
             }
             
             return nil
         } else {
-            guard let newSkip = skip.takeUnretainedValue().skip else {
+            guard let newSkip = unsafe skip.takeUnretainedValue().skip else {
                 return nil
             }
-            skip = newSkip
+            unsafe skip = unsafe newSkip
         }
     }
     
@@ -489,36 +489,36 @@ fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
 }
 
 fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type, filter: BloomFilter) -> Unmanaged<TypedElement<T>>? {
-    guard let element else {
+    guard let element = unsafe element else {
         return nil
     }
     
     // filter = x22
-    var skip: Unmanaged<PropertyList.Element> = element
+    var skip: Unmanaged<PropertyList.Element> = unsafe element
     while true {
-        if skip.takeUnretainedValue().skipFilter.mayContain(filter) {
+        if unsafe skip.takeUnretainedValue().skipFilter.mayContain(filter) {
             if
-                let before = skip.takeUnretainedValue().before,
-                let result = find1(Unmanaged.passUnretained(before), key: key, filter: filter)
+                let before = unsafe skip.takeUnretainedValue().before,
+                let result = unsafe find1(Unmanaged.passUnretained(before), key: key, filter: filter)
             {
-                return result
+                return unsafe result
             }
             
-            if skip.takeUnretainedValue().keyType == key {
-                return Unmanaged.fromOpaque(skip.toOpaque())
+            if unsafe skip.takeUnretainedValue().keyType == key {
+                return unsafe Unmanaged.fromOpaque(skip.toOpaque())
             }
             
-            if let after = skip.takeUnretainedValue().after {
-                skip = .passUnretained(after)
+            if let after = unsafe skip.takeUnretainedValue().after {
+                unsafe skip = unsafe .passUnretained(after)
                 continue
             }
             
             return nil
         } else {
-            guard let newSkip = skip.takeUnretainedValue().skip else {
+            guard let newSkip = unsafe skip.takeUnretainedValue().skip else {
                 return nil
             }
-            skip = newSkip
+            unsafe skip = unsafe newSkip
         }
     }
     
@@ -526,7 +526,7 @@ fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element
 }
 
 fileprivate func compareLists(_ source: Unmanaged<PropertyList.Element>, _ against: Unmanaged<PropertyList.Element>, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
-    guard source.takeUnretainedValue().length == against.takeUnretainedValue().length else {
+    guard unsafe source.takeUnretainedValue().length == against.takeUnretainedValue().length else {
         return false
     }
     
@@ -534,12 +534,12 @@ fileprivate func compareLists(_ source: Unmanaged<PropertyList.Element>, _ again
      source = x20
      against = x19
      */
-    guard source == against else {
+    guard unsafe source == against else {
         return false
     }
     
     // ignoredTypes = x21
-    guard source.takeUnretainedValue().matches(against.takeUnretainedValue(), ignoredTypes: &ignoredTypes) else {
+    guard unsafe source.takeUnretainedValue().matches(against.takeUnretainedValue(), ignoredTypes: &ignoredTypes) else {
         return false
     }
     
@@ -573,7 +573,7 @@ fileprivate func compare(_ source: [ObjectIdentifier: AnyTrackedValue], against:
 }
 
 fileprivate func find<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type) -> Unmanaged<TypedElement<T>>? {
-    return find1(element, key: key, filter: BloomFilter(type: key))
+    return unsafe find1(element, key: key, filter: BloomFilter(type: key))
 }
 
 fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
@@ -636,7 +636,7 @@ package final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
         
         if let selfElement, let otherElement {
             var ignoreTypes: [ObjectIdentifier] = []
-            return compareLists(Unmanaged.passUnretained(selfElement), Unmanaged.passUnretained(otherElement), ignoredTypes: &ignoreTypes)
+            return unsafe compareLists(Unmanaged.passUnretained(selfElement), Unmanaged.passUnretained(otherElement), ignoredTypes: &ignoreTypes)
         } else if (selfElement == nil) && (otherElement == nil) {
             return true
         } else {
@@ -674,5 +674,5 @@ fileprivate protocol AnyTrackedValue {
 }
 
 fileprivate struct EmptyKey: PropertyKey {
-    static let defaultValue = ()
+    static let defaultValue: () = ()
 }

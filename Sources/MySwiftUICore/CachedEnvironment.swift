@@ -35,7 +35,7 @@ package struct CachedEnvironment {
          x23 = sp + 0x60
          */
         // sp + 0x180 (x29 - 0xa0 / x23 + 0x120)
-        var copy_1 = inputs
+        let copy_1 = inputs
         
         guard !copy_1.base.options.isEmpty else {
             return inputs.position
@@ -120,8 +120,8 @@ package struct CachedEnvironment {
 
 extension CachedEnvironment {
     package struct ID: Equatable {
-        static nonisolated(unsafe) let layoutDirection = CachedEnvironment.ID(base: UniqueID())
-        static nonisolated(unsafe) let pixelLength = CachedEnvironment.ID(base: UniqueID())
+        static let layoutDirection = CachedEnvironment.ID(base: UniqueID())
+        static let pixelLength = CachedEnvironment.ID(base: UniqueID())
         
         var base: UniqueID
     }
@@ -151,7 +151,7 @@ extension CachedEnvironment {
              environment = x2
              */
             // sp + 0x140 (x29 - 0xb0)
-            var copy = inputs
+            let copy = inputs
             let animatedFrame: Attribute<ViewFrame>
             if !copy.base.options.contains(.supportsVariableFrameDuration) {
                 // <+120>

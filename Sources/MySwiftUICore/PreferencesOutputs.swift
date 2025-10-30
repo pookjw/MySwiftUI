@@ -92,7 +92,7 @@ package struct PreferencesOutputs {
 
 extension PreferencesOutputs {
     fileprivate struct KeyValue {
-        var key: PreferenceKey.Type
+        var key: any PreferenceKey.Type
         var value: AnyAttribute
     }
 }

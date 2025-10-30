@@ -137,7 +137,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }() 
     
     static var isUpdating: Bool {
-        return GraphHost.sharedGraph.counter(options: [.unknown1, .unknown2, .unknown4]) != 0
+        return unsafe GraphHost.sharedGraph.counter(options: [.unknown1, .unknown2, .unknown4]) != 0
     }
     
     static var currentHost: GraphHost {
@@ -154,11 +154,11 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             }
         }
         
-        guard let context = graph?.context else {
+        guard let context = unsafe graph?.context else {
             fatalError("no current graph host")
         }
         
-        return unsafeBitCast(context, to: GraphHost.self)
+        return unsafe unsafeBitCast(context, to: GraphHost.self)
     }
     
     package final var globalSubgraph: Subgraph {

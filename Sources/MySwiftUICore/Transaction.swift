@@ -8,13 +8,13 @@ public struct Transaction {
                 return Transaction()
             }
             
-            let data = Unmanaged<AnyObject>.fromOpaque(transactionData).takeUnretainedValue()
+            let data = unsafe Unmanaged<AnyObject>.fromOpaque(transactionData).takeUnretainedValue()
             return Transaction(plist: PropertyList(data: data))
         }
         set {
             // 원래 없음
-            if let newValue = current.plist.data {
-                _setThreadTransactionData(Unmanaged.passUnretained(newValue).toOpaque())
+            if let newValue = newValue.plist.data {
+                unsafe _setThreadTransactionData(Unmanaged.passUnretained(newValue).toOpaque())
             } else {
                 _setThreadTransactionData(nil)
             }

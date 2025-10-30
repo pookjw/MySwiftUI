@@ -848,7 +848,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+1384>
-        if !ViewGraphBridgePropertiesAreInput.isEnabled {
+        if unsafe !ViewGraphBridgePropertiesAreInput.isEnabled {
             if let delegate {
                 delegate.hostingView(self, willUpdate: &resolved.viewGraphBridgeProperties)
             }
@@ -933,7 +933,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         if
-            ViewGraphBridgePropertiesAreInput.isEnabled,
+            unsafe ViewGraphBridgePropertiesAreInput.isEnabled,
             let viewController
         {
             viewController.updateViewGraphBridges(&viewGraphBridgeProperties)
@@ -950,7 +950,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         
         // <+3364>
         if
-            !ViewGraphBridgePropertiesAreInput.isEnabled,
+            unsafe !ViewGraphBridgePropertiesAreInput.isEnabled,
             let sheetBridge
         {
             sheetBridge.hostingView(self, willUpdate: &viewGraphBridgeProperties)
@@ -977,7 +977,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
             renderingMarginsBridge.updateEffectiveClippingMargins(environment: &resolved)
         }
         
-        if let appDelegate = AppDelegate.shared {
+        if let appDelegate = unsafe AppDelegate.shared {
             let immersiveSpaceAuthority = appDelegate.immersiveSpaceAuthority
             let windowScene = window?.windowScene
             let immersiveSpaceScene = immersiveSpaceAuthority.immersiveSpaceScene
@@ -1012,7 +1012,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
                     flag = false
                 }
             } else {
-                if let immersiveSpaceScene {
+                if immersiveSpaceScene != nil {
                     // <+4112>
                     pose = Pose3D.identity
                     // <+4456>
@@ -1070,7 +1070,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+5268>
-        if !ViewGraphBridgePropertiesAreInput.isEnabled {
+        if unsafe !ViewGraphBridgePropertiesAreInput.isEnabled {
             resolved.viewGraphBridgeProperties = viewGraphBridgeProperties
         }
         
@@ -1481,7 +1481,7 @@ extension UITraitCollection {
         
         // <+940>
         if self._platterGroundingShadowVisibility() != .automatic {
-            environmentValues.platterGroundingShadowVisibility = Visibility(rawValue: self._platterGroundingShadowVisibility().rawValue).unsafelyUnwrapped
+            environmentValues.platterGroundingShadowVisibility = Visibility(rawValue: self._platterGroundingShadowVisibility().rawValue)!
         }
         
         // <+992>
@@ -1523,7 +1523,7 @@ extension UITraitCollection {
             return result
         }
         
-        guard let backgroundMaterial = result.backgroundMaterial else {
+        guard result.backgroundMaterial != nil else {
             return result
         }
         

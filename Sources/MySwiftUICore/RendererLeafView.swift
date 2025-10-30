@@ -21,9 +21,9 @@ extension RendererLeafView {
          */
         // 0x30
         var outputs = _ViewOutputs()
-        var copy_1 = inputs
+        let copy_1 = inputs
         
-        if copy_1.preferences.contains(DisplayList.Key.self) {
+        if unsafe copy_1.preferences.contains(DisplayList.Key.self) {
             // <+284>
             let identity = _DisplayList_Identity()
             copy_1.pushIdentity(identity)
@@ -39,7 +39,7 @@ extension RendererLeafView {
             )
             
             let attribute = Attribute(leaf)
-            outputs[DisplayList.Key.self] = attribute
+            unsafe outputs[DisplayList.Key.self] = attribute
         }
         
         // <+860>

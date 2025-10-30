@@ -262,7 +262,7 @@ package final class UIHostingViewBase: NSObject {
         }
         
         // x23
-        guard let uiview = self.uiView else {
+        guard self.uiView != nil else {
             return
         }
         
@@ -557,6 +557,7 @@ package final class UIHostingViewBase: NSObject {
         return environmentValues
     }
     
+    @MainActor
     package func _updateEnvironment(_ environmentValues: inout MySwiftUICore.EnvironmentValues) {
         guard let uiView else {
             return
@@ -610,6 +611,7 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
+    @MainActor
     package func _endUpdateEnvironment(_ environmentValues: MySwiftUICore.EnvironmentValues) {
         guard let uiView else {
             return
@@ -629,6 +631,7 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.setEnvironment(environmentValues, wrapper: environmentWrapper)
     }
     
+    @MainActor
     private func ___lldb_unnamed_symbol318321(environmentValues: inout MySwiftUICore.EnvironmentValues) {
         // x23
         guard let uiView else {
@@ -640,7 +643,7 @@ package final class UIHostingViewBase: NSObject {
 #if SwiftUICompataibility
         var nativeEnvironmentValues = SwiftUI.EnvironmentValues()
         let hostingView = SwiftUI._UIHostingView(rootView: EmptyView())
-        let base = unsafeBitCast(Mirror(reflecting: hostingView).descendant("_base")!, to: _UIKitPrivate.UIHostingViewBase.self)
+        let base = unsafe unsafeBitCast(Mirror(reflecting: hostingView).descendant("_base")!, to: _UIKitPrivate.UIHostingViewBase.self)
         base.uiView = self.uiView
         base._updateEnvironment(&nativeEnvironmentValues)
         
@@ -866,7 +869,7 @@ package final class UIHostingViewBase: NSObject {
             return
         }
         
-        guard let window = uiView.window else {
+        guard uiView.window != nil else {
             return
         }
         
@@ -890,7 +893,6 @@ package final class UIHostingViewBase: NSObject {
          self = x21
          time (Time *) = x19
          */
-        let flag: Bool
         if lastRenderTime == .zero {
             self.lastRenderTime = Time(seconds: time.seconds - Double(1E-6))
         } else {
@@ -992,20 +994,27 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
 
 extension UIHostingViewBase: ViewGraphHostDelegate {
     package func updateGraphInputs(_ inputs: inout MySwiftUICore._GraphInputs) {
-        // x20
-        guard let uiView else {
-            return
+        var unchecked = UncheckedSendable(inputs)
+        MainActor.assumeIsolated {
+            var inputs = unchecked.value
+            
+            // x20
+            guard let uiView else {
+                return
+            }
+            
+            guard let idiom = ViewGraphHost.Idiom(_msui_uiIdiom: uiView.traitCollection.userInterfaceIdiom) else {
+                return
+            }
+            
+            guard inputs.viewGraphHostIdiom == nil else {
+                return
+            }
+            
+            inputs.viewGraphHostIdiom = idiom
+            unchecked.value = inputs
         }
-        
-        guard let idiom = ViewGraphHost.Idiom(_msui_uiIdiom: uiView.traitCollection.userInterfaceIdiom) else {
-            return
-        }
-        
-        guard inputs.viewGraphHostIdiom == nil else {
-            return
-        }
-        
-        inputs.viewGraphHostIdiom = idiom
+        inputs = unchecked.value
     }
 }
 

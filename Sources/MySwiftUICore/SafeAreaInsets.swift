@@ -42,7 +42,7 @@ struct _SafeAreaInsetsModifier: ViewModifier {
          body = sp + 0x10 & 0x18
          */
         // sp + 0x1a0
-        var copy_1 = inputs
+        let copy_1 = inputs
         // x25
         let id = CoordinateSpace.ID(value: UniqueID())
         // x23
@@ -83,7 +83,7 @@ struct _SafeAreaInsetsModifier: ViewModifier {
         copy_3.transform = transformAttribute
         copy_3.safeAreaInsets = OptionalAttribute(insetsAttribute)
         // sp, #0x20
-        var copy_4 = copy_3
+        let copy_4 = copy_3
         
         return body(_Graph(), copy_4)
     }

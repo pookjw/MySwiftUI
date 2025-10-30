@@ -2,7 +2,7 @@ private import Foundation
 private import MySwiftUICore
 
 enum UIKitUpdateCycle {
-    static nonisolated(unsafe) let defaultUseSetNeedsLayout: Bool = {
+    static let defaultUseSetNeedsLayout: Bool = {
         let userDefaults = UserDefaults.standard
         if let object = UserDefaults.standard.object(forKey: "UseSetNeedsLayoutForUpdates") {
             return userDefaults.bool(forKey: "UseSetNeedsLayoutForUpdates")

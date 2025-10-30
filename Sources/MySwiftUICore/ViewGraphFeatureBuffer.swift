@@ -158,11 +158,11 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
-            elt.body(as: T.self).pointee.modifyViewInputs(inputs: &inputs, graph: graph)
+            unsafe elt.body(as: T.self).pointee.modifyViewInputs(inputs: &inputs, graph: graph)
         }
         
         override class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            elt.body(as: T.self).pointee.modifyViewOutputs(outputs: &outputs, inputs: inputs, graph: graph)
+            unsafe elt.body(as: T.self).pointee.modifyViewOutputs(outputs: &outputs, inputs: inputs, graph: graph)
         }
         
         override class func uninstantiate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
@@ -182,7 +182,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func update(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            elt.body(as: T.self).pointee.update(graph: graph)
+            unsafe elt.body(as: T.self).pointee.update(graph: graph)
         }
     }
 }

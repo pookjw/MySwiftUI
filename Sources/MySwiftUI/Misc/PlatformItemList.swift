@@ -29,7 +29,7 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
          self = x19
          outputs = x20
          */
-        let items: Attribute<PlatformItemList>? = outputs.preferences[PlatformItemList.Key.self]
+        let items: Attribute<PlatformItemList>? = unsafe outputs.preferences[PlatformItemList.Key.self]
         self.rootList = WeakAttribute(items)
     }
     
@@ -82,7 +82,7 @@ struct PlatformItemList {
 }
 
 extension PlatformItemList {
-    fileprivate struct Key: PreferenceKey {
+    fileprivate struct Key: @unsafe PreferenceKey {
         static nonisolated(unsafe) let defaultValue = PlatformItemList(items: [])
         
         static func reduce(value: inout PlatformItemList, nextValue: () -> PlatformItemList) {

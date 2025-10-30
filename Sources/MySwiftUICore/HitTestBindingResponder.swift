@@ -11,7 +11,7 @@ struct HitTestBindingFeature: ViewGraphFeature {
          inputs = x20
          */
         // sp + 0x80
-        var copy = inputs
+        let copy = inputs
         guard copy.preferences.contains(ViewRespondersKey.self) else {
             return
         }

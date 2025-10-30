@@ -33,7 +33,7 @@ internal import AttributeGraph
     }
 }
 
-extension AnyView: @preconcurrency DynamicView {
+extension AnyView: DynamicView {
     typealias Metadata = Void
     typealias ID = UniqueID
     
@@ -111,9 +111,9 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
          Content = x23
          */
         // sp + 0x2c0
-        var copy_1 = inputs
+//        var copy_1 = inputs
         // sp + 0x260
-        var copy_2 = inputs
+        let copy_2 = inputs
         copy_2.base.pushStableType(Content.self)
         
         // <+156>

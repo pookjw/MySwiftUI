@@ -6,10 +6,10 @@ public struct SurfaceSnappingInfo: Equatable, Sendable, CustomDebugStringConvert
     
     public internal(set) static var authorizationStatus: SurfaceSnappingInfo.AuthorizationStatus {
         get {
-            return __authorizationStatus.wrappedValue
+            return unsafe __authorizationStatus.wrappedValue
         }
         set {
-            __authorizationStatus.wrappedValue = newValue
+            unsafe __authorizationStatus.wrappedValue = newValue
         }
     }
     

@@ -11,8 +11,8 @@ package struct HostPreferencesKey: PreferenceKey {
     }
     
     static func makeNoteId() -> UInt32 {
-        let id = HostPreferencesKey.nodeId
-        HostPreferencesKey.nodeId &+ 1
+        let id = unsafe HostPreferencesKey.nodeId
+        unsafe HostPreferencesKey.nodeId &+= 1
         return id
     }
     

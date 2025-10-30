@@ -5,7 +5,7 @@ private import _MySwiftUIShims
 extension DisplayList.ViewUpdater {
     struct ViewCache {
         var map: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewInfo] = [:]
-        var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key] = [:]
+        var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key] = unsafe [:]
         var removed: Set<DisplayList.ViewUpdater.ViewCache.Key> = []
         fileprivate var animators: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewCache.AnimatorInfo] = [:]
         fileprivate var asyncValues: [ObjectIdentifier: DisplayList.ViewUpdater.ViewCache.AsyncValues] = [:]
@@ -40,7 +40,7 @@ extension DisplayList.ViewUpdater {
                 // x21
                 let modifiers = value.modifiers
                 
-                let layer = unsafeBitCast(key, to: CALayer.self)
+                let layer = unsafe unsafeBitCast(key, to: CALayer.self)
                 
                 for animation in animations {
                     layer.removeAnimation(forKey: animation)
@@ -73,7 +73,7 @@ extension DisplayList.ViewUpdater {
                 map.removeValue(forKey: removedKey)
                 // x25
                 let view = viewInfo.view
-                reverseMap.removeValue(forKey: OpaquePointer(Unmanaged.passUnretained(view).toOpaque()))
+                unsafe reverseMap.removeValue(forKey: OpaquePointer(Unmanaged.passUnretained(view).toOpaque()))
                 
                 // w24
                 let kind = viewInfo.state.kind
@@ -131,8 +131,8 @@ extension DisplayList.ViewUpdater {
                 // x25
                 var subview = view
                 
-                while let _maskView = maskView {
-                    removeChildren(platform: viewInfo.platform, container: unsafeBitCast(maskView, to: AnyObject.self))
+                while maskView != nil {
+                    unsafe removeChildren(platform: viewInfo.platform, container: unsafeBitCast(maskView, to: AnyObject.self))
                     
                     guard (system == .caLayer) || (system == .uiView) else {
                         break
@@ -151,7 +151,7 @@ extension DisplayList.ViewUpdater {
                     }
                     
                     var outSystem = system
-                    subview = unsafeBitCast(CoreViewSubviewAtIndex(system, subview, 0, &outSystem), to: AnyObject.self)
+                    subview = unsafe unsafeBitCast(CoreViewSubviewAtIndex(system, subview, 0, &outSystem), to: AnyObject.self)
                     
                     guard isPlatter(system, subview) else {
                         break

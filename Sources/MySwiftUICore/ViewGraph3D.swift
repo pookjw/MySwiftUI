@@ -25,7 +25,7 @@ extension ViewGraph3D: ViewGraphFeature {
          outputs = x19
          */
         // sp + 0x50
-        var inputsCopy = inputs
+        let inputsCopy = inputs
         // w20
         let depthTransform = $depthTransform
         depthTransform.mutateBody(as: RootDepthTransform.self, invalidating: true) { [inputsCopy, outputs] transform in

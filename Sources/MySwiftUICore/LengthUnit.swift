@@ -1,6 +1,6 @@
 package import Foundation
 package import Spatial
-package import CoreGraphics
+internal import CoreGraphics
 
 package enum LengthUnit: Equatable {
     case length(UnitLength)
@@ -19,7 +19,7 @@ package enum LengthUnit: Equatable {
         }
     }
     
-    package static nonisolated(unsafe) let meters = LengthUnit.length(.meters) 
+    package static let meters = LengthUnit.length(.meters) 
 }
 
 package protocol LengthUnitConvertible {
@@ -31,7 +31,7 @@ extension Point3D: LengthUnitConvertible {
         self.x *= scale
         self.y *= scale
         self.z *= scale
-        self.vector *= scale
+        unsafe self.vector *= scale
     }
 }
 

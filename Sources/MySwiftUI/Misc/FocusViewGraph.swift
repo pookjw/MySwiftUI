@@ -62,7 +62,7 @@ extension FocusViewGraph: ViewGraphFeature {
         inputs.base[FocusedItemInputKey.self] = _focusedItem
         inputs.base[FocusedValuesInputKey.self] = _focusedValues
         inputs.base[FocusStoreInputKey.self] = _focusStore
-        inputs.base[_GraphInputs.IsFocusSystemEnabledKey.self] = _isFocusSystemEnabled
+        unsafe inputs.base[_GraphInputs.IsFocusSystemEnabledKey.self] = _isFocusSystemEnabled
     }
     
     func uninstantiate(graph: ViewGraph) {

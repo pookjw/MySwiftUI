@@ -5,7 +5,7 @@ private import _MySwiftUIShims
 private import _QuartzCorePrivate
 
 extension Transaction {
-    static func currentUIViewTransaction(canDisableAnimations: Bool) -> Transaction? {
+    @MainActor static func currentUIViewTransaction(canDisableAnimations: Bool) -> Transaction? {
         if canDisableAnimations, !UIView.areAnimationsEnabled {
             let transaction = Transaction()
             transaction.disablesAnimations = true

@@ -58,17 +58,17 @@ void _UIKitAddSubview(UIView *fromView, UIView *toView, NSInteger index) {
         }
     }
     
-    [toLayer insertSublayer:fromLayer atIndex:index];
+    [toLayer insertSublayer:fromLayer atIndex:(unsigned int)index];
     [toView _invalidateSubviewCache];
 }
 
 void CoreViewAddSubview(MySwiftUIViewSystem toSystem, id toView, MySwiftUIViewSystem fromSystem, id fromView, NSInteger index) {
     if (toSystem == MySwiftUIViewSystemCALayer) {
         assert(fromSystem == MySwiftUIViewSystemCALayer);
-        [(CALayer *)toView insertSublayer:(CALayer *)fromView atIndex:index];
+        [(CALayer *)toView insertSublayer:(CALayer *)fromView atIndex:(unsigned int)index];
     } else if (toSystem == MySwiftUIViewSystemUIView) {
         if (fromView == MySwiftUIViewSystemCALayer) {
-            [((UIView *)toView).layer insertSublayer:(CALayer *)fromView atIndex:index];
+            [((UIView *)toView).layer insertSublayer:(CALayer *)fromView atIndex:(unsigned int)index];
         } else {
             _UIKitAddSubview((UIView *)fromView, (UIView *)toView, index);
         }

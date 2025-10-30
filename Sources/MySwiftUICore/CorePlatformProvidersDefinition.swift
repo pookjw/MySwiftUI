@@ -7,35 +7,35 @@
 extension _GraphInputs {
     package var platformProvidersDefinition: CorePlatformProvidersDefinition.Type {
         get {
-            return self[CorePlatfromProvidersDefinitionKey.self]
+            return unsafe self[CorePlatfromProvidersDefinitionKey.self]
         }
         set {
-            self[CorePlatfromProvidersDefinitionKey.self] = newValue
+            unsafe self[CorePlatfromProvidersDefinitionKey.self] = newValue
         }
         _modify {
-            yield &self[CorePlatfromProvidersDefinitionKey.self]
+            yield unsafe &self[CorePlatfromProvidersDefinitionKey.self]
         }
     }
     
-    fileprivate struct CorePlatfromProvidersDefinitionKey: GraphInput {
-        static nonisolated(unsafe) let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
+    fileprivate struct CorePlatfromProvidersDefinitionKey: @unsafe GraphInput {
+        static let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
     }
 }
 
 extension EnvironmentValues {
     package var platformProvidersDefinition: CorePlatformProvidersDefinition.Type {
         get {
-            return self[CorePlatfromProvidersDefinitionKey.self]
+            return unsafe self[CorePlatfromProvidersDefinitionKey.self]
         }
         set {
-            self[CorePlatfromProvidersDefinitionKey.self] = newValue
+            unsafe self[CorePlatfromProvidersDefinitionKey.self] = newValue
         }
         _modify {
-            yield &self[CorePlatfromProvidersDefinitionKey.self]
+            yield unsafe &self[CorePlatfromProvidersDefinitionKey.self]
         }
     }
     
-    fileprivate struct CorePlatfromProvidersDefinitionKey: EnvironmentKey {
-        static nonisolated(unsafe) let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
+    fileprivate struct CorePlatfromProvidersDefinitionKey: @unsafe EnvironmentKey {
+        static let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
     }
 }

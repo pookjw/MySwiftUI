@@ -11,14 +11,14 @@ public enum _ViewDebug {
 
 extension _ViewDebug {
     static func initialize(inputs: inout _ViewInputs) {
-        if !_ViewDebug.isInitialized {
-            if let value = getenv("SWIFTUI_VIEW_DEBUG") {
-                _ViewDebug.properties = _ViewDebug.Properties(rawValue: UInt32(atoi(value)))
+        if unsafe !_ViewDebug.isInitialized {
+            if let value = unsafe getenv("SWIFTUI_VIEW_DEBUG") {
+                unsafe _ViewDebug.properties = unsafe _ViewDebug.Properties(rawValue: UInt32(atoi(value)))
             }
-            _ViewDebug.isInitialized = true
+            unsafe _ViewDebug.isInitialized = true
         }
         
-        if !_ViewDebug.properties.isEmpty {
+        if unsafe !_ViewDebug.properties.isEmpty {
             Subgraph.setShouldRecordTree()
         }
     }
@@ -39,7 +39,7 @@ extension _ViewDebug {
 }
 
 extension _ViewDebug {
-    public struct Properties: OptionSet {
+    public struct Properties: OptionSet, Sendable {
         public let rawValue: UInt32
         
         public init(rawValue: UInt32) {
@@ -50,16 +50,16 @@ extension _ViewDebug {
             self.init(rawValue: 1 << property.rawValue)
         }
         
-        public nonisolated(unsafe) static let type = _ViewDebug.Properties(rawValue: (1 << 0))
-        public nonisolated(unsafe) static let value = _ViewDebug.Properties(rawValue: (1 << 1))
-        public nonisolated(unsafe) static let transform = _ViewDebug.Properties(rawValue: (1 << 2))
-        public nonisolated(unsafe) static let position = _ViewDebug.Properties(rawValue: (1 << 3))
-        public nonisolated(unsafe) static let size = _ViewDebug.Properties(rawValue: (1 << 4))
-        public nonisolated(unsafe) static let environment = _ViewDebug.Properties(rawValue: (1 << 5))
-        public nonisolated(unsafe) static let phase = _ViewDebug.Properties(rawValue: (1 << 6))
-        public nonisolated(unsafe) static let layoutComputer = _ViewDebug.Properties(rawValue: (1 << 7))
-        public nonisolated(unsafe) static let displayList = _ViewDebug.Properties(rawValue: (1 << 8))
-        public nonisolated(unsafe) static let all = _ViewDebug.Properties(rawValue: .max)
+        public static let type = _ViewDebug.Properties(rawValue: (1 << 0))
+        public static let value = _ViewDebug.Properties(rawValue: (1 << 1))
+        public static let transform = _ViewDebug.Properties(rawValue: (1 << 2))
+        public static let position = _ViewDebug.Properties(rawValue: (1 << 3))
+        public static let size = _ViewDebug.Properties(rawValue: (1 << 4))
+        public static let environment = _ViewDebug.Properties(rawValue: (1 << 5))
+        public static let phase = _ViewDebug.Properties(rawValue: (1 << 6))
+        public static let layoutComputer = _ViewDebug.Properties(rawValue: (1 << 7))
+        public static let displayList = _ViewDebug.Properties(rawValue: (1 << 8))
+        public static let all = _ViewDebug.Properties(rawValue: .max)
     }
 }
 
@@ -78,7 +78,7 @@ extension _ViewDebug {
          inputs = x19
          */
         // w22
-        var debugProperties = outputs.preferences.debugProperties.union(inputs.pointee.base.changedDebugProperties)
+        var debugProperties = unsafe outputs.preferences.debugProperties.union(inputs.pointee.base.changedDebugProperties)
         outputs.preferences.debugProperties = []
         
         if debugProperties.contains(.layoutComputer) && outputs.layoutComputer == nil {
@@ -99,22 +99,22 @@ extension _ViewDebug {
         
         // <+92>
         if debugProperties.contains(.transform) {
-            Subgraph.addTreeValue(inputs.pointee.transform, forKey: "transform", flags: 0)
+            unsafe Subgraph.addTreeValue(inputs.pointee.transform, forKey: "transform", flags: 0)
         }
         if debugProperties.contains(.position) {
-            Subgraph.addTreeValue(inputs.pointee.position, forKey: "position", flags: 0)
+            unsafe Subgraph.addTreeValue(inputs.pointee.position, forKey: "position", flags: 0)
         }
         if debugProperties.contains(.size) {
-            Subgraph.addTreeValue(inputs.pointee.size, forKey: "size", flags: 0)
+            unsafe Subgraph.addTreeValue(inputs.pointee.size, forKey: "size", flags: 0)
         }
         if debugProperties.contains(.environment) {
-            Subgraph.addTreeValue(inputs.pointee.base.environment, forKey: "environment", flags: 0)
+            unsafe Subgraph.addTreeValue(inputs.pointee.base.environment, forKey: "environment", flags: 0)
         }
         if debugProperties.contains(.phase) {
-            Subgraph.addTreeValue(inputs.pointee.base.phase, forKey: "phase", flags: 0)
+            unsafe Subgraph.addTreeValue(inputs.pointee.base.phase, forKey: "phase", flags: 0)
         }
         if debugProperties.contains(.layoutComputer) {
-            Subgraph.addTreeValue(outputs.layoutComputer!, forKey: "layoutComputer", flags: 0)
+            unsafe Subgraph.addTreeValue(outputs.layoutComputer!, forKey: "layoutComputer", flags: 0)
         }
     }
 }
@@ -135,7 +135,7 @@ extension View {
         copy.base.changedDebugProperties = prev
         
         if shouldRecordTree {
-            _ViewDebug.reallyWrap(&outputs, value: view, inputs: &copy)
+            unsafe _ViewDebug.reallyWrap(&outputs, value: view, inputs: &copy)
             Subgraph.endTreeElement(value: view.value)
         }
         
@@ -165,7 +165,7 @@ extension ViewModifier {
         copy.base.changedDebugProperties = prev
         
         if shouldRecordTree {
-            _ViewDebug.reallyWrap(&outputs, value: modifier, inputs: &copy)
+            unsafe _ViewDebug.reallyWrap(&outputs, value: modifier, inputs: &copy)
             Subgraph.endTreeElement(value: modifier.value)
         }
         

@@ -5,17 +5,17 @@ package protocol GestureAccessibilityProvider {
 extension _GraphInputs {
     var gestureAccessibilityProvider: (any GestureAccessibilityProvider.Type) {
         get {
-            return self[GestureAccessibilityProviderKey.self]
+            return unsafe self[GestureAccessibilityProviderKey.self]
         }
         set {
-            self[GestureAccessibilityProviderKey.self] = newValue
+            unsafe self[GestureAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield &self[GestureAccessibilityProviderKey.self]
+            yield unsafe &self[GestureAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct GestureAccessibilityProviderKey: GraphInput {
+    fileprivate struct GestureAccessibilityProviderKey: @unsafe GraphInput {
         static nonisolated(unsafe) let defaultValue: (any GestureAccessibilityProvider.Type) = EmptyGestureAccessibilityProvider.self
     }
 }

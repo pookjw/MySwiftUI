@@ -443,7 +443,7 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
         var value = (value: source, changed: false)
         helper.update(value: &value, defaultAnimation: nil, environment: $environment)
         
-        guard value.changed, self.value == nil else {
+        guard value.changed, !hasValue else {
             return
         }
         

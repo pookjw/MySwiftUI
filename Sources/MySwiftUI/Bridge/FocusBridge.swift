@@ -25,7 +25,7 @@ final class FocusBridge {
         return host
     }
     
-    var isHostContainedInFocusedItem: Bool {
+    @MainActor var isHostContainedInFocusedItem: Bool {
         guard let host else {
             return false
         }
@@ -79,9 +79,9 @@ final class FocusBridge {
         if focusStore.version != version_1 {
             // <+1024>
             //x29 - 0x88
-            let value = focusStoreList.value
+            _ = focusStoreList.value
             // x22
-            var version = DisplayList.Version()
+            _ = DisplayList.Version()
             fatalError("TODO")
         }
         
@@ -106,7 +106,7 @@ final class FocusBridge {
         fatalError("TODO")
     }
     
-    func updateEnvironment(_ environmentValues: inout EnvironmentValues) {
+    @MainActor func updateEnvironment(_ environmentValues: inout EnvironmentValues) {
         guard let host else {
             return
         }
@@ -348,7 +348,7 @@ fileprivate struct FocusBridgeKey: EnvironmentKey {
     }
 }
 
-struct UIKitHostContainerFocusItemInput: ViewInput {
+struct UIKitHostContainerFocusItemInput: @unsafe ViewInput {
     static nonisolated(unsafe) let defaultValue = Attribute<WeakBox<UIView>>(identifier: .empty) 
 }
 
@@ -356,13 +356,13 @@ extension _ViewInputs {
     // 원래 없음
     var uiKitHostContainerFocusItem: Attribute<WeakBox<UIView>> {
         get {
-            return self[UIKitHostContainerFocusItemInput.self]
+            return unsafe self[UIKitHostContainerFocusItemInput.self]
         }
         set {
-            self[UIKitHostContainerFocusItemInput.self] = newValue
+            unsafe self[UIKitHostContainerFocusItemInput.self] = newValue
         }
         _modify {
-            yield &self[UIKitHostContainerFocusItemInput.self]
+            yield unsafe &self[UIKitHostContainerFocusItemInput.self]
         }
     }
 }

@@ -5,17 +5,17 @@ package protocol OpacityAccessibilityProvider {
 extension _GraphInputs {
     var opacityAccessibilityProvider: (any OpacityAccessibilityProvider.Type) {
         get {
-            return self[OpacityAccessibilityProviderKey.self]
+            return unsafe self[OpacityAccessibilityProviderKey.self]
         }
         set {
-            self[OpacityAccessibilityProviderKey.self] = newValue
+            unsafe self[OpacityAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield &self[OpacityAccessibilityProviderKey.self]
+            yield unsafe &self[OpacityAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct OpacityAccessibilityProviderKey: GraphInput {
+    fileprivate struct OpacityAccessibilityProviderKey: @unsafe GraphInput {
         static nonisolated(unsafe) let defaultValue: (any OpacityAccessibilityProvider.Type) = EmptyOpacityAccessibilityProvider.self
     }
 }

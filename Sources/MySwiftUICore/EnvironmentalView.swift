@@ -18,7 +18,7 @@ extension EnvironmentalView {
          x22 = Self
          */
         // sp + 0x1a0
-        var copy = inputs
+        let copy = inputs
         // x24
         let child = EnvironmentalViewChild(view: view.value, env: copy.base.environment)
         let attribute = Attribute(child)
@@ -81,10 +81,10 @@ struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, Custo
                 if tracker.hasDifferentUsedValues(env.plist) {
                     hasDiff = true 
                 } else {
-                    hasDiff = (self.value == nil)
+                    hasDiff = !hasValue
                 }
             } else {
-                hasDiff = (self.value == nil)
+                hasDiff = !hasValue
             }
             
             guard hasDiff else {

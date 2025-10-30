@@ -15,7 +15,7 @@ extension AccessibilityViewModifier {
          includeGeometry = x23
          */
         
-        guard inputs.preferences.contains(AccessibilityNodesKey.self) else {
+        guard unsafe inputs.preferences.contains(AccessibilityNodesKey.self) else {
             return nil
         }
         
@@ -47,9 +47,9 @@ extension AccessibilityViewModifier {
         let empty = AnyAttribute.empty
         // sp + 0x31c
         let treeAttribute: AnyAttribute
-        if inputs.preferences.contains(AccessibilityAttachment.Key.self) {
+        if unsafe inputs.preferences.contains(AccessibilityAttachment.Key.self) {
             // <+884>
-            let tree: Attribute<AccessibilityAttachment.Tree>? = outputs[AccessibilityAttachment.Key.self]
+            let tree: Attribute<AccessibilityAttachment.Tree>? = unsafe outputs[AccessibilityAttachment.Key.self]
             treeAttribute = tree?.identifier ?? .empty
         } else {
             // <+940>
@@ -124,7 +124,7 @@ extension AccessibilityViewModifier {
         
         // <+1772>
         // x25
-        let propertiesTransform = PropertiesTransform(
+        let propertiesTransform = unsafe PropertiesTransform(
             accessor: AccessibilityViewModifierAccessor<AccessibilityAttachmentModifier>.self,
             modifier: modifier,
             localID: scrapeableID,

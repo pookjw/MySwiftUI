@@ -4,13 +4,13 @@ private import _UIKitShims
 private import _DesignLibraryShims
 
 extension EnvironmentValues {
-    static nonisolated(unsafe) let configuredForPlatform: EnvironmentValues = {
-        var environmentValues = ViewGraphHost.defaultEnvironment
+    @MainActor static let configuredForPlatform: EnvironmentValues = {
+        var environmentValues = unsafe ViewGraphHost.defaultEnvironment
         environmentValues._configureForPlatform(traitCollection: nil)
         return environmentValues
     }()
     
-    mutating func configureForPlatform(traitCollection: UITraitCollection?) {
+    @MainActor mutating func configureForPlatform(traitCollection: UITraitCollection?) {
 //        /*
 //         self = x19
 //         traitCollection = x21
@@ -148,7 +148,7 @@ extension EnvironmentValues {
             // <+140>
             if otherPlist.isEmpty {
                 // <+200>
-                if let _traitCollection = traitCollection {
+                if traitCollection != nil {
                     // <+124>
                     self.plist = PropertyList()
                 } else {
@@ -183,7 +183,7 @@ extension EnvironmentValues {
         }
     }
     
-    private mutating func _configureForPlatform(traitCollection: UITraitCollection?) {
+    @MainActor private mutating func _configureForPlatform(traitCollection: UITraitCollection?) {
         // traitCollection = x21
         // x25
         let mainScreen = MyUIScreen.main

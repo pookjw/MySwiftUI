@@ -16,9 +16,9 @@ extension EnvironmentValues {
             let definition: PlatformAccessibilitySettingsDefinition?
             switch newValue {
             case .appKit:
-                definition = .appKit
+                definition = unsafe .appKit
             default:
-                definition = .uiKit
+                definition = unsafe .uiKit
             }
             
             let seed: UInt32
@@ -43,9 +43,9 @@ package class PlatformAccessibilitySettingsDefinition {
     package static func setDefinition(_ defition: PlatformAccessibilitySettingsDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .appKit:
-            PlatformAccessibilitySettingsDefinition.appKit = defition.init()
+            unsafe PlatformAccessibilitySettingsDefinition.appKit = defition.init()
         case .uiKit:
-            PlatformAccessibilitySettingsDefinition.uiKit = defition.init()
+            unsafe PlatformAccessibilitySettingsDefinition.uiKit = defition.init()
         default:
             break
         }
@@ -54,9 +54,9 @@ package class PlatformAccessibilitySettingsDefinition {
     package static func `for`(system: PlatformSystemDefinition) -> PlatformAccessibilitySettingsDefinition? {
         switch system {
         case .appKit:
-            return PlatformAccessibilitySettingsDefinition.appKit
+            return unsafe PlatformAccessibilitySettingsDefinition.appKit
         default:
-            return PlatformAccessibilitySettingsDefinition.uiKit
+            return unsafe PlatformAccessibilitySettingsDefinition.uiKit
         }
     }
     

@@ -137,19 +137,19 @@ package enum Update {
                         self.block = block
                     }
                 }
-                let context = Unmanaged.passRetained(Context(block: escapingClosure))
+                let context = unsafe Unmanaged.passRetained(Context(block: escapingClosure))
                 
-                Update._lock.syncMain(context: context.toOpaque()) { pointer in
-                    let context = Unmanaged<Context>.fromOpaque(pointer)
+                unsafe Update._lock.syncMain(context: context.toOpaque()) { pointer in
+                    let context = unsafe Unmanaged<Context>.fromOpaque(pointer)
                     let current = Subgraph.current
-                    Subgraph.current = context.takeUnretainedValue().current
+                    Subgraph.current = unsafe context.takeUnretainedValue().current
                     
-                    context.takeUnretainedValue().currentRuleContext.update {
-                        context.takeUnretainedValue().block()
+                    unsafe context.takeUnretainedValue().currentRuleContext.update {
+                        unsafe context.takeUnretainedValue().block()
                     }
                     
                     Subgraph.current = current
-                    context.release()
+                    unsafe context.release()
                 }
             }
         }

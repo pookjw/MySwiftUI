@@ -8,7 +8,7 @@ struct ClientSideSceneClipping3DDuringResize: Feature {
     @inlinable
     static var isEnabled: Bool {
         let result: Bool
-        if ClientSideSceneClipping3DDuringResize.isEnabledForTesting {
+        if unsafe ClientSideSceneClipping3DDuringResize.isEnabledForTesting {
             result = true
         } else {
             result = isFeatureEnabled(ClientSideSceneClipping3DDuringResize.Key())

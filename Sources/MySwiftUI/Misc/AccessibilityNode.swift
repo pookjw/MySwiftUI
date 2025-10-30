@@ -35,7 +35,7 @@ fileprivate struct AccessibilityCapturesViewResponders: ViewInputBoolFlag {
     
 }
 
-struct AccessibilityNodesKey: PreferenceKey {
+struct AccessibilityNodesKey: @unsafe PreferenceKey {
     static nonisolated(unsafe) let defaultValue = AccessibilityNodeList(nodes: [], version: DisplayList.Version())
     
     static func reduce(value: inout AccessibilityNodeList, nextValue: () -> AccessibilityNodeList) {

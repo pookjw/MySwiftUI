@@ -44,7 +44,7 @@ extension AccessibilityViewGraph: ViewGraphFeature {
          */
         
         inputs.needsAccessibility = true
-        inputs.preferences.add(AccessibilityNodesKey.self)
+        unsafe inputs.preferences.add(AccessibilityNodesKey.self)
         inputs.textAccessibilityProvider = SwiftUITextAccessibilityProvider.self
         inputs.imageAccessibilityProvider = SwiftUIImageAccessibilityProvider.self
         inputs.privacyReductionAccessibilityProvider = SwiftUIPrivacyReductionAccessibilityProvider.self
@@ -65,7 +65,7 @@ extension AccessibilityViewGraph: ViewGraphFeature {
         
         // <+624>
         inputs.makeRootAccessibilityRelationshipScope()
-        self.relationshipScope = inputs[AccessibilityRelationshipScope.self]
+        self.relationshipScope = unsafe inputs[AccessibilityRelationshipScope.self]
         
         // <+712>
         inputs.base.accessibilityFocusStore = _accessibilityFocusStore
@@ -97,8 +97,8 @@ extension AccessibilityViewGraph: ViewGraphFeature {
             return UncheckedSendable(nodeList)
         }.value
         
-        outputs[AccessibilityNodesKey.self] = nodeList
-        self._rootNodes = WeakAttribute(outputs[AccessibilityNodesKey.self])
+        unsafe outputs[AccessibilityNodesKey.self] = nodeList
+        self._rootNodes = unsafe WeakAttribute(outputs[AccessibilityNodesKey.self])
         self._hostPreferences = WeakAttribute(outputs[HostPreferencesKey.self])
     }
     

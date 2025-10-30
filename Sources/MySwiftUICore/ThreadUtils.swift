@@ -24,10 +24,10 @@ extension RunLoop {
         let runLoop = CFRunLoopGetCurrent()
         
         let _observer: CFRunLoopObserver
-        if let __observer = observer {
+        if let __observer = unsafe observer {
             _observer = __observer
         }  else {
-            _observer = CFRunLoopObserverCreate(
+            _observer = unsafe CFRunLoopObserverCreate(
                 nil,
                 CFRunLoopActivity.beforeWaiting.union(.exit).rawValue,
                 true,
@@ -49,22 +49,22 @@ extension RunLoop {
             }
         }
         
-        observerActions.append(action)
+        unsafe observerActions.append(action)
     }
     
     package static func flushObservers() {
         while true {
-            let actions = observerActions
+            let actions = unsafe observerActions
             guard !actions.isEmpty else {
                 break
             }
             
-            observerActions = []
+            unsafe observerActions = []
             
             Update.begin()
             
-            let actionID = Update.Action.nextActionID
-            Update.Action.nextActionID &+= 2
+            let actionID = unsafe Update.Action.nextActionID
+            unsafe Update.Action.nextActionID &+= 2
             
             for action in actions {
                 CustomEventTrace.startAction(actionID, nil)

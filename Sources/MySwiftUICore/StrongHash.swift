@@ -56,12 +56,12 @@ struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable,
     }
     
     func hash(into hasher: inout Hasher) {
-        withUnsafePointer(to: words) { pointer in
-            let buffer = UnsafeRawBufferPointer(
+        unsafe withUnsafePointer(to: words) { pointer in
+            let buffer = unsafe UnsafeRawBufferPointer(
                 start: UnsafeRawPointer(pointer),
                 count: MemoryLayout<(UInt32, UInt32, UInt32, UInt32, UInt32)>.size
             )
-            hasher.combine(bytes: buffer)
+            unsafe hasher.combine(bytes: buffer)
         }
     }
     
@@ -74,9 +74,9 @@ struct StrongHasher {
     private var state: CC_SHA1state_st
     
     init() {
-        self.state = withUnsafeTemporaryAllocation(of: CC_SHA1_CTX.self, capacity: 1) { pointer in
-            CC_SHA1_Init(pointer.baseAddress.unsafelyUnwrapped)
-            return pointer.baseAddress.unsafelyUnwrapped.pointee
+        self.state = unsafe withUnsafeTemporaryAllocation(of: CC_SHA1_CTX.self, capacity: 1) { pointer in
+            unsafe CC_SHA1_Init(pointer.baseAddress.unsafelyUnwrapped)
+            return unsafe pointer.baseAddress.unsafelyUnwrapped.pointee
         }
     }
     
@@ -85,9 +85,9 @@ struct StrongHasher {
     }
     
     mutating func finalize() -> StrongHash {
-        return withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 40) { pointer in
-            CC_SHA1_Final(pointer.baseAddress, &state)
-            return UnsafeRawPointer(pointer.baseAddress.unsafelyUnwrapped)
+        return unsafe withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 40) { pointer in
+            unsafe CC_SHA1_Final(pointer.baseAddress, &state)
+            return unsafe UnsafeRawPointer(pointer.baseAddress.unsafelyUnwrapped)
                 .assumingMemoryBound(to: StrongHash.self)
                 .pointee
         }

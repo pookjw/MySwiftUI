@@ -33,7 +33,7 @@ extension DynamicView {
          inputs = x24
          */
         // sp + 0x70
-        var copy_1 = inputs
+        let copy_1 = inputs
         // sp + 0xf0
         /*
          preferences = x20

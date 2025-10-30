@@ -5,17 +5,17 @@ package protocol PrivacyReductionAccessibilityProvider: ViewModifier {
 extension _GraphInputs {
     var privacyReductionAccessibilityProvider: (any PrivacyReductionAccessibilityProvider.Type) {
         get {
-            return self[PrivacyReductionAccessibilityProviderKey.self]
+            return unsafe self[PrivacyReductionAccessibilityProviderKey.self]
         }
         set {
-            self[PrivacyReductionAccessibilityProviderKey.self] = newValue
+            unsafe self[PrivacyReductionAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield &self[PrivacyReductionAccessibilityProviderKey.self]
+            yield unsafe &self[PrivacyReductionAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct PrivacyReductionAccessibilityProviderKey: GraphInput {
+    fileprivate struct PrivacyReductionAccessibilityProviderKey: @unsafe GraphInput {
         static nonisolated(unsafe) let defaultValue: (any PrivacyReductionAccessibilityProvider.Type) = EmptyPrivacyReductionAccessibilityProvider.self
     }
 }

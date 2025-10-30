@@ -64,7 +64,7 @@ struct DepthStashingLayoutComputer: StatefulRule, AsyncAttribute {
     }
 }
 
-struct EnableLayoutDepthStashing: UserDefaultKeyedFeature, ViewInputBoolFlag, PropertyKey {
+struct EnableLayoutDepthStashing: @unsafe UserDefaultKeyedFeature, ViewInputBoolFlag, PropertyKey {
     static var key: String {
         return "com.apple.SwiftUI.EnableLayoutDepthStashing"
     }

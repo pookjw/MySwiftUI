@@ -2,15 +2,16 @@ internal import Observation
 private import Foundation
 
 @Observable
+@MainActor
 final class UIGlobalState {
-    static nonisolated(unsafe) let shared = UIGlobalState()
+    static nonisolated let shared = UIGlobalState()
     
     private var storedIsLowPowerModeEnabled: Bool? = nil
     private var storedIsReduceTransparencyEnabled: Bool? = nil
     private var storedIsReduceMotionEnabled: Bool? = nil
     private var storedIsButtonShapesEnabled: Bool? = nil
     
-    private init() {}
+    private nonisolated init() {}
     
     // ___lldb_unnamed_symbol318931
     var isLowPowerModeEnabled: Bool {

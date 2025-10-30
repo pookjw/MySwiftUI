@@ -6,7 +6,7 @@ extension EnvironmentValues {
             return self[AccessibilityRequestFocusKey.self]
         }
         set {
-            self[AccessibilityRequestFocusKey.self]
+            self[AccessibilityRequestFocusKey.self] = newValue
         }
     }
 }

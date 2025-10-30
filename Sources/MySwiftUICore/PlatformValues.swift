@@ -5,13 +5,13 @@ internal import _MySwiftUIShims
 extension _GraphInputs {
     var corePlatformProvidersDefinition: CorePlatformProvidersDefinition.Type {
         get {
-            return self[CorePlatfromProvidersDefinitionKey.self]
+            return unsafe self[CorePlatfromProvidersDefinitionKey.self]
         }
         set {
-            self[CorePlatfromProvidersDefinitionKey.self] = newValue
+            unsafe self[CorePlatfromProvidersDefinitionKey.self] = newValue
         }
         _modify {
-            yield &self[CorePlatfromProvidersDefinitionKey.self]
+            yield unsafe &self[CorePlatfromProvidersDefinitionKey.self]
         }
     }
     
@@ -32,19 +32,19 @@ extension _GraphInputs {
 extension EnvironmentValues {
     var corePlatformProvidersDefinition: CorePlatformProvidersDefinition.Type {
         get {
-            return self[CorePlatfromProvidersDefinitionKey.self]
+            return unsafe self[CorePlatfromProvidersDefinitionKey.self]
         }
         set {
-            self[CorePlatfromProvidersDefinitionKey.self] = newValue
+            unsafe self[CorePlatfromProvidersDefinitionKey.self] = newValue
         }
         _modify {
-            yield &self[CorePlatfromProvidersDefinitionKey.self]
+            yield unsafe &self[CorePlatfromProvidersDefinitionKey.self]
         }
     }
 }
 
-fileprivate struct CorePlatfromProvidersDefinitionKey: GraphInput, EnvironmentKey {
-    static nonisolated(unsafe) let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
+fileprivate struct CorePlatfromProvidersDefinitionKey: @unsafe GraphInput, @unsafe EnvironmentKey {
+    static let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
 }
 
 fileprivate struct PlatformSystemKey: GraphInput {

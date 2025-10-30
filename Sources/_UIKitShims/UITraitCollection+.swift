@@ -29,7 +29,7 @@ extension UITraitCollection {
             result.layoutDirection = .leftToRight
         case .rightToLeft:
             result.layoutDirection = .rightToLeft
-        @unknown default:
+        default:
             break
         }
         
@@ -43,7 +43,7 @@ extension UITraitCollection {
             result.legibilityWeight = .regular
         case .bold:
             result.legibilityWeight = .bold
-        @unknown default:
+        default:
             break
         }
         
@@ -56,7 +56,7 @@ extension UITraitCollection {
             result._colorSchemeContrast = .standard
         case .high:
             result._colorSchemeContrast = .increased
-        @unknown default:
+        default:
             break
         }
         
@@ -131,7 +131,7 @@ extension UITraitCollection {
             result.materialColorRenderingMode = .adaptiveSystemColors
         case .adaptiveAllColors:
             result.materialColorRenderingMode = .adaptiveAllColors
-        @unknown default:
+        default:
             result.materialColorRenderingMode = .automatic
         }
         

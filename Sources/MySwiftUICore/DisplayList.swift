@@ -263,15 +263,15 @@ extension DisplayList {
             self.lastTime = time
             
             let _printTree: Bool
-            if let printTree {
+            if let printTree = unsafe printTree {
                 _printTree = printTree
             } else {
-                if let value = getenv("SWIFTUI_PRINT_TREE") {
-                    _printTree = (atoi(value) != 0)
+                if let value = unsafe getenv("SWIFTUI_PRINT_TREE") {
+                    _printTree = unsafe (atoi(value) != 0)
                 } else {
                     _printTree = false
                 }
-                printTree = _printTree
+                unsafe printTree = _printTree
             }
             
             if _printTree {
@@ -280,22 +280,22 @@ extension DisplayList {
             
             // <+836>
             // sp, #0x68
-            let lastEnv = self.lastEnv
+            _ = self.lastEnv
             /*
              self = sp + 0x50
              time = sp + 0x58
              maxVersion = sp + 0x60
              */
             
-            var globals = DisplayList.ViewUpdater.Model.State.Globals(
+            _ = DisplayList.ViewUpdater.Model.State.Globals(
                 updater: self,
                 time: time,
                 maxVersion: maxVersion,
                 environment: environment
             )
             
-            return withUnsafeTemporaryAllocation(of: DisplayList.ViewUpdater.Model.State.Globals.self, capacity: 1) { globals in
-                globals.baseAddress.unsafelyUnwrapped.initialize(
+            return unsafe withUnsafeTemporaryAllocation(of: DisplayList.ViewUpdater.Model.State.Globals.self, capacity: 1) { globals in
+                unsafe globals.baseAddress.unsafelyUnwrapped.initialize(
                     to: DisplayList.ViewUpdater.Model.State.Globals(
                         updater: self,
                         time: time,
@@ -304,7 +304,7 @@ extension DisplayList {
                     )
                 )
                 
-                var state = DisplayList.ViewUpdater.Model.State(globals: globals.baseAddress.unsafelyUnwrapped)
+                var state = unsafe DisplayList.ViewUpdater.Model.State(globals: globals.baseAddress.unsafelyUnwrapped)
                 
                 self.viewCache.index = DisplayList.Index()
                 self.viewCache.currentList = displayList
@@ -340,10 +340,10 @@ extension DisplayList {
                     }
                     
                     var item = item
-                    let time = viewCache.prepare(item: &item, platform: rootPlatform, parentState: &state)
+                    let time = unsafe viewCache.prepare(item: &item, platform: rootPlatform, parentState: &state)
                     result = min(time, result)
                     
-                    self.updateInheritedView(container: &container, from: item, parentState: &state)
+                    unsafe self.updateInheritedView(container: &container, from: item, parentState: &state)
                     
                     let restored = viewCache.index.restored
                     if restored.contains(.unknown4) || restored.contains(.unknown8) {
@@ -639,19 +639,19 @@ extension DisplayList.ViewUpdater {
             let system = encoding.system
             
             // x27
-            let reverseMap = viewCache.reverseMap
+            let reverseMap = unsafe viewCache.reverseMap
             // x24 = sp, #0x1d0
             // x23
             for index in 0..<CoreViewSubviewsCount(system, rootView) {
                 // sp, #0x68
                 var outSystem = system
-                let subview = unsafeBitCast(CoreViewSubviewAtIndex(system, rootView, Int(index), &outSystem), to: AnyObject.self)
+                let subview = unsafe unsafeBitCast(CoreViewSubviewAtIndex(system, rootView, Int(index), &outSystem), to: AnyObject.self)
                 
                 guard system == outSystem else {
                     continue
                 }
                 
-                guard let key = reverseMap[OpaquePointer(Unmanaged.passUnretained(subview).toOpaque())] else {
+                guard let key = unsafe reverseMap[OpaquePointer(Unmanaged.passUnretained(subview).toOpaque())] else {
                     continue
                 }
                 
@@ -735,8 +735,8 @@ extension DisplayList.ViewUpdater {
         func setShadow(_ style: ResolvedShadowStyle?, layer: CALayer) {
             let system = encoding.system
             
-            let view = withUnsafeTemporaryAllocation(of: MySwiftUIViewSystem.self, capacity: 1) { pointer in
-                return CoreViewLayerView(system, layer, pointer.baseAddress.unsafelyUnwrapped)
+            let view = unsafe withUnsafeTemporaryAllocation(of: MySwiftUIViewSystem.self, capacity: 1) { pointer in
+                return unsafe CoreViewLayerView(system, layer, pointer.baseAddress.unsafelyUnwrapped)
             }
             
             if let style {
@@ -990,7 +990,7 @@ extension DisplayList.ViewUpdater {
         struct State {
             private var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
             private var opacity: Float = 1
-            private var blend: GraphicsBlendMode = .normal
+            private var blend: GraphicsBlendMode = unsafe .normal
             private var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
             private var clips: [DisplayList.ViewUpdater.Model.Clip] = []
             private var filters: [GraphicsFilter] = []
@@ -1007,7 +1007,7 @@ extension DisplayList.ViewUpdater {
             init(
                 globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
             ) {
-                self.globals = globals
+                unsafe self.globals = unsafe globals
             }
         }
     }
@@ -1075,7 +1075,7 @@ extension DisplayList.ViewUpdater.Platform {
         // 원래 없음
         @inlinable
         var definition: PlatformViewDefinition.Type {
-            return unsafeBitCast(self.rawValue & 0xfffffffffffffff8, to: PlatformViewDefinition.Type.self)
+            return unsafe unsafeBitCast(self.rawValue & 0xfffffffffffffff8, to: PlatformViewDefinition.Type.self)
         }
         
         // 원래 없음
@@ -1296,8 +1296,8 @@ package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible
     var value: UInt32
     
     init() {
-        let identity = (lastIdentity &+ 1)
-        lastIdentity = identity
+        let identity = unsafe (lastIdentity &+ 1)
+        unsafe lastIdentity = identity
         self.value = identity
     }
     
@@ -1315,7 +1315,7 @@ package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible
 }
 
 extension DisplayList {
-    struct Key: PreferenceKey {
+    struct Key: @unsafe PreferenceKey {
         static var _includesRemovedValues: Bool {
             return true
         }
@@ -1378,7 +1378,7 @@ extension DisplayList {
     }
 }
 
-struct _DisplayList_StableIdentityScope: ViewInput {
+struct _DisplayList_StableIdentityScope: @unsafe ViewInput {
     static nonisolated(unsafe) let defaultValue = WeakAttribute<_DisplayList_StableIdentityScope>()
     
     let root: _DisplayList_StableIdentityRoot
@@ -1417,6 +1417,6 @@ extension _ViewInputs {
             return
         }
         
-        self[_DisplayList_StableIdentityScope.self].projectedValue!.value.pushIdentity(identity: identity)
+        unsafe self[_DisplayList_StableIdentityScope.self].projectedValue!.value.pushIdentity(identity: identity)
     }
 }

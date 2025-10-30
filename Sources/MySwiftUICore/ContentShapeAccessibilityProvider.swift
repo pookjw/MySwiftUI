@@ -5,17 +5,17 @@ package protocol ContentShapeAccessibilityProvider {
 extension _GraphInputs {
     var contentShapeAccessibilityProvider: (any ContentShapeAccessibilityProvider.Type) {
         get {
-            return self[ContentShapeAccessibilityProviderKey.self]
+            return unsafe self[ContentShapeAccessibilityProviderKey.self]
         }
         set {
-            self[ContentShapeAccessibilityProviderKey.self] = newValue
+            unsafe self[ContentShapeAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield &self[ContentShapeAccessibilityProviderKey.self]
+            yield unsafe &self[ContentShapeAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct ContentShapeAccessibilityProviderKey: GraphInput {
+    fileprivate struct ContentShapeAccessibilityProviderKey: @unsafe GraphInput {
         static nonisolated(unsafe) let defaultValue: (any ContentShapeAccessibilityProvider.Type) = EmptyContentShapeAccessibilityProvider.self
     }
 }

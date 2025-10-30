@@ -423,7 +423,7 @@ package final class ViewGraph: GraphHost {
             
             // <+408>
             if requestedOutputs.contains(.displayList) {
-                inputs.preferences.add(DisplayList.Key.self)
+                unsafe inputs.preferences.add(DisplayList.Key.self)
             }
             
             // <+600>
@@ -472,7 +472,7 @@ package final class ViewGraph: GraphHost {
         
         if
             requestedOutputs.contains(.displayList),
-            let displayList: Attribute<DisplayList> = outputs.preferences[DisplayList.Key.self] // x25
+            let displayList: Attribute<DisplayList> = unsafe outputs.preferences[DisplayList.Key.self] // x25
         {
             // <+256>
             self._rootDisplayList = data.rootSubgraph.apply {
@@ -526,7 +526,7 @@ package final class ViewGraph: GraphHost {
          outputs = x22
          */
         // x19
-        guard let preferenceBridge = _preferenceBridge else {
+        guard _preferenceBridge != nil else {
             return
         }
         
@@ -914,7 +914,7 @@ package protocol ViewGraphRenderDelegate: AnyObject {
         get
     }
     
-    func updateRenderContext(_ context: inout ViewGraphRenderContext)
+    @MainActor func updateRenderContext(_ context: inout ViewGraphRenderContext)
     
     @MainActor func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time
     
@@ -932,7 +932,7 @@ fileprivate struct RootDisplayList: AsyncAttribute, Rule {
     
     var value: (DisplayList, DisplayList.Version) {
         // $s14AttributeGraph0A0VyACyxGqd__c5ValueQyd__RszAA4RuleRd__lufcADSPyqd__GXEfU_ySv_So11AGAttributeatcyXEfU_ySv_AJtcfu_7SwiftUI11DisplayListV_AM7VersionVt_AK04RoothI033_7D9EDEF832940A362646A6E979F296C8LLVTt1g5
-        var displayList = content
+        let displayList = content
         let version = DisplayList.Version(forUpdate: ())
         displayList.applyViewGraphTransform(time: $time, version: version)
         

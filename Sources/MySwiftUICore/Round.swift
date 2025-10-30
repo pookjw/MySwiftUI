@@ -51,8 +51,8 @@ extension CGSize {
 extension CGPoint {
     @inline(__always)
     mutating func roundToNearestOrUp(toMultipleOf multiplier: CGFloat) {
-        x.rounded(toMultipleOf: multiplier)
-        y.rounded(toMultipleOf: multiplier)
+        x.round(toMultipleOf: multiplier)
+        y.round(toMultipleOf: multiplier)
     }
     
     @inline(__always)

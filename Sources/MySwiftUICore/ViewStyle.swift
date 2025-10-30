@@ -8,7 +8,7 @@ package enum ViewStyleRegistry {
     }
     
     package static func overrides(for idiom: ViewStyleRegistry.InterfaceIdiom) -> ViewStyleOverrides {
-        return registries[idiom.idiom] ?? fallbackOverrides
+        return unsafe registries[idiom.idiom] ?? fallbackOverrides
     }
     
     static nonisolated(unsafe) var registries: [AnyInterfaceIdiom: ViewStyleOverrides] = [:]
@@ -55,30 +55,30 @@ package struct ViewStyleOverrides {
         let defaultStyleModifierProtocolDescriptor = _defaultStyleModifierProtocolDescriptor()
         registeredStyles
             .forEach { key, value in
-                guard swift_conformsToProtocol(value, defaultStyleModifierProtocolDescriptor) != nil else {
+                guard unsafe swift_conformsToProtocol(value, defaultStyleModifierProtocolDescriptor) != nil else {
                     return
                 }
                 
-                unsafeBitCast(value, to: (any DefaultStyleModifier.Type).self).registerDefaultStyle(in: &inputs)
+                unsafe unsafeBitCast(value, to: (any DefaultStyleModifier.Type).self).registerDefaultStyle(in: &inputs)
             }
         
         let styleOverrideModifierProtocolDescriptor = _styleOverrideModifierProtocolDescriptor()
         registeredStyleOverrides
             .forEach { key, value in
-                guard swift_conformsToProtocol(value, styleOverrideModifierProtocolDescriptor) != nil else {
+                guard unsafe swift_conformsToProtocol(value, styleOverrideModifierProtocolDescriptor) != nil else {
                     return
                 }
                 
-                unsafeBitCast(value, to: (any StyleOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
+                unsafe unsafeBitCast(value, to: (any StyleOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
             }
         
         registeredStyleWriterOverrides
             .forEach { key, value in
-                guard swift_conformsToProtocol(value, _styleWriterOverrideModifierProtocolDescriptor()) != nil else {
+                guard unsafe swift_conformsToProtocol(value, _styleWriterOverrideModifierProtocolDescriptor()) != nil else {
                     return
                 }
                 
-                unsafeBitCast(value, to: (any StyleWriterOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
+                unsafe unsafeBitCast(value, to: (any StyleWriterOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
             }
     }
     

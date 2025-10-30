@@ -6,8 +6,8 @@ extension _ViewInputs {
     }
     
     mutating func makeRootAccessibilityRelationshipScope() {
-        if self[AccessibilityRelationshipScope.self] == nil {
-            self[AccessibilityRelationshipScope.self] = AccessibilityRelationshipScope()
+        if unsafe self[AccessibilityRelationshipScope.self] == nil {
+            unsafe self[AccessibilityRelationshipScope.self] = AccessibilityRelationshipScope()
         }
     }
 }

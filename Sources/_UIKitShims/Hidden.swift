@@ -162,12 +162,12 @@ extension UIView {
                 let pointer = unsafe UnsafeMutableRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(self)) + ivar_getOffset(ivar))!
                 let casted = unsafe pointer.assumingMemoryBound(to: AnyObject?.self)
                 
-                if let typedStorage = casted.pointee {
+                if let typedStorage = unsafe casted.pointee {
                     return typedStorage
                 }
                 
-                let typedStorage = (objc_lookUpClass("_UITypedStorage") as! AnyObject).perform(Selector(("new")))!.takeUnretainedValue()
-                casted.initialize(to: typedStorage)
+                let typedStorage = unsafe (objc_lookUpClass("_UITypedStorage") as! AnyObject).perform(Selector(("new")))!.takeUnretainedValue()
+                unsafe casted.initialize(to: typedStorage)
                 return typedStorage
             }
         }

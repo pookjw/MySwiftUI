@@ -12,7 +12,7 @@ open class PlatformScrollEdgeEffectTagDefinition {
         unsafe definition = type
     }
     
-    open class var modifier: PlatformScrollEdgeEffectTagModifier.Type {
+    open class var modifier: any PlatformScrollEdgeEffectTagModifier.Type {
         fatalError() // abstract
     }
 }

@@ -5,17 +5,17 @@ package protocol AllowsHitTestingAccessibilityProvider {
 extension _GraphInputs {
     var allowsHitTestingAccessibilityProvider: (any AllowsHitTestingAccessibilityProvider.Type) {
         get {
-            return self[AllowsHitTestingAccessibilityProviderKey.self]
+            return unsafe self[AllowsHitTestingAccessibilityProviderKey.self]
         }
         set {
-            self[AllowsHitTestingAccessibilityProviderKey.self] = newValue
+            unsafe self[AllowsHitTestingAccessibilityProviderKey.self] = newValue
         }
         _modify {
-            yield &self[AllowsHitTestingAccessibilityProviderKey.self]
+            yield unsafe &self[AllowsHitTestingAccessibilityProviderKey.self]
         }
     }
     
-    fileprivate struct AllowsHitTestingAccessibilityProviderKey: GraphInput {
+    fileprivate struct AllowsHitTestingAccessibilityProviderKey: @unsafe GraphInput {
         static nonisolated(unsafe) let defaultValue: (any AllowsHitTestingAccessibilityProvider.Type) = EmptyAllowsHitTestingAccessibilityProvider.self
     }
 }

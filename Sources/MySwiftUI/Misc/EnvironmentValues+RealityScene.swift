@@ -4,14 +4,14 @@ internal import RealityKit
 extension EnvironmentValues {
     var realityScene: WeakBox<RealityKit.Scene> {
         get {
-            return self[RealitySceneKey.self]
+            return unsafe self[RealitySceneKey.self]
         }
         set {
-            self[RealitySceneKey.self] = newValue
+            unsafe self[RealitySceneKey.self] = newValue
         }
     }
 }
 
-fileprivate struct RealitySceneKey: EnvironmentKey {
+fileprivate struct RealitySceneKey: @unsafe EnvironmentKey {
     static nonisolated(unsafe) let defaultValue = WeakBox<RealityKit.Scene>(nil)
 }
