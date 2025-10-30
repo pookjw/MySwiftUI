@@ -741,14 +741,14 @@ extension _UIHostingView {
             
             inputs.base[EventBindingBridgeFactoryInput.self] = UIKitResponderEventBindingBridge.Factory.self
             inputs.base[GestureContainerFactoryInput.self] = ViewResponderGestureContainerFactory.self
-            inputs.animationsDisabled = host.disallowAnimations
+            inputs.animationsDisabled = MainActor.assumeIsolated { host.disallowAnimations }
             inputs.base.platformProvidersDefinition = SwiftUIPlatformProvidersDefinition.self
             inputs.base.coreInteractionResponderProvider = UIInteractionResponderProvider.self
             
             // <+532>
             inputs.base.updateCycleUseSetNeedsLayout = UIKitUpdateCycle.defaultUseSetNeedsLayout
             
-            if let delegate = host.delegate {
+            if let delegate = MainActor.assumeIsolated({ UncheckedSendable(host.delegate) }).value {
                 delegate.hostingView(host, willModifyViewInputs: &inputs)
             }
             
@@ -768,7 +768,7 @@ extension _UIHostingView {
             inputs.uiKitHostContainerFocusItem = Attribute(value: WeakBox(host))
             
             // <+1016>
-            if let navigationBridge = host.navigationBridge {
+            if let navigationBridge = MainActor.assumeIsolated({ UncheckedSendable(host.navigationBridge) }).value {
                 navigationBridge.hasSearch = inputs[IsSearchAllowedInput.self]
             }
             

@@ -33,7 +33,7 @@ MSUI_EXTERN bool _MovableLockIsOwner(MovableLock lock) __attribute__((swift_name
 MSUI_EXTERN bool _MovableLockIsOutermostOwner(MovableLock lock) __attribute__((swift_name("MovableLock.isOutermostOwner(self:)")));
 MSUI_EXTERN void _MovableLockLock(MovableLock lock) __attribute__((swift_name("MovableLock.lock(self:)")));
 MSUI_EXTERN void _MovableLockUnlock(MovableLock lock) __attribute__((swift_name("MovableLock.unlock(self:)")));
-MSUI_EXTERN void _MovableLockSyncMain(MovableLock lock, void * _Nullable context, void (* _Nullable function)(void *)) __attribute__((swift_name("MovableLock.syncMain(self:context:function:)")));
+MSUI_EXTERN void _MovableLockSyncMain(MovableLock lock, void * _Nullable context, __attribute__((swift_attr("@MainActor"))) void (* _Nullable function)(void *)) __attribute__((swift_name("MovableLock.syncMain(self:context:function:)")));
 MSUI_EXTERN void _MovableLockWait(MovableLock lock) __attribute__((swift_name("MovableLock.lockWait(self:)")));
 MSUI_EXTERN void _MovableLockBroadcast(MovableLock lock) __attribute__((swift_name("MovableLock.broadcast(self:)")));
 

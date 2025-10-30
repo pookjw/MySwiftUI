@@ -3,25 +3,25 @@
 #warning("TODO")
 internal import AttributeGraph
 
-protocol DynamicView {
+@MainActor protocol DynamicView {
     associatedtype Metadata
     associatedtype ID : Hashable
     
-    static nonisolated var canTransition: Bool {
+    static var canTransition: Bool {
         get
     }
     
-    static nonisolated var traitKeysDependOnView: Bool {
+    static var traitKeysDependOnView: Bool {
         get
     }
     
-    static nonisolated func makeID() -> ID
+    static func makeID() -> ID
     
-    nonisolated func childInfo(metadata: Metadata) -> (Any.Type, ID?)
+    func childInfo(metadata: Metadata) -> (Any.Type, ID?)
     
-    nonisolated func makeChildView(metadata: Metadata, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs
+    func makeChildView(metadata: Metadata, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs
     
-    nonisolated func makeChildViewList(metadata: Metadata, view: Attribute<Self>, inputs: _ViewListInputs) -> _ViewListOutputs
+    func makeChildViewList(metadata: Metadata, view: Attribute<Self>, inputs: _ViewListInputs) -> _ViewListOutputs
 }
 
 extension DynamicView {
@@ -93,45 +93,49 @@ fileprivate struct DynamicViewContainer<Content: DynamicView>: StatefulRule {
     }
     
     func updateValue() {
-        // x29 = sp + 0x170
-        /*
-         self/sp + 0xc0 = x23
-         x25/sp + 0xd8 = Content
-         x29 = sp + 0xe0
-         */
-        // x23
-        let childInfo = view.childInfo(metadata: metadata)
-        // x22
-        let oldValue: Self.Value? = (hasValue ? value : nil)
-        // <+524>
-        guard oldValue.map({ $0.matches(type: childInfo.0, id: childInfo.1) }) != true else {
-            return
-        }
-        
-        // <+696>
-        /*
-         self = 0xa8
-         oldValue = 0xb0
-         */
-        if let oldValue {
-            // <+780>
-            outputs.detachIndirectOutputs()
-            oldValue.subgraph.willInvalidate(isInserted: true)
-            oldValue.subgraph.invalidate()
-        }
-        
-        // <+944>
-        let graph = Subgraph(graph: parentSubgraph.graph)
-        parentSubgraph.addChild(graph)
-        
-        self.value = graph.apply {
-            // $s7SwiftUI20DynamicViewContainer031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyFAD0O0Vyx_GyXEfU0_
-            var inputs = inputs
-            inputs.copyCaches()
-            let childOutputs = view.makeChildView(metadata: metadata, view: $view, inputs: inputs)
-            outputs.attachIndirectOutputs(to: childOutputs)
-            let value = DynamicViewContainer.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)
-            return value
+        let unchecked = UncheckedSendable(self)
+        MainActor.assumeIsolated {
+            let `self` = unchecked.value
+            // x29 = sp + 0x170
+            /*
+             self/sp + 0xc0 = x23
+             x25/sp + 0xd8 = Content
+             x29 = sp + 0xe0
+             */
+            // x23
+            let childInfo = self.view.childInfo(metadata: self.metadata)
+            // x22
+            let oldValue: Self.Value? = (self.hasValue ? self.value : nil)
+            // <+524>
+            guard oldValue.map({ $0.matches(type: childInfo.0, id: childInfo.1) }) != true else {
+                return
+            }
+            
+            // <+696>
+            /*
+             self = 0xa8
+             oldValue = 0xb0
+             */
+            if let oldValue {
+                // <+780>
+                self.outputs.detachIndirectOutputs()
+                oldValue.subgraph.willInvalidate(isInserted: true)
+                oldValue.subgraph.invalidate()
+            }
+            
+            // <+944>
+            let graph = Subgraph(graph: self.parentSubgraph.graph)
+            self.parentSubgraph.addChild(graph)
+            
+            self.value = graph.apply {
+                // $s7SwiftUI20DynamicViewContainer031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyFAD0O0Vyx_GyXEfU0_
+                var inputs = self.inputs
+                inputs.copyCaches()
+                let childOutputs = self.view.makeChildView(metadata: self.metadata, view: self.$view, inputs: inputs)
+                self.outputs.attachIndirectOutputs(to: childOutputs)
+                let value = DynamicViewContainer.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)
+                return value
+            }
         }
     }
 }

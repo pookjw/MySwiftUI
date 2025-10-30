@@ -41,15 +41,15 @@ extension AnyView: DynamicView {
         return false
     }
     
-    nonisolated func childInfo(metadata: Void) -> (any Any.Type, UniqueID?) {
+    func childInfo(metadata: Void) -> (any Any.Type, UniqueID?) {
         return (storage.childType, nil)
     }
     
-    nonisolated func makeChildView(metadata: Void, view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
+    func makeChildView(metadata: Void, view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
         return storage.makeChildView(view: view, inputs: inputs)
     }
     
-    nonisolated func makeChildViewList(metadata: Void, view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    func makeChildViewList(metadata: Void, view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
         fatalError("TODO")
     }
 }
