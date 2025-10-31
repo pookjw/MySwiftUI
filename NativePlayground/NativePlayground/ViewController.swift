@@ -349,6 +349,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeByName("7SwiftUI5ColorVAAE11ResolvedHDRV11_AnimatableV")!)
+        _forEachField(of: _typeByName("7SwiftUI5ColorVAAE11ResolvedHDRV11_AnimatableV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }      
+        print("===")
+        
         
         print(ViewTransform.self)
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in
@@ -547,8 +554,9 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-//        let rootView = Color.black
-        let rootView = MyEnvView()
+        let rootView = Color.black
+//        let rootView = MyLeafView()
+//        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))

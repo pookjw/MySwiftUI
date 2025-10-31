@@ -640,7 +640,7 @@ struct ColorView: ResolvedPaint, RendererLeafView {
         self.allowedDynamicRange = allowedDynamicRange
     }
     
-    nonisolated var animatableData: Double {
+    nonisolated var animatableData: Color.ResolvedHDR._Animatable {
         get {
             fatalError("TODO")
         }
@@ -674,5 +674,45 @@ extension Color {
         case sRGB
         case sRGBLinear
         case displayP3
+    }
+}
+
+extension Color.ResolvedHDR {
+    struct _Animatable: VectorArithmetic, Equatable {
+        static func += (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
+            fatalError("TODO")
+        }
+        
+        static func + (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
+            fatalError("TODO")
+        }
+        
+        static func -= (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
+            fatalError("TODO")
+        }
+        
+        static func - (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
+            fatalError("TODO")
+        }
+        
+        static var zero: Color.ResolvedHDR._Animatable {
+            fatalError("TODO")
+        }
+        
+        private var color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>
+        private var headroom: Float
+        
+        mutating func scale(by rhs: Double) {
+            fatalError("TODO")
+        }
+        
+        var magnitudeSquared: Double {
+            get {
+                fatalError("TODO")
+            }
+            set {
+                fatalError("TODO")
+            }
+        }
     }
 }

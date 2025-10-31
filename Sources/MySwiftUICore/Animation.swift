@@ -61,6 +61,16 @@ extension Double: VectorArithmetic {
     }
 }
 
+extension Float: VectorArithmetic {
+    public mutating func scale(by rhs: Double) {
+        fatalError("TODO")
+    }
+    
+    public var magnitudeSquared: Double {
+        fatalError("TODO")
+    }
+}
+
 extension Vector3D: VectorArithmetic {
     public mutating func scale(by rhs: Double) {
         fatalError("TODO")
@@ -387,6 +397,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
     }
     
     func update(value: inout (value: T, changed: Bool), defaultAnimation: Animation?, environment: Attribute<EnvironmentValues>) {
+        // $s7SwiftUI25AnimatableAttributeHelperV6update5value16defaultAnimation11environment15sampleCollectoryxAE_Sb7changedtz_AA0I0VSg0D5Graph0D0VyAA17EnvironmentValuesVGy0C4DataQz_AA4TimeVtXEtF
         // x29 = sp + 0x2f0
         /*
          value = x26
@@ -407,10 +418,34 @@ struct AnimatableAttributeHelper<T: Animatable> {
         }
         
         // <+804>
+        if checkReset() {
+            // <+836>
+            value.changed = true
+        }
+        
+        // <+880>
+        if value.changed {
+            // <+936>
+            // x25
+            let animatableData = value.value.animatableData
+            fatalError("TODO")
+        } else {
+            // <+1144>
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
     
     func checkReset() -> Bool {
+        if phase.resetSeed != resetSeed {
+            reset()
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func reset() {
         fatalError("TODO")
     }
 }
@@ -440,7 +475,7 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
     
     func updateValue() {
         // self = x20
-        var value = (value: source, changed: false)
+        var value = $source.changedValue(options: [])
         helper.update(value: &value, defaultAnimation: nil, environment: $environment)
         
         guard value.changed, !hasValue else {
