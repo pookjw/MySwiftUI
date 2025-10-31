@@ -78,16 +78,28 @@ fileprivate struct MyKey_1: PreferenceKey {
     static var defaultValue: Bool {
         return true
     }
+    
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        
+    }
 }
 
 fileprivate struct MyKey_2: PreferenceKey {
     static var defaultValue: Bool {
         return true
     }
+    
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        
+    }
 }
 
 fileprivate struct MyKey_3: PreferenceKey {
     static var defaultValue: Bool {
         return true
+    }
+    
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        
     }
 }

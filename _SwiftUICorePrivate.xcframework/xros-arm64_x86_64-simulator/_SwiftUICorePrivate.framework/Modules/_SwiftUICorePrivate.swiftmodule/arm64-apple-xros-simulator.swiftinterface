@@ -835,3 +835,26 @@ extension SwiftUICore._ViewInputs {
     get set
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ResolvedGradient {
+  public enum ColorSpace {
+    case device
+    case linear
+    case perceptual
+
+    public func convertIn(_ resolved: SwiftUICore.Color.Resolved) -> _SwiftUICorePrivate.ResolvedGradient.ColorSpace.InterpolatableColor
+    public func convertOut(_ converted: _SwiftUICorePrivate.ResolvedGradient.ColorSpace.InterpolatableColor) -> SwiftUICore.Color.Resolved
+
+    public struct InterpolatableColor {
+
+    }
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUICore.Color.Resolved {
+  public init(linearRed: Swift.Float, linearGreen: Swift.Float, linearBlue: Swift.Float, opacity: Swift.Float)
+}
