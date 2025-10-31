@@ -188,6 +188,8 @@ extension Color.ProviderTag {
 
 extension Color {
     public struct Resolved: Hashable, BitwiseCopyable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
+        @safe static nonisolated(unsafe) var legacyInterpolation = !isLinkedOnOrAfter(.v6)
+        
         public var linearRed: Float
         public var linearGreen: Float
         public var linearBlue: Float
@@ -208,12 +210,52 @@ extension Color {
             fatalError("TODO")
         }
         
-        public var animatableData: Double {
+        public var animatableData: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>> {
             get {
-                fatalError("TODO")
+                var r: Float
+                var g: Float
+                var b: Float
+                var a: Float
+                if Color.Resolved.legacyInterpolation {
+                    r = linearRed
+                    g = linearGreen
+                    b = linearBlue
+                    a = opacity
+                } else {
+                    let color = ResolvedGradient.ColorSpace.perceptual.convertIn(self)
+                    r = color.r
+                    g = color.g
+                    b = color.b
+                    a = color.a
+                }
+                
+                r.applyUnitScale()
+                g.applyUnitScale()
+                b.applyUnitScale()
+                a.applyUnitScale()
+                
+                return AnimatablePair(r, AnimatablePair(g, AnimatablePair(b, a)))
             }
             set {
-                fatalError("TODO")
+                var r = newValue.first
+                var g = newValue.second.first
+                var b = newValue.second.second.first
+                var a = newValue.second.second.second
+                
+                r.unapplyUnitScale()
+                g.unapplyUnitScale()
+                b.unapplyUnitScale()
+                a.unapplyUnitScale()
+                
+                if Color.Resolved.legacyInterpolation {
+                    self.linearRed = r
+                    self.linearGreen = g
+                    self.linearBlue = b
+                    self.opacity = a
+                } else {
+                    let color = ResolvedGradient.ColorSpace.InterpolatableColor(r: r, g: g, b: b, a: a)
+                    self = ResolvedGradient.ColorSpace.perceptual.convertOut(color)
+                }
             }
         }
         
@@ -642,10 +684,12 @@ struct ColorView: ResolvedPaint, RendererLeafView {
     
     nonisolated var animatableData: Color.ResolvedHDR._Animatable {
         get {
-            fatalError("TODO")
+            let animatableData = color.base.animatableData
+            return Color.ResolvedHDR._Animatable(color: animatableData, headroom: color._headroom)
         }
         set {
-            fatalError("TODO")
+            color.base.animatableData = newValue.color
+            color._headroom = newValue.headroom
         }
     }
     
@@ -699,8 +743,13 @@ extension Color.ResolvedHDR {
             fatalError("TODO")
         }
         
-        private var color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>
-        private var headroom: Float
+        fileprivate private(set) var color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>
+        fileprivate private(set) var headroom: Float
+        
+        fileprivate init(color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>, headroom: Float) {
+            self.color = color
+            self.headroom = headroom
+        }
         
         mutating func scale(by rhs: Double) {
             fatalError("TODO")

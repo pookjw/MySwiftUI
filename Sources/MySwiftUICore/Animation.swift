@@ -63,7 +63,7 @@ extension Double: VectorArithmetic {
 
 extension Float: VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        fatalError("TODO")
+        self *= Float(rhs)
     }
     
     public var magnitudeSquared: Double {
@@ -539,5 +539,23 @@ final class AnimatorState<T> {
     
     public static func == (a: EmptyAnimatableData, b: EmptyAnimatableData) -> Bool {
         fatalError("TODO")
+    }
+}
+
+extension VectorArithmetic {
+    static var unitScale: Double {
+        return 128
+    }
+    
+    static var inverseUnitScale: Double {
+        return 1.0 / .unitScale
+    }
+    
+    mutating func applyUnitScale() {
+        scale(by: Self.unitScale)
+    }
+    
+    mutating func unapplyUnitScale() {
+        scale(by: Self.inverseUnitScale)
     }
 }
