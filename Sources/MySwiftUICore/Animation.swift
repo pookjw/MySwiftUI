@@ -448,6 +448,13 @@ struct AnimatableAttributeHelper<T: Animatable> {
     func reset() {
         fatalError("TODO")
     }
+    
+    func removeListeners() {
+        guard let animatorState else {
+            return
+        }
+        animatorState.removeListeners()
+    }
 }
 
 struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribute, ObservedAttribute, StatefulRule {
@@ -508,6 +515,10 @@ final class AnimatorState<T> {
     //    var forks: AnimatorState<T>.Fork
     
     init() {
+        fatalError("TODO")
+    }
+    
+    final func removeListeners() {
         fatalError("TODO")
     }
 }
