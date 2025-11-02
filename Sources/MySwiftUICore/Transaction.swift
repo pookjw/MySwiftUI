@@ -74,6 +74,10 @@ public struct Transaction {
     package func addAnimationListener(allFinished: () -> Void) {
         fatalError("TODO")
     }
+    
+    var effectiveAnimation: Animation? {
+        fatalError("TODO")
+    }
 }
 
 @available(*, unavailable)

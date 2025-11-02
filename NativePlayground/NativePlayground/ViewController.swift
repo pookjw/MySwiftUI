@@ -505,6 +505,14 @@ class ViewController: UIViewController {
         //        
         print("===")
         
+        print(AnimatorState<Double>.self)
+        _forEachField(of: AnimatorState<Double>.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
+        //        
+        print("===")
+        
         print(CustomEventTrace.Recorder.self)
         _forEachField(of: CustomEventTrace.Recorder.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
@@ -561,6 +569,17 @@ class ViewController: UIViewController {
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)
+        
+        do {
+            let ptr = UnsafeMutablePointer<Animation?>.allocate(capacity: 1)
+            ptr.initialize(to: .easeInOut)
+            print(ptr)
+        }
+        
+        do {
+            let state = AnimatorState<Double>(animation: .easeInOut, interval: 3, at: .zero, in: .init(animation: .easeInOut))
+            print(Unmanaged.passRetained(state).toOpaque())
+        }
     }
     
 //    override func viewDidLoad() {
@@ -578,7 +597,14 @@ class ViewController: UIViewController {
 }
 
 struct MyLeafView: RendererLeafView, Animatable {
-    var animatableData: Double = 3
+    var animatableData: Double {
+        get {
+            3
+        }
+        set {
+            
+        }
+    }
     
     static var requiresMainThread: Bool {
         true

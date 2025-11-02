@@ -299,7 +299,7 @@ struct AnimatableFrameAttribute: StatefulRule, AsyncAttribute, ObservedAttribute
         self.animationsDisabled = animationsDisabled
     }
     
-    func updateValue() {
+    mutating func updateValue() {
         // self = x19
         let (position, positionChanged) = $position.changedValue(options: [])
         let (size, sizeChanged) = $size.changedValue(options: [])
@@ -396,12 +396,12 @@ struct AnimatableAttributeHelper<T: Animatable> {
         self.resetSeed = 0
     }
     
-    func update(value: inout (value: T, changed: Bool), defaultAnimation: Animation?, environment: Attribute<EnvironmentValues>) {
+    mutating func update(value: inout (value: T, changed: Bool), defaultAnimation: Animation?, environment: Attribute<EnvironmentValues>) {
         // $s7SwiftUI25AnimatableAttributeHelperV6update5value16defaultAnimation11environment15sampleCollectoryxAE_Sb7changedtz_AA0I0VSg0D5Graph0D0VyAA17EnvironmentValuesVGy0C4DataQz_AA4TimeVtXEtF
         // x29 = sp + 0x2f0
         /*
          value = x26
-         defaultAnimation = sp + 0x60
+         defaultAnimation = sp + 0x140
          environment = sp + 0xb8
          */
         // <+744>
@@ -418,6 +418,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
         }
         
         // <+804>
+        // self = sp + 0x190
         if checkReset() {
             // <+836>
             value.changed = true
@@ -426,14 +427,114 @@ struct AnimatableAttributeHelper<T: Animatable> {
         // <+880>
         if value.changed {
             // <+936>
-            // x25
+            // sp + 0x138
             let animatableData = value.value.animatableData
-            fatalError("TODO")
-        } else {
-            // <+1144>
-            fatalError("TODO")
+            if let previousModelData /* sp + 0x128 */, animatableData != previousModelData {
+                // <+1304>
+                // x23
+                let transaction = Graph.withoutUpdate { 
+                    // $s7SwiftUI25AnimatableAttributeHelperV6update5value16defaultAnimation11environment15sampleCollectoryxAE_Sb7changedtz_AA0I0VSg0D5Graph0D0VyAA17EnvironmentValuesVGy0C4DataQz_AA4TimeVtXEtFAA11TransactionVyXEfU_
+                    return self.transaction
+                }
+                
+                // sp + 0xf0
+                if let animation = transaction.effectiveAnimation ?? defaultAnimation {
+                    // <+1444>
+                    // x28
+                    var interval = animatableData
+                    interval -= previousModelData
+                    let time = self.time
+                    
+                    // sp + 0xf8
+                    let animatorState: AnimatorState<T.AnimatableData>
+                    if let _animatorState = self.animatorState {
+                        animatorState = _animatorState
+                        // <+1564>
+                        // time = sp + 0x220
+                        animatorState.combine(newAnimation: animation, newInterval: interval, at: time, in: transaction, environment: environment)
+                        CustomEventTrace.animationRetarget(attribute: .current, propertyType: type(of: self), function: animation.function)
+                        // <+3520>
+                        let attribute = AnyAttribute.current!
+                        Signpost.animationState.traceEvent(
+                            type: .event,
+                            object: animatorState,
+                            "Animation: (%p) [%d] %{public}@ updated",
+                            args: [
+                                attribute.graph.counter(options: .unknown4),
+                                attribute.rawValue,
+                                _typeName(type(of: self), qualified: false)
+                            ]
+                        )
+                    } else {
+                        // <+2076>
+                        // time = sp + 0x250
+                        animatorState = AnimatorState<T.AnimatableData>(
+                            animation: animation,
+                            interval: interval,
+                            at: time,
+                            in: transaction,
+                            finishingDefinition: T.self as? AnimationFinishingDefinition<T.AnimatableData>.Type
+                        )
+                        
+                        CustomEventTrace.animationBegin(attribute: .current, propertyType: type(of: self), function: animation.function)
+                        let attribute = AnyAttribute.current!
+                        Signpost.animationState.traceEvent(
+                            type: .begin,
+                            object: animatorState,
+                            "Animation: (%p) [%d] %{public}@ started",
+                            args: [
+                                attribute.graph.counter(options: .unknown4),
+                                attribute.rawValue,
+                                _typeName(type(of: self), qualified: false)
+                            ]
+                        )
+                        self.animatorState = animatorState
+                    }
+                    
+                    // <+5076>
+                    animatorState.addListeners(transaction: transaction)
+                }
+            }
         }
-        fatalError("TODO")
+        
+        // <+5156>
+        guard let animatorState else {
+            return
+        }
+        
+        var animatableData = value.value.animatableData
+        // <+5332>
+        let didEnd = animatorState.update(&animatableData, at: time, environment: environment)
+        
+        if didEnd {
+            // <+5384>
+            CustomEventTrace.animationEnd(attribute: .current)
+            // <+5512>
+            let attribute = AnyAttribute.current!
+            Signpost.animationState.traceEvent(
+                type: .end,
+                object: animatorState,
+                "Animation: (%p) [%d] %{public}@ ended",
+                args: [
+                    attribute.graph.counter(options: .unknown4),
+                    attribute.rawValue,
+                    _typeName(type(of: self), qualified: false)
+                ]
+            )
+            
+            if let animatorState = self.animatorState {
+                animatorState.removeListeners()
+            }
+            self.animatorState = nil
+        } else {
+            // <+6052>
+            CustomEventTrace.animationAttrUpdate(.current)
+            animatorState.nextUpdate()
+        }
+        
+        // <+7204>
+        value.value.animatableData = animatableData
+        value.changed = true
     }
     
     func checkReset() -> Bool {
@@ -480,7 +581,7 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
     
     typealias Value = T
     
-    func updateValue() {
+    mutating func updateValue() {
         // self = x20
         var value = $source.changedValue(options: [])
         helper.update(value: &value, defaultAnimation: nil, environment: $environment)
@@ -498,27 +599,47 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
     }
 }
 
-final class AnimatorState<T> {
+final class AnimatorState<Value: VectorArithmetic> {
     //    var animation: Animation
-    //    var state: AnimationState<T>
-    //    var interval: T
+    //    var state: AnimationState<Value>
+    //    var interval: Value
     //    var beginTime: Time
     //    var quantizedFrameInterval: Double
     //    var nextTime: Time
-    //    var previousAnimationValue: T
+    //    var previousAnimationValue: Value
     //    var reason: UInt32?
-    //    var phase: AnimatorState<T>.Phase
+    //    var phase: AnimatorState<Value>.Phase
     //    var listeners: [AnimationListener]
     //    var logicalListeners: [AnimationListener]
     //    var isLogicallyComplete: Bool
     //    var finishingDefinition: (null)
-    //    var forks: AnimatorState<T>.Fork
+    //    var forks: AnimatorState<Value>.Fork
     
-    init() {
+    init(animation: Animation, interval: Value, at: Time, in: Transaction) {
         fatalError("TODO")
     }
     
-    final func removeListeners() {
+    init(animation: Animation, interval: Value, at: Time, in: Transaction, finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)?) {
+        fatalError("TODO")
+    }
+    
+    func removeListeners() {
+        fatalError("TODO")
+    }
+    
+    func combine(newAnimation: Animation, newInterval: Value, at: Time, in: Transaction, environment: Attribute<EnvironmentValues>?) {
+        fatalError("TODO")
+    }
+    
+    func addListeners(transaction: Transaction) {
+        fatalError("TODO")
+    }
+    
+    func update(_: inout Value, at: Time, environment: Attribute<EnvironmentValues>?) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func nextUpdate() {
         fatalError("TODO")
     }
 }
@@ -569,4 +690,8 @@ extension VectorArithmetic {
     mutating func unapplyUnitScale() {
         scale(by: Self.inverseUnitScale)
     }
+}
+
+protocol AnimationFinishingDefinition<Value>: VectorArithmetic {
+    associatedtype Value
 }

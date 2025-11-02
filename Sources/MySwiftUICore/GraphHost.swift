@@ -141,9 +141,8 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     static var currentHost: GraphHost {
-        let currentAttribute = AnyAttribute.current
         let graph: Graph?
-        if currentAttribute != .empty {
+        if let currentAttribute = AnyAttribute.current {
             // <+84>
             graph = currentAttribute.graph
         } else {

@@ -130,7 +130,7 @@ package enum Update {
             withoutActuallyEscaping(handler) { escapingClosure in
                 final class Context {
                     let current = Subgraph.current
-                    let currentRuleContext = AnyRuleContext(attribute: .current)
+                    let currentRuleContext = AnyRuleContext(attribute: AnyOptionalAttribute.current.identifier)
                     let block: @MainActor () -> Void
                     
                     init(block: @escaping @MainActor () -> Void) {

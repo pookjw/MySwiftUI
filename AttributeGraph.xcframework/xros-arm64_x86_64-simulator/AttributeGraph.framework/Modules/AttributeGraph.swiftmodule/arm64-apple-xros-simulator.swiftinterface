@@ -360,6 +360,10 @@ public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule, Swi
 }
 
 @frozen public struct AnyOptionalAttribute: Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
+    public static var current: AttributeGraph.AnyOptionalAttribute {
+        get
+    }
+
     public init(_: AttributeGraph.AnyAttribute)
     public init(_: AttributeGraph.AnyAttribute?)
 
@@ -383,4 +387,10 @@ extension Graph {
 
     @_silgen_name("AGGraphSetOutputValue")
     public static func setOutputValue<Value>(_ value: Swift.UnsafePointer<Value>)
+}
+
+extension AttributeGraph.AnyAttribute {
+    public static var current: AttributeGraph.AnyAttribute? {
+        get
+    }
 }

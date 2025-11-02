@@ -187,18 +187,18 @@ package struct CustomEventTrace {
     }
     
     public static func animationBegin(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
+        var d0: Double = 1.0
+        var d1: Double = .nan
+        var d2: Double = .nan
+        var d3: Double = .nan
+        CustomEventTrace.extractFunctionData(function, &d0, &d1, &d2, &d3)
+        
         guard
             unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
             let recorder = unsafe recorder
         else {
             return
         }
-        
-        var d0: Double = 1.0
-        var d1: Double = 1.0
-        var d2: Double = .nan
-        var d3: Double = .nan
-        CustomEventTrace.extractFunctionData(function, &d0, &d1, &d2, &d3)
         
         let cefOp = unsafe recorder.cefOp
         unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.animation.rawValue
@@ -263,18 +263,18 @@ package struct CustomEventTrace {
     }
     
     public static func animationRetarget(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
+        var d0: Double = 1.0
+        var d1: Double = .nan
+        var d2: Double = .nan
+        var d3: Double = .nan
+        CustomEventTrace.extractFunctionData(function, &d0, &d1, &d2, &d3)
+        
         guard
             unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
             let recorder = unsafe recorder
         else {
             return
         }
-        
-        var d0: Double = 1.0
-        var d1: Double = 1.0
-        var d2: Double = .nan
-        var d3: Double = .nan
-        CustomEventTrace.extractFunctionData(function, &d0, &d1, &d2, &d3)
         
         let cefOp = unsafe recorder.cefOp
         unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.animation.rawValue

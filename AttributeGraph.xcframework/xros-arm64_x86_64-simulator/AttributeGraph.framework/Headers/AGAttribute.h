@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 AG_EXTERN const AGAttribute AGAttributeNil NS_SWIFT_NAME(AnyAttribute.empty);
 AG_EXTERN AGAttribute AGGraphCreateOffsetAttribute2(AGAttribute attribute, const unsigned long offset, const unsigned int size) NS_SWIFT_NAME(AnyAttribute.createOffsetAttribute2(self:offset:size:));
-AG_EXTERN const AGAttribute AGGraphGetCurrentAttribute(void) NS_SWIFT_NAME(getter:AnyAttribute.current());
+AG_EXTERN const AGAttribute AGGraphGetCurrentAttribute(void);
 AG_EXTERN void AGGraphSetIndirectDependency(AGAttribute, AGAttribute);
 
 NS_ASSUME_NONNULL_END

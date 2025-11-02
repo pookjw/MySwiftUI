@@ -858,3 +858,9 @@ public struct ResolvedGradient {
 extension SwiftUICore.Color.Resolved {
   public init(linearRed: Swift.Float, linearGreen: Swift.Float, linearBlue: Swift.Float, opacity: Swift.Float)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class AnimatorState<T: SwiftUICore.VectorArithmetic> {
+  public init(animation: SwiftUICore.Animation, interval: T, at: _SwiftUICorePrivate.Time, in: SwiftUICore.Transaction)
+}
