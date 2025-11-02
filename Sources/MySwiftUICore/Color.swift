@@ -697,9 +697,8 @@ struct ColorView: ResolvedPaint, RendererLeafView {
         fatalError("TODO")
     }
     
-    // $s7SwiftUI9ColorViewVAA012RendererLeafD0A2aDP7contentAA11DisplayListV7ContentV5ValueOyFTW
     func content() -> DisplayList.Content.Value {
-        fatalError("TODO")
+        return .color(self)
     }
 }
 

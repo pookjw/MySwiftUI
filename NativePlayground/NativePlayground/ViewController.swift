@@ -518,6 +518,14 @@ class ViewController: UIViewController {
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
+        
+        print(ColorView.self)
+        _forEachField(of: ColorView.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
         
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
@@ -562,24 +570,13 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-//        let rootView = Color.black
-        let rootView = MyLeafView()
+        let rootView = Color.black
+//        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)
-        
-        do {
-            let ptr = UnsafeMutablePointer<Animation?>.allocate(capacity: 1)
-            ptr.initialize(to: .easeInOut)
-            print(ptr)
-        }
-        
-        do {
-            let state = AnimatorState<Double>(animation: .easeInOut, interval: 3, at: .zero, in: .init(animation: .easeInOut))
-            print(Unmanaged.passRetained(state).toOpaque())
-        }
     }
     
 //    override func viewDidLoad() {

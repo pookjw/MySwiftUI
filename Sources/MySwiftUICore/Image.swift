@@ -35,7 +35,11 @@ extension Image {
         case high
     }
     
-    struct DynamicRange {
+    public struct DynamicRange {
+        @safe public static nonisolated(unsafe) let standard = Image.DynamicRange(storage: .standard)
+        @safe public static nonisolated(unsafe) let constrainedHigh = Image.DynamicRange(storage: .constrainedHigh)
+        @safe public static nonisolated(unsafe) let high = Image.DynamicRange(storage: .high)
+        
         private var storage: Image.DynamicRange.Storage
         
         init(storage: Image.DynamicRange.Storage) {

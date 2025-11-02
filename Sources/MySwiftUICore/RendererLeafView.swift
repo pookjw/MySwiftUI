@@ -125,10 +125,10 @@ fileprivate struct LeafDisplayList<Content: RendererLeafView>: CustomStringConve
         let containerPosition = containerPosition
         let origin = CGPoint(x: position.x - containerPosition.x, y: position.y - containerPosition.y)
         let item = DisplayList.Item(
+            .content(DisplayList.Content(content, seed: contentSeed)),
             frame: CGRect(origin: origin, size: size),
-            version: version,
-            value: .content(DisplayList.Content(content, seed: contentSeed)),
-            identity: identity
+            identity: identity,
+            version: version
         )
         item.canonicalize(options: options)
         

@@ -30,10 +30,14 @@ package struct DisplayList {
 
 extension DisplayList {
     package struct Item {
-        var frame: CGRect
-        var version: DisplayList.Version
-        var value: DisplayList.Item.Value
-        var identity: _DisplayList_Identity
+        private var frame: CGRect
+        private var version: DisplayList.Version
+        private var value: DisplayList.Item.Value
+        fileprivate private(set) var identity: _DisplayList_Identity
+        
+        init(_ value: DisplayList.Item.Value, frame: CGRect, identity: _DisplayList_Identity, version: DisplayList.Version) {
+            fatalError("TODO")
+        }
         
         func canonicalize(options: DisplayList.Options) {
             fatalError("TODO")
