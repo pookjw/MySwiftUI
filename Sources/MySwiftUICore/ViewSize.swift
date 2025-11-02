@@ -13,6 +13,6 @@ package struct ViewSize: Equatable {
 
 extension Attribute where T == ViewSize {
     func size() -> Attribute<CGSize> {
-        fatalError("TODO")
+        return self[keyPath: \.value]
     }
 }

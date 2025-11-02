@@ -53,7 +53,56 @@ extension DisplayList {
         }
         
         var features: DisplayList.Features {
-            fatalError("TODO")
+            switch value {
+            case .content(let content):
+                // <+60>
+                switch content.value {
+                case .sdfMask(let displayList, _): // 0x6
+                    // <+908>
+                    return displayList.features
+                case .platformView(let factory): // 0x8
+                    // <+948>
+                    return factory.features
+                case .text(let contentView, _): // 0xa
+                    // <+96>
+                    fatalError("TODO")
+                case .flattened(let displayList, _, _): // 0xb
+                    // <+476>
+                    return displayList.features.union(.flattened)
+                case .view(_): // 0xd
+                    // <+936>
+                    return .views
+                case .placeholder(_): // 0xe
+                    // <+920>
+                    return .views
+                default:
+                    // <+1128>
+                    return []
+                }
+            case .effect(let effect, let displayList):
+                // <+356>
+                return effect.features.union(displayList.features)
+            case .states(let array):
+                // <+328>
+                let count = array.count
+                if count == 0 {
+                    return .states
+                } else if count >= 8 {
+                    // <+504>
+                    if count >= 16 {
+                        // <+664>
+                        fatalError("TODO")
+                    } else {
+                        // <+512>
+                        fatalError("TODO")
+                    }
+                } else {
+                    return .states
+                }
+            case .empty:
+                // <+1128>
+                return []
+            }
         }
         
         var properties: DisplayList.Properties {
@@ -75,6 +124,21 @@ extension DisplayList {
         func canonicalize(options: DisplayList.Options = .defaultValue) {
             // options = w26
             guard !options.contains(.disableCanonicalization) else {
+                return
+            }
+            
+            // self = x28
+            switch value {
+            case .content(let content):
+                if !frame.isEmpty || features.contains(.required) {
+                    // <+264>
+                    fatalError("TODO")
+                } else {
+                    return
+                }
+            case .effect(let effect, let displayList):
+                fatalError("TODO")
+            default:
                 return
             }
             
@@ -193,6 +257,7 @@ extension DisplayList {
         package static var entities: DisplayList.Features { return DisplayList.Features(rawValue: 1 << 8) }
         package static var flattened: DisplayList.Features { return DisplayList.Features(rawValue: 1 << 9) }
         package static var platformViews: DisplayList.Features { return DisplayList.Features(rawValue: 1 << 10) }
+        package static var views: DisplayList.Features { return DisplayList.Features(rawValue: 1 << 1) }
         
         package let rawValue: UInt16
         
@@ -279,6 +344,10 @@ extension DisplayList {
 //        case identity
 //        case geometryGroup
 //        case compositingGroup
+        
+        var features: DisplayList.Features {
+            fatalError("TODO")
+        }
     }
 }
 
@@ -438,8 +507,8 @@ extension DisplayList {
 
 extension DisplayList {
     struct Content {
-        private var value: DisplayList.Content.Value
-        private var seed: DisplayList.Seed
+        var value: DisplayList.Content.Value
+        var seed: DisplayList.Seed
         
         init(_ value: DisplayList.Content.Value, seed: DisplayList.Seed) {
             self.value = value
@@ -452,18 +521,18 @@ extension DisplayList.Content {
     enum Value {
         case backdrop(BackdropEffect)
         case color(ColorView)
-//        case chameleonColor(DisplayList.ChameleonColor)
+        case chameleonColor(DisplayList.ChameleonColor)
         case image(GraphicsImage)
         case shape(Path, AnyResolvedPaint, FillStyle)
         case sdfShape(SDFShape)
         case sdfMask(DisplayList, Material.Layer.SDFLayer)
         case shadow(Path, ResolvedShadowStyle)
-//        case platformView(PlatformViewFactory)
-//        case platformLayer(PlatformLayerFactory)
-//        case text(StyledTextContentView, CGSize)
+        case platformView(any PlatformViewFactory)
+        case platformLayer(any PlatformLayerFactory)
+        case text(StyledTextContentView, CGSize)
         case flattened(DisplayList, CGPoint, RasterizationOptions)
         case drawing
-//        case view(_DisplayList_ViewFactory)
+        case view(any _DisplayList_ViewFactory)
         case placeholder(id: _DisplayList_Identity)
     }
 }
@@ -526,5 +595,13 @@ extension _ViewInputs {
         }
         
         self[_DisplayList_StableIdentityScope.self].projectedValue!.value.pushIdentity(identity: identity)
+    }
+}
+
+extension DisplayList {
+    struct ChameleonColor {
+        private var fallback: Color.ResolvedHDR
+        private var allowedDynamicRange: Image.DynamicRange
+        private var filters: [GraphicsFilter]
     }
 }

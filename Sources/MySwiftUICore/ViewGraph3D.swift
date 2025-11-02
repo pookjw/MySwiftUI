@@ -48,12 +48,7 @@ extension ViewGraph3D: ViewGraphFeature {
         // w21
         var layoutComputer = outputs.layoutComputer
         if let _layoutComputer = layoutComputer {
-            let viewDepth = depthTransform
-                .identifier
-                .createOffsetAttribute2(
-                    offset: UInt(MemoryLayout<ViewTransform>.offset(of: \.depth)!),
-                    size: UInt32(MemoryLayout<ViewDepth>.size)
-                )
+            let viewDepth = depthTransform[keyPath: \.depth]
             
             /*
              layoutComputer -> sp
@@ -61,7 +56,7 @@ extension ViewGraph3D: ViewGraphFeature {
              */
             let depthStashingLayoutComputer = DepthStashingLayoutComputer(
                 layoutComputer: _layoutComputer,
-                depth: Attribute<ViewDepth>(identifier: viewDepth)
+                depth: viewDepth
             )
             layoutComputer = Attribute(depthStashingLayoutComputer)
         }

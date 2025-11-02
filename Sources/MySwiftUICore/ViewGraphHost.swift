@@ -2,6 +2,7 @@
 private import Foundation
 private import AttributeGraph
 package import QuartzCore
+package import CoreGraphics
 
 package final class ViewGraphHost {
     @safe package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true
@@ -162,6 +163,30 @@ package final class ViewGraphHost {
         viewGraph.updatePreferenceBridge(environment: environment) { [weak updateDelegate] in
             updateDelegate?.updateEnvironment()
         }
+    }
+    
+    package func invalidateTransform() -> Bool {
+        // x21
+        let viewGraph = viewGraph
+        // w20
+        let rootTransform = viewGraph.$rootTransform
+        // w19
+        let valueState = rootTransform.valueState
+        
+        if !valueState.contains(.unknown1) {
+            rootTransform.invalidateValue()
+            if let delegate = viewGraph.delegate {
+                delegate.graphDidChange()
+            }
+            
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    package func setProposedSize(_ size: CGSize) {
+        viewGraph.setSize(ViewSize(value: size, _proposal: size))
     }
 }
 

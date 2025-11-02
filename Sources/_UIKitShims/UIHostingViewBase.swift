@@ -631,6 +631,31 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.setEnvironment(environmentValues, wrapper: environmentWrapper)
     }
     
+    package func _updateTransform() {
+        // self = x19
+        // x21
+        guard let uiView else {
+            return
+        }
+        
+        guard !viewGraph.invalidateTransform() else {
+            return
+        }
+        
+        if registeredForGeometryChanges {
+            uiView._unregisterForGeometryChanges()
+            registeredForGeometryChanges = false
+        }
+    }
+    
+    package func _updateSize() {
+        guard let uiView else {
+            return
+        }
+        
+        viewGraph.setProposedSize(uiView.bounds.size)
+    }
+    
     @MainActor
     private func ___lldb_unnamed_symbol318321(environmentValues: inout MySwiftUICore.EnvironmentValues) {
         // x23

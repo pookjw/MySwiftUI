@@ -5,7 +5,7 @@ internal import UIKit
 final class EditMenuBridge: NSObject {
     weak var host: ViewRendererHost? = nil
     private weak var listCell: ListCollectionViewCell? = nil
-    private var interaction: UIEditMenuInteraction? = nil
+    private(set) var interaction: UIEditMenuInteraction? = nil
     private var editMenuPresentationSeed: VersionSeed = .empty
     private var lastEditMenuPresentation: EditMenuPresentation? = nil
     private(set) var presentedMenu: ActiveEditMenu? = nil

@@ -39,10 +39,10 @@ open class _UIHostingView<Content: View>: UIView {
     private var allowFrameChanges: Bool = true
     private var isInSizeTransition: Bool = false
     private var transparentBackgroundReasons: HostingViewTransparentBackgroundReason = []
-    private var keyboardFrame: CGRect? = nil
-    private var keyboardSeed: UInt32 = 0
-    private var keyboardScreen: MyUIScreen? = nil
-    private var keyboardAnimation: Animation? = nil
+    private var legacyKeyboardFrame: CGRect? = nil
+    private var legacyKeyboardSeed: UInt32 = 0
+    private var legacyKeyboardScreen: MyUIScreen? = nil
+    private var legacyKeyboardAnimation: Animation? = nil
     private weak var viewController: UIHostingController<Content>? = nil
     private var currentEvent: UIEvent? = nil
     private var eventBridge: UIKitEventBindingBridge
@@ -1083,11 +1083,40 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final func updateTransform() {
-        fatalError("TODO")
+        // self = x19
+        base._updateTransform()
+        
+        if let popoverBridge {
+            popoverBridge.updateAnchor()
+        }
+        
+        // <+144>
+        let editMenuBridge = editMenuBridge
+        if editMenuBridge.presentedMenu != nil {
+            if let interaction = editMenuBridge.interaction {
+                interaction.updateVisibleMenuPosition(animated: true)
+            }
+        }
+        
+        // <+336>
+        if let viewController {
+            fatalError("TODO")
+//            viewController.dialogBridge.transformDidChange()
+        }
+        
+        // <+392>
+        if let sharingActivityPickerBridge {
+            sharingActivityPickerBridge.transformDidChange()
+        }
+        
+        // <+424>
+        if let legacyKeyboardFrame {
+            invalidateProperties(.safeArea, mayDeferUpdate: false)
+        }
     }
     
     package final func updateSize() {
-        fatalError("TODO")
+        base._updateSize()
     }
     
     package final func updateSafeArea() {

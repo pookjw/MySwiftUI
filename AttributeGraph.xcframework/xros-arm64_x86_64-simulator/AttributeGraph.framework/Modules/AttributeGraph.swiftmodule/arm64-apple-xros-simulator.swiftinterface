@@ -99,6 +99,12 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible, Swift
     public func valueAndFlags(options: AttributeGraph.AGValueOptions) -> (value: T, flags: AttributeGraph.AGChangedValueFlags)
 
     public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
+
+    public var valueState: AttributeGraph.AGValueState {
+        get
+    }
+
+    public func invalidateValue()
 }
 
 @frozen

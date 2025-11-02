@@ -229,23 +229,45 @@ extension ViewGraphRootValueUpdater {
             
             // valuesNeedingUpdate = x20
             // owner = x21
-            if !valuesNeedingUpdate.isEmpty {
+            if valuesNeedingUpdate.contains(.rootView) {
                 owner.valuesNeedingUpdate.remove(.rootView)
                 self.updateRootView()
             }
             
-            if valuesNeedingUpdate.contains(.rootView) {
+            if valuesNeedingUpdate.contains(.environment) {
                 owner.valuesNeedingUpdate.remove(.environment)
                 self.updateEnvironment()
             }
             
-            owner.valuesNeedingUpdate.remove(.environment)
-            owner.valuesNeedingUpdate.remove(.transform)
-            owner.valuesNeedingUpdate.remove(.size)
-            owner.valuesNeedingUpdate.remove(.safeArea)
-            owner.valuesNeedingUpdate.remove(.containerSize)
-            owner.valuesNeedingUpdate.remove(.focusStore)
-            owner.valuesNeedingUpdate.remove(.focustedItem)
+            if valuesNeedingUpdate.contains(.transform) {
+                owner.valuesNeedingUpdate.remove(.transform)
+                self.updateTransform()
+            }
+            
+            if valuesNeedingUpdate.contains(.size) {
+                owner.valuesNeedingUpdate.remove(.size)
+                self.updateSize()
+            }
+            
+            if valuesNeedingUpdate.contains(.safeArea) {
+                owner.valuesNeedingUpdate.remove(.safeArea)
+                self.updateSafeArea()
+            }
+            
+            if valuesNeedingUpdate.contains(.containerSize) {
+                owner.valuesNeedingUpdate.remove(.containerSize)
+                self.updateContainerSize()
+            }
+            
+            if valuesNeedingUpdate.contains(.focusStore) {
+                owner.valuesNeedingUpdate.remove(.focusStore)
+                self.updateFocusStore()
+            }
+            
+            if valuesNeedingUpdate.contains(.focustedValues) {
+                owner.valuesNeedingUpdate.remove(.focustedValues)
+                self.updateFocusedValues()
+            }
         }
     }
     

@@ -402,8 +402,8 @@ class ViewController: UIViewController {
         print("===")
         
         
-        print(_UIHostingView<EmptyView>.self)
-        _forEachField(of: _UIHostingView<EmptyView>.self, options: [.classType]) { name, offset, type, kind in
+        print(_UIHostingView<Color>.self)
+        _forEachField(of: _UIHostingView<Color>.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
@@ -582,6 +582,7 @@ class ViewController: UIViewController {
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
+//        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)
@@ -599,6 +600,26 @@ class ViewController: UIViewController {
 //    }
     
 //    MyEnvView
+}
+
+final class MyHostingView: _UIHostingView<Color> {
+    override var bounds: CGRect {
+        get {
+            super.bounds
+        }
+        set {
+            super.bounds = newValue
+        }
+    }
+    
+    override var frame: CGRect {
+        get {
+            super.frame
+        }
+        set {
+            super.frame = newValue
+        }
+    }
 }
 
 struct MyLeafView: RendererLeafView, Animatable {

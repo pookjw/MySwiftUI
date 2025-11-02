@@ -18,7 +18,7 @@ package final class ViewGraph: GraphHost {
     private var features = unsafe ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
     private var centersRootView = true
     private let rootView: AnyAttribute
-    @Attribute private var rootTransform: ViewTransform
+    @Attribute private(set) var rootTransform: ViewTransform
     @Attribute var transform: ViewTransform
     @Attribute private var zeroPoint: CGPoint
     @Attribute var proposedSize: ViewSize
@@ -504,6 +504,16 @@ package final class ViewGraph: GraphHost {
     
     package var rootViewInsets: EdgeInsets {
         fatalError("TODO")
+    }
+    
+    func setSize(_ size: ViewSize) {
+        guard $proposedSize.setValue(size) else {
+            return
+        }
+        
+        if let delegate {
+            delegate.graphDidChange()
+        }
     }
     
     private func beginNextUpdate(at time: Time) {

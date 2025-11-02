@@ -85,7 +85,7 @@ package struct CachedEnvironment {
         // sp + 0x180
         var copy = inputs
         guard copy.base.options.contains(.viewNeedsGeometry) else {
-            return Attribute(identifier: copy.size.identifier.createOffsetAttribute2(offset: 0, size: UInt32(MemoryLayout<CGSize>.size)))
+            return copy.size[keyPath: \.value]
         }
         
         // <+112>
@@ -204,14 +204,7 @@ extension CachedEnvironment {
             if let _animatedPosition {
                 return _animatedPosition
             } else {
-                return Attribute(
-                    identifier: animatedFrame
-                        .identifier
-                        .createOffsetAttribute2(
-                            offset: UInt(MemoryLayout.offset(of: \ViewFrame.origin)!),
-                            size: UInt32(MemoryLayout<CGPoint>.size)
-                        )
-                )
+                return animatedFrame[keyPath: \.origin]
             }
         }
         
@@ -220,14 +213,7 @@ extension CachedEnvironment {
             if let _animatedSize {
                 return _animatedSize
             } else {
-                return Attribute(
-                    identifier: animatedFrame
-                        .identifier
-                        .createOffsetAttribute2(
-                            offset: UInt(MemoryLayout.offset(of: \ViewFrame.size)!),
-                            size: UInt32(MemoryLayout<ViewSize>.size)
-                        )
-                )
+                return animatedFrame[keyPath: \.size]
             }
         }
         
@@ -236,14 +222,7 @@ extension CachedEnvironment {
             if let _animatedCGSize {
                 return _animatedCGSize
             } else {
-                return Attribute(
-                    identifier: animatedFrame
-                        .identifier
-                        .createOffsetAttribute2(
-                            offset: UInt(MemoryLayout.offset(of: \ViewFrame.size)!),
-                            size: UInt32(MemoryLayout<CGSize>.size)
-                        )
-                )
+                return animatedFrame[keyPath: \.size.value]
             }
         }
     }

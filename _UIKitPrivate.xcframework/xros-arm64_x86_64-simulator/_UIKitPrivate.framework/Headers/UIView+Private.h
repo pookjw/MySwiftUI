@@ -18,6 +18,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
 - (BOOL)_ancestorHasInvertFilterApplied;
 - (UIColor *)_undimmedTintColor;
 - (void)_invalidateSubviewCache;
+- (void)_unregisterForGeometryChanges;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)
