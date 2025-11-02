@@ -55,6 +55,7 @@ let package = Package(
                 .byName(name: "_MySwiftUIShims"),
                 .byName(name: "FeatureFlags"),
                 .byName(name: "StopwatchSupport"),
+                .byName(name: "RenderBox"),
                 .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"]))
             ],
             swiftSettings: [
@@ -166,6 +167,10 @@ let package = Package(
         .binaryTarget(
             name: "TCC",
             path: "TCC.xcframework"
+        ),
+        .binaryTarget(
+            name: "RenderBox",
+            path: "RenderBox.xcframework"
         ),
         .target(
             name: "_KernPrivate",

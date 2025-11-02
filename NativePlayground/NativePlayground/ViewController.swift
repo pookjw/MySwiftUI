@@ -526,6 +526,14 @@ class ViewController: UIViewController {
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
             return true
         }
+        //        
+        print("===")
+        
+        print(DisplayList.Item.self)
+        _forEachField(of: DisplayList.Item.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }
         
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
