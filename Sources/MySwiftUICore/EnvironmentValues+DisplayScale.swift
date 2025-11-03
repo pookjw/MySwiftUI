@@ -26,7 +26,7 @@ extension EnvironmentValues {
         }
     }
     
-    var pixelLength: CGFloat {
+    package var pixelLength: CGFloat {
         if let defaultPixelLength {
             return defaultPixelLength
         } else {

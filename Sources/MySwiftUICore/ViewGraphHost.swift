@@ -188,6 +188,14 @@ package final class ViewGraphHost {
     package func setProposedSize(_ size: CGSize) {
         viewGraph.setSize(ViewSize(value: size, _proposal: size))
     }
+    
+    package func setSafeAreaInsets(_: EdgeInsets?, keyboardHeight: CGFloat?, cornerInsets: RectangleCornerInsets?) -> Bool {
+        fatalError("TODO")
+    }
+    
+    package var environment: EnvironmentValues {
+        fatalError("TODO")
+    }
 }
 
 extension ViewGraphHost {

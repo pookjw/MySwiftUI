@@ -1120,7 +1120,16 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final func updateSafeArea() {
-        fatalError("TODO")
+        base._updateSafeArea(
+            container: {
+                // $s7SwiftUI14_UIHostingViewC14updateSafeAreayyFAA10EdgeInsetsVyXEfU_TA
+                return base._containerSafeArea
+            },
+            keyboardHeight: {
+                // $s7SwiftUI14_UIHostingViewC14updateSafeAreayyF12CoreGraphics7CGFloatVyXEfU0_TA
+                fatalError("TODO")
+            }
+        )
     }
     
     package final func updateContainerSize() {

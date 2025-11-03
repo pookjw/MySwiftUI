@@ -110,6 +110,17 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
+    package var _containerSafeArea: MySwiftUICore.EdgeInsets {
+        // x22
+        guard let uiView else {
+            return .zero
+        }
+        
+        let pixelLength = viewGraph.environment.pixelLength
+        let safeAreaInsets = uiView.safeAreaInsets
+        fatalError("TODO")
+    }
+    
     package init(viewGraph: MySwiftUICore.ViewGraphHost, options: UIHostingViewBase.Options) {
         fatalError("TODO")
     }
@@ -344,6 +355,50 @@ package final class UIHostingViewBase: NSObject {
             clearDisplayLink()
         }
         viewGraph.updateRemovedState(isUnattached: window == nil, isHiddenForReuse: isHiddenForReuse)
+    }
+    
+    package func _updateSafeArea(container: () -> MySwiftUICore.EdgeInsets, keyboardHeight: () -> CGFloat) {
+        /*
+         self = x21
+         container = x25/x20
+         keyboardHeight = x22/x23
+         */
+        // x29 = sp + 0x180
+        // x19
+        guard let uiView else {
+            return
+        }
+        
+        let insets: MySwiftUICore.EdgeInsets?
+        let cornerInsets: MySwiftUICore.RectangleCornerInsets?
+        if safeAreaRegions.contains(.container) {
+            // <+192>
+            let _insets = container()
+            insets = _insets
+            cornerInsets = self.cornerInsets(insets: _insets)
+        } else {
+            // <+160>
+            insets = nil
+            cornerInsets = nil
+        }
+        
+        let height: CGFloat?
+        if safeAreaRegions.contains(.keyboard) {
+            // <+316>
+            height = keyboardHeight()
+        } else {
+            // <+304>
+            height = nil
+        }
+        
+        let needsInvalidation = viewGraph.setSafeAreaInsets(insets, keyboardHeight: height, cornerInsets: cornerInsets)
+        if needsInvalidation {
+            uiView.invalidateIntrinsicContentSize()
+        }
+    }
+    
+    private func cornerInsets(insets: MySwiftUICore.EdgeInsets) -> MySwiftUICore.RectangleCornerInsets {
+        fatalError("TODO")
     }
     
     // ___lldb_unnamed_symbol317396
