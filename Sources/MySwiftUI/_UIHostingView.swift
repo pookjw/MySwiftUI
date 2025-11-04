@@ -1590,5 +1590,5 @@ extension UITraitCollection {
 }
 
 fileprivate struct BridgedEnvironmentKeysKey: EnvironmentKey {
-    @safe static nonisolated(unsafe) let defaultValue: [(any EnvironmentKey).Type] = []
+    static let defaultValue: [(any EnvironmentKey).Type] = []
 }

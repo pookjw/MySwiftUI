@@ -22,22 +22,6 @@ public struct EdgeInsets: Equatable {
     public static var zero: EdgeInsets {
         return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
     }
-    
-    @inline(__always)
-    package mutating func xFlipIfRightToLeft(layoutDirection: @autoclosure () -> LayoutDirection) {
-        let leading = leading
-        let trailing = trailing
-        
-        guard leading != trailing else {
-            return
-        }
-        
-        let direction = layoutDirection()
-        if direction == .rightToLeft {
-            self.leading = trailing
-            self.trailing = leading
-        }
-    }
 }
 
 extension EdgeInsets: _VectorMath {
@@ -154,6 +138,18 @@ extension EdgeInsets {
                 trailing = newValue
             }
         }
+        _modify {
+            switch edge {
+            case .top:
+                yield &top
+            case .leading:
+                yield &leading
+            case .bottom:
+                yield &bottom
+            case .trailing:
+                yield &trailing
+            }
+        }
     }
     
     var horizontal: CGFloat {
@@ -255,4 +251,125 @@ extension EdgeInsets {
     init(_ radii: RectangleCornerRadii) {
         fatalError("TODO")
     }
+    
+    init(horizontal: CGFloat, vertical: CGFloat) {
+        bottom = vertical
+        leading = horizontal
+        top = bottom
+        trailing = leading
+    }
+    
+    subscript(axis: Axis) -> CGFloat {
+        let horizontal = horizontal
+        let vertical = vertical
+        
+        switch axis {
+        case .horizontal:
+            return horizontal
+        case .vertical:
+            return vertical
+        }
+    }
+    
+    subscript(axis: Axis, isStart: Bool) -> CGFloat {
+        get {
+            if isStart {
+                switch axis {
+                case .horizontal:
+                    return leading
+                case .vertical:
+                    return top
+                }
+            } else {
+                switch axis {
+                case .horizontal:
+                    return trailing
+                case .vertical:
+                    return bottom
+                }
+            }
+        }
+        set {
+            if isStart {
+                switch axis {
+                case .horizontal:
+                    leading = newValue
+                case .vertical:
+                    top = newValue
+                }
+            } else {
+                switch axis {
+                case .horizontal:
+                    trailing = newValue
+                case .vertical:
+                    bottom = newValue
+                }
+            }
+        }
+        _modify {
+            if isStart {
+                switch axis {
+                case .horizontal:
+                    yield &leading
+                case .vertical:
+                    yield &top
+                }
+            } else {
+                switch axis {
+                case .horizontal:
+                    yield &trailing
+                case .vertical:
+                    yield &bottom
+                }
+            }
+        }
+    }
+    
+    func scaled(by scale: CGFloat) -> EdgeInsets {
+        return EdgeInsets(
+            top: scale * top,
+            leading: scale * leading,
+            bottom: scale * bottom,
+            trailing: scale * trailing
+        )
+    }
+    
+    func adding(_ insets: OptionalEdgeInsets) -> EdgeInsets {
+        fatalError("TODO")
+    }
+    
+    func merge(_ insets: OptionalEdgeInsets) -> EdgeInsets {
+        fatalError("TODO")
+    }
+    
+    func originOffset(in direction: LayoutDirection) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    @inline(__always)
+    package mutating func xFlipIfRightToLeft(layoutDirection: @autoclosure () -> LayoutDirection) {
+        let leading = leading
+        let trailing = trailing
+        
+        guard leading != trailing else {
+            return
+        }
+        
+        let direction = layoutDirection()
+        if direction == .rightToLeft {
+            self.leading = trailing
+            self.trailing = leading
+        }
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(top)
+        hasher.combine(leading)
+        hasher.combine(bottom)
+        hasher.combine(trailing)
+    }
+}
+
+extension EdgeInsets: ProtobufDecodableMessage, ProtobufEncodableMessage {
+    // TODO
 }
