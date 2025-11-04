@@ -877,5 +877,18 @@ public struct ColorView : _SwiftUICorePrivate.RendererLeafView {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUICore.EdgeInsets {
   @_silgen_name("$s7SwiftUI10EdgeInsetsVAAE18xFlipIfRightToLeft15layoutDirectionyAA06LayoutK0OyXE_tF")
-  public mutating func xFlipIfRightToLeft(layoutDirection: () -> SwiftUICore.LayoutDirection)
+  public mutating func xFlipIfRightToLeft(layoutDirection: @autoclosure () -> SwiftUICore.LayoutDirection)
+
+  public var originOffset: CoreFoundation.CGSize {
+    @_silgen_name("$s7SwiftUI10EdgeInsetsVAAE12originOffsetSo6CGSizeVvg")
+    get
+  }
+
+  public var negatedInsets: SwiftUICore.EdgeInsets {
+    @_silgen_name("$s7SwiftUI10EdgeInsetsVAAE07negatedD0ACvg")
+    get
+  }
+
+  @_silgen_name("$s7SwiftUI10EdgeInsetsVAAE11subtractingyA2CF")
+  public func subtracting(_ other: SwiftUICore.EdgeInsets) -> SwiftUICore.EdgeInsets
 }

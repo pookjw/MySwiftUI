@@ -579,11 +579,13 @@ class ViewController: UIViewController {
             var insets = EdgeInsets(
                 top: 10, leading: 20, bottom: 30, trailing: 40
             )
-            insets.xFlipIfRightToLeft { 
-                .rightToLeft
-            }
+//            insets.xFlipIfRightToLeft(layoutDirection: .rightToLeft)
             
-            print(insets)
+            print(insets.originOffset)
+            print(insets.negatedInsets)
+            
+            var other = EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+            print(insets.subtracting(other))
         }
         
         

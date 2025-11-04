@@ -29,11 +29,4 @@ public import CoreGraphics
     }
 }
 
-extension EdgeInsets {
-    @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
-    public func inset(by corners: RectangleCornerInsets, edges: Edge.Set = .all) -> EdgeInsets {
-        fatalError("TODO")
-    }
-}
-
 extension RectangleCornerInsets: BitwiseCopyable {}
