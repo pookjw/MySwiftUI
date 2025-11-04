@@ -7,15 +7,15 @@ public struct UnitPoint: Hashable {
     public var z: CGFloat
     
     public static let zero = UnitPoint(x: 0, y: 0, z: 0)
-//    public static let center: UnitPoint
-//    public static let leading: UnitPoint
-//    public static let trailing: UnitPoint
-//    public static let top: UnitPoint
-//    public static let bottom: UnitPoint
-//    public static let topLeading: UnitPoint
-//    public static let topTrailing: UnitPoint
-//    public static let bottomLeading: UnitPoint
-//    public static let bottomTrailing: UnitPoint
+    public static let center = UnitPoint(x: 0.5, y: 0.5, z: 0.5)
+    public static let leading = UnitPoint(x: 0, y: 0.5, z: 0.5)
+    public static let trailing = UnitPoint(x: 1, y: 0.5, z: 0.5)
+    public static let top = UnitPoint(x: 0.5, y: 0, z: 0.5)
+    public static let bottom = UnitPoint(x: 0.5, y: 1, z: 0.5)
+    public static let topLeading = UnitPoint(x: 0, y: 0, z: 0.5)
+    public static let topTrailing = UnitPoint(x: 1, y: 0, z: 0.5)
+    public static let bottomLeading = UnitPoint(x: 0, y: 1, z: 0.5)
+    public static let bottomTrailing = UnitPoint(x: 1, y: 1, z: 0.5)
     
     @inlinable public init() {
         self.init(x: 0, y: 0, z: 0)
