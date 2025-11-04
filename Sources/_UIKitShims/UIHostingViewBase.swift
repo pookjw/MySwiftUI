@@ -1032,6 +1032,10 @@ package final class UIHostingViewBase: NSObject {
         self.lastRenderTime = time
         return d8
     }
+    
+    package var _keyboardSafeAreaHeight: CGFloat {
+        return 0
+    }
 }
 
 extension UIHostingViewBase {

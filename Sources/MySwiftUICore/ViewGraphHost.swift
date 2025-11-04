@@ -189,7 +189,23 @@ package final class ViewGraphHost {
         viewGraph.setSize(ViewSize(value: size, _proposal: size))
     }
     
-    package func setSafeAreaInsets(_: EdgeInsets?, keyboardHeight: CGFloat?, cornerInsets: RectangleCornerInsets?) -> Bool {
+    package func setSafeAreaInsets(_ edgeInsets: EdgeInsets?, keyboardHeight: CGFloat?) -> Bool {
+        return setSafeAreaInsets(edgeInsets, keyboardHeight: keyboardHeight, cornerInsets: nil)
+    }
+    
+    package func setSafeAreaInsets(_ edgeInsets: EdgeInsets?, keyboardHeight: CGFloat?, cornerInsets: RectangleCornerInsets?) -> Bool {
+        // x29 = sp + 0x140
+        /*
+         edgeInsets (Pointer) = x24
+         keyboardHeight = x21
+         keyboardHeight (case) = x22
+         cornerInsets (Pointer) = x23
+         */
+        
+        // sp + 0x40
+        var edgeInsets = edgeInsets ?? .zero
+        let pixelLength = viewGraph.environment.pixelLength
+        edgeInsets.round(toMultipleOf: pixelLength)
         fatalError("TODO")
     }
     

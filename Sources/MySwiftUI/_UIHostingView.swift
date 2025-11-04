@@ -1127,7 +1127,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
             },
             keyboardHeight: {
                 // $s7SwiftUI14_UIHostingViewC14updateSafeAreayyF12CoreGraphics7CGFloatVyXEfU0_TA
-                fatalError("TODO")
+                return hostKeyboardHeight
             }
         )
     }
@@ -1324,6 +1324,18 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
             notificationCenter.addObserver(self, selector: #selector(immersiveSpaceAuthorityDidChangeImmersion), name: ImmersiveSpaceAuthority.didChangeImmersion, object: nil)
             notificationCenter.addObserver(self, selector: #selector(sceneDidChangeImmersionState), name: ._MRUISceneDidChangeImmersionState, object: nil)
         }
+    }
+    
+    package var hostKeyboardHeight: CGFloat {
+        if isLinkedOnOrAfter(.v7) {
+            return base._keyboardSafeAreaHeight
+        } else {
+            return _legacyHostKeyboardHeight
+        }
+    }
+    
+    package final var _legacyHostKeyboardHeight: CGFloat {
+        fatalError("TODO")
     }
 }
 
