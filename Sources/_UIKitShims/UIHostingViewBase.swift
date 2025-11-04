@@ -111,13 +111,25 @@ package final class UIHostingViewBase: NSObject {
     }
     
     package var _containerSafeArea: MySwiftUICore.EdgeInsets {
+        // x29 = sp + 0x110
         // x22
         guard let uiView else {
             return .zero
         }
         
+        // d8
         let pixelLength = viewGraph.environment.pixelLength
         let safeAreaInsets = uiView.safeAreaInsets
+        // sp + 0x58
+        var insets = MySwiftUICore.EdgeInsets(
+            top: safeAreaInsets.top,
+            leading: safeAreaInsets.left,
+            bottom: safeAreaInsets.bottom,
+            trailing: safeAreaInsets.right
+        )
+        insets.xFlipIfRightToLeft(layoutDirection: .leftToRight)
+        
+        // <+488>
         fatalError("TODO")
     }
     

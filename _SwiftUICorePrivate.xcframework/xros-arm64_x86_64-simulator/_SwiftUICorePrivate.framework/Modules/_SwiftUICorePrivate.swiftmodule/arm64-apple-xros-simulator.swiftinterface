@@ -872,3 +872,10 @@ public struct ColorView : _SwiftUICorePrivate.RendererLeafView {
   public init(_ color: SwiftUICore.Color.ResolvedHDR, isAntialiased: Swift.Bool, allowedDynamicRange: SwiftUICore.Image.DynamicRange)
   public func content() -> _SwiftUICorePrivate.DisplayList.Content.Value
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUICore.EdgeInsets {
+  @_silgen_name("$s7SwiftUI10EdgeInsetsVAAE18xFlipIfRightToLeft15layoutDirectionyAA06LayoutK0OyXE_tF")
+  public mutating func xFlipIfRightToLeft(layoutDirection: () -> SwiftUICore.LayoutDirection)
+}

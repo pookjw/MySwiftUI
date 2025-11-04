@@ -575,6 +575,17 @@ class ViewController: UIViewController {
 //        subgraph.update(1)
 //        _ = consume graph
         
+        do {
+            var insets = EdgeInsets(
+                top: 10, leading: 20, bottom: 30, trailing: 40
+            )
+            insets.xFlipIfRightToLeft { 
+                .rightToLeft
+            }
+            
+            print(insets)
+        }
+        
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
