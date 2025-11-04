@@ -194,7 +194,7 @@ package final class ViewGraphHost {
     }
     
     package var environment: EnvironmentValues {
-        fatalError("TODO")
+        return viewGraph.environment
     }
 }
 

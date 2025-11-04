@@ -892,3 +892,14 @@ extension SwiftUICore.EdgeInsets {
   @_silgen_name("$s7SwiftUI10EdgeInsetsVAAE11subtractingyA2CF")
   public func subtracting(_ other: SwiftUICore.EdgeInsets) -> SwiftUICore.EdgeInsets
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct AbsoluteRectangleCornerInsets {
+    public var topLeading: CoreGraphics.CGSize
+    public var topTrailing: CoreGraphics.CGSize
+    public var bottomLeading: CoreGraphics.CGSize
+    public var bottomTrailing: CoreGraphics.CGSize
+    
+    public init(_ insets: SwiftUICore.RectangleCornerInsets, layoutDirection: SwiftUICore.LayoutDirection)
+}

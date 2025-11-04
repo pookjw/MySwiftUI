@@ -128,9 +128,9 @@ package final class UIHostingViewBase: NSObject {
             trailing: safeAreaInsets.right
         )
         insets.xFlipIfRightToLeft(layoutDirection: .leftToRight)
+        insets.round(toMultipleOf: pixelLength)
         
-        // <+488>
-        fatalError("TODO")
+        return insets
     }
     
     package init(viewGraph: MySwiftUICore.ViewGraphHost, options: UIHostingViewBase.Options) {
@@ -387,7 +387,7 @@ package final class UIHostingViewBase: NSObject {
             // <+192>
             let _insets = container()
             insets = _insets
-            cornerInsets = self.cornerInsets(insets: _insets)
+            cornerInsets = self.cornerInsets
         } else {
             // <+160>
             insets = nil
@@ -409,8 +409,39 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    private func cornerInsets(insets: MySwiftUICore.EdgeInsets) -> MySwiftUICore.RectangleCornerInsets {
-        fatalError("TODO")
+    // ___lldb_unnamed_symbol322028
+    private var cornerInsets: MySwiftUICore.RectangleCornerInsets {
+        // x29 = sp + 0x170
+        // x23
+        guard let uiView else {
+            return MySwiftUICore.RectangleCornerInsets()
+        }
+        
+        // sp + 0x38
+        let pixelLength = viewGraph.environment.pixelLength
+        // d11, d12, d9, d10, d8, d15, d14, d13
+        let insets = uiView._safeAreaCornerInsets
+        
+        var cornerInsets = MySwiftUICore.RectangleCornerInsets(
+            topLeading: insets.topLeft,
+            topTrailing: insets.topRight,
+            bottomLeading: insets.bottomLeft,
+            bottomTrailing: insets.bottomRight
+        )
+        let absolute = MySwiftUICore.AbsoluteRectangleCornerInsets(cornerInsets, layoutDirection: .leftToRight)
+        cornerInsets = MySwiftUICore.RectangleCornerInsets(
+            topLeading: absolute.topLeading,
+            topTrailing: absolute.topTrailing,
+            bottomLeading: absolute.bottomLeading,
+            bottomTrailing: absolute.bottomTrailing
+        )
+        
+        cornerInsets.topLeading.round(toMultipleOf: pixelLength)
+        cornerInsets.topTrailing.round(toMultipleOf: pixelLength)
+        cornerInsets.bottomLeading.round(toMultipleOf: pixelLength)
+        cornerInsets.bottomTrailing.round(toMultipleOf: pixelLength)
+        
+        return cornerInsets
     }
     
     // ___lldb_unnamed_symbol317396

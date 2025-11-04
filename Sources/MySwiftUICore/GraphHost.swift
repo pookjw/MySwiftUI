@@ -619,6 +619,11 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     package final func emptyTransaction(_ transaction: Transaction = Transaction()) -> UInt32 {
         fatalError("TODO")
     }
+    
+    @inline(__always)
+    var environment: EnvironmentValues {
+        return data.environment
+    }
 }
 
 extension GraphHost {

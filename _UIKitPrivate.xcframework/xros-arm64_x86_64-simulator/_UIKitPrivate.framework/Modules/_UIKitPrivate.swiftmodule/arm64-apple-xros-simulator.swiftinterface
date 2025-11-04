@@ -31,3 +31,21 @@ extension _SwiftUICorePrivate.ViewGraphHost.Idiom {
     @_silgen_name("$s7SwiftUI13ViewGraphHostC5IdiomV5UIKitE03_uiF0AESgSo015UIUserInterfaceF0V_tcfC")
     public init?(_uiIdiom: UIKit.UIUserInterfaceIdiom)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "UIKit", visionOS 26.0)
+extension _UIKitPrivate._UICornerInsets: Swift.Equatable, Swift.Codable {
+    public static var zero: _UIKitPrivate._UICornerInsets {
+        @_silgen_name("$sSo15_UICornerInsetsV5UIKitE4zeroABvgZ")
+        get
+    }
+
+    @_silgen_name("$sSo15_UICornerInsetsV5UIKitE2eeoiySbAB_ABtFZ")
+    public static func == (lhs: _UIKitPrivate._UICornerInsets, rhs: _UIKitPrivate._UICornerInsets) -> Swift.Bool
+
+    @_silgen_name("$sSo15_UICornerInsetsV5UIKitE4fromABs7Decoder_p_tKcfC")
+    public init(from: Swift.Decoder) throws
+
+    @_silgen_name("$sSo15_UICornerInsetsV5UIKitE6encode2toys7Encoder_p_tKF")
+    public func encode(to: Swift.Encoder) throws
+}

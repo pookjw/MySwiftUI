@@ -588,6 +588,12 @@ class ViewController: UIViewController {
             print(insets.subtracting(other))
         }
         
+        do {
+            let insets = RectangleCornerInsets(topLeading: CGSize(width: 10, height: 10), topTrailing: CGSize(width: 20, height: 20), bottomLeading: CGSize(width: 30, height: 30), bottomTrailing: CGSize(width: 40, height: 40))
+            print(AbsoluteRectangleCornerInsets(insets, layoutDirection: .leftToRight))
+            print(AbsoluteRectangleCornerInsets(insets, layoutDirection: .rightToLeft))
+        }
+        
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
