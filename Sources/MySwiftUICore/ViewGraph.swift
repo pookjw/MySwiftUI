@@ -542,6 +542,22 @@ package final class ViewGraph: GraphHost {
         
         fatalError("TODO")
     }
+    
+    func setSafeAreaInsets(_ elements: [SafeAreaInsets.Element]) -> Bool {
+        /*
+         elements = x21
+         */
+        let changed = $safeAreaInsets.setValue(_SafeAreaInsetsModifier(elements: elements, nextInsets: nil))
+        guard changed else {
+            return false
+        }
+        
+        if let delegate {
+            delegate.graphDidChange()
+        }
+        
+        return true
+    }
 }
 
 extension ViewGraph {

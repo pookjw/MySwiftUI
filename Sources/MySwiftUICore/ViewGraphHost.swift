@@ -189,7 +189,7 @@ package final class ViewGraphHost {
         viewGraph.setSize(ViewSize(value: size, _proposal: size))
     }
     
-    package func setSafeAreaInsets(_ edgeInsets: EdgeInsets?, keyboardHeight: CGFloat?) -> Bool {
+    func setSafeAreaInsets(_ edgeInsets: EdgeInsets?, keyboardHeight: CGFloat?) -> Bool {
         return setSafeAreaInsets(edgeInsets, keyboardHeight: keyboardHeight, cornerInsets: nil)
     }
     
@@ -202,11 +202,40 @@ package final class ViewGraphHost {
          cornerInsets (Pointer) = x23
          */
         
-        // sp + 0x40
         var edgeInsets = edgeInsets ?? .zero
         let pixelLength = viewGraph.environment.pixelLength
+        // sp + 0x70
         edgeInsets.round(toMultipleOf: pixelLength)
-        fatalError("TODO")
+        // sp + 0x68
+        var containerElement = SafeAreaInsets.Element(
+            regions: .container,
+            insets: edgeInsets
+        )
+        
+        // sp + 0x10 / w25
+        let cornerInsets = cornerInsets
+        
+        // d13, d12, d8, d10
+        var keyboardElement = SafeAreaInsets.Element(regions: .keyboard, insets: EdgeInsets())
+        if let keyboardHeight {
+            keyboardElement.insets = EdgeInsets(edgeInsets.bottom - keyboardHeight, edges: .bottom)
+        }
+        
+        // <+396>
+        var elements: [SafeAreaInsets.Element] = []
+        
+        if !containerElement.insets.isEmpty {
+            if let cornerInsets {
+                containerElement.cornerInsets = AbsoluteRectangleCornerInsets(cornerInsets)
+            }
+            elements.append(containerElement)
+        }
+        
+        if !keyboardElement.insets.isEmpty {
+            elements.append(keyboardElement)
+        }
+        
+        return viewGraph.setSafeAreaInsets(elements)
     }
     
     package var environment: EnvironmentValues {

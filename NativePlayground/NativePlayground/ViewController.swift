@@ -505,14 +505,6 @@ class ViewController: UIViewController {
         //        
         print("===")
         
-        print(AnimatorState<Double>.self)
-        _forEachField(of: AnimatorState<Double>.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-            return true
-        }
-        //        
-        print("===")
-        
         print(CustomEventTrace.Recorder.self)
         _forEachField(of: CustomEventTrace.Recorder.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
@@ -592,6 +584,20 @@ class ViewController: UIViewController {
             let insets = RectangleCornerInsets(topLeading: CGSize(width: 10, height: 10), topTrailing: CGSize(width: 20, height: 20), bottomLeading: CGSize(width: 30, height: 30), bottomTrailing: CGSize(width: 40, height: 40))
             print(AbsoluteRectangleCornerInsets(insets, layoutDirection: .leftToRight))
             print(AbsoluteRectangleCornerInsets(insets, layoutDirection: .rightToLeft))
+        }
+        
+        do {
+            let edgeInsets = EdgeInsets(top: 30, leading: 40, bottom: 50, trailing: 60)
+            let result = edgeInsets.inset(
+                by: RectangleCornerInsets(
+                    topLeading: CGSize(width: 5, height: 5),
+                    topTrailing: CGSize(width: 5, height: 5),
+                    bottomLeading: CGSize(width: 5, height: 5),
+                    bottomTrailing: CGSize(width: 5, height: 5)
+                ),
+                edges: .top
+            )
+            print(result)
         }
         
         

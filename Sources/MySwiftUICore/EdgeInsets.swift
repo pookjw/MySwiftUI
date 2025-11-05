@@ -100,7 +100,34 @@ extension EdgeInsets {
 extension EdgeInsets {
     @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
     public func inset(by corners: RectangleCornerInsets, edges: Edge.Set = .all) -> EdgeInsets {
-        fatalError("TODO")
+        /*
+         corners = x19
+         edges = x20
+         */
+        // d11, d10, d9, d8
+        var result = self
+        
+        if edges.contains(Edge.top) {
+            let inset = max(corners.topLeading.height, corners.topTrailing.height)
+            result.top += inset
+        }
+        
+        if edges.contains(Edge.bottom) {
+            let inset = max(corners.bottomLeading.height, corners.bottomTrailing.height)
+            result.bottom += inset
+        }
+        
+        if edges.contains(Edge.leading) {
+            let inset = max(corners.topLeading.width, corners.bottomLeading.width)
+            result.leading += inset
+        }
+        
+        if edges.contains(Edge.trailing) {
+            let inset = max(corners.topTrailing.width, corners.bottomTrailing.width)
+            result.trailing += inset
+        }
+        
+        return result
     }
 }
 

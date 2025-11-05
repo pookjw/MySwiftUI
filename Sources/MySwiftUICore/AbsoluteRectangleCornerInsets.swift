@@ -8,7 +8,7 @@ package struct AbsoluteRectangleCornerInsets {
     package var bottomTrailing: CGSize
     
     @inline(__always)
-    package init(_ insets: RectangleCornerInsets, layoutDirection: LayoutDirection) {
+    package init(_ insets: RectangleCornerInsets, layoutDirection: LayoutDirection = .leftToRight) {
         switch layoutDirection {
         case .leftToRight:
             self.topLeading = insets.topLeading
