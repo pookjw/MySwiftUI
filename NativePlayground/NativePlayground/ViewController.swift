@@ -356,6 +356,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeByName("7SwiftUI11FocusBridgeC")!)
+        _forEachField(of: _typeByName("7SwiftUI11FocusBridgeC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            return true
+        }      
+        print("===")
+        
         
         print(ViewTransform.self)
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in
@@ -566,6 +573,9 @@ class ViewController: UIViewController {
 //        graph.setNeedsUpdate()
 //        subgraph.update(1)
 //        _ = consume graph
+        
+//        let item = DisplayList.Item.init(.empty, frame: .zero, identity: .init(), version: .init())
+//        let displayList = DisplayList(item)
         
         do {
             var insets = EdgeInsets(

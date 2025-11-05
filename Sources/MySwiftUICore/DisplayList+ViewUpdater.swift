@@ -231,7 +231,30 @@ extension DisplayList {
             fatalError("TODO")
         }
         
-        fileprivate func updateInheritedView(container: inout DisplayList.ViewUpdater.Container, from: DisplayList.Item, parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>) {
+        fileprivate func updateInheritedView(
+            container: inout DisplayList.ViewUpdater.Container,
+            from item: DisplayList.Item,
+            parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
+        ) {
+            // x29 = sp + 0x7f0
+            // x21 = sp + 0x580
+            /*
+             self = x19
+             container = x22
+             parentState = x23
+             */
+            // sp + 0x5d0
+            var copy_1 = item
+            // sp + 0x580
+            var copy_2 = item
+            // sp + 0x628
+            var copy_3 = parentState.pointee
+            // sp + 0x430
+            var copy_4 = parentState.pointee
+            
+            // <+164>
+            // sp + 0x280
+//            let archiveSerial = viewCache.index.archiveSerial
             fatalError("TODO")
         }
     }

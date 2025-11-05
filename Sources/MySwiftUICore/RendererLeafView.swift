@@ -124,7 +124,7 @@ fileprivate struct LeafDisplayList<Content: RendererLeafView>: CustomStringConve
         let position = position
         let containerPosition = containerPosition
         let origin = CGPoint(x: position.x - containerPosition.x, y: position.y - containerPosition.y)
-        let item = DisplayList.Item(
+        var item = DisplayList.Item(
             .content(DisplayList.Content(content, seed: contentSeed)),
             frame: CGRect(origin: origin, size: size),
             identity: identity,

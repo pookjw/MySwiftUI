@@ -57,7 +57,31 @@ extension DisplayList.ViewUpdater {
             platform: DisplayList.ViewUpdater.Platform,
             parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Time {
-            fatalError("TODO")
+            // x29 = sp + 0x1d0
+            /*
+             item = x24
+             platform = x27
+             parentState = sp + 0x210
+             */
+            
+            // <+132>
+            switch item.value {
+            case .content(let content):
+                // <+404>
+                switch content.value {
+                case .shape(let path, let anyResolvedPaint, let fillStyle):
+                    // <+416>
+                    fatalError("TODO")
+                default:
+                    return .infinity
+                }
+            case .effect(let effect, let displayList):
+                // <+156>
+                fatalError("TODO")
+            default:
+                // <+676>
+                return .infinity
+            }
         }
         
         mutating func reclaim(time: Time) {

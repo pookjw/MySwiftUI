@@ -659,7 +659,7 @@ extension ShapeStyle where Self == Color {
 }
 
 struct ColorView: ResolvedPaint, RendererLeafView {
-    private var color: Color.ResolvedHDR
+    private(set) var color: Color.ResolvedHDR
     private var isAntialiased: Bool
     private var allowedDynamicRange: Image.DynamicRange
     

@@ -254,7 +254,19 @@ public struct BloomFilter: Swift.Equatable {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct DisplayList {
-    public struct Item {}
+    public struct Item {
+      public enum Value {
+        case empty
+      }
+
+      public init(_: _SwiftUICorePrivate.DisplayList.Item.Value, frame: CoreGraphics.CGRect, identity: _SwiftUICorePrivate._DisplayList_Identity, version: _SwiftUICorePrivate.DisplayList.Version)
+    }
+
+    public struct Version {
+      public init()
+    }
+
+    public init(_ item: _SwiftUICorePrivate.DisplayList.Item)
 }
 
 @available(visionOS 26.0, *)

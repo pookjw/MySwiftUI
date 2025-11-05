@@ -10,15 +10,34 @@ internal import AttributeGraph
 internal import RenderBox
 
 package struct DisplayList {
-    package var items: [DisplayList.Item] = []
-    package var features = DisplayList.Features(rawValue: 0)
-    package var properties = DisplayList.Properties(rawValue: 0)
+    package var items: [DisplayList.Item]
+    package var features: DisplayList.Features
+    package var properties: DisplayList.Properties
     
     package init() {
+        items = []
+        features = DisplayList.Features(rawValue: 0)
+        properties = DisplayList.Properties(rawValue: 0)
     }
     
     init(_ item: DisplayList.Item) {
-        fatalError("TODO")
+        // x29 = sp + 0xe0
+        // x22 = sp + 0x60
+        /*
+         item = x20 / sp + 0x60
+         x19 = return pointer
+         */
+        
+        switch item.value {
+        case .empty:
+            items = []
+            features = DisplayList.Features(rawValue: 0)
+            properties = DisplayList.Properties(rawValue: 0)
+        default:
+            items = [item]
+            features = item.features
+            properties = item.properties
+        }
     }
     
     mutating func append(contentsOf other: DisplayList) {
@@ -106,7 +125,30 @@ extension DisplayList {
         }
         
         var properties: DisplayList.Properties {
-            fatalError("TODO")
+            switch value {
+            case .content(let content):
+                // <+52>
+                switch content.value {
+                case .sdfMask(_, _):
+                    // <+72>
+                    fatalError("TODO")
+                case .flattened(_, _, _):
+                    // <+72>
+                    fatalError("TODO")
+                default:
+                    // <+120>
+                    return DisplayList.Properties(rawValue: 0)
+                }
+            case .effect(_, _):
+                // <+128>
+                fatalError("TODO")
+            case .states(_):
+                // <+92>
+                fatalError("TODO")
+            case .empty:
+                // <+120>
+                return DisplayList.Properties(rawValue: 0)
+            }
         }
         
         func nextUpdate(after time: Time) -> Time {
@@ -121,7 +163,7 @@ extension DisplayList {
             fatalError("TODO")
         }
         
-        func canonicalize(options: DisplayList.Options = .defaultValue) {
+        mutating func canonicalize(options: DisplayList.Options = .defaultValue) {
             // options = w26
             guard !options.contains(.disableCanonicalization) else {
                 return
@@ -130,19 +172,50 @@ extension DisplayList {
             // self = x28
             switch value {
             case .content(let content):
-                if !frame.isEmpty || features.contains(.required) {
-                    // <+264>
-                    fatalError("TODO")
-                } else {
+                guard !frame.isEmpty || features.contains(.required) else {
                     return
                 }
+                
+                // <+264>
+                switch content.value {
+                case .color(let colorView):
+                    // <+1232>
+                    if (colorView.color.base.linearRed == 0) &&
+                        (colorView.color.base.linearGreen == 0) &&
+                        (colorView.color.base.linearBlue == 0) &&
+                        (colorView.color.base.opacity == 0)
+                    {
+                        // <+4268>
+                        frame.origin.x = 0
+                        frame.origin.y = 0
+                        frame.size.width = 0
+                    } else {
+                        // <+4072>
+                        // nop
+                    }
+                case .shape(_, _, _):
+                    // <+1068>
+                    fatalError("TODO")
+                case .shadow(_, _):
+                    // <+1152>
+                    fatalError("TODO")
+                case .text(_, _):
+                    // <+1200>
+                    fatalError("TODO")
+                case .flattened(_, _, _):
+                    // <+300>
+                    fatalError("TODO")
+                default:
+                    // <+4072>
+                    fatalError("TODO")
+                }
             case .effect(let effect, let displayList):
+                // <+216>
                 fatalError("TODO")
             default:
+                // <+4316>
                 return
             }
-            
-            fatalError("TODO")
         }
         
         private func canonicalizeIdentityEffect(list: DisplayList) {
@@ -278,6 +351,7 @@ extension DisplayList {
         package static var quaternaryForegroundLayer: DisplayList.Properties { return DisplayList.Properties(rawValue: 1 << 6) }
         package static var screencaptureProhibited: DisplayList.Properties { return DisplayList.Properties(rawValue: 1 << 7) }
         package static var hiddenForReuse: DisplayList.Properties { return DisplayList.Properties(rawValue: 1 << 8) }
+        package static var mayNotInsertCALayers: DisplayList.Properties { return DisplayList.Properties(rawValue: 1 << 9) }
         
         
         package let rawValue: UInt32
@@ -356,7 +430,7 @@ extension DisplayList {
         var identity = _DisplayList_Identity(decodedValue: 0)
         var serial: UInt32 = 0
         fileprivate var archiveIdentity = _DisplayList_Identity(decodedValue: 0)
-        fileprivate var archiveSerial: UInt32 = 0
+        fileprivate(set) var archiveSerial: UInt32 = 0
         fileprivate var restored = DisplayList.Index.RestoreOptions(rawValue: 0)
         
         init() {}

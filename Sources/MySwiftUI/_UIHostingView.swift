@@ -1145,11 +1145,19 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final func updateFocusedItem() {
-        fatalError("TODO")
+        guard viewGraph.requestedOutputs.isSuperset(of: .focus) else {
+            return
+        }
+        
+        viewGraph.setFocusedItem(focustedItem)
     }
     
     package final func updateFocusedValues() {
-        fatalError("TODO")
+        guard viewGraph.requestedOutputs.isSuperset(of: .focus) else {
+            return
+        }
+        
+        viewGraph.setFocusedValues(focusedValues)
     }
     
     package final func updateAccessibilityEnvironment() {
@@ -1426,7 +1434,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
 
 extension _UIHostingView: @preconcurrency FocusHost {
     var focustedItem: FocusItem? {
-        fatalError("TODO")
+        return focusBridge.focusedItem
     }
     
     func focus(item: FocusItem) {

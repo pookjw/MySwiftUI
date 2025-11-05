@@ -4,8 +4,8 @@ internal import AttributeGraph
 private import UIKit
 
 struct FocusViewGraph {
-    @OptionalAttribute private var focusedItem: FocusItem??
-    @OptionalAttribute private var focusedValues: FocusedValues?
+    @OptionalAttribute var focusedItem: FocusItem??
+    @OptionalAttribute var focusedValues: FocusedValues?
     @OptionalAttribute var focusStore: FocusStore?
     @OptionalAttribute private var isFocusSystemEnabled: Bool?
     private var needsFocusUpdate: Bool

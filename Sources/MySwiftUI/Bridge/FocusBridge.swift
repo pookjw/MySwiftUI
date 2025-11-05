@@ -14,6 +14,29 @@ final class FocusBridge {
     private var defaultFocusNamespace: Namespace.ID? = nil
     private var ignoreTextFocusEvents: Bool = false
     
+    var focusedItem: FocusItem? {
+        get {
+            // self = x21
+            // x25
+            guard let focusItem = _focusItem else {
+                return nil
+            }
+            
+            // <+352>
+            if focusItem.isExpired {
+                // <+384>
+                _focusItem = nil
+                didChangeFocusItem(from: focusItem, to: nil)
+                return focusItem
+            } else {
+                return focusItem
+            }
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
     var host: (UIView & FocusBridgeProvider & FocusHost)? {
         guard let host = _host else {
             if let logger = Log.focus {
@@ -106,6 +129,10 @@ final class FocusBridge {
         fatalError("TODO")
     }
     
+    func didChangeFocusItem(from: FocusItem?, to: FocusItem?) {
+        fatalError("TODO")
+    }
+    
     @MainActor func updateEnvironment(_ environmentValues: inout EnvironmentValues) {
         guard let host else {
             return
@@ -195,6 +222,10 @@ struct FocusItem {
     private var prefersFocusSystem: Bool
     private weak var responder: FocusResponder?
     private var version: DisplayList.Version
+    
+    var isExpired: Bool {
+        fatalError("TODO")
+    }
 }
 
 extension FocusItem {
