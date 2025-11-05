@@ -27,7 +27,7 @@ package final class ViewGraph: GraphHost {
     @Attribute private var rootGeometry: ViewGeometry
     @Attribute private var position: CGPoint
     @Attribute private var dimensions: ViewSize
-    @OptionalAttribute private var containerSize: ViewSize?
+    @OptionalAttribute var containerSize: ViewSize?
     @Attribute private var gestureTime: Time
     @Attribute private var gestureEvents: [EventID : any EventType]
     @Attribute private var inheritedPhase: _GestureInputs.InheritedPhase
@@ -557,6 +557,10 @@ package final class ViewGraph: GraphHost {
         }
         
         return true
+    }
+    
+    package subscript<T: ViewGraphFeature>(_ type: T.Type) -> UnsafeMutablePointer<T>? {
+        return features[type]
     }
 }
 

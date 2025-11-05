@@ -127,7 +127,7 @@ package final class UIHostingViewBase: NSObject {
             bottom: safeAreaInsets.bottom,
             trailing: safeAreaInsets.right
         )
-        insets.xFlipIfRightToLeft(layoutDirection: .leftToRight)
+        insets.xFlipIfRightToLeft { .leftToRight }
         insets.round(toMultipleOf: pixelLength)
         
         return insets
@@ -752,6 +752,20 @@ package final class UIHostingViewBase: NSObject {
         }
         
         viewGraph.setProposedSize(uiView.bounds.size)
+    }
+    
+    package func _updateContainerSize() {
+        guard let uiView else {
+            return
+        }
+        
+        let safeAreaInsets = uiView.safeAreaInsets
+        var insets = MySwiftUICore.EdgeInsets(top: safeAreaInsets.top, leading: safeAreaInsets.left, bottom: safeAreaInsets.bottom, trailing: safeAreaInsets.right)
+        insets.xFlipIfRightToLeft { .leftToRight }
+        
+        let bounds = uiView.bounds
+        let result = bounds.inset(by: insets)
+        viewGraph.setContainerSize(result.size)
     }
     
     @MainActor

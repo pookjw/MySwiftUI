@@ -374,7 +374,7 @@ extension EdgeInsets {
     }
     
     @inline(__always)
-    package mutating func xFlipIfRightToLeft(layoutDirection: @autoclosure () -> LayoutDirection) {
+    package mutating func xFlipIfRightToLeft(layoutDirection: () -> LayoutDirection) {
         let leading = leading
         let trailing = trailing
         

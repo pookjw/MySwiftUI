@@ -1133,11 +1133,15 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final func updateContainerSize() {
-        fatalError("TODO")
+        base._updateContainerSize()
     }
     
     package final func updateFocusStore() {
-        fatalError("TODO")
+        guard viewGraph.requestedOutputs.isSuperset(of: .focus) else {
+            return
+        }
+        
+        viewGraph.setFocusStore(focusBridge.focusStore)
     }
     
     package final func updateFocusedItem() {

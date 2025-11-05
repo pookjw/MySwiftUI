@@ -156,3 +156,34 @@ extension CGRect : Animatable {
         }
     }
 }
+
+extension CGRect {
+    package func inset(by insets: EdgeInsets) -> CGRect {
+        /*
+         self.origin.x = d11
+         self.origin.y = d8
+         self.size.width = d9
+         self.size.height = d10
+         
+         insets.top = d14
+         insets.leading = d15
+         insets.bottom = d12
+         insets.trailing = d13
+         */
+        guard !isNull else {
+            return self
+        }
+        
+        var result = standardized
+        result.origin.x += insets.leading
+        result.origin.y += insets.top
+        result.size.width -= (insets.leading + insets.trailing)
+        result.size.height -= (insets.top + insets.bottom)
+        
+        if result.width < 0 || result.height < 0 {
+            result = .null
+        }
+        
+        return result
+    }
+}

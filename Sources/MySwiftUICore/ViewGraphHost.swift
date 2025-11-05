@@ -238,6 +238,23 @@ package final class ViewGraphHost {
         return viewGraph.setSafeAreaInsets(elements)
     }
     
+    package func setContainerSize(_ size: CGSize) {
+        let viewGraph = viewGraph
+        guard let containerSize = viewGraph.$containerSize else {
+            return
+        }
+        
+        let changed = containerSize.setValue(ViewSize(value: size, _proposal: size))
+        
+        guard changed else {
+            return
+        }
+        
+        if let delegate = viewGraph.delegate {
+            delegate.graphDidChange()
+        }
+    }
+    
     package var environment: EnvironmentValues {
         return viewGraph.environment
     }
