@@ -231,6 +231,7 @@ extension DisplayList {
             fatalError("TODO")
         }
         
+        // $s7SwiftUI11DisplayListV11ViewUpdaterC015updateInheritedE033_B86250B2E056EB47628ECF46032DFA4CLL9container4from11parentStateyAE9ContainerAGLLVz_AC4ItemVSPyAE5ModelO0R0VGtF
         fileprivate func updateInheritedView(
             container: inout DisplayList.ViewUpdater.Container,
             from item: DisplayList.Item,
@@ -253,8 +254,11 @@ extension DisplayList {
             var copy_4 = parentState.pointee
             
             // <+164>
-            // sp + 0x280
-//            let archiveSerial = viewCache.index.archiveSerial
+            // self = sp
+            // sp + 0x270
+            let index = viewCache.index
+            
+            // <+208>
             fatalError("TODO")
         }
     }

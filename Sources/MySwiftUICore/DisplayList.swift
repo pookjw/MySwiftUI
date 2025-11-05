@@ -186,9 +186,8 @@ extension DisplayList {
                         (colorView.color.base.opacity == 0)
                     {
                         // <+4268>
-                        frame.origin.x = 0
-                        frame.origin.y = 0
-                        frame.size.width = 0
+                        value = .empty
+                        identity = _DisplayList_Identity(decodedValue: 0)
                     } else {
                         // <+4072>
                         // nop
@@ -430,7 +429,7 @@ extension DisplayList {
         var identity = _DisplayList_Identity(decodedValue: 0)
         var serial: UInt32 = 0
         fileprivate var archiveIdentity = _DisplayList_Identity(decodedValue: 0)
-        fileprivate(set) var archiveSerial: UInt32 = 0
+        fileprivate var archiveSerial: UInt32 = 0
         fileprivate var restored = DisplayList.Index.RestoreOptions(rawValue: 0)
         
         init() {}
