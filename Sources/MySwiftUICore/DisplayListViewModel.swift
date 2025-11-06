@@ -1,5 +1,5 @@
 #warning("TODO")
-private import CoreGraphics
+internal import CoreGraphics
 
 extension DisplayList.ViewUpdater {
     enum Model {
@@ -29,11 +29,11 @@ extension DisplayList.ViewUpdater {
             private var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
             private(set) var opacity: Float = 1
             private var blend: GraphicsBlendMode = unsafe .normal
-            private var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+            private(set) var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
             private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = []
             private(set) var filters: [GraphicsFilter] = []
-            private var shadow: Indirect<ResolvedShadowStyle>? = nil
-            private var properties: DisplayList.Properties = []
+            private(set) var shadow: Indirect<ResolvedShadowStyle>? = nil
+            private(set) var properties: DisplayList.Properties = []
             private(set) var rewriteVibrantColorMatrix: Bool = false
             private var backdropAwareColorMatrices: Bool = false
             private var compositingGroup: Bool = false
@@ -50,6 +50,7 @@ extension DisplayList.ViewUpdater {
         }
         
         struct MergedViewRequirements: OptionSet {
+            static let unknown2 = MergedViewRequirements(rawValue: 1 << 1)
             static let unknown4 = MergedViewRequirements(rawValue: 1 << 2)
             
             let rawValue: UInt8

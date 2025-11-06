@@ -24,6 +24,13 @@ extension DisplayList.Item {
     }
     
     fileprivate func discardContainingClips(state: inout DisplayList.ViewUpdater.Model.State) -> Bool {
+        /*
+         state = x23
+         */
+        guard !state.clips.isEmpty else {
+            return true
+        }
+        
         fatalError("TODO")
     }
     
@@ -85,7 +92,11 @@ extension DisplayList.ViewUpdater.Model {
         let result = copy_2.discardContainingClips(state: &state)
         // sp + 0x7d0
         var copy_4 = copy_2
-        let w22 = (result ? 4 : 0)
+        // w22
+        var requirements = DisplayList.ViewUpdater.Model.MergedViewRequirements(rawValue: 0)
+        if result {
+            requirements.insert(.unknown4)
+        }
         
         if !state.clips.isEmpty {
             // <+1132>
@@ -93,6 +104,43 @@ extension DisplayList.ViewUpdater.Model {
         }
         
         // <+1568>
+        // x23
+        let version = copy_1.version
+        if !requirements.contains(.unknown2) {
+            let transform = state.transform
+            if (transform.a == 1) && (transform.b == 0) && (transform.c == 0) && (transform.d == 1) {
+                // <+1780>
+            } else {
+                // <+1636>
+                fatalError("TODO")
+            }
+        }
+        
+        // <+1780>
+        if !requirements.contains(.unknown2) && ((state.shadow != nil) || (!state.filters.isEmpty)) {
+           // <+1804>
+            fatalError("TODO")
+        }
+        
+        // <+1892>
+        // version -> x24
+        if !requirements.contains(.unknown2) && state.properties.contains(.ignoresEvents) {
+            // <+1908>
+            fatalError("TODO")
+        }
+        
+        // <+1988>
+        if !requirements.contains(.unknown2) {
+            // <+1992>
+            // sp + 0x6e0
+            var copy_5 = item
+            // sp + 0x690
+            var copy_6 = item
+            
+            // <+2056>
+            fatalError("TODO")
+        }
+        
         fatalError("TODO")
     }
     
