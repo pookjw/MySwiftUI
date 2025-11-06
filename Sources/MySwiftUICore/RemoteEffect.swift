@@ -1,4 +1,5 @@
 #warning("TODO")
+internal import CoreGraphics
 
 enum RemoteEffectInfo {
     case group(RemoteEffectGroupInfo)
@@ -108,6 +109,10 @@ struct RemoteEffectAccessibilityOptions {
 struct HoverEffectState {
 //    var groups: [HoverEffectState.GroupEffect] = []
 //    var leafEffects: [HoverEffectState.LeafEffect] = []
+    
+    func applyPosition(_ origin: CGPoint) -> Bool {
+        fatalError("TODO")
+    }
 }
 
 enum RemoteEffectEntry {

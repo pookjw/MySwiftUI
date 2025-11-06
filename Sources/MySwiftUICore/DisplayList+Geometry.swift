@@ -164,9 +164,13 @@ extension DisplayList.ViewUpdater.Model {
         }
         
         // <+2376>
-        if (item.frame.origin.x != 0) || (item.frame.origin.y != 0) {
+        // d0, d1
+        let position = item.position
+        if (position.x != 0) || (position.y != 0) {
             // <+2396>
-            fatalError("TODO")
+            if state.platformState.remoteEffects.hoverEffectState.applyPosition(position) {
+                state.platformState.versions.remoteEffects = max(state.platformState.versions.remoteEffects, item.version)
+            }
         }
         
         //<+2432>

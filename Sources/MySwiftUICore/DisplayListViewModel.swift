@@ -14,7 +14,7 @@ extension DisplayList.ViewUpdater {
             private var separatedModifiers: [any _DisplayList_SeparatedItemModifier] = []
             private var hierarchicalProjectiveShadow: ProjectiveShadow? = nil
             private var currentProjectiveShadow: ProjectiveShadow? = nil
-            private var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions()
+            var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions()
             
             init() {}
         }
@@ -39,7 +39,7 @@ extension DisplayList.ViewUpdater {
             private var compositingGroup: Bool = false
             private var backdropGroupID: BackdropGroupID? = nil
             private var stateHashes: [StrongHash] = []
-            private(set) var platformState = DisplayList.ViewUpdater.Model.PlatformState()
+            var platformState = DisplayList.ViewUpdater.Model.PlatformState()
             private var versions = DisplayList.ViewUpdater.Model.State.Versions()
             
             init(
@@ -95,7 +95,7 @@ extension DisplayList.ViewUpdater.Model.PlatformState {
         private var zPosition = DisplayList.Version()
         private var separatedState = DisplayList.Version()
         private var separatedOptions = DisplayList.Version()
-        private var remoteEffects = DisplayList.Version()
+        var remoteEffects = DisplayList.Version()
         private var hitTestsAsOpaque = DisplayList.Version()
         private var serverResponderID = DisplayList.Version()
         private var renderingTechnique = DisplayList.Version()
