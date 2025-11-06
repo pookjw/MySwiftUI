@@ -44,6 +44,9 @@ extension DisplayList.ViewUpdater {
             }
             
             // <+960>
+            // sp + 0x780
+            var copy_1 = item
+            // <+1020>
             fatalError("TODO")
         }
         
