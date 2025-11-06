@@ -1,6 +1,7 @@
 // CA3A65C294B7CEBAC4D3EE28C528C257
 
 #warning("TODO")
+private import CoreGraphics
 
 extension DisplayList.Item {
     func canMergeWithClipMask(state: UnsafePointer<DisplayList.ViewUpdater.Model.State>) -> Bool {
@@ -143,10 +144,32 @@ extension DisplayList.ViewUpdater.Model {
             // <+2172>
             // sp + 0xc0
             var copy_8 = copy_5
+            // w20
             let canMerge = copy_6.canMergeWithPlatformState(state: platformState)
+            
+            // sp + 0x4f0
+            let copy_9 = platformState
+            // sp + 0x740
+            let copy_10 = copy_5
+            
+            if !canMerge {
+                state.reset()
+            }
+            
+            // <+2376>
+        } else {
+            // <+2344>
+            state.reset()
+            // <+2376>
+        }
+        
+        // <+2376>
+        if (item.frame.origin.x != 0) || (item.frame.origin.y != 0) {
+            // <+2396>
             fatalError("TODO")
         }
         
+        //<+2432>
         fatalError("TODO")
     }
     

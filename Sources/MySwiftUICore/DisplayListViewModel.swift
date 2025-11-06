@@ -47,6 +47,10 @@ extension DisplayList.ViewUpdater {
             ) {
                 unsafe self.globals = unsafe globals
             }
+            
+            mutating func reset() {
+                fatalError("TODO")
+            }
         }
         
         struct MergedViewRequirements: OptionSet {

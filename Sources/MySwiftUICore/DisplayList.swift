@@ -260,6 +260,7 @@ extension DisplayList {
         func canMergeWithPlatformState(state: DisplayList.ViewUpdater.Model.PlatformState) -> Bool {
             // w23
             let separatedState = state.separatedState
+            // value case = w28
             if
                 case .effect(let effect, _) = value,
                 case .platformGroup(_) = effect,
@@ -282,7 +283,81 @@ extension DisplayList {
             let size = frame.size
             
             // <+96>
-            fatalError("TODO")
+            // true = <+148>, false = <+264>
+            let flag: Bool
+            if (zPosition == 0) && (separatedState == .separated) {
+                // <+116>
+                if case .effect(let effect, _) = value {
+                    switch effect {
+                    case .backdropGroup(_):
+                        break
+                    case .archive(_):
+                        break
+                    default:
+                        return false
+                    }
+                    
+                    // <+136>
+                    if
+                        (zPosition != 0),
+                        case .transform(_) = effect
+                    {
+                        // <+840>
+                        fatalError("TODO")
+                    }
+                    // <+148>
+                    flag = true
+                } else {
+                    // <+264>
+                    flag = false
+                }
+            } else {
+                // <+148>
+                flag = true
+            }
+            
+            if flag {
+                // <+148>
+                if case .effect(let effect, _) = value {
+                    // <+156>
+                    fatalError("TODO")
+                } else {
+                    // <+264>
+                }
+            }
+            
+            // <+264>
+            /*
+             hitTestsAsOpaque -> sp + 0x8
+             renderingTechnique -> sp + 0xc
+             */
+            switch value {
+            case .content(let content):
+                // <+280>
+                switch content.value {
+                case .backdrop(_):
+                    // <+728>
+                    return true
+                case .color(let colorView):
+                    // <+728>
+                    return true
+                case .chameleonColor(let chameleonColor):
+                    // <+728>
+                    return true
+                case .shape(let path, let anyResolvedPaint, let fillStyle):
+                    // <+300>
+                    fatalError("TODO")
+                default:
+                    // <+900>
+                    fatalError("TODO")
+                }
+            case .effect(_, _):
+                // <+428>
+                fatalError("TODO")
+            default:
+                // <+728>
+                return true
+            }
         }
         
         func offset3D(by: Size3D) {
@@ -418,8 +493,8 @@ extension DisplayList {
 
 extension DisplayList {
     enum Effect {
-//        case backdropGroup(DisplayList.BackdropGroup)
-//        case archive(DisplayList.ArchiveIDs?)
+        case backdropGroup(DisplayList.BackdropGroup)
+        case archive(DisplayList.ArchiveIDs?)
 //        case properties(DisplayList.Properties)
         case platformGroup(any PlatformGroupFactory)
 //        case opacity(Float)
@@ -427,7 +502,7 @@ extension DisplayList {
 //        case clip(Path, FillStyle, GraphicsContext.ClipOptions)
 //        case mask(DisplayList, GraphicsContext.ClipOptions)
 //        case sdfShape(SDFShape)
-//        case transform(DisplayList.Transform)
+        case transform(DisplayList.Transform)
 //        case filter(GraphicsFilter)
 //        case animation(_DisplayList_AnyEffectAnimation)
 //        case contentTransition(ContentTransition.State)
@@ -700,5 +775,23 @@ extension DisplayList {
         private var fallback: Color.ResolvedHDR
         private var allowedDynamicRange: Image.DynamicRange
         private var filters: [GraphicsFilter]
+    }
+    
+    struct ArchiveIDs {
+        private var uuid: UUID
+        private var stableIDs: _DisplayList_StableIdentityMap
+    }
+    
+    struct BackdropGroup {
+        private var isEnabled: Bool
+        private var name: String?
+    }
+    
+    enum Transform {
+        case affine(CGAffineTransform)
+        case projection(ProjectionTransform)
+//        case affine(AffineTransform3D)
+//        case rotation(RotationEffect.Data)
+//        case rotation3D(_Rotation3DEffect.Data)
     }
 }
