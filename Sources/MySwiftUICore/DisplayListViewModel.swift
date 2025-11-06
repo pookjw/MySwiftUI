@@ -3,61 +3,6 @@ private import CoreGraphics
 
 extension DisplayList.ViewUpdater {
     enum Model {
-        static func merge(
-            item: inout DisplayList.Item,
-            index: DisplayList.Index,
-            into state: inout DisplayList.ViewUpdater.Model.State
-        ) -> DisplayList.ViewUpdater.Model.MergedViewRequirements {
-            /*
-             item = x21
-             index = sp + 0x10
-             state = x19
-             */
-            if case .empty = item.value {
-                // <+80>
-                fatalError("TODO")
-            }
-            
-            // <+360>
-            if state.opacity == 1 {
-                // <+384>
-                if state.rewriteVibrantColorMatrix {
-                    // <+664>
-                    fatalError("TODO")
-                } else {
-                    // <+392>
-                    if let filter = state.filters.first {
-                        switch filter {
-                        case .colorMultiply(_):
-                            // <+440>
-                            fatalError("TODO")
-                        default:
-                            // <+664>
-                            fatalError("TODO")
-                        }
-                    }
-                    // <+960>
-                }
-            } else {
-                // <+464>
-                fatalError("TODO")
-            }
-            
-            // <+960>
-            // sp + 0x780
-            var copy_1 = item
-            // <+1020>
-            fatalError("TODO")
-        }
-        
-        static func finalizePlatformMerge(
-            item: inout DisplayList.Item,
-            into: inout DisplayList.ViewUpdater.Model.State,
-            requirements: DisplayList.ViewUpdater.Model.MergedViewRequirements
-        ) {
-            fatalError("TODO")
-        }
-        
         struct PlatformState {
             private var zPosition: CGFloat = 0
             private var renderingTechnique: RenderingTechnique = .texture
@@ -82,14 +27,14 @@ extension DisplayList.ViewUpdater {
         
         @unsafe struct State {
             private var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
-            fileprivate private(set) var opacity: Float = 1
+            private(set) var opacity: Float = 1
             private var blend: GraphicsBlendMode = unsafe .normal
             private var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
-            private var clips: [DisplayList.ViewUpdater.Model.Clip] = []
-            fileprivate private(set) var filters: [GraphicsFilter] = []
+            private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = []
+            private(set) var filters: [GraphicsFilter] = []
             private var shadow: Indirect<ResolvedShadowStyle>? = nil
             private var properties: DisplayList.Properties = []
-            fileprivate private(set) var rewriteVibrantColorMatrix: Bool = false
+            private(set) var rewriteVibrantColorMatrix: Bool = false
             private var backdropAwareColorMatrices: Bool = false
             private var compositingGroup: Bool = false
             private var backdropGroupID: BackdropGroupID? = nil
