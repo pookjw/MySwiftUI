@@ -138,6 +138,12 @@ extension DisplayList.ViewUpdater.Model {
             var copy_6 = item
             
             // <+2056>
+            // sp + 0x210
+            let platformState = state.platformState
+            // <+2172>
+            // sp + 0xc0
+            var copy_8 = copy_5
+            let canMerge = copy_6.canMergeWithPlatformState(state: platformState)
             fatalError("TODO")
         }
         

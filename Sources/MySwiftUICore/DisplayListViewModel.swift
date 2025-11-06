@@ -4,12 +4,12 @@ internal import CoreGraphics
 extension DisplayList.ViewUpdater {
     enum Model {
         struct PlatformState {
-            private var zPosition: CGFloat = 0
-            private var renderingTechnique: RenderingTechnique = .texture
-            private var separatedState: SeparatedState = .none
+            private(set) var zPosition: CGFloat = 0
+            private(set) var renderingTechnique: RenderingTechnique = .texture
+            private(set) var separatedState: SeparatedState = .none
             private var separatedOptions = SeparatedOptionValues()
-            private var remoteEffects = RemoteEffectsPlatformState()
-            private var hitTestsAsOpaque: Bool = false
+            private(set) var remoteEffects = RemoteEffectsPlatformState()
+            private(set) var hitTestsAsOpaque: Bool = false
             private var serverResponderID: UInt32? = nil
             private var separatedModifiers: [any _DisplayList_SeparatedItemModifier] = []
             private var hierarchicalProjectiveShadow: ProjectiveShadow? = nil
@@ -39,7 +39,7 @@ extension DisplayList.ViewUpdater {
             private var compositingGroup: Bool = false
             private var backdropGroupID: BackdropGroupID? = nil
             private var stateHashes: [StrongHash] = []
-            private var platformState = DisplayList.ViewUpdater.Model.PlatformState()
+            private(set) var platformState = DisplayList.ViewUpdater.Model.PlatformState()
             private var versions = DisplayList.ViewUpdater.Model.State.Versions()
             
             init(

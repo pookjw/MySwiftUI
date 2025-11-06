@@ -258,6 +258,30 @@ extension DisplayList {
         }
         
         func canMergeWithPlatformState(state: DisplayList.ViewUpdater.Model.PlatformState) -> Bool {
+            // w23
+            let separatedState = state.separatedState
+            if
+                case .effect(let effect, _) = value,
+                case .platformGroup(_) = effect,
+                separatedState == .separated
+            {
+                return false
+            }
+            
+            // <+72>
+            // state = x21
+            // d10
+            let zPosition = state.zPosition
+            // w22
+            let renderingTechnique = state.renderingTechnique
+            // x24, x25
+            let hoverEffectState = state.remoteEffects.hoverEffectState
+            // w19
+            let hitTestsAsOpaque = state.hitTestsAsOpaque
+            // d8, d9
+            let size = frame.size
+            
+            // <+96>
             fatalError("TODO")
         }
         
@@ -397,7 +421,7 @@ extension DisplayList {
 //        case backdropGroup(DisplayList.BackdropGroup)
 //        case archive(DisplayList.ArchiveIDs?)
 //        case properties(DisplayList.Properties)
-//        case platformGroup(PlatformGroupFactory)
+        case platformGroup(any PlatformGroupFactory)
 //        case opacity(Float)
 //        case blendMode(GraphicsBlendMode)
 //        case clip(Path, FillStyle, GraphicsContext.ClipOptions)
