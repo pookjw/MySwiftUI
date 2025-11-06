@@ -239,6 +239,7 @@ extension DisplayList {
         ) {
             // x29 = sp + 0x7f0
             // x21 = sp + 0x580
+            // x27 = sp + 0x270
             /*
              self = x19
              container = x22
@@ -259,6 +260,7 @@ extension DisplayList {
             let index = viewCache.index
             
             // <+208>
+            let requirements = DisplayList.ViewUpdater.Model.merge(item: &copy_2, index: index, into: &copy_4)
             fatalError("TODO")
         }
     }

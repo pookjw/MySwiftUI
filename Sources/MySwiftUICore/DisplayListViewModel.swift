@@ -3,7 +3,36 @@ private import CoreGraphics
 
 extension DisplayList.ViewUpdater {
     enum Model {
-        static func merge(item: inout DisplayList.Item, index: DisplayList.Index, into state: inout DisplayList.ViewUpdater.Model.State) -> DisplayList.ViewUpdater.Model.MergedViewRequirements {
+        static func merge(
+            item: inout DisplayList.Item,
+            index: DisplayList.Index,
+            into state: inout DisplayList.ViewUpdater.Model.State
+        ) -> DisplayList.ViewUpdater.Model.MergedViewRequirements {
+            /*
+             item = x21
+             index = sp + 0x10
+             state = x19
+             */
+            if case .empty = item.value {
+                // <+80>
+                fatalError("TODO")
+            }
+            
+            // <+360>
+            if state.opacity == 1 {
+                // <+384>
+                fatalError("TODO")
+            }
+            
+            // <+464>
+            fatalError("TODO")
+        }
+        
+        static func finalizePlatformMerge(
+            item: inout DisplayList.Item,
+            into: inout DisplayList.ViewUpdater.Model.State,
+            requirements: DisplayList.ViewUpdater.Model.MergedViewRequirements
+        ) {
             fatalError("TODO")
         }
         
@@ -31,7 +60,7 @@ extension DisplayList.ViewUpdater {
         
         @unsafe struct State {
             private var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
-            private var opacity: Float = 1
+            fileprivate private(set) var opacity: Float = 1
             private var blend: GraphicsBlendMode = unsafe .normal
             private var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
             private var clips: [DisplayList.ViewUpdater.Model.Clip] = []
@@ -53,8 +82,10 @@ extension DisplayList.ViewUpdater {
             }
         }
         
-        enum MergedViewRequirements {
+        struct MergedViewRequirements: OptionSet {
+            static let unknown4 = MergedViewRequirements(rawValue: 1 << 2)
             
+            let rawValue: UInt8
         }
     }
 }
