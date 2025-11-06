@@ -21,10 +21,29 @@ extension DisplayList.ViewUpdater {
             // <+360>
             if state.opacity == 1 {
                 // <+384>
+                if state.rewriteVibrantColorMatrix {
+                    // <+664>
+                    fatalError("TODO")
+                } else {
+                    // <+392>
+                    if let filter = state.filters.first {
+                        switch filter {
+                        case .colorMultiply(_):
+                            // <+440>
+                            fatalError("TODO")
+                        default:
+                            // <+664>
+                            fatalError("TODO")
+                        }
+                    }
+                    // <+960>
+                }
+            } else {
+                // <+464>
                 fatalError("TODO")
             }
             
-            // <+464>
+            // <+960>
             fatalError("TODO")
         }
         
@@ -64,10 +83,10 @@ extension DisplayList.ViewUpdater {
             private var blend: GraphicsBlendMode = unsafe .normal
             private var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
             private var clips: [DisplayList.ViewUpdater.Model.Clip] = []
-            private var filters: [GraphicsFilter] = []
+            fileprivate private(set) var filters: [GraphicsFilter] = []
             private var shadow: Indirect<ResolvedShadowStyle>? = nil
             private var properties: DisplayList.Properties = []
-            private var rewriteVibrantColorMatrix: Bool = false
+            fileprivate private(set) var rewriteVibrantColorMatrix: Bool = false
             private var backdropAwareColorMatrices: Bool = false
             private var compositingGroup: Bool = false
             private var backdropGroupID: BackdropGroupID? = nil
