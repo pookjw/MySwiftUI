@@ -683,8 +683,13 @@ extension SwiftUICore._GraphInputs {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.DisplayList {
-  public final class ViewUpdater {
+  public struct Index {
+    public init()
+  }
 
+  public final class ViewUpdater {
+    public enum Model {
+    }
   }
 }
 

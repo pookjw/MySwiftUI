@@ -44,6 +44,7 @@ extension DisplayList.ViewUpdater {
             var platformState = DisplayList.ViewUpdater.Model.PlatformState()
             var versions = DisplayList.ViewUpdater.Model.State.Versions()
             
+            @inline(__always)
             init(
                 globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
             ) {
@@ -333,8 +334,10 @@ extension DisplayList.ViewUpdater.Model {
          state = x19
          */
         
-        if !(requirements.isSuperset(of: [.unknown1, .unknown2]) && state.platformState.separatedModifiers.isEmpty) {
-            // <+56>
+        if !requirements.isSuperset(of: [.unknown1, .unknown2]) && !state.platformState.separatedModifiers.isEmpty,
+           case .states(_) = item.value 
+        {
+            // <+88>
             fatalError("TODO")
         }
         
