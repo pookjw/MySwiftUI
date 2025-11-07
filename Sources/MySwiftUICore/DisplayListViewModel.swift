@@ -341,7 +341,26 @@ extension DisplayList.ViewUpdater.Model {
             fatalError("TODO")
         }
         
+        // <+1172>에서 state에 값 할당하는거 놓치지 말기
+        
         // <+684>
-        fatalError("TODO")
+        switch item.value {
+        case .content(let content):
+            // <+896>
+            switch content.value {
+            case .shape(_, _, _):
+                // <+908>
+                fatalError("TODO")
+            default:
+                // <+1176>
+                return
+            }
+        case .effect(_, _):
+            // <+708>
+            fatalError("TODO")
+        default:
+            // <+1176>
+            return
+        }
     }
 }

@@ -260,8 +260,45 @@ extension DisplayList {
             let index = viewCache.index
             
             // <+208>
+            // w24
             let requirements = DisplayList.ViewUpdater.Model.merge(item: &copy_2, index: index, into: &copy_4)
-            fatalError("TODO")
+            
+            // <+248>
+            if !requirements.contains(.unknown4) {
+                // <+256>
+                // sp + 0x2c0
+                var copy_3 = copy_2
+                // sp + 0x270 / w8
+                let features = copy_3.features
+                
+                if !features.contains(.required) {
+                    //<+300>
+                    if case .states(_) = copy_2.value {
+                        // <+320>
+                        fatalError("TODO")
+                    }  else {
+                        // <+1724>
+                        fatalError("TODO")
+                    }
+                } else {
+                    // <+496>
+                }
+            }
+            
+            // <+496>
+            if !requirements.contains(.unknown2) {
+                // <+500>
+                if !requirements.contains(.unknown1) {
+                    // <+508>
+                    fatalError("TODO")
+                } else {
+                    // <+1608>
+                    fatalError("TODO")
+                }
+            } else {   
+                // <+588>
+                fatalError("TODO")
+            }
         }
     }
 }
