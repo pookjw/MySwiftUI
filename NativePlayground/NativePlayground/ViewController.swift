@@ -81,95 +81,95 @@ class ViewController: UIViewController {
     override func loadView() {
 //        swizzle()
         
-        print(_typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI19ResolvedShadowStyleV")!)
+        print(_typeName(_typeByName("7SwiftUI19ResolvedShadowStyleV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI19ResolvedShadowStyleV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV5StateV")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV5StateV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC8PlatformV5StateV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }   
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV5SeedsV")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV5SeedsV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC0E4InfoV5SeedsV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         print("===")
         
-        print(_typeByName("7SwiftUI25PlatformItemListViewGraphV")!)
+        print(_typeName(_typeByName("7SwiftUI25PlatformItemListViewGraphV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI25PlatformItemListViewGraphV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI17CachedEnvironmentV13AnimatedFrameV")!)
+        print(_typeName(_typeByName("7SwiftUI17CachedEnvironmentV13AnimatedFrameV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI17CachedEnvironmentV13AnimatedFrameV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI24AnimatableFrameAttributeV")!)
+        print(_typeName(_typeByName("7SwiftUI24AnimatableFrameAttributeV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI24AnimatableFrameAttributeV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
@@ -177,14 +177,14 @@ class ViewController: UIViewController {
         
         print(_GraphInputs.self)
         _forEachField(of: _GraphInputs.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         print("===")
         
         print(_ViewInputs.self)
         _forEachField(of: _ViewInputs.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
@@ -192,7 +192,7 @@ class ViewController: UIViewController {
         
         print(_ViewOutputs.self)
         _forEachField(of: _ViewOutputs.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
@@ -200,23 +200,23 @@ class ViewController: UIViewController {
         
         print(_RendererConfiguration.RasterizationOptions.self)
         _forEachField(of: _RendererConfiguration.RasterizationOptions.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(_typeByName("7SwiftUI28AccessibilityGeometryUpdaterV")!)
+        print(_typeName(_typeByName("7SwiftUI28AccessibilityGeometryUpdaterV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI28AccessibilityGeometryUpdaterV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
@@ -224,7 +224,7 @@ class ViewController: UIViewController {
         
         print(PreferenceValues.self)
         _forEachField(of: PreferenceValues.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
@@ -232,74 +232,74 @@ class ViewController: UIViewController {
         
         // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
         
-        print(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!)
+        print(_typeName(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         //     
         print("===")
         
-        print(_typeByName("7SwiftUI24HostingControllerBridgesV")!)
+        print(_typeName(_typeByName("7SwiftUI24HostingControllerBridgesV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI24HostingControllerBridgesV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         //     
         print("===")
         
-        print(_typeByName("7SwiftUI17CachedEnvironmentV")!)
+        print(_typeName(_typeByName("7SwiftUI17CachedEnvironmentV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI17CachedEnvironmentV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }  
         print("===")
         
-        print(_typeByName("7SwiftUI14FocusViewGraphV")!)
+        print(_typeName(_typeByName("7SwiftUI14FocusViewGraphV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI14FocusViewGraphV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         print("===")
         
-        print(_typeByName("7SwiftUI11ViewGraph3DV")!)
+        print(_typeName(_typeByName("7SwiftUI11ViewGraph3DV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11ViewGraph3DV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         print("===")
         
-        print(_typeByName("7SwiftUI22AccessibilityViewGraphV")!)
+        print(_typeName(_typeByName("7SwiftUI22AccessibilityViewGraphV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI22AccessibilityViewGraphV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }   
         print("===")
         
-        print(_typeByName("7SwiftUI23AccessibilityAttachmentV")!)
+        print(_typeName(_typeByName("7SwiftUI23AccessibilityAttachmentV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI23AccessibilityAttachmentV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }         
         print("===")
         
-        print(_typeByName("7SwiftUI28AccessibilityAttachmentTokenO")!)
+        print(_typeName(_typeByName("7SwiftUI28AccessibilityAttachmentTokenO")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI28AccessibilityAttachmentTokenO")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }         
         print("===")
         
-        print(_typeByName("7SwiftUI27AnimatableFrameAttributeVFDV")!)
+        print(_typeName(_typeByName("7SwiftUI27AnimatableFrameAttributeVFDV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI27AnimatableFrameAttributeVFDV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             
             if String(cString: name) == "velocityFilter" {
                 print("FrameVelocityFilter")
                 _forEachField(of: type, options: []) { name, offset, type, kind in
-                    print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+                    print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
                     return true
                 }    
             }
@@ -307,149 +307,156 @@ class ViewController: UIViewController {
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI33AccessibilityViewResponderUpdaterV")!)
+        print(_typeName(_typeByName("7SwiftUI33AccessibilityViewResponderUpdaterV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI33AccessibilityViewResponderUpdaterV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI13ViewResponderC")!)
+        print(_typeName(_typeByName("7SwiftUI13ViewResponderC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI13ViewResponderC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI26DefaultLayoutViewResponderC")!)
+        print(_typeName(_typeByName("7SwiftUI26DefaultLayoutViewResponderC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI26DefaultLayoutViewResponderC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI12RootGeometryV")!)
+        print(_typeName(_typeByName("7SwiftUI12RootGeometryV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI12RootGeometryV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI32_DisplayList_StableIdentityScopeV")!)
+        print(_typeName(_typeByName("7SwiftUI32_DisplayList_StableIdentityScopeV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI32_DisplayList_StableIdentityScopeV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI12PropertyListV7ElementC")!)
+        print(_typeName(_typeByName("7SwiftUI12PropertyListV7ElementC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI12PropertyListV7ElementC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI5ColorVAAE11ResolvedHDRV11_AnimatableV")!)
+        print(_typeName(_typeByName("7SwiftUI5ColorVAAE11ResolvedHDRV11_AnimatableV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI5ColorVAAE11ResolvedHDRV11_AnimatableV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI11FocusBridgeC")!)
+        print(_typeName(_typeByName("7SwiftUI11FocusBridgeC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11FocusBridgeC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO13PlatformStateV")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO13PlatformStateV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO13PlatformStateV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
-        print(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO13PlatformStateV8VersionsV")!)
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO13PlatformStateV8VersionsV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO13PlatformStateV8VersionsV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV8VersionsV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListV11ViewUpdaterC5ModelO5StateV8VersionsV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
         print("===")
         
         
-        print(ViewTransform.self)
+        print(_typeName(ViewTransform.self, qualified: true))
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         print("===")
         
         
-        print(ViewDepth.self, "\(MemoryLayout<ViewDepth>.size)")
+        print(_typeName(ViewDepth.self, qualified: true), "\(MemoryLayout<ViewDepth>.size)")
         _forEachField(of: ViewDepth.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         print("===")
         
         
-        print(AnimatableAttributeHelper<Double>.self)
+        print(_typeName(AnimatableAttributeHelper<Double>.self, qualified: true))
         _forEachField(of: AnimatableAttributeHelper<Double>.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         //        
         print("===")
         
-        print(EnvironmentValues.self)
+        print(_typeName(EnvironmentValues.self, qualified: true))
         _forEachField(of: EnvironmentValues.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         //        
         print("===")
         
-        print(DisplayList.self)
+        print(_typeName(DisplayList.self, qualified: true))
         _forEachField(of: DisplayList.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
         
-        print(_UIHostingView<Color>.self)
+        print(_typeName(_UIHostingView<Color>.self, qualified: true))
         _forEachField(of: _UIHostingView<Color>.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(GraphHost.self)
+        print(_typeName(GraphHost.self, qualified: true))
         _forEachField(of: GraphHost.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(GraphHost.Data.self)
+        print(_typeName(GraphHost.Data.self, qualified: true))
         _forEachField(of: GraphHost.Data.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         print("===")
         
-        print(ViewGraphDisplayLink.self)
+        print(_typeName(ViewGraphDisplayLink.self, qualified: true))
         _forEachField(of: ViewGraphDisplayLink.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
@@ -462,25 +469,25 @@ class ViewController: UIViewController {
 //            CADisplayLink(target: object, selector: selector)
 //        }
         
-        print(UIHostingViewBase.self)
+        print(_typeName(UIHostingViewBase.self, qualified: true))
         _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         print("===")
         
-        print(ViewGraphHost.self)
+        print(_typeName(ViewGraphHost.self, qualified: true))
         _forEachField(of: ViewGraphHost.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
         print("===")
         
-        print(ViewGraph.self)
+        print(_typeName(ViewGraph.self, qualified: true))
         _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
@@ -488,7 +495,7 @@ class ViewController: UIViewController {
 //        
 //        print(ViewGraph.Data.self)
 //        _forEachField(of: ViewGraph.Data.self, options: []) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
 //            return true
 //        }
 //        
@@ -496,7 +503,7 @@ class ViewController: UIViewController {
 //        
 //        print(ViewGraph.self)
 //        _forEachField(of: ViewGraph.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
 //            return true
 //        }
 //        
@@ -504,7 +511,7 @@ class ViewController: UIViewController {
 //        
 //        print(GraphHost.self)
 //        _forEachField(of: GraphHost.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
 //            return true
 //        }
 //        
@@ -512,39 +519,39 @@ class ViewController: UIViewController {
 //        
 //        print(RepresentableContextValues.self)
 //        _forEachField(of: RepresentableContextValues.self, options: []) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+//            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
 //            return true
 //        }
 //        
         print("===")
         
-        print(Update.Action.self)
+        print(_typeName(Update.Action.self, qualified: true))
         _forEachField(of: Update.Action.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(CustomEventTrace.Recorder.self)
+        print(_typeName(CustomEventTrace.Recorder.self, qualified: true))
         _forEachField(of: CustomEventTrace.Recorder.self, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(ColorView.self)
+        print(_typeName(ColorView.self, qualified: true))
         _forEachField(of: ColorView.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         //        
         print("===")
         
-        print(DisplayList.Item.self)
+        print(_typeName(DisplayList.Item.self, qualified: true))
         _forEachField(of: DisplayList.Item.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
         
