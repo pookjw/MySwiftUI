@@ -1,3 +1,6 @@
+// A9949015C771FF99F7528BB7239FD006
+
+#warning("TODO")
 internal import _QuartzCorePrivate
 private import QuartzCore
 private import _MySwiftUIShims
@@ -189,26 +192,6 @@ extension DisplayList.ViewUpdater {
         fileprivate func removeChildren(platform: DisplayList.ViewUpdater.Platform, container: AnyObject) {
             fatalError("TODO")
         }
-        
-        func update(
-            item: DisplayList.Item,
-            platform: DisplayList.ViewUpdater.Platform,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            tag: DisplayList.ViewUpdater.ViewCache.Tag,
-            in id: DisplayList.ViewUpdater.ViewInfo.ID
-        ) -> DisplayList.ViewUpdater.ViewCache.Result {
-            /*
-             item = x24
-             tag = x28
-             id = sp + 0xc8
-             */
-            // sp + 0xb0
-            let copy_1 = platform
-            // w23
-            let system = platform.system
-            // self = sp + 0x80
-            fatalError("TODO")
-        }
     }
 }
 
@@ -217,6 +200,14 @@ extension DisplayList.ViewUpdater.ViewCache {
         private var id: DisplayList.Index.ID
         private var system: PlatformViewDefinition.System
         private var tag: DisplayList.ViewUpdater.ViewCache.Tag
+        
+        // 원래 없음
+        @inline(__always)
+        init(id: DisplayList.Index.ID, system: PlatformViewDefinition.System, tag: DisplayList.ViewUpdater.ViewCache.Tag) {
+            self.id = id
+            self.system = system
+            self.tag = tag
+        }
         
         static func == (lhs: DisplayList.ViewUpdater.ViewCache.Key, rhs: DisplayList.ViewUpdater.ViewCache.Key) -> Bool {
             fatalError("TODO")
@@ -270,6 +261,6 @@ extension DisplayList.ViewUpdater.ViewCache.AnimatorInfo {
     }
 }
 
-fileprivate func isPlatter(_: MySwiftUIViewSystem, _: AnyObject) -> Bool {
+fileprivate func isPlatter(_: ViewSystem, _: AnyObject) -> Bool {
     fatalError("TODO")
 }

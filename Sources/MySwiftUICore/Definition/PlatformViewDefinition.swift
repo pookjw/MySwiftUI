@@ -75,7 +75,7 @@ extension PlatformViewDefinition {
         public static var uiView: System { System(base: .uiView) }
         public static var nsView: System { System(base: .nsView) }
         
-        private(set) var base: MySwiftUIViewSystem
+        private(set) var base: ViewSystem
     }
 }
 

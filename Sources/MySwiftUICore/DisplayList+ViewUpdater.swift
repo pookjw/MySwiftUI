@@ -21,6 +21,12 @@ extension DisplayList {
         private var isValid = true
         private var wasValid = true
         
+#if os(macOS)
+        var effectiveRootPlatform: DisplayList.ViewUpdater.Platform {
+            fatalError("TODO")
+        }
+#endif
+        
         init(rootPlatform: DisplayList.ViewUpdater.Platform, host: (any ViewRendererHost)?) {
             self.rootPlatform = rootPlatform
             self.host = host
@@ -87,7 +93,12 @@ extension DisplayList {
             }
             
             // x27
+#if os(macOS)
+            let rootPlatform = effectiveRootPlatform
+#else
             let rootPlatform = rootPlatform
+#endif
+            
             // <+220>
             if lastTime == .zero {
                 let viewLayer = rootPlatform.viewLayer(rootView)
@@ -166,7 +177,7 @@ extension DisplayList {
                 
                 // sp + 0x28
                 var container = DisplayList.ViewUpdater.Container(
-                    encoding: rootPlatform.encoding,
+                    system: rootPlatform.system,
                     rootView: rootView,
                     id: DisplayList.ViewUpdater.ViewInfo.ID(value: 0),
                     time: .infinity,
@@ -330,54 +341,22 @@ extension DisplayList {
             // sp + 0x280
             let copy_2 = item
             // sp + 0x1b0
-            let platform = DisplayList.ViewUpdater.Platform(encoding: container.encoding)
+            let rootPlatform = rootPlatform
             
             // self.viewCache = x20
             // localState (pointer) = sp + 0x40
             
             // sp + 0x2d0
-            let result = viewCache.update(item: copy_2, platform: platform, state: &localState, tag: .item, in: container.id)
+            let result = viewCache.update(item: copy_2, platform: rootPlatform, state: &localState, tag: .item, in: container.id)
             
             // <+188>
             self.isValid = (self.isValid && result.isValid)
             
-            CoreViewAddSubview(platform.system, container.rootView, result.platform.system, result.view, container.index)
+            CoreViewAddSubview(rootPlatform.system, container.rootView, result.platform.system, result.view, container.index)
             
             // <+248>
             fatalError("TODO")
         }
-    }
-}
-
-extension DisplayList.ViewUpdater.PlatformViewInfo {
-    struct Seeds {
-        private var zPosition: DisplayList.Seed
-        private var separatedState: DisplayList.Seed
-        private var separatedOptions: DisplayList.Seed
-        private var remoteEffects: DisplayList.Seed
-        private var renderingTechnique: DisplayList.Seed
-        private var projectiveShadow: DisplayList.Seed
-        private var hitTestsAsOpaque: DisplayList.Seed
-        private var serverResponderID: DisplayList.Seed
-    }
-}
-
-extension DisplayList.ViewUpdater.Platform {
-    struct State {
-        private var position: CGPoint
-        private var size: CGSize
-        let kind: PlatformViewDefinition.ViewKind
-        private var flags: DisplayList.ViewUpdater.Platform.ViewFlags
-        private var platformState: DisplayList.ViewUpdater.Platform.PlatformState
-    }
-    
-    struct ViewFlags {
-        private let rawValue: UInt8
-    }
-    
-    struct PlatformState {
-        private var separatedOptionKeys: [(any AnySeparatedOptionKey).Type]
-        private var remoteEffects: [RemoteEffectGroupInfo.ID: CARemoteEffectGroup]
     }
 }
 
@@ -428,7 +407,7 @@ extension DisplayList.ViewUpdater {
     }
     
     fileprivate struct Container {
-        let encoding: DisplayList.ViewUpdater.Platform.Encoding
+        let system: ViewSystem
         let rootView: AnyObject
         let id: DisplayList.ViewUpdater.ViewInfo.ID
         var time: Time
@@ -437,7 +416,7 @@ extension DisplayList.ViewUpdater {
         func removeRemaining(viewCache: inout DisplayList.ViewUpdater.ViewCache) {
             // viewCache = x26
             // x22
-            let system = encoding.system
+            let system = system
             
             // x27
             let reverseMap = unsafe viewCache.reverseMap
@@ -478,295 +457,5 @@ extension DisplayList.ViewUpdater {
         private let flags: DisplayList.ViewUpdater.Platform.ViewFlags
         private var nextUpdate: Time
         private var isInvalid: Bool
-    }
-    
-    struct Platform: Equatable, CustomStringConvertible {
-        fileprivate private(set) var encoding: DisplayList.ViewUpdater.Platform.Encoding
-        
-        fileprivate init(encoding: DisplayList.ViewUpdater.Platform.Encoding) {
-            self.encoding = encoding
-        }
-        
-        init(definition: PlatformViewDefinition.Type) {
-            self.encoding = DisplayList.ViewUpdater.Platform.Encoding(definition: definition)
-        }
-        
-        // 원래 없음
-        @inlinable
-        func addDrawingView(rootView: AnyObject, options: PlatformDrawableOptions) {
-            let drawingView = encoding.definition.makeDrawingView(options: options)
-            let system = encoding.system
-            CoreViewAddSubview(system, rootView, system, drawingView, 0)
-        }
-        
-        @inlinable
-        func viewLayer(_ view: AnyObject) -> CALayer {
-            return CoreViewLayer(encoding.system, view)
-        }
-        
-        func setFilters(_ filters: [GraphicsFilter], of view: AnyObject) {
-            CoreViewSetFilters(encoding.system, view, filters.caFilters)
-        }
-        
-        @inlinable
-        func setShadow(_ style: ResolvedShadowStyle?, layer: CALayer) {
-            let system = encoding.system
-            
-            let view = unsafe withUnsafeTemporaryAllocation(of: MySwiftUIViewSystem.self, capacity: 1) { pointer in
-                return unsafe CoreViewLayerView(system, layer, pointer.baseAddress.unsafelyUnwrapped)
-            }
-            
-            if let style {
-                CoreViewSetShadow(system, view, style.color.cgColor, style.radius, style.offset)
-            } else {
-                CoreViewSetShadow(system, view, nil, 0, .zero)
-            }
-        }
-        
-        func updateAffineTransform3DAsync(
-            layer: inout DisplayList.ViewUpdater.AsyncLayer,
-            oldTransform: AffineTransform3D,
-            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            newTransform: AffineTransform3D,
-            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) -> Bool {
-            fatalError("TODO")
-        }
-        
-        func updatePlatformState(
-            _: inout DisplayList.ViewUpdater.PlatformViewInfo,
-            item: DisplayList.Item,
-            size: CGSize,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.PlatformState>
-        ) {
-            fatalError("TODO")
-        }
-        
-        func updateDrawingView(
-            _: inout AnyObject,
-            options: RasterizationOptions,
-            contentsScale: CGFloat
-        ) -> PlatformDrawable {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateState(
-            _ viewInfo: DisplayList.ViewUpdater.ViewInfo,
-            item: DisplayList.Item,
-            size: CGSize,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateStateAsync(
-            layer: inout DisplayList.ViewUpdater.AsyncLayer,
-            oldItem: DisplayList.Item,
-            oldSize: CGSize,
-            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            newItem: DisplayList.Item,
-            newSize: CGSize,
-            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) -> Bool {
-            fatalError("TODO")
-        }
-        
-        fileprivate func _makeItemView(
-            item: DisplayList.Item,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) -> DisplayList.ViewUpdater.ViewInfo {
-            fatalError("TODO")
-        }
-        
-        func updateItemView(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
-            index: DisplayList.Index,
-            item: DisplayList.Item,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateSDFShapeView(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
-            state: inout DisplayList.ViewUpdater.Model.State,
-            shape: SDFShape,
-            contentsChanged: Bool
-        ) {
-            fatalError("TODO")
-        }
-        
-        fileprivate func missingPlatformView() -> AnyObject {
-            fatalError("TODO")
-        }
-        
-        func updateItemViewAsync(
-            layer: inout DisplayList.ViewUpdater.AsyncLayer,
-            index: DisplayList.Index,
-            oldItem: DisplayList.Item,
-            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            newItem: DisplayList.Item,
-            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) -> Bool {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateShapeViewAsync(
-            layer: inout DisplayList.ViewUpdater.AsyncLayer,
-            oldState: inout DisplayList.ViewUpdater.Model.State,
-            oldSize: inout CGSize,
-            oldPath: Path,
-            oldPaint: AnyResolvedPaint,
-            oldStyle: FillStyle,
-            newState: inout DisplayList.ViewUpdater.Model.State,
-            newSize: inout CGSize,
-            newPath: Path,
-            newPaint: AnyResolvedPaint,
-            newStyle: FillStyle,
-            contentsChanged: Bool
-        ) -> Bool {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateSDFShapeViewAsync(
-            _: inout DisplayList.ViewUpdater.AsyncLayer,
-            oldState: inout DisplayList.ViewUpdater.Model.State,
-            oldShape: SDFShape,
-            newState: inout DisplayList.ViewUpdater.Model.State,
-            newShape: SDFShape,
-            contentsChanged: Bool
-        ) {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateDrawingViewAsync(
-            _: inout DisplayList.ViewUpdater.AsyncLayer,
-            oldOptions: RasterizationOptions,
-            newOptions: RasterizationOptions,
-            content: PlatformDrawableContent.Storage,
-            sizeChanged: Bool,
-            newSize: CGSize,
-            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) -> Bool {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateClipShapes(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateGeometry(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
-            item: DisplayList.Item,
-            size: CGSize,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            clipRectChanged: Bool
-        ) -> Bool {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateShadow(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            item: DisplayList.Item
-        ) {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateProperties(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
-            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateClipShapesAsync(
-            layer: inout DisplayList.ViewUpdater.AsyncLayer,
-            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) -> Bool {
-            fatalError("TODO")
-        }
-        
-        fileprivate func updateShadowAsync(
-            layer: inout DisplayList.ViewUpdater.AsyncLayer,
-            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            oldItem: DisplayList.Item,
-            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            newItem: DisplayList.Item,
-            boundsChanged: Bool
-        ) -> Bool {
-            fatalError("TODO")
-        }
-        
-        var description: String {
-            fatalError("TODO")
-        }
-        
-        func setAffineTransform3D(_: AffineTransform3D, of: AnyObject, identity: _DisplayList_Identity) {
-            fatalError("TODO")
-        }
-        
-        func setZPosition(_: CGFloat, of: AnyObject, identity: _DisplayList_Identity) {
-            fatalError("TODO")
-        }
-        
-        func updateSeparatedOptions(fromKeys: [AnySeparatedOptionKey.Type], to: SeparatedOptionValues, for: AnyObject) {
-            fatalError("TODO")
-        }
-        
-        func updateRemoteEffects(of: inout DisplayList.ViewUpdater.PlatformViewInfo, to: [RemoteEffectGroupInfo.ID : RemoteEffectGroupInfo]) {
-            fatalError("TODO")
-        }
-        
-        func maskContainerView(_: AnyObject, item: DisplayList.Item) -> AnyObject? {
-            fatalError("TODO")
-        }
-        
-        // 원래 없음
-        @inlinable
-        var definition: PlatformViewDefinition.Type {
-            return encoding.definition
-        }
-        
-        // 원래 없음
-        @inlinable
-        var system: MySwiftUIViewSystem {
-            return encoding.system
-        }
-    }
-}
-
-extension DisplayList.ViewUpdater.Platform {
-    fileprivate struct Encoding: OptionSet {
-        let rawValue: UInt
-        
-        init(rawValue: UInt) {
-            self.rawValue = rawValue
-        }
-        
-        // 원래 없음
-        @inlinable
-        init(definition: PlatformViewDefinition.Type) {
-            let system = definition.system
-            self.rawValue = UInt(bitPattern: ObjectIdentifier(definition)) | UInt(system.base.rawValue)
-        }
-        
-        // 원래 없음
-        @inlinable
-        var definition: PlatformViewDefinition.Type {
-            return unsafe unsafeBitCast(self.rawValue & 0xfffffffffffffff8, to: PlatformViewDefinition.Type.self)
-        }
-        
-        // 원래 없음
-        @inlinable
-        var system: MySwiftUIViewSystem {
-            let all = UInt(MySwiftUIViewSystem.caLayer.rawValue | MySwiftUIViewSystem.uiView.rawValue | MySwiftUIViewSystem.nsView.rawValue)
-            let system = MySwiftUIViewSystem(rawValue: UInt8(self.rawValue & all))!
-            return system
-        }
     }
 }

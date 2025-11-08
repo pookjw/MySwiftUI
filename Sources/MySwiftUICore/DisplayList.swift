@@ -534,6 +534,11 @@ extension DisplayList {
         init() {}
         
         @inline(__always)
+        var id: DisplayList.Index.ID {
+            return DisplayList.Index.ID(identity: identity, serial: serial, archiveIdentity: archiveIdentity, archiveSerial: archiveSerial)
+        }
+        
+        @inline(__always)
         mutating func enter(identity: _DisplayList_Identity) -> DisplayList.Index {
             var old = self
             if identity.value != 0 {
@@ -590,6 +595,13 @@ extension DisplayList.Index {
         private var serial: UInt32
         private var archiveIdentity: _DisplayList_Identity
         private var archiveSerial: UInt32
+        
+        fileprivate init(identity: _DisplayList_Identity, serial: UInt32, archiveIdentity: _DisplayList_Identity, archiveSerial: UInt32) {
+            self.identity = identity
+            self.serial = serial
+            self.archiveIdentity = archiveIdentity
+            self.archiveSerial = archiveSerial
+        }
     }
     
     fileprivate struct RestoreOptions: OptionSet {

@@ -15,7 +15,7 @@ extension _GraphInputs {
         }
     }
     
-    var platformSystem: MySwiftUICoreSystem {
+    var platformSystem: CoreSystem {
         get {
             return self[PlatformSystemKey.self]
         }
@@ -48,7 +48,7 @@ fileprivate struct CorePlatfromProvidersDefinitionKey: GraphInput, EnvironmentKe
 }
 
 fileprivate struct PlatformSystemKey: GraphInput {
-    static var defaultValue: MySwiftUICoreSystem {
+    static var defaultValue: CoreSystem {
         return .uiKit
     }
 }

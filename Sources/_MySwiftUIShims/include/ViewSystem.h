@@ -3,10 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(uint8_t, MySwiftUIViewSystem) {
-    MySwiftUIViewSystemCALayer,
-    MySwiftUIViewSystemUIView,
-    MySwiftUIViewSystemNSView
+typedef NS_ENUM(uint8_t, ViewSystem) {
+    ViewSystemCALayer,
+    ViewSystemUIView,
+    ViewSystemNSView
 };
 
 #endif

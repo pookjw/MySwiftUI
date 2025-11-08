@@ -3,9 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(uint8_t, MySwiftUICoreSystem) {
-    MySwiftUICoreSystemUIKit,
-    MySwiftUICoreSystemAppKit
+typedef NS_ENUM(uint8_t, CoreSystem) {
+    CoreSystemUIKit,
+    CoreSystemAppKit
 };
 
 #endif
