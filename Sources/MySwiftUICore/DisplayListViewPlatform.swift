@@ -351,6 +351,14 @@ extension DisplayList.ViewUpdater.Platform {
         var mixedViewHierarchy: Bool {
             return (rawValue & 0x4) != 0
         }
+        
+#if !os(visionOS)
+        // 원래 없음
+        @inline(__always)
+        func asMixedViewHierarchy() -> DisplayList.ViewUpdater.Platform.Encoding {
+            return DisplayList.ViewUpdater.Platform.Encoding(rawValue: rawValue | 0x4)
+        }
+#endif
     }
 }
 

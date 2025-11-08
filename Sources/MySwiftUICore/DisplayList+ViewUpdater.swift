@@ -6,8 +6,11 @@ private import CoreGraphics
 internal import _MySwiftUIShims
 
 @safe fileprivate nonisolated(unsafe) var printTree: Bool? = nil
+@safe fileprivate nonisolated(unsafe) var disableMixedViewHierarchy: Bool? = nil
 
 extension DisplayList {
+    @safe nonisolated(unsafe) static var overrideMayInsertCALayers: Bool? = nil
+    
     final class ViewUpdater: ViewRendererBase {
         let rootPlatform: DisplayList.ViewUpdater.Platform
         private weak var host: ViewRendererHost? = nil
@@ -21,9 +24,36 @@ extension DisplayList {
         private var isValid = true
         private var wasValid = true
         
-#if os(macOS)
+#if !os(visionOS)
         var effectiveRootPlatform: DisplayList.ViewUpdater.Platform {
-            fatalError("TODO")
+            let _disableMixedViewHierarchy: Bool
+            if let disableMixedViewHierarchy {
+                _disableMixedViewHierarchy = disableMixedViewHierarchy
+            } else {
+                if let value = getenv("SWIFTUI_DISABLE_MIXED_VIEW_HIERARCHY") {
+                    _disableMixedViewHierarchy = (atoi(value) != 0)
+                    disableMixedViewHierarchy = _disableMixedViewHierarchy
+                }
+            }
+            
+            guard !_disableMixedViewHierarchy else {
+                return rootPlatform
+            }
+            
+            let insertCALayers: Bool
+            if let overrideMayInsertCALayers = DisplayList.overrideMayInsertCALayers {
+                insertCALayers = overrideMayInsertCALayers
+            } else {
+                insertCALayers = isLinkedOnOrAfter(.v7)
+            }
+            
+            if insertCALayers {
+                var platform = rootPlatform
+                platform.encoding = platform.encoding.asMixedViewHierarchy()
+                return platform
+            } else {
+                return rootPlatform
+            }
         }
 #endif
         
