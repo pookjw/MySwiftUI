@@ -106,9 +106,8 @@ extension DisplayList.ViewUpdater {
             case .content(_):
                 // <+100>
                 // goto <+2740>
-                if encoding.disableMixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
-//                    encoding = DisplayList.ViewUpdater.Platform.Encoding.init(definition: CALayerPlatformViewDefinition.self)
-                    fatalError("TODO")
+                if encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
+                    encoding = DisplayList.ViewUpdater.Platform.Encoding(definition: CALayerPlatformViewDefinition.self)
                 }
                 
                 // x20
@@ -327,20 +326,20 @@ extension DisplayList.ViewUpdater.Platform {
         }
         
         // 원래 없음
-        @inlinable
+        @inline(__always)
         init(definition: PlatformViewDefinition.Type) {
             let system = definition.system
             self.rawValue = UInt(bitPattern: ObjectIdentifier(definition)) | UInt(system.base.rawValue)
         }
         
         // 원래 없음
-        @inlinable
+        @inline(__always)
         var definition: PlatformViewDefinition.Type {
             return unsafe unsafeBitCast(self.rawValue & ~0x7, to: PlatformViewDefinition.Type.self)
         }
         
         // 원래 없음
-        @inlinable
+        @inline(__always)
         var viewSystem: ViewSystem {
             let all = UInt(ViewSystem.caLayer.rawValue | ViewSystem.uiView.rawValue | ViewSystem.nsView.rawValue)
             let system = ViewSystem(rawValue: UInt8(self.rawValue & all))!
@@ -348,8 +347,8 @@ extension DisplayList.ViewUpdater.Platform {
         }
         
         // 원래 없음
-        @inlinable
-        var disableMixedViewHierarchy: Bool {
+        @inline(__always)
+        var mixedViewHierarchy: Bool {
             return (rawValue & 0x4) != 0
         }
     }
