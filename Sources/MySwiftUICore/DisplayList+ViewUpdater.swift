@@ -165,11 +165,13 @@ extension DisplayList {
                 viewLayer.needsDisplayOnBoundsChange = false
                 
                 // sp + 0x28
-                var container = DisplayList.ViewUpdater.Container(encoding: rootPlatform.encoding, rootView: rootView, unknown: 0)
-                
-                // <+1284>
-                // sp, #0x40
-                var result: Time = .infinity
+                var container = DisplayList.ViewUpdater.Container(
+                    encoding: rootPlatform.encoding,
+                    rootView: rootView,
+                    id: DisplayList.ViewUpdater.ViewInfo.ID(value: 0),
+                    time: .infinity,
+                    index: 0
+                )
                 
                 for item in displayList.items {
                     // w22, w26, d9
@@ -178,7 +180,7 @@ extension DisplayList {
                     
                     var item = item
                     let time = unsafe viewCache.prepare(item: &item, platform: rootPlatform, parentState: &state)
-                    result = min(time, result)
+                    container.time = min(time, container.time)
                     
                     unsafe self.updateInheritedView(container: &container, from: item, parentState: &state)
                     
@@ -197,11 +199,11 @@ extension DisplayList {
                 viewCache.cacheSeed = 0
                 
                 // sp, #0x88
-                let result2 = result
+                let result2 = container.time
                 
                 if !isValid {
                     // <+2040>
-                    result = time
+                    container.time = time
                 }
                 
                 if let host {
@@ -214,8 +216,8 @@ extension DisplayList {
                 // <+2220>
                 viewLayer.needsDisplayOnBoundsChange = oldNeedsDisplayOnBoundsChange
                 
-                self.nextUpdate = result
-                return result
+                self.nextUpdate = container.time
+                return container.time
             }
         }
         
@@ -240,6 +242,7 @@ extension DisplayList {
             // x29 = sp + 0x7f0
             // x21 = sp + 0x580
             // x27 = sp + 0x270
+            // x28 = sp + 0x160
             /*
              self = x19
              container = x22
@@ -293,12 +296,55 @@ extension DisplayList {
                     fatalError("TODO")
                 } else {
                     // <+1608>
-                    fatalError("TODO")
+                    // sp + 0x270
+                    let copy_5 = copy_2
+                    // sp + 0x2c0
+                    let copy_6 = copy_5
+                    // sp + 0x220
+                    let copy_7 = copy_2
+                    updateItemView(container: &container, from: copy_7, localState: &copy_4)
+                    return
                 }
             } else {   
                 // <+588>
                 fatalError("TODO")
             }
+        }
+        
+        fileprivate func updateItemView(
+            container: inout DisplayList.ViewUpdater.Container,
+            from item: DisplayList.Item,
+            localState: inout DisplayList.ViewUpdater.Model.State
+        ) {
+            /*
+             x29 = sp + 0x3d0
+             x27 = sp + 0x280
+             */
+            /*
+             self = x19
+             container = x21
+             localState = x25
+             */
+            // sp + 0x310
+            let copy_1 = item
+            // sp + 0x280
+            let copy_2 = item
+            // sp + 0x1b0
+            let platform = DisplayList.ViewUpdater.Platform(encoding: container.encoding)
+            
+            // self.viewCache = x20
+            // localState (pointer) = sp + 0x40
+            
+            // sp + 0x2d0
+            let result = viewCache.update(item: copy_2, platform: platform, state: &localState, tag: .item, in: container.id)
+            
+            // <+188>
+            self.isValid = (self.isValid && result.isValid)
+            
+            CoreViewAddSubview(platform.system, container.rootView, result.platform.system, result.view, container.index)
+            
+            // <+248>
+            fatalError("TODO")
         }
     }
 }
@@ -336,8 +382,12 @@ extension DisplayList.ViewUpdater.Platform {
 }
 
 extension DisplayList.ViewUpdater.ViewInfo {
-    struct ID {
+    struct ID: Equatable {
         private var value: Int
+        
+        fileprivate init(value: Int) {
+            self.value = value
+        }
     }
     
     struct Seeds {
@@ -377,10 +427,12 @@ extension DisplayList.ViewUpdater {
         private var seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>
     }
     
-    fileprivate struct Container: ~Copyable {
+    fileprivate struct Container {
         let encoding: DisplayList.ViewUpdater.Platform.Encoding
         let rootView: AnyObject
-        let unknown: UInt
+        let id: DisplayList.ViewUpdater.ViewInfo.ID
+        var time: Time
+        let index: Int
         
         func removeRemaining(viewCache: inout DisplayList.ViewUpdater.ViewCache) {
             // viewCache = x26
@@ -430,6 +482,10 @@ extension DisplayList.ViewUpdater {
     
     struct Platform: Equatable, CustomStringConvertible {
         fileprivate private(set) var encoding: DisplayList.ViewUpdater.Platform.Encoding
+        
+        fileprivate init(encoding: DisplayList.ViewUpdater.Platform.Encoding) {
+            self.encoding = encoding
+        }
         
         init(definition: PlatformViewDefinition.Type) {
             self.encoding = DisplayList.ViewUpdater.Platform.Encoding(definition: definition)

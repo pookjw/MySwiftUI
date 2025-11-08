@@ -189,9 +189,28 @@ extension DisplayList.ViewUpdater {
         fileprivate func removeChildren(platform: DisplayList.ViewUpdater.Platform, container: AnyObject) {
             fatalError("TODO")
         }
+        
+        func update(
+            item: DisplayList.Item,
+            platform: DisplayList.ViewUpdater.Platform,
+            state: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+            tag: DisplayList.ViewUpdater.ViewCache.Tag,
+            in id: DisplayList.ViewUpdater.ViewInfo.ID
+        ) -> DisplayList.ViewUpdater.ViewCache.Result {
+            /*
+             item = x24
+             tag = x28
+             id = sp + 0xc8
+             */
+            // sp + 0xb0
+            let copy_1 = platform
+            // w23
+            let system = platform.system
+            // self = sp + 0x80
+            fatalError("TODO")
+        }
     }
 }
-
 
 extension DisplayList.ViewUpdater.ViewCache {
     struct Key: Hashable {
@@ -206,6 +225,17 @@ extension DisplayList.ViewUpdater.ViewCache {
         func hash(into hasher: inout Hasher) {
             fatalError("TODO")
         }
+    }
+    
+    struct Result {
+        private(set) var platform: DisplayList.ViewUpdater.Platform
+        private(set) var view: AnyObject
+        private var container: AnyObject
+        private var id: DisplayList.ViewUpdater.ViewInfo.ID
+        private var key: DisplayList.ViewUpdater.ViewCache.Key
+        private var changed: Bool
+        private(set) var isValid: Bool
+        private var nextUpdate: Time
     }
     
     fileprivate struct AsyncValues {

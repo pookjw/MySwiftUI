@@ -673,7 +673,7 @@ extension ViewGraph: ViewGraphRenderHost {
             CustomEventTrace.animationTick(onMain: true, time: time)
             
             let renderingRootView = renderDelegate.renderingRootView
-            return renderDelegate.withMainThreadRender(wasAsync: true) { [displayList = unchecked.value] in
+            return renderDelegate.withMainThreadRender(wasAsync: false) { [displayList = unchecked.value] in
                 // closure #1 () -> SwiftUI.Time in renderOnMainThread() -> SwiftUI.Time
                 let environment = DisplayList.ViewRenderer.Environment(contentsScale: viewRenderer.configuration.contentsScale ?? context.contentsScale)
                 return viewRenderer.render(rootView: renderingRootView, from: displayList, time: time, version: version, maxVersion: maxVersion, environment: environment)
