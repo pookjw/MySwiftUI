@@ -32,8 +32,10 @@ extension DisplayList {
             } else {
                 if let value = getenv("SWIFTUI_DISABLE_MIXED_VIEW_HIERARCHY") {
                     _disableMixedViewHierarchy = (atoi(value) != 0)
-                    disableMixedViewHierarchy = _disableMixedViewHierarchy
+                } else {
+                    _disableMixedViewHierarchy = false
                 }
+                disableMixedViewHierarchy = _disableMixedViewHierarchy
             }
             
             guard !_disableMixedViewHierarchy else {
