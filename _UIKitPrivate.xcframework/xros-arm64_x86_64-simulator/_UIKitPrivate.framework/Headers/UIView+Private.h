@@ -12,6 +12,9 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
 @property (nonatomic, readonly, nullable) UIKeyboardSceneDelegate *keyboardSceneDelegate;
 @property (nonatomic, setter=_setSafeAreaCornerInsets:) _UICornerInsets _safeAreaCornerInsets;
+@property (nonatomic, getter=_isFocusInteractionEnabled, setter=_setFocusInteractionEnabled:) BOOL focusInteractionEnabled;
+@property (nonatomic) BOOL allowsGroupOpacity;
+@property (nonatomic) BOOL allowsGroupBlending;
 + (void)_animateWithAnimationSettings:(BSAnimationSettings * _Nullable)animationSettings animations:(void (^)(void))animations completion:(void (^)(UIViewAnimatingPosition position))completion;
 + (BOOL)_isInAnimationBlockWithAnimationsEnabled;
 + (CGFloat)_currentAnimationDuration;
@@ -21,6 +24,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
 - (UIColor *)_undimmedTintColor;
 - (void)_invalidateSubviewCache;
 - (void)_unregisterForGeometryChanges;
+- (BOOL)_shouldAnimatePropertyWithKey:(NSString *)key;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

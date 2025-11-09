@@ -10,3 +10,4 @@
 #import "CoreView.h"
 #include "ProtocolDescriptors.h"
 #import "CoreAnimation.h"
+#import "_UIGraphicsViewBase.h"

@@ -5,7 +5,7 @@ private import CoreGraphics
 internal import _MySwiftUIShims
 
 extension DisplayList.ViewUpdater {
-    struct Platform: Equatable, CustomStringConvertible {
+    package struct Platform: Equatable, CustomStringConvertible {
         fileprivate private(set) var encoding: DisplayList.ViewUpdater.Platform.Encoding
         
         init(definition: PlatformViewDefinition.Type) {
@@ -13,14 +13,14 @@ extension DisplayList.ViewUpdater {
         }
         
         // 원래 없음
-        @inlinable
+        @inline(__always)
         func addDrawingView(rootView: AnyObject, options: PlatformDrawableOptions) {
             let drawingView = encoding.definition.makeDrawingView(options: options)
             let system = encoding.viewSystem
             CoreViewAddSubview(system, rootView, system, drawingView, 0)
         }
         
-        @inlinable
+        @inline(__always)
         func viewLayer(_ view: AnyObject) -> CALayer {
             return CoreViewLayer(encoding.viewSystem, view)
         }
@@ -29,7 +29,7 @@ extension DisplayList.ViewUpdater {
             CoreViewSetFilters(encoding.viewSystem, view, filters.caFilters)
         }
         
-        @inlinable
+        @inline(__always)
         func setShadow(_ style: ResolvedShadowStyle?, layer: CALayer) {
             let system = encoding.viewSystem
             
@@ -103,18 +103,29 @@ extension DisplayList.ViewUpdater {
             var encoding = encoding
             
             switch item.value {
-            case .content(_):
+            case .content(let content):
                 // <+100>
-                // goto <+2740>
-                if encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
-                    encoding = DisplayList.ViewUpdater.Platform.Encoding(definition: CALayerPlatformViewDefinition.self)
+                switch content.value {
+                case .color(let colorView):
+                    // <+2740>
+                    if encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
+                        encoding = DisplayList.ViewUpdater.Platform.Encoding(definition: CALayerPlatformViewDefinition.self)
+                    }
+                    
+                    // x20
+                    // <+3476>
+                    let definition = encoding.definition
+                    let view = definition.makeView(kind: .color)
+                    // sp + 0xa0
+                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: self, view: view, kind: .color)
+                    // <+3532>
+                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: view, kind: .color, platform: self)
+                    CoreGlue2.shared.setupPlatformProperties(parameters)
+                    
+                    return viewInfo
+                default:
+                    fatalError("TODO")
                 }
-                
-                // x20
-                // <+3476>
-                let definition = encoding.definition
-                
-                fatalError("TODO")
             case .effect(_, _):
                 // <+208>
                 fatalError("TODO")
@@ -247,7 +258,7 @@ extension DisplayList.ViewUpdater {
             fatalError("TODO")
         }
         
-        var description: String {
+        package var description: String {
             fatalError("TODO")
         }
         
@@ -278,7 +289,7 @@ extension DisplayList.ViewUpdater {
         }
         
         // 원래 없음
-        @inlinable
+        @inline(__always)
         var system: ViewSystem {
             return encoding.viewSystem
         }
@@ -295,6 +306,19 @@ extension DisplayList.ViewUpdater.PlatformViewInfo {
         private var projectiveShadow: DisplayList.Seed
         private var hitTestsAsOpaque: DisplayList.Seed
         private var serverResponderID: DisplayList.Seed
+        
+        // 원래 없음
+        @inline(__always)
+        init(zPosition: DisplayList.Seed, separatedState: DisplayList.Seed, separatedOptions: DisplayList.Seed, remoteEffects: DisplayList.Seed, renderingTechnique: DisplayList.Seed, projectiveShadow: DisplayList.Seed, hitTestsAsOpaque: DisplayList.Seed, serverResponderID: DisplayList.Seed) {
+            self.zPosition = zPosition
+            self.separatedState = separatedState
+            self.separatedOptions = separatedOptions
+            self.remoteEffects = remoteEffects
+            self.renderingTechnique = renderingTechnique
+            self.projectiveShadow = projectiveShadow
+            self.hitTestsAsOpaque = hitTestsAsOpaque
+            self.serverResponderID = serverResponderID
+        }
     }
 }
 
@@ -305,15 +329,35 @@ extension DisplayList.ViewUpdater.Platform {
         let kind: PlatformViewDefinition.ViewKind
         private var flags: DisplayList.ViewUpdater.Platform.ViewFlags
         private var platformState: DisplayList.ViewUpdater.Platform.PlatformState
+        
+        // 원래 없음
+        @inline(__always)
+        init(
+            position: CGPoint,
+            size: CGSize,
+            kind: PlatformViewDefinition.ViewKind,
+            flags: DisplayList.ViewUpdater.Platform.ViewFlags,
+            platformState: DisplayList.ViewUpdater.Platform.PlatformState
+        ) {
+            self.position = position
+            self.size = size
+            self.kind = kind
+            self.flags = flags
+            self.platformState = platformState
+        }
     }
     
-    struct ViewFlags {
-        private let rawValue: UInt8
+    struct ViewFlags: OptionSet {
+        let rawValue: UInt8
+        
+        init(rawValue: UInt8) {
+            self.rawValue = rawValue
+        }
     }
     
     struct PlatformState {
-        private var separatedOptionKeys: [(any AnySeparatedOptionKey).Type]
-        private var remoteEffects: [RemoteEffectGroupInfo.ID: CARemoteEffectGroup]
+        private var separatedOptionKeys: [(any AnySeparatedOptionKey).Type] = []
+        private var remoteEffects: [RemoteEffectGroupInfo.ID: CARemoteEffectGroup] = [:]
     }
 }
 
@@ -403,13 +447,33 @@ extension DisplayList.ViewUpdater.ViewCache {
         switch tag {
         case .item:
             // <+752>
-            // x27 = sp + 0x100
-            // index.restored = sp + 0x390
-            // platform = sp + 0x380
-            // state = x28
+            /*
+             x27 = sp + 0x100
+             platform = sp + 0x380
+             state = x28
+             */
+            // sp + 0x4c0
             let copy_2 = item
+            /*
+             index.identity/serial/archiveIdentity/archiveSerial = sp + 0x90
+             index.restored = w25
+             */
+            let index_1 = index
             // sp + 0x420
             let viewInfo = platform._makeItemView(item: copy_2, state: state)
+            /*
+             platform = sp + 0x2e0
+             x22 = sp + 0x4c0
+             index = sp + 0x380
+             */
+            // sp + 0x280
+            let index_2 = index_1
+            /*
+             x25 = sp + 0x100
+             */
+            // sp + 0x4c0
+            let copy_3 = item
+            // <+900>
             fatalError("TODO")
         case .inherited:
             // <+500>

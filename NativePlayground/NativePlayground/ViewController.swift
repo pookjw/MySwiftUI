@@ -79,6 +79,7 @@ struct AnimatableFoo: Animatable {
 
 class ViewController: UIViewController {
     override func loadView() {
+//        dlopen("/System/Library/PrivateFrameworks/UIAccessibility.framework/UIAccessibility", RTLD_NOW)
 //        swizzle()
         
         print(_typeName(_typeByName("7SwiftUI11DisplayListVAAE12ViewRendererC")!, qualified: true))

@@ -36,7 +36,8 @@ let package = Package(
                 .byName(name: "MRUIKit"),
                 .byName(name: "DesignLibrary"),
                 .byName(name: "_DesignLibraryShims"),
-                .byName(name: "TCC")
+                .byName(name: "TCC"),
+                .byName(name: "UIAccessibility")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -171,6 +172,10 @@ let package = Package(
         .binaryTarget(
             name: "RenderBox",
             path: "RenderBox.xcframework"
+        ),
+        .binaryTarget(
+            name: "UIAccessibility",
+            path: "UIAccessibility.xcframework"
         ),
         .target(
             name: "_KernPrivate",

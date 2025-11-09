@@ -4,6 +4,7 @@
 private import _DarwinFoundation3._stdlib
 private import CoreGraphics
 internal import _MySwiftUIShims
+private import AttributeGraph
 
 @safe fileprivate nonisolated(unsafe) var printTree: Bool? = nil
 @safe fileprivate nonisolated(unsafe) var disableMixedViewHierarchy: Bool? = nil
@@ -11,7 +12,7 @@ internal import _MySwiftUIShims
 extension DisplayList {
     @safe nonisolated(unsafe) static var overrideMayInsertCALayers: Bool? = nil
     
-    final class ViewUpdater: ViewRendererBase {
+    package final class ViewUpdater: ViewRendererBase {
         let rootPlatform: DisplayList.ViewUpdater.Platform
         private weak var host: ViewRendererHost? = nil
         private var viewCache: DisplayList.ViewUpdater.ViewCache
@@ -412,6 +413,21 @@ extension DisplayList.ViewUpdater.ViewInfo {
         private var shadow: DisplayList.Seed
         private var properties: DisplayList.Seed
         private var platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds
+        
+        // 원래 없음
+        @inline(__always)
+        init(item: DisplayList.Seed, content: DisplayList.Seed, opacity: DisplayList.Seed, blend: DisplayList.Seed, transform: DisplayList.Seed, clips: DisplayList.Seed, filters: DisplayList.Seed, shadow: DisplayList.Seed, properties: DisplayList.Seed, platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds) {
+            self.item = item
+            self.content = content
+            self.opacity = opacity
+            self.blend = blend
+            self.transform = transform
+            self.clips = clips
+            self.filters = filters
+            self.shadow = shadow
+            self.properties = properties
+            self.platformSeeds = platformSeeds
+        }
     }
 }
 
@@ -429,6 +445,71 @@ extension DisplayList.ViewUpdater {
         var isRemoved: Bool
         var isInvalid: Bool
         private var nextUpdate: Time
+        
+        init(platform: DisplayList.ViewUpdater.Platform, view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
+            /*
+             platform = x22
+             view = x19
+             kind = w23
+             return = x20
+             */
+            // x21
+            let layer = platform.viewLayer(view)
+            let uniqueID = DisplayList.ViewUpdater.ViewInfo.ID(value: AGMakeUniqueID())
+            
+            self.platform = platform
+            self.view = view
+            self.layer = layer
+            self.container = view
+            self.state = DisplayList.ViewUpdater.Platform.State.init(
+                position: .infinity,
+                size: CGSize(width: CGFloat.infinity, height: CGFloat.infinity),
+                kind: kind,
+                flags: [],
+                platformState: DisplayList.ViewUpdater.Platform.PlatformState()
+            )
+            self.id = uniqueID
+            self.parentID = DisplayList.ViewUpdater.ViewInfo.ID(value: -1)
+            
+            let seed: DisplayList.Seed
+            switch kind {
+            case .platformGroup:
+                seed = .undefined
+            case .platformLayer:
+                seed = .undefined
+            case .platformEffect:
+                seed = .undefined
+            default:
+                seed = DisplayList.Seed()
+            }
+            
+            self.seeds = DisplayList.ViewUpdater.ViewInfo.Seeds(
+                item: seed,
+                content: seed,
+                opacity: seed,
+                blend: seed,
+                transform: seed,
+                clips: seed,
+                filters: seed,
+                shadow: seed,
+                properties: seed,
+                platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds(
+                    zPosition: seed,
+                    separatedState: seed,
+                    separatedOptions: seed,
+                    remoteEffects: seed,
+                    renderingTechnique: seed,
+                    projectiveShadow: seed,
+                    hitTestsAsOpaque: seed,
+                    serverResponderID: seed
+                )
+            )
+            
+            self.cacheSeed = 0
+            self.isRemoved = false
+            self.isInvalid = false
+            self.nextUpdate = .infinity
+        }
     }
     
     @safe struct PlatformViewInfo {
