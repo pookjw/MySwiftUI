@@ -437,7 +437,7 @@ extension DisplayList.ViewUpdater {
         private(set) var view: AnyObject
         private var layer: CALayer
         private(set) var container: AnyObject
-        private(set) var state: DisplayList.ViewUpdater.Platform.State
+        var state: DisplayList.ViewUpdater.Platform.State
         private var id: DisplayList.ViewUpdater.ViewInfo.ID
         private var parentID: DisplayList.ViewUpdater.ViewInfo.ID
         private(set) var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds

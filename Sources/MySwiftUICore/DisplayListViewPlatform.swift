@@ -152,6 +152,8 @@ extension DisplayList.ViewUpdater {
             let item_1 = item
             // x11
             let encoding = encoding
+            // sp + 0x78
+            let value = item_1.value
             
             switch item_1.value {
             case .content(let content):
@@ -169,7 +171,26 @@ extension DisplayList.ViewUpdater {
                     let state_2 = state.pointee
                     
                     // <+700>
-                    fatalError("TODO")
+                    viewInfo.isInvalid = false
+                    // viewInfo = sp + 0x58
+                    viewInfo.state.flags.remove(.unknown5)
+                    
+                    // <+732>
+                    switch content.value {
+                    case .color(let colorView):
+                        // <+4860>
+                        // sp + 0xd0
+                        let color = colorView.color
+                        // w25
+                        let isAntialiased = colorView.isAntialiased
+                        // w26
+                        let allowedDynamicRange = colorView.allowedDynamicRange
+                        // <+4888>
+                        // viewInfo = x21
+                        fatalError("TODO")
+                    default:
+                        fatalError("TODO")
+                    }
                 }
             case .effect(let effect, let displayList):
                 // <+572>
@@ -363,7 +384,7 @@ extension DisplayList.ViewUpdater.Platform {
         private var position: CGPoint
         private var size: CGSize
         let kind: PlatformViewDefinition.ViewKind
-        private var flags: DisplayList.ViewUpdater.Platform.ViewFlags
+        var flags: DisplayList.ViewUpdater.Platform.ViewFlags
         private var platformState: DisplayList.ViewUpdater.Platform.PlatformState
         
         // 원래 없음
@@ -384,6 +405,7 @@ extension DisplayList.ViewUpdater.Platform {
     }
     
     struct ViewFlags: OptionSet {
+        static let unknown5 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 5)
         let rawValue: UInt8
         
         init(rawValue: UInt8) {

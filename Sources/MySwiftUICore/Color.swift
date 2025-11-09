@@ -660,8 +660,8 @@ extension ShapeStyle where Self == Color {
 
 struct ColorView: ResolvedPaint, RendererLeafView {
     private(set) var color: Color.ResolvedHDR
-    private var isAntialiased: Bool
-    private var allowedDynamicRange: Image.DynamicRange
+    private(set) var isAntialiased: Bool
+    private(set) var allowedDynamicRange: Image.DynamicRange
     
     static nonisolated func == (lhs: ColorView, rhs: ColorView) -> Bool {
         fatalError("TODO")
