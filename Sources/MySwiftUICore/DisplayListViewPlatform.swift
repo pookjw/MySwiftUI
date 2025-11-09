@@ -135,12 +135,48 @@ extension DisplayList.ViewUpdater {
         }
         
         func updateItemView(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
+            _ viewInfo: inout DisplayList.ViewUpdater.ViewInfo,
             index: DisplayList.Index,
             item: DisplayList.Item,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
-            fatalError("TODO")
+            // x29 = sp + 0x840
+            // x19 = sp + 0x30
+            /*
+             viewInfo = x27
+             item = x22
+             state = sp + 0x70
+             */
+            // <+236>
+            // sp + 0x740
+            let item_1 = item
+            // x11
+            let encoding = encoding
+            
+            switch item_1.value {
+            case .content(let content):
+                // <+284>
+                if viewInfo.seeds.content == content.seed {
+                    // <+296>
+                    fatalError("TODO")
+                } else {
+                    // <+656>
+                    // sp + 0x60
+                    let encoding_1 = encoding
+                    // sp + 0x480
+                    let state_1 = state.pointee
+                    // sp + 0x330
+                    let state_2 = state.pointee
+                    
+                    // <+700>
+                    fatalError("TODO")
+                }
+            case .effect(let effect, let displayList):
+                // <+572>
+                fatalError("TODO")
+            default:
+                fatalError()
+            }
         }
         
         fileprivate func updateSDFShapeView(
@@ -427,6 +463,8 @@ extension DisplayList.ViewUpdater.ViewCache {
         let copy_1 = platform
         // w23
         let system = platform.system
+        // sp + 0x68
+        let identity_1 = item.identity
         // self = sp + 0x80
         // sp + 0x48
         let indexID = index.id
@@ -459,21 +497,24 @@ extension DisplayList.ViewUpdater.ViewCache {
              index.restored = w25
              */
             let index_1 = index
+            // w21/sp + 0x508
+            let identity_2 = identity_1
             // sp + 0x420
-            let viewInfo = platform._makeItemView(item: copy_2, state: state)
+            var viewInfo = platform._makeItemView(item: copy_2, state: state)
             /*
              platform = sp + 0x2e0
              x22 = sp + 0x4c0
-             index = sp + 0x380
              */
-            // sp + 0x280
+            // sp + 0x380
             let index_2 = index_1
             /*
              x25 = sp + 0x100
              */
             // sp + 0x4c0
             let copy_3 = item
-            // <+900>
+            // <+904>
+            platform.updateItemView(&viewInfo, index: index_2, item: copy_2, state: state)
+            // <+928>
             fatalError("TODO")
         case .inherited:
             // <+500>
