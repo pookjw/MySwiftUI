@@ -123,7 +123,7 @@ extension DisplayList {
             }
             
             // x27
-#if os(macOS)
+#if !os(visionOS)
             let rootPlatform = effectiveRootPlatform
 #else
             let rootPlatform = rootPlatform
