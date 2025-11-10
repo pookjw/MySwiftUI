@@ -4,19 +4,31 @@ internal import Testing
 struct ObjectCacheTests {
     @Test
     func test() {
-        let values: [Int: Int] = [
-            0: 100,
-            1: 101,
-            2: 102,
-            3: 103
+        let table = [
+            0: "0",
+            1: "1",
+            2: "2"
         ]
         
-        let cache = ObjectCache<Int, Int> { key in
-            return values[key]!
+        var accessCounts = [
+            0: 0,
+            1: 0,
+            2: 0
+        ]
+        
+        let cache: ObjectCache<Int, String> = ObjectCache { key in
+            accessCounts[key]! += 1
+            return table[key]!
         }
         
-        for (key, value) in values {
+        for (key, value) in table {
+            #expect(accessCounts[key] == 0)
+            
             #expect(cache[key] == value)
+            #expect(accessCounts[key] == 1)
+            
+            #expect(cache[key] == value)
+            #expect(accessCounts[key] == 1)
         }
     }
 }

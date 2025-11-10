@@ -571,6 +571,13 @@ class ViewController: UIViewController {
             return true
         }
         
+        print("===")
+        
+        print(_typeName(ObjectCache<Int, Int>.self, qualified: true))
+        _forEachField(of: ObjectCache<Int, Int>.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
         
@@ -617,6 +624,7 @@ class ViewController: UIViewController {
         let cache = ObjectCache<Int, Int>.init { _ in
             return 3
         }
+        print(cache[4])
         print(cache[4])
         print(cache[5])
         
