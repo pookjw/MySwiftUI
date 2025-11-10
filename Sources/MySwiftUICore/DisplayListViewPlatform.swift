@@ -187,6 +187,20 @@ extension DisplayList.ViewUpdater {
                         let allowedDynamicRange = colorView.allowedDynamicRange
                         // <+4888>
                         // viewInfo = x21
+                        switch viewInfo.state.kind {
+                        case .color:
+                            // <+4908>
+                            // sp + 0x1e0
+                            let item_2 = item_1
+                            // sp + 0x1e0
+                            let state_2 = state_1
+                            // <+9492>
+                            
+                            fatalError("TODO")
+                        default:
+                            // <+9292>
+                            fatalError("TODO")
+                        }
                         fatalError("TODO")
                     default:
                         fatalError("TODO")

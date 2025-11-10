@@ -614,6 +614,11 @@ class ViewController: UIViewController {
 //        let item = DisplayList.Item.init(.empty, frame: .zero, identity: .init(), version: .init())
 //        let displayList = DisplayList(item)
         
+        let cache = ObjectCache<Int, Int>.init { _ in
+            return 3
+        }
+        print(cache[4])
+        
         do {
             var insets = EdgeInsets(
                 top: 10, leading: 20, bottom: 30, trailing: 40

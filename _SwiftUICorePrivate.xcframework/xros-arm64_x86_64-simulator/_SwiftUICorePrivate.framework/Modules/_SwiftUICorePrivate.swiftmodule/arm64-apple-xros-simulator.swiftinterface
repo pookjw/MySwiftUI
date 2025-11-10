@@ -920,3 +920,13 @@ public struct AbsoluteRectangleCornerInsets {
     
     public init(_ insets: SwiftUICore.RectangleCornerInsets, layoutDirection: SwiftUICore.LayoutDirection)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public final class ObjectCache<Key, Value> where Key : Swift.Hashable {
+  public init(constructor: @escaping (Key) -> Value)
+
+  public subscript(_ key: Key) -> Value {
+    get
+  }
+}

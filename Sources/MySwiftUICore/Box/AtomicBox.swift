@@ -4,7 +4,7 @@ private import Darwin.os
 package struct AtomicBox<T> {
     private let buffer: AtomicBuffer<T>
     
-    @inlinable
+    @inline(__always)
     package var wrappedValue: T {
         get {
             unsafe buffer.withUnsafeMutablePointers { pointer, lock in
@@ -32,12 +32,16 @@ package struct AtomicBox<T> {
         }
     }
     
-    @inlinable
+    @inline(__always)
+    package var projectedValue: AtomicBox<T> {
+        return self
+    }
+    
     package init(wrappedValue: T) {
         buffer = .allocate(value: wrappedValue)
     }
     
-    @inlinable
+    @inline(__always)
     package func access<S>(_ handler: (_ value: inout T) throws -> S) rethrows -> S {
         try unsafe buffer.withUnsafeMutablePointers { pointer, lock in
             let result: Result<S, any Error>
