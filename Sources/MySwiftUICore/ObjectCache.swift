@@ -17,12 +17,17 @@ final class ObjectCache<Key: Hashable, Value>: @unchecked Sendable {
          key = x21
          */
         let hash = key.hashValue
+        let shift = ((hash & 0b111) << 2)
         
         let existing = $data.access { data -> Value? in
             // x29 + sp + 0x1a0
             // $s7SwiftUI11ObjectCacheCyq_xcigq_SgAC4Data33_FCB2944DC319042A861E82C8B244E212LLVyxq__GzXEfU_
+            /*
+             shift = sp + 0x208
+             key = sp + 0x210
+             hash = sp + 0x218
+             */
             // data pointer = x23 / sp + 0x108
-            
             fatalError("TODO")
         }
         

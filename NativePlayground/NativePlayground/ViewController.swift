@@ -618,6 +618,7 @@ class ViewController: UIViewController {
             return 3
         }
         print(cache[4])
+        print(cache[5])
         
         do {
             var insets = EdgeInsets(

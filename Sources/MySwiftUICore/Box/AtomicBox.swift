@@ -41,7 +41,6 @@ package struct AtomicBox<T> {
         buffer = .allocate(value: wrappedValue)
     }
     
-    @inline(__always)
     package func access<S>(_ handler: (_ value: inout T) throws -> S) rethrows -> S {
         try unsafe buffer.withUnsafeMutablePointers { pointer, lock in
             let result: Result<S, any Error>
