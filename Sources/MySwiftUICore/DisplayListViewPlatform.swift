@@ -195,7 +195,8 @@ extension DisplayList.ViewUpdater {
                             // sp + 0x1e0
                             let state_2 = state_1
                             // <+9492>
-                            
+                            let cache = Color.ResolvedHDR.cache
+                            let cgColor = cache[colorView.color]
                             fatalError("TODO")
                         default:
                             // <+9292>

@@ -304,9 +304,6 @@ extension Color.Resolved: BitwiseCopyable {}
 
 extension Color {
     @frozen public struct ResolvedHDR: Hashable, Sendable {
-        static nonisolated(unsafe) let cache: ObjectCache<Color.ResolvedHDR, CGColor> = {
-            fatalError("TODO")
-        }()
         @usableFromInline var base: Color.Resolved
         @usableFromInline var _headroom: Float
         
