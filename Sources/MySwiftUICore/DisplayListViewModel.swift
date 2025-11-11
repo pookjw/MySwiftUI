@@ -28,7 +28,7 @@ extension DisplayList.ViewUpdater {
         }
         
         @unsafe struct State {
-            private var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
+            private(set) var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
             private(set) var opacity: Float = 1
             private var blend: GraphicsBlendMode = unsafe .normal
             var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
@@ -56,6 +56,10 @@ extension DisplayList.ViewUpdater {
             }
             
             func clipRect() -> FixedRoundedRect? {
+                guard clips.count == 1 else {
+                    return nil
+                }
+                
                 fatalError("TODO")
             }
         }
@@ -75,7 +79,7 @@ extension DisplayList.ViewUpdater.Model.State {
         private var updater: DisplayList.ViewUpdater
         private var time: Time
         private var maxVersion: DisplayList.Version
-        private var environment: DisplayList.ViewRenderer.Environment
+        private(set) var environment: DisplayList.ViewRenderer.Environment
         
         init(updater: DisplayList.ViewUpdater, time: Time, maxVersion: DisplayList.Version, environment: DisplayList.ViewRenderer.Environment) {
             self.updater = updater

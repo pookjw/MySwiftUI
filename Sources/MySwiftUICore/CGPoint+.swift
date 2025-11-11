@@ -227,3 +227,13 @@ extension CGPoint {
         return r
     }
 }
+
+extension CGPoint {
+    static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        return CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+    }
+    
+    static func += (value: inout CGPoint, other: CGPoint) {
+        value = (value + other)
+    }
+}

@@ -25,6 +25,9 @@ MSUI_EXTERN void CoreViewSetMaskView3D(ViewSystem toSystem, id toView, ViewSyste
 MSUI_EXTERN CALayer * _Nullable CoreViewSpeculativeLayer(id object);
 MSUI_EXTERN void CoreViewSetNeedsDisplay(ViewSystem system, id layer);
 MSUI_EXTERN void CoreViewSetOpacity(ViewSystem system, id object, CGFloat opacity);
+MSUI_EXTERN void CoreViewSetClipsToBounds(ViewSystem system, id object, BOOL clipToBounds, BOOL toLayer);
+MSUI_EXTERN void CoreViewSetSize(ViewSystem system, id object, CGSize size);
+MSUI_EXTERN void CoreViewSetMaskGeometry(ViewSystem system, id object, CGRect rect);
 
 NS_ASSUME_NONNULL_END
 

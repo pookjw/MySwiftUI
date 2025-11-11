@@ -109,7 +109,8 @@ extension DisplayList.ViewUpdater {
             }
             
             // <+892>
-            let w3: Bool
+            // w3
+            let clipRectChanged: Bool
             if (viewInfo.seeds.clips != DisplayList.Seed(state.pointee.versions.clips)) || (viewInfo.seeds.transform != DisplayList.Seed(state.pointee.versions.transform)) {
                 // <+992>
                 let w23 = viewInfo.state.flags
@@ -117,16 +118,20 @@ extension DisplayList.ViewUpdater {
                 viewInfo.seeds.clips = DisplayList.Seed(state.pointee.versions.clips)
                 
                 if w23.contains(.unknown3) {
-                    w3 = true
+                    clipRectChanged = true
                 } else {
-                    w3 = viewInfo.state.flags.contains(.unknown3)
+                    clipRectChanged = viewInfo.state.flags.contains(.unknown3)
                 }
             } else {
                 // <+980>
-                w3 = false
+                clipRectChanged = false
             }
             
             // <+1072>
+            // sp + 0x10
+            let item_2 = item
+            // <+1164>
+            let bool = self.updateGeometry(&viewInfo, item: item_2, size: size, state: state, clipRectChanged: clipRectChanged)
             fatalError("TODO")
         }
         
@@ -379,18 +384,380 @@ extension DisplayList.ViewUpdater {
             let viewInfo_1 = viewInfo
             // sp + 0x150
             let state_1 = state.pointee
+            // sp + 0x2a8
             let clipRect = state_1.clipRect()
+            // sp + 0x430
+            let _ = state_1
+            // sp
+            let viewInfo_2 = viewInfo_1
+            
+            if let clipRect {
+                // <+256>
+                fatalError("TODO")
+            } else {
+                // w25
+                var flags = viewInfo.state.flags
+                if flags.contains(.unknown3) {
+                    // <+148>
+                    flags.remove(.unknown3)
+                    viewInfo.state.flags = flags
+                    // x20
+                    let view = viewInfo.view
+                    CoreViewSetClipsToBounds(system, view, false, !isLinkedOnOrAfter(.v6))
+                    // x20
+                    let layer = viewInfo.layer
+                    
+                    var bounds = layer.bounds
+                    bounds.origin = .zero
+                    layer.bounds = bounds
+                    layer.cornerRadius = 0
+                    layer.cornerCurve = .circular
+                }
+                
+                // <+736>
+                if !state.pointee.clips.isEmpty {
+                    // <+748>
+                    fatalError("TODO")
+                } else {
+                    // <+828>
+                    if flags.contains(.unknown4) {
+                        viewInfo.layer.mask = nil
+                    }
+                    // <+1152>
+                }
+                
+                // <+1152>
+                return
+            }
             fatalError("TODO")
         }
         
         fileprivate func updateGeometry(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
+            _ viewInfo: inout DisplayList.ViewUpdater.ViewInfo,
             item: DisplayList.Item,
             size: CGSize,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
             clipRectChanged: Bool
         ) -> Bool {
+            /*
+             state = x21
+             size = d9/d8
+             viewInfo = x19
+             */
+            // x25
+            let encoding = encoding
+            // d15/d14
+            let viewSize = viewInfo.state.size
+            var w22 = (viewSize != size)
+            
+            // <+88>
+            // w26
+            let transformSeed = viewInfo.seeds.transform
+            // w27
+            let stateTransformSeed = DisplayList.Seed(state.pointee.versions.transform)
+            viewInfo.seeds.transform = stateTransformSeed
+            w22 = (w22 || (transformSeed != stateTransformSeed))
+            
+            guard w22 || clipRectChanged else {
+                return false
+            }
+           
+            // <+148>
+            // d13, d12
+            var point = {
+                let transform = state.pointee.transform
+                return CGPoint(x: transform.tx, y: transform.ty)
+            }()
+            // w24
+            var flags = viewInfo.state.flags
+            var w20: Bool
+            
+            if flags.contains(.unknown3) {
+                // <+160>
+                let w23 = clipRectChanged
+                // sp + 0x2e0
+                let state_1 = state.pointee
+                // sp + 0x158
+                let state_2 = state.pointee
+                // sp + 0x2a8
+                let clipRect = state_2.clipRect()
+                // sp + 0x430
+                let state_3 = state_2
+                // <+224>
+                // sp + 0x8
+                let state_4 = state_3
+                
+                if let clipRect {
+                    // <+328>
+                    // d10, d11, d9, d8
+                    let rect = clipRect.rect
+                    w22 = w22 || w23
+                    point += rect.origin
+                    
+                    //
+                    
+                    if (transformSeed != stateTransformSeed) || !w23 {
+                        // <+392>
+                        // d0, d1
+                        let position = viewInfo.state.position
+                        if point == position {
+                            // <+504>
+                            fatalError("TODO")
+                        } else {
+                            // <+408>
+                            // x8 = 1
+                            viewInfo.state.position = point
+                            
+                            if !w22 || (rect.size == viewSize) {
+                                // <+436>
+                                w20 = false
+                                w23 = true
+                                
+                                if flags.contains(.unknown0) {
+                                    // <+556>
+                                    fatalError("TODO")
+                                } else if rect.origin == .zero {
+                                    w22 = false
+                                    
+                                    if flags.contains(.unknown2) {
+                                        // <+1072>
+                                        fatalError("TODO")
+                                    } else {
+                                        // <+588>
+                                        fatalError("TODO")
+                                    }
+                                } else {
+                                    // <+988>
+                                    fatalError("TODO")
+                                }
+                            } else {
+                                // <+1008>
+                                viewInfo.state.size = rect.size
+                                w20 = true
+                                w23 = true
+                                
+                                if flags.contains(.unknown0) {
+                                    // <+556>
+                                    fatalError("TODO")
+                                } else {
+                                    // <+960>
+                                    fatalError("TODO")
+                                }
+                            }
+                        }
+                        fatalError("TODO")
+                    } else if w22 {
+                        // <+508>
+                        fatalError("TODO")
+                    } else {
+                        // <+372>
+                        w22 = false
+                        w20 = false
+                        w23 = false
+                        
+                        if flags.contains(.unknown2) {
+                            // <+1072>
+                            fatalError("TODO")
+                        } else {
+                            // <+588>
+                            fatalError("TODO")
+                        }
+                    }
+                } else {
+                    // <+256>
+                }
+            }
+            
+            // <+256>
+            if flags.contains(.unknown0) {
+                // <+308>
+                fatalError("TODO")
+            } else if transformSeed == stateTransformSeed {
+                // <+460>
+                fatalError("TODO")
+            } else {
+                // <+268>
+                fatalError("TODO")
+            }
             fatalError("TODO")
+            
+//            if flags.contains(.unknown3) {
+//                // <+160>
+//                // clipRectChanged = x23
+//                // sp + 0x2e0
+//                let state_1 = state.pointee
+//                // sp + 0x158
+//                let state_2 = state.pointee
+//                // sp + 0x2a8
+//                let clipRect = state_2.clipRect()
+//                // sp + 0x430
+//                let state_3 = state_2
+//                // <+224>
+//                // sp + 0x8
+//                let state_4 = state_3
+//                
+//                if let clipRect {
+//                    // <+328>
+//                    // d10/d11/d9/d8
+//                    let rect = clipRect.rect
+//                    changed = changed || clipRectChanged
+//                    tx += rect.origin.x
+//                    ty += rect.origin.y
+//                    
+//                    if (transformSeed != stateTransformSeed) || clipRectChanged {
+//                        // <+392>
+//                        // d0, d1
+//                        let position = viewInfo.state.position
+//                        if position.x == tx && position.y == ty {
+//                            // <+504>
+//                            if !changed || (rect.size == size) {
+//                                // <+524>
+//                                // w20 = 0
+//                                // w23 = 0
+//                            } else {
+//                                // <+540>
+//                                // w23 = 0
+//                                viewInfo.state.size = size
+//                                // w20 = 1
+//                            }
+//                            
+//                            if !flags.contains(.unknown0) {
+//                                // <+960>
+//                                fatalError("TODO")
+//                            } else {
+//                                // <+556>
+//                                fatalError("TODO")
+//                            }
+//                        } else {
+//                            // <+408>
+//                            // w8 = 1
+//                            viewInfo.state.position = CGPoint(x: tx, y: ty)
+//                            
+//                            if changed {
+//                                // <+420>
+//                                if size != viewSize {
+//                                    // <+1008>
+//                                    viewInfo.state.size = size
+//                                    // w20 = 1
+//                                    // <+1020>
+//                                    // w23 = 1
+//                                    if flags.contains(.unknown0) {
+//                                        // <+556>
+//                                        // w22 = 0x1
+//                                        if rect.origin == .zero {
+//                                            // <+576>
+//                                            flags.remove(.unknown0)
+//                                        }
+//                                        
+//                                        // <+584>
+//                                        if flags.contains(.unknown2) {
+//                                            // <+1072>
+//                                            // <+1088>
+//                                            CoreViewSetSize(system, viewInfo.view, size)
+//                                            // x24
+//                                            let view = viewInfo.view
+//                                            // x23
+//                                            let layer = self.viewLayer(view)
+//                                            layer.rasterizationScale = state.pointee.globals.pointee.environment.contentsScale
+//                                            // <+1180>
+//                                            if case .mask = viewInfo.state.kind {
+//                                                CoreViewSetMaskGeometry(system, view, rect)
+//                                            }
+//                                            return true
+//                                        } else {
+//                                            if transformSeed == stateTransformSeed {
+//                                                // <+728>
+//                                                fatalError("TODO")
+//                                            } else {
+//                                                // <+596>
+//                                                fatalError("TODO")
+//                                            }
+//                                        }
+//                                        fatalError("TODO")
+//                                    } else {
+//                                        // <+960>
+//                                        fatalError("TODO")
+//                                    }
+//                                } else {
+//                                    // <+436>
+//                                }
+//                            }
+//                            
+//                            // <+436>
+//                            // w20 = 0
+//                            // w23 = 1
+//                            
+//                            fatalError("TODO")
+//                        }
+//                    } else if changed {
+//                        // <+508>
+//                        fatalError("TODO")
+//                    } else {
+//                        if !flags.contains(.unknown2) {
+//                            // <+588>
+//                            fatalError("TODO")
+//                        } else {
+//                            // <+1072>
+//                            // <+1112>
+//                            // x23
+//                            let layer = self.viewLayer(viewInfo.view)
+//                            layer.rasterizationScale = state.pointee.globals.pointee.environment.contentsScale
+//                            // <+1172>
+//                            return false
+//                        }
+//                    }
+//                }
+//                
+//                // <+256>
+//            }
+//            
+//            // <+256>
+//            if flags.contains(.unknown0) {
+//                // <+308>
+//                fatalError("TODO")
+//            } else {
+//                // <+260>
+//                if transformSeed == stateTransformSeed {
+//                    // <+460>
+//                    fatalError("TODO")
+//                } else {
+//                    // <+268>
+//                    // d0, d1
+//                    let point = viewInfo.state.position
+//                    if (point.x == tx) && (point.y == ty) {
+//                        // <+908>
+//                        fatalError("TODO")
+//                    } else {
+//                        // <+284>
+//                        if changed {
+//                            // <+420>
+//                            if viewSize != size {
+//                                // <+1008>
+//                                viewInfo.state.size = size
+//                                // w20 = 0x1
+//                                // <+284>에서 w8 = 0이므로 <+1016>: tbz    w8, #0x0에서 <+1060>로 분기
+//                                // <+1060>
+//                                // w22 = 0
+//                                // w23 = 1
+//                                if flags.contains(.unknown2) {
+//                                    // <+1072>
+//                                    fatalError("TODO")
+//                                } else {
+//                                    // <+588>
+//                                    fatalError("TODO")
+//                                }
+//                                fatalError("TODO")
+//                            }
+//                            // <+436>
+//                        }
+//                        
+//                        // <+436>
+//                        fatalError("TODO")
+//                    }
+//                    fatalError("TODO")
+//                }
+//            }
+//            fatalError("TODO")
         }
         
         fileprivate func updateShadow(
@@ -493,8 +860,8 @@ extension DisplayList.ViewUpdater.PlatformViewInfo {
 
 extension DisplayList.ViewUpdater.Platform {
     struct State {
-        private var position: CGPoint
-        private var size: CGSize
+        var position: CGPoint
+        var size: CGSize
         let kind: PlatformViewDefinition.ViewKind
         var flags: DisplayList.ViewUpdater.Platform.ViewFlags
         private var platformState: DisplayList.ViewUpdater.Platform.PlatformState
@@ -517,7 +884,10 @@ extension DisplayList.ViewUpdater.Platform {
     }
     
     struct ViewFlags: OptionSet {
+        static let unknown0 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 0)
+        static let unknown2 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 2)
         static let unknown3 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 3)
+        static let unknown4 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 4)
         static let unknown5 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 5)
         let rawValue: UInt8
         

@@ -258,3 +258,62 @@ void CoreViewSetOpacity(ViewSystem system, id object, CGFloat opacity) {
             break;
     }
 }
+
+void CoreViewSetClipsToBounds(ViewSystem system, id object, BOOL clipToBounds, BOOL toLayer) {
+    switch (system) {
+        case ViewSystemCALayer:
+            ((CALayer *)object).masksToBounds = clipToBounds;
+            break;
+        case ViewSystemUIView:
+            if (toLayer) {
+                ((UIView *)object).layer.masksToBounds = clipToBounds;
+            } else {
+                ((UIView *)object).clipsToBounds = clipToBounds;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void CoreViewSetSize(ViewSystem system, id object, CGSize size) {
+    switch (system) {
+        case ViewSystemCALayer: {
+            CGRect bounds = ((CALayer *)object).bounds;
+            bounds.size = size;
+            ((CALayer *)object).bounds = bounds;
+            break;
+        }
+        case ViewSystemUIView: {
+            CGRect bounds = ((UIView *)object).bounds;
+            bounds.size = size;
+            ((UIView *)object).bounds = bounds;
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void CoreViewSetMaskGeometry(ViewSystem system, id object, CGRect rect) {
+    switch (system) {
+        case ViewSystemCALayer: {
+            __kindof CALayer * _Nullable mask = ((CALayer *)object).mask;
+            if (mask) {
+                mask.position = rect.origin;
+                mask.bounds = rect;
+            }
+            break;
+        }
+        case ViewSystemUIView: {
+            UIView * _Nullable maskView = ((UIView *)object).maskView;
+            if (maskView) {
+                maskView.center = rect.origin;
+                maskView.bounds = rect;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
