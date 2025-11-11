@@ -366,9 +366,20 @@ extension DisplayList.ViewUpdater {
         }
         
         fileprivate func updateClipShapes(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
+            _ viewInfo: inout DisplayList.ViewUpdater.ViewInfo,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
+            /*
+             viewInfo = x19
+             state = x21
+             */
+            // x23
+            let encoding = encoding
+            // sp + 0x2e0
+            let viewInfo_1 = viewInfo
+            // sp + 0x150
+            let state_1 = state.pointee
+            let clipRect = state_1.clipRect()
             fatalError("TODO")
         }
         

@@ -54,6 +54,10 @@ extension DisplayList.ViewUpdater {
             mutating func reset() {
                 fatalError("TODO")
             }
+            
+            func clipRect() -> FixedRoundedRect? {
+                fatalError("TODO")
+            }
         }
         
         struct MergedViewRequirements: OptionSet {
