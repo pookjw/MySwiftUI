@@ -404,7 +404,7 @@ extension DisplayList.ViewUpdater.ViewInfo {
     
     struct Seeds {
         private var item: DisplayList.Seed
-        private(set) var content: DisplayList.Seed
+        var content: DisplayList.Seed
         private var opacity: DisplayList.Seed
         private var blend: DisplayList.Seed
         private var transform: DisplayList.Seed
@@ -440,11 +440,11 @@ extension DisplayList.ViewUpdater {
         var state: DisplayList.ViewUpdater.Platform.State
         private var id: DisplayList.ViewUpdater.ViewInfo.ID
         private var parentID: DisplayList.ViewUpdater.ViewInfo.ID
-        private(set) var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
+        var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
         private var cacheSeed: UInt32
         var isRemoved: Bool
         var isInvalid: Bool
-        private var nextUpdate: Time
+        private(set) var nextUpdate: Time
         
         init(platform: DisplayList.ViewUpdater.Platform, view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
             /*

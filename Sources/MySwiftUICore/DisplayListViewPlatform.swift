@@ -158,7 +158,9 @@ extension DisplayList.ViewUpdater {
             switch item_1.value {
             case .content(let content):
                 // <+284>
-                if viewInfo.seeds.content == content.seed {
+                // w20
+                let seed = content.seed
+                if viewInfo.seeds.content == seed {
                     // <+296>
                     fatalError("TODO")
                 } else {
@@ -168,8 +170,10 @@ extension DisplayList.ViewUpdater {
                     // sp + 0x480
                     let state_1 = state.pointee
                     // sp + 0x330
-                    let state_2 = state.pointee
+                    var state_2 = state.pointee
                     
+                    // d9/d13
+                    let size = item_1.size
                     // <+700>
                     viewInfo.isInvalid = false
                     // viewInfo = sp + 0x58
@@ -186,6 +190,7 @@ extension DisplayList.ViewUpdater {
                         // w26
                         let allowedDynamicRange = colorView.allowedDynamicRange
                         // <+4888>
+                        // seed = x27
                         // viewInfo = x21
                         switch viewInfo.state.kind {
                         case .color:
@@ -193,7 +198,7 @@ extension DisplayList.ViewUpdater {
                             // sp + 0x1e0
                             let item_2 = item_1
                             // sp + 0x1e0
-                            let state_2 = state_1
+                            let _ = state_1
                             // <+9492>
                             // x23
                             let layer = viewInfo.layer
@@ -206,14 +211,29 @@ extension DisplayList.ViewUpdater {
                             layer.updateEDR(allowedDynamicRange: allowedDynamicRange, contentHeadroom: color._headroom)
                             
                             // <+13012>
-                            // viewInfo -> x20
+                            // seed -> x20
                             if viewInfo.state.flags == .unknown5 {
                                 // <+15100>
-                                fatalError("TODO")
+                                state_2.versions.transform = max(item_1.version, state_2.versions.transform)
                             }
                             
                             // <+15120>
-                            fatalError("TODO")
+                            if !viewInfo.isInvalid {
+                                // <+15128>
+                                if viewInfo.nextUpdate == .infinity {
+                                    viewInfo.seeds.content = seed
+                                }
+                            }
+                            
+                            // <+15152>
+                            // sp + 0x150
+                            let viewInfo_1 = viewInfo
+                            // sp + 0x200
+                            let item_3 = item_1
+                            
+                            // <+15212>
+                            self.updateState(viewInfo, item: item_3, size: size, state: &state_2)
+                            return
                         default:
                             // <+9292>
                             fatalError("TODO")
