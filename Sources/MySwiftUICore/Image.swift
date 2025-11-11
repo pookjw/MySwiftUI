@@ -40,7 +40,7 @@ extension Image {
         @safe public static nonisolated(unsafe) let constrainedHigh = Image.DynamicRange(storage: .constrainedHigh)
         @safe public static nonisolated(unsafe) let high = Image.DynamicRange(storage: .high)
         
-        private var storage: Image.DynamicRange.Storage
+        private(set) var storage: Image.DynamicRange.Storage
         
         init(storage: Image.DynamicRange.Storage) {
             self.storage = storage

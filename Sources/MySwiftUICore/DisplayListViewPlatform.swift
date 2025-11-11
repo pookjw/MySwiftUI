@@ -202,7 +202,17 @@ extension DisplayList.ViewUpdater {
                             layer.backgroundColor = cgColor
                             layer.allowsEdgeAntialiasing = isAntialiased
                             
-                            // <+9576>
+                            // <+9576> / <+12788> (inlined)
+                            layer.updateEDR(allowedDynamicRange: allowedDynamicRange, contentHeadroom: color._headroom)
+                            
+                            // <+13012>
+                            // viewInfo -> x20
+                            if viewInfo.state.flags == .unknown5 {
+                                // <+15100>
+                                fatalError("TODO")
+                            }
+                            
+                            // <+15120>
                             fatalError("TODO")
                         default:
                             // <+9292>
