@@ -82,11 +82,11 @@ extension DisplayList.ViewUpdater.Model.State {
     }
     
     struct Versions {
-        private var opacity = DisplayList.Version()
-        private var blend = DisplayList.Version()
+        var opacity = DisplayList.Version()
+        var blend = DisplayList.Version()
         var transform = DisplayList.Version()
-        private var clips = DisplayList.Version()
-        private var filters = DisplayList.Version()
+        var clips = DisplayList.Version()
+        var filters = DisplayList.Version()
         private var shadow = DisplayList.Version()
         private var properties = DisplayList.Version()
         

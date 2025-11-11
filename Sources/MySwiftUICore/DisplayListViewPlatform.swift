@@ -72,11 +72,61 @@ extension DisplayList.ViewUpdater {
         }
         
         fileprivate func updateState(
-            _ viewInfo: DisplayList.ViewUpdater.ViewInfo,
+            _ viewInfo: inout DisplayList.ViewUpdater.ViewInfo,
             item: DisplayList.Item,
             size: CGSize,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
+            // x28 = sp + 0x160
+            // x26 = sp + 0xa0
+            /*
+             state = x19
+             size = d8/d9
+             item = x22
+             viewInfo = x21
+             */
+            // sp + 0xd0
+            let item_1 = item
+            // x27
+            let encoding = encoding
+            
+            if viewInfo.seeds.opacity != DisplayList.Seed(state.pointee.versions.opacity) {
+                // <+144>
+                CoreViewSetOpacity(encoding.viewSystem, viewInfo.view, CGFloat(state.pointee.opacity))
+                viewInfo.seeds.opacity = DisplayList.Seed(state.pointee.versions.opacity)
+            }
+            
+            // <+196>
+            if viewInfo.seeds.blend != DisplayList.Seed(state.pointee.versions.blend) {
+                // <+244>
+                fatalError("TODO")
+            }
+            
+            // <+636>
+            if viewInfo.seeds.filters != DisplayList.Seed(state.pointee.versions.filters) {
+                // <+684>
+                fatalError("TODO")
+            }
+            
+            // <+892>
+            let w3: Bool
+            if (viewInfo.seeds.clips != DisplayList.Seed(state.pointee.versions.clips)) || (viewInfo.seeds.transform != DisplayList.Seed(state.pointee.versions.transform)) {
+                // <+992>
+                let w23 = viewInfo.state.flags
+                self.updateClipShapes(&viewInfo, state: state)
+                viewInfo.seeds.clips = DisplayList.Seed(state.pointee.versions.clips)
+                
+                if w23.contains(.unknown3) {
+                    w3 = true
+                } else {
+                    w3 = viewInfo.state.flags.contains(.unknown3)
+                }
+            } else {
+                // <+980>
+                w3 = false
+            }
+            
+            // <+1072>
             fatalError("TODO")
         }
         
@@ -232,7 +282,7 @@ extension DisplayList.ViewUpdater {
                             let item_3 = item_1
                             
                             // <+15212>
-                            self.updateState(viewInfo, item: item_3, size: size, state: &state_2)
+                            self.updateState(&viewInfo, item: item_3, size: size, state: &state_2)
                             return
                         default:
                             // <+9292>
@@ -456,6 +506,7 @@ extension DisplayList.ViewUpdater.Platform {
     }
     
     struct ViewFlags: OptionSet {
+        static let unknown3 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 3)
         static let unknown5 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 5)
         let rawValue: UInt8
         
