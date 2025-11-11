@@ -435,7 +435,7 @@ extension DisplayList.ViewUpdater {
     struct ViewInfo {
         private(set) var platform: DisplayList.ViewUpdater.Platform
         private(set) var view: AnyObject
-        private var layer: CALayer
+        private(set) var layer: CALayer
         private(set) var container: AnyObject
         var state: DisplayList.ViewUpdater.Platform.State
         private var id: DisplayList.ViewUpdater.ViewInfo.ID

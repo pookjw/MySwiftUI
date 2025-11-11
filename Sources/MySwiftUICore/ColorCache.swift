@@ -6,14 +6,15 @@ internal import CoreGraphics
 extension Color.ResolvedHDR {
     static nonisolated(unsafe) let cache = ObjectCache<Color.ResolvedHDR, CGColor> { resolved in
         // $s7SwiftUI5ColorVAAE11ResolvedHDRV5cache33_A45C110C8134A7DB30776EFC6CE1E8A6LLAA11ObjectCacheCyAESo10CGColorRefaGvpZfiAkEcfU_
-        let s12 = resolved.base.linearRed
-        let s11 = resolved.base.linearGreen
+        var s12 = resolved.base.linearRed
+        var s11 = resolved.base.linearGreen
         let s9 = resolved.base.linearBlue
         let s8 = resolved.base.opacity
         
         if var s0 = resolved.headroom {
             var s1: Float = 1
             let s10 = (s0 <= s1) ? s1 : s0
+            let colorspace = Color.Resolved.srgbExtended
             
             s0 = -s12
             s0 = (s12 > 0) ? s12 : s0
@@ -21,7 +22,99 @@ extension Color.ResolvedHDR {
             // <+96>
             s1 = Float(bitPattern: 0x3b4d2e1c)
             
-            fatalError("TODO")
+            if s0 <= s1 {
+                // <+180>
+                s1 = Float(bitPattern: 0x414eb852)
+                s1 *= s0
+                // <+196>
+            } else {
+                // <+116>
+                s1 = 1
+                
+                if s0 == s1 {
+                    // <+196>
+                } else {
+                    // <+128>
+                    s1 = Float(bitPattern: 0x3ed55555)
+                    s0 = powf(s0, s1)
+                    
+                    s1 = Float(bitPattern: 0x3f870a3d)
+                    s0 *= s1
+                    
+                    s1 = Float(bitPattern: 0xbd6147ae)
+                    s1 += s0
+                    // <+196>
+                }
+            }
+            
+            // <+196>
+            s0 = -s1
+            s12 = (s12 > 0) ? s1 : s0
+            
+            s0 = -s11
+            s0 = (s11 > 0) ? s11 : s0
+            
+            s1 = Float(bitPattern: 0x3b4d2e1c)
+            
+            if s0 <= s1 {
+                // <+304>
+                s1 = Float(bitPattern: 0x414eb852)
+                s1 *= s0
+                // <+320>
+            } else {
+                // <+240>
+                s1 = 1
+                
+                if s0 == s1 {
+                    // <+320>
+                } else {
+                    // <+252>
+                    s1 = Float(bitPattern: 0x3ed55555)
+                    s0 = powf(s0, s1)
+                    
+                    s1 = Float(bitPattern: 0x3f870a3d)
+                    s0 *= s1
+                    // <+320>
+                }
+            }
+            
+            // <+320>
+            s0 = -s1
+            s11 = (s11 > 0) ? s1 : s0
+            
+            s0 = -s9
+            s0 = (s9 > 0) ? s9 : s0
+            
+            s1 = Float(bitPattern: 0x3b4d2e1c)
+            if s0 <= s1 {
+                // <+428>
+                s1 = Float(bitPattern: 0x414eb852)
+                s1 *= s0
+                // <+444>
+            } else {
+                // <+364>
+                s1 = 1
+                if s0 == s1 {
+                    // <+444>
+                } else {
+                    s1 = Float(bitPattern: 0x3ed55555)
+                    s0 = powf(s0, s1)
+                    
+                    s1 = Float(bitPattern: 0x3f870a3d)
+                    s0 *= s1
+                    
+                    s1 = Float(bitPattern: 0xbd6147ae)
+                    s1 += s0
+                    // <+444>
+                }
+            }
+            
+            // <+444>
+            s0 = -s1
+            s0 = (s9 > 0) ? s1 : s0
+            
+            let color = CGColor(headroom: s10, colorSpace: colorspace, red: CGFloat(s12), green: CGFloat(s11), blue: CGFloat(s0), alpha: CGFloat(s8))!
+            return color
         } else {
             // <+540>
             return resolved.base.makeCGColor()
@@ -36,9 +129,9 @@ extension Color.Resolved {
          linearBlue -> s9
          opacity - > s8
          */
-        let s10 = opacity
-        let s9 = linearBlue
-        let s8 = linearGreen
+        let s8  = opacity
+        let s9  = linearBlue
+        let s10 = linearGreen
         var s0 = linearRed
         var s1 = -s0
         

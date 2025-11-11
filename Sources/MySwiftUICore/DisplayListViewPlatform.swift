@@ -195,8 +195,14 @@ extension DisplayList.ViewUpdater {
                             // sp + 0x1e0
                             let state_2 = state_1
                             // <+9492>
+                            // x23
+                            let layer = viewInfo.layer
                             let cache = Color.ResolvedHDR.cache
                             let cgColor = cache[colorView.color]
+                            layer.backgroundColor = cgColor
+                            layer.allowsEdgeAntialiasing = isAntialiased
+                            
+                            // <+9576>
                             fatalError("TODO")
                         default:
                             // <+9292>
