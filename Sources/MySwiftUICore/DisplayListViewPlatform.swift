@@ -474,7 +474,7 @@ extension DisplayList.ViewUpdater {
             
             if flags.contains(.unknown3) {
                 // <+160>
-                let w23 = clipRectChanged
+                var w23 = clipRectChanged
                 // sp + 0x2e0
                 let state_1 = state.pointee
                 // sp + 0x158
@@ -502,7 +502,24 @@ extension DisplayList.ViewUpdater {
                         let position = viewInfo.state.position
                         if point == position {
                             // <+504>
-                            fatalError("TODO")
+                            if w22 || rect.size != .zero {
+                                // <+524>
+                                w20 = false
+                                w23 = false
+                            } else {
+                                // <+540>
+                                w23 = false
+                                viewInfo.state.size = rect.size
+                                w20 = true
+                            }
+                            
+                            if flags.contains(.unknown0) {
+                                // <+556>
+                                fatalError("TODO")
+                            } else {
+                                // <+960>
+                                fatalError("TODO")
+                            }
                         } else {
                             // <+408>
                             // x8 = 1
@@ -513,21 +530,30 @@ extension DisplayList.ViewUpdater {
                                 w20 = false
                                 w23 = true
                                 
+                                // x8로 인해 <+956>
+                                // TODO: x8이 0이면 <+956>/<+588>
+                                // <+956>
                                 if flags.contains(.unknown0) {
                                     // <+556>
-                                    fatalError("TODO")
+                                    w22 = true
+                                    if rect.origin == .zero {
+                                        // <+576>
+                                        flags.remove(.unknown0)
+                                        viewInfo.state.flags = flags
+                                    }
                                 } else if rect.origin == .zero {
                                     w22 = false
-                                    
-                                    if flags.contains(.unknown2) {
-                                        // <+1072>
-                                        fatalError("TODO")
-                                    } else {
-                                        // <+588>
-                                        fatalError("TODO")
-                                    }
                                 } else {
                                     // <+988>
+                                    flags.insert(.unknown0)
+                                    viewInfo.state.flags = flags
+                                }
+                                
+                                if flags.contains(.unknown2) {
+                                    // <+1072>
+                                    fatalError("TODO")
+                                } else {
+                                    // <+588>
                                     fatalError("TODO")
                                 }
                             } else {
@@ -545,10 +571,26 @@ extension DisplayList.ViewUpdater {
                                 }
                             }
                         }
-                        fatalError("TODO")
                     } else if w22 {
                         // <+508>
-                        fatalError("TODO")
+                        if rect.size != .zero {
+                            // <+524>
+                            w20 = false
+                            w23 = false
+                        } else {
+                            // <+540>
+                            w23 = false
+                            viewInfo.state.size = rect.size
+                            w20 = true
+                        }
+                        
+                        if flags.contains(.unknown0) {
+                            // <+556>
+                            fatalError("TODO")
+                        } else {
+                            // <+960>
+                            fatalError("TODO")
+                        }
                     } else {
                         // <+372>
                         w22 = false
@@ -571,6 +613,7 @@ extension DisplayList.ViewUpdater {
             // <+256>
             if flags.contains(.unknown0) {
                 // <+308>
+                // d10 = 0
                 fatalError("TODO")
             } else if transformSeed == stateTransformSeed {
                 // <+460>
