@@ -609,6 +609,13 @@ extension DisplayList.ViewUpdater {
                         
                         if flags.contains(.unknown0) {
                             // <+556>
+                            w22 = true
+                            if rect.origin == .zero {
+                                flags.remove(.unknown0)
+                                viewInfo.state.flags = flags
+                            }
+                            
+                            // <+584>
                             fatalError("TODO")
                         } else {
                             // <+960>
@@ -639,7 +646,16 @@ extension DisplayList.ViewUpdater {
                 // d10 = 0
                 if transformSeed == stateTransformSeed {
                     // <+492>
-                    fatalError("TODO")
+                    if w22 {
+                        // d11 = 0
+                        // <+540>
+                        w23 = false
+                        
+                        fatalError("TODO")
+                    } else {
+                        // <+944>
+                        fatalError("TODO")
+                    }
                 } else {
                     // <+392>
                     // d0/d1
@@ -766,7 +782,7 @@ extension DisplayList.ViewUpdater {
                     
                     // x8 = 0이기에 <+956>로 분기
                     // <+956>
-                    if flags {
+                    if flags.contains(.unknown0) {
                         // <+556>
                         fatalError("TODO")
                     } else {
