@@ -471,10 +471,11 @@ extension DisplayList.ViewUpdater {
             // w24
             var flags = viewInfo.state.flags
             var w20: Bool
+            var w23: Bool
             
             if flags.contains(.unknown3) {
                 // <+160>
-                var w23 = clipRectChanged
+                w23 = clipRectChanged
                 // sp + 0x2e0
                 let state_1 = state.pointee
                 // sp + 0x158
@@ -518,7 +519,23 @@ extension DisplayList.ViewUpdater {
                                 fatalError("TODO")
                             } else {
                                 // <+960>
-                                fatalError("TODO")
+                                if rect.origin == .zero {
+                                    w22 = false
+                                    // <+980>
+                                } else {
+                                    // <+988>
+                                    flags.insert(.unknown0)
+                                    // <+1000>
+                                }
+                                
+                                // <+980>/<+1000>
+                                if flags.contains(.unknown2) {
+                                    // <+1072>
+                                    fatalError("TODO")
+                                } else {
+                                    // <+588>
+                                    fatalError("TODO")
+                                }
                             }
                         } else {
                             // <+408>
@@ -564,6 +581,12 @@ extension DisplayList.ViewUpdater {
                                 
                                 if flags.contains(.unknown0) {
                                     // <+556>
+                                    if rect.origin == .zero {
+                                        // <+576>
+                                        fatalError("TODO")
+                                    }
+                                    
+                                    // <+584>
                                     fatalError("TODO")
                                 } else {
                                     // <+960>
@@ -614,193 +637,144 @@ extension DisplayList.ViewUpdater {
             if flags.contains(.unknown0) {
                 // <+308>
                 // d10 = 0
-                fatalError("TODO")
+                if transformSeed == stateTransformSeed {
+                    // <+492>
+                    fatalError("TODO")
+                } else {
+                    // <+392>
+                    // d0/d1
+                    let position = viewInfo.state.position
+                    
+                    if point == position {
+                        // <+504>
+                        fatalError("TODO")
+                    } else {
+                        // <+408>
+                        // w8 = 1
+                        viewInfo.state.position = point
+                        if !w22 && (size == viewSize) {
+                            // <+436>
+                            w20 = false
+                            w23 = true
+                            // w8 = 1로 인해 <+956>로 분기
+                            // <+956>
+                        } else {
+                            // <+1008>
+                            viewInfo.state.size = size
+                            w20 = true
+                            // w8 = 1로 인해 <+1020>로 분기
+                            w23 = true
+                            // <+1024>
+                        }
+                        
+                        // <+956>/<+1024>
+                        if flags.contains(.unknown0) {
+                            // <+556>
+                            fatalError("TODO")
+                        } else {
+                            // <+960>
+                            fatalError("TODO")
+                        }
+                    }
+                }
             } else if transformSeed == stateTransformSeed {
                 // <+460>
-                fatalError("TODO")
+                if w22 {
+                    // <+912>
+                    w22 = false
+                    w23 = false
+                    viewInfo.state.size = size
+                    w20 = true
+                    // d10/d10 = 0
+                    
+                    if flags.contains(.unknown2) {
+                        // <+1072>
+                        fatalError("TODO")
+                    } else {
+                        // <+588>
+                        // transformSeed == stateTransformSeed이기에 <+728>
+                        // <+728>
+                        fatalError("TODO")
+                    }
+                } else {
+                    // <+464>
+                    w20 = false
+                    w22 = false
+                    w23 = false
+                    // d11/d10 = 0
+                    
+                    if flags.contains(.unknown2) {
+                        // <+1072>
+                        fatalError("TODO")
+                    } else {
+                        // <+728>
+                        fatalError("TODO")
+                    }
+                }
             } else {
                 // <+268>
-                fatalError("TODO")
+                // d0/d1
+                let position = viewInfo.state.position
+                if position == .zero {
+                    // <+908>
+                    w22 = false
+                    w23 = false
+                    viewInfo.state.size = size
+                    w20 = true
+                    // d10/d10 = 0
+                    
+                    if flags.contains(.unknown2) {
+                        // <+1072>
+                        fatalError("TODO")
+                    } else {
+                        // <+588>
+                        fatalError("TODO")
+                    }
+                } else {
+                    // <+284>
+                    /*
+                     w8 = 0
+                     d10/d11 = 0
+                     */
+                    viewInfo.state.position = point
+                    
+                    if !w22 {
+                        // <+420>
+                        if size != viewSize {
+                            // <+1008>
+                            viewInfo.state.size = size
+                            w20 = true
+                            // x8 = 0으로 인해 <+1060>으로 분기
+                            w22 = false
+                            w23 = true
+                            
+                            if flags.contains(.unknown2) {
+                                // <+1072>
+                                fatalError("TODO")
+                            } else {
+                                // <+588>
+                                fatalError("TODO")
+                            }
+                            fatalError("TODO")
+                        }
+                        // <+436>
+                    }
+                    
+                    // <+436>
+                    w20 = false
+                    w23 = true
+                    
+                    // x8 = 0이기에 <+956>로 분기
+                    // <+956>
+                    if flags {
+                        // <+556>
+                        fatalError("TODO")
+                    } else {
+                        // <+960>
+                        fatalError("TODO")
+                    }
+                }
             }
-            fatalError("TODO")
-            
-//            if flags.contains(.unknown3) {
-//                // <+160>
-//                // clipRectChanged = x23
-//                // sp + 0x2e0
-//                let state_1 = state.pointee
-//                // sp + 0x158
-//                let state_2 = state.pointee
-//                // sp + 0x2a8
-//                let clipRect = state_2.clipRect()
-//                // sp + 0x430
-//                let state_3 = state_2
-//                // <+224>
-//                // sp + 0x8
-//                let state_4 = state_3
-//                
-//                if let clipRect {
-//                    // <+328>
-//                    // d10/d11/d9/d8
-//                    let rect = clipRect.rect
-//                    changed = changed || clipRectChanged
-//                    tx += rect.origin.x
-//                    ty += rect.origin.y
-//                    
-//                    if (transformSeed != stateTransformSeed) || clipRectChanged {
-//                        // <+392>
-//                        // d0, d1
-//                        let position = viewInfo.state.position
-//                        if position.x == tx && position.y == ty {
-//                            // <+504>
-//                            if !changed || (rect.size == size) {
-//                                // <+524>
-//                                // w20 = 0
-//                                // w23 = 0
-//                            } else {
-//                                // <+540>
-//                                // w23 = 0
-//                                viewInfo.state.size = size
-//                                // w20 = 1
-//                            }
-//                            
-//                            if !flags.contains(.unknown0) {
-//                                // <+960>
-//                                fatalError("TODO")
-//                            } else {
-//                                // <+556>
-//                                fatalError("TODO")
-//                            }
-//                        } else {
-//                            // <+408>
-//                            // w8 = 1
-//                            viewInfo.state.position = CGPoint(x: tx, y: ty)
-//                            
-//                            if changed {
-//                                // <+420>
-//                                if size != viewSize {
-//                                    // <+1008>
-//                                    viewInfo.state.size = size
-//                                    // w20 = 1
-//                                    // <+1020>
-//                                    // w23 = 1
-//                                    if flags.contains(.unknown0) {
-//                                        // <+556>
-//                                        // w22 = 0x1
-//                                        if rect.origin == .zero {
-//                                            // <+576>
-//                                            flags.remove(.unknown0)
-//                                        }
-//                                        
-//                                        // <+584>
-//                                        if flags.contains(.unknown2) {
-//                                            // <+1072>
-//                                            // <+1088>
-//                                            CoreViewSetSize(system, viewInfo.view, size)
-//                                            // x24
-//                                            let view = viewInfo.view
-//                                            // x23
-//                                            let layer = self.viewLayer(view)
-//                                            layer.rasterizationScale = state.pointee.globals.pointee.environment.contentsScale
-//                                            // <+1180>
-//                                            if case .mask = viewInfo.state.kind {
-//                                                CoreViewSetMaskGeometry(system, view, rect)
-//                                            }
-//                                            return true
-//                                        } else {
-//                                            if transformSeed == stateTransformSeed {
-//                                                // <+728>
-//                                                fatalError("TODO")
-//                                            } else {
-//                                                // <+596>
-//                                                fatalError("TODO")
-//                                            }
-//                                        }
-//                                        fatalError("TODO")
-//                                    } else {
-//                                        // <+960>
-//                                        fatalError("TODO")
-//                                    }
-//                                } else {
-//                                    // <+436>
-//                                }
-//                            }
-//                            
-//                            // <+436>
-//                            // w20 = 0
-//                            // w23 = 1
-//                            
-//                            fatalError("TODO")
-//                        }
-//                    } else if changed {
-//                        // <+508>
-//                        fatalError("TODO")
-//                    } else {
-//                        if !flags.contains(.unknown2) {
-//                            // <+588>
-//                            fatalError("TODO")
-//                        } else {
-//                            // <+1072>
-//                            // <+1112>
-//                            // x23
-//                            let layer = self.viewLayer(viewInfo.view)
-//                            layer.rasterizationScale = state.pointee.globals.pointee.environment.contentsScale
-//                            // <+1172>
-//                            return false
-//                        }
-//                    }
-//                }
-//                
-//                // <+256>
-//            }
-//            
-//            // <+256>
-//            if flags.contains(.unknown0) {
-//                // <+308>
-//                fatalError("TODO")
-//            } else {
-//                // <+260>
-//                if transformSeed == stateTransformSeed {
-//                    // <+460>
-//                    fatalError("TODO")
-//                } else {
-//                    // <+268>
-//                    // d0, d1
-//                    let point = viewInfo.state.position
-//                    if (point.x == tx) && (point.y == ty) {
-//                        // <+908>
-//                        fatalError("TODO")
-//                    } else {
-//                        // <+284>
-//                        if changed {
-//                            // <+420>
-//                            if viewSize != size {
-//                                // <+1008>
-//                                viewInfo.state.size = size
-//                                // w20 = 0x1
-//                                // <+284>에서 w8 = 0이므로 <+1016>: tbz    w8, #0x0에서 <+1060>로 분기
-//                                // <+1060>
-//                                // w22 = 0
-//                                // w23 = 1
-//                                if flags.contains(.unknown2) {
-//                                    // <+1072>
-//                                    fatalError("TODO")
-//                                } else {
-//                                    // <+588>
-//                                    fatalError("TODO")
-//                                }
-//                                fatalError("TODO")
-//                            }
-//                            // <+436>
-//                        }
-//                        
-//                        // <+436>
-//                        fatalError("TODO")
-//                    }
-//                    fatalError("TODO")
-//                }
-//            }
-//            fatalError("TODO")
         }
         
         fileprivate func updateShadow(
