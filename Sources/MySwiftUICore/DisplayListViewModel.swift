@@ -96,7 +96,7 @@ extension DisplayList.ViewUpdater.Model.State {
         var clips = DisplayList.Version()
         var filters = DisplayList.Version()
         private(set) var shadow = DisplayList.Version()
-        private var properties = DisplayList.Version()
+        private(set) var properties = DisplayList.Version()
         
         init() {}
     }
@@ -104,8 +104,8 @@ extension DisplayList.ViewUpdater.Model.State {
 
 extension DisplayList.ViewUpdater.Model.PlatformState {
     struct Versions {
-        private var zPosition = DisplayList.Version()
-        private var separatedState = DisplayList.Version()
+        private(set) var zPosition = DisplayList.Version()
+        private(set) var separatedState = DisplayList.Version()
         private var separatedOptions = DisplayList.Version()
         var remoteEffects = DisplayList.Version()
         private var hitTestsAsOpaque = DisplayList.Version()

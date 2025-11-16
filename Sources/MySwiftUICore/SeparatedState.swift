@@ -1,6 +1,6 @@
 #warning("TODO")
 
-enum SeparatedState {
+package enum SeparatedState {
     case none
     case tracked
     case separated

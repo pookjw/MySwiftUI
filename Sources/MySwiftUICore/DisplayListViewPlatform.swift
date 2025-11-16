@@ -55,11 +55,48 @@ extension DisplayList.ViewUpdater {
         }
         
         func updatePlatformState(
-            _: inout DisplayList.ViewUpdater.PlatformViewInfo,
+            _ platformViewInfo: inout DisplayList.ViewUpdater.PlatformViewInfo,
             item: DisplayList.Item,
             size: CGSize,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.PlatformState>
         ) {
+            /*
+             state = x19
+             platformViewInfo = x22
+             */
+            // w23
+            let identity = item.identity
+            // x24
+            let platformState = platformViewInfo.state
+            // w8
+            let flags = platformState.pointee.flags
+            
+            if
+                !flags.contains(.unknown2),
+                platformViewInfo.seeds.pointee.zPosition != DisplayList.Seed(state.pointee.versions.zPosition)
+            {
+                // <+112>
+                self.setZPosition(state.pointee.zPosition, of: platformViewInfo.view, identity: identity)
+                // <+140>
+                platformViewInfo.seeds.pointee.zPosition = DisplayList.Seed(state.pointee.versions.zPosition)
+            }
+            
+            // <+172>
+            if platformViewInfo.seeds.pointee.separatedState != DisplayList.Seed(state.pointee.versions.separatedState) {
+                // <+224>
+                // sp + 0x18
+                let parameters = CoreGlue2.SetSeparatedStateParameters(
+                    state: state.pointee.separatedState,
+                    view: platformViewInfo.view,
+                    identity: identity,
+                    reason: .separatedState,
+                    platform: self
+                )
+                CoreGlue2.shared.setSeparatedState(parameters)
+                platformViewInfo.seeds.pointee.separatedState = DisplayList.Seed(state.pointee.versions.separatedState)
+            }
+            
+            // <+396>
             fatalError("TODO")
         }
         
@@ -81,12 +118,12 @@ extension DisplayList.ViewUpdater {
             // x26 = sp + 0xa0
             /*
              state = x19
-             size = d8/d9
+             size = d9/d8
              item = x22
              viewInfo = x21
              */
             let x28 = item.version
-            // sp + 0xd0
+            // x26
             let item_1 = item
             // x27
             let encoding = encoding
@@ -130,7 +167,7 @@ extension DisplayList.ViewUpdater {
             
             // <+1072>
             // sp + 0x10
-            let item_2 = item
+            var item_2 = item
             // <+1164>
             var to1260: Bool
             if self.updateGeometry(&viewInfo, item: item_2, size: size, state: state, clipRectChanged: clipRectChanged) {
@@ -173,17 +210,66 @@ extension DisplayList.ViewUpdater {
                 } else {
                     // <+1228>
                     let w9 = DisplayList.Seed(x28)
-                    to1260 = itemSeed != w9 // or <+1380>
+                    to1260 = itemSeed != w9 // <+1260> or <+1380>
                 }   
             }
             
             if to1260 {
                 // <+1264>
-                fatalError("TODO")
+                // sp + 0x10
+                item_2 = item
+                self.updateShadow(&viewInfo, state: state, item: item_2)
+                viewInfo.seeds.shadow = DisplayList.Seed(state.pointee.versions.shadow)
             }
             
             // <+1380>
-            fatalError("TODO")
+            if viewInfo.seeds.properties != DisplayList.Seed(state.pointee.versions.properties) {
+                // <+1428>
+                self.updateProperties(&viewInfo, state: state)
+                viewInfo.seeds.shadow = DisplayList.Seed(state.pointee.versions.shadow)
+            }
+            
+            // <+1484>
+            let kind = viewInfo.state.kind
+            switch kind {
+            case .image,
+                    .drawing,
+                    .affine3D,
+                    .platformView,
+                    .platformGroup:
+                // <+1680>
+                viewInfo.layer.contentsScale = state.pointee.globals.pointee.environment.contentsScale
+                // <+1520>
+            case .inherited,
+                    .color,
+                    .shape,
+                    .sdfLayer,
+                    .sdfEffect,
+                    .shadow,
+                    .backdrop,
+                    .chameleonColor,
+                    .compositing,
+                    .geometry,
+                    .projection,
+                    .mask,
+                    .platformLayer,
+                    .platformEffect:
+                // <+1520>
+                break
+            }
+            
+            // <+1520>
+            var platformViewInfo = DisplayList.ViewUpdater.PlatformViewInfo(
+                view: viewInfo.view,
+                kind: kind,
+                state: &viewInfo.state,
+                seeds: &viewInfo.seeds.platformSeeds
+            )
+            let platformState = UnsafeRawPointer(state)
+                .advanced(by: MemoryLayout<DisplayList.ViewUpdater.Model.State>.offset(of: \.platformState)!)
+                .assumingMemoryBound(to: DisplayList.ViewUpdater.Model.PlatformState.self)
+            
+            self.updatePlatformState(&platformViewInfo, item: item_2, size: size, state: platformState)
         }
         
         fileprivate func updateStateAsync(
@@ -915,11 +1001,31 @@ extension DisplayList.ViewUpdater {
         }
         
         fileprivate func updateShadow(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
+            _ viewInfo: inout DisplayList.ViewUpdater.ViewInfo,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
             item: DisplayList.Item
         ) {
-            fatalError("TODO")
+            /*
+             state = x28
+             viewInfo = x25
+             */
+            // x21
+            if let shadow = state.pointee.shadow {
+                // <+84>
+                fatalError("TODO")
+            } else {
+                // <+648>
+                // w8
+                let shadowSeed = viewInfo.seeds.shadow
+                let shadowVersions = state.pointee.versions.shadow
+                if shadowSeed != DisplayList.Seed(shadowVersions) {
+                    // <+696>
+                    fatalError("TODO")
+                } else {
+                    // <+1620>
+                    return
+                }
+            }
         }
         
         fileprivate func updateProperties(
@@ -988,8 +1094,8 @@ extension DisplayList.ViewUpdater {
 
 extension DisplayList.ViewUpdater.PlatformViewInfo {
     struct Seeds {
-        private var zPosition: DisplayList.Seed
-        private var separatedState: DisplayList.Seed
+        var zPosition: DisplayList.Seed
+        var separatedState: DisplayList.Seed
         private var separatedOptions: DisplayList.Seed
         private var remoteEffects: DisplayList.Seed
         private var renderingTechnique: DisplayList.Seed
@@ -1183,5 +1289,14 @@ extension DisplayList.ViewUpdater.ViewCache {
         
         // <+944>
         fatalError("TODO")
+    }
+}
+
+extension DisplayList.ViewUpdater.Platform {
+    package enum SeparationReason {
+        case separatedState
+        case linkEnabled
+        case affine3D
+        case separatedMask
     }
 }

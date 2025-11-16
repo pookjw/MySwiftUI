@@ -410,9 +410,9 @@ extension DisplayList.ViewUpdater.ViewInfo {
         var transform: DisplayList.Seed
         var clips: DisplayList.Seed
         var filters: DisplayList.Seed
-        private(set) var shadow: DisplayList.Seed
-        private var properties: DisplayList.Seed
-        private var platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds
+        var shadow: DisplayList.Seed
+        var properties: DisplayList.Seed
+        var platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds
         
         // 원래 없음
         @inline(__always)
@@ -513,10 +513,19 @@ extension DisplayList.ViewUpdater {
     }
     
     @safe struct PlatformViewInfo {
-        private let view: AnyObject
+        let view: AnyObject
         private let kind: PlatformViewDefinition.ViewKind
-        private var state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>
-        private var seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>
+        private(set) var state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>
+        private(set) var seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>
+        
+        // 원래 없음
+        @inline(__always)
+        init(view: AnyObject, kind: PlatformViewDefinition.ViewKind, state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>, seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>) {
+            self.view = view
+            self.kind = kind
+            self.state = state
+            self.seeds = seeds
+        }
     }
     
     fileprivate struct Container {

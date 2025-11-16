@@ -8,6 +8,10 @@ internal import Foundation
     override func setupPlatformProperties(_ parameters: CoreGlue2.SetupPlatformPropertiesParameters) {
         _setupPlatformProperties(parameters.view, kind: parameters.kind, platform: parameters.platform)
     }
+    
+    override func setSeparatedState(_ parameters: CoreGlue2.SetSeparatedStateParameters) {
+        fatalError("TODO")
+    }
 }
 
 extension MySwiftUIGlue2 {
