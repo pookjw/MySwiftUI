@@ -1,7 +1,7 @@
 internal import _MySwiftUIShims
 internal import UIKit
 
-class _UIGraphicsView: _UIGraphicsViewBase {
+class _UIGraphicsView: _MSUI_UIGraphicsViewBase {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }

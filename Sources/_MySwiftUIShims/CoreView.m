@@ -317,3 +317,89 @@ void CoreViewSetMaskGeometry(ViewSystem system, id object, CGRect rect) {
             break;
     }
 }
+
+void CoreViewSetTransform(ViewSystem system, id object, CGAffineTransform transform) {
+    switch (system) {
+        case ViewSystemCALayer:
+            ((CALayer *)object).affineTransform = transform;
+            break;
+        case ViewSystemUIView:
+            ((UIView *)object).transform = transform;
+            break;
+        default:
+            break;
+    }
+}
+
+void CoreViewSetGeometry(ViewSystem system, id object, BOOL flag2, BOOL flag3, BOOL flag4, BOOL flag5, CGPoint point, CGRect bounds) {
+    /*
+     object = x19
+     point = d13/d12
+     bounds = d11/d10/d9/d8
+     flag2 = w23
+     flag3 = w22
+     flag4 = w21
+     flag5 = w20
+     */
+    switch (system) {
+        case ViewSystemCALayer: {
+            // <+168>
+            if (flag3) {
+                ((CALayer *)object).position = point;
+            }
+            
+            // <+188>
+            if (!flag4 && !flag5) {
+                // <+344>
+                return;
+            } else {
+                // <+380>
+                ((CALayer *)object).bounds = bounds;
+                return;
+            }
+        }
+        case ViewSystemUIView: {
+            static BOOL supportsGeometryObservation;
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                supportsGeometryObservation = [object respondsToSelector:@selector(_shouldNotifyGeometryObservers)];
+            });
+            
+            if (flag2) {
+                // <+160>
+                abort();
+            } else {
+                // <+220>
+                BOOL shouldNotify;
+                if (supportsGeometryObservation) {
+                    // <+236>
+                    shouldNotify = [((UIView *)object) _shouldNotifyGeometryObservers];
+                } else {
+                    shouldNotify = NO;
+                }
+                
+                if (shouldNotify) {
+                    // <+248>
+                    if (flag3) {
+                        ((UIView *) object).center = point;
+                    }
+                    
+                    // <+268>
+                    if (flag4 && !flag2) {
+                        // <+280>
+                        abort();
+                    } else {
+                        // <+276>
+                        abort();
+                    }
+                } else {
+                    // <+304>
+                    abort();
+                }
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}

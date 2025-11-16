@@ -2,7 +2,7 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-@interface _UIGraphicsViewBase : UIView
+@interface _MSUI_UIGraphicsViewBase : UIView
 
 @end
 

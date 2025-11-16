@@ -25,6 +25,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
 - (void)_invalidateSubviewCache;
 - (void)_unregisterForGeometryChanges;
 - (BOOL)_shouldAnimatePropertyWithKey:(NSString *)key;
+- (BOOL)_shouldNotifyGeometryObservers;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)
