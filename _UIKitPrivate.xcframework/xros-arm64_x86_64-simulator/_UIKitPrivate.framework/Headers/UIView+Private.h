@@ -8,6 +8,8 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
 
+typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift_wrapper(struct))); // TODO
+
 @interface UIView (Private) <MRUIPreferenceHost>
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
 @property (nonatomic, readonly, nullable) UIKeyboardSceneDelegate *keyboardSceneDelegate;
@@ -15,6 +17,9 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
 @property (nonatomic, getter=_isFocusInteractionEnabled, setter=_setFocusInteractionEnabled:) BOOL focusInteractionEnabled;
 @property (nonatomic) BOOL allowsGroupOpacity;
 @property (nonatomic) BOOL allowsGroupBlending;
+@property (nonatomic, setter=_setUsesPerspectiveCorrectRendering:) BOOL _usesPerspectiveCorrectRendering;
+@property (nonatomic, setter=_setPreferredGroundingShadowVisibility:) _UIPlatterGroundingShadowVisibility _preferredGroundingShadowVisibility;
+@property (nonatomic, setter=_setExternalHitTestingId:) NSUInteger _externalHitTestingId;
 + (void)_animateWithAnimationSettings:(BSAnimationSettings * _Nullable)animationSettings animations:(void (^)(void))animations completion:(void (^)(UIViewAnimatingPosition position))completion;
 + (BOOL)_isInAnimationBlockWithAnimationsEnabled;
 + (CGFloat)_currentAnimationDuration;

@@ -97,7 +97,86 @@ extension DisplayList.ViewUpdater {
             }
             
             // <+396>
-            fatalError("TODO")
+            if platformViewInfo.seeds.pointee.separatedOptions != DisplayList.Seed(state.pointee.versions.separatedOptions) {
+                // <+444>
+                // x21
+                let separatedOptionKeys = platformState.pointee.platformState.separatedOptionKeys
+                self.updateSeparatedOptions(fromKeys: separatedOptionKeys, to: state.pointee.separatedOptions, for: platformViewInfo.view)
+                
+                platformState.pointee.platformState.separatedOptionKeys = state.pointee.separatedOptions.storage.map { (_, _) -> (any AnySeparatedOptionKey.Type) in
+                    // $sSlsE3mapySayqd__Gqd__7ElementQzqd_0_YKXEqd_0_YKs5ErrorRd_0_r0_lF7SwiftUI21SeparatedOptionValuesV_AF03AnyfG3Key_pXps5NeverOTB503$s7d128UI11DisplayListV11ViewUpdaterC8PlatformV06updateG5State_4item4size5stateyAE0gE4InfoVz_AC4ItemVSo6CGSizeVSPyAE5ModelO0gI0VGtFAA21ifgJ74_pXpAA0qrS0_pcfu_33_29d95f9531728096fd6b966fd8998e4bAaX_pAaW_pXpTf3nnnpk_nTf1cn_n
+                    fatalError("TODO")
+                }
+                
+                platformViewInfo.seeds.pointee.separatedOptions = DisplayList.Seed(state.pointee.versions.separatedOptions)
+            }
+            
+            // <+588>
+            if platformViewInfo.seeds.pointee.remoteEffects != DisplayList.Seed(state.pointee.versions.remoteEffects) {
+                // <+636>
+                // x20, x21, x23
+                let remoteEffects = state.pointee.remoteEffects
+                self.updateRemoteEffects(of: &platformViewInfo, to: remoteEffects.values)
+                platformViewInfo.seeds.pointee.remoteEffects = DisplayList.Seed(state.pointee.versions.remoteEffects)
+            }
+            
+            // <+772>
+            switch platformViewInfo.kind {
+            case .image, .shape, .drawing:
+                // <+804>
+                if platformViewInfo.seeds.pointee.renderingTechnique != DisplayList.Seed(state.pointee.versions.renderingTechnique) {
+                    // <+852>
+                    CoreViewSetUsesPerspectiveCorrectRendering(
+                        system,
+                        platformViewInfo.view,
+                        state.pointee.renderingTechnique == .perspectiveCorrect
+                    )
+                    platformViewInfo.seeds.pointee.renderingTechnique = DisplayList.Seed(state.pointee.versions.renderingTechnique)
+                }
+                
+                // <+900>
+            default:
+                // <+900>
+                break
+            }
+            
+            // <+900>
+            // x20
+            let projectiveShadowVersion = max(state.pointee.versions.hierarchicalProjectiveShadow, state.pointee.versions.currentProjectiveShadow)
+            if platformViewInfo.seeds.pointee.projectiveShadow != DisplayList.Seed(projectiveShadowVersion) {
+                // <+956>
+                let visibility: _UIPlatterGroundingShadowVisibility
+                // TODO: enum
+                if state.pointee.currentProjectiveShadow != nil {
+                    visibility = _UIPlatterGroundingShadowVisibility(rawValue: 1)
+                } else if state.pointee.hierarchicalProjectiveShadow != nil {
+                    visibility = _UIPlatterGroundingShadowVisibility(rawValue: 1)
+                } else {
+                    visibility = _UIPlatterGroundingShadowVisibility(rawValue: 0)
+                }
+                
+                CoreViewSetPreferredGroundingShadowVisibility(system, platformViewInfo.view, visibility)
+                platformViewInfo.seeds.pointee.projectiveShadow = DisplayList.Seed(projectiveShadowVersion)
+            }
+            
+            // <+1036>
+            if platformViewInfo.seeds.pointee.hitTestsAsOpaque != DisplayList.Seed(state.pointee.versions.hitTestsAsOpaque) {
+                // <+1084>
+                // x21
+                let layer = viewLayer(platformViewInfo.view)
+                layer.hitTestsAsOpaque = state.pointee.hitTestsAsOpaque
+                platformViewInfo.seeds.pointee.hitTestsAsOpaque = DisplayList.Seed(state.pointee.versions.hitTestsAsOpaque)
+            }
+            
+            // <+1164>
+            if platformViewInfo.seeds.pointee.serverResponderID != DisplayList.Seed(state.pointee.versions.serverResponderID) {
+                // <+1212>
+                CoreViewSetSwiftUIServerResponderID(system, platformViewInfo.view, UInt(state.pointee.serverResponderID ?? 0))
+                platformViewInfo.seeds.pointee.serverResponderID = DisplayList.Seed(state.pointee.versions.serverResponderID)
+            }
+            
+            // <+1272>
+            // fin
         }
         
         func updateDrawingView(
@@ -1066,11 +1145,11 @@ extension DisplayList.ViewUpdater {
             fatalError("TODO")
         }
         
-        func updateSeparatedOptions(fromKeys: [AnySeparatedOptionKey.Type], to: SeparatedOptionValues, for: AnyObject) {
+        func updateSeparatedOptions(fromKeys: [any AnySeparatedOptionKey.Type], to: SeparatedOptionValues, for: AnyObject) {
             fatalError("TODO")
         }
         
-        func updateRemoteEffects(of: inout DisplayList.ViewUpdater.PlatformViewInfo, to: [RemoteEffectGroupInfo.ID : RemoteEffectGroupInfo]) {
+        func updateRemoteEffects(of: inout DisplayList.ViewUpdater.PlatformViewInfo, to: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo]) {
             fatalError("TODO")
         }
         
@@ -1096,12 +1175,12 @@ extension DisplayList.ViewUpdater.PlatformViewInfo {
     struct Seeds {
         var zPosition: DisplayList.Seed
         var separatedState: DisplayList.Seed
-        private var separatedOptions: DisplayList.Seed
-        private var remoteEffects: DisplayList.Seed
-        private var renderingTechnique: DisplayList.Seed
-        private var projectiveShadow: DisplayList.Seed
-        private var hitTestsAsOpaque: DisplayList.Seed
-        private var serverResponderID: DisplayList.Seed
+        var separatedOptions: DisplayList.Seed
+        var remoteEffects: DisplayList.Seed
+        var renderingTechnique: DisplayList.Seed
+        var projectiveShadow: DisplayList.Seed
+        var hitTestsAsOpaque: DisplayList.Seed
+        var serverResponderID: DisplayList.Seed
         
         // 원래 없음
         @inline(__always)
@@ -1124,7 +1203,7 @@ extension DisplayList.ViewUpdater.Platform {
         var size: CGSize
         let kind: PlatformViewDefinition.ViewKind
         var flags: DisplayList.ViewUpdater.Platform.ViewFlags
-        private var platformState: DisplayList.ViewUpdater.Platform.PlatformState
+        var platformState: DisplayList.ViewUpdater.Platform.PlatformState
         
         // 원래 없음
         @inline(__always)
@@ -1158,7 +1237,7 @@ extension DisplayList.ViewUpdater.Platform {
     }
     
     struct PlatformState {
-        private var separatedOptionKeys: [(any AnySeparatedOptionKey).Type] = []
+        var separatedOptionKeys: [any AnySeparatedOptionKey.Type] = []
         private var remoteEffects: [RemoteEffectGroupInfo.ID: CARemoteEffectGroup] = [:]
     }
 }
@@ -1262,9 +1341,10 @@ extension DisplayList.ViewUpdater.ViewCache {
              index.identity/serial/archiveIdentity/archiveSerial = sp + 0x90
              index.restored = w25
              */
-            let index_1 = index
             // w21/sp + 0x508
             let identity_2 = identity_1
+            // sp + 0x90
+            var index_1 = index
             // sp + 0x420
             var viewInfo = platform._makeItemView(item: copy_2, state: state)
             /*
@@ -1281,6 +1361,8 @@ extension DisplayList.ViewUpdater.ViewCache {
             // <+904>
             platform.updateItemView(&viewInfo, index: index_2, item: copy_2, state: state)
             // <+928>
+            index_1.identity = index_1.archiveIdentity
+            // <+940>
             fatalError("TODO")
         case .inherited:
             // <+500>

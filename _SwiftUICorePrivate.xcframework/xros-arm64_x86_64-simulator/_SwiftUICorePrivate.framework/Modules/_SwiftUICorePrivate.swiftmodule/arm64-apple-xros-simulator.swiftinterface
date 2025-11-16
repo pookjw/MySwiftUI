@@ -930,3 +930,16 @@ public final class ObjectCache<Key, Value> where Key : Swift.Hashable {
     get
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum RenderingTechnique: Swift.UInt8, Swift.Hashable, Swift.Codable {
+    case texture
+    case perspectiveCorrect
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.View {
+  public func renderingTechnique(_: _SwiftUICorePrivate.RenderingTechnique) -> some SwiftUI.View
+}

@@ -514,7 +514,7 @@ extension DisplayList.ViewUpdater {
     
     @safe struct PlatformViewInfo {
         let view: AnyObject
-        private let kind: PlatformViewDefinition.ViewKind
+        let kind: PlatformViewDefinition.ViewKind
         private(set) var state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>
         private(set) var seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>
         

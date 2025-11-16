@@ -527,7 +527,7 @@ extension DisplayList {
     struct Index {
         var identity = _DisplayList_Identity(decodedValue: 0)
         var serial: UInt32 = 0
-        fileprivate var archiveIdentity = _DisplayList_Identity(decodedValue: 0)
+        fileprivate(set) var archiveIdentity = _DisplayList_Identity(decodedValue: 0)
         fileprivate var archiveSerial: UInt32 = 0
         fileprivate var restored = DisplayList.Index.RestoreOptions(rawValue: 0)
         
@@ -612,10 +612,6 @@ extension DisplayList.Index {
         
         let rawValue: UInt8
     }
-}
-
-protocol AnySeparatedOptionKey {
-    // TODO
 }
 
 protocol _DisplayList_AnyEffectAnimator {

@@ -75,6 +75,10 @@ extension RemoteEffectGroupInfo {
 struct RemoteEffectsPlatformState {
     var legacyEffects: [_DisplayList_Identity: RemoteEffectGroup.Resolved] = [:]
     var hoverEffectState = HoverEffectState()
+    
+    var values: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo] {
+        fatalError("TODO")
+    }
 }
 
 struct RemoteEffectGroup {

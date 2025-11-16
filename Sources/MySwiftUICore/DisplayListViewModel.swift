@@ -9,13 +9,13 @@ extension DisplayList.ViewUpdater {
             private(set) var zPosition: CGFloat = 0
             private(set) var renderingTechnique: RenderingTechnique = .texture
             private(set) var separatedState: SeparatedState = .none
-            private var separatedOptions = SeparatedOptionValues()
+            private(set) var separatedOptions = SeparatedOptionValues()
             private(set) var remoteEffects = RemoteEffectsPlatformState()
             private(set) var hitTestsAsOpaque: Bool = false
-            private var serverResponderID: UInt32? = nil
+            private(set) var serverResponderID: UInt32? = nil
             fileprivate private(set) var separatedModifiers: [any _DisplayList_SeparatedItemModifier] = []
-            private var hierarchicalProjectiveShadow: ProjectiveShadow? = nil
-            private var currentProjectiveShadow: ProjectiveShadow? = nil
+            private(set) var hierarchicalProjectiveShadow: ProjectiveShadow? = nil
+            private(set) var currentProjectiveShadow: ProjectiveShadow? = nil
             var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions()
             
             init() {}
@@ -106,13 +106,13 @@ extension DisplayList.ViewUpdater.Model.PlatformState {
     struct Versions {
         private(set) var zPosition = DisplayList.Version()
         private(set) var separatedState = DisplayList.Version()
-        private var separatedOptions = DisplayList.Version()
+        private(set) var separatedOptions = DisplayList.Version()
         var remoteEffects = DisplayList.Version()
-        private var hitTestsAsOpaque = DisplayList.Version()
-        private var serverResponderID = DisplayList.Version()
-        private var renderingTechnique = DisplayList.Version()
-        private var hierarchicalProjectiveShadow = DisplayList.Version()
-        private var currentProjectiveShadow = DisplayList.Version()
+        private(set) var hitTestsAsOpaque = DisplayList.Version()
+        private(set) var serverResponderID = DisplayList.Version()
+        private(set) var renderingTechnique = DisplayList.Version()
+        private(set) var hierarchicalProjectiveShadow = DisplayList.Version()
+        private(set) var currentProjectiveShadow = DisplayList.Version()
         
         init() {}
     }

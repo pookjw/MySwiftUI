@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 @import _QuartzCorePrivate;
+@import _UIKitPrivate;
 #import "Defines.h"
 #import "ViewSystem.h"
 
@@ -30,6 +31,9 @@ MSUI_EXTERN void CoreViewSetSize(ViewSystem system, id object, CGSize size);
 MSUI_EXTERN void CoreViewSetMaskGeometry(ViewSystem system, id object, CGRect rect);
 MSUI_EXTERN void CoreViewSetTransform(ViewSystem system, id object, CGAffineTransform transform);
 MSUI_EXTERN void CoreViewSetGeometry(ViewSystem system, id object, BOOL isPlatformView, BOOL flag3, BOOL originChanged, BOOL flag5, CGPoint point, CGRect bounds);
+MSUI_EXTERN void CoreViewSetUsesPerspectiveCorrectRendering(ViewSystem system, id object, BOOL flag);
+MSUI_EXTERN void CoreViewSetPreferredGroundingShadowVisibility(ViewSystem system, id object, _UIPlatterGroundingShadowVisibility visibility);
+MSUI_EXTERN void CoreViewSetSwiftUIServerResponderID(ViewSystem system, id object, NSUInteger responderID);
 
 NS_ASSUME_NONNULL_END
 

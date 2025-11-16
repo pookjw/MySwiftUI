@@ -2,7 +2,6 @@
 #include <TargetConditionals.h>
 #include <objc/NSObjCRuntime.h>
 #import "include/NSObject+MySwiftUI.h"
-@import _UIKitPrivate;
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
@@ -476,6 +475,36 @@ void CoreViewSetGeometry(ViewSystem system, id object, BOOL isPlatformView, BOOL
             }
             break;
         }
+        default:
+            break;
+    }
+}
+
+void CoreViewSetUsesPerspectiveCorrectRendering(ViewSystem system, id object, BOOL flag) {
+    switch (system) {
+        case ViewSystemUIView:
+            ((UIView *)object)._usesPerspectiveCorrectRendering = flag;
+            break;
+        default:
+            break;
+    }
+}
+
+void CoreViewSetPreferredGroundingShadowVisibility(ViewSystem system, id object, _UIPlatterGroundingShadowVisibility visibility) {
+    switch (system) {
+        case ViewSystemUIView:
+            ((UIView *)object)._preferredGroundingShadowVisibility = visibility;
+            break;
+        default:
+            break;
+    }
+}
+
+void CoreViewSetSwiftUIServerResponderID(ViewSystem system, id object, NSUInteger responderID) {
+    switch (system) {
+        case ViewSystemUIView:
+            ((UIView *)object)._externalHitTestingId = responderID;
+            break;
         default:
             break;
     }

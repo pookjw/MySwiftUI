@@ -13,6 +13,7 @@ CG_EXTERN CALayer * _Nullable CALayerGetSuperlayer(CALayer *layer);
 @property BOOL allowsEdgeAntialiasing;
 @property CGFloat contentsEDRStrength;
 @property CGFloat contentsCDRStrength;
+@property BOOL hitTestsAsOpaque;
 - (void)addPresentationModifier:(CAPresentationModifier *)arg1 NS_SWIFT_NAME(addPresentationModifier(_:));
 - (void)removePresentationModifier:(CAPresentationModifier *)arg1 NS_SWIFT_NAME(removePresentationModifier(_:));
 - (BOOL)hasBeenCommitted;
