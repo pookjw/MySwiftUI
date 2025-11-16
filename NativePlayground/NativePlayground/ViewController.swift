@@ -427,6 +427,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI11DisplayListV5IndexV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI11DisplayListV5IndexV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
         
         print(_typeName(ViewTransform.self, qualified: true))
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in

@@ -1327,6 +1327,11 @@ extension DisplayList.ViewUpdater.ViewCache {
         // tag -> sp + 0xa0
         // disableActions -> sp + 0x88
         
+        // sp + 0x90
+        let identity_2: _DisplayList_Identity
+        // sp + 0x420
+        var viewInfo: DisplayList.ViewUpdater.ViewInfo
+        
         switch tag {
         case .item:
             // <+752>
@@ -1342,11 +1347,11 @@ extension DisplayList.ViewUpdater.ViewCache {
              index.restored = w25
              */
             // w21/sp + 0x508
-            let identity_2 = identity_1
+            let identity_3 = identity_1
             // sp + 0x90
             var index_1 = index
             // sp + 0x420
-            var viewInfo = platform._makeItemView(item: copy_2, state: state)
+            viewInfo = platform._makeItemView(item: copy_2, state: state)
             /*
              platform = sp + 0x2e0
              x22 = sp + 0x4c0
@@ -1361,15 +1366,27 @@ extension DisplayList.ViewUpdater.ViewCache {
             // <+904>
             platform.updateItemView(&viewInfo, index: index_2, item: copy_2, state: state)
             // <+928>
-            index_1.identity = index_1.archiveIdentity
-            // <+940>
-            fatalError("TODO")
+            identity_2 = index_1.archiveIdentity
+            // <+944>
         case .inherited:
             // <+500>
             fatalError("TODO")
+            // <+944>
         }
         
         // <+944>
+        // x27
+        let platform = viewInfo.platform
+        // viewInfo -> x28
+        // opacity~platformSeeds (sp + 0x2e0~0x300)
+        let seeds = viewInfo.seeds
+        // x20
+        let (isRemoved, isInvalid) = (viewInfo.isRemoved, viewInfo.isInvalid)
+        // d8
+        let nextUpdate = viewInfo.nextUpdate
+        CATransaction.setDisableActions(disableActions)
+        
+        // <+1000>
         fatalError("TODO")
     }
 }
