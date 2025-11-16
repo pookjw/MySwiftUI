@@ -132,6 +132,7 @@ extension DisplayList.ViewUpdater {
             let item_2 = item
             // <+1164>
             let bool = self.updateGeometry(&viewInfo, item: item_2, size: size, state: state, clipRectChanged: clipRectChanged)
+            print(viewInfo.view)
             fatalError("TODO")
         }
         
@@ -443,7 +444,7 @@ extension DisplayList.ViewUpdater {
              state = x21
              viewInfo = x19
              */
-            // x25
+            // x25/w25
             let encoding = encoding
             var d9 = size.width
             var d8 = size.height
@@ -466,9 +467,9 @@ extension DisplayList.ViewUpdater {
            
             // <+148>
             // d13, d12
-            var point = {
+            var (d13, d12) = {
                 let transform = state.pointee.transform
-                return CGPoint(x: transform.tx, y: transform.ty)
+                return (transform.tx, transform.ty)
             }()
             // w24
             var w24 = viewInfo.state.flags
@@ -511,7 +512,8 @@ extension DisplayList.ViewUpdater {
                     d8 = rect.size.height
                     
                     w22 = w22 || w23
-                    point += rect.origin
+                    d13 += rect.origin.x
+                    d12 += rect.origin.y
                     
                     //
                     
@@ -519,13 +521,13 @@ extension DisplayList.ViewUpdater {
                         // <+392>
                         // d0, d1
                         let position = viewInfo.state.position
-                        if point == position {
+                        if (d13 == position.x), (d12 == position.y) {
                             // <+504>
                             branch = .to504
                         } else {
                             // <+408>
                             // x8 = 1
-                            viewInfo.state.position = point
+                            viewInfo.state.position = CGPoint(x: d13, y: d12)
                             
                             if !w22 || (d9 == d15 && d8 == d14) {
                                 // <+436>
@@ -603,13 +605,13 @@ extension DisplayList.ViewUpdater {
                         // d0/d1
                         let position = viewInfo.state.position
                         
-                        if point == position {
+                        if (d13 == position.x), (d12 == position.y) {
                             // <+504>
                             branch = .to504
                         } else {
                             // <+408>
                             // w8 = 1
-                            viewInfo.state.position = point
+                            viewInfo.state.position = CGPoint(x: d13, y: d12)
                             if !w22, (d9 == d15), (d8 == d14) {
                                 // <+436>
                                 w20 = false
@@ -672,7 +674,7 @@ extension DisplayList.ViewUpdater {
                          */
                         d10 = 0
                         d11 = 0
-                        viewInfo.state.position = point
+                        viewInfo.state.position = CGPoint(x: d13, y: d12)
                         
                         if w22 {
                             // <+420>
@@ -804,11 +806,60 @@ extension DisplayList.ViewUpdater {
             }
             
             if branch == .to728 {
-                fatalError("TODO")
+                // <+728>
+                
+                let isPlatformView: Bool
+                switch viewInfo.state.kind {
+                case .platformView, .platformGroup, .platformLayer, .platformEffect:
+                    isPlatformView = true
+                default:
+                    isPlatformView = false
+                }
+                
+                CoreViewSetGeometry(
+                    system,
+                    viewInfo.view,
+                    isPlatformView,
+                    w23,
+                    w22,
+                    w20,
+                    CGPoint(x: (d13.isNaN ? 0 : d13), y: (d12.isNaN ? 0 : d12)),
+                    CGRect(
+                        x: (d10.isNaN ? 0 : d10),
+                        y: (d11.isNaN ? 0 : d11),
+                        width: (d9.isNaN ? 0 : d9),
+                        height: (d8.isNaN ? 0 : d8)
+                    )
+                )
+                
+                // <+900>
             } else if branch == .to1072 {
-                fatalError("TODO")
+                if w20 || w22 {
+                    // <+1088>
+                    CoreViewSetSize(system, viewInfo.view, CGSize(width: d9, height: d8))
+                }
+                
+                // <+1112>
+                // x23
+                let layer = viewLayer(viewInfo.view)
+                layer.rasterizationScale = state.pointee.globals.pointee.environment.contentsScale
+                // <+1164>
             }
-            fatalError("TODO")
+            
+            // <+900>/<+1164>
+            if w20 || w22 {
+                // <+1180>
+                if viewInfo.state.kind == .mask {
+                    CoreViewSetMaskGeometry(
+                        system,
+                        viewInfo.view,
+                        CGRect(x: d10, y: d11, width: d9, height: d8))
+                }
+                return true
+            } else {
+                // <+1172>
+                return false
+            }
         }
         
         fileprivate func updateShadow(

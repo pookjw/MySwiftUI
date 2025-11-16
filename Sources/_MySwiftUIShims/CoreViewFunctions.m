@@ -1,4 +1,4 @@
-#include "include/CoreView.h"
+#include "include/CoreViewFunctions.h"
 #include <TargetConditionals.h>
 #include <objc/NSObjCRuntime.h>
 #import "include/NSObject+MySwiftUI.h"
@@ -331,14 +331,14 @@ void CoreViewSetTransform(ViewSystem system, id object, CGAffineTransform transf
     }
 }
 
-void CoreViewSetGeometry(ViewSystem system, id object, BOOL flag2, BOOL flag3, BOOL flag4, BOOL flag5, CGPoint point, CGRect bounds) {
+void CoreViewSetGeometry(ViewSystem system, id object, BOOL isPlatformView, BOOL flag3, BOOL originChanged, BOOL flag5, CGPoint point, CGRect bounds) {
     /*
      object = x19
      point = d13/d12
      bounds = d11/d10/d9/d8
-     flag2 = w23
+     isPlatformView = w23
      flag3 = w22
-     flag4 = w21
+     originChanged = w21
      flag5 = w20
      */
     switch (system) {
@@ -349,7 +349,7 @@ void CoreViewSetGeometry(ViewSystem system, id object, BOOL flag2, BOOL flag3, B
             }
             
             // <+188>
-            if (!flag4 && !flag5) {
+            if (!originChanged && !flag5) {
                 // <+344>
                 return;
             } else {
@@ -365,9 +365,55 @@ void CoreViewSetGeometry(ViewSystem system, id object, BOOL flag2, BOOL flag3, B
                 supportsGeometryObservation = [object respondsToSelector:@selector(_shouldNotifyGeometryObservers)];
             });
             
-            if (flag2) {
+            // <+156>
+            if (isPlatformView) {
                 // <+160>
-                abort();
+                if (originChanged) {
+                    assert(!originChanged || !isPlatformView);
+                    if (flag3) {
+                        // <+172>
+                        ((CALayer *)object).position = point;
+                    }
+                    
+                    // <+188>
+                    if (originChanged || flag5) {
+                        // <+380>
+                        ((CALayer *)object).bounds = bounds;
+                    } else {
+                        // <+344>
+                        return;
+                    }
+                } else {
+                    // <+248>
+                    if (flag3) {
+                        // <+252>
+                        ((UIView *)object).center = point;
+                    }
+                    
+                    // <+268>
+                    BOOL w8 = originChanged && !isPlatformView;
+                    if (w8) {
+                        // <+280>
+                    } else {
+                        // <+276>
+                        if (flag5) {
+                            // <+280>
+                        } else {
+                            // <+344>
+                            return;
+                        }
+                    }
+                    
+                    // <+280>
+                    if (w8) {
+                        CGRect _bounds = ((UIView *)object).bounds;
+                        bounds.origin = _bounds.origin;
+                    }
+                    
+                    // <+380>
+                    ((UIView *)object).bounds = bounds;
+                    return;
+                }
             } else {
                 // <+220>
                 BOOL shouldNotify;
@@ -385,16 +431,47 @@ void CoreViewSetGeometry(ViewSystem system, id object, BOOL flag2, BOOL flag3, B
                     }
                     
                     // <+268>
-                    if (flag4 && !flag2) {
+                    BOOL w8 = originChanged && !isPlatformView;
+                    if (w8) {
                         // <+280>
-                        abort();
                     } else {
                         // <+276>
-                        abort();
+                        if (flag5) {
+                            // <+280>
+                        } else {
+                            // <+344>
+                            return;
+                        }
                     }
+                    
+                    // <+280>
+                    if (w8) {
+                        CGRect _bounds = ((UIView *)object).bounds;
+                        bounds.origin = _bounds.origin;
+                    }
+                    
+                    // <+380>
+                    ((UIView *)object).bounds = bounds;
+                    return;
                 } else {
                     // <+304>
-                    abort();
+                    // x19
+                    CALayer *layer = ((UIView *)object).layer;
+                    
+                    if (flag3) {
+                        // <+320>
+                        layer.position = point;
+                    }
+                    
+                    // <+336>
+                    if (originChanged || flag5) {
+                        // <+380>
+                        layer.bounds = bounds;
+                        return;
+                    } else {
+                        // <+344>
+                        return;
+                    }
                 }
             }
             break;

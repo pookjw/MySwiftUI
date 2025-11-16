@@ -29,7 +29,7 @@ MSUI_EXTERN void CoreViewSetClipsToBounds(ViewSystem system, id object, BOOL cli
 MSUI_EXTERN void CoreViewSetSize(ViewSystem system, id object, CGSize size);
 MSUI_EXTERN void CoreViewSetMaskGeometry(ViewSystem system, id object, CGRect rect);
 MSUI_EXTERN void CoreViewSetTransform(ViewSystem system, id object, CGAffineTransform transform);
-MSUI_EXTERN void CoreViewSetGeometry(ViewSystem system, id object, BOOL flag2, BOOL flag3, BOOL flag4, BOOL flag5, CGPoint point, CGRect bounds);
+MSUI_EXTERN void CoreViewSetGeometry(ViewSystem system, id object, BOOL isPlatformView, BOOL flag3, BOOL originChanged, BOOL flag5, CGPoint point, CGRect bounds);
 
 NS_ASSUME_NONNULL_END
 

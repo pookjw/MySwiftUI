@@ -7,7 +7,7 @@
 #import "ViewSystem.h"
 #import "NSObject+MySwiftUI.h"
 #import "tlv.h"
-#import "CoreView.h"
+#import "CoreViewFunctions.h"
 #include "ProtocolDescriptors.h"
 #import "CoreAnimation.h"
 #import "_UIGraphicsViewBase.h"
