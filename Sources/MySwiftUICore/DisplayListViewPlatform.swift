@@ -844,6 +844,8 @@ extension DisplayList.ViewUpdater {
                 let layer = viewLayer(viewInfo.view)
                 layer.rasterizationScale = state.pointee.globals.pointee.environment.contentsScale
                 // <+1164>
+            } else {
+                fatalError("unexpected")
             }
             
             // <+900>/<+1164>
