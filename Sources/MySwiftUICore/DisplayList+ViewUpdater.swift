@@ -403,14 +403,14 @@ extension DisplayList.ViewUpdater.ViewInfo {
     }
     
     struct Seeds {
-        private var item: DisplayList.Seed
+        private(set) var item: DisplayList.Seed
         var content: DisplayList.Seed
         var opacity: DisplayList.Seed
         var blend: DisplayList.Seed
         var transform: DisplayList.Seed
         var clips: DisplayList.Seed
         var filters: DisplayList.Seed
-        private var shadow: DisplayList.Seed
+        private(set) var shadow: DisplayList.Seed
         private var properties: DisplayList.Seed
         private var platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds
         

@@ -95,7 +95,7 @@ extension DisplayList.ViewUpdater.Model.State {
         var transform = DisplayList.Version()
         var clips = DisplayList.Version()
         var filters = DisplayList.Version()
-        private var shadow = DisplayList.Version()
+        private(set) var shadow = DisplayList.Version()
         private var properties = DisplayList.Version()
         
         init() {}

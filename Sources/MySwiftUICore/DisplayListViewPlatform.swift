@@ -85,6 +85,7 @@ extension DisplayList.ViewUpdater {
              item = x22
              viewInfo = x21
              */
+            let x28 = item.version
             // sp + 0xd0
             let item_1 = item
             // x27
@@ -131,8 +132,57 @@ extension DisplayList.ViewUpdater {
             // sp + 0x10
             let item_2 = item
             // <+1164>
-            let bool = self.updateGeometry(&viewInfo, item: item_2, size: size, state: state, clipRectChanged: clipRectChanged)
-            print(viewInfo.view)
+            var to1260: Bool
+            if self.updateGeometry(&viewInfo, item: item_2, size: size, state: state, clipRectChanged: clipRectChanged) {
+                // <+1264>
+                to1260 = true
+            } else {
+                // w8
+                let shadowSeed = viewInfo.seeds.shadow
+                // x9
+                let stateShadowVersion = state.pointee.versions.shadow
+                
+                if stateShadowVersion.value == 0 {
+                    // <+1216>
+                    if shadowSeed.value != 0 {
+                        // <+1264>
+                        to1260 = true
+                    } else {
+                        // <+1220>
+                        to1260 = false
+                    }
+                } else {
+                    // w9
+                    let stateShadowSeed = DisplayList.Seed(stateShadowVersion)
+                    if shadowSeed == stateShadowSeed {
+                        // <+1220>
+                        to1260 = false
+                    } else {
+                        // <+1264>
+                        to1260 = true
+                    }
+                }
+            }
+            
+            if !to1260 {
+                // <+1220>
+                // w8
+                let itemSeed = viewInfo.seeds.item
+                if x28.value == 0 && itemSeed.value == 0 {
+                    // <+1380>
+                } else {
+                    // <+1228>
+                    let w9 = DisplayList.Seed(x28)
+                    to1260 = itemSeed != w9 // or <+1380>
+                }   
+            }
+            
+            if to1260 {
+                // <+1264>
+                fatalError("TODO")
+            }
+            
+            // <+1380>
             fatalError("TODO")
         }
         
