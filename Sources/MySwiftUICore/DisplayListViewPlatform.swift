@@ -1386,7 +1386,15 @@ extension DisplayList.ViewUpdater.ViewCache {
         let nextUpdate = viewInfo.nextUpdate
         CATransaction.setDisableActions(disableActions)
         
+        // sp + 0x4c0
+        let viewInfo_2 = viewInfo
         // <+1000>
+        let mapKey = DisplayList.ViewUpdater.ViewCache.Key(
+            id: <#T##DisplayList.Index.ID#>,
+            system: <#T##PlatformViewDefinition.System#>,
+            tag: <#T##Tag#>
+        )
+        map[key] = viewInfo_2
         fatalError("TODO")
     }
 }
