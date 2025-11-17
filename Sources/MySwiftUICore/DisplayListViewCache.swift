@@ -208,14 +208,6 @@ extension DisplayList.ViewUpdater.ViewCache {
             self.system = system
             self.tag = tag
         }
-        
-        static func == (lhs: DisplayList.ViewUpdater.ViewCache.Key, rhs: DisplayList.ViewUpdater.ViewCache.Key) -> Bool {
-            fatalError("TODO")
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            fatalError("TODO")
-        }
     }
     
     struct Result {
@@ -227,6 +219,28 @@ extension DisplayList.ViewUpdater.ViewCache {
         private var changed: Bool
         private(set) var isValid: Bool
         private var nextUpdate: Time
+        
+        // 원래 없음
+        @inline(__always)
+        init(
+            platform: DisplayList.ViewUpdater.Platform,
+            view: AnyObject,
+            container: AnyObject,
+            id: DisplayList.ViewUpdater.ViewInfo.ID,
+            key: DisplayList.ViewUpdater.ViewCache.Key,
+            changed: Bool,
+            isValid: Bool,
+            nextUpdate: Time
+        ) {
+            self.platform = platform
+            self.view = view
+            self.container = container
+            self.id = id
+            self.key = key
+            self.changed = changed
+            self.isValid = isValid
+            self.nextUpdate = nextUpdate
+        }
     }
     
     fileprivate struct AsyncValues {

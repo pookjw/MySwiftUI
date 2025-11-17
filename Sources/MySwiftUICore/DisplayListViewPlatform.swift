@@ -1288,7 +1288,7 @@ extension DisplayList.ViewUpdater.Platform {
 }
 
 extension DisplayList.ViewUpdater.ViewCache {
-    func update(
+    mutating func update(
         item: DisplayList.Item,
         platform: DisplayList.ViewUpdater.Platform,
         state: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
@@ -1388,13 +1388,37 @@ extension DisplayList.ViewUpdater.ViewCache {
         
         // sp + 0x4c0
         let viewInfo_2 = viewInfo
+        // sp + 0x380
+        let viewInfo_3 = viewInfo_2
         // <+1000>
+        // x24
         let mapKey = DisplayList.ViewUpdater.ViewCache.Key(
-            id: <#T##DisplayList.Index.ID#>,
-            system: <#T##PlatformViewDefinition.System#>,
-            tag: <#T##Tag#>
+            id: indexID,
+            system: PlatformViewDefinition.System(base: system),
+            tag: (system == .caLayer) ? .item : .inherited
         )
         map[key] = viewInfo_2
+        
+        // <+1276>
+        // x19
+        let reverseMapKey = OpaquePointer(Unmanaged.passUnretained(viewInfo_2.view).toOpaque())
+        reverseMap.removeValue(forKey: reverseMapKey)
+        reverseMap[reverseMapKey] = mapKey
+        
+        // <+1444>
+        /*
+         x23 = sp + 0x100
+         x20 = sp + 0x4c0
+         */
+        if (identity_2.value == 0), (identity_1.value != 0) {
+            // <+1472>
+            viewInfo_2.layer.mySwiftUI_displayListID = Int(identity_1.value)
+        }
+        
+        // <+1492>
+        // x9 = sp + 0x380
+        let viewInfo_4 = viewInfo
+        // x8 = sp + 0x100
         fatalError("TODO")
     }
 }

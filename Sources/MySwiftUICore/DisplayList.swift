@@ -590,7 +590,7 @@ extension DisplayList {
 }
 
 extension DisplayList.Index {
-    struct ID {
+    struct ID: Hashable {
         private var identity: _DisplayList_Identity
         private var serial: UInt32
         private var archiveIdentity: _DisplayList_Identity
