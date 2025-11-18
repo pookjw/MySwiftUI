@@ -271,10 +271,17 @@ extension PropertyList {
         }
         
         package func hasDifferentUsedValues(_ other: PropertyList) -> Bool {
+            /*
+             other = x22
+             */
+            // x20
             let selfData = _data.wrappedValue
             guard !selfData.unrecordedDependencies else {
+                // <+288>
                 return true
             }
+            
+            // <+116>
             
             fatalError("TODO")
         }

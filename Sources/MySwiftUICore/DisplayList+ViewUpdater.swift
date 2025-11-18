@@ -385,9 +385,18 @@ extension DisplayList {
             // <+188>
             self.isValid = (self.isValid && result.isValid)
             
-            CoreViewAddSubview(rootPlatform.system, container.rootView, result.platform.system, result.view, container.index)
-            
+            // x20
+            let index = container.index
+            CoreViewAddSubview(rootPlatform.system, container.rootView, result.platform.system, result.view, index)
             // <+248>
+            container.index = index &+ 1
+            container.time = min(container.time, result.nextUpdate)
+            
+            guard (result.key.id.identity.value & 0xc0000000) == 0x40000000 else {
+                return
+            }
+            
+            // <+292>
             fatalError("TODO")
         }
     }
@@ -533,7 +542,7 @@ extension DisplayList.ViewUpdater {
         let rootView: AnyObject
         let id: DisplayList.ViewUpdater.ViewInfo.ID
         var time: Time
-        let index: Int
+        var index: Int
         
         func removeRemaining(viewCache: inout DisplayList.ViewUpdater.ViewCache) {
             // viewCache = x26

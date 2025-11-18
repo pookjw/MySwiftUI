@@ -1313,6 +1313,8 @@ extension DisplayList.ViewUpdater.ViewCache {
         // self = sp + 0x80
         // sp + 0x48
         let indexID = index.id
+        // sp + 0x58
+        let (archiveSerial, archiveIdentity) = (index.archiveSerial, index.archiveIdentity)
         
         let key = DisplayList.ViewUpdater.ViewCache.Key(id: indexID, system: PlatformViewDefinition.System(base: system), tag: tag)
         if let viewInfo = map[key] {
@@ -1440,10 +1442,10 @@ extension DisplayList.ViewUpdater.ViewCache {
             id: viewID,
             key: DisplayList.ViewUpdater.ViewCache.Key(
                 id: DisplayList.Index.ID(
-                    identity: _DisplayList_Identity(decodedValue: UInt32(viewInfo.id.value)),
-                    serial: indexID.serial,
-                    archiveIdentity: indexID.archiveIdentity,
-                    archiveSerial: indexID.archiveSerial
+                    identity: indexID.archiveIdentity,
+                    serial: indexID.archiveSerial,
+                    archiveIdentity: archiveIdentity,
+                    archiveSerial: archiveSerial
                 ),
                 system: PlatformViewDefinition.System(base: system),
                 tag: tag

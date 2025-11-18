@@ -197,7 +197,7 @@ extension DisplayList.ViewUpdater {
 
 extension DisplayList.ViewUpdater.ViewCache {
     struct Key: Hashable {
-        private var id: DisplayList.Index.ID
+        private(set) var id: DisplayList.Index.ID
         private var system: PlatformViewDefinition.System
         private var tag: DisplayList.ViewUpdater.ViewCache.Tag
         
@@ -215,10 +215,10 @@ extension DisplayList.ViewUpdater.ViewCache {
         private(set) var view: AnyObject
         private var container: AnyObject
         private var id: DisplayList.ViewUpdater.ViewInfo.ID
-        private var key: DisplayList.ViewUpdater.ViewCache.Key
+        private(set) var key: DisplayList.ViewUpdater.ViewCache.Key
         private var changed: Bool
         private(set) var isValid: Bool
-        private var nextUpdate: Time
+        private(set) var nextUpdate: Time
         
         // 원래 없음
         @inline(__always)
