@@ -591,12 +591,12 @@ extension DisplayList {
 
 extension DisplayList.Index {
     struct ID: Hashable {
-        private var identity: _DisplayList_Identity
-        private var serial: UInt32
-        private var archiveIdentity: _DisplayList_Identity
-        private var archiveSerial: UInt32
+        private(set) var identity: _DisplayList_Identity
+        private(set) var serial: UInt32
+        private(set) var archiveIdentity: _DisplayList_Identity
+        private(set) var archiveSerial: UInt32
         
-        fileprivate init(identity: _DisplayList_Identity, serial: UInt32, archiveIdentity: _DisplayList_Identity, archiveSerial: UInt32) {
+        init(identity: _DisplayList_Identity, serial: UInt32, archiveIdentity: _DisplayList_Identity, archiveSerial: UInt32) {
             self.identity = identity
             self.serial = serial
             self.archiveIdentity = archiveIdentity

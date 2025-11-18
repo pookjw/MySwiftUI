@@ -395,7 +395,7 @@ extension DisplayList {
 
 extension DisplayList.ViewUpdater.ViewInfo {
     struct ID: Equatable {
-        private var value: Int
+        private(set) var value: Int
         
         fileprivate init(value: Int) {
             self.value = value
@@ -438,7 +438,7 @@ extension DisplayList.ViewUpdater {
         private(set) var layer: CALayer
         private(set) var container: AnyObject
         var state: DisplayList.ViewUpdater.Platform.State
-        private var id: DisplayList.ViewUpdater.ViewInfo.ID
+        private(set) var id: DisplayList.ViewUpdater.ViewInfo.ID
         private var parentID: DisplayList.ViewUpdater.ViewInfo.ID
         var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
         private var cacheSeed: UInt32

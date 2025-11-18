@@ -1306,7 +1306,7 @@ extension DisplayList.ViewUpdater.ViewCache {
          */
         // sp + 0xb0
         let copy_1 = platform
-        // w23
+        // w23 / sp + 0x70
         let system = platform.system
         // sp + 0x68
         let identity_1 = item.identity
@@ -1323,6 +1323,8 @@ extension DisplayList.ViewUpdater.ViewCache {
         // <+436>
         let disableActions = CATransaction.disableActions()
         CATransaction.setDisableActions(true)
+        // tag -> sp + 0xa0
+        
         
         // tag -> sp + 0xa0
         // disableActions -> sp + 0x88
@@ -1376,12 +1378,10 @@ extension DisplayList.ViewUpdater.ViewCache {
         
         // <+944>
         // x27
-        let platform = viewInfo.platform
+        let platform_2 = viewInfo.platform
         // viewInfo -> x28
         // opacity~platformSeeds (sp + 0x2e0~0x300)
         let seeds = viewInfo.seeds
-        // x20
-        let (isRemoved, isInvalid) = (viewInfo.isRemoved, viewInfo.isInvalid)
         // d8
         let nextUpdate = viewInfo.nextUpdate
         CATransaction.setDisableActions(disableActions)
@@ -1391,6 +1391,8 @@ extension DisplayList.ViewUpdater.ViewCache {
         // sp + 0x380
         let viewInfo_3 = viewInfo_2
         // <+1000>
+        // x21
+        let container = viewInfo_2.container
         // x24
         let mapKey = DisplayList.ViewUpdater.ViewCache.Key(
             id: indexID,
@@ -1417,9 +1419,41 @@ extension DisplayList.ViewUpdater.ViewCache {
         
         // <+1492>
         // x9 = sp + 0x380
-        let viewInfo_4 = viewInfo
+        let _ = viewInfo
+        // <+1536>
         // x8 = sp + 0x100
-        fatalError("TODO")
+        // opacity~platformSeeds (sp + 0x3ea~0x3fa)
+        let seeds_2 = seeds
+        // sp + 0x3d8
+        let copy_2 = copy_1
+        // w22
+        let isInvalid = viewInfo_2.isInvalid
+        let viewID = viewInfo_2.id
+        // sp + 0x380
+        let _ = platform_2
+        
+        // <+1620>
+        let result = DisplayList.ViewUpdater.ViewCache.Result(
+            platform: platform_2,
+            view: viewInfo_2.view,
+            container: container,
+            id: viewID,
+            key: DisplayList.ViewUpdater.ViewCache.Key(
+                id: DisplayList.Index.ID(
+                    identity: _DisplayList_Identity(decodedValue: UInt32(viewInfo.id.value)),
+                    serial: indexID.serial,
+                    archiveIdentity: indexID.archiveIdentity,
+                    archiveSerial: indexID.archiveSerial
+                ),
+                system: PlatformViewDefinition.System(base: system),
+                tag: tag
+            ),
+            changed: true,
+            isValid: !isInvalid,
+            nextUpdate: nextUpdate
+        )
+        
+        return result
     }
 }
 
