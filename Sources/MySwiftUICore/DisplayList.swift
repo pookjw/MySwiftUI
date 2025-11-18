@@ -470,21 +470,24 @@ extension DisplayList {
         
         package private(set) var value: Int
         
+        @inline(__always)
         package init() {
             self.value = 0
         }
         
         package init(decodedValue: Int) {
-            DisplayList.Version.lastValue = max( DisplayList.Version.lastValue, decodedValue)
+            DisplayList.Version.lastValue = max(DisplayList.Version.lastValue, decodedValue)
             self.value = decodedValue
         }
         
+        @inline(__always)
         package init(forUpdate: Void) {
-            let value = DisplayList.Version.lastValue + 1
+            let value = DisplayList.Version.lastValue &+ 1
             DisplayList.Version.lastValue = value
             self.value = value
         }
         
+        @inline(__always)
         package mutating func combine(with other: DisplayList.Version) {
             self.value = max(other.value, self.value)
         }

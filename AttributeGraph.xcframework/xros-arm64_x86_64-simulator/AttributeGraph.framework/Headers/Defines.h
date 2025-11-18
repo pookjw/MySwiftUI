@@ -141,7 +141,7 @@ struct AGTraceType {
     void (* _Nullable didAddIndirect)(void *, AGAttribute) __attribute__((swiftcall));
 
     // Offset 0x108
-    void (* _Nullable block_34)(void *, AGAttribute, AGAttribute) __attribute__((swiftcall));
+    void (* _Nullable didSetIndirectAttribute)(void *, AGAttribute, AGAttribute) __attribute__((swiftcall));
 
     // Offset 0x110
     void (* _Nullable didSetIndirect)(void *, AGAttribute, AGAttribute) __attribute__((swiftcall));

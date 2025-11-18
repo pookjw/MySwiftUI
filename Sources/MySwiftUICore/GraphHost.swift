@@ -63,7 +63,9 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     didAddIndirect: { _, _ in
         Update.assertIsLocked()
     },
-    block_34: { _, _, _ in fatalError("TODO") },
+    didSetIndirectAttribute: { _, _, _ in
+        Update.assertIsLocked()
+    },
     didSetIndirect: { _, _, _ in
         Update.assertIsLocked()
     },

@@ -284,7 +284,7 @@ extension DisplayList.ViewUpdater.Model {
         if (position.x != 0) || (position.y != 0) {
             // <+2396>
             if state.platformState.remoteEffects.hoverEffectState.applyPosition(position) {
-                state.platformState.versions.remoteEffects = max(state.platformState.versions.remoteEffects, item.version)
+                state.platformState.versions.remoteEffects.combine(with: item.version)
             }
         }
         
@@ -296,7 +296,7 @@ extension DisplayList.ViewUpdater.Model {
         )
         
         // <+2484>
-        state.versions.transform = max(state.versions.transform, item.version)
+        state.versions.transform.combine(with: item.version)
         
         // <+2500>
         switch item.value {

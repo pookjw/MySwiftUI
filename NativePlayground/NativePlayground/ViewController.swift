@@ -720,12 +720,18 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-        let rootView = Color.black
+        let rootView = AnyView(Color.black)
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
+        
+        Task {
+            try! await Task.sleep(for: .seconds(1))
+            hostingView.rootView = AnyView(Color.white)
+        }
+        
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)
     }

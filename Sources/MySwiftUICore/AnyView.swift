@@ -131,7 +131,7 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
     }
 }
 
-fileprivate struct AnyViewChild<Content>: CustomStringConvertible, AsyncAttribute, StatefulRule {
+fileprivate struct AnyViewChild<Content: View>: CustomStringConvertible, AsyncAttribute, StatefulRule {
     @Attribute private var view: AnyView
     
     init(view: Attribute<AnyView>) {
@@ -145,6 +145,14 @@ fileprivate struct AnyViewChild<Content>: CustomStringConvertible, AsyncAttribut
     }
     
     func updateValue() {
-        fatalError("TODO")
+        // x20
+        let view = self.view
+        
+        // x26
+        guard let storage = view.storage as? AnyViewStorage<Content> else {
+            return
+        }
+        
+        self.value = storage.view
     }
 }

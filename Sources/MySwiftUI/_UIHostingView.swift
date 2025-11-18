@@ -27,7 +27,13 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     public var rootView: Content {
-        _rootView
+        get {
+            return _rootView
+        }
+        set {
+            _rootView = newValue
+            invalidateProperties([.rootView], mayDeferUpdate: true)
+        }
     }
     
     private var _rootView: Content

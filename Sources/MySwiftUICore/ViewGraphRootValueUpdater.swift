@@ -107,11 +107,13 @@ extension ViewGraphRootValueUpdater {
                 return rootDisplayList
             }
             
+            // <+2252>
             // d9
             let nextTime = viewGraph.nextUpdate.views.time
             
             if updateDisplayList, let owner = self.as(ViewGraphOwner.self) {
-                let version = DisplayList.Version()
+                // <+2580>
+                let version = rootDisplayList.1
                 let maxVersion = DisplayList.Version(forUpdate: ())
                 Signpost.renderDisplayList.traceInterval(object: owner, nil) {
                     // <+2740>

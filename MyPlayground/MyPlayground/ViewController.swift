@@ -11,8 +11,13 @@ import MySwiftUI
 class ViewController: UIViewController {
     override func loadView() {
 //        let rootView = AnyView(EmptyView())
-        let rootView = Color.black
+//        let rootView = Color.black
+        let rootView = Color.white
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            hostingView.rootView = Color.black
+        }
     }
 }

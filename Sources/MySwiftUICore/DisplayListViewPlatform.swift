@@ -485,7 +485,7 @@ extension DisplayList.ViewUpdater {
                             // seed -> x20
                             if viewInfo.state.flags == .unknown5 {
                                 // <+15100>
-                                state_2.versions.transform = max(item_1.version, state_2.versions.transform)
+                                state_2.versions.transform.combine(with: item_1.version)
                             }
                             
                             // <+15120>

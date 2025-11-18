@@ -72,7 +72,7 @@ package struct PreferencesOutputs {
         for preference in preferences {
             for otherPreference in other.preferences {
                 if preference.key == otherPreference.key {
-                    other.setIndirectDependency(preference.value)
+                    preference.value.indirectAttribute = otherPreference.value
                 }
             }
         }
