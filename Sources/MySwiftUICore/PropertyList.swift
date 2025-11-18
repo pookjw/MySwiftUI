@@ -220,7 +220,7 @@ private import AttributeGraph
     }
     
     package var id: UniqueID {
-        fatalError("TODO")
+        return elements?.id ?? UniqueID(value: 0)
     }
     
     package func valueWithSecondaryLookup<T: PropertyKeyLookup>(_ type: T.Type) -> T.Primary.Value {
@@ -274,16 +274,36 @@ extension PropertyList {
             /*
              other = x22
              */
-            // x20
-            let selfData = _data.wrappedValue
-            guard !selfData.unrecordedDependencies else {
+            // x24, x19, x21, x23, w25
+            let trackerData = data
+            guard !trackerData.unrecordedDependencies else {
                 // <+288>
                 return true
             }
             
             // <+116>
+            guard other.id != trackerData.plistID else {
+                return false
+            }
             
-            fatalError("TODO")
+            // <+140>
+            guard compare(trackerData.values, against: other) else {
+                return true
+            }
+            
+            // <+156>
+            guard compare(trackerData.derivedValues, against: other) else {
+                return true
+            }
+            
+            // <+172>
+            for value in trackerData.invalidValues {
+                guard value.hasMatchingValue(in: other) else {
+                    return true
+                }
+            }
+            
+            return false
         }
         
         package func initializeValues(from other: PropertyList) {
@@ -659,7 +679,7 @@ fileprivate struct TrackerData {
     var invalidValues: [any AnyTrackedValue]
     var unrecordedDependencies: Bool
     
-    @inlinable
+    @inline(__always)
     init(
         plistID: UniqueID,
         values: [ObjectIdentifier : any AnyTrackedValue],
