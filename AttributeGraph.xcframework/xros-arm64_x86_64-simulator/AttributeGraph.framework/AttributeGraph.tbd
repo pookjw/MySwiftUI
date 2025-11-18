@@ -195,7 +195,9 @@ exports:
     _$s14AttributeGraph0A0V10valueStateSo07AGValueD0Vvg,
     _$s14AttributeGraph0A0V15invalidateValueyyF,
     _AGGraphSetIndirectAttribute,
-    _AGGraphGetIndirectAttribute ]
+    _AGGraphGetIndirectAttribute,
+    _$sSo15AGWeakAttributea0B5GraphE10unsafeCast2toAC04WeakB0VyxGxm_tlF,
+    _$sSo11AGAttributea14AttributeGraphE10unsafeCast2toAC0B0VyxGxm_tlF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

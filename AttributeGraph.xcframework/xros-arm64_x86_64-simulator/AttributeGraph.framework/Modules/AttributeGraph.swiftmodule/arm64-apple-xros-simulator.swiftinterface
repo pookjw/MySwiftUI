@@ -399,4 +399,10 @@ extension AttributeGraph.AnyAttribute {
     public static var current: AttributeGraph.AnyAttribute? {
         get
     }
+
+    public func unsafeCast<A>(to: A.Type) -> AttributeGraph.Attribute<A>
+}
+
+extension AttributeGraph.AnyWeakAttribute {
+    public func unsafeCast<A>(to: A.Type) -> AttributeGraph.WeakAttribute<A>
 }

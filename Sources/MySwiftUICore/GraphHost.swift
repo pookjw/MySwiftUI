@@ -441,7 +441,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         
         // <+144>
-        data.transactionSeed += 1
+        data.transactionSeed &+= 1
     }
     
     package final func instantiate() {

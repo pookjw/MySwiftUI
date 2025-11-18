@@ -720,7 +720,7 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-        let rootView = AnyView(Color.black)
+        let rootView = Color.black
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
@@ -729,7 +729,7 @@ class ViewController: UIViewController {
         
         Task {
             try! await Task.sleep(for: .seconds(1))
-            hostingView.rootView = AnyView(Color.white)
+            hostingView.rootView = Color.white
         }
         
         print(NSStringFromClass(object_getClass(hostingView)!))

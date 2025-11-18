@@ -215,7 +215,7 @@ package final class ViewGraph: GraphHost {
     }
     
     package final func setRootView<Content: View>(_ rootView: Content) {
-        Attribute(identifier: self.rootView).setValue(rootView)
+        self.rootView.unsafeCast(to: Content.self).value = rootView
     }
     
     package func updateOutputs(at time: Time) {
@@ -522,7 +522,7 @@ package final class ViewGraph: GraphHost {
             nextUpdate.views = ViewGraph.NextUpdate()
         }
         
-        data.updateSeed += 1
+        data.updateSeed &+= 1
         mainUpdates = Int(data.graph!.counter(options: [.unknown2, .unknown8]))
     }
     
@@ -964,6 +964,10 @@ fileprivate struct RootDisplayList: AsyncAttribute, Rule {
         // $s14AttributeGraph0A0VyACyxGqd__c5ValueQyd__RszAA4RuleRd__lufcADSPyqd__GXEfU_ySv_So11AGAttributeatcyXEfU_ySv_AJtcfu_7SwiftUI11DisplayListV_AM7VersionVt_AK04RoothI033_7D9EDEF832940A362646A6E979F296C8LLVTt1g5
         let displayList = content
         let version = DisplayList.Version(forUpdate: ())
+        
+        // time을 읽어줘야 업데이트 됨. 나중에 applyViewGraphTransform 구현이 완성되면 지워야함
+        _ = $time.value
+        
         displayList.applyViewGraphTransform(time: $time, version: version)
         
         return (displayList, version)

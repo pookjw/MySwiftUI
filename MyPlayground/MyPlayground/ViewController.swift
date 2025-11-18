@@ -16,8 +16,8 @@ class ViewController: UIViewController {
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            hostingView.rootView = Color.black
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            hostingView.rootView = Color.black
+//        }
     }
 }

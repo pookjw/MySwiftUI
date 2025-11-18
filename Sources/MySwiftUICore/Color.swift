@@ -328,7 +328,7 @@ extension Color {
         
         static var white: Color.ResolvedHDR {
             return Color.ResolvedHDR(
-                Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
+                Color.Resolved(linearRed: 1, linearGreen: 1, linearBlue: 1, opacity: 1),
                 headroom: .nan
             )
         }
