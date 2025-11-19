@@ -50,10 +50,13 @@ public struct Transaction {
     
     public subscript<K: TransactionKey>(key: K.Type) -> K.Value {
         get {
-            fatalError("TODO")
+            return plist[TransactionPropertyKey<K>.self]
         }
         set {
-            fatalError("TODO")
+            plist[TransactionPropertyKey<K>.self] = newValue
+        }
+        _modify {
+            yield &plist[TransactionPropertyKey<K>.self]
         }
     }
     
@@ -91,6 +94,12 @@ public protocol TransactionKey {
     static func _valuesEqual(_ lhs: Self.Value, _ rhs: Self.Value) -> Bool
 }
 
+extension TransactionKey {
+    static func _valuesEqual(_ lhs: Self.Value, _ rhs: Self.Value) -> Bool {
+        fatalError("TODO")
+    }
+}
+
 extension Transaction {
     package struct ID: Hashable {
         private var value: UInt32
@@ -124,4 +133,14 @@ public func withTransaction<Result>(_ transaction: Transaction, _ body: () throw
     var transaction = Transaction()
     transaction[keyPath: keyPath] = value
     return try withTransaction(transaction, body)
+}
+
+fileprivate struct TransactionPropertyKey<Key: TransactionKey>: PropertyKey {
+    static var defaultValue: Key.Value {
+        return Key.defaultValue
+    }
+    
+    static func valuesEqual(_ lhs: Key.Value, _ rhs: Key.Value) -> Bool {
+        return Key._valuesEqual(lhs, rhs)
+    }
 }
