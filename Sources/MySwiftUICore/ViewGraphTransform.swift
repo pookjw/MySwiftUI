@@ -4,7 +4,7 @@ internal import AttributeGraph
 
 extension DisplayList {
     func applyViewGraphTransform(time: Attribute<Time>, version: DisplayList.Version) {
-        guard features.contains([.interpolatorRoots, .stateEffects]) else {
+        guard features.isSuperset(of: [.interpolatorRoots, .stateEffects]) else {
             return
         }
         

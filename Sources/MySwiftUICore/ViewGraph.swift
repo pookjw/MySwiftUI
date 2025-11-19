@@ -965,9 +965,6 @@ fileprivate struct RootDisplayList: AsyncAttribute, Rule {
         let displayList = content
         let version = DisplayList.Version(forUpdate: ())
         
-        // time을 읽어줘야 업데이트 됨. 나중에 applyViewGraphTransform 구현이 완성되면 지워야함
-        _ = $time.value
-        
         displayList.applyViewGraphTransform(time: $time, version: version)
         
         return (displayList, version)
