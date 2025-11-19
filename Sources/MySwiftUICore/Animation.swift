@@ -266,7 +266,7 @@ extension Animatable {
     }
     
     public static func == (a: AnimatablePair<First, Second>, b: AnimatablePair<First, Second>) -> Bool {
-        fatalError("TODO")
+        return (a.first == b.first) && (a.second == b.second)
     }
 }
 
@@ -418,7 +418,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
         }
         
         // <+804>
-        // self = sp + 0x190
+        // self = sp + 0x1b0
         if checkReset() {
             // <+836>
             value.changed = true
@@ -429,6 +429,8 @@ struct AnimatableAttributeHelper<T: Animatable> {
             // <+936>
             // sp + 0x138
             let animatableData = value.value.animatableData
+            let previousModelData = previousModelData
+            
             if let previousModelData /* sp + 0x128 */, animatableData != previousModelData {
                 // <+1304>
                 // x23
@@ -493,11 +495,21 @@ struct AnimatableAttributeHelper<T: Animatable> {
                     
                     // <+5076>
                     animatorState.addListeners(transaction: transaction)
+                    self.previousModelData = animatableData
+                } else {
+                    // <+3460>
+                    fatalError("TODO")
                 }
+            } else {
+                // <+5148>
+                self.previousModelData = animatableData
             }
+        } else {
+            // <+5244>
+            // nop
         }
         
-        // <+5156>
+        // <+5256>
         guard let animatorState else {
             return
         }
