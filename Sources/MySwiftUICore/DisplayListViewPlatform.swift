@@ -1462,7 +1462,9 @@ extension DisplayList.ViewUpdater.ViewCache {
         CATransaction.setDisableActions(disableActions)
         
         // sp + 0x4c0
-        let viewInfo_2 = viewInfo
+        var viewInfo_2 = viewInfo
+        // <+1032>에서 값 읽어와서 <+1092>에 할당
+        viewInfo_2.parentID = id
         // sp + 0x380
         let viewInfo_3 = viewInfo_2
         // <+1000>
@@ -1474,6 +1476,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             system: PlatformViewDefinition.System(base: system),
             tag: (system == .caLayer) ? .item : .inherited
         )
+        
         map[key] = viewInfo_2
         
         // <+1276>

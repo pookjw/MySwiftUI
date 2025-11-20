@@ -446,7 +446,7 @@ extension DisplayList.ViewUpdater {
         private(set) var container: AnyObject
         var state: DisplayList.ViewUpdater.Platform.State
         private(set) var id: DisplayList.ViewUpdater.ViewInfo.ID
-        private(set) var parentID: DisplayList.ViewUpdater.ViewInfo.ID
+        var parentID: DisplayList.ViewUpdater.ViewInfo.ID
         var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
         var cacheSeed: UInt32
         var isRemoved: Bool
