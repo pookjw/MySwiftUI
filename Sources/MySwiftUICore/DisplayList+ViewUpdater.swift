@@ -571,11 +571,12 @@ extension DisplayList.ViewUpdater {
                 // x9
                 var viewInfo = viewCache.map[key]!
                 
+                // TODO: 항상 지우는건 말이 안 됨
                 if !viewInfo.isRemoved {
                     viewInfo.isRemoved = true
+                    viewCache.map[key] = viewInfo
                 }
                 
-                viewCache.map[key] = viewInfo
                 CoreViewRemoveFromSuperview(system, subview)
             }
         }

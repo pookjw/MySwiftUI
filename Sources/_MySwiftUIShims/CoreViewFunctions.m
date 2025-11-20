@@ -165,6 +165,7 @@ NSUInteger CoreViewSubviewsCount(ViewSystem system, id object) {
             break;
         case ViewSystemUIView:
             layer = ((UIView *)object).layer;
+            break;
         default:
             return 0;
     }

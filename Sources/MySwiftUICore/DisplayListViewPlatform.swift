@@ -1468,9 +1468,6 @@ extension DisplayList.ViewUpdater.ViewCache {
         let disableActions = CATransaction.disableActions()
         CATransaction.setDisableActions(true)
         // tag -> sp + 0xa0
-        
-        
-        // tag -> sp + 0xa0
         // disableActions -> sp + 0x88
         
         // sp + 0x90

@@ -115,7 +115,7 @@ struct AGTraceType {
     void (* _Nullable didCreateSubgraph)(void *, AGSubgraphRef) __attribute__((swiftcall));
 
     // Offset 0xA8
-    void (* _Nullable block_22)(void *, AGSubgraphRef) __attribute__((swiftcall));
+    void (* _Nullable didInvalidate)(void *, AGSubgraphRef) __attribute__((swiftcall));
 
     // Offset 0xB0 - 0xB8
     void (* _Nullable unknown_block_23)(void) __attribute__((swiftcall));

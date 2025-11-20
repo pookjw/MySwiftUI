@@ -728,7 +728,7 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-        let rootView = Color.black
+        let rootView = AnyView(Color.black)
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
@@ -741,9 +741,9 @@ class ViewController: UIViewController {
                 try! await Task.sleep(for: .seconds(1))
                 
                 if flag {
-                    hostingView.rootView = Color.black
+                    hostingView.rootView = AnyView(Color.black)
                 } else {
-                    hostingView.rootView = Color.white
+                    hostingView.rootView = AnyView(EmptyView())
                 }
                 
                 flag.toggle()

@@ -45,7 +45,9 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     didCreateSubgraph: { _, _ in
         Update.assertIsLocked()
     },
-    block_22: { _, _ in fatalError("TODO") },
+    didInvalidate: { _, _ in
+        Update.assertIsLocked()
+    },
     unknown_block_23: nil,
     unknown_block_24: nil,
     didAddValue: { _, _ in
