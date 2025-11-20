@@ -10,14 +10,44 @@ import MySwiftUI
 
 class ViewController: UIViewController {
     override func loadView() {
-//        let rootView = AnyView(EmptyView())
-//        let rootView = Color.black
-        let rootView = Color.white
+        let rootView = AnyView(Color.white)
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            hostingView.rootView = Color.black
+        Task {
+            var flag = false
+            while true {
+                try! await Task.sleep(for: .seconds(1))
+                
+                if flag {
+                    hostingView.rootView = AnyView(Color.black)
+                } else {
+                    hostingView.rootView = AnyView(Color.white)
+                }
+                
+                flag.toggle()
+            }
         }
     }
 }
+
+
+
+/*
+ Task {
+     var count = 0
+     while true {
+         try! await Task.sleep(for: .seconds(1))
+         
+         if count % 3 == 0 {
+             hostingView.rootView = AnyView(Color.black)
+         } else if count % 3 == 1 {
+             hostingView.rootView = AnyView(Color.white)
+         } else if count % 3 == 2 {
+             hostingView.rootView = AnyView(EmptyView())
+         }
+         
+         count &+= 1
+     }
+ }
+ */

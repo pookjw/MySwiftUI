@@ -410,7 +410,7 @@ extension DisplayList.ViewUpdater.ViewInfo {
     }
     
     struct Seeds {
-        private(set) var item: DisplayList.Seed
+        var item: DisplayList.Seed
         var content: DisplayList.Seed
         var opacity: DisplayList.Seed
         var blend: DisplayList.Seed
@@ -434,6 +434,10 @@ extension DisplayList.ViewUpdater.ViewInfo {
             self.shadow = shadow
             self.properties = properties
             self.platformSeeds = platformSeeds
+        }
+        
+        mutating func invalidate() {
+            fatalError("TODO")
         }
     }
 }

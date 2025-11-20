@@ -736,8 +736,18 @@ class ViewController: UIViewController {
         self.view = hostingView
         
         Task {
-            try! await Task.sleep(for: .seconds(1))
-            hostingView.rootView = Color.white
+            var flag = false
+            while true {
+                try! await Task.sleep(for: .seconds(1))
+                
+                if flag {
+                    hostingView.rootView = Color.black
+                } else {
+                    hostingView.rootView = Color.white
+                }
+                
+                flag.toggle()
+            }
         }
         
         print(NSStringFromClass(object_getClass(hostingView)!))

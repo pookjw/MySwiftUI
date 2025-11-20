@@ -1315,7 +1315,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         let item_1 = item
         
         // sp + 0xb0
-        let copy_1 = platform
+        let platform_1 = platform
         // w23 / sp + 0x70
         let system = platform.system
         // sp + 0x68
@@ -1364,7 +1364,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             // sp + 0x420
             let viewInfo_4 = viewInfo_3
             // x20/sp + 0x78
-            let view = viewInfo_4.view
+            let oldView = viewInfo_4.view
             _ = consume viewInfo_4
             // sp + 0x420
             var map = self.map
@@ -1374,7 +1374,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             // <+1856>
             // id -> x9
             // sp + 0xc8
-            let flag: Bool
+            var flag: Bool
             if seeds.item == DisplayList.Seed(item_1.version) {
                 // <+1908>
                 flag = viewInfo_3.nextUpdate <= state.pointee.globals.pointee.time
@@ -1385,14 +1385,83 @@ extension DisplayList.ViewUpdater.ViewCache {
                 flag = true
             }
             
-            // <+1980>
-            if id != parentID {
+            // state -> x22
+            
+            // <+1992>
+            if parentID != id {
                 // <+1996>
-                fatalError("TODO")
+                // parentID -> sp + 0x3e0
+                viewInfo_2.seeds.invalidate()
+                // <+2012>
             }
             
             // <+2012>
-            fatalError("TODO")
+            // x19
+            let platform_2 = viewInfo_3.platform
+            // tag -> w28
+            switch tag {
+            case .item:
+                // <+2144>
+                // sp + 0x100
+                let platform_3 = platform
+                // self = x26
+                // sp + 0x240
+                let index = self.index
+                
+                // <+2176>
+                // sp + 0x420
+                let item_2 = item
+                // sp + 0xb0
+                let origin = item.frame.origin
+                
+                platform_3.updateItemView(&viewInfo_2, index: index, item: item_2, state: state)
+                
+                // <+2252>
+                // origin -> q0
+                // w10 -> origin.x
+                // <+2460>
+            case .inherited:
+                // <+2028>
+                // 이 과정에서 'self = x26'이어야함
+                fatalError("TODO")
+            }
+            
+            // <+2460>
+            if !viewInfo_2.isInvalid {
+                viewInfo_2.seeds.item = DisplayList.Seed(item_1.version)
+            }
+            
+            // <+2512>
+            if viewInfo_2.view !== oldView {
+                // <+2524>
+                fatalError("TODO")
+            }
+            
+            // <+3900>
+            // sp + 0x420
+            let viewInfo_5 = viewInfo_2
+            // sp + 0x240
+            let _ = viewInfo_5
+            self.map[key] = viewInfo_5
+            
+            // <+4044>
+            // x9
+            let result = DisplayList.ViewUpdater.ViewCache.Result(
+                platform: viewInfo_2.platform,
+                view: viewInfo_5.view,
+                container: viewInfo_5.container,
+                id: viewInfo_5.id,
+                key: DisplayList.ViewUpdater.ViewCache.Key(
+                    id: indexID,
+                    system: PlatformViewDefinition.System(base: system),
+                    tag: tag
+                ),
+                changed: flag,
+                isValid: !viewInfo_5.isInvalid,
+                nextUpdate: viewInfo_5.nextUpdate
+            )
+            
+            return result
         }
         
         // <+436>
@@ -1503,7 +1572,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         // opacity~platformSeeds (sp + 0x3ea~0x3fa)
         let seeds_2 = seeds
         // sp + 0x3d8
-        let copy_2 = copy_1
+        let _ = platform_1
         // w22
         let isInvalid = viewInfo_2.isInvalid
         let viewID = viewInfo_2.id
