@@ -401,6 +401,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
                 } else {
                     // <+3460>
                     fatalError("TODO")
+                    self.previousModelData = animatableData
                 }
             } else {
                 // <+5148>
