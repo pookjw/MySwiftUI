@@ -5,13 +5,23 @@
 extension Transaction {
     public var tracksVelocity: Bool {
         get {
-            fatalError("TODO")
+            return self[TracksVelocityKey.self]
         }
         set {
-            fatalError("TODO")
+            self[TracksVelocityKey.self] = newValue
         }
         _modify {
-            fatalError("TODO")
+            yield &self[TracksVelocityKey.self]
         }
+    }
+}
+
+fileprivate struct TracksVelocityKey: TransactionKey {
+    static var defaultValue: Bool {
+        return false
+    }
+    
+    static func _valuesEqual(_ lhs: Bool, _ rhs: Bool) -> Bool {
+        fatalError("TODO")
     }
 }

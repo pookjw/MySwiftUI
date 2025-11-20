@@ -79,6 +79,7 @@ struct AnimatableFoo: Animatable {
 
 class ViewController: UIViewController {
     override func loadView() {
+        _ = Animation(MyAnimation())
 //        dlopen("/System/Library/PrivateFrameworks/UIAccessibility.framework/UIAccessibility", RTLD_NOW)
 //        swizzle()
         
@@ -720,17 +721,17 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-        let rootView = Color.black
-//        let rootView = MyLeafView()
+//        let rootView = Color.black
+        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            hostingView.rootView = Color.white
-        }
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            hostingView.rootView = Color.white
+//        }
         
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)
@@ -812,4 +813,10 @@ struct MyClass_1 {
 
 struct MyClass_2 {
     
+}
+
+struct MyAnimation: CustomAnimation {
+    func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
+        fatalError()
+    }
 }

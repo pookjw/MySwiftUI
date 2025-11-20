@@ -81,7 +81,15 @@ public struct Transaction {
     }
     
     var effectiveAnimation: Animation? {
-        fatalError("TODO")
+        if let animation = self.animation {
+            return animation
+        }
+        
+        if tracksVelocity {
+            return Animation.velocityTracking
+        }
+        
+        return nil
     }
 }
 
