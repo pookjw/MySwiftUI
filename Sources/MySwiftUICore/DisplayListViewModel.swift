@@ -77,7 +77,7 @@ extension DisplayList.ViewUpdater {
 extension DisplayList.ViewUpdater.Model.State {
     struct Globals {
         private var updater: DisplayList.ViewUpdater
-        private var time: Time
+        private(set) var time: Time
         private var maxVersion: DisplayList.Version
         private(set) var environment: DisplayList.ViewRenderer.Environment
         

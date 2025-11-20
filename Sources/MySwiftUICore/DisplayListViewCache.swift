@@ -187,6 +187,8 @@ extension DisplayList.ViewUpdater {
                     maskView = CoreViewMaskView(system, subview)
                 }
             }
+            
+            self.cacheSeed &+= 1
         }
         
         fileprivate func removeChildren(platform: DisplayList.ViewUpdater.Platform, container: AnyObject) {

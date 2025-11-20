@@ -238,9 +238,7 @@ extension DisplayList {
                 viewCache.reclaim(time: time)
                 
                 // <+1992>
-                viewCache.pendingAsyncUpdates = []
-                viewCache.index = DisplayList.Index()
-                viewCache.cacheSeed = 0
+                viewCache.currentList = DisplayList()
                 
                 // sp, #0x88
                 let result2 = container.time
@@ -448,12 +446,12 @@ extension DisplayList.ViewUpdater {
         private(set) var container: AnyObject
         var state: DisplayList.ViewUpdater.Platform.State
         private(set) var id: DisplayList.ViewUpdater.ViewInfo.ID
-        private var parentID: DisplayList.ViewUpdater.ViewInfo.ID
+        private(set) var parentID: DisplayList.ViewUpdater.ViewInfo.ID
         var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
-        private var cacheSeed: UInt32
+        var cacheSeed: UInt32
         var isRemoved: Bool
         var isInvalid: Bool
-        private(set) var nextUpdate: Time
+        var nextUpdate: Time
         
         init(platform: DisplayList.ViewUpdater.Platform, view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
             /*

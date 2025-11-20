@@ -1304,6 +1304,16 @@ extension DisplayList.ViewUpdater.ViewCache {
          state = sp + 0xa8
          id = sp + 0xc8
          */
+        
+        /*
+         frame.origin.x/y -> sp + 0xf0
+         frame.size.width/height -> d9/d8
+         version -> sp + 0xc0
+         value -> sp + 0x560
+         identity -> sp + 0x68
+         */
+        let item_1 = item
+        
         // sp + 0xb0
         let copy_1 = platform
         // w23 / sp + 0x70
@@ -1316,10 +1326,72 @@ extension DisplayList.ViewUpdater.ViewCache {
         // sp + 0x58
         let (archiveSerial, archiveIdentity) = (index.archiveSerial, index.archiveIdentity)
         
+        // sp + 0x38
         let key = DisplayList.ViewUpdater.ViewCache.Key(id: indexID, system: PlatformViewDefinition.System(base: system), tag: tag)
         if let viewInfo = map[key] {
             // <+212>
-            // madd (x8 = x0 * x9 + x8)
+            // viewInfo = sp + 0x2e0
+            // sp + 0x380
+            var viewInfo_2 = viewInfo
+            
+            let cacheSeed = self.cacheSeed
+            guard viewInfo.cacheSeed != cacheSeed else {
+                // <+4316>
+                fatalError("TODO")
+            }
+            
+            // <+364>
+            viewInfo_2.cacheSeed = cacheSeed
+            
+            // sp + 0x4c0
+            let viewInfo_3: DisplayList.ViewUpdater.ViewInfo
+            if viewInfo.isRemoved {
+                // <+380>
+                viewInfo_3 = viewInfo
+                self.removed.insert(key)
+                // <+1716>
+            } else {
+                // <+1688>
+                viewInfo_3 = viewInfo
+                // <+1716>
+            }
+            
+            // <+1716>
+            // sp + 0x88 (8 bytes만)
+            let seeds = viewInfo_3.seeds
+            // sp + 0x90
+            let parentID = viewInfo_3.parentID
+            // sp + 0x420
+            let viewInfo_4 = viewInfo_3
+            // x20/sp + 0x78
+            let view = viewInfo_4.view
+            _ = consume viewInfo_4
+            // sp + 0x420
+            var map = self.map
+            map.removeValue(forKey: key)
+            self.map = map
+            
+            // <+1856>
+            // id -> x9
+            // sp + 0xc8
+            let flag: Bool
+            if seeds.item == DisplayList.Seed(item_1.version) {
+                // <+1908>
+                flag = viewInfo_3.nextUpdate <= state.pointee.globals.pointee.time
+                viewInfo_2.nextUpdate = .infinity
+            } else {
+                // <+1964>
+                viewInfo_2.nextUpdate = .infinity
+                flag = true
+            }
+            
+            // <+1980>
+            if id != parentID {
+                // <+1996>
+                fatalError("TODO")
+            }
+            
+            // <+2012>
             fatalError("TODO")
         }
         
