@@ -400,7 +400,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
                     self.previousModelData = animatableData
                 } else {
                     // <+3460>
-                    fatalError("TODO")
+                    // <+5148>
                     self.previousModelData = animatableData
                 }
             } else {
@@ -501,7 +501,7 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
         var value = $source.changedValue(options: [])
         helper.update(value: &value, defaultAnimation: nil, environment: $environment)
         
-        guard value.changed, !hasValue else {
+        guard value.changed || !hasValue else {
             return
         }
         

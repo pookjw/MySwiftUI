@@ -1319,6 +1319,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         let key = DisplayList.ViewUpdater.ViewCache.Key(id: indexID, system: PlatformViewDefinition.System(base: system), tag: tag)
         if let viewInfo = map[key] {
             // <+212>
+            // madd (x8 = x0 * x9 + x8)
             fatalError("TODO")
         }
         
