@@ -24,9 +24,9 @@ extension SafeAreaInsets {
     }
 }
 
-struct _SafeAreaInsetsModifier: ViewModifier, _RemoveGlobalActorIsolation {
-    var elements: [SafeAreaInsets.Element]
-    var nextInsets: SafeAreaInsets.OptionalValue?
+struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
+    private var elements: [SafeAreaInsets.Element]
+    private var nextInsets: SafeAreaInsets.OptionalValue?
     
     init(insets: EdgeInsets, cornerInsets: AbsoluteRectangleCornerInsets?, nextInsets: SafeAreaInsets.OptionalValue?) {
         fatalError("TODO") // TODO
@@ -40,10 +40,6 @@ struct _SafeAreaInsetsModifier: ViewModifier, _RemoveGlobalActorIsolation {
     init(elements: [SafeAreaInsets.Element], nextInsets: SafeAreaInsets.OptionalValue?) {
         self.elements = elements
         self.nextInsets = nextInsets
-    }
-    
-    func body(content: Content) -> some View {
-        fatalError("TODO") // TODO
     }
     
     @inlinable

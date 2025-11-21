@@ -1,0 +1,15 @@
+//
+//  ColorBlackViewController.swift
+//  MyPlayground
+//
+//  Created by Jinwoo Kim on 11/21/25.
+//
+
+import UIKit
+import MySwiftUI
+
+final class ColorBlackViewController: UIViewController {
+    override func loadView() {
+        view = _UIHostingView(rootView: Color.black)
+    }
+}

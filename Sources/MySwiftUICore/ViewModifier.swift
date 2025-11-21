@@ -29,11 +29,65 @@ extension ViewModifier {
     }
 }
 
-@MainActor package protocol MultiViewModifier: ViewModifier {
+extension ViewModifier where Self : Animatable {
+    public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+}
+
+extension ViewModifier where Self.Body == Swift.Never {
+    @MainActor @preconcurrency public func body(content: Self.Content) -> Self.Body {
+        return bodyError()
+    }
+    
+    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        fatalError("TODO")
+    }
+}
+
+extension ViewModifier where Self : _GraphInputsModifier, Self.Body == Never {
+//    public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+//        fatalError("TODO")
+//    }
+//    
+//    public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+//        fatalError("TODO")
+//    }
+//    
+//    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+//        fatalError("TODO")
+//    }
+}
+
+extension ViewModifier {
+    @inlinable public nonisolated func concat<T>(_ modifier: T) -> ModifiedContent<Self, T> {
+        return .init(content: self, modifier: modifier)
+    }
+}
+
+extension ViewModifier {
+//    @inlinable public nonisolated func transaction(_ transform: @escaping (inout Transaction) -> Void) -> some ViewModifier {
+//        return _PushPopTransactionModifier(content: self, transform: transform)
+//    }
+//    
+//    @inlinable @MainActor @preconcurrency public func animation(_ animation: Animation?) -> some ViewModifier {
+//        return transaction { t in
+//            if !t.disablesAnimations {
+//                t.animation = animation
+//            }
+//        }
+//    }
+}
+
+package protocol MultiViewModifier: ViewModifier where Body == Never {
     
 }
 
-@MainActor package protocol PrimitiveViewModifier: ViewModifier {
+package protocol PrimitiveViewModifier: ViewModifier where Body == Never {
     
 } 
 

@@ -1,0 +1,98 @@
+//
+//  DemoViewController.swift
+//  MyPlayground
+//
+//  Created by Jinwoo Kim on 11/21/25.
+//
+
+import UIKit
+
+final class DemoViewController: UICollectionViewController {
+    private let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, DemoViewController.Item> { cell, indexPath, item in
+        var contentConfiguration = cell.defaultContentConfiguration()
+        contentConfiguration.text = item.title
+        cell.contentConfiguration = contentConfiguration
+        cell.accessories = [.disclosureIndicator()]
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
+        super.init(collectionViewLayout: collectionViewLayout)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        pushToItem(DemoViewController.Item.allCases.last!)
+    }
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return Item.allCases.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: Item.allCases.reversed()[indexPath.item])
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        pushToItem(DemoViewController.Item.allCases.reversed()[indexPath.item])
+    }
+    
+    private func pushToItem(_ item: DemoViewController.Item) {
+        let viewController = item.makeViewController()
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+extension DemoViewController {
+    private enum Item: CaseIterable {
+        case emptyView
+        case anyEmptyView
+        case colorBlackView
+        case colorWhiteView
+        case switchingColorsView
+        case anyViewSwitchingView
+        
+        var title: String {
+            switch self {
+            case .emptyView:
+                return _typeName(EmptyViewController.self, qualified: false)
+            case .anyEmptyView:
+                return _typeName(AnyEmptyViewController.self, qualified: false)
+            case .colorBlackView:
+                return _typeName(ColorBlackViewController.self, qualified: false)
+            case .colorWhiteView:
+                return _typeName(ColorWhiteViewController.self, qualified: false)
+            case .switchingColorsView:
+                return _typeName(SwitchingColorsViewController.self, qualified: false)
+            case .anyViewSwitchingView:
+                return _typeName(AnyViewSwitchingViewController.self, qualified: false)
+            }
+        }
+        
+        func makeViewController() -> UIViewController {
+            switch self {
+            case .emptyView:
+                return EmptyViewController()
+            case .anyEmptyView:
+                return AnyEmptyViewController()
+            case .colorBlackView:
+                return ColorBlackViewController()
+            case .colorWhiteView:
+                return ColorWhiteViewController()
+            case .switchingColorsView:
+                return SwitchingColorsViewController()
+            case .anyViewSwitchingView:
+                return AnyViewSwitchingViewController()
+            }
+        }
+    }
+}
