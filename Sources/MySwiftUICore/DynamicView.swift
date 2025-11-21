@@ -51,7 +51,7 @@ extension DynamicView {
         )
         // x24
         let containerAttribute = Attribute(container)
-        containerAttribute.flags = .unknown1
+        containerAttribute.flags = .unknown0
         outputs.setIndirectDependency(containerAttribute.identifier)
         
         return outputs
@@ -133,7 +133,7 @@ fileprivate struct DynamicViewContainer<Content: DynamicView>: StatefulRule {
                 inputs.copyCaches()
                 let childOutputs = self.view.makeChildView(metadata: self.metadata, view: self.$view, inputs: inputs)
                 self.outputs.attachIndirectOutputs(to: childOutputs)
-                let value = DynamicViewContainer.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)
+                let value = Self.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)
                 return value
             }
         }

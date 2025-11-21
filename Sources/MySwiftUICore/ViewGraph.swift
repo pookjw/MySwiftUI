@@ -523,7 +523,7 @@ package final class ViewGraph: GraphHost {
         }
         
         data.updateSeed &+= 1
-        mainUpdates = Int(data.graph!.counter(options: [.unknown2, .unknown8]))
+        mainUpdates = Int(data.graph!.counter(options: [.unknown1, .unknown3]))
     }
     
     private func setPreferenceBridge(to: PreferenceBridge?, isInvalidating: Bool) {

@@ -17,7 +17,7 @@ AG_EXTERN void AGSubgraphSetShouldRecordTree(void) NS_SWIFT_NAME(Subgraph.setSho
 AG_EXTERN BOOL AGSubgraphShouldRecordTree(void) NS_SWIFT_NAME(getter:Subgraph.shouldRecordTree());
 AG_EXTERN AGGraphRef AGSubgraphGetGraph(AGSubgraphRef) NS_SWIFT_NAME(getter:Subgraph.graph(self:));
 AG_EXTERN void AGSubgraphInvalidate(AGSubgraphRef) NS_SWIFT_NAME(Subgraph.invalidate(self:));
-AG_EXTERN void AGSubgraphApply(AGSubgraphRef, uint32_t, void (*)(AGAttribute) __attribute__((swiftcall))) NS_SWIFT_NAME(Subgraph.apply2(self:flags:callback:));
+AG_EXTERN void AGSubgraphApply(AGSubgraphRef, uint32_t, void (*)(AGAttribute) __attribute__((swiftcall)));
 
 NS_ASSUME_NONNULL_END
 

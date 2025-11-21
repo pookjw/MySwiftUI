@@ -551,11 +551,16 @@ extension DisplayList.ViewUpdater {
             // x22
             let system = system
             
+            let count = CoreViewSubviewsCount(system, rootView)
+            guard index < count else {
+                return
+            }
+            
             // x27
             let reverseMap = unsafe viewCache.reverseMap
             // x24 = sp, #0x1d0
             // x23
-            for index in 0..<CoreViewSubviewsCount(system, rootView) {
+            for index in 0..<count {
                 // sp, #0x68
                 var outSystem = system
                 let subview = unsafe unsafeBitCast(CoreViewSubviewAtIndex(system, rootView, Int(index), &outSystem), to: AnyObject.self)
@@ -571,7 +576,6 @@ extension DisplayList.ViewUpdater {
                 // x9
                 var viewInfo = viewCache.map[key]!
                 
-                // TODO: 항상 지우는건 말이 안 됨
                 if !viewInfo.isRemoved {
                     viewInfo.isRemoved = true
                     viewCache.map[key] = viewInfo

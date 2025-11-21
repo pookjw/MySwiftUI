@@ -26,7 +26,7 @@ extension ViewGraphRootValueUpdater {
         let viewGraph = owner.viewGraph
         viewGraph.delegate = self
         
-        let counter = viewGraph.data.graph!.counter(options: .unknown4)
+        let counter = viewGraph.data.graph!.counter(options: .unknown2)
         Signpost.viewHost.traceEvent(type: .event, object: self, "ViewHost: (%p) initialized PlatformHost [ %p ]", args: [counter, UInt(bitPattern: ObjectIdentifier(self))])
     }
     

@@ -141,7 +141,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }() 
     
     static var isUpdating: Bool {
-        return GraphHost.sharedGraph.counter(options: [.unknown1, .unknown2, .unknown4]) != 0
+        return GraphHost.sharedGraph.counter(options: [.unknown0, .unknown1, .unknown2]) != 0
     }
     
     static var currentHost: GraphHost {
@@ -200,7 +200,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             return false
         }
         
-        return (graph.counter(options: [.unknown2, .unknown4]) != 0)
+        return (graph.counter(options: [.unknown1, .unknown2]) != 0)
     }
     
     init(data: GraphHost.Data) {
@@ -507,7 +507,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             let w22: Bool
             switch style {
             case .immediate:
-                w22 = (graph.counter(options: [.unknown2, .unknown4]) != 0)
+                w22 = (graph.counter(options: [.unknown1, .unknown2]) != 0)
             case .deferred:
                 w22 = true
             }

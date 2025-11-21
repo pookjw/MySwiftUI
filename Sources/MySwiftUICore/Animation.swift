@@ -364,7 +364,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
                             object: animatorState,
                             "Animation: (%p) [%d] %{public}@ updated",
                             args: [
-                                attribute.graph.counter(options: .unknown4),
+                                attribute.graph.counter(options: .unknown2),
                                 attribute.rawValue,
                                 _typeName(type(of: self), qualified: false)
                             ]
@@ -387,7 +387,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
                             object: animatorState,
                             "Animation: (%p) [%d] %{public}@ started",
                             args: [
-                                attribute.graph.counter(options: .unknown4),
+                                attribute.graph.counter(options: .unknown2),
                                 attribute.rawValue,
                                 _typeName(type(of: self), qualified: false)
                             ]
@@ -431,7 +431,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
                 object: animatorState,
                 "Animation: (%p) [%d] %{public}@ ended",
                 args: [
-                    attribute.graph.counter(options: .unknown4),
+                    attribute.graph.counter(options: .unknown2),
                     attribute.rawValue,
                     _typeName(type(of: self), qualified: false)
                 ]

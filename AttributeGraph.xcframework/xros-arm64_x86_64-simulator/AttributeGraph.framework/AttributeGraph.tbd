@@ -198,7 +198,8 @@ exports:
     _AGGraphGetIndirectAttribute,
     _$sSo15AGWeakAttributea0B5GraphE10unsafeCast2toAC04WeakB0VyxGxm_tlF,
     _$sSo11AGAttributea14AttributeGraphE10unsafeCast2toAC0B0VyxGxm_tlF,
-    _AGSubgraphApply ]
+    _AGSubgraphApply,
+    _$sSo13AGSubgraphRefa14AttributeGraphE7forEachyySo16AGAttributeFlagsV_ySo0G0aXEtF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

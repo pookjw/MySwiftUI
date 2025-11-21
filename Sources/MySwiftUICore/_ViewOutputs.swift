@@ -50,7 +50,7 @@ public struct _ViewOutputs {
     func detachIndirectOutputs() {
         preferences.detachIndirectOutputs()
         if let layoutComputer {
-            layoutComputer.identifier.indirectDependency = .empty
+            layoutComputer.identifier.indirectAttribute = .empty
         }
     }
     

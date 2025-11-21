@@ -32,10 +32,10 @@ typedef NS_ENUM(uint32_t, AGChangedValueFlags) {
 };
 
 typedef NS_OPTIONS(uint32_t, AGGraphCounterOptions) {
-    AGGraphCounterOptionsUnknown1 = 1 << 0,
-    AGGraphCounterOptionsUnknown2 = 1 << 1,
-    AGGraphCounterOptionsUnknown4 = 1 << 2,
-    AGGraphCounterOptionsUnknown8 = 1 << 3,
+    AGGraphCounterOptionsUnknown0 = 1 << 0,
+    AGGraphCounterOptionsUnknown1 = 1 << 1,
+    AGGraphCounterOptionsUnknown2 = 1 << 2,
+    AGGraphCounterOptionsUnknown3 = 1 << 3,
 };
 
 typedef NS_ENUM(NSUInteger, AGComparisonMode) {
@@ -169,7 +169,9 @@ typedef struct AGWeakAttribute AGWeakAttribute;
 
 typedef NS_OPTIONS(uint8_t, AGAttributeFlags) {
     AGAttributeFlagsNone = 0,
-    AGAttributeFlagsUnknown1 = 1
+    AGAttributeFlagsUnknown0 = 1,
+    AGAttributeFlagsUnknown1 = 2,
+    AGAttributeFlagsUnknown2 = 4
 } NS_SWIFT_NAME(AnyAttribute.Flags);
 
 NS_ASSUME_NONNULL_END
