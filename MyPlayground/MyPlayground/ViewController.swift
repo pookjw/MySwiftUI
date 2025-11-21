@@ -8,10 +8,17 @@
 import UIKit
 import MySwiftUI
 
+struct MyView: View {
+    var body: some View {
+        Color.black
+    }
+}
+
 class ViewController: UIViewController {
     override func loadView() {
-        let rootView = AnyView(Color.white)
+//        let rootView = AnyView(Color.white)
 //        let rootView = AnyView(EmptyView())
+        let rootView = MyView()
         let hostingView = _UIHostingView(rootView: rootView)
         self.view = hostingView
         
@@ -21,22 +28,22 @@ class ViewController: UIViewController {
 ////            hostingView.rootView = AnyView(Color.black)
 //        }
         
-        Task {
-            var count = 0
-            while true {
-                try! await Task.sleep(for: .seconds(1))
-                
-                if count % 3 == 0 {
-                    hostingView.rootView = AnyView(Color.black)
-                } else if count % 3 == 1 {
-                    hostingView.rootView = AnyView(Color.white)
-                } else if count % 3 == 2 {
-                    hostingView.rootView = AnyView(EmptyView())
-                }
-                
-                count &+= 1
-            }
-        }
+//        Task {
+//            var count = 0
+//            while true {
+//                try! await Task.sleep(for: .seconds(1))
+//                
+//                if count % 3 == 0 {
+//                    hostingView.rootView = AnyView(Color.black)
+//                } else if count % 3 == 1 {
+//                    hostingView.rootView = AnyView(Color.white)
+//                } else if count % 3 == 2 {
+//                    hostingView.rootView = AnyView(EmptyView())
+//                }
+//                
+//                count &+= 1
+//            }
+//        }
         
 //        Task {
 //            var flag = true

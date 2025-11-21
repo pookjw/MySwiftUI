@@ -728,17 +728,18 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-        let rootView = AnyView(Color.black)
+//        let rootView = AnyView(Color.black)
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
+        let rootView = MyView()
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            hostingView.rootView = AnyView(EmptyView())
-        }
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            hostingView.rootView = AnyView(EmptyView())
+//        }
         
 //        Task {
 //            var flag = true
@@ -842,5 +843,11 @@ struct MyClass_2 {
 struct MyAnimation: CustomAnimation {
     func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
         fatalError()
+    }
+}
+
+struct MyView: View {
+    var body: some View {
+        Color.black
     }
 }
