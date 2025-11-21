@@ -1540,7 +1540,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         let mapKey = DisplayList.ViewUpdater.ViewCache.Key(
             id: indexID,
             system: PlatformViewDefinition.System(base: system),
-            tag: (system == .caLayer) ? .item : .inherited
+            tag: tag
         )
         
         map[key] = viewInfo_2
