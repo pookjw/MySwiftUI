@@ -7,7 +7,7 @@ struct ViewGeometry {
     var dimensions: ViewDimensions
 }
 
-struct RootGeometry: Rule {
+struct RootGeometry: Rule, AsyncAttribute {
     @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute private var proposedSize: ViewSize
     @OptionalAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?

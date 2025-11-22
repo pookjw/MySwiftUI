@@ -159,7 +159,7 @@ extension ViewModifier {
         let prev = copy.base.changedDebugProperties
         copy.base.changedDebugProperties = []
         
-        var outputs = Self._makeView(modifier: modifier, inputs: inputs) { graph, inputs in
+        var outputs = Self._makeView(modifier: modifier, inputs: copy) { graph, inputs in
             return body(graph, inputs)
         }
         copy.base.changedDebugProperties = prev

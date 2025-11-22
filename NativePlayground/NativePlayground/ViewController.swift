@@ -732,32 +732,32 @@ class ViewController: UIViewController {
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
 //        let rootView = MyView()
-        let hostingView = _UIHostingView(rootView: rootView)
+        let hostingView = MyHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-        Task { [hostingView] in
-            var flags = 0
-            
-            while true {
-                do {
-                    try await Task.sleep(for: .seconds(1))
-                    let value = flags % 3
-                    
-                    if value == 0 {
-                        hostingView.rootView = AnyView(Color.white)
-                    } else if value == 1 {
-                        hostingView.rootView = AnyView(EmptyView())
-                    } else if value == 2 {
-                        hostingView.rootView = AnyView(Color.black)
-                    }
-                    
-                    flags &+= 1
-                } catch {
-                    return
-                }
-            }
-        }
+//        Task { [hostingView] in
+//            var flags = 0
+//            
+//            while true {
+//                do {
+//                    try await Task.sleep(for: .seconds(1))
+//                    let value = flags % 3
+//                    
+//                    if value == 0 {
+//                        hostingView.rootView = AnyView(Color.white)
+//                    } else if value == 1 {
+//                        hostingView.rootView = AnyView(EmptyView())
+//                    } else if value == 2 {
+//                        hostingView.rootView = AnyView(Color.black)
+//                    }
+//                    
+//                    flags &+= 1
+//                } catch {
+//                    return
+//                }
+//            }
+//        }
         
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))
@@ -799,23 +799,13 @@ class ViewController: UIViewController {
 //    MyEnvView
 }
 
-final class MyHostingView: _UIHostingView<Color> {
-    override var bounds: CGRect {
-        get {
-            super.bounds
-        }
-        set {
-            super.bounds = newValue
-        }
+final class MyHostingView<Content: View>: _UIHostingView<Content> {
+    override var preferredFocusEnvironments: [any UIFocusEnvironment] {
+        return []
     }
     
-    override var frame: CGRect {
-        get {
-            super.frame
-        }
-        set {
-            super.frame = newValue
-        }
+    override func focusItems(in rect: CGRect) -> [any UIFocusItem] {
+        return []
     }
 }
 
