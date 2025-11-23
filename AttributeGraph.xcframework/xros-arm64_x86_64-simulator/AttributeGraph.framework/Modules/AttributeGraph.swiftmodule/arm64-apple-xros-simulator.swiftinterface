@@ -308,6 +308,8 @@ extension AttributeGraph.AnyAttribute {
         nonmutating set
         nonmutating _modify
     }
+
+    public func setFlags(_: AttributeGraph.AnyAttribute.Flags, mask: AttributeGraph.AnyAttribute.Flags)
 }
 
 extension AttributeGraph.Graph {

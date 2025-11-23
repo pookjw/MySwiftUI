@@ -83,8 +83,8 @@ public struct _ViewInputs {
     }
     
     @inline(__always)
-    package mutating func copyCaches() {
-        base.cachedEnvironment = MutableBox(base.cachedEnvironment.value)
+    mutating func copyCaches() {
+        base.copyCaches()
     }
     
     func makeRootMatchedGeometryScope() {

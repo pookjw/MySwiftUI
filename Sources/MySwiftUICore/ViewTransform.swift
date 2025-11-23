@@ -43,10 +43,6 @@ fileprivate class CoordinateSpaceNode {
 }
 
 struct RootDepthTransform: Rule {
-    var value: ViewTransform {
-        fatalError("TODO")
-    }
-    
     @Attribute private var transform: ViewTransform
     @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute private var proposedSize: ViewSize
@@ -65,5 +61,11 @@ struct RootDepthTransform: Rule {
         self._proposedSize = proposedSize
         self._safeAreaInsets = safeAreaInsets
         self._childLayoutComputer = childLayoutComputer
+    }
+    
+    var value: ViewTransform {
+        // w25 = AGAttributeNil
+        
+        fatalError("TODO")
     }
 }

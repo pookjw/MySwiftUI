@@ -171,7 +171,8 @@ typedef NS_OPTIONS(uint8_t, AGAttributeFlags) {
     AGAttributeFlagsNone = 0,
     AGAttributeFlagsUnknown0 = 1,
     AGAttributeFlagsUnknown1 = 2,
-    AGAttributeFlagsUnknown2 = 4
+    AGAttributeFlagsUnknown2 = 4,
+    AGAttributeFlagsAll = 0xFF
 } NS_SWIFT_NAME(AnyAttribute.Flags);
 
 NS_ASSUME_NONNULL_END

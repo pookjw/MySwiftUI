@@ -470,6 +470,37 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI27DepthStashingLayoutComputerV6EngineV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI27DepthStashingLayoutComputerV6EngineV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI27DepthStashingLayoutComputerV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI27DepthStashingLayoutComputerV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI18RootDepthTransformV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI18RootDepthTransformV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+
+        
+        
+        print(_typeName(ViewTransform.self, qualified: true))
+        _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
+        
         
         print(_typeName(ViewTransform.self, qualified: true))
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in

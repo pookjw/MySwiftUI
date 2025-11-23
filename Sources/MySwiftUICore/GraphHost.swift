@@ -375,10 +375,10 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
                 continuation.apply()
             }
             
+            i &+= 1
             subgraph.update(1)
             postUpdate(!self.continuations.isEmpty)
             
-            i &+= 1
             if i == 8 {
                 break
             }

@@ -15,9 +15,13 @@ extension UserDefaultKeyedFeature {
         }
         
         if defaults.object(forKey: key) != nil {
-            return defaults.bool(forKey: key)
+            let value = defaults.bool(forKey: key)
+            cachedValue = value
+            return value
         } else {
-            return defaultFeatureValue
+            let value = defaultFeatureValue
+            cachedValue = value
+            return value
         }
     }
     

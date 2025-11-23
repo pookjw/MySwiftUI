@@ -12,6 +12,9 @@ AG_EXTERN void AGGraphSetIndirectDependency(AGAttribute, AGAttribute);
 AG_EXTERN AGAttribute AGGraphGetIndirectAttribute(AGAttribute) NS_SWIFT_NAME(getter:AnyAttribute.indirectAttribute(self:));
 AG_EXTERN void AGGraphSetIndirectAttribute(AGAttribute, AGAttribute) NS_SWIFT_NAME(setter:AnyAttribute.indirectAttribute(self:_:));
 
+AG_EXTERN uint32_t AGGraphGetFlags(AGAttribute);
+AG_EXTERN void AGGraphSetFlags(AGAttribute, uint32_t);
+
 NS_ASSUME_NONNULL_END
 
 #endif

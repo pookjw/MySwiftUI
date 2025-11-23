@@ -50,6 +50,12 @@
             ReferencedContainer = "container:NativePlayground.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-com.apple.SwiftUI.EnableLayoutDepthStashing false"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "SWIFTUI_ASSERT_LOCKS"

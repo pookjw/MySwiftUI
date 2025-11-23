@@ -56,6 +56,11 @@ public struct _GraphInputs {
             fatalError("TODO")
         }
     }
+    
+    @inline(__always)
+    mutating func copyCaches() {
+        cachedEnvironment = MutableBox(cachedEnvironment.value)
+    }
 }
 
 extension _GraphInputs {
