@@ -41,7 +41,7 @@ extension AnyView: DynamicView {
         return false
     }
     
-    func childInfo(metadata: Void) -> (any Any.Type, UniqueID?) {
+    nonisolated func childInfo(metadata: Void) -> (any Any.Type, UniqueID?) {
         return (storage.childType, nil)
     }
     

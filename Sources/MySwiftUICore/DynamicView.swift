@@ -17,7 +17,7 @@ internal import AttributeGraph
     
     static func makeID() -> ID
     
-    func childInfo(metadata: Metadata) -> (Any.Type, ID?)
+    nonisolated func childInfo(metadata: Metadata) -> (Any.Type, ID?)
     
     func makeChildView(metadata: Metadata, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs
     
@@ -93,49 +93,51 @@ fileprivate struct DynamicViewContainer<Content: DynamicView>: StatefulRule {
     }
     
     func updateValue() {
-        let unchecked = UncheckedSendable(self)
-        MainActor.assumeIsolated {
-            let `self` = unchecked.value
-            // x29 = sp + 0x170
-            /*
-             self/sp + 0xc0 = x23
-             x25/sp + 0xd8 = Content
-             x29 = sp + 0xe0
-             */
-            // x23
-            let childInfo = self.view.childInfo(metadata: self.metadata)
-            // x22
-            let oldValue: Self.Value? = (self.hasValue ? self.value : nil)
-            // <+524>
-            guard oldValue.map({ $0.matches(type: childInfo.0, id: childInfo.1) }) != true else {
-                return
-            }
+        // x29 = sp + 0x170
+        /*
+         self/sp + 0xc0 = x23
+         x25/sp + 0xd8 = Content
+         x29 = sp + 0xe0
+         */
+        // x23
+        let childInfo = self.view.childInfo(metadata: self.metadata)
+        // x22
+        let oldValue: Self.Value? = (self.hasValue ? self.value : nil)
+        // <+524>
+        guard oldValue.map({ $0.matches(type: childInfo.0, id: childInfo.1) }) != true else {
+            return
+        }
+        
+        // <+696>
+        /*
+         self = 0xa8
+         oldValue = 0xb0
+         */
+        if let oldValue {
+            // <+780>
+            self.outputs.detachIndirectOutputs()
+            oldValue.subgraph.willInvalidate(isInserted: true)
+            oldValue.subgraph.invalidate()
+        }
+        
+        // <+944>
+        let graph = Subgraph(graph: self.parentSubgraph.graph)
+        self.parentSubgraph.addChild(graph)
+        
+        self.value = graph.apply {
+            // $s7SwiftUI20DynamicViewContainer031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyFAD0O0Vyx_GyXEfU0_
+            var inputs = self.inputs
+            inputs.copyCaches()
             
-            // <+696>
-            /*
-             self = 0xa8
-             oldValue = 0xb0
-             */
-            if let oldValue {
-                // <+780>
-                self.outputs.detachIndirectOutputs()
-                oldValue.subgraph.willInvalidate(isInserted: true)
-                oldValue.subgraph.invalidate()
-            }
+            let childOutputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable((self, inputs))] in
+                let `self` = unchecked.value.0
+                let outputs = self.view.makeChildView(metadata: self.metadata, view: self.$view, inputs: unchecked.value.1)
+                return UncheckedSendable(outputs)
+            }.value
             
-            // <+944>
-            let graph = Subgraph(graph: self.parentSubgraph.graph)
-            self.parentSubgraph.addChild(graph)
-            
-            self.value = graph.apply {
-                // $s7SwiftUI20DynamicViewContainer031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyFAD0O0Vyx_GyXEfU0_
-                var inputs = self.inputs
-                inputs.copyCaches()
-                let childOutputs = self.view.makeChildView(metadata: self.metadata, view: self.$view, inputs: inputs)
-                self.outputs.attachIndirectOutputs(to: childOutputs)
-                let value = Self.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)
-                return value
-            }
+            self.outputs.attachIndirectOutputs(to: childOutputs)
+            let value = Self.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)
+            return value
         }
     }
 }
