@@ -728,7 +728,7 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(EmptyView())
-        let rootView = AnyView(Color.black)
+        let rootView = Color.black
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
 //        let rootView = MyView()

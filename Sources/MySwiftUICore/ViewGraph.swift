@@ -620,7 +620,7 @@ extension ViewGraph {
             transform: _transform,
             layoutDirection: OptionalAttribute(),
             proposedSize: _proposedSize,
-            safeAreaInsets: OptionalAttribute(_safeAreaInsets),
+            safeAreaInsets: OptionalAttribute($safeAreaInsets),
             childLayoutComputer: OptionalAttribute()
         )
     }

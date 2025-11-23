@@ -27,7 +27,10 @@ final class DemoViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        pushToItem(DemoViewController.Item.allCases.last!)
+        
+//        let item = DemoViewController.Item.allCases.last!
+        let item = DemoViewController.Item.colorBlackView
+        pushToItem(item)
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

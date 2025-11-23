@@ -107,11 +107,11 @@ package struct CachedEnvironment {
         }
         
         var animatedFrame: CachedEnvironment.AnimatedFrame
-        if let _animatedFrame = self.animatedFrame, _animatedFrame.transaction == inputs.base.transaction {
-            animatedFrame = _animatedFrame
-        } else {
+//        if let _animatedFrame = self.animatedFrame, _animatedFrame.transaction == inputs.base.transaction {
+//            animatedFrame = _animatedFrame
+//        } else {
             animatedFrame = CachedEnvironment.AnimatedFrame(inputs: inputs, pixelLength: pixelLength, environment: environment)
-        }
+//        }
         let result = body(&animatedFrame)
         self.animatedFrame = animatedFrame
         return result
