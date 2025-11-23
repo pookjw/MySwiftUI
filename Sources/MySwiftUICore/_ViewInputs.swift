@@ -25,6 +25,15 @@ public struct _ViewInputs {
     var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
     var containerSize: OptionalAttribute<ViewSize>
     
+    var time: Attribute<Time> {
+        get {
+            return base.time
+        }
+        set {
+            base.time = newValue
+        }
+    }
+    
     init(
         _ base: _GraphInputs,
         position: Attribute<CGPoint>,

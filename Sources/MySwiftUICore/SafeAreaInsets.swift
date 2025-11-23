@@ -25,8 +25,8 @@ extension SafeAreaInsets {
 }
 
 struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
-    private var elements: [SafeAreaInsets.Element]
-    private var nextInsets: SafeAreaInsets.OptionalValue?
+    private(set) var elements: [SafeAreaInsets.Element]
+    private(set) var nextInsets: SafeAreaInsets.OptionalValue?
     
     init(insets: EdgeInsets, cornerInsets: AbsoluteRectangleCornerInsets?, nextInsets: SafeAreaInsets.OptionalValue?) {
         fatalError("TODO") // TODO

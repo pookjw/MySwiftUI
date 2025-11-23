@@ -107,11 +107,19 @@ package struct CachedEnvironment {
         }
         
         var animatedFrame: CachedEnvironment.AnimatedFrame
-//        if let _animatedFrame = self.animatedFrame, _animatedFrame.transaction == inputs.base.transaction {
-//            animatedFrame = _animatedFrame
-//        } else {
+        if
+            let _animatedFrame = self.animatedFrame,
+            _animatedFrame.position == inputs.position,
+            _animatedFrame.size == inputs.size,
+            _animatedFrame.pixelLength == pixelLength,
+            _animatedFrame.time == inputs.time,
+            _animatedFrame.transaction == inputs.base.transaction,
+            _animatedFrame.viewPhase == inputs.viewPhase
+        {
+            animatedFrame = _animatedFrame
+        } else {
             animatedFrame = CachedEnvironment.AnimatedFrame(inputs: inputs, pixelLength: pixelLength, environment: environment)
-//        }
+        }
         let result = body(&animatedFrame)
         self.animatedFrame = animatedFrame
         return result
@@ -135,10 +143,10 @@ extension CachedEnvironment {
     struct AnimatedFrame {
         fileprivate let position: Attribute<CGPoint>
         fileprivate let size: Attribute<ViewSize>
-        private let pixelLength: Attribute<CGFloat>
-        private let time: Attribute<Time>
+        fileprivate let pixelLength: Attribute<CGFloat>
+        fileprivate let time: Attribute<Time>
         fileprivate let transaction: Attribute<Transaction>
-        private let viewPhase: Attribute<_GraphInputs.Phase>
+        fileprivate let viewPhase: Attribute<_GraphInputs.Phase>
         private let animatedFrame: Attribute<ViewFrame>
         private var _animatedPosition: Attribute<CGPoint>?
         private var _animatedSize: Attribute<ViewSize>?

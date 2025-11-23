@@ -456,6 +456,20 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI23_SafeAreaInsetsModifierV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI23_SafeAreaInsetsModifierV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI14SafeAreaInsetsV7ElementV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI14SafeAreaInsetsV7ElementV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
         
         print(_typeName(ViewTransform.self, qualified: true))
         _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in

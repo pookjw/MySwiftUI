@@ -204,3 +204,25 @@ extension CGSize {
         rounded(.toNearestOrAwayFromZero, toMultipleOf: m)
     }
 }
+
+extension CGSize {
+    func inset(by insets: EdgeInsets) -> CGSize {
+        var d0 = height
+        var d1 = width
+        var d2 = insets.trailing
+        var d3 = insets.bottom
+        var d4 = insets.leading
+        var d5 = insets.top
+        
+        d1 += d3
+        d1 -= d4
+        d4 = 0
+        d3 = (d1 >= 0) ? d1 : d4
+        
+        d0 += d2
+        d0 -= d5
+        d1 = (d0 >= 0) ? d0 : d4
+        
+        return CGSize(width: d3, height: d1)
+    }
+}
