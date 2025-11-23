@@ -59,8 +59,8 @@ struct AnimatableFrameAttribute: StatefulRule, AsyncAttribute, ObservedAttribute
         }
     }
     
-    func destroy() {
-        fatalError("TODO")
+    mutating func destroy() {
+        helper.removeListeners()
     }
 }
 

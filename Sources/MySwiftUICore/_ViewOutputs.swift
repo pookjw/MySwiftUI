@@ -64,7 +64,7 @@ public struct _ViewOutputs {
     
     @inline(__always)
     func attachIndirectOutputs(to other: _ViewOutputs) {
-        self.preferences.attachIndirectOutputs(to: other.preferences)
+        preferences.attachIndirectOutputs(to: other.preferences)
         if let layoutComputer, let otherLayoutComputer = other.layoutComputer {
             layoutComputer.identifier.indirectAttribute = otherLayoutComputer.identifier
         }

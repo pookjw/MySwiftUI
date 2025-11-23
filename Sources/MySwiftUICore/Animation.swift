@@ -509,8 +509,8 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
         self.value = value.value
     }
     
-    func destroy() {
-        fatalError("TODO")
+    mutating func destroy() {
+        helper.removeListeners()
     }
 }
 

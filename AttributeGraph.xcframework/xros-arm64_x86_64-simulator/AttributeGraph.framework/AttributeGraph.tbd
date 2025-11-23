@@ -199,7 +199,8 @@ exports:
     _$sSo15AGWeakAttributea0B5GraphE10unsafeCast2toAC04WeakB0VyxGxm_tlF,
     _$sSo11AGAttributea14AttributeGraphE10unsafeCast2toAC0B0VyxGxm_tlF,
     _AGSubgraphApply,
-    _$sSo13AGSubgraphRefa14AttributeGraphE7forEachyySo16AGAttributeFlagsV_ySo0G0aXEtF ]
+    _$sSo13AGSubgraphRefa14AttributeGraphE7forEachyySo16AGAttributeFlagsV_ySo0G0aXEtF,
+    _$sSo11AGAttributea14AttributeGraphE9_bodyTypeypXpvg ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

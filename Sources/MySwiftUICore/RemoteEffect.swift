@@ -111,11 +111,29 @@ struct RemoteEffectAccessibilityOptions {
 }
 
 struct HoverEffectState {
-//    var groups: [HoverEffectState.GroupEffect] = []
-//    var leafEffects: [HoverEffectState.LeafEffect] = []
+    private var groups: [HoverEffectState.GroupEffect] = []
+    private var leafEffects: [HoverEffectState.LeafEffect] = []
     
     func applyPosition(_ origin: CGPoint) -> Bool {
-        fatalError("TODO")
+        if !groups.isEmpty {
+            fatalError("TODO")
+        }
+        
+        if !leafEffects.isEmpty {
+            fatalError("TODO")
+        }
+        
+        return false
+    }
+}
+
+extension HoverEffectState {
+    struct GroupEffect {
+        // TODO
+    }
+    
+    struct LeafEffect {
+        // TODO
     }
 }
 

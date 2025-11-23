@@ -1,5 +1,6 @@
 #warning("TODO")
 internal import AttributeGraph
+internal import CoreGraphics
 
 struct LayoutComputer {
     @inline(never)
@@ -19,28 +20,51 @@ struct LayoutComputer {
         
         self.seed = 0
     }
+    
+    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        Update.assertIsLocked()
+        return box.sizeThatFits(proposedSize)
+    }
 }
 
 protocol LayoutEngine {
     // TODO
+    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize
 }
 
 extension LayoutComputer {
-    struct DefaultEngine: LayoutEngine {}
-    struct DefaultEngine3D: LayoutEngine {}
+    struct DefaultEngine: LayoutEngine {
+        func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+            return proposedSize.fixingUnspecifiedDimensions()
+        }
+    }
+    
+    struct DefaultEngine3D: LayoutEngine {
+        func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+            fatalError("TODO")
+        }
+    }
 }
 
-fileprivate class AnyLayoutEngineBox {}
+fileprivate class AnyLayoutEngineBox {
+    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        fatalError() // abstract
+    }
+}
 
-fileprivate class LayoutEngineBox<T>: AnyLayoutEngineBox {
+fileprivate class LayoutEngineBox<T: LayoutEngine>: AnyLayoutEngineBox {
     var engine: T
     
     init(engine: T) {
         self.engine = engine
     }
+    
+    override func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        return engine.sizeThatFits(proposedSize)
+    }
 }
 
-fileprivate class TracingLayoutEngineBox<T>: LayoutEngineBox<T> {
+fileprivate class TracingLayoutEngineBox<T: LayoutEngine>: LayoutEngineBox<T> {
     var attribute: AnyAttribute?
     
     override init(engine: T) {

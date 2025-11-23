@@ -1,3 +1,3 @@
 # MySwiftUI
 
-RootDepthTransform, RootGeometry
+RootDepthTransform.value, AnimatableAttribute.destroy

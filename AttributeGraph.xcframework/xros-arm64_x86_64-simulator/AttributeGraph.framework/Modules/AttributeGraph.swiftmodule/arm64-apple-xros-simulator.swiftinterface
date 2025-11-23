@@ -292,7 +292,7 @@ extension AttributeGraph.StatefulRule {
 }
 
 public protocol ObservedAttribute : AttributeGraph._AttributeBody {
-    func destroy()
+    mutating func destroy()
 }
 
 public protocol AttributeBodyVisitor {
@@ -403,6 +403,10 @@ extension AttributeGraph.AnyAttribute {
     }
 
     public func unsafeCast<A>(to: A.Type) -> AttributeGraph.Attribute<A>
+
+    public var _bodyType: any Any.Type {
+        get
+    }
 }
 
 extension AttributeGraph.AnyWeakAttribute {

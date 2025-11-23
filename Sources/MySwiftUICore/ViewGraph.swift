@@ -16,7 +16,7 @@ package final class ViewGraph: GraphHost {
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
     package internal(set) weak var delegate: ViewGraphDelegate? = nil
     private var features = unsafe ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
-    private var centersRootView = true
+    private(set) var centersRootView = true
     private let rootView: AnyAttribute
     @Attribute private(set) var rootTransform: ViewTransform
     @Attribute var transform: ViewTransform

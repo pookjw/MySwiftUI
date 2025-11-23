@@ -5,6 +5,18 @@ internal import CoreGraphics
 struct ViewGeometry {
     var origin: CGPoint
     var dimensions: ViewDimensions
+    
+    mutating func finalizeLayoutDirection(_ layoutDirection: LayoutDirection, parentSize: CGSize) {
+        guard layoutDirection == .rightToLeft else {
+            return
+        }
+        
+        origin.x = (parentSize.width - frame.maxX)
+    }
+    
+    var frame: CGRect {
+        return CGRect(origin: origin, size: dimensions.size.value)
+    }
 }
 
 struct RootGeometry: Rule, AsyncAttribute {
@@ -41,6 +53,7 @@ struct RootGeometry: Rule, AsyncAttribute {
         let childLayoutComputer = childLayoutComputerAttribute?.value ?? LayoutComputer.defaultValue
         
         // <+128>
+        // d8/d9/d4/d5
         var insets = EdgeInsets.zero
         
         if
@@ -71,11 +84,34 @@ struct RootGeometry: Rule, AsyncAttribute {
             }
         }
         
+        // <+388>
         let proposedSize = proposedSizeAttribute.value
-        let newSize = proposedSize.value.inset(by: insets)
+        // d11/d12, sp + 0x30
+        let proposal = proposedSize.value.inset(by: insets)
+        // d9/d10
+        let fittingSize = childLayoutComputer.sizeThatFits(_ProposedSize(width: proposal.width, height: proposal.height))
+        var origin = CGPoint(x: insets.leading, y: insets.top)
         
-        // <+452>
-        fatalError("TODO")
+        if ViewGraph.current.centersRootView {
+            // <+644>
+            let size = (proposal - fittingSize) * 0.5
+            origin += size
+        }
+        
+        // <+680>
+        var result = ViewGeometry(
+            origin: origin,
+            dimensions: ViewDimensions(
+                guideComputer: childLayoutComputer,
+                size: ViewSize(value: fittingSize, _proposal: proposal)
+            )
+        )
+        
+        if let layoutDirection = layoutDirectionAttribute?.value {
+            result.finalizeLayoutDirection(layoutDirection, parentSize: fittingSize)
+        }
+        
+        return result
     }
 }
 

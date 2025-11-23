@@ -13,6 +13,10 @@ struct _ProposedSize {
         width = nil
         height = nil
     }
+    
+    func fixingUnspecifiedDimensions() -> CGSize {
+        return CGSize(width: width ?? 10, height: height ?? 10)
+    }
 }
 
 extension _ProposedSize {
