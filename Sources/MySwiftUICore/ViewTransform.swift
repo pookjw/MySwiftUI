@@ -66,6 +66,7 @@ struct RootDepthTransform: Rule {
     var value: ViewTransform {
         // w25 = AGAttributeNil
         
-        fatalError("TODO")
+//        fatalError("TODO")
+        return .init()
     }
 }

@@ -14,14 +14,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let windowScene = scene as! UIWindowScene
         let window = UIWindow(windowScene: windowScene)
         
-//        let navigationController = UINavigationController()
-//        let redViewController = UIViewController()
-//        redViewController.view.backgroundColor = .systemRed
-//        navigationController.viewControllers = [redViewController, ViewController()]
-//        
-//        window.rootViewController = navigationController
+        let navigationController = UINavigationController()
+        let redViewController = UIViewController()
+        redViewController.view.backgroundColor = .systemRed
+        navigationController.viewControllers = [redViewController, ViewController()]
         
-        window.rootViewController = ViewController()
+        window.rootViewController = navigationController
+        
+//        window.rootViewController = ViewController()
         self.window = window
         window.makeKeyAndVisible()
     }

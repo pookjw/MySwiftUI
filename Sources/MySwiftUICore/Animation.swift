@@ -149,7 +149,7 @@ extension Animatable {
         // <+164>
         let attribute = AnimatableAttribute(source: value.value, phase: inputs.phase, time: inputs.time, transaction: inputs.transaction, environment: inputs.environment)
         value = _GraphValue(Attribute(attribute))
-        value.value.identifier.setFlags(.unknown0, mask: .all)
+        value.value.setFlags(.unknown0, mask: .all)
     }
     
     @inline(__always)

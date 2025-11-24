@@ -105,6 +105,8 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible, Swift
     }
 
     public func invalidateValue()
+
+    public func setFlags(_: AttributeGraph.AnyAttribute.Flags, mask: AttributeGraph.AnyAttribute.Flags)
 }
 
 @frozen
@@ -293,6 +295,14 @@ extension AttributeGraph.StatefulRule {
 
 public protocol ObservedAttribute : AttributeGraph._AttributeBody {
     mutating func destroy()
+}
+
+extension AttributeGraph.ObservedAttribute {
+    public static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
+
+    public static var _hasDestroySelf: Swift.Bool {
+        get
+    }
 }
 
 public protocol AttributeBodyVisitor {

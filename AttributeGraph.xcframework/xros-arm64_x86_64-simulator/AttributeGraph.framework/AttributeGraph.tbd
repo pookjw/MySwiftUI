@@ -203,7 +203,10 @@ exports:
     _$sSo11AGAttributea14AttributeGraphE9_bodyTypeypXpvg,
     _AGGraphGetFlags,
     _AGGraphSetFlags,
-    _$sSo11AGAttributea14AttributeGraphE8setFlags_4maskySo0aE0V_AGtF ]
+    _$sSo11AGAttributea14AttributeGraphE8setFlags_4maskySo0aE0V_AGtF,
+    _$s14AttributeGraph0A0V8setFlags_4maskySo011AGAttributeD0V_AGtF,
+    _$s14AttributeGraph08ObservedA0PAAE12_destroySelfyySvFZ,
+    _$s14AttributeGraph08ObservedA0PAAE15_hasDestroySelfSbvgZ ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
