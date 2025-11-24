@@ -67,7 +67,7 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible, Swift
     public init(value: T)
     public init(type: T.Type)
 
-    public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AGAttributeTypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
+    public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AnyAttribute.TypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
     public init(identifier: AttributeGraph.AnyAttribute)
 
     public subscript<U>(keyPath keyPath: Swift.KeyPath<T, U>) -> AttributeGraph.Attribute<U> {
@@ -237,7 +237,37 @@ public struct OptionalAttribute<T> : Swift.Sendable {
     public init(base: AttributeGraph.AnyOptionalAttribute)
 }
 
-public protocol _AttributeBody {}
+public protocol _AttributeBody {
+    static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
+    static var _hasDestroySelf: Swift.Bool {
+        get
+    }
+    static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
+    static var comparisonMode: AttributeGraph.AGComparisonMode {
+        get
+    }
+    static var flags: AttributeGraph.AnyAttribute.TypeFlags {
+        get
+    }
+}
+
+extension AttributeGraph._AttributeBody {
+    public static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
+
+    public static var _hasDestroySelf: Swift.Bool {
+        get
+    }
+
+    public static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
+    
+    public static var comparisonMode: AttributeGraph.AGComparisonMode {
+        get
+    }
+
+    public static var flags: AttributeGraph.AnyAttribute.TypeFlags {
+        get
+    }
+}
 
 public protocol Rule : AttributeGraph._AttributeBody {
     associatedtype Value
@@ -354,7 +384,7 @@ extension AttributeGraph.TypeID: Swift.Hashable, Swift.CustomStringConvertible {
 
 @frozen
 public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule, Swift.Sendable {
-    public static var flags: AttributeGraph.AGAttributeTypeFlags {
+    public static var flags: AttributeGraph.AnyAttribute.TypeFlags {
         get
     }
 
@@ -417,6 +447,10 @@ extension AttributeGraph.AnyAttribute {
     public func unsafeCast<A>(to: A.Type) -> AttributeGraph.Attribute<A>
 
     public var _bodyType: any Any.Type {
+        get
+    }
+
+    public var valueType: any Any.Type {
         get
     }
 }

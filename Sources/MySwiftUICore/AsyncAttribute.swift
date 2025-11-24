@@ -1,5 +1,11 @@
 #warning("TODO")
+internal import AttributeGraph
 
-protocol AsyncAttribute {
-    // TODO
+protocol AsyncAttribute: _AttributeBody {
+}
+
+extension AsyncAttribute {
+    static var flags: AnyAttribute.TypeFlags {
+        return []
+    }
 }

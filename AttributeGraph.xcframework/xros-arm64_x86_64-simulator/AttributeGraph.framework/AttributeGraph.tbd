@@ -206,7 +206,18 @@ exports:
     _$sSo11AGAttributea14AttributeGraphE8setFlags_4maskySo0aE0V_AGtF,
     _$s14AttributeGraph0A0V8setFlags_4maskySo011AGAttributeD0V_AGtF,
     _$s14AttributeGraph08ObservedA0PAAE12_destroySelfyySvFZ,
-    _$s14AttributeGraph08ObservedA0PAAE15_hasDestroySelfSbvgZ ]
+    _$s14AttributeGraph08ObservedA0PAAE15_hasDestroySelfSbvgZ,
+    _$sSo11AGAttributea14AttributeGraphE9valueTypeypXpvg,
+    _$s14AttributeGraph01_A4BodyPAAE12_destroySelfyySvFZ,
+    _$s14AttributeGraph01_A4BodyPAAE15_hasDestroySelfSbvgZ,
+    _$s14AttributeGraph01_A4BodyPAAE14_updateDefaultyySvFZ,
+    _$s14AttributeGraph01_A4BodyPAAE14comparisonModeSo012AGComparisonE0VvgZ,
+    _$s14AttributeGraph01_A4BodyPAAE5flagsSo20AGAttributeTypeFlagsVvgZ,
+    _$s14AttributeGraph01_A4BodyP12_destroySelfyySvFZTq,
+    _$s14AttributeGraph01_A4BodyP15_hasDestroySelfSbvgZTq,
+    _$s14AttributeGraph01_A4BodyP14_updateDefaultyySvFZTq,
+    _$s14AttributeGraph01_A4BodyP14comparisonModeSo012AGComparisonE0VvgZTq,
+    _$s14AttributeGraph01_A4BodyP5flagsSo20AGAttributeTypeFlagsVvgZTq ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

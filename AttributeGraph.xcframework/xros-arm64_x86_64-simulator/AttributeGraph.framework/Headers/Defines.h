@@ -18,10 +18,6 @@ typedef struct AGTypeSignature {
     uint32_t words[5];
 } AGTypeSignature NS_SWIFT_NAME(Signature);
 
-typedef NS_OPTIONS(uint32_t, AGAttributeTypeFlags) {
-    AGAttributeTypeFlagsUnknown = 10
-};
-
 typedef NS_OPTIONS(uint32_t, AGValueOptions) {
     AGValueOptionsNone = 0
 };
@@ -174,6 +170,10 @@ typedef NS_OPTIONS(uint8_t, AGAttributeFlags) {
     AGAttributeFlagsUnknown2 = 4,
     AGAttributeFlagsAll = 0xFF
 } NS_SWIFT_NAME(AnyAttribute.Flags);
+
+typedef NS_OPTIONS(uint32_t, AGAttributeTypeFlags) {
+    AGAttributeTypeFlagsUnknown = 10
+} NS_SWIFT_NAME(AnyAttribute.TypeFlags);
 
 NS_ASSUME_NONNULL_END
 

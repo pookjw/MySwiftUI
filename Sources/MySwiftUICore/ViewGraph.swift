@@ -257,7 +257,7 @@ package final class ViewGraph: GraphHost {
             }
             
             // <+384>
-            guard self.data.globalSubgraph.isDirty else {
+            guard self.data.globalSubgraph.isDirty(1) else {
                 break
             }
         }

@@ -85,7 +85,7 @@ extension ViewGraphRootValueUpdater {
                     // <+1152>
                     Update.assertIsLocked()
                     
-                    guard data.globalSubgraph.isDirty else {
+                    guard data.globalSubgraph.isDirty(1) else {
                         return rootDisplayList
                     }
                     
