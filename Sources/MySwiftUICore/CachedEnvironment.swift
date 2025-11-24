@@ -161,6 +161,7 @@ extension CachedEnvironment {
             // sp + 0x140 (x29 - 0xb0)
             let copy = inputs
             let animatedFrame: Attribute<ViewFrame>
+            let animationsDisabled = copy.animationsDisabled
             if !copy.base.options.contains(.supportsVariableFrameDuration) {
                 // <+120>
                 let attribute = AnimatableFrameAttribute(
@@ -171,7 +172,7 @@ extension CachedEnvironment {
                     phase: copy.base.phase,
                     time: copy.base.time,
                     transaction: copy.base.transaction,
-                    animationsDisabled: true
+                    animationsDisabled: animationsDisabled
                 )
                 animatedFrame = Attribute(attribute)
             } else {
@@ -184,13 +185,13 @@ extension CachedEnvironment {
                     phase: copy.base.phase,
                     time: copy.base.time,
                     transaction: copy.base.transaction,
-                    animationsDisabled: true
+                    animationsDisabled: animationsDisabled
                 )
                 animatedFrame = Attribute(attribute)
             }
             
             // <+468>
-            animatedFrame.flags = .unknown1
+            animatedFrame.flags = .unknown0
             self.animatedFrame = animatedFrame
             self.position = copy.position
             self.size = copy.size

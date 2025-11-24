@@ -33,6 +33,22 @@ public struct _GraphInputs {
         }
     }
     
+    var animationsDisabled: Bool {
+        get {
+            return options.contains(.animationsDisabled)
+        }
+        set {
+            if newValue {
+                options.insert(.animationsDisabled)
+            } else {
+                options.remove(.animationsDisabled)
+            }
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
     package subscript<T: GraphInput>(_ type: T.Type) -> T.Value {
         get {
             return customInputs[type]

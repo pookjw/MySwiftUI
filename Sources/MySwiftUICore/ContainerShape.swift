@@ -4,10 +4,6 @@ internal import AttributeGraph
 internal import CoreGraphics
 
 struct ContainerShapeTransform: Rule, AsyncAttribute {
-    var value: ViewTransform {
-        fatalError("TODO")
-    }
-    
     @Attribute private var transform: ViewTransform
     @Attribute private var position: CGPoint
     @Attribute private var size: CGSize
@@ -18,6 +14,10 @@ struct ContainerShapeTransform: Rule, AsyncAttribute {
         self._position = position
         self._size = size
         self.id = id
+    }
+    
+    var value: ViewTransform {
+        fatalError("TODO")
     }
 }
 
