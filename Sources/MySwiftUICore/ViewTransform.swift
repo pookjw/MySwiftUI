@@ -65,8 +65,43 @@ struct RootDepthTransform: Rule {
     
     var value: ViewTransform {
         // w25 = AGAttributeNil
+        let childLayoutComputer = childLayoutComputer ?? .defaultValue
+        // <+124>
         
-//        fatalError("TODO")
-        return .init()
+        var insets = EdgeInsets.zero
+        if
+            let safeAreaInsets = self.safeAreaInsets,
+            !safeAreaInsets.elements.isEmpty
+        {
+            if safeAreaInsets.elements.count != 1 {
+                for element in safeAreaInsets.elements {
+                    if let cornerInsets = element.cornerInsets {
+                        insets.top += cornerInsets.topLeading.width + cornerInsets.bottomTrailing.width
+                        insets.leading += cornerInsets.topLeading.height + cornerInsets.bottomTrailing.height
+                        insets.trailing += cornerInsets.topTrailing.width + cornerInsets.bottomLeading.width
+                        insets.bottom += cornerInsets.topTrailing.height + cornerInsets.bottomLeading.height
+                        fatalError("cornerInsets 값을 제대로 읽어오는지 검증 필요")
+                    }
+                }
+            }
+            
+            for element in safeAreaInsets.elements {
+                insets.top += element.insets.top
+                insets.leading += element.insets.leading
+                insets.bottom += element.insets.bottom
+                insets.trailing += element.insets.trailing
+            }
+            
+            if let layoutDirection = layoutDirection {
+                insets.xFlipIfRightToLeft { return layoutDirection }
+            }
+        }
+        
+        // <+400>
+        let proposedSize = proposedSize
+        let size = proposedSize.value.inset(by: insets)
+        let transform = transform
+        
+        fatalError("TODO")
     }
 }

@@ -55,7 +55,6 @@ struct RootGeometry: Rule, AsyncAttribute {
         // <+128>
         // d8/d9/d4/d5
         var insets = EdgeInsets.zero
-        
         if
             let safeAreaInsets = safeAreaInsetsAttribute?.value,
             !safeAreaInsets.elements.isEmpty

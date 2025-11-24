@@ -26,6 +26,10 @@ struct LayoutComputer {
         return box.sizeThatFits(proposedSize)
     }
     
+    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        fatalError("TODO")
+    }
+    
     mutating func withMutableEngine<T: LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
         Update.assertIsLocked()
         return box.mutateEngine(type: type, do: block)
