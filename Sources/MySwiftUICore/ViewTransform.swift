@@ -43,28 +43,14 @@ package struct ViewTransform {
             // <+136>
             // sp
             let copy_3 = coordinateSpace
-            let depth: Int
-            if let spaces = copy_1.spaces {
-                depth = spaces.depth + 1
-            } else {
-                depth = 1
-            }
-            let spaces = CoordinateSpaceNode(next: copy_1.spaces, space: copy_3, depth: depth)
+            let spaces = CoordinateSpaceNode(next: copy_1.spaces, space: copy_3)
             self.spaces = spaces
             tag = CoordinateSpaceTag(base: spaces.depth)
         }
         
         // <+260>
-        let depth: Int
-        if let spaces = copy_1.spaces {
-            depth = spaces.depth + 1
-        } else {
-            depth = 1
-        }
-        
         let element = Element(
             next: copy_1.head,
-            depth: depth,
             translation: copy_1.pendingTranslation,
             element: CoordinateSpaceElement(space: tag)
         )
@@ -84,6 +70,19 @@ package struct ViewTransform {
     }
     
     func coordinateSpaceTag(_ coordinateSpace: CoordinateSpace) -> CoordinateSpaceTag? {
+        // coordinateSpace = x21
+        // return pointer = x19
+        // x20
+        let spaces = spaces
+        // sp
+        let copy_1 = coordinateSpace
+        
+        if case .global = copy_1 {
+            // <+56>
+            fatalError("TODO")
+        }
+        
+        // <+108>
         fatalError("TODO")
     }
 }
@@ -144,13 +143,12 @@ fileprivate final class Element<T>: AnyElement {
     
     init(
         next: AnyElement?,
-        depth: Int,
         translation: CGSize,
         element: T
     ) {
         self.translation = translation
         self.element = element
-        super.init(next: next, depth: depth)
+        super.init(next: next)
     }
 }
 
@@ -158,8 +156,15 @@ fileprivate class AnyElement {
     var next: AnyElement?
     let depth: Int
     
-    init(next: AnyElement?, depth: Int) {
+    init(next: AnyElement?) {
         self.next = next
+        
+        let depth: Int
+        if let next = next {
+            depth = next.depth + 1
+        } else {
+            depth = 1
+        }
         self.depth = depth
     }
 }
@@ -169,9 +174,16 @@ fileprivate final class CoordinateSpaceNode {
     private var space: CoordinateSpace
     let depth: Int
     
-    init(next: CoordinateSpaceNode?, space: CoordinateSpace, depth: Int) {
+    init(next: CoordinateSpaceNode?, space: CoordinateSpace) {
         self.next = next
         self.space = space
+        
+        let depth: Int
+        if let next = next {
+            depth = next.depth + 1
+        } else {
+            depth = 1
+        }
         self.depth = depth
     }
 }
