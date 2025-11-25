@@ -4,10 +4,16 @@ package let hostingViewCoordinateSpace = CoordinateSpace.ID()
 
 public enum CoordinateSpace {
     case named(AnyHashable)
+    
+    @_spi(Internal)
     case id(CoordinateSpace.ID)
+    
     case global
     case local
 }
+
+@available(*, unavailable)
+extension CoordinateSpace: Sendable {}
 
 extension CoordinateSpace {
     public struct ID: Sendable {

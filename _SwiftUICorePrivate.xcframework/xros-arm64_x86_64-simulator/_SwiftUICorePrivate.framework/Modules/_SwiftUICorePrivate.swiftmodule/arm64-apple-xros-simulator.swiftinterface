@@ -775,12 +775,6 @@ extension SwiftUI._ProposedSize {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewTransform {
-  public init()
-}
-
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI._ViewOutputs {
   @_silgen_name("$s7SwiftUI12_ViewOutputsVACycfC")
   public init()
@@ -942,4 +936,16 @@ public enum RenderingTechnique: Swift.UInt8, Swift.Hashable, Swift.Codable {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI.View {
   public func renderingTechnique(_: _SwiftUICorePrivate.RenderingTechnique) -> some SwiftUI.View
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewTransform {
+  public init()
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct CoordinateSpaceTag : Swift.Hashable {
+  public init(base: Swift.Int)
 }

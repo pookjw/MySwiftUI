@@ -77,7 +77,7 @@ package struct ViewTransform {
         // sp
         let copy_1 = coordinateSpace
         
-        if case .global = copy_1 {
+        if case .named(let name) = copy_1 {
             // <+56>
             fatalError("TODO")
         }
