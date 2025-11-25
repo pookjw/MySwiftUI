@@ -80,14 +80,37 @@ struct AnimatableFoo: Animatable {
 class ViewController: UIViewController {
     override func loadView() {
         let ptr = UnsafeMutablePointer<CoordinateSpace>.allocate(capacity: 1)
-        ptr.initialize(to: .named(""))
-//        ptr.pointee = .global
-        print(MemoryLayout<AnyHashable>.size)
-        print(MemoryLayout<CoordinateSpace>.size)
-        let raw = UnsafeRawPointer(ptr)
+        ptr.initialize(to: .local)
+        
+        print(UnsafeRawPointer(ptr)
+            .advanced(by: 0x0)
+            .assumingMemoryBound(to: UInt64.self)
+            .pointee)
+        
+        print(UnsafeRawPointer(ptr)
+            .advanced(by: 0x8)
+            .assumingMemoryBound(to: UInt64.self)
+            .pointee)
+        
+        print(UnsafeRawPointer(ptr)
+            .advanced(by: 0x10)
+            .assumingMemoryBound(to: UInt64.self)
+            .pointee)
+        
+        print(UnsafeRawPointer(ptr)
+            .advanced(by: 0x18)
+            .assumingMemoryBound(to: UInt64.self)
+            .pointee)
+        
+        print(UnsafeRawPointer(ptr)
+            .advanced(by: 0x20)
+            .assumingMemoryBound(to: UInt64.self)
+            .pointee)
+        
+        print(UnsafeRawPointer(ptr)
             .advanced(by: 0x28)
             .assumingMemoryBound(to: UInt8.self)
-        print(raw.pointee)
+            .pointee)
         
 //        dlopen("/System/Library/PrivateFrameworks/UIAccessibility.framework/UIAccessibility", RTLD_NOW)
 //        swizzle()

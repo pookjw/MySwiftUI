@@ -77,9 +77,15 @@ package struct ViewTransform {
         // sp
         let copy_1 = coordinateSpace
         
-        if case .named(let name) = copy_1 {
-            // <+56>
-            fatalError("TODO")
+        switch copy_1 {
+        case .global:
+            // <+244>
+            return .global
+        case .local:
+            // <+256>
+            return .local
+        default:
+            break
         }
         
         // <+108>
@@ -93,15 +99,15 @@ struct CoordinateSpaceTag: Hashable {
     }
     
     static var local: CoordinateSpaceTag {
-        return CoordinateSpaceTag(base: .max)
+        return CoordinateSpaceTag(base: -1)
     }
     
     static var root: CoordinateSpaceTag {
-        return CoordinateSpaceTag(base: .max - 1)
+        return CoordinateSpaceTag(base: -2)
     }
     
     static var invalid: CoordinateSpaceTag {
-        return CoordinateSpaceTag(base: .max - 2)
+        return CoordinateSpaceTag(base: -3)
     }
     
     private var base: Int
