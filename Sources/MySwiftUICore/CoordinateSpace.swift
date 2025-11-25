@@ -37,13 +37,12 @@ package let hostingViewCoordinateSpace = CoordinateSpace.ID()
      .pointee)
  */
 public enum CoordinateSpace {
+    case global
+    case local
     case named(AnyHashable)
     
     @_spi(Internal)
     case id(CoordinateSpace.ID)
-    
-    case global
-    case local
 }
 
 @available(*, unavailable)
