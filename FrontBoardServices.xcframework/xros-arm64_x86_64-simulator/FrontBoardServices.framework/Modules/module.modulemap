@@ -1,0 +1,5 @@
+framework module FrontBoardServices {
+    umbrella header "FrontBoardServices.h"
+    export *
+    module * { export * }
+}

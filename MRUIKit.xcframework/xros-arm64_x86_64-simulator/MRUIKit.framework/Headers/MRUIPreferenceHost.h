@@ -9,4 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary<Class, id> *)aggregatedPreferences;
 @end
 
+@interface UIView (MRUIPrivate) <MRUIPreferenceHost>
+@end
+
 NS_ASSUME_NONNULL_END

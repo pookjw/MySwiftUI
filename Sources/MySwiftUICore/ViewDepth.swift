@@ -1,7 +1,11 @@
 #warning("TODO")
-internal import CoreGraphics
+package import CoreGraphics
 
-struct ViewDepth {
+package struct ViewDepth {
+    package static func fixed(_ depth: CGFloat) -> ViewDepth {
+        fatalError("TODO")
+    }
+    
     private var value: CGFloat = 0
     private var _proposal: CGFloat = 0
     

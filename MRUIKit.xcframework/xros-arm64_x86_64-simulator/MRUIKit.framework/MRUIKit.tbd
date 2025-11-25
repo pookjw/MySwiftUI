@@ -14,6 +14,7 @@ exports:
     _$sSo6UIViewC7MRUIKitE11layerEntity10RealityKit0D0CSgvg,
     _$sSo6UIViewC7MRUIKitE11layerEntity10RealityKit0D0CSgvpMV ]
     objc-classes:         [ MRUIPreferenceKey,
-    MRUIPreferenceHost ]
+    MRUIPreferenceHost,
+    MRUISharedApplicationSceneSettings ]
     objc-ivars:           [  ]
 ...

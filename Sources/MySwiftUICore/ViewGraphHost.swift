@@ -42,6 +42,8 @@ package final class ViewGraphHost {
             return result
         } else if let result = _specialize(viewGraph as (any ViewGraphRenderHost), for: T.self) {
             return result
+        } else if let result = _specialize(self as (any RootTransformProvider), for: T.self) {
+            return result
         } else {
             return nil
         }
@@ -343,6 +345,25 @@ extension ViewGraphHost {
 }
 
 extension ViewGraphHost: ViewGraphOwner {}
+
+extension ViewGraphHost: RootTransformProvider {
+    func rootTransform() -> ViewTransform {
+        var transform = ViewTransform()
+        
+        guard let updateDelegate else {
+            return transform
+        }
+        
+        guard let adjuster = updateDelegate.as((any RootTransformAdjuster).self) else {
+            return transform
+        }
+        
+        adjuster.updateRootTransform(&transform)
+        transform.appendCoordinateSpace(id: .viewGraphHost)
+        
+        return transform
+    }
+}
 
 extension _GraphInputs {
     package var updateCycleUseSetNeedsLayout: Bool {

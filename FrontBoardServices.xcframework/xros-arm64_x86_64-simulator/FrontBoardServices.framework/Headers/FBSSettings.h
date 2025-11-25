@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MRUIPreferenceKey<ObjectType> : NSObject
+@interface FBSSettings : NSObject
 @end
 
 NS_ASSUME_NONNULL_END

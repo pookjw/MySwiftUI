@@ -734,7 +734,14 @@ extension ViewGraph {
 
 fileprivate struct RootTransform: Rule {
     var value: ViewTransform {
-        fatalError("TODO")
+        if
+            let delegate = ViewGraph.current.delegate,
+            let provider = delegate.as(RootTransformProvider.self)
+        {
+            return provider.rootTransform()
+        } else {
+            return ViewTransform()
+        }
     }
 }
 

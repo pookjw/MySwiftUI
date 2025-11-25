@@ -1,7 +1,7 @@
 #warning("TODO")
 private import AttributeGraph
 
-package struct UniqueID: Hashable {
+package struct UniqueID: Hashable, Sendable {
     private let value: Int
     
     @inlinable

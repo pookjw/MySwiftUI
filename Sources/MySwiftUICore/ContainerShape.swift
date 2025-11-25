@@ -90,7 +90,7 @@ extension _ViewInputs {
          isSystemShape = sp + 0x4
          */
         // x22
-        let id = CoordinateSpace.ID(value: UniqueID())
+        let id = CoordinateSpace.ID()
         // w25
         let transform = self.transform
         

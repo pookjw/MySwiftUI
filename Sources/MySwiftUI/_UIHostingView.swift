@@ -109,7 +109,14 @@ open class _UIHostingView<Content: View>: UIView {
     private let largeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
     private lazy var presentationModeLocation = LocationBox(location: UIKitPresentationModeLocation(host: self))
     private lazy var scenePresentationModeLocation = LocationBox(location: UIKitScenePresentationModeLocation(host: self))
-    private var sceneSize: CGSize = .zero
+    
+    // updateRootTransform에서 getter 직접 호출하고 있기에 final
+    private final var sceneSize: CGSize = .zero {
+        didSet {
+            immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace()
+        }
+    }
+    
     private var _boundsDepth: CGFloat = 0
     private var scrollTest: ScrollTest? = nil
     private weak var delegate: UIHostingViewDelegate? = nil
@@ -424,7 +431,7 @@ open class _UIHostingView<Content: View>: UIView {
             if allowFrameChanges {
                 boundsDepth = size.depth
             }
-            immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace()
+            sceneSize = CGSize(width: size.width, height: size.height)
         }
         
         if let renderingMarginsBridge {
@@ -1197,7 +1204,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
             return result
         } else if let result = _specialize(self as (any ContainerBackgroundHost), for: T.self) {
             return result
-        } else if let result = _specialize(self as (any RootTransformProvider), for: T.self) {
+        } else if let result = _specialize(self as (any RootTransformAdjuster), for: T.self) {
             return result
         } else if let result = _specialize(self as (any RootTransformUpdater), for: T.self) {
             return result
@@ -1488,8 +1495,58 @@ extension _UIHostingView: ContainerBackgroundHost {
     
 }
 
-extension _UIHostingView: RootTransformProvider {
-    
+extension _UIHostingView: RootTransformAdjuster {
+    package func updateRootTransform(_ transform: inout ViewTransform) {
+        if !base.registeredForGeometryChanges {
+            _registerForGeometryChanges()
+        }
+        
+        // <+332>
+        transform.appendWorldAndImmersiveSpaceCoordinates(for: window)
+        transform.appendCoordinateSpace(id: CoordinateSpace.globalID)
+        
+        let sceneSize = sceneSize
+        let size = Size3D(width: sceneSize.width, height: sceneSize.height, depth: boundsDepth)
+        transform.appendSizedSpace3D(name: AnyHashable(SceneSize3DCoordinateSpace()), size3D: size)
+        
+        transform.appendSizedSpace(name: WindowCoordinateSpace(), size: self.sceneSize)
+        transform.depth = .fixed(self.boundsDepth)
+        
+        // x20
+        let layer = self.layer
+        // x28
+        let windowLayer = self.window?.layer
+        
+        // <+676>
+        layer.mapGeometry3D(to: windowLayer, &transform)
+        
+        var buffer = ViewTransform.UnsafeBuffer()
+        let isEnabled = _SemanticFeature<Semantics_v6>.isEnabled
+        let bounds = self.bounds
+        
+        if isEnabled {
+            // <+792>
+            if let window = self.window {
+                // <+844>
+                let frameInWindow = self.convert(bounds, to: window)
+                let geometry = ScrollGeometry.rootViewTransform(contentOffset: bounds.origin, containerSize: frameInWindow.size)
+                buffer.appendScrollGeometry(geometry, isClipped: true)
+            }
+            
+            // <+936>
+            let clipsToBounds = self.clipsToBounds
+            let geometry = ScrollGeometry.rootViewTransform(contentOffset: bounds.origin, containerSize: bounds.size)
+            buffer.appendScrollGeometry(geometry, isClipped: clipsToBounds)
+        } else {
+            // <+1020>
+            _ = self.clipsToBounds
+        }
+        
+        // <+1036>
+        buffer.appendCoordinateSpace(id: hostingViewCoordinateSpace, transform: &transform)
+        buffer.appendCoordinateSpace(id: .viewGraphHostContainerCoordinateSpace, transform: &transform)
+        transform.append(movingContentsOf: &buffer)
+    }
 }
 
 extension _UIHostingView: RootTransformUpdater {

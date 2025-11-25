@@ -54,7 +54,7 @@ struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
         // sp + 0x1a0
         let copy_1 = inputs
         // x25
-        let id = CoordinateSpace.ID(value: UniqueID())
+        let id = CoordinateSpace.ID()
         // x23
         let cachedEnvironment = copy_1.base.cachedEnvironment
         // w22

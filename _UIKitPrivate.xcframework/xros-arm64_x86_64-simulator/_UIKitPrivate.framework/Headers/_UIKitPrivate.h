@@ -21,3 +21,5 @@
 #import <_UIKitPrivate/UISheetPresentationController+Private.h>
 #import <_UIKitPrivate/UITabBarController+Private.h>
 #import <_UIKitPrivate/_UICornerInsets.h>
+#import <_UIKitPrivate/UIScene+Private.h>
+#import <_UIKitPrivate/UIApplicationSceneSettings.h>

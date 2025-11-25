@@ -17,6 +17,7 @@
 		4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */; };
 		4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A46872E728FF500BD29EF /* FeatureFlags.xcframework */; };
 		4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A468B2E72900000BD29EF /* StopwatchSupport.xcframework */; };
+		4F8923472ED5B5FF00FFF23C /* FrontBoardServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8923462ED5B5FF00FFF23C /* FrontBoardServices.xcframework */; };
 		4F8F091E2E51DA7A00EFC573 /* AttributeGraph.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */; };
 		4F8F09252E51DA7A00EFC573 /* _UIKitPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09212E51DA7A00EFC573 /* _UIKitPrivate.xcframework */; };
 		4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09232E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework */; };
@@ -40,6 +41,7 @@
 		4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AttributeGraph.xcframework; path = ../AttributeGraph.xcframework; sourceTree = "<group>"; };
 		4F7A46872E728FF500BD29EF /* FeatureFlags.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FeatureFlags.xcframework; path = ../FeatureFlags.xcframework; sourceTree = "<group>"; };
 		4F7A468B2E72900000BD29EF /* StopwatchSupport.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = StopwatchSupport.xcframework; path = ../StopwatchSupport.xcframework; sourceTree = "<group>"; };
+		4F8923462ED5B5FF00FFF23C /* FrontBoardServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FrontBoardServices.xcframework; path = ../FrontBoardServices.xcframework; sourceTree = "<group>"; };
 		4F8F09212E51DA7A00EFC573 /* _UIKitPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _UIKitPrivate.xcframework; path = ../_UIKitPrivate.xcframework; sourceTree = "<group>"; };
 		4F8F09222E51DA7A00EFC573 /* _SwiftPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftPrivate.xcframework; path = ../_SwiftPrivate.xcframework; sourceTree = "<group>"; };
 		4F8F09232E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftUIPrivate.xcframework; path = ../_SwiftUIPrivate.xcframework; sourceTree = "<group>"; };
@@ -75,14 +77,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F8F092B2E51DA7A00EFC573 /* MRUIKit.xcframework in Frameworks */,
 				4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */,
 				4F39783B2EC09D1A005E1901 /* UIAccessibility.xcframework in Frameworks */,
 				4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */,
 				4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */,
 				4F147CCE2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework in Frameworks */,
-				4F2688792EB771FE000AFBDD /* RenderBox.xcframework in Frameworks */,
+				4F8923472ED5B5FF00FFF23C /* FrontBoardServices.xcframework in Frameworks */,
+				4F8F092B2E51DA7A00EFC573 /* MRUIKit.xcframework in Frameworks */,
 				4F8F09252E51DA7A00EFC573 /* _UIKitPrivate.xcframework in Frameworks */,
+				4F2688792EB771FE000AFBDD /* RenderBox.xcframework in Frameworks */,
 				4FACEFA82E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework in Frameworks */,
 				4FACF25F2E63E3FC000CB163 /* _SwiftPrivate.xcframework in Frameworks */,
 				4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */,
@@ -120,6 +123,7 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F8923462ED5B5FF00FFF23C /* FrontBoardServices.xcframework */,
 				4F39783A2EC09D1A005E1901 /* UIAccessibility.xcframework */,
 				4F2688782EB771FE000AFBDD /* RenderBox.xcframework */,
 				4FD4A1F52E910B4300C9B545 /* TCC.xcframework */,

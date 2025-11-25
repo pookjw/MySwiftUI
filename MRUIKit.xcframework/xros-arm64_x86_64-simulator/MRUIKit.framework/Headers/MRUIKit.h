@@ -6,3 +6,4 @@
 #import <MRUIKit/UIWindowScene+MRUIPrivate.h>
 #import <MRUIKit/MRUIWorldTrackingCapabilities.h>
 #import <MRUIKit/UITraitCollection+MRUIPrivate.h>
+#import <MRUIKit/MRUISharedApplicationSceneSettings.h>

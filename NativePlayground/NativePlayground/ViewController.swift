@@ -547,8 +547,8 @@ class ViewController: UIViewController {
         print("===")
         
         
-        print(_typeName(_UIHostingView<Color>.self, qualified: true))
-        _forEachField(of: _UIHostingView<Color>.self, options: [.classType]) { name, offset, type, kind in
+        print(_typeName(_UIHostingView<AnyView>.self, qualified: true))
+        _forEachField(of: _UIHostingView<AnyView>.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
@@ -777,7 +777,7 @@ class ViewController: UIViewController {
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
 //        let rootView = MyView()
-        let hostingView = MyHostingView(rootView: rootView)
+        let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         

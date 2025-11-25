@@ -31,7 +31,7 @@ package final class UIHostingViewBase: NSObject {
     package private(set) var isRotatingWindow: Bool = false
     private var isResizingWindow: Bool = false
     private var _sceneActivationState: UIScene.ActivationState? = nil
-    private var registeredForGeometryChanges: Bool = false
+    package private(set) var registeredForGeometryChanges: Bool = false
     private weak var observedWindow: UIWindow? = nil
     private weak var observedScene: UIWindowScene? = nil
     private var keyboardFrame: CGRect? = nil

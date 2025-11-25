@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
 #import <BaseBoard/BSAnimationSettings.h>
-#import <MRUIKit/MRUIPreferenceHost.h>
 #import <_UIKitPrivate/UIKeyboardSceneDelegate.h>
 #import <_UIKitPrivate/_UICornerInsets.h>
 
@@ -10,7 +9,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
 
 typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift_wrapper(struct))); // TODO
 
-@interface UIView (Private) <MRUIPreferenceHost>
+@interface UIView (Private)
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
 @property (nonatomic, readonly, nullable) UIKeyboardSceneDelegate *keyboardSceneDelegate;
 @property (nonatomic, setter=_setSafeAreaCornerInsets:) _UICornerInsets _safeAreaCornerInsets;
@@ -31,6 +30,7 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 - (void)_unregisterForGeometryChanges;
 - (BOOL)_shouldAnimatePropertyWithKey:(NSString *)key;
 - (BOOL)_shouldNotifyGeometryObservers;
+- (void)_registerForGeometryChanges;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

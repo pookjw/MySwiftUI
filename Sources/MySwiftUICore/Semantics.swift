@@ -257,3 +257,28 @@ package func MySwiftUI_V7() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e90000)
 }
 
+package protocol SemanticFeature: Feature {
+}
+
+extension SemanticFeature {
+    var requirement: SemanticRequirement {
+        fatalError("TODO")
+    }
+    
+    var prior: Semantics {
+        fatalError("TODO")
+    }
+    
+    package static var isEnabled: Bool {
+        fatalError("TODO")
+    }
+}
+
+package struct _SemanticFeature<T: SemanticProtocol>: SemanticFeature {
+    @inlinable package init() {}
+}
+
+enum SemanticRequirement {
+    case linkedOnOrAfter
+    case deployedOnOrAfter
+}

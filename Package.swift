@@ -37,7 +37,8 @@ let package = Package(
                 .byName(name: "DesignLibrary"),
                 .byName(name: "_DesignLibraryShims"),
                 .byName(name: "TCC"),
-                .byName(name: "UIAccessibility")
+                .byName(name: "UIAccessibility"),
+                .byName(name: "FrontBoardServices")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -176,6 +177,10 @@ let package = Package(
         .binaryTarget(
             name: "UIAccessibility",
             path: "UIAccessibility.xcframework"
+        ),
+        .binaryTarget(
+            name: "FrontBoardServices",
+            path: "FrontBoardServices.xcframework"
         ),
         .target(
             name: "_KernPrivate",
