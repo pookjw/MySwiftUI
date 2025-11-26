@@ -89,7 +89,28 @@ package struct ViewTransform {
         }
         
         // <+108>
-        fatalError("TODO")
+        guard let spaces else {
+            return nil
+        }
+        
+        // <+120>
+        // x23
+        var next = spaces.next
+        let block: (CoordinateSpaceNode) -> Bool = { node in
+            return node.space == coordinateSpace
+        }
+        
+        if block(spaces) {
+            return CoordinateSpaceTag(base: spaces.depth)
+        }
+        
+        while let _next = next {
+            if block(_next) {
+                return CoordinateSpaceTag(base: _next.depth)
+            }
+        }
+        
+        return nil
     }
 }
 
@@ -176,8 +197,8 @@ fileprivate class AnyElement {
 }
 
 fileprivate final class CoordinateSpaceNode {
-    private var next: CoordinateSpaceNode?
-    private var space: CoordinateSpace
+    fileprivate private(set) var next: CoordinateSpaceNode?
+    fileprivate private(set) var space: CoordinateSpace
     let depth: Int
     
     init(next: CoordinateSpaceNode?, space: CoordinateSpace) {

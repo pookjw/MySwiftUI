@@ -43,10 +43,28 @@ public enum CoordinateSpace {
     
     @_spi(Internal)
     case id(CoordinateSpace.ID)
+    
+    public var isGlobal: Bool {
+        fatalError("TODO")
+    }
+    
+    public var isLocal: Bool {
+        fatalError("TODO")
+    }
 }
 
 @available(*, unavailable)
 extension CoordinateSpace: Sendable {}
+
+extension CoordinateSpace: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        fatalError("TODO")
+    }
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        fatalError("TODO")
+    }
+}
 
 extension CoordinateSpace {
     public struct ID: Sendable {
@@ -58,12 +76,14 @@ extension CoordinateSpace {
     }
     
     static var root: CoordinateSpace {
-        fatalError("TODO")
+        if isLinkedOnOrAfter(.v7) {
+            fatalError("TODO")
+        } else {
+            fatalError("TODO")
+        }
     }
     
-    package static var globalID: CoordinateSpace.ID {
-        fatalError("TODO")
-    }
+    package static let globalID =CoordinateSpace.ID()
 }
 
 extension CoordinateSpace.ID {
