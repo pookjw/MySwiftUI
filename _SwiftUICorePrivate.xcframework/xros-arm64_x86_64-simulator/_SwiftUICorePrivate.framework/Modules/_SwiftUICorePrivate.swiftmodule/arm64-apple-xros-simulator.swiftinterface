@@ -949,3 +949,9 @@ public struct ViewTransform {
 public struct CoordinateSpaceTag : Swift.Hashable {
   public init(base: Swift.Int)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.CoordinateSpace {
+  public static var root: SwiftUI.CoordinateSpace { get }
+}

@@ -60,14 +60,11 @@ extension CoordinateSpace: Hashable {
     public func hash(into hasher: inout Hasher) {
         fatalError("TODO")
     }
-    
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        fatalError("TODO")
-    }
 }
 
 extension CoordinateSpace {
-    public struct ID: Sendable {
+    @_spi(Internal)
+    public struct ID: Equatable, Sendable {
         var value: UniqueID
         
         init() {
@@ -77,13 +74,13 @@ extension CoordinateSpace {
     
     static var root: CoordinateSpace {
         if isLinkedOnOrAfter(.v7) {
-            fatalError("TODO")
+            return .id(.worldReference)
         } else {
-            fatalError("TODO")
+            return .global
         }
     }
     
-    package static let globalID =CoordinateSpace.ID()
+    package static let globalID = CoordinateSpace.ID()
 }
 
 extension CoordinateSpace.ID {

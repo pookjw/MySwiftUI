@@ -82,6 +82,8 @@ class ViewController: UIViewController {
         let ptr = UnsafeMutablePointer<CoordinateSpace>.allocate(capacity: 1)
         ptr.initialize(to: .local)
         
+        print(CoordinateSpace.root)
+        
         print(UnsafeRawPointer(ptr)
             .advanced(by: 0x0)
             .assumingMemoryBound(to: UInt64.self)
