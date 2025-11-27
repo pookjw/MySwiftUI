@@ -5,6 +5,7 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 CG_EXTERN id _Nullable CALayerGetDelegate(CALayer *layer);
 CG_EXTERN CALayer * _Nullable CALayerGetSuperlayer(CALayer *layer);
+CG_EXTERN void CALayerMapGeometry(CALayer * _Nullable, CALayer *, void (*)(void * _Nullable, CATransform3D), void (*)(void * _Nullable, CATransform3D), void * _Nullable);
 
 @interface CALayer (Private)
 @property BOOL allowsGroupBlending;
@@ -14,6 +15,7 @@ CG_EXTERN CALayer * _Nullable CALayerGetSuperlayer(CALayer *layer);
 @property CGFloat contentsEDRStrength;
 @property CGFloat contentsCDRStrength;
 @property BOOL hitTestsAsOpaque;
+@property unsigned int separatedState;
 - (void)addPresentationModifier:(CAPresentationModifier *)arg1 NS_SWIFT_NAME(addPresentationModifier(_:));
 - (void)removePresentationModifier:(CAPresentationModifier *)arg1 NS_SWIFT_NAME(removePresentationModifier(_:));
 - (BOOL)hasBeenCommitted;

@@ -10,6 +10,8 @@ import MySwiftUI
 
 final class ColorWhiteViewController: UIViewController {
     override func loadView() {
-        view = _UIHostingView(rootView: Color.white)
+        let hostingView = _UIHostingView(rootView: AnyView(Color.white))
+        hostingView.rootView = AnyView(Color.black)
+        hostingView.rootView = AnyView(EmptyView())
     }
 }

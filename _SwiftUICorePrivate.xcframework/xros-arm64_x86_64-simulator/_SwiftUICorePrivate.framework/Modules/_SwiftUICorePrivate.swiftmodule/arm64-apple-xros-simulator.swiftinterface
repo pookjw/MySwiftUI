@@ -10,6 +10,7 @@ import SwiftUI
 @_exported import QuartzCore
 @_exported import ObjectiveC
 @_exported import CoreGraphics
+@_exported import Spatial
 import AttributeGraph
 
 @available(visionOS 26.0, *)
@@ -954,4 +955,16 @@ public struct CoordinateSpaceTag : Swift.Hashable {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI.CoordinateSpace {
   public static var root: SwiftUI.CoordinateSpace { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension Spatial.AffineTransform3D {
+    public init(_ transform3D: QuartzCore.CATransform3D)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension QuartzCore.CGAffineTransform {
+    public init(_ transform3D: Spatial.AffineTransform3D)
 }

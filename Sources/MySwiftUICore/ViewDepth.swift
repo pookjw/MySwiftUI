@@ -1,13 +1,18 @@
 #warning("TODO")
 package import CoreGraphics
 
-package struct ViewDepth {
+package struct ViewDepth: Equatable, Animatable {
     package static func fixed(_ depth: CGFloat) -> ViewDepth {
-        fatalError("TODO")
+        return ViewDepth(depth, proposal: depth)
     }
     
-    private var value: CGFloat = 0
-    private var _proposal: CGFloat = 0
+    private var value: CGFloat
+    private var _proposal: CGFloat
+    
+    init(_ value: CGFloat, proposal: CGFloat) {
+        self.value = value
+        self._proposal = proposal
+    }
     
     var propsal: CGFloat? {
         get {
@@ -26,6 +31,18 @@ package struct ViewDepth {
         }
         _modify {
             fatalError("TODO")
+        }
+    }
+    
+    package var animatableData: CGFloat {
+        get {
+            return value
+        }
+        set {
+            value = newValue
+        }
+        _modify {
+            yield &value
         }
     }
 }

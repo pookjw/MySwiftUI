@@ -1,6 +1,6 @@
 private import _DarwinFoundation2._string
 
-@unsafe struct UnsafeHeterogeneousBuffer: @unsafe Collection {
+@safe struct UnsafeHeterogeneousBuffer: @unsafe Collection {
     private var buf: UnsafeMutableRawPointer?
     private var available: Int32
     private var _count: Int32

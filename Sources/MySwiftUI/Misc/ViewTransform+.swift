@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 private import FrontBoardServices
 private import _UIKitPrivate

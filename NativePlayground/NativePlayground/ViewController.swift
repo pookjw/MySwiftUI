@@ -15,6 +15,7 @@ import ObjectiveC.message
 import DesignLibrary
 import _SwiftUICorePrivate
 import AttributeGraph
+import Spatial
 
 struct MyDynamicView: DynamicView {
     static func makeID() -> _SwiftUICorePrivate.UniqueID {
@@ -79,6 +80,10 @@ struct AnimatableFoo: Animatable {
 
 class ViewController: UIViewController {
     override func loadView() {
+        let transform3D = AffineTransform3D(CATransform3D(m11: 11, m12: 12, m13: 13, m14: 14, m21: 21, m22: 22, m23: 23, m24: 24, m31: 31, m32: 32, m33: 33, m34: 34, m41: 41, m42: 42, m43: 43, m44: 44))
+        print(transform3D)
+        print(CGAffineTransform(transform3D))
+        
         let ptr = UnsafeMutablePointer<CoordinateSpace>.allocate(capacity: 1)
         ptr.initialize(to: .local)
         

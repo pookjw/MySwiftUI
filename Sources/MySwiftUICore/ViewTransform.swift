@@ -17,7 +17,7 @@ package struct ViewTransform {
         self.spaces = nil
         self.positionAdjustment = .zero
         self.pendingTranslation = .zero
-        self.depth = ViewDepth()
+        self.depth = ViewDepth(0, proposal: 0)
     }
     
     package mutating func appendAffineTransform3D(_: AffineTransform3D, inverse: Bool) {
@@ -28,45 +28,49 @@ package struct ViewTransform {
         // self = x19
         // sp + 0x50
         let coordinateSpace = CoordinateSpace.id(id)
-        // sp + 0x80
-        let copy_1 = self
-        // sp
-        let copy_2 = self
-        // sp + 0xc0
-        let _ = copy_2
-        
-        // sp + 0x40 / x20
-        let tag: CoordinateSpaceTag
-        if let _tag = copy_2.coordinateSpaceTag(coordinateSpace) {
-            tag = _tag
-        } else {
-            // <+136>
-            // sp
-            let copy_3 = coordinateSpace
-            let spaces = CoordinateSpaceNode(next: copy_1.spaces, space: copy_3)
-            self.spaces = spaces
-            tag = CoordinateSpaceTag(base: spaces.depth)
-        }
+        let tag = updateNode(coordinateSpace: coordinateSpace)
         
         // <+260>
-        let element = Element(
-            next: copy_1.head,
-            translation: copy_1.pendingTranslation,
-            element: CoordinateSpaceElement(space: tag)
-        )
-        self.head = element
-    }
-    
-    package mutating func appendSizedSpace3D(name: AnyHashable, size3D: Size3D) {
-        fatalError("TODO")
+        self.updateHead(element: CoordinateSpaceElement(space: tag))
     }
     
     package mutating func appendSizedSpace(name: AnyHashable, size: CGSize) {
-        fatalError("TODO")
+        updateHead(
+            element: SizedSpaceElement(
+                space: updateNode(coordinateSpace: .named(name)),
+                size: size
+            )
+        )
     }
     
     package mutating func append(movingContentsOf: inout ViewTransform.UnsafeBuffer) {
         fatalError("TODO")
+    }
+    
+    // 원래 없음
+    @inline(__always)
+    mutating func updateNode(coordinateSpace: CoordinateSpace) -> CoordinateSpaceTag {
+        let tag: CoordinateSpaceTag
+        if let _tag = coordinateSpaceTag(coordinateSpace) {
+            tag = _tag
+        } else {
+            let spaces = CoordinateSpaceNode(next: spaces, space: coordinateSpace)
+            self.spaces = spaces
+            tag = CoordinateSpaceTag(base: spaces.depth)
+        }
+        
+        return tag
+    }
+    
+    // 원래 없음
+    @inline(__always)
+    mutating func updateHead<T: ViewTransformElement>(element: T) {
+        let element = Element(
+            next: head,
+            translation: pendingTranslation,
+            element: element
+        )
+        self.head = element
     }
     
     func coordinateSpaceTag(_ coordinateSpace: CoordinateSpace) -> CoordinateSpaceTag? {
@@ -107,6 +111,8 @@ package struct ViewTransform {
         while let _next = next {
             if block(_next) {
                 return CoordinateSpaceTag(base: _next.depth)
+            } else {
+                next = _next.next
             }
         }
         
@@ -138,18 +144,27 @@ struct CoordinateSpaceTag: Hashable {
     }
 }
 
-protocol ViewTransformElement {}
+protocol ViewTransformElement: Equatable {}
 
 fileprivate struct TranslationElement: ViewTransformElement {
-    // TODO
+    var offset: CGSize
+}
+
+fileprivate struct Translation3DElement: ViewTransformElement {
+    var offset: Size3D
 }
 
 fileprivate struct AffineTransformElement: ViewTransformElement {
     // TODO
 }
 
-fileprivate struct SizedSpaceElement: ViewTransformElement {
+fileprivate struct AffineTransform3DElement: ViewTransformElement {
     // TODO
+}
+
+fileprivate struct SizedSpaceElement: ViewTransformElement {
+    var space: CoordinateSpaceTag
+    var size: CGSize
 }
 
 fileprivate struct CoordinateSpaceElement: ViewTransformElement {
@@ -298,5 +313,23 @@ extension ViewTransform {
         package func appendCoordinateSpace(id: CoordinateSpace.ID, transform: inout ViewTransform) {
             fatalError("TODO")
         }
+        
+        package func appendAffineTransform(_ transform: CGAffineTransform, inverse: Bool) {
+            /*
+             transform = q2, q3, d8, d9
+             inverse = w19
+             */
+            fatalError("TODO")
+        }
+    }
+}
+
+extension ViewTransform.UnsafeBuffer {
+    fileprivate class VTable: _UnsafeHeterogeneousBuffer_VTable {
+        // TODO
+    }
+    
+    fileprivate final class _VTable<Element: ViewTransformElement>: VTable {
+        // TODO
     }
 }
