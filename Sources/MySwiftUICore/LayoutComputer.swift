@@ -1,3 +1,5 @@
+// 91FCB5522C30220AE13689E45789FEF2
+
 #warning("TODO")
 internal import AttributeGraph
 internal import CoreGraphics
@@ -29,7 +31,24 @@ struct LayoutComputer {
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         Update.assertIsLocked()
-        fatalError("TODO")
+        
+        if EnableLayoutDepthStashing.isEnabled {
+            var proposedSize = proposedSize
+            // x19
+            let old = _threadLayoutDepthData()
+            _setThreadLayoutDepthData(&proposedSize.depth)
+            
+            // proposedSize -> sp + 0x28
+            
+            let depth = box.depthThatFits(proposedSize)
+            _setThreadLayoutDepthData(old)
+            return depth
+        } else {
+            // <+232>
+            // sp + 0x28
+            let copy = proposedSize
+            return box.depthThatFits(proposedSize)
+        }
     }
     
     mutating func withMutableEngine<T: LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
@@ -97,7 +116,7 @@ extension LayoutEngine {
 //    }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        fatalError("TODO")
+        return 0
     }
     
     func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
@@ -176,17 +195,29 @@ extension LayoutComputer {
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
             return proposedSize.fixingUnspecifiedDimensions()
         }
+        
+        func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+            fatalError("TODO")
+        }
     }
     
     struct DefaultEngine3D: LayoutEngine {
+        func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+            fatalError("TODO")
+        }
+        
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+            fatalError("TODO")
+        }
+        
+        func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
             fatalError("TODO")
         }
     }
 }
 
 fileprivate class AnyLayoutEngineBox {
-    func mutateEngine<T: LayoutEngine, U>(as type: T.Type, do: (inout T) -> U) -> U {
+    func mutateEngine<T: LayoutEngine, U>(as type: T.Type, do body: (inout T) -> U) -> U {
         fatalError() // abstract
     }
     
@@ -199,15 +230,31 @@ fileprivate class AnyLayoutEngineBox {
     }
 }
 
-fileprivate class LayoutEngineBox<T: LayoutEngine>: AnyLayoutEngineBox {
-    var engine: T
+fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
+    var engine: Engine
     
-    init(engine: T) {
+    init(engine: Engine) {
         self.engine = engine
+    }
+    
+    override func mutateEngine<T, U>(as type: T.Type, do body: (inout T) -> U) -> U where T : LayoutEngine {
+        guard type == Engine.self else {
+            fatalError("Mismatched engine type")
+        }
+        
+        return withUnsafePointer(to: &engine) { pointer in
+            let pointer = UnsafeMutableRawPointer(mutating: pointer)
+                .assumingMemoryBound(to: T.self)
+            return body(&pointer.pointee)
+        }
     }
     
     override func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
         return engine.sizeThatFits(proposedSize)
+    }
+    
+    override func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        return engine.depthThatFits(proposedSize)
     }
 }
 
@@ -238,7 +285,7 @@ struct DepthStashingLayoutComputer: StatefulRule, AsyncAttribute {
         self.update(
             modify: { engine in
                 // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE6update2toyqd___tAD0G6EngineRd__lFyqd__zXEfU_AD013DepthStashinggH0V_AM0L0VTG5TA
-                fatalError("TODO")
+                engine = DepthStashingLayoutComputer.Engine(base: layoutComputer, depthProposal: depthProposal)
             },
             create: {
                 // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE6update2toyqd___tAD0G6EngineRd__lFqd__yXEfU0_AD013DepthStashinggH0V_AM0L0VTG5TA
@@ -258,6 +305,25 @@ extension DepthStashingLayoutComputer {
         fileprivate init(base: LayoutComputer, depthProposal: CGFloat?) {
             self.base = base
             self.depthProposal = depthProposal
+        }
+        
+        func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+            var proposedSize = proposedSize
+            
+            if EnableLayoutDepthStashing.isEnabled {
+                // <+80>
+                let old = _threadLayoutDepthData()
+                _setThreadLayoutDepthData(&proposedSize.height)
+                Update.assertIsLocked()
+                let size = base.sizeThatFits(proposedSize)
+                _setThreadLayoutDepthData(old)
+                return size
+            } else {
+                // <+240>
+                Update.assertIsLocked()
+                let size = base.sizeThatFits(proposedSize)
+                return size
+            }
         }
     }
 }

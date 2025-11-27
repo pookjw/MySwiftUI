@@ -536,6 +536,13 @@ class ViewController: UIViewController {
             return true
         }      
         print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI13_ProposedSizeV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI13_ProposedSizeV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
 
         
         
