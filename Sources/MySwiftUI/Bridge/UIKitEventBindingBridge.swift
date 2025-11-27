@@ -6,7 +6,7 @@ private import _UIKitPrivate
 final class UIKitEventBindingBridge: EventBindingBridge {
     private(set) var gestureRecognizer: UIKitGestureRecognizer? = nil
     private(set) var hoverGestureRecognizer: UIKitHoverGestureRecognizer
-    private var keyPressResponder: UIKitKeyPressResponder? = nil
+    private(set) var keyPressResponder: UIKitKeyPressResponder? = nil
     
     @MainActor
     override init(eventBindingManager: EventBindingManager) {

@@ -432,7 +432,9 @@ package final class UIHostingViewBase: NSObject {
         // UICoreHostingViewForUIKitTester에 값을 할당하지만 ivar 정보가 없기도 하고, Internal Build가 아니라서 아무것도 안하기에 구현 안함
         
         // <+172>
-        fatalError("TODO")
+        // w21
+        let values = safeArea.union(containerSize)
+        updateDelegate.invalidateProperties(values, mayDeferUpdate: false)
     }
     
     // ___lldb_unnamed_symbol322028

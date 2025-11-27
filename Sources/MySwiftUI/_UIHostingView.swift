@@ -130,6 +130,10 @@ open class _UIHostingView<Content: View>: UIView {
         }
     }
     
+    final var defaultNextResponder: UIResponder? {
+        fatalError("TODO")
+    }
+    
     private var _boundsDepth: CGFloat = 0
     private var scrollTest: ScrollTest? = nil
     private weak var delegate: UIHostingViewDelegate? = nil
@@ -564,7 +568,6 @@ open class _UIHostingView<Content: View>: UIView {
     
     open override var clipsToBounds: Bool {
         get {
-            assert(mySwiftUI_disableUnimplementedAssertion)
             return super.clipsToBounds
         }
         set {
@@ -574,8 +577,10 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func didAddSubview(_ subview: UIView) {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        // subview = x19
         super.didAddSubview(subview)
+        
+        fatalError("TODO")
     }
 
     open override func didUpdateFocus(
@@ -597,8 +602,11 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override var next: UIResponder? {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super.next
+        if let keyPressResponder = eventBridge.keyPressResponder {
+            return keyPressResponder
+        } else {
+            return defaultNextResponder
+        }
     }
 
     open override var safeAreaInsets: UIEdgeInsets {

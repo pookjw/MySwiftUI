@@ -57,6 +57,22 @@ struct LayoutComputer {
     }
 }
 
+struct _Placement {
+    private var proposedSize_: _ProposedSize
+    private var anchor: UnitPoint
+    private var anchorPosition: CGPoint
+}
+
+struct _PositionAwarePlacementContext {
+    private var context: AnyRuleContext
+    private var owner: AnyAttribute
+    @Attribute private var size: ViewSize
+    @Attribute private var environment: EnvironmentValues
+    @Attribute private var transform: ViewTransform
+    @Attribute private var position: CGPoint
+    @OptionalAttribute private var safeAreaInsets: SafeAreaInsets?
+}
+
 protocol LayoutEngine {
     func layoutPriority() -> Double
     func ignoresAutomaticPadding() -> Bool
@@ -66,8 +82,8 @@ protocol LayoutEngine {
     func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry]
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat?
-//    func childPlacement(at viewSize: ViewSize) -> _Placement
-//    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement
+    func childPlacement(at viewSize: ViewSize) -> _Placement
+    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat
     func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat?
     func requiresTrueDepthLayout() -> Bool
@@ -107,13 +123,13 @@ extension LayoutEngine {
         fatalError("TODO")
     }
     
-//    func childPlacement(at viewSize: ViewSize) -> _Placement {
-//        fatalError("TODO")
-//    }
-//    
-//    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
-//        fatalError("TODO")
-//    }
+    func childPlacement(at viewSize: ViewSize) -> _Placement {
+        fatalError("TODO")
+    }
+    
+    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        fatalError("TODO")
+    }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         return 0
@@ -169,13 +185,13 @@ extension DerivedLayoutEngine {
         fatalError("TODO")
     }
     
-//    func childPlacement(at viewSize: ViewSize) -> _Placement {
-//        fatalError("TODO")
-//    }
-//    
-//    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
-//        fatalError("TODO")
-//    }
+    func childPlacement(at viewSize: ViewSize) -> _Placement {
+        fatalError("TODO")
+    }
+    
+    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        fatalError("TODO")
+    }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         fatalError("TODO")
