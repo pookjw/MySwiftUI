@@ -11,6 +11,7 @@ private import TCC
 private import ARKit
 private import AttributeGraph
 public import UIIntelligenceSupport
+public import UIAccessibility
 
 // TODO: 지워야함
 fileprivate nonisolated(unsafe) let mySwiftUI_disableUnimplementedAssertion: Bool = {
@@ -56,6 +57,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var allowFrameChanges: Bool = true
     private var isInSizeTransition: Bool = false
     private var transparentBackgroundReasons: HostingViewTransparentBackgroundReason = []
+    private var explicitSafeAreaInsets: EdgeInsets?
     private var legacyKeyboardFrame: CGRect? = nil
     private var legacyKeyboardSeed: UInt32 = 0
     private var legacyKeyboardScreen: MyUIScreen? = nil
@@ -220,6 +222,10 @@ open class _UIHostingView<Content: View>: UIView {
         }
         
         return (navigationController.topViewController == self.viewController)
+    }
+    
+    final var safeAreaRegions: SafeAreaRegions {
+        return base.safeAreaRegions
     }
     
     public required init(rootView: Content) {
@@ -418,7 +424,6 @@ open class _UIHostingView<Content: View>: UIView {
     
     open override var transform: CGAffineTransform {
         get {
-            assert(mySwiftUI_disableUnimplementedAssertion)
             return super.transform
         }
         set {
@@ -508,9 +513,21 @@ open class _UIHostingView<Content: View>: UIView {
         super._safeAreaCornerInsetsDidChange()
     }
     
-    open override func _shouldAnimateProperty(withKey key: String) -> Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super._shouldAnimateProperty(withKey: key)
+    open override func _shouldAnimateProperty(withKey key: String?) -> Bool {
+        /*
+         self = x21
+         key = x24/x23
+         */
+        if
+            let key, key == #keyPath(UIView.bounds),
+            let delegate = viewGraph.currentSceneResizeDelegate,
+            delegate.shouldIgnoreBoundsAnimations
+        {
+            Log.resize?.debug("Not using a UIView animation for a bounds change because that could interrupt a SwiftUI resize animation.")
+            return false
+        } else {
+            return super._shouldAnimateProperty(withKey: key)
+        }
     }
     
     open override class func accessibilityElementCount() -> Int {
@@ -584,19 +601,25 @@ open class _UIHostingView<Content: View>: UIView {
         return super.next
     }
 
-    open override var parentFocusEnvironment: (any UIFocusEnvironment)? {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super.parentFocusEnvironment
-    }
-
     open override var safeAreaInsets: UIEdgeInsets {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super.safeAreaInsets
+        guard let explicitSafeAreaInsets else {
+            return super.safeAreaInsets
+        }
+        
+        fatalError("TODO")
     }
 
     open override func safeAreaInsetsDidChange() {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        super.safeAreaInsetsDidChange()
+        let safeAreaRegions = safeAreaRegions
+        guard !safeAreaRegions.isEmpty || !isLinkedOnOrAfter(.v7) else {
+            return
+        }
+        
+        if let viewController {
+            viewController._viewSafeAreaDidChange()
+        }
+        
+        base.safeAreaInsetsDidChange()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -614,23 +637,26 @@ open class _UIHostingView<Content: View>: UIView {
         super.willRemoveSubview(subview)
     }
 
-    @objc func _accessibilityAutomationHitTestReverseOrder() -> Bool {
+    open override func _accessibilityAutomationHitTestReverseOrder() -> Bool {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._accessibilityAutomationHitTestReverseOrder()
+    }
+
+    open override func _accessibilityIsSwiftUIHostingView() -> Bool {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._accessibilityIsSwiftUIHostingView()
+    }
+
+    open override func accessibilityShouldEnumerateContainerElementsArrayDirectly() -> Bool {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.accessibilityShouldEnumerateContainerElementsArrayDirectly()
+    }
+
+    @objc open override var _accessibilitySwiftUIDebugData: [[String : Any]] {
         fatalError("TODO")
     }
 
-    @objc func _accessibilityIsSwiftUIHostingView() -> Bool {
-        fatalError("TODO")
-    }
-
-    @objc func accessibilityShouldEnumerateContainerElementsArrayDirectly() -> Bool {
-        fatalError("TODO")
-    }
-
-    @objc var _accessibilitySwiftUIDebugData: [[String : Any]] {
-        fatalError("TODO")
-    }
-
-    @objc func _accessibilityIsSwiftUIHostingCellView() -> Bool {
+    @objc open override func _accessibilityIsSwiftUIHostingCellView() -> Bool {
         fatalError("TODO")
     }
     

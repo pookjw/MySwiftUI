@@ -2,7 +2,7 @@
 internal import CoreGraphics
 internal import Spatial
 
-struct _ProposedSize3D {
+struct _ProposedSize3D: Hashable {
     var width: CGFloat?
     var height: CGFloat?
     var depth: CGFloat?

@@ -15,7 +15,7 @@ package final class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
     package internal(set) weak var delegate: ViewGraphDelegate? = nil
-    private var features = unsafe ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
+    private(set) var features = unsafe ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
     private(set) var centersRootView = true
     private let rootView: AnyAttribute
     @Attribute private(set) var rootTransform: ViewTransform
@@ -791,7 +791,7 @@ extension ViewGraphFeature {
 }
 
 struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
-    private var store: [T.Size: ViewGraphGeometryObservers<T>.Observer] = [:]
+    private var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
     
     func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
         fatalError("TODO")
@@ -839,8 +839,8 @@ extension ViewGraphGeometryObservers.Observer {
 }
 
 protocol ViewGraphGeometryMeasurer {
-    associatedtype Proposal
-    associatedtype Size: Hashable
+    associatedtype Proposal: Hashable
+    associatedtype Size: Equatable
     
     static func measure(given: Proposal, in graph: ViewGraph) -> Size
     static func measure(proposal: Proposal, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size
@@ -870,7 +870,7 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
             
             // (d9, d8)
             let sizeThatFits = ViewGraph.sizeThatFits(
-                _ProposedSize(size),
+                size,
                 layoutComputer: rootLayoutComputer?.wrappedValue,
                 insets: graph.rootViewInsets
             )
@@ -915,7 +915,7 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
         for size in store.keys {
             // d10, d9
             let measuredSize = VolumeThatFitsMeasurer.measure(
-                given: _ProposedSize3D(size),
+                given: size,
                 in: graph
             )
             
@@ -932,7 +932,7 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
                 return true
             }
             
-            if size != measuredSize {
+            if measuredSize != currentSize {
                 store[size]!.storage = .pending(currentSize, measuredSize)
                 return true
             }

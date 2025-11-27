@@ -36,7 +36,7 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 - (UIColor *)_undimmedTintColor;
 - (void)_invalidateSubviewCache;
 - (void)_unregisterForGeometryChanges;
-- (BOOL)_shouldAnimatePropertyWithKey:(NSString *)key;
+- (BOOL)_shouldAnimatePropertyWithKey:(NSString * _Nullable)key;
 - (BOOL)_shouldNotifyGeometryObservers;
 - (void)_registerForGeometryChanges;
 - (_UIBaselineOffsetPair)_baselineOffsetsAtSize:(CGSize)size;

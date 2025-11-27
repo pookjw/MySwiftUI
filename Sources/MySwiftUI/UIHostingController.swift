@@ -30,6 +30,10 @@ open class UIHostingController<Content: View>: UIViewController {
     final var navigationBridge: NavigationBridge_PhoneTV? {
         fatalError("TODO")
     }
+    
+    final func _viewSafeAreaDidChange() {
+        fatalError("TODO")
+    }
 }
 
 extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {

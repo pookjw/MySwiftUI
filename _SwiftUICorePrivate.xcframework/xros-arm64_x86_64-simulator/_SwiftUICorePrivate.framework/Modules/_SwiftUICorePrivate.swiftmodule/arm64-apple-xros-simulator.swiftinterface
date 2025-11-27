@@ -193,13 +193,6 @@ public struct ViewGraphGeometryObservers<T: _SwiftUICorePrivate.ViewGraphGeometr
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol ViewGraphGeometryMeasurer {
-  associatedtype Proposal
-  associatedtype Size
-}
-
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct CachedEnvironment {
 
 }
@@ -966,5 +959,22 @@ extension Spatial.AffineTransform3D {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension QuartzCore.CGAffineTransform {
-    public init(_ transform3D: Spatial.AffineTransform3D)
+  public init(_ transform3D: Spatial.AffineTransform3D)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ViewGraphGeometryMeasurer {
+  associatedtype Proposal: Swift.Hashable
+  associatedtype Size: Swift.Equatable
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ContentSizedSceneFeature<GeometryMeasurer: _SwiftUICorePrivate.ViewGraphGeometryMeasurer>: _SwiftUICorePrivate.ViewGraphFeature {
+
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ViewGraphFeature {}

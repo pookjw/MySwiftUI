@@ -1,6 +1,6 @@
 internal import CoreGraphics
 
-struct _ProposedSize {
+struct _ProposedSize: Hashable {
     var width: CGFloat?
     var height: CGFloat?
     

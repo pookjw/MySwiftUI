@@ -23,6 +23,7 @@
 		4F7A46AA2E72ECD700BD29EF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A46A92E72ECD700BD29EF /* QuartzCore.framework */; };
 		4FACEF952E895EB300467C05 /* RealitySimulationServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FACEF942E895EB300467C05 /* RealitySimulationServices.xcframework */; };
 		4FE8D0F72E560F0F00352E55 /* _SwiftUIPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8D0F62E560F0F00352E55 /* _SwiftUIPrivate.xcframework */; };
+		4FFB34082ED851AC003287E0 /* UIIntelligenceSupport.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFB34072ED851AC003287E0 /* UIIntelligenceSupport.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		4FE8D0C72E55D05300352E55 /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = System/Library/Frameworks/RealityKit.framework; sourceTree = SDKROOT; };
 		4FE8D0F62E560F0F00352E55 /* _SwiftUIPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftUIPrivate.xcframework; path = ../_SwiftUIPrivate.xcframework; sourceTree = "<group>"; };
 		4FE8D0FA2E560F5600352E55 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		4FFB34072ED851AC003287E0 /* UIIntelligenceSupport.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UIIntelligenceSupport.xcframework; path = ../UIIntelligenceSupport.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -75,6 +77,7 @@
 				4F12FB2F2E8163FE00E88FF1 /* CoreRE.xcframework in Frameworks */,
 				4F7A46AA2E72ECD700BD29EF /* QuartzCore.framework in Frameworks */,
 				4F129C0E2E6CA3BC00AE98B6 /* UIKit.framework in Frameworks */,
+				4FFB34082ED851AC003287E0 /* UIIntelligenceSupport.xcframework in Frameworks */,
 				4F659C7E2E6D92B3000BA8A3 /* SwiftUI.framework in Frameworks */,
 				4F129C0C2E6C9DC100AE98B6 /* _UIKitPrivate.xcframework in Frameworks */,
 				4F48088C2E4CE8E3004F6972 /* _SwiftPrivate.xcframework in Frameworks */,
@@ -114,6 +117,7 @@
 		4F48088A2E4CE8E3004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FFB34072ED851AC003287E0 /* UIIntelligenceSupport.xcframework */,
 				4F21C1432ED5BE180078D156 /* FrontBoardServices.xcframework */,
 				4F04861D2E92604600B91DAB /* AttributeGraph.xcframework */,
 				4F147CD12E8F958D00FAE51D /* _SwiftUICorePrivate.xcframework */,

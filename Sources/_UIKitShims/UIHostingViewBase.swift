@@ -11,7 +11,7 @@ private import _DesignLibraryShims
 package final class UIHostingViewBase: NSObject {    
     package weak var uiView: UIView? = nil
     package weak var delegate: UIHostingViewBaseDelegate? = nil
-    private var safeAreaRegions: MySwiftUICore.SafeAreaRegions = .all
+    package private(set) var safeAreaRegions: MySwiftUICore.SafeAreaRegions = .all
     private let configuration: UIHostingViewBase.Configuration
     package let viewGraph: MySwiftUICore.ViewGraphHost
     private var inheritedEnvironment: MySwiftUICore.EnvironmentValues? = nil
@@ -407,6 +407,32 @@ package final class UIHostingViewBase: NSObject {
         if needsInvalidation {
             uiView.invalidateIntrinsicContentSize()
         }
+    }
+    
+    package func safeAreaInsetsDidChange() {
+        // self = x21
+        // x20
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return
+        }
+        
+        guard !safeAreaRegions.isEmpty || isLinkedOnOrAfter(.v7) else {
+            return
+        }
+        
+        // <+104>
+        _ = UICoreHostingViewForUIKitTester()
+        // w24
+        let safeArea = ViewGraphRootValues.safeArea
+        // *(tester + 0x20) = safeArea
+        // w22
+        let containerSize = ViewGraphRootValues.containerSize
+        // *(tester + 0x22) = containerSize
+        
+        // UICoreHostingViewForUIKitTester에 값을 할당하지만 ivar 정보가 없기도 하고, Internal Build가 아니라서 아무것도 안하기에 구현 안함
+        
+        // <+172>
+        fatalError("TODO")
     }
     
     // ___lldb_unnamed_symbol322028

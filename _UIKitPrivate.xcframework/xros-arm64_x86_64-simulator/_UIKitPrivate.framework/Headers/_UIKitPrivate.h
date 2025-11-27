@@ -27,3 +27,4 @@
 #import <_UIKitPrivate/_UIBaselineOffsetPair.h>
 #import <_UIKitPrivate/_UIHitTestContext.h>
 #import <_UIKitPrivate/UILayoutAxes.h>
+#import <_UIKitPrivate/UICoreHostingViewForUIKitTester.h>

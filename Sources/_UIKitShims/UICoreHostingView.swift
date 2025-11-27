@@ -52,17 +52,3 @@ class UICoreHostingView<Content: View>: UIView {
         }
     }
 }
-
-@objc(MyUICoreHostingViewForUIKitTester)
-class UICoreHostingViewForUIKitTester: NSObject {
-    @objc class func make() -> UIView {
-        // UICoreHostingView<RootView>
-        fatalError("TODO")
-    }
-}
-
-extension UICoreHostingViewForUIKitTester {
-//    struct RootView: View {
-//        
-//    }
-}

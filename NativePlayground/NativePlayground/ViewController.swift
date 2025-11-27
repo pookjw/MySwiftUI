@@ -78,6 +78,11 @@ struct AnimatableFoo: Animatable {
     var animatableData: Double
 }
 
+struct GeometryMeasurer: ViewGraphGeometryMeasurer {
+    typealias Proposal = CGPoint
+    typealias Size = CGSize
+}
+
 class ViewController: UIViewController {
     override func loadView() {
         let transform3D = AffineTransform3D(CATransform3D(m11: 11, m12: 12, m13: 13, m14: 14, m21: 21, m22: 22, m23: 23, m24: 24, m31: 31, m32: 32, m33: 33, m34: 34, m41: 41, m42: 42, m43: 43, m44: 44))
@@ -241,6 +246,22 @@ class ViewController: UIViewController {
         
         print(_RendererConfiguration.RasterizationOptions.self)
         _forEachField(of: _RendererConfiguration.RasterizationOptions.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        print(ContentSizedSceneFeature<GeometryMeasurer>.self)
+        _forEachField(of: ContentSizedSceneFeature<GeometryMeasurer>.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        print(ViewGraphGeometryObservers<GeometryMeasurer>.self)
+        _forEachField(of: ViewGraphGeometryObservers<GeometryMeasurer>.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
@@ -543,6 +564,13 @@ class ViewController: UIViewController {
             return true
         }      
         print("===")
+        
+//        print(_typeName(_typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, qualified: true))
+//        _forEachField(of: _typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, options: []) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+//            return true
+//        }      
+//        print("===")
 
         
         
