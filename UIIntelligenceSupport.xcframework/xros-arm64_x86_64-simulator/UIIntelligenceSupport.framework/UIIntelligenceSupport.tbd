@@ -1,0 +1,13 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+install-name:    '/System/Library/PrivateFrameworks/UIIntelligenceSupport.framework/UIIntelligenceSupport'
+swift-abi-version: 7
+exports:
+  - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+    symbols:         [ _$s21UIIntelligenceSupport0A16ElementCollectorCMa,
+    _$s21UIIntelligenceSupport0A16ElementCollectorCMn
+    ]
+    objc-classes:         [  ]
+    objc-ivars:           [  ]
+...

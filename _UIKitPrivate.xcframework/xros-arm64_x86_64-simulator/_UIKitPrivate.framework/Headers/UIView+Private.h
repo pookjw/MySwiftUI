@@ -2,6 +2,10 @@
 #import <BaseBoard/BSAnimationSettings.h>
 #import <_UIKitPrivate/UIKeyboardSceneDelegate.h>
 #import <_UIKitPrivate/_UICornerInsets.h>
+#import <_UIKitPrivate/_UIGestureRecognizerContainer.h>
+#import <_UIKitPrivate/_UIBaselineOffsetPair.h>
+#import <_UIKitPrivate/_UIHitTestContext.h>
+#import <_UIKitPrivate/UILayoutAxes.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -10,6 +14,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
 typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift_wrapper(struct))); // TODO
 
 @interface UIView (Private)
++ (BOOL)_supportsInvalidatingFocusCache;
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
 @property (nonatomic, readonly, nullable) UIKeyboardSceneDelegate *keyboardSceneDelegate;
 @property (nonatomic, setter=_setSafeAreaCornerInsets:) _UICornerInsets _safeAreaCornerInsets;
@@ -19,6 +24,9 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 @property (nonatomic, setter=_setUsesPerspectiveCorrectRendering:) BOOL _usesPerspectiveCorrectRendering;
 @property (nonatomic, setter=_setPreferredGroundingShadowVisibility:) _UIPlatterGroundingShadowVisibility _preferredGroundingShadowVisibility;
 @property (nonatomic, setter=_setExternalHitTestingId:) NSUInteger _externalHitTestingId;
+@property (nonatomic, readonly) UILayoutAxes _axesForDerivingIntrinsicContentSizeFromLayoutSize;
+@property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers;
+@property (nonatomic, readonly) Class _intelligenceBaseClass;
 + (void)_animateWithAnimationSettings:(BSAnimationSettings * _Nullable)animationSettings animations:(void (^)(void))animations completion:(void (^)(UIViewAnimatingPosition position))completion;
 + (BOOL)_isInAnimationBlockWithAnimationsEnabled;
 + (CGFloat)_currentAnimationDuration;
@@ -31,6 +39,11 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 - (BOOL)_shouldAnimatePropertyWithKey:(NSString *)key;
 - (BOOL)_shouldNotifyGeometryObservers;
 - (void)_registerForGeometryChanges;
+- (_UIBaselineOffsetPair)_baselineOffsetsAtSize:(CGSize)size;
+- (void)_didChangeToFirstResponder:(UIResponder * _Nullable)responder;
+- (void)_geometryChanged:(void *)context forAncestor:(UIView *)ancestor;
+- (UIResponder<_UIGestureRecognizerContainer> * _Nullable)_hitTestWithContext:(_UIHitTestContext *)context;
+- (void)_safeAreaCornerInsetsDidChange;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

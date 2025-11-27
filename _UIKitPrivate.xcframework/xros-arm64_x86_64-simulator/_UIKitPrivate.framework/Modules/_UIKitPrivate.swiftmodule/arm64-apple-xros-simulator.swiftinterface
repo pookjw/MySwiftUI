@@ -7,6 +7,8 @@ import Foundation
 @_exported import _UIKitPrivate
 import SwiftUI
 import _SwiftUICorePrivate
+import UIIntelligenceSupport
+import CoreGraphics
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "UIKit", visionOS 26.0)
@@ -48,4 +50,11 @@ extension _UIKitPrivate._UICornerInsets: Swift.Equatable, Swift.Codable {
 
     @_silgen_name("$sSo15_UICornerInsetsV5UIKitE6encode2toys7Encoder_p_tKF")
     public func encode(to: Swift.Encoder) throws
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "UIKit", visionOS 26.0)
+extension UIKit.UIView {
+    @objc(_intelligenceCollectContentIn:collector:) open func _intelligenceCollectContent(in: CoreGraphics.CGRect, collector: UIIntelligenceSupport.UIIntelligenceElementCollector)
+    @objc(_intelligenceCollectRemoteContentIn:remoteContextWrapper:) open func _intelligenceCollectRemoteContent(in: CoreGraphics.CGRect, remoteContextWrapper: UIIntelligenceSupport.UIIntelligenceCollectionRemoteContextWrapper)
 }

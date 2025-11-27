@@ -23,3 +23,7 @@
 #import <_UIKitPrivate/_UICornerInsets.h>
 #import <_UIKitPrivate/UIScene+Private.h>
 #import <_UIKitPrivate/UIApplicationSceneSettings.h>
+#import <_UIKitPrivate/_UIGestureRecognizerContainer.h>
+#import <_UIKitPrivate/_UIBaselineOffsetPair.h>
+#import <_UIKitPrivate/_UIHitTestContext.h>
+#import <_UIKitPrivate/UILayoutAxes.h>

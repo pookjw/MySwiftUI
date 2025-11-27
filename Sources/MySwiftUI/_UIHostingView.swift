@@ -3,13 +3,20 @@
 public import UIKit
 @_spi(Internal) public import MySwiftUICore
 private import _UIKitShims
-private import _UIKitPrivate
+public import _UIKitPrivate
 private import notify
 private import MRUIKit
 private import RealityKit
 private import TCC
 private import ARKit
 private import AttributeGraph
+public import UIIntelligenceSupport
+
+// TODO: 지워야함
+fileprivate nonisolated(unsafe) let mySwiftUI_disableUnimplementedAssertion: Bool = {
+    return UserDefaults.standard.bool(forKey: "com.pookjw.MySwiftUI.disableUnimplementedAssertion")
+}()
+
 
 @safe fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
 
@@ -24,6 +31,10 @@ open class _UIHostingView<Content: View>: UIView {
     
     class var defaultViewGraphOutputs: ViewGraph.Outputs {
         return ViewGraph.Outputs.defaults
+    }
+    
+    open override class func _supportsInvalidatingFocusCache() -> Bool {
+        return true
     }
     
     public var rootView: Content {
@@ -392,6 +403,235 @@ open class _UIHostingView<Content: View>: UIView {
             super.bounds = newValue
             base.frameDidChange(oldValue: oldValue)
         }
+    }
+    
+    open override var transform3D: CATransform3D {
+        get {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            return super.transform3D
+        }
+        set {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            super.transform3D = newValue
+        }
+    }
+    
+    open override var transform: CGAffineTransform {
+        get {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            return super.transform
+        }
+        set {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            super.transform = newValue
+        }
+    }
+    
+    open override var backgroundColor: UIColor? {
+        get {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            return super.backgroundColor
+        }
+        set {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            super.backgroundColor = newValue
+        }
+    }
+    
+    open override var _axesForDerivingIntrinsicContentSizeFromLayoutSize: UILayoutAxes {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._axesForDerivingIntrinsicContentSizeFromLayoutSize
+    }
+    
+    open override var _layoutHeightDependsOnWidth: Bool {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._layoutHeightDependsOnWidth
+    }
+    
+    open override var intrinsicContentSize: CGSize {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.intrinsicContentSize
+    }
+    
+    open override var preferredFocusEnvironments: [any UIFocusEnvironment] {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.preferredFocusEnvironments
+    }
+    
+    open override var _childGestureRecognizerContainers: [any _UIGestureRecognizerContainer] {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._childGestureRecognizerContainers
+    }
+    
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+    }
+    
+    open override func _baselineOffsets(at size: CGSize) -> _UIBaselineOffsetPair {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._baselineOffsets(at: size)
+    }
+    
+    open override func _didChange(toFirstResponder responder: UIResponder?) {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super._didChange(toFirstResponder: responder)
+    }
+    
+    open override func _geometryChanged(_ context: UnsafeMutableRawPointer, forAncestor ancestor: UIView) {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super._geometryChanged(context, forAncestor: ancestor)
+    }
+    
+    open override func _hitTest(with context: _UIHitTestContext) -> (any UIResponder & _UIGestureRecognizerContainer)? {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._hitTest(with: context)
+    }
+    
+    open override var _intelligenceBaseClass: AnyClass {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._intelligenceBaseClass
+    }
+    
+    open override func _intelligenceCollectContent(in rect: CGRect, collector: UIIntelligenceElementCollector) {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super._intelligenceCollectContent(in: rect, collector: collector)
+    }
+    
+    open override func _intelligenceCollectRemoteContent(in rect: CGRect, remoteContextWrapper: UIIntelligenceCollectionRemoteContextWrapper) {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super._intelligenceCollectRemoteContent(in: rect, remoteContextWrapper: remoteContextWrapper)
+    }
+    
+    open override func _safeAreaCornerInsetsDidChange() {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super._safeAreaCornerInsetsDidChange()
+    }
+    
+    open override func _shouldAnimateProperty(withKey key: String) -> Bool {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._shouldAnimateProperty(withKey: key)
+    }
+    
+    open override class func accessibilityElementCount() -> Int {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.accessibilityElementCount()
+    }
+    
+    open override var accessibilityElements: [Any]? {
+        get {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            return super.automationElements
+        }
+        set {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            super.automationElements = newValue
+        }
+    }
+    
+    open override var automationElements: [Any]? {
+        get {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            return super.automationElements
+        }
+        set {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            super.automationElements = newValue
+        }
+    }
+    
+    open override var canBecomeFirstResponder: Bool {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.canBecomeFirstResponder
+    }
+    
+    open override var clipsToBounds: Bool {
+        get {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            return super.clipsToBounds
+        }
+        set {
+            assert(mySwiftUI_disableUnimplementedAssertion)
+            super.clipsToBounds = newValue
+        }
+    }
+
+    open override func didAddSubview(_ subview: UIView) {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super.didAddSubview(subview)
+    }
+
+    open override func didUpdateFocus(
+        in context: UIFocusUpdateContext,
+        with coordinator: UIFocusAnimationCoordinator
+    ) {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super.didUpdateFocus(in: context, with: coordinator)
+    }
+
+    open override func focusItems(in rect: CGRect) -> [any UIFocusItem] {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.focusItems(in: rect)
+    }
+
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.hitTest(point, with: event)
+    }
+
+    open override var next: UIResponder? {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.next
+    }
+
+    open override var parentFocusEnvironment: (any UIFocusEnvironment)? {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.parentFocusEnvironment
+    }
+
+    open override var safeAreaInsets: UIEdgeInsets {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.safeAreaInsets
+    }
+
+    open override func safeAreaInsetsDidChange() {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super.safeAreaInsetsDidChange()
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super.sizeThatFits(size)
+    }
+
+    open override func tintColorDidChange() {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super.tintColorDidChange()
+    }
+
+    open override func willRemoveSubview(_ subview: UIView) {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        super.willRemoveSubview(subview)
+    }
+
+    @objc func _accessibilityAutomationHitTestReverseOrder() -> Bool {
+        fatalError("TODO")
+    }
+
+    @objc func _accessibilityIsSwiftUIHostingView() -> Bool {
+        fatalError("TODO")
+    }
+
+    @objc func accessibilityShouldEnumerateContainerElementsArrayDirectly() -> Bool {
+        fatalError("TODO")
+    }
+
+    @objc var _accessibilitySwiftUIDebugData: [[String : Any]] {
+        fatalError("TODO")
+    }
+
+    @objc func _accessibilityIsSwiftUIHostingCellView() -> Bool {
+        fatalError("TODO")
     }
     
     open override dynamic func didMoveToWindow() {

@@ -1,0 +1,5 @@
+framework module UIIntelligenceSupport {
+    umbrella header "UIIntelligenceSupport.h"
+    export *
+    module * { export * }
+}
