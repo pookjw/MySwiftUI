@@ -306,7 +306,7 @@ extension ViewTransform {
             contents.destroy()
         }
         
-        package func appendScrollGeometry(_: ScrollGeometry, isClipped: Bool) {
+        package func appendScrollGeometry(_ geometry: ScrollGeometry, isClipped: Bool) {
             fatalError("TODO")
         }
         
@@ -326,10 +326,31 @@ extension ViewTransform {
 
 extension ViewTransform.UnsafeBuffer {
     fileprivate class VTable: _UnsafeHeterogeneousBuffer_VTable {
-        // TODO
     }
     
     fileprivate final class _VTable<Element: ViewTransformElement>: VTable {
-        // TODO
+        override class var type: any Any.Type {
+            return Element.self
+        }
+        
+        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+            fatalError("TODO")
+        }
+        
+        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+            fatalError("TODO")
+        }
+        
+        class func forEach(elt: _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
+            fatalError("TODO")
+        }
+        
+        class func description(elt: _UnsafeHeterogeneousBuffer_VTable) -> String {
+            fatalError("TODO")
+        }
+        
+        class func equal(_ lhs: _UnsafeHeterogeneousBuffer_VTable, _ rhs: _UnsafeHeterogeneousBuffer_VTable) -> Bool {
+            fatalError("TODO")
+        }
     }
 }
