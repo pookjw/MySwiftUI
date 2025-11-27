@@ -1,6 +1,7 @@
 #warning("TODO")
 internal import AttributeGraph
 internal import CoreGraphics
+private import _MySwiftUIShims
 
 struct LayoutComputer {
     @inline(never)
@@ -27,12 +28,13 @@ struct LayoutComputer {
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        Update.assertIsLocked()
         fatalError("TODO")
     }
     
     mutating func withMutableEngine<T: LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
         Update.assertIsLocked()
-        return box.mutateEngine(type: type, do: block)
+        return box.mutateEngine(as: type, do: block)
     }
 }
 
@@ -184,11 +186,15 @@ extension LayoutComputer {
 }
 
 fileprivate class AnyLayoutEngineBox {
+    func mutateEngine<T: LayoutEngine, U>(as type: T.Type, do: (inout T) -> U) -> U {
+        fatalError() // abstract
+    }
+    
     func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
         fatalError() // abstract
     }
     
-    func mutateEngine<T: LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
+    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         fatalError() // abstract
     }
 }

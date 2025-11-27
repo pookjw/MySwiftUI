@@ -529,6 +529,13 @@ class ViewController: UIViewController {
             return true
         }      
         print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI15_ProposedSize3DV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI15_ProposedSize3DV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
 
         
         

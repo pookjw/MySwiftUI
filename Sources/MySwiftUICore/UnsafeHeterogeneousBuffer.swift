@@ -56,6 +56,7 @@ private import _DarwinFoundation2._string
     }
     
     @discardableResult
+    @inline(__always)
     mutating func append<T>(_ value: T, vtable: _UnsafeHeterogeneousBuffer_VTable.Type) -> UnsafeHeterogeneousBuffer.Index {
         // x0 = value = x22
         // x1 = vtable = x24

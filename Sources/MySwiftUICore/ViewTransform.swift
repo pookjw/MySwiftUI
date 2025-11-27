@@ -43,8 +43,17 @@ package struct ViewTransform {
         )
     }
     
-    package mutating func append(movingContentsOf: inout ViewTransform.UnsafeBuffer) {
-        fatalError("TODO")
+    package mutating func append(movingContentsOf buffer: inout ViewTransform.UnsafeBuffer) {
+        /*
+         buffer = x19
+         */
+        // x22
+        let head = head
+        let element = BufferedElement(next: head, translation: pendingTranslation, elements: buffer)
+        
+        self.head = element
+        pendingTranslation = .zero
+        buffer = ViewTransform.UnsafeBuffer()
     }
     
     // 원래 없음
@@ -155,7 +164,13 @@ fileprivate struct Translation3DElement: ViewTransformElement {
 }
 
 fileprivate struct AffineTransformElement: ViewTransformElement {
-    // TODO
+    private var matrix: CGAffineTransform
+    private var inverse: Bool
+    
+    init(matrix: CGAffineTransform, inverse: Bool) {
+        self.matrix = matrix
+        self.inverse = inverse
+    }
 }
 
 fileprivate struct AffineTransform3DElement: ViewTransformElement {
@@ -191,6 +206,33 @@ fileprivate final class Element<T>: AnyElement {
         self.translation = translation
         self.element = element
         super.init(next: next)
+    }
+}
+
+fileprivate final class BufferedElement: AnyElement {
+    private let translation: CGSize
+    private var elements: ViewTransform.UnsafeBuffer
+    
+    init(next: AnyElement?, translation: CGSize, elements: ViewTransform.UnsafeBuffer) {
+        self.translation = translation
+        self.elements = elements
+        super.init(next: next)
+    }
+    
+    deinit {
+        elements.destroy()
+    }
+    
+    func forEach(inverted: Bool, stop: inout Bool, _: (ViewTransform.Item, inout Bool) -> Void) {
+        fatalError("TODO")
+    }
+    
+    func isEqual(to other: AnyElement) -> Bool {
+        fatalError("TODO")
+    }
+    
+    var description: String? {
+        fatalError("TODO")
     }
 }
 
@@ -286,11 +328,19 @@ struct RootDepthTransform: Rule {
         }
         
         // <+400>
-        let proposedSize = proposedSize
+        // d9/d8
         let size = proposedSize.value.inset(by: insets)
         let transform = transform
+        // d10
+        let depth = transform.depth.value
+        // d8
+        let depthThatFits = childLayoutComputer.depthThatFits(_ProposedSize3D(width: size.width, height: size.height, depth: depth))
         
-        fatalError("TODO")
+        // sp + 0x60
+        var transform_2 = transform
+        transform_2.depth = ViewDepth(depthThatFits, proposal: depth)
+        
+        return transform_2
     }
 }
 
@@ -310,16 +360,42 @@ extension ViewTransform {
             fatalError("TODO")
         }
         
-        package func appendCoordinateSpace(id: CoordinateSpace.ID, transform: inout ViewTransform) {
-            fatalError("TODO")
+        package mutating func appendCoordinateSpace(id: CoordinateSpace.ID, transform: inout ViewTransform) {
+            /*
+             self = x19
+             */
+            // inlined
+            let tag = transform.updateNode(coordinateSpace: .id(id))
+            
+            // <+264>
+            let element = CoordinateSpaceElement(space: tag)
+            contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<CoordinateSpaceElement>.self)
         }
         
-        package func appendAffineTransform(_ transform: CGAffineTransform, inverse: Bool) {
+        package mutating func appendAffineTransform(_ transform: CGAffineTransform, inverse: Bool) {
             /*
              transform = q2, q3, d8, d9
              inverse = w19
              */
-            fatalError("TODO")
+            let q0: (Double, Double) = (1, 0)
+            let q1: (Double, Double) = (0, 1)
+            
+            if (transform.a != 1) || (transform.b != 0) || (transform.c != 0) || (transform.d != 1) {
+                // <+84>
+                let element = AffineTransformElement(matrix: transform, inverse: inverse)
+                contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<AffineTransformElement>.self)
+            } else {
+                // <+228>
+                if (transform.tx != 0) || (transform.ty != 0) {
+                    // <+244>
+                    let element = TranslationElement(offset: CGSize(width: transform.tx, height: transform.ty))
+                    contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<TranslationElement>.self)
+                } else {
+                    // <+388>
+                    return
+                }
+            }
+            
         }
     }
 }
@@ -352,5 +428,24 @@ extension ViewTransform.UnsafeBuffer {
         class func equal(_ lhs: _UnsafeHeterogeneousBuffer_VTable, _ rhs: _UnsafeHeterogeneousBuffer_VTable) -> Bool {
             fatalError("TODO")
         }
+    }
+}
+
+extension ViewTransform {
+    enum Item {
+        case translation(CGSize)
+        case affineTransform(CGAffineTransform, inverse: Bool)
+        case projectionTransform(ProjectionTransform, inverse: Bool)
+        case coordinateSpace(CoordinateSpaceTag)
+        case sizedSpace(CoordinateSpaceTag, size: CGSize)
+        case scrollGeometry(ViewTransform.ScrollGeometryItem)
+        case depthTranslation(CGFloat)
+        case affineTransform3D(AffineTransform3D, inverse: Bool)
+        case sizedSpace3D(CoordinateSpaceTag, size3D: Size3D)
+    }
+    
+    struct ScrollGeometryItem {
+        private var base: ScrollGeometry
+        private var isClipped: Bool
     }
 }
