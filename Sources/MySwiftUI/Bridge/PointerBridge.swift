@@ -41,7 +41,7 @@ final class PointerBridge: NSObject {
                 if pref.value {
                     // <+548>
                     let interaction = UIPointerInteraction(delegate: self)
-                    uiView.addManagedInteraction(interaction)
+                    uiView.myswiftui_addManagedInteraction(interaction)
                     self.interaction = interaction
                     // <+616>
                 } else {

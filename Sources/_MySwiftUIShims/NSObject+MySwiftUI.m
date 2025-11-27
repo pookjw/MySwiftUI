@@ -43,8 +43,4 @@
     }
 }
 
-- (void)myswiftui_insertManagedSubview:(id)subview atIndex:(NSInteger)index {
-    [(UIView *)self insertSubview:subview atIndex:index];
-}
-
 @end

@@ -12,6 +12,7 @@ private import ARKit
 private import AttributeGraph
 public import UIIntelligenceSupport
 public import UIAccessibility
+private import os.log
 
 // TODO: 지워야함
 fileprivate nonisolated(unsafe) let mySwiftUI_disableUnimplementedAssertion: Bool = {
@@ -151,9 +152,7 @@ open class _UIHostingView<Content: View>: UIView {
             return false
         }
     }()
-    private lazy var foreignSubviews: NSHashTable<UIView> = {
-        fatalError("TODO")
-    }()
+    fileprivate final lazy var foreignSubviews = NSHashTable<UIView>.weakObjects()
     private var insertingManagedSubviews: Int = 0
     
     private var inheritedEnvironment: EnvironmentValues? {
@@ -580,7 +579,28 @@ open class _UIHostingView<Content: View>: UIView {
         // subview = x19
         super.didAddSubview(subview)
         
-        fatalError("TODO")
+        guard insertingManagedSubviews == 0 else {
+            return
+        }
+        
+        foreignSubviews.add(subview)
+        
+        guard isLinkedOnOrAfter(.v7) else {
+            return
+        }
+        
+        let path: String
+        if isAppleInternalBuild() {
+            if viewController == nil {
+                path = "_UIHostingView"
+            }  else {
+                path = "UIHostingController.view"
+            }
+        } else {
+            path = "UIHostingController.view"
+        }
+        
+        os_log(.fault, log: .runtimeIssuesLog, "Adding '%s' as a subview of %s is not supported and may result in a broken view hierarchy. Add your view above %s in a common superview or insert it into your SwiftUI content in a UIViewRepresentable instead.", _typeName(type(of: subview), qualified: false), path, path)
     }
 
     open override func didUpdateFocus(
@@ -828,8 +848,14 @@ open class _UIHostingView<Content: View>: UIView {
         fatalError("TODO")
     }
     
-    override func addManagedInteraction(_ interaction: any UIInteraction) {
+    public override func myswiftui_addManagedInteraction(_ interaction: any UIInteraction) {
         fatalError("TODO")
+    }
+    
+    public override func myswiftui_insertManagedSubview(_ subview: UIView, at index: Int) {
+        insertingManagedSubviews += 1
+        insertSubview(subview, at: index)
+        insertingManagedSubviews -= 1
     }
     
     private func updateSnappingState(environment: inout EnvironmentValues) {

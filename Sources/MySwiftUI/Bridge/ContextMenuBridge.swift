@@ -95,7 +95,7 @@ final class ContextMenuBridge: NSObject {
             if hasContextMenuValue.value {
                 // <+1292>
                 let interaction = UIContextMenuInteraction(delegate: self)
-                uiView.addManagedInteraction(interaction)
+                uiView.myswiftui_addManagedInteraction(interaction)
                 self.interaction = interaction
             } else {
                 // <+1824>

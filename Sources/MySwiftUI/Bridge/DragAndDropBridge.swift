@@ -71,7 +71,7 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
                     // <+496>
                     let dragInteraction = UIDragInteraction(delegate: self)
                     dragInteraction.isEnabled = true
-                    uiView.addManagedInteraction(dragInteraction)
+                    uiView.myswiftui_addManagedInteraction(dragInteraction)
                     self.dragInteraction = dragInteraction
                     // <+588>
                 } else {
@@ -123,7 +123,7 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
             if canDropValue.value {
                 // <+448>
                 let dropInteraction = UIDropInteraction(delegate: self)
-                uiView.addManagedInteraction(dropInteraction)
+                uiView.myswiftui_addManagedInteraction(dropInteraction)
                 // <+516>
             } else {
                 // <+616>
@@ -172,7 +172,7 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
                     fatalError("TODO")
                 }
                 
-                uiView.addManagedInteraction(springLoadedInteraction)
+                uiView.myswiftui_addManagedInteraction(springLoadedInteraction)
                 self.springLoadedInteraction = springLoadedInteraction
                 // <+960>
             } else {

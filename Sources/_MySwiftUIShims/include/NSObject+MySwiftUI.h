@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSObject (MySwiftUI)
 + (const void *)_mySwiftUI_platformViewDefinition;
-- (void)myswiftui_insertManagedSubview:(id)subview atIndex:(NSInteger)index;
 @end
 
 NS_ASSUME_NONNULL_END
