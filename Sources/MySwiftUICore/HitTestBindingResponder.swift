@@ -64,6 +64,17 @@ fileprivate struct HitTestBindingFilter: StatefulRule {
     typealias Value = [ViewResponder]
     
     func updateValue() {
+        // x21
+        let responder = responder
+        // w20
+        let childrenAttribute = $children
+        
+        let (children, changed) = childrenAttribute.changedValue(options: [])
+        if changed {
+            responder.children = children
+        }
+        
+        // <+124>
         fatalError("TODO")
     }
 }

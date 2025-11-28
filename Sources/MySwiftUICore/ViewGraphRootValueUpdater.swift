@@ -140,7 +140,14 @@ extension ViewGraphRootValueUpdater {
     }
     
     package var responderNode: ResponderNode? {
-        fatalError("TODO")
+        return _updateViewGraph { graph -> ResponderNode? in
+            // $s7SwiftUI25ViewGraphRootValueUpdaterPAAE13responderNodeAA09ResponderI0CSgvgAgA0cD0CXEfU_
+            guard let rootResponders = graph.rootResponders else {
+                return nil
+            }
+            
+            return rootResponders.last
+        } ?? nil
     }
     
     package func invalidateProperties(_ values: ViewGraphRootValues, mayDeferUpdate: Bool) {

@@ -399,7 +399,7 @@ extension _ViewInputs {
     }
 }
 
-protocol UIKitContainerFocusItem: AnyObject {
+@MainActor protocol UIKitContainerFocusItem: AnyObject {
     var host: UIView? {
         get
     }
@@ -429,9 +429,26 @@ extension UIKitContainerFocusItem {
 
 extension UIKitContainerFocusItem where Self: UIView {
     func rootResponder() -> (responder: ResponderNode, isVisited: Bool)? {
-        // self = x19
-        
-        fatalError("TODO")
+        /*
+         self = x19
+         */
+        // x21
+        if let nearestRenderer = nearestRenderer() {
+            let responderNode: ResponderNode?
+            if self === nearestRenderer {
+                responderNode = nearestRenderer.responderNode
+            } else {
+                responderNode = nearestResponder(in: nearestRenderer)
+            }
+            
+            if let responderNode {
+                return (responder: responderNode, isVisited: self !== nearestRenderer)
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
     }
 }
 
@@ -451,6 +468,18 @@ protocol AnyUIKitHostedFocusItem: AnyObject {
 
 extension UIFocusEnvironment {
     fileprivate func nearestRenderer() -> (any ViewRendererHost)? {
+        var host = self as? ViewRendererHost
+        var parent: (any UIFocusEnvironment)? = self
+        
+        while host == nil {
+            parent = parent?.parentFocusEnvironment
+            host = (parent as? ViewRendererHost)
+        }
+        
+        return host
+    }
+    
+    fileprivate func nearestResponder(in rendererHost: ViewRendererHost) -> ResponderNode? {
         fatalError("TODO")
     }
 }

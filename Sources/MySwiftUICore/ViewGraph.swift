@@ -38,7 +38,7 @@ package final class ViewGraph: GraphHost {
     @Attribute private var gesturePreferenceKeys: PreferenceKeys
     private var eventSubgraph: Subgraph? = nil
     @Attribute private(set) var defaultLayoutComputer: LayoutComputer
-    @WeakAttribute private var rootResponders: [ViewResponder]?
+    @WeakAttribute var rootResponders: [ViewResponder]?
     @WeakAttribute fileprivate var rootLayoutComputer: LayoutComputer?
     @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
     private(set) var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()

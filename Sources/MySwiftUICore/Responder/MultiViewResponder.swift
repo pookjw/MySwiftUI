@@ -1,7 +1,19 @@
 #warning("TODO")
 
 @_spi(Internal) open class MultiViewResponder: ViewResponder {
-    var _children: [ViewResponder] = []
+    private var _children: [ViewResponder] = []
+    var children: [ViewResponder] {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
     var cache: ViewResponder.ContainsPointsCache = ContainsPointsCache(
         storage: (
             key: 0,
