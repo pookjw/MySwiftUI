@@ -1,3 +1,4 @@
+// 10718FCC504A33B6994038B6E6E29C50
 #warning("TODO")
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
@@ -10,7 +11,7 @@ final class FocusBridge {
     private var currentEnvironment: EnvironmentValues = EnvironmentValues()
     private var _focusItem: FocusItem? = nil
     private weak var parentFocusBridge: FocusBridge? = nil
-    private var requestedFocusItem: FocusItem? = nil
+    private(set) var requestedFocusItem: FocusItem? = nil
     private var defaultFocusNamespace: Namespace.ID? = nil
     private var ignoreTextFocusEvents: Bool = false
     
@@ -395,5 +396,61 @@ extension _ViewInputs {
         _modify {
             yield &self[UIKitHostContainerFocusItemInput.self]
         }
+    }
+}
+
+protocol UIKitContainerFocusItem: AnyObject {
+    var host: UIView? {
+        get
+    }
+    
+    func rootResponder() -> (responder: ResponderNode, isVisited: Bool)?
+    func childFocusItems(in rect: CGRect) -> [UIFocusItem]
+    func defaultFocusItemsContainer() -> UIKitHostedContainerFocusItem?
+}
+
+extension UIKitContainerFocusItem {
+    func defaultFocusItemsContainer() -> UIKitHostedContainerFocusItem? {
+        /*
+         self = x24
+         type = x23
+         */
+        guard let rootResponder = rootResponder() else {
+            return nil
+        }
+        
+        fatalError("TODO")
+    }
+    
+    func childFocusItems(in rect: CGRect) -> [UIFocusItem] {
+        fatalError("TODO")
+    }
+}
+
+extension UIKitContainerFocusItem where Self: UIView {
+    func rootResponder() -> (responder: ResponderNode, isVisited: Bool)? {
+        // self = x19
+        
+        fatalError("TODO")
+    }
+}
+
+extension UIKitContainerFocusItem where Self: AnyUIKitHostedFocusItem {
+    func rootResponder() -> (responder: ResponderNode, isVisited: Bool)? {
+        fatalError("TODO")
+    }
+}
+
+protocol UIKitHostedContainerFocusItem: AnyUIKitHostedFocusItem, UIKitContainerFocusItem {
+    // TODO
+}
+
+protocol AnyUIKitHostedFocusItem: AnyObject {
+    // TODO
+}
+
+extension UIFocusEnvironment {
+    fileprivate func nearestRenderer() -> (any ViewRendererHost)? {
+        fatalError("TODO")
     }
 }

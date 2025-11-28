@@ -462,8 +462,22 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override var preferredFocusEnvironments: [any UIFocusEnvironment] {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super.preferredFocusEnvironments
+        // self = x21
+        let focusBridge = focusBridge
+        // x19 / sp + 0x8
+        let requestedFocusItem = focusBridge.requestedFocusItem
+        // x19
+        let defaultFocusItemsContainer = defaultFocusItemsContainer()
+        
+        if let defaultFocusItemsContainer {
+            // <+108>
+            fatalError("TODO")
+        } else {
+            // <+168>
+            fatalError("TODO")
+        }
+        
+        fatalError("TODO")
     }
     
     open override var _childGestureRecognizerContainers: [any _UIGestureRecognizerContainer] {
@@ -1793,6 +1807,16 @@ extension _UIHostingView: FallbackResponderProvider {
 
 extension _UIHostingView: ContainerBackgroundHost {
     
+}
+
+extension _UIHostingView: UIKitContainerFocusItem {
+    var host: UIView? {
+        fatalError("TODO")
+    }
+    
+    func childFocusItems(in rect: CGRect) -> [any UIFocusItem] {
+        fatalError("TODO")
+    }
 }
 
 extension _UIHostingView: RootTransformAdjuster {
