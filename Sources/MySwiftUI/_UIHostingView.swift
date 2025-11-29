@@ -629,8 +629,13 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func focusItems(in rect: CGRect) -> [any UIFocusItem] {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super.focusItems(in: rect)
+        /*
+         d11/d10/d9/d8 = rect
+         self = sp + 0x20
+         */
+        var results = super.focusItems(in: rect)
+        
+        fatalError("TODO")
     }
 
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
