@@ -73,10 +73,33 @@ final class FocusBridge {
             return []
         }
         
-        if let focusNamespaceViewResponder = viewResponder as? FocusNamespaceViewResponder {
-            fatalError("TODO")
+        if
+            let focusNamespaceViewResponder = viewResponder as? FocusNamespaceViewResponder,
+            let namespace = focusNamespaceViewResponder.namespace
+        {
+            // <+236>
+            self.defaultFocusNamespace = namespace
         }
-        fatalError("TODO")
+        
+        // <+256>
+        // x24, x25
+        let preferredFocusItems = self.preferredFocusItems(for: viewResponder, in: self.defaultFocusNamespace)
+        var results: [any UIFocusEnvironment]
+        if _SemanticFeature<Semantics_v6>.isEnabled {
+            // <+364>
+            if let last = preferredFocusItems.preferred.last ?? preferredFocusItems.regular.last {
+                results = last.preferredFocusEnvironments
+            } else {
+                results = []
+            }
+        } else {
+            results = preferredFocusItems.preferred
+            results.append(contentsOf: preferredFocusItems.regular)
+        }
+        
+        // <+668>
+        Log.focus?.log(level: .default, "preferred focus items queried: \(results.count) for: \(UIKitFocusItemDescription(host as UIFocusItem))")
+        return results
     }
     
     @MainActor var isHostContainedInFocusedItem: Bool {
@@ -215,6 +238,53 @@ final class FocusBridge {
         
         // <+796>
         self.currentEnvironment = environmentValues
+    }
+    
+    fileprivate func preferredFocusItems(for responder: ViewResponder, in namespace: Namespace.ID?) -> (preferred: [any UIFocusEnvironment], regular: [any UIFocusEnvironment]) {
+        /*
+         x29 = sp + 0x160
+         
+         responder = x24
+         namespace = sp + 0x90
+         self = sp + 0x98
+         */
+        if
+            _SemanticFeature<Semantics_v6>.isEnabled,
+            let baseFocusResponder = responder as? BaseFocusResponder
+        {
+            // <+336>
+            fatalError("TODO")
+        }
+        
+        // <+400>
+        if let focusResponder = responder as? FocusResponder {
+            fatalError("TODO")
+        }
+        
+        // <+1136>
+        // sp + 0xe8
+        var array_1: [any UIFocusEnvironment] = []
+        // sp + 0xb0
+        var array_2: [any UIFocusEnvironment] = []
+        // x19
+        let children = responder.children
+        
+        for child in children {
+            if let baseFocusResponder = child as? BaseFocusResponder {
+                fatalError("TODO")
+            }
+            
+            if let focusNamespaceViewResponder = child as? FocusNamespaceViewResponder {
+                fatalError("TODO")
+            }
+            
+            let result = self.preferredFocusItems(for: child, in: namespace)
+            array_1.append(contentsOf: result.preferred)
+            array_2.append(contentsOf: result.regular)
+        }
+        
+        // <+1672>
+        return (array_1, array_2)
     }
 }
 
@@ -540,4 +610,14 @@ final class FocusNamespaceViewResponder: DefaultLayoutViewResponder {
     private var context: AnyRuleContext?
 //    @Attribute var modifier: FocusNamespaceModifier
     @Attribute private var viewResponders: [ViewResponder]
+}
+
+struct UIKitFocusItemDescription<T: UIFocusItem>: CustomStringConvertible {
+    init(_ item: T) {
+        fatalError("TODO")
+    }
+    
+    var description: String {
+        fatalError("TODO")
+    }
 }

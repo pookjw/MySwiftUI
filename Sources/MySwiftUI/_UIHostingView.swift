@@ -437,7 +437,6 @@ open class _UIHostingView<Content: View>: UIView {
     
     open override var backgroundColor: UIColor? {
         get {
-            assert(mySwiftUI_disableUnimplementedAssertion)
             return super.backgroundColor
         }
         set {

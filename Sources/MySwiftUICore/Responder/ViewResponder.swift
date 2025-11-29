@@ -20,6 +20,10 @@
         self.parent = nil
         self.host = host
     }
+    
+    package var children: [ViewResponder] {
+        return []
+    }
 }
 
 extension ViewResponder {

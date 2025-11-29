@@ -2,7 +2,7 @@
 
 @_spi(Internal) open class MultiViewResponder: ViewResponder {
     private var _children: [ViewResponder] = []
-    var children: [ViewResponder] {
+    package override var children: [ViewResponder] {
         get {
             return _children
         }
