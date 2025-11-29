@@ -8,8 +8,8 @@ package import Spatial
 package struct ViewTransform {
     private var head: AnyElement?
     private var spaces: CoordinateSpaceNode?
-    private var positionAdjustment: CGSize
-    private var pendingTranslation: CGSize
+    var positionAdjustment: CGSize
+    var pendingTranslation: CGSize
     package var depth: ViewDepth
     
     package init() {
@@ -38,6 +38,15 @@ package struct ViewTransform {
         updateHead(
             element: SizedSpaceElement(
                 space: updateNode(coordinateSpace: .named(name)),
+                size: size
+            )
+        )
+    }
+    
+    mutating func appendSizedSpace(id: CoordinateSpace.ID, size: CGSize) {
+        updateHead(
+            element: SizedSpaceElement(
+                space: updateNode(coordinateSpace: .id(id)),
                 size: size
             )
         )

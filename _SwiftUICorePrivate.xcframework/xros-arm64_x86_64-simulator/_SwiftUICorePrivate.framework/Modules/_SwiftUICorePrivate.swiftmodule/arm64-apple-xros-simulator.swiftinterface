@@ -978,3 +978,30 @@ public struct ContentSizedSceneFeature<GeometryMeasurer: _SwiftUICorePrivate.Vie
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol ViewGraphFeature {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ContentResponderHelper<T: _SwiftUICorePrivate.ContentResponder> {
+  public var data: T?
+  public init()
+
+  public mutating func update(
+    data: (value: T, changed: Swift.Bool),
+    size: (value: _SwiftUICorePrivate.ViewSize, changed: Swift.Bool),
+    position: (value: CoreGraphics.CGPoint, changed: Swift.Bool),
+    transform: (value: _SwiftUICorePrivate.ViewTransform, changed: Swift.Bool),
+    parent: _SwiftUICorePrivate.ViewResponder
+  )
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+open class ViewResponder {
+  public init()
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+open class MultiViewResponder {
+  
+}

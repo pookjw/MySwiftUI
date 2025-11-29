@@ -75,6 +75,10 @@ fileprivate struct HitTestBindingFilter: StatefulRule {
         }
         
         // <+124>
-        fatalError("TODO")
+        guard !hasValue else {
+            return
+        }
+        
+        value = [responder]
     }
 }

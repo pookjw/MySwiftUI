@@ -136,7 +136,7 @@ fileprivate struct LeafDisplayList<Content: RendererLeafView>: CustomStringConve
     }
 }
 
-struct LeafResponderFilter<T>: StatefulRule {
+struct LeafResponderFilter<T: ContentResponder>: StatefulRule {
     @Attribute private var data: T
     @Attribute private var size: ViewSize
     @Attribute private var position: CGPoint
@@ -152,13 +152,24 @@ struct LeafResponderFilter<T>: StatefulRule {
     
     typealias Value = [ViewResponder]
     
-    func updateValue() {
-        fatalError("TODO")
+    mutating func updateValue() {
+        // self = x19
+        responder.helper.update(
+            data: $data.changedValue(options: []),
+            size: $size.changedValue(options: []),
+            position: $position.changedValue(options: []),
+            transform: $transform.changedValue(options: []),
+            parent: responder
+        )
+        
+        if !hasValue {
+            value = [responder]
+        }
     }
 }
 
-final class LeafViewResponder<T>: ViewResponder {
-//    private var helper: ContentResponderHelper<T>
+final class LeafViewResponder<T: ContentResponder>: ViewResponder {
+    fileprivate var helper = ContentResponderHelper<T>()
 }
 
 protocol LeafViewLayout {

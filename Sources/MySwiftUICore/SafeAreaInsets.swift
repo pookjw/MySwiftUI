@@ -101,15 +101,28 @@ struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
 
 extension _SafeAreaInsetsModifier {
     fileprivate struct Transform: Rule, AsyncAttribute {
-        var value: ViewTransform {
-            // 단순히 transform의 값을 반환하지 않음
-            fatalError("TODO")
-        }
-        
         let space: CoordinateSpace.ID
         @Attribute var transform: ViewTransform
         @Attribute var position: CGPoint
         @Attribute var size: ViewSize
+        
+        var value: ViewTransform {
+            let space = space
+            // positionAdjustment = d10/d11, pendingTranslation = d8/d9
+            var transform = transform
+            
+            let position = position
+            
+            var adjusted = position
+            adjusted -= transform.positionAdjustment
+            adjusted -= transform.pendingTranslation
+            
+            transform.positionAdjustment = CGSize(width: position.x, height: position.y)
+            transform.pendingTranslation = CGSize(width: adjusted.x, height: adjusted.y)
+            
+            transform.appendSizedSpace(id: space, size: size.value)
+            return transform
+        }
     }
     
     fileprivate struct Insets: Rule, AsyncAttribute {

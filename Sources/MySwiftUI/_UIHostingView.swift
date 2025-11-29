@@ -1811,7 +1811,7 @@ extension _UIHostingView: ContainerBackgroundHost {
 
 extension _UIHostingView: UIKitContainerFocusItem {
     var host: UIView? {
-        fatalError("TODO")
+        return self
     }
     
     func childFocusItems(in rect: CGRect) -> [any UIFocusItem] {

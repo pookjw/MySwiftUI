@@ -83,8 +83,42 @@ struct GeometryMeasurer: ViewGraphGeometryMeasurer {
     typealias Size = CGSize
 }
 
+extension ViewController: ContentResponder {}
+
 class ViewController: UIViewController {
     override func loadView() {
+//        var helper = ContentResponderHelper<ViewController>()
+////        helper.data = self
+//        
+//        print(_typeName(ContentResponderHelper<ViewController>.self, qualified: true))
+//        _forEachField(of: ContentResponderHelper<ViewController>.self, options: []) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+//            return true
+//        }
+//        print("===")
+//        print(_typeName(ViewTransform.self, qualified: true))
+//        _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+//            return true
+//        }
+//        
+//        print("===")
+//        
+//        let viewGraph = ViewGraph(rootViewType: Color.self, requestedOutputs: ViewGraph.Outputs())
+//        let graph = Graph()
+//        let subgraph = Subgraph(graph: graph)
+//        Subgraph.current = subgraph
+//        AGGraphSetContext(graph, Unmanaged.passUnretained(viewGraph).toOpaque())
+////        graph.context = Unmanaged.passUnretained(viewGraph).toOpaque()
+//        
+//        helper.update(
+//            data: (value: self, changed: false),
+//            size: (value: ViewSize(CGSize(width: 1, height: 2), proposal: _ProposedSize(CGSize(width: 3, height: 4))), changed: true),
+//            position: (value: CGPoint(x: 5, y: 6), changed: true),
+//            transform: (value: ViewTransform(), changed: true),
+//            parent: ViewResponder()
+//        )
+        
         let transform3D = AffineTransform3D(CATransform3D(m11: 11, m12: 12, m13: 13, m14: 14, m21: 21, m22: 22, m23: 23, m24: 24, m31: 31, m32: 32, m33: 33, m34: 34, m41: 41, m42: 42, m43: 43, m44: 44))
         print(transform3D)
         print(CGAffineTransform(transform3D))
@@ -574,13 +608,6 @@ class ViewController: UIViewController {
 
         
         
-        print(_typeName(ViewTransform.self, qualified: true))
-        _forEachField(of: ViewTransform.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
-            return true
-        }
-        
-        print("===")
         
         
         print(_typeName(ViewTransform.self, qualified: true))
@@ -768,6 +795,15 @@ class ViewController: UIViewController {
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
+        
+        print("===")
+        
+        print(_typeName(MultiViewResponder.self, qualified: true))
+        _forEachField(of: MultiViewResponder.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
         

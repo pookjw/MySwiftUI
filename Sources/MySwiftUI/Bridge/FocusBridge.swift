@@ -415,11 +415,23 @@ extension UIKitContainerFocusItem {
          self = x24
          type = x23
          */
+        // x22
         guard let rootResponder = rootResponder() else {
             return nil
         }
         
-        fatalError("TODO")
+        guard let host else {
+            return nil
+        }
+        
+        var result: (any UIKitHostedContainerFocusItem)?
+        rootResponder.responder.visit { node in
+            // $s7SwiftUI13ResponderNodeCAAE24visitBaseFocusResponders8applyingyAA0C13VisitorResultOAA0fgC0_pXE_tFAgCXEfU_TA.33
+            // $s7SwiftUI13ResponderNodeCAAE20visitFocusResponders8applyingyAA0C13VisitorResultOAA0fC0_pXE_tFAgCXEfU_Tm
+            fatalError("TODO")
+        }
+        
+        return result
     }
     
     func childFocusItems(in rect: CGRect) -> [UIFocusItem] {

@@ -4,13 +4,13 @@
     private var _children: [ViewResponder] = []
     var children: [ViewResponder] {
         get {
-            fatalError("TODO")
+            return _children
         }
         set {
-            fatalError("TODO")
+            _children = newValue
         }
         _modify {
-            fatalError("TODO")
+            yield &_children
         }
     }
     
@@ -32,6 +32,11 @@
     }
     
     open override func bindEvent(_ type: any EventType) {
+        fatalError("TODO")
+    }
+    
+    open override func visit(applying: (ResponderNode) -> ResponderVisitorResult) -> ResponderVisitorResult {
+        let result = applying(self)
         fatalError("TODO")
     }
 }
