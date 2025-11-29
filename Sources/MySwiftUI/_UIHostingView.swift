@@ -462,27 +462,31 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override var preferredFocusEnvironments: [any UIFocusEnvironment] {
+       return _preferredFocusEnvironments
+    }
+    
+    open override var _childContainers: [any _UIGestureRecognizerContainer] {
+        assert(mySwiftUI_disableUnimplementedAssertion)
+        return super._childContainers
+    }
+    
+    private var _preferredFocusEnvironments: [any UIFocusEnvironment] {
         // self = x21
         let focusBridge = focusBridge
         // x19 / sp + 0x8
-        let requestedFocusItem = focusBridge.requestedFocusItem
+        var requestedFocusEnvironments = focusBridge.requestedFocusEnvironments
         // x19
         let defaultFocusItemsContainer = defaultFocusItemsContainer()
         
         if let defaultFocusItemsContainer {
             // <+108>
-            fatalError("TODO")
+            requestedFocusEnvironments.append(defaultFocusItemsContainer)
         } else {
             // <+168>
-            fatalError("TODO")
+            requestedFocusEnvironments.append(contentsOf: focusBridge.preferredFocusEnvironments)
         }
         
-        fatalError("TODO")
-    }
-    
-    open override var _childGestureRecognizerContainers: [any _UIGestureRecognizerContainer] {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super._childGestureRecognizerContainers
+        return requestedFocusEnvironments
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

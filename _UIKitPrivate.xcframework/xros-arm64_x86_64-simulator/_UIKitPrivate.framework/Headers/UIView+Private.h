@@ -25,7 +25,7 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 @property (nonatomic, setter=_setPreferredGroundingShadowVisibility:) _UIPlatterGroundingShadowVisibility _preferredGroundingShadowVisibility;
 @property (nonatomic, setter=_setExternalHitTestingId:) NSUInteger _externalHitTestingId;
 @property (nonatomic, readonly) UILayoutAxes _axesForDerivingIntrinsicContentSizeFromLayoutSize;
-@property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers;
+@property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers NS_SWIFT_NAME(_childContainers);
 @property (nonatomic, readonly) Class _intelligenceBaseClass;
 + (void)_animateWithAnimationSettings:(BSAnimationSettings * _Nullable)animationSettings animations:(void (^)(void))animations completion:(void (^)(UIViewAnimatingPosition position))completion;
 + (BOOL)_isInAnimationBlockWithAnimationsEnabled;

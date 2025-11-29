@@ -11,7 +11,7 @@ final class FocusBridge {
     private var currentEnvironment: EnvironmentValues = EnvironmentValues()
     private var _focusItem: FocusItem? = nil
     private weak var parentFocusBridge: FocusBridge? = nil
-    private(set) var requestedFocusItem: FocusItem? = nil
+    private var requestedFocusItem: FocusItem? = nil
     private var defaultFocusNamespace: Namespace.ID? = nil
     private var ignoreTextFocusEvents: Bool = false
     
@@ -47,6 +47,36 @@ final class FocusBridge {
         }
         
         return host
+    }
+    
+    var requestedFocusEnvironments: [any UIFocusEnvironment] {
+        guard let requestedFocusItem else {
+            return []
+        }
+        
+        fatalError("TODO")
+    }
+    
+    var preferredFocusEnvironments: [any UIFocusEnvironment] {
+        // x23
+        guard let host else {
+            return []
+        }
+        
+        // x21
+        guard let responderNode = host.responderNode else {
+            return []
+        }
+        
+        // x20
+        guard let viewResponder = responderNode as? ViewResponder else {
+            return []
+        }
+        
+        if let focusNamespaceViewResponder = viewResponder as? FocusNamespaceViewResponder {
+            fatalError("TODO")
+        }
+        fatalError("TODO")
     }
     
     @MainActor var isHostContainedInFocusedItem: Bool {
@@ -399,7 +429,7 @@ extension _ViewInputs {
     }
 }
 
-@MainActor protocol UIKitContainerFocusItem: AnyObject {
+@MainActor protocol UIKitContainerFocusItem: UIFocusItem {
     var host: UIView? {
         get
     }
@@ -425,10 +455,19 @@ extension UIKitContainerFocusItem {
         }
         
         var result: (any UIKitHostedContainerFocusItem)?
+        let block: (any BaseFocusResponder) -> ResponderVisitorResult = { _ in
+            // $s7SwiftUI11FocusBridgeC07defaultC14ItemsContainer33_10718FCC504A33B6994038B6E6E29C50LL13responderNode4hostAA011UIKitHostedgC4Item_pSgAA09ResponderP0C_So6UIViewCtFZAA0U13VisitorResultOAA04BasecU0_pXEfU_TA
+            fatalError("TODO")
+        }
+        
         rootResponder.responder.visit { node in
             // $s7SwiftUI13ResponderNodeCAAE24visitBaseFocusResponders8applyingyAA0C13VisitorResultOAA0fgC0_pXE_tFAgCXEfU_TA.33
             // $s7SwiftUI13ResponderNodeCAAE20visitFocusResponders8applyingyAA0C13VisitorResultOAA0fC0_pXE_tFAgCXEfU_Tm
-            fatalError("TODO")
+            guard let casted = node as? BaseFocusResponder else {
+                return .cancel
+            }
+            
+            return block(casted)
         }
         
         return result
@@ -474,7 +513,7 @@ protocol UIKitHostedContainerFocusItem: AnyUIKitHostedFocusItem, UIKitContainerF
     // TODO
 }
 
-protocol AnyUIKitHostedFocusItem: AnyObject {
+protocol AnyUIKitHostedFocusItem: UIFocusItem {
     // TODO
 }
 
@@ -494,4 +533,11 @@ extension UIFocusEnvironment {
     fileprivate func nearestResponder(in rendererHost: ViewRendererHost) -> ResponderNode? {
         fatalError("TODO")
     }
+}
+
+final class FocusNamespaceViewResponder: DefaultLayoutViewResponder {
+    fileprivate private(set) var namespace: Namespace.ID?
+    private var context: AnyRuleContext?
+//    @Attribute var modifier: FocusNamespaceModifier
+    @Attribute private var viewResponders: [ViewResponder]
 }

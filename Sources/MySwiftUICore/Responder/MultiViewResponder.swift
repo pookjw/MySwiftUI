@@ -37,6 +37,17 @@
     
     open override func visit(applying: (ResponderNode) -> ResponderVisitorResult) -> ResponderVisitorResult {
         let result = applying(self)
-        fatalError("TODO")
+        guard result != .next else {
+            return result
+        }
+        
+        for child in children {
+            let result = child.visit(applying: applying)
+            guard result != .cancel else {
+                return result
+            }
+        }
+        
+        return .next
     }
 }

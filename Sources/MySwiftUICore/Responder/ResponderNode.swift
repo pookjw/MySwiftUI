@@ -7,7 +7,7 @@
     
     @discardableResult
     open func visit(applying: (ResponderNode) -> ResponderVisitorResult) -> ResponderVisitorResult {
-        fatalError("TODO")
+        return applying(self)
     }
     
     open func makeGesture(inputs: _GestureInputs) -> _GestureInputs {
