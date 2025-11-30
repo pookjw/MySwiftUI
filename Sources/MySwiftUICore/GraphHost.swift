@@ -271,9 +271,9 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     package final func updateRemovedState() {
-        var removedState: GraphHost.RemovedState // w22
+        var removedState = self.removedState // w22
         let isRemoved: Bool // w21
-        if self.removedState.isEmpty {
+        if removedState.isEmpty {
             if let parentHost {
                 let parentRemovedState = parentHost.removedState
                 removedState = parentRemovedState
@@ -283,7 +283,6 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
                 isRemoved = false
             }
         } else {
-            removedState = .unattached
             isRemoved = true
         }
         
@@ -377,8 +376,8 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         // inlined
         self.finishTransactionUpdate(in: data.globalSubgraph, id: id)
         
-        if let transaction {
-            data.transaction = transaction
+        if let transaction, transaction.isEmpty {
+            data.transaction = Transaction()
         }
     }
     
