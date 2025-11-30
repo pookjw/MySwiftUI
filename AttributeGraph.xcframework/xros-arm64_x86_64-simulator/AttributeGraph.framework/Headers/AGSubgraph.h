@@ -6,7 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-AG_EXTERN AGSubgraphRef AGSubgraphCreate(AGGraphRef) NS_SWIFT_NAME(Subgraph.init(graph:));
+AG_EXTERN AGSubgraphRef AGSubgraphCreate(AGGraphRef) NS_RETURNS_RETAINED NS_SWIFT_NAME(Subgraph.init(graph:));
 AG_EXTERN AGSubgraphRef _Nullable AGSubgraphGetCurrent(void) NS_SWIFT_NAME(getter:Subgraph.current());
 AG_EXTERN void AGSubgraphSetCurrent(AGSubgraphRef _Nullable) NS_SWIFT_NAME(setter:Subgraph.current(_:));
 AG_EXTERN void AGSubgraphAddChild(AGSubgraphRef, AGSubgraphRef) NS_SWIFT_NAME(Subgraph.addChild(self:_:));

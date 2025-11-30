@@ -38,7 +38,9 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     didCreateGraph: { _, _ in
         Update.assertIsLocked()
     },
-    block_19: { _, _ in fatalError("TODO") },
+    didDestroyGraph: { _, _ in
+        Update.assertIsLocked()
+    },
     didSetNeedsUpdate: { _, _ in
         Update.assertIsLocked()
     },
@@ -235,7 +237,21 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             fatalError("TODO")
         }
         
-        unsafe AGGraphSetContext(self.data.graph!, Unmanaged.passUnretained(self).toOpaque())
+        self.data.graph!.context = UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
+    }
+    
+    deinit {
+        invalidate()
+        blockedGraphHosts.removeAll { $0.takeUnretainedValue() === self }
+    }
+    
+    final func invalidate() {
+        if isInstantiated {
+            data.globalSubgraph.willInvalidate(isInserted: false)
+            isInstantiated = false
+        }
+        
+        data.invalidate()
     }
     
     package func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
@@ -732,6 +748,19 @@ extension GraphHost {
             
             self.isRemoved = false
             self.isHiddenForReuse = false
+        }
+        
+        mutating func invalidate() {
+            guard let graph else {
+                return
+            }
+            
+            Update.ensure {
+                globalSubgraph.invalidate()
+                graph.context = nil
+                graph.invalidate()
+                self.graph = nil
+            }
         }
     }
     

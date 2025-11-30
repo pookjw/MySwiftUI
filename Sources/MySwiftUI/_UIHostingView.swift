@@ -132,7 +132,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     final var defaultNextResponder: UIResponder? {
-        fatalError("TODO")
+        return super.next
     }
     
     private var _boundsDepth: CGFloat = 0
@@ -429,8 +429,9 @@ open class _UIHostingView<Content: View>: UIView {
             return super.transform
         }
         set {
-            assert(mySwiftUI_disableUnimplementedAssertion)
+            let oldValue = transform
             super.transform = newValue
+            base.transformDidChange(oldValue: oldValue)
         }
     }
     

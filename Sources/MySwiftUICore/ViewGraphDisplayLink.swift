@@ -36,7 +36,11 @@ final class ViewGraphDisplayLink: NSObject {
     }
     
     func invalidate() {
-        fatalError("TODO")
+        Update.ensure { 
+            if let link, !link.isPaused {
+                link.invalidate()
+            }
+        }
     }
     
     private func setFrameInterval(_: Double, reasons: Set<UInt32>) {

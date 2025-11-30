@@ -102,7 +102,7 @@ struct AGTraceType {
     void (* _Nullable didCreateGraph)(void *, AGGraphRef) __attribute__((swiftcall));
     
     // Offset 0x90
-    void (* _Nullable block_19)(void *, AGGraphRef) __attribute__((swiftcall));
+    void (* _Nullable didDestroyGraph)(void *, AGGraphRef) __attribute__((swiftcall));
 
     // Offset 0x98
     void (* _Nullable didSetNeedsUpdate)(void *, AGGraphRef) __attribute__((swiftcall));

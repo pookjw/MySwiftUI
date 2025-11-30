@@ -75,19 +75,29 @@ package final class ViewGraphHost {
     }
     
     package func clearDisplayLink() {
-        fatalError("TODO")
+        Update.ensure {
+            if let displayLink {
+                displayLink.invalidate()
+            }
+        }
     }
     
     package func clearUpdateTimer() {
-        fatalError("TODO")
+        guard Thread.isMainThread else {
+            return
+        }
+        
+        if let updateTimer {
+            updateTimer.invalidate()
+        }
     }
     
     package func cancelAsyncRendering() {
-        Update.lock()
-        if let displayLink {
-            displayLink.nextThread = .main
+        Update.ensure {
+            if let displayLink {
+                displayLink.nextThread = .main
+            }
         }
-        Update.unlock()
     }
     
     package func updateRemovedState(isUnattached: Bool, isHiddenForReuse: Bool) {

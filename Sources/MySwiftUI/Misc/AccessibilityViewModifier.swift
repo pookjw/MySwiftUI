@@ -189,6 +189,14 @@ fileprivate final class AccessibilityViewModifierAccessor<T>: AnyAccessibilityVi
 }
 
 fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, RemovableAttribute, CustomStringConvertible {
+    static func willRemove(attribute: AnyAttribute) {
+        fatalError("TODO")
+    }
+    
+    static func didReinsert(attribute: AnyAttribute) {
+        fatalError("TODO")
+    }
+    
     let accessor: AnyAccessibilityViewModifierAccessor.Type // 0x0
     var modifier: AnyAttribute // 0x8
     let localID: ScrapeableID // 0xc

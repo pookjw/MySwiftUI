@@ -454,6 +454,24 @@ package final class UIHostingViewBase: NSObject {
         updateDelegate.invalidateProperties(values, mayDeferUpdate: false)
     }
     
+    package func transformDidChange(oldValue: CGAffineTransform) {
+        guard let uiView else {
+            return
+        }
+        
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return
+        }
+        
+        let newValue = uiView.transform
+        
+        guard oldValue != newValue else {
+            return
+        }
+        
+        updateDelegate.invalidateProperties(.transform, mayDeferUpdate: false)
+    }
+    
     // ___lldb_unnamed_symbol322028
     private var cornerInsets: MySwiftUICore.RectangleCornerInsets {
         // x29 = sp + 0x170
@@ -941,8 +959,9 @@ package final class UIHostingViewBase: NSObject {
         fatalError("TODO")
     }
     
-    @objc private func sceneWillDeactivate() {
-        fatalError("TODO")
+    @MainActor @objc private func sceneWillDeactivate() {
+        updateSceneActivationState()
+        isExitingForeground = true
     }
     
     @MainActor @objc private func sceneDidActivate() {
