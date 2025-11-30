@@ -31,7 +31,23 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func invalidate() {
-        fatalError("TODO")
+        guard let owner = self.as(ViewGraphOwner.self) else {
+            return
+        }
+        
+        // x19 / x29 - 0x40 - 0x100
+        let viewGraph = owner.viewGraph
+        viewGraph.delegate = nil
+        
+        Signpost.viewHost.traceEvent(
+            type: .event,
+            object: self,
+            "ViewHost: (%p) invalidated PlatformHost [ %p ]",
+            args: [
+                viewGraph.data.graph!.counter(options: .unknown2),
+                UInt(bitPattern: ObjectIdentifier(self))
+            ]
+        )
     }
     
     package func render(interval: Double, updateDisplayList: Bool, targetTimestamp: Time?) {

@@ -2,7 +2,7 @@
 
 public import UIKit
 @_spi(Internal) public import MySwiftUICore
-private import _UIKitShims
+internal import _UIKitShims
 public import _UIKitPrivate
 private import notify
 private import MRUIKit
@@ -66,7 +66,7 @@ open class _UIHostingView<Content: View>: UIView {
     private weak var viewController: UIHostingController<Content>? = nil
     private var currentEvent: UIEvent? = nil
     private var eventBridge: UIKitEventBindingBridge
-    private var dumpLayerNotificationTokens: Int32? = nil
+    private nonisolated(unsafe) var dumpLayerNotificationTokens: (Int32, Int32)? = nil
     private var colorAppearanceSeed: UInt32 = 0
     final var colorScheme: ColorScheme? = nil {
         didSet {
@@ -141,7 +141,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var rootViewDelegate: RootViewDelegate? = nil
     final var focusedValues = FocusedValues()
     private var disallowAnimations: Bool = false
-    private weak var windowGeometryScene: UIWindowScene? = nil
+    private weak nonisolated(unsafe) var windowGeometryScene: UIWindowScene? = nil
     private var invalidatesIntrinsicContentSizeOnIdealSizeChange: Bool = false
     private var appliesContainerBackgroundColor: Bool = false
     private var containerBackgroundColor: UIColor? = nil
@@ -178,7 +178,7 @@ open class _UIHostingView<Content: View>: UIView {
         }
     }
     
-    private var base: _UIKitShims.UIHostingViewBase {
+    final var base: _UIKitShims.UIHostingViewBase {
         let base = _base
         base.uiView = self
         base.delegate = self
@@ -384,6 +384,25 @@ open class _UIHostingView<Content: View>: UIView {
     
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        _base.tearDown(uiView: self, updateDelegate: self)
+        NotificationCenter.default.removeObserver(self)
+        
+        if let windowGeometryScene = self.windowGeometryScene {
+            windowGeometryScene.removeObserver(self, forKeyPath: "effectiveGeometry")
+        }
+        
+        _base.clearDisplayLink()
+        _base.clearUpdateTimer()
+        
+        HostingViewRegistry.shared.remove(self)
+        
+        if let dumpLayerNotificationTokens {
+            notify_cancel(dumpLayerNotificationTokens.0)
+            notify_cancel(dumpLayerNotificationTokens.1)
+        }
     }
     
     open override dynamic var frame: CGRect {
@@ -1766,15 +1785,15 @@ extension _UIHostingView: @preconcurrency HostingViewProtocol {
 }
 
 extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
-    fileprivate final func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims.UIHostingViewBase) -> Bool {
+    final func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims.UIHostingViewBase) -> Bool {
         return shouldDisableUIKitAnimation
     }
     
-    fileprivate final func baseDidMoveToScene(_ base: _UIKitShims.UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {
+    final func baseDidMoveToScene(_ base: _UIKitShims.UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {
         updateImmersiveSpaceAuthorityNotifications(oldScene: oldScene, newScene: newScene)
     }
     
-    fileprivate final func baseSceneActivationStateDidChange(_ base: _UIKitShims.UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {
+    final func baseSceneActivationStateDidChange(_ base: _UIKitShims.UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {
         guard let newState else {
             return
         }
@@ -1792,11 +1811,11 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
         }
     }
     
-    fileprivate final func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims.UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
+    final func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims.UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
         fatalError("TODO")
     }
     
-    fileprivate final func baseSceneBecameKey(_ base: _UIKitShims.UIHostingViewBase) {
+    final func baseSceneBecameKey(_ base: _UIKitShims.UIHostingViewBase) {
         guard let rootViewDelegate else {
             return
         }
@@ -1806,7 +1825,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
         }
     }
     
-    fileprivate final func baseSceneResignedKey(_ base: _UIKitShims.UIHostingViewBase) {
+    final func baseSceneResignedKey(_ base: _UIKitShims.UIHostingViewBase) {
         fatalError("TODO")
     }
 }

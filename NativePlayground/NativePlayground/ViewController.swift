@@ -889,8 +889,8 @@ class ViewController: UIViewController {
         
         
         //        let rootView = EmptyView()
-        let rootView = AnyView(Color.black)
-//        let rootView = Color.black
+//        let rootView = AnyView(Color.black)
+        let rootView = Color.black
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
 //        let rootView = MyView()
@@ -898,28 +898,28 @@ class ViewController: UIViewController {
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-        Task { [hostingView] in
-            var flags = 0
-            
-            while true {
-                do {
-                    try await Task.sleep(for: .seconds(1))
-                    let value = flags % 3
-                    
-                    if value == 0 {
-                        hostingView.rootView = AnyView(Color.white)
-                    } else if value == 1 {
-                        hostingView.rootView = AnyView(EmptyView())
-                    } else if value == 2 {
-                        hostingView.rootView = AnyView(Color.black)
-                    }
-                    
-                    flags &+= 1
-                } catch {
-                    return
-                }
-            }
-        }
+//        Task { [hostingView] in
+//            var flags = 0
+//            
+//            while true {
+//                do {
+//                    try await Task.sleep(for: .seconds(1))
+//                    let value = flags % 3
+//                    
+//                    if value == 0 {
+//                        hostingView.rootView = AnyView(Color.white)
+//                    } else if value == 1 {
+//                        hostingView.rootView = AnyView(EmptyView())
+//                    } else if value == 2 {
+//                        hostingView.rootView = AnyView(Color.black)
+//                    }
+//                    
+//                    flags &+= 1
+//                } catch {
+//                    return
+//                }
+//            }
+//        }
         
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))

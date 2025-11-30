@@ -516,6 +516,19 @@ package final class ViewGraph: GraphHost {
         }
     }
     
+    fileprivate func setPreferenceBridge(to bridge: PreferenceBridge?, isInvalidating: Bool) {
+        /*
+         self = x19
+         bridge = x21
+         isInvalidating = x22
+         */
+        guard _preferenceBridge !== bridge else {
+            return
+        }
+        
+        fatalError("TODO")
+    }
+    
     private func beginNextUpdate(at time: Time) {
         if data.time != time {
             data.time = time
@@ -524,10 +537,6 @@ package final class ViewGraph: GraphHost {
         
         data.updateSeed &+= 1
         mainUpdates = Int(data.graph!.counter(options: [.unknown1, .unknown3]))
-    }
-    
-    private func setPreferenceBridge(to: PreferenceBridge?, isInvalidating: Bool) {
-        fatalError("TODO")
     }
     
     private func makePreferenceOutlets(outputs: _ViewOutputs) {
@@ -975,5 +984,16 @@ fileprivate struct RootDisplayList: AsyncAttribute, Rule {
         displayList.applyViewGraphTransform(time: $time, version: version)
         
         return (displayList, version)
+    }
+}
+
+extension ViewGraphHost {
+    package func tearDown(delegate: ViewGraphRootValueUpdater) {
+        delegate.invalidate()
+        Update.ensure { 
+            let viewGraph = viewGraph
+            viewGraph.setPreferenceBridge(to: nil, isInvalidating: false)
+            viewGraph.invalidate()
+        }
     }
 }

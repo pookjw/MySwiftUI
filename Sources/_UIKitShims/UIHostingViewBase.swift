@@ -507,6 +507,18 @@ package final class UIHostingViewBase: NSObject {
         return cornerInsets
     }
     
+    package func tearDown(uiView: UIView, updateDelegate: any ViewGraphRootValueUpdater) {
+        NotificationCenter.default.removeObserver(self)
+        let window = uiView.window
+        let isHiddenForReuse = isHiddenForReuse
+        if isHiddenForReuse {
+            viewGraph.clearDisplayLink()
+        }
+        
+        viewGraph.updateRemovedState(isUnattached: (window == nil), isHiddenForReuse: isHiddenForReuse)
+        viewGraph.tearDown(delegate: updateDelegate)
+    }
+    
     // ___lldb_unnamed_symbol317396
     @MainActor
     private func windowSceneDidChange() {
@@ -661,6 +673,10 @@ package final class UIHostingViewBase: NSObject {
     
     package func clearDisplayLink() {
         viewGraph.clearDisplayLink()
+    }
+    
+    package func clearUpdateTimer() {
+        viewGraph.clearUpdateTimer()
     }
     
     @MainActor
