@@ -185,7 +185,7 @@ package final class ViewGraphHost {
         // w19
         let valueState = rootTransform.valueState
         
-        if !valueState.contains(.unknown1) {
+        if !valueState.contains(.unknown0) {
             rootTransform.invalidateValue()
             if let delegate = viewGraph.delegate {
                 delegate.graphDidChange()

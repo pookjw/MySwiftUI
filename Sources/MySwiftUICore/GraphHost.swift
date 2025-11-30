@@ -76,7 +76,10 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
         Update.assertIsLocked()
     },
     unknown_block_36: nil,
-    block_37: { _, _, _, _, _ in fatalError("TODO") },
+    block_37: { _, _, _, _, _ in
+        Update.assertIsLocked()
+        fatalError("TODO: block name")
+    },
     unknown_block_38: nil,
     unknown_block_39: nil,
     unknown_block_40: nil,

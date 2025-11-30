@@ -39,22 +39,20 @@ typedef NS_ENUM(NSUInteger, AGComparisonMode) {
 };
 
 typedef NS_OPTIONS(uint32_t, AGComparisonOptions) {
-    AGComparisonOptionsUnknown1 = 1 << 0,
-    AGComparisonOptionsUnknown2 = 1 << 1
+    AGComparisonOptionsUnknown0 = 1 << 0,
+    AGComparisonOptionsUnknown1 = 1 << 1
 };
 
 typedef NS_OPTIONS(uint32_t, AGValueState) {
-    AGValueStateUnknown1 = 1 << 0,
-    AGValueStateUnknown2 = 1 << 1
+    AGValueStateUnknown0 = 1 << 0,
+    AGValueStateUnknown1 = 1 << 1
 };
 
 typedef uint32_t AGAttribute __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AnyAttribute);
 
 typedef struct CF_BRIDGED_TYPE(id) AGGraphStorage * AGGraphRef NS_SWIFT_NAME(Graph);
-struct AGGraph;
 
-typedef struct CF_BRIDGED_TYPE(id) AGSubgraph * AGSubgraphRef NS_SWIFT_NAME(Subgraph);
-struct AGSubgraph;
+typedef struct CF_BRIDGED_TYPE(id) AGSubgraphStorage * AGSubgraphRef NS_SWIFT_NAME(Subgraph);
 
 struct AGTraceType {
     // Offset 0x00

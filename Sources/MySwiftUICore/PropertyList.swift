@@ -434,7 +434,7 @@ package protocol PropertyKey {
 
 extension PropertyKey {
     package static func valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool {
-        return compareValues(lhs, rhs, options: [.unknown1, .unknown2])
+        return compareValues(lhs, rhs, options: [.unknown0, .unknown1])
     }
 }
 
