@@ -41,7 +41,7 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 - (void)_registerForGeometryChanges;
 - (_UIBaselineOffsetPair)_baselineOffsetsAtSize:(CGSize)size;
 - (void)_didChangeToFirstResponder:(UIResponder * _Nullable)responder;
-- (void)_geometryChanged:(void *)context forAncestor:(UIView *)ancestor;
+- (void)_geometryChanged:(void *)context forAncestor:(UIView * _Nullable)ancestor;
 - (UIResponder<_UIGestureRecognizerContainer> * _Nullable)_hitTestWithContext:(_UIHitTestContext *)context;
 - (void)_safeAreaCornerInsetsDidChange;
 @end

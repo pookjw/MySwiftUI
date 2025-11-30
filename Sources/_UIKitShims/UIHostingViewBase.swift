@@ -31,7 +31,7 @@ package final class UIHostingViewBase: NSObject {
     package private(set) var isRotatingWindow: Bool = false
     private var isResizingWindow: Bool = false
     private var _sceneActivationState: UIScene.ActivationState? = nil
-    package private(set) var registeredForGeometryChanges: Bool = false
+    package var registeredForGeometryChanges: Bool = false
     private weak var observedWindow: UIWindow? = nil
     private weak var observedScene: UIWindowScene? = nil
     private var keyboardFrame: CGRect? = nil
@@ -434,6 +434,23 @@ package final class UIHostingViewBase: NSObject {
         // <+172>
         // w21
         let values = safeArea.union(containerSize)
+        updateDelegate.invalidateProperties(values, mayDeferUpdate: false)
+    }
+    
+    package func _geometryChanged(_ context: UnsafeMutableRawPointer, forAncestor ancestor: UIView?) {
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return
+        }
+        
+        guard registeredForGeometryChanges else {
+            return
+        }
+        
+        var values = ViewGraphRootValues.transform
+        if isLinkedOnOrAfter(.v7) {
+            values.insert(.safeArea)
+        }
+        
         updateDelegate.invalidateProperties(values, mayDeferUpdate: false)
     }
     
@@ -947,11 +964,11 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @objc private func sceneDidBeginResize() {
-        fatalError("TODO")
+        isResizingWindow = true
     }
     
     @objc private func sceneDidEndResize() {
-        fatalError("TODO")
+        isResizingWindow = false
     }
     
     @objc private func sceneDidBecomeKey() {

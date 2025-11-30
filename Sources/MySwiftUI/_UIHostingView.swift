@@ -416,7 +416,6 @@ open class _UIHostingView<Content: View>: UIView {
     
     open override var transform3D: CATransform3D {
         get {
-            assert(mySwiftUI_disableUnimplementedAssertion)
             return super.transform3D
         }
         set {
@@ -489,8 +488,39 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        if context == &effectiveGeometryObservationContext {
+            MainActor.assumeIsolated { [unchecked = UncheckedSendable((object, change))] in
+                let object = unchecked.value.0
+                let change = unchecked.value.1
+                
+                guard let change else {
+                    return
+                }
+                
+                guard keyPath == #keyPath(UIWindowScene.effectiveGeometry) else {
+                    return
+                }
+                
+                // <+148>
+                guard let windowScene = object as? UIWindowScene else {
+                    return
+                }
+                
+                // x21
+                let effectiveGeometry = windowScene.effectiveGeometry
+                // x23
+                let isInteractivelyResizing = effectiveGeometry.isInteractivelyResizing
+                
+                interactiveResizeBridge.handleLiveResize(isResizing: isInteractivelyResizing, host: self)
+                let size = effectiveGeometry._size
+                
+                boundsDepth = size.depth
+                sceneSize = CGSize(width: size.width, height: size.height)
+            }
+        } else {
+            // <+500>
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
     
     open override func _baselineOffsets(at size: CGSize) -> _UIBaselineOffsetPair {
@@ -503,9 +533,8 @@ open class _UIHostingView<Content: View>: UIView {
         super._didChange(toFirstResponder: responder)
     }
     
-    open override func _geometryChanged(_ context: UnsafeMutableRawPointer, forAncestor ancestor: UIView) {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        super._geometryChanged(context, forAncestor: ancestor)
+    open override func _geometryChanged(_ context: UnsafeMutableRawPointer, forAncestor ancestor: UIView?) {
+        base._geometryChanged(context, forAncestor: ancestor)
     }
     
     open override func _hitTest(with context: _UIHitTestContext) -> (any UIResponder & _UIGestureRecognizerContainer)? {
@@ -1840,6 +1869,7 @@ extension _UIHostingView: UIKitContainerFocusItem {
 extension _UIHostingView: RootTransformAdjuster {
     package func updateRootTransform(_ transform: inout ViewTransform) {
         if !base.registeredForGeometryChanges {
+            base.registeredForGeometryChanges = true
             _registerForGeometryChanges()
         }
         

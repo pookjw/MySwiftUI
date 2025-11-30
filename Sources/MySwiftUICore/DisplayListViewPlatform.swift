@@ -433,7 +433,21 @@ extension DisplayList.ViewUpdater {
                 let seed = content.seed
                 if viewInfo.seeds.content == seed {
                     // <+296>
-                    fatalError("TODO")
+                    // sp + 0x480
+                    let item_2 = item_1
+                    // x28 = sp + 0x740
+                    if viewInfo.state.flags.contains(.unknown5) {
+                        // <+2400>
+                        fatalError("TODO")
+                    } else {
+                        if case .drawing = viewInfo.state.kind {
+                            // <+352>
+                            fatalError("TODO")
+                        }
+                        
+                        // <+492>
+                        updateState(&viewInfo, item: item_2, size: item_1.frame.size, state: state)
+                    }
                 } else {
                     // <+656>
                     // sp + 0x60

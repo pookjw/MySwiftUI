@@ -423,7 +423,8 @@ extension ViewTransform.UnsafeBuffer {
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-            fatalError("TODO")
+            let pointer = elt.body(as: Element.self)
+            pointer.deinitialize(count: 1)
         }
         
         class func forEach(elt: _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {

@@ -61,7 +61,9 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     didSetValue: { _, _, _ in
         Update.assertIsLocked()
     },
-    block_32: { _, _ in fatalError("TODO") },
+    didInvalidateValue: { _, _ in
+        Update.assertIsLocked()
+    },
     didAddIndirect: { _, _ in
         Update.assertIsLocked()
     },
@@ -481,6 +483,44 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     @discardableResult
+    final func asyncTransaction<T>(
+        _ transaction: Transaction = Transaction(),
+        id: Transaction.ID = Transaction.id,
+        invalidating: WeakAttribute<T>,
+        style: _GraphMutation_Style = .deferred,
+        mayDeferUpdate: Bool = true
+    ) -> UInt32 {
+        fatalError("TODO")
+    }
+    
+    @discardableResult
+    final func asyncTransaction(
+        _ transaction: Transaction = Transaction(),
+        id: Transaction.ID = Transaction.id,
+        _ body: () -> Void
+    ) -> UInt32 {
+        fatalError("TODO")
+    }
+    
+    @discardableResult
+    package final func asyncTransaction<T>(
+        _ transaction: Transaction = Transaction(),
+        id: Transaction.ID = Transaction.id,
+        setting target: WeakAttribute<T>,
+        to newValue: T,
+        style: _GraphMutation_Style = .deferred,
+        mayDeferUpdate: Bool = true
+    ) -> UInt32 {
+        return asyncTransaction(
+            transaction,
+            id: id,
+            mutation: AssignmentGraphMutation(target, newValue: newValue),
+            style: style,
+            mayDeferUpdate: mayDeferUpdate
+        )
+    }
+    
+    @discardableResult
     package final func asyncTransaction<T: GraphMutation>(
         _ transaction: Transaction = Transaction(),
         id: Transaction.ID = Transaction.id,
@@ -718,6 +758,24 @@ extension GraphHost {
 package protocol GraphMutation {
     func apply()
     func combine<T: GraphMutation>(with other: T) -> Bool
+}
+
+struct AssignmentGraphMutation<T>: GraphMutation {
+    private var target: WeakAttribute<T>?
+    private var newValue: T
+    
+    init(_ target: WeakAttribute<T>?, newValue: T) {
+        self.target = target
+        self.newValue = newValue
+    }
+    
+    func apply() {
+        target?.projectedValue?.value = newValue
+    }
+    
+    func combine<U>(with other: U) -> Bool where U : GraphMutation {
+        fatalError("TODO")
+    }
 }
 
 fileprivate struct ConstantKey: Hashable {
