@@ -633,9 +633,23 @@ open class _UIHostingView<Content: View>: UIView {
          d11/d10/d9/d8 = rect
          self = sp + 0x20
          */
-        var results = super.focusItems(in: rect)
+        let superItems = super.focusItems(in: rect)
+        // sp + 0x18
+        var items: [any UIFocusItem] = []
+        for item in superItems {
+            if let view = item as? UIView {
+                items.append(view)
+            }
+        }
         
-        fatalError("TODO")
+        // <+456>
+        let shouldIgnoreChildFocusRegions = (viewController?._shouldIgnoreChildFocusRegions()) ?? false
+        if !shouldIgnoreChildFocusRegions {
+            let childItems = childFocusItems(in: rect)
+            items.append(contentsOf: childItems)
+        }
+        
+        return items
     }
 
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -683,8 +697,8 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func willRemoveSubview(_ subview: UIView) {
-        assert(mySwiftUI_disableUnimplementedAssertion)
         super.willRemoveSubview(subview)
+        foreignSubviews.remove(subview)
     }
 
     open override func _accessibilityAutomationHitTestReverseOrder() -> Bool {
@@ -1820,10 +1834,6 @@ extension _UIHostingView: ContainerBackgroundHost {
 extension _UIHostingView: UIKitContainerFocusItem {
     var host: UIView? {
         return self
-    }
-    
-    func childFocusItems(in rect: CGRect) -> [any UIFocusItem] {
-        fatalError("TODO")
     }
 }
 

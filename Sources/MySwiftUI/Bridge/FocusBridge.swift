@@ -289,6 +289,39 @@ final class FocusBridge {
 }
 
 extension FocusBridge {
+    fileprivate static func focusItems(responderNode: ResponderNode, rect: CGRect, host: UIView, skipRoot: Bool) -> [any UIFocusItem] {
+        /*
+         x29 = sp + 0x180
+         
+         responderNode = x20
+         rect = d11/d10/d9/d8
+         host = x24
+         skipRoot = x21
+         
+         skipRoot -> sp + 0x90
+         responderNode -> sp + 0x98
+         host -> sp + 0xa0
+         rect -> sp + 0xb8
+         */
+        
+        // sp + 0x100
+        var results: [any UIFocusItem] = []
+        responderNode.visit { node in
+            // $s7SwiftUI13ResponderNodeCAAE24visitBaseFocusResponders8applyingyAA0C13VisitorResultOAA0fgC0_pXE_tFAgCXEfU_TA.33
+            guard let baseFocusResponder = node as? BaseFocusResponder else {
+                return .next
+            }
+            
+            fatalError("TODO")
+        }
+        
+        Log.focus?.log(level: .default, "focus items queried: \(results.count) in: \(rect.loggable) for: \(UIKitFocusItemDescription(host))")
+        
+        return results
+    }
+}
+
+extension FocusBridge {
     struct Flags: OptionSet {
         var rawValue: Int
     }
@@ -544,7 +577,18 @@ extension UIKitContainerFocusItem {
     }
     
     func childFocusItems(in rect: CGRect) -> [UIFocusItem] {
-        fatalError("TODO")
+        /*
+         rect = d11/d10/d9/d8
+         */
+        guard let rootResponder = rootResponder() else {
+            return []
+        }
+        
+        guard let host else {
+            return []
+        }
+        
+        return FocusBridge.focusItems(responderNode: rootResponder.responder, rect: rect, host: host, skipRoot: rootResponder.isVisited)
     }
 }
 

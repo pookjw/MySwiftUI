@@ -1,6 +1,7 @@
 #warning("TODO")
 package import os.log
 private import Foundation
+package import CoreGraphics
 
 package func changedBodyProperties<T>(of type: T.Type) -> [String] {
     fatalError("TODO")
@@ -285,5 +286,23 @@ extension OSLog {
         set {
             unsafe Log.runtimeIssuesLog = newValue
         }
+    }
+}
+
+package struct LoggableRect: CustomStringConvertible {
+    private var rect: CGRect
+    
+    package init(_ rect: CGRect) {
+        self.rect = rect
+    }
+    
+    package var description: String {
+        fatalError("TODO")
+    }
+}
+
+extension CGRect {
+    package var loggable: LoggableRect {
+        return LoggableRect(self)
     }
 }
