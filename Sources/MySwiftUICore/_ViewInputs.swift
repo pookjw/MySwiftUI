@@ -87,10 +87,6 @@ public struct _ViewInputs {
         base.copyCaches()
     }
     
-    func makeRootMatchedGeometryScope() {
-        fatalError("TODO")
-    }
-    
     @inline(__always)
     func animatedPosition() -> Attribute<CGPoint> {
         return base.cachedEnvironment.value.animatedPosition(for: self)

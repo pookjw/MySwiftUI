@@ -289,6 +289,7 @@ package final class ViewGraph: GraphHost {
          x29_52 = x21
          */
         _updateOutputs(x23: x29_51, x22: false, x24: sp_18, x21: x29_52)
+        self.mainUpdates &-= 1
     }
     
     // function signature specialization <Arg[0] = Stack Promoted from Box, Arg[3] = Stack Promoted from Box, Arg[4] = Stack Promoted from Box> of update() -> ()
@@ -438,11 +439,11 @@ package final class ViewGraph: GraphHost {
             
             _ViewDebug.initialize(inputs: &inputs)
             
-            if original.needsGeometry {
+            if inputs.needsGeometry {
                 inputs.makeRootMatchedGeometryScope()
             }
             
-            if original.base.options.contains(.needsStableDisplayListIDs) {
+            if inputs.base.options.contains(.needsStableDisplayListIDs) {
                 // <+1560>
                 inputs.base.pushStableType(rootViewType)
             }
