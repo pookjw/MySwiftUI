@@ -1,7 +1,7 @@
 #warning("TODO")
 
 @safe struct ViewGraphFeatureBuffer: Collection, CustomDebugStringConvertible {        
-    private var contents: UnsafeHeterogeneousBuffer
+    private(set) var contents: UnsafeHeterogeneousBuffer
     
     init(contents: UnsafeHeterogeneousBuffer) {
         unsafe self.contents = contents
@@ -154,7 +154,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-            fatalError("TODO")
+            unsafe elt.body(as: T.self).deinitialize(count: 1)
         }
         
         override class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {

@@ -190,6 +190,11 @@ package final class ViewGraph: GraphHost {
         super.init(data: data)
     }
     
+    deinit {
+        removePreferenceOutlets(isInvalidating: true)
+        features.contents.destroy()
+    }
+    
     package var updatesWillBeVisible: Bool {
         fatalError("TODO")
     }
@@ -571,6 +576,15 @@ package final class ViewGraph: GraphHost {
     
     package subscript<T: ViewGraphFeature>(_ type: T.Type) -> UnsafeMutablePointer<T>? {
         return features[type]
+    }
+    
+    private func removePreferenceOutlets(isInvalidating: Bool) {
+        // isInvalidating = x19
+        guard let preferenceBridge = _preferenceBridge else {
+            return
+        }
+        
+        fatalError("TODO")
     }
 }
 

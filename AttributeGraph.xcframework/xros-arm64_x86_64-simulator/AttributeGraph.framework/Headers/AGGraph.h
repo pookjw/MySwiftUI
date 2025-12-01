@@ -5,6 +5,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+CF_IMPLICIT_BRIDGING_ENABLED
+
 AG_EXTERN AGGraphRef AGGraphCreateShared(AGGraphRef) NS_RETURNS_RETAINED NS_SWIFT_NAME(AGGraphRef.init(shared:));
 AG_EXTERN AGGraphRef AGGraphCreate(void) NS_RETURNS_RETAINED NS_SWIFT_NAME(AGGraphRef.init());
 AG_EXTERN void AGGraphAddTraceEvent(AGGraphRef, int8_t *, void * /* ??? */, void * _Nullable);
@@ -19,6 +21,8 @@ AG_EXTERN const void * _Nullable AGGraphGetOutputValue(AGTypeID);
 AG_EXTERN void AGGraphSetOutputValue(const void * _Nullable, AGTypeID);
 AG_EXTERN void AGGraphSetNeedsUpdate(AGGraphRef) NS_SWIFT_NAME(AGGraphRef.setNeedsUpdate(self:));
 AG_EXTERN void AGGraphInvalidate(AGGraphRef) NS_SWIFT_NAME(AGGraphRef.invalidate(self:));
+
+CF_IMPLICIT_BRIDGING_DISABLED
 
 NS_ASSUME_NONNULL_END
 
