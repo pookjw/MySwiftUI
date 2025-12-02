@@ -179,15 +179,20 @@ typedef struct AGWeakAttribute AGWeakAttribute;
 
 typedef NS_OPTIONS(uint8_t, AGAttributeFlags) {
     AGAttributeFlagsNone = 0,
-    AGAttributeFlagsUnknown0 = 1,
-    AGAttributeFlagsUnknown1 = 2,
-    AGAttributeFlagsUnknown2 = 4,
+    AGAttributeFlagsUnknown0 = (1 << 0),
+    AGAttributeFlagsUnknown1 = (1 << 1),
+    AGAttributeFlagsUnknown2 = (1 << 2),
     AGAttributeFlagsAll = 0xFF
 } NS_SWIFT_NAME(AnyAttribute.Flags);
 
 typedef NS_OPTIONS(uint32_t, AGAttributeTypeFlags) {
     AGAttributeTypeFlagsUnknown = 10
 } NS_SWIFT_NAME(AnyAttribute.TypeFlags);
+
+typedef NS_OPTIONS(uint32_t, AGTypeApplyOptions) {
+    AGTypeApplyOptionsUnknown1 = (1 << 1),
+    AGTypeApplyOptionsUnknown2 = (1 << 2)
+} NS_SWIFT_NAME(TypeApplyOptions);
 
 NS_ASSUME_NONNULL_END
 

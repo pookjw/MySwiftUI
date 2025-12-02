@@ -16,6 +16,7 @@ fileprivate struct MyView: View {
 
 final class BodyViewController: UIViewController {
     override func loadView() {
-        view = _UIHostingView(rootView: MyView())
+        let rootView = MyView()
+        view = _UIHostingView(rootView: rootView)
     }
 }

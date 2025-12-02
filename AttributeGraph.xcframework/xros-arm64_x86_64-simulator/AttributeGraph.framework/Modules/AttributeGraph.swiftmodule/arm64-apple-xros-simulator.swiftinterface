@@ -380,6 +380,7 @@ extension AttributeGraph.TypeID: Swift.Hashable, Swift.CustomStringConvertible {
     public init(_: Any.Type)
     public var type: Any.Type { get }
     public var description: Swift.String { get }
+    public func forEachField(options: AttributeGraph.TypeApplyOptions, do: (Swift.UnsafePointer<Swift.Int8>, Swift.Int, Any.Type) -> Swift.Bool) -> Swift.Bool
 }
 
 @frozen
@@ -458,3 +459,10 @@ extension AttributeGraph.AnyAttribute {
 extension AttributeGraph.AnyWeakAttribute {
     public func unsafeCast<A>(to: A.Type) -> AttributeGraph.WeakAttribute<A>
 }
+
+@_silgen_name("AGTypeApplyFields2")
+@discardableResult
+public func AGTypeApplyFields2(type: any Any.Type, options: AttributeGraph.TypeApplyOptions, do: (Swift.UnsafePointer<Swift.Int8>, Swift.Int, Any.Type) -> Swift.Bool) -> Swift.Bool
+
+@discardableResult
+public func forEachField(of: Any.Type, do: (Swift.UnsafePointer<Swift.Int8>, Swift.Int, Any.Type) -> Void)

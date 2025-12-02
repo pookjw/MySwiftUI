@@ -6,3 +6,4 @@
 #import <AttributeGraph/AGGraph.h>
 #import <AttributeGraph/AGTrace.h>
 #import <AttributeGraph/AGType.h>
+#import <AttributeGraph/AGTuple.h>

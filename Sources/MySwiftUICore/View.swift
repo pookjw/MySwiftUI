@@ -54,3 +54,28 @@ extension View {
         fatalError("TODO")
     }
 }
+
+extension Optional: View where Wrapped : View {
+    public typealias Body = Never
+    
+    public nonisolated static func _makeView(view: _GraphValue<Wrapped?>, inputs: _ViewInputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    public nonisolated static func _makeViewList(view: _GraphValue<Wrapped?>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+    
+    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        fatalError("TODO")
+    }
+    
+    static var canTransition: Bool {
+        fatalError("TODO")
+    }
+    
+    // TODO
+}
+
+extension Optional: PrimitiveView where Wrapped : View {
+}

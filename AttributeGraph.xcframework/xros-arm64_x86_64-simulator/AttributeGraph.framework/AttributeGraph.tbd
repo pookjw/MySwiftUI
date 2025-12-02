@@ -219,7 +219,12 @@ exports:
     _$s14AttributeGraph01_A4BodyP14comparisonModeSo012AGComparisonE0VvgZTq,
     _$s14AttributeGraph01_A4BodyP5flagsSo20AGAttributeTypeFlagsVvgZTq,
     _AGGraphInvalidate,
-    _AGTypeGetKind ]
+    _AGTypeGetKind,
+    _AGTypeApplyFields,
+    _AGTypeApplyFields2,
+    _$sSo8AGTypeIDa14AttributeGraphE12forEachField7options2doSbSo0A12ApplyOptionsV_SbSPys4Int8VG_SiypXptXEtF,
+    _$s14AttributeGraph12forEachField2of2doyypXp_ySPys4Int8VG_SiypXptXEtF,
+    _AGTupleCount ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
