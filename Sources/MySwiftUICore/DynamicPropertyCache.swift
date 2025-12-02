@@ -95,7 +95,7 @@ struct DynamicPropertyCache {
 
 extension DynamicPropertyCache {
     struct Fields {
-        private var layout: DynamicPropertyCache.Fields.Layout
+        private(set) var layout: DynamicPropertyCache.Fields.Layout
         var behaviors: DynamicPropertyBehaviors
         
         init(_ layout: DynamicPropertyCache.Fields.Layout) {
@@ -127,8 +127,8 @@ extension DynamicPropertyCache {
     }
     
     struct Field {
-        fileprivate private(set) var type: DynamicProperty.Type
-        private var offset: Int
+        private(set) var type: DynamicProperty.Type
+        private(set) var offset: Int
         private var name: UnsafePointer<Int8>?
         
         // 원래 없음
@@ -150,8 +150,8 @@ extension DynamicPropertyCache.Fields {
 
 extension DynamicPropertyCache {
     struct TaggedFields {
-        private var tag: Int
-        fileprivate private(set) var fields: [DynamicPropertyCache.Field]
+        private(set) var tag: Int
+        private(set) var fields: [DynamicPropertyCache.Field]
         
         // 원래 없음
         @inline(__always)

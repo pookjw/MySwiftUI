@@ -45,7 +45,7 @@ extension View {
         // x29 = sp + 0x360
         /*
          view = w27
-         self type = x22
+         Self = x21
          */
         // sp + 0x2a0
         let inputs_1 = inputs
@@ -68,7 +68,19 @@ extension View {
 }
 
 extension View {
-    fileprivate static nonisolated func makeBody(view: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer)? {
+    fileprivate static nonisolated func makeBody(
+        view: _GraphValue<Self>, // x2
+        inputs: inout _GraphInputs, // x3
+        fields: DynamicPropertyCache.Fields // x4
+    ) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer)? {
+        /*
+         x29 = sp + 0x70
+         
+         view = x25
+         inputs = x20
+         fields = x24
+         Self = x19
+         */
         fatalError("TODO")
     }
 }
