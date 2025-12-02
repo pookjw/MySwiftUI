@@ -224,7 +224,17 @@ exports:
     _AGTypeApplyFields2,
     _$sSo8AGTypeIDa14AttributeGraphE12forEachField7options2doSbSo0A12ApplyOptionsV_SbSPys4Int8VG_SiypXptXEtF,
     _$s14AttributeGraph12forEachField2of2doyypXp_ySPys4Int8VG_SiypXptXEtF,
-    _AGTupleCount ]
+    _AGTupleCount,
+    _AGTupleElementType,
+    _$sSo11AGTupleTypea14AttributeGraphEyABSayypXpGcfC,
+    _$sSo11AGTupleTypea14AttributeGraphEyABypXpcfC,
+    _$sSo11AGTupleTypea14AttributeGraphE4typeypXpvg,
+    _$sSo11AGTupleTypea14AttributeGraphE7isEmptySbvg,
+    _$sSo11AGTupleTypea14AttributeGraphE7indicesSnySiGvg,
+    _$sSo11AGTupleTypea14AttributeGraphE4type2atypXpSi_tF,
+    _$sSo11AGTupleTypea14AttributeGraphE6offset2at2asS2i_xmtlF,
+    _$sSo11AGTupleTypea14AttributeGraphE10setElement2in2at4from7optionsySv_SiSPyxGSo0A11CopyOptionsVtlF,
+    _$sSo11AGTupleTypea14AttributeGraphE10getElement2in2at2to7optionsySv_SiSpyxGSo0A11CopyOptionsVtlF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

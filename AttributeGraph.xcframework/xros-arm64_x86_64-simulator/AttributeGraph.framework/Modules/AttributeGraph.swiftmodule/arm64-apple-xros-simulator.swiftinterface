@@ -466,3 +466,15 @@ public func AGTypeApplyFields2(type: any Any.Type, options: AttributeGraph.TypeA
 
 @discardableResult
 public func forEachField(of: Any.Type, do: (Swift.UnsafePointer<Swift.Int8>, Swift.Int, Any.Type) -> Void)
+
+extension AttributeGraph.TupleType {
+    public init(_: [Any.Type])
+    public init(_: Any.Type)
+    public var type: Any.Type { get }
+    public var isEmpty: Swift.Bool { get }
+    public var indices: Swift.Range<Swift.Int> { get }
+    public func type(at: Swift.Int) -> Any.Type
+    public func offset<T>(at: Swift.Int, as: T.Type) -> Swift.Int
+    public func setElement<T>(in: Swift.UnsafeMutableRawPointer, at: Swift.Int, from: Swift.UnsafePointer<T>, options: AttributeGraph.TupleCopyOptions)
+    public func getElement<T>(in: Swift.UnsafeMutableRawPointer, at: Swift.Int, to: Swift.UnsafeMutablePointer<T>, options: AttributeGraph.TupleCopyOptions)
+}

@@ -1,3 +1,4 @@
+// CE1D93D8ECBBEB5FE2E32E69A123E7CB
 #warning("TODO")
 
 @_typeEraser(DebugReplaceableView) @_typeEraser(AnyView) @preconcurrency @MainActor public protocol View {
@@ -48,9 +49,26 @@ extension View {
          */
         // sp + 0x2a0
         let inputs_1 = inputs
-        // sp + 0x240
+        // sp + 0x240 / x24 + x25 + w26 + w28
         let fields = DynamicPropertyCache.fields(of: self.self)
         
+        // <+124>
+        // sp + 0x240
+        var inputs_2 = inputs_1
+        // sp + 0x180
+        let fields_1 = fields
+        // view -> sp + 0xc0
+        // sp + 0x1e0
+        let inputs_3 = inputs_1
+        
+        // <+184>
+        let body = makeBody(view: view, inputs: &inputs_2.base, fields: fields_1)
+        fatalError("TODO")
+    }
+}
+
+extension View {
+    fileprivate static nonisolated func makeBody(view: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer)? {
         fatalError("TODO")
     }
 }

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef struct AGSwiftMetadata {} AGSwiftMetadata NS_SWIFT_NAME(Metadata);
 typedef const AGSwiftMetadata * AGTypeID __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TypeID);
+typedef const AGSwiftMetadata * AGTupleType __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TupleType);
 
 typedef struct AGTypeSignature {
     uint32_t words[5];
@@ -193,6 +194,10 @@ typedef NS_OPTIONS(uint32_t, AGTypeApplyOptions) {
     AGTypeApplyOptionsUnknown1 = (1 << 1),
     AGTypeApplyOptionsUnknown2 = (1 << 2)
 } NS_SWIFT_NAME(TypeApplyOptions);
+
+typedef NS_OPTIONS(uint32_t, AGTupleCopyOptions) {
+    AGTupleCopyOptionsNone = 0
+} NS_SWIFT_NAME(TupleCopyOptions);
 
 NS_ASSUME_NONNULL_END
 
