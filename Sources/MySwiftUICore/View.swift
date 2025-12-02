@@ -49,7 +49,7 @@ extension View {
         // sp + 0x2a0
         let inputs_1 = inputs
         // sp + 0x240
-        let fields = DynamicPropertyCache.fields(of: type(of: self))
+        let fields = DynamicPropertyCache.fields(of: self.self)
         
         fatalError("TODO")
     }

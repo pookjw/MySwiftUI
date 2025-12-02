@@ -218,7 +218,8 @@ exports:
     _$s14AttributeGraph01_A4BodyP14_updateDefaultyySvFZTq,
     _$s14AttributeGraph01_A4BodyP14comparisonModeSo012AGComparisonE0VvgZTq,
     _$s14AttributeGraph01_A4BodyP5flagsSo20AGAttributeTypeFlagsVvgZTq,
-    _AGGraphInvalidate ]
+    _AGGraphInvalidate,
+    _AGTypeGetKind ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

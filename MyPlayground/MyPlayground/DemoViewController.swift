@@ -68,6 +68,7 @@ extension DemoViewController {
         case colorWhiteView
         case switchingColorsView
         case anyViewSwitchingView
+        case bodyView
         
         var title: String {
             switch self {
@@ -83,6 +84,8 @@ extension DemoViewController {
                 return _typeName(SwitchingColorsViewController.self, qualified: false)
             case .anyViewSwitchingView:
                 return _typeName(AnyViewSwitchingViewController.self, qualified: false)
+            case .bodyView:
+                return _typeName(BodyViewController.self, qualified: false)
             }
         }
         
@@ -100,6 +103,8 @@ extension DemoViewController {
                 return SwitchingColorsViewController()
             case .anyViewSwitchingView:
                 return AnyViewSwitchingViewController()
+            case .bodyView:
+                return BodyViewController()
             }
         }
     }

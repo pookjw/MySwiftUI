@@ -11,12 +11,28 @@ NS_ASSUME_NONNULL_BEGIN
 #define AG_EXTERN           extern
 #endif
 
-typedef struct AGSwiftMetadata {} AGSwiftMetadata;
+typedef struct AGSwiftMetadata {} AGSwiftMetadata NS_SWIFT_NAME(Metadata);
 typedef const AGSwiftMetadata * AGTypeID __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TypeID);
 
 typedef struct AGTypeSignature {
     uint32_t words[5];
 } AGTypeSignature NS_SWIFT_NAME(Signature);
+
+/*
+AGTypeGetKind
+https://github.com/swiftlang/swift/blob/36a3c6e61101419f4557781da79f291445cdfa1b/stdlib/public/core/ReflectionMirror.swift#L228
+*/
+typedef NS_ENUM(uint32_t, AGMetadataKind) {
+    AGMetadataKindNone = 0,
+    AGMetadataKindClass = 1,
+    AGMetadataKindStruct = 2,
+    AGMetadataKindEnum = 3,
+    AGMetadataKindOptional = 4,
+    AGMetadataKindTuple = 5,
+    AGMetadataKindFunction = 6,
+    AGMetadataKindExistential = 7,
+    AGMetadataKindMetatype = 8
+} NS_SWIFT_NAME(MetadataKind);
 
 typedef NS_OPTIONS(uint32_t, AGValueOptions) {
     AGValueOptionsNone = 0

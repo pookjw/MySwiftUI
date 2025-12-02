@@ -804,6 +804,14 @@ class ViewController: UIViewController {
             return true
         }
         
+        print("===")
+        
+        print(_typeName(DynamicPropertyCache.Fields.self, qualified: true))
+        _forEachField(of: DynamicPropertyCache.Fields.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
         
@@ -890,10 +898,10 @@ class ViewController: UIViewController {
         
         //        let rootView = EmptyView()
 //        let rootView = AnyView(Color.black)
-        let rootView = Color.black
+//        let rootView = Color.black
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
-//        let rootView = MyView()
+        let rootView = MyView()
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView

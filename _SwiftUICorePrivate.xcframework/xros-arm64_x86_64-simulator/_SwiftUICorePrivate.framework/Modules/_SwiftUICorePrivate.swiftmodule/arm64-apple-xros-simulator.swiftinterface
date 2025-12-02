@@ -1005,3 +1005,11 @@ open class ViewResponder {
 open class MultiViewResponder {
   
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DynamicPropertyCache {
+  public struct Fields {
+    // public enum Layout {}
+  }
+}

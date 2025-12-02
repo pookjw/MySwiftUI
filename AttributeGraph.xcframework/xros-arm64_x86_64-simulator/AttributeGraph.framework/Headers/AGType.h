@@ -6,5 +6,6 @@
 
 AG_EXTERN CFStringRef AGTypeDescription(AGTypeID) CF_RETURNS_RETAINED;
 AG_EXTERN AGTypeSignature AGTypeGetSignature(AGTypeID) NS_SWIFT_NAME(getter:TypeID.signature(self:));
+AG_EXTERN AGMetadataKind AGTypeGetKind(AGTypeID) NS_SWIFT_NAME(MetadataKind.init(_:));
 
 #endif
