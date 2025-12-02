@@ -187,14 +187,24 @@ package final class UIHostingViewBase: NSObject {
             return
         }
         
-        let viewGraph = viewGraph
-        
+        // x22
         guard let updateDelegate = viewGraph.updateDelegate else {
             return
         }
         
+        // x20
         let observedWindow = observedWindow
-        addOrRemoveKeyboardTracking(oldWindow: observedWindow)
+        
+        if
+            isLinkedOnOrAfter(.v2),
+            self.uiView != nil, // x25
+            let observedWindow
+        {
+            _ = uiView.window
+            if let keyboardSceneDelegate = self.uiView?.keyboardSceneDelegate {
+                UICoreKeyboardTrackingClass().remove(trackingElement, window: observedWindow, keyboardDelegate: keyboardSceneDelegate)
+            }
+        }
         
         let newWindow = uiView.window
         if newWindow != nil {
@@ -882,42 +892,6 @@ package final class UIHostingViewBase: NSObject {
 #error("TODO")
         fatalError("TODO")
 #endif
-    }
-    
-    // ___lldb_unnamed_symbol320011
-    @MainActor
-    private func addOrRemoveKeyboardTracking(oldWindow: UIWindow?) {
-        guard isLinkedOnOrAfter(.v2) else {
-            return
-        }
-        guard let uiView else {
-            return
-        }
-        guard configuration.options.contains(.allowKeyboardSafeArea) else {
-            return
-        }
-        
-        if let oldWindow {
-            guard uiView.window == nil else {
-                return
-            }
-            
-            guard let keyboardSceneDelegate = uiView.keyboardSceneDelegate else {
-                return
-            }
-            
-            UICoreKeyboardTrackingClass().remove(trackingElement, window: oldWindow, keyboardDelegate: keyboardSceneDelegate)
-        } else {
-            guard let window = uiView.window else {
-                return
-            }
-            
-            guard let keyboardSceneDelegate = uiView.keyboardSceneDelegate else {
-                return
-            }
-            
-            UICoreKeyboardTrackingClass().add(trackingElement, window: window, keyboardDelegate: keyboardSceneDelegate)
-        }
     }
     
     // ___lldb_unnamed_symbol317388

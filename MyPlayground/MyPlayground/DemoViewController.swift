@@ -28,14 +28,14 @@ final class DemoViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.colorBlackView
+        let item = DemoViewController.Item.allCases.last!
+//        let item = DemoViewController.Item.colorBlackView
         pushToItem(item)
         
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            navigationController?.popViewController(animated: true)
-        }
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            navigationController?.popViewController(animated: true)
+//        }
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
