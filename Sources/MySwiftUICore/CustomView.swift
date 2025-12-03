@@ -1,6 +1,6 @@
 // CE1D93D8ECBBEB5FE2E32E69A123E7CB
 #warning("TODO")
-internal import AttributeGraph
+private import AttributeGraph
 
 extension View {
     static nonisolated func makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -38,9 +38,9 @@ extension View {
         /*
          x29 = sp + 0x70
          
-         view = x25
+         view = x25 / sp + 0x2c
          inputs = x20
-         fields = x24
+         fields = x24 / sp + 0x10
          Self = x19
          */
         let kind = MetadataKind(TypeID(Self.self))
@@ -64,28 +64,4 @@ struct ViewBodyAccessor<Container: View>: BodyAccessor {
     func updateBody(of container: Container, changed: Bool) {
         fatalError("TODO")
     }
-}
-
-protocol BodyAccessor {
-    associatedtype Container
-    associatedtype Body
-    
-    func updateBody(of container: Self.Container, changed: Bool)
-}
-
-extension BodyAccessor {
-    func makeBody(container: _GraphValue<Self.Container>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
-        fatalError("TODO")
-    }
-    
-    func setBody(_ body: () -> Self.Body) {
-        fatalError("TODO")
-    }
-}
-
-protocol BodyAccessorRule {
-    static var container: Any.Type { get }
-    static func value<T>(as: T.Type, attribute: AnyAttribute) -> T?
-    static func buffer<T>(as: T.Type, attribute: AnyAttribute) -> _DynamicPropertyBuffer?
-    static func metaProperties<T>(as: T.Type, attribute: AnyAttribute) -> [(String, AnyAttribute)]
 }

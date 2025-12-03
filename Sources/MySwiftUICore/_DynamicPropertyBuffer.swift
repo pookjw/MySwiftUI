@@ -4,15 +4,18 @@
 public struct _DynamicPropertyBuffer {
     private var contents: UnsafeHeterogeneousBuffer
     
+    @inline(__always)
     init<T>(fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs) {
         contents = UnsafeHeterogeneousBuffer()
         addFields(fields, container: container, inputs: &inputs, baseOffset: 0)
     }
     
+    @inline(__always)
     init() {
         contents = UnsafeHeterogeneousBuffer()
     }
     
+    @inline(__always)
     init<T>(fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs, baseOffset: Int) {
         contents = UnsafeHeterogeneousBuffer()
         addFields(fields, container: container, inputs: &inputs, baseOffset: baseOffset)
@@ -106,6 +109,18 @@ protocol DynamicPropertyBox: DynamicProperty {
     func reset()
     func update(property: inout Self.Property, phase: _GraphInputs.Phase) -> Bool
     func getState<T>(type: T.Type) -> Binding<T>?
+}
+
+extension DynamicPropertyBox {
+    func destroy(){
+    }
+    
+    func reset() {
+    }
+    
+    func getState<T>(type: T.Type) -> Binding<T>? {
+        fatalError("TODO")
+    }
 }
 
 fileprivate class BoxVTableBase: _UnsafeHeterogeneousBuffer_VTable {
