@@ -85,8 +85,30 @@ struct GeometryMeasurer: ViewGraphGeometryMeasurer {
 
 extension ViewController: ContentResponder {}
 
+struct Box: DynamicPropertyBox {
+    func update(property: inout State<Bool>, phase: _GraphInputs.Phase) -> Bool {
+        fatalError()
+    }
+    
+    typealias Property = State<Bool>
+}
+
 class ViewController: UIViewController {
     override func loadView() {
+        var buffer = _DynamicPropertyBuffer()
+        buffer.applyChanged { index in
+            print(index)
+        }
+        buffer.append(Box(), fieldOffset: 30)
+        buffer.append(Box(), fieldOffset: 60)
+        let object = NSObject()
+        let result = buffer.update(container: Unmanaged.passUnretained(object).toOpaque(), phase: .invalid)
+//        print(buffer.count)
+//        buffer.applyChanged { index in
+//            print(index)
+//        }
+//        buffer.reset()
+//        buffer.destroy()
 //        var helper = ContentResponderHelper<ViewController>()
 ////        helper.data = self
 //        

@@ -21,24 +21,37 @@ public struct _DynamicPropertyBuffer {
         addFields(fields, container: container, inputs: &inputs, baseOffset: baseOffset)
     }
     
-    func traceMountedProperties<T>(to: _GraphValue<T>, fields: DynamicPropertyCache.Fields) {
+    func traceMountedProperties<T>(to value: _GraphValue<T>, fields: DynamicPropertyCache.Fields) {
         fatalError("TODO")
     }
     
-    func append<T: DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
-        fatalError("TODO")
+    mutating func append<T: DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
+        let index = contents.append(box, vtable: BoxVTable<T>.self)
+        var flags = contents[index].flags
+        flags &= 0x80000000
+        flags |= UInt32(fieldOffset)
+        contents[index].flags = flags
     }
     
     func reset() {
-        fatalError("TODO")
+        for element in contents {
+            element.vtable(as: BoxVTableBase.self).reset(elt: element)
+        }
     }
     
     func update(container: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
         fatalError("TODO")
     }
     
-    func destroy() {
-        fatalError("TODO")
+    mutating func destroy() {
+        // contents = x19
+        if Signpost.linkDestroy.isEnabled {
+            for element in contents {
+                Signpost.linkDestroy.traceEvent(type: .event, object: nil, "Detached: [ %p ]", args: [UInt(bitPattern: element.address)])
+            }
+        }
+        
+        contents.destroy()
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {
@@ -87,22 +100,26 @@ public struct _DynamicPropertyBuffer {
     }
     
     var isEmpty: Bool {
-        fatalError("TODO")
+        return contents.isEmpty
     }
     
     var count: Int {
-        fatalError("TODO")
+        return contents.count
     }
     
-    func applyChanged(to: (Int) -> ()) {
-        fatalError("TODO")
+    func applyChanged(to block: (Int) -> ()) {
+        for element in contents {
+            if element.flags & 0x80000000 != 0 {
+                block(Int(element.flags & 0x7fffffff))
+            }
+        }
     }
 }
 
 @available(*, unavailable)
 extension _DynamicPropertyBuffer: Sendable {}
 
-protocol DynamicPropertyBox: DynamicProperty {
+protocol DynamicPropertyBox {
     associatedtype Property: DynamicProperty
     
     func destroy()

@@ -1013,3 +1013,24 @@ public struct DynamicPropertyCache {
     // public enum Layout {}
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._DynamicPropertyBuffer {
+  @_silgen_name("$s7SwiftUI22_DynamicPropertyBufferVACycfC")
+  public init()
+  public mutating func append<T: _SwiftUICorePrivate.DynamicPropertyBox>(_ box: T, fieldOffset: Swift.Int)
+  public func reset()
+  public mutating func destroy()
+  public func applyChanged(to: (Swift.Int) -> ())
+  public var count: Swift.Int { get }
+  public var isEmpty: Swift.Bool { get }
+  public mutating func update(container: Swift.UnsafeMutableRawPointer, phase: SwiftUI._GraphInputs.Phase) -> Swift.Bool
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol DynamicPropertyBox {
+  associatedtype Property: DynamicProperty
+  func update(property: inout Self.Property, phase: SwiftUI._GraphInputs.Phase) -> Bool
+}
