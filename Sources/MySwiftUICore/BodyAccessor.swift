@@ -27,10 +27,30 @@ extension BodyAccessor {
             fatalError(message)
         }
         
-        let value = _GraphValue<Self.Body>(Attribute(identifier: container.value.identifier))
-        let buffer: _DynamicPropertyBuffer?
-        fatalError("TODO")
-        return (value, buffer)
+        return withUnsafePointer(to: inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
+            let flags: any RuleThreadFlags.Type
+            if fields.behaviors.contains(.allowsAsync) {
+                flags = AsyncThreadFlags.self
+            } else {
+                flags = MainThreadFlags.self
+            }
+            
+            func project<T: RuleThreadFlags>(flags: T.Type) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
+                var buffer = _DynamicPropertyBuffer(fields: fields, container: container, inputs: &inputs)
+                if buffer.isEmpty {
+                    buffer.destroy()
+                    let rule = StaticBody<Self, T>(accessor: self, container: container.value)
+                    let graph = _GraphValue<Self.Body>(Attribute(rule))
+                    return (graph, buffer)
+                } else {
+                    let rule = DynamicBody<Self, T>(accessor: self, container: container.value, phase: pointer.pointee.phase, links: buffer, resetSeed: 0)
+                    let graph = _GraphValue<Self.Body>(Attribute(rule))
+                    return (graph, buffer)
+                }
+            }
+            
+            return _openExistential(flags, do: project)
+        }
     }
     
     func setBody(_ body: () -> Self.Body) {
@@ -46,12 +66,16 @@ protocol BodyAccessorRule {
 }
 
 fileprivate struct MainThreadFlags: RuleThreadFlags {
+    // TODO
 }
 
 fileprivate struct AsyncThreadFlags: RuleThreadFlags {
+    // TODO
 }
 
 fileprivate protocol RuleThreadFlags {
+    // TODO
+    // flags
 }
 
 fileprivate struct EmbeddedDynamicPropertyBox<T: DynamicProperty>: DynamicPropertyBox {
@@ -60,15 +84,92 @@ fileprivate struct EmbeddedDynamicPropertyBox<T: DynamicProperty>: DynamicProper
     }
 }
 
-fileprivate struct StaticBody<T, U> {
+fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStringConvertible, BodyAccessorRule, StatefulRule {
+    typealias Value = T.Body
+    
+    var description: String {
+        fatalError("TODO")
+    }
+    
     private let accessor: T
-    //      var _container: 14AttributeGraph0A0Vy9Container7SwiftUI12BodyAccessorQzG
+    private var _container: Attribute<T.Container>
+    
+    init(accessor: T, container: Attribute<T.Container>) {
+        self.accessor = accessor
+        self._container = container
+    }
+    
+    var container: T.Container {
+        return _container.value
+    }
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+    
+    static var container: Any.Type {
+        fatalError("TODO")
+    }
+    
+    static func value<Value>(as: Value.Type, attribute: AnyAttribute) -> Value? {
+        fatalError("TODO")
+    }
+    
+    static func buffer<V>(as: V.Type, attribute: AnyAttribute) -> _DynamicPropertyBuffer? {
+        fatalError("TODO")
+    }
+    
+    static func metaProperties<V>(as: V.Type, attribute: AnyAttribute) -> [(String, AnyAttribute)] {
+        fatalError("TODO")
+    }
 }
 
-fileprivate struct DynamicBody<T, U> {
-    let accessor: T
-//    var _container: 14AttributeGraph0A0Vy9Container7SwiftUI12BodyAccessorQzG
+fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStringConvertible, ObservedAttribute, BodyAccessorRule, StatefulRule {
+    typealias Value = T.Body
+    
+    private let accessor: T
+    private var _container: Attribute<T.Container>
     @Attribute private var phase: _GraphInputs.Phase
     private var links: _DynamicPropertyBuffer
     private var resetSeed: UInt32
+    
+    init(accessor: T, container: Attribute<T.Container>, phase: Attribute<_GraphInputs.Phase>, links: _DynamicPropertyBuffer, resetSeed: UInt32) {
+        self.accessor = accessor
+        self._container = container
+        self._phase = phase
+        self.links = links
+        self.resetSeed = resetSeed
+    }
+    
+    var container: T.Container {
+        return _container.value
+    }
+    
+    var description: String {
+        fatalError("TODO")
+    }
+    
+    mutating func destroy() {
+        fatalError("TODO")
+    }
+    
+    mutating func updateValue() {
+        fatalError("TODO")
+    }
+    
+    static var container: Any.Type {
+        fatalError("TODO")
+    }
+    
+    static func value<Value>(as: Value.Type, attribute: AnyAttribute) -> Value? {
+        fatalError("TODO")
+    }
+    
+    static func buffer<V>(as: V.Type, attribute: AnyAttribute) -> _DynamicPropertyBuffer? {
+        fatalError("TODO")
+    }
+    
+    static func metaProperties<V>(as: V.Type, attribute: AnyAttribute) -> [(String, AnyAttribute)] {
+        fatalError("TODO")
+    }
 }
