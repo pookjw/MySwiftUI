@@ -106,7 +106,13 @@ fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomString
     }
     
     func updateValue() {
-        fatalError("TODO")
+        // self = sp + 0x80
+        MainActor.assumeIsolated { [unchecked = UncheckedSendable(self)] in
+            let observationCenter = ObservationCenter.current
+            let currentAttribute = AnyAttribute.current!
+            let container = unchecked.value.container
+            fatalError("TODO")
+        }
     }
     
     static var container: Any.Type {

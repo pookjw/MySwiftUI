@@ -239,7 +239,8 @@ exports:
     _$sSo15AGWeakAttributea0B5GraphE2eeoiySbAB_ABtFZ,
     _$sSo15AGWeakAttributea0B5GraphE9hashValueSivg,
     _$sSo15AGWeakAttributea0B5GraphE2eeoiySbAB_ABtFZ,
-    _$sSo15AGWeakAttributea0B5GraphE9hashValueSivpMV ]
+    _$sSo15AGWeakAttributea0B5GraphE9hashValueSivpMV,
+    _AGGraphGetAttributeSubgraph2 ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -29,11 +29,34 @@ internal import AttributeGraph
         fatalError("TODO")
     }
     
-    func invalidate<T>(_: Attribute<T>, onChangeIn: [ObservationTracking._AccessList]) {
+    func invalidate<T>(_ attribute: Attribute<T>, onChangeIn: [ObservationTracking._AccessList]) {
         fatalError("TODO")
     }
     
-    fileprivate func invalidate<T>(_: Attribute<T>, onChangeIn: ObservationTracking._AccessList) {
+    fileprivate func invalidate<T>(_ attribute: Attribute<T>, onChangeIn: ObservationTracking._AccessList) {
+        /*
+         self = sp + 0xf0
+         onChangeIn = sp + 0x108
+         attribute = x20
+         */
+        // <+408>
+        // sp + 0xe0
+        guard let subgraph = attribute.identifier.subgraph2 else {
+            return
+        }
+        
+        let box = WeakBox(GraphHost.currentHost)
+        let weakAttribute = WeakAttribute(attribute)
+        
+        if let invalidation = invalidations.removeValue(forKey: weakAttribute.base) {
+            // <+632>
+            fatalError("TODO")
+        } else {
+            // <+596>
+            fatalError("TODO")
+        }
+        
+        // <+560>
         fatalError("TODO")
     }
 }
