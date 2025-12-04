@@ -21,6 +21,7 @@
 		4F659C7E2E6D92B3000BA8A3 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8D0FA2E560F5600352E55 /* SwiftUI.framework */; };
 		4F7A46A62E72ECBC00BD29EF /* _QuartzCorePrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A46A52E72ECBC00BD29EF /* _QuartzCorePrivate.xcframework */; };
 		4F7A46AA2E72ECD700BD29EF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A46A92E72ECD700BD29EF /* QuartzCore.framework */; };
+		4F93477A2EE1DCC90030B3A1 /* _ObservationPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9347792EE1DCC90030B3A1 /* _ObservationPrivate.xcframework */; };
 		4FACEF952E895EB300467C05 /* RealitySimulationServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FACEF942E895EB300467C05 /* RealitySimulationServices.xcframework */; };
 		4FE8D0F72E560F0F00352E55 /* _SwiftUIPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8D0F62E560F0F00352E55 /* _SwiftUIPrivate.xcframework */; };
 		4FFB34082ED851AC003287E0 /* UIIntelligenceSupport.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFB34072ED851AC003287E0 /* UIIntelligenceSupport.xcframework */; };
@@ -41,6 +42,7 @@
 		4F48088B2E4CE8E3004F6972 /* _SwiftPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftPrivate.xcframework; path = ../_SwiftPrivate.xcframework; sourceTree = "<group>"; };
 		4F7A46A52E72ECBC00BD29EF /* _QuartzCorePrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _QuartzCorePrivate.xcframework; path = ../_QuartzCorePrivate.xcframework; sourceTree = "<group>"; };
 		4F7A46A92E72ECD700BD29EF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4F9347792EE1DCC90030B3A1 /* _ObservationPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _ObservationPrivate.xcframework; path = ../_ObservationPrivate.xcframework; sourceTree = "<group>"; };
 		4FACEF942E895EB300467C05 /* RealitySimulationServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealitySimulationServices.xcframework; path = ../RealitySimulationServices.xcframework; sourceTree = "<group>"; };
 		4FE8D0C72E55D05300352E55 /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = System/Library/Frameworks/RealityKit.framework; sourceTree = SDKROOT; };
 		4FE8D0F62E560F0F00352E55 /* _SwiftUIPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftUIPrivate.xcframework; path = ../_SwiftUIPrivate.xcframework; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				4F7A46AA2E72ECD700BD29EF /* QuartzCore.framework in Frameworks */,
 				4F129C0E2E6CA3BC00AE98B6 /* UIKit.framework in Frameworks */,
 				4FFB34082ED851AC003287E0 /* UIIntelligenceSupport.xcframework in Frameworks */,
+				4F93477A2EE1DCC90030B3A1 /* _ObservationPrivate.xcframework in Frameworks */,
 				4F659C7E2E6D92B3000BA8A3 /* SwiftUI.framework in Frameworks */,
 				4F129C0C2E6C9DC100AE98B6 /* _UIKitPrivate.xcframework in Frameworks */,
 				4F48088C2E4CE8E3004F6972 /* _SwiftPrivate.xcframework in Frameworks */,
@@ -117,6 +120,7 @@
 		4F48088A2E4CE8E3004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F9347792EE1DCC90030B3A1 /* _ObservationPrivate.xcframework */,
 				4FFB34072ED851AC003287E0 /* UIIntelligenceSupport.xcframework */,
 				4F21C1432ED5BE180078D156 /* FrontBoardServices.xcframework */,
 				4F04861D2E92604600B91DAB /* AttributeGraph.xcframework */,

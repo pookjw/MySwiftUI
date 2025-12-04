@@ -460,6 +460,17 @@ extension AttributeGraph.AnyWeakAttribute {
     public func unsafeCast<A>(to: A.Type) -> AttributeGraph.WeakAttribute<A>
 }
 
+extension AttributeGraph.AnyWeakAttribute: Swift.Hashable {
+    public static func == (lhs: AttributeGraph.AnyWeakAttribute, rhs: AttributeGraph.AnyWeakAttribute) -> Swift.Bool
+    public func hash(into: inout Swift.Hasher)
+    @_silgen_name("$sSo15AGWeakAttributea0B5GraphE9hashValueSivg")
+    public var hashValue: Swift.Int { get }
+}
+
+extension AttributeGraph.AnyWeakAttribute: Swift.CustomStringConvertible {
+    public var description : Swift.String { get }
+}
+
 @_silgen_name("AGTypeApplyFields2")
 @discardableResult
 public func AGTypeApplyFields2(type: any Any.Type, options: AttributeGraph.TypeApplyOptions, do: (Swift.UnsafePointer<Swift.Int8>, Swift.Int, Any.Type) -> Swift.Bool) -> Swift.Bool

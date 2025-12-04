@@ -12,6 +12,7 @@ import SwiftUI
 @_exported import CoreGraphics
 @_exported import Spatial
 import AttributeGraph
+@_spi(SwiftUI) import _ObservationPrivate
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -1034,4 +1035,21 @@ extension SwiftUI._DynamicPropertyBuffer {
 public protocol DynamicPropertyBox {
   associatedtype Property: DynamicProperty
   func update(property: inout Self.Property, phase: SwiftUI._GraphInputs.Phase) -> Bool
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public final class ThreadSpecific<T> {
+  public init(_: T)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+@_spi(SwiftUI)
+public final class ObservationCenter {
+  public static var current: _SwiftUICorePrivate.ObservationCenter { get }
+  public func _withObservationStashed<T>(do: () throws -> T) rethrows -> (value: T, accessOccurred: Bool)
+  public func _withObservation<T>(do: () throws -> T) rethrows -> (value: T, accessList: _ObservationPrivate.ObservationTracking._AccessList?)
+  public func _withObservation<T, U>(attribute: Attribute<U>, do: () throws -> T) rethrows -> T
+  public func invalidate<T>(_: Attribute<T>, onChangeIn: [_ObservationPrivate.ObservationTracking._AccessList])
 }

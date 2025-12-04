@@ -24,6 +24,7 @@
 		4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09232E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework */; };
 		4F8F092B2E51DA7A00EFC573 /* MRUIKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09242E51DA7A00EFC573 /* MRUIKit.xcframework */; };
 		4F92C83F2E8BA31000803CE0 /* MySwiftUITraits in Frameworks */ = {isa = PBXBuildFile; productRef = 4F92C83E2E8BA31000803CE0 /* MySwiftUITraits */; };
+		4F93472B2EE1C1670030B3A1 /* _ObservationPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F93472A2EE1C1670030B3A1 /* _ObservationPrivate.xcframework */; };
 		4FACEFA82E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FACEFA72E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework */; };
 		4FACF25F2E63E3FC000CB163 /* _SwiftPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09222E51DA7A00EFC573 /* _SwiftPrivate.xcframework */; };
 		4FD4A1F62E910B4300C9B545 /* TCC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD4A1F52E910B4300C9B545 /* TCC.xcframework */; };
@@ -48,6 +49,7 @@
 		4F8F09222E51DA7A00EFC573 /* _SwiftPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftPrivate.xcframework; path = ../_SwiftPrivate.xcframework; sourceTree = "<group>"; };
 		4F8F09232E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftUIPrivate.xcframework; path = ../_SwiftUIPrivate.xcframework; sourceTree = "<group>"; };
 		4F8F09242E51DA7A00EFC573 /* MRUIKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MRUIKit.xcframework; path = ../MRUIKit.xcframework; sourceTree = "<group>"; };
+		4F93472A2EE1C1670030B3A1 /* _ObservationPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _ObservationPrivate.xcframework; path = ../_ObservationPrivate.xcframework; sourceTree = "<group>"; };
 		4FACEFA72E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _CoreFoundationPrivate.xcframework; path = ../_CoreFoundationPrivate.xcframework; sourceTree = "<group>"; };
 		4FD4A1F52E910B4300C9B545 /* TCC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TCC.xcframework; path = ../TCC.xcframework; sourceTree = "<group>"; };
 		4FE8D0FC2E56AA8200352E55 /* _QuartzCorePrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _QuartzCorePrivate.xcframework; path = ../_QuartzCorePrivate.xcframework; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F93472B2EE1C1670030B3A1 /* _ObservationPrivate.xcframework in Frameworks */,
 				4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */,
 				4F39783B2EC09D1A005E1901 /* UIAccessibility.xcframework in Frameworks */,
 				4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */,
@@ -126,6 +129,7 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F93472A2EE1C1670030B3A1 /* _ObservationPrivate.xcframework */,
 				4F5382222ED832050013392A /* UIIntelligenceSupport.xcframework */,
 				4F8923462ED5B5FF00FFF23C /* FrontBoardServices.xcframework */,
 				4F39783A2EC09D1A005E1901 /* UIAccessibility.xcframework */,

@@ -234,7 +234,12 @@ exports:
     _$sSo11AGTupleTypea14AttributeGraphE4type2atypXpSi_tF,
     _$sSo11AGTupleTypea14AttributeGraphE6offset2at2asS2i_xmtlF,
     _$sSo11AGTupleTypea14AttributeGraphE10setElement2in2at4from7optionsySv_SiSPyxGSo0A11CopyOptionsVtlF,
-    _$sSo11AGTupleTypea14AttributeGraphE10getElement2in2at2to7optionsySv_SiSpyxGSo0A11CopyOptionsVtlF ]
+    _$sSo11AGTupleTypea14AttributeGraphE10getElement2in2at2to7optionsySv_SiSpyxGSo0A11CopyOptionsVtlF,
+    _$sSo15AGWeakAttributeaSH0B5GraphMc,
+    _$sSo15AGWeakAttributea0B5GraphE2eeoiySbAB_ABtFZ,
+    _$sSo15AGWeakAttributea0B5GraphE9hashValueSivg,
+    _$sSo15AGWeakAttributea0B5GraphE2eeoiySbAB_ABtFZ,
+    _$sSo15AGWeakAttributea0B5GraphE9hashValueSivpMV ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

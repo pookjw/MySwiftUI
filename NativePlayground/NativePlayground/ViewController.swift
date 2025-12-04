@@ -13,7 +13,7 @@ import _UIKitPrivate
 import ObjectiveC.runtime
 import ObjectiveC.message
 import DesignLibrary
-import _SwiftUICorePrivate
+@_spi(SwiftUI) import _SwiftUICorePrivate
 import AttributeGraph
 import Spatial
 
@@ -95,13 +95,6 @@ struct Box: DynamicPropertyBox {
 
 class ViewController: UIViewController {
     override func loadView() {
-        var buffer = _DynamicPropertyBuffer()
-//        buffer.applyChanged { index in
-//            print(index)
-//        }
-        buffer.append(Box(), fieldOffset: 30)
-        buffer.append(Box(), fieldOffset: 60)
-        buffer.getState(type: NSObject.self)
 //        let object = NSObject()
 //        let result = buffer.update(container: Unmanaged.passUnretained(object).toOpaque(), phase: .invalid)
 //        print(buffer.count)
@@ -617,6 +610,13 @@ class ViewController: UIViewController {
         
         print(_typeName(_typeByName("7SwiftUI13_ProposedSizeV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI13_ProposedSizeV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI17ObservationCenterC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI17ObservationCenterC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      

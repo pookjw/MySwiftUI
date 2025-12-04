@@ -1,6 +1,9 @@
+// 82B2D47816BC992595021D60C278AFF0
+
 #warning("TODO")
 package import Foundation
 private import CoreFoundation
+private import _DarwinFoundation3.pthread
 
 package func onMainThread(do block: @MainActor @Sendable @escaping () -> Void) {
     if Thread.isMainThread {
@@ -76,3 +79,49 @@ extension RunLoop {
         }
     }
 }
+
+final class ThreadSpecific<T: Sendable> {
+    private nonisolated(unsafe) var key: UInt
+    private let defaultValue: T
+    
+    init(_ defaultValue: T) {
+        self.key = 0
+        self.defaultValue = defaultValue
+        
+        pthread_key_create(&key) { pointer in
+            let ptr = pointer.assumingMemoryBound(to: Any.self)
+            ptr.deinitialize(count: 1)
+            ptr.deallocate()
+        }
+    }
+    
+    deinit {
+        var message = _typeName(type(of: self), qualified: false)
+        message.append(".deinit is unsafe and would leak")
+        fatalError(message)
+    }
+    
+    var value: T {
+        get {
+            return box.pointee as! T
+        }
+        set {
+            box.withMemoryRebound(to: T.self, capacity: 1) { pointer in
+                pointer.pointee = newValue
+            }
+        }
+    }
+    
+    fileprivate var box: UnsafeMutablePointer<Any> {
+        if let pointer = pthread_getspecific(key) {
+            return pointer.assumingMemoryBound(to: Any.self)
+        }
+        
+        let pointer = UnsafeMutablePointer<Any>.allocate(capacity: 1)
+        pthread_setspecific(key, pointer)
+        pointer.initialize(to: defaultValue)
+        return pointer
+    }
+}
+
+extension ThreadSpecific: Sendable {}

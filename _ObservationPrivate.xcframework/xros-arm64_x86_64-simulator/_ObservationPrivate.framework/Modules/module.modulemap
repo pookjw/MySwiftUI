@@ -1,4 +1,4 @@
-framework module _SwiftPrivate {
+framework module _ObservationPrivate {
     export *
     module * { export * }
 }

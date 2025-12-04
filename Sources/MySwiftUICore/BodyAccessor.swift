@@ -1,5 +1,7 @@
 // A4C1D658B3717A3062FEFC91A812D6EB
 internal import AttributeGraph
+private import Observation
+private import _ObservationPrivate
 
 protocol BodyAccessor {
     associatedtype Container

@@ -31,23 +31,8 @@ extension View {
         }
         
         // <+284>
-        // sp + 0x1e0
-        let fields_3 = fields
-        
-        let shouldRecord = Subgraph.shouldRecordTree
-        if shouldRecord {
-            Subgraph.beginTreeElement(value: body.0.value, flags: 0)
-        }
-        
-        // sp + 0xc0
-        var fields_4 = fields_3
-        
-        // <+428>
-        let w25 = fields_4.behaviors
-        fields_4.behaviors = []
-        // body.0 -> sp
-        
-        fatalError("TODO")
+        // inlined
+        return Body.makeDebuggableView(view: body.0, inputs: inputs)
     }
 }
 

@@ -59,7 +59,8 @@ let package = Package(
                 .byName(name: "FeatureFlags"),
                 .byName(name: "StopwatchSupport"),
                 .byName(name: "RenderBox"),
-                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"]))
+                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"])),
+                .byName(name: "_ObservationPrivate")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -186,6 +187,10 @@ let package = Package(
         .binaryTarget(
             name: "UIIntelligenceSupport",
             path: "UIIntelligenceSupport.xcframework"
+        ),
+        .binaryTarget(
+            name: "_ObservationPrivate",
+            path: "_ObservationPrivate.xcframework"
         ),
         .target(
             name: "_KernPrivate",
