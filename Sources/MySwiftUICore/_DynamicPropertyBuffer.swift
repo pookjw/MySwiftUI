@@ -1,5 +1,6 @@
 // F3A89CF4357225EF49A7DD673FDFEE02
 #warning("TODO")
+private import AttributeGraph
 
 public struct _DynamicPropertyBuffer {
     private var contents: UnsafeHeterogeneousBuffer
@@ -22,7 +23,45 @@ public struct _DynamicPropertyBuffer {
     }
     
     func traceMountedProperties<T>(to value: _GraphValue<T>, fields: DynamicPropertyCache.Fields) {
-        fatalError("TODO")
+        /*
+         value = x22
+         fields = x24
+         T = x25
+         */
+        guard Signpost.linkCreate.isEnabled else {
+            return
+        }
+        
+        let typeName = String(describing: T.self)
+        let libraryName = Tracing.libraryName(defining: T.self)
+        let counter = value.value.identifier.graph.counter(options: .unknown2)
+        
+        guard case .product(let fields) = fields.layout else {
+            return
+        }
+        
+        for (index, element) in contents.enumerated() {
+            guard index != fields.count else {
+                return
+            }
+            
+            let field = fields[index]
+            
+            Signpost.linkCreate.traceEvent(
+                type: .event,
+                object: nil,
+                "Attached: %{public}@ [ %p ] to %{public}@ (in %{public}@) at offset +%d [%d] (%p)",
+                args: [
+                    _typeName(field.type, qualified: false),
+                    UInt(bitPattern: element.address),
+                    typeName,
+                    libraryName,
+                    field.offset,
+                    value.value.identifier.rawValue,
+                    counter
+                ]
+            )
+        }
     }
     
     mutating func append<T: DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
@@ -40,7 +79,24 @@ public struct _DynamicPropertyBuffer {
     }
     
     func update(container: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
-        fatalError("TODO")
+        var result = false
+        for element in contents {
+            let _result = element
+                .vtable(as: BoxVTableBase.self)
+                .update(
+                    elt: element,
+                    property: container.advanced(by: Int(element.flags & 0x7fffffff)),
+                    phase: phase
+                )
+            
+            let w8 = element.flags
+            let w9 = (_result ? 0x80000000 : 0) | (w8 & 0x7fffffff)
+            element.flags = w9
+            
+            result = result || _result
+        }
+        
+        return result
     }
     
     mutating func destroy() {
@@ -55,7 +111,17 @@ public struct _DynamicPropertyBuffer {
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {
-        fatalError("TODO")
+        for element in contents {
+            if
+                let state = element
+                    .vtable(as: BoxVTableBase.self)
+                    .getState(elt: element, type: T.self) 
+            {
+                return state
+            }
+        }
+        
+        return nil
     }
     
     mutating func addFields<T>(_ fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs, baseOffset: Int) {

@@ -1025,7 +1025,8 @@ extension SwiftUI._DynamicPropertyBuffer {
   public func applyChanged(to: (Swift.Int) -> ())
   public var count: Swift.Int { get }
   public var isEmpty: Swift.Bool { get }
-  public mutating func update(container: Swift.UnsafeMutableRawPointer, phase: SwiftUI._GraphInputs.Phase) -> Swift.Bool
+  public func update(container: Swift.UnsafeMutableRawPointer, phase: SwiftUI._GraphInputs.Phase) -> Swift.Bool
+  public func getState<A>(type: A.Type) -> SwiftUI.Binding<A>?
 }
 
 @available(visionOS 26.0, *)

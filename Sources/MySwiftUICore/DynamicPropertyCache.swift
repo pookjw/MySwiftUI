@@ -117,19 +117,33 @@ extension DynamicPropertyCache {
             self.behaviors = behaviors
         }
         
-        func name(at index: Int) -> String? {
-            fatalError("TODO")
+        func name(at offset: Int) -> String? {
+            guard let buffer = _name(at: offset) else {
+                return nil
+            }
+            
+            return String(cString: buffer, encoding: .utf8)
         }
         
-        func _name(at index: Int) -> UnsafePointer<UInt8>? {
-            fatalError("TODO")
+        func _name(at offset: Int) -> UnsafePointer<Int8>? {
+            switch layout {
+            case .product(let fields):
+                for field in fields {
+                    if field.offset == offset {
+                        return field.name
+                    }
+                }
+                return nil
+            case .sum(_, _):
+                return nil
+            }
         }
     }
     
     struct Field {
         private(set) var type: DynamicProperty.Type
         private(set) var offset: Int
-        private var name: UnsafePointer<Int8>?
+        fileprivate private(set) var name: UnsafePointer<Int8>?
         
         // 원래 없음
         @inline(__always)
