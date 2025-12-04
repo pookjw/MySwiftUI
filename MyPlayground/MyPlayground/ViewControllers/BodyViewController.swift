@@ -10,7 +10,7 @@ import MySwiftUI
 
 fileprivate struct MyView: View {
     var body: some View {
-        Color.black
+        Color.white
     }
 }
 

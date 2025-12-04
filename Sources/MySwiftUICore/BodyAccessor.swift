@@ -24,7 +24,7 @@ extension BodyAccessor {
          */
         
         guard Self.Body.self != Never.self else {
-            var message = _typeName(Self.self, qualified: false)
+            var message = _typeName(type(of: self), qualified: false)
             message.append(" may not have Body == Never")
             fatalError(message)
         }
