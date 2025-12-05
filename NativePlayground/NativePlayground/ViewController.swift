@@ -93,8 +93,31 @@ struct Box: DynamicPropertyBox {
     typealias Property = State<Bool>
 }
 
+@Observable
+final class FooModel {
+    var number = 0
+}
+
 class ViewController: UIViewController {
     override func loadView() {
+        print(_typeName(_typeByName("7SwiftUI17ObservationCenterC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI17ObservationCenterC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
+        let center = ObservationCenter.current
+        let mode = FooModel()
+        let graph = Graph.init()
+        let subgraph = Subgraph(graph: graph)
+        Subgraph.current = subgraph
+        let value = center._withObservation(attribute: Attribute<String>.init(value: "Test")) { 
+            _ = mode.number
+            return 3
+        }
+        print(value)
+        fatalError()
 //        let object = NSObject()
 //        let result = buffer.update(container: Unmanaged.passUnretained(object).toOpaque(), phase: .invalid)
 //        print(buffer.count)
@@ -610,13 +633,6 @@ class ViewController: UIViewController {
         
         print(_typeName(_typeByName("7SwiftUI13_ProposedSizeV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI13_ProposedSizeV")!, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
-            return true
-        }      
-        print("===")
-        
-        print(_typeName(_typeByName("7SwiftUI17ObservationCenterC")!, qualified: true))
-        _forEachField(of: _typeByName("7SwiftUI17ObservationCenterC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      

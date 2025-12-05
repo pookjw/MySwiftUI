@@ -3,6 +3,7 @@
 private import Observation
 @_spi(SwiftUI) internal import _ObservationPrivate
 internal import AttributeGraph
+private import _DarwinFoundation3.pthread
 
 @MainActor final class ObservationCenter {
     fileprivate static let _current = ThreadSpecific(ObservationCenter())
@@ -17,15 +18,71 @@ internal import AttributeGraph
     private init() {
     }
     
-    func _withObservationStashed<T>(do: () throws -> T) rethrows -> (value: T, accessOccurred: Bool) {
-        fatalError("TODO")
+    func _withObservationStashed<T>(do block: () throws -> T) rethrows -> (value: T, accessOccurred: Bool) {
+        /*
+         x29 = sp + 0x140
+         self = sp + 0x70
+         do = sp + 0x88
+         T = x25
+         */
+        var accessList: ObservationTracking._AccessList?
+        let result = try withUnsafePointer(to: &accessList) { pointer in
+            let key: pthread_key_t = 106 // tls_key::observation_transaction
+            let old = pthread_getspecific(key)
+            pthread_setspecific(key, pointer)
+            defer {
+                pthread_setspecific(key, old)
+            }
+            return try block()
+        }
+        
+        if let accessList {
+            latestAccessLists.append(accessList)
+            return (result, true)
+        } else {
+            return (result, false)
+        }
     }
     
-    func _withObservation<T>(do: () throws -> T) rethrows -> (value: T, accessList: ObservationTracking._AccessList?) {
-        fatalError("TODO")
+    func _withObservation<T>(do block: () throws -> T) rethrows -> (value: T, accessList: ObservationTracking._AccessList?) {
+        var accessList: ObservationTracking._AccessList?
+        let result = try withUnsafePointer(to: &accessList) { pointer in
+            let key: pthread_key_t = 106 // tls_key::observation_transaction
+            let old = pthread_getspecific(key)
+            pthread_setspecific(key, pointer)
+            defer {
+                pthread_setspecific(key, old)
+            }
+            return try block()
+        }
+        
+        if let accessList {
+            return (result, accessList)
+        } else {
+            return (result, nil)
+        }
     }
     
-    func _withObservation<T, U>(attribute: Attribute<U>, do: () throws -> T) rethrows -> T {
+    func _withObservation<T, U>(attribute: Attribute<U>, do block: () throws -> T) rethrows -> T {
+        var accessList: ObservationTracking._AccessList?
+        let result = try withUnsafePointer(to: &accessList) { pointer in
+            let key: pthread_key_t = 106 // tls_key::observation_transaction
+            let old = pthread_getspecific(key)
+            pthread_setspecific(key, pointer)
+            defer {
+                pthread_setspecific(key, old)
+            }
+            return try block()
+        }
+        
+        // TODO
+        if let accessList {
+            latestAccessLists.append(accessList)
+        }
+        
+        for latestAccessList in latestAccessLists {
+            invalidate(attribute, onChangeIn: <#T##[ObservationTracking._AccessList]#>)
+        }
         fatalError("TODO")
     }
     
