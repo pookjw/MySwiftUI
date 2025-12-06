@@ -22,6 +22,8 @@ public struct WeakAttribute<T> : Swift.Sendable {
         get
         set
     }
+
+    public var attribute: AttributeGraph.Attribute<T>? { get }
     
     @_alwaysEmitIntoClient public init(base: AttributeGraph.AnyWeakAttribute) {
         self.base = base

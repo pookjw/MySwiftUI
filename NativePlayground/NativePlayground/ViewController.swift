@@ -116,6 +116,11 @@ class ViewController: UIViewController {
             _ = mode.number
             return 3
         }
+        
+        center._withObservation(attribute: Attribute<String>.init(value: "Test")) { 
+//            _ = mode.number
+            return 3
+        }
         print(value)
         fatalError()
 //        let object = NSObject()

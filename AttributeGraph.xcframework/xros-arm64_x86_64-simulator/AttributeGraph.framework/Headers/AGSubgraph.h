@@ -20,7 +20,9 @@ AG_EXTERN BOOL AGSubgraphShouldRecordTree(void) NS_SWIFT_NAME(getter:Subgraph.sh
 AG_EXTERN AGGraphRef AGSubgraphGetGraph(AGSubgraphRef) NS_RETURNS_NOT_RETAINED NS_SWIFT_NAME(getter:Subgraph.graph(self:));
 AG_EXTERN void AGSubgraphInvalidate(AGSubgraphRef) NS_SWIFT_NAME(Subgraph.invalidate(self:));
 AG_EXTERN void AGSubgraphApply(AGSubgraphRef, uint32_t, void (*)(AGAttribute) __attribute__((swiftcall)));
-AG_EXTERN AGSubgraphRef _Nullable AGGraphGetAttributeSubgraph2(AGAttribute) NS_SWIFT_NAME(getter:AnyAttribute.subgraph2(self:)) ;
+AG_EXTERN AGSubgraphRef _Nullable AGGraphGetAttributeSubgraph2(AGAttribute) NS_SWIFT_NAME(getter:AnyAttribute.subgraph2(self:));
+AG_EXTERN NSInteger AGSubgraphAddObserver(AGSubgraphRef, void (*)(void) __attribute__((swiftcall))) NS_SWIFT_NAME(Subgraph.addObserver(self:_:));
+AG_EXTERN BOOL AGSubgraphIsValid(AGSubgraphRef) NS_SWIFT_NAME(getter:Subgraph.isValid(self:));
 
 CF_IMPLICIT_BRIDGING_DISABLED
 
