@@ -62,7 +62,7 @@ extension DynamicView {
     }
     
     static nonisolated var traitKeysDependOnView: Bool {
-        fatalError("TODO")
+        return true
     }
 }
 

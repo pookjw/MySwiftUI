@@ -1053,3 +1053,20 @@ public final class ObservationCenter {
   public func _withObservation<T, U>(attribute: Attribute<U>, do: () throws -> T) rethrows -> T
   public func invalidate<T>(_: Attribute<T>, onChangeIn: [_ObservationPrivate.ObservationTracking._AccessList])
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct TypeConformance<T: _SwiftUICorePrivate.ProtocolDescriptor> {
+  public var type: Any.Type { get }
+  public func unsafeExistentialMetatype<U>(_: U.Type) -> U
+  public var storage: (type: Any.Type, conformance: Swift.UnsafeRawPointer) { get }
+  public init(storage: (type: Any.Type, conformance: Swift.UnsafeRawPointer))
+  public var conformance: Swift.UnsafeRawPointer { get }
+  public var metadata: Swift.UnsafeRawPointer { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ProtocolDescriptor {
+    static var descriptor: Swift.UnsafeRawPointer { get }
+}

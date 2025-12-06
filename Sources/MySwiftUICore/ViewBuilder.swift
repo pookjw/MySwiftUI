@@ -23,13 +23,13 @@ extension ViewBuilder {
         content
     }
     
-//    @_alwaysEmitIntoClient public static func buildEither<TrueContent, FalseContent>(first: TrueContent) -> _ConditionalContent<TrueContent, FalseContent> where TrueContent : View, FalseContent : View {
-//        .init(storage: .trueContent(first))
-//    }
-//    
-//    @_alwaysEmitIntoClient public static func buildEither<TrueContent, FalseContent>(second: FalseContent) -> _ConditionalContent<TrueContent, FalseContent> where TrueContent : View, FalseContent : View {
-//        .init(storage: .falseContent(second))
-//    }
+    @_alwaysEmitIntoClient public static func buildEither<TrueContent, FalseContent>(first: TrueContent) -> _ConditionalContent<TrueContent, FalseContent> where TrueContent : View, FalseContent : View {
+        .init(storage: .trueContent(first))
+    }
+    
+    @_alwaysEmitIntoClient public static func buildEither<TrueContent, FalseContent>(second: FalseContent) -> _ConditionalContent<TrueContent, FalseContent> where TrueContent : View, FalseContent : View {
+        .init(storage: .falseContent(second))
+    }
 }
 
 extension ViewBuilder {

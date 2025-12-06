@@ -100,12 +100,6 @@ final class FooModel {
 
 class ViewController: UIViewController {
     override func loadView() {
-        print(_typeName(_typeByName("7SwiftUI17ObservationCenterC")!, qualified: true))
-        _forEachField(of: _typeByName("7SwiftUI17ObservationCenterC")!, options: [.classType]) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
-            return true
-        }      
-        
 //        let object = NSObject()
 //        let result = buffer.update(container: Unmanaged.passUnretained(object).toOpaque(), phase: .invalid)
 //        print(buffer.count)
@@ -626,6 +620,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI24ObservationGraphMutationV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI24ObservationGraphMutationV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
 //        print(_typeName(_typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, qualified: true))
 //        _forEachField(of: _typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, options: []) { name, offset, type, kind in
 //            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
@@ -839,6 +840,14 @@ class ViewController: UIViewController {
             return true
         }
         
+        print("===")
+        
+        print(_typeName(ObservationCenter.self, qualified: true))
+        _forEachField(of: ObservationCenter.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
         
@@ -928,10 +937,19 @@ class ViewController: UIViewController {
 //        let rootView = Color.black
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
-        let rootView = MyView()
+        
+        let model = ObsModel()
+        let rootView = MyObsView(model: model)
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
+        
+        Task {
+            while true {
+                try await Task.sleep(for: .seconds(1))
+                model.flag.toggle()
+            }
+        }
         
 //        Task { [hostingView] in
 //            var flags = 0
@@ -1060,5 +1078,19 @@ struct MyAnimation: CustomAnimation {
 struct MyView: View {
     var body: some View {
         Color.black
+    }
+}
+
+@MainActor
+@Observable
+final class ObsModel {
+    var flag = false
+}
+
+fileprivate struct MyObsView: View {
+    let model: ObsModel
+    
+    var body: some View {
+        AnyView(model.flag ? Color.white : Color.black)
     }
 }

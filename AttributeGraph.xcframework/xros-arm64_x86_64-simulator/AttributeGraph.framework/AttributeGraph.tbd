@@ -243,7 +243,9 @@ exports:
     _AGGraphGetAttributeSubgraph2,
     _AGSubgraphAddObserver,
     _AGSubgraphIsValid,
-    _$s14AttributeGraph04WeakA0V9attributeAA0A0VyxGSgvg ]
+    _$s14AttributeGraph04WeakA0V9attributeAA0A0VyxGSgvg,
+    _AGSubgraphRemoveObserver,
+    _AGGraphInvalidateValue ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

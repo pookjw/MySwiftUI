@@ -846,7 +846,7 @@ fileprivate struct AsyncTransaction {
     }
     
     mutating func append<T: GraphMutation>(_ mutation: T) {
-        fatalError("TODO")
+        mutations.append(mutation)
     }
 }
 

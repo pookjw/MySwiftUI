@@ -21,6 +21,7 @@ AG_EXTERN const void * _Nullable AGGraphGetOutputValue(AGTypeID);
 AG_EXTERN void AGGraphSetOutputValue(const void * _Nullable, AGTypeID);
 AG_EXTERN void AGGraphSetNeedsUpdate(AGGraphRef) NS_SWIFT_NAME(AGGraphRef.setNeedsUpdate(self:));
 AG_EXTERN void AGGraphInvalidate(AGGraphRef) NS_SWIFT_NAME(AGGraphRef.invalidate(self:));
+AG_EXTERN void AGGraphInvalidateValue(AGAttribute) NS_SWIFT_NAME(AnyAttribute.invalidate(self:));
 
 CF_IMPLICIT_BRIDGING_DISABLED
 

@@ -14,3 +14,9 @@ MSUI_EXTERN const void *$s13MySwiftUICore27StyleWriterOverrideModifierMp;
 const void * _styleWriterOverrideModifierProtocolDescriptor(void) {
     return &$s13MySwiftUICore27StyleWriterOverrideModifierMp;
 }
+
+MSUI_EXTERN const void *$s13MySwiftUICore4ViewMp;
+const void * _viewProtocolDescriptor(void) {
+    return &$s13MySwiftUICore4ViewMp;
+}
+

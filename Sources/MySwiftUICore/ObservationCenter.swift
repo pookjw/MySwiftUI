@@ -11,9 +11,9 @@ private import _DarwinFoundation3.pthread
         return _current.value
     }
     
-    private var latestTriggers: [AnyKeyPath] = []
+    fileprivate var latestTriggers: [AnyKeyPath] = []
     private var latestAccessLists: [ObservationTracking._AccessList] = []
-    private var invalidations: [AnyWeakAttribute: (mutation: ObservationGraphMutation, accessList: ObservationTracking._AccessList)] = [:]
+    fileprivate var invalidations: [AnyWeakAttribute: (mutation: ObservationGraphMutation, accessList: ObservationTracking._AccessList)] = [:]
     
     private init() {
     }
@@ -116,7 +116,7 @@ private import _DarwinFoundation3.pthread
         
         // <+768>
         let tracking = ObservationTracking(accessList)
-        let observerID = subgraph.addObserver { [weak self] in
+        let observerID = Subgraph.addObserver(subgraph) { [weak self] in
             // $s7SwiftUI17ObservationCenterC10invalidate33_7DF024579E4FC31D4E92A33BBA0366D6LL_10onChangeIny14AttributeGraph0Q0VyxG_0C00C8TrackingV11_AccessListVtlFyycfU_TA
             fatalError("TODO")
         }
@@ -172,7 +172,7 @@ private import _DarwinFoundation3.pthread
     }
 }
 
-struct ObservationGraphMutation: GraphMutation, Sendable {
+@MainActor struct ObservationGraphMutation: GraphMutation, Sendable {
     private let observationCenter: ObservationCenter
     private var invalidatingMutation: InvalidatingGraphMutation
     private var observationTracking: [ObservationTracking]
@@ -187,7 +187,34 @@ struct ObservationGraphMutation: GraphMutation, Sendable {
     }
     
     func apply() {
-        fatalError("TODO")
+        /*
+         observationCenter = x21
+         invalidatingMutation = x22
+         observationTracking = x25
+         subgraphObservers = x20
+         */
+        for (subgraph, observerID) in subgraphObservers {
+            subgraph.removeObserver(observerID)
+        }
+        
+        // <+212>
+        observationCenter.latestTriggers.removeAll(keepingCapacity: true)
+        
+        // <+344>
+        for tracking in observationTracking {
+            tracking.cancel()
+            if let changed = tracking.changed {
+                observationCenter.latestTriggers.append(changed)
+            }
+        }
+        
+        // <+572>
+        observationCenter.invalidations.removeValue(forKey: invalidatingMutation.attribute)
+        
+        let attribute = invalidatingMutation.attribute.attribute
+        if attribute != .empty {
+            attribute.invalidate()
+        }
     }
     
     func combine<T: GraphMutation>(with other: T) -> Bool {
@@ -200,7 +227,7 @@ struct ObservationGraphMutation: GraphMutation, Sendable {
 }
 
 struct InvalidatingGraphMutation: GraphMutation {
-    private let attribute: AnyWeakAttribute
+    fileprivate let attribute: AnyWeakAttribute
     
     @inline(__always)
     fileprivate init(attribute: AnyWeakAttribute) {

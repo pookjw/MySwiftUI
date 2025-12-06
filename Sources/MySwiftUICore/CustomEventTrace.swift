@@ -40,7 +40,17 @@ package struct CustomEventTrace {
     }
     
     public static func observableFireWithTransaction(transaction: UInt32, key: AnyKeyPath?, attribute: AnyAttribute) {
-        fatalError("TODO")
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.observable.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.observable.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.ObservableEventType.firedWithTransaction.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: (transaction, key, attribute))
     }
     
     public static func transactionBegin(_ transaction: UInt32) {
