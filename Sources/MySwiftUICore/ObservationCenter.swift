@@ -133,37 +133,38 @@ private import _DarwinFoundation3.pthread
         ObservationTracking._installTracking(
             tracking,
             willSet: { [subgraph = UncheckedSendable(subgraph)] tracking in
-                // WeakUncheckedSendable<SwiftUI.GraphHost>
                 // $s7SwiftUI17ObservationCenterC10invalidate33_7DF024579E4FC31D4E92A33BBA0366D6LL_10onChangeIny14AttributeGraph0Q0VyxG_0C00C8TrackingV11_AccessListVtlFyAMYbcfU0_TA
                 guard subgraph.value.isValid else {
                     return
                 }
                 
-                Update.locked { 
-                    // $s7SwiftUI17ObservationCenterC10invalidate33_7DF024579E4FC31D4E92A33BBA0366D6LL_10onChangeIny14AttributeGraph0Q0VyxG_0C00C8TrackingV11_AccessListVtlFyAMYbcfU0_yyXEfU_
-                    guard
-                        let attribute = weakAttribute.attribute,
-                        let graphHost = currentHost.value
-                    else {
-                        mutation.cancel()
-                        return
+                Update.locked {
+                    MainActor.assumeIsolated { // 확실치 않음
+                        // $s7SwiftUI17ObservationCenterC10invalidate33_7DF024579E4FC31D4E92A33BBA0366D6LL_10onChangeIny14AttributeGraph0Q0VyxG_0C00C8TrackingV11_AccessListVtlFyAMYbcfU0_yyXEfU_
+                        guard
+                            let attribute = weakAttribute.attribute,
+                            let graphHost = currentHost.value
+                        else {
+                            mutation.cancel()
+                            return
+                        }
+                        
+                        let transaction = graphHost.asyncTransaction(
+                            .current,
+                            id: Transaction.id,
+                            mutation: mutation,
+                            style: (pthread_main_np() != 1) ? .deferred : .immediate,
+                            mayDeferUpdate: true
+                        )
+                        
+                        CustomEventTrace.observableFireWithTransaction(
+                            transaction: transaction,
+                            key: tracking.changed,
+                            attribute: attribute.identifier
+                        )
                     }
                     
-                    let transaction = graphHost.asyncTransaction(
-                        .current,
-                        id: Transaction.id,
-                        mutation: mutation,
-                        style: (pthread_main_np() != 1) ? .deferred : .immediate,
-                        mayDeferUpdate: true
-                    )
-                    
-                    CustomEventTrace.observableFireWithTransaction(
-                        transaction: transaction,
-                        key: tracking.changed,
-                        attribute: attribute.identifier
-                    )
-                    
-                    Update.end() // ???
+                    Update.end()
                 }
             },
             didSet: nil

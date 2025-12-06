@@ -105,24 +105,7 @@ class ViewController: UIViewController {
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      
-        print("===")
         
-        let center = ObservationCenter.current
-        let mode = FooModel()
-        let graph = Graph.init()
-        let subgraph = Subgraph(graph: graph)
-        Subgraph.current = subgraph
-        let value = center._withObservation(attribute: Attribute<String>.init(value: "Test")) { 
-            _ = mode.number
-            return 3
-        }
-        
-        center._withObservation(attribute: Attribute<String>.init(value: "Test")) { 
-//            _ = mode.number
-            return 3
-        }
-        print(value)
-        fatalError()
 //        let object = NSObject()
 //        let result = buffer.update(container: Unmanaged.passUnretained(object).toOpaque(), phase: .invalid)
 //        print(buffer.count)

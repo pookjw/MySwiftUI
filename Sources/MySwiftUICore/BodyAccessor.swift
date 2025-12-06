@@ -56,7 +56,11 @@ extension BodyAccessor {
     }
     
     func setBody(_ body: () -> Self.Body) {
-        fatalError("TODO")
+        let body = traceRuleBody(type(of: self), body: body)
+        
+        withUnsafePointer(to: body) { pointer in
+            Graph.setOutputValue(pointer)
+        }
     }
 }
 
@@ -109,9 +113,12 @@ fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomString
         // self = sp + 0x80
         MainActor.assumeIsolated { [unchecked = UncheckedSendable(self)] in
             let observationCenter = ObservationCenter.current
-            let currentAttribute = AnyAttribute.current!
-            let container = unchecked.value.container
-            fatalError("TODO")
+            let currentAttribute = Attribute<T.Body>(identifier: .current!)
+            
+            observationCenter._withObservation(attribute: currentAttribute) {
+                // $s7SwiftUI10StaticBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_
+                unchecked.value.accessor.updateBody(of: unchecked.value.container, changed: true)
+            }
         }
     }
     

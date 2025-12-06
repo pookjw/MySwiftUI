@@ -69,6 +69,10 @@ struct ViewBodyAccessor<Container: View>: BodyAccessor {
     init() {}
     
     func updateBody(of container: Container, changed: Bool) {
-        fatalError("TODO")
+        setBody { [unchecked = UncheckedSendable(container)] in
+            return MainActor.assumeIsolated { 
+                return UncheckedSendable(unchecked.value.body)
+            }.value
+        }
     }
 }
