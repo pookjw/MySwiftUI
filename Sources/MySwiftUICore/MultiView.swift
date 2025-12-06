@@ -1,0 +1,3 @@
+protocol MultiView: View {
+    // TODO
+}
