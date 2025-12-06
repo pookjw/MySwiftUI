@@ -1091,6 +1091,10 @@ fileprivate struct MyObsView: View {
     let model: ObsModel
     
     var body: some View {
-        AnyView(model.flag ? Color.white : Color.black)
+        if model.flag {
+            Color.white
+        } else {
+            Color.black
+        }
     }
 }

@@ -28,8 +28,8 @@ final class DemoViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let item = DemoViewController.Item.allCases.last!
-//        let item = DemoViewController.Item.colorBlackView
+//        let item = DemoViewController.Item.allCases.last!
+        let item = DemoViewController.Item.conditionalView
         pushToItem(item)
         
 //        Task {

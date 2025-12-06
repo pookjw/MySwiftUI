@@ -35,7 +35,11 @@ extension _ConditionalContent: View, PrimitiveView where TrueContent: View, Fals
     }
     
     public static nonisolated func _makeView(view: _GraphValue<_ConditionalContent<TrueContent, FalseContent>>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
+        if isLinkedOnOrAfter(.v6) {
+            return Self.makeImplicitRoot(view: view, inputs: inputs)
+        } else {
+            fatalError("TODO")
+        }
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<_ConditionalContent<TrueContent, FalseContent>>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -77,14 +81,14 @@ protocol ConditionalProtocolDescriptor: ProtocolDescriptor {
     static func insertConditionalType(key: ObjectIdentifier, value: ConditionalTypeDescriptor<Self>)
 }
 
-struct ConditionalTypeDescriptor<T> {
+struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor> {
     private var storage: ConditionalTypeDescriptor<T>.Storage
     private var count: Int
 }
 
 extension ConditionalTypeDescriptor {
     fileprivate enum Storage {
-//        case atom(TypeConformance<T>)
+        case atom(TypeConformance<T>)
         indirect case optional(Any.Type, ConditionalTypeDescriptor<T>)
         indirect case either(ConditionalTypeDescriptor<T>)
     }

@@ -39,6 +39,10 @@ package struct Semantics: Hashable, Comparable, CustomStringConvertible {
     package static var v6_2: Semantics { Semantics(value: SwiftUI_v6_2().version) }
     package static var v6_4: Semantics { Semantics(value: SwiftUI_v6_4().version) }
     package static var v7: Semantics { Semantics(value: SwiftUI_v7().version) }
+    package static var v7_1: Semantics { Semantics(value: SwiftUI_v7_1().version) }
+    package static var v7_2: Semantics { Semantics(value: SwiftUI_v7_2().version) }
+    package static var v7_4: Semantics { Semantics(value: SwiftUI_v7_4().version) }
+    package static var v8: Semantics { Semantics(value: SwiftUI_v8().version) }
     
     @safe package static nonisolated(unsafe) var forced: Semantics.Forced = Semantics.Forced()
     
@@ -255,6 +259,26 @@ package func SwiftUI_v6_4() -> dyld_build_version_t {
 @_cdecl("SwiftUI_v7_0_os_versions")
 package func SwiftUI_v7() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e90000)
+}
+
+@_cdecl("SwiftUI_v7_1_os_versions")
+package func SwiftUI_v7_1() -> dyld_build_version_t {
+    return dyld_build_version_t(platform: .max, version: 0x07e91000)
+}
+
+@_cdecl("SwiftUI_v7_2_os_versions")
+package func SwiftUI_v7_2() -> dyld_build_version_t {
+    return dyld_build_version_t(platform: .max, version: 0x07e92000)
+}
+
+@_cdecl("SwiftUI_v7_4_os_versions")
+package func SwiftUI_v7_4() -> dyld_build_version_t {
+    return dyld_build_version_t(platform: .max, version: 0x07e94000)
+}
+
+@_cdecl("SwiftUI_v8_os_versions")
+package func SwiftUI_v8() -> dyld_build_version_t {
+    return dyld_build_version_t(platform: .max, version: 0x07ea0000)
 }
 
 package protocol SemanticFeature: Feature {
