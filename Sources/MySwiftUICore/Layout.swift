@@ -1,7 +1,266 @@
 public import CoreGraphics
 
+@preconcurrency public protocol Layout: Sendable, Animatable {
+    static var layoutProperties: LayoutProperties { get }
+    
+    associatedtype Cache = Void
+    typealias Subviews = LayoutSubviews
+    
+    func makeCache(subviews: Self.Subviews) -> Self.Cache
+    func updateCache(_ cache: inout Self.Cache, subviews: Self.Subviews)
+    func spacing(subviews: Self.Subviews, cache: inout Self.Cache) -> ViewSpacing
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGSize
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache)
+    func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat?
+    func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat?
+    static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs
+} 
+
+extension Layout {
+    public static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        return Self.makeLayoutView(root: root, inputs: inputs, body: body)
+    }
+}
+
+extension Layout {
+    public static var layoutProperties: LayoutProperties {
+        fatalError("TODO")
+    }
+    
+    public func updateCache(_ cache: inout Self.Cache, subviews: Self.Subviews) {
+        fatalError("TODO")
+    }
+    
+    public func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
+    public func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
+    public func spacing(subviews: Self.Subviews, cache: inout Self.Cache) -> ViewSpacing {
+        fatalError("TODO")
+    }
+}
+
+extension Layout where Self.Cache == () {
+    public func makeCache(subviews: Self.Subviews) -> Self.Cache {
+        fatalError("TODO")
+    }
+}
+
+extension Layout {
+    @_alwaysEmitIntoClient @_disfavoredOverload public func callAsFunction<V>(@ViewBuilder _ content: () -> V) -> some View where V : View {
+        //        return _VariadicView.Tree(_LayoutRoot(self)) { content() }
+        fatalError("TODO")
+    }
+}
+
+extension Layout {
+    public static func makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        // sp + 0x44
+        var root = root
+        // sp + 0x380
+        var copy_1 = inputs
+        // sp + 0x320
+        var copy_2 = inputs
+        // sp + 0x2c0
+        var copy_3 = copy_1
+        
+        Self._makeAnimatable(value: &root, inputs: copy_2.base)
+        
+        // sp + 0x3e0
+        let _ = copy_2
+        
+        // <+196>
+        /*
+         copy_1.options -> w24
+         copy_1.customInputs -> x27
+         */
+        if self != AnyLayout.self {
+            // <+252>
+            fatalError("TODO")
+        } else {
+            // <+372>
+            fatalError("TODO")
+        }
+        
+        // <+572>
+        fatalError("TODO")
+    }
+}
+
+@usableFromInline
+package struct LayoutPriorityTraitKey: _ViewTraitKey {
+    @inlinable package static var defaultValue: Double {
+        get { 0.0 }
+    }
+    
+    @usableFromInline
+    package typealias Value = Double
+}
+
+@available(*, unavailable)
+extension LayoutPriorityTraitKey: Sendable {
+}
+
+public struct LayoutProperties: Sendable {
+    public init() {
+        fatalError("TODO")
+    }
+    
+    public var stackOrientation: Axis?
+}
+
+public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
+    public typealias SubSequence = LayoutSubviews
+    public typealias Element = LayoutSubview
+    public typealias Index = Int
+    
+    public var layoutDirection: LayoutDirection {
+        fatalError("TODO")
+    }
+    
+    public var startIndex: Int {
+        fatalError("TODO")
+    }
+    
+    public var endIndex: Int {
+        fatalError("TODO")
+    }
+    
+    public subscript(index: Int) -> LayoutSubviews.Element {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    public subscript(bounds: Range<Int>) -> LayoutSubviews {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    public subscript<S>(indices: S) -> LayoutSubviews where S : Sequence, S.Element == Int {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    public static func == (lhs: LayoutSubviews, rhs: LayoutSubviews) -> Bool {
+        fatalError("TODO")
+    }
+    
+    public typealias Indices = Range<LayoutSubviews.Index>
+    public typealias Iterator = IndexingIterator<LayoutSubviews>
+}
+
+public struct LayoutSubview : Equatable {
+    public func _trait<K>(key: K.Type) -> K.Value where K : _ViewTraitKey {
+        fatalError("TODO")
+    }
+    
+    public subscript<K>(key: K.Type) -> K.Value where K : LayoutValueKey {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    public var priority: Double {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    public func dimensions(in proposal: ProposedViewSize) -> ViewDimensions {
+        fatalError("TODO")
+    }
+    
+    public var spacing: ViewSpacing {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    public func place(at position: CGPoint, anchor: UnitPoint = .topLeading, proposal: ProposedViewSize) {
+        fatalError("TODO")
+    }
+    
+    public static func == (a: LayoutSubview, b: LayoutSubview) -> Bool {
+        fatalError("TODO")
+    }
+}
+
+public protocol LayoutValueKey {
+    associatedtype Value
+    static var defaultValue: Self.Value { get }
+}
+
+@available(*, unavailable)
+extension LayoutSubview : Sendable {
+}
+
+@frozen public struct AnyLayout: Layout, Sendable {
+    var storage: AnyLayoutBox
+    
+    public init<L>(_ layout: L) where L : Layout {
+        fatalError("TODO")
+    }
+    
+    public struct Cache: Sendable {
+    }
+    
+    public typealias AnimatableData = _AnyAnimatableData
+    
+    public func makeCache(subviews: AnyLayout.Subviews) -> AnyLayout.Cache {
+        fatalError("TODO")
+    }
+    
+    public func updateCache(_ cache: inout AnyLayout.Cache, subviews: AnyLayout.Subviews) {
+        fatalError("TODO")
+    }
+    
+    public func spacing(subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> ViewSpacing {
+        fatalError("TODO")
+    }
+    
+    public func sizeThatFits(proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    public func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) {
+        fatalError("TODO")
+    }
+    
+    public func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
+    public func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
+    public var animatableData: AnyLayout.AnimatableData {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+}
+
+@usableFromInline class AnyLayoutBox: @unchecked Sendable {
+    @usableFromInline deinit {}
+}
+
 @frozen public struct _VStackLayout {
-  public var alignment: HorizontalAlignment
+    public var alignment: HorizontalAlignment
     public var spacing: CGFloat?
     
     @inlinable public init(alignment: HorizontalAlignment = .center, spacing: CGFloat? = nil) {
@@ -10,20 +269,80 @@ public import CoreGraphics
     }
 }
 
-extension _VStackLayout: _VariadicView_AnyImplicitRoot {
-    public static func _makeViewList(root: _GraphValue<_VStackLayout>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+extension _VStackLayout {
+    public typealias Body = Never
+}
+
+extension _VStackLayout: _VariadicView_ImplicitRoot {
+    static nonisolated var implicitRoot: _VStackLayout {
+        return _VStackLayout(alignment: .center, spacing: nil)
+    }
+}
+
+extension _VStackLayout: Layout, HVStack {
+    public typealias Cache = _StackLayoutCache
+    public typealias AnimatableData = EmptyAnimatableData
+    
+    static var majorAxis: Axis {
+        fatalError("TODO")
+    }
+}
+
+protocol HVStack: Layout, _VariadicView_UnaryViewRoot {
+    associatedtype MinorAxisAlignment: AlignmentGuide
+    
+    var spacing: CGFloat? { get }
+    var alignment: Self.MinorAxisAlignment { get }
+    static var majorAxis: Axis { get }
+    static var resizeChildrenWithTrailingOverflow: Bool { get }
+}
+
+extension HVStack {
+    static var resizeChildrenWithTrailingOverflow: Bool {
+        return false
+    }
+    
+    public static nonisolated func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        return Self.makeLayoutView(root: root, inputs: inputs, body: body)
+    }
+    
+    public static nonisolated var layoutProperties: LayoutProperties {
         fatalError("TODO")
     }
     
-    var implicitRoot: _VStackLayout {
+    public nonisolated func makeCache(subviews: LayoutSubviews) -> _StackLayoutCache {
         fatalError("TODO")
     }
     
-    public static func _makeView(root: _GraphValue<_VStackLayout>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+    public nonisolated func updateCache(_: inout _StackLayoutCache, subviews: LayoutSubviews) {
         fatalError("TODO")
     }
     
-    public var body: Never {
+    public nonisolated func spacing(subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> ViewSpacing {
         fatalError("TODO")
     }
+    
+    public nonisolated func sizeThatFits(proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    public nonisolated func placeSubviews(in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) {
+        fatalError("TODO")
+    }
+    
+    public nonisolated func explicitAlignment(of: HorizontalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
+    public nonisolated func explicitAlignment(of: VerticalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
+        fatalError("TODO")
+    }
+}
+
+public struct _StackLayoutCache {
+    // TODO
+}
+
+@available(*, unavailable)
+extension _StackLayoutCache: Sendable {
 }

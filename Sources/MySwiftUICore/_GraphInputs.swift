@@ -191,4 +191,10 @@ extension _GraphInputs {
     }
 }
 
+extension _GraphInputs {
+    func intern<T>(_ value: T, id: GraphHost.ConstantID) -> Attribute<T> {
+        return GraphHost.currentHost.intern(value, id: id)
+    }
+}
+
 //extension _GraphInputs: Sendable {}

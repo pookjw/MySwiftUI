@@ -35,7 +35,7 @@ public protocol _VariadicView_Root {
 
 extension _VariadicView_Root {
     public static var _viewListOptions: Int {
-        fatalError("TODO")
+        return 0
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
@@ -54,6 +54,20 @@ extension _VariadicView_Root {
 
 extension _VariadicView_ViewRoot where Self.Body == Never {
     @MainActor @preconcurrency public func body(children: _VariadicView.Children) -> Never {
+        fatalError("TODO")
+    }
+}
+
+extension _VariadicView_ViewRoot {
+    public static nonisolated func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    public static nonisolated func _makeViewList(root: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+    
+    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         fatalError("TODO")
     }
 }
@@ -133,39 +147,76 @@ extension _VariadicView_Children: Sendable {
 }
 
 protocol _VariadicView_ImplicitRootVisitor {
-    func visit<T: _VariadicView_ImplicitRoot>(type: T.Type)
+    mutating func visit<T: _VariadicView_ImplicitRoot>(type: T.Type)
 }
 
-protocol _VariadicView_ImplicitRoot: _VariadicView_ViewRoot, View {
-    var implicitRoot: Self {
+protocol _VariadicView_ImplicitRoot: _VariadicView_ViewRoot, _VariadicView_AnyImplicitRoot {
+    static nonisolated var implicitRoot: Self {
         get
     }
 }
 
 extension _VariadicView_ImplicitRoot {
-    static func visitType<T: _VariadicView_ImplicitRootVisitor>(visitor: inout T) {
-        fatalError("TODO")
+    static nonisolated func visitType<T: _VariadicView_ImplicitRootVisitor>(visitor: inout T) {
+        visitor.visit(type: Self.self)
     }
 }
 
-protocol _VariadicView_AnyImplicitRoot: _VariadicView_ImplicitRoot {
-    static func visitType<T: _VariadicView_ImplicitRootVisitor>(visitor: inout T)
+protocol _VariadicView_AnyImplicitRoot {
+    static nonisolated func visitType<T: _VariadicView_ImplicitRootVisitor>(visitor: inout T)
 }
 
 extension View {
     static nonisolated func makeImplicitRoot(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
-//        inputs.implicitRootType.visitType(visitor: &<#T##_VariadicView_ImplicitRootVisitor#>)
-        fatalError("TODO")
+        var visitor = MakeViewRoot(
+            inputs: inputs,
+            body: { _, _ in
+                // $s7SwiftUI4ViewPAAE16makeImplicitRoot4view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListI0VAA01_J0V_AMtcfU_TA
+                fatalError("TODO")
+            },
+            outputs: nil
+        )
+        inputs.implicitRootType.visitType(visitor: &visitor)
+        
+        return visitor.outputs!
     }
 }
 
 fileprivate struct MakeViewRoot: _VariadicView_ImplicitRootVisitor {
-    private var inputs: _ViewInputs
-    private var body: (_Graph, _ViewInputs) -> _ViewListOutputs
-    private var outputs: _ViewOutputs?
+    var inputs: _ViewInputs
+    var body: (_Graph, _ViewInputs) -> _ViewListOutputs
+    var outputs: _ViewOutputs?
     
-    func visit<T>(type: T.Type) where T : _VariadicView_ImplicitRoot {
-        fatalError("TODO")
+    mutating func visit<T>(type: T.Type) where T : _VariadicView_ImplicitRoot {
+        // sp + 0x220
+        var copy_1 = inputs
+        // sp + 0x2e0
+        var copy_2 = inputs
+        // sp + 0x280
+        var copy_3 = copy_1
+        // x25
+        let implicitRoot = type.implicitRoot
+        // x24
+        let attribute = copy_2.intern(implicitRoot, id: .implicitViewRoot)
+        _ = consume copy_3
+        
+        copy_2 = inputs
+        // sp + 0x1c0
+        var copy_4 = inputs
+        // sp + 0x160
+        var copy_5 = copy_2
+        copy_2[ViewListOptionsInput.self] = T._viewListOptions
+        // sp + 0x7c
+        let graphValue = _GraphValue<T>(attribute)
+        
+        // sp + 0x90
+        var copy_6 = copy_4
+        // sp + 0x20
+        var copy_7 = copy_4
+        // sp + 0x160
+        var copy_8 = copy_6
+        
+        self.outputs = T._makeView(root: graphValue, inputs: copy_7, body: body)
     }
 }
 
@@ -184,5 +235,11 @@ extension _ViewInputs {
         _modify {
             fatalError("TODO")
         }
+    }
+}
+
+struct ViewListOptionsInput: ViewInput {
+    static var defaultValue: Int {
+        return 0
     }
 }

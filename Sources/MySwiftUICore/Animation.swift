@@ -128,7 +128,6 @@ extension Animatable where Self.AnimatableData == EmptyAnimatableData {
     }
     
     public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
-        fatalError("TODO")
     }
 }
 
@@ -268,7 +267,7 @@ extension Animatable {
         return .init(lhs.first - rhs.first, lhs.second - rhs.second)
     }
     
-    @_transparent public mutating func scale(by rhs: Swift.Double) {
+    @_transparent public mutating func scale(by rhs: Double) {
         first.scale(by: rhs)
         second.scale(by: rhs)
     }
@@ -700,4 +699,72 @@ fileprivate final class InternalAnimationBox<T: CustomAnimation>: AnimationBox<T
     override var function: Animation.Function {
         fatalError("TODO")
     }
+}
+
+@frozen public struct _AnyAnimatableData: VectorArithmetic {
+    package var vtable: _AnyAnimatableDataVTable.Type {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    package var value: Any {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    public static var zero: _AnyAnimatableData {
+        fatalError("TODO")
+    }
+    
+    public static func == (lhs: _AnyAnimatableData, rhs: _AnyAnimatableData) -> Bool {
+        fatalError("TODO")
+    }
+    
+    public static func += (lhs: inout _AnyAnimatableData, rhs: _AnyAnimatableData) {
+        fatalError("TODO")
+    }
+    
+    public static func -= (lhs: inout _AnyAnimatableData, rhs: _AnyAnimatableData) {
+        fatalError("TODO")
+    }
+    
+    @_transparent public static func + (lhs: _AnyAnimatableData, rhs: _AnyAnimatableData) -> _AnyAnimatableData {
+        var ret = lhs
+        ret += rhs
+        return ret
+    }
+    @_transparent public static func - (lhs: _AnyAnimatableData, rhs: _AnyAnimatableData) -> _AnyAnimatableData {
+        var ret = lhs
+        ret -= rhs
+        return ret
+    }
+    
+    public mutating func scale(by rhs: Double) {
+        fatalError("TODO")
+    }
+    
+    public var magnitudeSquared: Double {
+        fatalError("TODO")
+    }
+}
+
+@available(*, unavailable)
+extension _AnyAnimatableData: Sendable {
+}
+
+@usableFromInline
+package class _AnyAnimatableDataVTable {
+    @usableFromInline deinit {}
+}
+
+@available(*, unavailable)
+extension _AnyAnimatableDataVTable: Sendable {
 }

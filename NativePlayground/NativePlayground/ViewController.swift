@@ -848,6 +848,14 @@ class ViewController: UIViewController {
             return true
         }
         
+        print(_typeName(ViewDimensions.self, qualified: true))
+        _forEachField(of: ViewDimensions.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
+        
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
         
@@ -938,18 +946,20 @@ class ViewController: UIViewController {
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         
-        let model = ObsModel()
-        let rootView = MyObsView(model: model)
+//        let model = ObsModel()
+//        let rootView = MyObsView(model: model)
+        
+        let rootView = MyLayout {}
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-        Task {
-            while true {
-                try await Task.sleep(for: .seconds(1))
-                model.flag.toggle()
-            }
-        }
+//        Task {
+//            while true {
+//                try await Task.sleep(for: .seconds(1))
+//                model.flag.toggle()
+//            }
+//        }
         
 //        Task { [hostingView] in
 //            var flags = 0
@@ -1096,5 +1106,15 @@ fileprivate struct MyObsView: View {
         } else {
             Color.black
         }
+    }
+}
+
+fileprivate struct MyLayout: Layout {
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        fatalError("TODO")
     }
 }
