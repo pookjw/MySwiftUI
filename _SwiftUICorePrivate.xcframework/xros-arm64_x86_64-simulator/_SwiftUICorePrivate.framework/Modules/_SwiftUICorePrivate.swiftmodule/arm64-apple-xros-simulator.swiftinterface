@@ -1070,3 +1070,23 @@ public struct TypeConformance<T: _SwiftUICorePrivate.ProtocolDescriptor> {
 public protocol ProtocolDescriptor {
     static var descriptor: Swift.UnsafeRawPointer { get }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ArchivedViewInput {
+  public static var defaultValue: _SwiftUICorePrivate.ArchivedViewInput.Value { get }
+
+  public struct Flags: Swift.OptionSet {
+    public var rawValue: Swift.UInt8 { get }
+  }
+
+  public struct Value: Swift.Equatable {
+    public static var isArchived: _SwiftUICorePrivate.ArchivedViewInput.Value { get }
+    public var flags: _SwiftUICorePrivate.ArchivedViewInput.Flags
+    public var deploymentVersion: _SwiftUICorePrivate.ArchivedViewInput.DeploymentVersion
+  }
+
+  public struct DeploymentVersion: Swift.Hashable, Swift.Comparable, Swift.Codable {
+    public var rawValue: Swift.Int8 { get }
+  }
+}

@@ -1,4 +1,5 @@
 public import CoreGraphics
+internal import AttributeGraph
 
 @preconcurrency public protocol Layout: Sendable, Animatable {
     static var layoutProperties: LayoutProperties { get }
@@ -59,6 +60,7 @@ extension Layout {
 
 extension Layout {
     public static func makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        // $s7SwiftUI6LayoutPAAE04makeC4View4root6inputs4bodyAA01_E7OutputsVAA11_GraphValueVyxG_AA01_E6InputsVAA01_e4ListI0VAA01_J0V_ANtXEtFZ
         // sp + 0x44
         var root = root
         // sp + 0x380
@@ -74,19 +76,65 @@ extension Layout {
         let _ = copy_2
         
         // <+196>
+        // w24
+        var options = copy_1.base.options
         /*
-         copy_1.options -> w24
-         copy_1.customInputs -> x27
+         copy_1.base.customInputs -> x27
          */
+        
+        // w19/w28/sp + 0xc
+        let layoutProperties: LayoutProperties
         if self != AnyLayout.self {
             // <+252>
-            fatalError("TODO")
+            copy_3 = copy_1
+            layoutProperties = Self.layoutProperties
+            
+            // w19
+            if let stackOrientation = layoutProperties.stackOrientation {
+                // <+548>
+                options.remove([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
+                switch stackOrientation {
+                case .horizontal:
+                    options.insert(.viewStackOrientationIsDefined)
+                case .vertical:
+                    options.insert([.viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
+                }
+                copy_2.base.options = options
+                // <+572>
+            } else {
+                // <+316>
+                options.remove([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
+                copy_2.base.options = options
+                copy_2[DynamicStackOrientation.self] = OptionalAttribute()
+                // <+572>
+            }
         } else {
             // <+372>
-            fatalError("TODO")
+            options.remove([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
+            copy_2.base.options = options
+            copy_3 = copy_1
+            let rule = AnyLayoutProperties(layout: root.value.identifier.unsafeCast(to: AnyLayout.self))
+            let attribute = Attribute(rule)
+            copy_2[DynamicStackOrientation.self] = OptionalAttribute(attribute)
+            layoutProperties = LayoutProperties()
+            // <+572>
         }
         
         // <+572>
+        let archivedViewInput = copy_3[ArchivedViewInput.self]
+        if archivedViewInput.flags.contains(.isArchived) {
+            // <+1260>
+            var options = _ViewListInputs.Options(rawValue: copy_2[ViewListOptionsInput.self])
+            options.insert(.needsArchivedAnimationTraits)
+            copy_2[ViewListOptionsInput.self] = options.rawValue
+        }
+        
+        // <+620>
+        if !options.contains(.needsDynamicLayout) {
+            copy_2.base.options = options
+        }
+        
+        // <+628>
         fatalError("TODO")
     }
 }
@@ -107,10 +155,14 @@ extension LayoutPriorityTraitKey: Sendable {
 
 public struct LayoutProperties: Sendable {
     public init() {
-        fatalError("TODO")
+        stackOrientation = nil
+        isDefaultEmptyLayout = false
+        isIdentityUnaryLayout = false
     }
     
     public var stackOrientation: Axis?
+    private var isDefaultEmptyLayout: Bool
+    private var isIdentityUnaryLayout: Bool
 }
 
 public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
@@ -307,7 +359,7 @@ extension HVStack {
     }
     
     public static nonisolated var layoutProperties: LayoutProperties {
-        fatalError("TODO")
+        return LayoutProperties()
     }
     
     public nonisolated func makeCache(subviews: LayoutSubviews) -> _StackLayoutCache {
@@ -345,4 +397,16 @@ public struct _StackLayoutCache {
 
 @available(*, unavailable)
 extension _StackLayoutCache: Sendable {
+}
+
+struct AnyLayoutProperties: Rule, AsyncAttribute {
+    @Attribute private var layout: AnyLayout
+    
+    init(layout: Attribute<AnyLayout>) {
+        self._layout = layout
+    }
+    
+    var value: Axis? {
+        fatalError("TODO")
+    }
 }
