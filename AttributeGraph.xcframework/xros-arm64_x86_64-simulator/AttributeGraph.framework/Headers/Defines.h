@@ -182,6 +182,8 @@ typedef NS_OPTIONS(uint8_t, AGAttributeFlags) {
     AGAttributeFlagsUnknown0 = (1 << 0),
     AGAttributeFlagsUnknown1 = (1 << 1),
     AGAttributeFlagsUnknown2 = (1 << 2),
+    AGAttributeFlagsUnknown3 = (1 << 3),
+    AGAttributeFlagsUnknown5 = (1 << 5),
     AGAttributeFlagsAll = 0xFF
 } NS_SWIFT_NAME(AnyAttribute.Flags);
 

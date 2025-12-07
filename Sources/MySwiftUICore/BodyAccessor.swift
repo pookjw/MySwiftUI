@@ -72,16 +72,19 @@ protocol BodyAccessorRule {
 }
 
 fileprivate struct MainThreadFlags: RuleThreadFlags {
-    // TODO
+    static var flags: AnyAttribute.Flags {
+        return .unknown3
+    }
 }
 
 fileprivate struct AsyncThreadFlags: RuleThreadFlags {
-    // TODO
+    static var flags: AnyAttribute.Flags {
+        return .unknown5
+    }
 }
 
 fileprivate protocol RuleThreadFlags {
-    // TODO
-    // flags
+    static var flags: AnyAttribute.Flags { get }
 }
 
 fileprivate struct EmbeddedDynamicPropertyBox<T: DynamicProperty>: DynamicPropertyBox {

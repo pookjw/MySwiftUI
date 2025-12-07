@@ -154,6 +154,7 @@ protocol _VariadicView_AnyImplicitRoot: _VariadicView_ImplicitRoot {
 
 extension View {
     static nonisolated func makeImplicitRoot(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+//        inputs.implicitRootType.visitType(visitor: &<#T##_VariadicView_ImplicitRootVisitor#>)
         fatalError("TODO")
     }
 }
