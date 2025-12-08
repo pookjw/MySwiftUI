@@ -245,7 +245,8 @@ exports:
     _AGSubgraphIsValid,
     _$s14AttributeGraph04WeakA0V9attributeAA0A0VyxGSgvg,
     _AGSubgraphRemoveObserver,
-    _AGGraphInvalidateValue ]
+    _AGGraphInvalidateValue,
+    _AGGraphCreateIndirectAttribute3 ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

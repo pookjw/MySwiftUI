@@ -135,6 +135,17 @@ extension Layout {
         }
         
         // <+628>
+        // sp + 0x260
+        var copy_4 = copy_2
+        // sp + 0x1c0
+        var copy_5 = copy_2
+        copy_3 = copy_4
+        // sp + 0x218
+        let listOutputs = body(_Graph(), copy_5)
+        copy_3 = copy_4
+        // sp + 0x190
+        let views = listOutputs.views
+        // <+756>
         fatalError("TODO")
     }
 }

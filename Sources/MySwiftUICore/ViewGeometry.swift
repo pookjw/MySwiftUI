@@ -118,13 +118,3 @@ public struct ViewDimensions {
     let guideComputer: LayoutComputer
     var size: ViewSize
 }
-
-extension Attribute where T == ViewGeometry {
-    func origin() -> Attribute<CGPoint> {
-        return self[keyPath: \.origin]
-    }
-    
-    func size() -> Attribute<ViewSize> {
-        return self[keyPath: \.dimensions.size]
-    }
-}

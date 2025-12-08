@@ -1090,3 +1090,24 @@ public struct ArchivedViewInput {
     public var rawValue: Swift.Int8 { get }
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._ViewListOutputs {
+  public enum Views {}
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class IndirectAttributeMap {
+  public let subgraph: AttributeGraph.Subgraph
+  public var map: [AttributeGraph.AnyAttribute: AttributeGraph.AnyAttribute]
+  public init(subgraph: AttributeGraph.Subgraph)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension AttributeGraph.Attribute {
+  public mutating func makeReusable(indirectMap: _SwiftUICorePrivate.IndirectAttributeMap, withoutInvalidation: Swift.Bool)
+  public func tryToReuse(by other: AttributeGraph.Attribute<T>, indirectMap: _SwiftUICorePrivate.IndirectAttributeMap, withoutInvalidation: Swift.Bool, testOnly: Swift.Bool) -> Swift.Bool
+}

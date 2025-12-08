@@ -100,6 +100,18 @@ final class FooModel {
 
 class ViewController: UIViewController {
     override func loadView() {
+        let graph = Graph()
+        let subgraph = Subgraph(graph: graph)
+        let map = IndirectAttributeMap.init(subgraph: subgraph)
+        Subgraph.current = subgraph
+        var attribute = Attribute(value: "")
+//        attribute.makeReusable(indirectMap: map, withoutInvalidation: true)
+        let other = Attribute(value: "")
+        print(attribute)
+        print(other)
+        attribute.tryToReuse(by: other, indirectMap: map, withoutInvalidation: true, testOnly: false)
+        fatalError()
+        
 //        let object = NSObject()
 //        let result = buffer.update(container: Unmanaged.passUnretained(object).toOpaque(), phase: .invalid)
 //        print(buffer.count)
@@ -341,6 +353,14 @@ class ViewController: UIViewController {
         
         print(PreferenceValues.self)
         _forEachField(of: PreferenceValues.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        print(_ViewListOutputs.self)
+        _forEachField(of: _ViewListOutputs.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
@@ -622,6 +642,13 @@ class ViewController: UIViewController {
         
         print(_typeName(_typeByName("7SwiftUI24ObservationGraphMutationV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI24ObservationGraphMutationV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI20IndirectAttributeMapC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI20IndirectAttributeMapC")!, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }      

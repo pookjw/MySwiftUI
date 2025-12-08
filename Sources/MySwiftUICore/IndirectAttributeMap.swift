@@ -1,5 +1,12 @@
 #warning("TODO")
+internal import AttributeGraph
 
-package struct IndirectAttributeMap {
+package class IndirectAttributeMap {
+    let subgraph: Subgraph
+    var map: [AnyAttribute: AnyAttribute]
     
+    init(subgraph: Subgraph) {
+        self.subgraph = subgraph
+        self.map = [:]
+    }
 }

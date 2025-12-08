@@ -10,9 +10,3 @@ package struct ViewSize: Equatable {
     var value: CGSize
     var _proposal: CGSize
 }
-
-extension Attribute where T == ViewSize {
-    func size() -> Attribute<CGSize> {
-        return self[keyPath: \.value]
-    }
-}
