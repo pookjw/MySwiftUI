@@ -142,8 +142,18 @@ extension View {
         return outputs
     }
     
-    static func makeDebuggableViewList<T>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+    static func makeDebuggableViewList<T: View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        let shouldRecordTree = Subgraph.shouldRecordTree
+        if shouldRecordTree {
+            Subgraph.beginTreeElement(value: view.value, flags: 0)
+        }
+        defer {
+            if shouldRecordTree {
+                Subgraph.endTreeElement(value: view.value)
+            }
+        }
+        
+        return T._makeViewList(view: view, inputs: inputs)
     }
 }
 

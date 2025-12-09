@@ -2,7 +2,7 @@ private import AttributeGraph
 
 public struct _ViewListInputs {
     private var base: _GraphInputs
-    private var implicitID: Int
+    private(set) var implicitID: Int
     var options: _ViewListInputs.Options
     @OptionalAttribute private var traits: ViewTraitCollection?
     private var traitKeys: ViewTraitKeys?

@@ -118,6 +118,10 @@ extension Transaction {
     }
 }
 
+struct TransactionID {
+    private var id: Int
+}
+
 public func withTransaction<Result>(_ transaction: Transaction, _ body: () throws -> Result) rethrows -> Result {
     return try withExtendedLifetime(transaction) { transaction in
         let oldCurrent = Transaction.current

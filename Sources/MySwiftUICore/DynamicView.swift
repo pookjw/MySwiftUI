@@ -58,7 +58,10 @@ extension DynamicView {
     }
     
     static nonisolated func makeDynamicViewList(metadata: Metadata, view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        let rule = DynamicViewList<Self>(metadata: metadata, view: view.value, inputs: inputs, lastItem: nil)
+        let attribute = Attribute(rule)
+        let outputs = _ViewListOutputs(.dynamicList(attribute, nil), nextImplicitID: inputs.implicitID)
+        return outputs
     }
     
     static nonisolated var traitKeysDependOnView: Bool {
@@ -161,5 +164,60 @@ extension DynamicViewContainer {
             
             return id.map { $0 == self.id } != false
         }
+    }
+}
+
+fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAttribute {
+    private let metadata: Content.Metadata
+    @Attribute private var view: Content
+    private let inputs: _ViewListInputs
+    private let parentSubgraph: Subgraph
+    private let allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
+    private var lastItem: DynamicViewList<Content>.Item?
+    
+    typealias Value = ViewList
+    
+    init(metadata: Content.Metadata, view: Attribute<Content>, inputs: _ViewListInputs, lastItem: DynamicViewList<Content>.Item?) {
+        self.metadata = metadata
+        self._view = view
+        self.inputs = inputs
+        self.parentSubgraph = .current!
+        self.allItems = MutableBox(Array())
+        self.lastItem = lastItem
+    }
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+extension DynamicViewList {
+    fileprivate final class Item {
+        private let type: Any.Type
+        private let id: Content.ID
+        private let owner: AnyAttribute
+        @Attribute private var list: ViewList
+        private let isUnary: Bool
+        private let allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
+        
+        init() {
+            fatalError("TODO")
+        }
+    }
+    
+    fileprivate struct WrappedList {
+        private let base: ViewList
+        private let item: DynamicViewList<Content>.Item
+        private let lastID: Content.ID?
+        private let lastTransaction: TransactionID
+    }
+    
+    fileprivate struct WrappedIDs {
+        private let base: _ViewList_ID_Views
+        private let item: DynamicViewList<Content>.Item
+    }
+    
+    fileprivate struct Transform {
+        private var item: DynamicViewList<Content>.Item
     }
 }

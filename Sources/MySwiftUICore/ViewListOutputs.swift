@@ -57,3 +57,13 @@ protocol ViewList {
 protocol _ViewList_Elements {
     // TODO
 }
+
+class _ViewList_ID_Views {
+    private let isDataDependent: Bool
+    
+    init() {
+        fatalError("TODO")
+    }
+    
+    // TODO
+}

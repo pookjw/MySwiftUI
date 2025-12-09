@@ -174,12 +174,6 @@ extension View {
             body: { [view] graph, inputs in
                 // $s7SwiftUI4ViewPAAE16makeImplicitRoot4view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListI0VAA01_J0V_AMtcfU_
                 let listInputs = inputs.implicitRootBodyInputs
-                
-                let shouldRecord = Subgraph.shouldRecordTree
-                if shouldRecord {
-                    Subgraph.beginTreeElement(value: view.value, flags: 1)
-                }
-                
                 let listOutputs = Self._makeViewList(view: view, inputs: listInputs)
                 
                 return MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, listInputs))] in

@@ -970,15 +970,15 @@ class ViewController: UIViewController {
 //        let rootView = MyEnvView()
         
         let model = ObsModel()
-        let rootView = MyObsView(model: model)
+//        let rootView = MyObsView(model: model)
         
-//        let rootView = MyLayout() {
-//            if model.flag {
-//                Color.white
-//            } else {
-//                Color.black
-//            }
-//        }
+        let rootView = MyLayout() {
+            if model.flag {
+                Color.white
+            } else {
+                Color.black
+            }
+        }
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
