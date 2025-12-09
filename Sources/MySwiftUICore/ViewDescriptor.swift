@@ -12,8 +12,14 @@ protocol ProtocolDescriptor {
 }
 
 extension ProtocolDescriptor {
-    static func conformance(of: Any.Type) -> TypeConformance<Self>? {
-        fatalError("TODO")
+    static func conformance(of type: Any.Type) -> TypeConformance<Self>? {
+        let descriptor = descriptor
+        
+        guard let conformance = swift_conformsToProtocol(type, descriptor) else {
+            return nil
+        }
+        
+        return TypeConformance(storage: (type: type, conformance: conformance))
     }
 }
 
@@ -21,14 +27,14 @@ extension ViewDescriptor: TupleDescriptor {
 }
 
 extension ViewDescriptor: ConditionalProtocolDescriptor {
-    fileprivate static let conditionalCache: [ObjectIdentifier: ConditionalTypeDescriptor<ViewDescriptor>] = [:]
+    fileprivate static nonisolated(unsafe) var conditionalCache: [ObjectIdentifier: ConditionalTypeDescriptor<ViewDescriptor>] = [:]
     
     static func fetchConditionalType(key: ObjectIdentifier) -> ConditionalTypeDescriptor<ViewDescriptor>? {
-        return conditionalCache[key]
+        return unsafe conditionalCache[key]
     }
     
     static func insertConditionalType(key: ObjectIdentifier, value: ConditionalTypeDescriptor<ViewDescriptor>) {
-        fatalError("TODO")
+        unsafe conditionalCache[key] = value
     }
 }
 

@@ -100,8 +100,15 @@ struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
     private var desc: ConditionalTypeDescriptor<T>
     private var ids: [UniqueID]
     
-    init(_: ConditionalTypeDescriptor<T>) {
-        fatalError("TODO")
+    init(_ descriptor: ConditionalTypeDescriptor<T>) {
+        var ids: [UniqueID] = []
+        ids.reserveCapacity(descriptor.count)
+        for _ in 0..<descriptor.count {
+            ids.append(UniqueID())
+        }
+        
+        self.desc = descriptor
+        self.ids = ids
     }
 }
 
@@ -129,7 +136,18 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
          T = x20/x22(witness)
          type -> x21
          */
-        fatalError("TODO")
+        let nominalDescriptor = TypeID(type).nominalDescriptor
+        
+        if (nominalDescriptor != conditionalTypeDescriptor), (nominalDescriptor != optionalTypeDescriptor) {
+            // <+464>
+            self.storage = .atom(T.conformance(of: type)!)
+            self.count = 1
+        } else {
+            // <+352>
+            let descriptor = Self.descriptor(type: type)
+            self.storage = descriptor.storage
+            self.count = descriptor.count + 1
+        }
     }
     
     // 원래 없음
