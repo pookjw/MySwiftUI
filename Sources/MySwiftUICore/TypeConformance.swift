@@ -1,4 +1,4 @@
-struct TypeConformance<T: ProtocolDescriptor> {
+struct TypeConformance<T: ProtocolDescriptor>: Sendable {
     let storage: (type: Any.Type, conformance: UnsafeRawPointer)
     
     init(storage: (type: Any.Type, conformance: UnsafeRawPointer)) {

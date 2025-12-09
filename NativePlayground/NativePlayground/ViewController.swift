@@ -871,6 +871,14 @@ class ViewController: UIViewController {
         
         print("===")
         
+        print(_typeName(_ViewListInputs.self, qualified: true))
+        _forEachField(of: _ViewListInputs.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
+        
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
         
@@ -1125,7 +1133,8 @@ fileprivate struct MyObsView: View {
         if model.flag {
             Color.white
         } else {
-            Color.black
+//            Color.black
+            Text("")
         }
     }
 }

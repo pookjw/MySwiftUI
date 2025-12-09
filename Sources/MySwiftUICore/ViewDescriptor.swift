@@ -1,3 +1,4 @@
+// 1ABF77B82C037C602A176AE349787FED
 private import _MySwiftUIShims
 
 struct ViewDescriptor {
@@ -20,8 +21,10 @@ extension ViewDescriptor: TupleDescriptor {
 }
 
 extension ViewDescriptor: ConditionalProtocolDescriptor {
+    fileprivate static let conditionalCache: [ObjectIdentifier: ConditionalTypeDescriptor<ViewDescriptor>] = [:]
+    
     static func fetchConditionalType(key: ObjectIdentifier) -> ConditionalTypeDescriptor<ViewDescriptor>? {
-        fatalError("TODO")
+        return conditionalCache[key]
     }
     
     static func insertConditionalType(key: ObjectIdentifier, value: ConditionalTypeDescriptor<ViewDescriptor>) {

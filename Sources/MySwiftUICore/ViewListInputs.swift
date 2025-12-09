@@ -3,12 +3,24 @@ private import AttributeGraph
 public struct _ViewListInputs {
     private var base: _GraphInputs
     private var implicitID: Int
-    private var options: _ViewListInputs.Options
+    var options: _ViewListInputs.Options
     @OptionalAttribute private var traits: ViewTraitCollection?
     private var traitKeys: ViewTraitKeys?
-    private var containerContext: ContainerContext.Type?
+    private var containerContext: (any ContainerContext.Type)?
     private weak var debugReplaceableViewCount: MutableBox<Int?>?
     private var contentOffset: ViewContentOffset?
+    
+    init(_ base: _GraphInputs, implicitID: Int = 0, options: _ViewListInputs.Options = []) {
+        self._traits = OptionalAttribute()
+        self.traitKeys = ViewTraitKeys()
+        self.containerContext = nil
+        self.debugReplaceableViewCount = nil
+        self.contentOffset = nil
+        
+        self.base = base
+        self.implicitID = implicitID
+        self.options = options
+    }
 }
 
 extension _ViewListInputs {
@@ -82,5 +94,19 @@ extension _ViewListInputs {
         }
         
         let rawValue: Int
+    }
+}
+
+extension _ViewInputs {
+    var implicitRootBodyInputs: _ViewListInputs {
+        let options = _ViewListInputs.Options(rawValue: self[ViewListOptionsInput.self])
+        // <+88>
+        var inputs = _ViewListInputs(base, options: options)
+        
+        if !isLinkedOnOrAfter(.v6) {
+            inputs.options.insert(.disableTransitions)
+        }
+        
+        return inputs
     }
 }

@@ -1,4 +1,5 @@
 // DC167C463E6601B3880A23A75ACAA63B
+private import AttributeGraph
 
 public enum _VariadicView {
     public typealias Root = _VariadicView_Root
@@ -172,7 +173,18 @@ extension View {
             inputs: inputs,
             body: { [view] graph, inputs in
                 // $s7SwiftUI4ViewPAAE16makeImplicitRoot4view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListI0VAA01_J0V_AMtcfU_
-                fatalError("TODO")
+                let listInputs = inputs.implicitRootBodyInputs
+                
+                let shouldRecord = Subgraph.shouldRecordTree
+                if shouldRecord {
+                    Subgraph.beginTreeElement(value: view.value, flags: 1)
+                }
+                
+                let listOutputs = Self._makeViewList(view: view, inputs: listInputs)
+                
+                return MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, listInputs))] in
+                    return UncheckedSendable(Self.Body.makeDebuggableViewList(view: unchecked.value.0, inputs: unchecked.value.1))
+                }.value
             },
             outputs: nil
         )

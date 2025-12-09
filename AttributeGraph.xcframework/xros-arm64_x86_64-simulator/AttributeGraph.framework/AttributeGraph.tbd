@@ -247,7 +247,8 @@ exports:
     _AGSubgraphRemoveObserver,
     _AGGraphInvalidateValue,
     _AGGraphCreateIndirectAttribute3,
-    _AGGraphSetIndirectAttribute2 ]
+    _AGGraphSetIndirectAttribute2,
+    _AGTypeNominalDescriptor ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
