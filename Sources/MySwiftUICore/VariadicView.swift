@@ -170,13 +170,8 @@ extension View {
     static nonisolated func makeImplicitRoot(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         var visitor = MakeViewRoot(
             inputs: inputs,
-            body: { graph, inputs in
-                // $s7SwiftUI13_VariadicViewO4TreeVA2A01_cd1_D4RootRzAA0D0R_rlE05_makeD04view6inputsAA01_D7OutputsVAA11_GraphValueVyAEy_xq_GG_AA01_D6InputsVtFZAA01_d4ListJ0VAA01_K0V_ARtXEfU0_TA
-                // sp + 0xf0
-                var copy_1 = inputs
-                // x28
-                let options = _ViewListInputs.Options(rawValue: copy_1[ViewListOptionsInput.self])
-                // <+128>
+            body: { [view] graph, inputs in
+                // $s7SwiftUI4ViewPAAE16makeImplicitRoot4view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListI0VAA01_J0V_AMtcfU_
                 fatalError("TODO")
             },
             outputs: nil

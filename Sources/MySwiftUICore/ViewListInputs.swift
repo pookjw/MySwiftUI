@@ -1,5 +1,14 @@
+private import AttributeGraph
+
 public struct _ViewListInputs {
-    // TODO
+    private var base: _GraphInputs
+    private var implicitID: Int
+    private var options: _ViewListInputs.Options
+    @OptionalAttribute private var traits: ViewTraitCollection?
+    private var traitKeys: ViewTraitKeys?
+    private var containerContext: ContainerContext.Type?
+    private weak var debugReplaceableViewCount: MutableBox<Int?>?
+    private var contentOffset: ViewContentOffset?
 }
 
 extension _ViewListInputs {

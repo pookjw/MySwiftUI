@@ -49,15 +49,18 @@ extension Attribute {
          self = x26
          T = x21
          */
-        if let other = indirectMap.map[self.identifier] {
+        // x19
+        if let _other = indirectMap.map[self.identifier] {
             if testOnly {
-                fatalError("TODO")
+                return true
             } else {
-                fatalError("TODO")
+                _other.setIndirectAttribute2(other.identifier, withoutInvalidation ? 1 : 0)
+                return true
             }
         }
         
         // <+184>
-        fatalError("TODO")
+        Log.graphReuse?.log(level: .debug, "Reuse failed: missing indirection for \(_typeName(T.self, qualified: false))")
+        return false
     }
 }

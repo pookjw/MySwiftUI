@@ -96,186 +96,134 @@ package enum Log {
 
 extension Log {
     package static let focus: Logger? = {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableFocusLogging") else {
-            return nil
-        }
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableFocusLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "Focus")
     }()
     
-    package static var navigation: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableNavigationLogging") else {
-            return nil
-        }
+    package static let navigation: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableNavigationLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "Navigation")
-    }
+    }()
     
-    package static var listSelection: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListSelectionLogging") else {
-            return nil
-        }
+    package static let listSelection: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListSelectionLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "ListSelection")
-    }
+    }()
     
-    package static var listDiffing: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListDiffingLogging") else {
-            return nil
-        }
+    package static let listDiffing: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListDiffingLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "listDiffing")
-    }
+    }()
     
-    package static var listPerf: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListPerfLogging") else {
-            return nil
-        }
+    package static let listPerf: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListPerfLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "listPerf")
-    }
+    }()
     
-    package static var listMisc: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListMiscLogging") else {
-            return nil
-        }
+    package static let listMisc: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableListMiscLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "listMisc")
-    }
+    }()
     
-    package static var table: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableTableLogging") else {
-            return nil
-        }
+    package static let table: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableTableLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "table")
-    }
+    }()
     
-    package static var presentation: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnablePresentationLogging") else {
-            return nil
-        }
+    package static let presentation: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnablePresentationLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "Presentation")
-    }
+    }()
     
-    package static var tabView: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableTabViewLogging") else {
-            return nil
-        }
+    package static let tabView: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableTabViewLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "TabView")
-    }
+    }()
     
-    package static var urlHandling: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableURLHandlingLogging") else {
-            return nil
-        }
+    package static let urlHandling: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableURLHandlingLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "URLHandling")
-    }
+    }()
     
-    package static var splitViewVisibility: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableSplitViewVisibilityLogging") else {
-            return nil
-        }
+    package static let splitViewVisibility: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableSplitViewVisibilityLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "SplitViewVisibility")
-    }
+    }()
     
-    package static var dragAndDrop: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableDragAndDropLogging") else {
-            return nil
-        }
+    package static let dragAndDrop: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableDragAndDropLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "DragAndDrop")
-    }
+    }()
     
-    package static var documents: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableDocumentsLogging") else {
-            return nil
-        }
+    package static let documents: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableDocumentsLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "DocumentBasedApps")
-    }
+    }()
     
-    package static var resize: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableResizeLogging") else {
-            return nil
-        }
+    package static let resize: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableResizeLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "Resize")
-    }
+    }()
     
-    package static var attachments: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableAttachmentLogging") else {
-            return nil
-        }
+    package static let attachments: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableAttachmentLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "Attachments")
-    }
+    }()
     
-    package static var toolbar: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableToolbarLogging") else {
-            return nil
-        }
+    package static let toolbar: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.EnableToolbarLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "Toolbar")
-    }
+    }()
     
-    package static var lazyStack: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyStackLogging") else {
-            return nil
-        }
+    package static let lazyStack: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyStackLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "LazyStack")
-    }
+    }()
     
-    package static var lazyLayoutReuse: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyLayoutReuseLogging") else {
-            return nil
-        }
+    package static let lazyLayoutReuse: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyLayoutReuseLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "LazyLayoutReuse")
-    }
+    }()
     
-    package static var lazyLayoutPrefetch: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyLayoutPrefetchLogging") else {
-            return nil
-        }
+    package static let lazyLayoutPrefetch: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.LazyLayoutPrefetchLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "LazyLayoutPrefetch")
-    }
+    }()
     
-    package static var graphReuse: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.GraphReuseLogging") else {
-            return nil
-        }
+    package static let graphReuse: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.GraphReuseLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "GraphReuse")
-    }
+    }()
     
-    package static var scroll: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.ScrollLogging") else {
-            return nil
-        }
+    package static let scroll: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.ScrollLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "Scroll")
-    }
+    }()
     
-    package static var printing: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.PrintingLogging") else {
-            return nil
-        }
+    package static let printing: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.PrintingLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "Printing")
-    }
+    }()
     
-    package static var remoteScenes: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.RemoteScenesLogging") else {
-            return nil
-        }
+    package static let remoteScenes: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.RemoteScenesLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "RemoteScenes")
-    }
+    }()
     
-    package static var textEditor: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.TextEditorLogging") else {
-            return nil
-        }
+    package static let textEditor: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.TextEditorLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "TextEditor")
-    }
+    }()
     
-    package static var textField: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.TextFieldLogging") else {
-            return nil
-        }
+    package static let textField: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.TextFieldLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "TextField")
-    }
+    }()
     
-    package static var openScene: Logger? {
-        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.OpenSceneLogging") else {
-            return nil
-        }
+    package static let openScene: Logger? = {
+        guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.OpenSceneLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "OpenScene")
-    }
+    }()
 }
 
 extension OSLog {

@@ -32,12 +32,13 @@ public struct _GraphValue<Value>: Equatable {
 }
 
 extension _GraphValue {
-    func makeReusable(indirectMap: IndirectAttributeMap) {
-        fatalError("TODO")
+    mutating func makeReusable(indirectMap: IndirectAttributeMap) {
+        self.value.makeReusable(indirectMap: indirectMap, withoutInvalidation: false)
     }
     
     func tryToReuse(by other: _GraphValue<Value>, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        // self는 w4에 들어감
+        self.value.tryToReuse(by: other.value, indirectMap: indirectMap, withoutInvalidation: false, testOnly: testOnly)
     }
 }
 

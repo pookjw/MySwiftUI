@@ -100,18 +100,6 @@ final class FooModel {
 
 class ViewController: UIViewController {
     override func loadView() {
-        let graph = Graph()
-        let subgraph = Subgraph(graph: graph)
-        let map = IndirectAttributeMap.init(subgraph: subgraph)
-        Subgraph.current = subgraph
-        var attribute = Attribute(value: "")
-//        attribute.makeReusable(indirectMap: map, withoutInvalidation: true)
-        let other = Attribute(value: "")
-        print(attribute)
-        print(other)
-        attribute.tryToReuse(by: other, indirectMap: map, withoutInvalidation: true, testOnly: false)
-        fatalError()
-        
 //        let object = NSObject()
 //        let result = buffer.update(container: Unmanaged.passUnretained(object).toOpaque(), phase: .invalid)
 //        print(buffer.count)
@@ -973,10 +961,16 @@ class ViewController: UIViewController {
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         
-//        let model = ObsModel()
-//        let rootView = MyObsView(model: model)
+        let model = ObsModel()
+        let rootView = MyObsView(model: model)
         
-        let rootView = MyLayout {}
+//        let rootView = MyLayout() {
+//            if model.flag {
+//                Color.white
+//            } else {
+//                Color.black
+//            }
+//        }
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
