@@ -221,3 +221,36 @@ extension DynamicViewList {
         private var item: DynamicViewList<Content>.Item
     }
 }
+
+struct DynamicLayoutMap {
+    private var map: [(id: DynamicContainerID, value: LayoutProxyAttributes)]
+    private var sortedArray: [LayoutProxyAttributes]
+    private var sortedSeed: UInt32
+}
+
+struct DynamicViewListItem {
+    private var id: _ViewList_ID
+    private var elements: _ViewList_SubgraphElements
+    private var traits: ViewTraitCollection
+    private var list: Attribute<ViewList>?
+}
+
+extension DynamicViewListItem {
+    fileprivate class Item<T: DynamicView> {
+        private let type: any Any.Type
+        private let id: T.ID
+        private let owner: AnyAttribute
+        @Attribute private var list: ViewList
+        private let isUnary: Bool
+        private let allItems: MutableBox<[Unmanaged<DynamicViewList<T>.Item>]>
+        
+        init() {
+            fatalError("TODO")
+        }
+    }
+}
+
+struct LayoutProxyAttributes {
+    @OptionalAttribute private var layoutComputer: LayoutComputer?
+    @OptionalAttribute private var traitsList: ViewList?
+}

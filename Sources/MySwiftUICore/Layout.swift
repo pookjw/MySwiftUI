@@ -196,8 +196,18 @@ extension Layout {
         let scrollTargetRole = copy_2.scrollTargetRole
         // sp + 0x48
         let scrollTargetRemovePreference = copy_2.scrollTargetRemovePreference
+        // w26
+        let options = copy_2.options
         
-        // <+220>
+        // sp + 0x9c
+        let withinAccessibilityRotor: Bool
+        if options.contains(.needsAccessibility) {
+            withinAccessibilityRotor = false
+        } else {
+            withinAccessibilityRotor = copy_2[WithinAccessibilityRotor.self]
+        }
+        
+        // <+252>
         fatalError("TODO")
     }
 }
