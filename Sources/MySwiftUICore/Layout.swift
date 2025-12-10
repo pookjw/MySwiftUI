@@ -1,3 +1,5 @@
+// E479C0E92CDD045BAF2EF653123E2E0B
+
 public import CoreGraphics
 internal import AttributeGraph
 
@@ -146,6 +148,56 @@ extension Layout {
         // sp + 0x190
         let views = listOutputs.views
         // <+756>
+        switch views {
+        case .staticList(let elements):
+            // <+1076>
+            fatalError("TODO")
+        case .dynamicList(var attribute, let listModifier):
+            // <+764>
+            /*
+             attribute = w20
+             listModifier = x21
+             */
+            if let listModifier {
+                attribute = Attribute(_ViewListOutputs.ApplyModifiers(base: attribute, modifier: listModifier))
+            }
+            
+            // <+892>
+            // sp + 0x130
+            var copy_6 = copy_2
+            // sp + 0xd0
+            var copy_7 = copy_2
+            // sp + 0x1c0
+            var copy_8 = copy_6
+            
+            let outputs = Self.makeDynamicView(root: root, inputs: copy_7, properties: layoutProperties, list: attribute)
+            return outputs
+        }
+    }
+    
+    static func makeDynamicView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
+        // properties은 안 쓰는듯
+        /*
+         inputs -> x21
+         */
+        // w22
+        let root = root
+        // sp + 0x260
+        let copy_1 = inputs
+        // sp + 0x60
+        let list = list
+        // sp + 0x94
+        let hasScrollable = copy_1.preferences.contains(ScrollablePreferenceKey.self)
+        // w20
+        let hasScrollContent = copy_1.preferences.contains(ScrollTargetRole.ContentKey.self)
+        // sp + 0x2c0
+        let copy_2 = inputs.base
+        // sp + 0x98
+        let scrollTargetRole = copy_2.scrollTargetRole
+        // sp + 0x48
+        let scrollTargetRemovePreference = copy_2.scrollTargetRemovePreference
+        
+        // <+220>
         fatalError("TODO")
     }
 }
@@ -419,5 +471,22 @@ struct AnyLayoutProperties: Rule, AsyncAttribute {
     
     var value: Axis? {
         fatalError("TODO")
+    }
+}
+
+extension _ViewListOutputs {
+    fileprivate struct ApplyModifiers: Rule, AsyncAttribute {
+        @Attribute private var base: ViewList
+        private let modifier: _ViewListOutputs.ListModifier
+        
+        @inline(__always)
+        init(base: Attribute<ViewList>, modifier: _ViewListOutputs.ListModifier) {
+            self._base = base
+            self.modifier = modifier
+        }
+        
+        var value: ViewList {
+            fatalError("TODO")
+        }
     }
 }

@@ -34,7 +34,7 @@ extension _ViewListOutputs {
 extension _ViewListOutputs {
     enum Views {
         case staticList(any _ViewList_Elements)
-        case dynamicList(Attribute<ViewList>, _ViewListOutputs.ListModifier? /* 아닐 수도 있음 */)
+        case dynamicList(Attribute<ViewList>, _ViewListOutputs.ListModifier?)
     }
     
     class ListModifier {
