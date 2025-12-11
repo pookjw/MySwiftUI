@@ -30,6 +30,32 @@ extension ScrollTargetRole {
     }
 }
 
+extension _ViewInputs {
+    var scrollTargetRole: OptionalAttribute<ScrollTargetRole.Role?> {
+        get {
+            return base.scrollTargetRole
+        }
+        set {
+            base.scrollTargetRole = newValue
+        }
+        _modify {
+            yield &base.scrollTargetRole
+        }
+    }
+    
+    var scrollTargetRemovePreference: Bool {
+        get {
+            return base.scrollTargetRemovePreference
+        }
+        set {
+            base.scrollTargetRemovePreference = newValue
+        }
+        _modify {
+            yield &base.scrollTargetRemovePreference
+        }
+    }
+}
+
 extension _GraphInputs {
     var scrollTargetRole: OptionalAttribute<ScrollTargetRole.Role?> {
         get {

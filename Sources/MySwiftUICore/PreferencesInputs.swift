@@ -31,6 +31,14 @@ package struct PreferencesInputs {
         }
     }
     
+    mutating func remove<T: PreferenceKey>(_ key: T.Type) {
+        remove(key)
+    }
+    
+    mutating func remove(_ key: any PreferenceKey.Type) {
+        keys.remove(key)
+    }
+    
     func makeIndirectOutputs() -> PreferencesOutputs {
         // x29 = sp + 0xa0
         // self = x19

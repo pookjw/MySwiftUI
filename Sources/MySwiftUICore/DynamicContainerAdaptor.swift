@@ -153,6 +153,28 @@ extension Layout {
         }
         
         // <+1088>
+        // sp + 0x1a0
+        var copy_3 = copy_1
+        copy_3.base.options = options.subtracting(.viewRequestsLayoutComputer)
+        
+        if hasScrollContent, scrollTargetRemovePreference {
+            // <+1188>
+            copy_3.preferences.remove(ScrollTargetRole.ContentKey.self)
+            copy_3.preferences.remove(UpdateScrollStateRequestKey.self)
+        }
+        
+        // <+1448>
+        // sp + 0x110
+        let copy_4 = copy_1
+        
+        if scrollTargetRole.attribute != nil {
+            // <+1488>
+            copy_3.scrollTargetRole = OptionalAttribute<ScrollTargetRole.Role?>()
+            copy_3.scrollTargetRemovePreference = true
+            copy_3.base.resetScrollPosition(kind: .scrollContent)
+        }
+        
+        // <+1632>
         fatalError("TODO")
     }
 }
