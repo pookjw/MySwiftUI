@@ -36,7 +36,7 @@ extension DynamicContainer {
     }
 }
 
-struct DynamicContainerInfo<T> {
+struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedAttribute, AsyncAttribute, CustomStringConvertible {
     private var adaptor: T
     private let inputs: _ViewInputs
     private let outputs: _ViewOutputs
@@ -46,11 +46,52 @@ struct DynamicContainerInfo<T> {
     private var lastRemoved: UInt32
     private var lastResetSeed: UInt32
     private var needsPhaseUpdate: Bool
+    
+    var description: String {
+        fatalError("TODO")
+    }
+    
+    init(
+        adaptor: T,
+        inputs: _ViewInputs,
+        outputs: _ViewOutputs,
+        info: DynamicContainer.Info,
+        lastUniqueId: UInt32,
+        lastRemoved: UInt32,
+        lastResetSeed: UInt32,
+        needsPhaseUpdate: Bool
+    ) {
+        self.adaptor = adaptor
+        self.inputs = inputs
+        self.outputs = outputs
+        self.parentSubgraph = .current!
+        self.info = info
+        self.lastUniqueId = lastUniqueId
+        self.lastRemoved = lastRemoved
+        self.lastResetSeed = lastResetSeed
+        self.needsPhaseUpdate = needsPhaseUpdate
+    }
+    
+    typealias Value = DynamicContainer.Info
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+    
+    func destroy() {
+        fatalError("TODO")
+    }
 }
 
 struct DynamicContainerID {
     private var uniqueId: UInt32
     private var viewIndex: Int32
+    
+    @inline(__always)
+    init(uniqueId: UInt32, viewIndex: Int32) {
+        self.uniqueId = uniqueId
+        self.viewIndex = viewIndex
+    }
 }
 
 fileprivate struct DynamicViewContainer<T: DynamicView> {

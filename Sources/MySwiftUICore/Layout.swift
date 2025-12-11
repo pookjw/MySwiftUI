@@ -174,42 +174,6 @@ extension Layout {
             return outputs
         }
     }
-    
-    static func makeDynamicView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
-        // properties은 안 쓰는듯
-        /*
-         inputs -> x21
-         */
-        // w22
-        let root = root
-        // sp + 0x260
-        let copy_1 = inputs
-        // sp + 0x60
-        let list = list
-        // sp + 0x94
-        let hasScrollable = copy_1.preferences.contains(ScrollablePreferenceKey.self)
-        // w20
-        let hasScrollContent = copy_1.preferences.contains(ScrollTargetRole.ContentKey.self)
-        // sp + 0x2c0
-        let copy_2 = inputs.base
-        // sp + 0x98
-        let scrollTargetRole = copy_2.scrollTargetRole
-        // sp + 0x48
-        let scrollTargetRemovePreference = copy_2.scrollTargetRemovePreference
-        // w26
-        let options = copy_2.options
-        
-        // sp + 0x9c
-        let withinAccessibilityRotor: Bool
-        if options.contains(.needsAccessibility) {
-            withinAccessibilityRotor = false
-        } else {
-            withinAccessibilityRotor = copy_2[WithinAccessibilityRotor.self]
-        }
-        
-        // <+252>
-        fatalError("TODO")
-    }
 }
 
 @usableFromInline

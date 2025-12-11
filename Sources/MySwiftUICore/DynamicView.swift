@@ -226,6 +226,22 @@ struct DynamicLayoutMap {
     private var map: [(id: DynamicContainerID, value: LayoutProxyAttributes)]
     private var sortedArray: [LayoutProxyAttributes]
     private var sortedSeed: UInt32
+    
+    init() {
+        self.map = []
+        self.sortedArray = []
+        self.sortedSeed = 0
+    }
+    
+    init(
+        map: [(id: DynamicContainerID, value: LayoutProxyAttributes)],
+        sortedArray: [LayoutProxyAttributes] = [],
+        sortedSeed: UInt32 = 0
+    ) {
+        self.map = map
+        self.sortedArray = sortedArray
+        self.sortedSeed = sortedSeed
+    }
 }
 
 struct DynamicViewListItem {
