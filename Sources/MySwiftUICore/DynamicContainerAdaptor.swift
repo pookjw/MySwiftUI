@@ -69,21 +69,27 @@ extension Layout {
         let scrollTargetRemovePreference = copy_2.scrollTargetRemovePreference
         // w26
         let options = copy_2.options
+        // x24
+        let inputs = copy_2.customInputs
         
         // sp + 0x9c
         let withinAccessibilityRotor: Bool
         if options.contains(.needsAccessibility) {
             withinAccessibilityRotor = false
         } else {
-            withinAccessibilityRotor = copy_2[WithinAccessibilityRotor.self]
+            withinAccessibilityRotor = inputs[WithinAccessibilityRotor.self]
         }
         
         // <+252>
-        // sp + 0x70
+        // x27 / sp + 0x70
         /*
          DynamicLayoutViewAdaptor.mutateLayoutMap에서 capture하는 것으로 보임
          */
         var layoutComputerAttribute: Attribute<LayoutComputer>?
+        // w23
+        let depthsAttribute: Attribute<[ViewDepth]>
+        // w25
+        let geometriesAttribute: Attribute<[ViewGeometry]>
         
         // options -> sp + 0x7c
         if hasScrollable || options.isSuperset(of: [.viewRequestsLayoutComputer, .viewNeedsGeometry]) || withinAccessibilityRotor {
@@ -99,19 +105,51 @@ extension Layout {
             )
             layoutComputerAttribute = _layoutComputerAttribute
             
+            // w27
+            let sizeAttribute = copy_1.size
+            
             // w25
-            let geometriesAttribute = Attribute(
+            geometriesAttribute = Attribute(
                 LayoutChildGeometries(
-                    parentSize: copy_1.size,
+                    parentSize: sizeAttribute,
                     parentPosition: copy_1.position,
                     layoutComputer: _layoutComputerAttribute
                 )
             )
             
             // <+724>
-//            copy_1.transform[keyPath: \.depth]
+            // w23
+            depthsAttribute = Attribute(
+                LayoutChildDepths<Self>(
+                    parentSize: sizeAttribute,
+                    parentDepth: copy_1.transform[keyPath: \.depth],
+                    childGeometries: geometriesAttribute,
+                    layoutComputer: _layoutComputerAttribute
+                )
+            )
             
-            fatalError("TODO")
+            let enableLayoutDepthStashing = inputs[EnableLayoutDepthStashing.self]
+            if enableLayoutDepthStashing && geometriesAttribute.identifier != .empty {
+                // <+944>
+                geometriesAttribute.mutateBody(as: LayoutChildGeometries.self, invalidating: true) { rule in
+                    // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_7SwiftUI21DynamicLayoutComputer33_20EDA2BED32E8B299AFBDA7A4F5BCE87LLVyAG22GeometryReaderLayout3D33_638EB2064D6D992C8A48A894A8F58A16LLVG_Tg5TA
+                    rule.$layoutComputer = Attribute(
+                        DepthStashingLayoutComputer(
+                            layoutComputer: rule.$layoutComputer,
+                            depth: copy_1.transform[keyPath: \.depth]
+                        )
+                    )
+                }
+                // <+1088>
+            } else {
+                // <+1072>
+                // <+1088>
+            }
+        } else {
+            // <+340>
+            depthsAttribute = Attribute(identifier: .empty)
+            geometriesAttribute = Attribute(identifier: .empty)
+            // <+1088>
         }
         
         // <+1088>
@@ -151,7 +189,7 @@ fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribut
 struct LayoutChildGeometries: Rule, AsyncAttribute {
     @Attribute private var parentSize: ViewSize
     @Attribute private var parentPosition: CGPoint
-    @Attribute private var layoutComputer: LayoutComputer
+    @Attribute var layoutComputer: LayoutComputer
     
     init(parentSize: Attribute<ViewSize>, parentPosition: Attribute<CGPoint>, layoutComputer: Attribute<LayoutComputer>) {
         self._parentSize = parentSize
@@ -160,6 +198,24 @@ struct LayoutChildGeometries: Rule, AsyncAttribute {
     }
     
     var value: [ViewGeometry] {
+        fatalError("TODO")
+    }
+}
+
+struct LayoutChildDepths<T: Layout>: Rule, AsyncAttribute {
+    @Attribute private var parentSize: ViewSize
+    @Attribute private var parentDepth: ViewDepth
+    @Attribute private var childGeometries: [ViewGeometry]
+    @Attribute private var layoutComputer: LayoutComputer
+    
+    init(parentSize: Attribute<ViewSize>, parentDepth: Attribute<ViewDepth>, childGeometries: Attribute<[ViewGeometry]>, layoutComputer: Attribute<LayoutComputer>) {
+        self._parentSize = parentSize
+        self._parentDepth = parentDepth
+        self._childGeometries = childGeometries
+        self._layoutComputer = layoutComputer
+    }
+    
+    var value: [ViewDepth] {
         fatalError("TODO")
     }
 }
