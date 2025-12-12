@@ -1,8 +1,17 @@
 // E7D4CD2D59FB8C77D6C7E9C534464C17
-private import AttributeGraph
+internal import AttributeGraph
 
 struct DynamicContainer {
-    
+    static func makeContainer<T: DynamicContainerAdaptor>(adaptor: T, inputs: _ViewInputs) -> (Attribute<DynamicContainer.Info>, _ViewOutputs) {
+        /*
+         adaptor -> sp + 0xf8 / sp + 0xc0
+         inputs -> x20
+         */
+        // sp + 0x1e0
+        let copy_1 = inputs
+        
+        fatalError("TODO")
+    }
 }
 
 extension DynamicContainer {

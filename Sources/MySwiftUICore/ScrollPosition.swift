@@ -60,7 +60,7 @@ public struct ScrollPosition: Sendable {
 }
 
 extension ScrollPosition {
-    enum Storage: Sendable{
+    enum Storage: Sendable {
         case viewID(ScrollPosition.ViewID)
         case edge(Edge)
         case point(CGPoint)

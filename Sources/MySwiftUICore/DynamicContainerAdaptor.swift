@@ -6,21 +6,33 @@ protocol DynamicContainerItem {
     // TODO
 }
 
-protocol DynamicContainerAdaptor: DynamicContainerItem {
-    associatedtype Item
+protocol DynamicContainerAdaptor {
+    associatedtype Item : DynamicContainerItem
     associatedtype Items
     associatedtype ItemLayout
     // TODO
 }
 
 struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
-    typealias Item = Never // TODO
-    typealias Items = Never // TODO
+    typealias Item = DynamicContainerItem
+    typealias Items = ViewList
     
     @Attribute private var items: ViewList
     @OptionalAttribute private var childGeometries: [ViewGeometry]?
     private var childDepthData: DynamicLayoutViewAdaptor.ChildDepthData
     private var mutateLayoutMap: ((inout DynamicLayoutMap) -> Void) -> Void
+    
+    init(
+        items: Attribute<ViewList>,
+        childGeometries: OptionalAttribute<[ViewGeometry]>,
+        childDepthData: DynamicLayoutViewAdaptor.ChildDepthData,
+        mutateLayoutMap: @escaping ((inout DynamicLayoutMap) -> Void) -> Void
+    ) {
+        self._items = items
+        self._childGeometries = childGeometries
+        self.childDepthData = childDepthData
+        self.mutateLayoutMap = mutateLayoutMap
+    }
 }
 
 extension DynamicLayoutViewAdaptor {
@@ -46,7 +58,7 @@ extension DynamicLayoutViewAdaptor {
 }
 
 extension Layout {
-    static func makeDynamicView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
+    static func makeDynamicView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
         // properties은 안 쓰는듯
         /*
          inputs -> x21
@@ -82,9 +94,6 @@ extension Layout {
         
         // <+252>
         // x27 / sp + 0x70
-        /*
-         DynamicLayoutViewAdaptor.mutateLayoutMap에서 capture하는 것으로 보임
-         */
         var layoutComputerAttribute: Attribute<LayoutComputer>?
         // w23
         let depthsAttribute: Attribute<[ViewDepth]>
@@ -175,6 +184,25 @@ extension Layout {
         }
         
         // <+1632>
+        // sp + 0x200
+        let copy_5 = copy_3
+        
+        let childDepthData: DynamicLayoutViewAdaptor.ChildDepthData
+        if depthsAttribute.identifier == .empty {
+            childDepthData = .none
+        } else {
+            childDepthData = .depths(depthsAttribute)
+        }
+        let adapter = DynamicLayoutViewAdaptor(
+            items: list,
+            childGeometries: OptionalAttribute(geometriesAttribute),
+            childDepthData: childDepthData) { [layoutComputerAttribute] handler in
+                // $s7SwiftUI6LayoutPAAE15makeDynamicView4root6inputs10properties4listAA01_F7OutputsVAA11_GraphValueVyxG_AA01_F6InputsVAA0C10PropertiesV09AttributeL00P0VyAA0F4List_pGtFZ10mapMutatorL_5thunkyyAA0eC3MapVzXE_tAaBRzlFTA
+                fatalError("TODO")
+            }
+        let (containerInfo, outputs) = DynamicContainer.makeContainer(adaptor: adapter, inputs: copy_5)
+        
+        
         fatalError("TODO")
     }
 }

@@ -1111,3 +1111,27 @@ extension AttributeGraph.Attribute {
   public mutating func makeReusable(indirectMap: _SwiftUICorePrivate.IndirectAttributeMap, withoutInvalidation: Swift.Bool)
   public func tryToReuse(by other: AttributeGraph.Attribute<T>, indirectMap: _SwiftUICorePrivate.IndirectAttributeMap, withoutInvalidation: Swift.Bool, testOnly: Swift.Bool) -> Swift.Bool
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol DynamicContainerItem {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol DynamicContainerAdaptor {
+    associatedtype Item : _SwiftUICorePrivate.DynamicContainerItem
+    associatedtype Items
+    associatedtype ItemLayout
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DynamicContainer {
+  public static func makeContainer<T: _SwiftUICorePrivate.DynamicContainerAdaptor>(adaptor: T, inputs: SwiftUI._ViewInputs) -> (AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, SwiftUI._ViewOutputs)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.DynamicContainer {
+  public struct Info {}
+}
