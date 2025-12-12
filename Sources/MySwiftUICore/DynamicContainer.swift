@@ -128,3 +128,7 @@ fileprivate class DynamicAnimationListener {
         fatalError("TODO")
     }
 }
+
+fileprivate struct DynamicPreferenceCombiner<T>: Rule, AsyncAttribute, CustomStringConvertible {
+    @OptionalAttribute private var info: DynamicContainer.Info?
+}
