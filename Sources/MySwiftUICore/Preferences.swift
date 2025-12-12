@@ -39,17 +39,17 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         return true
     }
     
-    private var keys: [any (PreferenceKey).Type]
+    private var keys: [any PreferenceKey.Type]
     
     init() {
         keys = []
     }
     
-    private init(keys: [any (PreferenceKey).Type]) {
+    private init(keys: [any PreferenceKey.Type]) {
         self.keys = keys
     }
     
-    mutating func remove(_ key: any (PreferenceKey).Type) {
+    mutating func remove(_ key: any PreferenceKey.Type) {
         let index = _index(of: key)
         guard index != count else {
             return
@@ -58,7 +58,7 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         keys.remove(at: index)
     }
     
-    func contains(_ key: any (PreferenceKey).Type) -> Bool {
+    func contains(_ key: any PreferenceKey.Type) -> Bool {
         let index = _index(of: key)
         let count = count
         if index == count {
@@ -70,14 +70,14 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         }
     }
     
-    mutating func add(_ key: any (PreferenceKey).Type) {
+    mutating func add(_ key: any PreferenceKey.Type) {
         guard !contains(key) else {
             return
         }
         keys.append(key)
     }
     
-    subscript(_ index: Int) -> any (PreferenceKey).Type {
+    subscript(_ index: Int) -> any PreferenceKey.Type {
         return keys[index]
     }
     
@@ -85,7 +85,7 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         return keys.isEmpty
     }
     
-    private func _index(of key: any (PreferenceKey).Type) -> Int {
+    private func _index(of key: any PreferenceKey.Type) -> Int {
         let keys = keys
         let count = keys.count
         guard count > 0 else {
@@ -122,7 +122,7 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         // x23
         let otherCount = otherKeys.count
         
-        var results: [any (PreferenceKey).Type] = []
+        var results: [any PreferenceKey.Type] = []
         results.reserveCapacity(Swift.max(selfCount, otherCount))
         
         if selfCount == 0 {

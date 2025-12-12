@@ -3,19 +3,73 @@ internal import AttributeGraph
 private import CoreGraphics
 
 protocol DynamicContainerItem {
-    // TODO
+    var count: Int { get }
+    var needsTransitions: Bool { get }
+    var zIndex: Double { get }
+    func matchesIdentity(of item: Self) -> Bool
+    static var supportsReuse: Bool { get }
+    func canBeReused(by item: Self) -> Bool
+    var list: Attribute<ViewList>? { get }
+    var viewID: _ViewList_ID? { get }
+}
+
+extension DynamicContainerItem {
+    var needsTransitions: Bool {
+        return false
+    }
+    
+    var zIndex: Double {
+        return 0
+    }
+    
+    static var supportsReuse: Bool {
+        return false
+    }
+    
+    func canBeReused(by item: Self) -> Bool {
+        return false
+    }
+    
+    var list: Attribute<ViewList>? {
+        return nil
+    }
+    
+    var viewID: _ViewList_ID? {
+        return nil
+    }
 }
 
 protocol DynamicContainerAdaptor {
     associatedtype Item : DynamicContainerItem
     associatedtype Items
     associatedtype ItemLayout
+    
+    static var maxUnusedItems: Int { get }
+    func updatedItems() -> Self.Items?
+    func foreachItem(items: Self.Items, _ body: (Self.Item) -> Void)
+    static func containsItem(_: Self.Items, _: Self.Item) -> Bool
+    func makeItemLayout(item: Self.Item, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: Attribute<DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, Self.ItemLayout)
+    func removeItemLayout(uniqueId: UInt32, itemLayout: Self.ItemLayout)
+}
+
+extension DynamicContainerAdaptor {
+    static var maxUnusedItems: Int {
+        return 0
+    }
+}
+
+extension DynamicContainerAdaptor where Self.Item == Self.Items {
+    func foreachItem(items: Self.Items, _ body: (Self.Item) -> Void) {
+        body(items)
+    }
+    
     // TODO
 }
 
 struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
-    typealias Item = DynamicContainerItem
+    typealias Item = any DynamicContainerItem
     typealias Items = ViewList
+    typealias ItemLayout = Never // TODO
     
     @Attribute private var items: ViewList
     @OptionalAttribute private var childGeometries: [ViewGeometry]?

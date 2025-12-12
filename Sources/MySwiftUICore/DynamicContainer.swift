@@ -9,6 +9,16 @@ struct DynamicContainer {
          */
         // sp + 0x1e0
         let copy_1 = inputs
+        // sp + 0x128
+        var outputs = _ViewOutputs()
+        
+        for key in inputs.preferences.keys {
+            func project<Key: PreferenceKey>(_ type: Key.Type) {
+                let combiner = DynamicPreferenceCombiner<Key>()
+                outputs[type] = Attribute(combiner)
+            }
+            project(key)
+        }
         
         fatalError("TODO")
     }
@@ -129,6 +139,22 @@ fileprivate class DynamicAnimationListener {
     }
 }
 
-fileprivate struct DynamicPreferenceCombiner<T>: Rule, AsyncAttribute, CustomStringConvertible {
-    @OptionalAttribute private var info: DynamicContainer.Info?
+fileprivate struct DynamicPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribute, CustomStringConvertible {
+    @OptionalAttribute var info: DynamicContainer.Info?
+    
+    init() {
+        _info = OptionalAttribute()
+    }
+    
+    var description: String {
+        fatalError("TODO")
+    }
+    
+    static var initialValue: T.Value? {
+        return T.defaultValue
+    }
+    
+    var value: T.Value {
+        fatalError("TODO")
+    }
 }
