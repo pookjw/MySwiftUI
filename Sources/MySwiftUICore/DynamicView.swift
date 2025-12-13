@@ -244,11 +244,19 @@ struct DynamicLayoutMap {
     }
 }
 
-struct DynamicViewListItem {
+struct DynamicViewListItem: DynamicContainerItem {
+    var count: Int {
+        fatalError("TODO")
+    }
+    
+    func matchesIdentity(of item: DynamicViewListItem) -> Bool {
+        fatalError("TODO")
+    }
+    
     private var id: _ViewList_ID
     private var elements: _ViewList_SubgraphElements
     private var traits: ViewTraitCollection
-    private var list: Attribute<ViewList>?
+    private(set) var list: Attribute<ViewList>?
 }
 
 extension DynamicViewListItem {

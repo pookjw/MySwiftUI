@@ -741,6 +741,11 @@ extension SwiftUI._ViewInputs {
 
   @_silgen_name("$s7SwiftUI11_ViewInputsV_8position4size9transform17containerPosition18hostPreferenceKeysAcA06_GraphD0V_09AttributeM00N0VySo7CGPointVGAMyAA0C4SizeVGAMyAA0C9TransformVGApMyAA0kL0VGtcfC")
   public init(_: SwiftUI._GraphInputs, position: AttributeGraph.Attribute<CoreGraphics.CGPoint>, size: AttributeGraph.Attribute<_SwiftUICorePrivate.ViewSize>, transform: AttributeGraph.Attribute<_SwiftUICorePrivate.ViewTransform>, containerPosition: AttributeGraph.Attribute<CoreGraphics.CGPoint>, hostPreferenceKeys: AttributeGraph.Attribute<_SwiftUICorePrivate.PreferenceKeys>)
+
+  public var preferences: _SwiftUICorePrivate.PreferencesInputs {
+    @_silgen_name("$s7SwiftUI11_ViewInputsV11preferencesAA011PreferencesD0Vvg") get
+    @_silgen_name("$s7SwiftUI11_ViewInputsV11preferencesAA011PreferencesD0Vvs") set
+  }
 }
 
 @available(visionOS 26.0, *)
@@ -1114,7 +1119,9 @@ extension AttributeGraph.Attribute {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol DynamicContainerItem {}
+public protocol DynamicContainerItem {
+  func matchesIdentity(of item: Self) -> Swift.Bool
+}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -1122,6 +1129,15 @@ public protocol DynamicContainerAdaptor {
     associatedtype Item : _SwiftUICorePrivate.DynamicContainerItem
     associatedtype Items
     associatedtype ItemLayout
+    static func containsItem(_: Self.Items, _: Self.Item) -> Swift.Bool
+    func foreachItem(items: Self.Items, _ body: (Self.Item) -> Void)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.DynamicContainerAdaptor where Self.Item == Self.Items {
+  public func foreachItem(items: Self.Items, _ body: (Self.Item) -> Void)
+  public static func containsItem(_: Self.Items, _: Self.Item) -> Swift.Bool
 }
 
 @available(visionOS 26.0, *)
@@ -1134,4 +1150,17 @@ public struct DynamicContainer {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.DynamicContainer {
   public struct Info {}
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PreferencesInputs {
+  public mutating func add<Key: _SwiftUICorePrivate.PreferenceKey>(_: Key.Type)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewRespondersKey: _SwiftUICorePrivate.PreferenceKey {
+  public static var defaultValue: [_SwiftUICorePrivate.ViewResponder]
+  public static func reduce(value: inout [_SwiftUICorePrivate.ViewResponder], nextValue: () -> [_SwiftUICorePrivate.ViewResponder])
 }

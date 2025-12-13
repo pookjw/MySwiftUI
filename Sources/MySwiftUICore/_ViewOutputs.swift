@@ -69,6 +69,10 @@ public struct _ViewOutputs {
             layoutComputer.identifier.indirectAttribute = otherLayoutComputer.identifier
         }
     }
+    
+    func forEachPrefence(_ body: (_ key: any PreferenceKey.Type, _ attribute: AnyAttribute) -> Void) {
+        preferences.forEachPrefence(body)
+    }
 }
 
 @available(*, unavailable)

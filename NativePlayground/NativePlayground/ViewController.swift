@@ -98,12 +98,16 @@ final class FooModel {
     var number = 0
 }
 
-struct MyItem: DynamicContainerItem {}
+struct MyItem: DynamicContainerItem {
+    func matchesIdentity(of item: Self) -> Bool {
+        fatalError()
+    }
+}
 
 struct MyAdapter: DynamicContainerAdaptor {
     typealias Item = MyItem
     
-    typealias Items = Never
+    typealias Items = MyItem
     
     typealias ItemLayout = Never
     
@@ -948,18 +952,19 @@ class ViewController: UIViewController {
 //        let item = DisplayList.Item.init(.empty, frame: .zero, identity: .init(), version: .init())
 //        let displayList = DisplayList(item)
         
-        let graph = Graph()
-        let subgraph = Subgraph(graph: graph)
-        Subgraph.current = subgraph
-        graph.context = UnsafeRawPointer(
-            Unmanaged
-                .passRetained(
-                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
-                )
-        .toOpaque())
+//        let graph = Graph()
+//        let subgraph = Subgraph(graph: graph)
+//        Subgraph.current = subgraph
+//        graph.context = UnsafeRawPointer(
+//            Unmanaged
+//                .passRetained(
+//                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
+//                )
+//        .toOpaque())
+//        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: .init(value: .invalid), environment: .init(value: .init()), transaction: .init(value: .init())))
+//        inputs.preferences.add(ViewRespondersKey.self)
 //        let host = GraphHost.init(data: .init())
-        DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: .init(withoutGeometry: .init(time: .init(value: .zero), phase: .init(value: .invalid), environment: .init(value: .init()), transaction: .init(value: .init()))))
-        fatalError()
+//        DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
         
         let cache = ObjectCache<Int, Int>.init { _ in
             return 3

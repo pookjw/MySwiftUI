@@ -90,6 +90,12 @@ package struct PreferencesOutputs {
         let keyValue = KeyValue(key: key, value: value.identifier)
         preferences.append(keyValue)
     }
+    
+    func forEachPrefence(_ body: (_ key: any PreferenceKey.Type, _ attribute: AnyAttribute) -> Void) {
+        for keyValue in preferences {
+            body(keyValue.key, keyValue.value)
+        }
+    }
 }
 
 extension PreferencesOutputs {

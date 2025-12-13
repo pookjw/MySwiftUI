@@ -20,7 +20,54 @@ struct DynamicContainer {
             project(key)
         }
         
-        fatalError("TODO")
+        // <+568>
+        // adaptor -> x22
+        // sp + 0x180
+        let copy_2 = copy_1
+        // sp + 0x110
+        let copy_3 = outputs
+        // sp + 0x138
+        let info = DynamicContainer.Info(
+            items: [],
+            indexMap: [:],
+            displayMap: nil,
+            removedCount: 0,
+            unusedCount: 0,
+            allUnary: true,
+            seed: 0
+        )
+        // sp + 0x20
+        let containerInfo = DynamicContainerInfo(
+            adaptor: adaptor,
+            inputs: copy_2,
+            outputs: copy_3,
+            info: info,
+            lastUniqueId: 0,
+            lastRemoved: 0,
+            lastResetSeed: .max,
+            needsPhaseUpdate: false
+        )
+        
+        // <+756>
+        // sp + 0x1a0
+        let copy_4 = copy_1
+        let attribute = Attribute(containerInfo)
+        _ = consume containerInfo
+        
+        attribute.flags = .unknown0
+        
+        // <+964>
+        copy_3.forEachPrefence { key, other in
+            // $s7SwiftUI16DynamicContainerV04makeD07adaptor6inputs14AttributeGraph0H0VyAC4InfoVG_AA12_ViewOutputsVtx_AA01_K6InputsVtAA0cD7AdaptorRzlFZyAA13PreferenceKey_pXp_So11AGAttributeatXEfU_
+            func project<Key: PreferenceKey>(_ type: Key.Type) {
+                other.mutateBody(as: DynamicPreferenceCombiner<Key>.self, invalidating: true) { combiner in
+                    combiner.$info = attribute
+                }
+            }
+            project(key)
+        }
+        
+        return (attribute, copy_3)
     }
 }
 
@@ -33,6 +80,25 @@ extension DynamicContainer {
         private var unusedCount: Int
         private var allUnary: Bool
         private var seed: UInt32
+        
+        @inline(__always)
+        init(
+            items: [DynamicContainer.ItemInfo],
+            indexMap: [UInt32: Int],
+            displayMap: [UInt32]?,
+            removedCount: Int,
+            unusedCount: Int,
+            allUnary: Bool,
+            seed: UInt32
+        ) {
+            self.items = items
+            self.indexMap = indexMap
+            self.displayMap = displayMap
+            self.removedCount = removedCount
+            self.unusedCount = unusedCount
+            self.allUnary = allUnary
+            self.seed = seed
+        }
     }
     
     struct ItemInfo {

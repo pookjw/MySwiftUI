@@ -40,3 +40,12 @@ struct _ViewList_SubgraphElements {
 struct _ViewList_SublistSubgraphStorage {
     private var subgraphs: [_ViewList_Subgraph]
 }
+
+struct _ViewList_Sublist {
+    private var start: Int
+    private var count: Int
+    private var id: _ViewList_ID
+    private var elements: _ViewList_SubgraphElements
+    private var traits: ViewTraitCollection
+    private var list: Attribute<ViewList>?
+}

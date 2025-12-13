@@ -47,7 +47,7 @@ protocol DynamicContainerAdaptor {
     static var maxUnusedItems: Int { get }
     func updatedItems() -> Self.Items?
     func foreachItem(items: Self.Items, _ body: (Self.Item) -> Void)
-    static func containsItem(_: Self.Items, _: Self.Item) -> Bool
+    static func containsItem(_ items: Self.Items, _ item: Self.Item) -> Bool
     func makeItemLayout(item: Self.Item, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: Attribute<DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, Self.ItemLayout)
     func removeItemLayout(uniqueId: UInt32, itemLayout: Self.ItemLayout)
 }
@@ -63,13 +63,14 @@ extension DynamicContainerAdaptor where Self.Item == Self.Items {
         body(items)
     }
     
-    // TODO
+    static func containsItem(_ items: Self.Items, _ item: Self.Item) -> Bool {
+        return items.matchesIdentity(of: item)
+    }
 }
 
 struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
-    typealias Item = any DynamicContainerItem
+    typealias Item = DynamicViewListItem
     typealias Items = ViewList
-    typealias ItemLayout = Never // TODO
     
     @Attribute private var items: ViewList
     @OptionalAttribute private var childGeometries: [ViewGeometry]?
@@ -86,6 +87,27 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
         self._childGeometries = childGeometries
         self.childDepthData = childDepthData
         self.mutateLayoutMap = mutateLayoutMap
+    }
+    
+    func updatedItems() -> ViewList? {
+        // $s7SwiftUI24DynamicLayoutViewAdaptorVAA0c9ContainerF0A2aDP12updatedItems0I0QzSgyFTW
+        fatalError("TODO")
+    }
+    
+    func foreachItem(items: ViewList, _ body: (DynamicViewListItem) -> Void) {
+        fatalError("TODO")
+    }
+    
+    static func containsItem(_ items: ViewList, _ item: DynamicViewListItem) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func makeItemLayout(item: DynamicViewListItem, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: Attribute<DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, ItemLayout) {
+        fatalError("TODO")
+    }
+    
+    func removeItemLayout(uniqueId: UInt32, itemLayout: ItemLayout) {
+        fatalError("TODO")
     }
 }
 
@@ -250,14 +272,35 @@ extension Layout {
         let adapter = DynamicLayoutViewAdaptor(
             items: list,
             childGeometries: OptionalAttribute(geometriesAttribute),
-            childDepthData: childDepthData) { [layoutComputerAttribute] handler in
-                // $s7SwiftUI6LayoutPAAE15makeDynamicView4root6inputs10properties4listAA01_F7OutputsVAA11_GraphValueVyxG_AA01_F6InputsVAA0C10PropertiesV09AttributeL00P0VyAA0F4List_pGtFZ10mapMutatorL_5thunkyyAA0eC3MapVzXE_tAaBRzlFTA
-                fatalError("TODO")
+            childDepthData: childDepthData
+        ) { [layoutComputerAttribute] handler in
+            // $s7SwiftUI6LayoutPAAE15makeDynamicView4root6inputs10properties4listAA01_F7OutputsVAA11_GraphValueVyxG_AA01_F6InputsVAA0C10PropertiesV09AttributeL00P0VyAA0F4List_pGtFZ10mapMutatorL_5thunkyyAA0eC3MapVzXE_tAaBRzlFTA
+            fatalError("TODO")
+        }
+        // sp + 0xd4 / sp + 0xc0
+        var (containerInfo, outputs) = DynamicContainer.makeContainer(adaptor: adapter, inputs: copy_5)
+        
+        if let layoutComputerAttribute {
+            layoutComputerAttribute.mutateBody(as: DynamicLayoutComputer<Self>.self, invalidating: true) { dynamicLayoutComputer in
+                dynamicLayoutComputer.$containerInfo = containerInfo
             }
-        let (containerInfo, outputs) = DynamicContainer.makeContainer(adaptor: adapter, inputs: copy_5)
+        }
         
+        // <+1908>
+        if (scrollTargetRole.attribute != nil) || hasScrollable || withinAccessibilityRotor {
+            // <+1936>
+            fatalError("TODO")
+        } else {
+            // <+2064>
+            // <+3312>
+        }
         
-        fatalError("TODO")
+        // <+3312>
+        if options.contains(.viewRequestsLayoutComputer) {
+            outputs.layoutComputer = layoutComputerAttribute
+        }
+        
+        return outputs
     }
 }
 
