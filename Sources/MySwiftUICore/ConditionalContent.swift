@@ -114,11 +114,19 @@ struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
     }
     
     func childInfo<U>(ptr: UnsafePointer<U>, emptyType: Any.Type) -> (Any.Type, UniqueID?) {
-        desc.project(at: UnsafeRawPointer(ptr), baseIndex: 0) { index, conformance, pointer in
+        var type: (any Any.Type)?
+        var index = 0
+        desc.project(at: UnsafeRawPointer(ptr), baseIndex: index) { _index, conformance, pointer in
             // $s7SwiftUI19ConditionalMetadataV9childInfo3ptr9emptyTypeypXp_AA8UniqueIDVSgtSPyqd__G_ypXptlFySi_AA0I11ConformanceVyxGSgSVSgtXEfU_TA
-            fatalError("TODO")
+            index = _index
+            if let conformance {
+                type = conformance.type
+            } else {
+                type = nil
+            }
         }
-        fatalError("TODO")
+        
+        return (type ?? emptyType, ids[index])
     }
 }
 

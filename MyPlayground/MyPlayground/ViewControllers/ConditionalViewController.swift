@@ -22,8 +22,8 @@ fileprivate struct MyView: View {
         if model.flag {
             Color.white
         } else {
-//            Color.black
-            EmptyView()
+            Color.black
+//            EmptyView()
         }
     }
 }
