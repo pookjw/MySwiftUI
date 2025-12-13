@@ -99,12 +99,26 @@ final class FooModel {
 }
 
 struct MyItem: DynamicContainerItem {
+    var number = 3
     func matchesIdentity(of item: Self) -> Bool {
         fatalError()
     }
 }
 
 struct MyAdapter: DynamicContainerAdaptor {
+    func updatedItems() -> MyItem? {
+//        return MyItem()
+        return nil
+    }
+    
+    func makeItemLayout(item: MyItem, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, Never) {
+        fatalError("TODO")
+    }
+    
+    func removeItemLayout(uniqueId: UInt32, itemLayout: Never) {
+        fatalError("TODO")
+    }
+    
     typealias Item = MyItem
     
     typealias Items = MyItem
@@ -672,6 +686,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI16DynamicContainerV8ItemInfoC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI16DynamicContainerV8ItemInfoC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
 //        print(_typeName(_typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, qualified: true))
 //        _forEachField(of: _typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, options: []) { name, offset, type, kind in
 //            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
@@ -961,10 +982,22 @@ class ViewController: UIViewController {
 //                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
 //                )
 //        .toOpaque())
-//        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: .init(value: .invalid), environment: .init(value: .init()), transaction: .init(value: .init())))
+//        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: .init(value: .init()), environment: .init(value: .init()), transaction: .init(value: .init())))
 //        inputs.preferences.add(ViewRespondersKey.self)
 //        let host = GraphHost.init(data: .init())
-//        DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
+//        let (info, _) = DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
+//        
+//        
+//        
+//        print(_typeName(info.identifier._bodyType, qualified: true))
+//        _forEachField(of: info.identifier._bodyType, options: []) { name, offset, type, kind in
+//            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+//            return true
+//        }
+//        
+//        print("===")
+//        
+//        print(info.value)
         
         let cache = ObjectCache<Int, Int>.init { _ in
             return 3
@@ -1017,10 +1050,13 @@ class ViewController: UIViewController {
 //        let rootView = MyObsView(model: model)
         
         let rootView = MyLayout() {
-            if model.flag {
+//            if model.flag {
+//                Color.white
+//            } else {
+//                Color.black
+//            }
+            if model.nullable == nil {
                 Color.white
-            } else {
-                Color.black
             }
         }
         let hostingView = _UIHostingView(rootView: rootView)
@@ -1168,6 +1204,7 @@ struct MyView: View {
 @Observable
 final class ObsModel {
     var flag = false
+    var nullable: Int?
 }
 
 fileprivate struct MyObsView: View {

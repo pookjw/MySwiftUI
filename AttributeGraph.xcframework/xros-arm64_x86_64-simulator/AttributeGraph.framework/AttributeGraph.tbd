@@ -248,7 +248,8 @@ exports:
     _AGGraphInvalidateValue,
     _AGGraphCreateIndirectAttribute3,
     _AGGraphSetIndirectAttribute2,
-    _AGTypeNominalDescriptor ]
+    _AGTypeNominalDescriptor,
+    _AGTypeGetEnumTag ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

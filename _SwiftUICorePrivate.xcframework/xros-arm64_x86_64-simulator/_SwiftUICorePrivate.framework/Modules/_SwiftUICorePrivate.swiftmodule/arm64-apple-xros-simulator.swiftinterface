@@ -1129,8 +1129,19 @@ public protocol DynamicContainerAdaptor {
     associatedtype Item : _SwiftUICorePrivate.DynamicContainerItem
     associatedtype Items
     associatedtype ItemLayout
-    static func containsItem(_: Self.Items, _: Self.Item) -> Swift.Bool
+
+    static var maxUnusedItems: Swift.Int { get }
+    func updatedItems() -> Self.Items?
     func foreachItem(items: Self.Items, _ body: (Self.Item) -> Void)
+    static func containsItem(_: Self.Items, _: Self.Item) -> Swift.Bool
+    func makeItemLayout(item: Self.Item, uniqueId: Swift.UInt32, inputs: SwiftUI._ViewInputs, containerInfo: AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, containerInputs: (inout SwiftUI._ViewInputs) -> Swift.Void) -> (SwiftUI._ViewOutputs, Self.ItemLayout)
+    func removeItemLayout(uniqueId: Swift.UInt32, itemLayout: Self.ItemLayout)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.DynamicContainerAdaptor {
+  public static var maxUnusedItems: Swift.Int { get }
 }
 
 @available(visionOS 26.0, *)
@@ -1164,3 +1175,7 @@ public struct ViewRespondersKey: _SwiftUICorePrivate.PreferenceKey {
   public static var defaultValue: [_SwiftUICorePrivate.ViewResponder]
   public static func reduce(value: inout [_SwiftUICorePrivate.ViewResponder], nextValue: () -> [_SwiftUICorePrivate.ViewResponder])
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DynamicContainerInfo<T: _SwiftUICorePrivate.DynamicContainerAdaptor> {}

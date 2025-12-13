@@ -90,8 +90,12 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
     }
     
     func updatedItems() -> ViewList? {
-        // $s7SwiftUI24DynamicLayoutViewAdaptorVAA0c9ContainerF0A2aDP12updatedItems0I0QzSgyFTW
-        fatalError("TODO")
+        let (items, changed) = $items.changedValue(options: [])
+        if changed {
+            return items
+        } else {
+            return nil
+        }
     }
     
     func foreachItem(items: ViewList, _ body: (DynamicViewListItem) -> Void) {

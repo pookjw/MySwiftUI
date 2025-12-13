@@ -73,9 +73,9 @@ struct DynamicContainer {
 
 extension DynamicContainer {
     struct Info {
-        private var items: [DynamicContainer.ItemInfo]
+        var items: [DynamicContainer.ItemInfo]
         private var indexMap: [UInt32: Int]
-        private var displayMap: [UInt32]?
+        private(set) var displayMap: [UInt32]?
         private var removedCount: Int
         private var unusedCount: Int
         private var allUnary: Bool
@@ -101,7 +101,7 @@ extension DynamicContainer {
         }
     }
     
-    struct ItemInfo {
+    class ItemInfo {
         private let subgraph: Subgraph
         private let uniqueId: UInt32
         private let viewCount: Int32
@@ -112,7 +112,11 @@ extension DynamicContainer {
         private var removalOrder: UInt32
         private var precedingViewCount: Int32
         private var resetSeed: UInt32
-        private var phase: TransitionPhase?
+        var phase: TransitionPhase?
+        
+        init() {
+            fatalError("TODO")
+        }
     }
     
     struct _ItemInfo<T: DynamicContainerAdaptor> {
@@ -159,12 +163,58 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     
     typealias Value = DynamicContainer.Info
     
-    func updateValue() {
+    mutating func updateValue() {
+        // self -> sp + 0x60
+        let resetSeed = inputs.viewPhase.value.resetSeed
+        let needsReset = (resetSeed != lastResetSeed)
+        // w23
+        let disableTransitions: Bool
+        if needsReset {
+            lastResetSeed = resetSeed
+            disableTransitions = true
+        } else {
+            disableTransitions = inputs.animationsDisabled
+        }
+        
+        // sp + 0x58
+        var flag: Bool
+        if needsPhaseUpdate {
+            // <+176>
+            flag = false
+            for item in info.items {
+                if case .willAppear = item.phase {
+                    // <+356>
+                    flag = true
+                    item.phase = .identity
+                }
+            }
+            needsPhaseUpdate = false
+        } else {
+            flag = false
+        }
+        
+        // <+556>
+        let (changed, hasDepth) = updateItems(disableTransitions: disableTransitions)
         fatalError("TODO")
     }
     
     func destroy() {
         fatalError("TODO")
+    }
+    
+    fileprivate func updateItems(disableTransitions: Bool) -> (changed: Bool, hasDepth: Bool) {
+        /*
+         self -> x19
+         disableTransitions -> sp + 0x4c
+         */
+        // <+240>
+        if let items = adaptor.updatedItems() {
+            // <+340>
+            fatalError("TODO")
+        } else {
+            // <+300>
+            return (changed: false, hasDepth: info.displayMap != nil)
+        }
     }
 }
 

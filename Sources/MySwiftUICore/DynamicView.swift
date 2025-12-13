@@ -187,6 +187,10 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
     }
     
     func updateValue() {
+        // self -> x26
+        let view = view
+        // x25
+        let childInfo = view.childInfo(metadata: metadata)
         fatalError("TODO")
     }
 }

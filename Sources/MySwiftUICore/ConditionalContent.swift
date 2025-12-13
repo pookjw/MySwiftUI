@@ -31,7 +31,7 @@ extension _ConditionalContent {
 extension _ConditionalContent: View, PrimitiveView where TrueContent: View, FalseContent: View {
     @usableFromInline
     init(storage: _ConditionalContent<TrueContent, FalseContent>.Storage) {
-        fatalError("TODO")
+        self.storage = storage
     }
     
     public static nonisolated func _makeView(view: _GraphValue<_ConditionalContent<TrueContent, FalseContent>>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -84,7 +84,9 @@ extension _ConditionalContent: DynamicView {
     }
     
     nonisolated func childInfo(metadata: Self.Metadata) -> (any Any.Type, UniqueID?) {
-        fatalError("TODO")
+        return withUnsafePointer(to: self) { pointer in
+            return metadata.childInfo(ptr: pointer, emptyType: EmptyView.self)
+        }
     }
     
     func makeChildView(metadata: Self.Metadata, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -109,6 +111,14 @@ struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
         
         self.desc = descriptor
         self.ids = ids
+    }
+    
+    func childInfo<U>(ptr: UnsafePointer<U>, emptyType: Any.Type) -> (Any.Type, UniqueID?) {
+        desc.project(at: UnsafeRawPointer(ptr), baseIndex: 0) { index, conformance, pointer in
+            // $s7SwiftUI19ConditionalMetadataV9childInfo3ptr9emptyTypeypXp_AA8UniqueIDVSgtSPyqd__G_ypXptlFySi_AA0I11ConformanceVyxGSgSVSgtXEfU_TA
+            fatalError("TODO")
+        }
+        fatalError("TODO")
     }
 }
 
@@ -155,6 +165,28 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
     fileprivate init(storage: ConditionalTypeDescriptor<T>.Storage, count: Int) {
         self.storage = storage
         self.count = count
+    }
+    
+    fileprivate func project(at pointer: UnsafeRawPointer, baseIndex: Int, _ body: (Int, TypeConformance<T>?, UnsafeRawPointer?) -> Void) {
+        /*
+         pointer -> x21
+         baseIndex -> x22
+         body -> x19
+         */
+        switch storage {
+        case .atom(let comformance):
+            body(baseIndex, comformance, pointer)
+        case .optional(let type, let descriptor):
+            if TypeID(T.self).getEnumTag(pointer) == 1 {
+                body(baseIndex, nil, nil)
+            } else {
+                // <+300>
+                fatalError("TODO")
+            }
+        case .either(let type, let falseDescriptor, let trueDescriptor):
+            // <+180>
+            fatalError("TODO")
+        }
     }
 }
 
