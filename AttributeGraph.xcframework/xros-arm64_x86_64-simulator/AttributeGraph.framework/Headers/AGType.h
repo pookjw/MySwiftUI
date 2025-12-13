@@ -11,5 +11,7 @@ AG_EXTERN void AGTypeApplyFields(const AGSwiftMetadata *, const void *block, voi
 AG_EXTERN void AGTypeApplyFields2(const AGSwiftMetadata *, AGTypeApplyOptions, const void *block, void * _Nullable) NS_REFINED_FOR_SWIFT;
 AG_EXTERN const void * AGTypeNominalDescriptor(AGTypeID) NS_SWIFT_NAME(getter:TypeID.nominalDescriptor(self:));
 AG_EXTERN uint32_t AGTypeGetEnumTag(AGTypeID, const void *) NS_SWIFT_NAME(TypeID.getEnumTag(self:_:));
+AG_EXTERN void AGTypeProjectEnumData(AGTypeID, void *) NS_SWIFT_NAME(TypeID.projectEnumData(self:_:));
+AG_EXTERN void AGTypeInjectEnumTag(AGTypeID, uint32_t, void *) NS_SWIFT_NAME(TypeID.injectEnumTag(self:_:_:));
 
 #endif

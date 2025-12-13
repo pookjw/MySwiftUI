@@ -1050,13 +1050,11 @@ class ViewController: UIViewController {
 //        let rootView = MyObsView(model: model)
         
         let rootView = MyLayout() {
-//            if model.flag {
-//                Color.white
-//            } else {
-//                Color.black
-//            }
-            if model.nullable == nil {
+            if model.flag {
                 Color.white
+            } else {
+                Color.black
+//                Text("")
             }
         }
         let hostingView = _UIHostingView(rootView: rootView)
@@ -1214,8 +1212,8 @@ fileprivate struct MyObsView: View {
         if model.flag {
             Color.white
         } else {
-//            Color.black
-            Text("")
+            Color.black
+//            Text("")
         }
     }
 }

@@ -249,7 +249,9 @@ exports:
     _AGGraphCreateIndirectAttribute3,
     _AGGraphSetIndirectAttribute2,
     _AGTypeNominalDescriptor,
-    _AGTypeGetEnumTag ]
+    _AGTypeGetEnumTag,
+    _AGTypeProjectEnumData,
+    _AGTypeInjectEnumTag ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

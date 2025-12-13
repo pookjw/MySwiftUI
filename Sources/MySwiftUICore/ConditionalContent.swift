@@ -177,15 +177,31 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
         case .atom(let comformance):
             body(baseIndex, comformance, pointer)
         case .optional(let type, let descriptor):
-            if TypeID(T.self).getEnumTag(pointer) == 1 {
+            let typeID = TypeID(type)
+            let tag = typeID.getEnumTag(pointer)
+            if tag == 1 {
                 body(baseIndex, nil, nil)
             } else {
                 // <+300>
-                fatalError("TODO")
+                typeID.projectEnum(at: pointer, tag: Int(tag)) { pointer in
+                    descriptor.project(at: pointer, baseIndex: baseIndex + 1, body)
+                }
             }
         case .either(let type, let falseDescriptor, let trueDescriptor):
             // <+180>
-            fatalError("TODO")
+            let typeID = TypeID(type)
+            let tag = typeID.getEnumTag(pointer)
+            print(tag)
+            typeID.projectEnum(at: pointer, tag: Int(tag)) { pointer in
+                let _baseIndex: Int
+                if tag == 1 {
+                    _baseIndex = baseIndex
+                    fatalError("TODO")
+                } else {
+                    _baseIndex = baseIndex + falseDescriptor.count
+                    fatalError("TODO")
+                }
+            }
         }
     }
 }
