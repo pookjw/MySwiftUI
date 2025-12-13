@@ -63,7 +63,7 @@ extension _ConditionalContent {
                 let trueDescriptor = ConditionalTypeDescriptor<T>.descriptor(type: TrueContent.self)
                 
                 return ConditionalTypeDescriptor<T>(
-                    storage: .either(ConditionalTypeDescriptor<T>.Storage.self, f: falseDescriptor, t: trueDescriptor),
+                    storage: .either(Self.Storage.self, f: falseDescriptor, t: trueDescriptor),
                     count: falseDescriptor.count + trueDescriptor.count
                 )
             }
@@ -191,15 +191,11 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
             // <+180>
             let typeID = TypeID(type)
             let tag = typeID.getEnumTag(pointer)
-            print(tag)
             typeID.projectEnum(at: pointer, tag: Int(tag)) { pointer in
-                let _baseIndex: Int
                 if tag == 1 {
-                    _baseIndex = baseIndex
-                    fatalError("TODO")
+                    falseDescriptor.project(at: pointer, baseIndex: baseIndex, body)
                 } else {
-                    _baseIndex = baseIndex + falseDescriptor.count
-                    fatalError("TODO")
+                    trueDescriptor.project(at: pointer, baseIndex: baseIndex + falseDescriptor.count, body)
                 }
             }
         }
