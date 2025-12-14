@@ -83,18 +83,26 @@ extension _ConditionalContent: DynamicView {
         return true
     }
     
-    nonisolated func childInfo(metadata: Self.Metadata) -> (any Any.Type, UniqueID?) {
+    nonisolated func childInfo(metadata: ConditionalMetadata<ViewDescriptor>) -> (any Any.Type, UniqueID?) {
         return withUnsafePointer(to: self) { pointer in
             return metadata.childInfo(ptr: pointer, emptyType: EmptyView.self)
         }
     }
     
-    func makeChildView(metadata: Self.Metadata, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    func makeChildView(metadata: ConditionalMetadata<ViewDescriptor>, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         fatalError("TODO")
     }
     
-    func makeChildViewList(metadata: Self.Metadata, view: Attribute<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+    func makeChildViewList(metadata: ConditionalMetadata<ViewDescriptor>, view: Attribute<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        // sp + 0x30
+        let copy_1 = metadata
+        // view -> sp + 0x50
+        // inputs -> sp + 0x58
+        
+        return withUnsafePointer(to: self) { pointer in
+            // $s7SwiftUI19_ConditionalContentVA2A4ViewRzAaDR_rlE09makeChildE4List8metadata4view6inputsAA01_eH7OutputsVAA0C8MetadataVyAA0E10DescriptorVG_14AttributeGraph0O0VyACyxq_GGAA01_eH6InputsVtFAJSPyASGXEfU_TA
+            return copy_1.makeViewList(ptr: pointer, view: view, inputs: inputs)
+        }
     }
 }
 
@@ -127,6 +135,27 @@ struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
         }
         
         return (type ?? emptyType, ids[index])
+    }
+    
+    func makeViewList<U>(ptr: UnsafePointer<U>, view: Attribute<U>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         ptr = x22
+         view = x24
+         inputs = x21
+         U = x19
+         return pointer = x23
+         */
+//        // x25
+//        let desc = desc
+//        // x26
+//        let ids = ids
+        // sp + 0x20
+        let copy_1 = inputs
+        
+        /*
+         
+         */
+        fatalError("TODO")
     }
 }
 
