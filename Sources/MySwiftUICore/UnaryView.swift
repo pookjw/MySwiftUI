@@ -5,7 +5,7 @@ protocol UnaryView: View {
 
 extension UnaryView {
     public nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        return _ViewListOutputs.unaryViewList(view: view, inputs: inputs)
     }
     
     public nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {

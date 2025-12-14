@@ -283,14 +283,29 @@ extension ConditionalMetadata where T == ViewDescriptor {
         func visit<Content: View>(type: Content.Type) {
             // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE8MakeList33_2319071E64CA2FA820BFB26F46C6ECC6LLV5visit4typeyqd0__m_tAA0E0Rd0__lF
             inputs.base.pushStableType(type)
-            
-            fatalError("TODO")
+            let rule = UnwrapConditional<T, U, Content>(source: view, desc: desc, index: index)
+            let attribute = Attribute(rule)
+            attribute.value = ptr!.assumingMemoryBound(to: Content.self).pointee
+            Content.makeDebuggableViewList(view: _GraphValue(attribute), inputs: inputs)
         }
     }
 }
 
-fileprivate struct UnwrapConditional<T: ConditionalProtocolDescriptor, U, V> {
-    @Attribute private var source: U
+fileprivate struct UnwrapConditional<T: ConditionalProtocolDescriptor, Source, Content: View>: StatefulRule, AsyncAttribute {
+    @Attribute private var source: Source
     private let desc: ConditionalTypeDescriptor<T>
     private let index: Int
+    
+    @inline(__always)
+    init(source: Attribute<Source>, desc: ConditionalTypeDescriptor<T>, index: Int) {
+        self._source = source
+        self.desc = desc
+        self.index = index
+    }
+    
+    typealias Value = Content
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
 }
