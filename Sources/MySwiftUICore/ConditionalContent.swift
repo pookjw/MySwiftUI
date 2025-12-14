@@ -75,7 +75,7 @@ extension _ConditionalContent {
     }
 }
 
-extension _ConditionalContent: DynamicView {
+extension _ConditionalContent: DynamicView where TrueContent: View, FalseContent: View {
     typealias Metadata = ConditionalMetadata<ViewDescriptor>
     typealias ID = UniqueID
     
@@ -136,8 +136,10 @@ struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
         
         return (type ?? emptyType, ids[index])
     }
-    
-    func makeViewList<U>(ptr: UnsafePointer<U>, view: Attribute<U>, inputs: _ViewListInputs) -> _ViewListOutputs {
+}
+
+extension ConditionalMetadata where T == ViewDescriptor {
+    func makeViewList<U: View>(ptr: UnsafePointer<U>, view: Attribute<U>, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          ptr = x22
          view = x24
@@ -145,17 +147,26 @@ struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
          U = x19
          return pointer = x23
          */
-//        // x25
-//        let desc = desc
-//        // x26
-//        let ids = ids
-        // sp + 0x20
-        let copy_1 = inputs
+        var makeList = Self.MakeList<U>(desc: desc, view: view, index: 0, ptr: nil, inputs: inputs, outputs: nil)
+        desc.project(at: ptr, baseIndex: 1) { index, conformance, pointer in
+            // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE04makeE4List3ptr4view6inputsAA01_eH7OutputsVSPyqd__G_14AttributeGraph0M0Vyqd__GAA01_eH6InputsVtlFySi_AA15TypeConformanceVyAEGSgSVSgtXEfU_TA
+            guard
+                let conformance,
+                let pointer
+            else {
+                return
+            }
+            
+            makeList.index = index
+            makeList.ptr = pointer
+            conformance.visitType(visitor: &makeList)
+        }
         
-        /*
-         
-         */
-        fatalError("TODO")
+        if let outputs = makeList.outputs {
+            return outputs
+        } else {
+            return _ViewListOutputs.emptyParentViewList(inputs: inputs)
+        }
     }
 }
 
@@ -249,3 +260,37 @@ extension ConditionalTypeDescriptor {
 
 fileprivate nonisolated(unsafe) let conditionalTypeDescriptor: UnsafeRawPointer = TypeID(_ConditionalContent<Void, Void>.self).nominalDescriptor
 fileprivate nonisolated(unsafe) let optionalTypeDescriptor: UnsafeRawPointer = TypeID(Void?.self).nominalDescriptor
+
+extension ConditionalMetadata where T == ViewDescriptor {
+    fileprivate struct MakeList<U>: ViewTypeVisitor {
+        private var desc: ConditionalTypeDescriptor<ViewDescriptor>
+        private var view: Attribute<U>
+        var index: Int
+        var ptr: UnsafeRawPointer?
+        private var inputs: _ViewListInputs
+        var outputs: _ViewListOutputs?
+        
+        @inline(__always)
+        init(desc: ConditionalTypeDescriptor<ViewDescriptor>, view: Attribute<U>, index: Int, ptr: UnsafeRawPointer?, inputs: _ViewListInputs, outputs: _ViewListOutputs?) {
+            self.desc = desc
+            self.view = view
+            self.index = index
+            self.ptr = ptr
+            self.inputs = inputs
+            self.outputs = outputs
+        }
+        
+        func visit<Content: View>(type: Content.Type) {
+            // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE8MakeList33_2319071E64CA2FA820BFB26F46C6ECC6LLV5visit4typeyqd0__m_tAA0E0Rd0__lF
+            inputs.base.pushStableType(type)
+            
+            fatalError("TODO")
+        }
+    }
+}
+
+fileprivate struct UnwrapConditional<T: ConditionalProtocolDescriptor, U, V> {
+    @Attribute private var source: U
+    private let desc: ConditionalTypeDescriptor<T>
+    private let index: Int
+}

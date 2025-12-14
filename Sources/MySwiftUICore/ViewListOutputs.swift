@@ -26,6 +26,10 @@ extension _ViewListOutputs {
         fatalError("TODO")
     }
     
+    static func emptyParentViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+    
     static func nonEmptyParentViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
         fatalError("TODO")
     }

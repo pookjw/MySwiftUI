@@ -21,3 +21,9 @@ struct TypeConformance<T: ProtocolDescriptor>: Sendable {
         return unsafeBitCast(storage.type, to: UnsafeRawPointer.self)
     }
 }
+
+extension TypeConformance where T == ViewDescriptor {
+    func visitType<Visitor: ViewTypeVisitor>(visitor: UnsafeMutablePointer<Visitor>) {
+        visitor.pointee.visit(type: unsafeBitCast(storage, to: (any View.Type).self))
+    }
+}

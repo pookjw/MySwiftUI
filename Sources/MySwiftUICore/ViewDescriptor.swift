@@ -3,7 +3,7 @@ private import _MySwiftUIShims
 
 struct ViewDescriptor {
     static var descriptor: UnsafeRawPointer {
-        return _viewProtocolDescriptor();
+        return _viewProtocolDescriptor()
     }
 }
 
