@@ -1,8 +1,8 @@
 private import AttributeGraph
 
 public struct _ViewListInputs {
-    private var base: _GraphInputs
-    private(set) var implicitID: Int
+    var base: _GraphInputs
+    var implicitID: Int
     var options: _ViewListInputs.Options
     @OptionalAttribute private var traits: ViewTraitCollection?
     private var traitKeys: ViewTraitKeys?

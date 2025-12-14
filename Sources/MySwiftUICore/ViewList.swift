@@ -1,4 +1,4 @@
-private import AttributeGraph
+internal import AttributeGraph
 
 final class _ViewList_SubgraphRelease {
     private let subgraphs: ArraySlice<_ViewList_Subgraph>
@@ -8,11 +8,19 @@ final class _ViewList_SubgraphRelease {
     }
 }
 
-final class _ViewList_Subgraph {
-    private let subgraph: Subgraph
-    private var refcount: UInt32
+class _ViewList_Subgraph {
+    final let subgraph: Subgraph
+    final internal(set) var refcount: UInt32
     
     init() {
+        fatalError("TODO")
+    }
+    
+    final func wrapping(_ vistList: ViewList) -> _ViewList_Subgraph {
+        fatalError("TODO")
+    }
+    
+    func invalidate() {
         fatalError("TODO")
     }
 }

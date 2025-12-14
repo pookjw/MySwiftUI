@@ -7,21 +7,21 @@ internal import AttributeGraph
     associatedtype Metadata
     associatedtype ID : Hashable
     
-    static var canTransition: Bool {
+    static nonisolated var canTransition: Bool {
         get
     }
     
-    static var traitKeysDependOnView: Bool {
+    static nonisolated var traitKeysDependOnView: Bool {
         get
     }
     
-    static func makeID() -> ID
+    static nonisolated func makeID() -> ID
     
     nonisolated func childInfo(metadata: Metadata) -> (Any.Type, ID?)
     
-    func makeChildView(metadata: Metadata, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs
+    nonisolated func makeChildView(metadata: Metadata, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs
     
-    func makeChildViewList(metadata: Metadata, view: Attribute<Self>, inputs: _ViewListInputs) -> _ViewListOutputs
+    nonisolated func makeChildViewList(metadata: Metadata, view: Attribute<Self>, inputs: _ViewListInputs) -> _ViewListOutputs
 }
 
 extension DynamicView {
@@ -186,25 +186,154 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
         self.lastItem = lastItem
     }
     
-    func updateValue() {
+    mutating func updateValue() {
         // self -> x26
         let view = view
         // x25
-        let childInfo = view.childInfo(metadata: metadata)
-        fatalError("TODO")
+        let (type, id) = view.childInfo(metadata: metadata)
+        
+        // <+420>
+        // self -> sp + 0xd8
+        if let lastItem {
+            // <+496>
+            let matches = lastItem.matches(type: type, id: id)
+            let refcount = lastItem.refcount
+            
+            if !matches {
+                // <+688>
+                if refcount == 0 {
+                    // <+880>
+                    lastItem.refcount = .max
+                    self.lastItem = nil
+                    // <+928>
+                } else {
+                    // <+692>
+                    let subgraph = lastItem.subgraph
+                    if subgraph.isValid {
+                        // <+720>
+                        subgraph.apply { 
+                            // $sSo13AGSubgraphRefa7SwiftUIE10willRemoveyyFySo11AGAttributeaXEfU_Tf4nd_n
+                            fatalError("TODO")
+                        }
+                        
+                        parentSubgraph.removeChild(lastItem.subgraph)
+                        // <+812>
+                    }
+                    
+                    // <+812>
+                    let (_, overflow) = lastItem.refcount.subtractingReportingOverflow(1)
+                    if overflow {
+                        lastItem.invalidate()
+                        let subgraph = lastItem.subgraph
+                        if subgraph.isValid {
+                            subgraph.willInvalidate(isInserted: false)
+                            subgraph.invalidate()
+                        }
+                    }
+                    
+                    // <+912>
+                    self.lastItem = nil
+                    // <+928>
+                }
+            } else if refcount == 0 {
+                // <+880>
+                lastItem.refcount = .max
+                self.lastItem = nil
+                // <+928>
+            } else {
+                lastItem.invalidate()
+                let subgraph = lastItem.subgraph
+                if subgraph.isValid {
+                    subgraph.willInvalidate(isInserted: false)
+                    subgraph.invalidate()
+                }
+                
+                // <+912>
+                self.lastItem = nil
+                // <+928>
+            }
+        } else {
+            // <+644>
+            // <+928>
+        }
+        
+        // <+928>
+        var matches = false
+        for item in allItems.value {
+            matches = item.takeRetainedValue().matches(type: type, id: id)
+            item.release()
+            if matches {
+                break
+            }
+        }
+        
+        if !matches {
+            // <+1208>
+            // x20
+            let parentSubgraph = parentSubgraph
+            if parentSubgraph.isValid {
+                // <+1232>
+                // x22
+                let graph = parentSubgraph.graph
+                // x19
+                let newSubgraph = Subgraph(graph: graph)
+                _ = consume graph
+                parentSubgraph.addChild(newSubgraph)
+                
+                // w24, w22
+                let (listAttribute, isUnary) = newSubgraph.apply { 
+                    // $s7SwiftUI15DynamicViewList031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyF14AttributeGraph0P0VyAA0dE0_pG_SbtyXEfU_
+                    // self -> x26
+                    // sp + 0x1b8
+                    var copy_1 = inputs
+                    copy_1.base.copyCaches()
+                    
+                    if Content.canTransition, !copy_1.options.contains(.canTransition) {
+                        copy_1.options.insert(.canTransition)
+                    }
+                    
+                    copy_1.implicitID = 0
+                    
+                    // <+432>
+                    // x21
+                    let copy_3 = self
+                    // x27
+                    let _view = copy_3.view
+                    _ = consume copy_3
+                    
+                    let listOutputs = _view.makeChildViewList(metadata: metadata, view: $view, inputs: copy_1)
+                    return (listOutputs.makeAttribute(inputs: copy_1), listOutputs.staticCount == 1)
+                }
+                
+                // x23
+                let currentAttribute = AnyAttribute.current!
+                // <+1384>
+                fatalError("TODO")
+            } else {
+                // <+1560>
+                fatalError("TODO")
+            }
+        } else {
+            // <+1640>
+            fatalError("TODO")
+        }
     }
 }
 
 extension DynamicViewList {
-    fileprivate final class Item {
-        private let type: Any.Type
+    fileprivate final class Item: _ViewList_Subgraph {
+        private let type: any Any.Type
         private let id: Content.ID
         private let owner: AnyAttribute
         @Attribute private var list: ViewList
-        private let isUnary: Bool
+        let isUnary: Bool
         private let allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
         
-        init() {
+        override init() {
+            fatalError("TODO")
+        }
+        
+        func matches(type: any Any.Type, id: Content.ID?) -> Bool {
             fatalError("TODO")
         }
     }
