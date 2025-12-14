@@ -1212,8 +1212,8 @@ fileprivate struct MyObsView: View {
         if model.flag {
             Color.white
         } else {
-//            Color.black
-            Text("")
+            Color.black
+//            Text("")
         }
     }
 }

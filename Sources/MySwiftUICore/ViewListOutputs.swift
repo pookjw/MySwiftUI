@@ -11,6 +11,12 @@ public struct _ViewListOutputs {
         self.nextImplicitID = nextImplicitID
         self.staticCount = nil
     }
+    
+    init(_ views: _ViewListOutputs.Views, nextImplicitID: Int, staticCount: Int?) {
+        self.views = views
+        self.nextImplicitID = nextImplicitID
+        self.staticCount = staticCount
+    }
 }
 
 extension _ViewListOutputs {
@@ -58,15 +64,56 @@ extension _ViewListOutputs {
         // sp + 0xa8
         let elements = UnaryElements(body: viewGenerator, baseInputs: inputs.base)
         
-        let scope: WeakAttribute<_DisplayList_StableIdentityScope>
+        // w25
+        let empty = AnyAttribute.empty
+        // x23/w22
+        let scope: Attribute<_DisplayList_StableIdentityScope>?
         if options.contains(.needsStableDisplayListIDs) {
             let copy_2 = copy_1.base
-            scope = copy_2[_DisplayList_StableIdentityScope.self]
+            scope = copy_2[_DisplayList_StableIdentityScope.self].attribute
         } else {
-            scope = WeakAttribute()
+            scope = nil
         }
         
         // <+304>
+        if inputs.traits == nil {
+            let shouldTransition = inputs.options.contains(.canTransition) && !inputs.options.contains(.disableTransitions)
+            let flag: Bool
+            if shouldTransition {
+                flag = scope != nil
+            } else {
+                flag = scope == nil
+            }
+            
+            if flag {
+                // <+316>
+                let flag: Bool
+                switch inputs.contentOffset {
+                case nil:
+                    // <+688>
+                    flag = true
+                case .staticCount(_, let needsDynamicView):
+                    flag = !needsDynamicView
+                default:
+                    // <+364>
+                    flag = false
+                }
+                
+                if flag {
+                    // <+688>
+                    let outputs = _ViewListOutputs(
+                        .staticList(elements),
+                        nextImplicitID: inputs.implicitID &+ 1,
+                        staticCount: 1
+                    )
+                    return outputs
+                }
+            } else {
+                // <+364>
+            }
+        }
+        
+        // <+364>
         fatalError("TODO")
     }
 }
