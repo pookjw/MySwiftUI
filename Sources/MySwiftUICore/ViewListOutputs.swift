@@ -76,7 +76,9 @@ extension _ViewListOutputs {
         }
         
         // <+304>
-        if inputs.traits == nil {
+        // w26
+        let traits = inputs.traits
+        if traits == nil {
             let shouldTransition = inputs.options.contains(.canTransition) && !inputs.options.contains(.disableTransitions)
             let flag: Bool
             if shouldTransition {
@@ -114,6 +116,14 @@ extension _ViewListOutputs {
         }
         
         // <+364>
+        // sp + 0x18
+        let copy_2 = elements
+        // x24
+        var implicitID = inputs.implicitID
+        // w27
+        let shouldTransition = inputs.options.contains(.canTransition) && !inputs.options.contains(.disableTransitions)
+        
+        // <+400>
         fatalError("TODO")
     }
 }
@@ -219,5 +229,36 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
         fatalError("TODO")
+    }
+}
+
+fileprivate struct BaseViewList: ViewList, CustomStringConvertible {
+    private var elements: _ViewList_Elements
+    private var implicitID: Int
+    private var traitKeys: ViewTraitKeys?
+    private var traits: ViewTraitCollection
+    
+    var description: String {
+        fatalError("TODO")
+    }
+}
+
+extension BaseViewList {
+    fileprivate struct Init: CustomStringConvertible, Rule, AsyncAttribute {
+        private let elements: _ViewList_Elements
+        private let implicitID: Int
+        private let canTransition: Bool
+        private let stableIDScope: WeakAttribute<_DisplayList_StableIdentityScope>?
+        private let contentOffset: ViewContentOffset?
+        private let traitKeys: ViewTraitKeys?
+        @OptionalAttribute private var traits: ViewTraitCollection?
+        
+        var description: String {
+            fatalError("TODO")
+        }
+        
+        var value: any ViewList {
+            fatalError("TODO")
+        }
     }
 }
