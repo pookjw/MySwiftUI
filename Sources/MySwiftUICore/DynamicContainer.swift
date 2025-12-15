@@ -195,6 +195,10 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         
         // <+556>
         let (changed, hasDepth) = updateItems(disableTransitions: disableTransitions)
+        /*
+         specialized : $s7SwiftUI20DynamicContainerInfoV11updateValueyyFAA0C17LayoutViewAdaptorV_Tg5
+         $s7SwiftUI20DynamicContainerInfoV11updateValueyyF
+         */
         fatalError("TODO")
     }
     
@@ -210,6 +214,10 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         // <+240>
         if let items = adaptor.updatedItems() {
             // <+340>
+            /*
+             specialized : $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFAA0C17LayoutViewAdaptorV_Tg5
+             $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tF
+             */
             fatalError("TODO")
         } else {
             // <+300>

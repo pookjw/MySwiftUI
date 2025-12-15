@@ -1161,6 +1161,8 @@ public struct DynamicContainer {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.DynamicContainer {
   public struct Info {}
+
+  public struct ItemInfo {}
 }
 
 @available(visionOS 26.0, *)
@@ -1178,7 +1180,9 @@ public struct ViewRespondersKey: _SwiftUICorePrivate.PreferenceKey {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct DynamicContainerInfo<T: _SwiftUICorePrivate.DynamicContainerAdaptor> {}
+public struct DynamicContainerInfo<T: _SwiftUICorePrivate.DynamicContainerAdaptor> {
+  public init(adaptor: T, inputs: SwiftUI._ViewInputs, outputs: SwiftUI._ViewOutputs, info: _SwiftUICorePrivate.DynamicContainer.Info, lastUniqueId: Swift.UInt32, lastRemoved: Swift.UInt32, lastResetSeed: Swift.UInt32, needsPhaseUpdate: Swift.Bool)
+}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)

@@ -442,7 +442,10 @@ extension DynamicViewList {
         }
         
         init(base: any ViewList, item: DynamicViewList<Content>.Item, lastID: Content.ID?, lastTransaction: TransactionID) {
-            fatalError("TODO")
+            self.base = base
+            self.item = item
+            self.lastID = lastID
+            self.lastTransaction = lastTransaction
         }
     }
     
