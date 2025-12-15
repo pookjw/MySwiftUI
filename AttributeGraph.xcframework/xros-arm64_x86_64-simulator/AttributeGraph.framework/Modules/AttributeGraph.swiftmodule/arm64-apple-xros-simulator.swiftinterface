@@ -132,7 +132,9 @@ public struct IndirectAttribute<T> : Swift.Sendable {
     }
 }
 
+@frozen
 public struct AnyRuleContext: Swift.Equatable, Swift.Sendable {
+    @_hasStorage
     public var attribute: AttributeGraph.AnyAttribute {
         get set
     }
@@ -159,9 +161,11 @@ public struct AnyRuleContext: Swift.Equatable, Swift.Sendable {
     public func update(body: () -> Void)
 }
 
+@frozen
 public struct RuleContext<T>: Swift.Equatable, Swift.Sendable {
     public init(attribute: AttributeGraph.Attribute<T>)
 
+    @_hasStorage
     public var attribute: AttributeGraph.Attribute<T> {
         get set
     }

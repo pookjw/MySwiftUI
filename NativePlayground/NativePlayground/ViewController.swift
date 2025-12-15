@@ -1046,6 +1046,10 @@ class ViewController: UIViewController {
 //        let rootView = MyLeafView()
 //        let rootView = MyEnvView()
         
+        var collection = ViewTraitCollection()
+        collection[MyKey.self] = false
+        collection[MyKey.self] = true
+        
         let model = ObsModel()
 //        let rootView = MyObsView(model: model)
         
@@ -1131,6 +1135,11 @@ class ViewController: UIViewController {
 //    MyEnvView
 }
 
+struct MyKey: _ViewTraitKey {
+    static var defaultValue: Bool {
+        true
+    }
+}
 
 final class MyHostingView<Content: View>: _UIHostingView<Content> {
     override var preferredFocusEnvironments: [any UIFocusEnvironment] {

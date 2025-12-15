@@ -336,7 +336,19 @@ extension BaseViewList {
         var value: any ViewList {
             // self -> x24
             var list = BaseViewList(elements: elements, implicitID: implicitID, traitKeys: traitKeys, traits: traits ?? ViewTraitCollection())
-            list.traits[ViewContentOffset.self] = contentOffset
+            
+            if canTransition {
+                list.traits.canTransition = true
+            }
+            
+            if let stableIDScope {
+                list.traits[_DisplayList_StableIdentityScope.self] = stableIDScope
+            }
+            
+            if let contentOffset {
+                list.traits[ViewContentOffset.self] = contentOffset
+            }
+            
             return list
         }
     }

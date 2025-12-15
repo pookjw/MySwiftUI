@@ -175,7 +175,7 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
     private let allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
     private var lastItem: DynamicViewList<Content>.Item?
     
-    typealias Value = ViewList
+    typealias Value = any ViewList
     
     init(metadata: Content.Metadata, view: Attribute<Content>, inputs: _ViewListInputs, lastItem: DynamicViewList<Content>.Item?) {
         self.metadata = metadata
@@ -189,24 +189,57 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
     mutating func updateValue() {
         // self -> x26
         let view = view
-        // x25/x21
+        // x25/x24 / sp + 0x70
         let (type, id) = view.childInfo(metadata: metadata)
         
         // <+420>
         // self -> sp + 0xd8
+        // false = <+928> / true = <+1760>
+        let flag_1: Bool
+        
+        let lastID: Content.ID?
+        var item: DynamicViewList<Content>.Item!
         if let lastItem {
             // <+496>
+            lastID = lastItem.id
             let matches = lastItem.matches(type: type, id: id)
             let refcount = lastItem.refcount
             
-            if !matches {
-                // <+688>
-                if refcount == 0 {
+            // false = <+880> / true = <+692>
+            repeat {
+                let flag_2: Bool
+                if !matches {
+                    // <+688>
+                    if refcount == 0 {
+                        // <+880>
+                        flag_2 = false
+                        flag_1 = false
+                    } else {
+                        // <+692>
+                        flag_2 = true
+                        flag_1 = false
+                    }
+                } else if refcount == 0 {
                     // <+880>
-                    lastItem.refcount = .max
-                    self.lastItem = nil
-                    // <+928>
+                    flag_2 = false
+                    flag_1 = false
                 } else {
+                    // <+600>
+                    let subgraph = lastItem.subgraph
+                    if subgraph.isValid {
+                        // <+616>
+                        flag_1 = true
+                        item = lastItem
+                        break
+                        // <+1928>
+                    } else {
+                        // <+692>
+                        flag_1 = false
+                        flag_2 = true
+                    }
+                }
+                
+                if flag_2 {
                     // <+692>
                     let subgraph = lastItem.subgraph
                     if subgraph.isValid {
@@ -234,132 +267,127 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
                     // <+912>
                     self.lastItem = nil
                     // <+928>
+                } else {
+                    // <+880>
+                    lastItem.refcount = .max
+                    self.lastItem = nil
+                    // <+928>
                 }
-            } else if refcount == 0 {
-                // <+880>
-                lastItem.refcount = .max
-                self.lastItem = nil
-                // <+928>
-            } else {
-                lastItem.invalidate()
-                let subgraph = lastItem.subgraph
-                if subgraph.isValid {
-                    subgraph.willInvalidate(isInserted: false)
-                    subgraph.invalidate()
-                }
-                
-                // <+912>
-                self.lastItem = nil
-                // <+928>
-            }
+            } while false
         } else {
             // <+644>
+            lastID = nil
             // <+928>
+            flag_1 = false
         }
         
         // <+928>
-        var matchedItem: DynamicViewList<Content>.Item?
-        for item in allItems.value {
-            let matches = item.takeRetainedValue().matches(type: type, id: id)
-            item.release()
-            if matches {
-                matchedItem = item.takeUnretainedValue()
-                break
+        if !flag_1 {
+            var matchedItem: DynamicViewList<Content>.Item?
+            for item in allItems.value {
+                let matches = item.takeRetainedValue().matches(type: type, id: id)
+                item.release()
+                if matches {
+                    matchedItem = item.takeUnretainedValue()
+                    break
+                }
             }
-        }
-        
-        let item: DynamicViewList<Content>.Item
-        if let matchedItem {
-            // <+1640>
-            fatalError("TODO") // AGSubgraphAddChild, AGSubgraphApply
-            item = matchedItem
-            // <+1928>
-        } else {
-            // <+1208>
-            // x20
-            let parentSubgraph = parentSubgraph
-            if parentSubgraph.isValid {
-                // <+1232>
-                // x22
-                let graph = parentSubgraph.graph
-                // x19
-                let newSubgraph = Subgraph(graph: graph)
-                _ = consume graph
-                parentSubgraph.addChild(newSubgraph)
-                
-                // w24, w22
-                let (listAttribute, isUnary) = newSubgraph.apply { 
-                    // $s7SwiftUI15DynamicViewList031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyF14AttributeGraph0P0VyAA0dE0_pG_SbtyXEfU_
-                    // self -> x26
-                    // sp + 0x1b8
-                    var copy_1 = inputs
-                    copy_1.base.copyCaches()
-                    
-                    if Content.canTransition, !copy_1.options.contains(.canTransition) {
-                        copy_1.options.insert(.canTransition)
-                    }
-                    
-                    copy_1.implicitID = 0
-                    
-                    // <+432>
-                    // x21
-                    let copy_3 = self
-                    // x27
-                    let _view = copy_3.view
-                    _ = consume copy_3
-                    
-                    let listOutputs = _view.makeChildViewList(metadata: metadata, view: $view, inputs: copy_1)
-                    return (listOutputs.makeAttribute(inputs: copy_1), listOutputs.staticCount == 1)
-                }
-                
-                // x23
-                let currentAttribute = AnyAttribute.current!
-                // <+1384>
-                /*
-                 listAttribute -> sp + 0x68
-                 isUnary -> sp + 0x6c
-                 */
-                // x22
-                let id2: Content.ID
-                if let id {
-                    id2 = id
-                } else {
-                    id2 = Content.makeID()
-                }
-                
-                // <+1796>
-                item = DynamicViewList<Content>.Item(
-                    type: type,
-                    owner: currentAttribute,
-                    list: listAttribute,
-                    id: id2,
-                    isUnary: isUnary,
-                    subgraph: newSubgraph,
-                    allItems: allItems
-                )
+            
+            if let matchedItem {
+                // <+1640>
+                fatalError("TODO") // AGSubgraphAddChild, AGSubgraphApply
+                item = matchedItem // 검증 필요
                 // <+1928>
             } else {
-                // <+1560>
-                self.value = EmptyViewList()
-                return
+                // <+1208>
+                // x20
+                let parentSubgraph = parentSubgraph
+                if parentSubgraph.isValid {
+                    // <+1232>
+                    // x22
+                    let graph = parentSubgraph.graph
+                    // x19
+                    let newSubgraph = Subgraph(graph: graph)
+                    _ = consume graph
+                    parentSubgraph.addChild(newSubgraph)
+                    
+                    // w24, w22
+                    let (listAttribute, isUnary) = newSubgraph.apply { 
+                        // $s7SwiftUI15DynamicViewList031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyF14AttributeGraph0P0VyAA0dE0_pG_SbtyXEfU_
+                        // self -> x26
+                        // sp + 0x1b8
+                        var copy_1 = inputs
+                        copy_1.base.copyCaches()
+                        
+                        if Content.canTransition, !copy_1.options.contains(.canTransition) {
+                            copy_1.options.insert(.canTransition)
+                        }
+                        
+                        copy_1.implicitID = 0
+                        
+                        // <+432>
+                        // x21
+                        let copy_3 = self
+                        // x27
+                        let _view = copy_3.view
+                        _ = consume copy_3
+                        
+                        let listOutputs = _view.makeChildViewList(metadata: metadata, view: $view, inputs: copy_1)
+                        return (listOutputs.makeAttribute(inputs: copy_1), listOutputs.staticCount == 1)
+                    }
+                    
+                    // x23
+                    let currentAttribute = AnyAttribute.current!
+                    // <+1384>
+                    /*
+                     listAttribute -> sp + 0x68
+                     isUnary -> sp + 0x6c
+                     */
+                    // x22
+                    let id2: Content.ID
+                    if let id {
+                        id2 = id
+                    } else {
+                        id2 = Content.makeID()
+                    }
+                    
+                    // <+1796>
+                    item = DynamicViewList<Content>.Item(
+                        type: type,
+                        owner: currentAttribute,
+                        list: listAttribute,
+                        id: id2,
+                        isUnary: isUnary,
+                        subgraph: newSubgraph,
+                        allItems: allItems
+                    )
+                    // <+1928>
+                } else {
+                    // <+1560>
+                    self.value = EmptyViewList()
+                    return
+                }
             }
+        } else {
+            // <+1760>
+            // <+1928>
         }
         
         // <+1928>
         // sp + 0xe8
         let list = item.list
-        // w19
-        let currentAttribute = AnyAttribute.current!
-        
+        let context = RuleContext(attribute: Attribute<ViewList>(identifier: .current!))
         // <+2000>
-        fatalError("TODO")
+        let transactionID = TransactionID(context: context)
+        let wrappedList = Self.WrappedList(base: list, item: item, lastID: lastID, lastTransaction: transactionID)
+        self.value = wrappedList
     }
 }
 
 extension DynamicViewList {
     fileprivate final class Item: _ViewList_Subgraph {
         private let type: any Any.Type
-        private let id: Content.ID
+        let id: Content.ID
         private let owner: AnyAttribute
         private var _list: Attribute<any ViewList>
         let isUnary: Bool
@@ -403,11 +431,19 @@ extension DynamicViewList {
         }
     }
     
-    fileprivate struct WrappedList {
-        private let base: ViewList
+    fileprivate struct WrappedList: ViewList, CustomStringConvertible {
+        private let base: any ViewList
         private let item: DynamicViewList<Content>.Item
         private let lastID: Content.ID?
         private let lastTransaction: TransactionID
+        
+        var description: String {
+            fatalError("TODO")
+        }
+        
+        init(base: any ViewList, item: DynamicViewList<Content>.Item, lastID: Content.ID?, lastTransaction: TransactionID) {
+            fatalError("TODO")
+        }
     }
     
     fileprivate struct WrappedIDs {

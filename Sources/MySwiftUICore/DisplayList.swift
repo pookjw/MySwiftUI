@@ -738,7 +738,7 @@ extension DisplayList {
     }
 }
 
-struct _DisplayList_StableIdentityScope: ViewInput {
+struct _DisplayList_StableIdentityScope: ViewInput, _ViewTraitKey {
     static let defaultValue = WeakAttribute<_DisplayList_StableIdentityScope>()
     
     let root: _DisplayList_StableIdentityRoot

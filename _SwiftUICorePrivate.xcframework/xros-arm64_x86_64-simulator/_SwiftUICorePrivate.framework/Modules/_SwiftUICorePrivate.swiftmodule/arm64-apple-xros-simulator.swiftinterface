@@ -1179,3 +1179,13 @@ public struct ViewRespondersKey: _SwiftUICorePrivate.PreferenceKey {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct DynamicContainerInfo<T: _SwiftUICorePrivate.DynamicContainerAdaptor> {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewTraitCollection {
+  public init()
+  public subscript<Key: SwiftUI._ViewTraitKey>(_ key: Key.Type) -> Key.Value {
+    get
+    mutating set
+  }
+}
