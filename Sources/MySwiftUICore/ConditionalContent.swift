@@ -280,13 +280,13 @@ extension ConditionalMetadata where T == ViewDescriptor {
             self.outputs = outputs
         }
         
-        func visit<Content: View>(type: Content.Type) {
+        mutating func visit<Content: View>(type: Content.Type) {
             // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE8MakeList33_2319071E64CA2FA820BFB26F46C6ECC6LLV5visit4typeyqd0__m_tAA0E0Rd0__lF
             inputs.base.pushStableType(type)
             let rule = UnwrapConditional<T, U, Content>(source: view, desc: desc, index: index)
             let attribute = Attribute(rule)
             attribute.value = ptr!.assumingMemoryBound(to: Content.self).pointee
-            Content.makeDebuggableViewList(view: _GraphValue(attribute), inputs: inputs)
+            outputs = Content.makeDebuggableViewList(view: _GraphValue(attribute), inputs: inputs)
         }
     }
 }

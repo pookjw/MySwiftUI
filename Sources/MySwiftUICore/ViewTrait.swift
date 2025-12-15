@@ -6,6 +6,18 @@ struct ViewTraitCollection {
     init() {
         storage = []
     }
+    
+    subscript<Key: _ViewTraitKey>(_ key: Key.Type) -> Key.Value {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
 }
 
 struct ViewTraitKeys {
@@ -24,10 +36,20 @@ public protocol _ViewTraitKey {
 }
 
 fileprivate protocol AnyViewTrait {
+    subscript<Value>() -> Value { get set }
 }
 
 extension ViewTraitCollection {
     fileprivate struct AnyTrait<T: _ViewTraitKey>: AnyViewTrait {
         private var value: T.Value
+        
+        subscript<Value>() -> Value {
+            get {
+                fatalError("TODO")
+            }
+            set {
+                fatalError("TODO")
+            }
+        }
     }
 }

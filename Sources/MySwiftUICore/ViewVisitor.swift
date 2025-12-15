@@ -5,5 +5,5 @@ protocol ViewVisitor {
 }
 
 protocol ViewTypeVisitor {
-    func visit<Content: View>(type: Content.Type)
+    mutating func visit<Content: View>(type: Content.Type)
 }

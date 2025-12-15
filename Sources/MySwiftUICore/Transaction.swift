@@ -2,6 +2,7 @@
 
 #warning("TODO")
 private import _MySwiftUIShims
+internal import AttributeGraph
 
 public struct Transaction {
     static fileprivate(set) var current: Transaction {
@@ -118,8 +119,28 @@ extension Transaction {
     }
 }
 
-struct TransactionID {
+struct TransactionID: Hashable, Comparable {
+    static func < (lhs: TransactionID, rhs: TransactionID) -> Bool {
+        return lhs.id < rhs.id
+    }
+    
     private var id: Int
+    
+    init<T>(context: RuleContext<T>) {
+        self.id = Int(context.attribute.identifier.graph.counter(options: .unknown0))
+    }
+    
+    init(graph: Graph) {
+        self.id = Int(graph.counter(options: .unknown0))
+    }
+    
+    init() {
+        self.id = 0
+    }
+    
+    init(context: AnyRuleContext) {
+        self.id = Int(context.attribute.graph.counter(options: .unknown0))
+    }
 }
 
 public func withTransaction<Result>(_ transaction: Transaction, _ body: () throws -> Result) rethrows -> Result {

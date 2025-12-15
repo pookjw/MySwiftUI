@@ -189,7 +189,7 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
     mutating func updateValue() {
         // self -> x26
         let view = view
-        // x25
+        // x25/x21
         let (type, id) = view.childInfo(metadata: metadata)
         
         // <+420>
@@ -258,16 +258,23 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
         }
         
         // <+928>
-        var matches = false
+        var matchedItem: DynamicViewList<Content>.Item?
         for item in allItems.value {
-            matches = item.takeRetainedValue().matches(type: type, id: id)
+            let matches = item.takeRetainedValue().matches(type: type, id: id)
             item.release()
             if matches {
+                matchedItem = item.takeUnretainedValue()
                 break
             }
         }
         
-        if !matches {
+        let item: DynamicViewList<Content>.Item
+        if let matchedItem {
+            // <+1640>
+            fatalError("TODO") // AGSubgraphAddChild, AGSubgraphApply
+            item = matchedItem
+            // <+1928>
+        } else {
             // <+1208>
             // x20
             let parentSubgraph = parentSubgraph
@@ -308,15 +315,44 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
                 // x23
                 let currentAttribute = AnyAttribute.current!
                 // <+1384>
-                fatalError("TODO")
+                /*
+                 listAttribute -> sp + 0x68
+                 isUnary -> sp + 0x6c
+                 */
+                // x22
+                let id2: Content.ID
+                if let id {
+                    id2 = id
+                } else {
+                    id2 = Content.makeID()
+                }
+                
+                // <+1796>
+                item = DynamicViewList<Content>.Item(
+                    type: type,
+                    owner: currentAttribute,
+                    list: listAttribute,
+                    id: id2,
+                    isUnary: isUnary,
+                    subgraph: newSubgraph,
+                    allItems: allItems
+                )
+                // <+1928>
             } else {
                 // <+1560>
-                fatalError("TODO")
+                self.value = EmptyViewList()
+                return
             }
-        } else {
-            // <+1640>
-            fatalError("TODO")
         }
+        
+        // <+1928>
+        // sp + 0xe8
+        let list = item.list
+        // w19
+        let currentAttribute = AnyAttribute.current!
+        
+        // <+2000>
+        fatalError("TODO")
     }
 }
 
@@ -325,12 +361,41 @@ extension DynamicViewList {
         private let type: any Any.Type
         private let id: Content.ID
         private let owner: AnyAttribute
-        @Attribute private var list: ViewList
+        private var _list: Attribute<any ViewList>
         let isUnary: Bool
         private let allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
         
-        override init() {
-            fatalError("TODO")
+        var list: any ViewList {
+            return _list.value
+        }
+        
+        init(
+            type: any Any.Type,
+            owner: AnyAttribute,
+            list: Attribute<any ViewList>,
+            id: Content.ID,
+            isUnary: Bool,
+            subgraph: Subgraph,
+            allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
+        ) {
+            /*
+             self -> x19
+             id -> x23
+             isUnary -> x22
+             subgraph -> x20
+             allItems -> x21
+             */
+            self.type = type
+            self.owner = owner
+            self._list = list
+            self.id = id
+            self.isUnary = isUnary
+            self.allItems = allItems
+            super.init(subgraph: subgraph)
+            
+            // self -> sp + 0x18
+            // <+176>
+            allItems.value.append(Unmanaged.passRetained(self))
         }
         
         func matches(type: any Any.Type, id: Content.ID?) -> Bool {
@@ -410,4 +475,24 @@ extension DynamicViewListItem {
 struct LayoutProxyAttributes {
     @OptionalAttribute private var layoutComputer: LayoutComputer?
     @OptionalAttribute private var traitsList: ViewList?
+}
+
+struct EmptyViewList: CustomStringConvertible, ViewList {
+    var description: String {
+        fatalError("TODO")
+    }
+}
+
+struct EmptyViewListElements: _ViewList_Elements {
+    var count: Int {
+        fatalError("TODO")
+    }
+    
+    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
+        fatalError("TODO")
+    }
+    
+    func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+        fatalError("TODO")
+    }
 }

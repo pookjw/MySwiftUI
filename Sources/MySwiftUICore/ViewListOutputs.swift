@@ -41,7 +41,28 @@ extension _ViewListOutputs {
     }
     
     func makeAttribute(inputs: _ViewListInputs) -> Attribute<ViewList> {
-        fatalError("TODO")
+        // inputs -> x19
+        // sp + 0xf8
+        let copy_1 = self
+        
+        switch copy_1.views {
+        case .staticList(let elements):
+            // <+184>
+            fatalError("TODO")
+        case .dynamicList(let viewList, let listModifier):
+            // <+64>
+            /*
+             viewList -> w20
+             listModifier - > x19
+             */
+            
+            guard let listModifier else {
+                return viewList
+            }
+            
+            // <+76>
+            fatalError("TODO")
+        }
     }
     
     func makeAttribute(viewInputs: _ViewInputs) -> Attribute<ViewList> {
@@ -60,24 +81,24 @@ extension _ViewListOutputs {
         let copy_1 = inputs
         // w25
         let options = copy_1.base.options
-        let viewGenerator = TypedUnaryViewGenerator.init(view: weakAttribute.base, viewType: Content.self)
+        let viewGenerator = TypedUnaryViewGenerator(view: weakAttribute.base, viewType: Content.self)
         // sp + 0xa8
         let elements = UnaryElements(body: viewGenerator, baseInputs: inputs.base)
         
         // w25
         let empty = AnyAttribute.empty
         // x23/w22
-        let scope: Attribute<_DisplayList_StableIdentityScope>?
+        let scope: WeakAttribute<_DisplayList_StableIdentityScope>?
         if options.contains(.needsStableDisplayListIDs) {
             let copy_2 = copy_1.base
-            scope = copy_2[_DisplayList_StableIdentityScope.self].attribute
+            scope = copy_2[_DisplayList_StableIdentityScope.self]
         } else {
             scope = nil
         }
         
         // <+304>
         // w26
-        let traits = inputs.traits
+        let traits = inputs.$traits?.projectedValue
         if traits == nil {
             let shouldTransition = inputs.options.contains(.canTransition) && !inputs.options.contains(.disableTransitions)
             let flag: Bool
@@ -119,12 +140,32 @@ extension _ViewListOutputs {
         // sp + 0x18
         let copy_2 = elements
         // x24
-        var implicitID = inputs.implicitID
+        let implicitID = inputs.implicitID
         // w27
         let shouldTransition = inputs.options.contains(.canTransition) && !inputs.options.contains(.disableTransitions)
         
         // <+400>
-        fatalError("TODO")
+        // w26
+        let optionalTraits: OptionalAttribute<ViewTraitCollection>
+        if let traits {
+            optionalTraits = OptionalAttribute(traits)
+        } else {
+            optionalTraits = OptionalAttribute()
+        }
+        // <+432>
+        let rule = BaseViewList.Init(
+            elements: elements,
+            implicitID: implicitID,
+            canTransition: shouldTransition,
+            stableIDScope: scope,
+            contentOffset: inputs.contentOffset,
+            traitKeys: inputs.traitKeys,
+            traits: optionalTraits
+        )
+        let attribute = Attribute(rule)
+        
+        let outputs = _ViewListOutputs(.dynamicList(attribute, nil), nextImplicitID: implicitID &+ 1, staticCount: 1)
+        return outputs
     }
 }
 
@@ -233,19 +274,35 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
 }
 
 fileprivate struct BaseViewList: ViewList, CustomStringConvertible {
-    private var elements: _ViewList_Elements
+    private var elements: any _ViewList_Elements
     private var implicitID: Int
     private var traitKeys: ViewTraitKeys?
-    private var traits: ViewTraitCollection
+    var traits: ViewTraitCollection
     
     var description: String {
         fatalError("TODO")
+    }
+    
+    var viewIDs: _ViewList_ID_Views {
+        fatalError("TODO")
+    }
+    
+//    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+//        fatalError("TODO")
+//    }
+    
+    @inline(__always)
+    init(elements: any _ViewList_Elements, implicitID: Int, traitKeys: ViewTraitKeys?, traits: ViewTraitCollection) {
+        self.elements = elements
+        self.implicitID = implicitID
+        self.traitKeys = traitKeys
+        self.traits = traits
     }
 }
 
 extension BaseViewList {
     fileprivate struct Init: CustomStringConvertible, Rule, AsyncAttribute {
-        private let elements: _ViewList_Elements
+        private let elements: any _ViewList_Elements
         private let implicitID: Int
         private let canTransition: Bool
         private let stableIDScope: WeakAttribute<_DisplayList_StableIdentityScope>?
@@ -253,12 +310,34 @@ extension BaseViewList {
         private let traitKeys: ViewTraitKeys?
         @OptionalAttribute private var traits: ViewTraitCollection?
         
+        @inline(__always)
+        init(
+            elements: _ViewList_Elements,
+            implicitID: Int,
+            canTransition: Bool,
+            stableIDScope: WeakAttribute<_DisplayList_StableIdentityScope>?,
+            contentOffset: ViewContentOffset?,
+            traitKeys: ViewTraitKeys?,
+            traits: OptionalAttribute<ViewTraitCollection>
+        ) {
+            self.elements = elements
+            self.implicitID = implicitID
+            self.canTransition = canTransition
+            self.stableIDScope = stableIDScope
+            self.contentOffset = contentOffset
+            self.traitKeys = traitKeys
+            self._traits = traits
+        }
+        
         var description: String {
             fatalError("TODO")
         }
         
         var value: any ViewList {
-            fatalError("TODO")
+            // self -> x24
+            var list = BaseViewList(elements: elements, implicitID: implicitID, traitKeys: traitKeys, traits: traits ?? ViewTraitCollection())
+            list.traits[ViewContentOffset.self] = contentOffset
+            return list
         }
     }
 }

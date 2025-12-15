@@ -251,7 +251,10 @@ exports:
     _AGTypeNominalDescriptor,
     _AGTypeGetEnumTag,
     _AGTypeProjectEnumData,
-    _AGTypeInjectEnumTag ]
+    _AGTypeInjectEnumTag,
+    _$s14AttributeGraph11RuleContextV9attributeAA0A0VyxGvg,
+    _$s14AttributeGraph11RuleContextVMa,
+    _$s14AttributeGraph14AnyRuleContextV9attributeSo11AGAttributeavg ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

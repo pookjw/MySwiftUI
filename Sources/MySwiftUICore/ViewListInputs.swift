@@ -5,7 +5,7 @@ public struct _ViewListInputs {
     var implicitID: Int
     var options: _ViewListInputs.Options
     @OptionalAttribute var traits: ViewTraitCollection?
-    private var traitKeys: ViewTraitKeys?
+    private(set) var traitKeys: ViewTraitKeys?
     private var containerContext: (any ContainerContext.Type)?
     private weak var debugReplaceableViewCount: MutableBox<Int?>?
     private(set) var contentOffset: ViewContentOffset?

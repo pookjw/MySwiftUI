@@ -12,8 +12,9 @@ class _ViewList_Subgraph {
     final let subgraph: Subgraph
     final internal(set) var refcount: UInt32
     
-    init() {
-        fatalError("TODO")
+    init(subgraph: Subgraph) {
+        self.refcount = 1
+        self.subgraph = subgraph
     }
     
     final func wrapping(_ vistList: ViewList) -> _ViewList_Subgraph {
