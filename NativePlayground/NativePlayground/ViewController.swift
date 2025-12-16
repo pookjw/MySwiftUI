@@ -107,8 +107,8 @@ struct MyItem: DynamicContainerItem {
 
 struct MyAdapter: DynamicContainerAdaptor {
     func updatedItems() -> MyItem? {
-//        return MyItem()
-        return nil
+        return MyItem()
+//        return nil
     }
     
     func makeItemLayout(item: MyItem, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, Never) {
@@ -970,22 +970,24 @@ class ViewController: UIViewController {
 //        subgraph.update(1)
 //        _ = consume graph
         
-//        let item = DisplayList.Item.init(.empty, frame: .zero, identity: .init(), version: .init())
-//        let displayList = DisplayList(item)
+        let item = DisplayList.Item.init(.empty, frame: .zero, identity: .init(), version: .init())
+        let displayList = DisplayList(item)
         
-//        let graph = Graph()
-//        let subgraph = Subgraph(graph: graph)
-//        Subgraph.current = subgraph
-//        graph.context = UnsafeRawPointer(
-//            Unmanaged
-//                .passRetained(
-//                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
-//                )
-//        .toOpaque())
-//        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: .init(value: .init()), environment: .init(value: .init()), transaction: .init(value: .init())))
-//        inputs.preferences.add(ViewRespondersKey.self)
-//        let host = GraphHost.init(data: .init())
-//        let (info, _) = DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
+        let graph = Graph()
+        let subgraph = Subgraph(graph: graph)
+        Subgraph.current = subgraph
+        graph.context = UnsafeRawPointer(
+            Unmanaged
+                .passRetained(
+                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
+                )
+        .toOpaque())
+        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: .init(value: .init()), environment: .init(value: .init()), transaction: .init(value: .init())))
+        inputs.preferences.add(ViewRespondersKey.self)
+        let host = GraphHost.init(data: .init())
+        let (info, _) = DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
+        print(info.value)
+        fatalError()
 //        
 //        
 //        

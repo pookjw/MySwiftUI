@@ -206,23 +206,45 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         fatalError("TODO")
     }
     
-    fileprivate func updateItems(disableTransitions: Bool) -> (changed: Bool, hasDepth: Bool) {
+    func makeItem(_ item: T.Item, uniqueId: UInt32, container: Attribute<DynamicContainer.Info>, disableTransitions: Bool) -> DynamicContainer.ItemInfo {
+        fatalError("TODO")
+    }
+    
+    func tryRemovingItem(at index: Int, disableTransitions: Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate mutating func updateItems(disableTransitions: Bool) -> (changed: Bool, hasDepth: Bool) {
         /*
          self -> x19
          disableTransitions -> sp + 0x4c
          */
         // <+240>
+        // sp + 0xa6
+        var (changed, hasDepth) = (false, false)
+        // x28
         if let items = adaptor.updatedItems() {
             // <+340>
-            /*
-             specialized : $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFAA0C17LayoutViewAdaptorV_Tg5
-             $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tF
-             */
+            // x25
+            let copy_1 = items
+            
+            adaptor.foreachItem(items: copy_1) { item in
+                // $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFy4ItemQzXEfU_TA
+                let newItem = makeItem( [self] in
+                    item,
+                    uniqueId: <#T##UInt32#>,
+                    container: Attribute<DynamicContainer.Info>(identifier: .current!),
+                    disableTransitions: <#T##Bool#>
+                )
+                fatalError("TODO")
+            }
             fatalError("TODO")
         } else {
             // <+300>
-            return (changed: false, hasDepth: info.displayMap != nil)
+            hasDepth = info.displayMap != nil
         }
+        
+        return (changed, hasDepth)
     }
 }
 
