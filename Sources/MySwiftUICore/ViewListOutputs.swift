@@ -189,7 +189,86 @@ extension _ViewListOutputs: Sendable {
 }
 
 protocol ViewList {
-    // TODO
+    func count(style: _ViewList_IteratorStyle) -> Int
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int
+    var traitKeys: ViewTraitKeys? { get }
+    var viewIDs: _ViewList_ID_Views? { get }
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator)
+    var traits: ViewTraitCollection { get }
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit?
+    func firstOffset<T: Hashable>(forID: T, style: _ViewList_IteratorStyle) -> Int?
+    func print(into: inout SExpPrinter)
+}
+
+extension ViewList {
+    var count: Int {
+        fatalError("TODO")
+    }
+    
+    func applyIDs(from index: inout Int, transform: _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func applySublists(from index: inout Int, list: Attribute<ViewList>?, to body: (_ViewList_Sublist) -> Bool) -> Bool {
+        applySublists(from: &index, style: <#T##_ViewList_IteratorStyle#>, list: list, to: body)
+    }
+    
+    var allViewIDs: _ViewList_ID_Views {
+        fatalError("TODO")
+    }
+    
+    func applyIDs(from: inout Int, listAttribute: Attribute<ViewList>?, to body: (_ViewList_ID) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func firstOffset(of: _ViewList_ID.Canonical) -> Int? {
+        fatalError("TODO")
+    }
+    
+    var debugDescription: String {
+        fatalError("TODO")
+    }
+    
+    func applyIDs(from index: inout Int, style: _ViewList_IteratorStyle, listAttribute: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    var isEmpty: Bool {
+        fatalError("TODO")
+    }
+    
+    var estimatedCount: Int {
+        fatalError("TODO")
+    }
+    
+    func applySublists(from index: inout Int, list: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, to: (_ViewList_Sublist) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, to body: (_ViewList_Sublist) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func applySublists(from index: inout Int, to: body (_ViewList_Sublist) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func applyIDs(from: inout Int, listAttribute: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func firstOffset(of: _ViewList_ID.Canonical, style: _ViewList_IteratorStyle) -> Int? {
+        fatalError("TODO")
+    }
 }
 
 protocol _ViewList_Elements {
@@ -273,23 +352,15 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
     }
 }
 
-fileprivate struct BaseViewList: ViewList, CustomStringConvertible {
+fileprivate struct BaseViewList: CustomStringConvertible {
     private var elements: any _ViewList_Elements
     private var implicitID: Int
-    private var traitKeys: ViewTraitKeys?
+    private(set) var traitKeys: ViewTraitKeys?
     var traits: ViewTraitCollection
     
     var description: String {
         fatalError("TODO")
     }
-    
-    var viewIDs: _ViewList_ID_Views {
-        fatalError("TODO")
-    }
-    
-//    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-//        fatalError("TODO")
-//    }
     
     @inline(__always)
     init(elements: any _ViewList_Elements, implicitID: Int, traitKeys: ViewTraitKeys?, traits: ViewTraitCollection) {
@@ -297,6 +368,40 @@ fileprivate struct BaseViewList: ViewList, CustomStringConvertible {
         self.implicitID = implicitID
         self.traitKeys = traitKeys
         self.traits = traits
+    }
+}
+
+extension BaseViewList: ViewList {
+    func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
+        fatalError("TODO")
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    var viewIDs: _ViewList_ID_Views? {
+        fatalError("TODO")
+    }
+    
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
+        fatalError("TODO")
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        fatalError("TODO")
+    }
+    
+    func print(into: inout SExpPrinter) {
+        fatalError("TODO")
     }
 }
 
@@ -351,5 +456,35 @@ extension BaseViewList {
             
             return list
         }
+    }
+}
+
+struct _ViewList_IteratorStyle {
+    private var value: UInt
+}
+
+struct _ViewList_TemporarySublistTransform {
+    private var items: [any _ViewList_SublistTransform_Item]
+    private var subgraphCount: Int
+}
+
+protocol _ViewList_SublistTransform_Item {
+    // TODO
+}
+
+enum _ViewList_Node {
+    // TODO
+}
+
+enum _ViewList_Edit {
+    case inserted
+    case removed
+}
+
+extension _ViewList_ID {
+    struct Canonical {
+        private var _index: Int32
+        private var implicitID: Int32
+        private var explicitID: AnyHashable2?
     }
 }

@@ -431,7 +431,7 @@ extension DynamicViewList {
         }
     }
     
-    fileprivate struct WrappedList: ViewList, CustomStringConvertible {
+    fileprivate struct WrappedList: CustomStringConvertible {
         private let base: any ViewList
         private let item: DynamicViewList<Content>.Item
         private let lastID: Content.ID?
@@ -456,6 +456,48 @@ extension DynamicViewList {
     
     fileprivate struct Transform {
         private var item: DynamicViewList<Content>.Item
+    }
+}
+
+extension DynamicViewList.WrappedList: ViewList {
+    func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
+        fatalError("TODO")
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    var traitKeys: ViewTraitKeys? {
+        fatalError("TODO")
+    }
+    
+    var viewIDs: _ViewList_ID_Views? {
+        fatalError("TODO")
+    }
+    
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
+        fatalError("TODO")
+    }
+    
+    var traits: ViewTraitCollection {
+        fatalError("TODO")
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        fatalError("TODO")
+    }
+    
+    func print(into: inout SExpPrinter) {
+        fatalError("TODO")
     }
 }
 
@@ -516,8 +558,50 @@ struct LayoutProxyAttributes {
     @OptionalAttribute private var traitsList: ViewList?
 }
 
-struct EmptyViewList: CustomStringConvertible, ViewList {
+struct EmptyViewList: CustomStringConvertible {
     var description: String {
+        fatalError("TODO")
+    }
+}
+
+extension EmptyViewList: ViewList {
+    func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
+        fatalError("TODO")
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    var traitKeys: ViewTraitKeys? {
+        fatalError("TODO")
+    }
+    
+    var viewIDs: _ViewList_ID_Views? {
+        fatalError("TODO")
+    }
+    
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
+        fatalError("TODO")
+    }
+    
+    var traits: ViewTraitCollection {
+        fatalError("TODO")
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        fatalError("TODO")
+    }
+    
+    func print(into: inout SExpPrinter) {
         fatalError("TODO")
     }
 }

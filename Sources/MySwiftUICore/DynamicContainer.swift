@@ -129,9 +129,9 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     private var adaptor: T
     private let inputs: _ViewInputs
     private let outputs: _ViewOutputs
-    private let parentSubgraph: Subgraph
-    private var info: DynamicContainer.Info
-    private var lastUniqueId: UInt32
+    private let parentSubgraph: Subgraph // 0x68
+    private var info: DynamicContainer.Info // 0x70
+    private var lastUniqueId: UInt32 // 0xa0
     private var lastRemoved: UInt32
     private var lastResetSeed: UInt32
     private var needsPhaseUpdate: Bool
@@ -227,16 +227,33 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             // <+340>
             // x25
             let copy_1 = items
+            // disableTransitions -> w28
             
+            var x29_0x78 = 0
+            let x29_0x80 = info.items.count
+            // (x29, #0x78) (x29, #0x80) self, copy_1, disableTransitions, (changed, hasDepth)
             adaptor.foreachItem(items: copy_1) { item in
                 // $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFy4ItemQzXEfU_TA
-                let newItem = makeItem( [self] in
-                    item,
-                    uniqueId: <#T##UInt32#>,
-                    container: Attribute<DynamicContainer.Info>(identifier: .current!),
-                    disableTransitions: <#T##Bool#>
-                )
+                /*
+                 x29_0x78 -> x1
+                 x29_0x80 -> x2
+                 self -> x3/x4
+                 copy_1 -> x5
+                 disableTransitions -> w6
+                 (changed, hasDepth) -> x7
+                 */
                 fatalError("TODO")
+//                let lastUniqueId = lastUniqueId &+ 1
+//                self.lastUniqueId = lastUniqueId
+//                
+//                let newItem = makeItem(
+//                    item,
+//                    uniqueId: lastUniqueId,
+//                    container: Attribute<DynamicContainer.Info>(identifier: .current!),
+//                    disableTransitions: disableTransitions
+//                )
+//                
+//                self.info.items.append(newItem)
             }
             fatalError("TODO")
         } else {

@@ -1193,3 +1193,20 @@ public struct ViewTraitCollection {
     mutating set
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DynamicViewListItem: _SwiftUICorePrivate.DynamicContainerItem {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DynamicLayoutViewAdaptor: _SwiftUICorePrivate.DynamicContainerAdaptor {
+  public typealias Item = _SwiftUICorePrivate.DynamicViewListItem
+  public typealias Items = _SwiftUICorePrivate.ViewList
+
+  public struct ItemLayout {}
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ViewList {}

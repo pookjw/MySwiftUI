@@ -72,7 +72,7 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
     typealias Item = DynamicViewListItem
     typealias Items = ViewList
     
-    @Attribute private var items: ViewList
+    @Attribute private var items: any ViewList
     @OptionalAttribute private var childGeometries: [ViewGeometry]?
     private var childDepthData: DynamicLayoutViewAdaptor.ChildDepthData
     private var mutateLayoutMap: ((inout DynamicLayoutMap) -> Void) -> Void
@@ -99,7 +99,11 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
     }
     
     func foreachItem(items: ViewList, _ body: (DynamicViewListItem) -> Void) {
-        fatalError("TODO")
+        var number = 0
+        _ = items.applySublists(from: &number, list: $items) { sublist in
+            // $s7SwiftUI24DynamicLayoutViewAdaptorV11foreachItem5items_yAA0E4List_p_yAA0cejH0VXEtFSbAA01_eJ8_SublistVXEfU_TA
+            fatalError("TODO")
+        }
     }
     
     static func containsItem(_ items: ViewList, _ item: DynamicViewListItem) -> Bool {
