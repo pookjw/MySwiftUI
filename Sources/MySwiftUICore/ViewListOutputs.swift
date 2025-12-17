@@ -211,7 +211,7 @@ extension ViewList {
     }
     
     func applySublists(from index: inout Int, list: Attribute<ViewList>?, to body: (_ViewList_Sublist) -> Bool) -> Bool {
-        applySublists(from: &index, style: <#T##_ViewList_IteratorStyle#>, list: list, to: body)
+        applySublists(from: &index, style: _ViewList_IteratorStyle(granularity: 1), list: list, to: body)
     }
     
     var allViewIDs: _ViewList_ID_Views {
@@ -258,7 +258,7 @@ extension ViewList {
         fatalError("TODO")
     }
     
-    func applySublists(from index: inout Int, to: body (_ViewList_Sublist) -> Bool) -> Bool {
+    func applySublists(from index: inout Int, to body: (_ViewList_Sublist) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
@@ -459,8 +459,85 @@ extension BaseViewList {
     }
 }
 
-struct _ViewList_IteratorStyle {
+struct _ViewList_IteratorStyle: Equatable {
     private var value: UInt
+    
+    var granularity: Int {
+        get {
+            return Int(bitPattern: value >> 1)
+        }
+        set {
+            value = (value & 1) | ((UInt(bitPattern: newValue) & ((1 << 63) - 1)) << 1)
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    var applyGranularity: Bool {
+        get {
+            return (value & 1) != 0
+        }
+        set {
+            value = (value & ~1) | (newValue ? 1 : 0)
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    @inline(__always)
+    init(granularity: Int) {
+        value = UInt(bitPattern: granularity) << 1
+    }
+    
+    func alignToNextGranularityMultiple(_ other: inout Int) {
+        var x9 = value
+        var x8 = UInt(bitPattern: granularity)
+        
+        guard x8 != 1 else {
+            return
+        }
+        
+        x9 = UInt(bitPattern: other)
+        var x10 = x9 / x8
+        x10 = x9 &- (x10 * x8)
+        
+        guard x10 != 0 else {
+            return
+        }
+        
+        x8 -= x10
+        x8 += x9
+        other = Int(bitPattern: x8)
+    }
+    
+    func alignToPreviousGranularityMultiple(_ other: inout Int) {
+        var x8 = other
+        
+        guard x8 != 0 else {
+            return
+        }
+        
+        var x9 = granularity
+        
+        guard x9 != 1 else {
+            return
+        }
+        
+        let x10 = x8 / x9
+        x9 = x8 &- (x10 * x9)
+        x8 -= x9
+        other = x8
+    }
+    
+    func applyGranularity(to other: Int) -> Int {
+        guard value & 1 != 0 else {
+            return other
+        }
+        
+        return other * granularity
+    }
 }
 
 struct _ViewList_TemporarySublistTransform {

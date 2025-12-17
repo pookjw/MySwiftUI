@@ -1210,3 +1210,14 @@ public struct DynamicLayoutViewAdaptor: _SwiftUICorePrivate.DynamicContainerAdap
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol ViewList {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ViewList_IteratorStyle: Swift.Equatable {
+  public init(granularity: Swift.Int)
+  public var granularity: Swift.Int { get set }
+  public var applyGranularity: Swift.Bool { get set }
+  public func alignToNextGranularityMultiple(_: inout Swift.Int)
+  public func alignToPreviousGranularityMultiple(_: inout Swift.Int)
+  public func applyGranularity(to: Swift.Int) -> Swift.Int
+}
