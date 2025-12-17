@@ -454,7 +454,7 @@ extension DynamicViewList {
         private let item: DynamicViewList<Content>.Item
     }
     
-    fileprivate struct Transform {
+    fileprivate struct Transform: _ViewList_SublistTransform_Item {
         private var item: DynamicViewList<Content>.Item
     }
 }
@@ -488,7 +488,7 @@ extension DynamicViewList.WrappedList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
@@ -593,7 +593,7 @@ extension EmptyViewList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
@@ -616,6 +616,13 @@ struct EmptyViewListElements: _ViewList_Elements {
     }
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+        fatalError("TODO")
+    }
+}
+
+extension ViewList {
+    func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
+//        transform.withPushedItem(<#T##_ViewList_SublistTransform_Item#>, do: <#T##(consuming _ViewList_TemporarySublistTransform) -> T#>)
         fatalError("TODO")
     }
 }

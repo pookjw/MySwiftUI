@@ -1221,3 +1221,9 @@ public struct _ViewList_IteratorStyle: Swift.Equatable {
   public func alignToPreviousGranularityMultiple(_: inout Swift.Int)
   public func applyGranularity(to: Swift.Int) -> Swift.Int
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ViewList_TemporarySublistTransform {
+  public init()
+}

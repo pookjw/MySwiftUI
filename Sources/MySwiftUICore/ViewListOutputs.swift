@@ -195,7 +195,7 @@ protocol ViewList {
     var viewIDs: _ViewList_ID_Views? { get }
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator)
     var traits: ViewTraitCollection { get }
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit?
     func firstOffset<T: Hashable>(forID: T, style: _ViewList_IteratorStyle) -> Int?
     func print(into: inout SExpPrinter)
@@ -206,7 +206,7 @@ extension ViewList {
         fatalError("TODO")
     }
     
-    func applyIDs(from index: inout Int, transform: _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
+    func applyIDs(from index: inout Int, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
@@ -230,11 +230,7 @@ extension ViewList {
         fatalError("TODO")
     }
     
-    func applyIDs(from index: inout Int, style: _ViewList_IteratorStyle, listAttribute: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
-        fatalError("TODO")
-    }
-    
-    func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
+    func applyIDs(from index: inout Int, style: _ViewList_IteratorStyle, listAttribute: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
@@ -246,12 +242,21 @@ extension ViewList {
         fatalError("TODO")
     }
     
-    func applySublists(from index: inout Int, list: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
+    func applySublists(from index: inout Int, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_Sublist) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
-    func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, to: (_ViewList_Sublist) -> Bool) -> Bool {
-        fatalError("TODO")
+    func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, to body: (_ViewList_Sublist) -> Bool) -> Bool {
+        return applySublists(
+            from: &index,
+            style: style,
+            list: list,
+            transform: _ViewList_TemporarySublistTransform(),
+            to: { _ in
+                // $s7SwiftUI8ViewListPAAE13applySublists4from5style4list9transform2toSbSiz_AA01_cD14_IteratorStyleV14AttributeGraph0N0VyAaB_pGSgAA01_cD26_TemporarySublistTransformVSbAA01_cd1_Q0VXEtFSbSiz_AkA01_cD5_NodeOARtXEfU_TA
+                fatalError("TODO")
+            }
+        )
     }
     
     func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, to body: (_ViewList_Sublist) -> Bool) -> Bool {
@@ -262,7 +267,7 @@ extension ViewList {
         fatalError("TODO")
     }
     
-    func applyIDs(from: inout Int, listAttribute: Attribute<ViewList>?, transform: _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
+    func applyIDs(from: inout Int, listAttribute: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
@@ -392,7 +397,7 @@ extension BaseViewList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
@@ -540,7 +545,53 @@ struct _ViewList_IteratorStyle: Equatable {
     }
 }
 
-struct _ViewList_TemporarySublistTransform {
+struct _ViewList_TemporarySublistTransform: ~Copyable {
+    private var storage: _ViewList_TemporarySublistTransform.Storage
+    
+    init() {
+        storage = .node(nil)
+    }
+    
+    func bindID(_ other: _ViewList_ID) {
+        fatalError("TODO")
+    }
+    
+    func apply(sublist: inout _ViewList_Sublist) {
+        fatalError("TODO")
+    }
+    
+    var isEmpty: Bool {
+        fatalError("TODO")
+    }
+    
+    func withPushedItem<T, U: _ViewList_SublistTransform_Item>(_: U, do: (consuming _ViewList_TemporarySublistTransform) -> T) -> T {
+        fatalError("TODO")
+    }
+    
+    func wrapSubgraphs(into storage: inout _ViewList_SublistSubgraphStorage) {
+        fatalError("TODO")
+    }
+    
+    func copy() -> _ViewList_SublistTransform {
+        fatalError("TODO")
+    }
+}
+
+extension _ViewList_TemporarySublistTransform {
+    fileprivate enum Storage {
+        case node(UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>?)
+        case transform(UnsafeMutablePointer<_ViewList_SublistTransform>)
+    }
+    
+    fileprivate struct ItemNode {
+        private var next: UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>?
+        private var value: _ViewList_SublistTransform_Item
+        private var subgraphCount: Int
+        private var depth: Int
+    }
+}
+
+struct _ViewList_SublistTransform {
     private var items: [any _ViewList_SublistTransform_Item]
     private var subgraphCount: Int
 }
