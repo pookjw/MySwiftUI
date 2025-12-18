@@ -1,5 +1,4 @@
 // A4C1D658B3717A3062FEFC91A812D6EB
-#warning("TODO")
 private import AttributeGraph
 private import os.log
 

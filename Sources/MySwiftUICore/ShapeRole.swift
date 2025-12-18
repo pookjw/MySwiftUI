@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public enum ShapeRole: Sendable, Hashable {
     case fill

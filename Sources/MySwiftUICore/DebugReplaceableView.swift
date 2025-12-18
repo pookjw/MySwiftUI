@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public struct DebugReplaceableView: View {
     @_alwaysEmitIntoClient @_documentation(visibility: private) public init<V>(erasing view: V) where V : View {

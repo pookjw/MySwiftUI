@@ -1,5 +1,4 @@
 // A1B10B5AB036C34AB7DD2EE8825FCA93
-#warning("TODO")
 internal import AttributeGraph
 
 extension _ViewInputs {

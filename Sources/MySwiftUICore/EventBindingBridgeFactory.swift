@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package protocol EventBindingBridgeFactory {
     // TODO

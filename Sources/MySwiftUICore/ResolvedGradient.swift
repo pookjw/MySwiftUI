@@ -1,4 +1,3 @@
-#warning("TODO")
 
 private import CoreGraphics
 #if SwiftUICompataibility

@@ -1,6 +1,5 @@
 // EFAEDE41CB8C85EF3A6A18DC05438A3C
 
-#warning("TODO")
 private import CoreGraphics
 
 extension DisplayList {

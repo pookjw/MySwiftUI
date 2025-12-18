@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public struct Shader: Equatable, Sendable {
 //    private var function: ShaderFunction

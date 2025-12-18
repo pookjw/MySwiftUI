@@ -1,4 +1,3 @@
-#warning("TODO")
 private import _QuartzCorePrivate
 
 enum GraphicsBlendMode {

@@ -1,6 +1,5 @@
 // A45C110C8134A7DB30776EFC6CE1E8A6
 
-#warning("TODO")
 internal import CoreGraphics
 
 extension Color.ResolvedHDR {

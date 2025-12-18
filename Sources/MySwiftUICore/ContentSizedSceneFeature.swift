@@ -1,5 +1,4 @@
 // 5F20844779CE3886FD4DAA7CB43969A0
-#warning("TODO")
 private import AttributeGraph
 
 extension ViewGraph {

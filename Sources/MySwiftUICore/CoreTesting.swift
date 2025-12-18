@@ -1,4 +1,3 @@
-#warning("TODO")
 private import _DarwinFoundation3._stdlib
 
 package enum CoreTesting {

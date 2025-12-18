@@ -1,4 +1,3 @@
-#warning("TODO")
 
 struct CommandOperation {
     private var mutation: CommandOperation.Mutation

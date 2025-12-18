@@ -1,4 +1,3 @@
-#warning("TODO")
 
 extension EnvironmentValues {
     public private(set) var accessibilityInvertColors: Bool {

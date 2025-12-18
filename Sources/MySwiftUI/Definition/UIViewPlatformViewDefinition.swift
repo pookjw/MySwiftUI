@@ -1,6 +1,5 @@
 // A34643117F00277B93DEBAB70EC06971
 
-#warning("TODO")
 @_spi(Internal) internal import MySwiftUICore
 public import UIKit
 private import _UIKitPrivate

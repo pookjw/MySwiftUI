@@ -1,6 +1,5 @@
 // 8BBC66CBE42B8A65F8A2F3799C81A349
 
-#warning("TODO")
 private import CoreGraphics
 internal import _MySwiftUIShims
 

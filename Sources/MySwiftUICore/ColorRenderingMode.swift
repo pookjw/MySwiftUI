@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public enum ColorRenderingMode : Sendable, Hashable {
     case nonLinear

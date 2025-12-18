@@ -1,6 +1,5 @@
 // 82B2D47816BC992595021D60C278AFF0
 
-#warning("TODO")
 package import Foundation
 private import CoreFoundation
 private import _DarwinFoundation3.pthread

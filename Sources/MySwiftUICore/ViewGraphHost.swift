@@ -1,4 +1,3 @@
-#warning("TODO")
 private import Foundation
 private import AttributeGraph
 package import QuartzCore

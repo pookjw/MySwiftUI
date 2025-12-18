@@ -1,6 +1,5 @@
 // F9F204BD2F8DB167A76F17F3FB1B3335
 
-#warning("TODO")
 package import AttributeGraph
 private import notify
 private import Darwin.POSIX.dlfcn

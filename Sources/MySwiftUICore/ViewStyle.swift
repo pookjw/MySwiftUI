@@ -1,5 +1,4 @@
 // F00DE100DEB1EA63E29A46C946A53E51
-#warning("TODO")
 private import _MySwiftUIShims
 
 package enum ViewStyleRegistry: Sendable {

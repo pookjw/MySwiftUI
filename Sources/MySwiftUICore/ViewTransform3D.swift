@@ -1,5 +1,4 @@
 // C7EC178EDED3447B2AB780EC0082CA22
-#warning("TODO")
 package import Spatial
 private import CoreGraphics
 

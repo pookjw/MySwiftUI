@@ -1,4 +1,3 @@
-#warning("TODO")
 package import os.log
 private import Foundation
 package import CoreGraphics

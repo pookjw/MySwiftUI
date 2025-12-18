@@ -1,6 +1,5 @@
 // 6C8682BE0755616E63B02969BA08C92E
 
-#warning("TODO")
 
 extension _GraphInputs {
     @inline(__always)

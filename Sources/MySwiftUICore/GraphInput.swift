@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package protocol GraphInput: PropertyKey {
     static var isTriviallyReusable: Bool {

@@ -1,4 +1,3 @@
-#warning("TODO")
 private import CoreGraphics
 
 struct BlurStyle {

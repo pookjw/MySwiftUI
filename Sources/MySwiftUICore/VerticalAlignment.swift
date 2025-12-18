@@ -1,4 +1,3 @@
-#warning("TODO")
 public import CoreGraphics
 
 @frozen public struct VerticalAlignment: Equatable {

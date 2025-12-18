@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package struct ViewIdentity {
     package static var invalid: ViewIdentity { ViewIdentity(seed: 0) }

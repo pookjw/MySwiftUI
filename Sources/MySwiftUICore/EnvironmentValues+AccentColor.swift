@@ -1,4 +1,3 @@
-#warning("TODO")
 
 extension EnvironmentValues {
     package var accentColor: Color? {

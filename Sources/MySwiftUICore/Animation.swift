@@ -1,6 +1,5 @@
 // 4FD7A1D5440B1394D12A74675615ED20
 
-#warning("TODO")
 public import CoreGraphics
 public import Spatial
 internal import AttributeGraph

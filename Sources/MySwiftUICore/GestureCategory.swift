@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package struct GestureCategory: RawRepresentable {
     package static var drag: GestureCategory { return GestureCategory(rawValue: 1 << 2) }

@@ -1,6 +1,5 @@
 // B86250B2E056EB47628ECF46032DFA4C
 
-#warning("TODO")
 private import _DarwinFoundation3._stdlib
 private import CoreGraphics
 internal import _MySwiftUIShims

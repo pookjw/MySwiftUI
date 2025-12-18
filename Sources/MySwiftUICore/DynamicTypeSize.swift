@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public enum DynamicTypeSize : Hashable, Comparable, CaseIterable, Sendable {
     case xSmall

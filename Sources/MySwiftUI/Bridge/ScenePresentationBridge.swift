@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import MySwiftUICore
 
 class ScenePresentationBridge {

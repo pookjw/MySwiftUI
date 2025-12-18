@@ -1,5 +1,4 @@
 // 56D4CED87D5B226E2B40FB60C47D6F49
-#warning("TODO")
 internal import AttributeGraph
 
 public protocol DynamicProperty {

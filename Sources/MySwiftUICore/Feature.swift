@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package protocol Feature: ViewInputBoolFlag {
     static var isEnabled: Bool { get }

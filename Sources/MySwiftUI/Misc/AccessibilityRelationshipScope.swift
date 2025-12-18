@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import MySwiftUICore
 
 final class AccessibilityRelationshipScope: @unsafe ViewInput {

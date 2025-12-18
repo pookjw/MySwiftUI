@@ -1,4 +1,3 @@
-#warning("TODO")
 package import Foundation
 private import os.lock
 

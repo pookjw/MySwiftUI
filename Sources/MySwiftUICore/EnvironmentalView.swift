@@ -1,4 +1,3 @@
-#warning("TODO")
 private import AttributeGraph
 
 protocol EnvironmentalView: PrimitiveView, UnaryView {

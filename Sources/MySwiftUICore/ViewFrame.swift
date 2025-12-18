@@ -1,6 +1,5 @@
 // 8BD8C3972A1E496A35EEE3666E0865B8
 
-#warning("TODO")
 internal import CoreGraphics
 
 struct ViewFrame: Equatable {

@@ -1,6 +1,5 @@
 // 7578D05D331D7F1A2E0C2F8DEF38AAD4
 
-#warning("TODO")
 internal import AttributeGraph
 
 @frozen public struct AnyView: PrimitiveView {

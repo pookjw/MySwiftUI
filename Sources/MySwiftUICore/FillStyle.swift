@@ -1,4 +1,3 @@
-#warning("TODO")
 
 @frozen public struct FillStyle: Equatable {
     public var isEOFilled: Bool

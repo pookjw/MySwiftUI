@@ -1,6 +1,5 @@
 // B0F5FD51133E70141176B7B8AC4E9712
 
-#warning("TODO")
 internal import QuartzCore
 private import _QuartzCorePrivate
 private import CoreGraphics

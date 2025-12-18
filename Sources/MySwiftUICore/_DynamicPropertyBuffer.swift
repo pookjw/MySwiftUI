@@ -1,5 +1,4 @@
 // F3A89CF4357225EF49A7DD673FDFEE02
-#warning("TODO")
 private import AttributeGraph
 
 public struct _DynamicPropertyBuffer {

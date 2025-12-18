@@ -1,6 +1,5 @@
 // D64CE6C88E7413721C59A34C0C940F2C
 
-#warning("TODO")
 package import Foundation
 private import AttributeGraph
 

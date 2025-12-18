@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package struct ViewGraphHostUpdate {
     package static var isOwner: Bool {

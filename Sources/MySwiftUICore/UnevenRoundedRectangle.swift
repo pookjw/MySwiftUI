@@ -1,4 +1,3 @@
-#warning("TODO")
 public import CoreGraphics
 internal import AttributeGraph
 

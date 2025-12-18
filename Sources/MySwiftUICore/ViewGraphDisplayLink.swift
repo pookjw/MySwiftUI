@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import QuartzCore
 
 final class ViewGraphDisplayLink: NSObject {

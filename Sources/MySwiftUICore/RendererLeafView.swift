@@ -1,6 +1,5 @@
 // 65609C35608651F66D749EB1BD9D2226
 
-#warning("TODO")
 internal import Spatial
 internal import CoreGraphics
 private import AttributeGraph

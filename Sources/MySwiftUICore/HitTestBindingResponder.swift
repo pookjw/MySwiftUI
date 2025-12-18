@@ -1,6 +1,5 @@
 // D16C83991EAE21A87411739F6DC01498
 
-#warning("TODO")
 internal import AttributeGraph
 
 struct HitTestBindingFeature: ViewGraphFeature {

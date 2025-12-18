@@ -1,4 +1,3 @@
-#warning("TODO")
 public import Foundation
 
 @safe fileprivate nonisolated(unsafe) var uiKitType: PlatformColorDefinition.Type?

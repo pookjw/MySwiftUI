@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public protocol ShapeStyle: Sendable {
     @available(*, deprecated, message: "obsolete")

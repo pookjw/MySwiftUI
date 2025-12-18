@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public protocol Shape {
     

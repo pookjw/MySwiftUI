@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public struct MenuOrder: Hashable, Sendable {
     public static let automatic = MenuOrder(guts: .automatic)

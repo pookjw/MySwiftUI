@@ -1,4 +1,3 @@
-#warning("TODO")
 
 protocol ViewGraphBridgePropertiesDelegate: AnyObject {
     func resolveRequiredBridges(_: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions)

@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import Foundation
 
 @_spi(Internal) public final class EventBindingManager {

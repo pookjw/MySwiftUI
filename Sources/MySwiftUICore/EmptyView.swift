@@ -1,4 +1,3 @@
-#warning("TODO")
 
 @frozen public struct EmptyView: PrimitiveView {
     @inlinable public nonisolated init() {}

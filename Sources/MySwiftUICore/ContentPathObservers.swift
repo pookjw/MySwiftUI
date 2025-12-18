@@ -1,5 +1,4 @@
 // E7640EF181CF36289C575A729C00E55B
-#warning("TODO")
 internal import CoreGraphics
 private import AttributeGraph
 

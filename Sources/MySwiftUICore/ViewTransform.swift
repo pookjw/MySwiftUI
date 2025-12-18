@@ -1,6 +1,5 @@
 // 1CC2FE016A82CF91549A64E942CE8ED4
 
-#warning("TODO")
 package import CoreGraphics
 internal import AttributeGraph
 package import Spatial

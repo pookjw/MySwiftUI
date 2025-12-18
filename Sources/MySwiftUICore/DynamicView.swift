@@ -1,6 +1,5 @@
 // 3FB6ABB0477B815AB3C89DD5EDC9F0F0
 
-#warning("TODO")
 internal import AttributeGraph
 
 @MainActor protocol DynamicView {

@@ -1,4 +1,3 @@
-#warning("TODO")
 
 struct IntelligenceLightSourceLayer {
     private var colorScheme: ColorScheme

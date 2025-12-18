@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package final class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked Sendable {
     package private(set) var location: T

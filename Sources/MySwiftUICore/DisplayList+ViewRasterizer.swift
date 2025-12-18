@@ -1,5 +1,4 @@
 // 21FFA3C7D88AC65BB559906758271BFC
-#warning("TODO")
 
 internal import CoreGraphics
 

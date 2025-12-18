@@ -1,6 +1,5 @@
 // 0EC4D15D4D4D8FD0340271BA6BA4D1B4
 
-#warning("TODO")
 package import AttributeGraph
 
 package struct ScrapeableID: Hashable, GraphReusable {

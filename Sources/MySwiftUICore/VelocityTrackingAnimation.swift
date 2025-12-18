@@ -1,6 +1,5 @@
 // FD9125BC1E04E33D1D7BE4A31225AA98
 
-#warning("TODO")
 private import Foundation
 
 extension Animation {

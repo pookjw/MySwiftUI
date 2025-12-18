@@ -1,4 +1,3 @@
-#warning("TODO")
 private import Spatial
 
 struct ViewSize3D {

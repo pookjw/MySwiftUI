@@ -1,4 +1,3 @@
-#warning("TODO")
 private import ObjectiveC
 
 package struct AccessibilityAttachment: Equatable {

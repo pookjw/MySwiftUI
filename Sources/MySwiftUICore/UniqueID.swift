@@ -1,4 +1,3 @@
-#warning("TODO")
 private import AttributeGraph
 
 package struct UniqueID: Hashable, Sendable {

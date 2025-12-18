@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package struct InterfaceIdiom: Hashable, Sendable {
     package static var phone: InterfaceIdiom { return InterfaceIdiom(role: .phone) }

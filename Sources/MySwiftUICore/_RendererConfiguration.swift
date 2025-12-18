@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import CoreGraphics
 
 public struct _RendererConfiguration {

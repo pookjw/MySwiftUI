@@ -1,4 +1,3 @@
-#warning("TODO")
 private import AttributeGraph
 package import CoreGraphics
 package import Spatial

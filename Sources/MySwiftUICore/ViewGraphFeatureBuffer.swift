@@ -1,4 +1,3 @@
-#warning("TODO")
 
 @safe struct ViewGraphFeatureBuffer: Collection, CustomDebugStringConvertible {        
     private(set) var contents: UnsafeHeterogeneousBuffer

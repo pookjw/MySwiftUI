@@ -1,4 +1,3 @@
-#warning("TODO")
 package import AttributeGraph
 
 package struct CustomEventTrace {

@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package protocol ViewGraphDelegate: GraphDelegate {
     func `as`<T>(_ type: T.Type) -> T?

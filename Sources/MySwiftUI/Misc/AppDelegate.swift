@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import UIKit
 
 final class AppDelegate: UIResponder {

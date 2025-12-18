@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package protocol ViewInputPredicate {
     static func evaluate(inputs: _GraphInputs) -> Bool

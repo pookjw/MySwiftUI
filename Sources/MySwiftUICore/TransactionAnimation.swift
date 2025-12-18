@@ -1,6 +1,5 @@
 // D98E9A1069CEEADA58829ED440E36F30
 
-#warning("TODO")
 
 extension Transaction {
     public var animation: Animation? {

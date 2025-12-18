@@ -1,6 +1,5 @@
 // F37E3733E490AA5E3BDC045E3D34D9F8
 
-#warning("TODO")
 internal import CoreGraphics
 internal import _MySwiftUIShims
 private import _QuartzCorePrivate

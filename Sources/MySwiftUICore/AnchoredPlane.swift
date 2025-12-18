@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package enum AnchoredPlane: Hashable {
     case horizontal

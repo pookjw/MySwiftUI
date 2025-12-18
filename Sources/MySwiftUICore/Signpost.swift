@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import os.signpost
 private import _KernPrivate
 

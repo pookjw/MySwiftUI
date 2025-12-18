@@ -1,4 +1,3 @@
-#warning("TODO")
 
 protocol Paint: ShapeStyle {
     associatedtype ResolvedPaintType

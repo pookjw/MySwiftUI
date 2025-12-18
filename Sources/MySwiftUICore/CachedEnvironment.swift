@@ -1,5 +1,4 @@
 // B62A4B04AF9F1325924A089D63071424
-#warning("TODO")
 package import AttributeGraph
 private import CoreGraphics
 

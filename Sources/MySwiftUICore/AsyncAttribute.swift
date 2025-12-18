@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import AttributeGraph
 
 protocol AsyncAttribute: _AttributeBody {

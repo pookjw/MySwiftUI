@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public struct Image: View {
     public var body: Never {

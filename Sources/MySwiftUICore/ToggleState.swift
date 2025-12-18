@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package enum ToggleState: UInt, Codable, CaseIterable, Hashable, StronglyHashable, CustomDebugStringConvertible {
     case on

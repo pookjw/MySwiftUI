@@ -1,4 +1,3 @@
-#warning("TODO")
 
 package struct VersionSeed: CustomStringConvertible {
     private(set) var value: UInt32

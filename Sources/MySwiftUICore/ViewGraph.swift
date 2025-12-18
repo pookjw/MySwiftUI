@@ -1,6 +1,5 @@
 // 7D9EDEF832940A362646A6E979F296C8
 
-#warning("TODO")
 internal import AttributeGraph
 package import CoreGraphics
 internal import QuartzCore

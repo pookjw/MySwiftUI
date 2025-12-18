@@ -1,4 +1,3 @@
-#warning("TODO")
 
 public import UIKit
 @_spi(Internal) public import MySwiftUICore

@@ -1,4 +1,3 @@
-#warning("TODO")
 package import _DyldPrivate
 
 package func isLinkedOnOrAfter(_ semantics: Semantics) -> Bool {

@@ -1,4 +1,3 @@
-#warning("TODO")
 internal import UIKit
 
 // TODO: final인지 검증
