@@ -2,7 +2,7 @@
 
 private import Observation
 @_spi(SwiftUI) internal import _ObservationPrivate
-@preconcurrency internal import AttributeGraph
+internal import AttributeGraph
 private import _DarwinFoundation3.pthread
 
 @MainActor final class ObservationCenter {

@@ -16,7 +16,7 @@ extension _GraphInputs {
     }
     
     fileprivate struct ContentShapeAccessibilityProviderKey: GraphInput {
-        static let defaultValue: (any ContentShapeAccessibilityProvider.Type) = EmptyContentShapeAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any ContentShapeAccessibilityProvider.Type) = EmptyContentShapeAccessibilityProvider.self
     }
 }
 

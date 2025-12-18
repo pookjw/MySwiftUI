@@ -186,7 +186,7 @@ extension Color.ProviderTag {
 }
 
 extension Color {
-    public struct Resolved: Hashable, BitwiseCopyable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
+    public struct Resolved: Hashable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
         @safe static nonisolated(unsafe) var legacyInterpolation = !isLinkedOnOrAfter(.v6)
         
         public var linearRed: Float
@@ -660,7 +660,7 @@ extension ShapeStyle where Self == Color {
 struct ColorView: ResolvedPaint, RendererLeafView {
     private(set) var color: Color.ResolvedHDR
     private(set) var isAntialiased: Bool
-    private(set) var allowedDynamicRange: Image.DynamicRange
+    @safe private(set) nonisolated(unsafe) var allowedDynamicRange: Image.DynamicRange
     
     static nonisolated func == (lhs: ColorView, rhs: ColorView) -> Bool {
         fatalError("TODO")

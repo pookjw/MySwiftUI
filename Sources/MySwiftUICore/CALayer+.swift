@@ -15,7 +15,7 @@ extension CALayer {
         default:
             // <+40>
             let headroom = contentHeadroom()
-            if headroom != .nan, headroom > 1 {
+            if !headroom.isNaN, headroom > 1 {
                 if allowedDynamicRange.storage == .high {
                     preferredDynamicRange = .high
                 } else {

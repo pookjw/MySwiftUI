@@ -10,7 +10,7 @@ final class _ViewList_SubgraphRelease {
 
 class _ViewList_Subgraph {
     final let subgraph: Subgraph
-    final internal(set) var refcount: UInt32
+    final var refcount: UInt32
     
     init(subgraph: Subgraph) {
         self.refcount = 1

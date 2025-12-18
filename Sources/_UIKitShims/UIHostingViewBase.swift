@@ -110,7 +110,7 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    package var _containerSafeArea: MySwiftUICore.EdgeInsets {
+    @MainActor package var _containerSafeArea: MySwiftUICore.EdgeInsets {
         // x29 = sp + 0x110
         // x22
         guard let uiView else {
@@ -379,7 +379,7 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.updateRemovedState(isUnattached: window == nil, isHiddenForReuse: isHiddenForReuse)
     }
     
-    package func _updateSafeArea(container: () -> MySwiftUICore.EdgeInsets, keyboardHeight: () -> CGFloat) {
+    @MainActor package func _updateSafeArea(container: @MainActor () -> MySwiftUICore.EdgeInsets, keyboardHeight: @MainActor () -> CGFloat) {
         /*
          self = x21
          container = x25/x20
@@ -464,7 +464,7 @@ package final class UIHostingViewBase: NSObject {
         updateDelegate.invalidateProperties(values, mayDeferUpdate: false)
     }
     
-    package func transformDidChange(oldValue: CGAffineTransform) {
+    @MainActor package func transformDidChange(oldValue: CGAffineTransform) {
         guard let uiView else {
             return
         }
@@ -483,7 +483,7 @@ package final class UIHostingViewBase: NSObject {
     }
     
     // ___lldb_unnamed_symbol322028
-    private var cornerInsets: MySwiftUICore.RectangleCornerInsets {
+    @MainActor private var cornerInsets: MySwiftUICore.RectangleCornerInsets {
         // x29 = sp + 0x170
         // x23
         guard let uiView else {
@@ -517,7 +517,7 @@ package final class UIHostingViewBase: NSObject {
         return cornerInsets
     }
     
-    package func tearDown(uiView: UIView, updateDelegate: any ViewGraphRootValueUpdater) {
+    @MainActor package func tearDown(uiView: UIView, updateDelegate: any ViewGraphRootValueUpdater) {
         NotificationCenter.default.removeObserver(self)
         let window = uiView.window
         let isHiddenForReuse = isHiddenForReuse
@@ -818,7 +818,7 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.setEnvironment(environmentValues, wrapper: environmentWrapper)
     }
     
-    package func _updateTransform() {
+    @MainActor package func _updateTransform() {
         // self = x19
         // x21
         guard let uiView else {
@@ -835,7 +835,7 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    package func _updateSize() {
+    @MainActor package func _updateSize() {
         guard let uiView else {
             return
         }
@@ -843,7 +843,7 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.setProposedSize(uiView.bounds.size)
     }
     
-    package func _updateContainerSize() {
+    @MainActor package func _updateContainerSize() {
         guard let uiView else {
             return
         }

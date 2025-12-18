@@ -1,12 +1,12 @@
-struct TypeConformance<T: ProtocolDescriptor>: Sendable {
-    let storage: (type: Any.Type, conformance: UnsafeRawPointer)
+@safe struct TypeConformance<T: ProtocolDescriptor>: Sendable {
+    @safe nonisolated(unsafe) let storage: (type: Any.Type, conformance: UnsafeRawPointer)
     
     init(storage: (type: Any.Type, conformance: UnsafeRawPointer)) {
-        unsafe self.storage = unsafe storage
+        unsafe self.storage = storage
     }
     
     var type: Any.Type {
-        return unsafe storage.type
+        return storage.type
     }
     
     func unsafeExistentialMetatype<U>(_: U.Type) -> U {
@@ -14,7 +14,7 @@ struct TypeConformance<T: ProtocolDescriptor>: Sendable {
     }
     
     var conformance: UnsafeRawPointer {
-        return unsafe storage.conformance
+        return storage.conformance
     }
     
     var metadata: UnsafeRawPointer {

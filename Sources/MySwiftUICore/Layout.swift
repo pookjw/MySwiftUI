@@ -66,7 +66,7 @@ extension Layout {
         // sp + 0x44
         var root = root
         // sp + 0x380
-        var copy_1 = inputs
+        let copy_1 = inputs
         // sp + 0x320
         var copy_2 = inputs
         // sp + 0x2c0
@@ -138,9 +138,9 @@ extension Layout {
         
         // <+628>
         // sp + 0x260
-        var copy_4 = copy_2
+        let copy_4 = copy_2
         // sp + 0x1c0
-        var copy_5 = copy_2
+        let copy_5 = copy_2
         copy_3 = copy_4
         // sp + 0x218
         let listOutputs = body(_Graph(), copy_5)
@@ -149,7 +149,7 @@ extension Layout {
         let views = listOutputs.views
         // <+756>
         switch views {
-        case .staticList(let elements):
+        case .staticList(_):
             // <+1076>
             fatalError("TODO")
         case .dynamicList(var attribute, let listModifier):
@@ -164,11 +164,11 @@ extension Layout {
             
             // <+892>
             // sp + 0x130
-            var copy_6 = copy_2
+            let copy_6 = copy_2
             // sp + 0xd0
-            var copy_7 = copy_2
+            let copy_7 = copy_2
             // sp + 0x1c0
-            var copy_8 = copy_6
+            _ = copy_6
             
             let outputs = Self.makeDynamicView(root: root, inputs: copy_7, properties: layoutProperties, list: attribute)
             return outputs

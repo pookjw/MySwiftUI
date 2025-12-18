@@ -55,7 +55,7 @@ enum ScrollPositionStorage {
 
 public struct ScrollPosition: Sendable {
     private var storage: ScrollPosition.Storage
-    private var idType: any Hashable.Type
+    @safe private nonisolated(unsafe) var idType: any Hashable.Type
     private var seed: UInt
 }
 

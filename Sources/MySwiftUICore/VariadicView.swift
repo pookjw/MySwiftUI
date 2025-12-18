@@ -174,7 +174,8 @@ extension View {
             body: { [view] graph, inputs in
                 // $s7SwiftUI4ViewPAAE16makeImplicitRoot4view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListI0VAA01_J0V_AMtcfU_
                 let listInputs = inputs.implicitRootBodyInputs
-                let listOutputs = Self._makeViewList(view: view, inputs: listInputs)
+                // x23 register는 활용하지 않음
+                _ = Self._makeViewList(view: view, inputs: listInputs)
                 
                 return MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, listInputs))] in
                     return UncheckedSendable(Self.Body.makeDebuggableViewList(view: unchecked.value.0, inputs: unchecked.value.1))
@@ -195,11 +196,11 @@ fileprivate struct MakeViewRoot: _VariadicView_ImplicitRootVisitor {
     
     mutating func visit<T>(type: T.Type) where T : _VariadicView_ImplicitRoot {
         // sp + 0x220
-        var copy_1 = inputs
+        let copy_1 = inputs
         // sp + 0x2e0
         var copy_2 = inputs
         // sp + 0x280
-        var copy_3 = copy_1
+        let copy_3 = copy_1
         // x25
         let implicitRoot = type.implicitRoot
         // x24
@@ -208,26 +209,26 @@ fileprivate struct MakeViewRoot: _VariadicView_ImplicitRootVisitor {
         
         copy_2 = inputs
         // sp + 0x1c0
-        var copy_4 = inputs
+        let copy_4 = inputs
         // sp + 0x160
-        var copy_5 = copy_2
+        let _ = copy_2
         copy_2[ViewListOptionsInput.self] = T._viewListOptions
         // sp + 0x7c
         let graphValue = _GraphValue<T>(attribute)
         
         // sp + 0x90
-        var copy_6 = copy_4
+        let copy_6 = copy_4
         // sp + 0x20
-        var copy_7 = copy_4
+        let copy_7 = copy_4
         // sp + 0x160
-        var copy_8 = copy_6
+        let _ = copy_6
         
         self.outputs = T._makeView(root: graphValue, inputs: copy_7, body: body)
     }
 }
 
 fileprivate struct ImplicitRootType: ViewInput {
-    static let defaultValue: any _VariadicView_AnyImplicitRoot.Type = _VStackLayout.self
+    @safe static nonisolated(unsafe) let defaultValue: any _VariadicView_AnyImplicitRoot.Type = _VStackLayout.self
 }
 
 extension _ViewInputs {

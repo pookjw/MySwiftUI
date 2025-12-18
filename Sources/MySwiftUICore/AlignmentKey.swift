@@ -25,7 +25,7 @@ extension AlignmentKey {
     
     fileprivate struct TypeCache: Sendable {
         var dictionary: [ObjectIdentifier: UInt] = [:]
-        var array: [any AlignmentID.Type] = []
+        @safe nonisolated(unsafe) var array: [any AlignmentID.Type] = []
         
         // 원래 없음
         @inline(__always)

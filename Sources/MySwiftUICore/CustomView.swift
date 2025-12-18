@@ -11,22 +11,22 @@ extension View {
         // sp + 0x2a0
         let inputs_1 = inputs
         // sp + 0x240 / x24 + x25 + w26 + w28
-        let fields = DynamicPropertyCache.fields(of: self.self)
+        let fields = unsafe DynamicPropertyCache.fields(of: self.self)
         
         // <+124>
         // sp + 0x240
         var inputs_2 = inputs_1
         // sp + 0x180
-        let fields_1 = fields
+        let fields_1 = unsafe fields
         // view -> sp + 0xc0
         // sp + 0x1e0
         _ = inputs_1
         
         // <+184>
-        let body = makeBody(view: view, inputs: &inputs_2.base, fields: fields_1)
+        let body = unsafe makeBody(view: view, inputs: &inputs_2.base, fields: fields_1)
         
         if let buffer = body.1 {
-            buffer.traceMountedProperties(to: view, fields: fields_1)
+            unsafe buffer.traceMountedProperties(to: view, fields: fields_1)
         }
         
         // <+284>
@@ -53,7 +53,7 @@ extension View {
         
         switch kind {
         case .struct, .enum, .optional, .tuple:
-            return ViewBodyAccessor<Self>().makeBody(container: view, inputs: &inputs, fields: fields)
+            return unsafe ViewBodyAccessor<Self>().makeBody(container: view, inputs: &inputs, fields: fields)
         default:
             var message = "views must be value types (either a struct or an enum); "
             message.append(_typeName(Self.self, qualified: false))

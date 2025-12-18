@@ -45,7 +45,7 @@ package struct AnyInterfaceIdiom: Hashable, Sendable {
         return other == rhs
     }
     
-    private let base: (any AnyInterfaceIdiomBox.Type)
+    @safe private nonisolated(unsafe) let base: (any AnyInterfaceIdiomBox.Type)
     
     package init(idiom: InterfaceIdiom) {
         switch idiom {

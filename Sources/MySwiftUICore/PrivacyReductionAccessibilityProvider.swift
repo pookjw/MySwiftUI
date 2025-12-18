@@ -16,7 +16,7 @@ extension _GraphInputs {
     }
     
     fileprivate struct PrivacyReductionAccessibilityProviderKey: GraphInput {
-        static let defaultValue: (any PrivacyReductionAccessibilityProvider.Type) = EmptyPrivacyReductionAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any PrivacyReductionAccessibilityProvider.Type) = EmptyPrivacyReductionAccessibilityProvider.self
     }
 }
 

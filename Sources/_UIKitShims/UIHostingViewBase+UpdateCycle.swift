@@ -1,4 +1,4 @@
-package import _UIKitPrivate
+private import _UIKitPrivate
 private import MySwiftUICore
 
 @MainActor private var insertedItems: [UnsafeRawPointer] = unsafe []

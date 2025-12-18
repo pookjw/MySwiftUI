@@ -9,7 +9,7 @@ public struct Animation: Equatable, Sendable {
         fatalError("TODO")
     }
     
-    private var box: AnimationBoxBase
+    @safe private nonisolated(unsafe) var box: AnimationBoxBase
     
     public init<A>(_ base: A) where A : CustomAnimation {
         self.box = AnimationBox(base)
@@ -381,7 +381,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
                             interval: interval,
                             at: time,
                             in: transaction,
-                            finishingDefinition: T.self as? AnimationFinishingDefinition<T.AnimatableData>.Type
+                            finishingDefinition: T.self as? (any AnimationFinishingDefinition<T.AnimatableData>.Type)
                         )
                         
                         CustomEventTrace.animationBegin(attribute: .current, propertyType: type(of: self), function: animation.function)
@@ -616,7 +616,7 @@ protocol AnimationFinishingDefinition<Value>: VectorArithmetic {
     associatedtype Value
 }
 
-class AnimationBoxBase: @unchecked Sendable {
+class AnimationBoxBase {
     var base: (any CustomAnimation) {
         fatalError() // abstract
     }

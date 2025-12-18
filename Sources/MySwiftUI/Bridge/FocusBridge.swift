@@ -56,7 +56,7 @@ final class FocusBridge {
         fatalError("TODO")
     }
     
-    var preferredFocusEnvironments: [any UIFocusEnvironment] {
+    @MainActor var preferredFocusEnvironments: [any UIFocusEnvironment] {
         // x23
         guard let host else {
             return []

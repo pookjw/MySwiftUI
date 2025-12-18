@@ -35,7 +35,7 @@ final class UIKitObjectManipulationBridge<Content: View>: AnyObjectManipulationB
             return
         }
         
-        guard let uiView = host.uiView else {
+        guard host.uiView != nil else {
             return
         }
         

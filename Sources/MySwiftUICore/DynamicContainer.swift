@@ -50,7 +50,7 @@ struct DynamicContainer {
         
         // <+756>
         // sp + 0x1a0
-        let copy_4 = copy_1
+        _ = copy_1
         let attribute = Attribute(containerInfo)
         _ = consume containerInfo
         

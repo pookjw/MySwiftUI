@@ -16,7 +16,7 @@ extension _GraphInputs {
     }
     
     fileprivate struct RemoteEffectsAccessibilityProviderKey: GraphInput {
-        static let defaultValue: (any RemoteEffectsAccessibilityProvider.Type) = EmptyRemoteEffectsAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any RemoteEffectsAccessibilityProvider.Type) = EmptyRemoteEffectsAccessibilityProvider.self
     }
 }
 

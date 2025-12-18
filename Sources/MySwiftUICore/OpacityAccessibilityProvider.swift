@@ -16,7 +16,7 @@ extension _GraphInputs {
     }
     
     fileprivate struct OpacityAccessibilityProviderKey: GraphInput {
-        static let defaultValue: (any OpacityAccessibilityProvider.Type) = EmptyOpacityAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any OpacityAccessibilityProvider.Type) = EmptyOpacityAccessibilityProvider.self
     }
 }
 

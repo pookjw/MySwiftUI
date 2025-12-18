@@ -5,7 +5,7 @@ private import _UIKitPrivate
 private import MRUIKit
 
 extension ViewTransform {
-    mutating func appendWorldAndImmersiveSpaceCoordinates(for window: UIWindow?) {
+    @MainActor mutating func appendWorldAndImmersiveSpaceCoordinates(for window: UIWindow?) {
         if let windowScene = window?.windowScene {
             // <+172>
             // x21

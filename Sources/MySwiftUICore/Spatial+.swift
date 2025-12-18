@@ -14,7 +14,7 @@ extension AffineTransform3D {
             )
         } else if CGFloat.NativeType.self == Float.self {
             self.init(
-                matrix: simd_float4x3(
+                simd_float4x3(
                     SIMD3(Float(transform3D.m11), Float(transform3D.m12), Float(transform3D.m13)),
                     SIMD3(Float(transform3D.m21), Float(transform3D.m22), Float(transform3D.m23)),
                     SIMD3(Float(transform3D.m31), Float(transform3D.m32), Float(transform3D.m33)),

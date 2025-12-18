@@ -166,7 +166,7 @@ extension UIView {
                     return typedStorage
                 }
                 
-                let typedStorage = unsafe (objc_lookUpClass("_UITypedStorage") as! AnyObject).perform(Selector(("new")))!.takeUnretainedValue()
+                let typedStorage = unsafe (objc_lookUpClass("_UITypedStorage") as! NSObject.Type).init()
                 unsafe casted.initialize(to: typedStorage)
                 return typedStorage
             }

@@ -1,7 +1,7 @@
 private import Foundation
 private import AttributeGraph
 package import QuartzCore
-package import CoreGraphics
+internal import CoreGraphics
 
 package final class ViewGraphHost {
     @safe package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true

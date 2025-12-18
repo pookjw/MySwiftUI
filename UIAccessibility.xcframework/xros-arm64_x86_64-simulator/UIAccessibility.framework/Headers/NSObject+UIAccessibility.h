@@ -2,7 +2,7 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-@interface NSObject (UIAccessibility)
+@interface NSObject (UIAccessibility_Private)
 - (BOOL)_accessibilityOverridesInvalidFrames;
 - (BOOL)_accessibilityAutomationHitTestReverseOrder;
 - (BOOL)_accessibilityIsSwiftUIHostingView;

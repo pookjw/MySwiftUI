@@ -31,14 +31,14 @@ extension BodyAccessor {
         
         return unsafe withUnsafePointer(to: inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
             let flags: any RuleThreadFlags.Type
-            if fields.behaviors.contains(.allowsAsync) {
+            if unsafe fields.behaviors.contains(.allowsAsync) {
                 flags = AsyncThreadFlags.self
             } else {
                 flags = MainThreadFlags.self
             }
             
             func project<T: RuleThreadFlags>(flags: T.Type) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
-                var buffer = _DynamicPropertyBuffer(fields: fields, container: container, inputs: &inputs)
+                var buffer = unsafe _DynamicPropertyBuffer(fields: fields, container: container, inputs: &inputs)
                 if buffer.isEmpty {
                     buffer.destroy()
                     let rule = StaticBody<Self, T>(accessor: self, container: container.value)

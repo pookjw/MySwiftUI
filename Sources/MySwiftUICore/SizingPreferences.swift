@@ -1,4 +1,4 @@
-package import CoreGraphics
+private import CoreGraphics
 
 package struct SizingPreferences {
     private var width: CGFloat?

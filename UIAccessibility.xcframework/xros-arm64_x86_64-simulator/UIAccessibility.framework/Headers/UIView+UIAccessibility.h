@@ -2,7 +2,7 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-@interface UIView (UIAccessibility)
+@interface UIView (UIAccessibility_Private)
 - (BOOL)_accessibilityOverridesInvalidFrames;
 - (void)_accessibilitySetOverridesInvalidFrames:(BOOL)arg1;
 @end

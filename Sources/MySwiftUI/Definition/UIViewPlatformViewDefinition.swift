@@ -1,5 +1,4 @@
 // A34643117F00277B93DEBAB70EC06971
-
 @_spi(Internal) internal import MySwiftUICore
 public import UIKit
 private import _UIKitPrivate
@@ -10,24 +9,28 @@ final class UIViewPlatformViewDefinition: PlatformViewDefinition {
     }
     
     override class func makeView(kind: PlatformViewDefinition.ViewKind) -> AnyObject {
-        switch kind {
-        case .shape:
-            // <+356>
-            fatalError("TODO")
-        default:
-            let view: UIView
-            if kind.isContainer {
-                view = _UIInheritedView()
-            } else {
-                view = _UIGraphicsView()
+        let result = MainActor.assumeIsolated {
+            switch kind {
+            case .shape:
+                // <+356>
+                fatalError("TODO")
+            default:
+                let view: UIView
+                if kind.isContainer {
+                    view = _UIInheritedView()
+                } else {
+                    view = _UIGraphicsView()
+                }
+                
+                UIViewPlatformViewDefinition.initView(view, kind: kind)
+                return UncheckedSendable(view)
             }
-            
-            UIViewPlatformViewDefinition.initView(view, kind: kind)
-            return view
         }
+        
+        return result.value
     }
     
-    fileprivate static func initView(_ view: UIView, kind: PlatformViewDefinition.ViewKind) {
+    @MainActor fileprivate static func initView(_ view: UIView, kind: PlatformViewDefinition.ViewKind) {
         if case .platformGroup = kind {
             // nop
         } else {

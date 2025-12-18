@@ -25,18 +25,18 @@ extension SafeAreaInsets {
 
 struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
     private(set) var elements: [SafeAreaInsets.Element]
-    private(set) var nextInsets: SafeAreaInsets.OptionalValue?
+    @safe private(set) nonisolated(unsafe) var nextInsets: SafeAreaInsets.OptionalValue?
     
-    init(insets: EdgeInsets, cornerInsets: AbsoluteRectangleCornerInsets?, nextInsets: SafeAreaInsets.OptionalValue?) {
+    nonisolated init(insets: EdgeInsets, cornerInsets: AbsoluteRectangleCornerInsets?, nextInsets: SafeAreaInsets.OptionalValue?) {
         fatalError("TODO") // TODO
     }
     
-    init() {
+    nonisolated init() {
         self.elements = []
         self.nextInsets = nil
     }
     
-    init(elements: [SafeAreaInsets.Element], nextInsets: SafeAreaInsets.OptionalValue?) {
+    nonisolated init(elements: [SafeAreaInsets.Element], nextInsets: SafeAreaInsets.OptionalValue?) {
         self.elements = elements
         self.nextInsets = nextInsets
     }

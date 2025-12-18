@@ -166,7 +166,7 @@ extension DynamicViewContainer {
     }
 }
 
-fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAttribute {
+@safe fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAttribute {
     private let metadata: Content.Metadata
     @Attribute private var view: Content
     private let inputs: _ViewListInputs
@@ -384,7 +384,7 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
 }
 
 extension DynamicViewList {
-    fileprivate final class Item: _ViewList_Subgraph {
+    @safe fileprivate final class Item: _ViewList_Subgraph {
         private let type: any Any.Type
         let id: Content.ID
         private let owner: AnyAttribute
@@ -538,7 +538,7 @@ struct DynamicViewListItem: DynamicContainerItem {
 }
 
 extension DynamicViewListItem {
-    fileprivate class Item<T: DynamicView> {
+    @unsafe fileprivate class Item<T: DynamicView> {
         private let type: any Any.Type
         private let id: T.ID
         private let owner: AnyAttribute

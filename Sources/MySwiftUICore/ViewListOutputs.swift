@@ -545,11 +545,11 @@ struct _ViewList_IteratorStyle: Equatable {
     }
 }
 
-struct _ViewList_TemporarySublistTransform: ~Copyable {
+@safe struct _ViewList_TemporarySublistTransform: ~Copyable {
     private var storage: _ViewList_TemporarySublistTransform.Storage
     
     init() {
-        storage = unsafe .node(nil)
+        unsafe storage = unsafe .node(nil)
     }
     
     func bindID(_ other: _ViewList_ID) {
@@ -578,12 +578,12 @@ struct _ViewList_TemporarySublistTransform: ~Copyable {
 }
 
 extension _ViewList_TemporarySublistTransform {
-    fileprivate enum Storage {
+    @unsafe fileprivate enum Storage {
         case node(UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>?)
         case transform(UnsafeMutablePointer<_ViewList_SublistTransform>)
     }
     
-    fileprivate struct ItemNode {
+    @unsafe fileprivate struct ItemNode {
         private var next: UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>?
         private var value: _ViewList_SublistTransform_Item
         private var subgraphCount: Int

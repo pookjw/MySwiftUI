@@ -386,21 +386,23 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     deinit {
-        _base.tearDown(uiView: self, updateDelegate: self)
-        NotificationCenter.default.removeObserver(self)
-        
-        if let windowGeometryScene = unsafe self.windowGeometryScene {
-            windowGeometryScene.removeObserver(self, forKeyPath: "effectiveGeometry")
-        }
-        
-        _base.clearDisplayLink()
-        _base.clearUpdateTimer()
-        
-        HostingViewRegistry.shared.remove(self)
-        
-        if let dumpLayerNotificationTokens = unsafe dumpLayerNotificationTokens {
-            notify_cancel(dumpLayerNotificationTokens.0)
-            notify_cancel(dumpLayerNotificationTokens.1)
+        MainActor.assumeIsolated {
+            _base.tearDown(uiView: self, updateDelegate: self)
+            NotificationCenter.default.removeObserver(self)
+            
+            if let windowGeometryScene = unsafe self.windowGeometryScene {
+                windowGeometryScene.removeObserver(self, forKeyPath: "effectiveGeometry")
+            }
+            
+            _base.clearDisplayLink()
+            _base.clearUpdateTimer()
+            
+            HostingViewRegistry.shared.remove(self)
+            
+            if let dumpLayerNotificationTokens = unsafe dumpLayerNotificationTokens {
+                notify_cancel(dumpLayerNotificationTokens.0)
+                notify_cancel(dumpLayerNotificationTokens.1)
+            }
         }
     }
     
@@ -2068,5 +2070,5 @@ extension UITraitCollection {
 }
 
 fileprivate struct BridgedEnvironmentKeysKey: EnvironmentKey {
-    static let defaultValue: [(any EnvironmentKey).Type] = []
+    @safe static nonisolated(unsafe) let defaultValue: [(any EnvironmentKey).Type] = []
 }

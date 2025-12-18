@@ -16,7 +16,7 @@ extension _GraphInputs {
     }
     
     fileprivate struct AllowsHitTestingAccessibilityProviderKey: GraphInput {
-        static let defaultValue: (any AllowsHitTestingAccessibilityProvider.Type) = EmptyAllowsHitTestingAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any AllowsHitTestingAccessibilityProvider.Type) = EmptyAllowsHitTestingAccessibilityProvider.self
     }
 }
 

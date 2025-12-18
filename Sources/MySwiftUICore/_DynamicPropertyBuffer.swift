@@ -7,7 +7,7 @@ public struct _DynamicPropertyBuffer {
     @inline(__always)
     init<T>(fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs) {
         contents = UnsafeHeterogeneousBuffer()
-        addFields(fields, container: container, inputs: &inputs, baseOffset: 0)
+        unsafe addFields(fields, container: container, inputs: &inputs, baseOffset: 0)
     }
     
     @inline(__always)
@@ -18,7 +18,7 @@ public struct _DynamicPropertyBuffer {
     @inline(__always)
     init<T>(fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs, baseOffset: Int) {
         contents = UnsafeHeterogeneousBuffer()
-        addFields(fields, container: container, inputs: &inputs, baseOffset: baseOffset)
+        unsafe addFields(fields, container: container, inputs: &inputs, baseOffset: baseOffset)
     }
     
     func traceMountedProperties<T>(to value: _GraphValue<T>, fields: DynamicPropertyCache.Fields) {
@@ -35,16 +35,16 @@ public struct _DynamicPropertyBuffer {
         let libraryName = Tracing.libraryName(defining: T.self)
         let counter = value.value.identifier.graph.counter(options: .unknown2)
         
-        guard case .product(let fields) = fields.layout else {
+        guard case .product(let fields) = unsafe fields.layout else {
             return
         }
         
-        for unsafe (index, element) in unsafe contents.enumerated() {
-            guard index != fields.count else {
+        for (index, element) in contents.enumerated() {
+            guard unsafe index != fields.count else {
                 return
             }
             
-            let field = fields[index]
+            let field = unsafe fields[index]
             
             unsafe Signpost.linkCreate.traceEvent(
                 type: .event,
@@ -65,21 +65,21 @@ public struct _DynamicPropertyBuffer {
     
     mutating func append<T: DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
         let index = contents.append(box, vtable: BoxVTable<T>.self)
-        var flags = unsafe contents[index].flags
+        var flags = contents[index].flags
         flags &= 0x80000000
         flags |= UInt32(fieldOffset)
-        unsafe contents[index].flags = flags
+        contents[index].flags = flags
     }
     
     func reset() {
-        for unsafe element in unsafe contents {
-            unsafe element.vtable(as: BoxVTableBase.self).reset(elt: element)
+        for element in contents {
+            element.vtable(as: BoxVTableBase.self).reset(elt: element)
         }
     }
     
     func update(container: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
         var result = false
-        for unsafe element in unsafe contents {
+        for element in contents {
             let _result = unsafe element
                 .vtable(as: BoxVTableBase.self)
                 .update(
@@ -88,9 +88,9 @@ public struct _DynamicPropertyBuffer {
                     phase: phase
                 )
             
-            let w8 = unsafe element.flags
+            let w8 = element.flags
             let w9 = (_result ? 0x80000000 : 0) | (w8 & 0x7fffffff)
-            unsafe element.flags = w9
+            element.flags = w9
             
             result = result || _result
         }
@@ -101,7 +101,7 @@ public struct _DynamicPropertyBuffer {
     mutating func destroy() {
         // contents = x19
         if Signpost.linkDestroy.isEnabled {
-            for unsafe element in unsafe contents {
+            for element in contents {
                 unsafe Signpost.linkDestroy.traceEvent(type: .event, object: nil, "Detached: [ %p ]", args: [UInt(bitPattern: element.address)])
             }
         }
@@ -110,9 +110,9 @@ public struct _DynamicPropertyBuffer {
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {
-        for unsafe element in unsafe contents {
+        for element in contents {
             if
-                let state = unsafe element
+                let state = element
                     .vtable(as: BoxVTableBase.self)
                     .getState(elt: element, type: T.self) 
             {
@@ -133,31 +133,31 @@ public struct _DynamicPropertyBuffer {
          T -> x19
          */
         
-        switch fields.layout {
+        switch unsafe fields.layout {
         case .product(let fields):
             // <+180>
-            for field in fields {
-                field.type._makeProperty(in: &self, container: container, fieldOffset: field.offset, inputs: &inputs)
+            for unsafe field in unsafe fields {
+                unsafe field.type._makeProperty(in: &self, container: container, fieldOffset: field.offset, inputs: &inputs)
             }
         case .sum(let type, let taggedFields):
             // <+60>
-            let cases = taggedFields.map { taggedField -> (tag: Int, links: _DynamicPropertyBuffer) in
-                let buffer = _DynamicPropertyBuffer(
+            let cases = unsafe taggedFields.map { taggedField -> (tag: Int, links: _DynamicPropertyBuffer) in
+                let buffer = unsafe _DynamicPropertyBuffer(
                     fields: DynamicPropertyCache.Fields(.product(taggedField.fields)),
                     container: container,
                     inputs: &inputs
                 )
-                return (tag: taggedField.tag, links: buffer)
+                return unsafe (tag: taggedField.tag, links: buffer)
             }
             
             func project<U>(type: U.Type) {
                 let box = EnumBox(cases: cases, active: nil)
                 let table = EnumVTable<U>.self
                 let index = contents.append(box, vtable: table.self)
-                var flags = unsafe contents[index].flags
+                var flags = contents[index].flags
                 flags &= 0x80000000
                 flags |= UInt32(baseOffset)
-                unsafe contents[index].flags = flags
+                contents[index].flags = flags
             }
             
             _openExistential(type, do: project)
@@ -173,9 +173,9 @@ public struct _DynamicPropertyBuffer {
     }
     
     func applyChanged(to block: (Int) -> ()) {
-        for unsafe element in unsafe contents {
-            if unsafe element.flags & 0x80000000 != 0 {
-                unsafe block(Int(element.flags & 0x7fffffff))
+        for element in contents {
+            if element.flags & 0x80000000 != 0 {
+                block(Int(element.flags & 0x7fffffff))
             }
         }
     }

@@ -15,8 +15,8 @@
     }
     
     subscript<T: ViewGraphFeature>(_ type: T.Type) -> UnsafeMutablePointer<T>? {
-        for unsafe element in unsafe contents {
-            if unsafe element.type == type {
+        for element in contents {
+            if element.type == type {
                 return unsafe element.body(as: type)
             }
         }
@@ -25,7 +25,7 @@
     
     subscript(_ index: UnsafeHeterogeneousBuffer.Index) -> ViewGraphFeatureBuffer.Element {
         _read {
-            yield unsafe ViewGraphFeatureBuffer.Element(base: contents[index])
+            yield ViewGraphFeatureBuffer.Element(base: contents[index])
         }
     }
     
@@ -59,52 +59,52 @@ extension ViewGraphFeatureBuffer {
         private var base: _UnsafeHeterogeneousBuffer_Element
         
         fileprivate init(base: _UnsafeHeterogeneousBuffer_Element) {
-            unsafe self.base = base
+            self.base = base
         }
         
         // 아래 모두 원래 없으며 추정임
         @inlinable
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewInputs(elt: base, inputs: &inputs, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewInputs(elt: base, inputs: &inputs, graph: graph)
         }
         
         @inlinable
         func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewOutputs(elt: base, outputs: &outputs, inputs: inputs, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewOutputs(elt: base, outputs: &outputs, inputs: inputs, graph: graph)
         }
         
         @inlinable
         func uninstantiate(graph: ViewGraph) {
-            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).uninstantiate(elt: base, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).uninstantiate(elt: base, graph: graph)
         }
         
         @inlinable
         func isHiddenForReuseDidChange(graph: ViewGraph) {
-            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).isHiddenForReuseDidChange(elt: base, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).isHiddenForReuseDidChange(elt: base, graph: graph)
         }
         
         @inlinable
         func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-            return unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).allowsAsyncUpdate(elt: base, graph: graph)
+            return base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).allowsAsyncUpdate(elt: base, graph: graph)
         }
         
         @inlinable
         func needsUpdate(graph: ViewGraph) -> Bool {
-            return unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).needsUpdate(elt: base, graph: graph)
+            return base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).needsUpdate(elt: base, graph: graph)
         }
         
         @inlinable
         func update(graph: ViewGraph) {
-            unsafe base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).update(elt: base, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).update(elt: base, graph: graph)
         }
         
         @inlinable
         var flags: UInt32 {
             get {
-                return unsafe base.flags
+                return base.flags
             }
             nonmutating set {
-                unsafe base.flags = newValue
+                base.flags = newValue
             }
         }
     }

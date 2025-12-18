@@ -1,4 +1,4 @@
-public import AttributeGraph
+package import AttributeGraph
 
 @_spi(Internal) open class DefaultLayoutViewResponder: MultiViewResponder {
     let inputs: _ViewInputs

@@ -486,7 +486,7 @@ extension DisplayList.ViewUpdater {
                             // <+9492>
                             // x23
                             let layer = viewInfo.layer
-                            let cache = unsafe Color.ResolvedHDR.cache
+                            let cache = Color.ResolvedHDR.cache
                             let cgColor = cache[colorView.color]
                             layer.backgroundColor = cgColor
                             layer.allowsEdgeAntialiasing = isAntialiased

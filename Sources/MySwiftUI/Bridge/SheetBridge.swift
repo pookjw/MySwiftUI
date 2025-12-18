@@ -101,7 +101,7 @@ final class SheetBridge<T>: NSObject {
         // <+2824>
         if self.seed.matches(value.seed) {
             // <+2960>
-            if let uiViewController = host.uiViewController {
+            if host.uiViewController != nil {
                 // <+4384>
                 return
             } else {

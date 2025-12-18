@@ -3,14 +3,14 @@ private import AttributeGraph
 private import os.log
 
 struct DynamicPropertyCache {
-    fileprivate static nonisolated(unsafe) let cache = MutableBox<[ObjectIdentifier: DynamicPropertyCache.Fields]>([:])
+    @safe fileprivate static nonisolated(unsafe) let cache = unsafe MutableBox<[ObjectIdentifier: DynamicPropertyCache.Fields]>([:])
     
     static func fields(of type: any Any.Type) -> DynamicPropertyCache.Fields {
         // x29 = sp + 0x80
         // type -> x27
         if let cached = unsafe DynamicPropertyCache.cache.value[ObjectIdentifier(type)] {
             // <+108>
-            return cached
+            return unsafe cached
         } else {
             // <+172>
             let metadataKind = MetadataKind(TypeID(type))
@@ -22,10 +22,10 @@ struct DynamicPropertyCache {
             switch metadataKind {
             case .enum, .optional:
                 // <+364>
-                var taggedFields: [DynamicPropertyCache.TaggedFields] = []
-                unsafe TypeID(type).forEachField(options: [.unknown1, .unknown2]) { name, offset, type in
+                var taggedFields: [DynamicPropertyCache.TaggedFields] = unsafe []
+                _ = unsafe TypeID(type).forEachField(options: [.unknown1, .unknown2]) { name, offset, type in
                     // $s7SwiftUI20DynamicPropertyCacheV6fields2ofAC6FieldsVypXp_tFZSbSPys4Int8VG_SiypXptXEfU0_TA
-                    var fields: [DynamicPropertyCache.Field] = []
+                    var fields: [DynamicPropertyCache.Field] = unsafe []
                     let tupleType = TupleType(type)
                     for index in tupleType.indices {
                         guard let casted = tupleType.type(at: index) as? any DynamicProperty.Type else {
@@ -34,25 +34,25 @@ struct DynamicPropertyCache {
                         
                         let offset = tupleType.offset(at: index, as: casted)
                         let field = unsafe DynamicPropertyCache.Field(type: casted, offset: offset, name: name)
-                        fields.append(field)
+                        unsafe fields.append(field)
                     }
                     
-                    if !fields.isEmpty {
-                        let value = DynamicPropertyCache.TaggedFields(tag: offset, fields: fields)
-                        taggedFields.append(value)
+                    if unsafe !fields.isEmpty {
+                        let value = unsafe DynamicPropertyCache.TaggedFields(tag: offset, fields: fields)
+                        unsafe taggedFields.append(value)
                     }
                     
                     return true
                 }
                 
-                result = DynamicPropertyCache.Fields(.sum(type, taggedFields))
+                unsafe result = unsafe DynamicPropertyCache.Fields(.sum(type, taggedFields))
                 // <+496>
                 checkIssue = true
             case .tuple, .struct:
                 // <+224>
                 // x22
-                var fields: [DynamicPropertyCache.Field] = []
-                unsafe TypeID(type).forEachField(options: .unknown1) { name, offset, type in
+                var fields: [DynamicPropertyCache.Field] = unsafe []
+                _ = unsafe TypeID(type).forEachField(options: .unknown1) { name, offset, type in
                     // $s7SwiftUI20DynamicPropertyCacheV6fields2ofAC6FieldsVypXp_tFZSbSPys4Int8VG_SiypXptXEfU_TA
                     guard let casted = type as? any DynamicProperty.Type else {
                         return true
@@ -62,58 +62,58 @@ struct DynamicPropertyCache {
                     return true
                 }
                 
-                result = DynamicPropertyCache.Fields(.product(fields))
+                unsafe result = unsafe DynamicPropertyCache.Fields(.product(fields))
                 
-                for field in fields {
+                for unsafe field in unsafe fields {
                     // <+304>
-                    result.behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
+                    unsafe result.behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
                 }
                 
                 // <+488>
                 checkIssue = true
             default:
                 // <+468>
-                result = DynamicPropertyCache.Fields(.product([]))
+                unsafe result = unsafe DynamicPropertyCache.Fields(.product([]))
                 // <+684>
                 checkIssue = false
             }
             
             if checkIssue {
                 // <+496>
-                if result.behaviors.contains([.allowsAsync, .requiresMainThread]) {
+                if unsafe result.behaviors.contains([.allowsAsync, .requiresMainThread]) {
                     unsafe os_log(.fault, log: Log.runtimeIssuesLog, "%s is marked async, but contains properties that require the main thread.", _typeName(type, qualified: true))
                 }
             }
             
             // <+684>
             unsafe DynamicPropertyCache.cache.value[ObjectIdentifier(type)] = result
-            return result
+            return unsafe result
         }
     }
 }
 
 extension DynamicPropertyCache {
-    struct Fields {
+    @unsafe struct Fields {
         private(set) var layout: DynamicPropertyCache.Fields.Layout
         var behaviors: DynamicPropertyBehaviors
         
         init(_ layout: DynamicPropertyCache.Fields.Layout) {
             var behaviors: DynamicPropertyBehaviors = []
-            switch layout {
+            switch unsafe layout {
             case .product(let array):
-                for field in array {
-                    behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
+                for unsafe field in unsafe array {
+                    unsafe behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
                 }
             case .sum(_, let taggedFields):
-                for taggedField in taggedFields {
-                    for field in taggedField.fields {
-                        behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
+                for unsafe taggedField in unsafe taggedFields {
+                    for unsafe field in unsafe taggedField.fields {
+                        unsafe behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
                     }
                 }
             }
             
-            self.layout = layout
-            self.behaviors = behaviors
+            unsafe self.layout = unsafe layout
+            unsafe self.behaviors = behaviors
         }
         
         func name(at offset: Int) -> String? {
@@ -125,10 +125,10 @@ extension DynamicPropertyCache {
         }
         
         func _name(at offset: Int) -> UnsafePointer<Int8>? {
-            switch layout {
+            switch unsafe layout {
             case .product(let fields):
-                for field in fields {
-                    if field.offset == offset {
+                for unsafe field in unsafe fields {
+                    if unsafe field.offset == offset {
                         return unsafe field.name
                     }
                 }
@@ -139,7 +139,7 @@ extension DynamicPropertyCache {
         }
     }
     
-    struct Field {
+    @unsafe struct Field {
         private(set) var type: DynamicProperty.Type
         private(set) var offset: Int
         fileprivate private(set) var name: UnsafePointer<Int8>?
@@ -147,30 +147,30 @@ extension DynamicPropertyCache {
         // 원래 없음
         @inline(__always)
         fileprivate init(type: any DynamicProperty.Type, offset: Int, name: UnsafePointer<Int8>?) {
-            self.type = type
-            self.offset = offset
+            unsafe self.type = type
+            unsafe self.offset = offset
             unsafe self.name = unsafe name
         }
     }
 }
 
 extension DynamicPropertyCache.Fields {
-    enum Layout {
+    @unsafe enum Layout {
         case product([DynamicPropertyCache.Field])
         case sum(any Any.Type, [DynamicPropertyCache.TaggedFields])
     }
 }
 
 extension DynamicPropertyCache {
-    struct TaggedFields {
+    @unsafe struct TaggedFields {
         private(set) var tag: Int
         private(set) var fields: [DynamicPropertyCache.Field]
         
         // 원래 없음
         @inline(__always)
         fileprivate init(tag: Int, fields: [DynamicPropertyCache.Field]) {
-            self.tag = tag
-            self.fields = fields
+            unsafe self.tag = tag
+            unsafe self.fields = fields
         }
     }
 }
@@ -180,7 +180,7 @@ struct DSLDynamicPropertyCache {
 }
 
 extension DSLDynamicPropertyCache {
-    struct Fields {
+    @safe struct Fields {
         private let base: DynamicPropertyCache.Fields
     }
 }

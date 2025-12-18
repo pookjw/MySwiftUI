@@ -13,7 +13,7 @@ extension Color.ResolvedHDR {
         if var s0 = resolved.headroom {
             var s1: Float = 1
             let s10 = (s0 <= s1) ? s1 : s0
-            let colorspace = unsafe Color.Resolved.srgbExtended
+            let colorspace = Color.Resolved.srgbExtended
             
             s0 = -s12
             s0 = (s12 > 0) ? s12 : s0

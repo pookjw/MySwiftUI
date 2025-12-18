@@ -16,7 +16,7 @@ extension _GraphInputs {
     }
     
     fileprivate struct GestureAccessibilityProviderKey: GraphInput {
-        static let defaultValue: (any GestureAccessibilityProvider.Type) = EmptyGestureAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any GestureAccessibilityProvider.Type) = EmptyGestureAccessibilityProvider.self
     }
 }
 

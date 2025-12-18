@@ -1,4 +1,3 @@
-
 internal import _MySwiftUIShims
 public import QuartzCore
 
@@ -15,7 +14,7 @@ public import QuartzCore
         fatalError() // abstract
     }
     
-    open class func makeView(kind: ViewKind, item: Any) -> AnyObject {
+    open class func makeView(kind: PlatformViewDefinition.ViewKind, item: Any) -> AnyObject {
         fatalError() // abstract
     }
     
@@ -23,7 +22,7 @@ public import QuartzCore
         fatalError() //abstract
     }
     
-    open class func makeView(kind: ViewKind) -> AnyObject {
+    open class func makeView(kind: PlatformViewDefinition.ViewKind) -> AnyObject {
         fatalError() //abstract
     }
     
@@ -79,7 +78,7 @@ extension PlatformViewDefinition {
 }
 
 extension PlatformViewDefinition {
-    public enum ViewKind: Hashable {
+    public enum ViewKind: Sendable, Hashable {
         case inherited
         case color
         case image

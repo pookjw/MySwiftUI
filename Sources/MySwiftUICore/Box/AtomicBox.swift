@@ -7,7 +7,7 @@ package struct AtomicBox<T> {
     @inline(__always)
     package var wrappedValue: T {
         get {
-            unsafe buffer.withUnsafeMutablePointers { pointer, lock in
+            unsafe buffer.withUnsafeMutablePointers { lock, pointer in
                 let value: T
                 unsafe os_unfair_lock_lock(lock)
                 value = unsafe pointer.pointee
@@ -16,14 +16,14 @@ package struct AtomicBox<T> {
             }
         }
         nonmutating set {
-            unsafe buffer.withUnsafeMutablePointers { pointer, lock in
+            unsafe buffer.withUnsafeMutablePointers { lock, pointer in
                 unsafe os_unfair_lock_lock(lock)
                 unsafe pointer.pointee = newValue
                 unsafe os_unfair_lock_unlock(lock)
             }
         }
         nonmutating _modify {
-            let (pointer, lock) = unsafe buffer.withUnsafeMutablePointers { unsafe ($0, $1) }
+            let (lock, pointer) = unsafe buffer.withUnsafeMutablePointers { unsafe ($0, $1) }
             unsafe os_unfair_lock_lock(lock)
             defer {
                 unsafe os_unfair_lock_unlock(lock)
@@ -42,7 +42,7 @@ package struct AtomicBox<T> {
     }
     
     package func access<S>(_ handler: (_ value: inout T) throws -> S) rethrows -> S {
-        try unsafe buffer.withUnsafeMutablePointers { pointer, lock in
+        try unsafe buffer.withUnsafeMutablePointers { lock, pointer in
             let result: Result<S, any Error>
             unsafe os_unfair_lock_lock(lock)
             do {
@@ -58,17 +58,18 @@ package struct AtomicBox<T> {
 }
 
 extension AtomicBox {
-    fileprivate class AtomicBuffer<S>: ManagedBuffer<S, os_unfair_lock_s> {
+    fileprivate class AtomicBuffer<S>: ManagedBuffer<os_unfair_lock_s, S> {
         @inlinable
-        static func allocate<U>(value: U) -> AtomicBuffer<U> {
-            let buffer = ManagedBuffer<U, os_unfair_lock_s>.create(minimumCapacity: 1) { buffer in
-                unsafe buffer.withUnsafeMutablePointerToElements { pointer in
-                    unsafe pointer.initialize(to: os_unfair_lock_s())
-                }
-                return value
+        static func allocate(value: S) -> AtomicBuffer<S> {
+            let buffer = AtomicBuffer<S>.create(minimumCapacity: 1) { buffer in
+                return os_unfair_lock_s()
             }
             
-            return unsafe unsafeBitCast(buffer, to: AtomicBuffer<U>.self)
+            unsafe buffer.withUnsafeMutablePointerToElements { pointer in
+                unsafe pointer.initialize(to: value)
+            }
+            
+            return unsafe unsafeDowncast(buffer, to: AtomicBuffer<S>.self)
         }
     }
 }

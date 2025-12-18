@@ -154,7 +154,7 @@ extension Layout {
         // sp + 0x60
         let list = list
         // sp + 0x94
-        var hasScrollable = copy_1.preferences.contains(ScrollablePreferenceKey.self)
+        let hasScrollable = copy_1.preferences.contains(ScrollablePreferenceKey.self)
         // w20
         let hasScrollContent = copy_1.preferences.contains(ScrollTargetRole.ContentKey.self)
         // sp + 0x2c0
@@ -258,7 +258,7 @@ extension Layout {
         
         // <+1448>
         // sp + 0x110
-        let copy_4 = copy_1
+        _ = copy_1
         
         if scrollTargetRole.attribute != nil {
             // <+1488>

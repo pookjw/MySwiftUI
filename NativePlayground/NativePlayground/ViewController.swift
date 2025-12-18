@@ -1063,7 +1063,7 @@ class ViewController: UIViewController {
         let model = ObsModel()
 //        let rootView = MyObsView(model: model)
         
-        let rootView = MyLayout() {
+        let rootView = Group {
             if model.flag {
                 Color.white
             } else {
