@@ -437,7 +437,7 @@ open class _UIHostingView<Content: View>: UIView {
             return super.transform3D
         }
         set {
-            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+            assert(mySwiftUI_disableUnimplementedAssertion)
             super.transform3D = newValue
         }
     }
@@ -458,23 +458,23 @@ open class _UIHostingView<Content: View>: UIView {
             return super.backgroundColor
         }
         set {
-            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+            assert(mySwiftUI_disableUnimplementedAssertion)
             super.backgroundColor = newValue
         }
     }
     
     open override var _axesForDerivingIntrinsicContentSizeFromLayoutSize: UILayoutAxes {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super._axesForDerivingIntrinsicContentSizeFromLayoutSize
     }
     
     open override var _layoutHeightDependsOnWidth: Bool {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super._layoutHeightDependsOnWidth
     }
     
     open override var intrinsicContentSize: CGSize {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super.intrinsicContentSize
     }
     
@@ -483,7 +483,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override var _childContainers: [any _UIGestureRecognizerContainer] {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super._childContainers
     }
     
@@ -543,12 +543,12 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override func _baselineOffsets(at size: CGSize) -> _UIBaselineOffsetPair {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super._baselineOffsets(at: size)
     }
     
     open override func _didChange(toFirstResponder responder: UIResponder?) {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         super._didChange(toFirstResponder: responder)
     }
     
@@ -557,27 +557,27 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override func _hitTest(with context: _UIHitTestContext) -> (any UIResponder & _UIGestureRecognizerContainer)? {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super._hitTest(with: context)
     }
     
     open override var _intelligenceBaseClass: AnyClass {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super._intelligenceBaseClass
     }
     
     open override func _intelligenceCollectContent(in rect: CGRect, collector: UIIntelligenceElementCollector) {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         super._intelligenceCollectContent(in: rect, collector: collector)
     }
     
     open override func _intelligenceCollectRemoteContent(in rect: CGRect, remoteContextWrapper: UIIntelligenceCollectionRemoteContextWrapper) {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         super._intelligenceCollectRemoteContent(in: rect, remoteContextWrapper: remoteContextWrapper)
     }
     
     open override func _safeAreaCornerInsetsDidChange() {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         super._safeAreaCornerInsetsDidChange()
     }
     
@@ -599,34 +599,34 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override class func accessibilityElementCount() -> Int {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super.accessibilityElementCount()
     }
     
     open override var accessibilityElements: [Any]? {
         get {
-            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+            assert(mySwiftUI_disableUnimplementedAssertion)
             return super.automationElements
         }
         set {
-            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+            assert(mySwiftUI_disableUnimplementedAssertion)
             super.automationElements = newValue
         }
     }
     
     open override var automationElements: [Any]? {
         get {
-            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+            assert(mySwiftUI_disableUnimplementedAssertion)
             return super.automationElements
         }
         set {
-            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+            assert(mySwiftUI_disableUnimplementedAssertion)
             super.automationElements = newValue
         }
     }
     
     open override var canBecomeFirstResponder: Bool {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super.canBecomeFirstResponder
     }
     
@@ -635,7 +635,7 @@ open class _UIHostingView<Content: View>: UIView {
             return super.clipsToBounds
         }
         set {
-            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+            assert(mySwiftUI_disableUnimplementedAssertion)
             super.clipsToBounds = newValue
         }
     }
@@ -672,7 +672,7 @@ open class _UIHostingView<Content: View>: UIView {
         in context: UIFocusUpdateContext,
         with coordinator: UIFocusAnimationCoordinator
     ) {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         super.didUpdateFocus(in: context, with: coordinator)
     }
 
@@ -701,7 +701,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super.hitTest(point, with: event)
     }
 
@@ -735,12 +735,12 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super.sizeThatFits(size)
     }
 
     open override func tintColorDidChange() {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         super.tintColorDidChange()
     }
 
@@ -750,17 +750,17 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func _accessibilityAutomationHitTestReverseOrder() -> Bool {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super._accessibilityAutomationHitTestReverseOrder()
     }
 
     open override func _accessibilityIsSwiftUIHostingView() -> Bool {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super._accessibilityIsSwiftUIHostingView()
     }
 
     open override func accessibilityShouldEnumerateContainerElementsArrayDirectly() -> Bool {
-        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
+        assert(mySwiftUI_disableUnimplementedAssertion)
         return super.accessibilityShouldEnumerateContainerElementsArrayDirectly()
     }
 

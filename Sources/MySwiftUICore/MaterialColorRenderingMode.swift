@@ -8,7 +8,7 @@ extension EnvironmentValues {
         }
     }
     
-    #warning("TODO: Entry Macro")
+    // TODO: Entry Macro
     fileprivate struct __Key_materialColorRenderingMode: EnvironmentKey {
         static var defaultValue: MaterialColorRenderingMode {
             return .automatic

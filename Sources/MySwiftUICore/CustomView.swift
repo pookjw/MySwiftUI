@@ -20,7 +20,7 @@ extension View {
         let fields_1 = fields
         // view -> sp + 0xc0
         // sp + 0x1e0
-        let inputs_3 = inputs_1
+        _ = inputs_1
         
         // <+184>
         let body = makeBody(view: view, inputs: &inputs_2.base, fields: fields_1)

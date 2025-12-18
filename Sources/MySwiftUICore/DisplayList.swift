@@ -81,7 +81,7 @@ extension DisplayList {
                 case .platformView(let factory): // 0x8
                     // <+948>
                     return factory.features
-                case .text(let contentView, _): // 0xa
+                case .text(_, _): // 0xa
                     // <+96>
                     fatalError("TODO")
                 case .flattened(let displayList, _, _): // 0xb
@@ -207,7 +207,7 @@ extension DisplayList {
                     // <+4072>
                     fatalError("TODO")
                 }
-            case .effect(let effect, let displayList):
+            case .effect(_, _):
                 // <+216>
                 fatalError("TODO")
             default:
@@ -273,13 +273,13 @@ extension DisplayList {
             // d10
             let zPosition = state.zPosition
             // w22
-            let renderingTechnique = state.renderingTechnique
+            _ = state.renderingTechnique
             // x24, x25
-            let hoverEffectState = state.remoteEffects.hoverEffectState
+            _ = state.remoteEffects.hoverEffectState
             // w19
-            let hitTestsAsOpaque = state.hitTestsAsOpaque
+            _ = state.hitTestsAsOpaque
             // d8, d9
-            let size = frame.size
+            _ = frame.size
             
             // <+96>
             // true = <+148>, false = <+264>
@@ -317,7 +317,7 @@ extension DisplayList {
             
             if flag {
                 // <+148>
-                if case .effect(let effect, _) = value {
+                if case .effect(_, _) = value {
                     // <+156>
                     fatalError("TODO")
                 } else {
@@ -337,13 +337,13 @@ extension DisplayList {
                 case .backdrop(_):
                     // <+728>
                     return true
-                case .color(let colorView):
+                case .color(_):
                     // <+728>
                     return true
-                case .chameleonColor(let chameleonColor):
+                case .chameleonColor(_):
                     // <+728>
                     return true
-                case .shape(let path, let anyResolvedPaint, let fillStyle):
+                case .shape(_, _, _):
                     // <+300>
                     fatalError("TODO")
                 default:

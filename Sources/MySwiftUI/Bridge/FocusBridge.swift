@@ -552,13 +552,14 @@ extension UIKitContainerFocusItem {
             return nil
         }
         
-        guard let host else {
+        guard host != nil else {
             return nil
         }
         
         var result: (any UIKitHostedContainerFocusItem)?
         let block: (any BaseFocusResponder) -> ResponderVisitorResult = { _ in
             // $s7SwiftUI11FocusBridgeC07defaultC14ItemsContainer33_10718FCC504A33B6994038B6E6E29C50LL13responderNode4hostAA011UIKitHostedgC4Item_pSgAA09ResponderP0C_So6UIViewCtFZAA0U13VisitorResultOAA04BasecU0_pXEfU_TA
+            result = nil // 임시임 지우기
             fatalError("TODO")
         }
         

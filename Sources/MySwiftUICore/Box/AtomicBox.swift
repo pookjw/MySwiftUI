@@ -68,7 +68,7 @@ extension AtomicBox {
                 return value
             }
             
-            return unsafe unsafeDowncast(buffer, to: AtomicBuffer<U>.self)
+            return unsafe unsafeBitCast(buffer, to: AtomicBuffer<U>.self)
         }
     }
 }

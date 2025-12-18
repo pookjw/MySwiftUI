@@ -209,10 +209,10 @@ extension CGSize {
     func inset(by insets: EdgeInsets) -> CGSize {
         var d0 = height
         var d1 = width
-        var d2 = insets.trailing
+        let d2 = insets.trailing
         var d3 = insets.bottom
         var d4 = insets.leading
-        var d5 = insets.top
+        let d5 = insets.top
         
         d1 += d3
         d1 -= d4

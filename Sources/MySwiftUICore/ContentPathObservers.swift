@@ -104,7 +104,7 @@ struct ContentResponderHelper<T: ContentResponder> {
          */
         // x21, #0x30 -> T.size
         // x27 / sp + 0x80
-        let copy_1 = data
+        _ = data
         /*
          size.value -> x19
          transform.value -> sp + 0x2e0
@@ -122,7 +122,7 @@ struct ContentResponderHelper<T: ContentResponder> {
             // <+400>
             transform_2 = self.transform
             // sp + 0xb0
-            let copy_2 = transform_1
+            _ = transform_1
             self.transform = transform.value
             self.transform.pendingTranslation = CGSize(
                 width: position.value.x - transform.value.pendingTranslation.width - transform.value.pendingTranslation.width,
