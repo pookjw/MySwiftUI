@@ -68,8 +68,8 @@ extension Attribute {
 extension TypeID {
     @inline(__always)
     func projectEnum(at pointer: UnsafeRawPointer, tag: Int, _ body: (UnsafeRawPointer) -> Void) {
-        projectEnumData(UnsafeMutableRawPointer(mutating: pointer))
-        body(pointer)
-        injectEnumTag(UInt32(tag), UnsafeMutableRawPointer(mutating: pointer))
+        unsafe projectEnumData(UnsafeMutableRawPointer(mutating: pointer))
+        unsafe body(pointer)
+        unsafe injectEnumTag(UInt32(tag), UnsafeMutableRawPointer(mutating: pointer))
     }
 }

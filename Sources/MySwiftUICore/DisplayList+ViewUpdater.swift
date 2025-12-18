@@ -219,7 +219,7 @@ extension DisplayList {
                 for item in displayList.items {
                     // w22, w26, d9
                     // inlined
-                    var oldIndex: DisplayList.Index = self.viewCache.index.enter(identity: item.identity)
+                    let oldIndex: DisplayList.Index = self.viewCache.index.enter(identity: item.identity)
                     
                     var item = item
                     let time = unsafe viewCache.prepare(item: &item, platform: rootPlatform, parentState: &state)
@@ -290,13 +290,13 @@ extension DisplayList {
              parentState = x23
              */
             // sp + 0x5d0
-            var copy_1 = item
+            _ = item
             // sp + 0x580
             var copy_2 = item
             // sp + 0x628
-            var copy_3 = parentState.pointee
+            _ = unsafe parentState.pointee
             // sp + 0x430
-            var copy_4 = parentState.pointee
+            var copy_4 = unsafe parentState.pointee
             
             // <+164>
             // self = sp
@@ -305,13 +305,13 @@ extension DisplayList {
             
             // <+208>
             // w24
-            let requirements = DisplayList.ViewUpdater.Model.merge(item: &copy_2, index: index, into: &copy_4)
+            let requirements = unsafe DisplayList.ViewUpdater.Model.merge(item: &copy_2, index: index, into: &copy_4)
             
             // <+248>
             if !requirements.contains(.unknown4) {
                 // <+256>
                 // sp + 0x2c0
-                var copy_3 = copy_2
+                let copy_3 = copy_2
                 // sp + 0x270 / w8
                 let features = copy_3.features
                 
@@ -340,10 +340,10 @@ extension DisplayList {
                     // sp + 0x270
                     let copy_5 = copy_2
                     // sp + 0x2c0
-                    let copy_6 = copy_5
+                    _ = copy_5
                     // sp + 0x220
                     let copy_7 = copy_2
-                    updateItemView(container: &container, from: copy_7, localState: &copy_4)
+                    unsafe updateItemView(container: &container, from: copy_7, localState: &copy_4)
                     return
                 }
             } else {   
@@ -367,7 +367,7 @@ extension DisplayList {
              localState = x25
              */
             // sp + 0x310
-            let copy_1 = item
+            _ = item
             // sp + 0x280
             let copy_2 = item
             // sp + 0x1b0
@@ -377,7 +377,7 @@ extension DisplayList {
             // localState (pointer) = sp + 0x40
             
             // sp + 0x2d0
-            let result = viewCache.update(item: copy_2, platform: rootPlatform, state: &localState, tag: .item, in: container.id)
+            let result = unsafe viewCache.update(item: copy_2, platform: rootPlatform, state: &localState, tag: .item, in: container.id)
             
             // <+188>
             self.isValid = (self.isValid && result.isValid)
@@ -533,8 +533,8 @@ extension DisplayList.ViewUpdater {
         init(view: AnyObject, kind: PlatformViewDefinition.ViewKind, state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>, seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>) {
             self.view = view
             self.kind = kind
-            self.state = state
-            self.seeds = seeds
+            unsafe self.state = unsafe state
+            unsafe self.seeds = unsafe seeds
         }
     }
     

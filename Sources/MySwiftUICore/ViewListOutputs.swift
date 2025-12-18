@@ -46,7 +46,7 @@ extension _ViewListOutputs {
         let copy_1 = self
         
         switch copy_1.views {
-        case .staticList(let elements):
+        case .staticList(_):
             // <+184>
             fatalError("TODO")
         case .dynamicList(let viewList, let listModifier):
@@ -56,7 +56,7 @@ extension _ViewListOutputs {
              listModifier - > x19
              */
             
-            guard let listModifier else {
+            guard listModifier != nil else {
                 return viewList
             }
             
@@ -86,7 +86,7 @@ extension _ViewListOutputs {
         let elements = UnaryElements(body: viewGenerator, baseInputs: inputs.base)
         
         // w25
-        let empty = AnyAttribute.empty
+        _ = AnyAttribute.empty
         // x23/w22
         let scope: WeakAttribute<_DisplayList_StableIdentityScope>?
         if options.contains(.needsStableDisplayListIDs) {
@@ -138,7 +138,7 @@ extension _ViewListOutputs {
         
         // <+364>
         // sp + 0x18
-        let copy_2 = elements
+        _ = elements
         // x24
         let implicitID = inputs.implicitID
         // w27
@@ -549,7 +549,7 @@ struct _ViewList_TemporarySublistTransform: ~Copyable {
     private var storage: _ViewList_TemporarySublistTransform.Storage
     
     init() {
-        storage = .node(nil)
+        storage = unsafe .node(nil)
     }
     
     func bindID(_ other: _ViewList_ID) {

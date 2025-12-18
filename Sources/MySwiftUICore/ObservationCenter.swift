@@ -26,12 +26,12 @@ private import _DarwinFoundation3.pthread
          T = x25
          */
         var accessList: ObservationTracking._AccessList?
-        let result = try withUnsafeMutablePointer(to: &accessList) { pointer in
+        let result = try unsafe withUnsafeMutablePointer(to: &accessList) { pointer in
             let key: pthread_key_t = 106 // tls_key::observation_transaction
-            let old = pthread_getspecific(key)
-            pthread_setspecific(key, pointer)
+            let old = unsafe pthread_getspecific(key)
+            unsafe pthread_setspecific(key, pointer)
             defer {
-                pthread_setspecific(key, old)
+                unsafe pthread_setspecific(key, old)
             }
             return try block()
         }
@@ -46,12 +46,12 @@ private import _DarwinFoundation3.pthread
     
     func _withObservation<T>(do block: () throws -> T) rethrows -> (value: T, accessList: ObservationTracking._AccessList?) {
         var accessList: ObservationTracking._AccessList?
-        let result = try withUnsafeMutablePointer(to: &accessList) { pointer in
+        let result = try unsafe withUnsafeMutablePointer(to: &accessList) { pointer in
             let key: pthread_key_t = 106 // tls_key::observation_transaction
-            let old = pthread_getspecific(key)
-            pthread_setspecific(key, pointer)
+            let old = unsafe pthread_getspecific(key)
+            unsafe pthread_setspecific(key, pointer)
             defer {
-                pthread_setspecific(key, old)
+                unsafe pthread_setspecific(key, old)
             }
             return try block()
         }
@@ -65,12 +65,12 @@ private import _DarwinFoundation3.pthread
     
     func _withObservation<T, U>(attribute: Attribute<U>, do block: () throws -> T) rethrows -> T {
         var accessList: ObservationTracking._AccessList?
-        let result = try withUnsafeMutablePointer(to: &accessList) { pointer in
+        let result = try unsafe withUnsafeMutablePointer(to: &accessList) { pointer in
             let key: pthread_key_t = 106 // tls_key::observation_transaction
-            let old = pthread_getspecific(key)
-            pthread_setspecific(key, pointer)
+            let old = unsafe pthread_getspecific(key)
+            unsafe pthread_setspecific(key, pointer)
             defer {
-                pthread_setspecific(key, old)
+                unsafe pthread_setspecific(key, old)
             }
             return try block()
         }
@@ -109,7 +109,7 @@ private import _DarwinFoundation3.pthread
         // x21
         var accessList = accessList
         
-        if var (mutation, existingAccessList) = invalidations.removeValue(forKey: weakAttribute.base) {
+        if var (_, existingAccessList) = invalidations.removeValue(forKey: weakAttribute.base) {
             // <+632>
             accessList.merge(existingAccessList)
         }
@@ -259,14 +259,14 @@ fileprivate struct ObservationEntry {
 
 extension ObservationTracking._AccessList {
     fileprivate mutating func merge(_ other: ObservationTracking._AccessList) {
-        withUnsafeMutablePointer(to: &self) { selfPointer in
-            withUnsafePointer(to: other) { otherPointer in
-                let selfEntries = UnsafeMutableRawPointer(selfPointer)
+        unsafe withUnsafeMutablePointer(to: &self) { selfPointer in
+            unsafe withUnsafePointer(to: other) { otherPointer in
+                let selfEntries = unsafe UnsafeMutableRawPointer(selfPointer)
                     .assumingMemoryBound(to: [ObjectIdentifier: ObservationEntry].self)
-                let otherEntries = UnsafeRawPointer(otherPointer)
+                let otherEntries = unsafe UnsafeRawPointer(otherPointer)
                     .assumingMemoryBound(to: [ObjectIdentifier: ObservationEntry].self)
                 
-                selfEntries.pointee.merge(otherEntries.pointee) { $0.union($1) }
+                unsafe selfEntries.pointee.merge(otherEntries.pointee) { $0.union($1) }
             }
         }
     }

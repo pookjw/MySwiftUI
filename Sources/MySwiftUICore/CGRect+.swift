@@ -118,7 +118,7 @@ extension CGRect {
             if !(lower <= upper) {
                 (lower, upper) = (0, 0)
             }
-            return ClosedRange(uncheckedBounds: (lower: lower, upper: upper))
+            return unsafe ClosedRange(uncheckedBounds: (lower: lower, upper: upper))
         }
     }
     

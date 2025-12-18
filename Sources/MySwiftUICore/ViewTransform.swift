@@ -385,8 +385,8 @@ extension ViewTransform {
              transform = q2, q3, d8, d9
              inverse = w19
              */
-            let q0: (Double, Double) = (1, 0)
-            let q1: (Double, Double) = (0, 1)
+            let _: (Double, Double) = (1, 0)
+            let _: (Double, Double) = (0, 1)
             
             if (transform.a != 1) || (transform.b != 0) || (transform.c != 0) || (transform.d != 1) {
                 // <+84>
@@ -422,8 +422,8 @@ extension ViewTransform.UnsafeBuffer {
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-            let pointer = elt.body(as: Element.self)
-            pointer.deinitialize(count: 1)
+            let pointer = unsafe elt.body(as: Element.self)
+            unsafe pointer.deinitialize(count: 1)
         }
         
         class func forEach(elt: _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {

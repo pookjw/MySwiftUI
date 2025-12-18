@@ -3,7 +3,7 @@
 private import Foundation
 
 extension Animation {
-    @safe static nonisolated(unsafe) let velocityTracking = Animation(VelocityTrackingAnimation())
+    @safe static let velocityTracking = Animation(VelocityTrackingAnimation())
 }
 
 fileprivate struct VelocityTrackingAnimation: CustomAnimation {

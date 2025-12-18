@@ -7,14 +7,14 @@ private import _DarwinFoundation2._string
     
     init() {
         unsafe self.buf = nil
-        unsafe self.available = 0
-        unsafe self._count = 0
+        self.available = 0
+        self._count = 0
     }
     
     func destroy() {
         // x19
         let buf = unsafe buf
-        let count = unsafe _count
+        let count = _count
         
         if count != 0 {
             // <+36>
@@ -70,14 +70,14 @@ private import _DarwinFoundation2._string
         let element = unsafe _UnsafeHeterogeneousBuffer_Element(item: item)
         unsafe element.body(as: T.self).initialize(to: value)
         
-        let count = unsafe _count
+        let count = _count
         let index = unsafe UnsafeHeterogeneousBuffer.Index(index: count, offset: Int32(pointer - buf!))
-        unsafe _count = (count + 1)
+        _count = (count + 1)
         return index
     }
     
     var isEmpty: Bool {
-        return unsafe _count == 0
+        return _count == 0
     }
     
     var startIndex: UnsafeHeterogeneousBuffer.Index {
@@ -85,12 +85,12 @@ private import _DarwinFoundation2._string
     }
     
     var endIndex: UnsafeHeterogeneousBuffer.Index {
-        return unsafe Index(index: _count, offset: 0)
+        return Index(index: _count, offset: 0)
     }
     
     func index(after i: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
         let buf = unsafe buf!
-        let count = unsafe _count
+        let count = _count
         let nextIndex = (i.index &+ 1)
         
         guard count != nextIndex else {
@@ -112,7 +112,7 @@ private import _DarwinFoundation2._string
     
     func formIndex(after i: inout UnsafeHeterogeneousBuffer.Index) {
         let buf = unsafe buf!
-        let count = unsafe _count
+        let count = _count
         let index = i.index
         let offset = i.offset
         let nextIndex = index &+ 1
@@ -143,7 +143,7 @@ private import _DarwinFoundation2._string
     }
     
     var count: Int {
-        return unsafe Int(_count)
+        return Int(_count)
     }
     
     private mutating func allocate(bytes: Int) -> UnsafeMutableRawPointer {
@@ -151,8 +151,8 @@ private import _DarwinFoundation2._string
          bytes = x19
          self = x20
          */
-        let w8 = unsafe available
-        var w9 = unsafe _count
+        let w8 = available
+        var w9 = _count
         
         var x21: Int
         if w9 == 0 {
@@ -186,11 +186,11 @@ private import _DarwinFoundation2._string
             // <+116>
         } else {
             // <+100>
-            unsafe growBuffer(by: bytes, capacity: x21 + Int(w8))
+            growBuffer(by: bytes, capacity: x21 + Int(w8))
         }
         
         let buf = unsafe buf!
-        unsafe available -= Int32(bytes)
+        available -= Int32(bytes)
         return unsafe buf.advanced(by: Int(x21))
     }
     
@@ -212,7 +212,7 @@ private import _DarwinFoundation2._string
              capacity = sp + 0x8
              */
             // w8
-            let count = unsafe _count
+            let count = _count
             
             if count != 0 {
                 var w27: Int32 = 0
@@ -259,7 +259,7 @@ private import _DarwinFoundation2._string
         }
         
         unsafe self.buf = newBuf
-        unsafe self.available += Int32(x22 - capacity)
+        self.available += Int32(x22 - capacity)
     }
 }
 

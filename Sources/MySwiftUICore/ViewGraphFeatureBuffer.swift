@@ -3,15 +3,15 @@
     private(set) var contents: UnsafeHeterogeneousBuffer
     
     init(contents: UnsafeHeterogeneousBuffer) {
-        unsafe self.contents = contents
+        self.contents = contents
     }
     
     mutating func append<T: ViewGraphFeature>(feature: T) {
-        unsafe contents.append(feature, vtable: _VTable<T>.self)
+        contents.append(feature, vtable: _VTable<T>.self)
     }
     
     func index(after index: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
-        return unsafe contents.index(after: index)
+        return contents.index(after: index)
     }
     
     subscript<T: ViewGraphFeature>(_ type: T.Type) -> UnsafeMutablePointer<T>? {
@@ -30,19 +30,19 @@
     }
     
     var startIndex: UnsafeHeterogeneousBuffer.Index {
-        return unsafe contents.startIndex
+        return contents.startIndex
     }
     
     var endIndex: UnsafeHeterogeneousBuffer.Index {
-        return unsafe contents.endIndex
+        return contents.endIndex
     }
     
     var count: Int {
-        return unsafe contents.count
+        return contents.count
     }
     
     var isEmpty: Bool {
-        return unsafe contents.isEmpty
+        return contents.isEmpty
     }
     
     private var featureTypes: [Any.Type] {

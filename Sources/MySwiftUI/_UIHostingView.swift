@@ -10,11 +10,11 @@ private import TCC
 private import ARKit
 private import AttributeGraph
 public import UIIntelligenceSupport
-public import UIAccessibility
+internal import UIAccessibility
 private import os.log
 
 // TODO: 지워야함
-fileprivate nonisolated(unsafe) let mySwiftUI_disableUnimplementedAssertion: Bool = {
+fileprivate let mySwiftUI_disableUnimplementedAssertion: Bool = {
     return UserDefaults.standard.bool(forKey: "com.pookjw.MySwiftUI.disableUnimplementedAssertion")
 }()
 
@@ -389,7 +389,7 @@ open class _UIHostingView<Content: View>: UIView {
         _base.tearDown(uiView: self, updateDelegate: self)
         NotificationCenter.default.removeObserver(self)
         
-        if let windowGeometryScene = self.windowGeometryScene {
+        if let windowGeometryScene = unsafe self.windowGeometryScene {
             windowGeometryScene.removeObserver(self, forKeyPath: "effectiveGeometry")
         }
         
@@ -398,7 +398,7 @@ open class _UIHostingView<Content: View>: UIView {
         
         HostingViewRegistry.shared.remove(self)
         
-        if let dumpLayerNotificationTokens {
+        if let dumpLayerNotificationTokens = unsafe dumpLayerNotificationTokens {
             notify_cancel(dumpLayerNotificationTokens.0)
             notify_cancel(dumpLayerNotificationTokens.1)
         }
@@ -437,7 +437,7 @@ open class _UIHostingView<Content: View>: UIView {
             return super.transform3D
         }
         set {
-            assert(mySwiftUI_disableUnimplementedAssertion)
+            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
             super.transform3D = newValue
         }
     }
@@ -458,23 +458,23 @@ open class _UIHostingView<Content: View>: UIView {
             return super.backgroundColor
         }
         set {
-            assert(mySwiftUI_disableUnimplementedAssertion)
+            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
             super.backgroundColor = newValue
         }
     }
     
     open override var _axesForDerivingIntrinsicContentSizeFromLayoutSize: UILayoutAxes {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super._axesForDerivingIntrinsicContentSizeFromLayoutSize
     }
     
     open override var _layoutHeightDependsOnWidth: Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super._layoutHeightDependsOnWidth
     }
     
     open override var intrinsicContentSize: CGSize {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super.intrinsicContentSize
     }
     
@@ -483,7 +483,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override var _childContainers: [any _UIGestureRecognizerContainer] {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super._childContainers
     }
     
@@ -507,12 +507,12 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &effectiveGeometryObservationContext {
+        if unsafe context == &effectiveGeometryObservationContext {
             MainActor.assumeIsolated { [unchecked = UncheckedSendable((object, change))] in
                 let object = unchecked.value.0
                 let change = unchecked.value.1
                 
-                guard let change else {
+                guard change != nil else {
                     return
                 }
                 
@@ -538,46 +538,46 @@ open class _UIHostingView<Content: View>: UIView {
             }
         } else {
             // <+500>
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+            unsafe super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
     open override func _baselineOffsets(at size: CGSize) -> _UIBaselineOffsetPair {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super._baselineOffsets(at: size)
     }
     
     open override func _didChange(toFirstResponder responder: UIResponder?) {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         super._didChange(toFirstResponder: responder)
     }
     
     open override func _geometryChanged(_ context: UnsafeMutableRawPointer, forAncestor ancestor: UIView?) {
-        base._geometryChanged(context, forAncestor: ancestor)
+        unsafe base._geometryChanged(context, forAncestor: ancestor)
     }
     
     open override func _hitTest(with context: _UIHitTestContext) -> (any UIResponder & _UIGestureRecognizerContainer)? {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super._hitTest(with: context)
     }
     
     open override var _intelligenceBaseClass: AnyClass {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super._intelligenceBaseClass
     }
     
     open override func _intelligenceCollectContent(in rect: CGRect, collector: UIIntelligenceElementCollector) {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         super._intelligenceCollectContent(in: rect, collector: collector)
     }
     
     open override func _intelligenceCollectRemoteContent(in rect: CGRect, remoteContextWrapper: UIIntelligenceCollectionRemoteContextWrapper) {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         super._intelligenceCollectRemoteContent(in: rect, remoteContextWrapper: remoteContextWrapper)
     }
     
     open override func _safeAreaCornerInsetsDidChange() {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         super._safeAreaCornerInsetsDidChange()
     }
     
@@ -599,34 +599,34 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     open override class func accessibilityElementCount() -> Int {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super.accessibilityElementCount()
     }
     
     open override var accessibilityElements: [Any]? {
         get {
-            assert(mySwiftUI_disableUnimplementedAssertion)
+            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
             return super.automationElements
         }
         set {
-            assert(mySwiftUI_disableUnimplementedAssertion)
+            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
             super.automationElements = newValue
         }
     }
     
     open override var automationElements: [Any]? {
         get {
-            assert(mySwiftUI_disableUnimplementedAssertion)
+            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
             return super.automationElements
         }
         set {
-            assert(mySwiftUI_disableUnimplementedAssertion)
+            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
             super.automationElements = newValue
         }
     }
     
     open override var canBecomeFirstResponder: Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super.canBecomeFirstResponder
     }
     
@@ -635,7 +635,7 @@ open class _UIHostingView<Content: View>: UIView {
             return super.clipsToBounds
         }
         set {
-            assert(mySwiftUI_disableUnimplementedAssertion)
+            unsafe assert(mySwiftUI_disableUnimplementedAssertion)
             super.clipsToBounds = newValue
         }
     }
@@ -665,14 +665,14 @@ open class _UIHostingView<Content: View>: UIView {
             path = "UIHostingController.view"
         }
         
-        os_log(.fault, log: .runtimeIssuesLog, "Adding '%s' as a subview of %s is not supported and may result in a broken view hierarchy. Add your view above %s in a common superview or insert it into your SwiftUI content in a UIViewRepresentable instead.", _typeName(type(of: subview), qualified: false), path, path)
+        unsafe os_log(.fault, log: .runtimeIssuesLog, "Adding '%s' as a subview of %s is not supported and may result in a broken view hierarchy. Add your view above %s in a common superview or insert it into your SwiftUI content in a UIViewRepresentable instead.", _typeName(type(of: subview), qualified: false), path, path)
     }
 
     open override func didUpdateFocus(
         in context: UIFocusUpdateContext,
         with coordinator: UIFocusAnimationCoordinator
     ) {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         super.didUpdateFocus(in: context, with: coordinator)
     }
 
@@ -701,7 +701,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super.hitTest(point, with: event)
     }
 
@@ -714,7 +714,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override var safeAreaInsets: UIEdgeInsets {
-        guard let explicitSafeAreaInsets else {
+        guard explicitSafeAreaInsets != nil else {
             return super.safeAreaInsets
         }
         
@@ -735,12 +735,12 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super.sizeThatFits(size)
     }
 
     open override func tintColorDidChange() {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         super.tintColorDidChange()
     }
 
@@ -750,17 +750,17 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func _accessibilityAutomationHitTestReverseOrder() -> Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super._accessibilityAutomationHitTestReverseOrder()
     }
 
     open override func _accessibilityIsSwiftUIHostingView() -> Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super._accessibilityIsSwiftUIHostingView()
     }
 
     open override func accessibilityShouldEnumerateContainerElementsArrayDirectly() -> Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
+        unsafe assert(mySwiftUI_disableUnimplementedAssertion)
         return super.accessibilityShouldEnumerateContainerElementsArrayDirectly()
     }
 
@@ -908,16 +908,16 @@ open class _UIHostingView<Content: View>: UIView {
     private func updateWindowGeometryScene() {
         let windowScene = window?.windowScene
         
-        guard windowScene != windowGeometryScene else {
+        guard unsafe windowScene != windowGeometryScene else {
             return
         }
         
-        windowGeometryScene?.removeObserver(self, forKeyPath: #keyPath(UIWindowScene.effectiveGeometry))
+        unsafe windowGeometryScene?.removeObserver(self, forKeyPath: #keyPath(UIWindowScene.effectiveGeometry))
         
         if let windowScene {
             unsafe windowScene.addObserver(self, forKeyPath: #keyPath(UIWindowScene.effectiveGeometry), options: .new, context: &effectiveGeometryObservationContext)
         }
-        windowGeometryScene = windowScene
+        unsafe windowGeometryScene = windowScene
     }
     
     @objc private func immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace() {
@@ -1496,7 +1496,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+336>
-        if let viewController {
+        if viewController != nil {
             fatalError("TODO")
 //            viewController.dialogBridge.transformDidChange()
         }
@@ -1507,7 +1507,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+424>
-        if let legacyKeyboardFrame {
+        if legacyKeyboardFrame != nil {
             invalidateProperties(.safeArea, mayDeferUpdate: false)
         }
     }

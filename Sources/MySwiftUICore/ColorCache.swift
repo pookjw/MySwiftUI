@@ -3,7 +3,7 @@
 internal import CoreGraphics
 
 extension Color.ResolvedHDR {
-    static nonisolated(unsafe) let cache = ObjectCache<Color.ResolvedHDR, CGColor> { resolved in
+    static let cache = ObjectCache<Color.ResolvedHDR, CGColor> { resolved in
         // $s7SwiftUI5ColorVAAE11ResolvedHDRV5cache33_A45C110C8134A7DB30776EFC6CE1E8A6LLAA11ObjectCacheCyAESo10CGColorRefaGvpZfiAkEcfU_
         var s12 = resolved.base.linearRed
         var s11 = resolved.base.linearGreen
@@ -13,7 +13,7 @@ extension Color.ResolvedHDR {
         if var s0 = resolved.headroom {
             var s1: Float = 1
             let s10 = (s0 <= s1) ? s1 : s0
-            let colorspace = Color.Resolved.srgbExtended
+            let colorspace = unsafe Color.Resolved.srgbExtended
             
             s0 = -s12
             s0 = (s12 > 0) ? s12 : s0
@@ -244,11 +244,11 @@ extension Color.Resolved {
         // <+456>
         let components = [sp20, sp28, sp30, sp38]
         
-        return components.withUnsafeBufferPointer { buffer in
-            let color = CGColor(colorSpace: Color.Resolved.srgbExtended, components: buffer.baseAddress.unsafelyUnwrapped)!
+        return unsafe components.withUnsafeBufferPointer { buffer in
+            let color = unsafe CGColor(colorSpace: Color.Resolved.srgbExtended, components: buffer.baseAddress.unsafelyUnwrapped)!
             return color
         }
     }
     
-    static nonisolated(unsafe) let srgbExtended = CGColorSpace(name: CGColorSpace.extendedSRGB)!
+    static let srgbExtended = CGColorSpace(name: CGColorSpace.extendedSRGB)!
 }

@@ -6,11 +6,11 @@ extension ViewGraph {
             return
         }
         
-        guard let focusViewGraphRef = self[FocusViewGraph.self] else {
+        guard let focusViewGraphRef = unsafe self[FocusViewGraph.self] else {
             return
         }
         
-        guard let attribute = focusViewGraphRef.pointee.$focusStore else {
+        guard let attribute = unsafe focusViewGraphRef.pointee.$focusStore else {
             return
         }
         
@@ -28,11 +28,11 @@ extension ViewGraph {
             return
         }
         
-        guard let focusViewGraphRef = self[FocusViewGraph.self] else {
+        guard let focusViewGraphRef = unsafe self[FocusViewGraph.self] else {
             return
         }
         
-        guard let attribute = focusViewGraphRef.pointee.$focusedItem else {
+        guard let attribute = unsafe focusViewGraphRef.pointee.$focusedItem else {
             return
         }
         
@@ -50,11 +50,11 @@ extension ViewGraph {
             return
         }
         
-        guard let focusViewGraphRef = self[FocusViewGraph.self] else {
+        guard let focusViewGraphRef = unsafe self[FocusViewGraph.self] else {
             return
         }
         
-        guard let attribute = focusViewGraphRef.pointee.$focusedValues else {
+        guard let attribute = unsafe focusViewGraphRef.pointee.$focusedValues else {
             return
         }
         

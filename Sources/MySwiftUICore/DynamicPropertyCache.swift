@@ -8,7 +8,7 @@ struct DynamicPropertyCache {
     static func fields(of type: any Any.Type) -> DynamicPropertyCache.Fields {
         // x29 = sp + 0x80
         // type -> x27
-        if let cached = DynamicPropertyCache.cache.value[ObjectIdentifier(type)] {
+        if let cached = unsafe DynamicPropertyCache.cache.value[ObjectIdentifier(type)] {
             // <+108>
             return cached
         } else {
@@ -23,7 +23,7 @@ struct DynamicPropertyCache {
             case .enum, .optional:
                 // <+364>
                 var taggedFields: [DynamicPropertyCache.TaggedFields] = []
-                TypeID(type).forEachField(options: [.unknown1, .unknown2]) { name, offset, type in
+                unsafe TypeID(type).forEachField(options: [.unknown1, .unknown2]) { name, offset, type in
                     // $s7SwiftUI20DynamicPropertyCacheV6fields2ofAC6FieldsVypXp_tFZSbSPys4Int8VG_SiypXptXEfU0_TA
                     var fields: [DynamicPropertyCache.Field] = []
                     let tupleType = TupleType(type)
@@ -33,7 +33,7 @@ struct DynamicPropertyCache {
                         }
                         
                         let offset = tupleType.offset(at: index, as: casted)
-                        let field = DynamicPropertyCache.Field(type: casted, offset: offset, name: name)
+                        let field = unsafe DynamicPropertyCache.Field(type: casted, offset: offset, name: name)
                         fields.append(field)
                     }
                     
@@ -52,13 +52,13 @@ struct DynamicPropertyCache {
                 // <+224>
                 // x22
                 var fields: [DynamicPropertyCache.Field] = []
-                TypeID(type).forEachField(options: .unknown1) { name, offset, type in
+                unsafe TypeID(type).forEachField(options: .unknown1) { name, offset, type in
                     // $s7SwiftUI20DynamicPropertyCacheV6fields2ofAC6FieldsVypXp_tFZSbSPys4Int8VG_SiypXptXEfU_TA
                     guard let casted = type as? any DynamicProperty.Type else {
                         return true
                     }
                     
-                    fields.append(DynamicPropertyCache.Field(type: casted, offset: offset, name: name))
+                    unsafe fields.append(DynamicPropertyCache.Field(type: casted, offset: offset, name: name))
                     return true
                 }
                 
@@ -81,12 +81,12 @@ struct DynamicPropertyCache {
             if checkIssue {
                 // <+496>
                 if result.behaviors.contains([.allowsAsync, .requiresMainThread]) {
-                    os_log(.fault, log: Log.runtimeIssuesLog, "%s is marked async, but contains properties that require the main thread.", _typeName(type, qualified: true))
+                    unsafe os_log(.fault, log: Log.runtimeIssuesLog, "%s is marked async, but contains properties that require the main thread.", _typeName(type, qualified: true))
                 }
             }
             
             // <+684>
-            DynamicPropertyCache.cache.value[ObjectIdentifier(type)] = result
+            unsafe DynamicPropertyCache.cache.value[ObjectIdentifier(type)] = result
             return result
         }
     }
@@ -117,11 +117,11 @@ extension DynamicPropertyCache {
         }
         
         func name(at offset: Int) -> String? {
-            guard let buffer = _name(at: offset) else {
+            guard let buffer = unsafe _name(at: offset) else {
                 return nil
             }
             
-            return String(cString: buffer, encoding: .utf8)
+            return unsafe String(cString: buffer, encoding: .utf8)
         }
         
         func _name(at offset: Int) -> UnsafePointer<Int8>? {
@@ -129,7 +129,7 @@ extension DynamicPropertyCache {
             case .product(let fields):
                 for field in fields {
                     if field.offset == offset {
-                        return field.name
+                        return unsafe field.name
                     }
                 }
                 return nil
@@ -149,7 +149,7 @@ extension DynamicPropertyCache {
         fileprivate init(type: any DynamicProperty.Type, offset: Int, name: UnsafePointer<Int8>?) {
             self.type = type
             self.offset = offset
-            self.name = name
+            unsafe self.name = unsafe name
         }
     }
 }

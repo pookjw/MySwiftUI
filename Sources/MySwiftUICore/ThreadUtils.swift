@@ -84,13 +84,13 @@ final class ThreadSpecific<T: Sendable> {
     private let defaultValue: T
     
     init(_ defaultValue: T) {
-        self.key = 0
+        unsafe self.key = 0
         self.defaultValue = defaultValue
         
-        pthread_key_create(&key) { pointer in
-            let ptr = pointer.assumingMemoryBound(to: Any.self)
-            ptr.deinitialize(count: 1)
-            ptr.deallocate()
+        unsafe pthread_key_create(&key) { pointer in
+            let ptr = unsafe pointer.assumingMemoryBound(to: Any.self)
+            unsafe ptr.deinitialize(count: 1)
+            unsafe ptr.deallocate()
         }
     }
     
@@ -102,24 +102,24 @@ final class ThreadSpecific<T: Sendable> {
     
     var value: T {
         get {
-            return box.pointee as! T
+            return unsafe box.pointee as! T
         }
         set {
-            box.withMemoryRebound(to: T.self, capacity: 1) { pointer in
-                pointer.pointee = newValue
+            unsafe box.withMemoryRebound(to: T.self, capacity: 1) { pointer in
+                unsafe pointer.pointee = newValue
             }
         }
     }
     
     fileprivate var box: UnsafeMutablePointer<Any> {
-        if let pointer = pthread_getspecific(key) {
-            return pointer.assumingMemoryBound(to: Any.self)
+        if let pointer = unsafe pthread_getspecific(key) {
+            return unsafe pointer.assumingMemoryBound(to: Any.self)
         }
         
         let pointer = UnsafeMutablePointer<Any>.allocate(capacity: 1)
-        pthread_setspecific(key, pointer)
-        pointer.initialize(to: defaultValue)
-        return pointer
+        unsafe pthread_setspecific(key, pointer)
+        unsafe pointer.initialize(to: defaultValue)
+        return unsafe pointer
     }
 }
 

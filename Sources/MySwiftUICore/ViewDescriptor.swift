@@ -3,7 +3,7 @@ private import _MySwiftUIShims
 
 struct ViewDescriptor {
     static var descriptor: UnsafeRawPointer {
-        return _viewProtocolDescriptor()
+        return unsafe _viewProtocolDescriptor()
     }
 }
 
@@ -13,13 +13,13 @@ protocol ProtocolDescriptor {
 
 extension ProtocolDescriptor {
     static func conformance(of type: Any.Type) -> TypeConformance<Self>? {
-        let descriptor = descriptor
+        let descriptor = unsafe descriptor
         
-        guard let conformance = swift_conformsToProtocol(type, descriptor) else {
+        guard let conformance = unsafe swift_conformsToProtocol(type, descriptor) else {
             return nil
         }
         
-        return TypeConformance(storage: (type: type, conformance: conformance))
+        return unsafe TypeConformance(storage: (type: type, conformance: conformance))
     }
 }
 

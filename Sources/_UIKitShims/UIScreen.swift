@@ -8,7 +8,7 @@ package struct MyUIScreen {
     
     package static var main: MyUIScreen {
         let cmd = Selector(("mainScreen"))
-        let method = class_getClassMethod(UIScreenClass, cmd)!
+        let method = unsafe class_getClassMethod(UIScreenClass, cmd)!
         let impl = unsafe method_getImplementation(method)
         let casted = unsafe unsafeBitCast(impl, to: (@convention(c) (AnyClass, Selector) -> AnyObject).self)
         return MyUIScreen(screen: casted(UIScreenClass, cmd))
@@ -25,7 +25,7 @@ package struct MyUIScreen {
     
     package var _referenceBounds: CGRect {
         let cmd = Selector(("_referenceBounds"))
-        let method = class_getInstanceMethod(UIScreenClass, cmd)!
+        let method = unsafe class_getInstanceMethod(UIScreenClass, cmd)!
         let impl = unsafe method_getImplementation(method)
         let casted = unsafe unsafeBitCast(impl, to: (@convention(c) (AnyObject, Selector) -> CGRect).self)
         return casted(screen, cmd)
@@ -33,7 +33,7 @@ package struct MyUIScreen {
     
     package var _pointsPerInch: CGFloat {
         let cmd = Selector(("_pointsPerInch"))
-        let method = class_getInstanceMethod(UIScreenClass, cmd)!
+        let method = unsafe class_getInstanceMethod(UIScreenClass, cmd)!
         let impl = unsafe method_getImplementation(method)
         let casted = unsafe unsafeBitCast(impl, to: (@convention(c) (AnyObject, Selector) -> CGFloat).self)
         return casted(screen, cmd)
@@ -41,7 +41,7 @@ package struct MyUIScreen {
     
     package var scale: CGFloat {
         let cmd = #selector(NSDecimalNumberBehaviors.scale)
-        let method = class_getInstanceMethod(UIScreenClass, cmd)!
+        let method = unsafe class_getInstanceMethod(UIScreenClass, cmd)!
         let impl = unsafe method_getImplementation(method)
         let casted = unsafe unsafeBitCast(impl, to: (@convention(c) (AnyObject, Selector) -> CGFloat).self)
         return casted(screen, cmd)
@@ -51,7 +51,7 @@ package struct MyUIScreen {
 extension UIWindow {
     package var myUIScreen: MyUIScreen? {
         let cmd = Selector(("screen"))
-        let method = class_getInstanceMethod(object_getClass(self)!, cmd)!
+        let method = unsafe class_getInstanceMethod(object_getClass(self)!, cmd)!
         let impl = unsafe method_getImplementation(method)
         let casted = unsafe unsafeBitCast(impl, to: (@convention(c) (AnyObject, Selector) -> AnyObject?).self)
         

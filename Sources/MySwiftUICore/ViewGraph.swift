@@ -14,7 +14,7 @@ package final class ViewGraph: GraphHost {
     private let rootViewType: Any.Type
     private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
     package internal(set) weak var delegate: ViewGraphDelegate? = nil
-    private(set) var features = unsafe ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
+    private(set) var features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
     private(set) var centersRootView = true
     private let rootView: AnyAttribute
     @Attribute private(set) var rootTransform: ViewTransform
@@ -574,12 +574,12 @@ package final class ViewGraph: GraphHost {
     }
     
     package subscript<T: ViewGraphFeature>(_ type: T.Type) -> UnsafeMutablePointer<T>? {
-        return features[type]
+        return unsafe features[type]
     }
     
     private func removePreferenceOutlets(isInvalidating: Bool) {
         // isInvalidating = x19
-        guard let preferenceBridge = _preferenceBridge else {
+        guard _preferenceBridge != nil else {
             return
         }
         

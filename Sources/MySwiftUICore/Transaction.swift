@@ -6,7 +6,7 @@ internal import AttributeGraph
 public struct Transaction {
     static fileprivate(set) var current: Transaction {
         get {
-            guard let transactionData = _threadTransactionData() else {
+            guard let transactionData = unsafe _threadTransactionData() else {
                 return Transaction()
             }
             

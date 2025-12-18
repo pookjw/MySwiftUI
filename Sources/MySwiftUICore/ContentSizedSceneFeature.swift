@@ -5,12 +5,12 @@ extension ViewGraph {
     package var currentSceneResizeDelegate: (any ContentSizedSceneDelegate)? {
         let features = features
         
-        if let value = features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
-            return value.pointee.dispatcher.delegate
+        if let value = unsafe features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
+            return unsafe value.pointee.dispatcher.delegate
         }
         
-        if let value = features[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] {
-            return value.pointee.dispatcher.delegate
+        if let value = unsafe features[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] {
+            return unsafe value.pointee.dispatcher.delegate
         }
         
         return nil

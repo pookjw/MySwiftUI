@@ -60,7 +60,7 @@ public import QuartzCore
             return nil
         }
         
-        let viewDefinition = nsObjectType._mySwiftUI_platformViewDefinition()
+        let viewDefinition = unsafe nsObjectType._mySwiftUI_platformViewDefinition()
         return unsafe unsafeBitCast(viewDefinition, to: PlatformViewDefinition.Type.self)
     }
     

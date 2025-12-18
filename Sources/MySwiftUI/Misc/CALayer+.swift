@@ -18,7 +18,7 @@ extension CALayer {
         while let _target = target {
             if _target.separatedState == 2 {
                 // <+200>
-                CALayerMapGeometry(
+                unsafe CALayerMapGeometry(
                     other,
                     _target,
                     { buffer, _ in
@@ -40,7 +40,7 @@ extension CALayer {
         }
         
         // <+260>
-        CALayerMapGeometry(
+        unsafe CALayerMapGeometry(
             other,
             self,
             { buffer, _ in
@@ -52,7 +52,7 @@ extension CALayer {
                 let transform3D = AffineTransform3D(transform)
                 let transform = CGAffineTransform(transform3D)
                 
-                buffer
+                unsafe buffer
                     .unsafelyUnwrapped
                     .assumingMemoryBound(to: ViewTransform.UnsafeBuffer.self)
                     .pointee

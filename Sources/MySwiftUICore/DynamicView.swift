@@ -181,7 +181,7 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
         self._view = view
         self.inputs = inputs
         self.parentSubgraph = .current!
-        self.allItems = MutableBox(Array())
+        unsafe self.allItems = unsafe MutableBox(Array())
         self.lastItem = lastItem
     }
     
@@ -283,11 +283,11 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
         // <+928>
         if !flag_1 {
             var matchedItem: DynamicViewList<Content>.Item?
-            for item in allItems.value {
-                let matches = item.takeRetainedValue().matches(type: type, id: id)
-                item.release()
+            for unsafe item in unsafe allItems.value {
+                let matches = unsafe item.takeRetainedValue().matches(type: type, id: id)
+                unsafe item.release()
                 if matches {
-                    matchedItem = item.takeUnretainedValue()
+                    matchedItem = unsafe item.takeUnretainedValue()
                     break
                 }
             }
@@ -351,7 +351,7 @@ fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAtt
                     }
                     
                     // <+1796>
-                    item = DynamicViewList<Content>.Item(
+                    item = unsafe DynamicViewList<Content>.Item(
                         type: type,
                         owner: currentAttribute,
                         list: listAttribute,
@@ -417,12 +417,12 @@ extension DynamicViewList {
             self._list = list
             self.id = id
             self.isUnary = isUnary
-            self.allItems = allItems
+            unsafe self.allItems = unsafe allItems
             super.init(subgraph: subgraph)
             
             // self -> sp + 0x18
             // <+176>
-            allItems.value.append(Unmanaged.passRetained(self))
+            unsafe allItems.value.append(Unmanaged.passRetained(self))
         }
         
         func matches(type: any Any.Type, id: Content.ID?) -> Bool {

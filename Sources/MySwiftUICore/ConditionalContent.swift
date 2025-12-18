@@ -84,8 +84,8 @@ extension _ConditionalContent: DynamicView where TrueContent: View, FalseContent
     }
     
     nonisolated func childInfo(metadata: ConditionalMetadata<ViewDescriptor>) -> (any Any.Type, UniqueID?) {
-        return withUnsafePointer(to: self) { pointer in
-            return metadata.childInfo(ptr: pointer, emptyType: EmptyView.self)
+        return unsafe withUnsafePointer(to: self) { pointer in
+            return unsafe metadata.childInfo(ptr: pointer, emptyType: EmptyView.self)
         }
     }
     
@@ -99,9 +99,9 @@ extension _ConditionalContent: DynamicView where TrueContent: View, FalseContent
         // view -> sp + 0x50
         // inputs -> sp + 0x58
         
-        return withUnsafePointer(to: self) { pointer in
+        return unsafe withUnsafePointer(to: self) { pointer in
             // $s7SwiftUI19_ConditionalContentVA2A4ViewRzAaDR_rlE09makeChildE4List8metadata4view6inputsAA01_eH7OutputsVAA0C8MetadataVyAA0E10DescriptorVG_14AttributeGraph0O0VyACyxq_GGAA01_eH6InputsVtFAJSPyASGXEfU_TA
-            return copy_1.makeViewList(ptr: pointer, view: view, inputs: inputs)
+            return unsafe copy_1.makeViewList(ptr: pointer, view: view, inputs: inputs)
         }
     }
 }
@@ -124,7 +124,7 @@ struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
     func childInfo<U>(ptr: UnsafePointer<U>, emptyType: Any.Type) -> (Any.Type, UniqueID?) {
         var type: (any Any.Type)?
         var index = 0
-        desc.project(at: UnsafeRawPointer(ptr), baseIndex: index) { _index, conformance, pointer in
+        unsafe desc.project(at: UnsafeRawPointer(ptr), baseIndex: index) { _index, conformance, pointer in
             // $s7SwiftUI19ConditionalMetadataV9childInfo3ptr9emptyTypeypXp_AA8UniqueIDVSgtSPyqd__G_ypXptlFySi_AA0I11ConformanceVyxGSgSVSgtXEfU_TA
             index = _index
             if let conformance {
@@ -147,19 +147,19 @@ extension ConditionalMetadata where T == ViewDescriptor {
          U = x19
          return pointer = x23
          */
-        var makeList = Self.MakeList<U>(desc: desc, view: view, index: 0, ptr: nil, inputs: inputs, outputs: nil)
-        desc.project(at: ptr, baseIndex: 1) { index, conformance, pointer in
+        var makeList = unsafe Self.MakeList<U>(desc: desc, view: view, index: 0, ptr: nil, inputs: inputs, outputs: nil)
+        unsafe desc.project(at: ptr, baseIndex: 1) { index, conformance, pointer in
             // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE04makeE4List3ptr4view6inputsAA01_eH7OutputsVSPyqd__G_14AttributeGraph0M0Vyqd__GAA01_eH6InputsVtlFySi_AA15TypeConformanceVyAEGSgSVSgtXEfU_TA
             guard
                 let conformance,
-                let pointer
+                let pointer = unsafe pointer
             else {
                 return
             }
             
             makeList.index = index
-            makeList.ptr = pointer
-            conformance.visitType(visitor: &makeList)
+            unsafe makeList.ptr = unsafe pointer
+            unsafe conformance.visitType(visitor: &makeList)
         }
         
         if let outputs = makeList.outputs {
@@ -194,9 +194,9 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
          T = x20/x22(witness)
          type -> x21
          */
-        let nominalDescriptor = TypeID(type).nominalDescriptor
+        let nominalDescriptor = unsafe TypeID(type).nominalDescriptor
         
-        if (nominalDescriptor != conditionalTypeDescriptor), (nominalDescriptor != optionalTypeDescriptor) {
+        if unsafe (nominalDescriptor != conditionalTypeDescriptor), unsafe (nominalDescriptor != optionalTypeDescriptor) {
             // <+464>
             self.storage = .atom(T.conformance(of: type)!)
             self.count = 1
@@ -223,27 +223,27 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
          */
         switch storage {
         case .atom(let comformance):
-            body(baseIndex, comformance, pointer)
+            unsafe body(baseIndex, comformance, pointer)
         case .optional(let type, let descriptor):
             let typeID = TypeID(type)
-            let tag = typeID.getEnumTag(pointer)
+            let tag = unsafe typeID.getEnumTag(pointer)
             if tag == 1 {
                 body(baseIndex, nil, nil)
             } else {
                 // <+300>
-                typeID.projectEnum(at: pointer, tag: Int(tag)) { pointer in
-                    descriptor.project(at: pointer, baseIndex: baseIndex + 1, body)
+                unsafe typeID.projectEnum(at: pointer, tag: Int(tag)) { pointer in
+                    unsafe descriptor.project(at: pointer, baseIndex: baseIndex + 1, body)
                 }
             }
         case .either(let type, let falseDescriptor, let trueDescriptor):
             // <+180>
             let typeID = TypeID(type)
-            let tag = typeID.getEnumTag(pointer)
-            typeID.projectEnum(at: pointer, tag: Int(tag)) { pointer in
+            let tag = unsafe typeID.getEnumTag(pointer)
+            unsafe typeID.projectEnum(at: pointer, tag: Int(tag)) { pointer in
                 if tag == 1 {
-                    falseDescriptor.project(at: pointer, baseIndex: baseIndex, body)
+                    unsafe falseDescriptor.project(at: pointer, baseIndex: baseIndex, body)
                 } else {
-                    trueDescriptor.project(at: pointer, baseIndex: baseIndex + falseDescriptor.count, body)
+                    unsafe trueDescriptor.project(at: pointer, baseIndex: baseIndex + falseDescriptor.count, body)
                 }
             }
         }
@@ -258,8 +258,8 @@ extension ConditionalTypeDescriptor {
     }
 }
 
-fileprivate nonisolated(unsafe) let conditionalTypeDescriptor: UnsafeRawPointer = TypeID(_ConditionalContent<Void, Void>.self).nominalDescriptor
-fileprivate nonisolated(unsafe) let optionalTypeDescriptor: UnsafeRawPointer = TypeID(Void?.self).nominalDescriptor
+fileprivate nonisolated(unsafe) let conditionalTypeDescriptor: UnsafeRawPointer = unsafe TypeID(_ConditionalContent<Void, Void>.self).nominalDescriptor
+fileprivate nonisolated(unsafe) let optionalTypeDescriptor: UnsafeRawPointer = unsafe TypeID(Void?.self).nominalDescriptor
 
 extension ConditionalMetadata where T == ViewDescriptor {
     fileprivate struct MakeList<U>: ViewTypeVisitor {
@@ -275,7 +275,7 @@ extension ConditionalMetadata where T == ViewDescriptor {
             self.desc = desc
             self.view = view
             self.index = index
-            self.ptr = ptr
+            unsafe self.ptr = unsafe ptr
             self.inputs = inputs
             self.outputs = outputs
         }
@@ -285,7 +285,7 @@ extension ConditionalMetadata where T == ViewDescriptor {
             inputs.base.pushStableType(type)
             let rule = UnwrapConditional<T, U, Content>(source: view, desc: desc, index: index)
             let attribute = Attribute(rule)
-            attribute.value = ptr!.assumingMemoryBound(to: Content.self).pointee
+            attribute.value = unsafe ptr!.assumingMemoryBound(to: Content.self).pointee
             outputs = Content.makeDebuggableViewList(view: _GraphValue(attribute), inputs: inputs)
         }
     }

@@ -4,7 +4,7 @@
     public static let shared = _ImpossibleActor()
     
     public nonisolated var unownedExecutor: UnownedSerialExecutor {
-        return _ImpossibleExecutor.shared.asUnownedSerialExecutor()
+        return unsafe _ImpossibleExecutor.shared.asUnownedSerialExecutor()
     }
 }
 

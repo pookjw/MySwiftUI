@@ -39,14 +39,14 @@ public struct _DynamicPropertyBuffer {
             return
         }
         
-        for (index, element) in contents.enumerated() {
+        for unsafe (index, element) in unsafe contents.enumerated() {
             guard index != fields.count else {
                 return
             }
             
             let field = fields[index]
             
-            Signpost.linkCreate.traceEvent(
+            unsafe Signpost.linkCreate.traceEvent(
                 type: .event,
                 object: nil,
                 "Attached: %{public}@ [ %p ] to %{public}@ (in %{public}@) at offset +%d [%d] (%p)",
@@ -65,22 +65,22 @@ public struct _DynamicPropertyBuffer {
     
     mutating func append<T: DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
         let index = contents.append(box, vtable: BoxVTable<T>.self)
-        var flags = contents[index].flags
+        var flags = unsafe contents[index].flags
         flags &= 0x80000000
         flags |= UInt32(fieldOffset)
-        contents[index].flags = flags
+        unsafe contents[index].flags = flags
     }
     
     func reset() {
-        for element in contents {
-            element.vtable(as: BoxVTableBase.self).reset(elt: element)
+        for unsafe element in unsafe contents {
+            unsafe element.vtable(as: BoxVTableBase.self).reset(elt: element)
         }
     }
     
     func update(container: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
         var result = false
-        for element in contents {
-            let _result = element
+        for unsafe element in unsafe contents {
+            let _result = unsafe element
                 .vtable(as: BoxVTableBase.self)
                 .update(
                     elt: element,
@@ -88,9 +88,9 @@ public struct _DynamicPropertyBuffer {
                     phase: phase
                 )
             
-            let w8 = element.flags
+            let w8 = unsafe element.flags
             let w9 = (_result ? 0x80000000 : 0) | (w8 & 0x7fffffff)
-            element.flags = w9
+            unsafe element.flags = w9
             
             result = result || _result
         }
@@ -101,8 +101,8 @@ public struct _DynamicPropertyBuffer {
     mutating func destroy() {
         // contents = x19
         if Signpost.linkDestroy.isEnabled {
-            for element in contents {
-                Signpost.linkDestroy.traceEvent(type: .event, object: nil, "Detached: [ %p ]", args: [UInt(bitPattern: element.address)])
+            for unsafe element in unsafe contents {
+                unsafe Signpost.linkDestroy.traceEvent(type: .event, object: nil, "Detached: [ %p ]", args: [UInt(bitPattern: element.address)])
             }
         }
         
@@ -110,9 +110,9 @@ public struct _DynamicPropertyBuffer {
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {
-        for element in contents {
+        for unsafe element in unsafe contents {
             if
-                let state = element
+                let state = unsafe element
                     .vtable(as: BoxVTableBase.self)
                     .getState(elt: element, type: T.self) 
             {
@@ -154,10 +154,10 @@ public struct _DynamicPropertyBuffer {
                 let box = EnumBox(cases: cases, active: nil)
                 let table = EnumVTable<U>.self
                 let index = contents.append(box, vtable: table.self)
-                var flags = contents[index].flags
+                var flags = unsafe contents[index].flags
                 flags &= 0x80000000
                 flags |= UInt32(baseOffset)
-                contents[index].flags = flags
+                unsafe contents[index].flags = flags
             }
             
             _openExistential(type, do: project)
@@ -173,9 +173,9 @@ public struct _DynamicPropertyBuffer {
     }
     
     func applyChanged(to block: (Int) -> ()) {
-        for element in contents {
-            if element.flags & 0x80000000 != 0 {
-                block(Int(element.flags & 0x7fffffff))
+        for unsafe element in unsafe contents {
+            if unsafe element.flags & 0x80000000 != 0 {
+                unsafe block(Int(element.flags & 0x7fffffff))
             }
         }
     }

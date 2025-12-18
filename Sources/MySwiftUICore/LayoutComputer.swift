@@ -34,18 +34,18 @@ struct LayoutComputer {
         if EnableLayoutDepthStashing.isEnabled {
             var proposedSize = proposedSize
             // x19
-            let old = _threadLayoutDepthData()
-            _setThreadLayoutDepthData(&proposedSize.depth)
+            let old = unsafe _threadLayoutDepthData()
+            unsafe _setThreadLayoutDepthData(&proposedSize.depth)
             
             // proposedSize -> sp + 0x28
             
             let depth = box.depthThatFits(proposedSize)
-            _setThreadLayoutDepthData(old)
+            unsafe _setThreadLayoutDepthData(old)
             return depth
         } else {
             // <+232>
             // sp + 0x28
-            let copy = proposedSize
+            _ = proposedSize
             return box.depthThatFits(proposedSize)
         }
     }
@@ -257,10 +257,10 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
             fatalError("Mismatched engine type")
         }
         
-        return withUnsafePointer(to: &engine) { pointer in
-            let pointer = UnsafeMutableRawPointer(mutating: pointer)
+        return unsafe withUnsafePointer(to: &engine) { pointer in
+            let pointer = unsafe UnsafeMutableRawPointer(mutating: pointer)
                 .assumingMemoryBound(to: T.self)
-            return body(&pointer.pointee)
+            return unsafe body(&pointer.pointee)
         }
     }
     
@@ -327,11 +327,11 @@ extension DepthStashingLayoutComputer {
             
             if EnableLayoutDepthStashing.isEnabled {
                 // <+80>
-                let old = _threadLayoutDepthData()
-                _setThreadLayoutDepthData(&proposedSize.height)
+                let old = unsafe _threadLayoutDepthData()
+                unsafe _setThreadLayoutDepthData(&proposedSize.height)
                 Update.assertIsLocked()
                 let size = base.sizeThatFits(proposedSize)
-                _setThreadLayoutDepthData(old)
+                unsafe _setThreadLayoutDepthData(old)
                 return size
             } else {
                 // <+240>

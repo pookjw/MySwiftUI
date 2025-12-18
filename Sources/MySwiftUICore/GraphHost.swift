@@ -239,12 +239,12 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             fatalError("TODO")
         }
         
-        self.data.graph!.context = UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
+        unsafe self.data.graph!.context = unsafe UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
     }
     
     deinit {
         invalidate()
-        blockedGraphHosts.removeAll { $0.takeUnretainedValue() === self }
+        unsafe blockedGraphHosts.removeAll { unsafe $0.takeUnretainedValue() === self }
     }
     
     final func invalidate() {
@@ -758,7 +758,7 @@ extension GraphHost {
             
             Update.ensure {
                 globalSubgraph.invalidate()
-                graph.context = nil
+                unsafe graph.context = nil
                 graph.invalidate()
                 self.graph = nil
             }

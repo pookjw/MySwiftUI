@@ -86,31 +86,31 @@ func materialBackdropProxy(materialBackdropContext context: AnyObject) -> _Swift
 }
 
 @MainActor var _UIUpdateSequenceScheduledItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
-    return item(from: .afterUpdateScheduled)!
+    return unsafe item(from: .afterUpdateScheduled)!
 }
 
 @MainActor var _UIUpdateSequenceBeginItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
-    return item(from: .afterEventDispatch)!
+    return unsafe item(from: .afterEventDispatch)!
 }
 
 @MainActor var _UIUpdateSequenceCADisplayLinksItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
-    return item(from: .afterCADisplayLinkDispatch)!
+    return unsafe item(from: .afterCADisplayLinkDispatch)!
 }
 
 @MainActor var _UIUpdateSequenceCATransactionCommitItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
-    return item(from: .afterCATransactionCommit)!
+    return unsafe item(from: .afterCATransactionCommit)!
 }
 
 @MainActor var _UIUpdateSequenceLowLatencyHIDEventsItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
-    return item(from: .afterLowLatencyEventDispatch)!
+    return unsafe item(from: .afterLowLatencyEventDispatch)!
 }
 
 @MainActor var _UIUpdateSequenceLowLatencyCATransactionCommitItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
-    return item(from: .afterLowLatencyCATransactionCommit)!
+    return unsafe item(from: .afterLowLatencyCATransactionCommit)!
 }
 
 @MainActor var _UIUpdateSequenceDoneItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
-    return item(from: .afterUpdateComplete)!
+    return unsafe item(from: .afterUpdateComplete)!
 }
 
 fileprivate func item(from phase: UIUpdateActionPhase) -> UnsafeMutablePointer<_UIUpdateSequenceItemInternal>? {

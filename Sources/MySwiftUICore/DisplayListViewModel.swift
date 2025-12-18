@@ -55,7 +55,7 @@ extension DisplayList.ViewUpdater {
             }
             
             func clipRect() -> FixedRoundedRect? {
-                guard clips.count == 1 else {
+                guard unsafe clips.count == 1 else {
                     return nil
                 }
                 
@@ -142,7 +142,7 @@ extension DisplayList.Item {
         /*
          state = x23
          */
-        guard !state.clips.isEmpty else {
+        guard unsafe !state.clips.isEmpty else {
             return true
         }
         
@@ -171,14 +171,14 @@ extension DisplayList.ViewUpdater.Model {
         }
         
         // <+360>
-        if state.opacity == 1 {
+        if unsafe state.opacity == 1 {
             // <+384>
-            if state.rewriteVibrantColorMatrix {
+            if unsafe state.rewriteVibrantColorMatrix {
                 // <+664>
                 fatalError("TODO")
             } else {
                 // <+392>
-                if let filter = state.filters.first {
+                if let filter = unsafe state.filters.first {
                     switch filter {
                     case .colorMultiply(_):
                         // <+440>
@@ -197,32 +197,32 @@ extension DisplayList.ViewUpdater.Model {
         
         // <+960>
         // sp + 0x780
-        var copy_1 = item
+        let copy_1 = item
         // sp + 0x4f0
-        var copy_2 = item
+        let copy_2 = item
         // <+1020>
         // sp + 0x3a0
-        var copy_3 = copy_1
+        _ = copy_1
         
-        let result = copy_2.discardContainingClips(state: &state)
+        let result = unsafe copy_2.discardContainingClips(state: &state)
         // sp + 0x7d0
-        var copy_4 = copy_2
+        _ = copy_2
         // w22
         var requirements = DisplayList.ViewUpdater.Model.MergedViewRequirements(rawValue: 0)
         if result {
             requirements.insert(.unknown4)
         }
         
-        if !state.clips.isEmpty {
+        if unsafe !state.clips.isEmpty {
             // <+1132>
             fatalError("TODO")
         }
         
         // <+1568>
         // x23
-        let version = copy_1.version
+        _ = copy_1.version
         if !requirements.contains(.unknown2) {
-            let transform = state.transform
+            let transform = unsafe state.transform
             if (transform.a == 1) && (transform.b == 0) && (transform.c == 0) && (transform.d == 1) {
                 // <+1780>
             } else {
@@ -232,14 +232,14 @@ extension DisplayList.ViewUpdater.Model {
         }
         
         // <+1780>
-        if !requirements.contains(.unknown2) && ((state.shadow != nil) || (!state.filters.isEmpty)) {
+        if unsafe !requirements.contains(.unknown2) && ((state.shadow != nil) || (!state.filters.isEmpty)) {
            // <+1804>
             fatalError("TODO")
         }
         
         // <+1892>
         // version -> x24
-        if !requirements.contains(.unknown2) && state.properties.contains(.ignoresEvents) {
+        if unsafe !requirements.contains(.unknown2) && state.properties.contains(.ignoresEvents) {
             // <+1908>
             fatalError("TODO")
         }
@@ -248,32 +248,32 @@ extension DisplayList.ViewUpdater.Model {
         if !requirements.contains(.unknown2) {
             // <+1992>
             // sp + 0x6e0
-            var copy_5 = item
+            let copy_5 = item
             // sp + 0x690
-            var copy_6 = item
+            let copy_6 = item
             
             // <+2056>
             // sp + 0x210
-            let platformState = state.platformState
+            let platformState = unsafe state.platformState
             // <+2172>
             // sp + 0xc0
-            var copy_8 = copy_5
+            _ = copy_5
             // w20
             let canMerge = copy_6.canMergeWithPlatformState(state: platformState)
             
             // sp + 0x4f0
-            let copy_9 = platformState
+            _ = platformState
             // sp + 0x740
-            let copy_10 = copy_5
+            _ = copy_5
             
             if !canMerge {
-                state.reset()
+                unsafe state.reset()
             }
             
             // <+2376>
         } else {
             // <+2344>
-            state.reset()
+            unsafe state.reset()
             // <+2376>
         }
         
@@ -282,27 +282,27 @@ extension DisplayList.ViewUpdater.Model {
         let position = item.position
         if (position.x != 0) || (position.y != 0) {
             // <+2396>
-            if state.platformState.remoteEffects.hoverEffectState.applyPosition(position) {
-                state.platformState.versions.remoteEffects.combine(with: item.version)
+            if unsafe state.platformState.remoteEffects.hoverEffectState.applyPosition(position) {
+                unsafe state.platformState.versions.remoteEffects.combine(with: item.version)
             }
         }
         
         // <+2432>
-        state.transform = CGAffineTransformTranslate(
+        unsafe state.transform = unsafe CGAffineTransformTranslate(
             state.transform,
             position.x,
             position.y
         )
         
         // <+2484>
-        state.versions.transform.combine(with: item.version)
+        unsafe state.versions.transform.combine(with: item.version)
         
         // <+2500>
         switch item.value {
         case .content(let content):
             // <+2524>
             switch content.value {
-            case .backdrop(let backdropEffect):
+            case .backdrop(_):
                 // <+2544>
                 fatalError("TODO")
             case .chameleonColor(_):
@@ -327,7 +327,7 @@ extension DisplayList.ViewUpdater.Model {
         }
         
         // <+2648>
-        finalizePlatformMerge(item: &item, into: &state, requirements: requirements)
+        unsafe finalizePlatformMerge(item: &item, into: &state, requirements: requirements)
         return requirements
     }
     
@@ -341,7 +341,7 @@ extension DisplayList.ViewUpdater.Model {
          state = x19
          */
         
-        if !requirements.isSuperset(of: [.unknown1, .unknown2]) && !state.platformState.separatedModifiers.isEmpty,
+        if unsafe !requirements.isSuperset(of: [.unknown1, .unknown2]) && !state.platformState.separatedModifiers.isEmpty,
            case .states(_) = item.value 
         {
             // <+88>

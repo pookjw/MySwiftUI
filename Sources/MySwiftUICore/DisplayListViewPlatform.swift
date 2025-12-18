@@ -66,25 +66,25 @@ extension DisplayList.ViewUpdater {
             // w23
             let identity = item.identity
             // x24
-            let platformState = platformViewInfo.state
+            let platformState = unsafe platformViewInfo.state
             // w8
-            let flags = platformState.pointee.flags
+            let flags = unsafe platformState.pointee.flags
             
             if
                 !flags.contains(.unknown2),
-                platformViewInfo.seeds.pointee.zPosition != DisplayList.Seed(state.pointee.versions.zPosition)
+                unsafe platformViewInfo.seeds.pointee.zPosition != DisplayList.Seed(state.pointee.versions.zPosition)
             {
                 // <+112>
-                self.setZPosition(state.pointee.zPosition, of: platformViewInfo.view, identity: identity)
+                unsafe self.setZPosition(state.pointee.zPosition, of: platformViewInfo.view, identity: identity)
                 // <+140>
-                platformViewInfo.seeds.pointee.zPosition = DisplayList.Seed(state.pointee.versions.zPosition)
+                unsafe platformViewInfo.seeds.pointee.zPosition = unsafe DisplayList.Seed(state.pointee.versions.zPosition)
             }
             
             // <+172>
-            if platformViewInfo.seeds.pointee.separatedState != DisplayList.Seed(state.pointee.versions.separatedState) {
+            if unsafe platformViewInfo.seeds.pointee.separatedState != DisplayList.Seed(state.pointee.versions.separatedState) {
                 // <+224>
                 // sp + 0x18
-                let parameters = CoreGlue2.SetSeparatedStateParameters(
+                let parameters = unsafe CoreGlue2.SetSeparatedStateParameters(
                     state: state.pointee.separatedState,
                     view: platformViewInfo.view,
                     identity: identity,
@@ -92,45 +92,45 @@ extension DisplayList.ViewUpdater {
                     platform: self
                 )
                 CoreGlue2.shared.setSeparatedState(parameters)
-                platformViewInfo.seeds.pointee.separatedState = DisplayList.Seed(state.pointee.versions.separatedState)
+                unsafe platformViewInfo.seeds.pointee.separatedState = unsafe DisplayList.Seed(state.pointee.versions.separatedState)
             }
             
             // <+396>
-            if platformViewInfo.seeds.pointee.separatedOptions != DisplayList.Seed(state.pointee.versions.separatedOptions) {
+            if unsafe platformViewInfo.seeds.pointee.separatedOptions != DisplayList.Seed(state.pointee.versions.separatedOptions) {
                 // <+444>
                 // x21
-                let separatedOptionKeys = platformState.pointee.platformState.separatedOptionKeys
-                self.updateSeparatedOptions(fromKeys: separatedOptionKeys, to: state.pointee.separatedOptions, for: platformViewInfo.view)
+                let separatedOptionKeys = unsafe platformState.pointee.platformState.separatedOptionKeys
+                unsafe self.updateSeparatedOptions(fromKeys: separatedOptionKeys, to: state.pointee.separatedOptions, for: platformViewInfo.view)
                 
-                platformState.pointee.platformState.separatedOptionKeys = state.pointee.separatedOptions.storage.map { (_, _) -> (any AnySeparatedOptionKey.Type) in
+                unsafe platformState.pointee.platformState.separatedOptionKeys = unsafe state.pointee.separatedOptions.storage.map { (_, _) -> (any AnySeparatedOptionKey.Type) in
                     // $sSlsE3mapySayqd__Gqd__7ElementQzqd_0_YKXEqd_0_YKs5ErrorRd_0_r0_lF7SwiftUI21SeparatedOptionValuesV_AF03AnyfG3Key_pXps5NeverOTB503$s7d128UI11DisplayListV11ViewUpdaterC8PlatformV06updateG5State_4item4size5stateyAE0gE4InfoVz_AC4ItemVSo6CGSizeVSPyAE5ModelO0gI0VGtFAA21ifgJ74_pXpAA0qrS0_pcfu_33_29d95f9531728096fd6b966fd8998e4bAaX_pAaW_pXpTf3nnnpk_nTf1cn_n
                     fatalError("TODO")
                 }
                 
-                platformViewInfo.seeds.pointee.separatedOptions = DisplayList.Seed(state.pointee.versions.separatedOptions)
+                unsafe platformViewInfo.seeds.pointee.separatedOptions = unsafe DisplayList.Seed(state.pointee.versions.separatedOptions)
             }
             
             // <+588>
-            if platformViewInfo.seeds.pointee.remoteEffects != DisplayList.Seed(state.pointee.versions.remoteEffects) {
+            if unsafe platformViewInfo.seeds.pointee.remoteEffects != DisplayList.Seed(state.pointee.versions.remoteEffects) {
                 // <+636>
                 // x20, x21, x23
-                let remoteEffects = state.pointee.remoteEffects
+                let remoteEffects = unsafe state.pointee.remoteEffects
                 self.updateRemoteEffects(of: &platformViewInfo, to: remoteEffects.values)
-                platformViewInfo.seeds.pointee.remoteEffects = DisplayList.Seed(state.pointee.versions.remoteEffects)
+                unsafe platformViewInfo.seeds.pointee.remoteEffects = unsafe DisplayList.Seed(state.pointee.versions.remoteEffects)
             }
             
             // <+772>
             switch platformViewInfo.kind {
             case .image, .shape, .drawing:
                 // <+804>
-                if platformViewInfo.seeds.pointee.renderingTechnique != DisplayList.Seed(state.pointee.versions.renderingTechnique) {
+                if unsafe platformViewInfo.seeds.pointee.renderingTechnique != DisplayList.Seed(state.pointee.versions.renderingTechnique) {
                     // <+852>
-                    CoreViewSetUsesPerspectiveCorrectRendering(
+                    unsafe CoreViewSetUsesPerspectiveCorrectRendering(
                         system,
                         platformViewInfo.view,
                         state.pointee.renderingTechnique == .perspectiveCorrect
                     )
-                    platformViewInfo.seeds.pointee.renderingTechnique = DisplayList.Seed(state.pointee.versions.renderingTechnique)
+                    unsafe platformViewInfo.seeds.pointee.renderingTechnique = unsafe DisplayList.Seed(state.pointee.versions.renderingTechnique)
                 }
                 
                 // <+900>
@@ -141,37 +141,37 @@ extension DisplayList.ViewUpdater {
             
             // <+900>
             // x20
-            let projectiveShadowVersion = max(state.pointee.versions.hierarchicalProjectiveShadow, state.pointee.versions.currentProjectiveShadow)
-            if platformViewInfo.seeds.pointee.projectiveShadow != DisplayList.Seed(projectiveShadowVersion) {
+            let projectiveShadowVersion = unsafe max(state.pointee.versions.hierarchicalProjectiveShadow, state.pointee.versions.currentProjectiveShadow)
+            if unsafe platformViewInfo.seeds.pointee.projectiveShadow != DisplayList.Seed(projectiveShadowVersion) {
                 // <+956>
                 let visibility: _UIPlatterGroundingShadowVisibility
                 // TODO: enum
-                if state.pointee.currentProjectiveShadow != nil {
+                if unsafe state.pointee.currentProjectiveShadow != nil {
                     visibility = _UIPlatterGroundingShadowVisibility(rawValue: 1)
-                } else if state.pointee.hierarchicalProjectiveShadow != nil {
+                } else if unsafe state.pointee.hierarchicalProjectiveShadow != nil {
                     visibility = _UIPlatterGroundingShadowVisibility(rawValue: 1)
                 } else {
                     visibility = _UIPlatterGroundingShadowVisibility(rawValue: 0)
                 }
                 
                 CoreViewSetPreferredGroundingShadowVisibility(system, platformViewInfo.view, visibility)
-                platformViewInfo.seeds.pointee.projectiveShadow = DisplayList.Seed(projectiveShadowVersion)
+                unsafe platformViewInfo.seeds.pointee.projectiveShadow = DisplayList.Seed(projectiveShadowVersion)
             }
             
             // <+1036>
-            if platformViewInfo.seeds.pointee.hitTestsAsOpaque != DisplayList.Seed(state.pointee.versions.hitTestsAsOpaque) {
+            if unsafe platformViewInfo.seeds.pointee.hitTestsAsOpaque != DisplayList.Seed(state.pointee.versions.hitTestsAsOpaque) {
                 // <+1084>
                 // x21
                 let layer = viewLayer(platformViewInfo.view)
-                layer.hitTestsAsOpaque = state.pointee.hitTestsAsOpaque
-                platformViewInfo.seeds.pointee.hitTestsAsOpaque = DisplayList.Seed(state.pointee.versions.hitTestsAsOpaque)
+                layer.hitTestsAsOpaque = unsafe state.pointee.hitTestsAsOpaque
+                unsafe platformViewInfo.seeds.pointee.hitTestsAsOpaque = unsafe DisplayList.Seed(state.pointee.versions.hitTestsAsOpaque)
             }
             
             // <+1164>
-            if platformViewInfo.seeds.pointee.serverResponderID != DisplayList.Seed(state.pointee.versions.serverResponderID) {
+            if unsafe platformViewInfo.seeds.pointee.serverResponderID != DisplayList.Seed(state.pointee.versions.serverResponderID) {
                 // <+1212>
-                CoreViewSetSwiftUIServerResponderID(system, platformViewInfo.view, UInt(state.pointee.serverResponderID ?? 0))
-                platformViewInfo.seeds.pointee.serverResponderID = DisplayList.Seed(state.pointee.versions.serverResponderID)
+                unsafe CoreViewSetSwiftUIServerResponderID(system, platformViewInfo.view, UInt(state.pointee.serverResponderID ?? 0))
+                unsafe platformViewInfo.seeds.pointee.serverResponderID = unsafe DisplayList.Seed(state.pointee.versions.serverResponderID)
             }
             
             // <+1272>
@@ -202,24 +202,24 @@ extension DisplayList.ViewUpdater {
              */
             let x28 = item.version
             // x26
-            let item_1 = item
+            _ = item
             // x27
             let encoding = encoding
             
-            if viewInfo.seeds.opacity != DisplayList.Seed(state.pointee.versions.opacity) {
+            if unsafe viewInfo.seeds.opacity != DisplayList.Seed(state.pointee.versions.opacity) {
                 // <+144>
-                CoreViewSetOpacity(encoding.viewSystem, viewInfo.view, CGFloat(state.pointee.opacity))
-                viewInfo.seeds.opacity = DisplayList.Seed(state.pointee.versions.opacity)
+                unsafe CoreViewSetOpacity(encoding.viewSystem, viewInfo.view, CGFloat(state.pointee.opacity))
+                viewInfo.seeds.opacity = unsafe DisplayList.Seed(state.pointee.versions.opacity)
             }
             
             // <+196>
-            if viewInfo.seeds.blend != DisplayList.Seed(state.pointee.versions.blend) {
+            if unsafe viewInfo.seeds.blend != DisplayList.Seed(state.pointee.versions.blend) {
                 // <+244>
                 fatalError("TODO")
             }
             
             // <+636>
-            if viewInfo.seeds.filters != DisplayList.Seed(state.pointee.versions.filters) {
+            if unsafe viewInfo.seeds.filters != DisplayList.Seed(state.pointee.versions.filters) {
                 // <+684>
                 fatalError("TODO")
             }
@@ -227,11 +227,11 @@ extension DisplayList.ViewUpdater {
             // <+892>
             // w3
             let clipRectChanged: Bool
-            if (viewInfo.seeds.clips != DisplayList.Seed(state.pointee.versions.clips)) || (viewInfo.seeds.transform != DisplayList.Seed(state.pointee.versions.transform)) {
+            if unsafe (viewInfo.seeds.clips != DisplayList.Seed(state.pointee.versions.clips)) || (viewInfo.seeds.transform != DisplayList.Seed(state.pointee.versions.transform)) {
                 // <+992>
                 let w23 = viewInfo.state.flags
-                self.updateClipShapes(&viewInfo, state: state)
-                viewInfo.seeds.clips = DisplayList.Seed(state.pointee.versions.clips)
+                unsafe self.updateClipShapes(&viewInfo, state: state)
+                viewInfo.seeds.clips = unsafe DisplayList.Seed(state.pointee.versions.clips)
                 
                 if w23.contains(.unknown3) {
                     clipRectChanged = true
@@ -248,14 +248,14 @@ extension DisplayList.ViewUpdater {
             var item_2 = item
             // <+1164>
             var to1260: Bool
-            if self.updateGeometry(&viewInfo, item: item_2, size: size, state: state, clipRectChanged: clipRectChanged) {
+            if unsafe self.updateGeometry(&viewInfo, item: item_2, size: size, state: state, clipRectChanged: clipRectChanged) {
                 // <+1264>
                 to1260 = true
             } else {
                 // w8
                 let shadowSeed = viewInfo.seeds.shadow
                 // x9
-                let stateShadowVersion = state.pointee.versions.shadow
+                let stateShadowVersion = unsafe state.pointee.versions.shadow
                 
                 if stateShadowVersion.value == 0 {
                     // <+1216>
@@ -296,15 +296,15 @@ extension DisplayList.ViewUpdater {
                 // <+1264>
                 // sp + 0x10
                 item_2 = item
-                self.updateShadow(&viewInfo, state: state, item: item_2)
-                viewInfo.seeds.shadow = DisplayList.Seed(state.pointee.versions.shadow)
+                unsafe self.updateShadow(&viewInfo, state: state, item: item_2)
+                viewInfo.seeds.shadow = unsafe DisplayList.Seed(state.pointee.versions.shadow)
             }
             
             // <+1380>
-            if viewInfo.seeds.properties != DisplayList.Seed(state.pointee.versions.properties) {
+            if unsafe viewInfo.seeds.properties != DisplayList.Seed(state.pointee.versions.properties) {
                 // <+1428>
-                self.updateProperties(&viewInfo, state: state)
-                viewInfo.seeds.shadow = DisplayList.Seed(state.pointee.versions.shadow)
+                unsafe self.updateProperties(&viewInfo, state: state)
+                viewInfo.seeds.shadow = unsafe DisplayList.Seed(state.pointee.versions.shadow)
             }
             
             // <+1484>
@@ -316,7 +316,7 @@ extension DisplayList.ViewUpdater {
                     .platformView,
                     .platformGroup:
                 // <+1680>
-                viewInfo.layer.contentsScale = state.pointee.globals.pointee.environment.contentsScale
+                viewInfo.layer.contentsScale = unsafe state.pointee.globals.pointee.environment.contentsScale
                 // <+1520>
             case .inherited,
                     .color,
@@ -337,17 +337,17 @@ extension DisplayList.ViewUpdater {
             }
             
             // <+1520>
-            var platformViewInfo = DisplayList.ViewUpdater.PlatformViewInfo(
+            var platformViewInfo = unsafe DisplayList.ViewUpdater.PlatformViewInfo(
                 view: viewInfo.view,
                 kind: kind,
                 state: &viewInfo.state,
                 seeds: &viewInfo.seeds.platformSeeds
             )
-            let platformState = UnsafeRawPointer(state)
+            let platformState = unsafe UnsafeRawPointer(state)
                 .advanced(by: MemoryLayout<DisplayList.ViewUpdater.Model.State>.offset(of: \.platformState)!)
                 .assumingMemoryBound(to: DisplayList.ViewUpdater.Model.PlatformState.self)
             
-            self.updatePlatformState(&platformViewInfo, item: item_2, size: size, state: platformState)
+            unsafe self.updatePlatformState(&platformViewInfo, item: item_2, size: size, state: platformState)
         }
         
         fileprivate func updateStateAsync(
@@ -368,7 +368,7 @@ extension DisplayList.ViewUpdater {
         ) -> DisplayList.ViewUpdater.ViewInfo {
             // x29 = sp + 0x460
             // sp + 0x380
-            let copy_1 = item
+            _ = item
             // x27
             var encoding = encoding
             
@@ -376,9 +376,9 @@ extension DisplayList.ViewUpdater {
             case .content(let content):
                 // <+100>
                 switch content.value {
-                case .color(let colorView):
+                case .color(_):
                     // <+2740>
-                    if encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
+                    if unsafe encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
                         encoding = DisplayList.ViewUpdater.Platform.Encoding(definition: CALayerPlatformViewDefinition.self)
                     }
                     
@@ -423,7 +423,7 @@ extension DisplayList.ViewUpdater {
             // x11
             let encoding = encoding
             // sp + 0x78
-            let value = item_1.value
+            _ = item_1.value
             
             switch item_1.value {
             case .content(let content):
@@ -445,16 +445,16 @@ extension DisplayList.ViewUpdater {
                         }
                         
                         // <+492>
-                        updateState(&viewInfo, item: item_2, size: item_1.frame.size, state: state)
+                        unsafe updateState(&viewInfo, item: item_2, size: item_1.frame.size, state: state)
                     }
                 } else {
                     // <+656>
                     // sp + 0x60
-                    let encoding_1 = encoding
+                    _ = encoding
                     // sp + 0x480
-                    let state_1 = state.pointee
+                    let state_1 = unsafe state.pointee
                     // sp + 0x330
-                    var state_2 = state.pointee
+                    var state_2 = unsafe state.pointee
                     
                     // d9/d13
                     let size = item_1.size
@@ -480,13 +480,13 @@ extension DisplayList.ViewUpdater {
                         case .color:
                             // <+4908>
                             // sp + 0x1e0
-                            let item_2 = item_1
+                            _ = item_1
                             // sp + 0x1e0
-                            let _ = state_1
+                            let _ = unsafe state_1
                             // <+9492>
                             // x23
                             let layer = viewInfo.layer
-                            let cache = Color.ResolvedHDR.cache
+                            let cache = unsafe Color.ResolvedHDR.cache
                             let cgColor = cache[colorView.color]
                             layer.backgroundColor = cgColor
                             layer.allowsEdgeAntialiasing = isAntialiased
@@ -498,7 +498,7 @@ extension DisplayList.ViewUpdater {
                             // seed -> x20
                             if viewInfo.state.flags == .unknown5 {
                                 // <+15100>
-                                state_2.versions.transform.combine(with: item_1.version)
+                                unsafe state_2.versions.transform.combine(with: item_1.version)
                             }
                             
                             // <+15120>
@@ -511,12 +511,12 @@ extension DisplayList.ViewUpdater {
                             
                             // <+15152>
                             // sp + 0x150
-                            let viewInfo_1 = viewInfo
+                            _ = viewInfo
                             // sp + 0x200
                             let item_3 = item_1
                             
                             // <+15212>
-                            self.updateState(&viewInfo, item: item_3, size: size, state: &state_2)
+                            unsafe self.updateState(&viewInfo, item: item_3, size: size, state: &state_2)
                             return
                         default:
                             // <+9292>
@@ -527,7 +527,7 @@ extension DisplayList.ViewUpdater {
                         fatalError("TODO")
                     }
                 }
-            case .effect(let effect, let displayList):
+            case .effect(_, _):
                 // <+572>
                 fatalError("TODO")
             default:
@@ -608,19 +608,19 @@ extension DisplayList.ViewUpdater {
              state = x21
              */
             // x23
-            let encoding = encoding
+            _ = encoding
             // sp + 0x2e0
             let viewInfo_1 = viewInfo
             // sp + 0x150
-            let state_1 = state.pointee
+            let state_1 = unsafe state.pointee
             // sp + 0x2a8
-            let clipRect = state_1.clipRect()
+            let clipRect = unsafe state_1.clipRect()
             // sp + 0x430
-            let _ = state_1
+            let _ = unsafe state_1
             // sp
-            let viewInfo_2 = viewInfo_1
+            _ = viewInfo_1
             
-            if let clipRect {
+            if clipRect != nil {
                 // <+256>
                 fatalError("TODO")
             } else {
@@ -644,7 +644,7 @@ extension DisplayList.ViewUpdater {
                 }
                 
                 // <+736>
-                if !state.pointee.clips.isEmpty {
+                if unsafe !state.pointee.clips.isEmpty {
                     // <+748>
                     fatalError("TODO")
                 } else {
@@ -673,7 +673,7 @@ extension DisplayList.ViewUpdater {
              viewInfo = x19
              */
             // x25/w25
-            let encoding = encoding
+            _ = encoding
             var d9 = size.width
             var d8 = size.height
             let d15 = viewInfo.state.size.width
@@ -685,7 +685,7 @@ extension DisplayList.ViewUpdater {
             // w26
             let transformSeed = viewInfo.seeds.transform
             // w27
-            let stateTransformSeed = DisplayList.Seed(state.pointee.versions.transform)
+            let stateTransformSeed = unsafe DisplayList.Seed(state.pointee.versions.transform)
             viewInfo.seeds.transform = stateTransformSeed
             w22 = (w22 || (transformSeed != stateTransformSeed))
             
@@ -696,7 +696,7 @@ extension DisplayList.ViewUpdater {
             // <+148>
             // d13, d12
             var (d13, d12) = {
-                let transform = state.pointee.transform
+                let transform = unsafe state.pointee.transform
                 return (transform.tx, transform.ty)
             }()
             // w24
@@ -720,16 +720,16 @@ extension DisplayList.ViewUpdater {
                 // <+160>
                 w23 = clipRectChanged
                 // sp + 0x2e0
-                let state_1 = state.pointee
+                _ = unsafe state.pointee
                 // sp + 0x158
-                let state_2 = state.pointee
+                let state_2 = unsafe state.pointee
                 // sp + 0x2a8
-                let clipRect = state_2.clipRect()
+                let clipRect = unsafe state_2.clipRect()
                 // sp + 0x430
-                let state_3 = state_2
+                let state_3 = unsafe state_2
                 // <+224>
                 // sp + 0x8
-                let state_4 = state_3
+                _ = unsafe state_3
                 
                 if let clipRect {
                     // <+328>
@@ -985,12 +985,12 @@ extension DisplayList.ViewUpdater {
                 branch = .to728
             } else {
                 // <+596>
-                let d0 = state.pointee.transform.a
-                let d1 = state.pointee.transform.b
+                let d0 = unsafe state.pointee.transform.a
+                let d1 = unsafe state.pointee.transform.b
                 var w26 = true
                 
-                if d0 == 1, d1 == 0, (state.pointee.transform.c == 0) {
-                    w26 = (state.pointee.transform.d != 1)
+                if d0 == 1, d1 == 0, unsafe (state.pointee.transform.c == 0) {
+                    w26 = unsafe (state.pointee.transform.d != 1)
                     if w24.contains(.unknown1) {
                         // <+660>
                     } else {
@@ -1003,7 +1003,7 @@ extension DisplayList.ViewUpdater {
                 
                 if branch == nil {
                     // <+660>
-                    let existing = state.pointee.transform
+                    let existing = unsafe state.pointee.transform
                     let transform = CGAffineTransform(d0, d1, existing.c, existing.d, 0, 0)
                     CoreViewSetTransform(system, viewInfo.view, transform)
                     
@@ -1070,7 +1070,7 @@ extension DisplayList.ViewUpdater {
                 // <+1112>
                 // x23
                 let layer = viewLayer(viewInfo.view)
-                layer.rasterizationScale = state.pointee.globals.pointee.environment.contentsScale
+                layer.rasterizationScale = unsafe state.pointee.globals.pointee.environment.contentsScale
                 // <+1164>
             } else {
                 fatalError("unexpected")
@@ -1102,14 +1102,14 @@ extension DisplayList.ViewUpdater {
              viewInfo = x25
              */
             // x21
-            if let shadow = state.pointee.shadow {
+            if unsafe state.pointee.shadow != nil {
                 // <+84>
                 fatalError("TODO")
             } else {
                 // <+648>
                 // w8
                 let shadowSeed = viewInfo.seeds.shadow
-                let shadowVersions = state.pointee.versions.shadow
+                let shadowVersions = unsafe state.pointee.versions.shadow
                 if shadowSeed != DisplayList.Seed(shadowVersions) {
                     // <+696>
                     fatalError("TODO")
@@ -1390,7 +1390,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             var flag: Bool
             if seeds.item == DisplayList.Seed(item_1.version) {
                 // <+1908>
-                flag = viewInfo_3.nextUpdate <= state.pointee.globals.pointee.time
+                flag = unsafe viewInfo_3.nextUpdate <= state.pointee.globals.pointee.time
                 viewInfo_2.nextUpdate = .infinity
             } else {
                 // <+1964>
@@ -1410,7 +1410,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             
             // <+2012>
             // x19
-            let platform_2 = viewInfo_3.platform
+            _ = viewInfo_3.platform
             // tag -> w28
             switch tag {
             case .item:
@@ -1425,9 +1425,9 @@ extension DisplayList.ViewUpdater.ViewCache {
                 // sp + 0x420
                 let item_2 = item
                 // sp + 0xb0
-                let origin = item.frame.origin
+                _ = item.frame.origin
                 
-                platform_3.updateItemView(&viewInfo_2, index: index, item: item_2, state: state)
+                unsafe platform_3.updateItemView(&viewInfo_2, index: index, item: item_2, state: state)
                 
                 // <+2252>
                 // origin -> q0
@@ -1503,11 +1503,11 @@ extension DisplayList.ViewUpdater.ViewCache {
              index.restored = w25
              */
             // w21/sp + 0x508
-            let identity_3 = identity_1
+            _ = identity_1
             // sp + 0x90
-            var index_1 = index
+            let index_1 = index
             // sp + 0x420
-            viewInfo = platform._makeItemView(item: copy_2, state: state)
+            viewInfo = unsafe platform._makeItemView(item: copy_2, state: state)
             /*
              platform = sp + 0x2e0
              x22 = sp + 0x4c0
@@ -1518,9 +1518,9 @@ extension DisplayList.ViewUpdater.ViewCache {
              x25 = sp + 0x100
              */
             // sp + 0x4c0
-            let copy_3 = item
+            _ = item
             // <+904>
-            platform.updateItemView(&viewInfo, index: index_2, item: copy_2, state: state)
+            unsafe platform.updateItemView(&viewInfo, index: index_2, item: copy_2, state: state)
             // <+928>
             identity_2 = index_1.archiveIdentity
             // <+944>
@@ -1545,7 +1545,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         // <+1032>에서 값 읽어와서 <+1092>에 할당
         viewInfo_2.parentID = id
         // sp + 0x380
-        let viewInfo_3 = viewInfo_2
+        _ = viewInfo_2
         // <+1000>
         // x21
         let container = viewInfo_2.container
@@ -1560,9 +1560,9 @@ extension DisplayList.ViewUpdater.ViewCache {
         
         // <+1276>
         // x19
-        let reverseMapKey = OpaquePointer(Unmanaged.passUnretained(viewInfo_2.view).toOpaque())
-        reverseMap.removeValue(forKey: reverseMapKey)
-        reverseMap[reverseMapKey] = mapKey
+        let reverseMapKey = unsafe OpaquePointer(Unmanaged.passUnretained(viewInfo_2.view).toOpaque())
+        unsafe reverseMap.removeValue(forKey: reverseMapKey)
+        unsafe reverseMap[reverseMapKey] = mapKey
         
         // <+1444>
         /*
@@ -1580,7 +1580,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         // <+1536>
         // x8 = sp + 0x100
         // opacity~platformSeeds (sp + 0x3ea~0x3fa)
-        let seeds_2 = seeds
+        _ = seeds
         // sp + 0x3d8
         let _ = platform_1
         // w22

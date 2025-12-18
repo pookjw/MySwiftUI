@@ -29,7 +29,7 @@ extension BodyAccessor {
             fatalError(message)
         }
         
-        return withUnsafePointer(to: inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
+        return unsafe withUnsafePointer(to: inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
             let flags: any RuleThreadFlags.Type
             if fields.behaviors.contains(.allowsAsync) {
                 flags = AsyncThreadFlags.self
@@ -45,7 +45,7 @@ extension BodyAccessor {
                     let graph = _GraphValue<Self.Body>(Attribute(rule))
                     return (graph, buffer)
                 } else {
-                    let rule = DynamicBody<Self, T>(accessor: self, container: container.value, phase: pointer.pointee.phase, links: buffer, resetSeed: 0)
+                    let rule = unsafe DynamicBody<Self, T>(accessor: self, container: container.value, phase: pointer.pointee.phase, links: buffer, resetSeed: 0)
                     let graph = _GraphValue<Self.Body>(Attribute(rule))
                     return (graph, buffer)
                 }
@@ -58,8 +58,8 @@ extension BodyAccessor {
     func setBody(_ body: () -> Self.Body) {
         let body = traceRuleBody(type(of: self), body: body)
         
-        withUnsafePointer(to: body) { pointer in
-            Graph.setOutputValue(pointer)
+        unsafe withUnsafePointer(to: body) { pointer in
+            unsafe Graph.setOutputValue(pointer)
         }
     }
 }

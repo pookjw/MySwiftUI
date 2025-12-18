@@ -28,7 +28,7 @@ public struct EnvironmentValues: CustomStringConvertible {
         } else {
             self._plist = PropertyList()
             self.tracker = nil
-            unsafe CoreGlue2.shared.configureEmptyEnvironment(&self)
+            CoreGlue2.shared.configureEmptyEnvironment(&self)
         }
     }
     
