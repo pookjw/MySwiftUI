@@ -454,7 +454,23 @@ extension DynamicViewList {
     }
     
     fileprivate struct Transform: _ViewList_SublistTransform_Item {
-        private var item: DynamicViewList<Content>.Item
+        private(set) var item: DynamicViewList<Content>.Item
+        
+        static var flags: _ViewList_SublistTransform_ItemFlags {
+            return .graphDependent
+        }
+        
+        func apply(sublist: inout _ViewList_Sublist) {
+            fatalError("TODO")
+        }
+        
+        func bindID(_ id: inout _ViewList_ID) {
+            fatalError("TODO")
+        }
+        
+        func wrapSubgraph(into storage: inout _ViewList_SublistSubgraphStorage) {
+            fatalError("TODO")
+        }
     }
 }
 
@@ -487,8 +503,11 @@ extension DynamicViewList.WrappedList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-        fatalError("TODO")
+    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        return transform.withPushedItem(DynamicViewList<Content>.Transform(item: item)) { _transform in
+            // $s7SwiftUI23ResettableListContainer33_6EC83A31B57F45269398E452A4758CA7LLV07WrappedD0V10applyNodes4from5style4list9transform2toSbSiz_AA05_ViewD14_IteratorStyleV14AttributeGraph0X0VyAA0uD0_pGSgAA01_uD26_TemporarySublistTransformVSbSiz_AnA01_uD5_NodeOAVtXEtFSbAVXEfU_TA
+            return block(&index, style, .list(list), _transform)
+        }
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
@@ -592,7 +611,7 @@ extension EmptyViewList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
         fatalError("TODO")
     }
     
@@ -621,7 +640,6 @@ struct EmptyViewListElements: _ViewList_Elements {
 
 extension ViewList {
     func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
-//        transform.withPushedItem(<#T##_ViewList_SublistTransform_Item#>, do: <#T##(consuming _ViewList_TemporarySublistTransform) -> T#>)
         fatalError("TODO")
     }
 }

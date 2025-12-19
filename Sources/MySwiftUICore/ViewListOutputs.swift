@@ -195,7 +195,7 @@ protocol ViewList {
     var viewIDs: _ViewList_ID_Views? { get }
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator)
     var traits: ViewTraitCollection { get }
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit?
     func firstOffset<T: Hashable>(forID: T, style: _ViewList_IteratorStyle) -> Int?
     func print(into: inout SExpPrinter)
@@ -247,14 +247,14 @@ extension ViewList {
     }
     
     func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, to body: (_ViewList_Sublist) -> Bool) -> Bool {
-        return applySublists(
+        return applyNodes(
             from: &index,
             style: style,
             list: list,
             transform: _ViewList_TemporarySublistTransform(),
-            to: { _ in
+            to: { index, style, node, transform in
                 // $s7SwiftUI8ViewListPAAE13applySublists4from5style4list9transform2toSbSiz_AA01_cD14_IteratorStyleV14AttributeGraph0N0VyAaB_pGSgAA01_cD26_TemporarySublistTransformVSbAA01_cd1_Q0VXEtFSbSiz_AkA01_cD5_NodeOARtXEfU_TA
-                fatalError("TODO")
+                return node.applySublists(from: &index, style: style, transform: transform, to: body)
             }
         )
     }
@@ -564,8 +564,40 @@ struct _ViewList_IteratorStyle: Equatable {
         fatalError("TODO")
     }
     
-    func withPushedItem<T, U: _ViewList_SublistTransform_Item>(_: U, do: (consuming _ViewList_TemporarySublistTransform) -> T) -> T {
-        fatalError("TODO")
+    func withPushedItem<T, U: _ViewList_SublistTransform_Item>(_ item: U, do block: (borrowing _ViewList_TemporarySublistTransform) -> T) -> T {
+        let flags = U.flags
+        
+        switch storage {
+        case .node(let node):
+            // <+196>
+            var subgraphCount: Int
+            // x20
+            let depth: Int
+            if let node {
+                subgraphCount = node.pointee.subgraphCount
+                depth = node.pointee.depth &+ 1
+            } else {
+                subgraphCount = 0
+                depth = 0
+            }
+            
+            if flags.contains(.graphDependent) {
+                subgraphCount &+= 1
+            }
+            
+            var node = _ViewList_TemporarySublistTransform.ItemNode(next: node, value: item, subgraphCount: subgraphCount, depth: depth)
+            return withUnsafePointer(to: &node) { pointer in
+                var transform = _ViewList_TemporarySublistTransform()
+                transform.storage = .node(UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>(mutating: pointer))
+                return block(transform)
+            }
+        case .transform(_):
+            // <+120>
+            push(item, flags: flags)
+            let result = block(self)
+            pop(flags: flags)
+            return result
+        }
     }
     
     func wrapSubgraphs(into storage: inout _ViewList_SublistSubgraphStorage) {
@@ -573,6 +605,14 @@ struct _ViewList_IteratorStyle: Equatable {
     }
     
     func copy() -> _ViewList_SublistTransform {
+        fatalError("TODO")
+    }
+    
+    fileprivate func push(_ item: any _ViewList_SublistTransform_Item, flags: _ViewList_SublistTransform_ItemFlags) {
+        fatalError("TODO")
+    }
+    
+    fileprivate func pop(flags: _ViewList_SublistTransform_ItemFlags) {
         fatalError("TODO")
     }
 }
@@ -584,10 +624,10 @@ extension _ViewList_TemporarySublistTransform {
     }
     
     @unsafe fileprivate struct ItemNode {
-        private var next: UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>?
-        private var value: _ViewList_SublistTransform_Item
-        private var subgraphCount: Int
-        private var depth: Int
+        fileprivate private(set) var next: UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>?
+        fileprivate private(set) var value: _ViewList_SublistTransform_Item
+        fileprivate private(set) var subgraphCount: Int
+        fileprivate private(set) var depth: Int
     }
 }
 
@@ -597,11 +637,49 @@ struct _ViewList_SublistTransform {
 }
 
 protocol _ViewList_SublistTransform_Item {
-    // TODO
+    static var flags: _ViewList_SublistTransform_ItemFlags { get }
+    func apply(sublist: inout _ViewList_Sublist)
+    func bindID(_ id: inout _ViewList_ID)
+    func wrapSubgraph(into storage: inout _ViewList_SublistSubgraphStorage)
+}
+
+extension _ViewList_SublistTransform_Item {
+    static var flags: _ViewList_SublistTransform_ItemFlags {
+        return []
+    }
+    
+    func applyIDs(from index: inout Int, style: _ViewList_IteratorStyle, listAttribute: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func applySublists(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
 }
 
 enum _ViewList_Node {
-    // TODO
+    case list(Attribute<any ViewList>?)
+    case sublist(_ViewList_Sublist)
+    case group(_ViewList_Group)
+    case section(_ViewList_Section)
+    
+    func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to block: (_ViewList_Sublist) -> Bool) -> Bool {
+        /*
+         index -> x21
+         block -> x23/x27
+         style -> x22
+         transform -> sp + 0x30
+         */
+        // sp + 0xd0
+        let copy_1 = self
+        
+        // <+84>
+        fatalError("TODO")
+    }
+    
+    func applySublists(from index: inout Int, transform: borrowing _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
 }
 
 enum _ViewList_Edit {
@@ -615,4 +693,20 @@ extension _ViewList_ID {
         private var implicitID: Int32
         private var explicitID: AnyHashable2?
     }
+}
+
+struct _ViewList_SublistTransform_ItemFlags: OptionSet {
+    let rawValue: UInt8
+    
+    static var graphDependent: _ViewList_SublistTransform_ItemFlags {
+        return _ViewList_SublistTransform_ItemFlags(rawValue: 1 << 0)
+    }
+}
+
+struct _ViewList_Group {
+    // TODO
+}
+
+struct _ViewList_Section {
+    // TODO
 }

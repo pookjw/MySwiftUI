@@ -1063,7 +1063,7 @@ class ViewController: UIViewController {
         let model = ObsModel()
 //        let rootView = MyObsView(model: model)
         
-        let rootView = Group {
+        let rootView = MyLayout() {
             if model.flag {
                 Color.white
             } else {
@@ -1243,6 +1243,6 @@ fileprivate struct MyLayout: Layout {
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        fatalError("TODO")
+//        fatalError("TODO")
     }
 }
