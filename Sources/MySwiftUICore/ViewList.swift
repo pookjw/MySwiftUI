@@ -51,10 +51,20 @@ struct _ViewList_SublistSubgraphStorage {
 }
 
 struct _ViewList_Sublist {
-    private var start: Int
-    private var count: Int
-    private var id: _ViewList_ID
-    private var elements: _ViewList_SubgraphElements
-    private var traits: ViewTraitCollection
-    private var list: Attribute<ViewList>?
+    var start: Int
+    var count: Int
+    var id: _ViewList_ID
+    var elements: _ViewList_SubgraphElements
+    var traits: ViewTraitCollection
+    var list: Attribute<ViewList>?
+    
+    @inline(__always)
+    init(start: Int, count: Int, id: _ViewList_ID, elements: _ViewList_SubgraphElements, traits: ViewTraitCollection, list: Attribute<ViewList>?) {
+        self.start = start
+        self.count = count
+        self.id = id
+        self.elements = elements
+        self.traits = traits
+        self.list = list
+    }
 }
