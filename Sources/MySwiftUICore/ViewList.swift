@@ -27,9 +27,21 @@ class _ViewList_Subgraph {
 }
 
 struct _ViewList_ID {
-    private var _index: Int32
-    private var implicitID: Int32
-    private var explicitIDs: [_ViewList_ID.Explicit]
+    var _index: Int32
+    var implicitID: Int32
+    var explicitIDs: [_ViewList_ID.Explicit]
+    
+    init(implicitID: Int) {
+        self._index = 0
+        self.explicitIDs = []
+        self.implicitID = Int32(implicitID)
+    }
+    
+    init() {
+        self._index = 0
+        self.implicitID = 0
+        self.explicitIDs = []
+    }
 }
 
 extension _ViewList_ID {
@@ -42,12 +54,23 @@ extension _ViewList_ID {
 }
 
 struct _ViewList_SubgraphElements {
-    private var base: _ViewList_Elements
+    var base: any _ViewList_Elements
     private var subgraphs: _ViewList_SublistSubgraphStorage
+    
+    @inline(__always)
+    init(base: any _ViewList_Elements, subgraphs: _ViewList_SublistSubgraphStorage) {
+        self.base = base
+        self.subgraphs = subgraphs
+    }
 }
 
 struct _ViewList_SublistSubgraphStorage {
     private var subgraphs: [_ViewList_Subgraph]
+    
+    @inline(__always)
+    init(subgraphs: [_ViewList_Subgraph]) {
+        self.subgraphs = subgraphs
+    }
 }
 
 struct _ViewList_Sublist {

@@ -503,19 +503,10 @@ extension DynamicViewList.WrappedList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
         return transform.withPushedItem(DynamicViewList<Content>.Transform(item: item)) { _transform in
             // $s7SwiftUI23ResettableListContainer33_6EC83A31B57F45269398E452A4758CA7LLV07WrappedD0V10applyNodes4from5style4list9transform2toSbSiz_AA05_ViewD14_IteratorStyleV14AttributeGraph0X0VyAA0uD0_pGSgAA01_uD26_TemporarySublistTransformVSbSiz_AnA01_uD5_NodeOAVtXEtFSbAVXEfU_TA
-            let subList = _ViewList_Sublist(
-                start: index,
-                count: <#T##Int#>,
-                id: <#T##_ViewList_ID#>,
-                elements: <#T##_ViewList_SubgraphElements#>,
-                traits: <#T##ViewTraitCollection#>,
-                list: <#T##Attribute<any ViewList>?#>
-            )
-            
-            return block(&index, style, .sublist(subList), _transform)
+            return base.applyNodes(from: &index, style: style, list: list, transform: _transform, to: block)
         }
     }
     
@@ -620,7 +611,7 @@ extension EmptyViewList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
         fatalError("TODO")
     }
     

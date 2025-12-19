@@ -195,7 +195,7 @@ protocol ViewList {
     var viewIDs: _ViewList_ID_Views? { get }
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator)
     var traits: ViewTraitCollection { get }
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit?
     func firstOffset<T: Hashable>(forID: T, style: _ViewList_IteratorStyle) -> Int?
     func print(into: inout SExpPrinter)
@@ -386,7 +386,7 @@ extension BaseViewList: ViewList {
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        fatalError("TODO")
+        return elements.count
     }
     
     var viewIDs: _ViewList_ID_Views? {
@@ -397,8 +397,22 @@ extension BaseViewList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, consuming _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-        fatalError("TODO")
+    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        // $s7SwiftUI12BaseViewList33_E479C0E92CDD045BAF2EF653123E2E0BLLV10applyNodes4from5style4list9transform2toSbSiz_AA01_dE14_IteratorStyleV14AttributeGraph0W0VyAA0dE0_pGSgAA01_dE26_TemporarySublistTransformVSbSiz_AlA01_dE5_NodeOATtXEtF
+        // sp + 0x88
+        let sublist = _ViewList_Sublist(
+            start: index,
+            count: count(style: style),
+            id: _ViewList_ID(implicitID: implicitID),
+            elements: _ViewList_SubgraphElements(
+                base: elements,
+                subgraphs: _ViewList_SublistSubgraphStorage(subgraphs: [])
+            ),
+            traits: traits,
+            list: list
+        )
+        
+        return block(&index, style, .sublist(sublist), transform)
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
