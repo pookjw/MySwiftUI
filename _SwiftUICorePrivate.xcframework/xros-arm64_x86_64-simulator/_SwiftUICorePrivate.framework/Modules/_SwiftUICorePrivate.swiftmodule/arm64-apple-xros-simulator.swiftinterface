@@ -1120,7 +1120,32 @@ extension AttributeGraph.Attribute {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol DynamicContainerItem {
-  func matchesIdentity(of item: Self) -> Swift.Bool
+    var count: Swift.Int { get }
+    var needsTransitions: Swift.Bool { get }
+    var zIndex: Swift.Double { get }
+    func matchesIdentity(of item: Self) -> Swift.Bool
+    static var supportsReuse: Swift.Bool { get }
+    func canBeReused(by item: Self) -> Swift.Bool
+    var list: AttributeGraph.Attribute<ViewList>? { get }
+    var viewID: _SwiftUICorePrivate._ViewList_ID? { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.DynamicContainerItem {
+    public var needsTransitions: Swift.Bool { get }
+    public var zIndex: Swift.Double { get }
+    public static var supportsReuse: Swift.Bool { get }
+    public func canBeReused(by item: Self) -> Swift.Bool
+    public var list: AttributeGraph.Attribute<ViewList>? { get }
+    public var viewID: _SwiftUICorePrivate._ViewList_ID? { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ViewList_ID {
+  public init(implicitID: Swift.Int)
+  public init()
 }
 
 @available(visionOS 26.0, *)
@@ -1162,7 +1187,7 @@ public struct DynamicContainer {
 extension _SwiftUICorePrivate.DynamicContainer {
   public struct Info {}
 
-  public struct ItemInfo {}
+  public class ItemInfo {}
 }
 
 @available(visionOS 26.0, *)

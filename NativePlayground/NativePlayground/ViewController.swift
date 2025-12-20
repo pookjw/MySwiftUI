@@ -99,9 +99,13 @@ final class FooModel {
 }
 
 struct MyItem: DynamicContainerItem {
+    var count: Int {
+        return 3
+    }
+    
     var number = 3
     func matchesIdentity(of item: Self) -> Bool {
-        fatalError()
+        return false
     }
 }
 
@@ -111,11 +115,12 @@ struct MyAdapter: DynamicContainerAdaptor {
 //        return nil
     }
     
-    func makeItemLayout(item: MyItem, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, Never) {
-        fatalError("TODO")
+    func makeItemLayout(item: MyItem, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, Void) {
+        let outputs = _ViewOutputs.init()
+        return (outputs, ())
     }
     
-    func removeItemLayout(uniqueId: UInt32, itemLayout: Never) {
+    func removeItemLayout(uniqueId: UInt32, itemLayout: Void) {
         fatalError("TODO")
     }
     
@@ -123,7 +128,7 @@ struct MyAdapter: DynamicContainerAdaptor {
     
     typealias Items = MyItem
     
-    typealias ItemLayout = Never
+    typealias ItemLayout = Void
     
     
 }
@@ -945,6 +950,14 @@ class ViewController: UIViewController {
         
         print("===")
         
+        print(_typeName(DynamicContainer.ItemInfo.self, qualified: true))
+        _forEachField(of: DynamicContainer.ItemInfo.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
+        
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
         
@@ -997,10 +1010,13 @@ class ViewController: UIViewController {
                     ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
                 )
         .toOpaque())
-        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: .init(value: .init()), environment: .init(value: .init()), transaction: .init(value: .init())))
+        let phase: Attribute<SwiftUI._GraphInputs.Phase> = .init(value: .init(value: 3))
+        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: phase, environment: .init(value: .init()), transaction: .init(value: .init())))
         inputs.preferences.add(ViewRespondersKey.self)
         let host = GraphHost.init(data: .init())
         let (info, _) = DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
+        _ = info.value
+        phase.value.merge(.init(value: 4))
         print(info.value)
         fatalError()
 //        

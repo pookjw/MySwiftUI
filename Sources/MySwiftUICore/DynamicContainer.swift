@@ -117,11 +117,19 @@ extension DynamicContainer {
         init() {
             fatalError("TODO")
         }
+        
+        func `for`<T: DynamicContainerAdaptor>(_ type: T.Type) -> DynamicContainer._ItemInfo<T> {
+            return unsafeBitCast(self, to: DynamicContainer._ItemInfo<T>.self)
+        }
     }
     
-    struct _ItemInfo<T: DynamicContainerAdaptor> {
-        private var item: T.Item
+    final class _ItemInfo<T: DynamicContainerAdaptor>: DynamicContainer.ItemInfo {
+        fileprivate private(set) var item: T.Item
         private let itemLayout: T.ItemLayout
+        
+        override init() {
+            fatalError("TODO")
+        }
     }
 }
 
@@ -234,14 +242,46 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             // (x29, #0x78) (x29, #0x80) self, copy_1, disableTransitions, (changed, hasDepth)
             adaptor.foreachItem(items: copy_1) { item in
                 /*
-                 x29_0x78 -> x1
-                 x29_0x80 -> x2
-                 self -> x3/x4
-                 copy_1 -> x5
-                 disableTransitions -> w6
-                 (changed, hasDepth) -> x7
+                 item -> sp + 0x88
+                 x29_0x78 -> x1 -> x19
+                 x29_0x80 -> x2 -> x23 -> sp + 0x38
+                 self -> x3/x4 -> x28/x20
+                 copy_1 -> x5 -> sp + 0x10
+                 disableTransitions -> w6 -> sp + 0xc
+                 (changed, hasDepth) -> x7 -> x21
                  */
-                // $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFy4ItemQzXEfU_"
+                // $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFy4ItemQzXEfU_
+                var sp60 = -1
+                for index in x29_0x78..<x29_0x80 {
+                    // <+564>
+                    // x26
+                    let info = info.items[index].for(T.self)
+                    let matches = item.matchesIdentity(of: info.item)
+                    if matches {
+                        // <+1348>
+                        fatalError("TODO")
+                    }
+                    
+                    // <+912>
+                    if sp60 != -1 || info.phase != nil {
+                        // <+632>
+                        fatalError("TODO")
+                    }
+                    
+                    // <+976>
+                    // x21
+                    let copy = info.item
+                    // w20
+                    let canBeReused = item.canBeReused(by: copy)
+                    _ = consume info
+                    
+                    // <+1048>
+                    if canBeReused {
+                        sp60 = index
+                    }
+                }
+                
+                let disableTransitions = item.needsTransitions
                 fatalError("TODO")
 //                let lastUniqueId = lastUniqueId &+ 1
 //                self.lastUniqueId = lastUniqueId
