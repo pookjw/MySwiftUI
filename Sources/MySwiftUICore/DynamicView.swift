@@ -428,6 +428,10 @@ extension DynamicViewList {
         func matches(type: any Any.Type, id: Content.ID?) -> Bool {
             fatalError("TODO")
         }
+        
+        func bindID(_ other: inout _ViewList_ID) {
+            other.bind(explicitID: id, owner: owner, isUnary: isUnary, reuseID: Int(bitPattern: ObjectIdentifier(type)))
+        }
     }
     
     fileprivate struct WrappedList: CustomStringConvertible {
@@ -461,7 +465,8 @@ extension DynamicViewList {
         }
         
         func apply(sublist: inout _ViewList_Sublist) {
-            fatalError("TODO")
+            item.bindID(&sublist.id)
+            sublist.elements.subgraphs.subgraphs.append(item)
         }
         
         func bindID(_ id: inout _ViewList_ID) {
@@ -550,9 +555,9 @@ struct DynamicViewListItem: DynamicContainerItem {
         fatalError("TODO")
     }
     
-    private var id: _ViewList_ID
-    private var elements: _ViewList_SubgraphElements
-    private var traits: ViewTraitCollection
+    private(set) var id: _ViewList_ID
+    private(set) var elements: _ViewList_SubgraphElements
+    private(set) var traits: ViewTraitCollection
     private(set) var list: Attribute<ViewList>?
 }
 

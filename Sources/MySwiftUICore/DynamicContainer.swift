@@ -233,7 +233,6 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             let x29_0x80 = info.items.count
             // (x29, #0x78) (x29, #0x80) self, copy_1, disableTransitions, (changed, hasDepth)
             adaptor.foreachItem(items: copy_1) { item in
-                // $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFy4ItemQzXEfU_TA
                 /*
                  x29_0x78 -> x1
                  x29_0x80 -> x2
@@ -242,6 +241,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                  disableTransitions -> w6
                  (changed, hasDepth) -> x7
                  */
+                // $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFy4ItemQzXEfU_"
                 fatalError("TODO")
 //                let lastUniqueId = lastUniqueId &+ 1
 //                self.lastUniqueId = lastUniqueId

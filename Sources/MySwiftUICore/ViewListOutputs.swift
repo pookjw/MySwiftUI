@@ -571,7 +571,19 @@ struct _ViewList_IteratorStyle: Equatable {
     }
     
     func apply(sublist: inout _ViewList_Sublist) {
-        fatalError("TODO")
+        // sublist -> x19
+        switch storage {
+        case .node(let pointer):
+            guard let pointer else {
+                return
+            }
+            
+            sublist.elements.subgraphs.subgraphs.reserveCapacity(pointer.pointee.subgraphCount)
+            pointer.pointee.value.apply(sublist: &sublist)
+        case .transform(_):
+            // SwiftUI._ViewList_SublistTransform.apply(sublist: inout SwiftUI._ViewList_Sublist)의 inline일 수도 있음
+            fatalError("TODO")
+        }
     }
     
     var isEmpty: Bool {
@@ -688,7 +700,33 @@ enum _ViewList_Node {
         let copy_1 = self
         
         // <+84>
-        fatalError("TODO")
+        switch self {
+        case .list(_):
+            fatalError("TODO")
+        case .sublist(let sublist):
+            // <+580>
+            // sp + 0x40
+            var copy_2 = sublist
+            let granularity = style.applyGranularity(to: sublist.count)
+            // x20
+            let offset = index &- granularity
+            
+            if index >= granularity {
+                index = offset
+                return true
+            }
+            
+            // <+652>
+            transform.apply(sublist: &copy_2)
+            let result = block(copy_2)
+            _ = consume copy_2
+            index = 0
+            return result
+        case .group(_):
+            fatalError("TODO")
+        case .section(_):
+            fatalError("TODO")
+        }
     }
     
     func applySublists(from index: inout Int, transform: borrowing _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {

@@ -102,7 +102,14 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
         var number = 0
         _ = items.applySublists(from: &number, list: $items) { sublist in
             // $s7SwiftUI24DynamicLayoutViewAdaptorV11foreachItem5items_yAA0E4List_p_yAA0cejH0VXEtFSbAA01_eJ8_SublistVXEfU_TA
-            fatalError("TODO")
+            let item = DynamicViewListItem(
+                id: sublist.id,
+                elements: sublist.elements,
+                traits: sublist.traits,
+                list: sublist.list
+            )
+            body(item)
+            return true
         }
     }
     

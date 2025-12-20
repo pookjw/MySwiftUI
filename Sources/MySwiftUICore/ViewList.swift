@@ -42,20 +42,47 @@ struct _ViewList_ID {
         self.implicitID = 0
         self.explicitIDs = []
     }
+    
+    mutating func bind<H: Hashable>(explicitID: H, owner: AnyAttribute) {
+        bind(explicitID: explicitID, owner: owner, isUnary: false, reuseID: 0)
+    }
+    
+    mutating func bind<H: Hashable>(explicitID: H, owner: AnyAttribute, reuseID: Int) {
+        bind(explicitID: explicitID, owner: owner, isUnary: false, reuseID: reuseID)
+    }
+    
+    mutating func bind<H: Hashable>(explicitID: H, owner: AnyAttribute, isUnary: Bool) {
+        bind(explicitID: explicitID, owner: owner, isUnary: isUnary, reuseID: 0)
+    }
+    
+    mutating func bind<H: Hashable>(explicitID: H, owner: AnyAttribute, isUnary: Bool, reuseID: Int) {
+        /*
+         owner -> x21
+         isUnary -> x22
+         reuseID -> x19
+         */
+        let explicitID = _ViewList_ID.Explicit(
+            id: AnyHashable2(explicitID),
+            reuseID: reuseID,
+            owner: owner,
+            isUnary: isUnary
+        )
+        explicitIDs.append(explicitID)
+    }
 }
 
 extension _ViewList_ID {
     struct Explicit {
-        private let id: AnyHashable2
-        private let reuseID: Int
-        private let owner: AnyAttribute
-        private let isUnary: Bool
+        let id: AnyHashable2
+        let reuseID: Int
+        let owner: AnyAttribute
+        let isUnary: Bool
     }
 }
 
 struct _ViewList_SubgraphElements {
     var base: any _ViewList_Elements
-    private var subgraphs: _ViewList_SublistSubgraphStorage
+    var subgraphs: _ViewList_SublistSubgraphStorage
     
     @inline(__always)
     init(base: any _ViewList_Elements, subgraphs: _ViewList_SublistSubgraphStorage) {
@@ -65,7 +92,7 @@ struct _ViewList_SubgraphElements {
 }
 
 struct _ViewList_SublistSubgraphStorage {
-    private var subgraphs: [_ViewList_Subgraph]
+    var subgraphs: [_ViewList_Subgraph]
     
     @inline(__always)
     init(subgraphs: [_ViewList_Subgraph]) {
