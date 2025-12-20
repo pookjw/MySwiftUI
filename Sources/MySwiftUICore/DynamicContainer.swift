@@ -106,9 +106,9 @@ extension DynamicContainer {
         private let uniqueId: UInt32
         private let viewCount: Int32
         private let outputs: _ViewOutputs
-        private let needsTransitions: Bool
+        let needsTransitions: Bool
         private var listener: DynamicAnimationListener?
-        private var zIndex: Double
+        fileprivate var zIndex: Double
         private var removalOrder: UInt32
         private var precedingViewCount: Int32
         private var resetSeed: UInt32
@@ -124,7 +124,7 @@ extension DynamicContainer {
     }
     
     final class _ItemInfo<T: DynamicContainerAdaptor>: DynamicContainer.ItemInfo {
-        fileprivate private(set) var item: T.Item
+        fileprivate var item: T.Item
         private let itemLayout: T.ItemLayout
         
         override init() {
@@ -238,20 +238,25 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             // disableTransitions -> w28
             
             var x29_0x78 = 0
-            let x29_0x80 = info.items.count
+            var x29_0x80 = info.items.count
             // (x29, #0x78) (x29, #0x80) self, copy_1, disableTransitions, (changed, hasDepth)
             adaptor.foreachItem(items: copy_1) { item in
                 /*
                  item -> sp + 0x88
-                 x29_0x78 -> x1 -> x19
+                 x29_0x78 -> x1 -> x19 -> sp + 0x40
                  x29_0x80 -> x2 -> x23 -> sp + 0x38
-                 self -> x3/x4 -> x28/x20
+                 self -> x3
                  copy_1 -> x5 -> sp + 0x10
                  disableTransitions -> w6 -> sp + 0xc
-                 (changed, hasDepth) -> x7 -> x21
+                 (changed, hasDepth) -> x4/x7 -> sp + 0x18 / sp + 0x20
                  */
                 // $s7SwiftUI20DynamicContainerInfoV11updateItems33_E7D4CD2D59FB8C77D6C7E9C534464C17LL18disableTransitionsSb7changed_Sb8hasDepthtSb_tFy4ItemQzXEfU_
                 var sp60 = -1
+                
+                // true = <+1896>
+                var flag = false
+                
+                // x19
                 for index in x29_0x78..<x29_0x80 {
                     // <+564>
                     // x26
@@ -259,42 +264,132 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                     let matches = item.matchesIdentity(of: info.item)
                     if matches {
                         // <+1348>
-                        fatalError("TODO")
+                        if x29_0x78 != index {
+                            self.info.items.swapAt(x29_0x78, index)
+                            changed = true
+                        }
+                        
+                        // <+1404>
+                        info.item = item
+                        
+                        if info.phase != .identity {
+                            // <+1852>
+                            unremoveItem(at: x29_0x78)
+                            changed = true
+                        }
+                        
+                        // <+1884>
+                        flag = true
+                        break
                     }
                     
                     // <+912>
                     if sp60 != -1 || info.phase != nil {
                         // <+632>
-                        fatalError("TODO")
+                        continue
                     }
                     
                     // <+976>
                     // x21
                     let copy = info.item
                     // w20
-                    let canBeReused = item.canBeReused(by: copy)
-                    _ = consume info
+                    let canBeReused = copy.canBeReused(by: item)
                     
                     // <+1048>
-                    if canBeReused {
-                        sp60 = index
+                    sp60 = canBeReused ? index : sp60
+                }
+                
+                if !flag {
+                    // <+228>
+                    if T.Item.supportsReuse {
+                        // <+296>
+                        // <+1500>
+                        for index in x29_0x78..<x29_0x80 {
+                            let info = info.items[index].for(T.self)
+                            if info.needsTransitions {
+                                continue
+                            }
+                            
+                            // x21
+                            var copy = info.item
+                            // w20
+                            let canBeReused = copy.canBeReused(by: item)
+                            
+                            if !canBeReused {
+                                continue
+                            }
+                            
+                            copy = info.item
+                            let contains = T.containsItem(copy_1, copy)
+                            
+                            if contains {
+                                continue
+                            }
+                            
+                            // <+2140>
+                            if sp60 != -1 {
+                                // <+1108>
+                                let info = self.info.items[sp60].for(T.self)
+                                info.item = item
+                                unremoveItem(at: sp60)
+                                if x29_0x78 < sp60 {
+                                    self.info.items.swapAt(x29_0x78, sp60)
+                                }
+                                flag = true
+                                // <+1896>
+                            }
+                        }
+                        // <+336>
                     }
                 }
                 
-                let disableTransitions = item.needsTransitions
-                fatalError("TODO")
-//                let lastUniqueId = lastUniqueId &+ 1
-//                self.lastUniqueId = lastUniqueId
-//                
-//                let newItem = makeItem(
-//                    item,
-//                    uniqueId: lastUniqueId,
-//                    container: Attribute<DynamicContainer.Info>(identifier: .current!),
-//                    disableTransitions: disableTransitions
-//                )
-//                
-//                self.info.items.append(newItem)
+                if !flag {
+                    // <+336>
+                    let lastUniqueId = lastUniqueId &+ 1
+                    self.lastUniqueId = lastUniqueId
+                    
+                    let newItem = makeItem(
+                        item,
+                        uniqueId: lastUniqueId,
+                        container: Attribute<DynamicContainer.Info>(identifier: .current!),
+                        disableTransitions: disableTransitions
+                    )
+                    
+                    self.info.items.append(newItem)
+                    
+                    // <+476>
+                    if x29_0x78 < x29_0x80 {
+                        self.info.items.swapAt(x29_0x78, x29_0x80)
+                    }
+                    
+                    // <+528>
+                    x29_0x80 &+= 1
+                    
+                    // <+1296>
+                    changed = true
+                    // <+1896>
+                }
+                
+                // <+1896>
+                // d8
+                let zIndex = item.zIndex
+                hasDepth = hasDepth || (zIndex != 0)
+                
+                // <+1944>
+                // d9
+                let other = info.items[x29_0x78].zIndex
+                
+                if zIndex != other {
+                    // <+2028>
+                    info.items[x29_0x78].zIndex = zIndex
+                    changed = true
+                }
+                
+                // <+2092>
+                x29_0x78 &+= 1
             }
+            
+            // <+548>
             fatalError("TODO")
         } else {
             // <+300>
@@ -302,6 +397,10 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         }
         
         return (changed, hasDepth)
+    }
+    
+    mutating func unremoveItem(at: Int) {
+        fatalError("TODO")
     }
 }
 

@@ -107,6 +107,14 @@ struct MyItem: DynamicContainerItem {
     func matchesIdentity(of item: Self) -> Bool {
         return false
     }
+    
+    var needsTransitions: Bool {
+        false
+    }
+    
+    static var supportsReuse: Bool {
+        return true
+    }
 }
 
 struct MyAdapter: DynamicContainerAdaptor {
