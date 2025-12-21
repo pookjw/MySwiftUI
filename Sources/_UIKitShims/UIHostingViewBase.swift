@@ -138,6 +138,7 @@ package final class UIHostingViewBase: NSObject {
     }
     
     package init(viewGraph: MySwiftUICore.ViewGraphHost, configuration: UIHostingViewBase.Configuration) {
+        ___lldb_unnamed_symbol319514(configuration: configuration)
         self.viewGraph = viewGraph
         self.configuration = configuration
         super.init()
@@ -1229,3 +1230,12 @@ fileprivate let isChaaranaApp: Bool = {
 }()
 
 extension UIHostingViewBase: @unchecked Sendable {}
+
+fileprivate func ___lldb_unnamed_symbol319514(configuration: UIHostingViewBase.Configuration) {
+    let colorDefinitions = configuration.colorDefinitions ?? UICorePlatformColorDefinition.self
+    PlatformColorDefinition.setDefinition(colorDefinitions, system: .uiKit)
+    
+    PlatformGlassDefinition.setDefinition(UIKitPlatformGlassDefinition.self, system: .uiKit)
+    PlatformGlassInteractionDefinition.setDefinition(UIKitPlatfromGlassInteractionDefinition.self, system: .uiKit)
+    PlatformAccessibilitySettingsDefinition.setDefinition(UIKitPlatformAccessibilitySettingsDefinition.self, system: .uiKit)
+}

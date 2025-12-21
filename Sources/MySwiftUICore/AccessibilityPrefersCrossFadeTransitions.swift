@@ -16,10 +16,6 @@ extension EnvironmentValues {
             fatalError("TODO")
         }
     }
-    
-    func accessibilitySettingEnabled(_ setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
-        fatalError("TODO")
-    }
 }
 
 fileprivate struct AccessibilityPrefersCrossFadeTransitionsKey: EnvironmentKey {

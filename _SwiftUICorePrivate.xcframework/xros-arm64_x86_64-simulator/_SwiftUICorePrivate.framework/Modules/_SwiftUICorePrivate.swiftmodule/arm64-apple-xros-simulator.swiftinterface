@@ -251,7 +251,7 @@ public struct BloomFilter: Swift.Equatable {
 public struct DisplayList {
     public struct Item {
       public enum Value {
-        case empty
+    case empty
       }
 
       public init(_: _SwiftUICorePrivate.DisplayList.Item.Value, frame: CoreGraphics.CGRect, identity: _SwiftUICorePrivate._DisplayList_Identity, version: _SwiftUICorePrivate.DisplayList.Version)
@@ -555,37 +555,6 @@ public struct MaterialBackdropProxy: Swift.Equatable {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol MaterialBackdropObserver: AnyObject {
   func luminanceDidChange(_: Swift.Float?)
-}
-
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public class PlatformAccessibilitySettingsDefinition {
-  public init()
-
-  public enum Setting: Swift.Hashable {
-    case differentiateWithoutColors
-    case reduceTransparency
-    case reduceMotion
-    case prefersCrossFadeTransitions
-    case invertColors
-    case boldText
-    case buttonShapes
-    case dimFlashingLights
-    case playAnimatedImages
-    case headAnchorAlternative
-    case increaseFocusState
-    case reduceHoverReveal
-    case onOffLabels
-    case quickActions
-    case largeContentViewer
-    case voiceOver
-    case switchControl
-    case fullKeyboardAccess
-    case voiceControl
-    case hoverText
-  }
-
-  public func currentValue(for setting: _SwiftUICorePrivate.PlatformAccessibilitySettingsDefinition.Setting) -> Swift.Bool
 }
 
 @available(visionOS 26.0, *)
@@ -1251,4 +1220,35 @@ public struct _ViewList_IteratorStyle: Swift.Equatable {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct _ViewList_TemporarySublistTransform {
   public init()
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+open class PlatformAccessibilitySettingsDefinition {
+  public enum Setting: Swift.Hashable {
+    case differentiateWithoutColors
+    case reduceTransparency
+    case reduceMotion
+    case prefersCrossFadeTransitions
+    case invertColors
+    case boldText
+    case buttonShapes
+    case dimFlashingLights
+    case playAnimatedImages
+    case headAnchorAlternative
+    case increaseFocusState
+    case reduceHoverReveal
+    case onOffLabels
+    case quickActions
+    case largeContentViewer
+    case voiceOver
+    case switchControl
+    case fullKeyboardAccess
+    case voiceControl
+    case hoverText
+  }
+
+  public init()
+  open func currentValue(for setting: _SwiftUICorePrivate.PlatformAccessibilitySettingsDefinition.Setting) -> Swift.Bool
+  open func notification(for setting: _SwiftUICorePrivate.PlatformAccessibilitySettingsDefinition.Setting) -> Foundation.Notification.Name?
 }

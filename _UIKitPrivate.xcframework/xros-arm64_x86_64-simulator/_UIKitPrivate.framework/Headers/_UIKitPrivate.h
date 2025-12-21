@@ -28,3 +28,4 @@
 #import <_UIKitPrivate/_UIHitTestContext.h>
 #import <_UIKitPrivate/UILayoutAxes.h>
 #import <_UIKitPrivate/UICoreHostingViewForUIKitTester.h>
+#import <_UIKitPrivate/_UIIntelligenceContentLightEffect.h>

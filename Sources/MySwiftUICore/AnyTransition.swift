@@ -11,7 +11,7 @@
     }
     
     var hasMotion: Bool {
-        fatalError("TODO")
+        return box.hasMotion
     }
     
     @safe public static nonisolated(unsafe) let opacity: AnyTransition = MainActor.assumeIsolated { 
@@ -26,6 +26,10 @@ extension AnyTransition: Sendable {
 @usableFromInline
 class AnyTransitionBox {
     var isIdentity: Bool {
+        fatalError() // abstract
+    }
+    
+    var hasMotion: Bool {
         fatalError() // abstract
     }
     
@@ -45,6 +49,10 @@ fileprivate final class TransitionBox<T: Transition>: AnyTransitionBox {
     
     override var isIdentity: Bool {
         return T.Body.self == T.Content.self
+    }
+    
+    override var hasMotion: Bool {
+        return T.properties.hasMotion
     }
     
     // TODO

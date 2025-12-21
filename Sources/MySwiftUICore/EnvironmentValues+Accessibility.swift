@@ -2,7 +2,11 @@
 extension EnvironmentValues {
     public private(set) var accessibilityInvertColors: Bool {
         get {
-            return self[AccessibilityInvertColorsKey.self] == true
+            if let value = self[AccessibilityInvertColorsKey.self] {
+                return value
+            }
+            
+            return accessibilitySettingEnabled(.invertColors)
         }
         set {
             self[AccessibilityInvertColorsKey.self] = newValue

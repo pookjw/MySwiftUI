@@ -122,14 +122,14 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
         var transition: AnyTransition!
         if canTransition {
             // <+232>
-            trnasition = item.traits.value(for: TransitionTraitKey.self)
+            transition = item.traits.value(for: TransitionTraitKey.self)
             
             if isArchived {
                 // <+332>
                 flag = true
             } else {
                 // <+288>
-                if trnasition.isIdentity {
+                if transition.isIdentity {
                     // <+308>
                     // x21 = 0x0
                     // <+596>

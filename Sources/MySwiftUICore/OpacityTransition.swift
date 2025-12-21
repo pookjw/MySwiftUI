@@ -9,9 +9,9 @@ public struct OpacityTransition: Transition {
         fatalError("TODO")
     }
     
-//    @MainActor @preconcurrency public static let properties: TransitionProperties = {
-//        fatalError("TODO")
-//    }()
+    @MainActor @preconcurrency public static var properties: TransitionProperties {
+        return TransitionProperties(hasMotion: false)
+    }
 //    
 //    @MainActor @preconcurrency public func _makeContentTransition(transition: inout _Transition_ContentTransition) {
 //        fatalError("TODO")

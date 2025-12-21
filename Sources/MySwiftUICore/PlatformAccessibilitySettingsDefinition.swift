@@ -1,5 +1,6 @@
-package import Foundation
-private import os.lock
+// DD012B99EE4F6885B033D7D23FEF69C0
+public import Foundation
+private import Synchronization
 
 extension EnvironmentValues {
     package var accessibilitySettingsDefinition: PlatformSystemDefinition? {
@@ -22,7 +23,7 @@ extension EnvironmentValues {
             
             let seed: UInt32
             if let definition {
-                seed = definition.cache.withLockUnchecked { key in
+                seed = definition.cache.withLock { key in
                     return key.seed
                 }
             } else {
@@ -32,9 +33,21 @@ extension EnvironmentValues {
             self[AccessibilitySettingsDefinitionKey.self] = AccessibilitySettingsDefinitionKey(definition: newValue, seed: seed)
         }
     }
+    
+    func accessibilitySettingEnabled(_ setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
+        guard let kind = self.accessibilitySettingsDefinition else {
+            return false
+        }
+        
+        guard let definition = PlatformAccessibilitySettingsDefinition.for(system: kind) else {
+            return false
+        }
+        
+        return definition.isEnabled(in: setting)
+    }
 }
 
-package class PlatformAccessibilitySettingsDefinition {
+@_spi(Internal) open class PlatformAccessibilitySettingsDefinition {
     package static let notification = Notification.Name(rawValue: "AXUserSettingsDidChange")
     package static nonisolated(unsafe)var uiKit: PlatformAccessibilitySettingsDefinition?
     package static nonisolated(unsafe)var appKit: PlatformAccessibilitySettingsDefinition?
@@ -59,20 +72,57 @@ package class PlatformAccessibilitySettingsDefinition {
         }
     }
     
-    fileprivate let cache = OSAllocatedUnfairLock(uncheckedState: PlatformAccessibilitySettingsDefinition.Storage())
+    fileprivate let cache = Mutex(PlatformAccessibilitySettingsDefinition.Storage())
     
-    package required init() {}
+    public required init() {}
     
     package func notificationCenter(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> NotificationCenter {
         return .default
     }
     
-    package func currentValue(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
+    open func notification(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> Notification.Name? {
+        return nil
+    }
+    
+    open func currentValue(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
         return false
     }
     
-    package final func isEnabled(in setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
-        fatalError("TODO")
+    fileprivate final func isEnabled(in setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
+        let existing: (Int, Bool?)? = cache.withLock { storage in
+            for index in storage.entries.indices {
+                let entry = storage.entries[index]
+                if entry.setting == setting {
+                    return (index, entry.value)
+                }
+            }
+            
+            return nil
+        }
+        
+        if let existing, let value = existing.1 {
+            return value
+        }
+        
+        let newValue = currentValue(for: setting)
+        if let index = existing?.0 {
+            cache.withLock { storage in
+                storage.entries[index].value = newValue
+            }
+        } else {
+            let name = notification(for: setting)
+            
+            cache.withLock { storage in
+                let entry = PlatformAccessibilitySettingsDefinition.Entry(setting: setting, notification: name, value: newValue)
+                storage.entries.append(entry)
+                
+                if let name {
+                    notificationCenter(for: setting).addObserver(self, selector: #selector(settingsValueDidChange(_:)), name: name, object: nil)
+                }
+            }
+        }
+        
+        return newValue
     }
     
     @objc private func settingsValueDidChange(_ notification: Notification) {
@@ -145,7 +195,7 @@ package class PlatformAccessibilitySettingsDefinition {
 }
 
 extension PlatformAccessibilitySettingsDefinition {
-    package enum Setting: Hashable {
+    @_spi(Internal) public enum Setting: Hashable, Sendable {
         case differentiateWithoutColors
         case reduceTransparency
         case reduceMotion
@@ -168,12 +218,12 @@ extension PlatformAccessibilitySettingsDefinition {
         case hoverText
     }
     
-    fileprivate struct Storage {
+    fileprivate struct Storage: Sendable {
         var entries: [PlatformAccessibilitySettingsDefinition.Entry] = []
         var seed: UInt32 = 0
     }
     
-    fileprivate struct Entry {
+    fileprivate struct Entry: Sendable {
         var setting: PlatformAccessibilitySettingsDefinition.Setting
         var notification: Notification.Name?
         var value: Bool?
