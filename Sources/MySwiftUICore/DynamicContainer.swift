@@ -127,7 +127,7 @@ extension DynamicContainer {
         fileprivate var item: T.Item
         private let itemLayout: T.ItemLayout
         
-        override init() {
+        init(item: T.Item, itemLayout: T.ItemLayout, subgraph: Subgraph, uniqueId: UInt32, viewCount: Int32, phase: TransitionPhase, needsTransitions: Bool, outputs: _ViewOutputs) {
             fatalError("TODO")
         }
     }
@@ -140,9 +140,9 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     private let parentSubgraph: Subgraph // 0x68
     private var info: DynamicContainer.Info // 0x70
     private var lastUniqueId: UInt32 // 0xa0
-    private var lastRemoved: UInt32
-    private var lastResetSeed: UInt32
-    private var needsPhaseUpdate: Bool
+    private var lastRemoved: UInt32 // 0xa4
+    private var lastResetSeed: UInt32 // 0xa8
+    private var needsPhaseUpdate: Bool //0xac
     
     var description: String {
         fatalError("TODO")
@@ -214,8 +214,104 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         fatalError("TODO")
     }
     
-    func makeItem(_ item: T.Item, uniqueId: UInt32, container: Attribute<DynamicContainer.Info>, disableTransitions: Bool) -> DynamicContainer.ItemInfo {
-        fatalError("TODO")
+    mutating func makeItem(_ item: T.Item, uniqueId: UInt32, container: Attribute<DynamicContainer.Info>, disableTransitions: Bool) -> DynamicContainer.ItemInfo {
+        /*
+         self -> x27
+         item -> x24
+         uniqueId -> sp + 0x10
+         container -> sp + 0x14
+         disableTransitions -> x21
+         */
+        // sp + 0xc
+        let needsTransitions = item.needsTransitions
+        // w26
+        var phase = TransitionPhase.identity
+        if !disableTransitions, needsTransitions {
+            let attribute = AnyWeakAttribute(AGGraphGetCurrentAttribute())
+            GraphHost.currentHost.continueTransaction(InvalidatingGraphMutation.init(attribute: attribute))
+            phase = .willAppear
+            needsPhaseUpdate = true
+        }
+        
+        // <+232>
+        // x21
+        let parentSubgraph = parentSubgraph
+        // x28
+        let graph = parentSubgraph.graph
+        let list = item.list
+        // x19
+        let newSubgraph = graph.createSubgraph2(list?.identifier ?? .empty)
+        parentSubgraph.addChild(newSubgraph)
+        
+        return newSubgraph.apply {
+            // $s7SwiftUI20DynamicContainerInfoV8makeItem_8uniqueId9container18disableTransitionsAA0cD0V0gE0C0G0Qz_s6UInt32V14AttributeGraph0N0VyAI0E0VGSbtFAKyXEfU0_
+            /*
+             self -> x0 -> x26
+             item -> x1 -> sp + 0x40
+             uniqueId -> w2 -> sp + 0x7c
+             container -> w3 -> sp + 0x34
+             newSubgraph -> x4 -> sp + 0x58
+             phase -> x5 -> sp + 0x24
+             needsTransitions -> w6 -> sp + 0x20
+             */
+            // sp + 0x190
+            let copy_1 = self.inputs
+            // sp + 0x140
+            let copy_2 = self.inputs
+            // sp + 0x1f0
+            let cachedEnvironment = self.inputs.base.cachedEnvironment.value
+            // x28
+            let copy_3 = MutableBox(self.inputs.base.cachedEnvironment.value)
+            // sp + 0xb0
+            _ = copy_1
+            // sp + 0xb0
+            let copy_4 = cachedEnvironment
+            // x20
+            let copy_5 = self
+            
+            // <+592>
+            /*
+             copy_3 -> sp + 0x18
+             */
+            // sp + 0x260
+            var copy_6 = copy_2
+            copy_6.base.cachedEnvironment = copy_3 // sp + 0x270
+            // sp + 0xb0
+            let copy_7 = copy_6
+            // sp + 0x2c0
+            let copy_8 = copy_6
+            
+            let (outptus, itemLayout) = copy_5.adaptor.makeItemLayout(item: item, uniqueId: uniqueId, inputs: copy_7, containerInfo: container) { inputs in
+                // $s7SwiftUI20DynamicContainerInfoV8makeItem_8uniqueId9container18disableTransitionsAA0cD0V0gE0C0G0Qz_s6UInt32V14AttributeGraph0N0VyAI0E0VGSbtFAKyXEfU0_yAA11_ViewInputsVzXEfU_TA
+                fatalError("TODO")
+            }
+            
+            // <+744>
+            // sp = sp + 0x10
+            
+            // x29 - 0xd0
+            _ = copy_7
+            
+            /*
+             item -> x20
+             */
+            // x19 + 0x50
+            let copy_9 = item
+            let count = item.count
+            
+            let itemInfo = DynamicContainer._ItemInfo<T>(
+                item: copy_9,
+                itemLayout: itemLayout,
+                subgraph: newSubgraph,
+                uniqueId: uniqueId,
+                viewCount: Int32(count),
+                phase: phase,
+                needsTransitions: needsTransitions,
+                outputs: outptus
+            )
+            
+            return itemInfo
+        }
     }
     
     func tryRemovingItem(at index: Int, disableTransitions: Bool) -> Bool {

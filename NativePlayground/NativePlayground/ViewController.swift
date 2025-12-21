@@ -1009,24 +1009,24 @@ class ViewController: UIViewController {
         let item = DisplayList.Item.init(.empty, frame: .zero, identity: .init(), version: .init())
         let displayList = DisplayList(item)
         
-        let graph = Graph()
-        let subgraph = Subgraph(graph: graph)
-        Subgraph.current = subgraph
-        graph.context = UnsafeRawPointer(
-            Unmanaged
-                .passRetained(
-                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
-                )
-        .toOpaque())
-        let phase: Attribute<SwiftUI._GraphInputs.Phase> = .init(value: .init(value: 3))
-        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: phase, environment: .init(value: .init()), transaction: .init(value: .init())))
-        inputs.preferences.add(ViewRespondersKey.self)
-        let host = GraphHost.init(data: .init())
-        let (info, _) = DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
-        _ = info.value
-        phase.value.merge(.init(value: 4))
-        print(info.value)
-        fatalError()
+//        let graph = Graph()
+//        let subgraph = Subgraph(graph: graph)
+//        Subgraph.current = subgraph
+//        graph.context = UnsafeRawPointer(
+//            Unmanaged
+//                .passRetained(
+//                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
+//                )
+//        .toOpaque())
+//        let phase: Attribute<SwiftUI._GraphInputs.Phase> = .init(value: .init(value: 3))
+//        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: phase, environment: .init(value: .init()), transaction: .init(value: .init())))
+//        inputs.preferences.add(ViewRespondersKey.self)
+//        let host = GraphHost.init(data: .init())
+//        let (info, _) = DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
+//        _ = info.value
+//        phase.value.merge(.init(value: 4))
+//        print(info.value)
+//        fatalError()
 //        
 //        
 //        

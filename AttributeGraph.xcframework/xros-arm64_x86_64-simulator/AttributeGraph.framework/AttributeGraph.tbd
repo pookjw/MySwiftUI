@@ -256,7 +256,9 @@ exports:
     _$s14AttributeGraph11RuleContextVMa,
     _$s14AttributeGraph14AnyRuleContextV9attributeSo11AGAttributeavg,
     _$s14AttributeGraph11RuleContextV9attributeACyxGAA0A0VyxG_tcfC,
-    _$s14AttributeGraph11RuleContextVMn ]
+    _$s14AttributeGraph11RuleContextVMn,
+    _AGCreateWeakAttribute,
+    _AGSubgraphCreate2 ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

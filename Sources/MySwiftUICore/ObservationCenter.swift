@@ -226,23 +226,6 @@ private import _DarwinFoundation3.pthread
     }
 }
 
-struct InvalidatingGraphMutation: GraphMutation {
-    fileprivate let attribute: AnyWeakAttribute
-    
-    @inline(__always)
-    fileprivate init(attribute: AnyWeakAttribute) {
-        self.attribute = attribute
-    }
-    
-    func apply() {
-        fatalError("TODO")
-    }
-    
-    func combine<T>(with other: T) -> Bool where T : GraphMutation {
-        fatalError("TODO")
-    }
-}
-
 fileprivate struct ObservationEntry {
     private let context: AnyObject
     private var properties: Set<AnyKeyPath>

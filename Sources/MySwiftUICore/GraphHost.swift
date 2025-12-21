@@ -685,6 +685,10 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     var environment: EnvironmentValues {
         return data.environment
     }
+    
+    final func continueTransaction<T: GraphMutation>(_: T) {
+        fatalError("TODO")
+    } 
 }
 
 extension GraphHost {
@@ -788,6 +792,18 @@ extension GraphHost {
 package protocol GraphMutation {
     func apply()
     func combine<T: GraphMutation>(with other: T) -> Bool
+}
+
+struct InvalidatingGraphMutation: GraphMutation {
+    let attribute: AnyWeakAttribute
+    
+    func apply() {
+        fatalError("TODO")
+    }
+    
+    func combine<T>(with other: T) -> Bool where T : GraphMutation {
+        fatalError("TODO")
+    }
 }
 
 struct AssignmentGraphMutation<T>: GraphMutation {

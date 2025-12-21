@@ -72,22 +72,10 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
     typealias Item = DynamicViewListItem
     typealias Items = ViewList
     
-    @Attribute private var items: any ViewList
-    @OptionalAttribute private var childGeometries: [ViewGeometry]?
-    private var childDepthData: DynamicLayoutViewAdaptor.ChildDepthData
-    private var mutateLayoutMap: ((inout DynamicLayoutMap) -> Void) -> Void
-    
-    init(
-        items: Attribute<ViewList>,
-        childGeometries: OptionalAttribute<[ViewGeometry]>,
-        childDepthData: DynamicLayoutViewAdaptor.ChildDepthData,
-        mutateLayoutMap: @escaping ((inout DynamicLayoutMap) -> Void) -> Void
-    ) {
-        self._items = items
-        self._childGeometries = childGeometries
-        self.childDepthData = childDepthData
-        self.mutateLayoutMap = mutateLayoutMap
-    }
+    @Attribute private(set) var items: any ViewList
+    @OptionalAttribute var childGeometries: [ViewGeometry]?
+    private(set) var childDepthData: DynamicLayoutViewAdaptor.ChildDepthData
+    private(set) var mutateLayoutMap: ((inout DynamicLayoutMap) -> Void) -> Void
     
     func updatedItems() -> ViewList? {
         let (items, changed) = $items.changedValue(options: [])
@@ -118,6 +106,12 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
     }
     
     func makeItemLayout(item: DynamicViewListItem, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: Attribute<DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, ItemLayout) {
+        /*
+         $s7SwiftUI24DynamicLayoutViewAdaptorV08makeItemD04item8uniqueId6inputs13containerInfo0M6InputsAA01_E7OutputsV_AC0hD0VtAA0ce4ListH0V_s6UInt32VAA01_eO0V14AttributeGraph0S0VyAA0C9ContainerV0N0VGyASzXEtF
+         
+         $s7SwiftUI20DynamicContainerInfoV8makeItem_8uniqueId9container18disableTransitionsAA0cD0V0gE0C0G0Qz_s6UInt32V14AttributeGraph0N0VyAI0E0VGSbtFAKyXEfU0_AA0C17LayoutViewAdaptorV_Tg5
+         inlined : <+328>~
+         */
         fatalError("TODO")
     }
     
