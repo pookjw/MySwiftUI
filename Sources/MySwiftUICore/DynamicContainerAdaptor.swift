@@ -112,6 +112,41 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
          $s7SwiftUI20DynamicContainerInfoV8makeItem_8uniqueId9container18disableTransitionsAA0cD0V0gE0C0G0Qz_s6UInt32V14AttributeGraph0N0VyAI0E0VGSbtFAKyXEfU0_AA0C17LayoutViewAdaptorV_Tg5
          inlined : <+328>~
          */
+        // w25
+        let isArchived = inputs[ArchivedViewInput.self].isArchived
+        
+        let canTransition = item.traits.value(for: CanTransitionTraitKey.self, defaultValue: false)
+        // true -> <+332>
+        var flag = false
+        if canTransition {
+            // <+232>
+            let trnasition = item.traits.value(for: TransitionTraitKey.self)
+            
+            if isArchived {
+                // <+332>
+                flag = true
+            } else {
+                // <+288>
+                if trnasition.isIdentity {
+                    // <+308>
+                    // x21 = 0x0
+                    // <+596>
+                } else {
+                    // <+332>
+                    flag = true
+                }
+            }
+        } else {
+            // <+324>
+            // x21 = 0x0
+            // <+604>
+        }
+        
+        if flag {
+            // <+332>
+            // <+568> (inlined)
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
     

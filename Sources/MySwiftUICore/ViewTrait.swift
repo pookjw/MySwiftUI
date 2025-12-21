@@ -27,11 +27,16 @@ struct ViewTraitCollection {
     }
     
     func value<Key: _ViewTraitKey>(for key: Key.Type, defaultValue: Key.Value) -> Key.Value {
-        fatalError("TODO")
+        for trait in storage {
+            if trait.keyType == key {
+                return trait[]
+            }
+        }
+        return defaultValue
     }
     
     func value<Key: _ViewTraitKey>(for key: Key.Type) -> Key.Value {
-        fatalError("TODO")
+        return value(for: key, defaultValue: Key.defaultValue)
     }
 }
 
