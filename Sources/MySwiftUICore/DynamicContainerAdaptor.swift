@@ -118,9 +118,11 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
         let canTransition = item.traits.value(for: CanTransitionTraitKey.self, defaultValue: false)
         // true -> <+332>
         var flag = false
+        // x27
+        var transition: AnyTransition!
         if canTransition {
             // <+232>
-            let trnasition = item.traits.value(for: TransitionTraitKey.self)
+            trnasition = item.traits.value(for: TransitionTraitKey.self)
             
             if isArchived {
                 // <+332>
@@ -145,8 +147,24 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
         if flag {
             // <+332>
             // <+568> (inlined)
+            // isArchived -> x19 + 0x4
+            // x26
+            let accessibilityPrefersCrossFadeTransitions = Graph.withoutUpdate {
+                let environment = inputs.environment.value
+                return environment.accessibilityPrefersCrossFadeTransitions
+            }
+            let hasMotion = transition.hasMotion
+            
+            if hasMotion && accessibilityPrefersCrossFadeTransitions {
+                // <+548>
+                fatalError("TODO")
+            }
+            
+            // <+572>
             fatalError("TODO")
         }
+        
+        // <+604>
         fatalError("TODO")
     }
     

@@ -10,6 +10,10 @@
         return box.isIdentity
     }
     
+    var hasMotion: Bool {
+        fatalError("TODO")
+    }
+    
     @safe public static nonisolated(unsafe) let opacity: AnyTransition = MainActor.assumeIsolated { 
         return UncheckedSendable(AnyTransition(.opacity))
     }.value
