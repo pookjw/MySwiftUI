@@ -172,22 +172,30 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
         // <+812> (inlined)
         
         // x29 - 0x68
-        var index = 0
-        let (outputs, result): (_ViewOutputs?, Bool)
-        if item.elements.subgraphs.isValid {
-            fatalError("TODO")
-            let (outputs, result) = item.elements.base.makeElements(
-                from: &index,
-                inputs: <#T##_ViewInputs#>,
-                indirectMap: <#T##IndirectAttributeMap?#>,
-                body: <#T##(_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)#>
-            )
-        } else {
-            outputs = nil
-            result = false
+        /*
+         makeElements은 실행될 때의 x0에 _ViewOutputs을 넣고, 끝날 때 w0에 Bool을 넣는다. w0은 안 쓰인다.
+         */
+        let (outputs, _): (_ViewOutputs?, Bool) = withoutActuallyEscaping(containerInputs) { escapingClosure in
+            var index = 0
+            let (outputs, result): (_ViewOutputs?, Bool)
+            if item.elements.subgraphs.isValid {
+                return item.elements.base.makeElements(
+                    from: &index,
+                    inputs: inputs,
+                    indirectMap: nil
+                ) { _, _ in
+                    // $s7SwiftUI18_ViewList_ElementsPAAE07makeAllE06inputs11indirectMap4bodyAA01_C7OutputsVSgAA01_C6InputsV_AA017IndirectAttributeJ0CSgAjL_AiLctXEtFA2jL_AiLctcXEfU_AJ_SbtAL_AiLctXEfU_TA
+                    fatalError("TODO")
+                }
+            } else {
+                return (nil, false)
+            }
         }
         
-        fatalError("TODO")
+        let outputs_2 = outputs ?? _ViewOutputs()
+        let itemLayout = DynamicLayoutViewAdaptor.ItemLayout(release: item.elements.subgraphs.retain())
+        
+        return (outputs_2, itemLayout)
     }
     
     func removeItemLayout(uniqueId: UInt32, itemLayout: ItemLayout) {
@@ -207,7 +215,7 @@ extension DynamicLayoutViewAdaptor {
     }
     
     struct ItemLayout {
-        private var release: _ViewList_SubgraphRelease?
+        private(set) var release: _ViewList_SubgraphRelease?
     }
     
     enum ChildDepthData {

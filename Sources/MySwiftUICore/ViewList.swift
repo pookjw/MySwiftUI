@@ -100,7 +100,21 @@ struct _ViewList_SublistSubgraphStorage {
     }
     
     var isValid: Bool {
-        return fatalError("TODO")
+        guard !subgraphs.isEmpty else {
+            return true
+        }
+        
+        for subgraph in subgraphs {
+            guard subgraph.subgraph.isValid else {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func retain() -> _ViewList_SubgraphRelease? {
+        fatalError("TODO")
     }
 }
 

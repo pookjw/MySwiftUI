@@ -349,7 +349,29 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
     }
     
     func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
-        fatalError("TODO")
+        // $s7SwiftUI13UnaryElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtF
+        /*
+         _ViewOutputs return pointer -> x0
+         index -> x1 -> x19
+         inputs -> x2
+         indirectMap -> x3 -> x22
+         body -> x4 -> x21
+         */
+        guard index == 0 else {
+            return (nil, true)
+        }
+        
+        // <+120>
+        // sp + 0x60
+        let copy_1 = inputs
+        // _ViewOutputs return pointer -> sp + 0x58
+        // x23
+        let copy_2 = self
+        
+        return body(copy_1) { [copy_2, indirectMap] inputs in
+            // $s7SwiftUI13UnaryElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtFAkNcfU_TA
+            fatalError("TODO")
+        }
     }
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
