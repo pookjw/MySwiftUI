@@ -119,19 +119,21 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
         // true -> <+332>
         var flag = false
         // x27
-        var transition: AnyTransition!
+        var transition_1: AnyTransition!
+        // x21
+        var transition_2: AnyTransition?
         if canTransition {
             // <+232>
-            transition = item.traits.value(for: TransitionTraitKey.self)
+            transition_1 = item.traits.value(for: TransitionTraitKey.self)
             
             if isArchived {
                 // <+332>
                 flag = true
             } else {
                 // <+288>
-                if transition.isIdentity {
+                if transition_1.isIdentity {
                     // <+308>
-                    // x21 = 0x0
+                    transition_2 = nil
                     // <+596>
                 } else {
                     // <+332>
@@ -140,7 +142,7 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
             }
         } else {
             // <+324>
-            // x21 = 0x0
+            transition_2 = nil
             // <+604>
         }
         
@@ -153,18 +155,38 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
                 let environment = inputs.environment.value
                 return environment.accessibilityPrefersCrossFadeTransitions
             }
-            let hasMotion = transition.hasMotion
+            let hasMotion = transition_1.hasMotion
+            
+            transition_2 = transition_1
             
             if hasMotion && accessibilityPrefersCrossFadeTransitions {
                 // <+548>
-                fatalError("TODO")
+                transition_2 = AnyTransition.opacity // TransitionTraitKey.defaultValue일 수도 있는데 결과는 같음
             }
             
             // <+572>
-            fatalError("TODO")
+            // <+604>
         }
         
         // <+604>
+        // <+812> (inlined)
+        
+        // x29 - 0x68
+        var index = 0
+        let (outputs, result): (_ViewOutputs?, Bool)
+        if item.elements.subgraphs.isValid {
+            fatalError("TODO")
+            let (outputs, result) = item.elements.base.makeElements(
+                from: &index,
+                inputs: <#T##_ViewInputs#>,
+                indirectMap: <#T##IndirectAttributeMap?#>,
+                body: <#T##(_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)#>
+            )
+        } else {
+            outputs = nil
+            result = false
+        }
+        
         fatalError("TODO")
     }
     

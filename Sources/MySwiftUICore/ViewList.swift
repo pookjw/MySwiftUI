@@ -98,6 +98,10 @@ struct _ViewList_SublistSubgraphStorage {
     init(subgraphs: [_ViewList_Subgraph]) {
         self.subgraphs = subgraphs
     }
+    
+    var isValid: Bool {
+        return fatalError("TODO")
+    }
 }
 
 struct _ViewList_Sublist {
