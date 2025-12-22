@@ -1,0 +1,53 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.16.14 clang-1700.3.16.4)
+// swift-module-flags: -target arm64-apple-xros26.0-simulator -enable-objc-interop -autolink-force-load -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -module-abi-name Accessibility -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 9088.1.507 -module-name _AccessibilityPrivate
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
+@_exported import Accessibility
+@_exported import _AccessibilityPrivate
+@_exported import Foundation
+
+extension Accessibility.AccessibilitySettings {
+    @_alwaysEmitIntoClient public static var _isPhotosensitiveMitigationEnabled: Swift.Bool {
+        return _AccessibilityPrivate.___AXSPhotosensitiveMitigationEnabled()
+    }
+
+    @_alwaysEmitIntoClient public static var _isHighContrastFocusIndicatorsEnabled: Swift.Bool {
+        return _AccessibilityPrivate.___AXSHighContrastFocusIndicatorsEnabled()
+    }
+
+    @_alwaysEmitIntoClient public static var _isIncreaseButtonLegibility: Swift.Bool {
+        return _AccessibilityPrivate.___AXSIncreaseButtonLegibility()
+    }
+
+    @_alwaysEmitIntoClient public static var _isFullKeyboardAccessEnabled: Swift.Bool {
+        return _AccessibilityPrivate.___AXSFullKeyboardAccessEnabled()
+    }
+
+    @_alwaysEmitIntoClient public static var _isCommandAndControlEnabled: Swift.Bool {
+        return _AccessibilityPrivate.___AXSCommandAndControlEnabled()
+    }
+
+    @_alwaysEmitIntoClient public static var _photosensitiveMitigationEnabledDidChangeNotification: Foundation.Notification.Name {
+        return Foundation.NSNotification.Name.__axsPhotosensitiveMitigationEnabled
+    }
+
+    @_alwaysEmitIntoClient public static var _highContrastFocusIndicatorsEnabledDidChangeNotification: Foundation.Notification.Name {
+        return Foundation.NSNotification.Name.__axsHighContrastFocusIndicatorsEnabled
+    }
+
+    @_alwaysEmitIntoClient public static var _increaseButtonLegibilityDidChangeNotification: Foundation.Notification.Name {
+        return Foundation.NSNotification.Name.__axsIncreaseButtonLegibility
+    }
+
+    @_alwaysEmitIntoClient public static var _fullKeyboardAccessEnabledDidChangeNotification: Foundation.Notification.Name {
+        return Foundation.NSNotification.Name.__axsFullKeyboardAccessEnabled
+    }
+
+    @_alwaysEmitIntoClient public static var _commandAndControlEnabledDidChangeNotification: Foundation.Notification.Name {
+        return Foundation.NSNotification.Name.__axsCommandAndControlEnabled
+    }
+
+    @_alwaysEmitIntoClient public static var _hoverTextEnabledNotification: Foundation.Notification.Name {
+        return Foundation.NSNotification.Name.__axsHoverTextEnabled
+    }
+}

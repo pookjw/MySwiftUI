@@ -1,0 +1,21 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+install-name:    '/usr/lib/libAccessibility.dylib'
+swift-abi-version: 7
+exports:
+  - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
+    symbols:              [ __AXSPhotosensitiveMitigationEnabled,
+    __AXSHighContrastFocusIndicatorsEnabled,
+    __AXSIncreaseButtonLegibility,
+    __AXSFullKeyboardAccessEnabled,
+    __AXSCommandAndControlEnabled,
+    _kAXSPhotosensitiveMitigationEnabledNotification,
+    _kAXSHighContrastFocusIndicatorsEnabledNotification,
+    _kAXSIncreaseButtonLegibilityNotification,
+    _kAXSFullKeyboardAccessEnabledNotification,
+    _kAXSCommandAndControlEnabledNotification,
+    _kAXSHoverTextEnabledNotification ]
+    objc-classes:         [  ]
+    objc-ivars:           [  ]
+...

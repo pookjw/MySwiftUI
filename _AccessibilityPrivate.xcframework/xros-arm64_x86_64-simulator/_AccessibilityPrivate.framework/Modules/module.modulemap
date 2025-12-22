@@ -1,0 +1,5 @@
+framework module _AccessibilityPrivate [extern_c] {
+    umbrella header "_AccessibilityPrivate.h"
+    export *
+    module * { export * }
+}

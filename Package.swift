@@ -39,7 +39,8 @@ let package = Package(
                 .byName(name: "TCC"),
                 .byName(name: "UIAccessibility"),
                 .byName(name: "FrontBoardServices"),
-                .byName(name: "UIIntelligenceSupport")
+                .byName(name: "UIIntelligenceSupport"),
+                .byName(name: "_AccessibilityPrivate")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -191,6 +192,10 @@ let package = Package(
         .binaryTarget(
             name: "_ObservationPrivate",
             path: "_ObservationPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "_AccessibilityPrivate",
+            path: "_AccessibilityPrivate.xcframework"
         ),
         .target(
             name: "_KernPrivate",
