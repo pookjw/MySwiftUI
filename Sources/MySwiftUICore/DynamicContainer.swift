@@ -283,7 +283,26 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             
             let (outptus, itemLayout) = copy_5.adaptor.makeItemLayout(item: item, uniqueId: uniqueId, inputs: copy_7, containerInfo: container) { inputs in
                 // $s7SwiftUI20DynamicContainerInfoV8makeItem_8uniqueId9container18disableTransitionsAA0cD0V0gE0C0G0Qz_s6UInt32V14AttributeGraph0N0VyAI0E0VGSbtFAKyXEfU0_yAA11_ViewInputsVzXEfU_TA
-                fatalError("TODO")
+                inputs.base.transaction = Attribute(
+                    DynamicTransaction(
+                        info: container,
+                        transaction: inputs.base.transaction,
+                        uniqueId: uniqueId,
+                        wasRemoved: false
+                    )
+                )
+                
+                inputs.base.phase = Attribute(
+                    DynamicViewPhase(
+                        info: container,
+                        phase: inputs.base.phase,
+                        uniqueId: uniqueId
+                    )
+                )
+                
+                if !inputs.base.changedDebugProperties.contains(.phase) {
+                    inputs.base.changedDebugProperties.insert(.phase)
+                }
             }
             
             // <+744>
@@ -553,6 +572,29 @@ fileprivate struct DynamicPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttri
     }
     
     var value: T.Value {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct DynamicTransaction: StatefulRule, AsyncAttribute {
+    @Attribute private(set) var info: DynamicContainer.Info
+    @Attribute private(set) var transaction: Transaction
+    let uniqueId: UInt32
+    private(set) var wasRemoved: Bool
+    
+    typealias Value = Transaction
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct DynamicViewPhase: Rule, AsyncAttribute {
+    @Attribute private(set) var info: DynamicContainer.Info
+    @Attribute private(set) var phase: _GraphInputs.Phase
+    let uniqueId: UInt32
+    
+    var value: _GraphInputs.Phase {
         fatalError("TODO")
     }
 }

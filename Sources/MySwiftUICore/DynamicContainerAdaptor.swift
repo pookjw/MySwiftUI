@@ -177,14 +177,52 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
          */
         let (outputs, _): (_ViewOutputs?, Bool) = withoutActuallyEscaping(containerInputs) { escapingClosure in
             var index = 0
+            var viewIndex: Int32 = 0
+            
             let (outputs, result): (_ViewOutputs?, Bool)
             if item.elements.subgraphs.isValid {
                 return item.elements.base.makeElements(
                     from: &index,
                     inputs: inputs,
                     indirectMap: nil
-                ) { _, _ in
-                    // $s7SwiftUI18_ViewList_ElementsPAAE07makeAllE06inputs11indirectMap4bodyAA01_C7OutputsVSgAA01_C6InputsV_AA017IndirectAttributeJ0CSgAjL_AiLctXEtFA2jL_AiLctcXEfU_AJ_SbtAL_AiLctXEfU_TA
+                ) { incoming, transform in
+                    // $s7SwiftUI24DynamicLayoutViewAdaptorV08makeItemD04item8uniqueId6inputs13containerInfo0M6InputsAA01_E7OutputsV_AC0hD0VtAA0ce4ListH0V_s6UInt32VAA01_eO0V14AttributeGraph0S0VyAA0C9ContainerV0N0VGyASzXEtFAKSgAS_AkSctXEfU0_
+                    // self -> x19
+                    // x19 + 0x240
+                    let copy_1 = incoming
+                    // x19 + 0x1e0
+                    var copy_2 = incoming
+                    let options = copy_1.base.options
+                    // x28
+                    let cachedEnvironmentBox = copy_1.base.cachedEnvironment
+                    // sp + 0x2a0
+                    let cachedEnvironment = cachedEnvironmentBox.value
+                    // x21
+                    copy_2.base.cachedEnvironment = MutableBox(cachedEnvironmentBox.value)
+                    _ = consume copy_1
+                    
+                    // <+316>
+                    escapingClosure(&copy_2)
+                    
+                    if options.contains(.viewNeedsGeometry) {
+                        // <+328>
+                        let childGeometries = Attribute(
+                            DynamicLayoutViewChildGeometry(
+                                containerInfo: containerInfo,
+                                childGeometries: self.$childGeometries!,
+                                id: DynamicContainerID(
+                                    uniqueId: uniqueId,
+                                    viewIndex: viewIndex
+                                )
+                            )
+                        )
+                        
+                        copy_2.size = childGeometries[keyPath: \.dimensions.size]
+                        copy_2.position = childGeometries[keyPath: \.origin]
+                        copy_2.base.changedDebugProperties.insert([.size, .position])
+                    }
+                    
+                    // <+488>
                     fatalError("TODO")
                 }
             } else {
@@ -455,6 +493,18 @@ struct LayoutChildDepths<T: Layout>: Rule, AsyncAttribute {
     }
     
     var value: [ViewDepth] {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct DynamicLayoutViewChildGeometry: StatefulRule, AsyncAttribute {
+    @Attribute private(set) var containerInfo: DynamicContainer.Info
+    @Attribute private(set) var childGeometries: [ViewGeometry]
+    let id: DynamicContainerID
+    
+    typealias Value = ViewGeometry
+    
+    func updateValue() {
         fatalError("TODO")
     }
 }
