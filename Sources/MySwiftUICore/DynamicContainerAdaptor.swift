@@ -223,6 +223,9 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
                     }
                     
                     // <+488>
+                    // x20
+                    let transition = transition_2
+                    print(transition)
                     fatalError("TODO")
                 }
             } else {
