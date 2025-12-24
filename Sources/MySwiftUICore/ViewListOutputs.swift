@@ -278,17 +278,23 @@ extension ViewList {
 
 protocol _ViewList_Elements {
     var count: Int { get }
-    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool)
+    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool)
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool
 }
 
 extension _ViewList_Elements {
-    func makeAllElements(inputs: _ViewInputs, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
-        fatalError("TODO")
+    func makeAllElements(inputs: _ViewInputs, body: @escaping (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
+        return makeAllElements(inputs: inputs, indirectMap: nil, body: body)
     }
     
-    func makeAllElements(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
-        fatalError("TODO")
+    func makeAllElements(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: @escaping (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
+        var index = 0
+        let (outputs, _) = makeElements(from: &index, inputs: inputs, indirectMap: indirectMap) { inputs, transform in
+            let outputs = body(inputs, transform)
+            return (outputs, true)
+        }
+        
+        return outputs
     }
     
     func makeOneElement(at index: Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
@@ -348,7 +354,7 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
         return 1
     }
     
-    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
+    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
         // $s7SwiftUI13UnaryElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtF
         /*
          _ViewOutputs return pointer -> x0

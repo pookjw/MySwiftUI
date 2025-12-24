@@ -17,6 +17,10 @@
     @safe public static nonisolated(unsafe) let opacity: AnyTransition = MainActor.assumeIsolated { 
         return UncheckedSendable(AnyTransition(.opacity))
     }.value
+    
+    func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
+        return box.visitBase(applying: &visitor)
+    }
 }
 
 @available(*, unavailable)
@@ -30,6 +34,10 @@ class AnyTransitionBox {
     }
     
     var hasMotion: Bool {
+        fatalError() // abstract
+    }
+    
+    func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
         fatalError() // abstract
     }
     
@@ -55,6 +63,10 @@ fileprivate final class TransitionBox<T: Transition>: AnyTransitionBox {
         return T.properties.hasMotion
     }
     
+    override func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
+        fatalError("TODO")
+    }
+    
     // TODO
 }
 
@@ -62,4 +74,8 @@ extension AnyTransition {
     public func animation(_ animation: Animation?) -> AnyTransition {
         fatalError("TODO")
     }
+}
+
+protocol TransitionVisitor {
+    // TODO
 }

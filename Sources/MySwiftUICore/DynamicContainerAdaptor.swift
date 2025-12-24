@@ -172,20 +172,11 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
         // <+812> (inlined)
         
         // x29 - 0x68
-        /*
-         makeElements은 실행될 때의 x0에 _ViewOutputs을 넣고, 끝날 때 w0에 Bool을 넣는다. w0은 안 쓰인다.
-         */
-        let (outputs, _): (_ViewOutputs?, Bool) = withoutActuallyEscaping(containerInputs) { escapingClosure in
-            var index = 0
+        let outputs: _ViewOutputs? = withoutActuallyEscaping(containerInputs) { escapingClosure in
             var viewIndex: Int32 = 0
             
-            let (outputs, result): (_ViewOutputs?, Bool)
             if item.elements.subgraphs.isValid {
-                return item.elements.base.makeElements(
-                    from: &index,
-                    inputs: inputs,
-                    indirectMap: nil
-                ) { incoming, transform in
+                return item.elements.base.makeAllElements(inputs: inputs) { incoming, transform in
                     // $s7SwiftUI24DynamicLayoutViewAdaptorV08makeItemD04item8uniqueId6inputs13containerInfo0M6InputsAA01_E7OutputsV_AC0hD0VtAA0ce4ListH0V_s6UInt32VAA01_eO0V14AttributeGraph0S0VyAA0C9ContainerV0N0VGyASzXEtFAKSgAS_AkSctXEfU0_
                     // self -> x19
                     // x19 + 0x240
@@ -217,19 +208,72 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
                             )
                         )
                         
-                        copy_2.size = childGeometries[keyPath: \.dimensions.size]
-                        copy_2.position = childGeometries[keyPath: \.origin]
+                        copy_2.size = childGeometries.size()
+                        copy_2.position = childGeometries.origin()
                         copy_2.base.changedDebugProperties.insert([.size, .position])
                     }
                     
                     // <+488>
                     // x20
                     let transition = transition_2
-                    print(transition)
-                    fatalError("TODO")
+                    
+                    // inlined
+                    var transform = transform
+                    DynamicLayoutViewAdaptor.makeDepthTransform(
+                        depthData: childDepthData,
+                        containerInfo: containerInfo,
+                        id: DynamicContainerID(
+                            uniqueId: uniqueId,
+                            viewIndex: viewIndex
+                        ),
+                        body: &transform
+                    )
+                    
+                    // x22
+                    let outputs: _ViewOutputs
+                    if let transition {
+                        // x19 + 0x170
+                        let _ = copy_2
+                        let copy_3 = copy_2
+                        
+                        var makeTransition = DynamicLayoutViewAdaptor.MakeTransition(
+                            containerInfo: containerInfo,
+                            uniqueId: uniqueId,
+                            item: item,
+                            inputs: copy_3,
+                            makeElt: transform,
+                            outputs: nil,
+                            isArchived: isArchived
+                        )
+                        
+                        transition.visitBase(applying: &makeTransition)
+                        outputs = makeTransition.outputs!
+                        // <+968>
+                    } else {
+                        // <+836>
+                        // x19 + 0x170
+                        let copy_3 = copy_2
+                        // x19 + 0x110
+                        let copy_4 = copy_2
+                        // x19 + 0x30
+                        let _ = copy_3
+                        outputs = transform(copy_4)
+                        // <+968>
+                    }
+                    
+                    // <+968>
+                    mutateLayoutMap { _ in
+                        // outputs
+                        // $s7SwiftUI24DynamicLayoutViewAdaptorV08makeItemD04item8uniqueId6inputs13containerInfo0M6InputsAA01_E7OutputsV_AC0hD0VtAA0ce4ListH0V_s6UInt32VAA01_eO0V14AttributeGraph0S0VyAA0C9ContainerV0N0VGyASzXEtFAKSgAS_AkSctXEfU0_yAA0cD3MapVzXEfU_TA
+                        fatalError("TODO")
+                    }
+                    
+                    // <+1080>
+                    viewIndex &+= 1
+                    return outputs
                 }
             } else {
-                return (nil, false)
+                return nil
             }
         }
         
@@ -242,17 +286,34 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
     func removeItemLayout(uniqueId: UInt32, itemLayout: ItemLayout) {
         fatalError("TODO")
     }
+    
+    static func makeDepthTransform(depthData: DynamicLayoutViewAdaptor.ChildDepthData, containerInfo: Attribute<DynamicContainer.Info>, id: DynamicContainerID, body: inout (_ViewInputs) -> _ViewOutputs) {
+        switch depthData {
+        case .geometries(let depthGeometry):
+            body = { _ in
+                // $s7SwiftUI24DynamicLayoutViewAdaptorV18makeDepthTransform9depthData13containerInfo2id4bodyyAC05ChildhK0O_14AttributeGraph0Q0VyAA0C9ContainerV0M0VGAA0cS2IDVAA01_E7OutputsVAA01_E6InputsVcztFZAvXcfU_TA
+                fatalError("TODO")
+            }
+        case .depths(let depth):
+            body = { _ in
+                // $s7SwiftUI24DynamicLayoutViewAdaptorV18makeDepthTransform9depthData13containerInfo2id4bodyyAC05ChildhK0O_14AttributeGraph0Q0VyAA0C9ContainerV0M0VGAA0cS2IDVAA01_E7OutputsVAA01_E6InputsVcztFZAvXcfU0_TA
+                fatalError("TODO")
+            }
+        case .none:
+            break
+        }
+    }
 }
 
 extension DynamicLayoutViewAdaptor {
-    fileprivate struct MakeTransition {
-        private var containerInfo: Attribute<DynamicContainer.Info>
-        private var uniqueId: UInt32
-        private var item: DynamicViewListItem
-        private var inputs: _ViewInputs
-        private var makeElt: (_ViewInputs) -> _ViewOutputs
-        private var outputs: _ViewOutputs?
-        private var isArchived: Bool
+    fileprivate struct MakeTransition: TransitionVisitor {
+        private(set) var containerInfo: Attribute<DynamicContainer.Info>
+        private(set) var uniqueId: UInt32
+        private(set) var item: DynamicViewListItem
+        private(set) var inputs: _ViewInputs
+        private(set) var makeElt: (_ViewInputs) -> _ViewOutputs
+        private(set) var outputs: _ViewOutputs?
+        private(set) var isArchived: Bool
     }
     
     struct ItemLayout {
