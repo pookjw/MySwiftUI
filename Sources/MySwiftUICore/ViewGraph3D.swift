@@ -16,7 +16,7 @@ package struct ViewGraph3D {
 extension ViewGraph3D: ViewGraphFeature {
     package func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         inputs.transform = _depthTransform
-        inputs.base.changedDebugProperties.insert(.transform)
+        inputs.base.changedDebugProperties.formUnion(.transform)
     }
     
     package func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
@@ -63,7 +63,7 @@ extension ViewGraph3D: ViewGraphFeature {
         
         // <+256>
         if !outputs.preferences.debugProperties.contains(.layoutComputer) {
-            outputs.preferences.debugProperties.insert(.layoutComputer)
+            outputs.preferences.debugProperties.formUnion(.layoutComputer)
         }
     }
     

@@ -104,7 +104,7 @@ extension _ViewInputs {
         var inputs = _ViewListInputs(base, options: options)
         
         if !isLinkedOnOrAfter(.v6) {
-            inputs.options.insert(.disableTransitions)
+            inputs.options.formUnion(.disableTransitions)
         }
         
         return inputs

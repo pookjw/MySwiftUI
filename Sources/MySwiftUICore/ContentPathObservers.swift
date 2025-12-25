@@ -140,7 +140,7 @@ struct ContentResponderHelper<T: ContentResponder> {
         if size.changed {
             // <+520>
             self.size = size.value.value
-            w28.insert(.size)
+            w28.formUnion(.size)
         }
         
         // <+536>
@@ -167,7 +167,7 @@ struct ContentResponderHelper<T: ContentResponder> {
         if flag {
             // <+640>
             self.data = data.value
-            w28.insert(.data)
+            w28.formUnion(.data)
         }
         
         // <+732>

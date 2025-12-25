@@ -97,9 +97,9 @@ extension Layout {
                 options.remove([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
                 switch stackOrientation {
                 case .horizontal:
-                    options.insert(.viewStackOrientationIsDefined)
+                    options.formUnion(.viewStackOrientationIsDefined)
                 case .vertical:
-                    options.insert([.viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
+                    options.formUnion([.viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
                 }
                 copy_2.base.options = options
                 // <+572>
@@ -127,7 +127,7 @@ extension Layout {
         if archivedViewInput.flags.contains(.isArchived) {
             // <+1260>
             var options = _ViewListInputs.Options(rawValue: copy_2[ViewListOptionsInput.self])
-            options.insert(.needsArchivedAnimationTraits)
+            options.formUnion(.needsArchivedAnimationTraits)
             copy_2[ViewListOptionsInput.self] = options.rawValue
         }
         

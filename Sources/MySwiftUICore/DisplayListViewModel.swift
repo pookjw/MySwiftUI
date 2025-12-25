@@ -210,7 +210,7 @@ extension DisplayList.ViewUpdater.Model {
         // w22
         var requirements = DisplayList.ViewUpdater.Model.MergedViewRequirements(rawValue: 0)
         if result {
-            requirements.insert(.unknown4)
+            requirements.formUnion(.unknown4)
         }
         
         if unsafe !state.clips.isEmpty {
@@ -310,7 +310,7 @@ extension DisplayList.ViewUpdater.Model {
                 fatalError("TODO")
             default:
                 // <+2628>
-                requirements.insert(.unknown1)
+                requirements.formUnion(.unknown1)
                 // <+2648>
             }
         case .effect(_, _):

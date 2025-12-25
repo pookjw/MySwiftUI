@@ -301,7 +301,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                 )
                 
                 if !inputs.base.changedDebugProperties.contains(.phase) {
-                    inputs.base.changedDebugProperties.insert(.phase)
+                    inputs.base.changedDebugProperties.formUnion(.phase)
                 }
             }
             

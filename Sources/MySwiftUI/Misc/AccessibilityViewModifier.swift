@@ -151,7 +151,7 @@ extension AccessibilityViewModifier {
         attribute.flags = .removable
         
         if scrapeableID != .none {
-            attribute.flags.insert(.scrapeable)
+            attribute.flags.formUnion(.scrapeable)
         }
         
         return attribute

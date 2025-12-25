@@ -242,10 +242,10 @@ open class _UIHostingView<Content: View>: UIView {
         let viewGraph = viewGraphHost.viewGraph
         
         var configuration = UIHostingViewBase.Configuration()
-        configuration.options.insert(.allowKeyboardSafeArea)
+        configuration.options.formUnion(.allowKeyboardSafeArea)
         
         if !Geometry3DEffectImpl._affectsLayout {
-            configuration.options.insert(.allowUnregisteredGeometryChanges)
+            configuration.options.formUnion(.allowUnregisteredGeometryChanges)
         }
         
         self._base = UIHostingViewBase(viewGraph: viewGraphHost, configuration: configuration)

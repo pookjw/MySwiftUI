@@ -7,18 +7,18 @@ public struct _ViewInputs {
     package var preferences: PreferencesInputs
     package var transform: Attribute<ViewTransform> {
         didSet {
-            base.changedDebugProperties.insert(.transform)
+            base.changedDebugProperties.formUnion(.transform)
         }
     }
     package internal(set) var position: Attribute<CGPoint> {
         didSet {
-            base.changedDebugProperties.insert(.position)
+            base.changedDebugProperties.formUnion(.position)
         }
     }
     var containerPosition: Attribute<CGPoint>
     package internal(set) var size: Attribute<ViewSize> {
         didSet {
-            base.changedDebugProperties.insert(.size)
+            base.changedDebugProperties.formUnion(.size)
         }
     }
     var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
@@ -113,7 +113,7 @@ extension _ViewInputs {
         }
         set {
             if newValue {
-                base.options.insert(.viewRequestsLayoutComputer)
+                base.options.formUnion(.viewRequestsLayoutComputer)
             } else {
                 base.options.remove(.viewRequestsLayoutComputer)
             }
@@ -126,7 +126,7 @@ extension _ViewInputs {
         }
         set {
             if newValue {
-                base.options.insert(.viewNeedsGeometry)
+                base.options.formUnion(.viewNeedsGeometry)
             } else {
                 base.options.remove(.viewNeedsGeometry)
             }
@@ -139,7 +139,7 @@ extension _ViewInputs {
         }
         set {
             if newValue {
-                base.options.insert(.viewDisplayListAccessibility)
+                base.options.formUnion(.viewDisplayListAccessibility)
             } else {
                 base.options.remove(.viewDisplayListAccessibility)
             }
@@ -152,7 +152,7 @@ extension _ViewInputs {
         }
         set {
             if newValue {
-                base.options.insert(.viewNeedsGeometryAccessibility)
+                base.options.formUnion(.viewNeedsGeometryAccessibility)
             } else {
                 base.options.remove(.viewNeedsGeometryAccessibility)
             }
@@ -165,7 +165,7 @@ extension _ViewInputs {
         }
         set {
             if newValue {
-                base.options.insert(.needsAccessibility)
+                base.options.formUnion(.needsAccessibility)
             } else {
                 base.options.remove(.needsAccessibility)
             }
@@ -182,7 +182,7 @@ extension _ViewInputs {
         }
         set {
             if newValue {
-                base.options.insert(.animationsDisabled)
+                base.options.formUnion(.animationsDisabled)
             } else {
                 base.options.remove(.animationsDisabled)
             }
@@ -339,7 +339,7 @@ extension _ViewInputs {
         let layoutComputer: OptionalAttribute<LayoutComputer>
         if requestsLayoutComputer {
             layoutComputer = OptionalAttribute(IndirectAttribute(source: ViewGraph.current.$defaultLayoutComputer).identifier)
-            prefOutputs.debugProperties.insert(.layoutComputer)
+            prefOutputs.debugProperties.formUnion(.layoutComputer)
         } else {
             layoutComputer = OptionalAttribute()
         }

@@ -155,14 +155,9 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
                 let environment = inputs.environment.value
                 return environment.accessibilityPrefersCrossFadeTransitions
             }
-            let hasMotion = transition_1.hasMotion
             
-            transition_2 = transition_1
-            
-            if hasMotion && accessibilityPrefersCrossFadeTransitions {
-                // <+548>
-                transition_2 = AnyTransition.opacity // TransitionTraitKey.defaultValue일 수도 있는데 결과는 같음
-            }
+            // inlined
+            transition_2 = transition_1.adjustedForAccessibility(prefersCrossFade: accessibilityPrefersCrossFadeTransitions)
             
             // <+572>
             // <+604>
@@ -210,7 +205,6 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
                         
                         copy_2.size = childGeometries.size()
                         copy_2.position = childGeometries.origin()
-                        copy_2.base.changedDebugProperties.insert([.size, .position])
                     }
                     
                     // <+488>
@@ -314,6 +308,17 @@ extension DynamicLayoutViewAdaptor {
         private(set) var makeElt: (_ViewInputs) -> _ViewOutputs
         private(set) var outputs: _ViewOutputs?
         private(set) var isArchived: Bool
+        
+        mutating func visit<T: Transition>(_ transition: T) {
+            /*
+             transition -> x23
+             */
+            fatalError("TODO")
+        }
+        
+        fileprivate func makeArchivedTransition<T: Transition>(helper: TransitionHelper<T>) {
+            fatalError("TODO")
+        }
     }
     
     struct ItemLayout {
@@ -567,6 +572,46 @@ fileprivate struct DynamicLayoutViewChildGeometry: StatefulRule, AsyncAttribute 
     let id: DynamicContainerID
     
     typealias Value = ViewGeometry
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct TransitionHelper<T: Transition> {
+    @OptionalAttribute var list: ViewList?
+    @Attribute private(set) var info: DynamicContainer.Info
+    let uniqueId: UInt32
+    private(set) var transition: T
+    private(set) var phase: TransitionPhase
+    
+    func update() {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct ViewListTransition<T: Transition>: StatefulRule, AsyncAttribute {
+    private(set) var helper: TransitionHelper<T>
+    
+    typealias Value = T.Body
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct ViewListContentTransition<T: Transition>: StatefulRule, AsyncAttribute {
+    private(set) var helper: TransitionHelper<T>
+    @Attribute private(set) var size: ViewSize
+    @Attribute private(set) var environment: EnvironmentValues
+    
+    init(helper: TransitionHelper<T>, size: Attribute<ViewSize>, environment: Attribute<EnvironmentValues>) {
+        self.helper = helper
+        self._size = size
+        self._environment = environment
+    }
+    
+    typealias Value = ContentTransitionEffect
     
     func updateValue() {
         fatalError("TODO")

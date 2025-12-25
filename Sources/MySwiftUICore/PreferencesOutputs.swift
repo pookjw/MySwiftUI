@@ -34,7 +34,7 @@ package struct PreferencesOutputs {
         }
         set {
             if anyKey == DisplayList.Key.self {
-                debugProperties.insert(.displayList)
+                debugProperties.formUnion(.displayList)
             }
             
             if let index = preferences.firstIndex(where: { $0.key == anyKey }) {

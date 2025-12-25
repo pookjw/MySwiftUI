@@ -319,7 +319,7 @@ extension DynamicViewContainer {
                         copy_1.base.copyCaches()
                         
                         if Content.canTransition, !copy_1.options.contains(.canTransition) {
-                            copy_1.options.insert(.canTransition)
+                            copy_1.options.formUnion(.canTransition)
                         }
                         
                         copy_1.implicitID = 0
@@ -388,13 +388,9 @@ extension DynamicViewList {
         private let type: any Any.Type
         let id: Content.ID
         private let owner: AnyAttribute
-        private var _list: Attribute<any ViewList>
+        @Attribute private(set) var list: any ViewList
         let isUnary: Bool
         private let allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
-        
-        var list: any ViewList {
-            return _list.value
-        }
         
         init(
             type: any Any.Type,

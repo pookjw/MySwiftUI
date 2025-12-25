@@ -1015,7 +1015,7 @@ extension DisplayList.ViewUpdater {
                         } else {
                             // <+708>
                             // <+724>
-                            viewInfo.state.flags.insert(.unknown2)
+                            viewInfo.state.flags.formUnion(.unknown2)
                             // <+728>
                             branch = .to728
                         }

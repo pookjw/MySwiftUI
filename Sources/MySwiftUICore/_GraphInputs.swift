@@ -38,7 +38,7 @@ public struct _GraphInputs {
         }
         set {
             if newValue {
-                options.insert(.animationsDisabled)
+                options.formUnion(.animationsDisabled)
             } else {
                 options.remove(.animationsDisabled)
             }

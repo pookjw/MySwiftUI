@@ -9,7 +9,7 @@ public struct _ViewOutputs {
         }
         set {
             _layoutComputer = OptionalAttribute(newValue)
-            preferences.debugProperties.insert(.layoutComputer)
+            preferences.debugProperties.formUnion(.layoutComputer)
         }
     }
     

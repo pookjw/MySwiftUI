@@ -66,7 +66,7 @@ struct DynamicPropertyCache {
                 
                 for unsafe field in unsafe fields {
                     // <+304>
-                    unsafe result.behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
+                    unsafe result.behaviors.formUnion(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
                 }
                 
                 // <+488>
@@ -102,12 +102,12 @@ extension DynamicPropertyCache {
             switch unsafe layout {
             case .product(let array):
                 for unsafe field in unsafe array {
-                    unsafe behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
+                    unsafe behaviors.formUnion(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
                 }
             case .sum(_, let taggedFields):
                 for unsafe taggedField in unsafe taggedFields {
                     for unsafe field in unsafe taggedField.fields {
-                        unsafe behaviors.insert(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
+                        unsafe behaviors.formUnion(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
                     }
                 }
             }

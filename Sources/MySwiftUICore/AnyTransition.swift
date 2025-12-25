@@ -18,6 +18,14 @@
         return UncheckedSendable(AnyTransition(.opacity))
     }.value
     
+    func adjustedForAccessibility(prefersCrossFade: Bool) -> AnyTransition {
+        if !hasMotion || !prefersCrossFade {
+            return self
+        } else {
+            return .opacity
+        }
+    }
+    
     func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
         return box.visitBase(applying: &visitor)
     }
@@ -64,7 +72,7 @@ fileprivate final class TransitionBox<T: Transition>: AnyTransitionBox {
     }
     
     override func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
-        fatalError("TODO")
+        visitor.visit(base)
     }
     
     // TODO
@@ -77,5 +85,5 @@ extension AnyTransition {
 }
 
 protocol TransitionVisitor {
-    // TODO
+    mutating func visit<T: Transition>(_ transition: T)
 }

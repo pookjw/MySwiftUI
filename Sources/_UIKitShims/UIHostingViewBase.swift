@@ -459,7 +459,7 @@ package final class UIHostingViewBase: NSObject {
         
         var values = ViewGraphRootValues.transform
         if isLinkedOnOrAfter(.v7) {
-            values.insert(.safeArea)
+            values.formUnion(.safeArea)
         }
         
         updateDelegate.invalidateProperties(values, mayDeferUpdate: false)
