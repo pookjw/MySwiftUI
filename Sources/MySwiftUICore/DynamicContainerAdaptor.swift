@@ -307,13 +307,47 @@ extension DynamicLayoutViewAdaptor {
         private(set) var inputs: _ViewInputs
         private(set) var makeElt: (_ViewInputs) -> _ViewOutputs
         private(set) var outputs: _ViewOutputs?
-        private(set) var isArchived: Bool
+        private(set) var isArchived: Bool // 0xd0
         
         mutating func visit<T: Transition>(_ transition: T) {
             /*
              transition -> x23
              */
-            fatalError("TODO")
+            let list: OptionalAttribute<ViewList>
+            if let _list = item.list {
+                list = OptionalAttribute(_list)
+            } else {
+                list = OptionalAttribute()
+            }
+            
+            // x25
+            let helper = TransitionHelper<T>(
+                list: list,
+                info: containerInfo,
+                uniqueId: uniqueId,
+                transition: transition,
+                phase: .identity
+            )
+            
+            if isArchived {
+                makeArchivedTransition(helper: helper)
+            } else {
+                // x28
+                let copy_1 = helper
+                // x24
+                let copy_2 = copy_1
+                // x19 + 0x34
+                let transitionValue = _GraphValue(Attribute(ViewListTransition(helper: copy_2)))
+                // x19 + 0x50
+                let copy_3 = inputs
+                
+                let outputs = T.makeView(view: transitionValue, inputs: copy_3) { graph, inputs in
+                    // $s7SwiftUI16ModifiedElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtFAL_SbtAL_SbtAN_AkNctcXEfU_AL_SbtAN_AkNctXEfU_AkNcfU_7projectL_yAKxmAA0S8ModifierRzlFAkA6_GraphV_ANtcfU_TA
+                    fatalError("TODO")
+                }
+                
+                self.outputs = outputs
+            }
         }
         
         fileprivate func makeArchivedTransition<T: Transition>(helper: TransitionHelper<T>) {

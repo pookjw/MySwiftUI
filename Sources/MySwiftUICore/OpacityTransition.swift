@@ -1,6 +1,4 @@
 public struct OpacityTransition: Transition {
-    public typealias Body = Never
-    
     public init() {
     }
     
@@ -12,10 +10,10 @@ public struct OpacityTransition: Transition {
     @MainActor @preconcurrency public static var properties: TransitionProperties {
         return TransitionProperties(hasMotion: false)
     }
-//    
-//    @MainActor @preconcurrency public func _makeContentTransition(transition: inout _Transition_ContentTransition) {
-//        fatalError("TODO")
-//    }
+    
+    @MainActor @preconcurrency public func _makeContentTransition(transition: inout _Transition_ContentTransition) {
+        fatalError("TODO")
+    }
 }
 
 @available(*, unavailable)
