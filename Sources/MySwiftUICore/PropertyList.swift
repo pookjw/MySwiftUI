@@ -73,9 +73,6 @@ private import AttributeGraph
             
             prependValue(newValue, for: key)
         }
-        _modify {
-            fatalError("TODO")
-        }
     }
     
     @inlinable

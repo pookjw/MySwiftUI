@@ -1,3 +1,4 @@
+// 9FF97745734808976F608CE0DC13C39C
 internal import AttributeGraph
 
 public struct _GraphInputs {
@@ -75,6 +76,23 @@ public struct _GraphInputs {
     @inline(__always)
     mutating func copyCaches() {
         cachedEnvironment = MutableBox(cachedEnvironment.value)
+    }
+    
+    mutating func append<Input: GraphInput, Value>(_ value: Value, to input: Input.Type) where Input.Value == Stack<Value> {
+        customInputs[Input.self].push(value)
+    }
+    
+    mutating func append<Input: GraphInput, Reusable: GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
+        recordReusableInput(input)
+        customInputs[Input.self].push(reusable)
+    }
+    
+    fileprivate mutating func recordReusableInput<Input: GraphInput>(_ input: Input.Type) where Input.Value: GraphReusable {
+        guard GraphReuseOptions.current.contains(.expandedReuse) else {
+            return
+        }
+        
+        customInputs[ReusableInputs.self].filter.formUnion(BloomFilter(type: input))
     }
 }
 
@@ -196,4 +214,5 @@ extension _GraphInputs {
     }
 }
 
-//extension _GraphInputs: Sendable {}
+@available(*, unavailable)
+extension _GraphInputs: Sendable {}

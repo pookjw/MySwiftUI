@@ -1252,3 +1252,33 @@ open class PlatformAccessibilitySettingsDefinition {
   open func currentValue(for setting: _SwiftUICorePrivate.PlatformAccessibilitySettingsDefinition.Setting) -> Swift.Bool
   open func notification(for setting: _SwiftUICorePrivate.PlatformAccessibilitySettingsDefinition.Setting) -> Foundation.Notification.Name?
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum Stack<Element>: Swift.Sequence, Swift.IteratorProtocol {
+  case empty
+  indirect case node(
+    value: Element,
+    next: _SwiftUICorePrivate.Stack<Element>
+  )
+
+  public init()
+
+  public var isEmpty: Swift.Bool { get }
+  public var top: Element? { get }
+
+  public var count: Swift.Int { get }
+
+  public mutating func next() -> Element?
+
+  public mutating func push(_ element: Element)
+
+  @discardableResult
+  public mutating func pop() -> Element?
+
+  public mutating func popAll()
+
+  public func map<T>(
+    _ transform: (Element) -> T
+  ) -> _SwiftUICorePrivate.Stack<T>
+}

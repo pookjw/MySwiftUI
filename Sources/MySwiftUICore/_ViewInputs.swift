@@ -105,12 +105,12 @@ public struct _ViewInputs {
         return base.intern(value, id: id)
     }
     
-    mutating func append<Input: ViewInput, Value>(_: Value, to: Input.Type) where Input.Value == Stack<Value> {
-        fatalError("TODO")
+    mutating func append<Input: ViewInput, Value>(_ value: Value, to input: Input.Type) where Input.Value == Stack<Value> {
+        base.append(value, to: input)
     }
     
-    mutating func append<Input: ViewInput, Reusable: GraphReusable>(_: Reusable, to: Input.Type) where Input.Value == Stack<Reusable> {
-        fatalError("TODO")
+    mutating func append<Input: ViewInput, Reusable: GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
+        base.append(reusable, to: input)
     }
 }
 

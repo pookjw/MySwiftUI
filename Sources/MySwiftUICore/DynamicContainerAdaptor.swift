@@ -337,7 +337,7 @@ extension DynamicLayoutViewAdaptor {
                 // x24
                 let copy_2 = copy_1
                 // x19 + 0x34
-                let transitionValue = _GraphValue(Attribute(ViewListTransition(helper: copy_2)))
+                let transitionValue = _GraphValue(ViewListTransition(helper: copy_2))
                 // x19 + 0x50
                 let copy_3 = inputs
                 

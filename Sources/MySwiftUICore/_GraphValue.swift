@@ -25,6 +25,12 @@ public struct _GraphValue<Value>: Equatable {
         return _GraphValue<U>(result)
     }
     
+    subscript<T>(offset: (inout T) -> PointerOffset<Value, T>) -> _GraphValue<T> {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
     public static func == (lhs: _GraphValue<Value>, rhs: _GraphValue<Value>) -> Bool {
         return lhs.value == rhs.value
     }

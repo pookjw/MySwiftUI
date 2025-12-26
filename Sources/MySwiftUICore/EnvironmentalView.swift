@@ -20,8 +20,7 @@ extension EnvironmentalView {
         let copy = inputs
         // x24
         let child = EnvironmentalViewChild(view: view.value, env: copy.base.environment)
-        let attribute = Attribute(child)
-        let outputs = EnvironmentBody.makeDebuggableView(view: _GraphValue(attribute), inputs: inputs)
+        let outputs = EnvironmentBody.makeDebuggableView(view: _GraphValue(child), inputs: inputs)
         
         return outputs
     }

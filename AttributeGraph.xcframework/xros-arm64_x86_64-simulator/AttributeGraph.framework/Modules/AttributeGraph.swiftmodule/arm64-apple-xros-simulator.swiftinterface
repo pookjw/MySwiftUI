@@ -109,6 +109,12 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible, Swift
     public func invalidateValue()
 
     public func setFlags(_: AttributeGraph.AnyAttribute.Flags, mask: AttributeGraph.AnyAttribute.Flags)
+
+    public func applying<A>(offset: AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A>
+
+    public subscript<A>(offset: (inout T) -> AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A> {
+        get
+    }
 }
 
 @frozen
@@ -206,10 +212,6 @@ public struct External<T> {
 }
 
 public struct Focus<Key, Value> {
-
-}
-
-public struct PointerOffset<A, B> {
 
 }
 
@@ -497,4 +499,19 @@ extension AttributeGraph.TupleType {
     public func offset<T>(at: Swift.Int, as: T.Type) -> Swift.Int
     public func setElement<T>(in: Swift.UnsafeMutableRawPointer, at: Swift.Int, from: Swift.UnsafePointer<T>, options: AttributeGraph.TupleCopyOptions)
     public func getElement<T>(in: Swift.UnsafeMutableRawPointer, at: Swift.Int, to: Swift.UnsafeMutablePointer<T>, options: AttributeGraph.TupleCopyOptions)
+}
+
+@frozen
+public struct PointerOffset<A, B> {
+    @_hasStorage public var byteOffset: Swift.Int {
+        get
+        set
+        _modify
+    }
+
+    public init(byteOffset: Swift.Int)
+
+    public static func offset(_: (inout A) -> AttributeGraph.PointerOffset<A, B>) -> AttributeGraph.PointerOffset<A, B>
+    public static func invalidScenePointer() -> Swift.UnsafeMutablePointer<A>
+    public static func of(_: inout B) -> AttributeGraph.PointerOffset<A, B>
 }

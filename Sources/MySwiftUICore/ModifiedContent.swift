@@ -1,4 +1,3 @@
-
 @frozen public struct ModifiedContent<Content, Modifier> {
     public typealias Body = Never
     
@@ -11,4 +10,82 @@
     }
 }
 
-// TODO
+extension ModifiedContent: Equatable where Content: Equatable, Modifier: Equatable {
+}
+
+extension ModifiedContent: Sendable where Content: Sendable, Modifier: Sendable {
+}
+
+extension ModifiedContent: Animatable where Content: Animatable, Modifier: Animatable {
+    public var animatableData: AnimatablePair<Content.AnimatableData, Modifier.AnimatableData> {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+}
+
+extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
+    public static nonisolated func _makeView(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
+//        view[offset: { _ in }]
+        fatalError("TODO")
+    }
+    
+    public static nonisolated func _makeViewList(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+    
+    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        fatalError("TODO")
+    }
+    
+    @MainActor @preconcurrency public var body: ModifiedContent<Content, Modifier>.Body {
+        fatalError("TODO")
+    }
+}
+
+extension ModifiedContent: ViewModifier where Content: ViewModifier, Modifier: ViewModifier {
+    public static nonisolated func _makeView(modifier: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    public static nonisolated func _makeViewList(modifier: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+    
+    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        fatalError("TODO")
+    }
+}
+
+extension ModifiedContent: DynamicViewContent where Content: DynamicViewContent, Modifier: ViewModifier {
+  public var data: Content.Data {
+      fatalError("TODO")
+  }
+    
+  public typealias Data = Content.Data
+}
+
+extension ModifiedContent: VisualEffect where Content: VisualEffect, Modifier: VisualEffect {
+    public static func _makeVisualEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+}
+
+extension ModifiedContent: CustomHoverEffect where Content: CustomHoverEffect, Modifier: CustomHoverEffect {
+    public static func _makeCustomHoverEffect(effect: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs {
+        fatalError("TODO")
+    }
+}
+
+extension ModifiedContent: HoverEffectContent where Content: HoverEffectContent, Modifier: HoverEffectContent {
+    public static func _makeHoverEffectContent(effect: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _HoverEffectContentInputs, body: @escaping (_HoverEffectContentInputs) -> _HoverEffectContentOutputs) -> _HoverEffectContentOutputs {
+        fatalError("TODO")
+    }
+}
+
+extension ModifiedContent: CustomViewDebugReflectable {
+    // TODO
+}

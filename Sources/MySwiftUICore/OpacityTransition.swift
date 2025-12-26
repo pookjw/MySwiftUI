@@ -3,8 +3,10 @@ public struct OpacityTransition: Transition {
     }
     
     @MainActor @preconcurrency public func body(content: OpacityTransition.Content, phase: TransitionPhase) -> some View {
-        // ModifiedContent<PlaceholderContentView<OpacityTransition>, OpacityRendererEffect>
-        fatalError("TODO")
+        return ModifiedContent(
+            content: PlaceholderContentView<Self>(),
+            modifier: OpacityRendererEffect(opacity: 1)
+        )
     }
     
     @MainActor @preconcurrency public static var properties: TransitionProperties {
@@ -26,6 +28,26 @@ extension Transition where Self == OpacityTransition {
     }
 }
 
-struct OpacityRendererEffect {
-    private var opacity: Double
+struct OpacityRendererEffect: RendererEffect, _RemoveGlobalActorIsolation {
+    var opacity: Double
+    
+    init(opacity: Double) {
+        self.opacity = opacity
+    }
+    
+    init(isHidden: Bool) {
+        opacity = isHidden ? 0 : 1
+    }
+    
+    var animatableData: Double {
+        get {
+            return opacity
+        }
+        set {
+            opacity = newValue
+        }
+        _modify {
+            yield &opacity
+        }
+    }
 }

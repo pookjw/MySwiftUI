@@ -36,3 +36,5 @@ struct BloomFilter: Equatable {
         return value == 0
     }
 }
+
+extension BloomFilter: Sendable {}
