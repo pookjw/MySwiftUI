@@ -1,4 +1,5 @@
 internal import CoreGraphics
+private import AttributeGraph
 
 protocol _RendererEffect: MultiViewModifier, PrimitiveViewModifier {
     nonisolated func effectValue(size: CGSize) -> DisplayList.Effect
@@ -32,38 +33,63 @@ extension _RendererEffect {
         // sp + 0x210
         let copy_1 = inputs
         // sp + 0x1b0
-        let copy_2 = inputs
+        var copy_2 = inputs
         // sp + 0x150
         var copy_3 = copy_1
         
-        if !isScrapeable || !copy_1.needsGeometry {
-            // <+204>
-            if copy_1.preferences.contains(DisplayList.Key.self) {
-                // <+236>
-                // x27
-                let cachedEnvironment = copy_1.base.cachedEnvironment
-                if isolatesChildPosition {
-                    // <+268>
-                    copy_3 = copy_1
-                    let position = cachedEnvironment.value.animatedPosition(for: copy_3)
-                    // <+348>
-                    fatalError("TODO")
-                } else {
-                    // <+784>
-                    copy_3 = copy_1
-                    // sp + 0x1f4
-                    let position = cachedEnvironment.value.animatedPosition(for: copy_3)
-                    // <+868>
-                    fatalError("TODO")
-                }
+        // sp + 0x30
+        let scrapeableID: ScrapeableID
+        if isScrapeable && copy_1.needsGeometry {
+            // <+700>
+            let hasDisplayList = copy_1.preferences.contains(DisplayList.Key.self)
+            
+            if !copy_1.base.options.contains(.doNotScrape) && hasDisplayList {
+                scrapeableID = ScrapeableID()
+                copy_2.scrapeableParentID = scrapeableID
             } else {
-                // <+868>
-                fatalError("TODO")
+                scrapeableID = .none
             }
         } else {
-            // <+700>
-            fatalError("TODO")
+            // <+204>
+            scrapeableID = .none
         }
+        
+        // <+208>
+        if copy_1.preferences.contains(DisplayList.Key.self) {
+            // <+236>
+            // x27
+            let cachedEnvironment = copy_1.base.cachedEnvironment
+            if isolatesChildPosition {
+                // <+268>
+                copy_3 = copy_1
+                // sp + 0x150
+                let position = cachedEnvironment.value.animatedPosition(for: copy_3)
+                // <+348>
+                // sp + 0x1ec
+                let transform = Attribute(ResetPositionTransform(position: position, transform: copy_1.transform))
+                copy_2.transform = transform
+                
+                let graph = ViewGraph.current
+                
+                let pixelLength: Attribute<CGFloat> = cachedEnvironment.value.attribute(id: .pixelLength) { environmentValues in
+                    // $s7SwiftUI17CachedEnvironmentV17withAnimatedFrame33_B62A4B04AF9F1325924A089D63071424LL3for4bodyxAA11_ViewInputsV_xAC0fG0VzXEtlF12CoreGraphics7CGFloatVAA0D6ValuesVcfU_
+                    fatalError("TODO")
+                }
+                
+                let size = Attribute(RoundedSize(position: position, size: copy_1.size, pixelLength: pixelLength))
+                copy_2.size = size
+                // <+868>
+            } else {
+                // <+784>
+                copy_3 = copy_1
+                // sp + 0x1f4
+                let position = cachedEnvironment.value.animatedPosition(for: copy_3)
+                // <+868>
+            }
+        }
+        
+        // <+868>
+        fatalError("TODO")
     }
     
     var scrapeableContent: ScrapeableContent.Content? {

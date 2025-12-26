@@ -100,7 +100,7 @@ package struct CachedEnvironment {
         }
     }
     
-    private mutating func withAnimatedFrame<T>(for inputs: _ViewInputs, body: (inout CachedEnvironment.AnimatedFrame) -> T) -> T {
+    fileprivate mutating func withAnimatedFrame<T>(for inputs: _ViewInputs, body: (inout CachedEnvironment.AnimatedFrame) -> T) -> T {
         let pixelLength = attribute(id: .pixelLength) { environment in
             return environment.pixelLength
         }

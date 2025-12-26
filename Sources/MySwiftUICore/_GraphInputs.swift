@@ -66,7 +66,8 @@ public struct _GraphInputs {
             return customInputs[type]
         }
         set {
-            fatalError("TODO")
+            recordReusableInput(T.self)
+            customInputs[type] = newValue
         }
         _modify {
             fatalError("TODO")

@@ -81,6 +81,18 @@ public struct _ViewInputs {
         }
     }
     
+    subscript<T: ViewInput>(_ type: T.Type) -> T.Value where T.Value : GraphReusable {
+        get {
+            return base[type]
+        }
+        set {
+            base[type] = newValue
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
     @inline(__always)
     mutating func copyCaches() {
         base.copyCaches()
