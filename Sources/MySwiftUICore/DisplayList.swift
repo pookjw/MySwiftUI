@@ -499,7 +499,7 @@ extension DisplayList {
         case archive(DisplayList.ArchiveIDs?)
 //        case properties(DisplayList.Properties)
         case platformGroup(any PlatformGroupFactory)
-//        case opacity(Float)
+        case opacity(Float)
 //        case blendMode(GraphicsBlendMode)
 //        case clip(Path, FillStyle, GraphicsContext.ClipOptions)
 //        case mask(DisplayList, GraphicsContext.ClipOptions)
