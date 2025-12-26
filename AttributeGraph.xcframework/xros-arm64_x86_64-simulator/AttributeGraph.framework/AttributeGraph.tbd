@@ -258,7 +258,10 @@ exports:
     _$s14AttributeGraph11RuleContextV9attributeACyxGAA0A0VyxG_tcfC,
     _$s14AttributeGraph11RuleContextVMn,
     _AGCreateWeakAttribute,
-    _AGSubgraphCreate2 ]
+    _AGSubgraphCreate2,
+    _$s14AttributeGraph13PointerOffsetV04byteD0ACyxq_GSi_tcfC,
+    _$s14AttributeGraph13PointerOffsetV2ofyACyxq_Gq_zFZ,
+    _$s14AttributeGraph13PointerOffsetV6offsetyACyxq_GAExzXEFZ ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

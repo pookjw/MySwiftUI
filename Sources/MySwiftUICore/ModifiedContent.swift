@@ -1,3 +1,5 @@
+private import AttributeGraph
+
 @frozen public struct ModifiedContent<Content, Modifier> {
     public typealias Body = Never
     
@@ -29,7 +31,11 @@ extension ModifiedContent: Animatable where Content: Animatable, Modifier: Anima
 
 extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
     public static nonisolated func _makeView(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
-//        view[offset: { _ in }]
+        // w23
+        let modifier: _GraphValue<Modifier> = view[{ value in
+            return PointerOffset<Self, Modifier>.of(&value.modifier)
+        }]
+        
         fatalError("TODO")
     }
     

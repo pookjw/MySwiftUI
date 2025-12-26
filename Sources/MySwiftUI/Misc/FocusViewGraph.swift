@@ -84,7 +84,7 @@ extension FocusViewGraph: ViewGraphFeature {
             let uiView = delegate.uiView
         {
             let w8 = MainActor.assumeIsolated { UIFocusSystem.focusSystem(for: uiView) != nil }
-            let w9 = (w8 || wasFocusSystemEnabled)
+            let w9 = (w8 != wasFocusSystemEnabled)
             self.needsFocusSystemEnabledUpdate = w9
             self.wasFocusSystemEnabled = w8
         }
