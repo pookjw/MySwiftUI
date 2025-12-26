@@ -158,7 +158,7 @@ extension View {
 
 extension ViewModifier {
     @inline(__always)
-    @MainActor static func makeDebuggableView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @MainActor @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    static nonisolated func makeDebuggableView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         let shouldRecordTree = Subgraph.shouldRecordTree
         if shouldRecordTree {
             Subgraph.beginTreeElement(value: modifier.value, flags: 0)

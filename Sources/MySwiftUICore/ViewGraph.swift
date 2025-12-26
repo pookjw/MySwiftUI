@@ -161,27 +161,24 @@ package final class ViewGraph: GraphHost {
             copy_1 = copy_2
             
             // inlined
-            let outputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable((copy_1, safeAreaInsets, inputs))] in
-                let outputs = _SafeAreaInsetsModifier.makeDebuggableView(modifier: _GraphValue(unchecked.value.1), inputs: unchecked.value.0) { [oldInputs = unchecked.value.2] _, inputs in
-                    /*
-                     inputs = x19
-                     oldInputs = x3
-                     T = x20
-                     protocol conformance T: View = x22
-                     */
-                    // x29 = sp + 0x320
-                    // $s7SwiftUI9ViewGraphC04rootC4Type16requestedOutputsACxm_AC0H0VtcAA0C0RzlufcAA01_cH0VSo11AGAttributea_AA01_C6InputsVtcfU_AjA01_D0V_ANtcfU_Tf0nnnsnn_n
-                    var copy = inputs
-                    copy.position = oldInputs.position
-                    copy.containerPosition = oldInputs.containerPosition
-                    copy.size = oldInputs.size
-                    
-                    // <+252>
-                    // inlined
-                    return T.makeDebuggableView(view: _GraphValue(Attribute<T>(identifier: attribute)), inputs: copy)
-                }
-                return UncheckedSendable(outputs)
-            }.value
+            let outputs = _SafeAreaInsetsModifier.makeDebuggableView(modifier: _GraphValue(safeAreaInsets), inputs: copy_1) { [oldInputs = inputs] _, inputs in
+                /*
+                 inputs = x19
+                 oldInputs = x3
+                 T = x20
+                 protocol conformance T: View = x22
+                 */
+                // x29 = sp + 0x320
+                // $s7SwiftUI9ViewGraphC04rootC4Type16requestedOutputsACxm_AC0H0VtcAA0C0RzlufcAA01_cH0VSo11AGAttributea_AA01_C6InputsVtcfU_AjA01_D0V_ANtcfU_Tf0nnnsnn_n
+                var copy = inputs
+                copy.position = oldInputs.position
+                copy.containerPosition = oldInputs.containerPosition
+                copy.size = oldInputs.size
+                
+                // <+252>
+                // inlined
+                return T.makeDebuggableView(view: _GraphValue(Attribute<T>(identifier: attribute)), inputs: copy)
+            }
             
             return outputs
         }

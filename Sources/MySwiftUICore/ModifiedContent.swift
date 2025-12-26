@@ -31,12 +31,20 @@ extension ModifiedContent: Animatable where Content: Animatable, Modifier: Anima
 
 extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
     public static nonisolated func _makeView(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
-        // w23
         let modifier: _GraphValue<Modifier> = view[{ value in
             return PointerOffset<Self, Modifier>.of(&value.modifier)
         }]
         
-        fatalError("TODO")
+        let result = Modifier.makeDebuggableView(modifier: modifier, inputs: inputs) { [view = UncheckedSendable(view)] graph, inputs in
+            // $s7SwiftUI15ModifiedContentVA2A4ViewRzAA0E8ModifierR_rlE05_makeE04view6inputsAA01_E7OutputsVAA11_GraphValueVyACyxq_GG_AA01_E6InputsVtFZAjA01_K0V_APtcfU0_TA
+            let view: _GraphValue<Content> = view.value[{ value in
+                return PointerOffset<Self, Content>.of(&value.content)
+            }]
+            
+            return Content.makeDebuggableView(view: view, inputs: inputs)
+        }
+        
+        return result
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {

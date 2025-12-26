@@ -28,9 +28,10 @@ extension ViewModifier {
     }
 }
 
-extension ViewModifier where Self : Animatable {
+extension ViewModifier where Self: Animatable {
     public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        let attribute = makeAnimatable(value: modifier, inputs: inputs.base)
+        return makeView(modifier: _GraphValue(attribute), inputs: inputs, body: body)
     }
     
     public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
@@ -80,6 +81,12 @@ extension ViewModifier {
 //            }
 //        }
 //    }
+}
+
+extension ViewModifier {
+    static nonisolated func makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
 }
 
 package protocol MultiViewModifier: ViewModifier where Body == Never {

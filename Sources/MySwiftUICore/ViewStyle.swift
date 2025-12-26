@@ -105,11 +105,11 @@ protocol StyleModifier: MultiViewModifier, PrimitiveViewModifier, View {
 }
 
 protocol AnyDefaultStyle {
-    // TODO
+    init()
 }
 
 protocol DefaultStyleModifier: StyleModifier, AnyDefaultStyle {
-    // TODO
+    associatedtype Style : AnyDefaultStyle
 }
 
 extension DefaultStyleModifier {
@@ -140,4 +140,12 @@ extension StyleWriterOverrideModifier {
     static nonisolated func injectStyleOverride<T: ViewInputPredicate>(in: inout _ViewInputs, requiring: T.Type) {
         fatalError("TODO")
     }
+}
+
+protocol DefaultStyleModifierTypeVisitor {
+    // TODO
+}
+
+fileprivate struct RegisterDefaultStyleVisitor {
+    // TODO
 }
