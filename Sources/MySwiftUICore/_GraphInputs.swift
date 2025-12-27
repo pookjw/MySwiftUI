@@ -89,12 +89,19 @@ public struct _GraphInputs {
     }
     
     fileprivate mutating func recordReusableInput<Input: GraphInput>(_ input: Input.Type) where Input.Value: GraphReusable {
-        fatalError("TODO") // 검토 필요
         guard GraphReuseOptions.current.contains(.expandedReuse) else {
             return
         }
         
-        customInputs[ReusableInputs.self].filter.formUnion(BloomFilter(type: input))
+        var inputs = customInputs[ReusableInputs.self]
+        guard inputs.stack.top != Input.self else {
+            return
+        }
+        
+        customInputs[ReusableInputs.self] = ReusableInputStorage(
+            filter: BloomFilter(type: input),
+            stack: .node(value: input, next: inputs.stack)
+        )
     }
 }
 
