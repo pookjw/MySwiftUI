@@ -1,3 +1,4 @@
+// 49800242E3DD04CB91F7CE115272DDC3
 internal import CoreGraphics
 private import AttributeGraph
 
@@ -55,7 +56,9 @@ extension _RendererEffect {
         }
         
         // <+208>
-        if copy_1.preferences.contains(DisplayList.Key.self) {
+        // w22
+        let hasDisplayList = copy_1.preferences.contains(DisplayList.Key.self)
+        if hasDisplayList {
             // <+236>
             // x27
             let cachedEnvironment = copy_1.base.cachedEnvironment
@@ -89,7 +92,76 @@ extension _RendererEffect {
         }
         
         // <+868>
-        fatalError("TODO")
+        // sp + 0xf0
+        let copy_4 = copy_2
+        // sp + 0x90
+        let copy_5 = copy_2
+        copy_3 = copy_4
+        // sp + 0x68
+        var outputs = body(_Graph(), copy_5)
+       
+        if hasDisplayList {
+            // <+988>
+            // sp + 0x18
+            let inputOptions = copy_1.base.options
+            // w22
+            let identity = _DisplayList_Identity()
+            // sp + 0x50
+            let copy_6 = copy_1
+            // x27
+            let cachedEnvironment = copy_1.base.cachedEnvironment
+            if copy_1.base.needsStableDisplayListIDs {
+               // <+1712>
+                copy_6[_DisplayList_StableIdentityScope.self].attribute!.value.pushIdentity(identity: identity)
+            }
+            
+            // sp + 0x90
+            var copy_7 = copy_1
+            // w25
+            let position = cachedEnvironment.value.animatedPosition(for: copy_7)
+            copy_7 = copy_1
+            // w20
+            let size = cachedEnvironment.value.animatedSize(for: copy_7)
+            // w22
+            let displayList: OptionalAttribute<DisplayList>
+            if let attribute: Attribute<DisplayList> = outputs[DisplayList.Key.self] {
+                displayList = OptionalAttribute(attribute)
+            } else {
+                displayList = OptionalAttribute()
+            }
+            // w24
+            let options = copy_6[DisplayList.Options.self]
+            // w8
+            let scrapeableParentID = copy_6.scrapeableParentID
+            // <+1284>
+            let renderEffectDisplayList = Attribute(
+                RendererEffectDisplayList<Self>(
+                    identity: identity,
+                    effect: effect.value,
+                    position: position,
+                    size: size,
+                    transform: copy_1.transform,
+                    containerPosition: copy_1.position,
+                    environment: cachedEnvironment.value.environment,
+                    safeAreaInsets: copy_1.safeAreaInsets,
+                    content: displayList,
+                    options: options,
+                    localID: scrapeableID,
+                    parentID: scrapeableParentID
+                )
+            )
+            
+            let isScrapeable = Self.isScrapeable
+            if inputOptions.contains(.viewNeedsGeometry) && isScrapeable {
+                renderEffectDisplayList.flags.formUnion(.unknown3)
+            }
+            
+            // <+1552>
+            outputs[DisplayList.Key.self] = renderEffectDisplayList
+        }
+        
+        // <+1592>
+        return outputs
     }
     
     var scrapeableContent: ScrapeableContent.Content? {
@@ -110,6 +182,25 @@ extension RendererEffect {
     }
     
     static nonisolated func makeRendererEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, AsyncAttribute, ScrapeableAttribute {
+    let identity: _DisplayList_Identity
+    @Attribute private(set) var effect: Effect
+    @Attribute private(set) var position: CGPoint
+    @Attribute private(set) var size: ViewSize
+    @Attribute private(set) var transform: ViewTransform
+    @Attribute private(set) var containerPosition: CGPoint
+    @Attribute private(set) var environment: EnvironmentValues
+    @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
+    @OptionalAttribute var content: DisplayList?
+    let options: DisplayList.Options
+    let localID: ScrapeableID
+    let parentID: ScrapeableID
+    
+    var value: DisplayList {
         fatalError("TODO")
     }
 }

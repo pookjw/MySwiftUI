@@ -124,6 +124,10 @@ public struct _ViewInputs {
     mutating func append<Input: ViewInput, Reusable: GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
         base.append(reusable, to: input)
     }
+    
+    mutating func popLast<Input: ViewInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
+        return base.popLast(input)
+    }
 }
 
 extension _ViewInputs {

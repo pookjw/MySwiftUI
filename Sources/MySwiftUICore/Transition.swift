@@ -47,7 +47,7 @@ extension Transition {
 extension Transition {
     static nonisolated func makeView(view: _GraphValue<Self.Body>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         var copy = inputs
-        copy.pushModifierBody(Self.Body.self, body: body)
+        copy.pushModifierBody(PlaceholderContentView<Self>.self, body: body)
         return Self.Body.makeDebuggableView(view: view, inputs: copy)
     }
 }
