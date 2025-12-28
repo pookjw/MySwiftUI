@@ -145,31 +145,62 @@ struct DynamicLayoutMapTests {
         var impl = MySwiftUICore.DynamicLayoutMap()
         var original = _SwiftUICorePrivate.DynamicLayoutMap()
         
-        let key = (
+        let key_1 = (
             MySwiftUICore.DynamicContainerID(uniqueId: 10, viewIndex: 10),
             _SwiftUICorePrivate.DynamicContainerID(uniqueId: 10, viewIndex: 10)
         )
         
-        let value = (
+        let value_1 = (
             MySwiftUICore.LayoutProxyAttributes.create(),
             _SwiftUICorePrivate.LayoutProxyAttributes.create()
         )
         
-        impl[key.0] = value.0
-        original[key.1] = value.1
+        let key_2 = (
+            MySwiftUICore.DynamicContainerID(uniqueId: 20, viewIndex: 20),
+            _SwiftUICorePrivate.DynamicContainerID(uniqueId: 20, viewIndex: 20)
+        )
         
-        impl.remove(uniqueId: key.0.uniqueId)
-        original.remove(uniqueId: key.1.uniqueId)
+        let value_2 = (
+            MySwiftUICore.LayoutProxyAttributes.create(),
+            _SwiftUICorePrivate.LayoutProxyAttributes.create()
+        )
+        
+        impl[key_1.0] = value_1.0
+        impl[key_2.0] = value_2.0
+        original[key_1.1] = value_1.1
+        original[key_2.1] = value_2.1
+        
+        
+        impl.remove(uniqueId: key_1.0.uniqueId)
+        original.remove(uniqueId: key_1.1.uniqueId)
+        
+        #expect(impl.map.count == 1)
+        #expect(impl.sortedArray.isEmpty)
+        #expect(impl.sortedSeed == 0)
+        #expect(impl[key_1.0].isEmpty)
+        #expect(!impl[key_2.0].isEmpty)
+        
+        #expect(original.map.count == 1)
+        #expect(original.sortedArray.isEmpty)
+        #expect(original.sortedSeed == 0)
+        #expect(original[key_1.1].isEmpty)
+        #expect(!original[key_2.1].isEmpty)
+        
+        
+        impl.remove(uniqueId: key_2.0.uniqueId)
+        original.remove(uniqueId: key_2.1.uniqueId)
         
         #expect(impl.map.isEmpty)
         #expect(impl.sortedArray.isEmpty)
         #expect(impl.sortedSeed == 0)
-        #expect(impl[key.0].isEmpty)
+        #expect(impl[key_1.0].isEmpty)
+        #expect(impl[key_2.0].isEmpty)
         
         #expect(original.map.isEmpty)
         #expect(original.sortedArray.isEmpty)
         #expect(original.sortedSeed == 0)
-        #expect(original[key.1].isEmpty)
+        #expect(original[key_1.1].isEmpty)
+        #expect(original[key_2.1].isEmpty)
     }
 }
 

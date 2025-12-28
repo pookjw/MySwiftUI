@@ -1333,3 +1333,9 @@ public struct DynamicLayoutMap {
 extension Swift.RandomAccessCollection {
     public func lowerBound(_: (Self.Element) -> Swift.Bool) -> Self.Index
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension Collection {
+    public func partitionPoint(where block: (Self.Element) throws -> Swift.Bool) rethrows -> Self.Index
+}

@@ -591,7 +591,30 @@ struct DynamicLayoutMap {
     }
     
     mutating func remove(uniqueId: UInt32) {
+        let count = map.count
+        guard count != 0 else {
+            return
+        }
+        
+        let index = map.partitionPoint { $0.id.uniqueId < uniqueId }
+        
+        guard index != count else {
+            return
+        }
+        
+        var end = index
+        repeat {
+            let id = map[end].id.uniqueId
+            guard id == uniqueId else {
+                break
+            }
+            end &+= 1
+        } while end != count
+        map.removeSubrange(index..<end)
         sortedSeed = 0
+    }
+    
+    func attributes(info: DynamicContainer.Info) -> [LayoutProxyAttributes] {
         fatalError("TODO")
     }
 }

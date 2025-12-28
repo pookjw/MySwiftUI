@@ -1003,7 +1003,7 @@ class ViewController: UIViewController {
         
         print("===")
         
-        print(PlatformAccessibilitySettingsDefinition().notification(for: .prefersCrossFadeTransitions))
+        
         
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
@@ -1196,8 +1196,6 @@ class ViewController: UIViewController {
 //                flag.toggle()
 //            }
 //        }
-        
-        print([1, 2, 3].lowerBound { _ in false })
         
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)
