@@ -137,14 +137,18 @@ extension Layout {
         } else {
             childDepthData = .depths(depthsAttribute)
         }
-        let adapter = DynamicLayoutViewAdaptor(
-            items: list,
-            childGeometries: OptionalAttribute(geometriesAttribute),
-            childDepthData: childDepthData
-        ) { [layoutComputerAttribute] handler in
+        
+        func mapMutator(thunk: (inout DynamicLayoutMap) -> Void) {
             // $s7SwiftUI6LayoutPAAE15makeDynamicView4root6inputs10properties4listAA01_F7OutputsVAA11_GraphValueVyxG_AA01_F6InputsVAA0C10PropertiesV09AttributeL00P0VyAA0F4List_pGtFZ10mapMutatorL_5thunkyyAA0eC3MapVzXE_tAaBRzlFTA
             fatalError("TODO")
         }
+        
+        let adapter = DynamicLayoutViewAdaptor(
+            items: list,
+            childGeometries: OptionalAttribute(geometriesAttribute),
+            childDepthData: childDepthData,
+            mutateLayoutMap: mapMutator(thunk:)
+        )
         // sp + 0xd4 / sp + 0xc0
         var (containerInfo, outputs) = DynamicContainer.makeContainer(adaptor: adapter, inputs: copy_5)
         

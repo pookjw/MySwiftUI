@@ -205,6 +205,7 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
                         
                         copy_2.size = childGeometries.size()
                         copy_2.position = childGeometries.origin()
+                        copy_2.requestsLayoutComputer = true
                     }
                     
                     // <+488>

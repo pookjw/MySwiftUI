@@ -5,7 +5,11 @@ public struct _GraphInputs {
     package internal(set) var customInputs = PropertyList()
     var time: Attribute<Time>
     package var cachedEnvironment: MutableBox<CachedEnvironment>
-    var phase: Attribute<_GraphInputs.Phase>
+    var phase: Attribute<_GraphInputs.Phase> {
+        didSet {
+            changedDebugProperties.formUnion(.phase)
+        }
+    }
     var transaction: Attribute<Transaction>
     var changedDebugProperties: _ViewDebug.Properties
     var options: _GraphInputs.Options
@@ -90,6 +94,57 @@ public struct _GraphInputs {
     
     mutating func popLast<Input: GraphInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
         return customInputs[Input.self].pop()
+    }
+    
+    mutating func merge(_ other: _GraphInputs, ignoringPhase: Bool) {
+        /*
+         self -> x19
+         ignoringPhase -> w23
+         other.phase -> w22
+         other.transaction -> w24
+         */
+        customInputs.merge(other.customInputs)
+        // w25
+        let otherEnvironment = other.cachedEnvironment.value.environment
+        // w28
+        let environment = self.cachedEnvironment.value.environment
+        
+        if otherEnvironment != environment {
+            let inserted = self.mergedInputs.insert(otherEnvironment.identifier).inserted
+            if inserted {
+                let merged = MergedEnvironment(lhs: WeakAttribute(otherEnvironment), rhs: environment)
+                self.environment = Attribute(merged)
+            }
+        }
+        
+        // <+252>
+        // w25
+        let ownTransaction = self.transaction
+        if other.transaction != ownTransaction {
+            let inserted = self.mergedInputs.insert(other.transaction.identifier).inserted
+            if inserted {
+                let merged = MergedTransaction(lhs: WeakAttribute(other.transaction), rhs: ownTransaction)
+                self.transaction = Attribute(merged)
+            }
+        }
+        
+        // <+368>
+        if !ignoringPhase, other.phase != self.phase {
+            let inserted = self.mergedInputs.insert(other.phase.identifier).inserted
+            if inserted {
+                let merged = MergedPhase(lhs: WeakAttribute(other.phase), rhs: self.phase)
+                self.phase = Attribute(merged)
+            }
+        }
+        
+        self.changedDebugProperties.formUnion(other.changedDebugProperties)
+        self.mergedInputs.formUnion(other.mergedInputs)
+        
+        var options = self.options
+        options.formUnion(other.options)
+        options.formIntersection(.animationsDisabled)
+        options.formUnion(self.options)
+        self.options = options
     }
     
     fileprivate mutating func recordReusableInput<Input: GraphInput>(_ input: Input.Type) where Input.Value: GraphReusable {
@@ -227,5 +282,38 @@ extension _GraphInputs {
     }
 }
 
+extension _GraphInputs {
+    func makeReusable(indirectMap: IndirectAttributeMap) {
+        fatalError("TODO")
+    }
+}
+
 @available(*, unavailable)
 extension _GraphInputs: Sendable {}
+
+fileprivate struct MergedEnvironment: Rule, AsyncAttribute {
+    @WeakAttribute var lhs: EnvironmentValues?
+    @Attribute private(set) var rhs: EnvironmentValues
+    
+    var value: EnvironmentValues {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct MergedTransaction: Rule, AsyncAttribute {
+    @WeakAttribute var lhs: Transaction?
+    @Attribute private(set) var rhs: Transaction
+    
+    var value: Transaction {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct MergedPhase: Rule, AsyncAttribute {
+    @WeakAttribute var lhs: _GraphInputs.Phase?
+    @Attribute private(set) var rhs: _GraphInputs.Phase
+    
+    var value: _GraphInputs.Phase {
+        fatalError("TODO")
+    }
+}

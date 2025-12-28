@@ -336,7 +336,24 @@ fileprivate struct TypedUnaryViewGenerator: UnaryViewGenerator {
     }
     
     func makeView(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?) -> _ViewOutputs {
-        fatalError("TODO")
+        // sp
+        let copy_1 = inputs
+        
+        let view = view.attribute
+        guard view != .empty else {
+            return _ViewOutputs()
+        }
+        
+        func project<U: View>(type: U.Type) -> _ViewOutputs {
+            var casted = Attribute<U>(identifier: view)
+            if let indirectMap {
+                casted.makeReusable(indirectMap: indirectMap)
+            }
+            
+            return U.makeDebuggableView(view: _GraphValue(casted), inputs: copy_1)
+        }
+        
+        return _openExistential(viewType, do: project)
     }
 }
 
@@ -376,7 +393,36 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
         
         return body(copy_1) { [copy_2, indirectMap] inputs in
             // $s7SwiftUI13UnaryElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtFAkNcfU_TA
-            fatalError("TODO")
+            // sp + 0x240
+            let copy_3 = inputs
+            // sp + 0x2a0
+            let copy_4 = copy_2.baseInputs
+            // sp + 0x210
+            let copy_5 = copy_2.baseInputs
+            // sp + 0x180
+            let copy_6 = copy_4
+            
+            if let indirectMap {
+                copy_5.makeReusable(indirectMap: indirectMap)
+            }
+            
+            // sp + 0x60
+            var copy_7 = copy_3
+            // sp + 0x120
+            let copy_8 = copy_5
+            // sp + 0x180
+            let copy_9 = copy_3
+            
+            copy_7.base.merge(copy_8, ignoringPhase: false)
+            
+            // sp + 0xc0
+            let copy_10 = copy_7
+            // sp
+            let copy_11 = copy_7
+            // sp + 0x180
+            let copy_12 = copy_10
+            
+            return copy_2.body.makeView(inputs: copy_11, indirectMap: indirectMap)
         }
     }
     
