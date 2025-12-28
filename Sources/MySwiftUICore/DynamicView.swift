@@ -546,7 +546,19 @@ struct DynamicLayoutMap {
             fatalError("TODO")
         }
         set {
-            fatalError("TODO")
+            if !map.isEmpty {
+                // <+44>
+                fatalError("TODO")
+            } else {
+                // <+188>
+                guard !newValue.isEmpty else {
+                    return
+                }
+                
+                map.insert((id: containerID, value: newValue), at: 0)
+            }
+            
+            sortedSeed = 0
         }
         _modify {
             fatalError("TODO")

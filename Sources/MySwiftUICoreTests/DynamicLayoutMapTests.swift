@@ -21,9 +21,31 @@ struct DynamicLayoutMapTests {
         var impl = MySwiftUICore.DynamicLayoutMap()
         var original = _SwiftUICorePrivate.DynamicLayoutMap()
         
+        do {
+            let key = (
+                MySwiftUICore.DynamicContainerID(uniqueId: 10, viewIndex: 10),
+                _SwiftUICorePrivate.DynamicContainerID(uniqueId: 10, viewIndex: 10)
+            )
+            
+            let value = (
+                MySwiftUICore.LayoutProxyAttributes.empty,
+                _SwiftUICorePrivate.LayoutProxyAttributes.empty
+            )
+            
+            impl[key.0] = value.0
+            original[key.1] = value.1
+            
+            #expect(impl.map.isEmpty)
+            #expect(impl.sortedArray.isEmpty)
+            #expect(impl.sortedSeed == 0)
+            #expect(original.map.isEmpty)
+            #expect(original.sortedArray.isEmpty)
+            #expect(original.sortedSeed == 0)
+        }
+        
         let key_1 = (
-            MySwiftUICore.DynamicContainerID(uniqueId: 10, viewIndex: 10),
-            _SwiftUICorePrivate.DynamicContainerID(uniqueId: 10, viewIndex: 10)
+            MySwiftUICore.DynamicContainerID(uniqueId: 20, viewIndex: 20),
+            _SwiftUICorePrivate.DynamicContainerID(uniqueId: 20, viewIndex: 20)
         )
         
         let value_1 = (
@@ -31,9 +53,17 @@ struct DynamicLayoutMapTests {
             _SwiftUICorePrivate.LayoutProxyAttributes.create()
         )
         
-//        impl[key_1.0] = value_1.0
-        original[key_1.1] = value_1.1
         impl[key_1.0] = value_1.0
+        original[key_1.1] = value_1.1
+        
+        #expect(impl.map.count == 1)
+        #expect(impl.sortedArray.isEmpty)
+        #expect(impl.sortedSeed == 0)
+        #expect(original.map.count == 1)
+        #expect(original.sortedArray.isEmpty)
+        #expect(original.sortedSeed == 0)
+        
+        print(original[key_1.1])
     }
 }
 
@@ -52,6 +82,13 @@ extension _SwiftUICorePrivate.LayoutProxyAttributes {
             )
         }
     }
+    
+    fileprivate static var empty: _SwiftUICorePrivate.LayoutProxyAttributes {
+        return _SwiftUICorePrivate.LayoutProxyAttributes(
+            layoutComputer: OptionalAttribute(),
+            traitsList: OptionalAttribute()
+        )
+    }
 }
 
 extension MySwiftUICore.LayoutProxyAttributes {
@@ -62,6 +99,13 @@ extension MySwiftUICore.LayoutProxyAttributes {
                 traitsList: OptionalAttribute(Attribute(MySwiftUICoreViewListRule()))
             )
         }
+    }
+    
+    fileprivate static var empty: MySwiftUICore.LayoutProxyAttributes {
+        return MySwiftUICore.LayoutProxyAttributes(
+            layoutComputer: OptionalAttribute(),
+            traitsList: OptionalAttribute()
+        )
     }
 }
 
