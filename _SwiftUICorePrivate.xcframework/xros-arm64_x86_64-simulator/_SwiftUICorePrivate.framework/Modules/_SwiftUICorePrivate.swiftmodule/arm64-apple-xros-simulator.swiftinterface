@@ -1299,6 +1299,7 @@ public struct DynamicContainerID: Swift.Comparable, Swift.Hashable {
 public struct LayoutProxyAttributes: Swift.Equatable {
   public init()
   public init(layoutComputer: AttributeGraph.OptionalAttribute<_SwiftUICorePrivate.LayoutComputer>, traitsList: AttributeGraph.OptionalAttribute<any _SwiftUICorePrivate.ViewList>)
+  public var isEmpty: Swift.Bool { get }
 }
 
 @available(visionOS 26.0, *)
@@ -1320,6 +1321,15 @@ public struct DynamicLayoutMap {
   )
 
   public subscript(_ containerID: _SwiftUICorePrivate.DynamicContainerID) -> _SwiftUICorePrivate.LayoutProxyAttributes {
-    get set
+    get
+    mutating set
   }
+
+  public mutating func remove(uniqueId: Swift.UInt32)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension Swift.RandomAccessCollection {
+    public func lowerBound(_: (Self.Element) -> Swift.Bool) -> Self.Index
 }

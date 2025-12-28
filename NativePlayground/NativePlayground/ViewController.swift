@@ -1197,6 +1197,8 @@ class ViewController: UIViewController {
 //            }
 //        }
         
+        print([1, 2, 3].lowerBound { _ in false })
+        
         print(NSStringFromClass(object_getClass(hostingView)!))
         print(hostingView)
     }
