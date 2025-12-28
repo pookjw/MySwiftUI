@@ -522,8 +522,8 @@ extension DynamicViewList.WrappedList: ViewList {
 
 struct DynamicLayoutMap {
     private var map: [(id: DynamicContainerID, value: LayoutProxyAttributes)]
-    private var sortedArray: [LayoutProxyAttributes]
-    private var sortedSeed: UInt32
+    var sortedArray: [LayoutProxyAttributes]
+    var sortedSeed: UInt32
     
     init() {
         self.map = []
@@ -539,6 +539,22 @@ struct DynamicLayoutMap {
         self.map = map
         self.sortedArray = sortedArray
         self.sortedSeed = sortedSeed
+    }
+    
+    subscript(_ containerID: DynamicContainerID) -> LayoutProxyAttributes {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    mutating func remove(uniqueId: UInt32) {
+        fatalError("TODO")
     }
 }
 
@@ -572,9 +588,33 @@ extension DynamicViewListItem {
     }
 }
 
-struct LayoutProxyAttributes {
+struct LayoutProxyAttributes: Equatable {
     @OptionalAttribute private var layoutComputer: LayoutComputer?
     @OptionalAttribute private var traitsList: ViewList?
+    
+    init(layoutComputer: OptionalAttribute<LayoutComputer>, traitsList: OptionalAttribute<ViewList>) {
+        _layoutComputer = layoutComputer
+        _traitsList = traitsList
+    }
+    
+    init(traitsList: OptionalAttribute<ViewList>) {
+        _layoutComputer = OptionalAttribute()
+        _traitsList = traitsList
+    }
+    
+    init(layoutComputer: OptionalAttribute<LayoutComputer>) {
+        _layoutComputer = layoutComputer
+        _traitsList = OptionalAttribute()
+    }
+    
+    init() {
+        _layoutComputer = OptionalAttribute()
+        _traitsList = OptionalAttribute()
+    }
+    
+    var isEmpty: Bool {
+        return ($layoutComputer == nil) && ($traitsList == nil)
+    }
 }
 
 struct EmptyViewList: CustomStringConvertible {

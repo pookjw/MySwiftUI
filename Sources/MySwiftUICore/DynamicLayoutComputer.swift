@@ -140,7 +140,13 @@ extension Layout {
         
         func mapMutator(thunk: (inout DynamicLayoutMap) -> Void) {
             // $s7SwiftUI6LayoutPAAE15makeDynamicView4root6inputs10properties4listAA01_F7OutputsVAA11_GraphValueVyxG_AA01_F6InputsVAA0C10PropertiesV09AttributeL00P0VyAA0F4List_pGtFZ10mapMutatorL_5thunkyyAA0eC3MapVzXE_tAaBRzlFTA
-            fatalError("TODO")
+            guard let layoutComputerAttribute else {
+                return
+            }
+            
+            layoutComputerAttribute.mutateBody(as: DynamicLayoutComputer<Self>.self, invalidating: true) { layoutComputer in
+                thunk(&layoutComputer.layoutMap)
+            }
         }
         
         let adapter = DynamicLayoutViewAdaptor(
@@ -215,25 +221,13 @@ extension DynamicLayoutViewAdaptor {
 }
 
 fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
-    @Attribute private var layout: T
-    @Attribute private var environment: EnvironmentValues
+    @Attribute private(set) var layout: T
+    @Attribute private(set) var environment: EnvironmentValues
     @OptionalAttribute var containerInfo: DynamicContainer.Info?
-    private var layoutMap: DynamicLayoutMap
+    var layoutMap: DynamicLayoutMap
     
     var description: String {
         fatalError("TODO")
-    }
-    
-    init(
-        layout: Attribute<T>,
-        environment: Attribute<EnvironmentValues>,
-        containerInfo: OptionalAttribute<DynamicContainer.Info>,
-        layoutMap: DynamicLayoutMap
-    ) {
-        self._layout = layout
-        self._environment = environment
-        self._containerInfo = containerInfo
-        self.layoutMap = layoutMap
     }
     
     typealias Value = LayoutComputer

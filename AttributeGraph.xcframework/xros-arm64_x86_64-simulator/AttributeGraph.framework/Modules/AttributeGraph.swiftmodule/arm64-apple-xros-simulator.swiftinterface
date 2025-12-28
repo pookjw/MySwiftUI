@@ -217,7 +217,7 @@ public struct Focus<Key, Value> {
 
 @frozen
 @propertyWrapper
-public struct OptionalAttribute<T> : Swift.Sendable {
+public struct OptionalAttribute<T> : Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
     public var wrappedValue: T? {
         get
     }
@@ -243,6 +243,8 @@ public struct OptionalAttribute<T> : Swift.Sendable {
     public init(_: AttributeGraph.WeakAttribute<T>)
     public init(_: AttributeGraph.Attribute<T>?)
     public init(base: AttributeGraph.AnyOptionalAttribute)
+
+    public static func == (lhs: Self, rhs: Self) -> Swift.Bool
 }
 
 public protocol _AttributeBody {

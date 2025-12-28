@@ -257,10 +257,24 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
                     }
                     
                     // <+968>
-                    mutateLayoutMap { _ in
-                        // outputs
+                    mutateLayoutMap { layoutMap in
                         // $s7SwiftUI24DynamicLayoutViewAdaptorV08makeItemD04item8uniqueId6inputs13containerInfo0M6InputsAA01_E7OutputsV_AC0hD0VtAA0ce4ListH0V_s6UInt32VAA01_eO0V14AttributeGraph0S0VyAA0C9ContainerV0N0VGyASzXEtFAKSgAS_AkSctXEfU0_yAA0cD3MapVzXEfU_TA
-                        fatalError("TODO")
+                        let id = DynamicContainerID(
+                            uniqueId: uniqueId,
+                            viewIndex: viewIndex
+                        )
+                        
+                        let layoutComputer: OptionalAttribute<LayoutComputer>
+                        if let attribute = outputs.layoutComputer {
+                            layoutComputer = OptionalAttribute(attribute)
+                        } else {
+                            layoutComputer = OptionalAttribute()
+                        }
+                        
+                        layoutMap[id] = LayoutProxyAttributes(
+                            layoutComputer: layoutComputer,
+                            traitsList: OptionalAttribute($items)
+                        )
                     }
                     
                     // <+1080>

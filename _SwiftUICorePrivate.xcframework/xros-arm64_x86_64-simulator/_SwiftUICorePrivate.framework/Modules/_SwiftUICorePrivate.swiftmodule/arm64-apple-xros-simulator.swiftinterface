@@ -1282,3 +1282,44 @@ public enum Stack<Element>: Swift.Sequence, Swift.IteratorProtocol {
     _ transform: (Element) -> T
   ) -> _SwiftUICorePrivate.Stack<T>
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DynamicContainerID: Swift.Comparable, Swift.Hashable {
+  public var uniqueId: Swift.UInt32 { get set }
+  public var viewIndex: Swift.Int32 { get set }
+
+  public init(uniqueId: Swift.UInt32, viewIndex: Swift.Int32)
+
+  public static func < (lhs: _SwiftUICorePrivate.DynamicContainerID, rhs: _SwiftUICorePrivate.DynamicContainerID) -> Swift.Bool
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct LayoutProxyAttributes: Swift.Equatable {
+  public init()
+  public init(layoutComputer: AttributeGraph.OptionalAttribute<_SwiftUICorePrivate.LayoutComputer>, traitsList: AttributeGraph.OptionalAttribute<any _SwiftUICorePrivate.ViewList>)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct LayoutComputer {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct DynamicLayoutMap {
+  public var sortedArray: [_SwiftUICorePrivate.LayoutProxyAttributes] { get set }
+  public var sortedSeed: Swift.UInt32 { get set }
+
+  public init()
+  public init(
+    map: [(id: _SwiftUICorePrivate.DynamicContainerID, value: _SwiftUICorePrivate.LayoutProxyAttributes)],
+      sortedArray: [_SwiftUICorePrivate.LayoutProxyAttributes] = [],
+      sortedSeed: Swift.UInt32 = 0
+  )
+
+  public subscript(_ containerID: _SwiftUICorePrivate.DynamicContainerID) -> _SwiftUICorePrivate.LayoutProxyAttributes {
+    get set
+  }
+}

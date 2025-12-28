@@ -519,14 +519,31 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     }
 }
 
-struct DynamicContainerID {
-    private var uniqueId: UInt32
-    private var viewIndex: Int32
+struct DynamicContainerID: Comparable, Hashable {
+    var uniqueId: UInt32
+    var viewIndex: Int32
     
-    @inline(__always)
     init(uniqueId: UInt32, viewIndex: Int32) {
         self.uniqueId = uniqueId
         self.viewIndex = viewIndex
+    }
+    
+    static func < (lhs: DynamicContainerID, rhs: DynamicContainerID) -> Bool {
+        let w8 = lhs.uniqueId
+        let w9 = rhs.uniqueId
+        
+        if w8 < w9 {
+            return true
+        } else {
+            let w10 = rhs.viewIndex
+            let w11 = lhs.viewIndex
+            
+            if w8 == w9 {
+                return w11 < w10
+            } else {
+                return false
+            }
+        }
     }
 }
 
