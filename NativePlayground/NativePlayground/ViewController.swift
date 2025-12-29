@@ -748,6 +748,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI16DynamicContainerV8ItemInfoC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI16DynamicContainerV8ItemInfoC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
         
 //        print(_typeName(_typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, qualified: true))
 //        _forEachField(of: _typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, options: []) { name, offset, type, kind in
@@ -1055,24 +1062,24 @@ class ViewController: UIViewController {
         let item = DisplayList.Item.init(.empty, frame: .zero, identity: .init(), version: .init())
         let displayList = DisplayList(item)
         
-//        let graph = Graph()
-//        let subgraph = Subgraph(graph: graph)
-//        Subgraph.current = subgraph
-//        graph.context = UnsafeRawPointer(
-//            Unmanaged
-//                .passRetained(
-//                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
-//                )
-//        .toOpaque())
-//        let phase: Attribute<SwiftUI._GraphInputs.Phase> = .init(value: .init(value: 3))
-//        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: phase, environment: .init(value: .init()), transaction: .init(value: .init())))
-//        inputs.preferences.add(ViewRespondersKey.self)
-//        let host = GraphHost.init(data: .init())
-//        let (info, _) = DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
-//        _ = info.value
-//        phase.value.merge(.init(value: 4))
-//        print(info.value)
-//        fatalError()
+        let graph = Graph()
+        let subgraph = Subgraph(graph: graph)
+        Subgraph.current = subgraph
+        graph.context = UnsafeRawPointer(
+            Unmanaged
+                .passRetained(
+                    ViewGraph.init(rootViewType: EmptyView.self, requestedOutputs: .defaults)
+                )
+        .toOpaque())
+        let phase: Attribute<SwiftUI._GraphInputs.Phase> = .init(value: .init(value: 3))
+        var inputs = _ViewInputs.init(withoutGeometry: .init(time: .init(value: .zero), phase: phase, environment: .init(value: .init()), transaction: .init(value: .init())))
+        inputs.preferences.add(ViewRespondersKey.self)
+        let host = GraphHost.init(data: .init())
+        let (info, _) = DynamicContainer.makeContainer(adaptor: MyAdapter(), inputs: inputs)
+        _ = info.value
+        phase.value.merge(.init(value: 4))
+        print(info.value)
+        fatalError()
 //        
 //        
 //        

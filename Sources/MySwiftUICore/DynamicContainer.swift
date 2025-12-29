@@ -74,31 +74,12 @@ struct DynamicContainer {
 extension DynamicContainer {
     struct Info {
         var items: [DynamicContainer.ItemInfo]
-        private var indexMap: [UInt32: Int]
+        private(set) var indexMap: [UInt32: Int]
         private(set) var displayMap: [UInt32]?
-        private var removedCount: Int
-        private var unusedCount: Int
-        private var allUnary: Bool
-        private var seed: UInt32
-        
-        @inline(__always)
-        init(
-            items: [DynamicContainer.ItemInfo],
-            indexMap: [UInt32: Int],
-            displayMap: [UInt32]?,
-            removedCount: Int,
-            unusedCount: Int,
-            allUnary: Bool,
-            seed: UInt32
-        ) {
-            self.items = items
-            self.indexMap = indexMap
-            self.displayMap = displayMap
-            self.removedCount = removedCount
-            self.unusedCount = unusedCount
-            self.allUnary = allUnary
-            self.seed = seed
-        }
+        private(set) var removedCount: Int
+        private(set) var unusedCount: Int
+        private(set) var allUnary: Bool
+        private(set) var seed: UInt32
     }
     
     class ItemInfo {
@@ -107,15 +88,20 @@ extension DynamicContainer {
         private let viewCount: Int32
         private let outputs: _ViewOutputs
         let needsTransitions: Bool
-        private var listener: DynamicAnimationListener?
-        fileprivate var zIndex: Double
-        private var removalOrder: UInt32
-        private var precedingViewCount: Int32
-        private var resetSeed: UInt32
-        var phase: TransitionPhase?
+        private var listener: DynamicAnimationListener? = nil
+        fileprivate var zIndex: Double = 0
+        private var removalOrder: UInt32 = 0
+        private var precedingViewCount: Int32 = 0
+        private var resetSeed: UInt32 = 0
+        var phase: TransitionPhase? = nil
         
-        init() {
-            fatalError("TODO")
+        init(subgraph: Subgraph, uniqueId: UInt32, viewCount: Int32, phase: TransitionPhase, needsTransitions: Bool, outputs: _ViewOutputs) {
+            self.subgraph = subgraph
+            self.uniqueId = uniqueId
+            self.viewCount = viewCount
+            self.outputs = outputs
+            self.needsTransitions = needsTransitions
+            self.phase = phase
         }
         
         func `for`<T: DynamicContainerAdaptor>(_ type: T.Type) -> DynamicContainer._ItemInfo<T> {
@@ -137,7 +123,9 @@ extension DynamicContainer {
             needsTransitions: Bool,
             outputs: _ViewOutputs
         ) {
-            fatalError("TODO")
+            self.item = item
+            self.itemLayout = itemLayout
+            super.init(subgraph: subgraph, uniqueId: uniqueId, viewCount: viewCount, phase: phase, needsTransitions: needsTransitions, outputs: outputs)
         }
     }
 }
@@ -514,7 +502,36 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             }
             
             // <+548>
-            fatalError("TODO")
+            let x24 = x29_0x80
+            let x25 = x29_0x78
+            if x25 < x24 {
+                // <+680>
+                // x26
+                for index in (x25..<x24).reversed() {
+                    // w23
+                    let phase = info.items[index].phase
+                    
+                    let removed = tryRemovingItem(at: index, disableTransitions: disableTransitions)
+                    if removed {
+                        changed = true
+                        continue
+                    }
+                    
+                    let item = info.items[index]
+                    let zIndex = item.zIndex
+                    hasDepth = (hasDepth || (zIndex != 0))
+                    
+                    let firstZIndex = info.items[x25].zIndex
+                    if firstZIndex != zIndex {
+                        item.zIndex = zIndex
+                        changed = true
+                    }
+                    
+                    if info.items[index].phase != phase {
+                        changed = true
+                    }
+                }
+            }
         } else {
             // <+300>
             hasDepth = info.displayMap != nil
