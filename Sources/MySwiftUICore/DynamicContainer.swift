@@ -199,11 +199,18 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         }
         
         // <+556>
+        // w27
         let (changed, hasDepth) = updateItems(disableTransitions: disableTransitions)
-        /*
-         specialized : $s7SwiftUI20DynamicContainerInfoV11updateValueyyFAA0C17LayoutViewAdaptorV_Tg5
-         $s7SwiftUI20DynamicContainerInfoV11updateValueyyF
-         */
+        
+        if !changed {
+            // <+576>
+            for index in info.items.indices {
+                let removed = tryRemovingItem(at: index, disableTransitions: disableTransitions)
+                fatalError("TODO")
+            }
+            fatalError("TODO")
+        }
+        
         fatalError("TODO")
     }
     
