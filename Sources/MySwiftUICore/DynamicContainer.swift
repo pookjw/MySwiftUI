@@ -182,36 +182,63 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         }
         
         // sp + 0x58
-        var flag: Bool
+        var flag_1: Bool
         if needsPhaseUpdate {
             // <+176>
-            flag = false
+            flag_1 = false
             for item in info.items {
                 if case .willAppear = item.phase {
                     // <+356>
-                    flag = true
+                    flag_1 = true
                     item.phase = .identity
                 }
             }
             needsPhaseUpdate = false
         } else {
-            flag = false
+            flag_1 = false
         }
         
         // <+556>
         // w27
         let (changed, hasDepth) = updateItems(disableTransitions: disableTransitions)
         
-        if !changed {
+        var flag_2: Bool // false -> <+976>, true -> <+852>
+        if changed {
+            flag_2 = true
+        } else {
             // <+576>
-            for index in info.items.indices {
-                let removed = tryRemovingItem(at: index, disableTransitions: disableTransitions)
-                fatalError("TODO")
+            let indices = info.items.indices
+            for index in indices.reversed() {
+                // <+652>
+                let item = info.items[index]
+                // w25
+                let phase = item.phase
+                
+                // <+732>
+                if case .didDisappear = phase {
+                    // <+620>
+                    let removed = tryRemovingItem(at: index, disableTransitions: disableTransitions)
+                    if removed {
+                        flag_1 = true
+                    }
+                } else if phase == nil {
+                    continue
+                } else {
+                    break
+                }
             }
-            fatalError("TODO")
+            
+            // <+840>
+            flag_2 = flag_1
         }
         
-        fatalError("TODO")
+        if flag_2 {
+            // <+852>
+            fatalError("TODO")
+        } else {
+            // <+976>
+            fatalError("TODO")
+        }
     }
     
     func destroy() {
