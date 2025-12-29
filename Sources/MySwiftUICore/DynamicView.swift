@@ -621,7 +621,7 @@ struct DynamicLayoutMap {
 
 struct DynamicViewListItem: DynamicContainerItem {
     var count: Int {
-        fatalError("TODO")
+        return elements.base.count
     }
     
     func matchesIdentity(of item: DynamicViewListItem) -> Bool {

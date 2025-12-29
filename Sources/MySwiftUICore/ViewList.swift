@@ -1,9 +1,15 @@
+// E479C0E92CDD045BAF2EF653123E2E0B
 internal import AttributeGraph
 
 final class _ViewList_SubgraphRelease {
     private let subgraphs: ArraySlice<_ViewList_Subgraph>
     
-    init() {
+    @inline(__always)
+    fileprivate init(subgraphs: ArraySlice<_ViewList_Subgraph>) {
+        self.subgraphs = subgraphs
+    }
+    
+    deinit {
         fatalError("TODO")
     }
 }
@@ -94,11 +100,6 @@ struct _ViewList_SubgraphElements {
 struct _ViewList_SublistSubgraphStorage {
     var subgraphs: [_ViewList_Subgraph]
     
-    @inline(__always)
-    init(subgraphs: [_ViewList_Subgraph]) {
-        self.subgraphs = subgraphs
-    }
-    
     var isValid: Bool {
         guard !subgraphs.isEmpty else {
             return true
@@ -114,7 +115,35 @@ struct _ViewList_SublistSubgraphStorage {
     }
     
     func retain() -> _ViewList_SubgraphRelease? {
-        fatalError("TODO")
+        guard !subgraphs.isEmpty else {
+            return nil
+        }
+        
+        // x22
+        let count = subgraphs.count
+        // x21
+        var index = subgraphs.count
+        repeat {
+            // x23
+            let _index = index - 1
+            
+            let subgraph = subgraphs[_index]
+            
+            guard
+                subgraph.refcount != 0,
+                subgraph.subgraph.isValid
+            else {
+                break
+            }
+            subgraph.refcount &+= 1
+            index = _index
+        } while index != 0
+        
+        guard index != count else {
+            return nil
+        }
+        
+        return _ViewList_SubgraphRelease(subgraphs: subgraphs[index..<subgraphs.endIndex])
     }
 }
 

@@ -127,7 +127,16 @@ extension DynamicContainer {
         fileprivate var item: T.Item
         private let itemLayout: T.ItemLayout
         
-        init(item: T.Item, itemLayout: T.ItemLayout, subgraph: Subgraph, uniqueId: UInt32, viewCount: Int32, phase: TransitionPhase, needsTransitions: Bool, outputs: _ViewOutputs) {
+        init(
+            item: T.Item,
+            itemLayout: T.ItemLayout,
+            subgraph: Subgraph,
+            uniqueId: UInt32,
+            viewCount: Int32,
+            phase: TransitionPhase,
+            needsTransitions: Bool,
+            outputs: _ViewOutputs
+        ) {
             fatalError("TODO")
         }
     }
