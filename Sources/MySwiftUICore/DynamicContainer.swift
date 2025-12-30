@@ -234,10 +234,31 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         
         if flag_2 {
             // <+852>
+            // (changed, hasDepth) -> sp + 0x20
+            // x0
+            let itemsCount = info.items.count
+            // x8
+            let removedCount = info.removedCount
+            // x9 -> sp + 0x28
+            let unusedCount = info.unusedCount
+            // x26
+            let tmp_1 = itemsCount &- unusedCount
+            // removedCount -> sp + 0x40
+            // x23
+            let _ = tmp_1 &- removedCount
+            // itemsCount -> sp + 0x30
+            
+            // <+940>
             fatalError("TODO")
         } else {
             // <+976>
-            fatalError("TODO")
+            if !info.items.isEmpty || !hasValue {
+                // <+3636>
+                value = info
+            }
+            
+            // <+3716>
+            return
         }
     }
     
