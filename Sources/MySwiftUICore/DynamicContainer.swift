@@ -242,13 +242,19 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             // x9 -> sp + 0x28
             let unusedCount = info.unusedCount
             // x26
-            let tmp_1 = itemsCount &- unusedCount
+            let usedCount = itemsCount &- unusedCount
             // removedCount -> sp + 0x40
             // x23
-            let _ = tmp_1 &- removedCount
+            let unremovedCount = usedCount &- removedCount
             // itemsCount -> sp + 0x30
             
             // <+940>
+            if unremovedCount < usedCount {
+                // <+1020>
+                fatalError("TODO")
+            }
+            
+            // <+1716>
             fatalError("TODO")
         } else {
             // <+976>
