@@ -316,7 +316,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                 var displayMap: [UInt32] = []
                 displayMap.reserveCapacity(capacity)
                 for index in 0..<unremovedCount {
-                    displayMap.append(UInt32(index))
+                    displayMap.append(numericCast(index))
                 }
                 
                 // <+2632>
