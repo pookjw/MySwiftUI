@@ -75,7 +75,7 @@ extension DynamicContainer {
     struct Info {
         var items: [DynamicContainer.ItemInfo]
         var indexMap: [UInt32: Int]
-        private(set) var displayMap: [UInt32]?
+        var displayMap: [UInt32]?
         private(set) var removedCount: Int
         private(set) var unusedCount: Int
         var allUnary: Bool
@@ -85,13 +85,13 @@ extension DynamicContainer {
     class ItemInfo {
         private let subgraph: Subgraph
         let uniqueId: UInt32
-        private let viewCount: Int32
+        let viewCount: Int32
         private let outputs: _ViewOutputs
         let needsTransitions: Bool
         private var listener: DynamicAnimationListener? = nil
         fileprivate var zIndex: Double = 0
         private(set) var removalOrder: UInt32 = 0
-        private var precedingViewCount: Int32 = 0
+        var precedingViewCount: Int32 = 0
         private var resetSeed: UInt32 = 0
         var phase: TransitionPhase? = nil
         
@@ -268,15 +268,62 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             assert(usedCount > 0)
             if itemsCount != unusedCount {
                 // <+1832>
-                for index in info.items.indices {
-                    let item = info.items[index]
-                    info.indexMap[item.uniqueId] = index
+                var precedingViewCount: Int32 = 0
+                var allUnary = true
+                for index in 0..<usedCount {
+                    info.indexMap[info.items[index].uniqueId] = index
                     // <+2140>
-                    fatalError("TODO")
+                    let item = info.items[index]
+                    item.precedingViewCount = precedingViewCount
+                    // w21
+                    let viewCount = item.viewCount
+                    
+                    if allUnary {
+                        allUnary = viewCount == 1
+                    }
+                    
+                    if index != usedCount {
+                        precedingViewCount &+= item.viewCount
+                    }
                 }
+                
+                info.allUnary = allUnary
             }
             
             // <+2336>
+            guard info.indexMap.count == usedCount else {
+                fatalError("DynamicLayoutItem identifiers must be unique.")
+            }
+            
+            // <+2348>
+            if !hasDepth {
+                // <+2360>
+                info.displayMap = nil
+                // <+3612>
+            } else {
+                // <+2380>
+                // unremovedCount -> x21
+                var capacity = unremovedCount
+                if removedCount != 0 {
+                    capacity += removedCount
+                }
+                
+                // <+2412>
+                // x20 / sp + 0x20
+                capacity = max(capacity, 0)
+                
+                // x22
+                var displayMap: [UInt32] = []
+                displayMap.reserveCapacity(capacity)
+                for index in 0..<unremovedCount {
+                    displayMap.append(UInt32(index))
+                }
+                
+                // <+2632>
+                fatalError("TODO")
+            }
+            
+            // <+3612>
             fatalError("TODO")
         } else {
             // <+976>
