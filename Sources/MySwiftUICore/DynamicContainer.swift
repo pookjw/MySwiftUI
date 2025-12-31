@@ -74,7 +74,7 @@ struct DynamicContainer {
 extension DynamicContainer {
     struct Info {
         var items: [DynamicContainer.ItemInfo]
-        private(set) var indexMap: [UInt32: Int]
+        var indexMap: [UInt32: Int]
         private(set) var displayMap: [UInt32]?
         private(set) var removedCount: Int
         private(set) var unusedCount: Int
@@ -90,7 +90,7 @@ extension DynamicContainer {
         let needsTransitions: Bool
         private var listener: DynamicAnimationListener? = nil
         fileprivate var zIndex: Double = 0
-        private var removalOrder: UInt32 = 0
+        private(set) var removalOrder: UInt32 = 0
         private var precedingViewCount: Int32 = 0
         private var resetSeed: UInt32 = 0
         var phase: TransitionPhase? = nil
@@ -251,10 +251,17 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             // <+940>
             if unremovedCount < usedCount {
                 // <+1020>
-                fatalError("TODO")
+                var array = info.items[unremovedCount..<usedCount]
+                // x21(w9) -> lhs, x26(w8) -> rhs
+                array.sort { $0.removalOrder < $1.removalOrder }
+                info.items[unremovedCount..<usedCount] = array
             }
             
             // <+1716>
+            // unremovedCount -> sp + 0x38
+            info.indexMap.removeAll(keepingCapacity: true)
+            
+            // <+1788>
             fatalError("TODO")
         } else {
             // <+976>
