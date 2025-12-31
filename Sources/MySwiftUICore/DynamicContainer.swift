@@ -78,13 +78,13 @@ extension DynamicContainer {
         private(set) var displayMap: [UInt32]?
         private(set) var removedCount: Int
         private(set) var unusedCount: Int
-        private(set) var allUnary: Bool
+        var allUnary: Bool
         private(set) var seed: UInt32
     }
     
     class ItemInfo {
         private let subgraph: Subgraph
-        private let uniqueId: UInt32
+        let uniqueId: UInt32
         private let viewCount: Int32
         private let outputs: _ViewOutputs
         let needsTransitions: Bool
@@ -262,6 +262,21 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             info.indexMap.removeAll(keepingCapacity: true)
             
             // <+1788>
+            info.allUnary = true
+            
+            // itemsCount(x8) unusedCount(x9)
+            assert(usedCount > 0)
+            if itemsCount != unusedCount {
+                // <+1832>
+                for index in info.items.indices {
+                    let item = info.items[index]
+                    info.indexMap[item.uniqueId] = index
+                    // <+2140>
+                    fatalError("TODO")
+                }
+            }
+            
+            // <+2336>
             fatalError("TODO")
         } else {
             // <+976>
