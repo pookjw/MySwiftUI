@@ -320,6 +320,66 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                 }
                 
                 // <+2632>
+                func lessThan(_ lhs: UInt32, _ rhs: UInt32) -> Bool {
+                    return info.items[Int(lhs)].zIndex < info.items[Int(rhs)].zIndex
+                }
+                
+                let x21: Int
+                if !(itemsCount > 31) {
+                    // <+2648>
+//                    if displayMap.count >= 2 {
+//                        // <+2752>
+//                        // w23
+//                        var index = 1
+//                        repeat {
+//                            // <+2788>
+//                            // w20
+//                            let lhs = displayMap[index]
+//                            
+//                            // x24
+//                            var index_2 = 0
+//                            var index_3 = index
+//                            repeat {
+//                                // w25
+//                                let rhs = displayMap[index_3 &- 1]
+//                                let result = lessThan(lhs, rhs)
+//                                if !result {
+//                                    // <+2908>
+//                                    // <+2924>
+//                                    break
+//                                }
+//                                
+//                                displayMap[index_3] = rhs
+//                                index_3 &-= 1
+//                                index_2 &-= 1
+//                            } while index != -index_2
+//                            
+//                            // <+2924>
+//                            let offset = index &+ index_2
+//                            displayMap[offset] = lhs
+//                            
+//                            // <+2768>
+//                            index &+= 1
+//                        } while index != displayMap.count
+//                        
+//                        // <+2944>
+//                        x21 = 0
+//                        // <+2960>
+//                    } else {
+//                        x21 = 0
+//                        // <+2960>
+//                    }
+                    // inlined
+                    displayMap.insertionSort(by: lessThan(_:_:))
+                    // <+2960>
+                } else {
+                    // <+2668>
+                    x21 = 0
+                    displayMap.sort(by: lessThan(_:_:))
+                    // <+2960>
+                }
+                
+                // <+2960>
                 fatalError("TODO")
             }
             

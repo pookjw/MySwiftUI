@@ -1059,6 +1059,9 @@ class ViewController: UIViewController {
 //        subgraph.update(1)
 //        _ = consume graph
         
+//        var array = Array(0..<100).shuffled()
+//        array.insertionSort { _, _ in .random() }
+        
         let item = DisplayList.Item.init(.empty, frame: .zero, identity: .init(), version: .init())
         let displayList = DisplayList(item)
         

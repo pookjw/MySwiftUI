@@ -1339,3 +1339,9 @@ extension Swift.RandomAccessCollection {
 extension Collection {
     public func partitionPoint(where block: (Self.Element) throws -> Swift.Bool) rethrows -> Self.Index
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension Swift.BidirectionalCollection where Self : Swift.MutableCollection {
+  public mutating func insertionSort(by: (Self.Element, Self.Element) throws -> Swift.Bool) rethrows
+}
