@@ -79,11 +79,11 @@ extension DynamicContainer {
         private(set) var removedCount: Int
         private(set) var unusedCount: Int
         var allUnary: Bool
-        private(set) var seed: UInt32
+        var seed: UInt32
     }
     
     class ItemInfo {
-        private let subgraph: Subgraph
+        let subgraph: Subgraph
         let uniqueId: UInt32
         let viewCount: Int32
         private let outputs: _ViewOutputs
@@ -266,6 +266,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             
             // itemsCount(x8) unusedCount(x9)
             assert(usedCount > 0)
+            // usedCount -> sp + 0x58
             if itemsCount != unusedCount {
                 // <+1832>
                 var precedingViewCount: Int32 = 0
@@ -296,8 +297,10 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             }
             
             // <+2348>
+            let displayMap: [UInt32]?
             if !hasDepth {
                 // <+2360>
+                displayMap = nil
                 info.displayMap = nil
                 // <+3612>
             } else {
@@ -313,10 +316,10 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                 capacity = max(capacity, 0)
                 
                 // x22
-                var displayMap: [UInt32] = []
-                displayMap.reserveCapacity(capacity)
+                var _displayMap: [UInt32] = []
+                _displayMap.reserveCapacity(capacity)
                 for index in 0..<unremovedCount {
-                    displayMap.append(numericCast(index))
+                    _displayMap.append(numericCast(index))
                 }
                 
                 // <+2632>
@@ -324,7 +327,6 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                     return info.items[Int(lhs)].zIndex < info.items[Int(rhs)].zIndex
                 }
                 
-                let x21: Int
                 if !(itemsCount > 31) {
                     // <+2648>
 //                    if displayMap.count >= 2 {
@@ -363,32 +365,157 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
 //                        } while index != displayMap.count
 //                        
 //                        // <+2944>
-//                        x21 = 0
 //                        // <+2960>
 //                    } else {
-//                        x21 = 0
 //                        // <+2960>
 //                    }
                     // inlined
-                    displayMap.insertionSort(by: lessThan(_:_:))
+                    _displayMap.insertionSort(by: lessThan(_:_:))
                     // <+2960>
                 } else {
                     // <+2668>
-                    x21 = 0
-                    displayMap.sort(by: lessThan(_:_:))
+                    _displayMap.sort(by: lessThan(_:_:))
                     // <+2960>
                 }
                 
                 // <+2960>
-                fatalError("TODO")
+                if removedCount == 0 {
+                    // <+3544>
+                    displayMap = _displayMap
+                    self.info.displayMap = displayMap
+                    // <+3612>
+                } else {
+                    // <+2980>
+                    func addRemoved() {
+                        // x0 -> unremovedCount, x1 -> usedCount
+                        /*
+                         unremovedCount -> x21
+                         usedCount -> x20
+                         */
+                        guard unremovedCount != usedCount else {
+                            return
+                        }
+                        
+                        for index in unremovedCount..<usedCount {
+                            _displayMap.append(numericCast(index))
+                        }
+                    }
+                    
+                    // w19
+                    var flag: Bool?
+                    // unremovedCount -> x25
+                    if isLinkedOnOrAfter(.v5) {
+                        // <+3128>
+                        addRemoved()
+                        
+                        if unremovedCount == 0 {
+                            // <+3356>
+                        } else {
+                            // <+3152>
+                            flag = true
+                            // <+3156>
+                        }
+                    } else {
+                        if unremovedCount == 0 {
+                            // <+3336>
+                            addRemoved()
+                            // <+3356>
+                        } else {
+                            // <+3104>
+                            flag = false
+                            // <+3156>
+                        }
+                    }
+                    
+                    if let flag {
+                        // <+3156>
+                        for index in 0..<unremovedCount {
+                            _displayMap.append(_displayMap[index])
+                        }
+                        
+                        // <+3332>
+                        if !flag {
+                            addRemoved()
+                        }
+                        // <+3356>
+                    }
+                    
+                    // <+3356>
+                    // x19 / sp + 0x10
+                    let upperBound = unremovedCount + usedCount
+                    // unremovedCount -> x26
+                    var slice = _displayMap[unremovedCount..<upperBound]
+//                    if !((unremovedCount == upperBound) || (unremovedCount &+ 1 == upperBound)) {
+//                        // <+4176>
+//                        // upperBound -> x22
+//                        slice.insertionSort(by: lessThan(_:_:))
+//                        // <+3468>
+//                    } else {
+//                        // <+3460>
+//                        // <+3468>
+//                    }
+                    // 위 코드는 isEmpty의 inline으로 대체됨
+                    slice.insertionSort(by: lessThan(_:_:))
+                    
+                    // <+3468>
+                    _displayMap[unremovedCount..<upperBound] = slice
+                    displayMap = _displayMap
+                    self.info.displayMap = displayMap
+                    // <+3612>
+                }
+                
+                // <+3612>
             }
             
             // <+3612>
-            fatalError("TODO")
+            /*
+             displayMap -> x20
+             itemsCount -> x8
+             unusedCount -> x9
+             */
+            if itemsCount != unusedCount {
+                // <+3772>
+                // info.items -> x21
+                // removedCount -> sp + 0x38
+                var x22 = -(info.removedCount &+ info.unusedCount)
+                // x28
+                for index in 0..<usedCount {
+                    let _index: Int
+                    if let displayMap {
+                        // <+3956>
+                        if removedCount == 0 {
+                            // <+4104>
+                            _index = Int(displayMap[index])
+                        } else {
+                            // <+3968>
+                            _index = Int(displayMap[info.items.count + x22])
+                        }
+                    } else {
+                        // <+4016>
+                        if removedCount == 0 {
+                            // <+4060>
+                            _index = index
+                        } else {
+                            // <+4032>
+                            let a = index &- unremovedCount
+                            let b = info.items.count &+ x22
+                            _index = (a >= 0) ? a : b
+                        }
+                    }
+                    
+                    info.items[_index].subgraph.index = Int32(index)
+                }
+            }
+            
+            // <+3636>
+            info.seed &+= 1
+            value = info
+            return
         } else {
             // <+976>
             if !info.items.isEmpty || !hasValue {
                 // <+3636>
+                info.seed &+= 1
                 value = info
             }
             

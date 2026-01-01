@@ -24,6 +24,8 @@ AG_EXTERN AGSubgraphRef _Nullable AGGraphGetAttributeSubgraph2(AGAttribute) NS_S
 AG_EXTERN NSInteger AGSubgraphAddObserver(AGSubgraphRef, const void (*)(void) __attribute__((swiftcall)), const void * _Nullable);
 AG_EXTERN BOOL AGSubgraphIsValid(AGSubgraphRef) NS_SWIFT_NAME(getter:Subgraph.isValid(self:));
 AG_EXTERN void AGSubgraphRemoveObserver(AGSubgraphRef, NSInteger) NS_SWIFT_NAME(Subgraph.removeObserver(self:_:));
+AG_EXTERN void AGSubgraphSetIndex(AGSubgraphRef, int32_t) NS_SWIFT_NAME(setter:Subgraph.index(self:_:));
+AG_EXTERN int32_t AGSubgraphGetIndex(AGSubgraphRef) NS_SWIFT_NAME(getter:Subgraph.index(self:));
 
 CF_IMPLICIT_BRIDGING_DISABLED
 
