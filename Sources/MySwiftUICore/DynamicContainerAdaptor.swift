@@ -406,6 +406,11 @@ fileprivate struct DynamicLayoutViewChildGeometry: StatefulRule, AsyncAttribute 
     typealias Value = ViewGeometry
     
     func updateValue() {
+        // sp + 0x40
+        let containerInfo = containerInfo
+        // x19
+        let viewIndex = containerInfo.viewIndex(id: id)
+        
         fatalError("TODO")
     }
 }

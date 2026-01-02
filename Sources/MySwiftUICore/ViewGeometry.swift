@@ -112,8 +112,3 @@ struct RootGeometry: Rule, AsyncAttribute {
         return result
     }
 }
-
-public struct ViewDimensions {
-    let guideComputer: LayoutComputer
-    var size: ViewSize
-}

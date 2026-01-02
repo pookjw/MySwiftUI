@@ -80,6 +80,10 @@ extension DynamicContainer {
         private(set) var unusedCount: Int
         var allUnary: Bool
         var seed: UInt32
+        
+        func viewIndex(id: DynamicContainerID) -> Int? {
+            fatalError("TODO")
+        }
     }
     
     class ItemInfo {
