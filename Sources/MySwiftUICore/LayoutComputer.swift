@@ -295,7 +295,7 @@ struct DepthStashingLayoutComputer: StatefulRule, AsyncAttribute {
     func updateValue() {
         let layoutComputer = self.layoutComputer
         let depth = self.depth
-        let depthProposal = depth.propsal
+        let depthProposal = depth.proposal
         
         self.update(
             modify: { engine in

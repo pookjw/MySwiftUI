@@ -783,15 +783,6 @@ class ViewController: UIViewController {
         print("===")
         
         
-        print(_typeName(ViewDepth.self, qualified: true), "\(MemoryLayout<ViewDepth>.size)")
-        _forEachField(of: ViewDepth.self, options: []) { name, offset, type, kind in
-            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
-            return true
-        }
-        
-        print("===")
-        
-        
         print(_typeName(AnimatableAttributeHelper<Double>.self, qualified: true))
         _forEachField(of: AnimatableAttributeHelper<Double>.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
@@ -1142,6 +1133,10 @@ class ViewController: UIViewController {
             )
             print(result)
         }
+        
+        var size3D = ViewSize3D.fixed(Size3D(width: 30, height: 10, depth: Double.nan))
+        size3D.viewDepth.proposal = .infinity
+        print(size3D)
         
         
         //        let rootView = EmptyView()

@@ -5,17 +5,21 @@ package struct ViewDepth: Equatable, Animatable {
         return ViewDepth(depth, proposal: depth)
     }
     
-    private(set) var value: CGFloat
+    var value: CGFloat
     private var _proposal: CGFloat
     
-    init(_ value: CGFloat, proposal: CGFloat) {
+    init(_ value: CGFloat, proposal: CGFloat?) {
         self.value = value
-        self._proposal = proposal
+        if let proposal {
+            self._proposal = proposal
+        } else {
+            self._proposal = .nan
+        }
     }
     
-    var propsal: CGFloat? {
+    var proposal: CGFloat? {
         get {
-            if _proposal == .infinity {
+            if _proposal.isNaN {
                 return nil
             } else {
                 return _proposal
@@ -25,7 +29,7 @@ package struct ViewDepth: Equatable, Animatable {
             if let newValue {
                 _proposal = newValue
             } else {
-                _proposal = .infinity
+                _proposal = .nan
             }
         }
         _modify {
@@ -39,9 +43,14 @@ package struct ViewDepth: Equatable, Animatable {
         }
         set {
             value = newValue
+            didSetAnimatableData(newValue)
         }
         _modify {
             yield &value
         }
+    }
+    
+    mutating func didSetAnimatableData(_ value: CGFloat) {
+        _proposal = value
     }
 }

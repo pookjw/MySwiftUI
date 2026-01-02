@@ -1345,3 +1345,48 @@ extension Collection {
 extension Swift.BidirectionalCollection where Self : Swift.MutableCollection {
   public mutating func insertionSort(by: (Self.Element, Self.Element) throws -> Swift.Bool) rethrows
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewSize3D {
+  public var value: Spatial.Size3D
+
+  public var width: CoreFoundation.CGFloat { get set }
+  public var height: CoreFoundation.CGFloat { get set }
+  public var depth: CoreFoundation.CGFloat { get set }
+
+  public var proposal: _SwiftUICorePrivate._ProposedSize3D {
+    get set
+  }
+
+  public static func fixed(_ size: Spatial.Size3D) -> _SwiftUICorePrivate.ViewSize3D
+  public var viewDepth: _SwiftUICorePrivate.ViewDepth {
+    get set
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewDepth: SwiftUI.Animatable {
+  public static func fixed(_ depth: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.ViewDepth 
+  public var value: CoreFoundation.CGFloat
+
+  public var width: CoreFoundation.CGFloat { get set }
+  public var height: CoreFoundation.CGFloat { get set }
+  public var depth: CoreFoundation.CGFloat { get set }
+
+  public var proposal: CoreFoundation.CGFloat? {
+    get set
+  }
+  public init(_ value: CoreFoundation.CGFloat, proposal: CoreFoundation.CGFloat?)
+
+  public var animatableData: CoreFoundation.CGFloat { get set }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ProposedSize3D {
+  public var width: CoreFoundation.CGFloat?
+  public var height: CoreFoundation.CGFloat?
+  public var depth: CoreFoundation.CGFloat?
+}

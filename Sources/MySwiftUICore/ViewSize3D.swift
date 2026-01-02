@@ -18,4 +18,170 @@ struct ViewSize3D {
             value.width = width
         }
     }
+    
+    var height: CGFloat {
+        get {
+            return value.height
+        }
+        set {
+            value.height = newValue
+        }
+        _modify {
+            var height = CGFloat(value.height)
+            yield &height
+            value.height = height
+        }
+    }
+    
+    var depth: CGFloat {
+        get {
+            return value.depth
+        }
+        set {
+            value.depth = newValue
+        }
+        _modify {
+            var depth = CGFloat(value.depth)
+            yield &depth
+            value.depth = depth
+        }
+    }
+    
+    var proposal: _ProposedSize3D {
+        get {
+            return _ProposedSize3D(
+                width: _proposal.width.isNaN ? nil : _proposal.width,
+                height: _proposal.height.isNaN ? nil : _proposal.height,
+                depth: _proposal.depth.isNaN ? nil : _proposal.depth
+            )
+        }
+        set {
+            _proposal.width = newValue.width ?? .nan
+            _proposal.height = newValue.height ?? .nan
+            _proposal.depth = newValue.depth ?? .nan
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    static func fixed(_ size: Size3D) -> ViewSize3D {
+        return ViewSize3D(value: size, _proposal: size)
+    }
+    
+    init(_ value: Size3D, proposal: _ProposedSize3D) {
+        self.value = value
+        self._proposal = Size3D(
+            width: proposal.width ?? .nan,
+            height: proposal.height ?? .nan,
+            depth: proposal.depth ?? .nan
+        )
+    }
+    
+    var viewDepth: ViewDepth {
+        get {
+            return ViewDepth(
+                value.depth,
+                proposal: _proposal.isNaN ? .nan : _proposal.depth
+            )
+        }
+        set {
+            value.depth = newValue.value
+            
+            if let proposal = newValue.proposal {
+                _proposal.depth = proposal.isNaN ? .nan : proposal
+            } else {
+                _proposal.depth = .infinity
+            }
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    mutating func didSetAnimatableData(_ size: Size3D) {
+        _proposal = size
+    }
+    
+    subscript(_ axis: Axis) -> CGFloat {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    subscript(_ axis: _Axis3D) -> CGFloat {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    func inset(by insets: EdgeInsets3D) -> ViewSize3D {
+        fatalError("TODO")
+    }
+    
+    static var zero: ViewSize3D {
+        fatalError("TODO")
+    }
+    
+    static var invalidValue: ViewSize3D {
+        fatalError("TODO")
+    }
+    
+    init(_: ViewSize, depth: CGFloat, proposedDepth: CGFloat?) {
+        fatalError("TODO")
+    }
+    
+    init(_: ViewSize, usingDepthFrom: ViewSize3D) {
+        fatalError("TODO")
+    }
+    
+    init(_: ViewSize, depth: ViewDepth) {
+        fatalError("TODO")
+    }
+    
+    var size2D: ViewSize {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    @inline(__always)
+    fileprivate init(value: Size3D, _proposal: Size3D) {
+        self.value = value
+        self._proposal = _proposal
+    }
+}
+
+extension ViewSize3D: Equatable {}
+
+extension ViewSize3D: Animatable {
+    var animatableData: Vector3D {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
 }

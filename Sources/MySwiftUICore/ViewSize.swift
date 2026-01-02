@@ -7,5 +7,7 @@ package struct ViewSize: Equatable {
     }
     
     var value: CGSize
-    var _proposal: CGSize
+    private var _proposal: CGSize
+    
+    // TODO
 }
