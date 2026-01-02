@@ -755,6 +755,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI10ViewSize3DV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI10ViewSize3DV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
         
 //        print(_typeName(_typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, qualified: true))
 //        _forEachField(of: _typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, options: []) { name, offset, type, kind in

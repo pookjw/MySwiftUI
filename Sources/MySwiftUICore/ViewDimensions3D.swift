@@ -2,17 +2,17 @@ public import CoreGraphics
 
 public struct ViewDimensions3D {
     private let guideComputer: LayoutComputer
-    private var size: ViewSize3D
+    var size: ViewSize3D
     
-    public var width: CoreFoundation.CGFloat {
+    public var width: CGFloat {
         fatalError("TODO")
     }
     
-    public var height: CoreFoundation.CGFloat {
+    public var height: CGFloat {
         fatalError("TODO")
     }
     
-    public var depth: CoreFoundation.CGFloat {
+    public var depth: CGFloat {
         fatalError("TODO")
     }
     

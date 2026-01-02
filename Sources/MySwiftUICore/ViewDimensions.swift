@@ -43,6 +43,22 @@ public struct ViewDimensions {
     
     let guideComputer: LayoutComputer
     var size: ViewSize
+    
+    var depth: CGFloat {
+        fatalError("TODO")
+    }
+    
+    subscript(_: DepthAlignment) -> CGFloat {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    subscript(explicit: DepthAlignment) -> CGFloat? {
+        get {
+            fatalError("TODO")
+        }
+    }
 }
 
 @available(*, unavailable)
@@ -77,7 +93,7 @@ extension ViewDimensions {
         fatalError("TODO")
     }
     
-    init(_: ViewDimensions3D) {
+    init(_ dimensions3D: ViewDimensions3D) {
         fatalError("TODO")
-    
+    }
 }
