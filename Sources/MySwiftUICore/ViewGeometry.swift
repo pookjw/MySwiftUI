@@ -101,7 +101,7 @@ struct RootGeometry: Rule, AsyncAttribute {
             origin: origin,
             dimensions: ViewDimensions(
                 guideComputer: childLayoutComputer,
-                size: ViewSize(value: fittingSize, _proposal: proposal)
+                size: ViewSize(fittingSize, proposal: _ProposedSize(proposal))
             )
         )
         

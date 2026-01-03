@@ -69,15 +69,6 @@ struct ViewSize3D {
         return ViewSize3D(value: size, _proposal: size)
     }
     
-    init(_ value: Size3D, proposal: _ProposedSize3D) {
-        self.value = value
-        self._proposal = Size3D(
-            width: proposal.width ?? .nan,
-            height: proposal.height ?? .nan,
-            depth: proposal.depth ?? .nan
-        )
-    }
-    
     var viewDepth: ViewDepth {
         get {
             return ViewDepth(
@@ -139,6 +130,15 @@ struct ViewSize3D {
         fatalError("TODO")
     }
     
+    init(_ value: Size3D, proposal: _ProposedSize3D) {
+        self.value = value
+        self._proposal = Size3D(
+            width: proposal.width ?? .nan,
+            height: proposal.height ?? .nan,
+            depth: proposal.depth ?? .nan
+        )
+    }
+    
     init(_: ViewSize, depth: CGFloat, proposedDepth: CGFloat?) {
         fatalError("TODO")
     }
@@ -153,10 +153,17 @@ struct ViewSize3D {
     
     var size2D: ViewSize {
         get {
-            fatalError("TODO")
+            return ViewSize(
+                CGSize(width: value.width, height: value.height),
+                proposal: _ProposedSize(width: _proposal.width, height: _proposal.height)
+            )
         }
         set {
-            fatalError("TODO")
+            value.width = newValue.value.width
+            value.height = newValue.value.height
+            let proposal = newValue.proposal
+            self.proposal.width = proposal.width
+            self.proposal.height = proposal.height
         }
         _modify {
             fatalError("TODO")
@@ -170,7 +177,11 @@ struct ViewSize3D {
     }
 }
 
-extension ViewSize3D: Equatable {}
+extension ViewSize3D: Equatable {
+    static func == (lhs: ViewSize3D, rhs: ViewSize3D) -> Bool {
+        fatalError("TODO")
+    }
+}
 
 extension ViewSize3D: Animatable {
     var animatableData: Vector3D {

@@ -28,11 +28,11 @@ struct ViewFrame: Equatable {
 extension ViewFrame: Animatable {
     var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>> {
         get {
-            return AnimatablePair(origin.animatableData, size._proposal.animatableData)
+            return AnimatablePair(origin.animatableData, size.value.animatableData)
         }
         set {
             origin.animatableData = newValue.first
-            size._proposal.animatableData = newValue.second
+            size.value.animatableData = newValue.second
         }
         _modify {
             fatalError("TODO")

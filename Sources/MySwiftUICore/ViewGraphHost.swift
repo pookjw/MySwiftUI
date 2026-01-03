@@ -197,7 +197,7 @@ package final class ViewGraphHost {
     }
     
     package func setProposedSize(_ size: CGSize) {
-        viewGraph.setSize(ViewSize(value: size, _proposal: size))
+        viewGraph.setSize(ViewSize(size, proposal: _ProposedSize(size)))
     }
     
     func setSafeAreaInsets(_ edgeInsets: EdgeInsets?, keyboardHeight: CGFloat?) -> Bool {
@@ -255,7 +255,7 @@ package final class ViewGraphHost {
             return
         }
         
-        let changed = containerSize.setValue(ViewSize(value: size, _proposal: size))
+        let changed = containerSize.setValue(ViewSize(size, proposal: _ProposedSize(size)))
         
         guard changed else {
             return

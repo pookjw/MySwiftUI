@@ -1,5 +1,3 @@
-#warning("TOCO")
-
 package protocol Location {
     associatedtype Value
 }

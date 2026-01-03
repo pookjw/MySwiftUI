@@ -1,6 +1,18 @@
 package import CoreGraphics
 
 package struct ViewDepth: Equatable, Animatable {
+    package static func == (lhs: ViewDepth, rhs: ViewDepth) -> Bool {
+        guard lhs.value == rhs.value else {
+            return false
+        }
+        
+        if lhs._proposal.isNaN && rhs._proposal.isNaN {
+            return true
+        } else {
+            return lhs._proposal == rhs._proposal
+        }
+    }
+    
     package static func fixed(_ depth: CGFloat) -> ViewDepth {
         return ViewDepth(depth, proposal: depth)
     }

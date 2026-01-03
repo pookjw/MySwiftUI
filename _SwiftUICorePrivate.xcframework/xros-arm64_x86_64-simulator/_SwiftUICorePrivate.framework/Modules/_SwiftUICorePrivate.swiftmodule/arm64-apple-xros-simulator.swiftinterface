@@ -732,7 +732,12 @@ extension SwiftUICore._GraphValue {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct ViewSize {
+  public static var zero: _SwiftUICorePrivate.ViewSize { get }
+  public static let invalidValue: _SwiftUICorePrivate.ViewSize
+  public var value: CoreGraphics.CGSize { get set }
   public init(_: CoreGraphics.CGSize, proposal: SwiftUI._ProposedSize)
+  public init(_ size3D: _SwiftUICorePrivate.ViewSize3D)
+  public var proposal: SwiftUI._ProposedSize { get set }
 }
 
 @available(visionOS 26.0, *)
@@ -1363,11 +1368,16 @@ public struct ViewSize3D {
   public var viewDepth: _SwiftUICorePrivate.ViewDepth {
     get set
   }
+
+  public init(_ value: Spatial.Size3D, proposal: _SwiftUICorePrivate._ProposedSize3D)
+  public init(_: _SwiftUICorePrivate.ViewSize, depth: CoreFoundation.CGFloat, proposedDepth: CoreFoundation.CGFloat?)
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewDepth: SwiftUI.Animatable {
+public struct ViewDepth: Swift.Equatable, SwiftUI.Animatable {
+  public static func == (lhs: _SwiftUICorePrivate.ViewDepth, rhs: _SwiftUICorePrivate.ViewDepth) -> Swift.Bool
+
   public static func fixed(_ depth: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.ViewDepth 
   public var value: CoreFoundation.CGFloat
 
@@ -1389,4 +1399,13 @@ public struct _ProposedSize3D {
   public var width: CoreFoundation.CGFloat?
   public var height: CoreFoundation.CGFloat?
   public var depth: CoreFoundation.CGFloat?
+  public init(width: CoreFoundation.CGFloat?, height: CoreFoundation.CGFloat?, depth: CoreFoundation.CGFloat?)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _ProposedSize {
+  public var width: CoreFoundation.CGFloat? { get set }
+  public var height: CoreFoundation.CGFloat? { get set }
+  public init(width: CoreFoundation.CGFloat?, height: CoreFoundation.CGFloat?)
 }

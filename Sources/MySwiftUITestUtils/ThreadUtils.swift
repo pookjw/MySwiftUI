@@ -2,7 +2,7 @@ private import CoreFoundation
 private import _DarwinFoundation3.pthread
 private import os.lock
 
-public final class RunLoopTaskExecutor: TaskExecutor {
+package final class RunLoopTaskExecutor: TaskExecutor {
     private final class Storage: @unchecked Sendable {
         let lock = OSAllocatedUnfairLock()
         var runLoop: CFRunLoop?
@@ -15,7 +15,7 @@ public final class RunLoopTaskExecutor: TaskExecutor {
     @safe private nonisolated(unsafe) var thread: pthread_t?
     private let storage = Storage()
     
-    public init() {
+    package init() {
         storage.executor = asUnownedTaskExecutor()
         
         pthread_create(
@@ -114,11 +114,11 @@ public final class RunLoopTaskExecutor: TaskExecutor {
         }
     }
     
-    public func asUnownedTaskExecutor() -> UnownedTaskExecutor {
+    package func asUnownedTaskExecutor() -> UnownedTaskExecutor {
         return UnownedTaskExecutor(self)
     }
     
-    public func enqueue(_ job: consuming ExecutorJob) {
+    package func enqueue(_ job: consuming ExecutorJob) {
         if pthread_self() == thread {
             job.runSynchronously(on: asUnownedTaskExecutor())
         } else {
@@ -143,7 +143,7 @@ fileprivate final class Box<U> {
     }
 }
 
-public func executeBlock<T>(_ block: @escaping () throws -> T) async throws -> T {
+package func executeBlock<T>(_ block: @escaping () throws -> T) async throws -> T {
     return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<T, any Error>) in
         executeBlock {
             do {
@@ -156,7 +156,7 @@ public func executeBlock<T>(_ block: @escaping () throws -> T) async throws -> T
     }
 }
 
-public func executeBlock(_ block: @escaping () -> Void) {
+package func executeBlock(_ block: @escaping () -> Void) {
     withUnsafeTemporaryAllocation(of: pthread_t.self, capacity: 1) { threadPointer in
         let box = Box(value: block)
         let castedThreadPointer = UnsafeMutableRawPointer(threadPointer.baseAddress.unsafelyUnwrapped)
@@ -180,7 +180,7 @@ public func executeBlock(_ block: @escaping () -> Void) {
     }
 }
 
-public func executeBlock<T>(_ block: @escaping () -> T) async -> T {
+package func executeBlock<T>(_ block: @escaping () -> T) async -> T {
     return await withCheckedContinuation { (continuation: CheckedContinuation<T, Never>) in
         executeBlock {
             let result = block()
