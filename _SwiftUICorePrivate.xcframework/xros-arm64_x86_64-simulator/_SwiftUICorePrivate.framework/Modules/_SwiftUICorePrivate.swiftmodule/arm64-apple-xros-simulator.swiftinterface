@@ -731,13 +731,24 @@ extension SwiftUICore._GraphValue {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewSize {
+public struct ViewSize: Swift.Equatable, SwiftUI.Animatable {
+  public static func == (lhs: _SwiftUICorePrivate.ViewSize, rhs: _SwiftUICorePrivate.ViewSize) -> Swift.Bool
   public static var zero: _SwiftUICorePrivate.ViewSize { get }
   public static let invalidValue: _SwiftUICorePrivate.ViewSize
-  public var value: CoreGraphics.CGSize { get set }
-  public init(_: CoreGraphics.CGSize, proposal: SwiftUI._ProposedSize)
+  public static func fixed(_ size: CoreFoundation.CGSize) -> _SwiftUICorePrivate.ViewSize
+  public var width: CoreFoundation.CGFloat { get set }
+  public var height: CoreFoundation.CGFloat { get set }
+  public var value: CoreFoundation.CGSize { get set }
+  public init(_: CoreFoundation.CGSize, proposal: SwiftUI._ProposedSize)
   public init(_ size3D: _SwiftUICorePrivate.ViewSize3D)
   public var proposal: SwiftUI._ProposedSize { get set }
+  public subscript(_ axis: SwiftUI.Axis) -> CoreFoundation.CGFloat {
+    get set
+  }
+  public var animatableData: SwiftUI.AnimatablePair<CoreFoundation.CGFloat, CoreFoundation.CGFloat> {
+    get set
+  }
+  public func inset(by insets: SwiftUI.EdgeInsets) -> _SwiftUICorePrivate.ViewSize
 }
 
 @available(visionOS 26.0, *)
@@ -1354,6 +1365,10 @@ extension Swift.BidirectionalCollection where Self : Swift.MutableCollection {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct ViewSize3D {
+  public static var zero: _SwiftUICorePrivate.ViewSize3D { get }
+  public static var invalidValue: _SwiftUICorePrivate.ViewSize3D { get }
+  public static func fixed(_ size: Spatial.Size3D) -> _SwiftUICorePrivate.ViewSize3D
+
   public var value: Spatial.Size3D
 
   public var width: CoreFoundation.CGFloat { get set }
@@ -1364,8 +1379,11 @@ public struct ViewSize3D {
     get set
   }
 
-  public static func fixed(_ size: Spatial.Size3D) -> _SwiftUICorePrivate.ViewSize3D
   public var viewDepth: _SwiftUICorePrivate.ViewDepth {
+    get set
+  }
+
+  public var size2D: _SwiftUICorePrivate.ViewSize {
     get set
   }
 

@@ -2,6 +2,16 @@ internal import Spatial
 internal import CoreGraphics
 
 struct ViewSize3D {
+    static var zero: ViewSize3D {
+        return ViewSize3D(.zero, proposal: _ProposedSize3D(.zero))
+    }
+    
+    static let invalidValue = ViewSize3D(-.infinity, proposal: _ProposedSize3D(-.infinity))
+    
+    static func fixed(_ size: Size3D) -> ViewSize3D {
+        return ViewSize3D(size, proposal: _ProposedSize3D(size))
+    }
+    
     var value: Size3D
     private var _proposal: Size3D
     
@@ -60,13 +70,6 @@ struct ViewSize3D {
             _proposal.height = newValue.height ?? .nan
             _proposal.depth = newValue.depth ?? .nan
         }
-        _modify {
-            fatalError("TODO")
-        }
-    }
-    
-    static func fixed(_ size: Size3D) -> ViewSize3D {
-        return ViewSize3D(value: size, _proposal: size)
     }
     
     var viewDepth: ViewDepth {
@@ -82,16 +85,12 @@ struct ViewSize3D {
             if let proposal = newValue.proposal {
                 _proposal.depth = proposal.isNaN ? .nan : proposal
             } else {
-                _proposal.depth = .infinity
+                _proposal.depth = .nan
             }
         }
         _modify {
             fatalError("TODO")
         }
-    }
-    
-    mutating func didSetAnimatableData(_ size: Size3D) {
-        _proposal = size
     }
     
     subscript(_ axis: Axis) -> CGFloat {
@@ -119,14 +118,6 @@ struct ViewSize3D {
     }
     
     func inset(by insets: EdgeInsets3D) -> ViewSize3D {
-        fatalError("TODO")
-    }
-    
-    static var zero: ViewSize3D {
-        fatalError("TODO")
-    }
-    
-    static var invalidValue: ViewSize3D {
         fatalError("TODO")
     }
     
@@ -165,15 +156,6 @@ struct ViewSize3D {
             self.proposal.width = proposal.width
             self.proposal.height = proposal.height
         }
-        _modify {
-            fatalError("TODO")
-        }
-    }
-    
-    @inline(__always)
-    fileprivate init(value: Size3D, _proposal: Size3D) {
-        self.value = value
-        self._proposal = _proposal
     }
 }
 
@@ -194,5 +176,9 @@ extension ViewSize3D: Animatable {
         _modify {
             fatalError("TODO")
         }
+    }
+    
+    mutating func didSetAnimatableData(_ newValue: Size3D) {
+        _proposal = newValue
     }
 }

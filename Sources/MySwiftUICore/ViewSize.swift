@@ -1,6 +1,38 @@
 package import CoreGraphics
 
 package struct ViewSize: Equatable, Animatable {
+    package static func == (lhs: ViewSize, rhs: ViewSize) -> Bool {
+        guard lhs.value == rhs.value else {
+            return false
+        }
+        
+        let isWidthEqual: Bool
+        if lhs._proposal.width.isNaN && rhs._proposal.width.isNaN {
+            isWidthEqual = true
+        } else if lhs._proposal.width == rhs._proposal.width {
+            isWidthEqual = true
+        } else {
+            isWidthEqual = false
+        }
+        guard isWidthEqual else {
+            return false
+        }
+        
+        let isHeightEqual: Bool
+        if lhs._proposal.height.isNaN && rhs._proposal.height.isNaN {
+            isHeightEqual = true
+        } else if lhs._proposal.height == rhs._proposal.height {
+            isHeightEqual = true
+        } else {
+            isHeightEqual = false
+        }
+        guard isHeightEqual else {
+            return false
+        }
+        
+        return true
+    }
+    
     package static var zero: ViewSize {
         return ViewSize(.zero, proposal: _ProposedSize(width: 0, height: 0))
     }
@@ -11,7 +43,7 @@ package struct ViewSize: Equatable, Animatable {
     )
     
     static func fixed(_ size: CGSize) -> ViewSize {
-        fatalError("TODO")
+        return ViewSize(size, proposal: _ProposedSize(width: size.width, height: size.height))
     }
     
     var value: CGSize
@@ -30,25 +62,25 @@ package struct ViewSize: Equatable, Animatable {
     
     var width: CGFloat {
         get {
-            fatalError("TODO")
+            return value.width
         }
         set {
-            fatalError("TODO")
+            value.width = newValue
         }
         _modify {
-            fatalError("TODO")
+            yield &value.width
         }
     }
     
     var height: CGFloat {
         get {
-            fatalError("TODO")
+            return value.height
         }
         set {
-            fatalError("TODO")
+            value.height = newValue
         }
         _modify {
-            fatalError("TODO")
+            yield &value.height
         }
     }
     
@@ -79,22 +111,39 @@ package struct ViewSize: Equatable, Animatable {
     
     subscript(_ axis: Axis) -> CGFloat {
         get {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                return value.width
+            case .vertical:
+                return value.height
+            }
         }
         set {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                value.width = newValue
+            case .vertical:
+                value.height = newValue
+            }
         }
         _modify {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                yield &value.width
+            case .vertical:
+                yield &value.height
+            }
         }
     }
     
     package var animatableData: AnimatablePair<CGFloat, CGFloat> {
         get {
-            fatalError("TODO")
+            return AnimatableData(value.width, value.height)
         }
         set {
-            fatalError("TODO")
+            let size = CGSize(width: newValue.first, height: newValue.second)
+            value = size
+            didSetAnimatableData(size)
         }
         _modify {
             fatalError("TODO")
@@ -102,10 +151,41 @@ package struct ViewSize: Equatable, Animatable {
     }
     
     mutating func didSetAnimatableData(_ newValue: CGSize) {
-        fatalError("TODO")
+        _proposal = newValue
     }
     
-    func insert(by: EdgeInsets) -> ViewSize {
-        fatalError("TODO")
+    func inset(by insets: EdgeInsets) -> ViewSize {
+        var width = value.width - insets.leading - insets.trailing
+        if width.isNaN {
+            width = 0
+        } else if width < 0 {
+            width = 0
+        }
+        
+        var height = value.height - insets.top - insets.bottom
+        if height.isNaN {
+            height = 0
+        } else if height < 0 {
+            height = 0
+        }
+        
+        var proposalWidth = _proposal.width - insets.leading - insets.trailing
+        if proposalWidth.isNaN {
+            proposalWidth = .nan
+        } else if proposalWidth < 0 {
+            proposalWidth = 0
+        }
+        
+        var proposalHeight = _proposal.height - insets.top - insets.bottom
+        if proposalHeight.isNaN {
+            proposalHeight = .nan
+        } else if proposalHeight < 0 {
+            proposalHeight = 0
+        }
+        
+        return ViewSize(
+            CGSize(width: width, height: height),
+            proposal: _ProposedSize(width: proposalWidth, height: proposalHeight)
+        )
     }
 }

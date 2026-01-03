@@ -9,6 +9,123 @@ fileprivate struct ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
+    @Test func test_zero() {
+        let impl = MySwiftUICore.ViewSize3D.zero
+        let original = _SwiftUICorePrivate.ViewSize3D.zero
+        
+        let expectedValue = Size3D.zero
+        let expectedProposal = Size3D.zero
+        
+        #expect(impl.value.isEqual(to: expectedValue))
+        #expect(impl._proposal.isEqual(to: expectedProposal))
+        
+        #expect(original.value.isEqual(to: expectedValue))
+        #expect(original._proposal.isEqual(to: expectedProposal))
+    }
+}
+
+extension ViewSize3DTests {
+    @Test func test_invalidValue() {
+        let impl = MySwiftUICore.ViewSize3D.invalidValue
+        let original = _SwiftUICorePrivate.ViewSize3D.invalidValue
+        
+        let expected = Size3D(
+            width: -CGFloat.infinity,
+            height: -CGFloat.infinity,
+            depth: -CGFloat.infinity
+        )
+        
+        #expect(impl.value.isEqual(to: expected))
+        #expect(impl._proposal.isEqual(to: expected))
+        
+        #expect(original.value.isEqual(to: expected))
+        #expect(original._proposal.isEqual(to: expected))
+    }
+}
+
+extension ViewSize3DTests {
+    struct Input_fixed: Hashable {
+        let size: Size3D
+    }
+    
+    struct Output_fixed {
+        let value: Size3D
+        let _proposal: Size3D
+    }
+    
+    static let fixed_expectations: [Input_fixed: Output_fixed] = [
+        Input_fixed(
+            size: Size3D(width: 10, height: 20, depth: 30)
+        ): Output_fixed(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: 10, height: 20, depth: 30)
+        ),
+        
+        Input_fixed(
+            size: Size3D(width: CGFloat.nan, height: 20, depth: 30)
+        ): Output_fixed(
+            value: Size3D(width: CGFloat.nan, height: 20, depth: 30),
+            _proposal: Size3D(width: CGFloat.nan, height: 20, depth: 30)
+        ),
+        
+        Input_fixed(
+            size: Size3D(width: 10, height: CGFloat.nan, depth: 30)
+        ): Output_fixed(
+            value: Size3D(width: 10, height: CGFloat.nan, depth: 30),
+            _proposal: Size3D(width: 10, height: CGFloat.nan, depth: 30)
+        ),
+        
+        Input_fixed(
+            size: Size3D(width: 10, height: 20, depth: CGFloat.nan)
+        ): Output_fixed(
+            value: Size3D(width: 10, height: 20, depth: CGFloat.nan),
+            _proposal: Size3D(width: 10, height: 20, depth: CGFloat.nan)
+        ),
+        
+        Input_fixed(
+            size: Size3D(width: CGFloat.infinity, height: 20, depth: 30)
+        ): Output_fixed(
+            value: Size3D(width: CGFloat.infinity, height: 20, depth: 30),
+            _proposal: Size3D(width: CGFloat.infinity, height: 20, depth: 30)
+        ),
+        
+        Input_fixed(
+            size: Size3D(width: -CGFloat.infinity, height: 20, depth: 30)
+        ): Output_fixed(
+            value: Size3D(width: -CGFloat.infinity, height: 20, depth: 30),
+            _proposal: Size3D(width: -CGFloat.infinity, height: 20, depth: 30)
+        ),
+        
+        Input_fixed(
+            size: Size3D(width: 10, height: CGFloat.infinity, depth: -CGFloat.infinity)
+        ): Output_fixed(
+            value: Size3D(width: 10, height: CGFloat.infinity, depth: -CGFloat.infinity),
+            _proposal: Size3D(width: 10, height: CGFloat.infinity, depth: -CGFloat.infinity)
+        ),
+        
+        Input_fixed(
+            size: Size3D(width: CGFloat.nan, height: CGFloat.infinity, depth: -CGFloat.infinity)
+        ): Output_fixed(
+            value: Size3D(width: CGFloat.nan, height: CGFloat.infinity, depth: -CGFloat.infinity),
+            _proposal: Size3D(width: CGFloat.nan, height: CGFloat.infinity, depth: -CGFloat.infinity)
+        )
+    ]
+    
+    @Test(arguments: Self.fixed_expectations)
+    func test_fixed(input: Input_fixed, output: Output_fixed) {
+        let impl = MySwiftUICore.ViewSize3D.fixed(input.size)
+        
+        #expect(impl.value.isEqual(to: output.value))
+        #expect(impl._proposal.isEqual(to: output._proposal))
+        
+        let original = _SwiftUICorePrivate.ViewSize3D.fixed(input.size)
+        
+        #expect(original.value.isEqual(to: output.value))
+        #expect(original._proposal.isEqual(to: output._proposal))
+    }
+}
+
+extension ViewSize3DTests {
     struct Input_init_proposal: Hashable {
         let value: Size3D
         let proposalWidth: CGFloat?
@@ -22,18 +139,106 @@ extension ViewSize3DTests {
     }
     
     static let init_proposal_expectations: [Input_init_proposal: Output_init_proposal] = [
-        Input_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), proposalWidth: 40, proposalHeight: 50, proposalDepth: 60): Output_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), _proposal: Size3D(width: 40, height: 50, depth: 60)),
-        Input_init_proposal(value: Size3D(width: .nan, height: .nan, depth: .nan), proposalWidth: 40, proposalHeight: 50, proposalDepth: 60): Output_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), _proposal: Size3D(width: .nan, height: .nan, depth: .nan)),
+        Input_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60
+        ): Output_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: 40, height: 50, depth: 60)
+        ),
         
-        Input_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), proposalWidth: 40, proposalHeight: 50, proposalDepth: nil): Output_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), _proposal: Size3D(width: 40, height: 50, depth: .nan)),
-        Input_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), proposalWidth: 40, proposalHeight: nil, proposalDepth: nil): Output_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), _proposal: Size3D(width: 40, height: .nan, depth: .nan)),
-        Input_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), proposalWidth: nil, proposalHeight: nil, proposalDepth: nil): Output_init_proposal(value: Size3D(width: 10, height: 20, depth: 30), _proposal: Size3D(width: .nan, height: .nan, depth: .nan))
+        Input_init_proposal(
+            value: Size3D(width: CGFloat.nan, height: CGFloat.nan, depth: CGFloat.nan),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60
+        ): Output_init_proposal(
+            value: Size3D(width: CGFloat.nan, height: CGFloat.nan, depth: CGFloat.nan),
+            _proposal: Size3D(width: 40, height: 50, depth: 60)
+        ),
+        
+        Input_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: nil
+        ): Output_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: 40, height: 50, depth: CGFloat.nan)
+        ),
+        
+        Input_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: nil,
+            proposalDepth: nil
+        ): Output_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: 40, height: CGFloat.nan, depth: CGFloat.nan)
+        ),
+        
+        Input_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: nil,
+            proposalHeight: nil,
+            proposalDepth: nil
+        ): Output_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: CGFloat.nan, height: CGFloat.nan, depth: CGFloat.nan)
+        ),
+        
+        Input_init_proposal(
+            value: Size3D(width: CGFloat.infinity, height: 20, depth: 30),
+            proposalWidth: CGFloat.infinity,
+            proposalHeight: 50,
+            proposalDepth: 60
+        ): Output_init_proposal(
+            value: Size3D(width: CGFloat.infinity, height: 20, depth: 30),
+            _proposal: Size3D(width: CGFloat.infinity, height: 50, depth: 60)
+        ),
+        
+        Input_init_proposal(
+            value: Size3D(width: -CGFloat.infinity, height: 20, depth: 30),
+            proposalWidth: -CGFloat.infinity,
+            proposalHeight: 50,
+            proposalDepth: 60
+        ): Output_init_proposal(
+            value: Size3D(width: -CGFloat.infinity, height: 20, depth: 30),
+            _proposal: Size3D(width: -CGFloat.infinity, height: 50, depth: 60)
+        ),
+        
+        Input_init_proposal(
+            value: Size3D(width: 10, height: CGFloat.infinity, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: CGFloat.infinity,
+            proposalDepth: 60
+        ): Output_init_proposal(
+            value: Size3D(width: 10, height: CGFloat.infinity, depth: 30),
+            _proposal: Size3D(width: 40, height: CGFloat.infinity, depth: 60)
+        ),
+        
+        Input_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: -CGFloat.infinity),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: -CGFloat.infinity
+        ): Output_init_proposal(
+            value: Size3D(width: 10, height: 20, depth: -CGFloat.infinity),
+            _proposal: Size3D(width: 40, height: 50, depth: -CGFloat.infinity)
+        )
     ]
     
-    @Test(arguments: Self.init_proposal_expectations) func test_init_proposal(input: Input_init_proposal, output: Output_init_proposal) {
+    @Test(arguments: Self.init_proposal_expectations)
+    func test_init_proposal(input: Input_init_proposal, output: Output_init_proposal) {
         let impl = MySwiftUICore.ViewSize3D(
             input.value,
-            proposal: MySwiftUICore._ProposedSize3D(width: input.proposalWidth, height: input.proposalHeight, depth: input.proposalDepth)
+            proposal: MySwiftUICore._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
         )
         
         #expect(impl.value.isEqual(to: output.value))
@@ -41,11 +246,497 @@ extension ViewSize3DTests {
         
         let original = _SwiftUICorePrivate.ViewSize3D(
             input.value,
-            proposal: _SwiftUICorePrivate._ProposedSize3D(width: input.proposalWidth, height: input.proposalHeight, depth: input.proposalDepth)
+            proposal: _SwiftUICorePrivate._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
         )
         
         #expect(original.value.isEqual(to: output.value))
         #expect(original._proposal.isEqual(to: output._proposal))
+    }
+}
+
+extension ViewSize3DTests {
+    struct Input_dimension: Hashable {
+        let initialValue: Size3D
+        let proposalWidth: CGFloat?
+        let proposalHeight: CGFloat?
+        let proposalDepth: CGFloat?
+        let newWidth: CGFloat
+        let newHeight: CGFloat
+        let newDepth: CGFloat
+    }
+    
+    struct Output_dimension {
+        let value: Size3D
+        let _proposal: Size3D
+    }
+    
+    static let dimension_expectations: [Input_dimension: Output_dimension] = [
+        Input_dimension(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60,
+            newWidth: 100,
+            newHeight: 200,
+            newDepth: 300
+        ): Output_dimension(
+            value: Size3D(width: 100, height: 200, depth: 300),
+            _proposal: Size3D(width: 40, height: 50, depth: 60)
+        ),
+        
+        Input_dimension(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: nil,
+            proposalHeight: nil,
+            proposalDepth: nil,
+            newWidth: CGFloat.infinity,
+            newHeight: -CGFloat.infinity,
+            newDepth: CGFloat.nan
+        ): Output_dimension(
+            value: Size3D(width: CGFloat.infinity, height: -CGFloat.infinity, depth: CGFloat.nan),
+            _proposal: Size3D(width: CGFloat.nan, height: CGFloat.nan, depth: CGFloat.nan)
+        ),
+        
+        Input_dimension(
+            initialValue: Size3D(width: CGFloat.nan, height: CGFloat.nan, depth: CGFloat.nan),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60,
+            newWidth: CGFloat.nan,
+            newHeight: 0,
+            newDepth: -CGFloat.infinity
+        ): Output_dimension(
+            value: Size3D(width: CGFloat.nan, height: 0, depth: -CGFloat.infinity),
+            _proposal: Size3D(width: 40, height: 50, depth: 60)
+        )
+    ]
+    
+    @Test(arguments: Self.dimension_expectations)
+    func test_dimensions(input: Input_dimension, output: Output_dimension) {
+        let implInitial = MySwiftUICore.ViewSize3D(
+            input.initialValue,
+            proposal: MySwiftUICore._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
+        )
+        
+        #expect(implInitial.width.bitPattern == input.initialValue.width.bitPattern)
+        #expect(implInitial.height.bitPattern == input.initialValue.height.bitPattern)
+        #expect(implInitial.depth.bitPattern == input.initialValue.depth.bitPattern)
+        
+        var impl = implInitial
+        impl.width = input.newWidth
+        impl.height = input.newHeight
+        impl.depth = input.newDepth
+        
+        #expect(impl.width.bitPattern == output.value.width.bitPattern)
+        #expect(impl.height.bitPattern == output.value.height.bitPattern)
+        #expect(impl.depth.bitPattern == output.value.depth.bitPattern)
+        #expect(impl.value.isEqual(to: output.value))
+        #expect(impl._proposal.isEqual(to: output._proposal))
+        
+        let originalInitial = _SwiftUICorePrivate.ViewSize3D(
+            input.initialValue,
+            proposal: _SwiftUICorePrivate._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
+        )
+        
+        #expect(originalInitial.width.bitPattern == input.initialValue.width.bitPattern)
+        #expect(originalInitial.height.bitPattern == input.initialValue.height.bitPattern)
+        #expect(originalInitial.depth.bitPattern == input.initialValue.depth.bitPattern)
+        
+        var original = originalInitial
+        original.width = input.newWidth
+        original.height = input.newHeight
+        original.depth = input.newDepth
+        
+        #expect(original.width.bitPattern == output.value.width.bitPattern)
+        #expect(original.height.bitPattern == output.value.height.bitPattern)
+        #expect(original.depth.bitPattern == output.value.depth.bitPattern)
+        #expect(original.value.isEqual(to: output.value))
+        #expect(original._proposal.isEqual(to: output._proposal))
+    }
+}
+
+extension ViewSize3DTests {
+    struct Input_proposal: Hashable {
+        let initialValue: Size3D
+        let proposalWidth: CGFloat?
+        let proposalHeight: CGFloat?
+        let proposalDepth: CGFloat?
+        let newProposalWidth: CGFloat?
+        let newProposalHeight: CGFloat?
+        let newProposalDepth: CGFloat?
+    }
+    
+    struct Output_proposal {
+        let value: Size3D
+        let _proposal: Size3D
+        let proposalWidth: CGFloat?
+        let proposalHeight: CGFloat?
+        let proposalDepth: CGFloat?
+    }
+    
+    static let proposal_expectations: [Input_proposal: Output_proposal] = [
+        Input_proposal(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60,
+            newProposalWidth: 70,
+            newProposalHeight: 80,
+            newProposalDepth: 90
+        ): Output_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: 70, height: 80, depth: 90),
+            proposalWidth: 70,
+            proposalHeight: 80,
+            proposalDepth: 90
+        ),
+        
+        Input_proposal(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: nil,
+            proposalHeight: nil,
+            proposalDepth: nil,
+            newProposalWidth: nil,
+            newProposalHeight: nil,
+            newProposalDepth: nil
+        ): Output_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: CGFloat.nan, height: CGFloat.nan, depth: CGFloat.nan),
+            proposalWidth: nil,
+            proposalHeight: nil,
+            proposalDepth: nil
+        ),
+        
+        Input_proposal(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60,
+            newProposalWidth: CGFloat.nan,
+            newProposalHeight: CGFloat.infinity,
+            newProposalDepth: -CGFloat.infinity
+        ): Output_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: CGFloat.nan, height: CGFloat.infinity, depth: -CGFloat.infinity),
+            proposalWidth: nil,
+            proposalHeight: CGFloat.infinity,
+            proposalDepth: -CGFloat.infinity
+        ),
+        
+        Input_proposal(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: CGFloat.nan,
+            proposalHeight: CGFloat.nan,
+            proposalDepth: CGFloat.nan,
+            newProposalWidth: 100,
+            newProposalHeight: nil,
+            newProposalDepth: 200
+        ): Output_proposal(
+            value: Size3D(width: 10, height: 20, depth: 30),
+            _proposal: Size3D(width: 100, height: CGFloat.nan, depth: 200),
+            proposalWidth: 100,
+            proposalHeight: nil,
+            proposalDepth: 200
+        )
+    ]
+    
+    @Test(arguments: Self.proposal_expectations)
+    func test_proposal(input: Input_proposal, output: Output_proposal) {
+        var impl = MySwiftUICore.ViewSize3D(
+            input.initialValue,
+            proposal: MySwiftUICore._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
+        )
+        
+        impl.proposal = MySwiftUICore._ProposedSize3D(
+            width: input.newProposalWidth,
+            height: input.newProposalHeight,
+            depth: input.newProposalDepth
+        )
+        
+        let proposal = impl.proposal
+        #expect(impl.value.isEqual(to: output.value))
+        #expect(impl._proposal.isEqual(to: output._proposal))
+        #expect(proposal.width == output.proposalWidth)
+        #expect(proposal.height == output.proposalHeight)
+        #expect(proposal.depth == output.proposalDepth)
+        
+        var original = _SwiftUICorePrivate.ViewSize3D(
+            input.initialValue,
+            proposal: _SwiftUICorePrivate._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
+        )
+        
+        original.proposal = _SwiftUICorePrivate._ProposedSize3D(
+            width: input.newProposalWidth,
+            height: input.newProposalHeight,
+            depth: input.newProposalDepth
+        )
+        
+        let originalProposal = original.proposal
+        #expect(original.value.isEqual(to: output.value))
+        #expect(original._proposal.isEqual(to: output._proposal))
+        #expect(originalProposal.width == output.proposalWidth)
+        #expect(originalProposal.height == output.proposalHeight)
+        #expect(originalProposal.depth == output.proposalDepth)
+    }
+}
+
+extension ViewSize3DTests {
+    struct Input_viewDepth: Hashable {
+        let initialValue: Size3D
+        let proposalWidth: CGFloat?
+        let proposalHeight: CGFloat?
+        let proposalDepth: CGFloat?
+        let newDepthValue: CGFloat
+        let newDepthProposal: CGFloat?
+    }
+    
+    struct Output_viewDepth {
+        let value: Size3D
+        let _proposal: Size3D
+        let viewDepthValue: CGFloat
+        let viewDepthProposal: CGFloat?
+    }
+    
+    static let viewDepth_expectations: [Input_viewDepth: Output_viewDepth] = [
+        Input_viewDepth(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60,
+            newDepthValue: 100,
+            newDepthProposal: 200
+        ): Output_viewDepth(
+            value: Size3D(width: 10, height: 20, depth: 100),
+            _proposal: Size3D(width: 40, height: 50, depth: 200),
+            viewDepthValue: 100,
+            viewDepthProposal: 200
+        ),
+        
+        Input_viewDepth(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: CGFloat.nan,
+            newDepthValue: 50,
+            newDepthProposal: nil
+        ): Output_viewDepth(
+            value: Size3D(width: 10, height: 20, depth: 50),
+            _proposal: Size3D(width: 40, height: 50, depth: CGFloat.infinity),
+            viewDepthValue: 50,
+            viewDepthProposal: nil
+        ),
+        
+        Input_viewDepth(
+            initialValue: Size3D(width: 10, height: 20, depth: CGFloat.nan),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: CGFloat.nan,
+            newDepthValue: CGFloat.nan,
+            newDepthProposal: CGFloat.nan
+        ): Output_viewDepth(
+            value: Size3D(width: 10, height: 20, depth: CGFloat.nan),
+            _proposal: Size3D(width: 40, height: 50, depth: CGFloat.nan),
+            viewDepthValue: CGFloat.nan,
+            viewDepthProposal: nil
+        ),
+        
+        Input_viewDepth(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60,
+            newDepthValue: -CGFloat.infinity,
+            newDepthProposal: CGFloat.nan
+        ): Output_viewDepth(
+            value: Size3D(width: 10, height: 20, depth: -CGFloat.infinity),
+            _proposal: Size3D(width: 40, height: 50, depth: CGFloat.nan),
+            viewDepthValue: -CGFloat.infinity,
+            viewDepthProposal: nil
+        )
+    ]
+    
+    @Test(arguments: Self.viewDepth_expectations)
+    func test_viewDepth(input: Input_viewDepth, output: Output_viewDepth) {
+        var impl = MySwiftUICore.ViewSize3D(
+            input.initialValue,
+            proposal: MySwiftUICore._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
+        )
+        
+        let initialViewDepth = impl.viewDepth
+        #expect(initialViewDepth.value.bitPattern == input.initialValue.depth.bitPattern)
+        #expect(initialViewDepth.proposal == (input.proposalDepth?.isNaN == true ? nil : input.proposalDepth))
+        
+        impl.viewDepth = MySwiftUICore.ViewDepth(
+            input.newDepthValue,
+            proposal: input.newDepthProposal
+        )
+        
+        let resultViewDepth = impl.viewDepth
+        #expect(impl.value.isEqual(to: output.value))
+        #expect(impl._proposal.isEqual(to: output._proposal))
+        #expect(resultViewDepth.value.bitPattern == output.viewDepthValue.bitPattern)
+        #expect(resultViewDepth.proposal == output.viewDepthProposal)
+        
+        var original = _SwiftUICorePrivate.ViewSize3D(
+            input.initialValue,
+            proposal: _SwiftUICorePrivate._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
+        )
+        
+        let originalInitialViewDepth = original.viewDepth
+        #expect(originalInitialViewDepth.value.bitPattern == input.initialValue.depth.bitPattern)
+        #expect(originalInitialViewDepth.proposal == (input.proposalDepth?.isNaN == true ? nil : input.proposalDepth))
+        
+        original.viewDepth = _SwiftUICorePrivate.ViewDepth(
+            input.newDepthValue,
+            proposal: input.newDepthProposal
+        )
+        
+        let originalResultViewDepth = original.viewDepth
+        #expect(original.value.isEqual(to: output.value))
+        #expect(original._proposal.isEqual(to: output._proposal))
+        #expect(originalResultViewDepth.value.bitPattern == output.viewDepthValue.bitPattern)
+        #expect(originalResultViewDepth.proposal == output.viewDepthProposal)
+    }
+}
+
+extension ViewSize3DTests {
+    struct Input_size2D: Hashable {
+        let initialValue: Size3D
+        let proposalWidth: CGFloat?
+        let proposalHeight: CGFloat?
+        let proposalDepth: CGFloat?
+        let new2DValue: CGSize
+        let new2DProposalWidth: CGFloat?
+        let new2DProposalHeight: CGFloat?
+    }
+    
+    struct Output_size2D {
+        let value: Size3D
+        let _proposal: Size3D
+        let size2DValue: CGSize
+    }
+    
+    static let size2D_expectations: [Input_size2D: Output_size2D] = [
+        Input_size2D(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            proposalWidth: 40,
+            proposalHeight: 50,
+            proposalDepth: 60,
+            new2DValue: CGSize(width: 100, height: 200),
+            new2DProposalWidth: 300,
+            new2DProposalHeight: 400
+        ): Output_size2D(
+            value: Size3D(width: 100, height: 200, depth: 30),
+            _proposal: Size3D(width: 300, height: 400, depth: 60),
+            size2DValue: CGSize(width: 100, height: 200)
+        ),
+        
+        Input_size2D(
+            initialValue: Size3D(width: CGFloat.nan, height: 20, depth: 30),
+            proposalWidth: CGFloat.nan,
+            proposalHeight: 50,
+            proposalDepth: CGFloat.infinity,
+            new2DValue: CGSize(width: CGFloat.nan, height: 0),
+            new2DProposalWidth: nil,
+            new2DProposalHeight: CGFloat.infinity
+        ): Output_size2D(
+            value: Size3D(width: CGFloat.nan, height: 0, depth: 30),
+            _proposal: Size3D(width: CGFloat.nan, height: CGFloat.infinity, depth: CGFloat.infinity),
+            size2DValue: CGSize(width: CGFloat.nan, height: 0)
+        ),
+        
+        Input_size2D(
+            initialValue: Size3D(width: CGFloat.infinity, height: -CGFloat.infinity, depth: -10),
+            proposalWidth: CGFloat.infinity,
+            proposalHeight: CGFloat.nan,
+            proposalDepth: 0,
+            new2DValue: CGSize(width: 10, height: 10),
+            new2DProposalWidth: CGFloat.nan,
+            new2DProposalHeight: nil
+        ): Output_size2D(
+            value: Size3D(width: 10, height: 10, depth: -10),
+            _proposal: Size3D(width: CGFloat.nan, height: CGFloat.nan, depth: 0),
+            size2DValue: CGSize(width: 10, height: 10)
+        )
+    ]
+    
+    @Test(arguments: Self.size2D_expectations)
+    func test_size2D(input: Input_size2D, output: Output_size2D) {
+        var impl = MySwiftUICore.ViewSize3D(
+            input.initialValue,
+            proposal: MySwiftUICore._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
+        )
+        
+        let initial2D = impl.size2D
+        #expect(initial2D.value.width.bitPattern == input.initialValue.width.bitPattern)
+        #expect(initial2D.value.height.bitPattern == input.initialValue.height.bitPattern)
+        
+        impl.size2D = MySwiftUICore.ViewSize(
+            input.new2DValue,
+            proposal: MySwiftUICore._ProposedSize(
+                width: input.new2DProposalWidth,
+                height: input.new2DProposalHeight
+            )
+        )
+        
+        let result2D = impl.size2D
+        #expect(impl.value.isEqual(to: output.value))
+        #expect(impl._proposal.isEqual(to: output._proposal))
+        #expect(result2D.value.isEqual(to: output.size2DValue))
+        
+        var original = _SwiftUICorePrivate.ViewSize3D(
+            input.initialValue,
+            proposal: _SwiftUICorePrivate._ProposedSize3D(
+                width: input.proposalWidth,
+                height: input.proposalHeight,
+                depth: input.proposalDepth
+            )
+        )
+        
+        original.size2D = _SwiftUICorePrivate.ViewSize(
+            input.new2DValue,
+            proposal: SwiftUI._ProposedSize(
+                width: input.new2DProposalWidth,
+                height: input.new2DProposalHeight
+            )
+        )
+        
+        let original2D = original.size2D
+        #expect(original.value.isEqual(to: output.value))
+        #expect(original._proposal.isEqual(to: output._proposal))
+        #expect(original2D.value.isEqual(to: output.size2DValue))
     }
 }
 
