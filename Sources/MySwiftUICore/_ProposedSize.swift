@@ -24,4 +24,15 @@ extension _ProposedSize {
         self.width = size.width
         self.height = size.height
     }
+    
+    func inset(by insets: EdgeInsets) -> _ProposedSize {
+        var copy = self
+        if let width {
+            copy.width = max(0, width - insets.leading - insets.trailing)
+        }
+        if let height {
+            copy.height = max(0, height - insets.top - insets.bottom)
+        }
+        return copy
+    }
 }

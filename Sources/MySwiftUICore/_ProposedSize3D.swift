@@ -72,6 +72,35 @@ struct _ProposedSize3D: Hashable {
         
         return _ProposedSize3D(width: width, height: height, depth: depth)
     }
+    
+    func inset(by insets: EdgeInsets3D) -> _ProposedSize3D {
+        let width: CGFloat?
+        if let _width = self.width {
+            width = max(0, _width - insets.leading - insets.trailing)
+        } else {
+            width = nil
+        }
+        
+        let height: CGFloat?
+        if let _height = self.height {
+            height = max(0, _height - insets.top - insets.bottom)
+        } else {
+            height = nil
+        }
+        
+        let depth: CGFloat?
+        if let _depth = self.depth {
+            depth = max(0, _depth - insets.front - insets.back)
+        } else {
+            depth = nil
+        }
+        
+        return _ProposedSize3D(
+            width: width,
+            height: height,
+            depth: depth
+        )
+    }
 }
 
 extension _ProposedSize3D {
@@ -122,32 +151,30 @@ extension _ProposedSize3D {
         return false
     }
     
-    func inset(by insets: EdgeInsets3D) -> _ProposedSize3D {
-        let width: CGFloat?
-        if let _width = self.width {
-            width = max(0, _width - insets.leading - insets.trailing)
-        } else {
-            width = nil
+    func replacing(_ axis: _Axis3D, with value: CGFloat?) -> _ProposedSize3D {
+        var copy = self
+        switch axis {
+        case .horizontal:
+            copy.width = value
+        case .vertical:
+            copy.height = value
+        case .depth:
+            copy.depth = value
         }
-        
-        let height: CGFloat?
-        if let _height = self.height {
-            height = max(0, _height - insets.top - insets.bottom)
-        } else {
-            height = nil
+        return copy
+    }
+}
+
+extension _ProposedSize3D: LengthUnitConvertible {
+    package mutating func scale(by scale: Double) {
+        if let width {
+            self.width = width * scale
         }
-        
-        let depth: CGFloat?
-        if let _depth = self.depth {
-            depth = max(0, _depth - insets.front - insets.back)
-        } else {
-            depth = nil
+        if let height {
+            self.height = height * scale
         }
-        
-        return _ProposedSize3D(
-            width: width,
-            height: height,
-            depth: depth
-        )
+        if let depth {
+            self.depth = depth * scale
+        }
     }
 }

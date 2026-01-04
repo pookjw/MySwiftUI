@@ -193,7 +193,7 @@ extension _ProposedSize3DTests {
 }
 
 extension _ProposedSize3DTests {
-    struct Input_proposedInset3D: Hashable {
+    struct Input_inset: Hashable {
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
         let proposalDepth: CGFloat?
@@ -205,14 +205,14 @@ extension _ProposedSize3DTests {
         let insetsBack: CGFloat
     }
     
-    struct Output_proposedInset3D {
+    struct Output_inset {
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
         let proposalDepth: CGFloat?
     }
     
-    static let proposedInset3D_expectations: [Input_proposedInset3D: Output_proposedInset3D] = [
-        Input_proposedInset3D(
+    static let inset_expectations: [Input_inset: Output_inset] = [
+        Input_inset(
             proposalWidth: 100,
             proposalHeight: 80,
             proposalDepth: 60,
@@ -222,13 +222,13 @@ extension _ProposedSize3DTests {
             insetsTrailing: 10,
             insetsFront: 10,
             insetsBack: 10
-        ): Output_proposedInset3D(
+        ): Output_inset(
             proposalWidth: 80,
             proposalHeight: 60,
             proposalDepth: 40
         ),
         
-        Input_proposedInset3D(
+        Input_inset(
             proposalWidth: 15,
             proposalHeight: 15,
             proposalDepth: 15,
@@ -238,13 +238,13 @@ extension _ProposedSize3DTests {
             insetsTrailing: 10,
             insetsFront: 10,
             insetsBack: 10
-        ): Output_proposedInset3D(
+        ): Output_inset(
             proposalWidth: 0,
             proposalHeight: 0,
             proposalDepth: 0
         ),
         
-        Input_proposedInset3D(
+        Input_inset(
             proposalWidth: .nan,
             proposalHeight: 100,
             proposalDepth: 100,
@@ -254,13 +254,13 @@ extension _ProposedSize3DTests {
             insetsTrailing: 10,
             insetsFront: 10,
             insetsBack: 10
-        ): Output_proposedInset3D(
+        ): Output_inset(
             proposalWidth: 0,
             proposalHeight: 80,
             proposalDepth: 80
         ),
         
-        Input_proposedInset3D(
+        Input_inset(
             proposalWidth: .infinity,
             proposalHeight: 100,
             proposalDepth: 100,
@@ -270,13 +270,13 @@ extension _ProposedSize3DTests {
             insetsTrailing: 10,
             insetsFront: 10,
             insetsBack: 10
-        ): Output_proposedInset3D(
+        ): Output_inset(
             proposalWidth: .infinity,
             proposalHeight: 80,
             proposalDepth: 80
         ),
         
-        Input_proposedInset3D(
+        Input_inset(
             proposalWidth: -.infinity,
             proposalHeight: 100,
             proposalDepth: 100,
@@ -286,13 +286,13 @@ extension _ProposedSize3DTests {
             insetsTrailing: 10,
             insetsFront: 10,
             insetsBack: 10
-        ): Output_proposedInset3D(
+        ): Output_inset(
             proposalWidth: 0,
             proposalHeight: 80,
             proposalDepth: 80
         ),
         
-        Input_proposedInset3D(
+        Input_inset(
             proposalWidth: nil,
             proposalHeight: nil,
             proposalDepth: nil,
@@ -302,15 +302,15 @@ extension _ProposedSize3DTests {
             insetsTrailing: 10,
             insetsFront: 10,
             insetsBack: 10
-        ): Output_proposedInset3D(
+        ): Output_inset(
             proposalWidth: nil,
             proposalHeight: nil,
             proposalDepth: nil
         )
     ]
     
-    @Test(arguments: Self.proposedInset3D_expectations)
-    func test_proposedInset3D(input: Input_proposedInset3D, output: Output_proposedInset3D) {
+    @Test(arguments: Self.inset_expectations)
+    func test_inset(input: Input_inset, output: Output_inset) {
         let impl = MySwiftUICore._ProposedSize3D(
             width: input.proposalWidth,
             height: input.proposalHeight,
