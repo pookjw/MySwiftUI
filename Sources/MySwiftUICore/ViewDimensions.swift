@@ -2,11 +2,15 @@ public import CoreGraphics
 
 public struct ViewDimensions {
     public var width: CGFloat {
-      fatalError("TODO")
+        return size.width
     }
     
     public var height: CGFloat {
-        fatalError("TODO")
+        return size.height
+    }
+    
+    var depth: CGFloat {
+        return 0
     }
     
     public subscript(guide: HorizontalAlignment) -> CGFloat {
@@ -34,19 +38,17 @@ public struct ViewDimensions {
     }
     
     init(guideComputer: LayoutComputer, size: ViewSize) {
-        fatalError("TODO")
+        self.guideComputer = guideComputer
+        self.size = size
     }
     
     init(guideComputer: LayoutComputer, size: CGSize, proposal: _ProposedSize) {
-        fatalError("TODO")
+        self.guideComputer = guideComputer
+        self.size = ViewSize(size, proposal: proposal)
     }
     
     let guideComputer: LayoutComputer
     var size: ViewSize
-    
-    var depth: CGFloat {
-        fatalError("TODO")
-    }
     
     subscript(_: DepthAlignment) -> CGFloat {
         get {

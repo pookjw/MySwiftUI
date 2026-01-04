@@ -1,9 +1,9 @@
 public import CoreGraphics
 public import Spatial
 
-public struct UnitPoint {
+public struct UnitPoint: Hashable {
     public var x: CGFloat
-      public var y: CGFloat
+    public var y: CGFloat
     
     @inlinable public init() {
         self.init(x: 0, y: 0)

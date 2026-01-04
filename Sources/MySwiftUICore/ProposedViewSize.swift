@@ -23,12 +23,35 @@ public import CoreGraphics
         )
     }
     
+    init(_ size: _ProposedSize) {
+        width = size.width
+        height = size.height
+    }
+    
     subscript(_ axis: Axis) -> CGFloat? {
         get {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                return width
+            case .vertical:
+                return height
+            }
         }
         set {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                width = newValue
+            case .vertical:
+                height = newValue
+            }
+        }
+        _modify {
+            switch axis {
+            case .horizontal:
+                yield &width
+            case .vertical:
+                yield &height
+            }
         }
     }
 }

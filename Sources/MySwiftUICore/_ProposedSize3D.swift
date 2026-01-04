@@ -163,18 +163,64 @@ extension _ProposedSize3D {
         }
         return copy
     }
-}
-
-extension _ProposedSize3D: LengthUnitConvertible {
-    package mutating func scale(by scale: Double) {
-        if let width {
-            self.width = width * scale
+    
+    subscript(_ axis: Axis) -> CGFloat? {
+        get {
+            switch axis {
+            case .horizontal:
+                return width
+            case .vertical:
+                return height
+            }
         }
-        if let height {
-            self.height = height * scale
+        set {
+            switch axis {
+            case .horizontal:
+                width = newValue
+            case .vertical:
+                height = newValue
+            }
         }
-        if let depth {
-            self.depth = depth * scale
+        _modify {
+            switch axis {
+            case .horizontal:
+                yield &width
+            case .vertical:
+                yield &height
+            }
+        }
+    }
+    
+    subscript(_ axis: _Axis3D) -> CGFloat? {
+        get {
+            switch axis {
+            case .horizontal:
+                return width
+            case .vertical:
+                return height
+            case .depth:
+                return depth
+            }
+        }
+        set {
+            switch axis {
+            case .horizontal:
+                width = newValue
+            case .vertical:
+                height = newValue
+            case .depth:
+                depth = newValue
+            }
+        }
+        _modify {
+            switch axis {
+            case .horizontal:
+                yield &width
+            case .vertical:
+                yield &height
+            case .depth:
+                yield &depth
+            }
         }
     }
 }

@@ -104,9 +104,6 @@ package struct ViewSize: Equatable, Animatable {
                 _proposal.height = .nan
             }
         }
-        _modify {
-            fatalError("TODO")
-        }
     }
     
     subscript(_ axis: Axis) -> CGFloat {
@@ -146,7 +143,11 @@ package struct ViewSize: Equatable, Animatable {
             didSetAnimatableData(size)
         }
         _modify {
-            fatalError("TODO")
+            var value = AnimatableData(value.width, value.height)
+            yield &value
+            let newValue = CGSize(width: value.first, height: value.second)
+            self.value = newValue
+            didSetAnimatableData(newValue)
         }
     }
     

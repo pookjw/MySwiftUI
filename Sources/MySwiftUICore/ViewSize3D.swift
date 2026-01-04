@@ -88,9 +88,6 @@ struct ViewSize3D {
                 _proposal.depth = .nan
             }
         }
-        _modify {
-            fatalError("TODO")
-        }
     }
     
     subscript(_ axis: Axis) -> CGFloat {

@@ -1441,9 +1441,17 @@ public struct _ProposedSize3D {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _ProposedSize {
+  public static let zero = _ProposedSize(width: 0, height: 0)
+  public static let infinity = _ProposedSize(width: CoreFoundation.CGFloat.infinity, height: CoreFoundation.CGFloat.infinity)
+  public static let unspecified = _ProposedSize(width: nil, height: nil)
+
   public var width: CoreFoundation.CGFloat? { get set }
   public var height: CoreFoundation.CGFloat? { get set }
   public init(width: CoreFoundation.CGFloat?, height: CoreFoundation.CGFloat?)
+  public init()
+
+  public func fixingUnspecifiedDimensions(at size: CoreGraphics.CGSize) -> CoreGraphics.CGSize
+  public func fixingUnspecifiedDimensions() -> CoreGraphics.CGSize
 }
 
 @available(visionOS 26.0, *)
@@ -1456,5 +1464,14 @@ public enum _Axis3D: Swift.Int8, Swift.CaseIterable, Swift.Hashable, Swift.Senda
   public init?(rawValue: Swift.Int8)
   public var rawValue: Swift.Int8 {
     get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.ProposedViewSize {
+  public init(_: SwiftUI._ProposedSize)
+  public subscript(_ axis: SwiftUI.Axis) -> CoreFoundation.CGFloat? {
+    get set _modify
   }
 }

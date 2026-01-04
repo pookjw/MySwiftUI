@@ -56,12 +56,6 @@ struct LayoutComputer {
     }
 }
 
-struct _Placement {
-    private var proposedSize_: _ProposedSize
-    private var anchor: UnitPoint
-    private var anchorPosition: CGPoint
-}
-
 struct _PositionAwarePlacementContext {
     private var context: AnyRuleContext
     private var owner: AnyAttribute
