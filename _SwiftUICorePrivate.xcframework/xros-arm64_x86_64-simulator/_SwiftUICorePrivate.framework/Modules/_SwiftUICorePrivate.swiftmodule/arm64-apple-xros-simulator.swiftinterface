@@ -1364,7 +1364,7 @@ extension Swift.BidirectionalCollection where Self : Swift.MutableCollection {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewSize3D {
+public struct ViewSize3D: Swift.Equatable {
   public static var zero: _SwiftUICorePrivate.ViewSize3D { get }
   public static var invalidValue: _SwiftUICorePrivate.ViewSize3D { get }
   public static func fixed(_ size: Spatial.Size3D) -> _SwiftUICorePrivate.ViewSize3D
@@ -1389,6 +1389,8 @@ public struct ViewSize3D {
 
   public init(_ value: Spatial.Size3D, proposal: _SwiftUICorePrivate._ProposedSize3D)
   public init(_: _SwiftUICorePrivate.ViewSize, depth: CoreFoundation.CGFloat, proposedDepth: CoreFoundation.CGFloat?)
+  public init(_: _SwiftUICorePrivate.ViewSize, usingDepthFrom: _SwiftUICorePrivate.ViewSize3D)
+  public init(_ viewSize: _SwiftUICorePrivate.ViewSize, depth: _SwiftUICorePrivate.ViewDepth)
 
   public subscript(_ axis: SwiftUI.Axis) -> CoreFoundation.CGFloat {
     get set _modify

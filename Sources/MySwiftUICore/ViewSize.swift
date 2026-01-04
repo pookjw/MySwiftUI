@@ -2,35 +2,7 @@ package import CoreGraphics
 
 package struct ViewSize: Equatable, Animatable {
     package static func == (lhs: ViewSize, rhs: ViewSize) -> Bool {
-        guard lhs.value == rhs.value else {
-            return false
-        }
-        
-        let isWidthEqual: Bool
-        if lhs._proposal.width.isNaN && rhs._proposal.width.isNaN {
-            isWidthEqual = true
-        } else if lhs._proposal.width == rhs._proposal.width {
-            isWidthEqual = true
-        } else {
-            isWidthEqual = false
-        }
-        guard isWidthEqual else {
-            return false
-        }
-        
-        let isHeightEqual: Bool
-        if lhs._proposal.height.isNaN && rhs._proposal.height.isNaN {
-            isHeightEqual = true
-        } else if lhs._proposal.height == rhs._proposal.height {
-            isHeightEqual = true
-        } else {
-            isHeightEqual = false
-        }
-        guard isHeightEqual else {
-            return false
-        }
-        
-        return true
+        return lhs.value == rhs.value && lhs.proposal == rhs.proposal
     }
     
     package static var zero: ViewSize {

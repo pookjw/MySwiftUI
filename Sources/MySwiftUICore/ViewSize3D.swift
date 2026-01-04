@@ -177,16 +177,33 @@ struct ViewSize3D {
     }
     
     init(_ viewSize: ViewSize, depth: CGFloat, proposedDepth: CGFloat?) {
-        self.value = Size3D(width: viewSize.width, height: viewSize.height, depth: viewSize.width)
-        fatalError("TODO")
+        self.value = Size3D(width: viewSize.width, height: viewSize.height, depth: depth)
+        let proposal = viewSize.proposal
+        self._proposal = Size3D(
+            width: proposal.width ?? .nan,
+            height: proposal.height ?? .nan,
+            depth: proposedDepth ?? .nan
+        )
     }
     
-    init(_: ViewSize, usingDepthFrom: ViewSize3D) {
-        fatalError("TODO")
+    init(_ viewSize: ViewSize, usingDepthFrom viewSize3D: ViewSize3D) {
+        self.value = Size3D(width: viewSize.width, height: viewSize.height, depth: viewSize3D.value.depth)
+        let proposal = viewSize.proposal
+        self._proposal = Size3D(
+            width: proposal.width ?? .nan,
+            height: proposal.height ?? .nan,
+            depth: viewSize3D.proposal.depth ?? .nan
+        )
     }
     
-    init(_: ViewSize, depth: ViewDepth) {
-        fatalError("TODO")
+    init(_ viewSize: ViewSize, depth: ViewDepth) {
+        self.value = Size3D(width: viewSize.width, height: viewSize.height, depth: depth.value)
+        let proposal = viewSize.proposal
+        self._proposal = Size3D(
+            width: proposal.width ?? .nan,
+            height: proposal.height ?? .nan,
+            depth: depth.proposal ?? .nan
+        )
     }
     
     var size2D: ViewSize {
@@ -208,20 +225,19 @@ struct ViewSize3D {
 
 extension ViewSize3D: Equatable {
     static func == (lhs: ViewSize3D, rhs: ViewSize3D) -> Bool {
-        fatalError("TODO")
+        return lhs.value == rhs.value && lhs.proposal == rhs.proposal
     }
 }
 
 extension ViewSize3D: Animatable {
     var animatableData: Vector3D {
         get {
-            fatalError("TODO")
+            return Vector3D(x: value.width, y: value.height, z: value.depth)
         }
         set {
-            fatalError("TODO")
-        }
-        _modify {
-            fatalError("TODO")
+            let newValue = Size3D(width: newValue.x, height: newValue.y, depth: newValue.z)
+            self.value = newValue
+            didSetAnimatableData(newValue)
         }
     }
     

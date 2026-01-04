@@ -1032,7 +1032,7 @@ extension ViewSizeTests {
             rhsValue: CGSize(width: CGFloat.nan, height: 20),
             rhsProposalWidth: 40,
             rhsProposalHeight: 50,
-            expected: true
+            expected: false
         ),
         
         Input_equatable(

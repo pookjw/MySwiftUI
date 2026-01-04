@@ -45,7 +45,20 @@ package struct ViewDepth: Equatable, Animatable {
             }
         }
         _modify {
-            fatalError("TODO")
+            var proposal: CGFloat?
+            if _proposal.isNaN {
+                proposal = nil
+            } else {
+                proposal = _proposal
+            }
+            
+            yield &proposal
+            
+            if let proposal {
+                _proposal = proposal
+            } else {
+                _proposal = .nan
+            }
         }
     }
     
@@ -58,7 +71,9 @@ package struct ViewDepth: Equatable, Animatable {
             didSetAnimatableData(newValue)
         }
         _modify {
-            yield &value
+            var newValue = value
+            yield &newValue
+            didSetAnimatableData(newValue)
         }
     }
     

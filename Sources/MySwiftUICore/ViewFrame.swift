@@ -34,8 +34,5 @@ extension ViewFrame: Animatable {
             origin.animatableData = newValue.first
             size.value.animatableData = newValue.second
         }
-        _modify {
-            fatalError("TODO")
-        }
     }
 }
