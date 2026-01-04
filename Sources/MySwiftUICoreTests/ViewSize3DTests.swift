@@ -741,6 +741,260 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
+    struct Input_subscript_axis: Hashable {
+        let initialValue: Size3D
+        let initialProposal: Size3D
+        let axis: SwiftUI.Axis
+        let setValue: CGFloat
+        let modifyDelta: CGFloat
+    }
+    
+    struct Output_subscript_axis {
+        let afterSetValue: Size3D
+        let readAfterSet: CGFloat
+        let afterModifyValue: Size3D
+        let readAfterModify: CGFloat
+    }
+    
+    static let subscript_axis_expectations: [Input_subscript_axis: Output_subscript_axis] = [
+        Input_subscript_axis(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            initialProposal: Size3D(width: 40, height: 50, depth: 60),
+            axis: .horizontal,
+            setValue: 100,
+            modifyDelta: 5
+        ): Output_subscript_axis(
+            afterSetValue: Size3D(width: 100, height: 20, depth: 30),
+            readAfterSet: 100,
+            afterModifyValue: Size3D(width: 105, height: 20, depth: 30),
+            readAfterModify: 105
+        ),
+        
+        Input_subscript_axis(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            initialProposal: Size3D(width: 40, height: 50, depth: 60),
+            axis: .vertical,
+            setValue: 200,
+            modifyDelta: 10
+        ): Output_subscript_axis(
+            afterSetValue: Size3D(width: 10, height: 20, depth: 200),
+            readAfterSet: 20,
+            afterModifyValue: Size3D(width: 10, height: 20, depth: 30),
+            readAfterModify: 20
+        ),
+        
+        Input_subscript_axis(
+            initialValue: Size3D(width: CGFloat.nan, height: 20, depth: 30),
+            initialProposal: Size3D(width: CGFloat.nan, height: 50, depth: 60),
+            axis: .vertical,
+            setValue: CGFloat.infinity,
+            modifyDelta: 1
+        ): Output_subscript_axis(
+            afterSetValue: Size3D(width: CGFloat.nan, height: 20, depth: CGFloat.infinity),
+            readAfterSet: 20,
+            afterModifyValue: Size3D(width: CGFloat.nan, height: 20, depth: 21),
+            readAfterModify: 20
+        ),
+        
+        Input_subscript_axis(
+            initialValue: Size3D(width: 10, height: CGFloat.nan, depth: -CGFloat.infinity),
+            initialProposal: Size3D(width: 40, height: CGFloat.nan, depth: -CGFloat.infinity),
+            axis: .vertical,
+            setValue: -CGFloat.infinity,
+            modifyDelta: 10
+        ): Output_subscript_axis(
+            afterSetValue: Size3D(width: 10, height: CGFloat.nan, depth: -CGFloat.infinity),
+            readAfterSet: CGFloat.nan,
+            afterModifyValue: Size3D(width: 10, height: CGFloat.nan, depth: -CGFloat.infinity),
+            readAfterModify: CGFloat.nan
+        )
+    ]
+    
+    @Test(arguments: Self.subscript_axis_expectations)
+    func test_subscript_axis(input: Input_subscript_axis, output: Output_subscript_axis) {
+        var impl = MySwiftUICore.ViewSize3D(
+            input.initialValue,
+            proposal: MySwiftUICore._ProposedSize3D(
+                width: input.initialProposal.width,
+                height: input.initialProposal.height,
+                depth: input.initialProposal.depth
+            )
+        )
+        
+        let implAxis: MySwiftUICore.Axis =
+        input.axis == .horizontal ? .horizontal : .vertical
+        
+        impl[implAxis] = input.setValue
+        let implReadAfterSet = impl[implAxis]
+        
+        #expect(impl.value.isEqual(to: output.afterSetValue))
+        #expect(implReadAfterSet.bitPattern == output.readAfterSet.bitPattern)
+        
+        impl[implAxis] += input.modifyDelta
+        let implReadAfterModify = impl[implAxis]
+        
+        #expect(impl.value.isEqual(to: output.afterModifyValue))
+        #expect(implReadAfterModify.bitPattern == output.readAfterModify.bitPattern)
+        
+        var original = _SwiftUICorePrivate.ViewSize3D(
+            input.initialValue,
+            proposal: _SwiftUICorePrivate._ProposedSize3D(
+                width: input.initialProposal.width,
+                height: input.initialProposal.height,
+                depth: input.initialProposal.depth
+            )
+        )
+        
+        let originalAxis: SwiftUI.Axis =
+        input.axis == .horizontal ? .horizontal : .vertical
+        
+        original[originalAxis] = input.setValue
+        let originalReadAfterSet = original[originalAxis]
+        
+        #expect(original.value.isEqual(to: output.afterSetValue))
+        #expect(originalReadAfterSet.bitPattern == output.readAfterSet.bitPattern)
+        
+        original[originalAxis] += input.modifyDelta
+        let originalReadAfterModify = original[originalAxis]
+        
+        #expect(original.value.isEqual(to: output.afterModifyValue))
+        #expect(originalReadAfterModify.bitPattern == output.readAfterModify.bitPattern)
+    }
+}
+
+extension ViewSize3DTests {
+    struct Input_subscript_axis3D: Hashable {
+        let initialValue: Size3D
+        let initialProposal: Size3D
+        let axis: _SwiftUICorePrivate._Axis3D
+        let setValue: CGFloat
+        let modifyDelta: CGFloat
+    }
+    
+    struct Output_subscript_axis3D {
+        let afterSetValue: Size3D
+        let readAfterSet: CGFloat
+        let afterModifyValue: Size3D
+        let readAfterModify: CGFloat
+    }
+    
+    static let subscript_axis3D_expectations: [Input_subscript_axis3D: Output_subscript_axis3D] = [
+        Input_subscript_axis3D(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            initialProposal: Size3D(width: 40, height: 50, depth: 60),
+            axis: .horizontal,
+            setValue: 100,
+            modifyDelta: 5
+        ): Output_subscript_axis3D(
+            afterSetValue: Size3D(width: 100, height: 20, depth: 30),
+            readAfterSet: 100,
+            afterModifyValue: Size3D(width: 105, height: 20, depth: 30),
+            readAfterModify: 105
+        ),
+        
+        Input_subscript_axis3D(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            initialProposal: Size3D(width: 40, height: 50, depth: 60),
+            axis: .vertical,
+            setValue: 200,
+            modifyDelta: 10
+        ): Output_subscript_axis3D(
+            afterSetValue: Size3D(width: 10, height: 200, depth: 30),
+            readAfterSet: 200,
+            afterModifyValue: Size3D(width: 10, height: 210, depth: 30),
+            readAfterModify: 210
+        ),
+        
+        Input_subscript_axis3D(
+            initialValue: Size3D(width: 10, height: 20, depth: 30),
+            initialProposal: Size3D(width: 40, height: 50, depth: 60),
+            axis: .depth,
+            setValue: 300,
+            modifyDelta: 15
+        ): Output_subscript_axis3D(
+            afterSetValue: Size3D(width: 10, height: 20, depth: 300),
+            readAfterSet: 300,
+            afterModifyValue: Size3D(width: 10, height: 20, depth: 315),
+            readAfterModify: 315
+        ),
+        
+        Input_subscript_axis3D(
+            initialValue: Size3D(width: CGFloat.nan, height: 20, depth: -CGFloat.infinity),
+            initialProposal: Size3D(width: CGFloat.nan, height: 50, depth: -CGFloat.infinity),
+            axis: .depth,
+            setValue: CGFloat.infinity,
+            modifyDelta: 1
+        ): Output_subscript_axis3D(
+            afterSetValue: Size3D(width: CGFloat.nan, height: 20, depth: CGFloat.infinity),
+            readAfterSet: CGFloat.infinity,
+            afterModifyValue: Size3D(width: CGFloat.nan, height: 20, depth: CGFloat.infinity),
+            readAfterModify: CGFloat.infinity
+        )
+    ]
+    
+    @Test(arguments: Self.subscript_axis3D_expectations)
+    func test_subscript_axis3D(input: Input_subscript_axis3D, output: Output_subscript_axis3D) {
+        var impl = MySwiftUICore.ViewSize3D(
+            input.initialValue,
+            proposal: MySwiftUICore._ProposedSize3D(
+                width: input.initialProposal.width,
+                height: input.initialProposal.height,
+                depth: input.initialProposal.depth
+            )
+        )
+        
+        let implAxis: MySwiftUICore._Axis3D = {
+            switch input.axis {
+            case .horizontal:
+                return .horizontal
+            case .vertical:
+                return .vertical
+            case .depth:
+                return .depth
+            default:
+                fatalError()
+            }
+        }()
+        
+        impl[implAxis] = input.setValue
+        let implReadAfterSet = impl[implAxis]
+        
+        #expect(impl.value.isEqual(to: output.afterSetValue))
+        #expect(implReadAfterSet.bitPattern == output.readAfterSet.bitPattern)
+        
+        impl[implAxis] += input.modifyDelta
+        let implReadAfterModify = impl[implAxis]
+        
+        #expect(impl.value.isEqual(to: output.afterModifyValue))
+        #expect(implReadAfterModify.bitPattern == output.readAfterModify.bitPattern)
+        
+        var original = _SwiftUICorePrivate.ViewSize3D(
+            input.initialValue,
+            proposal: _SwiftUICorePrivate._ProposedSize3D(
+                width: input.initialProposal.width,
+                height: input.initialProposal.height,
+                depth: input.initialProposal.depth
+            )
+        )
+        
+        let originalAxis: _SwiftUICorePrivate._Axis3D = input.axis
+        
+        original[originalAxis] = input.setValue
+        let originalReadAfterSet = original[originalAxis]
+        
+        #expect(original.value.isEqual(to: output.afterSetValue))
+        #expect(originalReadAfterSet.bitPattern == output.readAfterSet.bitPattern)
+        
+        original[originalAxis] += input.modifyDelta
+        let originalReadAfterModify = original[originalAxis]
+        
+        #expect(original.value.isEqual(to: output.afterModifyValue))
+        #expect(originalReadAfterModify.bitPattern == output.readAfterModify.bitPattern)
+    }
+}
+
+
+extension ViewSize3DTests {
     // TODO
     struct Input_init_depth_proposedDepth: Hashable {
         

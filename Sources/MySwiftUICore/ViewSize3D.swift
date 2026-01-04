@@ -3,7 +3,7 @@ internal import CoreGraphics
 
 struct ViewSize3D {
     static var zero: ViewSize3D {
-        return ViewSize3D(.zero, proposal: _ProposedSize3D(.zero))
+        return ViewSize3D(.zero, proposal: _ProposedSize3D(width: 0, height: 0, depth: 0))
     }
     
     static let invalidValue = ViewSize3D(-.infinity, proposal: _ProposedSize3D(-.infinity))
@@ -95,30 +95,79 @@ struct ViewSize3D {
     
     subscript(_ axis: Axis) -> CGFloat {
         get {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                return value.width
+            case .vertical:
+                return value.height
+            }
         }
         set {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                value.width = newValue
+            case .vertical:
+                value.depth = newValue
+            }
         }
         _modify {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                var value = CGFloat(value.width)
+                yield &value
+                self.value.width = value
+            case .vertical:
+                var value = CGFloat(value.height)
+                yield &value
+                self.value.depth = value
+            }
         }
     }
     
     subscript(_ axis: _Axis3D) -> CGFloat {
         get {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                return value.width
+            case .vertical:
+                return value.height
+            case .depth:
+                return value.depth
+            }
         }
         set {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                value.width = newValue
+            case .vertical:
+                value.height = newValue
+            case .depth:
+                value.depth = newValue
+            }
         }
         _modify {
-            fatalError("TODO")
+            switch axis {
+            case .horizontal:
+                var width = CGFloat(value.width)
+                yield &width
+                value.width = width
+            case .vertical:
+                var height = CGFloat(value.height)
+                yield &height
+                value.height = height
+            case .depth:
+                var depth = CGFloat(value.depth)
+                yield &depth
+                value.depth = depth
+            }
         }
     }
     
     func inset(by insets: EdgeInsets3D) -> ViewSize3D {
-        fatalError("TODO")
+        return ViewSize3D(
+            value.inset(by: insets),
+            proposal: proposal.inset(by: insets)
+        )
     }
     
     init(_ value: Size3D, proposal: _ProposedSize3D) {
@@ -130,7 +179,8 @@ struct ViewSize3D {
         )
     }
     
-    init(_: ViewSize, depth: CGFloat, proposedDepth: CGFloat?) {
+    init(_ viewSize: ViewSize, depth: CGFloat, proposedDepth: CGFloat?) {
+        self.value = Size3D(width: viewSize.width, height: viewSize.height, depth: viewSize.width)
         fatalError("TODO")
     }
     

@@ -1389,6 +1389,16 @@ public struct ViewSize3D {
 
   public init(_ value: Spatial.Size3D, proposal: _SwiftUICorePrivate._ProposedSize3D)
   public init(_: _SwiftUICorePrivate.ViewSize, depth: CoreFoundation.CGFloat, proposedDepth: CoreFoundation.CGFloat?)
+
+  public subscript(_ axis: SwiftUI.Axis) -> CoreFoundation.CGFloat {
+    get set _modify
+  }
+
+  public subscript(_ axis: _SwiftUICorePrivate._Axis3D) -> CoreFoundation.CGFloat {
+    get set _modify
+  }
+
+  public func inset(by: SwiftUI.EdgeInsets3D) -> _SwiftUICorePrivate.ViewSize3D
 }
 
 @available(visionOS 26.0, *)
@@ -1414,10 +1424,18 @@ public struct ViewDepth: Swift.Equatable, SwiftUI.Animatable {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct _ProposedSize3D {
+  public static var unspecified: _SwiftUICorePrivate._ProposedSize3D { get }
+  public static var defaultSize: Spatial.Size3D { get }
+
   public var width: CoreFoundation.CGFloat?
   public var height: CoreFoundation.CGFloat?
   public var depth: CoreFoundation.CGFloat?
   public init(width: CoreFoundation.CGFloat?, height: CoreFoundation.CGFloat?, depth: CoreFoundation.CGFloat?)
+
+  public func unspecifyingInfiniteDimensions() -> _SwiftUICorePrivate._ProposedSize3D
+  public func inset(by insets: SwiftUI.EdgeInsets3D) -> _SwiftUICorePrivate._ProposedSize3D
+  // public var isNaN: Swift.Bool { get }
+  //public static var zero: _SwiftUICorePrivate._ProposedSize3D { get }
 }
 
 @available(visionOS 26.0, *)
@@ -1426,4 +1444,17 @@ extension _ProposedSize {
   public var width: CoreFoundation.CGFloat? { get set }
   public var height: CoreFoundation.CGFloat? { get set }
   public init(width: CoreFoundation.CGFloat?, height: CoreFoundation.CGFloat?)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum _Axis3D: Swift.Int8, Swift.CaseIterable, Swift.Hashable, Swift.Sendable {
+  case horizontal
+  case vertical
+  case depth
+
+  public init?(rawValue: Swift.Int8)
+  public var rawValue: Swift.Int8 {
+    get
+  }
 }
