@@ -82,7 +82,12 @@ extension DynamicContainer {
         var seed: UInt32
         
         func viewIndex(id: DynamicContainerID) -> Int? {
-            fatalError("TODO")
+            // id.viewIndex -> w21
+            guard let index = indexMap[id.uniqueId] else {
+                return nil
+            }
+            
+            return Int(items[index].precedingViewCount + id.viewIndex)
         }
     }
     
@@ -959,6 +964,123 @@ fileprivate struct DynamicViewPhase: Rule, AsyncAttribute {
     let uniqueId: UInt32
     
     var value: _GraphInputs.Phase {
+        fatalError("TODO")
+    }
+}
+
+struct DynamicLayoutMap {
+    private var map: [(id: DynamicContainerID, value: LayoutProxyAttributes)]
+    var sortedArray: [LayoutProxyAttributes]
+    var sortedSeed: UInt32
+    
+    init() {
+        self.map = []
+        self.sortedArray = []
+        self.sortedSeed = 0
+    }
+    
+    init(
+        map: [(id: DynamicContainerID, value: LayoutProxyAttributes)],
+        sortedArray: [LayoutProxyAttributes] = [],
+        sortedSeed: UInt32 = 0
+    ) {
+        self.map = map
+        self.sortedArray = sortedArray
+        self.sortedSeed = sortedSeed
+    }
+    
+    subscript(_ containerID: DynamicContainerID) -> LayoutProxyAttributes {
+        get {
+            for value in map {
+                if value.id == containerID {
+                    return value.value
+                }
+            }
+            
+            return LayoutProxyAttributes()
+        }
+        set {
+            /*
+             newValue -> w22, w23
+             containerID -> w8, w9
+             */
+            if !map.isEmpty {
+                // <+44>
+                // inlined
+                let count = map.count
+                let index = map.lowerBound { $0.id < containerID }
+                
+                if (index == count) || map[index].value != newValue {
+                    // <+152>
+                    if !newValue.isEmpty {
+                        map.insert((id: containerID, value: newValue), at: index)
+                    }
+                } else {
+                    if newValue.isEmpty {
+                        // <+324>
+                        map.remove(at: index)
+                    } else {
+                        // <+340>
+                        map[index].value = newValue
+                    }
+                }
+            } else {
+                // <+188>
+                if !newValue.isEmpty {
+                    map.insert((id: containerID, value: newValue), at: 0)
+                }
+            }
+            
+            sortedSeed = 0
+        }
+        _modify {
+            fatalError("TODO")
+        }
+    }
+    
+    mutating func remove(uniqueId: UInt32) {
+        let count = map.count
+        guard count != 0 else {
+            return
+        }
+        
+        let index = map.partitionPoint { $0.id.uniqueId < uniqueId }
+        
+        guard index != count else {
+            return
+        }
+        
+        var end = index
+        repeat {
+            let id = map[end].id.uniqueId
+            guard id == uniqueId else {
+                break
+            }
+            end &+= 1
+        } while end != count
+        map.removeSubrange(index..<end)
+        sortedSeed = 0
+    }
+    
+    func attributes(info: DynamicContainer.Info) -> [LayoutProxyAttributes] {
+        // self -> x25
+        // w26
+        let infoSeed = info.seed
+        
+        guard sortedSeed != infoSeed else {
+            // <+760>
+            return sortedArray
+        }
+        
+        // <+56>
+        // x21
+        let items = info.items
+        // x22
+        let removedCount = info.removedCount
+        // x24
+        let unusedCount = info.unusedCount
+        // sortedArray -> x20
+        
         fatalError("TODO")
     }
 }

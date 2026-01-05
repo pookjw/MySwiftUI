@@ -27,6 +27,10 @@ struct LayoutComputer: @unchecked Sendable {
         return box.sizeThatFits(proposedSize)
     }
     
+    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         Update.assertIsLocked()
         
@@ -46,6 +50,12 @@ struct LayoutComputer: @unchecked Sendable {
             // sp + 0x28
             _ = proposedSize
             return box.depthThatFits(proposedSize)
+        }
+    }
+    
+    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        return Update.ensure { 
+            return box.childGeometries(at: viewSize, origin: origin)
         }
     }
     
@@ -242,6 +252,10 @@ fileprivate class AnyLayoutEngineBox {
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         fatalError() // abstract
     }
+    
+    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        fatalError() // abstract
+    }
 }
 
 fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
@@ -269,6 +283,10 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
     
     override func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         return engine.depthThatFits(proposedSize)
+    }
+    
+    override func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        fatalError("TODO")
     }
 }
 

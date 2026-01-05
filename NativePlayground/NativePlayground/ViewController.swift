@@ -1344,7 +1344,8 @@ fileprivate struct MyObsView: View {
 
 fileprivate struct MyLayout: Layout {
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        fatalError("TODO")
+//        fatalError("TODO")
+        return .zero
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {

@@ -64,12 +64,12 @@ extension DepthAlignment {
     
     var id: any DepthAlignmentID.Type {
         return DepthAlignmentKey.typeCache.withLock { cache in
-            return cache.ids[Int(bits)]
+            return cache.ids[Int(bits - 1)]
         }
     }
     
     init(id: any DepthAlignmentID.Type) {
-        self.bits = DepthAlignmentKey.typeCache.withLock { cache in
+        let bits = DepthAlignmentKey.typeCache.withLock { cache in
             if let bits = cache.bits[ObjectIdentifier(id)] {
                 return bits
             } else {
@@ -79,6 +79,8 @@ extension DepthAlignment {
                 return bits
             }
         }
+        
+        self.bits = bits &+ 1
     }
     
     init() {

@@ -1483,3 +1483,9 @@ extension SwiftUI.ProposedViewSize {
 extension SwiftUI.AlignmentKey {
   public init(id: any SwiftUI.AlignmentID.Type, axis: SwiftUI.Axis)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.AlignmentKey {
+  public var fraction: CoreFoundation.CGFloat { get }
+}
