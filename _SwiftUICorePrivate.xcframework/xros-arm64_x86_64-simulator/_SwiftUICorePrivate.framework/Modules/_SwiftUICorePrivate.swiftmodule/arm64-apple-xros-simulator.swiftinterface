@@ -1477,3 +1477,9 @@ extension SwiftUI.ProposedViewSize {
     get set _modify
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.AlignmentKey {
+  public init(id: any SwiftUI.AlignmentID.Type, axis: SwiftUI.Axis)
+}

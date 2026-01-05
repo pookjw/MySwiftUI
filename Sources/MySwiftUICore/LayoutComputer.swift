@@ -4,11 +4,10 @@ internal import AttributeGraph
 internal import CoreGraphics
 private import _MySwiftUIShims
 
-struct LayoutComputer {
-    @inline(never)
-    @safe static nonisolated(unsafe) let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())
-    @inline(never)
-    @safe static nonisolated(unsafe) let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())
+// ViewDimensions3D이 그냥 Sendable인 것을 보아 LayoutComputer이 @unchecked Sendable
+struct LayoutComputer: @unchecked Sendable {
+    @safe static let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())
+    @safe static let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())
     
     private var box: AnyLayoutEngineBox
     private var seed: Int
@@ -53,6 +52,12 @@ struct LayoutComputer {
     mutating func withMutableEngine<T: LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
         Update.assertIsLocked()
         return box.mutateEngine(as: type, do: block)
+    }
+}
+
+extension LayoutComputer: Equatable {
+    static func == (lhs: LayoutComputer, rhs: LayoutComputer) -> Bool {
+        return lhs.seed == rhs.seed && lhs.box === rhs.box
     }
 }
 

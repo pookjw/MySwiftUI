@@ -1,19 +1,20 @@
 public import CoreGraphics
+internal import Spatial
 
 public struct ViewDimensions3D {
-    private let guideComputer: LayoutComputer
+    let guideComputer: LayoutComputer
     var size: ViewSize3D
     
     public var width: CGFloat {
-        fatalError("TODO")
+        return size.width
     }
     
     public var height: CGFloat {
-        fatalError("TODO")
+        return size.height
     }
     
     public var depth: CGFloat {
-        fatalError("TODO")
+        return size.depth
     }
     
     public subscript(guide: HorizontalAlignment) -> CGFloat {
@@ -35,10 +36,19 @@ public struct ViewDimensions3D {
             fatalError("TODO")
         }
     }
+    
+    init(guideComputer: LayoutComputer, size: Size3D, proposal: _ProposedSize3D) {
+        self.guideComputer = guideComputer
+        self.size = ViewSize3D(size, proposal: proposal)
+    }
+    
+    init(guideComputer: LayoutComputer, size: ViewSize3D) {
+        self.guideComputer = guideComputer
+        self.size = size
+    }
 }
 
-// 원래는 그냥 Sendable
-extension ViewDimensions3D: @unchecked Sendable {}
+extension ViewDimensions3D: Sendable {}
 
 extension ViewDimensions3D {
     public subscript(guide: DepthAlignment) -> CGFloat {
@@ -52,10 +62,37 @@ extension ViewDimensions3D {
             fatalError("TODO")
         }
     }
+    
+    subscript(_ key: AlignmentKey) -> CGFloat {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    subscript(explicit key: AlignmentKey) -> CGFloat? {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    subscript(_ key: DepthAlignmentKey) -> CGFloat {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    subscript(explicit: DepthAlignmentKey) -> CGFloat? {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    static let invalidValue = ViewDimensions3D(guideComputer: .defaultValue, size: .invalidValue)
+    static let zero = ViewDimensions3D(guideComputer: .defaultValue, size: .zero)
 }
 
 extension ViewDimensions3D: Equatable {
-    public static func == (lhs: ViewDimensions3D, rhs: ViewDimensions3D) -> Swift.Bool {
-        fatalError("TODO")
+    public static func == (lhs: ViewDimensions3D, rhs: ViewDimensions3D) -> Bool {
+        return lhs.size == rhs.size && lhs.guideComputer == rhs.guideComputer
     }
 }

@@ -141,6 +141,12 @@ struct MyAdapter: DynamicContainerAdaptor {
     
 }
 
+struct MyAlignmentID: AlignmentID {
+    static func defaultValue(in context: ViewDimensions) -> CGFloat {
+        fatalError("TODO")
+    }
+}
+
 class ViewController: UIViewController {
     override func loadView() {
 //        let object = NSObject()
@@ -392,6 +398,14 @@ class ViewController: UIViewController {
         
         print(_ViewListOutputs.self)
         _forEachField(of: _ViewListOutputs.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        print(ViewDimensions3D.self)
+        _forEachField(of: ViewDimensions3D.self, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }
@@ -1093,6 +1107,8 @@ class ViewController: UIViewController {
 //        print("===")
 //        
 //        print(info.value)
+        
+        AlignmentKey(id: MyAlignmentID.self, axis: .vertical)
         
         let cache = ObjectCache<Int, Int>.init { _ in
             return 3
