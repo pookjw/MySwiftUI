@@ -668,7 +668,7 @@ fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribut
     
     typealias Value = LayoutComputer
     
-    func updateValue() {
+    mutating func updateValue() {
         // x22
         let layout = layout
         let containerInfo = containerInfo!

@@ -1062,7 +1062,7 @@ struct DynamicLayoutMap {
         sortedSeed = 0
     }
     
-    func attributes(info: DynamicContainer.Info) -> [LayoutProxyAttributes] {
+    mutating func attributes(info: DynamicContainer.Info) -> [LayoutProxyAttributes] {
         // self -> x25
         // w26
         let infoSeed = info.seed
@@ -1080,7 +1080,9 @@ struct DynamicLayoutMap {
         // x24
         let unusedCount = info.unusedCount
         // sortedArray -> x20
+        sortedArray.removeAll(keepingCapacity: true)
         
+        // <+140>
         fatalError("TODO")
     }
 }
