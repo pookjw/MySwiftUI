@@ -14,7 +14,7 @@ struct SizeAndSpacingContext {
     
     init(context: AnyRuleContext, owner: AnyAttribute?, environment: Attribute<EnvironmentValues>) {
         self.context = context
-        self.owner = owner
+        self.owner = owner ?? environment.identifier
         self._environment = environment
     }
     

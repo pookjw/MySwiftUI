@@ -369,15 +369,3 @@ struct EnableLayoutDepthStashing: UserDefaultKeyedFeature, PropertyKey {
     
     @safe static nonisolated(unsafe) var defaultFeatureValue: Bool = true
 }
-
-extension StatefulRule where Value == LayoutComputer {
-    func update<T: LayoutEngine>(modify: (inout T) -> Void, create: () -> T) {
-        if hasValue {
-            var value = self.value
-            value.withMutableEngine(type: T.self, do: modify)
-            self.value = value
-        } else {
-            self.value = LayoutComputer(create())
-        }
-    }
-}

@@ -65,14 +65,15 @@ let package = Package(
             ],
             swiftSettings: [
                 .strictMemorySafety(),
-                .enableExperimentalFeature("Extern"),
                 .unsafeFlags([
                     "-Xfrontend",
                     "-enable-private-imports"
                 ]),
 //                .defaultIsolation(MainActor.self),
+                .enableExperimentalFeature("Extern"),
+//                .enableExperimentalFeature("CoroutineAccessors"),
                 .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-                .enableUpcomingFeature("InferIsolatedConformances")
+                .enableUpcomingFeature("InferIsolatedConformances"),
             ],
             linkerSettings: [
                 .linkedFramework("UIKit")

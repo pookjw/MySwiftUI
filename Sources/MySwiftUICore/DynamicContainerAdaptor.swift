@@ -687,12 +687,33 @@ fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribut
 }
 
 extension StatefulRule where Value == LayoutComputer {
-    func updateLayoutComputer<T: Layout>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
+    mutating func updateLayoutComputer<T: Layout>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
         // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE06updategH06layout11environment10attributesyqd___AA0A0VyAD17EnvironmentValuesVGSayAD0G15ProxyAttributesVGtAD0G0Rd__lF
         let currentAttribute = Graph.currentAttribute
         assert(currentAttribute != .empty)
         
-        fatalError("TODO")
+        layout.updateLayoutComputer(
+            rule: &self,
+            layoutContext: SizeAndSpacingContext(
+                context: AnyRuleContext(attribute: currentAttribute),
+                owner: currentAttribute,
+                environment: environment
+            ),
+            children: LayoutProxyCollection(
+                context: AnyRuleContext(attribute: currentAttribute),
+                attributes: attributes
+            )
+        )
+    }
+    
+    func update<T: LayoutEngine>(modify: (inout T) -> Void, create: () -> T) {
+        if hasValue {
+            var value = self.value
+            value.withMutableEngine(type: T.self, do: modify)
+            self.value = value
+        } else {
+            self.value = LayoutComputer(create())
+        }
     }
 }
 
@@ -702,6 +723,20 @@ extension Layout {
         layoutContext: SizeAndSpacingContext,
         children: LayoutProxyCollection
     ) where T.Value == LayoutComputer {
-        fatalError("TODO")
+        /*
+         rule -> x22
+         layoutContext -> sp + 0x98/0x38
+         children -> sp + 0xa8/0x48
+         */
+        rule.update(
+            modify: { [layoutContext, children] (engine: inout ViewLayoutEngine<Self>) in
+                // $s7SwiftUI6LayoutPAAE06updateC8Computer4rule13layoutContext8childrenyqd__z_AA014SizeAndSpacingH0VAA0C15ProxyCollectionVt14AttributeGraph12StatefulRuleRd__AA0cE0V5ValueRtd__lFyAA04ViewC6EngineVyxGzXEfU_TA
+                fatalError("TODO")
+            },
+            create: { [layoutContext, children] () -> ViewLayoutEngine<Self> in
+                // $s7SwiftUI6LayoutPAAE06updateC8Computer4rule13layoutContext8childrenyqd__z_AA014SizeAndSpacingH0VAA0C15ProxyCollectionVt14AttributeGraph12StatefulRuleRd__AA0cE0V5ValueRtd__lFAA04ViewC6EngineVyxGyXEfU0_TA
+                fatalError("TODO")
+            }
+        )
     }
 }
