@@ -1108,8 +1108,6 @@ class ViewController: UIViewController {
 //        
 //        print(info.value)
         
-        AlignmentKey(id: MyAlignmentID.self, axis: .vertical)
-        
         let cache = ObjectCache<Int, Int>.init { _ in
             return 3
         }

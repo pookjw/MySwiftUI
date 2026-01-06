@@ -688,6 +688,20 @@ fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribut
 
 extension StatefulRule where Value == LayoutComputer {
     func updateLayoutComputer<T: Layout>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
+        // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE06updategH06layout11environment10attributesyqd___AA0A0VyAD17EnvironmentValuesVGSayAD0G15ProxyAttributesVGtAD0G0Rd__lF
+        let currentAttribute = Graph.currentAttribute
+        assert(currentAttribute != .empty)
+        
+        fatalError("TODO")
+    }
+}
+
+extension Layout {
+    func updateLayoutComputer<T: StatefulRule>(
+        rule: inout T,
+        layoutContext: SizeAndSpacingContext,
+        children: LayoutProxyCollection
+    ) where T.Value == LayoutComputer {
         fatalError("TODO")
     }
 }

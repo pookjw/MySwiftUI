@@ -550,8 +550,8 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         // w26
         var phase = TransitionPhase.identity
         if !disableTransitions, needsTransitions {
-            let attribute = AnyWeakAttribute(AGGraphGetCurrentAttribute())
-            GraphHost.currentHost.continueTransaction(InvalidatingGraphMutation.init(attribute: attribute))
+            let attribute = AnyWeakAttribute(Graph.currentAttribute)
+            GraphHost.currentHost.continueTransaction(InvalidatingGraphMutation(attribute: attribute))
             phase = .willAppear
             needsPhaseUpdate = true
         }
@@ -1066,6 +1066,8 @@ struct DynamicLayoutMap {
         // self -> x25
         // w26
         let infoSeed = info.seed
+        // sp + 0x4c
+        let allUnary = info.allUnary
         
         guard sortedSeed != infoSeed else {
             // <+760>
@@ -1083,6 +1085,29 @@ struct DynamicLayoutMap {
         sortedArray.removeAll(keepingCapacity: true)
         
         // <+140>
-        fatalError("TODO")
+        let startIndex = items.count &- (unusedCount &+ removedCount) &- 1
+        let flag = (startIndex < 0) || allUnary
+        
+        guard flag || (startIndex < items.count) else {
+            // <+872>
+            fatalError("invalid view index")
+        }
+        
+        var results: [LayoutProxyAttributes] = []
+        for index in startIndex..<items.indices.endIndex {
+            // <+500>
+            let precedingViewCount = items[index].precedingViewCount
+            // x26
+            let viewIndex = unusedCount - Int(precedingViewCount)
+            // w19
+            let uniqueId = items[index].uniqueId
+            // sp + 0x50
+            let id = DynamicContainerID(uniqueId: uniqueId, viewIndex: Int32(viewIndex))
+            // sp + 0x58
+            let attributes = self[id]
+            results.append(attributes)
+        }
+        
+        return results
     }
 }

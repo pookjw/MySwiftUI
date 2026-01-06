@@ -23,6 +23,7 @@ AG_EXTERN void AGGraphSetNeedsUpdate(AGGraphRef) NS_SWIFT_NAME(AGGraphRef.setNee
 AG_EXTERN void AGGraphInvalidate(AGGraphRef) NS_SWIFT_NAME(AGGraphRef.invalidate(self:));
 AG_EXTERN void AGGraphInvalidateValue(AGAttribute) NS_SWIFT_NAME(AnyAttribute.invalidate(self:));
 AG_EXTERN AGSubgraphRef AGSubgraphCreate2(AGGraphRef, AGAttribute) NS_SWIFT_NAME(AGGraphRef.createSubgraph2(self:_:));
+AG_EXTERN const AGAttribute AGGraphGetCurrentAttribute(void) NS_SWIFT_NAME(getter:Graph.currentAttribute());
 
 CF_IMPLICIT_BRIDGING_DISABLED
 
