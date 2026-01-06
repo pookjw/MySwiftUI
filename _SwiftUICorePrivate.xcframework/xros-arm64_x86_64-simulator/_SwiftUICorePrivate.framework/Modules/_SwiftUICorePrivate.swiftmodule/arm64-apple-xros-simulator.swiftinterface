@@ -1489,3 +1489,17 @@ extension SwiftUI.AlignmentKey {
 extension SwiftUI.AlignmentKey {
   public var fraction: CoreFoundation.CGFloat { get }
 }
+
+//@available(visionOS 26.0, *)
+//@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+//public struct ViewLayoutEngine<L: SwiftUI.Layout> {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct Cache3<Key: Swift.Equatable, Value> {
+  public init()
+  public mutating func get(_ key: Key, makeValue: () -> Value) -> Value
+  public func find(_ key: Key) -> Value?
+  public mutating func put(_ key: Key, value: Value)
+  public func map(_ transform: (_ incoming: (key: Key, value: Value)?) -> (key: Key, value: Value)?) -> Cache3<Key, Value>
+}

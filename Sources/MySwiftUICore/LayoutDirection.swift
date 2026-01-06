@@ -1,4 +1,3 @@
-
 public enum LayoutDirection: Hashable, CaseIterable, Sendable {
     case leftToRight
     case rightToLeft

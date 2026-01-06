@@ -1,5 +1,5 @@
 private import _SwiftUICorePrivate
-@testable @_private(sourceFile: "DynamicView.swift") private import MySwiftUICore
+@testable @_private(sourceFile: "DynamicContainer.swift") private import MySwiftUICore
 internal import Testing
 private import SwiftUI
 private import AttributeGraph
