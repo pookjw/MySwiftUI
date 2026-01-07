@@ -59,3 +59,67 @@ extension Edge {
 
 extension Edge.Set: Sendable {}
 extension Edge.Set: BitwiseCopyable {}
+
+enum AbsoluteEdge: Int8, Hashable, CaseIterable {
+    case top
+    case left
+    case bottom
+    case right
+    
+    struct Set: OptionSet {
+        static var top: AbsoluteEdge.Set {
+            return AbsoluteEdge.Set(rawValue: 1 << 0)
+        }
+        
+        static var left: AbsoluteEdge.Set {
+            return AbsoluteEdge.Set(rawValue: 1 << 1)
+        }
+        
+        static var bottom: AbsoluteEdge.Set {
+            return AbsoluteEdge.Set(rawValue: 1 << 2)
+        }
+        
+        static var right: AbsoluteEdge.Set {
+            return AbsoluteEdge.Set(rawValue: 1 << 3)
+        }
+        
+        static var all: AbsoluteEdge.Set {
+            return [.top, .left, .bottom, .right]
+        }
+        
+        static var horizontal: AbsoluteEdge.Set {
+            return [.left, .right]
+        }
+        
+        static var vertical: AbsoluteEdge.Set {
+            return [.top, .bottom]
+        }
+        
+        let rawValue: Int8
+        
+        init(rawValue: Int8) {
+            self.rawValue = rawValue
+        }
+        
+        init(_ edge: AbsoluteEdge) {
+            switch edge {
+            case .top:
+                self = .top
+            case .left:
+                self = .left
+            case .bottom:
+                self = .bottom
+            case .right:
+                self = .right
+            }
+        }
+        
+        init(_ set: Edge.Set, layoutDirection: LayoutDirection) {
+            fatalError("TODO")
+        }
+        
+        func contains(_ edge: AbsoluteEdge) -> Bool {
+            return contains(AbsoluteEdge.Set(edge))
+        }
+    }
+}
