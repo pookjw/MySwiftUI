@@ -1,4 +1,4 @@
-private import CoreGraphics
+internal import CoreGraphics
 
 struct ViewLayoutEngine<L: Layout>: LayoutEngine {
     private var layout: L
@@ -15,6 +15,11 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
     private var shouldUseCacheOfCache: Bool
     
     init(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
+        /*
+         layout -> sp
+         context -> x21
+         children -> x20
+         */
         fatalError("TODO")
     }
 }
@@ -24,9 +29,23 @@ extension ViewLayoutEngine {
         private var depthSize: Cache3<_ProposedSize3D, CGFloat>
         private var childDepthProposal: ViewSize3D
         private var childDepths: [ViewDepth]
+        
+        init() {
+            depthSize = Cache3()
+            childDepthProposal = .zero
+            childDepths = []
+        }
     }
 }
 
 struct ViewSizeCache {
     private var cache: Cache3<_ProposedSize3D, CGSize>
+    
+    init(cache: Cache3<_ProposedSize3D, CGSize> = Cache3()) {
+        self.cache = cache
+    }
+    
+    mutating func get(_ key: _ProposedSize, makeValue: () -> CGSize) -> CGSize {
+        fatalError("TODO")
+    }
 }
