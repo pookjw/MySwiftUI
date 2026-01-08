@@ -2,16 +2,16 @@ internal import CoreGraphics
 
 struct ViewLayoutEngine<L: Layout>: LayoutEngine {
     private var layout: L
-    private var proxies: LayoutProxyCollection
+    private var proxies: LayoutProxyCollection // 0x24
     private var layoutDirection: LayoutDirection
-    private var sizeCache: ViewSizeCache
-    private var cachedAlignmentSize: ViewSize
-    private var cachedAlignmentGeometry: [ViewGeometry]
-    private var cachedAlignment: Cache3<ObjectIdentifier, CGFloat?>
-    private var preferredSpacing: Spacing?
-    private var depthCache: ViewLayoutEngine<L>.DepthCache
-    private var cacheOfCaches: Cache3<CGFloat?, L.Cache>
-    private var _cache: L.Cache?
+    private var sizeCache = ViewSizeCache() // 0x2c
+    private var cachedAlignmentSize = ViewSize.zero // 0x30
+    private var cachedAlignmentGeometry: [ViewGeometry] = [] // 0x34
+    private var cachedAlignment = Cache3<ObjectIdentifier, CGFloat?>() // 0x38
+    private var preferredSpacing: Spacing? = nil // 0x3c
+    private var depthCache = ViewLayoutEngine<L>.DepthCache() // 0x40
+    private var cacheOfCaches = Cache3<CGFloat?, L.Cache>() // 0x44
+    private var _cache: L.Cache? = nil // 0x48
     private var shouldUseCacheOfCache: Bool
     
     init(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
@@ -19,7 +19,10 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
          layout -> sp
          context -> x21
          children -> x20
+         L -> x19
+         self -> x22
          */
+        self.proxies = children
         fatalError("TODO")
     }
 }
