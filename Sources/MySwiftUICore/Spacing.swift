@@ -1,7 +1,7 @@
 internal import CoreGraphics
 
 package struct Spacing {
-    private var minima: [Spacing.Key: Spacing.Value]
+//    private var minima: [Spacing.Key: Spacing.Value]
 }
 
 extension Spacing {

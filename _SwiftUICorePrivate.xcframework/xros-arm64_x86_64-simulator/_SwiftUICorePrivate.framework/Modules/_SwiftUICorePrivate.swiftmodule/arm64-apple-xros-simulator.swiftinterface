@@ -1503,3 +1503,32 @@ public struct Cache3<Key: Swift.Equatable, Value> {
   public mutating func put(_ key: Key, value: Value)
   public func map(_ transform: (_ incoming: (key: Key, value: Value)?) -> (key: Key, value: Value)?) -> Cache3<Key, Value>
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum AbsoluteEdge: Swift.Int8, Swift.Hashable, Swift.CaseIterable {
+  case top
+  case left
+  case bottom
+  case right
+
+  public static var allCases: [_SwiftUICorePrivate.AbsoluteEdge] { get }
+  public init(rawValue: Swift.Int8)
+  public var rawValue: Swift.Int8 { get }
+
+  public struct Set: Swift.OptionSet {
+    public static var top: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
+    public static var left: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
+    public static var bottom: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
+    public static var right: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
+    public static var all: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
+    public static var horizontal: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
+    public static var vertical: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
+
+    public let rawValue: Swift.Int8
+    public init(rawValue: Swift.Int8)
+    public init(_ edge: _SwiftUICorePrivate.AbsoluteEdge)
+    public init(_ set: SwiftUI.Edge.Set, layoutDirection: SwiftUI.LayoutDirection)
+    public func contains(_ edge: _SwiftUICorePrivate.AbsoluteEdge) -> Bool
+  }
+}
