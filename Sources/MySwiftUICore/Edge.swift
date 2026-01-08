@@ -115,7 +115,29 @@ enum AbsoluteEdge: Int8, Hashable, CaseIterable {
         }
         
         init(_ set: Edge.Set, layoutDirection: LayoutDirection) {
-            fatalError("TODO")
+            /*
+             set -> x19
+             layoutDirection -> w21
+             */
+            var results: AbsoluteEdge.Set = []
+            
+            if set.contains(.leading) {
+                results.formUnion(layoutDirection == .leftToRight ? .left : .right)
+            }
+            
+            if set.contains(.trailing) {
+                results.formUnion(layoutDirection == .leftToRight ? .right : .left)
+            }
+            
+            if set.contains(.top) {
+                results.formUnion(.top)
+            }
+            
+            if set.contains(.bottom) {
+                results.formUnion(.bottom)
+            }
+            
+            self = results
         }
         
         func contains(_ edge: AbsoluteEdge) -> Bool {

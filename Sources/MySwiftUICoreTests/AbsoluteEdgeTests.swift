@@ -104,4 +104,53 @@ fileprivate struct AbsoluteEdgeSetTests {
         #expect(_SwiftUICorePrivate.AbsoluteEdge.Set.horizontal.contains(.right) == true)
         #expect(_SwiftUICorePrivate.AbsoluteEdge.Set.vertical.contains(.right) == false)
     }
+    
+    @Test func test_init_set_layoutDirection() {
+        let directions: [MySwiftUICore.LayoutDirection] = [.leftToRight, .rightToLeft]
+        
+        let cases: [(MySwiftUICore.Edge.Set, MySwiftUICore.LayoutDirection, MySwiftUICore.AbsoluteEdge.Set)] = [
+            (.top, .leftToRight, .top),
+            (.top, .rightToLeft, .top),
+            
+            (.bottom, .leftToRight, .bottom),
+            (.bottom, .rightToLeft, .bottom),
+            
+            (.leading, .leftToRight, .left),
+            (.leading, .rightToLeft, .right),
+            
+            (.trailing, .leftToRight, .right),
+            (.trailing, .rightToLeft, .left),
+            
+            (.vertical, .leftToRight, [.top, .bottom]),
+            (.vertical, .rightToLeft, [.top, .bottom]),
+            
+            (.horizontal, .leftToRight, [.left, .right]),
+            (.horizontal, .rightToLeft, [.left, .right]),
+            
+            ([.top, .leading], .leftToRight, [.top, .left]),
+            ([.top, .leading], .rightToLeft, [.top, .right]),
+            
+            ([.top, .trailing], .leftToRight, [.top, .right]),
+            ([.top, .trailing], .rightToLeft, [.top, .left]),
+            
+            ([.bottom, .leading], .leftToRight, [.bottom, .left]),
+            ([.bottom, .leading], .rightToLeft, [.bottom, .right]),
+            
+            ([.bottom, .trailing], .leftToRight, [.bottom, .right]),
+            ([.bottom, .trailing], .rightToLeft, [.bottom, .left]),
+            
+            (.all, .leftToRight, [.top, .bottom, .left, .right]),
+            (.all, .rightToLeft, [.top, .bottom, .left, .right]),
+        ]
+        
+        for (edgeSet, direction, expected) in cases {
+            #expect(MySwiftUICore.AbsoluteEdge.Set(edgeSet, layoutDirection: direction) == expected)
+            
+            let original_edgeSet = SwiftUI.Edge.Set(rawValue: edgeSet.rawValue)
+            let original_direction: SwiftUI.LayoutDirection = direction == .leftToRight ? .leftToRight : .rightToLeft
+            let original_expected = _SwiftUICorePrivate.AbsoluteEdge.Set(rawValue: expected.rawValue)
+            
+            #expect(_SwiftUICorePrivate.AbsoluteEdge.Set(original_edgeSet, layoutDirection: original_direction) == original_expected)
+        }
+    }
 }
