@@ -1532,3 +1532,94 @@ public enum AbsoluteEdge: Swift.Int8, Swift.Hashable, Swift.CaseIterable {
     public func contains(_ edge: _SwiftUICorePrivate.AbsoluteEdge) -> Bool
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct Spacing {
+  public var description: Swift.String { get }
+
+  public init()
+
+  public init(minima: [_SwiftUICorePrivate.Spacing.Key : _SwiftUICorePrivate.Spacing.Value])
+
+  public func incorporate(
+    _ set: _SwiftUICorePrivate.AbsoluteEdge.Set,
+    of other: _SwiftUICorePrivate.Spacing
+  )
+
+  public func reset(
+    _ set: SwiftUI.Edge.Set,
+    layoutDirection: SwiftUI.LayoutDirection
+  )
+
+  public func clear(
+    _ set: SwiftUI.Edge.Set,
+    layoutDirection: SwiftUI.LayoutDirection
+  )
+
+  public var isLayoutDirectionSymmetric: Swift.Bool { get }
+
+  public func distanceToSuccessorView(
+    along axis: SwiftUI.Axis,
+    layoutDirection: SwiftUI.LayoutDirection,
+    preferring other: _SwiftUICorePrivate.Spacing
+  ) -> CoreFoundation.CGFloat?
+
+  public static var defaultMinimum: CoreFoundation.CGFloat { get }
+
+  public func clear(_ set: _SwiftUICorePrivate.AbsoluteEdge.Set)
+
+  public func reset(_ set: _SwiftUICorePrivate.AbsoluteEdge.Set)
+
+  public static var defaultValue: CoreGraphics.CGSize { get set }
+
+  public static var zero: _SwiftUICorePrivate.Spacing { get set }
+
+  public static func all(_ value: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.Spacing
+
+  public static func horizontal(_ value: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.Spacing
+
+  public static func vertical(_ value: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.Spacing
+
+  public struct Category: Swift.Hashable {
+    public static var `default`: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var textToText: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var edgeAboveText: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var edgeBelowText: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var textBaseLine: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var edgeLeftText: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var edgeRightText: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var leftTextBaseline: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var rightTextBaseline: _SwiftUICorePrivate.Spacing.Category { get }
+
+    public init()
+  }
+
+  public struct Key: Swift.Hashable {
+    public var category: _SwiftUICorePrivate.Spacing.Category { get set }
+    public var edge: _SwiftUICorePrivate.AbsoluteEdge { get set }
+    public init(category: _SwiftUICorePrivate.Spacing.Category, edge: _SwiftUICorePrivate.AbsoluteEdge)
+  }
+
+  public struct TextMetrics: Swift.Comparable {
+    public var ascend: CoreFoundation.CGFloat
+    public var descend: CoreFoundation.CGFloat
+    public var leading: CoreFoundation.CGFloat
+    public var pixelLength: CoreFoundation.CGFloat
+        
+    public init(ascend: CoreFoundation.CGFloat, descend: CoreFoundation.CGFloat, leading: CoreFoundation.CGFloat, pixelLength: CoreFoundation.CGFloat)
+    public var lineSpacing: CoreFoundation.CGFloat { get }
+    public static func < (lhs: _SwiftUICorePrivate.Spacing.TextMetrics, rhs: _SwiftUICorePrivate.Spacing.TextMetrics) -> Swift.Bool
+    public static func spacing(top: _SwiftUICorePrivate.Spacing.TextMetrics, bottom: _SwiftUICorePrivate.Spacing.TextMetrics) -> CoreFoundation.CGFloat
+  }
+
+  public enum Value: Swift.Comparable {
+    case distance(CoreFoundation.CGFloat)
+    case topTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics)
+    case bottomTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics)
+
+    public init(_: CoreFoundation.CGFloat)
+    public var value: CoreFoundation.CGFloat? { get }
+    public func distance(to other: _SwiftUICorePrivate.Spacing.Value) -> _SwiftUICorePrivate.Spacing.Value
+  }
+}
