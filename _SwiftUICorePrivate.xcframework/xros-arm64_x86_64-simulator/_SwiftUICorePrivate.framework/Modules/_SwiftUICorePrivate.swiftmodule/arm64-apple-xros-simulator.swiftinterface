@@ -1537,10 +1537,11 @@ public enum AbsoluteEdge: Swift.Int8, Swift.Hashable, Swift.CaseIterable {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct Spacing {
   public var description: Swift.String { get }
+  public var minima: [_SwiftUICorePrivate.Spacing.Key: _SwiftUICorePrivate.Spacing.Value] { get }
 
   public init()
 
-  public init(minima: [_SwiftUICorePrivate.Spacing.Key : _SwiftUICorePrivate.Spacing.Value])
+  public init(minima: [_SwiftUICorePrivate.Spacing.Key: _SwiftUICorePrivate.Spacing.Value])
 
   public func incorporate(
     _ set: _SwiftUICorePrivate.AbsoluteEdge.Set,
@@ -1571,9 +1572,9 @@ public struct Spacing {
 
   public func reset(_ set: _SwiftUICorePrivate.AbsoluteEdge.Set)
 
-  public static var defaultValue: CoreGraphics.CGSize { get set }
+  public static var defaultValue: CoreGraphics.CGSize { get set _modify }
 
-  public static var zero: _SwiftUICorePrivate.Spacing { get set }
+  public static var zero: _SwiftUICorePrivate.Spacing { get }
 
   public static func all(_ value: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.Spacing
 
@@ -1586,7 +1587,7 @@ public struct Spacing {
     public static var textToText: _SwiftUICorePrivate.Spacing.Category { get }
     public static var edgeAboveText: _SwiftUICorePrivate.Spacing.Category { get }
     public static var edgeBelowText: _SwiftUICorePrivate.Spacing.Category { get }
-    public static var textBaseLine: _SwiftUICorePrivate.Spacing.Category { get }
+    public static var textBaseline: _SwiftUICorePrivate.Spacing.Category { get }
     public static var edgeLeftText: _SwiftUICorePrivate.Spacing.Category { get }
     public static var edgeRightText: _SwiftUICorePrivate.Spacing.Category { get }
     public static var leftTextBaseline: _SwiftUICorePrivate.Spacing.Category { get }
@@ -1620,6 +1621,6 @@ public struct Spacing {
 
     public init(_: CoreFoundation.CGFloat)
     public var value: CoreFoundation.CGFloat? { get }
-    public func distance(to other: _SwiftUICorePrivate.Spacing.Value) -> _SwiftUICorePrivate.Spacing.Value
+    public func distance(to other: _SwiftUICorePrivate.Spacing.Value) -> CoreFoundation.CGFloat?
   }
 }

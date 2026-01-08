@@ -13,7 +13,12 @@ package struct Spacing: Equatable, CustomStringConvertible {
     }
     
     init() {
-        fatalError("TODO")
+        minima = [
+            Spacing.Key(category: .edgeBelowText, edge: .top): Spacing.Value(0),
+            Spacing.Key(category: .edgeAboveText, edge: .bottom): Spacing.Value(0),
+            Spacing.Key(category: .edgeRightText, edge: .left): Spacing.Value(0),
+            Spacing.Key(category: .edgeLeftText, edge: .right): Spacing.Value(0),
+        ]
     }
     
     func incorporate(_: AbsoluteEdge.Set, of: Spacing) {
@@ -37,7 +42,8 @@ package struct Spacing: Equatable, CustomStringConvertible {
     }
     
     static var defaultMinimum: CGFloat {
-        fatalError("TODO")
+        let defaultValue = unsafe defaultValue
+        return min(defaultValue.width, defaultValue.height)
     }
     
     func clear(_ set: AbsoluteEdge.Set) {
@@ -48,38 +54,41 @@ package struct Spacing: Equatable, CustomStringConvertible {
         fatalError("TODO")
     }
     
-    func _distance(from: AbsoluteEdge, to: AbsoluteEdge, ofViewPreferring: Spacing) -> CGFloat? {
+    fileprivate func _distance(from: AbsoluteEdge, to: AbsoluteEdge, ofViewPreferring: Spacing) -> CGFloat? {
         fatalError("TODO")
     }
     
-    static var defaultValue: CGSize {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
+    static nonisolated(unsafe) var defaultValue = CGSize(width: 8, height: 8)
+    
+    static let zero = Spacing.all(0)
+    
+    static func all(_ value: CGFloat) -> Spacing {
+        return Spacing(
+            minima: [
+                Spacing.Key(category: .default, edge: .left): Spacing.Value(value),
+                Spacing.Key(category: .default, edge: .bottom): Spacing.Value(value),
+                Spacing.Key(category: .default, edge: .right): Spacing.Value(value),
+                Spacing.Key(category: .default, edge: .top): Spacing.Value(value)
+            ]
+        )
     }
     
-    static var zero: Spacing {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
+    static func horizontal(_ value: CGFloat) -> Spacing {
+        return Spacing(
+            minima: [
+                Spacing.Key(category: .default, edge: .left): Spacing.Value(value),
+                Spacing.Key(category: .default, edge: .right): Spacing.Value(value)
+            ]
+        )
     }
     
-    static func all(_: CGFloat) -> Spacing {
-        fatalError("TODO")
-    }
-    
-    static func horizontal(_: CGFloat) -> Spacing {
-        fatalError("TODO")
-    }
-    
-    static func vertical(_: CGFloat) -> Spacing {
-        fatalError("TODO")
+    static func vertical(_ value: CGFloat) -> Spacing {
+        return Spacing(
+            minima: [
+                Spacing.Key(category: .default, edge: .top): Spacing.Value(value),
+                Spacing.Key(category: .default, edge: .bottom): Spacing.Value(value)
+            ]
+        )
     }
 }
 
@@ -89,7 +98,7 @@ extension Spacing {
         static let textToText = Spacing.Category()
         static let edgeAboveText = Spacing.Category()
         static let edgeBelowText = Spacing.Category()
-        static let textBaseLine = Spacing.Category()
+        static let textBaseline = Spacing.Category()
         static let edgeLeftText = Spacing.Category()
         static let edgeRightText = Spacing.Category()
         static let leftTextBaseline = Spacing.Category()
@@ -168,25 +177,25 @@ extension Spacing {
             return value
         }
         
-        func distance(to other: Spacing.Value) -> Spacing.Value {
+        func distance(to other: Spacing.Value) -> CGFloat? {
             switch self {
             case .distance(let value):
                 if case .distance(let other) = other {
-                    return .distance(value + other)
+                    return value + other
                 } else {
-                    return .distance(value)
+                    return value
                 }
             case .topTextMetrics(let top):
                 if case .bottomTextMetrics(let bottom) = other {
-                    return .distance(Spacing.TextMetrics.spacing(top: top, bottom: bottom))
+                    return Spacing.TextMetrics.spacing(top: top, bottom: bottom)
                 } else {
-                    return .distance(0)
+                    return nil
                 }
             case .bottomTextMetrics(let bottom):
                 if case .topTextMetrics(let top) = other {
-                    return .distance(Spacing.TextMetrics.spacing(top: top, bottom: bottom))
+                    return Spacing.TextMetrics.spacing(top: top, bottom: bottom)
                 } else {
-                    return .distance(0)
+                    return nil
                 }
             }
         }
