@@ -142,7 +142,7 @@ struct StackLayout {
 //            children.append(child)
 //        }
         
-        return children
+        self.children = children
     }
 }
 
