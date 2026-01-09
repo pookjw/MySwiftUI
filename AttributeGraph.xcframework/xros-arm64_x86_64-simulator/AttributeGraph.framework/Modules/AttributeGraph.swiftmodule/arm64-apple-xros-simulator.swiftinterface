@@ -306,9 +306,9 @@ extension AttributeGraph.Rule {
 }
 
 extension AttributeGraph.Rule where Value : Swift.Hashable {
-    public func cachedValue(options: AttributeGraph.AGCachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value
-    public static func _cachedValue(options: AttributeGraph.AGCachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeMutableRawPointer, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ()) -> Swift.UnsafePointer<Self.Value>
-    public func cachedValueIfExists(options: AttributeGraph.AGCachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value?
+    public func cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value
+    public static func _cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeMutableRawPointer, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ()) -> Swift.UnsafePointer<Self.Value>
+    public func cachedValueIfExists(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value?
 }
 
 extension AttributeGraph.Rule {
@@ -516,4 +516,8 @@ public struct PointerOffset<A, B> {
     public static func offset(_: (inout A) -> AttributeGraph.PointerOffset<A, B>) -> AttributeGraph.PointerOffset<A, B>
     public static func invalidScenePointer() -> Swift.UnsafeMutablePointer<A>
     public static func of(_: inout B) -> AttributeGraph.PointerOffset<A, B>
+}
+
+extension AttributeGraph.Rule where Self: Swift.Hashable {
+    public static func _cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeRawPointer, update: () -> ((Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())) -> Swift.UnsafePointer<Value>
 }

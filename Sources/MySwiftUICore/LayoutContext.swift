@@ -9,7 +9,7 @@ struct SizeAndSpacingContext {
     @Attribute private var environment: EnvironmentValues
     
     init(_ context: PlacementContext3D) {
-        fatalError("TODO")
+        self.init(context.base)
     }
     
     init(context: AnyRuleContext, owner: AnyAttribute?, environment: Attribute<EnvironmentValues>) {
@@ -19,12 +19,22 @@ struct SizeAndSpacingContext {
     }
     
     init(_ context: PlacementContext) {
-        fatalError("TODO")
+        self.context = context.context
+        self.owner = context.owner
+        self._environment = context.$environment
     }
     
     subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
-        get {
-            fatalError("TODO")
+        return withUnsafePointer(to: environment) { pointer in
+            return EnvironmentFetch<Value>._cachedValue(
+                options: .unknown0,
+                owner: owner,
+                hashValue: $environment.identifier.hashValue,
+                bodyPtr: UnsafeRawPointer(pointer),
+                update: {
+                    fatalError("TODO")
+                }
+            ).pointee
         }
     }
     
@@ -35,9 +45,9 @@ struct SizeAndSpacingContext {
 
 @dynamicMemberLookup
 struct PlacementContext {
-    private var context: AnyRuleContext
-    private var owner: AnyAttribute
-    @Attribute private var environment: EnvironmentValues
+    fileprivate private(set) var context: AnyRuleContext
+    fileprivate private(set) var owner: AnyAttribute
+    @Attribute fileprivate private(set) var environment: EnvironmentValues
     private let parentSize: PlacementContext.ParentSize
     
     var proposedSize: _ProposedSize {
@@ -91,7 +101,7 @@ extension PlacementContext {
 
 @dynamicMemberLookup
 struct PlacementContext3D {
-    private var base: PlacementContext
+    var base: PlacementContext
     private var _depth: ViewDepth
     
     // init은 존재하지 않는데 만든다면 fileprivate일듯
@@ -116,5 +126,14 @@ struct PlacementContext3D {
         get {
             fatalError("TODO")
         }
+    }
+}
+
+fileprivate struct EnvironmentFetch<T>: Rule, Hashable {
+    @Attribute var environment: EnvironmentValues
+    var keyPath: KeyPath<EnvironmentValues, T>
+    
+    var value: T {
+        fatalError("TODO")
     }
 }

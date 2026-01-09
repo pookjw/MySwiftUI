@@ -7,7 +7,7 @@
 AG_EXTERN NSInteger AGMakeUniqueID(void);
 
 typedef NS_OPTIONS(uint32_t, AGCachedValueOptions) {
-    AGCachedValueOptionsUnknown = 300 // 아무 값임
-};
+    AGCachedValueOptionsUnknown0 = 1 << 0
+} NS_SWIFT_NAME(CachedValueOptions);
 
 #endif
