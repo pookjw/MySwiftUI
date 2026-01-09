@@ -124,8 +124,25 @@ struct StackLayout {
     
     fileprivate mutating func makeChildren() {
         // self = x19
+        var children: [StackLayout.Child] = []
+        children.reserveCapacity(header.proxies.count)
         
         fatalError("TODO")
+//        for index in header.proxies.indices {
+//            let child = header.proxies[index]
+//            
+//            let child = StackLayout.Child(
+//                layoutPriority: <#T##Double#>,
+//                majorAxisRangeCache: <#T##MajorAxisRangeCache#>,
+//                distanceToPrevious: <#T##CGFloat#>,
+//                fittingOrder: <#T##Int#>,
+//                geometry: <#T##ViewGeometry#>
+//            )
+//            
+//            children.append(child)
+//        }
+        
+        return children
     }
 }
 
@@ -142,11 +159,11 @@ extension StackLayout {
     }
     
     fileprivate struct Child {
-        private var layoutPriority: Double
-        private var majorAxisRangeCache: StackLayout.MajorAxisRangeCache
-        private let distanceToPrevious: CGFloat
-        private var fittingOrder: Int
-        private var geometry: ViewGeometry
+        fileprivate private(set) var layoutPriority: Double
+        fileprivate private(set) var majorAxisRangeCache: StackLayout.MajorAxisRangeCache
+        fileprivate let distanceToPrevious: CGFloat
+        fileprivate private(set) var fittingOrder: Int
+        fileprivate private(set) var geometry: ViewGeometry
     }
     
     fileprivate struct MajorAxisRangeCache {

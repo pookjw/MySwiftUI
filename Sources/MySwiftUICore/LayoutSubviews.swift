@@ -1,6 +1,7 @@
 // 57DDCF0A00C1B77B475771403C904EF9
 public import CoreGraphics
 internal import AttributeGraph
+internal import Spatial
 
 public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
     public typealias SubSequence = LayoutSubviews
@@ -24,9 +25,28 @@ public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
         }
     }
     
-    public subscript(index: Int) -> LayoutSubviews.Element {
-        get {
-            fatalError("TODO")
+    public subscript(index: Int) -> LayoutSubview {
+        switch storage {
+        case .direct(let attributes):
+            let attribute = attributes[index]
+            return LayoutSubview(
+                proxy: LayoutProxy(
+                    context: context,
+                    attributes: attribute
+                ),
+                index: Int32(index),
+                containerLayoutDirection: layoutDirection
+            )
+        case .indirect(let attributes):
+            let attribute = attributes[index]
+            return LayoutSubview(
+                proxy: LayoutProxy(
+                    context: context,
+                    attributes: attribute.attributes
+                ),
+                index: attribute.index,
+                containerLayoutDirection: layoutDirection
+            )
         }
     }
     
@@ -55,6 +75,10 @@ public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
 }
 
 public struct LayoutSubview : Equatable {
+    let proxy: LayoutProxy
+    fileprivate let index: Int32
+    fileprivate let containerLayoutDirection: LayoutDirection
+    
     public func _trait<K>(key: K.Type) -> K.Value where K : _ViewTraitKey {
         fatalError("TODO")
     }
@@ -89,7 +113,15 @@ public struct LayoutSubview : Equatable {
         fatalError("TODO")
     }
     
-    public static func == (a: LayoutSubview, b: LayoutSubview) -> Bool {
+    func place(in: ViewGeometry, layoutDirection: LayoutDirection) {
+        fatalError("TODO")
+    }
+    
+    func lengthThatFits(_: ProposedViewSize, in: Axis) -> CGFloat {
+        fatalError("TODO")
+    }
+    
+    func place(at: CGPoint, anchor: UnitPoint, dimensions: ViewDimensions) {
         fatalError("TODO")
     }
 }
@@ -242,10 +274,102 @@ struct ViewSizeCache {
     }
 }
 
-struct LayoutProxy {
+struct LayoutProxy: Equatable {
     private var context: AnyRuleContext
     private var attributes: LayoutProxyAttributes
-    // TODO
+    
+    func requiresTrueDepthLayout() -> Bool {
+        fatalError("TODO")
+    }
+    
+    func dimensions3D(in proposedSize: _ProposedSize3D) -> ViewDimensions3D {
+        fatalError("TODO")
+    }
+    
+    func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
+    func depth(in proposedSize: _ProposedSize3D) -> CGFloat {
+        fatalError("TODO")
+    }
+    
+    func idealDepth() -> CGFloat {
+        fatalError("TODO")
+    }
+    
+    func finallyPlaced3D(at placement: Placement3D, in size: Size3D, layoutDirection: LayoutDirection) -> ViewGeometry3D {
+        fatalError("TODO")
+    }
+    
+    func volume(in proposedSize: _ProposedSize3D) -> Size3D {
+        fatalError("TODO")
+    }
+    
+    func size(in proposedSize: _ProposedSize) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    var layoutPriority: Double {
+        fatalError("TODO")
+    }
+    
+    init(context: AnyRuleContext, layoutComputer: Attribute<LayoutComputer>?) {
+        self.context = context
+        self.attributes = LayoutProxyAttributes(
+            layoutComputer: OptionalAttribute(layoutComputer),
+            traitsList: OptionalAttribute()
+        )
+    }
+    
+    var ignoresAutomaticPadding: Bool {
+        fatalError("TODO")
+    }
+    
+    var requiresSpacingProjection: Bool {
+        fatalError("TODO")
+    }
+    
+    func spacing() -> Spacing {
+        fatalError("TODO")
+    }
+    
+    func explicitAlignment(_ key: AlignmentKey, at size: ViewSize) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
+    func finallyPlaced(at placement: _Placement, in size: CGSize, layoutDirection: LayoutDirection) -> ViewGeometry {
+        fatalError("TODO")
+    }
+    
+    func dimensions(in proposedSize: _ProposedSize) -> ViewDimensions {
+        fatalError("TODO")
+    }
+    
+    var layoutComputer: LayoutComputer {
+        fatalError("TODO")
+    }
+    
+    init(context: AnyRuleContext, attributes: LayoutProxyAttributes) {
+        self.context = context
+        self.attributes = attributes
+    }
+    
+    var traits: ViewTraitCollection? {
+        fatalError("TODO")
+    }
+    
+    subscript<A: _ViewTraitKey>(_: A.Type) -> A.Value {
+        fatalError("TODO")
+    }
+    
+    func idealSize() -> CGSize {
+        fatalError("TODO")
+    }
+    
+    func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
+        fatalError("TODO")
+    }
 }
 
 struct LayoutProxyCollection {

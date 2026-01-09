@@ -268,7 +268,9 @@ exports:
     _$s14AttributeGraph08OptionalA0V2eeoiySbACyxG_AEtFZ,
     _$s14AttributeGraph08OptionalA0VyxGSQAAMc,
     _AGSubgraphSetIndex,
-    _AGSubgraphGetIndex ]
+    _AGSubgraphGetIndex,
+    _$s14AttributeGraph14AnyRuleContextVN,
+    _$s14AttributeGraph14AnyRuleContextVSQAAMc ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
