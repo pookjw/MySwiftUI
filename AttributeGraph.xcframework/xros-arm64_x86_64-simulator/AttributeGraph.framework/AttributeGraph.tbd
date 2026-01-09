@@ -270,7 +270,10 @@ exports:
     _AGSubgraphSetIndex,
     _AGSubgraphGetIndex,
     _$s14AttributeGraph14AnyRuleContextVN,
-    _$s14AttributeGraph14AnyRuleContextVSQAAMc ]
+    _$s14AttributeGraph14AnyRuleContextVSQAAMc,
+    _$s14AttributeGraph14AnyRuleContextV10unsafeCast2toAA0dE0VyxGxm_tlF,
+    _$s14AttributeGraph14AnyRuleContextVyxAA0A0VyxGcluig,
+    _$s14AttributeGraph11RuleContextVyqd__AA0A0Vyqd__Gcluig ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

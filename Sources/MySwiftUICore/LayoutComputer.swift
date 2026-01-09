@@ -67,6 +67,11 @@ struct LayoutComputer: @unchecked Sendable {
     func requiresTrueDepthLayout() -> Bool {
         return box.requiresTrueDepthLayout()
     }
+    
+    var layoutPriority: Double {
+        Update.assertIsLocked()
+        return box.layoutPriority()
+    }
 }
 
 extension LayoutComputer: Equatable {
@@ -104,7 +109,7 @@ protocol LayoutEngine {
 
 extension LayoutEngine {
     func layoutPriority() -> Double {
-        fatalError("TODO")
+        return 0
     }
     
     func ignoresAutomaticPadding() -> Bool {
@@ -269,6 +274,10 @@ fileprivate class AnyLayoutEngineBox {
     func requiresTrueDepthLayout() -> Bool {
         fatalError() // abstract
     }
+    
+    func layoutPriority() -> Double {
+        fatalError() // abstract
+    }
 }
 
 fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
@@ -304,6 +313,10 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
     
     override func requiresTrueDepthLayout() -> Bool {
         return engine.requiresTrueDepthLayout()
+    }
+    
+    override func layoutPriority() -> Double {
+        return engine.layoutPriority()
     }
 }
 

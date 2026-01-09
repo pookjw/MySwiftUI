@@ -24,7 +24,7 @@ struct ViewDepthGeometry: Equatable, Animatable {
         fatalError("TODO")
     }
     
-    var animatableData: .AnimatablePair<CGFloat, CGFloat> {
+    var animatableData: AnimatablePair<CGFloat, CGFloat> {
         get {
             fatalError("TODO")
         }
@@ -45,6 +45,34 @@ struct ViewDepthGeometry: Equatable, Animatable {
     }
 }
 
-struct ViewDepthOrigin {
-    private var value: CGFloat
+struct ViewDepthOrigin: Equatable, Animatable {
+    var value: CGFloat
+    
+    init(_ value: CGFloat) {
+        self.value = value
+    }
+    
+    static var invalidValue: ViewDepthOrigin {
+        return ViewDepthOrigin(.nan)
+    }
+    
+    static var zero: ViewDepthOrigin {
+        return ViewDepthOrigin(0)
+    }
+    
+    var isInvalid: Bool {
+        return !value.isFinite
+    }
+    
+    var animatableData: CGFloat {
+        get {
+            return value
+        }
+        set {
+            value = newValue
+        }
+        _modify {
+            yield &value
+        }
+    }
 }

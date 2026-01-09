@@ -79,9 +79,7 @@ extension ViewDimensions {
         }
     }
     
-    static var invalidValue: ViewDimensions {
-        fatalError("TODO")
-    }
+    static nonisolated(unsafe) let invalidValue = ViewDimensions(guideComputer: .defaultValue, size: .invalidValue)
     
     static var zero: ViewDimensions {
         fatalError("TODO")

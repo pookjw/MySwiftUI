@@ -60,14 +60,14 @@ extension HVStack {
         let resizeChildrenWithTrailingOverflow = Self.resizeChildrenWithTrailingOverflow
         
         let header = StackLayout.Header(
-            minorAxisAlignment: alignmentKey, // x29 - 0xe0
-            uniformSpacing: spacing, // x29 - 0xd8
-            majorAxis: majorAxis, // x29 - 0xd0
-            internalSpacing: 0, // x29 - 0xc8
-            lastProposedSize: ProposedViewSize(width: -.infinity, height: -.infinity), // x29 - 0xc0
-            stackSize: .zero, // x29 - 0xa0
-            proxies: subviews, // x29 - 0x90
-            resizeChildrenWithTrailingOverflow: resizeChildrenWithTrailingOverflow // x29 - 0x7e
+            minorAxisAlignment: alignmentKey,
+            uniformSpacing: spacing,
+            majorAxis: majorAxis,
+            internalSpacing: 0,
+            lastProposedSize: ProposedViewSize(width: -.infinity, height: -.infinity),
+            stackSize: .zero,
+            proxies: subviews,
+            resizeChildrenWithTrailingOverflow: resizeChildrenWithTrailingOverflow
         )
         
         var stack = StackLayout(
@@ -124,25 +124,38 @@ struct StackLayout {
     
     fileprivate mutating func makeChildren() {
         // self = x19
-        var children: [StackLayout.Child] = []
-        children.reserveCapacity(header.proxies.count)
+        children.reserveCapacity(max(header.proxies.count, children.count))
+        header.internalSpacing = 0
         
-        fatalError("TODO")
-//        for index in header.proxies.indices {
-//            let child = header.proxies[index]
-//            
-//            let child = StackLayout.Child(
-//                layoutPriority: <#T##Double#>,
-//                majorAxisRangeCache: <#T##MajorAxisRangeCache#>,
-//                distanceToPrevious: <#T##CGFloat#>,
-//                fittingOrder: <#T##Int#>,
-//                geometry: <#T##ViewGeometry#>
-//            )
-//            
-//            children.append(child)
-//        }
-        
-        self.children = children
+        // AGAttributeNil -> sp + 0x3c
+        var d9: CGFloat = 0
+        for index in header.proxies.indices {
+            let d10: CGFloat
+            if index == 0 {
+                d10 = 0
+            } else {
+                if let uniformSpacing = header.uniformSpacing {
+                    d10 = uniformSpacing
+                } else {
+                    let prevSpacing = header.proxies[index &- 1].spacing
+                    let currentSpacing = header.proxies[index].spacing
+                    d10 = prevSpacing.distance(to: currentSpacing, along: header.majorAxis)
+                }
+                
+                d9 += d10
+                header.internalSpacing = d9
+            }
+            
+            let child = StackLayout.Child(
+                layoutPriority: header.proxies[index].priority,
+                majorAxisRangeCache: MajorAxisRangeCache(min: nil, max: nil),
+                distanceToPrevious: d10,
+                fittingOrder: index,
+                geometry: .invalidValue
+            )
+            
+            children.append(child)
+        }
     }
 }
 
@@ -150,8 +163,8 @@ extension StackLayout {
     fileprivate struct Header {
         fileprivate let minorAxisAlignment: AlignmentKey // 0x0
         fileprivate let uniformSpacing: CGFloat? // 0x8
-        fileprivate let majorAxis: Axis // 0x10
-        fileprivate private(set) var internalSpacing: CGFloat // 0x18
+        fileprivate let majorAxis: Axis // 0x11
+        fileprivate var internalSpacing: CGFloat // 0x18
         fileprivate private(set) var lastProposedSize: ProposedViewSize // 0x20
         fileprivate private(set) var stackSize: CGSize // 0x40
         fileprivate let proxies: LayoutSubviews // 0x50
@@ -167,7 +180,7 @@ extension StackLayout {
     }
     
     fileprivate struct MajorAxisRangeCache {
-        private var min: CGFloat?
-        private var max: CGFloat?
+        var min: CGFloat?
+        var max: CGFloat?
     }
 }

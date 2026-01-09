@@ -1,9 +1,10 @@
 internal import CoreGraphics
 
 struct ViewGeometry: Equatable, Animatable {
-    static nonisolated(unsafe) let invalidValue: ViewGeometry = {
-        fatalError("TODO")
-    }()
+    static nonisolated(unsafe) let invalidValue = ViewGeometry(
+        origin: CGPoint(x: CGFloat.nan, y: CGFloat.nan),
+        dimensions: .invalidValue
+    )
     
     static nonisolated(unsafe) let zero: ViewGeometry = {
         fatalError("TODO")

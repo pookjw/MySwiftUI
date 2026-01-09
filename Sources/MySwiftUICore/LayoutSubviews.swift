@@ -90,9 +90,7 @@ public struct LayoutSubview : Equatable {
     }
     
     public var priority: Double {
-        get {
-            fatalError("TODO")
-        }
+        return proxy.layoutPriority
     }
     
     public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
@@ -226,9 +224,6 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         set {
             fatalError("TODO")
         }
-        _modify {
-            fatalError("TODO")
-        }
     }
     
     func depthThatFits(_: _ProposedSize3D) -> CGFloat {
@@ -311,7 +306,7 @@ struct LayoutProxy: Equatable {
     }
     
     var layoutPriority: Double {
-        fatalError("TODO")
+        return layoutComputer.layoutPriority
     }
     
     init(context: AnyRuleContext, layoutComputer: Attribute<LayoutComputer>?) {
@@ -347,7 +342,12 @@ struct LayoutProxy: Equatable {
     }
     
     var layoutComputer: LayoutComputer {
-        fatalError("TODO")
+        if let layoutComputer = attributes.$layoutComputer {
+            let rule = context.unsafeCast(to: LayoutComputer.self)
+            return rule[layoutComputer]
+        } else {
+            return .defaultValue
+        }
     }
     
     init(context: AnyRuleContext, attributes: LayoutProxyAttributes) {
@@ -412,7 +412,7 @@ struct LayoutProxyCollection {
             let layoutComputer: LayoutComputer
             if let _layoutComputer = attribute.$layoutComputer {
                 // <+168>
-                layoutComputer = context.changedValue(of: _layoutComputer, options: []).value
+                layoutComputer = context[_layoutComputer]
             } else {
                 layoutComputer = .defaultValue
             }
