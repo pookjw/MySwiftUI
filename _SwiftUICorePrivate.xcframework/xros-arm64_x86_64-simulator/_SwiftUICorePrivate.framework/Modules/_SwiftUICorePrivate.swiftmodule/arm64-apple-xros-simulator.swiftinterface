@@ -13,6 +13,7 @@ import SwiftUI
 @_exported import Spatial
 import AttributeGraph
 @_spi(SwiftUI) import _ObservationPrivate
+@_exported import _Concurrency
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -1623,4 +1624,26 @@ public struct Spacing {
     public var value: CoreFoundation.CGFloat? { get }
     public func distance(to other: _SwiftUICorePrivate.Spacing.Value) -> CoreFoundation.CGFloat?
   }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+@_Concurrency.MainActor public protocol AlignmentGuide {
+    var key: SwiftUI.AlignmentKey { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol HVStack: SwiftUI.Layout {
+  associatedtype MinorAxisAlignment: AlignmentGuide
+    
+  var spacing: CoreFoundation.CGFloat? { get }
+  var alignment: Self.MinorAxisAlignment { get }
+  static var majorAxis: SwiftUI.Axis { get }
+  static var resizeChildrenWithTrailingOverflow: Swift.Bool { get }
+}
+
+extension _SwiftUICorePrivate.HVStack {
+  @_silgen_name("$s7SwiftUI7HVStackPAAE9makeCache8subviewsAA012_StackLayoutE0VAA0H8SubviewsV_tF")
+  public nonisolated func makeCache(subviews: SwiftUI.LayoutSubviews) -> SwiftUI._StackLayoutCache
 }

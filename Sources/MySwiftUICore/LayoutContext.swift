@@ -34,13 +34,14 @@ struct SizeAndSpacingContext {
                 hashValue: $environment.identifier.hashValue,
                 bodyPtr: UnsafeRawPointer(pointer),
                 update: {
-                    return { result, attribute in
-                        let environment = result
+                    return { body, attribute in
+                        let environment = body
                             .assumingMemoryBound(to: Attribute<EnvironmentValues>.self)
                             .pointee
                             .value
                         
-                        fatalError("TODO")
+                        var result = environment[keyPath: dynamicMember]
+                        Graph.setOutputValue(&result)
                     }
                 }
             ).pointee
@@ -143,6 +144,6 @@ fileprivate struct EnvironmentFetch<T>: Rule, Hashable {
     var keyPath: KeyPath<EnvironmentValues, T>
     
     var value: T {
-        fatalError("TODO")
+        return environment[keyPath: keyPath]
     }
 }

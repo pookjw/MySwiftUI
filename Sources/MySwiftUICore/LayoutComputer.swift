@@ -63,6 +63,10 @@ struct LayoutComputer: @unchecked Sendable {
         Update.assertIsLocked()
         return box.mutateEngine(as: type, do: block)
     }
+    
+    func requiresTrueDepthLayout() -> Bool {
+        return box.requiresTrueDepthLayout()
+    }
 }
 
 extension LayoutComputer: Equatable {
@@ -149,6 +153,7 @@ extension LayoutEngine {
     
     func requiresTrueDepthLayout() -> Bool {
         fatalError("TODO")
+        return false
     }
     
     var debugContentDescription: String? {
@@ -223,6 +228,10 @@ extension LayoutComputer {
         func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
             fatalError("TODO")
         }
+        
+        func requiresTrueDepthLayout() -> Bool {
+            return false
+        }
     }
     
     struct DefaultEngine3D: LayoutEngine {
@@ -256,6 +265,10 @@ fileprivate class AnyLayoutEngineBox {
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
         fatalError() // abstract
     }
+    
+    func requiresTrueDepthLayout() -> Bool {
+        fatalError() // abstract
+    }
 }
 
 fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
@@ -287,6 +300,10 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
     
     override func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
         fatalError("TODO")
+    }
+    
+    override func requiresTrueDepthLayout() -> Bool {
+        return engine.requiresTrueDepthLayout()
     }
 }
 

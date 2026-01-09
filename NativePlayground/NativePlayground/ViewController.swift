@@ -1174,6 +1174,7 @@ class ViewController: UIViewController {
 //                Text("")
             }
         }
+        
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
@@ -1340,13 +1341,37 @@ fileprivate struct MyObsView: View {
     }
 }
 
-fileprivate struct MyLayout: Layout {
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+fileprivate struct MyAlignmentGuide: AlignmentGuide, Sendable {
+    var key: AlignmentKey {
+        return AlignmentKey(id: MyAlignmentID.self, axis: .horizontal)
+    }
+    
+    nonisolated init() {}
+}
+
+fileprivate struct MyLayout: HVStack, Sendable {
+    var spacing: CGFloat? {
+        return 3
+    }
+    
+    var alignment: MyAlignmentGuide {
+        return MyAlignmentGuide()
+    }
+    
+    static var majorAxis: Axis {
+        return .horizontal
+    }
+    
+    static var resizeChildrenWithTrailingOverflow: Bool {
+        return false
+    }
+    
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout _StackLayoutCache) -> CGSize {
 //        fatalError("TODO")
         return .zero
     }
     
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout _StackLayoutCache) {
 //        fatalError("TODO")
     }
 }
