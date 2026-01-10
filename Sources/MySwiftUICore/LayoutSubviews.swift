@@ -239,6 +239,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
              count -> x6 -> x22
              type descriptor -> x7 -> x27
              self -> x1 -> x26
+             pointer -> x0 -> x24
              */
             // type metadata accessor for SwiftUI.ViewLayoutEngine -> x25
             let old = _threadLayoutData()
@@ -253,10 +254,26 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
             }
             
             // <+616>
+            // sp + 0x4a8
+            let proposedSize = size.proposal
+            
             // x26
             for index in 0..<count {
-                // guard - continue 있음
-//                let dimensions = pro
+                guard pointer.pointee.geometry[index].isInvalid else {
+                    continue
+                }
+                
+                // sp + 0x550
+                let dimensions = proxies[index].dimensions(in: proposedSize)
+                // dimensions.layoutComputer -> x20/x28
+                
+                // d8, d9, d10, d11
+                let bounds = pointer.pointee.bounds
+                let d13 = bounds.origin.x + bounds.width * 0.5
+                let d0 = bounds.origin.y + bounds.height * 0.5
+                // dimensions.layoutComputer -> sp + 0x510
+                
+//                pointer.pointee.setGeometry(<#T##ViewGeometry#>, at: index, layoutDirection: .leftToRight)
             }
             fatalError("TODO")
         }
@@ -483,7 +500,8 @@ struct LayoutProxyCollection {
     
     subscript(_ index: Int) -> LayoutProxy {
         _read {
-            fatalError("TODO")
+            let proxy = LayoutProxy(context: context, attributes: attributes[index])
+            yield proxy
         }
     }
     
