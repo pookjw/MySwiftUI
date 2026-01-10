@@ -93,8 +93,16 @@ extension HVStack {
         fatalError("TODO")
     }
     
-    public nonisolated func placeSubviews(in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) {
-        fatalError("TODO")
+    public nonisolated func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) {
+        /*
+         rect -> d11, d10, d9, d8
+         proposal -> x22
+         subviews -> x24, x20, x23
+         cache -> x19
+         */
+        return withUnmanagedImplementation(stackLayout: &cache.stack) { unmanaged in
+            return unmanaged.commitPlacements(in: bounds, proposedSize: proposal)
+        }
     }
     
     public nonisolated func explicitAlignment(of: HorizontalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
@@ -115,8 +123,8 @@ extension _StackLayoutCache: Sendable {
 }
 
 struct StackLayout {
-    fileprivate private(set) var header: StackLayout.Header
-    fileprivate private(set) var children: [StackLayout.Child]
+    fileprivate var header: StackLayout.Header
+    fileprivate var children: [StackLayout.Child]
     
     func explicitAlignment(_: AlignmentKey, in: CGRect, proposal: ProposedViewSize) -> CGFloat? {
         fatalError("TODO")
@@ -182,5 +190,51 @@ extension StackLayout {
     fileprivate struct MajorAxisRangeCache {
         var min: CGFloat?
         var max: CGFloat?
+    }
+    
+    fileprivate struct UnmanagedImplementation {
+        let header: UnsafeMutablePointer<StackLayout.Header>
+        let children: UnsafeMutableBufferPointer<StackLayout.Child>
+        
+        func prioritize(_: UnsafeMutableBufferPointer<StackLayout.Child>, proposedSize: ProposedViewSize) {
+            fatalError("TODO")
+        }
+        
+        func commitPlacements(in bounds: CGRect, proposedSize: ProposedViewSize) {
+            /*
+             bounds -> d0, d1, d2, d3
+             proposedSize -> x0
+             header -> x4
+             children -> x5
+             */
+            fatalError("TODO")
+        }
+        
+        func spacing() -> Spacing {
+            fatalError("TODO")
+        }
+        
+        func explicitAlignment(_ key: AlignmentKey, at size: ViewSize) -> CGFloat? {
+            fatalError("TODO")
+        }
+        
+        func placeChildren(in size: ProposedViewSize) {
+            fatalError("TODO")
+        }
+        
+        func proposalWhenPlacing(in size: ViewSize) -> ProposedViewSize {
+            fatalError("TODO")
+        }
+        
+        func resizeAnyChildrenWithTrailingOverflow(in size: ProposedViewSize) {
+            fatalError("TODO")
+        }
+    }
+}
+
+@inline(__always)
+fileprivate func withUnmanagedImplementation<T>(stackLayout: inout StackLayout, body: (StackLayout.UnmanagedImplementation) throws -> T) rethrows -> T {
+    return try stackLayout.children.withUnsafeMutableBufferPointer { children in
+        return try body(StackLayout.UnmanagedImplementation(header: &stackLayout.header, children: children))
     }
 }

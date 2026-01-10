@@ -89,8 +89,11 @@ extension ViewDimensions {
         fatalError("TODO")
     }
     
-    func centered(in: CGSize) -> ViewGeometry {
-        fatalError("TODO")
+    func centered(in size: CGSize) -> ViewGeometry {
+        return ViewGeometry(
+            origin: CGPoint((size - self.size.value) * 0.5 + .zero),
+            dimensions: self
+        )
     }
     
     init(_ dimensions3D: ViewDimensions3D) {

@@ -1164,16 +1164,16 @@ class ViewController: UIViewController {
         collection[MyKey.self] = true
         
         let model = ObsModel()
-//        let rootView = MyObsView(model: model)
+        let rootView = MyObsView(model: model)
         
-        let rootView = MyLayout() {
-            if model.flag {
-                Color.white
-            } else {
-                Color.black
-//                Text("")
-            }
-        }
+//        let rootView = MyLayout() {
+//            if model.flag {
+//                Color.white
+//            } else {
+//                Color.black
+////                Text("")
+//            }
+//        }
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)

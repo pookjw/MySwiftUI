@@ -265,17 +265,12 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
                 
                 // sp + 0x550
                 let dimensions = proxies[index].dimensions(in: proposedSize)
-                // dimensions.layoutComputer -> x20/x28
-                
-                // d8, d9, d10, d11
-                let bounds = pointer.pointee.bounds
-                let d13 = bounds.origin.x + bounds.width * 0.5
-                let d0 = bounds.origin.y + bounds.height * 0.5
-                // dimensions.layoutComputer -> sp + 0x510
-                
-//                pointer.pointee.setGeometry(<#T##ViewGeometry#>, at: index, layoutDirection: .leftToRight)
+                pointer.pointee.setGeometry(
+                    dimensions.centered(in: CGSize(pointer.pointee.bounds.center)),
+                    at: index,
+                    layoutDirection: .leftToRight
+                )
             }
-            fatalError("TODO")
         }
         
         return placementData.geometry
