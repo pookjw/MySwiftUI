@@ -202,7 +202,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         fatalError("TODO")
     }
     
-    func childGeometries(at size: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+    mutating func childGeometries(at size: ViewSize, origin: CGPoint) -> [ViewGeometry] {
         /*
          size -> d8/d9/d10/d11
          origin -> d13/d13
@@ -229,17 +229,39 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
             layoutDirection: layoutDirection
         )
         
-        return withUnsafeMutablePointer(to: &placementData) { pointer in
+        withUnsafeMutablePointer(to: &placementData) { pointer in
             // $s7SwiftUI16ViewLayoutEngineV15childGeometries2at6originSayAA0C8GeometryVGAA0C4SizeV_So7CGPointVtFySpyAA13PlacementData33_57DDCF0A00C1B77B475771403C904EF9LLVGXEfU_
             /*
-             origin -> d0, d1
-             size.value -> d2, d3 / d4, d5
-             size._proposal -> d6, d7
-             proposal -> x2, x3, x4, x5
-             count -> x6
+             origin -> d0, d1 -> d13, d12
+             size.value -> d2, d3 / d4, d5 -> d11, d10
+             size._proposal -> d7, d6 -> d9, d8
+             proposal -> x2, x3, x4, x5 -> x29 - 0x168 (sp + 0x4a8)
+             count -> x6 -> x22
+             type descriptor -> x7 -> x27
+             self -> x1 -> x26
              */
+            // type metadata accessor for SwiftUI.ViewLayoutEngine -> x25
+            let old = _threadLayoutData()
+            _setThreadLayoutData(pointer)
+            // layout -> x28
+            // type metadata accessor for SwiftUI.ViewLayoutEngine -> x20
+            layout.placeSubviews(in: CGRect(origin: origin, size: size.value), proposal: ProposedViewSize(proposal), subviews: subviews, cache: &cache)
+            _setThreadLayoutData(old)
+            
+            guard pointer.pointee.unknown != count else {
+                return 
+            }
+            
+            // <+616>
+            // x26
+            for index in 0..<count {
+                // guard - continue 있음
+//                let dimensions = pro
+            }
             fatalError("TODO")
         }
+        
+        return placementData.geometry
     }
     
     func explicitAlignment(_: AlignmentKey, at: ViewSize) -> CGFloat? {
@@ -525,10 +547,14 @@ struct LayoutProxyAttributes: Equatable {
 
 fileprivate struct PlacementData {
     let signature: DataSignature
-    let geometry: [ViewGeometry]
+    var geometry: [ViewGeometry]
     let unknown: Int
     let bounds: CGRect
     let layoutDirection: LayoutDirection
+    
+    mutating func setGeometry(_: ViewGeometry, at: Int, layoutDirection: LayoutDirection) {
+        fatalError("TODO")
+    }
 }
 
 fileprivate enum DataSignature {

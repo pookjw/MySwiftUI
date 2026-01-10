@@ -50,7 +50,7 @@ struct ViewGeometry: Equatable, Animatable {
     }
     
     var isInvalid: Bool {
-        fatalError("TODO")
+        return !origin.x.isFinite
     }
     
     subscript(_ alignment: HorizontalAlignment) -> CGFloat {

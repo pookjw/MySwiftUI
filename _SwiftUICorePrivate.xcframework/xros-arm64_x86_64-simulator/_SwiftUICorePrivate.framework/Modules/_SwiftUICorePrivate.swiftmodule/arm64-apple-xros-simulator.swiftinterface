@@ -1322,6 +1322,7 @@ public struct LayoutProxyAttributes: Swift.Equatable {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct LayoutComputer {
+  public static var defaultValue: _SwiftUICorePrivate.LayoutComputer { get }
 }
 
 @available(visionOS 26.0, *)
@@ -1644,7 +1645,22 @@ public protocol HVStack: SwiftUI.Layout {
   static var resizeChildrenWithTrailingOverflow: Swift.Bool { get }
 }
 
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.HVStack {
-  @_silgen_name("$s7SwiftUI7HVStackPAAE9makeCache8subviewsAA012_StackLayoutE0VAA0H8SubviewsV_tF")
   public nonisolated func makeCache(subviews: SwiftUI.LayoutSubviews) -> SwiftUI._StackLayoutCache
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewDimensions {
+  public init(guideComputer: _SwiftUICorePrivate.LayoutComputer, size: _SwiftUICorePrivate.ViewSize)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewGeometry: Swift.Equatable, SwiftUI.Animatable {
+  public var origin: CoreGraphics.CGPoint { get set _modify }
+  public init(origin: CoreFoundation.CGPoint, dimensions: _SwiftUICorePrivate.ViewDimensions)
+  public var isInvalid: Swift.Bool { get }
 }
