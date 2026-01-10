@@ -176,6 +176,12 @@ extension Layout {
     }
 }
 
+extension Layout {
+    static func defaultDepthThatFits(_: _ProposedSize3D, children: LayoutProxyCollection, geometries: [ViewGeometry]) -> CGFloat {
+        fatalError("TODO")
+    }
+}
+
 @usableFromInline
 package struct LayoutPriorityTraitKey: _ViewTraitKey {
     @inlinable package static var defaultValue: Double {

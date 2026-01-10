@@ -1436,6 +1436,7 @@ public struct _ProposedSize3D {
   public init(width: CoreFoundation.CGFloat?, height: CoreFoundation.CGFloat?, depth: CoreFoundation.CGFloat?)
 
   public func unspecifyingInfiniteDimensions() -> _SwiftUICorePrivate._ProposedSize3D
+  public func unspecifyingZeroOrInfiniteDimensions() -> _SwiftUICorePrivate._ProposedSize3D
   public func inset(by insets: SwiftUI.EdgeInsets3D) -> _SwiftUICorePrivate._ProposedSize3D
   // public var isNaN: Swift.Bool { get }
   //public static var zero: _SwiftUICorePrivate._ProposedSize3D { get }

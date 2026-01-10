@@ -2,6 +2,7 @@
 public import CoreGraphics
 internal import AttributeGraph
 internal import Spatial
+private import _MySwiftUIShims
 
 public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
     public typealias SubSequence = LayoutSubviews
@@ -201,8 +202,44 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         fatalError("TODO")
     }
     
-    func childGeometries(at: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        fatalError("TODO")
+    func childGeometries(at size: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        /*
+         size -> d8/d9/d10/d11
+         origin -> d13/d13
+         */
+        // x19
+        let count = proxies.attributes.count
+        guard
+            cachedAlignmentSize != size ||
+                origin != .zero ||
+                cachedAlignmentGeometry.count != count
+        else {
+            return cachedAlignmentGeometry
+        }
+        
+        // size -> sp + 0x20
+        // sp + 0xa8
+        let proposal = size.proposal
+        
+        var placementData = PlacementData(
+            signature: .placement,
+            geometry: Array(repeating: ViewGeometry.invalidValue, count: count),
+            unknown: 0,
+            bounds: CGRect(origin: origin, size: size.value),
+            layoutDirection: layoutDirection
+        )
+        
+        return withUnsafeMutablePointer(to: &placementData) { pointer in
+            // $s7SwiftUI16ViewLayoutEngineV15childGeometries2at6originSayAA0C8GeometryVGAA0C4SizeV_So7CGPointVtFySpyAA13PlacementData33_57DDCF0A00C1B77B475771403C904EF9LLVGXEfU_
+            /*
+             origin -> d0, d1
+             size.value -> d2, d3 / d4, d5
+             size._proposal -> d6, d7
+             proposal -> x2, x3, x4, x5
+             count -> x6
+             */
+            fatalError("TODO")
+        }
     }
     
     func explicitAlignment(_: AlignmentKey, at: ViewSize) -> CGFloat? {
@@ -219,15 +256,48 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
     
     var cache: L.Cache {
         get {
-            fatalError("TODO")
+            if shouldUseCacheOfCache {
+                return withStashedDepthProposal { _ in
+                    // $s7SwiftUI16ViewLayoutEngineV5cache5CacheQzvgAF12CoreGraphics7CGFloatVSgXEfU_TA
+                    fatalError("TODO")
+                }
+            } else {
+                return _cache!
+            }
         }
         set {
-            fatalError("TODO")
+            if shouldUseCacheOfCache {
+                let depth: CGFloat?
+                if let data = _threadLayoutDepthData() {
+                    depth = data
+                        .assumingMemoryBound(to: CGFloat?.self)
+                        .pointee
+                } else {
+                    depth = nil
+                }
+                
+                // FIXME
+                { (depth: CGFloat?) -> () in
+                    cacheOfCaches.put(depth, value: newValue)
+                }(depth)
+            } else {
+                _cache = newValue
+            }
         }
     }
     
-    func depthThatFits(_: _ProposedSize3D) -> CGFloat {
-        fatalError("TODO")
+    mutating func depthThatFits(_ size: _ProposedSize3D) -> CGFloat {
+        var depthCache = depthCache
+        let depth = depthCache.depthSize.get(size) {
+            let viewSize = ViewSize(
+                CGSize(width: size.width ?? .nan, height: size.height ?? .nan),
+                proposal: _ProposedSize(width: size.width, height: size.height)
+            )
+            let geometries = childGeometries(at: viewSize, origin: .zero)
+            return L.defaultDepthThatFits(size, children: proxies, geometries: geometries)
+        }
+        self.depthCache = depthCache
+        return depth
     }
     
     func explicitDepthAlignment(_: DepthAlignmentKey, at: ViewSize3D) -> CGFloat? {
@@ -245,7 +315,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
 
 extension ViewLayoutEngine {
     struct DepthCache {
-        private var depthSize: Cache3<_ProposedSize3D, CGFloat>
+        fileprivate var depthSize: Cache3<_ProposedSize3D, CGFloat>
         private var childDepthProposal: ViewSize3D
         private var childDepths: [ViewDepth]
         
@@ -451,4 +521,17 @@ struct LayoutProxyAttributes: Equatable {
     var isEmpty: Bool {
         return ($layoutComputer == nil) && ($traitsList == nil)
     }
+}
+
+fileprivate struct PlacementData {
+    let signature: DataSignature
+    let geometry: [ViewGeometry]
+    let unknown: Int
+    let bounds: CGRect
+    let layoutDirection: LayoutDirection
+}
+
+fileprivate enum DataSignature {
+    case placement
+    case alignment
 }

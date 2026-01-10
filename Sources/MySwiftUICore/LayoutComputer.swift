@@ -101,7 +101,7 @@ protocol LayoutEngine {
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat?
     func childPlacement(at viewSize: ViewSize) -> _Placement
     func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement
-    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat
+    mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat
     func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat?
     func requiresTrueDepthLayout() -> Bool
     var debugContentDescription: String? { get }
@@ -398,4 +398,8 @@ struct EnableLayoutDepthStashing: UserDefaultKeyedFeature, PropertyKey {
     @safe static nonisolated(unsafe) var cachedValue: Bool? = nil
     
     @safe static nonisolated(unsafe) var defaultFeatureValue: Bool = true
+}
+
+func withStashedDepthProposal<T>(execute: (CGFloat?) -> T) -> T {
+    fatalError("TODO")
 }

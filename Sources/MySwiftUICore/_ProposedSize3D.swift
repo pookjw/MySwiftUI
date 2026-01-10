@@ -73,6 +73,37 @@ struct _ProposedSize3D: Hashable {
         return _ProposedSize3D(width: width, height: height, depth: depth)
     }
     
+    func unspecifyingZeroOrInfiniteDimensions() -> _ProposedSize3D {
+        var width = width
+        if let _width = width {
+            if !_width.isFinite || _width == 0 {
+                width = nil
+            }
+        } else {
+            width = nil
+        }
+        
+        var height = height
+        if let _height = height {
+            if !_height.isFinite || _height == 0 {
+                height = nil
+            }
+        } else {
+            height = nil
+        }
+        
+        var depth = depth
+        if let _depth = depth {
+            if !_depth.isFinite || _depth == 0 {
+                depth = nil
+            }
+        } else {
+            depth = nil
+        }
+        
+        return _ProposedSize3D(width: width, height: height, depth: depth)
+    }
+    
     func inset(by insets: EdgeInsets3D) -> _ProposedSize3D {
         let width: CGFloat?
         if let _width = self.width {

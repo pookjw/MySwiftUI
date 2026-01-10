@@ -193,6 +193,239 @@ extension _ProposedSize3DTests {
 }
 
 extension _ProposedSize3DTests {
+    struct Input_unspecifyingZeroOrInfiniteDimensions: Hashable {
+        let width: CGFloat?
+        let height: CGFloat?
+        let depth: CGFloat?
+    }
+
+    struct Output_unspecifyingZeroOrInfiniteDimensions {
+        let width: CGFloat?
+        let height: CGFloat?
+        let depth: CGFloat?
+    }
+
+    static let unspecifyingZeroOrInfiniteDimensions_expectations:
+        [Input_unspecifyingZeroOrInfiniteDimensions: Output_unspecifyingZeroOrInfiniteDimensions] = [
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: 100,
+            height: 200,
+            depth: 300
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: 100,
+            height: 200,
+            depth: 300
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: 0,
+            height: 200,
+            depth: 300
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: 200,
+            depth: 300
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: 100,
+            height: 0,
+            depth: 300
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: 100,
+            height: nil,
+            depth: 300
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: 100,
+            height: 200,
+            depth: 0
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: 100,
+            height: 200,
+            depth: nil
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: CGFloat.infinity,
+            height: 200,
+            depth: 300
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: 200,
+            depth: 300
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: -CGFloat.infinity,
+            height: 0,
+            depth: 50
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: nil,
+            depth: 50
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: CGFloat.nan,
+            height: CGFloat.infinity,
+            depth: 0
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: nil,
+            depth: nil
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: 0,
+            height: 0,
+            depth: 0
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: nil,
+            depth: nil
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: nil,
+            depth: nil
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: nil,
+            depth: nil
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: 0,
+            depth: CGFloat.infinity
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: nil,
+            depth: nil
+        ),
+        
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: -1,
+            height: 200,
+            depth: 300
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: -1,
+            height: 200,
+            depth: 300
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: -100,
+            height: -200,
+            depth: -300
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: -100,
+            height: -200,
+            depth: -300
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: -1,
+            height: 0,
+            depth: 50
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: -1,
+            height: nil,
+            depth: 50
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: 0,
+            height: -1,
+            depth: CGFloat.infinity
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: -1,
+            depth: nil
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: -CGFloat.infinity,
+            height: -10,
+            depth: -CGFloat.infinity
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: -10,
+            depth: nil
+        ),
+
+        Input_unspecifyingZeroOrInfiniteDimensions(
+            width: CGFloat.nan,
+            height: -5,
+            depth: 0
+        ): Output_unspecifyingZeroOrInfiniteDimensions(
+            width: nil,
+            height: -5,
+            depth: nil
+        )
+    ]
+
+    @Test(arguments: Self.unspecifyingZeroOrInfiniteDimensions_expectations)
+    func test_unspecifyingZeroOrInfiniteDimensions(
+        input: Input_unspecifyingZeroOrInfiniteDimensions,
+        output: Output_unspecifyingZeroOrInfiniteDimensions
+    ) {
+        let impl = MySwiftUICore._ProposedSize3D(
+            width: input.width,
+            height: input.height,
+            depth: input.depth
+        ).unspecifyingZeroOrInfiniteDimensions()
+
+        if let expectedWidth = output.width {
+            #expect(impl.width?.bitPattern == expectedWidth.bitPattern)
+        } else {
+            #expect(impl.width == nil)
+        }
+
+        if let expectedHeight = output.height {
+            #expect(impl.height?.bitPattern == expectedHeight.bitPattern)
+        } else {
+            #expect(impl.height == nil)
+        }
+
+        if let expectedDepth = output.depth {
+            #expect(impl.depth?.bitPattern == expectedDepth.bitPattern)
+        } else {
+            #expect(impl.depth == nil)
+        }
+
+        let original = _SwiftUICorePrivate._ProposedSize3D(
+            width: input.width,
+            height: input.height,
+            depth: input.depth
+        ).unspecifyingZeroOrInfiniteDimensions()
+
+        if let expectedWidth = output.width {
+            #expect(original.width?.bitPattern == expectedWidth.bitPattern)
+        } else {
+            #expect(original.width == nil)
+        }
+
+        if let expectedHeight = output.height {
+            #expect(original.height?.bitPattern == expectedHeight.bitPattern)
+        } else {
+            #expect(original.height == nil)
+        }
+
+        if let expectedDepth = output.depth {
+            #expect(original.depth?.bitPattern == expectedDepth.bitPattern)
+        } else {
+            #expect(original.depth == nil)
+        }
+    }
+}
+
+
+extension _ProposedSize3DTests {
     struct Input_inset: Hashable {
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
