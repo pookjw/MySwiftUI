@@ -100,7 +100,7 @@ extension HVStack {
          subviews -> x24, x20, x23
          cache -> x19
          */
-        return withUnmanagedImplementation(stackLayout: &cache.stack) { unmanaged in
+        return cache.stack.withUnmanagedImplementation { unmanaged in
             return unmanaged.commitPlacements(in: bounds, proposedSize: proposal)
         }
     }
@@ -165,6 +165,13 @@ struct StackLayout {
             children.append(child)
         }
     }
+    
+    @inline(__always)
+    fileprivate mutating func withUnmanagedImplementation<T>(body: (StackLayout.UnmanagedImplementation) throws -> T) rethrows -> T {
+        return try children.withUnsafeMutableBufferPointer { children in
+            return try body(StackLayout.UnmanagedImplementation(header: &header, children: children))
+        }
+    }
 }
 
 extension StackLayout {
@@ -176,12 +183,12 @@ extension StackLayout {
         fileprivate private(set) var lastProposedSize: ProposedViewSize // 0x20
         fileprivate private(set) var stackSize: CGSize // 0x40
         fileprivate let proxies: LayoutSubviews // 0x50
-        fileprivate let resizeChildrenWithTrailingOverflow: Bool // 0x68 
+        fileprivate let resizeChildrenWithTrailingOverflow: Bool // 0x62
     }
     
     fileprivate struct Child {
         fileprivate private(set) var layoutPriority: Double
-        fileprivate private(set) var majorAxisRangeCache: StackLayout.MajorAxisRangeCache
+        fileprivate var majorAxisRangeCache: StackLayout.MajorAxisRangeCache
         fileprivate let distanceToPrevious: CGFloat
         fileprivate private(set) var fittingOrder: Int
         fileprivate private(set) var geometry: ViewGeometry
@@ -196,17 +203,51 @@ extension StackLayout {
         let header: UnsafeMutablePointer<StackLayout.Header>
         let children: UnsafeMutableBufferPointer<StackLayout.Child>
         
-        func prioritize(_: UnsafeMutableBufferPointer<StackLayout.Child>, proposedSize: ProposedViewSize) {
+        func prioritize(_ children: UnsafeMutableBufferPointer<StackLayout.Child>, proposedSize: ProposedViewSize) {
+            /*
+             children (arg) -> x0
+             proposedSize -> w3/w5
+             header -> x6 -> x19
+             */
+            let majorAxis = header.pointee.majorAxis
+            guard
+                header.pointee.lastProposedSize[majorAxis] != proposedSize[majorAxis] ||
+                header.pointee.lastProposedSize[majorAxis] == nil
+            else {
+                return
+            }
+            
+            /*
+             lengthThatFits
+             */
+            // <+168>
+            if children.count != 0 {
+                // <+2508>
+            } else {
+                // <+2404>
+                fatalError("TODO")
+                // <+2508>
+            }
+            
+            // <+2508>
             fatalError("TODO")
         }
         
         func commitPlacements(in bounds: CGRect, proposedSize: ProposedViewSize) {
             /*
-             bounds -> d0, d1, d2, d3
+             bounds -> d0, d1, d2, d3 -> d13, d10, d15, d11
              proposedSize -> x0
-             header -> x4
-             children -> x5
+             header -> x4 -> x21
+             children -> x5, x6 -> x27, x20
              */
+            let proposal = proposalWhenPlacing(
+                in: ViewSize(
+                    bounds.size,
+                    proposal: _ProposedSize(width: proposedSize.width, height: proposedSize.height)
+                )
+            )
+            
+            placeChildren(in: proposal)
             fatalError("TODO")
         }
         
@@ -219,22 +260,59 @@ extension StackLayout {
         }
         
         func placeChildren(in size: ProposedViewSize) {
-            fatalError("TODO")
+            /*
+             header -> x4
+             children -> x5, x6 -> x25, x24
+             */
+            guard size != header.pointee.lastProposedSize else {
+                return
+            }
+            
+            placeChildren1(in: size) { _ in
+                fatalError("TODO")
+            }
+            
+            if header.pointee.resizeChildrenWithTrailingOverflow {
+                resizeAnyChildrenWithTrailingOverflow(in: size)
+            }
         }
         
         func proposalWhenPlacing(in size: ViewSize) -> ProposedViewSize {
-            fatalError("TODO")
+            return ProposedViewSize(
+                width: size.proposal.width,
+                height: size.proposal.height
+            )
         }
         
         func resizeAnyChildrenWithTrailingOverflow(in size: ProposedViewSize) {
             fatalError("TODO")
         }
-    }
-}
-
-@inline(__always)
-fileprivate func withUnmanagedImplementation<T>(stackLayout: inout StackLayout, body: (StackLayout.UnmanagedImplementation) throws -> T) rethrows -> T {
-    return try stackLayout.children.withUnsafeMutableBufferPointer { children in
-        return try body(StackLayout.UnmanagedImplementation(header: &stackLayout.header, children: children))
+        
+        func placeChildren1(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
+            /*
+             header -> x4
+             children -> x5, x6 -> x21, x20
+             */
+            if size[header.pointee.majorAxis] == nil {
+                sizeChildrenIdeally(in: size, minorProposalForChild: minorProposalForChild)
+            } else {
+                sizeChildrenGenerallyWithConcreteMajorProposal(in: size, minorProposalForChild: minorProposalForChild)
+            }
+            
+            fatalError("TODO")
+        }
+        
+        func sizeChildrenIdeally(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
+            fatalError("TODO")
+        }
+        
+        func sizeChildrenGenerallyWithConcreteMajorProposal(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
+            /*
+             children -> x25, 21
+             */
+            prioritize(children, proposedSize: size)
+            
+            fatalError("TODO")
+        }
     }
 }

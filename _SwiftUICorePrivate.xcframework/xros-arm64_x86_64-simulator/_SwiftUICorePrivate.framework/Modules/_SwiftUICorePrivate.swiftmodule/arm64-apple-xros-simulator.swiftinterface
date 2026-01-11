@@ -1653,7 +1653,7 @@ extension _SwiftUICorePrivate.HVStack {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewDimensions {
+extension SwiftUI.ViewDimensions {
   public init(guideComputer: _SwiftUICorePrivate.LayoutComputer, size: _SwiftUICorePrivate.ViewSize)
 }
 
@@ -1661,6 +1661,37 @@ public struct ViewDimensions {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct ViewGeometry: Swift.Equatable, SwiftUI.Animatable {
   public var origin: CoreGraphics.CGPoint { get set _modify }
-  public init(origin: CoreFoundation.CGPoint, dimensions: _SwiftUICorePrivate.ViewDimensions)
+  public init(origin: CoreFoundation.CGPoint, dimensions: SwiftUI.ViewDimensions)
   public var isInvalid: Swift.Bool { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension Swift.UnsafePointer {
+  public static var _null: Swift.UnsafePointer<Pointee> {
+    @_silgen_name("$sSP7SwiftUIE4nullSPyxGvgZ")
+    get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension Swift.UnsafeMutablePointer {
+  public static var _null: Swift.UnsafePointer<Pointee> {
+    @_silgen_name("$sSp7SwiftUIE4nullSpyxGvgZ")
+    get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct UnsafeMutableBufferProjectionPointer<T, U>: Swift.RandomAccessCollection, Swift.MutableCollection {
+  public init()
+  public init(start: Swift.UnsafeMutablePointer<U>, count: Swift.Int)
+  public init(_ base: Swift.UnsafeMutableBufferPointer<T>, _ keyPath: Swift.WritableKeyPath<T, U>)
+
+  public var startIndex: Swift.Int { get }
+  public var endIndex: Swift.Int { get }
+
+  public subscript(_: Swift.Int) -> U { get set _modify }
 }

@@ -17,7 +17,7 @@ extension ViewGeometryTests {
         
         var original = _SwiftUICorePrivate.ViewGeometry(
             origin: .zero,
-            dimensions: _SwiftUICorePrivate.ViewDimensions(
+            dimensions: SwiftUI.ViewDimensions(
                 guideComputer: .defaultValue,
                 size: .invalidValue
             )

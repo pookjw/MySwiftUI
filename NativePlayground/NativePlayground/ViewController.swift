@@ -1029,6 +1029,13 @@ class ViewController: UIViewController {
         
         print("===")
         
+        print(_typeName(LayoutSubviews.self, qualified: true))
+        _forEachField(of: LayoutSubviews.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
         
         
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))

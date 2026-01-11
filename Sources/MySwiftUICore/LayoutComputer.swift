@@ -72,6 +72,11 @@ struct LayoutComputer: @unchecked Sendable {
         Update.assertIsLocked()
         return box.layoutPriority()
     }
+    
+    func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
+        Update.assertIsLocked()
+        return box.lengthThatFits(size, in: axis)
+    }
 }
 
 extension LayoutComputer: Equatable {
@@ -278,6 +283,10 @@ fileprivate class AnyLayoutEngineBox {
     func layoutPriority() -> Double {
         fatalError() // abstract
     }
+    
+    func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
+        fatalError() // abstract
+    }
 }
 
 fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
@@ -317,6 +326,10 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
     
     override func layoutPriority() -> Double {
         return engine.layoutPriority()
+    }
+    
+    override func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
+        fatalError("TODO")
     }
 }
 
