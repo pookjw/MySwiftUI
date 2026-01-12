@@ -314,7 +314,28 @@ extension StackLayout {
             }
             
             // <+2508>
-            fatalError("TODO")
+            // d9
+            let firstLayoutPriority = layoutPriorityBuffer[fittingOrderBuffer[0]]
+            for index in fittingOrderBuffer.indices.reversed() {
+                let fittingOrder = fittingOrderBuffer[index]
+                // d0
+                let layoutPriority = layoutPriorityBuffer[fittingOrder]
+                guard layoutPriority != firstLayoutPriority else {
+                    return
+                }
+                
+                let majorAxisRangeCache = majorAxisRangeCacheBuffer[fittingOrder]
+                guard majorAxisRangeCache.min == nil else {
+                    continue
+                }
+                
+                // <+2776>
+                let min = header.pointee.proxies[fittingOrder].lengthThatFits(
+                    ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                    in: header.pointee.majorAxis
+                )
+                majorAxisRangeCacheBuffer[fittingOrder].min = min
+            }
         }
         
         func commitPlacements(in bounds: CGRect, proposedSize: ProposedViewSize) {
@@ -392,9 +413,12 @@ extension StackLayout {
         
         func sizeChildrenGenerallyWithConcreteMajorProposal(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
             /*
-             children -> x25, 21
+             children -> x25, x21
              */
+            assert(size[header.pointee.majorAxis] != nil)
+            let d8 = header.pointee.internalSpacing
             prioritize(children, proposedSize: size)
+            
             
             fatalError("TODO")
         }
