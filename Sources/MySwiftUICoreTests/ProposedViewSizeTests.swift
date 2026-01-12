@@ -68,6 +68,76 @@ extension ProposedViewSizeTests {
 }
 
 extension ProposedViewSizeTests {
+    struct Input_init_in_by: Hashable {
+        let value: CGFloat?
+        let axis: SwiftUI.Axis
+        let other: CGFloat?
+    }
+    
+    struct Output_init_in_by {
+        let width: CGFloat?
+        let height: CGFloat?
+    }
+    
+    static let init_in_by_expectations: [Input_init_in_by: Output_init_in_by] = [
+        Input_init_in_by(value: 1, axis: .horizontal, other: 2):
+            Output_init_in_by(width: 1, height: 2),
+        
+        Input_init_in_by(value: 1, axis: .vertical, other: 2):
+            Output_init_in_by(width: 2, height: 1),
+        
+        Input_init_in_by(value: nil, axis: .horizontal, other: 2):
+            Output_init_in_by(width: nil, height: 2),
+        
+        Input_init_in_by(value: 1, axis: .horizontal, other: nil):
+            Output_init_in_by(width: 1, height: nil),
+        
+        Input_init_in_by(value: nil, axis: .horizontal, other: nil):
+            Output_init_in_by(width: nil, height: nil),
+        
+        Input_init_in_by(value: nil, axis: .vertical, other: 2):
+            Output_init_in_by(width: 2, height: nil),
+        
+        Input_init_in_by(value: 1, axis: .vertical, other: nil):
+            Output_init_in_by(width: nil, height: 1),
+        
+        Input_init_in_by(value: 0, axis: .horizontal, other: 10):
+            Output_init_in_by(width: 0, height: 10),
+        
+        Input_init_in_by(value: 0, axis: .vertical, other: 10):
+            Output_init_in_by(width: 10, height: 0),
+        
+        Input_init_in_by(value: -5, axis: .horizontal, other: 3):
+            Output_init_in_by(width: -5, height: 3),
+        
+        Input_init_in_by(value: -5, axis: .vertical, other: 3):
+            Output_init_in_by(width: 3, height: -5),
+        
+        Input_init_in_by(value: .infinity, axis: .horizontal, other: 4):
+            Output_init_in_by(width: .infinity, height: 4),
+        
+        Input_init_in_by(value: .infinity, axis: .vertical, other: 4):
+            Output_init_in_by(width: 4, height: .infinity),
+        
+        Input_init_in_by(value: .nan, axis: .horizontal, other: 6):
+            Output_init_in_by(width: .nan, height: 6),
+        
+        Input_init_in_by(value: .nan, axis: .vertical, other: 6):
+            Output_init_in_by(width: 6, height: .nan)
+    ]
+
+    
+    @Test(arguments: init_in_by_expectations) func test_init_in_by(input: Input_init_in_by, output: Output_init_in_by) {
+        let implAxis: MySwiftUICore.Axis = input.axis == .horizontal ? .horizontal : .vertical
+        let impl = MySwiftUICore.ProposedViewSize(input.value, in: implAxis, by: input.other)
+        let original = SwiftUI.ProposedViewSize(input.value, in: input.axis, by: input.other)
+        
+        #expect(impl.width?.bitPattern == original.width?.bitPattern)
+        #expect(impl.height?.bitPattern == original.height?.bitPattern)
+    }
+}
+
+extension ProposedViewSizeTests {
     struct Input_subscript_axis: Hashable {
         let initialWidth: CGFloat?
         let initialHeight: CGFloat?

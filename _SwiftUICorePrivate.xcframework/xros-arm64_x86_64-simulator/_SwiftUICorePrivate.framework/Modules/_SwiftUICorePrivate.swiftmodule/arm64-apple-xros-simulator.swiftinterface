@@ -1476,6 +1476,7 @@ public enum _Axis3D: Swift.Int8, Swift.CaseIterable, Swift.Hashable, Swift.Senda
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI.ProposedViewSize {
   public init(_: SwiftUI._ProposedSize)
+  public init(_: CoreFoundation.CGFloat?, in: SwiftUI.Axis, by: CoreFoundation.CGFloat?)
   public subscript(_ axis: SwiftUI.Axis) -> CoreFoundation.CGFloat? {
     get set _modify
   }

@@ -28,6 +28,17 @@ public import CoreGraphics
         height = size.height
     }
     
+    init(_ value: CGFloat?, in axis: Axis, by other: CGFloat?) {
+        switch axis {
+        case .horizontal:
+            width = value
+            height = other
+        case .vertical:
+            width = other
+            height = value
+        }
+    }
+    
     subscript(_ axis: Axis) -> CGFloat? {
         get {
             switch axis {

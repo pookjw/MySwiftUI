@@ -206,7 +206,6 @@ extension StackLayout {
         func prioritize(_ children: UnsafeMutableBufferPointer<StackLayout.Child>, proposedSize: ProposedViewSize) {
             /*
              children (arg) -> x0
-             proposedSize -> TODO
              header -> x6 -> x19
              */
             let majorAxis = header.pointee.majorAxis
@@ -259,16 +258,59 @@ extension StackLayout {
                     rhsRangeMin = min
                 } else {
                     let min = header.pointee.proxies[rhs].lengthThatFits(
-                        <#T##size: ProposedViewSize##ProposedViewSize#>,
+                        ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
                         in: header.pointee.majorAxis
                     )
                     majorAxisRangeCacheBuffer[rhs].min = min
                     rhsRangeMin = min
                 }
                 
-                // <+752>
+                // <+980>
+                // d9
+                let rhsRangeMax: CGFloat
+                if let max = majorAxisRangeCacheBuffer[rhs].max {
+                    rhsRangeMax = max
+                } else {
+                    let max = header.pointee.proxies[rhs].lengthThatFits(
+                        ProposedViewSize(.infinity, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                        in: header.pointee.majorAxis
+                    )
+                    majorAxisRangeCacheBuffer[rhs].max = max
+                    rhsRangeMax = max
+                }
                 
-                fatalError("TODO")
+                // <+1188>
+                // d10
+                let lhsRangeMin: CGFloat
+                if let min = majorAxisRangeCacheBuffer[lhs].min {
+                    lhsRangeMin = min
+                } else {
+                    let min = header.pointee.proxies[lhs].lengthThatFits(
+                        ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                        in: header.pointee.majorAxis
+                    )
+                    majorAxisRangeCacheBuffer[lhs].min = min
+                    lhsRangeMin = min
+                }
+                
+                // <+1712>
+                // d11
+                let lhsRangeMax: CGFloat
+                if let max = majorAxisRangeCacheBuffer[lhs].max {
+                    lhsRangeMax = max
+                } else {
+                    let max = header.pointee.proxies[lhs].lengthThatFits(
+                        ProposedViewSize(.infinity, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                        in: header.pointee.majorAxis
+                    )
+                    majorAxisRangeCacheBuffer[lhs].max = max
+                    lhsRangeMax = max
+                }
+                
+                // <+1920>
+                let rhsEstimate = _LayoutTraits.FlexibilityEstimate(minLength: rhsRangeMin, maxLength: rhsRangeMax)
+                let lhsEstimate = _LayoutTraits.FlexibilityEstimate(minLength: lhsRangeMin, maxLength: lhsRangeMax)
+                return lhsEstimate < rhsEstimate
             }
             
             // <+2508>
