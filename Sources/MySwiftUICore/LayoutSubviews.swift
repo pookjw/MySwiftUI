@@ -116,8 +116,8 @@ public struct LayoutSubview : Equatable {
         fatalError("TODO")
     }
     
-    func lengthThatFits(_: ProposedViewSize, in: Axis) -> CGFloat {
-        fatalError("TODO")
+    func lengthThatFits(_ size: ProposedViewSize, in axis: Axis) -> CGFloat {
+        return proxy.lengthThatFits(_ProposedSize(width: size.width, height: size.height), in: axis)
     }
     
     func place(at: CGPoint, anchor: UnitPoint, dimensions: ViewDimensions) {
@@ -471,8 +471,8 @@ struct LayoutProxy: Equatable {
         fatalError("TODO")
     }
     
-    func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
-        fatalError("TODO")
+    func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
+        return layoutComputer.lengthThatFits(size, in: axis)
     }
 }
 

@@ -187,10 +187,10 @@ extension StackLayout {
     }
     
     fileprivate struct Child {
-        fileprivate private(set) var layoutPriority: Double
+        fileprivate var layoutPriority: Double
         fileprivate var majorAxisRangeCache: StackLayout.MajorAxisRangeCache
         fileprivate let distanceToPrevious: CGFloat
-        fileprivate private(set) var fittingOrder: Int
+        fileprivate var fittingOrder: Int
         fileprivate private(set) var geometry: ViewGeometry
     }
     
@@ -206,7 +206,7 @@ extension StackLayout {
         func prioritize(_ children: UnsafeMutableBufferPointer<StackLayout.Child>, proposedSize: ProposedViewSize) {
             /*
              children (arg) -> x0
-             proposedSize -> w3/w5
+             proposedSize -> TODO
              header -> x6 -> x19
              */
             let majorAxis = header.pointee.majorAxis
@@ -221,9 +221,55 @@ extension StackLayout {
                 children[index].majorAxisRangeCache = StackLayout.MajorAxisRangeCache(min: nil, max: nil)
             }
             
+            // <+224>
+            // x28
+            let layoutPriorityBuffer = UnsafeMutableBufferProjectionPointer(children, \.layoutPriority)
+            // x21
+            var majorAxisRangeCacheBuffer = UnsafeMutableBufferProjectionPointer(children, \.majorAxisRangeCache)
+            // x23 -> sp + 0xb8
+            var fittingOrderBuffer = UnsafeMutableBufferProjectionPointer(children, \.fittingOrder)
+            /*
+             count -> sp + 0xc0
+             AGAttributeNil -> sp + 0x4c
+             fittingOrderBuffer -> sp + 0x50
+             layoutPriorityBuffer -> sp + 0x58
+             x21 -> sp + 0x38
+             */
+            
             /*
              lengthThatFits
              */
+            // <+2504>에서 fittingOrderBuffer로 slowPath하고 있기에 fittingOrderBuffer임
+            fittingOrderBuffer.insertionSort { lhs, rhs in
+                // inlined
+                // <+460>
+                // d1
+                let lhsLayoutPriority = layoutPriorityBuffer[lhs]
+                // d0
+                let rhsLayoutPriority = layoutPriorityBuffer[rhs]
+                
+                guard lhsLayoutPriority == rhsLayoutPriority else {
+                    return !(lhsLayoutPriority < rhsLayoutPriority)
+                }
+                
+                // <+632>
+                // d8
+                let rhsRangeMin: CGFloat
+                if let min = majorAxisRangeCacheBuffer[rhs].min {
+                    rhsRangeMin = min
+                } else {
+                    let min = header.pointee.proxies[rhs].lengthThatFits(
+                        <#T##size: ProposedViewSize##ProposedViewSize#>,
+                        in: header.pointee.majorAxis
+                    )
+                    majorAxisRangeCacheBuffer[rhs].min = min
+                    rhsRangeMin = min
+                }
+                
+                // <+752>
+                
+                fatalError("TODO")
+            }
             
             // <+2508>
             fatalError("TODO")
