@@ -1695,3 +1695,20 @@ public struct UnsafeMutableBufferProjectionPointer<T, U>: Swift.RandomAccessColl
 
   public subscript(_: Swift.Int) -> U { get set _modify }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._LayoutTraits {
+  public struct Dimension: Swift.Equatable {
+    public var min: CoreFoundation.CGFloat
+    public var ideal: CoreFoundation.CGFloat
+    public var max: CoreFoundation.CGFloat
+    public init(min: CoreFoundation.CGFloat, ideal: CoreFoundation.CGFloat, max: CoreFoundation.CGFloat)
+    public static func fixed(_ value: CoreFoundation.CGFloat) -> SwiftUI._LayoutTraits.Dimension
+  }
+
+  public struct FlexibilityEstimate: Swift.Comparable {
+    public init(minLength: CoreFoundation.CGFloat, maxLength: CoreFoundation.CGFloat)
+    public static func < (lhs: SwiftUI._LayoutTraits.FlexibilityEstimate, rhs: SwiftUI._LayoutTraits.FlexibilityEstimate) -> Swift.Bool
+  }
+}
