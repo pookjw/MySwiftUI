@@ -217,17 +217,13 @@ extension StackLayout {
                 return
             }
             
+            for index in children.indices.reversed() {
+                children[index].majorAxisRangeCache = StackLayout.MajorAxisRangeCache(min: nil, max: nil)
+            }
+            
             /*
              lengthThatFits
              */
-            // <+168>
-            if children.count != 0 {
-                // <+2508>
-            } else {
-                // <+2404>
-                fatalError("TODO")
-                // <+2508>
-            }
             
             // <+2508>
             fatalError("TODO")
