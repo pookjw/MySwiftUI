@@ -191,7 +191,7 @@ extension StackLayout {
         fileprivate var majorAxisRangeCache: StackLayout.MajorAxisRangeCache
         fileprivate let distanceToPrevious: CGFloat
         fileprivate var fittingOrder: Int
-        fileprivate private(set) var geometry: ViewGeometry
+        fileprivate var geometry: ViewGeometry
     }
     
     fileprivate struct MajorAxisRangeCache {
@@ -373,9 +373,14 @@ extension StackLayout {
                 return
             }
             
-            let minorProposal = size[header.pointee.majorAxis]
+            let minorProposal: CGFloat?
+            switch header.pointee.majorAxis {
+            case .horizontal:
+                minorProposal = size[.vertical]
+            case .vertical:
+                minorProposal = size[.horizontal]
+            }
             placeChildren1(in: size) { _ in
-                // inlined: sizeChildrenGenerallyWithConcreteMajorProposal
                 return minorProposal
             }
             
@@ -424,15 +429,20 @@ extension StackLayout {
             let internalSpacing = header.pointee.internalSpacing
             prioritize(children, proposedSize: size)
             
+            guard !children.isEmpty else {
+                return
+            }
+            
             // x14
             let fittingOrderBuffer = UnsafeMutableBufferProjectionPointer(children, \.fittingOrder)
             // d0
             let length = size[majorAxis]!
             var d10 = length - internalSpacing
             // d11 -> 0
+            var w15 = false
             // x8
             var index = 0
-            while index != children.count {
+            while !w15 {
                 // x10
                 let fittingOrder = fittingOrderBuffer[index]
                 // d0
@@ -440,7 +450,6 @@ extension StackLayout {
                 
                 // x19
                 var otherIndex = index
-                var w15 = false
                 // d1
                 var otherLayoutPriority: CGFloat
                 while true {
@@ -508,38 +517,92 @@ extension StackLayout {
                 // fittingOrder은 더 이상 x10이 아님
                 // <+588>
                 // w15 -> sp + 0x1c
-                // x9
-                let fittingOrder2 = fittingOrderBuffer[index]
-                var d0 = d10 / CGFloat(dist)
-                if d0 <= 0 {
-                    d0 = 0
-                }
-                // d0 -> x8
-                let child = children[fittingOrder2]
-                // sp + 0x60
-                let size2 = ProposedViewSize(d0, in: header.pointee.majorAxis, by: minorProposalForChild(child))
-                let proxy = header.pointee.proxies[fittingOrder2]
-                // d9/d8
-                let sizeThatFits = proxy.sizeThatFits(size2)
-                // d0
-                var explicitAlignment = proxy.proxy.explicitAlignment(
-                    header.pointee.minorAxisAlignment,
-                    at: ViewSize(sizeThatFits, proposal: _ProposedSize(width: size.width, height: size.height))
-                )
-                if explicitAlignment == nil {
-                    let dimensions = ViewDimensions(
-                        guideComputer: proxy.proxy.layoutComputer,
-                        size: sizeThatFits,
-                        proposal: _ProposedSize(width: size.width, height: size.height)
+                var x22 = index &+ 1
+                let sp40 = -otherIndex
+                let sp48 = -max(index, children.count)
+                // <+636>
+                repeat {
+                    // x21
+                    let fittingOrder2 = fittingOrderBuffer[x22 &+ sp48]
+                    var d0 = d10 / CGFloat(dist)
+                    if d0 <= 0 {
+                        d0 = 0
+                    }
+                    // index는 더 이상 x8이 아님
+                    // sp + 0x60
+                    let size2 = ProposedViewSize(
+                        d0,
+                        in: header.pointee.majorAxis,
+                        by: minorProposalForChild(children[fittingOrder2])
+                    )
+                    let proxy = header.pointee.proxies[fittingOrder2]
+                    // d9/d8
+                    let sizeThatFits = proxy.sizeThatFits(size2)
+                    // d0
+                    var explicitAlignment = proxy.proxy.explicitAlignment(
+                        header.pointee.minorAxisAlignment,
+                        at: ViewSize(sizeThatFits, proposal: _ProposedSize(width: size.width, height: size.height))
+                    )
+                    if explicitAlignment == nil {
+                        let dimensions = ViewDimensions(
+                            guideComputer: proxy.proxy.layoutComputer,
+                            size: sizeThatFits,
+                            proposal: _ProposedSize(width: size.width, height: size.height)
+                        )
+                        
+                        explicitAlignment = header.pointee.minorAxisAlignment.id.defaultValue(in: dimensions)
+                    }
+                    
+                    // <+1264>
+                    let x20 = x22 &+ sp40
+                    var d1: CGFloat
+                    if explicitAlignment!.bitPattern & 0xfffffffffffff != 0 {
+                        d1 = .infinity
+                    } else {
+                        d1 = explicitAlignment!
+                    }
+                    
+                    explicitAlignment = -explicitAlignment!
+                    children[fittingOrder2].geometry = ViewGeometry(
+                        origin: CGPoint(0, in: header.pointee.majorAxis, by: explicitAlignment!),
+                        dimensions: ViewDimensions(
+                            guideComputer: proxy.proxy.layoutComputer,
+                            size: sizeThatFits,
+                            proposal: _ProposedSize(width: size.width, height: size.height)
+                        )
                     )
                     
-                    explicitAlignment = header.pointee.minorAxisAlignment.id.defaultValue(in: dimensions)
-                }
+                    // <+1412>
+                    switch header.pointee.majorAxis {
+                    case .horizontal:
+                        d0 = children[fittingOrder2].geometry.dimensions.size.proposal.width ?? 0
+                    case .vertical:
+                        d0 = children[fittingOrder2].geometry.dimensions.size.proposal.height ?? 0
+                    }
+                    
+                    d0 = d10 - d0
+                    
+                    if d0.bitPattern & 0xfffffffffffff == 0 {
+                        d1 = d0
+                    } else {
+                        d1 = d10
+                    }
+                    
+                    if d0.bitPattern & 0x7ff0000000000000 == 0 {
+                        d10 = d1
+                    } else {
+                        d10 = d0
+                    }
+                    
+                    if x20 == 0 {
+                        break
+                    }
+                    
+                    x22 &+= 1
+                } while true
                 
-                // <+1264>
-                fatalError("TODO")
+                index = otherIndex
             }
-            fatalError("TODO")
         }
     }
 }

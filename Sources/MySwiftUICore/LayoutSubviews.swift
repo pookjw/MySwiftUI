@@ -95,7 +95,7 @@ public struct LayoutSubview : Equatable {
     }
     
     public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
-        fatalError("TODO")
+        return proxy.size(in: _ProposedSize(width: proposal.width, height: proposal.height))
     }
     
     public func dimensions(in proposal: ProposedViewSize) -> ViewDimensions {
@@ -406,7 +406,7 @@ struct LayoutProxy: Equatable {
     }
     
     func size(in proposedSize: _ProposedSize) -> CGSize {
-        fatalError("TODO")
+        return layoutComputer.sizeThatFits(proposedSize)
     }
     
     var layoutPriority: Double {
