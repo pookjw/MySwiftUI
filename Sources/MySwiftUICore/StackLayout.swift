@@ -521,11 +521,22 @@ extension StackLayout {
                 let proxy = header.pointee.proxies[fittingOrder2]
                 // d9/d8
                 let sizeThatFits = proxy.sizeThatFits(size2)
+                // d0
                 var explicitAlignment = proxy.proxy.explicitAlignment(
                     header.pointee.minorAxisAlignment,
                     at: ViewSize(sizeThatFits, proposal: _ProposedSize(width: size.width, height: size.height))
                 )
+                if explicitAlignment == nil {
+                    let dimensions = ViewDimensions(
+                        guideComputer: proxy.proxy.layoutComputer,
+                        size: sizeThatFits,
+                        proposal: _ProposedSize(width: size.width, height: size.height)
+                    )
+                    
+                    explicitAlignment = header.pointee.minorAxisAlignment.id.defaultValue(in: dimensions)
+                }
                 
+                // <+1264>
                 fatalError("TODO")
             }
             fatalError("TODO")
