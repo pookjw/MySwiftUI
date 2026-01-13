@@ -373,8 +373,10 @@ extension StackLayout {
                 return
             }
             
+            let minorProposal = size[header.pointee.majorAxis]
             placeChildren1(in: size) { _ in
-                fatalError("TODO")
+                // inlined: sizeChildrenGenerallyWithConcreteMajorProposal
+                return minorProposal
             }
             
             if header.pointee.resizeChildrenWithTrailingOverflow {
@@ -397,6 +399,7 @@ extension StackLayout {
             /*
              header -> x4
              children -> x5, x6 -> x21, x20
+             minorProposalForChild의 결과값 -> x7
              */
             if size[header.pointee.majorAxis] == nil {
                 sizeChildrenIdeally(in: size, minorProposalForChild: minorProposalForChild)
@@ -512,9 +515,18 @@ extension StackLayout {
                     d0 = 0
                 }
                 // d0 -> x8
-                // w9
-                let majorAxis = header.pointee.majorAxis
-                fatalError("TODO") // x27에 대해 알아야함
+                let child = children[fittingOrder2]
+                // sp + 0x60
+                let size2 = ProposedViewSize(d0, in: header.pointee.majorAxis, by: minorProposalForChild(child))
+                let proxy = header.pointee.proxies[fittingOrder2]
+                // d9/d8
+                let sizeThatFits = proxy.sizeThatFits(size2)
+                var explicitAlignment = proxy.proxy.explicitAlignment(
+                    header.pointee.minorAxisAlignment,
+                    at: ViewSize(sizeThatFits, proposal: _ProposedSize(width: size.width, height: size.height))
+                )
+                
+                fatalError("TODO")
             }
             fatalError("TODO")
         }
