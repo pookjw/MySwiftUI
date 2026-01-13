@@ -415,11 +415,107 @@ extension StackLayout {
             /*
              children -> x25, x21
              */
+            // w19
+            let majorAxis = header.pointee.majorAxis
             assert(size[header.pointee.majorAxis] != nil)
-            let d8 = header.pointee.internalSpacing
+            let internalSpacing = header.pointee.internalSpacing
             prioritize(children, proposedSize: size)
             
-            
+            // x14
+            let fittingOrderBuffer = UnsafeMutableBufferProjectionPointer(children, \.fittingOrder)
+            // d0
+            let length = size[majorAxis]!
+            var d10 = length - internalSpacing
+            // d11 -> 0
+            // x8
+            var index = 0
+            while index != children.count {
+                // x10
+                let fittingOrder = fittingOrderBuffer[index]
+                // d0
+                let layoutPriority = children[fittingOrder].layoutPriority
+                
+                // x19
+                var otherIndex = index
+                var w15 = false
+                // d1
+                var otherLayoutPriority: CGFloat
+                while true {
+                    otherLayoutPriority = children[fittingOrderBuffer[otherIndex]].layoutPriority
+                    guard otherLayoutPriority == layoutPriority else {
+                        break
+                    }
+                    otherIndex &+= 1
+                    
+                    if otherIndex != children.count {
+                        w15 = false 
+                        continue
+                    } else {
+                        w15 = true
+                        otherIndex = children.count
+                        break
+                    }
+                }
+                
+                assert(otherIndex >= index)
+                assert(otherIndex <= children.count)
+                
+                // <+388>
+                // x11
+                let firstFittingOrder = fittingOrderBuffer[0]
+                // d0
+                var total: CGFloat = 0
+                // x28
+                let dist: Int
+                if fittingOrder == firstFittingOrder {
+                    // <+404>
+                    var x10 = otherIndex
+                    while children.count != x10 {
+                        // d1
+                        let min = children[fittingOrderBuffer[x10]].majorAxisRangeCache.min!
+                        x10 &+= 1
+                        total += min
+                    }
+                    
+                    // <+476>
+                    d10 -= total
+                    dist = otherIndex &- index
+                    if dist == 0 {
+                        index = otherIndex
+                        continue
+                    }
+                } else {
+                    // <+492>
+                    if otherIndex != index {
+                        var x11 = index
+                        repeat {
+                            let min = children[fittingOrderBuffer[x11]].majorAxisRangeCache.min!
+                            x11 &+= 1
+                            total += min
+                        } while x11 != otherIndex
+                    }
+                    
+                    dist = otherIndex &- index
+                    if dist == 0 {
+                        index = otherIndex
+                        continue
+                    }
+                }
+                
+                // fittingOrder은 더 이상 x10이 아님
+                // <+588>
+                // w15 -> sp + 0x1c
+                // x9
+                let fittingOrder2 = fittingOrderBuffer[index]
+                var d0 = d10 / CGFloat(dist)
+                if d0 <= 0 {
+                    d0 = 0
+                }
+                // d0 -> x8
+                // w9
+                let majorAxis = header.pointee.majorAxis
+                fatalError("TODO") // x27에 대해 알아야함
+            }
             fatalError("TODO")
         }
     }
