@@ -181,17 +181,24 @@ extension StackLayout {
         fileprivate let majorAxis: Axis // 0x11
         fileprivate var internalSpacing: CGFloat // 0x18
         fileprivate private(set) var lastProposedSize: ProposedViewSize // 0x20
-        fileprivate private(set) var stackSize: CGSize // 0x40
+        fileprivate var stackSize: CGSize // 0x40
         fileprivate let proxies: LayoutSubviews // 0x50
         fileprivate let resizeChildrenWithTrailingOverflow: Bool // 0x62
     }
     
     fileprivate struct Child {
-        fileprivate var layoutPriority: Double
-        fileprivate var majorAxisRangeCache: StackLayout.MajorAxisRangeCache
-        fileprivate let distanceToPrevious: CGFloat
-        fileprivate var fittingOrder: Int
+        fileprivate var layoutPriority: Double // 0x0
+        fileprivate var majorAxisRangeCache: StackLayout.MajorAxisRangeCache // 0x8
+        fileprivate let distanceToPrevious: CGFloat // 0x28
+        fileprivate var fittingOrder: Int // 0x30
         fileprivate var geometry: ViewGeometry
+        /*
+         origin.x -> 0x38
+         origin.y -> 0x40
+         dimensions.guideComputer -> 0x48/0x50
+         dimensions.size.value -> 0x58/0x60
+         dimensions.size._proposal -> 0x68/0x70
+         */
     }
     
     fileprivate struct MajorAxisRangeCache {
@@ -353,6 +360,21 @@ extension StackLayout {
             )
             
             placeChildren(in: proposal)
+            
+            // w23
+            let layoutDirection = header.pointee.proxies.layoutDirection
+            /*
+             bounds.size.width -> sp + 0x30
+             bounds.origin.y -> sp + 0x40
+             bounds.origin.y -> sp + 0x48
+             */
+            
+            if header.pointee.majorAxis == .vertical {
+                let d13 = bounds.minY
+                fatalError("TODO")
+            }
+            
+            // <+1040>
             fatalError("TODO")
         }
         
@@ -412,7 +434,120 @@ extension StackLayout {
                 sizeChildrenGenerallyWithConcreteMajorProposal(in: size, minorProposalForChild: minorProposalForChild)
             }
             
-            fatalError("TODO")
+            var d14: CGFloat = 0
+            var d13: CGFloat = 0
+            var d12: CGFloat = 0
+            var d15: CGFloat = 0
+            
+            for child in children {
+                // sp + 0x80
+                let copy = child
+                // w26
+                let majorAxis = header.pointee.majorAxis
+                // d8, d9, d10, d11
+                let frame = copy.geometry.frame
+                // frame
+                
+                var d0: CGFloat = 0
+                var d1: CGFloat = 0
+                if !frame.isNull {
+                    d0 = (majorAxis == .horizontal) ? frame.size.height : frame.size.width
+                    d1 = (majorAxis == .horizontal) ? frame.origin.y : frame.origin.x
+                    
+                    d0 += d1
+                    
+                    let d2: CGFloat
+                    if d0 < d1 {
+                        d2 = d0
+                    } else {
+                        d2 = d1
+                    }
+                    
+                    if d1 > d0 {
+                        d0 = d1
+                    }
+                    
+                    if d2 <= d0 {
+                        d1 = d2
+                    } else {
+                        d0 = d15
+                        d1 = d15
+                    }
+                }
+                
+                // <+344>
+                if d1 < d13 {
+                    d13 = d1
+                }
+                
+                if d12 <= d0 {
+                    d12 = d0
+                }
+                
+                assert(d13 < d12)
+            }
+            
+            // <+380>
+            if !children.isEmpty {
+                let majorAxis = header.pointee.majorAxis
+                d14 = 0
+                
+                for index in children.indices {
+                    var d0 = children[index].distanceToPrevious
+                    d0 += d14
+                    
+                    if d0.bitPattern & 0xfffffffffffff == 0 {
+                        switch majorAxis {
+                        case .horizontal:
+                            children[index].geometry.origin.x = d0
+                        case .vertical:
+                            children[index].geometry.origin.y = d0
+                        }
+                    }
+                    
+                    var d1: CGFloat
+                    switch majorAxis {
+                    case .horizontal:
+                        d1 = children[index].geometry.origin.y
+                    case .vertical:
+                        d1 = children[index].geometry.origin.x
+                    }
+                    
+                    d1 -= d13
+                    
+                    if d1.bitPattern & 0xfffffffffffff == 0 {
+                        switch majorAxis {
+                        case .horizontal:
+                            children[index].geometry.origin.y = d1
+                        case .vertical:
+                            children[index].geometry.origin.x = d1
+                        }
+                    }
+                    
+                    // <+432>
+                    switch majorAxis {
+                    case .horizontal:
+                        d1 = children[index].geometry.dimensions.size.width
+                    case .vertical:
+                        d1 = children[index].geometry.dimensions.size.height
+                    }
+                    
+                    d14 = d0 + d1
+                }
+            }
+            
+            // <+536>
+            var d0 = d12 - d13
+            let d1: CGFloat
+            switch header.pointee.majorAxis {
+            case .horizontal:
+                d1 = d14
+            case .vertical:
+                d1 = d0
+                d0 = d14
+            }
+            
+            header.pointee.stackSize = CGSize(width: d1, height: d0)
         }
         
         func sizeChildrenIdeally(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {

@@ -434,7 +434,7 @@ struct LayoutProxy: Equatable {
     }
     
     func explicitAlignment(_ key: AlignmentKey, at size: ViewSize) -> CGFloat? {
-        fatalError("TODO")
+        return layoutComputer.explicitAlignment(key, at: size)
     }
     
     func finallyPlaced(at placement: _Placement, in size: CGSize, layoutDirection: LayoutDirection) -> ViewGeometry {
