@@ -379,8 +379,22 @@ extension StackLayout {
                 let copy_2 = copy_1
                 
                 // children -> x26
-                for child in children {
+                // x28
+                for index in children.indices {
                     // <+536>
+                    // sp + 0x1d0
+                    let child = children[index]
+                    
+                    // <+580>
+                    guard copy_1.proxies.count != index else {
+                        // <+1900>
+                        break
+                    }
+                    
+                    // x25
+                    let _index = copy_1.proxies[index].index
+                    
+                    // <+632>
                     fatalError("TODO")
                 }
                 fatalError("TODO")
@@ -388,8 +402,6 @@ extension StackLayout {
                 // <+1040>
                 fatalError("TODO")
             }
-            
-            fatalError("TODO")
         }
         
         func spacing() -> Spacing {

@@ -77,7 +77,7 @@ public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
 
 public struct LayoutSubview : Equatable {
     let proxy: LayoutProxy
-    fileprivate let index: Int32
+    let index: Int32
     fileprivate let containerLayoutDirection: LayoutDirection
     
     public func _trait<K>(key: K.Type) -> K.Value where K : _ViewTraitKey {
