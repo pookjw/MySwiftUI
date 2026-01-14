@@ -352,6 +352,15 @@ extension StackLayout {
              header -> x4 -> x21
              children -> x5, x6 -> x27, x20
              */
+            var d0 = bounds.origin.x
+            var d1 = bounds.origin.y
+            var d2 = bounds.size.width
+            var d3 = bounds.size.height
+            var d13 = d0
+            var d10 = d1
+            var d15 = d2
+            var d11 = d3
+            
             let proposal = proposalWhenPlacing(
                 in: ViewSize(
                     bounds.size,
@@ -366,12 +375,12 @@ extension StackLayout {
             /*
              bounds.size.width -> sp + 0x30
              bounds.origin.y -> sp + 0x40
-             bounds.origin.y -> sp + 0x48
+             bounds.origin.x -> sp + 0x48
              */
             
             switch header.pointee.majorAxis {
             case .vertical:
-                let d13 = bounds.minY
+                d13 = bounds.minY
                 
                 // sp + 0x250
                 let copy_1 = header.pointee
@@ -379,25 +388,68 @@ extension StackLayout {
                 let copy_2 = copy_1
                 
                 // children -> x26
-                // x28
-                for index in children.indices {
+                // x28(index), x26, x25
+                for (child, proxy) in zip(children, copy_1.proxies) {
                     // <+536>
                     // sp + 0x1d0
-                    let child = children[index]
+                    let copy_3 = child
                     
-                    // <+580>
-                    guard copy_1.proxies.count != index else {
-                        // <+1900>
-                        break
+                    // <+640>
+                    // sp + 0x50
+                    let dimensions = child.geometry.dimensions
+                    var d14 = copy_3.geometry.origin.x
+                    d0 = copy_3.distanceToPrevious
+                    var d8 = d13 + d0
+                    
+                    // <+672>
+                    d0 = copy_3.geometry.origin.y
+                    d13 = copy_3.geometry.dimensions.size.height
+                    
+                    var d12: CGFloat
+                    if d0.bitPattern & 0xfffffffffffff != 0 {
+                        d12 = d8
+                    } else {
+                        d12 = d0
                     }
                     
-                    // x25
-                    let _index = copy_1.proxies[index].index
+                    // <+704>
+                    // inlined
                     
-                    // <+632>
-                    fatalError("TODO")
+                    switch layoutDirection {
+                    case .rightToLeft:
+                        // <+708>
+                        d10 = copy_3.geometry.dimensions.size.value.width
+                        d0 = d14
+                        d1 = d12
+                        d2 = d10
+                        d10 = bounds.origin.y
+                        var d3 = d13
+                        d0 = CGRect(x: d0, y: d1, width: d2, height: d3).maxX
+                        d14 = d15 - d0
+                        // <+792>
+                    case .leftToRight:
+                        // <+768>
+                        // <+792>
+                        break
+                    }
+                    d0 = bounds.origin.x
+                    d1 = d10
+                    d2 = d15
+                    d3 = d11
+                    
+                    d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minX
+                    var d9 = d14 + d0
+                    proxy.place(
+                        in: ViewGeometry(
+                            origin: CGPoint(x: d9, y: d12),
+                            dimensions: dimensions
+                        ),
+                        layoutDirection: layoutDirection
+                    )
+                    
+                    // <+476>
+                    d13 += d8
                 }
-                fatalError("TODO")
             case .horizontal:
                 // <+1040>
                 fatalError("TODO")
