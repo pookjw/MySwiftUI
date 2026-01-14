@@ -369,12 +369,26 @@ extension StackLayout {
              bounds.origin.y -> sp + 0x48
              */
             
-            if header.pointee.majorAxis == .vertical {
+            switch header.pointee.majorAxis {
+            case .vertical:
                 let d13 = bounds.minY
+                
+                // sp + 0x250
+                let copy_1 = header.pointee
+                // sp + 0x1d0
+                let copy_2 = copy_1
+                
+                // children -> x26
+                for child in children {
+                    // <+536>
+                    fatalError("TODO")
+                }
+                fatalError("TODO")
+            case .horizontal:
+                // <+1040>
                 fatalError("TODO")
             }
             
-            // <+1040>
             fatalError("TODO")
         }
         
