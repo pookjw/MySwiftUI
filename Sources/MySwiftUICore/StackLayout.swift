@@ -452,7 +452,94 @@ extension StackLayout {
                 }
             case .horizontal:
                 // <+1040>
-                fatalError("TODO")
+                d0 = d13
+                d1 = d10
+                d2 = d15
+                d3 = d11
+                
+                switch layoutDirection {
+                case .leftToRight:
+                    d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minX
+                case .rightToLeft:
+                    d0 = CGRect(x: d0, y: d1, width: d2, height: d3).maxX
+                }
+                
+                var d12 = d0
+                
+                // sp + 0x250
+                let copy_1 = header.pointee
+                
+                // <+1108>
+                // sp + 0x1d0
+                let copy_2 = copy_1
+                
+                guard !children.isEmpty else {
+                    return
+                }
+                
+                /*
+                 copy_1.proxies -> sp + 0x38
+                 children -> x19
+                 */
+                // (x19, x26)
+                for (child, proxy) in zip(children, copy_1.proxies) {
+                    // <+1356>
+                    // sp + 0x1d0
+                    let copy_3 = child
+                    
+                    var d8 = copy_3.geometry.origin.x
+                    var d9 = copy_3.geometry.origin.y
+                    // sp + 0x90..<0xc0
+                    let dimensions = child.geometry.dimensions
+                    
+                    // sp + 0x158
+                    let _ = copy_3
+                    
+                    d0 = d13
+                    d1 = d10
+                    d2 = d15
+                    d3 = d11
+                    
+                    d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minY
+                    d1 = copy_3.distanceToPrevious
+                    
+                    switch layoutDirection {
+                    case .rightToLeft:
+                        // <+1540>
+                        d1 = d12 - d1
+                        d2 = copy_3.geometry.dimensions.size.width
+                        d12 = d1 - d2
+                        // <+1552>
+                        
+                        if (d12.bitPattern & 0xfffffffffffff) & 0x7ff0000000000000 != 0 {
+                            d8 = d12
+                        }
+                        // <+1616>
+                    case .leftToRight:
+                        // <+1580>
+                        d1 = d12 + d1
+                        
+                        if (d1.bitPattern & 0xfffffffffffff) & 0x7ff0000000000000 != 0 {
+                            d8 = d11
+                        }
+                        
+                        d2 = dimensions.size.value.width
+                        d12 = d1 - d2
+                        // <+1616>
+                    }
+                    
+                    // <+1616>
+                    d9 += d0
+                    
+                    // inlined
+                    proxy.place(
+                        in: ViewGeometry(
+                            origin: CGPoint(x: d8, y: d9),
+                            dimensions: dimensions
+                        ),
+                        layoutDirection: layoutDirection
+                    )
+                }
             }
         }
         

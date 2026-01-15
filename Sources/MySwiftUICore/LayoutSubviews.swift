@@ -112,8 +112,15 @@ public struct LayoutSubview : Equatable {
         fatalError("TODO")
     }
     
-    func place(in: ViewGeometry, layoutDirection: LayoutDirection) {
-        fatalError("TODO")
+    func place(in geometry: ViewGeometry, layoutDirection: LayoutDirection) {
+        let placementDataPointer = _threadLayoutData()!
+            .assumingMemoryBound(to: PlacementData.self)
+        
+        assert(placementDataPointer.pointee.signature == .placement)
+        
+        placementDataPointer
+            .pointee
+            .setGeometry(geometry, at: Int(index), layoutDirection: layoutDirection)
     }
     
     func lengthThatFits(_ size: ProposedViewSize, in axis: Axis) -> CGFloat {
@@ -198,7 +205,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         fatalError("TODO")
     }
     
-    func sizeThatFits(_: _ProposedSize) -> CGSize {
+    func sizeThatFits(_ size: _ProposedSize) -> CGSize {
         fatalError("TODO")
     }
     
@@ -378,7 +385,7 @@ struct LayoutProxy: Equatable {
     private var attributes: LayoutProxyAttributes
     
     func requiresTrueDepthLayout() -> Bool {
-        fatalError("TODO")
+        return layoutComputer.requiresTrueDepthLayout()
     }
     
     func dimensions3D(in proposedSize: _ProposedSize3D) -> ViewDimensions3D {
@@ -476,7 +483,7 @@ struct LayoutProxy: Equatable {
     }
 }
 
-struct LayoutProxyCollection {
+struct LayoutProxyCollection: RandomAccessCollection {
     fileprivate private(set) var context: AnyRuleContext
     fileprivate private(set) var attributes: [LayoutProxyAttributes]
     
@@ -486,11 +493,11 @@ struct LayoutProxyCollection {
     }
     
     var startIndex: Int {
-        fatalError("TODO")
+        return 0
     }
     
     var endIndex: Int {
-        fatalError("TODO")
+        return attributes.endIndex
     }
     
     subscript(_ index: Int) -> LayoutProxy {
@@ -565,8 +572,48 @@ fileprivate struct PlacementData {
     let bounds: CGRect
     let layoutDirection: LayoutDirection
     
-    mutating func setGeometry(_: ViewGeometry, at: Int, layoutDirection: LayoutDirection) {
-        fatalError("TODO")
+    mutating func setGeometry(_ geometry: ViewGeometry, at index: Int, layoutDirection: LayoutDirection) {
+        /*
+         index -> x21
+         layoutDirection -> w22
+         */
+        // sp + 0x80
+        let copy_1 = geometry
+        /*
+         self.geometry -> x19
+         */
+        self.geometry[index] = copy_1
+        
+        // <+176>
+        if layoutDirection != self.layoutDirection {
+            var d8 = bounds.origin.x
+            var d9 = bounds.origin.y
+            var d10 = bounds.size.width
+            var d11 = bounds.size.height
+            // sp
+            let copy_2 = copy_1
+            
+            var d0 = d8
+            var d1 = d9
+            var d2 = d10
+            var d3 = d11
+            
+            d0 = CGRect(x: d0, y: d1, width: d2, height: d3).maxX
+            d9 = d0
+            
+            let frame = self.geometry[index].frame
+            d0 = frame.origin.x
+            d1 = frame.origin.y
+            d2 = frame.size.width
+            d3 = frame.size.height
+            
+            d0 = CGRect(x: d0, y: d1, width: d2, height: d3).maxX
+            
+            d0 = d0 - d8
+            d0 = d9 - d0
+            
+            self.geometry[index].origin.x = d0
+        }
     }
 }
 

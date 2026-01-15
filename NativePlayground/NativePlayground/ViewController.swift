@@ -1171,16 +1171,15 @@ class ViewController: UIViewController {
         collection[MyKey.self] = true
         
         let model = ObsModel()
-        let rootView = MyObsView(model: model)
+//        let rootView = MyObsView(model: model)
         
-//        let rootView = MyLayout() {
-//            if model.flag {
-//                Color.white
-//            } else {
-//                Color.black
-////                Text("")
-//            }
-//        }
+        let rootView = MyLayout() {
+            if model.flag {
+                Color.white
+            } else {
+                Color.black
+            }
+        }
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
@@ -1356,29 +1355,30 @@ fileprivate struct MyAlignmentGuide: AlignmentGuide, Sendable {
     nonisolated init() {}
 }
 
-fileprivate struct MyLayout: HVStack, Sendable {
-    var spacing: CGFloat? {
-        return 3
-    }
+fileprivate struct MyLayout: Layout /*HVStack*/, Sendable {
+//    var spacing: CGFloat? {
+//        return 3
+//    }
+//    
+//    var alignment: MyAlignmentGuide {
+//        return MyAlignmentGuide()
+//    }
+//    
+//    static var majorAxis: Axis {
+//        return .horizontal
+//    }
+//    
+//    static var resizeChildrenWithTrailingOverflow: Bool {
+//        return false
+//    }
     
-    var alignment: MyAlignmentGuide {
-        return MyAlignmentGuide()
-    }
-    
-    static var majorAxis: Axis {
-        return .horizontal
-    }
-    
-    static var resizeChildrenWithTrailingOverflow: Bool {
-        return false
-    }
-    
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout _StackLayoutCache) -> CGSize {
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout 
+    Void) -> CGSize {
 //        fatalError("TODO")
         return .zero
     }
     
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout _StackLayoutCache) {
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) {
 //        fatalError("TODO")
     }
 }

@@ -1713,3 +1713,10 @@ extension SwiftUI._LayoutTraits {
     public static func < (lhs: SwiftUI._LayoutTraits.FlexibilityEstimate, rhs: SwiftUI._LayoutTraits.FlexibilityEstimate) -> Swift.Bool
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct LayoutProxy: Swift.Equatable {
+  public init(context: AttributeGraph.AnyRuleContext, layoutComputer: AttributeGraph.Attribute<_SwiftUICorePrivate.LayoutComputer>?)
+  public func requiresTrueDepthLayout() -> Swift.Bool
+}

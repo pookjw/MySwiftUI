@@ -78,6 +78,10 @@ struct LayoutComputer: @unchecked Sendable {
         Update.assertIsLocked()
         return box.lengthThatFits(size, in: axis)
     }
+    
+    func explicitDepthAlignment(_: DepthAlignmentKey, at: ViewSize3D) -> CGFloat? {
+        fatalError("TODO")
+    }
 }
 
 extension LayoutComputer: Equatable {

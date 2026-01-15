@@ -177,8 +177,41 @@ extension Layout {
 }
 
 extension Layout {
-    static func defaultDepthThatFits(_: _ProposedSize3D, children: LayoutProxyCollection, geometries: [ViewGeometry]) -> CGFloat {
-        fatalError("TODO")
+    static func defaultDepthThatFits(_ size: _ProposedSize3D, children: LayoutProxyCollection, geometries: [ViewGeometry]) -> CGFloat {
+        // sp + 0x38, sp + 0x34
+        let depth = size.depth
+        // sp + 0x24, (x28 -> sp + 0x18), x21 (buffer)
+        let copy_1 = children
+        // geometries -> sp + 0x40
+        
+        guard !children.isEmpty else {
+            return 0
+        }
+        
+        Update.assertIsLocked()
+        
+        // <+112>
+        // x19
+        var index = 0
+        var d8: CGFloat = 0
+        
+        repeat {
+            assert(index < copy_1.endIndex)
+            guard index != geometries.endIndex else {
+                break
+            }
+            assert(index < geometries.endIndex)
+            
+            var d9 = copy_1[index].layoutComputer.depthThatFits(size)
+            
+            // <+260>
+            index &+= 1
+            if d8 <= d9 {
+                d8 = d9
+            }
+        } while index != copy_1.endIndex
+        
+        return d8
     }
 }
 
