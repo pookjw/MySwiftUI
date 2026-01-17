@@ -501,7 +501,7 @@ extension DynamicViewList.WrappedList: ViewList {
     }
     
     var traits: ViewTraitCollection {
-        fatalError("TODO")
+        return base.traits
     }
     
     func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {

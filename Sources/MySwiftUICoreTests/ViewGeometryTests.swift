@@ -37,13 +37,13 @@ extension ViewGeometryTests {
         #expect(original.isInvalid)
         
         impl.origin.x = .infinity
-        impl.origin.y = .infinity
-        #expect(impl.isInvalid)
-        #expect(original.isInvalid)
+        original.origin.x = .infinity
+        #expect(!impl.isInvalid)
+        #expect(!original.isInvalid)
         
         impl.origin.x = -.infinity
-        impl.origin.y = -.infinity
-        #expect(impl.isInvalid)
-        #expect(original.isInvalid)
+        original.origin.x = -.infinity
+        #expect(!impl.isInvalid)
+        #expect(!original.isInvalid)
     }
 }

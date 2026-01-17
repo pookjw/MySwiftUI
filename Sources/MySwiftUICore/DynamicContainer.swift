@@ -941,6 +941,27 @@ fileprivate struct DynamicPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttri
     }
     
     var value: T.Value {
+        /*
+         items -> sp + 0x50
+         indexMap -> x26
+         displayMap -> x28
+         removedCount -> sp + 0x58
+         unusedCount -> x25
+         */
+        let info = info!
+        
+        let x22 = info.items.count - info.unusedCount
+        let x23 = x22 - info.removedCount
+        
+        // sp + 0x70
+        let value: T
+        if x22 == x23 {
+            // <+224>
+//            value = T.defaultValue
+        } else {
+            // <+256>
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
 }

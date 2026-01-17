@@ -956,7 +956,7 @@ open class _UIHostingView<Content: View>: UIView {
         surfaceSnappingInfo.isSnapped = windowScene.isSnappedToSurface
         // <+380>
         // x19
-        var authorization = tcc_authorization_preflight(kTCCServiceWorldSensing, nil)
+        var authorization = tcc_authorization_preflight(kTCCServiceWorldSensing as CFString, nil)
         
         if
             let wantsDetailedSurfaceInfo = Bundle.main.infoDictionary?["UIWantsDetailedSurfaceInfo"] as? Bool,
@@ -964,7 +964,7 @@ open class _UIHostingView<Content: View>: UIView {
             authorization == 1,
             windowScene.isSnappedToSurface
         {
-            tcc_authorization_request(kTCCServiceWorldSensing, nil) { result in
+            tcc_authorization_request(kTCCServiceWorldSensing as CFString, nil) { result in
                 // $s7SwiftUI14_UIHostingViewC19updateSnappingState11environmentyAA17EnvironmentValuesVz_tFySo25tcc_authorization_right_tacfU_TA
                 authorization = result
             }

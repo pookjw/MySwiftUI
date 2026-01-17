@@ -442,7 +442,7 @@ fileprivate struct TransitionHelper<T: Transition> {
     private(set) var transition: T
     private(set) var phase: TransitionPhase
     
-    func update() -> Bool {
+    mutating func update() -> Bool {
         // sp + 0x6f
         var didUpdate = false
         
@@ -470,7 +470,12 @@ fileprivate struct TransitionHelper<T: Transition> {
         let transitionBox = traits.value(for: TransitionTraitKey.self)
         let transition = transitionBox.base(as: T.self)
         
-        fatalError("TODO")
+        transition.map { transition in
+            self.transition = transition
+            didUpdate = true
+        }
+        
+        return didUpdate
     }
 }
 
@@ -479,12 +484,17 @@ fileprivate struct ViewListTransition<T: Transition>: StatefulRule, AsyncAttribu
     
     typealias Value = T.Body
     
-    func updateValue() {
+    mutating func updateValue() {
         guard helper.update() || !hasValue else {
             return
         }
         
-        fatalError("TODO")
+        self.value = MainActor.assumeIsolated { [unchecked = UncheckedSendable(helper)] in
+            let helper = unchecked.value
+            let content = PlaceholderContentView<T>()
+            let body = helper.transition.body(content: content, phase: helper.phase)
+            return UncheckedSendable(body)
+        }.value
     }
 }
 

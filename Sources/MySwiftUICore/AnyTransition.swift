@@ -31,7 +31,11 @@
     }
     
     func base<T: Transition>(as type: T.Type) -> T? {
-        fatalError("TODO")
+        guard let casted = box as? TransitionBox<T> else {
+            return nil
+        }
+        
+        return casted.base
     }
 }
 
@@ -61,7 +65,7 @@ extension AnyTransitionBox: Sendable {
 }
 
 fileprivate final class TransitionBox<T: Transition>: AnyTransitionBox {
-    private let base: T
+    let base: T
     
     init(_ base: T) {
         self.base = base
