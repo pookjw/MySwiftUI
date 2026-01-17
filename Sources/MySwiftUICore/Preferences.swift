@@ -148,9 +148,11 @@ package protocol PreferenceKey {
     }
     
     static func reduce(value: inout Value, nextValue: () -> Value)
+    
     static var _includesRemovedValues: Bool {
         get
     }
+    
     static var _isReadableByHost: Bool {
         get
     }
