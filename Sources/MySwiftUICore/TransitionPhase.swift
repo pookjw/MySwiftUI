@@ -7,10 +7,6 @@
         fatalError("TODO")
     }
     
-    public static func == (a: TransitionPhase, b: TransitionPhase) -> Bool {
-        fatalError("TODO")
-    }
-    
     public func hash(into hasher: inout Hasher) {
         fatalError("TODO")
     }

@@ -107,7 +107,7 @@ protocol LayoutEngine {
     func spacing() -> Spacing
     mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize
     func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat
-    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry]
+    mutating func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry]
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat?
     func childPlacement(at viewSize: ViewSize) -> _Placement
     func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement
@@ -386,7 +386,7 @@ struct DepthStashingLayoutComputer: StatefulRule, AsyncAttribute {
 extension DepthStashingLayoutComputer {
     struct Engine: DerivedLayoutEngine {
         let base: LayoutComputer
-        private let depthProposal: CGFloat?
+        let depthProposal: CGFloat?
         
         // 원래 없음
         @inline(__always)
@@ -396,22 +396,47 @@ extension DepthStashingLayoutComputer {
         }
         
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-            var proposedSize = proposedSize
+            var depthProposal = depthProposal
             
             if EnableLayoutDepthStashing.isEnabled {
                 // <+80>
                 let old = unsafe _threadLayoutDepthData()
-                unsafe _setThreadLayoutDepthData(&proposedSize.height)
-                Update.assertIsLocked()
+                unsafe _setThreadLayoutDepthData(&depthProposal)
                 let size = base.sizeThatFits(proposedSize)
                 unsafe _setThreadLayoutDepthData(old)
                 return size
             } else {
                 // <+240>
-                Update.assertIsLocked()
                 let size = base.sizeThatFits(proposedSize)
                 return size
             }
+        }
+        
+        func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+            fatalError("TODO")
+        }
+        
+        func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+            var depthProposal = depthProposal
+            
+            if EnableLayoutDepthStashing.isEnabled {
+                let old = unsafe _threadLayoutDepthData()
+                unsafe _setThreadLayoutDepthData(&depthProposal)
+                let size = base.childGeometries(at: viewSize, origin: origin)
+                unsafe _setThreadLayoutDepthData(old)
+                return size
+            } else {
+                let size = base.childGeometries(at: viewSize, origin: origin)
+                return size
+            }
+        }
+        
+        func childPlacement(at viewSize: ViewSize) -> _Placement {
+            fatalError("TODO")
+        }
+        
+        func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+            fatalError("TODO")
         }
     }
 }

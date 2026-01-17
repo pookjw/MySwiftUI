@@ -101,7 +101,7 @@ extension DynamicContainer {
         fileprivate var zIndex: Double = 0
         private(set) var removalOrder: UInt32 = 0
         var precedingViewCount: Int32 = 0
-        private var resetSeed: UInt32 = 0
+        private(set) var resetSeed: UInt32 = 0
         var phase: TransitionPhase? = nil
         
         init(subgraph: Subgraph, uniqueId: UInt32, viewCount: Int32, phase: TransitionPhase, needsTransitions: Bool, outputs: _ViewOutputs) {
@@ -964,7 +964,28 @@ fileprivate struct DynamicViewPhase: Rule, AsyncAttribute {
     let uniqueId: UInt32
     
     var value: _GraphInputs.Phase {
-        fatalError("TODO")
+        // w24
+        let phase = phase
+        // x20
+        let indexMap = info.indexMap
+        
+        guard let index = indexMap[uniqueId] else {
+            return phase
+        }
+        
+        // w23
+        let resetSeed = info.items[index].resetSeed
+        // x20
+        let item = info.items[index]
+        // w22
+        let itemPhase = item.phase
+        
+        var newPhase = _GraphInputs.Phase()
+        newPhase.resetSeed = resetSeed
+        newPhase.merge(phase)
+        newPhase.isBeingRemoved = itemPhase == .didDisappear
+        
+        return newPhase
     }
 }
 

@@ -442,7 +442,34 @@ fileprivate struct TransitionHelper<T: Transition> {
     private(set) var transition: T
     private(set) var phase: TransitionPhase
     
-    func update() {
+    func update() -> Bool {
+        // sp + 0x6f
+        var didUpdate = false
+        
+        if
+            let index = info.indexMap[uniqueId],
+            let phase = info.items[index].phase // w20
+        {
+            didUpdate = self.phase != phase
+        }
+        
+        // <+336>
+        guard self.phase != .didDisappear else {
+            return didUpdate
+        }
+        
+        let traits: ViewTraitCollection
+        if let list {
+            traits = list.traits
+        } else {
+            traits = ViewTraitCollection()
+        }
+        
+        // <+448>
+        // x25
+        let transitionBox = traits.value(for: TransitionTraitKey.self)
+        let transition = transitionBox.base(as: T.self)
+        
         fatalError("TODO")
     }
 }
@@ -453,6 +480,10 @@ fileprivate struct ViewListTransition<T: Transition>: StatefulRule, AsyncAttribu
     typealias Value = T.Body
     
     func updateValue() {
+        guard helper.update() || !hasValue else {
+            return
+        }
+        
         fatalError("TODO")
     }
 }

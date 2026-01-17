@@ -181,7 +181,7 @@ extension _GraphInputs {
                 return value &>> 1
             }
             set {
-                value = (value & 1) | ((newValue & 0x7FFFFFFF) << 1)
+                value = (value & 1) | ((newValue & 0x7FFFFFFF) &<< 1)
             }
         }
         
@@ -314,6 +314,13 @@ fileprivate struct MergedPhase: Rule, AsyncAttribute {
     @Attribute private(set) var rhs: _GraphInputs.Phase
     
     var value: _GraphInputs.Phase {
-        fatalError("TODO")
+        // w22
+        var rhs = rhs
+        
+        if let lhs = lhs {
+            rhs.merge(lhs)
+        }
+        
+        return rhs
     }
 }

@@ -29,6 +29,10 @@
     func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
         return box.visitBase(applying: &visitor)
     }
+    
+    func base<T: Transition>(as type: T.Type) -> T? {
+        fatalError("TODO")
+    }
 }
 
 @available(*, unavailable)

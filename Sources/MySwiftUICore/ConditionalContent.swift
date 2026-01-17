@@ -148,7 +148,7 @@ extension ConditionalMetadata where T == ViewDescriptor {
          return pointer = x23
          */
         var makeList = unsafe Self.MakeList<U>(desc: desc, view: view, index: 0, ptr: nil, inputs: inputs, outputs: nil)
-        unsafe desc.project(at: ptr, baseIndex: 1) { index, conformance, pointer in
+        unsafe desc.project(at: ptr, baseIndex: 0) { index, conformance, pointer in
             // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE04makeE4List3ptr4view6inputsAA01_eH7OutputsVSPyqd__G_14AttributeGraph0M0Vyqd__GAA01_eH6InputsVtlFySi_AA15TypeConformanceVyAEGSgSVSgtXEfU_TA
             guard
                 let conformance,
@@ -263,22 +263,12 @@ fileprivate nonisolated(unsafe) let optionalTypeDescriptor: UnsafeRawPointer = u
 
 extension ConditionalMetadata where T == ViewDescriptor {
     fileprivate struct MakeList<U>: ViewTypeVisitor {
-        private var desc: ConditionalTypeDescriptor<ViewDescriptor>
-        private var view: Attribute<U>
+        private(set) var desc: ConditionalTypeDescriptor<ViewDescriptor>
+        private(set) var view: Attribute<U>
         var index: Int
         var ptr: UnsafeRawPointer?
-        private var inputs: _ViewListInputs
+        private(set) var inputs: _ViewListInputs
         var outputs: _ViewListOutputs?
-        
-        @inline(__always)
-        init(desc: ConditionalTypeDescriptor<ViewDescriptor>, view: Attribute<U>, index: Int, ptr: UnsafeRawPointer?, inputs: _ViewListInputs, outputs: _ViewListOutputs?) {
-            self.desc = desc
-            self.view = view
-            self.index = index
-            unsafe self.ptr = unsafe ptr
-            self.inputs = inputs
-            self.outputs = outputs
-        }
         
         mutating func visit<Content: View>(type: Content.Type) {
             // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE8MakeList33_2319071E64CA2FA820BFB26F46C6ECC6LLV5visit4typeyqd0__m_tAA0E0Rd0__lF
@@ -292,20 +282,23 @@ extension ConditionalMetadata where T == ViewDescriptor {
 }
 
 fileprivate struct UnwrapConditional<T: ConditionalProtocolDescriptor, Source, Content: View>: StatefulRule, AsyncAttribute {
-    @Attribute private var source: Source
-    private let desc: ConditionalTypeDescriptor<T>
-    private let index: Int
-    
-    @inline(__always)
-    init(source: Attribute<Source>, desc: ConditionalTypeDescriptor<T>, index: Int) {
-        self._source = source
-        self.desc = desc
-        self.index = index
-    }
+    @Attribute private(set) var source: Source
+    let desc: ConditionalTypeDescriptor<T>
+    let index: Int
     
     typealias Value = Content
     
     func updateValue() {
-        fatalError("TODO")
+        withUnsafePointer(to: source) { pointer1 in
+            desc.project(at: pointer1, baseIndex: 0) { index, conformance, pointer2 in
+                guard self.index == index else {
+                    return
+                }
+                
+                value = pointer2!
+                    .assumingMemoryBound(to: Content.self)
+                    .pointee
+            }
+        }
     }
 }
