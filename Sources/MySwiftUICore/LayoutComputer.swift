@@ -105,7 +105,7 @@ protocol LayoutEngine {
     func ignoresAutomaticPadding() -> Bool
     func requiresSpacingProjection() -> Bool
     func spacing() -> Spacing
-    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize
+    mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize
     func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry]
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat?
@@ -326,7 +326,7 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
     }
     
     override func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        fatalError("TODO")
+        return engine.childGeometries(at: viewSize, origin: origin)
     }
     
     override func requiresTrueDepthLayout() -> Bool {

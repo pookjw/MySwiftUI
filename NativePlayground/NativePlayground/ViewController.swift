@@ -1173,7 +1173,7 @@ class ViewController: UIViewController {
         let model = ObsModel()
 //        let rootView = MyObsView(model: model)
         
-        let rootView = MyLayout() {
+        let rootView = _VStackLayout {
             if model.flag {
                 Color.white
             } else {

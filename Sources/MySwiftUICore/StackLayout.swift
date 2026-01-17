@@ -90,7 +90,9 @@ extension HVStack {
     }
     
     public nonisolated func sizeThatFits(proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGSize {
-        fatalError("TODO")
+        return cache.stack.withUnmanagedImplementation { unmanaged in
+            return unmanaged.sizeThatFits(proposal: proposal)
+        }
     }
     
     public nonisolated func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) {
@@ -100,8 +102,8 @@ extension HVStack {
          subviews -> x24, x20, x23
          cache -> x19
          */
-        return cache.stack.withUnmanagedImplementation { unmanaged in
-            return unmanaged.commitPlacements(in: bounds, proposedSize: proposal)
+        cache.stack.withUnmanagedImplementation { unmanaged in
+            unmanaged.commitPlacements(in: bounds, proposedSize: proposal)
         }
     }
     
@@ -209,6 +211,12 @@ extension StackLayout {
     fileprivate struct UnmanagedImplementation {
         let header: UnsafeMutablePointer<StackLayout.Header>
         let children: UnsafeMutableBufferPointer<StackLayout.Child>
+        
+        func sizeThatFits(proposal: ProposedViewSize) -> CGSize {
+            // $s7SwiftUI12VStackLayoutVAA0D0A2aDP12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsV5CacheQzztFTWTm
+            placeChildren(in: proposal)
+            return header.pointee.stackSize
+        }
         
         func prioritize(_ children: UnsafeMutableBufferPointer<StackLayout.Child>, proposedSize: ProposedViewSize) {
             /*

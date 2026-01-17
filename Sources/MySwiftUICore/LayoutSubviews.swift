@@ -205,8 +205,25 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         fatalError("TODO")
     }
     
-    func sizeThatFits(_ size: _ProposedSize) -> CGSize {
-        fatalError("TODO")
+    mutating func sizeThatFits(_ size: _ProposedSize) -> CGSize {
+        /*
+         size -> x22
+         */
+        let subviews = LayoutSubviews(context: proxies.context, storage: .direct(proxies.attributes), layoutDirection: layoutDirection)
+        let cache = cache
+        
+        // inlined
+        var sizeCache = sizeCache
+        let size = sizeCache.get(size) { 
+            layout.sizeThatFits(
+                proposal: ProposedViewSize(size),
+                subviews: subviews,
+                cache: &self.cache
+            )
+        }
+        self.sizeCache = sizeCache
+        
+        return size
     }
     
     mutating func childGeometries(at size: ViewSize, origin: CGPoint) -> [ViewGeometry] {
@@ -376,7 +393,17 @@ struct ViewSizeCache {
     }
     
     mutating func get(_ key: _ProposedSize, makeValue: () -> CGSize) -> CGSize {
-        fatalError("TODO")
+        let depth: CGFloat?
+        if let layoutDepthData = _threadLayoutDepthData() {
+            depth = layoutDepthData
+                .assumingMemoryBound(to: CGFloat?.self)
+                .pointee
+        } else {
+            depth = nil
+        }
+        
+        let key3D = _ProposedSize3D(width: key.width, height: key.height, depth: depth)
+        return cache.get(key3D, makeValue: makeValue)
     }
 }
 
