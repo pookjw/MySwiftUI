@@ -272,11 +272,23 @@ extension DisplayList {
                         fatalError("TODO")
                     } else {
                         // <+1304>
-                        var displsyList = displsyList
-                        displsyList.properties = .privacySensitive
+                        // <+3080>
                         canonicalizeIdentityEffect(list: displsyList)
-                        // sp, #0x28
-                        fatalError("TODO")
+                        
+                        if displsyList.properties.contains(.foregroundLayer) {
+                            // <+3172>
+                            return
+                        }
+                        
+                        // <+3144>
+                        if opacity > 0.0 {
+                            // <+4316>
+                            return
+                        } else {
+                            // <+4516>
+                            value = .empty
+                            return
+                        }
                     }
                 default:
                     fatalError("TODO")
@@ -287,8 +299,24 @@ extension DisplayList {
             }
         }
         
-        private func canonicalizeIdentityEffect(list: DisplayList) {
-            fatalError("TODO")
+        private mutating func canonicalizeIdentityEffect(list: DisplayList) {
+            guard list.items.count == 1 else {
+                return
+            }
+            
+            let item = list.items[0]
+            let itemFrame = item.frame
+            let origin = itemFrame.origin + self.frame.origin
+            self.frame = CGRect(origin: origin, size: itemFrame.size)
+            self.version = max(self.version, item.version)
+            
+            let value = item.value
+            let identity = item.identity
+            self.value = item.value
+            
+            if identity.value != 0 {
+                self.identity = identity
+            }
         }
         
         func canonicalizePlatformEffect(options: DisplayList.Options) {

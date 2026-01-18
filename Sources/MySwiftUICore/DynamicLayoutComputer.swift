@@ -65,7 +65,30 @@ fileprivate struct DynamicLayoutViewChildDepth: StatefulRule, AsyncAttribute {
     typealias Value = ViewDepth
     
     func updateValue() {
-        fatalError("TODO")
+        // self -> x21
+        // sp + 0x10
+        let containerInfo = containerInfo
+        // x19, x20
+        if
+            let viewIndex = containerInfo.viewIndex(id: id),
+            childDepths.indices.contains(viewIndex)
+        {
+            // <+188>
+            let childDepths = childDepths
+            if childDepths.indices.contains(viewIndex) {
+                value = childDepths[viewIndex]
+                return
+            } else {
+                // <+312>
+            }
+        } else {
+            // <+312>
+        }
+        
+        // <+312>
+        if !hasValue {
+            value = .fixed(0)
+        }
     }
 }
 

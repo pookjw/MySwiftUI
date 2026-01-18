@@ -23,6 +23,8 @@ fileprivate struct DepthTransform: Rule, AsyncAttribute {
     @Attribute private(set) var depth: ViewDepth
     
     var value: ViewTransform {
-        fatalError("TODO")
+        var transform = transform
+        transform.depth = depth
+        return transform
     }
 }

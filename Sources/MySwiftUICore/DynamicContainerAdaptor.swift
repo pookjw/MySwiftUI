@@ -405,7 +405,25 @@ struct LayoutChildDepths<T: Layout>: Rule, AsyncAttribute {
     }
     
     var value: [ViewDepth] {
-        fatalError("TODO")
+        /*
+         $parentDepth -> w21
+         $childGeometries -> w23
+         $layoutComputer -> w22
+         */
+        // sp + 0x40
+        let parentSize = parentSize
+        // sp + 0x30
+        let parentDepth = parentDepth
+        // sp + 0x60
+        let size3D = ViewSize3D(parentSize, depth: parentDepth)
+        // x21
+        let childGeometries = childGeometries
+        // x22, x23
+        var layoutComputer = layoutComputer
+        
+        return layoutComputer.withMutableEngine(type: ViewLayoutEngine<T>.self) { layoutEngine in
+            return layoutEngine.childDepths(at: size3D, childGeometries: childGeometries)
+        }
     }
 }
 

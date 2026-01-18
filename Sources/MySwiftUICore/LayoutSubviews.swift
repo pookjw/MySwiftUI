@@ -366,16 +366,57 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         fatalError("TODO")
     }
     
-    func childDepths(at: ViewSize3D, childGeometries: [ViewGeometry]) -> [ViewDepth] {
-        fatalError("TODO")
+    mutating func childDepths(at size: ViewSize3D, childGeometries: [ViewGeometry]) -> [ViewDepth] {
+        /*
+         self -> x21
+         childGeometries -> sp + 0x18
+         */
+        // sp + 0x30
+        let size_1 = size
+        // sp + 0x8
+        let count = proxies.count
+        // childDepthProposal, childDepths -> sp + 0x70
+        let depthCache = depthCache
+        
+        // <+116>
+        if depthCache.childDepthProposal == size_1 {
+            let childDepths = depthCache.childDepths
+            if childDepths.count == count {
+                return childDepths
+            }
+        }
+        
+        // <+184>
+        // sp + 0x70
+        let size_2 = size
+        // sp + 0x30
+        let proposal = size_2.proposal
+        // sp + 0x70
+        let subviews = subviews
+        
+        let depths: [ViewDepth] = subviews
+            .enumerated()
+            .map { [childGeometries, depth = proposal.depth] index, subview in
+                // sp
+                let geometry = childGeometries[index]
+                // sp + 0x30
+                let proposal = geometry.dimensions.size.proposal
+                let subview3D = LayoutSubview3D(base: subview)
+                let size3D = _ProposedSize3D(width: proposal.width, height: proposal.height, depth: depth)
+                let value = subview3D.depthThatFits(size3D)
+                return ViewDepth(value, proposal: depth)
+            }
+        
+        self.depthCache.childDepths = depths
+        return depths
     }
 }
 
 extension ViewLayoutEngine {
     struct DepthCache {
         fileprivate var depthSize: Cache3<_ProposedSize3D, CGFloat>
-        private var childDepthProposal: ViewSize3D
-        private var childDepths: [ViewDepth]
+        fileprivate private(set) var childDepthProposal: ViewSize3D
+        fileprivate var childDepths: [ViewDepth]
         
         init() {
             depthSize = Cache3()
@@ -424,7 +465,7 @@ struct LayoutProxy: Equatable {
     }
     
     func depth(in proposedSize: _ProposedSize3D) -> CGFloat {
-        fatalError("TODO")
+        return layoutComputer.depthThatFits(proposedSize)
     }
     
     func idealDepth() -> CGFloat {

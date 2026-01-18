@@ -207,7 +207,7 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
         let copy_2 = self
         let content_0 = copy_2.content
         // sp + 0x150 -> x26(items), x19(features, properties) -> x25, sp + 0x68
-        var content = content_0 ?? DisplayList()
+        let content = content_0 ?? DisplayList()
         
         if content.items.isEmpty {
             guard Effect.preservesEmptyContent else {
@@ -228,8 +228,7 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
          return pointer -> sp + 0x60
          */
         // sp + 0x40
-        var properties = content.properties
-        properties.formUnion(.privacySensitive)
+        let properties = content.properties
         
         var proxy = GeometryProxy(
             owner: currentAttribute,
@@ -275,18 +274,9 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
         
         // <+604>
         // properties -> x10, content.items -> x9
-        // x25 (properties_2 | content.features)
-        var properties_2: DisplayList.Properties
-        if content_0 == nil {
-            properties_2 = .privacySensitive
-        } else {
-            properties_2 = properties
-        }
         
         let size = copy_1.size
         let identity = copy_1.identity
-        
-        content.properties = properties_2
         
         // sp + 0x100
         var item = DisplayList.Item(
