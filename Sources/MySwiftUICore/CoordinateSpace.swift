@@ -88,3 +88,22 @@ extension CoordinateSpace.ID {
     static let viewGraphHost = CoordinateSpace.ID()
     package static let viewGraphHostContainerCoordinateSpace = CoordinateSpace.ID()
 }
+
+public protocol CoordinateSpaceProtocol {
+    var coordinateSpace: CoordinateSpace { get }
+    // TODO: Extensions
+}
+
+public struct NamedCoordinateSpace: CoordinateSpaceProtocol, Equatable {
+    public var coordinateSpace: CoordinateSpace {
+        fatalError("TODO")
+    }
+    
+    public static func == (a: NamedCoordinateSpace, b: NamedCoordinateSpace) -> Bool {
+        fatalError("TODO")
+    }
+}
+
+@available(*, unavailable)
+extension NamedCoordinateSpace: Sendable {
+}

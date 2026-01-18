@@ -188,19 +188,76 @@ extension RendererEffect {
 
 fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, AsyncAttribute, ScrapeableAttribute {
     let identity: _DisplayList_Identity
-    @Attribute private(set) var effect: Effect
-    @Attribute private(set) var position: CGPoint
-    @Attribute private(set) var size: ViewSize
-    @Attribute private(set) var transform: ViewTransform
-    @Attribute private(set) var containerPosition: CGPoint
-    @Attribute private(set) var environment: EnvironmentValues
-    @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
-    @OptionalAttribute var content: DisplayList?
-    let options: DisplayList.Options
+    @Attribute private(set) var effect: Effect // 0x0
+    @Attribute private(set) var position: CGPoint // 0x4
+    @Attribute private(set) var size: ViewSize // 0x8
+    @Attribute private(set) var transform: ViewTransform // 0xc
+    @Attribute private(set) var containerPosition: CGPoint // 0x10
+    @Attribute private(set) var environment: EnvironmentValues // 0x14
+    @OptionalAttribute var safeAreaInsets: SafeAreaInsets? // 0x18
+    @OptionalAttribute var content: DisplayList? // 0x1c
+    let options: DisplayList.Options // 0x20
     let localID: ScrapeableID
     let parentID: ScrapeableID
     
     var value: DisplayList {
+        // sp + 0x80
+        let copy_1 = self
+        // sp + 0x1a0
+        let copy_2 = self
+        // sp + 0x150 -> x26(items), x19(features, properties) -> x25, sp + 0x68
+        let content = copy_2.content ?? DisplayList()
+        
+        if content.items.isEmpty {
+            guard Effect.preservesEmptyContent else {
+                return DisplayList()
+            }
+        }
+        
+        // <+164>
+        // x20
+        let version = DisplayList.Version(forUpdate: ())
+        let currentAttribute = Graph.currentAttribute
+        assert(currentAttribute != .empty)
+        
+        /*
+         x26 -> sp + 0x48
+         version -> sp + 0x50
+         x25 -> sp + 0x58
+         return pointer -> sp + 0x60
+         */
+        // sp + 0x40
+        var properties = DisplayList.Properties()
+        if content.properties.contains(.privacySensitive) {
+            properties.formUnion(.privacySensitive)
+        }
+        
+        var proxy = GeometryProxy(
+            owner: currentAttribute,
+            size: $size,
+            environment: $environment,
+            transform: $transform,
+            position: $position,
+            safeAreaInsets: $safeAreaInsets,
+            seed: UInt32(version.value)
+        )
+        
+        if Effect.disabledForFlattenedContent && content.features.contains(.flattened) {
+            // <+352>
+            fatalError("TODO")
+            // <+544>
+        } else {
+            // <+388>
+            proxy.asCurrent { [copy_1] in
+                // $s7SwiftUI25RendererEffectDisplayList33_49800242E3DD04CB91F7CE115272DDC3LLV5valueAA0eF0VvgAG0D0OyXEfU_
+                fatalError("TODO")
+            }
+            
+            fatalError("TODO")
+            // <+544>
+        }
+        
+        // <+544>
         fatalError("TODO")
     }
 }

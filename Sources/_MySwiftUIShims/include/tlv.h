@@ -16,3 +16,5 @@ MSUI_EXTERN void _setThreadLayoutData(void * _Nullable);
 MSUI_EXTERN void * _Nullable _threadLayoutData(void);
 MSUI_EXTERN void _setThreadLayoutDepthData(void * _Nullable);
 MSUI_EXTERN void * _Nullable _threadLayoutDepthData(void);
+MSUI_EXTERN void _setThreadGeometryProxyData(void * _Nullable);
+MSUI_EXTERN void * _Nullable _threadGeometryProxyData(void);

@@ -258,6 +258,9 @@ public struct DisplayList {
       public init(_: _SwiftUICorePrivate.DisplayList.Item.Value, frame: CoreGraphics.CGRect, identity: _SwiftUICorePrivate._DisplayList_Identity, version: _SwiftUICorePrivate.DisplayList.Version)
     }
 
+    public enum Effect {
+    }
+
     public struct Version {
       public init()
     }
@@ -1720,3 +1723,42 @@ public struct LayoutProxy: Swift.Equatable {
   public init(context: AttributeGraph.AnyRuleContext, layoutComputer: AttributeGraph.Attribute<_SwiftUICorePrivate.LayoutComputer>?)
   public func requiresTrueDepthLayout() -> Swift.Bool
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol _RendererEffect: _SwiftUICorePrivate.MultiViewModifier, _SwiftUICorePrivate.PrimitiveViewModifier {
+  nonisolated func effectValue(size: CoreGraphics.CGSize) -> _SwiftUICorePrivate.DisplayList.Effect
+  static nonisolated var isolatesChildPosition: Swift.Bool { get }
+  static nonisolated var disabledForFlattenedContent: Swift.Bool { get }
+  static nonisolated var preservesEmptyContent: Swift.Bool { get }
+  static nonisolated var isScrapeable: Swift.Bool { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol RendererEffect: SwiftUI.Animatable, _SwiftUICorePrivate._RendererEffect {
+}
+
+//@available(visionOS 26.0, *)
+//@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+//extension _SwiftUICorePrivate._RendererEffect {
+//  public static nonisolated func _makeRendererEffect(effect: SwiftUI._GraphValue<Self>, inputs: SwiftUI._ViewInputs, body: (SwiftUI._Graph, SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs) -> SwiftUI._ViewOutputs
+//}
+
+//@available(visionOS 26.0, *)
+//@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+//extension _SwiftUICorePrivate.RendererEffect {
+//  public static nonisolated func _makeView(modifier: SwiftUI._GraphValue<Self>, inputs: SwiftUI._ViewInputs, body: (SwiftUI._Graph, SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs) -> SwiftUI._ViewOutputs
+//}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol MultiViewModifier: ViewModifier where Body == Swift.Never {
+    
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol PrimitiveViewModifier: ViewModifier where Body == Swift.Never {
+    
+} 

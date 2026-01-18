@@ -13,6 +13,7 @@ static thread_local void *_perThreadTransactionData = NULL;
 static thread_local uint32_t _perThreadTransactionID = NULL;
 static thread_local void *_perThreadLayoutData = NULL;
 static thread_local void *_perThreadLayoutDepthData = NULL;
+static thread_local void *_perThreadGeometryProxyData = NULL;
 
 void _setThreadTransactionData(void * _Nullable data) {
     _perThreadTransactionData = data;
@@ -48,4 +49,12 @@ void _setThreadLayoutDepthData(void * _Nullable data) {
 
 void * _Nullable _threadLayoutDepthData(void) {
     return _perThreadLayoutDepthData;
+}
+
+void _setThreadGeometryProxyData(void * _Nullable data) {
+    _perThreadGeometryProxyData = data;
+}
+
+void * _Nullable _threadGeometryProxyData(void) {
+    return _perThreadGeometryProxyData;
 }
