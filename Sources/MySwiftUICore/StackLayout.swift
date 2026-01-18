@@ -619,7 +619,6 @@ extension StackLayout {
                 let majorAxis = header.pointee.majorAxis
                 // d8, d9, d10, d11
                 let frame = copy.geometry.frame
-                // frame
                 
                 var d0: CGFloat = 0
                 var d1: CGFloat = 0
