@@ -187,16 +187,16 @@ extension RendererEffect {
 }
 
 fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, AsyncAttribute, ScrapeableAttribute {
-    let identity: _DisplayList_Identity
-    @Attribute private(set) var effect: Effect // 0x0
-    @Attribute private(set) var position: CGPoint // 0x4
-    @Attribute private(set) var size: ViewSize // 0x8
-    @Attribute private(set) var transform: ViewTransform // 0xc
-    @Attribute private(set) var containerPosition: CGPoint // 0x10
-    @Attribute private(set) var environment: EnvironmentValues // 0x14
-    @OptionalAttribute var safeAreaInsets: SafeAreaInsets? // 0x18
-    @OptionalAttribute var content: DisplayList? // 0x1c
-    let options: DisplayList.Options // 0x20
+    let identity: _DisplayList_Identity // 0x4
+    @Attribute private(set) var effect: Effect // 0x4
+    @Attribute private(set) var position: CGPoint // 0x8
+    @Attribute private(set) var size: ViewSize // 0xc
+    @Attribute private(set) var transform: ViewTransform // 0x10
+    @Attribute private(set) var containerPosition: CGPoint // 0x14
+    @Attribute private(set) var environment: EnvironmentValues // 0x18
+    @OptionalAttribute var safeAreaInsets: SafeAreaInsets? // 0x1c
+    @OptionalAttribute var content: DisplayList? // 0x20
+    let options: DisplayList.Options // 0x2c
     let localID: ScrapeableID
     let parentID: ScrapeableID
     
@@ -205,8 +205,9 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
         let copy_1 = self
         // sp + 0x1a0
         let copy_2 = self
+        let content_0 = copy_2.content
         // sp + 0x150 -> x26(items), x19(features, properties) -> x25, sp + 0x68
-        let content = copy_2.content ?? DisplayList()
+        var content = content_0 ?? DisplayList()
         
         if content.items.isEmpty {
             guard Effect.preservesEmptyContent else {
@@ -227,10 +228,8 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
          return pointer -> sp + 0x60
          */
         // sp + 0x40
-        var properties = DisplayList.Properties()
-        if content.properties.contains(.privacySensitive) {
-            properties.formUnion(.privacySensitive)
-        }
+        var properties = content.properties
+        properties.formUnion(.privacySensitive)
         
         var proxy = GeometryProxy(
             owner: currentAttribute,
@@ -242,22 +241,63 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
             seed: UInt32(version.value)
         )
         
+        // x23, w21, w24 -> sp + 0x1f8
+        let displayEffectValue: DisplayList.Effect
         if Effect.disabledForFlattenedContent && content.features.contains(.flattened) {
             // <+352>
-            fatalError("TODO")
+            displayEffectValue = .identity
             // <+544>
         } else {
             // <+388>
-            proxy.asCurrent { [copy_1] in
+            displayEffectValue = proxy.asCurrent { [copy_1] in
                 // $s7SwiftUI25RendererEffectDisplayList33_49800242E3DD04CB91F7CE115272DDC3LLV5valueAA0eF0VvgAG0D0OyXEfU_
-                fatalError("TODO")
+                // copy_1 -> x20
+                // x25
+                let effect = copy_1.effect
+                // d0, d1
+                let size = copy_1.size
+                return effect.effectValue(size: size.value)
             }
-            
-            fatalError("TODO")
             // <+544>
         }
         
         // <+544>
-        fatalError("TODO")
+        let position = copy_1.position
+        var d8 = position.x
+        var d9 = position.y
+        
+        let containerPosition = copy_1.containerPosition
+        var d0 = containerPosition.x
+        var d1 = containerPosition.y
+        
+        d8 = d8 - d0
+        d9 = d9 - d1
+        
+        // <+604>
+        // properties -> x10, content.items -> x9
+        // x25 (properties_2 | content.features)
+        var properties_2: DisplayList.Properties
+        if content_0 == nil {
+            properties_2 = .privacySensitive
+        } else {
+            properties_2 = properties
+        }
+        
+        let size = copy_1.size
+        let identity = copy_1.identity
+        
+        content.properties = properties_2
+        
+        // sp + 0x100
+        var item = DisplayList.Item(
+            .effect(displayEffectValue, content),
+            frame: CGRect(x: d8, y: d9, width: size.width, height: size.height),
+            identity: identity,
+            version: version
+        )
+        
+        item.canonicalize(options: copy_2.options)
+        
+        return DisplayList(item)
     }
 }

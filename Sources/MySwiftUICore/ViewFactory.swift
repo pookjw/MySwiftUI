@@ -1,6 +1,9 @@
-
 protocol AnyViewFactory {
+    var viewType: Any.Type {
+        get
+    }
     
+    func encoding() -> (id: String, data: any (Decodable & Encodable))?
 }
 
 protocol PlatformViewFactory: AnyViewFactory {

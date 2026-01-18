@@ -163,12 +163,15 @@ extension DisplayList {
         }
         
         mutating func canonicalize(options: DisplayList.Options = .defaultValue) {
-            // options = w26
+            /*
+             options = w26
+             self.value -> x21
+             self.value case -> x24
+             */
             guard !options.contains(.disableCanonicalization) else {
                 return
             }
             
-            // self = x28
             switch value {
             case .content(let content):
                 guard !frame.isEmpty || features.contains(.required) else {
@@ -186,7 +189,6 @@ extension DisplayList {
                     {
                         // <+4268>
                         value = .empty
-                        identity = _DisplayList_Identity(decodedValue: 0)
                     } else {
                         // <+4072>
                         // nop
@@ -207,9 +209,78 @@ extension DisplayList {
                     // <+4072>
                     fatalError("TODO")
                 }
-            case .effect(_, _):
+            case .effect(let effect, let displsyList):
                 // <+216>
-                fatalError("TODO")
+                /*
+                 effect -> x19
+                 effect case -> x23
+                 displsyList.items -> x22
+                 displsyList.features | displsyList.properties -> x24
+                 self -> sp + 0x38
+                 */
+                // x21
+                let effectCopy: DisplayList.Effect
+                if !displsyList.items.isEmpty {
+                    // <+236>
+                    effectCopy = effect
+                    // <+492>
+                } else {
+                    // <+316>
+                    // self.value -> sp + 0x40
+                    effectCopy = effect
+                    // sp + 0x220
+                    let features = effectCopy.features
+                    // self -> x20
+                    
+                    if !features.contains(.required) {
+                        switch effect {
+                        case .platformGroup(let factory):
+                            // <+388>
+                            // sp + 0x40
+                            let factoryCopy = factory
+                            // w20
+                            let groupHasContent = factory.groupHasContent
+                            
+                            if !groupHasContent {
+                                // <+468>
+                                // <+1816>
+                                // <+4296>
+                                value = .empty
+                                return
+                            } else {
+                                // <+3108>
+                                fatalError("TODO")
+                            }
+                        default:
+                            // <+1792>
+                            // <+4296>
+                            value = .empty
+                            return
+                        }
+                    } else {
+                        // <+492>
+                    }
+                }
+                
+                // <+492>
+                switch effectCopy {
+                case .opacity(let opacity):
+                    // <+1288>
+                    // opacity -> w21 -> s0
+                    if opacity < 1.0 {
+                        // <+3100>
+                        fatalError("TODO")
+                    } else {
+                        // <+1304>
+                        var displsyList = displsyList
+                        displsyList.properties = .privacySensitive
+                        canonicalizeIdentityEffect(list: displsyList)
+                        // sp, #0x28
+                        fatalError("TODO")
+                    }
+                default:
+                    fatalError("TODO")
+                }
             default:
                 // <+4316>
                 return
@@ -515,7 +586,7 @@ extension DisplayList {
 //        case interpolatorRoot(DisplayList.InterpolatorGroup, contentOrigin: CGPoint, SwiftOffset: CGSize)
 //        case interpolatorLayer(DisplayList.InterpolatorGroup, serial: UInt32)
 //        case interpolatorAnimation(DisplayList.InterpolatorAnimation)
-//        case identity
+        case identity
 //        case geometryGroup
 //        case compositingGroup
         
