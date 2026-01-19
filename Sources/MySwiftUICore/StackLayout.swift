@@ -414,10 +414,10 @@ extension StackLayout {
                     d13 = copy_3.geometry.dimensions.size.height
                     
                     var d12: CGFloat
-                    if d0.bitPattern & 0xfffffffffffff != 0 {
-                        d12 = d8
-                    } else {
+                    if d8.isNaN  {
                         d12 = d0
+                    } else {
+                        d12 = d8
                     }
                     
                     // <+704>
@@ -519,7 +519,7 @@ extension StackLayout {
                         d12 = d1 - d2
                         // <+1552>
                         
-                        if (d12.bitPattern & 0xfffffffffffff) & 0x7ff0000000000000 != 0 {
+                        if !d12.isNaN {
                             d8 = d12
                         }
                         // <+1616>
@@ -527,8 +527,8 @@ extension StackLayout {
                         // <+1580>
                         d1 = d12 + d1
                         
-                        if (d1.bitPattern & 0xfffffffffffff) & 0x7ff0000000000000 != 0 {
-                            d8 = d11
+                        if !d1.isNaN {
+                            d8 = d1
                         }
                         
                         d2 = dimensions.size.value.width

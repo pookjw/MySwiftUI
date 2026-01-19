@@ -73,31 +73,13 @@ extension RendererLeafView {
 }
 
 fileprivate struct LeafDisplayList<Content: RendererLeafView>: CustomStringConvertible, StatefulRule {
-    private let identity: _DisplayList_Identity
-    @Attribute private var view: Content
+    let identity: _DisplayList_Identity
+    @Attribute var view: Content
     @Attribute var position: CGPoint
     @Attribute var size: CGSize
-    @Attribute private var containerPosition: CGPoint
-    private let options: DisplayList.Options
-    private var contentSeed: DisplayList.Seed
-    
-    init(
-        identity: _DisplayList_Identity,
-        view: Attribute<Content>,
-        position: Attribute<CGPoint>,
-        size: Attribute<CGSize>,
-        containerPosition: Attribute<CGPoint>,
-        options: DisplayList.Options,
-        contentSeed: DisplayList.Seed
-    ) {
-        self.identity = identity
-        self._view = view
-        self._position = position
-        self._size = size
-        self._containerPosition = containerPosition
-        self.options = options
-        self.contentSeed = contentSeed
-    }
+    @Attribute var containerPosition: CGPoint
+    let options: DisplayList.Options
+    var contentSeed: DisplayList.Seed
     
     var description: String {
         fatalError("TODO")
