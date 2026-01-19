@@ -76,8 +76,8 @@ extension DynamicContainer {
         var items: [DynamicContainer.ItemInfo]
         var indexMap: [UInt32: Int]
         var displayMap: [UInt32]?
-        private(set) var removedCount: Int
-        private(set) var unusedCount: Int
+        var removedCount: Int
+        var unusedCount: Int
         var allUnary: Bool
         var seed: UInt32
         
@@ -97,12 +97,12 @@ extension DynamicContainer {
         let viewCount: Int32
         let outputs: _ViewOutputs
         let needsTransitions: Bool
-        private var listener: DynamicAnimationListener? = nil
+        fileprivate var listener: DynamicAnimationListener? = nil
         fileprivate var zIndex: Double = 0
-        private(set) var removalOrder: UInt32 = 0
-        var precedingViewCount: Int32 = 0
-        private(set) var resetSeed: UInt32 = 0
-        var phase: TransitionPhase? = nil
+        fileprivate var removalOrder: UInt32 = 0
+        fileprivate var precedingViewCount: Int32 = 0
+        fileprivate(set) var resetSeed: UInt32 = 0
+        fileprivate(set) var phase: TransitionPhase? = nil
         
         init(subgraph: Subgraph, uniqueId: UInt32, viewCount: Int32, phase: TransitionPhase, needsTransitions: Bool, outputs: _ViewOutputs) {
             self.subgraph = subgraph
@@ -120,7 +120,7 @@ extension DynamicContainer {
     
     final class _ItemInfo<T: DynamicContainerAdaptor>: DynamicContainer.ItemInfo {
         fileprivate var item: T.Item
-        private let itemLayout: T.ItemLayout
+        fileprivate let itemLayout: T.ItemLayout
         
         init(
             item: T.Item,
@@ -616,7 +616,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
         }
     }
     
-    func tryRemovingItem(at index: Int, disableTransitions: Bool) -> Bool {
+    mutating func tryRemovingItem(at index: Int, disableTransitions: Bool) -> Bool {
         // $s7SwiftUI20DynamicContainerInfoV15tryRemovingItem2at18disableTransitionsSbSi_SbtF
         /*
          index -> x19
@@ -635,10 +635,53 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             fatalError()
         case .identity:
             // <+148>
-            fatalError("TODO")
+            if disableTransitions || !info.items[index].needsTransitions {
+                // <+464>
+                eraseItem(at: index)
+                return true
+            } else {
+                // <+180>
+                // w22
+                var lastRemoved = lastRemoved
+                if (lastRemoved &+ 1) <= 1 {
+                    lastRemoved = 1
+                }
+                self.lastRemoved = lastRemoved
+                info.items[index].removalOrder = lastRemoved
+                info.items[index].phase = .didDisappear
+                
+                if let listener = info.items[index].listener {
+                    listener.viewGraph = nil
+                }
+                
+                // x22
+                let current = ViewGraph.current
+                // x23
+                let currentAttribute = AnyWeakAttribute(.current!)
+                // x20
+                let listener = DynamicAnimationListener(viewGraph: current, asyncSignal: currentAttribute, count: 0)
+                info.items[index].listener = listener
+                listener.animationWasAdded()
+                
+                // <+912>
+                Update.enqueueAction(reason: nil) { [listener] in
+                    // $s7SwiftUI20DynamicContainerInfoV15tryRemovingItem2at18disableTransitionsSbSi_SbtFyycfU_TA
+                    listener.animationWasRemoved()
+                }
+                
+                return false
+            }
         case .didDisappear:
             // <+232>
-            fatalError("TODO")
+            // x21
+            let count = info.items[index].listener!.count
+            
+            if count == 0 {
+                eraseItem(at: index)
+                return true
+            } else {
+                return false
+            }
         }
     }
     
@@ -851,6 +894,70 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     mutating func unremoveItem(at: Int) {
         fatalError("TODO")
     }
+    
+    mutating func eraseItem(at index: Int) {
+        // index -> x24
+        // w21
+        let phase = info.items[index].phase
+        // x20 -> sp + 0x18
+        
+        switch phase {
+        case .willAppear:
+            fatalError()
+        case .identity:
+            // <+168>
+            break
+        case .didDisappear:
+            // <+156>
+            info.removedCount &-= 1
+            // <+168>
+        case nil:
+            fatalError()
+        }
+        
+        // <+168>
+        // x21
+        let unusedCount = info.unusedCount
+        // x20
+        let maxUnusedItems = T.maxUnusedItems
+        // x23
+        let subgraph = info.items[index].subgraph
+        // x25
+        let item = info.items[index]
+        
+        if unusedCount >= maxUnusedItems {
+            // <+404>
+            adaptor.removeItemLayout(
+                uniqueId: item.uniqueId,
+                itemLayout: item.for(T.self).itemLayout
+            )
+            
+            if let listener = item.listener {
+                listener.viewGraph = nil
+            }
+            
+            info.items.remove(at: index)
+            subgraph.willInvalidate(isInserted: true)
+            subgraph.invalidate()
+        } else {
+            info.items.remove(at: index)
+            item.removalOrder = 0
+            item.resetSeed &+= 1
+            item.phase = nil
+            
+            // <+324>
+            if let listener = item.listener {
+                listener.viewGraph = nil
+            }
+            
+            // <+552>
+            item.listener = nil
+            info.items.append(item)
+            info.unusedCount = unusedCount &+ 1
+            subgraph.willRemove()
+            parentSubgraph.removeChild(subgraph)
+        }
+    }
 }
 
 struct DynamicContainerID: Comparable, Hashable {
@@ -897,13 +1004,31 @@ extension DynamicViewContainer {
     }
 }
 
-fileprivate class DynamicAnimationListener {
-    private weak var viewGraph: ViewGraph?
-    private let asyncSignal: AnyWeakAttribute
-    private var count: Int
+fileprivate final class DynamicAnimationListener {
+    weak var viewGraph: ViewGraph?
+    let asyncSignal: AnyWeakAttribute
+    var count: Int
     
-    init() {
-        fatalError("TODO")
+    @inline(__always)
+    init(viewGraph: ViewGraph?, asyncSignal: AnyWeakAttribute, count: Int) {
+        self.viewGraph = viewGraph
+        self.asyncSignal = asyncSignal
+        self.count = count
+    }
+    
+    func animationWasAdded() {
+        count &+= 1
+    }
+    
+    func animationWasRemoved() {
+        var count = count
+        count &-= 1
+        self.count = count
+        
+        if count == 0, let viewGraph {
+            let invalidation = InvalidatingGraphMutation(attribute: asyncSignal)
+            viewGraph.continueTransaction(invalidation)
+        }
     }
 }
 

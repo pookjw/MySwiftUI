@@ -293,7 +293,9 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
     }
     
     func removeItemLayout(uniqueId: UInt32, itemLayout: ItemLayout) {
-        fatalError("TODO")
+        mutateLayoutMap { map in
+            map.remove(uniqueId: uniqueId)
+        }
     }
 }
 
