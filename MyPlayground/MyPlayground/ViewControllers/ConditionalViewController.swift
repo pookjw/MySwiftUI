@@ -31,6 +31,11 @@ fileprivate struct MyView: View {
 final class ConditionalViewController: UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     private let model = Model()
+    private var task: Task<Void, Never>?
+    
+    deinit {
+        task?.cancel()
+    }
     
     override func loadView() {
         let rootView = MyView(model: model)
@@ -43,6 +48,16 @@ final class ConditionalViewController: UIViewController {
         let toggleBarButtonItem = UIBarButtonItem(title: "Toggle", image: UIImage(systemName: model.flag ? "ant.fill" : "ant"), target: self, action: #selector(toggleBarButtonItemDidTrigger(_:)))
         self.toggleBarButtonItem = toggleBarButtonItem
         navigationItem.rightBarButtonItem = toggleBarButtonItem
+        
+        task?.cancel()
+        task = Task {
+            do {
+                while true {
+                    try await Task.sleep(for: .seconds(1))
+                    model.flag.toggle()
+                }
+            } catch {}
+        }
     }
     
     override func viewDidLayoutSubviews() {

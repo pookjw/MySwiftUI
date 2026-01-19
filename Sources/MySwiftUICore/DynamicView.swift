@@ -422,7 +422,15 @@ extension DynamicViewList {
         }
         
         func matches(type: any Any.Type, id: Content.ID?) -> Bool {
-            fatalError("TODO")
+            guard self.type == type else {
+                return false
+            }
+            
+            // id -> x19
+            return id.map { id in
+                // $s7SwiftUI15DynamicViewList031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV4ItemC7matches4type2idSbypXp_2IDQzSgtFSbyKXEfu_SbAKXEfU_TA
+                return id == self.id
+            } ?? true
         }
         
         func bindID(_ other: inout _ViewList_ID) {
