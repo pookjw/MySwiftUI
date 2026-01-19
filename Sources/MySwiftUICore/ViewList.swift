@@ -32,7 +32,7 @@ class _ViewList_Subgraph {
     }
 }
 
-struct _ViewList_ID {
+struct _ViewList_ID: Hashable {
     var _index: Int32
     var implicitID: Int32
     var explicitIDs: [_ViewList_ID.Explicit]
@@ -75,10 +75,16 @@ struct _ViewList_ID {
         )
         explicitIDs.append(explicitID)
     }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(_index)
+        hasher.combine(implicitID)
+        fatalError("TODO")
+    }
 }
 
 extension _ViewList_ID {
-    struct Explicit {
+    struct Explicit: Equatable {
         let id: AnyHashable2
         let reuseID: Int
         let owner: AnyAttribute

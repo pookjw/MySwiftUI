@@ -338,46 +338,6 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                 
                 if !(itemsCount > 31) {
                     // <+2648>
-//                    if displayMap.count >= 2 {
-//                        // <+2752>
-//                        // w23
-//                        var index = 1
-//                        repeat {
-//                            // <+2788>
-//                            // w20
-//                            let lhs = displayMap[index]
-//                            
-//                            // x24
-//                            var index_2 = 0
-//                            var index_3 = index
-//                            repeat {
-//                                // w25
-//                                let rhs = displayMap[index_3 &- 1]
-//                                let result = lessThan(lhs, rhs)
-//                                if !result {
-//                                    // <+2908>
-//                                    // <+2924>
-//                                    break
-//                                }
-//                                
-//                                displayMap[index_3] = rhs
-//                                index_3 &-= 1
-//                                index_2 &-= 1
-//                            } while index != -index_2
-//                            
-//                            // <+2924>
-//                            let offset = index &+ index_2
-//                            displayMap[offset] = lhs
-//                            
-//                            // <+2768>
-//                            index &+= 1
-//                        } while index != displayMap.count
-//                        
-//                        // <+2944>
-//                        // <+2960>
-//                    } else {
-//                        // <+2960>
-//                    }
                     // inlined
                     _displayMap.insertionSort(by: lessThan(_:_:))
                     // <+2960>
@@ -657,7 +617,29 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     }
     
     func tryRemovingItem(at index: Int, disableTransitions: Bool) -> Bool {
-        fatalError("TODO")
+        // $s7SwiftUI20DynamicContainerInfoV15tryRemovingItem2at18disableTransitionsSbSi_SbtF
+        /*
+         index -> x19
+         disableTransitions -> x23
+         */
+        // x24
+        let item = info.items[index]
+        // w28
+        guard let phase = item.phase else {
+            return false
+        }
+        
+        switch phase {
+        case .willAppear:
+            // <+1044>
+            fatalError()
+        case .identity:
+            // <+148>
+            fatalError("TODO")
+        case .didDisappear:
+            // <+232>
+            fatalError("TODO")
+        }
     }
     
     fileprivate mutating func updateItems(disableTransitions: Bool) -> (changed: Bool, hasDepth: Bool) {

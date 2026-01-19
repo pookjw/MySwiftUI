@@ -534,7 +534,8 @@ struct DynamicViewListItem: DynamicContainerItem {
     }
     
     func matchesIdentity(of item: DynamicViewListItem) -> Bool {
-        fatalError("TODO")
+        return self.list == item.list &&
+        self.id == item.id
     }
     
     private(set) var id: _ViewList_ID
