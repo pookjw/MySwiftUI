@@ -282,20 +282,22 @@ extension DynamicViewContainer {
         
         // <+928>
         if !flag_1 {
-            var matchedItem: DynamicViewList<Content>.Item?
+            var matchedItem: Unmanaged<DynamicViewList<Content>.Item>?
             for unsafe item in unsafe allItems.value {
                 let matches = unsafe item.takeRetainedValue().matches(type: type, id: id)
-                unsafe item.release()
                 if matches {
-                    matchedItem = unsafe item.takeUnretainedValue()
+                    matchedItem = item
                     break
+                } else {
+                    unsafe item.release()
                 }
             }
             
             if let matchedItem {
                 // <+1640>
                 fatalError("TODO") // AGSubgraphAddChild, AGSubgraphApply
-                item = matchedItem // 검증 필요
+//                item = matchedItem // 검증 필요
+                matchedItem.release()
                 // <+1928>
             } else {
                 // <+1208>

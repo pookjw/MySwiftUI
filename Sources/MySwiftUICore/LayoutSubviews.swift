@@ -185,8 +185,40 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         self.cache = layout.makeCache(subviews: subviews)
     }
     
-    func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
-        fatalError("TODO")
+    mutating func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
+        /*
+         self -> x19
+         layout -> x0
+         context.owner/environment -> w28, w26
+         children -> sp + 0xc
+         */
+        // x22
+        let newAttriutes = children.attributes
+        self.proxies = children
+        
+        // <+112>
+        // inlined
+        // self -> x21
+        self.layoutDirection = context.layoutDirection
+        
+        // <+368>
+        // x19
+        let copy = layout
+        self.sizeCache = ViewSizeCache()
+        self.cachedAlignmentGeometry = []
+        self.cachedAlignment = Cache3()
+        self.depthCache = ViewLayoutEngine.DepthCache()
+        
+        let shouldUseCacheOfCache: Bool
+        if isLinkedOnOrAfter(.v7) {
+            shouldUseCacheOfCache = children.requiresTrueDepthLayout()
+        } else {
+            shouldUseCacheOfCache = false
+        }
+        self.shouldUseCacheOfCache = shouldUseCacheOfCache
+        
+        self.preferredSpacing = nil
+        updateCache()
     }
     
     var subviews: LayoutSubviews {

@@ -167,7 +167,7 @@ package enum Update {
     }
     
     package static func assertIsActive() {
-        fatalError("TODO")
+        // nop
     }
     
     package static func assertIsLocked() {

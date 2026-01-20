@@ -792,7 +792,7 @@ extension Layout {
         rule.update(
             modify: { [layoutContext, children] (engine: inout ViewLayoutEngine<Self>) in
                 // $s7SwiftUI6LayoutPAAE06updateC8Computer4rule13layoutContext8childrenyqd__z_AA014SizeAndSpacingH0VAA0C15ProxyCollectionVt14AttributeGraph12StatefulRuleRd__AA0cE0V5ValueRtd__lFyAA04ViewC6EngineVyxGzXEfU_TA
-                fatalError("TODO")
+                engine.update(layout: self, context: layoutContext, children: children)
             },
             create: { () -> ViewLayoutEngine<Self> in
                 // $s7SwiftUI6LayoutPAAE06updateC8Computer4rule13layoutContext8childrenyqd__z_AA014SizeAndSpacingH0VAA0C15ProxyCollectionVt14AttributeGraph12StatefulRuleRd__AA0cE0V5ValueRtd__lFAA04ViewC6EngineVyxGyXEfU0_TA

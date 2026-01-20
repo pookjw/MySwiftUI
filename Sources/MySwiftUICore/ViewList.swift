@@ -10,7 +10,15 @@ final class _ViewList_SubgraphRelease {
     }
     
     deinit {
-        fatalError("TODO")
+        Update.ensure {
+            for subgrah in subgraphs {
+                let _subgrah = subgrah.subgraph
+                if _subgrah.isValid {
+                    _subgrah.willInvalidate(isInserted: true)
+                    _subgrah.invalidate()
+                }
+            }
+        }
     }
 }
 
@@ -149,7 +157,13 @@ struct _ViewList_SublistSubgraphStorage {
             return nil
         }
         
-        return _ViewList_SubgraphRelease(subgraphs: subgraphs[index..<subgraphs.endIndex])
+        let slice = subgraphs[index..<subgraphs.endIndex]
+        for subgraph in slice {
+            let unamanged = Unmanaged.passUnretained(subgraph)
+            unamanged.retain()
+        }
+        
+        return _ViewList_SubgraphRelease(subgraphs: slice)
     }
 }
 

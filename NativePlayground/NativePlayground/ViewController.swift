@@ -1181,14 +1181,6 @@ class ViewController: UIViewController {
         let model = ObsModel()
         let rootView = MyObsView(model: model)
         
-//        let rootView = MyLayout {
-//            if model.flag {
-//                Color.white
-//            } else {
-//                Color.black
-//            }
-//        }
-        
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
@@ -1346,11 +1338,12 @@ fileprivate struct MyObsView: View {
     let model: ObsModel
     
     var body: some View {
-        if model.flag {
-            Color.white
-        } else {
-            Color.black
-//            Text("")
+        MyLayout {
+            if model.flag {
+                Color.white
+            } else {
+                Color.black
+            }
         }
     }
 }
@@ -1383,10 +1376,12 @@ fileprivate struct MyLayout: Layout /*HVStack*/, Sendable {
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout 
     Void) -> CGSize {
 //        fatalError("TODO")
-        return .zero
+        return CGSize(width: proposal.width!, height: proposal.height!)
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) {
-//        fatalError("TODO")
+        for subview in subviews {
+            subview.place(at: .zero, proposal: proposal)
+        }
     }
 }
