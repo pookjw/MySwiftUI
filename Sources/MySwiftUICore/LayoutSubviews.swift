@@ -340,8 +340,29 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         fatalError("TODO")
     }
     
-    func updateCache() {
-        fatalError("TODO")
+    mutating func updateCache() {
+        if shouldUseCacheOfCache {
+            // <+436>
+            // offset of cacheOfCaches -> sp + 0xb0
+            // x27
+            let copy_1 = cacheOfCaches
+            // x21
+            let copy_2 = copy_1
+            // x24
+            let copy_3 = copy_1
+            
+            fatalError("TODO")
+        } else {
+            // <+880>
+            // sp + 0xa0
+            let layout = layout
+            // sp + 0x120
+            let subviews = subviews
+            // sp + 0x108
+            let copy_1 = subviews
+            // <+952>
+            layout.updateCache(&cache, subviews: copy_1)
+        }
     }
     
     var cache: L.Cache {
