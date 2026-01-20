@@ -1356,30 +1356,29 @@ fileprivate struct MyAlignmentGuide: AlignmentGuide, Sendable {
     nonisolated init() {}
 }
 
-fileprivate struct MyLayout: Layout /*HVStack*/, Sendable {
-//    var spacing: CGFloat? {
-//        return 3
-//    }
-//    
-//    var alignment: MyAlignmentGuide {
-//        return MyAlignmentGuide()
-//    }
-//    
-//    static var majorAxis: Axis {
-//        return .horizontal
-//    }
-//    
-//    static var resizeChildrenWithTrailingOverflow: Bool {
-//        return false
-//    }
+fileprivate struct MyLayout: /*Layout*/HVStack, Sendable {
+    var spacing: CGFloat? {
+        return 3
+    }
     
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout 
-    Void) -> CGSize {
+    var alignment: MyAlignmentGuide {
+        return MyAlignmentGuide()
+    }
+    
+    static var majorAxis: Axis {
+        return .horizontal
+    }
+    
+    static var resizeChildrenWithTrailingOverflow: Bool {
+        return false
+    }
+    
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout _StackLayoutCache) -> CGSize {
 //        fatalError("TODO")
         return CGSize(width: proposal.width!, height: proposal.height!)
     }
     
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) {
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout _StackLayoutCache) {
         for subview in subviews {
             subview.place(at: .zero, proposal: proposal)
         }

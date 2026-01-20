@@ -81,8 +81,36 @@ extension HVStack {
         return cache
     }
     
-    public nonisolated func updateCache(_: inout _StackLayoutCache, subviews: LayoutSubviews) {
-        fatalError("TODO")
+    public nonisolated func updateCache(_ cache: inout _StackLayoutCache, subviews: LayoutSubviews) {
+        /*
+         self -> x23
+         cache -> x19
+         subviews -> x20
+         */
+        // sp + 0x1c
+        let copy_1 = cache
+        // x28
+        let majorAxis = Self.majorAxis
+        // x27
+        let alignment = alignment
+        // x25
+        let key = alignment.key
+        // x20
+        let spacing = spacing
+        
+        cache.stack.header = StackLayout.Header(
+            minorAxisAlignment: key,
+            uniformSpacing: spacing,
+            majorAxis: majorAxis,
+            internalSpacing: 0,
+            lastProposedSize: ProposedViewSize(width: -.infinity, height: -.infinity),
+            stackSize: .zero,
+            proxies: subviews,
+            resizeChildrenWithTrailingOverflow: cache.stack.header.resizeChildrenWithTrailingOverflow
+        )
+        
+        cache.stack.children.removeAll(keepingCapacity: true)
+        cache.stack.makeChildren()
     }
     
     public nonisolated func spacing(subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> ViewSpacing {

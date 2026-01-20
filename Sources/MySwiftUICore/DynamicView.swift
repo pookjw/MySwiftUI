@@ -295,9 +295,10 @@ extension DynamicViewContainer {
             
             if let matchedItem {
                 // <+1640>
-                fatalError("TODO") // AGSubgraphAddChild, AGSubgraphApply
-//                item = matchedItem // 검증 필요
-                matchedItem.release()
+                let subgraph = matchedItem.takeUnretainedValue().subgraph
+                parentSubgraph.addChild(subgraph)
+                subgraph.didReinsert()
+                item = matchedItem.takeRetainedValue()
                 // <+1928>
             } else {
                 // <+1208>

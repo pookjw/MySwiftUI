@@ -1653,6 +1653,7 @@ public protocol HVStack: SwiftUI.Layout {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.HVStack {
   public nonisolated func makeCache(subviews: SwiftUI.LayoutSubviews) -> SwiftUI._StackLayoutCache
+  public nonisolated func updateCache(_ cache: inout SwiftUI._StackLayoutCache, subviews: SwiftUI.LayoutSubviews)
 }
 
 @available(visionOS 26.0, *)

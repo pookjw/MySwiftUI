@@ -23,7 +23,6 @@ fileprivate struct MyView: View {
             Color.white
         } else {
             Color.black
-//            EmptyView()
         }
     }
 }
@@ -49,15 +48,15 @@ final class ConditionalViewController: UIViewController {
         self.toggleBarButtonItem = toggleBarButtonItem
         navigationItem.rightBarButtonItem = toggleBarButtonItem
         
-        task?.cancel()
-        task = Task {
-            do {
-                while true {
-                    try await Task.sleep(for: .seconds(1))
-                    model.flag.toggle()
-                }
-            } catch {}
-        }
+//        task?.cancel()
+//        task = Task {
+//            do {
+//                while true {
+//                    try await Task.sleep(for: .seconds(1))
+//                    model.flag.toggle()
+//                }
+//            } catch {}
+//        }
     }
     
     override func viewDidLayoutSubviews() {

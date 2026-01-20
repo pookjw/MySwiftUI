@@ -15,7 +15,10 @@ extension Subgraph {
     }
     
     func didReinsert() {
-        fatalError("TODO")
+        apply { 
+            // $sSo13AGSubgraphRefa7SwiftUIE11didReinsertyyFySo11AGAttributeaXEfU_
+            fatalError("TODO")
+        }
     }
     
     func addSecondaryChild(_ subgraph: Subgraph) {
