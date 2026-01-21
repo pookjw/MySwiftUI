@@ -11,7 +11,10 @@ extension Subgraph {
     }
     
     func willRemove() {
-        fatalError("TODO")
+        apply { 
+            // $sSo13AGSubgraphRefa7SwiftUIE10willRemoveyyFySo11AGAttributeaXEfU_Tf4nd_n
+            fatalError("TODO")
+        }
     }
     
     func didReinsert() {

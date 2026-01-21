@@ -243,18 +243,14 @@ extension DynamicViewContainer {
                     let subgraph = lastItem.subgraph
                     if subgraph.isValid {
                         // <+720>
-                        subgraph.apply { 
-                            // $sSo13AGSubgraphRefa7SwiftUIE10willRemoveyyFySo11AGAttributeaXEfU_Tf4nd_n
-                            fatalError("TODO")
-                        }
-                        
+                        lastItem.subgraph.willRemove()
                         parentSubgraph.removeChild(lastItem.subgraph)
                         // <+812>
                     }
                     
                     // <+812>
-                    let (_, overflow) = lastItem.refcount.subtractingReportingOverflow(1)
-                    if overflow {
+                    lastItem.refcount &-= 1
+                    if lastItem.refcount == 0 {
                         lastItem.invalidate()
                         let subgraph = lastItem.subgraph
                         if subgraph.isValid {
@@ -284,12 +280,10 @@ extension DynamicViewContainer {
         if !flag_1 {
             var matchedItem: Unmanaged<DynamicViewList<Content>.Item>?
             for unsafe item in unsafe allItems.value {
-                let matches = unsafe item.takeRetainedValue().matches(type: type, id: id)
+                let matches = unsafe item.takeUnretainedValue().matches(type: type, id: id)
                 if matches {
                     matchedItem = item
                     break
-                } else {
-                    unsafe item.release()
                 }
             }
             
@@ -298,7 +292,8 @@ extension DynamicViewContainer {
                 let subgraph = matchedItem.takeUnretainedValue().subgraph
                 parentSubgraph.addChild(subgraph)
                 subgraph.didReinsert()
-                item = matchedItem.takeRetainedValue()
+                item = matchedItem.takeUnretainedValue()
+                self.lastItem = matchedItem.takeUnretainedValue()
                 // <+1928>
             } else {
                 // <+1208>
@@ -363,6 +358,7 @@ extension DynamicViewContainer {
                         subgraph: newSubgraph,
                         allItems: allItems
                     )
+                    self.lastItem = item
                     // <+1928>
                 } else {
                     // <+1560>

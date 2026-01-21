@@ -12,10 +12,16 @@ final class _ViewList_SubgraphRelease {
     deinit {
         Update.ensure {
             for subgrah in subgraphs {
-                let _subgrah = subgrah.subgraph
-                if _subgrah.isValid {
-                    _subgrah.willInvalidate(isInserted: true)
-                    _subgrah.invalidate()
+                subgrah.refcount &-= 1
+                
+                if subgrah.refcount == 0 {
+                    subgrah.invalidate()
+                    
+                    let _subgrah = subgrah.subgraph
+                    if _subgrah.isValid {
+                        _subgrah.willInvalidate(isInserted: true)
+                        _subgrah.invalidate()
+                    }
                 }
             }
         }
