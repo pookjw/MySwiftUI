@@ -6,7 +6,11 @@
 //
 
 import UIKit
+#if USE_ORIGINAL_SWIFTUI
+import SwiftUI
+#else
 import MySwiftUI
+#endif
 
 final class ColorBlackViewController: UIViewController {
     override func loadView() {

@@ -29,8 +29,8 @@ final class DemoViewController: UICollectionViewController {
         super.viewDidLoad()
         
 //        let item = DemoViewController.Item.allCases.last!
-//        let item = DemoViewController.Item.conditionalView
-//        pushToItem(item)
+        let item = DemoViewController.Item.conditionalView
+        pushToItem(item)
         
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))
