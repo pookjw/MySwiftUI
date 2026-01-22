@@ -386,7 +386,7 @@ extension AttributeGraph.Subgraph {
     public static func endTreeElement<A>(value: AttributeGraph.Attribute<A>)
 
     @_silgen_name("AGSubgraphAddObserver")
-    public static func addObserver(_: AttributeGraph.Subgraph, _: () -> Void) -> Swift.Int
+    public static func addObserver(_: AttributeGraph.Subgraph, _: @escaping () -> Void) -> Swift.Int
 }
 
 extension AttributeGraph.TypeID: Swift.Hashable, Swift.CustomStringConvertible {
@@ -516,8 +516,31 @@ public struct PointerOffset<A, B> {
     public static func offset(_: (inout A) -> AttributeGraph.PointerOffset<A, B>) -> AttributeGraph.PointerOffset<A, B>
     public static func invalidScenePointer() -> Swift.UnsafeMutablePointer<A>
     public static func of(_: inout B) -> AttributeGraph.PointerOffset<A, B>
+
+    public static func + <T> (_: AttributeGraph.PointerOffset<A, T>, _: AttributeGraph.PointerOffset<T, B>) -> AttributeGraph.PointerOffset<A, B>
+}
+
+extension PointerOffset where A == B {
+    public init()
 }
 
 extension AttributeGraph.Rule where Self: Swift.Hashable {
     public static func _cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeRawPointer, update: () -> ((Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())) -> Swift.UnsafePointer<Value>
+}
+
+extension Swift.UnsafePointer {
+    public subscript<T>(offset: AttributeGraph.PointerOffset<Pointee, T>) -> T {
+        unsafeAddress
+    }
+
+    public static func + <T>(_: Swift.UnsafePointer<Pointee>, _: AttributeGraph.PointerOffset<Pointee, T>) -> Swift.UnsafePointer<T>
+}
+
+extension Swift.UnsafeMutablePointer {
+    public subscript<T>(offset: AttributeGraph.PointerOffset<Pointee, T>) -> T {
+        unsafeAddress
+        unsafeMutableAddress
+    }
+
+    public static func + <T>(_: Swift.UnsafeMutablePointer<Pointee>, _: AttributeGraph.PointerOffset<Pointee, T>) -> Swift.UnsafeMutablePointer<T>
 }

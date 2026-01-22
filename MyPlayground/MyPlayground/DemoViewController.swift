@@ -29,7 +29,7 @@ final class DemoViewController: UICollectionViewController {
         super.viewDidLoad()
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.colorWhiteView
+        let item = DemoViewController.Item.customLayoutView
         pushToItem(item)
         
 //        Task {
@@ -71,6 +71,7 @@ extension DemoViewController {
         case bodyView
         case conditionalView
         case observableView
+        case customLayoutView
         
         var title: String {
             switch self {
@@ -92,6 +93,8 @@ extension DemoViewController {
                 return _typeName(ConditionalViewController.self, qualified: false)
             case .observableView:
                 return _typeName(ObservableViewController.self, qualified: false)
+            case .customLayoutView:
+                return _typeName(CustomLayoutViewController.self, qualified: false)
             }
         }
         
@@ -115,6 +118,8 @@ extension DemoViewController {
                 return ConditionalViewController()
             case .observableView:
                 return ObservableViewController()
+            case .customLayoutView:
+                return CustomLayoutViewController()
             }
         }
     }

@@ -42,6 +42,11 @@ final class ObservableViewController: UIViewController {
         let toggleBarButtonItem = UIBarButtonItem(title: "Toggle", image: UIImage(systemName: model.flag ? "ant.fill" : "ant"), target: self, action: #selector(toggleBarButtonItemDidTrigger(_:)))
         self.toggleBarButtonItem = toggleBarButtonItem
         navigationItem.rightBarButtonItem = toggleBarButtonItem
+        
+        Task {
+            try! await Task.sleep(for: .seconds(2))
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     override func viewDidLayoutSubviews() {

@@ -27,7 +27,7 @@ extension Layout {
 
 extension Layout {
     public static var layoutProperties: LayoutProperties {
-        fatalError("TODO")
+        return LayoutProperties()
     }
     
     public func updateCache(_ cache: inout Self.Cache, subviews: Self.Subviews) {
@@ -55,8 +55,7 @@ extension Layout where Self.Cache == () {
 
 extension Layout {
     @_alwaysEmitIntoClient @_disfavoredOverload public func callAsFunction<V>(@ViewBuilder _ content: () -> V) -> some View where V : View {
-        //        return _VariadicView.Tree(_LayoutRoot(self)) { content() }
-        fatalError("TODO")
+        return _VariadicView.Tree(_LayoutRoot(self)) { content() }
     }
 }
 
@@ -149,9 +148,31 @@ extension Layout {
         let views = listOutputs.views
         // <+756>
         switch views {
-        case .staticList(_):
+        case .staticList(let elements):
             // <+1076>
-            fatalError("TODO")
+            // sp + 0xa8
+            let copy_6 = views
+            if options.contains(.needsDynamicLayout) {
+                // <+1304>
+                // sp + 0x130
+                let copy_7 = copy_2
+                // sp + 0xd0
+                let copy_8 = copy_2
+                // sp + 0x1c0
+                let copy_9 = copy_1
+                // sp + 0x50
+                let _ = copy_7
+                
+                let elements = listOutputs.makeAttribute(viewInputs: copy_9)
+                return Self.makeDynamicView(root: root, inputs: copy_8, properties: layoutProperties, list: elements)
+            } else {
+                // <+1092>
+                // sp + 0x130
+                let _ = copy_2
+                // sp + 0xd0
+                let copy_8 = copy_2
+                return Self.makeStaticView(root: root, inputs: copy_8, properties: layoutProperties, list: elements)
+            }
         case .dynamicList(var attribute, let listModifier):
             // <+764>
             /*

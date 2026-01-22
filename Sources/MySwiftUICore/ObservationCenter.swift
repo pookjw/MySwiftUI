@@ -6,14 +6,15 @@ internal import AttributeGraph
 private import _DarwinFoundation3.pthread
 
 @MainActor final class ObservationCenter {
-    fileprivate static let _current = ThreadSpecific(ObservationCenter())
     static var current: ObservationCenter {
         return _current.value
     }
     
-    fileprivate var latestTriggers: [AnyKeyPath] = []
-    private var latestAccessLists: [ObservationTracking._AccessList] = []
-    fileprivate var invalidations: [AnyWeakAttribute: (mutation: ObservationGraphMutation, accessList: ObservationTracking._AccessList)] = [:]
+    fileprivate static let _current = ThreadSpecific(ObservationCenter())
+    
+    fileprivate var latestTriggers: [AnyKeyPath] = [] // 0x10
+    private var latestAccessLists: [ObservationTracking._AccessList] = [] // 0x18
+    fileprivate var invalidations: [AnyWeakAttribute: (mutation: ObservationGraphMutation, accessList: ObservationTracking._AccessList)] = [:] // 0x20
     
     private init() {
     }
@@ -118,7 +119,16 @@ private import _DarwinFoundation3.pthread
         let tracking = ObservationTracking(accessList)
         let observerID = Subgraph.addObserver(subgraph) { [weak self] in
             // $s7SwiftUI17ObservationCenterC10invalidate33_7DF024579E4FC31D4E92A33BBA0366D6LL_10onChangeIny14AttributeGraph0Q0VyxG_0C00C8TrackingV11_AccessListVtlFyycfU_TA
-            fatalError("TODO")
+            guard let self else {
+                return
+            }
+            
+            // <+200>
+            // self -> x24
+            if let removedValue = self.invalidations.removeValue(forKey: weakAttribute.base) {
+                // <+320>
+                removedValue.mutation.cancel()
+            }
         }
         
         let mutation = ObservationGraphMutation(
@@ -222,7 +232,13 @@ private import _DarwinFoundation3.pthread
     }
     
     func cancel() {
-        fatalError("TODO")
+        for tracking in observationTracking {
+            tracking.cancel()
+        }
+        
+        for observer in subgraphObservers {
+            observer.0.removeObserver(observer.1)
+        }
     }
 }
 

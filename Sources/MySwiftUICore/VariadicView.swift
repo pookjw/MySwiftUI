@@ -23,9 +23,61 @@ public enum _VariadicView {
         }
     }
 }
+
+extension _VariadicView.Tree: View where Root: _VariadicView_ViewRoot, Content: View {
+    public typealias Body = Never
+    
+    public static nonisolated func _makeView(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+        // sp + 0x260
+        let copy_1 = inputs
+        // view -> w28
+        // sp + 0x200
+        var copy_2 = inputs
+        // sp + 0x1a0
+        let copy_3 = copy_1
+        
+        copy_2[ViewListOptionsInput.self] = Root._viewListOptions
+        
+        // <+188>
+        // sp + 0xc8
+        let root: _GraphValue<Root> = view[{ tree in
+            return .of(&tree.root)
+        }]
+        
+        // <+276>
+        // sp + 0x70
+        let copy_4 = copy_2
+        return Root._makeView(root: root, inputs: copy_4) { [view] graph, inputs in
+            // $s7SwiftUI13_VariadicViewO4TreeVA2A01_cd1_D4RootRzAA0D0R_rlE05_makeD04view6inputsAA01_D7OutputsVAA11_GraphValueVyAEy_xq_GG_AA01_D6InputsVtFZAA01_d4ListJ0VAA01_K0V_ARtXEfU0_TA
+            let content: _GraphValue<Content> = view[{ tree in
+                return .of(&tree.content)
+            }]
+            
+            return Content.makeDebuggableViewList(
+                view: content,
+                inputs: _ViewListInputs(
+                    inputs.base,
+                    options: _ViewListInputs.Options(rawValue: inputs[ViewListOptionsInput.self])
+                )
+            )
+        }
+    }
+    
+    public static nonisolated func _makeViewList(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
+    
+    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        fatalError("TODO")
+    }
+}
+
+extension _VariadicView.Tree: PrimitiveView where Root: _VariadicView_ViewRoot, Content: View {}
+
 @available(*, unavailable)
 extension _VariadicView.Tree: Sendable {
 }
+
 @available(*, unavailable)
 extension _VariadicView: Sendable {
 }
