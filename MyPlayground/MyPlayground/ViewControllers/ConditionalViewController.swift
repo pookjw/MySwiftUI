@@ -53,7 +53,7 @@ final class ConditionalViewController: UIViewController {
         navigationItem.rightBarButtonItem = toggleBarButtonItem
         
         task?.cancel()
-        task = Task {
+        task = Task { [model] in
             do {
                 while true {
                     try await Task.sleep(for: .seconds(1))

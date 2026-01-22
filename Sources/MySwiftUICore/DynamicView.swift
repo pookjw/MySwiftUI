@@ -404,6 +404,7 @@ extension DynamicViewList {
             subgraph: Subgraph,
             allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
         ) {
+            // $s7SwiftUI15DynamicViewList031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV4ItemC4type5owner4list2id7isUnary8subgraph8allItemsAFyx_GypXp_So11AGAttributea14AttributeGraph0Y0VyAA0dE0_pG2IDQzSbSo13AGSubgraphRefaAA10MutableBoxCySays9UnmanagedVyANGGGtcfcTf4nnngnnnn_n
             /*
              self -> x19
              id -> x23
@@ -421,7 +422,7 @@ extension DynamicViewList {
             
             // self -> sp + 0x18
             // <+176>
-            unsafe allItems.value.append(Unmanaged.passRetained(self))
+            unsafe allItems.value.append(Unmanaged.passUnretained(self))
         }
         
         func matches(type: any Any.Type, id: Content.ID?) -> Bool {

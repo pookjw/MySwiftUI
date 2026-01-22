@@ -170,11 +170,6 @@ struct _ViewList_SublistSubgraphStorage {
         }
         
         let slice = subgraphs[index..<subgraphs.endIndex]
-        for subgraph in slice {
-            let unamanged = Unmanaged.passUnretained(subgraph)
-            unamanged.retain()
-        }
-        
         return _ViewList_SubgraphRelease(subgraphs: slice)
     }
 }
