@@ -136,6 +136,7 @@ package enum Update {
                         self.block = block
                     }
                 }
+                
                 let context = unsafe Unmanaged.passRetained(Context(block: escapingClosure))
                 
                 unsafe Update._lock.syncMain(context: context.toOpaque()) { pointer in

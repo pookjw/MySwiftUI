@@ -177,24 +177,15 @@ extension DisplayList {
              maxVersion = sp + 0x60
              */
             
-            _ = DisplayList.ViewUpdater.Model.State.Globals(
+            let globals = DisplayList.ViewUpdater.Model.State.Globals(
                 updater: self,
                 time: time,
                 maxVersion: maxVersion,
                 environment: environment
             )
             
-            return unsafe withUnsafeTemporaryAllocation(of: DisplayList.ViewUpdater.Model.State.Globals.self, capacity: 1) { globals in
-                unsafe globals.baseAddress.unsafelyUnwrapped.initialize(
-                    to: DisplayList.ViewUpdater.Model.State.Globals(
-                        updater: self,
-                        time: time,
-                        maxVersion: maxVersion,
-                        environment: environment
-                    )
-                )
-                
-                var state = unsafe DisplayList.ViewUpdater.Model.State(globals: globals.baseAddress.unsafelyUnwrapped)
+            return unsafe withUnsafePointer(to: globals) { globals in
+                var state = unsafe DisplayList.ViewUpdater.Model.State(globals: globals)
                 
                 self.viewCache.index = DisplayList.Index()
                 self.viewCache.currentList = displayList
