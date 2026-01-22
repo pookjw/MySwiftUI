@@ -42,7 +42,13 @@ class _ViewList_Subgraph {
     }
     
     func invalidate() {
-        fatalError("TODO")
+        /*
+         UnsafeRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(_ViewList_Subgraph.self)))!
+             .advanced(by: 0x68)
+             .assumingMemoryBound(to: UnsafeRawPointer.self)
+             .pointee
+         */
+        // nop
     }
 }
 

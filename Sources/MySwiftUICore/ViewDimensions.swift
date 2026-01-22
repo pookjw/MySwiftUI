@@ -67,9 +67,6 @@ public struct ViewDimensions {
 extension ViewDimensions: Sendable {}
 
 extension ViewDimensions: Equatable {
-    public static func == (lhs: ViewDimensions, rhs: ViewDimensions) -> Bool {
-        fatalError("TODO")
-    }
 }
 
 extension ViewDimensions {

@@ -1045,6 +1045,14 @@ class ViewController: UIViewController {
         
         print("===")
         
+        print(_typeName(_ViewList_Subgraph.self, qualified: true))
+        _forEachField(of: _ViewList_Subgraph.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
+        
         
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))

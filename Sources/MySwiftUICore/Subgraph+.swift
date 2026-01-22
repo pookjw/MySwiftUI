@@ -1,5 +1,7 @@
 internal import AttributeGraph
 
+// AGSubgraphApply는 Subgraph.apply(_:)가 아니라 Subgraph.forEach(_:_:)다.
+
 extension Subgraph {
     func willInvalidate(isInserted: Bool) {
         self.forEach(isInserted ? [.unknown1, .unknown2] : [.unknown2]) { attribte in
@@ -11,14 +13,14 @@ extension Subgraph {
     }
     
     func willRemove() {
-        apply { 
+        forEach(.unknown1) { _ in
             // $sSo13AGSubgraphRefa7SwiftUIE10willRemoveyyFySo11AGAttributeaXEfU_Tf4nd_n
             fatalError("TODO")
         }
     }
     
     func didReinsert() {
-        apply { 
+        forEach(.unknown1) { _ in
             // $sSo13AGSubgraphRefa7SwiftUIE11didReinsertyyFySo11AGAttributeaXEfU_
             fatalError("TODO")
         }

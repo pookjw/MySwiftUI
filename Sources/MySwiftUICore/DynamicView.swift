@@ -387,9 +387,13 @@ extension DynamicViewList {
         private let type: any Any.Type
         let id: Content.ID
         private let owner: AnyAttribute
-        @Attribute private(set) var list: any ViewList
+        private var _list: Attribute<any ViewList>
         let isUnary: Bool
         private let allItems: MutableBox<[Unmanaged<DynamicViewList<Content>.Item>]>
+        
+        var list: any ViewList {
+            return _list.value
+        }
         
         init(
             type: any Any.Type,
@@ -434,6 +438,21 @@ extension DynamicViewList {
         
         func bindID(_ other: inout _ViewList_ID) {
             other.bind(explicitID: id, owner: owner, isUnary: isUnary, reuseID: Int(bitPattern: ObjectIdentifier(type)))
+        }
+        
+        override func invalidate() {
+            // self -> x21
+            // x23
+            let allItems = allItems
+            
+            let index = allItems.value.firstIndex { item in
+                // $s7SwiftUI23ResettableListContainer33_6EC83A31B57F45269398E452A4758CA7LLV4ItemC10invalidateyyFSbs9UnmanagedVyAFyx_GGXEfU_TA
+                return item == Unmanaged.passUnretained(self)
+            }
+            
+            if let index {
+                allItems.value.remove(at: index)
+            }
         }
     }
     

@@ -1762,4 +1762,8 @@ public protocol MultiViewModifier: ViewModifier where Body == Swift.Never {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol PrimitiveViewModifier: ViewModifier where Body == Swift.Never {
     
-} 
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+open class _ViewList_Subgraph {}
