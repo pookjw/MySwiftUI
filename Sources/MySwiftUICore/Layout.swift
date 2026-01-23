@@ -234,6 +234,10 @@ extension Layout {
         
         return d8
     }
+    
+    static func makeChildDepthTransform(at index: Int, inputs: _ViewInputs, childDepths: Attribute<[ViewDepth]>?, body: inout (_ViewInputs) -> _ViewOutputs) {
+        fatalError("TODO")
+    }
 }
 
 @usableFromInline

@@ -287,14 +287,16 @@ extension _ViewList_Elements {
         return makeAllElements(inputs: inputs, indirectMap: nil, body: body)
     }
     
-    func makeAllElements(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: @escaping (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
-        var index = 0
-        let (outputs, _) = makeElements(from: &index, inputs: inputs, indirectMap: indirectMap) { inputs, transform in
-            let outputs = body(inputs, transform)
-            return (outputs, true)
+    func makeAllElements(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
+        return withoutActuallyEscaping(body) { escapingClosure in
+            var index = 0
+            let (outputs, _) = makeElements(from: &index, inputs: inputs, indirectMap: indirectMap) { inputs, transform in
+                let outputs = escapingClosure(inputs, transform)
+                return (outputs, true)
+            }
+            
+            return outputs
         }
-        
-        return outputs
     }
     
     func makeOneElement(at index: Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {

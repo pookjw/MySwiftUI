@@ -3,13 +3,21 @@ private import AttributeGraph
 
 extension Layout {
     static func makeStaticView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: any _ViewList_Elements) -> _ViewOutputs {
+#if os(visionOS)
+        return Self.makeStaticView3D(root: root, inputs: inputs, properties: properties, list: list)
+#else
+        fatalError("TODO")
+#endif
+    }
+    
+    static func makeStaticView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: any _ViewList_Elements) -> _ViewOutputs {
         // properties은 안 쓰는듯
         /*
          root -> w19
          inputs -> x21
          list -> x27
          */
-        // sp + 0x48 (중간에 생략된 값이 있어 offset이 밀려 있음)
+        // sp + 0x48
         let copy_1 = inputs
         // inputs.phase (pointer) -> x24
         // sp + 0x88
@@ -23,16 +31,23 @@ extension Layout {
         let count = list.count
         
         if count == 1 && isIdentityUnaryLayout {
-            // <+288>
-            fatalError("TODO")
+            // <+292>
+            // sp + 0xc0
+            return list.makeAllElements(inputs: inputs, indirectMap: nil) { inputs, transform in
+                return transform(inputs)
+            } ?? _ViewOutputs()
         } else if (count == 1 && !isIdentityUnaryLayout) || (count != 0 || !isDefaultEmptyLayout) {
+            var childGeometriesAttribute: Attribute<[ViewGeometry]>? = nil
+            // sp + 0x98
+            var depthsAttribute: Attribute<[ViewDepth]>? = nil
+            // sp + 0x8
+            var layoutComputerAttribute: Attribute<LayoutComputer>?
             let sp0x0c = copy_1.base.options.intersection([.viewRequestsLayoutComputer, .viewNeedsGeometry])
             if !sp0x0c.isEmpty {
                 // <+616>
                 // sp + 0xc0
                 let layoutComputerRule = StaticLayoutComputer(layout: root.value, environment: copy_1.environment, childAttributes: [])
-                // sp + 0x120
-                var layoutComputerAttribute = Attribute(layoutComputerRule)
+                layoutComputerAttribute = Attribute(layoutComputerRule)
                 
                 let layoutDepthStashingEnabled = copy_1[EnableLayoutDepthStashing.self]
                 // w19
@@ -40,35 +55,132 @@ extension Layout {
                 
                 if layoutDepthStashingEnabled {
                     // <+888>
-                    layoutComputerAttribute = Attribute(DepthStashingLayoutComputer(layoutComputer: layoutComputerAttribute, depth: transform[keyPath: \.depth]))
+                    layoutComputerAttribute = Attribute(DepthStashingLayoutComputer(layoutComputer: layoutComputerAttribute!, depth: transform[keyPath: \.depth]))
                 }
                 
                 // <+968>
                 // x20
-                let childGeometriesAttribute = Attribute(LayoutChildGeometries(parentSize: copy_1.size, parentPosition: copy_1.position, layoutComputer: layoutComputerAttribute))
+                childGeometriesAttribute = Attribute(LayoutChildGeometries(parentSize: copy_1.size, parentPosition: copy_1.position, layoutComputer: layoutComputerAttribute!))
                 
-                // sp + 0xc0
-                let layoutChildDepthsAttribute = Attribute(
+                depthsAttribute = Attribute(
                     LayoutChildDepths<Self>(
                         parentSize: copy_1.size,
                         parentDepth: transform[keyPath: \.depth],
-                        childGeometries: childGeometriesAttribute,
-                        layoutComputer: layoutComputerAttribute
+                        childGeometries: childGeometriesAttribute!,
+                        layoutComputer: layoutComputerAttribute!
                     )
                 )
-                
-                // <+1296>
-                fatalError("TODO")
                 // <+1356>
             } else {
                 // <+1328>
-                fatalError("TODO")
+                layoutComputerAttribute = nil
                 // <+1356>
             }
             
             // <+1356>
-            list.makeElements(from: &<#T##Int#>, inputs: <#T##_ViewInputs#>, indirectMap: <#T##IndirectAttributeMap?#>, body: <#T##(_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)#>)
-            fatalError("TODO")
+            // sp + 0xd0
+            var attributes: [LayoutProxyAttributes] = []
+            // sp + 0x78
+            var index = 0
+            // sp + 0x110
+            let copy_2 = copy_1
+            var outputs: _ViewOutputs = list.makeAllElements(inputs: copy_2, indirectMap: nil) { inputs, transform in
+                // $s7SwiftUI6LayoutPAAE14makeStaticView4root6inputs10properties4listAA01_F7OutputsVAA11_GraphValueVyxG_AA01_F6InputsVAA0C10PropertiesVAA01_F13List_Elements_ptFZAJSgAO_AjOctXEfU0_TA를
+                /*
+                 inputs -> x25
+                 transform -> x28, x20
+                 */
+                // sp + 0x1c0
+                let copy_1 = inputs
+                // w22
+                let changedDebugProperties = copy_1.base.changedDebugProperties
+                // w24
+                let changedDebugProperties_2: _ViewDebug.Properties
+                // sp + 0x120
+                let copy_2: _ViewInputs
+                // copy_1.options -> sp + 0x24
+                // w19
+                var originAttribute = copy_1.position
+                // w27
+                var sizeAttribute = copy_1.size
+                if !copy_1.base.options.contains(.viewNeedsGeometry) {
+                    // <+192>
+                    copy_2 = copy_1
+                    changedDebugProperties_2 = changedDebugProperties
+                    // <+340>
+                } else {
+                    // <+192>
+                    copy_2 = copy_1
+                    
+                    // w24
+                    let geometryAttribute = Attribute(LayoutChildGeometry(childGeometries: childGeometriesAttribute!, index: index))
+                    originAttribute = geometryAttribute.origin()
+                    sizeAttribute = geometryAttribute.size()
+                    changedDebugProperties_2 = changedDebugProperties.union([.position, .size])
+                }
+                
+                // <+340>
+                // sp + 0x50
+                var transform = transform
+                // x28
+                let _index = index
+                // sp + 0x120
+                let copy_3 = copy_1
+                Self.makeChildDepthTransform(at: _index, inputs: copy_3, childDepths: depthsAttribute, body: &transform)
+                
+                // <+444>
+                // transform -> x21/x20
+                // sp + 0xc0
+                let copy_4 = inputs
+                // sp + 0x60
+                var copy_5 = inputs
+                copy_5.position = originAttribute
+                copy_5.size = sizeAttribute
+                
+                // sp + 0x120
+                let _ = copy_5
+                // sp + 0x40
+                var outputs = transform(copy_5)
+                // <+564>
+                // sp + 0x120
+                let _ = copy_5
+                // outputs -> x21/w22/w27
+                
+                // <+612>
+                if copy_1.base.options.contains(.viewNeedsGeometry) {
+                    // <+620>
+                    let layoutComputer: OptionalAttribute<LayoutComputer>
+                    if let _layoutComputer = outputs.layoutComputer {
+                        layoutComputer = OptionalAttribute(_layoutComputer)
+                    } else {
+                        layoutComputer = OptionalAttribute()
+                    }
+                    attributes.append(LayoutProxyAttributes(layoutComputer: layoutComputer))
+                }
+                
+                // <+684>
+                outputs.preferences.debugProperties = changedDebugProperties_2
+                index &+= 1
+                return outputs
+            } ?? _ViewOutputs()
+            
+            // outputs -> x19, w21, w24
+            // <+1776>
+            let requestsLayoutComputer = copy_1.base.options.contains(.viewRequestsLayoutComputer)
+            
+            if !sp0x0c.isEmpty {
+                // <+1836>
+                layoutComputerAttribute!.mutateBody(as: StaticLayoutComputer<Self>.self, invalidating: true) { layoutComputer in
+                    layoutComputer.childAttributes = attributes
+                }
+            }
+            
+            // <+1984>
+            if requestsLayoutComputer {
+                outputs.layoutComputer = layoutComputerAttribute
+            }
+            
+            return outputs
         } else {
             return _ViewOutputs()
         }
@@ -78,7 +190,7 @@ extension Layout {
 fileprivate struct StaticLayoutComputer<L: Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var layout: L
     @Attribute private(set) var environment: EnvironmentValues
-    private(set) var childAttributes: [LayoutProxyAttributes]
+    var childAttributes: [LayoutProxyAttributes]
     
     var description: String {
         fatalError("TODO")
@@ -87,6 +199,15 @@ fileprivate struct StaticLayoutComputer<L: Layout>: StatefulRule, AsyncAttribute
     typealias Value = LayoutComputer
     
     func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct LayoutChildGeometry: Rule, AsyncAttribute {
+    @Attribute private(set) var childGeometries: [ViewGeometry]
+    let index: Int
+    
+    var value: ViewGeometry {
         fatalError("TODO")
     }
 }
