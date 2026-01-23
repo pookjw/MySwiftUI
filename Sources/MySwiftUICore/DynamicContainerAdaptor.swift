@@ -537,24 +537,6 @@ fileprivate struct ViewListContentTransition<T: Transition>: StatefulRule, Async
 }
 
 extension Layout {
-    static func makeStaticView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: any _ViewList_Elements) -> _ViewOutputs {
-        // properties은 안 쓰는듯
-        /*
-         root -> w19
-         inputs -> x21
-         list -> x27
-         */
-        // sp + 0x48
-        let copy_1 = inputs
-        // inputs.phase (pointer) -> x24
-        // sp + 0x88
-        let phase = inputs.base.phase
-        // sp + 0x8c
-        let transaction = inputs.base.transaction
-        // <+144>
-        fatalError("TODO")
-    }
-    
     static func makeDynamicView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
         // properties은 안 쓰는듯
         /*

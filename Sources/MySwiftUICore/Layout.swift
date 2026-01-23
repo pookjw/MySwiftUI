@@ -258,8 +258,8 @@ public struct LayoutProperties: Sendable {
     }
     
     public var stackOrientation: Axis?
-    private var isDefaultEmptyLayout: Bool
-    private var isIdentityUnaryLayout: Bool
+    var isDefaultEmptyLayout: Bool
+    var isIdentityUnaryLayout: Bool
 }
 
 public protocol LayoutValueKey {
