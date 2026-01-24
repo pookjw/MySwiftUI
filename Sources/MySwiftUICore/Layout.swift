@@ -49,7 +49,7 @@ extension Layout {
 
 extension Layout where Self.Cache == () {
     public func makeCache(subviews: Self.Subviews) -> Self.Cache {
-        fatalError("TODO")
+        return ()
     }
 }
 
@@ -223,7 +223,7 @@ extension Layout {
             }
             assert(index < geometries.endIndex)
             
-            var d9 = copy_1[index].layoutComputer.depthThatFits(size)
+            let d9 = copy_1[index].layoutComputer.depthThatFits(size)
             
             // <+260>
             index &+= 1
@@ -233,10 +233,6 @@ extension Layout {
         } while index != copy_1.endIndex
         
         return d8
-    }
-    
-    static func makeChildDepthTransform(at index: Int, inputs: _ViewInputs, childDepths: Attribute<[ViewDepth]>?, body: inout (_ViewInputs) -> _ViewOutputs) {
-        fatalError("TODO")
     }
 }
 

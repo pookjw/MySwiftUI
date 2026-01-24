@@ -1,5 +1,5 @@
 // A7DFBD5AC47BCDAAE5525781FBD33CF6 | CA243A05CF611D3DFDB2A050BB76974B
-private import AttributeGraph
+internal import AttributeGraph
 
 extension Layout {
     static func makeStaticView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: any _ViewList_Elements) -> _ViewOutputs {
@@ -53,21 +53,24 @@ extension Layout {
                 // w19
                 let transform = copy_1.transform
                 
+                let layoutComputer: Attribute<LayoutComputer>
                 if layoutDepthStashingEnabled {
                     // <+888>
-                    layoutComputerAttribute = Attribute(DepthStashingLayoutComputer(layoutComputer: layoutComputerAttribute!, depth: transform[keyPath: \.depth]))
+                    layoutComputer = Attribute(DepthStashingLayoutComputer(layoutComputer: layoutComputerAttribute!, depth: transform[keyPath: \.depth]))
+                } else {
+                    layoutComputer = layoutComputerAttribute!
                 }
                 
                 // <+968>
                 // x20
-                childGeometriesAttribute = Attribute(LayoutChildGeometries(parentSize: copy_1.size, parentPosition: copy_1.position, layoutComputer: layoutComputerAttribute!))
+                childGeometriesAttribute = Attribute(LayoutChildGeometries(parentSize: copy_1.size, parentPosition: copy_1.position, layoutComputer: layoutComputer))
                 
                 depthsAttribute = Attribute(
                     LayoutChildDepths<Self>(
                         parentSize: copy_1.size,
                         parentDepth: transform[keyPath: \.depth],
                         childGeometries: childGeometriesAttribute!,
-                        layoutComputer: layoutComputerAttribute!
+                        layoutComputer: layoutComputer
                     )
                 )
                 // <+1356>
@@ -185,6 +188,29 @@ extension Layout {
             return _ViewOutputs()
         }
     }
+    
+    static func makeChildDepthTransform(at index: Int, inputs: _ViewInputs, childDepths: Attribute<[ViewDepth]>?, body: inout (_ViewInputs) -> _ViewOutputs) {
+        guard let childDepths else {
+            return
+        }
+        
+        body = { [childDepths, index, body] inputs in
+            // $s7SwiftUI6LayoutPAAE23makeChildDepthTransform2at6inputs11childDepths4bodyySi_AA11_ViewInputsV14AttributeGraph0O0VySayAA0mF0VGGSgAA01_M7OutputsVAJcztFZAtJcfU_TA
+            /*
+             inputs -> x19
+             body -> x21, x20
+             return register -> x22
+             */
+            // inlined
+            return _ViewOutputs.makeDepthTransform(
+                inputs: inputs,
+                depth: {
+                    return Attribute(LayoutChildDepth(childDepths: childDepths, index: index))
+                },
+                body: body
+            )
+        }
+    }
 }
 
 fileprivate struct StaticLayoutComputer<L: Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
@@ -198,8 +224,8 @@ fileprivate struct StaticLayoutComputer<L: Layout>: StatefulRule, AsyncAttribute
     
     typealias Value = LayoutComputer
     
-    func updateValue() {
-        fatalError("TODO")
+    mutating func updateValue() {
+        updateLayoutComputer(layout: layout, environment: $environment, attributes: childAttributes)
     }
 }
 
@@ -208,6 +234,17 @@ fileprivate struct LayoutChildGeometry: Rule, AsyncAttribute {
     let index: Int
     
     var value: ViewGeometry {
-        fatalError("TODO")
+        return childGeometries[index]
+    }
+}
+
+fileprivate struct LayoutChildDepth: Rule, AsyncAttribute {
+    @Attribute var childDepths: [ViewDepth]
+    let index: Int
+    
+    typealias Value = ViewDepth
+    
+    var value: ViewDepth {
+        return childDepths[index]
     }
 }

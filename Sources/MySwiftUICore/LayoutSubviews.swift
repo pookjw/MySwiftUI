@@ -109,7 +109,7 @@ public struct LayoutSubview : Equatable {
     }
     
     public func place(at position: CGPoint, anchor: UnitPoint = .topLeading, proposal: ProposedViewSize) {
-        fatalError("TODO")
+        place(at: position, anchor: anchor, dimensions: proxy.dimensions(in: _ProposedSize(width: proposal.width, height: proposal.height)))
     }
     
     func place(in geometry: ViewGeometry, layoutDirection: LayoutDirection) {
