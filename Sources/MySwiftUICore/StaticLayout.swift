@@ -70,7 +70,7 @@ extension Layout {
                         parentSize: copy_1.size,
                         parentDepth: transform[keyPath: \.depth],
                         childGeometries: childGeometriesAttribute!,
-                        layoutComputer: layoutComputer
+                        layoutComputer: layoutComputerAttribute!
                     )
                 )
                 // <+1356>

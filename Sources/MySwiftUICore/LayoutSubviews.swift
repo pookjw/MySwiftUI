@@ -127,8 +127,30 @@ public struct LayoutSubview : Equatable {
         return proxy.lengthThatFits(_ProposedSize(width: size.width, height: size.height), in: axis)
     }
     
-    func place(at: CGPoint, anchor: UnitPoint, dimensions: ViewDimensions) {
-        fatalError("TODO")
+    func place(at position: CGPoint, anchor: UnitPoint, dimensions: ViewDimensions) {
+        let d0 = position.x
+        let d1 = position.y
+        let d2 = anchor.x
+        let d3 = anchor.y
+        let d4 = dimensions.size.width
+        let d7 = dimensions.size.height
+        
+        var d5 = d4 * d2
+        d5 = d0 - d5
+        if d2 == 0 {
+            d5 = d0
+        }
+        var d6 = d3 * d7
+        d6 = d1 - d6
+        if d3 == 0 {
+            d6 = d1
+        }
+        
+        guard !d5.isNaN && !d6.isNaN else {
+            fatalError("view origin is invalid: \(CGPoint(x: d0, y: d1))")
+        }
+        
+        place(in: ViewGeometry(origin: CGPoint(x: d5, y: d6), dimensions: dimensions), layoutDirection: .leftToRight)
     }
 }
 
@@ -570,7 +592,10 @@ struct LayoutProxy: Equatable {
     }
     
     func dimensions(in proposedSize: _ProposedSize) -> ViewDimensions {
-        fatalError("TODO")
+        let layoutComputer = layoutComputer
+        let size = layoutComputer.sizeThatFits(proposedSize)
+        return ViewDimensions(guideComputer: layoutComputer, size: size, proposal: proposedSize)
+        
     }
     
     var layoutComputer: LayoutComputer {

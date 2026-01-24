@@ -22,13 +22,16 @@ private struct MyView: View {
 
 private struct MyLayout: Layout {
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        return CGSize(width: proposal.width! * 0.5, height: proposal.height! * 0.5)
+        return CGSize(width: proposal.width!, height: proposal.height!)
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         for subview in subviews {
             subview.place(
-                at: bounds.origin,
+                at: CGPoint(
+                    x: bounds.origin.x + 60,
+                    y: bounds.origin.y + 90
+                ),
                 anchor: .topLeading,
                 proposal: ProposedViewSize(
                     width: bounds.size.width * 0.5,
