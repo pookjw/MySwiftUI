@@ -29,7 +29,7 @@ final class DemoViewController: UICollectionViewController {
         super.viewDidLoad()
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.conditional2View
+        let item = DemoViewController.Item.tupleView
         pushToItem(item)
         
 //        Task {
@@ -70,9 +70,10 @@ extension DemoViewController {
         case anyViewSwitchingView
         case bodyView
         case conditionalView
-        case conditional2View
+        case mutatingLayoutView
         case observableView
         case customLayoutView
+        case tupleView
         
         var title: String {
             switch self {
@@ -92,12 +93,14 @@ extension DemoViewController {
                 return _typeName(BodyViewController.self, qualified: false)
             case .conditionalView:
                 return _typeName(ConditionalViewController.self, qualified: false)
-            case .conditional2View:
-                return _typeName(Conditiona2lViewController.self, qualified: false)
+            case .mutatingLayoutView:
+                return _typeName(MutatingLayoutViewController.self, qualified: false)
             case .observableView:
                 return _typeName(ObservableViewController.self, qualified: false)
             case .customLayoutView:
                 return _typeName(CustomLayoutViewController.self, qualified: false)
+            case .tupleView:
+                return _typeName(TupleViewController.self, qualified: false)
             }
         }
         
@@ -119,12 +122,14 @@ extension DemoViewController {
                 return BodyViewController()
             case .conditionalView:
                 return ConditionalViewController()
-            case .conditional2View:
-                return Conditiona2lViewController()
+            case .mutatingLayoutView:
+                return MutatingLayoutViewController()
             case .observableView:
                 return ObservableViewController()
             case .customLayoutView:
                 return CustomLayoutViewController()
+            case .tupleView:
+                return TupleViewController()
             }
         }
     }

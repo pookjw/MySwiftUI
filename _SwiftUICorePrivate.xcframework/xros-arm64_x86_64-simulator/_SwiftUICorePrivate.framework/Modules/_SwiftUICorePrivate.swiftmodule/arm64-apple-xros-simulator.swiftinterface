@@ -3,6 +3,7 @@
 // swift-module-flags: -target arm64-apple-xros26.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 7.0.83.1.501 -module-name _SwiftUICorePrivate -package-name _SwiftUICorePrivate
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 @_exported import Swift
+@_exported import _SwiftUICorePrivate
 import SwiftUI
 @_exported import os.log
 @_exported import os
@@ -1050,23 +1051,6 @@ public final class ObservationCenter {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct TypeConformance<T: _SwiftUICorePrivate.ProtocolDescriptor> {
-  public var type: Any.Type { get }
-  public func unsafeExistentialMetatype<U>(_: U.Type) -> U
-  public var storage: (type: Any.Type, conformance: Swift.UnsafeRawPointer) { get }
-  public init(storage: (type: Any.Type, conformance: Swift.UnsafeRawPointer))
-  public var conformance: Swift.UnsafeRawPointer { get }
-  public var metadata: Swift.UnsafeRawPointer { get }
-}
-
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol ProtocolDescriptor {
-    static var descriptor: Swift.UnsafeRawPointer { get }
-}
-
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct ArchivedViewInput {
   public static var defaultValue: _SwiftUICorePrivate.ArchivedViewInput.Value { get }
 
@@ -1767,3 +1751,42 @@ public protocol PrimitiveViewModifier: ViewModifier where Body == Swift.Never {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 open class _ViewList_Subgraph {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ProtocolDescriptor {
+  static var descriptor: Swift.UnsafeRawPointer { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol TupleDescriptor: _SwiftUICorePrivate.ProtocolDescriptor {
+    static var typeCache: [Swift.ObjectIdentifier: _SwiftUICorePrivate.TupleTypeDescription<Self>] {
+        get set
+    }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.TupleDescriptor {
+    public static func tupleDescription(_ tupleType: AttributeGraph.TupleType) -> _SwiftUICorePrivate.TupleTypeDescription<Self>
+}
+
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct TupleTypeDescription<T: TupleDescriptor> {
+    public var contentTypes: [(Swift.Int, TypeConformance<T>)] { get }
+    public init(_ tupleType: AttributeGraph.TupleType)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct TypeConformance<T: _SwiftUICorePrivate.ProtocolDescriptor> {
+  public var type: Any.Type { get }
+  public func unsafeExistentialMetatype<U>(_: U.Type) -> U
+  public var storage: (type: Any.Type, conformance: Swift.UnsafeRawPointer) { get }
+  public init(storage: (type: Any.Type, conformance: Swift.UnsafeRawPointer))
+  public var conformance: Swift.UnsafeRawPointer { get }
+  public var metadata: Swift.UnsafeRawPointer { get }
+}

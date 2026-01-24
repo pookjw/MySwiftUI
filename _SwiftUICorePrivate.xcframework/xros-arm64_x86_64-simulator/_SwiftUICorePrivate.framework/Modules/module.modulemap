@@ -1,4 +1,5 @@
-framework module _SwiftUICorePrivate {
+framework module _SwiftUICorePrivate [extern_c] {
+    umbrella header "_SwiftUICorePrivate.h"
     export *
     module * { export * }
 }

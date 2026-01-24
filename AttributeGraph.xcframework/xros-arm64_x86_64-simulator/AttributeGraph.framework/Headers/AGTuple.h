@@ -5,8 +5,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-AG_EXTERN NSUInteger AGTupleCount(AGTypeID);
-AG_EXTERN AGTypeID AGTupleElementType(AGTypeID, NSUInteger);
+AG_EXTERN NSUInteger AGTupleCount(AGTupleType) NS_SWIFT_NAME(getter:AGTupleType.count(self:));
+AG_EXTERN AGTypeID AGTupleElementType(AGTupleType, NSUInteger);
 
 NS_ASSUME_NONNULL_END
 

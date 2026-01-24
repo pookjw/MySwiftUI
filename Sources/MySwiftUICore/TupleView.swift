@@ -7,6 +7,13 @@
     }
     
     public static nonisolated func _makeView(view: _GraphValue<TupleView<T>>, inputs: _ViewInputs) -> _ViewOutputs {
+        /*
+         return pointer -> x19
+         view -> w21
+         */
+        // sp + 0xf0
+        let copy_1 = inputs
+        
         fatalError("TODO")
     }
     

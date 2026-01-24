@@ -16,6 +16,7 @@ import DesignLibrary
 @_spi(SwiftUI) import _SwiftUICorePrivate
 import AttributeGraph
 import Spatial
+import Darwin.POSIX.dlfcn
 
 struct MyDynamicView: DynamicView {
     static func makeID() -> _SwiftUICorePrivate.UniqueID {
@@ -1186,21 +1187,22 @@ class ViewController: UIViewController {
 //        collection[MyKey.self] = false
 //        collection[MyKey.self] = true
 //        
-        let model = ObsModel()
+//        let model = ObsModel()
 //        let rootView = MyObsView(model: model)
         
-        let rootView = MyLayoutView(model: model)
+//        let rootView = MyLayoutView(model: model)
+        let rootView = MyTupleView()
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-        Task {
-            while true {
-                try await Task.sleep(for: .seconds(1))
-                model.flag.toggle()
-            }
-        }
+//        Task {
+//            while true {
+//                try await Task.sleep(for: .seconds(1))
+//                model.flag.toggle()
+//            }
+//        }
         
 //        Task { [hostingView] in
 //            var flags = 0
@@ -1439,5 +1441,12 @@ fileprivate struct MyLayout2: Layout {
                 )
             }
         }
+    }
+}
+
+fileprivate struct MyTupleView: View {
+    var body: some View {
+        Color.black
+        Color.white
     }
 }

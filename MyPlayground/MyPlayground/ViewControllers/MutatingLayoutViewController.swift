@@ -1,5 +1,5 @@
 //
-//  Conditiona2lViewController.swift
+//  MutatingLayoutViewController.swift
 //  MyPlayground
 //
 //  Created by Jinwoo Kim on 1/24/26.
@@ -59,7 +59,7 @@ fileprivate struct MyLayout: Layout {
     }
 }
 
-final class Conditiona2lViewController: UIViewController {
+final class MutatingLayoutViewController: UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     private let model = Model()
     private var task: Task<Void, Never>?
