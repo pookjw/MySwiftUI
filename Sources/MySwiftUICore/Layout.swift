@@ -31,7 +31,7 @@ extension Layout {
     }
     
     public func updateCache(_ cache: inout Self.Cache, subviews: Self.Subviews) {
-        fatalError("TODO")
+        cache = makeCache(subviews: subviews)
     }
     
     public func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {

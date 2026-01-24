@@ -1321,7 +1321,7 @@ struct DynamicLayoutMap {
             // <+500>
             let precedingViewCount = items[index].precedingViewCount
             // x26
-            let viewIndex = unusedCount - Int(precedingViewCount)
+            let viewIndex = unusedCount - numericCast(precedingViewCount)
             // w19
             let uniqueId = items[index].uniqueId
             // sp + 0x50
@@ -1330,6 +1330,9 @@ struct DynamicLayoutMap {
             let attributes = self[id]
             results.append(attributes)
         }
+        
+        sortedArray = results
+        sortedSeed = infoSeed
         
         return results
     }

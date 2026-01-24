@@ -10,7 +10,7 @@ struct LayoutComputer: @unchecked Sendable {
     @safe static let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())
     
     private var box: AnyLayoutEngineBox
-    private var seed: Int
+    fileprivate var seed: Int
     
     init<T: LayoutEngine>(_ engine: T) {
         if unsafe LayoutTrace.recorder != nil {
@@ -453,4 +453,36 @@ struct EnableLayoutDepthStashing: UserDefaultKeyedFeature, PropertyKey {
 
 func withStashedDepthProposal<T>(execute: (CGFloat?) -> T) -> T {
     fatalError("TODO")
+}
+
+extension StatefulRule where Value == LayoutComputer {
+    mutating func updateLayoutComputer<T: Layout>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
+        // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE06updategH06layout11environment10attributesyqd___AA0A0VyAD17EnvironmentValuesVGSayAD0G15ProxyAttributesVGtAD0G0Rd__lF
+        let currentAttribute = Graph.currentAttribute
+        assert(currentAttribute != .empty)
+        
+        layout.updateLayoutComputer(
+            rule: &self,
+            layoutContext: SizeAndSpacingContext(
+                context: AnyRuleContext(attribute: currentAttribute),
+                owner: currentAttribute,
+                environment: environment
+            ),
+            children: LayoutProxyCollection(
+                context: AnyRuleContext(attribute: currentAttribute),
+                attributes: attributes
+            )
+        )
+    }
+    
+    func update<T: LayoutEngine>(modify: (inout T) -> Void, create: () -> T) {
+        if hasValue {
+            var value = self.value
+            value.withMutableEngine(type: T.self, do: modify)
+            value.seed &+= 1
+            self.value = value
+        } else {
+            self.value = LayoutComputer(create())
+        }
+    }
 }

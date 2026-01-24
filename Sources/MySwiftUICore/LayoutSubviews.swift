@@ -215,7 +215,6 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
          children -> sp + 0xc
          */
         // x22
-        let newAttriutes = children.attributes
         self.proxies = children
         
         // <+112>
@@ -224,8 +223,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         self.layoutDirection = context.layoutDirection
         
         // <+368>
-        // x19
-        let copy = layout
+        self.layout = layout
         self.sizeCache = ViewSizeCache()
         self.cachedAlignmentGeometry = []
         self.cachedAlignment = Cache3()
@@ -263,7 +261,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         /*
          size -> x22
          */
-        let subviews = LayoutSubviews(context: proxies.context, storage: .direct(proxies.attributes), layoutDirection: layoutDirection)
+        let subviews = subviews
         let cache = cache
         
         // inlined

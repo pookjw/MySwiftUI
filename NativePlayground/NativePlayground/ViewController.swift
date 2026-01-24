@@ -1186,21 +1186,21 @@ class ViewController: UIViewController {
 //        collection[MyKey.self] = false
 //        collection[MyKey.self] = true
 //        
-//        let model = ObsModel()
+        let model = ObsModel()
 //        let rootView = MyObsView(model: model)
         
-        let rootView = MyLayoutView()
+        let rootView = MyLayoutView(model: model)
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-//        Task {
-//            while true {
-//                try await Task.sleep(for: .seconds(1))
-//                model.flag.toggle()
-//            }
-//        }
+        Task {
+            while true {
+                try await Task.sleep(for: .seconds(1))
+                model.flag.toggle()
+            }
+        }
         
 //        Task { [hostingView] in
 //            var flags = 0
@@ -1402,22 +1402,41 @@ fileprivate struct MyLayout: /*Layout*/HVStack, Sendable {
     }
 }
 
-
-struct MyLayoutView: View {
+fileprivate struct MyLayoutView: View {
+    let model: ObsModel
+    
     var body: some View {
-        _MyLayout {
-            Color.white
+        MyLayout2(model: model) {
+            if model.flag {
+                Color.white
+            } else {
+                Color.black
+            }
         }
     }
+}
+
+fileprivate struct MyLayout2: Layout {
+    let model: ObsModel
     
-    struct _MyLayout: Layout {
-        func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-            return CGSize(width: proposal.width!, height: proposal.height!)
-        }
-        
-        func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        return CGSize(width: proposal.width!, height: proposal.height!)
+    }
+    
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        MainActor.assumeIsolated {
             for subview in subviews {
-                subview.place(at: bounds.origin, anchor: .topLeading, proposal: ProposedViewSize(width: bounds.size.width, height: bounds.size.height))
+                subview.place(
+                    at: CGPoint(
+                        x: bounds.origin.x + (model.flag ? 60 : 90),
+                        y: bounds.origin.y + (model.flag ? 60 : 90)
+                    ),
+                    anchor: .topLeading,
+                    proposal: ProposedViewSize(
+                        width: bounds.size.width * (model.flag ? 0.5 : 0.3),
+                        height: bounds.size.height * (model.flag ? 0.3 : 0.5)
+                    )
+                )
             }
         }
     }
