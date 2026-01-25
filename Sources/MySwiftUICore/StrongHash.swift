@@ -114,3 +114,9 @@ extension UUID: StronglyHashable {
         fatalError("TODO")
     }
 }
+
+extension Int: StronglyHashable {
+    func hash(into hasher: inout StrongHasher) {
+        fatalError("TODO")
+    }
+}

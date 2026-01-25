@@ -169,7 +169,64 @@ extension _ViewListOutputs {
     }
     
     static func concat(_ outputs: [_ViewListOutputs], inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        // inputs -> x24
+        if !outputs.isEmpty {
+            // <+60>
+            // outputs -> x19
+            let x26 = outputs.count
+            var x19 = 0
+            var w23 = false
+            var x20 = 0
+            var x27 = 0
+            var x28 = outputs[0]
+            var x21: Int
+            
+            func mergeStatic(from: Int, to: Int) -> _ViewListOutputs {
+                fatalError("TODO")
+            }
+            
+            r1: repeat {
+                // <+208>
+                x21 = x27 &+ 1
+                // sp + 0xb0
+                let copy_1 = x28
+                if !w23 {
+                    var x8 = copy_1.staticCount ?? 0
+                    let x9 = (copy_1.staticCount == nil) ? 0 : x19
+                    x8 &+= x9
+                    x19 = x8
+                }
+                
+                // <+252>
+                // sp + 0x80
+                let copy_2 = copy_1.views
+                
+                switch copy_2 {
+                case .staticList(_):
+                    // <+172>
+                    w23 = w23 || (copy_1.staticCount == nil)
+                    x27 = x21
+                    continue r1
+                case .dynamicList(let listAttribute, let listModifier):
+                    // <+384>
+                    fatalError("TODO")
+                }
+            } while x21 != x26
+            
+            // <+592>
+            if x20 < x26 {
+                // <+600>
+                fatalError("TODO")
+            } else {
+                // <+692>
+                fatalError("TODO")
+            }
+            
+            fatalError("TODO")
+        } else {
+            // <+724>
+            fatalError("TODO")
+        }
     }
 }
 

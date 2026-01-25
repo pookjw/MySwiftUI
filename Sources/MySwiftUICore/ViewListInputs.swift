@@ -21,6 +21,10 @@ public struct _ViewListInputs {
         self.implicitID = implicitID
         self.options = options
     }
+    
+    func updateContentOffset(outputs: _ViewListOutputs) {
+        fatalError("TODO")
+    }
 }
 
 extension _ViewListInputs {

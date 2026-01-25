@@ -107,17 +107,49 @@ extension TupleView {
     }
     
     fileprivate struct MakeList: ViewTypeVisitor {
-        private(set) var view: _GraphValue<TupleView<T>>
+        private(set) var view: _GraphValue<TupleView<T>> // 0x0
         private(set) var inputs: _ViewListInputs
-        var index: Int
-        var offset: Int
-        let wrapChildren: Bool
-        let includeOffsets: Bool
-        private(set) var outputs: [_ViewListOutputs]
+        var index: Int // 0x90
+        var offset: Int // 0x98
+        let wrapChildren: Bool // 0xa0
+        let includeOffsets: Bool // 0xa1
+        private(set) var outputs: [_ViewListOutputs] // 0xa8
         
         mutating func visit<Content: View>(type: Content.Type) {
             // $s7SwiftUI12TupleContentVAARvzAA4ViewRzlE8MakeList33_99F7483FD5E72B0CC96AAE11DAE05002LLV5visit4typeyqd__m_tAaDRd__lF
-            fatalError("TODO")
+            // self - > x19
+            // sp + 0x98
+            let copy_1 = inputs
+            
+            // inlined
+            copy_1.base.pushStableIndex(index)
+            
+            // <+60>
+            let content = view.value.unsafeOffset(at: offset, as: type)
+            
+            // sp + 0x50
+            let outputs: _ViewListOutputs
+            if wrapChildren {
+                // <+92>
+                // sp + 0x8
+                let newValue = _GraphValue(content)
+                outputs = _ViewListOutputs.unaryViewList(view: newValue, inputs: copy_1)
+            } else {
+                // <+132>
+                // sp + 0x8
+                let newValue = _GraphValue(content)
+                outputs = Content.makeDebuggableViewList(view: newValue, inputs: copy_1)
+            }
+            
+            // <+224>
+            // sp + 0x8
+            let copy_2 = outputs
+            self.outputs.append(copy_2)
+            
+            // <+320>
+            if includeOffsets {
+                inputs.updateContentOffset(outputs: outputs)
+            }
         }
     }
 }

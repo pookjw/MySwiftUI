@@ -115,6 +115,8 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible, Swift
     public subscript<A>(offset: (inout T) -> AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A> {
         get
     }
+
+    public func unsafeOffset<U>(at: Swift.Int, as: U.Type) -> AttributeGraph.Attribute<U>
 }
 
 @frozen

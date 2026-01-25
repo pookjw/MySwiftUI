@@ -274,7 +274,8 @@ exports:
     _$s14AttributeGraph14AnyRuleContextV10unsafeCast2toAA0dE0VyxGxm_tlF,
     _$s14AttributeGraph14AnyRuleContextVyxAA0A0VyxGcluig,
     _$s14AttributeGraph11RuleContextVyqd__AA0A0Vyqd__Gcluig,
-    _$s14AttributeGraph13PointerOffsetV6offsetyACyxq_GAExzXEFZ ]
+    _$s14AttributeGraph13PointerOffsetV6offsetyACyxq_GAExzXEFZ,
+    _$s14AttributeGraph0A0V12unsafeOffset2at2asACyqd__GSi_qd__mtlF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
