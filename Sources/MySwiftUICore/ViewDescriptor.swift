@@ -1,6 +1,7 @@
 // 1ABF77B82C037C602A176AE349787FED
 private import _MySwiftUIShims
 internal import AttributeGraph
+private import os.log
 
 struct ViewDescriptor: TupleDescriptor{
     static var descriptor: UnsafeRawPointer {
@@ -15,7 +16,7 @@ protocol ProtocolDescriptor {
 }
 
 extension ProtocolDescriptor {
-    static func conformance(of type: Any.Type) -> TypeConformance<Self>? {
+    static func conformance(of type: any Any.Type) -> TypeConformance<Self>? {
         let descriptor = unsafe descriptor
         
         guard let conformance = unsafe swift_conformsToProtocol(type, descriptor) else {
@@ -50,7 +51,7 @@ extension TupleDescriptor {
     }
 }
 
-struct TupleTypeDescription<T: TupleDescriptor> {
+struct TupleTypeDescription<T: ProtocolDescriptor> {
     let contentTypes: [(Int, TypeConformance<T>)]
     
     init(_ tupleType: TupleType) {
@@ -61,11 +62,18 @@ struct TupleTypeDescription<T: TupleDescriptor> {
          */
         // x19
         var contentTypes = Array<(Int, TypeConformance<T>)>()
-        // x21
-        let count = tupleType.count
         // x28
-        for index in 0..<count {
-            fatalError("TODO")
+        for index in tupleType.indices {
+            // x19
+            let type = tupleType.type(at: index)
+            // sp + 0x60
+            guard let conformance = T.conformance(of: type) else {
+                let message = "Ignoring invalid type at index \(index), type \(type)"
+                unsafe Log.unlocatedIssuesLog.fault("\(message, privacy: .public)")
+                continue
+            }
+            
+            contentTypes.append((index, conformance))
         }
         
         self.contentTypes = contentTypes

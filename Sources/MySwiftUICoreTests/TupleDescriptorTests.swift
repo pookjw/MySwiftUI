@@ -5,12 +5,31 @@ internal import Testing
 private import SwiftUI
 private import AttributeGraph
 
-struct TupleTypeDescriptionTests {
+fileprivate struct TupleTypeDescriptionTests {
     @Test func test_init() {
-        let tupleType = TupleType((Int, String).self)
+        let implTupleType = TupleType((MySwiftUICore.EmptyView, MySwiftUICore.Color, Int).self)
+        let impl = MySwiftUICore.TupleTypeDescription<ImplMyTupleDescriptor>(implTupleType)
         
-        let original = _SwiftUICorePrivate.TupleTypeDescription<OriginalMyTupleDescriptor>(tupleType)
-//        let original = _SwiftUICorePrivate
+        #expect(impl.contentTypes.count == 2)
+        for (index, conformance) in impl.contentTypes {
+            if index == 0 {
+                #expect(type(of: conformance.type) == MySwiftUICore.EmptyView.Type.self)
+            } else if index == 1 {
+                #expect(type(of: conformance.type) == MySwiftUICore.Color.Type.self)
+            }
+        }
+        
+        let originalTupleType = TupleType((SwiftUI.EmptyView, SwiftUI.Color, Int).self)
+        let original = _SwiftUICorePrivate.TupleTypeDescription<OriginalMyTupleDescriptor>(originalTupleType)
+        
+        #expect(original.contentTypes.count == 2)
+        for (index, conformance) in original.contentTypes {
+            if index == 0 {
+                #expect(type(of: conformance.type) == SwiftUI.EmptyView.Type.self)
+            } else if index == 1 {
+                #expect(type(of: conformance.type) == SwiftUI.Color.Type.self)
+            }
+        }
     }
 }
 

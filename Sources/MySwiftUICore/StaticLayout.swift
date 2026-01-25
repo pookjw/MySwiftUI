@@ -162,7 +162,6 @@ extension Layout {
                 }
                 
                 // <+684>
-                outputs.preferences.debugProperties = changedDebugProperties_2
                 index &+= 1
                 return outputs
             } ?? _ViewOutputs()
@@ -180,7 +179,7 @@ extension Layout {
             
             // <+1984>
             if requestsLayoutComputer {
-                outputs.layoutComputer = layoutComputerAttribute
+                outputs.layoutComputer = layoutComputerAttribute ?? Attribute(identifier: .empty)
             }
             
             return outputs

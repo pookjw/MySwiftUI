@@ -1760,6 +1760,12 @@ public protocol ProtocolDescriptor {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension ProtocolDescriptor {
+  public static func conformance(of type: Any.Type) -> _SwiftUICorePrivate.TypeConformance<Self>?
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol TupleDescriptor: _SwiftUICorePrivate.ProtocolDescriptor {
     static var typeCache: [Swift.ObjectIdentifier: _SwiftUICorePrivate.TupleTypeDescription<Self>] {
         get set
@@ -1775,7 +1781,7 @@ extension _SwiftUICorePrivate.TupleDescriptor {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct TupleTypeDescription<T: TupleDescriptor> {
+public struct TupleTypeDescription<T: ProtocolDescriptor> {
     public var contentTypes: [(Swift.Int, TypeConformance<T>)] { get }
     public init(_ tupleType: AttributeGraph.TupleType)
 }
