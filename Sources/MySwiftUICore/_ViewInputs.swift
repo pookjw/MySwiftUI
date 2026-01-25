@@ -139,7 +139,7 @@ extension _ViewInputs {
             if newValue {
                 base.options.formUnion(.viewRequestsLayoutComputer)
             } else {
-                base.options.remove(.viewRequestsLayoutComputer)
+                base.options.subtract(.viewRequestsLayoutComputer)
             }
         }
     }
@@ -152,7 +152,7 @@ extension _ViewInputs {
             if newValue {
                 base.options.formUnion(.viewNeedsGeometry)
             } else {
-                base.options.remove(.viewNeedsGeometry)
+                base.options.subtract(.viewNeedsGeometry)
             }
         }
     }
@@ -165,7 +165,7 @@ extension _ViewInputs {
             if newValue {
                 base.options.formUnion(.viewDisplayListAccessibility)
             } else {
-                base.options.remove(.viewDisplayListAccessibility)
+                base.options.subtract(.viewDisplayListAccessibility)
             }
         }
     }
@@ -178,7 +178,7 @@ extension _ViewInputs {
             if newValue {
                 base.options.formUnion(.viewNeedsGeometryAccessibility)
             } else {
-                base.options.remove(.viewNeedsGeometryAccessibility)
+                base.options.subtract(.viewNeedsGeometryAccessibility)
             }
         }
     }
@@ -191,7 +191,7 @@ extension _ViewInputs {
             if newValue {
                 base.options.formUnion(.needsAccessibility)
             } else {
-                base.options.remove(.needsAccessibility)
+                base.options.subtract(.needsAccessibility)
             }
         }
     }
@@ -208,7 +208,7 @@ extension _ViewInputs {
             if newValue {
                 base.options.formUnion(.animationsDisabled)
             } else {
-                base.options.remove(.animationsDisabled)
+                base.options.subtract(.animationsDisabled)
             }
         }
         _modify {

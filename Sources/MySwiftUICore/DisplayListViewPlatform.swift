@@ -461,7 +461,7 @@ extension DisplayList.ViewUpdater {
                     // <+700>
                     viewInfo.isInvalid = false
                     // viewInfo = sp + 0x58
-                    viewInfo.state.flags.remove(.unknown5)
+                    viewInfo.state.flags.subtract(.unknown5)
                     
                     // <+732>
                     switch content.value {
@@ -628,7 +628,7 @@ extension DisplayList.ViewUpdater {
                 var flags = viewInfo.state.flags
                 if flags.contains(.unknown3) {
                     // <+148>
-                    flags.remove(.unknown3)
+                    flags.subtract(.unknown3)
                     viewInfo.state.flags = flags
                     // x20
                     let view = viewInfo.view
@@ -954,7 +954,7 @@ extension DisplayList.ViewUpdater {
                     // <+556>
                     w22 = true
                     if d10 == 0, d11 == 0 {
-                        w24.remove(.unknown0)
+                        w24.subtract(.unknown0)
                         viewInfo.state.flags = w24
                     }
                     
@@ -966,7 +966,7 @@ extension DisplayList.ViewUpdater {
                         w22 = false
                         branch = .to1072Or588
                     } else {
-                        w24.remove(.unknown0)
+                        w24.subtract(.unknown0)
                         viewInfo.state.flags = w24
                         w22 = true
                         branch = .to1072Or588
@@ -1024,7 +1024,7 @@ extension DisplayList.ViewUpdater {
                         if w24.contains(.unknown1) {
                             // <+728>
                             branch = .to728
-                            viewInfo.state.flags.remove([.unknown1, .unknown2])
+                            viewInfo.state.flags.subtract([.unknown1, .unknown2])
                         } else {
                             // <+728>
                             branch = .to728

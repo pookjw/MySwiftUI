@@ -251,47 +251,47 @@ extension ViewGraphRootValueUpdater {
             // valuesNeedingUpdate = x20
             // owner = x21
             if valuesNeedingUpdate.contains(.rootView) {
-                owner.valuesNeedingUpdate.remove(.rootView)
+                owner.valuesNeedingUpdate.subtract(.rootView)
                 self.updateRootView()
             }
             
             if valuesNeedingUpdate.contains(.environment) {
-                owner.valuesNeedingUpdate.remove(.environment)
+                owner.valuesNeedingUpdate.subtract(.environment)
                 self.updateEnvironment()
             }
             
             if valuesNeedingUpdate.contains(.transform) {
-                owner.valuesNeedingUpdate.remove(.transform)
+                owner.valuesNeedingUpdate.subtract(.transform)
                 self.updateTransform()
             }
             
             if valuesNeedingUpdate.contains(.size) {
-                owner.valuesNeedingUpdate.remove(.size)
+                owner.valuesNeedingUpdate.subtract(.size)
                 self.updateSize()
             }
             
             if valuesNeedingUpdate.contains(.safeArea) {
-                owner.valuesNeedingUpdate.remove(.safeArea)
+                owner.valuesNeedingUpdate.subtract(.safeArea)
                 self.updateSafeArea()
             }
             
             if valuesNeedingUpdate.contains(.containerSize) {
-                owner.valuesNeedingUpdate.remove(.containerSize)
+                owner.valuesNeedingUpdate.subtract(.containerSize)
                 self.updateContainerSize()
             }
             
             if valuesNeedingUpdate.contains(.focusStore) {
-                owner.valuesNeedingUpdate.remove(.focusStore)
+                owner.valuesNeedingUpdate.subtract(.focusStore)
                 self.updateFocusStore()
             }
             
             if valuesNeedingUpdate.contains(.focustedItem) {
-                owner.valuesNeedingUpdate.remove(.focustedItem)
+                owner.valuesNeedingUpdate.subtract(.focustedItem)
                 self.updateFocusedItem()
             }
             
             if valuesNeedingUpdate.contains(.focustedValues) {
-                owner.valuesNeedingUpdate.remove(.focustedValues)
+                owner.valuesNeedingUpdate.subtract(.focustedValues)
                 self.updateFocusedValues()
             }
         }

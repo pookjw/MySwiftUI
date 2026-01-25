@@ -1,6 +1,5 @@
-
 protocol ViewVisitor {
-    // TODO
+    func visit<Content: View>(_ view: Content)
 }
 
 protocol ViewTypeVisitor {

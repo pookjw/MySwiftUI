@@ -167,6 +167,10 @@ extension _ViewListOutputs {
         let outputs = _ViewListOutputs(.dynamicList(attribute, nil), nextImplicitID: implicitID &+ 1, staticCount: 1)
         return outputs
     }
+    
+    static func concat(_ outputs: [_ViewListOutputs], inputs: _ViewListInputs) -> _ViewListOutputs {
+        fatalError("TODO")
+    }
 }
 
 extension _ViewListOutputs {

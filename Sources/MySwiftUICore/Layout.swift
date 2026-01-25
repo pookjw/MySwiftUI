@@ -93,7 +93,7 @@ extension Layout {
             // w19
             if let stackOrientation = layoutProperties.stackOrientation {
                 // <+548>
-                options.remove([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
+                options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
                 switch stackOrientation {
                 case .horizontal:
                     options.formUnion(.viewStackOrientationIsDefined)
@@ -104,14 +104,14 @@ extension Layout {
                 // <+572>
             } else {
                 // <+316>
-                options.remove([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
+                options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
                 copy_2.base.options = options
                 copy_2[DynamicStackOrientation.self] = OptionalAttribute()
                 // <+572>
             }
         } else {
             // <+372>
-            options.remove([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
+            options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
             copy_2.base.options = options
             copy_3 = copy_1
             let rule = AnyLayoutProperties(layout: root.value.identifier.unsafeCast(to: AnyLayout.self))

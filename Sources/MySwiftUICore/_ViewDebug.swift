@@ -82,7 +82,7 @@ extension _ViewDebug {
         
         if debugProperties.contains(.layoutComputer) && outputs.layoutComputer == nil {
             // <+48>
-            debugProperties.remove(.layoutComputer)
+            debugProperties.subtract(.layoutComputer)
         }
         
         // <+76>

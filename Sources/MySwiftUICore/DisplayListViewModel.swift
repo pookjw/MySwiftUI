@@ -321,7 +321,7 @@ extension DisplayList.ViewUpdater.Model {
             fatalError()
         case .empty:
             // <+2644>
-            requirements.remove(.unknown2)
+            requirements.subtract(.unknown2)
             // <+2648>
             break
         }
