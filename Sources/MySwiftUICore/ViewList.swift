@@ -1176,7 +1176,21 @@ fileprivate struct MergedElements: _ViewList_Elements {
         return x19
     }
     
-    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
+    func makeElements(
+        from index: inout Int,
+        inputs: _ViewInputs,
+        indirectMap: IndirectAttributeMap?,
+        body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)
+    ) -> (_ViewOutputs?, Bool) {
+        /*
+         index -> x1 -> sp + 0x18
+         indirectMap -> x3 -> sp + 0x20
+         body -> x4/x5 -> sp + 0x28/0x30
+         */
+        // sp + 0x140
+        let copy_1 = inputs
+        
+        // <+80>
         fatalError("TODO")
     }
     
