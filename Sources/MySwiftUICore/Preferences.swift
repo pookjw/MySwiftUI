@@ -174,8 +174,8 @@ extension PreferenceKey {
         return false
     }
     
-    package static func visitKey<T: PreferenceKeyVisitor>(_: inout T) {
-        fatalError("TODO")
+    package static func visitKey<T: PreferenceKeyVisitor>(_ visitor: inout T) {
+        visitor.visit(key: self)
     }
     
     package static var readableName: String {
@@ -194,5 +194,5 @@ package struct _PreferenceValue<Key: PreferenceKey> {
 }
 
 package protocol PreferenceKeyVisitor {
-    // TODO
+    mutating func visit<Key: PreferenceKey>(key: Key.Type)
 }

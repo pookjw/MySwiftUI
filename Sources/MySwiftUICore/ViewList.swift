@@ -1183,15 +1183,85 @@ fileprivate struct MergedElements: _ViewList_Elements {
         body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)
     ) -> (_ViewOutputs?, Bool) {
         /*
+         왜인지 모르겠으나 self -> x29 (sp + 0x1e0)
+         return pointer -> x0 -> sp + 0x10
          index -> x1 -> sp + 0x18
          indirectMap -> x3 -> sp + 0x20
          body -> x4/x5 -> sp + 0x28/0x30
+         outputs.start -> x8
+         outputs.end << 1 -> x9
          */
         // sp + 0x140
         let copy_1 = inputs
+        // x22
+        let preferencesKeys = inputs.preferences.keys
         
         // <+80>
-        fatalError("TODO")
+        // sp + 0x38
+        var results: [_ViewOutputs] = []
+        var w23 = true
+        // x28
+        r1: for output in outputs {
+            // sp + 0xd8
+            let copy_2 = output
+            // <+216>
+            // sp + 0x40
+            let copy_3 = copy_2.views
+            
+            switch copy_3 {
+            case .staticList(let elements):
+                // <+240>
+                // sp + 0xb0
+                let copy_4 = elements
+                // sp + 0x40
+                let copy_5 = copy_1
+                // sp + 0xa0
+                let (output, x27): (_ViewOutputs?, Bool) = copy_4.makeElements(from: &index, inputs: copy_5, indirectMap: indirectMap, body: body)
+                
+                guard let output else {
+                    continue r1
+                }
+                
+                results.append(output)
+                w23 = x27
+                
+                guard w23 else {
+                    break r1
+                }
+            case .dynamicList(_, _):
+                fatalError()
+            }
+        }
+        
+        // <+116>
+        // x24
+        let count = results.count
+        if count == 1 {
+            // <+540>
+            return (results[0], w23)
+        } else if count != 0 {
+            // <+576>
+            // w23 -> sp + 0x30
+            // sp + 0x40
+            var array: [PreferencesOutputs] = []
+            array.reserveCapacity(count)
+            for result in results {
+                array.append(result.preferences)
+            }
+            
+            // <+724>
+            // sp + 0x40
+            var visitor = MultiPreferenceCombinerVisitor(outputs: array, result: PreferencesOutputs())
+            for key in preferencesKeys {
+                key.visitKey(&visitor)
+            }
+            
+            // <+820>
+            let result = _ViewOutputs(preferences: visitor.result, layoutComputer: OptionalAttribute())
+            return (result, w23)
+        } else {
+            return (nil, w23)
+        }
     }
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
