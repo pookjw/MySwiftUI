@@ -703,7 +703,7 @@ extension _SwiftUICorePrivate.DynamicView {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct UniqueID {
+public struct UniqueID: Swift.Hashable, Swift.Sendable {
   public init()
 }
 
@@ -1526,7 +1526,7 @@ public enum AbsoluteEdge: Swift.Int8, Swift.Hashable, Swift.CaseIterable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct Spacing {
+public struct Spacing: Swift.Sendable {
   public var description: Swift.String { get }
   public var minima: [_SwiftUICorePrivate.Spacing.Key: _SwiftUICorePrivate.Spacing.Value] { get }
 
@@ -1573,7 +1573,7 @@ public struct Spacing {
 
   public static func vertical(_ value: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.Spacing
 
-  public struct Category: Swift.Hashable {
+  public struct Category: Swift.Hashable, Swift.Sendable {
     public static var `default`: _SwiftUICorePrivate.Spacing.Category { get }
     public static var textToText: _SwiftUICorePrivate.Spacing.Category { get }
     public static var edgeAboveText: _SwiftUICorePrivate.Spacing.Category { get }
@@ -1584,16 +1584,17 @@ public struct Spacing {
     public static var leftTextBaseline: _SwiftUICorePrivate.Spacing.Category { get }
     public static var rightTextBaseline: _SwiftUICorePrivate.Spacing.Category { get }
 
+    public var base: _SwiftUICorePrivate.UniqueID { get set _modify }
     public init()
   }
 
-  public struct Key: Swift.Hashable {
+  public struct Key: Swift.Hashable, Swift.Sendable {
     public var category: _SwiftUICorePrivate.Spacing.Category { get set }
     public var edge: _SwiftUICorePrivate.AbsoluteEdge { get set }
     public init(category: _SwiftUICorePrivate.Spacing.Category, edge: _SwiftUICorePrivate.AbsoluteEdge)
   }
 
-  public struct TextMetrics: Swift.Comparable {
+  public struct TextMetrics: Swift.Comparable, Swift.Sendable {
     public var ascend: CoreFoundation.CGFloat
     public var descend: CoreFoundation.CGFloat
     public var leading: CoreFoundation.CGFloat

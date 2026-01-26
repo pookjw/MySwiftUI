@@ -8,7 +8,7 @@ package struct Spacing: Equatable, CustomStringConvertible {
         fatalError("TODO")
     }
     
-    init(minima: [Spacing.Key : Spacing.Value]) {
+    init(minima: [Spacing.Key: Spacing.Value]) {
         self.minima = minima
     }
     
@@ -65,8 +65,6 @@ package struct Spacing: Equatable, CustomStringConvertible {
             w11 = .top
         }
         
-        _ = consume w12
-        
         // sp + 0x18
         let x20: Spacing
         // sp + 0x17
@@ -94,7 +92,7 @@ package struct Spacing: Equatable, CustomStringConvertible {
     }
     
     static var defaultMinimum: CGFloat {
-        let defaultValue = unsafe defaultValue
+        let defaultValue = defaultValue
         return min(defaultValue.width, defaultValue.height)
     }
     
@@ -109,14 +107,109 @@ package struct Spacing: Equatable, CustomStringConvertible {
     fileprivate func _distance(from: AbsoluteEdge, to: AbsoluteEdge, ofViewPreferring preferring: Spacing) -> CGFloat? {
         /*
          from -> sp + 0x44
-         to: sp + 0x34
-         preferring -> x19
-         self -> x27 -> x23
+         to -> sp + 0x34
+         preferring -> x19 -> x20 -> sp + 0x38
+         self -> x27
          */
-        fatalError("TODO")
+        var sp0x28 = true
+        var sp0x20: CGFloat = 0
+        // key -> x9
+        // value -> x24, x28, x9, d13, w19
+        for (key, value) in self.minima {
+            // <+200>
+            // w21
+            if (key.category != .default) || (key.edge != from) {
+                continue
+            }
+            
+            // <+296>
+            // key -> x9
+            // x15, x14, x10, _, w9
+            guard let preferringValue = preferring.minima[key] else {
+                continue
+            }
+            
+            // <+328>
+            // inlined
+            guard var d0 = value.distance(to: preferringValue) else {
+                continue
+            }
+            
+            // <+1700>
+            var d1 = sp0x20
+            let d2: CGFloat = .infinity
+            if !sp0x28 {
+                d1 = d2
+            }
+            
+            if d1 > d0 {
+                d0 = d1
+            }
+            
+            sp0x20 = d1
+            sp0x28 = false
+        }
+        
+        // <+1872>
+        guard sp0x28 else {
+            return sp0x20
+        }
+        
+        // <+1888>
+        // d8/w21
+        var d8: CGFloat?
+        
+        if let value = self.minima[Spacing.Key(category: .default, edge: from)] {
+            d8 = value.value
+        } else {
+            d8 = nil
+        }
+        
+        // <+1996>
+        // x0/w8
+        let x0: CGFloat?
+        if let value = preferring.minima[Spacing.Key(category: .default, edge: to)] {
+            // <+2032>
+            x0 = value.value
+        } else {
+            // <+2084>
+            x0 = nil
+        }
+        
+        if let d8 {
+            // <+2068>
+            if let x0 {
+                // <+2116>
+                if d8 <= x0 {
+                    return x0
+                } else {
+                    return d8
+                }
+            } else {
+                // <+2072>
+                if d8 <= -.infinity {
+                    return .infinity
+                } else {
+                    return d8
+                }
+            }
+        } else {
+            // <+2096>
+            if let x0 {
+                // <+2108>
+                if -CGFloat.infinity <= x0 {
+                    return x0
+                } else {
+                    return -.infinity
+                }
+            } else {
+                // <+2100>
+                return nil
+            }
+        }
     }
     
-    static nonisolated(unsafe) var defaultValue = CGSize(width: 8, height: 8)
+    @safe static nonisolated(unsafe) var defaultValue = CGSize(width: 8, height: 8)
     
     static let zero = Spacing.all(0)
     

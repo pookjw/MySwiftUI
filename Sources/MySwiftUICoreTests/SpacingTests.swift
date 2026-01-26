@@ -2,6 +2,8 @@ internal import Testing
 @testable private import MySwiftUICore 
 private import MySwiftUITestUtils
 private import _SwiftUICorePrivate
+private import SwiftUI
+private import CoreGraphics
 
 fileprivate struct SpacingTests {
     @Test func test_init_minima() {
@@ -23,8 +25,8 @@ fileprivate struct SpacingTests {
     }
     
     @Test func test_init() {
-        let impl = MySwiftUICore.Spacing.init()
-        let original = _SwiftUICorePrivate.Spacing.init()
+        let impl = MySwiftUICore.Spacing()
+        let original = _SwiftUICorePrivate.Spacing()
         #expect(isEqual(impl: impl, original: original))
     }
     
@@ -72,6 +74,94 @@ fileprivate struct SpacingTests {
         let impl = MySwiftUICore.Spacing.vertical(1)
         let original = _SwiftUICorePrivate.Spacing.vertical(1)
         #expect(isEqual(impl: impl, original: original))
+    }
+}
+
+extension SpacingTests {
+    fileprivate struct Test_distanceToSuccessorView: Sendable {
+        let selfSpacing: _SwiftUICorePrivate.Spacing
+        let axis: SwiftUI.Axis
+        let layoutDirection: SwiftUI.LayoutDirection
+        let preferring: _SwiftUICorePrivate.Spacing
+        
+        static let allCases: [Test_distanceToSuccessorView] = {
+            let scalars: [CGFloat] = [
+                .nan,
+                .infinity,
+                -.infinity
+            ]
+            
+            let textMetrics: [_SwiftUICorePrivate.Spacing.TextMetrics] = [
+                .init(ascend: 10, descend: 4, leading: 2, pixelLength: 16)
+            ]
+            
+            let distanceValues: [_SwiftUICorePrivate.Spacing.Value] =
+            scalars.map { .distance($0) }
+            
+            let textValues: [_SwiftUICorePrivate.Spacing.Value] = [
+//                .topTextMetrics(textMetrics[0]),
+//                .bottomTextMetrics(textMetrics[0])
+            ]
+            
+            let categories: [_SwiftUICorePrivate.Spacing.Category] = [
+                .default,
+                .edgeAboveText
+            ]
+            
+            func makeSpacing(
+                _ value: _SwiftUICorePrivate.Spacing.Value,
+                category: _SwiftUICorePrivate.Spacing.Category
+            ) -> _SwiftUICorePrivate.Spacing {
+                .init(
+                    minima: [
+                        .init(category: category, edge: .left): value,
+                        .init(category: category, edge: .right): value,
+                        .init(category: category, edge: .top): value,
+                        .init(category: category, edge: .bottom): value
+                    ]
+                )
+            }
+            
+            var result: [Test_distanceToSuccessorView] = []
+            
+            for category in categories {
+                for selfValue in distanceValues + textValues {
+                    for prefValue in distanceValues + textValues {
+                        let selfSpacing = makeSpacing(selfValue, category: category)
+                        let prefSpacing = makeSpacing(prefValue, category: category)
+                        
+                        result.append(
+                            .init(
+                                selfSpacing: selfSpacing,
+                                axis: .horizontal,
+                                layoutDirection: .leftToRight,
+                                preferring: prefSpacing
+                            )
+                        )
+                    }
+                }
+            }
+            
+            return result
+        }()
+    }
+    
+    @Test(arguments: Test_distanceToSuccessorView.allCases) func test_distanceToSuccessorView(data: Test_distanceToSuccessorView) {
+        let original = data.selfSpacing
+            .distanceToSuccessorView(
+                along: data.axis,
+                layoutDirection: data.layoutDirection,
+                preferring: data.preferring
+            )
+        
+        let impl = MySwiftUICore.Spacing(original: data.selfSpacing)
+            .distanceToSuccessorView(
+                along: data.axis == .horizontal ? .horizontal : .vertical,
+                layoutDirection: data.layoutDirection == .leftToRight ? .leftToRight : .rightToLeft,
+                preferring: MySwiftUICore.Spacing(original: data.preferring)
+            )
+        
+        #expect(original?.bitPattern == impl?.bitPattern)
     }
 }
 
@@ -302,4 +392,69 @@ fileprivate func isEqual(impl: MySwiftUICore.Spacing, original: _SwiftUICorePriv
     }
     
     return true
+}
+
+extension MySwiftUICore.Spacing {
+    fileprivate init(original: _SwiftUICorePrivate.Spacing) {
+        var minima: [MySwiftUICore.Spacing.Key: MySwiftUICore.Spacing.Value] = [:]
+        minima.reserveCapacity(original.minima.count)
+        
+        for (originalKey, originalValue) in original.minima {
+            minima[.init(original: originalKey)] = .init(original: originalValue)
+        }
+        
+        self.init(minima: minima)
+    }
+}
+
+extension MySwiftUICore.Spacing.Key {
+    fileprivate init(original: _SwiftUICorePrivate.Spacing.Key) {
+        self.init(
+            category: .init(original: original.category),
+            edge: .init(rawValue: original.edge.rawValue)!
+        )
+    }
+}
+
+extension MySwiftUICore.Spacing.Category {
+    fileprivate init(original: _SwiftUICorePrivate.Spacing.Category) {
+        self.init()
+        
+        if original.base == _SwiftUICorePrivate.Spacing.Category.default.base {
+            self.base = MySwiftUICore.Spacing.Category.default.base
+        } else if original.base == _SwiftUICorePrivate.Spacing.Category.textToText.base {
+            self.base = MySwiftUICore.Spacing.Category.textToText.base
+        } else if original.base == _SwiftUICorePrivate.Spacing.Category.edgeAboveText.base {
+            self.base = MySwiftUICore.Spacing.Category.edgeAboveText.base
+        } else if original.base == _SwiftUICorePrivate.Spacing.Category.edgeBelowText.base {
+            self.base = MySwiftUICore.Spacing.Category.edgeBelowText.base
+        } else if original.base == _SwiftUICorePrivate.Spacing.Category.textBaseline.base {
+            self.base = MySwiftUICore.Spacing.Category.textBaseline.base
+        } else if original.base == _SwiftUICorePrivate.Spacing.Category.edgeLeftText.base {
+            self.base = MySwiftUICore.Spacing.Category.edgeLeftText.base
+        } else if original.base == _SwiftUICorePrivate.Spacing.Category.edgeRightText.base {
+            self.base = MySwiftUICore.Spacing.Category.edgeRightText.base
+        } else if original.base == _SwiftUICorePrivate.Spacing.Category.leftTextBaseline.base {
+            self.base = MySwiftUICore.Spacing.Category.leftTextBaseline.base
+        } else if original.base == _SwiftUICorePrivate.Spacing.Category.rightTextBaseline.base {
+            self.base = MySwiftUICore.Spacing.Category.rightTextBaseline.base
+        } else {
+            fatalError()
+        }
+    }
+}
+
+extension MySwiftUICore.Spacing.Value {
+    fileprivate init(original: _SwiftUICorePrivate.Spacing.Value) {
+        switch original {
+        case .distance(let distance):
+            self = .distance(distance)
+        case .topTextMetrics(let metrics):
+            self = .topTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: metrics.ascend, descend: metrics.descend, leading: metrics.leading, pixelLength: metrics.pixelLength))
+        case .bottomTextMetrics(let metrics):
+            self = .bottomTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: metrics.ascend, descend: metrics.descend, leading: metrics.leading, pixelLength: metrics.pixelLength))
+        default:
+            fatalError()
+        }
+    }
 }
