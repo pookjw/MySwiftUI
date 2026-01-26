@@ -118,7 +118,7 @@ package struct Spacing: Equatable, CustomStringConvertible {
         for (key, value) in self.minima {
             // <+200>
             // w21
-            if (key.category != .default) || (key.edge != from) {
+            if (key.category == .default) || (key.edge != from) {
                 continue
             }
             
@@ -137,16 +137,16 @@ package struct Spacing: Equatable, CustomStringConvertible {
             
             // <+1700>
             var d1 = sp0x20
-            let d2: CGFloat = .infinity
-            if !sp0x28 {
+            let d2: CGFloat = -.infinity
+            if sp0x28 {
                 d1 = d2
             }
             
-            if d1 > d0 {
+            if !(d1 <= d0) {
                 d0 = d1
             }
             
-            sp0x20 = d1
+            sp0x20 = d0
             sp0x28 = false
         }
         
@@ -294,6 +294,7 @@ extension Spacing {
         }
         
         static func spacing(top: Spacing.TextMetrics, bottom: Spacing.TextMetrics) -> CGFloat {
+            // test_distanceToSuccessorView에서 주석 풀고 테스트 필요
             fatalError("TODO")
         }
     }
