@@ -8,8 +8,18 @@ public struct ViewSpacing: Sendable {
         fatalError("TODO")
     }()
     
+    init(_ spacing: Spacing, layoutDirection: LayoutDirection) {
+        self.spacing = spacing
+        self.layoutDirection = layoutDirection
+    }
+    
     public init() {
         fatalError("TODO")
+    }
+    
+    init(_ spacing: Spacing) {
+        self.spacing = spacing
+        self.layoutDirection = nil
     }
     
     public mutating func formUnion(_ other: ViewSpacing, edges: Edge.Set = .all) {

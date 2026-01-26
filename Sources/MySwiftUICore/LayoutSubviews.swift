@@ -103,9 +103,7 @@ public struct LayoutSubview : Equatable {
     }
     
     public var spacing: ViewSpacing {
-        get {
-            fatalError("TODO")
-        }
+        return ViewSpacing(proxy.spacing(), layoutDirection: containerLayoutDirection)
     }
     
     public func place(at position: CGPoint, anchor: UnitPoint = .topLeading, proposal: ProposedViewSize) {
@@ -578,7 +576,7 @@ struct LayoutProxy: Equatable {
     }
     
     func spacing() -> Spacing {
-        fatalError("TODO")
+        return layoutComputer.spacing()
     }
     
     func explicitAlignment(_ key: AlignmentKey, at size: ViewSize) -> CGFloat? {

@@ -82,6 +82,11 @@ struct LayoutComputer: @unchecked Sendable {
     func explicitDepthAlignment(_: DepthAlignmentKey, at: ViewSize3D) -> CGFloat? {
         fatalError("TODO")
     }
+    
+    func spacing() -> Spacing {
+        Update.assertIsLocked()
+        return box.spacing()
+    }
 }
 
 extension LayoutComputer: Equatable {
@@ -131,7 +136,7 @@ extension LayoutEngine {
     }
     
     func spacing() -> Spacing {
-        fatalError("TODO")
+        return Spacing()
     }
     
     func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
@@ -296,6 +301,10 @@ fileprivate class AnyLayoutEngineBox {
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
         fatalError() // abstract
     }
+    
+    func spacing() -> Spacing {
+        fatalError() // abstract
+    }
 }
 
 fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
@@ -343,6 +352,10 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
     
     override func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
         return engine.explicitAlignment(alignmentKey, at: viewSize)
+    }
+    
+    override func spacing() -> Spacing {
+        return engine.spacing()
     }
 }
 

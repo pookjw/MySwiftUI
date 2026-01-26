@@ -37,8 +37,60 @@ package struct Spacing: Equatable, CustomStringConvertible {
         fatalError("TODO")
     }
     
-    func distanceToSuccessorView(along: Axis, layoutDirection: LayoutDirection, preferring: Spacing) -> CGFloat? {
-        fatalError("TODO")
+    func distanceToSuccessorView(along axis: Axis, layoutDirection: LayoutDirection, preferring: Spacing) -> CGFloat? {
+        /*
+         preferring.minima -> x8
+         self.minima -> x9
+         */
+        var w11: AbsoluteEdge
+        var w12: AbsoluteEdge
+        
+        switch layoutDirection {
+        case .leftToRight:
+            w11 = .right
+            w12 = .left
+        case .rightToLeft:
+            w11 = .left
+            w12 = .right
+        }
+        
+        var w10: AbsoluteEdge
+        
+        switch axis {
+        case .horizontal:
+            w10 = w11
+            w11 = w12
+        case .vertical:
+            w10 = .bottom
+            w11 = .top
+        }
+        
+        _ = consume w12
+        
+        // sp + 0x18
+        let x20: Spacing
+        // sp + 0x17
+        let x0: AbsoluteEdge
+        // sp + 0x16
+        let x1: AbsoluteEdge
+        // sp + 0x8
+        let x2: Spacing
+        if self.minima.count < preferring.minima.count {
+            // <+76>
+            x20 = self
+            x0 = w10
+            x1 = w11
+            x2 = preferring
+        } else {
+            // <+96>
+            x20 = preferring
+            x0 = w11
+            x1 = w10
+            x2 = self
+        }
+        
+        // <+112>
+        return x20._distance(from: x0, to: x1, ofViewPreferring: x2)
     }
     
     static var defaultMinimum: CGFloat {
@@ -54,7 +106,13 @@ package struct Spacing: Equatable, CustomStringConvertible {
         fatalError("TODO")
     }
     
-    fileprivate func _distance(from: AbsoluteEdge, to: AbsoluteEdge, ofViewPreferring: Spacing) -> CGFloat? {
+    fileprivate func _distance(from: AbsoluteEdge, to: AbsoluteEdge, ofViewPreferring preferring: Spacing) -> CGFloat? {
+        /*
+         from -> sp + 0x44
+         to: sp + 0x34
+         preferring -> x19
+         self -> x27 -> x23
+         */
         fatalError("TODO")
     }
     
