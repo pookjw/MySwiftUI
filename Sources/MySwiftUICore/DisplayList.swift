@@ -9,7 +9,7 @@ internal import AttributeGraph
 internal import RenderBox
 
 package struct DisplayList {
-    package var items: [DisplayList.Item] // 0x0
+    package private(set) var items: [DisplayList.Item] // 0x0
     package var features: DisplayList.Features // 0x8
     package var properties: DisplayList.Properties // 0xc
     
@@ -55,7 +55,7 @@ package struct DisplayList {
             case .states(let states):
                 fatalError("TODO")
             case .empty:
-                fatalError("TODO")
+                break
             }
         }
     }

@@ -253,7 +253,7 @@ public struct BloomFilter: Swift.Equatable {
 public struct DisplayList {
     public struct Item {
       public enum Value {
-    case empty
+        case empty
       }
 
       public init(_: _SwiftUICorePrivate.DisplayList.Item.Value, frame: CoreGraphics.CGRect, identity: _SwiftUICorePrivate._DisplayList_Identity, version: _SwiftUICorePrivate.DisplayList.Version)
@@ -266,7 +266,11 @@ public struct DisplayList {
       public init()
     }
 
+    public var items: [_SwiftUICorePrivate.DisplayList.Item] { get set }
+
     public init(_ item: _SwiftUICorePrivate.DisplayList.Item)
+    public init()
+    public mutating func append(contentsOf: _SwiftUICorePrivate.DisplayList)
 }
 
 @available(visionOS 26.0, *)
