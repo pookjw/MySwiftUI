@@ -494,7 +494,20 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     }
     
     func destroy() {
-        fatalError("TODO")
+        // x22
+        for item in info.items {
+            if let listener = item.listener {
+                // <+120>
+                listener.viewGraph = nil
+            }
+            
+            // <+132>
+            if item.phase == nil {
+                let subgraph = item.subgraph
+                subgraph.willInvalidate(isInserted: false)
+                subgraph.invalidate()
+            }
+        }
     }
     
     mutating func makeItem(_ item: T.Item, uniqueId: UInt32, container: Attribute<DynamicContainer.Info>, disableTransitions: Bool) -> DynamicContainer.ItemInfo {

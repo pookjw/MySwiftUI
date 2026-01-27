@@ -9,9 +9,9 @@ internal import AttributeGraph
 internal import RenderBox
 
 package struct DisplayList {
-    package var items: [DisplayList.Item]
-    package var features: DisplayList.Features
-    package var properties: DisplayList.Properties
+    package var items: [DisplayList.Item] // 0x0
+    package var features: DisplayList.Features // 0x8
+    package var properties: DisplayList.Properties // 0xc
     
     package init() {
         items = []
@@ -40,7 +40,14 @@ package struct DisplayList {
     }
     
     mutating func append(contentsOf other: DisplayList) {
-        fatalError("TODO")
+        for otherItem in other.items {
+            // self -> x19
+            // sp + 0x70
+            let copy_1 = otherItem
+            // BLOCKED: copy_1.frame이 (inf, inf, nan, nan)이면 안 됨
+            print(copy_1.frame)
+            fatalError("TODO")
+        }
     }
 }
 

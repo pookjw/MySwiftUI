@@ -88,7 +88,10 @@ extension SpacingTests {
             let scalars: [CGFloat] = [
                 .nan,
                 .infinity,
-                -.infinity
+                -.infinity,
+                10,
+                -10,
+                0
             ]
             
             let textMetrics: [_SwiftUICorePrivate.Spacing.TextMetrics] = [

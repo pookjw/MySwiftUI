@@ -97,8 +97,6 @@ extension Layout {
                 let copy_1 = inputs
                 // w22
                 let changedDebugProperties = copy_1.base.changedDebugProperties
-                // w24
-                let changedDebugProperties_2: _ViewDebug.Properties
                 // sp + 0x120
                 let copy_2: _ViewInputs
                 // copy_1.options -> sp + 0x24
@@ -109,7 +107,6 @@ extension Layout {
                 if !copy_1.base.options.contains(.viewNeedsGeometry) {
                     // <+192>
                     copy_2 = copy_1
-                    changedDebugProperties_2 = changedDebugProperties
                     // <+340>
                 } else {
                     // <+192>
@@ -119,7 +116,6 @@ extension Layout {
                     let geometryAttribute = Attribute(LayoutChildGeometry(childGeometries: childGeometriesAttribute!, index: index))
                     originAttribute = geometryAttribute.origin()
                     sizeAttribute = geometryAttribute.size()
-                    changedDebugProperties_2 = changedDebugProperties.union([.position, .size])
                 }
                 
                 // <+340>

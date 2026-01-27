@@ -140,7 +140,15 @@ extension LayoutEngine {
     }
     
     func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
-        fatalError("TODO")
+        let width = proposedSize.width ?? 10
+        let height = proposedSize.height ?? 10
+        
+        switch axis {
+        case .horizontal:
+            return width
+        case .vertical:
+            return height
+        }
     }
     
     func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
@@ -347,7 +355,7 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
     }
     
     override func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
-        fatalError("TODO")
+        return engine.lengthThatFits(size, in: axis)
     }
     
     override func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {

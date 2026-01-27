@@ -85,6 +85,14 @@ fileprivate struct PairPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribut
     }
     
     var value: T.Value {
-        fatalError("TODO")
+        // x22
+        var result = attributes.0.value
+        let next = attributes.1
+        
+        T.reduce(value: &result) { 
+            return next.value
+        }
+        
+        return result
     }
 }

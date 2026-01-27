@@ -247,6 +247,7 @@ extension StackLayout {
         }
         
         func prioritize(_ children: UnsafeMutableBufferPointer<StackLayout.Child>, proposedSize: ProposedViewSize) {
+            // $s7SwiftUI11StackLayoutV23UnmanagedImplementation33_00690F480F8D293143B214DBE6D72CD0LLV10prioritize_12proposedSizeySryAC5ChildAELLVG_AA012ProposedViewP0VtF
             /*
              children (arg) -> x0
              header -> x6 -> x19
@@ -278,11 +279,12 @@ extension StackLayout {
              x21 -> sp + 0x38
              */
             
+            
             /*
              lengthThatFits
              */
             // <+2504>에서 fittingOrderBuffer로 slowPath하고 있기에 fittingOrderBuffer임
-            fittingOrderBuffer.insertionSort { lhs, rhs in
+            fittingOrderBuffer.sort { lhs, rhs in
                 // inlined
                 // <+460>
                 // d1
@@ -290,8 +292,10 @@ extension StackLayout {
                 // d0
                 let rhsLayoutPriority = layoutPriorityBuffer[rhs]
                 
-                guard lhsLayoutPriority == rhsLayoutPriority else {
-                    return !(lhsLayoutPriority < rhsLayoutPriority)
+                if (lhsLayoutPriority > rhsLayoutPriority) {
+                    return true
+                } else if (rhsLayoutPriority > lhsLayoutPriority) {
+                    return false
                 }
                 
                 // <+632>
@@ -374,9 +378,14 @@ extension StackLayout {
                 
                 // <+2776>
                 let min = header.pointee.proxies[fittingOrder].lengthThatFits(
-                    ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                    ProposedViewSize(
+                        0,
+                        in: header.pointee.majorAxis,
+                        by: proposedSize[header.pointee.majorAxis]
+                    ),
                     in: header.pointee.majorAxis
                 )
+                
                 majorAxisRangeCacheBuffer[fittingOrder].min = min
             }
         }
@@ -624,6 +633,7 @@ extension StackLayout {
         }
         
         func placeChildren1(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
+            // $s7SwiftUI11StackLayoutV23UnmanagedImplementation33_00690F480F8D293143B214DBE6D72CD0LLV14placeChildren12in21minorProposalForChildyAA16ProposedViewSizeV_12CoreGraphics7CGFloatVSgAC0T0AELLVXEtF03$s7a4UI11cd3V23e22Implementation33_00690ghijklm26LLV13placeChildren2inyAA16uvw6V_tF12x9Graphics7z6VSgAC5T10AELLVXEfU_AOTf1ncn_n
             /*
              header -> x4
              children -> x5, x6 -> x21, x20
@@ -755,6 +765,7 @@ extension StackLayout {
         }
         
         func sizeChildrenGenerallyWithConcreteMajorProposal(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
+            // $s7SwiftUI11StackLayoutV23UnmanagedImplementation33_00690F480F8D293143B214DBE6D72CD0LLV46sizeChildrenGenerallyWithConcreteMajorProposal2in05minorT8ForChildyAA16ProposedViewSizeV_12CoreGraphics7CGFloatVSgAC0X0AELLVXEtF03$s7a4UI11cd3V23e22Implementation33_00690ghijklm26LLV13placeChildren2inyAA16yz36SizeV_tF12CoreGraphics7CGFloatVSgAC5X10AELLVXEfU_AOTf1ncn_n
             /*
              children -> x25, x21
              */
@@ -774,36 +785,42 @@ extension StackLayout {
             let length = size[majorAxis]!
             var d10 = length - internalSpacing
             // d11 -> 0
-            var w15 = false
+            var w15: Bool
             // x8
             var index = 0
-            while !w15 {
-                // x10
+            repeat {
+                // x10 / x9 (offset from fittingOrderBuffer)
                 let fittingOrder = fittingOrderBuffer[index]
-                // d0
-                let layoutPriority = children[fittingOrder].layoutPriority
+                w15 = (index == children.count)
                 
-                // x19
-                var otherIndex = index
-                // d1
-                var otherLayoutPriority: CGFloat
-                while true {
-                    otherLayoutPriority = children[fittingOrderBuffer[otherIndex]].layoutPriority
-                    guard otherLayoutPriority == layoutPriority else {
-                        break
-                    }
-                    otherIndex &+= 1
+                var otherIndex: Int
+                if !w15 {
+                    // d0
+                    let layoutPriority = children[fittingOrder].layoutPriority
                     
-                    if otherIndex != children.count {
-                        w15 = false 
-                        continue
-                    } else {
-                        w15 = true
-                        otherIndex = children.count
-                        break
+                    // x19
+                    otherIndex = index
+                    // d1
+                    var otherLayoutPriority: CGFloat
+                    while true {
+                        otherLayoutPriority = children[fittingOrderBuffer[otherIndex]].layoutPriority
+                        guard otherLayoutPriority == layoutPriority else {
+                            break
+                        }
+                        
+                        otherIndex &+= 1
+                        w15 = (children.count == otherIndex)
+                        
+                        if otherIndex == children.count {
+                            otherIndex = children.count
+                            break
+                        }
                     }
+                } else {
+                    otherIndex = children.count
                 }
                 
+                // <+368>
                 assert(otherIndex >= index)
                 assert(otherIndex <= children.count)
                 
@@ -813,7 +830,7 @@ extension StackLayout {
                 // d0
                 var total: CGFloat = 0
                 // x28
-                let dist: Int
+                var dist: Int
                 if fittingOrder == firstFittingOrder {
                     // <+404>
                     var x10 = otherIndex
@@ -851,14 +868,17 @@ extension StackLayout {
                 
                 // fittingOrder은 더 이상 x10이 아님
                 // <+588>
+                assert(index == fittingOrder)
                 // w15 -> sp + 0x1c
                 var x22 = index &+ 1
                 let sp40 = -otherIndex
                 let sp48 = -max(index, children.count)
+                assert(sp48 &+ x22 != 1)
                 // <+636>
+                // TODO: repeat - while이 되어야 함
                 repeat {
                     // x21
-                    let fittingOrder2 = fittingOrderBuffer[x22 &+ sp48]
+                    let fittingOrder2 = fittingOrderBuffer[fittingOrder]
                     var d0 = d10 / CGFloat(dist)
                     if d0 <= 0 {
                         d0 = 0
@@ -910,9 +930,9 @@ extension StackLayout {
                     // <+1412>
                     switch header.pointee.majorAxis {
                     case .horizontal:
-                        d0 = children[fittingOrder2].geometry.dimensions.size.proposal.width ?? 0
+                        d0 = children[fittingOrder2].geometry.dimensions.size.width
                     case .vertical:
-                        d0 = children[fittingOrder2].geometry.dimensions.size.proposal.height ?? 0
+                        d0 = children[fittingOrder2].geometry.dimensions.size.height
                     }
                     
                     d0 = d10 - d0
@@ -934,10 +954,11 @@ extension StackLayout {
                     }
                     
                     x22 &+= 1
+                    dist &-= 1
                 } while true
                 
                 index = otherIndex
-            }
+            } while !w15
         }
     }
 }
