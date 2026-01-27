@@ -46,17 +46,16 @@ package struct DisplayList {
             // sp + 0x70 -> x23, x25, x9, x22/w27(case)
             let copy_1 = otherItem
             // <+156>
-            
-            switch copy_1.value {
-            case .content(let content):
-                fatalError("TODO")
-            case .effect(let effect, let list):
-                fatalError("TODO")
-            case .states(let states):
-                fatalError("TODO")
-            case .empty:
-                break
+            if case .empty = copy_1.value {
+                continue
             }
+            
+            // sp + 0x20
+            let copy_2 = copy_1
+            self.items.append(copy_1)
+            
+            self.features.formUnion(copy_2.features)
+            self.properties.formUnion(copy_2.properties)
         }
     }
 }

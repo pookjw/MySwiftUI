@@ -74,6 +74,7 @@ extension DemoViewController {
         case observableView
         case customLayoutView
         case tupleView
+        case dynamicTupleView
         
         var title: String {
             switch self {
@@ -101,6 +102,8 @@ extension DemoViewController {
                 return _typeName(CustomLayoutViewController.self, qualified: false)
             case .tupleView:
                 return _typeName(TupleViewController.self, qualified: false)
+            case .dynamicTupleView:
+                return _typeName(DynamicTupleViewController.self, qualified: false)
             }
         }
         
@@ -130,6 +133,8 @@ extension DemoViewController {
                 return CustomLayoutViewController()
             case .tupleView:
                 return TupleViewController()
+            case .dynamicTupleView:
+                return DynamicTupleViewController()
             }
         }
     }
