@@ -125,7 +125,7 @@ package struct Spacing: Equatable, CustomStringConvertible {
             // <+296>
             // key -> x9
             // x15, x14, x10, _, w9
-            guard let preferringValue = preferring.minima[key] else {
+            guard let preferringValue = preferring.minima[Spacing.Key(category: key.category, edge: to)] else {
                 continue
             }
             

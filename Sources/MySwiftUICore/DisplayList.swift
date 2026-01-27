@@ -40,13 +40,23 @@ package struct DisplayList {
     }
     
     mutating func append(contentsOf other: DisplayList) {
+        // index -> x28
         for otherItem in other.items {
             // self -> x19
-            // sp + 0x70
+            // sp + 0x70 -> x23, x25, x9, x22/w27(case)
             let copy_1 = otherItem
-            // BLOCKED: copy_1.frame이 (inf, inf, nan, nan)이면 안 됨
-            print(copy_1.frame)
-            fatalError("TODO")
+            // <+156>
+            
+            switch copy_1.value {
+            case .content(let content):
+                fatalError("TODO")
+            case .effect(let effect, let list):
+                fatalError("TODO")
+            case .states(let states):
+                fatalError("TODO")
+            case .empty:
+                fatalError("TODO")
+            }
         }
     }
 }
@@ -57,10 +67,10 @@ extension DisplayList {
             return (lhs.identity == rhs.identity) && (lhs.version == rhs.version)
         }
         
-        var frame: CGRect
-        var version: DisplayList.Version
-        var value: DisplayList.Item.Value
-        var identity: _DisplayList_Identity
+        var frame: CGRect // 0x0
+        var version: DisplayList.Version // 0x20
+        var value: DisplayList.Item.Value // 0x28
+        var identity: _DisplayList_Identity // 0x48
         
         var position: CGPoint {
             return frame.origin

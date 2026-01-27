@@ -870,15 +870,15 @@ extension StackLayout {
                 // <+588>
                 assert(index == fittingOrder)
                 // w15 -> sp + 0x1c
-                var x22 = index &+ 1
+                var x22 = index
                 let sp40 = -otherIndex
                 let sp48 = -max(index, children.count)
                 assert(sp48 &+ x22 != 1)
                 // <+636>
-                // TODO: repeat - while이 되어야 함
                 repeat {
                     // x21
-                    let fittingOrder2 = fittingOrderBuffer[fittingOrder]
+                    let fittingOrder2 = fittingOrderBuffer[x22]
+                    x22 &+= 1
                     var d0 = d10 / CGFloat(dist)
                     if d0 <= 0 {
                         d0 = 0
@@ -953,7 +953,6 @@ extension StackLayout {
                         break
                     }
                     
-                    x22 &+= 1
                     dist &-= 1
                 } while true
                 
