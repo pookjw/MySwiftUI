@@ -194,9 +194,9 @@ struct _ViewList_Sublist {
 }
 
 public struct _ViewListOutputs {
-    var views: _ViewListOutputs.Views
-    var nextImplicitID: Int
-    var staticCount: Int?
+    var views: _ViewListOutputs.Views // 0x0
+    var nextImplicitID: Int // 0x30
+    var staticCount: Int? // 0x38
     
     init(_ views: _ViewListOutputs.Views, nextImplicitID: Int) {
         self.views = views
@@ -233,7 +233,17 @@ extension _ViewListOutputs {
     }
     
     static func emptyViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        /*
+         inputs -> x20
+         return pointer -> x19
+         */
+        if !inputs.options.contains(.isNonEmptyParent) {
+            // <+64>
+            fatalError("TODO")
+        } else {
+            // <+116>
+            fatalError("TODO")
+        }
     }
     
     func makeAttribute(inputs: _ViewListInputs) -> Attribute<ViewList> {
@@ -425,6 +435,7 @@ extension _ViewListOutputs {
                     // <+384>
                     let attribute_2 = copy_1.makeAttribute(inputs: inputs)
                     x22.append(attribute_2)
+                    x20 = x21
                     // <+188>
                     break
                 }
@@ -471,7 +482,28 @@ extension _ViewListOutputs {
                 }
             } else {
                 // <+692>
-                return _ViewListOutputs.emptyViewList(inputs: inputs)
+                let count = x22.count
+                if count == 1 {
+                    // <+764>
+                    return _ViewListOutputs(
+                        .dynamicList(x22[0], nil),
+                        nextImplicitID: x20,
+                        staticCount: x19
+                    )
+                } else if count != 0 {
+                    // <+772>
+                    // x22 -> sp + 0xb0
+                    let rule = _ViewList_Group.Init(lists: x22)
+                    // x21
+                    let attribute = Attribute(rule)
+                    return _ViewListOutputs(
+                        .dynamicList(attribute, nil),
+                        nextImplicitID: x20,
+                        staticCount: x19
+                    )
+                } else {
+                    return _ViewListOutputs.emptyViewList(inputs: inputs)
+                }
             }
         } else {
             // <+724>
@@ -970,7 +1002,7 @@ struct _ViewList_IteratorStyle: Equatable {
             sublist.elements.subgraphs.subgraphs.reserveCapacity(pointer.pointee.subgraphCount)
             pointer.pointee.value.apply(sublist: &sublist)
         case .transform(_):
-            // SwiftUI._ViewList_SublistTransform.apply(sublist: inout SwiftUI._ViewList_Sublist)의 inline일 수도 있음
+            // _ViewList_SublistTransform.apply(sublist: inout _ViewList_Sublist)의 inline일 수도 있음
             fatalError("TODO")
         }
     }
@@ -1144,8 +1176,85 @@ struct _ViewList_SublistTransform_ItemFlags: OptionSet {
     }
 }
 
-struct _ViewList_Group {
-    // TODO
+struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
+    var lists: [(list: ViewList, attribute: Attribute<ViewList>)]
+    
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
+        fatalError("TODO")
+    }
+    
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func applyIDs(from: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
+        fatalError("TODO")
+    }
+    
+    var traitKeys: ViewTraitKeys? {
+        fatalError("TODO")
+    }
+    
+    var viewIDs: _ViewList_ID_Views? {
+        fatalError("TODO")
+    }
+    
+    func applyNodes(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        list: Attribute<ViewList>?,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to transform: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        fatalError("TODO")
+    }
+    
+    func print(into: inout SExpPrinter) {
+        fatalError("TODO")
+    }
+    
+    var traits: ViewTraitCollection {
+        fatalError("TODO")
+    }
+}
+
+extension _ViewList_Group {
+    struct Init: Rule, AsyncAttribute, CustomStringConvertible {
+        fileprivate var lists: [Attribute<ViewList>]
+        
+        var value: ViewList {
+            // 실제로는 $s14AttributeGraph0A0VyACyxGqd__c5ValueQyd__RszAA4RuleRd__lufcADSPyqd__GXEfU_ySv_So11AGAttributeatcyXEfU_ySv_AJtcfu_7SwiftUI8ViewList_p_AK01_hI6_GroupV4InitVTt1g5가 불림
+            // lists -> x23
+            var result = _ViewList_Group(lists: [])
+            result.lists.reserveCapacity(lists.count)
+            
+            for list in lists {
+                result.lists.append((list: list.value, attribute: list))
+            }
+            
+            return result
+        }
+        
+        var description: String {
+            fatalError("TODO")
+        }
+    }
 }
 
 struct _ViewList_Section {

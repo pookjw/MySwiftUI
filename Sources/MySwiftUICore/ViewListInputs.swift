@@ -1,14 +1,14 @@
 internal import AttributeGraph
 
 public struct _ViewListInputs {
-    var base: _GraphInputs
-    var implicitID: Int
-    var options: _ViewListInputs.Options
-    @OptionalAttribute var traits: ViewTraitCollection?
-    private(set) var traitKeys: ViewTraitKeys?
-    private var containerContext: (any ContainerContext.Type)?
-    private weak var debugReplaceableViewCount: MutableBox<Int?>?
-    private(set) var contentOffset: ViewContentOffset?
+    var base: _GraphInputs // 0x0
+    var implicitID: Int // 0x30
+    var options: _ViewListInputs.Options // 0x38
+    @OptionalAttribute var traits: ViewTraitCollection? // 0x40
+    private(set) var traitKeys: ViewTraitKeys? // 0x48
+    private var containerContext: (any ContainerContext.Type)? // 0x58
+    private weak var debugReplaceableViewCount: MutableBox<Int?>? // 0x68
+    private(set) var contentOffset: ViewContentOffset? // 0x70
     
     init(_ base: _GraphInputs, implicitID: Int = 0, options: _ViewListInputs.Options = []) {
         self._traits = OptionalAttribute()

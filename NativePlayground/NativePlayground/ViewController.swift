@@ -1061,6 +1061,14 @@ class ViewController: UIViewController {
         
         print("===")
         
+        print(_typeName(_ViewList_Group.self, qualified: true))
+        _forEachField(of: _ViewList_Group.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
+        
         
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
@@ -1217,7 +1225,7 @@ class ViewController: UIViewController {
         Task {
             while true {
                 try await Task.sleep(for: .seconds(1))
-                model.count &+ 1
+                model.count &+= 1
                 if model.count == 6 {
                     model.count = 0
                 }
@@ -1474,11 +1482,12 @@ fileprivate struct MyTupleView: View {
 
 fileprivate struct MyDynamicTupleView: View {
     @MainActor
+    @Observable
     fileprivate final class Model {
         var count = 0
     }
     
-    let model: Model
+    let model: MyDynamicTupleView.Model
     
     var body: some View {
         if model.count >= 1 {

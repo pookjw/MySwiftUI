@@ -302,3 +302,24 @@ fileprivate struct UnwrapConditional<T: ConditionalProtocolDescriptor, Source, C
         }
     }
 }
+
+extension Optional {
+    static func makeConditionalMetadata<T: ConditionalProtocolDescriptor>(_ type: T.Type) -> ConditionalMetadata<T> {
+        // sp + 0x8
+        if let descriptor = type.fetchConditionalType(key: ObjectIdentifier(Self.self)) {
+            // <+156>
+            return ConditionalMetadata(descriptor)
+        } else {
+            // <+92>
+            let block: () -> ConditionalTypeDescriptor<T> = {
+                // $sSq7SwiftUIE23makeConditionalMetadatayAA0dE0Vyqd__Gqd__mAA0D18ProtocolDescriptorRd__lFZAA0d4TypeG0Vyqd__GyXEfU_
+                let descriptor = ConditionalTypeDescriptor<T>.descriptor(type: Wrapped.self)
+                return descriptor
+            }
+            
+            let descriptor = block()
+            T.insertConditionalType(key: ObjectIdentifier(Self.self), value: descriptor)
+            return ConditionalMetadata(descriptor)
+        }
+    }
+}

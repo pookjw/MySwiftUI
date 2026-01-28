@@ -14,6 +14,7 @@ import MySwiftUI
 import Observation
 
 @MainActor
+@Observable
 fileprivate final class Model {
     var count = 0
 }

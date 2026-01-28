@@ -1801,3 +1801,9 @@ public struct TypeConformance<T: _SwiftUICorePrivate.ProtocolDescriptor> {
   public var conformance: Swift.UnsafeRawPointer { get }
   public var metadata: Swift.UnsafeRawPointer { get }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ViewList_Group {
+  
+}

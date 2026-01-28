@@ -316,7 +316,7 @@ extension DynamicViewContainer {
                         var copy_1 = inputs
                         copy_1.base.copyCaches()
                         
-                        if Content.canTransition, !copy_1.options.contains(.canTransition) {
+                        if Content.canTransition {
                             copy_1.options.formUnion(.canTransition)
                         }
                         
