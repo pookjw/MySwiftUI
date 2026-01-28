@@ -1068,7 +1068,7 @@ class ViewController: UIViewController {
         }
         
         print("===")
-        
+         
         
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))
 //        AnimatableFoo._makeAnimatable(value: &graphValue, inputs: .init(time: .init(identifier: .empty), phase: .init(identifier: .empty), environment: .init(identifier: .empty), transaction: .init(identifier: .empty)))
@@ -1222,15 +1222,15 @@ class ViewController: UIViewController {
 //            }
 //        }
         
-        Task {
-            while true {
-                try await Task.sleep(for: .seconds(1))
-                model.count &+= 1
-                if model.count == 6 {
-                    model.count = 0
-                }
-            }
-        }
+//        Task {
+//            while true {
+//                try await Task.sleep(for: .seconds(1))
+//                model.count &+= 1
+//                if model.count == 6 {
+//                    model.count = 0
+//                }
+//            }
+//        }
         
 //        Task { [hostingView] in
 //            var flags = 0

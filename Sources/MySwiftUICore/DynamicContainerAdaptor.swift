@@ -448,7 +448,8 @@ fileprivate struct DynamicLayoutViewChildGeometry: StatefulRule, AsyncAttribute 
             value = childGeometries[viewIndex]
         } else {
             // <+356>
-            if value == nil {
+            if !hasValue {
+                fatalError("이게 불리는건 의도가 아닐 것")
                 value = .zero
             }
         }

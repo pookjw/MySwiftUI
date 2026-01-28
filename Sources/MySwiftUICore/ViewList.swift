@@ -496,6 +496,7 @@ extension _ViewListOutputs {
                     let rule = _ViewList_Group.Init(lists: x22)
                     // x21
                     let attribute = Attribute(rule)
+                    fatalError("x20은 5가 아니라 0")
                     return _ViewListOutputs(
                         .dynamicList(attribute, nil),
                         nextImplicitID: x20,
@@ -1123,6 +1124,7 @@ enum _ViewList_Node {
         // <+84>
         switch self {
         case .list(_):
+            // <+100>
             fatalError("TODO")
         case .sublist(let sublist):
             // <+580>
@@ -1143,9 +1145,16 @@ enum _ViewList_Node {
             _ = consume copy_2
             index = 0
             return result
-        case .group(_):
-            fatalError("TODO")
+        case .group(let group):
+            // <+244>
+            // group -> x12 -> sp + 0x18
+            // index -> x26
+            // inlined
+            return group.applyNodes(from: &index, style: style, transform: transform) { index, style, node, transform in
+                return node.applySublists(from: &index, style: style, transform: transform, to: block)
+            }
         case .section(_):
+            // <+712>
             fatalError("TODO")
         }
     }
@@ -1177,7 +1186,7 @@ struct _ViewList_SublistTransform_ItemFlags: OptionSet {
 }
 
 struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
-    var lists: [(list: ViewList, attribute: Attribute<ViewList>)]
+    var lists: [(list: any ViewList, attribute: Attribute<ViewList>)]
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
         fatalError("TODO")
@@ -1191,8 +1200,15 @@ struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-        fatalError("TODO")
+    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        for value in lists {
+            let result = value.list.applyNodes(from: &index, style: style, list: value.attribute, transform: transform, to: block)
+            guard result else {
+                return false
+            }
+        }
+        
+        return true
     }
     
     func applyIDs(from: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
@@ -1218,7 +1234,7 @@ struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
         transform: borrowing _ViewList_TemporarySublistTransform,
         to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
     ) -> Bool {
-        fatalError("TODO")
+        return block(&index, style, .group(self), transform)
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
