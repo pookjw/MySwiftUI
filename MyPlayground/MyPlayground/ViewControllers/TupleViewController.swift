@@ -17,6 +17,7 @@ fileprivate struct MyView: View {
         Color.black
         Color.white
         Color.black
+        Color.white
     }
 }
 

@@ -61,7 +61,7 @@ struct PreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribute, CustomStringC
     }
     
     init(attributes: [Attribute<T.Value>]) {
-        fatalError("TODO")
+        self.attributes = attributes.map { WeakAttribute($0) }
     }
     
     var description: String {
@@ -73,7 +73,25 @@ struct PreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribute, CustomStringC
     }
     
     var value: T.Value {
-        fatalError("TODO")
+        // self -> x23
+        // sp + 0x58
+        var result = T.defaultValue
+        var w24 = true
+        
+        for attribute in attributes {
+            if !w24 {
+                // <+280>
+                T.reduce(value: &result) { 
+                    return attribute.wrappedValue ?? T.defaultValue
+                }
+            } else {
+                result = attribute.wrappedValue ?? T.defaultValue
+            }
+            
+            w24 = false
+        }
+        
+        return result
     }
 }
 

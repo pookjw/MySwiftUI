@@ -29,7 +29,7 @@ final class DemoViewController: UICollectionViewController {
         super.viewDidLoad()
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.tupleView
+        let item = DemoViewController.Item.dynamicTupleView
         pushToItem(item)
         
 //        Task {

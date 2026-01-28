@@ -1198,7 +1198,10 @@ class ViewController: UIViewController {
 //        let rootView = MyObsView(model: model)
         
 //        let rootView = MyLayoutView(model: model)
-        let rootView = MyTupleView()
+//        let rootView = MyTupleView()
+        
+        let model = MyDynamicTupleView.Model.init()
+        let rootView = MyDynamicTupleView.init(model: model)
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
@@ -1210,6 +1213,16 @@ class ViewController: UIViewController {
 //                model.flag.toggle()
 //            }
 //        }
+        
+        Task {
+            while true {
+                try await Task.sleep(for: .seconds(1))
+                model.count &+ 1
+                if model.count == 6 {
+                    model.count = 0
+                }
+            }
+        }
         
 //        Task { [hostingView] in
 //            var flags = 0
@@ -1455,5 +1468,37 @@ fileprivate struct MyTupleView: View {
     var body: some View {
         Color.black
         Color.white
+        Color.black
+    }
+}
+
+fileprivate struct MyDynamicTupleView: View {
+    @MainActor
+    fileprivate final class Model {
+        var count = 0
+    }
+    
+    let model: Model
+    
+    var body: some View {
+        if model.count >= 1 {
+            Color.black
+        }
+        
+        if model.count >= 2 {
+            Color.white
+        }
+        
+        if model.count >= 3 {
+            Color.black
+        }
+        
+        if model.count >= 4 {
+            Color.white
+        }
+        
+        if model.count >= 5 {
+            Color.black
+        }
     }
 }
