@@ -224,10 +224,6 @@ extension _ViewListOutputs {
         fatalError("TODO")
     }
     
-    static func emptyParentViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
-    }
-    
     static func nonEmptyParentViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
         fatalError("TODO")
     }
@@ -237,12 +233,88 @@ extension _ViewListOutputs {
          inputs -> x20
          return pointer -> x19
          */
+        let w27 = inputs.options
+        // x23/w22
+        let attribute: WeakAttribute<_DisplayList_StableIdentityScope>?
+        // sp + 0xa8
+        let elements: any _ViewList_Elements
         if !inputs.options.contains(.isNonEmptyParent) {
             // <+64>
-            fatalError("TODO")
+            elements = EmptyViewListElements()
+            if !inputs.options.contains(.requiresSections) {
+                // <+92>
+                attribute = nil
+                // <+224>
+            } else {
+                // <+180>
+                let _attribute: WeakAttribute<_DisplayList_StableIdentityScope> = inputs.base[_DisplayList_StableIdentityScope.self]
+                if _attribute.attribute == nil {
+                    attribute = nil
+                } else {
+                    attribute = _attribute
+                }
+            }
         } else {
             // <+116>
-            fatalError("TODO")
+            return _ViewListOutputs.nonEmptyParentViewList(inputs: inputs)
+        }
+        
+        // <+224>
+        let w25 = AnyAttribute.empty
+        let w26 = inputs.$traits
+        let needsDynamicView: Bool // true -> <+280> / false -> <+596>
+        if (w26 == nil) && !((w27.contains(.canTransition) && !w27.contains(.disableTransitions)) || (attribute != nil)) {
+            // <+256>
+            
+            switch inputs.contentOffset {
+            case .staticCount(let count, let _needsDynamicView):
+                // <+272>
+                if _needsDynamicView {
+                    // <+280>
+                    needsDynamicView = true
+                } else {
+                    // <+596>
+                    needsDynamicView = false
+                }
+            case .dynamic(let count, let staticCount):
+                // <+280>
+                needsDynamicView = true
+            case nil:
+                // <+596>
+                needsDynamicView = false
+            }
+        } else {
+            needsDynamicView = true
+        }
+        
+        if needsDynamicView {
+            // <+280>
+            // x24
+            let implicitID = inputs.implicitID
+            let list = Attribute(
+                BaseViewList.Init(
+                    elements: elements, // sp + 0x18
+                    implicitID: implicitID, // sp + 0x68
+                    canTransition: (w27.contains(.canTransition) && !w27.contains(.disableTransitions)), // sp + 0x70
+                    stableIDScope: attribute, // sp + 0x74
+                    contentOffset: inputs.contentOffset, // sp + 0x80
+                    traitKeys: inputs.traitKeys, // sp + 0x98
+                    traits: OptionalAttribute(w26)
+                )
+            )
+            
+            return _ViewListOutputs(
+                .dynamicList(list, nil),
+                nextImplicitID: implicitID,
+                staticCount: 0
+            )
+        } else {
+            // <+596>
+            return _ViewListOutputs(
+                .staticList(elements),
+                nextImplicitID: inputs.implicitID,
+                staticCount: 0
+            )
         }
     }
     
@@ -485,6 +557,7 @@ extension _ViewListOutputs {
                 let count = x22.count
                 if count == 1 {
                     // <+764>
+                    x20 = inputs.implicitID
                     return _ViewListOutputs(
                         .dynamicList(x22[0], nil),
                         nextImplicitID: x20,
@@ -496,7 +569,7 @@ extension _ViewListOutputs {
                     let rule = _ViewList_Group.Init(lists: x22)
                     // x21
                     let attribute = Attribute(rule)
-                    fatalError("x20은 5가 아니라 0")
+                    x20 = inputs.implicitID
                     return _ViewListOutputs(
                         .dynamicList(attribute, nil),
                         nextImplicitID: x20,
@@ -706,14 +779,8 @@ fileprivate struct TypedUnaryViewGenerator: UnaryViewGenerator {
 }
 
 fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
-    private var body: T
-    private var baseInputs: _GraphInputs
-    
-    @inline(__always)
-    init(body: T, baseInputs: _GraphInputs) {
-        self.body = body
-        self.baseInputs = baseInputs
-    }
+    private(set) var body: T
+    private(set) var baseInputs: _GraphInputs
     
     var count: Int {
         return 1
@@ -780,21 +847,13 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
 }
 
 fileprivate struct BaseViewList: CustomStringConvertible {
-    private var elements: any _ViewList_Elements
-    private var implicitID: Int
+    private(set) var elements: any _ViewList_Elements
+    private(set) var implicitID: Int
     private(set) var traitKeys: ViewTraitKeys?
     var traits: ViewTraitCollection
     
     var description: String {
         fatalError("TODO")
-    }
-    
-    @inline(__always)
-    init(elements: any _ViewList_Elements, implicitID: Int, traitKeys: ViewTraitKeys?, traits: ViewTraitCollection) {
-        self.elements = elements
-        self.implicitID = implicitID
-        self.traitKeys = traitKeys
-        self.traits = traits
     }
 }
 
@@ -819,22 +878,39 @@ extension BaseViewList: ViewList {
         fatalError("TODO")
     }
     
-    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        list: Attribute<any ViewList>?,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
         // $s7SwiftUI12BaseViewList33_E479C0E92CDD045BAF2EF653123E2E0BLLV10applyNodes4from5style4list9transform2toSbSiz_AA01_dE14_IteratorStyleV14AttributeGraph0W0VyAA0dE0_pGSgAA01_dE26_TemporarySublistTransformVSbSiz_AlA01_dE5_NodeOATtXEtF
+        /*
+         self -> x20 -> x24
+         index -> x0 -> x19
+         style -> x1 -> x21
+         list -> x2 -> x23
+         transform -> x3 -> x27/w28
+         block -> x4/x5 -> sp + 0x8 / x22
+         */
+        // x20
+        let count = count(style: style)
+        fatalError("TODO")
         // sp + 0x88
-        let sublist = _ViewList_Sublist(
-            start: index,
-            count: count(style: style),
-            id: _ViewList_ID(implicitID: implicitID),
-            elements: _ViewList_SubgraphElements(
-                base: elements,
-                subgraphs: _ViewList_SublistSubgraphStorage(subgraphs: [])
-            ),
-            traits: traits,
-            list: list
-        )
-        
-        return block(&index, style, .sublist(sublist), transform)
+//        let sublist = _ViewList_Sublist(
+//            start: index,
+//            count: count(style: style),
+//            id: _ViewList_ID(implicitID: implicitID),
+//            elements: _ViewList_SubgraphElements(
+//                base: elements,
+//                subgraphs: _ViewList_SublistSubgraphStorage(subgraphs: [])
+//            ),
+//            traits: traits,
+//            list: list
+//        )
+//        
+//        return block(&index, style, .sublist(sublist), transform)
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
@@ -848,32 +924,13 @@ extension BaseViewList: ViewList {
 
 extension BaseViewList {
     fileprivate struct Init: CustomStringConvertible, Rule, AsyncAttribute {
-        private let elements: any _ViewList_Elements
-        private let implicitID: Int
-        private let canTransition: Bool
-        private let stableIDScope: WeakAttribute<_DisplayList_StableIdentityScope>?
-        private let contentOffset: ViewContentOffset?
-        private let traitKeys: ViewTraitKeys?
-        @OptionalAttribute private var traits: ViewTraitCollection?
-        
-        @inline(__always)
-        init(
-            elements: _ViewList_Elements,
-            implicitID: Int,
-            canTransition: Bool,
-            stableIDScope: WeakAttribute<_DisplayList_StableIdentityScope>?,
-            contentOffset: ViewContentOffset?,
-            traitKeys: ViewTraitKeys?,
-            traits: OptionalAttribute<ViewTraitCollection>
-        ) {
-            self.elements = elements
-            self.implicitID = implicitID
-            self.canTransition = canTransition
-            self.stableIDScope = stableIDScope
-            self.contentOffset = contentOffset
-            self.traitKeys = traitKeys
-            self._traits = traits
-        }
+        let elements: any _ViewList_Elements
+        let implicitID: Int
+        let canTransition: Bool
+        let stableIDScope: WeakAttribute<_DisplayList_StableIdentityScope>?
+        let contentOffset: ViewContentOffset?
+        let traitKeys: ViewTraitKeys?
+        @OptionalAttribute var traits: ViewTraitCollection?
         
         var description: String {
             fatalError("TODO")

@@ -628,7 +628,7 @@ extension EmptyViewList: ViewList {
 
 struct EmptyViewListElements: _ViewList_Elements {
     var count: Int {
-        fatalError("TODO")
+        return 0
     }
     
     func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {

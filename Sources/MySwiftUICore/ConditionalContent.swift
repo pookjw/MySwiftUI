@@ -165,7 +165,7 @@ extension ConditionalMetadata where T == ViewDescriptor {
         if let outputs = makeList.outputs {
             return outputs
         } else {
-            return _ViewListOutputs.emptyParentViewList(inputs: inputs)
+            return _ViewListOutputs.emptyViewList(inputs: inputs)
         }
     }
 }
@@ -196,15 +196,33 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
          */
         let nominalDescriptor = unsafe TypeID(type).nominalDescriptor
         
-        if unsafe (nominalDescriptor != conditionalTypeDescriptor), unsafe (nominalDescriptor != optionalTypeDescriptor) {
+        if unsafe (nominalDescriptor == conditionalTypeDescriptor) {
+            // <+88>
+            let base = UnsafeRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(type)))!
+                .advanced(by: 0x10)
+            let x23 = base
+                .assumingMemoryBound(to: Any.Type.self)
+                .pointee
+            let x21 = base
+                .advanced(by: 0x8)
+                .assumingMemoryBound(to: Any.Type.self)
+                .pointee
+            // sp + 0x28 -> x25/x26/x24
+            let first = ConditionalTypeDescriptor(x21)
+            // sp + 0x38 -> x27/x28/x22
+            let second = ConditionalTypeDescriptor(x23)
+            
+            self.storage = .either(type, f: first, t: second)
+            self.count = first.count + second.count
+        } else if unsafe (nominalDescriptor == optionalTypeDescriptor) {
+            // <+352>
+            let descriptor = ConditionalTypeDescriptor.descriptor(type: type)
+            self.storage = .optional(type, descriptor)
+            self.count = descriptor.count + 1
+        } else {
             // <+464>
             self.storage = .atom(T.conformance(of: type)!)
             self.count = 1
-        } else {
-            // <+352>
-            let descriptor = Self.descriptor(type: type)
-            self.storage = descriptor.storage
-            self.count = descriptor.count + 1
         }
     }
     
@@ -314,7 +332,7 @@ extension Optional {
             let block: () -> ConditionalTypeDescriptor<T> = {
                 // $sSq7SwiftUIE23makeConditionalMetadatayAA0dE0Vyqd__Gqd__mAA0D18ProtocolDescriptorRd__lFZAA0d4TypeG0Vyqd__GyXEfU_
                 let descriptor = ConditionalTypeDescriptor<T>.descriptor(type: Wrapped.self)
-                return descriptor
+                return ConditionalTypeDescriptor(storage: .optional(Self.self, descriptor), count: descriptor.count + 1)
             }
             
             let descriptor = block()
