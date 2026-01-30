@@ -29,7 +29,7 @@ final class DemoViewController: UICollectionViewController {
         super.viewDidLoad()
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.dynamicTupleView
+        let item = DemoViewController.Item.mutatingTupleLayoutView
         pushToItem(item)
         
 //        Task {
@@ -75,6 +75,7 @@ extension DemoViewController {
         case customLayoutView
         case tupleView
         case dynamicTupleView
+        case mutatingTupleLayoutView
         
         var title: String {
             switch self {
@@ -104,6 +105,9 @@ extension DemoViewController {
                 return _typeName(TupleViewController.self, qualified: false)
             case .dynamicTupleView:
                 return _typeName(DynamicTupleViewController.self, qualified: false)
+            case .mutatingTupleLayoutView:
+                return _typeName(MutatingTupleLayoutViewController.self, qualified: false)
+
             }
         }
         
@@ -135,6 +139,8 @@ extension DemoViewController {
                 return TupleViewController()
             case .dynamicTupleView:
                 return DynamicTupleViewController()
+            case .mutatingTupleLayoutView:
+                return MutatingTupleLayoutViewController()
             }
         }
     }
