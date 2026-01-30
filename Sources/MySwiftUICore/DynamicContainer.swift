@@ -1090,6 +1090,10 @@ fileprivate struct DynamicPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttri
         }
         
         // <+312>
+        guard x22 != 0 else {
+            return value
+        }
+        
         var x27 = 0
         var w25 = true
         

@@ -6,9 +6,7 @@ struct ViewGeometry: Equatable, Animatable {
         dimensions: .invalidValue
     )
     
-    static nonisolated(unsafe) let zero: ViewGeometry = {
-        fatalError("TODO")
-    }()
+    static nonisolated(unsafe) let zero = ViewGeometry(origin: .zero, dimensions: .zero)
     
     var origin: CGPoint
     var dimensions: ViewDimensions

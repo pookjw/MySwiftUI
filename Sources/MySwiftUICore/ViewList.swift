@@ -896,21 +896,30 @@ extension BaseViewList: ViewList {
          */
         // x20
         let count = count(style: style)
-        fatalError("TODO")
-        // sp + 0x88
-//        let sublist = _ViewList_Sublist(
-//            start: index,
-//            count: count(style: style),
-//            id: _ViewList_ID(implicitID: implicitID),
-//            elements: _ViewList_SubgraphElements(
-//                base: elements,
-//                subgraphs: _ViewList_SublistSubgraphStorage(subgraphs: [])
-//            ),
-//            traits: traits,
-//            list: list
-//        )
-//        
-//        return block(&index, style, .sublist(sublist), transform)
+        // x8
+        var x8 = style.applyGranularity(to: count)
+        x8 = index &- x8
+        
+        guard x8 < 0 else {
+            index = x8
+            return true
+        }
+        
+        let sublist = _ViewList_Sublist(
+            start: index,
+            count: count,
+            id: _ViewList_ID(implicitID: implicitID),
+            elements: _ViewList_SubgraphElements(
+                base: elements,
+                subgraphs: _ViewList_SublistSubgraphStorage(subgraphs: [])
+            ),
+            traits: traits,
+            list: list
+        )
+        
+        let result = block(&index, style, .sublist(sublist), transform)
+        index = 0
+        return result
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {

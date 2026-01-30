@@ -78,9 +78,7 @@ extension ViewDimensions {
     
     static nonisolated(unsafe) let invalidValue = ViewDimensions(guideComputer: .defaultValue, size: .invalidValue)
     
-    static var zero: ViewDimensions {
-        fatalError("TODO")
-    }
+    static nonisolated(unsafe) let zero = ViewDimensions(guideComputer: .defaultValue, size: .zero, proposal: .zero)
     
     func at(_: CGPoint) -> ViewGeometry {
         fatalError("TODO")

@@ -271,8 +271,8 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
 extension ConditionalTypeDescriptor {
     fileprivate enum Storage: Sendable {
         case atom(TypeConformance<T>)
-        indirect case optional(Any.Type, ConditionalTypeDescriptor<T>)
-        indirect case either(Any.Type, f: ConditionalTypeDescriptor<T>, t: ConditionalTypeDescriptor<T>)
+        indirect case optional(any Any.Type, ConditionalTypeDescriptor<T>)
+        indirect case either(any Any.Type, f: ConditionalTypeDescriptor<T>, t: ConditionalTypeDescriptor<T>)
     }
 }
 

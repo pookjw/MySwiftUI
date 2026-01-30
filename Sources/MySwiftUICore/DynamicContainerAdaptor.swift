@@ -449,7 +449,7 @@ fileprivate struct DynamicLayoutViewChildGeometry: StatefulRule, AsyncAttribute 
         } else {
             // <+356>
             if !hasValue {
-                fatalError("이게 불리는건 의도가 아닐 것")
+                fatalError() // 지울 것
                 value = .zero
             }
         }
