@@ -274,7 +274,6 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             info.allUnary = true
             
             // itemsCount(x8) unusedCount(x9)
-            assert(usedCount > 0)
             // usedCount -> sp + 0x58
             if itemsCount != unusedCount {
                 // <+1832>
@@ -1017,7 +1016,11 @@ extension DynamicViewContainer {
     }
 }
 
-fileprivate final class DynamicAnimationListener {
+class AnimationListener {
+    // TODO
+}
+
+fileprivate final class DynamicAnimationListener: AnimationListener {
     weak var viewGraph: ViewGraph?
     let asyncSignal: AnyWeakAttribute
     var count: Int
@@ -1206,13 +1209,39 @@ fileprivate struct DynamicTransaction: StatefulRule, AsyncAttribute {
         
         // <+280>
         // x19 -> sp + 0x20
-        let transaction = transaction
+        var transaction = transaction
         // w23
         let wasRemoved = wasRemoved
         self.wasRemoved = false
         
         // <+316>
-        fatalError("TODO")
+        switch phase {
+        case .willAppear:
+            // <+340>
+            transaction.animation = nil
+            transaction.disablesAnimations = true
+            self.value = transaction
+            break
+        case .identity:
+            // <+332>
+            // <+728>
+            self.value = transaction
+            break
+        case .didDisappear:
+            // <+460>
+            if !wasRemoved {
+                // <+468>
+                if let listener = infoAttribute.value.items[index].listener {
+                    transaction.addAnimationListener(listener)
+                }
+                // <+584>
+            }
+            
+            // <+584>
+            self.wasRemoved = true
+            self.transaction = transaction
+            break
+        }
     }
 }
 

@@ -93,6 +93,12 @@ public struct Transaction {
     }
 }
 
+extension Transaction {
+    func addAnimationListener(_: AnimationListener) {
+        fatalError("TODO")
+    }
+}
+
 @available(*, unavailable)
 extension Transaction: Sendable {}
 

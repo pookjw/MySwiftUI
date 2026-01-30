@@ -305,7 +305,12 @@ fileprivate struct MergedTransaction: Rule, AsyncAttribute {
     @Attribute private(set) var rhs: Transaction
     
     var value: Transaction {
-        fatalError("TODO")
+        let lhs = lhs
+        var rhs = rhs
+        if let lhs {
+            rhs.plist.merge(lhs.plist)
+        }
+        return rhs
     }
 }
 

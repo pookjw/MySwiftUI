@@ -47,11 +47,6 @@ fileprivate struct MyView: View {
 
 final class DynamicTupleViewController: UIViewController {
     private let model = Model()
-    private var task: Task<Void, Never>?
-    
-    deinit {
-        task?.cancel()
-    }
     
     override func loadView() {
         let rootView = MyView(model: model)
@@ -72,21 +67,6 @@ final class DynamicTupleViewController: UIViewController {
         
         let barButtonItem = UIBarButtonItem(customView: stepper)
         navigationItem.rightBarButtonItem = barButtonItem
-        
-//        task = Task { [model] in
-//            do {
-//                try await Task.sleep(for: .seconds(1))
-//                model.count &+= 2
-//                return
-//                while true {
-//                    try await Task.sleep(for: .seconds(1))
-//                    model.count &+= 1
-//                    if model.count == 6 {
-//                        model.count = 0
-//                    }
-//                }
-//            } catch {}
-//        }
     }
     
     @objc private func stepperValueChanged(_ sender: UIStepper) {
