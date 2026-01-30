@@ -16,7 +16,7 @@ import Observation
 @MainActor
 @Observable
 fileprivate final class Model {
-    var count = 2
+    var count = 1
 }
 
 fileprivate struct MyView: View {

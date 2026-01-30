@@ -1172,7 +1172,46 @@ fileprivate struct DynamicTransaction: StatefulRule, AsyncAttribute {
     
     typealias Value = Transaction
     
-    func updateValue() {
+    mutating func updateValue() {
+        /*
+         self -> x21
+         */
+        // w22
+        let infoAttribute = $info
+        // w19
+        let uniqueId = uniqueId
+        // x20
+        let indexMap = infoAttribute.value.indexMap
+        
+        guard !indexMap.isEmpty else {
+            self.value = Transaction()
+            return
+        }
+        
+        // x20
+        guard let index = indexMap[uniqueId] else {
+            self.value = Transaction()
+            return
+        }
+        
+        // <+96>
+        // x23
+        let item = infoAttribute.value.items[index]
+        
+        // w24
+        guard let phase = item.phase else {
+            self.value = Transaction()
+            return
+        }
+        
+        // <+280>
+        // x19 -> sp + 0x20
+        let transaction = transaction
+        // w23
+        let wasRemoved = wasRemoved
+        self.wasRemoved = false
+        
+        // <+316>
         fatalError("TODO")
     }
 }
@@ -1325,16 +1364,23 @@ struct DynamicLayoutMap {
         sortedArray.removeAll(keepingCapacity: true)
         
         // <+140>
-        let startIndex = items.count &- (unusedCount &+ removedCount) &- 1
-        let flag = (startIndex < 0) || allUnary
+        var endIndex = items.count &- (unusedCount &+ removedCount)
+        let flag = ((endIndex &- 1) < 0) || allUnary
         
-        guard flag || (startIndex < items.count) else {
+        guard flag || (endIndex < items.count) else {
             // <+872>
             fatalError("invalid view index")
         }
         
+        if !flag {
+            // <+216>
+            let item = items[endIndex]
+            endIndex = Int(item.precedingViewCount &+ item.viewCount)
+        }
+        
+        // <+248>
         var results: [LayoutProxyAttributes] = []
-        for index in startIndex..<items.indices.endIndex {
+        for index in 0..<endIndex {
             // <+500>
             let precedingViewCount = items[index].precedingViewCount
             // x26

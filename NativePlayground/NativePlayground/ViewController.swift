@@ -1222,18 +1222,15 @@ class ViewController: UIViewController {
 //            }
 //        }
         
-//        Task {
-//            try await Task.sleep(for: .seconds(1))
-//            model.count &+= 2
-//            return
-//            while true {
-//                try await Task.sleep(for: .seconds(1))
-//                model.count &+= 1
-//                if model.count == 6 {
-//                    model.count = 0
-//                }
-//            }
-//        }
+        Task {
+            while true {
+                try await Task.sleep(for: .seconds(1))
+                model.count &+= 1
+                if model.count == 6 {
+                    model.count = 0
+                }
+            }
+        }
         
 //        Task { [hostingView] in
 //            var flags = 0
@@ -1487,7 +1484,7 @@ fileprivate struct MyDynamicTupleView: View {
     @MainActor
     @Observable
     fileprivate final class Model {
-        var count = 2
+        var count = 0
     }
     
     let model: MyDynamicTupleView.Model

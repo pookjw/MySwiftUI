@@ -449,7 +449,6 @@ fileprivate struct DynamicLayoutViewChildGeometry: StatefulRule, AsyncAttribute 
         } else {
             // <+356>
             if !hasValue {
-                fatalError() // 지울 것
                 value = .zero
             }
         }
