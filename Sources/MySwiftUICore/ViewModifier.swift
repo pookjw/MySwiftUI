@@ -128,3 +128,9 @@ extension ViewModifier {
         fatalError()
     }
 }
+
+extension View {
+  @inlinable public nonisolated func modifier<T>(_ modifier: T) -> ModifiedContent<Self, T> {
+        return .init(content: self, modifier: modifier)
+    }
+}

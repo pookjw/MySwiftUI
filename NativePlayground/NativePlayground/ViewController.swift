@@ -784,6 +784,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI16AppearanceEffectV")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI16AppearanceEffectV")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
         
 //        print(_typeName(_typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, qualified: true))
 //        _forEachField(of: _typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, options: []) { name, offset, type, kind in
@@ -1208,8 +1215,16 @@ class ViewController: UIViewController {
 //        let rootView = MyLayoutView(model: model)
 //        let rootView = MyTupleView()
         
-        let model = MyDynamicTupleView.Model.init()
-        let rootView = MyDynamicTupleView.init(model: model)
+//        let model = MyDynamicTupleView.Model.init()
+//        let rootView = MyDynamicTupleView.init(model: model)
+        
+        let rootView = Color.white
+            .onAppear {
+                print("onAppear")
+            }
+            .onDisappear {
+                print("onDisappear")
+            }
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
@@ -1222,16 +1237,16 @@ class ViewController: UIViewController {
 //            }
 //        }
         
-        Task {
-            while true {
-                try await Task.sleep(for: .seconds(1))
-                model.count &-= 1
-                break
-                if model.count == 6 {
-                    model.count = 0
-                }
-            }
-        }
+//        Task {
+//            while true {
+//                try await Task.sleep(for: .seconds(1))
+//                model.count &-= 1
+//                break
+//                if model.count == 6 {
+//                    model.count = 0
+//                }
+//            }
+//        }
         
 //        Task { [hostingView] in
 //            var flags = 0
