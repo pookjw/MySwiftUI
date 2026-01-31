@@ -1805,5 +1805,4 @@ public struct TypeConformance<T: _SwiftUICorePrivate.ProtocolDescriptor> {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct _ViewList_Group {
-  
 }

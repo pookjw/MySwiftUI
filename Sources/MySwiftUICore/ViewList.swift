@@ -689,6 +689,10 @@ extension _ViewListOutputs {
     }
     
     class ListModifier {
+        init() {}
+        
+        func apply(to list: inout ViewList) {
+        }
     }
     
     fileprivate struct ApplyModifiers: Rule, AsyncAttribute {
@@ -696,7 +700,9 @@ extension _ViewListOutputs {
         let modifier: _ViewListOutputs.ListModifier
         
         var value: ViewList {
-            fatalError("TODO")
+            var list = base
+            modifier.apply(to: &list)
+            return list
         }
     }
 }
@@ -1568,6 +1574,14 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
     let modifierType: ViewModifier.Type
     let baseInputs: _GraphInputs
     
+    @inline(__always)
+    init(base: _ViewList_Elements, modifier: AnyWeakAttribute, modifierType: ViewModifier.Type, baseInputs: _GraphInputs) {
+        self.base = base
+        self.modifier = modifier
+        self.modifierType = modifierType
+        self.baseInputs = baseInputs
+    }
+    
     init<T: ViewModifier>(base: _ViewList_Elements, modifier: Attribute<T>, baseInputs: _GraphInputs) {
         fatalError("TODO")
     }
@@ -1586,6 +1600,9 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
 }
 
 fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
+    let base: any ViewList
+    let listModifier: ModifiedViewList.ListModifier
+    
     func count(style: _ViewList_IteratorStyle) -> Int {
         fatalError("TODO")
     }
@@ -1610,8 +1627,24 @@ fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
         fatalError("TODO")
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-        fatalError("TODO")
+    func applyNodes(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        list: Attribute<any ViewList>?,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
+        // $s7SwiftUI16ModifiedViewList33_E479C0E92CDD045BAF2EF653123E2E0BLLVAA0dE0A2aEP10applyNodes4from5style4list9transform2toSbSiz_AA01_dE14_IteratorStyleV14AttributeGraph0W0VyAaE_pGSgAA01_dE26_TemporarySublistTransformVSbSiz_AnA01_dE5_NodeOAUtXEtFTW
+        let item = ModifiedViewList.Transform(listModifier: listModifier)
+        return transform.withPushedItem(item) { transform in
+            return base.applyNodes(
+                from: &index,
+                style: style,
+                list: list,
+                transform: transform,
+                to: block
+            )
+        }
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
@@ -1629,31 +1662,56 @@ fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
     var debugDescription: String {
         fatalError("TODO")
     }
-    
-    let base: ViewList
-    let listModifier: ModifiedViewList.ListModifier
 }
 
 extension ModifiedViewList {
     final class ListModifier: _ViewListOutputs.ListModifier {
         private let pred: _ViewListOutputs.ListModifier?
-        private let modifierType: any ViewModifier.Type
-        private let modifier: AnyWeakAttribute
-        private let inputs: _GraphInputs
+        let modifierType: any ViewModifier.Type
+        let modifier: AnyWeakAttribute
+        let inputs: _GraphInputs
         
         init(pred: _ViewListOutputs.ListModifier?, modifierType: any ViewModifier.Type, modifier: AnyWeakAttribute, inputs: _GraphInputs) {
             self.pred = pred
             self.modifierType = modifierType
             self.modifier = modifier
             self.inputs = inputs
+            super.init()
+        }
+        
+        override func apply(to list: inout any ViewList) {
+            /*
+             self -> x19
+             list -> x21
+             */
+            if let pred {
+                pred.apply(to: &list)
+            }
+            
+            // sp + 0x8
+            let copy_1 = list
+            list = ModifiedViewList(base: copy_1, listModifier: self)
         }
     }
     
     struct Transform: _ViewList_SublistTransform_Item {
-        private var listModifier: ModifiedViewList.ListModifier
+        private(set) var listModifier: ModifiedViewList.ListModifier
         
         func apply(sublist: inout _ViewList_Sublist) {
-            fatalError("TODO")
+//            let elements = ModifiedElements(
+//                base: sublist.elements.base,
+//                modifier: Attribute<Any>(identifier: listModifier.modifier.attribute),
+//                baseInputs: listModifier.inputs
+//            )
+            
+            let elements = ModifiedElements(
+                base: sublist.elements.base,
+                modifier: listModifier.modifier,
+                modifierType: listModifier.modifierType,
+                baseInputs: listModifier.inputs
+            )
+            
+            sublist.elements.base = elements
         }
         
         func bindID(_ id: inout _ViewList_ID) {
