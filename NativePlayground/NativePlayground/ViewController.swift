@@ -1218,30 +1218,24 @@ class ViewController: UIViewController {
 //        let model = MyDynamicTupleView.Model.init()
 //        let rootView = MyDynamicTupleView.init(model: model)
         
-        let rootView = Group {
-            Color.white
-                .onAppear {
-                    print("onAppear")
-                }
-                .onDisappear {
-                    print("onDisappear")
-                }
-            
-            Color.black
-            
-            Color.black
+        let model = MyAppearanceActionView.Model()
+        let rootView = MyAppearanceActionView(model: model) { 
+            print("onAppear")
+        } onDisappear: { 
+            print("onDisappear")
         }
+
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-//        Task {
-//            while true {
-//                try await Task.sleep(for: .seconds(1))
-//                model.flag.toggle()
-//            }
-//        }
+        Task {
+            while true {
+                try await Task.sleep(for: .seconds(1))
+                model.flag.toggle()
+            }
+        }
         
 //        Task {
 //            while true {
@@ -1530,6 +1524,34 @@ fileprivate struct MyDynamicTupleView: View {
         
         if model.count >= 5 {
             Color.black
+        }
+    }
+}
+
+fileprivate struct MyAppearanceActionView: View {
+    @MainActor
+    @Observable
+    fileprivate final class Model {
+        var flag = false
+    }
+    
+    let model: Model
+    let onAppear: () -> Void
+    let onDisappear: () -> Void
+    
+    var body: some View {
+        if model.flag {
+            Color.white
+                .onAppear(perform: onAppear)
+                .onDisappear(perform: onDisappear)
+            
+            Color.white
+            
+            Color.white
+        } else {
+            Color.black
+                .onAppear(perform: onAppear)
+                .onDisappear(perform: onDisappear)
         }
     }
 }

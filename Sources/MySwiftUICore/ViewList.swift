@@ -321,30 +321,125 @@ extension _ViewListOutputs {
     func makeAttribute(inputs: _ViewListInputs) -> Attribute<ViewList> {
         // inputs -> x19
         // sp + 0xf8
-        let copy_1 = self
+        let copy_1 = views
         
-        switch copy_1.views {
-        case .staticList(_):
+        switch copy_1 {
+        case .staticList(let elements):
             // <+184>
-            fatalError("TODO")
-        case .dynamicList(let viewList, let listModifier):
+            // sp + 0xd0
+            let copy_2 = elements
+            // sp + 0x58
+            let copy_3 = copy_2
+            
+            // x22
+            let implicitID = inputs.implicitID
+            // x20
+            let options = inputs.options.intersection([.canTransition, .disableTransitions])
+            
+            // x19, w21
+            let scope: WeakAttribute<_DisplayList_StableIdentityScope>?
+            if !inputs.base.options.contains(.needsStableDisplayListIDs) {
+                // <+280>
+                scope = nil
+            } else {
+                // <+236>
+                let attribute = inputs.base[_DisplayList_StableIdentityScope.self]
+                if attribute.attribute != nil {
+                    scope = attribute
+                } else {
+                    scope = nil
+                }
+            }
+            
+            // <+280>
+            var traits = ViewTraitCollection()
+            
+            if options == .canTransition {
+                traits[CanTransitionTraitKey.self] = true
+            }
+            
+            if let scope {
+                traits[_DisplayList_StableIdentityScope.self] = scope
+            }
+            
+            
+            let baseViewList = BaseViewList(
+                elements: elements,
+                implicitID: inputs.implicitID, // sp + 0x38
+                traitKeys: ViewTraitKeys(),
+                traits: traits
+            )
+            
+            return Attribute(value: baseViewList)
+        case .dynamicList(let viewList, let modifier):
             // <+64>
             /*
              viewList -> w20
-             listModifier - > x19
+             modifier - > x19
              */
             
-            guard listModifier != nil else {
+            guard let modifier else {
                 return viewList
             }
             
             // <+76>
-            fatalError("TODO")
+            // sp + 0x80
+            let applyModifiers = _ViewListOutputs.ApplyModifiers(base: viewList, modifier: modifier)
+            
+            return Attribute(applyModifiers)
         }
     }
     
     func makeAttribute(viewInputs: _ViewInputs) -> Attribute<ViewList> {
         fatalError("TODO")
+    }
+    
+    mutating func multiModifier<T: ViewModifier>(_ value: _GraphValue<T>, inputs: _ViewListInputs) {
+        /*
+         value -> w22
+         inputs -> x23
+         */
+        // x29 - 0x78
+        let views = views
+        
+        switch views {
+        case .staticList(let elements):
+            // <+192>
+            // sp + 0xd8
+            let copy_1 = elements
+            // sp + 0x38
+            let copy_2 = copy_1
+            // x29 - 0xb0
+            let copy_3 = inputs.base
+            // sp
+            let copy_4 = inputs.base
+            // sp + 0x60
+            let _ = copy_3
+            // sp + 0x60
+            let modifiedElements = ModifiedElements(base: copy_2, modifier: value.value, baseInputs: copy_4)
+            self.views = .staticList(modifiedElements)
+        case .dynamicList(let attribute, let modifier):
+            // <+64>
+            /*
+             attribute -> w25
+             modifier -> x26
+             */
+            // sp + 0x60
+            let copy_1 = inputs.base
+            // x29 - 0xb0
+            let copy_2 = copy_1
+            
+            let listModifier = ModifiedViewList.ListModifier(
+                pred: modifier,
+                modifierType: T.self,
+                modifier: AnyWeakAttribute(attribute.identifier),
+                inputs: copy_2
+            )
+            
+            self.views = .dynamicList(attribute, listModifier)
+        }
+        
+        // <+380>
     }
 }
 
@@ -597,9 +692,13 @@ extension _ViewListOutputs {
     class ListModifier {
     }
     
-    fileprivate struct ApplyModifiers {
-        @Attribute private var base: any ViewList
-        private let modifier: _ViewListOutputs.ListModifier
+    fileprivate struct ApplyModifiers: Rule, AsyncAttribute {
+        @Attribute var base: any ViewList
+        let modifier: _ViewListOutputs.ListModifier
+        
+        var value: ViewList {
+            fatalError("TODO")
+        }
     }
 }
 
@@ -1461,5 +1560,109 @@ fileprivate struct MergedElements: _ViewList_Elements {
     
     func findElement(at index: Int) -> (_ViewList_Elements, Int)? {
         fatalError("TODO")
+    }
+}
+
+fileprivate struct ModifiedElements: _ViewList_Elements {
+    let base: _ViewList_Elements
+    let modifier: AnyWeakAttribute
+    let modifierType: ViewModifier.Type
+    let baseInputs: _GraphInputs
+    
+    init<T: ViewModifier>(base: _ViewList_Elements, modifier: Attribute<T>, baseInputs: _GraphInputs) {
+        fatalError("TODO")
+    }
+    
+    var count: Int {
+        fatalError("TODO")
+    }
+    
+    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
+        fatalError("TODO")
+    }
+    
+    func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        fatalError("TODO")
+    }
+    
+    var traitKeys: ViewTraitKeys? {
+        fatalError("TODO")
+    }
+    
+    var viewIDs: _ViewList_ID_Views? {
+        fatalError("TODO")
+    }
+    
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
+        fatalError("TODO")
+    }
+    
+    var traits: ViewTraitCollection {
+        fatalError("TODO")
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        fatalError("TODO")
+    }
+    
+    func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
+        fatalError("TODO")
+    }
+    
+    func print(into: inout SExpPrinter) {
+        fatalError("TODO")
+    }
+    
+    var debugDescription: String {
+        fatalError("TODO")
+    }
+    
+    let base: ViewList
+    let listModifier: ModifiedViewList.ListModifier
+}
+
+extension ModifiedViewList {
+    final class ListModifier: _ViewListOutputs.ListModifier {
+        private let pred: _ViewListOutputs.ListModifier?
+        private let modifierType: any ViewModifier.Type
+        private let modifier: AnyWeakAttribute
+        private let inputs: _GraphInputs
+        
+        init(pred: _ViewListOutputs.ListModifier?, modifierType: any ViewModifier.Type, modifier: AnyWeakAttribute, inputs: _GraphInputs) {
+            self.pred = pred
+            self.modifierType = modifierType
+            self.modifier = modifier
+            self.inputs = inputs
+        }
+    }
+    
+    struct Transform: _ViewList_SublistTransform_Item {
+        private var listModifier: ModifiedViewList.ListModifier
+        
+        func apply(sublist: inout _ViewList_Sublist) {
+            fatalError("TODO")
+        }
+        
+        func bindID(_ id: inout _ViewList_ID) {
+            fatalError("TODO")
+        }
+        
+        func wrapSubgraph(into storage: inout _ViewList_SublistSubgraphStorage) {
+            fatalError("TODO")
+        }
     }
 }

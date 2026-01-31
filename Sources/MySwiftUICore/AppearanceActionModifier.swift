@@ -29,13 +29,26 @@ internal import AttributeGraph
     }
     
     public static nonisolated func _makeViewList(modifier: _GraphValue<_AppearanceActionModifier>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        // x23
+        var modifier = modifier.value
+        
         if isLinkedOnOrAfter(.v3) {
             // <+180>
-            fatalError("TODO")
+            let rule = _AppearanceActionModifier.MergedCallbacks(
+                modifier: modifier,
+                phase: inputs.base.phase,
+                box: nil
+            )
+            
+            // x23
+            modifier = Attribute(rule)
         }
         
         // <+256>
-        fatalError("TODO")
+        var outputs = body(_Graph(), inputs)
+        outputs.multiModifier(_GraphValue(modifier), inputs: inputs)
+        
+        return outputs
     }
     
     public typealias Body = Never
@@ -159,7 +172,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
     }
 }
 
-extension AppearanceEffect {
+extension _AppearanceActionModifier {
     fileprivate struct MergedCallbacks: StatefulRule {
         @Attribute var modifier: _AppearanceActionModifier
         @Attribute var phase: _GraphInputs.Phase
