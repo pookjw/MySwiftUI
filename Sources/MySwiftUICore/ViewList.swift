@@ -1590,8 +1590,26 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
         fatalError("TODO")
     }
     
-    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
-        fatalError("TODO")
+    func makeElements(
+        from index: inout Int,
+        inputs: _ViewInputs,
+        indirectMap: IndirectAttributeMap?,
+        body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool)
+    {
+        /*
+         self -> x23
+         index -> x21
+         inputs -> x20
+         */
+        return withoutActuallyEscaping(body) { escapingClosure in
+            return base.makeElements(
+                from: &index,
+                inputs: inputs,
+                indirectMap: indirectMap
+            ) { inputs, transform in
+                fatalError("TODO")
+            }
+        }
     }
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
