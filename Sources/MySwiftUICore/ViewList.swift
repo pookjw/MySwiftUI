@@ -362,7 +362,6 @@ extension _ViewListOutputs {
                 traits[_DisplayList_StableIdentityScope.self] = scope
             }
             
-            
             let baseViewList = BaseViewList(
                 elements: elements,
                 implicitID: inputs.implicitID, // sp + 0x38
