@@ -1218,13 +1218,19 @@ class ViewController: UIViewController {
 //        let model = MyDynamicTupleView.Model.init()
 //        let rootView = MyDynamicTupleView.init(model: model)
         
-        let rootView = Color.white
-            .onAppear {
-                print("onAppear")
-            }
-            .onDisappear {
-                print("onDisappear")
-            }
+        let rootView = Group {
+            Color.white
+                .onAppear {
+                    print("onAppear")
+                }
+                .onDisappear {
+                    print("onDisappear")
+                }
+            
+            Color.black
+            
+            Color.black
+        }
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
@@ -1308,14 +1314,14 @@ class ViewController: UIViewController {
 //        hostingController.didMove(toParent: self)
 //    }
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        Task {
-//            try! await Task.sleep(for: .seconds(1))
-//            navigationController?.popViewController(animated: true)
-//        }
-//    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        Task {
+            try! await Task.sleep(for: .seconds(1))
+            navigationController?.popViewController(animated: true)
+        }
+    }
 }
 
 struct MyKey: _ViewTraitKey {

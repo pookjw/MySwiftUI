@@ -362,6 +362,10 @@ extension AttributeGraph.AnyAttribute {
     }
 
     public func setFlags(_: AttributeGraph.AnyAttribute.Flags, mask: AttributeGraph.AnyAttribute.Flags)
+
+    public func visitBody<A: AttributeGraph.AttributeBodyVisitor>(_: inout A) -> ()
+
+    public var _bodyPointer: Swift.UnsafeRawPointer { get }
 }
 
 extension AttributeGraph.Graph {

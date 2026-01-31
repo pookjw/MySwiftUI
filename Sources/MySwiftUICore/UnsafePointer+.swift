@@ -4,6 +4,12 @@ extension UnsafePointer {
             bitPattern: (Int(bitPattern: .max) - Int(UInt8.max)) | -Int(UInt8(clamping: MemoryLayout<Pointee>.alignment))
         ).unsafelyUnwrapped
     }
+    
+    subscript() -> Pointee {
+        unsafeAddress {
+            return self
+        }
+    }
 }
 
 extension UnsafeMutablePointer {
@@ -11,5 +17,14 @@ extension UnsafeMutablePointer {
         return unsafe UnsafeMutablePointer(
             bitPattern: (Int(bitPattern: .max) - Int(UInt8.max)) | -Int(UInt8(clamping: MemoryLayout<Pointee>.alignment))
         ).unsafelyUnwrapped
+    }
+    
+    package subscript() -> Pointee {
+        unsafeAddress {
+            return UnsafePointer(self)
+        }
+        nonmutating unsafeMutableAddress {
+            return self
+        }
     }
 }

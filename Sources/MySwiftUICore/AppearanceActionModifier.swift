@@ -2,10 +2,10 @@
 internal import AttributeGraph
 
 @frozen public struct _AppearanceActionModifier : ViewModifier {
-    public var appear: (@MainActor () -> Void)?
-    public var disappear: (@MainActor () -> Void)?
+    public nonisolated(unsafe) var appear: (() -> Void)?
+    public nonisolated(unsafe) var disappear: (() -> Void)?
     
-    @inlinable public init(appear: (@MainActor () -> Void)? = nil, disappear: (@MainActor () -> Void)? = nil) {
+    @inlinable public nonisolated init(appear: (() -> Void)? = nil, disappear: (() -> Void)? = nil) {
         self.appear = appear
         self.disappear = disappear
     }
@@ -29,6 +29,12 @@ internal import AttributeGraph
     }
     
     public static nonisolated func _makeViewList(modifier: _GraphValue<_AppearanceActionModifier>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        if isLinkedOnOrAfter(.v3) {
+            // <+180>
+            fatalError("TODO")
+        }
+        
+        // <+256>
         fatalError("TODO")
     }
     
@@ -39,11 +45,11 @@ extension _AppearanceActionModifier : Sendable {
 }
 
 extension View {
-    @inlinable public nonisolated func onAppear(perform action: (@MainActor () -> Void)? = nil) -> some View {
+    @inlinable public nonisolated func onAppear(perform action: (() -> Void)? = nil) -> some View {
         return modifier(_AppearanceActionModifier(appear: action, disappear: nil))
     }
     
-    @inlinable public nonisolated func onDisappear(perform action: (@MainActor () -> Void)? = nil) -> some View {
+    @inlinable public nonisolated func onDisappear(perform action: (() -> Void)? = nil) -> some View {
         return modifier(_AppearanceActionModifier(appear: nil, disappear: action))
     }
 }
@@ -100,9 +106,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
         if let appear = lastValue?.appear {
             // <+40>
             Update.enqueueAction(reason: .onAppear) {
-                MainActor.assumeIsolated {
-                    appear()
-                }
+                appear()
             }
         }
         
@@ -132,7 +136,22 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
     }
     
     static func willRemove(attribute: AnyAttribute) {
-        fatalError("TODO")
+        let effect = attribute
+            ._bodyPointer
+            .assumingMemoryBound(to: AppearanceEffect.self)
+        let mutable = UnsafeMutablePointer(mutating: effect)
+        
+        guard let lastValue = mutable.pointee.lastValue else {
+            return
+        }
+        
+        if let disappear = lastValue.disappear {
+            Update.enqueueAction(reason: .onDisappear) { 
+                disappear()
+            }
+        }
+        
+        mutable.pointee.isRemoved = false
     }
     
     static func didReinsert(attribute: AnyAttribute) {

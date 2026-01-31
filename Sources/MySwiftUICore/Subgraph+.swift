@@ -1,4 +1,6 @@
+// 372497ED4F569296C4450147CA418CD0
 internal import AttributeGraph
+private import _MySwiftUIShims
 
 // AGSubgraphApply는 Subgraph.apply(_:)가 아니라 Subgraph.forEach(_:_:)다.
 
@@ -13,9 +15,17 @@ extension Subgraph {
     }
     
     func willRemove() {
-        forEach(.unknown1) { _ in
+        forEach(.unknown1) { attribute in
             // $sSo13AGSubgraphRefa7SwiftUIE10willRemoveyyFySo11AGAttributeaXEfU_Tf4nd_n
-            fatalError("TODO")
+            let bodyType = attribute._bodyType
+            
+            guard let conformance = RemovableAttributeDescriptor.cachedConformance(of: bodyType) else {
+                return
+            }
+            
+            conformance
+                .unsafeExistentialMetatype((any RemovableAttribute.Type).self)
+                .willRemove(attribute: attribute)
         }
     }
     
@@ -28,5 +38,26 @@ extension Subgraph {
     
     func addSecondaryChild(_ subgraph: Subgraph) {
         fatalError("TODO")
+    }
+}
+
+fileprivate struct RemovableAttributeDescriptor: ProtocolDescriptor {
+    static var descriptor: UnsafeRawPointer {
+        return _removableAttributeProtocolDescriptor()
+    }
+    
+    static nonisolated(unsafe) var typeCache: [ObjectIdentifier: TypeConformance<RemovableAttributeDescriptor>] = [:]
+    
+    static func cachedConformance(of type: Any.Type) -> TypeConformance<RemovableAttributeDescriptor>? {
+        Update.assertIsLocked()
+        
+        if let conformance = typeCache[ObjectIdentifier(type)] {
+            return conformance
+        }
+        
+        // <+196>
+        let conformance = conformance(of: type)
+        typeCache[ObjectIdentifier(type)] = conformance
+        return conformance
     }
 }

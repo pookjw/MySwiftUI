@@ -191,7 +191,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     private var inTransaction: Bool
     private var continuations: [any GraphMutation]
     package private(set) nonisolated final var mayDeferUpdate: Bool
-    private(set) var removedState: GraphHost.RemovedState
+    var removedState: GraphHost.RemovedState
     
     final var isValid: Bool {
         return data.graph != nil

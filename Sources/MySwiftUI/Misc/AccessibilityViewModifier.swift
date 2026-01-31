@@ -189,7 +189,11 @@ fileprivate final class AccessibilityViewModifierAccessor<T>: AnyAccessibilityVi
 
 fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, RemovableAttribute, CustomStringConvertible {
     static func willRemove(attribute: AnyAttribute) {
-        fatalError("TODO")
+        let transform = attribute
+            ._bodyPointer
+            .assumingMemoryBound(to: PropertiesTransform.self)
+        let mutable = UnsafeMutablePointer(mutating: transform)
+        mutable[].removedParentNode = mutable[].parentNode
     }
     
     static func didReinsert(attribute: AnyAttribute) {
@@ -215,48 +219,6 @@ fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, Remov
     var parentNode: AccessibilityNode? // 0xe8
     weak var removedParentNode: AccessibilityNode? // 0xf0
     var resetSeed: UInt32 // 0xf8
-    
-    init(
-        accessor: AnyAccessibilityViewModifierAccessor.Type,
-        modifier: AnyAttribute,
-        localID: ScrapeableID,
-        parentID: ScrapeableID,
-        idiom: AnyInterfaceIdiom,
-        position: Attribute<CGPoint>,
-        size: Attribute<ViewSize>,
-        transform: Attribute<ViewTransform>,
-        environment: Attribute<EnvironmentValues>,
-        phase: Attribute<_GraphInputs.Phase>,
-        deferredAttachment: OptionalAttribute<AccessibilityAttachment.Tree>,
-        nodeList: Attribute<AccessibilityNodeList>,
-        resolvableModifier: ResolvableModifier?,
-        responderUpdater: AccessibilityViewResponderUpdater?,
-        geometryUpdater: AccessibilityGeometryUpdater?,
-        isInPlatformItemList: Bool,
-        parentNode: AccessibilityNode?,
-        removedParentNode: AccessibilityNode?,
-        resetSeed: UInt32
-    ) {
-        self.accessor = accessor
-        self.modifier = modifier
-        self.localID = localID
-        self.parentID = parentID
-        self.idiom = idiom
-        self._position = position
-        self._size = size
-        self._transform = transform
-        self._environment = environment
-        self._phase = phase
-        self._deferredAttachment = deferredAttachment
-        self._nodeList = nodeList
-        self.resolvableModifier = resolvableModifier
-        self.responderUpdater = responderUpdater
-        self.geometryUpdater = geometryUpdater
-        self.isInPlatformItemList = isInPlatformItemList
-        self.parentNode = parentNode
-        self.removedParentNode = removedParentNode
-        self.resetSeed = resetSeed
-    }
     
     var description: String {
         fatalError("TODO")

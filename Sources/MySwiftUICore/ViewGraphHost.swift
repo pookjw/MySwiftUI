@@ -101,7 +101,21 @@ package final class ViewGraphHost {
     
     package func updateRemovedState(isUnattached: Bool, isHiddenForReuse: Bool) {
         Update.lock()
+        Update.begin()
+        
+        let removedState: GraphHost.RemovedState
+        if isHiddenForReuse {
+            removedState = isUnattached ? [.unattached, .hiddenForReuse] : .hiddenForReuse
+        } else {
+            removedState = isUnattached ? .unattached : []
+        }
+        
+        let viewGraph = viewGraph
         viewGraph.updateRemovedState()
+        
+        viewGraph.removedState = removedState
+        
+        Update.end()
         Update.unlock()
     }
     

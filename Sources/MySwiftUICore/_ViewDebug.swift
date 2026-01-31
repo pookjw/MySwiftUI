@@ -181,7 +181,17 @@ extension ViewModifier {
         return outputs
     }
     
-    static func makeDebuggableViewList<T>(modifier: _GraphValue<T>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        fatalError("TODO")
+    static nonisolated func makeDebuggableViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        let value = modifier.value
+        if Subgraph.shouldRecordTree {
+            Subgraph.beginTreeElement(value: modifier.value, flags: 1)
+            defer {
+                Subgraph.endTreeElement(value: value)
+            }
+            
+            return _makeViewList(modifier: modifier, inputs: inputs, body: body)
+        } else {
+            return _makeViewList(modifier: modifier, inputs: inputs, body: body)
+        }
     }
 }

@@ -20,3 +20,7 @@ const void * _viewProtocolDescriptor(void) {
     return &$s13MySwiftUICore4ViewMp;
 }
 
+MSUI_EXTERN const void *$s13MySwiftUICore18RemovableAttributeMp;
+const void * _Nonnull _removableAttributeProtocolDescriptor(void) {
+    return &$s13MySwiftUICore18RemovableAttributeMp;
+}

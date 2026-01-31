@@ -48,7 +48,18 @@ extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        let modifier: _GraphValue<Modifier> = view[{ value in
+            return PointerOffset<Self, Modifier>.of(&value.modifier)
+        }]
+        
+        return Modifier.makeDebuggableViewList(modifier: modifier, inputs: inputs) { graph, inputs in
+            // $s7SwiftUI15ModifiedContentVA2A4ViewRzAA0E8ModifierR_rlE05_makeE4List4view6inputsAA01_eH7OutputsVAA11_GraphValueVyACyxq_GG_AA01_eH6InputsVtFZAjA01_L0V_APtcfU0_TA
+            let view: _GraphValue<Content> = view[{ value in
+                return PointerOffset<Self, Content>.of(&value.content)
+            }]
+            
+            return Content.makeDebuggableViewList(view: view, inputs: inputs)
+        }
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
