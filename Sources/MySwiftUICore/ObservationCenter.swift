@@ -148,7 +148,7 @@ private import _DarwinFoundation3.pthread
                     return
                 }
                 
-                Update.locked {
+                Update.ensure {
                     MainActor.assumeIsolated { // 확실치 않음
                         // $s7SwiftUI17ObservationCenterC10invalidate33_7DF024579E4FC31D4E92A33BBA0366D6LL_10onChangeIny14AttributeGraph0Q0VyxG_0C00C8TrackingV11_AccessListVtlFyAMYbcfU0_yyXEfU_
                         guard
@@ -173,8 +173,6 @@ private import _DarwinFoundation3.pthread
                             attribute: attribute.identifier
                         )
                     }
-                    
-                    Update.end()
                 }
             },
             didSet: nil

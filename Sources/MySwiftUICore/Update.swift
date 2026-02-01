@@ -1,3 +1,4 @@
+// 61534957AEEC2EDC447ABDC13B4D426F
 private import os.signpost
 private import os.log
 private import _MySwiftUIShims
@@ -16,11 +17,18 @@ fileprivate let lockAssertionsAreEnabled: Bool = {
 package enum Update {
     private static let _lock = MovableLock.create()
     @safe private static nonisolated(unsafe) var depth: Int = 0
+    @safe private static nonisolated(unsafe) var dispatchDepth: Int = 0
     private static nonisolated(unsafe) var actions: [Update.Action] = []
     static nonisolated(unsafe) let traceHost: AnyObject = TraceHost()
     
     package static var canDispatch: Bool {
-        fatalError("TODO")
+        Update.assertIsLocked()
+        
+        guard depth == 1 else {
+            return false
+        }
+        
+        return !actions.isEmpty
     }
     
     @discardableResult
@@ -180,18 +188,43 @@ package enum Update {
     }
     
     package static func dispatchActions() {
-        fatalError("TODO")
-        Update.assertIsLocked()
-        onMainThread {
-            let traceHost = unsafe Update.traceHost
-            Signpost.postUpdateActions.traceInterval(object: traceHost, nil) { 
-                Update.begin()
-                for action in unsafe Update.actions {
-                    action()
+        guard Update.canDispatch else {
+            return
+        }
+        
+        var actions = Update.actions
+        
+        while !actions.isEmpty {
+            Update.actions = []
+            
+            onMainThread { [unchecked = UncheckedSendable(actions)] in
+                let traceHost = unsafe Update.traceHost
+                Signpost.postUpdateActions.traceInterval(object: traceHost, nil) {
+                    Update.begin()
+                    
+                    // sp + 0x48 ($x29 - 0xe8)
+                    let dispatchDepth = Update.dispatchDepth
+                    Update.dispatchDepth = depth
+                    
+                    for action in unsafe unchecked.value {
+                        // x24
+                        let depth = Update.depth
+                        
+                        CustomEventTrace.startAction(action.actionID, action.reason)
+                        action()
+                        CustomEventTrace.finishAction(action.actionID, action.reason)
+                        
+                        guard depth == Update.depth else {
+                            fatalError("Action caused unbalanced updates.")
+                        } 
+                    }
+                    
+                    Update.dispatchDepth = dispatchDepth
+                    Update.end()
                 }
-                unsafe Update.actions.removeAll()
-                Update.end()
             }
+            
+            actions = Update.actions
         }
     }
 }
@@ -204,7 +237,7 @@ extension Update {
 extension Update {
     struct Action {
         @safe static nonisolated(unsafe) var nextActionID: UInt32 = 1
-        private let reason: CustomEventTrace.ActionEventType.Reason?
+        fileprivate let reason: CustomEventTrace.ActionEventType.Reason?
         private let thunk: () -> Void
         fileprivate let actionID: UInt32
         

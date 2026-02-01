@@ -196,6 +196,7 @@ extension _AppearanceActionModifier {
                     base: _AppearanceActionModifier(appear: nil, disappear: nil),
                     pendingUpdate: false
                 )
+                self.box = box
             }
             
             // <+192>

@@ -1602,10 +1602,6 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
          index -> x21
          inputs -> x20
          */
-        /*
-         incoming body -> $s7SwiftUI18_ViewList_ElementsPAAE07makeAllE06inputs11indirectMap4bodyAA01_C7OutputsVSgAA01_C6InputsV_AA017IndirectAttributeJ0CSgAjL_AiLctXEtFA2jL_AiLctcXEfU_AJ_SbtAL_AiLctXEfU_TA
-         
-         */
         return withoutActuallyEscaping(body) { escapingClosure in
             return base.makeElements(
                 from: &index,
@@ -1619,7 +1615,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
                     // sp + 0xf0
                     let copy_2 = baseInputs
                     // sp + 0x90
-                    var copy_3 = baseInputs
+                    let copy_3 = baseInputs
                     
                     if let indirectMap {
                         copy_3.makeReusable(indirectMap: indirectMap)
