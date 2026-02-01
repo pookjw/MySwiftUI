@@ -29,7 +29,7 @@ final class DemoViewController: UICollectionViewController {
         super.viewDidLoad()
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.appearanceActionListView
+        let item = DemoViewController.Item.stateView
         pushToItem(item)
         
 //        Task {
@@ -78,6 +78,7 @@ extension DemoViewController {
         case mutatingTupleLayoutView
         case appearanceActionView
         case appearanceActionListView
+        case stateView
         
         var title: String {
             switch self {
@@ -113,6 +114,8 @@ extension DemoViewController {
                 return _typeName(AppearanceActionViewController.self, qualified: false)
             case .appearanceActionListView:
                 return _typeName(AppearanceActionViewListController.self, qualified: false)
+            case .stateView:
+                return _typeName(StateViewController.self, qualified: false)
             }
         }
         
@@ -150,6 +153,8 @@ extension DemoViewController {
                 return AppearanceActionViewController()
             case .appearanceActionListView:
                 return AppearanceActionViewListController()
+            case .stateView:
+                return StateViewController()
             }
         }
     }

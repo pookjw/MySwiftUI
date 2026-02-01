@@ -1218,24 +1218,25 @@ class ViewController: UIViewController {
 //        let model = MyDynamicTupleView.Model.init()
 //        let rootView = MyDynamicTupleView.init(model: model)
         
-        let model = MyAppearanceActionView.Model()
-        let rootView = MyAppearanceActionView(model: model) { 
-            print("onAppear")
-        } onDisappear: { 
-            print("onDisappear")
-        }
+//        let model = MyAppearanceActionView.Model()
+//        let rootView = MyAppearanceActionView(model: model) { 
+//            print("onAppear")
+//        } onDisappear: { 
+//            print("onDisappear")
+//        }
 
+        let rootView = MyStateView()
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-        Task {
-            while true {
-                try await Task.sleep(for: .seconds(1))
-                model.flag.toggle()
-            }
-        }
+//        Task {
+//            while true {
+//                try await Task.sleep(for: .seconds(1))
+//                model.flag.toggle()
+//            }
+//        }
         
 //        Task {
 //            while true {
@@ -1552,6 +1553,28 @@ fileprivate struct MyAppearanceActionView: View {
             Color.black
                 .onAppear(perform: onAppear)
                 .onDisappear(perform: onDisappear)
+        }
+    }
+}
+
+fileprivate struct MyStateView: View {
+    @State private var flag = false
+    
+    var body: some View {
+        if flag {
+            Color.black
+                .onAppear { 
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        flag.toggle()
+                    }
+                }
+        } else {
+            Color.white
+                .onAppear { 
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        flag.toggle()
+                    }
+                }
         }
     }
 }
