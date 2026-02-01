@@ -50,10 +50,10 @@ final class AppearanceActionViewListController: UIViewController {
         
         let rootView = MyView(model: model) {
             print("onAppear")
-//            navigationController?.presentAlert(title: "onAppear")
+            navigationController?.presentAlert(title: "onAppear")
         } onDisappear: {
             print("onDisappear")
-//            navigationController?.presentAlert(title: "onDisappear")
+            navigationController?.presentAlert(title: "onDisappear")
         }
         
         view = _UIHostingView(rootView: rootView)

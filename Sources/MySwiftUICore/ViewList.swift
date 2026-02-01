@@ -1171,7 +1171,12 @@ struct _ViewList_IteratorStyle: Equatable {
             }
             
             sublist.elements.subgraphs.subgraphs.reserveCapacity(pointer.pointee.subgraphCount)
-            pointer.pointee.value.apply(sublist: &sublist)
+            
+            var next: _ViewList_TemporarySublistTransform.ItemNode? = pointer.pointee
+            while let _next = next {
+                _next.value.apply(sublist: &sublist)
+                next = _next.next?.pointee
+            }
         case .transform(_):
             // _ViewList_SublistTransform.apply(sublist: inout _ViewList_Sublist)의 inline일 수도 있음
             fatalError("TODO")

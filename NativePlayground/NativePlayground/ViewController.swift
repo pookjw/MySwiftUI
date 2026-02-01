@@ -1545,9 +1545,9 @@ fileprivate struct MyAppearanceActionView: View {
                 .onAppear(perform: onAppear)
                 .onDisappear(perform: onDisappear)
             
-            Color.white
-            
-            Color.white
+//            Color.white
+//            
+//            Color.white
         } else {
             Color.black
                 .onAppear(perform: onAppear)

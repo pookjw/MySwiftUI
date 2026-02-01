@@ -54,7 +54,10 @@ internal import AttributeGraph
     public typealias Body = Never
 }
 
-extension _AppearanceActionModifier : Sendable {
+extension _AppearanceActionModifier: PrimitiveViewModifier {}
+
+@available(*, unavailable)
+extension _AppearanceActionModifier: Sendable {
 }
 
 extension View {
