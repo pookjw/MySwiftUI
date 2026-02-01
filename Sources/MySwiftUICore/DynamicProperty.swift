@@ -23,4 +23,48 @@ extension DynamicProperty {
     fileprivate var instrumentsLinkValueDescription: String {
         fatalError("TODO")
     }
+    
+    static func addTreeValueSlow<T>(_ attribute: AnyAttribute, as: T.Type, in: Any.Type, fieldOffset: Int = 0, flags: TreeValueFlags) {
+        fatalError("TODO")
+    }
+}
+
+struct TreeValueFlags: OptionSet {
+    let rawValue: UInt32
+    
+    init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+    
+    static var stateSignal: TreeValueFlags {
+        return TreeValueFlags(rawValue: 1 << 0)
+    }
+    
+    static var environmentObjectSignal: TreeValueFlags {
+        return TreeValueFlags(rawValue: 1 << 1)
+    }
+    
+    static var observedObjectSignal: TreeValueFlags {
+        return [.stateSignal, .environmentObjectSignal]
+    }
+    
+    static var appStorageSignal: TreeValueFlags {
+        return TreeValueFlags(rawValue: 1 << 2)
+    }
+    
+    static var sceneStorageSignal: TreeValueFlags {
+        return [.stateSignal, .appStorageSignal]
+    }
+    
+    static var stateObjectSignal: TreeValueFlags {
+        return [.environmentObjectSignal, .appStorageSignal]
+    }
+    
+    static var focusedObjectSignal: TreeValueFlags {
+        return [.stateSignal, .environmentObjectSignal, .appStorageSignal]
+    }
+    
+    static var lazyStateSignal: TreeValueFlags {
+        return TreeValueFlags(rawValue: 1 << 3)
+    }
 }

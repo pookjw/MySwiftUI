@@ -1,4 +1,6 @@
+// F6975D1F800AFE6093C23B3DBD777BCF
 public import Observation
+private import AttributeGraph
 
 @frozen @propertyWrapper public struct State<Value>: DynamicProperty {
     @usableFromInline
@@ -33,7 +35,14 @@ public import Observation
     }
     
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
-        fatalError("TODO")
+        let attribute = Attribute(value: ())
+        let signal = WeakAttribute(attribute)
+        let box = StatePropertyBox<Value>(signal: signal, location: nil)
+        buffer.append(box, fieldOffset: fieldOffset)
+        
+        if Subgraph.shouldRecordTree {
+            addTreeValueSlow(attribute.identifier, as: Value.self, in: V.self, fieldOffset: fieldOffset, flags: .stateSignal)
+        }
     }
 }
 
@@ -43,5 +52,26 @@ extension State: Sendable where Value: Sendable {
 extension State where Value: ExpressibleByNilLiteral {
     @inlinable public init() {
         self.init(wrappedValue: nil)
+    }
+}
+
+fileprivate struct StatePropertyBox<Value>: DynamicPropertyBox {
+    let signal: WeakAttribute<Void>
+    var location: StoredLocation<Value>?
+    
+    func destroy() {
+        fatalError("TODO")
+    }
+    
+    func reset() {
+        fatalError("TODO")
+    }
+    
+    func update(property: inout State<Value>, phase: _GraphInputs.Phase) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func getState<T>(type: T.Type) -> Binding<T>? {
+        fatalError("TODO")
     }
 }
