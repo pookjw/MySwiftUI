@@ -24,3 +24,8 @@ MSUI_EXTERN const void *$s13MySwiftUICore18RemovableAttributeMp;
 const void * _Nonnull _removableAttributeProtocolDescriptor(void) {
     return &$s13MySwiftUICore18RemovableAttributeMp;
 }
+
+MSUI_EXTERN const void *$s13MySwiftUICore22InvalidatableAttributeMp;
+const void * _Nonnull _invalidatableAttributeProtocolDescriptor(void) {
+    return &$s13MySwiftUICore22InvalidatableAttributeMp;
+}

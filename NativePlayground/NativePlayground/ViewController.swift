@@ -1308,14 +1308,14 @@ class ViewController: UIViewController {
 //        hostingController.didMove(toParent: self)
 //    }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            navigationController?.popViewController(animated: true)
-        }
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            navigationController?.popViewController(animated: true)
+//        }
+//    }
 }
 
 struct MyKey: _ViewTraitKey {
@@ -1532,7 +1532,7 @@ fileprivate struct MyAppearanceActionView: View {
     @MainActor
     @Observable
     fileprivate final class Model {
-        var flag = false
+        var flag = true
     }
     
     let model: Model

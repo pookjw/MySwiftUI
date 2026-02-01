@@ -23,9 +23,11 @@ extension UIViewController {
         let doneAction = UIAlertAction(title: "Done", style: .default, handler: nil)
         alertController.addAction(doneAction)
         
-        let target = (navigationController ?? self)
-        target.dismissAllViewControllers(animated: true) { 
-            target.present(alertController, animated: true)
+        var presentedViewController = (navigationController ?? self)
+        while let _presentedViewController = presentedViewController.presentedViewController {
+            presentedViewController = _presentedViewController
         }
+        
+        presentedViewController.present(alertController, animated: true)
     }
 }

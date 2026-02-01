@@ -6,11 +6,19 @@ private import _MySwiftUIShims
 
 extension Subgraph {
     func willInvalidate(isInserted: Bool) {
-        self.forEach(isInserted ? [.unknown1, .unknown2] : [.unknown2]) { attribte in
+        self.forEach(isInserted ? [.unknown1, .unknown2] : [.unknown2]) { attribute in
             // $sSo13AGSubgraphRefa7SwiftUIE14willInvalidate10isInsertedySb_tFySo11AGAttributeaXEfU_TA
-            // _bodyType이 호출될 것 (내부적으로 AGGraphGetAttributeInfo 호출함)
-            print(attribte._bodyType)
-            fatalError("TODO")
+            let bodyType = attribute._bodyType
+            
+            if let conformance = InvalidatableAttributeDescriptor.cachedConformance(of: bodyType) {
+                conformance
+                    .unsafeExistentialMetatype((any InvalidatableAttribute.Type).self)
+                    .willInvalidate(attribute: attribute)
+            } else if let conformance = RemovableAttributeDescriptor.cachedConformance(of: bodyType) {
+                conformance
+                    .unsafeExistentialMetatype((any RemovableAttribute.Type).self)
+                    .willRemove(attribute: attribute)
+            }
         }
     }
     
@@ -46,7 +54,7 @@ fileprivate struct RemovableAttributeDescriptor: ProtocolDescriptor {
         return _removableAttributeProtocolDescriptor()
     }
     
-    static nonisolated(unsafe) var typeCache: [ObjectIdentifier: TypeConformance<RemovableAttributeDescriptor>] = [:]
+    private static nonisolated(unsafe) var typeCache: [ObjectIdentifier: TypeConformance<RemovableAttributeDescriptor>] = [:]
     
     static func cachedConformance(of type: Any.Type) -> TypeConformance<RemovableAttributeDescriptor>? {
         Update.assertIsLocked()
@@ -56,6 +64,26 @@ fileprivate struct RemovableAttributeDescriptor: ProtocolDescriptor {
         }
         
         // <+196>
+        let conformance = conformance(of: type)
+        typeCache[ObjectIdentifier(type)] = conformance
+        return conformance
+    }
+}
+
+fileprivate struct InvalidatableAttributeDescriptor: ProtocolDescriptor {
+    static var descriptor: UnsafeRawPointer {
+        return _invalidatableAttributeProtocolDescriptor()
+    }
+    
+    private static nonisolated(unsafe) var typeCache: [ObjectIdentifier: TypeConformance<InvalidatableAttributeDescriptor>] = [:]
+    
+    static func cachedConformance(of type: Any.Type) -> TypeConformance<InvalidatableAttributeDescriptor>? {
+        Update.assertIsLocked()
+        
+        if let conformance = typeCache[ObjectIdentifier(type)] {
+            return conformance
+        }
+        
         let conformance = conformance(of: type)
         typeCache[ObjectIdentifier(type)] = conformance
         return conformance

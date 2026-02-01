@@ -118,9 +118,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
         
         if let appear = lastValue?.appear {
             // <+40>
-            Update.enqueueAction(reason: .onAppear) {
-                appear()
-            }
+            Update.enqueueAction(reason: .onAppear, appear)
         }
         
         // <+172>
@@ -159,9 +157,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
         }
         
         if let disappear = lastValue.disappear {
-            Update.enqueueAction(reason: .onDisappear) { 
-                disappear()
-            }
+            Update.enqueueAction(reason: .onDisappear, disappear)
         }
         
         mutable.pointee.isRemoved = false
@@ -184,18 +180,37 @@ extension _AppearanceActionModifier {
             return nil
         }
         
-        func updateValue() {
+        mutating func updateValue() {
+            if
+                let box,
+                box.resetSeed == phase.resetSeed
+            {
+                // <+192>
+            } else {
+                // <+116>
+                let phase = phase
+                box = _AppearanceActionModifier.MergedBox(
+                    resetSeed: phase.resetSeed,
+                    count: 0,
+                    lastCount: 0,
+                    base: _AppearanceActionModifier(appear: nil, disappear: nil),
+                    pendingUpdate: false
+                )
+            }
+            
+            // <+192>
             fatalError("TODO")
+            self.value = modifier
         }
     }
 }
 
 extension _AppearanceActionModifier {
     fileprivate class MergedBox {
-        let resetSeed: UInt32
-        var count: Int32
-        var lastCount: Int32
-        var base: _AppearanceActionModifier
+        let resetSeed: UInt32 // 0x10
+        var count: Int32 // 0x14
+        var lastCount: Int32 // 0x18
+        var base: _AppearanceActionModifier // 0x20
         var pendingUpdate: Bool
         
         init(resetSeed: UInt32, count: Int32, lastCount: Int32, base: _AppearanceActionModifier, pendingUpdate: Bool) {
@@ -211,7 +226,12 @@ extension _AppearanceActionModifier {
         }
         
         deinit {
-            fatalError("TODO")
+            if
+                lastCount >= 1,
+                let disappear = base.disappear
+            {
+                Update.enqueueAction(reason: nil, disappear)
+            }
         }
     }
 }

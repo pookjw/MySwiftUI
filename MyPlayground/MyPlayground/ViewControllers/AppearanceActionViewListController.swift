@@ -16,7 +16,7 @@ import Observation
 @MainActor
 @Observable
 fileprivate final class Model {
-    var flag = false
+    var flag = true
 }
 
 fileprivate struct MyView: View {
@@ -49,9 +49,11 @@ final class AppearanceActionViewListController: UIViewController {
         let navigationController = navigationController
         
         let rootView = MyView(model: model) {
-            navigationController?.presentAlert(title: "onAppear")
+            print("onAppear")
+//            navigationController?.presentAlert(title: "onAppear")
         } onDisappear: {
-            navigationController?.presentAlert(title: "onDisappear")
+            print("onDisappear")
+//            navigationController?.presentAlert(title: "onDisappear")
         }
         
         view = _UIHostingView(rootView: rootView)

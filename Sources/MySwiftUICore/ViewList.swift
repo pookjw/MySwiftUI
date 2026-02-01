@@ -431,7 +431,7 @@ extension _ViewListOutputs {
             let listModifier = ModifiedViewList.ListModifier(
                 pred: modifier,
                 modifierType: T.self,
-                modifier: AnyWeakAttribute(attribute.identifier),
+                modifier: AnyWeakAttribute(value.value.identifier),
                 inputs: copy_2
             )
             
@@ -1587,7 +1587,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
     }
     
     var count: Int {
-        fatalError("TODO")
+        return base.count
     }
     
     func makeElements(
@@ -1596,10 +1596,15 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
         indirectMap: IndirectAttributeMap?,
         body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool)
     {
+        // $s7SwiftUI16ModifiedElements33_E479C0E92CDD045BAF2EF653123E2E0BLLVAA010_ViewList_D0A2aEP04makeD04from6inputs11indirectMap4bodyAA01_M7OutputsVSg_SbtSiz_AA01_M6InputsVAA017IndirectAttributeS0CSgAN_SbtAP_AmPctXEtFTW
         /*
          self -> x23
          index -> x21
          inputs -> x20
+         */
+        /*
+         incoming body -> $s7SwiftUI18_ViewList_ElementsPAAE07makeAllE06inputs11indirectMap4bodyAA01_C7OutputsVSgAA01_C6InputsV_AA017IndirectAttributeJ0CSgAjL_AiLctXEtFA2jL_AiLctcXEfU_AJ_SbtAL_AiLctXEfU_TA
+         
          */
         return withoutActuallyEscaping(body) { escapingClosure in
             return base.makeElements(
@@ -1607,7 +1612,58 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
                 inputs: inputs,
                 indirectMap: indirectMap
             ) { inputs, transform in
-                fatalError("TODO")
+                // $s7SwiftUI16ModifiedElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtFAL_SbtAL_SbtAN_AkNctcXEfU_AL_SbtAN_AkNctXEfU_
+                escapingClosure(inputs) { inputs in
+                    // sp + 0x120
+                    let copy_1 = inputs
+                    // sp + 0xf0
+                    let copy_2 = baseInputs
+                    // sp + 0x90
+                    var copy_3 = baseInputs
+                    
+                    if let indirectMap {
+                        copy_3.makeReusable(indirectMap: indirectMap)
+                    }
+                    
+                    // <+152>
+                    // sp + 0x90
+                    var copy_4 = copy_1
+                    // sp + 0x60
+                    let copy_5 = copy_2
+                    // sp
+                    let copy_6 = copy_1
+                    
+                    copy_4.base.merge(copy_5, ignoringPhase: false)
+                    
+                    // <+228>
+                    // x20
+                    let attribute = modifier.attribute
+                    
+                    guard attribute != .empty else {
+                        // <+260>
+                        return _ViewOutputs()
+                    }
+                    
+                    // <+348>
+                    func project<U: ViewModifier>(type: U.Type) -> _ViewOutputs {
+                        // $s7SwiftUI16ModifiedElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtFAL_SbtAL_SbtAN_AkNctcXEfU_AL_SbtAN_AkNctXEfU_AkNcfU_7projectL_yAKxmAA0S8ModifierRzlFTf0nnnnsn_n
+                        // sp + 0xc
+                        var attribute = Attribute<U>(identifier: attribute)
+                        
+                        if let indirectMap {
+                            attribute.makeReusable(indirectMap: indirectMap)
+                        }
+                        
+                        // +140>
+                        let value = _GraphValue(attribute)
+                        
+                        return U.makeDebuggableView(modifier: value, inputs: copy_4) { _, inputs in
+                            return transform(inputs)
+                        }
+                    }
+                    
+                    return _openExistential(modifierType, do: project)
+                }
             }
         }
     }
@@ -1642,7 +1698,7 @@ fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
     }
     
     var traits: ViewTraitCollection {
-        fatalError("TODO")
+        return base.traits
     }
     
     func applyNodes(
@@ -1716,12 +1772,6 @@ extension ModifiedViewList {
         private(set) var listModifier: ModifiedViewList.ListModifier
         
         func apply(sublist: inout _ViewList_Sublist) {
-//            let elements = ModifiedElements(
-//                base: sublist.elements.base,
-//                modifier: Attribute<Any>(identifier: listModifier.modifier.attribute),
-//                baseInputs: listModifier.inputs
-//            )
-            
             let elements = ModifiedElements(
                 base: sublist.elements.base,
                 modifier: listModifier.modifier,

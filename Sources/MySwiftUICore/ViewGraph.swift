@@ -386,9 +386,7 @@ package final class ViewGraph: GraphHost {
             // <+148>
             if GraphHost.isUpdating {
                 // <+184>
-                Update.enqueueAction(reason: nil) { 
-                    deferredUpdate()
-                }
+                Update.enqueueAction(reason: nil, deferredUpdate)
             } else {
                 // <+268>
                 self.setPreferenceBridge(to: preferenceBridge_1, isInvalidating: false)
