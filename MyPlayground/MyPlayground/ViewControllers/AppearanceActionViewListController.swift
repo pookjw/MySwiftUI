@@ -16,7 +16,7 @@ import Observation
 @MainActor
 @Observable
 fileprivate final class Model {
-    var flag = true
+    var flag = false
 }
 
 fileprivate struct MyView: View {

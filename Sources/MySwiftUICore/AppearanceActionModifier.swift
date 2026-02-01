@@ -181,11 +181,13 @@ extension _AppearanceActionModifier {
         }
         
         mutating func updateValue() {
+            let box: _AppearanceActionModifier.MergedBox
             if
-                let box,
-                box.resetSeed == phase.resetSeed
+                let _box = self.box,
+                _box.resetSeed == phase.resetSeed
             {
                 // <+192>
+                box = _box
             } else {
                 // <+116>
                 let phase = phase
@@ -199,8 +201,38 @@ extension _AppearanceActionModifier {
             }
             
             // <+192>
-            fatalError("TODO")
-            self.value = modifier
+            let modifier = modifier
+            box.base = modifier
+            
+            self.value = _AppearanceActionModifier(
+                appear: {
+                    guard box.count == 0 else {
+                        box.count += 1
+                        return
+                    }
+                    
+                    guard !box.pendingUpdate else {
+                        box.count = 1
+                        return
+                    }
+                    
+                    box.update()
+                    box.count += 1
+                },
+                disappear: {
+                    box.count -= 1
+                    
+                    guard box.count == 0 else {
+                        return
+                    }
+                    
+                    guard !box.pendingUpdate else {
+                        return
+                    }
+                    
+                    box.update()
+                }
+            )
         }
     }
 }
@@ -222,7 +254,33 @@ extension _AppearanceActionModifier {
         }
         
         func update() {
-            fatalError("TODO")
+            pendingUpdate = true
+            
+            Update.enqueueAction(reason: nil) {
+                // $s7SwiftUI25_AppearanceActionModifierV9MergedBox33_3EDE22C3B37C9BBEF12EC9D1A4B340F3LLC6updateyyFyycfU_
+                self.pendingUpdate = false
+                
+                let w8 = self.count
+                let w9 = self.lastCount
+                
+                self.lastCount = w8
+                
+                if w9 <= 0 {
+                    // <+56>
+                    if w8 < 1 {
+                        // <+112>
+                    } else {
+                        self.base.appear?()
+                    }
+                } else {
+                    // <+32>
+                    if w8 > 0 {
+                        // <+112>
+                    } else {
+                        self.base.disappear?()
+                    }
+                }
+            }
         }
         
         deinit {
