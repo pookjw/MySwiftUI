@@ -107,8 +107,16 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
         }
     }
     
-    func disappeared() {
-        fatalError("TODO")
+    mutating func disappeared() {
+        guard isVisible else {
+            return
+        }
+        
+        if let disappear = lastValue?.disappear {
+            Update.enqueueAction(reason: .onDisappear, disappear)
+        }
+        
+        isVisible = false
     }
     
     mutating func appeared() {
@@ -150,17 +158,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
         let effect = attribute
             ._bodyPointer
             .assumingMemoryBound(to: AppearanceEffect.self)
-        let mutable = UnsafeMutablePointer(mutating: effect)
-        
-        guard let lastValue = mutable.pointee.lastValue else {
-            return
-        }
-        
-        if let disappear = lastValue.disappear {
-            Update.enqueueAction(reason: .onDisappear, disappear)
-        }
-        
-        mutable.pointee.isRemoved = false
+        UnsafeMutablePointer(mutating: effect).pointee.disappeared()
     }
     
     static func didReinsert(attribute: AnyAttribute) {
