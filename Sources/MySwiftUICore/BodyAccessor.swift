@@ -45,7 +45,7 @@ extension BodyAccessor {
                     let graph = _GraphValue<Self.Body>(Attribute(rule))
                     return (graph, buffer)
                 } else {
-                    let rule = unsafe DynamicBody<Self, T>(accessor: self, container: container.value, phase: pointer.pointee.phase, links: buffer, resetSeed: 0)
+                    let rule = unsafe DynamicBody<Self, T>(accessor: self, _container: container.value, phase: pointer.pointee.phase, links: buffer, resetSeed: 0)
                     let graph = _GraphValue<Self.Body>(Attribute(rule))
                     return (graph, buffer)
                 }
@@ -145,19 +145,11 @@ fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomString
 fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStringConvertible, ObservedAttribute, BodyAccessorRule, StatefulRule {
     typealias Value = T.Body
     
-    private let accessor: T
-    private var _container: Attribute<T.Container>
-    @Attribute private var phase: _GraphInputs.Phase
-    private var links: _DynamicPropertyBuffer
-    private var resetSeed: UInt32
-    
-    init(accessor: T, container: Attribute<T.Container>, phase: Attribute<_GraphInputs.Phase>, links: _DynamicPropertyBuffer, resetSeed: UInt32) {
-        self.accessor = accessor
-        self._container = container
-        self._phase = phase
-        self.links = links
-        self.resetSeed = resetSeed
-    }
+    let accessor: T
+    private(set) var _container: Attribute<T.Container> // 0x34 (offset map)
+    @Attribute private(set) var phase: _GraphInputs.Phase // 0x38 (offset map)
+    private(set) var links: _DynamicPropertyBuffer // 0x3c (offset map)
+    private(set) var resetSeed: UInt32 // 0x40 (offset map)
     
     var container: T.Container {
         return _container.value
@@ -172,7 +164,53 @@ fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStrin
     }
     
     mutating func updateValue() {
-        fatalError("TODO")
+        /*
+         self -> x21
+         */
+        if resetSeed != phase.resetSeed {
+            links.reset()
+            resetSeed = phase.resetSeed
+        }
+        
+        // <+528>
+        // sp, (w20 -> sp + 0xcf)
+        var (container, containerChanged) = _container.changedValue(options: [])
+        
+        MainActor.assumeIsolated { [unchecked = UncheckedSendable(self)] in
+            let `self` = unchecked.value
+            
+            let observationCenter = ObservationCenter.current
+            let attribute = Attribute<T.Body>(identifier: .current!)
+            observationCenter._withObservation(attribute: attribute) {
+                // $s7SwiftUI11DynamicBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_
+                /*
+                 containerChanged -> x23
+                 */
+                withUnsafeMutablePointer(to: &container) { pointer in
+                    // $s7SwiftUI11DynamicBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_ySpy9ContainerQzGXEfU_TA
+                    let result = self.links.update(container: pointer, phase: self.phase)
+                    if result {
+                        containerChanged = true
+                    }
+                }
+                
+                if containerChanged {
+                    containerChanged = true
+                } else {
+                    if self.hasValue {
+                        containerChanged = Graph.currentAttributeWasModified
+                    } else {
+                        containerChanged = true
+                    }
+                }
+                
+                // <+400>
+                CustomEventTrace.dynamicBodyUpdate(buffer: self.links, hasValue: self.hasValue, bodyChanged: containerChanged)
+                
+                // <+800>
+                self.accessor.updateBody(of: container, changed: containerChanged)
+            }
+        }
     }
     
     static var container: Any.Type {

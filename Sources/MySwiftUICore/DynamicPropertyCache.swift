@@ -142,15 +142,7 @@ extension DynamicPropertyCache {
     @unsafe struct Field {
         private(set) var type: DynamicProperty.Type
         private(set) var offset: Int
-        fileprivate private(set) var name: UnsafePointer<Int8>?
-        
-        // 원래 없음
-        @inline(__always)
-        fileprivate init(type: any DynamicProperty.Type, offset: Int, name: UnsafePointer<Int8>?) {
-            unsafe self.type = type
-            unsafe self.offset = offset
-            unsafe self.name = unsafe name
-        }
+        private(set) var name: UnsafePointer<Int8>?
     }
 }
 
@@ -165,13 +157,6 @@ extension DynamicPropertyCache {
     @unsafe struct TaggedFields {
         private(set) var tag: Int
         private(set) var fields: [DynamicPropertyCache.Field]
-        
-        // 원래 없음
-        @inline(__always)
-        fileprivate init(tag: Int, fields: [DynamicPropertyCache.Field]) {
-            unsafe self.tag = tag
-            unsafe self.fields = fields
-        }
     }
 }
 
@@ -195,4 +180,8 @@ struct DynamicPropertyBehaviors: OptionSet {
     }
     
     let rawValue: UInt32
+    
+    init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
 }

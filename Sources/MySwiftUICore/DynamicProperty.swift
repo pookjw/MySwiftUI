@@ -24,8 +24,23 @@ extension DynamicProperty {
         fatalError("TODO")
     }
     
-    static func addTreeValueSlow<T>(_ attribute: AnyAttribute, as: T.Type, in: Any.Type, fieldOffset: Int = 0, flags: TreeValueFlags) {
-        fatalError("TODO")
+    static func addTreeValueSlow<T>(_ attribute: AnyAttribute, as firstType: T.Type, in secondType: Any.Type, fieldOffset: Int = 0, flags: TreeValueFlags) {
+        let fields = DynamicPropertyCache.fields(of: secondType)
+        
+        // inlined
+        if let name = fields._name(at: fieldOffset) {
+            Subgraph.addTreeValue(
+                Attribute<T>(identifier: attribute),
+                forKey: name,
+                flags: flags.rawValue
+            )
+        } else {
+            Subgraph.addTreeValue(
+                Attribute<T>(identifier: attribute),
+                forKey: "<unknown>",
+                flags: flags.rawValue
+            )
+        }
     }
 }
 
@@ -67,4 +82,21 @@ struct TreeValueFlags: OptionSet {
     static var lazyStateSignal: TreeValueFlags {
         return TreeValueFlags(rawValue: 1 << 3)
     }
+}
+
+//@_transparent
+func traceDynamicPropertyEvent(
+    property: any DynamicProperty,
+    elt: UnsafeRawPointer
+) {
+    Signpost.linkUpdate.traceEvent(
+        type: .event,
+        object: nil,
+        "Updated: %{public}@ [ %p ] - %@",
+        args: [
+            String(describing: type(of: property)),
+            property.instrumentsLinkValueDescription,
+            UInt(bitPattern: elt)
+        ]
+    )
 }

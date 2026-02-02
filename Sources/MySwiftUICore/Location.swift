@@ -78,7 +78,9 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     init(initialValue: Value) {
-        fatalError("TODO")
+        data = StoredLocationBase<Value>.Data(currentValue: initialValue, savedValues: [], cache: LocationProjectionCache())
+        _wasRead = false
+        super.init()
     }
     
     override final func get() -> Value {
@@ -94,7 +96,7 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     override func update() -> (Value, Bool) {
-        fatalError("TODO")
+        return (updateValue, true)
     }
     
     final var binding: Binding<Value> {
@@ -119,7 +121,9 @@ final class StoredLocation<Value>: StoredLocationBase<Value> {
     @WeakAttribute private var signal: Void?
     
     init(initialValue: Value, host: GraphHost?, signal: WeakAttribute<()>) {
-        fatalError("TODO")
+        self.host = host
+        self._signal = signal
+        super.init(initialValue: initialValue)
     }
     
     override func update() -> (Value, Bool) {
@@ -149,9 +153,9 @@ extension StoredLocationBase {
     }
     
     fileprivate struct Data {
-        private var currentValue: Value
-        private var savedValues: [Value]
-        private var cache: LocationProjectionCache
+        var currentValue: Value
+        var savedValues: [Value]
+        var cache: LocationProjectionCache
     }
 }
 

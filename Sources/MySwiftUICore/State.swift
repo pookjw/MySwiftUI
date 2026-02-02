@@ -67,8 +67,45 @@ fileprivate struct StatePropertyBox<Value>: DynamicPropertyBox {
         fatalError("TODO")
     }
     
-    func update(property: inout State<Value>, phase: _GraphInputs.Phase) -> Bool {
-        fatalError("TODO")
+    mutating func update(property: inout State<Value>, phase: _GraphInputs.Phase) -> Bool {
+        /*
+         property -> x19
+         */
+        // x26
+        let oldLocation = self.location
+        // w25
+        var updated = oldLocation == nil
+        // x23
+        let location: StoredLocation<Value>
+        if let _location = oldLocation {
+            location = _location
+        } else {
+            // <+100>
+            if let _location = property._location as? StoredLocation<Value> {
+                self.location = _location
+                location = _location
+            } else {
+                // <+172>
+                location = StoredLocation(
+                    initialValue: property._value,
+                    host: .currentHost,
+                    signal: signal
+                )
+                
+                self.location = location
+            }
+        }
+        
+        // <+276>
+        let changedValue: (Void, Bool)? = signal.changedValue(options: [])
+        property._value = location.updateValue
+        property._location = location
+        
+        if let changedValue, changedValue.1 {
+            updated = (oldLocation == nil) || location.wasReed
+        }
+        
+        return updated
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {

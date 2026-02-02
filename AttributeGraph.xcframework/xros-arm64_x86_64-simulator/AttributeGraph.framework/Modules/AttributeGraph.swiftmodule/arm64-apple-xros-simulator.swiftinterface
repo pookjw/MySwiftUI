@@ -32,6 +32,8 @@ public struct WeakAttribute<T> : Swift.Sendable {
     public init()
     public init(_: AttributeGraph.Attribute<T>)
     public init(_: AttributeGraph.Attribute<T>?)
+
+    public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)?
 }
 
 @frozen

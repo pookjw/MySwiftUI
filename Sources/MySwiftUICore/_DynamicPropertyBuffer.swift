@@ -189,7 +189,7 @@ protocol DynamicPropertyBox {
     
     func destroy()
     func reset()
-    func update(property: inout Self.Property, phase: _GraphInputs.Phase) -> Bool
+    mutating func update(property: inout Self.Property, phase: _GraphInputs.Phase) -> Bool
     func getState<T>(type: T.Type) -> Binding<T>?
 }
 
@@ -218,7 +218,7 @@ fileprivate class BoxVTableBase: _UnsafeHeterogeneousBuffer_VTable {
     }
 }
 
-fileprivate final class BoxVTable<U>: BoxVTableBase {
+fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
     override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
         fatalError("TODO")
     }
@@ -228,7 +228,35 @@ fileprivate final class BoxVTable<U>: BoxVTableBase {
     }
     
     override class func update(elt: _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
-        fatalError("TODO")
+        /*
+         elt -> x24
+         property -> x26
+         phase -> x23
+         */
+        // phase -> w21
+        // x20
+        let body = elt.body(as: U.self)
+        // phase -> sp + 0xa8
+        let updated = body.pointee.update(
+            property: &property.assumingMemoryBound(to: U.Property.self).pointee,
+            phase: phase
+        )
+        
+        guard updated else {
+            return false
+        }
+        
+        // <+296>
+        /*
+         elt -> sp + 0x98
+         updated -> sp + 0x34
+         */
+        traceDynamicPropertyEvent(
+            property: property.assumingMemoryBound(to: U.Property.self).pointee,
+            elt: elt.address
+        )
+        
+        return updated
     }
     
     override class func getState<T>(elt: _UnsafeHeterogeneousBuffer_Element, type: T.Type) -> Binding<T>? {
