@@ -13,7 +13,7 @@ public struct Binding<Value> {
             return readValue()
         }
         nonmutating set {
-            fatalError("TODO")
+            location.set(newValue, transaction: transaction)
         }
     }
     
@@ -236,7 +236,7 @@ extension Binding {
         }
         
         func set(_ newValue: Value, transaction: Transaction) {
-            fatalError("TODO")
+            base.set(newValue, transaction: transaction)
         }
         
         func update() -> (Self.Value, Bool) {

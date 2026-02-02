@@ -20,7 +20,7 @@ package final class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked S
     }
     
     override func set(_ newValue: T.Value, transaction: Transaction) {
-        fatalError("TODO")
+        location.set(newValue, transaction: transaction)
     }
     
     override func projecting<P>(_ projection: P) -> AnyLocation<P.Projected> where T.Value == P.Base, P : Projection {

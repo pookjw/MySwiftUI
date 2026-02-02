@@ -44,7 +44,7 @@ open class AnyLocation<Value>: AnyLocationBase, @unchecked Sendable {
     }
     
     func isEqual(to other: AnyLocation<Value>) -> Bool {
-        fatalError() // abstract
+        return self === other
     }
     
     override init() {
@@ -54,7 +54,7 @@ open class AnyLocation<Value>: AnyLocationBase, @unchecked Sendable {
 
 extension AnyLocation: Equatable {
     public static func == (lhs: AnyLocation<Value>, rhs: AnyLocation<Value>) -> Bool {
-        fatalError("TODO")
+        return lhs.isEqual(to: rhs)
     }
 }
 
