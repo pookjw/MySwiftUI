@@ -10,7 +10,7 @@ public struct Binding<Value> {
     
     public var wrappedValue: Value {
         get {
-            fatalError("TODO")
+            return readValue()
         }
         nonmutating set {
             fatalError("TODO")
@@ -51,6 +51,18 @@ public struct Binding<Value> {
     
     public subscript<Subject>(dynamicMember keyPath: WritableKeyPath<Value, Subject>) -> Binding<Subject> {
         fatalError("TODO")
+    }
+    
+    fileprivate func readValue() -> Value {
+        if Update.threadIsUpdating {
+            // <+80>
+            let location = location
+            location.wasRead = true
+            return _value
+        } else {
+            // <+148>
+            return location.get()
+        }
     }
 }
 
@@ -151,35 +163,84 @@ extension Binding {
     fileprivate struct Box: DynamicPropertyBox {
         private(set) var location: LocationBox<Binding<Value>.ScopedLocation>?
         
-        func update(property: inout Binding<Value>, phase: _GraphInputs.Phase) -> Bool {
+        mutating func update(property: inout Binding<Value>, phase: _GraphInputs.Phase) -> Bool {
             /*
              self -> x24
              property -> x22
              */
-            let wasRead: Bool
             // x23
-            if let location {
+            var location: LocationBox<Binding<Value>.ScopedLocation>
+            if let _location = self.location {
                 // <+96>
-                fatalError("TODO")
+                location = _location
+                // x8
+                let base = location.location.base
+                
+                if base == location {
+                    // <+308>
+                } else {
+                    let wasRead = location.wasRead
+                    // <+152>
+                    let scopedLocation = Binding<Value>.ScopedLocation(
+                        base: property.location,
+                        wasRead: property.location.wasRead
+                    )
+                    
+                    location = LocationBox(
+                        location: scopedLocation
+                    )
+                    
+                    self.location = location
+                    
+                    if wasRead {
+                        location.wasRead = wasRead
+                    }
+                }
             } else {
                 // <+148>
-                wasRead = false
+                let scopedLocation = Binding<Value>.ScopedLocation(
+                    base: property.location,
+                    wasRead: property.location.wasRead
+                )
+                
+                location = LocationBox(
+                    location: scopedLocation
+                )
+                
+                self.location = location
             }
             
-            fatalError("TODO")
+            // <+308>
+            let (value, changed) = location.update()
+            
+            property.location = location
+            property._value = value
+            
+            let updated: Bool
+            if changed {
+                updated = location.wasRead
+            } else {
+                updated = false
+            }
+            
+            return updated
         }
     }
     
     fileprivate struct ScopedLocation: Equatable, Location {
         private(set) var base: AnyLocation<Value>
-        private(set) var wasRead: Bool
+        var wasRead: Bool
         
         func get() -> Value {
-            fatalError("TODO")
+            return base.get()
         }
         
         func set(_ newValue: Value, transaction: Transaction) {
             fatalError("TODO")
+        }
+        
+        func update() -> (Self.Value, Bool) {
+            return base.update()
         }
     }
 }

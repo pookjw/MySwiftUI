@@ -9,4 +9,25 @@ struct UIKitScenePresentationModeLocation<Content: View>: Location {
     init(host: _UIHostingView<Content>?) {
         self.host = host
     }
+    
+    var wasRead: Bool {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    func get() -> Self.Value {
+        fatalError("TODO")
+    }
+    
+    mutating func set(_ newValue: Self.Value, transaction: Transaction) {
+        fatalError("TODO")
+    }
+    
+    func update() -> (Self.Value, Bool) {
+        fatalError("TODO")
+    }
 }

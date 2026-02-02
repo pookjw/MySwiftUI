@@ -31,7 +31,7 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
         }
     }
     
-    final override var wasReed: Bool {
+    override final var wasRead: Bool {
         get {
             return _wasRead
         }
@@ -158,7 +158,16 @@ final class StoredLocation<Value>: StoredLocationBase<Value> {
     }
     
     override func update() -> (Value, Bool) {
-        fatalError("TODO")
+        // x21
+        let changed: Bool
+        if let attribute = $signal {
+            changed = attribute.changedValue(options: []).changed
+        } else {
+            self.wasRead = true
+            changed = true
+        }
+        
+        return (updateValue, changed)
     }
     
     fileprivate override var isValid: Bool {

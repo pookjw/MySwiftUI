@@ -58,7 +58,15 @@ package enum Update {
     }
     
     package static var threadIsUpdating: Bool {
-        fatalError("TODO")
+        let isOwner = isOwner
+        let depth = depth
+        let dispatchDepth = dispatchDepth
+        
+        if dispatchDepth >= depth {
+            return false
+        } else {
+            return isOwner
+        }
     }
     
     @inlinable

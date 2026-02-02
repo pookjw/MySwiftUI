@@ -1,5 +1,13 @@
 package protocol Location {
     associatedtype Value
+    
+    var wasRead: Bool {
+        get set
+    }
+    
+    func get() -> Self.Value
+    mutating func set(_ newValue: Self.Value, transaction: Transaction)
+    func update() -> (Self.Value, Bool)
 }
 
 @_documentation(visibility: private)
@@ -7,7 +15,7 @@ open class AnyLocationBase: @unchecked Sendable {}
 
 @_documentation(visibility: private)
 open class AnyLocation<Value>: AnyLocationBase, @unchecked Sendable {
-    var wasReed: Bool {
+    var wasRead: Bool {
         get {
             fatalError() // abstract
         }

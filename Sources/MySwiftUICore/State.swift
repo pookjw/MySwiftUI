@@ -64,7 +64,7 @@ private import os.log
             }
             
             if forReading {
-                location.wasReed = true
+                location.wasRead = true
             }
         }
         
@@ -133,7 +133,7 @@ fileprivate struct StatePropertyBox<Value>: DynamicPropertyBox {
         property._location = location
         
         if let changedValue, changedValue.1 {
-            updated = (oldLocation == nil) || location.wasReed
+            updated = (oldLocation == nil) || location.wasRead
         }
         
         return updated
