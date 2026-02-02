@@ -9,5 +9,17 @@ package final class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked S
 }
 
 struct LocationProjectionCache {
-    private var cache: [AnyHashable2: WeakBox<AnyLocationBase>] = [:]
+    private var cache: [AnyHashable2: WeakBox<AnyLocationBase>]
+    
+    init() {
+        cache = [:]
+    }
+    
+    func reference<T: Projection, U: Location>(for: T, on: U) -> AnyLocation<T.Projected> where T.Base == U.Value {
+        fatalError("TODO")
+    }
+    
+    mutating func reset() {
+        cache = [:]
+    }
 }

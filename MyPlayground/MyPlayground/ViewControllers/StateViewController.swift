@@ -30,6 +30,10 @@ fileprivate struct MyView: View {
                         flag.toggle()
                     }
                 }
+            
+            Color.white
+            
+            Color.white
         }
     }
 }

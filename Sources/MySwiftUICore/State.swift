@@ -79,7 +79,11 @@ fileprivate struct StatePropertyBox<Value>: DynamicPropertyBox {
     var location: StoredLocation<Value>?
     
     func destroy() {
-        fatalError("TODO")
+        guard let location else {
+            return
+        }
+        
+        location.invalidate()
     }
     
     func reset() {

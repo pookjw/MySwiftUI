@@ -8,7 +8,9 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     private var _wasRead: Bool
     
     final func invalidate() {
-        fatalError("TODO")
+        $data.access { value in
+            value.cache.reset()
+        }
     }
     
     final var updateValue: Value {
@@ -31,13 +33,13 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     
     final override var wasReed: Bool {
         get {
-            fatalError("TODO")
+            return _wasRead
         }
         set {
             _wasRead = newValue
         }
         _modify {
-            fatalError("TODO")
+            yield &_wasRead
         }
     }
     
@@ -125,15 +127,23 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     fileprivate func commit(transaction: Transaction, id: Transaction.ID, mutation: StoredLocationBase<Value>.BeginUpdate) {
-        fatalError("TODO")
+        fatalError() // abstract
     }
     
     fileprivate func notifyObservers() {
-        fatalError("TODO")
+        fatalError() // abstract
     }
     
     fileprivate var isValid: Bool {
         fatalError() // abstract
+    }
+    
+    fileprivate final func beginUpdate() {
+        $data.access { value in
+            value.savedValues.removeFirst()
+        }
+        
+        notifyObservers()
     }
 }
 
@@ -168,17 +178,37 @@ final class StoredLocation<Value>: StoredLocationBase<Value> {
     }
     
     fileprivate override func commit(transaction: Transaction, id: Transaction.ID, mutation: StoredLocationBase<Value>.BeginUpdate) {
-        fatalError("TODO")
+        guard let host else {
+            return
+        }
+        
+        host.asyncTransaction(transaction, id: id, mutation: mutation, style: .deferred, mayDeferUpdate: true)
     }
     
     fileprivate override func notifyObservers() {
-        fatalError("TODO")
+        guard let attribute = $signal?.identifier else {
+            return
+        }
+        
+        attribute.invalidate()
     }
 }
 
 extension StoredLocationBase {
-    fileprivate struct BeginUpdate {
+    fileprivate struct BeginUpdate: GraphMutation {
         private(set) weak var box: StoredLocationBase<Value>?
+        
+        func apply() {
+            guard let box else {
+                return
+            }
+            
+            box.beginUpdate()
+        }
+        
+        func combine<T>(with other: T) -> Bool where T : GraphMutation {
+            fatalError("TODO")
+        }
     }
     
     fileprivate struct Data {

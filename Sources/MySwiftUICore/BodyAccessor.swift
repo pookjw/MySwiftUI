@@ -160,7 +160,7 @@ fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStrin
     }
     
     mutating func destroy() {
-        fatalError("TODO")
+        links.destroy()
     }
     
     mutating func updateValue() {
