@@ -23,7 +23,7 @@ private import AttributeGraph
     
     public var wrappedValue: Value {
         get {
-            fatalError("TODO")
+            return getValue(forReading: true)
         }
         nonmutating set {
             fatalError("TODO")
@@ -43,6 +43,23 @@ private import AttributeGraph
         if Subgraph.shouldRecordTree {
             addTreeValueSlow(attribute.identifier, as: Value.self, in: V.self, fieldOffset: fieldOffset, flags: .stateSignal)
         }
+    }
+    
+    fileprivate func getValue(forReading: Bool) -> Value {
+        // forReading -> x22
+        if let location = _location {
+            guard GraphHost.isUpdating else {
+                // <+168>
+                return location.get()
+            }
+            
+            if forReading {
+                location.wasReed = true
+            }
+        }
+        
+        // <+128>
+        return _value
     }
 }
 

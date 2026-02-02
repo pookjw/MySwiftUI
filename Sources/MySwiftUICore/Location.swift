@@ -62,7 +62,21 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     final var updateValue: Value {
-        fatalError("TODO")
+        return $data.access { value in
+            // $s7SwiftUI18StoredLocationBaseC11updateValuexvgxAC4Data33_4F21368B1C1680817451AC25B55A8D48LLVyx_GzXEfU_
+            /*
+             value -> x26
+             */
+            // sp + 0x18
+            let savedValues = value.savedValues
+            // x24
+            if let first = savedValues.first {
+                return first
+            }
+            
+            // <+204>
+            return value.currentValue
+        }
     }
     
     final override var wasReed: Bool {
@@ -70,7 +84,7 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
             fatalError("TODO")
         }
         set {
-            fatalError("TODO")
+            _wasRead = newValue
         }
         _modify {
             fatalError("TODO")
@@ -154,7 +168,7 @@ extension StoredLocationBase {
     
     fileprivate struct Data {
         var currentValue: Value
-        var savedValues: [Value]
+        var savedValues: [Value] // 0x1c
         var cache: LocationProjectionCache
     }
 }

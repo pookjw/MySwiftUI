@@ -345,7 +345,22 @@ package struct CustomEventTrace {
     }
     
     public static func dynamicBodyUpdate(buffer: _DynamicPropertyBuffer, hasValue: Bool, bodyChanged: Bool) {
-        fatalError("TODO")
+        /*
+         buffer -> x19
+         hasValue -> w23
+         bodyChanged -> w20
+         */
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.dynamicProperties.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.DynamicPropertyEventType.propertiesUpdated.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: (hasValue, bodyChanged))
     }
     
     fileprivate static nonisolated(unsafe) var enabledCategories: [Bool] = Array(repeating: false, count: 256)
@@ -356,8 +371,7 @@ package struct CustomEventTrace {
 }
 
 extension CustomEventTrace {
-    // TODO: final인지 검증
-    @unsafe class Recorder {
+    @unsafe final class Recorder {
         private(set) var graph: Graph
         private(set) var cefOp: UnsafeMutablePointer<Int8>
         

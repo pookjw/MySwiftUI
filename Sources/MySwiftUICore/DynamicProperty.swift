@@ -100,3 +100,37 @@ func traceDynamicPropertyEvent(
         ]
     )
 }
+
+protocol InstrumentsDescriptiveDynamicProperty: DynamicProperty {
+    var _instrumentsLinkValue: Any { get }
+}
+
+extension InstrumentsDescriptiveDynamicProperty {
+    fileprivate var instrumentsLinkValueDescription: String {
+        let value = _instrumentsLinkValue
+        
+        if let value = value as? InstrumentsDescriptiveDynamicProperty {
+            return value.instrumentsLinkValueDescription
+        } else {
+            return String(describing: value)
+        }
+    }
+}
+
+extension State: InstrumentsDescriptiveDynamicProperty {
+    var _instrumentsLinkValue: Any {
+        fatalError("TODO")
+    }
+}
+
+extension Environment: InstrumentsDescriptiveDynamicProperty {
+    var _instrumentsLinkValue: Any {
+        fatalError("TODO")
+    }
+}
+
+extension Binding: InstrumentsDescriptiveDynamicProperty {
+    var _instrumentsLinkValue: Any {
+        fatalError("TODO")
+    }
+}
