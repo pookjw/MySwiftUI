@@ -116,11 +116,7 @@ extension TransactionKey {
 
 extension Transaction {
     package struct ID: Hashable {
-        private var value: UInt32
-        
-        fileprivate init(value: UInt32) {
-            self.value = value
-        }
+        var value: UInt32
     }
 }
 

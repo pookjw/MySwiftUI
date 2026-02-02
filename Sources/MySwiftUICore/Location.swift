@@ -1,6 +1,7 @@
 // 4F21368B1C1680817451AC25B55A8D48
 internal import AttributeGraph
 private import os.log
+private import _MySwiftUIShims
 
 package protocol Location {
     associatedtype Value
@@ -107,12 +108,60 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     override final func set(_ newValue: Value, transaction: Transaction) {
-        if isUpdating {
+        guard !isUpdating else {
             unsafe os_log(.fault, log: .runtimeIssuesLog, "Modifying state during view update, this will cause undefined behavior.")
+            return
         }
         
         // <+140>
-        fatalError("TODO")
+        if isValid {
+            // <+160>
+            // sp + 0xc
+            let updated = $data.access { value in
+                // $s7SwiftUI18StoredLocationBaseC3set_11transactionyx_AA11TransactionVtFSbAC4Data33_4F21368B1C1680817451AC25B55A8D48LLVyx_GzXEfU0_
+                /*
+                 value -> x24
+                 newValue -> x23 -> sp + 0x28
+                 Value -> x22 -> sp + 0x20
+                 */
+                let isEqual = compareValues(value.currentValue, newValue, options: [.unknown0, .unknown1])
+                if isEqual {
+                    // <+160>
+                    if isLinkedOnOrAfter(.v7) {
+                        value.currentValue = newValue
+                    }
+                    return false
+                } else {
+                    // <+264>
+                    // x26
+                    let copy_1 = value.currentValue
+                    value.savedValues.append(copy_1)
+                    value.currentValue = newValue
+                    return true
+                }
+            }
+            
+            guard updated else {
+                // <+492>
+                return
+            }
+            
+            // x21
+            let transaction = Transaction.current
+            // sp + 0xc
+            let transactionID = Transaction.ID(value: _threadTransactionID(false))
+            let beginUpdate = StoredLocationBase.BeginUpdate(box: self)
+            commit(transaction: transaction, id: transactionID, mutation: beginUpdate)
+        } else {
+            // <+392>
+            $data.access { value in
+                // $s7SwiftUI18StoredLocationBaseC3set_11transactionyx_AA11TransactionVtFyAC4Data33_4F21368B1C1680817451AC25B55A8D48LLVyx_GzXEfU_
+                value.currentValue = newValue
+                value.savedValues.removeAll(keepingCapacity: false)
+            }
+        }
+        
+        // +492>
     }
     
     override func update() -> (Value, Bool) {
@@ -134,6 +183,10 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     fileprivate func notifyObservers() {
         fatalError("TODO")
     }
+    
+    fileprivate var isValid: Bool {
+        fatalError() // abstract
+    }
 }
 
 final class StoredLocation<Value>: StoredLocationBase<Value> {
@@ -150,12 +203,20 @@ final class StoredLocation<Value>: StoredLocationBase<Value> {
         fatalError("TODO")
     }
     
-    fileprivate var isValid: Bool {
-        fatalError("TODO")
+    fileprivate override var isValid: Bool {
+        guard let host else {
+            return false
+        }
+        
+        return host.isValid
     }
     
     fileprivate override var isUpdating: Bool {
-        fatalError("TODO")
+        guard let host else {
+            return false
+        }
+        
+        return host.isUpdating
     }
     
     fileprivate override func commit(transaction: Transaction, id: Transaction.ID, mutation: StoredLocationBase<Value>.BeginUpdate) {
@@ -169,7 +230,7 @@ final class StoredLocation<Value>: StoredLocationBase<Value> {
 
 extension StoredLocationBase {
     fileprivate struct BeginUpdate {
-        private weak var box: StoredLocationBase<Value>?
+        private(set) weak var box: StoredLocationBase<Value>?
     }
     
     fileprivate struct Data {
