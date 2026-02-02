@@ -26,7 +26,9 @@ private import AttributeGraph
             return getValue(forReading: true)
         }
         nonmutating set {
-            fatalError("TODO")
+            if let location = _location {
+                location.set(newValue, transaction: Transaction())
+            }
         }
     }
     

@@ -1,5 +1,6 @@
 // 4F21368B1C1680817451AC25B55A8D48
 internal import AttributeGraph
+private import os.log
 
 package protocol Location {
     associatedtype Value
@@ -98,7 +99,7 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     override final func get() -> Value {
-        fatalError("TODO")
+        return data.currentValue
     }
     
     override final func projecting<P>(_ projection: P) -> AnyLocation<P.Projected> where Value == P.Base, P : Projection {
@@ -106,6 +107,11 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     override final func set(_ newValue: Value, transaction: Transaction) {
+        if isUpdating {
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Modifying state during view update, this will cause undefined behavior.")
+        }
+        
+        // <+140>
         fatalError("TODO")
     }
     
