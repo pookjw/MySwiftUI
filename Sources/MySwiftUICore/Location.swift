@@ -1,4 +1,4 @@
-package protocol Location {
+package protocol Location: Equatable {
     associatedtype Value
     
     var wasRead: Bool {
@@ -8,6 +8,12 @@ package protocol Location {
     func get() -> Self.Value
     mutating func set(_ newValue: Self.Value, transaction: Transaction)
     func update() -> (Self.Value, Bool)
+}
+
+extension Location {
+    func update() -> (Self.Value, Bool) {
+        return (get(), true)
+    }
 }
 
 @_documentation(visibility: private)

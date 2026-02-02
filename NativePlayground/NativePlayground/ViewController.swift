@@ -1595,6 +1595,8 @@ fileprivate struct MyBindingView: View {
             
             MyChildView(flag: $flag)
         }
+        
+        MyConstantView(flag: .constant(true))
     }
     
     struct MyChildView: View {
@@ -1607,6 +1609,18 @@ fileprivate struct MyBindingView: View {
                         flag.toggle()
                     }
                 }
+        }
+    }
+    
+    fileprivate struct MyConstantView: View {
+        @Binding var flag: Bool
+        
+        var body: some View {
+            if flag {
+                Color.black
+            } else {
+                Color.white
+            }
         }
     }
 }

@@ -27,6 +27,8 @@ fileprivate struct MyView: View {
             
             MyChildView(flag: $flag)
         }
+        
+        MyConstantView(flag: .constant(true))
     }
 }
 
@@ -40,6 +42,18 @@ fileprivate struct MyChildView: View {
                     flag.toggle()
                 }
             }
+    }
+}
+
+fileprivate struct MyConstantView: View {
+    @Binding var flag: Bool
+    
+    var body: some View {
+        if flag {
+            Color.black
+        } else {
+            Color.white
+        }
     }
 }
 

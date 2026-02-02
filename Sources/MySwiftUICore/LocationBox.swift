@@ -11,7 +11,7 @@ package final class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked S
             return location.wasRead
         }
         set {
-            fatalError("TODO")
+            location.wasRead = newValue
         }
     }
     
@@ -32,7 +32,18 @@ package final class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked S
     }
     
     override func isEqual(to other: AnyLocation<T.Value>) -> Bool {
-        fatalError("TODO")
+        // other -> x24
+        guard isLinkedOnOrAfter(.v5) else {
+            return other === self
+        }
+        
+        // <+240>
+        guard let casted = other as? Self else {
+            return false
+        }
+        
+        // <+256>
+        return location == casted.location
     }
 }
 

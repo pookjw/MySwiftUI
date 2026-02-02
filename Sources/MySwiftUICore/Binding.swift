@@ -22,7 +22,9 @@ public struct Binding<Value> {
     }
     
     public static func constant(_ value: Value) -> Binding<Value> {
-        fatalError("TODO")
+        let location = ConstantLocation(value: value)
+        let box = LocationBox(location: location)
+        return Binding(value: value, location: box)
     }
     
     @preconcurrency public init(
@@ -176,7 +178,7 @@ extension Binding {
                 // x8
                 let base = location.location.base
                 
-                if base == location {
+                if base === location {
                     // <+308>
                 } else {
                     let wasRead = location.wasRead
