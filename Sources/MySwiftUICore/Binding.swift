@@ -1,3 +1,4 @@
+// C453EE81E759852CCC6400C47D93A43E
 
 @frozen
 @propertyWrapper
@@ -119,8 +120,66 @@ extension Binding {
     }
 }
 
-extension Binding : DynamicProperty {
+extension Binding: DynamicProperty {
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
+        let box = Binding.Box(location: nil)
+        buffer.append(box, fieldOffset: fieldOffset)
+    }
+}
+
+extension Binding {
+    public init<V>(_ base: Binding<V>) where Value == V? {
         fatalError("TODO")
+    }
+    
+    public init?(_ base: Binding<Value?>) {
+        fatalError("TODO")
+    }
+    
+    public init<V>(_ base: Binding<V>) where Value == AnyHashable, V : Hashable {
+        fatalError("TODO")
+    }
+}
+
+extension Binding where Value == Bool {
+    static var `false`: Binding<Value> {
+        fatalError("TODO")
+    }
+}
+
+extension Binding {
+    fileprivate struct Box: DynamicPropertyBox {
+        private(set) var location: LocationBox<Binding<Value>.ScopedLocation>?
+        
+        func update(property: inout Binding<Value>, phase: _GraphInputs.Phase) -> Bool {
+            /*
+             self -> x24
+             property -> x22
+             */
+            let wasRead: Bool
+            // x23
+            if let location {
+                // <+96>
+                fatalError("TODO")
+            } else {
+                // <+148>
+                wasRead = false
+            }
+            
+            fatalError("TODO")
+        }
+    }
+    
+    fileprivate struct ScopedLocation: Equatable, Location {
+        private(set) var base: AnyLocation<Value>
+        private(set) var wasRead: Bool
+        
+        func get() -> Value {
+            fatalError("TODO")
+        }
+        
+        func set(_ newValue: Value, transaction: Transaction) {
+            fatalError("TODO")
+        }
     }
 }

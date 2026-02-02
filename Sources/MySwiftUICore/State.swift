@@ -1,6 +1,7 @@
 // F6975D1F800AFE6093C23B3DBD777BCF
 public import Observation
 private import AttributeGraph
+private import os.log
 
 @frozen @propertyWrapper public struct State<Value>: DynamicProperty {
     @usableFromInline
@@ -33,7 +34,14 @@ private import AttributeGraph
     }
     
     public var projectedValue: Binding<Value> {
-        fatalError("TODO")
+        let value = getValue(forReading: false)
+        
+        guard let location = _location else {
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Accessing State's value outside of being installed on a View. This will result in a constant Binding of the initial value and will not update.")
+            return .constant(value)
+        }
+        
+        return Binding(value: value, location: location)
     }
     
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {

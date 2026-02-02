@@ -33,6 +33,27 @@ extension View {
         // inlined
         return Body.makeDebuggableView(view: body.0, inputs: inputs)
     }
+    
+    static nonisolated func makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         inputs -> x26
+         view -> w24
+         */
+        // sp + 0x58
+        let fields = unsafe DynamicPropertyCache.fields(of: self.self)
+        // fields -> x22, x21, w19, w28
+        // sp + 0x58
+        var copy_1 = inputs
+        
+        let body = unsafe makeBody(view: view, inputs: &copy_1.base, fields: fields)
+        let outputs = Body.makeDebuggableViewList(view: body.0, inputs: copy_1)
+        
+        if let buffer = body.1 {
+            unsafe buffer.traceMountedProperties(to: view, fields: fields)
+        }
+        
+        return outputs
+    }
 }
 
 extension View {

@@ -1225,7 +1225,7 @@ class ViewController: UIViewController {
 //            print("onDisappear")
 //        }
 
-        let rootView = MyStateView()
+        let rootView = MyBindingView()
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
@@ -1569,6 +1569,38 @@ fileprivate struct MyStateView: View {
                     }
                 }
         } else {
+            Color.white
+                .onAppear { 
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        flag.toggle()
+                    }
+                }
+        }
+    }
+}
+
+
+fileprivate struct MyBindingView: View {
+    @State private var flag = false
+    
+    var body: some View {
+        if flag {
+            Color.black
+            
+            MyChildView(flag: $flag)
+        } else {
+            Color.white
+            
+            Color.white
+            
+            MyChildView(flag: $flag)
+        }
+    }
+    
+    struct MyChildView: View {
+        @Binding var flag: Bool
+        
+        var body: some View {
             Color.white
                 .onAppear { 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
