@@ -200,7 +200,7 @@ void CoreViewRemoveFromSuperview(ViewSystem system, id object) {
 #if TARGET_OS_IPHONE
             [(UIView *)object removeFromSuperview];
 #elif TARGET_OS_OSX
-            [(UIView *)object removeFromSuperview];
+            [(NSView *)object removeFromSuperview];
 #endif
             break;
     }
