@@ -1226,19 +1226,21 @@ class ViewController: UIViewController {
 //        }
 
 //        let rootView = MyBindingView()
-        let model = MyObservableEnvironmentView.Model.init()
-        let rootView = MyObservableEnvironmentView(model: model)
+//        let model = MyObservableEnvironmentView.Model.init()
+//        let rootView = MyObservableEnvironmentView(model: model)
+        
+        let rootView = MyAppStorageView()
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-        Task {
-            while true {
-                try await Task.sleep(for: .seconds(1))
-                model.flag.toggle()
-            }
-        }
+//        Task {
+//            while true {
+//                try await Task.sleep(for: .seconds(1))
+//                model.flag.toggle()
+//            }
+//        }
         
 //        Task {
 //            while true {
@@ -1725,6 +1727,28 @@ fileprivate struct MyObservableEnvironmentView: View {
             } else {
                 Color.black
             }
+        }
+    }
+}
+
+fileprivate struct MyAppStorageView: View {
+    @AppStorage("flag", store: .standard) private var flag: Bool = false
+    
+    var body: some View {
+        if flag {
+            Color.black
+                .onAppear { 
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        flag.toggle()
+                    }
+                }
+        } else {
+            Color.white
+                .onAppear { 
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        flag.toggle()
+                    }
+                }
         }
     }
 }

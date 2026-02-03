@@ -29,7 +29,7 @@ final class DemoViewController: UICollectionViewController {
         super.viewDidLoad()
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.observableEnvironmentView
+        let item = DemoViewController.Item.appStorageView
         pushToItem(item)
         
 //        Task {
@@ -83,6 +83,7 @@ extension DemoViewController {
         case dynamicTypeSizeView
         case environmentView
         case observableEnvironmentView
+        case appStorageView
         
         var title: String {
             switch self {
@@ -128,6 +129,8 @@ extension DemoViewController {
                 return _typeName(EnvironmentViewController.self, qualified: false)
             case .observableEnvironmentView:
                 return _typeName(ObservableEnvironmentViewController.self, qualified: false)
+            case .appStorageView:
+                return _typeName(AppStorageViewController.self, qualified: false)
             }
         }
         
@@ -175,6 +178,8 @@ extension DemoViewController {
                 return EnvironmentViewController()
             case .observableEnvironmentView:
                 return ObservableEnvironmentViewController()
+            case .appStorageView:
+                return AppStorageViewController()
             }
         }
     }
