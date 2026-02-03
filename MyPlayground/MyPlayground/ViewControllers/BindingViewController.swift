@@ -19,7 +19,16 @@ fileprivate struct MyView: View {
         if flag {
             Color.black
             
-            MyChildView(flag: $flag)
+            MyChildView(
+                flag: Binding(
+                    get: {
+                        return flag
+                    },
+                    set: { newValue in
+                        flag = newValue
+                    }
+                )
+            )
         } else {
             Color.white
             

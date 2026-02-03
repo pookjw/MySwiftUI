@@ -28,10 +28,24 @@ public struct Binding<Value> {
     }
     
     @preconcurrency public init(
-        @_inheritActorContext get: @escaping @isolated(any) @Sendable () -> Value,
-        @_inheritActorContext set: @escaping @isolated(any) @Sendable (Value) -> Void
+        @_inheritActorContext get: @escaping /*@isolated(any)*/ @Sendable () -> Value,
+        @_inheritActorContext set: @escaping /*@isolated(any)*/ @Sendable (Value) -> Void
     ) {
-        fatalError("TODO")
+        let functions = FunctionalLocation<Value>.Functions(
+            getValue: get,
+            setValue: { newValue, _ in
+                set(newValue)
+            }
+        )
+        
+        let location = FunctionalLocation<Value>(
+            functions: functions
+        )
+        
+        let value = get()
+        self.transaction = Transaction()
+        self.location = LocationBox(location: location)
+        self._value = value
     }
     
     @preconcurrency public init(

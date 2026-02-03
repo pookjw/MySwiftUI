@@ -20,7 +20,7 @@ extension ViewInputFlag {
         fatalError("TODO")
     }
     
-    package static func _makeInputs(modifier: _GraphValue<Self>, inputs: _GraphInputs) {
+    package static func _makeInputs(modifier: _GraphValue<Self>, inputs: inout _GraphInputs) {
         fatalError("TODO")
     }
 }

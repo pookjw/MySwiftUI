@@ -20,7 +20,7 @@ public struct EnvironmentValues: CustomStringConvertible {
     
     package let tracker: PropertyList.Tracker?
     
-    package init() {
+    public init() {
         if ViewGraphHost.isDefaultEnvironmentConfigured {
             let defaultEnvironment = unsafe ViewGraphHost.defaultEnvironment
             self._plist = defaultEnvironment._plist

@@ -1225,18 +1225,20 @@ class ViewController: UIViewController {
 //            print("onDisappear")
 //        }
 
-        let rootView = MyBindingView()
+//        let rootView = MyBindingView()
+        let model = MyEnvironmentView.Model.init()
+        let rootView = MyEnvironmentView(model: model)
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
         self.view = hostingView
         
-//        Task {
-//            while true {
-//                try await Task.sleep(for: .seconds(1))
-//                model.flag.toggle()
-//            }
-//        }
+        Task {
+            while true {
+                try await Task.sleep(for: .seconds(1))
+                model.flag.toggle()
+            }
+        }
         
 //        Task {
 //            while true {
@@ -1587,16 +1589,35 @@ fileprivate struct MyBindingView: View {
         if flag {
             Color.black
             
-            MyChildView(flag: $flag)
+            MyChildView(
+                flag: Binding(
+                    get: {
+                        return flag
+                    },
+                    set: { newValue in
+                        flag = newValue
+                    }
+                )
+            )
         } else {
             Color.white
             
             Color.white
             
-            MyChildView(flag: $flag)
+//            MyChildView(flag: $flag)
+            MyChildView(
+                flag: Binding(
+                    get: {
+                        return flag
+                    },
+                    set: { newValue in
+                        flag = newValue
+                    }
+                )
+            )
         }
         
-        MyConstantView(flag: .constant(true))
+//        MyConstantView(flag: .constant(true))
     }
     
     struct MyChildView: View {
@@ -1622,5 +1643,61 @@ fileprivate struct MyBindingView: View {
                 Color.white
             }
         }
+    }
+}
+
+fileprivate struct MyScenePhaseView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    
+    var body: some View {
+        if dynamicTypeSize == .large {
+            Color.black
+        } else {
+            Color.white
+        }
+    }
+}
+
+fileprivate struct MyEnvironmentView: View {
+    let model: Model
+    
+    var body: some View {
+        MyChildView()
+            .environment(\.flag, model.flag)
+    }
+    
+    @MainActor
+    @Observable
+    fileprivate final class Model {
+        var flag = false
+    }
+    
+    fileprivate struct MyChildView: View {
+        @Environment(\.flag) private var flag
+        
+        var body: some View {
+            if flag {
+                Color.white
+            } else {
+                Color.black
+            }
+        }
+    }
+}
+
+extension EnvironmentValues {
+    fileprivate var flag: Bool {
+        get {
+            return self[FlagKey.self]
+        }
+        set {
+            self[FlagKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct FlagKey: EnvironmentKey {
+    static var defaultValue: Bool {
+        return false
     }
 }

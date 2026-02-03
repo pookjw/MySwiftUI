@@ -29,7 +29,7 @@ final class DemoViewController: UICollectionViewController {
         super.viewDidLoad()
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.bindingView
+        let item = DemoViewController.Item.environmentView
         pushToItem(item)
         
 //        Task {
@@ -80,6 +80,8 @@ extension DemoViewController {
         case appearanceActionListView
         case stateView
         case bindingView
+        case dynamicTypeSizeView
+        case environmentView
         
         var title: String {
             switch self {
@@ -119,6 +121,10 @@ extension DemoViewController {
                 return _typeName(StateViewController.self, qualified: false)
             case .bindingView:
                 return _typeName(BindingViewController.self, qualified: false)
+            case .dynamicTypeSizeView:
+                return _typeName(DynamicTypeSizeViewController.self, qualified: false)
+            case .environmentView:
+                return _typeName(EnvironmentViewController.self, qualified: false)
             }
         }
         
@@ -160,6 +166,10 @@ extension DemoViewController {
                 return StateViewController()
             case .bindingView:
                 return BindingViewController()
+            case .dynamicTypeSizeView:
+                return DynamicTypeSizeViewController()
+            case .environmentView:
+                return EnvironmentViewController()
             }
         }
     }

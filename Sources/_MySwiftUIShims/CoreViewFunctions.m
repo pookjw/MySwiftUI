@@ -42,22 +42,30 @@ void _UIKitAddSubview(UIView *fromView, UIView *toView, NSInteger index) {
     // x24
     CALayer *fromLayer = fromView.layer;
     
-    if (index < count) {
-        if (sublayers[index] == fromLayer) return;
+    if (count > index) {
+        CALayer *sublayer = sublayers[index];
+        if (sublayer == fromLayer) {
+            return;
+        }
     }
     
-    fromLayer = CALayerGetSuperlayer(fromLayer);
-    if (toLayer != fromLayer) {
+    CALayer *superlayer = CALayerGetSuperlayer(fromLayer);
+    if (superlayer != toLayer) {
         [toView myswiftui_insertManagedSubview:fromView atIndex:index];
         return;
     }
     
-    if ((index + 1) < count) {
-        if (sublayers[index + 1] == fromLayer) {
+    NSInteger nextIndex = index + 1;
+    if (nextIndex < count) {
+        CALayer *sublayer = sublayers[nextIndex];
+        if (sublayer == fromLayer) {
+            // <+272>
             fromLayer = sublayers[index];
+            assert(fromLayer != nil);
         }
     }
     
+    // <+200>
     [toLayer insertSublayer:fromLayer atIndex:(unsigned int)index];
     [toView _invalidateSubviewCache];
 }

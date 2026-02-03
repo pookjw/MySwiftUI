@@ -1,4 +1,4 @@
-package import os.log
+public import os.log
 private import Foundation
 package import CoreGraphics
 
@@ -15,6 +15,7 @@ package func log(_: [(_Benchmark, [Double])]) {
     fatalError("TODO")
 }
 
+@usableFromInline
 package enum Log {
     package static func externalWarning(_ message: String) {
         unsafe Log.unlocatedIssuesLog.fault("\(message)")
@@ -32,7 +33,7 @@ package enum Log {
         Log.events.log(level: .default, "\(message)")
     }
     
-    package static fileprivate(set) nonisolated(unsafe) var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
+    @usableFromInline package static fileprivate(set) nonisolated(unsafe) var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
     
     package static func log(_: @autoclosure () -> String) {
         // nop
@@ -65,8 +66,8 @@ package enum Log {
     
     package static nonisolated(unsafe) var propertyChangeLog = Logger(subsystem: Log.subsystem, category: "Changed Body Properties")
     package static nonisolated(unsafe) var unlocatedIssuesLog = Logger(subsystem: Log.subsystem, category: "Invalid Configuration")
-    package static nonisolated(unsafe) var internalErrorsLog = OSLog(subsystem: Log.subsystem, category: "SwiftUI")
-    package static nonisolated(unsafe) var eventDebuggingLog = OSLog(subsystem: "com.apple.diagnostics.events", category: "SwiftUI")
+    @usableFromInline package static nonisolated(unsafe) var internalErrorsLog = OSLog(subsystem: Log.subsystem, category: "SwiftUI")
+    @usableFromInline package static nonisolated(unsafe) var eventDebuggingLog = OSLog(subsystem: "com.apple.diagnostics.events", category: "SwiftUI")
     package static nonisolated(unsafe) var archiving = Logger(subsystem: Log.subsystem, category: "Archiving")
     package static let archivedToggle = Logger(subsystem: Log.subsystem, category: "ArchivedToggle")
     package static let archivedButton = Logger(subsystem: Log.subsystem, category: "ArchivedButton")
