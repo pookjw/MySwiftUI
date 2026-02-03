@@ -1226,8 +1226,8 @@ class ViewController: UIViewController {
 //        }
 
 //        let rootView = MyBindingView()
-        let model = MyEnvironmentView.Model.init()
-        let rootView = MyEnvironmentView(model: model)
+        let model = MyObservableEnvironmentView.Model.init()
+        let rootView = MyObservableEnvironmentView(model: model)
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
@@ -1699,5 +1699,32 @@ extension EnvironmentValues {
 fileprivate struct FlagKey: EnvironmentKey {
     static var defaultValue: Bool {
         return false
+    }
+}
+
+fileprivate struct MyObservableEnvironmentView: View {
+    @MainActor
+    @Observable
+    fileprivate final class Model {
+        var flag = false
+    }
+    
+    let model: Model
+    
+    var body: some View {
+        MyChildView()
+            .environment(model)
+    }
+    
+    fileprivate struct MyChildView: View {
+        @Environment(Model.self) private var model
+        
+        var body: some View {
+            if model.flag {
+                Color.white
+            } else {
+                Color.black
+            }
+        }
     }
 }

@@ -81,7 +81,8 @@ private import AttributeGraph
     }
     
     public init(_ objectType: Value.Type) where Value : AnyObject, Value : Observable {
-        fatalError("TODO")
+        let key = EnvironmentObjectKey<Value>()
+        self.init(\EnvironmentValues[forceUnwrapping: key])
     }
     
     public init<T>(_ objectType: T.Type) where Value == T?, T : AnyObject, T : Observable {
