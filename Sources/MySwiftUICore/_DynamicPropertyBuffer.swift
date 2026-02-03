@@ -184,7 +184,7 @@ public struct _DynamicPropertyBuffer {
 @available(*, unavailable)
 extension _DynamicPropertyBuffer: Sendable {}
 
-protocol DynamicPropertyBox {
+package protocol DynamicPropertyBox {
     associatedtype Property: DynamicProperty
     
     func destroy()
@@ -194,13 +194,13 @@ protocol DynamicPropertyBox {
 }
 
 extension DynamicPropertyBox {
-    func destroy(){
+    package func destroy(){
     }
     
-    func reset() {
+    package func reset() {
     }
     
-    func getState<T>(type: T.Type) -> Binding<T>? {
+    package func getState<T>(type: T.Type) -> Binding<T>? {
         fatalError("TODO")
     }
 }

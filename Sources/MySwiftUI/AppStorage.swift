@@ -1,7 +1,7 @@
 // F2BB00CEA25D2617C18DE8984EB64B53
 public import Foundation
-public import MySwiftUICore
-private import AttributeGraph
+@_spi(Internal) public import MySwiftUICore
+internal import AttributeGraph
 private import Combine
 
 @frozen @propertyWrapper public struct AppStorage<Value>: DynamicProperty {
@@ -26,7 +26,14 @@ private import Combine
     }
     
     init(key: String, transform: any UserDefaultsValueTransform.Type, store: UserDefaults?, defaultValue: Value) {
-        fatalError("TODO")
+        // $s7SwiftUI10AppStorageV3key9transform5store12defaultValueACyxGSS_AA012UserDefaultsI9Transform_pXpSo06NSUserK0CSgxtcfCTf4nnngn_n
+        location = UserDefaultLocation(
+            key: key,
+            transform: transform,
+            store: store,
+            defaultValue: defaultValue,
+            base: nil
+        )
     }
 }
 
@@ -135,22 +142,41 @@ extension View {
 
 @usableFromInline
 class UserDefaultLocation<Value>: @unchecked Sendable {
+    init(key: String, transform: UserDefaultsValueTransform.Type, store: UserDefaults?, defaultValue: Value, base: UserDefaultLocation<Value>?) {
+        // in이라는 함수 있는듯
+        fatalError("TODO")
+    }
+    
+    final var canonicalLocation: UserDefaultLocation<Value> {
+        fatalError("TODO")
+    }
+    
     private let key: String
     private let transform: any UserDefaultsValueTransform.Type
     private let defaultValue: Value
     private let customStore: UserDefaults?
     private let base: UserDefaultLocation<Value>?
-    private var observableObjectPublisher: ObservableObjectPublisher?
-    private var cachedValue: Value?
-    private var defaultStore: UserDefaults
-    private var observer: UserDefaultObserver?
+    
+    private var observableObjectPublisher: ObservableObjectPublisher? {
+        didSet {
+            fatalError("TODO")
+        }
+    }
+    
+    fileprivate final var cachedValue: Value?
+    fileprivate final var defaultStore: UserDefaults
+    fileprivate final var observer: UserDefaultObserver?
     
     @usableFromInline
     internal var wasRead: Bool
     
-    private var changeSignal: WeakAttribute<Void>?
+    final var changeSignal: WeakAttribute<Void>?
     
-    init() {
+    final var store: UserDefaults {
+        fatalError("TODO")
+    }
+    
+    final func copy() -> UserDefaultLocation<Value> {
         fatalError("TODO")
     }
     
@@ -277,5 +303,70 @@ fileprivate struct DefaultAppStorageDefaultsKey: EnvironmentKey {
 }
 
 fileprivate final class UserDefaultObserver: NSObject {
-    // TODO
+    private var state: UserDefaultObserver.State
+    private var target: UserDefaultObserver.Target
+    
+    @inline(__always)
+    init(state: UserDefaultObserver.State, target: UserDefaultObserver.Target) {
+        self.state = state
+        self.target = target
+        super.init()
+    }
+    
+    deinit {
+        fatalError("TODO")
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        fatalError("TODO")
+    }
+    
+    @objc func userDefaultsDidChange(_ notification: Notification) {
+        fatalError("TODO")
+    }
+    
+    func observeDefaults(_ store: UserDefaults, key: String) {
+        fatalError("TODO")
+    }
+    
+    func unobserve(oldDefaults: UserDefaults, key: String) {
+        fatalError("TODO")
+    }
+}
+
+extension UserDefaultObserver {
+    enum Target {
+        case graph(UserDefaultObserver.Target.GraphAttribute)
+        case publisher(ObservableObjectPublisher)
+        
+        func send() {
+            fatalError("TODO")
+        }
+    }
+    
+    enum State {
+        case subscribed(userDefaults: UserDefaults, key: String)
+        case uninitialized
+    }
+}
+
+extension UserDefaultObserver.Target {
+    struct GraphAttribute {
+        private weak var host: GraphHost?
+        private let signal: WeakAttribute<Void>
+    }
+}
+
+fileprivate struct UserDefaultPropertyBox<Value>: DynamicPropertyBox {
+    @Attribute private var environment: EnvironmentValues
+    private let observer: UserDefaultObserver
+    private var firstUpdate: Bool
+    
+    func update(property: inout AppStorage<Value>, phase: _GraphInputs.Phase) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func destroy() {
+        fatalError("TODO")
+    }
 }
