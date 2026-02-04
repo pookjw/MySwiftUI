@@ -1,5 +1,5 @@
 // 9FF97745734808976F608CE0DC13C39C
-internal import AttributeGraph
+package import AttributeGraph
 
 public struct _GraphInputs {
     package internal(set) var customInputs = PropertyList()
@@ -25,7 +25,7 @@ public struct _GraphInputs {
         self.transaction = transaction
     }
     
-    var environment: Attribute<EnvironmentValues> {
+    package var environment: Attribute<EnvironmentValues> {
         get {
             return cachedEnvironment.value.environment
         }

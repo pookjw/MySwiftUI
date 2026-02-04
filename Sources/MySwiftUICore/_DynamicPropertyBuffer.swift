@@ -63,7 +63,7 @@ public struct _DynamicPropertyBuffer {
         }
     }
     
-    mutating func append<T: DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
+    package mutating func append<T: DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
         let index = contents.append(box, vtable: BoxVTable<T>.self)
         var flags = contents[index].flags
         flags &= 0x80000000

@@ -205,16 +205,6 @@ public struct RuleContext<T>: Swift.Equatable, Swift.Sendable {
     public func update(body: () -> Void)
 }
 
-public struct _External: Swift.CustomStringConvertible, Swift.Sendable {
-    public var description: Swift.String {
-        get
-    }
-}
-
-public struct External<T> {
-
-}
-
 public struct Focus<Key, Value> {
 
 }
@@ -551,4 +541,18 @@ extension Swift.UnsafeMutablePointer {
     }
 
     public static func + <T>(_: Swift.UnsafeMutablePointer<Pointee>, _: AttributeGraph.PointerOffset<Pointee, T>) -> Swift.UnsafeMutablePointer<T>
+}
+
+@frozen public struct _External: AttributeGraph._AttributeBody, Swift.CustomStringConvertible {
+    public var description: Swift.String { get }
+}
+
+@frozen public struct External<Value>: AttributeGraph._AttributeBody, Swift.CustomStringConvertible {
+    public var description: Swift.String { get }
+
+    public init()
+
+    public static var flags: AttributeGraph.AnyAttribute.TypeFlags { get }
+    public static var comparisonMode: AttributeGraph.AGComparisonMode { get }
+    public static func _update(_: Swift.UnsafeMutableRawPointer, attribute: AttributeGraph.AnyAttribute)
 }

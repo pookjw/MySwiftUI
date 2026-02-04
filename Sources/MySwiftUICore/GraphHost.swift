@@ -146,11 +146,11 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return graph
     }() 
     
-    static var isUpdating: Bool {
+    package static var isUpdating: Bool {
         return GraphHost.sharedGraph.counter(options: [.unknown0, .unknown1, .unknown2]) != 0
     }
     
-    static var currentHost: GraphHost {
+    package static var currentHost: GraphHost {
         let graph: Graph?
         if let currentAttribute = AnyAttribute.current {
             // <+84>

@@ -10,7 +10,7 @@ private import Combine
     
     public var wrappedValue: Value {
         get {
-            fatalError("TODO")
+            return location.getValue(forReading: true)
         }
         nonmutating set {
             fatalError("TODO")
@@ -22,7 +22,19 @@ private import Combine
     }
     
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
-        fatalError("TODO")
+        /*
+         buffer -> x0 -> sp
+         fieldOffset -> x1 -> x2
+         inputs -> x3 -> x2 -> x27
+         */
+        let signal = Attribute<Void>(value: ())
+        let host = GraphHost.currentHost
+        let envrionment = inputs.environment
+        let weakSignal = WeakAttribute<Void>(signal)
+        let box = UserDefaultPropertyBox<Value>(host: host, environment: envrionment, signal: weakSignal)
+        
+        buffer.append(box, fieldOffset: fieldOffset)
+        addTreeValue(signal, as: Value.self, at: fieldOffset, in: V.self, flags: .appStorageSignal)
     }
     
     init(key: String, transform: any UserDefaultsValueTransform.Type, store: UserDefaults?, defaultValue: Value) {
@@ -142,42 +154,76 @@ extension View {
 
 @usableFromInline
 class UserDefaultLocation<Value>: @unchecked Sendable {
-    init(key: String, transform: UserDefaultsValueTransform.Type, store: UserDefaults?, defaultValue: Value, base: UserDefaultLocation<Value>?) {
-        // in이라는 함수 있는듯
-        fatalError("TODO")
+    init(key: String, transform: any UserDefaultsValueTransform.Type, store: UserDefaults?, defaultValue: Value, base: UserDefaultLocation<Value>?) {
+        // <+208>
+        self.customStore = store
+        self.key = key
+        self.transform = transform
+        self.defaultValue = defaultValue
+        self.base = base
     }
     
     final var canonicalLocation: UserDefaultLocation<Value> {
-        fatalError("TODO")
+        return base ?? self
     }
     
-    private let key: String
+    fileprivate let key: String
     private let transform: any UserDefaultsValueTransform.Type
     private let defaultValue: Value
-    private let customStore: UserDefaults?
+    private let customStore: UserDefaults? // 0x70
     private let base: UserDefaultLocation<Value>?
     
-    private var observableObjectPublisher: ObservableObjectPublisher? {
+    // 0x80
+    private var observableObjectPublisher: ObservableObjectPublisher? = nil {
         didSet {
             fatalError("TODO")
         }
     }
     
-    fileprivate final var cachedValue: Value?
-    fileprivate final var defaultStore: UserDefaults
-    fileprivate final var observer: UserDefaultObserver?
+    fileprivate final var cachedValue: Value? = nil // 0x88
+    fileprivate final var defaultStore: UserDefaults = .standard // 0x90
+    fileprivate final var observer: UserDefaultObserver? = nil // 0x98
     
     @usableFromInline
-    internal var wasRead: Bool
+    internal var wasRead: Bool = false // 0xa0
     
-    final var changeSignal: WeakAttribute<Void>?
+    final var changeSignal: WeakAttribute<Void>? = nil // 0xa8
     
     final var store: UserDefaults {
-        fatalError("TODO")
+        return customStore ?? defaultStore
     }
     
     final func copy() -> UserDefaultLocation<Value> {
         fatalError("TODO")
+    }
+    
+    final func getValue(forReading: Bool) -> Value {
+        /*
+         self -> x19
+         forReading -> x27
+         return pointer -> x28
+         */
+        if GraphHost.isUpdating && forReading {
+            wasRead = true
+        }
+        
+        // <+232>
+        let result: Value
+        if let cachedValue {
+            // <+424>
+            result = cachedValue
+            // <+548>
+        } else {
+            // <+276>
+            result = (transform.readValue(from: store, key: key) as? Value) ?? defaultValue
+            // <+508>
+        }
+        
+        if changeSignal != nil {
+            cachedValue = result
+        }
+        
+        return result
     }
     
     @usableFromInline
@@ -296,6 +342,17 @@ fileprivate struct BoolTransform: ScalarUserDefaultsValueTransform {
     }
 }
 
+extension EnvironmentValues {
+    var defaultAppStorageDefaults: UserDefaults {
+        get {
+            return self[DefaultAppStorageDefaultsKey.self]
+        }
+        set {
+            self[DefaultAppStorageDefaultsKey.self]
+        }
+    }
+}
+
 fileprivate struct DefaultAppStorageDefaultsKey: EnvironmentKey {
     static var defaultValue: UserDefaults {
         return .standard
@@ -303,8 +360,9 @@ fileprivate struct DefaultAppStorageDefaultsKey: EnvironmentKey {
 }
 
 fileprivate final class UserDefaultObserver: NSObject {
-    private var state: UserDefaultObserver.State
-    private var target: UserDefaultObserver.Target
+    fileprivate static nonisolated(unsafe) var observationContext: Int = 0
+    fileprivate private(set) var state: UserDefaultObserver.State
+    fileprivate private(set) var target: UserDefaultObserver.Target
     
     @inline(__always)
     init(state: UserDefaultObserver.State, target: UserDefaultObserver.Target) {
@@ -326,11 +384,67 @@ fileprivate final class UserDefaultObserver: NSObject {
     }
     
     func observeDefaults(_ store: UserDefaults, key: String) {
-        fatalError("TODO")
+        /*
+         self -> x23
+         store -> x21
+         key -> x22
+         */
+        switch state {
+        case .subscribed(let userDefaults, let _key):
+            // <+140>
+            /*
+             userDefaults -> x25
+             _key -> x27/x26
+             */
+            guard store != userDefaults && key != _key else {
+                return
+            }
+            
+            // <+268>
+            unobserve(oldDefaults: userDefaults, key: _key)
+            noteDefaultChange()
+            // <+432>
+        case .uninitialized:
+            // <+432>
+            break
+        }
+        
+        // <+432>
+        // key -> sp + 0x20
+        if key.contains(".") {
+            // <+488>
+            NotificationCenter
+                .default
+                .addObserver(
+                    self,
+                    selector: #selector(userDefaultsDidChange(_:)),
+                    name: UserDefaults.didChangeNotification,
+                    object: store
+                )
+        } else {
+            // <+564>
+            store
+                .addObserver(
+                    self,
+                    forKeyPath: key,
+                    options: [],
+                    context: &UserDefaultObserver.observationContext
+                )
+        }
+        
+        // <+620>
+        self.state = .subscribed(userDefaults: store, key: key)
     }
     
     func unobserve(oldDefaults: UserDefaults, key: String) {
         fatalError("TODO")
+    }
+    
+    func noteDefaultChange() {
+        Update.enqueueAction(reason: nil) { 
+            // $s7SwiftUI19UserDefaultObserver33_F2BB00CEA25D2617C18DE8984EB64B53LLC04noteD6ChangeyyFyycfU_
+            fatalError("TODO")
+        }
     }
 }
 
@@ -352,8 +466,8 @@ extension UserDefaultObserver {
 
 extension UserDefaultObserver.Target {
     struct GraphAttribute {
-        private weak var host: GraphHost?
-        private let signal: WeakAttribute<Void>
+        private(set) weak var host: GraphHost?
+        let signal: WeakAttribute<Void>
     }
 }
 
@@ -362,7 +476,99 @@ fileprivate struct UserDefaultPropertyBox<Value>: DynamicPropertyBox {
     private let observer: UserDefaultObserver
     private var firstUpdate: Bool
     
-    func update(property: inout AppStorage<Value>, phase: _GraphInputs.Phase) -> Bool {
+    init(host: GraphHost, environment: Attribute<EnvironmentValues>, signal: WeakAttribute<Void>) {
+        // x23
+        let observer = UserDefaultObserver(
+            state: .uninitialized,
+            target: .graph(
+                UserDefaultObserver
+                    .Target
+                    .GraphAttribute(host: host, signal: signal)
+            )
+        )
+        
+        self._environment = environment
+        self.observer = observer
+        self.firstUpdate = true
+    }
+    
+    mutating func update(property: inout AppStorage<Value>, phase: _GraphInputs.Phase) -> Bool {
+        /*
+         self -> x25
+         property -> x19 -> sp + 0x20
+         */
+        // x26
+        let location = property.location
+        // x19
+        let canonicalLocation = location.canonicalLocation
+        // x24
+        let observer = observer
+        // sp + 0x2c
+        let firstUpdate = firstUpdate
+        
+        let store = environment.defaultAppStorageDefaults
+        canonicalLocation.defaultStore = store
+        
+        observer.observeDefaults(canonicalLocation.defaultStore, key: canonicalLocation.key)
+        
+        // <+348>
+        // sp + 0x58
+        var copy_1 = observer.target
+        var w28: Bool
+        switch copy_1 {
+        case .graph(let attribute):
+            // <+416>
+            let signal = attribute.signal
+            let changed = signal.changedValue(options: [])
+            
+            w28 = false
+            
+            guard let changed, changed.changed else {
+                // <+560>
+                break
+            }
+            
+            // <+472>
+            if firstUpdate {
+                self.firstUpdate = false
+            } else {
+                let copy = canonicalLocation.copy()
+                property.location = copy
+            }
+            
+            // <+516>
+            w28 = true
+            canonicalLocation.cachedValue = nil
+            // <+560>
+        case .publisher(_):
+            // <+560>
+            w28 = false
+            break
+        }
+        
+        // <+560>
+        copy_1 = observer.target
+        switch copy_1 {
+        case .graph(let attribute):
+            // <+596>
+            // sp + 0x48
+            let copy_2 = attribute
+            canonicalLocation.changeSignal = copy_2.signal
+        case .publisher(_):
+            // <+580>
+            canonicalLocation.changeSignal = nil
+        }
+        
+        // <+640>
+        if w28 {
+            return canonicalLocation.wasRead
+        } else {
+            // <+680>
+            return false
+        }
+    }
+    
+    func reset() {
         fatalError("TODO")
     }
     

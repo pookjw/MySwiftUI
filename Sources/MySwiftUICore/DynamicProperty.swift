@@ -1,5 +1,5 @@
 // 56D4CED87D5B226E2B40FB60C47D6F49
-internal import AttributeGraph
+package import AttributeGraph
 
 public protocol DynamicProperty {
     static func _makeProperty<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int, inputs: inout _GraphInputs)
@@ -22,65 +22,6 @@ extension DynamicProperty {
     
     fileprivate var instrumentsLinkValueDescription: String {
         fatalError("TODO")
-    }
-    
-    static func addTreeValueSlow<T>(_ attribute: AnyAttribute, as firstType: T.Type, in secondType: Any.Type, fieldOffset: Int = 0, flags: TreeValueFlags) {
-        let fields = DynamicPropertyCache.fields(of: secondType)
-        
-        // inlined
-        if let name = fields._name(at: fieldOffset) {
-            Subgraph.addTreeValue(
-                Attribute<T>(identifier: attribute),
-                forKey: name,
-                flags: flags.rawValue
-            )
-        } else {
-            Subgraph.addTreeValue(
-                Attribute<T>(identifier: attribute),
-                forKey: "<unknown>",
-                flags: flags.rawValue
-            )
-        }
-    }
-}
-
-struct TreeValueFlags: OptionSet {
-    let rawValue: UInt32
-    
-    init(rawValue: UInt32) {
-        self.rawValue = rawValue
-    }
-    
-    static var stateSignal: TreeValueFlags {
-        return TreeValueFlags(rawValue: 1 << 0)
-    }
-    
-    static var environmentObjectSignal: TreeValueFlags {
-        return TreeValueFlags(rawValue: 1 << 1)
-    }
-    
-    static var observedObjectSignal: TreeValueFlags {
-        return [.stateSignal, .environmentObjectSignal]
-    }
-    
-    static var appStorageSignal: TreeValueFlags {
-        return TreeValueFlags(rawValue: 1 << 2)
-    }
-    
-    static var sceneStorageSignal: TreeValueFlags {
-        return [.stateSignal, .appStorageSignal]
-    }
-    
-    static var stateObjectSignal: TreeValueFlags {
-        return [.environmentObjectSignal, .appStorageSignal]
-    }
-    
-    static var focusedObjectSignal: TreeValueFlags {
-        return [.stateSignal, .environmentObjectSignal, .appStorageSignal]
-    }
-    
-    static var lazyStateSignal: TreeValueFlags {
-        return TreeValueFlags(rawValue: 1 << 3)
     }
 }
 
@@ -132,5 +73,38 @@ extension Environment: InstrumentsDescriptiveDynamicProperty {
 extension Binding: InstrumentsDescriptiveDynamicProperty {
     var _instrumentsLinkValue: Any {
         fatalError("TODO")
+    }
+}
+
+extension DynamicProperty {
+    package static func addTreeValue<T, U>(_ attribute: Attribute<T>, as firstType: U.Type, at fieldOffset: Int, in secondType: any Any.Type, flags: TreeValueFlags) {
+        guard Subgraph.shouldRecordTree else {
+            return
+        }
+        
+        addTreeValueSlow(attribute.identifier, as: firstType, in: self, fieldOffset: fieldOffset, flags: flags)
+    }
+    
+    static func addTreeValue<T>(_: Attribute<T>, at: Int, in: any Any.Type, flags: TreeValueFlags) {
+        fatalError("TODO")
+    }
+    
+    static func addTreeValueSlow<T>(_ attribute: AnyAttribute, as firstType: T.Type, in secondType: Any.Type, fieldOffset: Int = 0, flags: TreeValueFlags) {
+        let fields = DynamicPropertyCache.fields(of: secondType)
+        
+        // inlined
+        if let name = fields._name(at: fieldOffset) {
+            Subgraph.addTreeValue(
+                Attribute<T>(identifier: attribute),
+                forKey: name,
+                flags: flags.rawValue
+            )
+        } else {
+            Subgraph.addTreeValue(
+                Attribute<T>(identifier: attribute),
+                forKey: "<unknown>",
+                flags: flags.rawValue
+            )
+        }
     }
 }
