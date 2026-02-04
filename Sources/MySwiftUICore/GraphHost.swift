@@ -500,14 +500,21 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     @discardableResult
-    final func asyncTransaction<T>(
+    package final func asyncTransaction<T>(
         _ transaction: Transaction = Transaction(),
         id: Transaction.ID = Transaction.id,
         invalidating: WeakAttribute<T>,
         style: _GraphMutation_Style = .deferred,
         mayDeferUpdate: Bool = true
     ) -> UInt32 {
-        fatalError("TODO")
+        let mutation = InvalidatingGraphMutation(attribute: invalidating.base)
+        return asyncTransaction(
+            transaction,
+            id: id,
+            mutation: mutation,
+            style: style,
+            mayDeferUpdate: mayDeferUpdate
+        )
     }
     
     @discardableResult
@@ -798,7 +805,11 @@ struct InvalidatingGraphMutation: GraphMutation {
     let attribute: AnyWeakAttribute
     
     func apply() {
-        fatalError("TODO")
+        let unwrapped = attribute.attribute
+        guard unwrapped != .empty else {
+            return
+        }
+        unwrapped.invalidate()
     }
     
     func combine<T>(with other: T) -> Bool where T : GraphMutation {

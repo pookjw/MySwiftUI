@@ -18,6 +18,21 @@ fileprivate struct MyView: View {
     var body: some View {
         if flag {
             Color.black
+        } else {
+            Color.white
+        }
+        
+        MyChildView(flag: $flag)
+    }
+}
+
+fileprivate struct MyChildView: View {
+    @Binding var flag: Bool
+    @AppStorage("flag", store: .standard) private var flag2: Bool = false
+    
+    var body: some View {
+        if flag {
+            Color.black
                 .onAppear { 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         flag.toggle()
@@ -27,7 +42,7 @@ fileprivate struct MyView: View {
             Color.white
                 .onAppear { 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        flag.toggle()
+                        flag2.toggle()
                     }
                 }
         }
@@ -35,8 +50,23 @@ fileprivate struct MyView: View {
 }
 
 final class AppStorageViewController: UIViewController {
+    @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
+    
     override func loadView() {
         let rootView = MyView()
         view = _UIHostingView(rootView: rootView)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let toggleBarButtonItem = UIBarButtonItem(title: "Toggle", image: UIImage(systemName: "ant.fill"), target: self, action: #selector(toggleBarButtonItemDidTrigger(_:)))
+        self.toggleBarButtonItem = toggleBarButtonItem
+        navigationItem.rightBarButtonItem = toggleBarButtonItem
+    }
+    
+    @objc private func toggleBarButtonItemDidTrigger(_ sender: UIBarButtonItem) {
+        let value = UserDefaults.standard.bool(forKey: "flag")
+        UserDefaults.standard.set(!value, forKey: "flag")
     }
 }

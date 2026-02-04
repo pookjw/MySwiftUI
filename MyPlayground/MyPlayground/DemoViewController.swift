@@ -15,6 +15,8 @@ final class DemoViewController: UICollectionViewController {
         cell.accessories = [.disclosureIndicator()]
     }
     
+    @ViewLoading private var activateSceneBarButtonItem: UIBarButtonItem
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -28,6 +30,15 @@ final class DemoViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let activateSceneBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ant.fill"),
+            style: .plain,
+            target: self,
+            action: #selector(activateSceneBarButtonItem(_:))
+        )
+        self.activateSceneBarButtonItem = activateSceneBarButtonItem
+        navigationItem.rightBarButtonItem = activateSceneBarButtonItem
+        
 //        let item = DemoViewController.Item.allCases.last!
         let item = DemoViewController.Item.appStorageView
         pushToItem(item)
@@ -36,6 +47,18 @@ final class DemoViewController: UICollectionViewController {
 //            try! await Task.sleep(for: .seconds(1))
 //            navigationController?.popViewController(animated: true)
 //        }
+    }
+    
+    @objc private func activateSceneBarButtonItem(_ sender: UIBarButtonItem) {
+        let session = UISceneSessionActivationRequest(
+            role: .windowApplication,
+            userActivity: nil,
+            options: nil
+        )
+        
+        UIApplication.shared.activateSceneSession(for: session) { error in
+            fatalError("\(error)")
+        }
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

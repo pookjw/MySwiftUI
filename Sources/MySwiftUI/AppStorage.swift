@@ -3,6 +3,8 @@ public import Foundation
 @_spi(Internal) public import MySwiftUICore
 internal import AttributeGraph
 private import Combine
+private import _DarwinFoundation3.pthread
+private import os.log
 
 @frozen @propertyWrapper public struct AppStorage<Value>: DynamicProperty {
     @usableFromInline
@@ -18,7 +20,10 @@ private import Combine
     }
     
     public var projectedValue: Binding<Value> {
-        fatalError("TODO")
+        return Binding(
+            value: location.canonicalLocation.getValue(forReading: false),
+            location: LocationBox(location: location.canonicalLocation)
+        )
     }
     
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
@@ -153,7 +158,7 @@ extension View {
 }
 
 @usableFromInline
-class UserDefaultLocation<Value>: @unchecked Sendable {
+class UserDefaultLocation<Value>: @unchecked Sendable, Location, Equatable {
     init(key: String, transform: any UserDefaultsValueTransform.Type, store: UserDefaults?, defaultValue: Value, base: UserDefaultLocation<Value>?) {
         // <+208>
         self.customStore = store
@@ -193,8 +198,14 @@ class UserDefaultLocation<Value>: @unchecked Sendable {
         return customStore ?? defaultStore
     }
     
-    final func copy() -> UserDefaultLocation<Value> {
-        fatalError("TODO")
+    fileprivate final func copy() -> UserDefaultLocation<Value> {
+        return UserDefaultLocation<Value>(
+            key: key,
+            transform: transform,
+            store: store,
+            defaultValue: defaultValue,
+            base: canonicalLocation
+        )
     }
     
     final func getValue(forReading: Bool) -> Value {
@@ -228,7 +239,7 @@ class UserDefaultLocation<Value>: @unchecked Sendable {
     
     @usableFromInline
     internal func get() -> Value {
-        fatalError("TODO")
+        return getValue(forReading: false)
     }
     
     @usableFromInline
@@ -256,12 +267,20 @@ class UserDefaultLocation<Value>: @unchecked Sendable {
     
     @usableFromInline
     internal func update() -> (Value, Bool) {
-        fatalError("TODO")
+        if
+            let changeSignal,
+            let changedValue = changeSignal.changedValue(options: [])
+        {
+            return (getValue(forReading: false), changedValue.changed)
+        }
+        
+        wasRead = true
+        return (getValue(forReading: false), true)
     }
     
     @usableFromInline
     internal static func == (lhs: UserDefaultLocation<Value>, rhs: UserDefaultLocation<Value>) -> Bool {
-        fatalError("TODO")
+        return lhs === rhs
     }
 }
 
@@ -393,7 +412,11 @@ fileprivate final class UserDefaultObserver: NSObject {
     }
     
     deinit {
-        fatalError("TODO")
+        guard case .subscribed(let userDefaults, let key) = state else {
+            return
+        }
+        
+        unobserve(oldDefaults: userDefaults, key: key)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -401,7 +424,7 @@ fileprivate final class UserDefaultObserver: NSObject {
         /*
          self -> x20
          keyPath -> x22/x20
-         change -> x26
+         object -> x26
          context -> x23
          */
         let owned = withUnsafeMutablePointer(to: &UserDefaultObserver.observationContext) {
@@ -417,8 +440,20 @@ fileprivate final class UserDefaultObserver: NSObject {
             return
         }
         
-        // <+160>
-        fatalError("TODO")
+        guard
+            let casted = object as? AnyObject,
+            userDefaults === casted
+        else {
+            return
+        }
+        
+        guard key == keyPath else {
+            return
+        }
+        
+        Update.enqueueAction(reason: nil) { 
+            self.target.send()
+        }
     }
     
     @objc func userDefaultsDidChange(_ notification: Notification) {
@@ -479,7 +514,11 @@ fileprivate final class UserDefaultObserver: NSObject {
     }
     
     func unobserve(oldDefaults: UserDefaults, key: String) {
-        fatalError("TODO")
+        if key.contains(".") {
+            NotificationCenter.default.removeObserver(self, name: UserDefaults.didChangeNotification, object: oldDefaults)
+        } else {
+            oldDefaults.removeObserver(self, forKeyPath: key, context: &UserDefaultObserver.observationContext)
+        }
     }
     
     func noteDefaultChange() {
@@ -496,7 +535,12 @@ extension UserDefaultObserver {
         case publisher(ObservableObjectPublisher)
         
         func send() {
-            fatalError("TODO")
+            switch self {
+            case .graph(let attribute):
+                attribute.send()
+            case .publisher(let publisher):
+                publisher.send()
+            }
         }
     }
     
@@ -510,6 +554,25 @@ extension UserDefaultObserver.Target {
     struct GraphAttribute {
         private(set) weak var host: GraphHost?
         let signal: WeakAttribute<Void>
+        
+        func send() {
+            if isLinkedOnOrAfter(.v7) && pthread_main_np() == 0 {
+                unsafe os_log(.fault, log: .runtimeIssuesLog, "Updating AppStorage from background threads is not allowed; make sure to publish values from the main thread for model updates.")
+            }
+            
+            onMainThread { [unchecked = UncheckedSendable(host), signal] in
+                // $s7SwiftUI19UserDefaultObserver33_F2BB00CEA25D2617C18DE8984EB64B53LLC6TargetO14GraphAttributeV4sendyyFyycfU_
+                guard let host = unchecked.value else {
+                    return
+                }
+                
+                host.asyncTransaction(
+                    .current,
+                    invalidating: signal,
+                    style: .immediate,
+                )
+            }
+        }
     }
 }
 
@@ -611,10 +674,16 @@ fileprivate struct UserDefaultPropertyBox<Value>: DynamicPropertyBox {
     }
     
     func reset() {
-        fatalError("TODO")
-    }
-    
-    func destroy() {
-        fatalError("TODO")
+        /*
+         $environment -> x0
+         observer -> x1
+         firstUpdate -> w2
+         Value -> x3
+         */
+        guard case .subscribed(let userDefaults, let key) = observer.state else {
+            return
+        }
+        
+        observer.unobserve(oldDefaults: userDefaults, key: key)
     }
 }
