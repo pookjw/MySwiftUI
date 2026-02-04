@@ -27,6 +27,14 @@ public struct Transaction {
         return Transaction.ID(value: _threadTransactionID(false))
     }
     
+    package var current: Transaction {
+        // self -> x20
+        var copy = self
+        let other = Transaction.current
+        copy.plist.override(with: other.plist)
+        return copy
+    }
+    
     var isEmpty: Bool {
         return plist.isEmpty
     }

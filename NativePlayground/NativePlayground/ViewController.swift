@@ -1698,7 +1698,13 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct FlagKey: EnvironmentKey {
+fileprivate struct FlagKey: EnvironmentKey, TransactionKey {
+    static var defaultValue: Bool {
+        return false
+    }
+}
+
+fileprivate struct Flag2Key: EnvironmentKey, TransactionKey {
     static var defaultValue: Bool {
         return false
     }

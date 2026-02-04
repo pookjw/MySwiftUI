@@ -1806,3 +1806,10 @@ public struct TypeConformance<T: _SwiftUICorePrivate.ProtocolDescriptor> {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct _ViewList_Group {
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.Transaction {
+  @_silgen_name("$s7SwiftUI11TransactionV7currentACvg")
+  public var current: SwiftUI.Transaction { get }
+}

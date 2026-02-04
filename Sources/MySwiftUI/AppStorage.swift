@@ -13,7 +13,7 @@ private import Combine
             return location.getValue(forReading: true)
         }
         nonmutating set {
-            fatalError("TODO")
+            location.canonicalLocation.set(newValue, transaction: Transaction())
         }
     }
     
@@ -233,7 +233,25 @@ class UserDefaultLocation<Value>: @unchecked Sendable {
     
     @usableFromInline
     internal func set(_ value: Value, transaction: Transaction) {
-        fatalError("TODO")
+        if let observableObjectPublisher {
+            observableObjectPublisher.send()
+        }
+        
+        withTransaction(transaction.current) { [self, value] in
+            // $s7SwiftUI19UserDefaultLocationC3set_11transactionyx_AA11TransactionVtFyyXEfU_TA
+            /*
+             self -> x20
+             value -> x22
+             */
+            // x24
+            let copy_1 = value
+            self.cachedValue = copy_1
+            // sp + 0x10
+            let copy_2 = value
+            // x22
+            let store = self.store
+            self.transform.writeValue(copy_2, to: store, key: self.key)
+        }
     }
     
     @usableFromInline
@@ -248,98 +266,101 @@ class UserDefaultLocation<Value>: @unchecked Sendable {
 }
 
 protocol UserDefaultsValueTransform {
-    static func readValue(from: UserDefaults, key: String) -> Any?
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String)
+    static func readValue(from store: UserDefaults, key: String) -> Any?
+    static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String)
 }
 
 fileprivate protocol ScalarUserDefaultsValueTransform: UserDefaultsValueTransform {
     associatedtype Scalar
 }
 
+extension ScalarUserDefaultsValueTransform {
+    static func readValue(from store: UserDefaults, key: String) -> Any? {
+        guard store.object(forKey: key) != nil else {
+            return nil
+        }
+        
+        if Scalar.self == Bool.self {
+            return store.bool(forKey: key)
+        } else if Scalar.self == Double.self {
+            return store.double(forKey: key)
+        } else if Scalar.self == Int.self {
+            return store.integer(forKey: key)
+        } else {
+            return nil
+        }
+    }
+    
+    static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
+        guard let casted = newValue as? Scalar else {
+            store.removeObject(forKey: key)
+            return
+        }
+        
+        store.set(casted, forKey: key)
+    }
+}
+
 fileprivate struct JSONCodableTransform: UserDefaultsValueTransform {
-    static func readValue(from: UserDefaults, key: String) -> Any? {
+    static func readValue(from store: UserDefaults, key: String) -> Any? {
         fatalError("TODO")
     }
     
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String) {
+    static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
         fatalError("TODO")
     }
 }
 
 fileprivate struct RawRepresentableTransform: UserDefaultsValueTransform {
-    static func readValue(from: UserDefaults, key: String) -> Any? {
+    static func readValue(from store: UserDefaults, key: String) -> Any? {
         fatalError("TODO")
     }
     
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String) {
+    static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
         fatalError("TODO")
     }
 }
 
 fileprivate struct PropertyListTransform: UserDefaultsValueTransform {
-    static func readValue(from: UserDefaults, key: String) -> Any? {
+    static func readValue(from store: UserDefaults, key: String) -> Any? {
         fatalError("TODO")
     }
     
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String) {
+    static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
         fatalError("TODO")
     }
 }
 
 fileprivate struct URLTransform: UserDefaultsValueTransform {
-    static func readValue(from: UserDefaults, key: String) -> Any? {
+    static func readValue(from store: UserDefaults, key: String) -> Any? {
         fatalError("TODO")
     }
     
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String) {
+    static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
         fatalError("TODO")
     }
 }
 
 fileprivate struct StringTransform: UserDefaultsValueTransform {
-    static func readValue(from: UserDefaults, key: String) -> Any? {
+    static func readValue(from store: UserDefaults, key: String) -> Any? {
         fatalError("TODO")
     }
     
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String) {
+    static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
         fatalError("TODO")
     }
 }
 
 fileprivate struct DoubleTransform: ScalarUserDefaultsValueTransform {
     typealias Scalar = Double
-    
-    static func readValue(from: UserDefaults, key: String) -> Any? {
-        fatalError("TODO")
-    }
-    
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String) {
-        fatalError("TODO")
-    }
 }
 
 fileprivate struct IntegerTransform: ScalarUserDefaultsValueTransform {
     typealias Scalar = Int
-    
-    static func readValue(from: UserDefaults, key: String) -> Any? {
-        fatalError("TODO")
-    }
-    
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String) {
-        fatalError("TODO")
-    }
 }
 
 fileprivate struct BoolTransform: ScalarUserDefaultsValueTransform {
     typealias Scalar = Bool
-    
-    static func readValue(from: UserDefaults, key: String) -> Any? {
-        fatalError("TODO")
-    }
-    
-    static func writeValue(_ newValue: Any?, to: UserDefaults, key: String) {
-        fatalError("TODO")
-    }
 }
 
 extension EnvironmentValues {
@@ -376,6 +397,27 @@ fileprivate final class UserDefaultObserver: NSObject {
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        // $s7SwiftUI19UserDefaultObserver33_F2BB00CEA25D2617C18DE8984EB64B53LLC12observeValue10forKeyPath2of6change7contextySSSg_ypSgSDySo05NSKeyo6ChangeQ0aypGSgSvSgtFTf4nndnn_n
+        /*
+         self -> x20
+         keyPath -> x22/x20
+         change -> x26
+         context -> x23
+         */
+        let owned = withUnsafeMutablePointer(to: &UserDefaultObserver.observationContext) {
+            return context == UnsafeMutableRawPointer($0)
+        }
+        
+        guard owned else {
+            return
+        }
+        
+        // x23, x25, x28
+        guard case .subscribed(let userDefaults, let key) = state else {
+            return
+        }
+        
+        // <+160>
         fatalError("TODO")
     }
     

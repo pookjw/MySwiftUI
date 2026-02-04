@@ -82,8 +82,25 @@ private import AttributeGraph
         }
     }
     
-    package func override(with other: PropertyList) {
-        fatalError("TODO")
+    package mutating func override(with other: PropertyList) {
+        /*
+         self -> x20 -> x19
+         other -> x21
+         */
+        // x20
+        if let selfElements = elements {
+            if let otherElements = other.elements {
+                if let selfBefore = selfElements.before {
+                    elements = PropertyList.Element(keyType: EmptyKey.self, before: otherElements, after: selfBefore)
+                } else {
+                    elements = selfElements.copy(before: otherElements, after: selfElements.after)
+                }
+            } else {
+                elements = selfElements
+            }
+        } else {
+            elements = other.elements
+        }
     }
     
     package func forEach<T: PropertyKey>(keyType: T.Type, _ handler: (T.Value, inout Bool) -> Void) -> Bool {
