@@ -1229,7 +1229,8 @@ class ViewController: UIViewController {
 //        let model = MyObservableEnvironmentView.Model.init()
 //        let rootView = MyObservableEnvironmentView(model: model)
         
-        let rootView = MyAppStorageView()
+//        let rootView = MyAppStorageView()
+        let rootView = Color.black
         
         let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)

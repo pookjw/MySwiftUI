@@ -40,7 +40,7 @@ final class DemoViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.appStorageView
+        let item = DemoViewController.Item.colorBlackView
         pushToItem(item)
         
 //        Task {

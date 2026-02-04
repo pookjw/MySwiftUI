@@ -1,4 +1,4 @@
-
+// FAF0B683EB49BE9BABC9009857940A1E
 public import UIKit
 @_spi(Internal) public import MySwiftUICore
 internal import _UIKitShims
@@ -703,6 +703,23 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        /*
+         point -> d9, d8
+         event -> x21
+         */
+        var result: UIView? {
+            // x21
+            return super.hitTest(point, with: event)
+        }
+        
+        printHitTestIfNeeded(at: point, with: event)
+        
+        guard GestureContainerFeature.isEnabled else {
+            // <+464>
+            return result
+        }
+        
+        // <+92>
         assert(mySwiftUI_disableUnimplementedAssertion)
         return super.hitTest(point, with: event)
     }
@@ -1080,6 +1097,10 @@ open class _UIHostingView<Content: View>: UIView {
         }
         
         return tabBarController._inSidebarTransition
+    }
+    
+    fileprivate final func printHitTestIfNeeded(at point: CGPoint, with event: UIEvent?) {
+        fatalError("TODO")
     }
 }
 
