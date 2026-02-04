@@ -12,6 +12,7 @@ private import AttributeGraph
 public import UIIntelligenceSupport
 internal import UIAccessibility
 private import os.log
+private import Spatial
 
 // TODO: 지워야함
 fileprivate let mySwiftUI_disableUnimplementedAssertion: Bool = {
@@ -720,6 +721,11 @@ open class _UIHostingView<Content: View>: UIView {
         }
         
         // <+92>
+        guard (_UICurrentHitTestContext() != nil) && CoreTesting.isRunning else {
+            // <+464>
+            return result
+        }
+        
         assert(mySwiftUI_disableUnimplementedAssertion)
         return super.hitTest(point, with: event)
     }
@@ -1100,6 +1106,15 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     fileprivate final func printHitTestIfNeeded(at point: CGPoint, with event: UIEvent?) {
+        /*
+         point -> d9/d8
+         event -> x23
+         self -> x22
+         */
+        guard _eventDebugTriggers.isSuperset(of: .hitTest) else {
+            return
+        }
+        
         fatalError("TODO")
     }
 }

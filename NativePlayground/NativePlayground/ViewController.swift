@@ -1230,11 +1230,12 @@ class ViewController: UIViewController {
 //        let rootView = MyObservableEnvironmentView(model: model)
         
 //        let rootView = MyAppStorageView()
-        let rootView = Color.black
+//        let rootView = Color.black
         
-        let hostingView = _UIHostingView(rootView: rootView)
+//        let hostingView = _UIHostingView(rootView: rootView)
 //        let hostingView = MyHostingView(rootView: rootView)
-        self.view = hostingView
+//        self.view = hostingView
+        super.loadView()
         
 //        Task {
 //            while true {
@@ -1299,20 +1300,23 @@ class ViewController: UIViewController {
 //            }
 //        }
         
-        print(NSStringFromClass(object_getClass(hostingView)!))
-        print(hostingView)
+//        print(NSStringFromClass(object_getClass(hostingView)!))
+//        print(hostingView)
     }
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        let hostingController = UIHostingController(rootView: EmptyView())
-//        addChild(hostingController)
-//        view.addSubview(hostingController.view)
-//        hostingController.view.frame = view.bounds
-//        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        hostingController.didMove(toParent: self)
-//    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let hostingController = UIHostingController(rootView: Color.black)
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.frame = view.bounds
+        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        hostingController.didMove(toParent: self)
+        
+        print(NSStringFromClass(object_getClass(hostingController)!))
+        print(hostingController)
+    }
     
 //    override func viewDidLoad() {
 //        super.viewDidLoad()

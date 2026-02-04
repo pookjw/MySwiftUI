@@ -4,7 +4,7 @@
 #import <_UIKitPrivate/_UICornerInsets.h>
 #import <_UIKitPrivate/_UIGestureRecognizerContainer.h>
 #import <_UIKitPrivate/_UIBaselineOffsetPair.h>
-#import <_UIKitPrivate/_UIHitTestContext.h>
+#import <_UIKitPrivate/UIHitTestContext.h>
 #import <_UIKitPrivate/UILayoutAxes.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
