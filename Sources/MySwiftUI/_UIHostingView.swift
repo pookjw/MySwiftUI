@@ -63,7 +63,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var legacyKeyboardSeed: UInt32 = 0
     private var legacyKeyboardScreen: MyUIScreen? = nil
     private var legacyKeyboardAnimation: Animation? = nil
-    private weak var viewController: UIHostingController<Content>? = nil
+    weak var viewController: UIHostingController<Content>? = nil
     private var currentEvent: UIEvent? = nil
     private var eventBridge: UIKitEventBindingBridge
     private nonisolated(unsafe) var dumpLayerNotificationTokens: (Int32, Int32)? = nil

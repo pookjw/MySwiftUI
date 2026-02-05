@@ -4,31 +4,52 @@ internal import MySwiftUICore
 private import _UIKitPrivate
 
 open class UIHostingController<Content: View>: UIViewController {
-    private var allowedBehaviors: HostingControllerAllowedBehaviors
-    private var requiredBridges: HostingControllerBridges
-    private var host: _UIHostingView<Content>
-    private var overrides: HostingControllerOverrides
-    private var customTabItem: UIKitTabBarItem?
-    private weak var lastZoomPresentationSource: UIView?
-    private var toolbarBridge: ToolbarBridge<UIKitToolbarStrategy>?
-    private var inspectorBridgeV5: UIKitInspectorBridgeV5<Content>?
-    private var barAppearanceBridge: BarAppearanceBridge?
-    private let dialogBridge: UIKitDialogBridge
-    private var testBridge: PPTTestBridge?
-    private var contentScrollViewBridge: UIKitContentScrollViewBridge?
-    private let modernNavigationBridge: ModernNavigationBridge
-    private let fileImportExportBridge: FileImportExportBridge
-    private var deferredEdges: Edge.Set?
-    private var screenEdgesSystemGestureSeedTracker: VersionSeedSetTracker
-    private var shouldDeferScreenEdgesSystemGestureToChildViewController: Bool
-    private var persistentSystemOverlays: (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?)
-    private var persistentSystemOverlaysSeedTracker: VersionSeedSetTracker
-    private var shouldDeferPersistentSystemOverlaysToChildViewController: Bool
-    private(set) var navigationBridge: NavigationBridge_PhoneTV?
-    private var keyboardShortcutBridge: KeyboardShortcutBridge?
-    private var ornamentBridge: OrnamentBridge<Content>?
-    private var overridePreferredContainerBackgroundStyle: UIContainerBackgroundStyle
-    @preconcurrency public var sizingOptions: UIHostingControllerSizingOptions
+    final var allowedBehaviors: HostingControllerAllowedBehaviors = [] // 0xa78
+    
+    final var requiredBridges: HostingControllerBridges = [] {
+        didSet {
+            fatalError("TODO")
+        }
+    } // 0xa80
+    
+    final var host: _UIHostingView<Content>
+    
+    final var overrides = HostingControllerOverrides(
+        pushTarget: PushTarget(
+            navController: nil,
+            shouldReplaceRoot: false,
+            column: nil
+        ),
+        navigation: nil,
+        split: nil,
+        hasBackItem: nil
+    ) // 0xa88
+    
+    final var customTabItem: UIKitTabBarItem? = nil // 0xa90
+    final weak var lastZoomPresentationSource: UIView? = nil // 0xa98
+    final var toolbarBridge: ToolbarBridge<UIKitToolbarStrategy>? = nil // 0xaa0
+    final var inspectorBridgeV5: UIKitInspectorBridgeV5<Content>? = nil // 0xaa8
+    final var barAppearanceBridge: BarAppearanceBridge? = nil // 0xab0
+    final let dialogBridge = UIKitDialogBridge() // 0xab8
+    final var testBridge: PPTTestBridge? = nil // 0xac0
+    final var contentScrollViewBridge: UIKitContentScrollViewBridge? = nil // 0xac8
+    final let modernNavigationBridge = ModernNavigationBridge(seedTracker: VersionSeedTracker(seed: .invalid)) // 0xad0
+    final let fileImportExportBridge = FileImportExportBridge() // 0xad8
+    final var deferredEdges: Edge.Set? = nil // 0xae0
+    final var screenEdgesSystemGestureSeedTracker = VersionSeedSetTracker() // 0xae8
+    final var shouldDeferScreenEdgesSystemGestureToChildViewController: Bool = false // 0xaf0
+    final var persistentSystemOverlays: (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?) = (nil, nil) // 0xaf8
+    final var persistentSystemOverlaysSeedTracker = VersionSeedSetTracker() // 0xb00
+    final var shouldDeferPersistentSystemOverlaysToChildViewController: Bool = false // 0xb08
+    final private(set) var navigationBridge: NavigationBridge_PhoneTV? = nil // 0xb10
+    final var keyboardShortcutBridge: KeyboardShortcutBridge? = nil // 0xb28
+    final var ornamentBridge: OrnamentBridge<Content>? = nil // 0xb20
+    final var overridePreferredContainerBackgroundStyle: UIContainerBackgroundStyle = .automatic // 0xb28
+    @preconcurrency public var sizingOptions: UIHostingControllerSizingOptions = [] {
+        didSet {
+            fatalError("TODO")
+        }
+    }
     
     @preconcurrency public var rootView: Content {
         get {
@@ -169,7 +190,9 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     @preconcurrency public init(rootView: Content) {
-        fatalError("TODO")
+        host = _UIHostingView(rootView: rootView)
+        super.init(nibName: nil, bundle: nil)
+        _commonInit()
     }
     
     @preconcurrency public init?(coder aDecoder: NSCoder, rootView: Content) {
@@ -240,6 +263,188 @@ open class UIHostingController<Content: View>: UIViewController {
     
     final func _viewSafeAreaDidChange() {
         fatalError("TODO")
+    }
+    
+    private final var _preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _prefersStatusBarHidden: Bool {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _childForStatusBarStyle: UIViewController? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _childForStatusBarHidden: UIViewController? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _childForInterfaceOrientationLock: UIViewController? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _persistentSystemOverlays: Visibility {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var secondaryRootSystemOverlaysValue: Visibility? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _prefersHomeIndicatorAutoHidden: Bool {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _childForHomeIndicatorAutoHidden: UIViewController? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var persistentSystemOverlaysFromPreferences: Visibility? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var disallowAnimations: Bool {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var centersRootView: Bool {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var isHiddenForReuse: Bool {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var _keyCommands: [UIKeyCommand]? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var rendererObject: AnyObject? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var rendererConfiguration: _RendererConfiguration {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final var coalescesChanges: Bool {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    private final func _commonInit() {
+        /*
+         self -> x19
+         */
+        host.viewController = self
+        
+        Update.ensure {
+            // x22
+            let viewGraph = host.viewGraph
+            viewGraph.append(feature: EditModeScopeFeature())
+            
+            // <+144>
+            dialogBridge.hostingController = self
+            // <+180>
+            
+            fatalError("TODO")
+            
+        }
     }
 }
 

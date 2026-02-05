@@ -1,7 +1,7 @@
 internal import UIKit
 
 struct PushTarget {
-    private weak var navController: UINavigationController?
-    private var shouldReplaceRoot: Bool
-    private var column: UISplitViewController.Column?
+    private(set) weak var navController: UINavigationController?
+    private(set) var shouldReplaceRoot: Bool
+    private(set) var column: UISplitViewController.Column?
 }

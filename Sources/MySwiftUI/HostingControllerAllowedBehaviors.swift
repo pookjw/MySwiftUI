@@ -1,4 +1,4 @@
-struct HostingControllerAllowedBehaviors {
+struct HostingControllerAllowedBehaviors: OptionSet {
     let rawValue: Int
     // TODO
 }

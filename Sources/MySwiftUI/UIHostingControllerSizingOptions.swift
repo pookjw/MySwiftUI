@@ -4,7 +4,7 @@ public struct UIHostingControllerSizingOptions: OptionSet, Sendable {
     public let rawValue: Int
     
     public init(rawValue: Int) {
-        fatalError("TODO")
+        self.rawValue = rawValue
     }
     
     public static let preferredContentSize: UIHostingControllerSizingOptions = {

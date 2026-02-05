@@ -1,4 +1,3 @@
-
 @frozen
 public enum Visibility: Int, Hashable, CaseIterable {
     case automatic
