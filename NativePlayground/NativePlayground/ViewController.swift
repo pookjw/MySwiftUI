@@ -847,6 +847,15 @@ class ViewController: UIViewController {
         //        
         print("===")
         
+        
+        print(_typeName(UIHostingController<Color>.self, qualified: true))
+        _forEachField(of: UIHostingController<Color>.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        //        
+        print("===")
+        
         print(_typeName(GraphHost.self, qualified: true))
         _forEachField(of: GraphHost.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
