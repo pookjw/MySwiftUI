@@ -1,8 +1,35 @@
+// 6ABC303D5DCFFEFD4C711D02B9F178CC
 public import UIKit
 internal import MySwiftUICore
 private import _UIKitPrivate
 
 open class UIHostingController<Content: View>: UIViewController {
+    private var allowedBehaviors: HostingControllerAllowedBehaviors
+    private var requiredBridges: HostingControllerBridges
+    private var host: _UIHostingView<Content>
+    private var overrides: HostingControllerOverrides
+    private var customTabItem: UIKitTabBarItem?
+    private weak var lastZoomPresentationSource: UIView?
+    private var toolbarBridge: ToolbarBridge<UIKitToolbarStrategy>?
+    private var inspectorBridgeV5: UIKitInspectorBridgeV5<Content>?
+    private var barAppearanceBridge: BarAppearanceBridge?
+    private let dialogBridge: UIKitDialogBridge
+    private var testBridge: PPTTestBridge?
+    private var contentScrollViewBridge: UIKitContentScrollViewBridge?
+    private let modernNavigationBridge: ModernNavigationBridge
+    private let fileImportExportBridge: FileImportExportBridge
+    private var deferredEdges: Edge.Set?
+    private var screenEdgesSystemGestureSeedTracker: VersionSeedSetTracker
+    private var shouldDeferScreenEdgesSystemGestureToChildViewController: Bool
+    private var persistentSystemOverlays: (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?)
+    private var persistentSystemOverlaysSeedTracker: VersionSeedSetTracker
+    private var shouldDeferPersistentSystemOverlaysToChildViewController: Bool
+    private(set) var navigationBridge: NavigationBridge_PhoneTV?
+    private var keyboardShortcutBridge: KeyboardShortcutBridge?
+    private var ornamentBridge: OrnamentBridge<Content>?
+    private var overridePreferredContainerBackgroundStyle: UIContainerBackgroundStyle
+    @preconcurrency public var sizingOptions: UIHostingControllerSizingOptions
+    
     @preconcurrency public var rootView: Content {
         get {
             fatalError("TODO")
@@ -208,10 +235,6 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func didRender() {
-        fatalError("TODO")
-    }
-    
-    final var navigationBridge: NavigationBridge_PhoneTV? {
         fatalError("TODO")
     }
     

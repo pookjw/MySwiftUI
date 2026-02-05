@@ -1,0 +1,3 @@
+class OrnamentBridge<T> {
+    // TODO
+}

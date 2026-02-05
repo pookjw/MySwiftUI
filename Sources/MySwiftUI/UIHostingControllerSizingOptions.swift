@@ -15,14 +15,3 @@ public struct UIHostingControllerSizingOptions: OptionSet, Sendable {
         fatalError("TODO")
     }()
 }
-
-extension UIHostingController {
-    @preconcurrency public var sizingOptions: UIHostingControllerSizingOptions {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-}

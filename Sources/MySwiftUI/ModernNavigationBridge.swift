@@ -1,0 +1,3 @@
+class ModernNavigationBridge {
+    // TODO
+}

@@ -1,0 +1,3 @@
+class UIKitDialogBridge {
+    // TODO
+}

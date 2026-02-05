@@ -1,0 +1,3 @@
+class KeyboardShortcutBridge {
+    // TODO
+}
