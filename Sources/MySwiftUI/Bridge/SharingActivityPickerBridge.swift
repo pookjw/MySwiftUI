@@ -1,20 +1,21 @@
 private import UIKit
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 private import AttributeGraph
 
 final class SharingActivityPickerBridge {
-    private weak var host: ViewRendererHost?
-    private var overrideArrowDirections: UIPopoverArrowDirection?
-    private weak var presenterOverride: UIViewController?
-    private weak var barItemAnchor: UIBarButtonItem?
-    private var activePresentation: SharingActivityPickerPresentation?
-    private var presented: UIActivityViewController?
-    private var lastPresentationSeed: VersionSeed
-    private lazy var popoverPresentationDelegate = PopoverPresentationDelegate() // TODO
-    private var hasPendingAnchorUpdate: Bool
+    weak var host: ViewRendererHost? = nil
+    private var overrideArrowDirections: UIPopoverArrowDirection? = nil
+    private weak var presenterOverride: UIViewController? = nil
+    private weak var barItemAnchor: UIBarButtonItem? = nil
+    private var activePresentation: SharingActivityPickerPresentation? = nil
+    private var presented: UIActivityViewController? = nil
+    private var lastPresentationSeed: VersionSeed = .empty // 0x938
+    private lazy var popoverPresentationDelegate: PopoverPresentationDelegate = {
+        fatalError("TODO")
+    }() // 0x940 (storage)
+    private var hasPendingAnchorUpdate: Bool = false // 0x948
     
     init() {
-        fatalError("TODO")
     }
     
     // 원래 없음
@@ -36,6 +37,11 @@ final class SharingActivityPickerBridge {
     
     private func reset() {
         fatalError("TODO")
+    }
+    
+    @inline(__always)
+    final func addPreferences(to viewGraph: ViewGraph) {
+        viewGraph.addPreference(SharingActivityPickerPresentation.Key.self)
     }
 }
 

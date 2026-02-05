@@ -1,10 +1,10 @@
-private import UIKit
+internal import UIKit
 private import MySwiftUICore
 private import AttributeGraph
 
 class UIKitDialogBridge/*: DialogActionDelegate*/ {
     weak var hostingController: UIViewController? = nil
-    private weak var host: (UIView & ViewRendererHost)? = nil
+    weak var host: (UIView & ViewRendererHost)? = nil
     private var activePresentation: UIKitDialogBridge.ActivePresentation = .none
     private var presentedVC: PlatformAlertController? = nil // 0xe48
     private var dialogSeed: VersionSeed = .empty // 0xe50
@@ -35,8 +35,48 @@ struct ConfirmationDialog {
     // TODO
 }
 
+extension ConfirmationDialog {
+    struct PreferenceKey: HostPreferenceKey {
+        static var defaultValue: Never {
+            fatalError("TODO")
+        }
+        
+        static func reduce(value: inout Never, nextValue: () -> Never) {
+            fatalError("TODO")
+        }
+        
+        static var _isReadableByHost: Bool {
+            fatalError("TODO")
+        }
+        
+        static var _includesRemovedValues: Bool {
+            fatalError("TODO")
+        }
+    }
+}
+
 struct AlertStorage {
     // TODO
+}
+
+extension AlertStorage {
+    struct PreferenceKey: HostPreferenceKey {
+        static var defaultValue: Never {
+            fatalError("TODO")
+        }
+        
+        static func reduce(value: inout Never, nextValue: () -> Never) {
+            fatalError("TODO")
+        }
+        
+        static var _isReadableByHost: Bool {
+            fatalError("TODO")
+        }
+        
+        static var _includesRemovedValues: Bool {
+            fatalError("TODO")
+        }
+    }
 }
 
 struct DialogActionContext {

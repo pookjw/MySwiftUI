@@ -4,8 +4,8 @@ protocol ViewGraphBridgePropertiesDelegate: AnyObject {
 }
 
 struct HostingControllerBridgeActions: OptionSet {
-    static let unknown1 = HostingControllerBridgeActions(rawValue: 1 << 0)
-    static let unknown2 = HostingControllerBridgeActions(rawValue: 1 << 1)
+    static let unknown0 = HostingControllerBridgeActions(rawValue: 1 << 0)
+    static let unknown1 = HostingControllerBridgeActions(rawValue: 1 << 1)
     
     let rawValue: UInt32
 }

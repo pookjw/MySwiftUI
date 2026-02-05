@@ -4,7 +4,7 @@ internal import MySwiftUICore
 private import MySwiftUICore
 
 final class FileImportExportBridge: NSObject {
-    private weak var host: ViewRendererHost? = nil // 0x530
+    weak var host: ViewRendererHost? = nil // 0x530
     private var presentationState = FileImportExportBridge.PresentationState(currentPresentation: nil, importSeed: .empty, exportSeed: .empty) // 0x538
     private var presentedPicker: PlatformFilePicker? = nil // 0x540
     private var lastEnvironment = EnvironmentValues()
@@ -24,11 +24,59 @@ extension FileImportExportBridge {
     }
     
     enum Presentation {
-//        case `import`(FileImportOperation)
-//        case export(FileExportOperation)
+        case `import`(FileImportOperation)
+        case export(FileExportOperation)
     }
 }
 
 fileprivate protocol PlatformFilePicker: AnyObject {
     // TODO
+}
+
+struct FileImportOperation {
+    // TODO
+}
+
+extension FileImportOperation {
+    struct Key: HostPreferenceKey {
+        static var defaultValue: Never {
+            fatalError("TODO")
+        }
+        
+        static func reduce(value: inout Never, nextValue: () -> Never) {
+            fatalError("TODO")
+        }
+        
+        static var _isReadableByHost: Bool {
+            fatalError("TODO")
+        }
+        
+        static var _includesRemovedValues: Bool {
+            fatalError("TODO")
+        }
+    }
+}
+
+struct FileExportOperation {
+    // TODO
+}
+
+extension FileExportOperation {
+    struct Key: HostPreferenceKey {
+        static var defaultValue: Never {
+            fatalError("TODO")
+        }
+        
+        static func reduce(value: inout Never, nextValue: () -> Never) {
+            fatalError("TODO")
+        }
+        
+        static var _isReadableByHost: Bool {
+            fatalError("TODO")
+        }
+        
+        static var _includesRemovedValues: Bool {
+            fatalError("TODO")
+        }
+    }
 }

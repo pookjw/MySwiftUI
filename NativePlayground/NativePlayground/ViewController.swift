@@ -442,6 +442,24 @@ class ViewController: UIViewController {
         //     
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI18UIKitPopoverBridgeC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI18UIKitPopoverBridgeC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        //     
+        print("===")
+        
+        print(_typeName(_typeByName("7SwiftUI27SharingActivityPickerBridgeC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI27SharingActivityPickerBridgeC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        //     
+        print("===")
+        
         print(_typeName(_typeByName("7SwiftUI24HostingControllerBridgesV")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI24HostingControllerBridgesV")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))

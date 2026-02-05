@@ -1,6 +1,6 @@
 // 6ABC303D5DCFFEFD4C711D02B9F178CC
 public import UIKit
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import _UIKitPrivate
 
 open class UIHostingController<Content: View>: UIViewController {
@@ -69,7 +69,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func loadView() {
-        fatalError("TODO")
+        view = host
     }
     
     open override dynamic func viewWillAppear(_ animated: Bool) {
@@ -77,7 +77,8 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func willMove(toParent parent: UIViewController?) {
-        fatalError("TODO")
+        super.willMove(toParent: parent)
+        _willMove(toParent: parent)
     }
     
     open override dynamic func addChild(_ childController: UIViewController) {
@@ -111,7 +112,8 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func didMove(toParent parent: UIViewController?) {
-        fatalError("TODO")
+        super.didMove(toParent: parent)
+        _didMove(toParent: parent)
     }
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -434,17 +436,120 @@ open class UIHostingController<Content: View>: UIViewController {
         host.viewController = self
         
         Update.ensure {
-            // x22
-            let viewGraph = host.viewGraph
-            viewGraph.append(feature: EditModeScopeFeature())
+            host.viewGraph.append(feature: EditModeScopeFeature())
             
             // <+144>
             dialogBridge.hostingController = self
-            // <+180>
+            dialogBridge.host = host
             
-            fatalError("TODO")
+            do {
+                let viewGraph = host.viewGraph
+                viewGraph.addPreference(ConfirmationDialog.PreferenceKey.self)
+                viewGraph.addPreference(AlertStorage.PreferenceKey.self)
+                viewGraph.addPreference(AllowsSecureDrawingKey.self)
+            }
             
+            // <+364>
+            host.viewGraph.addPreference(UpdateViewDestinationRequest.UpdateViewDestinationRequestKey.self)
+            fileImportExportBridge.host = host
+            
+            do {
+                let viewGraph = host.viewGraph
+                viewGraph.addPreference(FileImportOperation.Key.self)
+                viewGraph.addPreference(FileExportOperation.Key.self)
+            }
+            
+            if !type(of: host).ignoresPresentations {
+                // <+600>
+                // x25
+                let popoverBridge = UIKitPopoverBridge()
+                popoverBridge.host = host
+                
+                let viewGraph = host.viewGraph
+                viewGraph.addPreference(InspectorStorage.PreferenceKey.self)
+                viewGraph.addPreference(InspectorAnchorPreferenceKey.self)
+                viewGraph.addPreference(PopoverPresentation.Key.self)
+                viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
+                viewGraph.addPreference(PresentationOptionsPreferenceKey.self)
+                
+                host.popoverBridge = popoverBridge
+            }
+            
+            // <+864>
+            addScreenEdgesSystemGesturePreferences(to: host.viewGraph)
+            addPersistentSystemOverlaysPreferences(to: host.viewGraph)
+            
+            // <+964>
+            if PPTFeature.isEnabled {
+                testBridge = PPTTestBridge(host: nil, shouldUpdateEnvironment: false, testCase: nil)
+                testBridge?.host = host
+            }
+            
+            // <+1104>
+            let sharingActivityPickerBridge = SharingActivityPickerBridge()
+            sharingActivityPickerBridge.host = host
+            sharingActivityPickerBridge.addPreferences(to: host.viewGraph)
+            host.sharingActivityPickerBridge = sharingActivityPickerBridge
+            
+            let shareConfigurationBridge = ShareConfigurationBridge()
+            shareConfigurationBridge.host = host
+            host.viewGraph.addPreference(AnyShareConfiguration.Key.self)
+            host.shareConfigurationBridge = shareConfigurationBridge
+            
+            host.viewGraph.addPreference(HostingGestureOverlayAuthorityKey.self)
+            
+            if traitCollection.userInterfaceIdiom == .vision {
+                let ornamentBridge = OrnamentBridge<Content>()
+                ornamentBridge.hostingController = self
+                ornamentBridge.addPreferences(to: host.viewGraph)
+                self.ornamentBridge = ornamentBridge
+            }
+            
+            // <+1688>
         }
+    }
+    
+    final func addScreenEdgesSystemGesturePreferences(to viewGraph: ViewGraph) {
+        func add<T: HostPreferenceKey>(preference: T.Type) {
+            viewGraph.addPreference(preference)
+            screenEdgesSystemGestureSeedTracker.addPreference(preference)
+        }
+        
+        add(preference: ScreenEdgesSystemGestureKey.self)
+    }
+    
+    final func addPersistentSystemOverlaysPreferences(to viewGraph: ViewGraph) {
+        func add<T: HostPreferenceKey>(preference: T.Type) {
+            viewGraph.addPreference(preference)
+            persistentSystemOverlaysSeedTracker.addPreference(preference)
+        }
+        
+        add(preference: PersistentSystemOverlaysKey.self)
+    }
+    
+    final func _willMove(toParent parent: UIViewController?) {
+        let overrides: HostingControllerOverrides
+        if let parent {
+            overrides = HostingControllerOverrides(
+                pushTarget: nil,
+                navigation: nil,
+                split: nil,
+                hasBackItem: nil
+            )
+        } else {
+            overrides = HostingControllerOverrides(
+                pushTarget: nil,
+                navigation: navigationController,
+                split: splitViewController,
+                hasBackItem: nil
+            )
+        }
+        
+        self.overrides = overrides
+    }
+    
+    final func _didMove(toParent parent: UIViewController?) {
+        resolveRequiredBridges(nil, allowedActions: (parent == nil) ? .unknown1 : .unknown0)
     }
 }
 
@@ -468,6 +573,10 @@ extension UIHostingController : _UIHostingViewable where Content == AnyView {
 
 extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {
     final func resolveRequiredBridges(_: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
+        /*
+         properties -> x0, x1, x2, x3
+         allowedActions -> x4
+         */
         fatalError("TODO")
     }
 }

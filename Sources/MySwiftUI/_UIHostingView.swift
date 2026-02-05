@@ -101,12 +101,12 @@ open class _UIHostingView<Content: View>: UIView {
     }()
     private(set) final var focusBridge = FocusBridge()
     private let dragBridge = DragAndDropBridge()
-    private var popoverBridge: UIKitPopoverBridge?
-    internal final var inspectorBridge: UIKitInspectorBridgeV3? = nil
+    final var popoverBridge: UIKitPopoverBridge?
+    final var inspectorBridge: UIKitInspectorBridgeV3? = nil
     private var tooltipBridge = TooltipBridge()
     private var editMenuBridge = EditMenuBridge()
-    private var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
-    private var shareConfigurationBridge: ShareConfigurationBridge? = nil
+    final var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
+    final var shareConfigurationBridge: ShareConfigurationBridge? = nil
     private var statusBarBridge = UIKitStatusBarBridge()
     private weak var sceneBridge: SceneBridge? = nil
     private var scenePresentationBridge: ScenePresentationBridge? = nil
@@ -1290,7 +1290,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
             
             // <+1544>
             if let viewController {
-                viewController.resolveRequiredBridges(resolved.viewGraphBridgeProperties, allowedActions: [.unknown1, .unknown2])
+                viewController.resolveRequiredBridges(resolved.viewGraphBridgeProperties, allowedActions: [.unknown0, .unknown1])
             }
         }
         

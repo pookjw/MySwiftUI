@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct PersistentSystemOverlaysKey: HostPreferenceKey {
+struct ScreenEdgesSystemGestureKey: HostPreferenceKey {
     static var defaultValue: Never {
         fatalError("TODO")
     }
@@ -15,13 +15,5 @@ struct PersistentSystemOverlaysKey: HostPreferenceKey {
     
     static var _includesRemovedValues: Bool {
         fatalError("TODO")
-    }
-}
-
-extension PersistentSystemOverlaysKey {
-    struct Overlays {
-        private(set) var visibility: Visibility
-        private(set) var isAnimated: Bool
-        // TODO
     }
 }

@@ -2,32 +2,31 @@ internal import UIKit
 internal import MySwiftUICore
 
 final class UIKitPopoverBridge: NSObject {
-    private weak var host: ViewRendererHost?
-    private var overrideArrowDirections: UIPopoverArrowDirection?
-    private weak var presenterOverride: UIViewController?
-    private weak var barItemAnchor: UIBarButtonItem?
-    private var tabItemAnchor: UIPopoverPresentationControllerSourceItem?
-    private var delayedPopoverPreferences: PreferenceValues?
-    private var activePresentation: UIKitPopoverBridge.PresentationKind
-    private var activeInspectorAnchor: Anchor<CGRect?>?
-    private var dismissingReason: DismissingReason?
-    private var pendingDismissAction: (() -> Void)?
+    weak var host: ViewRendererHost? = nil // 0x840
+    private var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x848
+    private weak var presenterOverride: UIViewController? = nil // 0x850
+    private weak var barItemAnchor: UIBarButtonItem? = nil // 0x858
+    private weak var tabItemAnchor: UIPopoverPresentationControllerSourceItem? // 0x860
+    private var delayedPopoverPreferences: PreferenceValues? = nil // 0x4d0
+    private var activePresentation: UIKitPopoverBridge.PresentationKind = .none // 0x4d8
+    private var activeInspectorAnchor: Anchor<CGRect?>? = nil // 0x868
+    private var dismissingReason: DismissingReason? = nil // 0x870
+    private var pendingDismissAction: (() -> Void)? = nil // 0x878
     private lazy var popoverPresentationDelegate: PopoverPresentationDelegate? = {
         fatalError("TODO")
-    }()
-    private var presentedVC: PresentationHostingController<AnyView>?
-    private var inspectorSeed: VersionSeed
-    private var anchorSeed: VersionSeed
-    private var popoverSeed: VersionSeed
-    private var backgroundSeed: VersionSeed
-    private var presentationOptionsSeed: VersionSeed
-    private var lastInspectorValues: [ViewIdentity: InspectorStorage]
-    private var lastAnchorValues: [AnyHashable: Anchor<CGRect?>]
-    private var lastPopoverPresentation: PopoverPresentation?
-    var wasBackgrounded: Bool
+    }() // 0x880 (storage)
+    private var presentedVC: PresentationHostingController<AnyView>? = nil // 0x4e0
+    private var inspectorSeed: VersionSeed = .empty // 0x888
+    private var anchorSeed: VersionSeed = .empty // 0x890
+    private var popoverSeed: VersionSeed = .empty // 0x898
+    private var backgroundSeed: VersionSeed = .empty // 0x8a0
+    private var presentationOptionsSeed: VersionSeed = .empty // 0x8a8
+    private var lastInspectorValues: [ViewIdentity: InspectorStorage] = [:] // 0xe70
+    private var lastAnchorValues: [AnyHashable: Anchor<CGRect?>] = [:] // 0x8b8
+    private var lastPopoverPresentation: PopoverPresentation? = nil // 0x8c0
+    var wasBackgrounded: Bool = false // 0x8c8
     
     override init() {
-        fatalError("TODO")
         super.init()
     }
     

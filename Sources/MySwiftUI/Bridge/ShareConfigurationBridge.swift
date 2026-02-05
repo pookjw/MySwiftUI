@@ -1,11 +1,10 @@
 internal import MySwiftUICore
 
 class ShareConfigurationBridge {
-    private weak var host: ViewRendererHost?
-    var shareConfigurationSeed: VersionSeedTracker<AnyShareConfiguration.Key>
+    weak var host: ViewRendererHost? = nil
+    var shareConfigurationSeed = VersionSeedTracker<AnyShareConfiguration.Key>(seed: .invalid)
     
     init() {
-        fatalError("TODO")
     }
     
     final func shareConfigurationDidChange(_: AnyShareConfiguration?) {

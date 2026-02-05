@@ -1,4 +1,3 @@
-
 package protocol HostPreferenceKey: PreferenceKey {
     
 }
