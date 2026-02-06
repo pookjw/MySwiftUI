@@ -1,6 +1,9 @@
 internal import MySwiftUICore
+internal import AttributeGraph
 
 struct ViewGraphBridgeProperties {
+    @safe static nonisolated(unsafe) let defaultValue = ViewGraphBridgeProperties()
+    
     var suppliedBridges = HostingControllerBridges(rawValue: 0)
     private var managedBridges = HostingControllerBridges(rawValue: 0)
     private var requestedBars: Set<ToolbarPlacement.Role> = []
@@ -17,7 +20,7 @@ struct HostingControllerBridges: OptionSet {
 }
 
 extension EnvironmentValues {
-    // 원래 없음
+    @inline(__always)
     var viewGraphBridgeProperties: ViewGraphBridgeProperties {
         get {
             return self[BridgePropertiesEnvironmentKey.self]
@@ -31,5 +34,18 @@ extension EnvironmentValues {
 fileprivate struct BridgePropertiesEnvironmentKey: EnvironmentKey {
     static var defaultValue: ViewGraphBridgeProperties {
         return ViewGraphBridgeProperties()
+    }
+}
+
+extension _GraphInputs {
+    @inline(__always)
+    var viewGraphBridgeProperties: WeakAttribute<ViewGraphBridgeProperties> {
+        get {
+            return self[ViewGraphBridgePropertiesKey.self]
+        }
+    }
+    
+    fileprivate struct ViewGraphBridgePropertiesKey: ViewInput {
+        @safe static nonisolated(unsafe) let defaultValue = WeakAttribute<ViewGraphBridgeProperties>()
     }
 }

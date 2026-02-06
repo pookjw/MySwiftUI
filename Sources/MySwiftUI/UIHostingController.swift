@@ -2,6 +2,7 @@
 public import UIKit
 @_spi(Internal) internal import MySwiftUICore
 private import _UIKitPrivate
+private import AttributeGraph
 
 open class UIHostingController<Content: View>: UIViewController {
     final var allowedBehaviors: HostingControllerAllowedBehaviors = [] // 0xa78
@@ -195,7 +196,8 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func viewWillLayoutSubviews() {
-        fatalError("TODO")
+        super.viewWillLayoutSubviews()
+        _viewWillLayoutSubviews()
     }
     
     open override dynamic func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
@@ -283,8 +285,8 @@ open class UIHostingController<Content: View>: UIViewController {
         fatalError("TODO")
     }
     
-    final func update(_: inout EnvironmentValues) {
-        fatalError("TODO")
+    final func update(_ environmentValues: inout EnvironmentValues) {
+        _update(&environmentValues)
     }
     
     final func updateViewGraphBridges(_: inout ViewGraphBridgeProperties) {
@@ -296,7 +298,9 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func _viewSafeAreaDidChange() {
-        fatalError("TODO")
+        if let toolbarBridge {
+            toolbarBridge.safeAreaDidChange(hostingController: self)
+        }
     }
     
     final var _preferredStatusBarStyle: UIStatusBarStyle {
@@ -504,7 +508,21 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     fileprivate final func navigationHierarchyAllowsToolbarBridge() -> Bool {
-        fatalError("TODO")
+        if ViewGraphBridgePropertiesAreInput.isEnabled {
+            return true
+        }
+        
+        if !clientNeedsNestedToolbarBridgeSuppression {
+            return true
+        }
+        
+        guard let navigationController else {
+            return false
+        }
+        
+        return navigationController
+            .viewControllers
+            .contains { $0 == self}
     }
     
     final func resolveBarAppearanceBehavior(_: ViewGraphBridgeProperties) {
@@ -512,6 +530,67 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     fileprivate final func updateInitialSceneGeometry() {
+        // self -> x20 -> x23
+        // <+476>
+        guard let sceneBridge = host.sceneBridge else {
+            return
+        }
+        
+        fatalError("TODO")
+    }
+    
+    final func _viewWillLayoutSubviews() {
+        layoutToolbarIfNeeded()
+    }
+    
+    fileprivate final func layoutToolbarIfNeeded() {
+        guard let toolbarBridge else {
+            return
+        }
+        
+        fatalError("TODO")
+    }
+    
+    final func _update(_ environment: inout EnvironmentValues) {
+        /*
+         self -> x20 -> x23
+         environmentValues -> x0 -> x19
+         */
+        dialogBridge.lastEnvironment = environment
+        
+        // <+204>
+        if let navigationBridge {
+            navigationBridge.update(environment: &environment)
+        }
+        
+        if let barAppearanceBridge {
+            barAppearanceBridge.update(environment: &environment)
+        }
+        
+        // <+272>
+        if let contentScrollViewBridge {
+            contentScrollViewBridge.pixelLength = environment.pixelLength
+        }
+        
+        // <+320>
+        if let testBridge {
+            // <+332>
+            fatalError("TODO")
+        }
+        
+        // <+608>
+        environment.withCurrentHostingController = WithCurrentHostingControllerAction(self)
+        
+        // <+692>
+        persistentSystemOverlaysEnvironmentDidChange(environment: environment)
+        ToolbarBridge<UIKitToolbarStrategy>.update(environment: &environment, toolbarBridge: toolbarBridge, hostingController: self)
+        
+        if let inspectorBridgeV5 {
+            inspectorBridgeV5.update(environment: &environment)
+        }
+    }
+    
+    final func persistentSystemOverlaysEnvironmentDidChange(environment: EnvironmentValues) {
         fatalError("TODO")
     }
 }
@@ -542,7 +621,14 @@ extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate
          allowedActions -> x4 -> x23
          */
         func graphValue() -> ViewGraphBridgeProperties {
-            fatalError("TODO")
+            return Graph.withoutUpdate { 
+                // $s7SwiftUI19UIHostingControllerC22resolveRequiredBridges_14allowedActionsyAA25ViewGraphBridgePropertiesVSg_AA07HostingdlI0VtF10graphValueL_AGyAA0J0RzlFAGyXEfU_
+                /*
+                 self -> x0 -> x21
+                 return register -> x19
+                 */
+                return host.viewGraph.viewGraphInputs.viewGraphBridgeProperties.wrappedValue ?? .defaultValue
+            }
         }
         
         Update.ensure {
@@ -801,3 +887,8 @@ public func _makeUIHostingController(_ view: AnyView, tracksContentSize: Bool, s
 public func _makeWatchKitUIHostingController(_ view: AnyView) -> any NSObject & _UIHostingViewable {
     fatalError("TODO")
 }
+
+@safe fileprivate nonisolated(unsafe) let clientNeedsNestedToolbarBridgeSuppression: Bool = {
+    // $s7SwiftUI41clientNeedsNestedToolbarBridgeSuppression33_1D3224F5185670D36FFEB48E24E43C4FLLSbvpfiSbyXEfU_
+    fatalError("TODO")
+}()

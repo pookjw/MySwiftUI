@@ -4,7 +4,12 @@ internal import UIKit
 private import MRUIKit
 
 class OrnamentBridge<Content: View> {
-    weak var hostingController: UIHostingController<Content>? = nil
+    weak var hostingController: UIHostingController<Content>? = nil {
+        didSet {
+            updateSceneOrnamentFrameMonitor()
+        }
+    }
+    
     private var ornamentsSeed: VersionSeed = .empty // 0x120
     private var ornaments: [Namespace.ID: OrnamentBridge<Content>.PresentationState] = .init() // 0x8a0
     private var sceneOrnamentFrameMonitor: SceneOrnamentFrameMonitor? = nil // 0x128
@@ -36,7 +41,18 @@ class OrnamentBridge<Content: View> {
         }
         
         // <+204>
-        fatalError("TODO")
+        // platterOrnamentManager -> sp + 0x8
+        if let sceneOrnamentFrameMonitor {
+            // <+224>
+            fatalError("TODO")
+        } else {
+            guard let platterOrnamentManager else {
+                return
+            }
+            
+            // <+328>
+            fatalError("TODO")
+        }
     }
     
     // TODO
@@ -49,8 +65,32 @@ extension OrnamentBridge {
     }
 }
 
-fileprivate class SceneOrnamentFrameMonitor {
-    // TODO
+fileprivate final class SceneOrnamentFrameMonitor {
+    weak var ornamentManager: MRUIPlatterOrnamentManager?
+    var onFramesMayHaveChanged: (() -> Void)?
+    var observations: [ObjectIdentifier: [NSKeyValueObservation]]
+    
+    init(ornamentManager: MRUIPlatterOrnamentManager?, onFramesMayHaveChanged: (() -> Void)?, observations: [ObjectIdentifier : [NSKeyValueObservation]]) {
+        self.ornamentManager = ornamentManager
+        self.onFramesMayHaveChanged = onFramesMayHaveChanged
+        self.observations = observations
+    }
+    
+    deinit {
+        fatalError("TODO")
+    }
+    
+    func observe(ornament: MRUIPlatterOrnament) {
+        fatalError("TODO")
+    }
+    
+    @objc func ornamentAdde(_: Notification) {
+        fatalError("TODO")
+    }
+    
+    @objc func ornamentRemoved(_: Notification) {
+        fatalError("TODO")
+    }
 }
 
 struct OrnamentPresentation {

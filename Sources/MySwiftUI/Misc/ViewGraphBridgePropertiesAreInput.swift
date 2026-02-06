@@ -6,4 +6,8 @@ struct ViewGraphBridgePropertiesAreInput: ViewInputBoolFlag, UserDefaultKeyedFea
     }
     
     @safe static nonisolated(unsafe) var cachedValue: Bool?
+    
+    static var defaultFeatureValue: Bool {
+        return true
+    }
 }

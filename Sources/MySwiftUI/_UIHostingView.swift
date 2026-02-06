@@ -63,7 +63,11 @@ open class _UIHostingView<Content: View>: UIView {
     private var legacyKeyboardSeed: UInt32 = 0
     private var legacyKeyboardScreen: MyUIScreen? = nil
     private var legacyKeyboardAnimation: Animation? = nil
-    weak var viewController: UIHostingController<Content>? = nil
+    weak var viewController: UIHostingController<Content>? = nil {
+        didSet {
+            updateBackgroundColor()
+        }
+    }
     private var currentEvent: UIEvent? = nil
     private var eventBridge: UIKitEventBindingBridge
     private nonisolated(unsafe) var dumpLayerNotificationTokens: (Int32, Int32)? = nil
@@ -108,7 +112,7 @@ open class _UIHostingView<Content: View>: UIView {
     final var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
     final var shareConfigurationBridge: ShareConfigurationBridge? = nil
     private var statusBarBridge = UIKitStatusBarBridge()
-    private weak var sceneBridge: SceneBridge? = nil
+    private(set) weak var sceneBridge: SceneBridge? = nil
     private var scenePresentationBridge: ScenePresentationBridge? = nil
     private var pointerBridge: PointerBridge? = nil
     private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>? = nil
@@ -1117,6 +1121,39 @@ open class _UIHostingView<Content: View>: UIView {
         
         fatalError("TODO")
     }
+    
+    final func updateBackgroundColor() {
+        func setBackground(_ backgroundColor: UIColor?, canOverwriteClientValue: Bool) {
+            guard !disabledBackgroundColor || canOverwriteClientValue else {
+                return
+            }
+            
+            super.backgroundColor = backgroundColor
+        } 
+        
+        if appliesContainerBackgroundColor, let containerBackgroundColor {
+            setBackground(containerBackgroundColor, canOverwriteClientValue: true)
+        } else {
+            // <+60>
+            guard let viewController else {
+                return
+            }
+            
+            if wantsTransparentBackground {
+                setBackground(nil, canOverwriteClientValue: true)
+            } else {
+                if traitCollection.userInterfaceIdiom == .vision {
+                    setBackground(nil, canOverwriteClientValue: true)
+                } else {
+                    setBackground(.systemBackground, canOverwriteClientValue: false)
+                }
+            }
+        }
+    }
+    
+    final var wantsTransparentBackground: Bool {
+        return !transparentBackgroundReasons.isEmpty
+    }
 }
 
 protocol UIHostingViewDelegate: AnyObject {
@@ -1380,7 +1417,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         deprecatedActionSheetBridge.update(environment: resolved)
         
         if let sheetBridge {
-            sheetBridge.update(environment: resolved)
+            sheetBridge._update(environment: resolved)
         }
         
         // <+3364>

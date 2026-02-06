@@ -12,7 +12,7 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
     private var alertSeed: VersionSeed = .empty // 0xe60
     private var lastAlertValues: [ViewIdentity: AlertStorage]? = nil // 0xe68
     private var lastAllowsSecureDrawing: Bool = false // 0xe70
-    private var lastEnvironment = EnvironmentValues() // 0xe78
+    var lastEnvironment = EnvironmentValues() // 0xe78
     private var lastActionContext: DialogActionContext? = nil // 0xe80
     private var lastPlatformItemList: PlatformItemList? = nil // 0xe88
     private var actionsChangeDetector = WeakAttribute<Void>()

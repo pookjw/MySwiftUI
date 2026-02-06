@@ -10,5 +10,8 @@ final class BarAppearanceBridge {
         fatalError("TODO")
     }
     
+    final func update(environment: inout EnvironmentValues) {
+        fatalError("TODO")
+    }
     // TODO
 }

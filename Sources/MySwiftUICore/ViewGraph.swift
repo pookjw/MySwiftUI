@@ -581,6 +581,19 @@ package final class ViewGraph: GraphHost {
         
         fatalError("TODO")
     }
+    
+    package var viewGraphInputs: _GraphInputs {
+        // return register -> x19
+        // sp + 0x90
+        var copy_1 = data.inputs
+        
+        guard let preferenceBridge = _preferenceBridge else {
+            return copy_1
+        }
+        
+        copy_1.customInputs = preferenceBridge.bridgedViewInputs
+        return copy_1
+    }
 }
 
 extension ViewGraph {

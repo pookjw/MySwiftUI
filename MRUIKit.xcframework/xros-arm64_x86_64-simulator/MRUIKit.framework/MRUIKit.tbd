@@ -16,6 +16,7 @@ exports:
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,
-    MRUIPlatterOrnamentManager ]
+    MRUIPlatterOrnamentManager,
+    MRUIPlatterOrnament ]
     objc-ivars:           [  ]
 ...

@@ -5,7 +5,7 @@ private import AttributeGraph
     private var isValid: Bool
     private var children: [Unmanaged<ViewGraph>]
     private var requestedPreferences: PreferenceKeys
-    private var bridgedViewInputs: PropertyList
+    private(set) var bridgedViewInputs: PropertyList
     @WeakAttribute private var hostPreferenceKeys: PreferenceKeys?
     @WeakAttribute private var hostPreferencesCombiner: PreferenceValues?
     private var bridgedPreferences: [PreferenceBridge.BridgedPreference]

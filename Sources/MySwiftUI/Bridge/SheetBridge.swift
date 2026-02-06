@@ -118,7 +118,7 @@ class SheetBridge<T>: NSObject {
     
     // ___lldb_unnamed_symbol264926
     @MainActor
-    final func update(environment: EnvironmentValues) {
+    final func _update(environment: EnvironmentValues) {
         // environment = x23
         // x22
         let lastEnvironment = lastEnvironment
@@ -139,6 +139,10 @@ class SheetBridge<T>: NSObject {
     }
     
     private final func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
+        fatalError("TODO")
+    }
+    
+    final func update(environment: inout EnvironmentValues) {
         fatalError("TODO")
     }
 }

@@ -9,3 +9,4 @@
 #import <MRUIKit/MRUISharedApplicationSceneSettings.h>
 #import <MRUIKit/UIScene+MRUIPrivate.h>
 #import <MRUIKit/MRUIPlatterOrnamentManager.h>
+#import <MRUIKit/MRUIPlatterOrnament.h>
