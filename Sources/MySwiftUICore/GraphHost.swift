@@ -688,8 +688,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         fatalError("TODO")
     }
     
-    @inline(__always)
-    var environment: EnvironmentValues {
+    package var environment: EnvironmentValues {
         return data.environment
     }
     

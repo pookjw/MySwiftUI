@@ -7,5 +7,5 @@ struct HostingControllerBridgeActions: OptionSet {
     static let unknown0 = HostingControllerBridgeActions(rawValue: 1 << 0)
     static let unknown1 = HostingControllerBridgeActions(rawValue: 1 << 1)
     
-    let rawValue: UInt32
+    let rawValue: Int
 }

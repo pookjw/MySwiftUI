@@ -1,4 +1,4 @@
-// 6ABC303D5DCFFEFD4C711D02B9F178CC
+// 1D3224F5185670D36FFEB48E24E43C4F
 public import UIKit
 @_spi(Internal) internal import MySwiftUICore
 private import _UIKitPrivate
@@ -73,7 +73,22 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func viewWillAppear(_ animated: Bool) {
-        fatalError("TODO")
+        super.viewWillAppear(animated)
+        /*
+         self -> x19
+         animated -> x21
+         */
+        resolveRequiredBridges(nil, allowedActions: [.unknown0, .unknown1])
+        prepareForNavigationTransition(animated)
+        coordinateListSelection(transitionCoordinator: transitionCoordinator, isAnimated: animated)
+        
+        if let toolbarBridge {
+            toolbarBridge.viewWillAppear(hostingController: self)
+        }
+        
+        if let barAppearanceBridge {
+            barAppearanceBridge.viewWillAppear(hostingController: self)
+        }
     }
     
     open override dynamic func willMove(toParent parent: UIViewController?) {
@@ -267,7 +282,61 @@ open class UIHostingController<Content: View>: UIViewController {
         fatalError("TODO")
     }
     
-    private final var _preferredStatusBarStyle: UIStatusBarStyle {
+    final var _preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var _prefersStatusBarHidden: Bool {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var _preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var _childForStatusBarStyle: UIViewController? {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var _childForStatusBarHidden: UIViewController? {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var _childForInterfaceOrientationLock: UIViewController? {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var _persistentSystemOverlays: Visibility {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var _prefersHomeIndicatorAutoHidden: Bool {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var _childForHomeIndicatorAutoHidden: UIViewController? {
+        get {
+            fatalError("TODO")
+        }
+    }
+    
+    final var disallowAnimations: Bool {
         get {
             fatalError("TODO")
         }
@@ -276,7 +345,7 @@ open class UIHostingController<Content: View>: UIViewController {
         }
     }
     
-    private final var _prefersStatusBarHidden: Bool {
+    final var centersRootView: Bool {
         get {
             fatalError("TODO")
         }
@@ -285,7 +354,7 @@ open class UIHostingController<Content: View>: UIViewController {
         }
     }
     
-    private final var _preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+    final var isHiddenForReuse: Bool {
         get {
             fatalError("TODO")
         }
@@ -294,142 +363,7 @@ open class UIHostingController<Content: View>: UIViewController {
         }
     }
     
-    private final var _childForStatusBarStyle: UIViewController? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var _childForStatusBarHidden: UIViewController? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var _childForInterfaceOrientationLock: UIViewController? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var _persistentSystemOverlays: Visibility {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var secondaryRootSystemOverlaysValue: Visibility? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var _prefersHomeIndicatorAutoHidden: Bool {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var _childForHomeIndicatorAutoHidden: UIViewController? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var persistentSystemOverlaysFromPreferences: Visibility? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var disallowAnimations: Bool {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var centersRootView: Bool {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var isHiddenForReuse: Bool {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var _keyCommands: [UIKeyCommand]? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var rendererObject: AnyObject? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var rendererConfiguration: _RendererConfiguration {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final var coalescesChanges: Bool {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    private final func _commonInit() {
+    final func _commonInit() {
         /*
          self -> x19
          */
@@ -551,6 +485,14 @@ open class UIHostingController<Content: View>: UIViewController {
     final func _didMove(toParent parent: UIViewController?) {
         resolveRequiredBridges(nil, allowedActions: (parent == nil) ? .unknown1 : .unknown0)
     }
+    
+    fileprivate final func navigationHierarchyAllowsToolbarBridge() -> Bool {
+        fatalError("TODO")
+    }
+    
+    final func resolveBarAppearanceBehavior(_: ViewGraphBridgeProperties) {
+        fatalError("TODO")
+    }
 }
 
 @available(iOS 16.4, tvOS 16.4, *)
@@ -572,12 +514,249 @@ extension UIHostingController : _UIHostingViewable where Content == AnyView {
 }
 
 extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {
-    final func resolveRequiredBridges(_: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
+    final func resolveRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
         /*
-         properties -> x0, x1, x2, x3
-         allowedActions -> x4
+         self -> x20 -> x21
+         properties -> x0, x1, x2, x3 -> x19, x26, x27, x28
+         allowedActions -> x4 -> x23
          */
-        fatalError("TODO")
+        func graphValue() -> ViewGraphBridgeProperties {
+            fatalError("TODO")
+        }
+        
+        Update.ensure {
+            // x24, sp + 0x40, x25
+            var resolved: ViewGraphBridgeProperties
+            if ViewGraphBridgePropertiesAreInput.isEnabled {
+                // <+196>
+                if let properties {
+                    // <+228>
+                    resolved = properties
+                    // <+356>
+                } else {
+                    // <+200>
+                    resolved = graphValue()
+                    resolved.suppliedBridges = [] // x19는 복사 안하고 있음. nil인채로 들어오면 0임
+                    // <+356>
+                }
+            } else {
+                // <+224>
+                if let properties {
+                    resolved = properties
+                    // <+356>
+                } else {
+                    // <+244>
+                    resolved = host.viewGraph.environment.viewGraphBridgeProperties
+                    resolved.suppliedBridges = [] // x19는 복사 안하고 있음. nil인채로 들어오면 0임
+                    // <+356>
+                }
+            }
+            
+            // <+356>
+            // x22
+            let environment = host.viewGraph.environment
+            let flag_1: Bool // true -> <+468> / false -> <+1188>
+            if let properties {
+                if allowedActions.isDisjoint(with: [.unknown0, .unknown1]) {
+                    // <+1188>
+                    flag_1 = false
+                } else {
+                    // <+468>
+                    flag_1 = true
+                }
+            } else {
+                // <+444>
+                if environment.plist.isEmpty {
+                    // <+1200>
+                    return
+                } else {
+                    if allowedActions.isDisjoint(with: [.unknown0, .unknown1]) {
+                        // <+1188>
+                        flag_1 = false
+                    } else {
+                        // <+468>
+                        flag_1 = true
+                    }
+                }
+            }
+            
+            if flag_1 {
+                // <+468>
+                // x19
+                let requiredBridges = requiredBridges
+                // x27
+                let navigationController = navigationController ?? overrides.navigation
+                // <+556>
+                // sp + 0x38
+                let x290xa8 = allowedActions.intersection(.unknown0)
+                // sp + 0x30
+                let tabBarController = tabBarController
+                
+                // true -> <+752> / false -> <+768>
+                let flag_2: Bool
+                
+                if let navigationController {
+                    // <+596>
+                    if !resolved.suppliedBridges.contains(.unknown2) {
+                        // <+600>
+                        if navigationController._supportsDataDrivenNavigation() {
+                            // <+768>
+                            flag_2 = true
+                        } else {
+                            // <+752>
+                            flag_2 = false
+                        }
+                    } else {
+                        // <+768>
+                        flag_2 = true
+                    }
+                } else {
+                    // <+624>
+                    if let navigationBridge, let _host = navigationBridge.host {
+                        // <+652>
+                        if let navigation = _host.hostingControllerOverrides.navigation {
+                            // <+752>
+                            flag_2 = false
+                        } else {
+                            // <+768>
+                            flag_2 = true
+                        }
+                    } else {
+                        // <+768>
+                        flag_2 = true
+                    }
+                }
+                
+                var x26: Int
+                let flag_3: Bool // true -> <+784> / false -> <+796>
+                if !flag_2 {
+                    // <+752>
+                    x26 = requiredBridges.rawValue | (x290xa8.rawValue << 2)
+                    
+                    if let navigationController {
+                        // <+784>
+                        flag_3 = true
+                    } else {
+                        // <+796>
+                        flag_3 = false
+                    }
+                } else {
+                    // <+768>
+                    let x8 = requiredBridges.subtracting(.unknown2)
+                    if allowedActions.contains(.unknown1) {
+                        x26 = x8.rawValue
+                    } else {
+                        x26 = requiredBridges.rawValue
+                    }
+                    // <+784>
+                    if navigationController == nil {
+                        flag_3 = false
+                    } else {
+                        flag_3 = true
+                    }
+                }
+                
+                let flag_4: Bool // true -> <+884> / false -> <+804>
+                if flag_3, self.navigationHierarchyAllowsToolbarBridge() {
+                    // <+884>
+                    flag_4 = true
+                } else {
+                    // <+796>
+                    flag_4 = (tabBarController != nil)
+                }
+                
+                let flag_5: Bool // true -> <+908> / false -> <+888>
+                if !flag_4 {
+                    // <+804>
+                    if host.isRootHost {
+                        // <+884>
+                        flag_5 = resolved.suppliedBridges.contains(.unknown0)
+                    } else {
+                        // <+908>
+                        flag_5 = true
+                    }
+                } else {
+                    // <+884>
+                    flag_5 = resolved.suppliedBridges.contains(.unknown0)
+                }
+                
+                var x19: Int
+                if !flag_5 {
+                    // <+888>
+                    let x8 = ((x26 & 1) != 0) ? (x290xa8.rawValue) : 0
+                    x19 = x26 | x8
+                    // <+924>
+                } else {
+                    // <+908>
+                    x19 = (!allowedActions.contains(.unknown1) ? x26 : (x26 & ~1))
+                }
+                // x290xa8 -> x20
+                
+                // <+924>
+                let v3 = isLinkedOnOrAfter(.v3)
+                // <+932>
+                let w8 = resolved.suppliedBridges.contains(.unknown4)
+                let x9 = x19 | (x290xa8.rawValue << 4)
+                let x10 = !allowedActions.contains(.unknown1) ? x19 : (x19 & ~0x10)
+                
+                if v3 && !w8 {
+                    x26 = x9
+                } else {
+                    x26 = x10
+                }
+                
+                if host.isRootHost, host.window != nil {
+                    // <+1076>
+                    x19 = x26 | (x290xa8.rawValue << 1)
+                    x26 = x290xa8.rawValue
+                } else {
+                    // <+1100>
+                    let x8 = x26 & ~0x2
+                    if !allowedActions.contains(.unknown1) {
+                        x19 = x26
+                    } else {
+                        x19 = x8
+                    }
+                    x26 = x290xa8.rawValue
+                }
+                
+                let flag_6: Bool // true -> <+1148> / false -> <+1164>
+                if !resolved.suppliedBridges.contains(.unknown7) {
+                    // <+1120>
+                    if type(of: host).ignoresPresentations {
+                        // <+1148>
+                        flag_6 = true
+                    } else {
+                        // <+1164>
+                        flag_6 = false
+                    }
+                } else {
+                    // <+1148>
+                    flag_6 = true
+                }
+                
+                let newRequiredBridges: HostingControllerBridges
+                if flag_6 {
+                    // <+1148>
+                    let x8 = x19 & ~0x80
+                    let x0: Int
+                    if !allowedActions.contains(.unknown1) {
+                        x0 = x19
+                    } else {
+                        x0 = x8
+                    }
+                    newRequiredBridges = HostingControllerBridges(rawValue: x0)
+                } else {
+                    // <+1164>
+                    let x0 = x19 | (x26 << 7)
+                    newRequiredBridges = HostingControllerBridges(rawValue: x0)
+                }
+                self.requiredBridges = newRequiredBridges
+            }
+            
+            // <+1188>
+            resolveBarAppearanceBehavior(resolved)
+        }
     }
 }
 

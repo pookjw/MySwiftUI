@@ -29,3 +29,4 @@
 #import <_UIKitPrivate/UICoreHostingViewForUIKitTester.h>
 #import <_UIKitPrivate/_UIIntelligenceContentLightEffect.h>
 #import <_UIKitPrivate/UIHitTestContext.h>
+#import <_UIKitPrivate/UINavigationController+Private.h>
