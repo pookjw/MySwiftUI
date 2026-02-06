@@ -255,11 +255,28 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     package final func _as<T>(_ type: T.Type) -> T? {
+        guard type == UIHostingControllerProvider.self else {
+            return nil
+        }
+        
+        // <+112>
         fatalError("TODO")
     }
     
     final func _viewDidMoveToWindow() {
-        fatalError("TODO")
+        if let barAppearanceBridge {
+            barAppearanceBridge.didMoveToWindow(hostingController: self)
+        }
+        
+        if let inspectorBridgeV5 {
+            inspectorBridgeV5.didMoveToWindow()
+        }
+        
+        if let ornamentBridge {
+            ornamentBridge.didMoveToWindow()
+        }
+        
+        updateInitialSceneGeometry()
     }
     
     final func preferencesDidChange(_: PreferenceValues) {
@@ -491,6 +508,10 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func resolveBarAppearanceBehavior(_: ViewGraphBridgeProperties) {
+        fatalError("TODO")
+    }
+    
+    fileprivate final func updateInitialSceneGeometry() {
         fatalError("TODO")
     }
 }

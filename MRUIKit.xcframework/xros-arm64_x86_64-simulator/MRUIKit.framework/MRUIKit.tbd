@@ -15,6 +15,7 @@ exports:
     _$sSo6UIViewC7MRUIKitE11layerEntity10RealityKit0D0CSgvpMV ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
-    MRUISharedApplicationSceneSettings ]
+    MRUISharedApplicationSceneSettings,
+    MRUIPlatterOrnamentManager ]
     objc-ivars:           [  ]
 ...

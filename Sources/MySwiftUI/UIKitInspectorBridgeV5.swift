@@ -1,3 +1,3 @@
-class UIKitInspectorBridgeV5<T> {
+final class UIKitInspectorBridgeV5<T>: SheetBridge<T> {
     // TODO
 }

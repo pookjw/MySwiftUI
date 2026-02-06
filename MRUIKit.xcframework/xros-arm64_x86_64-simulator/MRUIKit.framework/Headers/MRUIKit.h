@@ -7,3 +7,5 @@
 #import <MRUIKit/MRUIWorldTrackingCapabilities.h>
 #import <MRUIKit/UITraitCollection+MRUIPrivate.h>
 #import <MRUIKit/MRUISharedApplicationSceneSettings.h>
+#import <MRUIKit/UIScene+MRUIPrivate.h>
+#import <MRUIKit/MRUIPlatterOrnamentManager.h>

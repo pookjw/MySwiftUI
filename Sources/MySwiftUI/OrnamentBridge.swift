@@ -1,5 +1,7 @@
 // E4F8DC7FC027B5DEBED25AF2F78DD489
-@_spi(Internal) private import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
+internal import UIKit
+private import MRUIKit
 
 class OrnamentBridge<Content: View> {
     weak var hostingController: UIHostingController<Content>? = nil
@@ -14,6 +16,29 @@ class OrnamentBridge<Content: View> {
     final func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(OrnamentPresentation.Key.self)
     }
+    
+    final func didMoveToWindow() {
+        updateSceneOrnamentFrameMonitor()
+    }
+    
+    fileprivate final func updateSceneOrnamentFrameMonitor() {
+        let platterOrnamentManager: AnyObject?
+        if
+            shouldMonitorAllSceneOrnaments,
+            let window = hostingController!.host.window,
+            let windowScene = window.windowScene
+        {
+           // <+160>
+            platterOrnamentManager = windowScene._mrui_platterOrnamentManager
+        } else {
+            // <+200>
+            platterOrnamentManager = nil
+        }
+        
+        // <+204>
+        fatalError("TODO")
+    }
+    
     // TODO
 }
 

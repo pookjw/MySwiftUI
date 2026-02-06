@@ -1,7 +1,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
-final class SheetBridge<T>: NSObject {
+class SheetBridge<T>: NSObject {
     weak var host: ViewRendererHost? = nil
     private var seed: VersionSeed = .empty
     private var presentationOptionsTracker = VersionSeedTracker<PresentationOptionsPreferenceKey>(seed: .empty)
@@ -19,7 +19,7 @@ final class SheetBridge<T>: NSObject {
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음
     @inlinable
-    func addPreferences(to viewGraph: ViewGraph) {
+    final func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(SheetPreference.Key.self)
         viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
         viewGraph.addPreference(PresentationOptionsPreferenceKey.self)
@@ -29,7 +29,7 @@ final class SheetBridge<T>: NSObject {
     }
     
     @MainActor
-    func didMoveToWindow() {
+    final func didMoveToWindow() {
         if host!.uiView?.window != nil {
             hasWindow = true
             
@@ -51,7 +51,7 @@ final class SheetBridge<T>: NSObject {
         }
     }
     
-    @MainActor func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+    @MainActor final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         /*
          self = x28
          preferenceValues = x21
@@ -118,7 +118,7 @@ final class SheetBridge<T>: NSObject {
     
     // ___lldb_unnamed_symbol264926
     @MainActor
-    func update(environment: EnvironmentValues) {
+    final func update(environment: EnvironmentValues) {
         // environment = x23
         // x22
         let lastEnvironment = lastEnvironment
@@ -138,37 +138,37 @@ final class SheetBridge<T>: NSObject {
         self.lastEnvironment = environment
     }
     
-    private func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
+    private final func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
         fatalError("TODO")
     }
 }
 
 extension SheetBridge: UIHostingViewDelegate {
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore.View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore.View {
         fatalError("TODO")
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
         fatalError("TODO")
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
         fatalError("TODO")
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore.View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore.View {
         // nop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
         fatalError("TODO")
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {
         fatalError("TODO")
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
         fatalError("TODO")
     }
 }

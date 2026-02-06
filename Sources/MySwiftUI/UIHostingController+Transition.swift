@@ -1,6 +1,7 @@
 // 2ADA36772BBE2FA4B0793F8DB8FE08F7
 internal import UIKit
 @_spi(Internal) private import MySwiftUICore
+private import _UIKitPrivate
 
 extension UIHostingController {
     final func prepareForNavigationTransition(_ animated: Bool) {
@@ -58,10 +59,20 @@ extension UIHostingController {
         // <+304>
         if let tableView = scrollView as? UITableView {
             // <+332>
-            fatalError("TODO")
+            // x22
+            let indexPathsForSelectedRows = tableView.indexPathsForSelectedRows
+            tableView._deselectRows(at: indexPathsForSelectedRows, animated: true, transitionCoordinator: transitionCoordinator)
         } else if let collectionView = scrollView as? UpdateCoalescingCollectionView {
             // <+480>
-            fatalError("TODO")
+            transitionCoordinator.animate { _ in
+                
+            } completion: { _ in
+                // $s7SwiftUI19UIHostingControllerC23coordinateListSelection21transitionCoordinator10isAnimatedySo06UIViewd10TransitionI0_pSg_SbtFySo0ldmI7Context_pcfU0_TA
+                fatalError("TODO")
+            }
+            
+            let indexPathsForSelectedItems = collectionView.indexPathsForSelectedItems
+            collectionView._deselectItems(at: indexPathsForSelectedItems, animated: true, transitionCoordinator: transitionCoordinator)
         }
     }
     
