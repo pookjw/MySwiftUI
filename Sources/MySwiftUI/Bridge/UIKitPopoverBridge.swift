@@ -12,7 +12,7 @@ final class UIKitPopoverBridge: NSObject {
     private var activeInspectorAnchor: Anchor<CGRect?>? = nil // 0x868
     private var dismissingReason: DismissingReason? = nil // 0x870
     private var pendingDismissAction: (() -> Void)? = nil // 0x878
-    private lazy var popoverPresentationDelegate: PopoverPresentationDelegate? = {
+    private lazy var popoverPresentationDelegate: PopoverPresentationDelegate = {
         fatalError("TODO")
     }() // 0x880 (storage)
     private var presentedVC: PresentationHostingController<AnyView>? = nil // 0x4e0

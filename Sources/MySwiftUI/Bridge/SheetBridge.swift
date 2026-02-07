@@ -16,8 +16,10 @@ class SheetBridge<T>: NSObject {
     private weak var presenterOverride: UIViewController? = nil
     private var lastEnvironment = EnvironmentValues()
     
-    // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
-    // 원래 없음
+    override init() {
+        super.init()
+    }
+    
     @inlinable
     final func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(SheetPreference.Key.self)
@@ -148,6 +150,10 @@ class SheetBridge<T>: NSObject {
     
     func update(bridgeProperties: inout ViewGraphBridgeProperties) {
         // nop
+    }
+    
+    final func removePreferences(from graph: ViewGraph) {
+        fatalError("TODO")
     }
 }
 

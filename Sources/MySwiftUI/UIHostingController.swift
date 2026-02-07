@@ -3,6 +3,7 @@ public import UIKit
 @_spi(Internal) internal import MySwiftUICore
 private import _UIKitPrivate
 private import AttributeGraph
+private import os.log
 
 open class UIHostingController<Content: View>: UIViewController {
     final var allowedBehaviors: HostingControllerAllowedBehaviors = [] // 0xa78
@@ -531,7 +532,8 @@ open class UIHostingController<Content: View>: UIViewController {
             .contains { $0 == self}
     }
     
-    final func resolveBarAppearanceBehavior(_: ViewGraphBridgeProperties) {
+    final func resolveBarAppearanceBehavior(_ properties: ViewGraphBridgeProperties) {
+        // managedBars만 씀 (x0)
         fatalError("TODO")
     }
     
@@ -921,10 +923,132 @@ open class UIHostingController<Content: View>: UIViewController {
             
             if x28.contains(.unknown1) {
                 // <+236>
-            } else if !x26.contains(.unknown1) {
+                if keyboardShortcutBridge != nil {
+                    // <+248>
+                    host.viewGraph.removePreference(KeyboardShortcutBindingsKey.self)
+                }
                 
+                // <+344>
+                if let keyboardShortcutBridge {
+                    keyboardShortcutBridge.flushKeyCommands(self)
+                }
+                
+                // <+428>
+                self.keyboardShortcutBridge = nil
+                // <+440>
+            } else if x26.contains(.unknown1) {
+                // <+208>
+                self.keyboardShortcutBridge = KeyboardShortcutBridge()
+                // <+440>
+            } else {
+                // <+440>
             }
-            fatalError("TODO")
+            
+            // <+440>
+            if x28.contains(.unknown2) {
+                // <+728>
+                if let navigationBridge {
+                    // <+740>
+                    host.viewGraph.removePreference(NavigationDestinationsKey.self)
+                }
+                
+                // <+808>
+                self.navigationBridge = nil
+                // <+820> (<+632>와 동일)
+            } else if x26.contains(.unknown2) {
+                // <+448>
+                self.navigationBridge = NavigationBridge_PhoneTV()
+                self.navigationBridge!.host = host
+                assert(self.navigationBridge != nil)
+                self.host.viewGraph.addPreference(NavigationDestinationsKey.self)
+                // <+632>
+            } else {
+                // <+632>
+            }
+            
+            // <+632>
+            if x28.contains(.unknown0) {
+                // <+824>
+                if let logger = Log.toolbar {
+                    logger.log(level: .default, "Removed toolbar bridge from \(self)")
+                }
+                
+                // <+1120>
+                if toolbarBridge != nil {
+                    let viewGraph = host.viewGraph
+                    viewGraph.removePreference(ToolbarKey.self)
+                    viewGraph.removePreference(SearchKey.self)
+                    viewGraph.removePreference(NavigationPropertiesKey.self)
+                    viewGraph.removePreference(UINavigationItemAdaptorKey.self)
+                }
+                
+                self.toolbarBridge = nil
+                // <+1300>
+            } else if x26.contains(.unknown0) {
+                // <+640>
+                if let logger = Log.toolbar {
+                    logger.log(level: .default, "Added toolbar bridge to \(self)")
+                }
+                
+                // <+2020>
+                self.toolbarBridge = ToolbarBridge<UIKitToolbarStrategy>()
+                assert(self.toolbarBridge != nil)
+                host.viewGraph.addPreference(ToolbarKey.self)
+                host.viewGraph.addPreference(SearchKey.self)
+                host.viewGraph.addPreference(NavigationPropertiesKey.self)
+                host.viewGraph.addPreference(UINavigationItemAdaptorKey.self)
+                // <+2200> (<+1300>와 동일)
+            } else {
+                // <+1300>
+            }
+            
+            // <+1300>
+            if x28.contains(.unknown4) {
+                // <+2204>
+                if contentScrollViewBridge != nil {
+                    host.viewGraph.removePreference(ContentScrollViewPreferenceKey.self)
+                }
+                self.contentScrollViewBridge = nil
+                // <+2296> (<+1520>와 동일)
+            } else if x26.contains(.unknown4) {
+                // <+1308>
+                self.contentScrollViewBridge = UIKitContentScrollViewBridge()
+                self.contentScrollViewBridge!.viewController = self
+                host.viewGraph.addPreference(ContentScrollViewPreferenceKey.self)
+                // <+1520>
+            } else {
+                // <+1520>
+            }
+            
+            // <+1520>
+            if x28.contains(.unknown7) {
+                // <+2300>
+                if let inspectorBridgeV5 {
+                    inspectorBridgeV5.removePreferences(from: host.viewGraph)
+                }
+                
+                self.inspectorBridgeV5 = nil
+                // <+2392>
+            } else if x26.contains(.unknown7) {
+                // <+1528>
+                self.inspectorBridgeV5 = UIKitInspectorBridgeV5()
+                
+                if let inspectorBridgeV5 {
+                    let host = host
+                    inspectorBridgeV5.host = host
+                    inspectorBridgeV5.transitioningDelegate.host = host
+                }
+                
+                // <+1708>
+                if let inspectorBridgeV5 {
+                    inspectorBridgeV5.addPreferences(to: host.viewGraph)
+                }
+                // <+2392>
+            } else {
+                // <+2392>
+            }
+            
+            // <+2392>
         }
     }
 }
@@ -951,6 +1075,10 @@ extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate
     func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
         fatalError("TODO")
     }
+}
+
+extension UIHostingController: KeyboardShortcutSource {
+    // TODO
 }
 
 @available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)

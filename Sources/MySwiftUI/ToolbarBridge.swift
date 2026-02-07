@@ -1,7 +1,31 @@
 // A409749AC298CF150D90E447BB4FA064
 internal import MySwiftUICore
+internal import Foundation
 
-final class ToolbarBridge<T> {
+@MainActor final class ToolbarBridge<T>: NSObject {
+    private var platformVended = Toolbar.PlatformVended() // 0xcc8
+    private var lastToolbarStorage: ToolbarStorage? = nil // 0x498
+    private var lastInputToolbarStorage: ToolbarStorage? = nil // 0x4a0
+    private var searchItem: ToolbarStorage.SearchItem? = nil // 0xcd0
+    private var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xcd8
+    private var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xce0
+    private var lastInputNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xce8
+    private var lastBarContext: Toolbar.BarContext? = nil // 0xcf0
+    private var lastEnvironment = EnvironmentValues() // 0xcf8
+    private var allowedLocations = Set<Toolbar.BarLocation>(Toolbar.BarLocation.allCases) // 0xd00
+    private var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0xd08
+    private var toolbarTracker = VersionSeedTracker<ToolbarKey>(seed: .invalid) // 0x4a8
+    private var searchTracker = VersionSeedTracker<SearchKey>(seed: .invalid) // 0x4b0
+    private var navigationPropertiesTracker = VersionSeedTracker<NavigationPropertiesKey>(seed: .invalid) // 0x4b8
+    private var navigationTitleTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x4c0
+    private var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x4c8
+    private var lastNavigationSeed = VersionSeed.invalid // 0x4d0
+    private var storageByLocation: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init() // 0x4d8
+    
+    override init() {
+        super.init()
+    }
+    
     static func update<Content: View>(environment: inout EnvironmentValues, toolbarBridge: ToolbarBridge<T>?, hostingController: UIHostingController<Content>) {
         /*
          environment -> x19
@@ -37,4 +61,76 @@ final class ToolbarBridge<T> {
     }
     
     // TODO
+}
+
+struct ToolbarKey: HostPreferenceKey {
+    static var defaultValue: Never {
+        fatalError("TODO")
+    }
+    
+    static func reduce(value: inout Never, nextValue: () -> Never) {
+        fatalError("TODO")
+    }
+    
+    static var _isReadableByHost: Bool {
+        fatalError("TODO")
+    }
+    
+    static var _includesRemovedValues: Bool {
+        fatalError("TODO")
+    }
+}
+
+struct SearchKey: HostPreferenceKey {
+    static var defaultValue: Never {
+        fatalError("TODO")
+    }
+    
+    static func reduce(value: inout Never, nextValue: () -> Never) {
+        fatalError("TODO")
+    }
+    
+    static var _isReadableByHost: Bool {
+        fatalError("TODO")
+    }
+    
+    static var _includesRemovedValues: Bool {
+        fatalError("TODO")
+    }
+}
+
+struct NavigationPropertiesKey: HostPreferenceKey {
+    static var defaultValue: Never {
+        fatalError("TODO")
+    }
+    
+    static func reduce(value: inout Never, nextValue: () -> Never) {
+        fatalError("TODO")
+    }
+    
+    static var _isReadableByHost: Bool {
+        fatalError("TODO")
+    }
+    
+    static var _includesRemovedValues: Bool {
+        fatalError("TODO")
+    }
+}
+
+struct UINavigationItemAdaptorKey: HostPreferenceKey {
+    static var defaultValue: Never {
+        fatalError("TODO")
+    }
+    
+    static func reduce(value: inout Never, nextValue: () -> Never) {
+        fatalError("TODO")
+    }
+    
+    static var _isReadableByHost: Bool {
+        fatalError("TODO")
+    }
+    
+    static var _includesRemovedValues: Bool {
+        fatalError("TODO")
+    }
 }

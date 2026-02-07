@@ -55,6 +55,10 @@
             argument = "-com.apple.SwiftUI.EnableLayoutDepthStashing false"
             isEnabled = "NO">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-com.apple.SwiftUI.EnableToolbarLogging YES"
+            isEnabled = "YES">
+         </CommandLineArgument>
       </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
