@@ -46,7 +46,7 @@ package final class ViewGraph: GraphHost {
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
     private var mainUpdates: Int = 0
     private(set) var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
-    private weak var _preferenceBridge: PreferenceBridge? = nil
+    private(set) weak var _preferenceBridge: PreferenceBridge? = nil
     private var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
     
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
@@ -785,7 +785,7 @@ package protocol ViewGraphFeature {
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
     mutating func needsUpdate(graph: ViewGraph) -> Bool
     mutating func update(graph: ViewGraph)
-    func outputsDidChange(graph: ViewGraph)
+    mutating func outputsDidChange(graph: ViewGraph)
 }
 
 extension ViewGraphFeature {

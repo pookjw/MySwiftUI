@@ -9,7 +9,7 @@ open class UIHostingController<Content: View>: UIViewController {
     
     final var requiredBridges: HostingControllerBridges = [] {
         didSet {
-            fatalError("TODO")
+            didChangeRequiredBridges(from: oldValue, to: requiredBridges)
         }
     } // 0xa80
     
@@ -294,6 +294,12 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func didRender() {
+        print(contentScrollViewBridge)
+        guard let contentScrollViewBridge else {
+            fatalError("TODO")
+            return
+        }
+        
         fatalError("TODO")
     }
     
@@ -614,27 +620,7 @@ open class UIHostingController<Content: View>: UIViewController {
     final func updateHomeIndicator(animated: Bool) {
         fatalError("TODO")
     }
-}
-
-@available(iOS 16.4, tvOS 16.4, *)
-@available(macOS, unavailable)
-extension UIHostingController {
-    @available(iOS 16.4, tvOS 16.4, *)
-    @available(macOS, unavailable)
-    @preconcurrency public var safeAreaRegions: SafeAreaRegions {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-}
-
-extension UIHostingController : _UIHostingViewable where Content == AnyView {
-}
-
-extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {
+    
     final func resolveRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
         /*
          self -> x20 -> x21
@@ -811,8 +797,10 @@ extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate
                 var x19: Int
                 if !flag_5 {
                     // <+888>
-                    let x8 = ((x26 & 1) != 0) ? (x290xa8.rawValue) : 0
-                    x19 = x26 | x8
+                    x19 = x26
+                    if (x26 & 1) == 0 {
+                        x19 = x19 | x290xa8.rawValue
+                    }
                     // <+924>
                 } else {
                     // <+908>
@@ -914,6 +902,53 @@ extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate
         if inspectorBridgeV5 != nil {
             bridgeProperties.suppliedBridges.formUnion(.unknown7)
         }
+        fatalError("TODO")
+    }
+    
+    final func didChangeRequiredBridges(from oldValue: HostingControllerBridges, to newValue: HostingControllerBridges) {
+        /*
+         self -> x20 -> x19
+         oldValue -> x0 -> x23
+         newValue -> x1 -> x20
+         */
+        guard newValue != oldValue else {
+            return
+        }
+        
+        Update.ensure {
+            let x28 = oldValue.subtracting(requiredBridges)
+            let x26 = requiredBridges.subtracting(oldValue)
+            
+            if x28.contains(.unknown1) {
+                // <+236>
+            } else if !x26.contains(.unknown1) {
+                
+            }
+            fatalError("TODO")
+        }
+    }
+}
+
+@available(iOS 16.4, tvOS 16.4, *)
+@available(macOS, unavailable)
+extension UIHostingController {
+    @available(iOS 16.4, tvOS 16.4, *)
+    @available(macOS, unavailable)
+    @preconcurrency public var safeAreaRegions: SafeAreaRegions {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+}
+
+extension UIHostingController : _UIHostingViewable where Content == AnyView {
+}
+
+extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {
+    func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
         fatalError("TODO")
     }
 }

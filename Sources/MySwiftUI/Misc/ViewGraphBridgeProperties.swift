@@ -1,7 +1,7 @@
 internal import MySwiftUICore
 internal import AttributeGraph
 
-struct ViewGraphBridgeProperties {
+struct ViewGraphBridgeProperties: Equatable {
     @safe static nonisolated(unsafe) let defaultValue = ViewGraphBridgeProperties()
     
     var suppliedBridges = HostingControllerBridges(rawValue: 0)

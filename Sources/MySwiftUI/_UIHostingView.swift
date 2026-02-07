@@ -1678,6 +1678,8 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
             return result
         } else if let result = _specialize(self as (any ToolbarInputFeatureDelegate), for: T.self) {
             return result
+        } else if let result = _specialize(self as (any ViewGraphBridgePropertiesDelegate), for: T.self) {
+            return result
         } else if let result = _specialize(self as (any SensoryFeedbackCacheHost), for: T.self) {
             return result
         } else {
@@ -2039,8 +2041,37 @@ extension _UIHostingView: SensoryFeedbackCacheHost {
 }
 
 extension _UIHostingView: @preconcurrency ViewGraphBridgePropertiesDelegate {
-    final func resolveRequiredBridges(_: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
-        fatalError("TODO")
+    func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
+        /*
+         self -> x20 -> x19
+         properties -> x0/x1/x2/x3 -> x21/x28/x23/x22
+         allowedActions -> sp + 0x8
+         */
+        // x25/x24/x20/x26
+        let properties_2 = properties ?? .defaultValue
+        // <+168>
+        // sp + 0x10
+        var copy_1 = properties_2
+        
+        if let delegate {
+            delegate.hostingView(self, willUpdate: &copy_1)
+        }
+        
+        if let viewController {
+            viewController.resolveRequiredBridges(copy_1, allowedActions: allowedActions)
+        }
+        
+        // <+328>
+        if let viewController {
+            viewController.updateViewGraphBridges(&copy_1)
+        }
+        
+        // <+356>
+        if let sheetBridge {
+            sheetBridge.update(bridgeProperties: &copy_1)
+        }
+        
+        return copy_1
     }
 }
 

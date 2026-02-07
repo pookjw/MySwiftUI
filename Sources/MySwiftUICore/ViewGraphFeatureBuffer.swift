@@ -99,6 +99,11 @@ extension ViewGraphFeatureBuffer {
         }
         
         @inlinable
+        func outputsDidChange(graph: ViewGraph) {
+            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).outputsDidChange(elt: base, graph: graph)
+        }
+        
+        @inlinable
         var flags: UInt32 {
             get {
                 return base.flags
@@ -133,6 +138,10 @@ extension ViewGraphFeatureBuffer {
         }
         
         class func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
+            fatalError() // abstract
+        }
+        
+        class func outputsDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
             fatalError() // abstract
         }
         
@@ -178,6 +187,10 @@ extension ViewGraphFeatureBuffer {
         
         override class func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
             fatalError("TODO")
+        }
+        
+        override class func outputsDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+            unsafe elt.body(as: T.self).pointee.outputsDidChange(graph: graph)
         }
         
         override class func update(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {

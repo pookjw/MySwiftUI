@@ -1,6 +1,5 @@
-
 protocol ViewGraphBridgePropertiesDelegate: AnyObject {
-    func resolveRequiredBridges(_: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions)
+    func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties
 }
 
 struct HostingControllerBridgeActions: OptionSet {

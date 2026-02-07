@@ -30,10 +30,6 @@ struct EditModeScopeFeature: ViewGraphFeature {
         fatalError("TODO")
     }
     
-    mutating func needsUpdate(graph: ViewGraph) -> Bool {
-        fatalError("TODO")
-    }
-    
     mutating func update(graph: ViewGraph) {
         fatalError("TODO")
     }

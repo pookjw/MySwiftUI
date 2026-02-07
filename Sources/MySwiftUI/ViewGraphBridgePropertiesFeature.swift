@@ -1,5 +1,5 @@
 // 740EB2CA70C6E534C8611E22FBE70272
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import AttributeGraph
 
 struct ViewGraphBridgePropertiesFeature: ViewGraphFeature, GraphMutation {
@@ -43,11 +43,110 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature, GraphMutation {
     }
     
     func needsUpdate(graph: ViewGraph) -> Bool {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x19
+         viewGraph -> x0 -> x20
+         */
+        let environment: EnvironmentValues?
+        if
+            let delegate = graph.delegate,
+            delegate.as(ViewGraphBridgePropertiesDelegate.self) != nil
+        {
+            // <+304>
+            environment = self.environment
+            // <+420>
+        } else {
+            // <+340>
+            if $parentBridgeProperties != nil {
+                return true
+            } else {
+                return $environment != nil
+            }
+        }
+        
+        // <+420>
+        // x24 (sp + 0x10)
+        let lastEnvironment = lastEnvironment
+        // x24 + 0x10 (sp + 0x20)
+        let copy_1 = environment
+        
+        // <+528>
+        var w27: Bool
+        if let lastEnvironment {
+            if let copy_1 {
+                // <+608>
+                w27 = !lastEnvironment.isIdentical(to: copy_1)
+            } else {
+                w27 = true
+            }
+        } else {
+            if copy_1 == nil {
+                w27 = false
+            } else {
+                w27 = true
+            }
+        }
+        
+        // <+696>
+        if let parentBridgeProperties {
+            // <+720>
+            if parentBridgeProperties != lastParentBridgeProperties {
+                w27 = true
+            }
+        } else {
+            // <+868>
+            if let lastParentBridgeProperties {
+                // <+892>
+                w27 = true
+            }
+        }
+        
+        return w27
     }
     
-    func outputsDidChange(graph: ViewGraph) {
-        fatalError("TODO")
+    mutating func outputsDidChange(graph: ViewGraph) {
+        /*
+         self -> x20 -> x19
+         graph -> x0 -> x26
+         */
+        defer {
+            // $s7SwiftUI32ViewGraphBridgePropertiesFeatureV16outputsDidChange5graphyAA0cD0C_tF6$deferL_yyF
+            fatalError("TODO")
+        }
+        
+        // <+212>
+        guard
+            let delegate = graph.delegate,
+            let propertiesDelegate = delegate.as(ViewGraphBridgePropertiesDelegate.self)
+        else {
+            // <+372>
+            _parentBridgeProperties = WeakAttribute()
+            _bridgeProperties = WeakAttribute()
+            _environment = OptionalAttribute()
+            return
+        }
+        
+        // <+284>
+        // x26, x25, x28, x27
+        let parentBridgeProperties = parentBridgeProperties
+        
+        // <+440>
+        // x21, x22, x27, x28
+        let newProperties = propertiesDelegate.updateRequiredBridges(parentBridgeProperties, allowedActions: [.unknown0, .unknown1])
+        _ = consume parentBridgeProperties
+        
+        // x23, x24, x25, x26
+        let lastLocalBridgeProperties = lastLocalBridgeProperties
+        
+        guard newProperties != lastLocalBridgeProperties else {
+            return
+        }
+        
+        // sp + 0x108
+        let copy_1 = newProperties
+        
+        graph.asyncTransaction(mutation: self, style: .deferred)
+        self.lastLocalBridgeProperties = newProperties
     }
 }
 

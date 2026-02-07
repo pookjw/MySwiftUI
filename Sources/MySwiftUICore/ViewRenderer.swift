@@ -1,4 +1,3 @@
-
 package protocol ViewRendererHost: ViewGraphOwner, ViewGraphRootValueUpdater {
     
 }
@@ -9,6 +8,13 @@ extension ViewRendererHost {
     }
     
     package var isRootHost: Bool {
+        // x19
+        let viewGraph = viewGraph
+        
+        guard let viewGraph = viewGraph._preferenceBridge else {
+            return true
+        }
+        
         fatalError("TODO")
     }
 }

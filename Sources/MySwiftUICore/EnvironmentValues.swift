@@ -110,3 +110,8 @@ struct EnvironmentPropertyKey<T: EnvironmentKey>: PropertyKey {
     }
 }
 
+extension EnvironmentValues {
+    package func isIdentical(to other: EnvironmentValues) -> Bool {
+        return plist.isIdentical(to: other.plist)
+    }
+}

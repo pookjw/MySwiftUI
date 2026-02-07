@@ -145,6 +145,10 @@ class SheetBridge<T>: NSObject {
     final func update(environment: inout EnvironmentValues) {
         fatalError("TODO")
     }
+    
+    func update(bridgeProperties: inout ViewGraphBridgeProperties) {
+        // nop
+    }
 }
 
 extension SheetBridge: UIHostingViewDelegate {
