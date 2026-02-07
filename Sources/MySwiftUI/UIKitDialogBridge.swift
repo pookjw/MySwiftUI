@@ -3,9 +3,9 @@ private import MySwiftUICore
 private import AttributeGraph
 
 class UIKitDialogBridge/*: DialogActionDelegate*/ {
-    weak var hostingController: UIViewController? = nil
-    weak var host: (UIView & ViewRendererHost)? = nil
-    private var activePresentation: UIKitDialogBridge.ActivePresentation = .none
+    weak var hostingController: UIViewController? = nil // 0x10
+    weak var host: (UIView & ViewRendererHost)? = nil // 0x18
+    private var activePresentation: UIKitDialogBridge.ActivePresentation = .none // 0xca0
     private var presentedVC: PlatformAlertController? = nil // 0xe48
     private var dialogSeed: VersionSeed = .empty // 0xe50
     private var lastDialogValues: [ViewIdentity: ConfirmationDialog]? = nil // 0xe58
@@ -18,6 +18,22 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
     private var actionsChangeDetector = WeakAttribute<Void>()
     
     init() {
+    }
+    
+    final func transformDidChange() {
+        // <+264>
+        // x25
+        let copy_1 = activePresentation
+        
+        switch copy_1 {
+        case .alert(let viewIdentity):
+            return
+        case .confirmationDialog(let viewIdentity):
+            // <+328>
+            fatalError("TODO")
+        case .none:
+            return
+        }
     }
     
     // TODO

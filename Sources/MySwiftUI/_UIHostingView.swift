@@ -258,6 +258,10 @@ open class _UIHostingView<Content: View>: UIView {
         viewGraph.append(feature: FocusViewGraph(graph: viewGraph))
         viewGraph.append(feature: PlatformItemListViewGraph())
         
+        if ViewGraphBridgePropertiesAreInput.isEnabled {
+            viewGraph.append(feature: ViewGraphBridgePropertiesFeature())
+        }
+        
         if _UIUpdateAdaptiveRateNeeded() {
             viewGraph.append(feature: EnableVFDFeature())
         }
@@ -1405,7 +1409,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         if
-            ViewGraphBridgePropertiesAreInput.isEnabled,
+            !ViewGraphBridgePropertiesAreInput.isEnabled,
             let viewController
         {
             viewController.updateViewGraphBridges(&viewGraphBridgeProperties)
@@ -1571,9 +1575,8 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         
         // <+336>
-        if viewController != nil {
-            fatalError("TODO")
-//            viewController.dialogBridge.transformDidChange()
+        if let viewController {
+            viewController.dialogBridge.transformDidChange()
         }
         
         // <+392>

@@ -289,8 +289,8 @@ open class UIHostingController<Content: View>: UIViewController {
         _update(&environmentValues)
     }
     
-    final func updateViewGraphBridges(_: inout ViewGraphBridgeProperties) {
-        fatalError("TODO")
+    final func updateViewGraphBridges(_ properties: inout ViewGraphBridgeProperties) {
+        _update(bridgeProperties: &properties)
     }
     
     final func didRender() {
@@ -591,6 +591,27 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func persistentSystemOverlaysEnvironmentDidChange(environment: EnvironmentValues) {
+        /*
+         self -> x19
+         environment -> x20
+         */
+        // w21
+        let overlays1 = environment[ScenePersistentSystemOverlaysKey.self]
+        let overlays2 = self.persistentSystemOverlays
+        if let visibility2 = overlays2.environment, overlays1.visibility == visibility2 {
+            // <+160>
+            return
+        }
+        
+        // <+100>
+        self.persistentSystemOverlays.environment = overlays1.visibility
+        
+        if self.persistentSystemOverlays.preferences != nil {
+            updateHomeIndicator(animated: false)
+        }
+    }
+    
+    final func updateHomeIndicator(animated: Bool) {
         fatalError("TODO")
     }
 }
@@ -864,6 +885,36 @@ extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate
             // <+1188>
             resolveBarAppearanceBehavior(resolved)
         }
+    }
+    
+    final func _update(bridgeProperties: inout ViewGraphBridgeProperties) {
+        /*
+         self -> x20 -> x21
+         bridgeProperties -> x19
+         */
+        if navigationBridge != nil {
+            bridgeProperties.suppliedBridges.formUnion(.unknown2)
+        }
+        
+        // <+48>
+        if let barAppearanceBridge, barAppearanceBridge.platformStorage.uiShouldUpdateNavigationController {
+            // <+84>
+            bridgeProperties.requestedBars.subtract(barAppearanceBridge.allowedBars)
+        }
+        
+        // <+136>
+        if contentScrollViewBridge != nil {
+            bridgeProperties.suppliedBridges.formUnion(.unknown4)
+        }
+        
+        if toolbarBridge != nil {
+            bridgeProperties.suppliedBridges.formUnion(.unknown0)
+        }
+        
+        if inspectorBridgeV5 != nil {
+            bridgeProperties.suppliedBridges.formUnion(.unknown7)
+        }
+        fatalError("TODO")
     }
 }
 

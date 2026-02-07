@@ -65,7 +65,12 @@ public struct _ViewInputs {
     }
     
     package var environment: Attribute<EnvironmentValues> {
-        return base.environment
+        get {
+            return base.environment
+        }
+        set {
+            base.environment = newValue
+        }
     }
     
     package var viewPhase: Attribute<_GraphInputs.Phase> {

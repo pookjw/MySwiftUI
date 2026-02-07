@@ -8,7 +8,7 @@ final class UIKitPopoverBridge: NSObject {
     private weak var barItemAnchor: UIBarButtonItem? = nil // 0x858
     private weak var tabItemAnchor: UIPopoverPresentationControllerSourceItem? // 0x860
     private var delayedPopoverPreferences: PreferenceValues? = nil // 0x4d0
-    private var activePresentation: UIKitPopoverBridge.PresentationKind = .none // 0x4d8
+    private var activePresentation: UIKitPopoverBridge.PresentationKind = .none // 0x338
     private var activeInspectorAnchor: Anchor<CGRect?>? = nil // 0x868
     private var dismissingReason: DismissingReason? = nil // 0x870
     private var pendingDismissAction: (() -> Void)? = nil // 0x878
@@ -31,7 +31,21 @@ final class UIKitPopoverBridge: NSObject {
     }
     
     func updateAnchor() {
-        fatalError("TODO")
+        // <+392>
+        // x23
+        let activePresentation = activePresentation
+        
+        switch activePresentation {
+        case .popoverItem(let anyHashable):
+            fatalError("TODO")
+        case .popover(let viewIdentity):
+            fatalError("TODO")
+        case .inspector(let viewIdentity):
+            // <+564>
+            fatalError("TODO")
+        case .none:
+            return
+        }
     }
 }
 

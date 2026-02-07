@@ -1,9 +1,9 @@
 // 4F21368B1C1680817451AC25B55A8D48
-internal import AttributeGraph
+package import AttributeGraph
 private import os.log
 private import _MySwiftUIShims
 
-class StoredLocationBase<Value>: AnyLocation<Value> {
+package class StoredLocationBase<Value>: AnyLocation<Value> {
     @AtomicBox private var data: StoredLocationBase<Value>.Data
     private var _wasRead: Bool
     
@@ -118,8 +118,8 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
         return (updateValue, true)
     }
     
-    final var binding: Binding<Value> {
-        fatalError("TODO")
+    package final var binding: Binding<Value> {
+        return Binding(value: updateValue, location: self)
     }
     
     fileprivate var isUpdating: Bool {
@@ -147,11 +147,11 @@ class StoredLocationBase<Value>: AnyLocation<Value> {
     }
 }
 
-final class StoredLocation<Value>: StoredLocationBase<Value> {
+package final class StoredLocation<Value>: StoredLocationBase<Value> {
     private weak var host: GraphHost?
     @WeakAttribute private var signal: Void?
     
-    init(initialValue: Value, host: GraphHost?, signal: WeakAttribute<()>) {
+    package init(initialValue: Value, host: GraphHost?, signal: WeakAttribute<()>) {
         self.host = host
         self._signal = signal
         super.init(initialValue: initialValue)

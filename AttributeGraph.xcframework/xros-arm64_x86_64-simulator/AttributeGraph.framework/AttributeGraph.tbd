@@ -278,7 +278,8 @@ exports:
     _$s14AttributeGraph0A0V12unsafeOffset2at2asACyqd__GSi_qd__mtlF,
     _$sSo11AGAttributea14AttributeGraphE12_bodyPointerSVvg,
     _AGGraphCurrentAttributeWasModified,
-    _$s14AttributeGraph04WeakA0V12changedValue7optionsx5value_Sb0D0tSgSo14AGValueOptionsV_tF ]
+    _$s14AttributeGraph04WeakA0V12changedValue7optionsx5value_Sb0D0tSgSo14AGValueOptionsV_tF,
+    _AGGraphRegisterDependency ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

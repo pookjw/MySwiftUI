@@ -2,6 +2,14 @@ internal import MySwiftUICore
 internal import UIKit
 
 final class BarAppearanceBridge {
+    private(set) var platformStorage: BarAppearanceBridge.PlatformStorage
+    private(set) var allowedBars: Set<ToolbarPlacement.Role>
+    // TODO
+    
+    init() {
+        fatalError("TODO")
+    }
+    
     func viewWillAppear<Content: View>(hostingController: UIHostingController<Content>) {
         fatalError("TODO")
     }
@@ -14,4 +22,11 @@ final class BarAppearanceBridge {
         fatalError("TODO")
     }
     // TODO
+}
+
+extension BarAppearanceBridge {
+    
+    struct PlatformStorage {
+        private(set) var uiShouldUpdateNavigationController: Bool
+    }
 }

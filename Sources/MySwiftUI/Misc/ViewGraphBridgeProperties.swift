@@ -6,7 +6,7 @@ struct ViewGraphBridgeProperties {
     
     var suppliedBridges = HostingControllerBridges(rawValue: 0)
     private var managedBridges = HostingControllerBridges(rawValue: 0)
-    private var requestedBars: Set<ToolbarPlacement.Role> = []
+    var requestedBars: Set<ToolbarPlacement.Role> = []
     private var managedBars: Set<ToolbarPlacement.Role> = []
 }
 
@@ -42,6 +42,9 @@ extension _GraphInputs {
     var viewGraphBridgeProperties: WeakAttribute<ViewGraphBridgeProperties> {
         get {
             return self[ViewGraphBridgePropertiesKey.self]
+        }
+        set {
+            self[ViewGraphBridgePropertiesKey.self] = newValue
         }
     }
     

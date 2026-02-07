@@ -3,17 +3,17 @@ private import UIKit
 private import AttributeGraph
 
 final class SharingActivityPickerBridge {
-    weak var host: ViewRendererHost? = nil
-    private var overrideArrowDirections: UIPopoverArrowDirection? = nil
-    private weak var presenterOverride: UIViewController? = nil
-    private weak var barItemAnchor: UIBarButtonItem? = nil
-    private var activePresentation: SharingActivityPickerPresentation? = nil
-    private var presented: UIActivityViewController? = nil
+    weak var host: ViewRendererHost? = nil // 0x10
+    private var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x18
+    private weak var presenterOverride: UIViewController? = nil // 0x30
+    private weak var barItemAnchor: UIBarButtonItem? = nil // 0x38
+    private var activePresentation: SharingActivityPickerPresentation? = nil // 0x40
+    private var presented: UIActivityViewController? = nil // 0xd8
     private var lastPresentationSeed: VersionSeed = .empty // 0x938
     private lazy var popoverPresentationDelegate: PopoverPresentationDelegate = {
         fatalError("TODO")
     }() // 0x940 (storage)
-    private var hasPendingAnchorUpdate: Bool = false // 0x948
+    private var hasPendingAnchorUpdate: Bool = false // 0x7a8
     
     init() {
     }
@@ -32,6 +32,19 @@ final class SharingActivityPickerBridge {
     }
     
     func transformDidChange() {
+        guard !hasPendingAnchorUpdate else {
+            return
+        }
+        
+        // sp + 0x140
+        let copy_1 = activePresentation
+        // sp + 0x1e0
+        let copy_2 = activePresentation
+        
+        guard let copy_2 else {
+            return
+        } 
+        
         fatalError("TODO")
     }
     
