@@ -1,4 +1,7 @@
 struct HostingControllerAllowedBehaviors: OptionSet {
     let rawValue: Int
-    // TODO
+    
+    static var unknown0: HostingControllerAllowedBehaviors {
+        return HostingControllerAllowedBehaviors(rawValue: 1 << 0)
+    }
 }

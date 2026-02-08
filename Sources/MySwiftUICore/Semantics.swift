@@ -103,51 +103,51 @@ package protocol SemanticProtocol {
 }
 
 package struct Semantics_v2: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v2().platform)
+    package static let semantic = Semantics(value: SwiftUI_v2().version)
 }
 
 package struct Semantics_v2_1: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v2_1().platform)
+    package static let semantic = Semantics(value: SwiftUI_v2_1().version)
 }
 
 package struct Semantics_v2_3: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v2_3().platform)
+    package static let semantic = Semantics(value: SwiftUI_v2_3().version)
 }
 
 package struct Semantics_v3: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v3().platform)
+    package static let semantic = Semantics(value: SwiftUI_v3().version)
 }
 
 package struct Semantics_v4: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v4().platform)
+    package static let semantic = Semantics(value: SwiftUI_v4().version)
 }
 
 package struct Semantics_v4_4: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v4_4().platform)
+    package static let semantic = Semantics(value: SwiftUI_v4_4().version)
 }
 
 package struct Semantics_v5: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v5().platform)
+    package static let semantic = Semantics(value: SwiftUI_v5().version)
 }
 
 package struct Semantics_v5_2: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v5_2().platform)
+    package static let semantic = Semantics(value: SwiftUI_v5_2().version)
 }
 
 package struct Semantics_v6: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v6().platform)
+    package static let semantic = Semantics(value: SwiftUI_v6().version)
 }
 
 package struct Semantics_v6_1: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v6_1().platform)
+    package static let semantic = Semantics(value: SwiftUI_v6_1().version)
 }
 
 package struct Semantics_v6_4: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v6_4().platform)
+    package static let semantic = Semantics(value: SwiftUI_v6_4().version)
 }
 
 package struct Semantics_v7: SemanticProtocol {
-    package static let semantic = Semantics(value: SwiftUI_v7().platform)
+    package static let semantic = Semantics(value: SwiftUI_v7().version)
 }
 
 @_cdecl("SwiftUI_v1_os_versions")
@@ -295,7 +295,12 @@ extension SemanticFeature {
     }
     
     package static var isEnabled: Bool {
-        return isLinkedOnOrAfter(prior)
+        switch requirement {
+        case .linkedOnOrAfter:
+            return isLinkedOnOrAfter(introduced)
+        case .deployedOnOrAfter:
+            fatalError("TODO") // dyld_program_minos_at_least
+        }
     }
 }
 

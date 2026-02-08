@@ -7,8 +7,6 @@ struct ViewGraphBridgeProperties: Equatable {
         var result = Set<ToolbarPlacement.Role>([.navigationBar])
         result.insert(.bottomOrnament)
         
-        assert(isLinkedOnOrAfter(.v5))
-        assert(_SemanticFeature<Semantics_v5>.isEnabled)
         if _SemanticFeature<Semantics_v5>.isEnabled {
             result.insert(.bottomBar)
         }

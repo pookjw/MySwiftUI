@@ -533,7 +533,40 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func resolveBarAppearanceBehavior(_ properties: ViewGraphBridgeProperties) {
-        // managedBars만 씀 (x0)
+        /*
+         self -> x20 -> x21
+         properties.managedBars -> x0 -> x19
+         */
+        let managedBars = properties.managedBars
+        // x27
+        let allowedBehaviors = allowedBehaviors
+        let barAppearanceBridge = barAppearanceBridge
+        
+        if !managedBars.isEmpty {
+            if let barAppearanceBridge {
+                // <+1196>
+            } else {
+                // <+288>
+            }
+        } else {
+            // <+188>
+            if let barAppearanceBridge {
+                // <+192>
+                if allowedBehaviors.contains(.unknown0) {
+                    // <+1196>
+                } else {
+                    // <+196>
+                }
+            } else {
+                // <+284>
+                if allowedBehaviors.contains(.unknown0) {
+                    // <+288>
+                } else {
+                    // <+1196>
+                }
+            }
+        }
+        
         fatalError("TODO")
     }
     
