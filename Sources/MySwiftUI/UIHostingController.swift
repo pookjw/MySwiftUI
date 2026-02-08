@@ -542,11 +542,14 @@ open class UIHostingController<Content: View>: UIViewController {
         let allowedBehaviors = allowedBehaviors
         let barAppearanceBridge = barAppearanceBridge
         
+        let flag: Bool // true -> <+288> / false -> <+1196>
         if !managedBars.isEmpty {
             if let barAppearanceBridge {
                 // <+1196>
+                flag = false
             } else {
                 // <+288>
+                flag = true
             }
         } else {
             // <+188>
@@ -554,20 +557,69 @@ open class UIHostingController<Content: View>: UIViewController {
                 // <+192>
                 if allowedBehaviors.contains(.unknown0) {
                     // <+1196>
+                    flag = false
                 } else {
                     // <+196>
+                    if let logger = Log.toolbar {
+                        logger.log(level: .default, "Removed toolbar appearance bridge from \(self)")
+                    }
+                    
+                    // <+1056>
+                    assert(self.barAppearanceBridge != nil)
+                    let viewGraph = host.viewGraph
+                    viewGraph.removePreference(NavigationTitleKey.self)
+                    viewGraph.removePreference(NavigationSubtitleKey.self)
+                    viewGraph.removePreference(NavigationBarBackButtonHiddenKey.self)
+                    self.barAppearanceBridge = nil
+                    // <+1196>
+                    flag = false
                 }
             } else {
                 // <+284>
                 if allowedBehaviors.contains(.unknown0) {
                     // <+288>
+                    flag = true
                 } else {
                     // <+1196>
+                    flag = false
                 }
             }
         }
         
-        fatalError("TODO")
+        if flag {
+            // <+288>
+            if let logger = Log.toolbar {
+                logger.log(level: .default, "Added toolbar appearance bridge to \(self)")
+            }
+            
+            // <+608>
+            self.barAppearanceBridge = BarAppearanceBridge()
+            
+            if ViewGraphBridgePropertiesAreInput.isEnabled {
+                host.invalidateProperties(.environment, mayDeferUpdate: true)
+            }
+            
+            // <+756>
+            self.barAppearanceBridge!.addPreferences(to: host.viewGraph)
+            // <+1196>
+        }
+        
+        // <+1196>
+        if let barAppearanceBridge {
+            barAppearanceBridge.updateAllowedBars(managedBars, viewGraph: host.viewGraph)
+            
+            if !allowedBehaviors.contains(.unknown0) {
+                // <+1280>
+                barAppearanceBridge.platformStorage.uiShouldUpdateNavigationController = true
+                barAppearanceBridge.platformStorage.uiShouldUpdateNavigationTitle = false
+            } else {
+                // <+1308>
+                barAppearanceBridge.platformStorage.uiShouldUpdateNavigationController = !managedBars.isEmpty
+                barAppearanceBridge.platformStorage.uiShouldUpdateNavigationTitle = managedBars.isEmpty
+            }
+        }
+        
+        // <+1360>
     }
     
     fileprivate final func updateInitialSceneGeometry() {
