@@ -70,16 +70,16 @@ internal import Foundation
         // x23
         let copy_1 = context
         // x22
-        let updates = preferencesDidChange(preferences, context: context)
+        let updates = preferencesDidChange(preferences, context: copy_1)
         
-        adoptUpdates(updates, hostingController: hostingController, context: context)
+        adoptUpdates(updates, hostingController: hostingController, context: copy_1)
     }
     
-    func preferencesDidChange(_ preferences: PreferenceValues, context: __owned Toolbar.UpdateContext) -> Toolbar.Updates {
+    func preferencesDidChange(_ preferences: PreferenceValues, context: consuming Toolbar.UpdateContext) -> Toolbar.Updates {
         /*
          self -> x20 -> x22
-         preferences -> x1 -> sp + 0xb0
-         preferences -> x0 -> x20
+         context -> x1 -> sp + 0xb0
+         context -> x0 -> x20
          */
         // x27
         let toolbarValue = preferences[ToolbarKey.self]
@@ -93,8 +93,16 @@ internal import Foundation
         }
         
         // <+680>
-        // sp + 0x128 (하나 더 있는듯)
+        // sp + 0x128
         let toolbarStorage = toolbarStorage ?? ToolbarKey.defaultValue
+        // sp + 0x1c0
+        let copy_1 = toolbarStorage
+        
+        // <+884>
+        allowedLocations.formUnion([])
+        context.accessoryBarLocations = []
+        
+        // <+972>
         fatalError("TODO")
     }
     

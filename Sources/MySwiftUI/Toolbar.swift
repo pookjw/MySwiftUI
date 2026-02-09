@@ -14,7 +14,7 @@ extension Toolbar {
         private weak var sceneSession: UISceneSession? = nil // 0x48
         private var horizontalSizeClass: UserInterfaceSizeClass? = .regular // 0x20 (offset field)
         private var verticalSizeClass: UserInterfaceSizeClass? = .regular // 0x24 (offset field)
-        private var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0x28 (offset field)
+        var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0x28 (offset field)
         
         init<Content: View>(hostingController: UIHostingController<Content>) {
             // <+280>
