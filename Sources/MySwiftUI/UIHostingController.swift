@@ -311,7 +311,7 @@ open class UIHostingController<Content: View>: UIViewController {
         }
         
         if let toolbarBridge {
-            toolbarBridge.preferencesDidChange(preferences)
+            toolbarBridge.preferencesDidChange(preferences, hostingController: self)
         }
         
         if let barAppearanceBridge {
@@ -745,8 +745,39 @@ open class UIHostingController<Content: View>: UIViewController {
         }
     }
     
-    final func updateHomeIndicator(animated: Bool) {
-        fatalError("TODO")
+    fileprivate final func updateHomeIndicator(animated: Bool) {
+        /*
+         self -> x20 -> x22
+         animated -> x0 -> x21
+         */
+        if
+            let window = host.window,
+            let casted = window as? ViewHostingWindow,
+            let windowScene = casted.windowScene,
+            let keyWindow = windowScene.keyWindow,
+            let rootViewController = keyWindow.rootViewController,
+            rootViewController != self
+        {
+            // <+520>
+            if animated {
+                UIView.animate(withDuration: 1.0 / 3.0) { 
+                    rootViewController.setNeedsUpdateOfHomeIndicatorAutoHidden()
+                }
+            } else {
+                rootViewController.setNeedsUpdateOfHomeIndicatorAutoHidden()
+            }
+            return
+        }
+        
+        // <+252>
+        let viewController = host.viewController
+        if animated {
+            UIView.animate(withDuration: 1.0 / 3.0) { 
+                viewController?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+            }
+        } else {
+            viewController?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+        }
     }
     
     final func resolveRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
@@ -1178,11 +1209,48 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func screenEdgesSystemGesturePreferencesDidChange(_ preferences: PreferenceValues) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x21
+         preferences -> x0 -> x19
+         */
+        defer {
+            screenEdgesSystemGestureSeedTracker.updateSeeds(to: preferences)
+        }
+        
+        let hasChanges = screenEdgesSystemGestureSeedTracker.hasChanges(in: preferences)
+        guard hasChanges else {
+            return
+        }
+        
+        // x25
+        let gesture = preferences[ScreenEdgesSystemGestureKey.self]
+        self.deferredEdges = gesture.value
+        
+        self.shouldDeferScreenEdgesSystemGestureToChildViewController = preferences[HostingGestureOverlayAuthorityKey.self].value
+        
+        if let viewController = host.viewController {
+            viewController.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
+        }
     }
     
     final func persistentSystemOverlaysPreferencesDidChange(_ preferences: PreferenceValues) {
-        fatalError("TODO")
+        defer {
+            persistentSystemOverlaysSeedTracker.updateSeeds(to: preferences)
+        }
+        /*
+         self -> x20 -> x21
+         preferences -> x0 -> x19
+         */
+        let hasChanges = persistentSystemOverlaysSeedTracker.hasChanges(in: preferences)
+        guard hasChanges else {
+            return
+        }
+        
+        self.persistentSystemOverlays = preferences[PersistentSystemOverlaysKey.self].value
+        let animated = self.persistentSystemOverlays.preferences != nil
+        self.shouldDeferPersistentSystemOverlaysToChildViewController = preferences[HostingGestureOverlayAuthorityKey.self].value
+        
+        updateHomeIndicator(animated: animated)
     }
 }
 

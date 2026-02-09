@@ -7,9 +7,9 @@ class UIKitNavigationBridge {
     weak var host: ViewRendererHost? = nil // 0x10
     private lazy var presentationModeLocation = LocationBox<UIKitNavigationBridgePresentationModeLocation>(location: UIKitNavigationBridgePresentationModeLocation(bridge: self)) // 0x18
     private var activePresentation: BridgedPresentation? = nil // 0x20
-    private var navigationDestinationSeed: VersionSeed = .invalid // 0x920
-    private var destinations: [Namespace.ID: NavigationDestinationPresentation] = .init() // 0x928
-    var hasSearch: Bool = false // 0xdd8
+    private var navigationDestinationSeed: VersionSeed = .invalid // 0x780
+    private var destinations: [Namespace.ID: NavigationDestinationPresentation] = .init() // 0x788
+    var hasSearch: Bool = false // 0xc38
     private var lastEnvironment = EnvironmentValues() // 0xc40
     private var environmentOverride: EnvironmentValues? = nil // 0xc48
     private weak var containingSplitControllerOverride: UISplitViewController? = nil // 0xc50
@@ -131,6 +131,63 @@ class UIKitNavigationBridge {
     }
     
     fileprivate final func updateNavigationDestinationsIfNeeded(preference: PreferenceValues.Value<[Namespace.ID: NavigationDestinationPresentation]>) {
+        func popCurrentView(transaction: Transaction) {
+            fatalError("TODO")
+        }
+        
+        /*
+         self -> x20 -> x28
+         preference -> x0 -> x20 -> x19 + 0x20
+         */
+        // x23
+        let incomingSeed = preference.seed
+        // preference -> sp + 0x40
+        // sp + 0xb0 -> sp + 0x48
+        let incomingValue = preference.value
+        // x21
+        let oldSeed = navigationDestinationSeed
+        let matches = incomingSeed.matches(oldSeed)
+        
+        guard !matches else {
+            self.navigationDestinationSeed = preference.seed
+            return
+        }
+        
+        // <+364>
+        /*
+         incomingSeed -> sp + 0x28 (x19 + 0x8)
+         offset of navigationDestinationSeed -> sp + 0x30 (x19 + 0x10)
+         */
+        // sp + 0x138
+        if let nextDestination = nextNavigationDestination(
+            activePresentationID: activePresentation?.content.id,
+            destinations: destinations
+        ) {
+            // <+464>
+            switch nextDestination {
+            case .presented(let content):
+                // <+680>
+                updatePresentedContent(content, animated: !content.transaction.disablesAnimations)
+                // <+772>
+            case .notPresented(let _, let transaction):
+                // <+536>
+                popCurrentView(transaction: transaction)
+                // <+768>
+            }
+        } else {
+            // <+572>
+            let copy = activePresentation
+            if copy != nil {
+                popCurrentView(transaction: .current)
+            }
+            // <+772>
+        }
+        
+        // <+772>
+        navigationDestinationSeed = preference.seed
+    }
+    
+    fileprivate final func updatePresentedContent(_: NavigationDestinationContent, animated: Bool) {
         fatalError("TODO")
     }
     
@@ -290,9 +347,7 @@ struct IsSearchAllowedInput: ViewInputBoolFlag {
 }
 
 struct NavigationDestinationsKey: HostPreferenceKey {
-    static var defaultValue: [Namespace.ID: NavigationDestinationPresentation] {
-        fatalError("TODO")
-    }
+    static nonisolated(unsafe) let defaultValue: [Namespace.ID: NavigationDestinationPresentation] = [:]
     
     static func reduce(value: inout [Namespace.ID: NavigationDestinationPresentation], nextValue: () -> [Namespace.ID: NavigationDestinationPresentation]) {
         fatalError("TODO")
@@ -335,7 +390,7 @@ fileprivate struct UIKitNavigationBridgePresentationModeLocation: Location {
 }
 
 struct BridgedPresentation {
-    private var content: NavigationDestinationContent
+    private(set) var content: NavigationDestinationContent
     private var contentHost: BridgedPresentation.ContentHost?
 }
 
@@ -345,10 +400,10 @@ enum NavigationDestinationPresentation {
 }
 
 struct NavigationDestinationContent {
-    private var id: Namespace.ID
+    private(set) var id: Namespace.ID
     private var isDetail: Bool
     private var onDismiss: () -> Void
-    private var transaction: Transaction
+    private(set) var transaction: Transaction
     private var tag: Any?
     private var generateContent: (Bool) -> AnyView
 }
@@ -371,4 +426,19 @@ fileprivate struct IsRepresentingSheetNavigationView: EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }
+}
+
+func nextNavigationDestination(
+    activePresentationID: Namespace.ID?,
+    destinations: [Namespace.ID: NavigationDestinationPresentation]
+) -> NavigationDestinationPresentation? {
+    /*
+     return pointer -> x8 -> x19
+     */
+    guard !destinations.isEmpty else {
+        return nil
+    }
+    
+    // <+44>
+    fatalError("TODO")
 }

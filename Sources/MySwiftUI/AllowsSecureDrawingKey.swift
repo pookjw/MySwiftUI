@@ -1,11 +1,11 @@
 internal import MySwiftUICore
 
 struct AllowsSecureDrawingKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
+    static var defaultValue: Bool? {
+        return nil
     }
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout Bool?, nextValue: () -> Bool?) {
         fatalError("TODO")
     }
     

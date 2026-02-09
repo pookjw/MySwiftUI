@@ -1,11 +1,11 @@
 internal import MySwiftUICore
 
 struct PersistentSystemOverlaysKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
+    static var defaultValue: (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?) {
+        return (nil, nil)
     }
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?), nextValue: () -> (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?)) {
         fatalError("TODO")
     }
     

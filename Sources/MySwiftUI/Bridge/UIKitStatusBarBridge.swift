@@ -16,11 +16,7 @@ final class UIKitStatusBarBridge {
             return _shouldDeferToChildViewController
         }
         
-        if let value = host!.preferenceValue(HostingGestureOverlayAuthorityKey.self) {
-            return value
-        }
-        
-        return false
+        return host!.preferenceValue(HostingGestureOverlayAuthorityKey.self)
     }
     
     func addPreferences(to viewGraph: ViewGraph) {

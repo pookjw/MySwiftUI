@@ -1,11 +1,11 @@
 internal import MySwiftUICore
 
 struct ScreenEdgesSystemGestureKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
+    static var defaultValue: Edge.Set? {
+        return nil
     }
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout Edge.Set?, nextValue: () -> Edge.Set?) {
         fatalError("TODO")
     }
     

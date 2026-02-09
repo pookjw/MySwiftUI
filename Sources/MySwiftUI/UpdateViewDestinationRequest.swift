@@ -6,12 +6,10 @@ struct UpdateViewDestinationRequest {
 }
 
 extension UpdateViewDestinationRequest {
-    struct VersionSeedTrackerSwiftKey: HostPreferenceKey {
-        static var defaultValue: Never {
-            fatalError("TODO")
-        }
+    struct UpdateViewDestinationRequestKey: HostPreferenceKey {
+        static nonisolated(unsafe) let defaultValue: [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest] = [:]
         
-        static func reduce(value: inout Never, nextValue: () -> Never) {
+        static func reduce(value: inout [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest], nextValue: () -> [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest]) {
             fatalError("TODO")
         }
         
@@ -22,23 +20,19 @@ extension UpdateViewDestinationRequest {
         static var _includesRemovedValues: Bool {
             fatalError("TODO")
         }
+    }
+}
+
+struct NavigationLinkSelectionIdentifier: Hashable {
+    static func == (lhs: NavigationLinkSelectionIdentifier, rhs: NavigationLinkSelectionIdentifier) -> Bool {
+        fatalError("TODO")
     }
     
-    struct UpdateViewDestinationRequestKey: HostPreferenceKey {
-        static var defaultValue: Never {
-            fatalError("TODO")
-        }
-        
-        static func reduce(value: inout Never, nextValue: () -> Never) {
-            fatalError("TODO")
-        }
-        
-        static var _isReadableByHost: Bool {
-            fatalError("TODO")
-        }
-        
-        static var _includesRemovedValues: Bool {
-            fatalError("TODO")
-        }
+    func hash(into hasher: inout Hasher) {
+        fatalError("TODO")
     }
+    
+    private var navigationLinkValue: AnyNavigationLinkPresentedValue?
+    private var viewListID: _ViewList_ID.Canonical?
+    private var namespace: Namespace.ID
 }

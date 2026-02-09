@@ -6,16 +6,16 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
     weak var hostingController: UIViewController? = nil // 0x10
     weak var host: (UIView & ViewRendererHost)? = nil // 0x18
     private var activePresentation: UIKitDialogBridge.ActivePresentation = .none // 0xca0
-    private var presentedVC: PlatformAlertController? = nil // 0xe48
-    private var dialogSeed: VersionSeed = .empty // 0xe50
-    private var lastDialogValues: [ViewIdentity: ConfirmationDialog]? = nil // 0xe58
-    private var alertSeed: VersionSeed = .empty // 0xe60
-    private var lastAlertValues: [ViewIdentity: AlertStorage]? = nil // 0xe68
-    private var lastAllowsSecureDrawing: Bool = false // 0xe70
-    var lastEnvironment = EnvironmentValues() // 0xe78
-    private var lastActionContext: DialogActionContext? = nil // 0xe80
-    private var lastPlatformItemList: PlatformItemList? = nil // 0xe88
-    private var actionsChangeDetector = WeakAttribute<Void>()
+    private var presentedVC: PlatformAlertController? = nil // 0xca8
+    private var dialogSeed: VersionSeed = .empty // 0xcb0
+    private var lastDialogValues: [ViewIdentity: ConfirmationDialog]? = nil // 0xcb8
+    private var alertSeed: VersionSeed = .empty // 0xcc0
+    private var lastAlertValues: [ViewIdentity: AlertStorage]? = nil // 0xcc8
+    private var lastAllowsSecureDrawing: Bool = false // 0xcd0
+    var lastEnvironment = EnvironmentValues() // 0xcd8
+    private var lastActionContext: DialogActionContext? = nil // 0xce0
+    private var lastPlatformItemList: PlatformItemList? = nil // 0xce8
+    private var actionsChangeDetector = WeakAttribute<Void>() // 0xcf0
     
     init() {
     }
@@ -37,7 +37,61 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
     }
     
     final func preferencesDidChange(_ preferences: PreferenceValues) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x19
+         preferences -> x0 -> sp + 0xcc8
+         */
+        // x20
+        let dialogValue: PreferenceValues.Value<[ViewIdentity: ConfirmationDialog]>
+        let x290x54: Bool
+        if let host, host.window != nil {
+            // <+1144>
+            dialogValue = preferences[ConfirmationDialog.PreferenceKey.self]
+            x290x54 = true
+        } else {
+            // <+1244>
+            dialogValue = PreferenceValues.Value(value: .init(), seed: .invalid)
+            x290x54 = false
+        }
+        
+        // <+1308>
+        // x28
+        let dialogSeed = dialogSeed
+        // x27
+        let incomingDialogSeed = dialogValue.seed
+        
+        if !dialogSeed.matches(incomingDialogSeed) {
+            // <+1464>
+            fatalError("TODO")
+        }
+        
+        // <+2556>
+        // x26
+        let alertValue: PreferenceValues.Value<[ViewIdentity: AlertStorage]>
+        if x290x54 {
+            alertValue = preferences[AlertStorage.PreferenceKey.self]
+        } else {
+            // <+2624>
+            alertValue = PreferenceValues.Value(value: .init(), seed: .invalid)
+        }
+        
+        // <+2684>
+        // x28
+        let alertSeed = alertSeed
+        // x27
+        let incomingAlertSeed = alertValue.seed
+        
+        if !alertSeed.matches(incomingAlertSeed) {
+            // <+2820>
+            fatalError("TODO")
+        }
+        
+        // <+3912>
+        let allowsSecureDrawingValue = preferences[AllowsSecureDrawingKey.self].value
+        self.lastAllowsSecureDrawing = (allowsSecureDrawingValue == true)
+        
+        self.lastAlertValues = alertValue.value
+        self.lastDialogValues = dialogValue.value
     }
     
     // TODO
@@ -57,11 +111,9 @@ struct ConfirmationDialog {
 
 extension ConfirmationDialog {
     struct PreferenceKey: HostPreferenceKey {
-        static var defaultValue: Never {
-            fatalError("TODO")
-        }
+        static nonisolated(unsafe) let defaultValue: [ViewIdentity: ConfirmationDialog] = [:]
         
-        static func reduce(value: inout Never, nextValue: () -> Never) {
+        static func reduce(value: inout [ViewIdentity: ConfirmationDialog], nextValue: () -> [ViewIdentity: ConfirmationDialog]) {
             fatalError("TODO")
         }
         
@@ -81,11 +133,9 @@ struct AlertStorage {
 
 extension AlertStorage {
     struct PreferenceKey: HostPreferenceKey {
-        static var defaultValue: Never {
-            fatalError("TODO")
-        }
+        static nonisolated(unsafe) let defaultValue: [ViewIdentity: AlertStorage] = [:]
         
-        static func reduce(value: inout Never, nextValue: () -> Never) {
+        static func reduce(value: inout [ViewIdentity: AlertStorage], nextValue: () -> [ViewIdentity: AlertStorage]) {
             fatalError("TODO")
         }
         

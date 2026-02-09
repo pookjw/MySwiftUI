@@ -60,7 +60,22 @@ internal import Foundation
         fatalError("TODO")
     }
     
-    func preferencesDidChange(_ preferences: PreferenceValues) {
+    func preferencesDidChange<Content>(_ preferences: PreferenceValues, hostingController: UIHostingController<Content>) {
+        /*
+         hostingController -> x1 -> x21
+         preferences -> x0 -> x22
+         */
+        // x24
+        let context = Toolbar.UpdateContext(hostingController: hostingController)
+        // x23
+        let copy_1 = context
+        // x22
+        let updates = preferencesDidChange(preferences, context: context)
+        
+        adoptUpdates(updates, hostingController: hostingController, context: context)
+    }
+    
+    func preferencesDidChange(_: PreferenceValues, context: __owned Toolbar.UpdateContext) -> Toolbar.Updates {
         fatalError("TODO")
     }
     

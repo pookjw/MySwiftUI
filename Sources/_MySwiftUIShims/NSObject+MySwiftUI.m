@@ -13,6 +13,10 @@
 
 @implementation NSObject (MySwiftUI)
 
++ (BOOL)_isFromMySwiftUI {
+    return NO;
+}
+
 + (const void *)_mySwiftUI_platformViewDefinition {
 //    if (!pthread_main_np()) return NULL;
 //    

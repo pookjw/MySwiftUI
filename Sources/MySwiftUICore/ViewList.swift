@@ -52,7 +52,7 @@ class _ViewList_Subgraph {
     }
 }
 
-struct _ViewList_ID: Hashable {
+package struct _ViewList_ID: Hashable {
     var _index: Int32
     var implicitID: Int32
     var explicitIDs: [_ViewList_ID.Explicit]
@@ -96,7 +96,7 @@ struct _ViewList_ID: Hashable {
         explicitIDs.append(explicitID)
     }
     
-    func hash(into hasher: inout Hasher) {
+    package func hash(into hasher: inout Hasher) {
         hasher.combine(_index)
         hasher.combine(implicitID)
         fatalError("TODO")
@@ -1345,7 +1345,7 @@ enum _ViewList_Edit {
 }
 
 extension _ViewList_ID {
-    struct Canonical {
+    package struct Canonical: Hashable {
         private var _index: Int32
         private var implicitID: Int32
         private var explicitID: AnyHashable2?

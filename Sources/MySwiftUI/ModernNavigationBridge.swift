@@ -1,9 +1,9 @@
 internal import MySwiftUICore
 
 class ModernNavigationBridge {
-    private var seedTracker: VersionSeedTracker<UpdateViewDestinationRequest.VersionSeedTrackerSwiftKey>
+    private var seedTracker: VersionSeedTracker<UpdateViewDestinationRequest.UpdateViewDestinationRequestKey> // 0x290
     
-    init(seedTracker: VersionSeedTracker<UpdateViewDestinationRequest.VersionSeedTrackerSwiftKey>) {
+    init(seedTracker: VersionSeedTracker<UpdateViewDestinationRequest.UpdateViewDestinationRequestKey>) {
         self.seedTracker = seedTracker
     }
     
@@ -13,7 +13,13 @@ class ModernNavigationBridge {
          preferences -> x0 -> sp + 0x398
          */
         // <+544>
-        fatalError("TODO")
+        // inlined
+        seedTracker.didChange(preferences) { value in
+            // <+680>
+            for (key, value) in value {
+                fatalError("TODO")
+            }
+        }
     }
     
     // TODO

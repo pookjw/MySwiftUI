@@ -1,7 +1,8 @@
+// 3F0A9C8FE1DF482BB97A7ECFF3793F1B
 internal import MySwiftUICore
 
 struct VersionSeedSetTracker {
-    fileprivate var values: [Value] = []
+    fileprivate var values: [VersionSeedSetTracker.Value] = []
     
     mutating func addPreference<T: HostPreferenceKey>(_ key: T.Type) {
         values.append(VersionSeedSetTracker.Value(key: key, seed: .invalid))
@@ -25,8 +26,17 @@ struct VersionSeedSetTracker {
         self.values = copy
     }
     
-    func updateSeeds(to values: PreferenceValues) {
-        fatalError("TODO")
+    mutating func updateSeeds(to preferences: PreferenceValues) {
+        /*
+         self -> x20 -> x19
+         preferences -> x0 -> x20 -> sp + 0x68
+         */
+        // self.values -> x27
+        // index -> x24
+        for (index, value) in values.enumerated() {
+            let newSeed = preferences.seed(for: value.key)
+            values[index].seed = newSeed
+        }
     }
 }
 
