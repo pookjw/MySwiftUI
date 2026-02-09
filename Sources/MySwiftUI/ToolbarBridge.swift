@@ -93,6 +93,8 @@ internal import Foundation
         }
         
         // <+680>
+        // sp + 0x128 (하나 더 있는듯)
+        let toolbarStorage = toolbarStorage ?? ToolbarKey.defaultValue
         fatalError("TODO")
     }
     
@@ -104,7 +106,14 @@ internal import Foundation
 }
 
 struct ToolbarKey: HostPreferenceKey {
-    static nonisolated(unsafe) let defaultValue = ToolbarStorage()
+    static nonisolated(unsafe) let defaultValue = ToolbarStorage(
+        identifier: nil,
+        selection: nil,
+        isAnimated: false,
+        entries: [],
+        shouldPlaceDefaultNavigationItems: true,
+        requestedRemovedDefaultItems: []
+    )
     
     static func reduce(value: inout ToolbarStorage, nextValue: () -> ToolbarStorage) {
         fatalError("TODO")
