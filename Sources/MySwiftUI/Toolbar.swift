@@ -182,7 +182,12 @@ class UIKitBarButtonItem: UIBarButtonItem {
 }
 
 struct ToolbarStorage {
-    // TODO
+    private var identifier: String? = nil // 0x8
+    private var selection: Binding<Int>? = nil // 0x18
+    private var isAnimated: Bool = false // 0x28
+    private var entries: [ToolbarStorage.Entry] = [] // 0x30
+    private var shouldPlaceDefaultNavigationItems: Bool = true // 0x38
+    private var requestedRemovedDefaultItems: Set<ToolbarDefaultItemKind.Kind> = [] // 0x40
 }
 
 extension ToolbarStorage {
@@ -196,6 +201,24 @@ extension ToolbarStorage {
     
     struct NavigationProperties {
         // TODO
+    }
+    
+    struct Entry {
+        // TODO
+    }
+}
+
+struct ToolbarDefaultItemKind {
+    // TODO
+}
+
+extension ToolbarDefaultItemKind {
+    enum Kind {
+        case sidebarToggle
+        case title
+        case navigationBackButton
+        case search
+        case inspectorToggle
     }
 }
 

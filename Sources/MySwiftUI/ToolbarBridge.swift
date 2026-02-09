@@ -3,24 +3,24 @@ internal import MySwiftUICore
 internal import Foundation
 
 @MainActor final class ToolbarBridge<T>: NSObject {
-    private var platformVended = Toolbar.PlatformVended() // 0xcc8
-    private var lastToolbarStorage: ToolbarStorage? = nil // 0x498
-    private var lastInputToolbarStorage: ToolbarStorage? = nil // 0x4a0
-    private var searchItem: ToolbarStorage.SearchItem? = nil // 0xcd0
-    private var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xcd8
-    private var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xce0
-    private var lastInputNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xce8
-    private var lastBarContext: Toolbar.BarContext? = nil // 0xcf0
-    private var lastEnvironment = EnvironmentValues() // 0xcf8
-    private var allowedLocations = Set<Toolbar.BarLocation>(Toolbar.BarLocation.allCases) // 0xd00
-    private var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0xd08
-    private var toolbarTracker = VersionSeedTracker<ToolbarKey>(seed: .invalid) // 0x4a8
-    private var searchTracker = VersionSeedTracker<SearchKey>(seed: .invalid) // 0x4b0
-    private var navigationPropertiesTracker = VersionSeedTracker<NavigationPropertiesKey>(seed: .invalid) // 0x4b8
-    private var navigationTitleTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x4c0
-    private var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x4c8
-    private var lastNavigationSeed = VersionSeed.invalid // 0x4d0
-    private var storageByLocation: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init() // 0x4d8
+    private var platformVended = Toolbar.PlatformVended() // 0xb28
+    private var lastToolbarStorage: ToolbarStorage? = nil // 0x2f8
+    private var lastInputToolbarStorage: ToolbarStorage? = nil // 0x300
+    private var searchItem: ToolbarStorage.SearchItem? = nil // 0xb30
+    private var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xb38
+    private var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb40
+    private var lastInputNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb48
+    private var lastBarContext: Toolbar.BarContext? = nil // 0xb50
+    private var lastEnvironment = EnvironmentValues() // 0xb58
+    private var allowedLocations = Set<Toolbar.BarLocation>(Toolbar.BarLocation.allCases) // 0xb60
+    private var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0xb68
+    private var toolbarTracker = VersionSeedTracker<ToolbarKey>(seed: .invalid) // 0x308
+    private var searchTracker = VersionSeedTracker<SearchKey>(seed: .invalid) // 0x310
+    private var navigationPropertiesTracker = VersionSeedTracker<NavigationPropertiesKey>(seed: .invalid) // 0x318
+    private var navigationTitleTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x320
+    private var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x328
+    private var lastNavigationSeed = VersionSeed.invalid // 0x330
+    private var storageByLocation: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init() // 0x338
     
     override init() {
         super.init()
@@ -75,7 +75,28 @@ internal import Foundation
         adoptUpdates(updates, hostingController: hostingController, context: context)
     }
     
-    func preferencesDidChange(_: PreferenceValues, context: __owned Toolbar.UpdateContext) -> Toolbar.Updates {
+    func preferencesDidChange(_ preferences: PreferenceValues, context: __owned Toolbar.UpdateContext) -> Toolbar.Updates {
+        /*
+         self -> x20 -> x22
+         preferences -> x1 -> sp + 0xb0
+         preferences -> x0 -> x20
+         */
+        // x27
+        let toolbarValue = preferences[ToolbarKey.self]
+        // sp + 0x9c
+        let toolbarMatches = toolbarTracker.seed.matches(toolbarValue.seed)
+        
+        if !toolbarMatches {
+            // <+420>
+            toolbarTracker.seed = toolbarValue.seed
+            lastToolbarStorage = toolbarValue.value
+        }
+        
+        // <+680>
+        fatalError("TODO")
+    }
+    
+    final var toolbarStorage: ToolbarStorage? {
         fatalError("TODO")
     }
     
@@ -83,11 +104,9 @@ internal import Foundation
 }
 
 struct ToolbarKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
-    }
+    static nonisolated(unsafe) let defaultValue = ToolbarStorage()
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout ToolbarStorage, nextValue: () -> ToolbarStorage) {
         fatalError("TODO")
     }
     
