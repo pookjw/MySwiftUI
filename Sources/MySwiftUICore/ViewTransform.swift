@@ -364,8 +364,13 @@ extension ViewTransform {
             contents.destroy()
         }
         
-        package func appendScrollGeometry(_ geometry: ScrollGeometry, isClipped: Bool) {
-            fatalError("TODO")
+        package mutating func appendScrollGeometry(_ geometry: ScrollGeometry, isClipped: Bool) {
+            /*
+             geometry -> x21
+             isClipped -> x19
+             */
+            let item = ViewTransform.ScrollGeometryItem(base: geometry, isClipped: isClipped)
+            contents.append(item, vtable: ViewTransform.UnsafeBuffer._VTable<ViewTransform.ScrollGeometryItem>.self)
         }
         
         package mutating func appendCoordinateSpace(id: CoordinateSpace.ID, transform: inout ViewTransform) {
@@ -418,7 +423,11 @@ extension ViewTransform.UnsafeBuffer {
         }
         
         override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
-            fatalError("TODO")
+            let eltPtr = elt.body(as: Element.self)
+            let fromPtr = from.body(as: Element.self)
+            
+            let element = fromPtr.move()
+            eltPtr.initialize(to: element)
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
@@ -453,8 +462,8 @@ extension ViewTransform {
         case sizedSpace3D(CoordinateSpaceTag, size3D: Size3D)
     }
     
-    struct ScrollGeometryItem {
-        private var base: ScrollGeometry
-        private var isClipped: Bool
+    struct ScrollGeometryItem: ViewTransformElement {
+        private(set) var base: ScrollGeometry
+        private(set) var isClipped: Bool
     }
 }

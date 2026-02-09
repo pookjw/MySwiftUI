@@ -11,7 +11,7 @@ package protocol Location: Equatable {
 }
 
 extension Location {
-    func update() -> (Self.Value, Bool) {
+    package func update() -> (Self.Value, Bool) {
         return (get(), true)
     }
 }

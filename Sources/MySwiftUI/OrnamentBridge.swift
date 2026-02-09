@@ -55,6 +55,10 @@ class OrnamentBridge<Content: View> {
         }
     }
     
+    final func preferencesDidChange(_ preferences: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
     // TODO
 }
 

@@ -263,7 +263,7 @@ open class UIHostingController<Content: View>: UIViewController {
         }
         
         // <+112>
-        fatalError("TODO")
+        return _specialize(self as (any UIHostingControllerProvider), for: T.self)!
     }
     
     final func _viewDidMoveToWindow() {
@@ -282,8 +282,49 @@ open class UIHostingController<Content: View>: UIViewController {
         updateInitialSceneGeometry()
     }
     
-    final func preferencesDidChange(_: PreferenceValues) {
-        fatalError("TODO")
+    final func preferencesDidChange(_ preferences: PreferenceValues) {
+        /*
+         self -> x20 -> x21
+         preferences -> x19
+         */
+        // <+172>
+        modernNavigationBridge.preferencesDidChange(preferences)
+        dialogBridge.preferencesDidChange(preferences)
+        fileImportExportBridge.preferencesDidChange(preferences)
+        
+        if let keyboardShortcutBridge {
+            // inlined
+            keyboardShortcutBridge.preferencesDidChange(preferences)
+        }
+        
+        screenEdgesSystemGesturePreferencesDidChange(preferences)
+        persistentSystemOverlaysPreferencesDidChange(preferences)
+        
+        // <+396>
+        if let navigationBridge {
+            // inlined
+            navigationBridge.preferencesDidChange(preferences)
+        }
+        
+        if let contentScrollViewBridge {
+            contentScrollViewBridge.preferencesDidChange(preferences)
+        }
+        
+        if let toolbarBridge {
+            toolbarBridge.preferencesDidChange(preferences)
+        }
+        
+        if let barAppearanceBridge {
+            barAppearanceBridge.preferencesDidChange(preferences)
+        }
+        
+        if let inspectorBridgeV5 {
+            inspectorBridgeV5.preferencesDidChange(preferences)
+        }
+        
+        if let ornamentBridge {
+            ornamentBridge.preferencesDidChange(preferences)
+        }
     }
     
     final func update(_ environmentValues: inout EnvironmentValues) {
@@ -989,7 +1030,6 @@ open class UIHostingController<Content: View>: UIViewController {
         if inspectorBridgeV5 != nil {
             bridgeProperties.suppliedBridges.formUnion(.unknown7)
         }
-        fatalError("TODO")
     }
     
     final func didChangeRequiredBridges(from oldValue: HostingControllerBridges, to newValue: HostingControllerBridges) {
@@ -1136,6 +1176,14 @@ open class UIHostingController<Content: View>: UIViewController {
             // <+2392>
         }
     }
+    
+    final func screenEdgesSystemGesturePreferencesDidChange(_ preferences: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
+    final func persistentSystemOverlaysPreferencesDidChange(_ preferences: PreferenceValues) {
+        fatalError("TODO")
+    }
 }
 
 @available(iOS 16.4, tvOS 16.4, *)
@@ -1164,6 +1212,17 @@ extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate
 
 extension UIHostingController: KeyboardShortcutSource {
     // TODO
+}
+
+extension UIHostingController: UIHostingControllerProvider {
+    var hostingControllerOverrides: HostingControllerOverrides {
+        get {
+            return overrides
+        }
+        set {
+            overrides = newValue
+        }
+    }
 }
 
 @available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)

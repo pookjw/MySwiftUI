@@ -36,6 +36,10 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
         }
     }
     
+    final func preferencesDidChange(_ preferences: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
     // TODO
 }
 

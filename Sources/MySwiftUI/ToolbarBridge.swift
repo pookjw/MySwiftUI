@@ -60,6 +60,10 @@ internal import Foundation
         fatalError("TODO")
     }
     
+    func preferencesDidChange(_ preferences: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
     // TODO
 }
 

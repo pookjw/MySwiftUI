@@ -35,11 +35,20 @@ extension ViewGraphDelegate {
     }
     
     var hostingControllerOverrides: HostingControllerOverrides {
-        fatalError("TODO")
+        if let controller = self.as(UIHostingControllerProvider.self) {
+            return controller.hostingControllerOverrides
+        } else {
+            // <+100>
+            return HostingControllerOverrides()
+        }
     }
     
-    var uiContainingViewController: UIViewController? {
-        fatalError("TODO")
+    @MainActor var uiContainingViewController: UIViewController? {
+        guard let provider = self.as(UICoreViewControllerProvider.self) else {
+            return nil
+        }
+        
+        return provider.containingViewController
     }
     
     func setNeedsUpdate() {

@@ -11,6 +11,10 @@ class UIKitContentScrollViewBridge {
     init() {
     }
     
+    final func preferencesDidChange(_ preferences: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
     // TODO
 }
 

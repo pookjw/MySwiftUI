@@ -1,6 +1,6 @@
 // 2ADA36772BBE2FA4B0793F8DB8FE08F7
 internal import UIKit
-@_spi(Internal) private import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import _UIKitPrivate
 
 extension UIHostingController {
@@ -82,5 +82,23 @@ extension UIHostingController {
     
     fileprivate func topOrBottomContentScrollView() -> UIScrollView? {
         fatalError("TODO")
+    }
+}
+
+extension EnvironmentValues {
+    @inline(__always)
+    var internalNavigationEnabled: Bool {
+        get {
+            return self[InternalNavigationEnabledKey.self]
+        }
+        set {
+            self[InternalNavigationEnabledKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct InternalNavigationEnabledKey: EnvironmentKey {
+    static var defaultValue: Bool {
+        return false
     }
 }

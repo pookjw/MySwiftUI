@@ -268,7 +268,7 @@ package final class ViewGraph: GraphHost {
         let x29_51 = w8
         w8 = (w8 && w25)
         let x29_52 = w8
-        w8 = (w8 && w21)
+        w8 = w21
         let sp_18 = w8
         w8 = sp04
         w8 = (w8 || w28 || w27)

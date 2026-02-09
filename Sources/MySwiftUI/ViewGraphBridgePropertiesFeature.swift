@@ -2,17 +2,13 @@
 @_spi(Internal) internal import MySwiftUICore
 private import AttributeGraph
 
-struct ViewGraphBridgePropertiesFeature: ViewGraphFeature, GraphMutation {
+struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
     @WeakAttribute private var parentBridgeProperties: ViewGraphBridgeProperties?
     @WeakAttribute private var bridgeProperties: ViewGraphBridgeProperties?
     @OptionalAttribute private var environment: EnvironmentValues?
     private var lastParentBridgeProperties: ViewGraphBridgeProperties?
     private var lastLocalBridgeProperties: ViewGraphBridgeProperties?
     private var lastEnvironment: EnvironmentValues?
-    
-    func apply() {
-        fatalError("TODO")
-    }
     
     func combine<T>(with other: T) -> Bool where T : GraphMutation {
         fatalError("TODO")
@@ -111,7 +107,13 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature, GraphMutation {
          */
         defer {
             // $s7SwiftUI32ViewGraphBridgePropertiesFeatureV16outputsDidChange5graphyAA0cD0C_tF6$deferL_yyF
-            fatalError("TODO")
+            // self -> x0 -> x19
+            // x27, x28, x24, x25
+            let parentBridgeProperties = parentBridgeProperties
+            self.lastParentBridgeProperties = parentBridgeProperties
+            
+            // <+296>
+            self.lastEnvironment = environment
         }
         
         // <+212>
@@ -145,7 +147,13 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature, GraphMutation {
         // sp + 0x108
         let copy_1 = newProperties
         
-        graph.asyncTransaction(mutation: self, style: .deferred)
+        graph.asyncTransaction(
+            mutation: ViewGraphBridgePropertiesFeature.BridgePropertiesMutation(
+                bridgeProperties: _bridgeProperties,
+                newValue: newProperties
+            ),
+            style: .deferred
+        )
         self.lastLocalBridgeProperties = newProperties
     }
 }
@@ -153,7 +161,7 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature, GraphMutation {
 extension ViewGraphBridgePropertiesFeature {
     fileprivate struct MakeBridgeProperties: Rule {
         @WeakAttribute var overrideValue: ViewGraphBridgeProperties?
-        private(set) var localValue: ViewGraphBridgeProperties?
+        var localValue: ViewGraphBridgeProperties?
         
         var value: ViewGraphBridgeProperties {
             fatalError("TODO")
@@ -162,10 +170,17 @@ extension ViewGraphBridgePropertiesFeature {
     
     fileprivate struct BridgePropertiesMutation: GraphMutation {
         @WeakAttribute var bridgeProperties: ViewGraphBridgeProperties?
-        private var newValue: ViewGraphBridgeProperties?
+        private(set) var newValue: ViewGraphBridgeProperties?
         
         func apply() {
-            fatalError("TODO")
+            guard let attribute = $bridgeProperties else {
+                return
+            }
+            
+            attribute.mutateBody(as: ViewGraphBridgePropertiesFeature.MakeBridgeProperties.self, invalidating: true) { properties in
+                // $s7SwiftUI32ViewGraphBridgePropertiesFeatureV0eF8Mutation33_740EB2CA70C6E534C8611E22FBE70272LLV5applyyyFyAC04MakeeF0AELLVzXEfU_
+                properties.localValue = newValue
+            }
         }
         
         func combine<T>(with other: T) -> Bool where T : GraphMutation {

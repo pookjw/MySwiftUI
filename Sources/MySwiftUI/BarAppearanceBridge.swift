@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
 final class BarAppearanceBridge: NSObject {
@@ -29,16 +29,48 @@ final class BarAppearanceBridge: NSObject {
     }
     
     final func update(environment: inout EnvironmentValues) {
+        /*
+         self -> x20 -> x21
+         environment -> x0 -> x19
+         */
+        if let configuration = barConfigurations[.navigationBar] {
+            // <+180>
+            fatalError("TODO")
+        }
+        
+        // <+408>
         fatalError("TODO")
     }
     
     func addPreferences(to graph: ViewGraph) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x19
+         graph -> x0 -> x20
+         */
+        graph.addPreference(NavigationTitleKey.self)
+        seedTracker.addPreference(NavigationTitleKey.self)
+        
+        graph.addPreference(ToolbarRoleKey.self)
+        seedTracker.addPreference(ToolbarRoleKey.self)
+        
+        graph.addPreference(NavigationSubtitleKey.self)
+        seedTracker.addPreference(NavigationSubtitleKey.self)
+        
+        graph.addPreference(NavigationBarBackButtonHiddenKey.self)
+        seedTracker.addPreference(NavigationBarBackButtonHiddenKey.self)
+        
+        graph.addPreference(ToolbarKey.self)
+        seedTracker.addPreference(ToolbarKey.self)
     }
     
     func updateAllowedBars(_: Set<ToolbarPlacement.Role>, viewGraph: ViewGraph) {
         fatalError("TODO")
     }
+    
+    func preferencesDidChange(_ preferences: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
     // TODO
 }
 

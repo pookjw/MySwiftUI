@@ -3,6 +3,8 @@
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface UIViewController (Private)
+@property (nonatomic, readonly) NSUInteger childViewControllersCount;
+
 - (BOOL)_canShowWhileLocked;
 - (BOOL)_shouldIgnoreChildFocusRegions;
 

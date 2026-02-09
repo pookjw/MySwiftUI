@@ -22,7 +22,13 @@ public struct ScrollGeometry: Equatable, Sendable {
     }
     
     package static func rootViewTransform(contentOffset: CGPoint, containerSize: CGSize) -> ScrollGeometry {
-        fatalError("TODO")
+        return ScrollGeometry(
+            contentOffset: contentOffset,
+            contentSize: CGSize(width: CGFloat.infinity, height: CGFloat.infinity),
+            contentInsets: .zero,
+            containerSize: containerSize,
+            visibleRect: CGRect(origin: contentOffset, size: containerSize)
+        )
     }
     
     static func size(_ size: CGSize) -> ScrollGeometry {

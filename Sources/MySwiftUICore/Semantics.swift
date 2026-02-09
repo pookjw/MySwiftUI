@@ -8,6 +8,14 @@ package func isLinkedOnOrAfter(_ semantics: Semantics) -> Bool {
     }
 }
 
+func isDeployedOnOrAfter(_ semantics: Semantics) -> Bool {
+    if let sdk = Semantics.forced.sdk {
+        return semantics.value <= sdk.value
+    } else {
+        return dyld_program_minos_at_least(dyld_build_version_t(platform: .max, version: semantics.value))
+    }
+}
+
 package struct Semantics: Hashable, Comparable, CustomStringConvertible {
     package static func <(lhs: Semantics, rhs: Semantics) -> Bool {
         return lhs.value < rhs.value
@@ -299,7 +307,7 @@ extension SemanticFeature {
         case .linkedOnOrAfter:
             return isLinkedOnOrAfter(introduced)
         case .deployedOnOrAfter:
-            fatalError("TODO") // dyld_program_minos_at_least
+            return isDeployedOnOrAfter(introduced)
         }
     }
 }

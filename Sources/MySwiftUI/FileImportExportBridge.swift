@@ -1,7 +1,6 @@
 // 0CB5B3FF6C0FCB5BA54DB099807C7833
 internal import Foundation
 internal import MySwiftUICore
-private import MySwiftUICore
 
 final class FileImportExportBridge: NSObject {
     weak var host: ViewRendererHost? = nil // 0x530
@@ -11,6 +10,10 @@ final class FileImportExportBridge: NSObject {
     
     override init() {
         super.init()
+    }
+    
+    final func preferencesDidChange(_ preferences: PreferenceValues) {
+        fatalError("TODO")
     }
     
     // TODO
