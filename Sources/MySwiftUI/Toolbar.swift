@@ -222,7 +222,17 @@ extension ToolbarStorage {
     }
     
     struct SearchItem {
-        // TODO
+//        @Binding var state: SearchFieldState
+//        var platformTokens: PlatformItemList?
+//        var platformScopes: PlatformItemCollection?
+//        var platformSuggestions: PlatformItemCollection?
+//        var prompt: Text
+        private(set) var environment: EnvironmentValues // 0x24 (offset field)
+//        var suggestions: BoundInputsView?
+//        var customScopeBar: BoundInputsView?
+//        var customScopeBarVisibility: Visibility
+//        var customAccessory: BoundInputsView?
+        private(set) var allowsGlobalSearch: Bool
     }
     
     struct NavigationProperties {

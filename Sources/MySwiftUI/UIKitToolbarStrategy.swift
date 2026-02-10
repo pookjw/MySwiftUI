@@ -1,4 +1,6 @@
 private import MySwiftUICore
+internal import UIKit
+private import _UIKitPrivate
 
 struct UIKitToolbarStrategy: ToolbarStrategy {
     var updater: ToolbarBridge<UIKitToolbarStrategy>? // 0x0
@@ -81,12 +83,46 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x21
             let copy_3 = copy_1
             
-            let w20: Bool
+            let hidesSearchBarWhenScrolling: Bool
             if let copy_3 {
                 // <+892>
+                switch copy_3.environment.searchFieldPlacement {
+                case .navigationBarDrawer(let mode):
+                    switch mode {
+                    case .automatic:
+                        hidesSearchBarWhenScrolling = true
+                    case .always:
+                        hidesSearchBarWhenScrolling = false
+                    }
+                case .automatic:
+                    hidesSearchBarWhenScrolling = true
+                case .toolbar:
+                    hidesSearchBarWhenScrolling = true
+                case .toolbarPrincipal:
+                    hidesSearchBarWhenScrolling = true
+                case .sidebarList:
+                    hidesSearchBarWhenScrolling = true
+                case .navigationColumn:
+                    hidesSearchBarWhenScrolling = true
+                case .none:
+                    hidesSearchBarWhenScrolling = true
+                }
             } else {
                 // <+844>
+                hidesSearchBarWhenScrolling = true
             }
+            uiNavigationItem.hidesSearchBarWhenScrolling = hidesSearchBarWhenScrolling
+            
+            // <+988>
+            configureNavigationItem(uiNavigationItem, searchItem: copy_1, controller: uiSearchController)
+            // x20
+            let copy_4 = copy_1
+            
+            guard let copy_4 else {
+                return w24
+            }
+            
+            // <+1184>
             fatalError("TODO")
         }
     }
@@ -102,5 +138,115 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     func willReturnUpdates(_ updates: Toolbar.Updates, preferences: PreferenceValues) {
         fatalError("TODO")
     }
+    
+    func configureNavigationItem(_ navigationItem: UINavigationItem, searchItem: ToolbarStorage.SearchItem?, controller: SwiftUISearchController?) {
+        // controller는 안 씀
+        /*
+         navigationItem -> x0 -> sp + 0x520
+         searchItem -> x1 -> x21
+         */
+        // <+240>
+        // x26
+        let copy_1 = searchItem
+        // w26
+        let role: SearchFieldPlacement.Role?
+        if let copy_1 {
+            // <+356>
+            role = copy_1.environment.searchFieldPlacement
+        } else {
+            // <+308>
+            role = nil
+        }
+        
+        // <+444>
+        let copy_2 = searchItem
+        // w8
+        let searchToolbarBehavior: SearchToolbarBehavior
+        if let copy_2 {
+            // <+560>
+            searchToolbarBehavior = copy_2.environment.searchToolbarBehavior
+        } else {
+            // <+504>
+            searchToolbarBehavior = .automatic
+        }
+        
+        var preferredSearchBarPlacement: UINavigationItem.SearchBarPlacement?
+        if let role {
+            switch searchToolbarBehavior.role {
+            case .automatic:
+                // <+684>
+                preferredSearchBarPlacement = nil
+            case .minimize:
+                switch role {
+                case .automatic, .toolbar:
+                    // <+676>
+                    preferredSearchBarPlacement = .msui_integratedCentered
+                default:
+                    // <+684>
+                    preferredSearchBarPlacement = nil
+                }
+            }
+        } else {
+            // <+684>
+            preferredSearchBarPlacement = nil
+        }
+        
+        if preferredSearchBarPlacement == nil {
+            // <+684>
+            if let role, _SemanticFeature<Semantics_v4>.isEnabled {
+                switch role {
+                case .navigationBarDrawer(let mode):
+                    preferredSearchBarPlacement = .stacked
+                case .automatic:
+                    preferredSearchBarPlacement = .automatic
+                case .toolbar:
+                    preferredSearchBarPlacement = .automatic
+                case .toolbarPrincipal:
+                    preferredSearchBarPlacement = .inline
+                case .sidebarList:
+                    // <+788>
+                    break
+                case .navigationColumn:
+                    preferredSearchBarPlacement = .stacked
+                case .none:
+                    // <+788>
+                    break
+                }
+            }
+        }
+        
+        if let preferredSearchBarPlacement {
+            navigationItem.preferredSearchBarPlacement = preferredSearchBarPlacement
+        }
+        
+        // <+788>
+        if _SemanticFeature<Semantics_v7>.isEnabled {
+            let shouldUpdate: Bool
+            switch role {
+            case .navigationBarDrawer(_):
+                shouldUpdate = false
+            case .automatic:
+                shouldUpdate = true
+            case .toolbar:
+                shouldUpdate = true
+            case .toolbarPrincipal:
+                shouldUpdate = false
+            case .sidebarList:
+                shouldUpdate = true
+            case .navigationColumn:
+                shouldUpdate = true
+            case .none:
+                shouldUpdate = true
+            case .some(.none):
+                shouldUpdate = false
+            }
+            
+            let copy_3 = searchItem
+            if let copy_3, copy_3.allowsGlobalSearch {
+                navigationItem.msui_searchBarPlacementAllowsExternalIntegration = true
+            }
+        }
+        
+        // <+968>
+    }
 }
-

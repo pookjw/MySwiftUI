@@ -150,6 +150,21 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
                 updates.set.update(with: .search)
             }
             
+            // <+392>
+            if !toolbarMatches {
+                // <+412>
+                // x26
+                let context = strategy.makeBarContext(storage: toolbarStorage, preferences: preferences)
+                // x27
+                let copy_1 = context
+                self.lastBarContext = copy_1
+                
+                // <+568>
+                fatalError("TODO")
+                // <+640>, <+676> 놓치면 안 됨
+            }
+            
+            // <+688>
             fatalError("TODO")
         }
         
