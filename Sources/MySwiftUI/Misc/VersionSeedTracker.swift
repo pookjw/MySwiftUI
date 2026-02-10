@@ -3,6 +3,7 @@ internal import MySwiftUICore
 struct VersionSeedTracker<T: HostPreferenceKey> {
     var seed: VersionSeed
     
+    @discardableResult
     mutating func didChange(_ preferences: PreferenceValues, action: (T.Value) -> Void) -> Bool {
         /*
          self -> x20 -> x22

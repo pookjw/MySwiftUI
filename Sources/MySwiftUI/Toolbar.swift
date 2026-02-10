@@ -12,8 +12,8 @@ extension Toolbar {
         private weak var navigationController: UINavigationController? = nil // 0x38
         private weak var targetController: UIViewController? = nil // 0x40
         private weak var sceneSession: UISceneSession? = nil // 0x48
-        private var horizontalSizeClass: UserInterfaceSizeClass? = .regular // 0x20 (offset field)
-        private var verticalSizeClass: UserInterfaceSizeClass? = .regular // 0x24 (offset field)
+        var horizontalSizeClass: UserInterfaceSizeClass? = .regular // 0x20 (offset field)
+        var verticalSizeClass: UserInterfaceSizeClass? = .regular // 0x24 (offset field)
         var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0x28 (offset field)
         
         init<Content: View>(hostingController: UIHostingController<Content>) {
@@ -99,7 +99,11 @@ extension Toolbar {
     }
     
     struct Updates {
-        // TODO
+        var set: Set<Int> // TODO
+        var flag1: Bool
+        var flag2: Bool
+        var flag3: Bool
+        var flag4: Bool
     }
     
     @MainActor struct PlatformVended {
@@ -127,6 +131,20 @@ extension Toolbar {
     
     struct LocationStorage {
         // TODO
+    }
+    
+    enum VendedItem {
+        case spacer(UIBarButtonItem)
+        case barItem(UIKitBarButtonItem)
+        case barItemGroup(UIKitBarButtonItemGroup)
+        case hostView(UIKitBarItemHost<BarItemView>)
+        case paletteView(UIKitBarPaletteHost)
+    }
+}
+
+extension Toolbar.Updates {
+    struct NavigationProperties {
+        // TODO (descriptor 없음)
     }
 }
 
@@ -303,7 +321,7 @@ struct NavigationBarBackButtonHiddenKey: HostPreferenceKey {
 }
 
 struct UINavigationItemAdaptorStorage {
-    private var adaptors: [UINavigationItemAdaptorStorage.Adaptor] = []
+    private(set) var adaptors: [UINavigationItemAdaptorStorage.Adaptor] = []
     // TODO
 }
 

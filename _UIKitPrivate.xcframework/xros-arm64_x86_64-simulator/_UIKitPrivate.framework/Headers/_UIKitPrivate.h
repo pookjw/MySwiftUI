@@ -32,3 +32,4 @@
 #import <_UIKitPrivate/UINavigationController+Private.h>
 #import <_UIKitPrivate/UITableView+Private.h>
 #import <_UIKitPrivate/UICollectionView+Private.h>
+#import <_UIKitPrivate/_UINavigationBarPalette.h>

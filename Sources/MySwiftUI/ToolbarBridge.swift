@@ -2,7 +2,7 @@
 internal import MySwiftUICore
 internal import Foundation
 
-@MainActor final class ToolbarBridge<T>: NSObject {
+@MainActor final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     private var platformVended = Toolbar.PlatformVended() // 0xb28
     private var lastToolbarStorage: ToolbarStorage? = nil // 0x2f8
     private var lastInputToolbarStorage: ToolbarStorage? = nil // 0x300
@@ -56,7 +56,7 @@ internal import Foundation
         fatalError("TODO")
     }
     
-    fileprivate func adoptUpdates<Content: View>(_: Toolbar.Updates, hostingController: UIHostingController<Content>, context: Toolbar.UpdateContext) {
+    fileprivate func adoptUpdates<Content: View>(_ updates: Toolbar.Updates, hostingController: UIHostingController<Content>, context: Toolbar.UpdateContext) {
         fatalError("TODO")
     }
     
@@ -81,6 +81,15 @@ internal import Foundation
          context -> x1 -> sp + 0xb0
          context -> x0 -> x20
          */
+        // sp + 0x118
+        var updates = Toolbar.Updates(
+            set: [],
+            flag1: false,
+            flag2: false,
+            flag3: false,
+            flag4: false
+        )
+        
         // x27
         let toolbarValue = preferences[ToolbarKey.self]
         // sp + 0x9c
@@ -93,24 +102,101 @@ internal import Foundation
         }
         
         // <+680>
-        // sp + 0x128
+        // sp + 0x100 (x19 + 0x100)
         let toolbarStorage = toolbarStorage ?? ToolbarKey.defaultValue
-        // sp + 0x1c0
+        // sp + 0x128
         let copy_1 = toolbarStorage
+        // sp + 0x1c0
+        let copy_2 = copy_1
         
         // <+884>
         allowedLocations.formUnion([])
         context.accessoryBarLocations = []
         
         // <+972>
-        fatalError("TODO")
+        context.horizontalSizeClass = lastEnvironment.horizontalSizeClass
+        context.verticalSizeClass = lastEnvironment.verticalSizeClass
+        
+        // <+1192>
+        T.withUpdater(self, context) { strategy in
+            // $s7SwiftUI13ToolbarBridgeC20preferencesDidChange_7contextAA0C0O7UpdatesVAA16PreferenceValuesV_AG13UpdateContextVntFyxXEfU0_TA
+            /*
+             strategy -> x0 -> sp + 0x48 
+             self -> x1 -> x23 -> sp + 0x60
+             preferences -> x2 -> x19
+             updates -> x3 -> x22 -> sp + 0x68
+             !toolbarMatches -> w4 -> sp + 0x38
+             toolbarStorage -> x5 -> sp + 0x40
+             context -> x6 -> sp + 0x30
+             */
+            self.adaptorTracker.didChange(preferences) { storage in
+                // $s7SwiftUI13ToolbarBridgeC20preferencesDidChange_7contextAA0C0O7UpdatesVAA16PreferenceValuesV_AG13UpdateContextVntFyxXEfU0_yAA30UINavigationItemAdaptorStorageVXEfU_TA
+                self.navigationAdaptor = storage
+            }
+            
+            guard self.allowsUpdates else {
+                return
+            }
+            
+            // <+276>
+            self.searchTracker.didChange(preferences) { [self, strategy, updates] item in
+                // $s7SwiftUI13ToolbarBridgeC20preferencesDidChange_7contextAA0C0O7UpdatesVAA16PreferenceValuesV_AG13UpdateContextVntFyxXEfU0_yAA0C7StorageV10SearchItemVSgXEfU0_TA
+                self.searchItem = item
+                fatalError("TODO")
+            }
+            
+            fatalError("TODO")
+        }
+        
+        return updates
     }
     
     final var toolbarStorage: ToolbarStorage? {
-        fatalError("TODO")
+        /*
+         return pointer -> x8 -> x19
+         self.lastToolbarStorage (pointer) -> x8
+         */
+        // sp + 0xf0
+        let lastToolbarStorage = lastToolbarStorage
+        // sp + 0x140
+        let lastInputToolbarStorage = lastInputToolbarStorage
+        
+        // <+112>
+        if let lastToolbarStorage {
+            if let lastInputToolbarStorage {
+                // <+140>
+                // 둘이 합쳐서 반환하는 것 같음
+                fatalError("TODO")
+            } else {
+                // <+556>
+                return lastToolbarStorage
+            }
+        } else {
+            // <+476>
+            if let lastInputToolbarStorage {
+                // <+484>
+                return lastInputToolbarStorage
+            } else {
+                // <+628>
+                return nil
+            }
+        }
+    }
+    
+    final var allowsUpdates: Bool {
+        var result = true
+        
+        for adaptor in navigationAdaptor.adaptors {
+            fatalError("TODO")
+        }
+        
+        return result
     }
     
     // TODO
+}
+
+extension ToolbarBridge: ToolbarNamespace {
 }
 
 struct ToolbarKey: HostPreferenceKey {
@@ -137,11 +223,9 @@ struct ToolbarKey: HostPreferenceKey {
 }
 
 struct SearchKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
-    }
+    static nonisolated(unsafe) let defaultValue: ToolbarStorage.SearchItem? = nil
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout ToolbarStorage.SearchItem?, nextValue: () -> ToolbarStorage.SearchItem?) {
         fatalError("TODO")
     }
     
@@ -173,11 +257,9 @@ struct NavigationPropertiesKey: HostPreferenceKey {
 }
 
 struct UINavigationItemAdaptorKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
-    }
+    static nonisolated(unsafe) let defaultValue = UINavigationItemAdaptorStorage()
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout UINavigationItemAdaptorStorage, nextValue: () -> UINavigationItemAdaptorStorage) {
         fatalError("TODO")
     }
     
