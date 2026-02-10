@@ -99,26 +99,34 @@ extension Toolbar {
     }
     
     struct Updates {
-        var set: Set<Int> // TODO
+        var set: Set<Toolbar.BarLocation>
         var flag1: Bool
         var flag2: Bool
         var flag3: Bool
         var flag4: Bool
     }
     
-    @MainActor struct PlatformVended {
+    struct PlatformVended {
         private var platformDelegate: ToolbarPlatformDelegate? = nil // 0x0
-        private var uiNavigationItem = UINavigationItem() // 0x8
+        private(set) var uiNavigationItem: UINavigationItem = {
+            return MainActor.assumeIsolated { 
+                return UINavigationItem()
+            }
+        }() // 0x8
         private var uiToolbarItems: [UIBarButtonItem] = [] // 0x10
         private var uiToolbar: UIKitToolbar? = nil // 0x18
-        private var uiSearchController: SwiftUISearchController? = nil // 0x20
+        var uiSearchController: SwiftUISearchController? = nil // 0x20
         private lazy var uiSafeAreaTransitionState: ToolbarSafeAreaTransitionState = {
             fatalError("TODO")
         }() // 0x28
         private var uiTabViewSidebarOverflowItems: [UIKitBarButtonItem] = [] // 0x30
         private var uiTabViewSidebarBottomBarItem: ToolbarStorage.Item? = nil // 0x2c (offset field)
         private var uiInputAccessoryGenerator: InputAccessoryGenerator? // 0x30 (offset field)
-        private var uiSplitControllerNavigationItem = UINavigationItem() // 0x34 (offset field)
+        private var uiSplitControllerNavigationItem: UINavigationItem = {
+            return MainActor.assumeIsolated { 
+                return UINavigationItem()
+            }
+        }() // 0x34 (offset field)
         private var ornamentItems: [ToolbarStorage.Item] = [] // 0x38 (offset field)
         private var bottomOrnament: ToolbarOrnament? = nil // 0x3c (offset field)
         

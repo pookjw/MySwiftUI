@@ -2,11 +2,11 @@
 internal import MySwiftUICore
 internal import Foundation
 
-@MainActor final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
-    private var platformVended = Toolbar.PlatformVended() // 0xb28
+final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
+    var platformVended = Toolbar.PlatformVended() // 0xb28
     private var lastToolbarStorage: ToolbarStorage? = nil // 0x2f8
     private var lastInputToolbarStorage: ToolbarStorage? = nil // 0x300
-    private var searchItem: ToolbarStorage.SearchItem? = nil // 0xb30
+    private(set) var searchItem: ToolbarStorage.SearchItem? = nil // 0xb30
     private var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xb38
     private var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb40
     private var lastInputNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb48
@@ -139,10 +139,15 @@ internal import Foundation
             }
             
             // <+276>
-            self.searchTracker.didChange(preferences) { [self, strategy, updates] item in
+            self.searchTracker.didChange(preferences) { item in
                 // $s7SwiftUI13ToolbarBridgeC20preferencesDidChange_7contextAA0C0O7UpdatesVAA16PreferenceValuesV_AG13UpdateContextVntFyxXEfU0_yAA0C7StorageV10SearchItemVSgXEfU0_TA
+                // self, strategy, updates
                 self.searchItem = item
-                fatalError("TODO")
+                guard strategy.updateSearch() else {
+                    return
+                }
+                
+                updates.set.update(with: .search)
             }
             
             fatalError("TODO")

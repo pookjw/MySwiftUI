@@ -20,7 +20,15 @@ extension ToolbarStrategy {
     }
     
     func withUpdate<T>(_ block: (ToolbarBridge<Self>, Toolbar.UpdateContext) -> T) -> T {
-        fatalError("TODO")
+        guard let updater else {
+            fatalError()
+        }
+        
+        guard let updateContext else {
+            fatalError("Attempted to update outside withUpdater() call")
+        }
+        
+        return block(updater, updateContext)
     }
     
     static func withUpdater<T>(_ bridge: ToolbarBridge<Self>, _ context: Toolbar.UpdateContext, body: (Self) -> T) -> T {
