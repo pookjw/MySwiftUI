@@ -1,4 +1,5 @@
 internal import UIKit
+private import MySwiftUICore
 
 protocol ToolbarStrategy: ToolbarNamespace {
     var updater: ToolbarBridge<Self>? { get set }
@@ -48,19 +49,32 @@ extension ToolbarStrategy {
             // w27
             let hasOrWillHaveSystemLeadingItems: Bool
             if let targetController = context.targetController {
-                hasOrWillHaveSystemLeadingItems = targetController.hasOrWillHaveSystemLeadingItems(context)
+                hasOrWillHaveSystemLeadingItems = MainActor.assumeIsolated { [unchecked = UncheckedSendable(context)] in
+                    return targetController.hasOrWillHaveSystemLeadingItems(unchecked.value)
+                }
             } else {
                 hasOrWillHaveSystemLeadingItems = false
             }
             
             // <+260>
-            assert(hasOrWillHaveSystemLeadingItems)
-            fatalError()
             result.hasSystemItems = hasOrWillHaveSystemLeadingItems
             result.hidesSystemItems = preferences[NavigationBarBackButtonHiddenKey.self].value
             
-            storage.placements
-            fatalError("TODO")
+            // <+348>
+            var w8: Bool = false
+            for placement in storage.placements {
+                fatalError("TODO")
+            }
+            
+            // <+672>
+            result.shouldOverrideDefaultPlacement = w8
+            
+            if let sceneSession = context.sceneSession {
+                // <+692>
+                result.isCustomizable = (sceneSession.role == .windowApplicationVolumetric)
+            }
+            
+            // <+808>
         }
         
         return result
@@ -94,7 +108,47 @@ extension ToolbarStrategy {
 }
 
 extension UIViewController {
-    nonisolated func hasOrWillHaveSystemLeadingItems(_: Toolbar.UpdateContext) -> Bool {
+    func hasOrWillHaveSystemLeadingItems(_ context: Toolbar.UpdateContext) -> Bool {
+        guard !hasOrWillHaveBackItem(overrides: context.overrides) else {
+            return true
+        }
+        
+        fatalError("TODO")
+    }
+    
+    func hasOrWillHaveBackItem(overrides: HostingControllerOverrides) -> Bool {
+        /*
+         self -> x20
+         overrides -> x0 -> x19
+         */
+        if let hasBackItem = overrides.hasBackItem {
+            return hasBackItem
+        }
+        
+        // sp + 0x40
+        let copy_1 = overrides.pushTarget
+        // x19
+        let split = overrides.split ?? self.splitViewController
+        // <+112>
+        // sp
+        let copy_2 = copy_1
+        
+        if let copy_2 {
+            // <+316>
+            fatalError("TODO")
+        } else {
+            // <+152>
+            if let navigationController {
+                guard navigationController.viewControllers.isEmpty else {
+                    return true
+                }
+                // <+368>
+            }
+            
+            // <+368>
+        }
+        
+        // <+368>
         fatalError("TODO")
     }
 }

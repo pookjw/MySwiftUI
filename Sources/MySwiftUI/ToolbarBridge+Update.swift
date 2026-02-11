@@ -128,6 +128,28 @@ extension ToolbarBridge {
     }
     
     fileprivate final func updateStorage(newStorage: ToolbarStorage, barContext: Toolbar.BarContext, updateContext: borrowing Toolbar.UpdateContext, strategy: T) {
+        /*
+         self -> x20 -> x22
+         newStorage -> x0 -> x20
+         barContext -> x1 -> sp + 0x20
+         updateContext -> x2 -> x23
+         strategy -> x3 -> sp + 0x28
+         */
+        // x24
+        var dictionary: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init()
+        // sp + 0x160 (x29 - 0xf0)
+        let copy_1 = newStorage
+        // sp + 0xa0
+        let copy_2 = newStorage
+        copy_1.removeRequestedDefaultItems()
+        
+        // x20
+        var locations = Toolbar.BarLocation.allCases
+        locations.append(contentsOf: updateContext.accessoryBarLocations)
+        
+        for location in locations {
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
 }

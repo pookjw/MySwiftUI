@@ -8,10 +8,10 @@ enum Toolbar {}
 
 extension Toolbar {
     struct UpdateContext {
-        private var overrides = HostingControllerOverrides() // 0x0
+        private(set) var overrides = HostingControllerOverrides() // 0x0
         private weak var navigationController: UINavigationController? = nil // 0x38
         private(set) weak var targetController: UIViewController? = nil // 0x40
-        private weak var sceneSession: UISceneSession? = nil // 0x48
+        private(set) weak var sceneSession: UISceneSession? = nil // 0x48
         var horizontalSizeClass: UserInterfaceSizeClass? = .regular // 0x20 (offset field)
         var verticalSizeClass: UserInterfaceSizeClass? = .regular // 0x24 (offset field)
         var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0x28 (offset field)
@@ -134,17 +134,19 @@ extension Toolbar {
     }
     
     struct BarContext {
-        private(set) var isCustomizable: Bool // 0x0
+        var isCustomizable: Bool // 0x0
         var hidesSystemItems: Bool // 0x1
         var hasSystemItems: Bool // 0x2
-        private(set) var shouldOverrideDefaultPlacement: Bool // 0x3
+        var shouldOverrideDefaultPlacement: Bool // 0x3
         var horizontalSizeClass: UserInterfaceSizeClass? // 0x4
         var verticalSizeClass: UserInterfaceSizeClass? // 0x5
         private(set) var automaticShouldPreferOrnament: Bool // 0x6
     }
     
     struct LocationStorage {
-        // TODO
+        private(set) var entryIDs: [String]
+        private(set) var entries: [String: ToolbarStorage.Entry]
+        private(set) var vendedItems: [String: Toolbar.VendedItem]
     }
     
     enum VendedItem {
@@ -222,7 +224,17 @@ struct ToolbarStorage {
     private(set) var requestedRemovedDefaultItems: Set<ToolbarDefaultItemKind.Kind> // 0x40
     
     var placements: Set<ToolbarItemPlacement.Role> {
+        guard !entries.isEmpty else {
+            return Set([])
+        }
+        
         fatalError("TODO")
+    }
+    
+    func removeRequestedDefaultItems() {
+        for _ in requestedRemovedDefaultItems {
+            // nop
+        }
     }
 }
 
@@ -250,7 +262,26 @@ extension ToolbarStorage {
     }
     
     struct Entry {
+        private(set) var kind: ToolbarStorage.Entry.Kind
+        private(set) var edge: HorizontalEdge?
+    }
+    
+    struct GroupItem {
         // TODO
+    }
+    
+    struct SpacerItem {
+        // TODO
+    }
+}
+
+extension ToolbarStorage.Entry {
+    enum Kind {
+        case item(ToolbarStorage.Item)
+        case group(ToolbarStorage.GroupItem)
+        case spacer(ToolbarStorage.SpacerItem)
+        case search
+        case document
     }
 }
 
