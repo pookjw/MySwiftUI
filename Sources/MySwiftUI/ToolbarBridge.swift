@@ -4,21 +4,21 @@ internal import Foundation
 
 final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     var platformVended = Toolbar.PlatformVended() // 0xb28
-    private var lastToolbarStorage: ToolbarStorage? = nil // 0x2f8
+    var lastToolbarStorage: ToolbarStorage? = nil // 0x2f8
     private var lastInputToolbarStorage: ToolbarStorage? = nil // 0x300
-    private(set) var searchItem: ToolbarStorage.SearchItem? = nil // 0xb30
-    private var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xb38
+    var searchItem: ToolbarStorage.SearchItem? = nil // 0xb30
+    var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xb38
     private var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb40
     private var lastInputNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb48
-    private var lastBarContext: Toolbar.BarContext? = nil // 0xb50
-    private var lastEnvironment = EnvironmentValues() // 0xb58
-    private var allowedLocations = Set<Toolbar.BarLocation>(Toolbar.BarLocation.allCases) // 0xb60
+    var lastBarContext: Toolbar.BarContext? = nil // 0xb50
+    var lastEnvironment = EnvironmentValues() // 0xb58
+    var allowedLocations = Set<Toolbar.BarLocation>(Toolbar.BarLocation.allCases) // 0xb60
     private var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0xb68
-    private var toolbarTracker = VersionSeedTracker<ToolbarKey>(seed: .invalid) // 0x308
-    private var searchTracker = VersionSeedTracker<SearchKey>(seed: .invalid) // 0x310
+    var toolbarTracker = VersionSeedTracker<ToolbarKey>(seed: .invalid) // 0x308
+    var searchTracker = VersionSeedTracker<SearchKey>(seed: .invalid) // 0x310
     private var navigationPropertiesTracker = VersionSeedTracker<NavigationPropertiesKey>(seed: .invalid) // 0x318
     private var navigationTitleTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x320
-    private var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x328
+    var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x328
     private var lastNavigationSeed = VersionSeed.invalid // 0x330
     private var storageByLocation: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init() // 0x338
     
@@ -73,102 +73,6 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         let updates = preferencesDidChange(preferences, context: copy_1)
         
         adoptUpdates(updates, hostingController: hostingController, context: copy_1)
-    }
-    
-    func preferencesDidChange(_ preferences: PreferenceValues, context: consuming Toolbar.UpdateContext) -> Toolbar.Updates {
-        /*
-         self -> x20 -> x22
-         context -> x1 -> sp + 0xb0
-         context -> x0 -> x20
-         */
-        // sp + 0x118
-        var updates = Toolbar.Updates(
-            set: [],
-            flag1: false,
-            flag2: false,
-            flag3: false,
-            flag4: false
-        )
-        
-        // x27
-        let toolbarValue = preferences[ToolbarKey.self]
-        // sp + 0x9c
-        let toolbarMatches = toolbarTracker.seed.matches(toolbarValue.seed)
-        
-        if !toolbarMatches {
-            // <+420>
-            toolbarTracker.seed = toolbarValue.seed
-            lastToolbarStorage = toolbarValue.value
-        }
-        
-        // <+680>
-        // sp + 0x100 (x19 + 0x100)
-        let toolbarStorage = toolbarStorage ?? ToolbarKey.defaultValue
-        // sp + 0x128
-        let copy_1 = toolbarStorage
-        // sp + 0x1c0
-        let copy_2 = copy_1
-        
-        // <+884>
-        allowedLocations.formUnion([])
-        context.accessoryBarLocations = []
-        
-        // <+972>
-        context.horizontalSizeClass = lastEnvironment.horizontalSizeClass
-        context.verticalSizeClass = lastEnvironment.verticalSizeClass
-        
-        // <+1192>
-        T.withUpdater(self, context) { strategy in
-            // $s7SwiftUI13ToolbarBridgeC20preferencesDidChange_7contextAA0C0O7UpdatesVAA16PreferenceValuesV_AG13UpdateContextVntFyxXEfU0_TA
-            /*
-             strategy -> x0 -> sp + 0x48 
-             self -> x1 -> x23 -> sp + 0x60
-             preferences -> x2 -> x19
-             updates -> x3 -> x22 -> sp + 0x68
-             !toolbarMatches -> w4 -> sp + 0x38
-             toolbarStorage -> x5 -> sp + 0x40
-             context -> x6 -> sp + 0x30
-             */
-            self.adaptorTracker.didChange(preferences) { storage in
-                // $s7SwiftUI13ToolbarBridgeC20preferencesDidChange_7contextAA0C0O7UpdatesVAA16PreferenceValuesV_AG13UpdateContextVntFyxXEfU0_yAA30UINavigationItemAdaptorStorageVXEfU_TA
-                self.navigationAdaptor = storage
-            }
-            
-            guard self.allowsUpdates else {
-                return
-            }
-            
-            // <+276>
-            self.searchTracker.didChange(preferences) { item in
-                // $s7SwiftUI13ToolbarBridgeC20preferencesDidChange_7contextAA0C0O7UpdatesVAA16PreferenceValuesV_AG13UpdateContextVntFyxXEfU0_yAA0C7StorageV10SearchItemVSgXEfU0_TA
-                // self, strategy, updates
-                self.searchItem = item
-                guard strategy.updateSearch() else {
-                    return
-                }
-                
-                updates.set.update(with: .search)
-            }
-            
-            // <+392>
-            if !toolbarMatches {
-                // <+412>
-                // x26
-                let context = strategy.makeBarContext(storage: toolbarStorage, preferences: preferences)
-                // x27
-                let copy_1 = context
-                self.lastBarContext = copy_1
-                
-                // <+568>
-                fatalError("TODO")
-                // <+640>, <+676> 놓치면 안 됨
-            }
-            
-            // <+688>
-            fatalError("TODO")
-        }
-        
-        return updates
     }
     
     final var toolbarStorage: ToolbarStorage? {
