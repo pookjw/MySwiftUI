@@ -1,3 +1,5 @@
+internal import UIKit
+
 protocol ToolbarStrategy: ToolbarNamespace {
     var updater: ToolbarBridge<Self>? { get set }
     var updateContext: Toolbar.UpdateContext? { get set }
@@ -16,7 +18,52 @@ protocol ToolbarStrategy: ToolbarNamespace {
 
 extension ToolbarStrategy {
     func makeBarContext(storage: ToolbarStorage, preferences: PreferenceValues) -> Toolbar.BarContext {
-        fatalError("TODO")
+        /*
+         storage -> x0 -> x23
+         preferences -> x1 -> x22
+         return register -> x8 -> x24
+         */
+        var result = Toolbar.BarContext(
+            isCustomizable: storage.identifier != nil,
+            hidesSystemItems: false,
+            hasSystemItems: false, // 밑에 withUpdate에서 결정됨
+            shouldOverrideDefaultPlacement: false,
+            horizontalSizeClass: .regular,
+            verticalSizeClass: .regular,
+            automaticShouldPreferOrnament: false
+        )
+        
+        withUpdate { bridge, context in
+            // $s7SwiftUI15ToolbarStrategyPAAE14makeBarContext7storage11preferencesAA0C0O0fG0VAA0C7StorageV_AA16PreferenceValuesVtFyAA0C6BridgeCyxG_AH06UpdateG0VtXEfU_TA
+            /*
+             bridge -> x0 (안 씀)
+             context -> x1 -> x22
+             return register (result) -> x2 -> x23
+             preferences -> x3 -> sp + 0x20
+             storage -> x4 -> sp + 0x28
+             */
+            result.horizontalSizeClass = context.horizontalSizeClass
+            result.verticalSizeClass = context.verticalSizeClass
+            
+            // w27
+            let hasOrWillHaveSystemLeadingItems: Bool
+            if let targetController = context.targetController {
+                hasOrWillHaveSystemLeadingItems = targetController.hasOrWillHaveSystemLeadingItems(context)
+            } else {
+                hasOrWillHaveSystemLeadingItems = false
+            }
+            
+            // <+260>
+            assert(hasOrWillHaveSystemLeadingItems)
+            fatalError()
+            result.hasSystemItems = hasOrWillHaveSystemLeadingItems
+            result.hidesSystemItems = preferences[NavigationBarBackButtonHiddenKey.self].value
+            
+            storage.placements
+            fatalError("TODO")
+        }
+        
+        return result
     }
     
     func withUpdate<T>(_ block: (ToolbarBridge<Self>, Toolbar.UpdateContext) -> T) -> T {
@@ -43,5 +90,11 @@ extension ToolbarStrategy {
         strategy.updateContext = context
         
         return body(strategy)
+    }
+}
+
+extension UIViewController {
+    nonisolated func hasOrWillHaveSystemLeadingItems(_: Toolbar.UpdateContext) -> Bool {
+        fatalError("TODO")
     }
 }

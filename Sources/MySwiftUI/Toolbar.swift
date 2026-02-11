@@ -10,7 +10,7 @@ extension Toolbar {
     struct UpdateContext {
         private var overrides = HostingControllerOverrides() // 0x0
         private weak var navigationController: UINavigationController? = nil // 0x38
-        private weak var targetController: UIViewController? = nil // 0x40
+        private(set) weak var targetController: UIViewController? = nil // 0x40
         private weak var sceneSession: UISceneSession? = nil // 0x48
         var horizontalSizeClass: UserInterfaceSizeClass? = .regular // 0x20 (offset field)
         var verticalSizeClass: UserInterfaceSizeClass? = .regular // 0x24 (offset field)
@@ -99,11 +99,11 @@ extension Toolbar {
     }
     
     struct Updates {
-        var set: Set<Toolbar.BarLocation>
+        var locations: Set<Toolbar.BarLocation>
         var flag1: Bool
         var flag2: Bool
         var flag3: Bool
-        var flag4: Bool
+        var navigationProperties: Toolbar.Updates.NavigationProperties
     }
     
     struct PlatformVended {
@@ -134,7 +134,13 @@ extension Toolbar {
     }
     
     struct BarContext {
-        // TODO
+        private(set) var isCustomizable: Bool // 0x0
+        var hidesSystemItems: Bool // 0x1
+        var hasSystemItems: Bool // 0x2
+        private(set) var shouldOverrideDefaultPlacement: Bool // 0x3
+        var horizontalSizeClass: UserInterfaceSizeClass? // 0x4
+        var verticalSizeClass: UserInterfaceSizeClass? // 0x5
+        private(set) var automaticShouldPreferOrnament: Bool // 0x6
     }
     
     struct LocationStorage {
@@ -152,7 +158,7 @@ extension Toolbar {
 
 extension Toolbar.Updates {
     struct NavigationProperties {
-        // TODO (descriptor 없음)
+        let flag: Bool
     }
 }
 
@@ -214,6 +220,10 @@ struct ToolbarStorage {
     private(set) var entries: [ToolbarStorage.Entry] // 0x30
     private(set) var shouldPlaceDefaultNavigationItems: Bool // 0x38
     private(set) var requestedRemovedDefaultItems: Set<ToolbarDefaultItemKind.Kind> // 0x40
+    
+    var placements: Set<ToolbarItemPlacement.Role> {
+        fatalError("TODO")
+    }
 }
 
 extension ToolbarStorage {
@@ -321,11 +331,11 @@ struct NavigationSubtitleKey: HostPreferenceKey {
 }
 
 struct NavigationBarBackButtonHiddenKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
+    static var defaultValue: Bool {
+        return false
     }
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
         fatalError("TODO")
     }
     

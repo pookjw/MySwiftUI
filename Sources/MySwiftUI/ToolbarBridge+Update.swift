@@ -2,7 +2,7 @@
 private import MySwiftUICore
 
 extension ToolbarBridge {
-    func preferencesDidChange(_ preferences: PreferenceValues, context: __owned Toolbar.UpdateContext) -> Toolbar.Updates {
+    func preferencesDidChange(_ preferences: PreferenceValues, context: consuming Toolbar.UpdateContext) -> Toolbar.Updates {
         /*
          self -> x20 -> x22
          context -> x1 -> sp + 0xb0
@@ -10,11 +10,11 @@ extension ToolbarBridge {
          */
         // sp + 0x118
         var updates = Toolbar.Updates(
-            set: [],
+            locations: [],
             flag1: false,
             flag2: false,
             flag3: false,
-            flag4: false
+            navigationProperties: Toolbar.Updates.NavigationProperties(flag: false)
         )
         
         // x27
@@ -74,7 +74,7 @@ extension ToolbarBridge {
                     return
                 }
                 
-                updates.set.update(with: .search)
+                updates.locations.update(with: .search)
             }
             
             // <+392>
@@ -82,26 +82,52 @@ extension ToolbarBridge {
                 // <+412>
                 // x26
                 let barContext = strategy.makeBarContext(storage: toolbarStorage, preferences: preferences)
-                // x27
-                let copy_1 = context
                 self.lastBarContext = barContext
                 
                 // <+568>
                 updateStorage(newStorage: toolbarStorage, barContext: barContext, updateContext: context, strategy: strategy)
-                
+                // x20
                 let locations = strategy.updateLocations()
-                fatalError("TODO")
-                // <+640>, <+676> 놓치면 안 됨
+                updates.locations = locations
+                updates.flag2 = true
+                
+                let isAnimated: Bool
+                if let lastToolbarStorage {
+                    isAnimated = lastToolbarStorage.isAnimated
+                } else {
+                    isAnimated = false
+                }
+                updates.flag1 = isAnimated
             }
             
             // <+688>
-            fatalError("TODO")
+            navigationPropertiesTracker.didChange(preferences) { properties in
+                // $s7SwiftUI13ToolbarBridgeC20preferencesDidChange_7contextAA0C0O7UpdatesVAA16PreferenceValuesV_AG13UpdateContextVntFyxXEfU0_yAA0C7StorageV20NavigationPropertiesVSgXEfU1_TA
+                /*
+                 properties -> x0 -> x22
+                 self -> x1 -> x21
+                 updates -> x2 -> x19
+                 strategy -> x3 -> x20
+                 */
+                self.lastNavigationProperties = properties
+                updates.navigationProperties = strategy.updateProperties()
+            }
+            
+            // <+792>
+            // 검증 용 - 지워야함
+            assert(updates.flag1 == false)
+            assert(updates.flag2 == true)
+            assert(updates.flag3 == true)
+            assert(updates.navigationProperties.flag == true)
+            fatalError()
+            
+            strategy.willReturnUpdates(updates, preferences: preferences)
         }
         
         return updates
     }
     
-    fileprivate final func updateStorage(newStorage: ToolbarStorage, barContext: Toolbar.BarContext, updateContext: Toolbar.UpdateContext, strategy: T) {
+    fileprivate final func updateStorage(newStorage: ToolbarStorage, barContext: Toolbar.BarContext, updateContext: borrowing Toolbar.UpdateContext, strategy: T) {
         fatalError("TODO")
     }
 }

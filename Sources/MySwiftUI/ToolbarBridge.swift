@@ -8,7 +8,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     private var lastInputToolbarStorage: ToolbarStorage? = nil // 0x300
     var searchItem: ToolbarStorage.SearchItem? = nil // 0xb30
     var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xb38
-    private var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb40
+    var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb40
     private var lastInputNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb48
     var lastBarContext: Toolbar.BarContext? = nil // 0xb50
     var lastEnvironment = EnvironmentValues() // 0xb58
@@ -16,7 +16,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     private var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0xb68
     var toolbarTracker = VersionSeedTracker<ToolbarKey>(seed: .invalid) // 0x308
     var searchTracker = VersionSeedTracker<SearchKey>(seed: .invalid) // 0x310
-    private var navigationPropertiesTracker = VersionSeedTracker<NavigationPropertiesKey>(seed: .invalid) // 0x318
+    var navigationPropertiesTracker = VersionSeedTracker<NavigationPropertiesKey>(seed: .invalid) // 0x318
     private var navigationTitleTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x320
     var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x328
     private var lastNavigationSeed = VersionSeed.invalid // 0x330
@@ -163,11 +163,9 @@ struct SearchKey: HostPreferenceKey {
 }
 
 struct NavigationPropertiesKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
-    }
+    static nonisolated(unsafe) let defaultValue: ToolbarStorage.NavigationProperties? = nil
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout ToolbarStorage.NavigationProperties?, nextValue: () -> ToolbarStorage.NavigationProperties?) {
         fatalError("TODO")
     }
     

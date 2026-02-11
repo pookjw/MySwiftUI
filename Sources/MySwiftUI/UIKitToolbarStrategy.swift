@@ -136,6 +136,11 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     func willReturnUpdates(_ updates: Toolbar.Updates, preferences: PreferenceValues) {
+        /*
+         updates.locations -> x0
+         locations.flag1/2/3/navigationProperties -> x1
+         preferences -> x2
+         */
         fatalError("TODO")
     }
     
