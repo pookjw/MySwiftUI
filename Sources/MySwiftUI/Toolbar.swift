@@ -236,6 +236,15 @@ struct ToolbarStorage {
             // nop
         }
     }
+    
+    var toolbarEntries: [ToolbarStorage.Entry] {
+        guard !entries.isEmpty else {
+            return []
+        }
+        
+        // <+360>
+        fatalError("TODO")
+    }
 }
 
 extension ToolbarStorage {
@@ -282,6 +291,15 @@ extension ToolbarStorage.Entry {
         case spacer(ToolbarStorage.SpacerItem)
         case search
         case document
+    }
+    
+    struct ID: Hashable, CustomStringConvertible {
+        private(set) var base: AnyHashable
+        private(set) var placement: ToolbarItemPlacement.Role?
+        
+        var description: String {
+            fatalError("TODO")
+        }
     }
 }
 

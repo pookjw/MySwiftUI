@@ -135,7 +135,7 @@ extension ToolbarBridge {
          updateContext -> x2 -> x23
          strategy -> x3 -> sp + 0x28
          */
-        // x24
+        // x24 -> sp + 0x1a8
         var dictionary: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init()
         // sp + 0x160 (x29 - 0xf0)
         let copy_1 = newStorage
@@ -143,13 +143,84 @@ extension ToolbarBridge {
         let copy_2 = newStorage
         copy_1.removeRequestedDefaultItems()
         
-        // x20
+        // x20, sp + 0xa0
         var locations = Toolbar.BarLocation.allCases
         locations.append(contentsOf: updateContext.accessoryBarLocations)
         
         for location in locations {
+            /*
+             self -> x22 -> x23 -> sp + 0x18
+             newStorage -> x20 -> x24 -> sp + 0x10
+             location -> sp + 0x120
+             */
+            // x27
+            let allowedLocations = self.allowedLocations
+            
+            guard let index = allowedLocations.firstIndex(of: location) else {
+                continue
+            }
+            
+            // <+420>
+            // sp + 0xf8
+            let allowedLocation = allowedLocations[index]
+            // sp + 0xa0
+            let copy_2 = allowedLocation
+            // sp + 0xc8
+            let copy_3 = location
+            
+            guard copy_2 == copy_3 else {
+                continue
+            }
+            
+            // <+1220>
+            // sp + 0x1b0
+            let copy_4 = copy_1
+            
+            // <+1244>
+            // x22
+            let items = self.filterAndSortMatchingItems(in: location, newStorage: copy_4, context: barContext)
+            // x21
+            let entries = strategy.makeEntries(in: location, from: items)
+            // x23
+            var storage = self.makeStorage(in: location, from: entries, strategy: strategy)
+            strategy.willSetStorage(&storage, in: location, from: items)
+            
+            dictionary[copy_2] = storage
+        }
+        
+        // <+1504>
+        self.storageByLocation = dictionary
+    }
+    
+    fileprivate final func filterAndSortMatchingItems(in location: Toolbar.BarLocation, newStorage: ToolbarStorage, context: Toolbar.BarContext) -> [ToolbarStorage.Entry] {
+        /*
+         location -> x0 -> x27
+         newStorage -> x1 -> x20
+         context -> x2 -> x19
+         */
+        // <+316>
+        // sp + 0x1b30
+        var dictionary: [ToolbarStorage.Entry.ID: Int] = .init()
+        // x23
+        let toolbarEntries = newStorage.toolbarEntries
+        
+        // <+340>
+        if !toolbarEntries.isEmpty {
+            // <+360>
             fatalError("TODO")
         }
+        
+        // <+1784>
+        fatalError("TODO")
+    }
+    
+    fileprivate final func makeStorage(in: Toolbar.BarLocation, from: [ToolbarStorage.Entry], strategy: T) -> Toolbar.LocationStorage {
+        fatalError("TODO")
+    }
+}
+
+extension Array where Element == ToolbarStorage.Entry {
+    mutating func sort(priorities: [ToolbarStorage.Entry.ID: Int]) {
         fatalError("TODO")
     }
 }

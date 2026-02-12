@@ -20,7 +20,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     private var navigationTitleTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x320
     var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x328
     private var lastNavigationSeed = VersionSeed.invalid // 0x330
-    private var storageByLocation: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init() // 0x338
+    var storageByLocation: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init() // 0x338
     
     override init() {
         super.init()
