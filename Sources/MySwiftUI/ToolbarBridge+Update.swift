@@ -224,6 +224,15 @@ extension ToolbarBridge {
          entries -> x1 -> sp + 0x1cc0
          strategy -> x2 -> sp + 0x1c80
          */
+        // x25, x22, x19
+        let storage: Toolbar.LocationStorage
+        if let _storage = storageByLocation[location] {
+            storage = _storage
+        } else {
+            storage = Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
+        }
+        
+        // <+1040>
         fatalError("TODO")
     }
 }
