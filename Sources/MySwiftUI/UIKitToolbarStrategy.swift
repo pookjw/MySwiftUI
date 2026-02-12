@@ -18,6 +18,14 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     func makeEntries(in location: Toolbar.BarLocation, from entries: [ToolbarStorage.Entry]) -> [ToolbarStorage.Entry] {
+        /*
+         entries -> x20 -> x1
+         */
+        guard !entries.isEmpty else {
+            return []
+        }
+        
+        // <+180>
         fatalError("TODO")
     }
     
@@ -132,7 +140,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     func willSetStorage(_ storage: inout Toolbar.LocationStorage, in location: Toolbar.BarLocation, from entries: [ToolbarStorage.Entry]) {
-        fatalError("TODO")
+        // nop
     }
     
     func willReturnUpdates(_ updates: Toolbar.Updates, preferences: PreferenceValues) {

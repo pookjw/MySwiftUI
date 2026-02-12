@@ -199,6 +199,8 @@ extension ToolbarBridge {
          context -> x2 -> x19
          */
         // <+316>
+        // sp + 0x1b38 (x29 - 0x68)
+        var entries: [ToolbarStorage.Entry] = []
         // sp + 0x1b30
         var dictionary: [ToolbarStorage.Entry.ID: Int] = .init()
         // x23
@@ -211,16 +213,25 @@ extension ToolbarBridge {
         }
         
         // <+1784>
-        fatalError("TODO")
+        entries.sort(priorities: dictionary)
+        return entries
     }
     
-    fileprivate final func makeStorage(in: Toolbar.BarLocation, from: [ToolbarStorage.Entry], strategy: T) -> Toolbar.LocationStorage {
+    fileprivate final func makeStorage(in location: Toolbar.BarLocation, from entries: [ToolbarStorage.Entry], strategy: T) -> Toolbar.LocationStorage {
+        /*
+         self -> x20
+         location -> x0 -> x23
+         entries -> x1 -> sp + 0x1cc0
+         strategy -> x2 -> sp + 0x1c80
+         */
         fatalError("TODO")
     }
 }
 
 extension Array where Element == ToolbarStorage.Entry {
     mutating func sort(priorities: [ToolbarStorage.Entry.ID: Int]) {
-        fatalError("TODO")
+        sort { _, _ in
+            fatalError("TODO")
+        }
     }
 }
