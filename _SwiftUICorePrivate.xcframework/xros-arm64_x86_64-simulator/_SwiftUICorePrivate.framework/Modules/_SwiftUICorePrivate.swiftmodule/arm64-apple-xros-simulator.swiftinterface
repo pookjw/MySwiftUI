@@ -1813,3 +1813,43 @@ extension SwiftUI.Transaction {
   @_silgen_name("$s7SwiftUI11TransactionV7currentACvg")
   public var current: SwiftUI.Transaction { get }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct CollectionChanges<A: Swift.Comparable, B: Swift.Comparable>: Swift.RandomAccessCollection, Swift.CustomStringConvertible {
+  public init()
+  public var removals: _SwiftUICorePrivate.CollectionChanges<A, B>.Projection<Swift.Range<A>> { get }
+  public var insertions: _SwiftUICorePrivate.CollectionChanges<A, B>.Projection<Swift.Range<B>> { get }
+  public var matches: _SwiftUICorePrivate.CollectionChanges<A, B>.Projection<(Swift.Range<A>, Swift.Range<B>)> { get }
+  public init<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T: Swift.BidirectionalCollection, U: Swift.BidirectionalCollection, T.Element: Hashable, T.Element == U.Element
+
+  public var startIndex: Swift.Int { get }
+  public var endIndex: Swift.Int { get }
+  public func index(after i: Swift.Int) -> Swift.Int
+  public func index(before i: Swift.Int) -> Swift.Int
+  public subscript(position: Swift.Int) -> Element { get }
+  public var description: Swift.String { get }
+  public mutating func formChanges<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T: Swift.BidirectionalCollection, U: Swift.BidirectionalCollection, T.Element: Hashable, T.Element == U.Element
+  public func getOffset<T>(from: Swift.CollectionDifference<T>.Change) -> Swift.Int
+
+  public enum Element {
+    case removed(Swift.Range<A>)
+    case inserted(Swift.Range<B>)
+    case matched(Swift.Range<A>, Swift.Range<B>)
+
+    public enum Kind: Swift.Hashable {
+      case removed
+      case inserted
+      case matched
+    }
+  }
+
+  public struct Projection<C>: Swift.BidirectionalCollection {
+    public init(kind: _SwiftUICorePrivate.CollectionChanges<A, B>.Element.Kind, changes: [_SwiftUICorePrivate.CollectionChanges<A, B>.Element])
+    public var startIndex: Swift.Int { get }
+    public var endIndex: Swift.Int { get }
+    public func index(before i: Swift.Int) -> Swift.Int
+    public func index(after i: Swift.Int) -> Swift.Int
+    public subscript(position: Swift.Int) -> Swift.Slice<_SwiftUICorePrivate.CollectionChanges<A, B>.Projection<C>> { get }
+  }
+}

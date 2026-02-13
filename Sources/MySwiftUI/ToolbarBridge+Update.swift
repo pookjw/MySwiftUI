@@ -233,6 +233,26 @@ extension ToolbarBridge {
         }
         
         // <+1040>
+        // storage.entryIDs -> sp + 0x1d10 (x29 - 0x140)
+        if !storage.entries.isEmpty {
+            // <+1080>
+            fatalError("TODO")
+        }
+        
+        // <+1440>
+        // sp + 0x1cf8 (x29 - 0x168)
+        let empty: [ToolbarStorage.Entry.ID] = []
+        // storage.entries -> sp + 0x1be8 (x29 - 0x268)
+        // x23 -> sp + 0x1da0 (x29 - 0xc0) -> sp + 0x1bf0 ( x29 - 0x270)
+        let ids: [ToolbarStorage.Entry.ID] = entries.map { _ in
+            // $s7SwiftUI13ToolbarBridgeC11makeStorage33_558B6B1E48F37C8B0E16B128287879E0LL2in4from8strategyAA0C0O08LocationF0VAJ03BarS0O_SayAA0cF0V5EntryVGxtFAR2IDVARcfu0_33_2e12c960fb4b0a3abd8a514624e1a4d3ArUTf3nnnpk_n
+            fatalError("TODO")
+        }
+        
+        // x23
+        let changes = CollectionChanges(from: empty, to: ids)
+        
+        // <+1760>
         fatalError("TODO")
     }
 }
