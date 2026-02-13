@@ -15,6 +15,9 @@ struct CollectionChangesTests {
         let from = [0, 1, 2]
         let to = [1, 2, 3]
         
+//        let impl = MySwiftUICore.CollectionChanges(from: from, to: to)
+//        #expect(!impl.changes.isEmpty)
+        
         let original = _SwiftUICorePrivate.CollectionChanges(from: from, to: to)
         #expect(!original.changes.isEmpty)
         

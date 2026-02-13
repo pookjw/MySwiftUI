@@ -92,8 +92,20 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         // toCount -> sp + 0xe8 (x29 - 0xe8)
         let w25 = (toCount > 0)
         
-        if fromCount > 0 || toCount > 0 {
+        if fromCount > 0 || toCount >= 1 {
             // <+848>
+            // sp + 0x90 (x29 - 0x140)
+            var x290x40 = 0
+            var w21 = 0
+            
+            func iterateRange(from: inout U.Index, length: Int, in: U) -> Range<U.Index> {
+                fatalError("TODO")
+            }
+            
+            for range0 in ranges0 {
+                print(range0.lowerBound, w21)
+                fatalError()
+            }
             fatalError("TODO")
         }
         
@@ -116,7 +128,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                  changes -> x4 -> sp + 0x1a0 (x29 - 0x120)
                  limit -> x5 -> sp + 0x218 (x29 - 0xa8)
                  */
-                // sp + 0x278 (x28 - 0x48)
+                // sp + 0x278 (x29 - 0x48)
                 var fromDictionary: [U.Element: Int] = .init()
                 fromDictionary.reserveCapacity(fromBuffer.count)
                 /*
@@ -136,6 +148,9 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                 }
                 
                 // <+736>
+                // fromDictionary -> sp + 0x278 (x29 - 0x48) -> sp + 0xc8 (x29 - 0xb8)
+                
+                
                 fatalError("TODO")
             }!
         }
