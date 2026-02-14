@@ -63,7 +63,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         func convertOffsetsToRanges(_ indices: [Int]) -> [Range<Int>] {
             // sp + 0x8
             var indices = indices
-            indices.append(contentsOf: [-1])
+            indices.append(contentsOf: [Int.max])
             // indices -> x19
             // x20
             var x25 = 0
@@ -75,17 +75,17 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                 // <+132>
                 let x11 = x24
                 x24 = index
-                var w9 = (x11 >= x24 &- 1)
-                let x10: Int
-                if w9 {
+                let ge = (x11 >= x24 &- 1)
+                var x10: Int
+                if ge {
                     x10 = x25
                 } else {
                     x10 = x24
                 }
                 
-                w9 = w9 && w8
+                var w9 = ge && w8
                 
-                if w9 || w8 {
+                if ge || w8 {
                     x25 = x10
                     w8 = w9
                     continue
@@ -94,6 +94,10 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                 let x26 = x11 &+ 1
                 // <+180>
                 ranges.append(x25..<x26)
+                w9 = false
+                x10 = x24
+                x25 = x10
+                w8 = w9
             }
             
             return ranges
