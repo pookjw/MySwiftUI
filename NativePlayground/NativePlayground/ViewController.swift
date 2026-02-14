@@ -1380,6 +1380,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let from = [0, 1, 2]
+        let to = [1, 2, 3, 4]
+        let original = _SwiftUICorePrivate.CollectionChanges(from: from, to: to)
+        
+        fatalError()
+        
         let hostingController = UIHostingController(rootView: Color.black)
         addChild(hostingController)
         view.addSubview(hostingController.view)

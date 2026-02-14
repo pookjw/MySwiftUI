@@ -13,13 +13,13 @@ struct CollectionChangesTests {
     
     @Test func test_init_from_to() async throws {
         let from = [0, 1, 2]
-        let to = [1, 2, 3]
+        let to = [1, 2, 3, 4]
         
-//        let impl = MySwiftUICore.CollectionChanges(from: from, to: to)
-//        #expect(!impl.changes.isEmpty)
+        let impl = MySwiftUICore.CollectionChanges(from: from, to: to)
+        #expect(!impl.changes.isEmpty)
         
-        let original = _SwiftUICorePrivate.CollectionChanges(from: from, to: to)
-        #expect(!original.changes.isEmpty)
+//        let original = _SwiftUICorePrivate.CollectionChanges(from: from, to: to)
+//        #expect(!original.changes.isEmpty)
         
         fatalError("TODO")
     }
