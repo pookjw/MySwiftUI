@@ -107,6 +107,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         let ranges0 = convertOffsetsToRanges(offsets.0)
         // sp + 0xd8 (x29 - 0xf8)
         let ranges1 = convertOffsetsToRanges(offsets.1)
+        // from -> x25 -> x29 - 0xd0
         // self -> x28 -> x26
         
         // sp + 0x150 (x29 - 0x80)
@@ -120,8 +121,8 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         let toEndIndex = to.endIndex
         // from -> x25 -> sp + 0xf0 (x29 - 0xe0)
         // self -> x26 -> sp + 0xf8 (x29 - 0xd8)
-        // sp + 0x130 (x28 - 0xa0)
-        let fromStartIndex = from.startIndex
+        // sp + 0x130 (x29 - 0xa0)
+        var fromStartIndex = from.startIndex
         // sp + 0xe0 (x29 - 0xf0)
         let toStartIndex = to.startIndex
         
@@ -133,18 +134,59 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         
         if fromCount > 0 || toCount >= 1 {
             // <+848>
-            // sp + 0x90 (x29 - 0x140)
-            var x290x40 = 0
-            var w21 = 0
+            var w24 = false
+            var x21 = 0
+            var x28 = 0
+            var x290x140 = 0
+            var x23 = 0
+            var x26 = x23
             
-            func iterateRange(from: inout U.Index, length: Int, in: U) -> Range<U.Index> {
+            func iterateRange(from: inout T.Index, length: Int, in: T) -> Range<T.Index> {
+                /*
+                 from -> x0 -> x24
+                 length -> x1 -> x29 - 0x58
+                 in -> x2 -> x20
+                 return pointer -> x8 -> x29 - 0x60
+                 */
+                // <+276>
                 fatalError("TODO")
             }
             
             for range0 in ranges0 {
-                print(range0.lowerBound, w21)
-                fatalError()
+                guard !w24 else {
+                    break
+                }
+                
+                guard range0.lowerBound == x21 else {
+                    break
+                }
+                
+                let x19 = range0.upperBound - x21
+                /*
+                 from (sp + 0x10)
+                 fromEndIndex (sp + 0x18)
+                 */
+                let range = iterateRange(from: &fromStartIndex, length: x19, in: from)
+                self.changes.append(.removed(range))
+                
+                x28 &+= 1
+                x21 &+= x19
+                
+                var w8 = x21 < fromCount
+                w8 = (w8 || w25)
+                
+                if x21 < fromCount {
+                } else {
+                    x26 = x23
+                }
+                
+                guard w8 else {
+                    // <+712>
+                    return
+                }
             }
+            
+            // <+1112>
             fatalError("TODO")
         }
         
