@@ -119,8 +119,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         let fromEndIndex = from.endIndex
         // sp + 0xc8 (x29 - 0x108)
         let toEndIndex = to.endIndex
-        // from -> x25 -> sp + 0xf0 (x29 - 0xe0)
-        // self -> x26 -> sp + 0xf8 (x29 - 0xd8)
+        // from -> x25/x26 -> sp + 0xf0 (x29 - 0xe0) / sp + 0xf8 (x29 - 0xd8)
         // sp + 0x130 (x29 - 0xa0)
         var fromStartIndex = from.startIndex
         // sp + 0xe0 (x29 - 0xf0)
@@ -141,53 +140,68 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
             var x23 = 0
             var x26 = x23
             
-            func iterateRange(from: inout T.Index, length: Int, in: T) -> Range<T.Index> {
+            func iterateRange(from index: inout T.Index, length: Int, in collection: T) -> Range<T.Index> {
                 /*
-                 from -> x0 -> x24
+                 index -> x0 -> x24
                  length -> x1 -> x29 - 0x58
                  in -> x2 -> x20
                  return pointer -> x8 -> x29 - 0x60
+                 from -> x7 -> x27
                  */
                 // <+276>
+                let x19 = index
+                // x26
+                let fromEndIndex = from.endIndex
+                collection.formIndex(&index, offsetBy: length, limitedBy: fromEndIndex)
+                let x26 = index
+                
+                // <+372>
+                // sp + 0x20 -> sp + 0x30
+                let range = x19..<x26
+                return range
+            }
+            
+            while true {
+                if !w24 && (x28 < ranges0.count) && (ranges0[x28].lowerBound == x21) {
+                    let x19 = ranges0[x28].upperBound - x21
+                    /*
+                     from (sp + 0x10)
+                     fromEndIndex (sp + 0x18)
+                     */
+                    let range = iterateRange(from: &fromStartIndex, length: x19, in: from)
+                    self.changes.append(.removed(range))
+                    
+                    x28 &+= 1
+                    x21 &+= x19
+                    
+                    var w8 = x21 < fromCount
+                    w8 = (w8 || w25)
+                    
+                    if x21 < fromCount {
+                    } else {
+                        x26 = x23
+                    }
+                    
+                    if w8 {
+                        continue
+                    } else {
+                        return
+                    }
+                }
+                
+                // <+1112>
+                let x25 = x290x140
+                if (x25 >= 0) && (x25 < ranges1.count) && (ranges1[x25].lowerBound == x25) {
+                    // <+1164>
+                    fatalError("TODO")
+                } else {
+                    // <+1308>
+                    fatalError("TODO")
+                }
+                
+                // <+1692>
                 fatalError("TODO")
             }
-            
-            for range0 in ranges0 {
-                guard !w24 else {
-                    break
-                }
-                
-                guard range0.lowerBound == x21 else {
-                    break
-                }
-                
-                let x19 = range0.upperBound - x21
-                /*
-                 from (sp + 0x10)
-                 fromEndIndex (sp + 0x18)
-                 */
-                let range = iterateRange(from: &fromStartIndex, length: x19, in: from)
-                self.changes.append(.removed(range))
-                
-                x28 &+= 1
-                x21 &+= x19
-                
-                var w8 = x21 < fromCount
-                w8 = (w8 || w25)
-                
-                if x21 < fromCount {
-                } else {
-                    x26 = x23
-                }
-                
-                guard w8 else {
-                    // <+712>
-                    return
-                }
-            }
-            
-            // <+1112>
-            fatalError("TODO")
         }
         
         // <+712>
