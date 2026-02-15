@@ -221,8 +221,8 @@ extension ToolbarBridge {
         /*
          self -> x20
          location -> x0 -> x23
-         entries -> x1 -> sp + 0x1cc0
-         strategy -> x2 -> sp + 0x1c80
+         entries -> x1 -> sp + 0x1cc0 (x29 - 0x190)
+         strategy -> x2 -> sp + 0x1c80 (x29 - 0x1d0)
          */
         // x25, x22, x19
         let storage: Toolbar.LocationStorage
@@ -234,6 +234,7 @@ extension ToolbarBridge {
         
         // <+1040>
         // storage.entryIDs -> sp + 0x1d10 (x29 - 0x140)
+        // location -> x29 - 0x180
         if !storage.entries.isEmpty {
             // <+1080>
             fatalError("TODO")
@@ -243,7 +244,7 @@ extension ToolbarBridge {
         // sp + 0x1cf8 (x29 - 0x168)
         let empty: [ToolbarStorage.Entry.ID] = []
         // storage.entries -> sp + 0x1be8 (x29 - 0x268)
-        // x23 -> sp + 0x1da0 (x29 - 0xc0) -> sp + 0x1bf0 ( x29 - 0x270)
+        // x23 -> sp + 0x1da0 (x29 - 0xc0) -> sp + 0x1bf0 (x29 - 0x270)
         let ids: [ToolbarStorage.Entry.ID] = entries.map { _ in
             // $s7SwiftUI13ToolbarBridgeC11makeStorage33_558B6B1E48F37C8B0E16B128287879E0LL2in4from8strategyAA0C0O08LocationF0VAJ03BarS0O_SayAA0cF0V5EntryVGxtFAR2IDVARcfu0_33_2e12c960fb4b0a3abd8a514624e1a4d3ArUTf3nnnpk_n
             fatalError("TODO")
@@ -253,7 +254,25 @@ extension ToolbarBridge {
         let changes = CollectionChanges(from: empty, to: ids)
         
         // <+1760>
-        fatalError("TODO")
+        // x29 - 0xb0
+        let navigationBarLeadingLocation = Toolbar.BarLocation.navigationBarLeading
+        let isEqual = location == navigationBarLeadingLocation
+        let w22 = isEqual ? 0 : 2
+        // x29 - 0x118
+        var dictionary_1: [String: ToolbarStorage.Entry] = .init()
+        // x29 - 0x178
+        var dictionary_2: [String: Toolbar.VendedItem] = .init()
+        // x19
+        let copy_1 = changes
+        // x20
+        let copy_2 = copy_1
+        
+        // <+1936>
+        for _ in copy_2 {
+            fatalError("TODO")
+        }
+        
+        return Toolbar.LocationStorage(entryIDs: storage.entryIDs, entries: dictionary_1, vendedItems: dictionary_2)
     }
 }
 

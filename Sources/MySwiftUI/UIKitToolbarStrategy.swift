@@ -30,6 +30,16 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     func updateLocations() -> Set<Toolbar.BarLocation> {
+        let array: [(() -> Bool, Toolbar.BarLocation)] = [
+            (
+                {
+                    fatalError("TODO")
+                },
+                {
+                    fatalError("TODO")
+                }()
+            )
+        ]
         fatalError("TODO")
     }
     
