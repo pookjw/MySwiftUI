@@ -123,13 +123,13 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         // sp + 0x130 (x29 - 0xa0)
         var fromStartIndex = from.startIndex
         // sp + 0xe0 (x29 - 0xf0)
-        let toStartIndex = to.startIndex
+        var toStartIndex = to.startIndex
         
         // <+660>
         // self -> sp + 0x108 (x29 - 0xc8)
         self.changes = .init()
         // toCount -> sp + 0xe8 (x29 - 0xe8)
-        let w25 = (toCount > 0)
+        var w25 = (toCount > 0)
         
         if fromCount > 0 || toCount >= 1 {
             // <+848>
@@ -138,21 +138,20 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
             var x28 = 0
             var x290x140 = 0
             var x23 = 0
-            var x26 = x23
+            // ranges1 (buffer pointer) -> x29 - 0x158
             
-            func iterateRange(from index: inout T.Index, length: Int, in collection: T) -> Range<T.Index> {
+            func iterateRange<V>(from index: inout V.Index, length: Int, in collection: V) -> Range<V.Index> where V: BidirectionalCollection {
                 /*
                  index -> x0 -> x24
                  length -> x1 -> x29 - 0x58
                  in -> x2 -> x20
                  return pointer -> x8 -> x29 - 0x60
-                 from -> x7 -> x27
+                 from/to -> x7 -> x27
                  */
                 // <+276>
                 let x19 = index
-                // x26
-                let fromEndIndex = from.endIndex
-                collection.formIndex(&index, offsetBy: length, limitedBy: fromEndIndex)
+                collection.formIndex(&index, offsetBy: length, limitedBy: collection.endIndex)
+                
                 let x26 = index
                 
                 // <+372>
@@ -161,7 +160,12 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                 return range
             }
             
+            var x26: Int
+            
             while true {
+                // ranges0[x28] -> x27
+                x26 = x23
+                
                 if !w24 && (x28 < ranges0.count) && (ranges0[x28].lowerBound == x21) {
                     let x19 = ranges0[x28].upperBound - x21
                     /*
@@ -190,17 +194,82 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                 }
                 
                 // <+1112>
-                let x25 = x290x140
-                if (x25 >= 0) && (x25 < ranges1.count) && (ranges1[x25].lowerBound == x25) {
+                var x25 = x290x140
+                if (x25 >= 0) && (x25 < ranges1.count) && (ranges1[x25].lowerBound == x26) {
                     // <+1164>
-                    fatalError("TODO")
+                    x23 = ranges1[x25].upperBound - x26
+                    let range = iterateRange(from: &toStartIndex, length: x23, in: to)
+                    self.changes.append(.inserted(range))
+                    x25 &+= 1
+                    x290x140 = x25
+                    // <+1692>
                 } else {
                     // <+1308>
-                    fatalError("TODO")
+                    var x8 = fromCount
+                    if w24 {
+                        // <+1340>
+                    } else {
+                        // <+1316>
+                        let x9 = ranges0.count
+                        x8 = fromCount
+                        if x28 >= x9 {
+                            // <+1340>
+                        } else {
+                            x8 = ranges0[x28].lowerBound
+                        }
+                    }
+                    
+                    // <+1340>
+                    var x9 = toCount
+                    if x25 >= 0 {
+                        let x10 = ranges1.count
+                        x9 = toCount
+                        if x25 >= x10 {
+                            // <+1384>
+                        } else {
+                            // <+1368>
+                            x9 = ranges1[x25].lowerBound
+                        }
+                    }
+                    
+                    // <+1384>
+                    x8 = x8 &- x21
+                    x9 = x9 &- x26
+                    
+                    let x24: Int
+                    if x9 < x8 {
+                        x24 = x9
+                    } else {
+                        x24 = x8
+                    }
+                    // x24 -> x29 - 0x120
+                    // x22
+                    let range2 = iterateRange(from: &fromStartIndex, length: x24, in: from)
+                    x23 = x24
+                    // x22 + 0x10
+                    let range3 = iterateRange(from: &toStartIndex, length: x24, in: to)
+                    
+                    // <+1636>
+                    self.changes.append(.matched(range2, range3))
+                    x21 = x23 &+ x21
+                    // <+1692>
                 }
                 
                 // <+1692>
-                fatalError("TODO")
+                x23 = x23 &+ x26
+                
+                w25 = (x23 < toCount)
+                w24 = (x28 < 0)
+                
+                if x21 < fromCount {
+                    continue
+                }
+                
+                if x23 < toCount {
+                    continue
+                }
+                
+                break
             }
         }
         
