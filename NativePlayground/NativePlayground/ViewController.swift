@@ -1380,9 +1380,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let from = [0, 1, 2]
-        let to = [1, 2, 3, 4]
+        let from: [UInt8] = [0, 1, 2]
+        let to: [UInt8] = [1, 2, 3]
         let original = _SwiftUICorePrivate.CollectionChanges(from: from, to: to)
+//        original.matches[0]
+        original.matches[1]
         
         fatalError()
         

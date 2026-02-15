@@ -1850,6 +1850,6 @@ public struct CollectionChanges<A: Swift.Comparable, B: Swift.Comparable>: Swift
     public var endIndex: Swift.Int { get }
     public func index(before i: Swift.Int) -> Swift.Int
     public func index(after i: Swift.Int) -> Swift.Int
-    public subscript(position: Swift.Int) -> Swift.Slice<_SwiftUICorePrivate.CollectionChanges<A, B>.Projection<C>> { get }
+    public subscript(position: Swift.Int) -> C { get }
   }
 }

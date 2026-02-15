@@ -8,15 +8,15 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
     }
     
     var removals: CollectionChanges<A, B>.Projection<Range<A>> {
-        fatalError("TODO")
+        return CollectionChanges<A, B>.Projection<Range<A>>(kind: .removed, changes: changes)
     }
     
     var insertions: CollectionChanges<A, B>.Projection<Range<B>> {
-        fatalError("TODO")
+        return CollectionChanges<A, B>.Projection<Range<B>>(kind: .inserted, changes: changes)
     }
     
     var matches: CollectionChanges<A, B>.Projection<(Range<A>, Range<B>)> {
-        fatalError("TODO")
+        return CollectionChanges<A, B>.Projection<(Range<A>, Range<B>)>(kind: .matched, changes: changes)
     }
     
     package init<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T: BidirectionalCollection, U: BidirectionalCollection, T.Element: Hashable, T.Element == U.Element {
@@ -25,29 +25,27 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
     }
     
     package var startIndex: Int {
-        fatalError("TODO")
+        return 0
     }
     
     package var endIndex: Int {
-        fatalError("TODO")
+        return changes.endIndex
     }
     
     package func index(after i: Int) -> Int {
-        fatalError("TODO")
+        return i + 1
     }
     
     package func index(before i: Int) -> Int {
-        fatalError("TODO")
+        return i - 1
     }
     
     package subscript(position: Int) -> Element {
-        get {
-            fatalError("TODO")
-        }
+        return changes[position]
     }
     
     package var description: String {
-        fatalError("TODO")
+        return changes.description
     }
     
     mutating func formChanges<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T: BidirectionalCollection, U: BidirectionalCollection, T.Element: Hashable, T.Element == U.Element {
@@ -352,6 +350,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                         // toEndIndex -> x0 -> x29 - 0xf8
                         var x9 = 0
                         var x22 = 0
+                        var x290xc8 = 0
                         
                         while (removalIndices.count &+ insertionIndices.count) <= limit {
                             // <+1688>
@@ -462,7 +461,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                                             var w8 = (x22 < fromEndIndex)
                                             w8 = w8 || x290xc0
                                             if x22 >= fromEndIndex {
-                                                x9 = fromEndIndex
+                                                x9 = x290xc8
                                             }
                                             
                                             if !w8 {
@@ -477,6 +476,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                                         x9 &+= 1
                                         let w8 = (x9 < toEndIndex)
                                         x290xc0 = w8
+                                        x290xc8 = x9
                                         continue
                                     }
                                 } else {
@@ -523,29 +523,116 @@ extension CollectionChanges {
         case removed(Range<A>)
         case inserted(Range<B>)
         case matched(Range<A>, Range<B>)
+        
+        var kind: CollectionChanges.Element.Kind {
+            switch self {
+            case .removed(let _):
+                return .removed
+            case .inserted(let _):
+                return .inserted
+            case .matched(let _, let _):
+                return .matched
+            }
+        }
     }
     
     struct Projection<C>: BidirectionalCollection {
-        let kind: CollectionChanges<A, B>.Element.Kind
-        let changes: [CollectionChanges<A, B>.Element]
-        let startIndex: Int
-        let endIndex: Int
+        let kind: CollectionChanges<A, B>.Element.Kind // 0x0
+        let changes: [CollectionChanges<A, B>.Element] // 0x8
+        let startIndex: Int // 0x10
+        let endIndex: Int // 0x18
         
         init(kind: CollectionChanges<A, B>.Element.Kind, changes: [CollectionChanges<A, B>.Element]) {
-            fatalError("TODO")
+            /*
+             kind -> x0 -> w25
+             changes -> x22 -> x29 - 0x60
+             return register -> x8 -> x19
+             */
+            // sp + 0x8
+            let firstIndex = changes.firstIndex { $0.kind == kind }
+            let lastIndex = changes.lastIndex { $0.kind == kind }
+            
+            self.kind = kind
+            self.changes = changes
+            self.startIndex = firstIndex ?? 0
+            self.endIndex = lastIndex ?? 0
         }
         
         func index(before i: Int) -> Int {
-            fatalError("TODO")
+            let i2 = i - 1
+            /*
+             self -> x20
+             i -> x29 - 0xf8
+             */
+            /*
+             self.kind -> x27
+             self.changes -> x28 -> x29 - 0x70
+             self.startIndex -> x19
+             self.endIndex -> x9 -> x29 - 0xc0
+             */
+            // x29 - 0xb0
+            let range = PartialRangeThrough<Int>(i2)
+            let changes2 = self.changes[range]
+            
+            guard let result = changes2.lastIndex(where: { $0.kind == kind }) else {
+                fatalError("index out of bounds: \(i)")
+            }
+            
+            return result
         }
         
         func index(after i: Int) -> Int {
-            fatalError("TODO")
+            let i2 = i + 1
+            guard i2 < endIndex else {
+                return endIndex
+            }
+            
+            let changes2 = self.changes[PartialRangeThrough<Int>(i2)]
+            
+            guard let result = changes2.firstIndex(where: { $0.kind == kind }) else {
+                fatalError("index out of bounds: \(i)")
+            }
+            
+            return result
         }
         
-        subscript(position: Int) -> Slice<CollectionChanges<A, B>.Projection<C>> {
-            get {
-                fatalError("TODO")
+        subscript(position: Int) -> C {
+            /*
+             self -> x20 -> x29 - 0x90
+             position -> x0 -> x29 - 0x88
+             */
+            // <+532>
+            // x19
+            let change = changes[position]
+            
+            switch change {
+            case .removed(let range):
+                // <+672>
+                // range -> x23
+                guard let casted = range as? C else {
+                    fatalError("invalid index: \(position)")
+                }
+                
+                return casted
+            case .inserted(let range):
+                // <+576>
+                guard let casted = range as? C else {
+                    fatalError("invalid index: \(position)")
+                }
+                
+                return casted
+            case .matched(let range0, let range1):
+                // <+756>
+                /*
+                 range0 -> x28
+                 range1 -> x25
+                 */
+                let combined = (range0, range1)
+                guard let casted = combined as? C else {
+                    fatalError("invalid index: \(position)")
+                }
+                
+                return casted
             }
         }
     }
