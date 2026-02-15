@@ -1,6 +1,9 @@
+// A409749AC298CF150D90E447BB4FA064
+
 private import MySwiftUICore
 internal import UIKit
 private import _UIKitPrivate
+private import os.log
 
 struct UIKitToolbarStrategy: ToolbarStrategy {
     var updater: ToolbarBridge<UIKitToolbarStrategy>? // 0x0
@@ -33,14 +36,184 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         let array: [(() -> Bool, Toolbar.BarLocation)] = [
             (
                 {
-                    fatalError("TODO")
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TATm
+                    return updateBarTitle()
                 },
+                .navigationBarTitle
+            ),
+            
+            (
                 {
-                    fatalError("TODO")
-                }()
-            )
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TATm
+                    return updateBarLargeTitle()
+                },
+                .navigationBarLargeTitle
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
+                    return updateBarCenter()
+                },
+                .navigationBarCenter
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu5_Sbycfu6_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TATm
+                    return updateHeaderProperties()
+                },
+                .navigationBarAccessory
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu7_Sbycfu8_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TATm
+                    return updateHeaderProperties()
+                },
+                .navigationBarSubtitle
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu9_Sbycfu10_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TATm
+                    return updateHeaderProperties()
+                },
+                .navigationBarLargeSubtitle
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu11_Sbycfu12_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
+                    return updateTitleMenuProvider()
+                },
+                .navigationBarTrailing
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu13_Sbycfu14_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
+                    return updateNavigationBarLeading()
+                },
+                .navigationBarLeading
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu15_Sbycfu16_TA
+                    return updateRenameDelegate()
+                },
+                .navigationBarPalette
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu17_Sbycfu18_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
+                    return updateSplitControllerLeadingItems()
+                },
+                .navigationSplitViewLeading
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu19_Sbycfu20_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
+                    return updateSplitControllerLeadingItems()
+                },
+                .navigationSplitViewTrailing
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu15_Sbycfu16_TA
+                    return updateTabBottomBarEntry(placement: .tabBarTrailing)
+                },
+                .tabBarTrailing
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu25_Sbycfu26_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
+                    return updateTabBottomBarEntry(placement: .tabBarLeading)
+                },
+                .tabBarLeading
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu15_Sbycfu16_TA
+                    return updateBottomBar()
+                },
+                .bottomBar
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu27_Sbycfu28_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TATm
+                    return updateKeyboardBar()
+                },
+                .keyboardBar
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu31_Sbycfu32_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
+                    return updateBottomOrnament()
+                },
+                .bottomOrnament
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu29_Sbycfu30_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
+                    return updateTabSidebarOverflowMenu()
+                },
+                ._tabViewSidebarOverflowMenu
+            ),
+            
+            (
+                {
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu33_Sbycfu34_TA
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu33_Sbycfu34_
+                    return updateTabBottomBarEntry(placement: ._tabViewSidebarBottomBar)
+                },
+                ._tabViewSidebarBottomBar
+            ),
         ]
-        fatalError("TODO")
+        
+        // <+2436>
+        // x23
+        var locations = Set<Toolbar.BarLocation>()
+        
+        for (block, location) in array {
+            // <+2560>
+            let updated = block()
+            if updated {
+                locations.update(with: location)
+            }
+        }
+        
+        // <+2704>
+        if let log = Log.toolbar {
+            log.log(level: .default, "Changed toolbar locations: \(locations.description)")
+        }
+        
+        return locations
     }
     
     func updateSearch() -> Bool {
@@ -271,5 +444,58 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         }
         
         // <+968>
+    }
+    
+    fileprivate func updateBarTitle() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateBarLargeTitle() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateBarCenter() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateHeaderProperties() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateNavigationBarLeading() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateTitleMenuProvider() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateSplitControllerLeadingItems() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateRenameDelegate() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateTabBottomBarEntry(placement: Toolbar.BarLocation) -> Bool {
+        _ = placement
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateBottomBar() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateKeyboardBar() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateBottomOrnament() -> Bool {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateTabSidebarOverflowMenu() -> Bool {
+        fatalError("TODO")
     }
 }
