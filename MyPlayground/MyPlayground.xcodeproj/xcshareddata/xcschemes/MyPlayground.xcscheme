@@ -57,7 +57,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-com.apple.SwiftUI.EnableToolbarLogging YES"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-com.pookjw.MySwiftUI.disableUnimplementedAssertion 1"

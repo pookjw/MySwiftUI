@@ -102,7 +102,6 @@ extension Toolbar {
         var locations: Set<Toolbar.BarLocation>
         var flag1: Bool
         var flag2: Bool
-        var flag3: Bool
         var navigationProperties: Toolbar.Updates.NavigationProperties
     }
     
@@ -119,15 +118,15 @@ extension Toolbar {
         private lazy var uiSafeAreaTransitionState: ToolbarSafeAreaTransitionState = {
             fatalError("TODO")
         }() // 0x28
-        private var uiTabViewSidebarOverflowItems: [UIKitBarButtonItem] = [] // 0x30
-        private var uiTabViewSidebarBottomBarItem: ToolbarStorage.Item? = nil // 0x2c (offset field)
-        private var uiInputAccessoryGenerator: InputAccessoryGenerator? // 0x30 (offset field)
+        var uiTabViewSidebarOverflowItems: [UIKitBarButtonItem] = [] // 0x30
+        var uiTabViewSidebarBottomBarItem: ToolbarStorage.Item? = nil // 0x2c (offset field)
+        var uiInputAccessoryGenerator: InputAccessoryGenerator? // 0x30 (offset field)
         private(set) var uiSplitControllerNavigationItem: UINavigationItem = {
             return MainActor.assumeIsolated { 
                 return UINavigationItem()
             }
         }() // 0x34 (offset field)
-        private var ornamentItems: [ToolbarStorage.Item] = [] // 0x38 (offset field)
+        var ornamentItems: [ToolbarStorage.Item] = [] // 0x38 (offset field)
         private var bottomOrnament: ToolbarOrnament? = nil // 0x3c (offset field)
         
         init() {}
@@ -159,8 +158,8 @@ extension Toolbar {
 }
 
 extension Toolbar.Updates {
-    struct NavigationProperties {
-        let flag: Bool
+    struct NavigationProperties: OptionSet {
+        let rawValue: UInt8
     }
 }
 
@@ -284,6 +283,12 @@ extension ToolbarStorage {
     }
 }
 
+extension ToolbarStorage.GroupItem {
+    enum GroupSubItem {
+        // TODO
+    }
+}
+
 extension ToolbarStorage.Entry {
     enum Kind {
         case item(ToolbarStorage.Item)
@@ -315,10 +320,6 @@ extension ToolbarDefaultItemKind {
         case search
         case inspectorToggle
     }
-}
-
-class InputAccessoryGenerator {
-    // TODO
 }
 
 class ToolbarOrnament: MRUIPlatterOrnament {

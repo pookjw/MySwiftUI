@@ -8,13 +8,12 @@ extension ToolbarBridge {
          context -> x1 -> sp + 0xb0
          preferences -> x0 -> x20
          */
-        // sp + 0x118
+        // sp + 0x118 (x19 + 0xa8)
         var updates = Toolbar.Updates(
             locations: [],
             flag1: false,
             flag2: false,
-            flag3: false,
-            navigationProperties: Toolbar.Updates.NavigationProperties(flag: false)
+            navigationProperties: []
         )
         
         // x27
@@ -117,8 +116,7 @@ extension ToolbarBridge {
             // 검증 용 - 지워야함
             assert(updates.flag1 == false)
             assert(updates.flag2 == true)
-            assert(updates.flag3 == true)
-            assert(updates.navigationProperties.flag == true)
+            assert(updates.navigationProperties.rawValue == 1)
             fatalError()
             
             strategy.willReturnUpdates(updates, preferences: preferences)

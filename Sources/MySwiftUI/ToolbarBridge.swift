@@ -75,7 +75,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         adoptUpdates(updates, hostingController: hostingController, context: copy_1)
     }
     
-    final var toolbarStorage: ToolbarStorage? {
+    var toolbarStorage: ToolbarStorage? {
         /*
          return pointer -> x8 -> x19
          self.lastToolbarStorage (pointer) -> x8
@@ -107,7 +107,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         }
     }
     
-    final var allowsUpdates: Bool {
+    var allowsUpdates: Bool {
         var result = true
         
         for adaptor in navigationAdaptor.adaptors {
@@ -117,7 +117,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         return result
     }
     
-    final func adjustEntries(in location: Toolbar.BarLocation, _ transform: (ToolbarStorage.Entry, inout Toolbar.VendedItem?) -> Void) {
+    func adjustEntries(in location: Toolbar.BarLocation, _ transform: (ToolbarStorage.Entry, inout Toolbar.VendedItem?) -> Void) {
         /*
          location -> x0 -> x21
          self -> x1 -> x19
@@ -136,10 +136,15 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         storageByLocation[location] = storage
     }
     
-    final func entryCount(in location: Toolbar.BarLocation) -> Int {
+    func entryCount(in location: Toolbar.BarLocation) -> Int {
         // location -> x0 -> x19
         let storage = storageByLocation[location] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
         return storage.entries.count
+    }
+    
+    func entries(in location: Toolbar.BarLocation) -> [String: ToolbarStorage.Entry] {
+        let storage = storageByLocation[location] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
+        return storage.entries
     }
     
     // TODO

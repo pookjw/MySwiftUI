@@ -192,8 +192,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                     @Sendable (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu27_Sbycfu28_TA
-                        fatalError()
-                        return false
+                        return strategy.updateKeyboardBar()
                     }
                 },
                 Toolbar.BarLocation.keyboardBar
@@ -204,8 +203,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                     @Sendable (_ strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu29_Sbycfu30_TA
-                        fatalError()
-                        return false
+                        return strategy.updateBottomOrnament()
                     }
                 },
                 Toolbar.BarLocation.bottomOrnament
@@ -216,8 +214,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                     @Sendable (_ strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu31_Sbycfu32_TA
-                        fatalError()
-                        return false
+                        return strategy.updateTabSidebarOverflowMenu()
                     }
                 },
                 Toolbar.BarLocation._tabViewSidebarOverflowMenu
@@ -225,11 +222,10 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (_ strategy: UIKitToolbarStrategy) in
+                    @Sendable (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu33_Sbycfu34_TA
-                        fatalError()
-                        return false
+                        return strategy.updateTabBottomBarEntry(placement: ._tabViewSidebarBottomBar)
                     }
                 },
                 Toolbar.BarLocation._tabViewSidebarBottomBar
@@ -360,7 +356,18 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     func updateProperties() -> Toolbar.Updates.NavigationProperties {
-        fatalError("TODO")
+        guard _SemanticFeature<Semantics_v4>.isEnabled else {
+            return []
+        }
+        
+        let flag1 = updateTitleMenuProvider()
+        var w21: UInt8 = flag1 ? 2 : 0
+        let flag2 = updateHeaderProperties()
+        w21 = (w21 & ~1) | (flag2 ? 1 : 0)
+        let flag3 = updateRenameDelegate()
+        let w8 = w21 | 4
+        let w0 = flag3 ? w8 : w21
+        return Toolbar.Updates.NavigationProperties(rawValue: w0)
     }
     
     func willSetStorage(_ storage: inout Toolbar.LocationStorage, in location: Toolbar.BarLocation, from entries: [ToolbarStorage.Entry]) {
@@ -763,13 +770,13 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateTitleMenuProvider() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV23updateTitleMenuProvider33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
+            fatalError("TODO")
+        }
     }
     
     fileprivate func updateSplitControllerLeadingItems() -> Bool {
-        /*
-         leadingItemGroups
-         */
         return withUpdate { bridge, context in
             // $s7SwiftUI20UIKitToolbarStrategyV33updateSplitControllerLeadingItems33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
             let old = bridge.platformVended.uiSplitControllerNavigationItem.leadingItemGroups
@@ -813,8 +820,51 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateTabBottomBarEntry(placement: Toolbar.BarLocation) -> Bool {
-        _ = placement
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV23updateTabBottomBarEntry33_A409749AC298CF150D90E447BB4FA064LL9placementSbAA0D0O0I8LocationO_tFSbAA0D6BridgeCyACG_AH13UpdateContextVtXEfU_TA
+            /*
+             bridge -> x0 -> x20
+             placement -> x2 -> x23
+             return pointer -> x8 -> x21
+             */
+            // <+1084>
+            // x29 - 0x80
+            let copy_1 = placement
+            guard copy_1 == ._tabViewSidebarBottomBar else {
+                return false
+            }
+            
+            // <+1108>
+            // x22
+            let old = bridge.platformVended.uiTabViewSidebarBottomBarItem
+            // x19
+            let entries = bridge.entries(in: placement)
+            
+            // x22
+            var new: ToolbarStorage.Item?
+            if !entries.isEmpty {
+                // <+1272>
+                fatalError("TODO")
+            } else {
+                new = nil
+            }
+            
+            // <+2100>
+            if let old {
+                // <+2420>
+                fatalError("TODO")
+            } else {
+                // <+2296>
+                // <+3036>
+                if placement == ._tabViewSidebarBottomBar {
+                    // <+3100>
+                    bridge.platformVended.uiTabViewSidebarBottomBarItem = new
+                }
+                
+                // <+3240>
+                return new != nil
+            }
+        }
     }
     
     fileprivate func updateBottomBar() -> Bool {
@@ -831,19 +881,102 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateKeyboardBar() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV17updateKeyboardBar33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
+            /*
+             bridge -> x0 -> x22
+             context -> x1 -> x21
+             */
+            // x29 - 0x48
+            var barItems: [UIBarButtonItem] = []
+            // x24
+            let copy_1 = context
+            // x25
+            let targetController = copy_1.targetController
+            let w26 = (targetController != nil)
+            
+            bridge.adjustEntries(in: .keyboardBar) { _, _ in
+                fatalError("TODO")
+            }
+            
+            let uiInputAccessoryGenerator: InputAccessoryGenerator
+            if let _uiInputAccessoryGenerator = bridge.platformVended.uiInputAccessoryGenerator {
+                uiInputAccessoryGenerator = _uiInputAccessoryGenerator
+            } else {
+                uiInputAccessoryGenerator = InputAccessoryGenerator()
+                bridge.platformVended.uiInputAccessoryGenerator = uiInputAccessoryGenerator
+            }
+            
+            // <+324>
+            uiInputAccessoryGenerator.barItems = barItems
+            return true
+        }
     }
     
     fileprivate func updateBottomOrnament() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV20updateBottomOrnament33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_TA
+            // x21
+            let items = makeOrnamentItems()
+            bridge.platformVended.ornamentItems = items
+            return true
+        }
     }
     
     fileprivate func updateTabSidebarOverflowMenu() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV28updateTabSidebarOverflowMenu33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_TA
+            // x21
+            let old = bridge.platformVended.uiTabViewSidebarOverflowItems
+            // x23 -> x20
+            guard let new = self.barButtonItems(in: ._tabViewSidebarOverflowMenu) as? [UIKitBarButtonItem] else {
+                return false
+            }
+            
+            // <+160>
+            bridge.platformVended.uiTabViewSidebarOverflowItems = new
+            // x22
+            let newEndIndex = new.endIndex
+            
+            if newEndIndex < 1 {
+                // <+248>
+                return old.endIndex > 0
+            } else {
+                // <+216>
+                return true
+            }
+        }
     }
     
     fileprivate func barButtonItems(in location: Toolbar.BarLocation) -> [UIBarButtonItem] {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV14barButtonItems33_A409749AC298CF150D90E447BB4FA064LL2inSaySo05UIBarG4ItemCGAA0D0O11BarLocationO_tFAiA0D6BridgeCyACG_AK13UpdateContextVtXEfU_TA
+            /*
+             location -> x2 -> x22
+             */
+            // x25
+            let copy_1 = context
+            // x23 -> x29 - 0x50
+            guard let targetController = copy_1.targetController else {
+                return []
+            }
+            
+            // <+152>
+            var x290x48: UInt8 = 2
+            // x29 - 0x58
+            var results: [UIBarButtonItem] = []
+            if location == .navigationBarLeading {
+                x290x48 = 0
+            }
+            
+            // <+228>
+            let entryCount = bridge.entryCount(in: location) - 1
+            bridge.adjustEntries(in: location) { _, _ in
+                fatalError("TODO")
+            }
+            
+            return results
+        }
     }
     
     fileprivate func barButtonGroups(in location: Toolbar.BarLocation) -> [UIBarButtonItemGroup] {
@@ -892,7 +1025,13 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let storage = bridge.storageByLocation[.bottomBar] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
             
             // <+260>
-            fatalError("TODO")
+            if !storage.entries.isEmpty {
+                // <+268>
+                fatalError("TODO")
+            }
+            
+            // <+848>
+            bridge.storageByLocation[.bottomBar] = storage
         }
         
         guard !array2.isEmpty else {
@@ -901,5 +1040,22 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         
         // <+84>
         fatalError("TODO")
+    }
+    
+    fileprivate func makeOrnamentItems() -> [ToolbarStorage.Item] {
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV17makeOrnamentItemsSayAA0D7StorageV4ItemVGyFyAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
+            // x19
+            guard let storage = bridge.storageByLocation[.bottomOrnament] else {
+                return []
+            }
+            
+            // <+364>
+            guard !storage.entryIDs.isEmpty else {
+                return []
+            }
+            
+            fatalError("TODO")
+        }
     }
 }
