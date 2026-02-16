@@ -447,7 +447,55 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateBarTitle() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV14updateBarTitle33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
+            // x29 - 0x60
+            var titleView: UIView? = nil
+            bridge.adjustEntries(in: .navigationBarTitle) { entry, item in
+                // titleView을 설정해 주는듯
+                fatalError("TODO")
+            }
+            
+            bridge.platformVended.uiNavigationItem.titleView = titleView
+            
+            // sp + 0xe0
+            let copy_1 = bridge.lastToolbarStorage
+            // x29 - 0xc0
+            let copy_2 = bridge.lastInputToolbarStorage
+            
+            if let copy_1 {
+                // <+220>
+                // sp + 0x24
+                let isAnimated = copy_1.isAnimated
+                if let copy_2 {
+                    // <+264>
+                    fatalError("TODO")
+                } else {
+                    // <+676>
+                    // sp + 0x90
+                    let copy_3 = bridge.lastToolbarStorage
+                    // sp + 0x48
+                    let copy_4 = copy_3
+                    // sp + 0x90
+                    let copy_5 = copy_1
+                    // isAnimated -> w25
+                    // <+728>
+                    
+                    fatalError("TODO")
+                }
+            } else {
+                // <+596>
+                if let copy_2 {
+                    // <+604>
+                    fatalError("TODO")
+                } else {
+                    // <+820>
+                    fatalError("TODO")
+                }
+            }
+            
+            fatalError("TODO")
+        }
     }
     
     fileprivate func updateBarLargeTitle() -> Bool {

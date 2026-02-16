@@ -5,7 +5,7 @@ internal import Foundation
 final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     var platformVended = Toolbar.PlatformVended() // 0xb28
     var lastToolbarStorage: ToolbarStorage? = nil // 0x2f8
-    private var lastInputToolbarStorage: ToolbarStorage? = nil // 0x300
+    private(set) var lastInputToolbarStorage: ToolbarStorage? = nil // 0x300
     var searchItem: ToolbarStorage.SearchItem? = nil // 0xb30
     var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xb38
     var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb40
@@ -116,6 +116,25 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         
         return result
     }
+    
+    final func adjustEntries(in location: Toolbar.BarLocation, _ transform: (ToolbarStorage.Entry, inout Toolbar.VendedItem?) -> Void) {
+        /*
+         location -> x0 -> x21
+         self -> x1 -> x19
+         */
+        // x23, x25, x26
+        let storage = storageByLocation[location] ?? Toolbar.LocationStorage(entryIDs: [], entries: .init(), vendedItems: .init())
+        // location -> x21 -> x29 - 0xeo
+        // <+532>
+        
+        if !storage.entries.isEmpty {
+            // <+540>
+            fatalError("TODO")
+        }
+        
+        // <+1692>
+        storageByLocation[location] = storage
+    } 
     
     // TODO
 }
