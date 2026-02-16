@@ -134,7 +134,13 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         
         // <+1692>
         storageByLocation[location] = storage
-    } 
+    }
+    
+    final func entryCount(in location: Toolbar.BarLocation) -> Int {
+        // location -> x0 -> x19
+        let storage = storageByLocation[location] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
+        return storage.entries.count
+    }
     
     // TODO
 }

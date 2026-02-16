@@ -122,7 +122,7 @@ extension Toolbar {
         private var uiTabViewSidebarOverflowItems: [UIKitBarButtonItem] = [] // 0x30
         private var uiTabViewSidebarBottomBarItem: ToolbarStorage.Item? = nil // 0x2c (offset field)
         private var uiInputAccessoryGenerator: InputAccessoryGenerator? // 0x30 (offset field)
-        private var uiSplitControllerNavigationItem: UINavigationItem = {
+        private(set) var uiSplitControllerNavigationItem: UINavigationItem = {
             return MainActor.assumeIsolated { 
                 return UINavigationItem()
             }

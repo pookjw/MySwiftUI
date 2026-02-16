@@ -37,7 +37,6 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TATm
                     return updateBarTitle()
                 },
                 .navigationBarTitle
@@ -46,7 +45,6 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TATm
                     return updateBarLargeTitle()
                 },
                 .navigationBarLargeTitle
@@ -55,7 +53,6 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
                     return updateBarCenter()
                 },
                 .navigationBarCenter
@@ -64,8 +61,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu5_Sbycfu6_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TATm
-                    return updateHeaderProperties()
+                    return updateBarAccessory()
                 },
                 .navigationBarAccessory
             ),
@@ -73,8 +69,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu7_Sbycfu8_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TATm
-                    return updateHeaderProperties()
+                    return updateBarSubtitle()
                 },
                 .navigationBarSubtitle
             ),
@@ -82,8 +77,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu9_Sbycfu10_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TATm
-                    return updateHeaderProperties()
+                    return updateNavigationLargeSubtitle()
                 },
                 .navigationBarLargeSubtitle
             ),
@@ -91,8 +85,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu11_Sbycfu12_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
-                    return updateTitleMenuProvider()
+                    return updateNavigationBarTrailing()
                 },
                 .navigationBarTrailing
             ),
@@ -100,7 +93,6 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu13_Sbycfu14_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
                     return updateNavigationBarLeading()
                 },
                 .navigationBarLeading
@@ -109,7 +101,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu15_Sbycfu16_TA
-                    return updateRenameDelegate()
+                    return false
                 },
                 .navigationBarPalette
             ),
@@ -117,7 +109,6 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu17_Sbycfu18_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
                     return updateSplitControllerLeadingItems()
                 },
                 .navigationSplitViewLeading
@@ -126,8 +117,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu19_Sbycfu20_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
-                    return updateSplitControllerLeadingItems()
+                    return updateSplitControllerTrailingItems()
                 },
                 .navigationSplitViewTrailing
             ),
@@ -135,26 +125,23 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu15_Sbycfu16_TA
-                    return updateTabBottomBarEntry(placement: .tabBarTrailing)
+                    return false
                 },
                 .tabBarTrailing
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu25_Sbycfu26_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
-                    return updateTabBottomBarEntry(placement: .tabBarLeading)
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
+                    return false
                 },
                 .tabBarLeading
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu15_Sbycfu16_TA
-                    return updateBottomBar()
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu25_Sbycfu26_TA
+                    fatalError()
                 },
                 .bottomBar
             ),
@@ -162,26 +149,23 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu27_Sbycfu28_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TATm
-                    return updateKeyboardBar()
+                    fatalError()
                 },
                 .keyboardBar
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu31_Sbycfu32_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
-                    return updateBottomOrnament()
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu29_Sbycfu30_TA
+                    fatalError()
                 },
                 .bottomOrnament
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu29_Sbycfu30_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TATm
-                    return updateTabSidebarOverflowMenu()
+                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu31_Sbycfu32_TA
+                    fatalError()
                 },
                 ._tabViewSidebarOverflowMenu
             ),
@@ -189,8 +173,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             (
                 {
                     // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu33_Sbycfu34_TA
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu33_Sbycfu34_
-                    return updateTabBottomBarEntry(placement: ._tabViewSidebarBottomBar)
+                    fatalError()
                 },
                 ._tabViewSidebarBottomBar
             ),
@@ -478,10 +461,9 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                     let copy_4 = copy_3
                     // sp + 0x90
                     let copy_5 = copy_1
-                    // isAnimated -> w25
                     // <+728>
-                    
-                    fatalError("TODO")
+                    bridge.platformVended.uiNavigationItem.customizationIdentifier = copy_3?.identifier
+                    return true
                 }
             } else {
                 // <+596>
@@ -499,11 +481,205 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateBarLargeTitle() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, _ in
+            // $s7SwiftUI20UIKitToolbarStrategyV19updateBarLargeTitle33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
+            /*
+             bridge -> x0 -> x21
+             */
+            // sp + 0x28
+            var new: UIView?
+            bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
+                fatalError("TODO")
+            }
+            
+            // x21
+            let old = bridge.platformVended.uiNavigationItem._largeTitleView
+            bridge.platformVended.uiNavigationItem._largeTitleView = new
+            // x20
+            let new2 = bridge.platformVended.uiNavigationItem._largeTitleView
+            
+            if let old {
+                if let new2 {
+                    // <+200>
+                    return old !== new2
+                } else {
+                    // <+232>
+                    return true
+                }
+            } else {
+                // <+220>
+                if let new2 {
+                    // <+236>
+                    return true
+                } else {
+                    // <+244>
+                    return false
+                }
+            }
+        }
     }
     
     fileprivate func updateBarCenter() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV15updateBarCenter33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
+            // bridge -> x0 -> x21
+            guard _SemanticFeature<Semantics_v4>.isEnabled else {
+                return false
+            }
+            
+            // <+96>
+            // x21
+            let old = bridge.platformVended.uiNavigationItem.centerItemGroups
+            // x20
+            let new = self.barButtonGroups(in: .navigationBarCenter)
+            bridge.platformVended.uiNavigationItem.centerItemGroups = new
+            
+            let newEndIndex = new.endIndex
+            
+            if newEndIndex < 1 {
+                // <+412>
+                let oldEndIndex = old.endIndex
+                return oldEndIndex > 0
+            } else {
+                // <+444>
+                return true
+            }
+        }
+    }
+    
+    fileprivate func updateBarAccessory() -> Bool {
+        return withUpdate { bridge, _ in
+            // $s7SwiftUI20UIKitToolbarStrategyV19updateBarLargeTitle33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
+            /*
+             bridge -> x0 -> x21
+             */
+            // sp + 0x28
+            var new: UIView?
+            bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
+                fatalError("TODO")
+            }
+            
+            // x21
+            let old = bridge.platformVended.uiNavigationItem._largeTitleAccessoryView
+            bridge.platformVended.uiNavigationItem._largeTitleAccessoryView = new
+            // x20
+            let new2 = bridge.platformVended.uiNavigationItem._largeTitleAccessoryView
+            
+            if let old {
+                if let new2 {
+                    // <+200>
+                    return old !== new2
+                } else {
+                    // <+232>
+                    return true
+                }
+            } else {
+                // <+220>
+                if let new2 {
+                    // <+236>
+                    return true
+                } else {
+                    // <+244>
+                    return false
+                }
+            }
+        }
+    }
+    
+    fileprivate func updateBarSubtitle() -> Bool {
+        return withUpdate { bridge, _ in
+            // $s7SwiftUI20UIKitToolbarStrategyV19updateBarLargeTitle33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
+            /*
+             bridge -> x0 -> x21
+             */
+            // sp + 0x28
+            var new: UIView?
+            bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
+                fatalError("TODO")
+            }
+            
+            // x21
+            let old = bridge.platformVended.uiNavigationItem._subtitleView
+            bridge.platformVended.uiNavigationItem._subtitleView = new
+            // x20
+            let new2 = bridge.platformVended.uiNavigationItem._subtitleView
+            
+            if let old {
+                if let new2 {
+                    // <+200>
+                    return old !== new2
+                } else {
+                    // <+232>
+                    return true
+                }
+            } else {
+                // <+220>
+                if let new2 {
+                    // <+236>
+                    return true
+                } else {
+                    // <+244>
+                    return false
+                }
+            }
+        }
+    }
+    
+    fileprivate func updateNavigationLargeSubtitle() -> Bool {
+        return withUpdate { bridge, _ in
+            // $s7SwiftUI20UIKitToolbarStrategyV19updateBarLargeTitle33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
+            /*
+             bridge -> x0 -> x21
+             */
+            // sp + 0x28
+            var new: UIView?
+            bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
+                fatalError("TODO")
+            }
+            
+            // x21
+            let old = bridge.platformVended.uiNavigationItem._largeSubtitleView
+            bridge.platformVended.uiNavigationItem._largeSubtitleView = new
+            // x20
+            let new2 = bridge.platformVended.uiNavigationItem._largeSubtitleView
+            
+            if let old {
+                if let new2 {
+                    // <+200>
+                    return old !== new2
+                } else {
+                    // <+232>
+                    return true
+                }
+            } else {
+                // <+220>
+                if let new2 {
+                    // <+236>
+                    return true
+                } else {
+                    // <+244>
+                    return false
+                }
+            }
+        }
+    }
+    
+    fileprivate func updateNavigationBarTrailing() -> Bool {
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV26updateNavigationBarLeading33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
+            let old = bridge.platformVended.uiNavigationItem.trailingItemGroups
+            let new = self.barButtonGroups(in: .navigationBarTrailing)
+            bridge.platformVended.uiNavigationItem.trailingItemGroups = new
+            
+            let newEndIndex = new.endIndex
+            
+            if newEndIndex < 1 {
+                let oldEndIndex = old.endIndex
+                return oldEndIndex > 0
+            } else {
+                return true
+            }
+        }
     }
     
     fileprivate func updateHeaderProperties() -> Bool {
@@ -511,7 +687,21 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateNavigationBarLeading() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV26updateNavigationBarLeading33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
+            let old = bridge.platformVended.uiNavigationItem.leadingItemGroups
+            let new = self.barButtonGroups(in: .navigationBarLeading)
+            bridge.platformVended.uiNavigationItem.leadingItemGroups = new
+            
+            let newEndIndex = new.endIndex
+            
+            if newEndIndex < 1 {
+                let oldEndIndex = old.endIndex
+                return oldEndIndex > 0
+            } else {
+                return true
+            }
+        }
     }
     
     fileprivate func updateTitleMenuProvider() -> Bool {
@@ -519,7 +709,45 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateSplitControllerLeadingItems() -> Bool {
-        fatalError("TODO")
+        /*
+         leadingItemGroups
+         */
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV33updateSplitControllerLeadingItems33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
+            let old = bridge.platformVended.uiSplitControllerNavigationItem.leadingItemGroups
+            let new = self.barButtonGroups(in: .navigationSplitViewLeading)
+            bridge.platformVended.uiSplitControllerNavigationItem.leadingItemGroups = new
+            
+            let newEndIndex = new.endIndex
+            
+            if newEndIndex < 1 {
+                let oldEndIndex = old.endIndex
+                return oldEndIndex > 0
+            } else {
+                return true
+            }
+        }
+    }
+    
+    fileprivate func updateSplitControllerTrailingItems() -> Bool {
+        /*
+         leadingItemGroups
+         */
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV33updateSplitControllerLeadingItems33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_Tm
+            let old = bridge.platformVended.uiSplitControllerNavigationItem.trailingItemGroups
+            let new = self.barButtonGroups(in: .navigationSplitViewTrailing)
+            bridge.platformVended.uiSplitControllerNavigationItem.trailingItemGroups = new
+            
+            let newEndIndex = new.endIndex
+            
+            if newEndIndex < 1 {
+                let oldEndIndex = old.endIndex
+                return oldEndIndex > 0
+            } else {
+                return true
+            }
+        }
     }
     
     fileprivate func updateRenameDelegate() -> Bool {
@@ -545,5 +773,43 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     
     fileprivate func updateTabSidebarOverflowMenu() -> Bool {
         fatalError("TODO")
+    }
+    
+    fileprivate func barButtonItems(in location: Toolbar.BarLocation) -> [UIBarButtonItem] {
+        fatalError("TODO")
+    }
+    
+    fileprivate func barButtonGroups(in location: Toolbar.BarLocation) -> [UIBarButtonItemGroup] {
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV15barButtonGroups33_A409749AC298CF150D90E447BB4FA064LL2inSaySo05UIBarG9ItemGroupCGAA0D0O11BarLocationO_tFAiA0D6BridgeCyACG_AK13UpdateContextVtXEfU_TA.148
+            /*
+             bridge -> x0 -> x20
+             context -> x1 -> x23
+             location -> x2 -> x22
+             */
+            // x25
+            let copy_1 = context
+            // x23
+            guard let targetController = copy_1.targetController else {
+                return []
+            }
+            
+            // targetController -> x23 -> x29 - 0x50
+            var x290x48: UInt8 = 2
+            // x29 - 0x58
+            var results: [UIBarButtonItemGroup] = []
+            
+            if location == .navigationBarLeading {
+                x290x48 = 0
+            }
+            
+            let entryCount = bridge.entryCount(in: location)
+            
+            bridge.adjustEntries(in: location) { _, _ in
+                fatalError("TODO")
+            }
+            
+            return results
+        }
     }
 }
