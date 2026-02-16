@@ -9,7 +9,7 @@ enum Toolbar {}
 extension Toolbar {
     struct UpdateContext {
         private(set) var overrides = HostingControllerOverrides() // 0x0
-        private weak var navigationController: UINavigationController? = nil // 0x38
+        private(set) weak var navigationController: UINavigationController? = nil // 0x38
         private(set) weak var targetController: UIViewController? = nil // 0x40
         private(set) weak var sceneSession: UISceneSession? = nil // 0x48
         var horizontalSizeClass: UserInterfaceSizeClass? = .regular // 0x20 (offset field)
@@ -113,7 +113,7 @@ extension Toolbar {
                 return UINavigationItem()
             }
         }() // 0x8
-        private var uiToolbarItems: [UIBarButtonItem] = [] // 0x10
+        var uiToolbarItems: [UIBarButtonItem] = [] // 0x10
         private var uiToolbar: UIKitToolbar? = nil // 0x18
         var uiSearchController: SwiftUISearchController? = nil // 0x20
         private lazy var uiSafeAreaTransitionState: ToolbarSafeAreaTransitionState = {

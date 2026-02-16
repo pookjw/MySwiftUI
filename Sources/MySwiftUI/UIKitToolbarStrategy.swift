@@ -35,149 +35,207 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     func updateLocations() -> Set<Toolbar.BarLocation> {
         let array: [(() -> Bool, Toolbar.BarLocation)] = [
             (
-                {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TA
-                    return updateBarTitle()
+                { @Sendable (strategy: UIKitToolbarStrategy) in
+                    return {
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TA
+                        return strategy.updateBarTitle()
+                    }
                 },
-                .navigationBarTitle
+                Toolbar.BarLocation.navigationBarTitle
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TA
-                    return updateBarLargeTitle()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TA
+                        return strategy.updateBarLargeTitle()
+                    }
                 },
-                .navigationBarLargeTitle
+                Toolbar.BarLocation.navigationBarLargeTitle
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TA
-                    return updateBarCenter()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TA
+                        return strategy.updateBarCenter()
+                    }
                 },
-                .navigationBarCenter
+                Toolbar.BarLocation.navigationBarCenter
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu5_Sbycfu6_TA
-                    return updateBarAccessory()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu5_Sbycfu6_TA
+                        return strategy.updateBarAccessory()
+                    }
                 },
-                .navigationBarAccessory
+                Toolbar.BarLocation.navigationBarAccessory
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu7_Sbycfu8_TA
-                    return updateBarSubtitle()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu7_Sbycfu8_TA
+                        return strategy.updateBarSubtitle()
+                    }
                 },
-                .navigationBarSubtitle
+                Toolbar.BarLocation.navigationBarSubtitle
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu9_Sbycfu10_TA
-                    return updateNavigationLargeSubtitle()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu9_Sbycfu10_TA
+                        return strategy.updateNavigationLargeSubtitle()
+                    }
                 },
-                .navigationBarLargeSubtitle
+                Toolbar.BarLocation.navigationBarLargeSubtitle
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu11_Sbycfu12_TA
-                    return updateNavigationBarTrailing()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu11_Sbycfu12_TA
+                        return strategy.updateNavigationBarTrailing()
+                    }
                 },
-                .navigationBarTrailing
+                Toolbar.BarLocation.navigationBarTrailing
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu13_Sbycfu14_TA
-                    return updateNavigationBarLeading()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu13_Sbycfu14_TA
+                        return strategy.updateNavigationBarLeading()
+                    }
                 },
-                .navigationBarLeading
+                Toolbar.BarLocation.navigationBarLeading
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu15_Sbycfu16_TA
-                    return false
+                    @Sendable (_: UIKitToolbarStrategy) in
+                    return {
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu15_Sbycfu16_TA
+                        return false
+                    }
                 },
-                .navigationBarPalette
+                Toolbar.BarLocation.navigationBarPalette
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu17_Sbycfu18_TA
-                    return updateSplitControllerLeadingItems()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu17_Sbycfu18_TA
+                        return strategy.updateSplitControllerLeadingItems()
+                    }
                 },
-                .navigationSplitViewLeading
+                Toolbar.BarLocation.navigationSplitViewLeading
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu19_Sbycfu20_TA
-                    return updateSplitControllerTrailingItems()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu19_Sbycfu20_TA
+                        return strategy.updateSplitControllerTrailingItems()
+                    }
                 },
-                .navigationSplitViewTrailing
+                Toolbar.BarLocation.navigationSplitViewTrailing
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
-                    return false
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
+                        return false
+                    }
                 },
-                .tabBarTrailing
+                Toolbar.BarLocation.tabBarTrailing
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
-                    return false
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
+                        return false
+                    }
                 },
-                .tabBarLeading
+                Toolbar.BarLocation.tabBarLeading
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu25_Sbycfu26_TA
-                    fatalError()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu25_Sbycfu26_TA
+                        return strategy.updateBottomBar()
+                    }
                 },
-                .bottomBar
+                Toolbar.BarLocation.bottomBar
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu27_Sbycfu28_TA
-                    fatalError()
+                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu27_Sbycfu28_TA
+                        fatalError()
+                        return false
+                    }
                 },
-                .keyboardBar
+                Toolbar.BarLocation.keyboardBar
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu29_Sbycfu30_TA
-                    fatalError()
+                    @Sendable (_ strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu29_Sbycfu30_TA
+                        fatalError()
+                        return false
+                    }
                 },
-                .bottomOrnament
+                Toolbar.BarLocation.bottomOrnament
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu31_Sbycfu32_TA
-                    fatalError()
+                    @Sendable (_ strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu31_Sbycfu32_TA
+                        fatalError()
+                        return false
+                    }
                 },
-                ._tabViewSidebarOverflowMenu
+                Toolbar.BarLocation._tabViewSidebarOverflowMenu
             ),
             
             (
                 {
-                    // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu33_Sbycfu34_TA
-                    fatalError()
+                    @Sendable (_ strategy: UIKitToolbarStrategy) in
+                    return { () -> Bool in
+                        // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu33_Sbycfu34_TA
+                        fatalError()
+                        return false
+                    }
                 },
-                ._tabViewSidebarBottomBar
+                Toolbar.BarLocation._tabViewSidebarBottomBar
             ),
         ]
+            .map { ($0.0(self), $0.1) }
         
         // <+2436>
         // x23
@@ -760,7 +818,16 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateBottomBar() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV15updateBottomBar33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_TA
+            guard (context.overrides.pushTarget?.navController ?? context.navigationController) != nil else {
+                return false
+            }
+            
+            // <+104>
+            bridge.platformVended.uiToolbarItems = makeBarItems()
+            return true
+        }
     }
     
     fileprivate func updateKeyboardBar() -> Bool {
@@ -811,5 +878,28 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             return results
         }
+    }
+    
+    fileprivate func makeBarItems() -> [UIBarButtonItem] {
+        // sp + 0x10
+        var array1: [UIBarButtonItem] = []
+        // sp + 0x18
+        var array2: [UIBarButtonItem] = []
+        
+        withUpdate { bridge, context in
+            // $s7SwiftUI13ToolbarBridgeC13adjustEntries2in_yAA0C0O11BarLocationO_yAA0C7StorageV5EntryV_AG10VendedItemOSgztXEtFAA05UIKitC8StrategyV_Tg503$s7a4UI20nco7V12makeh60Items33_A409749AC298CF150D90E447BB4FA064LLSaySo15UIBarButtonm10CGyFyAA0D6d40CyACG_AA0D0O13UpdateContextVtXEfU_yAA0D7j2V5k6V_AM06L12R0OSgztXEfU_AA05UIBarM7ContextVSgSaySo011UIBarButtonM0CGAYTf1ncn_nTf4nngnn_n
+            // x25, x28, x22
+            let storage = bridge.storageByLocation[.bottomBar] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
+            
+            // <+260>
+            fatalError("TODO")
+        }
+        
+        guard !array2.isEmpty else {
+            return Array(array1)
+        }
+        
+        // <+84>
+        fatalError("TODO")
     }
 }
