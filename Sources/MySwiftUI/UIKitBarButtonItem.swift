@@ -2,6 +2,7 @@
 internal import UIKit
 private import MySwiftUICore
 private import _MySwiftUIShims
+private import _UIKitShims
 
 final class UIKitBarButtonItem: UIBarButtonItem {
     // TODO
@@ -139,10 +140,107 @@ extension UINavigationItem {
     }
     
     fileprivate nonisolated func updateSearchControllerIfNeeded(_ other: UINavigationItem) {
-        fatalError("TODO")
+        /*
+         other -> x0 -> x19
+         self -> x20
+         */
+        if let searchController, !type(of: searchController)._isFromMySwiftUI() {
+            return
+        }
+        
+        // x21
+        let selfSearchController = searchController
+        let otherSearchController = other.searchController
+        
+        if let selfSearchController {
+            if let otherSearchController {
+                // <+112>
+                if selfSearchController === otherSearchController {
+                    // <+184>
+                } else {
+                    //  <+148>
+                    self.searchController = other.searchController
+                    // <+184>
+                }
+            } else {
+                // <+144>
+                self.searchController = other.searchController
+                // <+184>
+            }
+        } else {
+            // <+136>
+            if otherSearchController != nil {
+                self.searchController = other.searchController
+                // <+184>
+            } else {
+                // <+184>
+            }
+        }
+        
+        // <+184>
+        // x21
+        let selfPreferredSearchBarPlacement = preferredSearchBarPlacement
+        let otherPreferredSearchBarPlacement = other.preferredSearchBarPlacement
+        if selfPreferredSearchBarPlacement != otherPreferredSearchBarPlacement {
+            preferredSearchBarPlacement = other.preferredSearchBarPlacement
+        }
+        
+        // <+232>
+        let selfSearchBarPlacementAllowsExternalIntegration = msui_searchBarPlacementAllowsExternalIntegration
+        let otherSearchBarPlacementAllowsExternalIntegration = other.msui_searchBarPlacementAllowsExternalIntegration
+        if selfSearchBarPlacementAllowsExternalIntegration != otherSearchBarPlacementAllowsExternalIntegration {
+            msui_searchBarPlacementAllowsExternalIntegration = other.msui_searchBarPlacementAllowsExternalIntegration
+        }
+        
+        // <+280>
+        let selfHidesSearchBarWhenScrolling = hidesSearchBarWhenScrolling
+        let otherHidesSearchBarWhenScrolling = other.hidesSearchBarWhenScrolling
+        if selfHidesSearchBarWhenScrolling != otherHidesSearchBarWhenScrolling {
+            hidesSearchBarWhenScrolling = other.hidesSearchBarWhenScrolling
+        }
     }
     
     fileprivate func updateTitleIfNeeded(_ other: UINavigationItem, isFromSwiftUI: Bool) {
-        fatalError("TODO")
+        /*
+         self -> x20
+         other -> x0 -> x19
+         isFromSwiftUI -> x1 -> x21
+         */
+        if (self.titleView != nil) {
+            if let titleView {
+                if (titleView as? UIKitBarItemHost<BarItemView>) != nil {
+                    // <+116>
+                } else if !isFromSwiftUI {
+                    return
+                }
+            } else if !isFromSwiftUI {
+                return
+            }
+        }
+        
+        // <+116>
+        // x21
+        let selfTitleView = self.titleView
+        let otherTitleView = other.titleView
+        
+        if let selfTitleView {
+            if let otherTitleView {
+                if selfTitleView === otherTitleView {
+                    return
+                } else {
+                    self.titleView = other.titleView
+                }
+            } else {
+                // <+192>
+                self.titleView = other.titleView
+            }
+        } else {
+            // <+184>
+            if otherTitleView != nil {
+                self.titleView = other.titleView
+            } else {
+                return
+            }
+        }
     }
 }

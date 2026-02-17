@@ -24,10 +24,10 @@
 		4F8F09252E51DA7A00EFC573 /* _UIKitPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09212E51DA7A00EFC573 /* _UIKitPrivate.xcframework */; };
 		4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09232E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework */; };
 		4F8F092B2E51DA7A00EFC573 /* MRUIKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09242E51DA7A00EFC573 /* MRUIKit.xcframework */; };
-		4F92C83F2E8BA31000803CE0 /* MySwiftUITraits in Frameworks */ = {isa = PBXBuildFile; productRef = 4F92C83E2E8BA31000803CE0 /* MySwiftUITraits */; };
 		4F93472B2EE1C1670030B3A1 /* _ObservationPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F93472A2EE1C1670030B3A1 /* _ObservationPrivate.xcframework */; };
 		4FACEFA82E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FACEFA72E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework */; };
 		4FACF25F2E63E3FC000CB163 /* _SwiftPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09222E51DA7A00EFC573 /* _SwiftPrivate.xcframework */; };
+		4FC5B59B2F447524007D14DB /* MySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4FC5B59A2F447524007D14DB /* MySwiftUI */; };
 		4FD4A1F62E910B4300C9B545 /* TCC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD4A1F52E910B4300C9B545 /* TCC.xcframework */; };
 		4FE8D0FD2E56AA8200352E55 /* _QuartzCorePrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8D0FC2E56AA8200352E55 /* _QuartzCorePrivate.xcframework */; };
 /* End PBXBuildFile section */
@@ -104,8 +104,8 @@
 				4FD4A1F62E910B4300C9B545 /* TCC.xcframework in Frameworks */,
 				4F8F091E2E51DA7A00EFC573 /* AttributeGraph.xcframework in Frameworks */,
 				4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */,
+				4FC5B59B2F447524007D14DB /* MySwiftUI in Frameworks */,
 				4F27770E2E520A1F00867E37 /* RealitySimulationServices.xcframework in Frameworks */,
-				4F92C83F2E8BA31000803CE0 /* MySwiftUITraits in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,7 +177,7 @@
 			);
 			name = MyPlayground;
 			packageProductDependencies = (
-				4F92C83E2E8BA31000803CE0 /* MySwiftUITraits */,
+				4FC5B59A2F447524007D14DB /* MySwiftUI */,
 			);
 			productName = MyPlayground;
 			productReference = 4F48083C2E4CAFAF004F6972 /* MyPlayground.app */;
@@ -208,7 +208,7 @@
 			mainGroup = 4F4808332E4CAFAF004F6972;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				4FACEFBF2E8BA21200467C05 /* XCLocalSwiftPackageReference "../MySwiftUITraits" */,
+				4FC5B5992F447524007D14DB /* XCLocalSwiftPackageReference "../../MySwiftUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4F48083D2E4CAFAF004F6972 /* Products */;
@@ -564,17 +564,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		4FACEFBF2E8BA21200467C05 /* XCLocalSwiftPackageReference "../MySwiftUITraits" */ = {
+		4FC5B5992F447524007D14DB /* XCLocalSwiftPackageReference "../../MySwiftUI" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../MySwiftUITraits;
+			relativePath = ../../MySwiftUI;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4F92C83E2E8BA31000803CE0 /* MySwiftUITraits */ = {
+		4FC5B59A2F447524007D14DB /* MySwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4FACEFBF2E8BA21200467C05 /* XCLocalSwiftPackageReference "../MySwiftUITraits" */;
-			productName = MySwiftUITraits;
+			productName = MySwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

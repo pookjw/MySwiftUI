@@ -110,7 +110,9 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         // <+1092>
         if updates.navigationProperties.contains(.unknown0) {
             // <+1100>
-            fatalError("TODO")
+            if !self.navigationAdaptor.adaptors.isEmpty {
+                fatalError("TODO")
+            }
         }
         
         // <+1192>
@@ -125,7 +127,48 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         }
     }
     
-    fileprivate func adoptSystemUpdates<Content: View>(_: Toolbar.Updates, hostingController: UIHostingController<Content>, context: Toolbar.UpdateContext) {
+    fileprivate func adoptSystemUpdates<Content: View>(_ updates: Toolbar.Updates, hostingController: UIHostingController<Content>, context: Toolbar.UpdateContext) {
+        /*
+         updates.locations -> x0 -> x21
+         updates.flag1/flag2/navigationProperties -> x1 -> x22
+         hostingController -> x2 -> x19
+         */
+        if updates.locations.contains(.navigationSplitViewLeading) || updates.locations.contains(.navigationSplitViewTrailing) {
+            // <+144>
+            fatalError("TODO")
+        }
+        
+        // <+160>
+        if updates.locations.contains(.bottomBar) {
+            // <+208>
+            hostingController.toolbarItems = platformVended.uiToolbarItems
+        }
+        
+        // <+320>
+        if updates.flag2 {
+            // <+324>
+            updateToolbarVisibility(hostingController: hostingController)
+            updateBottomOrnamentVisibility(hostingController: hostingController)
+        }
+        
+        // <+340>
+        if updates.locations.contains(._tabViewSidebarOverflowMenu) || updates.locations.contains(._tabViewSidebarBottomBar) {
+            // <+436>
+            updateTabBarSidebar(hostingController: hostingController, updates: updates)
+        }
+        
+        // <+452>
+    }
+    
+    fileprivate func updateToolbarVisibility<Content: View>(hostingController: UIHostingController<Content>) {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateBottomOrnamentVisibility<Content: View>(hostingController: UIHostingController<Content>) {
+        fatalError("TODO")
+    }
+    
+    fileprivate func updateTabBarSidebar<Content: View>(hostingController: UIHostingController<Content>, updates: Toolbar.Updates) {
         fatalError("TODO")
     }
     
