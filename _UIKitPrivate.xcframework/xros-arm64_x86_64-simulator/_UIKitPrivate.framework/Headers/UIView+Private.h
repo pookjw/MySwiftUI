@@ -9,7 +9,7 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void);
+UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No longer supported", ios(26.0, 26.4));
 
 typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift_wrapper(struct))); // TODO
 

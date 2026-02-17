@@ -113,7 +113,7 @@ extension Toolbar {
             }
         }() // 0x8
         var uiToolbarItems: [UIBarButtonItem] = [] // 0x10
-        private var uiToolbar: UIKitToolbar? = nil // 0x18
+        var uiToolbar: UIKitToolbar? = nil // 0x18
         var uiSearchController: SwiftUISearchController? = nil // 0x20
         private lazy var uiSafeAreaTransitionState: ToolbarSafeAreaTransitionState = {
             fatalError("TODO")
@@ -127,7 +127,7 @@ extension Toolbar {
             }
         }() // 0x34 (offset field)
         var ornamentItems: [ToolbarStorage.Item] = [] // 0x38 (offset field)
-        private var bottomOrnament: ToolbarOrnament? = nil // 0x3c (offset field)
+        var bottomOrnament: ToolbarOrnament? = nil // 0x3c (offset field)
         
         init() {}
     }
@@ -159,6 +159,18 @@ extension Toolbar {
 
 extension Toolbar.Updates {
     struct NavigationProperties: OptionSet {
+        static var unknown0: Toolbar.Updates.NavigationProperties {
+            return Toolbar.Updates.NavigationProperties(rawValue: 1 << 0)
+        }
+        
+        static var unknown1: Toolbar.Updates.NavigationProperties {
+            return Toolbar.Updates.NavigationProperties(rawValue: 1 << 1)
+        }
+        
+        static var unknown2: Toolbar.Updates.NavigationProperties {
+            return Toolbar.Updates.NavigationProperties(rawValue: 1 << 2)
+        }
+        
         let rawValue: UInt8
     }
 }
@@ -207,10 +219,6 @@ class ToolbarSafeAreaTransitionState {
         fatalError("TODO")
     }
     
-    // TODO
-}
-
-class UIKitBarButtonItem: UIBarButtonItem {
     // TODO
 }
 
@@ -266,6 +274,12 @@ extension ToolbarStorage {
     }
     
     struct NavigationProperties {
+        private var documentProperties: ToolbarStorage.NavigationProperties.DocumentProperties?
+        private var platformActions: ToolbarStorage.NavigationProperties.Actions?
+        private weak var renameDelegate: UINavigationItemRenameDelegate?
+        private var backAction: UIAction?
+        private var platformTitle: PlatformItemList.Item?
+        
         // TODO
     }
     
@@ -280,6 +294,18 @@ extension ToolbarStorage {
     
     struct SpacerItem {
         // TODO
+    }
+}
+
+extension ToolbarStorage.NavigationProperties {
+    enum Actions {
+        case actions(PlatformItemCollection)
+        case commands
+    }
+    
+    enum DocumentProperties {
+        case provider(AnyNavigationDocumentBox?)
+        case kit(UIDocumentProperties?)
     }
 }
 

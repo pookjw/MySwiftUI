@@ -302,11 +302,13 @@ package final class UIHostingViewBase: NSObject {
         
         updateDelegate.invalidateProperties(.environment, mayDeferUpdate: true)
         
-        guard _UIViewMaskingConfigurationSPIEnabled() else {
-            return
+        if #unavailable(iOS 26.4, visionOS 26.4) {
+//            guard _UIViewMaskingConfigurationSPIEnabled() else {
+//                return
+//            }
+            
+            fatalError("TODO")
         }
-        
-        fatalError("TODO")
     }
     
     // ___lldb_unnamed_symbol317399

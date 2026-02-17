@@ -376,11 +376,45 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     
     func willReturnUpdates(_ updates: Toolbar.Updates, preferences: PreferenceValues) {
         /*
-         updates.locations -> x0
-         locations.flag1/2/3/navigationProperties -> x1
-         preferences -> x2
+         self -> x20 -> x19
+         updates.locations -> x0 -> x25
+         updates.flag1/2/navigationProperties -> x1 (안 씀)
+         preferences -> x2 (안 씀)
          */
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // <+372>
+            let w28: Bool
+            if (context.overrides.navigation ?? context.navigationController) != nil {
+                // <+460>
+                w28 = false
+            } else {
+                // <+1236>
+                w28 = true
+            }
+            
+            // <+468>
+            if updates.locations.contains(.bottomBar) {
+                // <+716>
+                let w8 = (bridge.platformVended.uiToolbar != nil) ? w28 : true
+                if w8 {
+                    // <+568>
+                    // x27
+                    let copy_1 = context
+                    // <+620>
+                    bridge.platformVended.uiToolbar = nil
+                    // <+1196>
+                } else {
+                    // <+772>
+                    fatalError("TODO")
+                }
+            } else {
+                // <+520>
+                fatalError("TODO")
+            }
+            
+            // <+1196>
+            updateBottomOrnamentIfNeeded()
+        }
     }
     
     func configureNavigationItem(_ navigationItem: UINavigationItem, searchItem: ToolbarStorage.SearchItem?, controller: SwiftUISearchController?) {
@@ -748,7 +782,35 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateHeaderProperties() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV22updateHeaderProperties33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
+            // bridge -> x0 -> x22
+            // <+736>
+            // x21
+            let navigationProperties = bridge.navigationProperties
+            // x25
+            let copy_1 = bridge.lastEnvironment
+            // x24
+            let copy_2 = navigationProperties
+            
+            if let copy_2 {
+                // <+916>
+                fatalError("TODO")
+            }
+            
+            // <+1140>
+            // x23
+            let copy_3 = copy_2
+            
+            if let copy_3 {
+                // <+1224>
+                fatalError("TODO")
+            }
+            
+            // <+1292>
+            bridge.platformVended.uiNavigationItem.documentProperties = nil
+            return true
+        }
     }
     
     fileprivate func updateNavigationBarLeading() -> Bool {
@@ -772,7 +834,19 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     fileprivate func updateTitleMenuProvider() -> Bool {
         return withUpdate { bridge, context in
             // $s7SwiftUI20UIKitToolbarStrategyV23updateTitleMenuProvider33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
-            fatalError("TODO")
+            // self -> x0 -> x20
+            // x21
+            let navigationProperties = bridge.navigationProperties
+            
+            if let titleMenuProvider = bridge.platformVended.uiNavigationItem.titleMenuProvider {
+                // <+356>
+                fatalError("TODO")
+            } else {
+                // <+328>
+                // <+400>
+                bridge.platformVended.uiNavigationItem.titleMenuProvider = nil
+                return (bridge.platformVended.uiNavigationItem.titleMenuProvider != nil)
+            }
         }
     }
     
@@ -816,7 +890,42 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func updateRenameDelegate() -> Bool {
-        fatalError("TODO")
+        return withUpdate { bridge, context in
+            // $s7SwiftUI20UIKitToolbarStrategyV20updateRenameDelegate33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
+            // bridge -> x0 -> x25
+            // <+416>
+            // x24
+            let renameDelegate = bridge.platformVended.uiNavigationItem.renameDelegate ?? bridge.platformVended.uiNavigationItem._objc_renameDelegate
+            // <+512>
+            // x22
+            if let navigationProperties = bridge.navigationProperties {
+                // <+604>
+                fatalError("TODO")
+            } else {
+                // <+552>
+                // <+680>
+            }
+            
+            // <+680>
+            if let navigationProperties = bridge.navigationProperties {
+                // <+768>
+                fatalError("TODO")
+            } else {
+                // <+740>
+                // <+1036>
+            }
+            
+            // <+1036>
+            bridge.platformVended.uiNavigationItem.renameDelegate = nil
+            
+            if (renameDelegate != nil) {
+                // <+1072>
+                return true
+            } else {
+                // <+1300>
+                return false
+            }
+        }
     }
     
     fileprivate func updateTabBottomBarEntry(placement: Toolbar.BarLocation) -> Bool {
@@ -1057,5 +1166,27 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             fatalError("TODO")
         }
+    }
+    
+    fileprivate func updateBottomOrnamentIfNeeded() {
+        // x21
+        let items = makeOrnamentItems()
+        if !items.isEmpty {
+            createBottomOrnamentIfNeeded()
+        }
+        
+        // <+208>
+        withUpdate { bridge, context in
+            if let bottomOrnament = bridge.platformVended.bottomOrnament {
+                // <+292>
+                fatalError("TODO")
+            }
+            
+            // <+524>
+        }
+    }
+    
+    fileprivate func createBottomOrnamentIfNeeded() {
+        fatalError("TODO")
     }
 }

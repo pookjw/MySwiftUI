@@ -1,6 +1,7 @@
 // A409749AC298CF150D90E447BB4FA064
 internal import MySwiftUICore
 internal import Foundation
+private import _MySwiftUIShims
 
 final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     var platformVended = Toolbar.PlatformVended() // 0xb28
@@ -56,7 +57,75 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         fatalError("TODO")
     }
     
-    fileprivate func adoptUpdates<Content: View>(_ updates: Toolbar.Updates, hostingController: UIHostingController<Content>, context: Toolbar.UpdateContext) {
+    fileprivate func adoptUpdates<Content: View>(
+        _ updates: Toolbar.Updates,
+        hostingController: UIHostingController<Content>,
+        context: Toolbar.UpdateContext
+    ) {
+        /*
+         updates.location -> x0 -> x29 - 0xb8
+         updates.flag1/flag2/navigationProperties -> x1 -> x25
+         hostingController -> x2 -> x26
+         context -> x3 -> x23 -> x29 - 0xd0
+         */
+        let w28: Bool
+        if updates.flag2 && !self.navigationAdaptor.adaptors.isEmpty {
+            // <+104>
+            fatalError("TODO")
+        } else {
+            // <+240>
+            w28 = false
+            // <+244>
+        }
+        
+        // <+244>
+        // x29 - 0xb0 (x19)
+        let copy_1 = context
+        
+        // w19
+        let isFromMySwiftUI: Bool
+        if let navigationController = copy_1.overrides.navigation ?? copy_1.navigationController {
+            isFromMySwiftUI = type(of: navigationController)._isFromMySwiftUI()
+        } else {
+            isFromMySwiftUI = false
+        }
+        
+        // <+324>
+        var w27 = false
+        if isLinkedOnOrAfter(.v6_4) && isFromMySwiftUI {
+            // <+356>
+            w27 = allowsUpdates
+        }
+        
+        // <+364>
+        // x21
+        let navigationItem = hostingController.navigationItem
+        // x27
+        let uiNavigationItem = self.platformVended.uiNavigationItem
+        
+        // <+428>
+        // inlined
+        navigationItem.adoptNavigationItem(uiNavigationItem, updates: updates, forceUpdate: w27, isFromSwiftUI: isFromMySwiftUI)
+        
+        // <+1092>
+        if updates.navigationProperties.contains(.unknown0) {
+            // <+1100>
+            fatalError("TODO")
+        }
+        
+        // <+1192>
+        if isLinkedOnOrAfter(.v7) && updates.flag1 {
+            // <+1272>
+            fatalError("TODO")
+        } else {
+            // <+1428>
+            var _updates = updates
+            _updates.navigationProperties = updates.navigationProperties.intersection(Toolbar.Updates.NavigationProperties(rawValue: 0x01))
+            adoptSystemUpdates(_updates, hostingController: hostingController, context: context)
+        }
+    }
+    
+    fileprivate func adoptSystemUpdates<Content: View>(_: Toolbar.Updates, hostingController: UIHostingController<Content>, context: Toolbar.UpdateContext) {
         fatalError("TODO")
     }
     
@@ -145,6 +214,33 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     func entries(in location: Toolbar.BarLocation) -> [String: ToolbarStorage.Entry] {
         let storage = storageByLocation[location] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
         return storage.entries
+    }
+    
+    var navigationProperties: ToolbarStorage.NavigationProperties? {
+        // <+228>
+        // x27
+        let copy_1 = lastNavigationProperties
+        // x22
+        let copy_2 = copy_1
+        // x22 + x25
+        let copy_3 = lastInputNavigationProperties
+        
+        let x24 = (copy_2 == nil)
+        let x20 = (copy_3 == nil)
+        
+        if x24 {
+            // <+408>
+            if x20 {
+                // <+536>
+                return nil
+            } else {
+                // <+512>
+                fatalError("TODO")
+            }
+        } else {
+            // <+428>
+            fatalError("TODO")
+        }
     }
     
     // TODO

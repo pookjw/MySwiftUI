@@ -113,12 +113,6 @@ extension ToolbarBridge {
             }
             
             // <+792>
-            // 검증 용 - 지워야함
-            assert(updates.flag1 == false)
-            assert(updates.flag2 == true)
-            assert(updates.navigationProperties.rawValue == 1)
-            fatalError()
-            
             strategy.willReturnUpdates(updates, preferences: preferences)
         }
         

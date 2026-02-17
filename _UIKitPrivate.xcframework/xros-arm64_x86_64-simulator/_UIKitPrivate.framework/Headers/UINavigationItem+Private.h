@@ -7,6 +7,7 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 @property (retain, nonatomic, nullable, setter=_setLargeTitleAccessoryView:) UIView *_largeTitleAccessoryView;
 @property (copy, nonatomic, nullable, setter=_setSubtitleView:) UIView* _subtitleView;
 @property (copy, nonatomic, nullable, setter=_setLargeSubtitleView:) UIView* _largeSubtitleView;
+@property (weak, nonatomic, nullable) id _objc_renameDelegate;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)
