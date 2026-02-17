@@ -1,3 +1,5 @@
+// 6C1D64F000BEDAC8A453E0E2D82A1069
+
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
@@ -89,15 +91,81 @@ final class BarAppearanceBridge: NSObject {
         self.updateContext = copy_1
         // w25
         let hasChanges = self.seedTracker.hasChanges(in: preferences)
-        let pendingUpdates = self.pendingUpdates
+        
+        // x22
+        var result = self.pendingUpdates
         
         if hasChanges {
             // <+284>
-            // 불려야함
-            fatalError("TODO")
+            self.pendingUpdates = result.union(.unknown1)
+            // x24
+            let subtitle = preferences[NavigationSubtitleKey.self]
+            // x29 - 0xb0
+            let value = subtitle.value
+            self.lastNavigationSubtitle = value
+            updateNavigationTitleStorage(preferences)
+            
+            // <+424>
+            // inlined
+            updateNavigationBar(updating: NavigationBarUpdateFlags(), preferences: preferences)
+            updateConfigurations(preferences)
+            updateBarsToConfiguration()
+            
+            result = self.pendingUpdates
+        } else {
+            // <+508>
         }
         
-        // <+508>
+        // <+512>
+        seedTracker.updateSeeds(to: preferences)
+        
+        if self.pendingUpdates.contains(.unknown1) {
+            // <+560>
+            platformUpdateNavigationAdaptor()
+        }
+        
+        // <+568>
+        self.updateContext = nil
+        
+        // <+652>
+        self.pendingUpdates = []
+        return result
+    }
+    
+    fileprivate func updateNavigationTitleStorage(_ preferences: PreferenceValues) {
+        self.update { updateContext in
+            // $s7SwiftUI19BarAppearanceBridgeC016updateNavigationC033_BF747AB022DCE7FC5B6AD0F035BC8E0DLL8updating11preferencesyAA0gC11UpdateFlagsV_AA16PreferenceValuesVtFyAC0S7ContextVXEfU_
+            /*
+             updateContext -> x0 -> x19 + 0x118
+             self -> x1 -> x22
+             preferences -> x2 -> x19 + 0x110
+             */
+            // <+720>
+            fatalError("TODO")
+        }
+    }
+    
+    fileprivate func updateNavigationBar(updating: NavigationBarUpdateFlags, preferences: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
+    fileprivate func update(_ block: (_ updateContext: BarAppearanceBridge.UpdateContext) -> Void) {
+        guard let updateContext else {
+            fatalError("Attempted to update outside of update path")
+        }
+        
+        block(updateContext)
+    }
+    
+    fileprivate func updateConfigurations(_ preferenceValues: PreferenceValues) {
+        fatalError("TODO")
+    } 
+    
+    fileprivate func updateBarsToConfiguration() {
+        fatalError("TODO")
+    }
+    
+    func platformUpdateNavigationAdaptor() {
         fatalError("TODO")
     }
     
@@ -115,29 +183,69 @@ extension BarAppearanceBridge {
     }
     
     struct UpdateContext {
-        private var targetController: UIViewController // 0ㅌ0
-        private var containingController: UINavigationController?
-        private var overrides: HostingControllerOverrides
-        private var navigationAdaptor: UINavigationItemAdaptorStorage
-        private var customPlacements: [ToolbarPlacement.Role]
+        private var targetController: UIViewController // 0x0
+        private var containingController: UINavigationController? // 0x8
+        private var overrides: HostingControllerOverrides // 0x10
+        private var navigationAdaptor = UINavigationItemAdaptorStorage() // 0x48
+        private var customPlacements: [ToolbarPlacement.Role] = []
         
         init<Content: View>(hostingController: UIHostingController<Content>) {
             // hostingController -> x21
             self.targetController = hostingController
             // x22
-            let navigationController = hostingController.navigationController ?? hostingController.overrides.navigation
+            var navigationController = hostingController.navigationController ?? hostingController.overrides.navigation
             
             // <+116>
-            // x23
-            // 보강 필요함
-            let splitViewController = hostingController.splitViewController ?? hostingController.overrides.split
-            fatalError("TODO")
+            var x23: UIViewController? = hostingController.splitViewController ?? hostingController.overrides.split
+            
+            if let _x23 = x23, let _navigationController = navigationController {
+                // <+188>
+                // x24
+                if let parent = _navigationController.parent {
+                    // x25
+                    if let casted = parent as? UINavigationController {
+                        // <+240>
+                        // x20
+                        if let parent2 = casted.parent {
+                            // <+260>
+                            let isEqual = parent2 == _x23
+                            x23 = isEqual ? navigationController : parent
+                            navigationController = isEqual ? casted : navigationController
+                        } else {
+                            // <+328>
+                            x23 = parent
+                        }
+                    } else {
+                        // <+328>
+                        x23 = parent
+                    }
+                } else {
+                    // <+336>
+                }
+            }
+            
+            // <+340>
+            self.containingController = navigationController
+            self.overrides = hostingController.overrides
+            
+            // <+356>
+            if let toolbarBridge = hostingController.toolbarBridge {
+                self.navigationAdaptor = toolbarBridge.navigationAdaptor
+            }
         }
     }
     
     struct Updates: OptionSet {
+        static var unknown1: BarAppearanceBridge.Updates {
+            return BarAppearanceBridge.Updates(rawValue: 1 << 1)
+        }
+        
         let rawValue: Int
     }
+}
+
+struct NavigationBarUpdateFlags {
+    // TODO
 }
 
 struct PlatformBarUpdates {

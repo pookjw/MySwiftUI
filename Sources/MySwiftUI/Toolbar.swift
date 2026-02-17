@@ -371,11 +371,7 @@ struct ToolbarRoleKey: HostPreferenceKey {
 }
 
 struct NavigationTitleKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
-    }
-    
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout Text?, nextValue: () -> Text?) {
         fatalError("TODO")
     }
     
@@ -389,11 +385,7 @@ struct NavigationTitleKey: HostPreferenceKey {
 }
 
 struct NavigationSubtitleKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
-    }
-    
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout Text?, nextValue: () -> Text?) {
         fatalError("TODO")
     }
     
