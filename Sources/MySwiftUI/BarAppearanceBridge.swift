@@ -67,7 +67,37 @@ final class BarAppearanceBridge: NSObject {
         fatalError("TODO")
     }
     
-    func preferencesDidChange(_ preferences: PreferenceValues) {
+    func preferencesDidChange<Content: View>(_ preferenceValues: PreferenceValues, hostingController: UIHostingController<Content>) {
+        /*
+         self -> x20 -> x19
+         preferenceValues -> x0 -> x20
+         hostingController -> x1 -> x21
+         */
+        let updateContext = BarAppearanceBridge.UpdateContext(hostingController: hostingController)
+        let updates = preferencesDidChange(preferenceValues, updateContext: updateContext)
+        fatalError("TODO")
+    }
+    
+    func preferencesDidChange(_ preferences: PreferenceValues, updateContext: BarAppearanceBridge.UpdateContext) -> BarAppearanceBridge.Updates {
+        /*
+         self -> x20 -> x19
+         preferences -> x0 -> x21
+         updateContext -> x1 -> x20
+         */
+        // x29 - 0xb0
+        let copy_1 = updateContext
+        self.updateContext = copy_1
+        // w25
+        let hasChanges = self.seedTracker.hasChanges(in: preferences)
+        let pendingUpdates = self.pendingUpdates
+        
+        if hasChanges {
+            // <+284>
+            // 불려야함
+            fatalError("TODO")
+        }
+        
+        // <+508>
         fatalError("TODO")
     }
     
@@ -85,11 +115,24 @@ extension BarAppearanceBridge {
     }
     
     struct UpdateContext {
-        private var targetController: UIViewController
+        private var targetController: UIViewController // 0ㅌ0
         private var containingController: UINavigationController?
         private var overrides: HostingControllerOverrides
         private var navigationAdaptor: UINavigationItemAdaptorStorage
         private var customPlacements: [ToolbarPlacement.Role]
+        
+        init<Content: View>(hostingController: UIHostingController<Content>) {
+            // hostingController -> x21
+            self.targetController = hostingController
+            // x22
+            let navigationController = hostingController.navigationController ?? hostingController.overrides.navigation
+            
+            // <+116>
+            // x23
+            // 보강 필요함
+            let splitViewController = hostingController.splitViewController ?? hostingController.overrides.split
+            fatalError("TODO")
+        }
     }
     
     struct Updates: OptionSet {

@@ -161,10 +161,24 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     }
     
     fileprivate func updateToolbarVisibility<Content: View>(hostingController: UIHostingController<Content>) {
+        /*
+         hostingController -> x0 -> x19
+         */
+        guard let uiToolbar = platformVended.uiToolbar else {
+            return
+        }
+        
         fatalError("TODO")
     }
     
     fileprivate func updateBottomOrnamentVisibility<Content: View>(hostingController: UIHostingController<Content>) {
+        /*
+         hostingController -> x0 -> x19
+         */
+        guard let bottomOrnament = platformVended.bottomOrnament else {
+            return
+        }
+        
         fatalError("TODO")
     }
     

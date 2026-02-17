@@ -315,7 +315,7 @@ open class UIHostingController<Content: View>: UIViewController {
         }
         
         if let barAppearanceBridge {
-            barAppearanceBridge.preferencesDidChange(preferences)
+            barAppearanceBridge.preferencesDidChange(preferences, hostingController: self)
         }
         
         if let inspectorBridgeV5 {
