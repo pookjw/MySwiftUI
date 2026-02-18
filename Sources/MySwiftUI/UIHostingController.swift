@@ -646,7 +646,7 @@ open class UIHostingController<Content: View>: UIViewController {
         }
         
         // <+1196>
-        if let barAppearanceBridge {
+        if let barAppearanceBridge = self.barAppearanceBridge {
             barAppearanceBridge.updateAllowedBars(managedBars, viewGraph: host.viewGraph)
             
             if !allowedBehaviors.contains(.unknown0) {

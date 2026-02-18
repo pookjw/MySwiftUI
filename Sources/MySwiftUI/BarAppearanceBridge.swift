@@ -7,7 +7,7 @@ private import _MySwiftUIShims
 final class BarAppearanceBridge: NSObject {
     var platformStorage = BarAppearanceBridge.PlatformStorage() // 0xea0
     private(set) var updateContext: BarAppearanceBridge.UpdateContext? = nil // 0xea8
-    private(set) var allowedBars: Set<ToolbarPlacement.Role> = [] // 0xeb0
+    var allowedBars: Set<ToolbarPlacement.Role> = [] // 0xeb0
     private(set) var lastEnvironment = EnvironmentValues() // 0x7c8
     private var lastBarUpdates: [ToolbarPlacement.Role: PlatformBarUpdates] = .init() // 0x7d0
     private(set) var lastNavigationTitleStorage: NavigationTitleStorage? = nil // 0x7d8
@@ -16,7 +16,7 @@ final class BarAppearanceBridge: NSObject {
     private var barBackgroundViewModels: [ToolbarPlacement.Role: BarEnvironmentViewModel] = [:] // 0x7f0
     private var barConfigurations: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] = .init() // 0x7f8
     private var toUpdateBars: Set<ToolbarPlacement.Role> = [] // 0xeb8
-    private var seedTracker = VersionSeedSetTracker() // 0xec0
+    var seedTracker = VersionSeedSetTracker() // 0xec0
     private var pendingUpdates: BarAppearanceBridge.Updates = [] // 0xec8
     
     override init() {
@@ -64,10 +64,6 @@ final class BarAppearanceBridge: NSObject {
         
         graph.addPreference(ToolbarKey.self)
         seedTracker.addPreference(ToolbarKey.self)
-    }
-    
-    func updateAllowedBars(_: Set<ToolbarPlacement.Role>, viewGraph: ViewGraph) {
-        fatalError("TODO")
     }
     
     func preferencesDidChange<Content: View>(_ preferenceValues: PreferenceValues, hostingController: UIHostingController<Content>) {
@@ -163,8 +159,34 @@ final class BarAppearanceBridge: NSObject {
         // self.updateContext -> x24
         // x20
         let targetController = updateContext?.targetController
-        let roles: [ToolbarPlacement.Role]
-        fatalError("TODO")
+        var roles = ToolbarPlacement.Role.allCases
+        if let customPlacements = updateContext?.customPlacements {
+            roles.append(contentsOf: customPlacements)
+            
+            guard !roles.isEmpty else {
+                return
+            }
+        }
+        
+        // <+804>
+        // self.updateContext -> x24 -> x19 + 0x40
+        // roles -> x23, x19 + 0x38
+        // self -> x26 -> x19 + 0xa8
+        for role in roles {
+            // <+892>
+            // role -> x29 - 0x98
+            // x20
+            let allowedBars = self.allowedBars
+            guard allowedBars.contains(role) else {
+                continue
+            }
+            
+            // <+988>
+            fatalError("TODO")
+        }
+        
+        // <+2596>
+        fatalError()
     } 
     
     fileprivate func updateBarsToConfiguration() {
@@ -212,7 +234,7 @@ extension BarAppearanceBridge {
         private(set) var containingController: UINavigationController? // 0x8
         private(set) var overrides: HostingControllerOverrides // 0x10
         private var navigationAdaptor = UINavigationItemAdaptorStorage() // 0x48
-        private var customPlacements: [ToolbarPlacement.Role] = []
+        private(set) var customPlacements: [ToolbarPlacement.Role] = []
         
         init<Content: View>(hostingController: UIHostingController<Content>) {
             // hostingController -> x21

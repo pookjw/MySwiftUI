@@ -86,13 +86,21 @@ extension ToolbarPlacement {
 
 extension ToolbarPlacement {
     enum Storage: Hashable {
-        case role(ToolbarPlacement.Role) // 0x0~0x20 -> 0, 0x28 -> case (0~6) / accessoryBar일 경우 0x0~0x20에 값이 채워지고 나머지는 0
+        case role(ToolbarPlacement.Role) // 0x0~0x20 -> 0, 0x28 -> case (0~6)
         case automatic // 0x0~0x20 -> 0, 0x28 -> 7
     }
     
     enum Role: Hashable, CaseIterable {
         static var allCases: [ToolbarPlacement.Role] {
-            fatalError("TODO")
+            return [
+                .navigationBar,
+                .windowToolbar,
+                .bottomBar,
+                .keyboardBar,
+                .tabBar,
+                .bottomOrnament,
+                .windowToolbarItems
+            ]
         }
         
         case accessoryBar(AnyHashable)
