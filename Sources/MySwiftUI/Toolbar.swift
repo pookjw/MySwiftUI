@@ -353,7 +353,7 @@ class ToolbarOrnament: MRUIPlatterOrnament {
 }
 
 struct NavigationTitleKey: HostPreferenceKey {
-    static func reduce(value: inout Text?, nextValue: () -> Text?) {
+    static func reduce(value: inout NavigationTitleStorage?, nextValue: () -> NavigationTitleStorage?) {
         fatalError("TODO")
     }
     
@@ -367,7 +367,7 @@ struct NavigationTitleKey: HostPreferenceKey {
 }
 
 struct NavigationSubtitleKey: HostPreferenceKey {
-    static func reduce(value: inout Text?, nextValue: () -> Text?) {
+    static func reduce(value: inout NavigationTitleStorage?, nextValue: () -> NavigationTitleStorage?) {
         fatalError("TODO")
     }
     

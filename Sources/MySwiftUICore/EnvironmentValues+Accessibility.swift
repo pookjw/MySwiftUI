@@ -1,3 +1,4 @@
+// 1E80A5D8CD82563C298D64AC1337E839
 
 extension EnvironmentValues {
     public private(set) var accessibilityInvertColors: Bool {
@@ -24,10 +25,10 @@ extension EnvironmentValues {
     
     public var accessibilityEnabled: Bool {
         get {
-            fatalError("TODO")
+            return self[AccessibilityEnabledKey.self]
         }
         set {
-            fatalError("TODO")
+            self[AccessibilityEnabledKey.self] = newValue
         }
     }
 }
@@ -35,5 +36,11 @@ extension EnvironmentValues {
 fileprivate struct AccessibilityInvertColorsKey: EnvironmentKey {
     static var defaultValue: Bool? {
         return nil
+    }
+}
+
+fileprivate struct AccessibilityEnabledKey: EnvironmentKey {
+    static var defaultValue: Bool {
+        return false
     }
 }

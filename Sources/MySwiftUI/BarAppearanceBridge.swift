@@ -6,13 +6,13 @@ private import _MySwiftUIShims
 
 final class BarAppearanceBridge: NSObject {
     var platformStorage = BarAppearanceBridge.PlatformStorage() // 0xea0
-    private var updateContext: BarAppearanceBridge.UpdateContext? = nil // 0xea8
+    private(set) var updateContext: BarAppearanceBridge.UpdateContext? = nil // 0xea8
     private(set) var allowedBars: Set<ToolbarPlacement.Role> = [] // 0xeb0
-    private var lastEnvironment = EnvironmentValues() // 0x7c8
+    private(set) var lastEnvironment = EnvironmentValues() // 0x7c8
     private var lastBarUpdates: [ToolbarPlacement.Role: PlatformBarUpdates] = .init() // 0x7d0
-    private var lastNavigationTitleStorage: NavigationTitleStorage? = nil // 0x7d8
-    private var lastNavigationSubtitle: Text? = nil // 0x7e0
-    private var lastToolbarInputContent: ToolbarContentDescription? = nil // 0x7e8
+    private(set) var lastNavigationTitleStorage: NavigationTitleStorage? = nil // 0x7d8
+    private(set) var lastNavigationSubtitle: Text? = nil // 0x7e0
+    private(set) var lastToolbarInputContent: ToolbarContentDescription? = nil // 0x7e8
     private var barBackgroundViewModels: [ToolbarPlacement.Role: BarEnvironmentViewModel] = [:] // 0x7f0
     private var barConfigurations: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] = .init() // 0x7f8
     private var toUpdateBars: Set<ToolbarPlacement.Role> = [] // 0xeb8
@@ -103,12 +103,12 @@ final class BarAppearanceBridge: NSObject {
             let subtitle = preferences[NavigationSubtitleKey.self]
             // x29 - 0xb0
             let value = subtitle.value
-            self.lastNavigationSubtitle = value
+            self.lastNavigationSubtitle = value?.title
             updateNavigationTitleStorage(preferences)
             
             // <+424>
             // inlined
-            updateNavigationBar(updating: NavigationBarUpdateFlags(), preferences: preferences)
+            updateNavigationBar(preferences: preferences)
             updateConfigurations(preferences)
             updateBarsToConfiguration()
             
@@ -133,202 +133,37 @@ final class BarAppearanceBridge: NSObject {
         return result
     }
     
-    @inline(__always)
     fileprivate func updateNavigationTitleStorage(_ preferences: PreferenceValues) {
-        self.update { updateContext in
-            // $s7SwiftUI19BarAppearanceBridgeC016updateNavigationC033_BF747AB022DCE7FC5B6AD0F035BC8E0DLL8updating11preferencesyAA0gC11UpdateFlagsV_AA16PreferenceValuesVtFyAC0S7ContextVXEfU_
-            /*
-             updateContext -> x0 -> x19 + 0x118
-             self -> x1 -> x22
-             preferences -> x2 -> x19 + 0x110
-             */
-            // <+720>
-            // x21
-            let allowed = self.allowedBars.contains(.navigationBar)
-            guard allowed || self.platformStorage.uiShouldUpdateNavigationTitle else {
-                return
-            }
-            
-            // <+820>
-            // inlined
-            self.updateNavigationStyle(preferences)
-            self.updateBackAction(preferences)
-            self.updateSidebarToggle(preferences)
-            
-            // <+1024>
+        /*
+         self -> x20 -> x29 - 0x120
+         preferences -> x0 -> x22
+         */
+        // <+112>
+        // x29 - 0xf0
+        let old = self.lastNavigationTitleStorage
+        // x29 - 0x88
+        let new = preferences[NavigationTitleKey.self].value
+        self.lastNavigationTitleStorage = new
+        
+        // <+316>
+        if old?.titleVisibility != new?.titleVisibility {
+            // <+404>
             fatalError("TODO")
-        }
-    }
-    
-    @inline(__always)
-    fileprivate func updateNavigationBar(updating: NavigationBarUpdateFlags, preferences: PreferenceValues) {
-        self.update { updateContext in
-            // $s7SwiftUI19BarAppearanceBridgeC016updateNavigationC033_BF747AB022DCE7FC5B6AD0F035BC8E0DLL8updating11preferencesyAA0gC11UpdateFlagsV_AA16PreferenceValuesVtFyAC0S7ContextVXEfU_
-            fatalError("TODO")
-        }
-    }
-    
-    @inline(__always)
-    fileprivate func updateNavigationStyle(_ preferences: PreferenceValues) {
-        self.update { updateContext in
-            // $s7SwiftUI19BarAppearanceBridgeC21updateNavigationStyle33_BF747AB022DCE7FC5B6AD0F035BC8E0DLLyyAA16PreferenceValuesVFyAC13UpdateContextVXEfU_
-            /*
-             updateContext -> x0 -> x19
-             preferences -> x1 -> x24
-             self -> x2 -> x23
-             */
-            guard _SemanticFeature<Semantics_v4>.isEnabled else {
-                return
-            }
-            
-            // <+232>
-            // x29 - 0x68
-            let role1 = preferences[ToolbarRoleKey.self].value
-            // x29 - 0x69
-            let role2 = self.lastEnvironment.toolbarRole
-            
-            if let role = role1 ?? role2 {
-                let style: UINavigationItem.ItemStyle
-                switch role.role {
-                case .navigationStack:
-                    style = .navigator
-                case .browser:
-                    style = .browser
-                case .editor:
-                    style = .editor
-                }
-                updateContext.targetController.navigationItem.style = style
-            }
-        }
-    }
-    
-    @inline(__always)
-    fileprivate func updateBackAction(_ preferences: PreferenceValues) {
-        self.update { updateContext in
-            // $s7SwiftUI19BarAppearanceBridgeC16updateBackAction33_BF747AB022DCE7FC5B6AD0F035BC8E0DLLyyAA16PreferenceValuesVFyAC13UpdateContextVXEfU_
-            /*
-             updateContext -> x0 -> x23
-             preferences -> x1 -> x29 - 0x98
-             self -> x2 -> x29 - 0x90
-             */
-            // <+364>
-            // x29 - 0x88
-            let navigationItem = updateContext.targetController.navigationItem
-            
-            guard navigationItem.backAction == nil else {
-                return
-            }
-            
-            // <+444>
-            if
-                let backAction = navigationItem.backAction,
-                !type(of: backAction)._isFromMySwiftUI()
-            {
-                return
-            }
-            
-            // <+504>
-            // w19
-            let backButtonHidden = preferences[NavigationBarBackButtonHiddenKey.self].value
-            
-            let backAction: UIAction?
-            if
-                (navigationItem.style != .editor) ||
-                    (updateContext.targetController.presentingViewController == nil) ||
-                    backButtonHidden ||
-                    navigationItem.hidesBackButton
-            {
-                // <+632>
-                // x20
-                let lastToolbarInputContent = self.lastToolbarInputContent
-                
-                if let lastToolbarInputContent {
-                    // <+756>
-                    fatalError("TODO")
-                } else {
-                    // <+732>
-                    // <+892>
-                    backAction = nil
-                }
-            } else {
-                // <+940>
-                fatalError("TODO")
-            }
-            
-            // <+1156>
-            navigationItem.backAction = backAction
-        }
-    }
-    
-    @inline(__always)
-    fileprivate func updateSidebarToggle(_ preferences: PreferenceValues) {
-        self.update { updateContext in
-            // $s7SwiftUI19BarAppearanceBridgeC19updateSidebarToggle33_BF747AB022DCE7FC5B6AD0F035BC8E0DLLyyAA16PreferenceValuesVFyAC13UpdateContextVXEfU_
-            /*
-             updateContext -> x0 -> x24
-             preferences -> x1 -> x25
-             self -> x2 -> x20
-             */
-            // <+124>
-            guard self.platformStorage.uiShouldUpdateNavigationController else {
-                return
-            }
-            
-            // x29 - 0xb0 (x23)
-            let updateContext = self.updateContext
-            
-            let flag: Bool // true -> <+280> / false -> <+324>
-            if let updateContext {
-                // <+204>
-                // x19 + 0x60 (x28)
-                let overrides = updateContext.overrides
-                
-                if let navigation = overrides.navigation {
-                    // <+324>
-                    flag = false
-                } else {
-                    // <+280>
-                    flag = true
-                }
-            } else {
-                // <+256>
-                // <+280>
-                flag = true
-            }
-            
-            if flag {
-                // <+280>
-                // x29 - 0xb0
-                let copy_1 = self.updateContext
-                guard let copy_1 else {
-                    return
-                }
-                
-                // <+300>
-                // x28/x23
-                let containingController = copy_1.containingController
-                guard containingController != nil else {
-                    return
-                }
-                
-                // <+324>
-            }
-            
-            // <+324>
-            fatalError("TODO")
-        }
-    }
-    
-    @inline(__always)
-    fileprivate func update(_ block: (_ updateContext: BarAppearanceBridge.UpdateContext) -> Void) {
-        guard let updateContext else {
-            fatalError("Attempted to update outside of update path")
         }
         
-        block(updateContext)
+        // <+600>
     }
     
     fileprivate func updateConfigurations(_ preferenceValues: PreferenceValues) {
+        /*
+         self -> x20 -> x26
+         preferenceValues -> x0 -> x19 + 0x70
+         */
+        // <+576>
+        // self.updateContext -> x24
+        // x20
+        let targetController = updateContext?.targetController
+        let roles: [ToolbarPlacement.Role]
         fatalError("TODO")
     } 
     
@@ -338,6 +173,25 @@ final class BarAppearanceBridge: NSObject {
     
     func platformUpdateNavigationAdaptor() {
         fatalError("TODO")
+    }
+    
+    @inline(__always)
+    func withUpdate<T>(_ block: (_ updateContext: BarAppearanceBridge.UpdateContext) -> T) -> T {
+        guard let updateContext else {
+            fatalError("Attempted to update outside of update path")
+        }
+        
+        return block(updateContext)
+    }
+    
+    func invalidate(bar: ToolbarPlacement.Role) {
+        /*
+         self -> x20
+         bar -> x0 -> x19
+         */
+        if allowedBars.contains(bar) {
+            allowedBars.update(with: bar)
+        }
     }
     
     // TODO
@@ -415,27 +269,43 @@ extension BarAppearanceBridge {
     }
 }
 
-struct NavigationBarUpdateFlags {
-    // TODO
-}
-
 struct PlatformBarUpdates {
     private var backgroundVisibility: Visibility
     private var colorScheme: ColorScheme?
 }
 
 struct NavigationTitleStorage {
-    var title: Text?
-    var transaction: Transaction?
-    var titleMode: ToolbarTitleDisplayMode?
-    var titleVisibility: Visibility?
-}
-
-public struct ToolbarTitleDisplayMode {
-    // TODO
+    var title: Text? // 0x0
+    var transaction: Transaction? // 0x20 (1 = nil)
+    var titleMode: ToolbarTitleDisplayMode? // 0x28
+    var titleVisibility: Visibility? // 0x2c
+    
+    mutating func reduce(onto: @autoclosure () -> NavigationTitleStorage?) {
+        // $s7SwiftUI22NavigationTitleStorageV6reduce4ontoyACSgyXK_tF03$s7a33UI19BarAppearanceBridgeC016updatec130C033_BF747AB022DCE7FC5B6AD0F035BC8E0DLL8updating11preferencesyAA0gC11UpdateFlagsV_AA16PreferenceValuesVtFyAC0S7ContextVXEfU_AA0G12dE10VSgyXEfu2_AA0jkL0CTf1cn_nTf4ng_n
+        /*
+         self -> x0 -> x19
+         onto -> x1 -> x21
+         */
+        guard title == nil || titleMode == nil else {
+            return
+        }
+        
+        // x20
+        guard let incoming = onto() else {
+            return
+        }
+        
+        // <+276>
+        fatalError("TODO")
+    } 
 }
 
 struct ToolbarContentDescription {
+    var titleStorage: NavigationTitleStorage?
+    var navigationProperties: ToolbarStorage.NavigationProperties?
+    var toolbarStorage: ToolbarStorage?
+    var seed: VersionSeed
+    
     // TODO
 }
 

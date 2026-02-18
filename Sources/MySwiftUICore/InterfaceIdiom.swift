@@ -1,3 +1,4 @@
+// 39057DDA72E946BD17E1F42CCA55F7F6
 
 package struct InterfaceIdiom: Hashable, Sendable {
     package static var phone: InterfaceIdiom { return InterfaceIdiom(role: .phone) }
@@ -322,6 +323,10 @@ package struct InterfaceIdiomInput: ViewInput {
 }
 
 extension _GraphInputs {
+    package static var defaultInterfaceIdiom: AnyInterfaceIdiom {
+        return AnyInterfaceIdiom(idiom: .phone)
+    }
+    
     package var interfaceIdiom: AnyInterfaceIdiom {
         return self[InterfaceIdiomInput.self] ?? AnyInterfaceIdiom(idiom: .phone)
     }
