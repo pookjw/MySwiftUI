@@ -455,6 +455,96 @@ extension BarAppearanceBridge {
         let updateContext = self.updateContext
         return updateContext?.containingController
     }
+    
+    @inline(__always)
+    func updateNavigationBar() -> Bool {
+        // inlined
+        guard let navigationController = uiContainingNavController else {
+            return false
+        }
+        
+        let result1 = updateNavigationAppearances(navigationController: navigationController)
+        let result2 = updateNavigationVisibilities(navigationController: navigationController)
+        
+        return result1 && result2
+    }
+    
+    fileprivate func updateNavigationAppearances(navigationController: UINavigationController) -> Bool {
+        /*
+         self -> x20 -> x21
+         navigationController -> x0 -> x20
+         */
+        // <+416>
+        if let casted = navigationController as? UIKitNavigationController {
+            // <+432>
+            fatalError("TODO")
+        }
+        
+        // <+2188>
+        withUpdate { updateContext in
+            // $s7SwiftUI19BarAppearanceBridgeC27updateNavigationAppearances33_BF747AB022DCE7FC5B6AD0F035BC8E0DLL20navigationControllerSbSo012UINavigationS0C_tFyAC13UpdateContextVXEfU_
+            /*
+             self -> x1 -> x19
+             updateContext -> x0 -> x21
+             */
+            // <+1168>
+            // x20
+            let barConfigurations = self.barConfigurations
+            // x29 - 0xb0
+            var navigationBarRole = ToolbarPlacement.Role.navigationBar
+            // x22
+            guard let configuration = barConfigurations[navigationBarRole] else {
+                return
+            }
+            // x20
+            let copy_1 = configuration
+            // x29 - 0x118
+            let navigationItem = updateContext.targetController.navigationItem
+            // x20
+            let foregroundStyle = copy_1.foregroundStyle
+            // self.lastEnvironment -> x21
+            // x23
+            let copy_2 = self.lastEnvironment
+            // foregroundStyle -> x29 - 0x208
+            // x29 - 0xb0
+            let toolbarForegroundStyle = copy_2.toolbarForegroundStyle
+            _ = consume copy_2
+            // x29 - 0xb0
+            navigationBarRole = .navigationBar
+            
+            // <+1488>
+            if foregroundStyle?.storage != toolbarForegroundStyle[navigationBarRole]?.storage {
+                // <+1732>
+                self.pendingUpdates.formUnion(.unknown0)
+            }
+            
+            // <+1752>
+            // x29 - 0x100
+            let titleMode = (self.lastNavigationTitleStorage?.title == nil) ? ToolbarTitleDisplayMode.inline : self.lastNavigationTitleStorage?.titleMode
+            // x29 - 0x138
+            let copy_3 = self.lastEnvironment
+            
+            // x21 -> (index of array)
+            for i in [0, 1, 2, 3] {
+                // i -> w22
+                // <+1964>
+                fatalError("TODO")
+            }
+            
+            // <+7512>
+            fatalError("TODO")
+        }
+        
+        return true
+    }
+    
+    @inline(__always)
+    fileprivate func updateNavigationVisibilities(navigationController: UINavigationController) -> Bool {
+        return withUpdate { updateContext in
+            // $s7SwiftUI19BarAppearanceBridgeC28updateNavigationVisibilities33_BF747AB022DCE7FC5B6AD0F035BC8E0DLL20navigationControllerSbSo012UINavigationS0C_tFSbAC13UpdateContextVXEfU_
+            fatalError("TODO")
+        }
+    }
 }
 
 struct NavigationBarUpdateFlags {

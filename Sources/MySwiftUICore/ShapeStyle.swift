@@ -48,19 +48,6 @@ extension Never: ShapeStyle {
     }
 }
 
-@usableFromInline
-package class AnyShapeStyleBox: @unchecked Sendable {
-    init() {}
-    
-    package func apply(to: inout _ShapeStyle_Shape) {
-        // nop
-    }
-    
-    package func isEqual(to other: AnyShapeStyleBox) -> Bool {
-        return false
-    }
-}
-
 public struct _ShapeStyle_Shape {
     
 }

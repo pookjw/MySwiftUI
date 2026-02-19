@@ -3,6 +3,8 @@ internal import UIKit
 internal import MySwiftUICore
 internal import Foundation
 internal import MRUIKit
+private import AttributeGraph
+private import Combine
 
 enum Toolbar {}
 
@@ -412,4 +414,32 @@ extension UINavigationItemAdaptorStorage {
 
 protocol UINavigationItemAdaptor {
     // TODO
+}
+
+struct ToolbarPlacementEnvironment {
+    @Attribute private var placement: ToolbarItemPlacement
+    @Attribute private var signal: Void
+    private var inputs: _GraphInputs
+    private let primarySubscriber: AttributeInvalidatingSubscriber<ObservableObjectPublisher>
+    private let primaryLifetime: SubscriptionLifetime<ObservableObjectPublisher>
+}
+
+extension EnvironmentValues {
+    @inline(__always)
+    var toolbarForegroundStyle: [ToolbarPlacement.Role: AnyShapeStyle] {
+        get {
+            return self[EnvironmentValues.ToolbarForegroundStyleKey.self]
+        }
+        set {
+            self[EnvironmentValues.ToolbarForegroundStyleKey.self] = newValue
+        }
+    }
+    
+    fileprivate struct ToolbarForegroundStyleKey: EnvironmentKey {
+        @safe static nonisolated(unsafe) let defaultValue: [ToolbarPlacement.Role: AnyShapeStyle] = [:]
+        
+        static func _valuesEqual(_ lhs: [ToolbarPlacement.Role : AnyShapeStyle], _ rhs: [ToolbarPlacement.Role : AnyShapeStyle]) -> Bool {
+            fatalError("TODO")
+        }
+    }
 }

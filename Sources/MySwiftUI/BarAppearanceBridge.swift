@@ -17,7 +17,7 @@ final class BarAppearanceBridge: NSObject {
     var barConfigurations: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] = .init() // 0x7f8
     var toUpdateBars: Set<ToolbarPlacement.Role> = [] // 0xeb8
     var seedTracker = VersionSeedSetTracker() // 0xec0
-    private var pendingUpdates: BarAppearanceBridge.Updates = [] // 0xec8
+    var pendingUpdates: BarAppearanceBridge.Updates = [] // 0xec8
     
     override init() {
         super.init()
@@ -261,15 +261,12 @@ final class BarAppearanceBridge: NSObject {
                     // <+672>
                     continue
                 case .navigationBar:
-                    // <+1424>
-                    guard platformStorage.uiShouldUpdateNavigationController else {
-                        // <+664>
+                    // <+1424>~<+1540>, <+1688>~<+1896>
+                    // inlined
+                    guard updateNavigationBar() else {
                         continue
                     }
-                    // <+1440>
-                    // x19 + 0x170
-                    let copy_4 = updateContext
-                    // <+1480>
+                    // <+1556>
                     fatalError("TODO")
                 case .bottomBar:
                     // <+1336>
@@ -378,6 +375,10 @@ extension BarAppearanceBridge {
     }
     
     struct Updates: OptionSet {
+        static var unknown0: BarAppearanceBridge.Updates {
+            return BarAppearanceBridge.Updates(rawValue: 1 << 0)
+        }
+        
         static var unknown1: BarAppearanceBridge.Updates {
             return BarAppearanceBridge.Updates(rawValue: 1 << 1)
         }
@@ -437,7 +438,7 @@ struct ToolbarAppearanceConfiguration: Equatable {
     
     private var allowsUpdates: Bool = true // 0x0
     private var visibility: Visibility = .automatic // 0x1
-    private var foregroundStyle: AnyShapeStyle? = nil // 0x8
+    private(set) var foregroundStyle: AnyShapeStyle? = nil // 0x8
     private var background: AnyShapeStyle? = nil // 0x10
     private var backgroundVisibility: ToolbarBackgroundVisibility = .automatic // 0x18
     private var backgroundVisibilityOnScrollDistance: Double? = nil // 0x20/0x28
