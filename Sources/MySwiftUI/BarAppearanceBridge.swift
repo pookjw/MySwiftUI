@@ -247,6 +247,40 @@ final class BarAppearanceBridge: NSObject {
                         windowToolbarItems
                     ]
                 )
+                
+                guard !set.isEmpty else {
+                    continue
+                }
+                
+                // x29 - 0x100
+                let copy_3 = role
+                
+                switch copy_3 {
+                case .accessoryBar(_), .windowToolbarItems, .windowToolbar, .keyboardBar:
+                    // <+1404>
+                    // <+672>
+                    continue
+                case .navigationBar:
+                    // <+1424>
+                    guard platformStorage.uiShouldUpdateNavigationController else {
+                        // <+664>
+                        continue
+                    }
+                    // <+1440>
+                    // x19 + 0x170
+                    let copy_4 = updateContext
+                    // <+1480>
+                    fatalError("TODO")
+                case .bottomBar:
+                    // <+1336>
+                    fatalError("TODO")
+                case .tabBar:
+                    // <+1544>
+                    fatalError("TODO")
+                case .bottomOrnament:
+                    // <+1388>
+                    fatalError("TODO")
+                }
                 fatalError("TODO")
             }
             
