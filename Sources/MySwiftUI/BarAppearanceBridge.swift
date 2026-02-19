@@ -14,8 +14,8 @@ final class BarAppearanceBridge: NSObject {
     private(set) var lastNavigationSubtitle: Text? = nil // 0x7e0
     private(set) var lastToolbarInputContent: ToolbarContentDescription? = nil // 0x7e8
     private var barBackgroundViewModels: [ToolbarPlacement.Role: BarEnvironmentViewModel] = [:] // 0x7f0
-    private var barConfigurations: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] = .init() // 0x7f8
-    private var toUpdateBars: Set<ToolbarPlacement.Role> = [] // 0xeb8
+    var barConfigurations: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] = .init() // 0x7f8
+    var toUpdateBars: Set<ToolbarPlacement.Role> = [] // 0xeb8
     var seedTracker = VersionSeedSetTracker() // 0xec0
     private var pendingUpdates: BarAppearanceBridge.Updates = [] // 0xec8
     
@@ -116,9 +116,13 @@ final class BarAppearanceBridge: NSObject {
         // <+512>
         seedTracker.updateSeeds(to: preferences)
         
+        // 뭐가 불리는지 검증
         if self.pendingUpdates.contains(.unknown1) {
             // <+560>
+            fatalError()
             platformUpdateNavigationAdaptor()
+        } else {
+            fatalError()
         }
         
         // <+568>
@@ -182,15 +186,72 @@ final class BarAppearanceBridge: NSObject {
             }
             
             // <+988>
-            fatalError("TODO")
+            // inlined
+            let result = self.updateBarConfigurations(role: role, preferences: preferenceValues)
+            guard result else {
+                break
+            }
         }
         
         // <+2596>
-        fatalError()
     } 
     
     fileprivate func updateBarsToConfiguration() {
-        fatalError("TODO")
+        // self -> x20 -> x21
+        // <+352>
+        guard !self.toUpdateBars.isEmpty else {
+            return
+        }
+        
+        // <+396>
+        // x23
+        let roles: [ToolbarPlacement.Role] = [
+            .navigationBar,
+            .tabBar,
+            .bottomBar,
+            .bottomOrnament
+        ]
+        
+        // <+532>
+        // x19 + 0xb0
+        let windowToolbar = ToolbarPlacement.Role.windowToolbar
+        // x19 + 0xa0
+        let bottomBar = ToolbarPlacement.Role.bottomBar
+        // x19 + 0xd0
+        let windowToolbarItems = ToolbarPlacement.Role.windowToolbarItems
+        
+        for role in roles {
+            // role -> x29 - 0xd0
+            guard self.allowedBars.contains(role) else {
+                continue
+            }
+            
+            // <+744>
+            // x19 + 0x110
+            let navigationBarRole = ToolbarPlacement.Role.navigationBar
+            // x19 + 0x170
+            let copy_1 = role
+            // x19 + 0x198
+            let copy_2 = navigationBarRole
+            
+            // <+788>
+            if copy_1 != copy_2 {
+                // <+996>
+                fatalError("TODO")
+            } else {
+                // <+1164>
+                // x26
+                let set = Set<ToolbarPlacement.Role>(
+                    [
+                        windowToolbar,
+                        windowToolbarItems
+                    ]
+                )
+                fatalError("TODO")
+            }
+            
+            fatalError("TODO")
+        }
     }
     
     func platformUpdateNavigationAdaptor() {
@@ -233,7 +294,7 @@ extension BarAppearanceBridge {
         private(set) var targetController: UIViewController // 0x0
         private(set) var containingController: UINavigationController? // 0x8
         private(set) var overrides: HostingControllerOverrides // 0x10
-        private var navigationAdaptor = UINavigationItemAdaptorStorage() // 0x48
+        private(set) var navigationAdaptor = UINavigationItemAdaptorStorage() // 0x48
         private(set) var customPlacements: [ToolbarPlacement.Role] = []
         
         init<Content: View>(hostingController: UIHostingController<Content>) {
@@ -335,6 +396,22 @@ class BarEnvironmentViewModel {
     // TODO
 }
 
-struct ToolbarAppearanceConfiguration {
+struct ToolbarAppearanceConfiguration: Equatable {
+    static func == (lhs: ToolbarAppearanceConfiguration, rhs: ToolbarAppearanceConfiguration) -> Bool {
+        fatalError("TODO")
+    }
+    
+    private var allowsUpdates: Bool = true // 0x0
+    private var visibility: Visibility = .automatic // 0x1
+    private var foregroundStyle: AnyShapeStyle? = nil // 0x8
+    private var background: AnyShapeStyle? = nil // 0x10
+    private var backgroundVisibility: ToolbarBackgroundVisibility = .automatic // 0x18
+    private var backgroundVisibilityOnScrollDistance: Double? = nil // 0x20/0x28
+    private var backgroundOpacity: Double? = nil // 0x30/0x38
+    private var colorScheme: ColorScheme? // 0x39 (actual), 0x38 (offset field)
+    private var toolbarLegibility: ToolbarLegibility = .init(role: .unspecified) // 0x3a (actual), 0x30 (offset field)
+    private var animation: Animation? = nil // 0x40 (actual), 0x34 (offset field)
+    private var fullScreenVisibility: WindowToolbarFullScreenVisibility = .automatic // 0x48 (actual), 0x38 (offset field)
+    
     // TODO
 }
