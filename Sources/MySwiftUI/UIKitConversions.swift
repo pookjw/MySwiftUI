@@ -775,7 +775,77 @@ extension BarAppearanceBridge {
     }
     
     fileprivate func updateBottomBarConfiguration() -> Bool {
-        fatalError("TODO")
+        // self -> x20 -> x27
+        // <+1032>
+        guard let updateContext else {
+            return false
+        }
+        
+        // x29 - 0xb0
+        let copy_1 = updateContext
+        
+        // x20x28
+        guard let containingController = copy_1.containingController else {
+            return false
+        }
+        
+        // x29 - 0xf0
+        guard let toolbar = containingController.toolbar else {
+            return false
+        }
+        
+        // <+1132>
+        guard let configuration = self.barConfigurations[.bottomBar] else {
+            return false
+        }
+        
+        // x21
+        let copy_2 = configuration
+        // x29 - 0x130 (x26)
+        let copy_3 = copy_2
+        // x29 - 0x1a8
+        let copy_4 = self.lastEnvironment
+        
+        // <+1380>
+        let array: [UInt8] = [0, 1, 2, 3]
+        
+        for i in array {
+            // i -> w24
+            let appearance: UIToolbarAppearance?
+            if i == 0 {
+                // <+1572>
+                appearance = toolbar.standardAppearance
+            } else if i == 1 {
+                // +1604>
+                appearance = toolbar.scrollEdgeAppearance
+            } else if i == 2 {
+                // <+1592>
+                appearance = toolbar.compactAppearance
+            } else {
+                // <+1616>
+                appearance = toolbar.compactScrollEdgeAppearance
+            }
+            
+            // <+1624>
+            if let appearance, !type(of: appearance)._isFromMySwiftUI() {
+                continue
+            }
+            
+            // <+1664>
+            if let background = copy_3.background {
+                // <+2876>
+                fatalError("TODO")
+            } else {
+                // <+1680>
+                fatalError("TODO")
+            }
+            
+            fatalError("TODO")
+        }
+        
+        // for문 중간에 return true 하는듯
+        fatalError()
+        return false
     }
 }
 

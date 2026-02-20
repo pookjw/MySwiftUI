@@ -429,7 +429,7 @@ struct ToolbarAppearanceConfiguration: Equatable {
     private var allowsUpdates: Bool = true // 0x0
     private(set) var visibility: Visibility = .automatic // 0x1
     private(set) var foregroundStyle: AnyShapeStyle? = nil // 0x8
-    private var background: AnyShapeStyle? = nil // 0x10
+    private(set) var background: AnyShapeStyle? = nil // 0x10
     private(set) var backgroundVisibility: ToolbarBackgroundVisibility = .automatic // 0x18
     private var backgroundVisibilityOnScrollDistance: Double? = nil // 0x20/0x28
     private(set) var backgroundOpacity: Double? = nil // 0x30/0x38
