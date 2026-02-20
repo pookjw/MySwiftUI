@@ -2,6 +2,7 @@
 internal import UIKit
 private import MySwiftUICore
 private import _UIKitPrivate
+private import _MySwiftUIShims
 
 extension BarAppearanceBridge {
     @inline(__always)
@@ -496,19 +497,21 @@ extension BarAppearanceBridge {
             guard let configuration = barConfigurations[navigationBarRole] else {
                 return
             }
-            // x20
+            // x22
             let copy_1 = configuration
+            // x29 - 0x148
+            let copy_2 = copy_1
             // x29 - 0x118
             let navigationItem = updateContext.targetController.navigationItem
             // x20
-            let foregroundStyle = copy_1.foregroundStyle
+            let foregroundStyle = copy_2.foregroundStyle
             // self.lastEnvironment -> x21
             // x23
-            let copy_2 = self.lastEnvironment
+            let copy_3 = self.lastEnvironment
             // foregroundStyle -> x29 - 0x208
             // x29 - 0xb0
-            let toolbarForegroundStyle = copy_2.toolbarForegroundStyle
-            _ = consume copy_2
+            let toolbarForegroundStyle = copy_3.toolbarForegroundStyle
+            _ = consume copy_3
             // x29 - 0xb0
             navigationBarRole = .navigationBar
             
@@ -522,17 +525,119 @@ extension BarAppearanceBridge {
             // x29 - 0x100
             let titleMode = (self.lastNavigationTitleStorage?.title == nil) ? ToolbarTitleDisplayMode.inline : self.lastNavigationTitleStorage?.titleMode
             // x29 - 0x138
-            let copy_3 = self.lastEnvironment
+            let copy_4 = self.lastEnvironment
             
             // x21 -> (index of array)
-            for i in [0, 1, 2, 3] {
+            let array: [UInt8] = [0, 1, 2, 3]
+            for i in array {
                 // i -> w22
                 // <+1964>
-                fatalError("TODO")
+                let appearance: UINavigationBarAppearance?
+                if i == 0 {
+                    appearance = navigationItem.standardAppearance
+                } else if i == 1 {
+                    appearance = navigationItem.scrollEdgeAppearance
+                } else if i == 2 {
+                    appearance = navigationItem.compactAppearance
+                } else {
+                    appearance = navigationItem.compactScrollEdgeAppearance
+                }
+                
+                // <+2016>
+                if let appearance, !type(of: appearance)._isFromMySwiftUI() {
+                    continue
+                }
+                
+                navigationItem._resetBackgroundOpacity()
+                
+                let flag: Bool // true -> <+3312> / false -> <+3280>
+                // <+2072>
+                // copy_2 -> x29 - 0x148 -> x23
+                // i -> x29 - 0xfc
+                if copy_2.foregroundStyle != nil {
+                    // <+3312>
+                    flag = true
+                } else {
+                    // <+2092>
+                    // ToolbarAppearanceConfiguration.colorScheme (offset) -> x20-> x29 - 0xf8
+                    // x29 - 0x178 및 x20 + x24(0x1)에 Optional<ColorScheme>(nil)을 할당하는게 있으나 활용하지 않는 것 같고, nil 분기가 있지만 의미 없기에 생략
+                    // x29 - 0x198
+                    let oldColorScheme = copy_2.colorScheme
+                    
+                    if let oldColorScheme {
+                        // <+2348>
+                        // <+2428>
+                        // <+3312>
+                        flag = true
+                    } else {
+                        // <+2260>
+                        // <+2704>
+                        if (foregroundStyle != nil) || (copy_2.backgroundVisibility != .automatic) || (copy_2.backgroundOpacity != nil) {
+                            // <+3312>
+                            flag = true
+                        } else {
+                            // <+2748>
+                            // x29 - 0x228에 nil 할당하는데 무시해도 됨
+                            // x29 - 0x230 (x19)
+                            let copy_3 = copy_2.colorScheme
+                            if copy_3 != nil {
+                                // <+2976>
+                                // <+2428>
+                                // <+3312>
+                                flag = true
+                            } else {
+                                // <+2924>
+                                if titleMode == .inline {
+                                    // <+3280>
+                                    flag = false
+                                } else {
+                                    // <+3312>
+                                    flag = true
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if flag {
+                    // <+3312>
+                    // copy_2 -> x23
+                    fatalError("TODO")
+                } else {
+                    // <+3280>
+                    // i -> w20
+                    
+                    let appearance: UINavigationBarAppearance?
+                    if i == 0 {
+                        appearance = navigationItem.standardAppearance
+                    } else if i == 1 {
+                        appearance = navigationItem.scrollEdgeAppearance
+                    } else if i == 2 {
+                        appearance = navigationItem.compactAppearance
+                    } else {
+                        appearance = navigationItem.compactScrollEdgeAppearance
+                    }
+                    
+                    guard let appearance else {
+                        continue
+                    }
+                    
+                    // <+7444>
+                    if i == 0 {
+                        navigationItem.standardAppearance = nil
+                    } else if i == 1 {
+                        navigationItem.scrollEdgeAppearance = nil
+                    } else if i == 2 {
+                        navigationItem.compactAppearance = nil
+                    } else {
+                        navigationItem.compactScrollEdgeAppearance = nil
+                    }
+                    
+                    continue
+                }
             }
             
             // <+7512>
-            fatalError("TODO")
         }
         
         return true
@@ -542,6 +647,25 @@ extension BarAppearanceBridge {
     fileprivate func updateNavigationVisibilities(navigationController: UINavigationController) -> Bool {
         return withUpdate { updateContext in
             // $s7SwiftUI19BarAppearanceBridgeC28updateNavigationVisibilities33_BF747AB022DCE7FC5B6AD0F035BC8E0DLL20navigationControllerSbSo012UINavigationS0C_tFSbAC13UpdateContextVXEfU_
+            /*
+             updateContext -> x0 -> x20 -> x29 - 0xd8
+             navigationController -> x1 -> x28
+             self -> x2 -> x29 - 0xc8
+             */
+            // <+292>
+            // x29 - 0xa8
+            let targetController = updateContext.targetController
+            // x29 - 0xb0
+            let topViewController = navigationController.topViewController
+            if topViewController?.view!.window != nil {
+                // <+372>
+                
+                fatalError("TODO")
+            } else {
+                // <+1284>
+                fatalError("TODO")
+            }
+            
             fatalError("TODO")
         }
     }

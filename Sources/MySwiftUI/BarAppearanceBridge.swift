@@ -440,10 +440,10 @@ struct ToolbarAppearanceConfiguration: Equatable {
     private var visibility: Visibility = .automatic // 0x1
     private(set) var foregroundStyle: AnyShapeStyle? = nil // 0x8
     private var background: AnyShapeStyle? = nil // 0x10
-    private var backgroundVisibility: ToolbarBackgroundVisibility = .automatic // 0x18
+    private(set) var backgroundVisibility: ToolbarBackgroundVisibility = .automatic // 0x18
     private var backgroundVisibilityOnScrollDistance: Double? = nil // 0x20/0x28
-    private var backgroundOpacity: Double? = nil // 0x30/0x38
-    private var colorScheme: ColorScheme? // 0x39 (actual), 0x38 (offset field)
+    private(set) var backgroundOpacity: Double? = nil // 0x30/0x38
+    private(set) var colorScheme: ColorScheme? // 0x39 (actual), 0x38 (offset field)
     private var toolbarLegibility: ToolbarLegibility = .init(role: .unspecified) // 0x3a (actual), 0x30 (offset field)
     private var animation: Animation? = nil // 0x40 (actual), 0x34 (offset field)
     private var fullScreenVisibility: WindowToolbarFullScreenVisibility = .automatic // 0x48 (actual), 0x38 (offset field)

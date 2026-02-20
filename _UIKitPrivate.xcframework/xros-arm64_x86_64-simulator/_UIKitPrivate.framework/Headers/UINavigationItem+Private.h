@@ -10,6 +10,7 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 @property (copy, nonatomic, nullable, setter=_setLargeSubtitleView:) UIView* _largeSubtitleView;
 @property (weak, nonatomic, nullable) id _objc_renameDelegate;
 @property (retain, nonatomic, nullable, setter=_setBottomPalette:) _UINavigationBarPalette *_bottomPalette;
+- (void)_resetBackgroundOpacity;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)
