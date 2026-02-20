@@ -657,16 +657,104 @@ extension BarAppearanceBridge {
             let targetController = updateContext.targetController
             // x29 - 0xb0
             let topViewController = navigationController.topViewController
-            if topViewController?.view!.window != nil {
+            if navigationController.view.window != nil {
                 // <+372>
+                // targetController -> x27
+                let w22 = (topViewController != nil) && (topViewController === targetController)
+                // navigationController -> x29 - 0xb8
+                // x21
+                let viewControllers = navigationController.viewControllers
+                let w20 = viewControllers.contains(targetController)
+                // x28
+                let appearState1 = targetController._appearState()
+                let appearState2 = targetController._appearState()
                 
+                if !w22 {
+                    // <+684>
+                    if w20 {
+                        return true
+                    } else {
+                        // <+688>
+                        // appearState2 -> x21
+                        if let navigationController2 = targetController.navigationController {
+                            // <+712>
+                            // navigationController2 -> x20 -> x22
+                            // navigationController -> x29 - 0xb8 -> x27
+                            guard navigationController2 != navigationController else {
+                                return true
+                            }
+                            
+                            // <+1268>
+                        } else {
+                            // <+1268>
+                        }
+                        
+                        // <+1268>
+                        if (appearState1 != .appearing) && (appearState2 == .appeared) {
+                            return false
+                        }
+                        
+                        // <+520>
+                    }
+                }
+                
+                // <+520>
+                // x29 - 0xe0
+                let isFromSwiftUI = type(of: navigationController)._isFromMySwiftUI()
+                // x20
+                // x19
+                let barConfigurations = self.barConfigurations
+                // w20 -> 1
+                // <+868>
+                // x19
+                let oldConfiguration = barConfigurations[.navigationBar]
+                // x24
+                let newConfiguration = oldConfiguration ?? ToolbarAppearanceConfiguration()
+                // <+1104>
+                // x19
+                let hasNavigationBarContent = targetController.hasNavigationBarContent(updateContext: updateContext)
+                
+                let flag: Bool // true -> <+1124> / false -> <+1328>
+                if isFromSwiftUI {
+                    // <+1124>
+                    flag = true
+                } else {
+                    // <+1236>
+                    if isLinkedOnOrAfter(.v4) {
+                        // <+1248>
+                        if newConfiguration.visibility == .automatic {
+                            // <+1328>
+                            flag = false
+                        } else {
+                            // <+1124>
+                            flag = true
+                        }
+                    } else {
+                        // <+1300>
+                        navigationController.setNavigationBarHidden(false, animated: newConfiguration.animation != nil)
+                        // <+1328>
+                        flag = false
+                    }
+                }
+                
+                if flag {
+                    // <+1124>
+                    let w25 = newConfiguration.backgroundVisibility
+                    let w0 = _SemanticFeature<Semantics_v4>.isEnabled
+                    let w8 = newConfiguration.visibility
+                    let w10 = w25 != .visible
+                    let w11 = isFromSwiftUI && !hasNavigationBarContent && w0 && w10
+                    let w2 = (w8 == .automatic) ? w10 : ((w8 == .visible) ? false : true)
+                    // <+1304>
+                    navigationController.setNavigationBarHidden(w2, animated: newConfiguration.animation != nil)
+                }
+                
+                // <+1328>
                 fatalError("TODO")
             } else {
                 // <+1284>
-                fatalError("TODO")
+                return false
             }
-            
-            fatalError("TODO")
         }
     }
 }
