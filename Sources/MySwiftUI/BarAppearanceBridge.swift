@@ -235,55 +235,44 @@ final class BarAppearanceBridge: NSObject {
             let copy_2 = navigationBarRole
             
             // <+788>
+            let set: Set<ToolbarPlacement.Role>
             if copy_1 != copy_2 {
                 // <+996>
-                fatalError("TODO")
+                // x26
+                set = Set<ToolbarPlacement.Role>([windowToolbarItems])
             } else {
                 // <+1164>
                 // x26
-                let set = Set<ToolbarPlacement.Role>(
+                set = Set<ToolbarPlacement.Role>(
                     [
                         windowToolbar,
                         windowToolbarItems
                     ]
                 )
-                
-                guard !set.isEmpty else {
-                    continue
-                }
-                
-                // x29 - 0x100
-                let copy_3 = role
-                
-                switch copy_3 {
-                case .accessoryBar(_), .windowToolbarItems, .windowToolbar, .keyboardBar:
-                    // <+1404>
-                    // <+672>
-                    continue
-                case .navigationBar:
-                    // <+1424>~<+1540>, <+1688>~<+1896>
-                    // inlined
-                    guard updateNavigationBar() else {
-                        continue
-                    }
-                    
-                    // <+1556>
-                    fatalError("TODO")
-                case .bottomBar:
-                    // <+1336>
-                    fatalError("TODO")
-                case .tabBar:
-                    // <+1544>
-                    fatalError("TODO")
-                case .bottomOrnament:
-                    // <+1388>
-                    fatalError("TODO")
-                }
-                fatalError("TODO")
             }
             
-            fatalError("TODO")
+            // <+1268>
+            guard !set.isEmpty else {
+                continue
+            }
+            
+            // x29 - 0x100
+            let copy_3 = role
+            // inlined
+            guard updateBarConfiguration(role: copy_3) else {
+                continue
+            }
+            
+            // <+1556>
+            self.toUpdateBars.subtract(set)
+            
+            if role == .navigationBar {
+                self.pendingUpdates.formUnion(.unknown1)
+            }
         }
+        
+        // <+1900>
+        fatalError("TODO")
     }
     
     func platformUpdateNavigationAdaptor() {

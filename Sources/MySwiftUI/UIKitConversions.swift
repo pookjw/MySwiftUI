@@ -458,16 +458,32 @@ extension BarAppearanceBridge {
     }
     
     @inline(__always)
-    func updateNavigationBar() -> Bool {
-        // inlined
-        guard let navigationController = uiContainingNavController else {
+    func updateBarConfiguration(role: ToolbarPlacement.Role) -> Bool {
+        switch role {
+        case .accessoryBar(_), .windowToolbarItems, .windowToolbar, .keyboardBar:
+            // <+1404>
+            // <+672>
             return false
+        case .navigationBar:
+            // <+1424>~<+1540>, <+1688>~<+1896>
+            guard let navigationController = uiContainingNavController else {
+                return false
+            }
+            
+            let result1 = updateNavigationAppearances(navigationController: navigationController)
+            let result2 = updateNavigationVisibilities(navigationController: navigationController)
+            
+            return result1 && result2
+        case .bottomBar:
+            // <+1336>
+            return updateBottomBarConfiguration()
+        case .tabBar:
+            // <+1544>
+            fatalError("TODO")
+        case .bottomOrnament:
+            // <+1388>
+            fatalError("TODO")
         }
-        
-        let result1 = updateNavigationAppearances(navigationController: navigationController)
-        let result2 = updateNavigationVisibilities(navigationController: navigationController)
-        
-        return result1 && result2
     }
     
     fileprivate func updateNavigationAppearances(navigationController: UINavigationController) -> Bool {
@@ -756,6 +772,10 @@ extension BarAppearanceBridge {
                 return false
             }
         }
+    }
+    
+    fileprivate func updateBottomBarConfiguration() -> Bool {
+        fatalError("TODO")
     }
 }
 
