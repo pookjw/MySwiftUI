@@ -239,6 +239,11 @@ final class FocusBridge {
         self.currentEnvironment = environmentValues
     }
     
+    func hostingControllerDidAppear() {
+        // self -> x20 -> x19
+        fatalError("TODO")
+    }
+    
     fileprivate func preferredFocusItems(for responder: ViewResponder, in namespace: Namespace.ID?) -> (preferred: [any UIFocusEnvironment], regular: [any UIFocusEnvironment]) {
         /*
          x29 = sp + 0x160

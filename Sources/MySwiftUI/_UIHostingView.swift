@@ -938,6 +938,10 @@ open class _UIHostingView<Content: View>: UIView {
         gestureRecognizer.allowedTouchTypes = [NSNumber(integerLiteral: UITouch.TouchType.direct.rawValue)]
     }
     
+    final func viewControllerDidAppear(transitionCoordinator: UIViewControllerTransitionCoordinator?, animated: Bool) {
+        focusBridge.hostingControllerDidAppear()
+    }
+    
     private func updateWindowGeometryScene() {
         let windowScene = window?.windowScene
         

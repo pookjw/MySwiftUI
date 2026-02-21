@@ -3,7 +3,7 @@ internal import UIKit
 internal import MySwiftUICore
 private import _MySwiftUIShims
 
-class UIKitContentScrollViewBridge {
+final class UIKitContentScrollViewBridge {
     weak var viewController: UIViewController? = nil // 0x10
     private var lastSeed: VersionSeed = .invalid // 0x208
     private var bridgeSetEdges: [UInt: ObjectIdentifier] = [:] // 0x210
@@ -13,7 +13,7 @@ class UIKitContentScrollViewBridge {
     init() {
     }
     
-    final func preferencesDidChange(_ preferences: PreferenceValues) {
+    func preferencesDidChange(_ preferences: PreferenceValues) {
         /*
          self -> x20 -> x19
          preferences -> x0 -> x20
@@ -46,7 +46,7 @@ class UIKitContentScrollViewBridge {
         }
     }
     
-    final func update() {
+    func update() {
         guard
             let pendingScrollViews,
             let viewController // sp + 0x8
@@ -106,7 +106,7 @@ class UIKitContentScrollViewBridge {
         // <+200>
     }
     
-    fileprivate final func findBestCandidates(in scrollViews: [ContentScrollViewBox]) -> UIKitContentScrollViewBridge.Candidates? {
+    fileprivate func findBestCandidates(in scrollViews: [ContentScrollViewBox]) -> UIKitContentScrollViewBridge.Candidates? {
         // scrollView -> x23
         guard
             let viewController,

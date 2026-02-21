@@ -84,7 +84,10 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
             // x21
             if let horizontalSizeClass = lastEnvironment.horizontalSizeClass {
                 // <+1388>
-                fatalError("TODO")
+                if horizontalSizeClass != environment.horizontalSizeClass {
+                    // <+1928>
+                    fatalError("TOCO")
+                }
             }
         }
         
@@ -114,6 +117,16 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     
     var uiInputAccessoryGenerator: InputAccessoryGenerator? {
         return platformVended.uiInputAccessoryGenerator
+    }
+    
+    @inline(__always)
+    func layout() {
+        guard let uiToolbar = platformVended.uiToolbar else {
+            return
+        }
+        
+        // $s7SwiftUI19UIHostingControllerC21layoutToolbarIfNeeded33_1D3224F5185670D36FFEB48E24E43C4FLLyyF (<+88>)
+        fatalError("TODO")
     }
     
     fileprivate func adoptUpdates<Content: View>(

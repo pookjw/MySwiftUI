@@ -120,6 +120,19 @@ class UIKitNavigationBridge {
         return (navController, false, nil)
     }
     
+    @inline(__always)
+    @MainActor final func hostingControllerDidAppear() {
+        guard isBeingPresented else {
+            return
+        }
+        
+        guard let host else {
+            return
+        }
+        
+        host.environmentOverride = nil
+    }
+    
     final var containingNavController: UINavigationController? {
         fatalError("TODO")
     }

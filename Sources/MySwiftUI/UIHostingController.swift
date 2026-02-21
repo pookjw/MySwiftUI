@@ -189,7 +189,20 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func viewDidAppear(_ animated: Bool) {
-        fatalError("TODO")
+        super.viewDidAppear(animated)
+        // self -> x20 -> x19
+        resolveRequiredBridges(nil, allowedActions: [.unknown0, .unknown1])
+        host.viewControllerDidAppear(transitionCoordinator: transitionCoordinator, animated: animated)
+        
+        // x22
+        if let navigationBridge {
+            // <+184>
+            // inlined
+            navigationBridge.hostingControllerDidAppear()
+        }
+        
+        // <+304>
+        updateInitialSceneGeometry()
     }
     
     open override dynamic func viewDidDisappear(_ animated: Bool) {
@@ -336,13 +349,11 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func didRender() {
-        print(contentScrollViewBridge)
         guard let contentScrollViewBridge else {
-            fatalError("TODO")
             return
         }
         
-        fatalError("TODO")
+        contentScrollViewBridge.update()
     }
     
     final func _viewSafeAreaDidChange() {
@@ -682,7 +693,8 @@ open class UIHostingController<Content: View>: UIViewController {
             return
         }
         
-        fatalError("TODO")
+        // inlined
+        toolbarBridge.layout()
     }
     
     final func _update(_ environment: inout EnvironmentValues) {

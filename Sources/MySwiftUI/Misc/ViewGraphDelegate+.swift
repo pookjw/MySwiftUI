@@ -20,7 +20,12 @@ extension ViewGraphDelegate {
     }
     
     var environmentOverride: EnvironmentValues? {
-        fatalError("TODO")
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
     }
     
     var shouldCreateUIInteractions: Bool {
