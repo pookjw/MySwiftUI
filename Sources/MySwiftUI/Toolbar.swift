@@ -117,9 +117,7 @@ extension Toolbar {
         var uiToolbarItems: [UIBarButtonItem] = [] // 0x10
         var uiToolbar: UIKitToolbar? = nil // 0x18
         var uiSearchController: SwiftUISearchController? = nil // 0x20
-        private lazy var uiSafeAreaTransitionState: ToolbarSafeAreaTransitionState = {
-            fatalError("TODO")
-        }() // 0x28
+        private(set) lazy var uiSafeAreaTransitionState = ToolbarSafeAreaTransitionState() // 0x28
         var uiTabViewSidebarOverflowItems: [UIKitBarButtonItem] = [] // 0x30
         var uiTabViewSidebarBottomBarItem: ToolbarStorage.Item? = nil // 0x2c (offset field)
         var uiInputAccessoryGenerator: InputAccessoryGenerator? // 0x30 (offset field)
@@ -211,16 +209,6 @@ class UIKitToolbar: UIToolbar {
 }
 
 class SwiftUISearchController: UISearchController {
-    // TODO
-}
-
-class ToolbarSafeAreaTransitionState {
-    private var count: Int
-    
-    init() {
-        fatalError("TODO")
-    }
-    
     // TODO
 }
 

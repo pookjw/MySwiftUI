@@ -145,7 +145,23 @@ class SheetBridge<T>: NSObject {
     }
     
     final func update(environment: inout EnvironmentValues) {
-        fatalError("TODO")
+        /*
+         self -> x20 - >x21
+         environment -> x0 -> x19
+         */
+        // <+96>
+        // x20
+        let copy_1 = self.lastEnvironment
+        let w27 = copy_1.presentationWantsTransparentBackground
+        let w8 = environment.presentationWantsTransparentBackground
+        
+        if w27 != w8 {
+            // <+236>
+            fatalError("TODO")
+        }
+        
+        // <+504>
+        self.lastEnvironment = environment
     }
     
     func update(bridgeProperties: inout ViewGraphBridgeProperties) {
