@@ -2,9 +2,9 @@ private import UIKit
 @_spi(Internal) private import MySwiftUICore
 private import AttributeGraph
 
-final class SharingActivityPickerBridge {
+@MainActor final class SharingActivityPickerBridge {
     weak var host: ViewRendererHost? = nil // 0x10
-    private var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x18
+    private var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x20
     private weak var presenterOverride: UIViewController? = nil // 0x30
     private weak var barItemAnchor: UIBarButtonItem? = nil // 0x38
     private var activePresentation: SharingActivityPickerPresentation? = nil // 0x40
@@ -28,6 +28,42 @@ final class SharingActivityPickerBridge {
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        /*
+         self -> x20 -> x28
+         preferenceValues -> x0 -> x20
+         */
+        // <+184>
+        // x22
+        let presentationPreference = preferenceValues[SharingActivityPickerPresentation.Key.self]
+        // x29 - 0x100
+        let presentationValue = presentationPreference.value
+        
+        if presentationValue.count > 1 {
+            return
+        } 
+        
+        // x19 + 0x8
+        let uiPresenterViewController: UIViewController?
+        if (presenterOverride == nil) {
+            guard let viewController = host!.uiPresenterViewController else {
+                return
+            }
+            
+            uiPresenterViewController = viewController
+        } else {
+            uiPresenterViewController = nil
+        }
+        
+        // <+332>
+        // x26
+        let newSeed = presentationPreference.seed
+        // x27
+        let oldSeed = lastPresentationSeed
+        guard !newSeed.matches(oldSeed) else {
+            return
+        }
+        
+        // <+540>
         fatalError("TODO")
     }
     

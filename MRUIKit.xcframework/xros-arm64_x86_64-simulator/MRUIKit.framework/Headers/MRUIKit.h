@@ -10,3 +10,5 @@
 #import <MRUIKit/UIScene+MRUIPrivate.h>
 #import <MRUIKit/MRUIPlatterOrnamentManager.h>
 #import <MRUIKit/MRUIPlatterOrnament.h>
+#import <MRUIKit/UIViewController+MRUIPrivate.h>
+#import <MRUIKit/MRUIOrnamentsItem.h>

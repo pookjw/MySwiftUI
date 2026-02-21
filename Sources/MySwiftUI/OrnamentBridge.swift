@@ -56,6 +56,23 @@ class OrnamentBridge<Content: View> {
     }
     
     final func preferencesDidChange(_ preferences: PreferenceValues) {
+        /*
+         self -> x20 -> x24
+         preferences -> x0 -> x20
+         */
+        // <+944>
+        // x27
+        let presentation = preferences[OrnamentPresentation.Key.self]
+        // x22
+        let oldSeed = self.ornamentsSeed
+        // x26
+        let newSeed = presentation.seed
+        
+        guard !oldSeed.matches(newSeed) else {
+            return
+        }
+        
+        // <+1108>
         fatalError("TODO")
     }
     
@@ -97,17 +114,31 @@ fileprivate final class SceneOrnamentFrameMonitor {
     }
 }
 
+enum OrnamentPosition {
+    case fixed(sceneAnchor: UnitPoint, offset: CGSize)
+    case computed(attachmentAnchor: OrnamentAttachmentAnchor.Storage, contentAlignment: Alignment3D, layoutDirection: LayoutDirection)
+}
+
 struct OrnamentPresentation {
+    private var content: AnyView
+    private var viewID: Namespace.ID
+    private var isVisible: Bool
+    private var position: OrnamentPosition
+    private var zOffset: CGFloat?
+    private var isInternal: Bool
+    private var environment: EnvironmentValues
+    private var onDismiss: () -> Void
+    private var transaction: Transaction?
+    private var usesRemoteVisibility: Bool
+    
     // TODO
 }
 
 extension OrnamentPresentation {
     struct Key: HostPreferenceKey {
-        static var defaultValue: Never {
-            fatalError("TODO")
-        }
+        @safe static nonisolated(unsafe) let defaultValue: [Namespace.ID: OrnamentPresentation] = [:]
         
-        static func reduce(value: inout Never, nextValue: () -> Never) {
+        static func reduce(value: inout [Namespace.ID: OrnamentPresentation], nextValue: () -> [Namespace.ID: OrnamentPresentation]) {
             fatalError("TODO")
         }
         

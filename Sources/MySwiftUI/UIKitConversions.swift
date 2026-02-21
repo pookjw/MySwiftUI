@@ -3,6 +3,7 @@ internal import UIKit
 private import MySwiftUICore
 private import _UIKitPrivate
 private import _MySwiftUIShims
+private import MRUIKit
 
 extension BarAppearanceBridge {
     @inline(__always)
@@ -482,7 +483,7 @@ extension BarAppearanceBridge {
             fatalError("TODO")
         case .bottomOrnament:
             // <+1388>
-            fatalError("TODO")
+            return updateBottomOrnamentConfiguration()
         }
     }
     
@@ -837,6 +838,63 @@ extension BarAppearanceBridge {
                 fatalError("TODO")
             } else {
                 // <+1680>
+                // Optional<ColorScheme>(nil)로 설정하는건 무시 (x27, x26 + x25)
+                // x29 - 0x158 (x26)
+                let copy_5 = copy_3.colorScheme
+                
+                if let copy_5 {
+                    // <+1956>
+                    fatalError("TODO")
+                } else {
+                    // <+1856>
+                    // nil 확인 무시
+                    // <+2284>
+                    // x26 -> x29 - 0x130
+                    if (copy_3.foregroundStyle == nil) && (copy_3.backgroundVisibility == .automatic) && (copy_3.backgroundOpacity == nil) && (copy_3.backgroundVisibilityOnScrollDistance == nil) {
+                        // <+2324>
+                        // x29 - 0x1c8 -> x26 (nil)
+                        // x29 - 0x1c0 (x20)
+                        let copy_4 = copy_3.colorScheme
+                        // x20 + x25 (nil)
+                        
+                        if let copy_4 {
+                            // <+2572>
+                            fatalError("TODO")
+                        } else {
+                            // <+2476>
+                            // <+2524>
+                            // <+2852>
+                            let appearance: UIToolbarAppearance?
+                            if i == 0 {
+                                // <+2864>
+                                appearance = toolbar.standardAppearance
+                            } else if i == 1 {
+                                // <+4352>
+                                appearance = toolbar.scrollEdgeAppearance
+                            } else if i == 2 {
+                                // <+4340>
+                                appearance = toolbar.compactAppearance
+                            } else {
+                                // <+4364>
+                                appearance = toolbar.compactScrollEdgeAppearance
+                            }
+                            
+                            // <+4372>
+                            guard let appearance else {
+                                continue
+                            }
+                            
+                            // <+4392>
+                            fatalError("TODO")
+                        }
+                        fatalError("TODO")
+                    } else {
+                        // <+2876>
+                        fatalError("TODO")
+                    }
+                    
+                    fatalError("TODO")
+                }
                 fatalError("TODO")
             }
             
@@ -844,8 +902,38 @@ extension BarAppearanceBridge {
         }
         
         // for문 중간에 return true 하는듯
-        fatalError()
-        return false
+        return true
+    }
+    
+    fileprivate func updateBottomOrnamentConfiguration() -> Bool {
+        // <+108>
+        // x29 - 0x98
+        let copy_1 = self.updateContext
+        guard let copy_1 else {
+            return true
+        }
+        
+        // <+160>
+        // x21
+        let targetController = copy_1.targetController
+        
+        guard let bottomOrnament = self.bottomOrnament(viewController: targetController) else {
+            return true
+        }
+        
+        fatalError("TODO")
+    }
+    
+    fileprivate func bottomOrnament(viewController: UIViewController) -> ToolbarOrnament? {
+        let ornamentsItem = viewController.mrui_ornamentsItem()
+        // x19
+        let ornaments = ornamentsItem.ornaments
+        
+        guard !ornaments.isEmpty else {
+            return nil
+        }
+        
+        fatalError("TODO")
     }
 }
 

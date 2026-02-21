@@ -4,15 +4,15 @@ internal import _UIKitShims
 
 extension ViewGraphDelegate {
     @MainActor var uiViewController: UIViewController? {
-        return self.as(UICoreViewControllerProvider.self)?.containingViewController
+        return self.as(UICoreViewControllerProvider.self)?.coreUIViewController
     }
     
     var uiView: UIView? {
         return self.as(UIView.self)
     }
     
-    var uiPresenterViewController: UIViewController? {
-        fatalError("TODO")
+    @MainActor var uiPresenterViewController: UIViewController? {
+        return self.as(UICoreViewControllerProvider.self)?.containingViewController
     }
     
     var inspectorBridge: UIKitInspectorBridgeV3? {

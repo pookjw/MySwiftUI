@@ -4,7 +4,7 @@
 internal import UIKit
 private import _MySwiftUIShims
 
-final class BarAppearanceBridge: NSObject {
+@MainActor final class BarAppearanceBridge: NSObject {
     var platformStorage = BarAppearanceBridge.PlatformStorage() // 0xea0
     private(set) var updateContext: BarAppearanceBridge.UpdateContext? = nil // 0xea8
     var allowedBars: Set<ToolbarPlacement.Role> = [] // 0xeb0
@@ -38,11 +38,32 @@ final class BarAppearanceBridge: NSObject {
          */
         if let configuration = barConfigurations[.navigationBar] {
             // <+180>
-            fatalError("TODO")
+            // x23
+            let copy_1 = configuration
+            // x22
+            let copy_2 = copy_1
+            
+            if let foregroundStyle = copy_2.foregroundStyle {
+                // <+252>
+                environment.toolbarForegroundStyle[.navigationBar] = foregroundStyle
+            }
+            
+            // <+408>
         }
         
         // <+408>
-        fatalError("TODO")
+        if self.barBackgroundViewModels[.navigationBar] == nil {
+            let viewModel = PrimaryBarViewModel()
+            self.barBackgroundViewModels[.navigationBar] = viewModel
+        }
+        
+        // <+656>
+        // x20
+        let viewModel = self.barBackgroundViewModels[.navigationBar] as? PrimaryBarViewModel
+        
+        // <+796>
+        environment[PrimaryBarViewModel.self] = viewModel
+        self.lastEnvironment = environment
     }
     
     func addPreferences(to graph: ViewGraph) {
@@ -74,7 +95,14 @@ final class BarAppearanceBridge: NSObject {
          */
         let updateContext = BarAppearanceBridge.UpdateContext(hostingController: hostingController)
         let updates = preferencesDidChange(preferenceValues, updateContext: updateContext)
-        fatalError("TODO")
+        
+        if !updates.isEmpty {
+            // x20
+            let host = hostingController.host
+            host.invalidateProperties([.environment], mayDeferUpdate: true)
+        }
+        
+        self.platformStorage.uiTargetController = updateContext.targetController
     }
     
     func preferencesDidChange(_ preferences: PreferenceValues, updateContext: BarAppearanceBridge.UpdateContext) -> BarAppearanceBridge.Updates {
@@ -119,10 +147,7 @@ final class BarAppearanceBridge: NSObject {
         // 뭐가 불리는지 검증
         if self.pendingUpdates.contains(.unknown1) {
             // <+560>
-            fatalError()
             platformUpdateNavigationAdaptor()
-        } else {
-            fatalError()
         }
         
         // <+568>
@@ -213,12 +238,8 @@ final class BarAppearanceBridge: NSObject {
         ]
         
         // <+532>
-        // x19 + 0xb0
-        let windowToolbar = ToolbarPlacement.Role.windowToolbar
         // x19 + 0xa0
         let bottomBar = ToolbarPlacement.Role.bottomBar
-        // x19 + 0xd0
-        let windowToolbarItems = ToolbarPlacement.Role.windowToolbarItems
         
         for role in roles {
             // role -> x29 - 0xd0
@@ -239,14 +260,14 @@ final class BarAppearanceBridge: NSObject {
             if copy_1 != copy_2 {
                 // <+996>
                 // x26
-                set = Set<ToolbarPlacement.Role>([windowToolbarItems])
+                set = Set<ToolbarPlacement.Role>([role])
             } else {
                 // <+1164>
                 // x26
                 set = Set<ToolbarPlacement.Role>(
                     [
-                        windowToolbar,
-                        windowToolbarItems
+                        .navigationBar,
+                        bottomBar
                     ]
                 )
             }
@@ -272,11 +293,45 @@ final class BarAppearanceBridge: NSObject {
         }
         
         // <+1900>
+        // x26
+        let toUpdateBars = self.toUpdateBars
+        let array: [AnyHashable] = []
+        for role in toUpdateBars {
+            fatalError("TODO")
+        }
+        
+        // <+2392>
+        guard !array.isEmpty else {
+            return
+        }
+        
+        // <+2420>
         fatalError("TODO")
     }
     
     func platformUpdateNavigationAdaptor() {
-        fatalError("TODO")
+        // x29 - 0x78
+        let copy_1 = self.updateContext
+        guard copy_1 != nil else {
+            return
+        }
+        
+        // <+72>
+        // x29 - 0x78
+        guard let copy_2 = self.updateContext else {
+            return
+        }
+        
+        let navigationAdaptor = copy_2.navigationAdaptor
+        guard !navigationAdaptor.adaptors.isEmpty else {
+            return
+        }
+        
+        // <+136>
+        Update.ensure { 
+            // $s7SwiftUI19BarAppearanceBridgeC31platformUpdateNavigationAdaptoryyFyyXEfU_TA
+            fatalError("TODO")
+        }
     }
     
     @inline(__always)
@@ -417,10 +472,6 @@ struct ToolbarContentDescription {
     // TODO
 }
 
-class BarEnvironmentViewModel {
-    // TODO
-}
-
 struct ToolbarAppearanceConfiguration: Equatable {
     static func == (lhs: ToolbarAppearanceConfiguration, rhs: ToolbarAppearanceConfiguration) -> Bool {
         fatalError("TODO")
@@ -431,7 +482,7 @@ struct ToolbarAppearanceConfiguration: Equatable {
     private(set) var foregroundStyle: AnyShapeStyle? = nil // 0x8
     private(set) var background: AnyShapeStyle? = nil // 0x10
     private(set) var backgroundVisibility: ToolbarBackgroundVisibility = .automatic // 0x18
-    private var backgroundVisibilityOnScrollDistance: Double? = nil // 0x20/0x28
+    private(set) var backgroundVisibilityOnScrollDistance: Double? = nil // 0x20/0x28
     private(set) var backgroundOpacity: Double? = nil // 0x30/0x38
     private(set) var colorScheme: ColorScheme? // 0x39 (actual), 0x38 (offset field)
     private var toolbarLegibility: ToolbarLegibility = .init(role: .unspecified) // 0x3a (actual), 0x30 (offset field)

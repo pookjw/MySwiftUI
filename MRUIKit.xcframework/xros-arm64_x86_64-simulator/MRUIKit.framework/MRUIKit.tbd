@@ -17,6 +17,7 @@ exports:
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,
     MRUIPlatterOrnamentManager,
-    MRUIPlatterOrnament ]
+    MRUIPlatterOrnament,
+    MRUIOrnamentsItem ]
     objc-ivars:           [  ]
 ...

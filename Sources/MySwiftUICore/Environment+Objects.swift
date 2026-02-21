@@ -30,7 +30,7 @@ struct EnvironmentObjectKey<Value: AnyObject>: EnvironmentKey, Hashable {
 }
 
 extension EnvironmentValues {
-    subscript<T: AnyObject>(objectType: T.Type) -> T? {
+    subscript<T: AnyObject>(objectType _: T.Type) -> T? {
         get {
             return self[EnvironmentObjectKey<T>.self]
         }
@@ -41,7 +41,7 @@ extension EnvironmentValues {
     
     subscript<T: AnyObject>(_ key: EnvironmentObjectKey<T>) -> T? {
         get {
-            return self[T.self]
+            return self[objectType: T.self]
         }
         set {
             self[forceUnwrapping: key] = newValue.unsafelyUnwrapped
@@ -50,14 +50,23 @@ extension EnvironmentValues {
     
     subscript<T: AnyObject>(forceUnwrapping key: EnvironmentObjectKey<T>) -> T {
         get {
-            guard let value = self[T.self] else {
+            guard let value = self[objectType: T.self] else {
                 fatalError("No Observable object of type \(T.self) found. A View.environmentObject(_:) for Model may be missing as an ancestor of this view.")
             }
             
             return value
         }
         set {
-            self[T.self] = newValue
+            self[objectType: T.self] = newValue
+        }
+    }
+    
+    package subscript<T: ObservableObject>(_ type: T.Type) -> T? {
+        get {
+            return self[objectType: type]
+        }
+        set {
+            self[objectType: type] = newValue
         }
     }
 }

@@ -54,6 +54,29 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     }
     
     func update(environment: inout EnvironmentValues, context: Toolbar.UpdateContext) -> Toolbar.Updates {
+        /*
+         self -> x20 -> x29 - 0x160
+         environment -> x0 -> x20
+         return pointer -> x8 -> x29 - 0x68
+         context -> x1 -> x29 - 0x168
+         */
+        // <+768>
+        // x23
+        var copy_1 = context
+        // x28
+        let horizontalSizeClass = environment.horizontalSizeClass
+        copy_1.horizontalSizeClass = horizontalSizeClass
+        // environment -> x29 - 0x168
+        // x28
+        let verticalSizeClass = environment.verticalSizeClass
+        // self -> x27
+        copy_1.verticalSizeClass = verticalSizeClass
+        
+        // <+884>
+        if allowsUpdates {
+            lastEnvironment.horizontalSizeClass
+            fatalError("TODO")
+        }
         fatalError("TODO")
     }
     

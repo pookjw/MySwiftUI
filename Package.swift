@@ -47,7 +47,7 @@ let package = Package(
                 .enableExperimentalFeature("SymbolLinkageMarkers"),
 //                .defaultIsolation(MainActor.self),
                 .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-                .enableUpcomingFeature("InferIsolatedConformances")
+                .enableUpcomingFeature("InferIsolatedConformances"),
             ]
         ),
         .target(

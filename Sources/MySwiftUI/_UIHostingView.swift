@@ -1742,12 +1742,10 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         if let sharingActivityPickerBridge {
             sharingActivityPickerBridge.preferencesDidChange(preferenceValues)
         }
+        
         if let shareConfigurationBridge {
-            let pref = preferenceValues[AnyShareConfiguration.Key.self]
-            if !shareConfigurationBridge.shareConfigurationSeed.seed.matches(pref.seed) {
-                shareConfigurationBridge.shareConfigurationSeed.seed.merge(pref.seed)
-                shareConfigurationBridge.shareConfigurationDidChange(pref.value)
-            }
+            // inlined
+            shareConfigurationBridge.preferencesDidChange(preferenceValues)
         }
         
         largeContentViewerInteractionBridge.preferencesDidChange(preferenceValues)

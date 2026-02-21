@@ -1,7 +1,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
-final class DeprecatedAlertBridge<T: AlertControllerConvertible>: NSObject {
+@MainActor final class DeprecatedAlertBridge<T: AlertControllerConvertible>: NSObject {
     weak var host: (any ViewRendererHost)?
     private var isShown: Bool
     private var seed: VersionSeed

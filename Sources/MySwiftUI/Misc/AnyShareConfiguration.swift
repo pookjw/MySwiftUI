@@ -17,11 +17,7 @@ extension AnyShareConfiguration {
 
 extension AnyShareConfiguration {
     struct Key: HostPreferenceKey {
-        static var defaultValue: AnyShareConfiguration {
-            fatalError("TODO")
-        }
-        
-        static func reduce(value: inout AnyShareConfiguration, nextValue: () -> AnyShareConfiguration) {
+        static func reduce(value: inout AnyShareConfiguration?, nextValue: () -> AnyShareConfiguration?) {
             fatalError("TODO")
         }
     }
