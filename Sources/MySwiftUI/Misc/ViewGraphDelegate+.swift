@@ -21,10 +21,19 @@ extension ViewGraphDelegate {
     
     var environmentOverride: EnvironmentValues? {
         get {
-            fatalError("TODO")
+            fatalError("존재하지 않으며 아래 구현은 추정")
+            guard let hostingView else {
+                return nil
+            }
+            
+            return hostingView.environmentOverride
         }
         set {
-            fatalError("TODO")
+            guard let hostingView else {
+                return
+            }
+            
+            hostingView.environmentOverride = newValue
         }
     }
     

@@ -1833,10 +1833,10 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
 extension _UIHostingView: @preconcurrency UIHostingViewProvider {
     final var environmentOverride: EnvironmentValues? {
         get {
-            fatalError("TODO")
+            return base.environmentOverride
         }
         set {
-            fatalError("TODO")
+            base.environmentOverride = newValue
         }
     }
     

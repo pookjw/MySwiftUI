@@ -15,7 +15,13 @@ package final class UIHostingViewBase: NSObject {
     private let configuration: UIHostingViewBase.Configuration
     package let viewGraph: MySwiftUICore.ViewGraphHost
     private var inheritedEnvironment: MySwiftUICore.EnvironmentValues? = nil
-    private var environmentOverride: MySwiftUICore.EnvironmentValues? = nil
+    package var environmentOverride: MySwiftUICore.EnvironmentValues? = nil {
+        didSet {
+            if let updateDelegate {
+                updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
+            }
+        }
+    }
     package var traitCollectionOverride: UITraitCollection?
     private var cachedContainerShape: MySwiftUICore.UnevenRoundedRectangle?
     private var canAdvanceTimeAutomatically: Bool = true
@@ -694,56 +700,52 @@ package final class UIHostingViewBase: NSObject {
     
     @MainActor
     package func _startUpdateEnvironment() -> MySwiftUICore.EnvironmentValues {
+        fatalError("TODO")
+        // <+280>
         guard let uiView else {
             return MySwiftUICore.EnvironmentValues()
         }
         
         // x29, #-0xc8
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
-        
+        // <+408>
         // x23
         let environmentValues: MySwiftUICore.EnvironmentValues
-        // <+492>
         if traitCollection._environmentWrapper != nil {
-            // <+496>
+            // <+440>
             // x26
             if let inheritedEnvironment {
-                // <+824>
+                // <+812>
                 environmentValues = inheritedEnvironment
-                // <+940>
             } else {
-                // <+576>
+                // <+528>
                 environmentValues = traitCollection.environmentValues()
                 // x26의 nil 여부를 확인하지만 nil이기에 의미 없음
-                // <+940>
             }
         } else {
-            // <+644>
+            // <+604>
             // x28 (copy)
             if let inheritedEnvironment {
-                // <+852>
+                // <+832>
                 environmentValues = inheritedEnvironment
-                // <+940>
             } else {
-                // <+720>
+                // <+688>
                 // x19
                 if let initialInheritedEnvironment = viewGraph.initialInheritedEnvironment {
-                    // <+876>
+                    // <+1044>
                     environmentValues = initialInheritedEnvironment
-                    // <+940>
                 } else {
-                    // <+768>
+                    // <+748>
                     // x23
                     environmentValues = traitCollection.environmentValues()
                     // x19, x28의 nil 여부를 확인하지만 모두 nil이기에 의미 없음
-                    // <+940>
+                    // <+1064>
                 }
+                
+                self.environmentOverride = environmentValues
             }
         }
         
-        // <+940>
-        // environmentValues = x26 (copy)
-        self.environmentOverride = environmentValues
         return environmentValues
     }
     

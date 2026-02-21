@@ -2,6 +2,7 @@
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import AttributeGraph
+private import _UIKitPrivate
 
 final class FocusBridge {
     private var flags: Flags = []
@@ -239,8 +240,92 @@ final class FocusBridge {
         self.currentEnvironment = environmentValues
     }
     
-    func hostingControllerDidAppear() {
+    @MainActor func hostingControllerDidAppear() {
         // self -> x20 -> x19
+        guard !canAcceptFocus else {
+            return
+        }
+        
+        // <+260>
+        if !flags.contains(.unknown1) {
+            flags.formUnion(.unknown1)
+            focusStore.version = DisplayList.Version(forUpdate: ())
+            
+            if let host {
+                host.invalidateProperties([.focusStore], mayDeferUpdate: true)
+            }
+        }
+        
+        // <+404>
+        // x24
+        let focusedItem = self.focusedItem
+        // x23
+        let empty: FocusItem? = nil
+        // x21
+        let copy_1 = focusedItem
+        // x21 + x25
+        let copy_2 = empty
+        
+        // <+484>
+        /*
+         !nil && !nil -> <+592>
+         !nil && nil -> <+608>
+         nil && !nil -> <+608>
+         nil && nil -> <+540> -> <+608>
+         */
+        if copy_1 == nil && copy_2 == nil {
+            // <+540>
+            flags.formUnion(.unknown0)
+        }
+        
+        // <+608>
+        // defaultFocusNamespace인지 알 수 없음 - Dead Parameter임
+        hostDidBecomeFirstResponder(in: defaultFocusNamespace)
+        flags.subtract(.unknown0)
+    }
+    
+    @MainActor var canAcceptFocus: Bool {
+        get {
+            // self -> x20 -> x19
+            if let host, host.uiViewController != nil {
+                return flags.contains(.unknown1)
+            } else {
+                if let parentFocusBridge {
+                    return parentFocusBridge.canAcceptFocus
+                } else {
+                    return flags.contains(.unknown1)
+                }
+            }
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    func hostDidBecomeFirstResponder(in: Namespace.ID?) {
+        // self -> x20
+        // <+132>
+        // x22
+        guard let host else {
+            return
+        }
+        
+        if
+            let host = self.host,
+            !flags.contains(.unknown0),
+            let window = host.window
+        {
+            _ = window.firstResponder()
+        }
+        
+        // <+212>
+        if let focusedItem {
+            // <+268>
+            moveFocus(to: focusedItem, designatedPlatformResponder: nil)
+        }
+    }
+    
+    func moveFocus(to: FocusItem, designatedPlatformResponder: UIView?) {
         fatalError("TODO")
     }
     
@@ -327,6 +412,14 @@ extension FocusBridge {
 
 extension FocusBridge {
     struct Flags: OptionSet {
+        static var unknown0: FocusBridge.Flags {
+            return FocusBridge.Flags(rawValue: 1 << 0)
+        }
+        
+        static var unknown1: FocusBridge.Flags {
+            return FocusBridge.Flags(rawValue: 1 << 1)
+        }
+        
         var rawValue: Int
     }
 }
