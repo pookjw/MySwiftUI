@@ -1,7 +1,7 @@
 internal import CoreGraphics
 internal import Spatial
 
-struct _ProposedSize3D: Hashable {
+package struct _ProposedSize3D: Hashable {
     static var unspecified: _ProposedSize3D {
         return _ProposedSize3D(width: nil, height: nil, depth: nil)
     }

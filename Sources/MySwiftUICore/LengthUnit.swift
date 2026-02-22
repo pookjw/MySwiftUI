@@ -64,7 +64,7 @@ extension ViewTransform: LengthUnitConvertible {
 }
 
 extension _ProposedSize: LengthUnitConvertible {
-    mutating func scale(by scale: Double) {
+    public mutating func scale(by scale: Double) {
         if let width {
             self.width = width * scale
         }
@@ -83,7 +83,7 @@ extension CGSize: LengthUnitConvertible {
 }
 
 extension _ProposedSize3D: LengthUnitConvertible {
-    mutating func scale(by scale: Double) {
+    package mutating func scale(by scale: Double) {
         if let width {
             self.width = width * scale
         }

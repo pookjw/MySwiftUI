@@ -1853,3 +1853,9 @@ public struct CollectionChanges<A: Swift.Comparable, B: Swift.Comparable>: Swift
     public subscript(position: Swift.Int) -> C { get }
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol CoreViewRepresentable: SwiftUICore.View {
+  // TODO
+}

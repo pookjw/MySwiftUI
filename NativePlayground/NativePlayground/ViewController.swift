@@ -1394,7 +1394,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let hostingController = UIHostingController(rootView: MyFlagView(flag: false))
+        let hostingController = UIHostingController(rootView: MyViewRepresentable())
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds
@@ -1856,5 +1856,17 @@ fileprivate struct MyFlagView: View {
         } else {
             Color.white
         }
+    }
+}
+
+fileprivate struct MyViewRepresentable: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let uiView = UIView()
+        uiView.backgroundColor = .systemBlue
+        return uiView
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        
     }
 }
