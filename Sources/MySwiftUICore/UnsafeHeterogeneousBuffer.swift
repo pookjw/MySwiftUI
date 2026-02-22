@@ -1,6 +1,6 @@
 private import _DarwinFoundation2._string
 
-@safe struct UnsafeHeterogeneousBuffer: Collection {
+@safe @_spi(Internal) public struct UnsafeHeterogeneousBuffer: Collection {
     private var buf: UnsafeMutableRawPointer?
     private var available: Int32
     private var _count: Int32
@@ -76,19 +76,19 @@ private import _DarwinFoundation2._string
         return index
     }
     
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         return _count == 0
     }
     
-    var startIndex: UnsafeHeterogeneousBuffer.Index {
+    public var startIndex: UnsafeHeterogeneousBuffer.Index {
         return Index(index: 0, offset: 0)
     }
     
-    var endIndex: UnsafeHeterogeneousBuffer.Index {
+    public var endIndex: UnsafeHeterogeneousBuffer.Index {
         return Index(index: _count, offset: 0)
     }
     
-    func index(after i: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
+    public func index(after i: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
         let buf = unsafe buf!
         let count = _count
         let nextIndex = (i.index &+ 1)
@@ -110,7 +110,7 @@ private import _DarwinFoundation2._string
         )
     }
     
-    func formIndex(after i: inout UnsafeHeterogeneousBuffer.Index) {
+    public func formIndex(after i: inout UnsafeHeterogeneousBuffer.Index) {
         let buf = unsafe buf!
         let count = _count
         let index = i.index
@@ -133,7 +133,7 @@ private import _DarwinFoundation2._string
         i.offset = offset + size
     }
     
-    subscript(_ index: UnsafeHeterogeneousBuffer.Index) -> _UnsafeHeterogeneousBuffer_Element {
+    public subscript(_ index: UnsafeHeterogeneousBuffer.Index) -> _UnsafeHeterogeneousBuffer_Element {
         let buf = unsafe buf!
         return unsafe _UnsafeHeterogeneousBuffer_Element(
             item: buf
@@ -142,7 +142,7 @@ private import _DarwinFoundation2._string
         )
     }
     
-    var count: Int {
+    public var count: Int {
         return Int(_count)
     }
     
@@ -264,7 +264,7 @@ private import _DarwinFoundation2._string
 }
 
 extension UnsafeHeterogeneousBuffer {
-    struct Index: Comparable {
+    @_spi(Internal) public struct Index: Comparable {
         fileprivate var index: Int32
         fileprivate var offset: Int32
         
@@ -273,42 +273,39 @@ extension UnsafeHeterogeneousBuffer {
             self.offset = offset
         }
         
-        static func < (lhs: UnsafeHeterogeneousBuffer.Index, rhs: UnsafeHeterogeneousBuffer.Index) -> Bool {
+        public static func < (lhs: UnsafeHeterogeneousBuffer.Index, rhs: UnsafeHeterogeneousBuffer.Index) -> Bool {
             return lhs.index < rhs.index
         }
         
-        static func == (lhs: UnsafeHeterogeneousBuffer.Index, rhs: UnsafeHeterogeneousBuffer.Index) -> Bool {
+        public static func == (lhs: UnsafeHeterogeneousBuffer.Index, rhs: UnsafeHeterogeneousBuffer.Index) -> Bool {
             return (lhs.index == rhs.index) && (lhs.offset == rhs.offset)
         }
     }
     
-    struct Item {
+    @_spi(Internal) public struct Item {
         let vtable: _UnsafeHeterogeneousBuffer_VTable.Type
         let size: Int32
         var flags: UInt32
     }
 }
 
-@safe struct _UnsafeHeterogeneousBuffer_Element {
+@safe @_spi(Internal) public struct _UnsafeHeterogeneousBuffer_Element {
     private var item: UnsafeMutablePointer<UnsafeHeterogeneousBuffer.Item>
     
     fileprivate init(item: UnsafeMutablePointer<UnsafeHeterogeneousBuffer.Item>) {
         unsafe self.item = item
     }
     
-    @inlinable
     var type: Any.Type {
         return unsafe item.pointee.vtable.type
     }
     
-    @inlinable
     func body<T>(as: T.Type) -> UnsafeMutablePointer<T> {
         return unsafe UnsafeMutableRawPointer(item)
             .advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.size)
             .assumingMemoryBound(to: T.self)
     }
     
-    @inlinable
     func vtable<T: _UnsafeHeterogeneousBuffer_VTable>(as: T.Type) -> T.Type {
         return unsafe UnsafeRawPointer(item)
             .advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.offset(of: \.vtable)!)
@@ -316,12 +313,10 @@ extension UnsafeHeterogeneousBuffer {
             .pointee
     }
     
-    @inlinable
     var address: UnsafeRawPointer {
         return unsafe UnsafeRawPointer(item)
     }
     
-    @inlinable
     var flags: UInt32 {
         get {
             return unsafe item.pointee.flags

@@ -18,6 +18,18 @@ import AttributeGraph
 import Spatial
 import Darwin.POSIX.dlfcn
 
+@objc(Helper)
+final class Helper: NSObject {
+    @objc(dumpWithObject:)
+    class func dump(object: AnyObject) {
+        _forEachField(of: type(of: object), options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+    }
+}
+
+
 struct MyDynamicView: DynamicView {
     static func makeID() -> _SwiftUICorePrivate.UniqueID {
         .init()

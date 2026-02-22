@@ -1,5 +1,5 @@
 // 19642D833A8FE469B137699ED1426762
-public import MySwiftUICore
+@_spi(Internal) public import MySwiftUICore
 public import UIKit
 private import AttributeGraph
 
@@ -49,17 +49,12 @@ extension UIViewRepresentable {
     
     public nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         precondition(
-            {
-                guard isLinkedOnOrAfter(.v4) else {
-                    return true
-                }
-                
-                return TypeID(self).isValueType
-            }(),
+            (isLinkedOnOrAfter(.v4) ? TypeID(self).isValueType : true),
             "UIViewRepresentables must be value types: \(self)"
         )
         
-        fatalError("TODO")
+        let casted = view.unsafeBitCast(to: PlatformViewRepresentableAdaptor<Self>.self)
+        return PlatformViewRepresentableAdaptor<Self>.makeDebuggableView(view: casted, inputs: inputs)
     }
     
     public nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -126,6 +121,74 @@ extension UIViewRepresentable {
 @available(watchOS, unavailable)
 extension UIViewRepresentableContext: Sendable {}
 
-//fileprivate struct PlatformViewRepresentableAdaptor<T>: PlatformViewRepresentable {
-//    
-//}
+@available(iOS 13.0, tvOS 13.0, *)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: PlatformViewRepresentable {
+    typealias PlatformViewProvider = Base.UIViewType
+    typealias Host = UIKitPlatformViewHost<Self>
+    typealias Coordinator = Base.Coordinator
+    
+    private(set) var base: Base
+    
+    
+    static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
+        return CoreViewRepresentableDynamicPropertyFields(for: self)
+    }
+    
+    static var isViewController: Bool {
+        fatalError("TODO")
+    }
+    
+    func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Base.UIViewType {
+        fatalError("TODO")
+    }
+    
+    func updateViewProvider(_ provider: Base.UIViewType, context: PlatformViewRepresentableContext<Self>) {
+        fatalError("TODO")
+    }
+    
+    func resetViewProvider(_ provider: Base.UIViewType, coordinator: Base.Coordinator, destroy: () -> Void) {
+        fatalError("TODO")
+    }
+    
+    static func dismantleViewProvider(_ provider: Base.UIViewType, coordinator: Base.Coordinator) {
+        fatalError("TODO")
+    }
+    
+    func makeCoordinator() -> Base.Coordinator {
+        fatalError("TODO")
+    }
+    
+    func _identifiedViewTree(in provider: Base.UIViewType) -> Any {
+        fatalError("TODO")
+    }
+    
+    func sizeThatFits(
+        _ proposedSize: ProposedViewSize,
+        provider: Base.UIViewType,
+        context: PlatformViewRepresentableContext<Self>
+    ) -> CGSize? {
+        fatalError("TODO")
+    }
+    
+    func overrideSizeThatFits(_ size: inout CGSize, in proposedSize: ProposedViewSize, platformView: Base.UIViewType) {
+        fatalError("TODO")
+    }
+    
+    func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Base.UIViewType) {
+        fatalError("TODO")
+    }
+    
+    static func modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
+        fatalError("TODO")
+    }
+    
+    static func layoutOptions(_ provider: Base.UIViewType) -> CoreViewRepresentableLayoutOptions {
+        fatalError("TODO")
+    }
+    
+    static func platformView(for provider: Base.UIViewType) -> AnyObject {
+        fatalError("TODO")
+    }
+}

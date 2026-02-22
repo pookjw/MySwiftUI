@@ -303,9 +303,14 @@ extension ViewGraphHost {
         }
     }
     
-    struct Phase {
+    package struct Phase {
         // TODO
         var base = _GraphInputs.Phase()
+    }
+    
+    package struct LayoutInvalidator {
+        private weak var viewGraph: ViewGraph?
+        private var layoutComputer: WeakAttribute<LayoutComputer>
     }
 }
 

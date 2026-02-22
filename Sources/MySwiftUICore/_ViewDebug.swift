@@ -120,7 +120,7 @@ extension _ViewDebug {
 
 extension View {
     @inline(__always)
-    static nonisolated func makeDebuggableView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    package static nonisolated func makeDebuggableView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         let shouldRecordTree = Subgraph.shouldRecordTree
         if shouldRecordTree {
             Subgraph.beginTreeElement(value: view.value, flags: 0)

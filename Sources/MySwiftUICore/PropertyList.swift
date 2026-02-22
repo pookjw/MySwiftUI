@@ -29,7 +29,7 @@ private import AttributeGraph
     }
     
     @usableFromInline
-    package var description: Swift.String {
+    package var description: String {
         fatalError("TODO")
     }
     
