@@ -28,7 +28,22 @@ private import _MySwiftUIShims
     }
     
     func didMoveToWindow<Content: View>(hostingController: UIHostingController<Content>) {
-        fatalError("TODO")
+        // sp + 0x78
+        let context = BarAppearanceBridge.UpdateContext(hostingController: hostingController)
+        // sp + 0x20
+        let copy_1 = context
+        self.updateContext = copy_1
+        
+        // <+96>
+        updateBarsToConfiguration()
+        
+        if pendingUpdates.contains(.unknown0) {
+            platformUpdateNavigationAdaptor()
+        }
+        
+        // <+120>
+        self.updateContext = nil
+        self.pendingUpdates = []
     }
     
     final func update(environment: inout EnvironmentValues) {

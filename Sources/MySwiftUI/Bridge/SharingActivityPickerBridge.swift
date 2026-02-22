@@ -22,6 +22,10 @@ private import AttributeGraph
     @inlinable
     @MainActor
     func hostRemovedFromWindow() {
+        guard activePresentation != nil else {
+            return
+        }
+        
         onNextMainRunLoop {
             self.reset()
         }
@@ -84,7 +88,7 @@ private import AttributeGraph
         fatalError("TODO")
     }
     
-    private func reset() {
+    fileprivate func reset() {
         fatalError("TODO")
     }
     

@@ -55,15 +55,11 @@ open class UIHostingController<Content: View>: UIViewController {
     
     @preconcurrency public var rootView: Content {
         get {
-            fatalError("TODO")
+            return host.rootView
         }
         set {
-            fatalError("TODO")
+            host.rootView = newValue
         }
-    }
-    
-    deinit {
-        fatalError("TODO")
     }
     
     public dynamic required init?(coder: NSCoder) {
@@ -190,6 +186,10 @@ open class UIHostingController<Content: View>: UIViewController {
     
     open override dynamic func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        _viewDidAppear(animated)
+    }
+    
+    final func _viewDidAppear(_ animated: Bool) {
         // self -> x20 -> x19
         resolveRequiredBridges(nil, allowedActions: [.unknown0, .unknown1])
         host.viewControllerDidAppear(transitionCoordinator: transitionCoordinator, animated: animated)
@@ -206,7 +206,12 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func viewDidDisappear(_ animated: Bool) {
-        fatalError("TODO")
+        super.viewDidDisappear(animated)
+        _viewDidDisappear(animated)
+    }
+    
+    final func _viewDidDisappear(_ animated: Bool) {
+        requiredBridges.subtract(.unknown1)
     }
     
     open override dynamic func viewWillLayoutSubviews() {
@@ -215,7 +220,52 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x22
+         coordinator -> x0 -> x23
+         size -> d0/d1 -> d9/d8
+         */
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        // <+132>
+        // w25
+        let isLinked = isLinkedOnOrAfter(.v6_2)
+        // x24
+        var flag = false
+        if let sceneBridge = host.sceneBridge {
+            // <+192>
+            // flag를 조건에 따라 true
+            fatalError("TODO")
+        }
+        
+        // <+220>
+        if isLinked {
+            // <+224>
+            let host = host
+            host.isInSizeTransition = true
+            coordinator.animate(alongsideTransition: nil) { [weak host] _ in
+                // $s7SwiftUI19UIHostingControllerC18viewWillTransition2to4withySo6CGSizeV_So06UIViewdG11Coordinator_ptFySo0kdgL7Context_pcfU_TA
+                /*
+                 isLinked -> w1 -> x20
+                 weak host -> x2 -> x22
+                 flag -> x3 -> x24
+                 */
+                if isLinked, let host {
+                    host.isInSizeTransition = false
+                }
+                
+                // <+192>
+                guard flag else {
+                    return
+                }
+                
+                // <+224>
+                fatalError("TODO")
+            }
+        }
+        
+        // <+428>
+        host.invalidateProperties([.rootView], mayDeferUpdate: true)
     }
     
     open override dynamic func _wantsTransparentBackground() -> Bool {

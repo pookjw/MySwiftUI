@@ -56,7 +56,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var allowUIKitAnimations: Int32 = 0
     private var disabledBackgroundColor: Bool = false
     private var allowFrameChanges: Bool = true
-    private var isInSizeTransition: Bool = false
+    final var isInSizeTransition: Bool = false
     private var transparentBackgroundReasons: HostingViewTransparentBackgroundReason = []
     private var explicitSafeAreaInsets: EdgeInsets?
     private var legacyKeyboardFrame: CGRect? = nil

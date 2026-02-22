@@ -4,7 +4,7 @@ private import _UIKitPrivate
 private import _DyldPrivate
 
 extension UITraitCollection {
-    // ___lldb_unnamed_symbol316127
+    // unnamed
     func environmentValues() -> MySwiftUICore.EnvironmentValues {
         if let environmentWrapper = _environmentWrapper as? MySwiftUICore.ViewGraphHostEnvironmentWrapper {
             return environmentWrapper.environment

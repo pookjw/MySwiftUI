@@ -700,13 +700,12 @@ package final class UIHostingViewBase: NSObject {
     
     @MainActor
     package func _startUpdateEnvironment() -> MySwiftUICore.EnvironmentValues {
-        fatalError("TODO")
         // <+280>
         guard let uiView else {
             return MySwiftUICore.EnvironmentValues()
         }
         
-        // x29, #-0xc8
+        // x22
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
         // <+408>
         // x23
@@ -717,33 +716,46 @@ package final class UIHostingViewBase: NSObject {
             if let inheritedEnvironment {
                 // <+812>
                 environmentValues = inheritedEnvironment
+                // <+856>
             } else {
                 // <+528>
                 environmentValues = traitCollection.environmentValues()
-                // x26의 nil 여부를 확인하지만 nil이기에 의미 없음
+                // inheritedEnvironment nil 여부를 확인하지만 nil이기에 의미 없음
+                // <+596>
+                // <+856>
             }
         } else {
             // <+604>
-            // x28 (copy)
+            // x26
             if let inheritedEnvironment {
                 // <+832>
                 environmentValues = inheritedEnvironment
+                // <+856>
             } else {
                 // <+688>
-                // x19
+                // self -> x20 -> x28
+                // x20
+                let viewGraph = viewGraph
+                // x27
                 if let initialInheritedEnvironment = viewGraph.initialInheritedEnvironment {
                     // <+1044>
                     environmentValues = initialInheritedEnvironment
+                    // <+856>
                 } else {
                     // <+748>
-                    // x23
                     environmentValues = traitCollection.environmentValues()
-                    // x19, x28의 nil 여부를 확인하지만 모두 nil이기에 의미 없음
-                    // <+1064>
+                    // inheritedEnvironment, initialInheritedEnvironment의 nil 여부를 확인하지만 모두 nil이기에 의미 없음
+                    // <+856>
                 }
-                
-                self.environmentOverride = environmentValues
             }
+            
+            // <+1100>은 불릴 수 없는 것 같음
+        }
+        
+        // <+856>
+        if let environmentOverride = self.environmentOverride {
+            // <+952>
+            fatalError("TODO")
         }
         
         return environmentValues

@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-class SceneBridge {
+final class SceneBridge {
     private(set) var isAnimatingSceneResize: Bool
     
     init() {

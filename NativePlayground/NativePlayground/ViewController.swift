@@ -862,6 +862,13 @@ class ViewController: UIViewController {
         }      
         print("===")
         
+        print(_typeName(_typeByName("7SwiftUI22KeyboardShortcutBridgeC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI22KeyboardShortcutBridgeC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }      
+        print("===")
+        
         
 //        print(_typeName(_typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, qualified: true))
 //        _forEachField(of: _typeByName("7SwiftUI24ContentSizedSceneFeatureV")!, options: []) { name, offset, type, kind in
@@ -1312,10 +1319,10 @@ class ViewController: UIViewController {
 //        let rootView = MyAppStorageView()
 //        let rootView = Color.black
         
-//        let hostingView = _UIHostingView(rootView: rootView)
+        let hostingView = _UIHostingView(rootView: Color.black)
 //        let hostingView = MyHostingView(rootView: rootView)
-//        self.view = hostingView
-        super.loadView()
+        self.view = hostingView
+//        super.loadView()
         
 //        Task {
 //            while true {
@@ -1387,25 +1394,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let hostingController = UIHostingController(rootView: Color.black)
-        addChild(hostingController)
-        view.addSubview(hostingController.view)
-        hostingController.view.frame = view.bounds
-        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        hostingController.didMove(toParent: self)
-        
-        print(NSStringFromClass(object_getClass(hostingController)!))
-        print(hostingController)
-    }
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
+//        let hostingController = UIHostingController(rootView: MyFlagView(flag: false))
+//        addChild(hostingController)
+//        view.addSubview(hostingController.view)
+//        hostingController.view.frame = view.bounds
+//        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        hostingController.didMove(toParent: self)
 //        
+//        print(NSStringFromClass(object_getClass(hostingController)!))
+//        print(hostingController)
+        
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))
 //            navigationController?.popViewController(animated: true)
 //        }
-//    }
+    }
 }
 
 struct MyKey: _ViewTraitKey {
@@ -1840,6 +1843,18 @@ fileprivate struct MyAppStorageView: View {
                         flag.toggle()
                     }
                 }
+        }
+    }
+}
+
+fileprivate struct MyFlagView: View {
+    var flag: Bool
+    
+    var body: some View {
+        if flag {
+            Color.black
+        } else {
+            Color.white
         }
     }
 }

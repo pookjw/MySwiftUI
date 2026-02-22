@@ -2,7 +2,7 @@ internal import Foundation
 internal import MySwiftUICore
 private import UIKit
 
-class KeyboardShortcutBridge: NSObject {
+final class KeyboardShortcutBridge: NSObject {
     private var currentBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid) // 0x5f0
     private var updatedBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid) // 0x5f8
     private var shortcutMap: [KeyboardShortcut: KeyboardShortcutBridge.Shortcut] = [:] // 0xdb0
@@ -12,12 +12,25 @@ class KeyboardShortcutBridge: NSObject {
         super.init()
     }
     
-    final func flushKeyCommands(_: KeyboardShortcutSource?) {
-        fatalError("TODO")
+    func flushKeyCommands(_ source: KeyboardShortcutSource?) {
+        /*
+         self -> x20
+         source -> x0 -> x29 - 0xa0
+         */
+        // <+176>
+        // self -> x20 -> x29 - 0xb0
+        if !self.shortcutMap.isEmpty {
+            fatalError("TODO")
+        }
+        
+        // <+528>
+        self.shortcutMap = [:]
+        self.currentBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid)
+        self.updatedBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid)
     }
     
     @inline(__always)
-    final func preferencesDidChange(_ preferences: PreferenceValues) {
+    func preferencesDidChange(_ preferences: PreferenceValues) {
         guard isObservingPreferences else {
             return
         }

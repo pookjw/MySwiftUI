@@ -81,7 +81,7 @@ extension UIHostingController {
     }
     
     fileprivate func topOrBottomContentScrollView() -> UIScrollView? {
-        fatalError("TODO")
+        return contentScrollView(for: .top) ?? contentScrollView(for: .bottom)
     }
 }
 
