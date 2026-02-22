@@ -6,9 +6,21 @@ protocol AnyViewFactory {
     func encoding() -> (id: String, data: any (Decodable & Encodable))?
 }
 
+extension AnyViewFactory {
+    func encoding() -> (id: String, data: any (Decodable & Encodable))? {
+        fatalError("TODO")
+    }
+}
+
 protocol PlatformViewFactory: AnyViewFactory {
     var features: DisplayList.Features {
         get
+    }
+}
+
+extension PlatformViewFactory {
+    var features: DisplayList.Features {
+        fatalError("TODO")
     }
 }
 

@@ -21,7 +21,7 @@ package struct PreferencesInputs {
         if keys.contains(key) {
             return true
         } else {
-            if key._isReadableByHost {
+            if includeHostPreferences && key._isReadableByHost {
                 // <+120>
                 return keys.contains(HostPreferencesKey.self)
             } else {

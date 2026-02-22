@@ -2,8 +2,8 @@
 internal import AttributeGraph
 internal import CoreGraphics
 
-private struct PlatformViewChild<Content: CoreViewRepresentable>: StatefulRule, ObservedAttribute, RemovableAttribute, InvalidatableAttribute, ScrapeableAttribute {
-    @Attribute private var view: Content
+struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, ObservedAttribute, RemovableAttribute, InvalidatableAttribute, ScrapeableAttribute {
+    @Attribute private var view: Representable
     @Attribute private var environment: EnvironmentValues
     @Attribute private var transaction: Transaction
     @Attribute private var phase: _GraphInputs.Phase
@@ -14,13 +14,13 @@ private struct PlatformViewChild<Content: CoreViewRepresentable>: StatefulRule, 
     private let bridge: PreferenceBridge
     private var links: _DynamicPropertyBuffer
     private var features: CoreViewRepresentableFeatureBufferProxy
-    private var coordinator: Content.Coordinator?
-    private var platformView: Content.Host?
+    private var coordinator: Representable.Coordinator?
+    private var platformView: Representable.Host?
     private var resetSeed: UInt32
     private let tracker: PropertyList.Tracker
     
     init(
-        view: Attribute<Content>,
+        view: Attribute<Representable>,
         environment: Attribute<EnvironmentValues>,
         transaction: Attribute<Transaction>,
         phase: Attribute<_GraphInputs.Phase>,
@@ -31,8 +31,8 @@ private struct PlatformViewChild<Content: CoreViewRepresentable>: StatefulRule, 
         bridge: PreferenceBridge,
         links: _DynamicPropertyBuffer,
         features: CoreViewRepresentableFeatureBufferProxy,
-        coordinator: Content.Coordinator?,
-        platformView: Content.Host?,
+        coordinator: Representable.Coordinator?,
+        platformView: Representable.Host?,
         resetSeed: UInt32
     ) {
         self._view = view
@@ -52,9 +52,9 @@ private struct PlatformViewChild<Content: CoreViewRepresentable>: StatefulRule, 
         self.tracker = PropertyList.Tracker()
     }
     
-    typealias Value = Never // ViewLeafView
+    typealias Value = ViewLeafView<Representable>
     
-    var representedViewProvider: Content.PlatformViewProvider? {
+    var representedViewProvider: Representable.PlatformViewProvider? {
         fatalError("TODO")
     }
     
@@ -83,6 +83,54 @@ private struct PlatformViewChild<Content: CoreViewRepresentable>: StatefulRule, 
     }
     
     static func didReinsert(attribute: AnyAttribute) {
+        fatalError("TODO")
+    }
+}
+
+struct ViewLeafView<Representable: CoreViewRepresentable>: UnaryView, PrimitiveView, PlatformViewFactory {
+    let content: Representable
+    let platformView: Representable.Host
+    private var coordinator: Representable.Coordinator
+    
+    init(content: Representable, platformView: Representable.Host, coordinator: Representable.Coordinator) {
+        self.content = content
+        self.platformView = platformView
+        self.coordinator = coordinator
+    }
+    
+    var representedViewProvider: Representable.PlatformViewProvider {
+        fatalError("TODO")
+    }
+    
+    func makePlatformView() -> AnyObject? {
+        fatalError("TODO")
+    }
+    
+    func updatePlatformView(_ platformView: inout AnyObject) {
+        fatalError("TODO")
+    }
+    
+    func renderPlatformView(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer) {
+        fatalError("TODO")
+    }
+    
+    func sizeThatFits(in proposedSize: _ProposedSize, environment: Attribute<EnvironmentValues>, context: AnyRuleContext) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    fileprivate func unifiedLayoutSize(in proposedSize: _ProposedSize) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    func layoutTraits() -> _LayoutTraits {
+        fatalError("TODO")
+    }
+    
+    func depthThatFits(in proposedSize: _ProposedSize3D) -> CGFloat {
+        fatalError("TODO")
+    }
+    
+    var viewType: Any.Type {
         fatalError("TODO")
     }
 }

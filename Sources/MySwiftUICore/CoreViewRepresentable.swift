@@ -1,5 +1,6 @@
 // 5E43AD689C2D2E8913F7FBE5AA57B2A1
 public import CoreGraphics
+internal import AttributeGraph
 
 @_spi(Internal) public protocol CoreViewRepresentable: View {
     associatedtype PlatformViewProvider
@@ -10,7 +11,7 @@ public import CoreGraphics
         get
     }
     
-    static func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy)
+    static nonisolated func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy)
     
     func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Self.PlatformViewProvider
     func updateViewProvider(_ provider: Self.PlatformViewProvider, context: PlatformViewRepresentableContext<Self>)
@@ -98,18 +99,74 @@ extension CoreViewRepresentable {
             // x19 + 0x2f0 (sp + 0x370)
             var proxy = CoreViewRepresentableFeatureBufferProxy()
             Self.appendFeature(to: &proxy)
-            // x19 + 0x10 (sp + 0x90)
-            let cachedEnvironment = copy_2.base.cachedEnvironment.value.environment
-            // x19 + 0x14 (sp + 0x94)
-            let phase = copy_2.base.phase
-            // x19 + 0xc (sp + 0x8c)
-            let transaction = copy_2.base.transaction
             
-            copy_2.scrapeableParentID
+            // attribute -> w28
+            // x19 + 0x70 (sp + 0xf0)
+            let child = PlatformViewChild<Self>(
+                view: attribute,
+                environment: copy_2.base.cachedEnvironment.value.environment,
+                transaction: copy_2.base.transaction,
+                phase: copy_2.base.phase,
+                position: copy_2.base.cachedEnvironment.value.animatedPosition(for: copy_2),
+                size: copy_2.base.cachedEnvironment.value.animatedSize(for: copy_2),
+                transform: copy_2.transform,
+                parentID: copy_2.scrapeableParentID,
+                bridge: bridge,
+                links: buffer,
+                features: proxy,
+                coordinator: nil,
+                platformView: nil,
+                resetSeed: 0
+            )
             
+            // x19 + 0x300 (sp + 0x380) -> w25
+            let childAttribute = Attribute(child)
+            // attribute -> w28 -> x19 + 0x220 (sp + 0x2a0)
+            buffer.traceMountedProperties(to: view, fields: dynamicProperties.base)
             
-            fatalError("TODO")
-            // <+1096>
+            // x19 + 0x300 / x19 + 0x80
+            let featureProxy = CoreViewRepresentableFeatureProxy(base: childAttribute)
+            
+            // <+1636>
+            let flags: AnyAttribute.Flags
+            if copy_2.base.options.contains(.viewNeedsGeometry) {
+                // <+1656>
+                if copy_2.preferences.contains(DisplayList.Key.self) {
+                    if copy_2.base.options.contains(.doNotScrape) {
+                        flags = [.unknown0, .unknown1, .unknown2]
+                    } else {
+                        flags = [.unknown0, .unknown1, .unknown2, .unknown3]
+                    }
+                } else {
+                    flags = [.unknown0, .unknown1, .unknown2]
+                }
+            } else {
+                // <+1644>
+                flags = [.unknown0, .unknown1, .unknown2]
+            }
+            
+            childAttribute.flags = flags
+            
+            // <+1700>
+            // x24 + 0x200 (sp + 0x380)
+            let copy_3 = copy_2
+            // x24 + 0x180 (sp + 0x300)
+            var copy_4 = copy_2
+            // x19 + 0x220 (sp + 0x2a0)
+            let copy_5 = copy_3
+            
+            // <+1760>
+            for feature in proxy.reversed() {
+                feature.modifyViewInputs(inputs: &copy_4, proxy: featureProxy)
+            }
+            
+            // <+1856>
+            copy_4.preferences.remove(ViewRespondersKey.self)
+            
+            // <+1932>
+            // x24 + 0x120 ($sp + 0x2a0)
+            let copy_6 = copy_4
+            // <+1964>
             fatalError("TODO")
         } else {
             // <+684>
@@ -235,57 +292,135 @@ extension CoreViewRepresentable where Coordinator == Void {
 extension CoreViewRepresentableFeatureBuffer {
     @_spi(Internal) public struct Element {
         private(set) var base: _UnsafeHeterogeneousBuffer_Element
+        
+        func modifyViewInputs<Representable: CoreViewRepresentable>(
+            inputs: inout _ViewInputs,
+            proxy: CoreViewRepresentableFeatureProxy<Representable>
+        ) {
+            base
+                .vtable(as: CoreViewRepresentableFeatureBuffer.VTable.self)
+                .modifyViewInputs(elt: base, inputs: &inputs, proxy: proxy)
+        }
+        
+        func modifyViewOutputs<Representable: CoreViewRepresentable>(
+            outputs: inout _ViewOutputs,
+            proxy: CoreViewRepresentableFeatureProxy<Representable>
+        ) {
+            fatalError("TODO")
+        }
+        
+        func modifyBridgedInputs<Representable: CoreViewRepresentable>(
+            inputs: inout _ViewInputs,
+            proxy: CoreViewRepresentableFeatureProxy<Representable>
+        ) {
+            fatalError("TODO")
+        }
+        
+        func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
+            outputs: inout _ViewOutputs,
+            proxy: CoreViewRepresentableFeatureProxy<Representable>
+        ) {
+            fatalError("TODO")
+        }
+        
+        func update<Host: CoreViewRepresentableHost>(
+            forHost host: Host,
+            environment: inout EnvironmentValues,
+            isInitialUpdate: Bool
+        ) {
+            fatalError("TODO")
+        }
     }
     
     fileprivate class VTable: _UnsafeHeterogeneousBuffer_VTable {
-    }
-    
-    fileprivate final class _VTable<Feature: CoreViewRepresentableFeature>: VTable {
-        override static var type: any Any.Type {
-            fatalError("TODO")
-        }
-        
-        override static func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
-            fatalError("TODO")
-        }
-        
-        override static func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-            fatalError("TODO")
-        }
-        
-        static func modifyViewInputs<Representable: CoreViewRepresentable>(
+        class func modifyViewInputs<Representable: CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            fatalError() // abstract
         }
         
-        static func modifyBridgedInputs<Representable: CoreViewRepresentable>(
+        class func modifyBridgedInputs<Representable: CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            fatalError() // abstract
         }
         
-        static func modifyViewOutputs<Representable: CoreViewRepresentable>(
+        class func modifyViewOutputs<Representable: CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            fatalError() // abstract
         }
         
-        static func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
+        class func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            fatalError() // abstract
         }
         
         class func update<Host: CoreViewRepresentableHost>(
+            elt: _UnsafeHeterogeneousBuffer_Element,
+            forHost host: Host,
+            environment: inout EnvironmentValues,
+            isInitialUpdate: Bool
+        ) {
+            fatalError() // abstract
+        }
+    }
+    
+    fileprivate final class _VTable<Feature: CoreViewRepresentableFeature>: VTable {
+        override class var type: any Any.Type {
+            fatalError("TODO")
+        }
+        
+        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+            fatalError("TODO")
+        }
+        
+        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+            fatalError("TODO")
+        }
+        
+        override class func modifyViewInputs<Representable: CoreViewRepresentable>(
+            elt: _UnsafeHeterogeneousBuffer_Element,
+            inputs: inout _ViewInputs,
+            proxy: CoreViewRepresentableFeatureProxy<Representable>
+        ) {
+            elt.body(as: Feature.self).pointee.modifyViewInputs(inputs: &inputs, proxy: proxy)
+        }
+        
+        override class func modifyBridgedInputs<Representable: CoreViewRepresentable>(
+            elt: _UnsafeHeterogeneousBuffer_Element,
+            inputs: inout _ViewInputs,
+            proxy: CoreViewRepresentableFeatureProxy<Representable>
+        ) {
+            fatalError("TODO")
+        }
+        
+        override class func modifyViewOutputs<Representable: CoreViewRepresentable>(
+            elt: _UnsafeHeterogeneousBuffer_Element,
+            outputs: inout _ViewOutputs,
+            proxy: CoreViewRepresentableFeatureProxy<Representable>
+        ) {
+            fatalError("TODO")
+        }
+        
+        override class func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
+            elt: _UnsafeHeterogeneousBuffer_Element,
+            outputs: inout _ViewOutputs,
+            proxy: CoreViewRepresentableFeatureProxy<Representable>
+        ) {
+            fatalError("TODO")
+        }
+        
+        override class func update<Host: CoreViewRepresentableHost>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             forHost host: Host,
             environment: inout EnvironmentValues,
@@ -298,8 +433,12 @@ extension CoreViewRepresentableFeatureBuffer {
 
 @_spi(Internal) public protocol CoreViewRepresentableHost {}
 
-@_spi(Internal) public struct CoreViewRepresentableFeatureProxy<Representable> where Representable: CoreViewRepresentable {
+@_spi(Internal) public struct CoreViewRepresentableFeatureProxy<Representable: CoreViewRepresentable> {
+    private var base: Attribute<ViewLeafView<Representable>>
     
+    init(base: Attribute<ViewLeafView<Representable>>) {
+        self.base = base
+    }
 }
 
 @_spi(Internal) public protocol CoreViewRepresentableFeature {
