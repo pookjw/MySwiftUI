@@ -1319,10 +1319,10 @@ class ViewController: UIViewController {
 //        let rootView = MyAppStorageView()
 //        let rootView = Color.black
         
-        let hostingView = _UIHostingView(rootView: Color.black)
+//        let hostingView = _UIHostingView(rootView: Color.black)
 //        let hostingView = MyHostingView(rootView: rootView)
-        self.view = hostingView
-//        super.loadView()
+//        self.view = hostingView
+        super.loadView()
         
 //        Task {
 //            while true {
@@ -1394,15 +1394,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let hostingController = UIHostingController(rootView: MyFlagView(flag: false))
-//        addChild(hostingController)
-//        view.addSubview(hostingController.view)
-//        hostingController.view.frame = view.bounds
-//        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        hostingController.didMove(toParent: self)
-//        
-//        print(NSStringFromClass(object_getClass(hostingController)!))
-//        print(hostingController)
+        let hostingController = UIHostingController(rootView: MyFlagView(flag: false))
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.frame = view.bounds
+        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        hostingController.didMove(toParent: self)
+        
+        print(NSStringFromClass(object_getClass(hostingController)!))
+        print(hostingController)
         
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))

@@ -1,7 +1,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
-class SheetBridge<T>: NSObject {
+@MainActor class SheetBridge<T>: NSObject {
     weak var host: ViewRendererHost? = nil
     private var seed: VersionSeed = .empty
     private var presentationOptionsTracker = VersionSeedTracker<PresentationOptionsPreferenceKey>(seed: .empty)
@@ -30,7 +30,6 @@ class SheetBridge<T>: NSObject {
         viewGraph.addPreference(RemotePresentationDelayKey.self)
     }
     
-    @MainActor
     final func didMoveToWindow() {
         if host!.uiView?.window != nil {
             hasWindow = true
@@ -53,73 +52,71 @@ class SheetBridge<T>: NSObject {
         }
     }
     
-    @MainActor final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+    final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        /*
+         preferenceValues -> x19 + 0x178
+         self -> x20 -> x19 + 0x1b8
+         */
         /*
          self = x28
          preferenceValues = x21
          */
-        // x29 - 0xe8
+        // <+1628>
+        // x19 + 0x1b0
         let sheetPreferenceValue = preferenceValues[SheetPreference.Key.self]
-        // x29 - 0x70
+        // self -> x19 + 0x1b8 -> x21
+        // x25
         let lastEnvironment = lastEnvironment
-        // x29 - 0x88
-        let presentationWantsTransparentBackground = lastEnvironment.presentationWantsTransparentBackground
         
+        let presentationWantsTransparentBackground = lastEnvironment.presentationWantsTransparentBackground
         // x25
         let value: PreferenceValues.Value<ContainerBackgroundKeys.Transparency>
         if presentationWantsTransparentBackground {
-            // <+1892>
+            // <+1760>
             value = PreferenceValues.Value(value: .transparent, seed: .empty)
         } else {
-            // <+1936>
+            // <+1804>
             value = preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
         }
         
-        // <+1968>
-        // x29 - 0xd8
+        // <+1836>
+        // x19 + 0x1a0
         let presentationOptions = preferenceValues[PresentationOptionsPreferenceKey.self]
+        // self -> x19 + 0x1b8 -> x26
         
         // x22
         let interactiveDismissAttempt = preferenceValues[InteractiveDismissAttemptKey.self]
         
         if !interactiveDismissHandlerSeed.seed.matches(interactiveDismissAttempt.seed) {
-            // <+2128>
+            // <+1996>
             interactiveDismissHandlerSeed = VersionSeedTracker<InteractiveDismissAttemptKey>(seed: interactiveDismissAttempt.seed)
             interactiveDismissHandler = interactiveDismissAttempt.value
         }
         
-        // <+2252>
-        _ = consume presentationWantsTransparentBackground
-        
-        // x20
-        // x23 = address
-        let host = self.host!
+        // <+2120>
         // x19
-        if let uiViewController = host.uiViewController as? PresentationHostingController<AnyView> {
-            // <+2376>
+        if let uiViewController = host!.uiViewController as? PresentationHostingController<AnyView> {
+            // <+2280>
             fatalError("TODO")
         }
         
-        // <+2824>
+        // <+2692>
         if self.seed.matches(value.seed) {
-            // <+2960>
-            if self.host!.uiViewController != nil {
-                // <+4384>
+            // <+2824>
+            guard let _ = self.host!.uiViewController as? PresentationHostingController<AnyView> else {
                 return
-            } else {
-                // <+3036>
-                fatalError("TODO")
             }
+            
+            // <+2896>
             fatalError("TODO")
         } else {
-            // <+3816>
+            // <+3920>
             fatalError("TODO")
         }
         fatalError("TODO")
     }
     
     // ___lldb_unnamed_symbol264926
-    @MainActor
     final func _update(environment: EnvironmentValues) {
         // environment = x23
         // x22
