@@ -1,3 +1,4 @@
+// A513612C07DFA438E70B9FA90719B40D
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 internal import AttributeGraph
@@ -69,6 +70,34 @@ struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
     }
     
     func modifyViewOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
+        /*
+         outputs -> x29 - 0xb8
+         proxy -> x1 -> x29 - 0xd8
+         self -> x20 -> x29 - 0xd0
+         */
+        // x27
+        let copy_1 = inputs
+        guard let copy_1 else {
+            return
+        }
+        
+        // <+388>
+        // x24
+        let copy_2 = copy_1
+        // x29 - 0xe4
+        let base = proxy.base
+        
+        if copy_2.preferences.contains(ViewRespondersKey.self) {
+            // <+508>
+            // x21
+            let copy_3 = copy_2
+            // x29 - 0x90
+            let filter = ViewResponderFilter(inputs: copy_3, view: base)
+            let filterAttribute = Attribute(filter)
+            outputs[ViewRespondersKey.self] = filterAttribute
+        }
+        
+        // <+772>
         fatalError("TODO")
     }
     
@@ -87,5 +116,59 @@ struct PlatformViewIdentifiedViews<Representable: CoreViewRepresentable>: Rule {
     
     var value: _IdentifiedViewTree {
         fatalError("TODO")
+    }
+}
+
+fileprivate struct ViewResponderFilter<Representable: CoreViewRepresentable>: StatefulRule {
+    private var _view: Attribute<ViewLeafView<Representable>> // 0x0
+    @Attribute private(set) var position: CGPoint // 0x4
+    @Attribute private(set) var size: ViewSize // 0x8
+    @Attribute private(set) var transform: ViewTransform // 0xc
+    @Attribute private(set) var layoutDirection: LayoutDirection // 0x10
+    let responder: UIViewResponder // 0x18
+    private(set) weak var viewGraph: ViewGraph? // 0x20
+    @Attribute private(set) var keyPressHandlers: [KeyPress.Handler] // 0x28
+    private(set) var _preferredFocusableView: OptionalAttribute<Representable.PlatformViewProvider> // 0x2c
+    
+    init(inputs: _ViewInputs, view: Attribute<ViewLeafView<Representable>>) {
+        /*
+         view -> w1 -> x29 - 0x64
+         inputs -> x0 -> x19
+         return pointer -> x8 -> x23
+         */
+        // <+160>
+        self.responder = UIViewResponder()
+        self.viewGraph = .current
+        self._view = view
+        self._preferredFocusableView = OptionalAttribute()
+        self._position = inputs.animatedPosition()
+        self._size = inputs.animatedSize()
+        self._transform = inputs.transform
+        self._layoutDirection = inputs.layoutDirection
+        
+        // <+356>
+        self._keyPressHandlers = inputs.base.keyPressHandlers
+        // <+520>
+        self._preferredFocusableView = inputs[RepresentablePreferredFocusableViewInput<Representable>.self]
+    }
+    
+    var view: ViewLeafView<Representable> {
+        return _view.value
+    }
+    
+    var preferredFocusableView: ((Representable.PlatformViewProvider) -> UIView?)?? {
+        fatalError("TODO")
+    }
+    
+    typealias Value = [ViewResponder]
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+struct RepresentablePreferredFocusableViewInput<Representable: CoreViewRepresentable>: ViewInput {
+    static var defaultValue: OptionalAttribute<Representable.PlatformViewProvider> {
+        return OptionalAttribute()
     }
 }

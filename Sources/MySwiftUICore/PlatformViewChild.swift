@@ -140,7 +140,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
          inputs -> x1 -> x24
          return register -> x8 -> x28
          */
-        var preferencesOutputs = PreferencesOutputs()
+        var outputs = _ViewOutputs()
         // x29 - 0x118 (sp + 0x48)
         let copy_1 = inputs
         // <+152>
@@ -178,7 +178,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             )
             // x29 - 0xd0 (sp + 0x90)
             let platformDisplayListAttribute = Attribute(platformDisplayList)
-            preferencesOutputs.appendPreference(key: DisplayList.Key.self, value: platformDisplayListAttribute)
+            outputs.preferences.appendPreference(key: DisplayList.Key.self, value: platformDisplayListAttribute)
             
             // <+788>
         }
@@ -186,11 +186,17 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         // <+804>
         if inputs.base.options.contains(.animationsDisabled) {
             // <+812>
-            fatalError("TODO")
+            let environment = LeafLayoutEnvironment(environment: inputs.environment, tracker: PropertyList.Tracker())
+            // w24
+            let environmentAttribute = Attribute(environment)
+            
+            let layoutComputer = InvalidatableLeafLayoutComputer(_view: view.value, environment: environmentAttribute, viewGraph: .current)
+            let layoutAttribute = Attribute(layoutComputer)
+            outputs.layoutComputer = layoutAttribute
         }
         
         // <+1292>
-        fatalError("TODO")
+        return outputs
     }
 }
 
@@ -202,7 +208,7 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
     @Attribute private(set) var size: ViewSize
     @Attribute private(set) var transform: ViewTransform
     private(set) var _environment: Attribute<EnvironmentValues>
-    @OptionalAttribute private(set) var safeAreaInsets: SafeAreaInsets?
+    @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
     private(set) var contentSeed: DisplayList.Seed
     
     var environment: EnvironmentValues {
@@ -210,6 +216,37 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
     }
     
     typealias Value = DisplayList
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct LeafLayoutEnvironment: StatefulRule {
+    @Attribute var environment: EnvironmentValues
+    let tracker: PropertyList.Tracker
+    
+    typealias Value = EnvironmentValues
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct InvalidatableLeafLayoutComputer<Representable: CoreViewRepresentable>: StatefulRule, CustomStringConvertible {
+    private(set) var _view: Attribute<ViewLeafView<Representable>>
+    @Attribute private(set) var environment: EnvironmentValues
+    private(set) weak var viewGraph: ViewGraph?
+    
+    var view: ViewLeafView<Representable> {
+        return _view.value
+    }
+    
+    var description: String {
+        fatalError("TODO")
+    }
+    
+    typealias Value = LayoutComputer
     
     func updateValue() {
         fatalError("TODO")

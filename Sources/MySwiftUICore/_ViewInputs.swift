@@ -103,13 +103,11 @@ public struct _ViewInputs {
         base.copyCaches()
     }
     
-    @inline(__always)
-    func animatedPosition() -> Attribute<CGPoint> {
+    package func animatedPosition() -> Attribute<CGPoint> {
         return base.cachedEnvironment.value.animatedPosition(for: self)
     }
     
-    @inline(__always)
-    func animatedSize() -> Attribute<ViewSize> {
+    package func animatedSize() -> Attribute<ViewSize> {
         return base.cachedEnvironment.value.animatedSize(for: self)
     }
     
@@ -132,6 +130,10 @@ public struct _ViewInputs {
     
     mutating func popLast<Input: ViewInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
         return base.popLast(input)
+    }
+    
+    package func mapEnvironment<T>(id: CachedEnvironment.ID, _ block: @escaping (EnvironmentValues) -> T) -> Attribute<T> {
+        return base.mapEnvironment(id: id, block)
     }
 }
 
@@ -221,7 +223,7 @@ extension _ViewInputs {
         }
     }
     
-    var layoutDirection: Attribute<LayoutDirection> {
+    package var layoutDirection: Attribute<LayoutDirection> {
         return base.cachedEnvironment.value.attribute(id: .layoutDirection) { environmentValues in
             return environmentValues.layoutDirection
         }

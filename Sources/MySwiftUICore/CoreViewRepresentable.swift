@@ -323,7 +323,9 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            base
+                .vtable(as: CoreViewRepresentableFeatureBuffer.VTable.self)
+                .modifyViewOutputs(elt: base, outputs: &outputs, proxy: proxy)
         }
         
         func modifyBridgedInputs<Representable: CoreViewRepresentable>(
@@ -426,7 +428,7 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            elt.body(as: Feature.self).pointee.modifyViewOutputs(outputs: &outputs, proxy: proxy)
         }
         
         override class func modifyWrappedOutputs<Representable: CoreViewRepresentable>(

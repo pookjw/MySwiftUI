@@ -6,8 +6,7 @@ internal import QuartzCore
 private import Spatial
 
 package final class ViewGraph: GraphHost {
-    @inline(__always)
-    static var current: ViewGraph {
+    package static var current: ViewGraph {
         return GraphHost.currentHost as! ViewGraph
     }
     

@@ -127,10 +127,14 @@ package struct CachedEnvironment {
 
 extension CachedEnvironment {
     package struct ID: Equatable {
-        static let layoutDirection = CachedEnvironment.ID(base: UniqueID())
-        static let pixelLength = CachedEnvironment.ID(base: UniqueID())
+        static let layoutDirection = CachedEnvironment.ID()
+        static let pixelLength = CachedEnvironment.ID()
         
         var base: UniqueID
+        
+        package init() {
+            self.base = UniqueID()
+        }
     }
     
     struct PlatformCache {

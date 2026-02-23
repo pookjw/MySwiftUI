@@ -147,6 +147,10 @@ public struct _GraphInputs {
         self.options = options
     }
     
+    package func mapEnvironment<T>(id: CachedEnvironment.ID, _ block: @escaping (EnvironmentValues) -> T) -> Attribute<T> {
+        return cachedEnvironment.value.attribute(id: id, block)
+    }
+    
     fileprivate mutating func recordReusableInput<Input: GraphInput>(_ input: Input.Type) where Input.Value: GraphReusable {
         guard GraphReuseOptions.current.contains(.expandedReuse) else {
             return
