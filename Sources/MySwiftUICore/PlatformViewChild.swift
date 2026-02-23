@@ -1,5 +1,5 @@
 // 6401BBC0F2663213443101ED0E1CE437
-internal import AttributeGraph
+public import AttributeGraph
 internal import CoreGraphics
 
 struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, ObservedAttribute, RemovableAttribute, InvalidatableAttribute, ScrapeableAttribute {
@@ -87,7 +87,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
 }
 
-struct ViewLeafView<Representable: CoreViewRepresentable>: UnaryView, PrimitiveView, PlatformViewFactory {
+@_spi(Internal) public struct ViewLeafView<Representable: CoreViewRepresentable>: UnaryView, PrimitiveView, PlatformViewFactory {
     let content: Representable
     let platformView: Representable.Host
     private var coordinator: Representable.Coordinator
@@ -131,6 +131,39 @@ struct ViewLeafView<Representable: CoreViewRepresentable>: UnaryView, PrimitiveV
     }
     
     var viewType: Any.Type {
+        fatalError("TODO")
+    }
+    
+    public static nonisolated func _makeView(view: _GraphValue<ViewLeafView<Representable>>, inputs: _ViewInputs) -> _ViewOutputs {
+        /*
+         view -> x0 -> x29 - 0xf4
+         inputs -> x1 -> x24
+         return register -> x8 -> x28
+         */
+        // x29 - 0x118 (sp + 0x48)
+        let copy_1 = inputs
+        // <+152>
+        if inputs.preferences.contains(DisplayList.Key.self) {
+            // <+196>
+            let identity: _DisplayList_Identity
+            if !inputs.base.options.contains(.needsStableDisplayListIDs) {
+                // <+240>
+                identity = _DisplayList_Identity()
+                fatalError("TODO")
+                // <+280>
+            } else {
+                // <+1348>
+                let weakAttribute = copy_1[_DisplayList_StableIdentityScope.self]
+                let attribute = weakAttribute.attribute!
+                identity = attribute.value.pushIdentity()
+                // <+280>
+            }
+            
+            // <+280>
+            fatalError("TODO")
+        }
+        
+        // <+804>
         fatalError("TODO")
     }
 }

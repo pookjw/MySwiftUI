@@ -1,3 +1,5 @@
+internal import MySwiftUICore
+
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public enum _IdentifiedViewTree {
     case empty
@@ -14,7 +16,7 @@ extension _IdentifiedViewTree: Sendable {
 }
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-public struct _IdentifiedViewsKey {
+public struct _IdentifiedViewsKey: HostPreferenceKey {
     public typealias Value = _IdentifiedViewTree
     
     nonisolated(unsafe) public static let defaultValue: _IdentifiedViewTree = {

@@ -864,6 +864,10 @@ struct _DisplayList_StableIdentityScope: ViewInput, _ViewTraitKey {
         map.map[identity] = makeIdentity()
     }
     
+    mutating func pushIdentity() -> _DisplayList_Identity {
+        fatalError("TODO")
+    }
+    
     mutating func makeIdentity() -> _DisplayList_StableIdentity {
         let serial = (serial &+ 1)
         self.serial = serial

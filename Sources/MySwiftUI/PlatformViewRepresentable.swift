@@ -41,23 +41,51 @@ struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
     private(set) var representableType: any PlatformViewRepresentable.Type
     private(set) var importer: MRUIPreferenceImporter?
     
-    func modifyViewInputs<Representable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) where Representable : MySwiftUICore.CoreViewRepresentable {
+    mutating func modifyViewInputs<Representable: CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
+        /*
+         self -> x20 -> x22
+         inputs -> x0 -> x19
+         proxy -> x1 -> x20
+         */
+        // x24
+        let base = proxy.base
+        self.inputs = inputs
+        // <+300>
+        self._focusedValues = inputs.base[FocusedValuesInputKey.self]
+        
+        if inputs.preferences.contains(_IdentifiedViewsKey.self, includeHostPreferences: true) {
+            // <+444>
+            let views = PlatformViewIdentifiedViews<Representable>(leafView: proxy.base, time: inputs.time)
+            let viewsAttribute = Attribute(views)
+            _identifiedViews = OptionalAttribute(viewsAttribute)
+        }
+        
+        // <+628>
+        inputs.preferences.remove(_IdentifiedViewsKey.self)
+    }
+    
+    func modifyBridgedInputs<Representable: CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         fatalError("TODO")
     }
     
-    func modifyBridgedInputs<Representable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) where Representable : MySwiftUICore.CoreViewRepresentable {
+    func modifyViewOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         fatalError("TODO")
     }
     
-    func modifyViewOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) where Representable : MySwiftUICore.CoreViewRepresentable {
+    func modifyWrappedOutputs<Representable: CoreViewRepresentable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         fatalError("TODO")
     }
     
-    func modifyWrappedOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) where Representable : MySwiftUICore.CoreViewRepresentable {
+    func update<Host: CoreViewRepresentableHost>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) {
         fatalError("TODO")
     }
+}
+
+struct PlatformViewIdentifiedViews<Representable: CoreViewRepresentable>: Rule {
+    @Attribute fileprivate private(set) var leafView: ViewLeafView<Representable>
+    @Attribute fileprivate private(set) var time: Time
     
-    func update<Host>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) where Host : MySwiftUICore.CoreViewRepresentableHost {
+    var value: _IdentifiedViewTree {
         fatalError("TODO")
     }
 }

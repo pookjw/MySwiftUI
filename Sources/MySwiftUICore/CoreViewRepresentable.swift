@@ -1,6 +1,6 @@
 // 5E43AD689C2D2E8913F7FBE5AA57B2A1
 public import CoreGraphics
-internal import AttributeGraph
+public import AttributeGraph
 
 @_spi(Internal) public protocol CoreViewRepresentable: View {
     associatedtype PlatformViewProvider
@@ -164,10 +164,27 @@ extension CoreViewRepresentable {
             copy_4.preferences.remove(ViewRespondersKey.self)
             
             // <+1932>
-            // x24 + 0x120 ($sp + 0x2a0)
+            // x24 + 0x120 (sp + 0x2a0)
             let copy_6 = copy_4
-            // <+1964>
-            fatalError("TODO")
+            // x24 + 0x60 (sp + 0x1e0)
+            let copy_7 = copy_4
+            // x19 + 0x100 (sp + 0x180)
+            let copy_8 = copy_7
+            // x19 + 0xa8 (sp + 0x128)
+            let copy_9 = copy_5
+            
+            // x23
+            var outptus = ViewLeafView<Self>.makeDebuggableView(view: _GraphValue(childAttribute), inputs: copy_7)
+            
+            // <+2176>
+            for feature in proxy.reversed() {
+                feature.modifyViewOutputs(outputs: &outptus, proxy: featureProxy)
+                feature.modifyBridgedInputs(inputs: &copy_2, proxy: featureProxy)
+            }
+            
+            // <+2424>
+            bridge.wrapInputs(&copy_2)
+            return outptus
         } else {
             // <+684>
             fatalError("TODO")
@@ -434,7 +451,7 @@ extension CoreViewRepresentableFeatureBuffer {
 @_spi(Internal) public protocol CoreViewRepresentableHost {}
 
 @_spi(Internal) public struct CoreViewRepresentableFeatureProxy<Representable: CoreViewRepresentable> {
-    private var base: Attribute<ViewLeafView<Representable>>
+    public var base: Attribute<ViewLeafView<Representable>>
     
     init(base: Attribute<ViewLeafView<Representable>>) {
         self.base = base
@@ -442,7 +459,7 @@ extension CoreViewRepresentableFeatureBuffer {
 }
 
 @_spi(Internal) public protocol CoreViewRepresentableFeature {
-    func modifyViewInputs<Representable: CoreViewRepresentable>(
+    mutating func modifyViewInputs<Representable: CoreViewRepresentable>(
         inputs: inout _ViewInputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     )

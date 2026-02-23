@@ -24,7 +24,7 @@ public struct _ViewInputs {
     var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
     var containerSize: OptionalAttribute<ViewSize>
     
-    var time: Attribute<Time> {
+    package var time: Attribute<Time> {
         get {
             return base.time
         }
