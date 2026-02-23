@@ -104,11 +104,11 @@ extension CoreViewRepresentable {
             // x19 + 0x70 (sp + 0xf0)
             let child = PlatformViewChild<Self>(
                 view: attribute,
-                environment: copy_2.base.cachedEnvironment.value.environment,
+                environment: copy_2.environment,
                 transaction: copy_2.base.transaction,
                 phase: copy_2.base.phase,
-                position: copy_2.base.cachedEnvironment.value.animatedPosition(for: copy_2),
-                size: copy_2.base.cachedEnvironment.value.animatedSize(for: copy_2),
+                position: copy_2.animatedPosition(),
+                size: copy_2.animatedSize(),
                 transform: copy_2.transform,
                 parentID: copy_2.scrapeableParentID,
                 bridge: bridge,

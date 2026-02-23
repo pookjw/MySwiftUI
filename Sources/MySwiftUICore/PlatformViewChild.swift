@@ -140,16 +140,17 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
          inputs -> x1 -> x24
          return register -> x8 -> x28
          */
+        var preferencesOutputs = PreferencesOutputs()
         // x29 - 0x118 (sp + 0x48)
         let copy_1 = inputs
         // <+152>
         if inputs.preferences.contains(DisplayList.Key.self) {
             // <+196>
+            // x29 - 0x158
             let identity: _DisplayList_Identity
             if !inputs.base.options.contains(.needsStableDisplayListIDs) {
                 // <+240>
                 identity = _DisplayList_Identity()
-                fatalError("TODO")
                 // <+280>
             } else {
                 // <+1348>
@@ -160,10 +161,57 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             }
             
             // <+280>
-            fatalError("TODO")
+            // x29 - 0xb8 (sp + 0xa8)
+            let copy_2 = copy_1
+            
+            // x29 - 0xb8 (sp + 0xa8)
+            let platformDisplayList = PlatformViewDisplayList<Representable>(
+                identity: identity,
+                view: view.value,
+                position: copy_2.animatedPosition(),
+                containerPosition: inputs.position,
+                size: copy_2.animatedSize(), // <+580>
+                transform: inputs.transform,
+                _environment: copy_2.environment,
+                safeAreaInsets: inputs.safeAreaInsets,
+                contentSeed: DisplayList.Seed()
+            )
+            // x29 - 0xd0 (sp + 0x90)
+            let platformDisplayListAttribute = Attribute(platformDisplayList)
+            preferencesOutputs.appendPreference(key: DisplayList.Key.self, value: platformDisplayListAttribute)
+            
+            // <+788>
         }
         
         // <+804>
+        if inputs.base.options.contains(.animationsDisabled) {
+            // <+812>
+            fatalError("TODO")
+        }
+        
+        // <+1292>
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>: StatefulRule {
+    let identity: _DisplayList_Identity
+    @Attribute private(set) var view: ViewLeafView<Representable>
+    @Attribute private(set) var position: CGPoint
+    @Attribute private(set) var containerPosition: CGPoint
+    @Attribute private(set) var size: ViewSize
+    @Attribute private(set) var transform: ViewTransform
+    private(set) var _environment: Attribute<EnvironmentValues>
+    @OptionalAttribute private(set) var safeAreaInsets: SafeAreaInsets?
+    private(set) var contentSeed: DisplayList.Seed
+    
+    var environment: EnvironmentValues {
+        return _environment.value
+    }
+    
+    typealias Value = DisplayList
+    
+    func updateValue() {
         fatalError("TODO")
     }
 }
