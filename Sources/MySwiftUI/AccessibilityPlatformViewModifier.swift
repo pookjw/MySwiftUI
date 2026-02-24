@@ -18,6 +18,7 @@ struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
         // <+124>
         if inputs.preferences.contains(AccessibilityNodesKey.self) {
             // <+188>
+            Self.makeResolvableTransform(context: representable, inputs: inputs, outputs: outputs, includeGeometry: <#T##Bool#>, for: AccessibilityBridgedPlatformView.self)
 //            let view = AccessibilityBridgedPlatformView.init(context: <#T##Attribute<ViewLeafView<Representable>>#>)
             
 //            Self.makeResolvableTransform(inputs: <#T##_ViewInputs#>, outputs: <#T##_ViewOutputs#>, includeGeometry: <#T##Bool#>, for: <#T##AnyResolvableAccessibilityViewModifier.Type#>)
@@ -48,7 +49,7 @@ extension AccessibilityPlatformViewModifier {
 }
 
 struct AccessibilityBridgedPlatformView<Representable: CoreViewRepresentable>: ResolvableAccessibilityModifierStatefulRule {
-    typealias Context = Never // TODO
+    typealias Context = ViewLeafView<Representable>
     
     @Attribute fileprivate private(set) var context: ViewLeafView<Representable>
     
