@@ -16,7 +16,7 @@ final class MRUIPreferenceExporter {
 //        SupportedVolumeViewpointsKey.self
     ]
     
-    weak var host: MRUIPreferenceHost? = nil
+    weak var host: (any MRUIPreferenceHostProtocol)? = nil
     private var exportedPreferences: [any AnyExportedPreference]
     
     init() {
@@ -56,7 +56,7 @@ final class MRUIPreferenceExporter {
 
 fileprivate protocol AnyExportedPreference {
     func addPreference(to graph: ViewGraph)
-    @MainActor mutating func apply(to host: MRUIPreferenceHost)
+    @MainActor mutating func apply(to host: any MRUIPreferenceHostProtocol)
     mutating func preferencesDidChange(_ values: PreferenceValues)
 }
 
@@ -117,7 +117,7 @@ fileprivate struct ExportedPreference<T: MRUIBridgedPreferenceKey>: AnyExportedP
     }
     
     // _UIHostingView가 들어옴
-    mutating func apply(to host: MRUIPreferenceHost) {
+    mutating func apply(to host: any MRUIPreferenceHostProtocol) {
         guard !lastSeed.matches(seed) else {
             return
         }

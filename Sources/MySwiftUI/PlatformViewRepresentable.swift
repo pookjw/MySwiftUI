@@ -35,12 +35,12 @@ protocol AnyPlatformViewHost {
 }
 
 struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
-    private(set) var inputs: _ViewInputs?
-    @OptionalAttribute var identifiedViews: _IdentifiedViewTree?
-    @OptionalAttribute var focusedValues: FocusedValues?
-    @OptionalAttribute var platformViewAccessibilityNodes: AccessibilityNodeList?
-    private(set) var representableType: any PlatformViewRepresentable.Type
-    private(set) var importer: MRUIPreferenceImporter?
+    private(set) var inputs: _ViewInputs? // 0x0
+    @OptionalAttribute var identifiedViews: _IdentifiedViewTree? // 0x54 (actual), 0x14 (offset field)
+    @OptionalAttribute var focusedValues: FocusedValues? // 0x58 (actual), 0x18 (offset field)
+    @OptionalAttribute var platformViewAccessibilityNodes: AccessibilityNodeList? // 0x5c (actual), 0x1c (offset field)
+    private(set) var representableType: any PlatformViewRepresentable.Type // 0x60 (actual), 0x20 (offset field)
+    private(set) var importer: MRUIPreferenceImporter? // 0x70 (actual), 0x24 (offset field)
     
     mutating func modifyViewInputs<Representable: CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         /*
@@ -69,7 +69,7 @@ struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
         fatalError("TODO")
     }
     
-    func modifyViewOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
+    mutating func modifyViewOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         /*
          outputs -> x29 - 0xb8
          proxy -> x1 -> x29 - 0xd8
@@ -98,7 +98,48 @@ struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
         }
         
         // <+772>
-        fatalError("TODO")
+        outputs.makeContentPathPreferenceWriter(inputs: copy_2, contentResponder: { () -> Attribute<TrivialContentResponder> in
+            // $s7SwiftUI32PlatformViewRepresentableFeatureV06modifyD7Outputs7outputs5proxyyAA01_dH0Vz_AA04CoredeF5ProxyVyxGtAA0kdE0RzlF14AttributeGraph0M0VyAA23TrivialContentResponderVGyXEfu_
+            fatalError("TODO")
+        }())
+        
+        // <+844>
+        if let attribute = $identifiedViews {
+            // <+888>
+            outputs.preferences.makePreferenceWriter(inputs: copy_2.preferences, key: _IdentifiedViewsKey.self, value: {
+                // $s7SwiftUI28ManipulationGeometryModifierV9_makeView8modifier6inputs4bodyAA01_G7OutputsVAA11_GraphValueVyACG_AA01_G6InputsVAiA01_L0V_ANtctFZ09AttributeL00O0VySDy10Foundation4UUIDVASyAA06ObjectcD0VGGGyXEfu_TA
+                return attribute
+            }())
+        }
+        
+        // <+1028>
+        outputs.preferences.makePreferenceWriter(inputs: copy_2.preferences, key: FocusableBounds.Key.self, value: {
+            // $s7SwiftUI32PlatformViewRepresentableFeatureV06modifyD7Outputs7outputs5proxyyAA01_dH0Vz_AA04CoredeF5ProxyVyxGtAA0kdE0RzlF14AttributeGraph0M0VySayAA15FocusableBoundsVGGyXEfu1_TA
+            fatalError("TODO")
+        }())
+        
+        AccessibilityPlatformViewModifier.makeAccessibilityPlatformTransform(inputs: copy_2, representable: proxy.base, outputs: &outputs)
+        
+        // <+1200>
+        self.$platformViewAccessibilityNodes = outputs[AccessibilityNodesKey.self]
+        
+        if copy_2.preferences.contains(AccessibilityNodesKey.self) {
+            // <+1316>
+            outputs[AccessibilityNodesKey.self] = nil
+        }
+        
+        // <+1348>
+        let importer: MRUIPreferenceImporter
+        if let _importer = self.importer {
+            importer = _importer
+        } else {
+            // <+1360>
+            importer = MRUIPreferenceImporter(graph: .current)
+            self.importer = importer
+        }
+        
+        // <+1540>
+        importer.writePreferences(to: &outputs, inputs: copy_2)
     }
     
     func modifyWrappedOutputs<Representable: CoreViewRepresentable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {

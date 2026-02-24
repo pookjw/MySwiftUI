@@ -471,7 +471,7 @@ extension CoreViewRepresentableFeatureBuffer {
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     )
     
-    func modifyViewOutputs<Representable: CoreViewRepresentable>(
+    mutating func modifyViewOutputs<Representable: CoreViewRepresentable>(
         outputs: inout _ViewOutputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     )

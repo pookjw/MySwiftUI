@@ -1,7 +1,7 @@
 package import AttributeGraph
 
 public struct _ViewOutputs {
-    package internal(set) var preferences = PreferencesOutputs()
+    package var preferences = PreferencesOutputs()
     private var _layoutComputer: OptionalAttribute<LayoutComputer>
     var layoutComputer: Attribute<LayoutComputer>? {
         get {

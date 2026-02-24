@@ -9,7 +9,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary<Class, id> *)aggregatedPreferences;
 @end
 
+@protocol MRUIPreferenceHostConformer <MRUIPreferenceHost>
+@property (readonly, nonatomic) id<MRUIPreferenceHost> parentPreferenceHost;
+- (void)descendant:(id)arg1 changedToValue:(id)arg2 forPreferenceKey:(Class)arg3;
+- (id)parentPreferenceHost;
+@end
+
 @interface UIView (MRUIPrivate) <MRUIPreferenceHost>
+@end
+
+@interface MRUIPreferenceHost : NSObject <MRUIPreferenceHost>
 @end
 
 NS_ASSUME_NONNULL_END
