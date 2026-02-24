@@ -1,9 +1,9 @@
-struct ScrapeableContent {
+package struct ScrapeableContent {
     // TODO
 }
 
 extension ScrapeableContent {
-    enum Content {
+    package enum Content {
         // TODO
     }
 }

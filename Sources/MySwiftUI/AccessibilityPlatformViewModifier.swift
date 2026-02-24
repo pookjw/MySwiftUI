@@ -16,23 +16,43 @@ struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
          outputs -> x2 -> x19
          */
         // <+124>
+        let attribute: Attribute<AccessibilityNodeList>?
         if inputs.preferences.contains(AccessibilityNodesKey.self) {
             // <+188>
-            Self.makeResolvableTransform(context: representable, inputs: inputs, outputs: outputs, includeGeometry: <#T##Bool#>, for: AccessibilityBridgedPlatformView.self)
-//            let view = AccessibilityBridgedPlatformView.init(context: <#T##Attribute<ViewLeafView<Representable>>#>)
-            
-//            Self.makeResolvableTransform(inputs: <#T##_ViewInputs#>, outputs: <#T##_ViewOutputs#>, includeGeometry: <#T##Bool#>, for: <#T##AnyResolvableAccessibilityViewModifier.Type#>)
-            fatalError("TODO")
+            attribute = Self.makeResolvableTransform(context: representable, inputs: inputs, outputs: outputs, includeGeometry: options.contains(.unknown0), for: AccessibilityBridgedPlatformView<T>.self)
+            // <+868>
+            outputs[AccessibilityNodesKey.self] = attribute
         } else {
             // <+344>
             fatalError("TODO")
         }
-        
-        // <+868>
-        fatalError("TODO")
     }
     
     static nonisolated func makeAccessibilityViewModifier(modifier: _GraphValue<AccessibilityPlatformViewModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    static var options: AccessibilityModifierOptions {
+        return [.unknown0]
+    }
+    
+    func willCreateNode(for nodes: [AccessibilityNode]) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func initialAttachment(for node: AccessibilityNode) -> MySwiftUICore.AccessibilityAttachment {
+        fatalError("TODO")
+    }
+    
+    func createOrUpdateNode(viewRendererHost: (any MySwiftUICore.ViewRendererHost)?, existingNode: AccessibilityNode?) -> AccessibilityNode {
+        fatalError("TODO")
+    }
+    
+    func scrapeableContent(environment: MySwiftUICore.EnvironmentValues, idiom: MySwiftUICore.AnyInterfaceIdiom) -> MySwiftUICore.ScrapeableContent.Content? {
+        fatalError("TODO")
+    }
+    
+    var supportsPlaceholders: Bool {
         fatalError("TODO")
     }
 }
@@ -49,11 +69,19 @@ extension AccessibilityPlatformViewModifier {
 }
 
 struct AccessibilityBridgedPlatformView<Representable: CoreViewRepresentable>: ResolvableAccessibilityModifierStatefulRule {
+    static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute {
+        fatalError("TODO")
+    }
+    
     typealias Context = ViewLeafView<Representable>
     
     @Attribute fileprivate private(set) var context: ViewLeafView<Representable>
     
     typealias Value = AccessibilityPlatformViewModifier
+    
+    init(context: Attribute<ViewLeafView<Representable>>) {
+        self._context = context
+    }
     
     func updateValue() {
         fatalError("TODO")

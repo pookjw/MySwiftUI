@@ -3,30 +3,31 @@
 internal import AttributeGraph
 @_spi(Internal) internal import MySwiftUICore
 
-protocol AccessibilityViewModifier: PrimitiveViewModifier, MultiViewModifier {}
+protocol AccessibilityViewModifier: PrimitiveViewModifier, MultiViewModifier {
+    static var options: AccessibilityModifierOptions { get }
+    func willCreateNode(for nodes: [AccessibilityNode]) -> Bool
+    func initialAttachment(for node: AccessibilityNode) -> AccessibilityAttachment
+    func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment
+    func createOrUpdateNode(viewRendererHost: ViewRendererHost?, existingNode: AccessibilityNode?) -> AccessibilityNode
+    func scrapeableContent(environment: EnvironmentValues, idiom: AnyInterfaceIdiom) -> ScrapeableContent.Content?
+    static nonisolated func makeAccessibilityViewModifier(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs
+    var supportsPlaceholders: Bool { get }
+}
 
 extension AccessibilityViewModifier {
-    static func makeResolvableTransform<T: AnyResolvableAccessibilityViewModifier>(inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for: T.Type) -> Attribute<AccessibilityNodeList>? {
-        // $s7SwiftUI25AccessibilityViewModifierPAAE23makeResolvableTransform6inputs7outputs15includeGeometry3for14AttributeGraph0N0VyAA0C8NodeListVGSgAA01_D6InputsV_AA01_D7OutputsVSbqd__mtAA03AnygcdE0Rd__lFZAA0c9ContainerE0V_AA0cU8ResolverVyAA0C13ChildBehaviorV4HostVGTt2t3g5
-        /*
-         inputs = x22
-         outputs = x21
-         includeGeometry = x23
-         */
-        
-        guard unsafe inputs.preferences.contains(AccessibilityNodesKey.self) else {
-            return nil
-        }
-        
-        let resolvableModifier = ResolvableModifier(subgraph: .current!, context: .empty, base: T.self)
-        return Self.makePropertiesTransform(modifier: .empty, inputs: inputs, outputs: outputs, includeGeometry: includeGeometry, resolvableModifier: resolvableModifier, scrapeableID: .none)
-    }
-    
-    static func makeResolvableTransform<T: ResolvableAccessibilityModifierStatefulRule>(context: Attribute<T.Context>, inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for: T.Type) -> Attribute<AccessibilityNodeList>? where T.Value == Self {
+    static func configureInputsForGeometry(_ inputs: inout _ViewInputs) {
         fatalError("TODO")
     }
     
-    fileprivate static func makePropertiesTransform(
+    static nonisolated func _makeView(modifier: _GraphValue<AccessibilityViewModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment {
+        fatalError("TODO")
+    }
+    
+    fileprivate static nonisolated func makePropertiesTransform(
         modifier: AnyAttribute,
         inputs: _ViewInputs,
         outputs: _ViewOutputs,
@@ -160,34 +161,114 @@ extension AccessibilityViewModifier {
         
         return attribute
     }
+    
+    static nonisolated func makeResolvableTransform<T: ResolvableAccessibilityModifierStatefulRule>(context: Attribute<T.Context>, inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for type: T.Type) -> Attribute<AccessibilityNodeList>? where T.Value == Self {
+        /*
+         self -> w0 -> x29 - 0x7c
+         inputs -> x1 -> x24
+         outputs -> x2 -> x29 - 0x60
+         includeGeometry -> w3 -> x29 - 0x6c
+         */
+        // <+176>
+        guard inputs.preferences.contains(AccessibilityNodesKey.self) else {
+            return nil
+        }
+        
+        // <+240>
+        let modifier = ResolvableModifier(context: context.identifier, type: T.self)
+        
+        let attribute = Self.makePropertiesTransform(modifier: .empty, inputs: inputs, outputs: outputs, includeGeometry: includeGeometry, resolvableModifier: modifier, scrapeableID: .none)
+        
+        return attribute
+    }
+    
+    static func makeResolvableTransform<T: AnyResolvableAccessibilityViewModifier>(inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for: T.Type) -> Attribute<AccessibilityNodeList>? {
+        // $s7SwiftUI25AccessibilityViewModifierPAAE23makeResolvableTransform6inputs7outputs15includeGeometry3for14AttributeGraph0N0VyAA0C8NodeListVGSgAA01_D6InputsV_AA01_D7OutputsVSbqd__mtAA03AnygcdE0Rd__lFZAA0c9ContainerE0V_AA0cU8ResolverVyAA0C13ChildBehaviorV4HostVGTt2t3g5
+        /*
+         inputs = x22
+         outputs = x21
+         includeGeometry = x23
+         */
+        
+        guard unsafe inputs.preferences.contains(AccessibilityNodesKey.self) else {
+            return nil
+        }
+        
+        let resolvableModifier = ResolvableModifier(context: .empty, type: T.self)
+        return Self.makePropertiesTransform(modifier: .empty, inputs: inputs, outputs: outputs, includeGeometry: includeGeometry, resolvableModifier: resolvableModifier, scrapeableID: .none)
+    }
 }
 
-protocol AnyResolvableAccessibilityViewModifier {}
+protocol AnyResolvableAccessibilityViewModifier {
+    static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute
+}
 
 protocol ResolvableAccessibilityModifierRule: Rule, AnyResolvableAccessibilityViewModifier {
     associatedtype Context
+    
+    init(context: Attribute<Self.Context>)
 }
 
 protocol ResolvableAccessibilityModifierStatefulRule: StatefulRule, AnyResolvableAccessibilityViewModifier {
     associatedtype Context
+    
+    init(context: Attribute<Self.Context>)
 }
 
 struct AccessibilityContainerModifier: AccessibilityViewModifier {
+    static var options: AccessibilityModifierOptions {
+        fatalError("TODO")
+    }
+    
+    func willCreateNode(for nodes: [AccessibilityNode]) -> Bool {
+        fatalError("TODO")
+    }
+    
+    func initialAttachment(for node: AccessibilityNode) -> AccessibilityAttachment {
+        fatalError("TODO")
+    }
+    
+    func createOrUpdateNode(viewRendererHost: (any ViewRendererHost)?, existingNode: AccessibilityNode?) -> AccessibilityNode {
+        fatalError("TODO")
+    }
+    
+    func scrapeableContent(environment: EnvironmentValues, idiom: AnyInterfaceIdiom) -> ScrapeableContent.Content? {
+        fatalError("TODO")
+    }
+    
+    static func makeAccessibilityViewModifier(modifier: _GraphValue<AccessibilityContainerModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        fatalError("TODO")
+    }
+    
+    let supportsPlaceholders: Bool
+    
     func body(content: Content) -> Never {
-        fatalError("TODO") // TODO
+        fatalError("TODO")
     }
     
     private let behavior: AccessibilityChildBehavior
 }
 
 struct AccessibilityContainerResolver<T>: AnyResolvableAccessibilityViewModifier {
-    
+    static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute {
+        fatalError("TODO")
+    }
 }
 
 fileprivate struct ResolvableModifier {
     var subgraph: Subgraph
     var context: AnyAttribute
     var base: (any AnyResolvableAccessibilityViewModifier.Type)
+    
+    init<T: AnyResolvableAccessibilityViewModifier>(context: AnyAttribute, type: T.Type) {
+        self.subgraph = .current!
+        self.context = context
+        self.base = type
+    }
+    
+    static func makePropertiesTransform(modifier: AnyAttribute, inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, resolvableModifier: ResolvableModifier?, scrapeableID: ScrapeableID) -> Attribute<AccessibilityNodeList> {
+        fatalError("TODO")
+    }
 }
 
 fileprivate class AnyAccessibilityViewModifierAccessor {}
@@ -244,4 +325,12 @@ public struct AccessibilityAttachmentModifier: ViewModifier {
     public func body(content: Content) -> some View {
         fatalError("TODO")
     }
+}
+
+struct AccessibilityModifierOptions: OptionSet {
+    static var unknown0: AccessibilityModifierOptions {
+        return AccessibilityModifierOptions(rawValue: 1 << 0)
+    }
+    
+    let rawValue: UInt32
 }
