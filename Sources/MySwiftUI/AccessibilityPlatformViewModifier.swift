@@ -3,7 +3,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import AttributeGraph
 
-struct AccessibilityPlatformViewModifier: PrimitiveViewModifier, MultiViewModifier, ViewModifier {
+struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
     private(set) var platformView: UIView
     private(set) var properties: AccessibilityProperties
     
@@ -18,6 +18,9 @@ struct AccessibilityPlatformViewModifier: PrimitiveViewModifier, MultiViewModifi
         // <+124>
         if inputs.preferences.contains(AccessibilityNodesKey.self) {
             // <+188>
+//            let view = AccessibilityBridgedPlatformView.init(context: <#T##Attribute<ViewLeafView<Representable>>#>)
+            
+//            Self.makeResolvableTransform(inputs: <#T##_ViewInputs#>, outputs: <#T##_ViewOutputs#>, includeGeometry: <#T##Bool#>, for: <#T##AnyResolvableAccessibilityViewModifier.Type#>)
             fatalError("TODO")
         } else {
             // <+344>
@@ -41,5 +44,17 @@ extension AccessibilityPlatformViewModifier {
         var value: Never {
             fatalError("TODO")
         }
+    }
+}
+
+struct AccessibilityBridgedPlatformView<Representable: CoreViewRepresentable>: ResolvableAccessibilityModifierStatefulRule {
+    typealias Context = Never // TODO
+    
+    @Attribute fileprivate private(set) var context: ViewLeafView<Representable>
+    
+    typealias Value = AccessibilityPlatformViewModifier
+    
+    func updateValue() {
+        fatalError("TODO")
     }
 }

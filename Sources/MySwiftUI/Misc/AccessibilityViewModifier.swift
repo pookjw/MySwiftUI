@@ -22,6 +22,10 @@ extension AccessibilityViewModifier {
         return Self.makePropertiesTransform(modifier: .empty, inputs: inputs, outputs: outputs, includeGeometry: includeGeometry, resolvableModifier: resolvableModifier, scrapeableID: .none)
     }
     
+    static func makeResolvableTransform<T: ResolvableAccessibilityModifierStatefulRule>(context: Attribute<T.Context>, inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for: T.Type) -> Attribute<AccessibilityNodeList>? where T.Value == Self {
+        fatalError("TODO")
+    }
+    
     fileprivate static func makePropertiesTransform(
         modifier: AnyAttribute,
         inputs: _ViewInputs,
@@ -160,8 +164,13 @@ extension AccessibilityViewModifier {
 
 protocol AnyResolvableAccessibilityViewModifier {}
 
-protocol ResolvableAccessibilityModifierRule: Rule, AnyResolvableAccessibilityViewModifier {}
-protocol ResolvableAccessibilityModifierStatefulRule: StatefulRule, AnyResolvableAccessibilityViewModifier {}
+protocol ResolvableAccessibilityModifierRule: Rule, AnyResolvableAccessibilityViewModifier {
+    associatedtype Context
+}
+
+protocol ResolvableAccessibilityModifierStatefulRule: StatefulRule, AnyResolvableAccessibilityViewModifier {
+    associatedtype Context
+}
 
 struct AccessibilityContainerModifier: AccessibilityViewModifier {
     func body(content: Content) -> Never {
