@@ -3,7 +3,7 @@ internal import MRUIKit
 
 struct VideoPassthroughBrightnessKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: VideoPassthroughBrightnessKey.PreferredValue? {
-        return VideoPassthroughBrightnessKey.PreferredValue(brightness: 0, animation: nil)
+        return nil
     }
     
     static func reduce(value: inout VideoPassthroughBrightnessKey.PreferredValue?, nextValue: () -> VideoPassthroughBrightnessKey.PreferredValue?) {
@@ -29,7 +29,6 @@ struct VideoPassthroughBrightnessKey: MRUIBridgedPreferenceKey, HostPreferenceKe
 
 extension VideoPassthroughBrightnessKey {
     struct PreferredValue {
-        var brightness: Double
-        var animation: Animation?
+        // TODO
     }
 }

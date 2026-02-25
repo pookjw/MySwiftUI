@@ -82,18 +82,35 @@ final class MRUIPreferenceImporter: NSObject, MRUIPreferenceHostConformer {
 
 extension MRUIPreferenceImporter {
     fileprivate struct PreferenceNode {
-        private var key: MRUIPreferenceImporter.PreferenceNode.NodeKey
-        private var invalidationSignal: WeakAttribute<Void>
+        private(set) var key: MRUIPreferenceImporter.PreferenceNode.NodeKey
+        private(set) var invalidationSignal: WeakAttribute<Void>
     }
     
     fileprivate struct ImportVisitor: MRUIBridgedPreferenceKeyVisitor {
-        let host: any MRUIPreferenceHostProtocol // TODO: MRUIPreferenceHost일 수도 있음
+        let host: MRUIPreferenceHost
         let inputs: _ViewInputs
         private(set) var outputs: _ViewOutputs
         private(set) var result: MRUIPreferenceImporter.PreferenceNode?
         
         mutating func visit<T>(key: T.Type) where T : MRUIBridgedPreferenceKey {
-            fatalError("TODO")
+            /*
+             self -> x20 -> x19
+             */
+            // <+120>
+            // w27
+            let signal = Attribute(value: ())
+            // w24
+            let preference = Attribute(ImportedPreference<T>(host: host))
+            signal.addInput(preference, options: .unknown2, token: 0)
+            
+            // <+400>
+            outputs.preferences.makePreferenceWriter(inputs: inputs.preferences, key: T.self, value: {
+                // $s7SwiftUI40TransactionalPreferenceTransformModifierV9_makeView8modifier6inputs4bodyAA01_H7OutputsVAA11_GraphValueVyACyxGG_AA01_H6InputsVAiA01_M0V_AOtctFZ09AttributeM00P0Vyy0N0QzzcGyXEfu_TA
+                return preference
+            }())
+            
+            // <+492>
+            self.result = MRUIPreferenceImporter.PreferenceNode(key: .bridged(T.bridgedKey), invalidationSignal: WeakAttribute(signal))
         }
         
         func writeCustomKeys(excluding: [AnyObject.Type]) {
@@ -106,5 +123,15 @@ extension MRUIPreferenceImporter.PreferenceNode {
     fileprivate enum NodeKey {
         case bridged(AnyObject.Type)
         case customKeys
+    }
+}
+
+fileprivate struct ImportedPreference<T: MRUIBridgedPreferenceKey>: StatefulRule {
+    private(set) weak var host: MRUIPreferenceHost?
+    
+    typealias Value = T.Value
+    
+    func updateValue() {
+        fatalError("TODO")
     }
 }

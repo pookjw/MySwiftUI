@@ -2,11 +2,11 @@ internal import MySwiftUICore
 internal import MRUIKit
 
 struct VolumeBaseplateVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
+    static var defaultValue: VolumeBaseplateVisibilityKey.PreferredValue? {
+        return nil
     }
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout VolumeBaseplateVisibilityKey.PreferredValue?, nextValue: () -> VolumeBaseplateVisibilityKey.PreferredValue?) {
         fatalError("TODO")
     }
     
@@ -14,15 +14,21 @@ struct VolumeBaseplateVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey
         fatalError()
     }
     
-    static func bridgedValue(from value: Never) -> AnyObject? {
+    static func bridgedValue(from value: VolumeBaseplateVisibilityKey.PreferredValue?) -> AnyObject? {
         fatalError()
     }
     
-    static func value(from bridgedValue: AnyObject?) -> Never {
+    static func value(from bridgedValue: AnyObject?) -> VolumeBaseplateVisibilityKey.PreferredValue? {
         fatalError()
     }
     
-    static func animation(from value: Never) -> Animation? {
+    static func animation(from value: VolumeBaseplateVisibilityKey.PreferredValue?) -> Animation? {
         fatalError()
+    }
+}
+
+extension VolumeBaseplateVisibilityKey {
+    struct PreferredValue {
+        // TODO
     }
 }

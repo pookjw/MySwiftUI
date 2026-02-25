@@ -279,7 +279,11 @@ exports:
     _$sSo11AGAttributea14AttributeGraphE12_bodyPointerSVvg,
     _AGGraphCurrentAttributeWasModified,
     _$s14AttributeGraph04WeakA0V12changedValue7optionsx5value_Sb0D0tSgSo14AGValueOptionsV_tF,
-    _AGGraphRegisterDependency ]
+    _AGGraphRegisterDependency,
+    _$sSo11AGAttributea14AttributeGraphE8addInput_7options5tokenyAB_So14AGInputOptionsVSitF,
+    _$s14AttributeGraph0A0V8addInput_7options5tokenyACyqd__G_So14AGInputOptionsVSitlF,
+    _$s14AttributeGraph0A0V8addInput_7options5tokenySo11AGAttributea_So14AGInputOptionsVSitF,
+    _$sSo11AGAttributea14AttributeGraphE8addInput_7options5tokenyAC0B0VyxG_So14AGInputOptionsVSitlF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

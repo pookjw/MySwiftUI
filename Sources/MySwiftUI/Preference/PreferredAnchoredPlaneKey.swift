@@ -4,7 +4,7 @@ internal import MRUIKit
 
 struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: PreferredAnchoredPlaneKey.PreferredValue? {
-        fatalError("TODO")
+        return nil
     }
     
     static func reduce(value: inout PreferredAnchoredPlaneKey.PreferredValue?, nextValue: () -> PreferredAnchoredPlaneKey.PreferredValue?) {
@@ -30,7 +30,7 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
 
 extension PreferredAnchoredPlaneKey {
     struct PreferredValue {
-        var plane: AnchoredPlane = .vertical
+        var plane: AnchoredPlane
         var animation: Animation?
     }
 }

@@ -119,6 +119,9 @@ public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible, Swift
     }
 
     public func unsafeOffset<U>(at: Swift.Int, as: U.Type) -> AttributeGraph.Attribute<U>
+
+    public func addInput<T>(_: AttributeGraph.Attribute<T>, options: AttributeGraph.AGInputOptions, token: Swift.Int)
+    public func addInput(_: AttributeGraph.AnyAttribute, options: AttributeGraph.AGInputOptions, token: Swift.Int)
 }
 
 @frozen
@@ -358,6 +361,9 @@ extension AttributeGraph.AnyAttribute {
     public func visitBody<A: AttributeGraph.AttributeBodyVisitor>(_: inout A) -> ()
 
     public var _bodyPointer: Swift.UnsafeRawPointer { get }
+
+    public func addInput(_: AttributeGraph.AnyAttribute, options: AttributeGraph.AGInputOptions, token: Swift.Int)
+    public func addInput<A>(_: AttributeGraph.Attribute<A>, options: AttributeGraph.AGInputOptions, token: Swift.Int)
 }
 
 extension AttributeGraph.Graph {

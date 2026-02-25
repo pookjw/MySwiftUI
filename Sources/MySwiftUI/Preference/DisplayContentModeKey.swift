@@ -2,11 +2,11 @@ internal import MySwiftUICore
 internal import MRUIKit
 
 struct DisplayContentModeKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
+    static var defaultValue: DisplayContentModeKey.PreferredValue? {
+        return nil
     }
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout DisplayContentModeKey.PreferredValue?, nextValue: () -> DisplayContentModeKey.PreferredValue?) {
         fatalError("TODO")
     }
     
@@ -14,15 +14,22 @@ struct DisplayContentModeKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
         fatalError()
     }
     
-    static func bridgedValue(from value: Never) -> AnyObject? {
+    static func bridgedValue(from value: DisplayContentModeKey.PreferredValue?) -> AnyObject? {
         fatalError()
     }
     
-    static func value(from bridgedValue: AnyObject?) -> Never {
+    static func value(from bridgedValue: AnyObject?) -> DisplayContentModeKey.PreferredValue? {
         fatalError()
     }
     
-    static func animation(from value: Never) -> Animation? {
+    static func animation(from value: DisplayContentModeKey.PreferredValue?) -> Animation? {
         fatalError()
+    }
+}
+
+extension DisplayContentModeKey {
+    struct PreferredValue {
+        var displayContentMode: DisplayContentMode
+        var animation: Animation?
     }
 }
