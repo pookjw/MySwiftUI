@@ -113,8 +113,23 @@ extension MRUIPreferenceImporter {
             self.result = MRUIPreferenceImporter.PreferenceNode(key: .bridged(T.bridgedKey), invalidationSignal: WeakAttribute(signal))
         }
         
-        func writeCustomKeys(excluding: [AnyObject.Type]) {
-            fatalError("TODO")
+        mutating func writeCustomKeys(excluding: [AnyObject.Type]) {
+            /*
+             self -> x20 -> x19
+             excluding -> x0 -> x20
+             */
+            // w23
+            let signal = Attribute(value: ())
+            // w24
+            let preferences = Attribute(ImportedCustomPreferences(host: host, excludedKeys: excluding))
+            signal.addInput(preferences, options: .unknown2, token: 0)
+            
+            outputs.preferences.makePreferenceWriter(inputs: inputs.preferences, key: MRUICustomPreferencesKey.self, value: {
+                // $s7SwiftUI28ManipulationGeometryModifierV9_makeView8modifier6inputs4bodyAA01_G7OutputsVAA11_GraphValueVyACG_AA01_G6InputsVAiA01_L0V_ANtctFZ09AttributeL00O0VySDy10Foundation4UUIDVASyAA06ObjectcD0VGGGyXEfu_TA
+                return preferences
+            }())
+            
+            self.result = MRUIPreferenceImporter.PreferenceNode(key: .customKeys, invalidationSignal: WeakAttribute(signal))
         }
     }
 }
@@ -132,6 +147,29 @@ fileprivate struct ImportedPreference<T: MRUIBridgedPreferenceKey>: StatefulRule
     typealias Value = T.Value
     
     func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+fileprivate struct ImportedCustomPreferences: StatefulRule {
+    private(set) weak var host: MRUIPreferenceHost?
+    private(set) var excludedKeys: [AnyObject.Type]
+    
+    typealias Value = [AnyHashable: Any]
+    
+    func updateValue() {
+        fatalError("TODO")
+    }
+}
+
+struct MRUICustomPreferencesKey: HostPreferenceKey {
+    static nonisolated(unsafe) let defaultValue: [AnyHashable: Any] = [:]
+    
+    static func reduce(value: inout [AnyHashable: Any], nextValue: () -> [AnyHashable: Any]) {
+        fatalError("TODO")
+    }
+    
+    static var _includesRemovedValues: Bool {
         fatalError("TODO")
     }
 }

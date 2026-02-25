@@ -10,15 +10,15 @@ struct VideoPassthroughBrightnessKey: MRUIBridgedPreferenceKey, HostPreferenceKe
         fatalError("TODO")
     }
     
-    static var bridgedKey: MRUIPreferenceKey<AnyObject>.Type {
+    static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {
+        return MRUIVideoPassthroughBrightnessPreferenceKey.self
+    }
+    
+    static func bridgedValue(from value: VideoPassthroughBrightnessKey.PreferredValue?) -> NSNumber? {
         fatalError()
     }
     
-    static func bridgedValue(from value: VideoPassthroughBrightnessKey.PreferredValue?) -> AnyObject? {
-        fatalError()
-    }
-    
-    static func value(from bridgedValue: AnyObject?) -> VideoPassthroughBrightnessKey.PreferredValue? {
+    static func value(from bridgedValue: NSNumber?) -> VideoPassthroughBrightnessKey.PreferredValue? {
         fatalError()
     }
     

@@ -183,7 +183,7 @@ extension CoreViewRepresentable {
             }
             
             // <+2424>
-            bridge.wrapInputs(&copy_2)
+            bridge.wrapOutputs(&outptus.preferences, inputs: copy_2)
             return outptus
         } else {
             // <+684>
@@ -332,7 +332,9 @@ extension CoreViewRepresentableFeatureBuffer {
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            base
+                .vtable(as: CoreViewRepresentableFeatureBuffer.VTable.self)
+                .modifyBridgedInputs(elt: base, inputs: &inputs, proxy: proxy)
         }
         
         func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
@@ -420,7 +422,7 @@ extension CoreViewRepresentableFeatureBuffer {
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            elt.body(as: Feature.self).pointee.modifyBridgedInputs(inputs: &inputs, proxy: proxy)
         }
         
         override class func modifyViewOutputs<Representable: CoreViewRepresentable>(

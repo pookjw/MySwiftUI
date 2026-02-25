@@ -10,15 +10,15 @@ struct TintEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
         fatalError("TODO")
     }
     
-    static var bridgedKey: MRUIPreferenceKey<AnyObject>.Type {
+    static var bridgedKey: MRUIPreferenceKey<NSValue>.Type {
+        return MRUIPreferredTintPreferenceKey.self
+    }
+    
+    static func bridgedValue(from value: TintEffectKey.PreferredValue?) -> NSValue? {
         fatalError()
     }
     
-    static func bridgedValue(from value: TintEffectKey.PreferredValue?) -> AnyObject? {
-        fatalError()
-    }
-    
-    static func value(from bridgedValue: AnyObject?) -> TintEffectKey.PreferredValue? {
+    static func value(from bridgedValue: NSValue?) -> TintEffectKey.PreferredValue? {
         fatalError()
     }
     

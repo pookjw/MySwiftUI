@@ -10,15 +10,15 @@ struct VolumeBaseplateVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey
         fatalError("TODO")
     }
     
-    static var bridgedKey: MRUIPreferenceKey<AnyObject>.Type {
+    static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {
+        return MRUIVolumeBaseplateVisibilityPreferenceKey.self
+    }
+    
+    static func bridgedValue(from value: VolumeBaseplateVisibilityKey.PreferredValue?) -> NSNumber? {
         fatalError()
     }
     
-    static func bridgedValue(from value: VolumeBaseplateVisibilityKey.PreferredValue?) -> AnyObject? {
-        fatalError()
-    }
-    
-    static func value(from bridgedValue: AnyObject?) -> VolumeBaseplateVisibilityKey.PreferredValue? {
+    static func value(from bridgedValue: NSNumber?) -> VolumeBaseplateVisibilityKey.PreferredValue? {
         fatalError()
     }
     

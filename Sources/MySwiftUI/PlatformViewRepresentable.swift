@@ -4,7 +4,7 @@ internal import UIKit
 internal import AttributeGraph
 
 protocol PlatformViewRepresentable: CoreViewRepresentable {
-    static func modifyBridgedViewInputs(_ inputs: inout _ViewInputs)
+    static nonisolated func modifyBridgedViewInputs(_ inputs: inout _ViewInputs)
 }
 
 extension PlatformViewRepresentable {
@@ -66,7 +66,8 @@ struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
     }
     
     func modifyBridgedInputs<Representable: CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
-        fatalError("TODO")
+        inputs.preferences.remove(AccessibilityNodesKey.self)
+        representableType.modifyBridgedViewInputs(&inputs)
     }
     
     mutating func modifyViewOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {

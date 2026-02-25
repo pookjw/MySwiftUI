@@ -12,7 +12,7 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     }
     
     static var bridgedKey: MRUIPreferenceKey<RSSPlacementTarget>.Type {
-        fatalError()
+        return MRUIPlacementTargetKey.self
     }
     
     static func bridgedValue(from value: PreferredAnchoredPlaneKey.PreferredValue?) -> RSSPlacementTarget? {

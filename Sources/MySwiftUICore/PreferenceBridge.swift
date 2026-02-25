@@ -15,7 +15,11 @@ private import AttributeGraph
         self.viewGraph = .current
     }
     
-    func wrapInputs(_: inout _ViewInputs) {
+    func wrapInputs(_ inputs: inout _ViewInputs) {
+        fatalError("TODO")
+    }
+    
+    func wrapOutputs(_ outputs: inout PreferencesOutputs, inputs: _ViewInputs) {
         fatalError("TODO")
     }
 }

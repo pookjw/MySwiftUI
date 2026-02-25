@@ -18,6 +18,14 @@ exports:
     MRUISharedApplicationSceneSettings,
     MRUIPlatterOrnamentManager,
     MRUIPlatterOrnament,
-    MRUIOrnamentsItem ]
+    MRUIOrnamentsItem,
+    MRUIPlacementTargetKey,
+    MRUIVideoPassthroughBrightnessPreferenceKey,
+    MRUIPreferredDarknessPreferenceKey,
+    MRUIUpperLimbsVisibilityPreferenceKey,
+    MRUIPreferredTintPreferenceKey,
+    MRUIVolumeBaseplateVisibilityPreferenceKey,
+    MRUIDisplayContentModePreferenceKey,
+    MRUISupportedVolumeViewpointsPreferenceKey ]
     objc-ivars:           [  ]
 ...

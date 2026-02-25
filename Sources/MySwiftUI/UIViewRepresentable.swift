@@ -81,7 +81,7 @@ extension UIViewRepresentable {
     
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
     @MainActor @preconcurrency public static func _modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
-        fatalError("TODO")
+        // nop
     }
     
     @available(iOS 17.0, tvOS 17.0, watchOS 10.0, *)
@@ -180,8 +180,13 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
         fatalError("TODO")
     }
     
-    static func modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
-        fatalError("TODO")
+    static nonisolated func modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
+        // FIXME
+        inputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable(inputs)] in
+            var copy = unchecked.value
+            Base._modifyBridgedViewInputs(&copy)
+            return UncheckedSendable(copy)
+        }.value
     }
     
     static func layoutOptions(_ provider: Base.UIViewType) -> CoreViewRepresentableLayoutOptions {

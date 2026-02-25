@@ -10,15 +10,15 @@ struct SystemDefinedSurroundingsEffectKey: MRUIBridgedPreferenceKey, HostPrefere
         fatalError("TODO")
     }
     
-    static var bridgedKey: MRUIPreferenceKey<AnyObject>.Type {
+    static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {
+        return MRUIPreferredDarknessPreferenceKey.self
+    }
+    
+    static func bridgedValue(from value: SystemDefinedSurroundingsEffectKey.PreferredValue?) -> NSNumber? {
         fatalError()
     }
     
-    static func bridgedValue(from value: SystemDefinedSurroundingsEffectKey.PreferredValue?) -> AnyObject? {
-        fatalError()
-    }
-    
-    static func value(from bridgedValue: AnyObject?) -> SystemDefinedSurroundingsEffectKey.PreferredValue? {
+    static func value(from bridgedValue: NSNumber?) -> SystemDefinedSurroundingsEffectKey.PreferredValue? {
         fatalError()
     }
     

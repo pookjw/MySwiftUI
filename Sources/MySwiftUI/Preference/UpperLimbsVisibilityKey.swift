@@ -10,15 +10,15 @@ struct UpperLimbsVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
         fatalError("TODO")
     }
     
-    static var bridgedKey: MRUIPreferenceKey<AnyObject>.Type {
+    static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {
+        return MRUIUpperLimbsVisibilityPreferenceKey.self
+    }
+    
+    static func bridgedValue(from value: UpperLimbsVisibilityKey.PreferredValue?) -> NSNumber? {
         fatalError()
     }
     
-    static func bridgedValue(from value: UpperLimbsVisibilityKey.PreferredValue?) -> AnyObject? {
-        fatalError()
-    }
-    
-    static func value(from bridgedValue: AnyObject?) -> UpperLimbsVisibilityKey.PreferredValue? {
+    static func value(from bridgedValue: NSNumber?) -> UpperLimbsVisibilityKey.PreferredValue? {
         fatalError()
     }
     

@@ -10,15 +10,15 @@ struct DisplayContentModeKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
         fatalError("TODO")
     }
     
-    static var bridgedKey: MRUIPreferenceKey<AnyObject>.Type {
+    static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {
+        return MRUIDisplayContentModePreferenceKey.self
+    }
+    
+    static func bridgedValue(from value: DisplayContentModeKey.PreferredValue?) -> NSNumber? {
         fatalError()
     }
     
-    static func bridgedValue(from value: DisplayContentModeKey.PreferredValue?) -> AnyObject? {
-        fatalError()
-    }
-    
-    static func value(from bridgedValue: AnyObject?) -> DisplayContentModeKey.PreferredValue? {
+    static func value(from bridgedValue: NSNumber?) -> DisplayContentModeKey.PreferredValue? {
         fatalError()
     }
     

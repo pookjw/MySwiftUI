@@ -12,3 +12,11 @@
 #import <MRUIKit/MRUIPlatterOrnament.h>
 #import <MRUIKit/UIViewController+MRUIPrivate.h>
 #import <MRUIKit/MRUIOrnamentsItem.h>
+#import <MRUIKit/MRUIPlacementTargetKey.h>
+#import <MRUIKit/MRUIVideoPassthroughBrightnessPreferenceKey.h>
+#import <MRUIKit/MRUIPreferredDarknessPreferenceKey.h>
+#import <MRUIKit/MRUIUpperLimbsVisibilityPreferenceKey.h>
+#import <MRUIKit/MRUIPreferredTintPreferenceKey.h>
+#import <MRUIKit/MRUIVolumeBaseplateVisibilityPreferenceKey.h>
+#import <MRUIKit/MRUIDisplayContentModePreferenceKey.h>
+#import <MRUIKit/MRUISupportedVolumeViewpointsPreferenceKey.h>
