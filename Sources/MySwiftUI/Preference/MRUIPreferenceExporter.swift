@@ -7,13 +7,13 @@ final class MRUIPreferenceExporter {
     // $s7SwiftUI25MRUIBridgedPreferenceKeysO03allE0_WZ
     @safe static nonisolated(unsafe) let allKeys: [any MRUIBridgedPreferenceKey.Type] = [
         PreferredAnchoredPlaneKey.self,
-//        VideoPassthroughBrightnessKey.self,
-//        SystemDefinedSurroundingsEffectKey.self,
-//        UpperLimbsVisibilityKey.self,
-//        TintEffectKey.self,
-//        VolumeBaseplateVisibilityKey.self,
-//        DisplayContentModeKey.self,
-//        SupportedVolumeViewpointsKey.self
+        VideoPassthroughBrightnessKey.self,
+        SystemDefinedSurroundingsEffectKey.self,
+        UpperLimbsVisibilityKey.self,
+        TintEffectKey.self,
+        VolumeBaseplateVisibilityKey.self,
+        DisplayContentModeKey.self,
+        SupportedVolumeViewpointsKey.self
     ]
     
     weak var host: (any MRUIPreferenceHostProtocol)? = nil
@@ -73,6 +73,10 @@ protocol MRUIBridgedPreferenceKey: HostPreferenceKey {
 extension MRUIBridgedPreferenceKey {
     static func visitKey<T: MRUIBridgedPreferenceKeyVisitor>(_ visitor: inout T) {
         visitor.visit(key: self)
+    }
+    
+    static var anyBridgedKey: AnyObject.Type {
+        return bridgedKey
     }
 }
 

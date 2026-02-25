@@ -22,7 +22,39 @@ final class MRUIPreferenceImporter: NSObject, MRUIPreferenceHostConformer {
          inputs -> x1 -> x20
          */
         // <+100>
-        fatalError("TODO")
+        // x24
+        var visitor = MRUIPreferenceImporter.ImportVisitor(host: preferenceHost, inputs: inputs, outputs: outputs, result: nil)
+        
+        let allKeys = MRUIPreferenceExporter.allKeys
+        
+        // x25
+        var keys: [AnyObject.Type]
+        if !allKeys.isEmpty {
+            for key in allKeys {
+                // <+348>
+                key.visitKey(&visitor)
+                
+                if let result = visitor.result {
+                    // <+388>
+                    importedPreferences.append(result)
+                }
+            }
+            
+            // <+520>
+            keys = []
+            for key in allKeys {
+                keys.append(key.anyBridgedKey)
+            }
+        } else {
+            // <+692>
+            keys = []
+        }
+        
+        // <+716>
+        visitor.writeCustomKeys(excluding: keys)
+        
+        self.customImportedPreference = nil
+        outputs = visitor.outputs
     }
     
     // TODO
@@ -55,12 +87,16 @@ extension MRUIPreferenceImporter {
     }
     
     fileprivate struct ImportVisitor: MRUIBridgedPreferenceKeyVisitor {
-        private let host: any MRUIPreferenceHostProtocol // TODO: MRUIPreferenceHost일 수도 있음
-        private let inputs: _ViewInputs
+        let host: any MRUIPreferenceHostProtocol // TODO: MRUIPreferenceHost일 수도 있음
+        let inputs: _ViewInputs
         private(set) var outputs: _ViewOutputs
         private(set) var result: MRUIPreferenceImporter.PreferenceNode?
         
         mutating func visit<T>(key: T.Type) where T : MRUIBridgedPreferenceKey {
+            fatalError("TODO")
+        }
+        
+        func writeCustomKeys(excluding: [AnyObject.Type]) {
             fatalError("TODO")
         }
     }

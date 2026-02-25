@@ -3,11 +3,11 @@ internal import RealitySimulationServices
 internal import MRUIKit
 
 struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
-    static var defaultValue: PreferredValue? {
-        return PreferredValue()
+    static var defaultValue: PreferredAnchoredPlaneKey.PreferredValue? {
+        fatalError("TODO")
     }
     
-    static func reduce(value: inout Value, nextValue: () -> Value) {
+    static func reduce(value: inout PreferredAnchoredPlaneKey.PreferredValue?, nextValue: () -> PreferredAnchoredPlaneKey.PreferredValue?) {
         fatalError("TODO")
     }
     
@@ -15,15 +15,15 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
         fatalError()
     }
     
-    static func bridgedValue(from value: PreferredValue?) -> RSSPlacementTarget? {
+    static func bridgedValue(from value: PreferredAnchoredPlaneKey.PreferredValue?) -> RSSPlacementTarget? {
         fatalError()
     }
     
-    static func value(from bridgedValue: RSSPlacementTarget?) -> PreferredValue? {
+    static func value(from bridgedValue: RSSPlacementTarget?) -> PreferredAnchoredPlaneKey.PreferredValue? {
         fatalError()
     }
     
-    static func animation(from value: PreferredValue?) -> Animation? {
+    static func animation(from value: PreferredAnchoredPlaneKey.PreferredValue?) -> Animation? {
         fatalError()
     }
 }
