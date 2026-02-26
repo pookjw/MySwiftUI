@@ -2,11 +2,11 @@
 public import UIKit
 public import _UIKitPrivate
 
-@_spi(Internal) open class UICorePlatformViewHost<Representable: CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView {
+@_spi(Internal) open class UICorePlatformViewHost<Representable: CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView, CoreViewRepresentableHost {
     private var environment: EnvironmentValues // 0x210
     private var viewPhase: ViewGraphHost.Phase // 0x220
-    let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
-    weak private var host: ViewGraphRootValueUpdater? // 0x230
+    public let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
+    weak var host: ViewGraphRootValueUpdater? // 0x230
     private var viewHierarchyMode: UICorePlatformViewHost.ViewControllerParentingMode? // 0x240
     private var isInitialSafeAreaUpdate: Bool // 0x241
     let safeAreaHelper: UICoreSafeAreaHelper // 0x248
@@ -14,16 +14,38 @@ public import _UIKitPrivate
     weak private var vc: UIViewController? // 0x270
     private var inLayoutSizeThatFits: Bool // 0x278
     private var cachedImplementsFittingSize: Bool? // 0x279
-    private var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? // 0x280
+    public var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? // 0x280
     private var invalidationPending: Bool // 0x291
     private var separatedThicknessRegistration: UICorePlatformViewHost.SeparatedThicknessRegistration? // 0x298
     private var cachedLayoutTraits: _LayoutTraits? // 0x2a0
     
-    public init() {
+    public typealias Content = Representable
+    
+    public required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any MySwiftUICore.ViewGraphRootValueUpdater)?, environment: MySwiftUICore.EnvironmentValues, viewPhase: MySwiftUICore.ViewGraphHost.Phase) {
         fatalError("TODO")
     }
     
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func coreLayoutTraits() -> MySwiftUICore._LayoutTraits {
+        fatalError("TODO")
+    }
+    
+    public func coreUpdateEnvironment(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: MySwiftUICore.ViewGraphHost.Phase) {
+        fatalError("TODO")
+    }
+    
+    public func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: MySwiftUICore.Axis.Set) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    public func coreBaselineOffsets(at size: CGSize) -> MySwiftUICore.CoreBaselineOffsetPair {
+        fatalError("TODO")
+    }
+    
+    public func coreUpdateSafeAreaInsets(_ insets: MySwiftUICore.EdgeInsets) {
         fatalError("TODO")
     }
 }

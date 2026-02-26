@@ -3,6 +3,8 @@
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface _UIConstraintBasedLayoutHostingView : UIView
+@property (retain, nonatomic) UIView *hostedView;
+- (instancetype)initWithHostedView:(UIView *)hostedView;
 // TODO
 @end
 

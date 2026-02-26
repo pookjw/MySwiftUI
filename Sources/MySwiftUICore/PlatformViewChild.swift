@@ -247,14 +247,16 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                         return contextValues.asCurrent { () -> Representable.Host? in
                             // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AGyXEfU0_TA
                             // sp + 0x18
-                            let host: Representable.Host = MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, context))] () -> UncheckedSendable<Representable.Host> in
+                            let host: Representable.Host = MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, context, renderHost, environment))] () -> UncheckedSendable<Representable.Host> in
                                 // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AGyXEfU0_AA17UncheckedSendableVyAFGyScMYcXEfU_
                                 let view = unchecked.value.0
                                 let context = unchecked.value.1
+                                let renderHost = unchecked.value.2
+                                let environment = unchecked.value.3
                                 // x27
                                 let provider = view.makeViewProvider(context: context)
                                 let host = Representable.Host(
-                                    provider,
+                                    unsafeBitCast(provider, to: Representable.Host.Content.PlatformViewProvider.self), // FIXME
                                     host: renderHost,
                                     environment: environment,
                                     viewPhase: ViewGraphHost.Phase(base: phase)
