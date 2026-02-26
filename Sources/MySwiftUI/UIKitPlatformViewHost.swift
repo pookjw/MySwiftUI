@@ -1,58 +1,44 @@
 @_spi(Internal) internal import _UIKitShims
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
+internal import MRUIKit
 
 final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
-    private var importer: MRUIPreferenceImporter? // 0x2d8
-    private var focusedValues: FocusedValues // 0x2e0
-    private var responder: UIViewResponder? // 0x300
+    private var importer: MRUIPreferenceImporter? = nil // 0x2d8
+    var focusedValues = FocusedValues() // 0x2e0
+    private(set) weak var responder: UIViewResponder? = nil // 0x300
     
-    override init() {
+    required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+        /*
+         coreRepresentedViewProvider -> x0 -> x29 - 0x98
+         host -> x1 -> x29 - 0x60
+         environment -> x2 -> x29 - 0x58
+         viewPhase -> x3 -> x29 - 0x68
+         */
+        super.init(coreRepresentedViewProvider, host: host, environment: environment, viewPhase: viewPhase)
+    }
+    
+    override var parentPreferenceHost: (any MRUIPreferenceHostProtocol)? {
         fatalError("TODO")
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("TODO")
-    }
-}
-
-extension UIKitPlatformViewHost: CoreViewRepresentableHost {
-    convenience init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+    override var _parentGestureRecognizerContainer: (any _UIGestureRecognizerContainer)? {
         fatalError("TODO")
     }
     
-    var coreRepresentedViewProvider: Representable.PlatformViewProvider {
+    var isPlatformFocusContainerHost: Bool {
         fatalError("TODO")
     }
     
-    var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? {
-        get {
-            fatalError("TODO")
-        }
-        set {
-            fatalError("TODO")
-        }
-    }
-    
-    func coreLayoutTraits() -> _LayoutTraits {
+    var focusView: UIView {
         fatalError("TODO")
     }
     
-    func coreUpdateEnvironment(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+    override func makeEnvironmentWrapper(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
         fatalError("TODO")
     }
     
-    func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: Axis.Set) -> CGSize {
+    override func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
         fatalError("TODO")
     }
-    
-    func coreBaselineOffsets(at size: CGSize) -> CoreBaselineOffsetPair {
-        fatalError("TODO")
-    }
-    
-    func coreUpdateSafeAreaInsets(_ insets: EdgeInsets) {
-        fatalError("TODO")
-    }
-    
-    typealias Content = Representable
 }

@@ -6,46 +6,168 @@ public import _UIKitPrivate
     private var environment: EnvironmentValues // 0x210
     private var viewPhase: ViewGraphHost.Phase // 0x220
     public let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
-    weak var host: ViewGraphRootValueUpdater? // 0x230
-    private var viewHierarchyMode: UICorePlatformViewHost.ViewControllerParentingMode? // 0x240
-    private var isInitialSafeAreaUpdate: Bool // 0x241
-    let safeAreaHelper: UICoreSafeAreaHelper // 0x248
-    private var _safeAreaInsets: UIEdgeInsets // 0x250
-    weak private var vc: UIViewController? // 0x270
-    private var inLayoutSizeThatFits: Bool // 0x278
-    private var cachedImplementsFittingSize: Bool? // 0x279
-    public var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? // 0x280
-    private var invalidationPending: Bool // 0x291
-    private var separatedThicknessRegistration: UICorePlatformViewHost.SeparatedThicknessRegistration? // 0x298
-    private var cachedLayoutTraits: _LayoutTraits? // 0x2a0
+    weak var host: ViewGraphRootValueUpdater? = nil // 0x230
+    private var viewHierarchyMode: UICorePlatformViewHost.ViewControllerParentingMode? = nil // 0x240
+    private var isInitialSafeAreaUpdate: Bool = true // 0x241
+    let safeAreaHelper = UICoreSafeAreaHelper() // 0x248
+    
+    private var _safeAreaInsets = UIEdgeInsets(
+        top: .greatestFiniteMagnitude,
+        left: .greatestFiniteMagnitude,
+        bottom: .greatestFiniteMagnitude,
+        right: .greatestFiniteMagnitude
+    ) // 0x250
+    
+    weak private var vc: UIViewController? = nil // 0x270
+    private var inLayoutSizeThatFits: Bool = false // 0x278
+    private var cachedImplementsFittingSize: Bool? = nil // 0x279
+    public var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? = nil // 0x280
+    private var invalidationPending: Bool = false // 0x291
+    private var separatedThicknessRegistration: UICorePlatformViewHost.SeparatedThicknessRegistration? = nil // 0x298
+    private var cachedLayoutTraits: _LayoutTraits? = nil // 0x2a0
+    
+    open override var intrinsicContentSize: CGSize {
+        fatalError("TODO")
+    }
+    
+    open override func removeFromSuperview() {
+        fatalError("TODO")
+    }
+    
+    open override func didMoveToWindow() {
+        fatalError("TODO")
+    }
+    
+    open override func _layoutMetricsInvalidatedForHostedView() {
+        fatalError("TODO")
+    }
+    
+    open override func _layoutSizeThatFits(_ size: CGSize, fixedAxes axes: UIAxis) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    open override func _priorityForEngineHostConstraints() -> UILayoutPriority {
+        fatalError("TODO")
+    }
+    
+    open override func _setHostsLayoutEngine(_ hostsLayoutEngine: Bool) {
+        fatalError("TODO")
+    }
+    
+    open override func _traitCollection(forChildEnvironment environment: any UITraitEnvironment) -> UITraitCollection {
+        fatalError("TODO")
+    }
+    
+    open override func _updateSafeAreaInsets() {
+        fatalError("TODO")
+    }
+    
+    open override var alignmentRectInsets: UIEdgeInsets {
+        fatalError("TODO")
+    }
+    
+    open override func contentCompressionResistancePriority(for axis: NSLayoutConstraint.Axis) -> UILayoutPriority {
+        fatalError("TODO")
+    }
+    
+    open override func contentHuggingPriority(for axis: NSLayoutConstraint.Axis) -> UILayoutPriority {
+        fatalError("TODO")
+    }
+    
+    open override func didAddSubview(_ subview: UIView) {
+        fatalError("TODO")
+    }
+    
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        fatalError("TODO")
+    }
+    
+    open override var hostedView: UIView? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    open override func layoutSubviews() {
+        fatalError("TODO")
+    }
+    
+    open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        fatalError("TODO")
+    }
+    
+    open override var safeAreaInsets: UIEdgeInsets {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    open override func updateConstraints() {
+        fatalError("TODO")
+    }
+    
+    open override func willMove(toSuperview newSuperview: UIView?) {
+        fatalError("TODO")
+    }
     
     public typealias Content = Representable
     
-    public required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any MySwiftUICore.ViewGraphRootValueUpdater)?, environment: MySwiftUICore.EnvironmentValues, viewPhase: MySwiftUICore.ViewGraphHost.Phase) {
+    public required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any MySwiftUICore.ViewGraphRootValueUpdater)?, environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+        // <+536>
+        self.environment = environment
+        self.viewPhase = viewPhase
+        self.coreRepresentedViewProvider = coreRepresentedViewProvider
+        self.host = host
+        super.init(hostedView: nil)
+        
+        // <+768>
         fatalError("TODO")
     }
     
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func coreLayoutTraits() -> MySwiftUICore._LayoutTraits {
+    open func coreLayoutTraits() -> _LayoutTraits {
         fatalError("TODO")
     }
     
-    public func coreUpdateEnvironment(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: MySwiftUICore.ViewGraphHost.Phase) {
+    open func coreUpdateEnvironment(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
         fatalError("TODO")
     }
     
-    public func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: MySwiftUICore.Axis.Set) -> CGSize {
+    open func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: Axis.Set) -> CGSize {
         fatalError("TODO")
     }
     
-    public func coreBaselineOffsets(at size: CGSize) -> MySwiftUICore.CoreBaselineOffsetPair {
+    open func coreBaselineOffsets(at size: CGSize) -> CoreBaselineOffsetPair {
         fatalError("TODO")
     }
     
-    public func coreUpdateSafeAreaInsets(_ insets: MySwiftUICore.EdgeInsets) {
+    open func coreUpdateSafeAreaInsets(_ insets: EdgeInsets) {
+        fatalError("TODO")
+    }
+    
+    open func makeEnvironmentWrapper(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
+        fatalError("TODO")
+    }
+    
+    open func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
+        fatalError("TODO")
+    }
+    
+    func enqueueLayoutInvalidation() {
+        fatalError("TODO")
+    }
+    
+    func updateNestedHosts(_: ViewGraphRootValues, colorSchemeChanged: Bool) {
         fatalError("TODO")
     }
 }
@@ -57,7 +179,8 @@ final class UICoreSafeAreaHelper {
 
 extension UICorePlatformViewHost {
     fileprivate enum ViewControllerParentingMode {
-        // TODO
+        case unknown0
+        case unknown1
     }
     
     // _TtCGC5UIKit22UICorePlatformViewHostGV7SwiftUIP10$1d3103ab432PlatformViewRepresentableAdaptorV16NativePlaygroundP10$100b57f7c19MyViewRepresentable__P10$186ef5ecc30SeparatedThicknessRegistration

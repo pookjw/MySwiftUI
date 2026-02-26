@@ -20,3 +20,4 @@
 #import <MRUIKit/MRUIVolumeBaseplateVisibilityPreferenceKey.h>
 #import <MRUIKit/MRUIDisplayContentModePreferenceKey.h>
 #import <MRUIKit/MRUISupportedVolumeViewpointsPreferenceKey.h>
+#import <MRUIKit/UIView+MRUIPrivate.h>

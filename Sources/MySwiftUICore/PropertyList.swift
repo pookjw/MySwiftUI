@@ -1,6 +1,5 @@
 // D64CE6C88E7413721C59A34C0C940F2C
-
-package import Foundation
+public import Foundation
 private import AttributeGraph
 
 @usableFromInline
@@ -642,27 +641,27 @@ fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
     }
 }
 
-package final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
-    package static var supportsSecureCoding: Bool {
+@_spi(Internal) public final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
+    public static var supportsSecureCoding: Bool {
         return true
     }
     
     package var environment = EnvironmentValues()
     var phase = ViewGraphHost.Phase()
     
-    package convenience init?(coder: NSCoder) {
+    public convenience init?(coder: NSCoder) {
         self.init()
     }
     
-    package override init() {
+    public override init() {
         super.init()
     }
     
-    package func encode(with coder: NSCoder) {
+    public func encode(with coder: NSCoder) {
         // nop
     }
     
-    package override func isEqual(_ object: Any?) -> Bool {
+    public override func isEqual(_ object: Any?) -> Bool {
         guard let casted = object as? ViewGraphHostEnvironmentWrapper else {
             return false
         }

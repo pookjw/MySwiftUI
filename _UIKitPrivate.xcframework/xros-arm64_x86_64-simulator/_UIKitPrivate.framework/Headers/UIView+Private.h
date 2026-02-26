@@ -25,6 +25,7 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 @property (nonatomic, setter=_setPreferredGroundingShadowVisibility:) _UIPlatterGroundingShadowVisibility _preferredGroundingShadowVisibility;
 @property (nonatomic, setter=_setExternalHitTestingId:) NSUInteger _externalHitTestingId;
 @property (nonatomic, readonly) UILayoutAxes _axesForDerivingIntrinsicContentSizeFromLayoutSize;
+@property (readonly, nonatomic, nullable) id<_UIGestureRecognizerContainer> _parentGestureRecognizerContainer;
 @property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers NS_SWIFT_NAME(_childContainers);
 @property (nonatomic, readonly) Class _intelligenceBaseClass;
 + (void)_animateWithAnimationSettings:(BSAnimationSettings * _Nullable)animationSettings animations:(void (^)(void))animations completion:(void (^)(UIViewAnimatingPosition position))completion;
@@ -44,6 +45,11 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 - (void)_geometryChanged:(void *)context forAncestor:(UIView * _Nullable)ancestor;
 - (UIResponder<_UIGestureRecognizerContainer> * _Nullable)_hitTestWithContext:(_UIHitTestContext *)context;
 - (void)_safeAreaCornerInsetsDidChange;
+- (CGSize)_layoutSizeThatFits:(CGSize)size fixedAxes:(UIAxis)axes;
+- (UILayoutPriority)_priorityForEngineHostConstraints;
+- (void)_setHostsLayoutEngine:(BOOL)hostsLayoutEngine;
+- (UITraitCollection *)_traitCollectionForChildEnvironment:(id<UITraitEnvironment>)environment;
+- (void)_updateSafeAreaInsets;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)
