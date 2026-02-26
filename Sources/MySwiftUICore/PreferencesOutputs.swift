@@ -20,25 +20,25 @@ package struct PreferencesOutputs {
             return value.map { Attribute(identifier: $0) }
         }
         set {
-            self[type] = newValue.map { $0.identifier }
+            self[anyKey: type] = newValue.map { $0.identifier }
         }
     }
     
-    package subscript(anyKey: (any PreferenceKey.Type)) -> AnyAttribute? {
+    package subscript(anyKey key: (any PreferenceKey.Type)) -> AnyAttribute? {
         get {
             for preference in preferences {
-                if preference.key == anyKey {
+                if preference.key == key {
                     return preference.value
                 }
             }
             return nil
         }
         set {
-            if anyKey == DisplayList.Key.self {
+            if key == DisplayList.Key.self {
                 debugProperties.formUnion(.displayList)
             }
             
-            if let index = preferences.firstIndex(where: { $0.key == anyKey }) {
+            if let index = preferences.firstIndex(where: { $0.key == key }) {
                 if let newValue {
                     preferences[index].value = newValue
                 } else {
@@ -46,7 +46,7 @@ package struct PreferencesOutputs {
                 }
             } else {
                 newValue.map {
-                    preferences.append(KeyValue(key: anyKey, value: $0))
+                    preferences.append(KeyValue(key: key, value: $0))
                 }
             }
         }

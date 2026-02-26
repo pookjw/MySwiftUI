@@ -3,21 +3,21 @@ public import AttributeGraph
 internal import CoreGraphics
 
 struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, ObservedAttribute, RemovableAttribute, InvalidatableAttribute, ScrapeableAttribute {
-    @Attribute private var view: Representable
-    @Attribute private var environment: EnvironmentValues
-    @Attribute private var transaction: Transaction
-    @Attribute private var phase: _GraphInputs.Phase
-    @Attribute private var position: CGPoint
-    @Attribute private var size: ViewSize
-    @Attribute private var transform: ViewTransform
-    private let parentID: ScrapeableID
-    private let bridge: PreferenceBridge
-    private var links: _DynamicPropertyBuffer
-    private var features: CoreViewRepresentableFeatureBufferProxy
-    private var coordinator: Representable.Coordinator?
-    private var platformView: Representable.Host?
-    private var resetSeed: UInt32
-    private let tracker: PropertyList.Tracker
+    @Attribute private var view: Representable // 0x0
+    @Attribute private var environment: EnvironmentValues // 0x4
+    @Attribute private var transaction: Transaction // 0x8
+    @Attribute private var phase: _GraphInputs.Phase // 0xc
+    @Attribute private var position: CGPoint // 0x10
+    @Attribute private var size: ViewSize // 0x14
+    @Attribute private var transform: ViewTransform // 0x18
+    private let parentID: ScrapeableID // 0x1c
+    private let bridge: PreferenceBridge // 0x20
+    private var links: _DynamicPropertyBuffer // 0x28
+    private var features: CoreViewRepresentableFeatureBufferProxy // 0x30
+    private var coordinator: Representable.Coordinator? // 0x48 (offset) / 0x4c (offset field)
+    private var platformView: Representable.Host? // 0x50 (offset) / 0x50 (offset field)
+    private var resetSeed: UInt32 // 0x58 (offset) / 0x54 (offset field)
+    private let tracker: PropertyList.Tracker // 0x60 (offset) / 0x58 (offset field)
     
     init(
         view: Attribute<Representable>,
@@ -58,8 +58,117 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         fatalError("TODO")
     }
     
-    func updateValue() {
-        fatalError("TODO")
+    mutating func updateValue() {
+        // self -> x20 -> x22
+        let graph = Graph.currentAttribute.graph
+        let pattern: UInt
+        if let platformView {
+            pattern = UInt(bitPattern: ObjectIdentifier(platformView))
+        } else {
+            pattern = 0
+        }
+        
+        Signpost.platformUpdate.traceInterval(object: platformView, "PlatformUpdate: (%p) %{public}@ [ %p ]", [UInt(bitPattern: ObjectIdentifier(graph)), "\(Representable.self)", pattern]) { 
+            // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_
+            // self -> x0 -> x28
+            // <+1124>
+            
+            // x29 - 0x148 / x19
+            var (view, viewChanged) = $view.valueAndFlags(options: [])
+            // w21 -> x29 - 0x140 / x29 - 0x1a0
+            let (phase, phaseChanged) = $phase.valueAndFlags(options: [])
+            // x20 (x29 - 0x170), x24 / x29 - 0x1b0
+            var (environment, environmentChanged) = $environment.valueAndFlags(options: [])
+            
+            if phase.resetSeed != self.resetSeed {
+                // <+1348>
+                links.reset()
+                resetPlatformView()
+            }
+            
+            // <+1404>
+            // x20
+            let leafView: UnsafePointer<ViewLeafView<Representable>>? = Graph.outputValue()
+            // x29 - 0x178
+            let hasLeafView = (leafView != nil)
+            
+            let updated = withUnsafePointer(to: &view) { pointer in
+                // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_SbSpyxGXEfU_TA
+                return links.update(container: UnsafeMutableRawPointer(mutating: pointer), phase: phase)
+            }
+            
+            var modified = true
+            if !updated {
+                // <+1572>
+                if (leafView != nil), viewChanged == .unchanged, phaseChanged == .unchanged {
+                    // <+1588>
+                    modified = Graph.currentAttributeWasModified
+                } else {
+                    // <+1616>
+                }
+            } else {
+                // <+1628>
+            }
+            
+            // environment -> x29 - 0x170 -> x20
+            // <+1644>
+            // x29 - 0xa8
+            let transaction = Graph.withoutUpdate { 
+                // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA11TransactionVyXEfU0_
+                /*
+                 self -> x0 -> x28
+                 view -> x1 -> x29 - 0x88
+                 */
+                // <+416>
+                if self.coordinator == nil {
+                    // <+500>
+                    let unchecked = MainActor.assumeIsolated { [unchecked =  UncheckedSendable(view)] in
+                        return UncheckedSendable(unchecked.value.makeCoordinator())
+                    }
+                    
+                    self.coordinator = unchecked.value
+                }
+                
+                // <+656>
+                return self.transaction
+            }
+            
+            // <+1696>
+            /*
+             transaction -> x29 - 0xa8 -> x25
+             environment -> x29 -> x29 - 0x70
+             environmentChanged -> x24 -> x29 - 0x68
+             */
+            environment.preferenceBridge = self.bridge
+            
+            // <+1800>
+            // x29 - 0x160
+            let coordinator = UncheckedSendable(self.coordinator)
+            // x27
+            let platformView = self.platformView
+            /*
+             transaction -> x25 -> x29 - 0x198
+             self -> x28 -> x29 - 0x168
+             environment x24 -> x29 - 0x1d0
+             */
+            // x29 - 0x190
+            let bridge = self.bridge
+            
+            if let platformView {
+                // <+1948>
+                if environmentChanged == .changed {
+                    // <+1972>
+                    tracker.hasDifferentUsedValues(environment.plist)
+                } else {
+                    // <+2128>
+                }
+                fatalError("TODO")
+            } else {
+                // <+2076>
+                fatalError("TODO")
+            }
+            fatalError("TODO")
+        }
     }
     
     func resetPlatformView() {

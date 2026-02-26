@@ -31,7 +31,7 @@ private import AttributeGraph
 @available(macOS, unavailable)
 extension UIViewRepresentable where Self.Coordinator == () {
     @MainActor @preconcurrency public func makeCoordinator() -> Self.Coordinator {
-        fatalError("TODO")
+        return ()
     }
 }
 
@@ -131,7 +131,6 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     
     private(set) var base: Base
     
-    
     static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
         return CoreViewRepresentableDynamicPropertyFields(for: self)
     }
@@ -157,7 +156,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     func makeCoordinator() -> Base.Coordinator {
-        fatalError("TODO")
+        return base.makeCoordinator()
     }
     
     func _identifiedViewTree(in provider: Base.UIViewType) -> Any {

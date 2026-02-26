@@ -63,6 +63,10 @@ extension Attribute {
         Log.graphReuse?.log(level: .debug, "Reuse failed: missing indirection for \(_typeName(T.self, qualified: false))")
         return false
     }
+    
+    func unsafeBitCast<U>(to type: U.Type) -> Attribute<U> {
+        return self.unsafeOffset(at: 0, as: type)
+    }
 }
 
 extension TypeID {

@@ -38,7 +38,7 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         return true
     }
     
-    private var keys: [any PreferenceKey.Type]
+    var keys: [any PreferenceKey.Type]
     
     init() {
         keys = []

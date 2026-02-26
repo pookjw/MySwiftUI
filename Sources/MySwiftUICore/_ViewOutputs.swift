@@ -33,15 +33,15 @@ public struct _ViewOutputs {
         }
     }
     
-    package subscript(anyKey: (any PreferenceKey.Type)) -> AnyAttribute? {
+    package subscript(anyKey key: (any PreferenceKey.Type)) -> AnyAttribute? {
         get {
-            return preferences[anyKey]
+            return preferences[anyKey: key]
         }
         set {
-            preferences[anyKey] = newValue
+            preferences[anyKey: key] = newValue
         }
         _modify {
-            yield &preferences[anyKey]
+            yield &preferences[anyKey: key]
         }
     }
     

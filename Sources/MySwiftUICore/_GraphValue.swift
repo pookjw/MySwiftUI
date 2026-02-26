@@ -16,7 +16,7 @@ public struct _GraphValue<Value>: Equatable {
     }
     
     package func unsafeBitCast<T>(to type: T.Type = T.self) -> _GraphValue<T> {
-        let casted = self.value.identifier.unsafeCast(to: T.self)
+        let casted = self.value.unsafeBitCast(to: T.self)
         return _GraphValue<T>(casted)
     }
     

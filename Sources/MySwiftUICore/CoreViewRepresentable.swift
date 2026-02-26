@@ -4,7 +4,7 @@ public import AttributeGraph
 
 @_spi(Internal) public protocol CoreViewRepresentable: View {
     associatedtype PlatformViewProvider
-    associatedtype Host
+    associatedtype Host: AnyObject
     associatedtype Coordinator
     
     static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
