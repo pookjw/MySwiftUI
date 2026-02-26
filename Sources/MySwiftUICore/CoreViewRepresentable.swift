@@ -4,7 +4,7 @@ public import AttributeGraph
 
 @_spi(Internal) public protocol CoreViewRepresentable: View {
     associatedtype PlatformViewProvider
-    associatedtype Host: AnyObject
+    associatedtype Host: CoreViewRepresentableHost
     associatedtype Coordinator
     
     static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
@@ -452,7 +452,25 @@ extension CoreViewRepresentableFeatureBuffer {
     }
 }
 
-@_spi(Internal) public protocol CoreViewRepresentableHost {}
+@_spi(Internal) public protocol CoreViewRepresentableHost: AnyObject {
+    associatedtype Content: CoreViewRepresentable
+    
+//    init(
+//        _ coreRepresentedViewProvider: Content.PlatformViewProvider,
+//        host: ViewGraphRootValueUpdater?,
+//        environment: EnvironmentValues,
+//        viewPhase: ViewGraphHost.Phase
+//    )
+    
+    var coreRepresentedViewProvider: Content.PlatformViewProvider { get }
+    var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? { get set }
+    
+    func coreLayoutTraits() -> _LayoutTraits
+    func coreUpdateEnvironment(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase)
+    func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: Axis.Set) -> CGSize
+    func coreBaselineOffsets(at size: CGSize) -> CoreBaselineOffsetPair
+    func coreUpdateSafeAreaInsets(_ insets: EdgeInsets)
+}
 
 @_spi(Internal) public struct CoreViewRepresentableFeatureProxy<Representable: CoreViewRepresentable> {
     public var base: Attribute<ViewLeafView<Representable>>
@@ -526,4 +544,9 @@ extension CoreViewRepresentableFeature {
     ) {
         fatalError("TODO")
     }
+}
+
+@_spi(Internal) public struct CoreBaselineOffsetPair {
+    private var firstFromTop: CGFloat
+    private var lastFromBottom: CGFloat
 }

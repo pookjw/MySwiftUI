@@ -54,7 +54,10 @@ extension UIViewRepresentable {
         )
         
         let casted = view.unsafeBitCast(to: PlatformViewRepresentableAdaptor<Self>.self)
-        return PlatformViewRepresentableAdaptor<Self>.makeDebuggableView(view: casted, inputs: inputs)
+        
+        return MainActor.assumeIsolated { [unchecked = UncheckedSendable((casted, inputs))] in
+            return UncheckedSendable(PlatformViewRepresentableAdaptor<Self>.makeDebuggableView(view: unchecked.value.0, inputs: unchecked.value.1))
+        }.value
     }
     
     public nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -124,7 +127,7 @@ extension UIViewRepresentableContext: Sendable {}
 @available(iOS 13.0, tvOS 13.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
-fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: PlatformViewRepresentable {
+fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: @MainActor PlatformViewRepresentable {
     typealias PlatformViewProvider = Base.UIViewType
     typealias Host = UIKitPlatformViewHost<Self>
     typealias Coordinator = Base.Coordinator

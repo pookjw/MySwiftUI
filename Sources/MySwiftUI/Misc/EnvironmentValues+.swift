@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 private import _UIKitShims
 private import _DesignLibraryShims

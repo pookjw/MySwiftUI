@@ -89,7 +89,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             // <+1404>
             // x20
             let leafView: UnsafePointer<ViewLeafView<Representable>>? = Graph.outputValue()
-            // x29 - 0x178
+            // x29 - 0x278
             let hasLeafView = (leafView != nil)
             
             let updated = withUnsafePointer(to: &view) { pointer in
@@ -97,6 +97,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 return links.update(container: UnsafeMutableRawPointer(mutating: pointer), phase: phase)
             }
             
+            // x29 - 0x200
             var modified = true
             if !updated {
                 // <+1572>
@@ -136,8 +137,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             // <+1696>
             /*
              transaction -> x29 - 0xa8 -> x25
-             environment -> x29 -> x29 - 0x70
-             environmentChanged -> x24 -> x29 - 0x68
+             environment -> x20/x24 -> x29 - 0x70/x29 - 0x68
              */
             environment.preferenceBridge = self.bridge
             
@@ -149,7 +149,6 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             /*
              transaction -> x25 -> x29 - 0x198
              self -> x28 -> x29 - 0x168
-             environment x24 -> x29 - 0x1d0
              */
             // x29 - 0x190
             let bridge = self.bridge
@@ -158,13 +157,49 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 // <+1948>
                 if environmentChanged == .changed {
                     // <+1972>
-                    tracker.hasDifferentUsedValues(environment.plist)
+                    if tracker.hasDifferentUsedValues(environment.plist) {
+                        // <+2028>
+                        tracker.reset()
+                        modified = true
+                    }
+                    
+                    // <+2064>
                 } else {
                     // <+2128>
+                }
+                
+                for feature in features {
+                    feature.update(forHost: platformView, environment: &environment, isInitialUpdate: false)
+                }
+                
+                // <+2324>
+                /*
+                 phaseChanged -> x29 - 0x1a0 -> x24
+                 environment -> x29 - 0x70 -> x28
+                 */
+                // <+2376>
+                // x26
+                let tracker = self.tracker
+                tracker.initializeValues(from: environment.plist)
+                // <+2468>
+                Graph.withoutUpdate { 
+                    // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_yyXEfU1_
+                    /*
+                     phaseChanged -> w0
+                     environmentChanged -> w1
+                     hasLeafView -> w2
+                     platformView -> x3
+                     environment -> x4
+                     tracker -> x5
+                     phase -> w6
+                     */
+                    fatalError("TODO")
                 }
                 fatalError("TODO")
             } else {
                 // <+2076>
+                tracker.reset()
+                // <+2724>
                 fatalError("TODO")
             }
             fatalError("TODO")

@@ -3,7 +3,7 @@ private import AttributeGraph
 package import QuartzCore
 internal import CoreGraphics
 
-package final class ViewGraphHost {
+@_spi(Internal) public final class ViewGraphHost {
     @safe package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true
     package static nonisolated(unsafe) var defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
     
@@ -303,12 +303,12 @@ extension ViewGraphHost {
         }
     }
     
-    package struct Phase {
+    public struct Phase {
         // TODO
         var base = _GraphInputs.Phase()
     }
     
-    package struct LayoutInvalidator {
+    public struct LayoutInvalidator {
         private weak var viewGraph: ViewGraph?
         private var layoutComputer: WeakAttribute<LayoutComputer>
     }

@@ -15,3 +15,40 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
         fatalError("TODO")
     }
 }
+
+extension UIKitPlatformViewHost: CoreViewRepresentableHost {
+    var coreRepresentedViewProvider: Representable.PlatformViewProvider {
+        fatalError("TODO")
+    }
+    
+    var coreLayoutInvalidator: MySwiftUICore.ViewGraphHost.LayoutInvalidator? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    func coreLayoutTraits() -> MySwiftUICore._LayoutTraits {
+        fatalError("TODO")
+    }
+    
+    func coreUpdateEnvironment(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: MySwiftUICore.ViewGraphHost.Phase) {
+        fatalError("TODO")
+    }
+    
+    func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: MySwiftUICore.Axis.Set) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    func coreBaselineOffsets(at size: CGSize) -> MySwiftUICore.CoreBaselineOffsetPair {
+        fatalError("TODO")
+    }
+    
+    func coreUpdateSafeAreaInsets(_ insets: MySwiftUICore.EdgeInsets) {
+        fatalError("TODO")
+    }
+    
+    typealias Content = Representable
+}
