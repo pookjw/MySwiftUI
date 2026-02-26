@@ -17,11 +17,15 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
 }
 
 extension UIKitPlatformViewHost: CoreViewRepresentableHost {
+    convenience init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+        fatalError("TODO")
+    }
+    
     var coreRepresentedViewProvider: Representable.PlatformViewProvider {
         fatalError("TODO")
     }
     
-    var coreLayoutInvalidator: MySwiftUICore.ViewGraphHost.LayoutInvalidator? {
+    var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? {
         get {
             fatalError("TODO")
         }
@@ -30,23 +34,23 @@ extension UIKitPlatformViewHost: CoreViewRepresentableHost {
         }
     }
     
-    func coreLayoutTraits() -> MySwiftUICore._LayoutTraits {
+    func coreLayoutTraits() -> _LayoutTraits {
         fatalError("TODO")
     }
     
-    func coreUpdateEnvironment(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: MySwiftUICore.ViewGraphHost.Phase) {
+    func coreUpdateEnvironment(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
         fatalError("TODO")
     }
     
-    func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: MySwiftUICore.Axis.Set) -> CGSize {
+    func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: Axis.Set) -> CGSize {
         fatalError("TODO")
     }
     
-    func coreBaselineOffsets(at size: CGSize) -> MySwiftUICore.CoreBaselineOffsetPair {
+    func coreBaselineOffsets(at size: CGSize) -> CoreBaselineOffsetPair {
         fatalError("TODO")
     }
     
-    func coreUpdateSafeAreaInsets(_ insets: MySwiftUICore.EdgeInsets) {
+    func coreUpdateSafeAreaInsets(_ insets: EdgeInsets) {
         fatalError("TODO")
     }
     

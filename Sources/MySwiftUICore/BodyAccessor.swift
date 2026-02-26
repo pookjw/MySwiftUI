@@ -112,14 +112,12 @@ fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomString
     
     func updateValue() {
         // self = sp + 0x80
-        MainActor.assumeIsolated { [unchecked = UncheckedSendable(self)] in
-            let observationCenter = ObservationCenter.current
-            let currentAttribute = Attribute<T.Body>(identifier: .current!)
-            
-            observationCenter._withObservation(attribute: currentAttribute) {
-                // $s7SwiftUI10StaticBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_
-                unchecked.value.accessor.updateBody(of: unchecked.value.container, changed: true)
-            }
+        let observationCenter = ObservationCenter.current
+        let currentAttribute = Attribute<T.Body>(identifier: .current!)
+        
+        observationCenter._withObservation(attribute: currentAttribute) {
+            // $s7SwiftUI10StaticBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_
+            accessor.updateBody(of: container, changed: true)
         }
     }
     
@@ -174,40 +172,36 @@ fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStrin
         // sp, (w20 -> sp + 0xcf)
         var (container, containerChanged) = _container.changedValue(options: [])
         
-        MainActor.assumeIsolated { [unchecked = UncheckedSendable(self)] in
-            let `self` = unchecked.value
-            
-            let observationCenter = ObservationCenter.current
-            let attribute = Attribute<T.Body>(identifier: .current!)
-            observationCenter._withObservation(attribute: attribute) {
-                // $s7SwiftUI11DynamicBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_
-                /*
-                 containerChanged -> x23
-                 */
-                withUnsafeMutablePointer(to: &container) { pointer in
-                    // $s7SwiftUI11DynamicBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_ySpy9ContainerQzGXEfU_TA
-                    let result = self.links.update(container: pointer, phase: self.phase)
-                    if result {
-                        containerChanged = true
-                    }
-                }
-                
-                if containerChanged {
+        let observationCenter = ObservationCenter.current
+        let attribute = Attribute<T.Body>(identifier: .current!)
+        observationCenter._withObservation(attribute: attribute) {
+            // $s7SwiftUI11DynamicBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_
+            /*
+             containerChanged -> x23
+             */
+            withUnsafeMutablePointer(to: &container) { pointer in
+                // $s7SwiftUI11DynamicBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_ySpy9ContainerQzGXEfU_TA
+                let result = self.links.update(container: pointer, phase: self.phase)
+                if result {
                     containerChanged = true
-                } else {
-                    if self.hasValue {
-                        containerChanged = Graph.currentAttributeWasModified
-                    } else {
-                        containerChanged = true
-                    }
                 }
-                
-                // <+400>
-                CustomEventTrace.dynamicBodyUpdate(buffer: self.links, hasValue: self.hasValue, bodyChanged: containerChanged)
-                
-                // <+800>
-                self.accessor.updateBody(of: container, changed: containerChanged)
             }
+            
+            if containerChanged {
+                containerChanged = true
+            } else {
+                if self.hasValue {
+                    containerChanged = Graph.currentAttributeWasModified
+                } else {
+                    containerChanged = true
+                }
+            }
+            
+            // <+400>
+            CustomEventTrace.dynamicBodyUpdate(buffer: self.links, hasValue: self.hasValue, bodyChanged: containerChanged)
+            
+            // <+800>
+            self.accessor.updateBody(of: container, changed: containerChanged)
         }
     }
     

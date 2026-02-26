@@ -143,7 +143,9 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Base.UIViewType {
-        fatalError("TODO")
+        let repContext = UIViewRepresentableContext<Base>(coordinator: context.coordinator)
+        let uiView = base.makeUIView(context: repContext)
+        return uiView
     }
     
     func updateViewProvider(_ provider: Base.UIViewType, context: PlatformViewRepresentableContext<Self>) {

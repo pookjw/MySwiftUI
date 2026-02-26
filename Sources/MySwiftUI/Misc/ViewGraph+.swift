@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 extension ViewGraph {
     func setFocusStore(_ focusStore: FocusStore) {

@@ -101,7 +101,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             var modified = true
             if !updated {
                 // <+1572>
-                if (leafView != nil), viewChanged == .unchanged, phaseChanged == .unchanged {
+                if hasLeafView, viewChanged == .unchanged, phaseChanged == .unchanged {
                     // <+1588>
                     modified = Graph.currentAttributeWasModified
                 } else {
@@ -184,24 +184,99 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 // <+2468>
                 Graph.withoutUpdate { 
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_yyXEfU1_
-                    /*
-                     phaseChanged -> w0
-                     environmentChanged -> w1
-                     hasLeafView -> w2
-                     platformView -> x3
-                     environment -> x4
-                     tracker -> x5
-                     phase -> w6
-                     */
-                    fatalError("TODO")
+                    platformView.coreUpdateEnvironment(environment, viewPhase: ViewGraphHost.Phase(base: phase))
                 }
-                fatalError("TODO")
+                
+                // <+2544>
+                // x29 - 0x158
+                let context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
+                    // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA0cD20RepresentableContextVyxGyScMYcXEfU2_Tm
+                    let context = PlatformViewRepresentableContext<Representable>(
+                        coordinator: coordinator.value!,
+                        preferenceBridge: unchecked.value.0,
+                        transaction: unchecked.value.1,
+                        environmentStorage: .eager(unchecked.value.2)
+                    )
+                    return UncheckedSendable(context)
+                }.value
+                
+                if modified {
+                    // <+2636>
+                    // <+4312>
+                } else {
+                    // <+2668>
+                    return
+                }
             } else {
                 // <+2076>
                 tracker.reset()
                 // <+2724>
-                fatalError("TODO")
+                self.tracker.initializeValues(from: environment.plist)
+                // <+2468>
+                // x29 - 0x158
+                let context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
+                    // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA0cD20RepresentableContextVyxGyScMYcXEfU2_Tm
+                    let context = PlatformViewRepresentableContext<Representable>(
+                        coordinator: coordinator.value!,
+                        preferenceBridge: unchecked.value.0,
+                        transaction: unchecked.value.1,
+                        environmentStorage: .eager(unchecked.value.2)
+                    )
+                    return UncheckedSendable(context)
+                }.value
+                
+                let renderHost = ViewGraph.current.delegate as? ViewRendererHost
+                let attribute = Attribute<Representable>(identifier: .current!)
+                
+                let host: Representable.Host? = ObservationCenter.current._withObservation(attribute: attribute) { [features] in
+                    // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_TA
+                    return Graph.withoutUpdate {
+                        // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_
+                        // x29 - 0x80
+                        let contextValues = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
+                            // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AA17UncheckedSendableVyAA26RepresentableContextValuesVGyScMYcXEfU_Tm
+                            let contextValues = RepresentableContextValues(
+                                preferenceBridge: unchecked.value.0,
+                                transaction: unchecked.value.1,
+                                environmentStorage: .eager(unchecked.value.2)
+                            )
+                            return UncheckedSendable(contextValues)
+                        }.value
+                        
+                        // <+276>
+                        return contextValues.asCurrent { () -> Representable.Host? in
+                            // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AGyXEfU0_TA
+                            // sp + 0x18
+                            let host: Representable.Host = MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, context))] () -> UncheckedSendable<Representable.Host> in
+                                // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AGyXEfU0_AA17UncheckedSendableVyAFGyScMYcXEfU_
+                                let view = unchecked.value.0
+                                let context = unchecked.value.1
+                                // x27
+                                let provider = view.makeViewProvider(context: context)
+                                let host = Representable.Host(
+                                    provider,
+                                    host: renderHost,
+                                    environment: environment,
+                                    viewPhase: ViewGraphHost.Phase(base: phase)
+                                )
+                                return UncheckedSendable(host)
+                            }.value
+                            
+                            for feature in features {
+                                feature.update(forHost: host, environment: &environment, isInitialUpdate: true)
+                            }
+                            
+                            return host
+                        }
+                    }
+                }
+                
+                // <+4172>
+                self.platformView = host
+                // <+4312>
             }
+            
+            // <+4312>
             fatalError("TODO")
         }
     }

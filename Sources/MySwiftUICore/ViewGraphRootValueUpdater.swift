@@ -3,7 +3,7 @@ package import CoreGraphics
 package import Spatial
 private import _UIKitPrivate
 
-package protocol ViewGraphRootValueUpdater: ViewGraphDelegate {
+@_spi(Internal) public protocol ViewGraphRootValueUpdater: ViewGraphDelegate {
     func updateRootView()
     func updateEnvironment()
     func updateTransform()
@@ -206,11 +206,11 @@ extension ViewGraphRootValueUpdater {
         fatalError("TODO")
     }
     
-    package func updateGraph<T>(body: (GraphHost) -> T) -> T {
+    public func updateGraph<T>(body: (GraphHost) -> T) -> T {
         return _updateViewGraph(body: body)!
     }
     
-    package func graphDidChange() {
+    public func graphDidChange() {
         Update.locked {
             if !self.isRendering {
                 self.requestUpdate(after: 0)

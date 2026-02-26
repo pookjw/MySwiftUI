@@ -261,8 +261,36 @@ extension CoreViewRepresentable where Coordinator == Void {
 }
 
 @_spi(Internal) public struct PlatformViewRepresentableContext<T: CoreViewRepresentable> {
-    private var values: RepresentableContextValues
-    private let coordinator: T.Coordinator
+    var values: RepresentableContextValues
+    package let coordinator: T.Coordinator
+    
+    init(coordinator: T.Coordinator, preferenceBridge: PreferenceBridge?, transaction: Transaction, environmentStorage: RepresentableContextValues.EnvironmentStorage) {
+        /*
+         coordinator -> x0 -> x23
+         preferenceBridge -> x1 -> x22
+         transaction -> x2 -> x21
+         environmentStorage -> x3 -> x25/x26/w27
+         */
+        self.coordinator = coordinator
+        self.values = RepresentableContextValues(preferenceBridge: preferenceBridge, transaction: transaction, environmentStorage: environmentStorage)
+    }
+    
+    var preferenceBridge: PreferenceBridge? {
+        get {
+            fatalError("TODO")
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    var transaction: Transaction {
+        fatalError("TODO")
+    }
+    
+    var environment: EnvironmentValues {
+        fatalError("TODO")
+    }
 }
 
 @_spi(Internal) public struct CoreViewRepresentableLayoutOptions: OptionSet {
@@ -455,12 +483,12 @@ extension CoreViewRepresentableFeatureBuffer {
 @_spi(Internal) public protocol CoreViewRepresentableHost: AnyObject {
     associatedtype Content: CoreViewRepresentable
     
-//    init(
-//        _ coreRepresentedViewProvider: Content.PlatformViewProvider,
-//        host: ViewGraphRootValueUpdater?,
-//        environment: EnvironmentValues,
-//        viewPhase: ViewGraphHost.Phase
-//    )
+    init(
+        _ coreRepresentedViewProvider: Content.PlatformViewProvider,
+        host: ViewGraphRootValueUpdater?,
+        environment: EnvironmentValues,
+        viewPhase: ViewGraphHost.Phase
+    )
     
     var coreRepresentedViewProvider: Content.PlatformViewProvider { get }
     var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? { get set }

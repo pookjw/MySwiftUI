@@ -187,13 +187,10 @@ fileprivate struct EnvironmentBox<Value>: DynamicPropertyBox {
             
             // <+1056>
             // (sp + 0x1b8, w19)
-            let resolved = MainActor.assumeIsolated { [unchecked = UncheckedSendable(keyPath)] in
-                let value = ObservationCenter.current._withObservationStashed { 
-                    // $s7SwiftUI14EnvironmentBox33_24E0E088473ED74681D096110CC5FC9ALLV6update8property5phaseSbAA0C0VyxGz_AA12_GraphInputsV5PhaseVtFxyXEfU_
-                    return environment[keyPath: unchecked.value]
-                }
-                return UncheckedSendable(value)
-            }.value
+            let resolved = ObservationCenter.current._withObservationStashed { 
+                // $s7SwiftUI14EnvironmentBox33_24E0E088473ED74681D096110CC5FC9ALLV6update8property5phaseSbAA0C0VyxGz_AA12_GraphInputsV5PhaseVtFxyXEfU_
+                return environment[keyPath: keyPath]
+            }
             
             // <+1820>
             // x20

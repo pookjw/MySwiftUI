@@ -1301,11 +1301,11 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package final func updateRootView() {
+    @_spi(Internal) public final func updateRootView() {
         viewGraph.setRootView(_rootView)
     }
     
-    package final func updateEnvironment() {
+    @_spi(Internal) public final func updateEnvironment() {
         // x24 / x19 + 0xa8
         let environment = base._startUpdateEnvironment()
         
@@ -1562,7 +1562,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         base._endUpdateEnvironment(resolved)
     }
     
-    package final func updateTransform() {
+    @_spi(Internal) public final func updateTransform() {
         // self = x19
         base._updateTransform()
         
@@ -1594,11 +1594,11 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package final func updateSize() {
+    @_spi(Internal) public final func updateSize() {
         base._updateSize()
     }
     
-    package final func updateSafeArea() {
+    @_spi(Internal) public final func updateSafeArea() {
         base._updateSafeArea(
             container: {
                 // $s7SwiftUI14_UIHostingViewC14updateSafeAreayyFAA10EdgeInsetsVyXEfU_TA
@@ -1611,11 +1611,11 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         )
     }
     
-    package final func updateContainerSize() {
+    @_spi(Internal) public final func updateContainerSize() {
         base._updateContainerSize()
     }
     
-    package final func updateFocusStore() {
+    @_spi(Internal) public final func updateFocusStore() {
         guard viewGraph.requestedOutputs.isSuperset(of: .focus) else {
             return
         }
@@ -1623,7 +1623,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         viewGraph.setFocusStore(focusBridge.focusStore)
     }
     
-    package final func updateFocusedItem() {
+    @_spi(Internal) public final func updateFocusedItem() {
         guard viewGraph.requestedOutputs.isSuperset(of: .focus) else {
             return
         }
@@ -1631,7 +1631,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         viewGraph.setFocusedItem(focustedItem)
     }
     
-    package final func updateFocusedValues() {
+    @_spi(Internal) public final func updateFocusedValues() {
         guard viewGraph.requestedOutputs.isSuperset(of: .focus) else {
             return
         }
@@ -1639,11 +1639,11 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         viewGraph.setFocusedValues(focusedValues)
     }
     
-    package final func updateAccessibilityEnvironment() {
+    @_spi(Internal) public final func updateAccessibilityEnvironment() {
         fatalError("TODO")
     }
     
-    package final func `as`<T>(_ type: T.Type) -> T? {
+    @_spi(Internal) public final func `as`<T>(_ type: T.Type) -> T? {
         if let result = _base._as(type) {
             return result
         } else if let result = viewController?._as(type) {
@@ -1691,7 +1691,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package nonisolated final func requestUpdate(after time: Double) {
+    @_spi(Internal) public nonisolated final func requestUpdate(after time: Double) {
         MainActor.assumeIsolated {
             base._requestUpdate(after: time)
         }
@@ -1701,11 +1701,11 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         fatalError("TODO")
     }
     
-    package final func setNeedsUpdate() {
+    @_spi(Internal) public final func setNeedsUpdate() {
         base._setNeedsUpdate()
     }
     
-    package final func preferencesDidChange() {
+    @_spi(Internal) public final func preferencesDidChange() {
         // x25
         let preferenceValues = viewGraph.preferenceValues()
         
@@ -1767,7 +1767,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package final func beginTransaction() {
+    @_spi(Internal) public final func beginTransaction() {
         onMainThread { [weak self] in
             if UIKitUpdateCycle.defaultUseSetNeedsLayout {
                 if let self {
