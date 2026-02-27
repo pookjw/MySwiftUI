@@ -641,15 +641,15 @@ fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
     }
 }
 
-@_spi(Internal) public final class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
+@_spi(Internal) open class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
     public static var supportsSecureCoding: Bool {
         return true
     }
     
     package var environment = EnvironmentValues()
-    var phase = ViewGraphHost.Phase()
+    package var phase = ViewGraphHost.Phase()
     
-    public convenience init?(coder: NSCoder) {
+    public required convenience init?(coder: NSCoder) {
         self.init()
     }
     

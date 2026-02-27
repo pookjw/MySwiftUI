@@ -1,4 +1,4 @@
-internal import UIKit
+package import UIKit
 private import _UIKitPrivate
 @_spi(Internal) package import MySwiftUICore
 private import _DyldPrivate
@@ -170,5 +170,13 @@ extension UITraitCollection {
 #else
 #error("TODO")
 #endif
+    }
+    
+    package func coreResolvedBaseTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, options: UICoreTraitCollectionResolutionOptions) -> UITraitCollection {
+        fatalError("TODO")
+    }
+    
+    package func coreResolvedGlassMaterialTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?) -> UITraitCollection {
+        fatalError("TODO")
     }
 }

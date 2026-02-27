@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 #endif
 
 typedef NS_ENUM(NSUInteger, RSSSceneAlignment) {
-    RSSSceneAlignmentUndefined = 0,
+    RSSSceneAlignmentUnspecified = 0,
     RSSSceneAlignmentVertical = 1,
     RSSSceneAlignmentHorizontal = 2
 };

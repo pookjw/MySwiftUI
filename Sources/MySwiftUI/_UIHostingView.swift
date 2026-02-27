@@ -1,10 +1,10 @@
 // FAF0B683EB49BE9BABC9009857940A1E
 public import UIKit
 @_spi(Internal) public import MySwiftUICore
-internal import _UIKitShims
+@_spi(Internal) internal import _UIKitShims
 public import _UIKitPrivate
 private import notify
-private import MRUIKit
+internal import MRUIKit
 private import RealityKit
 private import TCC
 private import ARKit
@@ -13,6 +13,7 @@ public import UIIntelligenceSupport
 internal import UIAccessibility
 private import os.log
 private import Spatial
+private import RealitySimulationServices
 
 // TODO: 지워야함
 fileprivate let mySwiftUI_disableUnimplementedAssertion: Bool = {
@@ -2176,8 +2177,145 @@ extension UITraitCollection {
         result.backgroundMaterial = .vibrantGlassContent
         return result
     }
+    
+    @MainActor fileprivate func resolvedPreTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
+        /*
+         self -> x20
+         environment -> x0 -> x26
+         wrapper -> x1 -> x21
+         */
+        // x19
+        let wrapper = wrapper ?? self._environmentWrapper
+        // <+168>
+        // x21
+        var modified = self._modifyingTraits(environmentWrapper: wrapper) { traits in
+            // $sSo17UITraitCollectionC7SwiftUIE016resolvedPreTraitB033_005A2BB2D44F4D559B7E508DC5B95FFBLL11environment7wrapper18forImageAssetsOnlyAbC17EnvironmentValuesV_AC013ViewGraphHostX7WrapperCSgSbtFy5UIKit15UIMutableTraits_pzXEfU_TA
+            /*
+             traits -> x0 -> x19
+             environment -> x1 -> x21
+             */
+            // x29 - 0x58
+            let keys = environment[BridgedEnvironmentKeysKey.self]
+            
+            func copyValueToMutableTraits<T: MySwiftUI.UITraitBridgedEnvironmentKey>(for type: T.Type) {
+                fatalError("TODO")
+            }
+            
+            for key in keys {
+                _openExistential(key, do: copyValueToMutableTraits)
+            }
+            
+            // <+272>
+            if isVisionInterfaceIdiom() {
+                // x25
+                let envVibrancy = _UIUserInterfaceContainerVibrancy(material: environment.backgroundMaterial)
+                let traitVibrancy = traits._containerVibrancy
+                
+                if envVibrancy != traitVibrancy {
+                    traits._containerVibrancy = envVibrancy
+                }
+            }
+            
+            // <+472>
+            TypesettingConfigurationKey.write(to: &traits, value: environment.typesettingConfiguration)
+            traits.activeAppearance = (environment.appearsActive ? .active : .inactive)
+        }
+        
+        // w20
+        let isInOrnament = environment.isInOrnament
+        if isInOrnament != modified.mrui_ornamentStatus {
+            modified = modified.mrui_traitCollection(bySettingOrnamentStatus: isInOrnament)
+        }
+        
+        // <+332>
+        // x22
+        var array: [UITraitCollection] = [modified]
+        
+        var alignment: RSSSceneAlignment = .unspecified
+        switch environment.anchoredPlane {
+        case .horizontal:
+            alignment = .horizontal
+        case .vertical:
+            alignment = .vertical
+        case nil:
+            break
+        }
+        
+        // x23 -> x25
+        let target_1 = RSSPlacementTarget(alignment: alignment)
+        // x24
+        let target_2 = modified.mrui_placementTarget
+        
+        if target_1 != target_2 {
+            // <+720>
+            let collection = UITraitCollection.mrui_traitCollection(with: target_1)
+            array.append(collection)
+        }
+        
+        // <+796>
+        return UITraitCollection(traitsFrom: array)
+    }
 }
 
 fileprivate struct BridgedEnvironmentKeysKey: EnvironmentKey {
-    @safe static nonisolated(unsafe) let defaultValue: [(any EnvironmentKey).Type] = []
+    @safe static nonisolated(unsafe) let defaultValue: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
+}
+
+final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
+    private var importer: MRUIPreferenceImporter? = nil // 0x2d8
+    var focusedValues = FocusedValues() // 0x2e0
+    private(set) weak var responder: UIViewResponder? = nil // 0x300
+    
+    required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+        /*
+         coreRepresentedViewProvider -> x0 -> x29 - 0x98
+         host -> x1 -> x29 - 0x60
+         environment -> x2 -> x29 - 0x58
+         viewPhase -> x3 -> x29 - 0x68
+         */
+        super.init(coreRepresentedViewProvider, host: host, environment: environment, viewPhase: viewPhase)
+    }
+    
+    override var parentPreferenceHost: (any MRUIPreferenceHostProtocol)? {
+        fatalError("TODO")
+    }
+    
+    override var _parentGestureRecognizerContainer: (any _UIGestureRecognizerContainer)? {
+        fatalError("TODO")
+    }
+    
+    var isPlatformFocusContainerHost: Bool {
+        fatalError("TODO")
+    }
+    
+    var focusView: UIView {
+        fatalError("TODO")
+    }
+    
+    override func makeEnvironmentWrapper(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
+        /*
+         self -> x20
+         environment -> x0 -> x29 - 0x88
+         viewPhase -> x1 -> x29 - 0x80
+         */
+        // <+148>
+        let wrapper = EnvironmentWrapper(focusedValues: self.focusedValues)
+        wrapper.environment = environment
+        wrapper.phase = viewPhase
+        return wrapper
+    }
+    
+    override func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
+        /*
+         baseTraitCollection -> x0 -> x20
+         environment -> x1 -> x21
+         wrapper -> x2 -> x19
+         */
+        // x20
+        let resolved_1 = baseTraitCollection.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
+        // x22
+        let resolved_2 = resolved_1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: [])
+        let resolved_3 = resolved_2.coreResolvedGlassMaterialTraitCollection(environment: environment, wrapper: wrapper)
+        return resolved_3
+    }
 }

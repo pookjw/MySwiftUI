@@ -25,6 +25,8 @@ extension UIKit.UITraitCollection {
 
     @_silgen_name("$sSo17UITraitCollectionC5UIKitE36coreResolvedGlassMaterialEnvironment4base7SwiftUI0H6ValuesVAH_tF")
     public func private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues) -> SwiftUI.EnvironmentValues
+
+    public func _modifyingTraits(environmentWrapper: ObjectiveC.NSObject?, mutations: (inout UIKit.UIMutableTraits) -> Void) -> UIKit.UITraitCollection
 }
 
 @available(visionOS 26.0, *)
@@ -57,4 +59,8 @@ extension _UIKitPrivate._UICornerInsets: Swift.Equatable, Swift.Codable {
 extension UIKit.UIView {
     @objc(_intelligenceCollectContentIn:collector:) open func _intelligenceCollectContent(in: CoreGraphics.CGRect, collector: UIIntelligenceSupport.UIIntelligenceElementCollector)
     @objc(_intelligenceCollectRemoteContentIn:remoteContextWrapper:) open func _intelligenceCollectRemoteContent(in: CoreGraphics.CGRect, remoteContextWrapper: UIIntelligenceSupport.UIIntelligenceCollectionRemoteContextWrapper)
+}
+
+extension UIKit.UIMutableTraits {
+    public var _containerVibrancy: _UIKitPrivate._UIUserInterfaceContainerVibrancy { get set }
 }
