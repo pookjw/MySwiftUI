@@ -35,6 +35,13 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
     }
     
     override func makeEnvironmentWrapper(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
+        /*
+         self -> x20
+         environment -> x0 -> x29 - 0x88
+         viewPhase -> x1 -> x29 - 0x80
+         */
+        // <+148>
+        
         fatalError("TODO")
     }
     

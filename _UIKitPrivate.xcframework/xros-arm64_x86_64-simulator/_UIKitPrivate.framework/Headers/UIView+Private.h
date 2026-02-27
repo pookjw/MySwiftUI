@@ -53,6 +53,7 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 - (void)_updateSafeAreaInsets;
 - (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withHandler:(UITraitChangeHandler)handler;
 - (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withTarget:(id)target action:(SEL)action;
+- (void)_noteTraitsDidChangeRecursively;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

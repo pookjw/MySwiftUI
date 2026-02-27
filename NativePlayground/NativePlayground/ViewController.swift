@@ -1421,6 +1421,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let hostingController = UIHostingController(rootView: MyViewRepresentable())
+//        let hostingController = UIHostingController(rootView: MyViewControllerRepresentable())
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds
@@ -1898,6 +1899,18 @@ fileprivate struct MyViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {
+        
+    }
+}
+
+fileprivate struct MyViewControllerRepresentable: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        let uiViewController = UIViewController()
+        uiViewController.view.backgroundColor = .systemBlue
+        return uiViewController
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         
     }
 }

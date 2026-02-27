@@ -18,7 +18,7 @@ public import _UIKitPrivate
         right: .greatestFiniteMagnitude
     ) // 0x250
     
-    weak private var vc: UIViewController? = nil // 0x270
+    private weak var vc: UIViewController? = nil // 0x270
     private var inLayoutSizeThatFits: Bool = false // 0x278
     private var cachedImplementsFittingSize: Bool? = nil // 0x279
     public var coreLayoutInvalidator: ViewGraphHost.LayoutInvalidator? = nil // 0x280
@@ -59,7 +59,24 @@ public import _UIKitPrivate
     }
     
     open override func _traitCollection(forChildEnvironment environment: any UITraitEnvironment) -> UITraitCollection {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x19
+         envrionment -> x0 -> x29 - 0x88
+         */
+        if
+            Representable.isViewController,
+            let host,
+            let provider = host.as(UICoreViewControllerProvider.self),
+            provider.coreUIViewController != nil
+        {
+            // <+196>
+            return super._traitCollection(forChildEnvironment: environment)
+        } else {
+            // <+384>
+            let wrapper = self.makeEnvironmentWrapper(self.environment, viewPhase: self.viewPhase)
+            // x23
+            return resolvedTraitCollection(baseTraitCollection: self.traitCollection, environment: self.environment, wrapper: wrapper)
+        }
     }
     
     open override func _updateSafeAreaInsets() {
@@ -78,8 +95,25 @@ public import _UIKitPrivate
         fatalError("TODO")
     }
     
+    // ___lldb_unnamed_symbol_29101c
     open override func didAddSubview(_ subview: UIView) {
-        fatalError("TODO")
+        /*
+         self -> x20
+         subview -> x0 -> x19
+         */
+        super.didAddSubview(subview)
+        
+        guard let vc else {
+            return
+        }
+        
+        // x21
+        let viewControllerView = vc.view
+        let hostedView = self.hostedView
+        
+        if hostedView == nil, let viewControllerView, subview === viewControllerView {
+            self.hostedView = viewControllerView
+        }
     }
     
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -191,7 +225,32 @@ public import _UIKitPrivate
     
     open override var safeAreaInsets: UIEdgeInsets {
         get {
-            fatalError("TODO")
+            let fromOwn = self._safeAreaInsets
+            var d9 = fromOwn.top
+            var d10 = fromOwn.left
+            var d11 = fromOwn.bottom
+            var d8 = fromOwn.right
+            
+            let fromSuper = super.safeAreaInsets
+            var d0 = fromSuper.top
+            var d1 = fromSuper.left
+            var d2 = fromSuper.bottom
+            var d3 = fromSuper.right
+            
+            let d7 = Double.greatestFiniteMagnitude
+            
+            if (d9 == d7) && (d10 == d7) && (d11 == d7) {
+                // <+120>
+                let d6 = d2
+                let d2 = Double.greatestFiniteMagnitude
+                d9 = (d8 == d2) ? d0 : d2
+                d10 = (d8 == d2) ? d1 : d2
+                d11 = (d8 == d2) ? d6 : d2
+                d8 = (d8 == d2) ? d3 : d8
+            }
+            
+            // <+148>
+            return UIEdgeInsets(top: d9, left: d10, bottom: d11, right: d8)
         }
         set {
             fatalError("TODO")
@@ -234,13 +293,111 @@ public import _UIKitPrivate
         // <+904>
         if Representable.isViewController {
             // <+924>
-            fatalError("TODO")
+            self.vc = coreRepresentedViewProvider as! UIViewController
         } else {
             // <+1028>
-            fatalError("TODO")
+            let platformView = Representable.platformView(for: coreRepresentedViewProvider) as! UIView
+            self.hostedView = platformView
         }
         
         // <+1052>
+        if Representable.isViewController {
+            let uiView = coreRepresentedViewProvider as! UIView
+            self.hostedView = uiView
+        }
+        
+        // <+1096>
+        update(newEnvironment: environment, newViewPhase: viewPhase)
+        
+        // 아마 Invalidation하는 코드가 있는데 Production Build에서 제거된 것으로 추정
+        _ = ViewGraphRootValues.environment
+        
+        updateColorScheme(needsStatusBarAppearanceUpdate: false)
+    }
+    
+    private func update(newEnvironment: EnvironmentValues, newViewPhase: ViewGraphHost.Phase) {
+        /*
+         self -> x20 -> x19
+         newValue -> x0 -> x21
+         */
+        // x22
+        let oldColorScheme = environment.colorScheme
+        // x28
+        let newColorScheme = newEnvironment.colorScheme
+        // x29 - 0x7c
+        let isEqual = oldColorScheme == newColorScheme
+        // x22
+        let isIdentical = environment.isIdentical(to: newEnvironment)
+        
+        self.environment = newEnvironment
+        self.viewPhase = newViewPhase
+        
+        if !isIdentical {
+            updateColorScheme(needsStatusBarAppearanceUpdate: !isEqual)
+        }
+        
+        // <+516>
+    }
+    
+    private func updateColorScheme(needsStatusBarAppearanceUpdate: Bool) {
+        /*
+         self -> x20 -> x21
+         force -> x0 -> x25
+         */
+        if let vc {
+            // <+188>
+            // vc -> x29 - 0x68
+            guard let host else {
+                return
+            }
+            
+            // force -> x25 -> x29 - 0x6c
+            guard let provider = host.as(UICoreViewControllerProvider.self) else {
+                return
+            }
+            
+            // x29 - 0x78
+            guard let coreUIViewController = provider.coreUIViewController else {
+                return
+            }
+            
+            // x25
+            let wrapper = makeEnvironmentWrapper(environment, viewPhase: viewPhase)
+            // x20
+            let resolvedTraitCollection = resolvedTraitCollection(baseTraitCollection: self.traitCollection, environment: self.environment, wrapper: wrapper)
+            
+            // <+496>
+            ViewGraphHostUpdate.enqueueAction { [weak coreUIViewController] in
+                /*
+                 coreUIViewController -> x0
+                 resolvedTraitCollection -> x1
+                 vc -> x2
+                 force -> w3
+                 */
+                coreUIViewController?.setOverrideTraitCollection(resolvedTraitCollection, forChild: vc)
+                vc.updateTraitsIfNeeded()
+                
+                if needsStatusBarAppearanceUpdate {
+#if os(visionOS)
+                    coreUIViewController?.msui_setNeedsStatusBarAppearanceUpdate()
+#else
+                    coreUIViewController?.setNeedsStatusBarAppearanceUpdate()
+#endif
+                }
+            }
+        } else {
+            // <+672>
+            self._noteTraitsDidChangeRecursively()
+        }
+    }
+    
+    private func updateGraph(values: ViewGraphRootValues) {
+        /*
+         self -> x20 -> x21
+         values -> x0 -> x25
+         */
+        // <+152>
+        
         fatalError("TODO")
     }
     

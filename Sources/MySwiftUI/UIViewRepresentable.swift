@@ -194,6 +194,6 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     static func platformView(for provider: Base.UIViewType) -> AnyObject {
-        fatalError("TODO")
+        return provider
     }
 }
