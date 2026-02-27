@@ -51,7 +51,11 @@ public import _UIKitPrivate
     }
     
     open override func _setHostsLayoutEngine(_ hostsLayoutEngine: Bool) {
-        fatalError("TODO")
+        guard UICoreUnifiedLayout.isEnabled else {
+            return
+        }
+        
+        super._setHostsLayoutEngine(hostsLayoutEngine)
     }
     
     open override func _traitCollection(forChildEnvironment environment: any UITraitEnvironment) -> UITraitCollection {
@@ -87,8 +91,94 @@ public import _UIKitPrivate
             fatalError("TODO")
         }
         set {
-            fatalError("TODO")
+            super.hostedView = newValue
+            /*
+             self -> x20 -> x19
+             newValue -> x0 -> x21
+             */
+            if let separatedThicknessRegistration {
+                // <+64>
+                // x20
+                let oldValue = separatedThicknessRegistration.hostedView
+                
+                if oldValue === newValue {
+                    // <+180>
+                    return
+                } else {
+                    // <+108>
+                    // <+128>
+                }
+            } else {
+                // <+104>
+                if let newValue {
+                    // <+128>
+                } else {
+                    // <+180>
+                    return
+                }
+            }
+            
+            // <+128>
+            if let separatedThicknessRegistration {
+                separatedThicknessRegistration.invalidate()
+            }
+            
+            // <+168>
+            if let newValue {
+                // <+204>
+                self.separatedThicknessRegistration = UICorePlatformViewHost.SeparatedThicknessRegistration(
+                    hostedView: unsafeBitCast(newValue, to: Representable.PlatformViewProvider.self), // FIXME
+                    onChange: { [weak self] in
+                        guard let self else {
+                            return
+                        }
+                        
+                        guard self.hostedView != nil else {
+                            return
+                        }
+                        
+                        self.onChange()
+                    }
+                )
+            } else {
+                self.separatedThicknessRegistration = nil
+            }
         }
+    }
+    
+    private func onChange() {
+        // self -> x20
+        // <+172>
+        guard self.coreLayoutInvalidator == nil else {
+            self.cachedLayoutTraits = nil
+            return
+        }
+        
+        guard !self.invalidationPending else {
+            return
+        }
+        
+        self.invalidationPending = true
+        
+        ViewGraphHostUpdate.enqueueAction { [weak self] in
+            guard let self else {
+                return
+            }
+            
+            onInvalidation()
+        }
+    }
+    
+    private func onInvalidation() {
+        // self -> x20 -> x19
+        // <+200>
+        self.cachedLayoutTraits = nil
+        
+        if let invalidator = self.coreLayoutInvalidator {
+            invalidator.invalidate()
+        }
+        
+        self.invalidationPending = false
     }
     
     open override func layoutSubviews() {
@@ -127,12 +217,40 @@ public import _UIKitPrivate
         super.init(hostedView: nil)
         
         // <+768>
+        if Representable.isViewController {
+            if isLinkedOnOrAfter(.v6) {
+                viewHierarchyMode = .unknown0
+            } else {
+                viewHierarchyMode = .unknown1
+            }
+        }
+        
+        // <+828>
+        if isLinkedOnOrAfter(.v6) {
+            self.layer.allowsGroupOpacity = false
+            self.layer.allowsGroupBlending = false
+        }
+        
+        // <+904>
+        if Representable.isViewController {
+            // <+924>
+            fatalError("TODO")
+        } else {
+            // <+1028>
+            fatalError("TODO")
+        }
+        
+        // <+1052>
         fatalError("TODO")
     }
     
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        fatalError("TODO")
     }
     
     open func coreLayoutTraits() -> _LayoutTraits {
@@ -183,23 +301,60 @@ extension UICorePlatformViewHost {
         case unknown1
     }
     
-    // _TtCGC5UIKit22UICorePlatformViewHostGV7SwiftUIP10$1d3103ab432PlatformViewRepresentableAdaptorV16NativePlaygroundP10$100b57f7c19MyViewRepresentable__P10$186ef5ecc30SeparatedThicknessRegistration
     fileprivate final class SeparatedThicknessRegistration: NSObject {
-        private var hostedView: Representable.PlatformViewProvider // 0x8
-        // TODO
-        private var observation: NSKeyValueObservation? // 0x10
-        private var traitChangeRegistration: (any UITraitChangeRegistration)? // 0x18
-        private var separatedThickness: CGFloat // 0x20
-        private var displayScale: CGFloat // 0x28
+        private(set) var hostedView: Representable.PlatformViewProvider // 0x8
+        private var observation: NSKeyValueObservation? = nil // 0x10
+        private var traitChangeRegistration: (any UITraitChangeRegistration)? = nil // 0x18
+        private var separatedThickness: CGFloat = 0 // 0x20
+        private var displayScale: CGFloat = 0 // 0x28
         private var onChange: () -> Void // 0x30
         
-        override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        @MainActor init(hostedView: Representable.PlatformViewProvider, onChange: @escaping () -> Void) {
+            self.hostedView = hostedView
+            self.onChange = onChange
+            super.init()
+            
+            // <+184>
+            let view = unsafeBitCast(hostedView, to: UIView.self) // FIXME
+            
+            self.traitChangeRegistration = view._register(forTraitTokenChanges: [DisplayScaleToken()!]) { [weak self] (traitEnvironment: any UITraitEnvironment, previousTraitCollection: UITraitCollection) in
+                // ___lldb_unnamed_symbol_291f1c
+                guard let self else {
+                    return
+                }
+                
+                let view = unsafeBitCast(self.hostedView, to: UIView.self) // FIXME
+                let newDisplayScale = view.traitCollection.displayScale
+                
+                guard self.displayScale != newDisplayScale else {
+                    return
+                }
+                
+                self.displayScale = newDisplayScale
+                onChange()
+            }
+            
+            view.layer.addObserver(self, forKeyPath: "separatedOptions.separatedThickness", options: [.new], context: nil)
+        }
+        
+        deinit {
+            // 없을 수도 있음 아니면 View에서 invalidate를 호출하거나
             fatalError("TODO")
         }
         
-        override init() {
+        @MainActor func invalidate() {
+            guard let traitChangeRegistration else {
+                return
+            }
+            
+            let view = unsafeBitCast(self.hostedView, to: UIView.self) // FIXME
+            view.layer.removeObserver(self, forKeyPath: "separatedOptions.separatedThickness", context: nil)
+            view.unregisterForTraitChanges(traitChangeRegistration)
+            // self.traitChangeRegistration = nil은 안 보임
+        }
+        
+        override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
             fatalError("TODO")
-            super.init()
         }
     }
 }

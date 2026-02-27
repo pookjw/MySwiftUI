@@ -311,6 +311,10 @@ extension ViewGraphHost {
     public struct LayoutInvalidator {
         private weak var viewGraph: ViewGraph?
         private var layoutComputer: WeakAttribute<LayoutComputer>
+        
+        package func invalidate() {
+            fatalError("TODO")
+        }
     }
 }
 

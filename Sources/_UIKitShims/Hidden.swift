@@ -7,6 +7,8 @@ private import SwiftUI
 internal import _SwiftUIPrivate
 #endif
 
+// ___lldb_unnamed_symbol_3d04
+
 final class PrivateSelectors {
     @objc(_swiftTypeName) var _swiftTypeName: NSString {
         fatalError()
@@ -32,50 +34,51 @@ func UICoreKeyboardTrackingClass() -> AnyClass {
     return unsafe objc_lookUpClass("UICoreKeyboardTracking")!
 }
 
-func MaterialBackdropContextTraitToken() -> Any? {
+func MaterialBackdropContextTraitToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
     /*
-     ___lldb_unnamed_symbol311478은 내부적으로
+     UIKit은 내부적으로
      1. Shared Lock (_TtCV5UIKitP33_2B7F8531C57DD9B1FF22BDF345CB17E114_UISwiftTraits10UnfairLock) 생성 및 Lock/Unlock
      2. +[UITraitCollection _defineObjectTraitWithName:identifier:defaultValue:affectsColorAppearance:defaultValueRepresentsUnspecified:isPrivate:placeholderToken:]을 통해 Trait를 정의
-     3. 그러면 Token이 한 번만 생성됨
-     
-     나는 1번 및 3번을 가져올 방법이 없어, 1~3을 처리하고 UITraitCollection으로 Token을 가져온다.
+     3. 만약 내가 이 로직을 똑같이 구현하면 "Attempting to define a trait for a placeholder token that corresponds to a trait that was already defined: 30" Exception이 나오게 되기에 UIKit에서 등록을 시키고 그것을 가져와야함
      */
     _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "MaterialBackdropContext", identifier: "UIMaterialBackdropContext")!
-    return token
+    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
 }
 
-func ResolvedProviderTraitToken() -> Any? {
+func ResolvedProviderTraitToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
-    /*
-     ___lldb_unnamed_symbol311478은 내부적으로
-     1. Shared Lock (_TtCV5UIKitP33_2B7F8531C57DD9B1FF22BDF345CB17E114_UISwiftTraits10UnfairLock) 생성 및 Lock/Unlock
-     2. +[UITraitCollection _defineObjectTraitWithName:identifier:defaultValue:affectsColorAppearance:defaultValueRepresentsUnspecified:isPrivate:placeholderToken:]을 통해 Trait를 정의
-     3. 그러면 Token이 한 번만 생성됨
-     
-     나는 1번 및 3번을 가져올 방법이 없어, 1~3을 처리하고 UITraitCollection으로 Token을 가져온다.
-     */
     _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "ResolvedProvider", identifier: "UIResolvedProviderTrait")!
-    return token
+    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
 }
 
 // ___lldb_unnamed_symbol324225
-func ColorMaterialRenderingMode() -> Any? {
+func ColorMaterialRenderingModeToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "UIColor.materialRenderingMode", identifier: "UITraitColorMaterialRenderingMode")!
     
-    return token
+    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+#else
+#error("TODO")
+#endif
+}
+
+func DisplayScaleToken() -> (any _UITraitTokenProtocol)? {
+#if SwiftUICompataibility
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    
+    let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "DisplayScale", identifier: "UITraitDisplayScale")!
+    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif

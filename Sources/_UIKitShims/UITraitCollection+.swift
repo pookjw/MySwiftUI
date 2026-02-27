@@ -124,7 +124,7 @@ extension UITraitCollection {
         // <+3052>
         result.accessibilitySettingsDefinition = .uiKit
         
-        switch UIColorMaterialRenderingMode(rawValue: self._value(forNSIntegerTraitToken: ColorMaterialRenderingMode()!)) {
+        switch UIColorMaterialRenderingMode(rawValue: self._value(forNSIntegerTraitToken: ColorMaterialRenderingModeToken()!)) {
         case .automatic:
             result.materialColorRenderingMode = .automatic
         case .adaptiveSystemColors:

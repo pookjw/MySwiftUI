@@ -1427,6 +1427,11 @@ class ViewController: UIViewController {
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
         
+        Task {
+            try! await Task.sleep(for: .seconds(1))
+            hostingController.traitOverrides.displayScale = 4
+        }
+        
         print(NSStringFromClass(object_getClass(hostingController)!))
         print(hostingController)
         

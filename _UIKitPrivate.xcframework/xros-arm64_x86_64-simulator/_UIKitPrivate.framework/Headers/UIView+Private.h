@@ -6,6 +6,7 @@
 #import <_UIKitPrivate/_UIBaselineOffsetPair.h>
 #import <_UIKitPrivate/UIHitTestContext.h>
 #import <_UIKitPrivate/UILayoutAxes.h>
+#import <_UIKitPrivate/UITraitChangeObservableInternal.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -13,7 +14,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No
 
 typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift_wrapper(struct))); // TODO
 
-@interface UIView (Private)
+@interface UIView (Private) <UITraitChangeObservableInternal>
 + (BOOL)_supportsInvalidatingFocusCache;
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
 @property (nonatomic, readonly, nullable) UIKeyboardSceneDelegate *keyboardSceneDelegate;
@@ -50,6 +51,8 @@ typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift
 - (void)_setHostsLayoutEngine:(BOOL)hostsLayoutEngine;
 - (UITraitCollection *)_traitCollectionForChildEnvironment:(id<UITraitEnvironment>)environment;
 - (void)_updateSafeAreaInsets;
+- (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withHandler:(UITraitChangeHandler)handler;
+- (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withTarget:(id)target action:(SEL)action;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

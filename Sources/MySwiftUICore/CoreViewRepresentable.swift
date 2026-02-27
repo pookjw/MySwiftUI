@@ -3,7 +3,7 @@ public import CoreGraphics
 public import AttributeGraph
 
 @_spi(Internal) public protocol CoreViewRepresentable: View {
-    associatedtype PlatformViewProvider
+    associatedtype PlatformViewProvider: AnyObject
     associatedtype Host: CoreViewRepresentableHost
     associatedtype Coordinator
     
@@ -55,7 +55,7 @@ extension CoreViewRepresentable {
     }
     
     public static var isViewController: Bool {
-        fatalError("TODO")
+        return false
     }
     
     public func shouldEagerlyUpdateSafeArea(_ provider: Self.PlatformViewProvider) -> Bool {

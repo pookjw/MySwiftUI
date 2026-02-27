@@ -138,10 +138,6 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
         return CoreViewRepresentableDynamicPropertyFields(for: self)
     }
     
-    static var isViewController: Bool {
-        fatalError("TODO")
-    }
-    
     func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Base.UIViewType {
         let repContext = UIViewRepresentableContext<Base>(coordinator: context.coordinator)
         let uiView = base.makeUIView(context: repContext)

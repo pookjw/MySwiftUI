@@ -36,3 +36,5 @@
 #import <_UIKitPrivate/UINavigationItem+Private.h>
 #import <_UIKitPrivate/_UINavigationBarPalette.h>
 #import <_UIKitPrivate/UIConstraintBasedLayoutHostingView.h>
+#import <_UIKitPrivate/UITraitChangeObservableInternal.h>
+#import <_UIKitPrivate/UIPresentationController+Private.h>
