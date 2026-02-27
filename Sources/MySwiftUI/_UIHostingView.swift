@@ -2151,7 +2151,7 @@ extension UITraitCollection {
             return result
         }
         
-        guard result.backgroundMaterial != nil else {
+        guard result.backgroundMaterial == nil else {
             return result
         }
         

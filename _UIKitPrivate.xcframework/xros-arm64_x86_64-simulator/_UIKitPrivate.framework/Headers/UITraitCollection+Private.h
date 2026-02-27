@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import <_UIKitPrivate/UIUserInterfaceContainerVibrancy.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -6,13 +7,6 @@ typedef NS_ENUM(NSInteger, UIPlatterGroundingShadowVisibility) {
     UIPlatterGroundingShadowVisibilityAutomatic = 0,
     UIPlatterGroundingShadowVisibilityVisible = 1,
     UIPlatterGroundingShadowVisibilityHidden = 2
-};
-
-typedef NS_ENUM(NSInteger, UIUserInterfaceContainerVibrancy) {
-    UIUserInterfaceContainerVibrancyUndefined = -1,
-    UIUserInterfaceContainerVibrancyLigherGlass = 0,
-    UIUserInterfaceContainerVibrancyDarkerGlass = 1,
-    UIUserInterfaceContainerVibrancyUltraDarkerGlass = 2
 };
 
 typedef NS_ENUM(NSInteger, UIColorMaterialRenderingMode) {
@@ -35,7 +29,7 @@ UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_S
 - (UITraitCollection *)_traitCollectionByRemovingEnvironmentWrapper;
 - (void)_setEnvironmentWrapper:(NSObject * _Nullable)wrapper;
 - (UIPlatterGroundingShadowVisibility)_platterGroundingShadowVisibility;
-- (UIUserInterfaceContainerVibrancy)_containerVibrancy;
+- (_UIUserInterfaceContainerVibrancy)_containerVibrancy;
 - (CGFloat)displayCornerRadius;
 - (UIPlatterStatus)_platterStatus;
 - (NSInteger)_userInterfaceRenderingMode;

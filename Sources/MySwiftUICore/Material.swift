@@ -6,6 +6,11 @@ public import _SwiftUIPrivate
 public struct Material: Sendable {
     private var id: Material.ID
     private var flags: Material.ResolvedMaterial.Flags
+    
+    init(_ id: Material.ID) {
+        self.id = id
+        self.flags = []
+    }
 }
 
 extension Material {
@@ -68,7 +73,7 @@ extension Material {
         case pinched
         case selected
         case disabled
-        case vibrantGlassContent
+        case vibrantGlassContent // 0xb, 0x3
         case darkerGlass
         case lighterGlass
         case ultraDarkerGlass
@@ -148,7 +153,7 @@ extension ShapeStyle where Self == Material {
     }
     
     package static var vibrantGlassContent: Material {
-        fatalError()
+        return Material(.vibrantGlassContent)
     }
     
     package static var darkerGlass: Material {
@@ -177,7 +182,7 @@ extension ShapeStyle where Self == Material {
 }
 
 extension EnvironmentValues {
-    package var backgroundMaterial: Material? {
+    public var backgroundMaterial: Material? {
         get {
             return self[BackgroundMaterialKey.self]
         }
