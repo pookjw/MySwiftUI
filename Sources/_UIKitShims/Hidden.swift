@@ -8,8 +8,6 @@ internal import _SwiftUIPrivate
 #endif
 internal import DesignLibrary
 
-// ___lldb_unnamed_symbol_3d04
-
 final class PrivateSelectors {
     @objc(_swiftTypeName) var _swiftTypeName: NSString {
         fatalError()
