@@ -1,10 +1,8 @@
 package import UIKit
 private import _UIKitPrivate
 @_spi(Internal) package import MySwiftUICore
-private import _DyldPrivate
 private import DesignLibrary
 private import _DesignLibraryShims
-private import _CoreFoundationPrivate
 
 extension UITraitCollection {
     func environmentValues() -> MySwiftUICore.EnvironmentValues {
@@ -249,8 +247,72 @@ extension UITraitCollection {
             }
             
             // <+1724>
-            let isRSCompatible = _CFRSCompatible()
-            // 이 결과에 따라 SDK 분기 처리가 바뀜
+            if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *) {
+                // <+1760>
+                // x23
+                let newBackgroundMaterial = environment.backgroundMaterial
+                let isContainedInPlatter = environment.isContainedInPlatter
+                
+                if isContainedInPlatter || (newBackgroundMaterial != nil) {
+                    // <+1856>
+                    if (traits._vibrancy == .unknown1) || (traits._vibrancy != .unknown0) {
+                        traits._vibrancy = .unknown1
+                    }
+                }
+            }
+            
+            // <+1980>
+            let newAccessibilityContrast = UIAccessibilityContrast(_colorSchemeContrast: environment._colorSchemeContrast)
+            let oldAccessibilityContrast = traits.accessibilityContrast
+            if newAccessibilityContrast != oldAccessibilityContrast {
+                traits.accessibilityContrast = newAccessibilityContrast
+            }
+            
+            // <+2132>
+            let newHorizontalSizeClass = UIUserInterfaceSizeClass(_sizeClass: environment.horizontalSizeClass)
+            let oldHorizontalSizeClass = traits.horizontalSizeClass
+            if newHorizontalSizeClass != oldHorizontalSizeClass {
+                traits.horizontalSizeClass = newHorizontalSizeClass
+            }
+            
+            // <+2240>
+            let newVerticalSizeClass = UIUserInterfaceSizeClass(_sizeClass: environment.verticalSizeClass)
+            let oldVerticalSizeClass = traits.verticalSizeClass
+            if newVerticalSizeClass != oldVerticalSizeClass {
+                traits.verticalSizeClass = newVerticalSizeClass
+            }
+            
+            // <+2348>
+            if !options.contains(.forImageAssetsOnly) {
+                let newUserInterfaceLevel = UIUserInterfaceLevel(rawValue: environment.backgroundLevel)!
+                let oldUserInterfaceLevel = traits.userInterfaceLevel
+                if newUserInterfaceLevel != oldUserInterfaceLevel {
+                    traits.userInterfaceLevel = newUserInterfaceLevel
+                }
+            }
+            
+            // <+2456>
+            let newPointsPerMeter = environment.pointsPerMeter
+            let oldPointsPerMeter = traits._pointsPerMeter
+            if newPointsPerMeter != oldPointsPerMeter {
+                traits._pointsPerMeter = newPointsPerMeter
+            }
+            
+            // <+2552>
+            let newPlatterGroundingShadowVisibility = _UIPlatterGroundingShadowVisibility(rawValue: environment.platterGroundingShadowVisibility.rawValue)!
+            let oldPlatterGroundingShadowVisibility = traits.platterGroundingShadowVisibility
+            if newPlatterGroundingShadowVisibility != oldPlatterGroundingShadowVisibility {
+                traits.platterGroundingShadowVisibility = newPlatterGroundingShadowVisibility
+            }
+            
+            // <+2652>
+            if self.userInterfaceIdiom == .vision {
+                // <+2668>
+                let isContainedInPlatter = environment.isContainedInPlatter
+                fatalError("TODO")
+            }
+            
+            // <+2772>
             fatalError("TODO")
         }
     }

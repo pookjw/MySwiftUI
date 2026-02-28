@@ -7,12 +7,11 @@
 #import <_UIKitPrivate/UIHitTestContext.h>
 #import <_UIKitPrivate/UILayoutAxes.h>
 #import <_UIKitPrivate/UITraitChangeObservableInternal.h>
+#import <_UIKitPrivate/UIPlatterGroundingShadowVisibility.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No longer supported", ios(26.0, 26.4));
-
-typedef const NSInteger _UIPlatterGroundingShadowVisibility __attribute__((swift_wrapper(struct))); // TODO
 
 @interface UIView (Private) <UITraitChangeObservableInternal>
 + (BOOL)_supportsInvalidatingFocusCache;

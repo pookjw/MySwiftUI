@@ -61,6 +61,11 @@ extension UIKit.UIView {
     @objc(_intelligenceCollectRemoteContentIn:remoteContextWrapper:) open func _intelligenceCollectRemoteContent(in: CoreGraphics.CGRect, remoteContextWrapper: UIIntelligenceSupport.UIIntelligenceCollectionRemoteContextWrapper)
 }
 
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "UIKit", visionOS 26.0)
 extension UIKit.UIMutableTraits {
     public var _containerVibrancy: _UIKitPrivate._UIUserInterfaceContainerVibrancy { get set }
+    public var _vibrancy: _UIKitPrivate._UIUserInterfaceVibrancy { get set }
+    public var _pointsPerMeter: CoreFoundation.CGFloat { get set }
+    public var platterGroundingShadowVisibility: _UIKitPrivate._UIPlatterGroundingShadowVisibility { get set }
 }

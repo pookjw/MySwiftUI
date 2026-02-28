@@ -1,5 +1,5 @@
 package struct UICoreTraitCollectionResolutionOptions: OptionSet {
-    package var forImageAssetsOnly: UICoreTraitCollectionResolutionOptions {
+    package static var forImageAssetsOnly: UICoreTraitCollectionResolutionOptions {
         return UICoreTraitCollectionResolutionOptions(rawValue: 1 << 0)
     }
     

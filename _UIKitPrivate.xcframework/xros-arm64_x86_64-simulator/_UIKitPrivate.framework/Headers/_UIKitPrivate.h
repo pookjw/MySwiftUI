@@ -40,3 +40,5 @@
 #import <_UIKitPrivate/UIPresentationController+Private.h>
 #import <_UIKitPrivate/UIUserInterfaceContainerVibrancy.h>
 #import <_UIKitPrivate/UIGlassElevationLevel.h>
+#import <_UIKitPrivate/UIUserInterfaceVibrancy.h>
+#import <_UIKitPrivate/UIPlatterGroundingShadowVisibility.h>

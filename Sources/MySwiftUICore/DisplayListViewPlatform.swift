@@ -147,11 +147,11 @@ extension DisplayList.ViewUpdater {
                 let visibility: _UIPlatterGroundingShadowVisibility
                 // TODO: enum
                 if unsafe state.pointee.currentProjectiveShadow != nil {
-                    visibility = _UIPlatterGroundingShadowVisibility(rawValue: 1)
+                    visibility = .visible
                 } else if unsafe state.pointee.hierarchicalProjectiveShadow != nil {
-                    visibility = _UIPlatterGroundingShadowVisibility(rawValue: 1)
+                    visibility = .visible
                 } else {
-                    visibility = _UIPlatterGroundingShadowVisibility(rawValue: 0)
+                    visibility = .automatic
                 }
                 
                 CoreViewSetPreferredGroundingShadowVisibility(system, platformViewInfo.view, visibility)
