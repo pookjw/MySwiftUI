@@ -28,7 +28,12 @@ exports:
     _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVMn,
     _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE27glassMaterialContainerStyleAD05GlassH8ProviderV08ResolvedJ0VSgvg,
     _$s13DesignLibrary21GlassMaterialProviderV013ResolvedStyleE0VMa,
-    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVMa
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVMa,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE23glassMaterialForegroundSbvg,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE23glassMaterialForegroundSbvs,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE23glassMaterialForegroundSbvM,
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVSHAAMc,
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVSQAAMc
     ]
     objc-classes:         [  ]
     objc-ivars:           [  ]

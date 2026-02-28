@@ -32,4 +32,19 @@ extension EnvironmentValues {
             return nil
         }
     }
+    
+    package var glassMaterialForeground: Bool {
+        get {
+            return self[__Key_glassMaterialForeground.self]
+        }
+        set {
+            self[__Key_glassMaterialForeground.self] = newValue
+        }
+    }
+    
+    fileprivate struct __Key_glassMaterialForeground: EnvironmentKey {
+        static var defaultValue: Bool {
+            return true
+        }
+    }
 }

@@ -2,6 +2,8 @@ package import UIKit
 private import _UIKitPrivate
 @_spi(Internal) package import MySwiftUICore
 private import _DyldPrivate
+private import DesignLibrary
+private import _DesignLibraryShims
 
 extension UITraitCollection {
     // unnamed
@@ -138,7 +140,19 @@ extension UITraitCollection {
         return result
     }
     
-    package func coreResolvedGlassMaterialEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
+    package func coreResolvedGlassMaterialEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+        /*
+         self -> x20 -> x21
+         base -> x0 -> x20
+         */
+        // <+140>
+        // x19
+        var copy_1 = base
+        copy_1.glassMaterialForeground = (self._glassElevationLevel != .unknown0)
+        // x23
+        let glassBackgroundStyle = self._object(forTraitToken: GlassBackgroundStyleToken()!)
+        copy_1.updateGlassBackgroundStyle(style: castToGlassBackgroundStyle(glassBackgroundStyle), collection: self)
+        
         fatalError("TODO")
     }
     
@@ -177,6 +191,22 @@ extension UITraitCollection {
     }
     
     package func coreResolvedGlassMaterialTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?) -> UITraitCollection {
+        fatalError("TODO")
+    }
+}
+
+extension EnvironmentValues {
+    fileprivate func updateGlassBackgroundStyle(style: _GlassBackgroundStyle, collection: UITraitCollection) {
+        /*
+         self -> x20 -> x29 - 0x58
+         level -> x0 -> x20
+         collection -> x1 -> x21
+         */
+        // <+288>
+        // x25
+        let copy_1 = style
+        
+        // <+456>
         fatalError("TODO")
     }
 }

@@ -78,7 +78,7 @@
          <EnvironmentVariable
             key = "AG_PRINT_LAYOUTS"
             value = "1"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>

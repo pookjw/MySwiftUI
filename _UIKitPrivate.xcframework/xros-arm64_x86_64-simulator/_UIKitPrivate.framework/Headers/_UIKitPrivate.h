@@ -39,3 +39,4 @@
 #import <_UIKitPrivate/UITraitChangeObservableInternal.h>
 #import <_UIKitPrivate/UIPresentationController+Private.h>
 #import <_UIKitPrivate/UIUserInterfaceContainerVibrancy.h>
+#import <_UIKitPrivate/UIGlassElevationLevel.h>

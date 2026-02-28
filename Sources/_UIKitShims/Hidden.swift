@@ -6,6 +6,7 @@ internal import _UIKitPrivate
 private import SwiftUI
 internal import _SwiftUIPrivate
 #endif
+internal import DesignLibrary
 
 // ___lldb_unnamed_symbol_3d04
 
@@ -78,6 +79,28 @@ func DisplayScaleToken() -> (any _UITraitTokenProtocol)? {
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "DisplayScale", identifier: "UITraitDisplayScale")!
+    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+#else
+#error("TODO")
+#endif
+}
+
+func GlassElevationLevelToken() -> (any _UITraitTokenProtocol)? {
+#if SwiftUICompataibility
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    
+    let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassElevationLevel", identifier: "_UITraitGlassElevationLevel")!
+    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+#else
+#error("TODO")
+#endif
+}
+
+func GlassBackgroundStyleToken() -> (any _UITraitTokenProtocol)? {
+#if SwiftUICompataibility
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    
+    let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassBackgroundStyle", identifier: "UIGlassBackgroundStyleTrait")!
     return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
@@ -178,3 +201,42 @@ extension UIView {
         fatalError()
     }
 }
+
+enum _GlassBackgroundStyle: Hashable {
+    case glass(GlassMaterialProvider.ResolvedStyle?)
+    case unspecified
+    case solidColor
+}
+
+func castToGlassBackgroundStyle(_ style: Any) -> _GlassBackgroundStyle {
+    if type(of: style) == _typeByName("5UIKit21_GlassBackgroundStyleO")! {
+        return withUnsafePointer(to: style) { stylePointer in
+            return withUnsafeTemporaryAllocation(of: _GlassBackgroundStyle.self, capacity: 1) { resultPointer in
+                let success = swift_dynamicCast(
+                    resultPointer.baseAddress.unsafelyUnwrapped,
+                    stylePointer,
+                    unsafeBitCast(Any.self, to: UnsafeRawPointer.self),
+                    unsafeBitCast(_typeByName("5UIKit21_GlassBackgroundStyleO")!, to: UnsafeRawPointer.self),
+                    0
+                )
+                assert(success)
+                
+                return resultPointer.baseAddress.unsafelyUnwrapped.pointee
+            }
+        }
+    } else if let object = style as? NSObject {
+        let value = Mirror(reflecting: object).descendant("value")!
+        return castToGlassBackgroundStyle(value)
+    } else {
+        fatalError()
+    }
+}
+
+@_silgen_name("swift_dynamicCast")
+func swift_dynamicCast(
+  _ dest: UnsafeRawPointer,
+  _ src: UnsafeRawPointer,
+  _ srcMetadata: UnsafeRawPointer,
+  _ dstMetadata: UnsafeRawPointer,
+  _ flags: UInt
+) -> Bool

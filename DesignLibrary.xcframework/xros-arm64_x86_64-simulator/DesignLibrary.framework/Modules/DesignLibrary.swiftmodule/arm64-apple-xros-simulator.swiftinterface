@@ -25,8 +25,14 @@ extension SwiftUI.EnvironmentValues {
     public var glassMaterialContainerStyle: DesignLibrary.GlassMaterialProvider.ResolvedStyle? {
         get set
     }
+
+    public var glassMaterialForeground: Swift.Bool {
+        get set
+    }
 }
 
 public struct GlassMaterialProvider {
-    public struct ResolvedStyle {}
+    public struct ResolvedStyle: Swift.CustomStringConvertible, Swift.Hashable {
+        // TODO
+    }
 }

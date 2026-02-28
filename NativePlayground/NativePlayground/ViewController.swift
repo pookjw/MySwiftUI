@@ -18,6 +18,8 @@ import AttributeGraph
 import Spatial
 import Darwin.POSIX.dlfcn
 
+// (lldb) expr -l swift -O -- unsafeBitCast(0x0000000107ed6058, to: Any.Type.self)
+
 // (lldb) expr -l objc -O -- [(Class)NSClassFromString(@"Helper") dumpWithAttribute:$w25]
 @objc(Helper)
 final class Helper: NSObject {
@@ -433,6 +435,12 @@ class ViewController: UIViewController {
         print("===")
         
         // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
+        
+        print(_typeName(_typeByName("5UIKit21_GlassBackgroundStyleO")!, qualified: true))
+        _forEachField(of: _typeByName("5UIKit21_GlassBackgroundStyleO")!, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
         
         print(_typeName(_typeByName("7SwiftUI22ModernNavigationBridgeC")!, qualified: true))
         _forEachField(of: _typeByName("7SwiftUI22ModernNavigationBridgeC")!, options: [.classType]) { name, offset, type, kind in
@@ -1428,10 +1436,10 @@ class ViewController: UIViewController {
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
         
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            hostingController.traitOverrides.displayScale = 4
-        }
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            hostingController.traitOverrides.displayScale = 4
+//        }
         
         print(NSStringFromClass(object_getClass(hostingController)!))
         print(hostingController)

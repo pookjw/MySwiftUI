@@ -73,6 +73,10 @@ public struct EnvironmentValues: CustomStringConvertible {
             tracker.invalidateValue(for: EnvironmentPropertyKey<Key>.self, from: old, to: _plist)
         }
     }
+    
+    package func removingTracker() -> EnvironmentValues {
+        return EnvironmentValues(plist)
+    }
 }
 
 extension EnvironmentValues {
