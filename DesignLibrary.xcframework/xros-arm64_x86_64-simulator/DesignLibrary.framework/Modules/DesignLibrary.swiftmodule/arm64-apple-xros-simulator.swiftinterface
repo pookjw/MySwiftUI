@@ -35,4 +35,8 @@ public struct GlassMaterialProvider {
     public struct ResolvedStyle: Swift.CustomStringConvertible, Swift.Hashable {
         // TODO
     }
+
+    public struct Pocket {
+        // TODO
+    }
 }

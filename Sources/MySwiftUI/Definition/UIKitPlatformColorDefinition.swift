@@ -21,16 +21,34 @@ final class UIKitPlatformColorDefinition: PlatformColorDefinition {
         // x29 - 0x58
         let inheritedTraitCollection = removed[InheritedTraitCollectionKey.self]
         // x26
-        let traitCollection: UITraitCollection
+        let traitCollection1: UITraitCollection
         if let inheritedTraitCollection {
-            traitCollection = inheritedTraitCollection
+            traitCollection1 = inheritedTraitCollection
         } else {
-            traitCollection = .current
+            traitCollection1 = .current
         }
         
         // <+228>
+        // x29
+        let traitCollection2 = traitCollection1.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
+        let traitCollection3 = traitCollection2.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: [])
+        // x25
+        let traitCollection4 = traitCollection3.coreResolvedGlassMaterialTraitCollection(environment: environment, wrapper: wrapper)
         
-        fatalError("TODO")
+        _ = environment[InheritedColorSeedKey.self]
+        
+        let resolvedUIColor = color.resolvedColor(with: traitCollection4)
+        let resolvedColor = Color.ResolvedHDR(platformColor: resolvedUIColor)
+        
+        if resolvedColor.headroom == nil {
+            return nil
+        } else {
+            return Color.Resolved(
+                red: resolvedColor.red,
+                green: resolvedColor.green,
+                blue: resolvedColor.blue
+            )
+        }
     }
 }
 
@@ -139,7 +157,7 @@ extension UITraitCollection {
         return result
     }
     
-    @MainActor fileprivate func resolvedPreTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
+    fileprivate func resolvedPreTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> x26
@@ -167,7 +185,7 @@ extension UITraitCollection {
             }
             
             // <+272>
-            if isVisionInterfaceIdiom() {
+            if MainActor.assumeIsolated { isVisionInterfaceIdiom() } {
                 // x25
                 let envVibrancy = _UIUserInterfaceContainerVibrancy(material: environment.backgroundMaterial)
                 let traitVibrancy = traits._containerVibrancy

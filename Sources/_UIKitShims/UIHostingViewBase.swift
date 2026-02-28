@@ -896,7 +896,7 @@ package final class UIHostingViewBase: NSObject {
         environmentValues.glassMaterialContainerStyle = glassMaterialContainerStyle
         
         if let resolvedProvider = traitCollection.resolvedProvider as? _SwiftUICorePrivate.MaterialProvider {
-            environmentValues.glassColorScheme = traitCollection.colorScheme
+            environmentValues.glassColorScheme = ColorScheme(_uiUserInterfaceStyle: traitCollection.userInterfaceStyle) ?? .light
             environmentValues.backgroundMaterial = Material(provider: MaterialProviderNativeBridge(base: resolvedProvider))
         }
 #else

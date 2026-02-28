@@ -33,7 +33,9 @@ exports:
     _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE23glassMaterialForegroundSbvs,
     _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE23glassMaterialForegroundSbvM,
     _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVSHAAMc,
-    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVSQAAMc
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVSQAAMc,
+    _$s13DesignLibrary21GlassMaterialProviderV6PocketVMn,
+    _$s13DesignLibrary21GlassMaterialProviderV6PocketVMa
     ]
     objc-classes:         [  ]
     objc-ivars:           [  ]

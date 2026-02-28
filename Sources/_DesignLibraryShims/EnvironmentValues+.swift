@@ -47,4 +47,19 @@ extension EnvironmentValues {
             return true
         }
     }
+    
+    package var glassMaterialPocketContainer: GlassMaterialProvider.Pocket? {
+        get {
+            return self[__Key_glassMaterialPocketContainer.self]
+        }
+        set {
+            self[__Key_glassMaterialPocketContainer.self] = newValue
+        }
+    }
+    
+    fileprivate struct __Key_glassMaterialPocketContainer: EnvironmentKey {
+        static var defaultValue: GlassMaterialProvider.Pocket? {
+            return nil
+        }
+    }
 }

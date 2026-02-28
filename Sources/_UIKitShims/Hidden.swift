@@ -105,6 +105,28 @@ func GlassBackgroundStyleToken() -> (any _UITraitTokenProtocol)? {
 #endif
 }
 
+func GlassFrostToken() -> (any _UITraitTokenProtocol)? {
+#if SwiftUICompataibility
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    
+    let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassFrost", identifier: "UIGlassFrost")!
+    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+#else
+#error("TODO")
+#endif
+}
+
+func GlassPocketContainerToken() -> (any _UITraitTokenProtocol)? {
+#if SwiftUICompataibility
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    
+    let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassPocketContainer", identifier: "UIGlassPocketContainer")!
+    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+#else
+#error("TODO")
+#endif
+}
+
 func materialBackdropProxy(materialBackdropContext context: AnyObject) -> _SwiftUIPrivate.MaterialBackdropProxy? {
     return Mirror(reflecting: context).descendant("proxy") as? _SwiftUIPrivate.MaterialBackdropProxy
 }

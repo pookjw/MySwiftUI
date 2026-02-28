@@ -758,6 +758,10 @@ extension Color {
 }
 
 extension Color.ResolvedHDR {
+    package init(platformColor: AnyObject) {
+        fatalError("TODO")
+    }
+    
     struct _Animatable: VectorArithmetic, Equatable {
         static func += (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
             fatalError("TODO")
