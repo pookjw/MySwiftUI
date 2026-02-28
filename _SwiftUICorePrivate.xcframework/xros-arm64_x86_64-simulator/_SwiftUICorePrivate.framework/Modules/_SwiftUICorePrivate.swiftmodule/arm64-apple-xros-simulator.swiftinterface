@@ -1859,3 +1859,12 @@ public struct CollectionChanges<A: Swift.Comparable, B: Swift.Comparable>: Swift
 public protocol CoreViewRepresentable: SwiftUICore.View {
   // TODO
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct TypesettingLanguageAwareLineHeightRatio {
+  public static var automatic: _SwiftUICorePrivate.TypesettingLanguageAwareLineHeightRatio { get }
+  public static var disable: _SwiftUICorePrivate.TypesettingLanguageAwareLineHeightRatio { get }
+  public static var legacy: _SwiftUICorePrivate.TypesettingLanguageAwareLineHeightRatio { get }
+  public static func custom(_ ratio: Swift.Double) -> _SwiftUICorePrivate.TypesettingLanguageAwareLineHeightRatio
+}

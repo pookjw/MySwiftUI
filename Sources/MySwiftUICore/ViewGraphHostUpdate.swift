@@ -16,8 +16,8 @@ package struct ViewGraphHostUpdate {
         fatalError("TODO")
     }
     
-    package static func enqueueAction(_ body: () -> Void) {
-        fatalError("TODO")
+    package static func enqueueAction(_ action: @escaping () -> Void) {
+        Update.enqueueAction(reason: nil, action)
     }
     
     package static func lock() {

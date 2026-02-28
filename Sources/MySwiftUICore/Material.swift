@@ -1,10 +1,10 @@
-internal import Foundation
+package import Foundation
 #if SwiftUICompataibility
 public import _SwiftUIPrivate
 #endif
 
 public struct Material: Sendable {
-    private var id: Material.ID
+    package var id: Material.ID
     private var flags: Material.ResolvedMaterial.Flags
     
     init(_ id: Material.ID) {
@@ -58,7 +58,7 @@ extension Material {
 
 extension Material {
     // TODO: Sendable 확인 필요
-    enum ID: @unchecked Sendable {
+    package enum ID: @unchecked Sendable {
         case coreMaterial(light: String, dark: String, bundle: Bundle?)
         case provider(MaterialProviderBoxBase)
         case layers(Material.Layers)
@@ -81,7 +81,7 @@ extension Material {
 }
 
 extension Material {
-    struct Layers {
+    package struct Layers {
         private var layers: [Layer]
     }
     
@@ -119,7 +119,7 @@ package protocol MaterialProvider {
 }
 #endif
 
-class MaterialProviderBoxBase {
+package class MaterialProviderBoxBase {
     
 }
 

@@ -47,4 +47,8 @@
     }
 }
 
++ (Class _Nullable)_mySwiftUI_platformColorDefinition {
+    return nil;
+}
+
 @end

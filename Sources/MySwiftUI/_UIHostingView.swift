@@ -2118,7 +2118,7 @@ extension UITraitCollection {
         if self.userInterfaceIdiom == .vision {
             let material: MySwiftUICore.Material?
             switch _containerVibrancy() {
-            case .ligherGlass:
+            case .lighterGlass:
                 material = .lighterGlass
             case .darkerGlass:
                 material = .darkerGlass
@@ -2156,7 +2156,7 @@ extension UITraitCollection {
         }
         
         switch self._containerVibrancy() {
-        case .ligherGlass:
+        case .lighterGlass:
             result.backgroundMaterial = .lighterGlass
         case .darkerGlass:
             result.backgroundMaterial = .darkerGlass

@@ -318,7 +318,8 @@ public import _UIKitPrivate
     private func update(newEnvironment: EnvironmentValues, newViewPhase: ViewGraphHost.Phase) {
         /*
          self -> x20 -> x19
-         newValue -> x0 -> x21
+         newEnvironment -> x0 -> x21
+         newViewPhase -> x1 -> x29 - 0x58
          */
         // x22
         let oldColorScheme = environment.colorScheme
@@ -337,6 +338,9 @@ public import _UIKitPrivate
         }
         
         // <+516>
+        // x22
+        let view = (coreRepresentedViewProvider as! UIView)
+        updateView(environment: newEnvironment, view: view)
     }
     
     private func updateColorScheme(needsStatusBarAppearanceUpdate: Bool) {
@@ -391,14 +395,54 @@ public import _UIKitPrivate
         }
     }
     
-    private func updateGraph(values: ViewGraphRootValues) {
+    private func updateView(environment: EnvironmentValues, view: UIView) {
         /*
-         self -> x20 -> x21
-         values -> x0 -> x25
+         self -> x20 -> x19
+         environment -> x0 -> x20
+         view -> x1 -> x24
          */
-        // <+152>
+        let isEnabled = environment.isEnabled
         
-        fatalError("TODO")
+        ViewGraphHostUpdate.enqueueAction {
+            /*
+             self -> x0 -> x21
+             isEnabled -> w1 -> w19 -> w22
+             view -> x2 -> x20
+             */
+            if isEnabled != self.isUserInteractionEnabled {
+                self.isUserInteractionEnabled = isEnabled
+            }
+            
+            if let control = view as? UIControl, isEnabled != control.isEnabled {
+                control.isEnabled = isEnabled
+            }
+        }
+        
+        // <+220>
+        // w25
+        let isRTL = environment.layoutDirection == .rightToLeft
+        // x21
+        let semanticContentAttribute: UISemanticContentAttribute = (isRTL ? .forceRightToLeft : .forceLeftToRight)
+        
+        if view.semanticContentAttribute != semanticContentAttribute {
+            view.semanticContentAttribute = semanticContentAttribute
+        }
+        
+        // <+340>
+        let tintColor: UIColor?
+        if let effectiveTintColor = environment.effectiveTintColor {
+            // effectiveTintColor -> x21
+            let resolved = effectiveTintColor.resolve(in: environment)
+            tintColor = Color.uiColorCache[resolved]
+        } else {
+            tintColor = nil
+        }
+        
+        // 테스트
+        assert(tintColor != nil)
+        fatalError()
+        
+        self.tintColor = tintColor
     }
     
     @available(*, unavailable)

@@ -1,3 +1,4 @@
+// AA5C9AAB6528C7C6B599DF55246DE53A
 
 extension EnvironmentValues {
     package var accentColor: Color? {

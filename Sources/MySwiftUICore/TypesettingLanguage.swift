@@ -5,20 +5,38 @@ package struct TypesettingConfiguration: Equatable {
         fatalError("TODO")
     }
     
-    private var language: TypesettingLanguage
-    private var languageAwareLineHeightRatio: TypesettingLanguageAwareLineHeightRatio
+    package var language: TypesettingLanguage
+    var languageAwareLineHeightRatio: TypesettingLanguageAwareLineHeightRatio
 }
 
 struct TypesettingLanguageAwareLineHeightRatio {
     private var storage: TypesettingLanguageAwareLineHeightRatio.Storage
+    
+    static var automatic: TypesettingLanguageAwareLineHeightRatio {
+        return TypesettingLanguageAwareLineHeightRatio(storage: .automatic)
+    }
+    
+    static var disable: TypesettingLanguageAwareLineHeightRatio {
+        return TypesettingLanguageAwareLineHeightRatio(storage: .disable)
+    }
+    
+    static var legacy: TypesettingLanguageAwareLineHeightRatio {
+        return TypesettingLanguageAwareLineHeightRatio(storage: .legacy)
+    }
+    
+    static func custom(_ ratio: Double) -> TypesettingLanguageAwareLineHeightRatio {
+        return TypesettingLanguageAwareLineHeightRatio(
+            storage: .custom(max(1, max(0, ratio)))
+        )
+    }
 }
 
 extension TypesettingLanguageAwareLineHeightRatio {
     enum Storage {
-        case custom(Double)
-        case automatic
-        case disable
-        case legacy
+        case custom(Double) // value, 0x0
+        case automatic // 0x0, 0x1
+        case disable // 0x1, 0x1
+        case legacy // 0x2, 0x1
     }
 }
 
@@ -34,16 +52,12 @@ extension EnvironmentValues {
 }
 
 package struct TypesettingConfigurationKey: BridgedEnvironmentKey {
-    package static var defaultValue: TypesettingConfiguration {
-        fatalError("TODO")
-    }
+    package static let defaultValue = TypesettingConfiguration(language: .automatic, languageAwareLineHeightRatio: .automatic)
 }
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 public struct TypesettingLanguage: Sendable, Equatable {
-    public static let automatic: TypesettingLanguage = {
-        fatalError("TODO")
-    }()
+    public static let automatic = TypesettingLanguage(storage: .automatic)
     
     public static func explicit(_ language: Locale.Language) -> TypesettingLanguage {
         fatalError("TODO")
@@ -51,6 +65,24 @@ public struct TypesettingLanguage: Sendable, Equatable {
     
     public static func == (a: TypesettingLanguage, b: TypesettingLanguage) -> Bool {
         fatalError("TODO")
+    }
+    
+    package var storage: TypesettingLanguage.Storage
+}
+
+extension TypesettingLanguage {
+    package struct Flags: OptionSet {
+        package var rawValue: UInt8
+        
+        package init(rawValue: UInt8) {
+            self.rawValue = rawValue
+        }
+    }
+    
+    package enum Storage {
+        case explicit(Locale.Language, TypesettingLanguage.Flags)
+        case automatic
+        case contentAware
     }
 }
 

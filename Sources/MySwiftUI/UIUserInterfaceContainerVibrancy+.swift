@@ -11,6 +11,43 @@ extension _UIUserInterfaceContainerVibrancy {
         }
         
         // <+320>
-        fatalError("TODO")
+        switch copy_1.id {
+        case .coreMaterial(_, _, _):
+            self = .unspecified
+        case .provider(_):
+            self = .unspecified
+        case .layers(_):
+            self = .unspecified
+        case .ultraThin:
+            self = .lighterGlass
+        case .thin:
+            self = .lighterGlass
+        case .regular:
+            self = .darkerGlass
+        case .thick:
+            self = .ultraDarkerGlass
+        case .ultraThick:
+            self = .ultraDarkerGlass
+        case .systemBars:
+            self = .unspecified
+        case .intelligenceLightSource_Unreactive:
+            self = .unspecified
+        case .intelligenceLightSource_AudioReactive:
+            self = .unspecified
+        case .pinched:
+            self = .lighterGlass
+        case .selected:
+            self = .lighterGlass
+        case .disabled:
+            self = .darkerGlass
+        case .vibrantGlassContent:
+            self = .unspecified
+        case .darkerGlass:
+            self = .darkerGlass
+        case .lighterGlass:
+            self = .lighterGlass
+        case .ultraDarkerGlass:
+            self = .ultraDarkerGlass
+        }
     }
 }

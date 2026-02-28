@@ -1,5 +1,5 @@
-#ifndef CoreView_h
-#define CoreView_h
+#ifndef CoreViewFunctions_h
+#define CoreViewFunctions_h
 
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>

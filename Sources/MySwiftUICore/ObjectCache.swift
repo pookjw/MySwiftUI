@@ -1,15 +1,15 @@
 // FCB2944DC319042A861E82C8B244E212
 
-final class ObjectCache<Key: Hashable, Value>: @unchecked Sendable {
+package final class ObjectCache<Key: Hashable, Value>: @unchecked Sendable {
     private let constructor: (Key) -> Value
     @AtomicBox private var data: ObjectCache<Key, Value>.Data
     
-    init(constructor: @escaping (Key) -> Value) {
+    package init(constructor: @escaping (Key) -> Value) {
         self.constructor = constructor
         self._data = AtomicBox(wrappedValue: ObjectCache<Key, Value>.Data())
     }
     
-    subscript(_ key: Key) -> Value {
+    package subscript(_ key: Key) -> Value {
         /*
          self = x24
          key = x21
