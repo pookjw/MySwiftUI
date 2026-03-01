@@ -4,6 +4,7 @@
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 import Swift
 import SwiftUI
+import _SwiftUICorePrivate
 
 public enum DesignIdiom: Swift.Hashable {
   case universal
@@ -37,6 +38,10 @@ public struct GlassMaterialProvider {
     }
 
     public struct Pocket {
+        // TODO
+    }
+
+    public struct ResolvedStyleProvider: Swift.Hashable {
         // TODO
     }
 }

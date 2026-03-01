@@ -45,3 +45,4 @@
 #import <_UIKitPrivate/UIPlatterStatus.h>
 #import <_UIKitPrivate/UIColorMaterialRenderingMode.h>
 #import <_UIKitPrivate/UIUserInterfaceRenderingMode.h>
+#import <_UIKitPrivate/UIViewGlassGetLegibility.h>

@@ -25,7 +25,17 @@ extension _Glass {
         // TODO
     }
     
-    struct Diffusion {
+    package struct Diffusion {
+        private var role: _Glass.Diffusion.Role
+        
+        package static var automatic: _Glass.Diffusion {
+            return _Glass.Diffusion(role: .automatic)
+        }
+        
+        package static var increased: _Glass.Diffusion {
+            return _Glass.Diffusion(role: .increased)
+        }
+        
         // TODO
     }
     
@@ -66,7 +76,8 @@ extension _Glass.ContentEffect {
 
 extension _Glass.Diffusion {
     enum Role {
-        // TODO
+        case automatic
+        case increased
     }
 }
 
@@ -108,6 +119,22 @@ extension EnvironmentValues {
     fileprivate struct __Key_glassFrost: EnvironmentKey {
         static var defaultValue: _Glass.Frost {
             return _Glass.Frost.automatic
+        }
+    }
+    
+    package var glassDiffusion: _Glass.Diffusion {
+        get {
+            return self[__Key_glassDiffusion.self]
+        }
+        set {
+            self[__Key_glassDiffusion.self] = newValue
+        }
+    }
+    
+    // TOOD: Macro Entry
+    fileprivate struct __Key_glassDiffusion: EnvironmentKey {
+        static var defaultValue: _Glass.Diffusion {
+            return .automatic
         }
     }
 }

@@ -801,7 +801,17 @@ package final class UIHostingViewBase: NSObject {
         
         // <+988>
         environmentValues.isLowPowerModeEnabled = UIGlobalState.shared.isLowPowerModeEnabled
-        ___lldb_unnamed_symbol318321(environmentValues: &environmentValues)
+        
+        let glassLegibilitySetting = UIViewGlassGetLegibilitySetting()
+        let diffusion: _Glass.Diffusion
+        if glassLegibilitySetting == 1 {
+            diffusion = .increased
+        } else {
+            diffusion = .automatic
+        }
+        environmentValues.glassDiffusion = diffusion
+        
+        updateMaterial(environmentValues: &environmentValues)
         
         if let uiView = self.uiView {
             let traitCollection: UITraitCollection
@@ -875,7 +885,7 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @MainActor
-    private func ___lldb_unnamed_symbol318321(environmentValues: inout MySwiftUICore.EnvironmentValues) {
+    private func updateMaterial(environmentValues: inout MySwiftUICore.EnvironmentValues) {
         // x23
         guard let uiView else {
             return

@@ -607,7 +607,27 @@ public class AnyColorBox: _SwiftUICorePrivate.AnyShapeStyleBox, @unchecked Senda
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol MaterialProvider {
-  
+  func resolveLayers(in context: SwiftUI.Material.Context) -> [SwiftUI.Material.Layer]
+  func resolveForegroundStyle(level: Swift.Int, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle?
+  func resolveAdaptiveColor(_ color: SwiftUI.Color.ResolvedHDR, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle
+  func foregroundEnvironment(_ environment: inout SwiftUI.EnvironmentValues, for: SwiftUI.Material)
+  func resolveBackgroundStyle(level: Swift.Int, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle?
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.Material {
+  public struct Context {
+    // TODO
+  }
+
+  public struct Layer {
+    // TODO
+  }
+
+  public struct ForegroundStyle {
+    // TODO
+  }
 }
 
 @available(visionOS 26.0, *)

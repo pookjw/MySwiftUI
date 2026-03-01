@@ -1,6 +1,8 @@
+// 4075E3A4E56336DD739D990E781CBB12
 package import Foundation
 #if SwiftUICompataibility
-public import _SwiftUIPrivate
+package import _SwiftUICorePrivate
+package import SwiftUI
 #endif
 
 public struct Material: Sendable {
@@ -24,6 +26,10 @@ extension Material {
 
 extension Material {
     package init<T: MaterialProvider>(provider: T) {
+        fatalError("TODO")
+    }
+    
+    package func provider<T: MaterialProvider>(ofType type: T.Type) -> T? {
         fatalError("TODO")
     }
 }
@@ -85,10 +91,36 @@ extension Material {
         private var layers: [Layer]
     }
     
-    struct Layer {
+    package struct Layer {
         private var storage: Material.Layer.Storage
         private var _opacity: Float
         private var _blendMode: GraphicsBlendMode
+    }
+    
+    package struct Context {
+        private var environment: EnvironmentValues
+        private var role: ShapeRole?
+        private var substrate: Material.Substrate?
+        private var shapeDimensions: ClosedRange<CGFloat>?
+        private var shapeMetrics: Material.ShapeMetrics?
+    }
+    
+    package struct ForegroundStyle {
+        private var storage: Material.ForegroundStyle.Storage
+    }
+    
+    struct ShapeMetrics {
+        private var minimumDistance: CGFloat
+        private var minimumDistanceOfLargestArea: CGFloat
+        private var maximumDistance: CGFloat
+    }
+}
+
+extension Material.ForegroundStyle {
+    fileprivate enum Storage {
+        case color(Color.Resolved)
+        case colorBlend(Color.Resolved, GraphicsContext.BlendMode)
+        case colorMatrix(GraphicsFilter.VibrantColorMatrix)
     }
 }
 
@@ -106,17 +138,69 @@ extension Material.Layer {
 }
 
 package protocol MaterialProvider {
-    
+    func resolveLayers(in context: Material.Context) -> [Material.Layer]
+    func resolveForegroundStyle(level: Int, in context: Material.Context) -> Material.ForegroundStyle?
+    func resolveAdaptiveColor(_ color: Color.ResolvedHDR, in context: Material.Context) -> Material.ForegroundStyle
+    func foregroundEnvironment(_ environment: inout EnvironmentValues, for: Material)
+    func resolveBackgroundStyle(level: Int, in context: Material.Context) -> Material.ForegroundStyle?
 }
 
 #if SwiftUICompataibility
-@_spi(Internal) public struct MaterialProviderNativeBridge: MySwiftUICore.MaterialProvider {
-    private let base: _SwiftUIPrivate.MaterialProvider
+package struct MaterialProviderNativeBridge: MySwiftUICore.MaterialProvider {
+    private let base: _SwiftUICorePrivate.MaterialProvider
     
-    public init(base: _SwiftUIPrivate.MaterialProvider) {
+    package init(base: _SwiftUICorePrivate.MaterialProvider) {
         self.base = base
     }
+    
+    package func resolveLayers(in context: MySwiftUICore.Material.Context) -> [MySwiftUICore.Material.Layer] {
+        fatalError("TODO")
+    }
+    
+    package func resolveForegroundStyle(level: Int, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle? {
+        fatalError("TODO")
+    }
+    
+    package func resolveAdaptiveColor(_ color: MySwiftUICore.Color.ResolvedHDR, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle {
+        fatalError("TODO")
+    }
+    
+    package func foregroundEnvironment(_ environment: inout MySwiftUICore.EnvironmentValues, for: MySwiftUICore.Material) {
+        fatalError("TODO")
+    }
+    
+    package func resolveBackgroundStyle(level: Int, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle? {
+        fatalError("TODO")
+    }
 }
+
+//package struct MaterialProviderMyBridge: _SwiftUICorePrivate.MaterialProvider {
+//    private let base: MySwiftUICore.MaterialProvider
+//    
+//    package init(base: MySwiftUICore.MaterialProvider) {
+//        self.base = base
+//    }
+//    
+//    package func resolveLayers(in context: SwiftUI.Material.Context) -> [SwiftUI.Material.Layer] {
+//        fatalError("TODO")
+//    }
+//    
+//    package func resolveForegroundStyle(level: Int, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle? {
+//        fatalError("TODO")
+//    }
+//    
+//    package func resolveAdaptiveColor(_ color: SwiftUI.Color.ResolvedHDR, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle {
+//        fatalError("TODO")
+//    }
+//    
+//    package func foregroundEnvironment(_ environment: inout SwiftUI.EnvironmentValues, for: SwiftUI.Material) {
+//        fatalError("TODO")
+//    }
+//    
+//    package func resolveBackgroundStyle(level: Int, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle? {
+//        fatalError("TODO")
+//    }
+//}
 #endif
 
 package class MaterialProviderBoxBase {

@@ -417,6 +417,8 @@ extension UITraitCollection {
             // <+756>
             if let backgroundMaterial = environment.backgroundMaterial {
                 // <+848>
+                // <+1004>
+//                backgroundMaterial.provider(ofType: <#T##MaterialProvider.Type#>)
                 fatalError("TODO")
             }
             

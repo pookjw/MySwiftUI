@@ -7,6 +7,7 @@ private import SwiftUI
 internal import _SwiftUIPrivate
 private import _SwiftPrivate
 private import _MySwiftUIShims
+internal import MySwiftUICore
 #endif
 internal import DesignLibrary
 
@@ -329,3 +330,27 @@ func swift_dynamicCast(
   _ dstMetadata: UnsafeRawPointer,
   _ flags: UInt
 ) -> Bool
+
+//extension GlassMaterialProvider.ResolvedStyleProvider: MySwiftUICore.MaterialProvider {
+//    package func resolveLayers(in context: MySwiftUICore.Material.Context) -> [MySwiftUICore.Material.Layer] {
+//        <#code#>
+//    }
+//    
+//    package func resolveForegroundStyle(level: Int, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle? {
+//        <#code#>
+//    }
+//    
+//    package func resolveAdaptiveColor(_ color: MySwiftUICore.Color.ResolvedHDR, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle {
+//        <#code#>
+//    }
+//    
+//    package func foregroundEnvironment(_ environment: inout MySwiftUICore.EnvironmentValues, for: MySwiftUICore.Material) {
+//        <#code#>
+//    }
+//    
+//    package func resolveBackgroundStyle(level: Int, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle? {
+//        <#code#>
+//    }
+//    
+//    
+//}
