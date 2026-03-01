@@ -410,10 +410,17 @@ extension UITraitCollection {
             
             if let glassMaterialContainerStyle = environment.glassMaterialContainerStyle {
                 // <+568>
-                fatalError("TODO")
+                fatalError("TODO") // 검증 필요
+                traits._userInterfaceRenderingMode = .unknown2
             }
             
             // <+756>
+            if let backgroundMaterial = environment.backgroundMaterial {
+                // <+848>
+                fatalError("TODO")
+            }
+            
+            // <+1300>
             fatalError("TODO")
         }
     }

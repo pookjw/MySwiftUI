@@ -44,3 +44,4 @@
 #import <_UIKitPrivate/UIPlatterGroundingShadowVisibility.h>
 #import <_UIKitPrivate/UIPlatterStatus.h>
 #import <_UIKitPrivate/UIColorMaterialRenderingMode.h>
+#import <_UIKitPrivate/UIUserInterfaceRenderingMode.h>

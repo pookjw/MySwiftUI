@@ -70,4 +70,5 @@ extension UIKit.UIMutableTraits {
     public var platterGroundingShadowVisibility: _UIKitPrivate._UIPlatterGroundingShadowVisibility { get set }
     public var _platterStatus: _UIKitPrivate._UIPlatterStatus { get set }
     public var _glassElevationLevel: _UIKitPrivate._UIGlassElevationLevel { get set }
+    public var _userInterfaceRenderingMode: _UIKitPrivate._UIUserInterfaceRenderingMode { get set }
 }
