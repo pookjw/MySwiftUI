@@ -891,7 +891,9 @@ package final class UIHostingViewBase: NSObject {
             return
         }
         
+        // x25
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
+        fatalError("TODO")
         
 #if SwiftUICompataibility
         var nativeEnvironmentValues = SwiftUI.EnvironmentValues()

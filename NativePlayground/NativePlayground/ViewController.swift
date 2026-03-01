@@ -436,6 +436,12 @@ class ViewController: UIViewController {
         
         // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
         
+        print(_typeName(_typeByName("So15_UITypedStorageC")!, qualified: true))
+        _forEachField(of: _typeByName("So15_UITypedStorageC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
         print(_typeName(_typeByName("5UIKit21_GlassBackgroundStyleO")!, qualified: true))
         _forEachField(of: _typeByName("5UIKit21_GlassBackgroundStyleO")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
