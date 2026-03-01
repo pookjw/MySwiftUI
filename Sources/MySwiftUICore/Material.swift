@@ -1,8 +1,7 @@
 // 4075E3A4E56336DD739D990E781CBB12
 package import Foundation
 #if SwiftUICompataibility
-package import _SwiftUICorePrivate
-package import SwiftUI
+public import SwiftUI
 #endif
 
 public struct Material: Sendable {
@@ -63,7 +62,6 @@ extension Material {
 }
 
 extension Material {
-    // TODO: Sendable 확인 필요
     package enum ID: @unchecked Sendable {
         case coreMaterial(light: String, dark: String, bundle: Bundle?)
         case provider(MaterialProviderBoxBase)
@@ -146,61 +144,41 @@ package protocol MaterialProvider {
 }
 
 #if SwiftUICompataibility
-package struct MaterialProviderNativeBridge: MySwiftUICore.MaterialProvider {
-    private let base: _SwiftUICorePrivate.MaterialProvider
-    
-    package init(base: _SwiftUICorePrivate.MaterialProvider) {
-        self.base = base
-    }
-    
-    package func resolveLayers(in context: MySwiftUICore.Material.Context) -> [MySwiftUICore.Material.Layer] {
-        fatalError("TODO")
-    }
-    
-    package func resolveForegroundStyle(level: Int, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle? {
-        fatalError("TODO")
-    }
-    
-    package func resolveAdaptiveColor(_ color: MySwiftUICore.Color.ResolvedHDR, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle {
-        fatalError("TODO")
-    }
-    
-    package func foregroundEnvironment(_ environment: inout MySwiftUICore.EnvironmentValues, for: MySwiftUICore.Material) {
-        fatalError("TODO")
-    }
-    
-    package func resolveBackgroundStyle(level: Int, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle? {
-        fatalError("TODO")
+extension EnvironmentValues {
+    public var backgroundMaterial: SwiftUI.Material? {
+        get {
+            return self[BackgroundMaterialKey.self]
+        }
+        set {
+            self[BackgroundMaterialKey.self] = newValue
+        }
     }
 }
 
-//package struct MaterialProviderMyBridge: _SwiftUICorePrivate.MaterialProvider {
-//    private let base: MySwiftUICore.MaterialProvider
-//    
-//    package init(base: MySwiftUICore.MaterialProvider) {
-//        self.base = base
-//    }
-//    
-//    package func resolveLayers(in context: SwiftUI.Material.Context) -> [SwiftUI.Material.Layer] {
-//        fatalError("TODO")
-//    }
-//    
-//    package func resolveForegroundStyle(level: Int, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle? {
-//        fatalError("TODO")
-//    }
-//    
-//    package func resolveAdaptiveColor(_ color: SwiftUI.Color.ResolvedHDR, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle {
-//        fatalError("TODO")
-//    }
-//    
-//    package func foregroundEnvironment(_ environment: inout SwiftUI.EnvironmentValues, for: SwiftUI.Material) {
-//        fatalError("TODO")
-//    }
-//    
-//    package func resolveBackgroundStyle(level: Int, in context: SwiftUI.Material.Context) -> SwiftUI.Material.ForegroundStyle? {
-//        fatalError("TODO")
-//    }
-//}
+fileprivate struct BackgroundMaterialKey: EnvironmentKey {
+    static var defaultValue: SwiftUI.Material? {
+        return nil
+    }
+}
+
+#else
+extension EnvironmentValues {
+    public var backgroundMaterial: Material? {
+        get {
+            return self[BackgroundMaterialKey.self]
+        }
+        set {
+            self[BackgroundMaterialKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct BackgroundMaterialKey: EnvironmentKey {
+    static var defaultValue: Material? {
+        return nil
+    }
+}
+
 #endif
 
 package class MaterialProviderBoxBase {
@@ -231,7 +209,9 @@ extension ShapeStyle where Self == Material {
     @_alwaysEmitIntoClient public static var bar: Material {
         return .bar
     }
-    
+}
+
+extension Material {
     package static var experimentalGlassMaterial: Material {
         fatalError()
     }
@@ -262,22 +242,5 @@ extension ShapeStyle where Self == Material {
     
     package static func _intelligenceLightSource(prefersAudioReactivity: Bool) -> Material {
         fatalError()
-    }
-}
-
-extension EnvironmentValues {
-    public var backgroundMaterial: Material? {
-        get {
-            return self[BackgroundMaterialKey.self]
-        }
-        set {
-            self[BackgroundMaterialKey.self] = newValue
-        }
-    }
-}
-
-fileprivate struct BackgroundMaterialKey: EnvironmentKey {
-    static var defaultValue: Material? {
-        return nil
     }
 }

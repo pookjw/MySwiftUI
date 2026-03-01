@@ -41,7 +41,7 @@ public struct GlassMaterialProvider {
         // TODO
     }
 
-    public struct ResolvedStyleProvider: Swift.Hashable {
+    public struct ResolvedStyleProvider: Swift.Hashable, _SwiftUICorePrivate.MaterialProvider {
         // TODO
     }
 }

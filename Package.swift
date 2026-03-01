@@ -99,7 +99,8 @@ let package = Package(
                 .byName(name: "DesignLibrary"),
                 .byName(name: "_DesignLibraryShims"),
                 .byName(name: "_SwiftUICorePrivate", condition: .when(traits: ["SwiftUICompataibility"])),
-                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"]))
+                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"])),
+                .byName(name: "_SwiftPrivate")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -126,6 +127,10 @@ let package = Package(
         .binaryTarget(
             name: "_UIKitPrivate",
             path: "_UIKitPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "_SwiftPrivate",
+            path: "_SwiftPrivate.xcframework"
         ),
         .binaryTarget(
             name: "_SwiftUIPrivate",

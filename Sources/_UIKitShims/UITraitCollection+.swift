@@ -5,7 +5,92 @@ private import DesignLibrary
 private import _DesignLibraryShims
 #if SwiftUICompataibility
 private import _SwiftUICorePrivate
+private import SwiftUI
 #endif
+
+extension UIMutableTraitsInternal {
+    var resolvedProvider: Any? {
+        get {
+#if SwiftUICompataibility
+            return self._object(forTraitToken: ResolvedProviderTraitToken()!) 
+#else
+#error("TODO")
+#endif
+        }
+        set {
+#if SwiftUICompataibility
+            self._setObject(newValue, forTraitToken: ResolvedProviderTraitToken()!)
+#else
+#error("TODO")
+#endif
+        }
+    }
+    
+    fileprivate var glassPocketContainer: GlassMaterialProvider.Pocket? {
+        get {
+#if SwiftUICompataibility
+            return self._object(forTraitToken: GlassPocketContainerToken()!) as? GlassMaterialProvider.Pocket
+#else
+#error("TODO")
+#endif
+        }
+        set {
+#if SwiftUICompataibility
+            self._setObject(newValue, forTraitToken: GlassPocketContainerToken()!)
+#else
+#error("TODO")
+#endif
+        }
+    }
+    
+    fileprivate var glassBackgroundStyle: _GlassBackgroundStyle {
+        let object = self._object(forTraitToken: GlassBackgroundStyleToken()!)
+        return castToGlassBackgroundStyle(object)
+    }
+    
+    fileprivate var glassFrost: _Glass.Frost {
+        get {
+            let glassFrostValue = self._value(forNSIntegerTraitToken: GlassFrostToken()!)
+            if glassFrostValue == 2 {
+                return .none
+            } else if glassFrostValue == 1 {
+                return .reduced
+            } else {
+                return .automatic
+            }
+        }
+        set {
+            let glassFrostValue: Int
+            switch newValue {
+            case .reduced:
+                glassFrostValue = 1
+            case .none:
+                glassFrostValue = 2
+            default:
+                glassFrostValue = 0
+            }
+            
+            self._setNSIntegerValue(glassFrostValue, forTraitToken: GlassFrostToken()!)
+        }
+    }
+    
+    fileprivate var materialBackdropContext: AnyObject? {
+        get {
+#if SwiftUICompataibility
+            return self._object(forTraitToken: MaterialBackdropContextTraitToken()!) as? AnyObject
+#else
+#error("TODO")
+#endif
+        }
+        set {
+#if SwiftUICompataibility
+            self._setObject(newValue, forTraitToken: MaterialBackdropContextTraitToken()!)
+#else
+#error("TODO")
+#endif
+        }
+    }
+}
 
 extension UITraitCollection {
     func environmentValues() -> MySwiftUICore.EnvironmentValues {
@@ -141,7 +226,7 @@ extension UITraitCollection {
         return result
     }
     
-    package func coreResolvedGlassMaterialEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+    package func coreResolvedGlassMaterialEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
         /*
          self -> x20 -> x21
          base -> x0 -> x20
@@ -153,59 +238,13 @@ extension UITraitCollection {
         copy_1.updateGlassBackgroundStyle(style: self.glassBackgroundStyle, collection: self)
         
         // <+224>
-        let glassFrostValue = self.glassFrost
-        let glassFrost: _Glass.Frost = if glassFrostValue == 2 {
-            .none
-        } else if glassFrostValue == 1 {
-            .reduced
-        } else {
-            .automatic
-        }
-        copy_1.glassFrost = glassFrost
+        copy_1.glassFrost = self.glassFrost
         copy_1.glassMaterialPocketContainer = self.glassPocketContainer
         
         return copy_1
     }
     
-    private var materialBackdropContext: AnyObject? {
-        get {
-#if SwiftUICompataibility
-            return self._object(forTraitToken: MaterialBackdropContextTraitToken()!) as? AnyObject
-#else
-#error("TODO")
-#endif
-        }
-        set {
-#if SwiftUICompataibility
-            self._setObject(newValue, forTraitToken: MaterialBackdropContextTraitToken()!)
-#else
-#error("TODO")
-#endif
-        }
-    }
-    
-    var resolvedProvider: Any? {
-#if SwiftUICompataibility
-        return self._object(forTraitToken: ResolvedProviderTraitToken()!)
-#else
-#error("TODO")
-#endif
-    }
-    
-    private var glassPocketContainer: GlassMaterialProvider.Pocket? {
-        return self._object(forTraitToken: GlassPocketContainerToken()!) as? GlassMaterialProvider.Pocket
-    }
-    
-    private var glassBackgroundStyle: _GlassBackgroundStyle {
-        let object = self._object(forTraitToken: GlassBackgroundStyleToken()!)
-        return castToGlassBackgroundStyle(object)
-    }
-    
-    private var glassFrost: Int {
-        return self._value(forNSIntegerTraitToken: GlassFrostToken()!)
-    }
-    
-    package func coreResolvedBaseTraitCollection(environment: EnvironmentValues, wrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper?, options: UICoreTraitCollectionResolutionOptions) -> UITraitCollection {
+    package func coreResolvedBaseTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper?, options: UICoreTraitCollectionResolutionOptions) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> x22
@@ -341,7 +380,7 @@ extension UITraitCollection {
 #if SwiftUICompataibility
             // x29 - 0xb8 -> x29 - 0xf0
             let newProxy = environment.materialBackdropProxy
-            let oldContext = self.materialBackdropContext!
+            let oldContext = getTraitsInternal(traits).materialBackdropContext!
             // x29 - 0xd0 -> x29 - 0xe8
             let oldProxy = modifyMaterialBackdropContext(oldContext) { $1 }
             
@@ -353,7 +392,7 @@ extension UITraitCollection {
                 } else {
                     // <+3164>
                     let newContext = makeMaterialBackdropContext(flags: 0, proxy: newProxy)
-                    self.materialBackdropContext = newContext
+                    getTraitsInternal(traits).materialBackdropContext = newContext
                     // <+3356>
                 }
             } else {
@@ -362,14 +401,14 @@ extension UITraitCollection {
                     // <+3124>
                     // <+3164>
                     let newContext = makeMaterialBackdropContext(flags: 0, proxy: newProxy)
-                    self.materialBackdropContext = newContext
+                    getTraitsInternal(traits).materialBackdropContext = newContext
                     // <+3356>
                 } else {
                     // <+3712>
                     if newProxy != oldProxy {
                         // <+3188>
                         let newContext = makeMaterialBackdropContext(flags: 0, proxy: newProxy)
-                        self.materialBackdropContext = newContext
+                        getTraitsInternal(traits).materialBackdropContext = newContext
                         // <+3356>
                     } else {
                         // <+3356>
@@ -382,14 +421,14 @@ extension UITraitCollection {
             
             // <+3356>
             let newColorRenderingMode = UIColorMaterialRenderingMode(_materialColorRenderingMode: environment.materialColorRenderingMode)
-            let oldColorRenderingMode = UIColorMaterialRenderingMode(rawValue: self._value(forNSIntegerTraitToken: ColorMaterialRenderingModeToken()!))!
+            let oldColorRenderingMode = UIColorMaterialRenderingMode(rawValue: getTraitsInternal(traits)._value(forNSIntegerTraitToken: ColorMaterialRenderingModeToken()!))!
             
             if newColorRenderingMode == oldColorRenderingMode {
                 // <+3568>
                 // <+3676>
             } else {
                 // <+3604>
-                self._setNSIntegerValue(newColorRenderingMode.rawValue, forTraitToken: ColorMaterialRenderingModeToken()!)
+                getTraitsInternal(traits)._setNSIntegerValue(newColorRenderingMode.rawValue, forTraitToken: ColorMaterialRenderingModeToken()!)
                 // <+3676>
             }
             
@@ -397,20 +436,19 @@ extension UITraitCollection {
         }
     }
     
-    package func coreResolvedGlassMaterialTraitCollection(environment: EnvironmentValues, wrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper?) -> UITraitCollection {
+    package func coreResolvedGlassMaterialTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper?) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> sp + 0x10
          wrapper -> x1 -> x22
          */
-        self.modifyingTraits { traits in
+        return self._modifyingTraits(environmentWrapper: wrapper) { traits in
             // <+316>
             let glassMaterialForeground = environment.glassMaterialForeground
             traits._glassElevationLevel = glassMaterialForeground ? .unknown1 : .unknown0
             
             if let glassMaterialContainerStyle = environment.glassMaterialContainerStyle {
                 // <+568>
-                fatalError("TODO") // 검증 필요
                 traits._userInterfaceRenderingMode = .unknown2
             }
             
@@ -418,17 +456,26 @@ extension UITraitCollection {
             if let backgroundMaterial = environment.backgroundMaterial {
                 // <+848>
                 // <+1004>
-//                backgroundMaterial.provider(ofType: <#T##MaterialProvider.Type#>)
-                fatalError("TODO")
+                if let provider = backgroundMaterial.provider(ofType: GlassMaterialProvider.ResolvedStyleProvider.self) {
+                    getTraitsInternal(traits).resolvedProvider = provider 
+                }
             }
             
             // <+1300>
-            fatalError("TODO")
+            let newGlassFrost = environment.glassFrost
+            let oldGlassFrost = getTraitsInternal(traits).glassFrost
+            if newGlassFrost != oldGlassFrost {
+                getTraitsInternal(traits).glassFrost = newGlassFrost
+            }
+            
+            // <+1524>
+            let newGlassMaterialPocketContainer = environment.glassMaterialPocketContainer
+            getTraitsInternal(traits).glassPocketContainer = newGlassMaterialPocketContainer
         }
     }
 }
 
-extension EnvironmentValues {
+extension MySwiftUICore.EnvironmentValues {
     fileprivate func updateGlassBackgroundStyle(style: _GlassBackgroundStyle, collection: UITraitCollection) {
         /*
          self -> x20 -> x29 - 0x58
@@ -450,7 +497,7 @@ extension EnvironmentValues {
         }
         
         // <+456>
-        guard let resolvedProvider = collection.resolvedProvider else {
+        guard let resolvedProvider = collection.resolvedProvider as? GlassMaterialProvider.ResolvedStyleProvider else {
             return
         }
         

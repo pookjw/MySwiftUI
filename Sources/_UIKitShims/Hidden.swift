@@ -229,9 +229,9 @@ func modifyMaterialBackdropContext<T>(_ context: AnyObject, mutation: (_ flags: 
     return unsafe item(from: .afterUpdateComplete)!
 }
 
-fileprivate func item(from phase: UIUpdateActionPhase) -> UnsafeMutablePointer<_UIUpdateSequenceItemInternal>? {
+fileprivate func iterateIvars(type: AnyClass, iteration: (_ ivar: Ivar) -> Bool) {
     let (ivarsCount, ivars) = unsafe withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
-        let ivars = unsafe class_copyIvarList(UIUpdateActionPhase.self, pointer.baseAddress)
+        let ivars = unsafe class_copyIvarList(type, pointer.baseAddress)
         return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
     }
     defer {
@@ -242,18 +242,42 @@ fileprivate func item(from phase: UIUpdateActionPhase) -> UnsafeMutablePointer<_
     
     for i in unsafe span.indices {
         let ivar = unsafe span[i]
-        
-        if
-            let cName = unsafe ivar_getName(ivar),
-            unsafe String(cString: cName) == "_item"
-        {
-            let pointer = unsafe UnsafeMutableRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(phase)) + ivar_getOffset(ivar))!
-            let casted = unsafe pointer.assumingMemoryBound(to: UnsafeMutablePointer<_UIUpdateSequenceItemInternal>.self)
-            return unsafe casted.pointee
+        let shouldContinue = iteration(ivar)
+        guard shouldContinue else {
+            break
         }
     }
+}
+
+fileprivate func iterateIvars(object: AnyObject, iteration: (_ ivar: Ivar, _ name: String, _ offset: Int, _ pointer: UnsafeMutableRawPointer) -> Bool) {
+    iterateIvars(type: type(of: object)) { ivar in
+        let name = unsafe String(cString: ivar_getName(ivar)!)
+        let offset = ivar_getOffset(ivar)
+        let pointer = Unmanaged
+            .passUnretained(object)
+            .toOpaque()
+            .advanced(by: offset)
+        
+        return iteration(ivar, name, offset, pointer)
+    }
+}
+
+fileprivate func item(from phase: UIUpdateActionPhase) -> UnsafeMutablePointer<_UIUpdateSequenceItemInternal>? {
+    var result: UnsafeMutablePointer<_UIUpdateSequenceItemInternal>?
     
-    return nil
+    iterateIvars(object: phase) { ivar, name, offset, pointer in
+        guard name == "_item" else {
+            return true
+        }
+        
+        result = pointer
+            .assumingMemoryBound(to: UnsafeMutablePointer<_UIUpdateSequenceItemInternal>.self)
+            .pointee
+        
+        return false
+    }
+    
+    return result
 }
 
 extension UIView {
@@ -290,6 +314,29 @@ extension UIView {
         
         fatalError()
     }
+}
+
+/*
+ [ObjectIdentifier: _UITypedStorage.BaseValue]
+ _UITypedStorage.BaseValue
+ -> _UITypedStorage.(TypedValue in $186ef9d7c)<Swift.Optional<UIKit._UICornerProvider>>
+ */
+func modifyTypedStorage<T>(_ storage: AnyObject, mutation: (_ storage: inout [ObjectIdentifier: AnyObject]) -> T) -> T {
+    var result: T!
+    
+    iterateIvars(object: storage) { ivar, name, offset, pointer in
+        guard name == "storage" else {
+            return true
+        }
+        
+        let storagePointer = pointer
+            .assumingMemoryBound(to: [ObjectIdentifier: AnyObject].self)
+        
+        result = mutation(&storagePointer.pointee)
+        return false
+    }
+    
+    return result
 }
 
 enum _GlassBackgroundStyle: Hashable {
@@ -331,26 +378,6 @@ func swift_dynamicCast(
   _ flags: UInt
 ) -> Bool
 
-//extension GlassMaterialProvider.ResolvedStyleProvider: MySwiftUICore.MaterialProvider {
-//    package func resolveLayers(in context: MySwiftUICore.Material.Context) -> [MySwiftUICore.Material.Layer] {
-//        <#code#>
-//    }
-//    
-//    package func resolveForegroundStyle(level: Int, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle? {
-//        <#code#>
-//    }
-//    
-//    package func resolveAdaptiveColor(_ color: MySwiftUICore.Color.ResolvedHDR, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle {
-//        <#code#>
-//    }
-//    
-//    package func foregroundEnvironment(_ environment: inout MySwiftUICore.EnvironmentValues, for: MySwiftUICore.Material) {
-//        <#code#>
-//    }
-//    
-//    package func resolveBackgroundStyle(level: Int, in context: MySwiftUICore.Material.Context) -> MySwiftUICore.Material.ForegroundStyle? {
-//        <#code#>
-//    }
-//    
-//    
-//}
+func getTraitsInternal(_ mutation: any UIMutableTraits) -> any UIMutableTraitsInternal {
+    return unsafeBitCast(mutation, to: (any UIMutableTraitsInternal).self)
+}

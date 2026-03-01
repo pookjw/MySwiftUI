@@ -3,13 +3,16 @@
 internal import UIKit
 @_spi(Internal) internal import _UIKitShims
 internal import MRUIKit
+#if SwiftUICompataibility
+private import SwiftUI
+#endif
 
 final class UIKitPlatformColorDefinition: PlatformColorDefinition {
     override class var system: PlatformSystemDefinition {
         return .uiKit
     }
     
-    override class func resolvedColor(_ color: AnyObject, environment: EnvironmentValues) -> Color.Resolved? {
+    override class func resolvedColor(_ color: AnyObject, environment: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.Color.Resolved? {
         /*
          color -> x0 -> x19
          environment -> x1 -> x21
@@ -53,7 +56,7 @@ final class UIKitPlatformColorDefinition: PlatformColorDefinition {
 }
 
 extension UITraitCollection {
-    func resolvedEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+    func resolvedEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
         // base -> x23
         var resolved = self.resolvedPreEnvironment(base: base)
         resolved = self.coreResolvedBaseEnvironment(base: resolved)
@@ -62,7 +65,7 @@ extension UITraitCollection {
         return resolved
     }
     
-    fileprivate func resolvedPreEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+    fileprivate func resolvedPreEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
         /*
          self = x25
          base = x24
@@ -95,7 +98,11 @@ extension UITraitCollection {
         environmentValues.isInOrnament = self.mrui_ornamentStatus
         
         if self.userInterfaceIdiom == .vision {
+#if SwiftUICompataibility
+            let material: SwiftUI.Material?
+#else
             let material: MySwiftUICore.Material?
+#endif
             switch _containerVibrancy() {
             case .lighterGlass:
                 material = .lighterGlass
@@ -119,7 +126,7 @@ extension UITraitCollection {
         return environmentValues
     }
     
-    fileprivate func resolvedPostEnvironment(base: EnvironmentValues) -> EnvironmentValues {
+    fileprivate func resolvedPostEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
         var result = base
         
         guard self._vibrancy() == 1 else {
@@ -157,7 +164,7 @@ extension UITraitCollection {
         return result
     }
     
-    fileprivate func resolvedPreTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
+    fileprivate func resolvedPreTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> x26
@@ -241,7 +248,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
     var focusedValues = FocusedValues() // 0x2e0
     private(set) weak var responder: UIViewResponder? = nil // 0x300
     
-    required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+    required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
         /*
          coreRepresentedViewProvider -> x0 -> x29 - 0x98
          host -> x1 -> x29 - 0x60
@@ -267,7 +274,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
         fatalError("TODO")
     }
     
-    override func makeEnvironmentWrapper(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
+    override func makeEnvironmentWrapper(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
         /*
          self -> x20
          environment -> x0 -> x29 - 0x88
@@ -280,7 +287,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
         return wrapper
     }
     
-    override func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
+    override func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
         /*
          baseTraitCollection -> x0 -> x20
          environment -> x1 -> x21
@@ -295,7 +302,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
     }
 }
 
-extension EnvironmentValues {
+extension MySwiftUICore.EnvironmentValues {
     var bridgedEnvironmentKeys: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] {
         get {
             return self[BridgedEnvironmentKeysKey.self]
@@ -306,6 +313,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct BridgedEnvironmentKeysKey: EnvironmentKey {
+fileprivate struct BridgedEnvironmentKeysKey: MySwiftUICore.EnvironmentKey {
     @safe static nonisolated(unsafe) let defaultValue: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
 }

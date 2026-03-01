@@ -893,34 +893,32 @@ package final class UIHostingViewBase: NSObject {
         
         // x25
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
-        fatalError("TODO")
+        let typedStorage = uiView.typedStorage
+        let storage = modifyTypedStorage(typedStorage) { $0 }
         
-#if SwiftUICompataibility
-        var nativeEnvironmentValues = SwiftUI.EnvironmentValues()
-        let hostingView = SwiftUI._UIHostingView(rootView: EmptyView())
-        let base = unsafe unsafeBitCast(Mirror(reflecting: hostingView).descendant("_base")!, to: _UIKitPrivate.UIHostingViewBase.self)
-        base.uiView = self.uiView
-        base._updateEnvironment(&nativeEnvironmentValues)
-        
-        guard let glassMaterialContainerStyle = nativeEnvironmentValues.glassMaterialContainerStyle else {
+        // UIKit._UIIntelligenceLightSourceConfiguration._GlassBackgroundStyleKey가 Key로 있으면 뭔가를 함
+        guard !storage.isEmpty else {
             return
         }
-        environmentValues.glassMaterialContainerStyle = glassMaterialContainerStyle
-        
-        if let resolvedProvider = traitCollection.resolvedProvider as? _SwiftUICorePrivate.MaterialProvider {
-            environmentValues.glassColorScheme = ColorScheme(_uiUserInterfaceStyle: traitCollection.userInterfaceStyle) ?? .light
-            environmentValues.backgroundMaterial = Material(provider: MaterialProviderNativeBridge(base: resolvedProvider))
-        }
-#else
-        /*
-         typedStorage가 내부적으로 Dictionary를 가지고 있고
-         Dicctionary의 어떤 값이 nil이면 return
-         값이 있다면 그 값으로 glassMaterialContainerStyle 설정
-         */
-        let typedStorage = uiView.typedStorage
-#error("TODO")
         fatalError("TODO")
-#endif
+        
+//#if SwiftUICompataibility
+//        var nativeEnvironmentValues = SwiftUI.EnvironmentValues()
+//        let hostingView = SwiftUI._UIHostingView(rootView: EmptyView())
+//        let base = unsafe unsafeBitCast(Mirror(reflecting: hostingView).descendant("_base")!, to: _UIKitPrivate.UIHostingViewBase.self)
+//        base.uiView = self.uiView
+//        base._updateEnvironment(&nativeEnvironmentValues)
+//        
+//        guard let glassMaterialContainerStyle = nativeEnvironmentValues.glassMaterialContainerStyle else {
+//            return
+//        }
+//        environmentValues.glassMaterialContainerStyle = glassMaterialContainerStyle
+//        
+//        if let resolvedProvider = traitCollection.resolvedProvider as? _SwiftUICorePrivate.MaterialProvider {
+//            environmentValues.glassColorScheme = ColorScheme(_uiUserInterfaceStyle: traitCollection.userInterfaceStyle) ?? .light
+//            environmentValues.backgroundMaterial = Material(provider: MaterialProviderNativeBridge(base: resolvedProvider))
+//        }
+//#endif
     }
     
     // ___lldb_unnamed_symbol317388

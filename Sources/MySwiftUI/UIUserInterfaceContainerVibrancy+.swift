@@ -1,8 +1,18 @@
 internal import _UIKitPrivate
+#if SwiftUICompataibility
+internal import SwiftUI
+#else
 internal import MySwiftUICore
+#endif
 
 extension _UIUserInterfaceContainerVibrancy {
-    init(material: Material?) {
+#if SwiftUICompataibility
+    typealias ResolvedMaterial = SwiftUI.Material
+#else
+    typealias ResolvedMaterial = MySwiftUICore.Material
+#endif
+    
+    init(material: ResolvedMaterial?) {
         // material -> x0 -> x19
         // x20
         guard let copy_1 = material else {
@@ -48,6 +58,8 @@ extension _UIUserInterfaceContainerVibrancy {
             self = .lighterGlass
         case .ultraDarkerGlass:
             self = .ultraDarkerGlass
+        @unknown default:
+            fatalError()
         }
     }
 }

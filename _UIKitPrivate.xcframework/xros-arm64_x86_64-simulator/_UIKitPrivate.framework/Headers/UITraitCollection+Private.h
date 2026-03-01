@@ -4,6 +4,21 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
+@protocol UIMutableTraitsPrivate <UIMutableTraits>
+// TODO
+@end
+
+@protocol UIMutableTraitsInternal <UIMutableTraitsPrivate>
+- (id)_objectForTraitToken:(id<_UITraitTokenProtocol>)arg1;
+- (void)_setNSIntegerValue:(NSInteger)arg1 forTraitToken:(id)arg2;
+- (void)_setNSUIntegerValue:(NSUInteger)arg1 forTraitToken:(id<_UITraitTokenProtocol>)arg2;
+- (void)_setObject:(id)arg1 forTraitToken:(id<_UITraitTokenProtocol>)arg2;
+- (NSInteger)_valueForNSIntegerTraitToken:(id<_UITraitTokenProtocol>)arg1;
+- (NSUInteger) _valueForNSUIntegerTraitToken:(id<_UITraitTokenProtocol>)arg1;
+// TODO
+@end
+
+
 typedef NS_ENUM(NSInteger, UIPlatterGroundingShadowVisibility) {
     UIPlatterGroundingShadowVisibilityAutomatic = 0,
     UIPlatterGroundingShadowVisibilityVisible = 1,
@@ -15,7 +30,7 @@ typedef NSInteger UIUserInterfaceVibrancy;
 
 UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_SWIFT_NONISOLATED;
 
-@interface UITraitCollection (Private)
+@interface UITraitCollection (Private) <UIMutableTraitsInternal>
 + (id _Nullable)_existingTraitTokenReservingPlaceholderIfNecessaryWithName:(NSString *)name identifier:(NSString *)identifier;
 + (BOOL)_isPlaceholderTraitToken:(id<_UITraitTokenProtocol>)token;
 @property (nonatomic, readonly, nullable) NSObject *_environmentWrapper;

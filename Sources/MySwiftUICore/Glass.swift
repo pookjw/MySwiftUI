@@ -7,7 +7,7 @@ extension _Glass {
         // TODO
     }
     
-    package struct Frost {
+    package struct Frost: Equatable {
         private var role: _Glass.Frost.Role
         
         package static var automatic: _Glass.Frost {
@@ -82,7 +82,7 @@ extension _Glass.Diffusion {
 }
 
 extension _Glass.Frost {
-    package enum Role {
+    package enum Role: Hashable {
         case automatic
         case reduced
         case none
