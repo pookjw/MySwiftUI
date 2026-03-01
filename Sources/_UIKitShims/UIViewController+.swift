@@ -1,5 +1,6 @@
 internal import UIKit
 private import ObjectiveC.runtime
+private import _MySwiftUIShims
 
 extension UIViewController {
     @available(iOS, unavailable)
@@ -8,10 +9,8 @@ extension UIViewController {
     @available(watchOS, unavailable)
     @available(visionOS 1.0, *)
     func msui_setNeedsStatusBarAppearanceUpdate() {
+        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> Void).self)
         let cmd = Selector(("setNeedsStatusBarAppearanceUpdate"))
-        let method = unsafe class_getInstanceMethod(UINavigationItem.self, cmd)!
-        let impl = unsafe method_getImplementation(method)
-        let casted = unsafe unsafeBitCast(impl, to: (@convention(c) (AnyObject, Selector) -> Void).self)
         casted(self, cmd)
     }
 }

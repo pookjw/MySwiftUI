@@ -68,4 +68,6 @@ extension UIKit.UIMutableTraits {
     public var _vibrancy: _UIKitPrivate._UIUserInterfaceVibrancy { get set }
     public var _pointsPerMeter: CoreFoundation.CGFloat { get set }
     public var platterGroundingShadowVisibility: _UIKitPrivate._UIPlatterGroundingShadowVisibility { get set }
+    public var _platterStatus: _UIKitPrivate._UIPlatterStatus { get set }
+    public var _glassElevationLevel: _UIKitPrivate._UIGlassElevationLevel { get set }
 }

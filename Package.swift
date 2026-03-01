@@ -104,6 +104,7 @@ let package = Package(
             swiftSettings: [
                 .strictMemorySafety(),
 //                .defaultIsolation(MainActor.self),
+                .enableExperimentalFeature("Extern"),
                 .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
                 .enableUpcomingFeature("InferIsolatedConformances")
             ]

@@ -3,6 +3,9 @@ private import _UIKitPrivate
 @_spi(Internal) package import MySwiftUICore
 private import DesignLibrary
 private import _DesignLibraryShims
+#if SwiftUICompataibility
+private import _SwiftUICorePrivate
+#endif
 
 extension UITraitCollection {
     func environmentValues() -> MySwiftUICore.EnvironmentValues {
@@ -116,7 +119,7 @@ extension UITraitCollection {
         
         // <+2960>
 #if SwiftUICompataibility
-        result.materialBackdropProxy = materialBackdropProxy(materialBackdropContext: self.materialBackdropContext!)
+        result.materialBackdropProxy = modifyMaterialBackdropContext(self.materialBackdropContext!) { $1 }
 #else
 #error("TODO")
 #endif
@@ -147,12 +150,10 @@ extension UITraitCollection {
         // x19
         var copy_1 = base
         copy_1.glassMaterialForeground = (self._glassElevationLevel != .unknown0)
-        // x23
-        let glassBackgroundStyle = self._object(forTraitToken: GlassBackgroundStyleToken()!)
-        copy_1.updateGlassBackgroundStyle(style: castToGlassBackgroundStyle(glassBackgroundStyle), collection: self)
+        copy_1.updateGlassBackgroundStyle(style: self.glassBackgroundStyle, collection: self)
         
         // <+224>
-        let glassFrostValue = self._value(forNSIntegerTraitToken: GlassFrostToken()!)
+        let glassFrostValue = self.glassFrost
         let glassFrost: _Glass.Frost = if glassFrostValue == 2 {
             .none
         } else if glassFrostValue == 1 {
@@ -161,30 +162,50 @@ extension UITraitCollection {
             .automatic
         }
         copy_1.glassFrost = glassFrost
-        
-        let glassMaterialPocketContainer = self._object(forTraitToken: GlassPocketContainerToken()!) as? GlassMaterialProvider.Pocket
-        copy_1.glassMaterialPocketContainer = glassMaterialPocketContainer
+        copy_1.glassMaterialPocketContainer = self.glassPocketContainer
         
         return copy_1
     }
     
     private var materialBackdropContext: AnyObject? {
+        get {
 #if SwiftUICompataibility
-        return self._object(forTraitToken: MaterialBackdropContextTraitToken()!) as? AnyObject
+            return self._object(forTraitToken: MaterialBackdropContextTraitToken()!) as? AnyObject
+#else
+#error("TODO")
+#endif
+        }
+        set {
+#if SwiftUICompataibility
+            self._setObject(newValue, forTraitToken: MaterialBackdropContextTraitToken()!)
+#else
+#error("TODO")
+#endif
+        }
+    }
+    
+    var resolvedProvider: Any? {
+#if SwiftUICompataibility
+        return self._object(forTraitToken: ResolvedProviderTraitToken()!)
 #else
 #error("TODO")
 #endif
     }
     
-    var resolvedProvider: AnyObject? {
-#if SwiftUICompataibility
-        return self._object(forTraitToken: ResolvedProviderTraitToken()!) as? AnyObject
-#else
-#error("TODO")
-#endif
+    private var glassPocketContainer: GlassMaterialProvider.Pocket? {
+        return self._object(forTraitToken: GlassPocketContainerToken()!) as? GlassMaterialProvider.Pocket
     }
     
-    package func coreResolvedBaseTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, options: UICoreTraitCollectionResolutionOptions) -> UITraitCollection {
+    private var glassBackgroundStyle: _GlassBackgroundStyle {
+        let object = self._object(forTraitToken: GlassBackgroundStyleToken()!)
+        return castToGlassBackgroundStyle(object)
+    }
+    
+    private var glassFrost: Int {
+        return self._value(forNSIntegerTraitToken: GlassFrostToken()!)
+    }
+    
+    package func coreResolvedBaseTraitCollection(environment: EnvironmentValues, wrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper?, options: UICoreTraitCollectionResolutionOptions) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> x22
@@ -309,16 +330,92 @@ extension UITraitCollection {
             if self.userInterfaceIdiom == .vision {
                 // <+2668>
                 let isContainedInPlatter = environment.isContainedInPlatter
-                fatalError("TODO")
+                let newPlatterStatus: _UIPlatterStatus = isContainedInPlatter ? .unknown1 : .unspecified
+                let oldPlatterStatus = traits._platterStatus
+                if newPlatterStatus != oldPlatterStatus {
+                    traits._platterStatus = newPlatterStatus
+                }
             }
             
             // <+2772>
-            fatalError("TODO")
+#if SwiftUICompataibility
+            // x29 - 0xb8 -> x29 - 0xf0
+            let newProxy = environment.materialBackdropProxy
+            let oldContext = self.materialBackdropContext!
+            // x29 - 0xd0 -> x29 - 0xe8
+            let oldProxy = modifyMaterialBackdropContext(oldContext) { $1 }
+            
+            // <+2904>
+            if newProxy == nil {
+                // <+2996>
+                if oldProxy == nil {
+                    // <+3356>
+                } else {
+                    // <+3164>
+                    let newContext = makeMaterialBackdropContext(flags: 0, proxy: newProxy)
+                    self.materialBackdropContext = newContext
+                    // <+3356>
+                }
+            } else {
+                // <+3072>
+                if oldProxy == nil {
+                    // <+3124>
+                    // <+3164>
+                    let newContext = makeMaterialBackdropContext(flags: 0, proxy: newProxy)
+                    self.materialBackdropContext = newContext
+                    // <+3356>
+                } else {
+                    // <+3712>
+                    if newProxy != oldProxy {
+                        // <+3188>
+                        let newContext = makeMaterialBackdropContext(flags: 0, proxy: newProxy)
+                        self.materialBackdropContext = newContext
+                        // <+3356>
+                    } else {
+                        // <+3356>
+                    }
+                }
+            }
+#else
+#error("TODO")
+#endif
+            
+            // <+3356>
+            let newColorRenderingMode = UIColorMaterialRenderingMode(_materialColorRenderingMode: environment.materialColorRenderingMode)
+            let oldColorRenderingMode = UIColorMaterialRenderingMode(rawValue: self._value(forNSIntegerTraitToken: ColorMaterialRenderingModeToken()!))!
+            
+            if newColorRenderingMode == oldColorRenderingMode {
+                // <+3568>
+                // <+3676>
+            } else {
+                // <+3604>
+                self._setNSIntegerValue(newColorRenderingMode.rawValue, forTraitToken: ColorMaterialRenderingModeToken()!)
+                // <+3676>
+            }
+            
+            // <+3676>
         }
     }
     
-    package func coreResolvedGlassMaterialTraitCollection(environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?) -> UITraitCollection {
-        fatalError("TODO")
+    package func coreResolvedGlassMaterialTraitCollection(environment: EnvironmentValues, wrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper?) -> UITraitCollection {
+        /*
+         self -> x20
+         environment -> x0 -> sp + 0x10
+         wrapper -> x1 -> x22
+         */
+        self.modifyingTraits { traits in
+            // <+316>
+            let glassMaterialForeground = environment.glassMaterialForeground
+            traits._glassElevationLevel = glassMaterialForeground ? .unknown1 : .unknown0
+            
+            if let glassMaterialContainerStyle = environment.glassMaterialContainerStyle {
+                // <+568>
+                fatalError("TODO")
+            }
+            
+            // <+756>
+            fatalError("TODO")
+        }
     }
 }
 
@@ -344,7 +441,7 @@ extension EnvironmentValues {
         }
         
         // <+456>
-        guard let resolvedProvider = collection._object(forTraitToken: ResolvedProviderTraitToken()!) else {
+        guard let resolvedProvider = collection.resolvedProvider else {
             return
         }
         

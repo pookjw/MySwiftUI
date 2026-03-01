@@ -42,3 +42,5 @@
 #import <_UIKitPrivate/UIGlassElevationLevel.h>
 #import <_UIKitPrivate/UIUserInterfaceVibrancy.h>
 #import <_UIKitPrivate/UIPlatterGroundingShadowVisibility.h>
+#import <_UIKitPrivate/UIPlatterStatus.h>
+#import <_UIKitPrivate/UIColorMaterialRenderingMode.h>

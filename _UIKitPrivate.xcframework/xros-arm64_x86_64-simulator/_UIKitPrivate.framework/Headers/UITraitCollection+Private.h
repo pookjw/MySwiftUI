@@ -10,12 +10,6 @@ typedef NS_ENUM(NSInteger, UIPlatterGroundingShadowVisibility) {
     UIPlatterGroundingShadowVisibilityHidden = 2
 };
 
-typedef NS_ENUM(NSInteger, UIColorMaterialRenderingMode) {
-    UIColorMaterialRenderingModeAutomatic = 0,
-    UIColorMaterialRenderingModeAdaptiveSystemColors = 1,
-    UIColorMaterialRenderingModeAdaptiveAllColors = 2
-};
-
 typedef NSInteger UIPlatterStatus;
 typedef NSInteger UIUserInterfaceVibrancy;
 
@@ -35,8 +29,10 @@ UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_S
 - (NSInteger)_userInterfaceRenderingMode;
 - (id _Nullable)_objectForTraitToken:(id<_UITraitTokenProtocol>)token;
 - (NSInteger)_valueForNSIntegerTraitToken:(id<_UITraitTokenProtocol>)token;
+- (void)_setNSIntegerValue:(NSInteger)value forTraitToken:(id<_UITraitTokenProtocol>)token;
 - (UIUserInterfaceVibrancy)_vibrancy;
 @property (readonly, nonatomic) _UIGlassElevationLevel _glassElevationLevel;
+- (void)_setObject:(id _Nullable)object forTraitToken:(id<_UITraitTokenProtocol>)token;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

@@ -5,6 +5,8 @@ internal import _UIKitPrivate
 #if SwiftUICompataibility
 private import SwiftUI
 internal import _SwiftUIPrivate
+private import _SwiftPrivate
+private import _MySwiftUIShims
 #endif
 internal import DesignLibrary
 
@@ -14,6 +16,10 @@ final class PrivateSelectors {
     }
     
     @objc(_swiftValue) var _swiftValue: UnsafeRawPointer {
+        fatalError()
+    }
+    
+    @objc(alloc) func alloc() -> AnyObject {
         fatalError()
     }
 }
@@ -127,9 +133,72 @@ func GlassPocketContainerToken() -> (any _UITraitTokenProtocol)? {
 #endif
 }
 
-func materialBackdropProxy(materialBackdropContext context: AnyObject) -> _SwiftUIPrivate.MaterialBackdropProxy? {
-    return Mirror(reflecting: context).descendant("proxy") as? _SwiftUIPrivate.MaterialBackdropProxy
+#if SwiftUICompataibility
+func makeMaterialBackdropContext(flags: Int, proxy: _SwiftUIPrivate.MaterialBackdropProxy?) -> AnyObject {
+    let contextClass = objc_lookUpClass("_TtC5UIKit23MaterialBackdropContext")!
+    var object = (contextClass as AnyObject).alloc()
+    
+    var flagsOffset: Int!
+    var proxyOffset: Int!
+    
+    _forEachField(of: _typeByName("5UIKit23MaterialBackdropContextC")!, options: [.classType]) { name, offset, type, kind in
+        if String(cString: name) == "flags" {
+            flagsOffset = offset
+        } else if String(cString: name) == "proxy" {
+            proxyOffset = offset
+        }
+        
+        return (flagsOffset == nil) || (proxyOffset == nil)
+    }
+    
+    let base = Unmanaged.passUnretained(object).toOpaque()
+    
+    base
+        .advanced(by: flagsOffset)
+        .assumingMemoryBound(to: Int.self)
+        .initialize(to: flags)
+    
+    base
+        .advanced(by: proxyOffset)
+        .assumingMemoryBound(to: _SwiftUIPrivate.MaterialBackdropProxy?.self)
+        .initialize(to: proxy)
+    
+    var superInfo = objc_super(receiver: Unmanaged.passUnretained(object), super_class: type(of: object))
+    let casted = unsafe unsafeBitCast(msui_objc_msgSendSuper2(), to: (@convention(c) (UnsafePointer<objc_super>, Selector) -> AnyObject).self)
+    object = casted(&superInfo, Selector(("init")))
+    
+    return object
 }
+
+func modifyMaterialBackdropContext<T>(_ context: AnyObject, mutation: (_ flags: inout Int, _ proxy: inout _SwiftUIPrivate.MaterialBackdropProxy?) -> T) -> T {
+    assert(_typeByName("5UIKit23MaterialBackdropContextC")! == type(of: context))
+    
+    var flagsOffset: Int!
+    var proxyOffset: Int!
+    
+    _forEachField(of: _typeByName("5UIKit23MaterialBackdropContextC")!, options: [.classType]) { name, offset, type, kind in
+        if String(cString: name) == "flags" {
+            flagsOffset = offset
+        } else if String(cString: name) == "proxy" {
+            proxyOffset = offset
+        }
+        
+        return (flagsOffset == nil) || (proxyOffset == nil)
+    }
+    
+    let base = Unmanaged.passUnretained(context).toOpaque()
+    
+    let flags = base
+        .advanced(by: flagsOffset)
+        .assumingMemoryBound(to: Int.self)
+    
+    let proxy = base
+        .advanced(by: proxyOffset)
+        .assumingMemoryBound(to: _SwiftUIPrivate.MaterialBackdropProxy?.self)
+    
+    return mutation(&flags.pointee, &proxy.pointee)
+}
+#endif
 
 @MainActor var _UIUpdateSequenceScheduledItemInternal: UnsafeMutablePointer<_UIUpdateSequenceItemInternal> {
     return unsafe item(from: .afterUpdateScheduled)!
