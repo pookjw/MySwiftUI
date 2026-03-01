@@ -235,8 +235,8 @@ func castToGlassBackgroundStyle(_ style: Any) -> _GlassBackgroundStyle {
                 let success = swift_dynamicCast(
                     resultPointer.baseAddress.unsafelyUnwrapped,
                     stylePointer,
-                    unsafeBitCast(Any.self, to: UnsafeRawPointer.self),
-                    unsafeBitCast(_typeByName("5UIKit21_GlassBackgroundStyleO")!, to: UnsafeRawPointer.self),
+                    UnsafeRawPointer(bitPattern: UInt(bitPattern: ObjectIdentifier(Any.self)))!,
+                    UnsafeRawPointer(bitPattern: UInt(bitPattern: ObjectIdentifier(_typeByName("5UIKit21_GlassBackgroundStyleO")!)))!,
                     0
                 )
                 assert(success)
