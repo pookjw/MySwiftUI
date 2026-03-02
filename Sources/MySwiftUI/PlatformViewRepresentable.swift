@@ -148,7 +148,51 @@ struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
     }
     
     func update<Host: CoreViewRepresentableHost>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x29 - 0xb0
+         host -> x0 -> x26
+         environment -> x1 -> x29 - 0xd8
+         isInitialUpdate -> w2 -> w20
+         */
+        // x26
+        let casted = host as! UIKitPlatformViewHost<Host.Content>
+        
+        if isInitialUpdate {
+            // <+404>
+            casted.importer = importer
+        } else {
+            // <+504>
+            if casted.isPlatformFocusContainerHost {
+                environment.focusGroupID = nil
+            }
+            
+            // <+632>
+            // x28
+            let focusedValues: (FocusedValues, Bool)
+            if let _focusedValues = self.focusedValues {
+                focusedValues = (_focusedValues, true)
+            } else {
+                focusedValues = (FocusedValues(), false)
+            }
+            
+            // <+900>
+            // w19
+            let exists = focusedValues.1
+            // x22
+            let values = focusedValues.0
+            
+            Graph.withoutUpdate {
+                // $s7SwiftUI32PlatformViewRepresentableFeatureV6update7forHost11environment15isInitialUpdateyx_AA17EnvironmentValuesVzSbtAA04CoredeI0RzlFyyXEfU_
+                /*
+                 exists ->  w0
+                 host -> x1
+                 values- > x2
+                 */
+                if exists {
+                    casted.focusedValues = values
+                }
+            }
+        }
     }
 }
 

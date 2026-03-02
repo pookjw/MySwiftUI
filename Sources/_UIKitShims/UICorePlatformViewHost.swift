@@ -438,10 +438,6 @@ public import _UIKitPrivate
             tintColor = nil
         }
         
-        // 테스트
-        assert(tintColor != nil)
-        fatalError()
-        
         self.tintColor = tintColor
     }
     

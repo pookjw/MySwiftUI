@@ -377,7 +377,9 @@ extension CoreViewRepresentableFeatureBuffer {
             environment: inout EnvironmentValues,
             isInitialUpdate: Bool
         ) {
-            fatalError("TODO")
+            base
+                .vtable(as: CoreViewRepresentableFeatureBuffer.VTable.self)
+                .update(elt: base, forHost: host, environment: &environment, isInitialUpdate: isInitialUpdate)
         }
     }
     
@@ -475,7 +477,7 @@ extension CoreViewRepresentableFeatureBuffer {
             environment: inout EnvironmentValues,
             isInitialUpdate: Bool
         ) {
-            fatalError("TODO")
+            elt.body(as: Feature.self).pointee.update(forHost: host, environment: &environment, isInitialUpdate: isInitialUpdate)
         }
     }
 }

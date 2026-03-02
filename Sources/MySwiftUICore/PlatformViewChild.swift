@@ -226,7 +226,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 }.value
                 
                 let renderHost = ViewGraph.current.delegate as? ViewRendererHost
-                let attribute = Attribute<Representable>(identifier: .current!)
+                let attribute = Attribute<ViewLeafView<Representable>>(identifier: .current!)
                 
                 let host: Representable.Host? = ObservationCenter.current._withObservation(attribute: attribute) { [features] in
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_TA
@@ -279,6 +279,11 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             }
             
             // <+4312>
+            // x24
+            let delegate = ViewGraph.current.delegate as? ViewRendererHost
+            // <+4456>
+            let attribute = Attribute<ViewLeafView<Representable>>(identifier: .current!)
+            ObservationCenter.current
             fatalError("TODO")
         }
     }

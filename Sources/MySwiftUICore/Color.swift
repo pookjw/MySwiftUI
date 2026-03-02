@@ -280,7 +280,41 @@ extension Color {
         
         public var red: Float {
             get {
-                fatalError("TODO")
+                var s0 = linearRed
+                var s1 = -s0
+                var s2 = (s0 > 0) ? s0 : s1
+                s1 = Float(bitPattern: 0x3b4d2e1c)
+                
+                if s2 <= s1 {
+                    //<+132>
+                    s1 = Float(bitPattern: 0x414eb852)
+                    s1 = s2 * s1
+                    // <+148>
+                } else {
+                    // <+32>
+                    s1 = 1.0
+                    if s2 == s1 {
+                        // <+148>
+                    } else {
+                        // <+44>
+                        s1 = Float(bitPattern: 0x3ed55555)
+                        let s8 = s0
+                        s0 = s2
+                        s0 = powf(s0, s1)
+                        s1 = s0
+                        s0 = s8
+                        s2 = Float(bitPattern: 0x3f870a3d)
+                        s1 = s1 * s2
+                        s2 = Float(bitPattern: 0xbd6147ae)
+                        s1 = s1 + s2
+                        // <+148>
+                    }
+                }
+                
+                // <+148>
+                s2 = -s1
+                s0 = (s0 > 0) ? s1 : s2
+                return s0
             }
             set {
                 fatalError("TODO")
@@ -289,7 +323,40 @@ extension Color {
         
         public var green: Float {
             get {
-                fatalError("TODO")
+                var s1 = linearGreen
+                var s0 = -s1
+                s0 = (s1 > 0) ? s1 : s0
+                var s2 = Float(bitPattern: 0x3b4d2e1c)
+                
+                if s0 <= s2 {
+                    // <+128>
+                    s2 = Float(bitPattern: 0x414eb852)
+                    s2 = s0 * s2
+                    // <+144>
+                } else {
+                    // <+32>
+                    s2 = 1.0
+                    if s0 == s2 {
+                        // <+144>
+                    } else {
+                        // <+44>
+                        s2 = Float(bitPattern: 0x3ed55555)
+                        let s8 = s1
+                        s1 = s2
+                        s0 = powf(s0, s1)
+                        s1 = s8
+                        s2 = Float(bitPattern: 0x3f870a3d)
+                        s0 = s0 * s2
+                        s2 = Float(bitPattern: 0xbd6147ae)
+                        s2 = s0 + s2
+                        // <+144>
+                    }
+                }
+                
+                // <+144>
+                s0 = -s2
+                s0 = (s1 > 0) ? s2 : s0
+                return s0
             }
             set {
                 fatalError("TODO")
@@ -298,7 +365,39 @@ extension Color {
         
         public var blue: Float {
             get {
-                fatalError("TODO")
+                var s2 = linearBlue
+                var s0 = -s2
+                s0 = (s2 > 0) ? s2 : s0
+                var s1 = Float(bitPattern: 0x3b4d2e1c)
+                
+                if s0 <= s1 {
+                    // <+124>
+                    s1 = Float(bitPattern: 0x414eb852)
+                    s1 = s0 * s1
+                    // <+140>
+                } else {
+                    // <+32>
+                    s1 = 1.0
+                    if s0 == s1 {
+                        // <+140>
+                    } else {
+                        // <+44>
+                        s1 = Float(bitPattern: 0x3ed55555)
+                        let s8 = s2
+                        s0 = powf(s0, s1)
+                        s2 = s8
+                        s1 = Float(bitPattern: 0x3f870a3d)
+                        s0 = s0 * s1
+                        s1 = Float(bitPattern: 0xbd6147ae)
+                        s1 = s0 + s1
+                        // <+140>
+                    }
+                }
+                
+                // <+140>
+                s0 = -s1
+                s0 = (s2 > 0) ? s1 : s0
+                return s0
             }
             set {
                 fatalError("TODO")
@@ -774,12 +873,12 @@ extension Color.Resolved {
             return nil
         }
         
-        let d0 = blue
+        let d0 = green
         let d1 = red
         var s9 = Float(d1)
         var s10 = Float(d0)
         let d11 = alpha
-        let d8 = green
+        let d8 = blue
         var s0 = -s9
         var s1 = (s9 > 0) ? s9 : s0
         s0 = 0.04045
@@ -797,6 +896,7 @@ extension Color.Resolved {
             } else {
                 // <+148>
                 s0 = Float(bitPattern: 0x3f72a76f)
+                s0 = s1 * s0
                 s1 = Float(bitPattern: 0x3d55891a)
                 s0 = s0 + s1
                 s1 = 2.4
@@ -858,7 +958,9 @@ extension Color.Resolved {
                 // <+508>
             } else {
                 // <+436>
-                s0 = Float(bitPattern: 0x3d25aee6)
+                s0 = Float(bitPattern: 0x3f72a76f)
+                s0 = s12 * s0
+                s1 = Float(bitPattern: 0x3d55891a )
                 s0 = s0 + s1
                 s1 = Float(bitPattern: 0x4019999a)
                 s0 = powf(s0, s1)

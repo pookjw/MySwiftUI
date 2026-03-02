@@ -240,7 +240,7 @@ extension UITraitCollection {
 }
 
 final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
-    private var importer: MRUIPreferenceImporter? = nil // 0x2d8
+    var importer: MRUIPreferenceImporter? = nil // 0x2d8
     var focusedValues = FocusedValues() // 0x2e0
     private(set) weak var responder: UIViewResponder? = nil // 0x300
     
