@@ -10,7 +10,7 @@ extension UIAccessibilityContrast {
         
         switch contrast {
         case .standard:
-            self = .high
+            self = .normal
         case .increased:
             self = .high
         @unknown default:

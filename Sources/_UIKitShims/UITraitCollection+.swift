@@ -148,7 +148,7 @@ extension UITraitCollection {
             break
         }
         
-        result.systemColorScheme = ColorScheme(_uiUserInterfaceStyle: self.userInterfaceStyle) ?? .light
+        result.defaultColorScheme = ColorScheme(_uiUserInterfaceStyle: self.userInterfaceStyle) ?? .light
         
         // <+2340>
         var displayScale = self.displayScale

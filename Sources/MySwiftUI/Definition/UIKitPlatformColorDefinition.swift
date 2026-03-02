@@ -43,14 +43,10 @@ final class UIKitPlatformColorDefinition: PlatformColorDefinition {
         let resolvedUIColor = color.resolvedColor(with: traitCollection4)
         let resolvedColor = Color.ResolvedHDR(platformColor: resolvedUIColor)
         
-        if resolvedColor.headroom == nil {
-            return nil
+        if let resolvedColor {
+            return resolvedColor.base
         } else {
-            return Color.Resolved(
-                red: resolvedColor.red,
-                green: resolvedColor.green,
-                blue: resolvedColor.blue
-            )
+            return nil
         }
     }
 }

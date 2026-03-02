@@ -781,9 +781,9 @@ package final class UIHostingViewBase: NSObject {
             preferredArtworkSubtype: 0
         )
         
-        if let undimmedTintColor = uiView.window?._undimmedTintColor() {
+        if uiView.window != nil {
             // <+728>
-            environmentValues._accentColor = Color.init(_platformColor: undimmedTintColor, definition: UICorePlatformColorDefinition.self)
+            environmentValues._accentColor = Color(_platformColor: uiView._undimmedTintColor(), definition: UICorePlatformColorDefinition.self)
         }
         
         // <+808>

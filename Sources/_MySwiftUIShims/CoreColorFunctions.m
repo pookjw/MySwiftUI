@@ -41,3 +41,10 @@ Class CoreColorClass(CoreSystem system) {
     
     return colorClass;
 }
+
+BOOL CoreColorPlatformColorGetComponents(CoreSystem system, id color, CGFloat *red, CGFloat *green, CGFloat *blue, CGFloat *alpha) {
+    Class colorClass = CoreColorClass(system);
+    if (colorClass == nil) return NO;
+    
+    return [color getRed:red green:green blue:blue alpha:alpha];
+}

@@ -53,6 +53,15 @@ extension EnvironmentValues {
             self[ColorSchemeContrastKey.self] = newValue
         }
     }
+    
+    package var defaultColorScheme: ColorScheme {
+        get {
+            return self[PlatformColorSchemeKey.self] ?? .light
+        }
+        set {
+            self[PlatformColorSchemeKey.self] = newValue
+        }
+    }
 }
 
 public enum ColorSchemeContrast: CaseIterable, Sendable {

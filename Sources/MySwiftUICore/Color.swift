@@ -311,7 +311,7 @@ extension Color.Resolved: BitwiseCopyable {}
 
 extension Color {
     @frozen public struct ResolvedHDR: Hashable, Sendable {
-        @usableFromInline var base: Color.Resolved
+        @usableFromInline package var base: Color.Resolved
         @usableFromInline var _headroom: Float
         
         @_alwaysEmitIntoClient public init(_ color: Color.Resolved, headroom: Float? = nil) {
@@ -757,9 +757,134 @@ extension Color {
     }
 }
 
+extension Color.Resolved {
+    init?(platformColor: AnyObject) {
+        /*
+         platformColor -> x0 -> x19
+         */
+        // sp + 0x20
+        var red: CGFloat = 0
+        // sp + 0x18
+        var green: CGFloat = 0
+        // sp + 0x10
+        var blue: CGFloat = 0
+        // sp + 0x8
+        var alpha: CGFloat = 0
+        guard CoreColorPlatformColorGetComponents(.uiKit, platformColor, &red, &green, &blue, &alpha) else {
+            return nil
+        }
+        
+        let d0 = blue
+        let d1 = red
+        var s9 = Float(d1)
+        var s10 = Float(d0)
+        let d11 = alpha
+        let d8 = green
+        var s0 = -s9
+        var s1 = (s9 > 0) ? s9 : s0
+        s0 = 0.04045
+        
+        if s1 <= s0 {
+            // <+224>
+            s0 = 1.0 / 12.92
+            s0 = s1 * s0
+            // <+240>
+        } else {
+            // <+136>
+            s0 = 1.0
+            if s1 == s0 {
+                // <+240>
+            } else {
+                // <+148>
+                s0 = Float(bitPattern: 0x3f72a76f)
+                s1 = Float(bitPattern: 0x3d55891a)
+                s0 = s0 + s1
+                s1 = 2.4
+                s0 = powf(s0, s1)
+                // <+240>
+            }
+        }
+        
+        
+        // <+240>
+        let s8 = Float(d8)
+        s1 = -s0
+        s9 = (s9 > 0) ? s0 : s1
+        s0 = -s10
+        s1 = (s10 > 0) ? s10 : s0
+        s0 = Float(bitPattern: 0x3d25aee6)
+        
+        // <+280>
+        if s1 <= s0 {
+            // <+352>
+            s0 = Float(bitPattern: 0x3d9e8391)
+            s0 = s1 * s0
+            // <+368>
+        } else {
+            // <+288>
+            s0 = 1.0
+            
+            if s1 == s0 {
+                // <+368>
+            } else {
+                // <+300>
+                s0 = Float(bitPattern: 0x3f72a76f)
+                s0 = s1 * s0
+                s1 = Float(bitPattern: 0x3d55891a)
+                s0 = s0 + s1
+                s1 = Float(bitPattern: 0x4019999a)
+                s0 = powf(s0, s1)
+                // <+368>
+            }
+        }
+        
+        // <+368>
+        let s11 = Float(d11)
+        s1 = -s0
+        s10 = (s10 > 0) ? s0 : s1
+        s0 = -s8
+        let s12 = (s8 > 0) ? s8 : s0
+        s0 = Float(bitPattern: 0x3d25aee6)
+        
+        if s12 <= s0 {
+            // <+488>
+            s0 = Float(bitPattern: 0x3d9e8391)
+            s0 = s12 * s0
+            // <+508>
+        } else {
+            s0 = 1.0
+            
+            if s12 == s0 {
+                // <+508>
+            } else {
+                // <+436>
+                s0 = Float(bitPattern: 0x3d25aee6)
+                s0 = s0 + s1
+                s1 = Float(bitPattern: 0x4019999a)
+                s0 = powf(s0, s1)
+                // <+508>
+            }
+        }
+        
+        // <+508>
+        s1 = -s0
+        s0 = (s8 > 0) ? s0 : s1
+        
+        self.linearRed = s9
+        self.linearGreen = s10
+        self.linearBlue = s0
+        self.opacity = s11
+    }
+}
+
 extension Color.ResolvedHDR {
-    package init(platformColor: AnyObject) {
-        fatalError("TODO")
+    package init?(platformColor: AnyObject) {
+        guard let base = Color.Resolved(platformColor: platformColor) else {
+            return nil
+        }
+        
+        self.base = base
+        self._headroom = .nan
     }
     
     struct _Animatable: VectorArithmetic, Equatable {

@@ -15,7 +15,7 @@ import MySwiftUI
 fileprivate struct MyView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let uiView = UIView()
-        uiView.backgroundColor = .systemBlue
+        uiView.backgroundColor = .blue
         return uiView
     }
     

@@ -12,10 +12,10 @@ extension EnvironmentValues {
     
     package var _accentColor: Color? {
         get {
-            return self[AccentColorKey.self]
+            return self.accentColor
         }
         set {
-            self[AccentColorKey.self] = newValue
+            self.accentColor = newValue
         }
     }
     
