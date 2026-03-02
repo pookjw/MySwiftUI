@@ -305,15 +305,28 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                     
                     // <+340>
                     // delegate -> x23
-                    let block = {
+                    let block = { [unchecked = UncheckedSendable((view, context, representedViewProvider))] in
                         // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_yyXEfU5_yyXEfU_yyXEfU_
-                        let values: UncheckedSendable<RepresentableContextValues> = MainActor.assumeIsolated { 
+                        // x29 - 0x80 -> x29 - 0x100
+                        let values = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
                             // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AA17UncheckedSendableVyAA26RepresentableContextValuesVGyScMYcXEfU_Tm
-                            fatalError("TODO")
+                            let values = RepresentableContextValues(
+                                preferenceBridge: unchecked.value.0,
+                                transaction: unchecked.value.1,
+                                environmentStorage: .eager(unchecked.value.2)
+                            )
+                            
+                            return UncheckedSendable(values)
                         }
                         
                         // <+316>
-                        fatalError("TODO")
+                        let view = UncheckedSendable(unchecked.value.0)
+                        let context = UncheckedSendable(unchecked.value.1)
+                        let representedViewProvider = UncheckedSendable(unchecked.value.2)
+                        
+                        values.value.asCurrent {
+                            view.value.updateViewProvider(representedViewProvider.value, context: context.value)
+                        }
                     }
                     
                     if let delegate {
@@ -329,8 +342,11 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 }
             }
             
-            // <+5444>
-            fatalError("TODO")
+            // <+5600>
+            let newView = MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, self, context))] in
+                return ViewLeafView(content: unchecked.value.0, platformView: unchecked.value.1.platformView!, coordinator: unchecked.value.2.coordinator)
+            }
+            self.value = newView
         }
     }
     
