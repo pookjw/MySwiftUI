@@ -1295,10 +1295,13 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     
     package final var externalUpdateCount: Int {
         get {
-            fatalError("TODO")
+            return base.viewGraph.externalUpdateCount
         }
-        set(newValue) {
-            fatalError("TODO")
+        set {
+            base.viewGraph.externalUpdateCount = newValue
+        }
+        _modify {
+            yield &base.viewGraph.externalUpdateCount
         }
     }
     

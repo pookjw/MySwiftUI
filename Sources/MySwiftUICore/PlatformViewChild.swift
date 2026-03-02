@@ -55,7 +55,12 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     typealias Value = ViewLeafView<Representable>
     
     var representedViewProvider: Representable.PlatformViewProvider? {
-        fatalError("TODO")
+        // x20
+        guard let platformView else {
+            return nil
+        }
+        
+        return unsafeBitCast(platformView.coreRepresentedViewProvider, to: Representable.PlatformViewProvider.self) // FIXME
     }
     
     mutating func updateValue() {
@@ -153,6 +158,9 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             // x29 - 0x190
             let bridge = self.bridge
             
+            // x29 - 0x158
+            let context: PlatformViewRepresentableContext<Representable>
+            
             if let platformView {
                 // <+1948>
                 if environmentChanged == .changed {
@@ -189,7 +197,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 
                 // <+2544>
                 // x29 - 0x158
-                let context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
+                context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA0cD20RepresentableContextVyxGyScMYcXEfU2_Tm
                     let context = PlatformViewRepresentableContext<Representable>(
                         coordinator: coordinator.value!,
@@ -214,7 +222,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 self.tracker.initializeValues(from: environment.plist)
                 // <+2468>
                 // x29 - 0x158
-                let context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
+                context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA0cD20RepresentableContextVyxGyScMYcXEfU2_Tm
                     let context = PlatformViewRepresentableContext<Representable>(
                         coordinator: coordinator.value!,
@@ -279,11 +287,49 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             }
             
             // <+4312>
-            // x24
             let delegate = ViewGraph.current.delegate as? ViewRendererHost
             // <+4456>
             let attribute = Attribute<ViewLeafView<Representable>>(identifier: .current!)
-            ObservationCenter.current
+            ObservationCenter.current._withObservation(attribute: attribute) { 
+                Graph.withoutUpdate {
+                    // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_yyXEfU5_yyXEfU_
+                    /*
+                     delegate -> x0/x1 -> x29 - 0x78/0x80
+                     self -> x2 / x29 - 0x58
+                     context -> x3 / x29 - 0x70
+                     view -> x4 / x29 - 0x68
+                     */
+                    guard let representedViewProvider = self.representedViewProvider else {
+                        return
+                    }
+                    
+                    // <+340>
+                    // delegate -> x23
+                    let block = {
+                        // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_yyXEfU5_yyXEfU_yyXEfU_
+                        let values: UncheckedSendable<RepresentableContextValues> = MainActor.assumeIsolated { 
+                            // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AA17UncheckedSendableVyAA26RepresentableContextValuesVGyScMYcXEfU_Tm
+                            fatalError("TODO")
+                        }
+                        
+                        // <+316>
+                        fatalError("TODO")
+                    }
+                    
+                    if let delegate {
+                        Update.ensure { 
+                            delegate.performExternalUpdate { 
+                                block()
+                            }
+                        }
+                    } else {
+                        // <+520>
+                        block()
+                    }
+                }
+            }
+            
+            // <+5444>
             fatalError("TODO")
         }
     }
