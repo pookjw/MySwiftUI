@@ -53,6 +53,19 @@ fileprivate struct HostPreferencesWriter<T: PreferenceKey>: StatefulRule, AsyncA
     typealias Value = PreferenceValues
     
     func updateValue() {
+        // self -> x20 -> x26
+        // <+260>
+        // (x22, x19/x27)
+        let values: (PreferenceValues, Bool)
+        if let attribute = $childValues {
+            // <+312>
+            values = attribute.changedValue(options: [])
+        } else {
+            // <+284>
+            values = (PreferenceValues(), !keyRequested)
+        }
+        
+        // <+352>
         fatalError("TODO")
     }
 }

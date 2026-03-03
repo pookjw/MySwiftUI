@@ -10,13 +10,29 @@ struct HostPreferencesCombiner: Rule, AsyncAttribute {
     }
     
     var value: PreferenceValues {
-        fatalError("TODO")
+        /*
+         keys/values -> x0 -> x22
+         children -> x1 -> x19
+         return pointer -> x8 -> x20
+         */
+        // <+112>
+        var values = self.values ?? PreferenceValues()
+        
+        let count = children.count
+        if count != 0 {
+            PreferenceValues.combineHostKeyValues(into: &values, keys: self.keys, childIndices: 0..<count) { index in
+                let child = children[index]
+                return (child.keys ?? PreferenceKeys(), child.values ?? PreferenceValues())
+            }
+        }
+        
+        return values
     }
 }
 
 extension HostPreferencesCombiner {
     struct Child {
-        @WeakAttribute private var keys: PreferenceKeys?
-        @WeakAttribute private var values: PreferenceValues?
+        @WeakAttribute fileprivate var keys: PreferenceKeys?
+        @WeakAttribute fileprivate var values: PreferenceValues?
     }
 }
