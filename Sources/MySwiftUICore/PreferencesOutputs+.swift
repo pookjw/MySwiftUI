@@ -38,13 +38,13 @@ extension PreferencesOutputs {
 }
 
 fileprivate struct HostPreferencesWriter<T: PreferenceKey>: StatefulRule, AsyncAttribute, CustomStringConvertible {
-    @Attribute private(set) var keyValue: T.Value
-    @Attribute private(set) var keys: PreferenceKeys
-    @OptionalAttribute var childValues: PreferenceValues?
-    private(set) var keyRequested: Bool
-    private(set) var wasEmpty: Bool
-    private(set) var delta: UInt32
-    let nodeId: UInt32
+    @Attribute private(set) var keyValue: T.Value // 0x0
+    @Attribute private(set) var keys: PreferenceKeys // 0x4
+    @OptionalAttribute var childValues: PreferenceValues? // 0x8
+    private(set) var keyRequested: Bool // 0xc
+    private(set) var wasEmpty: Bool // 0x10
+    private(set) var delta: UInt32 // 0x14
+    let nodeId: UInt32 // 0x18
     
     var description: String {
         fatalError("TODO")
@@ -56,7 +56,7 @@ fileprivate struct HostPreferencesWriter<T: PreferenceKey>: StatefulRule, AsyncA
         // self -> x20 -> x26
         // <+260>
         // (x22, w19/w27)
-        let values: (PreferenceValues, Bool)
+        var values: (PreferenceValues, Bool)
         if let attribute = $childValues {
             // <+312>
             values = attribute.changedValue(options: [])
@@ -69,22 +69,51 @@ fileprivate struct HostPreferencesWriter<T: PreferenceKey>: StatefulRule, AsyncA
         
         // <+352>
         // values -> (x22/w19) -> (x29 - 0x68/x29 - 0x60)
+        let w19 = self.keyRequested
         
         let keys = self.$keys.changedValue(options: [])
+        
+        var shouldUpdate: Bool!
+        
         if !keys.changed {
-            if values.1 {
+            if w19 {
                 // <+396>
                 fatalError("TODO")
             } else {
                 // <+616>
-                fatalError("TODO")
+                if values.1 {
+                    // <+872>
+                    shouldUpdate = true
+                } else {
+                    // <+844>
+                    shouldUpdate = !hasValue
+                }
             }
         } else {
             // <+560>
             // keys.0 -> x21 -> x29 - 0x70 -> x20
-            keys.0.contains(T.self)
-            fatalError("TODO")
+            if keys.0.contains(T.self) {
+                // <+624>
+                fatalError("TODO")
+            } else if !w19 {
+                // <+616>
+                if values.1 {
+                    // <+872>
+                    shouldUpdate = true
+                } else {
+                    // <+844>
+                    shouldUpdate = !hasValue
+                }
+            } else {
+                keyRequested = false
+                values.1 = true
+                // <+872>
+                shouldUpdate = true
+            }
         }
-        fatalError("TODO")
+        
+        if shouldUpdate {
+            self.value = values.0
+        }
     }
 }
