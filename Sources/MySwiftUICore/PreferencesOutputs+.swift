@@ -70,9 +70,7 @@ fileprivate struct HostPreferencesWriter<T: PreferenceKey>: StatefulRule, AsyncA
         // <+352>
         // values -> (x22/w19) -> (x29 - 0x68/x29 - 0x60)
         let w19 = self.keyRequested
-        
         let keys = self.$keys.changedValue(options: [])
-        
         var shouldUpdate: Bool!
         
         if !keys.changed {

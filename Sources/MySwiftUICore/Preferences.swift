@@ -46,10 +46,6 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         keys = []
     }
     
-    private init(keys: [any PreferenceKey.Type]) {
-        self.keys = keys
-    }
-    
     mutating func remove(_ key: any PreferenceKey.Type) {
         let index = _index(of: key)
         guard index != count else {
@@ -64,10 +60,8 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         let count = count
         if index == count {
             return false
-        } else if (index < count) {
-            return true
         } else {
-            abort()
+            return keys[index] == key
         }
     }
     
@@ -123,22 +117,22 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         // x23
         let otherCount = otherKeys.count
         
-        var results: [any PreferenceKey.Type] = []
-        results.reserveCapacity(Swift.max(selfCount, otherCount))
+        var keys = PreferenceKeys()
+        keys.keys.reserveCapacity(Swift.max(selfCount, otherCount))
         
         if selfCount == 0 {
-            results.append(contentsOf: otherKeys)
+            keys.keys.append(contentsOf: otherKeys)
         } else {
-            results.append(contentsOf: selfKeys)
+            keys.keys.append(contentsOf: selfKeys)
             
             for otherKey in otherKeys {
-                if !results.contains(where: { $0 == otherKey }) {
-                    results.append(otherKey)
+                if !keys.keys.contains(where: { $0 == otherKey }) {
+                    keys.keys.append(otherKey)
                 }
             }
         }
         
-        return PreferenceKeys(keys: results)
+        return keys
     }
 }
 
