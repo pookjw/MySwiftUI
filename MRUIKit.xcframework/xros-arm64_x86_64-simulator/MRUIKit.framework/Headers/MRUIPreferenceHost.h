@@ -19,6 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface MRUIPreferenceHost : NSObject <MRUIPreferenceHost>
+@property (nonatomic, readonly, nonnull) NSDictionary<Class, id> *aggregatedPreferences;
+- (void)setValue:(id _Nullable)value forPreferenceKey:(Class)key;
+- (id _Nullable)aggregatedPreferenceForKey:(Class)key;
+- (NSDictionary<Class, id> *)aggregatedPreferences;
 @end
 
 NS_ASSUME_NONNULL_END

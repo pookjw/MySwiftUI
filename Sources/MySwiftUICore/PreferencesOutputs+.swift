@@ -42,9 +42,9 @@ fileprivate struct HostPreferencesWriter<T: PreferenceKey>: StatefulRule, AsyncA
     @Attribute private(set) var keys: PreferenceKeys // 0x4
     @OptionalAttribute var childValues: PreferenceValues? // 0x8
     private(set) var keyRequested: Bool // 0xc
-    private(set) var wasEmpty: Bool // 0x10
-    private(set) var delta: UInt32 // 0x14
-    let nodeId: UInt32 // 0x18
+    private(set) var wasEmpty: Bool // 0xd
+    private(set) var delta: UInt32 // 0x10
+    let nodeId: UInt32 // 0x14
     
     var description: String {
         fatalError("TODO")
@@ -60,58 +60,117 @@ fileprivate struct HostPreferencesWriter<T: PreferenceKey>: StatefulRule, AsyncA
         if let attribute = $childValues {
             // <+312>
             values = attribute.changedValue(options: [])
-            self.keyRequested = true
+            self.wasEmpty = false
         } else {
             // <+284>
-            values = (PreferenceValues(), !keyRequested)
-            self.keyRequested = false
+            values = (PreferenceValues(), !wasEmpty)
+            self.wasEmpty = true
         }
         
         // <+352>
         // values -> (x22/w19) -> (x29 - 0x68/x29 - 0x60)
         let w19 = self.keyRequested
         let keys = self.$keys.changedValue(options: [])
-        var shouldUpdate: Bool!
+        
+        /*
+         0 -> <+844>
+         1 -> <+872>
+         2 -> <+400>
+         */
+        var flag: UInt8!
         
         if !keys.changed {
             if w19 {
                 // <+396>
-                fatalError("TODO")
+                flag = 2
+                // <+400>
             } else {
                 // <+616>
                 if values.1 {
                     // <+872>
-                    shouldUpdate = true
+                    flag = 1
                 } else {
                     // <+844>
-                    shouldUpdate = !hasValue
+                    flag = 0
                 }
             }
         } else {
             // <+560>
             // keys.0 -> x21 -> x29 - 0x70 -> x20
-            if keys.0.contains(T.self) {
-                // <+624>
-                fatalError("TODO")
-            } else if !w19 {
-                // <+616>
-                if values.1 {
-                    // <+872>
-                    shouldUpdate = true
+            let contains = keys.0.contains(T.self)
+            
+            if contains {
+                if w19 {
+                    // <+400>
+                    flag = 2
                 } else {
-                    // <+844>
-                    shouldUpdate = !hasValue
+                    keyRequested = true
+                    values.1 = true
+                    // <+400>
+                    flag = 2
                 }
             } else {
-                keyRequested = false
-                values.1 = true
-                // <+872>
-                shouldUpdate = true
+                if w19 {
+                    keyRequested = false
+                    values.1 = true
+                    // <+872>
+                    flag = 1
+                } else {
+                    // <+392>
+                    // <+616>
+                    if values.1 {
+                        // <+872>
+                        flag = 1
+                    } else {
+                        // <+844>
+                        flag = 0
+                    }
+                }
             }
         }
         
-        if shouldUpdate {
+        if flag == 0 {
+            // <+844>
+            if !hasValue {
+                self.value = values.0
+            }
+        } else if flag == 1 {
+            // <+872>
             self.value = values.0
+        } else if flag == 2 {
+            // <+400>
+            var w27 = delta
+            // x23 / x23 + (size) -> x28
+            let keyValue = self.$keyValue.changedValue(options: [])
+            
+            if keyValue.changed {
+                // <+536>
+                w27 &+= 1
+                self.delta = w27
+                values.1 = true
+                // <+692>
+            } else {
+                // <+680>
+                if !values.1 {
+                    // <+828>
+                    // <+844>
+                    if !hasValue {
+                        self.value = values.0
+                    }
+                    return
+                }
+                
+                // <+692>
+            }
+            
+            // <+692>
+            let seed = VersionSeed(nodeId: nodeId, viewSeed: w27)
+            let value = PreferenceValues.Value(value: keyValue.value, seed: seed)
+            values.0[T.self] = value
+            // <+872>
+            self.value = values.0
+        } else {
+            abort()
         }
     }
 }
