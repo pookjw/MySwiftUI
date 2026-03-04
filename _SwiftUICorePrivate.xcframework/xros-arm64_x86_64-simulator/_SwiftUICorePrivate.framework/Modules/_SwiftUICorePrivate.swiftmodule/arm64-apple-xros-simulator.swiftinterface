@@ -1936,3 +1936,18 @@ extension SwiftUI.Material {
   public static var toolbarButton: SwiftUI.Material { get }
   public static func _intelligenceLightSource(prefersAudioReactivity: Swift.Bool) -> SwiftUI.Material
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct VersionSeed: Swift.CustomStringConvertible {
+  public init(nodeId: Swift.UInt32, viewSeed: Swift.UInt32)
+  public static var invalid: _SwiftUICorePrivate.VersionSeed { get }
+  public static var empty: _SwiftUICorePrivate.VersionSeed { get }
+  public func matches(_ other: _SwiftUICorePrivate.VersionSeed) -> Swift.Bool
+  public mutating func merge(_ other: _SwiftUICorePrivate.VersionSeed)
+  public var isEmpty: Swift.Bool { get }
+  public init(value: Swift.UInt32)
+  public var isInvalid: Swift.Bool { get }
+  public mutating func mergeValue(_ value: Swift.UInt32)
+  public var description: Swift.String { get }
+}

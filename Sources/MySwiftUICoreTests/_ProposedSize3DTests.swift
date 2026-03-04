@@ -1,5 +1,5 @@
 private import _SwiftUICorePrivate
-@testable private import MySwiftUICore
+@_spi(Internal) @testable private import MySwiftUICore
 internal import Testing
 private import SwiftUI
 private import Spatial

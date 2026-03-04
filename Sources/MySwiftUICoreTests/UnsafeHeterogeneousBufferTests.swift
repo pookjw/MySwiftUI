@@ -1,5 +1,5 @@
 internal import Testing
-@testable private import MySwiftUICore
+@_spi(Internal) @testable private import MySwiftUICore
 
 struct UnsafeHeterogeneousBufferTests {
     @Test

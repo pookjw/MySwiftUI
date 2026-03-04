@@ -115,7 +115,11 @@ package final class RunLoopTaskExecutor: TaskExecutor {
     }
     
     package func asUnownedTaskExecutor() -> UnownedTaskExecutor {
-        return UnownedTaskExecutor(self)
+        if #available(visionOS 26.4, *) {
+            return UnownedTaskExecutor(self)
+        } else {
+            fatalError()
+        }
     }
     
     package func enqueue(_ job: consuming ExecutorJob) {
