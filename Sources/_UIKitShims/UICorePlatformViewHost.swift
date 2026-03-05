@@ -532,13 +532,35 @@ public import _UIKitPrivate
         
         // <+312>
         // coreUIViewController -> x29 - 0x78
-        // x24
-        let environment = self.environment
-        // x27
-        let viewPhase = self.viewPhase
-        
         // <+336>
-        fatalError("TODO")
+        // x25
+        let wrapper = self.makeEnvironmentWrapper(self.environment, viewPhase: self.viewPhase)
+        // x20
+        let resolved = self.resolvedTraitCollection(baseTraitCollection: self.traitCollection, environment: self.environment, wrapper: wrapper)
+        
+        ViewGraphHostUpdate.enqueueAction { [weak coreUIViewController] in
+            /*
+             self -> x0 -> x19
+             resolved -> x1 -> x22
+             vc -> x2 -> x21
+             colorSchemeChanged -> w3 -> w20
+             */
+            // x23
+            if let coreUIViewController {
+                coreUIViewController.setOverrideTraitCollection(resolved, forChild: vc)
+            }
+            
+            // <+92>
+            vc.updateTraitsIfNeeded()
+            
+            if colorSchemeChanged, let coreUIViewController {
+#if os(visionOS)
+                coreUIViewController.msui_setNeedsStatusBarAppearanceUpdate()
+#else
+                coreUIViewController.setNeedsStatusBarAppearanceUpdate()
+#endif
+            }
+        }
     }
 }
 
