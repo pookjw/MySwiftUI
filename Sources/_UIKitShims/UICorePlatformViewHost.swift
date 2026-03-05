@@ -2,7 +2,7 @@
 public import UIKit
 public import _UIKitPrivate
 
-@_spi(Internal) open class UICorePlatformViewHost<Representable: CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView, CoreViewRepresentableHost {
+@_spi(Internal) @MainActor open class UICorePlatformViewHost<Representable: CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView, CoreViewRepresentableHost {
     private var environment: EnvironmentValues // 0x210
     private var viewPhase: ViewGraphHost.Phase // 0x220
     public let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
@@ -296,8 +296,7 @@ public import _UIKitPrivate
             self.vc = coreRepresentedViewProvider as! UIViewController
         } else {
             // <+1028>
-            let platformView = Representable.platformView(for: coreRepresentedViewProvider) as! UIView
-            self.hostedView = platformView
+            self.hostedView = self.platformView
         }
         
         // <+1052>
@@ -313,6 +312,10 @@ public import _UIKitPrivate
         _ = ViewGraphRootValues.environment
         
         updateColorScheme(needsStatusBarAppearanceUpdate: false)
+    }
+    
+    private var platformView: UIView {
+        return Representable.platformView(for: coreRepresentedViewProvider) as! UIView
     }
     
     private func update(newEnvironment: EnvironmentValues, newViewPhase: ViewGraphHost.Phase) {
@@ -455,7 +458,28 @@ public import _UIKitPrivate
     }
     
     open func coreUpdateEnvironment(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x19
+         environment -> x0 -> x21
+         viewPhase -> x1 -> x29 - 0x58
+         */
+        // <+248>
+        // x29 - 0x7c
+        let isEqual = self.environment.colorScheme == environment.colorScheme
+        // <+352>
+        // w22
+        let isIdentical = self.environment.isIdentical(to: environment)
+        
+        self.environment = environment
+        self.viewPhase = viewPhase
+        
+        if !isIdentical {
+            // <+492>
+            updateNestedHosts(.environment, colorSchemeChanged: !isEqual)
+        }
+        
+        // <+516>
+        updateView(environment: environment, view: platformView)
     }
     
     open func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: Axis.Set) -> CGSize {
@@ -482,7 +506,38 @@ public import _UIKitPrivate
         fatalError("TODO")
     }
     
-    func updateNestedHosts(_: ViewGraphRootValues, colorSchemeChanged: Bool) {
+    final func updateNestedHosts(_ values: ViewGraphRootValues, colorSchemeChanged: Bool) {
+        // values는 안 쓰임
+        /*
+         self -> x20 -> x21
+         colorSchemeChanged -> x0 -> x25
+         */
+        // <+152>
+        // x29 - 0x68
+        guard let vc else {
+            self._noteTraitsDidChangeRecursively()
+            return
+        }
+        
+        // <+188>
+        // x20
+        guard
+            let host,
+            let provider = host.as(UICoreViewControllerProvider.self),
+            // colorSchemeChanged -> x29 - 0x6c
+            let coreUIViewController = provider.coreUIViewController
+        else {
+            return
+        }
+        
+        // <+312>
+        // coreUIViewController -> x29 - 0x78
+        // x24
+        let environment = self.environment
+        // x27
+        let viewPhase = self.viewPhase
+        
+        // <+336>
         fatalError("TODO")
     }
 }

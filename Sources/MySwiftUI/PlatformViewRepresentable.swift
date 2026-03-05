@@ -1,14 +1,16 @@
 // A513612C07DFA438E70B9FA90719B40D
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
+@_spi(Internal) internal import _UIKitShims
 internal import AttributeGraph
+internal import MRUIKit
 
 protocol PlatformViewRepresentable: CoreViewRepresentable {
     static nonisolated func modifyBridgedViewInputs(_ inputs: inout _ViewInputs)
 }
 
 extension PlatformViewRepresentable {
-    static nonisolated func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy) {
+    static func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy) {
         let feature = PlatformViewRepresentableFeature(representableType: self)
         proxy.append(feature)
     }
@@ -34,7 +36,7 @@ protocol AnyPlatformViewHost {
     // TODO
 }
 
-struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
+@MainActor struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
     private(set) var inputs: _ViewInputs? // 0x0
     @OptionalAttribute var identifiedViews: _IdentifiedViewTree? // 0x54 (actual), 0x14 (offset field)
     @OptionalAttribute var focusedValues: FocusedValues? // 0x58 (actual), 0x18 (offset field)
@@ -256,5 +258,96 @@ fileprivate struct ViewResponderFilter<Representable: CoreViewRepresentable>: St
 struct RepresentablePreferredFocusableViewInput<Representable: CoreViewRepresentable>: ViewInput {
     static var defaultValue: OptionalAttribute<Representable.PlatformViewProvider> {
         return OptionalAttribute()
+    }
+}
+
+final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
+    var importer: MRUIPreferenceImporter? = nil // 0x2d8
+    var focusedValues = FocusedValues() // 0x2e0
+    private(set) weak var responder: UIViewResponder? = nil // 0x300
+    
+    required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+        /*
+         coreRepresentedViewProvider -> x0 -> x29 - 0x98
+         host -> x1 -> x29 - 0x60
+         environment -> x2 -> x29 - 0x58
+         viewPhase -> x3 -> x29 - 0x68
+         */
+        super.init(coreRepresentedViewProvider, host: host, environment: environment, viewPhase: viewPhase)
+    }
+    
+    override var parentPreferenceHost: (any MRUIPreferenceHostProtocol)? {
+        fatalError("TODO")
+    }
+    
+    override var _parentGestureRecognizerContainer: (any _UIGestureRecognizerContainer)? {
+        fatalError("TODO")
+    }
+    
+    var isPlatformFocusContainerHost: Bool {
+        let value = UIKitPlatformViewHost
+            .UnarySubtreeSequence(root: self)
+            .first { view in
+                return view is UIScrollView
+            }
+        
+        return value != nil
+    }
+    
+    var focusView: UIView {
+        fatalError("TODO")
+    }
+    
+    override func makeEnvironmentWrapper(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
+        /*
+         self -> x20
+         environment -> x0 -> x29 - 0x88
+         viewPhase -> x1 -> x29 - 0x80
+         */
+        // <+148>
+        let wrapper = EnvironmentWrapper(focusedValues: self.focusedValues)
+        wrapper.environment = environment
+        wrapper.phase = viewPhase
+        return wrapper
+    }
+    
+    override func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
+        /*
+         baseTraitCollection -> x0 -> x20
+         environment -> x1 -> x21
+         wrapper -> x2 -> x19
+         */
+        // x20
+        // inlined
+        return baseTraitCollection.resolvedTraitCollection(environment: environment, wrapper: wrapper)
+    }
+}
+
+extension UIKitPlatformViewHost {
+    fileprivate struct UnarySubtreeSequence: Sequence {
+        typealias Element = UIView
+        typealias Iterator = AnyIterator<UIView>
+        
+        weak var root: UIView?
+        
+        func makeIterator() -> AnyIterator<UIView> {
+            weak var view = root
+            
+            return AnyIterator<UIView> {
+                // $s7SwiftUI21UIKitPlatformViewHostC20UnarySubtreeSequence33_A513612C07DFA438E70B9FA90719B40DLLV12makeIteratorQryFSo6UIViewCSgycfU_TA
+                // x21
+                guard let _view = view else {
+                    return nil
+                }
+                
+                if (_view.subviews.count != 1) || _view.subviews.isEmpty {
+                    view = nil
+                } else {
+                    view = _view.subviews[0]
+                }
+                
+                return _view
+            }
+        }
     }
 }

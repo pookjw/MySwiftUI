@@ -1,11 +1,11 @@
 // 005A2BB2D44F4D559B7E508DC5B95FFB
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
-@_spi(Internal) internal import _UIKitShims
-internal import MRUIKit
 #if SwiftUICompataibility
 private import SwiftUI
 #endif
+private import RealitySimulationServices
+private import _UIKitPrivate
 
 final class UIKitPlatformColorDefinition: PlatformColorDefinition {
     override class var system: PlatformSystemDefinition {
@@ -59,6 +59,14 @@ extension UITraitCollection {
         resolved = self.resolvedPostEnvironment(base: resolved)
         resolved = self.coreResolvedGlassMaterialEnvironment(base: resolved)
         return resolved
+    }
+    
+    @inline(__always)
+    func resolvedTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
+        let resolved_1 = self.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
+        let resolved_2 = resolved_1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: [])
+        let resolved_3 = resolved_2.coreResolvedGlassMaterialTraitCollection(environment: environment, wrapper: wrapper)
+        return resolved_3
     }
     
     fileprivate func resolvedPreEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
@@ -236,65 +244,6 @@ extension UITraitCollection {
         
         // <+796>
         return UITraitCollection(traitsFrom: array)
-    }
-}
-
-final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
-    var importer: MRUIPreferenceImporter? = nil // 0x2d8
-    var focusedValues = FocusedValues() // 0x2e0
-    private(set) weak var responder: UIViewResponder? = nil // 0x300
-    
-    required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
-        /*
-         coreRepresentedViewProvider -> x0 -> x29 - 0x98
-         host -> x1 -> x29 - 0x60
-         environment -> x2 -> x29 - 0x58
-         viewPhase -> x3 -> x29 - 0x68
-         */
-        super.init(coreRepresentedViewProvider, host: host, environment: environment, viewPhase: viewPhase)
-    }
-    
-    override var parentPreferenceHost: (any MRUIPreferenceHostProtocol)? {
-        fatalError("TODO")
-    }
-    
-    override var _parentGestureRecognizerContainer: (any _UIGestureRecognizerContainer)? {
-        fatalError("TODO")
-    }
-    
-    var isPlatformFocusContainerHost: Bool {
-        fatalError("TODO")
-    }
-    
-    var focusView: UIView {
-        fatalError("TODO")
-    }
-    
-    override func makeEnvironmentWrapper(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
-        /*
-         self -> x20
-         environment -> x0 -> x29 - 0x88
-         viewPhase -> x1 -> x29 - 0x80
-         */
-        // <+148>
-        let wrapper = EnvironmentWrapper(focusedValues: self.focusedValues)
-        wrapper.environment = environment
-        wrapper.phase = viewPhase
-        return wrapper
-    }
-    
-    override func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
-        /*
-         baseTraitCollection -> x0 -> x20
-         environment -> x1 -> x21
-         wrapper -> x2 -> x19
-         */
-        // x20
-        let resolved_1 = baseTraitCollection.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
-        // x22
-        let resolved_2 = resolved_1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: [])
-        let resolved_3 = resolved_2.coreResolvedGlassMaterialTraitCollection(environment: environment, wrapper: wrapper)
-        return resolved_3
     }
 }
 

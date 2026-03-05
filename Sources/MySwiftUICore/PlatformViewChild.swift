@@ -190,8 +190,17 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 let tracker = self.tracker
                 tracker.initializeValues(from: environment.plist)
                 // <+2468>
-                Graph.withoutUpdate { 
+                Graph.withoutUpdate {
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_yyXEfU1_
+                    /*
+                     phaseChanged -> w0
+                     environmentChanged -> w1
+                     hasLeafView -> w2
+                     */
+                    guard (phaseChanged == .changed || environmentChanged == .changed) && hasLeafView else {
+                        return
+                    }
+                    
                     platformView.coreUpdateEnvironment(environment, viewPhase: ViewGraphHost.Phase(base: phase))
                 }
                 
