@@ -63,18 +63,18 @@ struct UpperLimbsVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
 }
 
 extension UpperLimbsVisibilityKey {
-    struct PreferredValue {
+    struct PreferredValue: Equatable {
         fileprivate private(set) var visibility: UpperLimbVisibility
         fileprivate private(set) var animation: Animation?
     }
 }
 
-struct UpperLimbVisibility {
+struct UpperLimbVisibility: Hashable {
     fileprivate private(set) var storage: UpperLimbVisibility.Storage
 }
 
 extension UpperLimbVisibility {
-    enum Storage {
+    enum Storage: Hashable {
         case automatic
         case visible
         case hidden

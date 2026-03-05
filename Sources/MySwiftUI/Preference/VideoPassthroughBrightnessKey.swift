@@ -40,7 +40,7 @@ struct VideoPassthroughBrightnessKey: MRUIBridgedPreferenceKey, HostPreferenceKe
 }
 
 extension VideoPassthroughBrightnessKey {
-    struct PreferredValue {
+    struct PreferredValue: Equatable {
         fileprivate private(set) var brightness: Double
         fileprivate private(set) var animation: Animation?
     }

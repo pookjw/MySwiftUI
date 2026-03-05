@@ -35,7 +35,7 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
 }
 
 extension PreferredAnchoredPlaneKey {
-    struct PreferredValue {
+    struct PreferredValue: Equatable {
         var plane: AnchoredPlane
         var animation: Animation?
     }

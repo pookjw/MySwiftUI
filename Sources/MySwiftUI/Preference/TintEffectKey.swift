@@ -51,7 +51,7 @@ struct TintEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
 }
 
 extension TintEffectKey {
-    struct PreferredValue {
+    struct PreferredValue: Equatable {
         fileprivate private(set) var effect: SurroundingsEffectKind.Resolved
         fileprivate private(set) var animation: Animation?
     }

@@ -55,7 +55,7 @@ struct SystemDefinedSurroundingsEffectKey: MRUIBridgedPreferenceKey, HostPrefere
 }
 
 extension SystemDefinedSurroundingsEffectKey {
-    struct PreferredValue {
+    struct PreferredValue: Equatable {
         fileprivate private(set) var level: SurroundingsEffectKind.Resolved
         fileprivate private(set) var animation: Animation?
     }

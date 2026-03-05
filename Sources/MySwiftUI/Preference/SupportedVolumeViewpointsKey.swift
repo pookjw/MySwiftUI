@@ -1,5 +1,6 @@
 internal import MySwiftUICore
 internal import MRUIKit
+internal import Foundation
 
 struct SupportedVolumeViewpointsKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: SupportedVolumeViewpointsKey.PreferredValue? {
@@ -15,20 +16,31 @@ struct SupportedVolumeViewpointsKey: MRUIBridgedPreferenceKey, HostPreferenceKey
     }
     
     static func bridgedValue(from value: SupportedVolumeViewpointsKey.PreferredValue?) -> NSNumber? {
-        fatalError()
+        guard let value else {
+            return nil
+        }
+        
+        return value.supportedViewpoints.rawValue as NSNumber
     }
     
     static func value(from bridgedValue: NSNumber?) -> SupportedVolumeViewpointsKey.PreferredValue? {
-        fatalError()
+        guard let bridgedValue else {
+            return nil
+        }
+        
+        return SupportedVolumeViewpointsKey.PreferredValue(
+            supportedViewpoints: SquareAzimuth.Set(rawValue: bridgedValue.intValue),
+            animation: nil
+        )
     }
     
     static func animation(from value: SupportedVolumeViewpointsKey.PreferredValue?) -> Animation? {
-        fatalError()
+        return value?.animation
     }
 }
 
 extension SupportedVolumeViewpointsKey {
-    struct PreferredValue {
+    struct PreferredValue: Equatable {
         var supportedViewpoints: SquareAzimuth.Set
         var animation: Animation?
     }
