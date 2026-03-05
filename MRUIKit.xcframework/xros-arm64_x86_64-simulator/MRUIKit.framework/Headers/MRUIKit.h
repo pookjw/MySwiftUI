@@ -21,3 +21,4 @@
 #import <MRUIKit/MRUIDisplayContentModePreferenceKey.h>
 #import <MRUIKit/MRUISupportedVolumeViewpointsPreferenceKey.h>
 #import <MRUIKit/UIView+MRUIPrivate.h>
+#import <MRUIKit/NSValue+MRUIPrivate.h>

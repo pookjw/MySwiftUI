@@ -16,15 +16,21 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     }
     
     static func bridgedValue(from value: PreferredAnchoredPlaneKey.PreferredValue?) -> RSSPlacementTarget? {
-        fatalError()
+        // value -> x0 -> x23 -> x24
+        guard let value else {
+            return nil
+        }
+        
+        // <+340>
+        fatalError("TODO")
     }
     
     static func value(from bridgedValue: RSSPlacementTarget?) -> PreferredAnchoredPlaneKey.PreferredValue? {
-        fatalError()
+        fatalError("TODO")
     }
     
     static func animation(from value: PreferredAnchoredPlaneKey.PreferredValue?) -> Animation? {
-        fatalError()
+        return value?.animation
     }
 }
 

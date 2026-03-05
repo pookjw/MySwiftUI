@@ -147,7 +147,6 @@ fileprivate struct ImportedPreference<T: MRUIBridgedPreferenceKey>: StatefulRule
     typealias Value = T.Value
     
     func updateValue() {
-        // self -> x20 -> x27
         let value: T.Value?
         if let host {
             value = host[T.self]
@@ -155,8 +154,7 @@ fileprivate struct ImportedPreference<T: MRUIBridgedPreferenceKey>: StatefulRule
             value = nil
         }
         
-        // <+300>
-        fatalError("TODO")
+        self.value = value ?? T.defaultValue
     }
 }
 

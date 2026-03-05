@@ -19,16 +19,28 @@ struct VolumeBaseplateVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey
     }
     
     static func value(from bridgedValue: NSNumber?) -> VolumeBaseplateVisibilityKey.PreferredValue? {
-        fatalError()
+        guard let bridgedValue else {
+            return nil
+        }
+        
+        guard let visibility = Visibility(rawValue: bridgedValue.intValue) else {
+            return nil
+        }
+        
+        return VolumeBaseplateVisibilityKey.PreferredValue(
+            visibility: visibility,
+            animation: nil
+        )
     }
     
     static func animation(from value: VolumeBaseplateVisibilityKey.PreferredValue?) -> Animation? {
-        fatalError()
+        return value?.animation
     }
 }
 
 extension VolumeBaseplateVisibilityKey {
     struct PreferredValue {
-        // TODO
+        fileprivate private(set) var visibility: Visibility
+        fileprivate private(set) var animation: Animation?
     }
 }

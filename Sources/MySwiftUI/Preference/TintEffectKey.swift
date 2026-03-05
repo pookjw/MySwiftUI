@@ -1,5 +1,7 @@
 internal import MySwiftUICore
 internal import MRUIKit
+private import simd
+internal import Foundation
 
 struct TintEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: TintEffectKey.PreferredValue? {
@@ -15,20 +17,42 @@ struct TintEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     }
     
     static func bridgedValue(from value: TintEffectKey.PreferredValue?) -> NSValue? {
-        fatalError()
+        guard case let .customColor(color) = value?.effect else {
+            return nil
+        }
+        
+        let value = simd_float3(x: color.red, y: color.green, z: color.blue)
+        return NSValue._mrui_value(withSIMDFloat3: value)
     }
     
     static func value(from bridgedValue: NSValue?) -> TintEffectKey.PreferredValue? {
-        fatalError()
+        guard let bridgedValue else {
+            return nil
+        }
+        
+        let values = bridgedValue._mrui_SIMDFloat3Value()
+        
+        return TintEffectKey.PreferredValue(
+            effect: .customColor(
+                Color.Resolved(
+                    colorSpace: .sRGB,
+                    red: values[0],
+                    green: values[1],
+                    blue: values[2],
+                    opacity: 1)
+            ),
+            animation: nil
+        )
     }
     
     static func animation(from value: TintEffectKey.PreferredValue?) -> Animation? {
-        fatalError()
+        return value?.animation
     }
 }
 
 extension TintEffectKey {
     struct PreferredValue {
-        // TODO
+        fileprivate private(set) var effect: SurroundingsEffectKind.Resolved
+        fileprivate private(set) var animation: Animation?
     }
 }

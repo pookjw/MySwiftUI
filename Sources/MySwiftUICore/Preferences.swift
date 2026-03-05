@@ -441,10 +441,8 @@ package struct PreferenceValues {
             }
         }
         set {
-            fatalError("TODO")
-        }
-        _modify {
-            fatalError("TODO")
+            let index = _index(of: key)
+            setValue(newValue, of: key, at: index)
         }
     }
     
@@ -473,6 +471,21 @@ package struct PreferenceValues {
             i += 1
         }
         return i
+    }
+    
+    fileprivate mutating func setValue<T>(_ value: PreferenceValues.Value<T>, of key: any PreferenceKey.Type, at index: Int) {
+        /*
+         value -> x0 -> x24
+         key -> x1/x2 -> x26/x25
+         index -> x3 -> x19
+         */
+        if (entries.count == index) || (entries[index].key != T.self) {
+            if !value.seed.isEmpty {
+                // <+156>
+                let entry = PreferenceValues.Entry(key: key, seed: value.seed, value: value.value)
+                entries.insert(entry, at: index)
+            }
+        }
     }
 }
 

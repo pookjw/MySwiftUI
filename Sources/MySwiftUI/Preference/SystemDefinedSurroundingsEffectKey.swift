@@ -1,5 +1,6 @@
 internal import MySwiftUICore
 internal import MRUIKit
+internal import Foundation
 
 struct SystemDefinedSurroundingsEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: SystemDefinedSurroundingsEffectKey.PreferredValue? {
@@ -15,20 +16,47 @@ struct SystemDefinedSurroundingsEffectKey: MRUIBridgedPreferenceKey, HostPrefere
     }
     
     static func bridgedValue(from value: SystemDefinedSurroundingsEffectKey.PreferredValue?) -> NSNumber? {
-        fatalError()
+        guard case let .system(level) = value?.level else {
+            return nil
+        }
+        
+        switch level {
+        case .semiDark:
+            return 1 as NSNumber
+        case .dark:
+            return 2 as NSNumber
+        case .ultraDark:
+            return 3 as NSNumber
+        }
     }
     
     static func value(from bridgedValue: NSNumber?) -> SystemDefinedSurroundingsEffectKey.PreferredValue? {
-        fatalError()
+        guard let bridgedValue else {
+            return nil
+        }
+        
+        let level: SystemTintLevel
+        if bridgedValue == 1 {
+            level = .semiDark
+        } else if bridgedValue == 2 {
+            level = .dark
+        } else if bridgedValue == 3 {
+            level = .ultraDark
+        } else {
+            return nil
+        }
+        
+        return SystemDefinedSurroundingsEffectKey.PreferredValue(level: .system(level), animation: nil)
     }
     
     static func animation(from value: SystemDefinedSurroundingsEffectKey.PreferredValue?) -> Animation? {
-        fatalError()
+        return value?.animation
     }
 }
 
 extension SystemDefinedSurroundingsEffectKey {
     struct PreferredValue {
-        // TODO
+        fileprivate private(set) var level: SurroundingsEffectKind.Resolved
+        fileprivate private(set) var animation: Animation?
     }
 }
