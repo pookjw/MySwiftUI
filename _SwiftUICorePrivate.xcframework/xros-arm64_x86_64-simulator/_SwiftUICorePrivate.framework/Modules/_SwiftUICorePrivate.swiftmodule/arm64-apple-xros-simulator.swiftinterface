@@ -1951,3 +1951,12 @@ public struct VersionSeed: Swift.CustomStringConvertible {
   public mutating func mergeValue(_ value: Swift.UInt32)
   public var description: Swift.String { get }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct SafeAreaInsets {
+  public enum OptionalValue {
+    indirect case insets(SafeAreaInsets)
+    case empty
+  }
+}

@@ -384,7 +384,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
 }
 
-@_spi(Internal) public struct ViewLeafView<Representable: CoreViewRepresentable>: UnaryView, PrimitiveView, PlatformViewFactory {
+@_spi(Internal) public struct ViewLeafView<Representable: CoreViewRepresentable>: UnaryView, PrimitiveView, @preconcurrency PlatformViewFactory {
     let content: Representable
     let platformView: Representable.Host
     private var coordinator: Representable.Coordinator
@@ -527,26 +527,26 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
         
         // <+344>
         var d8: CGFloat
-        let d9: CGFloat
+        var d9: CGFloat
         do {
             let position = self.position
             d8 = position.x
             d9 = position.y
         }
         
-        let d0: CGFloat
-        let d1: CGFloat
+        var d0: CGFloat
+        var d1: CGFloat
         do {
             let containerPosition = self.containerPosition
             d0 = containerPosition.x
             d1 = containerPosition.y
         }
         
-        let d10 = d8 - d0
+        var d10 = d8 - d0
         d8 = d9 - d1
         
-        let d15: CGFloat
-        let d11: CGFloat
+        var d15: CGFloat
+        var d11: CGFloat
         do {
             let size = self.size
             d15 = size.width
@@ -563,22 +563,92 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
         }
         
         // <+496>
-        if !options.contains(.stretchesWithWindowSizeStayPutPriority) {
+        if options.contains(.propagatesSafeArea) {
             // <+516>
             let context = AnyRuleContext(attribute: .current!)
-            /*
-             d11 -> x19 + 0x8
-             d10 -> x19 + 0x10
-             d8 -> x19 + 0x18
-             */
+            let x190x8 = d11
+            let x190x10 = d10
+            let x190x18 = d8
+            
+            var d14: CGFloat = 0
+            d10 = 0
+            d9 = 0
+            d11 = 0
             if let safeAreaInsetsAttribute = $safeAreaInsets {
                 // x19 + 0xe0, x19 + 0xf0
                 let safeAreaInsets = context.changedValue(of: safeAreaInsetsAttribute, options: [])
+                // x29 - 0x100
+                let placementContext = _PositionAwarePlacementContext(
+                    context: context,
+                    owner: context.attribute,
+                    size: $size,
+                    environment: _environment,
+                    transform: $transform,
+                    position: $position,
+                    safeAreaInsets: OptionalAttribute(safeAreaInsetsAttribute)
+                )
+                
+                let resolved = safeAreaInsets.value.resolve(regions: .all, cornerAdaptation: [], in: placementContext)
+                d14 = resolved.top
+                d10 = resolved.leading
+                d9 = resolved.bottom
+                d11 = resolved.trailing
             }
-            fatalError("TODO")
+            
+            // <+688>
+            // x29 - 0x100
+            // w23
+            let layoutDirection = environment.layoutDirection
+            
+            var d12 = (layoutDirection == .rightToLeft) ? d10 : d11
+            var d13 = (layoutDirection == .rightToLeft) ? d11 : d10
+            
+            d1 = x190x10
+            d8 = x190x18
+            
+            d1 = d1 - d13
+            d8 = d8 - d14
+            d0 = d10 + d11
+            d10 = d1
+            d1 = d14 + d9
+            d15 = d15 + d0
+            d11 = x190x8
+            d11 = d11 + d1
+            
+            // <+840>
+            d0 = d14
+            d1 = d13
+            let d2 = d9
+            let d3 = d12
+            
+            view.value.platformView.coreUpdateSafeAreaInsets(
+                EdgeInsets(top: d0, leading: d1, bottom: d2, trailing: d3)
+            )
+            // <+968>
         }
         
         // <+968>
+        // x19 + 0xe0
+        var item = DisplayList.Item(
+            .content(DisplayList.Content(.platformView(view.value), seed: contentSeed)),
+            frame: CGRect(x: d10, y: d8, width: d15, height: d11),
+            identity: identity,
+            version: newVersion
+        )
+        
+        // <+1084>
+        item.canonicalize(options: .defaultValue)
+        // x29 - 0x100
+        let copy_1 = item
+        
+        if case .empty = copy_1.value {
+            // <+1132>
+            fatalError("TODO")
+        } else {
+            // <+1176>
+            fatalError("TODO")
+        }
+        
         fatalError("TODO")
     }
 }

@@ -96,14 +96,15 @@ extension LayoutComputer: Equatable {
 }
 
 struct _PositionAwarePlacementContext {
-    private var context: AnyRuleContext
-    private var owner: AnyAttribute
-    @Attribute private var size: ViewSize
-    @Attribute private var environment: EnvironmentValues
-    @Attribute private var transform: ViewTransform
-    @Attribute private var position: CGPoint
-    @OptionalAttribute private var safeAreaInsets: SafeAreaInsets?
+    private(set) var context: AnyRuleContext
+    private(set) var owner: AnyAttribute
+    @Attribute private(set) var size: ViewSize
+    @Attribute private(set) var environment: EnvironmentValues
+    @Attribute private(set) var transform: ViewTransform
+    @Attribute private(set) var position: CGPoint
+    @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
 }
+
 
 protocol LayoutEngine {
     func layoutPriority() -> Double

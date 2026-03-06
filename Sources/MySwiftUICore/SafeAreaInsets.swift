@@ -6,6 +6,10 @@ struct SafeAreaInsets {
     var space: CoordinateSpace.ID
     var elements: [SafeAreaInsets.Element]
     var next: SafeAreaInsets.OptionalValue
+    
+    func resolve(regions: SafeAreaRegions, cornerAdaptation: Edge.Set, in context: _PositionAwarePlacementContext) -> EdgeInsets {
+        fatalError("TODO")
+    }
 }
 
 extension SafeAreaInsets {
@@ -18,8 +22,8 @@ extension SafeAreaInsets {
 
 extension SafeAreaInsets {
     enum OptionalValue {
-        indirect case insets(SafeAreaInsets)
-        case empty
+        indirect case insets(SafeAreaInsets) // 0x1
+        case empty // 0x0
     }
 }
 
@@ -125,12 +129,30 @@ extension _SafeAreaInsetsModifier {
     }
     
     fileprivate struct Insets: Rule, AsyncAttribute {
-        var value: SafeAreaInsets {
-            fatalError("TODO")
-        }
         let space: CoordinateSpace.ID
         @Attribute var modifier: _SafeAreaInsetsModifier
         @OptionalAttribute var next: SafeAreaInsets?
+        
+        var value: SafeAreaInsets {
+            /*
+             space -> x24
+             modifier -> w23
+             next -> w22
+             */
+            let value: SafeAreaInsets.OptionalValue
+            if case .insets(_) = modifier.nextInsets, let next = $next {
+                value = .insets(next.value)
+            } else {
+                value = .empty
+            }
+            
+            let existing = modifier
+            return SafeAreaInsets(
+                space: space,
+                elements: existing.elements,
+                next: value
+            )
+        }
     }
 }
 
