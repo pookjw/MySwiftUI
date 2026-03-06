@@ -643,12 +643,13 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
         
         if case .empty = copy_1.value {
             // <+1132>
-            fatalError("TODO")
+            // <+2176>
         } else {
             // <+1176>
             fatalError("TODO")
         }
         
+        // <+2176>
         fatalError("TODO")
     }
 }
