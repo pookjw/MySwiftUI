@@ -250,16 +250,26 @@ public struct BloomFilter: Swift.Equatable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct StrongHash {
+  public init()
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct DisplayList {
     public struct Item {
       public enum Value {
-    case empty
+        case content(_SwiftUICorePrivate.DisplayList.Content)
+        case effect(_SwiftUICorePrivate.DisplayList.Effect, _SwiftUICorePrivate.DisplayList)
+        case states([(_SwiftUICorePrivate.StrongHash, _SwiftUICorePrivate.DisplayList)])
+        case empty
       }
 
       public init(_: _SwiftUICorePrivate.DisplayList.Item.Value, frame: CoreGraphics.CGRect, identity: _SwiftUICorePrivate._DisplayList_Identity, version: _SwiftUICorePrivate.DisplayList.Version)
     }
 
     public enum Effect {
+      case identity
     }
 
     public struct Version {

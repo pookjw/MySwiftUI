@@ -522,6 +522,7 @@ extension DisplayList {
 }
 
 extension DisplayList.Item {
+    // *(int *)(base + 0x18) >> 30 -> enum case (0, 1, 2, 3)
     enum Value {
         case content(DisplayList.Content)
         case effect(DisplayList.Effect, DisplayList)

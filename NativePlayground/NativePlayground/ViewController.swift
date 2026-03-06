@@ -1434,6 +1434,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        let items: [DisplayList.Item.Value] = [
+//            .effect(.identity, .init()),
+//            .states([]),
+//            .empty
+//        ]
+//        for item in items {
+//            withUnsafePointer(to: item) { pointer in
+//                let ptr = UnsafeRawPointer(pointer).assumingMemoryBound(to: Int.self)
+//                
+//                print(ptr.advanced(by: 0).pointee)
+//                print(ptr.advanced(by: 1).pointee)
+//                print(ptr.advanced(by: 2).pointee)
+//                print(ptr.advanced(by: 3).pointee &>> 30)
+//            }
+//        }
+        
         let hostingController = UIHostingController(rootView: MyViewRepresentable())
 //        let hostingController = UIHostingController(rootView: MyViewControllerRepresentable())
         addChild(hostingController)
