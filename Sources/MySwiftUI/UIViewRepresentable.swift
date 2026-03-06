@@ -89,7 +89,7 @@ extension UIViewRepresentable {
     
     @available(iOS 17.0, tvOS 17.0, watchOS 10.0, *)
     @MainActor @preconcurrency public static func _layoutOptions(_ provider: Self.UIViewType) -> Self.LayoutOptions {
-        fatalError("TODO")
+        return _PlatformViewRepresentableLayoutOptions(rawValue: CoreViewRepresentableLayoutOptions.default.rawValue)
     }
     
     @MainActor @preconcurrency public var body: Never {
@@ -191,7 +191,8 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     static func layoutOptions(_ provider: Base.UIViewType) -> CoreViewRepresentableLayoutOptions {
-        fatalError("TODO")
+        let options = Base._layoutOptions(provider)
+        return CoreViewRepresentableLayoutOptions(rawValue: options.rawValue)
     }
     
     static func platformView(for provider: Base.UIViewType) -> AnyObject {

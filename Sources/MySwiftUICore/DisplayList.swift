@@ -494,12 +494,12 @@ extension DisplayList {
             value = decodedValue
         }
         
-        init(_ version: DisplayList.Version) {
+        @inlinable init(_ version: DisplayList.Version) {
             var w9 = version.value
             if w9 == 0 {
                 value = 0
             } else {
-                var w10 = (w9 &>> 0x10)
+                var w10 = (w9 &>> 16)
                 w10 = (w10 &+ (w10 &<< 5))
                 w9 = (w10 ^ w9)
                 w10 = 1

@@ -396,7 +396,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     var representedViewProvider: Representable.PlatformViewProvider {
-        fatalError("TODO")
+        return unsafeBitCast(platformView.coreRepresentedViewProvider, to: Representable.PlatformViewProvider.self)
     }
     
     func makePlatformView() -> AnyObject? {
@@ -498,15 +498,15 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
 }
 
 fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>: StatefulRule {
-    let identity: _DisplayList_Identity
-    @Attribute private(set) var view: ViewLeafView<Representable>
-    @Attribute private(set) var position: CGPoint
-    @Attribute private(set) var containerPosition: CGPoint
-    @Attribute private(set) var size: ViewSize
-    @Attribute private(set) var transform: ViewTransform
-    private(set) var _environment: Attribute<EnvironmentValues>
-    @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
-    private(set) var contentSeed: DisplayList.Seed
+    let identity: _DisplayList_Identity // 0x0
+    @Attribute private(set) var view: ViewLeafView<Representable> // 0x4
+    @Attribute private(set) var position: CGPoint // 0x8
+    @Attribute private(set) var containerPosition: CGPoint // 0xc
+    @Attribute private(set) var size: ViewSize // 0x10
+    @Attribute private(set) var transform: ViewTransform // 0x14
+    private(set) var _environment: Attribute<EnvironmentValues> // 0x18
+    @OptionalAttribute var safeAreaInsets: SafeAreaInsets? // 0x1c
+    private(set) var contentSeed: DisplayList.Seed // 0x20
     
     var environment: EnvironmentValues {
         return _environment.value
@@ -514,7 +514,71 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
     
     typealias Value = DisplayList
     
-    func updateValue() {
+    mutating func updateValue() {
+        // self -> x20 -> x26
+        // x22
+        let newVersion = DisplayList.Version(forUpdate: ())
+        // x27/x28, w21
+        let view = $view.changedValue(options: [])
+        if view.changed {
+            // <+312>
+            self.contentSeed = DisplayList.Seed(newVersion)
+        }
+        
+        // <+344>
+        var d8: CGFloat
+        let d9: CGFloat
+        do {
+            let position = self.position
+            d8 = position.x
+            d9 = position.y
+        }
+        
+        let d0: CGFloat
+        let d1: CGFloat
+        do {
+            let containerPosition = self.containerPosition
+            d0 = containerPosition.x
+            d1 = containerPosition.y
+        }
+        
+        let d10 = d8 - d0
+        d8 = d9 - d1
+        
+        let d15: CGFloat
+        let d11: CGFloat
+        do {
+            let size = self.size
+            d15 = size.width
+            d11 = size.height
+        }
+        
+        // <+432>
+        let options: CoreViewRepresentableLayoutOptions = MainActor.assumeIsolated { [unchecked = UncheckedSendable(view.value)] in
+            // $s7SwiftUI23PlatformViewDisplayList33_6401BBC0F2663213443101ED0E1CE437LLV11updateValueyyFAA04CoreD26RepresentableLayoutOptionsVyScMYcXEfU_
+            // x20
+            let view = unchecked.value
+            let provider = view.representedViewProvider
+            return Representable.layoutOptions(provider)
+        }
+        
+        // <+496>
+        if !options.contains(.stretchesWithWindowSizeStayPutPriority) {
+            // <+516>
+            let context = AnyRuleContext(attribute: .current!)
+            /*
+             d11 -> x19 + 0x8
+             d10 -> x19 + 0x10
+             d8 -> x19 + 0x18
+             */
+            if let safeAreaInsetsAttribute = $safeAreaInsets {
+                // x19 + 0xe0, x19 + 0xf0
+                let safeAreaInsets = context.changedValue(of: safeAreaInsetsAttribute, options: [])
+            }
+            fatalError("TODO")
+        }
+        
+        // <+968>
         fatalError("TODO")
     }
 }

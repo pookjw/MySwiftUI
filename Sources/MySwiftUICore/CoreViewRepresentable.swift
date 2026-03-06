@@ -24,7 +24,7 @@ public import AttributeGraph
     func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Self.PlatformViewProvider) -> CGFloat
     static var isViewController: Bool { get }
     func shouldEagerlyUpdateSafeArea(_ provider: Self.PlatformViewProvider) -> Bool
-    func layoutOptions(_ provider: Self.PlatformViewProvider) -> CoreViewRepresentableLayoutOptions
+    static func layoutOptions(_ provider: Self.PlatformViewProvider) -> CoreViewRepresentableLayoutOptions
     func _identifiedViewTree(in provider: Self.PlatformViewProvider) -> Any
     func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Self.PlatformViewProvider)
 }
@@ -62,7 +62,7 @@ extension CoreViewRepresentable {
         fatalError("TODO")
     }
     
-    public func layoutOptions(_ provider: Self.PlatformViewProvider) -> CoreViewRepresentableLayoutOptions {
+    public static func layoutOptions(_ provider: Self.PlatformViewProvider) -> CoreViewRepresentableLayoutOptions {
         fatalError("TODO")
     }
     
@@ -293,7 +293,23 @@ extension CoreViewRepresentable where Coordinator == Void {
     }
 }
 
-@_spi(Internal) public struct CoreViewRepresentableLayoutOptions: OptionSet {
+@_spi(Internal) public struct CoreViewRepresentableLayoutOptions: OptionSet, Sendable {
+    static var invalidatesSizeOnConstraintChanges: CoreViewRepresentableLayoutOptions {
+        return CoreViewRepresentableLayoutOptions(rawValue: 1 << 0)
+    }
+    
+    static var stretchesWithWindowSizeStayPutPriority: CoreViewRepresentableLayoutOptions {
+        return CoreViewRepresentableLayoutOptions(rawValue: 1 << 1)
+    }
+    
+    static var propagatesSafeArea: CoreViewRepresentableLayoutOptions {
+        return CoreViewRepresentableLayoutOptions(rawValue: 1 << 2)
+    }
+    
+    package static var `default`: CoreViewRepresentableLayoutOptions {
+        return .invalidatesSizeOnConstraintChanges
+    }
+    
     public let rawValue: Int
     
     public init(rawValue: Int) {
