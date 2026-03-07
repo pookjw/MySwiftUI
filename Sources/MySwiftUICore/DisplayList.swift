@@ -793,14 +793,14 @@ package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible
 }
 
 extension DisplayList {
-    struct Key: @unsafe PreferenceKey {
-        static var _includesRemovedValues: Bool {
+    package struct Key: @unsafe PreferenceKey {
+        package static var _includesRemovedValues: Bool {
             return true
         }
         
-        @safe static nonisolated(unsafe) let defaultValue = DisplayList()
+        @safe package static nonisolated(unsafe) let defaultValue = DisplayList()
         
-        static func reduce(value: inout DisplayList, nextValue: () -> DisplayList) {
+        package static func reduce(value: inout DisplayList, nextValue: () -> DisplayList) {
             value.append(contentsOf: nextValue())
         }
     }
@@ -908,6 +908,14 @@ extension _ViewInputs {
         }
         
         self[_DisplayList_StableIdentityScope.self].projectedValue!.value.pushIdentity(identity: identity)
+    }
+    
+    package func pushIdentity() -> _DisplayList_Identity {
+        guard base.needsStableDisplayListIDs else {
+            return _DisplayList_Identity()
+        }
+        
+        return self[_DisplayList_StableIdentityScope.self].projectedValue!.value.pushIdentity()
     }
 }
 

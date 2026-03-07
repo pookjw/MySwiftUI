@@ -15,7 +15,7 @@ public struct _ViewInputs {
             base.changedDebugProperties.formUnion(.position)
         }
     }
-    var containerPosition: Attribute<CGPoint>
+    package internal(set) var containerPosition: Attribute<CGPoint>
     package internal(set) var size: Attribute<ViewSize> {
         didSet {
             base.changedDebugProperties.formUnion(.size)

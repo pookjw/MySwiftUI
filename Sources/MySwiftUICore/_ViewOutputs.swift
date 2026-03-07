@@ -13,7 +13,7 @@ public struct _ViewOutputs {
         }
     }
     
-    init() {
+    package init() {
         self._layoutComputer = OptionalAttribute()
     }
     

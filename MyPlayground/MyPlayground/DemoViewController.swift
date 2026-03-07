@@ -40,7 +40,7 @@ final class DemoViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.viewRepresentable
+        let item = DemoViewController.Item.viewControllerRepresentable
         pushToItem(item)
         
 //        Task {
@@ -109,6 +109,7 @@ extension DemoViewController {
         case appStorageView
         case hostingViewController
         case viewRepresentable
+        case viewControllerRepresentable
         
         var title: String {
             switch self {
@@ -160,6 +161,8 @@ extension DemoViewController {
                 return _typeName(HostingViewController.self, qualified: false)
             case .viewRepresentable:
                 return _typeName(ViewRepresentableViewController.self, qualified: false)
+            case .viewControllerRepresentable:
+                return _typeName(ViewControllerRepresentableViewController.self, qualified: false)
             }
         }
         
@@ -213,6 +216,8 @@ extension DemoViewController {
                 return HostingViewController()
             case .viewRepresentable:
                 return ViewRepresentableViewController()
+            case .viewControllerRepresentable:
+                return ViewControllerRepresentableViewController()
             }
         }
     }
