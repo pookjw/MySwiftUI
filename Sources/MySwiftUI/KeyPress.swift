@@ -1,3 +1,4 @@
+// C97FB0E5EC0789E5A42E597830BFC1D5
 internal import MySwiftUICore
 internal import AttributeGraph
 
@@ -32,7 +33,25 @@ extension _GraphInputs {
     var keyPressHandlers: Attribute<[KeyPress.Handler]> {
         return mapEnvironment(id: .keyPressHandlers) { environmentValues in
             // $s7SwiftUI12_GraphInputsV16keyPressHandlers09AttributeC00H0VySayAA03KeyF0V7HandlerVGGvgAlA17EnvironmentValuesVcfu_33_0de81da79619839f2a9500fe062d730fAoLTf3nnpk_n
-            fatalError("TODO")
+            return environmentValues.keyPressHandlers
+        }
+    }
+}
+
+extension EnvironmentValues {
+    @inline(__always)
+    var keyPressHandlers: [KeyPress.Handler] {
+        get {
+            return self[KeyPressHandlersKey.self]
+        }
+        set {
+            self[KeyPressHandlersKey.self] = newValue
+        }
+    }
+    
+    fileprivate struct KeyPressHandlersKey: EnvironmentKey {
+        static var defaultValue: [KeyPress.Handler] {
+            return []
         }
     }
 }

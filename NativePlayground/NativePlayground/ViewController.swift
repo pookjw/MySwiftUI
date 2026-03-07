@@ -1924,7 +1924,7 @@ fileprivate struct MyFlagView: View {
 fileprivate struct MyViewRepresentable: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let uiView = UIView()
-        uiView.backgroundColor = .blue
+        uiView.backgroundColor = .systemOrange
         return uiView
     }
     
@@ -1936,7 +1936,7 @@ fileprivate struct MyViewRepresentable: UIViewRepresentable {
 fileprivate struct MyViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let uiViewController = UIViewController()
-        uiViewController.view.backgroundColor = .blue
+        uiViewController.view.backgroundColor = .systemOrange
         return uiViewController
     }
     

@@ -4,6 +4,7 @@ internal import UIKit
 @_spi(Internal) internal import _UIKitShims
 internal import AttributeGraph
 internal import MRUIKit
+internal import _UIKitPrivate
 
 protocol PlatformViewRepresentable: CoreViewRepresentable {
     static nonisolated func modifyBridgedViewInputs(_ inputs: inout _ViewInputs)
@@ -245,13 +246,72 @@ fileprivate struct ViewResponderFilter<Representable: CoreViewRepresentable>: St
     }
     
     var preferredFocusableView: ((Representable.PlatformViewProvider) -> UIView?)?? {
+        guard let attribute = _preferredFocusableView.attribute else {
+            return nil
+        }
+        
         fatalError("TODO")
     }
     
     typealias Value = [ViewResponder]
     
     func updateValue() {
-        fatalError("TODO")
+        MainActor.assumeIsolated { [unchecked = UncheckedSendable(self)] in
+            let `self` = unchecked.value
+            
+            // self -> x20 -> x22/x21
+            // x29 - 0xd0
+            let responder = self.responder
+            // <+448>
+            responder.hostView = self.view.platformView as? UIView
+            
+            let representedView: UIView?
+            if let host = (self.view.platformView as? UIKitPlatformViewHost<Representable>) {
+                representedView = host.representedView
+            } else {
+                representedView = nil
+            }
+            responder.representedView = representedView
+            
+            // <+692>
+            // self -> x21 -> x29 - 0x128
+            let contentResponder = UIViewContentResponder(
+                eventProvider: self.viewGraph?.delegate?.as(CurrentEventProvider.self),
+                platformView: (self.view.platformView as! UIView)
+            )
+            
+            responder.helper.update(
+                data: (value: contentResponder, changed: false),
+                size: self.$size.changedValue(options: []),
+                position: self.$position.changedValue(options: []),
+                transform: self.$transform.changedValue(options: []),
+                parent: responder
+            )
+            
+            // <+1288>
+            responder.keyPressHandlers = self.keyPressHandlers
+            // x20
+            var focusedView: UIView?
+            if let focusableView = self.preferredFocusableView ?? nil {
+                focusedView = focusableView(self.view.representedViewProvider)
+            }
+            
+            // <+1544>
+            responder.preferredFocusableView = focusedView
+            
+            // <+1556>
+            if let host = self.view.platformView as? UIKitPlatformViewHost<Representable> {
+                host.responder = responder
+            }
+            
+            // <+1700>
+            if !self.hasValue {
+                // <+1740>
+                self.value = [responder]
+            }
+            
+            // <+1844>
+        }
     }
 }
 
@@ -264,7 +324,7 @@ struct RepresentablePreferredFocusableViewInput<Representable: CoreViewRepresent
 final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
     var importer: MRUIPreferenceImporter? = nil // 0x2d8
     var focusedValues = FocusedValues() // 0x2e0
-    private(set) weak var responder: UIViewResponder? = nil // 0x300
+    weak var responder: UIViewResponder? = nil // 0x300
     
     required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
         /*

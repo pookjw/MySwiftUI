@@ -229,28 +229,34 @@ func modifyMaterialBackdropContext<T>(_ context: AnyObject, mutation: (_ flags: 
     return unsafe item(from: .afterUpdateComplete)!
 }
 
-fileprivate func iterateIvars(type: AnyClass, iteration: (_ ivar: Ivar) -> Bool) {
-    let (ivarsCount, ivars) = unsafe withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
-        let ivars = unsafe class_copyIvarList(type, pointer.baseAddress)
-        return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
-    }
-    defer {
-        unsafe ivars.deallocate()
-    }
+fileprivate func iterateIvars(type: AnyClass, includeSuperclass: Bool, iteration: (_ ivar: Ivar) -> Bool) {
+    var _classType: AnyClass? = type
     
-    let span = unsafe Span(_unsafeElements: UnsafeBufferPointer<Ivar>(start: ivars, count: Int(ivarsCount)))
-    
-    for i in unsafe span.indices {
-        let ivar = unsafe span[i]
-        let shouldContinue = iteration(ivar)
-        guard shouldContinue else {
-            break
+    while let classType = _classType { 
+        let (ivarsCount, ivars) = unsafe withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
+            let ivars = unsafe class_copyIvarList(classType, pointer.baseAddress)
+            return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
+        }
+        
+        defer {
+            unsafe ivars.deallocate()
+            _classType = classType.superclass()
+        }
+        
+        let span = unsafe Span(_unsafeElements: UnsafeBufferPointer<Ivar>(start: ivars, count: Int(ivarsCount)))
+        
+        for i in unsafe span.indices {
+            let ivar = unsafe span[i]
+            let shouldContinue = iteration(ivar)
+            guard shouldContinue else {
+                return
+            }
         }
     }
 }
 
 fileprivate func iterateIvars(object: AnyObject, iteration: (_ ivar: Ivar, _ name: String, _ offset: Int, _ pointer: UnsafeMutableRawPointer) -> Bool) {
-    iterateIvars(type: type(of: object)) { ivar in
+    iterateIvars(type: type(of: object), includeSuperclass: true) { ivar in
         let name = unsafe String(cString: ivar_getName(ivar)!)
         let offset = ivar_getOffset(ivar)
         let pointer = Unmanaged
@@ -281,47 +287,38 @@ fileprivate func item(from phase: UIUpdateActionPhase) -> UnsafeMutablePointer<_
 }
 
 extension UIView {
-    var typedStorage: AnyObject {
-        let (ivarsCount, ivars) = unsafe withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
-            let ivars = unsafe class_copyIvarList(UIView.self, pointer.baseAddress)
-            return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
-        }
-        defer {
-            unsafe ivars.deallocate()
-        }
+    var typedStorage: _UITypedStorage {
+        var storage: _UITypedStorage!
         
-        let span = unsafe Span(_unsafeElements: UnsafeBufferPointer<Ivar>(start: ivars, count: Int(ivarsCount)))
-        
-        for i in unsafe span.indices {
-            let ivar = unsafe span[i]
-            
-            if
-                let cName = unsafe ivar_getName(ivar),
-                unsafe String(cString: cName) == "_typedStorage"
-            {
-                let pointer = unsafe UnsafeMutableRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(self)) + ivar_getOffset(ivar))!
-                let casted = unsafe pointer.assumingMemoryBound(to: AnyObject?.self)
-                
-                if let typedStorage = unsafe casted.pointee {
-                    return typedStorage
-                }
-                
-                let typedStorage = unsafe (objc_lookUpClass("_UITypedStorage") as! NSObject.Type).init()
-                unsafe casted.initialize(to: typedStorage)
-                return typedStorage
+        iterateIvars(object: self) { ivar, name, offset, pointer in
+            guard name == "_typedStorage" else {
+                return true
             }
+            
+            let casted = unsafe pointer.assumingMemoryBound(to: _UITypedStorage?.self)
+            
+            if let typedStorage = unsafe casted.pointee {
+                storage = typedStorage
+                return false
+            }
+            
+            let typedStorage = _UITypedStorage()
+            unsafe casted.initialize(to: typedStorage)
+            storage = typedStorage
+            
+            return false
         }
         
-        fatalError()
+        return storage
     }
 }
 
 /*
  [ObjectIdentifier: _UITypedStorage.BaseValue]
  _UITypedStorage.BaseValue
- -> _UITypedStorage.(TypedValue in $186ef9d7c)<Swift.Optional<UIKit._UICornerProvider>>
+ -> (subclass) _UITypedStorage.(TypedValue in $186ef9d7c)<Swift.Optional<UIKit._UICornerProvider>>
  */
-func modifyTypedStorage<T>(_ storage: AnyObject, mutation: (_ storage: inout [ObjectIdentifier: AnyObject]) -> T) -> T {
+fileprivate func modifyTypedStorage<T>(_ storage: AnyObject, mutation: (_ storage: inout [ObjectIdentifier: AnyObject]) -> T) -> T {
     var result: T!
     
     iterateIvars(object: storage) { ivar, name, offset, pointer in
@@ -337,6 +334,19 @@ func modifyTypedStorage<T>(_ storage: AnyObject, mutation: (_ storage: inout [Ob
     }
     
     return result
+}
+
+func glassBackgroundStyle(typedStorage: _UITypedStorage) -> AnyObject? {
+    return modifyTypedStorage(typedStorage) { storage in
+        for key in storage.keys {
+            // UIKit._UIIntelligenceLightSourceConfiguration._GlassBackgroundStyleKey
+            if _mangledTypeName(unsafeBitCast(key, to: Any.Type.self)) == "So6UIViewC5UIKitE10$186ef90d8yXZ24_GlassBackgroundStyleKeyV" {
+                return storage[key]
+            }
+        }
+        
+        return nil
+    }
 }
 
 enum _GlassBackgroundStyle: Hashable {

@@ -3,7 +3,7 @@ internal import UIKit
 
 final class UIViewResponder: PlatformViewResponderBase<UIView, UIViewContentResponder> {
     private weak var focusAccessibilityNode: AccessibilityNode? = nil
-    private var keyPressHandlers: [KeyPress.Handler] = []
+    package var keyPressHandlers: [KeyPress.Handler] = []
     private lazy var shouldUsePlatformViewAsParentContainer: Bool? = {
         fatalError("TODO")
     }()
@@ -16,5 +16,8 @@ final class UIViewResponder: PlatformViewResponderBase<UIView, UIViewContentResp
 }
 
 struct UIViewContentResponder: ContentResponder {
+    weak var eventProvider: CurrentEventProvider?
+    weak var platformView: UIView?
+    
     // TODO
 }

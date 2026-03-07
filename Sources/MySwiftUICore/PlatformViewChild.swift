@@ -386,7 +386,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
 
 @_spi(Internal) public struct ViewLeafView<Representable: CoreViewRepresentable>: UnaryView, PrimitiveView, @preconcurrency PlatformViewFactory {
     let content: Representable
-    let platformView: Representable.Host
+    package let platformView: Representable.Host
     private var coordinator: Representable.Coordinator
     
     init(content: Representable, platformView: Representable.Host, coordinator: Representable.Coordinator) {
@@ -395,7 +395,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         self.coordinator = coordinator
     }
     
-    var representedViewProvider: Representable.PlatformViewProvider {
+    package var representedViewProvider: Representable.PlatformViewProvider {
         return unsafeBitCast(platformView.coreRepresentedViewProvider, to: Representable.PlatformViewProvider.self)
     }
     
@@ -470,7 +470,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 identity: identity,
                 view: view.value,
                 position: copy_2.animatedPosition(),
-                containerPosition: inputs.position,
+                containerPosition: inputs.containerPosition,
                 size: copy_2.animatedSize(), // <+580>
                 transform: inputs.transform,
                 _environment: copy_2.environment,

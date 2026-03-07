@@ -52,11 +52,15 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-com.apple.SwiftUI.EnableLayoutDepthStashing false"
+            argument = "-com.apple.SwiftUI.EnableLayoutDepthStashing NO"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-com.apple.SwiftUI.EnableToolbarLogging YES"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-com.apple.SwiftUI.EnableUnifiedLayout YES"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

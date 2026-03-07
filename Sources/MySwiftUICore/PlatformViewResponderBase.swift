@@ -1,11 +1,11 @@
 private import Spatial
 
 @_spi(Internal) open class PlatformViewResponderBase<T: AnyObject, U: ContentResponder>: ViewResponder {
-    weak var hostView: T? = nil // 0x30
-    weak var representedView: T? = nil // 0x38
-    var helper = ContentResponderHelper<U>()
-    var lastResult: PlatformViewResponderBase<T, U>.PlatformHitTestResult? = nil
-    weak var preferredFocusableView: T? = nil
+    package weak final var hostView: T? = nil // 0x30
+    package weak final var representedView: T? = nil // 0x38
+    package final var helper = ContentResponderHelper<U>()
+    final var lastResult: PlatformViewResponderBase<T, U>.PlatformHitTestResult? = nil
+    package weak final var preferredFocusableView: T? = nil
     
     public override init() {
         super.init()

@@ -5,7 +5,7 @@ public import _UIKitPrivate
 @_spi(Internal) @MainActor open class UICorePlatformViewHost<Representable: CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView, CoreViewRepresentableHost {
     private var environment: EnvironmentValues // 0x210
     private var viewPhase: ViewGraphHost.Phase // 0x220
-    public let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
+    @safe public nonisolated(unsafe) let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
     weak var host: ViewGraphRootValueUpdater? = nil // 0x230
     private var viewHierarchyMode: UICorePlatformViewHost.ViewControllerParentingMode? = nil // 0x240
     private var isInitialSafeAreaUpdate: Bool = true // 0x241
@@ -168,17 +168,17 @@ public import _UIKitPrivate
         
         // <+308>
         if Representable.isViewController {
-            uiView._viewDelegateContentOverlayInsetsAreClean = false
+            representedView._viewDelegateContentOverlayInsetsAreClean = false
         }
         
         // <+352>
         if isInitialSafeAreaUpdate {
             let old = UIView.areAnimationsEnabled
             UIView.setAnimationsEnabled(false)
-            uiView._updateSafeAreaInsets()
+            representedView._updateSafeAreaInsets()
             UIView.setAnimationsEnabled(old)
         } else {
-            uiView._updateSafeAreaInsets()
+            representedView._updateSafeAreaInsets()
         }
         
         // <+472>
@@ -224,7 +224,7 @@ public import _UIKitPrivate
     
     open override var hostedView: UIView? {
         get {
-            fatalError("TODO")
+            return super.hostedView
         }
         set {
             super.hostedView = newValue
@@ -318,7 +318,27 @@ public import _UIKitPrivate
     }
     
     open override func layoutSubviews() {
-        fatalError("TODO")
+        super.layoutSubviews()
+        
+        // w19
+        let isEnabled = UICoreUnifiedLayout.isEnabled
+        // sp + 0x8
+        guard let hostedView else {
+            return
+        }
+        
+        let wantsConstraintBasedLayout = hostedView._wantsConstraintBasedLayout
+        
+        guard !(wantsConstraintBasedLayout && isEnabled) else {
+            return
+        }
+        
+        guard bounds.width != 0 && bounds.height != 0 else {
+            return
+        }
+        
+        let frame = hostedView.frame(forAlignmentRect: bounds)
+        hostedView.frame = frame
     }
     
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -469,15 +489,15 @@ public import _UIKitPrivate
         // <+904>
         if Representable.isViewController {
             // <+924>
-            self.vc = uiViewController
+            self.vc = representedViewController
         } else {
             // <+1028>
-            self.hostedView = uiView
+            self.hostedView = representedView
         }
         
         // <+1052>
         if Representable.isViewController {
-            self.hostedView = uiView
+            self.hostedView = representedView
         }
         
         // <+1096>
@@ -512,7 +532,7 @@ public import _UIKitPrivate
         }
         
         // <+516>
-        updateView(environment: newEnvironment, view: uiView)
+        updateView(environment: newEnvironment, view: representedView)
     }
     
     private func updateColorScheme(needsStatusBarAppearanceUpdate: Bool) {
@@ -648,7 +668,7 @@ public import _UIKitPrivate
         }
         
         // <+516>
-        updateView(environment: environment, view: uiView)
+        updateView(environment: environment, view: representedView)
     }
     
     open func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: Axis.Set) -> CGSize {
@@ -732,11 +752,11 @@ public import _UIKitPrivate
         }
     }
     
-    private final var uiView: UIView {
+    package final nonisolated var representedView: UIView {
         return coreRepresentedViewProvider as! UIView
     }
     
-    private final var uiViewController: UIViewController {
+    private final nonisolated var representedViewController: UIViewController {
         return coreRepresentedViewProvider as! UIViewController
     }
 }

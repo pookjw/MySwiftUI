@@ -1,5 +1,5 @@
 // E7640EF181CF36289C575A729C00E55B
-internal import CoreGraphics
+package import CoreGraphics
 private import AttributeGraph
 
 struct ContentPathObservers {
@@ -72,7 +72,7 @@ fileprivate final class PathObserver: TrivialContentPathObserver {
     }
 }
 
-struct ContentResponderHelper<T: ContentResponder> {
+package struct ContentResponderHelper<T: ContentResponder> {
     var size = CGSize.zero
     var data: T? = nil
     var transform = ViewTransform()
@@ -81,7 +81,7 @@ struct ContentResponderHelper<T: ContentResponder> {
     
     init() {}
     
-    mutating func update(
+    package mutating func update(
         data: (value: T, changed: Bool), // x0, w1
         size: (value: ViewSize, changed: Bool), // x2, w3
         position: (value: CGPoint, changed: Bool), // d0, d1, w4

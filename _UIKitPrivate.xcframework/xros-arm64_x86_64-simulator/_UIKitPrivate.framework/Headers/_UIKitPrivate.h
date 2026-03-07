@@ -46,3 +46,4 @@
 #import <_UIKitPrivate/UIColorMaterialRenderingMode.h>
 #import <_UIKitPrivate/UIUserInterfaceRenderingMode.h>
 #import <_UIKitPrivate/UIViewGlassGetLegibility.h>
+#import <_UIKitPrivate/UITypedStorage.h>

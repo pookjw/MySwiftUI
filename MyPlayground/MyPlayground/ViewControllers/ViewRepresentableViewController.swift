@@ -15,12 +15,11 @@ import MySwiftUI
 fileprivate struct MyView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let uiView = UIView()
-        uiView.backgroundColor = .blue
+        uiView.backgroundColor = .systemOrange
         return uiView
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {
-        
     }
 }
 

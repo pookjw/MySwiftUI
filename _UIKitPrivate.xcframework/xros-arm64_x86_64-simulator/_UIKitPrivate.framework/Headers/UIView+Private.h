@@ -30,6 +30,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No
 @property (nonatomic, readonly) Class _intelligenceBaseClass;
 @property (nonatomic, getter=safeAreaInsets, setter=setSafeAreaInsets:) UIEdgeInsets msui_safeAreaInsets;
 @property (nonatomic, setter=_setViewDelegateContentOverlayInsetsAreClean:) BOOL _viewDelegateContentOverlayInsetsAreClean;
+@property (readonly, nonatomic) BOOL _wantsConstraintBasedLayout;
 + (void)_animateWithAnimationSettings:(BSAnimationSettings * _Nullable)animationSettings animations:(void (^)(void))animations completion:(void (^)(UIViewAnimatingPosition position))completion;
 + (BOOL)_isInAnimationBlockWithAnimationsEnabled;
 + (CGFloat)_currentAnimationDuration;

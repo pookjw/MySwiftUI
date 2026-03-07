@@ -894,34 +894,14 @@ package final class UIHostingViewBase: NSObject {
         // x25
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
         let typedStorage = uiView.typedStorage
-        let storage = modifyTypedStorage(typedStorage) { $0 }
         
-        // UIKit._UIIntelligenceLightSourceConfiguration._GlassBackgroundStyleKey가 Key로 있으면 뭔가를 함
-        guard !storage.isEmpty else {
+        guard let glassBackgroundStyle = glassBackgroundStyle(typedStorage: typedStorage) else {
             return
         }
-        fatalError("TODO")
         
-//#if SwiftUICompataibility
-//        var nativeEnvironmentValues = SwiftUI.EnvironmentValues()
-//        let hostingView = SwiftUI._UIHostingView(rootView: EmptyView())
-//        let base = unsafe unsafeBitCast(Mirror(reflecting: hostingView).descendant("_base")!, to: _UIKitPrivate.UIHostingViewBase.self)
-//        base.uiView = self.uiView
-//        base._updateEnvironment(&nativeEnvironmentValues)
-//        
-//        guard let glassMaterialContainerStyle = nativeEnvironmentValues.glassMaterialContainerStyle else {
-//            return
-//        }
-//        environmentValues.glassMaterialContainerStyle = glassMaterialContainerStyle
-//        
-//        if let resolvedProvider = traitCollection.resolvedProvider as? _SwiftUICorePrivate.MaterialProvider {
-//            environmentValues.glassColorScheme = ColorScheme(_uiUserInterfaceStyle: traitCollection.userInterfaceStyle) ?? .light
-//            environmentValues.backgroundMaterial = Material(provider: MaterialProviderNativeBridge(base: resolvedProvider))
-//        }
-//#endif
+        fatalError("TODO")
     }
     
-    // ___lldb_unnamed_symbol317388
     private func addNotificationObservers() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(willBeginSnapshotSession), name: .applicationWillBeginSnapshotSessionNotification, object: nil)
