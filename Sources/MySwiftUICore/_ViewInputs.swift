@@ -116,7 +116,7 @@ public struct _ViewInputs {
         return base.cachedEnvironment.value.animatedCGSize(for: self)
     }
     
-    func intern<T>(_ value: T, id: GraphHost.ConstantID) -> Attribute<T> {
+    package func intern<T>(_ value: T, id: GraphHost.ConstantID) -> Attribute<T> {
         return base.intern(value, id: id)
     }
     

@@ -752,8 +752,8 @@ public import _UIKitPrivate
         }
     }
     
-    package final nonisolated var representedView: UIView {
-        return coreRepresentedViewProvider as! UIView
+    package final var representedView: UIView {
+        return Representable.platformView(for: coreRepresentedViewProvider) as! UIView
     }
     
     private final nonisolated var representedViewController: UIViewController {

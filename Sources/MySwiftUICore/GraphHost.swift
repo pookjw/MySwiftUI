@@ -775,7 +775,7 @@ extension GraphHost {
         }
     }
     
-    enum ConstantID: Int8, Hashable {
+    package enum ConstantID: Int8, Hashable {
         case defaultValue
         case implicitViewRoot
         case trueValue

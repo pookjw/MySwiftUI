@@ -88,7 +88,7 @@ extension UIViewControllerRepresentable {
             
             outputs.preferences.makePreferenceWriter(inputs: inputs.preferences, key: HostingGestureOverlayAuthorityKey.self, value: {
                 // $s7SwiftUI28ManipulableResponderModifierV9_makeView8modifier6inputs4bodyAA01_G7OutputsVAA11_GraphValueVyACG_AA01_G6InputsVAiA01_L0V_ANtctFZ09AttributeL00O0VySbGyXEfu_TA
-                fatalError("TODO")
+                return inputs.intern(true, id: .trueValue)
             }())
             
             return outputs
@@ -105,7 +105,7 @@ extension UIViewControllerRepresentable {
     
     @available(iOS 17.0, tvOS 17.0, watchOS 10.0, *)
     @MainActor @preconcurrency public static func _layoutOptions(_ provider: Self.UIViewControllerType) -> Self.LayoutOptions {
-        fatalError("TODO")
+        return _PlatformViewRepresentableLayoutOptions(rawValue: CoreViewRepresentableLayoutOptions.default.rawValue)
     }
     
     @MainActor @preconcurrency public var body: Never {
@@ -159,23 +159,22 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
     fileprivate private(set) var base: Base
     
     static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
-        fatalError("TODO")
-    }
-    
-    static func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy) {
-        fatalError("TODO")
+        return CoreViewRepresentableDynamicPropertyFields(for: self)
     }
     
     func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Base.UIViewControllerType {
-        fatalError("TODO")
+        let repContext = UIViewControllerRepresentableContext<Base>(coordinator: context.coordinator)
+        let uiViewController = base.makeUIViewController(context: repContext)
+        return uiViewController
     }
     
     func updateViewProvider(_ provider: Base.UIViewControllerType, context: PlatformViewRepresentableContext<Self>) {
-        fatalError("TODO")
+        let repContext = UIViewControllerRepresentableContext<Base>(coordinator: context.coordinator)
+        base.updateUIViewController(provider, context: repContext)
     }
     
     static func platformView(for provider: Base.UIViewControllerType) -> AnyObject {
-        fatalError("TODO")
+        return provider.view
     }
     
     func sizeThatFits(
@@ -194,12 +193,9 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
         fatalError("TODO")
     }
     
-    static func shouldEagerlyUpdateSafeArea(_ provider: Base.UIViewControllerType) -> Bool {
-        fatalError("TODO")
-    }
-    
     static func layoutOptions(_ provider: Base.UIViewControllerType) -> CoreViewRepresentableLayoutOptions {
-        fatalError("TODO")
+        let options = Base._layoutOptions(provider)
+        return CoreViewRepresentableLayoutOptions(rawValue: options.rawValue)
     }
     
     func _identifiedViewTree(in provider: Base.UIViewControllerType) -> Any {
@@ -210,23 +206,19 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
         fatalError("TODO")
     }
     
-    nonisolated static func _makeView(view: _GraphValue<PlatformViewControllerRepresentableAdaptor<Base>>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
-    }
-    
-    nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
-    }
-    
     var body: Never {
         fatalError("TODO")
     }
     
     static func modifyBridgedViewInputs(_ inputs: inout MySwiftUICore._ViewInputs) {
-        fatalError("TODO")
+        // nop
     }
     
     func makeCoordinator() -> Base.Coordinator {
-        fatalError("TODO")
+        return base.makeCoordinator()
+    }
+    
+    static var isViewController: Bool {
+        return true
     }
 }

@@ -95,7 +95,8 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func addChild(_ childController: UIViewController) {
-        fatalError("TODO")
+        super.addChild(childController)
+        self.setNeedsUpdateOfPreferredContainerBackgroundStyle()
     }
     
     open override dynamic var childForHomeIndicatorAutoHidden: UIViewController? {
