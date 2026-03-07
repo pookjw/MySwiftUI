@@ -109,7 +109,18 @@ public import _UIKitPrivate
     }
     
     open override func _layoutMetricsInvalidatedForHostedView() {
-        fatalError("TODO")
+        // self -> x20 -> x19
+        super._layoutMetricsInvalidatedForHostedView()
+        
+        guard 
+            Representable.layoutOptions(coreRepresentedViewProvider).isSuperset(of: .invalidatesSizeOnConstraintChanges),
+            !inLayoutSizeThatFits,
+            hostedView != nil
+        else {
+            return
+        }
+        
+        onChange()
     }
     
     open override func _layoutSizeThatFits(_ size: CGSize, fixedAxes axes: UIAxis) -> CGSize {

@@ -1539,7 +1539,7 @@ struct MyAnimation: CustomAnimation {
     }
 }
 
-struct MyView: View {
+fileprivate struct MyView: View {
     var body: some View {
         Color.black
     }

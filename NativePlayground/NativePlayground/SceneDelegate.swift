@@ -15,7 +15,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         
         let navigationController = UINavigationController()
-        navigationController.viewControllers = [PushViewController(), ViewController()]
+//        navigationController.viewControllers = [PushViewController(), ViewController()]
+        navigationController.viewControllers = [PushViewController(), ColorSchemeTestViewController()]
         
         window.rootViewController = navigationController
         

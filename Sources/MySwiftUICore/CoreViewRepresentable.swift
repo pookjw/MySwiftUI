@@ -294,7 +294,7 @@ extension CoreViewRepresentable where Coordinator == Void {
 }
 
 @_spi(Internal) public struct CoreViewRepresentableLayoutOptions: OptionSet, Sendable {
-    static var invalidatesSizeOnConstraintChanges: CoreViewRepresentableLayoutOptions {
+    package static var invalidatesSizeOnConstraintChanges: CoreViewRepresentableLayoutOptions {
         return CoreViewRepresentableLayoutOptions(rawValue: 1 << 0)
     }
     
