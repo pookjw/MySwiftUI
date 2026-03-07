@@ -223,7 +223,7 @@ extension DisplayList {
                     fatalError("TODO")
                 default:
                     // <+4072>
-                    fatalError("TODO")
+                    return
                 }
             case .effect(let effect, let displsyList):
                 // <+216>
@@ -389,9 +389,9 @@ extension DisplayList {
             let zPosition = state.zPosition
             // w22
             _ = state.renderingTechnique
-            // x24, x25
-            _ = state.remoteEffects.hoverEffectState
-            // w19
+            // x23, sp + 0x10
+            let remoteEffects = state.remoteEffects
+            // w21
             _ = state.hitTestsAsOpaque
             // d8, d9
             _ = frame.size
@@ -463,7 +463,10 @@ extension DisplayList {
                     fatalError("TODO")
                 default:
                     // <+900>
-                    fatalError("TODO")
+                    let result = remoteEffects.hoverEffectState.anyLeafEffectsSatisfy { _ in
+                        fatalError("TODO")
+                    }
+                    return !result
                 }
             case .effect(_, _):
                 // <+428>
@@ -799,6 +802,14 @@ extension DisplayList {
         
         static func reduce(value: inout DisplayList, nextValue: () -> DisplayList) {
             value.append(contentsOf: nextValue())
+        }
+    }
+    
+    struct PlatformViewCapabilities: OptionSet {
+        var rawValue: UInt8
+        
+        init(rawValue: UInt8) {
+            self.rawValue = rawValue
         }
     }
 }

@@ -277,7 +277,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
     }
     
     override var parentPreferenceHost: (any MRUIPreferenceHostProtocol)? {
-        fatalError("TODO")
+        return importer
     }
     
     override var _parentGestureRecognizerContainer: (any _UIGestureRecognizerContainer)? {

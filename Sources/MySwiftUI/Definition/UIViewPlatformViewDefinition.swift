@@ -30,6 +30,13 @@ final class UIViewPlatformViewDefinition: PlatformViewDefinition {
         return result.value
     }
     
+    override class func makePlatformView(view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
+        let view = view as! UIView
+        MainActor.assumeIsolated {
+            UIViewPlatformViewDefinition.initView(view, kind: kind)
+        }
+    }
+    
     @MainActor fileprivate static func initView(_ view: UIView, kind: PlatformViewDefinition.ViewKind) {
         if case .platformGroup = kind {
             // nop

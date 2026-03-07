@@ -1,3 +1,4 @@
+// 3E16A233DDB220D680CDDD5BF460B837
 internal import CoreGraphics
 
 enum RemoteEffectInfo {
@@ -124,6 +125,14 @@ struct HoverEffectState {
         
         return false
     }
+    
+    func anyLeafEffectsSatisfy(_ block: (HoverEffectLeafValues) -> Bool) -> Bool {
+        if groups.isEmpty && leafEffects.isEmpty {
+            return false
+        }
+        
+        fatalError("TODO")
+    }
 }
 
 extension HoverEffectState {
@@ -152,4 +161,52 @@ struct RemoteEffectOptions {
 //    var _dwellIdle: RemoteEffectDwellDelay
 //    var namespaceScope: RemoteEffectNamespaceScope
 //    var kind: RemoteEffectOptions.Kind
+}
+
+struct HoverEffectLeafValues {
+    var opacity: HoverEffectOpacityValue?
+    var affineTransform: HoverEffectAffineTransformValue?
+    var resize: HoverEffectResizeValue?
+    var resizeBy: HoverEffectResizeByValue?
+    var remoteLeafEffects: RemoteLeafEffectCollection?
+}
+
+struct HoverEffectOpacityValue {
+    let identity: _DisplayList_Identity
+    var inactiveValue: Float
+    var activeValue: Float
+}
+
+struct HoverEffectAffineTransformValue {
+    let identity: _DisplayList_Identity
+    var inactiveValue: CGAffineTransform
+    var activeValue: CGAffineTransform
+}
+
+struct HoverEffectResizeValue {
+    let identity: _DisplayList_Identity
+    var inactiveValue: FixedRoundedRect
+    var activeValue: FixedRoundedRect
+    var clipped: Bool
+}
+
+struct HoverEffectResizeByValue {
+    let identity: _DisplayList_Identity
+    var activeValue: EdgeInsets
+    var isRecursive: Bool
+}
+
+struct RemoteLeafEffectCollection {
+    fileprivate var entries: [RemoteLeafEffectCollection.Entry]
+}
+
+extension RemoteLeafEffectCollection {
+    fileprivate struct Entry {
+        var identity: _DisplayList_Identity
+        var descriptor: RemoteLeafEffectDescriptor
+    }
+}
+
+enum RemoteLeafEffectDescriptor {
+    // TODO
 }

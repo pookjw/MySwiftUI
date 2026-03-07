@@ -434,18 +434,18 @@ extension DisplayList.ViewUpdater.ViewInfo {
 
 extension DisplayList.ViewUpdater {
     struct ViewInfo {
-        private(set) var platform: DisplayList.ViewUpdater.Platform
-        private(set) var view: AnyObject
-        private(set) var layer: CALayer
-        private(set) var container: AnyObject
-        var state: DisplayList.ViewUpdater.Platform.State
-        private(set) var id: DisplayList.ViewUpdater.ViewInfo.ID
-        var parentID: DisplayList.ViewUpdater.ViewInfo.ID
-        var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds
-        var cacheSeed: UInt32
-        var isRemoved: Bool
-        var isInvalid: Bool
-        var nextUpdate: Time
+        private(set) var platform: DisplayList.ViewUpdater.Platform // 0x0
+        var view: AnyObject // 0x8
+        private(set) var layer: CALayer // 0x10
+        private(set) var container: AnyObject // 0x18
+        var state: DisplayList.ViewUpdater.Platform.State // 0x20
+        private(set) var id: DisplayList.ViewUpdater.ViewInfo.ID // 0x58
+        var parentID: DisplayList.ViewUpdater.ViewInfo.ID // 0x60
+        var seeds: DisplayList.ViewUpdater.ViewInfo.Seeds // 0x68
+        var cacheSeed: UInt32 // 0x8c
+        var isRemoved: Bool // 0x90
+        var isInvalid: Bool // 0x91
+        var nextUpdate: Time // 0x98
         
         init(platform: DisplayList.ViewUpdater.Platform, view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
             /*
@@ -510,6 +510,10 @@ extension DisplayList.ViewUpdater {
             self.isRemoved = false
             self.isInvalid = false
             self.nextUpdate = .infinity
+        }
+        
+        mutating func reset() {
+            fatalError("TODO")
         }
     }
     

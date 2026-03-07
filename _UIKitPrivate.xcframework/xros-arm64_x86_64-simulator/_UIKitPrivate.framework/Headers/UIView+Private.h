@@ -28,6 +28,8 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No
 @property (readonly, nonatomic, nullable) id<_UIGestureRecognizerContainer> _parentGestureRecognizerContainer;
 @property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers NS_SWIFT_NAME(_childContainers);
 @property (nonatomic, readonly) Class _intelligenceBaseClass;
+@property (nonatomic, getter=safeAreaInsets, setter=setSafeAreaInsets:) UIEdgeInsets msui_safeAreaInsets;
+@property (nonatomic, setter=_setViewDelegateContentOverlayInsetsAreClean:) BOOL _viewDelegateContentOverlayInsetsAreClean;
 + (void)_animateWithAnimationSettings:(BSAnimationSettings * _Nullable)animationSettings animations:(void (^)(void))animations completion:(void (^)(UIViewAnimatingPosition position))completion;
 + (BOOL)_isInAnimationBlockWithAnimationsEnabled;
 + (CGFloat)_currentAnimationDuration;

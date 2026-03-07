@@ -393,6 +393,16 @@ extension DisplayList.ViewUpdater {
                     CoreGlue2.shared.setupPlatformProperties(parameters)
                     
                     return viewInfo
+                case .platformView(let factory):
+                    // factory -> sp + 0x250
+                    // x21
+                    let platformView = factory.makePlatformView() ?? missingPlatformView()
+                    encoding.definition.makePlatformView(view: platformView, kind: .platformView)
+                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: self, view: platformView, kind: .platformView)
+                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: platformView, kind: .platformView, platform: self)
+                    CoreGlue2.shared.setupPlatformProperties(parameters)
+                    
+                    return viewInfo
                 default:
                     fatalError("TODO")
                 }
@@ -446,6 +456,7 @@ extension DisplayList.ViewUpdater {
                         
                         // <+492>
                         unsafe updateState(&viewInfo, item: item_2, size: item_1.frame.size, state: state)
+                        return
                     }
                 } else {
                     // <+656>
@@ -493,39 +504,53 @@ extension DisplayList.ViewUpdater {
                             
                             // <+9576> / <+12788> (inlined)
                             layer.updateEDR(allowedDynamicRange: allowedDynamicRange, contentHeadroom: color._headroom)
-                            
-                            // <+13012>
-                            // seed -> x20
-                            if viewInfo.state.flags == .unknown5 {
-                                // <+15100>
-                                unsafe state_2.versions.transform.combine(with: item_1.version)
-                            }
-                            
-                            // <+15120>
-                            if !viewInfo.isInvalid {
-                                // <+15128>
-                                if viewInfo.nextUpdate == .infinity {
-                                    viewInfo.seeds.content = seed
-                                }
-                            }
-                            
-                            // <+15152>
-                            // sp + 0x150
-                            _ = viewInfo
-                            // sp + 0x200
-                            let item_3 = item_1
-                            
-                            // <+15212>
-                            unsafe self.updateState(&viewInfo, item: item_3, size: size, state: &state_2)
-                            return
                         default:
                             // <+9292>
                             fatalError("TODO")
                         }
-                        fatalError("TODO")
+                    case .platformView(let factory):
+                        if case .platformView = viewInfo.state.kind {
+                            // nop
+                        } else {
+                            fatalError("TODO")
+                        }
+                        
+                        let oldView = viewInfo.view
+                        factory.updatePlatformView(&viewInfo.view)
+                        let newView = viewInfo.view
+                        
+                        if oldView !== newView {
+                            encoding.definition.makePlatformView(view: newView, kind: .platformView)
+                            viewInfo.reset()
+                        }
                     default:
                         fatalError("TODO")
                     }
+                    
+                    // <+13012>
+                    // seed -> x20
+                    if viewInfo.state.flags == .unknown5 {
+                        // <+15100>
+                        unsafe state_2.versions.transform.combine(with: item_1.version)
+                    }
+                    
+                    // <+15120>
+                    if !viewInfo.isInvalid {
+                        // <+15128>
+                        if viewInfo.nextUpdate == .infinity {
+                            viewInfo.seeds.content = seed
+                        }
+                    }
+                    
+                    // <+15152>
+                    // sp + 0x150
+                    _ = viewInfo
+                    // sp + 0x200
+                    let item_3 = item_1
+                    
+                    // <+15212>
+                    unsafe self.updateState(&viewInfo, item: item_3, size: size, state: &state_2)
+                    return
                 }
             case .effect(_, _):
                 // <+572>
@@ -1212,11 +1237,11 @@ extension DisplayList.ViewUpdater.PlatformViewInfo {
 
 extension DisplayList.ViewUpdater.Platform {
     struct State {
-        var position: CGPoint
-        var size: CGSize
-        let kind: PlatformViewDefinition.ViewKind
-        var flags: DisplayList.ViewUpdater.Platform.ViewFlags
-        var platformState: DisplayList.ViewUpdater.Platform.PlatformState
+        var position: CGPoint // 0x0
+        var size: CGSize // 0x10
+        let kind: PlatformViewDefinition.ViewKind // 0x20
+        var flags: DisplayList.ViewUpdater.Platform.ViewFlags // 0x21
+        var platformState: DisplayList.ViewUpdater.Platform.PlatformState // 0x28
         
         // 원래 없음
         @inline(__always)

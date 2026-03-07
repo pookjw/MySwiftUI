@@ -400,14 +400,18 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     func makePlatformView() -> AnyObject? {
-        fatalError("TODO")
+        return platformView
     }
     
     func updatePlatformView(_ platformView: inout AnyObject) {
-        fatalError("TODO")
+        platformView = self.platformView
     }
     
     func renderPlatformView(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer) {
+        fatalError("TODO")
+    }
+    
+    var capabilities: DisplayList.PlatformViewCapabilities {
         fatalError("TODO")
     }
     
@@ -641,16 +645,32 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
         // x29 - 0x100
         let copy_1 = item
         
-        if case .empty = copy_1.value {
+        switch copy_1.value {
+        case .content(let content):
+            // <+1560>
+            switch content.value {
+            case .platformView(let factory):
+                // <+2444>
+                // <+2184>
+                break
+            default:
+                fatalError("TODO")
+            }
+        case .effect(let effect, let displayList):
+            // <+1272>
+            fatalError("TODO")
+        case .states(let array):
+            // <+1672>
+            fatalError("TODO")
+        case .empty:
             // <+1132>
             // <+2176>
-        } else {
-            // <+1176>
-            fatalError("TODO")
+            break
         }
         
         // <+2176>
-        fatalError("TODO")
+        // <+2184>
+        self.value = DisplayList(item)
     }
 }
 

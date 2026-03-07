@@ -35,7 +35,77 @@ public import _UIKitPrivate
     }
     
     open override func didMoveToWindow() {
-        fatalError("TODO")
+        // self -> x20 -> x19
+        if
+            self.window != nil,
+            let vc // x21
+        {
+            // x22
+            let vcView = vc.view
+            if let provider = host?.as(UICoreViewControllerProvider.self) {
+                // <+212>
+                let hostingController: UIViewController?
+                if isLinkedOnOrAfter(.v6_4) {
+                    // <+340>
+                    hostingController = (provider as! UIView)._viewControllerForAncestor()
+                } else {
+                    // <+356>
+                    hostingController = provider.coreUIViewController
+                }
+                
+                if let hostingController {
+                    // <+272>
+                    switch viewHierarchyMode {
+                    case .unknown0:
+                        // <+388>
+                        // hostingController -> x23
+                        if vc.parent !== hostingController {
+                            hostingController.addChild(vc)
+                        }
+                        // <+456>
+                        let w28: Bool
+                        if let presentedViewController = vc.presentedViewController {
+                            w28 = presentedViewController.modalPresentationStyle != .currentContext
+                        } else {
+                            w28 = true
+                        }
+                        
+                        // <+508>
+                        let w24: Bool
+                        if let presentedViewController = vc.presentedViewController {
+                            w24 = presentedViewController.isBeingDismissed
+                        } else {
+                            w24 = false
+                        }
+                        
+                        // <+552>
+                        if self.hostedView == nil && (w28 || w24) {
+                            self.hostedView = vcView
+                            vc.didMove(toParent: hostingController)
+                        }
+                        
+                        // <+608>
+                    case .unknown1:
+                        // <+328>
+                        hostingController.addChild(vc)
+                        self.hostedView = vcView
+                        vc.didMove(toParent: hostingController)
+                        // <+608>
+                    case nil:
+                        // <+376>
+                        // <+608>
+                        break
+                    }
+                    // <+608>
+                } else {
+                    // <+608>
+                }
+            } else {
+                // <+608>
+            }
+        }
+        
+        super.didMoveToWindow()
     }
     
     open override func _layoutMetricsInvalidatedForHostedView() {
@@ -80,7 +150,39 @@ public import _UIKitPrivate
     }
     
     open override func _updateSafeAreaInsets() {
-        fatalError("TODO")
+        // self -> x20 -> x19
+        let oldSafeAreaInsets = self.msui_safeAreaInsets
+        
+        // w24
+        let shouldEagerlyUpdateSafeArea = Representable.shouldEagerlyUpdateSafeArea(coreRepresentedViewProvider)
+        
+        safeAreaHelper.prepareForSafeAreaPropagation(_safeAreaInsets: &self._safeAreaInsets, containerView: self, shouldEagerlyUpdate: shouldEagerlyUpdateSafeArea)
+        
+        // <+232>
+        super._updateSafeAreaInsets()
+        
+        let newSafeAreaInsets = self.msui_safeAreaInsets
+        guard oldSafeAreaInsets != newSafeAreaInsets else {
+            return
+        }
+        
+        // <+308>
+        if Representable.isViewController {
+            uiView._viewDelegateContentOverlayInsetsAreClean = false
+        }
+        
+        // <+352>
+        if isInitialSafeAreaUpdate {
+            let old = UIView.areAnimationsEnabled
+            UIView.setAnimationsEnabled(false)
+            uiView._updateSafeAreaInsets()
+            UIView.setAnimationsEnabled(old)
+        } else {
+            uiView._updateSafeAreaInsets()
+        }
+        
+        // <+472>
+        self.isInitialSafeAreaUpdate = false
     }
     
     open override var alignmentRectInsets: UIEdgeInsets {
@@ -223,7 +325,7 @@ public import _UIKitPrivate
         fatalError("TODO")
     }
     
-    open override var safeAreaInsets: UIEdgeInsets {
+    open override var msui_safeAreaInsets: UIEdgeInsets {
         get {
             let fromOwn = self._safeAreaInsets
             var d9 = fromOwn.top
@@ -253,7 +355,7 @@ public import _UIKitPrivate
             return UIEdgeInsets(top: d9, left: d10, bottom: d11, right: d8)
         }
         set {
-            fatalError("TODO")
+            super.msui_safeAreaInsets = newValue
         }
     }
     
@@ -262,7 +364,81 @@ public import _UIKitPrivate
     }
     
     open override func willMove(toSuperview newSuperview: UIView?) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x21
+         newSuperview -> x0 -> x19
+         */
+        // <+168>
+        if let newSuperview, let vc {
+            // vc -> x23
+            // x29 - 0x80
+            let vcView = vc.view
+            let flag: Bool // true -> <+448> / false -> <+740>
+            var hostingController: UIViewController!
+            
+            if let host, let provider = host.as(UICoreViewControllerProvider.self) {
+                // vc -> x23 -> x29 - 0x88
+                // provider -> x24
+                if isLinkedOnOrAfter(.v6_4) {
+                    // <+340>
+                    hostingController = (provider as! UIView)._viewControllerForAncestor()
+                } else {
+                    // <+356>
+                    hostingController = provider.coreUIViewController
+                }
+                
+                // <+372>
+                if let hostingController {
+                    switch viewHierarchyMode {
+                    case .unknown0:
+                        // <+604>
+                        /*
+                         viewController -> x29 - 0xa8
+                         provider -> x29 - 0xa0
+                         */
+                        if vc.parent !== hostingController {
+                            hostingController.addChild(vc)
+                        }
+                        // <+740>
+                        flag = false
+                    case .unknown1:
+                        // <+544>
+                        /*
+                         viewController -> x29 - 0xa8
+                         provider -> x29 - 0xa0
+                         */
+                        if vc.parent !== hostingController, self.window != nil {
+                            hostingController.addChild(vc)
+                            self.hostedView = vcView
+                        }
+                        // <+740>
+                        flag = false
+                    case nil:
+                        // <+448>
+                        flag = true
+                    }
+                } else {
+                    flag = true
+                }
+            } else {
+                flag = true
+            }
+            
+            if flag {
+                // <+448>
+                self.hostedView = vcView
+            } else {
+                // <+740>
+                let wrapper = makeEnvironmentWrapper(self.environment, viewPhase: self.viewPhase)
+                let traitCollection = UITraitCollection()
+                let resolved = resolvedTraitCollection(baseTraitCollection: traitCollection, environment: self.environment, wrapper: wrapper)
+                hostingController.setOverrideTraitCollection(resolved, forChild: vc)
+                // <+468>
+            }
+        }
+        
+        // <+476>
+        super.willMove(toSuperview: newSuperview)
     }
     
     public typealias Content = Representable
@@ -293,15 +469,14 @@ public import _UIKitPrivate
         // <+904>
         if Representable.isViewController {
             // <+924>
-            self.vc = coreRepresentedViewProvider as! UIViewController
+            self.vc = uiViewController
         } else {
             // <+1028>
-            self.hostedView = self.platformView
+            self.hostedView = uiView
         }
         
         // <+1052>
         if Representable.isViewController {
-            let uiView = coreRepresentedViewProvider as! UIView
             self.hostedView = uiView
         }
         
@@ -312,10 +487,6 @@ public import _UIKitPrivate
         _ = ViewGraphRootValues.environment
         
         updateColorScheme(needsStatusBarAppearanceUpdate: false)
-    }
-    
-    private var platformView: UIView {
-        return Representable.platformView(for: coreRepresentedViewProvider) as! UIView
     }
     
     private func update(newEnvironment: EnvironmentValues, newViewPhase: ViewGraphHost.Phase) {
@@ -341,9 +512,7 @@ public import _UIKitPrivate
         }
         
         // <+516>
-        // x22
-        let view = (coreRepresentedViewProvider as! UIView)
-        updateView(environment: newEnvironment, view: view)
+        updateView(environment: newEnvironment, view: uiView)
     }
     
     private func updateColorScheme(needsStatusBarAppearanceUpdate: Bool) {
@@ -479,7 +648,7 @@ public import _UIKitPrivate
         }
         
         // <+516>
-        updateView(environment: environment, view: platformView)
+        updateView(environment: environment, view: uiView)
     }
     
     open func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: Axis.Set) -> CGSize {
@@ -562,11 +731,59 @@ public import _UIKitPrivate
             }
         }
     }
+    
+    private final var uiView: UIView {
+        return coreRepresentedViewProvider as! UIView
+    }
+    
+    private final var uiViewController: UIViewController {
+        return coreRepresentedViewProvider as! UIViewController
+    }
 }
 
-final class UICoreSafeAreaHelper {
+@MainActor final class UICoreSafeAreaHelper {
     private var pendingSafeAreaInsets: UIEdgeInsets?
     private var lastParentSafeAreaInsets: UIEdgeInsets?
+    
+    func resolvedSafeAreaInsets(_safeAreaInsets: UIEdgeInsets, defaultSafeAreaInsets: UIEdgeInsets) -> UIEdgeInsets {
+        fatalError("TODO")
+    }
+    
+    func updateSafeAreaInsets(_: UIEdgeInsets?, _safeAreaInsets: inout UIEdgeInsets, containerView: UIView, shouldEagerlyUpdate: Bool) {
+        fatalError("TODO")
+    }
+    
+    func prepareForSafeAreaPropagation(_safeAreaInsets: inout UIEdgeInsets, containerView: UIView, shouldEagerlyUpdate: Bool) {
+        _prepareForSafeAreaPropagation(_safeAreaInsets: &_safeAreaInsets, containerView: containerView, shouldEagerlyUpdate: shouldEagerlyUpdate)
+        
+        if let pendingSafeAreaInsets {
+            _safeAreaInsets = pendingSafeAreaInsets
+            self.pendingSafeAreaInsets = nil
+        }
+    }
+    
+    private func _prepareForSafeAreaPropagation(_safeAreaInsets: inout UIEdgeInsets, containerView: UIView, shouldEagerlyUpdate: Bool) {
+        /*
+         _safeAreaInsets -> x0 -> x21
+         containerView -> x1 -> x22
+         shouldEagerlyUpdate -> w2 -> w23
+         */
+        // x19
+        guard let superview = containerView.superview else {
+            return
+        }
+        
+        // d11, d10, d9, d8
+        let safeAreaInsets = superview.safeAreaInsets
+        
+        if shouldEagerlyUpdate, let lastParentSafeAreaInsets {
+            // <+168>
+            fatalError("TODO")
+        }
+        
+        // <+112>
+        self.lastParentSafeAreaInsets = safeAreaInsets
+    }
 }
 
 extension UICorePlatformViewHost {

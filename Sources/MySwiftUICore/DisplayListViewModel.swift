@@ -5,17 +5,17 @@ internal import CoreGraphics
 extension DisplayList.ViewUpdater {
     enum Model {
         struct PlatformState {
-            private(set) var zPosition: CGFloat = 0
-            private(set) var renderingTechnique: RenderingTechnique = .texture
-            private(set) var separatedState: SeparatedState = .none
-            private(set) var separatedOptions = SeparatedOptionValues()
-            private(set) var remoteEffects = RemoteEffectsPlatformState()
-            private(set) var hitTestsAsOpaque: Bool = false
-            private(set) var serverResponderID: UInt32? = nil
-            fileprivate private(set) var separatedModifiers: [any _DisplayList_SeparatedItemModifier] = []
-            private(set) var hierarchicalProjectiveShadow: ProjectiveShadow? = nil
-            private(set) var currentProjectiveShadow: ProjectiveShadow? = nil
-            var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions()
+            private(set) var zPosition: CGFloat = 0 // 0x0
+            private(set) var renderingTechnique: RenderingTechnique = .texture // 0x8
+            private(set) var separatedState: SeparatedState = .none // 0x9
+            private(set) var separatedOptions = SeparatedOptionValues() // 0x10
+            private(set) var remoteEffects = RemoteEffectsPlatformState() // 0x18
+            private(set) var hitTestsAsOpaque: Bool = false // 0x30
+            private(set) var serverResponderID: UInt32? = nil // 0x38
+            fileprivate private(set) var separatedModifiers: [any _DisplayList_SeparatedItemModifier] = [] // 0x40
+            private(set) var hierarchicalProjectiveShadow: ProjectiveShadow? = nil // 0x48
+            private(set) var currentProjectiveShadow: ProjectiveShadow? = nil // 0x50
+            var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions() // 0x58
             
             init() {}
         }
@@ -103,15 +103,15 @@ extension DisplayList.ViewUpdater.Model.State {
 
 extension DisplayList.ViewUpdater.Model.PlatformState {
     struct Versions {
-        private(set) var zPosition = DisplayList.Version()
-        private(set) var separatedState = DisplayList.Version()
-        private(set) var separatedOptions = DisplayList.Version()
-        var remoteEffects = DisplayList.Version()
-        private(set) var hitTestsAsOpaque = DisplayList.Version()
-        private(set) var serverResponderID = DisplayList.Version()
-        private(set) var renderingTechnique = DisplayList.Version()
-        private(set) var hierarchicalProjectiveShadow = DisplayList.Version()
-        private(set) var currentProjectiveShadow = DisplayList.Version()
+        private(set) var zPosition = DisplayList.Version() // 0x0
+        private(set) var separatedState = DisplayList.Version() // 0x8
+        private(set) var separatedOptions = DisplayList.Version() // 0x10
+        var remoteEffects = DisplayList.Version() // 0x18
+        private(set) var hitTestsAsOpaque = DisplayList.Version() // 0x20
+        private(set) var serverResponderID = DisplayList.Version() // 0x28
+        private(set) var renderingTechnique = DisplayList.Version() // 0x30
+        private(set) var hierarchicalProjectiveShadow = DisplayList.Version() // 0x38
+        private(set) var currentProjectiveShadow = DisplayList.Version() // 0x40
         
         init() {}
     }

@@ -23,7 +23,7 @@ public import AttributeGraph
     func overrideSizeThatFits(_ size: inout CGSize, in: ProposedViewSize, platformView: Self.PlatformViewProvider)
     func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Self.PlatformViewProvider) -> CGFloat
     static var isViewController: Bool { get }
-    func shouldEagerlyUpdateSafeArea(_ provider: Self.PlatformViewProvider) -> Bool
+    static func shouldEagerlyUpdateSafeArea(_ provider: Self.PlatformViewProvider) -> Bool
     static func layoutOptions(_ provider: Self.PlatformViewProvider) -> CoreViewRepresentableLayoutOptions
     func _identifiedViewTree(in provider: Self.PlatformViewProvider) -> Any
     func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Self.PlatformViewProvider)
@@ -58,8 +58,8 @@ extension CoreViewRepresentable {
         return false
     }
     
-    public func shouldEagerlyUpdateSafeArea(_ provider: Self.PlatformViewProvider) -> Bool {
-        fatalError("TODO")
+    public static func shouldEagerlyUpdateSafeArea(_ provider: Self.PlatformViewProvider) -> Bool {
+        return false
     }
     
     public static func layoutOptions(_ provider: Self.PlatformViewProvider) -> CoreViewRepresentableLayoutOptions {
