@@ -13,7 +13,7 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No longer supported", ios(26.0, 26.4));
 
-@interface UIView (Private) <UITraitChangeObservableInternal>
+@interface UIView (Private) <UITraitChangeObservableInternal, _UIGestureRecognizerContainer>
 + (BOOL)_supportsInvalidatingFocusCache;
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
 @property (nonatomic, readonly, nullable) UIKeyboardSceneDelegate *keyboardSceneDelegate;

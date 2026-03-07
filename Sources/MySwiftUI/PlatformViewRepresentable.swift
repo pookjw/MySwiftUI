@@ -341,7 +341,20 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
     }
     
     override var _parentGestureRecognizerContainer: (any _UIGestureRecognizerContainer)? {
-        fatalError("TODO")
+        // self -> x20
+        guard GestureContainerFeature.isEnabled else {
+            return super._parentGestureRecognizerContainer
+        }
+        
+        // <+44>
+        _ = self.responder ?? (host?.responderNode)
+        
+        // <+172>
+        guard let responder else {
+            return nil
+        }
+        
+        return responder.parentGestureContainer
     }
     
     var isPlatformFocusContainerHost: Bool {

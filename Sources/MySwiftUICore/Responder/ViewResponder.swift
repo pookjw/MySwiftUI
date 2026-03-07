@@ -2,7 +2,7 @@
 @_spi(Internal) open class ViewResponder: ResponderNode {
     package private(set) weak var host: (any ViewGraphDelegate)?
     private var serverResponderID: UInt32?
-    private weak var parent: ViewResponder?
+    package private(set) weak var parent: ViewResponder?
     
     @inline(__always)
     package override init() {
@@ -22,6 +22,10 @@
     
     package var children: [ViewResponder] {
         return []
+    }
+    
+    package var gestureContainer: AnyObject? {
+        fatalError("TODO")
     }
 }
 

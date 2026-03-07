@@ -6,7 +6,7 @@ public import _UIKitPrivate
     private var environment: EnvironmentValues // 0x210
     private var viewPhase: ViewGraphHost.Phase // 0x220
     @safe public nonisolated(unsafe) let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
-    weak var host: ViewGraphRootValueUpdater? = nil // 0x230
+    package weak var host: ViewGraphRootValueUpdater? = nil // 0x230
     private var viewHierarchyMode: UICorePlatformViewHost.ViewControllerParentingMode? = nil // 0x240
     private var isInitialSafeAreaUpdate: Bool = true // 0x241
     let safeAreaHelper = UICoreSafeAreaHelper() // 0x248
@@ -230,7 +230,18 @@ public import _UIKitPrivate
     }
     
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        fatalError("TODO")
+        if isLinkedOnOrAfter(.v6) {
+            // <+84>
+            let result = super.hitTest(point, with: event)
+            if self === result {
+                return nil
+            } else {
+                return result
+            }
+        } else {
+            // <+148>
+            return super.hitTest(point, with: event)
+        }
     }
     
     open override var hostedView: UIView? {
@@ -353,7 +364,29 @@ public import _UIKitPrivate
     }
     
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        fatalError("TODO")
+        /*
+         self -> x20
+         event -> x0 -> x19
+         */
+        let d8 = point.y
+        let d9 = point.x
+        
+        guard isLinkedOnOrAfter(.v7), let hostedView else {
+            return super.point(inside: point, with: event)
+        }
+        
+        // <+84>
+        // hostedView -> x21
+        var d0 = d9
+        var d1 = d8
+        
+        do {
+            let point = hostedView.convert(CGPoint(x: d0, y: d1), from: self)
+            d0 = point.x
+            d1 = point.y
+        }
+        
+        return hostedView.point(inside: CGPoint(x: d0, y: d1), with: event)
     }
     
     open override var msui_safeAreaInsets: UIEdgeInsets {

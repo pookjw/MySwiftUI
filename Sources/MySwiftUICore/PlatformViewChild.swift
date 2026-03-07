@@ -363,7 +363,11 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         fatalError("TODO")
     }
     
-    func destroy() {
+    mutating func destroy() {
+        // self -> x20 -> x27
+        // <+548>
+        links.destroy()
+        // <+556>
         fatalError("TODO")
     }
     
@@ -372,7 +376,22 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     static func willRemove(attribute: AnyAttribute) {
-        fatalError("TODO")
+        // x19
+        let bridge = attribute
+            ._bodyPointer
+            .assumingMemoryBound(to: self)
+            .pointee
+            .bridge
+        // x21
+        let children = bridge.children
+        
+        guard !children.isEmpty else {
+            return
+        }
+        
+//        for child in children {
+//            fatalError("TODO")
+//        }
     }
     
     static func willInvalidate(attribute: AnyAttribute) {
