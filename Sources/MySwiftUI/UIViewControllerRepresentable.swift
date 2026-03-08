@@ -42,7 +42,7 @@ extension UIViewControllerRepresentable {
     
     @available(iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @MainActor @preconcurrency public func sizeThatFits(_ proposal: ProposedViewSize, uiViewController: Self.UIViewControllerType, context: Self.Context) -> CGSize? {
-        fatalError("TODO")
+        return nil
     }
     
     @MainActor @preconcurrency public static func dismantleUIViewController(_ uiViewController: Self.UIViewControllerType, coordinator: Self.Coordinator) {

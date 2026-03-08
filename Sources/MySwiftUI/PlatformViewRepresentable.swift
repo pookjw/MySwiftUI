@@ -460,7 +460,8 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
         provider: Base.UIViewControllerType,
         context: PlatformViewRepresentableContext<Self>
     ) -> CGSize? {
-        fatalError("TODO")
+        let repContext = UIViewControllerRepresentableContext<Base>(coordinator: context.coordinator)
+        return base.sizeThatFits(proposedSize, uiViewController: provider, context: repContext)
     }
     
     func overrideSizeThatFits(_ size: inout CGSize, in proposedSize: ProposedViewSize, platformView: Base.UIViewControllerType) {

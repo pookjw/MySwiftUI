@@ -477,6 +477,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             }
             
             let size = MainActor.assumeIsolated {
+                // $s7SwiftUI08ViewLeafC0V12sizeThatFits2in11environment7contextSo6CGSizeVAA13_ProposedSizeV_14AttributeGraph0N0VyAA17EnvironmentValuesVGAL14AnyRuleContextVtFyyXEfU_AISgyScMYcXEfU0_
                 return content.sizeThatFits(ProposedViewSize(proposedSize), provider: self.representedViewProvider, context: context)
             }
             
@@ -497,6 +498,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 }
                 
                 MainActor.assumeIsolated {
+                    // $s7SwiftUI08ViewLeafC0V12sizeThatFits2in11environment7contextSo6CGSizeVAA13_ProposedSizeV_14AttributeGraph0N0VyAA17EnvironmentValuesVGAL14AnyRuleContextVtFyyXEfU_yyScMYcXEfU1_
                     content.overrideSizeThatFits(&result2, in: ProposedViewSize(proposedSize), platformView: self.representedViewProvider)
                 }
                 
