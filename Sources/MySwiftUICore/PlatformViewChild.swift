@@ -447,7 +447,64 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     func sizeThatFits(in proposedSize: _ProposedSize, environment: Attribute<EnvironmentValues>, context: AnyRuleContext) -> CGSize {
-        fatalError("TODO")
+        /*
+         proposedSize -> x0
+         environment -> x1 -> x21
+         context -> x2 -> x19
+         */
+        // sp + 0x20
+        var result = CGSize.zero
+        
+        Update.syncMain {
+            // $s7SwiftUI08ViewLeafC0V12sizeThatFits2in11environment7contextSo6CGSizeVAA13_ProposedSizeV_14AttributeGraph0N0VyAA17EnvironmentValuesVGAL14AnyRuleContextVtFyyXEfU_
+            /*
+             result pointer -> x7 -> x29 - 0x98
+             self -> x0 -> x20
+             environment -> x1 -> x22
+             context -> x2 -> x21
+             proposedSize -> x3/w4/x5/w6 -> x27/w25/x24/w23
+             */
+            // <+128>
+            // x19
+            let context = MainActor.assumeIsolated { 
+                // $s7SwiftUI08ViewLeafC0V12sizeThatFits2in11environment7contextSo6CGSizeVAA13_ProposedSizeV_14AttributeGraph0N0VyAA17EnvironmentValuesVGAL14AnyRuleContextVtFyyXEfU_AA08Platformc13RepresentableT0VyxGyScMYcXEfU_
+                return PlatformViewRepresentableContext<Representable>(
+                    coordinator: self.coordinator,
+                    preferenceBridge: nil,
+                    transaction: Transaction(),
+                    environmentStorage: .lazy(environment, context)
+                )
+            }
+            
+            let size = MainActor.assumeIsolated {
+                return content.sizeThatFits(ProposedViewSize(proposedSize), provider: self.representedViewProvider, context: context)
+            }
+            
+            if let size {
+                // <+280>
+                result = size
+            } else {
+                var result2: CGSize
+                if Semantics.UnifiedLayout.isEnabled {
+                    result2 = self.unifiedLayoutSize(in: proposedSize)
+                } else {
+                    // <+296>
+                    // x29 - 0x90
+                    let traits = self.layoutTraits()
+                    result2 = proposedSize
+                        .fixingUnspecifiedDimensions(at: traits.idealSize)
+                        .clamped(to: traits)
+                }
+                
+                MainActor.assumeIsolated {
+                    content.overrideSizeThatFits(&result2, in: ProposedViewSize(proposedSize), platformView: self.representedViewProvider)
+                }
+                
+                result = result2
+            }
+        }
+        
+        return result
     }
     
     fileprivate func unifiedLayoutSize(in proposedSize: _ProposedSize) -> CGSize {
@@ -784,8 +841,25 @@ fileprivate struct PlatformViewLayoutEngine<Representable: CoreViewRepresentable
         fatalError("TODO")
     }
     
-    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        fatalError("TODO")
+    mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        // defer 있음
+        /*
+         self -> x20 -> x19
+         proposedSize -> x0 -> x20
+         */
+        // x29 - 0x128
+        let copy_1 = proposedSize
+        // x29 - 0xa0
+        let layoutInvalidtor = view.platformView.coreLayoutInvalidator
+        view.platformView.coreLayoutInvalidator = nil
+        
+        defer {
+            view.platformView.coreLayoutInvalidator = layoutInvalidtor
+        }
+        
+        return cache.get(proposedSize) {
+            return view.sizeThatFits(in: proposedSize, environment: environment, context: context)
+        }
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {

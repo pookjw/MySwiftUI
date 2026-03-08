@@ -2,8 +2,51 @@
 internal import CoreGraphics
 
 public struct _LayoutTraits: Equatable {
-    private var width: _LayoutTraits.Dimension
-    private var height: _LayoutTraits.Dimension
+    var width: _LayoutTraits.Dimension
+    var height: _LayoutTraits.Dimension
+    
+    init() {
+        width = _LayoutTraits.Dimension(min: 0, ideal: 0, max: .infinity)
+        height = _LayoutTraits.Dimension(min: 0, ideal: 0, max: .infinity)
+    }
+    
+    init(width: _LayoutTraits.Dimension, height: _LayoutTraits.Dimension) {
+        self.width = width
+        self.height = height
+    }
+    
+    static func fixed(_ value: CGFloat) -> _LayoutTraits.Dimension {
+        fatalError("TODO")
+    }
+}
+
+extension _LayoutTraits {
+    var idealSize: CGSize {
+        get {
+            return CGSize(width: width.ideal, height: height.ideal)
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    var minSize: CGSize {
+        get {
+            return CGSize(width: width.min, height: height.min)
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
+    
+    var maxSize: CGSize {
+        get {
+            return CGSize(width: width.max, height: height.max)
+        }
+        set {
+            fatalError("TODO")
+        }
+    }
 }
 
 @available(*, unavailable)

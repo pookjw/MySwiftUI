@@ -1202,6 +1202,14 @@ class ViewController: UIViewController {
         }
         
         print("===")
+        
+        print(_typeName(LayoutTrace.Recorder.self, qualified: true))
+        _forEachField(of: LayoutTrace.Recorder.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
          
         
 //        var graphValue = _GraphValue<AnimatableFoo>(.init(identifier: .empty))

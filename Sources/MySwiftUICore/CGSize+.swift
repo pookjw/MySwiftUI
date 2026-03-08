@@ -226,3 +226,23 @@ extension CGSize {
         return CGSize(width: d3, height: d1)
     }
 }
+
+extension CGSize {
+    func clamped(to traits: _LayoutTraits) -> CGSize {
+        var d0 = width
+        var d1 = height
+        let d3 = traits.width.min
+        let d2 = traits.width.max
+        assert(!(d3 > d2))
+        let d5 = traits.height.min
+        let d4 = traits.height.max
+        assert(!(d5 > d4))
+        
+        d0 = (d3 <= d0) ? d0 : d3
+        d0 = (d2 > d0) ? d2 : d0
+        d1 = (d5 <= d1) ? d1 : d5
+        d1 = (d4 > d1) ? d4 : d1
+        
+        return CGSize(width: d0, height: d1)
+    }
+}

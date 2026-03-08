@@ -504,7 +504,7 @@ struct ViewSizeCache {
         self.cache = cache
     }
     
-    mutating func get(_ key: _ProposedSize, makeValue: () -> CGSize) -> CGSize {
+    @inlinable mutating func get(_ key: _ProposedSize, makeValue: () -> CGSize) -> CGSize {
         let depth: CGFloat?
         if let layoutDepthData = _threadLayoutDepthData() {
             depth = layoutDepthData
@@ -515,7 +515,13 @@ struct ViewSizeCache {
         }
         
         let key3D = _ProposedSize3D(width: key.width, height: key.height, depth: depth)
-        return cache.get(key3D, makeValue: makeValue)
+        
+        let result = cache.get(key3D, makeValue: makeValue)
+        if let recorder = LayoutTrace.recorder {
+            recorder.cacheLookup = (proposal: key, hit: false)
+        }
+        
+        return result
     }
 }
 

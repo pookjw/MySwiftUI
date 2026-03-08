@@ -89,7 +89,24 @@ extension Semantics {
 }
 
 extension Semantics {
-    package struct UnifiedLayout {
+    package struct UnifiedLayout: Feature {
+        package static var isEnabled: Bool {
+            if isLinkedOnOrAfter(.v6) {
+                return true
+            } else {
+                let key = "com.apple.SwiftUI.EnableUnifiedLayout"
+                let defaults = UserDefaults.standard
+                
+                guard defaults.object(forKey: key) != nil else {
+                    return false
+                }
+                
+                return defaults.bool(forKey: key)
+            }
+        }
+        
+        package init() {}
+        
         // TODO
     }
 }

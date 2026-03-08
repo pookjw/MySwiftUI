@@ -1,11 +1,11 @@
 struct Cache3<Key: Equatable, Value> {
     private var store: ((key: Key, value: Value)?, (key: Key, value: Value)?, (key: Key, value: Value)?)
     
-    init() {
+    @inlinable init() {
         store = (nil, nil, nil)
     }
     
-    mutating func get(_ key: Key, makeValue: () -> Value) -> Value {
+    @inlinable mutating func get(_ key: Key, makeValue: () -> Value) -> Value {
         if let existing = find(key) {
             return existing
         }
@@ -15,7 +15,7 @@ struct Cache3<Key: Equatable, Value> {
         return newValue
     }
     
-    func find(_ key: Key) -> Value? {
+    @inlinable func find(_ key: Key) -> Value? {
         if let first = store.0, key == first.key {
             return first.value
         }
@@ -28,13 +28,13 @@ struct Cache3<Key: Equatable, Value> {
         return nil
     }
     
-    mutating func put(_ key: Key, value: Value) {
+    @inlinable mutating func put(_ key: Key, value: Value) {
         store.2 = store.1
         store.1 = store.0
         store.0 = (key, value)
     }
     
-    func map(_ transform: (_ incoming: (key: Key, value: Value)?) -> (key: Key, value: Value)?) -> Cache3<Key, Value> {
+    @inlinable func map(_ transform: (_ incoming: (key: Key, value: Value)?) -> (key: Key, value: Value)?) -> Cache3<Key, Value> {
         var copy = self
         copy.store.0 = transform(copy.store.0)
         copy.store.1 = transform(copy.store.1)

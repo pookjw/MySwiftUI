@@ -2022,3 +2022,9 @@ public enum SeparatedOptions {
       public static var keyPath: Swift.String { get }
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct LayoutTrace {
+  public final class Recorder {}
+}
