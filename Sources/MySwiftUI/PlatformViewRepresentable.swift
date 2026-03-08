@@ -424,3 +424,96 @@ extension UIKitPlatformViewHost {
         }
     }
 }
+
+struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresentable>: @MainActor PlatformViewRepresentable {
+    typealias PlatformViewProvider = Base.UIViewControllerType
+    typealias Host = UIKitPlatformViewHost<Self>
+    typealias Coordinator = Base.Coordinator
+    
+    fileprivate private(set) var base: Base
+    
+    static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
+        return CoreViewRepresentableDynamicPropertyFields(for: self)
+    }
+    
+    func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Base.UIViewControllerType {
+        let repContext = UIViewControllerRepresentableContext<Base>(coordinator: context.coordinator)
+        let uiViewController = base.makeUIViewController(context: repContext)
+        return uiViewController
+    }
+    
+    func updateViewProvider(_ provider: Base.UIViewControllerType, context: PlatformViewRepresentableContext<Self>) {
+        let repContext = UIViewControllerRepresentableContext<Base>(coordinator: context.coordinator)
+        base.updateUIViewController(provider, context: repContext)
+    }
+    
+    static func dismantleViewProvider(_ provider: Base.UIViewControllerType, coordinator: Base.Coordinator) {
+        Base.dismantleUIViewController(provider, coordinator: coordinator)
+    }
+    
+    static func platformView(for provider: Base.UIViewControllerType) -> AnyObject {
+        return provider.view
+    }
+    
+    func sizeThatFits(
+        _ proposedSize: ProposedViewSize,
+        provider: Base.UIViewControllerType,
+        context: PlatformViewRepresentableContext<Self>
+    ) -> CGSize? {
+        fatalError("TODO")
+    }
+    
+    func overrideSizeThatFits(_ size: inout CGSize, in proposedSize: ProposedViewSize, platformView: Base.UIViewControllerType) {
+        fatalError("TODO")
+    }
+    
+    func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Base.UIViewControllerType) -> CGFloat {
+        return provider.view._separatedThickness
+    }
+    
+    static func layoutOptions(_ provider: Base.UIViewControllerType) -> CoreViewRepresentableLayoutOptions {
+        let options = Base._layoutOptions(provider)
+        return CoreViewRepresentableLayoutOptions(rawValue: options.rawValue)
+    }
+    
+    func _identifiedViewTree(in provider: Base.UIViewControllerType) -> Any {
+        fatalError("TODO")
+    }
+    
+    func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Base.UIViewControllerType) {
+        fatalError("TODO")
+    }
+    
+    var body: Never {
+        fatalError("TODO")
+    }
+    
+    static func modifyBridgedViewInputs(_ inputs: inout MySwiftUICore._ViewInputs) {
+        // nop
+    }
+    
+    func makeCoordinator() -> Base.Coordinator {
+        return base.makeCoordinator()
+    }
+    
+    static var isViewController: Bool {
+        return true
+    }
+}
+
+extension UIView {
+    fileprivate var _separatedThickness: CGFloat {
+        guard
+            let value = self.layer[SeparatedOptions.SeparatedThickness.self],
+            !(value <= 0)
+        else {
+            return 0
+        }
+        
+        guard !(self.traitCollection.displayScale <= 0) else {
+            return 0
+        }
+        
+        return max(1.0 / traitCollection.displayScale, value)
+    }
+}

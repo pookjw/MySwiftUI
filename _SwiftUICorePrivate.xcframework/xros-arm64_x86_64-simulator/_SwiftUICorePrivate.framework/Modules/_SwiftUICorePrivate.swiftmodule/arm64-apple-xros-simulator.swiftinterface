@@ -1970,3 +1970,55 @@ public struct SafeAreaInsets {
     case empty
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol AnySeparatedOptionKey {
+  static var keyPath: Swift.String { get }
+  static var requiresSeparation: Swift.Bool { get }
+  static var isRequiredEffect: Swift.Bool { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol LayerProperty {
+  associatedtype Value
+  
+  static var keyPathPrefix: Swift.String { get }
+  static var keyPath: Swift.String { get }
+  static func boxValue(_ value: Self.Value) -> ObjectiveC.NSObject
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.LayerProperty where Self.Value == Swift.Bool {
+  public static func boxValue(_ value: Self.Value) -> ObjectiveC.NSObject
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.LayerProperty where Self.Value == CoreFoundation.CGFloat {
+  public static func boxValue(_ value: Self.Value) -> ObjectiveC.NSObject
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol SeparatedOptionKey: _SwiftUICorePrivate.AnySeparatedOptionKey, _SwiftUICorePrivate.LayerProperty {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.SeparatedOptionKey {
+    public static var keyPathPrefix: Swift.String { get }
+    public static var requiresSeparation: Swift.Bool { get }
+    public static var isRequiredEffect: Swift.Bool { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum SeparatedOptions {
+    public enum SeparatedThickness: _SwiftUICorePrivate.SeparatedOptionKey {
+      public typealias Value = CoreFoundation.CGFloat
+      public static var keyPath: Swift.String { get }
+  }
+}

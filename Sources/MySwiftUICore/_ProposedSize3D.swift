@@ -1,7 +1,7 @@
 internal import CoreGraphics
 internal import Spatial
 
-@_spi(Internal) public struct _ProposedSize3D: Hashable {
+@_spi(Internal) public struct _ProposedSize3D: Hashable, Sendable {
     static var unspecified: _ProposedSize3D {
         return _ProposedSize3D(width: nil, height: nil, depth: nil)
     }

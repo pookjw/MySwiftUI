@@ -458,8 +458,18 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         fatalError("TODO")
     }
     
-    func depthThatFits(in proposedSize: _ProposedSize3D) -> CGFloat {
-        fatalError("TODO")
+    nonisolated func depthThatFits(in proposedSize: _ProposedSize3D) -> CGFloat {
+        var depth: CGFloat = 0
+        let exec: @MainActor () -> CGFloat = {
+            // $s7SwiftUI08ViewLeafC0V13depthThatFits2in12CoreGraphics7CGFloatVAA15_ProposedSize3DV_tFyyXEfU_AHyScMYcXEfU_
+            return content.depthThatFits(proposedSize, provider: representedViewProvider)
+        }
+        
+        Update.syncMain {
+            depth = exec()
+        }
+        
+        return depth
     }
     
     var viewType: Any.Type {
@@ -782,7 +792,9 @@ fileprivate struct PlatformViewLayoutEngine<Representable: CoreViewRepresentable
         fatalError("TODO")
     }
     
-    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        fatalError("TODO")
+    mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        return depthCache.get(proposedSize) {
+            return view.depthThatFits(in: proposedSize)
+        }
     }
 }
