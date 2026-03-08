@@ -39,7 +39,7 @@ extension CoreViewRepresentable {
     }
     
     public static func dismantleViewProvider(_ provider: Self.PlatformViewProvider, coordinator: Self.Coordinator) {
-        fatalError("TODO")
+        fatalError() // 원래 nop이지만 확인차
     }
     
     public func sizeThatFits(_ proposedSize: ProposedViewSize, provider: Self.PlatformViewProvider, context: PlatformViewRepresentableContext<Self>) -> CGSize? {
@@ -156,7 +156,7 @@ extension CoreViewRepresentable {
             let copy_5 = copy_3
             
             // <+1760>
-            for feature in proxy.reversed() {
+            for feature in proxy.base.reversed() {
                 feature.modifyViewInputs(inputs: &copy_4, proxy: featureProxy)
             }
             
@@ -177,7 +177,7 @@ extension CoreViewRepresentable {
             var outptus = ViewLeafView<Self>.makeDebuggableView(view: _GraphValue(childAttribute), inputs: copy_7)
             
             // <+2176>
-            for feature in proxy.reversed() {
+            for feature in proxy.base.reversed() {
                 feature.modifyViewOutputs(outputs: &outptus, proxy: featureProxy)
                 feature.modifyBridgedInputs(inputs: &copy_2, proxy: featureProxy)
             }
@@ -220,43 +220,11 @@ extension CoreViewRepresentable where Coordinator == Void {
     }
 }
 
-@_spi(Internal) public struct CoreViewRepresentableFeatureBufferProxy: Collection {
-    var base: CoreViewRepresentableFeatureBuffer
+@_spi(Internal) public struct CoreViewRepresentableFeatureBufferProxy {
+    package var base: CoreViewRepresentableFeatureBuffer
     
     init() {
         base = CoreViewRepresentableFeatureBuffer()
-    }
-    
-    public mutating func append<Feature: CoreViewRepresentableFeature>(_ feature: Feature) {
-        base.append(feature)
-    }
-    
-    func destroy() {
-        fatalError("TODO")
-    }
-    
-    public var isEmpty: Bool {
-        return base.isEmpty
-    }
-    
-    public var startIndex: UnsafeHeterogeneousBuffer.Index {
-        return base.startIndex
-    }
-    
-    public var endIndex: UnsafeHeterogeneousBuffer.Index {
-        return base.endIndex
-    }
-    
-    public func index(after i: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
-        return base.index(after: i)
-    }
-    
-    public func formIndex(after i: inout UnsafeHeterogeneousBuffer.Index) {
-        base.formIndex(after: &i)
-    }
-    
-    public subscript(position: UnsafeHeterogeneousBuffer.Index) -> CoreViewRepresentableFeatureBuffer.Element {
-        return base[position]
     }
 }
 
@@ -324,8 +292,12 @@ extension CoreViewRepresentable where Coordinator == Void {
         contents = UnsafeHeterogeneousBuffer()
     }
     
+    mutating func destroy() {
+        contents.destroy()
+    }
+    
     @discardableResult
-    mutating func append<Feature: CoreViewRepresentableFeature>(_ feature: Feature) -> UnsafeHeterogeneousBuffer.Index {
+    package mutating func append<Feature: CoreViewRepresentableFeature>(_ feature: Feature) -> UnsafeHeterogeneousBuffer.Index {
         return contents.append(feature, vtable: _VTable<Feature>.self)
     }
     
@@ -452,7 +424,8 @@ extension CoreViewRepresentableFeatureBuffer {
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-            fatalError("TODO")
+            let body = elt.body(as: Feature.self)
+            body.deinitialize(count: 1)
         }
         
         override class func modifyViewInputs<Representable: CoreViewRepresentable>(

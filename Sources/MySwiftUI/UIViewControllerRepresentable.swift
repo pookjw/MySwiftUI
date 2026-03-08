@@ -46,7 +46,7 @@ extension UIViewControllerRepresentable {
     }
     
     @MainActor @preconcurrency public static func dismantleUIViewController(_ uiViewController: Self.UIViewControllerType, coordinator: Self.Coordinator) {
-        fatalError("TODO")
+        // nop
     }
     
     public nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -171,6 +171,10 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
     func updateViewProvider(_ provider: Base.UIViewControllerType, context: PlatformViewRepresentableContext<Self>) {
         let repContext = UIViewControllerRepresentableContext<Base>(coordinator: context.coordinator)
         base.updateUIViewController(provider, context: repContext)
+    }
+    
+    static func dismantleViewProvider(_ provider: Base.UIViewControllerType, coordinator: Base.Coordinator) {
+        Base.dismantleUIViewController(provider, coordinator: coordinator)
     }
     
     static func platformView(for provider: Base.UIViewControllerType) -> AnyObject {

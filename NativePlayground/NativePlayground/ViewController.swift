@@ -1466,10 +1466,10 @@ class ViewController: UIViewController {
         print(NSStringFromClass(object_getClass(hostingController)!))
         print(hostingController)
         
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            navigationController?.popViewController(animated: true)
-        }
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            navigationController?.popViewController(animated: true)
+//        }
     }
 }
 

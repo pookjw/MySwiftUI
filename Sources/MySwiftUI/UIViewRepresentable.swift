@@ -44,7 +44,7 @@ extension UIViewRepresentable {
     }
     
     @MainActor @preconcurrency public static func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator) {
-        fatalError("TODO")
+        // nop
     }
     
     public nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -154,7 +154,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     static func dismantleViewProvider(_ provider: Base.UIViewType, coordinator: Base.Coordinator) {
-        fatalError("TODO")
+        Base.dismantleUIView(provider, coordinator: coordinator)
     }
     
     func makeCoordinator() -> Base.Coordinator {

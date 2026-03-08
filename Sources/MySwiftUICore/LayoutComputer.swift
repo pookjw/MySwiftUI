@@ -507,4 +507,17 @@ extension StatefulRule where Value == LayoutComputer {
             self.value = LayoutComputer(create())
         }
     }
+    
+    func update<Engine: LayoutEngine>(to engine: Engine) {
+        update(
+            modify: { engine in
+                // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE6update2toyqd___tAD0G6EngineRd__lFyqd__zXEfU_TA
+                fatalError("TODO")
+            },
+            create: {
+                // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE6update2toyqd___tAD0G6EngineRd__lFqd__yXEfU0_TA
+                return engine
+            }
+        )
+    }
 }

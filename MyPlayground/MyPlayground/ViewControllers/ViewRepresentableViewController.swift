@@ -1,5 +1,5 @@
 //
-//  ViewRepresentableViewController.swift
+//  ViewRepViewController.swift
 //  MyPlayground
 //
 //  Created by Jinwoo Kim on 2/22/26.
@@ -23,7 +23,7 @@ fileprivate struct MyView: UIViewRepresentable {
     }
 }
 
-final class ViewRepresentableViewController: UIViewController {
+final class ViewRepViewController: UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

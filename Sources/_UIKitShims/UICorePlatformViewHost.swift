@@ -31,7 +31,25 @@ public import _UIKitPrivate
     }
     
     open override func removeFromSuperview() {
-        fatalError("TODO")
+        guard let vc else {
+            super.removeFromSuperview()
+            return
+        }
+        
+        // vc -> x19
+        vc.willMove(toParent: nil)
+        vc.view.removeFromSuperview()
+        vc.removeFromParent()
+        
+        super.removeFromSuperview()
+        
+        if
+            let host,
+            let provider = host.as(UICoreViewControllerProvider.self),
+            let coreUIViewController = provider.coreUIViewController
+        {
+            coreUIViewController.setOverrideTraitCollection(nil, forChild: vc)
+        }
     }
     
     open override func didMoveToWindow() {
@@ -682,10 +700,6 @@ public import _UIKitPrivate
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        fatalError("TODO")
-    }
-    
     open func coreLayoutTraits() -> _LayoutTraits {
         fatalError("TODO")
     }
@@ -890,11 +904,6 @@ extension UICorePlatformViewHost {
             }
             
             view.layer.addObserver(self, forKeyPath: "separatedOptions.separatedThickness", options: [.new], context: nil)
-        }
-        
-        deinit {
-            // 없을 수도 있음 아니면 View에서 invalidate를 호출하거나
-            fatalError("TODO")
         }
         
         @MainActor func invalidate() {

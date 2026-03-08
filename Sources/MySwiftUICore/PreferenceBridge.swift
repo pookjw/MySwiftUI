@@ -83,6 +83,19 @@ internal import AttributeGraph
             _openExistential(key, do: project)
         }
     }
+    
+    func invalidate() {
+        self.requestedPreferences = PreferenceKeys()
+        self.bridgedViewInputs = PropertyList()
+        
+        if !children.isEmpty {
+            fatalError("TODO")
+        }
+        
+        // <+2044>
+        self.viewGraph = nil
+        self.isValid = false
+    }
 }
 
 extension PreferenceBridge {

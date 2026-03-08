@@ -43,10 +43,10 @@ final class DemoViewController: UICollectionViewController {
         let item = DemoViewController.Item.viewControllerRepresentable
         pushToItem(item)
         
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            navigationController?.popViewController(animated: true)
-        }
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            navigationController?.popViewController(animated: true)
+//        }
     }
     
     @objc private func activateSceneBarButtonItem(_ sender: UIBarButtonItem) {
@@ -110,6 +110,7 @@ extension DemoViewController {
         case hostingViewController
         case viewRepresentable
         case viewControllerRepresentable
+        case toggleRepView
         case colorSchemeTestView
         
         var title: String {
@@ -161,9 +162,11 @@ extension DemoViewController {
             case .hostingViewController:
                 return _typeName(HostingViewController.self, qualified: false)
             case .viewRepresentable:
-                return _typeName(ViewRepresentableViewController.self, qualified: false)
+                return _typeName(ViewRepViewController.self, qualified: false)
             case .viewControllerRepresentable:
-                return _typeName(ViewControllerRepresentableViewController.self, qualified: false)
+                return _typeName(ViewControllerRepViewController.self, qualified: false)
+            case .toggleRepView:
+                return _typeName(SwitchRepViewController.self, qualified: false)
             case .colorSchemeTestView:
                 return _typeName(ColorSchemeTestViewController.self, qualified: false)
             }
@@ -218,9 +221,11 @@ extension DemoViewController {
             case .hostingViewController:
                 return HostingViewController()
             case .viewRepresentable:
-                return ViewRepresentableViewController()
+                return ViewRepViewController()
             case .viewControllerRepresentable:
-                return ViewControllerRepresentableViewController()
+                return ViewControllerRepViewController()
+            case .toggleRepView:
+                return SwitchRepViewController()
             case .colorSchemeTestView:
                 return ColorSchemeTestViewController()
             }

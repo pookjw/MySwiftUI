@@ -18,7 +18,7 @@ public struct Binding<Value> {
     }
     
     public var projectedValue: Binding<Value> {
-        fatalError("TODO")
+        return self
     }
     
     public static func constant(_ value: Value) -> Binding<Value> {

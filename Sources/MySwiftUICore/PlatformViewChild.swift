@@ -13,7 +13,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     private let parentID: ScrapeableID // 0x1c
     private let bridge: PreferenceBridge // 0x20
     private var links: _DynamicPropertyBuffer // 0x28
-    private var features: CoreViewRepresentableFeatureBufferProxy // 0x30
+    private var features: CoreViewRepresentableFeatureBufferProxy // 0x38
     private var coordinator: Representable.Coordinator? // 0x48 (offset) / 0x4c (offset field)
     private var platformView: Representable.Host? // 0x50 (offset) / 0x50 (offset field)
     private var resetSeed: UInt32 // 0x58 (offset) / 0x54 (offset field)
@@ -176,7 +176,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                     // <+2128>
                 }
                 
-                for feature in features {
+                for feature in features.base {
                     feature.update(forHost: platformView, environment: &environment, isInitialUpdate: false)
                 }
                 
@@ -281,7 +281,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                                 return UncheckedSendable(host)
                             }.value
                             
-                            for feature in features {
+                            for feature in features.base {
                                 feature.update(forHost: host, environment: &environment, isInitialUpdate: true)
                             }
                             
@@ -368,11 +368,23 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         // <+548>
         links.destroy()
         // <+556>
-        fatalError("TODO")
+        if let coordinator, let representedViewProvider {
+            // <+632>
+            Update.syncMain { [u0 = UncheckedSendable(representedViewProvider), u1 = UncheckedSendable(coordinator)] in
+                Representable.dismantleViewProvider(u0.value, coordinator: u1.value)
+            }
+            
+            self.reset()
+        }
+        
+        // <+1260>
+        bridge.invalidate()
+        features.base.destroy()
     }
     
-    fileprivate func reset() {
-        fatalError("TODO")
+    fileprivate mutating func reset() {
+        self.coordinator = nil
+        self.platformView = nil
     }
     
     static func willRemove(attribute: AnyAttribute) {
@@ -504,7 +516,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         }
         
         // <+804>
-        if inputs.base.options.contains(.animationsDisabled) {
+        if inputs.base.options.contains(.viewRequestsLayoutComputer) {
             // <+812>
             let environment = LeafLayoutEnvironment(environment: inputs.environment, tracker: PropertyList.Tracker())
             // w24
@@ -720,6 +732,57 @@ fileprivate struct InvalidatableLeafLayoutComputer<Representable: CoreViewRepres
     typealias Value = LayoutComputer
     
     func updateValue() {
+        // self -> x20 -> x19 + 0x38
+        // <+204>
+        // x19 + 0x180
+        if self.view.platformView.coreLayoutInvalidator == nil {
+            self.view.platformView.coreLayoutInvalidator = ViewGraphHost.LayoutInvalidator(
+                viewGraph: viewGraph,
+                layoutComputer: WeakAttribute<LayoutComputer>(Attribute(identifier: .current!))
+            )
+        }
+        
+        // <+600>
+        let engine = PlatformViewLayoutEngine(
+            cache: ViewSizeCache(),
+            view: view,
+            environment: $environment,
+            context: AnyRuleContext(attribute: .current!),
+            depthCache: Cache3()
+        )
+        
+        update(to: engine)
+    }
+}
+
+fileprivate struct PlatformViewLayoutEngine<Representable: CoreViewRepresentable>: LayoutEngine {
+    private var cache: ViewSizeCache
+    private var view: ViewLeafView<Representable>
+    private var environment: Attribute<EnvironmentValues>
+    private var context: AnyRuleContext
+    private var depthCache: Cache3<_ProposedSize3D, CGFloat>
+    
+    init(cache: ViewSizeCache, view: ViewLeafView<Representable>, environment: Attribute<EnvironmentValues>, context: AnyRuleContext, depthCache: Cache3<_ProposedSize3D, CGFloat>) {
+        self.cache = cache
+        self.view = view
+        self.environment = environment
+        self.context = context
+        self.depthCache = depthCache
+    }
+    
+    func spacing() -> Spacing {
+        fatalError("TODO")
+    }
+    
+    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        fatalError("TODO")
+    }
+    
+    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        fatalError("TODO")
+    }
+    
+    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         fatalError("TODO")
     }
 }

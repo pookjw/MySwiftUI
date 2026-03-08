@@ -1,5 +1,5 @@
 private import Foundation
-private import AttributeGraph
+internal import AttributeGraph
 package import QuartzCore
 internal import CoreGraphics
 
@@ -309,8 +309,8 @@ extension ViewGraphHost {
     }
     
     public struct LayoutInvalidator {
-        private weak var viewGraph: ViewGraph?
-        private var layoutComputer: WeakAttribute<LayoutComputer>
+        private(set) weak var viewGraph: ViewGraph?
+        private(set) var layoutComputer: WeakAttribute<LayoutComputer>
         
         package func invalidate() {
             fatalError("TODO")
