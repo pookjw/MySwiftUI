@@ -1,3 +1,4 @@
+// FE44D2068AD13DD2180BAE4B95800306
 internal import UIKit
 internal import MySwiftUICore
 
@@ -48,11 +49,21 @@ final class UIKitPopoverBridge: NSObject {
         }
     }
     
-    func updateInspectorIfNeeded(_ values: PreferenceValues) {
+    @inlinable
+    func preferenceDidChange(_ values: PreferenceValues) {
+        updateInspectorIfNeeded(values)
+        updatePopoverIfNeeded(
+            values[PopoverPresentation.Key.self],
+            presentationOptionsPreference: values[PresentationOptionsPreferenceKey.self],
+            backgroundPreference: values[ContainerBackgroundKeys.HostTransparency.self]
+        )
+    }
+    
+    fileprivate func updateInspectorIfNeeded(_ values: PreferenceValues) {
         fatalError("TODO")
     }
     
-    func updatePopoverIfNeeded(
+    fileprivate func updatePopoverIfNeeded(
         _ popoverPresentationPreference: PreferenceValues.Value<[PopoverPresentation]>,
         presentationOptionsPreference: PreferenceValues.Value<PresentationOptionsPreference>,
         backgroundPreference: PreferenceValues.Value<ContainerBackgroundKeys.Transparency>

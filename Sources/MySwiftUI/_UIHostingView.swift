@@ -1731,12 +1731,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         deprecatedActionSheetBridge.preferencesDidChange(preferenceValues)
         
         if let popoverBridge {
-            popoverBridge.updateInspectorIfNeeded(preferenceValues)
-            popoverBridge.updatePopoverIfNeeded(
-                preferenceValues[PopoverPresentation.Key.self],
-                presentationOptionsPreference: preferenceValues[PresentationOptionsPreferenceKey.self],
-                backgroundPreference: preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
-            )
+            popoverBridge.preferenceDidChange(preferenceValues)
         }
         
         editMenuBridge.preferencesDidChange(preferenceValues)

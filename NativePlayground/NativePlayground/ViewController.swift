@@ -81,10 +81,18 @@ final class PrivateSelectors: NSObject {
     }
 }
 
-struct Foo_1: _SwiftUICorePrivate.PreferenceKey {
+struct Foo_1: SwiftUI.PreferenceKey {
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        fatalError()
+    }
+    
     public static var defaultValue: Bool { return false }
 }
-struct Foo_2: _SwiftUICorePrivate.PreferenceKey {
+struct Foo_2: SwiftUI.PreferenceKey {
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        fatalError()
+    }
+    
     public static var defaultValue: Bool { return false }
 }
 

@@ -324,31 +324,34 @@ public struct RepresentableContextValues {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol PreferenceKey {
-  associatedtype Value
-    
-  static var defaultValue: Value {
-      get
+public protocol HostPreferenceKey: SwiftUI.PreferenceKey {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PreferenceValues {
+  public struct Value<T> {
+    public var value: T
+    public var seed: _SwiftUICorePrivate.VersionSeed
+    public init(value: T, seed: _SwiftUICorePrivate.VersionSeed)
   }
+  public init()
+  public var seed: _SwiftUICorePrivate.VersionSeed { get }
+  public subscript<T: SwiftUI.PreferenceKey>(_ key: T.Type) -> _SwiftUICorePrivate.PreferenceValues.Value<T.Value> {
+    get
+    mutating set
+  }
+  public mutating func combine(with values: _SwiftUICorePrivate.PreferenceValues)
 }
-
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol HostPreferenceKey: _SwiftUICorePrivate.PreferenceKey {
-}
-
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct PreferenceValues {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct PreferenceKeys: Swift.Equatable, Swift.RandomAccessCollection {
   public init()
-  public mutating func remove(_ key: any (_SwiftUICorePrivate.PreferenceKey).Type)
-  public func contains(_ key: any (_SwiftUICorePrivate.PreferenceKey).Type) -> Swift.Bool
-  public mutating func add(_ key: any (_SwiftUICorePrivate.PreferenceKey.Type))
-  public subscript(_ index: Swift.Int) -> any (_SwiftUICorePrivate.PreferenceKey).Type { get }
+  public mutating func remove(_ key: any (SwiftUI.PreferenceKey).Type)
+  public func contains(_ key: any (SwiftUI.PreferenceKey).Type) -> Swift.Bool
+  public mutating func add(_ key: any (SwiftUI.PreferenceKey.Type))
+  public subscript(_ index: Swift.Int) -> any (SwiftUI.PreferenceKey).Type { get }
   public var isEmpty: Swift.Bool { get }
   public var startIndex: Swift.Int { get }
   public var endIndex: Swift.Int { get }
@@ -1237,12 +1240,12 @@ extension _SwiftUICorePrivate.DynamicContainer {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct PreferencesInputs {
-  public mutating func add<Key: _SwiftUICorePrivate.PreferenceKey>(_: Key.Type)
+  public mutating func add<Key: SwiftUI.PreferenceKey>(_: Key.Type)
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewRespondersKey: _SwiftUICorePrivate.PreferenceKey {
+public struct ViewRespondersKey: SwiftUI.PreferenceKey {
   public static var defaultValue: [_SwiftUICorePrivate.ViewResponder]
   public static func reduce(value: inout [_SwiftUICorePrivate.ViewResponder], nextValue: () -> [_SwiftUICorePrivate.ViewResponder])
 }

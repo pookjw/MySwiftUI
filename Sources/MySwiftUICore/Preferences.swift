@@ -450,6 +450,8 @@ package struct PreferenceValues {
         // self -> x29 - 0xd8
         // x29 - 0xe0
         let otherEntries = values.entries
+        // x29 - 0xe8
+        let x290xe8 = otherEntries.count
         
         guard !otherEntries.isEmpty else {
             return
@@ -461,24 +463,62 @@ package struct PreferenceValues {
         }
         
         // x24 -> self.entries
+        // x26
+        var count = self.entries.count
+        // x25
+        var otherIndex = 0
+        // x19
+        var iterationCount = 0
+        // x23
+        var selfIndex = 0
         // <+68>
-        for index in otherEntries.indices {
+        while true {
             // x8
-            let key = self.entries[index].key
-            let otherEntry = otherEntries[index]
+            let key = self.entries[selfIndex].key
+            let otherEntry = otherEntries[otherIndex]
             // x9
             let otherKey = otherEntry.key
             
             if key == otherKey {
                 // <+240>
-                self.entries[index].reduce(otherEntry)
+                self.entries[selfIndex].reduce(otherEntry)
+                otherIndex &+= 1
+                // <+808>
             } else if ObjectIdentifier(otherKey) >= ObjectIdentifier(key) {
-                // nop
+                // <+808>
             } else {
                 // <+164>
-                self.entries.insert(otherEntry, at: index)
+                self.entries.insert(otherEntry, at: selfIndex)
+                count &+= 1
+                otherIndex &+= 1
+                // <+808>
+            }
+            
+            // <+808>
+            iterationCount &+= 1
+            
+            if iterationCount >= count {
+                // <+868>
+                break
+            } else {
+                selfIndex &+= 1
+                
+                if otherIndex < x290xe8 {
+                    // <+96>
+                    continue
+                } else {
+                    // <+868>
+                    break
+                }
             }
         }
+        
+        if !(otherIndex >= x290xe8) {
+            // <+880>
+            self.entries.append(contentsOf: otherEntries[otherIndex..<x290xe8])
+        }
+        
+        // <+976>
     }
     
     fileprivate func index<T: PreferenceKey>(of key: T.Type) -> Int? {
@@ -510,11 +550,17 @@ package struct PreferenceValues {
          key -> x1/x2 -> x26/x25
          index -> x3 -> x19
          */
-        if (entries.count == index) || (entries[index].key != T.self) {
+        if (entries.count == index) || (entries[index].key != key) {
             if !value.seed.isEmpty {
                 // <+156>
                 let entry = PreferenceValues.Entry(key: key, seed: value.seed, value: value.value)
                 entries.insert(entry, at: index)
+            }
+        } else {
+            if !value.seed.isEmpty {
+                entries[index][] = value
+            } else {
+                entries.remove(at: index)
             }
         }
     }
@@ -539,7 +585,13 @@ extension PreferenceValues {
         var value: Any
         
         subscript<T>() -> PreferenceValues.Value<T> {
-            return PreferenceValues.Value(value: value as! T, seed: seed)
+            get {
+                return PreferenceValues.Value(value: value as! T, seed: seed)
+            }
+            set {
+                self.value = newValue.value
+                self.seed = newValue.seed
+            }
         }
         
         mutating func reduce(_ other: PreferenceValues.Entry) {
