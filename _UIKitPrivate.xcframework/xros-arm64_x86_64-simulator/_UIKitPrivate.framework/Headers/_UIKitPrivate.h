@@ -47,3 +47,4 @@
 #import <_UIKitPrivate/UIUserInterfaceRenderingMode.h>
 #import <_UIKitPrivate/UIViewGlassGetLegibility.h>
 #import <_UIKitPrivate/UITypedStorage.h>
+#import <_UIKitPrivate/UIRealityCoordinateSpace.h>

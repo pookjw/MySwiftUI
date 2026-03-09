@@ -151,10 +151,51 @@ fileprivate struct ExportedCustomPreferences: AnyExportedPreference {
     }
     
     mutating func apply(to host: any MRUIPreferenceHostProtocol) {
+        /*
+         self -> x20
+         host -> x0 -> x29 - 0xb0
+         */
+        // <+252>
+        guard !self.seed.matches(.empty) else {
+            return
+        }
+        
+        // self.values -> x28 -> x29 - 0xb8
+        guard !values.isEmpty else {
+            return
+        }
+        
         fatalError("TODO")
     }
     
     mutating func preferencesDidChange(_ values: MySwiftUICore.PreferenceValues) {
+        /*
+         self -> x20 -> x27
+         values -> x0 -> x20
+         */
+        // <+688>
+        // x21
+        let prefValue = values[MRUICustomPreferencesKey.self]
+        
+        guard !self.seed.matches(prefValue.seed) else {
+            return
+        }
+        
+        // <+788>
+        self.seed = prefValue.seed
+        // x29 - 0xa0
+        let newValue = prefValue.value
+        
+        guard !newValue.isEmpty else {
+            return
+        }
+        
+        for (key, value) in newValue {
+            /*
+             key -> x29 - 0xf0
+             value -> x29 - 0xc8
+             */
+        }
         fatalError("TODO")
     }
 }

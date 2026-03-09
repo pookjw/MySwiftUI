@@ -8,12 +8,13 @@
 #import <_UIKitPrivate/UILayoutAxes.h>
 #import <_UIKitPrivate/UITraitChangeObservableInternal.h>
 #import <_UIKitPrivate/UIPlatterGroundingShadowVisibility.h>
+#import <_UIKitPrivate/UIRealityCoordinateSpace.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No longer supported", ios(26.0, 26.4));
 
-@interface UIView (Private) <UITraitChangeObservableInternal, _UIGestureRecognizerContainer>
+@interface UIView (Private) <UITraitChangeObservableInternal, _UIGestureRecognizerContainer, UIRealityCoordinateSpace>
 + (BOOL)_supportsInvalidatingFocusCache;
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
 @property (nonatomic, readonly, nullable) UIKeyboardSceneDelegate *keyboardSceneDelegate;
@@ -46,7 +47,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No
 - (_UIBaselineOffsetPair)_baselineOffsetsAtSize:(CGSize)size;
 - (void)_didChangeToFirstResponder:(UIResponder * _Nullable)responder;
 - (void)_geometryChanged:(void *)context forAncestor:(UIView * _Nullable)ancestor;
-- (UIResponder<_UIGestureRecognizerContainer> * _Nullable)_hitTestWithContext:(_UIHitTestContext *)context;
+- (UIResponder<_UIGestureRecognizerContainer> * _Nullable)_hitTestWithContext:(_UIHitTestContext * _Nullable)context;
 - (void)_safeAreaCornerInsetsDidChange;
 - (CGSize)_layoutSizeThatFits:(CGSize)size fixedAxes:(UIAxis)axes;
 - (UILayoutPriority)_priorityForEngineHostConstraints;

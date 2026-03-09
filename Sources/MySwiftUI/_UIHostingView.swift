@@ -14,6 +14,7 @@ internal import UIAccessibility
 private import os.log
 private import Spatial
 private import RealitySimulationServices
+private import CoreRE
 
 // TODO: 지워야함
 fileprivate let mySwiftUI_disableUnimplementedAssertion: Bool = {
@@ -572,9 +573,45 @@ open class _UIHostingView<Content: View>: UIView {
         unsafe base._geometryChanged(context, forAncestor: ancestor)
     }
     
-    open override func _hitTest(with context: _UIHitTestContext) -> (any UIResponder & _UIGestureRecognizerContainer)? {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super._hitTest(with: context)
+    open override func _hitTest(with context: _UIHitTestContext?) -> (any UIResponder & _UIGestureRecognizerContainer)? {
+        /*
+         self -> x20 -> x19
+         context -> x0 -> x28
+         */
+        // <+408>
+        if GestureContainerFeature.isEnabled {
+            let context = context!
+            
+            if let event = context.event {
+                self.currentEvent = event
+            }
+            
+            // <+476>
+            Update.begin()
+            
+            Graph.withoutUpdate { 
+                self.updateTransformWithoutGeometryObservation()
+            }
+            
+            let d8: CGFloat
+            let d9: CGFloat
+            let d10: CGFloat
+            do {
+                let point3D = context.point3D
+                d8 = point3D.x
+                d9 = point3D.y
+                d10 = point3D.z
+            }
+            
+            let d11 = context.radius
+            // x26
+            let serverHitTestedResponder = context.serverHitTestedResponder
+            let serverHitTestedEntityID = context.serverHitTestedEntityID
+            fatalError("TODO")
+        } else {
+            // <+748>
+            fatalError("TODO")
+        }
     }
     
     open override var _intelligenceBaseClass: AnyClass {
@@ -945,6 +982,10 @@ open class _UIHostingView<Content: View>: UIView {
     
     final func viewControllerDidAppear(transitionCoordinator: UIViewControllerTransitionCoordinator?, animated: Bool) {
         focusBridge.hostingControllerDidAppear()
+    }
+    
+    final func updateTransformWithoutGeometryObservation() {
+        fatalError("TODO")
     }
     
     private func updateWindowGeometryScene() {

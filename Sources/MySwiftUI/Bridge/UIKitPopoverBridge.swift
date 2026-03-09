@@ -104,21 +104,39 @@ private import _UIKitPrivate
         // x27
         let firstPopoverPresentation = popoverPresentationPreference.value.first
         
-        if popoverPresentationCount <= 1 {
-            // <+1832>
-            switch activePresentation {
-            case .none:
-                // <+1940>
-                let presenter = self.presenter
-                fatalError("TODO")
-            default:
-                fatalError("TODO")
-            }
-        } else {
+        guard popoverPresentationCount <= 1 else {
             // <+2384>
             fatalError("TODO")
         }
         
+        // <+1832>
+        switch activePresentation {
+        case .none:
+            // <+1940>
+            if let presenter = self.presenter {
+                // <+1956>
+                // presenter -> x19 + 0x8
+                if self.popoverSeed.matches(popoverPresentationPreference.seed) {
+                    // <+2096>
+                    guard isParentPresentationFromLikeKindBridge else {
+                        // <+2372>
+                        return
+                    }
+                    
+                    // <+2096>
+                    fatalError("TODO")
+                } else {
+                    // <+2384>
+                }
+            } else {
+                // <+2384>
+            }
+        default:
+            // <+2384>
+            break
+        }
+        
+        // <+2384>
         fatalError("TODO")
     }
     
@@ -136,6 +154,18 @@ private import _UIKitPrivate
         }
         
         return host.uiView?._viewControllerForAncestor()
+    }
+    
+    fileprivate var isParentPresentationFromLikeKindBridge: Bool {
+        guard
+            let host,
+            let uiViewController = host.uiViewController,
+            let presentationHostingController = uiViewController as? PresentationHostingController<AnyView>
+        else {
+            return false
+        }
+        
+        fatalError("TODO")
     }
 }
 
