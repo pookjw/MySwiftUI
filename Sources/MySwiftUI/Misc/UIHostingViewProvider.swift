@@ -14,7 +14,7 @@ protocol UIHostingViewProvider: AnyObject {
         get
     }
     
-    var inspectorBridge: UIKitInspectorBridgeV3? {
+    var popoverBridge: UIKitPopoverBridge? {
         get
     }
     

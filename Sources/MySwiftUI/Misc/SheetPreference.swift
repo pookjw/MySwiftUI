@@ -9,8 +9,14 @@ extension SheetPreference {
         
     }
     
-    struct InspectorKey {
+    struct InspectorKey: HostPreferenceKey {
+        @safe static nonisolated(unsafe) let defaultValue: SheetPreference.Value = {
+            fatalError("TODO")
+        }()
         
+        static func reduce(value: inout SheetPreference.Value, nextValue: () -> SheetPreference.Value) {
+            fatalError("TODO")
+        }
     }
     
     enum Value {

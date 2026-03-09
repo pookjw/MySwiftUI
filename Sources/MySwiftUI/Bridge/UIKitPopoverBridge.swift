@@ -47,6 +47,18 @@ final class UIKitPopoverBridge: NSObject {
             return
         }
     }
+    
+    func updateInspectorIfNeeded(_ values: PreferenceValues) {
+        fatalError("TODO")
+    }
+    
+    func updatePopoverIfNeeded(
+        _ popoverPresentationPreference: PreferenceValues.Value<[PopoverPresentation]>,
+        presentationOptionsPreference: PreferenceValues.Value<PresentationOptionsPreference>,
+        backgroundPreference: PreferenceValues.Value<ContainerBackgroundKeys.Transparency>
+    ) {
+        fatalError("TODO")
+    }
 }
 
 extension UIKitPopoverBridge {

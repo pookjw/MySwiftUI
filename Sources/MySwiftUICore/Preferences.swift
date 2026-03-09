@@ -447,6 +447,24 @@ package struct PreferenceValues {
     }
     
     package mutating func combine(with values: PreferenceValues) {
+        // self -> x29 - 0xd8
+        // x29 - 0xe0
+        let otherEntries = values.entries
+        
+        guard !otherEntries.isEmpty else {
+            return
+        }
+        
+        guard !self.entries.isEmpty else {
+            self.entries = otherEntries
+            return
+        }
+        
+        // <+68>
+        for entry in otherEntries {
+            fatalError("TODO")
+        }
+        
         fatalError("TODO")
     }
     

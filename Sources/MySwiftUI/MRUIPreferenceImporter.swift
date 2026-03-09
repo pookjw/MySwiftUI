@@ -67,7 +67,7 @@ final class MRUIPreferenceImporter: NSObject, MRUIPreferenceHostConformer {
         fatalError("TODO")
     }
     
-    var aggregatedPreferences: [AnyHashable : Any] {
+    var aggregatedPreferences: [AnyHashable: Any] {
         fatalError("TODO")
     }
     
@@ -165,7 +165,13 @@ fileprivate struct ImportedCustomPreferences: StatefulRule {
     typealias Value = [AnyHashable: Any]
     
     func updateValue() {
-        fatalError("TODO")
+        guard let host else {
+            value = [:]
+            return
+        }
+        
+        // <+48>
+        value = host.aggregatedPreferences
     }
 }
 

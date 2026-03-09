@@ -107,7 +107,6 @@ open class _UIHostingView<Content: View>: UIView {
     private(set) final var focusBridge = FocusBridge()
     private let dragBridge = DragAndDropBridge()
     final var popoverBridge: UIKitPopoverBridge?
-    final var inspectorBridge: UIKitInspectorBridgeV3? = nil
     private var tooltipBridge = TooltipBridge()
     private var editMenuBridge = EditMenuBridge()
     final var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
@@ -115,6 +114,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var statusBarBridge = UIKitStatusBarBridge()
     private(set) weak var sceneBridge: SceneBridge? = nil
     private var scenePresentationBridge: ScenePresentationBridge? = nil
+    private var pencilEventsBridge = PencilEventsBridge()
     private var pointerBridge: PointerBridge? = nil
     private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>? = nil
     private let mruiPreferenceExporter = MRUIPreferenceExporter()
@@ -326,6 +326,10 @@ open class _UIHostingView<Content: View>: UIView {
         let editMenuBridge = editMenuBridge
         editMenuBridge.host = self
         editMenuBridge.addPreferences(to: viewGraph)
+        
+        let pencilEventsBridge = pencilEventsBridge
+        pencilEventsBridge.host = self
+        pencilEventsBridge.addPreferences(to: viewGraph)
         
         if self.traitCollection.userInterfaceIdiom == .vision {
             self.feedbackBridge = UIKitFeedbackGeneratorBridge<Content>()
@@ -1725,14 +1729,16 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
         deprecatedAlertBridge.preferencesDidChange(preferenceValues)
         deprecatedActionSheetBridge.preferencesDidChange(preferenceValues)
-        if let inspectorBridge {
-            inspectorBridge.updateInspectorIfNeeded(preferenceValues)
-            let presentation = preferenceValues[PopoverPresentation.Key.self]
-            let options = preferenceValues[PresentationOptionsPreferenceKey.self]
-            let host = preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
-            
-            inspectorBridge.updatePopoverIfNeeded(presentation, presentationOptionsPreference: options, backgroundPreference: host)
+        
+        if let popoverBridge {
+            popoverBridge.updateInspectorIfNeeded(preferenceValues)
+            popoverBridge.updatePopoverIfNeeded(
+                preferenceValues[PopoverPresentation.Key.self],
+                presentationOptionsPreference: preferenceValues[PresentationOptionsPreferenceKey.self],
+                backgroundPreference: preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
+            )
         }
+        
         editMenuBridge.preferencesDidChange(preferenceValues)
         if let sheetBridge {
             sheetBridge.preferencesDidChange(preferenceValues)

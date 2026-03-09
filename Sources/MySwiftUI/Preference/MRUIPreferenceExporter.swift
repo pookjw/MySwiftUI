@@ -1,3 +1,4 @@
+// 65C0F9D39FBDD3C0855BE046B0435271
 internal import MRUIKit
 @_spi(Internal) private import MySwiftUICore
 private import BaseBoard
@@ -21,13 +22,17 @@ final class MRUIPreferenceExporter {
     
     init() {
         self.host = nil
-        self.exportedPreferences = MRUIPreferenceExporter
+        var exportedPreferences: [any AnyExportedPreference] = MRUIPreferenceExporter
             .allKeys
             .compactMap { key in
                 var visitor = ExportPreferenceVisitor()
                 key.visitKey(&visitor)
                 return visitor.exportedPreference
             }
+        exportedPreferences.append(
+            ExportedCustomPreferences(key: MRUICustomPreferencesKey.self, seed: .empty, values: [:])
+        )
+        self.exportedPreferences = exportedPreferences
     }
     
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
@@ -133,5 +138,30 @@ fileprivate struct ExportedPreference<T: MRUIBridgedPreferenceKey>: AnyExportedP
         UIView._animate(with: animationSettings) { [self] in
             host.setValue(key.bridgedValue(from: value), forPreferenceKey: key.bridgedKey)
         } completion: { _ in }
+    }
+}
+
+fileprivate struct ExportedCustomPreferences: AnyExportedPreference {
+    let key: MRUICustomPreferencesKey.Type
+    var seed: VersionSeed
+    var values: [AnyHashable: ExportedCustomPreferences.Value]
+    
+    func addPreference(to graph: MySwiftUICore.ViewGraph) {
+        graph.addPreference(MRUICustomPreferencesKey.self)
+    }
+    
+    mutating func apply(to host: any MRUIPreferenceHostProtocol) {
+        fatalError("TODO")
+    }
+    
+    mutating func preferencesDidChange(_ values: MySwiftUICore.PreferenceValues) {
+        fatalError("TODO")
+    }
+}
+
+extension ExportedCustomPreferences {
+    fileprivate struct Value {
+        var value: Any?
+        var seed: VersionSeed
     }
 }

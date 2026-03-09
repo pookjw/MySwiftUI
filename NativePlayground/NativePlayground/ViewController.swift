@@ -957,8 +957,8 @@ class ViewController: UIViewController {
         print("===")
         
         
-        print(_typeName(_UIHostingView<AnyView>.self, qualified: true))
-        _forEachField(of: _UIHostingView<AnyView>.self, options: [.classType]) { name, offset, type, kind in
+        print(_typeName(_UIHostingView<MyViewRepresentable>.self, qualified: true))
+        _forEachField(of: _UIHostingView<MyViewRepresentable>.self, options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
         }

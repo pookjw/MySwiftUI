@@ -20,8 +20,7 @@ internal import UIKit
         super.init()
     }
     
-    @inlinable
-    final func addPreferences(to viewGraph: ViewGraph) {
+    func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(SheetPreference.Key.self)
         viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
         viewGraph.addPreference(PresentationOptionsPreferenceKey.self)

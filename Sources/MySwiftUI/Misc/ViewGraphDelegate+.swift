@@ -15,7 +15,7 @@ extension ViewGraphDelegate {
         return self.as(UICoreViewControllerProvider.self)?.containingViewController
     }
     
-    var inspectorBridge: UIKitInspectorBridgeV3? {
+    var popoverBridge: UIKitPopoverBridge? {
         fatalError("TODO")
     }
     

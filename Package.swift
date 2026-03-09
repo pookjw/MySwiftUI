@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "MySwiftUI",
     platforms: [
-        .visionOS(.v26)
+        .visionOS("26.4")
     ],
     products: [
         .library(
