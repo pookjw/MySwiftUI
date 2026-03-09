@@ -142,7 +142,72 @@ public import _UIKitPrivate
     }
     
     open override func _layoutSizeThatFits(_ size: CGSize, fixedAxes axes: UIAxis) -> CGSize {
+        /*
+         self -> x20
+         axes -> x0 -> x22
+         */
+        var d0 = size.width
+        var d1 = size.height
+        let d8 = d1
+        let d11 = d0
+        // w24
+        let oldLayoutSizeThatFits = self.inLayoutSizeThatFits
+        self.inLayoutSizeThatFits = true
+        
+        // x19
+        guard let hostedView else {
+            self.inLayoutSizeThatFits = oldLayoutSizeThatFits
+            return size
+        }
+        
+        // w21
+        let wantsConstraintBasedLayout = hostedView._wantsConstraintBasedLayout
+        let d2: CGFloat
+        let d3: CGFloat
+        do {
+            let bounds = hostedView.bounds
+            d0 = bounds.origin.x
+            d1 = bounds.origin.y
+            d2 = bounds.size.width
+            d3 = bounds.size.height
+        }
+        
+        let d13 = d2
+        let d12 = d3
+        
+        d0 = d11
+        d1 = d8
+        
+        do {
+            let superSize = super._layoutSizeThatFits(CGSize(width: d0, height: d1), fixedAxes: axes)
+            d0 = superSize.width
+            d1 = superSize.height
+        }
+        
+        let d9 = d0
+        let d10 = d1
+        
+        if ((d1 == d12) || (d0 == d13)) && !wantsConstraintBasedLayout && !implementsFittingSize {
+            // <+212>
+            fatalError("TODO")
+        }
+        
+        // <+264>
         fatalError("TODO")
+    }
+    
+    private final var implementsFittingSize: Bool {
+        if let cachedImplementsFittingSize {
+            return cachedImplementsFittingSize
+        }
+        
+        guard let hostedView else {
+            return false
+        }
+        
+        let implementsFittingSize = hostedView.method(for: sizeThatFitsSEL) == UIViewSizeThatFitsIMP
+        self.cachedImplementsFittingSize = implementsFittingSize
+        return implementsFittingSize
     }
     
     open override func _priorityForEngineHostConstraints() -> UILayoutPriority {
@@ -262,63 +327,67 @@ public import _UIKitPrivate
         }
     }
     
-    open override var hostedView: UIView? {
+    open override dynamic var hostedView: UIView? {
         get {
             return super.hostedView
         }
         set {
             super.hostedView = newValue
-            /*
-             self -> x20 -> x19
-             newValue -> x0 -> x21
-             */
-            if let separatedThicknessRegistration {
-                // <+64>
-                // x20
-                let oldValue = separatedThicknessRegistration.hostedView
-                
-                if oldValue === newValue {
-                    // <+180>
-                    return
-                } else {
-                    // <+108>
-                    // <+128>
-                }
+            updateSeparatedThicknessRegistration(hostedView: newValue)
+        }
+    }
+    
+    private func updateSeparatedThicknessRegistration(hostedView: UIView?) {
+        /*
+         self -> x20 -> x19
+         newValue -> x0 -> x21
+         */
+        if let separatedThicknessRegistration {
+            // <+64>
+            // x20
+            let oldValue = separatedThicknessRegistration.hostedView
+            
+            if oldValue === hostedView {
+                // <+180>
+                return
             } else {
-                // <+104>
-                if let newValue {
-                    // <+128>
-                } else {
-                    // <+180>
-                    return
-                }
+                // <+108>
+                // <+128>
             }
-            
-            // <+128>
-            if let separatedThicknessRegistration {
-                separatedThicknessRegistration.invalidate()
+        } else {
+            // <+104>
+            if let hostedView {
+                // <+128>
+            } else {
+                // <+180>
+                return
             }
-            
-            // <+168>
-            if let newValue {
-                // <+204>
-                self.separatedThicknessRegistration = UICorePlatformViewHost.SeparatedThicknessRegistration(
-                    hostedView: unsafeBitCast(newValue, to: Representable.PlatformViewProvider.self), // FIXME
-                    onChange: { [weak self] in
-                        guard let self else {
-                            return
-                        }
-                        
-                        guard self.hostedView != nil else {
-                            return
-                        }
-                        
-                        self.onChange()
+        }
+        
+        // <+128>
+        if let separatedThicknessRegistration {
+            separatedThicknessRegistration.invalidate()
+        }
+        
+        // <+168>
+        if let hostedView {
+            // <+204>
+            self.separatedThicknessRegistration = UICorePlatformViewHost.SeparatedThicknessRegistration(
+                hostedView: unsafeBitCast(hostedView, to: Representable.PlatformViewProvider.self), // FIXME
+                onChange: { [weak self] in
+                    guard let self else {
+                        return
                     }
-                )
-            } else {
-                self.separatedThicknessRegistration = nil
-            }
+                    
+                    guard self.hostedView != nil else {
+                        return
+                    }
+                    
+                    self.onChange()
+                }
+            )
+        } else {
+            self.separatedThicknessRegistration = nil
         }
     }
     
@@ -559,7 +628,7 @@ public import _UIKitPrivate
         
         // <+1052>
         if Representable.isViewController {
-            self.hostedView = representedView
+            updateSeparatedThicknessRegistration(hostedView: self.representedView)
         }
         
         // <+1096>
@@ -730,7 +799,22 @@ public import _UIKitPrivate
     }
     
     open func coreLayoutSizeThatFits(_ size: CGSize, fixedAxes: Axis.Set) -> CGSize {
-        fatalError("TODO")
+        /*
+         fixedAxes -> w0 -> w19
+         */
+        // w21
+        let horizontal = Axis.Set.horizontal
+        // w23
+        let horizontalIntersection = fixedAxes.intersection(horizontal)
+        // w22
+        let vertical = Axis.Set.vertical
+        // w9
+        let verticalIntersection = fixedAxes.intersection(vertical)
+        let w8: Int8 = (horizontalIntersection == horizontal) ? 1 : 0
+        let w10: Int8 = (w8 == 1) ? 3 : 2
+        let x2 = UInt((verticalIntersection == vertical) ? w10 : w8)
+        
+        return _layoutSizeThatFits(size, fixedAxes: UIAxis(rawValue: x2))
     }
     
     open func coreBaselineOffsets(at size: CGSize) -> CoreBaselineOffsetPair {
@@ -922,3 +1006,6 @@ extension UICorePlatformViewHost {
         }
     }
 }
+
+fileprivate let sizeThatFitsSEL = #selector(UIView.sizeThatFits(_:))
+fileprivate nonisolated(unsafe) let UIViewSizeThatFitsIMP = UIView.instanceMethod(for: sizeThatFitsSEL)

@@ -1458,8 +1458,8 @@ class ViewController: UIViewController {
 //            }
 //        }
         
-//        let hostingController = UIHostingController(rootView: MyViewRepresentable())
-        let hostingController = UIHostingController(rootView: MyViewControllerRepresentable())
+        let hostingController = UIHostingController(rootView: MyViewRepresentable())
+//        let hostingController = UIHostingController(rootView: MyViewControllerRepresentable())
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds
@@ -1930,13 +1930,15 @@ fileprivate struct MyFlagView: View {
 }
 
 fileprivate struct MyViewRepresentable: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-        let uiView = UIView()
+    final class MyFooView: UIView {}
+    
+    func makeUIView(context: Context) -> MyFooView {
+        let uiView = MyFooView()
         uiView.backgroundColor = .systemOrange
         return uiView
     }
     
-    func updateUIView(_ uiView: UIView, context: Context) {
+    func updateUIView(_ uiView: MyFooView, context: Context) {
         
     }
 }

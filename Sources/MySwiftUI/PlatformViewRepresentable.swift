@@ -17,19 +17,19 @@ extension PlatformViewRepresentable {
     }
 }
 
-extension PlatformViewRepresentable where PlatformViewProvider == UIViewController {
+extension PlatformViewRepresentable where PlatformViewProvider: UIViewController {
     static func platformView(for provider: Self.PlatformViewProvider) -> AnyObject {
         fatalError("TODO")
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Self.PlatformViewProvider) -> CGFloat {
-        fatalError("TODO")
+        return provider.view._separatedThickness
     }
 }
 
-extension PlatformViewRepresentable where PlatformViewProvider == UIView {
+extension PlatformViewRepresentable where PlatformViewProvider: UIView {
     func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Self.PlatformViewProvider) -> CGFloat {
-        fatalError("TODO")
+        return provider._separatedThickness
     }
 }
 
@@ -466,10 +466,6 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
     
     func overrideSizeThatFits(_ size: inout CGSize, in proposedSize: ProposedViewSize, platformView: Base.UIViewControllerType) {
         fatalError("TODO")
-    }
-    
-    func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Base.UIViewControllerType) -> CGFloat {
-        return provider.view._separatedThickness
     }
     
     static func layoutOptions(_ provider: Base.UIViewControllerType) -> CoreViewRepresentableLayoutOptions {

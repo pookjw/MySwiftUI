@@ -71,7 +71,7 @@ extension UIViewRepresentable {
     @available(iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @available(macOS, unavailable)
     @MainActor @preconcurrency public func sizeThatFits(_ proposal: ProposedViewSize, uiView: Self.UIViewType, context: Self.Context) -> CGSize? {
-        fatalError("TODO")
+        return nil
     }
     
     @MainActor @preconcurrency public func _overrideSizeThatFits(_ size: inout CGSize, in proposedSize: _ProposedSize, uiView: Self.UIViewType) {
@@ -170,7 +170,8 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
         provider: Base.UIViewType,
         context: PlatformViewRepresentableContext<Self>
     ) -> CGSize? {
-        fatalError("TODO")
+        let repContext = UIViewRepresentableContext<Base>(coordinator: context.coordinator)
+        return base.sizeThatFits(proposedSize, uiView: provider, context: repContext)
     }
     
     func overrideSizeThatFits(_ size: inout CGSize, in proposedSize: ProposedViewSize, platformView: Base.UIViewType) {

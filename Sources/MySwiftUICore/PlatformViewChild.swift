@@ -510,7 +510,50 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     fileprivate func unifiedLayoutSize(in proposedSize: _ProposedSize) -> CGSize {
-        fatalError("TODO")
+        // self -> x20
+        // proposedSize -> x0 -> x24/w22/x23/w21
+        var d0: CGFloat
+        var d1: CGFloat
+        if let width = proposedSize.width, let height = proposedSize.height {
+            d0 = width
+            d1 = height
+        } else {
+            let traits = self.layoutTraits()
+            d0 = traits.idealSize.width
+            d1 = traits.idealSize.height
+            
+            if let width = proposedSize.width {
+                d0 = width
+            }
+            
+            if let height = proposedSize.height {
+                d1 = height
+            }
+        }
+        
+        // <+120>
+        let d10: CGFloat = 50_000
+        let d8 = (d0 > d10) ? d10 : d0
+        let d9 = (d1 > d10) ? d10 : d1
+        let w21: Int8
+        do {
+            let w8: Int8 = ((d8 == 0) || (proposedSize.width == nil)) ? 1 : 0
+            let w9: Int8 = (w8 == 1) ? 3 : 2
+            w21 = ((d9 == 0) || (proposedSize.height == nil)) ? w9 : w8
+        }
+        
+        // <+180>
+        do {
+            let size = platformView.coreLayoutSizeThatFits(CGSize(width: d8, height: d9), fixedAxes: Axis.Set(rawValue: w21))
+            d0 = size.width
+            d1 = size.height
+        }
+        
+        // <+304>
+        let d2 = CGFloat.infinity
+        d0 = ((d0 == d10) && (d8 == d10)) ? d2 : d0
+        d1 = ((d1 == d10) && (d9 == d10)) ? d2 : d1
+        return CGSize(width: d0, height: d1)
     }
     
     func layoutTraits() -> _LayoutTraits {
