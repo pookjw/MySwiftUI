@@ -1,4 +1,5 @@
 internal import MySwiftUICore
+internal import CoreGraphics
 
 struct InspectorStorage {
     // TODO
@@ -6,11 +7,9 @@ struct InspectorStorage {
 
 extension InspectorStorage {
     struct PreferenceKey: HostPreferenceKey {
-        static var defaultValue: Never {
-            fatalError("TODO")
-        }
+        static let defaultValue: [ViewIdentity: InspectorStorage] = [:]
         
-        static func reduce(value: inout Never, nextValue: () -> Never) {
+        static func reduce(value: inout [ViewIdentity: InspectorStorage], nextValue: () -> [ViewIdentity: InspectorStorage]) {
             fatalError("TODO")
         }
         
@@ -25,11 +24,9 @@ extension InspectorStorage {
 }
 
 struct InspectorAnchorPreferenceKey: HostPreferenceKey {
-    static var defaultValue: Never {
-        fatalError("TODO")
-    }
+    @safe static nonisolated(unsafe) let defaultValue: [AnyHashable: Anchor<CGRect?>] = [:]
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout [AnyHashable: Anchor<CGRect?>], nextValue: () -> [AnyHashable: Anchor<CGRect?>]) {
         fatalError("TODO")
     }
     

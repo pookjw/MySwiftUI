@@ -1466,8 +1466,8 @@ class ViewController: UIViewController {
 //            }
 //        }
         
-        let hostingController = UIHostingController(rootView: MyViewRepresentable())
-//        let hostingController = UIHostingController(rootView: MyViewControllerRepresentable())
+//        let hostingController = UIHostingController(rootView: MyViewRepresentable())
+        let hostingController = UIHostingController(rootView: MyViewControllerRepresentable())
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds

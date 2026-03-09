@@ -47,7 +47,7 @@ extension CoreViewRepresentable {
     }
     
     public func overrideSizeThatFits(_ size: inout CGSize, in: ProposedViewSize, platformView: Self.PlatformViewProvider) {
-        fatalError("TODO")
+        // nop
     }
     
     public func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Self.PlatformViewProvider) -> CGFloat {

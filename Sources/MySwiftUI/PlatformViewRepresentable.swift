@@ -464,10 +464,6 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
         return base.sizeThatFits(proposedSize, uiViewController: provider, context: repContext)
     }
     
-    func overrideSizeThatFits(_ size: inout CGSize, in proposedSize: ProposedViewSize, platformView: Base.UIViewControllerType) {
-        fatalError("TODO")
-    }
-    
     static func layoutOptions(_ provider: Base.UIViewControllerType) -> CoreViewRepresentableLayoutOptions {
         let options = Base._layoutOptions(provider)
         return CoreViewRepresentableLayoutOptions(rawValue: options.rawValue)

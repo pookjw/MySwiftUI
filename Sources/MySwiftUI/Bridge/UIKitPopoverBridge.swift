@@ -1,31 +1,32 @@
 // FE44D2068AD13DD2180BAE4B95800306
 internal import UIKit
 internal import MySwiftUICore
+private import _UIKitPrivate
 
-final class UIKitPopoverBridge: NSObject {
-    weak var host: ViewRendererHost? = nil // 0x840
-    private var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x848
-    private weak var presenterOverride: UIViewController? = nil // 0x850
-    private weak var barItemAnchor: UIBarButtonItem? = nil // 0x858
-    private weak var tabItemAnchor: UIPopoverPresentationControllerSourceItem? // 0x860
-    private var delayedPopoverPreferences: PreferenceValues? = nil // 0x4d0
-    private var activePresentation: UIKitPopoverBridge.PresentationKind = .none // 0x338
-    private var activeInspectorAnchor: Anchor<CGRect?>? = nil // 0x868
-    private var dismissingReason: DismissingReason? = nil // 0x870
-    private var pendingDismissAction: (() -> Void)? = nil // 0x878
+@MainActor final class UIKitPopoverBridge: NSObject {
+    weak var host: ViewRendererHost? = nil // 0x8
+    private var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x18
+    private weak var presenterOverride: UIViewController? = nil // 0x28
+    private weak var barItemAnchor: UIBarButtonItem? = nil // 0x30
+    private weak var tabItemAnchor: UIPopoverPresentationControllerSourceItem? // 0x38
+    private var delayedPopoverPreferences: PreferenceValues? = nil // 0x40
+    private var activePresentation: UIKitPopoverBridge.PresentationKind = .none // 0x48
+    private var activeInspectorAnchor: Anchor<CGRect?>? = nil // 0x78
+    private var dismissingReason: DismissingReason? = nil // 0x80
+    private var pendingDismissAction: (() -> Void)? = nil // 0x88
     private lazy var popoverPresentationDelegate: PopoverPresentationDelegate = {
         fatalError("TODO")
-    }() // 0x880 (storage)
-    private var presentedVC: PresentationHostingController<AnyView>? = nil // 0x4e0
-    private var inspectorSeed: VersionSeed = .empty // 0x888
-    private var anchorSeed: VersionSeed = .empty // 0x890
-    private var popoverSeed: VersionSeed = .empty // 0x898
-    private var backgroundSeed: VersionSeed = .empty // 0x8a0
-    private var presentationOptionsSeed: VersionSeed = .empty // 0x8a8
-    private var lastInspectorValues: [ViewIdentity: InspectorStorage] = [:] // 0xe70
-    private var lastAnchorValues: [AnyHashable: Anchor<CGRect?>] = [:] // 0x8b8
-    private var lastPopoverPresentation: PopoverPresentation? = nil // 0x8c0
-    var wasBackgrounded: Bool = false // 0x8c8
+    }() // 0x98 (storage)
+    private var presentedVC: PresentationHostingController<AnyView>? = nil // 0xa0
+    private var inspectorSeed: VersionSeed = .empty // 0xa8
+    private var anchorSeed: VersionSeed = .empty // 0xac
+    private var popoverSeed: VersionSeed = .empty // 0xb0
+    private var backgroundSeed: VersionSeed = .empty // 0xb4
+    private var presentationOptionsSeed: VersionSeed = .empty // 0xb8
+    private var lastInspectorValues: [ViewIdentity: InspectorStorage] = [:] // 0xc0
+    private var lastAnchorValues: [AnyHashable: Anchor<CGRect?>] = [:] // 0xc8
+    private var lastPopoverPresentation: PopoverPresentation? = nil // 0xd0
+    var wasBackgrounded: Bool = false // 0x1c8
     
     override init() {
         super.init()
@@ -60,7 +61,29 @@ final class UIKitPopoverBridge: NSObject {
     }
     
     fileprivate func updateInspectorIfNeeded(_ values: PreferenceValues) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x19
+         values -> x0 -> x25
+         */
+        // <+808>
+        // x26
+        let inspectorAnchorPreference = values[InspectorAnchorPreferenceKey.self]
+        // w22
+        let matchesAnchorSeed = self.anchorSeed.matches(inspectorAnchorPreference.seed)
+        if !matchesAnchorSeed {
+            fatalError("TODO")
+        }
+        
+        let inspectorStorage = values[InspectorStorage.PreferenceKey.self]
+        // w20
+        let matchesInspectorSeed = self.inspectorSeed.matches(inspectorStorage.seed)
+        if !matchesInspectorSeed {
+            fatalError("TODO")
+        }
+        
+        if !matchesAnchorSeed {
+            fatalError("TODO")
+        }
     }
     
     fileprivate func updatePopoverIfNeeded(
@@ -68,7 +91,51 @@ final class UIKitPopoverBridge: NSObject {
         presentationOptionsPreference: PreferenceValues.Value<PresentationOptionsPreference>,
         backgroundPreference: PreferenceValues.Value<ContainerBackgroundKeys.Transparency>
     ) {
+        /*
+         self -> x20 -> x19 + 0x180
+         popoverPresentationPreference -> x0 -> x20
+         presentationOptionsPreference -> x1 -> x19 + 0x138
+         backgroundPreference -> x2 -> x19 + 0x130
+         */
+        // <+1632>
+        // x26
+        let popoverPresentationCount = popoverPresentationPreference.value.count
+        // popoverPresentationPreference -> x20 -> x19 + 0x150
+        // x27
+        let firstPopoverPresentation = popoverPresentationPreference.value.first
+        
+        if popoverPresentationCount <= 1 {
+            // <+1832>
+            switch activePresentation {
+            case .none:
+                // <+1940>
+                let presenter = self.presenter
+                fatalError("TODO")
+            default:
+                fatalError("TODO")
+            }
+        } else {
+            // <+2384>
+            fatalError("TODO")
+        }
+        
         fatalError("TODO")
+    }
+    
+    fileprivate var presenter: UIViewController? {
+        if let presenterOverride {
+            return presenterOverride
+        }
+        
+        if let host, let uiViewController = host.uiViewController {
+            return uiViewController
+        }
+        
+        guard let host else {
+            return nil
+        }
+        
+        return host.uiView?._viewControllerForAncestor()
     }
 }
 
