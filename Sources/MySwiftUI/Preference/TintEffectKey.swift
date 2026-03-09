@@ -9,7 +9,9 @@ struct TintEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     }
     
     static func reduce(value: inout TintEffectKey.PreferredValue?, nextValue: () -> TintEffectKey.PreferredValue?) {
-        fatalError("TODO")
+        if value == nil {
+            value = nextValue()
+        }
     }
     
     static var bridgedKey: MRUIPreferenceKey<NSValue>.Type {

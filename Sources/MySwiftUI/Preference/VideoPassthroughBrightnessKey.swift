@@ -8,7 +8,9 @@ struct VideoPassthroughBrightnessKey: MRUIBridgedPreferenceKey, HostPreferenceKe
     }
     
     static func reduce(value: inout VideoPassthroughBrightnessKey.PreferredValue?, nextValue: () -> VideoPassthroughBrightnessKey.PreferredValue?) {
-        fatalError("TODO")
+        if value == nil {
+            value = nextValue()
+        }
     }
     
     static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {

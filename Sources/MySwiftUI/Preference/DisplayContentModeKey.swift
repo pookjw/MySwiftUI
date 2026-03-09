@@ -8,7 +8,9 @@ struct DisplayContentModeKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     }
     
     static func reduce(value: inout DisplayContentModeKey.PreferredValue?, nextValue: () -> DisplayContentModeKey.PreferredValue?) {
-        fatalError("TODO")
+        if value == nil {
+            value = nextValue()
+        }
     }
     
     static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {

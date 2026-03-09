@@ -7,7 +7,9 @@ struct VolumeBaseplateVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey
     }
     
     static func reduce(value: inout VolumeBaseplateVisibilityKey.PreferredValue?, nextValue: () -> VolumeBaseplateVisibilityKey.PreferredValue?) {
-        fatalError("TODO")
+        if value == nil {
+            value = nextValue()
+        }
     }
     
     static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {

@@ -8,7 +8,9 @@ struct SupportedVolumeViewpointsKey: MRUIBridgedPreferenceKey, HostPreferenceKey
     }
     
     static func reduce(value: inout SupportedVolumeViewpointsKey.PreferredValue?, nextValue: () -> SupportedVolumeViewpointsKey.PreferredValue?) {
-        fatalError("TODO")
+        if value == nil {
+            value = nextValue()
+        }
     }
     
     static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {

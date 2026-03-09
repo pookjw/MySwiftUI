@@ -8,7 +8,9 @@ struct UpperLimbsVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     }
     
     static func reduce(value: inout UpperLimbsVisibilityKey.PreferredValue?, nextValue: () -> UpperLimbsVisibilityKey.PreferredValue?) {
-        fatalError("TODO")
+        if value == nil {
+            value = nextValue()
+        }
     }
     
     static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {

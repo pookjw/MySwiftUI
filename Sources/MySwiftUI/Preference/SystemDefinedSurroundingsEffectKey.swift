@@ -8,7 +8,9 @@ struct SystemDefinedSurroundingsEffectKey: MRUIBridgedPreferenceKey, HostPrefere
     }
     
     static func reduce(value: inout SystemDefinedSurroundingsEffectKey.PreferredValue?, nextValue: () -> SystemDefinedSurroundingsEffectKey.PreferredValue?) {
-        fatalError("TODO")
+        if value == nil {
+            value = nextValue()
+        }
     }
     
     static var bridgedKey: MRUIPreferenceKey<NSNumber>.Type {

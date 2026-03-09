@@ -460,12 +460,25 @@ package struct PreferenceValues {
             return
         }
         
+        // x24 -> self.entries
         // <+68>
-        for entry in otherEntries {
-            fatalError("TODO")
+        for index in otherEntries.indices {
+            // x8
+            let key = self.entries[index].key
+            let otherEntry = otherEntries[index]
+            // x9
+            let otherKey = otherEntry.key
+            
+            if key == otherKey {
+                // <+240>
+                self.entries[index].reduce(otherEntry)
+            } else if ObjectIdentifier(otherKey) >= ObjectIdentifier(key) {
+                // nop
+            } else {
+                // <+164>
+                self.entries.insert(otherEntry, at: index)
+            }
         }
-        
-        fatalError("TODO")
     }
     
     fileprivate func index<T: PreferenceKey>(of key: T.Type) -> Int? {
