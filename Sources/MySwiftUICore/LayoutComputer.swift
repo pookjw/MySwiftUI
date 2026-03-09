@@ -181,7 +181,6 @@ extension LayoutEngine {
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        fatalError("TODO")
         return false
     }
     
@@ -510,9 +509,10 @@ extension StatefulRule where Value == LayoutComputer {
     
     func update<Engine: LayoutEngine>(to engine: Engine) {
         update(
-            modify: { engine in
+            modify: { _engine in
                 // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE6update2toyqd___tAD0G6EngineRd__lFyqd__zXEfU_TA
-                fatalError("TODO")
+                // engine -> x0 -> x19
+                _engine = engine
             },
             create: {
                 // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE6update2toyqd___tAD0G6EngineRd__lFqd__yXEfU0_TA

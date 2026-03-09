@@ -883,7 +883,7 @@ fileprivate struct PlatformViewLayoutEngine<Representable: CoreViewRepresentable
     }
     
     func spacing() -> Spacing {
-        fatalError("TODO")
+        return Spacing()
     }
     
     mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
@@ -908,7 +908,16 @@ fileprivate struct PlatformViewLayoutEngine<Representable: CoreViewRepresentable
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-        fatalError("TODO")
+        if alignmentKey == VerticalAlignment.firstTextBaseline.key {
+            // <+88>
+            fatalError("TODO")
+        } else if alignmentKey == VerticalAlignment.lastTextBaseline.key {
+            // <+248>
+            fatalError("TODO")
+        } else {
+            // <+596>
+            return nil
+        }
     }
     
     mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {

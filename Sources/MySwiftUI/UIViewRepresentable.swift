@@ -61,7 +61,7 @@ extension UIViewRepresentable {
     }
     
     public nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        return _ViewListOutputs.unaryViewList(view: view, inputs: inputs)
     }
     
     @MainActor @preconcurrency public func _identifiedViewTree(in uiView: Self.UIViewType) -> _IdentifiedViewTree {
@@ -75,7 +75,7 @@ extension UIViewRepresentable {
     }
     
     @MainActor @preconcurrency public func _overrideSizeThatFits(_ size: inout CGSize, in proposedSize: _ProposedSize, uiView: Self.UIViewType) {
-        fatalError("TODO")
+        // nop
     }
     
     @MainActor @preconcurrency public func _overrideLayoutTraits(_ layoutTraits: inout _LayoutTraits, for uiView: Self.UIViewType) {
@@ -175,7 +175,12 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     func overrideSizeThatFits(_ size: inout CGSize, in proposedSize: ProposedViewSize, platformView: Base.UIViewType) {
-        fatalError("TODO")
+        /*
+         size -> x0 -> x26
+         proposedSize -> x1/w2/x3/w4 -> x25/w24/x23/w22
+         platformView -> x5 -> x20
+         */
+        base._overrideSizeThatFits(&size, in: _ProposedSize(proposedSize), uiView: platformView)
     }
     
     func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Base.UIViewType) {

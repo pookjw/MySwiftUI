@@ -48,6 +48,10 @@ fileprivate struct MyView: View {
     
     var body: some View {
         MySwitch(isOn: $isOn)
+        MySwitch(isOn: $isOn)
+        MySwitch(isOn: $isOn)
+        MySwitch(isOn: $isOn)
+        MySwitch(isOn: $isOn)
     }
 }
 

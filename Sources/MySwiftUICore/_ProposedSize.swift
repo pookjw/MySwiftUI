@@ -83,7 +83,7 @@ extension _ProposedSize {
         }
     }
     
-    init(_ proposedSize: ProposedViewSize) {
+    package init(_ proposedSize: ProposedViewSize) {
         width = proposedSize.width
         height = proposedSize.height
     }

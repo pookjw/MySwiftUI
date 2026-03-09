@@ -162,7 +162,7 @@ public import _UIKitPrivate
         
         // w21
         let wantsConstraintBasedLayout = hostedView._wantsConstraintBasedLayout
-        let d2: CGFloat
+        var d2: CGFloat
         let d3: CGFloat
         do {
             let bounds = hostedView.bounds
@@ -184,16 +184,76 @@ public import _UIKitPrivate
             d1 = superSize.height
         }
         
-        let d9 = d0
-        let d10 = d1
+        var d9 = d0
+        var d10 = d1
         
         if ((d1 == d12) || (d0 == d13)) && !wantsConstraintBasedLayout && !implementsFittingSize {
             // <+212>
-            fatalError("TODO")
+            do {
+                let intrinsicContentSize = hostedView.intrinsicContentSize
+                d0 = intrinsicContentSize.width
+                d1 = intrinsicContentSize.height
+            }
+            
+            d2 = UIView.noIntrinsicMetric
+            d0 = (d0 == d2) ? d11 : d0
+            d9 = (d9 != d13) ? d9 : d0
+            d0 = (d1 == d2) ? d8 : d1
+            d10 = (d10 != d12) ? d10 : d0
         }
         
         // <+264>
-        fatalError("TODO")
+        if !wantsConstraintBasedLayout && !implementsFittingSize {
+            // <+276>
+            if (d9 < d11) && (hostedView.contentHuggingPriority(for: .horizontal) < .defaultHigh) {
+                // <+316>
+                d9 = d11
+                // <+376>
+            } else {
+                // <+336>
+                if (d11 < d9) {
+                    // <+344>
+                    d9 = (hostedView.contentCompressionResistancePriority(for: .horizontal) < .defaultHigh) ? d11 : d9
+                    // <+376>
+                } else {
+                    // <+376>
+                }
+            }
+            
+            // <+376>
+            let flag: Bool // true -> <+424> / false -> <+480>
+            if (d10 < d8) {
+                // <+384>
+                if (hostedView.contentHuggingPriority(for: .vertical) < .defaultHigh) {
+                    d10 = d8
+                    // <+480>
+                    flag = false
+                } else {
+                    // <+424>
+                    flag = true
+                }
+            } else {
+                // <+424>
+                flag = true
+            }
+            
+            // <+424>
+            if flag {
+                if d8 < d10 {
+                    // <+432>
+                    d10 = (hostedView.contentCompressionResistancePriority(for: .vertical) < .defaultHigh) ? d8 : d10
+                    // <+480>
+                } else {
+                    // <+476>
+                }
+            }
+        }
+        
+        // <+480>
+        self.inLayoutSizeThatFits = oldLayoutSizeThatFits
+        d0 = d9
+        d1 = d10
+        return CGSize(width: d0, height: d1)
     }
     
     private final var implementsFittingSize: Bool {
@@ -205,7 +265,7 @@ public import _UIKitPrivate
             return false
         }
         
-        let implementsFittingSize = hostedView.method(for: sizeThatFitsSEL) == UIViewSizeThatFitsIMP
+        let implementsFittingSize = hostedView.method(for: sizeThatFitsSEL) != UIViewSizeThatFitsIMP
         self.cachedImplementsFittingSize = implementsFittingSize
         return implementsFittingSize
     }
@@ -511,7 +571,17 @@ public import _UIKitPrivate
     }
     
     open override func updateConstraints() {
-        fatalError("TODO")
+        if UICoreUnifiedLayout.isEnabled {
+            // <+48>
+            if let hostedView, hostedView._wantsConstraintBasedLayout {
+                hostedView.translatesAutoresizingMaskIntoConstraints = false
+            }
+        } else {
+            self.setValue(true as NSNumber, forKey: "_hasAddedConstraints")
+        }
+        
+        // <+164>
+        super.updateConstraints()
     }
     
     open override func willMove(toSuperview newSuperview: UIView?) {

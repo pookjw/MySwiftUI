@@ -443,7 +443,7 @@ extension _ViewListOutputs {
 }
 
 extension _ViewListOutputs {
-    static func unaryViewList<Content: View>(view: _GraphValue<Content>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    package static func unaryViewList<Content: View>(view: _GraphValue<Content>, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          inputs -> x20
          */
