@@ -1,3 +1,4 @@
+public import Spatial
 
 @_spi(Internal) open class MultiViewResponder: ViewResponder {
     private var _children: [ViewResponder] = []
@@ -48,5 +49,13 @@
         }
         
         return .next
+    }
+    
+    open override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+        fatalError("TODO")
+    }
+    
+    open override func containsGlobalPoints(_: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
+        fatalError("TODO")
     }
 }

@@ -151,6 +151,14 @@ struct LeafResponderFilter<T: ContentResponder>: StatefulRule {
 
 final class LeafViewResponder<T: ContentResponder>: ViewResponder {
     fileprivate var helper = ContentResponderHelper<T>()
+    
+    override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+        fatalError("TODO")
+    }
+    
+    override func containsGlobalPoints(_: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
+        fatalError("TODO")
+    }
 }
 
 protocol LeafViewLayout {

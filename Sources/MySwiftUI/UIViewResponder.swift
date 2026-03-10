@@ -18,6 +18,10 @@ final class UIViewResponder: PlatformViewResponderBase<UIView, UIViewContentResp
         super.init()
     }
     
+    override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+        fatalError("TODO")
+    }
+    
     // TODO
 }
 

@@ -1,7 +1,17 @@
-package import Spatial
+// D16C83991EAE21A87411739F6DC01498
+public import Spatial
 package import CoreGraphics
+private import os.log
 
 @_spi(Internal) open class ViewResponder: ResponderNode {
+    static private(set) nonisolated(unsafe) var hitTestKey: UInt32 = 0
+    
+    static func nextHitTestKey() -> UInt32 {
+        var next = Self.hitTestKey
+        Self.hitTestKey = next &+ 1
+        return next
+    }
+    
     package private(set) weak var host: (any ViewGraphDelegate)?
     private var serverResponderID: UInt32?
     package private(set) weak var parent: ViewResponder?
@@ -37,21 +47,74 @@ package import CoreGraphics
          options -> x0 -> x23
          serverHitTest -> x1 -> x21
          */
-        // x29 - 0xd0
-        let copy_1 = serverHitTest
+        // x24
+        let copy_1 = options
         
-        if let copy_1, let responderID = copy_1.responderID {
-            // <+200>
+        if
+            let copy_2 = serverHitTest, // x29 - 0xd0
+            let responderID = copy_2.responderID,
+            let result = self.lookupResponder(for: responderID, startingFrom: self, searchParentChain: true)
+        {
+            // <+220>
             fatalError("TODO")
-        } else {
-            // <+296>
+        }
+        
+        // <+296>
+        if 
+            let copy_3 = serverHitTest, // x29 - 0xd0
+            let responderID = copy_3.responderID
+        {
+            Log.events.log(level: .default, "Hit testing with a server responder ID (\(responderID) but no responder found")
+        }
+        
+        // <+544>
+        if copy_1.contains(.uncached) {
+            // <+632>
             fatalError("TODO")
+        }
+        
+        // w23
+        let next = Self.nextHitTestKey()
+        
+        if copy_1.contains(.disablePointCloudHitTesting) {
+            // <+600>
+            return self.singlePointHitTest(globalPoint: globalPoint, cacheKey: next, options: options)?.0
+        }
+        
+        // <+644>
+        fatalError("TODO")
+    }
+    
+    final func lookupResponder(for renderID: UInt64, startingFrom: ViewResponder, searchParentChain: Bool) -> ViewResponder? {
+        fatalError("TODO")
+    }
+    
+    fileprivate final func singlePointHitTest(globalPoint: Point3D, cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> (ViewResponder, Double)? {
+        /*
+         cacheKey -> x0 -> x21
+         options -> x1
+         */
+        // x26 -> sp + 0x38
+        let copy_1 = options
+        let policy = self.hitTestPolicy(options: copy_1)
+        guard policy != .exclude else {
+            return nil
+        }
+        
+        let result = self.containsGlobalPoints([globalPoint], cacheKey: cacheKey, options: copy_1)
+        
+        guard result.mask[0] else {
+            return nil
         }
         
         fatalError("TODO")
     }
     
-    final func lookupResponder(for renderID: UInt64, startingFrom: ViewResponder, searchParentChain: Bool) -> ViewResponder? {
+    open func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+        fatalError("TODO")
+    }
+    
+    open func containsGlobalPoints(_: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
         fatalError("TODO")
     }
 }
@@ -61,7 +124,7 @@ extension ViewResponder {
         var storage: (key: UInt32, value: ContainsPointsResult)?
     }
     
-    package struct ContainsPointsOptions: OptionSet {
+    public struct ContainsPointsOptions: OptionSet {
         static var platformDefault: ViewResponder.ContainsPointsOptions {
             return [useZDistanceAsPriority, .disablePointCloudHitTesting]
         }
@@ -94,11 +157,17 @@ extension ViewResponder {
             return ViewResponder.ContainsPointsOptions(rawValue: 1 << 6)
         }
         
-        package let rawValue: Int
+        public let rawValue: Int
         
-        package init(rawValue: Int) {
+        public init(rawValue: Int) {
             self.rawValue = rawValue
         }
+    }
+    
+    public enum HitTestPolicy {
+        case include
+        case exclude
+        case passthrough
     }
 }
 

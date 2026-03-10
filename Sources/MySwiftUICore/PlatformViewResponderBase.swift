@@ -1,4 +1,4 @@
-private import Spatial
+public import Spatial
 
 @_spi(Internal) open class PlatformViewResponderBase<T: AnyObject, U: ContentResponder>: ViewResponder {
     package weak final var hostView: T? = nil // 0x30
@@ -12,6 +12,14 @@ private import Spatial
     }
     
     override init(host: ViewGraphDelegate?) {
+        fatalError("TODO")
+    }
+    
+    open override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+        fatalError("TODO")
+    }
+    
+    open override func containsGlobalPoints(_: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
         fatalError("TODO")
     }
     
