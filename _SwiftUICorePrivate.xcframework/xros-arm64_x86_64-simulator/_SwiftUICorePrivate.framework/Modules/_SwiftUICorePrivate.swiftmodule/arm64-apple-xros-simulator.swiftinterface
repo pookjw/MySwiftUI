@@ -2031,3 +2031,7 @@ public enum SeparatedOptions {
 public struct LayoutTrace {
   public final class Recorder {}
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ServerHitTest {}

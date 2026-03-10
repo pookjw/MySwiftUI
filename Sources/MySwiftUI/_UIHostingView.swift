@@ -597,16 +597,8 @@ open class _UIHostingView<Content: View>: UIView {
             self.updateTransformWithoutGeometryObservation()
         }
         
-        let d8: CGFloat
-        let d9: CGFloat
-        let d10: CGFloat
-        do {
-            let point3D = context.point3D
-            d8 = point3D.x
-            d9 = point3D.y
-            d10 = point3D.z
-        }
-        
+        // d8, d9, d10
+        let point3D = context.point3D
         let d11 = context.radius
         // x26
         let serverHitTestedResponder = context.serverHitTestedResponder
@@ -631,11 +623,23 @@ open class _UIHostingView<Content: View>: UIView {
         // x27
         let serverHitTest = ServerHitTest(uiResponder: serverHitTestedResponder, leafHitTestedEntity: leafHitTestedEntity)
         
-        // x25
+        // x25 -> x20
         guard let responderNode = self.responderNode as? ViewResponder else {
             Update.end()
             self.currentEvent = nil
             return self
+        }
+        
+        // serverHitTest -> x27 -> x23
+        // x25
+        let testResponder = responderNode.hitTest(globalPoint: point3D, radius: d11, serverHitTest: serverHitTest)
+        
+        if let testResponder {
+            // <+1120>
+            fatalError("TODO")
+        } else {
+            // <+1384>
+            fatalError("TODO")
         }
         
         fatalError("TODO")

@@ -9,6 +9,7 @@
 #import <_UIKitPrivate/UITraitChangeObservableInternal.h>
 #import <_UIKitPrivate/UIPlatterGroundingShadowVisibility.h>
 #import <_UIKitPrivate/UIRealityCoordinateSpace.h>
+#import <CoreRE/CoreRE.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -24,7 +25,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No
 @property (nonatomic) BOOL allowsGroupBlending;
 @property (nonatomic, setter=_setUsesPerspectiveCorrectRendering:) BOOL _usesPerspectiveCorrectRendering;
 @property (nonatomic, setter=_setPreferredGroundingShadowVisibility:) _UIPlatterGroundingShadowVisibility _preferredGroundingShadowVisibility;
-@property (nonatomic, setter=_setExternalHitTestingId:) NSUInteger _externalHitTestingId;
+@property (nonatomic, setter=_setExternalHitTestingId:) REEntityID _externalHitTestingId;
 @property (nonatomic, readonly) UILayoutAxes _axesForDerivingIntrinsicContentSizeFromLayoutSize;
 @property (readonly, nonatomic, nullable) id<_UIGestureRecognizerContainer> _parentGestureRecognizerContainer;
 @property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers NS_SWIFT_NAME(_childContainers);
@@ -57,6 +58,8 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No
 - (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withHandler:(UITraitChangeHandler)handler;
 - (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withTarget:(id)target action:(SEL)action;
 - (void)_noteTraitsDidChangeRecursively;
+- (CAPoint3D)convertPoint:(CAPoint3D)point fromRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
+- (CAPoint3D)convertPoint:(CAPoint3D)point toRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

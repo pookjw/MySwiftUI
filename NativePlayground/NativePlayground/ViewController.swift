@@ -1036,6 +1036,14 @@ class ViewController: UIViewController {
         }
         
         print("===")
+        
+        print(_typeName(ServerHitTest.self, qualified: true))
+        _forEachField(of: ServerHitTest.self, options: []) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
+        print("===")
 //        
 //        print(ViewGraph.Data.self)
 //        _forEachField(of: ViewGraph.Data.self, options: []) { name, offset, type, kind in

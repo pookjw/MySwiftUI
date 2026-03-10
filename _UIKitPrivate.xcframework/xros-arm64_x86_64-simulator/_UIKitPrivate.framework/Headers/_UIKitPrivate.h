@@ -49,3 +49,4 @@
 #import <_UIKitPrivate/UITypedStorage.h>
 #import <_UIKitPrivate/UIRealityCoordinateSpace.h>
 #import <_UIKitPrivate/UIEntityResponder.h>
+#import <_UIKitPrivate/UIResponder+Private.h>

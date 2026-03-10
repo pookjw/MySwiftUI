@@ -884,15 +884,53 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.setContainerSize(result.size)
     }
     
-    package func updateTransformWithoutGeometryObservation() {
+    @MainActor package func updateTransformWithoutGeometryObservation() {
         // self -> x20 -> x19
+        // x21
         guard let uiView else {
             return
         }
         
         // w24
         let registeredForGeometryChanges = self.registeredForGeometryChanges
-        fatalError("TODO")
+        
+        if let uiView = self.uiView {
+            // uiView -> x22
+            // <+116>
+            let result = viewGraph.invalidateTransform()
+            if result || !self.registeredForGeometryChanges {
+                // <+172>
+                if registeredForGeometryChanges {
+                    return
+                } else {
+                    // <+180>
+                }
+            } else {
+                uiView._unregisterForGeometryChanges()
+                self.registeredForGeometryChanges = false
+                
+                if registeredForGeometryChanges {
+                    // <+180>
+                } else {
+                    return
+                }
+            }
+        } else {
+            // <+164>
+            if registeredForGeometryChanges {
+                return
+            } else {
+                // <+180>
+            }
+        }
+        
+        // <+180>
+        guard self.registeredForGeometryChanges else {
+            return
+        }
+        
+        uiView._unregisterForGeometryChanges()
+        self.registeredForGeometryChanges = false
     }
     
     @MainActor
