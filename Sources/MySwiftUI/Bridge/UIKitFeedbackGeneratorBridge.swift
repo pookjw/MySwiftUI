@@ -2,6 +2,7 @@
 private import RealityKit
 private import _UIKitPrivate
 private import MRUIKit
+private import CoreRE
 
 class UIKitFeedbackGeneratorBridge<Content: View> {
     weak var host: _UIHostingView<Content>? = nil
@@ -67,7 +68,7 @@ class UIKitFeedbackGeneratorBridge<Content: View> {
                             continue
                         }
                         
-                        unsafe feedback.entityRef = unsafe entity.__coreEntity.__as(UnsafePointer<REEntity>.self)
+                        unsafe feedback.entityRef = unsafe entity.__coreEntity.__as(CoreRE.Entity.self)
                         feedback.play()
                     }
                 }

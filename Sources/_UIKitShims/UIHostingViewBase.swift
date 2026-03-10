@@ -884,6 +884,17 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.setContainerSize(result.size)
     }
     
+    package func updateTransformWithoutGeometryObservation() {
+        // self -> x20 -> x19
+        guard let uiView else {
+            return
+        }
+        
+        // w24
+        let registeredForGeometryChanges = self.registeredForGeometryChanges
+        fatalError("TODO")
+    }
+    
     @MainActor
     private func updateMaterial(environmentValues: inout MySwiftUICore.EnvironmentValues) {
         // x23

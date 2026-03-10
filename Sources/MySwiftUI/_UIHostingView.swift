@@ -580,6 +580,7 @@ open class _UIHostingView<Content: View>: UIView {
          */
         // <+408>
         guard GestureContainerFeature.isEnabled else {
+            self.currentEvent = nil
             return nil
         }
         
@@ -617,16 +618,26 @@ open class _UIHostingView<Content: View>: UIView {
             let serverHitTestedResponder,
             let entityResponder = serverHitTestedResponder as? UIEntityResponder,
             let reEntity = entityResponder.reEntity,
-            let scene = reEntity.scene
-//            let serverHitTestedEntity = scene.fintEntity(id: serverHitTestedEntityID)
+            let scene = reEntity.scene,
+            let serverHitTestedEntity = scene.findEntity(id: serverHitTestedEntityID)
         {
             // <+576>
-//            let entityRef = __EntityRef.__fromCore(serverHitTestedEntity)
-//            leafHitTestedEntity = .__fromCore(entityRef)
+            let entityRef = __EntityRef.__fromCore(serverHitTestedEntity)
+            leafHitTestedEntity = .__fromCore(entityRef)
             // <+820>
         }
         
         // <+820>
+        // x27
+        let serverHitTest = ServerHitTest(uiResponder: serverHitTestedResponder, leafHitTestedEntity: leafHitTestedEntity)
+        
+        // x25
+        guard let responderNode = self.responderNode as? ViewResponder else {
+            Update.end()
+            self.currentEvent = nil
+            return self
+        }
+        
         fatalError("TODO")
     }
     
@@ -1001,7 +1012,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     final func updateTransformWithoutGeometryObservation() {
-        fatalError("TODO")
+        base.updateTransformWithoutGeometryObservation()
     }
     
     private func updateWindowGeometryScene() {
