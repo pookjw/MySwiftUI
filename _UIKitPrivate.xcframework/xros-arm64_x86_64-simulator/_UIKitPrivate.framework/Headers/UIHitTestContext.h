@@ -2,7 +2,7 @@
 #import <Spatial/Spatial.h>
 #import <_UIKitPrivate/_UIGestureRecognizerContainer.h>
 #import <_UIKitPrivate/UIRealityCoordinateSpace.h>
-#import <CoreRE/Defines.h>
+#import <CoreRE/CoreRE.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 

@@ -579,39 +579,55 @@ open class _UIHostingView<Content: View>: UIView {
          context -> x0 -> x28
          */
         // <+408>
-        if GestureContainerFeature.isEnabled {
-            let context = context!
-            
-            if let event = context.event {
-                self.currentEvent = event
-            }
-            
-            // <+476>
-            Update.begin()
-            
-            Graph.withoutUpdate { 
-                self.updateTransformWithoutGeometryObservation()
-            }
-            
-            let d8: CGFloat
-            let d9: CGFloat
-            let d10: CGFloat
-            do {
-                let point3D = context.point3D
-                d8 = point3D.x
-                d9 = point3D.y
-                d10 = point3D.z
-            }
-            
-            let d11 = context.radius
-            // x26
-            let serverHitTestedResponder = context.serverHitTestedResponder
-            let serverHitTestedEntityID = context.serverHitTestedEntityID
-            fatalError("TODO")
-        } else {
-            // <+748>
-            fatalError("TODO")
+        guard GestureContainerFeature.isEnabled else {
+            return nil
         }
+        
+        let context = context!
+        
+        if let event = context.event {
+            self.currentEvent = event
+        }
+        
+        // <+476>
+        Update.begin()
+        
+        Graph.withoutUpdate { 
+            self.updateTransformWithoutGeometryObservation()
+        }
+        
+        let d8: CGFloat
+        let d9: CGFloat
+        let d10: CGFloat
+        do {
+            let point3D = context.point3D
+            d8 = point3D.x
+            d9 = point3D.y
+            d10 = point3D.z
+        }
+        
+        let d11 = context.radius
+        // x26
+        let serverHitTestedResponder = context.serverHitTestedResponder
+        let serverHitTestedEntityID = context.serverHitTestedEntityID
+        
+        var leafHitTestedEntity: RealityKit.Entity?
+        if
+            serverHitTestedEntityID != 0,
+            let serverHitTestedResponder,
+            let entityResponder = serverHitTestedResponder as? UIEntityResponder,
+            let reEntity = entityResponder.reEntity,
+            let scene = reEntity.scene
+//            let serverHitTestedEntity = scene.fintEntity(id: serverHitTestedEntityID)
+        {
+            // <+576>
+//            let entityRef = __EntityRef.__fromCore(serverHitTestedEntity)
+//            leafHitTestedEntity = .__fromCore(entityRef)
+            // <+820>
+        }
+        
+        // <+820>
+        fatalError("TODO")
     }
     
     open override var _intelligenceBaseClass: AnyClass {
