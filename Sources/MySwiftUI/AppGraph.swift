@@ -4,7 +4,7 @@ internal import AttributeGraph
 private import _DarwinFoundation3._stdlib
 
 final class AppGraph: GraphHost {
-    static nonisolated(unsafe) var shared: AppGraph? = nil {
+    @safe static nonisolated(unsafe) var shared: AppGraph? = nil {
         willSet {
             guard let newValue else {
                 return
@@ -27,6 +27,8 @@ final class AppGraph: GraphHost {
             precondition(AppGraph.shared == nil, "AppGraph.shared may only be set once!")
         }
     }
+    
+    @safe static nonisolated(unsafe) var delegateBox: AnyFallbackDelegateBox?
     
     private var makeRootScene: (_SceneInputs) -> _SceneOutputs
     private var observers: Set<HashableWeakBox<AnyObject>> = []

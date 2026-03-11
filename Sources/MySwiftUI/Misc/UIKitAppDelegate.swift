@@ -17,8 +17,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     override init() {
         // self -> x20
         super.init()
+        AppDelegate.shared = self
         
-        fatalError("TODO")
+        // <+280>
+        self.fallbackDelegate = AppGraph.delegateBox?.delegate as? UIApplicationDelegate
+        
+        // <+276>
+        SceneNavigationStrategy_Phone.shared.sceneNavigationEnabled = true
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -30,7 +35,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     override func responds(to aSelector: Selector!) -> Bool {
-        fatalError("TODO")
+        if let fallbackDelegate {
+            return fallbackDelegate.responds(to: aSelector)
+        } else {
+            return type(of: self).instancesRespond(to: aSelector)
+        }
     }
     
     override func forwardingTarget(for aSelector: Selector!) -> Any? {
