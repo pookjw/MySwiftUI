@@ -1520,6 +1520,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         
         // <+3584>
         resolved.activeEditMenu = editMenuBridge.presentedMenu
+        pencilEventsBridge.updateEnvironment(&resolved)
         objectManipluateBridge.updateEnvironment(&resolved)
         updateSnappingState(environment: &resolved)
         
@@ -1824,10 +1825,10 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         if let renderingMarginsBridge {
             renderingMarginsBridge.preferencesDidChange(preferenceValues)
         }
-        objectManipluateBridge.preferencesDidChange(preferenceValues)
         
-        let tooltipBridge = tooltipBridge
+        objectManipluateBridge.preferencesDidChange(preferenceValues)
         tooltipBridge.preferencesDidChange(preferenceValues)
+        pencilEventsBridge.preferencesDidChange(preferenceValues)
         
         if let delegate {
             delegate.hostingView(self, didChangePreferences: preferenceValues)
