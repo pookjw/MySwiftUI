@@ -1,8 +1,8 @@
 private import MySwiftUICore
 
 struct SceneList {
-    private var items: [SceneList.Item]
-    private var environment: EnvironmentValues
+    private(set) var items: [SceneList.Item] = []
+    private(set) var environment = EnvironmentValues()
 }
 
 extension SceneList {

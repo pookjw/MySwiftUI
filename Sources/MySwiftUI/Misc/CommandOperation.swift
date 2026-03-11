@@ -20,7 +20,30 @@ public struct CommandGroupPlacement: Sendable {
 }
 
 public struct _ResolvedCommands {
+    var topLevelCommands: [HashableCommandGroupPlacementWrapper] = []
+    var storage: [HashableCommandGroupPlacementWrapper: CommandAccumulator] = [:]
+    var flags: Set<CommandFlag> = []
     
+    func mainMenuItems(env: EnvironmentValues) -> [MainMenuItem] {
+        /*
+         self -> x20
+         env -> x0 -> x29 - 0x110
+         */
+        // <+692>
+        fatalError("TODO")
+    }
 }
 
 extension _ResolvedCommands: Sendable {}
+
+struct HashableCommandGroupPlacementWrapper: Hashable {
+    // TODO
+}
+
+struct CommandAccumulator {
+    // TODO
+}
+
+struct MainMenuItem {
+    // TODO
+}

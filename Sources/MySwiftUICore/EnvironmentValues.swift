@@ -119,3 +119,15 @@ extension EnvironmentValues {
         return plist.isIdentical(to: other.plist)
     }
 }
+
+extension EnvironmentValues {
+    package func configuredForRoot() -> EnvironmentValues {
+        /*
+         self -> x20
+         return pointer -> x8 -> x25
+         */
+        var copy = self
+        copy.locale = .current
+        return copy
+    }
+}

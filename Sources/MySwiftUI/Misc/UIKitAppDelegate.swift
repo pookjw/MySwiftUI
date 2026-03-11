@@ -57,9 +57,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
          options -> x1 -> x25
          */
         // <+148>
-        Update.ensure { 
+        // 밑에 정의 안 된 Role에서 사용함
+        // x21
+        let items: [SceneList.Item]? = Update.ensure { 
             // $s7SwiftUI11AppDelegateC11application_26configurationForConnecting7optionsSo20UISceneConfigurationCSo13UIApplicationC_So0J7SessionCSo0J17ConnectionOptionsCtFSayAA9SceneListV4ItemVGSgyXEfU_
-            fatalError("TODO")
+            guard let appGraph = AppGraph.shared else {
+                return nil
+            }
+            
+            let sceneList = appGraph.sceneList(namespace: .app)
+            return sceneList.items
         }
         
         // x25

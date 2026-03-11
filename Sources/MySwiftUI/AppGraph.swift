@@ -49,7 +49,7 @@ final class AppGraph: GraphHost {
     }()
     private lazy var traceLaunch = ProcessEnvironment.bool(forKey: "SWIFTUI_TRACE_LAUNCH")
     private var didCollectLaunchProfile = false
-    @OptionalAttribute private var rootCommandsList: CommandsList?
+    @OptionalAttribute var rootCommandsList: CommandsList?
     
     convenience init<T: App>(app: T) {
         self.init { inputs in
@@ -114,6 +114,30 @@ final class AppGraph: GraphHost {
     func addObserver(_ observer: AppGraphObserver) {
         self.observers = self.observers.filter { $0.base != nil }
         self.observers.insert(HashableWeakBox(observer))
+    }
+    
+    func supports(_ command: CommandFlag) -> Bool {
+        return Update.ensure { 
+            // $s7SwiftUI8AppGraphC8supportsySbAA11CommandFlagVFSbyXEfU_TA
+            let rootCommandsList = rootCommandsList ?? CommandsList()
+            
+            guard !rootCommandsList.items.isEmpty else {
+                return false
+            }
+            
+            fatalError("TODO")
+        }
+    }
+    
+    func sceneList(namespace: SceneList.Namespace) -> SceneList {
+        if
+            let rootSceneLists,
+            let existing = rootSceneLists.value[namespace]
+        {
+            return existing
+        } else {
+            return SceneList()
+        }
     }
 }
 

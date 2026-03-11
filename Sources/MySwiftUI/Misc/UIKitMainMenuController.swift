@@ -1,7 +1,8 @@
 // B619265B3CBBC7F42E2392FC185432F2
 internal import UIKit
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 private import _Elegibility
+private import AttributeGraph
 
 final class UIKitMainMenuController: UIResponder {
     private var topLevelItemCoordinators: [String : MainMenuItemCoordinator] = .init() // 0x10
@@ -32,10 +33,55 @@ final class UIKitMainMenuController: UIResponder {
          builder -> x0 -> x25
          */
         // <+436>
-        guard let appGraph = AppGraph.shared else {
+        guard
+            let appGraph = AppGraph.shared, // x24
+            self.supportsMainMenu
+        else {
             return
         }
         
+        if appGraph.supports(.textEditing) {
+            optionalMenus.formUnion(.unknown0)
+        }
+        
+        // <+588>
+        if appGraph.supports(.textFormatting) {
+            optionalMenus.formUnion(.unknown1)
+        }
+        
+        // <+704>
+        if appGraph.supports(.toolbar) {
+            optionalMenus.formUnion(.unknown2)
+        }
+        
+        // <+820>
+        if appGraph.supports(.sidebar) {
+            optionalMenus.formUnion(.unknown3)
+        }
+        
+        // <+936>
+        if appGraph.supports(.printing) {
+            optionalMenus.formUnion(.unknown4)
+        }
+        
+        // <+1056>
+        // x29 - 0x138
+        let environment = appGraph.environment.configuredForRoot()
+        
+        // <+1144>
+        _ = appGraph.focusedValues
+        
+        // x20
+        let rootCommandsList = Graph.withoutUpdate { 
+            return appGraph.rootCommandsList ?? CommandsList()
+        }
+        self.commandsListVersion = rootCommandsList.version
+        
+        // <+1356>
+        var commands = _ResolvedCommands()
+        rootCommandsList.resolveOperations(into: &commands)
+        // x29 - 0x38
+        let mainMenuItems = commands.mainMenuItems(env: environment)
         
         fatalError("TODO")
     }
@@ -53,7 +99,12 @@ final class UIKitMainMenuController: UIResponder {
         if UIDevice.current.userInterfaceIdiom == .phone {
             var answer: UInt = 0
             let status = os_eligibility_get_domain_answer(0x7a, &answer, 0, 0, 0)
-            fatalError()
+            
+            if status == 0 {
+                return answer == 4
+            } else {
+                return false
+            }
         } else {
             return true
         }
@@ -77,6 +128,26 @@ protocol CommandAction {
 }
 
 fileprivate struct OptionalMenus: OptionSet {
+    static var unknown0: OptionalMenus {
+        return OptionalMenus(rawValue: 1 << 0)
+    }
+    
+    static var unknown1: OptionalMenus {
+        return OptionalMenus(rawValue: 1 << 1)
+    }
+    
+    static var unknown2: OptionalMenus {
+        return OptionalMenus(rawValue: 1 << 2)
+    }
+    
+    static var unknown3: OptionalMenus {
+        return OptionalMenus(rawValue: 1 << 3)
+    }
+    
+    static var unknown4: OptionalMenus {
+        return OptionalMenus(rawValue: 1 << 4)
+    }
+    
     let rawValue: Int
 }
 

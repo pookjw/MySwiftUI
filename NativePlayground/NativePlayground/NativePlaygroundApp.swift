@@ -1,5 +1,5 @@
 //
-//  NativaPlaygroundApp.swift
+//  NativePlaygroundApp.swift
 //  NativePlayground
 //
 //  Created by Jinwoo Kim on 3/11/26.
@@ -11,7 +11,7 @@ import SwiftUI
 import UIKit
 
 @main
-struct NativaPlaygroundApp: App {
+struct NativePlaygroundApp: App {
     init() {
         printOffsets()
     }

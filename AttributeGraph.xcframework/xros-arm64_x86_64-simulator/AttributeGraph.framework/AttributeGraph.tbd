@@ -285,7 +285,13 @@ exports:
     _$s14AttributeGraph0A0V8addInput_7options5tokenySo11AGAttributea_So14AGInputOptionsVSitF,
     _$sSo11AGAttributea14AttributeGraphE8addInput_7options5tokenyAC0B0VyxG_So14AGInputOptionsVSitlF,
     _$s14AttributeGraph08IndirectA0VMn,
-    _AGGraphStartProfiling ]
+    _AGGraphStartProfiling,
+    _$s14AttributeGraph08IndirectA0V5valuexvs,
+    _$s14AttributeGraph08IndirectA0V5valuexvM,
+    _$s14AttributeGraph08IndirectA0V5valuexvg,
+    _$s14AttributeGraph08IndirectA0V12wrappedValuexvg,
+    _$s14AttributeGraph08IndirectA0V12wrappedValuexvs,
+    _$s14AttributeGraph08IndirectA0V12wrappedValuexvM ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

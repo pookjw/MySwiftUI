@@ -140,6 +140,12 @@ public struct IndirectAttribute<T> : Swift.Sendable {
         nonmutating _modify
     }
 
+    public var value: T {
+        get
+        nonmutating set
+        nonmutating _modify
+    }
+
     public var projectedValue: AttributeGraph.Attribute<T> {
         get
     }
