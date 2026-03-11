@@ -9,6 +9,7 @@ import _SwiftPrivate
 import _SwiftUIPrivate
 @_spi(SwiftUI) import _SwiftUICorePrivate
 import _UIKitPrivate
+
 // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
 
 private func dumpFieldOffsets(of type: Any.Type, options: _EachFieldOptions) {
@@ -123,6 +124,8 @@ func printOffsets() {
     printFields("7SwiftUI18PencilEventsBridgeC", isClassType: true)
     printFields("7SwiftUI8AppGraphC", isClassType: true)
     printFields("7SwiftUI11AppDelegateC", isClassType: true)
+    printFields("7SwiftUI23UIKitMainMenuControllerC", isClassType: true)
+    printFields("7SwiftUI16AppSceneDelegateC", isClassType: true)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)

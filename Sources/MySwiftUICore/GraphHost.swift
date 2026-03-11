@@ -658,6 +658,10 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
     }
     
+    package func setEnvironment(_ environmentValues: EnvironmentValues) {
+        data.environment = environmentValues
+    }
+    
     final func intern<T>(_ value: T, for type: Any.Type = T.self, id: GraphHost.ConstantID) -> Attribute<T> {
         /*
          self = x19

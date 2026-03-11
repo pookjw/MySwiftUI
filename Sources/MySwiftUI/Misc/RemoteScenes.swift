@@ -8,6 +8,10 @@ extension RemoteScenes {
     class SessionController {
         
     }
+    
+    class Bridge {
+        // TODO
+    }
 }
 
 extension EnvironmentValues {

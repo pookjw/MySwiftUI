@@ -1,5 +1,5 @@
 package struct HashableWeakBox<T: AnyObject>: Hashable {
-    weak var base: T?
+    package weak var base: T?
     private let basePointer: UnsafeMutableRawPointer
     
     package init(_ base: T) {

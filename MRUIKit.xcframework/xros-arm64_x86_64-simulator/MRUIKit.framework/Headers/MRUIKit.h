@@ -22,3 +22,4 @@
 #import <MRUIKit/MRUISupportedVolumeViewpointsPreferenceKey.h>
 #import <MRUIKit/UIView+MRUIPrivate.h>
 #import <MRUIKit/NSValue+MRUIPrivate.h>
+#import <MRUIKit/MRUIStageSceneSpecification.h>

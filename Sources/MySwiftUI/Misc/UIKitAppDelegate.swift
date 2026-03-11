@@ -1,4 +1,8 @@
 internal import UIKit
+private import _UIKitPrivate
+@_spi(Internal) private import MySwiftUICore
+private import FrontBoardServices
+private import MRUIKit
 
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     static private(set) var shared: AppDelegate? {
@@ -27,11 +31,63 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        fatalError("TODO")
+        /*
+         application -> x0 -> x19
+         launchOptions -> x1 -> x22
+         */
+        UIMainMenuSystem.shared._setOverrideBuild(._compatibility, overrideBuildHandler: nil)
+        
+        guard
+            let fallbackDelegate,
+            fallbackDelegate.responds(to: #selector(application(_:didFinishLaunchingWithOptions:)))
+        else {
+            return true
+        }
+        
+        guard let launchOptions else {
+            return false
+        }
+        
+        return (fallbackDelegate as AnyObject).application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        fatalError("TODO")
+        /*
+         connectingSceneSession -> x0 -> x19
+         options -> x1 -> x25
+         */
+        // <+148>
+        Update.ensure { 
+            // $s7SwiftUI11AppDelegateC11application_26configurationForConnecting7optionsSo20UISceneConfigurationCSo13UIApplicationC_So0J7SessionCSo0J17ConnectionOptionsCtFSayAA9SceneListV4ItemVGSgyXEfU_
+            fatalError("TODO")
+        }
+        
+        // x25
+        let isSwiftUIStageManaged: Bool
+        if let specification = options._specification as? MRUIStageSceneSpecification {
+            isSwiftUIStageManaged = specification.isSwiftUIStageManaged
+        } else {
+            isSwiftUIStageManaged = false
+        }
+        
+        switch connectingSceneSession.role {
+        case
+                .windowApplication,
+                .windowAssistiveAccessApplication,
+                ._UIWindowSceneSessionRoleVolumetricApplication,
+                .windowApplicationVolumetric
+            :
+            // <+440>
+            let configuration = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+            configuration.delegateClass = AppSceneDelegate.self
+            return configuration
+        case .carplay:
+            fatalError("TODO")
+        case .windowExternalDisplayNonInteractive:
+            fatalError("TODO")
+        default:
+            fatalError("TODO")
+        }
     }
     
     override func responds(to aSelector: Selector!) -> Bool {
@@ -47,7 +103,38 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     override func buildMenu(with builder: any UIMenuBuilder) {
-        fatalError("TODO")
+        /*
+         self -> x20 -> x21
+         builder -> x0 -> x19
+         */
+        Update.begin()
+        // x25
+        let system = builder.system
+        // x26
+        let main = UIMenuSystem.main
+        
+        guard system == main else {
+            Update.end()
+            return
+        }
+        
+        // <+208>
+        if
+            let graph = AppGraph.shared,
+            ViewGraphHost.isDefaultEnvironmentConfigured
+        {
+            graph.setEnvironment(ViewGraphHost.defaultEnvironment)
+        }
+        
+        // <+336>
+        if self.mainMenuController == nil {
+            self.mainMenuController = UIKitMainMenuController()
+        }
+        
+        self.mainMenuController!.buildMenu(with: builder)
+        (self.fallbackDelegate as? UIResponder)?.buildMenu(with: builder)
+        
+        Update.end()
     }
     
     override func validate(_ command: UICommand) {
@@ -71,4 +158,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
         fatalError("TODO")
     }
+}
+
+extension UISceneSession.Role {
+    static let carplay = _UIWindowSceneSessionRoleCarPlay
 }

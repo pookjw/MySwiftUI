@@ -85,6 +85,7 @@ final class AppGraph: GraphHost {
         
         super.init(data: data)
         
+        Subgraph.current = oldCurrent
         CustomEventTrace.instantiateEnd(data.globalSubgraph)
     }
     
@@ -92,22 +93,27 @@ final class AppGraph: GraphHost {
         fatalError("TODO")
     }
     
-    final func graphDidChange() {
+    func graphDidChange() {
         fatalError("TODO")
     }
     
     // 원래 없음
     @inlinable
     @discardableResult
-    final func updateFocusedValues(_ value: FocusedValues) -> Bool {
+    func updateFocusedValues(_ value: FocusedValues) -> Bool {
         return self._focusedValues.setValue(value)
     }
     
     // 원래 없음
     @inlinable
     @discardableResult
-    final func updateFocusStore(_ store: FocusStore) -> Bool {
+    func updateFocusStore(_ store: FocusStore) -> Bool {
         return self._focusStore.setValue(store)
+    }
+    
+    func addObserver(_ observer: AppGraphObserver) {
+        self.observers = self.observers.filter { $0.base != nil }
+        self.observers.insert(HashableWeakBox(observer))
     }
 }
 
@@ -119,4 +125,8 @@ extension AppGraph {
         
         var rawValue: Int32
     }
+}
+
+protocol AppGraphObserver: AnyObject {
+    // TODO
 }

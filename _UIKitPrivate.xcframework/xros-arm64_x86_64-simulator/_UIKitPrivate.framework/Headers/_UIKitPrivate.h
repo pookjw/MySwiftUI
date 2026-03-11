@@ -50,3 +50,6 @@
 #import <_UIKitPrivate/UIRealityCoordinateSpace.h>
 #import <_UIKitPrivate/UIEntityResponder.h>
 #import <_UIKitPrivate/UIResponder+Private.h>
+#import <_UIKitPrivate/UIMainMenuSystemConfiguration+Private.h>
+#import <_UIKitPrivate/UIMainMenuSystem+Private.h>
+#import <_UIKitPrivate/UISceneConnectionOptions+Private.h>
