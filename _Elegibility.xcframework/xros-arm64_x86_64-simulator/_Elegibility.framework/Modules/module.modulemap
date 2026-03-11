@@ -1,0 +1,5 @@
+framework module _Elegibility {
+    umbrella header "_Elegibility.h"
+    export *
+    module * { export * }
+}

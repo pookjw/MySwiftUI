@@ -1,6 +1,7 @@
 // B619265B3CBBC7F42E2392FC185432F2
 internal import UIKit
 private import MySwiftUICore
+private import _Elegibility
 
 final class UIKitMainMenuController: UIResponder {
     private var topLevelItemCoordinators: [String : MainMenuItemCoordinator] = .init() // 0x10
@@ -50,7 +51,9 @@ final class UIKitMainMenuController: UIResponder {
     
     var supportsMainMenu: Bool {
         if UIDevice.current.userInterfaceIdiom == .phone {
-            
+            var answer: UInt = 0
+            let status = os_eligibility_get_domain_answer(0x7a, &answer, 0, 0, 0)
+            fatalError()
         } else {
             return true
         }

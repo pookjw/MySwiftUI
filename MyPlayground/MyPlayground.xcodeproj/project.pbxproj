@@ -10,6 +10,7 @@
 		4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */; };
 		4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */; };
 		4F147CCE2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147CCD2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework */; };
+		4F1A0D862F61A2DB0090D7B0 /* _Elegibility.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F1A0D852F61A2DB0090D7B0 /* _Elegibility.xcframework */; };
 		4F2688792EB771FE000AFBDD /* RenderBox.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2688782EB771FE000AFBDD /* RenderBox.xcframework */; };
 		4F27770E2E520A1F00867E37 /* RealitySimulationServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F27770D2E520A1F00867E37 /* RealitySimulationServices.xcframework */; };
 		4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2777112E5247CD00867E37 /* BaseBoard.xcframework */; };
@@ -36,6 +37,7 @@
 		4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoreRE.xcframework; path = ../CoreRE.xcframework; sourceTree = "<group>"; };
 		4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DesignLibrary.xcframework; path = ../DesignLibrary.xcframework; sourceTree = "<group>"; };
 		4F147CCD2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftUICorePrivate.xcframework; path = ../_SwiftUICorePrivate.xcframework; sourceTree = "<group>"; };
+		4F1A0D852F61A2DB0090D7B0 /* _Elegibility.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _Elegibility.xcframework; path = ../_Elegibility.xcframework; sourceTree = "<group>"; };
 		4F2688782EB771FE000AFBDD /* RenderBox.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RenderBox.xcframework; path = ../RenderBox.xcframework; sourceTree = "<group>"; };
 		4F27770D2E520A1F00867E37 /* RealitySimulationServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealitySimulationServices.xcframework; path = ../RealitySimulationServices.xcframework; sourceTree = "<group>"; };
 		4F2777112E5247CD00867E37 /* BaseBoard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BaseBoard.xcframework; path = ../BaseBoard.xcframework; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F93472B2EE1C1670030B3A1 /* _ObservationPrivate.xcframework in Frameworks */,
+				4F1A0D862F61A2DB0090D7B0 /* _Elegibility.xcframework in Frameworks */,
 				4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */,
 				4F39783B2EC09D1A005E1901 /* UIAccessibility.xcframework in Frameworks */,
 				4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */,
@@ -132,6 +135,7 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F1A0D852F61A2DB0090D7B0 /* _Elegibility.xcframework */,
 				4F5D94E42EF8F105001F2E67 /* _AccessibilityPrivate.xcframework */,
 				4F93472A2EE1C1670030B3A1 /* _ObservationPrivate.xcframework */,
 				4F5382222ED832050013392A /* UIIntelligenceSupport.xcframework */,

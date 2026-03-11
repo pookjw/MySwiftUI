@@ -40,7 +40,8 @@ let package = Package(
                 .byName(name: "UIAccessibility"),
                 .byName(name: "FrontBoardServices"),
                 .byName(name: "UIIntelligenceSupport"),
-                .byName(name: "_AccessibilityPrivate")
+                .byName(name: "_AccessibilityPrivate"),
+                .byName(name: "_Elegibility")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -203,6 +204,10 @@ let package = Package(
         .binaryTarget(
             name: "_AccessibilityPrivate",
             path: "_AccessibilityPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "_Elegibility",
+            path: "_Elegibility.xcframework"
         ),
         .target(
             name: "_KernPrivate",

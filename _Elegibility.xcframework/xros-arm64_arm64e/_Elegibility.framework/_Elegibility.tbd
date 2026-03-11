@@ -1,0 +1,11 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ arm64-xros, arm64e-xros ]
+install-name:    '/usr/lib/system/libsystem_eligibility.dylib'
+swift-abi-version: 7
+exports:
+  - targets:         [ arm64-xros, arm64e-xros ]
+    symbols:              [ _os_eligibility_get_domain_answer ]
+    objc-classes:         [  ]
+    objc-ivars:           [  ]
+...
