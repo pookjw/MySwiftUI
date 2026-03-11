@@ -1,4 +1,4 @@
-public protocol Scene {
+@preconcurrency @MainActor public protocol Scene {
     // TODO
 }
 

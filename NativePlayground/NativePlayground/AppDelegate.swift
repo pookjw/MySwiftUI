@@ -5,40 +5,14 @@
 //  Created by Jinwoo Kim on 8/13/25.
 //
 
-import UIKit
-import SwiftUI
-import _SwiftPrivate
-import _SwiftUIPrivate
-import _UIKitPrivate
+#if !USE_SWIFTUI_APP
 
-//@main
-//struct MyApp: App {
-//    init() {
-//        print(_typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!)
-//        _forEachField(of: _typeByName("7SwiftUI23ImmersiveSpaceAuthorityC")!, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
-//        print("=====")
-//        print(UIHostingViewBase.self)
-//        _forEachField(of: UIHostingViewBase.self, options: [.classType]) { name, offset, type, kind in
-//            print(String(format: "%s (%@) (0x%lx)", name, String(describing: type), offset))
-//            return true
-//        }
-//        print("=====")
-//    }
-//    
-//    
-//    var body: some Scene {
-//        WindowGroup {
-//            EmptyView()
-//        }
-//    }
-//}
+import UIKit
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        printOffsets()
         return true
     }
 
@@ -48,3 +22,5 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return configuration
     }
 }
+
+#endif

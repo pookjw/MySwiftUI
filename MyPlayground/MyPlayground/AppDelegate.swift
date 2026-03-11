@@ -5,6 +5,8 @@
 //  Created by Jinwoo Kim on 8/13/25.
 //
 
+#if !USE_MYSWIFTUI_APP
+
 import UIKit
 
 @main
@@ -19,3 +21,5 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return configuration
     }
 }
+
+#endif

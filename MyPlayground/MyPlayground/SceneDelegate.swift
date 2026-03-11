@@ -5,6 +5,8 @@
 //  Created by Jinwoo Kim on 8/13/25.
 //
 
+#if !USE_MYSWIFTUI_APP
+
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -18,3 +20,5 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
     }
 }
+
+#endif
