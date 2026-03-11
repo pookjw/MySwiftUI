@@ -450,6 +450,12 @@ class ViewController: UIViewController {
             return true
         }
         
+        print(_typeName(_typeByName("7SwiftUI15UIViewResponderC")!, qualified: true))
+        _forEachField(of: _typeByName("7SwiftUI15UIViewResponderC")!, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        
         print(_typeName(_typeByName("5UIKit21_GlassBackgroundStyleO")!, qualified: true))
         _forEachField(of: _typeByName("5UIKit21_GlassBackgroundStyleO")!, options: []) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
@@ -1225,6 +1231,30 @@ class ViewController: UIViewController {
             return true
         }
         
+        print("===")
+        
+        print(_typeName(ResponderNode.self, qualified: true))
+        _forEachField(of: ResponderNode.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        print(_typeName(ViewResponder.self, qualified: true))
+        _forEachField(of: ViewResponder.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        //        
+        print("===")
+        
+        print(_typeName(MultiViewResponder.self, qualified: true))
+        _forEachField(of: MultiViewResponder.self, options: [.classType]) { name, offset, type, kind in
+            print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
+            return true
+        }
+        //        
         print("===")
          
         

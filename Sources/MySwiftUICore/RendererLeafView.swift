@@ -156,7 +156,7 @@ final class LeafViewResponder<T: ContentResponder>: ViewResponder {
         fatalError("TODO")
     }
     
-    override func containsGlobalPoints(_: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
+    override func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
         fatalError("TODO")
     }
 }

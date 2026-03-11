@@ -14,12 +14,58 @@ final class UIViewResponder: PlatformViewResponderBase<UIView, UIViewContentResp
         fatalError("TODO")
     }
     
+    override var platformViewIsEnabled: Bool {
+        guard let hostView else {
+            return super.platformViewIsEnabled
+        }
+        
+        return hostView.isUserInteractionEnabled
+    }
+    
     override init() {
         super.init()
     }
     
-    override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+    override func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
+        /*
+         self -> x20
+         points -> x0 -> x28
+         cacheKey -> x1 -> x21
+         options -> x2 -> x23
+         return pointer -> x8 -> x27
+         */
+        // <+288>
+        if UnifiedHitTestingFeature.isEnabled {
+            return super.containsGlobalPoints(points, cacheKey: cacheKey, options: options)
+        }
+        
         fatalError("TODO")
+    }
+    
+    override func platformViewHitTest(globalPoint: CGPoint, cacheKey: UInt32?) -> UIView? {
+        fatalError("TODO")
+    }
+    
+    override func platformViewHitTest(globalPoint: Point3D, cacheKey: UInt32?) -> UIView? {
+        guard
+            let hostView, // x19
+            let window = hostView.window // x21
+        else {
+            return nil
+        }
+        
+        let caPoint3D = CAPoint3D(globalPoint)
+        let converted = hostView.convert(caPoint3D, from: window)
+        
+        // x20
+        let event: UIEvent?
+        if let host = self.host, let provider = host.as(CurrentEventProvider.self) {
+            event = provider.currentEvent
+        } else {
+            event = nil
+        }
+        
+        return hostView.hitTest(CGPoint(x: converted.x, y: converted.y), with: event)
     }
     
     // TODO

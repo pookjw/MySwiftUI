@@ -13,7 +13,7 @@ private import os.log
     }
     
     package private(set) weak var host: (any ViewGraphDelegate)?
-    private var serverResponderID: UInt32?
+    private(set) final var serverResponderID: UInt32?
     package private(set) weak var parent: ViewResponder?
     
     @inline(__always)
@@ -114,14 +114,39 @@ private import os.log
         fatalError("TODO")
     }
     
-    open func containsGlobalPoints(_: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
+    open func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
         fatalError("TODO")
     }
 }
 
 extension ViewResponder {
     public struct ContainsPointsCache {
-        var storage: (key: UInt32, value: ContainsPointsResult)?
+        /*
+         key -> 0x0
+         mask -> 0x8
+         priority -> 0x10
+         children -> 0x18 (0이면 nil)
+         */
+        private var storage: (key: UInt32?, value: ContainsPointsResult)?
+        
+        init() {
+            storage = nil
+        }
+        
+        mutating func fetch(key: UInt32?, _ make: () -> ViewResponder.ContainsPointsResult) -> ViewResponder.ContainsPointsResult {
+            /*
+             self -> x20 -> x21
+             key -> x22
+             return pointer -> x8 -> x19
+             */
+            if let storage, storage.key == key {
+                return storage.value
+            } else {
+                let result = make()
+                storage = (key, result)
+                return result
+            }
+        }
     }
     
     public struct ContainsPointsOptions: OptionSet {
@@ -164,7 +189,7 @@ extension ViewResponder {
         }
     }
     
-    public enum HitTestPolicy {
+    public enum HitTestPolicy: Hashable {
         case include
         case exclude
         case passthrough
@@ -176,6 +201,12 @@ extension ViewResponder {
         var mask: BitVector64
         var priority: Double
         var children: [ViewResponder]
+        
+        public init(mask: BitVector64, priority: Double, children: [ViewResponder]) {
+            self.mask = mask
+            self.priority = priority
+            self.children = children
+        }
     }
 }
 

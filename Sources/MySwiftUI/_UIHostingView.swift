@@ -70,7 +70,7 @@ open class _UIHostingView<Content: View>: UIView {
             updateBackgroundColor()
         }
     }
-    private var currentEvent: UIEvent? = nil
+    private(set) final var currentEvent: UIEvent? = nil
     private var eventBridge: UIKitEventBindingBridge
     private nonisolated(unsafe) var dumpLayerNotificationTokens: (Int32, Int32)? = nil
     private var colorAppearanceSeed: UInt32 = 0
@@ -634,14 +634,13 @@ open class _UIHostingView<Content: View>: UIView {
         // x25
         let testResponder = responderNode.hitTest(globalPoint: point3D, radius: d11, serverHitTest: serverHitTest)
         
-        if let testResponder {
-            // <+1120>
-            fatalError("TODO")
-        } else {
-            // <+1384>
-            fatalError("TODO")
+        guard let testResponder else {
+            Update.end()
+            self.currentEvent = nil
+            return self
         }
         
+        // <+1120>
         fatalError("TODO")
     }
     
