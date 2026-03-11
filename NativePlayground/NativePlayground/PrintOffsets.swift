@@ -122,6 +122,7 @@ func printOffsets() {
     printFields("7SwiftUI22MRUIPreferenceExporterC", isClassType: true)
     printFields("7SwiftUI18PencilEventsBridgeC", isClassType: true)
     printFields("7SwiftUI8AppGraphC", isClassType: true)
+    printFields("7SwiftUI11AppDelegateC", isClassType: true)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)
