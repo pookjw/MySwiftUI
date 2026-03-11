@@ -69,6 +69,10 @@ typedef NS_OPTIONS(uint32_t, AGInputOptions) {
     AGInputOptionsUnknown2 = 1 << 2
 };
 
+typedef NS_OPTIONS(NSUInteger, AGGraphTraceFlags) {
+    AGGraphTraceFlagsUnknown32 = 1 << 32
+};
+
 typedef uint32_t AGAttribute __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AnyAttribute);
 
 typedef struct CF_BRIDGED_TYPE(id) AGGraphStorage * AGGraphRef NS_SWIFT_NAME(Graph);

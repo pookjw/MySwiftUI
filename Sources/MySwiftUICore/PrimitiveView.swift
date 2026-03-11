@@ -1,5 +1,4 @@
-
-protocol PrimitiveView: View {
+package protocol PrimitiveView: View {
     
 }
 

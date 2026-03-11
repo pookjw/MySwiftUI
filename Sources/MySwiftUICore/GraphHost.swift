@@ -209,7 +209,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return (graph.counter(options: [.unknown1, .unknown2]) != 0)
     }
     
-    init(data: GraphHost.Data) {
+    package init(data: GraphHost.Data) {
         self.data = data
         self.constants = [:]
         self.isInstantiated = false
@@ -700,7 +700,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
 extension GraphHost {
     package struct Data {
         package private(set) var graph: Graph?
-        private(set) var globalSubgraph: Subgraph
+        package private(set) var globalSubgraph: Subgraph
         private(set) var rootSubgraph: Subgraph
         fileprivate var isRemoved: Bool
         fileprivate(set) var isHiddenForReuse: Bool
@@ -713,7 +713,7 @@ extension GraphHost {
         @Attribute fileprivate var transactionSeed: UInt32
         private(set) var inputs: _GraphInputs
         
-        init() {
+        package init() {
             let graph = Graph(shared: GraphHost.sharedGraph)
             self.graph = graph
             

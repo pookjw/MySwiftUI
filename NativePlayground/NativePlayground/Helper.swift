@@ -12,8 +12,7 @@ import _SwiftPrivate
 import AttributeGraph
 
 // (lldb) expr -l swift -O -- unsafeBitCast(0x0000000107ed6058, to: Any.Type.self)
-
-// (lldb) expr -l objc -O -- [(Class)NSClassFromString(@"Helper") dumpWithAttribute:$w25]
+// (lldb) expr -l objc -O -- [(Class)NSClassFromString(@"Helper") dumpWithAttribute:$w25 resolveValue:YES]
 @objc(Helper)
 final class Helper: NSObject {
     @objc(dumpWithObject:)
@@ -24,9 +23,17 @@ final class Helper: NSObject {
         }
     }
     
-    @objc(dumpWithAttribute:)
-    class func dump(attribute: AnyAttribute) {
+    @objc(dumpWithAttribute:resolveValue:)
+    class func dump(attribute: AnyAttribute, resolveValue: Bool) {
         print(attribute.valueType)
         print(attribute._bodyType)
+        
+        if resolveValue {
+            func project<T>(key: T.Type) {
+                print(Attribute<T>(identifier: attribute).value)
+            }
+            
+            _openExistential(attribute.valueType, do: project)
+        }
     }
 }

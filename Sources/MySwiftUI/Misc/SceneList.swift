@@ -10,9 +10,15 @@ extension SceneList {
         // TODO
     }
     
-    enum Namespace {
+    enum Namespace: Hashable {
         case string(String)
         case host(ObjectIdentifier)
         case app
+    }
+}
+
+extension SceneList.Item {
+    struct Summary/*: Identifiable*/ {
+        // TODO
     }
 }

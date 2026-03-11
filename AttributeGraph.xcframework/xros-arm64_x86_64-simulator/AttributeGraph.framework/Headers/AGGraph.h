@@ -26,6 +26,7 @@ AG_EXTERN AGSubgraphRef AGSubgraphCreate2(AGGraphRef, AGAttribute) NS_SWIFT_NAME
 AG_EXTERN const AGAttribute AGGraphGetCurrentAttribute(void) NS_SWIFT_NAME(getter:Graph.currentAttribute());
 AG_EXTERN BOOL AGGraphCurrentAttributeWasModified(void) NS_SWIFT_NAME(getter:Graph.currentAttributeWasModified());
 AG_EXTERN void AGGraphRegisterDependency(AGAttribute, unsigned int) NS_SWIFT_NAME(Graph.registerDependency(attribute:flags:));
+AG_EXTERN void AGGraphStartProfiling(AGGraphRef _Nullable);
 
 CF_IMPLICIT_BRIDGING_DISABLED
 
