@@ -6,7 +6,7 @@ private import os.log
     @usableFromInline
     @frozen package enum Storage : Equatable {
         case verbatim(String)
-//        case anyTextStorage(AnyTextStorage)
+        case anyTextStorage(AnyTextStorage)
         
         @usableFromInline
         package static func == (lhs: Text.Storage, rhs: Text.Storage) -> Bool {
@@ -62,7 +62,16 @@ private import os.log
     }
     
     func isStyled(options: Text.ResolveOptions = []) -> Bool {
-        
+        switch storage {
+        case .verbatim(_):
+            guard !modifiers.isEmpty else {
+                return false
+            }
+            
+            fatalError("TODO")
+        case .anyTextStorage(_):
+            fatalError("TODO")
+        }
     }
 }
 
@@ -131,4 +140,49 @@ extension Text {
             self.rawValue = rawValue
         }
     }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+extension Text {
+    public struct DateStyle : Sendable {
+        public static let time: Text.DateStyle = {
+            fatalError("TODO")
+        }()
+        
+        public static let date: Text.DateStyle = {
+            fatalError("TODO")
+        }()
+        
+        public static let relative: Text.DateStyle = {
+            fatalError("TODO")
+        }()
+        
+        public static let offset: Text.DateStyle = {
+            fatalError("TODO")
+        }()
+        
+        public static let timer: Text.DateStyle = {
+            fatalError("TODO")
+        }()
+    }
+    
+    public init(_ date: Date, style: Text.DateStyle) {
+        fatalError("TODO")
+    }
+    
+    public init(_ dates: ClosedRange<Date>) {
+        fatalError("TODO")
+    }
+    
+    public init(_ interval: DateInterval) {
+        fatalError("TODO")
+    }
+}
+
+@usableFromInline
+package class AnyTextStorage {
+    // TODO
+}
+
+extension AnyTextStorage : @unchecked Sendable {
 }

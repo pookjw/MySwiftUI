@@ -52,6 +52,6 @@ fileprivate struct MyViewControllerRepresentable: UIViewControllerRepresentable 
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        
+        Text("File", tableName: "MainMenu", bundle: .main, comment: "Title of top level File main menu")
     }
 }

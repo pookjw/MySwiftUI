@@ -1,5 +1,9 @@
+// 7CAAF8CB17093C835B3EA3980BA79FD8
 internal import Foundation
 private import MySwiftUICore
+#if SwiftUICompataibility
+private import ObjectiveC.runtime
+#endif
 
 struct CommandOperation {
     private var mutation: CommandOperation.Mutation
@@ -119,10 +123,18 @@ public struct CommandGroupPlacement: Sendable {
 }
 
 public struct _ResolvedCommands {
-    @safe static nonisolated(unsafe) let fileItem: Text = {
-        // $s7SwiftUI17_ResolvedCommandsV8fileItem_WZ
-        fatalError("TODO")
-    }()
+    @_transparent fileprivate static var bundle: Bundle {
+        let bundleClass: AnyClass
+#if SwiftUICompataibility
+        bundleClass = objc_lookUpClass("_TtC7SwiftUIP33_7CAAF8CB17093C835B3EA3980BA79FD812SwiftUIClass")!
+#else
+        bundleClass = SwiftUIClass.self
+#endif
+        return Bundle(for: bundleClass)
+    }
+    
+    // $s7SwiftUI17_ResolvedCommandsV8fileItem_WZ
+    @safe static nonisolated(unsafe) let fileItem = Text("File", tableName: "MainMenu", bundle: bundle, comment: "Title of top level File main menu")
     
     @safe static nonisolated(unsafe) let editItem: Text = {
         // $s7SwiftUI17_ResolvedCommandsV8editItem_WZ
@@ -158,21 +170,6 @@ public struct _ResolvedCommands {
          self -> x20
          env -> x0 -> x29 - 0x110
          */
-        let placements: () -> [CommandGroupPlacement] = {
-            // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU_
-            // 원래 없음
-            return MainActor.assumeIsolated {
-                let appInfo = CommandGroupPlacement.appInfo
-                let appSettings = CommandGroupPlacement.appSettings
-                let systemServices = CommandGroupPlacement.systemServices
-                let appVisibility = CommandGroupPlacement.appVisibility
-                let appTermination = CommandGroupPlacement.appTermination
-                
-                // <+456>
-                fatalError("TODO")
-            }
-        }
-        
         // <+692>
         // 총 5개
         let templates: [MainMenuItem.Template] = [
@@ -180,11 +177,42 @@ public struct _ResolvedCommands {
                 name: currentAppName(),
                 id: .app,
                 options: [],
-                expectedPlacements: placements()
+                expectedPlacements: {
+                    // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU_
+                    // 원래 없음 MainActor.assumeIsolated
+                    return MainActor.assumeIsolated {
+                        let appInfo = CommandGroupPlacement.appInfo
+                        let appSettings = CommandGroupPlacement.appSettings
+                        let systemServices = CommandGroupPlacement.systemServices
+                        let appVisibility = CommandGroupPlacement.appVisibility
+                        let appTermination = CommandGroupPlacement.appTermination
+                        
+                        // <+456>
+                        var placements: [CommandGroupPlacement] = [appInfo]
+                        placements.append(contentsOf: [appSettings])
+                        placements.append(contentsOf: [systemServices])
+                        placements.append(contentsOf: [appVisibility])
+                        placements.append(contentsOf: [appTermination])
+                        
+                        return placements
+                    }
+                }()
             ),
             
             // <+944>
+            MainMenuItem.Template(
+                name: _ResolvedCommands.fileItem.resolveString(in: env, idiom: nil),
+                id: .file,
+                options: [],
+                expectedPlacements: {
+                    // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU0_
+                    fatalError("TODO")
+                }()
+            ),
+            
+            // <+1300>
         ]
+        
         fatalError("TODO")
     }
 }
@@ -239,3 +267,7 @@ extension MainMenuItem.Template {
         let rawValue: Int
     }
 }
+
+#if !SwiftUICompataibility
+fileprivate final class SwiftUIClass: NSObject {}
+#endif
