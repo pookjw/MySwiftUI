@@ -1,8 +1,43 @@
 public import Foundation
+package import CoreGraphics
 
-public struct Text: View {
-    public var body: Never {
-        fatalError("TODO")
+@frozen public struct Text: Equatable, Sendable {
+    @usableFromInline
+    @frozen package enum Storage : Equatable {
+        case verbatim(String)
+//        case anyTextStorage(AnyTextStorage)
+        
+        @usableFromInline
+        package static func == (lhs: Text.Storage, rhs: Text.Storage) -> Bool {
+            fatalError("TODO")
+        }
+    }
+    
+    @usableFromInline
+    @frozen package enum Modifier : Equatable {
+//        case color(Color?)
+//        case font(Font?)
+//        case italic
+//        case weight(Font.Weight?)
+//        case kerning(CGFloat)
+//        case tracking(CGFloat)
+//        case baseline(CGFloat)
+//        case rounded
+//        case anyTextModifier(AnyTextModifier)
+        
+        @usableFromInline
+        package static func == (lhs: Text.Modifier, rhs: Text.Modifier) -> Bool {
+            fatalError("TODO")
+        }
+    }
+    
+    @usableFromInline
+    package var storage: Text.Storage
+    @usableFromInline
+    package var modifiers: [Text.Modifier] = [Modifier]()
+    
+    @inlinable public init(verbatim content: String) {
+        storage = .verbatim(content)
     }
     
     @_disfavoredOverload public init<S>(_ content: S) where S : StringProtocol {
@@ -10,6 +45,16 @@ public struct Text: View {
     }
     
     package func resolveString(in environment: EnvironmentValues, with options: Text.ResolveOptions = [], idiom: AnyInterfaceIdiom?) -> String {
+        fatalError("TODO")
+    }
+    
+    package func assertUnstyled(_ text: String, options: Text.ResolveOptions = []) {
+        fatalError("TODO")
+    }
+}
+
+extension Text: View {
+    public var body: Never {
         fatalError("TODO")
     }
 }

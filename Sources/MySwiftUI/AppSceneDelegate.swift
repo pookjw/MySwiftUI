@@ -40,7 +40,11 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     override func responds(to aSelector: Selector!) -> Bool {
-        fatalError("TODO")
+        if let sceneDelegateBox, let delegate = sceneDelegateBox.delegate as? UISceneDelegate {
+            return delegate.responds(to: aSelector)
+        } else {
+            return type(of: self).instancesRespond(to: aSelector)
+        }
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {

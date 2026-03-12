@@ -18,6 +18,103 @@ extension CommandOperation {
 }
 
 public struct CommandGroupPlacement: Sendable {
+    @MainActor public static let appInfo: CommandGroupPlacement = {
+        let name = Text(verbatim: "App Info")
+        name.assertUnstyled("init(_:)")
+        return CommandGroupPlacement(name: name, id: UUID())
+    }()
+    
+    @MainActor public static let appSettings: CommandGroupPlacement = {
+        let name = Text(verbatim: "App Settings")
+        name.assertUnstyled("init(_:)")
+        return CommandGroupPlacement(name: name, id: UUID())
+    }()
+    
+    @MainActor public static let systemServices: CommandGroupPlacement = {
+        let name = Text(verbatim: "System Services")
+        name.assertUnstyled("init(_:)")
+        return CommandGroupPlacement(name: name, id: UUID())
+    }()
+    
+    @MainActor public static let appVisibility: CommandGroupPlacement = {
+        let name = Text(verbatim: "App Visibility")
+        name.assertUnstyled("init(_:)")
+        return CommandGroupPlacement(name: name, id: UUID())
+    }()
+    
+    @MainActor public static let appTermination: CommandGroupPlacement = {
+        let name = Text(verbatim: "App Termination")
+        name.assertUnstyled("init(_:)")
+        return CommandGroupPlacement(name: name, id: UUID())
+    }()
+    
+    @MainActor public static let newItem: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let saveItem: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let importExport: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let printItem: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let undoRedo: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let pasteboard: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let textEditing: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let textFormatting: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let toolbar: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let sidebar: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor public static let windowSize: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor static let windowList: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor static let singleWindowList: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor static let windowArrangement: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor static let help: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    @MainActor static let appShortcuts: CommandGroupPlacement = {
+        fatalError("TODO")
+    }()
+    
+    private let name: Text
+    private let id: UUID
+    
     // TODO
 }
 
@@ -63,7 +160,17 @@ public struct _ResolvedCommands {
          */
         let placements: () -> [CommandGroupPlacement] = {
             // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU_
-            fatalError("TODO")
+            // 원래 없음
+            return MainActor.assumeIsolated {
+                let appInfo = CommandGroupPlacement.appInfo
+                let appSettings = CommandGroupPlacement.appSettings
+                let systemServices = CommandGroupPlacement.systemServices
+                let appVisibility = CommandGroupPlacement.appVisibility
+                let appTermination = CommandGroupPlacement.appTermination
+                
+                // <+456>
+                fatalError("TODO")
+            }
         }
         
         // <+692>

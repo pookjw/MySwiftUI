@@ -4,6 +4,7 @@ private import AttributeGraph
 private import UIKit
 private import _DarwinFoundation3._stdlib
 private import _UIKitPrivate
+private import Foundation
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 @preconcurrency @MainActor public protocol App {
@@ -62,5 +63,34 @@ fileprivate final class SwiftUIApplication: UIApplication {
 }
 
 func currentAppName() -> String {
-    fatalError("TODO")
+    if let value = Bundle.main.localizedValue(for: "CFBundleDisplayName") {
+        return value
+    }
+    
+    if let value = Bundle.main.localizedValue(for: "CFBundleName") {
+        return value
+    }
+    
+    return ProcessInfo.processInfo.processName
+}
+
+extension Bundle {
+    fileprivate func localizedValue(for key: String) -> String? {
+        if
+            let localizedInfoDictionary = Bundle.main.localizedInfoDictionary,
+            let value = localizedInfoDictionary[key] as? String
+        {
+            return value
+        }
+        
+        // <+228>
+        if
+            let infoDictionary = Bundle.main.infoDictionary,
+            let value = infoDictionary[key] as? String
+        {
+            return value
+        }
+        
+        return nil
+    }
 }
