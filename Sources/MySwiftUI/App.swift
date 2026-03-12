@@ -60,3 +60,7 @@ fileprivate final class SwiftUIApplication: UIApplication {
     
     // TODO
 }
+
+func currentAppName() -> String {
+    fatalError("TODO")
+}
