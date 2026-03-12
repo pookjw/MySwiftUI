@@ -1,5 +1,6 @@
 public import Foundation
 package import CoreGraphics
+private import os.log
 
 @frozen public struct Text: Equatable, Sendable {
     @usableFromInline
@@ -49,7 +50,19 @@ package import CoreGraphics
     }
     
     package func assertUnstyled(_ text: String, options: Text.ResolveOptions = []) {
-        fatalError("TODO")
+        guard isDebuggerAttached else {
+            return
+        }
+        
+        guard isStyled(options: options) else {
+            return
+        }
+        
+        unsafe os_log(.fault, log: Log.runtimeIssuesLog, "Only unstyled text can be used with %s", text)
+    }
+    
+    func isStyled(options: Text.ResolveOptions = []) -> Bool {
+        
     }
 }
 
