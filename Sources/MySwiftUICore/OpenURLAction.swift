@@ -84,10 +84,18 @@ extension EnvironmentValues {
     @preconcurrency @MainActor
     public var _openURL: OpenURLAction {
         get {
-            fatalError("TODO")
+            if let action = self[OpenURLActionKey.self] {
+                return action
+            }
+            
+            if hasSystemOpenURLAction {
+                return resolvedDefaultOpenURL
+            } else {
+                return .invalidAction
+            }
         }
         set {
-            self.openURL = newValue
+            fatalError("TODO")
         }
     }
 }
@@ -97,10 +105,56 @@ extension EnvironmentValues {
     @preconcurrency @MainActor
     public var _openSensitiveURL: OpenURLAction {
         get {
-            fatalError("TODO")
+            if let action = self[OpenSensitiveURLActionKey.self] {
+                return action
+            }
+            
+            if hasSystemOpenURLAction, let action = OpenURLAction.defaultSensitiveAction {
+                return action
+            } else {
+                return .invalidAction
+            }
         }
         set {
             fatalError("TODO")
+        }
+    }
+}
+
+extension EnvironmentValues {
+    fileprivate var resolvedDefaultOpenURL: OpenURLAction {
+        if let defaultAction = OpenURLAction.defaultAction {
+            return defaultAction
+        }
+        
+        if let defaultOpenURL = _defaultOpenURL {
+            return defaultOpenURL
+        }
+        
+        return .invalidAction
+    }
+    
+    var _defaultOpenURL: OpenURLAction? {
+        get {
+            return self[EnvironmentValues.DefaultOpenURLActionKey.self]
+        }
+        set {
+            self[EnvironmentValues.DefaultOpenURLActionKey.self] = newValue
+        }
+    }
+    
+    fileprivate struct DefaultOpenURLActionKey: EnvironmentKey {
+        static var defaultValue: OpenURLAction? {
+            return nil
+        }
+    }
+    
+    var hasSystemOpenURLAction: Bool {
+        get {
+            return self[HasSystemOpenURLActionKey.self]
+        }
+        set {
+            self[HasSystemOpenURLActionKey.self] = newValue
         }
     }
 }

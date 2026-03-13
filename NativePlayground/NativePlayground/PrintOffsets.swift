@@ -164,9 +164,10 @@ func printOffsets() {
     printFields(MultiViewResponder.self, isClassType: true)
     printFields(Text.Style.self, isClassType: false)
     
-    print(OpenURLAction(handler: { _ in
+    var env = EnvironmentValues()
+    env.openURL = .init(handler: { _ in
         fatalError()
-    }))
+    })
 //    debugTextResolveExample()
 }
 
