@@ -1,5 +1,6 @@
 // 8C53218A357EE528547B0855666BD2E5
 public import Foundation
+private import _MySwiftUIShims
 
 @frozen public struct LocalizedStringKey: Equatable, ExpressibleByStringInterpolation {
     internal var key: String
@@ -312,13 +313,54 @@ extension _LocalizationInfo : Sendable {
 extension LocalizedStringKey {
     func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, options: Text.ResolveOptions, table: String?, bundle: Bundle?) {
         if isLinkedOnOrAfter(.v3) && !options.contains(.ignoreMarkdown) {
+            let bundle = bundle ?? .main
             // <+684>
-            let bundle = bundle ?? .main
+            let locale = environmentValues.locale
+            // <+1236>
+            let localized = _LocalizeAttributedString(bundle, key, table, locale)
+            
+            // <+1304>
+            if options.contains(.includeAccessibility) {
+                // <+1312>
+                let arguments = getArgumentsForInflection(for: localized, in: environmentValues, idiom: container.idiom, with: options, including: container.style)
+                let resolved = NSAttributedString(swiftUIAttributedStringWithFormat: localized, options: [], locale: environmentValues.locale, arguments: getVaList(arguments.arguments))
+                resolveArguments(from: resolved, into: &container, in: environmentValues, options: options, isUniqueSizeVariant: arguments.isUniqueSizeVariant)
+            } else {
+                // <+1496>
+                container.append(localized, in: environmentValues, with: options)
+            }
         } else {
-            // <+488>
             let bundle = bundle ?? .main
-            fatalError("TODO")
+            // <+488>
+            let locale = environmentValues.locale
+            // <+880>
+            let localized = _LocalizeString(bundle, key, table, locale)
+            
+            if options.contains(.includeAccessibility) {
+                // <+976>
+                let args: [CVarArg] = arguments.map { arg in
+                    // $s7SwiftUI18LocalizedStringKeyV7resolve4into2in7options5table6bundleyxz_AA17EnvironmentValuesVAA4TextV14ResolveOptionsVSSSgSo8NSBundleCSgtAA08ResolvedN9ContainerRzlFs7CVarArg_pAC14FormatArgumentVXEfU_
+                    fatalError("TODO")
+                }
+                
+                let resolved = String(format: localized, locale: environmentValues.locale, arguments: args)
+                resolveArguments(from: resolved, into: &container, in: environmentValues, options: options, isUniqueSizeVariant: false /* 확실하지 않음 */)
+            } else {
+                // <+1080>
+                container.append(localized, in: environmentValues, with: options)
+            }
         }
+    }
+    
+    func getArgumentsForInflection(for attributedString: NSAttributedString, in environment: EnvironmentValues, idiom: AnyInterfaceIdiom?, with options: Text.ResolveOptions, including style: Text.Style) -> (arguments: [CVarArg], isUniqueSizeVariant: Bool) {
+        fatalError("TODO")
+    }
+    
+    func resolveArguments<T: ResolvedTextContainer>(from string: NSAttributedString, into container: inout T, in environment: EnvironmentValues, options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+        fatalError("TODO")
+    }
+    
+    func resolveArguments<T: ResolvedTextContainer>(from string: String, into container: inout T, in environment: EnvironmentValues, options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
         fatalError("TODO")
     }
 }

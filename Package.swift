@@ -87,7 +87,8 @@ let package = Package(
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "BaseBoard"),
                 .byName(name: "_DarwinPrivate"),
-                .byName(name: "_QuartzCorePrivate")
+                .byName(name: "_QuartzCorePrivate"),
+                .byName(name: "_FoundationPrivate")
             ],
             cSettings: [
                 .unsafeFlags(["-fno-objc-arc", "-std=gnu23"])
@@ -213,6 +214,10 @@ let package = Package(
         .binaryTarget(
             name: "UIFoundation",
             path: "UIFoundation.xcframework"
+        ),
+        .binaryTarget(
+            name: "_FoundationPrivate",
+            path: "_FoundationPrivate.xcframework"
         ),
         .target(
             name: "_KernPrivate",

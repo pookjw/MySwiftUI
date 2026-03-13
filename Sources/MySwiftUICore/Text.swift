@@ -204,19 +204,26 @@ extension Text {
             }
         }
         
-        func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
-            fatalError("TODO")
+        mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S : StringProtocol {
+            let str = String(string)
+            let converted = str.caseConvertedIfNeeded(environment)
+            
+            if environment.shouldRedactContent {
+                self.string.append(String(repeating: "\u{100BB7}", count: converted.count))
+            } else {
+                self.string.append(converted)
+            }
         }
         
-        func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S : StringProtocol {
-            fatalError("TODO")
+        mutating func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+            append(attributedString.string, in: environment, with: options)
         }
         
         func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions) {
             fatalError("TODO")
         }
         
-        func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+        func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
             fatalError("TODO")
         }
     }
@@ -303,12 +310,14 @@ package protocol ResolvedTextContainer {
 }
 
 extension ResolvedTextContainer {
-    func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S: StringProtocol {
-        fatalError("TODO")
+    mutating func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions) {
+        let isUniqueSizeVariant = environment.textSizeVariant == .regular
+        append(attributedString, in: environment, with: options, isUniqueSizeVariant: isUniqueSizeVariant)
     }
     
-    func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
-        fatalError("TODO")
+    mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions) where S: StringProtocol {
+        let isUniqueSizeVariant = environment.textSizeVariant == .regular
+        append(string, in: environment, with: options, isUniqueSizeVariant: isUniqueSizeVariant)
     }
 }
 
@@ -431,4 +440,10 @@ struct TextTransitionModifier {
 
 class TextAttributeModifierBase {
     // TODO
+}
+
+extension String {
+    func caseConvertedIfNeeded(_ environment: EnvironmentValues) -> String {
+        fatalError("TODO")
+    }
 }

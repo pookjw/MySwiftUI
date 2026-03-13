@@ -16,3 +16,5 @@
 #import "UIViewController+MySwiftUI.h"
 #import "CoreColorFunctions.h"
 #include "ObjcC.h"
+#import "Localization.h"
+#import "NSAttributedString+MySwiftUI.h"
