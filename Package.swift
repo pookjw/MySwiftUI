@@ -62,7 +62,8 @@ let package = Package(
                 .byName(name: "StopwatchSupport"),
                 .byName(name: "RenderBox"),
                 .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"])),
-                .byName(name: "_ObservationPrivate")
+                .byName(name: "_ObservationPrivate"),
+                .byName(name: "UIFoundation")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -208,6 +209,10 @@ let package = Package(
         .binaryTarget(
             name: "_Elegibility",
             path: "_Elegibility.xcframework"
+        ),
+        .binaryTarget(
+            name: "UIFoundation",
+            path: "UIFoundation.xcframework"
         ),
         .target(
             name: "_KernPrivate",

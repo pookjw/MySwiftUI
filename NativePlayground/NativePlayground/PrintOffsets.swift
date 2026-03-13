@@ -9,6 +9,7 @@ import _SwiftPrivate
 import _SwiftUIPrivate
 @_spi(SwiftUI) import _SwiftUICorePrivate
 import _UIKitPrivate
+import Foundation
 
 // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
 
@@ -162,9 +163,47 @@ func printOffsets() {
     printFields(ViewResponder.self, isClassType: true)
     printFields(MultiViewResponder.self, isClassType: true)
     printFields(Text.Style.self, isClassType: false)
+    
+    debugTextResolveExample()
 }
 
 fileprivate struct GeometryMeasurer: ViewGraphGeometryMeasurer {
     typealias Proposal = CGPoint
     typealias Size = CGSize
+}
+
+// Text.resolve example
+private struct _DebugResolvedTextContainer: ResolvedTextContainer {
+    var style: Text.Style {
+        get { Text.Resolved().style }
+        set {}
+    }
+    
+    var properties: Text.ResolvedProperties {
+        get { fatalError() }
+        set { fatalError() }
+    }
+    
+    var idiom: AnyInterfaceIdiom? { nil }
+    
+    mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S : StringProtocol {
+        fatalError()
+    }
+    
+    mutating func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+        fatalError()
+    }
+    
+    mutating func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions) {
+        fatalError()
+    }
+    
+    mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
+        fatalError()
+    }
+}
+
+func debugTextResolveExample() {
+    var container = _DebugResolvedTextContainer()
+    Text("Hello Text.resolve").resolve(into: &container, in: .init(), with: [])
 }

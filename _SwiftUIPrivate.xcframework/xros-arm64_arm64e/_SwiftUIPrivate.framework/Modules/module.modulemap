@@ -1,4 +1,4 @@
-framework module _UIKitPrivate {
+framework module _SwiftUIPrivate {
     export *
     module * { export * }
 }

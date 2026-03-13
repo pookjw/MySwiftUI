@@ -278,7 +278,7 @@ fileprivate final class LocalizedTextStorage: AnyTextStorage {
     }
     
     override func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C : ResolvedTextContainer {
-        fatalError("TODO")
+        key.resolve(into: &container, in: environment, options: options, table: table, bundle: bundle)
     }
     
     override func resolvesToEmpty(in environment: EnvironmentValues, with options: Text.ResolveOptions) -> Bool {
@@ -307,4 +307,18 @@ public enum _LocalizationInfo : Equatable {
 
 @available(*, unavailable)
 extension _LocalizationInfo : Sendable {
+}
+
+extension LocalizedStringKey {
+    func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, options: Text.ResolveOptions, table: String?, bundle: Bundle?) {
+        if isLinkedOnOrAfter(.v3) && !options.contains(.ignoreMarkdown) {
+            // <+684>
+            let bundle = bundle ?? .main
+        } else {
+            // <+488>
+            let bundle = bundle ?? .main
+            fatalError("TODO")
+        }
+        fatalError("TODO")
+    }
 }

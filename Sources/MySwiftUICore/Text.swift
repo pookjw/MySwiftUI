@@ -1,7 +1,9 @@
+// 7AFAB46D18FA6D189589CFA78D8B2B2E
 public import Foundation
 package import CoreGraphics
 private import os.log
 private import CoreText
+private import UIFoundation
 
 @frozen public struct Text: Equatable, Sendable {
     @usableFromInline
@@ -12,6 +14,15 @@ private import CoreText
         @usableFromInline
         package static func == (lhs: Text.Storage, rhs: Text.Storage) -> Bool {
             fatalError("TODO")
+        }
+        
+        func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, with options: Text.ResolveOptions) {
+            switch self {
+            case .verbatim(_):
+                fatalError("TODO")
+            case .anyTextStorage(let storage):
+                storage.resolve(into: &container, in: environmentValues, with: options)
+            }
         }
     }
     
@@ -47,7 +58,20 @@ private import CoreText
     }
     
     package func resolveString(in environment: EnvironmentValues, with options: Text.ResolveOptions = [], idiom: AnyInterfaceIdiom?) -> String {
-        fatalError("TODO")
+        switch storage {
+        case .verbatim(let string):
+            return string
+        case .anyTextStorage(let textStorage):
+            var resolved = Text.ResolvedString(
+                style: Text.Style(),
+                idiom: nil,
+                string: "",
+                hasResolvableAttributes: false
+            )
+            
+            self.resolve(into: &resolved, in: environment, with: options)
+            return resolved.string
+        }
     }
     
     package func assertUnstyled(_ text: String, options: Text.ResolveOptions = []) {
@@ -71,6 +95,16 @@ private import CoreText
             
             fatalError("TODO")
         case .anyTextStorage(_):
+            fatalError("TODO")
+        }
+    }
+    
+    func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, with options: Text.ResolveOptions) {
+        let style = container.style
+        
+        if modifiers.isEmpty {
+            storage.resolve(into: &container, in: environmentValues, with: options)
+        } else {
             fatalError("TODO")
         }
     }
@@ -124,6 +158,66 @@ extension Text {
         
         package init(rawValue: Int) {
             self.rawValue = rawValue
+        }
+    }
+    
+    struct Resolved: ResolvedTextContainer {
+        init() {
+            fatalError("TODO")
+        }
+        
+        var style: Text.Style
+        private var attributedString: NSMutableAttributedString?
+        var includeDefaultAttributes: Bool
+        var idiom: AnyInterfaceIdiom?
+        var properties: Text.ResolvedProperties
+        
+        mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S : StringProtocol {
+            fatalError("TODO")
+        }
+        
+        mutating func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+            fatalError("TODO")
+        }
+        
+        mutating func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions) {
+            fatalError("TODO")
+        }
+        
+        mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
+            fatalError("TODO")
+        }
+    }
+    
+    struct ResolvedString: ResolvedTextContainer {
+        var style: Text.Style
+        var idiom: AnyInterfaceIdiom?
+        var string: String
+        var hasResolvableAttributes: Bool
+        
+        var properties: Text.ResolvedProperties {
+            get {
+                fatalError("TODO")
+            }
+            set {
+                fatalError("TODO")
+            }
+        }
+        
+        func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
+            fatalError("TODO")
+        }
+        
+        func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S : StringProtocol {
+            fatalError("TODO")
+        }
+        
+        func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions) {
+            fatalError("TODO")
+        }
+        
+        func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+            fatalError("TODO")
         }
     }
 }
@@ -208,36 +302,44 @@ package protocol ResolvedTextContainer {
     mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T: ResolvableStringAttribute
 }
 
+extension ResolvedTextContainer {
+    func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S: StringProtocol {
+        fatalError("TODO")
+    }
+    
+    func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+        fatalError("TODO")
+    }
+}
+
 extension Text {
     package struct Style {
-        private var baseFont: Text.Style.TextStyleFont
-        private var fontModifiers: [AnyFontModifier]
-        private var color: Text.Style.TextStyleColor
-        private var backgroundColor: Color?
-        private var baselineOffset: CGFloat?
-        private var kerning: CGFloat?
-        private var tracking: CGFloat?
-        private var strikethrough: Text.Style.LineStyle
-        private var underline: Text.Style.LineStyle
-        private var encapsulation: Text.Encapsulation?
-        private var speech: AccessibilitySpeechAttributes?
-        private var accessibility: AccessibilityTextAttributes?
-        private var glyphInfo: CTGlyphInfo?
-        private var shadow: TextShadowModifier?
+        private var baseFont: Text.Style.TextStyleFont = .implicit
+        private var fontModifiers: [AnyFontModifier] = []
+        private var color: Text.Style.TextStyleColor = .default
+        private var backgroundColor: Color? = nil
+        private var baselineOffset: CGFloat? = nil
+        private var kerning: CGFloat? = nil
+        private var tracking: CGFloat? = nil
+        private var strikethrough: Text.Style.LineStyle = .implicit
+        private var underline: Text.Style.LineStyle = .implicit
+        private var encapsulation: Text.Encapsulation? = nil
+        private var speech: AccessibilitySpeechAttributes? = nil
+        private var accessibility: AccessibilityTextAttributes? = nil
+        private var glyphInfo: CTGlyphInfo? = nil
+        private var shadow: TextShadowModifier? = nil
         private var transition: TextTransitionModifier?
-        private var scale: Text.Scale?
-        private var superscript: Text.Superscript?
-        private var typesettingConfiguration: TypesettingConfiguration
-        private var customAttributes: [TextAttributeModifierBase]
-        private var adaptiveImageGlyph: AttributedString.AdaptiveImageGlyph?
-        private var alignment: AttributedString.TextAlignment?
-        private var writingDirection: AttributedString.WritingDirection?
-        private var lineHeight: AttributedString.LineHeight?
-        private var clearedFontModifiers: Set<ObjectIdentifier>
+        private var scale: Text.Scale? = nil
+        private var superscript: Text.Superscript? = nil
+        private var typesettingConfiguration = TypesettingConfiguration(languageAwareLineHeightRatio: .automatic)
+        private var customAttributes: [TextAttributeModifierBase] = []
+        private var adaptiveImageGlyph: AttributedString.AdaptiveImageGlyph? = nil
+        private var alignment: AttributedString.TextAlignment? = nil
+        private var writingDirection: AttributedString.WritingDirection? = nil
+        private var lineHeight: AttributedString.LineHeight? = nil
+        private var clearedFontModifiers: Set<ObjectIdentifier> = []
         
-        init() {
-            fatalError("TODO")
-        }
+        init() {}
     }
     
     package struct ResolvedProperties {
@@ -245,15 +347,26 @@ extension Text {
     }
     
     struct Encapsulation {
-        // TODO
+        private var scale: Text.Encapsulation.Scale?
+        private var shape: Text.Encapsulation.Shape?
+        private var style: Text.Encapsulation.Style?
+        private var lineWeight: CGFloat?
+        private var color: Color?
+        private var minimumWidth: CGFloat?
+        private var platterSize: Text.Encapsulation.PlatterSize?
     }
     
-    struct Scale {
+    public struct Scale {
         // TODO
     }
     
     struct Superscript {
         // TODO
+    }
+    
+    public struct LineStyle {
+        private var nsUnderlineStyleValue: Int
+        private var color: Color?
     }
 }
 
@@ -271,9 +384,28 @@ extension Text.Style {
         case `default`
     }
     
-    struct LineStyle {
-        private var nsUnderlineStyleValue: Int
-        private var color: Color?
+    enum LineStyle {
+        case explicit(Text.LineStyle)
+        case implicit
+        case `default`
+    }
+}
+
+extension Text.Encapsulation {
+    struct Scale {
+        private let nsScale: NSTextEncapsulationScale
+    }
+    
+    struct Shape {
+        private let nsShape: NSTextEncapsulationShape
+    }
+    
+    struct Style {
+        private let nsStyle: NSTextEncapsulationStyle
+    }
+    
+    struct PlatterSize {
+        private let nsPlatterSize: NSTextEncapsulationPlatterSize
     }
 }
 

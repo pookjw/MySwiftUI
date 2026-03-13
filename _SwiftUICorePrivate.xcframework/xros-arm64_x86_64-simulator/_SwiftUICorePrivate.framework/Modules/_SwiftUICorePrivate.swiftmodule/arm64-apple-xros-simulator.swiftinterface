@@ -2039,5 +2039,81 @@ open class MultiViewResponder: _SwiftUICorePrivate.ViewResponder {}
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI.Text {
-  public struct Style {}
+  public struct Style {
+    @_silgen_name("$s7SwiftUI4TextV5StyleVAEycfC")
+    public init()
+
+    public enum TextStyleFont {
+      case explicit(SwiftUI.Font)
+      case implicit
+      case `default`
+    }
+
+    public enum TextStyleColor {
+      case explicit(SwiftUI.AnyShapeStyle)
+      case foregroundKeyColor(base: SwiftUI.AnyShapeStyle)
+      case implicit
+      case `default`
+    }
+
+    public enum LineStyle {
+      case explicit(Text.LineStyle)
+      case implicit
+      case `default`
+    }
+  }
+
+  public struct Encapsulation {
+    // TODO
+  }
+
+  public struct ResolveOptions: Swift.OptionSet {
+    public let rawValue: Swift.Int
+    public init(rawValue: Swift.Int)
+  }
+
+  public struct ResolvedProperties {
+  }
+
+  public struct Resolved: _SwiftUICorePrivate.ResolvedTextContainer {
+    public init()
+    public var style: SwiftUI.Text.Style
+    public var includeDefaultAttributes: Swift.Bool
+    public var idiom: _SwiftUICorePrivate.AnyInterfaceIdiom?
+    public var properties: SwiftUI.Text.ResolvedProperties
+    public mutating func append<S>(_ string: S, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool) where S: Swift.StringProtocol
+    public mutating func append(_ attributedString: NSAttributedString, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool)
+    public mutating func append(_ image: SwiftUI.Image.Resolved, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions)
+    public mutating func append<T>(resolvable: T, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, transition: SwiftUI.ContentTransition?) where T: _SwiftUICorePrivate.ResolvableStringAttribute
+  }
+
+  public func resolve<T: _SwiftUICorePrivate.ResolvedTextContainer>(into container: inout T, in environmentValues: SwiftUI.EnvironmentValues, with: SwiftUI.Text.ResolveOptions)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct AnyInterfaceIdiom: Swift.Hashable, Swift.Sendable {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ResolvableStringAttribute {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol ResolvedTextContainer {
+  var style: SwiftUI.Text.Style { get set }
+  var properties: SwiftUI.Text.ResolvedProperties { get set }
+  var idiom: _SwiftUICorePrivate.AnyInterfaceIdiom? { get }
+  mutating func append<S>(_ string: S, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool) where S: Swift.StringProtocol
+  mutating func append(_ attributedString: NSAttributedString, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool)
+  mutating func append(_ image: SwiftUI.Image.Resolved, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions)
+  mutating func append<T>(resolvable: T, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, transition: SwiftUI.ContentTransition?) where T: _SwiftUICorePrivate.ResolvableStringAttribute
+}
+
+extension SwiftUI.Image {
+  public struct Resolved {
+    // TODO
+  }
 }

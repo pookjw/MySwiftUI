@@ -1,5 +1,5 @@
-framework module _SwiftUIPrivate {
-    umbrella header "_SwiftUIPrivate.h"
+framework module AttributeGraph {
+    umbrella header "AttributeGraph.h"
     export *
     module * { export * }
 }

@@ -28,6 +28,7 @@
 		4F93472B2EE1C1670030B3A1 /* _ObservationPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F93472A2EE1C1670030B3A1 /* _ObservationPrivate.xcframework */; };
 		4FACEFA82E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FACEFA72E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework */; };
 		4FACF25F2E63E3FC000CB163 /* _SwiftPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09222E51DA7A00EFC573 /* _SwiftPrivate.xcframework */; };
+		4FBA77B42F63B5D50038D3FD /* UIFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBA77B32F63B5D50038D3FD /* UIFoundation.xcframework */; };
 		4FC5B59B2F447524007D14DB /* MySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4FC5B59A2F447524007D14DB /* MySwiftUI */; };
 		4FD4A1F62E910B4300C9B545 /* TCC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD4A1F52E910B4300C9B545 /* TCC.xcframework */; };
 		4FE8D0FD2E56AA8200352E55 /* _QuartzCorePrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8D0FC2E56AA8200352E55 /* _QuartzCorePrivate.xcframework */; };
@@ -55,6 +56,8 @@
 		4F8F09242E51DA7A00EFC573 /* MRUIKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MRUIKit.xcframework; path = ../MRUIKit.xcframework; sourceTree = "<group>"; };
 		4F93472A2EE1C1670030B3A1 /* _ObservationPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _ObservationPrivate.xcframework; path = ../_ObservationPrivate.xcframework; sourceTree = "<group>"; };
 		4FACEFA72E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _CoreFoundationPrivate.xcframework; path = ../_CoreFoundationPrivate.xcframework; sourceTree = "<group>"; };
+		4FBA77B32F63B5D50038D3FD /* UIFoundation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UIFoundation.xcframework; path = ../UIFoundation.xcframework; sourceTree = "<group>"; };
+		4FBA77B72F63B7DA0038D3FD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4FD4A1F52E910B4300C9B545 /* TCC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TCC.xcframework; path = ../TCC.xcframework; sourceTree = "<group>"; };
 		4FE8D0FC2E56AA8200352E55 /* _QuartzCorePrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _QuartzCorePrivate.xcframework; path = ../_QuartzCorePrivate.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,6 +103,7 @@
 				4FACEFA82E8AA7AD00467C05 /* _CoreFoundationPrivate.xcframework in Frameworks */,
 				4FACF25F2E63E3FC000CB163 /* _SwiftPrivate.xcframework in Frameworks */,
 				4F5382232ED832050013392A /* UIIntelligenceSupport.xcframework in Frameworks */,
+				4FBA77B42F63B5D50038D3FD /* UIFoundation.xcframework in Frameworks */,
 				4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */,
 				4FE8D0FD2E56AA8200352E55 /* _QuartzCorePrivate.xcframework in Frameworks */,
 				4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */,
@@ -135,6 +139,8 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FBA77B72F63B7DA0038D3FD /* UIKit.framework */,
+				4FBA77B32F63B5D50038D3FD /* UIFoundation.xcframework */,
 				4F1A0D852F61A2DB0090D7B0 /* _Elegibility.xcframework */,
 				4F5D94E42EF8F105001F2E67 /* _AccessibilityPrivate.xcframework */,
 				4F93472A2EE1C1670030B3A1 /* _ObservationPrivate.xcframework */,

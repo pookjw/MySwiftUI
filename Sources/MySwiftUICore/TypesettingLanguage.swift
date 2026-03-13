@@ -7,6 +7,11 @@ package struct TypesettingConfiguration: Equatable {
     
     package var language: TypesettingLanguage
     var languageAwareLineHeightRatio: TypesettingLanguageAwareLineHeightRatio
+    
+    init(language: TypesettingLanguage = .automatic, languageAwareLineHeightRatio: TypesettingLanguageAwareLineHeightRatio) {
+        self.language = language
+        self.languageAwareLineHeightRatio = languageAwareLineHeightRatio
+    }
 }
 
 struct TypesettingLanguageAwareLineHeightRatio {

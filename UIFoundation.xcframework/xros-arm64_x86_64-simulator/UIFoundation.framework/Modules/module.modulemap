@@ -1,0 +1,5 @@
+framework module UIFoundation {
+    umbrella header "UIFoundation.h"
+    export *
+    module * { export * }
+}
