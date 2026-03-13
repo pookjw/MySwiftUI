@@ -1,6 +1,7 @@
 public import Foundation
 package import CoreGraphics
 private import os.log
+private import CoreText
 
 @frozen public struct Text: Equatable, Sendable {
     @usableFromInline
@@ -77,21 +78,6 @@ private import os.log
 
 extension Text: View {
     public var body: Never {
-        fatalError("TODO")
-    }
-}
-
-@available(iOS 16.0, macOS 13, tvOS 16.0, watchOS 9.0, *)
-extension Text {
-    @available(iOS 16.0, macOS 13, tvOS 16.0, watchOS 9.0, *)
-    @_disfavoredOverload public init(_ resource: LocalizedStringResource) {
-        fatalError("TODO")
-    }
-}
-
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension Text {
-    @_semantics("swiftui.init_with_localization") public init(_ key: LocalizedStringKey, tableName: String? = nil, bundle: Bundle? = nil, comment: StaticString? = nil) {
         fatalError("TODO")
     }
 }
@@ -181,8 +167,136 @@ extension Text {
 
 @usableFromInline
 package class AnyTextStorage {
-    // TODO
+    package init() {}
+    
+    package func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C: ResolvedTextContainer {
+        fatalError("TODO")
+    }
+    
+    package func resolvesToEmpty(in environment: EnvironmentValues, with options: Text.ResolveOptions) -> Bool {
+        fatalError("TODO")
+    }
+    
+    package func isEqual(to other: AnyTextStorage) -> Bool {
+        fatalError("TODO")
+    }
+    
+    package func isStyled(options: Text.ResolveOptions) -> Bool {
+        fatalError("TODO")
+    }
+    
+    package func allowsTypesettingLanguage() -> Bool {
+        fatalError("TODO")
+    }
+    
+    package var localizationInfo: _LocalizationInfo {
+        fatalError("TODO")
+    }
 }
 
 extension AnyTextStorage : @unchecked Sendable {
+}
+
+package protocol ResolvedTextContainer {
+    var style: Text.Style { get set }
+    var properties: Text.ResolvedProperties { get set }
+    var idiom: AnyInterfaceIdiom? { get }
+    
+    mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S: StringProtocol
+    mutating func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool)
+    mutating func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions)
+    mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T: ResolvableStringAttribute
+}
+
+extension Text {
+    package struct Style {
+        private var baseFont: Text.Style.TextStyleFont
+        private var fontModifiers: [AnyFontModifier]
+        private var color: Text.Style.TextStyleColor
+        private var backgroundColor: Color?
+        private var baselineOffset: CGFloat?
+        private var kerning: CGFloat?
+        private var tracking: CGFloat?
+        private var strikethrough: Text.Style.LineStyle
+        private var underline: Text.Style.LineStyle
+        private var encapsulation: Text.Encapsulation?
+        private var speech: AccessibilitySpeechAttributes?
+        private var accessibility: AccessibilityTextAttributes?
+        private var glyphInfo: CTGlyphInfo?
+        private var shadow: TextShadowModifier?
+        private var transition: TextTransitionModifier?
+        private var scale: Text.Scale?
+        private var superscript: Text.Superscript?
+        private var typesettingConfiguration: TypesettingConfiguration
+        private var customAttributes: [TextAttributeModifierBase]
+        private var adaptiveImageGlyph: AttributedString.AdaptiveImageGlyph?
+        private var alignment: AttributedString.TextAlignment?
+        private var writingDirection: AttributedString.WritingDirection?
+        private var lineHeight: AttributedString.LineHeight?
+        private var clearedFontModifiers: Set<ObjectIdentifier>
+        
+        init() {
+            fatalError("TODO")
+        }
+    }
+    
+    package struct ResolvedProperties {
+        // TODO
+    }
+    
+    struct Encapsulation {
+        // TODO
+    }
+    
+    struct Scale {
+        // TODO
+    }
+    
+    struct Superscript {
+        // TODO
+    }
+}
+
+extension Text.Style {
+    enum TextStyleFont {
+        case explicit(Font)
+        case implicit
+        case `default`
+    }
+    
+    enum TextStyleColor {
+        case explicit(AnyShapeStyle)
+        case foregroundKeyColor(base: AnyShapeStyle)
+        case implicit
+        case `default`
+    }
+    
+    struct LineStyle {
+        private var nsUnderlineStyleValue: Int
+        private var color: Color?
+    }
+}
+
+package protocol ResolvableStringAttribute {
+    // TODO
+}
+
+struct AccessibilitySpeechAttributes {
+    // TODO
+}
+
+struct AccessibilityTextAttributes {
+    // TODO
+}
+
+struct TextShadowModifier {
+    // TODO
+}
+
+struct TextTransitionModifier {
+    // TODO
+}
+
+class TextAttributeModifierBase {
+    // TODO
 }

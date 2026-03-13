@@ -63,3 +63,8 @@ public struct TransitionProperties : Swift.Sendable {
         return TransitionProperties(hasMotion: hasMotion || other.hasMotion)
     }
 }
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+public struct ContentTransition : Equatable, Sendable {
+    // TODO
+}

@@ -1,3 +1,4 @@
+// 8C53218A357EE528547B0855666BD2E5
 public import Foundation
 
 @frozen public struct LocalizedStringKey: Equatable, ExpressibleByStringInterpolation {
@@ -11,7 +12,8 @@ public import Foundation
     
     @_semantics("swiftui.localized_string_key.init_literal")
     public init(stringLiteral value: String) {
-        fatalError("TODO")
+        self.key = value
+        self.arguments = []
     }
     
     @_semantics("swiftui.localized_string_key.init_interpolation")
@@ -246,4 +248,63 @@ extension LocalizedStringKey.StringInterpolation {
     default:
         return "%@"
     }
+}
+
+@available(iOS 16.0, macOS 13, tvOS 16.0, watchOS 9.0, *)
+extension Text {
+    @available(iOS 16.0, macOS 13, tvOS 16.0, watchOS 9.0, *)
+    @_disfavoredOverload public init(_ resource: LocalizedStringResource) {
+        fatalError("TODO")
+    }
+}
+
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+extension Text {
+    @_semantics("swiftui.init_with_localization") public init(_ key: LocalizedStringKey, tableName: String? = nil, bundle: Bundle? = nil, comment: StaticString? = nil) {
+        self.storage = .anyTextStorage(LocalizedTextStorage(key: key, table: tableName, bundle: bundle))
+    }
+}
+
+fileprivate final class LocalizedTextStorage: AnyTextStorage {
+    let key: LocalizedStringKey
+    let table: String?
+    let bundle: Bundle?
+    
+    init(key: LocalizedStringKey, table: String?, bundle: Bundle?) {
+        self.key = key
+        self.table = table
+        self.bundle = bundle
+        super.init()
+    }
+    
+    override func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C : ResolvedTextContainer {
+        fatalError("TODO")
+    }
+    
+    override func resolvesToEmpty(in environment: EnvironmentValues, with options: Text.ResolveOptions) -> Bool {
+        fatalError("TODO")
+    }
+    
+    override func isEqual(to other: AnyTextStorage) -> Bool {
+        fatalError("TODO")
+    }
+    
+    override func isStyled(options: Text.ResolveOptions) -> Bool {
+        fatalError("TODO")
+    }
+    
+    override var localizationInfo: _LocalizationInfo {
+        fatalError("TODO")
+    }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public enum _LocalizationInfo : Equatable {
+  case none
+  case verbatim(String)
+  case localized(key: String, tableName: String? = nil, bundle: Bundle? = nil, hasFormatting: Bool = false)
+}
+
+@available(*, unavailable)
+extension _LocalizationInfo : Sendable {
 }

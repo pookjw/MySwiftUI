@@ -161,6 +161,7 @@ func printOffsets() {
     printFields(ResponderNode.self, isClassType: true)
     printFields(ViewResponder.self, isClassType: true)
     printFields(MultiViewResponder.self, isClassType: true)
+    printFields(Text.Style.self, isClassType: false)
 }
 
 fileprivate struct GeometryMeasurer: ViewGraphGeometryMeasurer {

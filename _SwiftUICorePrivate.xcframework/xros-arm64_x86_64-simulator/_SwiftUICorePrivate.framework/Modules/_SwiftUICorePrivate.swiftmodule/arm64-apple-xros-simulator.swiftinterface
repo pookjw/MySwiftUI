@@ -2035,3 +2035,9 @@ open class ViewResponder: _SwiftUICorePrivate.ResponderNode {}
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 open class MultiViewResponder: _SwiftUICorePrivate.ViewResponder {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.Text {
+  public struct Style {}
+}
