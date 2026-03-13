@@ -2117,3 +2117,24 @@ extension SwiftUI.Image {
     // TODO
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol DerivedEnvironmentKey {
+  associatedtype Value : Swift.Equatable
+  static func value(in environment: SwiftUI.EnvironmentValues) -> Self.Value
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.EnvironmentValues {
+  public subscript<K>(key: K.Type) -> K.Value where K : _SwiftUICorePrivate.DerivedEnvironmentKey {
+    get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct OpenURLActionKey: SwiftUI.EnvironmentKey {
+  public static var defaultValue: SwiftUI.OpenURLAction? { get }
+}

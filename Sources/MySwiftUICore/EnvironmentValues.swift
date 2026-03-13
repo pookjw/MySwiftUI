@@ -46,6 +46,10 @@ public struct EnvironmentValues: CustomStringConvertible {
         }
     }
     
+    subscript<K>(key: K.Type) -> K.Value where K : DerivedEnvironmentKey {
+        return K.value(in: self)
+    }
+    
     public var description: String {
         fatalError("TODO")
     }
@@ -130,4 +134,9 @@ extension EnvironmentValues {
         copy.locale = .current
         return copy
     }
+}
+
+protocol DerivedEnvironmentKey {
+    associatedtype Value : Equatable
+    static func value(in environment: EnvironmentValues) -> Self.Value
 }

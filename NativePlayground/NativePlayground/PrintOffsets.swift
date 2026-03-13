@@ -164,6 +164,9 @@ func printOffsets() {
     printFields(MultiViewResponder.self, isClassType: true)
     printFields(Text.Style.self, isClassType: false)
     
+    print(OpenURLAction(handler: { _ in
+        fatalError()
+    }))
 //    debugTextResolveExample()
 }
 
@@ -206,4 +209,10 @@ private struct _DebugResolvedTextContainer: ResolvedTextContainer {
 func debugTextResolveExample() {
     var container = _DebugResolvedTextContainer()
     Text("Hello Text.resolve").resolve(into: &container, in: .init(), with: [])
+}
+
+fileprivate struct DKey: DerivedEnvironmentKey {
+    static func value(in environment: EnvironmentValues) -> Int {
+        fatalError()
+    }
 }
