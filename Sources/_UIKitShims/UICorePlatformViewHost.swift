@@ -1072,7 +1072,28 @@ extension UICorePlatformViewHost {
         }
         
         override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-            fatalError("TODO")
+            /*
+             self -> x20 -> x0
+             keyPath -> x2
+             object -> x3 -> x23
+             change -> x4 -> x22
+             */
+            guard
+                keyPath == "separatedOptions.separatedThickness",
+                let change,
+                let newValue = change[.newKey]
+            else {
+                return
+            }
+            
+            let resolved = (newValue as? CGFloat) ?? 0
+            
+            guard separatedThickness != resolved else {
+                return
+            }
+            
+            separatedThickness = resolved
+            onChange()
         }
     }
 }

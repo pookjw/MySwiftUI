@@ -1,12 +1,18 @@
 // B30D3CE6A753616B2150C4E3EFDA1ED9
 public import Foundation
 
+/*
+ TODO
+ +[UIApplication _setupDefaultEnvironmentWithScreen:]
+ $s7SwiftUI17EnvironmentValuesV17setDefaultOpenURLyyAA0G9URLActionVF:        // SwiftUI.EnvironmentValues.setDefaultOpenURL(SwiftUI.OpenURLAction) -> ()
+ */
+
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 @preconcurrency @MainActor
 public struct OpenURLAction {
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
     public struct Result: Sendable {
-        private var actionResult: OpenURLAction.Result.ActionResult
+        fileprivate private(set) var actionResult: OpenURLAction.Result.ActionResult
         
         public static let handled = OpenURLAction.Result(actionResult: .handled)
         public static let discarded = OpenURLAction.Result(actionResult: .discarded)
@@ -22,8 +28,8 @@ public struct OpenURLAction {
         }
     }
     
-    private let handler: OpenURLAction.Handler
-    private let isDefault: Bool
+    fileprivate let handler: OpenURLAction.Handler
+    fileprivate let isDefault: Bool
     
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
     @preconcurrency @MainActor
@@ -37,7 +43,7 @@ public struct OpenURLAction {
         self.isDefault = false
     }
     
-    init(isDefault: Bool = false, handler: @escaping (OpenURLAction.SystemHandlerInput) -> Void) {
+    package init(isDefault: Bool = false, handler: @escaping (OpenURLAction.SystemHandlerInput) -> Void) {
         self.handler = .system(handler)
         self.isDefault = isDefault
     }
@@ -50,9 +56,15 @@ public struct OpenURLAction {
         self.isDefault = false
     }
     
+    @inline(__always)
+    fileprivate init(handler: OpenURLAction.Handler, isDefault: Bool) {
+        self.handler = handler
+        self.isDefault = isDefault
+    }
+    
     @MainActor @preconcurrency
     public func callAsFunction(_ url: URL) {
-        fatalError("TODO")
+        _open(url, prefersInApp: nil, completion: { _ in })
     }
     
     @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
@@ -66,6 +78,39 @@ public struct OpenURLAction {
     public func callAsFunction(_ url: URL, completion: @escaping (_ accepted: Bool) -> Void) {
         fatalError("TODO")
     }
+    
+    fileprivate func _open(_ url: URL, prefersInApp: Bool?, completion: @escaping (Bool) -> Void) {
+        // <+328>
+        switch handler {
+        case .system(let action):
+            guard !url.isFileURL else {
+                completion(false)
+                return
+            }
+            
+            // <+568>
+            let input = OpenURLAction.SystemHandlerInput(url: url, prefersInApp: prefersInApp == true, completion: completion)
+            action(input)
+        case .custom(let action, let fallback):
+            let result = action(url)
+            
+            switch result.actionResult {
+            case .systemAction(let _url, let prefersInApp):
+                guard let fallback else {
+                    Log.internalWarning("OpenURLAction configured without a fallback")
+                    return
+                }
+                
+                // <+716>
+                let input = OpenURLAction.SystemHandlerInput(url: _url ?? url, prefersInApp: prefersInApp, completion: completion)
+                fallback(input)
+            case .handled:
+                completion(true)
+            case .discarded:
+                completion(false)
+            }
+        }
+    }
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
@@ -77,7 +122,7 @@ extension EnvironmentValues {
         }
         @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
         set {
-            fatalError("TODO")
+            self[OpenURLActionKey.self] = newValue
         }
     }
     
@@ -85,7 +130,22 @@ extension EnvironmentValues {
     public var _openURL: OpenURLAction {
         get {
             if let action = self[OpenURLActionKey.self] {
-                return action
+                switch action.handler {
+                case .system(_):
+                    return action
+                case .custom(let result, fallback: let fallback):
+                    if !hasSystemOpenURLAction {
+                        return OpenURLAction(handler: .custom(result, fallback: fallback), isDefault: false)
+                    } else {
+                        let resolved = resolvedDefaultOpenURL
+                        switch resolved.handler {
+                        case .system(let resolved):
+                            return OpenURLAction(handler: .custom(result, fallback: resolved), isDefault: false)
+                        case .custom(_, let fallback):
+                            return OpenURLAction(handler: .custom(result, fallback: fallback), isDefault: false)
+                        }
+                    }
+                }
             }
             
             if hasSystemOpenURLAction {
@@ -95,7 +155,7 @@ extension EnvironmentValues {
             }
         }
         set {
-            fatalError("TODO")
+            self.openURL = newValue
         }
     }
 }
@@ -116,7 +176,7 @@ extension EnvironmentValues {
             }
         }
         set {
-            fatalError("TODO")
+            self[OpenSensitiveURLActionKey.self] = newValue
         }
     }
 }
@@ -149,7 +209,7 @@ extension EnvironmentValues {
         }
     }
     
-    var hasSystemOpenURLAction: Bool {
+    package var hasSystemOpenURLAction: Bool {
         get {
             return self[HasSystemOpenURLActionKey.self]
         }
@@ -183,8 +243,8 @@ extension OpenURLAction {
         )
     }
     
-    static var defaultAction: OpenURLAction?
-    static var defaultSensitiveAction: OpenURLAction?
+    package static var defaultAction: OpenURLAction?
+    package static var defaultSensitiveAction: OpenURLAction?
     
     static var invalidAction: OpenURLAction {
         return OpenURLAction { (url: URL) in
@@ -193,10 +253,10 @@ extension OpenURLAction {
         }
     }
     
-    struct SystemHandlerInput {
-        let url: URL
-        let prefersInApp: Bool
-        let completion: (Bool) -> Void
+    package struct SystemHandlerInput {
+        package let url: URL
+        package let prefersInApp: Bool
+        package let completion: (Bool) -> Void
     }
     
     enum Handler {

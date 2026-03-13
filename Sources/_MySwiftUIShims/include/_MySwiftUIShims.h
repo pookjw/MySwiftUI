@@ -18,3 +18,4 @@
 #include "ObjcC.h"
 #import "Localization.h"
 #import "NSAttributedString+MySwiftUI.h"
+#import "Safari.h"

@@ -433,7 +433,7 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
     fileprivate private(set) var base: Base
     
     static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
-        return CoreViewRepresentableDynamicPropertyFields(for: self)
+        return CoreViewRepresentableDynamicPropertyFields(for: Base.self)
     }
     
     func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Base.UIViewControllerType {

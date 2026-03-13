@@ -40,8 +40,8 @@ final class DemoViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-//        let item = DemoViewController.Item.toggleRepView
-//        pushToItem(item)
+        let item = DemoViewController.Item.openURLActionView
+        pushToItem(item)
         
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))
@@ -113,6 +113,7 @@ extension DemoViewController {
         case toggleRepView
         case colorSchemeTestView
         case testView
+        case openURLActionView
         
         var title: String {
             switch self {
@@ -172,6 +173,8 @@ extension DemoViewController {
                 return _typeName(ColorSchemeTestViewController.self, qualified: false)
             case .testView:
                 return _typeName(TestViewController.self, qualified: false)
+            case .openURLActionView:
+                return _typeName(OpenURLActionViewController.self, qualified: false)
             }
         }
         
@@ -233,6 +236,8 @@ extension DemoViewController {
                 return ColorSchemeTestViewController()
             case .testView:
                 return TestViewController()
+            case .openURLActionView:
+                return OpenURLActionViewController()
             }
         }
     }

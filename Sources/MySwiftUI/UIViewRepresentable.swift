@@ -135,7 +135,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     private(set) var base: Base
     
     static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
-        return CoreViewRepresentableDynamicPropertyFields(for: self)
+        return CoreViewRepresentableDynamicPropertyFields(for: Base.self)
     }
     
     func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Base.UIViewType {

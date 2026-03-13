@@ -55,11 +55,11 @@ package enum Log {
         // nop
     }
     
-    package static func internalWarning(_ message: @autoclosure @escaping () -> String, file: StaticString, line: UInt) {
+    package static func internalWarning(_ message: @autoclosure @escaping () -> String, file: StaticString = #file, line: UInt = #line) {
         print("\(message()) - \(file):\(line) - please file a bug report.")
     }
     
-    package static func internalError(_ message: @autoclosure @escaping () -> String, file: StaticString, line: UInt) {
+    package static func internalError(_ message: @autoclosure @escaping () -> String, file: StaticString = #file, line: UInt = #line) {
         unsafe os_log(.fault, log: Log.internalErrorsLog, "%s - %s:%s", message(), file.description, line.description)
         print("\(message()) - \(file):\(line) - please file a bug report.")
     }
