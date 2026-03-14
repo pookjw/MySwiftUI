@@ -26,6 +26,13 @@ let package = Package(
         .target(
             name: "MySwiftUI",
             dependencies: [
+                .byName(name: "_MySwiftUI"),
+                .byName(name: "_StopwatchSupportShims")
+            ]
+        ),
+        .target(
+            name: "_MySwiftUI",
+            dependencies: [
                 .byName(name: "_QuartzCorePrivate"),
                 .byName(name: "StopwatchSupport"),
                 .byName(name: "CoreRE"),
@@ -128,7 +135,7 @@ let package = Package(
             dependencies: [
                 .byName(name: "StopwatchSupport"),
                 .byName(name: "MySwiftUICore"),
-                .byName(name: "MySwiftUI")
+                .byName(name: "_MySwiftUI")
             ]
         ),
         .target(
@@ -254,7 +261,7 @@ let package = Package(
         .testTarget(
             name: "MySwiftUITests",
             dependencies: [
-                .byName(name: "MySwiftUI"),
+                .byName(name: "_MySwiftUI"),
                 .byName(name: "_SwiftUIPrivate"),
                 .byName(name: "MySwiftUITestUtils")
             ],

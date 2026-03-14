@@ -1,4 +1,5 @@
-package import MySwiftUICore
+private import MySwiftUICore
+private import _MySwiftUI
 
 @safe private nonisolated(unsafe) var didAppliedVisualStyles = false
 
