@@ -1,10 +1,3 @@
-//
-//  NSAttributedString+MySwiftUI.swift
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 3/13/26.
-//
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN

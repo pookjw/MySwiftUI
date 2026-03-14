@@ -1,10 +1,3 @@
-//
-//  CALayer+MySwiftUI.m
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 11/17/25.
-//
-
 #import "include/CALayer+MySwiftUI.h"
 
 @implementation CALayer (MySwiftUI)

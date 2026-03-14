@@ -1,10 +1,3 @@
-//
-//  NSAttributedString+MySwiftUI.m
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 3/13/26.
-//
-
 #import "include/NSAttributedString+MySwiftUI.h"
 
 @implementation NSAttributedString (MySwiftUI)

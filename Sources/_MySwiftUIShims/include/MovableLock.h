@@ -1,10 +1,3 @@
-//
-//  MovableLock.h
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 8/18/25.
-//
-
 #include <pthread.h>
 #include <stdbool.h>
 #include <stdint.h>

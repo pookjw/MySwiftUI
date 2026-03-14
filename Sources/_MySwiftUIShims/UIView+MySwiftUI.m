@@ -1,10 +1,3 @@
-//
-//  UIView+MySwiftUI.m
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 11/27/25.
-//
-
 #import "include/UIView+MySwiftUI.h"
 
 @implementation UIView (MySwiftUI)

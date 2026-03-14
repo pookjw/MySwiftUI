@@ -1,10 +1,3 @@
-//
-//  NSObject+MySwiftUI.m
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 8/21/25.
-//
-
 #import "include/NSObject+MySwiftUI.h"
 #include <dlfcn.h>
 #include <pthread.h>

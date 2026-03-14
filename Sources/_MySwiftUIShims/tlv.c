@@ -1,10 +1,3 @@
-//
-//  tlv.c
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 9/19/25.
-//
-
 #import "include/tlv.h"
 #include <_abort.h>
 #include <stdatomic.h>

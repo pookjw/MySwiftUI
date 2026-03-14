@@ -1,10 +1,3 @@
-//
-//  MovableLock.m
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 8/18/25.
-//
-
 #import "include/MovableLock.h"
 #include <malloc/_malloc.h>
 #include <_abort.h>

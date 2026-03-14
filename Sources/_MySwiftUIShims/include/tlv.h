@@ -1,10 +1,3 @@
-//
-//  tlv.h
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 9/19/25.
-//
-
 #include "Defines.h"
 #include <stdbool.h>
 #include <stdint.h>

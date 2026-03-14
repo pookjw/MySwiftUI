@@ -1,10 +1,3 @@
-//
-//  DyldLoadNotifier.h
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 3/14/26.
-//
-
 #ifndef DyldLoadNotifier_h
 #define DyldLoadNotifier_h
 
