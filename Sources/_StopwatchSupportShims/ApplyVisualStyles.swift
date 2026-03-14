@@ -15,6 +15,7 @@ func applyVisualStyles() {
 private func _applyVisualStyles() {
     var overrides = ViewStyleOverrides()
     
+    overrides.registerDefaultToggleStyleType(_StopwatchSupportShims.ToggleStyle.self)
     assertUnimplemented()
     /*
      // <+236>

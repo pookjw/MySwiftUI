@@ -104,7 +104,7 @@ protocol StyleModifier: MultiViewModifier, PrimitiveViewModifier, View {
     associatedtype StyleBody
 }
 
-protocol AnyDefaultStyle {
+package protocol AnyDefaultStyle {
     init()
 }
 
