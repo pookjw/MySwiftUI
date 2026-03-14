@@ -1,7 +1,18 @@
 private import MySwiftUICore
 private import _MySwiftUI
+private import Foundation
+private import os.log
 
 @safe private nonisolated(unsafe) var didAppliedVisualStyles = false
+@safe private nonisolated(unsafe) let uiKitDefault: UserDefaults? = {
+    if let defaults = UserDefaults(suiteName: "com.apple.UIKit") {
+        return defaults
+    }
+    
+    unsafe os_log(.error, log: OSLog.stopwatchSupport, "Failed to load UIKit defaults")
+    return nil
+}()
+@safe private nonisolated(unsafe) let borderedButtonsByDefault = AppStorage(wrappedValue: true, "BorderedButtonsByDefault", store: uiKitDefault)
 
 func applyVisualStyles() {
     guard !didAppliedVisualStyles else {
@@ -16,6 +27,21 @@ private func _applyVisualStyles() {
     var overrides = ViewStyleOverrides()
     
     overrides.registerDefaultToggleStyleType(_StopwatchSupportShims.ToggleStyle.self)
+    overrides.registerStyleOverride(_StopwatchSupportShims.ToggleStyle.self, for: SwitchToggleStyle.self)
+    
+    if borderedButtonsByDefault.wrappedValue {
+        overrides.registerDefaultButtonStyleType(SWSBorderedButtonStyle.self)
+    } else {
+        overrides.registerDefaultButtonStyleType(SWSBorderlessButtonStyle.self)
+    }
+    
+    overrides.registerStyleOverride(SWSBorderlessButtonStyle.self, for: BorderlessButtonStyle.self)
+    overrides.registerStyleOverride(SWSBorderedButtonStyle.self, for: BorderedButtonStyle.self)
+    /*
+     16StopwatchSupport22SWSBorderedButtonStyleV
+     16StopwatchSupport24SWSBorderlessButtonStyleV
+     */
+    
     assertUnimplemented()
     /*
      // <+236>
@@ -29,6 +55,8 @@ private func _applyVisualStyles() {
      __TtC16StopwatchSupport43StopwatchSupportSwitchVisualElementProvider
      [[UIWindow alloc] init]
      setVisualElementProvider:
+     
+     // BorderedButtonsByDefault -> Bool
      SwiftUI.AppStorage.wrappedValue.getter
      
      // <+548>
