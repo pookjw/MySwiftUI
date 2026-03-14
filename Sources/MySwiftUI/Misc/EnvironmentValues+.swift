@@ -3,6 +3,9 @@ internal import UIKit
 private import _UIKitShims
 private import _DesignLibraryShims
 private import _MySwiftUIShims
+private import _CoreServicesPrivate
+private import _UIKitPrivate
+private import BoardServices
 
 extension EnvironmentValues {
     @MainActor static let configuredForPlatform: EnvironmentValues = {
@@ -167,7 +170,30 @@ extension OpenURLAction {
         if OpenURLAction.defaultSensitiveAction == nil {
             OpenURLAction.defaultSensitiveAction = OpenURLAction(isDefault: true) { input in
                 // $s7SwiftUI13OpenURLActionV23_defaultSensitiveAction33_BAA26ED0B397494A179F1F07D7B4F160LLACvgZyAC18SystemHandlerInputVcfU_
-                fatalError("TODO")
+                let configuration = _LSOpenConfiguration()
+                configuration.isSensitive = true
+                
+                let endpoint: BSServiceConnectionEndpoint?
+                if let scene = UIApplication.shared.connectedScenes.first {
+                    endpoint = scene._currentOpenApplicationEndpoint()
+                } else {
+                    endpoint = nil
+                }
+                
+                // <+336>
+                configuration.targetConnectionEndpoint = endpoint
+                
+                guard let workspace = LSApplicationWorkspace.default() else {
+                    return
+                }
+                
+                workspace.open(input.url, configuration: configuration) { _, error in
+                    if let error {
+                        Log.internalWarning("Failed to open sensitive URL \(input.url). \(error)")
+                    }
+                    
+                    input.completion(error != nil)
+                }
             }
         }
     }

@@ -41,7 +41,9 @@ let package = Package(
                 .byName(name: "FrontBoardServices"),
                 .byName(name: "UIIntelligenceSupport"),
                 .byName(name: "_AccessibilityPrivate"),
-                .byName(name: "_Elegibility")
+                .byName(name: "_Elegibility"),
+                .byName(name: "_CoreServicesPrivate"),
+                .byName(name: "BoardServices")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -88,7 +90,8 @@ let package = Package(
                 .byName(name: "BaseBoard"),
                 .byName(name: "_DarwinPrivate"),
                 .byName(name: "_QuartzCorePrivate"),
-                .byName(name: "_FoundationPrivate")
+                .byName(name: "_FoundationPrivate"),
+                .byName(name: "SoftLinking")
             ],
             cSettings: [
                 .unsafeFlags(["-fno-objc-arc", "-std=gnu23"])
@@ -118,6 +121,14 @@ let package = Package(
             dependencies: [
                 .byName(name: "DesignLibrary"),
                 .byName(name: "MySwiftUICore")
+            ]
+        ),
+        .target(
+            name: "_StopwatchSupportShims",
+            dependencies: [
+                .byName(name: "StopwatchSupport"),
+                .byName(name: "MySwiftUICore"),
+                .byName(name: "MySwiftUI")
             ]
         ),
         .target(
@@ -218,6 +229,18 @@ let package = Package(
         .binaryTarget(
             name: "_FoundationPrivate",
             path: "_FoundationPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "SoftLinking",
+            path: "SoftLinking.xcframework"
+        ),
+        .binaryTarget(
+            name: "_CoreServicesPrivate",
+            path: "_CoreServicesPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "BoardServices",
+            path: "BoardServices.xcframework"
         ),
         .target(
             name: "_KernPrivate",

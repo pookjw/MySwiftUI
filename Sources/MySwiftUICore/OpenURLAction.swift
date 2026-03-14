@@ -70,13 +70,13 @@ public struct OpenURLAction {
     @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
     @MainActor @preconcurrency
     public func callAsFunction(_ url: URL, prefersInApp: Bool) {
-        fatalError("TODO")
+        _open(url, prefersInApp: prefersInApp, completion: { _ in })
     }
     
     @available(watchOS, unavailable)
     @MainActor @preconcurrency
     public func callAsFunction(_ url: URL, completion: @escaping (_ accepted: Bool) -> Void) {
-        fatalError("TODO")
+        _open(url, prefersInApp: false, completion: completion)
     }
     
     fileprivate func _open(_ url: URL, prefersInApp: Bool?, completion: @escaping (Bool) -> Void) {
@@ -95,14 +95,14 @@ public struct OpenURLAction {
             let result = action(url)
             
             switch result.actionResult {
-            case .systemAction(let _url, let prefersInApp):
+            case .systemAction(let _url, let _prefersInApp):
                 guard let fallback else {
                     Log.internalWarning("OpenURLAction configured without a fallback")
                     return
                 }
                 
                 // <+716>
-                let input = OpenURLAction.SystemHandlerInput(url: _url ?? url, prefersInApp: prefersInApp, completion: completion)
+                let input = OpenURLAction.SystemHandlerInput(url: _url ?? url, prefersInApp: prefersInApp ?? _prefersInApp, completion: completion)
                 fallback(input)
             case .handled:
                 completion(true)
@@ -229,12 +229,14 @@ extension View {
     @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
     @MainActor @preconcurrency
     public func onOpenURL(prefersInApp: Bool) -> some View {
-        fatalError("TODO")
+        environment(\.openURL, OpenURLAction(handler: { url in
+            return .systemAction(url, prefersInApp: prefersInApp)
+        }))
     }
 }
 
 extension OpenURLAction {
-    static func defaultSystemAction(handler: @escaping (URL, (Bool) -> Void) -> Void) -> OpenURLAction {
+    package static func defaultSystemAction(handler: @escaping (URL, (Bool) -> Void) -> Void) -> OpenURLAction {
         return OpenURLAction(
             isDefault: true,
             handler: { input in
@@ -290,5 +292,12 @@ struct OpenSensitiveURLActionKey: EnvironmentKey {
 fileprivate struct HasSystemOpenURLActionKey: EnvironmentKey {
     static var defaultValue: Bool {
         return false
+    }
+}
+
+extension EnvironmentValues {
+    package mutating func setDefaultOpenURL(_ action: OpenURLAction) {
+        self._defaultOpenURL = action
+        self.hasSystemOpenURLAction = true
     }
 }

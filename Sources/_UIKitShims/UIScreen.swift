@@ -19,7 +19,7 @@ package struct MyUIScreen {
         return .main
     }
     
-    fileprivate init(screen: AnyObject) {
+    init(screen: AnyObject) {
         self.screen = screen
     }
     
@@ -38,6 +38,12 @@ package struct MyUIScreen {
     package var scale: CGFloat {
         let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> CGFloat).self)
         let cmd = #selector(NSDecimalNumberBehaviors.scale)
+        return casted(screen, cmd)
+    }
+    
+    package var traitCollection: UITraitCollection {
+        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> UITraitCollection).self)
+        let cmd = Selector(("traitCollection"))
         return casted(screen, cmd)
     }
 }

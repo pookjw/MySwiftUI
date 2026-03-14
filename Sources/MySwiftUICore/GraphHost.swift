@@ -737,7 +737,7 @@ extension GraphHost {
             let time = Attribute(value: Time.zero)
             self._time = time
             
-            let environment = Attribute(value: EnvironmentValues())
+            let environment = Attribute(value: EnvironmentValues(PropertyList()))
             CustomEventTrace.recordNamedProperty(.environment, environment)
             self._environment = environment
             

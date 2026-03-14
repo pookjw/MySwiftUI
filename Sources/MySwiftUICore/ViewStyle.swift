@@ -42,7 +42,7 @@ package struct ViewStyleOverrides: Sendable {
     private var registeredStyleOverrides: [ObjectIdentifier: Any.Type] = [:]
     private var registeredStyleWriterOverrides: [ObjectIdentifier: Any.Type] = [:]
     
-    init() {}
+    package init() {}
     
     func registerStyleOverride<T, U: StyleModifier>(_: U.Type, style: T.Type) where U.Style: AnyDefaultStyle {
         fatalError("TODO")

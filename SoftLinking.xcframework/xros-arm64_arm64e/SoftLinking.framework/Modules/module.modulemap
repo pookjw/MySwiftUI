@@ -1,0 +1,5 @@
+framework module SoftLinking {
+    umbrella header "SoftLinking.h"
+    export *
+    module * { export * }
+}

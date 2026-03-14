@@ -72,21 +72,7 @@ open class UIHostingController<Content: View>: UIViewController {
     
     open override dynamic func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        /*
-         self -> x19
-         animated -> x21
-         */
-        resolveRequiredBridges(nil, allowedActions: [.unknown0, .unknown1])
-        prepareForNavigationTransition(animated)
-        coordinateListSelection(transitionCoordinator: transitionCoordinator, isAnimated: animated)
-        
-        if let toolbarBridge {
-            toolbarBridge.viewWillAppear(hostingController: self)
-        }
-        
-        if let barAppearanceBridge {
-            barAppearanceBridge.viewWillAppear(hostingController: self)
-        }
+        _viewWillAppear(animated)
     }
     
     open override dynamic func willMove(toParent parent: UIViewController?) {
@@ -613,6 +599,24 @@ open class UIHostingController<Content: View>: UIViewController {
         self.overrides = overrides
     }
     
+    final func _viewWillAppear(_ animated: Bool) {
+        /*
+         self -> x19
+         animated -> x21
+         */
+        resolveRequiredBridges(nil, allowedActions: [.unknown0, .unknown1])
+        prepareForNavigationTransition(animated)
+        coordinateListSelection(transitionCoordinator: transitionCoordinator, isAnimated: animated)
+        
+        if let toolbarBridge {
+            toolbarBridge.viewWillAppear(hostingController: self)
+        }
+        
+        if let barAppearanceBridge {
+            barAppearanceBridge.viewWillAppear(hostingController: self)
+        }
+    }
+    
     final func _didMove(toParent parent: UIViewController?) {
         resolveRequiredBridges(nil, allowedActions: (parent == nil) ? .unknown1 : .unknown0)
     }
@@ -845,17 +849,13 @@ open class UIHostingController<Content: View>: UIViewController {
     
     final func resolveRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) {
         /*
-         self -> x20 -> x21
-         properties -> x0, x1, x2, x3 -> x19, x26, x27, x28
+         self -> x20 -> x22
+         properties -> x0, x1, x2, x3 -> x24, x26, x28, x27
          allowedActions -> x4 -> x23
          */
         func graphValue() -> ViewGraphBridgeProperties {
             return Graph.withoutUpdate { 
                 // $s7SwiftUI19UIHostingControllerC22resolveRequiredBridges_14allowedActionsyAA25ViewGraphBridgePropertiesVSg_AA07HostingdlI0VtF10graphValueL_AGyAA0J0RzlFAGyXEfU_
-                /*
-                 self -> x0 -> x21
-                 return register -> x19
-                 */
                 return host.viewGraph.viewGraphInputs.viewGraphBridgeProperties.wrappedValue ?? .defaultValue
             }
         }
@@ -868,123 +868,123 @@ open class UIHostingController<Content: View>: UIViewController {
                 if let properties {
                     // <+228>
                     resolved = properties
-                    // <+356>
+                    // <+360>
                 } else {
                     // <+200>
                     resolved = graphValue()
                     resolved.suppliedBridges = [] // x19는 복사 안하고 있음. nil인채로 들어오면 0임
-                    // <+356>
+                    // <+360>
                 }
             } else {
                 // <+224>
                 if let properties {
                     resolved = properties
-                    // <+356>
+                    // <+360>
                 } else {
                     // <+244>
                     resolved = host.viewGraph.environment.viewGraphBridgeProperties
-                    resolved.suppliedBridges = [] // x19는 복사 안하고 있음. nil인채로 들어오면 0임
-                    // <+356>
+                    resolved.suppliedBridges = []
+                    // <+360>
                 }
             }
             
-            // <+356>
+            // <+360>
             // x22
             let environment = host.viewGraph.environment
-            let flag_1: Bool // true -> <+468> / false -> <+1188>
+            let flag_1: Bool // true -> <+500> / false -> <+660>
             if let properties {
                 if allowedActions.isDisjoint(with: [.unknown0, .unknown1]) {
-                    // <+1188>
+                    // <+660>
                     flag_1 = false
                 } else {
-                    // <+468>
+                    // <+500>
                     flag_1 = true
                 }
             } else {
-                // <+444>
+                // <+636>
                 if environment.plist.isEmpty {
-                    // <+1200>
+                    // <+672>
                     return
                 } else {
                     if allowedActions.isDisjoint(with: [.unknown0, .unknown1]) {
-                        // <+1188>
+                        // <+660>
                         flag_1 = false
                     } else {
-                        // <+468>
+                        // <+500>
                         flag_1 = true
                     }
                 }
             }
             
             if flag_1 {
-                // <+468>
+                // <+500>
                 // x19
                 let requiredBridges = requiredBridges
                 // x27
                 let navigationController = navigationController ?? overrides.navigation
-                // <+556>
+                // <+580>
                 // sp + 0x38
                 let x290xa8 = allowedActions.intersection(.unknown0)
                 // sp + 0x30
                 let tabBarController = tabBarController
                 
-                // true -> <+752> / false -> <+768>
+                // true -> <+832> / false -> <+808>
                 let flag_2: Bool
                 
                 if let navigationController {
-                    // <+596>
+                    // <+612>
                     if !resolved.suppliedBridges.contains(.unknown2) {
-                        // <+600>
+                        // <+620>
                         if navigationController._supportsDataDrivenNavigation() {
-                            // <+768>
+                            // <+832>
                             flag_2 = true
                         } else {
-                            // <+752>
+                            // <+808>
                             flag_2 = false
                         }
                     } else {
-                        // <+768>
+                        // <+832>
                         flag_2 = true
                     }
                 } else {
-                    // <+624>
+                    // <+680>
                     if let navigationBridge, let _host = navigationBridge.host {
-                        // <+652>
+                        // <+748>
                         if let navigation = _host.hostingControllerOverrides.navigation {
-                            // <+752>
+                            // <+808>
                             flag_2 = false
                         } else {
-                            // <+768>
+                            // <+832>
                             flag_2 = true
                         }
                     } else {
-                        // <+768>
+                        // <+832>
                         flag_2 = true
                     }
                 }
                 
                 var x26: Int
-                let flag_3: Bool // true -> <+784> / false -> <+796>
+                let flag_3: Bool // true -> <+848> / false -> <+820>
                 if !flag_2 {
-                    // <+752>
+                    // <+808>
                     x26 = requiredBridges.rawValue | (x290xa8.rawValue << 2)
                     
                     if let navigationController {
-                        // <+784>
+                        // <+848>
                         flag_3 = true
                     } else {
-                        // <+796>
+                        // <+820>
                         flag_3 = false
                     }
                 } else {
-                    // <+768>
+                    // <+832>
                     let x8 = requiredBridges.subtracting(.unknown2)
                     if allowedActions.contains(.unknown1) {
                         x26 = x8.rawValue
                     } else {
                         x26 = requiredBridges.rawValue
                     }
-                    // <+784>
+                    // <+844>
                     if navigationController == nil {
                         flag_3 = false
                     } else {
@@ -992,47 +992,47 @@ open class UIHostingController<Content: View>: UIViewController {
                     }
                 }
                 
-                let flag_4: Bool // true -> <+884> / false -> <+804>
+                let flag_4: Bool // true -> <+948> / false -> <+868>
                 if flag_3, self.navigationHierarchyAllowsToolbarBridge() {
-                    // <+884>
+                    // <+948>
                     flag_4 = true
                 } else {
-                    // <+796>
+                    // <+820> / <+864>
                     flag_4 = (tabBarController != nil)
                 }
                 
-                let flag_5: Bool // true -> <+908> / false -> <+888>
+                let flag_5: Bool // true -> <+968> / false -> <+956>
                 if !flag_4 {
-                    // <+804>
+                    // <+868>
                     if host.isRootHost {
-                        // <+884>
+                        // <+948>
                         flag_5 = resolved.suppliedBridges.contains(.unknown0)
                     } else {
-                        // <+908>
+                        // <+968>
                         flag_5 = true
                     }
                 } else {
-                    // <+884>
+                    // <+948>
                     flag_5 = resolved.suppliedBridges.contains(.unknown0)
                 }
                 
                 var x19: Int
                 if !flag_5 {
-                    // <+888>
+                    // <+956>
                     x19 = x26
                     if (x26 & 1) == 0 {
                         x19 = x19 | x290xa8.rawValue
                     }
-                    // <+924>
+                    // <+984>
                 } else {
-                    // <+908>
+                    // <+968>
                     x19 = (!allowedActions.contains(.unknown1) ? x26 : (x26 & ~1))
                 }
                 // x290xa8 -> x20
                 
-                // <+924>
+                // <+984>
                 let v3 = isLinkedOnOrAfter(.v3)
-                // <+932>
+                // <+992>
                 let w8 = resolved.suppliedBridges.contains(.unknown4)
                 let x9 = x19 | (x290xa8.rawValue << 4)
                 let x10 = !allowedActions.contains(.unknown1) ? x19 : (x19 & ~0x10)
@@ -1044,11 +1044,11 @@ open class UIHostingController<Content: View>: UIViewController {
                 }
                 
                 if host.isRootHost, host.window != nil {
-                    // <+1076>
+                    // <+1136>
                     x19 = x26 | (x290xa8.rawValue << 1)
                     x26 = x290xa8.rawValue
                 } else {
-                    // <+1100>
+                    // <+1160>
                     let x8 = x26 & ~0x2
                     if !allowedActions.contains(.unknown1) {
                         x19 = x26
@@ -1058,24 +1058,24 @@ open class UIHostingController<Content: View>: UIViewController {
                     x26 = x290xa8.rawValue
                 }
                 
-                let flag_6: Bool // true -> <+1148> / false -> <+1164>
+                let flag_6: Bool // true -> <+1212> / false -> <+1228>
                 if !resolved.suppliedBridges.contains(.unknown7) {
-                    // <+1120>
+                    // <+1184>
                     if type(of: host).ignoresPresentations {
-                        // <+1148>
+                        // <+1212>
                         flag_6 = true
                     } else {
-                        // <+1164>
+                        // <+1228>
                         flag_6 = false
                     }
                 } else {
-                    // <+1148>
+                    // <+1212>
                     flag_6 = true
                 }
                 
                 let newRequiredBridges: HostingControllerBridges
                 if flag_6 {
-                    // <+1148>
+                    // <+1212>
                     let x8 = x19 & ~0x80
                     let x0: Int
                     if !allowedActions.contains(.unknown1) {
@@ -1085,14 +1085,14 @@ open class UIHostingController<Content: View>: UIViewController {
                     }
                     newRequiredBridges = HostingControllerBridges(rawValue: x0)
                 } else {
-                    // <+1164>
+                    // <+1228>
                     let x0 = x19 | (x26 << 7)
                     newRequiredBridges = HostingControllerBridges(rawValue: x0)
                 }
                 self.requiredBridges = newRequiredBridges
             }
             
-            // <+1188>
+            // <+1268> or <+660>
             resolveBarAppearanceBehavior(resolved)
         }
     }

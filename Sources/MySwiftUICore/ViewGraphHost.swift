@@ -1,3 +1,4 @@
+// F748B30B59970FC73194935C526E3031
 private import Foundation
 internal import AttributeGraph
 package import QuartzCore
@@ -5,7 +6,16 @@ internal import CoreGraphics
 
 @_spi(Internal) public final class ViewGraphHost {
     @safe package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true
-    package static nonisolated(unsafe) var defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
+    fileprivate static nonisolated(unsafe) var _defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
+    package static nonisolated(unsafe) var defaultEnvironment: EnvironmentValues {
+        get {
+            return _defaultEnvironment
+        }
+        set {
+            _defaultEnvironment = newValue
+            isDefaultEnvironmentConfigured = true
+        }
+    }
     
     package weak var updateDelegate: ViewGraphRootValueUpdater? = nil
     package weak var renderDelegate: ViewGraphRenderDelegate? = nil

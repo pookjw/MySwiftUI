@@ -9,7 +9,8 @@ import UIKit
 import SwiftUI
 
 fileprivate struct MyViewRep: UIViewRepresentable {
-    @Environment(\.openURL) private var openURL
+    //    @Environment(\.openURL) private var openURL
+    @Environment(\._openSensitiveURL) private var openURL
     
     func makeUIView(context: Context) -> UIButton {
         var configuration = UIButton.Configuration.tinted()
@@ -48,10 +49,7 @@ fileprivate struct MyViewRep: UIViewRepresentable {
 fileprivate struct MyView: View {
     var body: some View {
         MyViewRep()
-//            .environment(\.openURL, OpenURLAction(handler: { url in
-//                print(url)
-//                return .systemAction(nil, prefersInApp: true)
-//            }))
+            .onOpenURL(prefersInApp: true)
     }
 }
 

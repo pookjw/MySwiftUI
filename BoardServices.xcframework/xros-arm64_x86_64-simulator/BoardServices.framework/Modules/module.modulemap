@@ -1,0 +1,5 @@
+framework module BoardServices {
+    umbrella header "BoardServices.h"
+    export *
+    module * { export * }
+}
