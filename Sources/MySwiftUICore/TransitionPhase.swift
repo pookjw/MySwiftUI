@@ -4,17 +4,17 @@
     case didDisappear
     
     public var isIdentity: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func hash(into hasher: inout Hasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension TransitionPhase {
     public var value: Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -18,25 +18,25 @@ public protocol ShapeStyle: Sendable {
 
 extension ShapeStyle {
     public static nonisolated func _makeView<S>(view: _GraphValue<_ShapeView<S, Self>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func _apply(to shape: inout _ShapeStyle_Shape) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func _apply(to type: inout _ShapeStyle_ShapeType) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension ShapeStyle where Self.Resolved == Never {
     public func resolve(in environment: EnvironmentValues) -> Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func _apply(to type: inout _ShapeStyle_ShapeType) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -44,7 +44,7 @@ extension Never: ShapeStyle {
     public typealias Resolved = Never
     
     public static nonisolated func _makeView<S>(view: _GraphValue<_ShapeView<S, Never>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

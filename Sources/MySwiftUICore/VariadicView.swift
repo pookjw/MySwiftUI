@@ -64,11 +64,11 @@ extension _VariadicView.Tree: View where Root: _VariadicView_ViewRoot, Content: 
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -92,7 +92,7 @@ extension _VariadicView_Root {
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -107,21 +107,21 @@ extension _VariadicView_Root {
 
 extension _VariadicView_ViewRoot where Self.Body == Never {
     @MainActor @preconcurrency public func body(children: _VariadicView.Children) -> Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension _VariadicView_ViewRoot {
     public static nonisolated func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeViewList(root: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -136,11 +136,11 @@ public struct _VariadicView_Children {
 
 extension _VariadicView_Children: View, MultiView, PrimitiveView {
     public static nonisolated func _makeViewList(view: _GraphValue<_VariadicView.Children>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public typealias Body = Never
@@ -149,24 +149,24 @@ extension _VariadicView_Children: View, MultiView, PrimitiveView {
 extension _VariadicView_Children: RandomAccessCollection {
     public struct Element: View, UnaryView, PrimitiveView, Identifiable {
         public var id: AnyHashable {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         public func id<ID>(as _: ID.Type = ID.self) -> ID? where ID : Hashable {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         public subscript<Trait>(key: Trait.Type) -> Trait.Value where Trait : _ViewTraitKey {
             get {
-                fatalError("TODO")
+                assertUnimplemented()
             }
             set {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
         public static nonisolated func _makeView(view: _GraphValue<_VariadicView_Children.Element>, inputs: _ViewInputs) -> _ViewOutputs {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         public typealias Body = Never
@@ -174,15 +174,15 @@ extension _VariadicView_Children: RandomAccessCollection {
     }
     
     public var startIndex: Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var endIndex: Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public subscript(index: Int) -> _VariadicView_Children.Element {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public typealias Index = Int
@@ -292,7 +292,7 @@ extension _ViewInputs {
             self[ImplicitRootType.self] = newValue
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

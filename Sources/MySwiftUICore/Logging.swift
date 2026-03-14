@@ -3,16 +3,16 @@ private import Foundation
 package import CoreGraphics
 
 package func changedBodyProperties<T>(of type: T.Type) -> [String] {
-    fatalError("TODO")
+    assertUnimplemented()
 }
 
 package func logChangedBodyProperties<T>(of type: T.Type) {
     let todo = changedBodyProperties(of: type)
-    fatalError("TODO")
+    assertUnimplemented()
 }
 
 package func log(_: [(_Benchmark, [Double])]) {
-    fatalError("TODO")
+    assertUnimplemented()
 }
 
 @usableFromInline
@@ -245,7 +245,7 @@ package struct LoggableRect: CustomStringConvertible {
     }
     
     package var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

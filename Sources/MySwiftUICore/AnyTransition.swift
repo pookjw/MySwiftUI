@@ -88,7 +88,7 @@ fileprivate final class TransitionBox<T: Transition>: AnyTransitionBox {
 
 extension AnyTransition {
     public func animation(_ animation: Animation?) -> AnyTransition {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

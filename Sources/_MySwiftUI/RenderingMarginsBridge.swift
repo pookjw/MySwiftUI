@@ -3,14 +3,14 @@ internal import UIKit
 
 final class RenderingMarginsBridge<Content: View> {
     @MainActor func hostDidMove(to windowScene: UIWindowScene?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func updateEffectiveClippingMargins(environment: inout EnvironmentValues) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

@@ -3,7 +3,7 @@ public import MySwiftUICore
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension View {
     public nonisolated func windowToolbarFullScreenVisibility(_ visibility: WindowToolbarFullScreenVisibility) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

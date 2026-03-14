@@ -24,11 +24,11 @@ extension _GraphInputs {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @inline(__always)
     fileprivate func pushScope<T: StronglyHashable>(id: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

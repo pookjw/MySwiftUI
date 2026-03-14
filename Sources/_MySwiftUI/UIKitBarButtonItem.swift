@@ -23,7 +23,7 @@ extension UINavigationItem {
         // <+428>
         if isLinkedOnOrAfter(.v7) && updates.flag1 {
             // <+560>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+712>
             var _updates = updates
@@ -40,7 +40,7 @@ extension UINavigationItem {
         // <+768>
         if (updates.navigationProperties.contains(.unknown1) || forceUpdate) {
             // <+796>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+940>
@@ -67,7 +67,7 @@ extension UINavigationItem {
         // <+1052>
         if (updates.navigationProperties.contains(.unknown2) || forceUpdate) {
             // <+1072>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1092>
@@ -90,43 +90,43 @@ extension UINavigationItem {
         // <+96>
         if updates.locations.contains(.navigationBarSubtitle) || forceUpdate {
             // <+148>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+160>
         if updates.locations.contains(.navigationBarLargeSubtitle) || forceUpdate {
             // <+212>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+224>
         if updates.locations.contains(.navigationBarLargeTitle) || forceUpdate {
             // <+276>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+288>
         if updates.locations.contains(.navigationBarCenter) || forceUpdate {
             // <+340>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+352>
         if updates.locations.contains(.navigationBarAccessory) || forceUpdate {
             // <+404>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+528>
         if updates.locations.contains(.navigationBarTrailing) || forceUpdate {
             // <+580>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+592>
         if updates.locations.contains(.navigationBarLeading) || forceUpdate {
             // <+644>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+656>

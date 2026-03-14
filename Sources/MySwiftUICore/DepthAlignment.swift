@@ -10,17 +10,17 @@ private import Spatial
 @available(tvOS, unavailable)
 @frozen public struct DepthAlignment: Equatable, Sendable {
     public init(_ id: any DepthAlignmentID.Type) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(_ id: any AlignmentID.Type) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_documentation(visibility: private) public var depthKey: DepthAlignmentKey
     
     public func combineExplicit<S>(_ values: S) -> CGFloat? where S : Swift.Sequence, S.Element == CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -30,7 +30,7 @@ private import Spatial
 @available(tvOS, unavailable)
 extension DepthAlignment {
     static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -41,15 +41,15 @@ extension DepthAlignment {
 @available(tvOS, unavailable)
 extension DepthAlignment {
     public static let front: DepthAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static let center: DepthAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static let back: DepthAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
 }
 
@@ -91,15 +91,15 @@ extension DepthAlignment {
 //        let layoutComputer = LayoutComputer.defaultValue
 //        let dimensions = ViewDimensions3D.ini
 //        id.defaultValue(in: <#T##ViewDimensions3D#>)
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func < (lhs: DepthAlignmentKey, rhs: DepthAlignmentKey) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func == (a: DepthAlignmentKey, b: DepthAlignmentKey) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -132,6 +132,6 @@ public protocol DepthAlignmentID {
 @available(tvOS, unavailable)
 extension DepthAlignmentID {
     public static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

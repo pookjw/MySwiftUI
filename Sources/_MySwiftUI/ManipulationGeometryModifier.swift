@@ -16,7 +16,7 @@ internal import MySwiftUICore
     }
     
     public nonisolated static func _makeView(modifier: _GraphValue<ManipulationGeometryModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     
@@ -44,7 +44,7 @@ extension ManipulationGeometryModifier {
         @Attribute private var id: UUID
         
         var value: Never {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

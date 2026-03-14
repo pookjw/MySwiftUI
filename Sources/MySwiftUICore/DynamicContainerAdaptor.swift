@@ -102,7 +102,7 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
     }
     
     static func containsItem(_ items: ViewList, _ item: DynamicViewListItem) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func makeItemLayout(item: DynamicViewListItem, uniqueId: UInt32, inputs: _ViewInputs, containerInfo: Attribute<DynamicContainer.Info>, containerInputs: (inout _ViewInputs) -> Void) -> (_ViewOutputs, ItemLayout) {
@@ -351,7 +351,7 @@ extension DynamicLayoutViewAdaptor {
         }
         
         fileprivate func makeArchivedTransition<T: Transition>(helper: TransitionHelper<T>) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -532,7 +532,7 @@ fileprivate struct ViewListContentTransition<T: Transition>: StatefulRule, Async
     typealias Value = ContentTransitionEffect
     
     func updateValue() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -702,7 +702,7 @@ extension Layout {
         // <+1908>
         if (scrollTargetRole.attribute != nil) || hasScrollable || withinAccessibilityRotor {
             // <+1936>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+2064>
             // <+3312>
@@ -724,7 +724,7 @@ fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribut
     var layoutMap: DynamicLayoutMap
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = LayoutComputer

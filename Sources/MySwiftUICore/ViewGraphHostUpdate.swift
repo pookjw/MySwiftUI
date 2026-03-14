@@ -1,19 +1,19 @@
 
 package struct ViewGraphHostUpdate {
     package static var isOwner: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func begin() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func end() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func ensure<T>(_ body: () throws -> T) rethrows -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func enqueueAction(_ action: @escaping () -> Void) {

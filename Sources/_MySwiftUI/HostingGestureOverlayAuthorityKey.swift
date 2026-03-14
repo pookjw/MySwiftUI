@@ -6,10 +6,10 @@ struct HostingGestureOverlayAuthorityKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func reduce(value: inout Bool?, nextValue: () -> Bool?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

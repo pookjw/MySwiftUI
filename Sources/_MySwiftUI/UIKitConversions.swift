@@ -78,7 +78,7 @@ extension BarAppearanceBridge {
             let resolvedTitleString: String?
             if titleStroage.title != nil {
                 // <+1776>
-                fatalError("TODO")
+                assertUnimplemented()
                 // <+1972>
             } else {
                 // <+1964>
@@ -190,7 +190,7 @@ extension BarAppearanceBridge {
                     // <+2364>
                     // w26
                     let isSolariumEnabled = Solarium.isEnabled(for: _GraphInputs.defaultInterfaceIdiom)
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+2496>
                     largeTitleDisplayMode = .always
@@ -220,7 +220,7 @@ extension BarAppearanceBridge {
             let resolvedSubtitleString: String?
             if let subtitleStroage {
                 // <+2656>
-                fatalError("TODO")
+                assertUnimplemented()
                 // <+2800>
             } else {
                 // <+2796>
@@ -233,7 +233,7 @@ extension BarAppearanceBridge {
             // <+2836>
             if copy_1.accessibilityEnabled {
                 // <+2844>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+3312>
@@ -350,7 +350,7 @@ extension BarAppearanceBridge {
                 
                 if let lastToolbarInputContent {
                     // <+756>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+732>
                     // <+892>
@@ -358,7 +358,7 @@ extension BarAppearanceBridge {
                 }
             } else {
                 // <+940>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+1156>
@@ -419,7 +419,7 @@ extension BarAppearanceBridge {
             }
             
             // <+388>
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -434,7 +434,7 @@ extension BarAppearanceBridge {
                 return false
             }
             
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -480,7 +480,7 @@ extension BarAppearanceBridge {
             return updateBottomBarConfiguration()
         case .tabBar:
             // <+1544>
-            fatalError("TODO")
+            assertUnimplemented()
         case .bottomOrnament:
             // <+1388>
             return updateBottomOrnamentConfiguration()
@@ -495,7 +495,7 @@ extension BarAppearanceBridge {
         // <+416>
         if let casted = navigationController as? UIKitNavigationController {
             // <+432>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+2188>
@@ -619,7 +619,7 @@ extension BarAppearanceBridge {
                 if flag {
                     // <+3312>
                     // copy_2 -> x23
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+3280>
                     // i -> w20
@@ -767,7 +767,7 @@ extension BarAppearanceBridge {
                 }
                 
                 // <+1328>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+1284>
                 return false
@@ -835,7 +835,7 @@ extension BarAppearanceBridge {
             // <+1664>
             if let background = copy_3.background {
                 // <+2876>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+1680>
                 // Optional<ColorScheme>(nil)로 설정하는건 무시 (x27, x26 + x25)
@@ -844,7 +844,7 @@ extension BarAppearanceBridge {
                 
                 if let copy_5 {
                     // <+1956>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+1856>
                     // nil 확인 무시
@@ -859,7 +859,7 @@ extension BarAppearanceBridge {
                         
                         if let copy_4 {
                             // <+2572>
-                            fatalError("TODO")
+                            assertUnimplemented()
                         } else {
                             // <+2476>
                             // <+2524>
@@ -885,20 +885,20 @@ extension BarAppearanceBridge {
                             }
                             
                             // <+4392>
-                            fatalError("TODO")
+                            assertUnimplemented()
                         }
-                        fatalError("TODO")
+                        assertUnimplemented()
                     } else {
                         // <+2876>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }
                     
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // for문 중간에 return true 하는듯
@@ -921,7 +921,7 @@ extension BarAppearanceBridge {
             return true
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func bottomOrnament(viewController: UIViewController) -> ToolbarOrnament? {
@@ -933,7 +933,7 @@ extension BarAppearanceBridge {
             return nil
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1032,7 +1032,7 @@ extension UINavigationController {
 
 extension UISplitViewController {
     func column(forViewController viewController: UIViewController) -> UISplitViewController.Column? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1147,7 +1147,7 @@ extension UIViewController {
         
         if split != nil {
             // <+240>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+396>
@@ -1182,6 +1182,6 @@ extension UIViewController {
 
 extension UITabBarController {
     fileprivate var combinedWithNavigationBar: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

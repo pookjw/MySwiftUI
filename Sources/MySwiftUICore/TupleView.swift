@@ -83,7 +83,7 @@ private import AttributeGraph
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var body: Never {
@@ -102,7 +102,7 @@ extension TupleView {
         private(set) var outputs: _ViewOutputs?
         
         mutating func visit<Content: View>(type: Content.Type) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

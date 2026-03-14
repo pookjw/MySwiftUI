@@ -11,7 +11,7 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
     private var lastEnvironment: EnvironmentValues?
     
     func combine<T>(with other: T) -> Bool where T : GraphMutation {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
@@ -35,7 +35,7 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
     }
     
     func uninstantiate(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func needsUpdate(graph: ViewGraph) -> Bool {
@@ -164,7 +164,7 @@ extension ViewGraphBridgePropertiesFeature {
         var localValue: ViewGraphBridgeProperties?
         
         var value: ViewGraphBridgeProperties {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -184,7 +184,7 @@ extension ViewGraphBridgePropertiesFeature {
         }
         
         func combine<T>(with other: T) -> Bool where T : GraphMutation {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

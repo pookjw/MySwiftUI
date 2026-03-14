@@ -24,12 +24,12 @@ struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
             outputs[AccessibilityNodesKey.self] = attribute
         } else {
             // <+344>
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     static nonisolated func makeAccessibilityViewModifier(modifier: _GraphValue<AccessibilityPlatformViewModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var options: AccessibilityModifierOptions {
@@ -37,23 +37,23 @@ struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
     }
     
     func willCreateNode(for nodes: [AccessibilityNode]) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func initialAttachment(for node: AccessibilityNode) -> MySwiftUICore.AccessibilityAttachment {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func createOrUpdateNode(viewRendererHost: (any MySwiftUICore.ViewRendererHost)?, existingNode: AccessibilityNode?) -> AccessibilityNode {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func scrapeableContent(environment: MySwiftUICore.EnvironmentValues, idiom: MySwiftUICore.AnyInterfaceIdiom) -> MySwiftUICore.ScrapeableContent.Content? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var supportsPlaceholders: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -63,14 +63,14 @@ extension AccessibilityPlatformViewModifier {
         @Attribute private(set) var view: UIView
         
         var value: Never {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
 
 struct AccessibilityBridgedPlatformView<Representable: CoreViewRepresentable>: ResolvableAccessibilityModifierStatefulRule {
     static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Context = ViewLeafView<Representable>
@@ -84,6 +84,6 @@ struct AccessibilityBridgedPlatformView<Representable: CoreViewRepresentable>: R
     }
     
     func updateValue() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

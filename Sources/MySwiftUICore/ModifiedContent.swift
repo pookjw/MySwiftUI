@@ -21,10 +21,10 @@ extension ModifiedContent: Sendable where Content: Sendable, Modifier: Sendable 
 extension ModifiedContent: Animatable where Content: Animatable, Modifier: Animatable {
     public var animatableData: AnimatablePair<Content.AnimatableData, Modifier.AnimatableData> {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -63,31 +63,31 @@ extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor @preconcurrency public var body: ModifiedContent<Content, Modifier>.Body {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension ModifiedContent: ViewModifier where Content: ViewModifier, Modifier: ViewModifier {
     public static nonisolated func _makeView(modifier: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeViewList(modifier: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension ModifiedContent: DynamicViewContent where Content: DynamicViewContent, Modifier: ViewModifier {
   public var data: Content.Data {
-      fatalError("TODO")
+      assertUnimplemented()
   }
     
   public typealias Data = Content.Data
@@ -95,19 +95,19 @@ extension ModifiedContent: DynamicViewContent where Content: DynamicViewContent,
 
 extension ModifiedContent: VisualEffect where Content: VisualEffect, Modifier: VisualEffect {
     public static func _makeVisualEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension ModifiedContent: CustomHoverEffect where Content: CustomHoverEffect, Modifier: CustomHoverEffect {
     public static func _makeCustomHoverEffect(effect: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension ModifiedContent: HoverEffectContent where Content: HoverEffectContent, Modifier: HoverEffectContent {
     public static func _makeHoverEffectContent(effect: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _HoverEffectContentInputs, body: @escaping (_HoverEffectContentInputs) -> _HoverEffectContentOutputs) -> _HoverEffectContentOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

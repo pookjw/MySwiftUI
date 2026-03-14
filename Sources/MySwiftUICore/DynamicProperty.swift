@@ -9,7 +9,7 @@ public protocol DynamicProperty {
 
 extension DynamicProperty {
     public static func _makeProperty<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int, inputs: inout _GraphInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static var _propertyBehaviors: UInt32 {
@@ -17,11 +17,11 @@ extension DynamicProperty {
     }
     
     public func update() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate var instrumentsLinkValueDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -60,19 +60,19 @@ extension InstrumentsDescriptiveDynamicProperty {
 
 extension State: InstrumentsDescriptiveDynamicProperty {
     var _instrumentsLinkValue: Any {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Environment: InstrumentsDescriptiveDynamicProperty {
     var _instrumentsLinkValue: Any {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Binding: InstrumentsDescriptiveDynamicProperty {
     var _instrumentsLinkValue: Any {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -86,7 +86,7 @@ extension DynamicProperty {
     }
     
     static func addTreeValue<T>(_: Attribute<T>, at: Int, in: any Any.Type, flags: TreeValueFlags) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func addTreeValueSlow<T>(_ attribute: AnyAttribute, as firstType: T.Type, in secondType: Any.Type, fieldOffset: Int = 0, flags: TreeValueFlags) {

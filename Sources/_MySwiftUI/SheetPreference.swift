@@ -11,11 +11,11 @@ extension SheetPreference {
     
     struct InspectorKey: HostPreferenceKey {
         @safe static nonisolated(unsafe) let defaultValue: SheetPreference.Value = {
-            fatalError("TODO")
+            assertUnimplemented()
         }()
         
         static func reduce(value: inout SheetPreference.Value, nextValue: () -> SheetPreference.Value) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -31,7 +31,7 @@ extension SheetPreference {
         }
         
         static func reduce(value: inout SheetPreference.Value, nextValue: () -> SheetPreference.Value) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

@@ -10,11 +10,11 @@ public import Foundation
 
 extension CustomAnimation {
     public func velocity<V>(value: V, time: TimeInterval, context: AnimationContext<V>) -> V? where V : VectorArithmetic {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func shouldMerge<V>(previous: Animation, value: V, time: TimeInterval, context: inout AnimationContext<V>) -> Bool where V : VectorArithmetic {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

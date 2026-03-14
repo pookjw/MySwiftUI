@@ -8,17 +8,17 @@ internal import MySwiftUICore
     @usableFromInline
     
     @MainActor @preconcurrency internal var body: Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @usableFromInline
     @MainActor @preconcurrency internal init(_ value: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @usableFromInline
     nonisolated internal static func _makeScene(scene: _GraphValue<_TupleScene<T>>, inputs: _SceneInputs) -> _SceneOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)

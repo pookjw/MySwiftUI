@@ -13,7 +13,7 @@ final class UIViewPlatformViewDefinition: PlatformViewDefinition {
             switch kind {
             case .shape:
                 // <+356>
-                fatalError("TODO")
+                assertUnimplemented()
             default:
                 let view: UIView
                 if kind.isContainer {

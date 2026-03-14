@@ -10,7 +10,7 @@ public struct Shader: Equatable, Sendable {
 //    public var name: String
 //    
 //    public init(library: ShaderLibrary, name: String) {
-//        fatalError("TODO")
+//        assertUnimplemented()
 //    }
 //}
 

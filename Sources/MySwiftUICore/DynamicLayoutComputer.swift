@@ -9,7 +9,7 @@ extension DynamicLayoutViewAdaptor {
         case .geometries(let depthGeometry):
             body = { _ in
                 // $s7SwiftUI24DynamicLayoutViewAdaptorV18makeDepthTransform9depthData13containerInfo2id4bodyyAC05ChildhK0O_14AttributeGraph0Q0VyAA0C9ContainerV0M0VGAA0cS2IDVAA01_E7OutputsVAA01_E6InputsVcztFZAvXcfU_TA
-                fatalError("TODO")
+                assertUnimplemented()
             }
         case .depths(let depths):
             body = { inputs in
@@ -46,13 +46,13 @@ fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribut
     var layoutMap: DynamicLayoutMap
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = LayoutComputer
     
     func updateValue() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

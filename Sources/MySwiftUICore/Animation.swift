@@ -6,7 +6,7 @@ internal import AttributeGraph
 
 public struct Animation: Equatable, Sendable {
     public static func == (lhs: Animation, rhs: Animation) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @safe private nonisolated(unsafe) var box: AnimationBoxBase
@@ -16,13 +16,13 @@ public struct Animation: Equatable, Sendable {
     }
     
     package var function: Function {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Animation {
     public static let `default`: Animation = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
 }
 
@@ -52,21 +52,21 @@ public protocol VectorArithmetic : AdditiveArithmetic {
 
 extension CGFloat: VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var magnitudeSquared: Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Double: VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var magnitudeSquared: Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -76,27 +76,27 @@ extension Float: VectorArithmetic {
     }
     
     public var magnitudeSquared: Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Vector3D: VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var magnitudeSquared: Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Size3D: VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var magnitudeSquared: Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -110,10 +110,10 @@ public protocol Animatable {
 extension Animatable where Self : VectorArithmetic {
     public var animatableData: Self {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -466,7 +466,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
     }
     
     func reset() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func removeListeners() {
@@ -495,7 +495,7 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = T
@@ -535,32 +535,32 @@ final class AnimatorState<Value: VectorArithmetic> {
     //    var forks: AnimatorState<Value>.Fork
     
     init(animation: Animation, interval: Value, at: Time, in: Transaction) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(animation: Animation, interval: Value, at: Time, in: Transaction, finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func removeListeners() {
         // v7_1 분기 있는듯
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func combine(newAnimation: Animation, newInterval: Value, at: Time, in: Transaction, environment: Attribute<EnvironmentValues>?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func addListeners(transaction: Transaction) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func update(_: inout Value, at: Time, environment: Attribute<EnvironmentValues>?) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func nextUpdate() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -590,7 +590,7 @@ final class AnimatorState<Value: VectorArithmetic> {
     }
     
     public static func == (a: EmptyAnimatableData, b: EmptyAnimatableData) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -658,81 +658,81 @@ fileprivate class AnimationBox<T: CustomAnimation>: AnimationBoxBase {
     }
     
     override func animate<A>(value: A, time: Double, context: inout AnimationContext<A>) -> A? where A : VectorArithmetic {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func velocity<A>(value: A, time: Double, context: AnimationContext<A>) -> A? where A : VectorArithmetic {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func shouldMerge<A>(previous: Animation, value: A, time: Double, context: inout AnimationContext<A>) -> Bool where A : VectorArithmetic {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func modifier<A>(_ modifier: A) -> Animation where A : CustomAnimationModifier {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override var function: Animation.Function {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override var base: any CustomAnimation {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func hash(into hasher: inout Hasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func isEqual(to: AnimationBoxBase) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 fileprivate final class InternalAnimationBox<T: CustomAnimation>: AnimationBox<T> {
     override func modifier<A>(_ modifier: A) -> Animation where A : CustomAnimationModifier {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override var function: Animation.Function {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 @frozen public struct _AnyAnimatableData: VectorArithmetic {
     package var vtable: _AnyAnimatableDataVTable.Type {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     package var value: Any {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public static var zero: _AnyAnimatableData {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func == (lhs: _AnyAnimatableData, rhs: _AnyAnimatableData) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func += (lhs: inout _AnyAnimatableData, rhs: _AnyAnimatableData) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func -= (lhs: inout _AnyAnimatableData, rhs: _AnyAnimatableData) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_transparent public static func + (lhs: _AnyAnimatableData, rhs: _AnyAnimatableData) -> _AnyAnimatableData {
@@ -747,11 +747,11 @@ fileprivate final class InternalAnimationBox<T: CustomAnimation>: AnimationBox<T
     }
     
     public mutating func scale(by rhs: Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var magnitudeSquared: Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

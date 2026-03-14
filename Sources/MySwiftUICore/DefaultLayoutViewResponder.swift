@@ -30,18 +30,18 @@ package import AttributeGraph
     }
     
     open func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func resetGesture() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func childrenDidChange() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func extendPrintTree(string: inout String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

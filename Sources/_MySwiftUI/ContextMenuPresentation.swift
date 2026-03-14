@@ -13,7 +13,7 @@ extension ContextMenuPresentation {
         static let defaultValue: [ViewIdentity: ContextMenuPresentation] = [:]
         
         static func reduce(value: inout [ViewIdentity : ContextMenuPresentation], nextValue: () -> [ViewIdentity : ContextMenuPresentation]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

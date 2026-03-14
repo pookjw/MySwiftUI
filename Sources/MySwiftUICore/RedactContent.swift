@@ -22,11 +22,11 @@ public struct RedactionReasons: OptionSet, Sendable {
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension View {
     nonisolated public func redacted(reason: RedactionReasons) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     nonisolated public func unredacted() -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

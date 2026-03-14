@@ -16,7 +16,7 @@ struct ContainerShapeTransform: Rule, AsyncAttribute {
     }
     
     var value: ViewTransform {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

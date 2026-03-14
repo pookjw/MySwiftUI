@@ -19,7 +19,7 @@ extension PlatformViewRepresentable {
 
 extension PlatformViewRepresentable where PlatformViewProvider: UIViewController {
     static func platformView(for provider: Self.PlatformViewProvider) -> AnyObject {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Self.PlatformViewProvider) -> CGFloat {
@@ -104,7 +104,7 @@ protocol AnyPlatformViewHost {
         // <+772>
         outputs.makeContentPathPreferenceWriter(inputs: copy_2, contentResponder: { () -> Attribute<TrivialContentResponder> in
             // $s7SwiftUI32PlatformViewRepresentableFeatureV06modifyD7Outputs7outputs5proxyyAA01_dH0Vz_AA04CoredeF5ProxyVyxGtAA0kdE0RzlF14AttributeGraph0M0VyAA23TrivialContentResponderVGyXEfu_
-            fatalError("TODO")
+            assertUnimplemented()
         }())
         
         // <+844>
@@ -119,7 +119,7 @@ protocol AnyPlatformViewHost {
         // <+1028>
         outputs.preferences.makePreferenceWriter(inputs: copy_2.preferences, key: FocusableBounds.Key.self, value: {
             // $s7SwiftUI32PlatformViewRepresentableFeatureV06modifyD7Outputs7outputs5proxyyAA01_dH0Vz_AA04CoredeF5ProxyVyxGtAA0kdE0RzlF14AttributeGraph0M0VySayAA15FocusableBoundsVGGyXEfu1_TA
-            fatalError("TODO")
+            assertUnimplemented()
         }())
         
         AccessibilityPlatformViewModifier.makeAccessibilityPlatformTransform(inputs: copy_2, representable: proxy.base, outputs: &outputs)
@@ -147,7 +147,7 @@ protocol AnyPlatformViewHost {
     }
     
     func modifyWrappedOutputs<Representable: CoreViewRepresentable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func update<Host: CoreViewRepresentableHost>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) {
@@ -204,7 +204,7 @@ struct PlatformViewIdentifiedViews<Representable: CoreViewRepresentable>: Rule {
     @Attribute fileprivate private(set) var time: Time
     
     var value: _IdentifiedViewTree {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -250,7 +250,7 @@ fileprivate struct ViewResponderFilter<Representable: CoreViewRepresentable>: St
             return nil
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = [ViewResponder]
@@ -368,7 +368,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
     }
     
     var focusView: UIView {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func makeEnvironmentWrapper(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
@@ -470,15 +470,15 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
     }
     
     func _identifiedViewTree(in provider: Base.UIViewControllerType) -> Any {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Base.UIViewControllerType) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var body: Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func modifyBridgedViewInputs(_ inputs: inout MySwiftUICore._ViewInputs) {

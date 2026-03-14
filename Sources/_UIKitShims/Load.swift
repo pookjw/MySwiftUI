@@ -44,7 +44,7 @@ private func setupDefaultEnvironmentWithScreen(screen: MyUIScreen) {
     environment.viewGraphAssetCatalogConfiguration = assetConfiguration
     
     let urlAction = OpenURLAction.defaultSystemAction { _, _ in
-        fatalError("TODO")
+        assertUnimplemented()
     }
     environment.setDefaultOpenURL(urlAction)
     

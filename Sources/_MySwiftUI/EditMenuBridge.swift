@@ -33,24 +33,24 @@ final class EditMenuBridge: NSObject {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension EditMenuBridge: UIEditMenuInteractionDelegate {
     func editMenuInteraction(_ interaction: UIEditMenuInteraction, menuFor configuration: UIEditMenuConfiguration, suggestedActions: [UIMenuElement]) -> UIMenu? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func editMenuInteraction(_ interaction: UIEditMenuInteraction, targetRectFor configuration: UIEditMenuConfiguration) -> CGRect {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func editMenuInteraction(_ interaction: UIEditMenuInteraction, willDismissMenuFor configuration: UIEditMenuConfiguration, animator: any UIEditMenuInteractionAnimating) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func editMenuInteraction(_ interaction: UIEditMenuInteraction, willPresentMenuFor configuration: UIEditMenuConfiguration, animator: any UIEditMenuInteractionAnimating) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

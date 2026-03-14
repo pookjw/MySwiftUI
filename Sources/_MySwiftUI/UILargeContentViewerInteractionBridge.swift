@@ -25,7 +25,7 @@ private import _UIKitPrivate
     }
     
     @objc private func enabledStatusDidChange() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
@@ -50,7 +50,7 @@ private import _UIKitPrivate
         }
         
         // <+424>
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

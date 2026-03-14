@@ -65,7 +65,7 @@ struct PreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribute, CustomStringC
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var initialValue: T.Value? {

@@ -5,6 +5,6 @@ struct InteractiveDismissDisabledKey: HostPreferenceKey {
     typealias Value = Never?
     
     static func reduce(value: inout Never?, nextValue: () -> Never?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

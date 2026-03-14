@@ -9,7 +9,8 @@ extension View {
     
     @inlinable public nonisolated func environmentObject<T>(_ object: T) -> some View where T : ObservableObject {
 //        environment(T.environmentStore, object)
-        fatalError("TODO")
+        // TODO: assertUnimplemented를 pakcage로 변경
+        assertUnimplemented()
     }
 }
 

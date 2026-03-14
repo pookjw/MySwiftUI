@@ -53,25 +53,25 @@ public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
     
     public subscript(bounds: Range<Int>) -> LayoutSubviews {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public subscript<S>(indices: S) -> LayoutSubviews where S : Sequence, S.Element == Int {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public static func == (lhs: LayoutSubviews, rhs: LayoutSubviews) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public typealias Indices = Range<LayoutSubviews.Index>
     public typealias Iterator = IndexingIterator<LayoutSubviews>
     
     func selecting<T: Sequence>(indices: T) -> LayoutSubviews where T.Element == Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -81,12 +81,12 @@ public struct LayoutSubview : Equatable {
     fileprivate let containerLayoutDirection: LayoutDirection
     
     public func _trait<K>(key: K.Type) -> K.Value where K : _ViewTraitKey {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public subscript<K>(key: K.Type) -> K.Value where K : LayoutValueKey {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -99,7 +99,7 @@ public struct LayoutSubview : Equatable {
     }
     
     public func dimensions(in proposal: ProposedViewSize) -> ViewDimensions {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var spacing: ViewSpacing {
@@ -248,11 +248,11 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
     }
     
     func spacing() -> Spacing {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func layoutPriority() -> Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func sizeThatFits(_ size: _ProposedSize) -> CGSize {
@@ -351,11 +351,11 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
     }
     
     func explicitAlignment(_: AlignmentKey, at: ViewSize) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func defaultAlignment(_: AlignmentKey, size: ViewSize, data: UnsafeMutableRawPointer) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func updateCache() {
@@ -388,7 +388,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
             if shouldUseCacheOfCache {
                 return withStashedDepthProposal { _ in
                     // $s7SwiftUI16ViewLayoutEngineV5cache5CacheQzvgAF12CoreGraphics7CGFloatVSgXEfU_TA
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
             } else {
                 return _cache!
@@ -430,11 +430,11 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
     }
     
     func explicitDepthAlignment(_: DepthAlignmentKey, at: ViewSize3D) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func childDepths(at size: ViewSize3D, childGeometries: [ViewGeometry]) -> [ViewDepth] {
@@ -534,11 +534,11 @@ struct LayoutProxy: Equatable {
     }
     
     func dimensions3D(in proposedSize: _ProposedSize3D) -> ViewDimensions3D {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func depth(in proposedSize: _ProposedSize3D) -> CGFloat {
@@ -546,15 +546,15 @@ struct LayoutProxy: Equatable {
     }
     
     func idealDepth() -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func finallyPlaced3D(at placement: Placement3D, in size: Size3D, layoutDirection: LayoutDirection) -> ViewGeometry3D {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func volume(in proposedSize: _ProposedSize3D) -> Size3D {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func size(in proposedSize: _ProposedSize) -> CGSize {
@@ -574,11 +574,11 @@ struct LayoutProxy: Equatable {
     }
     
     var ignoresAutomaticPadding: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var requiresSpacingProjection: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func spacing() -> Spacing {
@@ -590,7 +590,7 @@ struct LayoutProxy: Equatable {
     }
     
     func finallyPlaced(at placement: _Placement, in size: CGSize, layoutDirection: LayoutDirection) -> ViewGeometry {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dimensions(in proposedSize: _ProposedSize) -> ViewDimensions {
@@ -615,15 +615,15 @@ struct LayoutProxy: Equatable {
     }
     
     var traits: ViewTraitCollection? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     subscript<A: _ViewTraitKey>(_: A.Type) -> A.Value {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func idealSize() -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {

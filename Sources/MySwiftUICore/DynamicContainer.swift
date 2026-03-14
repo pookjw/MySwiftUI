@@ -151,7 +151,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     private var needsPhaseUpdate: Bool //0xac
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(
@@ -904,7 +904,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     }
     
     mutating func unremoveItem(at: Int) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func eraseItem(at index: Int) {
@@ -1056,7 +1056,7 @@ fileprivate struct DynamicPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttri
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var initialValue: T.Value? {
@@ -1342,7 +1342,7 @@ struct DynamicLayoutMap {
             sortedSeed = 0
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

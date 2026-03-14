@@ -12,7 +12,7 @@ extension FocusableBounds {
         package static let defaultValue: [FocusableBounds] = []
         
         package static func reduce(value: inout [FocusableBounds], nextValue: () -> [FocusableBounds]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

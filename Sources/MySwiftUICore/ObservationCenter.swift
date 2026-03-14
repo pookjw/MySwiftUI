@@ -224,7 +224,7 @@ struct ObservationGraphMutation: GraphMutation, @unchecked Sendable {
     }
     
     func combine<T: GraphMutation>(with other: T) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func cancel() {

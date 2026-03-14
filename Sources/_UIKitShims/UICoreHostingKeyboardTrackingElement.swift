@@ -1,13 +1,14 @@
 internal import _UIKitPrivate
+private import MySwiftUICore
 
 @objc final class UICoreHostingKeyboardTrackingElement: NSObject, UICoreKeyboardTrackingElement {
     weak var base: UIHostingViewBase?
     
     func prepareKeyboard(with size: CGSize, in window: UIWindow) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func updateKeyboard() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

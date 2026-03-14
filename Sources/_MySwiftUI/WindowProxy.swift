@@ -5,11 +5,11 @@
 @available(watchOS, unavailable)
 public struct WindowProxy {
     public var id: String? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     public var phase: ScenePhase {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

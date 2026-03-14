@@ -8,10 +8,10 @@ public struct UIHostingControllerSizingOptions: OptionSet, Sendable {
     }
     
     public static let preferredContentSize: UIHostingControllerSizingOptions = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static let intrinsicContentSize: UIHostingControllerSizingOptions = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
 }

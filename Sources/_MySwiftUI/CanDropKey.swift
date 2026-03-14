@@ -6,6 +6,6 @@ struct CanDropKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

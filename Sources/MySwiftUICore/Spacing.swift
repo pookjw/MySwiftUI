@@ -5,7 +5,7 @@ package struct Spacing: Equatable, CustomStringConvertible {
     var minima: [Spacing.Key: Spacing.Value]
     
     package var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(minima: [Spacing.Key: Spacing.Value]) {
@@ -22,19 +22,19 @@ package struct Spacing: Equatable, CustomStringConvertible {
     }
     
     func incorporate(_: AbsoluteEdge.Set, of: Spacing) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func reset(_: Edge.Set, layoutDirection: LayoutDirection) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func clear(_: Edge.Set, layoutDirection: LayoutDirection) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var isLayoutDirectionSymmetric: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func distanceToSuccessorView(along axis: Axis, layoutDirection: LayoutDirection, preferring: Spacing) -> CGFloat? {
@@ -97,11 +97,11 @@ package struct Spacing: Equatable, CustomStringConvertible {
     }
     
     func clear(_ set: AbsoluteEdge.Set) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func reset(_ set: AbsoluteEdge.Set) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func _distance(from: AbsoluteEdge, to: AbsoluteEdge, ofViewPreferring preferring: Spacing) -> CGFloat? {
@@ -295,7 +295,7 @@ extension Spacing {
         
         static func spacing(top: Spacing.TextMetrics, bottom: Spacing.TextMetrics) -> CGFloat {
             // test_distanceToSuccessorView에서 주석 풀고 테스트 필요
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

@@ -14,7 +14,7 @@ public enum DynamicTypeSize : Hashable, Comparable, CaseIterable, Sendable {
     case accessibility5
     
     public var isAccessibilitySize: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var systemDefault: DynamicTypeSize {

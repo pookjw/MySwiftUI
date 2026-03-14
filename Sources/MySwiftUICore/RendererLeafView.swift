@@ -64,11 +64,11 @@ extension RendererLeafView {
     }
     
     func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var requiresMainThread: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -82,7 +82,7 @@ fileprivate struct LeafDisplayList<Content: RendererLeafView>: CustomStringConve
     var contentSeed: DisplayList.Seed
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = DisplayList
@@ -153,11 +153,11 @@ final class LeafViewResponder<T: ContentResponder>: ViewResponder {
     fileprivate var helper = ContentResponderHelper<T>()
     
     override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

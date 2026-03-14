@@ -3,7 +3,7 @@ private import _MySwiftUIShims
 
 package enum ViewStyleRegistry: Sendable {
     package static func registerOverrides(_: ViewStyleOverrides, for: ViewStyleRegistry.InterfaceIdiom) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func overrides(for idiom: ViewStyleRegistry.InterfaceIdiom) -> ViewStyleOverrides {
@@ -45,7 +45,7 @@ package struct ViewStyleOverrides: Sendable {
     package init() {}
     
     func registerStyleOverride<T, U: StyleModifier>(_: U.Type, style: T.Type) where U.Style: AnyDefaultStyle {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func register(in inputs: inout _ViewInputs) {
@@ -82,19 +82,19 @@ package struct ViewStyleOverrides: Sendable {
     }
     
     func registerDefaultStyle(_: Any.Type?, in: inout _ViewInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func registerStyleOverride(_: Any.Type?, in: inout _ViewInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func registerStyleWriterOverride(_: Any.Type?, in: inout _ViewInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func merge(with: ViewStyleOverrides) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -114,7 +114,7 @@ protocol DefaultStyleModifier: StyleModifier, AnyDefaultStyle {
 
 extension DefaultStyleModifier {
     static nonisolated func registerDefaultStyle(in: inout _ViewInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -124,7 +124,7 @@ protocol StyleOverrideModifier: DefaultStyleModifier {
 
 extension StyleOverrideModifier {
     static nonisolated func injectStyleOverride(in: inout _ViewInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -138,7 +138,7 @@ protocol StyleWriterOverrideModifier: AnyDefaultStyle {
 
 extension StyleWriterOverrideModifier {
     static nonisolated func injectStyleOverride<T: ViewInputPredicate>(in: inout _ViewInputs, requiring: T.Type) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

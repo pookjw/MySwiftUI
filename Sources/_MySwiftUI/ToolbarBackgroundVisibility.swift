@@ -20,7 +20,7 @@ struct ToolbarBackgroundVisibility: Equatable {
     }
     
     init(_ visibility: Visibility) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @inline(__always)

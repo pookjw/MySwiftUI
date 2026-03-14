@@ -7,7 +7,7 @@ protocol StronglyHashableByBitPattern: StronglyHashable {
 
 extension StronglyHashableByBitPattern {
     func hash(into hasher: inout StrongHasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -39,19 +39,19 @@ struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable,
     }
     
     init<T: Encodable>(encodable: T) throws {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init<T: StronglyHashable>(of value: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(from decoder: any Decoder) throws {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func encode(to encoder: any Encoder) throws {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func hash(into hasher: inout Hasher) {
@@ -65,7 +65,7 @@ struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable,
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -93,15 +93,15 @@ struct StrongHasher {
     }
     
     mutating func combineBytes(_ bytes: UnsafeRawPointer, count: Int) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func combineBitPattern<T>(_: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func combineType(_ type: Any.Type) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -111,12 +111,12 @@ func makeStableTypeData(_ type: Any.Type) -> StrongHash {
 
 extension UUID: StronglyHashable {
     func hash(into hasher: inout StrongHasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Int: StronglyHashable {
     func hash(into hasher: inout StrongHasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

@@ -15,7 +15,7 @@ private import os.log
     
     @usableFromInline
     internal init(wrappedValue thunk: @autoclosure @escaping () -> Value) where Value : AnyObject, Value : Observable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_alwaysEmitIntoClient public init(initialValue value: Value) {
@@ -95,7 +95,7 @@ fileprivate struct StatePropertyBox<Value>: DynamicPropertyBox {
     }
     
     func reset() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func update(property: inout State<Value>, phase: _GraphInputs.Phase) -> Bool {
@@ -140,6 +140,6 @@ fileprivate struct StatePropertyBox<Value>: DynamicPropertyBox {
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

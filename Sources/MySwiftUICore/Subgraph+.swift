@@ -40,12 +40,12 @@ extension Subgraph {
     func didReinsert() {
         forEach(.unknown1) { _ in
             // $sSo13AGSubgraphRefa7SwiftUIE11didReinsertyyFySo11AGAttributeaXEfU_
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     func addSecondaryChild(_ subgraph: Subgraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

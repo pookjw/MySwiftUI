@@ -156,7 +156,7 @@ package protocol PreferenceKey {
 
 extension PreferenceKey {
     package static func _delay<Content : View>(_: (_PreferenceValue<Value>) -> Content) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
         return MainActor.assumeIsolated { 
             return EmptyView()
         }
@@ -175,7 +175,7 @@ extension PreferenceKey {
     }
     
     package static var readableName: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

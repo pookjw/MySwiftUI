@@ -37,7 +37,7 @@ extension UIViewControllerRepresentable where Self.Coordinator == () {
 extension UIViewControllerRepresentable {
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
     @MainActor @preconcurrency public func _resetUIViewController(_ uiViewController: Self.UIViewControllerType, coordinator: Self.Coordinator, destroy: () -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 16.0, tvOS 16.0, watchOS 9.0, *)
@@ -96,11 +96,11 @@ extension UIViewControllerRepresentable {
     }
     
     public nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor @preconcurrency public func _identifiedViewTree(in uiViewController: Self.UIViewControllerType) -> _IdentifiedViewTree {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 17.0, tvOS 17.0, watchOS 10.0, *)
@@ -109,7 +109,7 @@ extension UIViewControllerRepresentable {
     }
     
     @MainActor @preconcurrency public var body: Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -120,18 +120,18 @@ extension UIViewControllerRepresentable {
     @MainActor @preconcurrency public let coordinator: Representable.Coordinator
     
     @MainActor @preconcurrency public var transaction: Transaction {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor @preconcurrency public var environment: EnvironmentValues {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 18.0, tvOS 18.0, visionOS 2.0, *)
     @available(macOS, unavailable)
     @available(watchOS, unavailable)
     @MainActor @preconcurrency public func animate(changes: () -> Void, completion: (() -> Void)? = nil) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -147,6 +147,6 @@ fileprivate struct UnsupportedDisplayList: Rule {
     @Attribute private(set) var containerPosition: CGPoint
     
     var value: DisplayList {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

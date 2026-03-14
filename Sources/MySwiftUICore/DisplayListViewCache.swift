@@ -73,13 +73,13 @@ extension DisplayList.ViewUpdater {
                 switch content.value {
                 case .shape(let path, let anyResolvedPaint, let fillStyle):
                     // <+416>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 default:
                     return .infinity
                 }
             case .effect(let effect, let displayList):
                 // <+156>
-                fatalError("TODO")
+                assertUnimplemented()
             default:
                 // <+676>
                 return .infinity
@@ -191,7 +191,7 @@ extension DisplayList.ViewUpdater {
         }
         
         fileprivate func removeChildren(platform: DisplayList.ViewUpdater.Platform, container: AnyObject) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -277,5 +277,5 @@ extension DisplayList.ViewUpdater.ViewCache.AnimatorInfo {
 }
 
 fileprivate func isPlatter(_: ViewSystem, _: AnyObject) -> Bool {
-    fatalError("TODO")
+    assertUnimplemented()
 }

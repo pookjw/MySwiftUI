@@ -17,7 +17,7 @@ final class FallbackDelegateBox<T>: AnyFallbackDelegateBox {
     private var storage: FallbackDelegateBox<T>.DelegateStorage
     
     init(_ value: T?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -32,7 +32,7 @@ final class ObservableObjectFallbackDelegateBox<T>: AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     override init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -40,7 +40,7 @@ final class ObservableFallbackDelegateBox<T>: AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     override init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -48,7 +48,7 @@ final class ObjectFallbackDelegateBox<T>: AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     init(_ value: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -56,6 +56,6 @@ final class UnsafeObservableObjectFallbackDelegateBox<T>: AnyFallbackDelegateBox
     private var typedDelegate: T
     
     init(_ value: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

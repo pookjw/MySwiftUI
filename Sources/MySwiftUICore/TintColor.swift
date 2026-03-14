@@ -20,6 +20,6 @@ fileprivate struct TintKey: EnvironmentKey {
 
 extension ShapeStyle {
     func fallbackColor(in environmentValues: EnvironmentValues, level: Int) -> Color? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

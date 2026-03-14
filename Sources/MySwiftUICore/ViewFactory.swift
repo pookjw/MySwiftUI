@@ -10,7 +10,7 @@ protocol AnyViewFactory {
 
 extension AnyViewFactory {
     func encoding() -> (id: String, data: any (Decodable & Encodable))? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

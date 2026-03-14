@@ -94,11 +94,11 @@ struct AnimatableFrameAttributeVFD: StatefulRule, AsyncAttribute, ObservedAttrib
     }
     
     func updateValue() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func destroy() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -107,6 +107,6 @@ fileprivate struct FrameVelocityFilter {
     var previous: ((Time, AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>))?
     
     func addSample(_: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>, time: Time) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

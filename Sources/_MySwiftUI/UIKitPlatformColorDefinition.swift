@@ -188,7 +188,7 @@ extension UITraitCollection {
             let keys = environment[BridgedEnvironmentKeysKey.self]
             
             func copyValueToMutableTraits<T: _MySwiftUI.UITraitBridgedEnvironmentKey>(for type: T.Type) {
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             for key in keys {

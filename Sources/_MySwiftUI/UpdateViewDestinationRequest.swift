@@ -10,26 +10,26 @@ extension UpdateViewDestinationRequest {
         static nonisolated(unsafe) let defaultValue: [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest] = [:]
         
         static func reduce(value: inout [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest], nextValue: () -> [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _isReadableByHost: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _includesRemovedValues: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
 
 struct NavigationLinkSelectionIdentifier: Hashable {
     static func == (lhs: NavigationLinkSelectionIdentifier, rhs: NavigationLinkSelectionIdentifier) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func hash(into hasher: inout Hasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private var navigationLinkValue: AnyNavigationLinkPresentedValue?

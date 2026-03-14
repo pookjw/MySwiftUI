@@ -46,10 +46,10 @@ extension Angle: Codable {}
 extension Angle: Animatable {
     public var animatableData: Double {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

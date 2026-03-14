@@ -4,42 +4,42 @@ private import Spatial
 
 fileprivate struct GeometryReaderLayout3D: Layout3D {
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func explicitAlignment(of alignment: DepthAlignment, in: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var layoutProperties: LayoutProperties {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func spacing(subviews: Subviews, cache: inout ()) -> ViewSpacing {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

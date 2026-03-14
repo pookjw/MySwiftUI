@@ -6,42 +6,42 @@ struct ViewOrigin3D {
     var depthOrigin: ViewDepthOrigin
     
     init(_ size: Size3D) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var value: Point3D {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     subscript(_ axis: _Axis3D) -> CGFloat {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     static var zero: ViewOrigin3D {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

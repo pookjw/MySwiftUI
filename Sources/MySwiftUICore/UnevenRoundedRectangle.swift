@@ -25,6 +25,6 @@ public struct UnevenRoundedRectangle: RoundedRectangularShape {
 
 struct RootContainerShape: Rule {
     var value: UnevenRoundedRectangle {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

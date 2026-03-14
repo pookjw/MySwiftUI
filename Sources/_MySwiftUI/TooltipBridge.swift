@@ -23,12 +23,12 @@ final class TooltipBridge: NSObject {
         guard !hasTooltip.seed.matches(hasTooltipSeed) else {
             return
         }
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension TooltipBridge: UIToolTipInteractionDelegate {
     @objc(toolTipInteraction:configurationAtPoint:) func _toolTipInteraction(_ interaction: UIToolTipInteraction, configurationAt point: CGPoint) -> UIToolTipConfiguration? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

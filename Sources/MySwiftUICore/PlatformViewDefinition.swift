@@ -64,7 +64,7 @@ public import QuartzCore
     }
     
     package static func canSupportMixedHierarchy(system: PlatformViewDefinition.System) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

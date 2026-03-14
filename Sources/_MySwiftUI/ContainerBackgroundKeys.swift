@@ -15,7 +15,7 @@ extension ContainerBackgroundKeys {
         }
         
         static func reduce(value: inout ContainerBackgroundKeys.Transparency, nextValue: () -> ContainerBackgroundKeys.Transparency) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

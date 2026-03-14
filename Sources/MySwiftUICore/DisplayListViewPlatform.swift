@@ -50,7 +50,7 @@ extension DisplayList.ViewUpdater {
             newTransform: AffineTransform3D,
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func updatePlatformState(
@@ -104,7 +104,7 @@ extension DisplayList.ViewUpdater {
                 
                 unsafe platformState.pointee.platformState.separatedOptionKeys = unsafe state.pointee.separatedOptions.storage.map { (_, _) -> (any AnySeparatedOptionKey.Type) in
                     // $sSlsE3mapySayqd__Gqd__7ElementQzqd_0_YKXEqd_0_YKs5ErrorRd_0_r0_lF7SwiftUI21SeparatedOptionValuesV_AF03AnyfG3Key_pXps5NeverOTB503$s7d128UI11DisplayListV11ViewUpdaterC8PlatformV06updateG5State_4item4size5stateyAE0gE4InfoVz_AC4ItemVSo6CGSizeVSPyAE5ModelO0gI0VGtFAA21ifgJ74_pXpAA0qrS0_pcfu_33_29d95f9531728096fd6b966fd8998e4bAaX_pAaW_pXpTf3nnnpk_nTf1cn_n
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
                 
                 unsafe platformViewInfo.seeds.pointee.separatedOptions = unsafe DisplayList.Seed(state.pointee.versions.separatedOptions)
@@ -183,7 +183,7 @@ extension DisplayList.ViewUpdater {
             options: RasterizationOptions,
             contentsScale: CGFloat
         ) -> PlatformDrawable {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateState(
@@ -215,13 +215,13 @@ extension DisplayList.ViewUpdater {
             // <+196>
             if unsafe viewInfo.seeds.blend != DisplayList.Seed(state.pointee.versions.blend) {
                 // <+244>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+636>
             if unsafe viewInfo.seeds.filters != DisplayList.Seed(state.pointee.versions.filters) {
                 // <+684>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+892>
@@ -359,7 +359,7 @@ extension DisplayList.ViewUpdater {
             newSize: CGSize,
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func _makeItemView(
@@ -404,11 +404,11 @@ extension DisplayList.ViewUpdater {
                     
                     return viewInfo
                 default:
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
             case .effect(_, _):
                 // <+208>
-                fatalError("TODO")
+                assertUnimplemented()
             default:
                 fatalError()
             }
@@ -447,11 +447,11 @@ extension DisplayList.ViewUpdater {
                     // x28 = sp + 0x740
                     if viewInfo.state.flags.contains(.unknown5) {
                         // <+2400>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     } else {
                         if case .drawing = viewInfo.state.kind {
                             // <+352>
-                            fatalError("TODO")
+                            assertUnimplemented()
                         }
                         
                         // <+492>
@@ -506,13 +506,13 @@ extension DisplayList.ViewUpdater {
                             layer.updateEDR(allowedDynamicRange: allowedDynamicRange, contentHeadroom: color._headroom)
                         default:
                             // <+9292>
-                            fatalError("TODO")
+                            assertUnimplemented()
                         }
                     case .platformView(let factory):
                         if case .platformView = viewInfo.state.kind {
                             // nop
                         } else {
-                            fatalError("TODO")
+                            assertUnimplemented()
                         }
                         
                         let oldView = viewInfo.view
@@ -524,7 +524,7 @@ extension DisplayList.ViewUpdater {
                             viewInfo.reset()
                         }
                     default:
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }
                     
                     // <+13012>
@@ -554,7 +554,7 @@ extension DisplayList.ViewUpdater {
                 }
             case .effect(_, _):
                 // <+572>
-                fatalError("TODO")
+                assertUnimplemented()
             default:
                 fatalError()
             }
@@ -566,11 +566,11 @@ extension DisplayList.ViewUpdater {
             shape: SDFShape,
             contentsChanged: Bool
         ) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func missingPlatformView() -> AnyObject {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func updateItemViewAsync(
@@ -581,7 +581,7 @@ extension DisplayList.ViewUpdater {
             newItem: DisplayList.Item,
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateShapeViewAsync(
@@ -598,7 +598,7 @@ extension DisplayList.ViewUpdater {
             newStyle: FillStyle,
             contentsChanged: Bool
         ) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateSDFShapeViewAsync(
@@ -609,7 +609,7 @@ extension DisplayList.ViewUpdater {
             newShape: SDFShape,
             contentsChanged: Bool
         ) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateDrawingViewAsync(
@@ -621,7 +621,7 @@ extension DisplayList.ViewUpdater {
             newSize: CGSize,
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateClipShapes(
@@ -647,7 +647,7 @@ extension DisplayList.ViewUpdater {
             
             if clipRect != nil {
                 // <+256>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // w25
                 var flags = viewInfo.state.flags
@@ -671,7 +671,7 @@ extension DisplayList.ViewUpdater {
                 // <+736>
                 if unsafe !state.pointee.clips.isEmpty {
                     // <+748>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+828>
                     if flags.contains(.unknown4) {
@@ -683,7 +683,7 @@ extension DisplayList.ViewUpdater {
                 // <+1152>
                 return
             }
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateGeometry(
@@ -1129,7 +1129,7 @@ extension DisplayList.ViewUpdater {
             // x21
             if unsafe state.pointee.shadow != nil {
                 // <+84>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+648>
                 // w8
@@ -1137,7 +1137,7 @@ extension DisplayList.ViewUpdater {
                 let shadowVersions = unsafe state.pointee.versions.shadow
                 if shadowSeed != DisplayList.Seed(shadowVersions) {
                     // <+696>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+1620>
                     return
@@ -1149,7 +1149,7 @@ extension DisplayList.ViewUpdater {
             _: inout DisplayList.ViewUpdater.ViewInfo,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateClipShapesAsync(
@@ -1157,7 +1157,7 @@ extension DisplayList.ViewUpdater {
             oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateShadowAsync(
@@ -1168,31 +1168,31 @@ extension DisplayList.ViewUpdater {
             newItem: DisplayList.Item,
             boundsChanged: Bool
         ) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         package var description: String {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func setAffineTransform3D(_: AffineTransform3D, of: AnyObject, identity: _DisplayList_Identity) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func setZPosition(_: CGFloat, of: AnyObject, identity: _DisplayList_Identity) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func updateSeparatedOptions(fromKeys: [any AnySeparatedOptionKey.Type], to: SeparatedOptionValues, for: AnyObject) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func updateRemoteEffects(of: inout DisplayList.ViewUpdater.PlatformViewInfo, to: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func maskContainerView(_: AnyObject, item: DisplayList.Item) -> AnyObject? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // 원래 없음
@@ -1375,7 +1375,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             let cacheSeed = self.cacheSeed
             guard viewInfo.cacheSeed != cacheSeed else {
                 // <+4316>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+364>
@@ -1461,7 +1461,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             case .inherited:
                 // <+2028>
                 // 이 과정에서 'self = x26'이어야함
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+2460>
@@ -1472,7 +1472,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             // <+2512>
             if viewInfo_2.view !== oldView {
                 // <+2524>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+3900>
@@ -1551,7 +1551,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             // <+944>
         case .inherited:
             // <+500>
-            fatalError("TODO")
+            assertUnimplemented()
             // <+944>
         }
         

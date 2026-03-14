@@ -54,12 +54,12 @@ final class AppGraph: GraphHost {
     convenience init<T: App>(app: T) {
         self.init { inputs in
             // $s7SwiftUI8AppGraphC3appACx_tcAA0C0RzlufcAA13_SceneOutputsVAA01_F6InputsVcfU_TA
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     init<T: Scene>(content: T, namespace: SceneList.Namespace) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate init(makeRootScene: @escaping (_SceneInputs) -> _SceneOutputs) {
@@ -90,11 +90,11 @@ final class AppGraph: GraphHost {
     }
     
     deinit {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func graphDidChange() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // 원래 없음
@@ -125,7 +125,7 @@ final class AppGraph: GraphHost {
                 return false
             }
             
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

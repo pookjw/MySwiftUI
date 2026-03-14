@@ -40,7 +40,7 @@ extension UIViewRepresentable where Self.Coordinator == () {
 extension UIViewRepresentable {
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
     @MainActor @preconcurrency public func _resetUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator, destroy: () -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor @preconcurrency public static func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator) {
@@ -65,7 +65,7 @@ extension UIViewRepresentable {
     }
     
     @MainActor @preconcurrency public func _identifiedViewTree(in uiView: Self.UIViewType) -> _IdentifiedViewTree {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 16.0, tvOS 16.0, watchOS 9.0, *)
@@ -79,7 +79,7 @@ extension UIViewRepresentable {
     }
     
     @MainActor @preconcurrency public func _overrideLayoutTraits(_ layoutTraits: inout _LayoutTraits, for uiView: Self.UIViewType) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
@@ -93,7 +93,7 @@ extension UIViewRepresentable {
     }
     
     @MainActor @preconcurrency public var body: Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -104,18 +104,18 @@ extension UIViewRepresentable {
     @MainActor @preconcurrency public let coordinator: Representable.Coordinator
     
     @MainActor @preconcurrency public var transaction: Transaction {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor @preconcurrency public var environment: EnvironmentValues {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 18.0, tvOS 18.0, visionOS 2.0, *)
     @available(macOS, unavailable)
     @available(watchOS, unavailable)
     @MainActor @preconcurrency public func animate(changes: () -> Void, completion: (() -> Void)? = nil) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -150,7 +150,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     func resetViewProvider(_ provider: Base.UIViewType, coordinator: Base.Coordinator, destroy: () -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func dismantleViewProvider(_ provider: Base.UIViewType, coordinator: Base.Coordinator) {
@@ -162,7 +162,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     func _identifiedViewTree(in provider: Base.UIViewType) -> Any {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sizeThatFits(
@@ -184,7 +184,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Base.UIViewType) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static nonisolated func modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {

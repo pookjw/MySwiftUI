@@ -5,7 +5,7 @@ public struct Namespace: Sendable {
     @usableFromInline var id: Int
     
     public var wrappedValue: ID {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @inlinable public init() {
@@ -17,7 +17,7 @@ public struct Namespace: Sendable {
     }
     
     public static func makeProperty<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int, inputs: _GraphInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

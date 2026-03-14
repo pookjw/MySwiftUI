@@ -8,10 +8,10 @@ final class SheetTransitioningDelegate: NSObject {
 
 extension SheetTransitioningDelegate: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

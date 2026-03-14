@@ -65,15 +65,15 @@ extension FocusViewGraph: ViewGraphFeature {
     }
     
     func uninstantiate(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func isHiddenForReuseDidChange(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func needsUpdate(graph: ViewGraph) -> Bool {
@@ -137,7 +137,7 @@ extension FocusViewGraph {
         }
         
         func combine<T>(with other: T) -> Bool where T : MySwiftUICore.GraphMutation {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

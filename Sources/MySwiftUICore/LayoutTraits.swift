@@ -16,7 +16,7 @@ public struct _LayoutTraits: Equatable {
     }
     
     static func fixed(_ value: CGFloat) -> _LayoutTraits.Dimension {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -26,7 +26,7 @@ extension _LayoutTraits {
             return CGSize(width: width.ideal, height: height.ideal)
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -35,7 +35,7 @@ extension _LayoutTraits {
             return CGSize(width: width.min, height: height.min)
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -44,7 +44,7 @@ extension _LayoutTraits {
             return CGSize(width: width.max, height: height.max)
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -55,7 +55,7 @@ extension _LayoutTraits: Sendable {
 
 extension _LayoutTraits: CustomStringConvertible {
     public var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

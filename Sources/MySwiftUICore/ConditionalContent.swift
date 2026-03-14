@@ -38,7 +38,7 @@ extension _ConditionalContent: View, PrimitiveView where TrueContent: View, Fals
         if isLinkedOnOrAfter(.v6) {
             return Self.makeImplicitRoot(view: view, inputs: inputs)
         } else {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -49,7 +49,7 @@ extension _ConditionalContent: View, PrimitiveView where TrueContent: View, Fals
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -90,7 +90,7 @@ extension _ConditionalContent: DynamicView where TrueContent: View, FalseContent
     }
     
     func makeChildView(metadata: ConditionalMetadata<ViewDescriptor>, view: Attribute<Self>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func makeChildViewList(metadata: ConditionalMetadata<ViewDescriptor>, view: Attribute<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {

@@ -2,7 +2,7 @@ public import Foundation
 
 package struct TypesettingConfiguration: Equatable {
     package static func == (lhs: TypesettingConfiguration, rhs: TypesettingConfiguration) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var language: TypesettingLanguage
@@ -65,11 +65,11 @@ public struct TypesettingLanguage: Sendable, Equatable {
     public static let automatic = TypesettingLanguage(storage: .automatic)
     
     public static func explicit(_ language: Locale.Language) -> TypesettingLanguage {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func == (a: TypesettingLanguage, b: TypesettingLanguage) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var storage: TypesettingLanguage.Storage
@@ -95,12 +95,12 @@ extension TypesettingLanguage {
 extension View {
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     nonisolated public func typesettingLanguage(_ language: Locale.Language, isEnabled: Bool = true) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     nonisolated public func typesettingLanguage(_ language: TypesettingLanguage, isEnabled: Bool = true) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -108,11 +108,11 @@ extension View {
 extension Text {
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     public func typesettingLanguage(_ language: Locale.Language, isEnabled: Bool = true) -> Text {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     public func typesettingLanguage(_ language: TypesettingLanguage, isEnabled: Bool = true) -> Text {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

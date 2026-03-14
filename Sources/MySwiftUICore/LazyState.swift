@@ -11,23 +11,23 @@ struct LazyState<Value>: DynamicProperty {
     
     var wrappedValue: Value {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     fileprivate func getValue(forReading: Bool) -> Value {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var projectedValue: Binding<Value> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func _makeProperty<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int, inputs: inout _GraphInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -48,14 +48,14 @@ struct LazyState2<Value>: DynamicProperty {
     
     var wrappedValue: Value {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     var projectedValue: Binding<Value> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

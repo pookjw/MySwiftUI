@@ -11,7 +11,7 @@ final class _UIInheritedView: _UIGraphicsView {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func _accessibilityOverridesInvalidFrames() -> Bool {

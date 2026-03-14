@@ -23,7 +23,7 @@ final class FileImportExportBridge: NSObject {
         }
         
         // <+344>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO
@@ -53,7 +53,7 @@ extension FileImportExportBridge {
             
             if !matchesImport {
                 // <+964>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+1192>
@@ -66,7 +66,7 @@ extension FileImportExportBridge {
             
             if !matchesExport {
                 // <+1300>
-                fatalError("TODO")
+                assertUnimplemented()
                 // <+1620>
             } else if matchesImport {
                 // <+1300>
@@ -74,7 +74,7 @@ extension FileImportExportBridge {
             }
             
             // <+1620>
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -103,15 +103,15 @@ struct FileImportOperation {
 extension FileImportOperation {
     struct Key: HostPreferenceKey {
         static func reduce(value: inout FileImportOperation?, nextValue: () -> FileImportOperation?) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _isReadableByHost: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _includesRemovedValues: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -123,15 +123,15 @@ struct FileExportOperation {
 extension FileExportOperation {
     struct Key: HostPreferenceKey {
         static func reduce(value: inout FileExportOperation?, nextValue: () -> FileExportOperation?) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _isReadableByHost: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _includesRemovedValues: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

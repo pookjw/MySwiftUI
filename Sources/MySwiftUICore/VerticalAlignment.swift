@@ -11,21 +11,21 @@ public import CoreGraphics
 
 extension VerticalAlignment {
     public func combineExplicit<S>(_ values: S) -> CGFloat? where S : Sequence, S.Element == CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension VerticalAlignment {
     public static let top: VerticalAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static let center: VerticalAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static let bottom: VerticalAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static let firstTextBaseline = VerticalAlignment(VerticalAlignment.FirstTextBaseline.self)
@@ -43,7 +43,7 @@ extension VerticalAlignment {
         }
         
         static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -53,7 +53,7 @@ extension VerticalAlignment {
         }
         
         static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

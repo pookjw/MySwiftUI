@@ -28,7 +28,7 @@ extension _RendererConfiguration {
         public var maxDrawableCount: Int
         
         public init() {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -37,6 +37,6 @@ struct RasterizationOptions: Equatable {
     // TODO
     
     init(_ options: _RendererConfiguration.RasterizationOptions) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

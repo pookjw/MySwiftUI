@@ -4,7 +4,7 @@ struct UpdateScrollStateRequestKey: PreferenceKey {
     }
     
     static func reduce(value: inout [any ScrollStateRequest], nextValue: () -> [any ScrollStateRequest]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

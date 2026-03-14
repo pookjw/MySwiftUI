@@ -12,7 +12,7 @@ extension PopoverPresentation {
         }
         
         static func reduce(value: inout [PopoverPresentation], nextValue: () -> [PopoverPresentation]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -23,25 +23,25 @@ class PopoverPresentationDelegate: NSObject {
     private var isLayoutPreventionActive: Bool
     
     override init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension PopoverPresentationDelegate: UIPopoverPresentationControllerDelegate {
     func popoverPresentationController(_ popoverPresentationController: UIPopoverPresentationController, willRepositionPopoverTo rect: UnsafeMutablePointer<CGRect>, in view: AutoreleasingUnsafeMutablePointer<UIView>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

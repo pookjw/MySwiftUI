@@ -14,15 +14,15 @@ extension Geometry3DEffect {
 // SwiftUI에서 Geometry3DEffect를 conform하는 Type이 존재하지 않음
 struct Geometry3DEffectImpl: Geometry3DEffect {
     func body(content: Content) -> some View {
-        fatalError("TODO") // TODO
+        assertUnimplemented() // TODO
     }
     
     nonisolated var animatableData: Double {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

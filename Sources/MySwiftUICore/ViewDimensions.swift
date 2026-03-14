@@ -15,25 +15,25 @@ public struct ViewDimensions {
     
     public subscript(guide: HorizontalAlignment) -> CGFloat {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public subscript(guide: VerticalAlignment) -> CGFloat {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public subscript(explicit guide: HorizontalAlignment) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public subscript(explicit guide: VerticalAlignment) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -52,13 +52,13 @@ public struct ViewDimensions {
     
     subscript(_: DepthAlignment) -> CGFloat {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     subscript(explicit: DepthAlignment) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -72,7 +72,7 @@ extension ViewDimensions: Equatable {
 extension ViewDimensions {
     subscript(explicit: AlignmentKey) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -81,7 +81,7 @@ extension ViewDimensions {
     static nonisolated(unsafe) let zero = ViewDimensions(guideComputer: .defaultValue, size: .zero, proposal: .zero)
     
     func at(_: CGPoint) -> ViewGeometry {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func centered(in size: CGSize) -> ViewGeometry {
@@ -92,6 +92,6 @@ extension ViewDimensions {
     }
     
     init(_ dimensions3D: ViewDimensions3D) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

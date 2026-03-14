@@ -11,7 +11,7 @@ extension AccessibilityLargeContentViewTree {
         static let defaultValue = AccessibilityLargeContentViewTree.empty
         
         static func reduce(value: inout AccessibilityLargeContentViewTree, nextValue: () -> AccessibilityLargeContentViewTree) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

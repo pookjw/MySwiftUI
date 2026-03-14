@@ -8,11 +8,11 @@ public import MySwiftUICore
     
     @available(*, unavailable, message: "Provide at leas one scene")
     public static func buildBlock() -> some Scene {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func buildBlock<Content>(_ content: Content) -> Content where Content : Scene {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor // 원래 없음
@@ -37,7 +37,7 @@ extension SceneBuilder {
     
     @available(*, unavailable, message: "if statements in a SceneBuilder can only be used with #available clauses")
     public static func buildOptional<S>(_ scene: S?) where S : Scene {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 16.1, macOS 13.0, watchOS 9.1, tvOS 16.1, visionOS 1.0, *)

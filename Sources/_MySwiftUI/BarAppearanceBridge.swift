@@ -24,7 +24,7 @@ private import _MySwiftUIShims
     }
     
     func viewWillAppear<Content: View>(hostingController: UIHostingController<Content>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func didMoveToWindow<Content: View>(hostingController: UIHostingController<Content>) {
@@ -188,7 +188,7 @@ private import _MySwiftUIShims
         // <+316>
         if old?.titleVisibility != new?.titleVisibility {
             // <+404>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+600>
@@ -312,7 +312,7 @@ private import _MySwiftUIShims
         let toUpdateBars = self.toUpdateBars
         let array: [AnyHashable] = []
         for role in toUpdateBars {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+2392>
@@ -321,7 +321,7 @@ private import _MySwiftUIShims
         }
         
         // <+2420>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func platformUpdateNavigationAdaptor() {
@@ -345,7 +345,7 @@ private import _MySwiftUIShims
         // <+136>
         Update.ensure { 
             // $s7SwiftUI19BarAppearanceBridgeC31platformUpdateNavigationAdaptoryyFyyXEfU_TA
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -474,7 +474,7 @@ struct NavigationTitleStorage {
         }
         
         // <+276>
-        fatalError("TODO")
+        assertUnimplemented()
     } 
 }
 
@@ -489,7 +489,7 @@ struct ToolbarContentDescription {
 
 struct ToolbarAppearanceConfiguration: Equatable {
     static func == (lhs: ToolbarAppearanceConfiguration, rhs: ToolbarAppearanceConfiguration) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private var allowsUpdates: Bool = true // 0x0

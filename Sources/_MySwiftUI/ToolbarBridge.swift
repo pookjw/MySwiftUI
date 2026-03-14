@@ -47,11 +47,11 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     }
     
     func viewWillAppear<Content: View>(hostingController: UIHostingController<Content>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func safeAreaDidChange<Content: View>(hostingController: UIHostingController<Content>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func update(environment: inout EnvironmentValues, context: Toolbar.UpdateContext) -> Toolbar.Updates {
@@ -86,7 +86,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
                 // <+1388>
                 if horizontalSizeClass != environment.horizontalSizeClass {
                     // <+1928>
-                    fatalError("TOCO")
+                    assertUnimplemented()
                 }
             }
         }
@@ -126,7 +126,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         }
         
         // $s7SwiftUI19UIHostingControllerC21layoutToolbarIfNeeded33_1D3224F5185670D36FFEB48E24E43C4FLLyyF (<+88>)
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func adoptUpdates<Content: View>(
@@ -143,7 +143,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         let w28: Bool
         if updates.flag2 && !self.navigationAdaptor.adaptors.isEmpty {
             // <+104>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+240>
             w28 = false
@@ -183,14 +183,14 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         if updates.navigationProperties.contains(.unknown0) {
             // <+1100>
             if !self.navigationAdaptor.adaptors.isEmpty {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
         // <+1192>
         if isLinkedOnOrAfter(.v7) && updates.flag1 {
             // <+1272>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+1428>
             var _updates = updates
@@ -207,7 +207,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
          */
         if updates.locations.contains(.navigationSplitViewLeading) || updates.locations.contains(.navigationSplitViewTrailing) {
             // <+144>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+160>
@@ -240,7 +240,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func updateBottomOrnamentVisibility<Content: View>(hostingController: UIHostingController<Content>) {
@@ -251,11 +251,11 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func updateTabBarSidebar<Content: View>(hostingController: UIHostingController<Content>, updates: Toolbar.Updates) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func preferencesDidChange<Content>(_ preferences: PreferenceValues, hostingController: UIHostingController<Content>) {
@@ -288,7 +288,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
             if let lastInputToolbarStorage {
                 // <+140>
                 // 둘이 합쳐서 반환하는 것 같음
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+556>
                 return lastToolbarStorage
@@ -309,7 +309,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         var result = true
         
         for adaptor in navigationAdaptor.adaptors {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         return result
@@ -327,7 +327,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         
         if !storage.entries.isEmpty {
             // <+540>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1692>
@@ -364,11 +364,11 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
                 return nil
             } else {
                 // <+512>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         } else {
             // <+428>
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -389,15 +389,15 @@ struct ToolbarKey: HostPreferenceKey {
     )
     
     static func reduce(value: inout ToolbarStorage, nextValue: () -> ToolbarStorage) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -405,15 +405,15 @@ struct SearchKey: HostPreferenceKey {
     static nonisolated(unsafe) let defaultValue: ToolbarStorage.SearchItem? = nil
     
     static func reduce(value: inout ToolbarStorage.SearchItem?, nextValue: () -> ToolbarStorage.SearchItem?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -421,15 +421,15 @@ struct NavigationPropertiesKey: HostPreferenceKey {
     static nonisolated(unsafe) let defaultValue: ToolbarStorage.NavigationProperties? = nil
     
     static func reduce(value: inout ToolbarStorage.NavigationProperties?, nextValue: () -> ToolbarStorage.NavigationProperties?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -437,15 +437,15 @@ struct UINavigationItemAdaptorKey: HostPreferenceKey {
     static nonisolated(unsafe) let defaultValue = UINavigationItemAdaptorStorage()
     
     static func reduce(value: inout UINavigationItemAdaptorStorage, nextValue: () -> UINavigationItemAdaptorStorage) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -457,11 +457,11 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     func makeContent(entry: ToolbarStorage.Entry) -> (String, Toolbar.VendedItem?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func updateVended(_ vended: Toolbar.VendedItem, to entry: ToolbarStorage.Entry) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func makeEntries(in location: Toolbar.BarLocation, from entries: [ToolbarStorage.Entry]) -> [ToolbarStorage.Entry] {
@@ -473,7 +473,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         }
         
         // <+180>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func updateLocations() -> Set<Toolbar.BarLocation> {
@@ -795,7 +795,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             }
             
             // <+1184>
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -849,11 +849,11 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                     // <+1196>
                 } else {
                     // <+772>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
             } else {
                 // <+520>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+1196>
@@ -979,7 +979,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             var titleView: UIView? = nil
             bridge.adjustEntries(in: .navigationBarTitle) { entry, item in
                 // titleView을 설정해 주는듯
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             bridge.platformVended.uiNavigationItem.titleView = titleView
@@ -995,7 +995,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 let isAnimated = copy_1.isAnimated
                 if let copy_2 {
                     // <+264>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+676>
                     // sp + 0x90
@@ -1012,14 +1012,14 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 // <+596>
                 if let copy_2 {
                     // <+604>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+820>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
             }
             
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -1032,7 +1032,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // sp + 0x28
             var new: UIView?
             bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // x21
@@ -1099,7 +1099,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // sp + 0x28
             var new: UIView?
             bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // x21
@@ -1138,7 +1138,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // sp + 0x28
             var new: UIView?
             bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // x21
@@ -1177,7 +1177,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // sp + 0x28
             var new: UIView?
             bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // x21
@@ -1239,7 +1239,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             if let copy_2 {
                 // <+916>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+1140>
@@ -1248,7 +1248,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             if let copy_3 {
                 // <+1224>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+1292>
@@ -1284,7 +1284,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             if let titleMenuProvider = bridge.platformVended.uiNavigationItem.titleMenuProvider {
                 // <+356>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+328>
                 // <+400>
@@ -1344,7 +1344,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x22
             if let navigationProperties = bridge.navigationProperties {
                 // <+604>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+552>
                 // <+680>
@@ -1353,7 +1353,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // <+680>
             if let navigationProperties = bridge.navigationProperties {
                 // <+768>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+740>
                 // <+1036>
@@ -1397,7 +1397,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             var new: ToolbarStorage.Item?
             if !entries.isEmpty {
                 // <+1272>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 new = nil
             }
@@ -1405,7 +1405,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // <+2100>
             if let old {
                 // <+2420>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+2296>
                 // <+3036>
@@ -1449,7 +1449,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let w26 = (targetController != nil)
             
             bridge.adjustEntries(in: .keyboardBar) { _, _ in
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             let uiInputAccessoryGenerator: InputAccessoryGenerator
@@ -1525,7 +1525,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // <+228>
             let entryCount = bridge.entryCount(in: location) - 1
             bridge.adjustEntries(in: location) { _, _ in
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             return results
@@ -1559,7 +1559,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let entryCount = bridge.entryCount(in: location)
             
             bridge.adjustEntries(in: location) { _, _ in
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             return results
@@ -1580,7 +1580,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // <+260>
             if !storage.entries.isEmpty {
                 // <+268>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+848>
@@ -1592,7 +1592,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         }
         
         // <+84>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func makeOrnamentItems() -> [ToolbarStorage.Item] {
@@ -1608,7 +1608,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 return []
             }
             
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -1623,7 +1623,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         withUpdate { bridge, context in
             if let bottomOrnament = bridge.platformVended.bottomOrnament {
                 // <+292>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+524>
@@ -1631,7 +1631,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
     
     fileprivate func createBottomOrnamentIfNeeded() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

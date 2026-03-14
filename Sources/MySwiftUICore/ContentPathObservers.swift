@@ -50,11 +50,11 @@ protocol TrivialContentPathObserver: ContentPathObserver {
 
 extension TrivialContentPathObserver {
     func respondersDidChange(for: ViewResponder) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contentPathDidChange(for: ViewResponder, changes: ContentPathChanges, transform: (old: ViewTransform, new: ViewTransform), finished: inout Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -63,12 +63,12 @@ fileprivate final class PathObserver: TrivialContentPathObserver {
     private weak var graphHost: GraphHost?
     
     init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contentPathDidChange(for: ViewResponder) {
         // $s7SwiftUI12PathObserver33_E7640EF181CF36289C575A729C00E55BLLCAA014TrivialContentcD0A2aEP07contentC9DidChange3foryAA13ViewResponderC_tFTW
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

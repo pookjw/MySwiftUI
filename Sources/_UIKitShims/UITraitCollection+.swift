@@ -490,7 +490,7 @@ extension MySwiftUICore.EnvironmentValues {
         switch copy_1 {
         case .glass(_):
             // <+336>
-            fatalError("TODO")
+            assertUnimplemented()
             // <+456>
         case .unspecified, .solidColor:
             break
@@ -502,6 +502,6 @@ extension MySwiftUICore.EnvironmentValues {
         }
         
         // <+564>
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

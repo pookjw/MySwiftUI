@@ -8,7 +8,7 @@ struct FunctionalLocation<Value>: Location {
             return true
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

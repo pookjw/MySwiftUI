@@ -9,7 +9,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     public init(id: String, @ViewBuilder content: () -> Content) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -18,7 +18,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(_:id:makeContent:)")
     @_disfavoredOverload public init(_ title: Text, id: String, @ViewBuilder content: () -> Content) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -27,7 +27,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     public init(_ titleKey: LocalizedStringKey, id: String, @ViewBuilder content: () -> Content) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -36,7 +36,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(_:id:makeContent:)")
     @_disfavoredOverload public init<S>(_ title: S, id: String, @ViewBuilder content: () -> Content) where S: StringProtocol {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -45,7 +45,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(makeContent:)")
     public init(@ViewBuilder content: () -> Content) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -54,7 +54,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @_disfavoredOverload public init(_ title: Text, @ViewBuilder content: () -> Content) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -63,7 +63,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     public init(_ titleKey: LocalizedStringKey, @ViewBuilder content: () -> Content) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -72,11 +72,11 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @_disfavoredOverload public init<S>(_ title: S, @ViewBuilder content: () -> Content) where S: StringProtocol {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @MainActor @preconcurrency public var body: some Scene {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -88,15 +88,15 @@ extension WindowGroup: Sendable {}
 @available(watchOS, unavailable)
 extension WindowGroup {
     nonisolated public init<D, C>(id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
@@ -104,19 +104,19 @@ extension WindowGroup {
     }
 
     @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, S: StringProtocol, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     nonisolated public init<D, C>(for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
@@ -124,19 +124,19 @@ extension WindowGroup {
     }
 
     @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, S: StringProtocol, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     nonisolated public init<D, C>(id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
@@ -150,19 +150,19 @@ extension WindowGroup {
     }
 
     @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, S: StringProtocol, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     nonisolated public init<D, C>(for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
@@ -175,7 +175,7 @@ extension WindowGroup {
     }
 
     @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, S: StringProtocol, D: Decodable, D: Encodable, D: Hashable, C: View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -254,6 +254,6 @@ extension WindowGroup {
 extension WindowGroup {
     @usableFromInline
     nonisolated internal init(id: String? = nil, title: Text? = nil, @ViewBuilder lazyContent: @escaping () -> Content) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

@@ -5,7 +5,7 @@ internal import RenderBox
 package struct FixedRoundedRect: Equatable {
     @usableFromInline
     package static func == (a: FixedRoundedRect, b: FixedRoundedRect) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var rect: CGRect
@@ -13,71 +13,71 @@ package struct FixedRoundedRect: Equatable {
     var style: RoundedCornerStyle
     
     init(_ rect: CGRect) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contains(_ other: FixedRoundedRect) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var isUniform: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var clampedCornerRadius: CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(_ rect: CGRect, cornerSize: CGSize, style: RoundedCornerStyle) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var isRounded: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var clampedCornerSize: CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var cgPath: CGPath {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contains(_ point: CGPoint) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func withTemporaryPath<T>(_ block: (RBPath) -> T) -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(_ rect: CGRect, cornerRadius: CGFloat, style: RoundedCornerStyle) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applying(_ transform: CGAffineTransform) -> FixedRoundedRect {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func insetBy(dx: CGFloat, dy: CGFloat) -> FixedRoundedRect? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func hasIntersection(_ point: CGRect) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contains(path: Path, offsetBy: CGSize) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contains(rect: CGRect) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var needsContinuousCorners: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -8,7 +8,7 @@ public struct PresentationMode {
     }
     
     public mutating func dismiss() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

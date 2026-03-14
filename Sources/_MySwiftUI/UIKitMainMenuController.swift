@@ -20,11 +20,11 @@ final class UIKitMainMenuController: UIResponder {
     }
     
     func commandsDidChange() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func delete(_ sender: Any?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func buildMenu(with builder: any UIMenuBuilder) {
@@ -83,16 +83,16 @@ final class UIKitMainMenuController: UIResponder {
         // x29 - 0x38
         let mainMenuItems = commands.mainMenuItems(env: environment)
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc(_performMainMenuShortcutKeyCommand:)
     func _performMainMenuShortcutKeyCommand(_ command: UIKeyCommand) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var supportsMainMenu: Bool {

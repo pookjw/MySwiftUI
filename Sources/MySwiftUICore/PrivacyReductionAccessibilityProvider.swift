@@ -22,6 +22,6 @@ extension _GraphInputs {
 
 struct EmptyPrivacyReductionAccessibilityProvider: PrivacyReductionAccessibilityProvider {
     func body(content: Content) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

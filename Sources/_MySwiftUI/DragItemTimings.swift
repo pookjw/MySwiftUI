@@ -12,7 +12,7 @@ struct DragItemTimings {
     private var allowsPointerDragBeforeLiftDelay: Bool? = nil
     
     func apply(to: UIDragInteraction) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -23,7 +23,7 @@ extension DragItemTimings {
         }
         
         static func reduce(value: inout DragItemTimings, nextValue: () -> DragItemTimings) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

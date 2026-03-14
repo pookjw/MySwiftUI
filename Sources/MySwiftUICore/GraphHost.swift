@@ -27,7 +27,7 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     unknown_block_11: nil,
     block_12: { _, _, _ in
         Update.assertIsLocked()
-        fatalError("TODO: block name")
+        assertUnimplemented(message: "block name")
     },
     unknown_block_13: nil,
     unknown_block_14: nil,
@@ -77,7 +77,7 @@ fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     unknown_block_36: nil,
     block_37: { _, _, _, _, _ in
         Update.assertIsLocked()
-        fatalError("TODO: block name")
+        assertUnimplemented(message: "block name")
     },
     unknown_block_38: nil,
     unknown_block_39: nil,
@@ -105,7 +105,7 @@ func handleTraceNotification(graph: Graph, token: Int32) {
     }
     
     Update.locked {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -236,7 +236,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         
         self.data.graph!.onInvalidation { [weak self] attribute in
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         unsafe self.data.graph!.context = unsafe UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
@@ -429,7 +429,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     package final func graphInvalidation(from attribute: AnyAttribute?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final func instantiateIfNeeded() {
@@ -523,7 +523,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         id: Transaction.ID = Transaction.id,
         _ body: () -> Void
     ) -> UInt32 {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @discardableResult
@@ -689,7 +689,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     
     @discardableResult
     package final func emptyTransaction(_ transaction: Transaction = Transaction()) -> UInt32 {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var environment: EnvironmentValues {
@@ -697,7 +697,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     final func continueTransaction<T: GraphMutation>(_: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     } 
 }
 
@@ -816,7 +816,7 @@ struct InvalidatingGraphMutation: GraphMutation {
     }
     
     func combine<T>(with other: T) -> Bool where T : GraphMutation {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -834,7 +834,7 @@ struct AssignmentGraphMutation<T>: GraphMutation {
     }
     
     func combine<U>(with other: U) -> Bool where U : GraphMutation {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

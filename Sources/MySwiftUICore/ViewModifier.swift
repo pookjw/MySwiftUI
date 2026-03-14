@@ -15,16 +15,16 @@
 
 extension ViewModifier {
     public static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -35,7 +35,7 @@ extension ViewModifier where Self: Animatable {
     }
     
     public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -45,21 +45,21 @@ extension ViewModifier where Self.Body == Swift.Never {
     }
     
     public nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension ViewModifier where Self : _GraphInputsModifier, Self.Body == Never {
 //    public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-//        fatalError("TODO")
+//        assertUnimplemented()
 //    }
 //    
 //    public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-//        fatalError("TODO")
+//        assertUnimplemented()
 //    }
 //    
 //    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-//        fatalError("TODO")
+//        assertUnimplemented()
 //    }
 }
 
@@ -85,7 +85,7 @@ extension ViewModifier {
 
 extension ViewModifier {
     static nonisolated func makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -99,23 +99,23 @@ package protocol PrimitiveViewModifier: ViewModifier where Body == Never {
 
 public struct _ViewModifier_Content<Modifier>: View where Modifier: ViewModifier {
     public static nonisolated func _makeView(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
     public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
     @_alwaysEmitIntoClient public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
 //        _viewListCount(inputs: inputs) { _ in nil }
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var body: some View {

@@ -53,7 +53,7 @@ public struct Transaction {
     }
     
     package init(animation: Animation?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public subscript<K: TransactionKey>(key: K.Type) -> K.Value {
@@ -74,18 +74,18 @@ public struct Transaction {
     
     package var disablesAnimations: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         nonmutating set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         nonmutating _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     package func addAnimationListener(allFinished: () -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var effectiveAnimation: Animation? {
@@ -103,7 +103,7 @@ public struct Transaction {
 
 extension Transaction {
     func addAnimationListener(_: AnimationListener) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -118,7 +118,7 @@ public protocol TransactionKey {
 
 extension TransactionKey {
     static func _valuesEqual(_ lhs: Self.Value, _ rhs: Self.Value) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -29,7 +29,7 @@ final class UIKitContentScrollViewBridge {
             var w21 = true
             for value in newValue {
                 // <+412>
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+608>
@@ -122,9 +122,9 @@ final class UIKitContentScrollViewBridge {
         
         var results: [ContentScrollViewBox] = []
         for scrollView in scrollViews {
-            fatalError("TODO")
+            assertUnimplemented()
         }
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO
@@ -145,14 +145,14 @@ struct ContentScrollViewPreferenceKey: HostPreferenceKey {
     static nonisolated(unsafe) let defaultValue: [ContentScrollViewBox] = []
     
     static func reduce(value: inout [ContentScrollViewBox], nextValue: () -> [ContentScrollViewBox]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

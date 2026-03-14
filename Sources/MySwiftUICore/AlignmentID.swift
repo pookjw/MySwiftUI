@@ -7,6 +7,6 @@ public protocol AlignmentID {
 
 extension AlignmentID {
     public static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

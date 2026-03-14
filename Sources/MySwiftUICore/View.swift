@@ -22,13 +22,13 @@ extension View {
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Never: View {
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -42,7 +42,7 @@ extension Optional: View where Wrapped : View {
     public typealias Body = Never
     
     public nonisolated static func _makeView(view: _GraphValue<Wrapped?>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public nonisolated static func _makeViewList(view: _GraphValue<Wrapped?>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -58,7 +58,7 @@ extension Optional: View where Wrapped : View {
     }
     
     public nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -77,7 +77,7 @@ extension Optional: DynamicView where Wrapped : View {
     }
     
     func makeChildView(metadata: ConditionalMetadata<ViewDescriptor>, view: Attribute<Optional<Wrapped>>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func makeChildViewList(metadata: ConditionalMetadata<ViewDescriptor>, view: Attribute<Optional<Wrapped>>, inputs: _ViewListInputs) -> _ViewListOutputs {

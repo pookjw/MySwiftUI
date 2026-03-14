@@ -145,6 +145,6 @@ fileprivate struct ChildEnvironment<Value>: StatefulRule, AsyncAttribute, Custom
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

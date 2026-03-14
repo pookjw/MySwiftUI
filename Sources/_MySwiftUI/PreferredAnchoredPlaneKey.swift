@@ -29,11 +29,11 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
         }
         
         // <+340>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func value(from bridgedValue: RSSPlacementTarget?) -> PreferredAnchoredPlaneKey.PreferredValue? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func animation(from value: PreferredAnchoredPlaneKey.PreferredValue?) -> Animation? {

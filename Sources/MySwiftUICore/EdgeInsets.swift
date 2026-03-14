@@ -267,15 +267,15 @@ extension EdgeInsets {
     }
     
     mutating func formPointwiseMax(_ other: EdgeInsets) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func formPointwiseMin(_ other: EdgeInsets) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(_ radii: RectangleCornerRadii) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(horizontal: CGFloat, vertical: CGFloat) {
@@ -361,15 +361,15 @@ extension EdgeInsets {
     }
     
     func adding(_ insets: OptionalEdgeInsets) -> EdgeInsets {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func merge(_ insets: OptionalEdgeInsets) -> EdgeInsets {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func originOffset(in direction: LayoutDirection) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @inline(__always)

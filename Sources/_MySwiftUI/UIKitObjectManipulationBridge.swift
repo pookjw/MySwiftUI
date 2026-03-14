@@ -44,7 +44,7 @@ final class UIKitObjectManipulationBridge<Content: View>: AnyObjectManipulationB
         }
         
         // <+368>
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

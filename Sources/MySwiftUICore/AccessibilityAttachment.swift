@@ -5,10 +5,10 @@ package struct AccessibilityAttachment: Equatable {
     private var platformElement: NSObject & PlatformAccessibilityElementProtocol
     
     package init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func == (lhs: AccessibilityAttachment, rhs: AccessibilityAttachment) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

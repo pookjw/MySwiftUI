@@ -166,7 +166,7 @@ internal import CoreGraphics
     }
     
     package func startUpdateTimer(delay: Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func nextRenderInterval(interval: () -> Double) -> Double {
@@ -323,7 +323,7 @@ extension ViewGraphHost {
         private(set) var layoutComputer: WeakAttribute<LayoutComputer>
         
         package func invalidate() {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -344,7 +344,7 @@ extension _GraphInputs {
             }
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

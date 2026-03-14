@@ -17,7 +17,7 @@ public struct SurfaceSnappingInfo: Equatable, Sendable, CustomDebugStringConvert
     public internal(set) var classification: ARKit.SurfaceClassification? = nil
     
     public var debugDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -35,7 +35,7 @@ struct _SceneSnapState: Equatable, CustomDebugStringConvertible {
     private var classification: _SurfaceClassificationStatus = .notDetermined
     
     var debugDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -45,7 +45,7 @@ enum _SurfaceClassificationStatus: Equatable, CustomDebugStringConvertible {
     case denied
     
     var debugDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

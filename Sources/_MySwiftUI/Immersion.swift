@@ -6,7 +6,7 @@ final class Immersion: Equatable {
     var amount: Double
     
     init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func == (lhs: Immersion, rhs: Immersion) -> Bool {

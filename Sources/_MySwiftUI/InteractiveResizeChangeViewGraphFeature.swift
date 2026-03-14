@@ -21,19 +21,19 @@ extension InteractiveResizeChangeViewGraphFeature: ViewGraphFeature {
     }
     
     func uninstantiate(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func isHiddenForReuseDidChange(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func update(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

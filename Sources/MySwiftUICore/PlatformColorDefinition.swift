@@ -19,11 +19,11 @@ open class PlatformColorDefinition {
     }
     
     package static func `for`(system: PlatformSystemDefinition) -> PlatformColorDefinition.Type? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func `for`(_ type: AnyObject.Type) -> PlatformColorDefinition? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @safe package static nonisolated(unsafe) var uiKit: PlatformColorDefinition.Type?

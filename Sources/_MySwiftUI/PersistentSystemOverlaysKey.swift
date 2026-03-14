@@ -6,15 +6,15 @@ struct PersistentSystemOverlaysKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?), nextValue: () -> (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?)) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

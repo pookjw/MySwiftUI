@@ -63,7 +63,7 @@ extension ToolbarStrategy {
             // <+348>
             var w8: Bool = false
             for placement in storage.placements {
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             // <+672>
@@ -113,7 +113,7 @@ extension UIViewController {
             return true
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func hasOrWillHaveBackItem(overrides: HostingControllerOverrides) -> Bool {
@@ -135,7 +135,7 @@ extension UIViewController {
         
         if let copy_2 {
             // <+316>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+152>
             if let navigationController {
@@ -149,6 +149,6 @@ extension UIViewController {
         }
         
         // <+368>
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

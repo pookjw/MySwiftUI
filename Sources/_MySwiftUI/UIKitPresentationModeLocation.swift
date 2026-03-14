@@ -12,22 +12,22 @@ struct UIKitPresentationModeLocation<Content: View>: Location {
     
     var wasRead: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     func get() -> Self.Value {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func set(_ newValue: Self.Value, transaction: Transaction) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func update() -> (Self.Value, Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

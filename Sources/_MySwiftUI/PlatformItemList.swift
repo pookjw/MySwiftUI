@@ -11,7 +11,7 @@ struct PlatformItemListViewGraph {
     private var needsUpdate: Bool = false
     
     private func readAndUpdate(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -33,15 +33,15 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
     }
     
     func uninstantiate(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func isHiddenForReuseDidChange(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func needsUpdate(graph: ViewGraph) -> Bool {

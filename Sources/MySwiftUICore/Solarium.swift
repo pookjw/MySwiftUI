@@ -3,11 +3,11 @@ internal import FeatureFlags
 
 package struct Solarium: ViewInputPredicate {
     package static func evaluate(inputs: _GraphInputs) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func isEnabled(for idiom: AnyInterfaceIdiom) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -35,7 +35,7 @@ extension Solarium {
     
     struct SolariumMetrics: ViewInputPredicate {
         static func evaluate(inputs: _GraphInputs) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

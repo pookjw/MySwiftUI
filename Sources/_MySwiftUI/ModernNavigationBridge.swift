@@ -17,7 +17,7 @@ class ModernNavigationBridge {
         seedTracker.didChange(preferences) { value in
             // <+680>
             for (key, value) in value {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
     }

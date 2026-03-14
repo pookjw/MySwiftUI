@@ -27,6 +27,6 @@ public import CoreGraphics
 extension EdgeInsets3D {
     @usableFromInline
     package init(_all: CoreFoundation.CGFloat) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

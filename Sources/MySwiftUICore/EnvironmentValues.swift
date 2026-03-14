@@ -51,7 +51,7 @@ public struct EnvironmentValues: CustomStringConvertible {
     }
     
     public var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func getValue<Key: EnvironmentKey>(for key: Key.Type) -> Key.Value {

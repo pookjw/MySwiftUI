@@ -54,7 +54,7 @@ package class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     override final func projecting<P>(_ projection: P) -> AnyLocation<P.Projected> where Value == P.Base, P : Projection {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override final func set(_ newValue: Value, transaction: Transaction) {
@@ -123,7 +123,7 @@ package class StoredLocationBase<Value>: AnyLocation<Value> {
     }
     
     fileprivate var isUpdating: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func commit(transaction: Transaction, id: Transaction.ID, mutation: StoredLocationBase<Value>.BeginUpdate) {
@@ -216,7 +216,7 @@ extension StoredLocationBase {
         }
         
         func combine<T>(with other: T) -> Bool where T : GraphMutation {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

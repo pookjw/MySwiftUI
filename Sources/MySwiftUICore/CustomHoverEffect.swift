@@ -10,19 +10,19 @@ public protocol CustomHoverEffect {
 
 extension CustomHoverEffect where Self.Body == Never {
     public func body(content: Self.Content) -> Self.Body {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension CustomHoverEffect {
     public static func _makeCustomHoverEffect(effect: _GraphValue<Self>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 public struct EmptyHoverEffect: CustomHoverEffect {
     public static func _makeCustomHoverEffect(effect: _GraphValue<EmptyHoverEffect>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public typealias Body = Never
@@ -30,7 +30,7 @@ public struct EmptyHoverEffect: CustomHoverEffect {
 
 extension CustomHoverEffect where Self == EmptyHoverEffect {
     public static var empty: EmptyHoverEffect {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

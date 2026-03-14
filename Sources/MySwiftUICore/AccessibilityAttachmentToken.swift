@@ -2,7 +2,7 @@ package import AttributeGraph
 
 package enum AccessibilityAttachmentToken: Hashable, Codable {
     package static func == (lhs: AccessibilityAttachmentToken, rhs: AccessibilityAttachmentToken) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     case attribute(AnyWeakAttribute)
@@ -21,14 +21,14 @@ package enum AccessibilityAttachmentToken: Hashable, Codable {
     }
     
     package init(from decoder: any Decoder) throws {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func encode(to encoder: any Encoder) throws {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func hash(into hasher: inout Hasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

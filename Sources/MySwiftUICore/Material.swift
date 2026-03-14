@@ -15,21 +15,21 @@ public struct Material: Sendable {
 }
 
 extension Material {
-    public static let regular: Material = { fatalError("TODO") }()
-    public static let thick: Material = { fatalError("TODO") }()
-    public static let thin: Material = { fatalError("TODO") }()
-    public static let ultraThin: Material = { fatalError("TODO") }()
-    public static let ultraThick: Material = { fatalError("TODO") }()
-    public static let bar: Material = { fatalError("TODO") }()
+    public static let regular: Material = { assertUnimplemented() }()
+    public static let thick: Material = { assertUnimplemented() }()
+    public static let thin: Material = { assertUnimplemented() }()
+    public static let ultraThin: Material = { assertUnimplemented() }()
+    public static let ultraThick: Material = { assertUnimplemented() }()
+    public static let bar: Material = { assertUnimplemented() }()
 }
 
 extension Material {
     package init<T: MaterialProvider>(provider: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func provider<T: MaterialProvider>(ofType type: T.Type) -> T? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

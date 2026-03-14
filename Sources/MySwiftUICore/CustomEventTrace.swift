@@ -19,7 +19,7 @@ package struct CustomEventTrace {
     }
     
     public static func register(graph: Graph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static var isEnabled: Bool {
@@ -31,11 +31,11 @@ package struct CustomEventTrace {
     }
     
     public static func trace<T>(_ cateogry: CustomEventCategory, _: Int8, value: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func getNextTrace(id: inout UInt32) -> UInt32 {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func observableFireWithTransaction(transaction: UInt32, key: AnyKeyPath?, attribute: AnyAttribute) {
@@ -179,7 +179,7 @@ package struct CustomEventTrace {
     }
     
     public static func additionalInfo(_: UInt32, info: AnyAttribute?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func setNeedsUpdate(values: ViewGraphRootValues, graph: Graph) {
@@ -341,7 +341,7 @@ package struct CustomEventTrace {
     }
     
     public static func uninstantiate<T>(root: Subgraph, closure: () -> T) -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func dynamicBodyUpdate(buffer: _DynamicPropertyBuffer, hasValue: Bool, bodyChanged: Bool) {
@@ -366,7 +366,7 @@ package struct CustomEventTrace {
     fileprivate static nonisolated(unsafe) var enabledCategories: [Bool] = Array(repeating: false, count: 256)
     
     fileprivate static func extractFunctionData(_ function: Animation.Function, _ d0: inout Double, _ d1: inout Double, _ d2: inout Double, _ d3: inout Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -377,7 +377,7 @@ extension CustomEventTrace {
         
         init(graph: Graph) {
             // inlined
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

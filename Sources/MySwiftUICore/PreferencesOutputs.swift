@@ -51,7 +51,7 @@ package struct PreferencesOutputs {
             }
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

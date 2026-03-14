@@ -16,7 +16,7 @@ public struct OpacityTransition: Transition {
     }
     
     @MainActor @preconcurrency public func _makeContentTransition(transition: inout _Transition_ContentTransition) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

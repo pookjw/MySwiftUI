@@ -8,7 +8,7 @@ private import _MySwiftUIShims
     private var arguments: [LocalizedStringKey.FormatArgument]
     
     public init(_ value: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_semantics("swiftui.localized_string_key.init_literal")
@@ -19,31 +19,31 @@ private import _MySwiftUIShims
     
     @_semantics("swiftui.localized_string_key.init_interpolation")
     public init(stringInterpolation: LocalizedStringKey.StringInterpolation) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @usableFromInline
     internal struct FormatArgument: Equatable {
         @usableFromInline
         internal static func == (lhs: LocalizedStringKey.FormatArgument, rhs: LocalizedStringKey.FormatArgument) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public struct StringInterpolation: StringInterpolationProtocol {
         @_semantics("swiftui.localized.interpolation_init")
         public init(literalCapacity: Int, interpolationCount: Int) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @_semantics("swiftui.localized.appendLiteral")
         public mutating func appendLiteral(_ literal: String) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
         public mutating func appendInterpolation(_ string: String) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @_alwaysEmitIntoClient
@@ -54,24 +54,24 @@ private import _MySwiftUIShims
         
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
         public mutating func appendInterpolation<Subject>(_ subject: Subject, formatter: Formatter? = nil) where Subject: ReferenceConvertible {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
         public mutating func appendInterpolation<Subject>(_ subject: Subject, formatter: Formatter? = nil) where Subject: NSObject {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
         public mutating func appendInterpolation<F>(_ input: F.FormatInput, format: F) where F: FormatStyle, F.FormatInput: Equatable, F.FormatOutput == String {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
         public mutating func appendInterpolation<F>(_ input: F.FormatInput, format: F) where F: FormatStyle, F.FormatInput: Equatable, F.FormatOutput == AttributedString {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @_transparent
@@ -81,19 +81,19 @@ private import _MySwiftUIShims
         
         @_semantics("swiftui.localized.appendInterpolation_param_specifier")
         public mutating func appendInterpolation<T>(_ value: T, specifier: String) where T: _FormatSpecifiable {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
         public mutating func appendInterpolation(_ text: Text) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
         public mutating func appendInterpolation(_ attributedString: AttributedString) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
@@ -107,7 +107,7 @@ private import _MySwiftUIShims
         @available(*, deprecated, message: "Localized string interpolation produces an unlocalized, debug description for this type of value. Use a type supported by LocalizedStringKey.StringInterpolation or initialize a LocalizedStringResource instead with an interpolated value that conforms to CustomLocalizedStringResourceConvertible.")
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
         internal mutating func appendInterpolation<T>(_ view: T) where T: View {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @available(*, deprecated, message: "Localized string interpolation produces an unlocalized, debug description for this type of value. Use a type supported by LocalizedStringKey.StringInterpolation or initialize a LocalizedStringResource instead with an interpolated value that conforms to CustomLocalizedStringResourceConvertible.")
@@ -123,7 +123,7 @@ private import _MySwiftUIShims
     }
     
     public static func == (a: LocalizedStringKey, b: LocalizedStringKey) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
@@ -153,7 +153,7 @@ extension LocalizedStringKey.StringInterpolation {
     @available(iOS 16.0, macOS 13, tvOS 16.0, watchOS 9.0, *)
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation(_ resource: LocalizedStringResource) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -161,7 +161,7 @@ extension LocalizedStringKey.StringInterpolation {
 extension LocalizedStringKey.StringInterpolation {
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation(accessibilityName color: Color) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -169,7 +169,7 @@ extension LocalizedStringKey.StringInterpolation {
 extension LocalizedStringKey.StringInterpolation {
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation(_ image: Image) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -177,17 +177,17 @@ extension LocalizedStringKey.StringInterpolation {
 extension LocalizedStringKey.StringInterpolation {
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation(_ date: Date, style: Text.DateStyle) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation(_ dates: ClosedRange<Date>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation(_ interval: DateInterval) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -195,7 +195,7 @@ extension LocalizedStringKey.StringInterpolation {
 extension LocalizedStringKey.StringInterpolation {
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation(timerInterval: ClosedRange<Date>, pauseTime: Date? = nil, countsDown: Bool = true, showsHours: Bool = true) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -255,7 +255,7 @@ extension LocalizedStringKey.StringInterpolation {
 extension Text {
     @available(iOS 16.0, macOS 13, tvOS 16.0, watchOS 9.0, *)
     @_disfavoredOverload public init(_ resource: LocalizedStringResource) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -283,19 +283,19 @@ fileprivate final class LocalizedTextStorage: AnyTextStorage {
     }
     
     override func resolvesToEmpty(in environment: EnvironmentValues, with options: Text.ResolveOptions) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func isEqual(to other: AnyTextStorage) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func isStyled(options: Text.ResolveOptions) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override var localizationInfo: _LocalizationInfo {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -340,7 +340,7 @@ extension LocalizedStringKey {
                 // <+976>
                 let args: [CVarArg] = arguments.map { arg in
                     // $s7SwiftUI18LocalizedStringKeyV7resolve4into2in7options5table6bundleyxz_AA17EnvironmentValuesVAA4TextV14ResolveOptionsVSSSgSo8NSBundleCSgtAA08ResolvedN9ContainerRzlFs7CVarArg_pAC14FormatArgumentVXEfU_
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
                 
                 let resolved = String(format: localized, locale: environmentValues.locale, arguments: args)
@@ -353,14 +353,14 @@ extension LocalizedStringKey {
     }
     
     func getArgumentsForInflection(for attributedString: NSAttributedString, in environment: EnvironmentValues, idiom: AnyInterfaceIdiom?, with options: Text.ResolveOptions, including style: Text.Style) -> (arguments: [CVarArg], isUniqueSizeVariant: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func resolveArguments<T: ResolvedTextContainer>(from string: NSAttributedString, into container: inout T, in environment: EnvironmentValues, options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func resolveArguments<T: ResolvedTextContainer>(from string: String, into container: inout T, in environment: EnvironmentValues, options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

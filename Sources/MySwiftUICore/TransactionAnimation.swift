@@ -21,6 +21,6 @@ fileprivate struct AnimationKey: TransactionKey {
     }
     
     static func _valuesEqual(_ lhs: Animation?, _ rhs: Animation?) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

@@ -44,11 +44,11 @@ public enum CoordinateSpace {
     case id(CoordinateSpace.ID)
     
     public var isGlobal: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var isLocal: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -57,7 +57,7 @@ extension CoordinateSpace: Sendable {}
 
 extension CoordinateSpace: Hashable {
     public func hash(into hasher: inout Hasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -96,11 +96,11 @@ public protocol CoordinateSpaceProtocol {
 
 public struct NamedCoordinateSpace: CoordinateSpaceProtocol, Equatable {
     public var coordinateSpace: CoordinateSpace {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func == (a: NamedCoordinateSpace, b: NamedCoordinateSpace) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

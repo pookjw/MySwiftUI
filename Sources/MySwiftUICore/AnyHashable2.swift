@@ -76,7 +76,7 @@ fileprivate final class _AnyHashableBox<T: Hashable>: AnyHashableBox {
     }
     
     override var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override var debugDescription: String {

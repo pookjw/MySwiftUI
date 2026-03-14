@@ -5,7 +5,7 @@ public protocol Shape {
 
 public struct _ShapeView<Content: Shape, Style: ShapeStyle>: UnaryView, ShapeStyledLeafView, PrimitiveView, LeafViewLayout, ShapeView {
     public var shape: Content {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

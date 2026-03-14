@@ -9,7 +9,7 @@ public import CoreGraphics
     package weak final var preferredFocusableView: T? = nil
     
     open var platformViewIsEnabled: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public override init() {
@@ -17,7 +17,7 @@ public import CoreGraphics
     }
     
     override init(host: ViewGraphDelegate?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
@@ -78,15 +78,15 @@ public import CoreGraphics
             return result
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func platformViewHitTest(globalPoint: CGPoint, cacheKey: UInt32?) -> T? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func platformViewHitTest(globalPoint: Point3D, cacheKey: UInt32?) -> T? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO

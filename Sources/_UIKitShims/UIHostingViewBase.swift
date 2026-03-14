@@ -140,7 +140,7 @@ package final class UIHostingViewBase: NSObject {
     }
     
     package init(viewGraph: MySwiftUICore.ViewGraphHost, options: UIHostingViewBase.Options) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package init(viewGraph: MySwiftUICore.ViewGraphHost, configuration: UIHostingViewBase.Configuration) {
@@ -233,7 +233,7 @@ package final class UIHostingViewBase: NSObject {
             if newWindow == nil {
                 if !pendingPostDisappearPreferencesUpdate && isLinkedOnOrAfter(.v6) {
                     UIHostingViewBase.UpdateCycle.addPreCommitObserver { [weak self] in
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }
                 }
             }
@@ -313,7 +313,7 @@ package final class UIHostingViewBase: NSObject {
 //                return
 //            }
             
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -370,7 +370,7 @@ package final class UIHostingViewBase: NSObject {
         
         viewGraph.startDisplayLink(delay: actualTime) { _, _ in
             // ___lldb_unnamed_symbol317443
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -755,7 +755,7 @@ package final class UIHostingViewBase: NSObject {
         // <+856>
         if let environmentOverride = self.environmentOverride {
             // <+952>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         return environmentValues
@@ -948,7 +948,7 @@ package final class UIHostingViewBase: NSObject {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private func addNotificationObservers() {
@@ -994,15 +994,15 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @objc private func willBeginSnapshotSession() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func didEndSnapshotSession() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func externalEnvironmentDidChange() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor @objc private func sceneWillDeactivate() {
@@ -1017,15 +1017,15 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @objc private func sceneDidEnterBackground() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func sceneWillEnterForeground() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func sceneDidUpdateSystemUserInterfaceStyle() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func sceneDidBeginResize() {
@@ -1045,7 +1045,7 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @objc private func sceneDidResignKey() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func sceneDidUpdateSystemSceneDisplacement() {
@@ -1095,15 +1095,15 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @objc private func snappingUpdate(_ notification: Notification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func windowWillRotateWithNotification(_ notification: Notification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func windowDidMoveToSceneWithNotification(_ notification: Notification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor package func layoutSubviews() {
@@ -1239,7 +1239,7 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
     }
     
     package func renderIntervalForDisplayLink(timestamp: MySwiftUICore.Time) -> Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -5,43 +5,43 @@ struct ViewDepthGeometry: Equatable, Animatable {
     var size: ViewDepth
     
     init(origin: ViewDepthOrigin, size: ViewDepth) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(origin: CGFloat, size: CGFloat, proposal: CGFloat?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(origin: CGFloat, dimensions: ViewDimensions3D) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(_: ClosedRange<CGFloat>, proposal: CGFloat?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var isInvalid: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var animatableData: AnimatablePair<CGFloat, CGFloat> {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     static var invalidValue: ViewDepthGeometry {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var zero: ViewDepthGeometry {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

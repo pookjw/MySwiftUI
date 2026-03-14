@@ -189,7 +189,7 @@ extension RootViewDelegate: UIHostingViewDelegate {
     }
     
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {

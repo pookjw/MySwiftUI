@@ -20,7 +20,7 @@ internal import AttributeGraph
     }
     
     public init?(_fromValue value: Any) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeView(view: _GraphValue<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -28,7 +28,7 @@ internal import AttributeGraph
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -49,7 +49,7 @@ extension AnyView: DynamicView {
     }
     
     func makeChildViewList(metadata: Void, view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -97,7 +97,7 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
     }
     
     override func visitContent<T>(_ visitor: inout T) where T : ViewVisitor {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // $s7SwiftUI14AnyViewStorage33_7578D05D331D7F1A2E0C2F8DEF38AAD4LLC09makeChildD04view6inputsAA01_D7OutputsV14AttributeGraph0U0VyAA0cD0VG_AA01_D6InputsVtF
@@ -126,7 +126,7 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
     }
     
     override func makeChildViewList(view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -140,7 +140,7 @@ fileprivate struct AnyViewChild<Content: View>: CustomStringConvertible, AsyncAt
     typealias Value = Content
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func updateValue() {

@@ -21,7 +21,7 @@ struct CommandFlag: Hashable, Sendable {
 
 struct CommandsList: Hashable {
     static func == (lhs: CommandsList, rhs: CommandsList) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var items: [CommandsList.Item] = []
@@ -30,7 +30,7 @@ struct CommandsList: Hashable {
         var result = DisplayList.Version()
         
         if !items.isEmpty {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         return result
@@ -41,11 +41,11 @@ struct CommandsList: Hashable {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func hash(into hasher: inout Hasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -56,7 +56,7 @@ extension CommandsList {
         }
         
         static func valuesEqual(_ lhs: [CommandsList.Item], _ rhs: [CommandsList.Item]) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

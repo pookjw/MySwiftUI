@@ -5,19 +5,19 @@ public import MySwiftUICore
     var presentationMode: Binding<PresentationMode>? = nil
     
     public func callAsFunction() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func callAsFunction(id: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func callAsFunction<D>(value: D) where D : Decodable, D : Encodable, D : Hashable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func callAsFunction<D>(id: String, value: D) where D : Decodable, D : Encodable, D : Hashable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

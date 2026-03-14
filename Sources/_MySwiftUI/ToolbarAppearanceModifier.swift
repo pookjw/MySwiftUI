@@ -52,7 +52,7 @@ extension BarAppearanceBridge {
             let copy_3 = copy_2
             if !copy_3.navigationAdaptor.adaptors.isEmpty {
                 // <+1216>
-                fatalError("TODO")
+                assertUnimplemented()
                 // <+1508>
                 // <+1520>
             } else {
@@ -79,7 +79,7 @@ extension BarAppearanceBridge {
         
         if let copy_3 {
             // <+1876>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+1808>
             if let copy_4 {
@@ -145,7 +145,7 @@ extension ToolbarPlacement.Role {
         switch copy_1 {
         case .accessoryBar(_):
             // <+1472>
-            fatalError("TODO")
+            assertUnimplemented()
         case .navigationBar:
             // <+920>
             if isAdding {
@@ -154,14 +154,14 @@ extension ToolbarPlacement.Role {
                 tracker.addPreference(NavigationBarAppearanceKey.self)
             } else {
                 // <+1304>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         case .windowToolbarItems:
             // <+1072>
-            fatalError("TODO")
+            assertUnimplemented()
         case .windowToolbar:
             // <+312>
-            fatalError("TODO")
+            assertUnimplemented()
         case .bottomBar:
             // <+632>
             if isAdding {
@@ -170,14 +170,14 @@ extension ToolbarPlacement.Role {
                 tracker.addPreference(BottomBarAppearanceKey.self)
             } else {
                 // <+1344>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         case .keyboardBar:
             // <+1464>
-            fatalError("TODO")
+            assertUnimplemented()
         case .tabBar:
             // <+776>
-            fatalError("TODO")
+            assertUnimplemented()
         case .bottomOrnament:
             // <+480>
             if isAdding {
@@ -186,7 +186,7 @@ extension ToolbarPlacement.Role {
                 tracker.addPreference(BottomOrnamentAppearanceKey.self)
             } else {
                 // <+1264>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
     }
@@ -206,7 +206,7 @@ protocol ToolbarAppearanceKey: HostPreferenceKey {
 
 struct BottomBarAppearanceKey: ToolbarAppearanceKey {
     static var toolbarPlacement: ToolbarPlacement.Role? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var isAccessoryBarPlacement: Bool {
@@ -218,21 +218,21 @@ struct BottomBarAppearanceKey: ToolbarAppearanceKey {
     }
     
     static func reduce(value: inout [ToolbarPlacement.Role: ToolbarAppearanceConfiguration], nextValue: () -> [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 struct BottomOrnamentAppearanceKey: ToolbarAppearanceKey {
     static var toolbarPlacement: ToolbarPlacement.Role? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var isAccessoryBarPlacement: Bool {
@@ -244,21 +244,21 @@ struct BottomOrnamentAppearanceKey: ToolbarAppearanceKey {
     }
     
     static func reduce(value: inout [ToolbarPlacement.Role: ToolbarAppearanceConfiguration], nextValue: () -> [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 struct NavigationBarAppearanceKey: ToolbarAppearanceKey {
     static var toolbarPlacement: ToolbarPlacement.Role? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var isAccessoryBarPlacement: Bool {
@@ -270,15 +270,15 @@ struct NavigationBarAppearanceKey: ToolbarAppearanceKey {
     }
     
     static func reduce(value: inout [ToolbarPlacement.Role: ToolbarAppearanceConfiguration], nextValue: () -> [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -292,25 +292,25 @@ extension PreferenceValues {
         switch toolbarPlacement {
         case .accessoryBar(_):
             // <+464>
-            fatalError("TODO")
+            assertUnimplemented()
         case .navigationBar:
             // <+432>
             return configurationValue(key: NavigationBarAppearanceKey.self, placement: toolbarPlacement)
         case .windowToolbarItems:
             // <+636>
-            fatalError("TODO")
+            assertUnimplemented()
         case .windowToolbar:
             // <+336>
-            fatalError("TODO")
+            assertUnimplemented()
         case .bottomBar:
             // <+556>
             return configurationValue(key: BottomBarAppearanceKey.self, placement: toolbarPlacement)
         case .keyboardBar:
             // <+188>
-            fatalError("TODO")
+            assertUnimplemented()
         case .tabBar:
             // <+596>
-            fatalError("TODO")
+            assertUnimplemented()
         case .bottomOrnament:
             // <+392>
             return configurationValue(key: BottomOrnamentAppearanceKey.self, placement: toolbarPlacement)

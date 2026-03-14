@@ -80,7 +80,7 @@ struct LayoutComputer: @unchecked Sendable {
     }
     
     func explicitDepthAlignment(_: DepthAlignmentKey, at: ViewSize3D) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func spacing() -> Spacing {
@@ -129,11 +129,11 @@ extension LayoutEngine {
     }
     
     func ignoresAutomaticPadding() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func requiresSpacingProjection() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func spacing() -> Spacing {
@@ -153,11 +153,11 @@ extension LayoutEngine {
     }
     
     func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
@@ -165,11 +165,11 @@ extension LayoutEngine {
     }
     
     func childPlacement(at viewSize: ViewSize) -> _Placement {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
@@ -177,7 +177,7 @@ extension LayoutEngine {
     }
     
     func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func requiresTrueDepthLayout() -> Bool {
@@ -185,7 +185,7 @@ extension LayoutEngine {
     }
     
     var debugContentDescription: String? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -195,55 +195,55 @@ protocol DerivedLayoutEngine: LayoutEngine {
 
 extension DerivedLayoutEngine {
     func layoutPriority() -> Double {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func ignoresAutomaticPadding() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func requiresSpacingProjection() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func spacing() -> Spacing {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func childPlacement(at viewSize: ViewSize) -> _Placement {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -254,7 +254,7 @@ extension LayoutComputer {
         }
         
         func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func requiresTrueDepthLayout() -> Bool {
@@ -264,15 +264,15 @@ extension LayoutComputer {
     
     struct DefaultEngine3D: LayoutEngine {
         func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -371,7 +371,7 @@ fileprivate class TracingLayoutEngineBox<T: LayoutEngine>: LayoutEngineBox<T> {
     var attribute: AnyAttribute?
     
     override init(engine: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -434,7 +434,7 @@ extension DepthStashingLayoutComputer {
         }
         
         func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
@@ -453,11 +453,11 @@ extension DepthStashingLayoutComputer {
         }
         
         func childPlacement(at viewSize: ViewSize) -> _Placement {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -473,7 +473,7 @@ struct EnableLayoutDepthStashing: UserDefaultKeyedFeature, PropertyKey {
 }
 
 func withStashedDepthProposal<T>(execute: (CGFloat?) -> T) -> T {
-    fatalError("TODO")
+    assertUnimplemented()
 }
 
 extension StatefulRule where Value == LayoutComputer {

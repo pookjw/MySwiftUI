@@ -5,7 +5,7 @@ public protocol VisualEffect: Sendable, Animatable {
 
 extension VisualEffect {
     public static func _makeTransform(effect: _GraphValue<Self>, inputs: _ViewInputs) -> _VisualEffectTransformOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -15,7 +15,7 @@ private import _UIKitPrivate
     private var dismissingReason: DismissingReason? = nil // 0x80
     private var pendingDismissAction: (() -> Void)? = nil // 0x88
     private lazy var popoverPresentationDelegate: PopoverPresentationDelegate = {
-        fatalError("TODO")
+        assertUnimplemented()
     }() // 0x98 (storage)
     private var presentedVC: PresentationHostingController<AnyView>? = nil // 0xa0
     private var inspectorSeed: VersionSeed = .empty // 0xa8
@@ -39,12 +39,12 @@ private import _UIKitPrivate
         
         switch activePresentation {
         case .popoverItem(let anyHashable):
-            fatalError("TODO")
+            assertUnimplemented()
         case .popover(let viewIdentity):
-            fatalError("TODO")
+            assertUnimplemented()
         case .inspector(let viewIdentity):
             // <+564>
-            fatalError("TODO")
+            assertUnimplemented()
         case .none:
             return
         }
@@ -71,18 +71,18 @@ private import _UIKitPrivate
         // w22
         let matchesAnchorSeed = self.anchorSeed.matches(inspectorAnchorPreference.seed)
         if !matchesAnchorSeed {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         let inspectorStorage = values[InspectorStorage.PreferenceKey.self]
         // w20
         let matchesInspectorSeed = self.inspectorSeed.matches(inspectorStorage.seed)
         if !matchesInspectorSeed {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         if !matchesAnchorSeed {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -106,7 +106,7 @@ private import _UIKitPrivate
         
         guard popoverPresentationCount <= 1 else {
             // <+2384>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1832>
@@ -124,7 +124,7 @@ private import _UIKitPrivate
                     }
                     
                     // <+2096>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+2384>
                 }
@@ -137,7 +137,7 @@ private import _UIKitPrivate
         }
         
         // <+2384>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate var presenter: UIViewController? {
@@ -165,7 +165,7 @@ private import _UIKitPrivate
             return false
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

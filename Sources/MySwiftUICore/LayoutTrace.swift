@@ -3,41 +3,41 @@ internal import CoreGraphics
 
 struct LayoutTrace {
     static func register(graph: Graph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var isEnabled: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static nonisolated(unsafe) var recorder: LayoutTrace.Recorder? = nil
     
     static func traceSizeThatFits(_: AnyAttribute?, proposal: _ProposedSize, _: () -> CGSize) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func traceLengthThatFits(_: AnyAttribute?, proposal: _ProposedSize, in: Axis, _: () -> CGFloat) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func traceCacheLookup(_: _ProposedSize, _: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func traceCacheLookup(_: CGSize, _: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func traceChildGeometries(_: AnyAttribute?, at: ViewSize, origin: CGPoint, _: () -> [ViewGeometry]) -> [ViewGeometry] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func traceContentDescription(_: AnyAttribute?, _: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func traceExplicitAlignment(_: AnyAttribute?, alignment: AlignmentKey, at: ViewSize, body: () -> CGFloat?) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO
@@ -51,31 +51,31 @@ extension LayoutTrace {
         private var alignmentTypes: [ObjectIdentifier: UInt32] // 0x40
         
         func alignmentTypeID(for: any AlignmentID.Type) -> UInt32 {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func traceSizeThatFits(_: AnyAttribute?, proposal: _ProposedSize, _: () -> CGSize) -> CGSize {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func traceLengthThatFits(_: AnyAttribute?, proposal: _ProposedSize, in: Axis, _: () -> CGFloat) -> CGFloat {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func traceChildGeometries(_: AnyAttribute?, at: ViewSize, origin: CGPoint, body: () -> [ViewGeometry]) -> [ViewGeometry] {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func traceExplicitAlignment(_: AnyAttribute?, alignment: AlignmentKey, at: ViewSize, body: () -> CGFloat?) -> CGFloat? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func activateFrameIfNeeded() {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         init() {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

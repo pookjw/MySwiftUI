@@ -114,7 +114,7 @@ extension HVStack {
     }
     
     public nonisolated func spacing(subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> ViewSpacing {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public nonisolated func sizeThatFits(proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGSize {
@@ -136,11 +136,11 @@ extension HVStack {
     }
     
     public nonisolated func explicitAlignment(of: HorizontalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public nonisolated func explicitAlignment(of: VerticalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -157,7 +157,7 @@ struct StackLayout {
     fileprivate var children: [StackLayout.Child]
     
     func explicitAlignment(_: AlignmentKey, in: CGRect, proposal: ProposedViewSize) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate mutating func makeChildren() {
@@ -589,11 +589,11 @@ extension StackLayout {
         }
         
         func spacing() -> Spacing {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func explicitAlignment(_ key: AlignmentKey, at size: ViewSize) -> CGFloat? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func placeChildren(in size: ProposedViewSize) {
@@ -629,7 +629,7 @@ extension StackLayout {
         }
         
         func resizeAnyChildrenWithTrailingOverflow(in size: ProposedViewSize) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func placeChildren1(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
@@ -761,7 +761,7 @@ extension StackLayout {
         }
         
         func sizeChildrenIdeally(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func sizeChildrenGenerallyWithConcreteMajorProposal(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {

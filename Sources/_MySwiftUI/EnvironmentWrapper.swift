@@ -10,6 +10,6 @@ internal import Foundation
     }
     
     required init?(coder: NSCoder) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

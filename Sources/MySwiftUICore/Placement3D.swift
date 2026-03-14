@@ -7,18 +7,18 @@ struct Placement3D: Equatable {
     var anchorPosition: Point3D
     
     init(proposedSize: _ProposedSize3D, anchor: UnitPoint3D, anchorPosition: Point3D) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(proposedSize: _ProposedSize3D, aligning: UnitPoint3D, in: Size3D) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(placement: _Placement, depthPlacement: DepthPlacement) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func origin3D(childVolume: Size3D) -> Point3D {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

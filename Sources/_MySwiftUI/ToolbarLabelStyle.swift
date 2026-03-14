@@ -41,7 +41,7 @@ extension ToolbarLabelStyle {
     
     enum Data: Equatable {
         static func == (lhs: ToolbarLabelStyle.Data, rhs: ToolbarLabelStyle.Data) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         case fixed(ToolbarLabelStyle)
@@ -52,18 +52,18 @@ extension ToolbarLabelStyle {
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension Scene {
     public nonisolated func windowToolbarLabelStyle(fixed: ToolbarLabelStyle) -> some Scene {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public nonisolated func windowToolbarLabelStyle(_ toolbarLabelStyle: Binding<ToolbarLabelStyle>) -> some Scene {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension AppStorage {
     public init(wrappedValue: Value = ToolbarLabelStyle.automatic, _ key: String, store: UserDefaults? = nil) where Value == ToolbarLabelStyle {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -71,7 +71,7 @@ extension AppStorage {
 extension EnvironmentValues {
     public var toolbarLabelStyle: ToolbarLabelStyle? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

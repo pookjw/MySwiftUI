@@ -143,15 +143,15 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func renderAsync(interval: Double, targetTimestamp: Time?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func _preferenceValue<T: HostPreferenceKey>(_ key: T.Type) -> T.Value {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func _addPreference<T: HostPreferenceKey>(_ key: T.Type) -> T.Value {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var responderNode: ResponderNode? {
@@ -187,23 +187,23 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func _sizeThatFits(_ proposedSize: ProposedViewSize) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func updateTransform() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func updateFocusStore() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func updateFocusedItem() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func updateAccessibilityEnvironment() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func updateGraph<T>(body: (GraphHost) -> T) -> T {
@@ -219,7 +219,7 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func preferencesDidChange() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var isRendering: Bool {
@@ -298,7 +298,7 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func _idealSize() -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func _updateViewGraph<T>(body: (ViewGraph) -> T) -> T? {
@@ -321,26 +321,26 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func _explicitAlignment(of: HorizontalAlignment, at: CGSize) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func _explicitAlignment(of: VerticalAlignment, at: CGSize) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func _alignment(of: HorizontalAlignment, at: CGSize) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func _alignment(of: VerticalAlignment, at: CGSize) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func _explicitAlignment(of: DepthAlignment, at: Size3D) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func _alignment(of: DepthAlignment, at: Size3D) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

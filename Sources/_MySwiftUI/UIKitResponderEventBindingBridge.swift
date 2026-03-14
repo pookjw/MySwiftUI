@@ -9,7 +9,7 @@ final class UIKitResponderEventBindingBridge {
     }
     
 //    init(eventBindingManager: EventBindingManager, responder: AnyGestureResponder) {
-//        fatalError("TODO")
+//        assertUnimplemented()
 //    }
 }
 

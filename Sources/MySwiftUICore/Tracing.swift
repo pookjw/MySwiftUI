@@ -2,11 +2,11 @@ private import AttributeGraph
 
 struct Tracing {
     static func libraryName(defining type: Any.Type) -> String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func nominalTypeName(_ type: Any.Type) -> String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

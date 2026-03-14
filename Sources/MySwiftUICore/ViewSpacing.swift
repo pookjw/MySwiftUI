@@ -5,7 +5,7 @@ public struct ViewSpacing: Sendable {
     private var layoutDirection: LayoutDirection?
     
     public static let zero: ViewSpacing = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     init(_ spacing: Spacing, layoutDirection: LayoutDirection) {
@@ -14,7 +14,7 @@ public struct ViewSpacing: Sendable {
     }
     
     public init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(_ spacing: Spacing) {
@@ -23,11 +23,11 @@ public struct ViewSpacing: Sendable {
     }
     
     public mutating func formUnion(_ other: ViewSpacing, edges: Edge.Set = .all) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func union(_ other: ViewSpacing, edges: Edge.Set = .all) -> ViewSpacing {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func distance(to next: ViewSpacing, along axis: Axis) -> CGFloat {

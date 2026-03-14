@@ -12,20 +12,20 @@ extension TimeDataSource: Sendable where Value: Sendable {
 extension TimeDataSource {
     public static var currentDate: TimeDataSource<Date> {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public static func durationOffset(to date: Date) -> TimeDataSource<Duration> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func dateRange(startingAt date: Date) -> TimeDataSource<Range<Date>> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func dateRange(endingAt date: Date) -> TimeDataSource<Range<Date>> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -36,13 +36,13 @@ public enum SystemFormatStyle: Sendable {
 extension Text {
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public init<V, F>(_ source: TimeDataSource<V>, format: F) where V == F.FormatInput, F: DiscreteFormatStyle, F.FormatOutput == AttributedString {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     @_disfavoredOverload
     public init<V, F>(_ source: TimeDataSource<V>, format: F) where V == F.FormatInput, F: DiscreteFormatStyle, F.FormatOutput == String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -50,13 +50,13 @@ extension LocalizedStringKey.StringInterpolation {
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation<V, F>(_ source: TimeDataSource<V>, format: F) where V == F.FormatInput, F: DiscreteFormatStyle, F.FormatOutput == AttributedString {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     @_disfavoredOverload
     @_semantics("swiftui.localized.appendInterpolation_@_specifier")
     public mutating func appendInterpolation<V, F>(_ source: TimeDataSource<V>, format: F) where V == F.FormatInput, F: DiscreteFormatStyle, F.FormatOutput == String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

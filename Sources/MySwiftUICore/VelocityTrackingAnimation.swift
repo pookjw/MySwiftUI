@@ -8,6 +8,6 @@ extension Animation {
 
 fileprivate struct VelocityTrackingAnimation: CustomAnimation {
     func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

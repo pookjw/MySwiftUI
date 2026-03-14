@@ -9,11 +9,11 @@ extension SeparatedOptionValues {
         private var type: [any AnySeparatedOptionKey.Type]
         
         func hash(into hasher: inout Hasher) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static func == (lhs: SeparatedOptionValues.Key, rhs: SeparatedOptionValues.Key) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

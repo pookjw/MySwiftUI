@@ -34,15 +34,15 @@ final class PencilEventsBridge: NSObject, UIPencilInteractionDelegate {
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func pencilInteraction(_ interaction: UIPencilInteraction, didReceiveSqueeze squeeze: UIPencilInteraction.Squeeze) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func pencilInteraction(_ interaction: UIPencilInteraction, didReceiveTap tap: UIPencilInteraction.Tap) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func updateState(wantsPencilEvents: PreferenceValues.Value<Bool>) {
@@ -54,7 +54,7 @@ final class PencilEventsBridge: NSObject, UIPencilInteractionDelegate {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -64,7 +64,7 @@ struct WantsPencilEventsKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

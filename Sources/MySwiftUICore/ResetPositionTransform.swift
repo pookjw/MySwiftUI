@@ -6,6 +6,6 @@ struct ResetPositionTransform: Rule, AsyncAttribute {
     @Attribute private(set) var transform: ViewTransform
     
     var value: ViewTransform {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

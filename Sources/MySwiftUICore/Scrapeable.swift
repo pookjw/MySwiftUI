@@ -18,11 +18,11 @@ package struct ScrapeableID: Hashable, GraphReusable {
     }
     
     package func makeReusable(indirectMap: IndirectAttributeMap) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func tryToReuse(by: ScrapeableID, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

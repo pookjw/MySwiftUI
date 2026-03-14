@@ -38,7 +38,7 @@ struct AccessibilityNodesKey: @unsafe PreferenceKey {
     static nonisolated(unsafe) let defaultValue = AccessibilityNodeList(nodes: [], version: DisplayList.Version())
     
     static func reduce(value: inout AccessibilityNodeList, nextValue: () -> AccessibilityNodeList) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

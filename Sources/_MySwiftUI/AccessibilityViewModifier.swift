@@ -16,15 +16,15 @@ protocol AccessibilityViewModifier: PrimitiveViewModifier, MultiViewModifier {
 
 extension AccessibilityViewModifier {
     static func configureInputsForGeometry(_ inputs: inout _ViewInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static nonisolated func _makeView(modifier: _GraphValue<AccessibilityViewModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate static nonisolated func makePropertiesTransform(
@@ -217,33 +217,33 @@ protocol ResolvableAccessibilityModifierStatefulRule: StatefulRule, AnyResolvabl
 
 struct AccessibilityContainerModifier: AccessibilityViewModifier {
     static var options: AccessibilityModifierOptions {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func willCreateNode(for nodes: [AccessibilityNode]) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func initialAttachment(for node: AccessibilityNode) -> AccessibilityAttachment {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func createOrUpdateNode(viewRendererHost: (any ViewRendererHost)?, existingNode: AccessibilityNode?) -> AccessibilityNode {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func scrapeableContent(environment: EnvironmentValues, idiom: AnyInterfaceIdiom) -> ScrapeableContent.Content? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func makeAccessibilityViewModifier(modifier: _GraphValue<AccessibilityContainerModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     let supportsPlaceholders: Bool
     
     func body(content: Content) -> Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private let behavior: AccessibilityChildBehavior
@@ -251,7 +251,7 @@ struct AccessibilityContainerModifier: AccessibilityViewModifier {
 
 struct AccessibilityContainerResolver<T>: AnyResolvableAccessibilityViewModifier {
     static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -267,7 +267,7 @@ fileprivate struct ResolvableModifier {
     }
     
     static func makePropertiesTransform(modifier: AnyAttribute, inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, resolvableModifier: ResolvableModifier?, scrapeableID: ScrapeableID) -> Attribute<AccessibilityNodeList> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -287,7 +287,7 @@ fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, Remov
     }
     
     static func didReinsert(attribute: AnyAttribute) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     let accessor: AnyAccessibilityViewModifierAccessor.Type // 0x0
@@ -311,19 +311,19 @@ fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, Remov
     var resetSeed: UInt32 // 0xf8
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = AccessibilityNodeList
     
     func updateValue() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 public struct AccessibilityAttachmentModifier: ViewModifier {
     public func body(content: Content) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

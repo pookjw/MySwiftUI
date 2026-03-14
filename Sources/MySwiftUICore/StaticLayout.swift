@@ -6,7 +6,7 @@ extension Layout {
 #if os(visionOS)
         return Self.makeStaticView3D(root: root, inputs: inputs, properties: properties, list: list)
 #else
-        fatalError("TODO")
+        assertUnimplemented()
 #endif
     }
     
@@ -214,7 +214,7 @@ fileprivate struct StaticLayoutComputer<L: Layout>: StatefulRule, AsyncAttribute
     var childAttributes: [LayoutProxyAttributes]
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = LayoutComputer

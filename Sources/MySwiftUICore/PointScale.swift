@@ -28,7 +28,7 @@ package struct PointScale {
     }
     
     package func convert<T: LengthUnitConvertible>(_ fromValue: T, to unit: LengthUnit) -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

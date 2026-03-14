@@ -15,11 +15,11 @@ extension _GraphInputs {
     }
     
     func setScrollPosition(storage: ScrollPositionStorage?, kind: ScrollStateInputKind) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func convertScrollStateInputsToContent() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate struct ScrollPositionKey: GraphInput {

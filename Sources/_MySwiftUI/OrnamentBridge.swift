@@ -44,14 +44,14 @@ class OrnamentBridge<Content: View> {
         // platterOrnamentManager -> sp + 0x8
         if let sceneOrnamentFrameMonitor {
             // <+224>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             guard let platterOrnamentManager else {
                 return
             }
             
             // <+328>
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -73,7 +73,7 @@ class OrnamentBridge<Content: View> {
         }
         
         // <+1108>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO
@@ -98,19 +98,19 @@ fileprivate final class SceneOrnamentFrameMonitor {
     }
     
     deinit {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func observe(ornament: MRUIPlatterOrnament) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc func ornamentAdde(_: Notification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc func ornamentRemoved(_: Notification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -139,15 +139,15 @@ extension OrnamentPresentation {
         @safe static nonisolated(unsafe) let defaultValue: [Namespace.ID: OrnamentPresentation] = [:]
         
         static func reduce(value: inout [Namespace.ID: OrnamentPresentation], nextValue: () -> [Namespace.ID: OrnamentPresentation]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _isReadableByHost: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _includesRemovedValues: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

@@ -4,13 +4,13 @@ private import MySwiftUICore
 extension UIHostingController {
     private final var secondaryRootSystemOverlaysValue: Visibility? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     private final var persistentSystemOverlaysFromPreferences: Visibility? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

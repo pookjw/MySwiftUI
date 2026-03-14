@@ -68,15 +68,15 @@ extension ViewGraph3D: ViewGraphFeature {
     }
     
     package func uninstantiate(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func isHiddenForReuseDidChange(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package mutating func needsUpdate(graph: ViewGraph) -> Bool {

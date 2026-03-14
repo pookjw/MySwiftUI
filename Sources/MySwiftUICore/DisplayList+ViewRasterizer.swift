@@ -51,23 +51,23 @@ extension DisplayList {
         }
         
         var exportedObject: AnyObject? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: DisplayList.ViewRenderer.Environment) -> Time {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func destroy(rootView: AnyObject) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var viewCacheIsEmpty: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -90,15 +90,15 @@ extension DisplayList {
         }
         
         var definition: PlatformViewDefinition.Type {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var rootPlatform: DisplayList.ViewUpdater.Platform {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var exportedObject: AnyObject? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: Environment) -> Time {
@@ -107,15 +107,15 @@ extension DisplayList {
         }
         
         func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func destroy(rootView: AnyObject) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var viewCacheIsEmpty: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate func updateRenderer(rootView: AnyObject) -> ViewRendererBase {

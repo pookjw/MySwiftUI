@@ -8,10 +8,10 @@ package protocol ContentSizedSceneDelegate: AnyObject {
 
 extension ContentSizedSceneDelegate {
     package func updateSceneSizing(_ sizingPreferences: SizingPreferences, transaction: Transaction?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func updateSceneSizing(changes: [(SizingPreferences, Transaction?)]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

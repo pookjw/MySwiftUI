@@ -5,7 +5,7 @@ extension AccessibilityAttachment {
         static nonisolated(unsafe) let defaultValue = AccessibilityAttachment.Tree.empty
         
         static func reduce(value: inout AccessibilityAttachment.Tree, nextValue: () -> AccessibilityAttachment.Tree) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

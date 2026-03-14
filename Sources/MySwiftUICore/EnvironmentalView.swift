@@ -30,19 +30,19 @@ protocol EnvironmentalModifier: ViewModifier {}
 
 extension EnvironmentalModifier {
     static var _tracksEnvironmentDependencies: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _requiresMainThread: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -58,7 +58,7 @@ struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, Custo
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = Content.EnvironmentBody

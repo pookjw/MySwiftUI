@@ -6,14 +6,14 @@ struct ScreenEdgesSystemGestureKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout Edge.Set?, nextValue: () -> Edge.Set?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

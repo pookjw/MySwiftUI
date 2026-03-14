@@ -15,7 +15,7 @@ extension ActionSheet.Presentation {
         typealias Value = ActionSheet.Presentation?
         
         static func reduce(value: inout ActionSheet.Presentation?, nextValue: () -> ActionSheet.Presentation?) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

@@ -23,7 +23,7 @@ public struct _ViewListInputs {
     }
     
     func updateContentOffset(outputs: _ViewListOutputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

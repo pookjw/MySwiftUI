@@ -208,7 +208,7 @@ extension CachedEnvironment {
         }
         
         fileprivate init(inputs: _ViewInputs, position: Attribute<CGPoint>, size: Attribute<ViewSize>, pixelLength: Attribute<CGFloat>, animatedFrame: Attribute<ViewFrame>, enviromment: Attribute<EnvironmentValues>) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @inlinable

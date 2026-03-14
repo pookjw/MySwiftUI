@@ -3,14 +3,14 @@
 
 extension DisplayList.Item: CustomStringConvertible {
     package var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func print(into: inout SExpPrinter) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func printMinimally(into: inout SExpPrinter) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

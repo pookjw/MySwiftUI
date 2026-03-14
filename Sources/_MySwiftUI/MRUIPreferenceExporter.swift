@@ -165,7 +165,7 @@ fileprivate struct ExportedCustomPreferences: AnyExportedPreference {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func preferencesDidChange(_ values: MySwiftUICore.PreferenceValues) {
@@ -196,7 +196,7 @@ fileprivate struct ExportedCustomPreferences: AnyExportedPreference {
              value -> x29 - 0xc8
              */
         }
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

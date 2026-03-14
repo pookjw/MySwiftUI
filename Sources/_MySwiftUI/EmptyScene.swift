@@ -5,7 +5,7 @@ public import MySwiftUICore
     @inlinable public init() {}
     
     nonisolated public static func _makeScene(scene: _GraphValue<_EmptyScene>, inputs: _SceneInputs) -> _SceneOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)

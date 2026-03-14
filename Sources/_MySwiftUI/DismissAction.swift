@@ -2,16 +2,16 @@ public import MySwiftUICore
 
 @MainActor @preconcurrency public struct DismissAction {
     public func callAsFunction() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension EnvironmentValues {
     public var dismiss: DismissAction {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var isPresented: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

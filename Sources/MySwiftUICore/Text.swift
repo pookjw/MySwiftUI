@@ -13,13 +13,13 @@ private import UIFoundation
         
         @usableFromInline
         package static func == (lhs: Text.Storage, rhs: Text.Storage) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, with options: Text.ResolveOptions) {
             switch self {
             case .verbatim(_):
-                fatalError("TODO")
+                assertUnimplemented()
             case .anyTextStorage(let storage):
                 storage.resolve(into: &container, in: environmentValues, with: options)
             }
@@ -40,7 +40,7 @@ private import UIFoundation
         
         @usableFromInline
         package static func == (lhs: Text.Modifier, rhs: Text.Modifier) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -54,7 +54,7 @@ private import UIFoundation
     }
     
     @_disfavoredOverload public init<S>(_ content: S) where S : StringProtocol {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func resolveString(in environment: EnvironmentValues, with options: Text.ResolveOptions = [], idiom: AnyInterfaceIdiom?) -> String {
@@ -93,9 +93,9 @@ private import UIFoundation
                 return false
             }
             
-            fatalError("TODO")
+            assertUnimplemented()
         case .anyTextStorage(_):
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -105,14 +105,14 @@ private import UIFoundation
         if modifiers.isEmpty {
             storage.resolve(into: &container, in: environmentValues, with: options)
         } else {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
 
 extension Text: View {
     public var body: Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -163,7 +163,7 @@ extension Text {
     
     struct Resolved: ResolvedTextContainer {
         init() {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var style: Text.Style
@@ -173,19 +173,19 @@ extension Text {
         var properties: Text.ResolvedProperties
         
         mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S : StringProtocol {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         mutating func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         mutating func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -197,10 +197,10 @@ extension Text {
         
         var properties: Text.ResolvedProperties {
             get {
-                fatalError("TODO")
+                assertUnimplemented()
             }
             set {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
@@ -220,11 +220,11 @@ extension Text {
         }
         
         func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -233,36 +233,36 @@ extension Text {
 extension Text {
     public struct DateStyle : Sendable {
         public static let time: Text.DateStyle = {
-            fatalError("TODO")
+            assertUnimplemented()
         }()
         
         public static let date: Text.DateStyle = {
-            fatalError("TODO")
+            assertUnimplemented()
         }()
         
         public static let relative: Text.DateStyle = {
-            fatalError("TODO")
+            assertUnimplemented()
         }()
         
         public static let offset: Text.DateStyle = {
-            fatalError("TODO")
+            assertUnimplemented()
         }()
         
         public static let timer: Text.DateStyle = {
-            fatalError("TODO")
+            assertUnimplemented()
         }()
     }
     
     public init(_ date: Date, style: Text.DateStyle) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init(_ dates: ClosedRange<Date>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init(_ interval: DateInterval) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -271,27 +271,27 @@ package class AnyTextStorage {
     package init() {}
     
     package func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C: ResolvedTextContainer {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func resolvesToEmpty(in environment: EnvironmentValues, with options: Text.ResolveOptions) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func isEqual(to other: AnyTextStorage) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func isStyled(options: Text.ResolveOptions) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func allowsTypesettingLanguage() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var localizationInfo: _LocalizationInfo {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -444,6 +444,6 @@ class TextAttributeModifierBase {
 
 extension String {
     func caseConvertedIfNeeded(_ environment: EnvironmentValues) -> String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

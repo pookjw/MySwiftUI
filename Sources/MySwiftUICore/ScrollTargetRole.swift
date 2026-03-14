@@ -21,7 +21,7 @@ extension ScrollTargetRole {
         }
         
         static func reduce(value: inout [ScrollTargetRole.Role : [any ScrollableCollection]], nextValue: () -> [ScrollTargetRole.Role : [any ScrollableCollection]]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -65,7 +65,7 @@ extension _GraphInputs {
             self[_GraphInputs.ScrollTargetRoleKey.self] = newValue
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -77,7 +77,7 @@ extension _GraphInputs {
             self[_GraphInputs.RemovePreferenceInput.self] = newValue
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

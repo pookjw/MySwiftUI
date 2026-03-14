@@ -14,6 +14,6 @@ public enum ControlSize : CaseIterable, Sendable {
 
 extension ControlSize: Comparable {
     public static func < (lhs: ControlSize, rhs: ControlSize) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

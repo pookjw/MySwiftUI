@@ -18,28 +18,28 @@ struct TransitionTraitKey: _ViewTraitKey {
 
 extension Transition {
      @MainActor @preconcurrency public static var properties: TransitionProperties {
-       fatalError("TODO")
+       assertUnimplemented()
      }
     
     @MainActor @preconcurrency public func _makeContentTransition(transition: inout _Transition_ContentTransition) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor @preconcurrency public func apply<V>(content: V, phase: TransitionPhase) -> some View where V : View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Transition {
     @MainActor @preconcurrency public func animation(_ animation: Animation?) -> some Transition {
-        fatalError("TODO")
+        assertUnimplemented()
         return OpacityTransition()
     }
 }
 
 extension Transition {
     @MainActor @preconcurrency public func combined<T>(with other: T) -> some Transition where T : Transition {
-        fatalError("TODO")
+        assertUnimplemented()
         return OpacityTransition()
     }
 }

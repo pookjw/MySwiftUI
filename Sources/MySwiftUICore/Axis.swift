@@ -17,7 +17,7 @@
 
 extension Axis: CustomStringConvertible {
     public var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -10,11 +10,11 @@ extension Never: Scene {}
  */
 enum SceneID: Hashable {
     static func == (lhs: SceneID, rhs: SceneID) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func hash(into hasher: inout Hasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     case string(String)

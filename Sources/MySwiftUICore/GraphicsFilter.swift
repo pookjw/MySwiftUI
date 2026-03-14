@@ -31,7 +31,7 @@ enum GraphicsFilter {
     case colorInvert
     
     fileprivate func makeCAFilter() -> CAFilter? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

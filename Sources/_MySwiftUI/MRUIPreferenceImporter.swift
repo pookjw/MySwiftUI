@@ -60,23 +60,23 @@ final class MRUIPreferenceImporter: NSObject, MRUIPreferenceHostConformer {
     // TODO
     
     var parentPreferenceHost: any MRUIPreferenceHostProtocol {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func descendant(_ arg1: Any, changedToValue arg2: Any, forPreferenceKey arg3: AnyClass) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var aggregatedPreferences: [AnyHashable: Any] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func setValue(_ value: Any?, forPreferenceKey key: AnyClass) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func aggregatedPreference(forKey key: AnyClass) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -185,13 +185,13 @@ struct MRUICustomPreferencesKey: HostPreferenceKey {
         
         next.merge(value) { _, _ in
             // $sxq_xq_Iegnnrr_x3key_q_5valuetx_q_tIegnr_SHRzr0_lTRs11AnyHashableV_ypTg5070$sSD5merge_16uniquingKeysWithySDyxq_Gn_q_q__q_tKXEtKFx_q_tx_q_tcfU_s11cD7V_ypTg5Tf3nnpf_n
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         value = next
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

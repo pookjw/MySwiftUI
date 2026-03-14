@@ -26,7 +26,7 @@ fileprivate final class SceneRequestCache {
     private var sceneActivationRequestCache: Set<SceneRequestCache.Item> = []
     
     func requestInCacheAddIfNotPresent<T: Codable & Hashable>(id: SceneID, value: T) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

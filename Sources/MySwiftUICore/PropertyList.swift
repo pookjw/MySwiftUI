@@ -29,7 +29,7 @@ private import AttributeGraph
     
     @usableFromInline
     package var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func mayNotBeEqual(to other: PropertyList) -> Bool {
@@ -103,7 +103,7 @@ private import AttributeGraph
     }
     
     package func forEach<T: PropertyKey>(keyType: T.Type, _ handler: (T.Value, inout Bool) -> Void) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package mutating func merge(_ other: PropertyList) {
@@ -236,15 +236,15 @@ private import AttributeGraph
     }
     
     package func valueWithSecondaryLookup<T: PropertyKeyLookup>(_ type: T.Type) -> T.Primary.Value {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package subscript<T: DerivedPropertyKey>(_ type: T.Type) -> T.Value {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -323,31 +323,31 @@ extension PropertyList {
         }
         
         package func invalidateAllValues(from: PropertyList, to: PropertyList) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         package func formUnion(_: PropertyList.Tracker) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         package func valueWithSecondaryLookup<T: PropertyKeyLookup>(_ other: PropertyList, secondaryLookupHandler: T.Type) -> T.Primary.Value {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         package func value<T: PropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         package func invalidateValue<Key: PropertyKey>(for: Key.Type, from: PropertyList, to: PropertyList) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         package func derivedValue<T: DerivedPropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         final func forEach(filter: BloomFilter, _ body: (Unmanaged<PropertyList.Element>, inout Bool) -> Void) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -419,7 +419,7 @@ extension PropertyList {
         }
         
         func forEach(filter: BloomFilter, _ handler: (Unmanaged<Element>, inout Bool) -> Void) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -625,11 +625,11 @@ fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
     }
     
     override var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func matches(_: PropertyList.Element, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func copy(before: PropertyList.Element?, after: PropertyList.Element?) -> PropertyList.Element {
@@ -637,7 +637,7 @@ fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
     }
     
     override func value<T>(as type: T.Type) -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -52,7 +52,7 @@ public struct _ViewInputs {
     }
     
     init(withoutGeometry: _GraphInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var customInputs: PropertyList {
@@ -94,7 +94,7 @@ public struct _ViewInputs {
             base[type] = newValue
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -219,7 +219,7 @@ extension _ViewInputs {
             }
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

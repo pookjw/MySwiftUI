@@ -7,11 +7,11 @@ final class UIViewResponder: PlatformViewResponderBase<UIView, UIViewContentResp
     private weak var focusAccessibilityNode: AccessibilityNode? = nil
     package var keyPressHandlers: [KeyPress.Handler] = []
     private lazy var shouldUsePlatformViewAsParentContainer: Bool? = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     fileprivate var _shouldUsePlatformViewAsParentContainer: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override var platformViewIsEnabled: Bool {
@@ -39,11 +39,11 @@ final class UIViewResponder: PlatformViewResponderBase<UIView, UIViewContentResp
             return super.containsGlobalPoints(points, cacheKey: cacheKey, options: options)
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func platformViewHitTest(globalPoint: CGPoint, cacheKey: UInt32?) -> UIView? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func platformViewHitTest(globalPoint: Point3D, cacheKey: UInt32?) -> UIView? {

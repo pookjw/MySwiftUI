@@ -87,7 +87,7 @@ fileprivate protocol RuleThreadFlags {
 
 fileprivate struct EmbeddedDynamicPropertyBox<T: DynamicProperty>: DynamicPropertyBox {
     func update(property: inout T, phase: _GraphInputs.Phase) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -95,7 +95,7 @@ fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomString
     typealias Value = T.Body
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private let accessor: T
@@ -122,19 +122,19 @@ fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomString
     }
     
     static var container: Any.Type {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func value<Value>(as: Value.Type, attribute: AnyAttribute) -> Value? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func buffer<V>(as: V.Type, attribute: AnyAttribute) -> _DynamicPropertyBuffer? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func metaProperties<V>(as: V.Type, attribute: AnyAttribute) -> [(String, AnyAttribute)] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -152,7 +152,7 @@ fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStrin
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func destroy() {
@@ -206,18 +206,18 @@ fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStrin
     }
     
     static var container: Any.Type {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func value<Value>(as: Value.Type, attribute: AnyAttribute) -> Value? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func buffer<V>(as: V.Type, attribute: AnyAttribute) -> _DynamicPropertyBuffer? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func metaProperties<V>(as: V.Type, attribute: AnyAttribute) -> [(String, AnyAttribute)] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

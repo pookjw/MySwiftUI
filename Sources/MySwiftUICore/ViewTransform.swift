@@ -20,7 +20,7 @@ package struct ViewTransform {
     }
     
     package mutating func appendAffineTransform3D(_: AffineTransform3D, inverse: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package mutating func appendCoordinateSpace(id: CoordinateSpace.ID) {
@@ -232,15 +232,15 @@ fileprivate final class BufferedElement: AnyElement {
     }
     
     func forEach(inverted: Bool, stop: inout Bool, _: (ViewTransform.Item, inout Bool) -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func isEqual(to other: AnyElement) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var description: String? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -436,15 +436,15 @@ extension ViewTransform.UnsafeBuffer {
         }
         
         class func forEach(elt: _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         class func description(elt: _UnsafeHeterogeneousBuffer_VTable) -> String {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         class func equal(_ lhs: _UnsafeHeterogeneousBuffer_VTable, _ rhs: _UnsafeHeterogeneousBuffer_VTable) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

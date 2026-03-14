@@ -6,14 +6,14 @@ struct AllowsSecureDrawingKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout Bool?, nextValue: () -> Bool?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

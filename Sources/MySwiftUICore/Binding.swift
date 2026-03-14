@@ -52,7 +52,7 @@ public struct Binding<Value> {
         @_inheritActorContext get: @escaping @isolated(any) @Sendable () -> Value,
         @_inheritActorContext set: @escaping @isolated(any) @Sendable (Value, Transaction) -> Void
     ) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_alwaysEmitIntoClient public init(projectedValue: Binding<Value>) {
@@ -66,7 +66,7 @@ public struct Binding<Value> {
     }
     
     public subscript<Subject>(dynamicMember keyPath: WritableKeyPath<Value, Subject>) -> Binding<Subject> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func readValue() -> Value {
@@ -86,7 +86,7 @@ extension Binding: @unchecked Sendable where Value : Sendable {}
 
 extension Binding: Identifiable where Value : Identifiable {
     public var id: Value.ID {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -101,37 +101,37 @@ extension Binding: Collection where Value : MutableCollection {
     public typealias Indices = Value.Indices
     
     public var startIndex: Binding<Value>.Index {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var endIndex: Binding<Value>.Index {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var indices: Value.Indices {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func index(after i: Binding<Value>.Index) -> Binding<Value>.Index {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func formIndex(after i: inout Binding<Value>.Index) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public subscript(position: Binding<Value>.Index) -> Binding<Value>.Element {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Binding: BidirectionalCollection where Value : BidirectionalCollection, Value : MutableCollection {
     public func index(before i: Binding<Value>.Index) -> Binding<Value>.Index {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func formIndex(before i: inout Binding<Value>.Index) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -140,11 +140,11 @@ extension Binding: RandomAccessCollection where Value : MutableCollection, Value
 
 extension Binding {
     public func transaction(_ transaction: Transaction) -> Binding<Value> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func animation(_ animation: Animation? = .default) -> Binding<Value> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -157,21 +157,21 @@ extension Binding: DynamicProperty {
 
 extension Binding {
     public init<V>(_ base: Binding<V>) where Value == V? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init?(_ base: Binding<Value?>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init<V>(_ base: Binding<V>) where Value == AnyHashable, V : Hashable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Binding where Value == Bool {
     static var `false`: Binding<Value> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

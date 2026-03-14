@@ -126,71 +126,71 @@ extension EnvironmentValues {
     }
     
     @objc private func settingsValueDidChange(_ notification: Notification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var differentiateWithoutColors: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var reduceTransparency: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var reduceMotion: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var prefersCrossFadeTransitions: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var invertColors: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var useBoldText: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var buttonShapes: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var dimFlashingLights: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var playAnimatedImages: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var headAnchorAlternative: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var increaseFocusState: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var reduceHoverReveal: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var onOffLabels: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var quickActions: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var largeContentViewer: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final var enabledTechnologies: [AccessibilityEnabledTechnology] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

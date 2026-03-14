@@ -20,12 +20,12 @@ enum TraitTokens {
         return tokens.access { tokens in
             if let existing = tokens[ObjectIdentifier(trait)] {
                 if UITraitCollection._isPlaceholderTraitToken(existing) {
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     return existing
                 }
             } else {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
     }

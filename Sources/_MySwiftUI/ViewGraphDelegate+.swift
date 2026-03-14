@@ -16,7 +16,7 @@ extension ViewGraphDelegate {
     }
     
     var popoverBridge: UIKitPopoverBridge? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var environmentOverride: EnvironmentValues? {
@@ -45,7 +45,7 @@ extension ViewGraphDelegate {
     }
     
     var hosintingView: UIHostingViewProvider? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var hostingControllerOverrides: HostingControllerOverrides {
@@ -66,7 +66,7 @@ extension ViewGraphDelegate {
     }
     
     func setNeedsUpdate() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var hostingView: UIHostingViewProvider? {

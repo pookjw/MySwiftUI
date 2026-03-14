@@ -13,7 +13,7 @@ extension EnvironmentValues {
             self[AccessibilityPrefersCrossFadeTransitionsKey.self] = newValue
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

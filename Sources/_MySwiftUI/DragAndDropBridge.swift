@@ -168,7 +168,7 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
                 
                 let springLoadedInteraction = UISpringLoadedInteraction(interactionBehavior: behavior, interactionEffect: effect) { interaction, context in
                     // partial apply forwarder for closure #1 (__C.UISpringLoadedInteraction, __C.UISpringLoadedInteractionContext) -> () in SwiftUI.DragAndDropBridge.updateSpringLoadedInteraction(SwiftUI.PreferenceValues.Value<Swift.Bool>) -> ()
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
                 
                 uiView.myswiftui_addManagedInteraction(springLoadedInteraction)
@@ -188,77 +188,77 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
 
 extension DragAndDropBridge: UIDragInteractionDelegate {
     @objc(_dragInteraction:sessionPropertiesForSession:) func _dragInteraction(_ interaction: UIDragInteraction, sessionPropertiesForSession session: any UIDragSession) -> _UIDragSessionProperties {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, item: UIDragItem, willAnimateCancelWith animator: any UIDragAnimating) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, itemsForAddingTo session: any UIDragSession, withTouchAt point: CGPoint) -> [UIDragItem] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: any UIDragSession) -> [UIDragItem] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, prefersFullSizePreviewsFor session: any UIDragSession) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, previewForCancelling item: UIDragItem, withDefault defaultPreview: UITargetedDragPreview) -> UITargetedDragPreview? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, previewForLifting item: UIDragItem, session: any UIDragSession) -> UITargetedDragPreview? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, session: any UIDragSession, didEndWith operation: UIDropOperation) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, sessionWillBegin session: any UIDragSession) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, willAnimateLiftWith animator: any UIDragAnimating, session: any UIDragSession) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension DragAndDropBridge: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidExit session: any UIDropSession) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, concludeDrop session: any UIDropSession) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, item: UIDragItem, willAnimateDropWith animator: any UIDragAnimating) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: any UIDropSession) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, previewForDropping item: UIDragItem, withDefault defaultPreview: UITargetedDragPreview) -> UITargetedDragPreview? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidEnd session: any UIDropSession) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidEnter session: any UIDropSession) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: any UIDropSession) -> UIDropProposal {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -274,11 +274,11 @@ extension DragAndDropBridge {
         }
         
         func interactionDidFinish(_ interaction: UISpringLoadedInteraction) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func shouldAllow(_ interaction: UISpringLoadedInteraction, with context: any UISpringLoadedInteractionContext) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -294,7 +294,7 @@ extension DragAndDropBridge {
         }
         
         func interaction(_ interaction: UISpringLoadedInteraction, didChangeWith context: any UISpringLoadedInteractionContext) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

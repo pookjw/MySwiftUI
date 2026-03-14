@@ -10,15 +10,15 @@ extension InspectorStorage {
         static let defaultValue: [ViewIdentity: InspectorStorage] = [:]
         
         static func reduce(value: inout [ViewIdentity: InspectorStorage], nextValue: () -> [ViewIdentity: InspectorStorage]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _isReadableByHost: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _includesRemovedValues: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -27,14 +27,14 @@ struct InspectorAnchorPreferenceKey: HostPreferenceKey {
     @safe static nonisolated(unsafe) let defaultValue: [AnyHashable: Anchor<CGRect?>] = [:]
     
     static func reduce(value: inout [AnyHashable: Anchor<CGRect?>], nextValue: () -> [AnyHashable: Anchor<CGRect?>]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

@@ -5,7 +5,7 @@ internal import AttributeGraph
 struct AccessibilityFocus {
     @discardableResult
     static func changed(from: (NSObject & PlatformAccessibilityElementProtocol)?, to: (NSObject & PlatformAccessibilityElementProtocol)?, within: ViewRendererHost) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

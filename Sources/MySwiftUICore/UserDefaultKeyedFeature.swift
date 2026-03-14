@@ -33,6 +33,6 @@ extension UserDefaultKeyedFeature {
     }
     
     static func test<T>(enabled: Bool, _ body: () throws -> T) rethrows -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

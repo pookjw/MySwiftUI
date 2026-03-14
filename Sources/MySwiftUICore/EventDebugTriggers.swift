@@ -14,7 +14,7 @@ public struct _EventDebugTriggers: OptionSet, Sendable {
     public static let all = _EventDebugTriggers(rawValue: -1)
     
     init(environmentString: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

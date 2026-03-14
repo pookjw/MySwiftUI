@@ -7,6 +7,6 @@ struct RoundedSize: Rule, AsyncAttribute {
     @Attribute private(set) var pixelLength: CGFloat
     
     var value: ViewSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

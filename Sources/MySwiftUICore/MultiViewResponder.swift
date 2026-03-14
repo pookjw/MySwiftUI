@@ -23,7 +23,7 @@ public import Spatial
     }
     
     open override func bindEvent(_ type: any EventType) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override func visit(applying: (ResponderNode) -> ResponderVisitorResult) -> ResponderVisitorResult {

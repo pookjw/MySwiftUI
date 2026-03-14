@@ -46,11 +46,11 @@
     }
     
     private var featureTypes: [Any.Type] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var debugDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -174,11 +174,11 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func uninstantiate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         override class func isHiddenForReuseDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         override class func needsUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
@@ -186,7 +186,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         override class func outputsDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {

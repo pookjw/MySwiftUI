@@ -17,7 +17,7 @@ extension GraphInput {
     }
     
     package static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value) -> any GraphInput {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func tryToReuse(_ value: Self.Value, by: Self.Value, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
@@ -27,15 +27,15 @@ extension GraphInput {
 
 extension GraphInput where Self.Value: GraphReusable {
     package static var isTriviallyReusable: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value) -> any GraphInput {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func tryToReuse(_ value: Self.Value, by: Self.Value, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -53,17 +53,17 @@ extension GraphReusable {
     }
     
     package func makeReusable(indirectMap: IndirectAttributeMap) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package func tryToReuse(by: Self, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Stack: GraphReusable where Element: GraphReusable {
     func tryToReuse(by: Stack<Element>, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

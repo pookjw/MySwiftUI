@@ -17,7 +17,7 @@ internal import AttributeGraph
     }
     
     func wrapInputs(_ inputs: inout _ViewInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func wrapOutputs(_ outputs: inout PreferencesOutputs, inputs: _ViewInputs) {
@@ -89,7 +89,7 @@ internal import AttributeGraph
         self.bridgedViewInputs = PropertyList()
         
         if !children.isEmpty {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+2044>

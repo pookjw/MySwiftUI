@@ -49,7 +49,7 @@ struct SizeAndSpacingContext {
     }
     
     func update<T>(_ block: () -> T) -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -61,15 +61,15 @@ struct PlacementContext {
     private let parentSize: PlacementContext.ParentSize
     
     var proposedSize: _ProposedSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var size: CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(base: SizeAndSpacingContext, parentSize: ViewSize) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(
@@ -81,7 +81,7 @@ struct PlacementContext {
         position: Attribute<CGPoint>,
         safeAreaInsets: OptionalAttribute<SafeAreaInsets>
     ) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     init(
@@ -92,12 +92,12 @@ struct PlacementContext {
         position: Attribute<CGPoint>,
         safeAreaInsets: OptionalAttribute<SafeAreaInsets>
     ) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -117,24 +117,24 @@ struct PlacementContext3D {
     // init은 존재하지 않는데 만든다면 fileprivate일듯
     
     var proposedSize: _ProposedSize3D {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var depth: CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var proposedDepth: CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var size: Size3D {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

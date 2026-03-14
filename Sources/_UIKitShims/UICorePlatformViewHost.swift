@@ -27,7 +27,7 @@ public import _UIKitPrivate
     private var cachedLayoutTraits: _LayoutTraits? = nil // 0x2a0
     
     open override var intrinsicContentSize: CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override func removeFromSuperview() {
@@ -271,7 +271,7 @@ public import _UIKitPrivate
     }
     
     open override func _priorityForEngineHostConstraints() -> UILayoutPriority {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override func _setHostsLayoutEngine(_ hostsLayoutEngine: Bool) {
@@ -340,15 +340,15 @@ public import _UIKitPrivate
     }
     
     open override var alignmentRectInsets: UIEdgeInsets {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override func contentCompressionResistancePriority(for axis: NSLayoutConstraint.Axis) -> UILayoutPriority {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override func contentHuggingPriority(for axis: NSLayoutConstraint.Axis) -> UILayoutPriority {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // ___lldb_unnamed_symbol_29101c
@@ -840,7 +840,7 @@ public import _UIKitPrivate
     }
     
     open func coreLayoutTraits() -> _LayoutTraits {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func coreUpdateEnvironment(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
@@ -888,23 +888,23 @@ public import _UIKitPrivate
     }
     
     open func coreBaselineOffsets(at size: CGSize) -> CoreBaselineOffsetPair {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func coreUpdateSafeAreaInsets(_ insets: EdgeInsets) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func makeEnvironmentWrapper(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func enqueueLayoutInvalidation() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func updateNestedHosts(_ values: ViewGraphRootValues, colorSchemeChanged: Bool) {
@@ -978,11 +978,11 @@ public import _UIKitPrivate
     private var lastParentSafeAreaInsets: UIEdgeInsets?
     
     func resolvedSafeAreaInsets(_safeAreaInsets: UIEdgeInsets, defaultSafeAreaInsets: UIEdgeInsets) -> UIEdgeInsets {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func updateSafeAreaInsets(_: UIEdgeInsets?, _safeAreaInsets: inout UIEdgeInsets, containerView: UIView, shouldEagerlyUpdate: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func prepareForSafeAreaPropagation(_safeAreaInsets: inout UIEdgeInsets, containerView: UIView, shouldEagerlyUpdate: Bool) {
@@ -1010,7 +1010,7 @@ public import _UIKitPrivate
         
         if shouldEagerlyUpdate, let lastParentSafeAreaInsets {
             // <+168>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+112>

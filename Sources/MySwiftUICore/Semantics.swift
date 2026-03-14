@@ -60,12 +60,12 @@ package struct Semantics: Hashable, Comparable, CustomStringConvertible {
     }
     
     package var description: String {
-//        fatalError("TODO")
+//        assertUnimplemented()
         return "(TODO)"
     }
     
     package func test<T>(as: WritableKeyPath<Semantics.Forced, Semantics?>, _ body: () throws -> T) rethrows -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

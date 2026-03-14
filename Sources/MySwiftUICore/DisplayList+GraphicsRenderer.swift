@@ -15,7 +15,7 @@ extension DisplayList {
         var platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode
         
         init(platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -37,11 +37,11 @@ extension DisplayList.GraphicsRenderer.Cache {
         private var index: DisplayList.Index.ID
         
         static func == (lhs: DisplayList.GraphicsRenderer.Cache.AnimatorKey, rhs: DisplayList.GraphicsRenderer.Cache.AnimatorKey) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func hash(into hasher: inout Hasher) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -51,11 +51,11 @@ extension DisplayList.GraphicsRenderer.Cache {
         private var scale: CGFloat
         
         static func == (lhs: DisplayList.GraphicsRenderer.Cache.CallbackKey, rhs: DisplayList.GraphicsRenderer.Cache.CallbackKey) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func hash(into hasher: inout Hasher) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

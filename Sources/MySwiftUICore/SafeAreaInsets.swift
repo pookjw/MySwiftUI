@@ -8,7 +8,7 @@ struct SafeAreaInsets {
     var next: SafeAreaInsets.OptionalValue
     
     func resolve(regions: SafeAreaRegions, cornerAdaptation: Edge.Set, in context: _PositionAwarePlacementContext) -> EdgeInsets {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -32,7 +32,7 @@ struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
     @safe private(set) nonisolated(unsafe) var nextInsets: SafeAreaInsets.OptionalValue?
     
     nonisolated init(insets: EdgeInsets, cornerInsets: AbsoluteRectangleCornerInsets?, nextInsets: SafeAreaInsets.OptionalValue?) {
-        fatalError("TODO") // TODO
+        assertUnimplemented() // TODO
     }
     
     nonisolated init() {

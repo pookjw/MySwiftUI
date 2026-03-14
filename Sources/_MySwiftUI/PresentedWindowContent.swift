@@ -5,7 +5,7 @@ public import MySwiftUICore
 @available(watchOS, unavailable)
 public struct PresentedWindowContent<Data, Content>: View where Data: Decodable, Data: Encodable, Data: Hashable, Content: View {
     nonisolated public static func _makeViewList(view: _GraphValue<PresentedWindowContent<Data, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @available(iOS 16.0, macOS 13.0, *)

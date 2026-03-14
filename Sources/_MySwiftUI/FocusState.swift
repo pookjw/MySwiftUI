@@ -6,10 +6,10 @@ public struct FocusState<Value>: DynamicProperty {
     public var wrappedValue: Value
     
     public init() where Value == Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init<T>() where Value == T?, T: Hashable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

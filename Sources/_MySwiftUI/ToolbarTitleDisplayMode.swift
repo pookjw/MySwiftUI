@@ -44,6 +44,6 @@ extension ToolbarTitleDisplayMode {
 extension View {
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     public nonisolated func toolbarTitleDisplayMode(_ mode: ToolbarTitleDisplayMode) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

@@ -4,7 +4,7 @@ package enum DisplayGamut: Int, Hashable/*, ProtobufEnum, CodableByProxy, Serial
     
     static var deviceDefault: DisplayGamut {
         // _CUIDefaultDisplayGamut
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

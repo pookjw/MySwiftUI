@@ -5,38 +5,38 @@ struct ViewGeometry3D {
     var dimensions: ViewDimensions3D
     
     init(origin: ViewOrigin3D, dimensions: ViewDimensions3D) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func finalizeLayoutDirection(_: LayoutDirection, parentSize: Size3D) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var isInvalid: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var frame: Rect3D {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var depthGeometry: ViewDepthGeometry {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     static let invalidValue: ViewGeometry3D = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     static let zero: ViewGeometry3D = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
 }

@@ -191,7 +191,7 @@ package final class ViewGraph: GraphHost {
     }
     
     package var updatesWillBeVisible: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package override var graphDelegate: (any ViewGraphDelegate)? {
@@ -207,7 +207,7 @@ package final class ViewGraph: GraphHost {
     }
     
     package override func isHiddenForReuseDidChange() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final func append<T: ViewGraphFeature>(feature: T) {
@@ -499,11 +499,11 @@ package final class ViewGraph: GraphHost {
     }
     
     package override func uninstantiateOutputs() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var rootViewInsets: EdgeInsets {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func setSize(_ size: ViewSize) {
@@ -526,7 +526,7 @@ package final class ViewGraph: GraphHost {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private func beginNextUpdate(at time: Time) {
@@ -549,7 +549,7 @@ package final class ViewGraph: GraphHost {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func setSafeAreaInsets(_ elements: [SafeAreaInsets.Element]) -> Bool {
@@ -578,7 +578,7 @@ package final class ViewGraph: GraphHost {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package var viewGraphInputs: _GraphInputs {
@@ -759,7 +759,7 @@ extension ViewGraph: ViewGraphRenderHost {
 
 extension ViewGraph {
     static func sizeThatFits(_: _ProposedSize, layoutComputer: LayoutComputer?, insets: EdgeInsets) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -825,19 +825,19 @@ struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
     private var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
     
     func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func stopObserving(proposal: T.Proposal) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func removeAll() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func resetObserver(for proposal: T.Proposal) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -929,7 +929,7 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
     }
     
     func notify() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -973,7 +973,7 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     }
     
     func notify() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

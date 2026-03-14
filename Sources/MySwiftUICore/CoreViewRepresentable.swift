@@ -31,11 +31,11 @@ public import AttributeGraph
 
 extension CoreViewRepresentable {
     public static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func resetViewProvider(_ provider: Self.PlatformViewProvider, coordinator: Self.Coordinator, destroy: () -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func dismantleViewProvider(_ provider: Self.PlatformViewProvider, coordinator: Self.Coordinator) {
@@ -43,7 +43,7 @@ extension CoreViewRepresentable {
     }
     
     public func sizeThatFits(_ proposedSize: ProposedViewSize, provider: Self.PlatformViewProvider, context: PlatformViewRepresentableContext<Self>) -> CGSize? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func overrideSizeThatFits(_ size: inout CGSize, in: ProposedViewSize, platformView: Self.PlatformViewProvider) {
@@ -51,7 +51,7 @@ extension CoreViewRepresentable {
     }
     
     public func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Self.PlatformViewProvider) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static var isViewController: Bool {
@@ -63,11 +63,11 @@ extension CoreViewRepresentable {
     }
     
     public static func layoutOptions(_ provider: Self.PlatformViewProvider) -> CoreViewRepresentableLayoutOptions {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var body: Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -187,24 +187,24 @@ extension CoreViewRepresentable {
             return outptus
         } else {
             // <+684>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func _unaryViewList<T: View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension CoreViewRepresentable where Coordinator == Void {
     package func makeCoordinator() -> Void {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -245,19 +245,19 @@ extension CoreViewRepresentable where Coordinator == Void {
     
     var preferenceBridge: PreferenceBridge? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     var transaction: Transaction {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var environment: EnvironmentValues {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -357,7 +357,7 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func update<Host: CoreViewRepresentableHost>(
@@ -416,11 +416,11 @@ extension CoreViewRepresentableFeatureBuffer {
     
     fileprivate final class _VTable<Feature: CoreViewRepresentableFeature>: VTable {
         override class var type: any Any.Type {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
@@ -457,7 +457,7 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         override class func update<Host: CoreViewRepresentableHost>(
@@ -532,14 +532,14 @@ extension CoreViewRepresentableFeature {
         outputs: inout _ViewOutputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     ) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
         outputs: inout _ViewOutputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     ) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func update<Host: CoreViewRepresentableHost>(
@@ -547,21 +547,21 @@ extension CoreViewRepresentableFeature {
         environment: inout EnvironmentValues,
         isInitialUpdate: Bool
     ) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func modifyViewInputs<Representable: CoreViewRepresentable>(
         inputs: inout _ViewInputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     ) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func modifyBridgedInputs<Representable: CoreViewRepresentable>(
         inputs: inout _ViewInputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     ) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

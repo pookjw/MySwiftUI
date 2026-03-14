@@ -22,7 +22,7 @@ struct ViewGeometry: Equatable, Animatable {
     }
     
     init(placement: _Placement, dimensions: ViewDimensions) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func finalizeLayoutDirection(_ layoutDirection: LayoutDirection, parentSize: CGSize) {
@@ -52,26 +52,26 @@ struct ViewGeometry: Equatable, Animatable {
     }
     
     subscript(_ alignment: HorizontalAlignment) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     subscript(_ alignment: VerticalAlignment) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     subscript(_ key: AlignmentKey) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     subscript(explicit: HorizontalAlignment) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     subscript(explicit: VerticalAlignment) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     subscript(explicit: AlignmentKey) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

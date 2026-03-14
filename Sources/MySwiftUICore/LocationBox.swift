@@ -24,7 +24,7 @@ package final class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked S
     }
     
     override func projecting<P>(_ projection: P) -> AnyLocation<P.Projected> where T.Value == P.Base, P : Projection {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func update() -> (T.Value, Bool) {
@@ -55,7 +55,7 @@ struct LocationProjectionCache {
     }
     
     func reference<T: Projection, U: Location>(for: T, on: U) -> AnyLocation<T.Projected> where T.Base == U.Value {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func reset() {

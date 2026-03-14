@@ -21,7 +21,7 @@ final class InputAccessoryGenerator {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO
@@ -41,6 +41,6 @@ fileprivate struct InputAccessoryBar: View {
     private var barItems: [UIBarButtonItem]
     
     var body: some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

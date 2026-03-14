@@ -360,7 +360,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     func resetPlatformView() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func destroy() {
@@ -402,16 +402,16 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         }
         
 //        for child in children {
-//            fatalError("TODO")
+//            assertUnimplemented()
 //        }
     }
     
     static func willInvalidate(attribute: AnyAttribute) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func didReinsert(attribute: AnyAttribute) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -439,11 +439,11 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     func renderPlatformView(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var capabilities: DisplayList.PlatformViewCapabilities {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sizeThatFits(in proposedSize: _ProposedSize, environment: Attribute<EnvironmentValues>, context: AnyRuleContext) -> CGSize {
@@ -557,7 +557,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     func layoutTraits() -> _LayoutTraits {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     nonisolated func depthThatFits(in proposedSize: _ProposedSize3D) -> CGFloat {
@@ -575,7 +575,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     var viewType: Any.Type {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeView(view: _GraphValue<ViewLeafView<Representable>>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -797,14 +797,14 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
                 // <+2184>
                 break
             default:
-                fatalError("TODO")
+                assertUnimplemented()
             }
         case .effect(let effect, let displayList):
             // <+1272>
-            fatalError("TODO")
+            assertUnimplemented()
         case .states(let array):
             // <+1672>
-            fatalError("TODO")
+            assertUnimplemented()
         case .empty:
             // <+1132>
             // <+2176>
@@ -824,7 +824,7 @@ fileprivate struct LeafLayoutEnvironment: StatefulRule {
     typealias Value = EnvironmentValues
     
     func updateValue() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -838,7 +838,7 @@ fileprivate struct InvalidatableLeafLayoutComputer<Representable: CoreViewRepres
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     typealias Value = LayoutComputer
@@ -910,10 +910,10 @@ fileprivate struct PlatformViewLayoutEngine<Representable: CoreViewRepresentable
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
         if alignmentKey == VerticalAlignment.firstTextBaseline.key {
             // <+88>
-            fatalError("TODO")
+            assertUnimplemented()
         } else if alignmentKey == VerticalAlignment.lastTextBaseline.key {
             // <+248>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+596>
             return nil

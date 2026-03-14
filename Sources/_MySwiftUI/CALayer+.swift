@@ -23,11 +23,11 @@ extension CALayer {
                     _target,
                     { buffer, _ in
                         // $sSo7CALayerC7SwiftUIE13mapGeometry3D2to_yABSg_AC13ViewTransformVztFySpyAH12UnsafeBufferVGXEfU_ySv_SPySo13CATransform3DVGtcfU_To
-                        fatalError("TODO")
+                        assertUnimplemented()
                     },
                     { buffer, _ in
                         // $sSo7CALayerC7SwiftUIE13mapGeometry3D2to_yABSg_AC13ViewTransformVztFySpyAH12UnsafeBufferVGXEfU_ySv_SPySo13CATransform3DVGtcfU0_To
-                        fatalError("TODO")
+                        assertUnimplemented()
                     },
                     &buffer
                 )
@@ -45,7 +45,7 @@ extension CALayer {
             self,
             { buffer, _ in
                 // $sSo7CALayerC7SwiftUIE13mapGeometry3D2to_yABSg_AC13ViewTransformVztFySpyAH12UnsafeBufferVGXEfU0_ySv_SPySo13CATransform3DVGtcfU_To
-                fatalError("TODO")
+                assertUnimplemented()
             },
             { buffer, transform in
                 // $sSo7CALayerC7SwiftUIE13mapGeometry3D2to_yABSg_AC13ViewTransformVztFySpyAH12UnsafeBufferVGXEfU0_ySv_SPySo13CATransform3DVGtcfU0_To
@@ -72,16 +72,16 @@ extension CALayer {
             return value(forKeyPath: keyPath) as? T.Value
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     subscript<T: LayerProperty>(key: T.Type) -> T.Value? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

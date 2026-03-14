@@ -34,7 +34,7 @@ final class FocusBridge {
             }
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -54,7 +54,7 @@ final class FocusBridge {
             return []
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor var preferredFocusEnvironments: [any UIFocusEnvironment] {
@@ -159,7 +159,7 @@ final class FocusBridge {
             _ = focusStoreList.value
             // x22
             _ = DisplayList.Version()
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1244>
@@ -178,13 +178,13 @@ final class FocusBridge {
             return
         } else {
             // <+1516>
-            fatalError("TODO")
+            assertUnimplemented()
         }
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func didChangeFocusItem(from: FocusItem?, to: FocusItem?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @MainActor func updateEnvironment(_ environmentValues: inout EnvironmentValues) {
@@ -298,7 +298,7 @@ final class FocusBridge {
             }
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -326,7 +326,7 @@ final class FocusBridge {
     }
     
     func moveFocus(to: FocusItem, designatedPlatformResponder: UIView?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func preferredFocusItems(for responder: ViewResponder, in namespace: Namespace.ID?) -> (preferred: [any UIFocusEnvironment], regular: [any UIFocusEnvironment]) {
@@ -342,12 +342,12 @@ final class FocusBridge {
             let baseFocusResponder = responder as? BaseFocusResponder
         {
             // <+336>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+400>
         if let focusResponder = responder as? FocusResponder {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1136>
@@ -360,11 +360,11 @@ final class FocusBridge {
         
         for child in children {
             if let baseFocusResponder = child as? BaseFocusResponder {
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             if let focusNamespaceViewResponder = child as? FocusNamespaceViewResponder {
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             let result = self.preferredFocusItems(for: child, in: namespace)
@@ -401,7 +401,7 @@ extension FocusBridge {
                 return .next
             }
             
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         Log.focus?.log(level: .default, "focus items queried: \(results.count) in: \(rect.loggable) for: \(UIKitFocusItemDescription(host))")
@@ -455,7 +455,7 @@ struct FocusItem {
     private var version: DisplayList.Version
     
     var isExpired: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -514,7 +514,7 @@ extension FocusedValueList {
         }
         
         static func reduce(value: inout FocusedValueList, nextValue: () -> FocusedValueList) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -567,7 +567,7 @@ struct FocusStoreList: Equatable, Collection {
     }
     
     func replaceSubrange<C>(_ subrange: Range<[FocusStoreList.Item].Index>, with newElements: C) where C : Collection, C.Element == FocusStoreList.Item {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -588,7 +588,7 @@ extension FocusStoreList {
         }
         
         static func reduce(value: inout FocusStoreList, nextValue: () -> FocusStoreList) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -658,7 +658,7 @@ extension UIKitContainerFocusItem {
         let block: (any BaseFocusResponder) -> ResponderVisitorResult = { _ in
             // $s7SwiftUI11FocusBridgeC07defaultC14ItemsContainer33_10718FCC504A33B6994038B6E6E29C50LL13responderNode4hostAA011UIKitHostedgC4Item_pSgAA09ResponderP0C_So6UIViewCtFZAA0U13VisitorResultOAA04BasecU0_pXEfU_TA
             result = nil // 임시임 지우기
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         rootResponder.responder.visit { node in
@@ -717,7 +717,7 @@ extension UIKitContainerFocusItem where Self: UIView {
 
 extension UIKitContainerFocusItem where Self: AnyUIKitHostedFocusItem {
     func rootResponder() -> (responder: ResponderNode, isVisited: Bool)? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -743,7 +743,7 @@ extension UIFocusEnvironment {
     }
     
     fileprivate func nearestResponder(in rendererHost: ViewRendererHost) -> ResponderNode? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -756,10 +756,10 @@ final class FocusNamespaceViewResponder: DefaultLayoutViewResponder {
 
 struct UIKitFocusItemDescription<T: UIFocusItem>: CustomStringConvertible {
     init(_ item: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

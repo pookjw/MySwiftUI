@@ -53,7 +53,7 @@ private import AttributeGraph
     
     @usableFromInline
     internal func error() -> Never {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
@@ -86,7 +86,7 @@ private import AttributeGraph
     }
     
     public init<T>(_ objectType: T.Type) where Value == T?, T : AnyObject, T : Observable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -100,19 +100,19 @@ fileprivate struct FullEnvironmentBox<Value>: DynamicPropertyBox {
     private(set) var tracker: PropertyList.Tracker
     
     func destroy() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func reset() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func update(property: inout Environment<Value>, phase: _GraphInputs.Phase) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -127,7 +127,7 @@ fileprivate struct EnvironmentBox<Value>: DynamicPropertyBox {
     }
     
     func reset() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func update(property: inout Environment<Value>, phase: _GraphInputs.Phase) -> Bool {
@@ -225,6 +225,6 @@ fileprivate struct EnvironmentBox<Value>: DynamicPropertyBox {
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

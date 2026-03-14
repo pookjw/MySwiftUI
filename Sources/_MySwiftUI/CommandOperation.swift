@@ -53,67 +53,67 @@ public struct CommandGroupPlacement: Sendable {
     }()
     
     @MainActor public static let newItem: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let saveItem: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let importExport: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let printItem: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let undoRedo: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let pasteboard: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let textEditing: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let textFormatting: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let toolbar: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let sidebar: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor public static let windowSize: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor static let windowList: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor static let singleWindowList: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor static let windowArrangement: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor static let help: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @MainActor static let appShortcuts: CommandGroupPlacement = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     private let name: Text
@@ -138,27 +138,27 @@ public struct _ResolvedCommands {
     
     @safe static nonisolated(unsafe) let editItem: Text = {
         // $s7SwiftUI17_ResolvedCommandsV8editItem_WZ
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @safe static nonisolated(unsafe) let formatItem: Text = {
         // $s7SwiftUI17_ResolvedCommandsV10formatItem_WZ
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @safe static nonisolated(unsafe) let viewItem: Text = {
         // $s7SwiftUI17_ResolvedCommandsV8viewItem_WZ
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @safe static nonisolated(unsafe) let windowItem: Text = {
         // $s7SwiftUI17_ResolvedCommandsV10windowItem_WZ
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     @safe static nonisolated(unsafe) let helpItem: Text = {
         // $s7SwiftUI17_ResolvedCommandsV8helpItem_WZ
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     var topLevelCommands: [HashableCommandGroupPlacementWrapper] = []
@@ -206,14 +206,14 @@ public struct _ResolvedCommands {
                 options: [],
                 expectedPlacements: {
                     // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU0_
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }()
             ),
             
             // <+1300>
         ]
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

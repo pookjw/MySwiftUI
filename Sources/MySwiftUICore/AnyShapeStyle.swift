@@ -4,7 +4,7 @@ package class AnyShapeStyle: @unchecked Sendable/*, ShapeStyle*/ {
     package var storage: AnyShapeStyle.Storage
     
     init<T: ShapeStyle>(_: T) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

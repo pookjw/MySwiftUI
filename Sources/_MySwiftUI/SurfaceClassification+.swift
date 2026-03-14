@@ -4,6 +4,6 @@ private import MySwiftUICore
 
 extension SurfaceClassification {
     init(_ classification: RCPSurfaceSnappingClassification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

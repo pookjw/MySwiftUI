@@ -131,30 +131,30 @@ final class ContextMenuBridge: NSObject {
 
 extension ContextMenuBridge: _UIContextMenuInteractionDelegate3D {
     func _contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation3D location3D: CAPoint3D) -> UIContextMenuConfiguration? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForDismissingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, willDisplayMenuFor configuration: UIContextMenuConfiguration, animator: (any UIContextMenuInteractionAnimating)?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, willEndFor configuration: UIContextMenuConfiguration, animator: (any UIContextMenuInteractionAnimating)?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: any UIContextMenuInteractionCommitAnimating) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

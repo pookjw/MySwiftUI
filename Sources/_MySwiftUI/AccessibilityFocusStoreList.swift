@@ -4,7 +4,7 @@ struct AccessibilityFocusStoreList {
     private var items: [AccessibilityFocusStoreList.Item] = []
     
     var version: DisplayList.Version {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -19,7 +19,7 @@ extension AccessibilityFocusStoreList {
         }
         
         static func reduce(value: inout AccessibilityFocusStoreList, nextValue: () -> AccessibilityFocusStoreList) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

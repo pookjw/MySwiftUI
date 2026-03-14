@@ -163,10 +163,10 @@ open class _UIHostingView<Content: View>: UIView {
     
     private var inheritedEnvironment: EnvironmentValues? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -641,7 +641,7 @@ open class _UIHostingView<Content: View>: UIView {
         }
         
         // <+1120>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override var _intelligenceBaseClass: AnyClass {
@@ -823,7 +823,7 @@ open class _UIHostingView<Content: View>: UIView {
             return super.safeAreaInsets
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     open override func safeAreaInsetsDidChange() {
@@ -870,11 +870,11 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     @objc open override var _accessibilitySwiftUIDebugData: [[String : Any]] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 
     @objc open override func _accessibilityIsSwiftUIHostingCellView() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic func didMoveToWindow() {
@@ -987,11 +987,11 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private func setLayerDebugName() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func accessibilityFocusedElementDidChange(_ notification: Notification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private func addToHostingViewRegistry() {
@@ -1038,15 +1038,15 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     @objc private func immersiveSpaceAuthorityDidChangeImmersion() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc private func sceneDidChangeImmersionState() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public override func myswiftui_addManagedInteraction(_ interaction: any UIInteraction) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public override func myswiftui_insertManagedSubview(_ subview: UIView, at index: Int) {
@@ -1125,7 +1125,7 @@ open class _UIHostingView<Content: View>: UIView {
         }
         
         // <+436>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private var shouldDisableUIKitAnimation: Bool {
@@ -1203,7 +1203,7 @@ open class _UIHostingView<Content: View>: UIView {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func updateBackgroundColor() {
@@ -1253,31 +1253,31 @@ protocol UIHostingViewDelegate: AnyObject {
 extension _UIHostingView {
     struct EnableVFDFeature: ViewGraphFeature {
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func uninstantiate(graph: ViewGraph) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func isHiddenForReuseDidChange(graph: ViewGraph) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func needsUpdate(graph: ViewGraph) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func update(graph: ViewGraph) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -1343,28 +1343,28 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     
     package final var currentTimestamp: MySwiftUICore.Time {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set(newValue) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     package final var valuesNeedingUpdate: MySwiftUICore.ViewGraphRootValues {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set(newValue) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     package final var renderingPhase: MySwiftUICore.ViewRenderingPhase {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set(newValue) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -1457,7 +1457,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         if accessibilityEnabled {
             focusAction = AccessibilityRequestFocusAction(onAccessibilityFocus: { _, _ in
                 // partial apply forwarder for closure #2 (Swift.AnyHashable, SwiftUI.Namespace.ID) -> () in SwiftUI._UIHostingView.updateEnvironment() -> ()
-                fatalError("TODO")
+                assertUnimplemented()
             })
         } else {
             focusAction = AccessibilityRequestFocusAction(onAccessibilityFocus: nil)
@@ -1711,7 +1711,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     @_spi(Internal) public final func updateAccessibilityEnvironment() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_spi(Internal) public final func `as`<T>(_ type: T.Type) -> T? {
@@ -1769,7 +1769,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package nonisolated final func startUpdateTimer(delay: Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @_spi(Internal) public final func setNeedsUpdate() {
@@ -1894,7 +1894,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
     
     package final var _legacyHostKeyboardHeight: CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1909,7 +1909,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewProvider {
     }
     
     final func renderForPreferences(updateDisplayList: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final var shouldCreateUIInteractions: Bool {
@@ -1929,7 +1929,7 @@ extension _UIHostingView: @preconcurrency UICoreViewControllerProvider {
 
 extension _UIHostingView: @preconcurrency HostingViewProtocol {
     final func convertAnchor<T>(_ anchor: MySwiftUICore.Anchor<T>) -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1961,7 +1961,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
     }
     
     final func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims.UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func baseSceneBecameKey(_ base: _UIKitShims.UIHostingViewBase) {
@@ -1975,7 +1975,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
     }
     
     final func baseSceneResignedKey(_ base: _UIKitShims.UIHostingViewBase) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1985,11 +1985,11 @@ extension _UIHostingView: @preconcurrency FocusHost {
     }
     
     func focus(item: FocusItem) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func focusDidChange() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

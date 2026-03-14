@@ -5,10 +5,10 @@ enum SharingPickerSource {
     case indirect(Binding<Bool>, AnyIdentifiableShareConfiguration)
     
     var isPresented: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var id: Namespace.ID? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

@@ -62,10 +62,10 @@ final class PointerBridge: NSObject {
 
 extension PointerBridge: UIPointerInteractionDelegate {
     func pointerInteraction(_ interaction: UIPointerInteraction, regionFor request: UIPointerRegionRequest, defaultRegion: UIPointerRegion) -> UIPointerRegion? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

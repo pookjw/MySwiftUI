@@ -14,7 +14,7 @@ extension ViewTransform {
                 let appDelegate = AppDelegate.shared
             {
                 // <+324>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         

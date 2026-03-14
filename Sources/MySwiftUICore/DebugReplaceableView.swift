@@ -6,19 +6,19 @@ public struct DebugReplaceableView: View {
     
     @usableFromInline
     init<V>(_erasing view: V) where V : View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeView(view: _GraphValue<DebugReplaceableView>, inputs: _ViewInputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<DebugReplaceableView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var body: Never

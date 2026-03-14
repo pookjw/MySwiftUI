@@ -42,11 +42,11 @@ extension RemoteEffectGroupInfo {
         case none
         
         func hash(into hasher: inout Hasher) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static func == (lhs: RemoteEffectGroupInfo.ID, rhs: RemoteEffectGroupInfo.ID) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -77,7 +77,7 @@ struct RemoteEffectsPlatformState {
     var hoverEffectState = HoverEffectState()
     
     var values: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -116,11 +116,11 @@ struct HoverEffectState {
     
     func applyPosition(_ origin: CGPoint) -> Bool {
         if !groups.isEmpty {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         if !leafEffects.isEmpty {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         return false
@@ -131,7 +131,7 @@ struct HoverEffectState {
             return false
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

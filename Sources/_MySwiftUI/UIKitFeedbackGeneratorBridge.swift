@@ -77,6 +77,6 @@ class UIKitFeedbackGeneratorBridge<Content: View> {
     }
     
     private func entity(for: ViewIdentity, logPrefix: String) -> AudioFeedbackEntity {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

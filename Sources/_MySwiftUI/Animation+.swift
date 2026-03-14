@@ -3,12 +3,12 @@ internal import MySwiftUICore
 
 extension Animation {
     static func uiViewAnimation(curve: Int, duration: Double) -> Animation? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension Animation.Function {
     var animationSettings: BSAnimationSettings {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

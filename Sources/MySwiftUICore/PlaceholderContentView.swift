@@ -6,11 +6,11 @@ public struct PlaceholderContentView<Value>: View {
     }
     
     public nonisolated static func _makeViewList(view: _GraphValue<PlaceholderContentView<Value>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Swift.Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public typealias Body = Never
@@ -47,7 +47,7 @@ extension ViewModifierContentProvider {
                 return outputs
             case .list(let transform):
                 // <+184>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         } else {
             // <+588>
@@ -56,7 +56,7 @@ extension ViewModifierContentProvider {
     }
     
     static nonisolated func providerMakeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -79,15 +79,15 @@ fileprivate struct BodyInput<Body>: ViewInput {
 
 fileprivate enum BodyInputElement: GraphReusable, Equatable {
     func makeReusable(indirectMap: IndirectAttributeMap) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func tryToReuse(by: BodyInputElement, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func == (lhs: BodyInputElement, rhs: BodyInputElement) -> Bool {
-        fatalError("TODO") // _AGCompareValues
+        assertUnimplemented() // _AGCompareValues
     }
     
     case view((_Graph, _ViewInputs) -> _ViewOutputs)

@@ -134,7 +134,7 @@ class UIKitNavigationBridge {
     }
     
     final var containingNavController: UINavigationController? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @inline(__always)
@@ -145,7 +145,7 @@ class UIKitNavigationBridge {
     
     fileprivate final func updateNavigationDestinationsIfNeeded(preference: PreferenceValues.Value<[Namespace.ID: NavigationDestinationPresentation]>) {
         func popCurrentView(transaction: Transaction) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         /*
@@ -201,7 +201,7 @@ class UIKitNavigationBridge {
     }
     
     fileprivate final func updatePresentedContent(_: NavigationDestinationContent, animated: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO
@@ -363,38 +363,38 @@ struct NavigationDestinationsKey: HostPreferenceKey {
     static nonisolated(unsafe) let defaultValue: [Namespace.ID: NavigationDestinationPresentation] = [:]
     
     static func reduce(value: inout [Namespace.ID: NavigationDestinationPresentation], nextValue: () -> [Namespace.ID: NavigationDestinationPresentation]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 fileprivate struct UIKitNavigationBridgePresentationModeLocation: Location {
     func get() -> PresentationMode {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func set(_ newValue: PresentationMode, transaction: MySwiftUICore.Transaction) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var wasRead: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     static func == (lhs: UIKitNavigationBridgePresentationModeLocation, rhs: UIKitNavigationBridgePresentationModeLocation) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private(set) weak var bridge: UIKitNavigationBridge?
@@ -453,5 +453,5 @@ func nextNavigationDestination(
     }
     
     // <+44>
-    fatalError("TODO")
+    assertUnimplemented()
 }

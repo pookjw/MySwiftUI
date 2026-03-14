@@ -1,7 +1,7 @@
 
 public struct Image: View {
     public var body: Never {
-        fatalError("TODO")
+        assertUnimplemented()
     } // TODO
 }
 

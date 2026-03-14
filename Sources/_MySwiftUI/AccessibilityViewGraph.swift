@@ -29,7 +29,7 @@ struct AccessibilityViewGraph {
     }
     
     private var rootFocusStoreList: AccessibilityFocusStoreList? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -102,15 +102,15 @@ extension AccessibilityViewGraph: ViewGraphFeature {
     }
     
     func uninstantiate(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func isHiddenForReuseDidChange(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func needsUpdate(graph: ViewGraph) -> Bool {
@@ -154,13 +154,13 @@ extension AccessibilityViewGraph: ViewGraphFeature {
     }
     
     func update(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 struct SwiftUITextAccessibilityProvider: TextAccessibilityProvider {
     public var body: Never {
-        fatalError("TODO")
+        assertUnimplemented()
     } // TODO
 }
 
@@ -170,7 +170,7 @@ struct SwiftUIImageAccessibilityProvider: ImageAccessibilityProvider {
 
 struct SwiftUIPrivacyReductionAccessibilityProvider: PrivacyReductionAccessibilityProvider {
     func body(content: Content) -> Never {
-        fatalError("TODO") // TODO
+        assertUnimplemented() // TODO
     }
 }
 

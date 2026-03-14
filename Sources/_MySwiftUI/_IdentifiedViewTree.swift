@@ -7,7 +7,7 @@ public enum _IdentifiedViewTree {
     case array([_IdentifiedViewTree])
     
     public func forEach(_ body: (_IdentifiedViewProxy) -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -20,11 +20,11 @@ public struct _IdentifiedViewsKey: HostPreferenceKey {
     public typealias Value = _IdentifiedViewTree
     
     nonisolated(unsafe) public static let defaultValue: _IdentifiedViewTree = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static func reduce(value: inout _IdentifiedViewsKey.Value, nextValue: () -> _IdentifiedViewsKey.Value) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -23,23 +23,23 @@ struct ContentSizedSceneFeature<GeometryMeasurer: ViewGraphGeometryMeasurer>: Vi
     private var sizeRestrictionsCallback: ([GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences
     
     init(graph: ViewGraph, delegate: (any ContentSizedSceneDelegate)?, callback: (_ proposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func uninstantiate(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func needsUpdate(graph: ViewGraph) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func update(graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -53,10 +53,10 @@ fileprivate final class SizingPreferencesChangeDispatcher {
     }
     
     func contentSizeDidChange(sizingPreferences: SizingPreferences, transaction: Transaction?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func update() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

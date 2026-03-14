@@ -32,7 +32,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     private var connectionOptions: UIScene.ConnectionOptions? = nil
     
     override func forwardingTarget(for aSelector: Selector!) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override init() {
@@ -48,39 +48,39 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

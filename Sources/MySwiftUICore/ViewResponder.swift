@@ -37,7 +37,7 @@ private import os.log
     }
     
     package var gestureContainer: AnyObject? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final func hitTest(globalPoint: Point3D, radius: CGFloat, options: ViewResponder.ContainsPointsOptions = .platformDefault, serverHitTest: ServerHitTest?) -> ViewResponder? {
@@ -56,7 +56,7 @@ private import os.log
             let result = self.lookupResponder(for: responderID, startingFrom: self, searchParentChain: true)
         {
             // <+220>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+296>
@@ -70,7 +70,7 @@ private import os.log
         // <+544>
         if copy_1.contains(.uncached) {
             // <+632>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // w23
@@ -82,11 +82,11 @@ private import os.log
         }
         
         // <+644>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func lookupResponder(for renderID: UInt64, startingFrom: ViewResponder, searchParentChain: Bool) -> ViewResponder? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate final func singlePointHitTest(globalPoint: Point3D, cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> (ViewResponder, Double)? {
@@ -107,15 +107,15 @@ private import os.log
             return nil
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

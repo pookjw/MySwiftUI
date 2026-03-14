@@ -35,15 +35,15 @@ extension Layout {
     }
     
     public func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func spacing(subviews: Self.Subviews, cache: inout Self.Cache) -> ViewSpacing {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -271,7 +271,7 @@ public protocol LayoutValueKey {
     var storage: AnyLayoutBox
     
     public init<L>(_ layout: L) where L : Layout {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public struct Cache: Sendable {
@@ -280,39 +280,39 @@ public protocol LayoutValueKey {
     public typealias AnimatableData = _AnyAnimatableData
     
     public func makeCache(subviews: AnyLayout.Subviews) -> AnyLayout.Cache {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func updateCache(_ cache: inout AnyLayout.Cache, subviews: AnyLayout.Subviews) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func spacing(subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> ViewSpacing {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func sizeThatFits(proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var animatableData: AnyLayout.AnimatableData {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -329,7 +329,7 @@ struct AnyLayoutProperties: Rule, AsyncAttribute {
     }
     
     var value: Axis? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -345,7 +345,7 @@ extension _ViewListOutputs {
         }
         
         var value: ViewList {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

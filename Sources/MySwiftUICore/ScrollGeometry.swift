@@ -10,7 +10,7 @@ public struct ScrollGeometry: Equatable, Sendable {
     public var visibleRect: CGRect
     
     public var bounds: CGRect {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var zero: ScrollGeometry {
@@ -18,7 +18,7 @@ public struct ScrollGeometry: Equatable, Sendable {
     }
     
     static func viewTransform(contentInsets: EdgeInsets, contentSize: CGSize, containerSize: CGSize) -> ScrollGeometry {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func rootViewTransform(contentOffset: CGPoint, containerSize: CGSize) -> ScrollGeometry {
@@ -32,30 +32,30 @@ public struct ScrollGeometry: Equatable, Sendable {
     }
     
     static func size(_ size: CGSize) -> ScrollGeometry {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func applyLayoutDirection(_: LayoutDirection, contentSize: CGSize?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func translate(by: CGSize, limit: CGSize) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func outsetForAX(limit: CGSize) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension ScrollGeometry {
     public init(contentOffset: CGPoint, contentSize: CGSize, contentInsets: EdgeInsets, containerSize: CGSize) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension ScrollGeometry: CustomDebugStringConvertible {
     public var debugDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

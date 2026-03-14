@@ -38,7 +38,7 @@ class _ViewList_Subgraph {
     }
     
     final func wrapping(_ vistList: ViewList) -> _ViewList_Subgraph {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func invalidate() {
@@ -99,7 +99,7 @@ package struct _ViewList_ID: Hashable {
     package func hash(into hasher: inout Hasher) {
         hasher.combine(_index)
         hasher.combine(implicitID)
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -213,19 +213,19 @@ public struct _ViewListOutputs {
 
 extension _ViewListOutputs {
     static func sectionListOutputs(_: [_ViewListOutputs], inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func groupViewList<Parent: View, Footer: View>(parent: _GraphValue<Parent>, footer: Attribute<Footer>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func groupViewListCount<Content: View, Header: View, Footer: View>(inputs: _ViewListCountInputs, contentType: Content.Type, headerType: Header.Type, footerType: Footer.Type) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func nonEmptyParentViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func emptyViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -390,7 +390,7 @@ extension _ViewListOutputs {
     }
     
     func makeAttribute(viewInputs: _ViewInputs) -> Attribute<ViewList> {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func multiModifier<T: ViewModifier>(_ value: _GraphValue<T>, inputs: _ViewListInputs) {
@@ -564,7 +564,7 @@ extension _ViewListOutputs {
                  x2 -> outputs
                  x4 -> inputs
                  */
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             repeat {
@@ -726,11 +726,11 @@ protocol ViewList {
 
 extension ViewList {
     var count: Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applyIDs(from index: inout Int, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applySublists(from index: inout Int, list: Attribute<ViewList>?, to body: (_ViewList_Sublist) -> Bool) -> Bool {
@@ -738,35 +738,35 @@ extension ViewList {
     }
     
     var allViewIDs: _ViewList_ID_Views {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applyIDs(from: inout Int, listAttribute: Attribute<ViewList>?, to body: (_ViewList_ID) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func firstOffset(of: _ViewList_ID.Canonical) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var debugDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applyIDs(from index: inout Int, style: _ViewList_IteratorStyle, listAttribute: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var isEmpty: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var estimatedCount: Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applySublists(from index: inout Int, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_Sublist) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, to body: (_ViewList_Sublist) -> Bool) -> Bool {
@@ -783,19 +783,19 @@ extension ViewList {
     }
     
     func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, to body: (_ViewList_Sublist) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applySublists(from index: inout Int, to body: (_ViewList_Sublist) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applyIDs(from: inout Int, listAttribute: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func firstOffset(of: _ViewList_ID.Canonical, style: _ViewList_IteratorStyle) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -823,11 +823,11 @@ extension _ViewList_Elements {
     }
     
     func makeOneElement(at index: Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func makeOneElement(at index: Int, inputs: _ViewInputs, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -835,7 +835,7 @@ class _ViewList_ID_Views {
     private let isDataDependent: Bool
     
     init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO
@@ -857,7 +857,7 @@ fileprivate struct TypedUnaryViewGenerator: UnaryViewGenerator {
     }
     
     func tryToReuse(by other: TypedUnaryViewGenerator, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func makeView(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?) -> _ViewOutputs {
@@ -946,7 +946,7 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
     }
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -957,17 +957,17 @@ fileprivate struct BaseViewList: CustomStringConvertible {
     var traits: ViewTraitCollection
     
     var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension BaseViewList: ViewList {
     func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
@@ -975,11 +975,11 @@ extension BaseViewList: ViewList {
     }
     
     var viewIDs: _ViewList_ID_Views? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applyNodes(
@@ -1027,11 +1027,11 @@ extension BaseViewList: ViewList {
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func print(into: inout SExpPrinter) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1046,7 +1046,7 @@ extension BaseViewList {
         @OptionalAttribute var traits: ViewTraitCollection?
         
         var description: String {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var value: any ViewList {
@@ -1081,7 +1081,7 @@ struct _ViewList_IteratorStyle: Equatable {
             value = (value & 1) | ((UInt(bitPattern: newValue) & ((1 << 63) - 1)) << 1)
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -1093,7 +1093,7 @@ struct _ViewList_IteratorStyle: Equatable {
             value = (value & ~1) | (newValue ? 1 : 0)
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -1159,7 +1159,7 @@ struct _ViewList_IteratorStyle: Equatable {
     }
     
     func bindID(_ other: _ViewList_ID) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func apply(sublist: inout _ViewList_Sublist) {
@@ -1179,12 +1179,12 @@ struct _ViewList_IteratorStyle: Equatable {
             }
         case .transform(_):
             // _ViewList_SublistTransform.apply(sublist: inout _ViewList_Sublist)의 inline일 수도 있음
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     var isEmpty: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func withPushedItem<T, U: _ViewList_SublistTransform_Item>(_ item: U, do block: (borrowing _ViewList_TemporarySublistTransform) -> T) -> T {
@@ -1224,19 +1224,19 @@ struct _ViewList_IteratorStyle: Equatable {
     }
     
     func wrapSubgraphs(into storage: inout _ViewList_SublistSubgraphStorage) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func copy() -> _ViewList_SublistTransform {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func push(_ item: any _ViewList_SublistTransform_Item, flags: _ViewList_SublistTransform_ItemFlags) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func pop(flags: _ViewList_SublistTransform_ItemFlags) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1272,11 +1272,11 @@ extension _ViewList_SublistTransform_Item {
     }
     
     func applyIDs(from index: inout Int, style: _ViewList_IteratorStyle, listAttribute: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applySublists(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1300,7 +1300,7 @@ enum _ViewList_Node {
         switch self {
         case .list(_):
             // <+100>
-            fatalError("TODO")
+            assertUnimplemented()
         case .sublist(let sublist):
             // <+580>
             // sp + 0x40
@@ -1330,12 +1330,12 @@ enum _ViewList_Node {
             }
         case .section(_):
             // <+712>
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     func applySublists(from index: inout Int, transform: borrowing _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1364,15 +1364,15 @@ struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
     var lists: [(list: any ViewList, attribute: Attribute<ViewList>)]
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
@@ -1387,19 +1387,19 @@ struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
     }
     
     func applyIDs(from: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to: (_ViewList_ID) -> Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var traitKeys: ViewTraitKeys? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var viewIDs: _ViewList_ID_Views? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func applyNodes(
@@ -1413,15 +1413,15 @@ struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func print(into: inout SExpPrinter) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var traits: ViewTraitCollection {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1443,7 +1443,7 @@ extension _ViewList_Group {
         }
         
         var description: String {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -1565,11 +1565,11 @@ fileprivate struct MergedElements: _ViewList_Elements {
     }
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func findElement(at index: Int) -> (_ViewList_Elements, Int)? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1588,7 +1588,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
     }
     
     init<T: ViewModifier>(base: _ViewList_Elements, modifier: Attribute<T>, baseInputs: _GraphInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var count: Int {
@@ -1670,7 +1670,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
     }
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1679,23 +1679,23 @@ fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
     let listModifier: ModifiedViewList.ListModifier
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var traitKeys: ViewTraitKeys? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var viewIDs: _ViewList_ID_Views? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var traits: ViewTraitCollection {
@@ -1723,19 +1723,19 @@ fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func print(into: inout SExpPrinter) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var debugDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1784,11 +1784,11 @@ extension ModifiedViewList {
         }
         
         func bindID(_ id: inout _ViewList_ID) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func wrapSubgraph(into storage: inout _ViewList_SublistSubgraphStorage) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

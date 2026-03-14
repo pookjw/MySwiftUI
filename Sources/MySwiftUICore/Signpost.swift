@@ -68,11 +68,11 @@ struct Signpost {
     
     @inlinable
     func traceEvent(type: OSSignpostType, args: @autoclosure () -> [CVarArg]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var published: Signpost {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @inlinable

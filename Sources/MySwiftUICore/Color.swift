@@ -25,11 +25,11 @@ public struct Color: View, Hashable, CustomStringConvertible, Sendable {
     }
     
     package init(_ resolved: Color.Resolved) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public nonisolated var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public nonisolated func hash(into hasher: inout Hasher) {
@@ -118,23 +118,23 @@ struct ResolvedColorProvider: Hashable, ColorProvider {
     }
     
     func apply(color: Color, to: inout _ShapeStyle_Shape) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var staticColor: CGColor? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var kitColor: AnyObject? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var colorDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func opacity(at: Int, environment: EnvironmentValues) -> Float {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -203,7 +203,7 @@ extension Color {
         public var opacity: Float
         
         public init(_ resolved: Color.Resolved) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         init(linearRed: Float, linearGreen: Float, linearBlue: Float, opacity: Float) {
@@ -214,7 +214,7 @@ extension Color {
         }
         
         public var description: String {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         public var animatableData: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>> {
@@ -267,15 +267,15 @@ extension Color {
         }
         
         public init(colorSpace: Color.RGBColorSpace = .sRGB, red: Float, green: Float, blue: Float, opacity: Float = 1) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         public init(_ colorSpace: Color.RGBColorSpace = .sRGB, white: Double, opacity: Double = 1) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         public init(hue: Double, saturation: Double, brightness: Double, opacity: Double = 1) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         public var red: Float {
@@ -317,7 +317,7 @@ extension Color {
                 return s0
             }
             set {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
@@ -359,7 +359,7 @@ extension Color {
                 return s0
             }
             set {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
@@ -400,7 +400,7 @@ extension Color {
                 return s0
             }
             set {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
     }
@@ -503,7 +503,7 @@ extension Color {
         }
         
         public var cgColor: CGColor? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         @_alwaysEmitIntoClient public var headroom: Float? {
@@ -521,55 +521,55 @@ extension Color.ResolvedHDR: BitwiseCopyable, ShapeStyle {}
 
 extension Color {
     public static nonisolated let red: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let orange: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let yellow: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let green: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let mint: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let teal: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let cyan: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let blue = Color(box: ColorBox(SystemColorType.blue))
     
     public static nonisolated let indigo: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let purple: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let pink: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let brown: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let white = Color(.white)
     
     public static nonisolated let gray: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let black = Color(.black)
@@ -577,15 +577,15 @@ extension Color {
     public static nonisolated let clear = Color(.clear)
     
     public static nonisolated let primary: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static nonisolated let secondary: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     package static nonisolated let _background: Color = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
 }
 
@@ -614,35 +614,35 @@ enum SystemColorType: CodableSerializable, Hashable, ColorProvider, Codable {
     case quaternaryFill
     
     var tag: Color.ProviderTag {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func resolve(in: EnvironmentValues) -> Color.Resolved {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func resolveHDR(in: EnvironmentValues) -> Color.ResolvedHDR {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func apply(color: Color, to: inout _ShapeStyle_Shape) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var staticColor: CGColor? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var kitColor: AnyObject? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var colorDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func opacity(at: Int, environment: EnvironmentValues) -> Float {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO: CodingKeys
@@ -679,7 +679,7 @@ struct UIKitPlatformColorProvider: PlatformColorProvider, Hashable, Serializable
     }
     
     var tag: Color.ProviderTag {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func resolve(in environment: EnvironmentValues) -> Color.Resolved {
@@ -704,27 +704,27 @@ struct UIKitPlatformColorProvider: PlatformColorProvider, Hashable, Serializable
     }
     
     func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func apply(color: Color, to: inout _ShapeStyle_Shape) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var staticColor: CGColor? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var kitColor: AnyObject? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var colorDescription: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func opacity(at: Int, environment: EnvironmentValues) -> Float {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -800,7 +800,7 @@ struct ColorView: ResolvedPaint, RendererLeafView {
     @safe private(set) nonisolated(unsafe) var allowedDynamicRange: Image.DynamicRange
     
     static nonisolated func == (lhs: ColorView, rhs: ColorView) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -830,7 +830,7 @@ struct ColorView: ResolvedPaint, RendererLeafView {
     }
     
     static var requiresMainThread: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func content() -> DisplayList.Content.Value {
@@ -840,11 +840,11 @@ struct ColorView: ResolvedPaint, RendererLeafView {
 
 extension EnvironmentValues {
     func effectiveAllowedDynamicRange(hdrContent: Bool, explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func effectiveAllowedDynamicRange(explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -991,23 +991,23 @@ extension Color.ResolvedHDR {
     
     struct _Animatable: VectorArithmetic, Equatable {
         static func += (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static func + (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static func -= (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static func - (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var zero: Color.ResolvedHDR._Animatable {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         fileprivate private(set) var color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>
@@ -1019,15 +1019,15 @@ extension Color.ResolvedHDR {
         }
         
         mutating func scale(by rhs: Double) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var magnitudeSquared: Double {
             get {
-                fatalError("TODO")
+                assertUnimplemented()
             }
             set {
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
     }
@@ -1035,6 +1035,6 @@ extension Color.ResolvedHDR {
 
 extension Color.Resolved {
     init?(failableCGColor: CGColor) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

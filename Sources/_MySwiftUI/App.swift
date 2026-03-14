@@ -52,7 +52,7 @@ fileprivate func KitRendererCommon(_ type: AnyObject.Type) -> Never {
 // _TtC7SwiftUIP33_ACC2C5639A7D76F611E170E831FCA49118SwiftUIApplication
 fileprivate final class SwiftUIApplication: UIApplication {
     override func _extendLaunchTest() -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override init() {

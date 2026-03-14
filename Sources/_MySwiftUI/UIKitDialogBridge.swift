@@ -30,7 +30,7 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
             return
         case .confirmationDialog(let viewIdentity):
             // <+328>
-            fatalError("TODO")
+            assertUnimplemented()
         case .none:
             return
         }
@@ -62,7 +62,7 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
         
         if !dialogSeed.matches(incomingDialogSeed) {
             // <+1464>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+2556>
@@ -83,7 +83,7 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
         
         if !alertSeed.matches(incomingAlertSeed) {
             // <+2820>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+3912>
@@ -114,15 +114,15 @@ extension ConfirmationDialog {
         static nonisolated(unsafe) let defaultValue: [ViewIdentity: ConfirmationDialog] = [:]
         
         static func reduce(value: inout [ViewIdentity: ConfirmationDialog], nextValue: () -> [ViewIdentity: ConfirmationDialog]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _isReadableByHost: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _includesRemovedValues: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -136,15 +136,15 @@ extension AlertStorage {
         static nonisolated(unsafe) let defaultValue: [ViewIdentity: AlertStorage] = [:]
         
         static func reduce(value: inout [ViewIdentity: AlertStorage], nextValue: () -> [ViewIdentity: AlertStorage]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _isReadableByHost: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         static var _includesRemovedValues: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

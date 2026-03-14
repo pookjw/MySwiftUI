@@ -21,7 +21,7 @@ class PlatformAlertController: UIAlertController {
     
     @MainActor
     func update<T: AlertControllerConvertible>(for: T, with: EnvironmentValues, environmentChanged: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

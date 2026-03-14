@@ -11,7 +11,7 @@ private import AttributeGraph
     private var presented: UIActivityViewController? = nil // 0xd8
     private var lastPresentationSeed: VersionSeed = .empty // 0x938
     private lazy var popoverPresentationDelegate: PopoverPresentationDelegate = {
-        fatalError("TODO")
+        assertUnimplemented()
     }() // 0x940 (storage)
     private var hasPendingAnchorUpdate: Bool = false // 0x7a8
     
@@ -68,7 +68,7 @@ private import AttributeGraph
         }
         
         // <+540>
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func transformDidChange() {
@@ -85,11 +85,11 @@ private import AttributeGraph
             return
         } 
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func reset() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @inline(__always)
@@ -109,7 +109,7 @@ extension SharingActivityPickerPresentation {
         static let defaultValue: [SharingActivityPickerPresentation] = []
         
         static func reduce(value: inout [SharingActivityPickerPresentation], nextValue: () -> [SharingActivityPickerPresentation]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

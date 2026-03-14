@@ -49,7 +49,7 @@ open class UIHostingController<Content: View>: UIViewController {
     final var overridePreferredContainerBackgroundStyle: UIContainerBackgroundStyle = .automatic // 0xb28
     @preconcurrency public var sizingOptions: UIHostingControllerSizingOptions = [] {
         didSet {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -63,7 +63,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     public dynamic required init?(coder: NSCoder) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic func loadView() {
@@ -86,29 +86,29 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic var childForHomeIndicatorAutoHidden: UIViewController? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var msui_childViewControllerForInterfaceOrientationLock: UIViewController? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
 #if os(visionOS)
     open override dynamic var childViewControllerForPreferredContainerBackgroundStyle: UIViewController? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 #endif
     
     open override dynamic var childForScreenEdgesDeferringSystemGestures: UIViewController? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var childForStatusBarHidden: UIViewController? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var childForStatusBarStyle: UIViewController? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic func didMove(toParent parent: UIViewController?) {
@@ -117,58 +117,58 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var isModalInPresentation: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     open override dynamic var keyCommands: [UIKeyCommand]? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
 #if os(visionOS)
     open override dynamic var preferredContainerBackgroundStyle: UIContainerBackgroundStyle {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 #endif
     
     open override dynamic func preferredContentSizeDidChange(forChildContentContainer container: any UIContentContainer) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var preferredStatusBarStyle: UIStatusBarStyle {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var prefersHomeIndicatorAutoHidden: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var prefersStatusBarHidden: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic func target(forAction action: Selector, withSender sender: Any?) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic var undoManager: UndoManager? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open override dynamic func viewDidAppear(_ animated: Bool) {
@@ -222,7 +222,7 @@ open class UIHostingController<Content: View>: UIViewController {
         if let sceneBridge = host.sceneBridge {
             // <+192>
             // flag를 조건에 따라 true
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+220>
@@ -247,7 +247,7 @@ open class UIHostingController<Content: View>: UIViewController {
                 }
                 
                 // <+224>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
@@ -256,7 +256,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic func _wantsTransparentBackground() -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @preconcurrency public init(rootView: Content) {
@@ -266,19 +266,19 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     @preconcurrency public init?(coder aDecoder: NSCoder, rootView: Content) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func sizeThatFits(in size: CGSize) -> CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @preconcurrency public func _render(seconds: Double) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @preconcurrency public func _forEachIdentifiedView(body: (_IdentifiedViewProxy) -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS, introduced: 13.0, deprecated: 16.4, message: "Use UIHostingController/safeAreaRegions or _UIHostingView/safeAreaRegions")
@@ -287,24 +287,24 @@ open class UIHostingController<Content: View>: UIViewController {
     @available(watchOS, introduced: 6.0, deprecated: 9.4, message: "Use UIHostingController/safeAreaRegions or _UIHostingView/safeAreaRegions")
     @preconcurrency public var _disableSafeArea: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     @preconcurrency public final var _rendererConfiguration: _RendererConfiguration {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     @preconcurrency public final var _rendererObject: AnyObject? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package final func _as<T>(_ type: T.Type) -> T? {
@@ -401,82 +401,82 @@ open class UIHostingController<Content: View>: UIViewController {
     
     final var _preferredStatusBarStyle: UIStatusBarStyle {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var _prefersStatusBarHidden: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var _preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var _childForStatusBarStyle: UIViewController? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var _childForStatusBarHidden: UIViewController? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var _childForInterfaceOrientationLock: UIViewController? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var _persistentSystemOverlays: Visibility {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var _prefersHomeIndicatorAutoHidden: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var _childForHomeIndicatorAutoHidden: UIViewController? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var disallowAnimations: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var centersRootView: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     final var isHiddenForReuse: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -736,7 +736,7 @@ open class UIHostingController<Content: View>: UIViewController {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func _viewWillLayoutSubviews() {
@@ -776,7 +776,7 @@ open class UIHostingController<Content: View>: UIViewController {
         // <+320>
         if let testBridge {
             // <+332>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+608>
@@ -1324,10 +1324,10 @@ extension UIHostingController {
     @available(macOS, unavailable)
     @preconcurrency public var safeAreaRegions: SafeAreaRegions {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -1337,7 +1337,7 @@ extension UIHostingController : _UIHostingViewable where Content == AnyView {
 
 extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {
     func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -1359,13 +1359,13 @@ extension UIHostingController: UIHostingControllerProvider {
 @available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 @available(macOS, unavailable)
 public func _makeUIHostingController(_ view: AnyView) -> any NSObject & _UIHostingViewable {
-    fatalError("TODO")
+    assertUnimplemented()
 }
 
 @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 @available(macOS, unavailable)
 public func _makeUIHostingController(_ view: AnyView, tracksContentSize: Bool, secure: Bool = false) -> any NSObject & _UIHostingViewable {
-    fatalError("TODO")
+    assertUnimplemented()
 }
 
 @available(watchOS 6.0, *)
@@ -1374,10 +1374,10 @@ public func _makeUIHostingController(_ view: AnyView, tracksContentSize: Bool, s
 @available(tvOS, unavailable)
 @available(visionOS, unavailable)
 public func _makeWatchKitUIHostingController(_ view: AnyView) -> any NSObject & _UIHostingViewable {
-    fatalError("TODO")
+    assertUnimplemented()
 }
 
 @safe fileprivate nonisolated(unsafe) let clientNeedsNestedToolbarBridgeSuppression: Bool = {
     // $s7SwiftUI41clientNeedsNestedToolbarBridgeSuppression33_1D3224F5185670D36FFEB48E24E43C4FLLSbvpfiSbyXEfU_
-    fatalError("TODO")
+    assertUnimplemented()
 }()

@@ -172,15 +172,15 @@ package enum Update {
     }
     
     package static func wait() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func broadcast() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static var isActive: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func assertIsActive() {

@@ -68,7 +68,7 @@ extension UIHostingController {
                 
             } completion: { _ in
                 // $s7SwiftUI19UIHostingControllerC23coordinateListSelection21transitionCoordinator10isAnimatedySo06UIViewd10TransitionI0_pSg_SbtFySo0ldmI7Context_pcfU0_TA
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             let indexPathsForSelectedItems = collectionView.indexPathsForSelectedItems
@@ -77,7 +77,7 @@ extension UIHostingController {
     }
     
     final func updateIncomingBoundsIfNeeded(navigationController: UINavigationController) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func topOrBottomContentScrollView() -> UIScrollView? {

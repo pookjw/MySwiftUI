@@ -16,7 +16,7 @@ extension _ViewOutputs {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -27,7 +27,7 @@ struct ContentShapePathData: PreferenceKey {
     }
     
     static func reduce(value: inout Value, nextValue: () -> Value) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private var transform: Attribute<ViewTransform>?

@@ -165,7 +165,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
     }
     
     static func didReinsert(attribute: AnyAttribute) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

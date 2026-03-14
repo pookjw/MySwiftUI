@@ -11,31 +11,31 @@ protocol Layout3D: Layout {
 
 extension Layout3D {
     static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func explicitAlignment(of alignment: DepthAlignment, in: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Cache) -> CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var depthProperties : LayoutDepthProperties {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func updateLayoutComputer<T: StatefulRule>(rule: inout T, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) where T.Value == LayoutComputer {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func makeLayoutView3D(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func makeStaticView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func makeDynamicView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

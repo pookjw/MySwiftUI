@@ -10,6 +10,6 @@ class ImmersiveSpaceAuthority {
     var _immersion: Immersion
     
     init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

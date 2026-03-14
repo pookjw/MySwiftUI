@@ -96,7 +96,7 @@ internal import UIKit
         // x19
         if let uiViewController = host!.uiViewController as? PresentationHostingController<AnyView> {
             // <+2280>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+2692>
@@ -107,12 +107,12 @@ internal import UIKit
             }
             
             // <+2896>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+3920>
-            fatalError("TODO")
+            assertUnimplemented()
         }
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // ___lldb_unnamed_symbol264926
@@ -137,7 +137,7 @@ internal import UIKit
     }
     
     private final func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func update(environment: inout EnvironmentValues) {
@@ -153,7 +153,7 @@ internal import UIKit
         
         if w27 != w8 {
             // <+236>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+504>
@@ -165,21 +165,21 @@ internal import UIKit
     }
     
     final func removePreferences(from graph: ViewGraph) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension SheetBridge: UIHostingViewDelegate {
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore.View {
@@ -187,14 +187,14 @@ extension SheetBridge: UIHostingViewDelegate {
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

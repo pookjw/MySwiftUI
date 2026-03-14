@@ -20,7 +20,7 @@ final class KeyboardShortcutBridge: NSObject {
         // <+176>
         // self -> x20 -> x29 - 0xb0
         if !self.shortcutMap.isEmpty {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+528>
@@ -54,19 +54,19 @@ struct KeyboardShortcutBinding {
 
 struct KeyboardShortcutBindingsKey: HostPreferenceKey {
     static var defaultValue: [KeyboardShortcutBinding] {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func reduce(value: inout [KeyboardShortcutBinding], nextValue: () -> [KeyboardShortcutBinding]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -6,7 +6,7 @@ struct HostPreferencesCombiner: Rule, AsyncAttribute {
     private(set) var children: [HostPreferencesCombiner.Child]
     
     func addChild(keys: Attribute<PreferenceKeys>, values: WeakAttribute<PreferenceValues>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var value: PreferenceValues {

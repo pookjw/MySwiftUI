@@ -201,7 +201,7 @@ extension DynamicPropertyBox {
     }
     
     package func getState<T>(type: T.Type) -> Binding<T>? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -226,7 +226,7 @@ fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
     }
     
     override class func reset(elt: _UnsafeHeterogeneousBuffer_Element) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override class func update(elt: _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
@@ -262,25 +262,25 @@ fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
     }
     
     override class func getState<T>(elt: _UnsafeHeterogeneousBuffer_Element, type: T.Type) -> Binding<T>? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 fileprivate final class EnumVTable<T>: BoxVTableBase {
     override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override class func reset(elt: _UnsafeHeterogeneousBuffer_Element) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override class func update(elt: _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

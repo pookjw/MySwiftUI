@@ -201,7 +201,7 @@ extension ToolbarBridge {
         // <+340>
         if !toolbarEntries.isEmpty {
             // <+360>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1784>
@@ -229,7 +229,7 @@ extension ToolbarBridge {
         // location -> x29 - 0x180
         if !storage.entries.isEmpty {
             // <+1080>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1440>
@@ -239,7 +239,7 @@ extension ToolbarBridge {
         // x23 -> sp + 0x1da0 (x29 - 0xc0) -> sp + 0x1bf0 (x29 - 0x270)
         let ids: [ToolbarStorage.Entry.ID] = entries.map { _ in
             // $s7SwiftUI13ToolbarBridgeC11makeStorage33_558B6B1E48F37C8B0E16B128287879E0LL2in4from8strategyAA0C0O08LocationF0VAJ03BarS0O_SayAA0cF0V5EntryVGxtFAR2IDVARcfu0_33_2e12c960fb4b0a3abd8a514624e1a4d3ArUTf3nnnpk_n
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // x23
@@ -261,7 +261,7 @@ extension ToolbarBridge {
         
         // <+1936>
         for _ in copy_2 {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         return Toolbar.LocationStorage(entryIDs: storage.entryIDs, entries: dictionary_1, vendedItems: dictionary_2)
@@ -271,7 +271,7 @@ extension ToolbarBridge {
 extension Array where Element == ToolbarStorage.Entry {
     mutating func sort(priorities: [ToolbarStorage.Entry.ID: Int]) {
         sort { _, _ in
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

@@ -6,6 +6,6 @@ struct MenuOrderPreferenceKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout MenuOrder, nextValue: () -> MenuOrder) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

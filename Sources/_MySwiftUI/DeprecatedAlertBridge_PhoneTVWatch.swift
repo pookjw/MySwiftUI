@@ -76,12 +76,12 @@ extension DeprecatedAlertBridge where T == Alert.Presentation {
         
         if let alertController {
             // <+1228>
-            fatalError("TODO")
+            assertUnimplemented()
         } else {
             // <+1348>
-            fatalError("TODO")
+            assertUnimplemented()
         }
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -93,6 +93,6 @@ extension DeprecatedAlertBridge where T == ActionSheet.Presentation {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

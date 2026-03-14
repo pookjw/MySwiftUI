@@ -22,7 +22,7 @@ struct ViewTraitCollection {
             storage.append(Self.AnyTrait<Key>(value: newValue))
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -49,7 +49,7 @@ extension ViewTraitCollection {
             self[CanTransitionTraitKey.self] = newValue
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

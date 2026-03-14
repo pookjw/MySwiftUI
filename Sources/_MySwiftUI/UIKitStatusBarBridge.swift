@@ -57,6 +57,6 @@ final class UIKitStatusBarBridge {
     }
     
     func updateStatusBar(isAnimated: Bool, shouldDefer: Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

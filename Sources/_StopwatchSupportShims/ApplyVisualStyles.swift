@@ -15,7 +15,7 @@ func applyVisualStyles() {
 private func _applyVisualStyles() {
     var overrides = ViewStyleOverrides()
     
-    fatalError("TODO")
+    assertUnimplemented()
     /*
      // <+236>
      SwiftUI.ViewStyleOverrides.init()

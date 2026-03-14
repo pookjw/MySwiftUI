@@ -96,7 +96,7 @@ extension Toolbar {
         case bottomOrnament // 20
         
         var description: String {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -194,7 +194,7 @@ class ToolbarPlatformDelegate: NSObject {
     private weak var provider: ToolbarBridgeProvider?
     
     override init() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // TODO
@@ -225,7 +225,7 @@ struct ToolbarStorage {
             return Set([])
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func removeRequestedDefaultItems() {
@@ -240,7 +240,7 @@ struct ToolbarStorage {
         }
         
         // <+360>
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -319,7 +319,7 @@ extension ToolbarStorage.Entry {
         private(set) var placement: ToolbarItemPlacement.Role?
         
         var description: String {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -344,29 +344,29 @@ class ToolbarOrnament: MRUIPlatterOrnament {
 
 struct NavigationTitleKey: HostPreferenceKey {
     static func reduce(value: inout NavigationTitleStorage?, nextValue: () -> NavigationTitleStorage?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 struct NavigationSubtitleKey: HostPreferenceKey {
     static func reduce(value: inout NavigationTitleStorage?, nextValue: () -> NavigationTitleStorage?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -376,15 +376,15 @@ struct NavigationBarBackButtonHiddenKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -427,7 +427,7 @@ extension EnvironmentValues {
         @safe static nonisolated(unsafe) let defaultValue: [ToolbarPlacement.Role: AnyShapeStyle] = [:]
         
         static func _valuesEqual(_ lhs: [ToolbarPlacement.Role : AnyShapeStyle], _ rhs: [ToolbarPlacement.Role : AnyShapeStyle]) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

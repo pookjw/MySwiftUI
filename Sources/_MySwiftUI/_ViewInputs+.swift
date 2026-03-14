@@ -2,7 +2,7 @@ internal import MySwiftUICore
 
 extension _ViewInputs {
     func addPlatformItemListKey<T: PlatformItemListFlags>(flags: T.Type, editOperation: PlatformItemListFlagsSet.EditOperation?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func makeRootAccessibilityRelationshipScope() {

@@ -1,7 +1,7 @@
 
 @_spi(Internal) open class ResponderNode {
     open func log(action: String, data: Any?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @discardableResult
@@ -10,31 +10,31 @@
     }
     
     open func makeGesture(inputs: _GestureInputs) -> _GestureInputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package init() {
     }
     
     open func isDescendant(of other: ResponderNode) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open var sequence: some Sequence {
-        fatalError("TODO")
+        assertUnimplemented()
         return []
     }
     
     open var nextResponder: ResponderNode? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func firstAncestor<T>(ofType type: T.Type) -> T? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     open func bindEvent(_ type: EventType) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

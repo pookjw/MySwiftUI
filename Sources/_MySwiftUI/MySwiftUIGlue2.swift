@@ -9,7 +9,7 @@ internal import Foundation
     }
     
     override func setSeparatedState(_ parameters: CoreGlue2.SetSeparatedStateParameters) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -23,6 +23,6 @@ extension MySwiftUIGlue2 {
             return
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

@@ -31,15 +31,15 @@ public struct GeometryProxy {
     }
     
     public var size: CGSize {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public subscript<T>(anchor: Anchor<T>) -> T {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public var safeAreaInsets: EdgeInsets {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS, introduced: 13.0, deprecated: 100000.0, message: "use overload that accepts a CoordinateSpaceProtocol instead")
@@ -48,7 +48,7 @@ public struct GeometryProxy {
     @available(watchOS, introduced: 6.0, deprecated: 100000.0, message: "use overload that accepts a CoordinateSpaceProtocol instead")
     @available(visionOS, introduced: 1.0, deprecated: 100000.0, message: "use overload that accepts a CoordinateSpaceProtocol instead")
     @_disfavoredOverload public func frame(in coordinateSpace: CoordinateSpace) -> CGRect {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(visionOS 1.0, *)
@@ -57,7 +57,7 @@ public struct GeometryProxy {
     @available(watchOS, unavailable)
     @available(tvOS, unavailable)
     public func transform(in coordinateSpace: some CoordinateSpaceProtocol) -> AffineTransform3D? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func asCurrent<T>(do block: () throws -> T) rethrows -> T {
@@ -78,17 +78,17 @@ public struct GeometryProxy {
 
 extension GeometryProxy {
     public func bounds(of coordinateSpace: NamedCoordinateSpace) -> CGRect? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func frame(in coordinateSpace: some CoordinateSpaceProtocol) -> CGRect {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension GeometryProxy {
     public var containerCornerInsets: RectangleCornerInsets {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

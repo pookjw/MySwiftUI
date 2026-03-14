@@ -14,7 +14,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     private var fallbackDelegate: UIApplicationDelegate? = nil
     private(set) var mainMenuController: UIKitMainMenuController? = nil
     private(set) lazy var immersiveSpaceAuthority: ImmersiveSpaceAuthority = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     private var activeWindowProxies: [WindowProxy] = []
     
@@ -89,11 +89,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             configuration.delegateClass = AppSceneDelegate.self
             return configuration
         case .carplay:
-            fatalError("TODO")
+            assertUnimplemented()
         case .windowExternalDisplayNonInteractive:
-            fatalError("TODO")
+            assertUnimplemented()
         default:
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -106,7 +106,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     override func forwardingTarget(for aSelector: Selector!) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func buildMenu(with builder: any UIMenuBuilder) {
@@ -145,25 +145,25 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     override func validate(_ command: UICommand) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc(_performMainMenuShortcutKeyCommand:)
     func _performMainMenuShortcutKeyCommand(_ command: UIKeyCommand) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc(application:runTest:options:)
     func application(_ application: UIApplication, runTest test: String, options: [String: Any]?) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -35,11 +35,11 @@ extension UIHostingViewBase {
         }
         
         package static var useSetNeedsLayout: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         package static func addPreCommitObserverOrAsyncMain(_ handler: () -> Void) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

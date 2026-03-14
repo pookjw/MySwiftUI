@@ -8,6 +8,6 @@ struct ManipulationTargetGeometryPreferenceKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout [UUID : Attribute<ObjectManipulationGeometry>], nextValue: () -> [UUID : Attribute<ObjectManipulationGeometry>]) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

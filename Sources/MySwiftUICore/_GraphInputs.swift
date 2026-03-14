@@ -49,7 +49,7 @@ public struct _GraphInputs {
             }
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -74,7 +74,7 @@ public struct _GraphInputs {
             customInputs[type] = newValue
         }
         _modify {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -288,7 +288,7 @@ extension _GraphInputs {
 
 extension _GraphInputs {
     func makeReusable(indirectMap: IndirectAttributeMap) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -300,7 +300,7 @@ fileprivate struct MergedEnvironment: Rule, AsyncAttribute {
     @Attribute private(set) var rhs: EnvironmentValues
     
     var value: EnvironmentValues {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

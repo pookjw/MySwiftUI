@@ -19,6 +19,6 @@ struct RequiresServerHitTesting: ViewInput {
     }
     
     static func valuesEqual(_ lhs: Attribute<Bool>?, _ rhs: Attribute<Bool>?) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

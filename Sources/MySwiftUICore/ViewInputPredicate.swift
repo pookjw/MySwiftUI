@@ -6,6 +6,6 @@ package protocol ViewInputPredicate {
 
 extension ViewInputPredicate {
     package static func evaluate(listInputs: _ViewListInputs) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

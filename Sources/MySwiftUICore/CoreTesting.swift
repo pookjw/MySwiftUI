@@ -11,15 +11,15 @@ package enum CoreTesting {
     
     package static var needsRender: Bool {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     package static var needsRunLoopTurn: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     package static func pushNeedsRunLoopTurn() {

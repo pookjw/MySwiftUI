@@ -29,10 +29,10 @@ extension ViewModifier where Self : _GraphInputsModifier, Body == Never {
     }
     
     public static nonisolated func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

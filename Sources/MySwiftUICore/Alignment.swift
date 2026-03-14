@@ -148,6 +148,6 @@ protocol FrameAlignment: AlignmentID {
 
 extension FrameAlignment {
     static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

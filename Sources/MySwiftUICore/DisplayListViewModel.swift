@@ -51,7 +51,7 @@ extension DisplayList.ViewUpdater {
             }
             
             mutating func reset() {
-                fatalError("TODO")
+                assertUnimplemented()
             }
             
             func clipRect() -> FixedRoundedRect? {
@@ -59,7 +59,7 @@ extension DisplayList.ViewUpdater {
                     return nil
                 }
                 
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
@@ -119,23 +119,23 @@ extension DisplayList.ViewUpdater.Model.PlatformState {
 
 extension DisplayList.Item {
     func canMergeWithClipMask(state: UnsafePointer<DisplayList.ViewUpdater.Model.State>) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func canMergeWithClipRect(_: FixedRoundedRect, state: inout DisplayList.ViewUpdater.Model.State) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func canMergeWithTransform() {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     var canInheritShadowOrFilters: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private func rewriteVibrancyFilterAsBackdrop(_: GraphicsFilter.VibrantColorMatrix, list: DisplayList) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     fileprivate func discardContainingClips(state: inout DisplayList.ViewUpdater.Model.State) -> Bool {
@@ -146,11 +146,11 @@ extension DisplayList.Item {
             return true
         }
         
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     private var canInheritIgnoresEvents: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -167,7 +167,7 @@ extension DisplayList.ViewUpdater.Model {
          */
         if case .empty = item.value {
             // <+80>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+360>
@@ -175,24 +175,24 @@ extension DisplayList.ViewUpdater.Model {
             // <+384>
             if unsafe state.rewriteVibrantColorMatrix {
                 // <+664>
-                fatalError("TODO")
+                assertUnimplemented()
             } else {
                 // <+392>
                 if let filter = unsafe state.filters.first {
                     switch filter {
                     case .colorMultiply(_):
                         // <+440>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     default:
                         // <+664>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }
                 }
                 // <+960>
             }
         } else {
             // <+464>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+960>
@@ -215,7 +215,7 @@ extension DisplayList.ViewUpdater.Model {
         
         if unsafe !state.clips.isEmpty {
             // <+1132>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1568>
@@ -227,21 +227,21 @@ extension DisplayList.ViewUpdater.Model {
                 // <+1780>
             } else {
                 // <+1636>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
         // <+1780>
         if unsafe !requirements.contains(.unknown2) && ((state.shadow != nil) || (!state.filters.isEmpty)) {
            // <+1804>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1892>
         // version -> x24
         if unsafe !requirements.contains(.unknown2) && state.properties.contains(.ignoresEvents) {
             // <+1908>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1988>
@@ -304,10 +304,10 @@ extension DisplayList.ViewUpdater.Model {
             switch content.value {
             case .backdrop(_):
                 // <+2544>
-                fatalError("TODO")
+                assertUnimplemented()
             case .chameleonColor(_):
                 // <+2544>
-                fatalError("TODO")
+                assertUnimplemented()
             default:
                 // <+2628>
                 requirements.formUnion(.unknown1)
@@ -315,7 +315,7 @@ extension DisplayList.ViewUpdater.Model {
             }
         case .effect(_, _):
             // <+2712>
-            fatalError("TODO")
+            assertUnimplemented()
         case .states(_):
             // <+6396>
             fatalError()
@@ -345,7 +345,7 @@ extension DisplayList.ViewUpdater.Model {
            case .states(_) = item.value 
         {
             // <+88>
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // <+1172>에서 state에 값 할당하는거 놓치지 말기
@@ -357,14 +357,14 @@ extension DisplayList.ViewUpdater.Model {
             switch content.value {
             case .shape(_, _, _):
                 // <+908>
-                fatalError("TODO")
+                assertUnimplemented()
             default:
                 // <+1176>
                 return
             }
         case .effect(_, _):
             // <+708>
-            fatalError("TODO")
+            assertUnimplemented()
         default:
             // <+1176>
             return

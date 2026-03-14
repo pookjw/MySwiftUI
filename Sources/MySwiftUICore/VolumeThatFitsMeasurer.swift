@@ -5,11 +5,11 @@ private import CoreGraphics
 struct VolumeThatFitsMeasurer: ViewGraphGeometryMeasurer {
     static func measure(given: _ProposedSize3D, in graph: ViewGraph) -> Size3D {
         graph.sizeThatFitsObservers
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func measure(proposal: _ProposedSize3D, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size3D {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static let invalidValue = Size3D(width: -CGFloat.infinity, height: -CGFloat.infinity, depth: -CGFloat.infinity)

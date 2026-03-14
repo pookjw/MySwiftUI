@@ -39,7 +39,7 @@ extension ToolbarRole {
 extension View {
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
     public nonisolated func toolbarRole(_ role: ToolbarRole) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -49,15 +49,15 @@ struct ToolbarRoleKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout ToolbarRole?, nextValue: () -> ToolbarRole?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _isReadableByHost: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static var _includesRemovedValues: Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

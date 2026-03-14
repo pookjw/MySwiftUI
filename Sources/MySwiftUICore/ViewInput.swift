@@ -25,7 +25,7 @@ extension ViewInputFlag {
     }
     
     package static func _makeInputs(modifier: _GraphValue<Self>, inputs: inout _GraphInputs) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

@@ -18,22 +18,22 @@ public struct ViewDimensions3D {
     }
     
     public subscript(guide: HorizontalAlignment) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public subscript(guide: VerticalAlignment) -> CGFloat {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public subscript(explicit guide: HorizontalAlignment) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public subscript(explicit guide: VerticalAlignment) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -53,37 +53,37 @@ extension ViewDimensions3D: Sendable {}
 extension ViewDimensions3D {
     public subscript(guide: DepthAlignment) -> CGFloat {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     public subscript(explicit guide: DepthAlignment) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     subscript(_ key: AlignmentKey) -> CGFloat {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     subscript(explicit key: AlignmentKey) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     subscript(_ key: DepthAlignmentKey) -> CGFloat {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     subscript(explicit: DepthAlignmentKey) -> CGFloat? {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

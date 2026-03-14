@@ -80,7 +80,7 @@ extension ToolbarPlacement {
     @available(watchOS, unavailable)
     @available(visionOS, unavailable)
     public init<ID>(id: ID) where ID : Hashable {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

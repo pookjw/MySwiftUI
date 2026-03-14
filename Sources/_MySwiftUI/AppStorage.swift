@@ -101,43 +101,43 @@ extension AppStorage {
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension AppStorage where Value : ExpressibleByNilLiteral {
     public init(_ key: String, store: UserDefaults? = nil) where Value == Bool? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == Double? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == String? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == URL? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public init(_ key: String, store: UserDefaults? = nil) where Value == Date? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == Data? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension AppStorage {
     public init<R>(_ key: String, store: UserDefaults? = nil) where Value == R?, R : RawRepresentable, R.RawValue == String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public init<R>(_ key: String, store: UserDefaults? = nil) where Value == R?, R : RawRepresentable, R.RawValue == Int {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -146,14 +146,14 @@ extension AppStorage {
 //@available(watchOS, unavailable)
 //extension AppStorage {
 //    public init<RowValue>(wrappedValue: Value = TableColumnCustomization<RowValue>(), _ key: String, store: UserDefaults? = nil) where Value == TableColumnCustomization<RowValue>, RowValue : Identifiable {
-//        fatalError("TODO")
+//        assertUnimplemented()
 //    }
 //}
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension View {
     public nonisolated func defaultAppStorage(_ store: UserDefaults) -> some View {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -181,7 +181,7 @@ class UserDefaultLocation<Value>: @unchecked Sendable, Location, Equatable {
     // 0x80
     private var observableObjectPublisher: ObservableObjectPublisher? = nil {
         didSet {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -322,51 +322,51 @@ extension ScalarUserDefaultsValueTransform {
 
 fileprivate struct JSONCodableTransform: UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 fileprivate struct RawRepresentableTransform: UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 fileprivate struct PropertyListTransform: UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 fileprivate struct URLTransform: UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 fileprivate struct StringTransform: UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -457,7 +457,7 @@ fileprivate final class UserDefaultObserver: NSObject {
     }
     
     @objc func userDefaultsDidChange(_ notification: Notification) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     func observeDefaults(_ store: UserDefaults, key: String) {
@@ -524,7 +524,7 @@ fileprivate final class UserDefaultObserver: NSObject {
     func noteDefaultChange() {
         Update.enqueueAction(reason: nil) { 
             // $s7SwiftUI19UserDefaultObserver33_F2BB00CEA25D2617C18DE8984EB64B53LLC04noteD6ChangeyyFyycfU_
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

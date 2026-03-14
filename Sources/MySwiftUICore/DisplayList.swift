@@ -99,7 +99,7 @@ extension DisplayList {
                     return factory.features
                 case .text(_, _): // 0xa
                     // <+96>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 case .flattened(let displayList, _, _): // 0xb
                     // <+476>
                     return displayList.features.union(.flattened)
@@ -125,10 +125,10 @@ extension DisplayList {
                     // <+504>
                     if count >= 16 {
                         // <+664>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     } else {
                         // <+512>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }
                 } else {
                     return .states
@@ -146,20 +146,20 @@ extension DisplayList {
                 switch content.value {
                 case .sdfMask(_, _):
                     // <+72>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 case .flattened(_, _, _):
                     // <+72>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 default:
                     // <+120>
                     return DisplayList.Properties(rawValue: 0)
                 }
             case .effect(_, _):
                 // <+128>
-                fatalError("TODO")
+                assertUnimplemented()
             case .states(_):
                 // <+92>
-                fatalError("TODO")
+                assertUnimplemented()
             case .empty:
                 // <+120>
                 return DisplayList.Properties(rawValue: 0)
@@ -167,15 +167,15 @@ extension DisplayList {
         }
         
         func nextUpdate(after time: Time) -> Time {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func forEachIdentity(_: (_DisplayList_Identity, inout Bool) -> Void) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func forEachRBDisplayList(_: (RBDisplayListContents) -> Void) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         mutating func canonicalize(options: DisplayList.Options = .defaultValue) {
@@ -211,16 +211,16 @@ extension DisplayList {
                     }
                 case .shape(_, _, _):
                     // <+1068>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 case .shadow(_, _):
                     // <+1152>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 case .text(_, _):
                     // <+1200>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 case .flattened(_, _, _):
                     // <+300>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 default:
                     // <+4072>
                     return
@@ -265,7 +265,7 @@ extension DisplayList {
                                 return
                             } else {
                                 // <+3108>
-                                fatalError("TODO")
+                                assertUnimplemented()
                             }
                         default:
                             // <+1792>
@@ -285,7 +285,7 @@ extension DisplayList {
                     // opacity -> w21 -> s0
                     if opacity < 1.0 {
                         // <+3100>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     } else {
                         // <+1304>
                         // <+3080>
@@ -307,7 +307,7 @@ extension DisplayList {
                         }
                     }
                 default:
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
             default:
                 // <+4316>
@@ -336,39 +336,39 @@ extension DisplayList {
         }
         
         func canonicalizePlatformEffect(options: DisplayList.Options) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func matchesTopLevelStructure(of item: DisplayList.Item) -> Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         private func opaqueContentPath() -> (Path, FillStyle)? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         private func paint(in: CGRect) -> AnyResolvedPaint? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         private func backdropFilter(size: CGSize) -> GraphicsFilter? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func composite(_: DisplayList.Item, above: Bool) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func addDrawingGroup(contentSeed: DisplayList.Seed) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         private func addExtent(to: inout CGRect) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var isSeparatedMask: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func canMergeWithPlatformState(state: DisplayList.ViewUpdater.Model.PlatformState) -> Bool {
@@ -417,7 +417,7 @@ extension DisplayList {
                         case .transform(_) = effect
                     {
                         // <+840>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }
                     // <+148>
                     flag = true
@@ -434,7 +434,7 @@ extension DisplayList {
                 // <+148>
                 if case .effect(_, _) = value {
                     // <+156>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+264>
                 }
@@ -460,17 +460,17 @@ extension DisplayList {
                     return true
                 case .shape(_, _, _):
                     // <+300>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 default:
                     // <+900>
                     let result = remoteEffects.hoverEffectState.anyLeafEffectsSatisfy { _ in
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }
                     return !result
                 }
             case .effect(_, _):
                 // <+428>
-                fatalError("TODO")
+                assertUnimplemented()
             default:
                 // <+728>
                 return true
@@ -478,11 +478,11 @@ extension DisplayList {
         }
         
         func offset3D(by: Size3D) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func collectIdentities(container: inout [_DisplayList_Identity]) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -639,7 +639,7 @@ extension DisplayList {
 //        case compositingGroup
         
         var features: DisplayList.Features {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -788,7 +788,7 @@ package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible
     }
     
     package var description: String {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -877,7 +877,7 @@ struct _DisplayList_StableIdentityScope: ViewInput, _ViewTraitKey {
     }
     
     mutating func pushIdentity() -> _DisplayList_Identity {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     mutating func makeIdentity() -> _DisplayList_StableIdentity {
@@ -897,7 +897,7 @@ final class _DisplayList_StableIdentityRoot {
     }
     
     subscript(_ identity: _DisplayList_Identity) -> _DisplayList_StableIdentity? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

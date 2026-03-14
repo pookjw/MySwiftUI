@@ -6,6 +6,6 @@ struct InteractiveDismissAttemptKey: HostPreferenceKey {
     }
     
     static func reduce(value: inout (() -> Void)?, nextValue: () -> (() -> Void)?) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

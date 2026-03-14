@@ -21,6 +21,6 @@ fileprivate struct TracksVelocityKey: TransactionKey {
     }
     
     static func _valuesEqual(_ lhs: Bool, _ rhs: Bool) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

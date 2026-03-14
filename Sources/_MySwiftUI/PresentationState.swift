@@ -18,7 +18,7 @@ struct PresentationState {
     private var base: PresentationState.Base = .noPresentation
     
     func presentPreemptingDismissal(_ sheetPreference: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     // 원래 없음

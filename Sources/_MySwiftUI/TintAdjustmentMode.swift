@@ -22,16 +22,16 @@ extension TintAdjustmentMode {
 extension EnvironmentValues {
     var effectiveTintAdjustmentMode: TintAdjustmentMode {
         get {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         set {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
 
 extension Color {
     func tintAdjustmentMode(_: TintAdjustmentMode) -> Color {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }

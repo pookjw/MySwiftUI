@@ -43,15 +43,15 @@ final class ViewGraphDisplayLink: NSObject {
     }
     
     private func setFrameInterval(_: Double, reasons: Set<UInt32>) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc func displayLinkTimer(_ displayLink: CADisplayLink) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     @objc static func asyncThreadWithArg(_: Any) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

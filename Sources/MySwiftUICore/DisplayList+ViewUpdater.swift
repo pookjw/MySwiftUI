@@ -66,7 +66,7 @@ extension DisplayList {
         }
         
         var exportedObject: AnyObject? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: DisplayList.ViewRenderer.Environment) -> Time {
@@ -254,15 +254,15 @@ extension DisplayList {
         }
         
         func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         func destroy(rootView: AnyObject) {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         var viewCacheIsEmpty: Bool {
-            fatalError("TODO")
+            assertUnimplemented()
         }
         
         // $s7SwiftUI11DisplayListV11ViewUpdaterC015updateInheritedE033_B86250B2E056EB47628ECF46032DFA4CLL9container4from11parentStateyAE9ContainerAGLLVz_AC4ItemVSPyAE5ModelO0R0VGtF
@@ -310,10 +310,10 @@ extension DisplayList {
                     //<+300>
                     if case .states(_) = copy_2.value {
                         // <+320>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }  else {
                         // <+1724>
-                        fatalError("TODO")
+                        assertUnimplemented()
                     }
                 } else {
                     // <+496>
@@ -325,7 +325,7 @@ extension DisplayList {
                 // <+500>
                 if !requirements.contains(.unknown1) {
                     // <+508>
-                    fatalError("TODO")
+                    assertUnimplemented()
                 } else {
                     // <+1608>
                     // sp + 0x270
@@ -339,7 +339,7 @@ extension DisplayList {
                 }
             } else {   
                 // <+588>
-                fatalError("TODO")
+                assertUnimplemented()
             }
         }
         
@@ -385,7 +385,7 @@ extension DisplayList {
             }
             
             // <+292>
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -427,7 +427,7 @@ extension DisplayList.ViewUpdater.ViewInfo {
         }
         
         mutating func invalidate() {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }
@@ -513,7 +513,7 @@ extension DisplayList.ViewUpdater {
         }
         
         mutating func reset() {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     

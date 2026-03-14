@@ -10,42 +10,42 @@ public import CoreGraphics
 
 extension HorizontalAlignment {
     public func combineExplicit<S>(_ values: S) -> CGFloat? where S : Sequence, S.Element == CGFloat? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
 extension HorizontalAlignment {
     public static let leading: HorizontalAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static let center = HorizontalAlignment(HorizontalAlignment.Center.self)
     
     public static let trailing: HorizontalAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
 }
 
 extension HorizontalAlignment {
     public static let listRowSeparatorLeading: HorizontalAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
     
     public static let listRowSeparatorTrailing: HorizontalAlignment = {
-        fatalError("TODO")
+        assertUnimplemented()
     }()
 }
 
 extension HorizontalAlignment {
     fileprivate struct TrailingListSeparator: FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
     fileprivate struct LeadingListSeparator: FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -63,7 +63,7 @@ extension HorizontalAlignment {
     
     fileprivate struct LeadingText: FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
     
@@ -75,7 +75,7 @@ extension HorizontalAlignment {
     
     fileprivate struct FormDetailLeading: FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
-            fatalError("TODO")
+            assertUnimplemented()
         }
     }
 }

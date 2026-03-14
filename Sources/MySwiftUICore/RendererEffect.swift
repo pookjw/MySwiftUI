@@ -76,7 +76,7 @@ extension _RendererEffect {
                 
                 let pixelLength: Attribute<CGFloat> = cachedEnvironment.value.attribute(id: .pixelLength) { environmentValues in
                     // $s7SwiftUI17CachedEnvironmentV17withAnimatedFrame33_B62A4B04AF9F1325924A089D63071424LL3for4bodyxAA11_ViewInputsV_xAC0fG0VzXEtlF12CoreGraphics7CGFloatVAA0D6ValuesVcfU_
-                    fatalError("TODO")
+                    assertUnimplemented()
                 }
                 
                 let size = Attribute(RoundedSize(position: position, size: copy_1.size, pixelLength: pixelLength))
@@ -165,7 +165,7 @@ extension _RendererEffect {
     }
     
     var scrapeableContent: ScrapeableContent.Content? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
@@ -174,15 +174,15 @@ protocol RendererEffect: Animatable, _RendererEffect {
 
 extension RendererEffect {
     static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     static nonisolated func makeRendererEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

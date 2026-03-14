@@ -21,11 +21,11 @@ public import CoreGraphics
     }
     
     public static func == (a: RectangleCornerInsets, b: RectangleCornerInsets) -> Bool {
-        fatalError("TODO")
+        assertUnimplemented()
     }
     
     public func hash(into hasher: inout Hasher) {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 

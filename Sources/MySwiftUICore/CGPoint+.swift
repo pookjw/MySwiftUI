@@ -186,7 +186,7 @@ extension CGPoint {
 
 extension CGPoint {
     public func applying(_ m: ProjectionTransform) -> CGPoint {
-        fatalError("TODO")
+        assertUnimplemented()
     }
 }
 
