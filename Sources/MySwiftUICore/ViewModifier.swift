@@ -115,7 +115,7 @@ public struct _ViewModifier_Content<Modifier>: View where Modifier: ViewModifier
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
     @_alwaysEmitIntoClient public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
 //        _viewListCount(inputs: inputs) { _ in nil }
-        assertUnimplemented()
+        _assertUnimplemented()
     }
     
     public var body: some View {

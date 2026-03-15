@@ -94,12 +94,10 @@ package struct ViewStyleOverrides: Sendable {
     fileprivate func merge(with: ViewStyleOverrides) {
         assertUnimplemented()
     }
-}
-
-protocol StyleModifier: MultiViewModifier, PrimitiveViewModifier, View {
-    associatedtype Style
-    associatedtype StyleConfiguration
-    associatedtype StyleBody
+    
+    package mutating func registerStyleOverride<T, U: StyleModifier>(_: T.Type, style: U.Type) where U.Style: AnyDefaultStyle {
+        registeredStyleOverrides[ObjectIdentifier(U.self)] = T.self
+    }
 }
 
 package protocol AnyDefaultStyle {
