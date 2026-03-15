@@ -1,0 +1,3 @@
+struct SliderStyleConfiguration {
+    // TODO
+}

@@ -2,16 +2,21 @@
 private import _MySwiftUIShims
 
 package enum ViewStyleRegistry: Sendable {
-    package static func registerOverrides(_: ViewStyleOverrides, for: ViewStyleRegistry.InterfaceIdiom) {
-        assertUnimplemented()
+    package static func registerOverrides(_ overrides: ViewStyleOverrides, for idiom: ViewStyleRegistry.InterfaceIdiom) {
+        if var existing = registries[idiom.idiom] {
+            existing.merge(with: overrides)
+            unsafe registries[idiom.idiom]
+        } else {
+            unsafe registries[idiom.idiom] = overrides
+        }
     }
     
     package static func overrides(for idiom: ViewStyleRegistry.InterfaceIdiom) -> ViewStyleOverrides {
-        return registries[idiom.idiom] ?? fallbackOverrides
+        return unsafe registries[idiom.idiom] ?? fallbackOverrides
     }
     
-    @safe static nonisolated(unsafe) var registries: [AnyInterfaceIdiom: ViewStyleOverrides] = [:]
-    @safe static nonisolated(unsafe) var fallbackOverrides = ViewStyleOverrides()
+    static nonisolated(unsafe) var registries: [AnyInterfaceIdiom: ViewStyleOverrides] = [:]
+    static nonisolated(unsafe) var fallbackOverrides = ViewStyleOverrides()
 }
 
 extension ViewStyleRegistry {
@@ -38,9 +43,9 @@ extension ViewStyleRegistry {
 }
 
 package struct ViewStyleOverrides: Sendable {
-    private var registeredStyles: [ObjectIdentifier: Any.Type] = [:]
-    private var registeredStyleOverrides: [ObjectIdentifier: Any.Type] = [:]
-    private var registeredStyleWriterOverrides: [ObjectIdentifier: Any.Type] = [:]
+    package var registeredStyles: [ObjectIdentifier: Any.Type] = [:]
+    package var registeredStyleOverrides: [ObjectIdentifier: Any.Type] = [:]
+    package var registeredStyleWriterOverrides: [ObjectIdentifier: Any.Type] = [:]
     
     package init() {}
     

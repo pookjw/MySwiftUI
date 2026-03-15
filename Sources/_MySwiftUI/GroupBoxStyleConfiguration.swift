@@ -1,0 +1,3 @@
+struct GroupBoxStyleConfiguration {
+    // TODO
+}
