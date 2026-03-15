@@ -1,4 +1,6 @@
 internal import UIKit
+private import MySwiftUICore
+private import os.log
 
 /*
  window (Swift.Optional<__C.UIWindow>) (0x10)
@@ -56,7 +58,30 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x22
+         scene -> x0 -> x19 + 0x138
+         session -> x1 -> x26
+         connectionOptions -> x2 -> x19 + 0x118
+         */
+        // <+928>
+        Update.ensure {
+            // <+932>
+            if let log = Log.scenes {
+                log.info("Received scene connection to session: \(session, privacy: .public)")
+            }
+            
+            // <+1308>
+            guard
+                window == nil,
+                let windowScene = scene as? UIWindowScene // x19 + 0x50
+            else {
+                return
+            }
+            
+            // <+1356>
+            assertUnimplemented()
+        }
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {

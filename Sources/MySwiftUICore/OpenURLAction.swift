@@ -1,12 +1,6 @@
 // B30D3CE6A753616B2150C4E3EFDA1ED9
 public import Foundation
 
-/*
- TODO
- +[UIApplication _setupDefaultEnvironmentWithScreen:]
- $s7SwiftUI17EnvironmentValuesV17setDefaultOpenURLyyAA0G9URLActionVF:        // SwiftUI.EnvironmentValues.setDefaultOpenURL(SwiftUI.OpenURLAction) -> ()
- */
-
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 @preconcurrency @MainActor
 public struct OpenURLAction {
