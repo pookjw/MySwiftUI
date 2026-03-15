@@ -79,7 +79,7 @@ public struct OpenURLAction {
         _open(url, prefersInApp: false, completion: completion)
     }
     
-    fileprivate func _open(_ url: URL, prefersInApp: Bool?, completion: @escaping (Bool) -> Void) {
+    fileprivate func _open(_ url: URL, prefersInApp: Bool?, completion: @escaping @Sendable (Bool) -> Void) {
         // <+328>
         switch handler {
         case .system(let action):
@@ -236,7 +236,7 @@ extension View {
 }
 
 extension OpenURLAction {
-    package static func defaultSystemAction(handler: @escaping (URL, (Bool) -> Void) -> Void) -> OpenURLAction {
+    package static func defaultSystemAction(handler: @escaping (URL, @escaping @Sendable (Bool) -> Void) -> Void) -> OpenURLAction {
         return OpenURLAction(
             isDefault: true,
             handler: { input in
@@ -258,7 +258,7 @@ extension OpenURLAction {
     package struct SystemHandlerInput {
         package let url: URL
         package let prefersInApp: Bool
-        package let completion: (Bool) -> Void
+        package let completion: @Sendable (Bool) -> Void
     }
     
     enum Handler {

@@ -1,6 +1,7 @@
 private import ObjectiveC.runtime
 private import UIKit
 @_spi(Internal) private import MySwiftUICore
+private import _UIKitPrivate
 
 @_cdecl("uiKitShims_onDyldLoaded")
 func onDyldLoaded() {
@@ -16,7 +17,6 @@ private func swizzle_setupDefaultEnvironmentWithScreen() {
     
     let custom: (@convention(c) (AnyClass, Selector, AnyObject) -> Void) = { `self`, _cmd, screen in
         let casted = unsafeBitCast(original_setupDefaultEnvironmentWithScreen, to: (@convention(c) (AnyClass, Selector, AnyObject) -> Void).self)
-        
         casted(self, _cmd, screen)
         setupDefaultEnvironmentWithScreen(screen: MyUIScreen(screen: screen))
     }
@@ -43,8 +43,10 @@ private func setupDefaultEnvironmentWithScreen(screen: MyUIScreen) {
     )
     environment.viewGraphAssetCatalogConfiguration = assetConfiguration
     
-    let urlAction = OpenURLAction.defaultSystemAction { _, _ in
-        assertUnimplemented()
+    let urlAction = OpenURLAction.defaultSystemAction { url, completion in
+        UIApp!.open(url, options: [:]) { success in
+            completion(success)
+        }
     }
     environment.setDefaultOpenURL(urlAction)
     
