@@ -49,8 +49,6 @@ package struct ViewStyleOverrides: Sendable {
     }
     
     package func register(in inputs: inout _ViewInputs) {
-        print("TODO: SWSApplyVisualStyles에서 registerDefaultButtonBehaviorStyleType 같은 걸로 미리 Style 넣어줘야함")
-        
         let defaultStyleModifierProtocolDescriptor = unsafe _defaultStyleModifierProtocolDescriptor()
         registeredStyles
             .forEach { key, value in

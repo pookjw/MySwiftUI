@@ -4,6 +4,7 @@ private import Foundation
 private import os.log
 
 @safe private nonisolated(unsafe) var didAppliedVisualStyles = false
+
 @safe private nonisolated(unsafe) let uiKitDefault: UserDefaults? = {
     if let defaults = UserDefaults(suiteName: "com.apple.UIKit") {
         return defaults
@@ -13,6 +14,53 @@ private import os.log
     return nil
 }()
 @safe private nonisolated(unsafe) let borderedButtonsByDefault = AppStorage(wrappedValue: true, "BorderedButtonsByDefault", store: uiKitDefault)
+
+@safe private nonisolated(unsafe) let blocklist: Set<String> = [
+    "com.apple.Mind",
+    "com.apple.mobilesafari",
+    "com.apple.SafariViewService",
+    "com.apple.RealityLauncher",
+    "com.apple.RealityControlCenter",
+    "com.apple.LocalAuthenticationUIService",
+    "com.apple.RealityCoverSheet",
+    "com.apple.RealityEnvironment",
+    "com.apple.sidecar",
+    "com.apple.GenerativePlayground",
+    "com.apple.GenerativePlaygroundApp"
+]
+
+@safe private nonisolated(unsafe) let implicitButtonStyleSensoryFeedback: Bool = {
+    if UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.ImplicitButtonStyleSensoryFeedback_BypassAppCheck") {
+        unsafe os_log(.info, log: OSLog.stopwatchSupport, "Implicit ButtonStyle feedback: Bypass app checks default set, enabled.")
+        return true
+    }
+    
+    // <+444>
+    if
+        let infoDictionary = Bundle.main.infoDictionary,
+        let boolValue = infoDictionary["SupportsImplicitButtonStyleSensoryFeedback"] as? Bool
+    {
+        unsafe os_log(.info, log: OSLog.stopwatchSupport, "Implicit ButtonStyle feedback: App explicitly specified support as \(boolValue).")
+        return boolValue
+    }
+    
+    // <+824>
+    if isLinkedOnOrAfter(.v7) {
+        if
+            let bundleIdentifier = Bundle.main.bundleIdentifier,
+            blocklist.contains(bundleIdentifier)
+        {
+            unsafe os_log(.info, log: OSLog.stopwatchSupport, "Implicit ButtonStyle feedback: Disabled due to system blocklist.")
+            return false
+        } else {
+            unsafe os_log(.info, log: OSLog.stopwatchSupport, "Implicit ButtonStyle feedback: Passed app checks, enabled.")
+            return true
+        }
+    } else {
+        unsafe os_log(.info, log: OSLog.stopwatchSupport, "Implicit ButtonStyle feedback: Disabled due to old SDK version.")
+        return false
+    }
+}()
 
 func applyVisualStyles() {
     guard !didAppliedVisualStyles else {
@@ -24,90 +72,46 @@ func applyVisualStyles() {
 }
 
 private func _applyVisualStyles() {
+    // <+236>
     var overrides = ViewStyleOverrides()
-    
     overrides.registerDefaultToggleStyleType(_StopwatchSupportShims.ToggleStyle.self)
+    
+    // <+356>
     overrides.registerStyleOverride(_StopwatchSupportShims.ToggleStyle.self, for: SwitchToggleStyle.self)
     
+    // <+548>
     if borderedButtonsByDefault.wrappedValue {
         overrides.registerDefaultButtonStyleType(SWSBorderedButtonStyle.self)
     } else {
         overrides.registerDefaultButtonStyleType(SWSBorderlessButtonStyle.self)
     }
     
+    // <+696>
     overrides.registerStyleOverride(SWSBorderlessButtonStyle.self, for: BorderlessButtonStyle.self)
+    // <+856>
     overrides.registerStyleOverride(SWSBorderedButtonStyle.self, for: BorderedButtonStyle.self)
-    /*
-     16StopwatchSupport22SWSBorderedButtonStyleV
-     16StopwatchSupport24SWSBorderlessButtonStyleV
-     */
+    // <+956>
+    overrides.registerStyleOverride(_StopwatchSupportShims.LinkButtonStyle.self, for: RealityLinkButtonStyle.self)
+    // <+1068>
+    overrides.registerStyleOverride(SWSBorderedButtonStyle.self, for: BorderedProminentButtonStyle.self)
+    // <+1220>
+    overrides.registerStyleOverride(SWSPlainButtonStyle.self, for: PlainButtonStyle.self)
     
-    assertUnimplemented()
-    /*
-     // <+236>
-     SwiftUI.ViewStyleOverrides.init()
-     SwiftUI.ViewStyleOverrides.registerDefaultToggleStyleType<τ_0_0 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.ToggleStyle>(τ_0_0.Type) -> ()"
-     
-     // <+356>
-     SwiftUI.SwitchToggleStyle
-     SwiftUI.ViewStyleOverrides.registerStyleOverride<τ_0_0, τ_0_1 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.ToggleStyle, τ_0_1: SwiftUI.ToggleStyle>(_: τ_0_0.Type, for: τ_0_1.Type) -> ()
-     
-     __TtC16StopwatchSupport43StopwatchSupportSwitchVisualElementProvider
-     [[UIWindow alloc] init]
-     setVisualElementProvider:
-     
-     // BorderedButtonsByDefault -> Bool
-     SwiftUI.AppStorage.wrappedValue.getter
-     
-     // <+548>
-     SwiftUI.ViewStyleOverrides.registerDefaultButtonStyleType<τ_0_0 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.PrimitiveButtonStyle>(τ_0_0.Type) -> ()
-     type metadata accessor for SwiftUI.BorderlessButtonStyle
-     
-     // <+696>
-     SwiftUI.ViewStyleOverrides.registerStyleOverride<τ_0_0, τ_0_1 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.ButtonStyleConvertible, τ_0_0: SwiftUI.PrimitiveButtonStyle, τ_0_1: SwiftUI.ButtonStyleConvertible, τ_0_1: SwiftUI.PrimitiveButtonStyle, τ_0_0.SwiftUI.ButtonStyleConvertible.ButtonStyleRepresentation: SwiftUI.AnyDefaultStyle>(_: τ_0_0.Type, for: τ_0_1.Type) -> ()
-     
-     // <+708>
-     type metadata accessor for SwiftUI.BorderedButtonStyle
-     
-     // <+856>
-     SwiftUI.ViewStyleOverrides.registerStyleOverride<τ_0_0, τ_0_1 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.ButtonStyleConvertible, τ_0_0: SwiftUI.PrimitiveButtonStyle, τ_0_1: SwiftUI.ButtonStyleConvertible, τ_0_1: SwiftUI.PrimitiveButtonStyle, τ_0_0.SwiftUI.ButtonStyleConvertible.ButtonStyleRepresentation: SwiftUI.AnyDefaultStyle>(_: τ_0_0.Type, for: τ_0_1.Type) -> ()
-     
-     // <+868>
-     type metadata accessor for SwiftUI.RealityLinkButtonStyle
-     
-     // <+956>
-     SwiftUI.ViewStyleOverrides.registerStyleOverride<τ_0_0, τ_0_1 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.PrimitiveButtonStyle, τ_0_1: SwiftUI.PrimitiveButtonStyle>(_: τ_0_0.Type, for: τ_0_1.Type) -> ()
-     
-     // <+964>
-     type metadata accessor for SwiftUI.BorderedProminentButtonStyle
-     
-     // <+1068>
-     SwiftUI.ViewStyleOverrides.registerStyleOverride<τ_0_0, τ_0_1 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.ButtonStyleConvertible, τ_0_0: SwiftUI.PrimitiveButtonStyle, τ_0_1: SwiftUI.ButtonStyleConvertible, τ_0_1: SwiftUI.PrimitiveButtonStyle, τ_0_0.SwiftUI.ButtonStyleConvertible.ButtonStyleRepresentation: SwiftUI.AnyDefaultStyle>(_: τ_0_0.Type, for: τ_0_1.Type) -> ()
-     
-     // <+1080>
-     type metadata accessor for SwiftUI.PlainButtonStyle
-     
-     // <+1220>
-     SwiftUI.ViewStyleOverrides.registerStyleOverride<τ_0_0, τ_0_1 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.ButtonStyleConvertible, τ_0_0: SwiftUI.PrimitiveButtonStyle, τ_0_1: SwiftUI.ButtonStyleConvertible, τ_0_1: SwiftUI.PrimitiveButtonStyle, τ_0_0.SwiftUI.ButtonStyleConvertible.ButtonStyleRepresentation: SwiftUI.AnyDefaultStyle>(_: τ_0_0.Type, for: τ_0_1.Type) -> ()
-     
-     // <+1352>
-     (조건)
-     SwiftUI.ViewStyleOverrides.registerDefaultButtonBehaviorStyleType<τ_0_0 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.ButtonBehaviorStyle>(τ_0_0.Type) -> ()
-     
-     // <+1460>
-     SwiftUI.ViewStyleOverrides.registerDefaultSliderStyleType<τ_0_0 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.SliderStyle>(τ_0_0.Type) -> ()
-     
-     // <+1608>
-     SwiftUI.ViewStyleOverrides.registerDefaultStepperStyleType<τ_0_0 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.StepperStyle>(τ_0_0.Type) -> ()
-     
-     // <+1888>
-     SwiftUI.ViewStyleOverrides.registerDefaultGroupBoxStyleType<τ_0_0 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.GroupBoxStyle>(τ_0_0.Type) -> ()
-     
-     // <+4528>
-     SwiftUI.ViewStyleOverrides.registerDefaultHelpStyleType<τ_0_0 where τ_0_0: SwiftUI.AnyDefaultStyle, τ_0_0: SwiftUI.HelpStyle>(τ_0_0.Type) -> ()
-     
-     // <+5052>
-     static SwiftUI.ViewStyleRegistry.InterfaceIdiom.vision.getter : SwiftUI.ViewStyleRegistry.InterfaceIdiom
-     static SwiftUI.ViewStyleRegistry.registerOverrides(_: SwiftUI.ViewStyleOverrides, for: SwiftUI.ViewStyleRegistry.InterfaceIdiom) -> ()
-     */
+    // <+1240>
+    if implicitButtonStyleSensoryFeedback {
+        // <+1352>
+        overrides.registerDefaultButtonBehaviorStyleType(SWSButtonBehaviorStyle.self)
+    }
+    
+    // <+1460>
+    overrides.registerDefaultSliderStyleType(_StopwatchSupportShims.SliderStyle.self)
+    // <+1608>
+    overrides.registerDefaultStepperStyleType(_StopwatchSupportShims.StepperStyle.self)
+    // <+1888>
+    overrides.registerDefaultGroupBoxStyleType(_StopwatchSupportShims.GroupBoxStyle.self)
+    // <+4528>
+    overrides.registerDefaultHelpStyleType(RealityHelpStyle.self)
+    
+    // <+5052>
+    ViewStyleRegistry.registerOverrides(overrides, for: .vision)
 }
