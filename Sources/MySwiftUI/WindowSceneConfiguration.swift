@@ -1,23 +1,53 @@
-private import MySwiftUICore
-private import Foundation
+internal import MySwiftUICore
+internal import Foundation
 
-struct WindowSceneConfiguration<T> {
-    private var attributes: T
-    private var mainContent: AnyView
-    private var title: Text?
-    private var presentationDataType: Any.Type?
-    private var decoder: ((Data) -> AnyHashable?)?
+struct WindowSceneConfiguration<T: WindowSceneConfigurationAttributes> {
+    private(set) var attributes: T
+    private(set) var mainContent: AnyView
+    private(set) var title: Text?
+    private(set) var presentationDataType: Any.Type?
+    private(set) var decoder: ((Data) -> AnyHashable?)?
 }
 
-struct WindowGroupConfigurationAttributes {
-    private var suppressGlassBackground: Bool
+struct WindowGroupConfigurationAttributes: WindowSceneConfigurationAttributes {
+    typealias RootModifier = Never // TODO
+    
+    func sceneListValue(_ configuration: WindowSceneConfiguration<WindowGroupConfigurationAttributes>) -> SceneList.Item.Value {
+        assertUnimplemented()
+    }
+    
+    var rootModifier: Never {
+        assertUnimplemented()
+    }
+    
+    private(set) var suppressGlassBackground: Bool
 }
 
-struct ImmersiveSpaceConfigurationAttributes {
+struct ImmersiveSpaceConfigurationAttributes: WindowSceneConfigurationAttributes {
+    typealias RootModifier = Never // TODO
+    
+    func sceneListValue(_ configuration: WindowSceneConfiguration<ImmersiveSpaceConfigurationAttributes>) -> SceneList.Item.Value {
+        assertUnimplemented()
+    }
+    
+    var rootModifier: Never {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 
-struct VolumeConfigurationAttributes {
+struct VolumeConfigurationAttributes: WindowSceneConfigurationAttributes {
+    typealias RootModifier = Never // TODO
+    
+    func sceneListValue(_ configuration: WindowSceneConfiguration<VolumeConfigurationAttributes>) -> SceneList.Item.Value {
+        assertUnimplemented()
+    }
+    
+    var rootModifier: Never {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 
@@ -33,7 +63,17 @@ struct UISceneAdaptorConfiguration {
     // TODO
 }
 
-struct SingleWindowConfigurationAttributes {
+struct SingleWindowConfigurationAttributes: WindowSceneConfigurationAttributes {
+    typealias RootModifier = Never // TODO
+    
+    func sceneListValue(_ configuration: WindowSceneConfiguration<SingleWindowConfigurationAttributes>) -> SceneList.Item.Value {
+        assertUnimplemented()
+    }
+    
+    var rootModifier: Never {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 
@@ -43,4 +83,11 @@ struct DocumentIntroductionConfiguration {
 
 struct DialogConfiguration {
     // TODO
+}
+
+protocol WindowSceneConfigurationAttributes {
+    associatedtype RootModifier
+    
+    func sceneListValue(_ configuration: WindowSceneConfiguration<Self>) -> SceneList.Item.Value
+    var rootModifier: Self.RootModifier { get }
 }

@@ -3,6 +3,12 @@ public import Foundation
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct WindowGroup<Content>: Scene where Content: View {
+    private var title: Text?
+    private var content: WindowGroupRootContent<Content>
+    private var id: String?
+    private var presentationDataType: Any.Type?
+    private var decoder: ((Data) -> AnyHashable?)?
+    
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(macOS, introduced: 11.0, deprecated: 15.0, renamed: "init(id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(tvOS, introduced: 14.0, deprecated: 18.0, renamed: "init(id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -76,7 +82,17 @@ public struct WindowGroup<Content>: Scene where Content: View {
     }
 
     @MainActor @preconcurrency public var body: some Scene {
-        assertUnimplemented()
+        WindowSceneList<WindowGroupConfigurationAttributes>(
+            configuration: WindowSceneConfiguration(
+                attributes: WindowGroupConfigurationAttributes(suppressGlassBackground: false),
+                mainContent: content.makeContent(),
+                title: title,
+                presentationDataType: presentationDataType,
+                decoder: decoder
+            ),
+            id: id,
+            contentType: Content.self
+        )
     }
 }
 
@@ -254,6 +270,15 @@ extension WindowGroup {
 extension WindowGroup {
     @usableFromInline
     nonisolated internal init(id: String? = nil, title: Text? = nil, @ViewBuilder lazyContent: @escaping () -> Content) {
+        assertUnimplemented()
+    }
+}
+
+enum WindowGroupRootContent<T: View> {
+    case eager(T)
+    case lazy(() -> T)
+    
+    func makeContent() -> AnyView {
         assertUnimplemented()
     }
 }

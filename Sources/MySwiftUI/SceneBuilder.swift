@@ -8,11 +8,11 @@ public import MySwiftUICore
     
     @available(*, unavailable, message: "Provide at leas one scene")
     public static func buildBlock() -> some Scene {
-        assertUnimplemented()
+        return _TupleScene(())
     }
     
     public static func buildBlock<Content>(_ content: Content) -> Content where Content : Scene {
-        assertUnimplemented()
+        return content
     }
     
     @MainActor // 원래 없음

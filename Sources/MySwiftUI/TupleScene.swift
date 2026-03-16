@@ -25,6 +25,7 @@ internal import MySwiftUICore
     @usableFromInline
     internal typealias Body = Never
 }
+
 @available(*, unavailable)
 extension _TupleScene : Sendable {
 }
