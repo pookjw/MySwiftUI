@@ -1,13 +1,13 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import Foundation
 private import Combine
-private import UIKit
+internal import UIKit
 private import _UIKitPrivate
 
-final class SceneBridge {
+final class SceneBridge: CustomStringConvertible, ObservableObject {
     private var sceneBridgePublishers: [ObjectIdentifier: [String: PassthroughSubject<Any, Never>]] = .init() // 0x10
     private(set) var isAnimatingSceneResize: Bool = false // 0x18
-    private weak var windowScene: UIWindowScene? = nil // 0x20
+    weak var windowScene: UIWindowScene? = nil // 0x20
     private weak var rootViewController: UIViewController? = nil // 0x28
     private var sceneDefinitionOptionsSeedTracker = VersionSeedTracker<ConnectionOptionPayloadStoragePreferenceKey>(seed: .invalid) // 0x30
     private var sceneDefinitionOptions = ConnectionOptionPayloadStorage() // 0x38
@@ -25,6 +25,10 @@ final class SceneBridge {
     private var enqueuedEvents: [String: [Any]] = .init() // 0x180
     
     init() {}
+    
+    var description: String {
+        assertUnimplemented()
+    }
     
     final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         assertUnimplemented()

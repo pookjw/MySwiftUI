@@ -32,7 +32,8 @@ private import _UIKitPrivate
     // 원래 없음
     @inlinable
     func updateRequestedPreferences(for viewGraph: ViewGraph) {
-        Update.ensure { 
+        Update.ensure {
+            // $s7SwiftUI37UILargeContentViewerInteractionBridgeC26updateRequestedPreferences3foryAA9ViewGraphC_tFyyXEfU_TA
             if showLargeContentViewer {
                 viewGraph.addPreference(AccessibilityLargeContentViewTree.Key.self)
             } else {

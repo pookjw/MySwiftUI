@@ -486,78 +486,79 @@ open class UIHostingController<Content: View>: UIViewController {
          */
         host.viewController = self
         
-        Update.ensure {
-            host.viewGraph.append(feature: EditModeScopeFeature())
-            
-            // <+144>
-            dialogBridge.hostingController = self
-            dialogBridge.host = host
-            
-            do {
-                let viewGraph = host.viewGraph
-                viewGraph.addPreference(ConfirmationDialog.PreferenceKey.self)
-                viewGraph.addPreference(AlertStorage.PreferenceKey.self)
-                viewGraph.addPreference(AllowsSecureDrawingKey.self)
-            }
-            
-            // <+364>
-            host.viewGraph.addPreference(UpdateViewDestinationRequest.UpdateViewDestinationRequestKey.self)
-            fileImportExportBridge.host = host
-            
-            do {
-                let viewGraph = host.viewGraph
-                viewGraph.addPreference(FileImportOperation.Key.self)
-                viewGraph.addPreference(FileExportOperation.Key.self)
-            }
-            
-            if !type(of: host).ignoresPresentations {
-                // <+600>
-                // x25
-                let popoverBridge = UIKitPopoverBridge()
-                popoverBridge.host = host
-                
-                let viewGraph = host.viewGraph
-                viewGraph.addPreference(InspectorStorage.PreferenceKey.self)
-                viewGraph.addPreference(InspectorAnchorPreferenceKey.self)
-                viewGraph.addPreference(PopoverPresentation.Key.self)
-                viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
-                viewGraph.addPreference(PresentationOptionsPreferenceKey.self)
-                
-                host.popoverBridge = popoverBridge
-            }
-            
-            // <+864>
-            addScreenEdgesSystemGesturePreferences(to: host.viewGraph)
-            addPersistentSystemOverlaysPreferences(to: host.viewGraph)
-            
-            // <+964>
-            if PPTFeature.isEnabled {
-                testBridge = PPTTestBridge(host: nil, shouldUpdateEnvironment: false, testCase: nil)
-                testBridge?.host = host
-            }
-            
-            // <+1104>
-            let sharingActivityPickerBridge = SharingActivityPickerBridge()
-            sharingActivityPickerBridge.host = host
-            sharingActivityPickerBridge.addPreferences(to: host.viewGraph)
-            host.sharingActivityPickerBridge = sharingActivityPickerBridge
-            
-            let shareConfigurationBridge = ShareConfigurationBridge()
-            shareConfigurationBridge.host = host
-            host.viewGraph.addPreference(AnyShareConfiguration.Key.self)
-            host.shareConfigurationBridge = shareConfigurationBridge
-            
-            host.viewGraph.addPreference(HostingGestureOverlayAuthorityKey.self)
-            
-            if traitCollection.userInterfaceIdiom == .vision {
-                let ornamentBridge = OrnamentBridge<Content>()
-                ornamentBridge.hostingController = self
-                ornamentBridge.addPreferences(to: host.viewGraph)
-                self.ornamentBridge = ornamentBridge
-            }
-            
-            // <+1688>
+        Update.begin()
+        
+        host.viewGraph.append(feature: EditModeScopeFeature())
+        
+        // <+144>
+        dialogBridge.hostingController = self
+        dialogBridge.host = host
+        
+        do {
+            let viewGraph = host.viewGraph
+            viewGraph.addPreference(ConfirmationDialog.PreferenceKey.self)
+            viewGraph.addPreference(AlertStorage.PreferenceKey.self)
+            viewGraph.addPreference(AllowsSecureDrawingKey.self)
         }
+        
+        // <+364>
+        host.viewGraph.addPreference(UpdateViewDestinationRequest.UpdateViewDestinationRequestKey.self)
+        fileImportExportBridge.host = host
+        
+        do {
+            let viewGraph = host.viewGraph
+            viewGraph.addPreference(FileImportOperation.Key.self)
+            viewGraph.addPreference(FileExportOperation.Key.self)
+        }
+        
+        if !type(of: host).ignoresPresentations {
+            // <+600>
+            // x25
+            let popoverBridge = UIKitPopoverBridge()
+            popoverBridge.host = host
+            
+            let viewGraph = host.viewGraph
+            viewGraph.addPreference(InspectorStorage.PreferenceKey.self)
+            viewGraph.addPreference(InspectorAnchorPreferenceKey.self)
+            viewGraph.addPreference(PopoverPresentation.Key.self)
+            viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
+            viewGraph.addPreference(PresentationOptionsPreferenceKey.self)
+            
+            host.popoverBridge = popoverBridge
+        }
+        
+        // <+864>
+        addScreenEdgesSystemGesturePreferences(to: host.viewGraph)
+        addPersistentSystemOverlaysPreferences(to: host.viewGraph)
+        
+        // <+964>
+        if PPTFeature.isEnabled {
+            testBridge = PPTTestBridge(host: nil, shouldUpdateEnvironment: false, testCase: nil)
+            testBridge?.host = host
+        }
+        
+        // <+1104>
+        let sharingActivityPickerBridge = SharingActivityPickerBridge()
+        sharingActivityPickerBridge.host = host
+        sharingActivityPickerBridge.addPreferences(to: host.viewGraph)
+        host.sharingActivityPickerBridge = sharingActivityPickerBridge
+        
+        let shareConfigurationBridge = ShareConfigurationBridge()
+        shareConfigurationBridge.host = host
+        host.viewGraph.addPreference(AnyShareConfiguration.Key.self)
+        host.shareConfigurationBridge = shareConfigurationBridge
+        
+        host.viewGraph.addPreference(HostingGestureOverlayAuthorityKey.self)
+        
+        if traitCollection.userInterfaceIdiom == .vision {
+            let ornamentBridge = OrnamentBridge<Content>()
+            ornamentBridge.hostingController = self
+            ornamentBridge.addPreferences(to: host.viewGraph)
+            self.ornamentBridge = ornamentBridge
+        }
+        
+        // <+1688>
+        Update.end()
     }
     
     final func addScreenEdgesSystemGesturePreferences(to viewGraph: ViewGraph) {
@@ -860,39 +861,54 @@ open class UIHostingController<Content: View>: UIViewController {
             }
         }
         
-        Update.ensure {
-            // x24, sp + 0x40, x25
-            var resolved: ViewGraphBridgeProperties
-            if ViewGraphBridgePropertiesAreInput.isEnabled {
-                // <+196>
-                if let properties {
-                    // <+228>
-                    resolved = properties
-                    // <+360>
-                } else {
-                    // <+200>
-                    resolved = graphValue()
-                    resolved.suppliedBridges = [] // x19는 복사 안하고 있음. nil인채로 들어오면 0임
-                    // <+360>
-                }
-            } else {
-                // <+224>
-                if let properties {
-                    resolved = properties
-                    // <+360>
-                } else {
-                    // <+244>
-                    resolved = host.viewGraph.environment.viewGraphBridgeProperties
-                    resolved.suppliedBridges = []
-                    // <+360>
-                }
-            }
-            
-            // <+360>
-            // x22
-            let environment = host.viewGraph.environment
-            let flag_1: Bool // true -> <+500> / false -> <+660>
+        Update.begin()
+        
+        // x24, sp + 0x40, x25
+        var resolved: ViewGraphBridgeProperties
+        if ViewGraphBridgePropertiesAreInput.isEnabled {
+            // <+196>
             if let properties {
+                // <+228>
+                resolved = properties
+                // <+360>
+            } else {
+                // <+200>
+                resolved = graphValue()
+                resolved.suppliedBridges = [] // x19는 복사 안하고 있음. nil인채로 들어오면 0임
+                // <+360>
+            }
+        } else {
+            // <+224>
+            if let properties {
+                resolved = properties
+                // <+360>
+            } else {
+                // <+244>
+                resolved = host.viewGraph.environment.viewGraphBridgeProperties
+                resolved.suppliedBridges = []
+                // <+360>
+            }
+        }
+        
+        // <+360>
+        // x22
+        let environment = host.viewGraph.environment
+        let flag_1: Bool // true -> <+500> / false -> <+660>
+        if let properties {
+            if allowedActions.isDisjoint(with: [.unknown0, .unknown1]) {
+                // <+660>
+                flag_1 = false
+            } else {
+                // <+500>
+                flag_1 = true
+            }
+        } else {
+            // <+636>
+            if environment.plist.isEmpty {
+                // <+672>
+                Update.end()
+                return
+            } else {
                 if allowedActions.isDisjoint(with: [.unknown0, .unknown1]) {
                     // <+660>
                     flag_1 = false
@@ -900,201 +916,188 @@ open class UIHostingController<Content: View>: UIViewController {
                     // <+500>
                     flag_1 = true
                 }
-            } else {
-                // <+636>
-                if environment.plist.isEmpty {
-                    // <+672>
-                    return
-                } else {
-                    if allowedActions.isDisjoint(with: [.unknown0, .unknown1]) {
-                        // <+660>
-                        flag_1 = false
-                    } else {
-                        // <+500>
-                        flag_1 = true
-                    }
-                }
             }
+        }
+        
+        if flag_1 {
+            // <+500>
+            // x19
+            let requiredBridges = requiredBridges
+            // x27
+            let navigationController = navigationController ?? overrides.navigation
+            // <+580>
+            // sp + 0x38
+            let x290xa8 = allowedActions.intersection(.unknown0)
+            // sp + 0x30
+            let tabBarController = tabBarController
             
-            if flag_1 {
-                // <+500>
-                // x19
-                let requiredBridges = requiredBridges
-                // x27
-                let navigationController = navigationController ?? overrides.navigation
-                // <+580>
-                // sp + 0x38
-                let x290xa8 = allowedActions.intersection(.unknown0)
-                // sp + 0x30
-                let tabBarController = tabBarController
-                
-                // true -> <+832> / false -> <+808>
-                let flag_2: Bool
-                
-                if let navigationController {
-                    // <+612>
-                    if !resolved.suppliedBridges.contains(.unknown2) {
-                        // <+620>
-                        if navigationController._supportsDataDrivenNavigation() {
-                            // <+832>
-                            flag_2 = true
-                        } else {
-                            // <+808>
-                            flag_2 = false
-                        }
-                    } else {
+            // true -> <+832> / false -> <+808>
+            let flag_2: Bool
+            
+            if let navigationController {
+                // <+612>
+                if !resolved.suppliedBridges.contains(.unknown2) {
+                    // <+620>
+                    if navigationController._supportsDataDrivenNavigation() {
                         // <+832>
                         flag_2 = true
-                    }
-                } else {
-                    // <+680>
-                    if let navigationBridge, let _host = navigationBridge.host {
-                        // <+748>
-                        if let navigation = _host.hostingControllerOverrides.navigation {
-                            // <+808>
-                            flag_2 = false
-                        } else {
-                            // <+832>
-                            flag_2 = true
-                        }
                     } else {
-                        // <+832>
-                        flag_2 = true
-                    }
-                }
-                
-                var x26: Int
-                let flag_3: Bool // true -> <+848> / false -> <+820>
-                if !flag_2 {
-                    // <+808>
-                    x26 = requiredBridges.rawValue | (x290xa8.rawValue << 2)
-                    
-                    if let navigationController {
-                        // <+848>
-                        flag_3 = true
-                    } else {
-                        // <+820>
-                        flag_3 = false
+                        // <+808>
+                        flag_2 = false
                     }
                 } else {
                     // <+832>
-                    let x8 = requiredBridges.subtracting(.unknown2)
-                    if allowedActions.contains(.unknown1) {
-                        x26 = x8.rawValue
+                    flag_2 = true
+                }
+            } else {
+                // <+680>
+                if let navigationBridge, let _host = navigationBridge.host {
+                    // <+748>
+                    if let navigation = _host.hostingControllerOverrides.navigation {
+                        // <+808>
+                        flag_2 = false
                     } else {
-                        x26 = requiredBridges.rawValue
-                    }
-                    // <+844>
-                    if navigationController == nil {
-                        flag_3 = false
-                    } else {
-                        flag_3 = true
-                    }
-                }
-                
-                let flag_4: Bool // true -> <+948> / false -> <+868>
-                if flag_3, self.navigationHierarchyAllowsToolbarBridge() {
-                    // <+948>
-                    flag_4 = true
-                } else {
-                    // <+820> / <+864>
-                    flag_4 = (tabBarController != nil)
-                }
-                
-                let flag_5: Bool // true -> <+968> / false -> <+956>
-                if !flag_4 {
-                    // <+868>
-                    if host.isRootHost {
-                        // <+948>
-                        flag_5 = resolved.suppliedBridges.contains(.unknown0)
-                    } else {
-                        // <+968>
-                        flag_5 = true
+                        // <+832>
+                        flag_2 = true
                     }
                 } else {
-                    // <+948>
-                    flag_5 = resolved.suppliedBridges.contains(.unknown0)
+                    // <+832>
+                    flag_2 = true
                 }
-                
-                var x19: Int
-                if !flag_5 {
-                    // <+956>
-                    x19 = x26
-                    if (x26 & 1) == 0 {
-                        x19 = x19 | x290xa8.rawValue
-                    }
-                    // <+984>
-                } else {
-                    // <+968>
-                    x19 = (!allowedActions.contains(.unknown1) ? x26 : (x26 & ~1))
-                }
-                // x290xa8 -> x20
-                
-                // <+984>
-                let v3 = isLinkedOnOrAfter(.v3)
-                // <+992>
-                let w8 = resolved.suppliedBridges.contains(.unknown4)
-                let x9 = x19 | (x290xa8.rawValue << 4)
-                let x10 = !allowedActions.contains(.unknown1) ? x19 : (x19 & ~0x10)
-                
-                if v3 && !w8 {
-                    x26 = x9
-                } else {
-                    x26 = x10
-                }
-                
-                if host.isRootHost, host.window != nil {
-                    // <+1136>
-                    x19 = x26 | (x290xa8.rawValue << 1)
-                    x26 = x290xa8.rawValue
-                } else {
-                    // <+1160>
-                    let x8 = x26 & ~0x2
-                    if !allowedActions.contains(.unknown1) {
-                        x19 = x26
-                    } else {
-                        x19 = x8
-                    }
-                    x26 = x290xa8.rawValue
-                }
-                
-                let flag_6: Bool // true -> <+1212> / false -> <+1228>
-                if !resolved.suppliedBridges.contains(.unknown7) {
-                    // <+1184>
-                    if type(of: host).ignoresPresentations {
-                        // <+1212>
-                        flag_6 = true
-                    } else {
-                        // <+1228>
-                        flag_6 = false
-                    }
-                } else {
-                    // <+1212>
-                    flag_6 = true
-                }
-                
-                let newRequiredBridges: HostingControllerBridges
-                if flag_6 {
-                    // <+1212>
-                    let x8 = x19 & ~0x80
-                    let x0: Int
-                    if !allowedActions.contains(.unknown1) {
-                        x0 = x19
-                    } else {
-                        x0 = x8
-                    }
-                    newRequiredBridges = HostingControllerBridges(rawValue: x0)
-                } else {
-                    // <+1228>
-                    let x0 = x19 | (x26 << 7)
-                    newRequiredBridges = HostingControllerBridges(rawValue: x0)
-                }
-                self.requiredBridges = newRequiredBridges
             }
             
-            // <+1268> or <+660>
-            resolveBarAppearanceBehavior(resolved)
+            var x26: Int
+            let flag_3: Bool // true -> <+848> / false -> <+820>
+            if !flag_2 {
+                // <+808>
+                x26 = requiredBridges.rawValue | (x290xa8.rawValue << 2)
+                
+                if let navigationController {
+                    // <+848>
+                    flag_3 = true
+                } else {
+                    // <+820>
+                    flag_3 = false
+                }
+            } else {
+                // <+832>
+                let x8 = requiredBridges.subtracting(.unknown2)
+                if allowedActions.contains(.unknown1) {
+                    x26 = x8.rawValue
+                } else {
+                    x26 = requiredBridges.rawValue
+                }
+                // <+844>
+                if navigationController == nil {
+                    flag_3 = false
+                } else {
+                    flag_3 = true
+                }
+            }
+            
+            let flag_4: Bool // true -> <+948> / false -> <+868>
+            if flag_3, self.navigationHierarchyAllowsToolbarBridge() {
+                // <+948>
+                flag_4 = true
+            } else {
+                // <+820> / <+864>
+                flag_4 = (tabBarController != nil)
+            }
+            
+            let flag_5: Bool // true -> <+968> / false -> <+956>
+            if !flag_4 {
+                // <+868>
+                if host.isRootHost {
+                    // <+948>
+                    flag_5 = resolved.suppliedBridges.contains(.unknown0)
+                } else {
+                    // <+968>
+                    flag_5 = true
+                }
+            } else {
+                // <+948>
+                flag_5 = resolved.suppliedBridges.contains(.unknown0)
+            }
+            
+            var x19: Int
+            if !flag_5 {
+                // <+956>
+                x19 = x26
+                if (x26 & 1) == 0 {
+                    x19 = x19 | x290xa8.rawValue
+                }
+                // <+984>
+            } else {
+                // <+968>
+                x19 = (!allowedActions.contains(.unknown1) ? x26 : (x26 & ~1))
+            }
+            // x290xa8 -> x20
+            
+            // <+984>
+            let v3 = isLinkedOnOrAfter(.v3)
+            // <+992>
+            let w8 = resolved.suppliedBridges.contains(.unknown4)
+            let x9 = x19 | (x290xa8.rawValue << 4)
+            let x10 = !allowedActions.contains(.unknown1) ? x19 : (x19 & ~0x10)
+            
+            if v3 && !w8 {
+                x26 = x9
+            } else {
+                x26 = x10
+            }
+            
+            if host.isRootHost, host.window != nil {
+                // <+1136>
+                x19 = x26 | (x290xa8.rawValue << 1)
+                x26 = x290xa8.rawValue
+            } else {
+                // <+1160>
+                let x8 = x26 & ~0x2
+                if !allowedActions.contains(.unknown1) {
+                    x19 = x26
+                } else {
+                    x19 = x8
+                }
+                x26 = x290xa8.rawValue
+            }
+            
+            let flag_6: Bool // true -> <+1212> / false -> <+1228>
+            if !resolved.suppliedBridges.contains(.unknown7) {
+                // <+1184>
+                if type(of: host).ignoresPresentations {
+                    // <+1212>
+                    flag_6 = true
+                } else {
+                    // <+1228>
+                    flag_6 = false
+                }
+            } else {
+                // <+1212>
+                flag_6 = true
+            }
+            
+            let newRequiredBridges: HostingControllerBridges
+            if flag_6 {
+                // <+1212>
+                let x8 = x19 & ~0x80
+                let x0: Int
+                if !allowedActions.contains(.unknown1) {
+                    x0 = x19
+                } else {
+                    x0 = x8
+                }
+                newRequiredBridges = HostingControllerBridges(rawValue: x0)
+            } else {
+                // <+1228>
+                let x0 = x19 | (x26 << 7)
+                newRequiredBridges = HostingControllerBridges(rawValue: x0)
+            }
+            self.requiredBridges = newRequiredBridges
         }
+        
+        // <+1268> or <+660>
+        resolveBarAppearanceBehavior(resolved)
+        Update.end()
     }
     
     final func _update(bridgeProperties: inout ViewGraphBridgeProperties) {
@@ -1136,139 +1139,140 @@ open class UIHostingController<Content: View>: UIViewController {
             return
         }
         
-        Update.ensure {
-            let x28 = oldValue.subtracting(requiredBridges)
-            let x26 = requiredBridges.subtracting(oldValue)
-            
-            if x28.contains(.unknown1) {
-                // <+236>
-                if keyboardShortcutBridge != nil {
-                    // <+248>
-                    host.viewGraph.removePreference(KeyboardShortcutBindingsKey.self)
-                }
-                
-                // <+344>
-                if let keyboardShortcutBridge {
-                    keyboardShortcutBridge.flushKeyCommands(self)
-                }
-                
-                // <+428>
-                self.keyboardShortcutBridge = nil
-                // <+440>
-            } else if x26.contains(.unknown1) {
-                // <+208>
-                self.keyboardShortcutBridge = KeyboardShortcutBridge()
-                // <+440>
-            } else {
-                // <+440>
+        Update.begin()
+        
+        let x28 = oldValue.subtracting(requiredBridges)
+        let x26 = requiredBridges.subtracting(oldValue)
+        
+        if x28.contains(.unknown1) {
+            // <+236>
+            if keyboardShortcutBridge != nil {
+                // <+248>
+                host.viewGraph.removePreference(KeyboardShortcutBindingsKey.self)
             }
             
+            // <+344>
+            if let keyboardShortcutBridge {
+                keyboardShortcutBridge.flushKeyCommands(self)
+            }
+            
+            // <+428>
+            self.keyboardShortcutBridge = nil
             // <+440>
-            if x28.contains(.unknown2) {
-                // <+728>
-                if let navigationBridge {
-                    // <+740>
-                    host.viewGraph.removePreference(NavigationDestinationsKey.self)
-                }
-                
-                // <+808>
-                self.navigationBridge = nil
-                // <+820> (<+632>와 동일)
-            } else if x26.contains(.unknown2) {
-                // <+448>
-                self.navigationBridge = NavigationBridge_PhoneTV()
-                self.navigationBridge!.host = host
-                assert(self.navigationBridge != nil)
-                self.host.viewGraph.addPreference(NavigationDestinationsKey.self)
-                // <+632>
-            } else {
-                // <+632>
+        } else if x26.contains(.unknown1) {
+            // <+208>
+            self.keyboardShortcutBridge = KeyboardShortcutBridge()
+            // <+440>
+        } else {
+            // <+440>
+        }
+        
+        // <+440>
+        if x28.contains(.unknown2) {
+            // <+728>
+            if let navigationBridge {
+                // <+740>
+                host.viewGraph.removePreference(NavigationDestinationsKey.self)
             }
             
+            // <+808>
+            self.navigationBridge = nil
+            // <+820> (<+632>와 동일)
+        } else if x26.contains(.unknown2) {
+            // <+448>
+            self.navigationBridge = NavigationBridge_PhoneTV()
+            self.navigationBridge!.host = host
+            assert(self.navigationBridge != nil)
+            self.host.viewGraph.addPreference(NavigationDestinationsKey.self)
             // <+632>
-            if x28.contains(.unknown0) {
-                // <+824>
-                if let logger = Log.toolbar {
-                    logger.log(level: .default, "Removed toolbar bridge from \(self)")
-                }
-                
-                // <+1120>
-                if toolbarBridge != nil {
-                    let viewGraph = host.viewGraph
-                    viewGraph.removePreference(ToolbarKey.self)
-                    viewGraph.removePreference(SearchKey.self)
-                    viewGraph.removePreference(NavigationPropertiesKey.self)
-                    viewGraph.removePreference(UINavigationItemAdaptorKey.self)
-                }
-                
-                self.toolbarBridge = nil
-                // <+1300>
-            } else if x26.contains(.unknown0) {
-                // <+640>
-                if let logger = Log.toolbar {
-                    logger.log(level: .default, "Added toolbar bridge to \(self)")
-                }
-                
-                // <+2020>
-                self.toolbarBridge = ToolbarBridge<UIKitToolbarStrategy>()
-                assert(self.toolbarBridge != nil)
-                host.viewGraph.addPreference(ToolbarKey.self)
-                host.viewGraph.addPreference(SearchKey.self)
-                host.viewGraph.addPreference(NavigationPropertiesKey.self)
-                host.viewGraph.addPreference(UINavigationItemAdaptorKey.self)
-                // <+2200> (<+1300>와 동일)
-            } else {
-                // <+1300>
+        } else {
+            // <+632>
+        }
+        
+        // <+632>
+        if x28.contains(.unknown0) {
+            // <+824>
+            if let logger = Log.toolbar {
+                logger.log(level: .default, "Removed toolbar bridge from \(self)")
             }
             
+            // <+1120>
+            if toolbarBridge != nil {
+                let viewGraph = host.viewGraph
+                viewGraph.removePreference(ToolbarKey.self)
+                viewGraph.removePreference(SearchKey.self)
+                viewGraph.removePreference(NavigationPropertiesKey.self)
+                viewGraph.removePreference(UINavigationItemAdaptorKey.self)
+            }
+            
+            self.toolbarBridge = nil
             // <+1300>
-            if x28.contains(.unknown4) {
-                // <+2204>
-                if contentScrollViewBridge != nil {
-                    host.viewGraph.removePreference(ContentScrollViewPreferenceKey.self)
-                }
-                self.contentScrollViewBridge = nil
-                // <+2296> (<+1520>와 동일)
-            } else if x26.contains(.unknown4) {
-                // <+1308>
-                self.contentScrollViewBridge = UIKitContentScrollViewBridge()
-                self.contentScrollViewBridge!.viewController = self
-                host.viewGraph.addPreference(ContentScrollViewPreferenceKey.self)
-                // <+1520>
-            } else {
-                // <+1520>
+        } else if x26.contains(.unknown0) {
+            // <+640>
+            if let logger = Log.toolbar {
+                logger.log(level: .default, "Added toolbar bridge to \(self)")
             }
             
+            // <+2020>
+            self.toolbarBridge = ToolbarBridge<UIKitToolbarStrategy>()
+            assert(self.toolbarBridge != nil)
+            host.viewGraph.addPreference(ToolbarKey.self)
+            host.viewGraph.addPreference(SearchKey.self)
+            host.viewGraph.addPreference(NavigationPropertiesKey.self)
+            host.viewGraph.addPreference(UINavigationItemAdaptorKey.self)
+            // <+2200> (<+1300>와 동일)
+        } else {
+            // <+1300>
+        }
+        
+        // <+1300>
+        if x28.contains(.unknown4) {
+            // <+2204>
+            if contentScrollViewBridge != nil {
+                host.viewGraph.removePreference(ContentScrollViewPreferenceKey.self)
+            }
+            self.contentScrollViewBridge = nil
+            // <+2296> (<+1520>와 동일)
+        } else if x26.contains(.unknown4) {
+            // <+1308>
+            self.contentScrollViewBridge = UIKitContentScrollViewBridge()
+            self.contentScrollViewBridge!.viewController = self
+            host.viewGraph.addPreference(ContentScrollViewPreferenceKey.self)
             // <+1520>
-            if x28.contains(.unknown7) {
-                // <+2300>
-                if let inspectorBridgeV5 {
-                    inspectorBridgeV5.removePreferences(from: host.viewGraph)
-                }
-                
-                self.inspectorBridgeV5 = nil
-                // <+2392>
-            } else if x26.contains(.unknown7) {
-                // <+1528>
-                self.inspectorBridgeV5 = UIKitInspectorBridgeV5()
-                
-                if let inspectorBridgeV5 {
-                    let host = host
-                    inspectorBridgeV5.host = host
-                    inspectorBridgeV5.transitioningDelegate.host = host
-                }
-                
-                // <+1708>
-                if let inspectorBridgeV5 {
-                    inspectorBridgeV5.addPreferences(to: host.viewGraph)
-                }
-                // <+2392>
-            } else {
-                // <+2392>
+        } else {
+            // <+1520>
+        }
+        
+        // <+1520>
+        if x28.contains(.unknown7) {
+            // <+2300>
+            if let inspectorBridgeV5 {
+                inspectorBridgeV5.removePreferences(from: host.viewGraph)
             }
             
+            self.inspectorBridgeV5 = nil
+            // <+2392>
+        } else if x26.contains(.unknown7) {
+            // <+1528>
+            self.inspectorBridgeV5 = UIKitInspectorBridgeV5()
+            
+            if let inspectorBridgeV5 {
+                let host = host
+                inspectorBridgeV5.host = host
+                inspectorBridgeV5.transitioningDelegate.host = host
+            }
+            
+            // <+1708>
+            if let inspectorBridgeV5 {
+                inspectorBridgeV5.addPreferences(to: host.viewGraph)
+            }
+            // <+2392>
+        } else {
             // <+2392>
         }
+        
+        // <+2392>
+        Update.end()
     }
     
     final func screenEdgesSystemGesturePreferencesDidChange(_ preferences: PreferenceValues) {
