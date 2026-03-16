@@ -53,3 +53,8 @@
 #import <_UIKitPrivate/UIMainMenuSystemConfiguration+Private.h>
 #import <_UIKitPrivate/UIMainMenuSystem+Private.h>
 #import <_UIKitPrivate/UISceneConnectionOptions+Private.h>
+#import <_UIKitPrivate/UIWorkspaceSceneRequestOptionsFactory.h>
+#import <_UIKitPrivate/UIApplicationSceneRequestBuilder.h>
+#import <_UIKitPrivate/UIApplicationVolumetricSceneRequestBuilder.h>
+#import <_UIKitPrivate/UISceneConfiguration+Private.h>
+#import <_UIKitPrivate/UISceneSession+Private.h>

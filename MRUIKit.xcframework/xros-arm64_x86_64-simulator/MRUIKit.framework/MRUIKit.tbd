@@ -26,6 +26,8 @@ exports:
     MRUIPreferredTintPreferenceKey,
     MRUIVolumeBaseplateVisibilityPreferenceKey,
     MRUIDisplayContentModePreferenceKey,
-    MRUISupportedVolumeViewpointsPreferenceKey ]
+    MRUISupportedVolumeViewpointsPreferenceKey,
+    _MRUIApplicationImmersiveSpaceSceneRequestBuilder,
+    _MRUIApplicationCompositorServicesImmersiveSpaceSceneRequestBuilder ]
     objc-ivars:           [  ]
 ...

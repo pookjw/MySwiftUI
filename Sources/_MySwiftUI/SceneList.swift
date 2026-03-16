@@ -10,10 +10,14 @@ extension SceneList {
         // TODO
     }
     
-    enum Namespace: Hashable {
+    enum Namespace: Hashable, CustomStringConvertible {
         case string(String)
         case host(ObjectIdentifier)
         case app
+        
+        var description: String {
+            assertUnimplemented()
+        }
     }
 }
 

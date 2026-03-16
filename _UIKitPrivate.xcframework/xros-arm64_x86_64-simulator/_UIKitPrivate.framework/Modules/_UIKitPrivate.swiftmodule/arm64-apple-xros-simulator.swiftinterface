@@ -72,3 +72,24 @@ extension UIKit.UIMutableTraits {
     public var _glassElevationLevel: _UIKitPrivate._UIGlassElevationLevel { get set }
     public var _userInterfaceRenderingMode: _UIKitPrivate._UIUserInterfaceRenderingMode { get set }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "UIKit", visionOS 26.0)
+public protocol UISceneConnectionOptionDefinition {
+    associatedtype Payload
+    associatedtype SceneType
+    associatedtype SceneDelegate
+    associatedtype SceneDelegateMethod
+    
+    static var sceneDelegateMethod: (Self.SceneDelegate) -> Self.SceneDelegateMethod { get }
+    static func invokeSceneDelegate(_ sceneDelegateMethod: Self.SceneDelegateMethod, scene: Self.SceneType, payload: Self.Payload)
+    static func didFinishHandling(payload: Self.Payload, for scene: Self.SceneType)
+    static func didFailHandling(error: any Swift.Error, sceneSession: UIKit.UISceneSession, payload: Self.Payload?)
+}
+
+@available(visionOS 26.0, *)
+extension UIKit.UIScene.ConnectionOptions {
+    public subscript<T: _UIKitPrivate.UISceneConnectionOptionDefinition, U>(_: T.Type) -> U? where U == T.Payload {
+        get
+    }
+}

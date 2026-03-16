@@ -23,3 +23,5 @@
 #import <MRUIKit/UIView+MRUIPrivate.h>
 #import <MRUIKit/NSValue+MRUIPrivate.h>
 #import <MRUIKit/MRUIStageSceneSpecification.h>
+#import <MRUIKit/MRUIApplicationImmersiveSpaceSceneRequestBuilder.h>
+#import <MRUIKit/MRUIApplicationCompositorServicesImmersiveSpaceSceneRequestBuilder.h>

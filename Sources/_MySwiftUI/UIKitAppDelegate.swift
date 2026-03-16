@@ -11,7 +11,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private var fallbackDelegate: UIApplicationDelegate? = nil
+    private(set) var fallbackDelegate: UIApplicationDelegate? = nil
     private(set) var mainMenuController: UIKitMainMenuController? = nil
     private(set) lazy var immersiveSpaceAuthority: ImmersiveSpaceAuthority = {
         assertUnimplemented()
@@ -138,8 +138,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             self.mainMenuController = UIKitMainMenuController()
         }
         
-        self.mainMenuController!.buildMenu(with: builder)
-        (self.fallbackDelegate as? UIResponder)?.buildMenu(with: builder)
+//        self.mainMenuController!.buildMenu(with: builder)
+//        (self.fallbackDelegate as? UIResponder)?.buildMenu(with: builder)
         
         Update.end()
     }

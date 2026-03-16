@@ -1,4 +1,4 @@
-@safe struct TypeConformance<T: ProtocolDescriptor>: Sendable {
+@safe package struct TypeConformance<T: ProtocolDescriptor>: Sendable {
     @safe nonisolated(unsafe) let storage: (type: Any.Type, conformance: UnsafeRawPointer)
     
     init(storage: (type: Any.Type, conformance: UnsafeRawPointer)) {

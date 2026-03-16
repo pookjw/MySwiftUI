@@ -1,6 +1,8 @@
 internal import UIKit
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 private import os.log
+private import _UIKitPrivate
+private import Observation
 
 /*
  window (Swift.Optional<__C.UIWindow>) (0x10)
@@ -79,19 +81,174 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                 return
             }
             
-            if
-                AppGraph.shared == nil,
-                let delegateClass = session.configuration.delegateClass,
-                delegateClass is UIHostingSceneDelegate.Type
-            {
-                // <+1384>
+            guard let graph = AppGraph.shared else {
+                if let delegateClass = session.configuration.delegateClass as? UIHostingSceneDelegate.Type {
+                    // <+1384>
+                    if let openScene = Log.openScene {
+                        openScene.log(level: .debug, "Registering bridged scene delegate \(delegateClass) and connecting the graph")
+                    }
+                    
+                    // <+1800>
+                    BridgedSceneCoordinator.shared.register(delegateClass)
+                }
+                
+                return
+            }
+            
+            // <+1900>
+            if ViewGraphHost.isDefaultEnvironmentConfigured {
+                graph.setEnvironment(ViewGraphHost.defaultEnvironment)
+            }
+            
+            // <+2004>
+            if let payload = connectionOptions[OpenSceneConnectionOptionDefinition.self] {
+                // <+2244>
                 if let openScene = Log.openScene {
-                    openScene.log(level: .debug, "Registering bridged scene delegate \(delegateClass) and connecting the graph")
+                    openScene.log(level: .debug, "Using namespace from connection options: \(payload.namespace)")
+                }
+                
+                self.sceneNamespace = payload.namespace
+                // <+3504>
+            } else {
+                // <+2104>
+                if let delegateClass = session.configuration as? UIHostingSceneDelegate.Type {
+                    if let openScene = Log.openScene {
+                        openScene.log(level: .debug, "Using namespace from UISceneConfiguration's delegateClass: \(delegateClass)")
+                    }
+                    
+                    // <+3444>
+                    self.sceneNamespace = .host(ObjectIdentifier(delegateClass))
+                    // <+3504>
+                } else {
+                    // <+2320>
+                    if let bridgingID = session.configuration._bridgingID {
+                        // <+2364>
+                        if let openScene = Log.openScene {
+                            openScene.log(level: .debug, "Using namespace from UISceneConfiguration's bridgingID: \(bridgingID)")
+                        }
+                        
+                        self.sceneNamespace = .string(bridgingID)
+                        // <+3504>
+                    } else {
+                        // <+2816>
+                        self.sceneNamespace = .app
+                        // <+3504>
+                    }
                 }
             }
             
-            // $s7SwiftUI23BridgedSceneCoordinatorV6shared_WZ
-            // <+1900>
+            // <+3504>
+            /*
+             true -> <+3604>
+             false -> <+4444>
+             */
+            let flag_1: Bool
+            if
+                let delegateClass = session.configuration.delegateClass,
+                type(of: delegateClass) == AppSceneDelegate.Type.self
+            {
+                // <+4444>
+                flag_1 = false
+            } else {
+                // <+3568>
+                flag_1 = (session.configuration.delegateClass != nil)
+            }
+            
+            /*
+             nonnil -> <+5504>
+             nil -> <+6136>
+             */
+            let incomingConfiguration: UISceneConfiguration?
+            if flag_1 {
+                // <+3604>
+                let configuration = session.configuration
+                if let openScene = Log.openScene {
+                    openScene.log(level: .info, "Scene session \(session.persistentIdentifier) is using scene bridging with configuration: \(configuration, privacy: .public) with delegateClass: \(String(describing: configuration.delegateClass), privacy: .public)")
+                }
+                
+                // <+5504>
+                incomingConfiguration = configuration
+            } else {
+                // <+4444>
+                if let appDelegate = AppDelegate.shared {
+                    // <+4456>
+                    if let fallbackDelegate = appDelegate.fallbackDelegate {
+                        if fallbackDelegate.responds(to: #selector(UIApplicationDelegate.application(_:configurationForConnecting:options:))) {
+                            // <+4508>
+                            let _configuration = (fallbackDelegate as AnyObject).application?(UIApplication.shared, configurationForConnecting: session, options: connectionOptions)
+                            
+                            if let _configuration {
+                                // <+4624>
+                                if let openScene = Log.openScene {
+                                    openScene.log(level: .info, "Scene session \(session.persistentIdentifier) is asking fallback app delegate: \(String(describing: fallbackDelegate), privacy: .public) for custom scene configuration: \(_configuration, privacy: .public) with delegateClass: \(String(describing: _configuration.delegateClass), privacy: .public)")
+                                }
+                                
+                                // <+5500>
+                                incomingConfiguration = _configuration
+                            } else {
+                                // <+4772>
+                                incomingConfiguration = nil
+                            }
+                        } else {
+                            // <+4732>
+                            incomingConfiguration = nil
+                        }
+                    } else {
+                        // <+4724>
+                        incomingConfiguration = nil
+                    }
+                } else {
+                    // <+4716>
+                    incomingConfiguration = nil
+                }
+            }
+            
+            if let incomingConfiguration {
+                // <+5500>
+                if let delegateClass = incomingConfiguration.delegateClass {
+                    // <+5524>
+                    if
+                        let sceneDelegate = incomingConfiguration.sceneDelegate(),
+                        sceneDelegate is UIHostingSceneDelegate,
+                        let casted = delegateClass as? UIHostingSceneDelegate.Type
+                    {
+                        // <+5584>
+                        BridgedSceneCoordinator.shared.register(casted)
+                        // <+5660>
+                    }
+                    
+                    // <+5660>
+                    if let casted = delegateClass as? Observable.Type {
+                        func project<T: Observable>(key: T.Type) {
+                            self.sceneDelegateBox = ObjectFallbackDelegateBox(casted as! T)
+                        }
+                        
+                        _openExistential(casted, do: project)
+                        // <+6060>
+                    } else {
+                        // <+5716>
+                        if let conformance = ObservableObjectDescriptor.conformance(of: delegateClass) {
+                            // <+5900>
+                            assertUnimplemented()
+                            // <+6060>
+                        } else {
+                            // <+5784>
+                            self.sceneDelegateBox = FallbackDelegateBox(delegateClass)
+                            // <+6060>
+                        }
+                    }
+                    
+                    // <+6060>
+                    assertUnimplemented()
+                } else {
+                    // <+5708>
+                    // <+6140>
+                    assertUnimplemented()
+                }
+                assertUnimplemented()
+            }
+            
+            // <+6136>
             assertUnimplemented()
         }
     }
