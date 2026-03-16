@@ -24,7 +24,7 @@ extension BodyAccessor {
          */
         
         guard Self.Body.self != Never.self else {
-            fatalError("\(type(of: self)) may not have Body == Never")
+            preconditionFailure("\(type(of: self)) may not have Body == Never")
         }
         
         return unsafe withUnsafePointer(to: inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in

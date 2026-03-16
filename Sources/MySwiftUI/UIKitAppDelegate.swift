@@ -138,6 +138,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             self.mainMenuController = UIKitMainMenuController()
         }
         
+        print("TODO \(#function)")
 //        self.mainMenuController!.buildMenu(with: builder)
 //        (self.fallbackDelegate as? UIResponder)?.buildMenu(with: builder)
         

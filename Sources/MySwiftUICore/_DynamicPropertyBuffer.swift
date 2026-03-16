@@ -21,7 +21,7 @@ public struct _DynamicPropertyBuffer {
         unsafe addFields(fields, container: container, inputs: &inputs, baseOffset: baseOffset)
     }
     
-    func traceMountedProperties<T>(to value: _GraphValue<T>, fields: DynamicPropertyCache.Fields) {
+    package func traceMountedProperties<T>(to value: _GraphValue<T>, fields: DynamicPropertyCache.Fields) {
         /*
          value = x22
          fields = x24

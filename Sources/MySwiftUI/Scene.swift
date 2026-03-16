@@ -1,5 +1,6 @@
 // 0097A5536FDAF33A03BB54B9D6A80407
 private import MySwiftUICore
+private import AttributeGraph
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 @preconcurrency @MainActor public protocol Scene {
@@ -15,11 +16,26 @@ extension Scene {
         let fields = DynamicPropertyCache.fields(of: self)
         var inputs = inputs
         let body = Self.makeBody(scene: scene, inputs: &inputs.base, fields: fields)
-        assertUnimplemented()
+        // x29 - 0x68
+        let resolved = Self.Body._makeScene(scene: body.0, inputs: inputs)
+        
+        guard let buffer = body.1 else {
+            return resolved
+        }
+        
+        // <+608>
+        buffer.traceMountedProperties(to: scene, fields: fields)
+        return resolved
     }
     
     nonisolated fileprivate static func makeBody(scene: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
-        assertUnimplemented()
+        precondition(
+            TypeID(self).isValueType,
+            "apps must be value types; \(self)"
+        )
+        
+        let accessor = SceneBodyAccessor<Self>()
+        return accessor.makeBody(container: scene, inputs: &inputs, fields: fields)
     }
 }
 
@@ -48,4 +64,13 @@ enum SceneID: Hashable {
     
     case string(String)
     case type(Any.Type, UInt8)
+}
+
+fileprivate struct SceneBodyAccessor<T: Scene>: BodyAccessor {
+    typealias Container = T
+    typealias Body = T.Body
+    
+    func updateBody(of container: T, changed: Bool) {
+        assertUnimplemented()
+    }
 }
