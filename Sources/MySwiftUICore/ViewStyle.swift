@@ -1,5 +1,6 @@
 // F00DE100DEB1EA63E29A46C946A53E51
 private import _MySwiftUIShims
+private import _SwiftPrivate
 
 package enum ViewStyleRegistry: Sendable {
     package static func registerOverrides(_ overrides: ViewStyleOverrides, for idiom: ViewStyleRegistry.InterfaceIdiom) {

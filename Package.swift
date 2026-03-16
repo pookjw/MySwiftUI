@@ -72,7 +72,8 @@ let package = Package(
                 .byName(name: "RenderBox"),
                 .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"])),
                 .byName(name: "_ObservationPrivate"),
-                .byName(name: "UIFoundation")
+                .byName(name: "UIFoundation"),
+                .byName(name: "_SwiftPrivate")
             ],
             swiftSettings: [
                 .strictMemorySafety(),

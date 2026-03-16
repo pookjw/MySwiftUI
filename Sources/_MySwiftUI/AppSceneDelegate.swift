@@ -79,7 +79,19 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                 return
             }
             
-            // <+1356>
+            if
+                AppGraph.shared == nil,
+                let delegateClass = session.configuration.delegateClass,
+                delegateClass is UIHostingSceneDelegate.Type
+            {
+                // <+1384>
+                if let openScene = Log.openScene {
+                    openScene.log(level: .debug, "Registering bridged scene delegate \(delegateClass) and connecting the graph")
+                }
+            }
+            
+            // $s7SwiftUI23BridgedSceneCoordinatorV6shared_WZ
+            // <+1900>
             assertUnimplemented()
         }
     }
@@ -107,6 +119,40 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
         assertUnimplemented()
     }
+}
+
+extension AppSceneDelegate: UIHostingViewDelegate {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore.View {
+        assertUnimplemented()
+    }
+    
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+        assertUnimplemented()
+    }
+    
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+        assertUnimplemented()
+    }
+    
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore.View {
+        assertUnimplemented()
+    }
+    
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
+        assertUnimplemented()
+    }
+    
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {
+        assertUnimplemented()
+    }
+    
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
+        assertUnimplemented()
+    }
+}
+
+extension AppSceneDelegate: AppGraphObserver {
+    
 }
 
 final class SceneStorageValues {

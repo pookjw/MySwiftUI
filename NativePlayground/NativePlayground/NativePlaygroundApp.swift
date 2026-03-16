@@ -19,6 +19,15 @@ struct NativePlaygroundApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .task {
+                    try! await Task.sleep(for: .seconds(1))
+                    if let requestWithID = UISceneSessionActivationRequest(
+                        hostingDelegateClass: HostingSceneDelegate.self,
+                        id: "swiftui-window"
+                    ) {
+                        UIApplication.shared.activateSceneSession(for: requestWithID)
+                    }
+                }
         }
     }
 }
@@ -31,6 +40,14 @@ fileprivate struct ContentView: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+    }
+}
+
+class HostingSceneDelegate: NSObject, UIHostingSceneDelegate {
+    static var rootScene: some Scene {
+        WindowGroup(id: "swiftui-window") {
+            ContentView()
+        }
     }
 }
 

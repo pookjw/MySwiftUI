@@ -45,3 +45,15 @@ public enum _MetadataKind: Swift.UInt {
   case errorObject
   case unknown
 }
+
+@_silgen_name("swift_conformsToProtocol")
+public func swift_conformsToProtocol(
+    _ type: Any.Type,
+    _ protocolDescriptor: UnsafeRawPointer
+) -> UnsafeRawPointer? // witness
+
+@_silgen_name("swift_conformsToProtocol2")
+public func swift_conformsToProtocol2(
+    _ type: Any.Type,
+    _ protocolDescriptor: UnsafeRawPointer
+) -> UnsafeRawPointer? // witness

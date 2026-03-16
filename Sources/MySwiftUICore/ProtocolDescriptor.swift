@@ -1,3 +1,5 @@
+private import _SwiftPrivate
+
 protocol ProtocolDescriptor {
     static var descriptor: UnsafeRawPointer { get }
 }
