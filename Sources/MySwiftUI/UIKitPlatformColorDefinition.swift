@@ -187,7 +187,7 @@ extension UITraitCollection {
             // x29 - 0x58
             let keys = environment[BridgedEnvironmentKeysKey.self]
             
-            func copyValueToMutableTraits<T: _MySwiftUI.UITraitBridgedEnvironmentKey>(for type: T.Type) {
+            func copyValueToMutableTraits<T: MySwiftUI.UITraitBridgedEnvironmentKey>(for type: T.Type) {
                 assertUnimplemented()
             }
             
@@ -248,7 +248,7 @@ extension UITraitCollection {
 }
 
 extension MySwiftUICore.EnvironmentValues {
-    var bridgedEnvironmentKeys: [any _MySwiftUI.UITraitBridgedEnvironmentKey.Type] {
+    var bridgedEnvironmentKeys: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] {
         get {
             return self[BridgedEnvironmentKeysKey.self]
         }
@@ -259,5 +259,5 @@ extension MySwiftUICore.EnvironmentValues {
 }
 
 fileprivate struct BridgedEnvironmentKeysKey: MySwiftUICore.EnvironmentKey {
-    @safe static nonisolated(unsafe) let defaultValue: [any _MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
+    @safe static nonisolated(unsafe) let defaultValue: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
 }

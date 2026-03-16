@@ -1,5 +1,5 @@
 private import MySwiftUICore
-private import _MySwiftUI
+private import MySwiftUI
 private import Foundation
 private import os.log
 

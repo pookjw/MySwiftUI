@@ -1,4 +1,4 @@
-@preconcurrency internal import _MySwiftUI
+@preconcurrency internal import MySwiftUI
 internal import MySwiftUICore
 
 @MainActor struct LinkButtonStyle: AnyDefaultStyle, PrimitiveButtonStyle, ButtonStyleConvertible {

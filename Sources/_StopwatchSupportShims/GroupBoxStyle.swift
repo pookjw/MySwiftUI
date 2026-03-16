@@ -1,6 +1,6 @@
-@preconcurrency internal import _MySwiftUI
+@preconcurrency internal import MySwiftUI
 internal import MySwiftUICore
 
-@MainActor struct GroupBoxStyle: AnyDefaultStyle, _MySwiftUI.GroupBoxStyle {
+@MainActor struct GroupBoxStyle: AnyDefaultStyle, MySwiftUI.GroupBoxStyle {
     nonisolated init() {}
 }

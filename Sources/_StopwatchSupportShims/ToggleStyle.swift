@@ -1,7 +1,7 @@
-@preconcurrency internal import _MySwiftUI
+@preconcurrency internal import MySwiftUI
 internal import MySwiftUICore
 
-@MainActor struct ToggleStyle: AnyDefaultStyle, _MySwiftUI.ToggleStyle {
+@MainActor struct ToggleStyle: AnyDefaultStyle, MySwiftUI.ToggleStyle {
     nonisolated init() {}
     
     func makeBody(configuration: ToggleStyleConfiguration) -> Never {

@@ -1,3 +1,4 @@
-@_exported public import _MySwiftUI
 @_exported public import MySwiftUICore
-@_exported public import _StopwatchSupportShims
+public import _UIKitShims
+
+public typealias UITraitBridgedEnvironmentKey = _UIKitShims.UITraitBridgedEnvironmentKey

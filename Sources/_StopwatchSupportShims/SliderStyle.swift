@@ -1,6 +1,6 @@
-@preconcurrency internal import _MySwiftUI
+@preconcurrency internal import MySwiftUI
 internal import MySwiftUICore
 
-@MainActor struct SliderStyle: AnyDefaultStyle, _MySwiftUI.SliderStyle {
+@MainActor struct SliderStyle: AnyDefaultStyle, MySwiftUI.SliderStyle {
     nonisolated init() {}
 }
