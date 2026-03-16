@@ -9,7 +9,7 @@
         return storage.type
     }
     
-    func unsafeExistentialMetatype<U>(_: U.Type) -> U {
+    package func unsafeExistentialMetatype<U>(_: U.Type) -> U {
         return unsafe unsafeBitCast(storage, to: U.self)
     }
     

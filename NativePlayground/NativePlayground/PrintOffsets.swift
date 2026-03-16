@@ -128,6 +128,7 @@ func printOffsets() {
     printFields("7SwiftUI11AppDelegateC", isClassType: true)
     printFields("7SwiftUI23UIKitMainMenuControllerC", isClassType: true)
     printFields("7SwiftUI16AppSceneDelegateC", isClassType: true)
+    printFields("7SwiftUI11SceneBridgeC", isClassType: true)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)

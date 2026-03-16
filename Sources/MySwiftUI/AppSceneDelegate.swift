@@ -3,6 +3,7 @@ internal import UIKit
 private import os.log
 private import _UIKitPrivate
 private import Observation
+private import Combine
 
 /*
  window (Swift.Optional<__C.UIWindow>) (0x10)
@@ -220,7 +221,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                     // <+5660>
                     if let casted = delegateClass as? Observable.Type {
                         func project<T: Observable>(key: T.Type) {
-                            self.sceneDelegateBox = ObjectFallbackDelegateBox(casted as! T)
+                            self.sceneDelegateBox = ObjectFallbackDelegateBox(casted as! T.Type)
                         }
                         
                         _openExistential(casted, do: project)
@@ -229,7 +230,10 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                         // <+5716>
                         if let conformance = ObservableObjectDescriptor.conformance(of: delegateClass) {
                             // <+5900>
-                            assertUnimplemented()
+                            // x29 - 0xf0
+                            let box = MakeObservableObjectDelegateBox(value: self, box: nil)
+                            let observableObject = conformance.unsafeExistentialMetatype((any ObservableObject.Type).self)
+                            box.visit(type: observableObject)
                             // <+6060>
                         } else {
                             // <+5784>
@@ -239,16 +243,42 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                     }
                     
                     // <+6060>
-                    assertUnimplemented()
+                    
+                    let delegate = windowScene.delegate
+                    windowScene.delegate = nil
+                    windowScene.delegate = delegate
+                    // <+6140>
                 } else {
                     // <+5708>
                     // <+6140>
-                    assertUnimplemented()
                 }
-                assertUnimplemented()
             }
             
             // <+6136>
+            // x19 + 0x218
+            var sceneID: String?
+            let userInfo: [AnyHashable: Any]
+            if
+                let stateRestorationActivity = session.stateRestorationActivity,
+                let _userInfo = stateRestorationActivity.userInfo
+            {
+                sceneID = _userInfo["com.apple.SwiftUI.sceneID"] as? String
+                if let scenes = Log.scenes {
+                    scenes.log(level: .debug, "Scene session \(session.persistentIdentifier, privacy: .public) has restoration data: \(_userInfo, privacy: .private)")
+                }
+                userInfo = _userInfo
+                // <+6924>
+            } else {
+                // <+6504>
+                userInfo = [:]
+                // <+6924>
+            }
+            
+            // <+6924>
+            self.sceneStorageValues = SceneStorageValues(encodedValues: userInfo)
+            
+            // <+7008>
+            let sceneBridge = SceneBridge()
             assertUnimplemented()
         }
     }
@@ -310,8 +340,4 @@ extension AppSceneDelegate: UIHostingViewDelegate {
 
 extension AppSceneDelegate: AppGraphObserver {
     
-}
-
-final class SceneStorageValues {
-    // TODO
 }

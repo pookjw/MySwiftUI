@@ -9,6 +9,7 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 @main
 struct NativePlaygroundApp: App {
@@ -43,12 +44,12 @@ fileprivate struct ContentView: UIViewControllerRepresentable {
     }
 }
 
-//class HostingSceneDelegate: NSObject, UIHostingSceneDelegate {
-//    static var rootScene: some Scene {
-//        WindowGroup(id: "swiftui-window") {
-//            ContentView()
-//        }
-//    }
-//}
+class HostingSceneDelegate: NSObject, UIHostingSceneDelegate, ObservableObject {
+    static var rootScene: some Scene {
+        WindowGroup(id: "swiftui-window") {
+            ContentView()
+        }
+    }
+}
 
 #endif

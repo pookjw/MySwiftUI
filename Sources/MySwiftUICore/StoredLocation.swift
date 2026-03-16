@@ -226,3 +226,18 @@ extension StoredLocationBase {
         var cache: LocationProjectionCache
     }
 }
+
+package final class ObservableLocation<T> {
+    private var observers: [ObservableLocation.Observer]
+    
+    package init(initialValue: T) {
+        assertUnimplemented()
+    }
+}
+
+extension ObservableLocation {
+    fileprivate struct Observer {
+        weak var host: GraphHost?
+        @WeakAttribute var signal: Void?
+    }
+}
