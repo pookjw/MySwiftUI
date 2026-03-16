@@ -12,7 +12,15 @@ exports:
     __MRUICadenzaNameForFeedback,
     __NSStringFromMRUIWorldTrackingCapabilities,
     _$sSo6UIViewC7MRUIKitE11layerEntity10RealityKit0D0CSgvg,
-    _$sSo6UIViewC7MRUIKitE11layerEntity10RealityKit0D0CSgvpMV ]
+    _$sSo6UIViewC7MRUIKitE11layerEntity10RealityKit0D0CSgvpMV,
+    _$s7MRUIKit24MRUISceneScalingBehaviorO12dynamicScaleyA2CmFWC,
+    _$s7MRUIKit24MRUISceneScalingBehaviorO9trueScaleyA2CmFWC,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOMa,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOMn,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOSQAAMc,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOSHAAMc,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOs23CustomStringConvertibleAAMc,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOs28CustomDebugStringConvertibleAAMc ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,

@@ -27,3 +27,12 @@ extension MRUIKit._MRUIObjectTransformInteraction.Target {
 extension UIKit.UIView {
     public var layerEntity: RealityKit.Entity? { get }
 }
+
+public enum MRUISceneScalingBehavior: Swift.Hashable, Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.Sendable {
+    case dynamicScale
+    case trueScale
+
+    public var hashValue: Swift.Int { get }
+    public var description: Swift.String { get }
+    public var debugDescription: Swift.String { get }
+}

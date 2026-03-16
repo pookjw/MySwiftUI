@@ -20,8 +20,8 @@ package struct HostPreferencesKey: PreferenceKey {
     @safe fileprivate static nonisolated(unsafe) var nodeId: UInt32 = 0
 }
 
-struct PreferenceKeys: Equatable, RandomAccessCollection {
-    static func == (lhs: PreferenceKeys, rhs: PreferenceKeys) -> Bool {
+package struct PreferenceKeys: Equatable, RandomAccessCollection {
+    package static func == (lhs: PreferenceKeys, rhs: PreferenceKeys) -> Bool {
         let lhsKeys = lhs.keys
         let rhsKeys = rhs.keys
         let lhsCount = lhsKeys.count
@@ -72,11 +72,11 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         keys.append(key)
     }
     
-    subscript(_ index: Int) -> any PreferenceKey.Type {
+    package subscript(_ index: Int) -> any PreferenceKey.Type {
         return keys[index]
     }
     
-    var isEmpty: Bool {
+    package var isEmpty: Bool {
         return keys.isEmpty
     }
     
@@ -98,11 +98,11 @@ struct PreferenceKeys: Equatable, RandomAccessCollection {
         return result
     }
     
-    var startIndex: Int {
+    package var startIndex: Int {
         return 0
     }
     
-    var endIndex: Int {
+    package var endIndex: Int {
         return keys.count
     }
     

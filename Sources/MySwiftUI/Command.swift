@@ -50,12 +50,12 @@ struct CommandsList: Hashable {
 }
 
 extension CommandsList {
-    struct Key: PropertyKey {
-        static var defaultValue: [CommandsList.Item] {
-            return []
+    struct Key: PreferenceKey {
+        static var defaultValue: CommandsList {
+            return CommandsList()
         }
         
-        static func valuesEqual(_ lhs: [CommandsList.Item], _ rhs: [CommandsList.Item]) -> Bool {
+        static func reduce(value: inout CommandsList, nextValue: () -> CommandsList) {
             assertUnimplemented()
         }
     }

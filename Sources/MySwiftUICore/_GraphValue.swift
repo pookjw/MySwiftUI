@@ -1,9 +1,9 @@
-internal import AttributeGraph
+package import AttributeGraph
 
 public struct _GraphValue<Value>: Equatable {
     var value: Attribute<Value>
     
-    init(_ value: Attribute<Value>) {
+    package init(_ value: Attribute<Value>) {
         self.value = value
     }
     

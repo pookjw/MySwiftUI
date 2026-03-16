@@ -291,7 +291,8 @@ exports:
     _$s14AttributeGraph08IndirectA0V5valuexvg,
     _$s14AttributeGraph08IndirectA0V12wrappedValuexvg,
     _$s14AttributeGraph08IndirectA0V12wrappedValuexvs,
-    _$s14AttributeGraph08IndirectA0V12wrappedValuexvM ]
+    _$s14AttributeGraph08IndirectA0V12wrappedValuexvM,
+    _AGGraphCreateIndirectAttribute2 ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

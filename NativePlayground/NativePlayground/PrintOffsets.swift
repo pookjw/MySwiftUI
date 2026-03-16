@@ -129,6 +129,7 @@ func printOffsets() {
     printFields("7SwiftUI23UIKitMainMenuControllerC", isClassType: true)
     printFields("7SwiftUI16AppSceneDelegateC", isClassType: true)
     printFields("7SwiftUI11SceneBridgeC", isClassType: true)
+    printFields("7SwiftUI9SceneListV4ItemV", isClassType: false)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)
@@ -165,6 +166,7 @@ func printOffsets() {
     printFields(ViewResponder.self, isClassType: true)
     printFields(MultiViewResponder.self, isClassType: true)
     printFields(Text.Style.self, isClassType: false)
+    printFields(_SceneInputs.self, isClassType: false)
     
 //    debugTextResolveExample()
 }

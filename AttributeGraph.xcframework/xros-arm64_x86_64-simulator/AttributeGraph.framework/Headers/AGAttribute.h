@@ -10,6 +10,7 @@ AG_EXTERN AGAttribute AGGraphCreateOffsetAttribute2(AGAttribute attribute, const
 AG_EXTERN void AGGraphSetIndirectDependency(AGAttribute, AGAttribute);
 AG_EXTERN AGAttribute AGGraphGetIndirectAttribute(AGAttribute) NS_SWIFT_NAME(getter:AnyAttribute.indirectAttribute(self:));
 AG_EXTERN void AGGraphSetIndirectAttribute(AGAttribute, AGAttribute) NS_SWIFT_NAME(setter:AnyAttribute.indirectAttribute(self:_:));
+AG_EXTERN AGAttribute AGGraphCreateIndirectAttribute2(AGAttribute, unsigned int) NS_SWIFT_NAME(AnyAttribute.createIndirectAttribute2(self:_:));
 AG_EXTERN AGAttribute AGGraphCreateIndirectAttribute3(AGAttribute, unsigned int, unsigned int) NS_SWIFT_NAME(AnyAttribute.createIndirectAttribute3(self:_:_:));
 AG_EXTERN AGAttribute AGGraphSetIndirectAttribute2(AGAttribute, AGAttribute, unsigned int) NS_SWIFT_NAME(AnyAttribute.setIndirectAttribute2(self:_:_:));
 

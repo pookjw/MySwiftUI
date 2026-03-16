@@ -2,10 +2,10 @@
 private import AttributeGraph
 private import os.log
 
-struct DynamicPropertyCache {
+package struct DynamicPropertyCache {
     @safe fileprivate static nonisolated(unsafe) let cache = unsafe MutableBox<[ObjectIdentifier: DynamicPropertyCache.Fields]>([:])
     
-    static func fields(of type: any Any.Type) -> DynamicPropertyCache.Fields {
+    package static func fields(of type: any Any.Type) -> DynamicPropertyCache.Fields {
         // x29 = sp + 0x80
         // type -> x27
         if let cached = unsafe DynamicPropertyCache.cache.value[ObjectIdentifier(type)] {
@@ -93,7 +93,7 @@ struct DynamicPropertyCache {
 }
 
 extension DynamicPropertyCache {
-    @unsafe struct Fields {
+    @unsafe package struct Fields {
         private(set) var layout: DynamicPropertyCache.Fields.Layout
         var behaviors: DynamicPropertyBehaviors
         

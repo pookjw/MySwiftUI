@@ -174,7 +174,15 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return data.globalSubgraph
     }
     
-    package var parentHost : GraphHost? {
+    package final var rootSubgraph: Subgraph {
+        return data.rootSubgraph
+    }
+    
+    package final var graphInputs: _GraphInputs {
+        return data.inputs
+    }
+    
+    package var parentHost: GraphHost? {
         return nil
     }
     
@@ -185,7 +193,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     package private(set) final var data: GraphHost.Data
     private var constants: [ConstantKey: AnyAttribute]
     private var isInstantiated: Bool
-    final var hostPreferenceValues: WeakAttribute<PreferenceValues>
+    package final var hostPreferenceValues: WeakAttribute<PreferenceValues>
     private var lastHostPreferencesSeed: VersionSeed
     private var pendingTransactions: [AsyncTransaction]
     private var inTransaction: Bool
@@ -481,7 +489,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         isInstantiated = true
     }
     
-    package func instantiateOutputs() {
+    open func instantiateOutputs() {
         // nop
     }
     
@@ -705,15 +713,15 @@ extension GraphHost {
     package struct Data {
         package private(set) var graph: Graph?
         package private(set) var globalSubgraph: Subgraph
-        private(set) var rootSubgraph: Subgraph
+        package private(set) var rootSubgraph: Subgraph
         fileprivate var isRemoved: Bool
         fileprivate(set) var isHiddenForReuse: Bool
         @Attribute var time: Time
         @Attribute var environment: EnvironmentValues
         @Attribute var phase: _GraphInputs.Phase
-        @Attribute var hostPreferenceKeys: PreferenceKeys
+        @Attribute package var hostPreferenceKeys: PreferenceKeys
         @Attribute fileprivate var transaction: Transaction
-        @Attribute var updateSeed: UInt32
+        @Attribute package var updateSeed: UInt32
         @Attribute fileprivate var transactionSeed: UInt32
         private(set) var inputs: _GraphInputs
         

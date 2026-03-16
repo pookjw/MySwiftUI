@@ -6,36 +6,20 @@ private import _UIKitPrivate
 private import Observation
 private import Combine
 
-/*
- window (Swift.Optional<__C.UIWindow>) (0x10)
- sceneItemID (Swift.Optional<SwiftUI.SceneID>) (0x18)
- sceneNamespace (SwiftUI.SceneList.Namespace) (0x30)
- lastVersion (SwiftUI.DisplayList.Version) (0x48)
- sceneBridge (Swift.Optional<SwiftUI.SceneBridge>) (0x50)
- remoteSceneBridge (Swift.Optional<SwiftUI.RemoteScenes.Bridge>) (0x58)
- scenePhase (SwiftUI.ScenePhase) (0x60)
- sceneDelegateBox (Swift.Optional<SwiftUI.AnyFallbackDelegateBox>) (0x68)
- sceneStorageValues (Swift.Optional<SwiftUI.SceneStorageValues>) (0x70)
- presentationDataType (Swift.Optional<Any.Type>) (0x78)
- rawPresentationDataValue (Swift.Optional<Foundation.Data>) (0x80)
- presentationDataValue (Swift.Optional<Swift.AnyHashable>) (0x90)
- connectionOptions (Swift.Optional<__C.UISceneConnectionOptions>) (0xb8)
- */
-
 final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
-    var window: UIWindow? = nil
-    private var sceneItemID: SceneID? = nil
-    private var sceneNamespace: SceneList.Namespace = .app
-    private var lastVersion = DisplayList.Version()
-    private var sceneBridge: SceneBridge? = nil
-    private var remoteSceneBridge: RemoteScenes.Bridge? = nil
-    private var scenePhase: ScenePhase = .background
-    private var sceneDelegateBox: AnyFallbackDelegateBox? = nil
-    private var sceneStorageValues: SceneStorageValues? = nil
-    private var presentationDataType: Any.Type? = nil
-    private var rawPresentationDataValue: Data? = nil
-    private var presentationDataValue: AnyHashable? = nil
-    private var connectionOptions: UIScene.ConnectionOptions? = nil
+    var window: UIWindow? = nil // 0x10
+    private var sceneItemID: SceneID? = nil // 0x18
+    private var sceneNamespace: SceneList.Namespace = .app // 0x30
+    private var lastVersion = DisplayList.Version() // 0x48
+    private var sceneBridge: SceneBridge? = nil // 0x50
+    private var remoteSceneBridge: RemoteScenes.Bridge? = nil // 0x58
+    private var scenePhase: ScenePhase = .background // 0x60
+    private var sceneDelegateBox: AnyFallbackDelegateBox? = nil // 0x68
+    private var sceneStorageValues: SceneStorageValues? = nil // 0x70
+    private var presentationDataType: Any.Type? = nil // 0x78
+    private var rawPresentationDataValue: Data? = nil // 0x80
+    private var presentationDataValue: AnyHashable? = nil // 0x90
+    private var connectionOptions: UIScene.ConnectionOptions? = nil // 0xb8
     
     override func forwardingTarget(for aSelector: Selector!) -> Any? {
         assertUnimplemented()
@@ -383,11 +367,41 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         role: UISceneSession.Role
     ) -> SceneList.Item {
         /*
+         self -> x20
          restorationSceneItemID -> x0/x1/w2 -> x19 + 0x158 / x19 + 0x120 / x19 + 0x118
          connectionOptions -> x4 -> x19 + 0xd8
          urlContexts -> x5 -> x19 + 0x60
          role -> x6 -> x19 + 0x130
          */
+        // <+1260>
+        // x27
+        guard let appGraph = AppGraph.shared else {
+            preconditionFailure("Missing app graph.")
+        }
+        
+        // x21 (x19 + 0x128)
+        let sceneList = appGraph.sceneList(namespace: self.sceneNamespace)
+        
+        if let restorationSceneItemID {
+            for item in sceneList.items {
+                assertUnimplemented()
+            }
+            
+            // <+1972>
+        }
+        
+        // <+1972>
+        if let item = sceneList.itemForConnectionOptions(connectionOptions) {
+            if let openScene = Log.openScene {
+                assertUnimplemented() // Log
+//                return item
+            }
+        }
+        
+        // <+2028>
+        for item in sceneList.items {
+            assertUnimplemented()
+        }
         assertUnimplemented()
     }
 }

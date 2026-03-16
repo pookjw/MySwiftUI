@@ -3,7 +3,7 @@ internal import AttributeGraph
 private import Observation
 private import _ObservationPrivate
 
-protocol BodyAccessor {
+package protocol BodyAccessor {
     associatedtype Container
     associatedtype Body
     
@@ -11,7 +11,7 @@ protocol BodyAccessor {
 }
 
 extension BodyAccessor {
-    func makeBody(
+    package func makeBody(
         container: _GraphValue<Self.Container>, // x2
         inputs: inout _GraphInputs, // x3
         fields: DynamicPropertyCache.Fields // x4

@@ -24,22 +24,23 @@ final class AppGraph: GraphHost {
             }
             
             // <+136>
+            newValue.instantiate()
             precondition(AppGraph.shared == nil, "AppGraph.shared may only be set once!")
         }
     }
     
     @safe static nonisolated(unsafe) var delegateBox: AnyFallbackDelegateBox?
     
-    private var makeRootScene: (_SceneInputs) -> _SceneOutputs
-    private var observers: Set<HashableWeakBox<AnyObject>> = []
-    @Attribute private var rootScenePhase: ScenePhase
-    private var rootSceneLists: IndirectAttribute<[SceneList.Namespace: SceneList]>? = nil
-    @Attribute private var primarySceneSummaries: [SceneList.Item.Summary]
-    @Attribute private(set) var focusedValues: FocusedValues
-    @Attribute private(set) var focusStore: FocusStore
-    @Attribute private var sceneKeyboardShortcuts: [SceneID: KeyboardShortcut]
-    @Attribute private var activeWindows: [WindowProxy]
-    private lazy var launchProfileOptions: AppGraph.LaunchProfileOptions = {
+    private var makeRootScene: (_SceneInputs) -> _SceneOutputs // 0xb0
+    private var observers: Set<HashableWeakBox<AnyObject>> = [] // 0xc0
+    @Attribute private var rootScenePhase: ScenePhase // 0xc8
+    private var rootSceneLists: IndirectAttribute<[SceneList.Namespace: SceneList]>? = nil // 0xcc
+    @Attribute private var primarySceneSummaries: [SceneList.Item.Summary] // 0xd4
+    @Attribute private(set) var focusedValues: FocusedValues // 0xd8
+    @Attribute private(set) var focusStore: FocusStore // 0xdc
+    @Attribute private var sceneKeyboardShortcuts: [SceneID: KeyboardShortcut] // 0xe0
+    @Attribute private var activeWindows: [WindowProxy] // 0xe4
+    private lazy var launchProfileOptions: AppGraph.LaunchProfileOptions = { // 0xe8
         guard let value = unsafe getenv("SWIFTUI_PROFILE_LAUNCH") else {
             return []
         }
@@ -47,14 +48,27 @@ final class AppGraph: GraphHost {
         let rawValue = unsafe atoi(value)
         return AppGraph.LaunchProfileOptions(rawValue: rawValue)
     }()
-    private lazy var traceLaunch = ProcessEnvironment.bool(forKey: "SWIFTUI_TRACE_LAUNCH")
-    private var didCollectLaunchProfile = false
-    @OptionalAttribute var rootCommandsList: CommandsList?
+    private lazy var traceLaunch = ProcessEnvironment.bool(forKey: "SWIFTUI_TRACE_LAUNCH") // 0xed
+    private var didCollectLaunchProfile = false // 0xee
+    @OptionalAttribute var rootCommandsList: CommandsList? // 0xf0
     
     convenience init<T: App>(app: T) {
         self.init { inputs in
             // $s7SwiftUI8AppGraphC3appACx_tcAA0C0RzlufcAA13_SceneOutputsVAA01_F6InputsVcfU_TA
-            assertUnimplemented()
+            // <+384>
+            // x27
+            let fields = DynamicPropertyCache.fields(of: T.self)
+            var inputs = inputs
+            let graphValue = _GraphValue(Attribute(value: app))
+            
+            let body = AppBodyAccessor<T>().makeBody(
+                container: graphValue,
+                inputs: &inputs.base,
+                fields: fields
+            )
+            
+            let outputs = T.Body._makeScene(scene: body.0, inputs: inputs)
+            return outputs
         }
     }
     
@@ -95,6 +109,58 @@ final class AppGraph: GraphHost {
     
     func graphDidChange() {
         assertUnimplemented()
+    }
+    
+    override func instantiateOutputs() {
+        /*
+         self -> x20 -> x21
+         */
+        // <+140>
+        self.data.updateSeed &+= 1
+        
+        // x19
+        let outputs: _SceneOutputs = self.rootSubgraph.apply { 
+            // $s7SwiftUI8AppGraphC18instantiateOutputsyyFAA06_SceneF0VyXEfU_
+            // self -> x0 -> x21
+            // <+224>
+            // x23
+            var graphInputs = self.graphInputs
+            // x23 + x26
+            var preferencesInputs = PreferencesInputs(hostKeys: data.$hostPreferenceKeys)
+            
+            let environment = RootEnvironment(
+                environment: self.graphInputs.environment,
+                phase: self._rootScenePhase,
+                sceneKeyboardShortcuts: self._sceneKeyboardShortcuts,
+                activeWindows: self._activeWindows
+            )
+            let environmentAttribute = Attribute(environment)
+            graphInputs.environment = environmentAttribute
+            
+            preferencesInputs.add(HostPreferencesKey.self)
+            preferencesInputs.add(SceneList.Key.self)
+            preferencesInputs.add(CommandsList.Key.self)
+            graphInputs[FocusedValuesInputKey.self] = OptionalAttribute($focusedValues)
+            graphInputs[FocusStoreInputKey.self] = OptionalAttribute($focusStore)
+            
+            let inputs = _SceneInputs(base: graphInputs, preferences: preferencesInputs)
+            let outputs = self.makeRootScene(inputs)
+            return outputs
+        }
+        
+        // <+284>
+        self.rootSubgraph.apply { 
+            if let attribute = outputs.preferences[SceneList.Key.self] {
+                let indirect = attribute.identifier.createIndirectAttribute2(8)
+                self.rootSceneLists = IndirectAttribute(source: Attribute(identifier: indirect))
+            }
+        }
+        
+        // <+448>
+        let commandsList = outputs.preferences[CommandsList.Key.self]
+        self._rootCommandsList = OptionalAttribute(commandsList)
+        
+        self.hostPreferenceValues = WeakAttribute(outputs.preferences[HostPreferencesKey.self])
     }
     
     // 원래 없음
@@ -153,4 +219,24 @@ extension AppGraph {
 
 protocol AppGraphObserver: AnyObject {
     // TODO
+}
+
+fileprivate struct RootEnvironment: Rule {
+    @Attribute var environment: EnvironmentValues
+    @Attribute var phase: ScenePhase
+    @Attribute var sceneKeyboardShortcuts: [SceneID: KeyboardShortcut]
+    @Attribute var activeWindows: [WindowProxy]
+    
+    var value: EnvironmentValues {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct AppBodyAccessor<T: App>: BodyAccessor {
+    typealias Container = T
+    typealias Body = T.Body
+    
+    func updateBody(of container: T, changed: Bool) {
+        assertUnimplemented()
+    }
 }
