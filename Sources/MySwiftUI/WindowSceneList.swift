@@ -23,30 +23,147 @@ struct WindowSceneList<T: WindowSceneConfigurationAttributes>: PrimitiveScene {
         let immersiveContentBrightness = inputs.base[ImmersiveContentBrightnessInput.self]
         // x29 - 0x90
         let orderOutSceneSessionIdentifiers = inputs.base[OrderOutSceneSessionIdentifiersProviderInput.self]
-        
         // <+636>
-        ImmersiveSpaceAuthority.shared.remoteDesiredClientOptions
-        assertUnimplemented()
+        let remoteDesiredClientOptions = ImmersiveSpaceAuthority.shared.remoteDesiredClientOptions
+        
+        let resolvedConfiguration = Attribute(
+            WindowSceneList<T>.ResolvedConfiguration(
+                _configuration: configurationAttribute,
+                _allowedImmersionStyles: allowedImmersionStyles,
+                _immersionStyleSelection: immersionStyleSelection,
+                _sceneUpdateTransitionAnimation: immersiveSpaceSceneUpdateTransition,
+                preferredUpperLimbVisibility: upperLimbVisibility,
+                immersiveContentBrightness: immersiveContentBrightness,
+                orderOutSceneSessionIdentifiersProvider: orderOutSceneSessionIdentifiers,
+                _remoteDesiredClientOptions: remoteDesiredClientOptions
+            )
+        )
+        
+        var outptus = _SceneOutputs(preferences: PreferencesOutputs())
+        
+        let environment = inputs.base.environment
+        let idValue = scene[{ .of(&$0.id )}]
+        let idAttribute = idValue.value
+        let contentTypeValue = scene[{ .of(&$0.contentType )}]
+        let contentTypeAttribute = contentTypeValue.value
+        
+        let makeList = Attribute(
+            WindowSceneList<T>.MakeList(
+                _configuration: resolvedConfiguration,
+                environment: environment,
+                id: idAttribute,
+                contentType: contentTypeAttribute,
+                resolvedID: nil
+            )
+        )
+        
+        outptus.writeSceneList(inputs: inputs, value: makeList)
+        return outptus
     }
 }
 
 extension WindowSceneList {
-    struct ResolvedConfiguration: Rule {
-        @Attribute private var configuration: WindowSceneConfiguration<T>
-        @OptionalAttribute private var allowedImmersionStyles: [any ImmersionStyle]?
-        @OptionalAttribute private var immersionStyleSelection: Binding<any ImmersionStyle>?
-        @OptionalAttribute private var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition?
-        @OptionalAttribute private var preferredUpperLimbVisibility: UpperLimbVisibility?
-        @Attribute private var immersiveContentBrightness: ImmersiveContentBrightness
-        private var orderOutSceneSessionIdentifiersProvider: () -> Set<String>
-        @Attribute private var remoteDesiredClientOptions: ImmersiveSpaceConfigurationAttributes.ClientOptions?
+    fileprivate struct ResolvedConfiguration: Rule {
+        private(set) var _configuration: Attribute<WindowSceneConfiguration<T>> // 0x0
+        private(set) var _allowedImmersionStyles: OptionalAttribute<[any ImmersionStyle]> // 0x4
+        private(set) var _immersionStyleSelection: OptionalAttribute<Binding<any ImmersionStyle>> // 0x8
+        private(set) var _sceneUpdateTransitionAnimation: OptionalAttribute<ImmersiveSpaceSceneUpdateTransition> // 0xc
+        @OptionalAttribute var preferredUpperLimbVisibility: UpperLimbVisibility? // 0x10
+        @Attribute private(set) var immersiveContentBrightness: ImmersiveContentBrightness // 0x14
+        private(set) var orderOutSceneSessionIdentifiersProvider: () -> Set<String> // 0x18
+        private(set) var _remoteDesiredClientOptions: Attribute<ImmersiveSpaceConfigurationAttributes.ClientOptions?> // 0x28
         
         static var initialValue: WindowSceneConfiguration<T>? {
-            assertUnimplemented()
+            return nil
+        }
+        
+        var configuration: WindowSceneConfiguration<T> {
+            return _configuration.value
+        }
+        
+        var allowedImmersionStyles: [any ImmersionStyle]? {
+            return _allowedImmersionStyles.wrappedValue
+        }
+        
+        var immersionStyleSelection: Binding<any ImmersionStyle>? {
+            return _immersionStyleSelection.wrappedValue
+        }
+        
+        var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition? {
+            return _sceneUpdateTransitionAnimation.wrappedValue
+        }
+        
+        var remoteDesiredClientOptions: ImmersiveSpaceConfigurationAttributes.ClientOptions? {
+            return _remoteDesiredClientOptions.wrappedValue
         }
         
         var value: WindowSceneConfiguration<T> {
+            // self -> x20 -> x23
+            // <+216>
             assertUnimplemented()
+        }
+    }
+    
+    fileprivate struct MakeList: StatefulRule {
+        private(set) var _configuration: Attribute<WindowSceneConfiguration<T>>
+        @Attribute private(set) var environment: EnvironmentValues
+        @Attribute private(set) var id: String?
+        @Attribute private(set) var contentType: Any.Type
+        private(set) var resolvedID: SceneID?
+        
+        typealias Value = SceneList
+        
+        var configuration: WindowSceneConfiguration<T> {
+            return _configuration.value
+        }
+        
+        mutating func updateValue() {
+            // x29 - 0x80
+            let resolvedID: SceneID
+            if let _resolvedID = self.resolvedID {
+                resolvedID = _resolvedID
+            } else {
+                // <+256>
+                if let id {
+                    resolvedID = .string(id)
+                    self.resolvedID = resolvedID
+                } else {
+                    // <+336>
+                    resolvedID = .type(contentType, 1)
+                    self.resolvedID = resolvedID
+                }
+            }
+            
+            // <+396>
+            // x23
+            let item = SceneList.Item(
+                value: self.configuration.sceneListValue(),
+                id: resolvedID,
+                version: DisplayList.Version(forUpdate: ()),
+                environment: self.environment,
+                options: [],
+                accessibilityProperties: nil,
+                activationConditions: nil,
+                resizability: .automatic,
+                defaultPosition: nil,
+                defaultSize: nil,
+                restorationBehavior: .automatic,
+                windowManagerRole: .automatic,
+                connectionOptionPayloadStorage: ConnectionOptionPayloadStorage(),
+                defaultLaunchBehavior: .automatic,
+                windowLayoutProvider: nil,
+                defaultPlacementProvider: nil,
+                idealPlacementLayout: nil,
+                windowToolbarLabelStyle: .fixed(.automatic),
+                isInternal: false,
+                depth: nil,
+                sizingUnit: .points,
+                defaultScalingBehavior: .automatic,
+                worldAlignmentBehavior: .automatic
+            )
+            
+            let list = SceneList(items: [item], environment: EnvironmentValues())
+            self.value = list
         }
     }
 }

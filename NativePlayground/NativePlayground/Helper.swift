@@ -11,8 +11,8 @@ import ObjectiveC.message
 import _SwiftPrivate
 import AttributeGraph
 
-// (lldb) expr -l swift -O -- unsafeBitCast(0x0000000107ed6058, to: Any.Type.self)
 // (lldb) expr -l objc -O -- [(Class)NSClassFromString(@"Helper") dumpWithAttribute:$w25 resolveValue:YES]
+
 @objc(Helper)
 final class Helper: NSObject {
     @objc(dumpWithObject:)

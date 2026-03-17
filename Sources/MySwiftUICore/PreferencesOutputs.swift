@@ -5,7 +5,7 @@ package struct PreferencesOutputs {
     private var preferences: [PreferencesOutputs.KeyValue] = []
     var debugProperties: _ViewDebug.Properties = []
     
-    init() {}
+    package init() {}
     
     package subscript<T: PreferenceKey>(_ type: T.Type) -> Attribute<T.Value>? {
         get {

@@ -7,6 +7,10 @@ struct WindowSceneConfiguration<T: WindowSceneConfigurationAttributes> {
     private(set) var title: Text?
     private(set) var presentationDataType: Any.Type?
     private(set) var decoder: ((Data) -> AnyHashable?)?
+    
+    func sceneListValue() -> SceneList.Item.Value {
+        assertUnimplemented()
+    }
 }
 
 struct WindowGroupConfigurationAttributes: WindowSceneConfigurationAttributes {
@@ -51,6 +55,16 @@ struct ImmersiveSpaceConfigurationAttributes: WindowSceneConfigurationAttributes
 
 extension ImmersiveSpaceConfigurationAttributes {
     struct ClientOptions {
+        private var selectedStyle: ImmersionStyle
+        private var allowedStyles: [ImmersionStyle]
+        private var minimumAmount: Double?
+        private var maximumAmount: Double?
+        private var initialAmount: Double?
+        private var aspectRatio: ProgressiveImmersionAspectRatio?
+        private var contentBrightness: CGFloat?
+        private var environmentBehavior: ImmersiveEnvironmentBehavior.Storage
+        private var backgroundedSceneSessionPersistentIdentifiers: Set<String>?
+        private var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition?
         // TODO
     }
 }

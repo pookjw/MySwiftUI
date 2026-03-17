@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 internal import AttributeGraph
 
@@ -14,8 +14,12 @@ final class ImmersiveSpaceAuthority {
     )
 
     private(set) lazy var remoteDesiredClientOptions: Attribute<ImmersiveSpaceConfigurationAttributes.ClientOptions?> = {
-        assertUnimplemented()
+        let graph = AppGraph.shared ?? (GraphHost.currentHost as! AppGraph)
+        return graph.rootSubgraph.apply { 
+            return Attribute(value: nil)
+        }
     }() // 0x10
+    
     private var currentImmersiveSpace: SceneActivationState? = nil // 0x18
     private var immersiveSpaceBeingReplaced: SceneActivationState? = nil // 0x338
     private var isRequestingSwiftUIScene: Bool = false // 0x653

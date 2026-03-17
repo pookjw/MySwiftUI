@@ -53,7 +53,7 @@ extension BodyAccessor {
         }
     }
     
-    func setBody(_ body: () -> Self.Body) {
+    package func setBody(_ body: () -> Self.Body) {
         let body = traceRuleBody(type(of: self), body: body)
         
         unsafe withUnsafePointer(to: body) { pointer in
