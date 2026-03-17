@@ -9,3 +9,5 @@ public struct _SceneInputs {
 @available(*, unavailable)
 extension _SceneInputs : Sendable {
 }
+
+protocol SceneInput: GraphInput {}

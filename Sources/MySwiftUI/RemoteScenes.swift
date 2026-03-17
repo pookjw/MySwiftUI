@@ -12,6 +12,10 @@ extension RemoteScenes {
     class Bridge {
         // TODO
     }
+    
+    class SessionInfo {
+        // TODO
+    }
 }
 
 extension EnvironmentValues {

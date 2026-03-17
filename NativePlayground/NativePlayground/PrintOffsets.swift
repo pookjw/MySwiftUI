@@ -14,6 +14,8 @@ import Foundation
 // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
 // expr -l swift -O -- _mangledTypeName(unsafeBitCast(0x0000000238fede90, to: Any.Type.self))
 
+// $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluigAEyXEfU_
+
 private func dumpFieldOffsets(of type: Any.Type, options: _EachFieldOptions) {
     _forEachField(of: type, options: options) { name, offset, fieldType, _ in
         print(String(format: "%s (%@) (0x%lx)", name, _typeName(fieldType, qualified: true), offset))
@@ -130,6 +132,7 @@ func printOffsets() {
     printFields("7SwiftUI16AppSceneDelegateC", isClassType: true)
     printFields("7SwiftUI11SceneBridgeC", isClassType: true)
     printFields("7SwiftUI9SceneListV4ItemV", isClassType: false)
+    printFields("7SwiftUI23ImmersiveSpaceAuthorityC", isClassType: true)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)

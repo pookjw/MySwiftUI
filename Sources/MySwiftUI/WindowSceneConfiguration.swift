@@ -24,6 +24,18 @@ struct WindowGroupConfigurationAttributes: WindowSceneConfigurationAttributes {
 }
 
 struct ImmersiveSpaceConfigurationAttributes: WindowSceneConfigurationAttributes {
+    //    private var sceneSessionRole: UISceneSession.Role
+    //    private var sceneWindowType: UIWindow.Type
+    //    private var activationBehavior: ImmersiveSpaceActivationBehavior.Storage
+    //    private var supportedImmersionStyles: [any ImmersionStyle]?
+    //    private var allowedImmersionStyles: [any ImmersionStyle]?
+    //    private var preferredUpperLimbVisibility: UpperLimbVisibility?
+    //    private var immersionStyleSelection: Binding<any ImmersionStyle>?
+    //    private var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition?
+    //    private var immersiveContentBrightness: ImmersiveContentBrightness?
+    //    private var immersiveEnvironmentBehavior: ImmersiveEnvironmentBehavior.Storage
+    //    private var orderOutSceneSessionIdentifiersProvider: () -> Set<String>
+    
     typealias RootModifier = Never // TODO
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<ImmersiveSpaceConfigurationAttributes>) -> SceneList.Item.Value {
@@ -35,6 +47,12 @@ struct ImmersiveSpaceConfigurationAttributes: WindowSceneConfigurationAttributes
     }
     
     // TODO
+}
+
+extension ImmersiveSpaceConfigurationAttributes {
+    struct ClientOptions {
+        // TODO
+    }
 }
 
 struct VolumeConfigurationAttributes: WindowSceneConfigurationAttributes {

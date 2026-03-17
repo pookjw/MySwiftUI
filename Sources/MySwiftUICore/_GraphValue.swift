@@ -1,7 +1,7 @@
 package import AttributeGraph
 
 public struct _GraphValue<Value>: Equatable {
-    var value: Attribute<Value>
+    package internal(set) var value: Attribute<Value>
     
     package init(_ value: Attribute<Value>) {
         self.value = value
@@ -25,7 +25,7 @@ public struct _GraphValue<Value>: Equatable {
         return _GraphValue<U>(result)
     }
     
-    subscript<T>(offset: (inout Value) -> PointerOffset<Value, T>) -> _GraphValue<T> {
+    package subscript<T>(offset: (inout Value) -> PointerOffset<Value, T>) -> _GraphValue<T> {
         let attribute = value[offset: offset]
         return _GraphValue<T>(attribute)
     }

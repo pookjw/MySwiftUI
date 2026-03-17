@@ -3,11 +3,9 @@ internal import MySwiftUICore
 
 @Observable
 final class Immersion: Equatable {
-    var amount: Double
+    var amount: Double = 0
     
-    init() {
-        assertUnimplemented()
-    }
+    init() {}
     
     static func == (lhs: Immersion, rhs: Immersion) -> Bool {
         return lhs.amount == rhs.amount

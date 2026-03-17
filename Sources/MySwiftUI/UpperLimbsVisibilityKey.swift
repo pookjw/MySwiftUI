@@ -1,6 +1,7 @@
-internal import MySwiftUICore
+public import MySwiftUICore
 internal import MRUIKit
 internal import Foundation
+internal import AttributeGraph
 
 struct UpperLimbsVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: UpperLimbsVisibilityKey.PreferredValue? {
@@ -83,3 +84,41 @@ extension UpperLimbVisibility {
         case hiddenAdaptive
     }
 }
+
+struct UpperLimbVisibilitySceneInput: SceneInput {
+    static var defaultValue: OptionalAttribute<UpperLimbVisibility> {
+        return OptionalAttribute()
+    }
+}
+
+extension View {
+    @available(visionOS 1.0, *)
+    @available(iOS, unavailable)
+    @available(macOS, unavailable)
+    @available(tvOS, unavailable)
+    @available(watchOS, unavailable)
+    nonisolated public func upperLimbVisibility(_ preferredVisibility: Visibility) -> some View {
+        assertUnimplemented()
+    }
+}
+
+extension Scene {
+    @available(visionOS 1.0, *)
+    @available(iOS, unavailable)
+    @available(macOS, unavailable)
+    @available(tvOS, unavailable)
+    @available(watchOS, unavailable)
+    nonisolated public func upperLimbVisibility(_ preferredVisibility: Visibility) -> some Scene {
+        assertUnimplemented()
+    }
+}
+
+//@available(macOS 26.0, visionOS 26.0, *)
+//@available(iOS, unavailable)
+//@available(tvOS, unavailable)
+//@available(watchOS, unavailable)
+//extension CompositorContent {
+//    nonisolated public func upperLimbVisibility(_ preferredVisibility: Visibility) -> some CompositorContent {
+//        assertUnimplemented()
+//    }
+//}
