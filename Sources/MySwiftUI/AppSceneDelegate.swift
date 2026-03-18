@@ -434,7 +434,8 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         // <+4196>
-        let contentIdentifier = SceneBridge.targetContentIdentifierForExternalEvent(userActivity: connectionOptions.userActivities.first, url: urlContexts.first?.url)
+        let userActivity = connectionOptions.userActivities.first
+        let contentIdentifier = SceneBridge.targetContentIdentifierForExternalEvent(userActivity: userActivity, url: urlContexts.first?.url)
         
         // <+4464>
         if let contentIdentifier {
@@ -460,6 +461,52 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         // <+5076>
+        // x20
+        var item: SceneList.Item?
+        for _item in items {
+            if case .presented = _item.defaultLaunchBehavior {
+                item = _item
+                break
+            }
+        }
+        
+        // <+5252>
+        if item == nil {
+            // <+5340>
+            for _item in items {
+                if case .automatic = _item.defaultLaunchBehavior {
+                    item = _item
+                    break
+                }
+            }
+            
+            if item == nil {
+                // <+5908>
+                for _item in items {
+                    if case .suppressed = _item.defaultLaunchBehavior {
+                        item = _item
+                        break
+                    }
+                }
+            }
+        }
+        
+        // <+6316>
+        if let item {
+            // <+6528>
+            switch item.defaultLaunchBehavior {
+            case .automatic, .presented:
+                break
+            case .suppressed:
+                if let sceneSessionRole = item.sceneSessionRole {
+                    Log.externalWarning("The app was granted an initial scene with scene session role \(sceneSessionRole) but the best matching scene in the app body is suppressed for launch. Verify the value for key UIApplicationPreferredDefaultSceneSessionRole in the Application Scene Manifest and the default launch behaviors are satisfiable.")
+                }
+            }
+            
+            return item
+        }
+        
+        // <+6320>
         assertUnimplemented()
     }
 }
