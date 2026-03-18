@@ -408,10 +408,58 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         // <+2028>
         for item in sceneList.items {
             // <+2160>
-            item
-            assertUnimplemented()
+            switch item.value {
+            case .customScene(let configuration):
+                // <+2308>
+                assertUnimplemented()
+            default:
+                break
+            }
         }
         
+        // <+3208>
+        // x25
+        var items: [SceneList.Item] = []
+        for item in sceneList.items {
+            // <+3340>
+            // inlined
+            guard
+                let sceneSessionRole = item.sceneSessionRole,
+                sceneSessionRole == role
+            else {
+                continue
+            }
+            
+            items.append(item)
+        }
+        
+        // <+4196>
+        let contentIdentifier = SceneBridge.targetContentIdentifierForExternalEvent(userActivity: connectionOptions.userActivities.first, url: urlContexts.first?.url)
+        
+        // <+4464>
+        if let contentIdentifier {
+            for item in items {
+                guard let activationConditions = item.activationConditions else {
+                    continue
+                }
+                
+                for condition in activationConditions {
+                    guard condition != "" else {
+                        continue
+                    }
+                    
+                    if condition == "*" {
+                        return item
+                    }
+                    
+                    if contentIdentifier.contains(condition) {
+                        return item
+                    }
+                }
+            }
+        }
+        
+        // <+5076>
         assertUnimplemented()
     }
 }

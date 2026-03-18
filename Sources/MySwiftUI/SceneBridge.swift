@@ -33,6 +33,29 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         assertUnimplemented()
     }
+    
+    static func targetContentIdentifierForExternalEvent(userActivity: NSUserActivity?, url: URL?) -> String? {
+        /*
+         userActivity -> x0 -> x25
+         url -> x1 -> x20
+         */
+        if let userActivity {
+            if let targetContentIdentifier = userActivity.targetContentIdentifier {
+                return targetContentIdentifier
+            } else if let webpageURL = userActivity.webpageURL {
+                return webpageURL.absoluteString
+            } else {
+                return nil
+            }
+        } else {
+            // <+372>
+            if let url {
+                return url.absoluteString
+            } else {
+                return nil
+            }
+        }
+    }
 }
 
 struct ConnectionOptionPayloadStoragePreferenceKey: HostPreferenceKey {

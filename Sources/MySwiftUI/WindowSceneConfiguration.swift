@@ -93,7 +93,19 @@ struct MenuBarExtraConfiguration {
 }
 
 struct UISceneAdaptorConfiguration {
+    let id: SceneID
+    let kind: UISceneAdaptorConfiguration.Kind
+    let content: AnyView
     // TODO
+}
+
+extension UISceneAdaptorConfiguration {
+    enum Kind: Equatable {
+        case custom(String)
+        case carPlay
+        case assistiveAccess
+        case externalDisplay
+    }
 }
 
 struct SingleWindowConfigurationAttributes: WindowSceneConfigurationAttributes {

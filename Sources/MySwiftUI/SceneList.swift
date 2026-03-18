@@ -64,8 +64,48 @@ extension SceneList {
         private(set) var defaultScalingBehavior: WorldScalingBehavior // 0x300
         private(set) var worldAlignmentBehavior: WorldAlignmentBehavior.Storage // 0x301
         
-        var sceneSessionRole: UISceneSession.Role? {
-            assertUnimplemented()
+        @inlinable var sceneSessionRole: UISceneSession.Role? {
+            switch self.value {
+            case .windowGroup(_):
+                // <+116>
+                return .windowApplication
+            case .immersiveSpace(let configuration):
+                // <+188>
+                return configuration.attributes.sceneSessionRole
+            case .volume(_):
+                // <+72>
+                return .windowApplicationVolumetric
+            case .documentGroup(_):
+                // <+116>
+                return .windowApplication
+            case .settings(_):
+                // <+172>
+                return nil
+            case .menuBarExtra(_):
+                // <+172>
+                return nil
+            case .customScene(let configuration):
+                // <+308>
+                switch configuration.kind {
+                case .custom(let role):
+                    return UISceneSession.Role(rawValue: role)
+                case .carPlay:
+                    return ._UIWindowSceneSessionRoleCarPlay
+                case .assistiveAccess:
+                    return .windowAssistiveAccessApplication
+                case .externalDisplay:
+                    return .windowExternalDisplayNonInteractive
+                }
+            case .singleWindow(_):
+                // <+116>
+                return .windowApplication
+            case .documentIntroduction(let configuration):
+                // <+172>
+                return nil
+            case .alertDialog(let configuration):
+                // <+172>
+                return nil
+            }
         }
         
         var kind: SceneList.Item.Kind {
