@@ -7,6 +7,7 @@ UIKIT_EXTERN const UIApplication * _Nullable UIApp NS_SWIFT_UI_ACTOR;
 @interface UIApplication (Private)
 - (void)_performBlockAfterCATransactionCommits:(void (^)(void))block NS_SWIFT_NAME(_performBlockAfterCATransactionCommits(_:));
 - (id _Nullable)_extendLaunchTest;
+- (UISceneSessionRole _Nullable)_preferredDefaultSceneSessionRole;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

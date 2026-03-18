@@ -56,6 +56,10 @@
             argument = "-com.apple.SwiftUI.OpenSceneLogging YES"
             isEnabled = "YES">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-com.apple.SwiftUI.EnableSceneLogging YES"
+            isEnabled = "YES">
+         </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>
    <ProfileAction

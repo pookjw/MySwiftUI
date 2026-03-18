@@ -113,15 +113,70 @@ extension SceneList {
         }
         
         var sceneTypeDescription: String {
-            assertUnimplemented()
+            switch value {
+            case .windowGroup(_):
+                return "WindowGroup"
+            case .immersiveSpace(_):
+                return "ImmersiveSpace"
+            case .volume(_):
+                return "with VolumetricWindowStyle"
+            case .documentGroup(_):
+                return "DocumentGroup"
+            case .settings(_):
+                return "Settings"
+            case .menuBarExtra(_):
+                return "MenuBarExtra"
+            case .customScene(let configuration):
+                switch configuration.kind {
+                case .custom(_):
+                    return "Custom"
+                case .carPlay:
+                    return "CarPlay"
+                case .assistiveAccess:
+                    return "AssistiveAccess"
+                case .externalDisplay:
+                    return "ExternalDisplay"
+                }
+            case .singleWindow(_):
+                return "Window"
+            case .documentIntroduction(_):
+                return "DocumentIntroduction"
+            case .alertDialog(_):
+                return "AlertDialog"
+            }
         }
         
         var identifyingDescription: String {
-            assertUnimplemented()
+            if let presentationDataType = presentationDataType {
+                return "type: \(_typeName(presentationDataType, qualified: true)), id: \(id)"
+            } else {
+                return "id: \(id)"
+            }
         }
         
-        var presentationDataTyp: Any.Type? {
-            assertUnimplemented()
+        var presentationDataType: Any.Type? {
+            switch value {
+            case .windowGroup(let configuration):
+                return configuration.presentationDataType
+            case .immersiveSpace(let configuration):
+                return configuration.presentationDataType
+            case .volume(let configuration):
+                return configuration.presentationDataType
+            case .documentGroup(_):
+                return nil
+            case .settings(_):
+                return nil
+            case .menuBarExtra(_):
+                return nil
+            case .customScene(_):
+                return nil
+            case .singleWindow(_):
+                return nil
+            case .documentIntroduction(_):
+                return nil
+            case .alertDialog(_):
+                return nil
+            }
         }
     }
     

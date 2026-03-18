@@ -7,6 +7,8 @@ private import Observation
 private import Combine
 
 final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
+    @safe fileprivate static nonisolated(unsafe) var hasConnectedFirstScene = false
+    
     var window: UIWindow? = nil // 0x10
     private var sceneItemID: SceneID? = nil // 0x18
     private var sceneNamespace: SceneList.Namespace = .app // 0x30
@@ -354,8 +356,68 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         )
         
         if let scenes = Log.scenes {
+            scenes.log(level: .info, "Scene session \(windowScene.session.persistentIdentifier, privacy: .public) will use item \(sceneListItem.sceneTypeDescription, privacy: .public) with \(sceneListItem.identifyingDescription, privacy: .public)")
+        }
+        
+        // <+2088>
+        if
+            !AppSceneDelegate.hasConnectedFirstScene,
+            let preferredDefaultSceneSessionRole = UIApplication.shared._preferredDefaultSceneSessionRole(),
+            let sceneSessionRole = sceneListItem.sceneSessionRole,
+            sceneSessionRole != preferredDefaultSceneSessionRole
+        {
+            // <+2300>
+            Log.externalWarning("Your app was granted an initial scene with scene session role \(sceneSessionRole) but prefers an initial scene session role of \(preferredDefaultSceneSessionRole). If your initial scene is unexpected, verify the value for key UIApplicationPreferredDefaultSceneSessionRole in your Application Scene Manifest.")
+        }
+        
+        // <+2540>
+        switch sceneListItem.value {
+        case .windowGroup(let configuration):
+            // <+3328>
+            self.presentationDataType = configuration.presentationDataType
+            
+            let presentedValue = self.openWindowPresentedValue(
+                from: connectionOptions,
+                restorationData: restorationData,
+                config: configuration
+            )
+            
+            if let presentedValue {
+                self.presentationDataValue = presentedValue.0
+                self.rawPresentationDataValue = presentedValue.1
+            }
+            
+            // <+5364>
+            assertUnimplemented()
+        case .immersiveSpace(let windowSceneConfiguration):
+            // <+2684>
+            assertUnimplemented()
+        case .volume(let windowSceneConfiguration):
+            // <+3596>
+            assertUnimplemented()
+        case .documentGroup(let configuration):
+            // <+2596>
+            assertUnimplemented()
+        case .settings(let anyView):
+            // <+13260>
+            assertUnimplemented()
+        case .menuBarExtra(let menuBarExtraConfiguration):
+            // <+13260>
+            assertUnimplemented()
+        case .customScene(let uISceneAdaptorConfiguration):
+            // <+3888>
+            assertUnimplemented()
+        case .singleWindow(let windowSceneConfiguration):
+            // <+3008>
+            assertUnimplemented()
+        case .documentIntroduction(let documentIntroductionConfiguration):
+            // <+4028>
+            assertUnimplemented()
+        case .alertDialog(let dialogConfiguration):
+            // <+13260>
             assertUnimplemented()
         }
+        
         assertUnimplemented()
     }
     
@@ -507,6 +569,33 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         // <+6320>
+        guard !items.isEmpty else {
+            preconditionFailure("Your app was given a scene with scene session role \(role) but no scenes declared in your app body match this role.")
+        }
+        
+        return items.first!
+    }
+    
+    @_specialize(exported: false, kind: partial, where T == WindowGroupConfigurationAttributes)
+    @_specialize(exported: false, kind: partial, where T == ImmersiveSpaceConfigurationAttributes)
+    @_specialize(exported: false, kind: partial, where T == VolumeConfigurationAttributes)
+    fileprivate func openWindowPresentedValue<T: WindowSceneConfigurationAttributes>(
+        from connectionOptions: UIScene.ConnectionOptions,
+        restorationData: [AnyHashable: Any],
+        config: WindowSceneConfiguration<T>
+    ) -> (AnyHashable, Data)? {
+        assert(T.self == WindowGroupConfigurationAttributes.self, "나머지는 검증이 필요함")
+        /*
+         connectionOptions -> x0 -> x20
+         restorationData -> x1 -> x24
+         config -> x2 -> x21
+         return pointer -> x8 -> x19
+         */
+        // <+180>
+        guard let decoder = config.decoder else {
+            return nil
+        }
+        
         assertUnimplemented()
     }
 }
