@@ -366,6 +366,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         urlContexts: inout Set<UIOpenURLContext>,
         role: UISceneSession.Role
     ) -> SceneList.Item {
+        // $s7SwiftUI16AppSceneDelegateC04findD8ListItem33_4475FD12FD59DEBA453321BD91F6EA04LL011restorationdH2ID0O4Data17connectionOptions11urlContexts4roleAA0dG0V0H0VAA0dP0OSg_SDys11AnyHashableVypGSo017UISceneConnectionS0CShySo16UIOpenURLContextCGzSo0Y11SessionRoleatF
         /*
          self -> x20
          restorationSceneItemID -> x0/x1/w2 -> x19 + 0x158 / x19 + 0x120 / x19 + 0x118
@@ -384,7 +385,10 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         
         if let restorationSceneItemID {
             for item in sceneList.items {
-                assertUnimplemented()
+                // <+1676>
+                if restorationSceneItemID == item.id {
+                    return item
+                }
             }
             
             // <+1972>
@@ -392,16 +396,22 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         
         // <+1972>
         if let item = sceneList.itemForConnectionOptions(connectionOptions) {
+            // <+2844>
             if let openScene = Log.openScene {
-                assertUnimplemented() // Log
-//                return item
+                // <+2976>
+                openScene.log(level: .debug, "Found item matching openWindow connection options \(item.id.sessionID)")
             }
+            
+            return item
         }
         
         // <+2028>
         for item in sceneList.items {
+            // <+2160>
+            item
             assertUnimplemented()
         }
+        
         assertUnimplemented()
     }
 }

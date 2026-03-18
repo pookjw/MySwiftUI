@@ -51,18 +51,12 @@
             ReferencedContainer = "container:NativePlayground.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-         <AdditionalOption
-            key = "PrefersMallocStackLoggingLite"
-            value = ""
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-com.apple.SwiftUI.OpenSceneLogging YES"
             isEnabled = "YES">
-         </AdditionalOption>
-         <AdditionalOption
-            key = "MallocStackLogging"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
-      </AdditionalOptions>
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

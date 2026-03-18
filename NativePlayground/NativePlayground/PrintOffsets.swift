@@ -133,6 +133,7 @@ func printOffsets() {
     printFields("7SwiftUI11SceneBridgeC", isClassType: true)
     printFields("7SwiftUI9SceneListV4ItemV", isClassType: false)
     printFields("7SwiftUI23ImmersiveSpaceAuthorityC", isClassType: true)
+    printFields("7SwiftUI37ImmersiveSpaceConfigurationAttributesV", isClassType: false)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)

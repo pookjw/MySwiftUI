@@ -1,18 +1,45 @@
+// BEF4E4901B38F706548A7CBA9C5C4F4B
 private import MySwiftUICore
 private import CoreGraphics
 internal import UIKit
+private import _UIKitPrivate
 
 struct SceneList {
     private(set) var items: [SceneList.Item] = []
     var environment = EnvironmentValues()
     
     func itemForConnectionOptions(_ options: UIScene.ConnectionOptions) -> SceneList.Item? {
+        /*
+         self -> x20 -> x21
+         options -> x0 -> x23
+         return pointer -> x8 -> x19
+         */
+        if 
+            let payload = options[OpenSceneConnectionOptionDefinition.self],
+            let item = self.item(id: payload.sceneID, where: nil)
+        {
+            return item
+        }
+        
+        // <+328>
+        if let userActivity = options.userActivities.first {
+            return self.itemForUserActivity(userActivity)
+        }
+            
+        return nil
+    }
+    
+    func item(id: SceneID, where: ((SceneList.Item) -> Bool)?) -> SceneList.Item? {
+        assertUnimplemented()
+    }
+    
+    fileprivate func itemForUserActivity(_ userActivity: NSUserActivity) -> SceneList.Item? {
         assertUnimplemented()
     }
 }
 
 extension SceneList {
-    struct Item {
+    struct Item: Identifiable {
         private(set) var value: SceneList.Item.Value // 0x0
         private(set) var id: SceneID // 0xe0
         private(set) var version: DisplayList.Version // 0xf8

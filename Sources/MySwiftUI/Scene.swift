@@ -45,7 +45,7 @@ extension Never: Scene {}
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension Scene {
     func sceneBodyError() -> Never {
-        preconditionFailure("body() should not be called on \(type(of: self))")
+        preconditionFailure("body() should not be called on \(_typeName(type(of: self), qualified: false))")
     }
 }
 
@@ -55,7 +55,7 @@ extension Scene {
  */
 enum SceneID: Hashable {
     static func == (lhs: SceneID, rhs: SceneID) -> Bool {
-        assertUnimplemented()
+        return lhs.sessionID == rhs.sessionID
     }
     
     func hash(into hasher: inout Hasher) {
@@ -64,6 +64,16 @@ enum SceneID: Hashable {
     
     case string(String)
     case type(Any.Type, UInt8)
+    
+    @inline(__always)
+    var sessionID: String { // 원래 없음
+        switch self {
+        case .string(let id):
+            return id
+        case .type(let type, let value):
+            return "\(_typeName(type, qualified: false))-\(value)"
+        }
+    }
 }
 
 fileprivate struct SceneBodyAccessor<T: Scene>: BodyAccessor {

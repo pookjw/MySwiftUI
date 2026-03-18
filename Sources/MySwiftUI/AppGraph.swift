@@ -228,7 +228,16 @@ fileprivate struct RootEnvironment: Rule {
     @Attribute var activeWindows: [WindowProxy]
     
     var value: EnvironmentValues {
-        assertUnimplemented()
+        return MainActor.assumeIsolated { // 원래 없음
+            var result = self.environment
+            result.configuredForRoot()
+            result[ScenePhaseKey.self] = self.phase
+            result.configureForPlatform(traitCollection: nil)
+            result.sceneKeyboardShortcuts = self.sceneKeyboardShortcuts
+            result.activeWindows = self.activeWindows
+            
+            return UncheckedSendable(result)
+        }.value
     }
 }
 

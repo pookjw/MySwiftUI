@@ -1,6 +1,7 @@
 // 605E5F75314C8FB4F25003DB33D535B5
 private import MySwiftUICore
 private import AttributeGraph
+private import os.log
 
 struct WindowSceneList<T: WindowSceneConfigurationAttributes>: PrimitiveScene {
     private(set) var configuration: WindowSceneConfiguration<T>
@@ -100,7 +101,44 @@ extension WindowSceneList {
         var value: WindowSceneConfiguration<T> {
             // self -> x20 -> x23
             // <+216>
-            assertUnimplemented()
+            // x28
+            let allowedImmersionStyles = self.allowedImmersionStyles
+            // x29 - 0x90
+            var immersionStyleSelection = self.immersionStyleSelection
+            // x25
+            let sceneUpdateTransitionAnimation = self.sceneUpdateTransitionAnimation
+            // x19 + 0x90
+            let remoteDesiredClientOptions = self.remoteDesiredClientOptions
+            
+            if let remoteDesiredClientOptions {
+                // <+276>
+                immersionStyleSelection = Binding.constant(remoteDesiredClientOptions.selectedStyle)
+                
+                if let remoteScenes = Log.remoteScenes {
+                    remoteScenes.log(level: .debug, "Using remote overrides for ImmersiveSpace Selected Style: \(String(describing: immersionStyleSelection)) from allowed styles: \(String(describing: allowedImmersionStyles))")
+                }
+                
+                // <+980>
+            } else {
+                // <+496>
+                // <+984>
+            }
+            
+            // <+984>
+            // x21
+            if var casted = self.configuration as? WindowSceneConfiguration<ImmersiveSpaceConfigurationAttributes> {
+                // <+1040>
+                casted.attributes.immersionStyleSelection = immersionStyleSelection
+                casted.attributes.preferredUpperLimbVisibility = self.preferredUpperLimbVisibility
+                casted.attributes.immersiveContentBrightness = self.immersiveContentBrightness
+                casted.attributes.immersiveEnvironmentBehavior = .automatic
+                casted.attributes.sceneUpdateTransitionAnimation = sceneUpdateTransitionAnimation
+                
+                return casted as! WindowSceneConfiguration<T>
+            } else {
+                // <+1208>
+                return self.configuration
+            }
         }
     }
     

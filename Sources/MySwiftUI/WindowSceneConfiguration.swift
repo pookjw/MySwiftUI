@@ -1,15 +1,16 @@
 internal import MySwiftUICore
 internal import Foundation
+internal import UIKit
 
 struct WindowSceneConfiguration<T: WindowSceneConfigurationAttributes> {
-    private(set) var attributes: T
+    var attributes: T
     private(set) var mainContent: AnyView
     private(set) var title: Text?
     private(set) var presentationDataType: Any.Type?
     private(set) var decoder: ((Data) -> AnyHashable?)?
     
     func sceneListValue() -> SceneList.Item.Value {
-        assertUnimplemented()
+        return attributes.sceneListValue(self)
     }
 }
 
@@ -17,7 +18,7 @@ struct WindowGroupConfigurationAttributes: WindowSceneConfigurationAttributes {
     typealias RootModifier = Never // TODO
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<WindowGroupConfigurationAttributes>) -> SceneList.Item.Value {
-        assertUnimplemented()
+        return .windowGroup(configuration)
     }
     
     var rootModifier: Never {
@@ -28,17 +29,17 @@ struct WindowGroupConfigurationAttributes: WindowSceneConfigurationAttributes {
 }
 
 struct ImmersiveSpaceConfigurationAttributes: WindowSceneConfigurationAttributes {
-    //    private var sceneSessionRole: UISceneSession.Role
-    //    private var sceneWindowType: UIWindow.Type
-    //    private var activationBehavior: ImmersiveSpaceActivationBehavior.Storage
-    //    private var supportedImmersionStyles: [any ImmersionStyle]?
-    //    private var allowedImmersionStyles: [any ImmersionStyle]?
-    //    private var preferredUpperLimbVisibility: UpperLimbVisibility?
-    //    private var immersionStyleSelection: Binding<any ImmersionStyle>?
-    //    private var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition?
-    //    private var immersiveContentBrightness: ImmersiveContentBrightness?
-    //    private var immersiveEnvironmentBehavior: ImmersiveEnvironmentBehavior.Storage
-    //    private var orderOutSceneSessionIdentifiersProvider: () -> Set<String>
+    private(set) var sceneSessionRole: UISceneSession.Role // 0x0
+    private(set) var sceneWindowType: UIWindow.Type // 0x8
+    private(set) var activationBehavior: ImmersiveSpaceActivationBehavior.Storage // 0x10
+    private(set) var supportedImmersionStyles: [any ImmersionStyle]? // 0x18
+    private(set) var allowedImmersionStyles: [any ImmersionStyle]? // 0x20
+    var preferredUpperLimbVisibility: UpperLimbVisibility? // 0x28
+    var immersionStyleSelection: Binding<any ImmersionStyle>? // 0x30
+    var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition? // 0x68
+    var immersiveContentBrightness: ImmersiveContentBrightness? // 0x78
+    var immersiveEnvironmentBehavior: ImmersiveEnvironmentBehavior.Storage // 0x82
+    private(set) var orderOutSceneSessionIdentifiersProvider: () -> Set<String> // 0x88
     
     typealias RootModifier = Never // TODO
     
@@ -55,7 +56,7 @@ struct ImmersiveSpaceConfigurationAttributes: WindowSceneConfigurationAttributes
 
 extension ImmersiveSpaceConfigurationAttributes {
     struct ClientOptions {
-        private var selectedStyle: ImmersionStyle
+        private(set) var selectedStyle: ImmersionStyle
         private var allowedStyles: [ImmersionStyle]
         private var minimumAmount: Double?
         private var maximumAmount: Double?
