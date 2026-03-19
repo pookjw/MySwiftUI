@@ -388,6 +388,8 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+5364>
+            let sceneAllowsSecureDrawing = sceneListItem.environment.sceneAllowsSecureDrawing
+            let rootView = self.makeRootView(configuration.mainContent)
             assertUnimplemented()
         case .immersiveSpace(let windowSceneConfiguration):
             // <+2684>
@@ -597,6 +599,39 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         assertUnimplemented()
+    }
+    
+    func makeRootView(_ view: AnyView) -> ModifiedContent<AnyView, RootModifier> {
+        return ModifiedContent(content: resolveAppRootView(view), modifier: rootModifier)
+    }
+    
+    fileprivate var rootModifier: RootModifier {
+        guard let sceneBridge else {
+            preconditionFailure("Application configuration error.")
+        }
+        
+        guard let sceneStorageValues else {
+            preconditionFailure("State restoration error.")
+        }
+        
+        let presentationDataValue = self.presentationDataValue
+        let sceneDelegateBox = self.sceneDelegateBox
+        let scenePhase = self.scenePhase
+        let sceneItemID = self.sceneItemID
+        let connectionOptions = self.connectionOptions
+        
+        let modifier = RootModifier(
+            sceneBridge: sceneBridge,
+            sceneDelegateBox: sceneDelegateBox,
+            sceneStorageValues: sceneStorageValues,
+            presentationDataValue: presentationDataValue,
+            scenePhase: scenePhase,
+            sceneID: sceneItemID,
+            connectionOptions: connectionOptions,
+            _rootFocusScope: Namespace()
+        )
+        
+        return modifier
     }
 }
 
