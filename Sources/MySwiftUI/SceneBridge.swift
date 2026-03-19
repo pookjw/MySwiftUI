@@ -31,7 +31,11 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     }
     
     var sceneIsVolume: Bool {
-        assertUnimplemented()
+        guard let windowScene else {
+            return false
+        }
+        
+        return windowScene.session.role == .windowApplicationVolumetric
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {

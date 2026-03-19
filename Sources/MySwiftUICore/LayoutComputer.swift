@@ -5,7 +5,7 @@ internal import CoreGraphics
 private import _MySwiftUIShims
 
 // ViewDimensions3D이 그냥 Sendable인 것을 보아 LayoutComputer이 @unchecked Sendable
-struct LayoutComputer: @unchecked Sendable {
+package struct LayoutComputer: @unchecked Sendable {
     @safe static let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())
     @safe static let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())
     
@@ -90,7 +90,7 @@ struct LayoutComputer: @unchecked Sendable {
 }
 
 extension LayoutComputer: Equatable {
-    static func == (lhs: LayoutComputer, rhs: LayoutComputer) -> Bool {
+    package static func == (lhs: LayoutComputer, rhs: LayoutComputer) -> Bool {
         return lhs.seed == rhs.seed && lhs.box === rhs.box
     }
 }

@@ -506,6 +506,14 @@ package final class ViewGraph: GraphHost {
         assertUnimplemented()
     }
     
+    package func setWindowResizeDelegate(_ delegate: ContentSizedSceneDelegate) {
+        assertUnimplemented()
+    } 
+    
+    package func setVolumeResizeDelegate(_ delegate: ContentSizedSceneDelegate) {
+        assertUnimplemented()
+    }
+    
     func setSize(_ size: ViewSize) {
         guard $proposedSize.setValue(size) else {
             return
@@ -869,7 +877,7 @@ extension ViewGraphGeometryObservers.Observer {
     }
 }
 
-protocol ViewGraphGeometryMeasurer {
+package protocol ViewGraphGeometryMeasurer {
     associatedtype Proposal: Hashable
     associatedtype Size: Equatable
     

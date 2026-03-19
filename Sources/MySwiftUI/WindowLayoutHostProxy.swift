@@ -23,7 +23,7 @@ final class WindowLayoutHostProxy {
         assertUnimplemented()
     }
     
-    @_specialize(exported: false, kind: partial, where Content == ModifiedContent<AnyView, RootModifier>)
+    @_specialize(exported: true, where Content == ModifiedContent<AnyView, RootModifier>)
     static func pendingHost<Content: View>(item: SceneList.Item, rootViewType: Content.Type) -> UIHostingController<Content>? {
         assert(Content.self == ModifiedContent<AnyView, RootModifier>.self, "나머지는 검증이 필요함")
         

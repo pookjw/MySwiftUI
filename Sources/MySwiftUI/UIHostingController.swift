@@ -1371,6 +1371,16 @@ extension UIHostingController: UIHostingControllerProvider {
     }
 }
 
+extension UIHostingController: ContentSizedSceneDelegate {
+    package var coalesceChanges: Bool {
+        assertUnimplemented()
+    }
+    
+    package var shouldIgnoreBoundsAnimations: Bool {
+        assertUnimplemented()
+    }
+}
+
 @available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 @available(macOS, unavailable)
 public func _makeUIHostingController(_ view: AnyView) -> any NSObject & _UIHostingViewable {

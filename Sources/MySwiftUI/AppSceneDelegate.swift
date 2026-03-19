@@ -402,19 +402,41 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                     let viewGraph = hostingController.host.base.viewGraph.viewGraph
                     let sceneIsVolume = sceneBridge.sceneIsVolume
                     
-                    assertUnimplemented()
-//                    if isLinkedOnOrAfter(.v6) && sceneIsVolume {
-//                        // <+1920>
-//                        assertUnimplemented()
-//                    } else {
-//                        assertUnimplemented()
-//                    }
+                    if isLinkedOnOrAfter(.v6) {
+                        if sceneIsVolume {
+                            // <+1920>
+                            if viewGraph[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] == nil {
+                                let feature = ContentSizedSceneFeature<VolumeThatFitsMeasurer>.volume(graph: viewGraph)
+                                viewGraph.append(feature: feature)
+                            }
+                            
+                            // <+2064>
+                            viewGraph.setVolumeResizeDelegate(hostingController)
+                            // <+2276>
+                        } else {
+                            // <+2108>
+                            if viewGraph[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] == nil {
+                                let feature = ContentSizedSceneFeature<SizeThatFitsMeasurer>.window(graph: viewGraph)
+                                viewGraph.append(feature: feature)
+                            }
+                            
+                            // <+2256>
+                            viewGraph.setWindowResizeDelegate(hostingController)
+                            assertUnimplemented()
+                            // <+2276>
+                        }
+                        
+                        // <+2276>
+                    }
+                    
+                    // <+2296>
                 }
                 
                 // <+2300>
             }
             
             // <+2300>
+            _ = sceneListItem.kind
             assertUnimplemented()
         }
         
@@ -676,9 +698,9 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         return items.first!
     }
     
-    @_specialize(exported: false, kind: partial, where T == WindowGroupConfigurationAttributes)
-    @_specialize(exported: false, kind: partial, where T == ImmersiveSpaceConfigurationAttributes)
-    @_specialize(exported: false, kind: partial, where T == VolumeConfigurationAttributes)
+    @_specialize(exported: false, where T == WindowGroupConfigurationAttributes)
+    @_specialize(exported: false, where T == ImmersiveSpaceConfigurationAttributes)
+    @_specialize(exported: false, where T == VolumeConfigurationAttributes)
     fileprivate func openWindowPresentedValue<T: WindowSceneConfigurationAttributes>(
         from connectionOptions: UIScene.ConnectionOptions,
         restorationData: [AnyHashable: Any],

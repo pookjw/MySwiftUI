@@ -1,16 +1,15 @@
-internal import _UIKitPrivate
-private import Spatial
-private import CoreGraphics
+package import Spatial
+package import CoreGraphics
 
-struct VolumeThatFitsMeasurer: ViewGraphGeometryMeasurer {
-    static func measure(given: _ProposedSize3D, in graph: ViewGraph) -> Size3D {
+package struct VolumeThatFitsMeasurer: ViewGraphGeometryMeasurer {
+    package static func measure(given: _ProposedSize3D, in graph: ViewGraph) -> Size3D {
         graph.sizeThatFitsObservers
         assertUnimplemented()
     }
     
-    static func measure(proposal: _ProposedSize3D, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size3D {
+    package static func measure(proposal: _ProposedSize3D, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size3D {
         assertUnimplemented()
     }
     
-    static let invalidValue = Size3D(width: -CGFloat.infinity, height: -CGFloat.infinity, depth: -CGFloat.infinity)
+    package static let invalidValue = Size3D(width: -CGFloat.infinity, height: -CGFloat.infinity, depth: -CGFloat.infinity)
 }
