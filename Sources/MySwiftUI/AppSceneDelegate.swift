@@ -370,6 +370,11 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             Log.externalWarning("Your app was granted an initial scene with scene session role \(sceneSessionRole) but prefers an initial scene session role of \(preferredDefaultSceneSessionRole). If your initial scene is unexpected, verify the value for key UIApplicationPreferredDefaultSceneSessionRole in your Application Scene Manifest.")
         }
         
+        var pendingHost: UIHostingController<ModifiedContent<AnyView, RootModifier>>? {
+            // $s7SwiftUI16AppSceneDelegateC04makeD10HostWindow33_4475FD12FD59DEBA453321BD91F6EA04LL011restorationD6ItemID0O4Data17connectionOptions11urlContexts4role06windowD08delegateSo8UIWindowCAA0dQ0OSg_SDys11AnyHashableVypGSo017UISceneConnectionT0CShySo16UIOpenURLContextCGzSo18UISceneSessionRoleaSo0zD0CAA013UIHostingViewE0_ptF07pendingG0L_AA19UIHostingControllerCyAA15ModifiedContentVyAA7AnyViewVAA12RootModifierVGGSgvgTf0sn_n
+            return WindowLayoutHostProxy.pendingHost(item: sceneListItem, rootViewType: ModifiedContent<AnyView, RootModifier>.self)
+        }
+        
         // <+2540>
         switch sceneListItem.value {
         case .windowGroup(let configuration):
@@ -390,8 +395,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             // <+5364>
             let sceneAllowsSecureDrawing = sceneListItem.environment.sceneAllowsSecureDrawing
             let rootView = self.makeRootView(configuration.mainContent)
-            
-//            WindowLayoutHostProxy.pendingHost(item: sceneListItem, rootViewType: type(of: rootView))
+            let resolvedPendingHost = pendingHost
             assertUnimplemented()
         case .immersiveSpace(let windowSceneConfiguration):
             // <+2684>
