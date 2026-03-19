@@ -1,6 +1,15 @@
 internal import MySwiftUICore
+internal import UIKit
 
 final class _UISecureHostingController<Content: View>: UIHostingController<Content> {
+    override init(rootView: Content) {
+        assertUnimplemented()
+    }
+    
+    @MainActor public dynamic required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 

@@ -113,7 +113,7 @@ open class _UIHostingView<Content: View>: UIView {
     final var sharingActivityPickerBridge: SharingActivityPickerBridge? = nil
     final var shareConfigurationBridge: ShareConfigurationBridge? = nil
     private var statusBarBridge = UIKitStatusBarBridge()
-    private(set) weak var sceneBridge: SceneBridge? = nil
+    final weak var sceneBridge: SceneBridge? = nil
     private var scenePresentationBridge: ScenePresentationBridge? = nil
     private var pencilEventsBridge = PencilEventsBridge()
     private var pointerBridge: PointerBridge? = nil
@@ -143,7 +143,7 @@ open class _UIHostingView<Content: View>: UIView {
     
     private var _boundsDepth: CGFloat = 0
     private var scrollTest: ScrollTest? = nil
-    private weak var delegate: UIHostingViewDelegate? = nil
+    final weak var delegate: UIHostingViewDelegate? = nil
     private var rootViewDelegate: RootViewDelegate? = nil
     final var focusedValues = FocusedValues()
     private var disallowAnimations: Bool = false

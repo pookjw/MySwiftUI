@@ -30,7 +30,11 @@ package final class UIHostingViewBase: NSObject {
     private var pendingPreferencesUpdate: Bool = false
     private var pendingPostDisappearPreferencesUpdate: Bool = false
     private var _updateFidelity: _UpdateFidelity = .milliseconds
-    private var isHiddenForReuse: Bool = false
+    package var isHiddenForReuse: Bool = false {
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var isEnteringForeground: Bool = false
     private var isExitingForeground: Bool = false
     private var isCapturingSnapshots: Bool = false

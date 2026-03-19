@@ -59,7 +59,13 @@ enum SceneID: Hashable {
     }
     
     func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
+        switch self {
+        case .string(let id):
+            hasher.combine(id)
+        case .type(let type, let value):
+            hasher.combine(UInt(bitPattern: ObjectIdentifier(type)))
+            hasher.combine(value)
+        }
     }
     
     case string(String)

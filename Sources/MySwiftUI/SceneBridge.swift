@@ -30,7 +30,11 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
         assertUnimplemented()
     }
     
-    final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+    var sceneIsVolume: Bool {
+        assertUnimplemented()
+    }
+    
+    func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         assertUnimplemented()
     }
     

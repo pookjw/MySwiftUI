@@ -93,3 +93,21 @@ extension UIKit.UIScene.ConnectionOptions {
         get
     }
 }
+
+extension UIKit.UIScene {
+    public struct _DestructionCondition: Swift.Hashable, Swift.CustomStringConvertible {
+        public static var userInitiatedDismissal: UIKit.UIScene._DestructionCondition { get }
+        public static var systemDisconnection: UIKit.UIScene._DestructionCondition { get }
+        public static var systemDeactivation: UIKit.UIScene._DestructionCondition { get }
+        public var description: Swift.String { get }
+        public static func == (a: UIKit.UIScene._DestructionCondition, b: UIKit.UIScene._DestructionCondition) -> Swift.Bool
+        public func hash(into: inout Swift.Hasher)
+        public var hashValue: Swift.Int { get }
+    }
+
+    public var _destructionConditions: Swift.Set<UIKit.UIScene._DestructionCondition> {
+        get
+        set
+        _modify
+    }
+}

@@ -46,7 +46,12 @@ open class UIHostingController<Content: View>: UIViewController {
     final private(set) var navigationBridge: NavigationBridge_PhoneTV? = nil // 0xb10
     final var keyboardShortcutBridge: KeyboardShortcutBridge? = nil // 0xb28
     final var ornamentBridge: OrnamentBridge<Content>? = nil // 0xb20
-    final var overridePreferredContainerBackgroundStyle: UIContainerBackgroundStyle = .automatic // 0xb28
+    final var overridePreferredContainerBackgroundStyle: UIContainerBackgroundStyle = .automatic /* 0xb28 */ {
+        didSet {
+            // 원래 없으며 inline으로 보임
+            setNeedsUpdateOfPreferredContainerBackgroundStyle()
+        }
+    }
     @preconcurrency public var sizingOptions: UIHostingControllerSizingOptions = [] {
         didSet {
             assertUnimplemented()
@@ -261,6 +266,12 @@ open class UIHostingController<Content: View>: UIViewController {
     
     @preconcurrency public init(rootView: Content) {
         host = _UIHostingView(rootView: rootView)
+        super.init(nibName: nil, bundle: nil)
+        _commonInit()
+    }
+    
+    @preconcurrency init(_hostingView: _UIHostingView<Content>) {
+        host = _hostingView
         super.init(nibName: nil, bundle: nil)
         _commonInit()
     }

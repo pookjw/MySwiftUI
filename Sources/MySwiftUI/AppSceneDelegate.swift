@@ -375,7 +375,52 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             return WindowLayoutHostProxy.pendingHost(item: sceneListItem, rootViewType: ModifiedContent<AnyView, RootModifier>.self)
         }
         
+        func configureHostingController<Content: View>(_ hostingController: UIHostingController<Content>) {
+            // $s7SwiftUI16AppSceneDelegateC04makeD10HostWindow33_4475FD12FD59DEBA453321BD91F6EA04LL011restorationD6ItemID0O4Data17connectionOptions11urlContexts4role06windowD08delegateSo8UIWindowCAA0dQ0OSg_SDys11AnyHashableVypGSo017UISceneConnectionT0CShySo16UIOpenURLContextCGzSo18UISceneSessionRoleaSo0zD0CAA013UIHostingViewE0_ptF26configureHostingControllerL_yyAA19UIHostingControllerCyxGAA4ViewRzlFAA15ModifiedContentVyAA7AnyViewVAA12RootModifierVG_Tg5Tf4nnnenn_nAC_Tg5
+            // <+772>
+            let host = hostingController.host
+            if let scenes = Log.scenes {
+                scenes.log(level: .debug, "Scene session \(windowScene.session.persistentIdentifier) will have a UIHostingController: \(hostingController)\nwith UIHostingView: \(host)\nwith UIHostingViewBase: \(host.base)")
+            }
+            
+            // <+1500>
+            host.sceneBridge = self.sceneBridge
+            host.delegate = self
+            
+            // <+1592>
+            if self.sceneBridge != nil {
+                let viewGraph = hostingController.host.base.viewGraph.viewGraph
+                if PPTFeature.isEnabled {
+                    if let feature = viewGraph[PPTFeature.self]?.pointee {
+                        viewGraph.append(feature: feature)
+                    }
+                }
+                
+                // <+1752>
+                if let sceneBridge {
+                    // <+1772>
+                    let viewGraph = hostingController.host.base.viewGraph.viewGraph
+                    let sceneIsVolume = sceneBridge.sceneIsVolume
+                    
+                    assertUnimplemented()
+//                    if isLinkedOnOrAfter(.v6) && sceneIsVolume {
+//                        // <+1920>
+//                        assertUnimplemented()
+//                    } else {
+//                        assertUnimplemented()
+//                    }
+                }
+                
+                // <+2300>
+            }
+            
+            // <+2300>
+            assertUnimplemented()
+        }
+        
         // <+2540>
+        let window: UIWindow
+        
         switch sceneListItem.value {
         case .windowGroup(let configuration):
             // <+3328>
@@ -396,7 +441,53 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             let sceneAllowsSecureDrawing = sceneListItem.environment.sceneAllowsSecureDrawing
             let rootView = self.makeRootView(configuration.mainContent)
             let resolvedPendingHost = pendingHost
-            assertUnimplemented()
+            
+            let hostingController: UIHostingController<ModifiedContent<AnyView, RootModifier>>
+            if let resolvedPendingHost {
+                // <+9412>
+                hostingController = resolvedPendingHost
+            } else if !sceneAllowsSecureDrawing {
+                // <+9360>
+                hostingController = UIHostingController<ModifiedContent<AnyView, RootModifier>>(rootView: rootView)
+            } else {
+                // <+5468>
+                hostingController = _UISecureHostingController<ModifiedContent<AnyView, RootModifier>>(rootView: rootView)
+                // <+9416>
+            }
+            
+            // <+9416>
+            if configuration.attributes.suppressGlassBackground {
+                hostingController.overridePreferredContainerBackgroundStyle = .hidden
+            }
+            
+            // <+9452>
+            if case .disabled = sceneListItem.restorationBehavior {
+                var conditions = windowScene._destructionConditions
+                conditions.insert(.systemDisconnection)
+                windowScene._destructionConditions = conditions
+            }
+            
+            // <+9552>
+            if case .suppressed = sceneListItem.defaultLaunchBehavior {
+                var conditions = windowScene._destructionConditions
+                conditions.insert(.userInitiatedDismissal)
+                windowScene._destructionConditions = conditions
+            }
+            
+            // <+9644>
+            configureHostingController(hostingController)
+            
+            if sceneAllowsSecureDrawing {
+                window = UISecureWindow(windowScene: windowScene)
+            } else {
+                window = UIWindow(windowScene: windowScene)
+            }
+            
+            if let scenes = Log.scenes {
+                scenes.log(level: .debug, "Scene session \(windowScene.session.persistentIdentifier) has created a window \(window)")
+            }
+            
+            // <+12856>
         case .immersiveSpace(let windowSceneConfiguration):
             // <+2684>
             assertUnimplemented()
@@ -426,6 +517,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             assertUnimplemented()
         }
         
+        // <+12856>
         assertUnimplemented()
     }
     
