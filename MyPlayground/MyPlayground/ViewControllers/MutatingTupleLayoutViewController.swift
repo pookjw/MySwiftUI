@@ -47,7 +47,7 @@ fileprivate struct MyLayout: Layout {
         return CGSize(width: proposal.width!, height: proposal.height!)
     }
     
-    func placeSubviews(in bounds: CGRect, proposal: MySwiftUICore.ProposedViewSize, subviews: Subviews, cache: inout ()) {
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         MainActor.assumeIsolated {
             let width = bounds.width / CGFloat(subviews.count)
             

@@ -390,6 +390,8 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             // <+5364>
             let sceneAllowsSecureDrawing = sceneListItem.environment.sceneAllowsSecureDrawing
             let rootView = self.makeRootView(configuration.mainContent)
+            
+//            WindowLayoutHostProxy.pendingHost(item: sceneListItem, rootViewType: type(of: rootView))
             assertUnimplemented()
         case .immersiveSpace(let windowSceneConfiguration):
             // <+2684>
