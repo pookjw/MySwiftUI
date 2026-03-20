@@ -166,6 +166,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
         assertUnimplemented()
     }
+    
+    func addWindowProxy(for windowScene: UIWindowScene) {
+        assertUnimplemented()
+    }
 }
 
 extension UISceneSession.Role {

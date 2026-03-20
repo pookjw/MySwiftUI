@@ -1448,7 +1448,11 @@ extension UIHostingController: ContentSizedSceneDelegate {
     }
     
     package var shouldIgnoreBoundsAnimations: Bool {
-        assertUnimplemented()
+        if let sceneBridge = host.sceneBridge {
+            return sceneBridge.isAnimatingSceneResize
+        } else {
+            return false
+        }
     }
 }
 

@@ -2,14 +2,14 @@
 internal import Foundation
 private import Combine
 internal import UIKit
-private import _UIKitPrivate
+internal import _UIKitPrivate
 private import os.log
 
 final class SceneBridge: CustomStringConvertible, ObservableObject {
     private var sceneBridgePublishers: [ObjectIdentifier: [String: PassthroughSubject<Any, Never>]] = .init() // 0x10
     private(set) var isAnimatingSceneResize: Bool = false // 0x18
     weak var windowScene: UIWindowScene? = nil // 0x20
-    private weak var rootViewController: UIViewController? = nil // 0x28
+    weak var rootViewController: UIViewController? = nil // 0x28
     private var sceneDefinitionOptionsSeedTracker = VersionSeedTracker<ConnectionOptionPayloadStoragePreferenceKey>(seed: .invalid) // 0x30
     private var sceneDefinitionOptions = ConnectionOptionPayloadStorage() // 0x38
     private var titleSeedTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x48
@@ -143,7 +143,7 @@ struct ConnectionOptionPayloadStoragePreferenceKey: HostPreferenceKey {
 }
 
 struct ConnectionOptionPayloadStorage {
-    private var types: [UISceneConnectionOptionDefinition.Type] = []
+    private(set) var types: [UISceneConnectionOptionDefinition.Type] = []
     private var actions: [ObjectIdentifier: [AnyConnectionOptionActionBox]] = .init()
 }
 

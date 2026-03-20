@@ -21,16 +21,16 @@ struct NativePlaygroundApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .task {
-                    try! await Task.sleep(for: .seconds(1))
-                    if let requestWithID = UISceneSessionActivationRequest(
-                        hostingDelegateClass: HostingSceneDelegate.self,
-//                        id: "swiftui-window"
-                        value: Int(8)
-                    ) {
-                        UIApplication.shared.activateSceneSession(for: requestWithID)
-                    }
-                }
+//                .task {
+//                    try! await Task.sleep(for: .seconds(1))
+//                    if let requestWithID = UISceneSessionActivationRequest(
+//                        hostingDelegateClass: HostingSceneDelegate.self,
+////                        id: "swiftui-window"
+//                        value: Int(8)
+//                    ) {
+//                        UIApplication.shared.activateSceneSession(for: requestWithID)
+//                    }
+//                }
 //                .task {
 //                    await openImmersiveSpace(id: "immersive")
 //                }

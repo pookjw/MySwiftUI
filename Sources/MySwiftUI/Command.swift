@@ -72,3 +72,13 @@ extension CommandsList.Item {
         case flag(CommandFlag)
     }
 }
+
+struct CommandsKey: HostPreferenceKey {
+    static var defaultValue: Never {
+        assertUnimplemented()
+    }
+    
+    static func reduce(value: inout Never, nextValue: () -> Never) {
+        assertUnimplemented()
+    }
+}

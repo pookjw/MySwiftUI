@@ -296,8 +296,8 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         do {
             var userInfo: [String : Any]?
             if var _userInfo = session.userInfo {
-                if let hashableSceneID {
-                    _userInfo["com.apple.SwiftUI.sceneID"] = self.hashableSceneID
+                if let hashableSceneID = self.hashableSceneID() {
+                    _userInfo["com.apple.SwiftUI.sceneID"] = hashableSceneID
                 } else {
                     // <+7644>
                     _userInfo.removeValue(forKey: "com.apple.SwiftUI.sceneID")
@@ -348,10 +348,72 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+8556>
-            SceneNavigationStrategy_Phone.shared
+            SceneNavigationStrategy_Phone.shared.removeCache(id: self.hashableSceneID()!, value: presentationDataValue)
         }
         
         // <+8772>
+        if
+            case .disabled = sceneItem.restorationBehavior,
+            let stateRestorationActivity = session.stateRestorationActivity,
+            stateRestorationActivity.activityType == "com.apple.SwiftUI.stateRestoration"
+        {
+            session.stateRestorationActivity = nil
+        }
+        
+        // <+8960>
+        sceneBridge.rootViewController = resolvedWindow.rootViewController
+        self.window = resolvedWindow
+        resolvedWindow.makeKeyAndVisible()
+        
+        // <+9028>
+        for type in sceneItem.connectionOptionPayloadStorage.types {
+            func _do<T: UISceneConnectionOptionDefinition>(_ type: T.Type) {
+                // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtF06handlemN9CallbacksL_yyAA0M20OptionPayloadStorageVF3_doL_yyxm5UIKit0kmQ10DefinitionRzlFTf4nnx_n
+                assertUnimplemented()
+            }
+            
+            _do(type)
+        }
+        
+        // <+9096>
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, qos: .unspecified, flags: []) { 
+            // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU0_TA
+            assertUnimplemented()
+        }
+        
+        
+        // <+9576>
+        if let userActicity = connectionOptions.userActivities.first {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, qos: .unspecified, flags: []) { [weak self] in
+                // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU1_TA
+                assertUnimplemented()
+            }
+        }
+        
+        // <+10052>
+        if let urlContext = urlContexts.first {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, qos: .unspecified, flags: []) { [weak self] in
+                // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU2_TA
+                assertUnimplemented()
+            }
+        }
+        
+        // <+10436>
+        graph.addPreference(CommandsKey.self)
+        graph.addObserver(self)
+        
+        if let delegate = sceneDelegateBox as? UISceneDelegate {
+            delegate.scene?(scene, willConnectTo: session, options: connectionOptions)
+        }
+        
+        // <+10644>
+        if let delegate = AppDelegate.shared {
+            delegate.immersiveSpaceAuthority.sceneConnected(scene: scene, namespace: self.sceneNamespace, item: sceneItem)
+            delegate.addWindowProxy(for: windowScene)
+        }
+        
+        // <+10788>
+        _ = AttachmentRegistrationManager.shared
         assertUnimplemented()
         Update.end()
     }
@@ -927,7 +989,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         return item
     }
     
-    fileprivate var hashableSceneID: String? {
+    fileprivate func hashableSceneID() -> String? {
         return sceneItemID?.sessionID
     }
 }
