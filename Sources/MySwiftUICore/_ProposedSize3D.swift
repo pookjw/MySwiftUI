@@ -165,7 +165,7 @@ extension _ProposedSize3D {
         return _ProposedSize3D(width: 0, height: 0, depth: 0)
     }
     
-    static var infinity: _ProposedSize3D {
+    package static var infinity: _ProposedSize3D {
         return _ProposedSize3D(width: .infinity, height: .infinity, depth: .infinity)
     }
     

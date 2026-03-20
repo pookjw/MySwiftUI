@@ -29,7 +29,7 @@ public struct _ProposedSize {
 }
 
 extension _ProposedSize {
-    init(_ size: CGSize) {
+    package init(_ size: CGSize) {
         self.width = size.width
         self.height = size.height
     }

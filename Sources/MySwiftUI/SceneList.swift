@@ -253,6 +253,10 @@ extension SceneList.Item {
     }
     
     struct Options: OptionSet {
+        static var unknown1: SceneList.Item.Options {
+            return SceneList.Item.Options(rawValue: 1 << 1)
+        }
+        
         let rawValue: UInt8
     }
     

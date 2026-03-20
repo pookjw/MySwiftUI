@@ -11,10 +11,17 @@ private import _DesignLibraryShims
 package final class UIHostingViewBase: NSObject {    
     package weak var uiView: UIView? = nil
     package weak var delegate: UIHostingViewBaseDelegate? = nil
-    package private(set) var safeAreaRegions: MySwiftUICore.SafeAreaRegions = .all
+    
+    package var safeAreaRegions: MySwiftUICore.SafeAreaRegions = .all {
+        didSet {
+            assertUnimplemented()
+        }
+    }
+    
     private let configuration: UIHostingViewBase.Configuration
     package let viewGraph: MySwiftUICore.ViewGraphHost
     private var inheritedEnvironment: MySwiftUICore.EnvironmentValues? = nil
+    
     package var environmentOverride: MySwiftUICore.EnvironmentValues? = nil {
         didSet {
             if let updateDelegate {
@@ -22,6 +29,7 @@ package final class UIHostingViewBase: NSObject {
             }
         }
     }
+    
     package var traitCollectionOverride: UITraitCollection?
     private var cachedContainerShape: MySwiftUICore.UnevenRoundedRectangle?
     private var canAdvanceTimeAutomatically: Bool = true

@@ -3,6 +3,7 @@ internal import Foundation
 private import Combine
 internal import UIKit
 private import _UIKitPrivate
+private import os.log
 
 final class SceneBridge: CustomStringConvertible, ObservableObject {
     private var sceneBridgePublishers: [ObjectIdentifier: [String: PassthroughSubject<Any, Never>]] = .init() // 0x10
@@ -15,13 +16,13 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     private var colorSchemeSeed = VersionSeedTracker<PreferredColorSchemeKey>(seed: .invalid) // 0x4c
     private var contentCaptureProtectionSeedTracker = VersionSeedTracker<ContentCaptureProtectionPreferenceKey>(seed: .invalid) // 0x50
     private var initialUserActivity: NSUserActivity? = nil // 0x58
-    private weak var viewGraph: ViewGraph? = nil // 0x60
+    weak var viewGraph: ViewGraph? = nil // 0x60
     private var _preferredActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) // 0x68
     var defaultActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) // 0xc8
     private var userActivityTrackingInfo: UserActivityTrackingInfo? = nil // 0x128
     private var userActivityPreferenceSeed: VersionSeed? = nil // 0x130
     private var activationConditionsPreferenceSeed: VersionSeed? = nil // 0x138
-    private var initialSceneSizeState: InitialSceneSizeState = .none // 0x140
+    var initialSceneSizeState: InitialSceneSizeState = .none // 0x140
     private var enqueuedEvents: [String: [Any]] = .init() // 0x180
     
     init() {}
@@ -43,7 +44,6 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     }
     
     func updateMinimumSizeObserver(added: Bool, viewGraph: ViewGraph) {
-        // $s7SwiftUI11SceneBridgeC25updateMinimumSizeObserver5added9viewGraphySb_AA04ViewK0CtFySo6CGSizeV_AJtcfU_TA
         if isLinkedOnOrAfter(.v6) {
             if self.sceneIsVolume {
                 if added {
@@ -53,15 +53,60 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
                 }
             } else {
                 // <+332>
-                assertUnimplemented()
+                if added {
+                    viewGraph.observeWindowResizeProposal(_ProposedSize(ProposedViewSize.zero))
+                } else {
+                    viewGraph.stopObservingWindowResizeProposal(_ProposedSize(ProposedViewSize.zero))
+                }
             }
         } else {
-            assertUnimplemented()
+            // <+260>
+            if let resize = Log.resize {
+                resize.log(level: .debug, "Using iOS resize path")
+            }
+            
+            if added {
+                viewGraph.sizeThatFitsObservers.addObserver(for: _ProposedSize(ProposedViewSize.zero), exclusive: false) { _, _ in
+                    // $s7SwiftUI11SceneBridgeC25updateMinimumSizeObserver5added9viewGraphySb_AA04ViewK0CtFySo6CGSizeV_AJtcfU_TA
+                    assertUnimplemented()
+                }
+            } else {
+                viewGraph.sizeThatFitsObservers.stopObserving(proposal: _ProposedSize(ProposedViewSize.zero))
+            }
         }
     }
     
     func updateMaximumSizeObserver(added: Bool, viewGraph: ViewGraph) {
-        assertUnimplemented()
+        if isLinkedOnOrAfter(.v6) {
+            if self.sceneIsVolume {
+                if added {
+                    viewGraph.observeVolumeResizeProposal(.infinity)
+                } else {
+                    viewGraph.stopObservingVolumeResizeProposal(.infinity)
+                }
+            } else {
+                // <+332>
+                if added {
+                    viewGraph.observeWindowResizeProposal(_ProposedSize(ProposedViewSize.infinity))
+                } else {
+                    viewGraph.stopObservingWindowResizeProposal(_ProposedSize(ProposedViewSize.infinity))
+                }
+            }
+        } else {
+            // <+260>
+            if let resize = Log.resize {
+                resize.log(level: .debug, "Using iOS resize path")
+            }
+            
+            if added {
+                viewGraph.sizeThatFitsObservers.addObserver(for: _ProposedSize(ProposedViewSize.infinity), exclusive: false) { _, _ in
+                    // $s7SwiftUI11SceneBridgeC25updateMaximumSizeObserver5added9viewGraphySb_AA04ViewK0CtFySo6CGSizeV_AJtcfU_TA
+                    assertUnimplemented()
+                }
+            } else {
+                viewGraph.sizeThatFitsObservers.stopObserving(proposal: _ProposedSize(ProposedViewSize.infinity))
+            }
+        }
     } 
     
     static func targetContentIdentifierForExternalEvent(userActivity: NSUserActivity?, url: URL?) -> String? {
@@ -132,4 +177,26 @@ enum InitialSceneSizeState {
 
 class AnyConnectionOptionActionBox {
     // TODO
+}
+
+extension SceneBridge {
+    struct UserActivityPreferenceKey: HostPreferenceKey {
+        static var defaultValue: Never {
+            assertUnimplemented()
+        }
+        
+        static func reduce(value: inout Never, nextValue: () -> Never) {
+            assertUnimplemented()
+        }
+    }
+    
+    struct ActivationConditionsPreferenceKey: HostPreferenceKey {
+        static var defaultValue: Never {
+            assertUnimplemented()
+        }
+        
+        static func reduce(value: inout Never, nextValue: () -> Never) {
+            assertUnimplemented()
+        }
+    }
 }

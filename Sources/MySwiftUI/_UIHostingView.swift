@@ -114,7 +114,7 @@ open class _UIHostingView<Content: View>: UIView {
     final var shareConfigurationBridge: ShareConfigurationBridge? = nil
     private var statusBarBridge = UIKitStatusBarBridge()
     final weak var sceneBridge: SceneBridge? = nil
-    private var scenePresentationBridge: ScenePresentationBridge? = nil
+    final var scenePresentationBridge: ScenePresentationBridge? = nil
     private var pencilEventsBridge = PencilEventsBridge()
     private var pointerBridge: PointerBridge? = nil
     private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>? = nil

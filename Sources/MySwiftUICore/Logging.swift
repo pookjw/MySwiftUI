@@ -254,3 +254,9 @@ extension CGRect {
         return LoggableRect(self)
     }
 }
+
+enum ResizeLogs {
+    static func proposal(_ size: _ProposedSize) -> String {
+        assertUnimplemented()
+    }
+}

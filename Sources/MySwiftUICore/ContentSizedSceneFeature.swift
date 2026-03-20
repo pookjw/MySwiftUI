@@ -1,5 +1,5 @@
 // 5F20844779CE3886FD4DAA7CB43969A0
-private import AttributeGraph
+internal import AttributeGraph
 internal import CoreGraphics
 private import os.log
 
@@ -20,7 +20,7 @@ extension ViewGraph {
 }
 
 package struct ContentSizedSceneFeature<GeometryMeasurer: ViewGraphGeometryMeasurer>: ViewGraphFeature {
-    @Attribute private var sizesForProposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]
+    @Attribute private(set) var sizesForProposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]
     fileprivate let dispatcher: SizingPreferencesChangeDispatcher
     private var sizeRestrictionsCallback: ([GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences
     
@@ -114,7 +114,7 @@ struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer>: StatefulRu
     private var _transaction: WeakAttribute<Transaction>
     private weak var dispatcher: SizingPreferencesChangeDispatcher?
     private var sizeRestrictionsCallback: (_ proposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences
-    private var proposals: Set<GeometryMeasurer.Proposal>
+    var proposals: Set<GeometryMeasurer.Proposal>
     
     var layoutComputer: LayoutComputer? {
         return _layoutComputer.wrappedValue

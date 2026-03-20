@@ -474,15 +474,64 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                     hostingController.sizingOptions = []
                 }
                 
-                assertUnimplemented()
+                // <+3504>
+                if let defaultSize = sceneListItem.defaultSize {
+                    let flag: Bool
+                    if isLinkedOnOrAfter(.v7) {
+                        flag = sceneListItem.sizingUnit == LengthUnit.points
+                    } else {
+                        flag = true
+                    }
+                    
+                    if flag {
+                        // <+3672>
+                        if let sceneBridge {
+                            // <+3684>
+                            sceneBridge.initialSceneSizeState = .unset(_ProposedSize(defaultSize))
+                            // <+3796>
+                        } else {
+                            // <+3796>
+                        }
+                    } else {
+                        // <+3796>
+                    }
+                } else {
+                    // <+3796>
+                }
             }
             
             // <+3796>
-            assertUnimplemented()
+            if sceneListItem.options.contains(.unknown1) {
+                hostingController.host.base.safeAreaRegions = []
+            }
+            
+            // <+3852>
+            let scenePresentationBridge = ScenePresentationBridge()
+            scenePresentationBridge.host = hostingController.host
+            hostingController.host.base.viewGraph.viewGraph.addPreference(PresentedSceneValueKey.self)
+            
+            // <+4124>
+            hostingController.host.scenePresentationBridge = scenePresentationBridge
+            
+            if role == .windowApplicationVolumetric {
+                // <+4316>
+                assertUnimplemented()
+            }
+            
+            // <+4600>
+            let sceneBridge = self.sceneBridge!
+            let viewGraph = hostingController.host.base.viewGraph.viewGraph
+            sceneBridge.viewGraph = viewGraph
+            viewGraph.addPreference(SceneBridge.UserActivityPreferenceKey.self)
+            viewGraph.addPreference(SceneBridge.ActivationConditionsPreferenceKey.self)
+            viewGraph.addPreference(NavigationTitleKey.self)
+            viewGraph.addPreference(ConnectionOptionPayloadStoragePreferenceKey.self)
+            viewGraph.addPreference(ContentCaptureProtectionPreferenceKey.self)
         }
         
         // <+2540>
         let window: UIWindow
+        let _hostingController: UIViewController
         
         switch sceneListItem.value {
         case .windowGroup(let configuration):
@@ -517,6 +566,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                 hostingController = _UISecureHostingController<ModifiedContent<AnyView, RootModifier>>(rootView: rootView)
                 // <+9416>
             }
+            _hostingController = hostingController
             
             // <+9416>
             if configuration.attributes.suppressGlassBackground {
@@ -581,7 +631,14 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         // <+12856>
-        assertUnimplemented()
+        self.sceneItemID = sceneListItem.id
+        self.lastVersion = sceneListItem.version
+        
+        PlatformSceneCache.shared.addHost(_hostingController, id: sceneListItem.id)
+        window.applyAccessibilityProperties(from: sceneListItem.accessibilityProperties)
+        window.rootViewController = _hostingController
+        
+        return window
     }
     
     fileprivate func findSceneListItem(
