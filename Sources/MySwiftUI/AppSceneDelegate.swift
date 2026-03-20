@@ -312,6 +312,46 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         // <+7744>
+        do {
+            var userInfo: [String : Any]?
+            if var _userInfo = session.userInfo {
+                if let presentationDataType {
+                    _userInfo["com.apple.SwiftUI.sceneType"] = presentationDataType
+                } else {
+                    _userInfo.removeValue(forKey: "com.apple.SwiftUI.sceneType")
+                }
+                
+                userInfo = _userInfo
+            } else {
+                userInfo = nil
+            }
+            
+            session.userInfo = userInfo
+        }
+        
+        // <+8152>
+        if
+            let rawPresentationDataValue,
+            let presentationDataValue
+        {
+            // <+8252>
+            do {
+                var userInfo: [String : Any]?
+                if var _userInfo = session.userInfo {
+                    _userInfo["com.apple.SwiftUI.sceneValue"] = rawPresentationDataValue
+                    userInfo = _userInfo
+                } else {
+                    userInfo = nil
+                }
+                
+                session.userInfo = userInfo
+            }
+            
+            // <+8556>
+            SceneNavigationStrategy_Phone.shared
+        }
+        
+        // <+8772>
         assertUnimplemented()
         Update.end()
     }
