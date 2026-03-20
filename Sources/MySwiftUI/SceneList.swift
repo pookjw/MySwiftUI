@@ -30,8 +30,20 @@ struct SceneList {
         return nil
     }
     
-    func item(id: SceneID, where: ((SceneList.Item) -> Bool)?) -> SceneList.Item? {
-        assertUnimplemented()
+    func item(id: SceneID, where predicate: ((SceneList.Item) -> Bool)?) -> SceneList.Item? {
+        for item in items {
+            if item.id == id {
+                if let predicate {
+                    if predicate(item) {
+                        return item
+                    }
+                } else {
+                    return item
+                }
+            }
+        }
+        
+        return nil
     }
     
     fileprivate func itemForUserActivity(_ userActivity: NSUserActivity) -> SceneList.Item? {

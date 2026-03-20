@@ -77,7 +77,7 @@ enum SceneID: Hashable {
         case .string(let id):
             return id
         case .type(let type, let value):
-            return "\(_typeName(type, qualified: false))-\(value)"
+            return "\(_typeName(type, qualified: true))-\(value)"
         }
     }
 }

@@ -290,6 +290,28 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             )
         }
         
+        // <+7380>
+        let sceneItem = self.sceneItem()
+        
+        do {
+            var userInfo: [String : Any]?
+            if var _userInfo = session.userInfo {
+                if let hashableSceneID {
+                    _userInfo["com.apple.SwiftUI.sceneID"] = self.hashableSceneID
+                } else {
+                    // <+7644>
+                    _userInfo.removeValue(forKey: "com.apple.SwiftUI.sceneID")
+                }
+                
+                userInfo = _userInfo
+            } else {
+                userInfo = nil
+            }
+            
+            session.userInfo = userInfo
+        }
+        
+        // <+7744>
         assertUnimplemented()
         Update.end()
     }
@@ -850,6 +872,23 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         )
         
         return modifier
+    }
+    
+    func sceneItem() -> SceneList.Item {
+        guard
+            let sceneItemID,
+            let appGraph = AppGraph.shared,
+            let item = appGraph.sceneList(namespace: self.sceneNamespace).item(id: sceneItemID, where: nil)
+        else {
+            // $s7SwiftUI14AppPreviewHostC9sceneItemAA9SceneListV0G0VyFSSyXEfu_
+            preconditionFailure("Missing app graph.")
+        }
+        
+        return item
+    }
+    
+    fileprivate var hashableSceneID: String? {
+        return sceneItemID?.sessionID
     }
 }
 
