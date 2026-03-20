@@ -17,7 +17,7 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     private var initialUserActivity: NSUserActivity? = nil // 0x58
     private weak var viewGraph: ViewGraph? = nil // 0x60
     private var _preferredActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) // 0x68
-    private var defaultActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) // 0xc8
+    var defaultActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) // 0xc8
     private var userActivityTrackingInfo: UserActivityTrackingInfo? = nil // 0x128
     private var userActivityPreferenceSeed: VersionSeed? = nil // 0x130
     private var activationConditionsPreferenceSeed: VersionSeed? = nil // 0x138

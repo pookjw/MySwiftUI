@@ -44,7 +44,8 @@ let package = Package(
                 .byName(name: "_AccessibilityPrivate"),
                 .byName(name: "_Elegibility"),
                 .byName(name: "_CoreServicesPrivate"),
-                .byName(name: "BoardServices")
+                .byName(name: "BoardServices"),
+                .byName(name: "_SwiftPrivate")
             ],
             swiftSettings: [
                 .strictMemorySafety(),

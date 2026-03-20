@@ -57,3 +57,8 @@ public func swift_conformsToProtocol2(
     _ type: Any.Type,
     _ protocolDescriptor: UnsafeRawPointer
 ) -> UnsafeRawPointer? // witness
+
+@_silgen_name("$ss27_diagnoseUnexpectedEnumCase4types5NeverOxm_tlF")
+public func _diagnoseUnexpectedEnumCase<SwitchedValue>(
+    type: SwitchedValue.Type
+) -> Swift.Never

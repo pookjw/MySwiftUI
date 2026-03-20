@@ -422,7 +422,6 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                             
                             // <+2256>
                             viewGraph.setWindowResizeDelegate(hostingController)
-                            assertUnimplemented()
                             // <+2276>
                         }
                         
@@ -436,7 +435,29 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+2300>
-            _ = sceneListItem.kind
+            if
+                case .immersiveSpace = sceneListItem.kind,
+                let appDelegate = AppDelegate.shared,
+                let currentRemoteSessionInfo = appDelegate.immersiveSpaceAuthority.currentRemoteSessionInfo
+            {
+                // <+2384>
+                assertUnimplemented()
+            }
+            
+            // <+2888>
+            var predicates: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil)
+            
+            if case .singleWindow = sceneListItem.kind {
+                // <+2968>
+                assertUnimplemented()
+            }
+            
+            // <+3084>
+            if let sceneBridge {
+                sceneBridge.defaultActivationConditions = predicates
+            }
+            
+            // <+3188>
             assertUnimplemented()
         }
         

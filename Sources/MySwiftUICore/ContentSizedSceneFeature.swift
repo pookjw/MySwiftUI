@@ -1,5 +1,7 @@
 // 5F20844779CE3886FD4DAA7CB43969A0
 private import AttributeGraph
+internal import CoreGraphics
+private import os.log
 
 extension ViewGraph {
     package var currentSceneResizeDelegate: (any ContentSizedSceneDelegate)? {
@@ -29,13 +31,28 @@ package struct ContentSizedSceneFeature<GeometryMeasurer: ViewGraphGeometryMeasu
         delegate: (any ContentSizedSceneDelegate)?,
         callback: @escaping (_ proposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences
     ) {
-        self.dispatcher = SizingPreferencesChangeDispatcher(delegate: nil, pendingChanges: [])
+        let dispatcher = SizingPreferencesChangeDispatcher(delegate: nil, pendingChanges: [])
+        self.dispatcher = dispatcher
         
         let oldSubgraph = Subgraph.current
         Subgraph.current = graph.globalSubgraph
         
-//        WeakAttribute(graph.$safeAreaInsets)
-        assertUnimplemented()
+        self.sizeRestrictionsCallback = callback
+        
+        let rule = SizeThatFitsRule<GeometryMeasurer>(
+            layoutComputer: WeakAttribute(),
+            safeAreaInsets: WeakAttribute(graph.$safeAreaInsets),
+            layoutDirection: WeakAttribute(),
+            transaction: WeakAttribute(),
+            dispatcher: dispatcher,
+            sizeRestrictionsCallback: callback
+        )
+        
+        let attribute = Attribute(rule)
+        self._sizesForProposals = attribute
+        attribute.flags = [.unknown0]
+        
+        self.dispatcher.delegate = delegate
         
         Subgraph.current = oldSubgraph
     }
@@ -73,7 +90,7 @@ extension ContentSizedSceneFeature where GeometryMeasurer == VolumeThatFitsMeasu
 }
 
 fileprivate final class SizingPreferencesChangeDispatcher {
-    fileprivate private(set) weak var delegate: ContentSizedSceneDelegate?
+    fileprivate weak var delegate: ContentSizedSceneDelegate?
     private var pendingChanges: [(SizingPreferences, Transaction?)]
     
     init(delegate: ContentSizedSceneDelegate? = nil, pendingChanges: [(SizingPreferences, Transaction?)]) {
@@ -90,14 +107,26 @@ fileprivate final class SizingPreferencesChangeDispatcher {
     }
 }
 
-struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer> {
-    @WeakAttribute private var layoutComputer: LayoutComputer?
-    @WeakAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?
+struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer>: StatefulRule, AsyncAttribute {
+    private var _layoutComputer: WeakAttribute<LayoutComputer>
+    private var _safeAreaInsets: WeakAttribute<_SafeAreaInsetsModifier>
     @WeakAttribute private var layoutDirection: LayoutDirection?
-    @WeakAttribute private var transaction: Transaction?
+    private var _transaction: WeakAttribute<Transaction>
     private weak var dispatcher: SizingPreferencesChangeDispatcher?
     private var sizeRestrictionsCallback: (_ proposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences
     private var proposals: Set<GeometryMeasurer.Proposal>
+    
+    var layoutComputer: LayoutComputer? {
+        return _layoutComputer.wrappedValue
+    }
+    
+    var safeAreaInsets: _SafeAreaInsetsModifier? {
+        return _safeAreaInsets.wrappedValue
+    }
+    
+    var transaction: Transaction? {
+        return _transaction.wrappedValue
+    }
     
     fileprivate init(
         layoutComputer: WeakAttribute<LayoutComputer>,
@@ -105,9 +134,59 @@ struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer> {
         layoutDirection: WeakAttribute<LayoutDirection>,
         transaction: WeakAttribute<Transaction>,
         dispatcher: SizingPreferencesChangeDispatcher?,
-        sizeRestrictionsCallback: (_ proposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences,
-        proposals: Set<GeometryMeasurer.Proposal>
+        sizeRestrictionsCallback: @escaping (_ proposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences,
+        proposals: Set<GeometryMeasurer.Proposal> = Set()
     ) {
+        self._layoutComputer = layoutComputer
+        self._safeAreaInsets = safeAreaInsets
+        self._layoutDirection = layoutDirection
+        self._transaction = transaction
+        self.dispatcher = dispatcher
+        self.sizeRestrictionsCallback = sizeRestrictionsCallback
+        self.proposals = proposals
+    }
+    
+    typealias Value = [GeometryMeasurer.Proposal: GeometryMeasurer.Size]
+    
+    @_specialize(exported: true, where GeometryMeasurer == SizeThatFitsMeasurer)
+    @_specialize(exported: true, where GeometryMeasurer == VolumeThatFitsMeasurer)
+    func updateValue() {
         assertUnimplemented()
+    }
+}
+
+extension ViewGraph {
+    package func setWindowResizeDelegate(_ delegate: ContentSizedSceneDelegate) {
+        if let feature = self.features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
+            // <+192>
+            if let resize = Log.resize {
+                resize.log(level: .debug, "Adding 2D ContentSizedSceneDelegate")
+            }
+            
+            // <+576>
+            feature.pointee.dispatcher.delegate = delegate
+        } else {
+            // <+324>
+            if let resize = Log.resize {
+                resize.log(level: .error, "Missing ContentSizedWindowFeature")
+            }
+        }
+    } 
+    
+    package func setVolumeResizeDelegate(_ delegate: ContentSizedSceneDelegate) {
+        if let feature = self.features[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] {
+            // <+192>
+            if let resize = Log.resize {
+                resize.log(level: .debug, "Adding 3D ContentSizedSceneDelegate")
+            }
+            
+            // <+576>
+            feature.pointee.dispatcher.delegate = delegate
+        } else {
+            // <+324>
+            if let resize = Log.resize {
+                resize.log(level: .error, "Missing ContentSizedVolumeFeature")
+            }
+        }
     }
 }

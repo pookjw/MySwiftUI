@@ -23,7 +23,7 @@ final class ImmersiveSpaceAuthority {
     private var currentImmersiveSpace: SceneActivationState? = nil // 0x18
     private var immersiveSpaceBeingReplaced: SceneActivationState? = nil // 0x338
     private var isRequestingSwiftUIScene: Bool = false // 0x653
-    private weak var currentRemoteSessionInfo: RemoteScenes.SessionInfo? = nil // 0x658
+    private(set) weak var currentRemoteSessionInfo: RemoteScenes.SessionInfo? = nil // 0x658
     weak var immersiveSpaceScene: UIScene? = nil // 0x660
     private var sceneCreationContinuations: [CheckedContinuation<SceneNavigationStrategy_Phone.Result, Never>] = [] // 0x668
     private var sceneDestructionContinuations: [CheckedContinuation<Void, Never>] = [] // 0x670

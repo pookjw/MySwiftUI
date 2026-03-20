@@ -3,6 +3,7 @@ private import MySwiftUICore
 private import CoreGraphics
 internal import UIKit
 private import _UIKitPrivate
+private import _SwiftPrivate
 
 struct SceneList {
     private(set) var items: [SceneList.Item] = []
@@ -109,7 +110,41 @@ extension SceneList {
         }
         
         var kind: SceneList.Item.Kind {
-            assertUnimplemented()
+            switch value {
+            case .windowGroup(_):
+                return .windowGroup
+            case .immersiveSpace(_):
+                return .immersiveSpace
+            case .volume(_):
+                return .volume
+            case .documentGroup(_):
+                return .documentGroup
+            case .settings(_):
+                return .settings
+            case .menuBarExtra(_):
+#if os(macOS)
+                return .menuBarExtra
+#else
+                _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
+#endif
+            case .customScene(let configuration):
+                switch configuration.kind {
+                case .custom(_):
+                    return .custom
+                case .carPlay:
+                    return .carPlay
+                case .assistiveAccess:
+                    return .assistiveAccess
+                case .externalDisplay:
+                    return .externalDisplay
+                }
+            case .singleWindow(_):
+                return .singleWindow
+            case .documentIntroduction(_):
+                return .documentIntroduction
+            case .alertDialog(_):
+                return .alertDialog
+            }
         }
         
         var sceneTypeDescription: String {
@@ -221,7 +256,23 @@ extension SceneList.Item {
         let rawValue: UInt8
     }
     
-    enum Kind {
-        // TODO
+    enum Kind: Hashable {
+        case windowGroup
+        case singleWindow
+        case custom
+        case documentGroup
+        case documentIntroduction
+        case settings
+        case immersiveSpace
+        case carPlay
+        case assistiveAccess
+        case externalDisplay
+#if os(macOS)
+        case menuBarExtra
+#endif
+#if os(visionOS)
+        case volume
+#endif
+        case alertDialog
     }
 }

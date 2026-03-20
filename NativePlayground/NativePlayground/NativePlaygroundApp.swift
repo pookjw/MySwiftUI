@@ -13,6 +13,7 @@ import Combine
 
 @main
 struct NativePlaygroundApp: App {
+    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     init() {
         printOffsets()
     }
@@ -20,17 +21,24 @@ struct NativePlaygroundApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .task {
-                    try! await Task.sleep(for: .seconds(1))
-                    if let requestWithID = UISceneSessionActivationRequest(
-                        hostingDelegateClass: HostingSceneDelegate.self,
-//                        id: "swiftui-window"
-                        value: Int(8)
-                    ) {
-                        UIApplication.shared.activateSceneSession(for: requestWithID)
-                    }
-                }
+//                .task {
+//                    try! await Task.sleep(for: .seconds(1))
+//                    if let requestWithID = UISceneSessionActivationRequest(
+//                        hostingDelegateClass: HostingSceneDelegate.self,
+////                        id: "swiftui-window"
+//                        value: Int(8)
+//                    ) {
+//                        UIApplication.shared.activateSceneSession(for: requestWithID)
+//                    }
+//                }
+//                .task {
+//                    await openImmersiveSpace(id: "immersive")
+//                }
         }
+        
+//        ImmersiveSpace(id: "immersive") { 
+//            ContentView()
+//        }
     }
 }
 
@@ -50,7 +58,7 @@ class HostingSceneDelegate: NSObject, UIHostingSceneDelegate, ObservableObject {
         WindowGroup(for: Int.self) { _ in
             ContentView()
         }
-//        .windowStyle(.volumetric)
+        .windowStyle(.volumetric)
         
         WindowGroup(id: "swiftui-window") {
             ContentView()

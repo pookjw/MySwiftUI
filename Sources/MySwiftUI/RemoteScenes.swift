@@ -5,8 +5,8 @@ struct RemoteScenes {
 }
 
 extension RemoteScenes {
-    class SessionController {
-        
+    final class SessionController {
+        // TODO
     }
     
     class Bridge {
