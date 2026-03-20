@@ -42,6 +42,28 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
         assertUnimplemented()
     }
     
+    func updateMinimumSizeObserver(added: Bool, viewGraph: ViewGraph) {
+        // $s7SwiftUI11SceneBridgeC25updateMinimumSizeObserver5added9viewGraphySb_AA04ViewK0CtFySo6CGSizeV_AJtcfU_TA
+        if isLinkedOnOrAfter(.v6) {
+            if self.sceneIsVolume {
+                if added {
+                    viewGraph.observeVolumeResizeProposal(.zero)
+                } else {
+                    viewGraph.stopObservingVolumeResizeProposal(.zero)
+                }
+            } else {
+                // <+332>
+                assertUnimplemented()
+            }
+        } else {
+            assertUnimplemented()
+        }
+    }
+    
+    func updateMaximumSizeObserver(added: Bool, viewGraph: ViewGraph) {
+        assertUnimplemented()
+    } 
+    
     static func targetContentIdentifierForExternalEvent(userActivity: NSUserActivity?, url: URL?) -> String? {
         /*
          userActivity -> x0 -> x25

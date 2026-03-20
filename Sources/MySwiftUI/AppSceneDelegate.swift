@@ -458,6 +458,26 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+3188>
+            hostingController.host.base.environmentOverride = sceneListItem.environment
+            
+            // <+3384>
+            if let sizeRestrictions = windowScene.sizeRestrictions {
+                let resizability = sceneListItem.resizability
+                switch resizability {
+                case .automatic:
+                    hostingController.sizingOptions = []
+                case .contentSize:
+                    hostingController.sizingOptions = [.unknown2, .unknown3]
+                case .contentMinSize:
+                    hostingController.sizingOptions = [.unknown2]
+                case .full:
+                    hostingController.sizingOptions = []
+                }
+                
+                assertUnimplemented()
+            }
+            
+            // <+3796>
             assertUnimplemented()
         }
         

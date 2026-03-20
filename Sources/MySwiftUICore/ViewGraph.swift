@@ -39,7 +39,7 @@ package final class ViewGraph: GraphHost {
     @WeakAttribute var rootResponders: [ViewResponder]?
     @WeakAttribute fileprivate var rootLayoutComputer: LayoutComputer?
     @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
-    private(set) var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
+    package var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
     package internal(set) var accessibilityEnabled = false
     package private(set) var requestedOutputs: ViewGraph.Outputs
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
@@ -593,6 +593,14 @@ package final class ViewGraph: GraphHost {
         copy_1.customInputs = preferenceBridge.bridgedViewInputs
         return copy_1
     }
+    
+    package func observeVolumeResizeProposal(_ size: _ProposedSize3D) {
+        assertUnimplemented()
+    }
+    
+    package func stopObservingVolumeResizeProposal(_ size: _ProposedSize3D) {
+        assertUnimplemented()
+    }
 }
 
 extension ViewGraph {
@@ -821,15 +829,15 @@ extension ViewGraphFeature {
     }
 }
 
-struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
+package struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
     private var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
     
-    func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
+    package func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
         assertUnimplemented()
     }
     
-    func stopObserving(proposal: T.Proposal) {
-        assertUnimplemented()
+    package mutating func stopObserving(proposal: T.Proposal) {
+        store.removeValue(forKey: proposal)
     }
     
     func removeAll() {

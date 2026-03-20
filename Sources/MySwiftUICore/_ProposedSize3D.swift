@@ -161,7 +161,7 @@ extension _ProposedSize3D {
 }
 
 extension _ProposedSize3D {
-    static var zero: _ProposedSize3D {
+    package static var zero: _ProposedSize3D {
         return _ProposedSize3D(width: 0, height: 0, depth: 0)
     }
     

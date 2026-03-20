@@ -54,7 +54,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     @preconcurrency public var sizingOptions: UIHostingControllerSizingOptions = [] {
         didSet {
-            assertUnimplemented()
+            sizingOptionsDidChange(from: oldValue)
         }
     }
     
@@ -631,6 +631,77 @@ open class UIHostingController<Content: View>: UIViewController {
     
     final func _didMove(toParent parent: UIViewController?) {
         resolveRequiredBridges(nil, allowedActions: (parent == nil) ? .unknown1 : .unknown0)
+    }
+    
+    func sizingOptionsDidChange(from oldValue: UIHostingControllerSizingOptions) {
+        /*
+         self -> x20 -> x19
+         oldValue -> x0 -> x20 -> x25
+         */
+        let x27 = UIHostingControllerSizingOptions(
+            rawValue: self.sizingOptions.rawValue & ~oldValue.rawValue
+        )
+        
+        if
+            !UIHostingControllerSizingOptions
+                .idealSize
+                .intersection(x27)
+                .isEmpty
+        {
+            // <+196>
+            self.host.viewGraph.sizeThatFitsObservers.addObserver(for: _ProposedSize(.unspecified), exclusive: false) { _, _ in
+                // $s7SwiftUI19UIHostingControllerC22sizingOptionsDidChange4fromyAA0cd6SizingF0V_tFySo6CGSizeV_AItcfU_TA
+                // weak self를 포함한 값 3개 capture
+                assertUnimplemented()
+            }
+        } else if
+            UIHostingControllerSizingOptions
+                .idealSize
+                .intersection(self.sizingOptions)
+                .isEmpty
+        {
+            // <+628>
+            self.host.viewGraph.sizeThatFitsObservers.stopObserving(proposal: _ProposedSize(.unspecified))
+        }
+        
+        // <+784>
+        self.updateWindowSizeObservers(x27)
+    }
+    
+    final func updateWindowSizeObservers(_ options: UIHostingControllerSizingOptions) {
+        /*
+         self -> x20 -> x21
+         options -> x0 -> x24
+         */
+        guard let sceneBridge = self.host.sceneBridge else {
+            return
+        }
+        
+        if !options.contains(.unknown2) {
+            // <+68>
+            if !self.sizingOptions.contains(.unknown2) {
+                // <+100>
+                // <+168>
+                sceneBridge.updateMinimumSizeObserver(added: false, viewGraph: self.host.viewGraph)
+                // <+188>
+            } else {
+                // <+188>
+            }
+            
+            // <+188>
+        } else {
+            // <+136>
+            sceneBridge.updateMinimumSizeObserver(added: true, viewGraph: self.host.viewGraph)
+            // <+188>
+        }
+        
+        // <+188>
+        if options.contains(.unknown3) || !self.sizingOptions.contains(.unknown3) {
+            // <+224>
+            sceneBridge.updateMaximumSizeObserver(added: options.contains(.unknown3), viewGraph: self.host.viewGraph)
+        }
+        
+        // <+280>
     }
     
     fileprivate final func navigationHierarchyAllowsToolbarBridge() -> Bool {

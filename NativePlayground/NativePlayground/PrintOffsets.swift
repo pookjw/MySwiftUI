@@ -139,7 +139,7 @@ func printOffsets() {
     printFields(EnvironmentValues.self, isClassType: false)
     printFields(DisplayList.self, isClassType: false)
     printFields(_UIHostingView<AnyView>.self, isClassType: true)
-    printFields(UIHostingController<Color>.self, isClassType: true)
+    printFields(UIHostingController<AnyView>.self, isClassType: true)
     printFields(GraphHost.self, isClassType: true)
     printFields(GraphHost.Data.self, isClassType: false)
     printFields(ViewGraphDisplayLink.self, isClassType: true)

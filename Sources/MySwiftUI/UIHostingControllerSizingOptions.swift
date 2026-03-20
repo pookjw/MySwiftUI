@@ -7,11 +7,16 @@ public struct UIHostingControllerSizingOptions: OptionSet, Sendable {
         self.rawValue = rawValue
     }
     
-    public static let preferredContentSize: UIHostingControllerSizingOptions = {
-        assertUnimplemented()
-    }()
+    public static let preferredContentSize = UIHostingControllerSizingOptions(rawValue: 1 << 0)
+    public static let intrinsicContentSize = UIHostingControllerSizingOptions(rawValue: 1 << 1)
     
-    public static let intrinsicContentSize: UIHostingControllerSizingOptions = {
-        assertUnimplemented()
-    }()
+    static var unknown2: UIHostingControllerSizingOptions {
+        return UIHostingControllerSizingOptions(rawValue: 1 << 2)
+    }
+    
+    static var unknown3: UIHostingControllerSizingOptions {
+        return UIHostingControllerSizingOptions(rawValue: 1 << 3)
+    }
+    
+    static let idealSize: UIHostingControllerSizingOptions = [.preferredContentSize, .intrinsicContentSize]
 }
