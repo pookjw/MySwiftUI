@@ -10,7 +10,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     @safe fileprivate static nonisolated(unsafe) var hasConnectedFirstScene = false
     
     var window: UIWindow? = nil // 0x10
-    private var sceneItemID: SceneID? = nil // 0x18
+    private(set) var sceneItemID: SceneID? = nil // 0x18
     private var sceneNamespace: SceneList.Namespace = .app // 0x30
     private var lastVersion = DisplayList.Version() // 0x48
     private var sceneBridge: SceneBridge? = nil // 0x50
@@ -996,7 +996,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
 
 extension AppSceneDelegate: UIHostingViewDelegate {
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore.View {
-        assertUnimplemented()
+        // nop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
@@ -1004,26 +1004,85 @@ extension AppSceneDelegate: UIHostingViewDelegate {
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
-        assertUnimplemented()
+        // nop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore.View {
-        assertUnimplemented()
+        // nop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
-        assertUnimplemented()
+        // nop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {
-        assertUnimplemented()
+        // nop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
-        assertUnimplemented()
+        // nop
     }
 }
 
 extension AppSceneDelegate: AppGraphObserver {
     
+}
+
+extension AppDelegate {
+    func addWindowProxy(for windowScene: UIWindowScene) {
+        guard let windowProxy = windowScene.windowProxy else {
+            return
+        }
+        
+        self.activeWindowProxies.append(windowProxy)
+        self.updateActiveWindows()
+    }
+    
+    fileprivate func updateActiveWindows() {
+        // self -> x20 -> x25
+        assertUnimplemented()
+        Update.begin()
+        
+        let proxies = self.activeWindowProxies
+        let indices = self.activeWindowProxies.indices
+        for index in indices {
+            let proxy = proxies[index]
+            
+            guard !UIApplication.shared.connectedScenes.contains(proxy.backingScene) else {
+                continue
+            }
+            
+            let array = self.activeWindowProxies
+            if
+                let matchingIndex = array.firstIndex(where: { $0.backingScene == proxy.backingScene }),
+                matchingIndex != indices.endIndex
+            {
+                // <+940>
+                var x23 = matchingIndex
+                var x28 = x23 &+ 1
+                var x19 = x23
+                
+                repeat {
+                    if array[x19].backingScene == proxy.backingScene {
+                        x28 &+= 1
+                        x19 &+= 1
+                    } else if x23 == x28 {
+                        x23 &+= 1
+                        x28 &+= 1
+                        x19 &+= 1
+                    } else {
+                        self.activeWindowProxies.swapAt(x23, x19)
+                        assert(!(x28 < self.activeWindowProxies.count))
+                    }
+                } while x28 != array.count
+                
+                self.activeWindowProxies.removeSubrange(x23..<x28)
+            } else {
+                self.activeWindowProxies.remove(at: index)
+            }
+        }
+        
+        // <+1212>
+        assertUnimplemented()
+    }
 }

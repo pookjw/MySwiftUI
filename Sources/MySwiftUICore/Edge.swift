@@ -50,7 +50,7 @@ extension Edge {
             }
         }
         
-        func contains(_ edge: Edge) -> Bool {
+        package func contains(_ edge: Edge) -> Bool {
             let set = Edge.Set(edge)
             return self.contains(set)
         }

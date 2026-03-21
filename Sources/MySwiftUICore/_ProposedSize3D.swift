@@ -1,5 +1,5 @@
 internal import CoreGraphics
-internal import Spatial
+package import Spatial
 
 @_spi(Internal) public struct _ProposedSize3D: Hashable, Sendable {
     static var unspecified: _ProposedSize3D {
@@ -130,6 +130,16 @@ internal import Spatial
             width: width,
             height: height,
             depth: depth
+        )
+    }
+    
+    package func fixingUnspecifiedDimensions() -> Size3D {
+        let defaultSize = _ProposedSize3D.defaultSize
+        
+        return Size3D(
+            width: width ?? defaultSize.width,
+            height: height ?? defaultSize.height,
+            depth: depth ?? defaultSize.depth
         )
     }
 }

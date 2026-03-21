@@ -1452,6 +1452,8 @@ public struct ViewSize3D: Swift.Equatable {
   }
 
   public func inset(by: SwiftUI.EdgeInsets3D) -> _SwiftUICorePrivate.ViewSize3D
+
+  public func fixingUnspecifiedDimensions() -> Spatial.Size3D
 }
 
 @available(visionOS 26.0, *)
@@ -2146,5 +2148,35 @@ public protocol ButtonStyleConvertible {
 
   var buttonStyleRepresentation: Self.ButtonStyleRepresentation {
       get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct SizingPreferences: Swift.Equatable, Swift.CustomStringConvertible {
+  public init(width: CoreGraphics.CGFloat?, height: CoreGraphics.CGFloat?, depth: CoreGraphics.CGFloat?, minimumWidth: CoreGraphics.CGFloat?, minimumHeight: CoreGraphics.CGFloat?, minimumDepth: CoreGraphics.CGFloat?, maximumWidth: CoreGraphics.CGFloat?, maximumHeight: CoreGraphics.CGFloat?, maximumDepth: CoreGraphics.CGFloat?, use3D: Swift.Bool)
+  public static func window(size: CoreGraphics.CGSize?, minimum: CoreGraphics.CGSize?, maximum: CoreGraphics.CGSize?) -> _SwiftUICorePrivate.SizingPreferences
+  public static func volume(size: Spatial.Size3D?, minimum: Spatial.Size3D?, maximum: Spatial.Size3D?) -> _SwiftUICorePrivate.SizingPreferences
+  public var use3D: Swift.Bool
+  public var size2D: CoreGraphics.CGSize? {
+    get set _modify
+  }
+  public var size3D: Spatial.Size3D? {
+    get set _modify
+  }
+  public var minimum2D: CoreGraphics.CGSize? {
+    get set _modify
+  }
+  public var maximum2D: CoreGraphics.CGSize? {
+    get set _modify
+  }
+  public var minimum3D: Spatial.Size3D? {
+    get set _modify
+  }
+  public var maximum3D: Spatial.Size3D? {
+    get set _modify
+  }
+  public var description: Swift.String {
+    get
   }
 }

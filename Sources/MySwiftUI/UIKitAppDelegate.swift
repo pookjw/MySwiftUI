@@ -13,10 +13,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private(set) var fallbackDelegate: UIApplicationDelegate? = nil
     private(set) var mainMenuController: UIKitMainMenuController? = nil
-    private(set) lazy var immersiveSpaceAuthority: ImmersiveSpaceAuthority = {
-        assertUnimplemented()
-    }()
-    private var activeWindowProxies: [WindowProxy] = []
+    private(set) lazy var immersiveSpaceAuthority = ImmersiveSpaceAuthority.shared
+    var activeWindowProxies: [WindowProxy] = []
     
     override init() {
         // self -> x20
@@ -164,10 +162,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-        assertUnimplemented()
-    }
-    
-    func addWindowProxy(for windowScene: UIWindowScene) {
         assertUnimplemented()
     }
 }

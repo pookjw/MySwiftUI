@@ -10,6 +10,7 @@ import _SwiftUIPrivate
 @_spi(SwiftUI) import _SwiftUICorePrivate
 import _UIKitPrivate
 import Foundation
+import SwiftUI
 
 // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
 // expr -l swift -O -- _mangledTypeName(unsafeBitCast(0x0000000238fede90, to: Any.Type.self))
@@ -171,7 +172,10 @@ func printOffsets() {
     printFields(MultiViewResponder.self, isClassType: true)
     printFields(Text.Style.self, isClassType: false)
     printFields(_SceneInputs.self, isClassType: false)
+    printFields(SizingPreferences.self, isClassType: false)
     
+    print(_mangledTypeName(UIHostingController<AnyView>.self)!)
+    print(NSStringFromClass(UIHostingController<AnyView>.self))
 //    debugTextResolveExample()
 }
 

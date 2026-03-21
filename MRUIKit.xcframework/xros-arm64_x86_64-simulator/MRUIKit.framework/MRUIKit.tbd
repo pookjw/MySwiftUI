@@ -20,7 +20,8 @@ exports:
     _$s7MRUIKit24MRUISceneScalingBehaviorOSQAAMc,
     _$s7MRUIKit24MRUISceneScalingBehaviorOSHAAMc,
     _$s7MRUIKit24MRUISceneScalingBehaviorOs23CustomStringConvertibleAAMc,
-    _$s7MRUIKit24MRUISceneScalingBehaviorOs28CustomDebugStringConvertibleAAMc ]
+    _$s7MRUIKit24MRUISceneScalingBehaviorOs28CustomDebugStringConvertibleAAMc,
+    __MRUISceneSessionRoleRepresentsImmersiveSpace ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,

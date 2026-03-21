@@ -424,6 +424,112 @@ extension _ProposedSize3DTests {
     }
 }
 
+extension _ProposedSize3DTests {
+    struct Input_fixingUnspecifiedDimensions: Hashable {
+        let width: CGFloat?
+        let height: CGFloat?
+        let depth: CGFloat?
+    }
+
+    struct Output_fixingUnspecifiedDimensions {
+        let result: Size3D
+    }
+
+    static let fixingUnspecifiedDimensions_expectations:
+        [Input_fixingUnspecifiedDimensions: Output_fixingUnspecifiedDimensions] = [
+
+        Input_fixingUnspecifiedDimensions(
+            width: 1,
+            height: 2,
+            depth: 3
+        ): Output_fixingUnspecifiedDimensions(
+            result: Size3D(width: 1, height: 2, depth: 3)
+        ),
+
+        Input_fixingUnspecifiedDimensions(
+            width: nil,
+            height: 2,
+            depth: 3
+        ): Output_fixingUnspecifiedDimensions(
+            result: Size3D(width: 10, height: 2, depth: 3)
+        ),
+
+        Input_fixingUnspecifiedDimensions(
+            width: 1,
+            height: nil,
+            depth: 3
+        ): Output_fixingUnspecifiedDimensions(
+            result: Size3D(width: 1, height: 10, depth: 3)
+        ),
+
+        Input_fixingUnspecifiedDimensions(
+            width: 1,
+            height: 2,
+            depth: nil
+        ): Output_fixingUnspecifiedDimensions(
+            result: Size3D(width: 1, height: 2, depth: 0)
+        ),
+
+        Input_fixingUnspecifiedDimensions(
+            width: nil,
+            height: nil,
+            depth: nil
+        ): Output_fixingUnspecifiedDimensions(
+            result: Size3D(width: 10, height: 10, depth: 0)
+        ),
+
+        Input_fixingUnspecifiedDimensions(
+            width: CGFloat.nan,
+            height: CGFloat.infinity,
+            depth: -CGFloat.infinity
+        ): Output_fixingUnspecifiedDimensions(
+            result: Size3D(width: CGFloat.nan, height: CGFloat.infinity, depth: -CGFloat.infinity)
+        ),
+
+        Input_fixingUnspecifiedDimensions(
+            width: 0,
+            height: nil,
+            depth: nil
+        ): Output_fixingUnspecifiedDimensions(
+            result: Size3D(width: 0, height: 10, depth: 0)
+        ),
+
+        Input_fixingUnspecifiedDimensions(
+            width: -1,
+            height: nil,
+            depth: nil
+        ): Output_fixingUnspecifiedDimensions(
+            result: Size3D(width: -1, height: 10, depth: 0)
+        )
+    ]
+
+    @Test(arguments: Self.fixingUnspecifiedDimensions_expectations)
+    func test_fixingUnspecifiedDimensions(
+        input: Input_fixingUnspecifiedDimensions,
+        output: Output_fixingUnspecifiedDimensions
+    ) {
+        let impl = MySwiftUICore._ProposedSize3D(
+            width: input.width,
+            height: input.height,
+            depth: input.depth
+        ).fixingUnspecifiedDimensions()
+
+        #expect(impl.width.bitPattern == output.result.width.bitPattern)
+        #expect(impl.height.bitPattern == output.result.height.bitPattern)
+        #expect(impl.depth.bitPattern == output.result.depth.bitPattern)
+
+        let original = _SwiftUICorePrivate._ProposedSize3D(
+            width: input.width,
+            height: input.height,
+            depth: input.depth
+        ).fixingUnspecifiedDimensions()
+
+        #expect(original.width.bitPattern == output.result.width.bitPattern)
+        #expect(original.height.bitPattern == output.result.height.bitPattern)
+        #expect(original.depth.bitPattern == output.result.depth.bitPattern)
+    }
+}
+
 
 extension _ProposedSize3DTests {
     struct Input_inset: Hashable {

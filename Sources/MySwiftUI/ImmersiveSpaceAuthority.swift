@@ -33,6 +33,17 @@ final class ImmersiveSpaceAuthority {
     }
     
     func sceneConnected(scene: UIScene, namespace: SceneList.Namespace, item: SceneList.Item) {
+        /*
+         self -> x20 -> x29 - 0x150
+         scene -> x0 -> x20
+         namespace -> x1/x2/x3 -> x29 - 0x168
+         item -> x4 -> x19
+         */
+        // <+312>
+        guard case .immersiveSpace(let configuration) = item.value else {
+            return
+        }
+        
         assertUnimplemented()
     }
     

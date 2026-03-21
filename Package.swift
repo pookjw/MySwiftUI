@@ -259,7 +259,8 @@ let package = Package(
             dependencies: [
                 .byName(name: "MySwiftUI"),
                 .byName(name: "_SwiftUIPrivate"),
-                .byName(name: "MySwiftUITestUtils")
+                .byName(name: "MySwiftUITestUtils"),
+                .byName(name: "_StopwatchSupportShims")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -274,6 +275,7 @@ let package = Package(
                 .byName(name: "MySwiftUICore"),
                 .byName(name: "MySwiftUITestUtils"),
                 .byName(name: "_SwiftUICorePrivate"),
+                .byName(name: "_StopwatchSupportShims")
             ],
             swiftSettings: [
                 .strictMemorySafety(),

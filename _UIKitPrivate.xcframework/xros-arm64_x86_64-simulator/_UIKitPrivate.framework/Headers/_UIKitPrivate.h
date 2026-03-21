@@ -58,3 +58,4 @@
 #import <_UIKitPrivate/UIApplicationVolumetricSceneRequestBuilder.h>
 #import <_UIKitPrivate/UISceneConfiguration+Private.h>
 #import <_UIKitPrivate/UISceneSession+Private.h>
+#import <_UIKitPrivate/UIWindowSceneGeometryPreferencesVision+Private.h>

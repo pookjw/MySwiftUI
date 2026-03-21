@@ -3,6 +3,8 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
+MRUI_EXTERN BOOL _MRUISceneSessionRoleRepresentsImmersiveSpace(UISceneSessionRole);
+
 @interface UIScene (MRUIPrivate)
 @property (nonatomic, readonly, nullable) MRUIPlatterOrnamentManager* _mrui_platterOrnamentManager;
 @end

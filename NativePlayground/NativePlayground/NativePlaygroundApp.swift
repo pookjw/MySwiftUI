@@ -35,7 +35,8 @@ struct NativePlaygroundApp: App {
 //                    await openImmersiveSpace(id: "immersive")
 //                }
         }
-//        .defaultSize(CGSize(width: 300, height: 300))
+        .defaultSize(CGSize(width: 300, height: 300))
+//        .defaultSize(width: 300, height: 300, depth: 400)
         
 //        ImmersiveSpace(id: "immersive") { 
 //            ContentView()

@@ -1,4 +1,5 @@
-internal import Spatial
+package import Spatial
+package import CoreGraphics
 
 extension Size3D {
     func inset(by insets: EdgeInsets3D) -> Size3D {
@@ -7,5 +8,9 @@ extension Size3D {
         let depth = max(0, depth - insets.front - insets.back)
         
         return Size3D(width: width, height: height, depth: depth)
+    }
+    
+    package init(_ size: CGSize, depth: CGFloat) {
+        self = Size3D(width: size.width, height: size.height, depth: depth)
     }
 }

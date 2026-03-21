@@ -23,7 +23,7 @@ public struct _ProposedSize {
         return CGSize(width: width ?? size.width, height: height ?? size.height)
     }
     
-    func fixingUnspecifiedDimensions() -> CGSize {
+    package func fixingUnspecifiedDimensions() -> CGSize {
         return CGSize(width: width ?? 10, height: height ?? 10)
     }
 }

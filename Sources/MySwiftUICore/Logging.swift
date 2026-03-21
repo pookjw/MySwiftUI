@@ -1,6 +1,7 @@
 public import os.log
 private import Foundation
 package import CoreGraphics
+package import Spatial
 
 package func changedBodyProperties<T>(of type: T.Type) -> [String] {
     assertUnimplemented()
@@ -255,8 +256,24 @@ extension CGRect {
     }
 }
 
-enum ResizeLogs {
+package enum ResizeLogs {
     static func proposal(_ size: _ProposedSize) -> String {
         assertUnimplemented()
+    }
+    
+    static func size(_ size: CGSize?) -> String {
+        if let size {
+            return "(w:\(size.width.description), h:\(size.height.description))"
+        } else {
+            return "(no size)"
+        }
+    }
+    
+    package static func size3D(_ size: Size3D?) -> String {
+        if let size {
+            return "(w:\(size.width.description), h:\(size.height.description), d:\(size.depth.description))"
+        } else {
+            return "(no size)"
+        }
     }
 }

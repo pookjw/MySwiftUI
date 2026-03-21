@@ -91,21 +91,39 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic var childForHomeIndicatorAutoHidden: UIViewController? {
-        assertUnimplemented()
-    }
-    
-    open override dynamic var msui_childViewControllerForInterfaceOrientationLock: UIViewController? {
+        guard self._persistentSystemOverlays == .automatic else {
+            return nil
+        }
+        
+        guard self.shouldDeferPersistentSystemOverlaysToChildViewController else {
+            return nil
+        }
+        
         assertUnimplemented()
     }
     
 #if os(visionOS)
+    open override dynamic var msui_childViewControllerForInterfaceOrientationLock: UIViewController? {
+        return _childForInterfaceOrientationLock
+    }
+#else
+    open override dynamic var childForInterfaceOrientationLock: UIViewController? {
+        return _childForInterfaceOrientationLock
+    }
+#endif
+    
+#if os(visionOS)
     open override dynamic var childViewControllerForPreferredContainerBackgroundStyle: UIViewController? {
-        assertUnimplemented()
+        guard self.preferredContainerBackgroundStyle == .automatic else {
+            return nil
+        }
+        
+        return children.last
     }
 #endif
     
     open override dynamic var childForScreenEdgesDeferringSystemGestures: UIViewController? {
-        assertUnimplemented()
+        return _childForScreenEdgesDeferringSystemGestures
     }
     
     open override dynamic var childForStatusBarHidden: UIViewController? {
@@ -140,7 +158,7 @@ open class UIHostingController<Content: View>: UIViewController {
     
 #if os(visionOS)
     open override dynamic var preferredContainerBackgroundStyle: UIContainerBackgroundStyle {
-        assertUnimplemented()
+        return overridePreferredContainerBackgroundStyle
     }
 #endif
     
@@ -149,7 +167,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        assertUnimplemented()
+        return _preferredScreenEdgesDeferringSystemGestures
     }
     
     open override dynamic var preferredStatusBarStyle: UIStatusBarStyle {
@@ -161,7 +179,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic var prefersHomeIndicatorAutoHidden: Bool {
-        assertUnimplemented()
+        return _prefersHomeIndicatorAutoHidden
     }
     
     open override dynamic var prefersStatusBarHidden: Bool {
@@ -441,21 +459,15 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final var _childForInterfaceOrientationLock: UIViewController? {
-        get {
-            assertUnimplemented()
+        if let result = self.children.last?.msui_childViewControllerForInterfaceOrientationLock {
+            return result
         }
-    }
-    
-    final var _persistentSystemOverlays: Visibility {
-        get {
-            assertUnimplemented()
-        }
+        
+        return self.children.last
     }
     
     final var _prefersHomeIndicatorAutoHidden: Bool {
-        get {
-            assertUnimplemented()
-        }
+        return _persistentSystemOverlays == .hidden
     }
     
     final var _childForHomeIndicatorAutoHidden: UIViewController? {
@@ -704,6 +716,23 @@ open class UIHostingController<Content: View>: UIViewController {
         // <+280>
     }
     
+    final var _childForScreenEdgesDeferringSystemGestures: UIViewController? {
+        guard
+            deferredEdges == nil,
+            shouldDeferScreenEdgesSystemGestureToChildViewController
+        else {
+            return nil
+        }
+        
+        // <+52>
+        assertUnimplemented()
+    }
+    
+    final var _preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        let edges = deferredEdges ?? .horizontal
+        return UIRectEdge(edges, layoutDirection: .leftToRight)
+    }
+    
     fileprivate final func navigationHierarchyAllowsToolbarBridge() -> Bool {
         if ViewGraphBridgePropertiesAreInput.isEnabled {
             return true
@@ -819,7 +848,150 @@ open class UIHostingController<Content: View>: UIViewController {
             return
         }
         
-        assertUnimplemented()
+        guard let windowScene = sceneBridge.windowScene else {
+            return
+        }
+        
+        if case .set = sceneBridge.initialSceneSizeState {
+            return
+        }
+        
+        // <+708>
+        if windowScene.session.role == .immersiveSpaceApplication {
+            // <+892>
+            if let resize = Log.resize {
+                resize.log(level: .debug, "Not updating initial scene geometry because this is an immersive scene")
+            }
+            
+            sceneBridge.initialSceneSizeState = .set
+        } else {
+            // <+1244>
+            let preferences = self.hostSizingPreferences(volumetric: sceneBridge.sceneIsVolume, initialSceneSizeState: sceneBridge.initialSceneSizeState)
+            
+            if let preferences {
+                // <+1504>
+                let geometryPreferences: UIWindowScene.GeometryPreferences.Vision
+                if preferences.hasOutOfBoundsDefaultSize {
+                    // <+1544>
+                    geometryPreferences = UIWindowScene.GeometryPreferences.Vision()
+                    
+                    if preferences.use3D {
+                        if let size3D = preferences.size3D {
+                            geometryPreferences._size3D = size3D
+                            geometryPreferences.mrui_volumetric = true
+                        }
+                    } else {
+                        if let size2D = preferences.size2D {
+                            geometryPreferences.size = size2D
+                        }
+                    }
+                    
+                    // <+2064>
+                    sceneBridge.initialSceneSizeState = .setting
+                    
+                    if let resize = Log.resize {
+                        resize.log(level: .info, "Sending request to shell: updating initial scene size \(ResizeLogs.size3D(geometryPreferences._size3D)). Not updating the scene minimum or maximum size yet since the app-provided default size was bigger than the current maximum size of the content or smaller than the current min, based on \(preferences.description).")
+                    }
+                    
+                    // <+3260>
+                } else {
+                    // <+1864>
+                    geometryPreferences = preferences.geometryPreferences
+                    sceneBridge.initialSceneSizeState = .set
+                    
+                    if let resize = Log.resize {
+                        resize.log(level: .info, "Sending request to shell: Updating initial scene geometry with scene size \(ResizeLogs.size3D(geometryPreferences._size3D)), min \(ResizeLogs.size3D(geometryPreferences._minimumSize3D)), max \(ResizeLogs.size3D(geometryPreferences._maximumSize3D))")
+                    }
+                    
+                    // <+3260>
+                }
+                
+                // <+3260>
+                UIView.performWithoutAnimation {
+                    // $s7SwiftUI11SceneBridgeC06updateC6Sizing_11transaction29invalidateEnvironmentPropertyyAA0F11PreferencesV_AA11TransactionVSgyyctFyyXEfU1_TA
+                    windowScene.requestGeometryUpdate(geometryPreferences, errorHandler: nil)
+                }
+            } else {
+                // <+1372>
+                if let resize = Log.resize {
+                    resize.log(level: .debug, "Not updating initial scene geometry because there isn't a new scene size, min or max")
+                }
+                
+                sceneBridge.initialSceneSizeState = .set
+            }
+        }
+    }
+    
+    final func hostSizingPreferences(volumetric: Bool, initialSceneSizeState: InitialSceneSizeState) -> SizingPreferences? {
+        /*
+         self -> x20 -> x29 - 0xe0
+         volumetric -> w0 -> w20 -> w23
+         initialSceneSizeState -> x1 -> x25
+         */
+        // <+400>
+        var preferences: SizingPreferences
+        if volumetric {
+            preferences = .volume(size: nil, minimum: nil, maximum: nil)
+        } else {
+            preferences = .window(size: nil, minimum: nil, maximum: nil)
+        }
+        
+        // <+500>
+        // x29 - 0x100
+        let hasUnknown2 = self.sizingOptions.intersection(.unknown2)
+        // x29 - 0x108
+        let hasUnknown3 = self.sizingOptions.intersection(.unknown3)
+        
+        if case .unset(let size) = initialSceneSizeState {
+            // <+836>
+            let fixedSize = size.fixingUnspecifiedDimensions()
+            
+            if
+                volumetric,
+                let viewIfLoaded = self.viewIfLoaded,
+                let window = viewIfLoaded.window,
+                let windowScene = window.windowScene
+            {
+                let effectiveSize = windowScene.effectiveGeometry._size
+                let effectiveSize3D = Size3D(fixedSize, depth: effectiveSize.depth)
+                preferences.size3D = effectiveSize3D
+            } else {
+                preferences.size2D = fixedSize
+            }
+            
+            // <+1240>
+        } else if case .unset3D(let size, let unit) = initialSceneSizeState {
+            // <+640>
+            let fixedSize = size.fixingUnspecifiedDimensions()
+            let scene: UIScene?
+            if
+                let viewIfLoaded = self.viewIfLoaded,
+                let window = viewIfLoaded.window,
+                let windowScene = window.windowScene
+            {
+                scene = windowScene
+            } else {
+                scene = nil
+            }
+            
+            let sizeInPoints = DefaultSizeBehavior.sizeInPoints(defaultSize: fixedSize, sizingUnit: unit, scene: scene)
+            
+            preferences.size3D = sizeInPoints
+            // <+1240>
+        } else {
+            // <+1080>
+            guard !hasUnknown2.union(hasUnknown3).isEmpty else {
+                return nil
+            }
+            
+            // <+1248>
+        }
+        
+        // <+1248>
+        return Update.ensure { 
+            // $s7SwiftUI19UIHostingControllerC21hostSizingPreferences10volumetric21initialSceneSizeStateAA0fG0VSgSb_AA07InitialjkL0OtFyyXEfU_TA
+            assertUnimplemented()
+        }
     }
     
     final func _viewWillLayoutSubviews() {
@@ -1481,3 +1653,13 @@ public func _makeWatchKitUIHostingController(_ view: AnyView) -> any NSObject & 
     // $s7SwiftUI41clientNeedsNestedToolbarBridgeSuppression33_1D3224F5185670D36FFEB48E24E43C4FLLSbvpfiSbyXEfU_
     assertUnimplemented()
 }()
+
+extension SizingPreferences {
+    var hasOutOfBoundsDefaultSize: Bool {
+        assertUnimplemented()
+    }
+    
+    var geometryPreferences: UIWindowScene.GeometryPreferences.Vision {
+        assertUnimplemented()
+    }
+}
