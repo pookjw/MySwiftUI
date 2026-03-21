@@ -1040,7 +1040,6 @@ extension AppDelegate {
     
     fileprivate func updateActiveWindows() {
         // self -> x20 -> x25
-        assertUnimplemented()
         Update.begin()
         
         let proxies = self.activeWindowProxies
@@ -1060,21 +1059,20 @@ extension AppDelegate {
                 // <+940>
                 var x23 = matchingIndex
                 var x28 = x23 &+ 1
-                var x19 = x23
                 
-                repeat {
-                    if array[x19].backingScene == proxy.backingScene {
+                while x28 != array.count {
+                    if array[x28].backingScene == proxy.backingScene {
                         x28 &+= 1
-                        x19 &+= 1
                     } else if x23 == x28 {
                         x23 &+= 1
                         x28 &+= 1
-                        x19 &+= 1
                     } else {
-                        self.activeWindowProxies.swapAt(x23, x19)
-                        assert(!(x28 < self.activeWindowProxies.count))
+                        self.activeWindowProxies.swapAt(x23, x28)
+                        assert(x28 < self.activeWindowProxies.count)
+                        x23 &+= 1
+                        x28 &+= 1
                     }
-                } while x28 != array.count
+                }
                 
                 self.activeWindowProxies.removeSubrange(x23..<x28)
             } else {
