@@ -62,5 +62,19 @@ extension WindowResizability {
         case contentSize
         case contentMinSize
         case full
+        
+        @inline(__always)
+        var sizingOptions: UIHostingControllerSizingOptions {
+            switch self {
+            case .automatic:
+                return []
+            case .contentSize:
+                return [.unknown2, .unknown3]
+            case .contentMinSize:
+                return [.unknown2]
+            case .full:
+                return []
+            }
+        }
     }
 }

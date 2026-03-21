@@ -583,21 +583,11 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+3188>
-            hostingController.host.base.environmentOverride = sceneListItem.environment
+            hostingController.host.base.inheritedEnvironment = sceneListItem.environment
             
             // <+3384>
             if let sizeRestrictions = windowScene.sizeRestrictions {
-                let resizability = sceneListItem.resizability
-                switch resizability {
-                case .automatic:
-                    hostingController.sizingOptions = []
-                case .contentSize:
-                    hostingController.sizingOptions = [.unknown2, .unknown3]
-                case .contentMinSize:
-                    hostingController.sizingOptions = [.unknown2]
-                case .full:
-                    hostingController.sizingOptions = []
-                }
+                hostingController.sizingOptions = sceneListItem.resizability.sizingOptions
                 
                 // <+3504>
                 if let defaultSize = sceneListItem.defaultSize {
@@ -1045,16 +1035,38 @@ extension AppSceneDelegate: AppGraphObserver {
         
         // <+1176>
         switch sceneItem.value {
-        case .windowGroup(let windowSceneConfiguration):
+        case .windowGroup(let configuration):
             // <+3136>
+            if
+                let window = self.window,
+                let rootViewController = window.rootViewController,
+                let casted = rootViewController as? UIHostingController<ModifiedContent<AnyView, RootModifier>>
+            {
+                let rootView = self.makeRootView(configuration.mainContent)
+                casted.host.rootView = rootView
+                casted.host.base.inheritedEnvironment = sceneItem.environment
+                
+                if
+                    let window = self.window,
+                    let windowScene = window.windowScene,
+                    let sizeRestrictions = windowScene.sizeRestrictions
+                {
+                    // <+3724>
+                    casted.sizingOptions = sceneItem.resizability.sizingOptions
+                }
+                
+                // <+3836>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
-        case .immersiveSpace(let windowSceneConfiguration):
+        case .immersiveSpace(let configuration):
             // <+1424>
             assertUnimplemented()
-        case .volume(let windowSceneConfiguration):
+        case .volume(let configuration):
             // <+4048>
             assertUnimplemented()
-        case .documentGroup(let identifiedDocumentGroupConfiguration):
+        case .documentGroup(let configuration):
             // <+1244>
             assertUnimplemented()
         case .settings(_):
@@ -1063,13 +1075,13 @@ extension AppSceneDelegate: AppGraphObserver {
         case .menuBarExtra(_):
             // <+10816>
             _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
-        case .customScene(let uISceneAdaptorConfiguration):
+        case .customScene(let configuration):
             // <+4864>
             assertUnimplemented()
-        case .singleWindow(let windowSceneConfiguration):
+        case .singleWindow(let configuration):
             // <+2244>
             assertUnimplemented()
-        case .documentIntroduction(let documentIntroductionConfiguration):
+        case .documentIntroduction(let configuration):
             // <+5092>
             assertUnimplemented()
         case .alertDialog(_):

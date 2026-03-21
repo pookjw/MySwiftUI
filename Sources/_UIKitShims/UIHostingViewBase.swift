@@ -20,7 +20,13 @@ package final class UIHostingViewBase: NSObject {
     
     private let configuration: UIHostingViewBase.Configuration
     package let viewGraph: MySwiftUICore.ViewGraphHost
-    private var inheritedEnvironment: MySwiftUICore.EnvironmentValues? = nil
+    package var inheritedEnvironment: MySwiftUICore.EnvironmentValues? = nil {
+        didSet {
+            if let updateDelegate = self.viewGraph.updateDelegate {
+                updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
+            }
+        }
+    }
     
     package var environmentOverride: MySwiftUICore.EnvironmentValues? = nil {
         didSet {
