@@ -19,10 +19,6 @@ final class UIKitMainMenuController: UIResponder {
         }
     }
     
-    func commandsDidChange() {
-        assertUnimplemented()
-    }
-    
     override func delete(_ sender: Any?) {
         assertUnimplemented()
     }
@@ -112,7 +108,13 @@ final class UIKitMainMenuController: UIResponder {
 }
 
 extension UIKitMainMenuController: AppGraphObserver {
-    // TODO
+    func scenesDidChange(phaseChanged: Bool) {
+        // nop
+    }
+    
+    func commandsDidChange() {
+        assertUnimplemented()
+    }
 }
 
 fileprivate final class MainMenuItemCoordinator {

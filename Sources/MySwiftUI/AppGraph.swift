@@ -39,7 +39,7 @@ final class AppGraph: GraphHost {
     @Attribute private(set) var focusedValues: FocusedValues // 0xd8
     @Attribute private(set) var focusStore: FocusStore // 0xdc
     @Attribute private var sceneKeyboardShortcuts: [SceneID: KeyboardShortcut] // 0xe0
-    @Attribute private var activeWindows: [WindowProxy] // 0xe4
+    @Attribute var activeWindows: [WindowProxy] // 0xe4
     private lazy var launchProfileOptions: AppGraph.LaunchProfileOptions = { // 0xe8
         guard let value = unsafe getenv("SWIFTUI_PROFILE_LAUNCH") else {
             return []
@@ -108,7 +108,34 @@ final class AppGraph: GraphHost {
     }
     
     func graphDidChange() {
-        assertUnimplemented()
+        // self -> x20 -> x24
+        // <+208>
+        self.data.updateSeed &+= 1
+        self.runTransaction()
+        
+        // x29 - 0xa8
+        let rootScenePhaseChanged = self._rootScenePhase.changedValue(options: []).changed
+        // x29 - 0x9c
+        var rootCommandsListChanged = false
+        if let attribute = self._rootCommandsList.attribute {
+            rootCommandsListChanged = attribute.changedValue(options: []).changed
+        }
+        
+        // <+392>
+        for observer in self.observers {
+            guard
+                let base = observer.base,
+                let casted = base as? AppGraphObserver
+            else {
+                continue
+            }
+            
+            casted.scenesDidChange(phaseChanged: rootScenePhaseChanged)
+            
+            if rootCommandsListChanged {
+                casted.commandsDidChange()
+            }
+        }
     }
     
     override func instantiateOutputs() {
@@ -218,7 +245,8 @@ extension AppGraph {
 }
 
 protocol AppGraphObserver: AnyObject {
-    // TODO
+    func scenesDidChange(phaseChanged: Bool)
+    func commandsDidChange()
 }
 
 fileprivate struct RootEnvironment: Rule {

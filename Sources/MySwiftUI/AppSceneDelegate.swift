@@ -5,6 +5,7 @@ private import os.log
 private import _UIKitPrivate
 private import Observation
 private import Combine
+private import _SwiftPrivate
 
 final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     @safe fileprivate static nonisolated(unsafe) var hasConnectedFirstScene = false
@@ -1025,7 +1026,63 @@ extension AppSceneDelegate: UIHostingViewDelegate {
 }
 
 extension AppSceneDelegate: AppGraphObserver {
+    func scenesDidChange(phaseChanged: Bool) {
+        /*
+         self -> x20 -> x21
+         phaseChanged -> w0 -> w26
+         */
+        // <+1028>
+        Update.begin()
+        // x24
+        let sceneItem = self.sceneItem()
+        
+        if !phaseChanged {
+            if self.lastVersion == sceneItem.version {
+                Update.end()
+                return
+            }
+        }
+        
+        // <+1176>
+        switch sceneItem.value {
+        case .windowGroup(let windowSceneConfiguration):
+            // <+3136>
+            assertUnimplemented()
+        case .immersiveSpace(let windowSceneConfiguration):
+            // <+1424>
+            assertUnimplemented()
+        case .volume(let windowSceneConfiguration):
+            // <+4048>
+            assertUnimplemented()
+        case .documentGroup(let identifiedDocumentGroupConfiguration):
+            // <+1244>
+            assertUnimplemented()
+        case .settings(_):
+            // <+10816>
+            _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
+        case .menuBarExtra(_):
+            // <+10816>
+            _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
+        case .customScene(let uISceneAdaptorConfiguration):
+            // <+4864>
+            assertUnimplemented()
+        case .singleWindow(let windowSceneConfiguration):
+            // <+2244>
+            assertUnimplemented()
+        case .documentIntroduction(let documentIntroductionConfiguration):
+            // <+5092>
+            assertUnimplemented()
+        case .alertDialog(_):
+            // <+10816>
+            _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
+        }
+        
+        assertUnimplemented()
+    }
     
+    func commandsDidChange() {
+        // nop
+    }
 }
 
 extension AppDelegate {
@@ -1081,6 +1138,13 @@ extension AppDelegate {
         }
         
         // <+1212>
-        assertUnimplemented()
+        if let graph = AppGraph.shared {
+            let value = graph.$activeWindows.setValue(self.activeWindowProxies)
+            if value {
+                graph.graphDidChange()
+            }
+        }
+        
+        Update.end()
     }
 }
