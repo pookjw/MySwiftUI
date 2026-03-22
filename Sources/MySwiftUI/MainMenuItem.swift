@@ -4,14 +4,14 @@ private import UIKit
 internal import Foundation
 
 final class MainMenuItemHost {
-    private let viewGraph: ViewGraph // 0x10
-    private var valuesNeedingUpdate = ViewGraphRootValues(rawValue: 0) // 0x18
-    private var renderingPhase: ViewRenderingPhase = .rendering // 0x1a
-    private var currentTimestamp = Time() // 0x20
-    private var externalUpdateCount: Int = 0 // 0x28
-    private var mainMenuItem: MainMenuItem // 0x30
+    let viewGraph: ViewGraph // 0x10
+    var valuesNeedingUpdate = ViewGraphRootValues(rawValue: 0) // 0x18
+    var renderingPhase: ViewRenderingPhase = .rendering // 0x1a
+    var currentTimestamp = Time() // 0x20
+    var externalUpdateCount: Int = 0 // 0x28
+    var mainMenuItem: MainMenuItem // 0x30
     private var environment: EnvironmentValues // 0x60
-    private var focusedValues: FocusedValues // 0x70
+    var focusedValues: FocusedValues // 0x70
     private var focusStore: FocusStore // 0x90
     private unowned var delegate: (any MainMenuItemHostDelegate)? = nil // 0xa8
     
@@ -82,7 +82,13 @@ extension MainMenuItemHost: ViewGraphRootValueUpdater {
     }
     
     func `as`<T>(_ type: T.Type) -> T? {
-        assertUnimplemented()
+        if let result = _specialize(self as (any ViewGraphOwner), for: T.self) {
+            return result
+        } else if let result = _specialize(self as (any ViewGraphDelegate), for: T.self) {
+            return result
+        } else {
+            return nil
+        }
     }
     
     func requestUpdate(after time: Double) {
@@ -92,6 +98,9 @@ extension MainMenuItemHost: ViewGraphRootValueUpdater {
     func beginTransaction() {
         assertUnimplemented()
     }
+}
+
+extension MainMenuItemHost: ViewGraphOwner {
 }
 
 extension MainMenuItemHost {

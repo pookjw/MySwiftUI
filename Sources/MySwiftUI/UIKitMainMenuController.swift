@@ -65,7 +65,7 @@ final class UIKitMainMenuController: UIResponder {
         let environment = appGraph.environment.configuredForRoot()
         
         // <+1144>
-        _ = appGraph.focusedValues
+        let focusedValues = appGraph.focusedValues
         
         // x20
         let rootCommandsList = Graph.withoutUpdate { 
@@ -84,6 +84,21 @@ final class UIKitMainMenuController: UIResponder {
             let coordinator = self.topLevelItemCoordinators[item.name] ?? MainMenuItemCoordinator(item, environment: environment)
             
             // <+1772>
+            do {
+                let menuHost = coordinator.menuHost
+                menuHost.mainMenuItem = item
+                menuHost.invalidateProperties([.rootView], mayDeferUpdate: true)
+            }
+            
+            // <+1920>
+            do {
+                let menuHost = coordinator.menuHost
+                let oldFocusedValues = menuHost.focusedValues
+                menuHost.focusedValues = focusedValues
+                
+                // TODO
+                oldFocusedValues.version
+            }
             assertUnimplemented()
         }
         
@@ -127,7 +142,7 @@ extension UIKitMainMenuController: AppGraphObserver {
 }
 
 fileprivate final class MainMenuItemCoordinator {
-    private var menuHost: MainMenuItemHost
+    private(set) var menuHost: MainMenuItemHost
     private var builderContext = MenuBuilderContext()
     private var instructions: [MenuBuilderInstruction] = []
     private var needsUpdate: Bool = true
