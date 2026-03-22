@@ -9,6 +9,7 @@ UIKIT_EXTERN UISceneSessionRole const _UIWindowSceneSessionRoleCarPlay;
 
 @interface UIScene (Private)
 @property (nonatomic, readonly, getter=_FBSScene) FBSScene *_FBSScene;
+@property (readonly, nonatomic) NSString *_sceneIdentifier;
 - (BSServiceConnectionEndpoint * _Nullable)_currentOpenApplicationEndpoint;
 @end
 

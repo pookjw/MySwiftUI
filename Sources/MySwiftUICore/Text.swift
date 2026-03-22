@@ -444,6 +444,17 @@ class TextAttributeModifierBase {
 
 extension String {
     func caseConvertedIfNeeded(_ environment: EnvironmentValues) -> String {
-        assertUnimplemented()
+        guard let textCase = environment.textCase else {
+            return self
+        }
+        
+        let locale = environment.locale
+        
+        switch textCase {
+        case .uppercase:
+            return self.uppercased(with: locale)
+        case .lowercase:
+            return self.lowercased(with: locale)
+        }
     }
 }

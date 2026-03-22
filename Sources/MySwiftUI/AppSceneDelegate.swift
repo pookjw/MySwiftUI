@@ -377,7 +377,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         // <+9096>
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, qos: .unspecified, flags: []) { 
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { 
             // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU0_TA
             assertUnimplemented()
         }
@@ -385,7 +385,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         
         // <+9576>
         if let userActicity = connectionOptions.userActivities.first {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, qos: .unspecified, flags: []) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
                 // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU1_TA
                 assertUnimplemented()
             }
@@ -393,7 +393,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         
         // <+10052>
         if let urlContext = urlContexts.first {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, qos: .unspecified, flags: []) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
                 // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU2_TA
                 assertUnimplemented()
             }
@@ -414,8 +414,21 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         // <+10788>
-        _ = AttachmentRegistrationManager.shared
-        assertUnimplemented()
+        AttachmentRegistrationManager.shared.registerSceneIfNeeded(windowScene)
+        
+        DispatchQueue.main.async { 
+            // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU3_TA
+            assertUnimplemented()
+        }
+        
+        if !AppSceneDelegate.hasConnectedFirstScene {
+            AppSceneDelegate.hasConnectedFirstScene = true
+        }
+        
+        if let scenes = Log.scenes {
+            scenes.log(level: .info, "Finished willConnectTo for session \(session.persistentIdentifier) with scene \(windowScene)")
+        }
+        
         Update.end()
     }
     
@@ -1056,10 +1069,58 @@ extension AppSceneDelegate: AppGraphObserver {
                 }
                 
                 // <+3836>
-                assertUnimplemented()
+                if case .disabled = sceneItem.restorationBehavior {
+                    // <+3864>
+                    if
+                        let window = self.window,
+                        let windowScene = window.windowScene
+                    {
+                        // <+3892>
+                        var destructionConditions = windowScene._destructionConditions
+                        destructionConditions.insert(.systemDisconnection)
+                        windowScene._destructionConditions = destructionConditions
+                        // <+8248>
+                        // <+6272>
+                    } else {
+                        // <+8200>
+                        // <+6272>
+                    }
+                    
+                    // <+6272>
+                } else {
+                    // <+6468>
+                    if
+                        let window = self.window,
+                        let windowScene = window.windowScene
+                    {
+                        // <+6496>
+                        var destructionConditions = windowScene._destructionConditions
+                        destructionConditions.remove(.systemDisconnection)
+                        windowScene._destructionConditions = destructionConditions
+                        // <+2228>
+                        // <+6272>
+                    } else {
+                        // <+8284>
+                        // <+10668>
+                        // <+2228>
+                        // <+6272>
+                    }
+                }
+                
+                // <+6272>
+            } else {
+                // <+6272>
             }
             
-            assertUnimplemented()
+            // <+6272>
+            if let window = self.window {
+                window.applyAccessibilityProperties(from: sceneItem.accessibilityProperties)
+            }
+            
+            // <+6308>
+            self.lastVersion = sceneItem.version
+            Update.end()
+            return
         case .immersiveSpace(let configuration):
             // <+1424>
             assertUnimplemented()

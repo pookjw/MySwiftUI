@@ -21,7 +21,8 @@ exports:
     _$s7MRUIKit24MRUISceneScalingBehaviorOSHAAMc,
     _$s7MRUIKit24MRUISceneScalingBehaviorOs23CustomStringConvertibleAAMc,
     _$s7MRUIKit24MRUISceneScalingBehaviorOs28CustomDebugStringConvertibleAAMc,
-    __MRUISceneSessionRoleRepresentsImmersiveSpace ]
+    __MRUISceneSessionRoleRepresentsImmersiveSpace,
+    _$sSo13UIWindowSceneC7MRUIKitE02reB0s13OpaquePointerVvg ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,

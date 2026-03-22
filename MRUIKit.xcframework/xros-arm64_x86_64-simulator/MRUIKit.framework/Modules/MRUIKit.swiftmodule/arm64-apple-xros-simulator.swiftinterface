@@ -36,3 +36,7 @@ public enum MRUISceneScalingBehavior: Swift.Hashable, Swift.CustomStringConverti
     public var description: Swift.String { get }
     public var debugDescription: Swift.String { get }
 }
+
+extension UIKit.UIWindowScene {
+    public var reScene: Swift.OpaquePointer { get }
+}

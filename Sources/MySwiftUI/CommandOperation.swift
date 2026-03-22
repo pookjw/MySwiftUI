@@ -22,102 +22,49 @@ extension CommandOperation {
 }
 
 public struct CommandGroupPlacement: Sendable {
-    @MainActor public static let appInfo: CommandGroupPlacement = {
-        let name = Text(verbatim: "App Info")
-        name.assertUnstyled("init(_:)")
-        return CommandGroupPlacement(name: name, id: UUID())
-    }()
+    public static let appInfo = CommandGroupPlacement(Text(verbatim: "App Info"))
+    public static let appSettings = CommandGroupPlacement(Text(verbatim: "App Settings"))
+    public static let systemServices = CommandGroupPlacement(Text(verbatim: "System Services"))
+    public static let appVisibility = CommandGroupPlacement(Text(verbatim: "App Visibility"))
+    public static let appTermination = CommandGroupPlacement(Text(verbatim: "App Termination"))
+    public static let newItem = CommandGroupPlacement(Text(verbatim: "New Item"))
+    public static let saveItem = CommandGroupPlacement(Text(verbatim: "Save Item"))
+    public static let importExport = CommandGroupPlacement(Text(verbatim: "Import/Export Item"))
+    public static let printItem = CommandGroupPlacement(Text(verbatim: "Print Item"))
+    public static let undoRedo = CommandGroupPlacement(Text(verbatim: "Undo/Redo"))
+    public static let pasteboard = CommandGroupPlacement(Text(verbatim: "Pasteboard"))
+    public static let textEditing = CommandGroupPlacement(Text(verbatim: "Text Editing"))
+    public static let textFormatting = CommandGroupPlacement(Text(verbatim: "Text Formatting"))
+    public static let toolbar = CommandGroupPlacement(Text(verbatim: "Toolbar"))
+    public static let sidebar = CommandGroupPlacement(Text(verbatim: "Sidebar"))
+    public static let windowSize = CommandGroupPlacement(Text(verbatim: "Window Size"))
     
-    @MainActor public static let appSettings: CommandGroupPlacement = {
-        let name = Text(verbatim: "App Settings")
-        name.assertUnstyled("init(_:)")
-        return CommandGroupPlacement(name: name, id: UUID())
-    }()
-    
-    @MainActor public static let systemServices: CommandGroupPlacement = {
-        let name = Text(verbatim: "System Services")
-        name.assertUnstyled("init(_:)")
-        return CommandGroupPlacement(name: name, id: UUID())
-    }()
-    
-    @MainActor public static let appVisibility: CommandGroupPlacement = {
-        let name = Text(verbatim: "App Visibility")
-        name.assertUnstyled("init(_:)")
-        return CommandGroupPlacement(name: name, id: UUID())
-    }()
-    
-    @MainActor public static let appTermination: CommandGroupPlacement = {
-        let name = Text(verbatim: "App Termination")
-        name.assertUnstyled("init(_:)")
-        return CommandGroupPlacement(name: name, id: UUID())
-    }()
-    
-    @MainActor public static let newItem: CommandGroupPlacement = {
+    static let windowList: CommandGroupPlacement = {
         assertUnimplemented()
     }()
     
-    @MainActor public static let saveItem: CommandGroupPlacement = {
+    static let singleWindowList: CommandGroupPlacement = {
         assertUnimplemented()
     }()
     
-    @MainActor public static let importExport: CommandGroupPlacement = {
+    static let windowArrangement = CommandGroupPlacement(Text(verbatim: "Window Arrangement"))
+    static let help = CommandGroupPlacement(Text(verbatim: "Help"))
+    
+    static let appShortcuts: CommandGroupPlacement = {
         assertUnimplemented()
     }()
     
-    @MainActor public static let printItem: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor public static let undoRedo: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor public static let pasteboard: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor public static let textEditing: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor public static let textFormatting: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor public static let toolbar: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor public static let sidebar: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor public static let windowSize: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor static let windowList: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor static let singleWindowList: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor static let windowArrangement: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor static let help: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
-    
-    @MainActor static let appShortcuts: CommandGroupPlacement = {
-        assertUnimplemented()
-    }()
+    static let openItem = CommandGroupPlacement(Text(verbatim: "Open Item"))
     
     private let name: Text
     private let id: UUID
+    
+    @inline(__always)
+    fileprivate init(_ name: Text) {
+        name.assertUnstyled(#function)
+        self.name = name
+        self.id = UUID()
+    }
     
     // TODO
 }
@@ -136,30 +83,20 @@ public struct _ResolvedCommands {
     // $s7SwiftUI17_ResolvedCommandsV8fileItem_WZ
     @safe static nonisolated(unsafe) let fileItem = Text("File", tableName: "MainMenu", bundle: bundle, comment: "Title of top level File main menu")
     
-    @safe static nonisolated(unsafe) let editItem: Text = {
-        // $s7SwiftUI17_ResolvedCommandsV8editItem_WZ
-        assertUnimplemented()
-    }()
+    // $s7SwiftUI17_ResolvedCommandsV8editItem_WZ
+    @safe static nonisolated(unsafe) let editItem = Text("Edit", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Edit main menu")
     
-    @safe static nonisolated(unsafe) let formatItem: Text = {
-        // $s7SwiftUI17_ResolvedCommandsV10formatItem_WZ
-        assertUnimplemented()
-    }()
+    // $s7SwiftUI17_ResolvedCommandsV10formatItem_WZ
+    @safe static nonisolated(unsafe) let formatItem = Text("Format", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Format main menu")
     
-    @safe static nonisolated(unsafe) let viewItem: Text = {
-        // $s7SwiftUI17_ResolvedCommandsV8viewItem_WZ
-        assertUnimplemented()
-    }()
+    // $s7SwiftUI17_ResolvedCommandsV8viewItem_WZ
+    @safe static nonisolated(unsafe) let viewItem = Text("View", tableName: "MainMenu", bundle: bundle, comment: "Title of top level View main menu")
     
-    @safe static nonisolated(unsafe) let windowItem: Text = {
-        // $s7SwiftUI17_ResolvedCommandsV10windowItem_WZ
-        assertUnimplemented()
-    }()
+    // $s7SwiftUI17_ResolvedCommandsV10windowItem_WZ
+    @safe static nonisolated(unsafe) let windowItem = Text("Window", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Window main menu")
     
-    @safe static nonisolated(unsafe) let helpItem: Text = {
-        // $s7SwiftUI17_ResolvedCommandsV8helpItem_WZ
-        assertUnimplemented()
-    }()
+    // $s7SwiftUI17_ResolvedCommandsV8helpItem_WZ
+    @safe static nonisolated(unsafe) let helpItem = Text("Help", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Help main menu")
     
     var topLevelCommands: [HashableCommandGroupPlacementWrapper] = []
     var storage: [HashableCommandGroupPlacementWrapper: CommandAccumulator] = [:]
@@ -171,31 +108,27 @@ public struct _ResolvedCommands {
          env -> x0 -> x29 - 0x110
          */
         // <+692>
-        // 총 5개
-        let templates: [MainMenuItem.Template] = [
+        let templates_1: [MainMenuItem.Template] = [
             MainMenuItem.Template(
                 name: currentAppName(),
                 id: .app,
                 options: [],
                 expectedPlacements: {
                     // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU_
-                    // 원래 없음 MainActor.assumeIsolated
-                    return MainActor.assumeIsolated {
-                        let appInfo = CommandGroupPlacement.appInfo
-                        let appSettings = CommandGroupPlacement.appSettings
-                        let systemServices = CommandGroupPlacement.systemServices
-                        let appVisibility = CommandGroupPlacement.appVisibility
-                        let appTermination = CommandGroupPlacement.appTermination
-                        
-                        // <+456>
-                        var placements: [CommandGroupPlacement] = [appInfo]
-                        placements.append(contentsOf: [appSettings])
-                        placements.append(contentsOf: [systemServices])
-                        placements.append(contentsOf: [appVisibility])
-                        placements.append(contentsOf: [appTermination])
-                        
-                        return placements
-                    }
+                    let appInfo = CommandGroupPlacement.appInfo
+                    let appSettings = CommandGroupPlacement.appSettings
+                    let systemServices = CommandGroupPlacement.systemServices
+                    let appVisibility = CommandGroupPlacement.appVisibility
+                    let appTermination = CommandGroupPlacement.appTermination
+                    
+                    // <+456>
+                    var placements: [CommandGroupPlacement] = [appInfo]
+                    placements.append(contentsOf: [appSettings])
+                    placements.append(contentsOf: [systemServices])
+                    placements.append(contentsOf: [appVisibility])
+                    placements.append(contentsOf: [appTermination])
+                    
+                    return placements
                 }()
             ),
             
@@ -206,13 +139,107 @@ public struct _ResolvedCommands {
                 options: [],
                 expectedPlacements: {
                     // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU0_
-                    assertUnimplemented()
+                    let newItem = CommandGroupPlacement.newItem
+                    
+                    var openItem: [CommandGroupPlacement]?
+                    if _SemanticFeature<Semantics_v7>.isEnabled {
+                        openItem = [CommandGroupPlacement.openItem]
+                    }
+                    
+                    let saveItem = CommandGroupPlacement.saveItem
+                    let importExport = CommandGroupPlacement.importExport
+                    let printItem = CommandGroupPlacement.printItem
+                    
+                    var placements: [CommandGroupPlacement] = [newItem]
+                    if let openItem {
+                        placements.append(contentsOf: openItem)
+                    }
+                    placements.append(contentsOf: [saveItem])
+                    placements.append(contentsOf: [importExport])
+                    placements.append(contentsOf: [printItem])
+                    
+                    return placements
                 }()
             ),
             
             // <+1300>
+            MainMenuItem.Template(
+                name: _ResolvedCommands.editItem.resolveString(in: env, idiom: nil),
+                id: .edit,
+                options: [],
+                expectedPlacements: {
+                    // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU1_
+                    let undoRedo = CommandGroupPlacement.undoRedo
+                    let pasteboard = CommandGroupPlacement.pasteboard
+                    let textEditing = CommandGroupPlacement.textEditing
+                    
+                    var placements: [CommandGroupPlacement] = [undoRedo]
+                    placements.append(contentsOf: [pasteboard])
+                    placements.append(contentsOf: [textEditing])
+                    
+                    return placements
+                }()
+            ),
+            
+            // <+1616>
+            MainMenuItem.Template(
+                name: _ResolvedCommands.formatItem.resolveString(in: env, idiom: nil),
+                id: .format,
+                options: [],
+                expectedPlacements: [.textFormatting]
+            ),
+            
+            // <+2116>
+            MainMenuItem.Template(
+                name: _ResolvedCommands.viewItem.resolveString(in: env, idiom: nil),
+                id: .view,
+                options: [.unknown0],
+                expectedPlacements: {
+                    // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU3_
+                    let toolbar = CommandGroupPlacement.toolbar
+                    let sidebar = CommandGroupPlacement.sidebar
+                    
+                    var placements: [CommandGroupPlacement] = [toolbar]
+                    placements.append(contentsOf: [sidebar])
+                    
+                    return placements
+                }()
+            )
         ]
         
+        // <+2436>
+        let templates_2: [MainMenuItem.Template] = []
+        if !topLevelCommands.isEmpty {
+            assertUnimplemented()
+        }
+        
+        // <+3080>
+        let templates_3: [MainMenuItem.Template] = [
+            MainMenuItem.Template(
+                name: _ResolvedCommands.windowItem.resolveString(in: env, idiom: nil),
+                id: .window,
+                options: [],
+                expectedPlacements: {
+                    // $s7SwiftUI17_ResolvedCommandsV13mainMenuItems3envSayAA04MainF4ItemVGAA17EnvironmentValuesV_tFSayAA21CommandGroupPlacementVGyXEfU5_
+                    let windowSize = CommandGroupPlacement.windowSize
+                    let windowArrangement = CommandGroupPlacement.windowArrangement
+                    
+                    var placements: [CommandGroupPlacement] = [windowSize]
+                    placements.append(contentsOf: [windowArrangement])
+                    
+                    return placements
+                }()
+            ),
+            
+            MainMenuItem.Template(
+                name: _ResolvedCommands.helpItem.resolveString(in: env, idiom: nil),
+                id: .help,
+                options: [],
+                expectedPlacements: [.help]
+            )
+        ]
+        
+        // <+3872>
         assertUnimplemented()
     }
 }
@@ -264,6 +291,10 @@ extension MainMenuItem {
 
 extension MainMenuItem.Template {
     fileprivate struct Options: OptionSet {
+        static var unknown0: MainMenuItem.Template.Options {
+            return MainMenuItem.Template.Options(rawValue: 1 << 0)
+        }
+        
         let rawValue: Int
     }
 }
