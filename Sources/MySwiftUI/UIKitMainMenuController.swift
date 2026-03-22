@@ -128,12 +128,12 @@ extension UIKitMainMenuController: AppGraphObserver {
 
 fileprivate final class MainMenuItemCoordinator {
     private var menuHost: MainMenuItemHost
-    private var builderContext: MenuBuilderContext
-    private var instructions: [MenuBuilderInstruction]
-    private var needsUpdate: Bool
+    private var builderContext = MenuBuilderContext()
+    private var instructions: [MenuBuilderInstruction] = []
+    private var needsUpdate: Bool = true
     
-    init(_: MainMenuItem, environment: EnvironmentValues) {
-        assertUnimplemented()
+    init(_ item: MainMenuItem, environment: EnvironmentValues) {
+        self.menuHost = MainMenuItemHost(item, environment: environment, focusedValues: FocusedValues(), focusStore: FocusStore())
     }
     
     func updateIfNeeded() {
@@ -143,46 +143,9 @@ fileprivate final class MainMenuItemCoordinator {
     // TODO
 }
 
-final class MainMenuItemHost {
-    private let viewGraph: ViewGraph
-    private var valuesNeedingUpdate: ViewGraphRootValues
-    private var renderingPhase: ViewRenderingPhase
-    private var currentTimestamp: Time
-    private var externalUpdateCount: Int
-    private var mainMenuItem: MainMenuItem
-    private var environment: EnvironmentValues
-    private var focusedValues: FocusedValues
-    private var focusStore: FocusStore
-    private unowned var delegate: (any MainMenuItemHostDelegate)?
-    
-    init(_: MainMenuItem, environment: EnvironmentValues, focusedValues: FocusedValues, focusStore: FocusStore) {
-        assertUnimplemented()
-    }
-    
-    func `as`<T>(_ type: T.Type) -> T? {
-        assertUnimplemented()
-    }
-    
-    func requestUpdate(after time: Double) {
-        assertUnimplemented()
-    }
-}
-
-protocol MainMenuItemHostDelegate: AnyObject {
-    // TODO
-}
-
-struct MenuBuilderContext {
-    private var placementKind: MenuBuilderContext.PlacementKind
-    private var keyCommandMap: [KeyCommandID : () -> Void]
-    private var placementMap: MenuBuilderContext.PlacementMap
-    private var menuElements: [UIMenuElement]
-    private var operationMap: [UIMenuElement: CommandOperation]
-}
-
 extension MenuBuilderContext {
     struct PlacementMap {
-        private var map: [UUID: PlatformItemList]
+        private var map: [UUID: PlatformItemList] = .init()
     }
     
     enum PlacementKind {

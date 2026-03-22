@@ -297,27 +297,7 @@ extension CommandAccumulator {
     }
 }
 
-struct MainMenuItem {
-    private(set) var name: String
-    fileprivate private(set) var id: MainMenuItem.Identifier
-    fileprivate private(set) var groups: [CommandAccumulator.Result]
-}
-
 extension MainMenuItem {
-    enum Identifier {
-        case custom(UUID)
-        case app
-        case file
-        case edit
-        case format
-        case view
-        case window
-        case help
-        case dock
-        case invalid
-        case root
-    }
-    
     fileprivate struct Template {
         let name: String
         let id: MainMenuItem.Identifier
