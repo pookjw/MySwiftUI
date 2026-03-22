@@ -5,7 +5,7 @@ private import _Elegibility
 private import AttributeGraph
 
 final class UIKitMainMenuController: UIResponder {
-    private var topLevelItemCoordinators: [String : MainMenuItemCoordinator] = .init() // 0x10
+    private var topLevelItemCoordinators: [String: MainMenuItemCoordinator] = .init() // 0x10
     private var keyCommandMap: [KeyCommandID: () -> Void] = .init() // 0x18
     private var currentResponderCommands: [Selector: any CommandAction] = ResponderCommandsKey.defaultValue // 0x20
     private var commandsListVersion = DisplayList.Version() // 0x28
@@ -79,6 +79,15 @@ final class UIKitMainMenuController: UIResponder {
         // x29 - 0x38
         let mainMenuItems = commands.mainMenuItems(env: environment)
         
+        for item in mainMenuItems {
+            // <+1444>
+            let coordinator = self.topLevelItemCoordinators[item.name] ?? MainMenuItemCoordinator(item, environment: environment)
+            
+            // <+1772>
+            assertUnimplemented()
+        }
+        
+        // <+2560>
         assertUnimplemented()
     }
     
@@ -118,7 +127,79 @@ extension UIKitMainMenuController: AppGraphObserver {
 }
 
 fileprivate final class MainMenuItemCoordinator {
+    private var menuHost: MainMenuItemHost
+    private var builderContext: MenuBuilderContext
+    private var instructions: [MenuBuilderInstruction]
+    private var needsUpdate: Bool
+    
+    init(_: MainMenuItem, environment: EnvironmentValues) {
+        assertUnimplemented()
+    }
+    
+    func updateIfNeeded() {
+        assertUnimplemented()
+    }
+    
     // TODO
+}
+
+final class MainMenuItemHost {
+    private let viewGraph: ViewGraph
+    private var valuesNeedingUpdate: ViewGraphRootValues
+    private var renderingPhase: ViewRenderingPhase
+    private var currentTimestamp: Time
+    private var externalUpdateCount: Int
+    private var mainMenuItem: MainMenuItem
+    private var environment: EnvironmentValues
+    private var focusedValues: FocusedValues
+    private var focusStore: FocusStore
+    private unowned var delegate: (any MainMenuItemHostDelegate)?
+    
+    init(_: MainMenuItem, environment: EnvironmentValues, focusedValues: FocusedValues, focusStore: FocusStore) {
+        assertUnimplemented()
+    }
+    
+    func `as`<T>(_ type: T.Type) -> T? {
+        assertUnimplemented()
+    }
+    
+    func requestUpdate(after time: Double) {
+        assertUnimplemented()
+    }
+}
+
+protocol MainMenuItemHostDelegate: AnyObject {
+    // TODO
+}
+
+struct MenuBuilderContext {
+    private var placementKind: MenuBuilderContext.PlacementKind
+    private var keyCommandMap: [KeyCommandID : () -> Void]
+    private var placementMap: MenuBuilderContext.PlacementMap
+    private var menuElements: [UIMenuElement]
+    private var operationMap: [UIMenuElement: CommandOperation]
+}
+
+extension MenuBuilderContext {
+    struct PlacementMap {
+        private var map: [UUID: PlatformItemList]
+    }
+    
+    enum PlacementKind {
+        case unknown
+        case standAlone
+        case merge
+    }
+}
+
+fileprivate enum MenuBuilderInstruction {
+    case elementBefore(UIMenu.Identifier, UIMenuElement)
+    case elementAfter(UIMenu.Identifier, UIMenuElement)
+    case childBefore(UIMenu.Identifier, UIMenu)
+    case childAfter(UIMenu.Identifier, UIMenu)
+    case siblingBefore(UIMenu.Identifier, UIMenu)
+    case siblingAfter(UIMenu.Identifier, UIMenu)
+    case replace(UIMenu.Identifier, [UIMenuElement])
 }
 
 struct KeyCommandID: Hashable {

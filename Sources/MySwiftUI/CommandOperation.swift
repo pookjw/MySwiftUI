@@ -57,7 +57,7 @@ public struct CommandGroupPlacement: Sendable {
     static let openItem = CommandGroupPlacement(Text(verbatim: "Open Item"))
     
     private let name: Text
-    private let id: UUID
+    let id: UUID
     
     @inline(__always)
     fileprivate init(_ name: Text) {
@@ -239,19 +239,56 @@ public struct _ResolvedCommands {
             )
         ]
         
-        // <+3872>
-        assertUnimplemented()
+        // <+3880>
+        let templates_4: [MainMenuItem.Template] = templates_1 + templates_2 + templates_3
+        
+        // <+4108>
+        var items: [MainMenuItem] = []
+        
+        for template in templates_4 {
+            var results: [CommandAccumulator.Result] = []
+            for placement in template.expectedPlacements {
+                if let accumulator = storage[HashableCommandGroupPlacementWrapper(placement: placement)] {
+                    results.append(accumulator.result)
+                }
+            }
+            
+            // <+4732>
+            guard !results.isEmpty || template.options.contains(.unknown0) else {
+                continue
+            }
+            
+            let item = MainMenuItem(
+                name: template.name,
+                id: template.id,
+                groups: results
+            )
+            
+            items.append(item)
+        }
+        
+        // <+5236>
+        return items
     }
 }
 
 extension _ResolvedCommands: Sendable {}
 
 struct HashableCommandGroupPlacementWrapper: Hashable {
-    // TODO
+    fileprivate private(set) var placement: CommandGroupPlacement
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(placement.id)
+    }
+    
+    static func == (lhs: HashableCommandGroupPlacementWrapper, rhs: HashableCommandGroupPlacementWrapper) -> Bool {
+        return lhs.placement.id == rhs.placement.id
+    }
 }
 
 struct CommandAccumulator {
-    // TODO
+    fileprivate private(set) var result: CommandAccumulator.Result
+    private var updatedPlacements: Set<HashableCommandGroupPlacementWrapper>
 }
 
 extension CommandAccumulator {
@@ -261,9 +298,9 @@ extension CommandAccumulator {
 }
 
 struct MainMenuItem {
-    private var name: String
-    private var id: MainMenuItem.Identifier
-    private var groups: [CommandAccumulator.Result]
+    private(set) var name: String
+    fileprivate private(set) var id: MainMenuItem.Identifier
+    fileprivate private(set) var groups: [CommandAccumulator.Result]
 }
 
 extension MainMenuItem {
