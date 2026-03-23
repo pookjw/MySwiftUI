@@ -1102,6 +1102,30 @@ public final class ThreadSpecific<T> {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+@propertyWrapper
+public final class MutableBox<T> {
+  public var value: T {
+    get
+    set
+  }
+
+  public var wrappedValue: T {
+    get
+    set
+  }
+
+  public init(_ value: T)
+  public init(wrappedValue: T)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension _SwiftUICorePrivate.MutableBox: Swift.Equatable where T: Swift.Equatable {
+  public static func == (lhs: _SwiftUICorePrivate.MutableBox<T>, rhs: _SwiftUICorePrivate.MutableBox<T>) -> Swift.Bool
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 @_spi(SwiftUI)
 public final class ObservationCenter {
   public static var current: _SwiftUICorePrivate.ObservationCenter { get }
@@ -2179,4 +2203,12 @@ public struct SizingPreferences: Swift.Equatable, Swift.CustomStringConvertible 
   public var description: Swift.String {
     get
   }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum DebugReplaceableViewCount {
+  case counting(Swift.Int)
+  case uninitialized
+  case indeterminate
 }

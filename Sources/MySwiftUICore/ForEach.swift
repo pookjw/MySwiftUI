@@ -139,28 +139,52 @@ extension ForEach where Content: View {
     }
 }
 
+/*
+ SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>
+ inputs (SwiftUI._ViewListInputs) (0x10)
+ parentSubgraph (__C.AGSubgraphRef) (0x98)
+ info (Swift.Optional<AttributeGraph.Attribute<SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.Info>>) (0xa0)
+ list (Swift.Optional<AttributeGraph.Attribute<SwiftUI.ViewList>>) (0xa8)
+ view (Swift.Optional<SwiftUI.ForEach<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>>) (0xb0)
+ viewsPerElementCount (SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.ViewsPerElementCount) (0xe8)
+ viewCounts (Swift.Array<Swift.Int>) (0xf8)
+ viewCountStyle (SwiftUI._ViewList_IteratorStyle) (0x100)
+ items (Swift.Dictionary<Swift.Int, SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.Item>) (0x108)
+ edits (SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.(unknown context at $15391d80c).LazyEdits) (0x110)
+ lastTransaction (SwiftUI.TransactionID) (0x160)
+ firstInsertionOffset (Swift.Int) (0x168)
+ contentID (Swift.Int) (0x170)
+ seed (Swift.UInt32) (0x178)
+ createdAllItems (Swift.Bool) (0x17c)
+ evictionSeed (Swift.UInt32) (0x180)
+ pendingEviction (Swift.Bool) (0x184)
+ evictedIDs (Swift.Set<Swift.Int>) (0x188)
+ matchingStrategyCache (Swift.Dictionary<Swift.ObjectIdentifier, SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.(unknown context at $15391d72c).IDTypeMatchingStrategy>) (0x190)
+ */
+
 final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
-    private var inputs: _ViewListInputs?
-    private var parentSubgraph: Subgraph?
-    private var info: Attribute<ForEachState.Info>?
-    private var list: Attribute<ViewList>?
-    private var view: ForEach<Data, ID, Content>?
-    private var viewsPerElementCount: ForEachState.ViewsPerElementCount?
+    private var inputs: _ViewListInputs
+    private var parentSubgraph: Subgraph
+    private var info: Attribute<ForEachState.Info>? = nil
+    private var list: Attribute<ViewList>? = nil
+    private var view: ForEach<Data, ID, Content>? = nil
+    private var viewsPerElementCount: ForEachState.ViewsPerElementCount = .uninitialized
     private var viewCounts: [Int] = []
-    private var viewCountStyle: _ViewList_IteratorStyle?
-    private var items: [ID: ForEachState.Item] = [:]
-    private var edits: LazyEdits?
-    private var lastTransaction: TransactionID?
-    private var firstInsertionOffset: Int = 0
+    private var viewCountStyle = _ViewList_IteratorStyle(granularity: 1)
+    private var items: [ID: ForEachState.Item] = .init()
+    private var edits = ForEachState.LazyEdits()
+    private var lastTransaction = TransactionID()
+    private var firstInsertionOffset: Int = -1
     private var contentID: Int = 0
     private var seed: UInt32 = 0
     private var createdAllItems: Bool = false
     private var evictionSeed: UInt32 = 0
     private var pendingEviction: Bool = false
-    private var evictedIDs: Set<ID> = []
-    private var matchingStrategyCache: [ObjectIdentifier: IDTypeMatchingStrategy] = [:]
+    private var evictedIDs: Set<ID> = .init()
+    private var matchingStrategyCache: [ObjectIdentifier: IDTypeMatchingStrategy] = .init()
     
     init(inputs: _ViewListInputs) {
+        // <+500>
         assertUnimplemented()
     }
 }
@@ -187,6 +211,14 @@ extension ForEachState {
     fileprivate enum LazyEdits {
         case builder(ForEachState<Data, ID, Content>.EditsBuilder)
         case raw(ForEachState<Data, ID, Content>.Edits)
+        
+        init() {
+            assertUnimplemented()
+        }
+        
+        func finalized() -> ForEachState<Data, ID, Content>.Edits {
+            assertUnimplemented()
+        }
     }
     
     fileprivate struct EditsBuilder {
@@ -204,6 +236,11 @@ extension ForEachState {
     fileprivate struct Edits {
         private var removes: Set<ID>
         private var inserts: Set<ID>
+        
+        @inline(__always)
+        init(removes: Set<ID>, inserts: Set<ID>) {
+            assertUnimplemented()
+        }
     }
 }
 
