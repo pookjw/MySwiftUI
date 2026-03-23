@@ -24,9 +24,10 @@ struct PlatformItemListViewGraph {
         }
         
         // <+200>
-        if wasReadSinceLastUpdate || needsUpdate {
+        if needsUpdate || changed {
             // <+212>
             self.wasReadSinceLastUpdate = false
+            self.needsUpdate = false
             
             if
                 let delegate = graph.delegate,
