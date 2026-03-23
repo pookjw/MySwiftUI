@@ -5,6 +5,9 @@ private import Foundation
 public struct ForEach<Data, ID, Content> where Data: RandomAccessCollection, ID: Hashable {
     public var data: Data
     public var content: (Data.Element) -> Content
+    private var idGenerator: ForEach<Data, ID, Content>.IDGenerator
+    private var reuseID: KeyPath<Data.Element, Int>? = nil
+    private var obsoleteContentID: Int
 }
 
 @available(*, unavailable)
@@ -43,7 +46,7 @@ extension ForEach: View where Content: View {
         }
         
         // <+832>
-        let listRule = ForEachList<Data, ID, Content>.Init(info: stateAttribute, seed: 0)
+        let listRule = ForEachList<Data, ID, Content>.Init(_info: stateAttribute, seed: 0)
         let listAttribute = Attribute(listRule)
         let outputs = _ViewListOutputs(
             .dynamicList(listAttribute, nil),
@@ -89,7 +92,7 @@ extension ForEach where ID == Data.Element.ID, Content: View, Data.Element: Iden
 
 extension ForEach where Content: View {
     public init(_ data: Data, id: KeyPath<Data.Element, ID>, @ViewBuilder content: @escaping (Data.Element) -> Content) {
-        assertUnimplemented()
+        self.init(data, idGenerator: .keyPath(id), content: content)
     }
 }
 
@@ -162,6 +165,20 @@ extension ForEach where Content: View {
     }
 }
 
+extension ForEach {
+    init(_ data: Data, idGenerator: ForEach<Data, ID, Content>.IDGenerator, content: @escaping (Data.Element) -> Content) {
+        self.data = data
+        self.idGenerator = idGenerator
+        self.content = content
+        
+        if isLinkedOnOrAfter(.v6) {
+            self.obsoleteContentID = 0
+        } else {
+            self.obsoleteContentID = AGMakeUniqueID()
+        }
+    }
+}
+
 final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
     private var inputs: _ViewListInputs
     private var parentSubgraph: Subgraph
@@ -187,6 +204,36 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
         // <+500>
         self.inputs = inputs
         self.parentSubgraph = .current!
+    }
+    
+    func invalidateViewCounts() {
+        assertUnimplemented()
+    }
+    
+    func update(view: ForEach<Data, ID, Content>) {
+        /*
+         self -> x20 -> x26
+         view -> x0 -> x19 + 0xe8
+         */
+        // <+1112>
+        guard self.parentSubgraph.isValid else {
+            return
+        }
+        
+        self.contentID = AGMakeUniqueID()
+        self.evictionSeed &+= 1
+        self.invalidateViewCounts()
+        
+        // <+1192>
+        if self.view != nil {
+            // <+1320>
+            assertUnimplemented()
+        } else {
+            // <+1404>
+            assertUnimplemented()
+        }
+        
+        assertUnimplemented()
     }
 }
 
@@ -240,7 +287,7 @@ extension ForEachState {
     }
     
     struct Info {
-        private var state: ForEachState<Data, ID, Content>
+        fileprivate private(set) var state: ForEachState<Data, ID, Content>
         private var seed: UInt32
     }
     
@@ -266,7 +313,10 @@ extension ForEachState.Info {
         }
         
         var value: ForEachState.Info {
-            assertUnimplemented()
+            let state = self.state
+            state.update(view: self.view)
+            
+            return ForEachState.Info(state: state, seed: state.seed)
         }
     }
 }
@@ -349,17 +399,23 @@ fileprivate struct ForEachList<Data: RandomAccessCollection, ID: Hashable, Conte
 
 extension ForEachList {
     struct Init: StatefulRule, AsyncAttribute, CustomStringConvertible {
-        @Attribute private(set) var info: ForEachState<Data, ID, Content>.Info
-        private(set) var seed: UInt32
+        fileprivate private(set) var _info: Attribute<ForEachState<Data, ID, Content>.Info>
+        fileprivate private(set) var seed: UInt32
         
         var description: String {
             assertUnimplemented()
         }
         
+        var info: ForEachState<Data, ID, Content>.Info {
+            return _info.value
+        }
+        
         typealias Value = any ViewList
         
         func updateValue() {
-            assertUnimplemented()
+            self.info.state.invalidateViewCounts()
+            let list = ForEachList(state: self.info.state, seed: self.seed)
+            self.value = list
         }
     }
 }

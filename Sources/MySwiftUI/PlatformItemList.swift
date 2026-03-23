@@ -394,7 +394,7 @@ extension PlatformItemListDynamicHiddenRepresentable {
 }
 
 struct PlatformItemListTransformModifier<T: PlatformItemListFlags>: PrimitiveViewModifier, MultiViewModifier {
-    private(set) var transform: (inout PlatformItemList) -> ()
+    private(set) var transform: (inout PlatformItemList) -> Void
     
     static nonisolated func _makeView(modifier: _GraphValue<PlatformItemListTransformModifier<T>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         // <+188>
@@ -410,7 +410,7 @@ struct PlatformItemListTransformModifier<T: PlatformItemListFlags>: PrimitiveVie
             // <+368>
             let modifierAttribute = modifier.value
             let platformItemList = outputs[PlatformItemList.Key.self]
-            let transformRule = PlatformItemListTransformModifier.Transform(modifier: modifierAttribute, list: OptionalAttribute(platformItemList))
+            let transformRule = PlatformItemListTransformModifier.Transform(modifier: modifierAttribute, _list: OptionalAttribute(platformItemList))
             let transformAttribute = Attribute(transformRule)
             
             outputs[PlatformItemList.Key.self] = transformAttribute
@@ -424,10 +424,16 @@ struct PlatformItemListTransformModifier<T: PlatformItemListFlags>: PrimitiveVie
 extension PlatformItemListTransformModifier {
     fileprivate struct Transform: Rule {
         @Attribute private(set) var modifier: PlatformItemListTransformModifier<T>
-        @OptionalAttribute var list: PlatformItemList?
+        private(set) var _list: OptionalAttribute<PlatformItemList>
+        
+        var list: PlatformItemList? {
+            return _list.wrappedValue
+        }
         
         var value: PlatformItemList {
-            assertUnimplemented()
+            var list = self.list ?? PlatformItemList(items: [])
+            self.modifier.transform(&list)
+            return list
         }
     }
 }
