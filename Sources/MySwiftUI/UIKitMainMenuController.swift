@@ -142,20 +142,43 @@ extension UIKitMainMenuController: AppGraphObserver {
 }
 
 fileprivate final class MainMenuItemCoordinator {
-    private(set) var menuHost: MainMenuItemHost
-    private var builderContext = MenuBuilderContext()
-    private var instructions: [MenuBuilderInstruction] = []
-    private var needsUpdate: Bool = true
+    private(set) var menuHost: MainMenuItemHost // 0x10
+    private var builderContext = MenuBuilderContext() // 0x18
+    private var instructions: [MenuBuilderInstruction] = [] // 0x40
+    private var needsUpdate: Bool = true // 0x48
     
     init(_ item: MainMenuItem, environment: EnvironmentValues) {
-        self.menuHost = MainMenuItemHost(item, environment: environment, focusedValues: FocusedValues(), focusStore: FocusStore())
+        let menuHost = MainMenuItemHost(item, environment: environment, focusedValues: FocusedValues(), focusStore: FocusStore())
+        self.menuHost = menuHost
+        menuHost.delegate = self
     }
     
     func updateIfNeeded() {
+        // self -> x20
+        // <+216>
+        guard self.needsUpdate else {
+            return
+        }
+        
+        self.needsUpdate = false
+        self.menuHost.viewGraph.requestedOutputs.formUnion(.platformItemList)
+        
+        // <+480>
+        self.menuHost.render(interval: 0, updateDisplayList: false, targetTimestamp: nil)
+        
+        // <+644>
+        // inlined
+        let platformItemList = self.menuHost.platformItemList
         assertUnimplemented()
     }
     
     // TODO
+}
+
+extension MainMenuItemCoordinator: MainMenuItemHostDelegate {
+    func menuHostDidChangeMenuItems(_ host: MainMenuItemHost) {
+        updateIfNeeded()
+    }
 }
 
 extension MenuBuilderContext {

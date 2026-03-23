@@ -13,7 +13,7 @@ final class MainMenuItemHost {
     private var environment: EnvironmentValues // 0x60
     var focusedValues: FocusedValues // 0x70
     private var focusStore: FocusStore // 0x90
-    private unowned var delegate: (any MainMenuItemHostDelegate)? = nil // 0xa8
+    unowned var delegate: (any MainMenuItemHostDelegate)? = nil // 0xa8
     
     init(_ item: MainMenuItem, environment: EnvironmentValues, focusedValues: FocusedValues, focusStore: FocusStore) {
         /*
@@ -38,7 +38,7 @@ final class MainMenuItemHost {
         viewGraph.append(feature: focusViewGraph)
         
         // <+792>
-        let flatformItemListViewGraph = PlatformItemListViewGraph.init()
+        let flatformItemListViewGraph = PlatformItemListViewGraph()
         viewGraph.append(feature: flatformItemListViewGraph)
         viewGraph.append(feature: MainMenuItemViewGraph())
         
@@ -58,7 +58,10 @@ final class MainMenuItemHost {
 
 extension MainMenuItemHost: ViewGraphRootValueUpdater {
     func updateRootView() {
-        assertUnimplemented()
+        let rootView = MainMenuItemHost.RootView(
+            itemContent: MainMenuItem.Content(item: mainMenuItem)
+        )
+        viewGraph.setRootView(rootView)
     }
     
     func updateEnvironment() {
@@ -92,7 +95,14 @@ extension MainMenuItemHost: ViewGraphRootValueUpdater {
     }
     
     func requestUpdate(after time: Double) {
-        assertUnimplemented()
+        self.updateViewGraph { graph in
+            // $s7SwiftUI16MainMenuItemHostC13requestUpdate5afterySd_tFyAA9ViewGraphCXEfU_TA
+            if let delegate {
+                delegate.menuHostDidChangeMenuItems(self)
+            }
+            
+            graph.updatePreferences()
+        }
     }
     
     func beginTransaction() {
@@ -103,26 +113,38 @@ extension MainMenuItemHost: ViewGraphRootValueUpdater {
 extension MainMenuItemHost: ViewGraphOwner {
 }
 
+extension MainMenuItemHost: ViewRendererHost {
+}
+
 extension MainMenuItemHost {
     struct RootView: View {
         fileprivate private(set) var itemContent: MainMenuItem.Content
         
-        var body: some View {
-            assertUnimplemented()
+        typealias Body = ModifiedContent<MainMenuItem.Content, PlatformItemListTransformModifier<AllPlatformItemListFlags>>
+        
+        var body: Body {
+            ModifiedContent(
+                content: itemContent,
+                modifier: PlatformItemListTransformModifier<AllPlatformItemListFlags>(
+                    transform: { list in
+                        assertUnimplemented()
+                    }
+                )
+            )
         }
     }
 }
 
 protocol MainMenuItemHostDelegate: AnyObject {
-    // TODO
+    func menuHostDidChangeMenuItems(_ host: MainMenuItemHost)
 }
 
 struct MenuBuilderContext {
-    private var placementKind: MenuBuilderContext.PlacementKind = .unknown
-    private var keyCommandMap: [KeyCommandID : () -> Void] = [:]
-    private var placementMap = MenuBuilderContext.PlacementMap()
-    private var menuElements: [UIMenuElement] = []
-    private var operationMap: [UIMenuElement: CommandOperation] = [:]
+    private var placementKind: MenuBuilderContext.PlacementKind = .unknown // 0x0
+    private var keyCommandMap: [KeyCommandID : () -> Void] = [:] // 0x8
+    private var placementMap = MenuBuilderContext.PlacementMap() // 0x10
+    private var menuElements: [UIMenuElement] = [] // 0x18
+    private var operationMap: [UIMenuElement: CommandOperation] = [:] // 0x20
 }
 
 fileprivate struct MainMenuItemViewGraph: ViewGraphFeature {
@@ -136,8 +158,15 @@ struct MainMenuItem: Sendable {
 }
 
 extension MainMenuItem {
-    struct Content: Sendable {
+    struct Content: View {
         fileprivate private(set) var item: MainMenuItem
+        
+        var body: some View {
+            ForEach(item.groups.indices, id: \.self) { index in
+                // $s7SwiftUI12MainMenuItemV7ContentV4bodyQrvgAA7AnyViewVSicfU_TA
+                AnyView(assertUnimplemented())
+            }
+        }
     }
     
     enum Identifier {

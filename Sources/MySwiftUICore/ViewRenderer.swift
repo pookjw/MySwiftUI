@@ -1,10 +1,17 @@
 // 76C8A4B3FC8EE0F99045B3425CD62255
 
 package protocol ViewRendererHost: ViewGraphOwner, ViewGraphRootValueUpdater {
-    
 }
 
 extension ViewRendererHost {
+    package func updateViewGraph<T>(body: (ViewGraph) -> T) -> T {
+        Update.begin()
+        self.updateGraph()
+        let result = body(self.viewGraph)
+        Update.end()
+        return result
+    }
+    
     package func preferenceValue<T: HostPreferenceKey>(_ type: T.Type) -> T.Value {
         assertUnimplemented()
     }

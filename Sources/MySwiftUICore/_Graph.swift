@@ -1,6 +1,5 @@
-
 public struct _Graph {
-    init() {}
+    package init() {}
 }
 
 @available(*, unavailable)

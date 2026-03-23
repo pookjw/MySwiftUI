@@ -1,17 +1,5 @@
 internal import MySwiftUICore
 
-extension _ViewInputs {
-    func addPlatformItemListKey<T: PlatformItemListFlags>(flags: T.Type, editOperation: PlatformItemListFlagsSet.EditOperation?) {
-        assertUnimplemented()
-    }
-    
-    mutating func makeRootAccessibilityRelationshipScope() {
-        if unsafe self[AccessibilityRelationshipScope.self] == nil {
-            unsafe self[AccessibilityRelationshipScope.self] = AccessibilityRelationshipScope()
-        }
-    }
-}
-
 protocol PlatformItemListFlags {
     static var flags: PlatformItemListFlagsSet {
         get

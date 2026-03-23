@@ -41,7 +41,13 @@ package final class ViewGraph: GraphHost {
     @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
     package var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
     package internal(set) var accessibilityEnabled = false
-    package private(set) var requestedOutputs: ViewGraph.Outputs
+    package var requestedOutputs: ViewGraph.Outputs {
+        didSet {
+            if requestedOutputs != oldValue {
+                uninstantiate(immediately: false)
+            }
+        }
+    }
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
     private var mainUpdates: Int = 0
     private(set) var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())

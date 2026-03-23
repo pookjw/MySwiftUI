@@ -264,6 +264,14 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         data.invalidate()
     }
     
+    final func uninstantiate() {
+        uninstantiate(immediately: false)
+    }
+    
+    final func uninstantiate(immediately: Bool) {
+        assertUnimplemented()
+    }
+    
     package func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
         return .view
     }

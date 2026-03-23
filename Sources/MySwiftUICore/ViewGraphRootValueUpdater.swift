@@ -171,6 +171,7 @@ extension ViewGraphRootValueUpdater {
         }
         
         Update.locked {
+            // $s7SwiftUI25ViewGraphRootValueUpdaterPAAE20invalidateProperties_14mayDeferUpdateyAA0cdE6ValuesV_SbtFyyXEfU_
             /*
              values = x26
              mayDeferUpdate = x27

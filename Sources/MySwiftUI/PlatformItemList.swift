@@ -1,8 +1,7 @@
 // CE84B1BFBEAEAB6361605407E54625A3
-
 internal import AttributeGraph
 private import Foundation
-private import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import ObjectiveC
 
 struct PlatformItemListViewGraph {
@@ -10,7 +9,8 @@ struct PlatformItemListViewGraph {
     private var wasReadSinceLastUpdate: Bool = false
     private var needsUpdate: Bool = false
     
-    private func readAndUpdate(graph: ViewGraph) {
+    @discardableResult
+    fileprivate func readAndUpdate(graph: ViewGraph) -> PlatformItemList {
         assertUnimplemented()
     }
 }
@@ -188,5 +188,202 @@ extension PlatformItemList.Item {
 struct AllPlatformItemListFlags: PlatformItemListFlags {
     static var flags: PlatformItemListFlagsSet {
         return PlatformItemListFlagsSet(rawValue: .max)
+    }
+}
+
+extension ViewRendererHost {
+    var platformItemList: PlatformItemList {
+        return self.updateViewGraph { graph in
+            // $s7SwiftUI16ViewRendererHostPAAE16platformItemListAA08PlatformgH0VvgAfA0C5GraphCXEfU_
+            Update.assertIsActive()
+            graph.instantiateIfNeeded()
+            
+            guard let platformItemListViewGraph = graph[PlatformItemListViewGraph.self] else {
+                return PlatformItemList(items: [])
+            }
+            
+            return platformItemListViewGraph.pointee.readAndUpdate(graph: graph)
+        }
+    }
+}
+
+extension _ViewInputs {
+    @_specialize(exported: false, where T == AllPlatformItemListFlags)
+//    @_specialize(exported: false, where T == LabelPlatformItemListFlags)
+//    @_specialize(exported: false, where T == TextPlatformItemListFlags)
+//    @_specialize(exported: false, where T == WidgetMetadataPlatformItemListFlags)
+    mutating func addPlatformItemListKey<T: PlatformItemListFlags>(flags: T.Type, editOperation: PlatformItemListFlagsSet.EditOperation?) {
+        self.preferences.add(PlatformItemList.Key.self)
+        
+        self.requestedTextRepresentation = PlatformItemListTextRepresentable.self
+        self.requestedImageRepresentation = PlatformItemListImageRepresentable.self
+        self.requestedNamedImageRepresentation = PlatformItemListNamedImageRepresentable.self
+        self.requestedSpacerRepresentation = PlatformItemListSpacerRepresentable.self
+        
+        // inlined
+        self.requestedDividerRepresentation = PlatformItemListDividerRepresentable.self
+        
+        // inlined
+        self.requestedViewThatFitsRepresentation = PlatformItemListViewThatFitsRepresentable.self
+        
+        self.requestedHiddenRepresentation = PlatformItemListHiddenRepresentable.self
+        
+        // inlined
+        self.requestedDynamicHiddenRepresentation = PlatformItemListDynamicHiddenRepresentable.self
+        
+        // <+440>
+        if let editOperation {
+            switch editOperation {
+            case .unknown0:
+                // <+460>
+                self[PlatformItemListFlagsInput.self] = []
+            case .unknown1:
+                // <+520>
+                self[PlatformItemListFlagsInput.self].formUnion(T.flags)
+            }
+        }
+    }
+    
+    mutating func makeRootAccessibilityRelationshipScope() {
+        if unsafe self[AccessibilityRelationshipScope.self] == nil {
+            unsafe self[AccessibilityRelationshipScope.self] = AccessibilityRelationshipScope()
+        }
+    }
+}
+
+struct PlatformItemListTextRepresentable: PlatformTextRepresentable {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func representationOptions(inputs: MySwiftUICore._ViewInputs) -> MySwiftUICore.PlatformTextRepresentationOptions {
+        assertUnimplemented()
+    }
+    
+    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, context: AttributeGraph.Attribute<MySwiftUICore.PlatformTextRepresentableContext>, outputs: inout MySwiftUICore._ViewOutputs) {
+        assertUnimplemented()
+    }
+}
+
+extension PlatformItemListTextRepresentable {
+    fileprivate struct PlatformRepresentation {
+        @Attribute private var context: PlatformTextRepresentableContext
+    }
+}
+
+struct PlatformItemListImageRepresentable: PlatformImageRepresentable {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, context: AttributeGraph.Attribute<MySwiftUICore.PlatformImageRepresentableContext>, outputs: inout MySwiftUICore._ViewOutputs) {
+        assertUnimplemented()
+    }
+}
+
+extension PlatformItemListImageRepresentable {
+    fileprivate struct PlatformRepresentation {
+        @Attribute private var context: PlatformImageRepresentableContext
+    }
+}
+
+struct PlatformItemListNamedImageRepresentable: PlatformNamedImageRepresentable {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, context: AttributeGraph.Attribute<MySwiftUICore.PlatformNamedImageRepresentableContext>, outputs: inout MySwiftUICore._ViewOutputs) {
+        assertUnimplemented()
+    }
+}
+
+extension PlatformItemListNamedImageRepresentable {
+    fileprivate struct NamedResolvedRule {
+        @Attribute private var context: Attribute<PlatformNamedImageRepresentableContext>
+    }
+}
+
+struct PlatformItemListSpacerRepresentable: PlatformSpacerRepresentable {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, outputs: inout MySwiftUICore._ViewOutputs) {
+        assertUnimplemented()
+    }
+}
+
+struct PlatformItemListDividerRepresentable: PlatformDividerRepresentable {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, outputs: inout MySwiftUICore._ViewOutputs) {
+        assertUnimplemented()
+    }
+}
+
+struct PlatformItemListViewThatFitsRepresentable: PlatformViewThatFitsRepresentable {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, state: SizeFittingState, outputs: inout MySwiftUICore._ViewOutputs) {
+        assertUnimplemented()
+    }
+}
+
+extension PlatformItemListViewThatFitsRepresentable {
+    fileprivate struct FittingChildrenPlatformItemList {
+        private let state: SizeFittingState
+    }
+}
+
+struct PlatformItemListHiddenRepresentable: PlatformHiddenRepresentable {
+    static func makeRepresentation(inputs: inout MySwiftUICore._ViewInputs, allowedKeys: MySwiftUICore.AllowedPreferenceKeysWhileHidden) {
+        assertUnimplemented()
+    }
+}
+
+struct PlatformItemListDynamicHiddenRepresentable: PlatformDynamicHiddenRepresentable  {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, modifier: AttributeGraph.Attribute<DynamicHiddenModifier>, outputs: inout MySwiftUICore._ViewOutputs) {
+        assertUnimplemented()
+    }
+}
+
+extension PlatformItemListDynamicHiddenRepresentable {
+    fileprivate struct PlatformItemListTransform {
+        // TODO
+    }
+}
+
+struct PlatformItemListTransformModifier<T: PlatformItemListFlags>: PrimitiveViewModifier, MultiViewModifier {
+    private(set) var transform: (inout PlatformItemList) -> ()
+    
+    static nonisolated func _makeView(modifier: _GraphValue<PlatformItemListTransformModifier<T>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        // <+188>
+        // x22
+        let outputs = body(_Graph(), inputs)
+        // x29 - 0x60
+        let platformItemListFlags = inputs[PlatformItemListFlagsInput.self]
+        
+        if (T.flags.rawValue & ~platformItemListFlags.rawValue) == 0 {
+            // <+304>
+            assertUnimplemented()
+        }
+        
+        // <+660>
+        assertUnimplemented()
+    }
+}
+
+extension PlatformItemListTransformModifier {
+    fileprivate struct Transform {
+        @Attribute private var modifier: PlatformItemListTransformModifier<T>
+        @OptionalAttribute private var list: PlatformItemList?
     }
 }
