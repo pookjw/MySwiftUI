@@ -367,23 +367,35 @@ struct PlatformItemListTransformModifier<T: PlatformItemListFlags>: PrimitiveVie
     static nonisolated func _makeView(modifier: _GraphValue<PlatformItemListTransformModifier<T>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         // <+188>
         // x22
-        let outputs = body(_Graph(), inputs)
+        var outputs = body(_Graph(), inputs)
         // x29 - 0x60
         let platformItemListFlags = inputs[PlatformItemListFlagsInput.self]
         
-        if (T.flags.rawValue & ~platformItemListFlags.rawValue) == 0 {
-            // <+304>
-            assertUnimplemented()
+        if
+            ((T.flags.rawValue & ~platformItemListFlags.rawValue) == 0) &&
+                inputs.preferences.contains(PlatformItemList.Key.self)
+        {
+            // <+368>
+            let modifierAttribute = modifier.value
+            let platformItemList = outputs[PlatformItemList.Key.self]
+            let transformRule = PlatformItemListTransformModifier.Transform(modifier: modifierAttribute, list: OptionalAttribute(platformItemList))
+            let transformAttribute = Attribute(transformRule)
+            
+            outputs[PlatformItemList.Key.self] = transformAttribute
         }
         
         // <+660>
-        assertUnimplemented()
+        return outputs
     }
 }
 
 extension PlatformItemListTransformModifier {
-    fileprivate struct Transform {
-        @Attribute private var modifier: PlatformItemListTransformModifier<T>
-        @OptionalAttribute private var list: PlatformItemList?
+    fileprivate struct Transform: Rule {
+        @Attribute private(set) var modifier: PlatformItemListTransformModifier<T>
+        @OptionalAttribute var list: PlatformItemList?
+        
+        var value: PlatformItemList {
+            assertUnimplemented()
+        }
     }
 }

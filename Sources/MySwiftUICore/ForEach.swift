@@ -24,11 +24,34 @@ extension ForEach: View where Content: View {
     
     nonisolated public static func _makeViewList(view: _GraphValue<ForEach<Data, ID, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
         let state = ForEachState<Data, ID, Content>(inputs: inputs)
-        let rule = ForEachState<Data, ID, Content>.Info.Init(view: view.value, state: state)
+        let stateRule = ForEachState<Data, ID, Content>.Info.Init(view: view.value, state: state)
+        let stateAttribute = Attribute(stateRule)
+        state.info = stateAttribute
         
         let existing = inputs.base[ForEachEvictionInput.self]
         
-        assertUnimplemented()
+        if (existing != WeakAttribute()) || ForEachEvictionInput.evictByDefault {
+            // <+552>
+            let evictor = ForEachState<Data, ID, Content>.Evictor(
+                state: state,
+                isEnabled: existing,
+                updateSeed: GraphHost.currentHost.data.$updateSeed
+            )
+            
+            let attribute = Attribute(evictor)
+            attribute.flags = .unknown1
+        }
+        
+        // <+832>
+        let listRule = ForEachList<Data, ID, Content>.Init(info: stateAttribute, seed: 0)
+        let listAttribute = Attribute(listRule)
+        let outputs = _ViewListOutputs(
+            .dynamicList(listAttribute, nil),
+            nextImplicitID: inputs.implicitID,
+            staticCount: nil
+        )
+        
+        return outputs
     }
 }
 
@@ -139,33 +162,10 @@ extension ForEach where Content: View {
     }
 }
 
-/*
- SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>
- inputs (SwiftUI._ViewListInputs) (0x10)
- parentSubgraph (__C.AGSubgraphRef) (0x98)
- info (Swift.Optional<AttributeGraph.Attribute<SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.Info>>) (0xa0)
- list (Swift.Optional<AttributeGraph.Attribute<SwiftUI.ViewList>>) (0xa8)
- view (Swift.Optional<SwiftUI.ForEach<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>>) (0xb0)
- viewsPerElementCount (SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.ViewsPerElementCount) (0xe8)
- viewCounts (Swift.Array<Swift.Int>) (0xf8)
- viewCountStyle (SwiftUI._ViewList_IteratorStyle) (0x100)
- items (Swift.Dictionary<Swift.Int, SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.Item>) (0x108)
- edits (SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.(unknown context at $15391d80c).LazyEdits) (0x110)
- lastTransaction (SwiftUI.TransactionID) (0x160)
- firstInsertionOffset (Swift.Int) (0x168)
- contentID (Swift.Int) (0x170)
- seed (Swift.UInt32) (0x178)
- createdAllItems (Swift.Bool) (0x17c)
- evictionSeed (Swift.UInt32) (0x180)
- pendingEviction (Swift.Bool) (0x184)
- evictedIDs (Swift.Set<Swift.Int>) (0x188)
- matchingStrategyCache (Swift.Dictionary<Swift.ObjectIdentifier, SwiftUI.ForEachState<Swift.Range<Swift.Int>, Swift.Int, SwiftUI.AnyView>.(unknown context at $15391d72c).IDTypeMatchingStrategy>) (0x190)
- */
-
 final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
     private var inputs: _ViewListInputs
     private var parentSubgraph: Subgraph
-    private var info: Attribute<ForEachState.Info>? = nil
+    fileprivate var info: Attribute<ForEachState.Info>? = nil
     private var list: Attribute<ViewList>? = nil
     private var view: ForEach<Data, ID, Content>? = nil
     private var viewsPerElementCount: ForEachState.ViewsPerElementCount = .uninitialized
@@ -185,7 +185,8 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
     
     init(inputs: _ViewListInputs) {
         // <+500>
-        assertUnimplemented()
+        self.inputs = inputs
+        self.parentSubgraph = .current!
     }
 }
 
@@ -213,7 +214,7 @@ extension ForEachState {
         case raw(ForEachState<Data, ID, Content>.Edits)
         
         init() {
-            assertUnimplemented()
+            self = .raw(ForEachState.Edits())
         }
         
         func finalized() -> ForEachState<Data, ID, Content>.Edits {
@@ -228,6 +229,16 @@ extension ForEachState {
         private var edits: ForEachState<Data, ID, Content>.Edits
     }
     
+    struct Evictor: Rule, AsyncAttribute {
+        fileprivate private(set) var state: ForEachState<Data, ID, Content>
+        @WeakAttribute var isEnabled: Bool?
+        @Attribute fileprivate private(set) var updateSeed: UInt32
+        
+        var value: Void {
+            assertUnimplemented()
+        }
+    }
+    
     struct Info {
         private var state: ForEachState<Data, ID, Content>
         private var seed: UInt32
@@ -238,8 +249,9 @@ extension ForEachState {
         private var inserts: Set<ID>
         
         @inline(__always)
-        init(removes: Set<ID>, inserts: Set<ID>) {
-            assertUnimplemented()
+        init(removes: Set<ID> = Set([]), inserts: Set<ID> = Set([])) {
+            self.removes = removes
+            self.inserts = inserts
         }
     }
 }
@@ -282,8 +294,72 @@ struct ForEachEvictionInput: GraphInput {
         return WeakAttribute()
     }
     
-    static let evictByDefault: Bool = {
-        // $s7SwiftUI20ForEachEvictionInputV14evictByDefault_WZ
+    // $s7SwiftUI20ForEachEvictionInputV14evictByDefault_WZ
+    static let evictByDefault: Bool = isLinkedOnOrAfter(.v6)
+}
+
+fileprivate struct ForEachList<Data: RandomAccessCollection, ID: Hashable, Content>: ViewList, CustomStringConvertible {
+    private(set) var state: ForEachState<Data, ID, Content>
+    private(set) var seed: UInt32
+    
+    var description: String {
         assertUnimplemented()
-    }()
+    }
+    
+    var traits: ViewTraitCollection {
+        assertUnimplemented()
+    }
+    
+    var traitKeys: ViewTraitKeys? {
+        assertUnimplemented()
+    }
+    
+    var viewIDs: _ViewList_ID_Views? {
+        assertUnimplemented()
+    }
+    
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
+        assertUnimplemented()
+    }
+    
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        assertUnimplemented()
+    }
+    
+    func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
+        assertUnimplemented()
+    }
+    
+    func print(into: inout SExpPrinter) {
+        assertUnimplemented()
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension ForEachList {
+    struct Init: StatefulRule, AsyncAttribute, CustomStringConvertible {
+        @Attribute private(set) var info: ForEachState<Data, ID, Content>.Info
+        private(set) var seed: UInt32
+        
+        var description: String {
+            assertUnimplemented()
+        }
+        
+        typealias Value = any ViewList
+        
+        func updateValue() {
+            assertUnimplemented()
+        }
+    }
 }

@@ -7,7 +7,7 @@
 
 @frozen
 @propertyWrapper
-public struct WeakAttribute<T> : Swift.Sendable {
+public struct WeakAttribute<T> : Swift.Sendable, Swift.Hashable, Swift.CustomStringConvertible {
     @_hasStorage
     public var base: AttributeGraph.AnyWeakAttribute {
         get
@@ -34,6 +34,10 @@ public struct WeakAttribute<T> : Swift.Sendable {
     public init(_: AttributeGraph.Attribute<T>?)
 
     public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)?
+
+    public static func == (lhs: AttributeGraph.WeakAttribute<T>, rhs: AttributeGraph.WeakAttribute<T>) -> Swift.Bool
+    public func hash(into: inout Swift.Hasher)
+    public var hashValue: Swift.Int { get }
 }
 
 @frozen
