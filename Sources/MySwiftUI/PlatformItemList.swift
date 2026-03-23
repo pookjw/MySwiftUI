@@ -19,6 +19,8 @@ struct PlatformItemListViewGraph {
             return PlatformItemList(items: [])
         }
         
+        self.wasReadSinceLastUpdate = true
+        
         if graph.data.isHiddenForReuse {
             list = PlatformItemList(items: [])
         }
