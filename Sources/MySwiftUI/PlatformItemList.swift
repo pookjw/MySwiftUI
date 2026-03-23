@@ -10,8 +10,37 @@ struct PlatformItemListViewGraph {
     private var needsUpdate: Bool = false
     
     @discardableResult
-    fileprivate func readAndUpdate(graph: ViewGraph) -> PlatformItemList {
-        assertUnimplemented()
+    fileprivate mutating func readAndUpdate(graph: ViewGraph) -> PlatformItemList {
+        /*
+         self -> x20 -> x19
+         graph -> x0 -> x22
+         */
+        guard var (list, changed) = rootList.changedValue(options: []) else {
+            return PlatformItemList(items: [])
+        }
+        
+        if graph.data.isHiddenForReuse {
+            list = PlatformItemList(items: [])
+        }
+        
+        // <+200>
+        if wasReadSinceLastUpdate || needsUpdate {
+            // <+212>
+            self.wasReadSinceLastUpdate = false
+            
+            if
+                let delegate = graph.delegate,
+                let casted = delegate.as(PlatformItemListHost.self)
+            {
+                casted.platformItemListDidChange { 
+                    // $s7SwiftUI25PlatformItemListViewGraphV13readAndUpdate33_5ABD7A14C7C58F4077FE3D37EE0D7F9DLL5graphAA0cdE0VAA0fG0C_tFAHyXEfU_TA
+                    assertUnimplemented()
+                }
+            }
+        }
+        
+        // <+384>
+        return list
     }
 }
 
@@ -65,7 +94,7 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
         return true
     }
     
-    func update(graph: ViewGraph) {
+    mutating func update(graph: ViewGraph) {
         guard needsUpdate else {
             return
         }

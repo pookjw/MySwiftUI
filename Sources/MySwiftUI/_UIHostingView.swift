@@ -1998,7 +1998,9 @@ extension _UIHostingView: FocusBridgeProvider {
 }
 
 extension _UIHostingView: PlatformItemListHost {
-    
+    func platformItemListDidChange(list: () -> PlatformItemList) {
+        assertUnimplemented()
+    }
 }
 
 extension _UIHostingView: AccessibilityHost {

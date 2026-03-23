@@ -723,7 +723,7 @@ extension GraphHost {
         package private(set) var globalSubgraph: Subgraph
         package private(set) var rootSubgraph: Subgraph
         fileprivate var isRemoved: Bool
-        fileprivate(set) var isHiddenForReuse: Bool
+        package fileprivate(set) var isHiddenForReuse: Bool
         @Attribute var time: Time
         @Attribute var environment: EnvironmentValues
         @Attribute var phase: _GraphInputs.Phase
