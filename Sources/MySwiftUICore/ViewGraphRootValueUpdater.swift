@@ -286,13 +286,13 @@ extension ViewGraphRootValueUpdater {
                 self.updateFocusStore()
             }
             
-            if valuesNeedingUpdate.contains(.focustedItem) {
-                owner.valuesNeedingUpdate.subtract(.focustedItem)
+            if valuesNeedingUpdate.contains(.focusedItem) {
+                owner.valuesNeedingUpdate.subtract(.focusedItem)
                 self.updateFocusedItem()
             }
             
-            if valuesNeedingUpdate.contains(.focustedValues) {
-                owner.valuesNeedingUpdate.subtract(.focustedValues)
+            if valuesNeedingUpdate.contains(.focusedValues) {
+                owner.valuesNeedingUpdate.subtract(.focusedValues)
                 self.updateFocusedValues()
             }
         }

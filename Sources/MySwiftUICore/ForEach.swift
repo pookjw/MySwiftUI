@@ -336,23 +336,42 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
             return true
         }
         
-        let _ = self.view!.data.endIndex
-        let _ = self.view!.data.startIndex
+        let endIndex = self.view!.data.endIndex
+        var startIndex = self.view!.data.startIndex
         
         if index < 1 {
             // <+896>
-            assertUnimplemented()
+            // <+1184>
         } else {
             // <+568>
-            if let _ = self.fetchViewsPerElement() {
+            if let i = self.fetchViewsPerElement() {
                 // <+856>
-                assertUnimplemented()
+                let applied = style.applyGranularity(to: i)
+                
+                if index >= applied {
+                    // <+908>
+                    assertUnimplemented()
+                } else {
+                    // <+1184>
+                }
             } else {
                 // <+588>
-                assertUnimplemented()
+                for count in viewCounts {
+                    assertUnimplemented()
+                }
+                // <+1172>
             }
         }
-        assertUnimplemented()
+        
+        // <+1184>
+        while startIndex != endIndex {
+            assertUnimplemented()
+        }
+        
+        // <+1400>
+        self.createdAllItems = true
+        // <+1504>
+        return true
     }
     
     func eraseItem(_ item: ForEachState<Data, ID, Content>.Item) {

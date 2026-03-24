@@ -7,8 +7,8 @@ package struct ViewGraphRootValues: OptionSet {
     package static var safeArea: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 4)) }
     package static var containerSize: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 5)) }
     package static var focusStore: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 6)) }
-    package static var focustedItem: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 7)) }
-    package static var focustedValues: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 8)) }
+    package static var focusedItem: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 7)) }
+    package static var focusedValues: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 8)) }
     
     package static var all: ViewGraphRootValues {
         return [
@@ -19,8 +19,8 @@ package struct ViewGraphRootValues: OptionSet {
             .safeArea,
             .containerSize,
             .focusStore,
-            .focustedItem,
-            .focustedValues
+            .focusedItem,
+            .focusedValues
         ]
     }
     

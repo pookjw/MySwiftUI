@@ -76,6 +76,8 @@ final class UIKitMainMenuController: UIResponder {
         // <+1356>
         var commands = _ResolvedCommands()
         rootCommandsList.resolveOperations(into: &commands)
+        // x29 - 0x80
+        var coordinators: [MainMenuItemCoordinator] = []
         // x29 - 0x38
         let mainMenuItems = commands.mainMenuItems(env: environment)
         
@@ -96,13 +98,20 @@ final class UIKitMainMenuController: UIResponder {
                 let oldFocusedValues = menuHost.focusedValues
                 menuHost.focusedValues = focusedValues
                 
-                // TODO
-                _ = oldFocusedValues.version
+                if oldFocusedValues.version != menuHost.focusedValues.version {
+                    menuHost.invalidateProperties([.focusedValues], mayDeferUpdate: true)
+                }
             }
-            assertUnimplemented()
+            
+            // <+2192>
+            coordinator.updateIfNeeded()
+            coordinators.append(coordinator)
+            self.resolveOptionalMenus(coordinator.instructions)
+            self.topLevelItemCoordinators[item.name] = coordinator
         }
         
         // <+2560>
+        // coordinators -> x19
         assertUnimplemented()
     }
     
@@ -129,6 +138,16 @@ final class UIKitMainMenuController: UIResponder {
             return true
         }
     }
+    
+    fileprivate func resolveOptionalMenus(_ instructions: [MenuBuilderInstruction]) {
+        /*
+         self -> x20 -> sp + 0x8
+         instructions -> sp + 0x10
+         */
+        let optionalMenus = self.optionalMenus
+        
+        assertUnimplemented()
+    }
 }
 
 extension UIKitMainMenuController: AppGraphObserver {
@@ -144,7 +163,7 @@ extension UIKitMainMenuController: AppGraphObserver {
 fileprivate final class MainMenuItemCoordinator {
     private(set) var menuHost: MainMenuItemHost // 0x10
     private var builderContext = MenuBuilderContext() // 0x18
-    private var instructions: [MenuBuilderInstruction] = [] // 0x40
+    fileprivate private(set) var instructions: [MenuBuilderInstruction] = [] // 0x40
     private var needsUpdate: Bool = true // 0x48
     
     init(_ item: MainMenuItem, environment: EnvironmentValues) {
@@ -168,7 +187,14 @@ fileprivate final class MainMenuItemCoordinator {
         
         // <+644>
         // inlined
-        let _ = self.menuHost.platformItemList
+        let platformItemList = self.menuHost.platformItemList
+        
+        // <+728>
+        guard !platformItemList.items.isEmpty else {
+            return
+        }
+        
+        // <+740>
         assertUnimplemented()
     }
     

@@ -275,7 +275,7 @@ public struct _ResolvedCommands {
 extension _ResolvedCommands: Sendable {}
 
 struct HashableCommandGroupPlacementWrapper: Hashable {
-    fileprivate private(set) var placement: CommandGroupPlacement
+    private(set) var placement: CommandGroupPlacement
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(placement.id)
@@ -287,8 +287,8 @@ struct HashableCommandGroupPlacementWrapper: Hashable {
 }
 
 struct CommandAccumulator {
-    fileprivate private(set) var result: CommandAccumulator.Result
-    private var updatedPlacements: Set<HashableCommandGroupPlacementWrapper>
+    private(set) var result: CommandAccumulator.Result
+    private(set) var updatedPlacements: Set<HashableCommandGroupPlacementWrapper>
 }
 
 extension CommandAccumulator {

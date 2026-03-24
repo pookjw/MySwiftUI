@@ -25,11 +25,11 @@ struct FocusViewGraph {
         
         if graph.requestedOutputs.isSuperset(of: .focus) {
             let focustedItemAttribute = Attribute<FocusItem?>(value: nil)
-            CustomEventTrace.recordNamedProperty(.focustedItem, focustedItemAttribute)
+            CustomEventTrace.recordNamedProperty(.focusedItem, focustedItemAttribute)
             focusedItem = OptionalAttribute(focustedItemAttribute)
             
             let focusedValuesAttribute = Attribute(value: FocusedValues())
-            CustomEventTrace.recordNamedProperty(.focustedValues, focusedValuesAttribute)
+            CustomEventTrace.recordNamedProperty(.focusedValues, focusedValuesAttribute)
             focusedValues = OptionalAttribute(focusedValuesAttribute)
             
             let focusStoreAttribute = Attribute(value: FocusStore())

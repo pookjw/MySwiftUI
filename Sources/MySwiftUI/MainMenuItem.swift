@@ -127,7 +127,10 @@ extension MainMenuItemHost {
                 content: itemContent,
                 modifier: PlatformItemListTransformModifier<AllPlatformItemListFlags>(
                     transform: { list in
-                        assertUnimplemented()
+                        // $s7SwiftUI16MainMenuItemHostC8RootViewV4bodyQrvgyAA08PlatformE4ListVzcfU_
+                        for group in itemContent.item.groups {
+                            assertUnimplemented()
+                        }
                     }
                 )
             )

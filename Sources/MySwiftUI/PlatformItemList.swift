@@ -109,7 +109,7 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
 }
 
 struct PlatformItemList {
-    fileprivate var items: [PlatformItemList.Item]
+    private(set) var items: [PlatformItemList.Item]
 }
 
 extension PlatformItemList {
