@@ -261,6 +261,143 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
         
         assertUnimplemented()
     }
+    
+    func appendViewIDs<V: ViewList>(into accumulator: inout HeterogeneousViewIDsAccumulator, viewList: V) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func appendViewIDsForSingleChildView<V: Hashable>(
+        into accumulator: inout HeterogeneousViewIDsAccumulator,
+        explicitIDKeyPath: KeyPath<Data.Element, V>
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func appendViewIDsForSingleChildView(
+        into accumulator: inout HeterogeneousViewIDsAccumulator,
+        explicitIDOffsets: Range<Int>
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func appendViewIDsForMultipleChildren<V: Hashable>(
+        into accumulator: inout HeterogeneousViewIDsAccumulator,
+        childViewIndices: Range<Int32>,
+        explicitIDKeyPath: KeyPath<Data.Element, V>
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func appendViewIDsForMultipleChildren(
+        into accumulator: inout HeterogeneousViewIDsAccumulator,
+        childViewIndices: Range<Int32>,
+        explicitIDOffsets: Range<Int>
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func appendViewIDsForMultipleChildren<V: Hashable>(
+        into accumulator: inout HeterogeneousViewIDsAccumulator,
+        childViews: [(index: Int32, implicitID: Int32)],
+        explicitIDKeyPath: KeyPath<Data.Element, V>
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func appendViewIDsForMultipleChildren(
+        into accumulator: inout HeterogeneousViewIDsAccumulator,
+        childViews: [(index: Int32, implicitID: Int32)],
+        explicitIDOffsets: Range<Int>
+    ) {
+        assertUnimplemented()
+    }
+    
+    func fetchViewsPerElement() -> Int? {
+        assertUnimplemented()
+    }
+    
+    var context: AnyRuleContext {
+        assertUnimplemented()
+    }
+    
+    func forEachItem(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        do body: (inout Int, _ViewList_IteratorStyle, ForEachState<Data, ID, Content>.Item) -> Bool
+    ) -> Bool {
+        /*
+         self -> x20 -> x19
+         index -> x0 -> x29 - 0xb0
+         style -> x1 -> x20 -> x29 - 0xc0
+         body -> x2/x3 -> x29 - 0xd8 / x29 - 0xd0
+         */
+        // <+256>
+        guard self.parentSubgraph.isValid else {
+            return true
+        }
+        
+        let endIndex = self.view!.data.endIndex
+        let startIndex = self.view!.data.startIndex
+        
+        if index < 1 {
+            // <+896>
+            assertUnimplemented()
+        } else {
+            // <+568>
+            if let element = self.fetchViewsPerElement() {
+                // <+856>
+                assertUnimplemented()
+            } else {
+                // <+588>
+                assertUnimplemented()
+            }
+        }
+        assertUnimplemented()
+    }
+    
+    func eraseItem(_ item: ForEachState<Data, ID, Content>.Item) {
+        assertUnimplemented()
+    }
+    
+    func item(at index: Data.Index, offset: Int) -> ForEachState<Data, ID, Content>.Item {
+        assertUnimplemented()
+    }
+    
+    func uneraseItem(_ item: ForEachState<Data, ID, Content>.Item) {
+        assertUnimplemented()
+    }
+    
+    func evictItems(seed: UInt32) {
+        assertUnimplemented()
+    }
+    
+    var traitKeys: ViewTraitKeys? {
+        assertUnimplemented()
+    }
+    
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    var viewIDs: _ViewList_ID_Views? {
+        assertUnimplemented()
+    }
+    
+    func edit(forID id: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        assertUnimplemented()
+    }
+    
+    fileprivate func matchingStrategy<T: Hashable>(for _: T.Type) -> ForEachState<Data, ID, Content>.IDTypeMatchingStrategy {
+        assertUnimplemented()
+    }
+    
+    func firstOffset<T: Hashable>(forID id: T, style: _ViewList_IteratorStyle) -> Int? {
+        assertUnimplemented()
+    }
 }
 
 extension ForEachState {
@@ -432,8 +569,11 @@ fileprivate struct ForEachList<Data: RandomAccessCollection, ID: Hashable, Conte
         assertUnimplemented()
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-        assertUnimplemented()
+    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        return self.state.forEachItem(from: &index, style: style) { index, style, state in
+            // $s7SwiftUI12ForEachStateC10applyNodes4from5style4list9transform2toSbSiz_AA23_ViewList_IteratorStyleV14AttributeGraph0Q0VyAA0mN0_pGSgAA01_mN26_TemporarySublistTransformVSbSiz_AkA01_mN5_NodeOAStXEtFSbSiz_AkC4ItemCyxq_q0__GtXEfU_TA
+            assertUnimplemented()
+        }
     }
 }
 
