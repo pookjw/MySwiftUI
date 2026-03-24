@@ -234,8 +234,13 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
             // <+1404>
             self.view = view
             
-            let lazyEdits = ForEachState.LazyEdits()
+            self.edits = ForEachState.LazyEdits()
             let editsBuilder = ForEachState.EditsBuilder(data: view.data, idGenerator: view.idGenerator)
+            
+            defer {
+                // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tF6$deferL_yySkRzSHR_AA4ViewR0_r1_lF
+                self.edits = .builder(editsBuilder)
+            }
             
             self.lastTransaction = TransactionID(graph: self.list!.identifier.graph)
             
@@ -247,11 +252,6 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
                 // <+2260>
                 // <+6612>
                 self.firstInsertionOffset = .max
-            }
-            
-            defer {
-                // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tF6$deferL_yySkRzSHR_AA4ViewR0_r1_lF
-                assertUnimplemented()
             }
             
             // <+6612>
