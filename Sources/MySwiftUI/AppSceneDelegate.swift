@@ -72,7 +72,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         guard let graph = AppGraph.shared else {
-            if let delegateClass = session.configuration.delegateClass as? UIHostingSceneDelegate.Type {
+            if let delegateClass = session.configuration.delegateClass as? any UIHostingSceneDelegate.Type {
                 // <+1384>
                 if let openScene = Log.openScene {
                     openScene.log(level: .debug, "Registering bridged scene delegate \(delegateClass) and connecting the graph")
@@ -102,7 +102,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             // <+3504>
         } else {
             // <+2104>
-            if let delegateClass = session.configuration as? UIHostingSceneDelegate.Type {
+            if let delegateClass = session.configuration as? any UIHostingSceneDelegate.Type {
                 if let openScene = Log.openScene {
                     openScene.log(level: .debug, "Using namespace from UISceneConfiguration's delegateClass: \(delegateClass)")
                 }
@@ -200,8 +200,8 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                 // <+5524>
                 if
                     let sceneDelegate = incomingConfiguration.sceneDelegate(),
-                    sceneDelegate is UIHostingSceneDelegate,
-                    let casted = delegateClass as? UIHostingSceneDelegate.Type
+                    sceneDelegate is any UIHostingSceneDelegate,
+                    let casted = delegateClass as? any UIHostingSceneDelegate.Type
                 {
                     // <+5584>
                     BridgedSceneCoordinator.shared.register(casted)

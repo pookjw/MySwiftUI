@@ -5,7 +5,7 @@ final class WindowLayoutHostProxy {
     fileprivate static nonisolated(unsafe) var layoutProxiesAwaitingConnection: [SceneID: WindowLayoutHostProxy] = [:]
     
     private var host: ViewRendererHost
-    private var viewType: View.Type
+    private var viewType: any View.Type
     
     init<Content: View>(rootView: Content) {
         assertUnimplemented()

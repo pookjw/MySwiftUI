@@ -9,7 +9,7 @@ package protocol StyleModifier: MultiViewModifier, PrimitiveViewModifier {
 }
 
 extension StyleModifier {
-    package nonisolated static func _makeViewList(modifier: _GraphValue<StyleModifier>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    package nonisolated static func _makeViewList(modifier: _GraphValue<any StyleModifier>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
@@ -17,7 +17,7 @@ extension StyleModifier {
         assertUnimplemented()
     }
     
-    package nonisolated static func _makeView(modifier: _GraphValue<StyleModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    package nonisolated static func _makeView(modifier: _GraphValue<any StyleModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
 }

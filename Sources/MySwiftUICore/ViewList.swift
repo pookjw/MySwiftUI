@@ -1576,11 +1576,11 @@ fileprivate struct MergedElements: _ViewList_Elements {
 fileprivate struct ModifiedElements: _ViewList_Elements {
     let base: _ViewList_Elements
     let modifier: AnyWeakAttribute
-    let modifierType: ViewModifier.Type
+    let modifierType: any ViewModifier.Type
     let baseInputs: _GraphInputs
     
     @inline(__always)
-    init(base: _ViewList_Elements, modifier: AnyWeakAttribute, modifierType: ViewModifier.Type, baseInputs: _GraphInputs) {
+    init(base: _ViewList_Elements, modifier: AnyWeakAttribute, modifierType: any ViewModifier.Type, baseInputs: _GraphInputs) {
         self.base = base
         self.modifier = modifier
         self.modifierType = modifierType

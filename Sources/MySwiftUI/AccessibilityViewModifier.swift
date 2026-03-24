@@ -19,7 +19,7 @@ extension AccessibilityViewModifier {
         assertUnimplemented()
     }
     
-    static nonisolated func _makeView(modifier: _GraphValue<AccessibilityViewModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    static nonisolated func _makeView(modifier: _GraphValue<any AccessibilityViewModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     

@@ -143,7 +143,7 @@ struct ConnectionOptionPayloadStoragePreferenceKey: HostPreferenceKey {
 }
 
 struct ConnectionOptionPayloadStorage {
-    private(set) var types: [UISceneConnectionOptionDefinition.Type] = []
+    private(set) var types: [any UISceneConnectionOptionDefinition.Type] = []
     private var actions: [ObjectIdentifier: [AnyConnectionOptionActionBox]] = .init()
 }
 
