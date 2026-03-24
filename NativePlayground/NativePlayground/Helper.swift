@@ -11,7 +11,7 @@ import ObjectiveC.message
 import _SwiftPrivate
 import AttributeGraph
 
-// (lldb) expr -l objc -O -- [(Class)NSClassFromString(@"Helper") dumpWithAttribute:$w25 resolveValue:YES]
+// (lldb) expr -l objc -O -- [(Class)NSClassFromString(@"Helper") dumpWithAttribute:$w25 resolveValue:NO]
 
 @objc(Helper)
 final class Helper: NSObject {

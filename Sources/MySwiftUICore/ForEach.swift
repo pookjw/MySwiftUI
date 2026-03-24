@@ -5,7 +5,7 @@ private import Foundation
 public struct ForEach<Data, ID, Content> where Data: RandomAccessCollection, ID: Hashable {
     public var data: Data
     public var content: (Data.Element) -> Content
-    private var idGenerator: ForEach<Data, ID, Content>.IDGenerator
+    fileprivate private(set) var idGenerator: ForEach<Data, ID, Content>.IDGenerator
     private var reuseID: KeyPath<Data.Element, Int>? = nil
     private var obsoleteContentID: Int
 }
@@ -42,12 +42,13 @@ extension ForEach: View where Content: View {
             )
             
             let attribute = Attribute(evictor)
-            attribute.flags = .unknown1
+            attribute.flags = .unknown0
         }
         
         // <+832>
         let listRule = ForEachList<Data, ID, Content>.Init(_info: stateAttribute, seed: 0)
         let listAttribute = Attribute(listRule)
+        state.list = listAttribute
         let outputs = _ViewListOutputs(
             .dynamicList(listAttribute, nil),
             nextImplicitID: inputs.implicitID,
@@ -183,7 +184,7 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
     private var inputs: _ViewListInputs
     private var parentSubgraph: Subgraph
     fileprivate var info: Attribute<ForEachState.Info>? = nil
-    private var list: Attribute<ViewList>? = nil
+    fileprivate var list: Attribute<ViewList>? = nil
     private var view: ForEach<Data, ID, Content>? = nil
     private var viewsPerElementCount: ForEachState.ViewsPerElementCount = .uninitialized
     private var viewCounts: [Int] = []
@@ -207,7 +208,8 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
     }
     
     func invalidateViewCounts() {
-        assertUnimplemented()
+        self.viewCounts.removeAll(keepingCapacity: true)
+        self.viewCountStyle = _ViewList_IteratorStyle(granularity: 1)
     }
     
     func update(view: ForEach<Data, ID, Content>) {
@@ -225,12 +227,36 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
         self.invalidateViewCounts()
         
         // <+1192>
-        if self.view != nil {
-            // <+1320>
+        if (self.view != nil), case .offset = self.view!.idGenerator {
+            // <+2376>
             assertUnimplemented()
         } else {
             // <+1404>
-            assertUnimplemented()
+            self.view = view
+            
+            let lazyEdits = ForEachState.LazyEdits()
+            let editsBuilder = ForEachState.EditsBuilder(data: view.data, idGenerator: view.idGenerator)
+            
+            self.lastTransaction = TransactionID(graph: self.list!.identifier.graph)
+            
+            // <+1828>
+            if self.firstInsertionOffset >= 0 {
+                // <+1888>
+                assertUnimplemented()
+            } else {
+                // <+2260>
+                // <+6612>
+                self.firstInsertionOffset = .max
+            }
+            
+            defer {
+                // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tF6$deferL_yySkRzSHR_AA4ViewR0_r1_lF
+                assertUnimplemented()
+            }
+            
+            // <+6612>
+            self.createdAllItems = false
+            return
         }
         
         assertUnimplemented()
@@ -272,8 +298,22 @@ extension ForEachState {
     fileprivate struct EditsBuilder {
         private var data: Data
         private var idGenerator: ForEach<Data, ID, Content>.IDGenerator
-        private var insertOffsets: IndexSetBuilder
-        private var edits: ForEachState<Data, ID, Content>.Edits
+        private var insertOffsets = IndexSetBuilder()
+        private var edits = ForEachState<Data, ID, Content>.Edits()
+        
+        init(data: Data, idGenerator: ForEach<Data, ID, Content>.IDGenerator) {
+            // <+212>
+            self.data = data
+            self.idGenerator = idGenerator
+        }
+        
+        func appendInsert(atOffset offset: Int) {
+            assertUnimplemented()
+        }
+        
+        func removeInserts(afterOffset offset: Int) {
+            assertUnimplemented()
+        }
     }
     
     struct Evictor: Rule, AsyncAttribute {
@@ -329,8 +369,8 @@ extension ForEach {
 }
 
 struct IndexSetBuilder {
-    private var indexSet: IndexSet
-    private var lastRange: Range<Int>?
+    private var indexSet = IndexSet()
+    private var lastRange: Range<Int>? = nil
 }
 
 enum DebugReplaceableViewCount {
