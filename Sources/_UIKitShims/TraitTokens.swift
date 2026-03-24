@@ -4,7 +4,7 @@ internal import MySwiftUICore
 internal import _UIKitPrivate
 
 enum TraitTokens {
-    @safe private static nonisolated(unsafe) let tokens = AtomicBox<[ObjectIdentifier: (any _UITraitTokenProtocol)]>(wrappedValue: [:])
+    private static let tokens = AtomicBox<[ObjectIdentifier: (any _UITraitTokenProtocol)]>(wrappedValue: [:])
     
     static func tokens(traits: [UITrait]) -> [any _UITraitTokenProtocol] {
         var tokens: [any _UITraitTokenProtocol] = []

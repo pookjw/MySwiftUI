@@ -136,7 +136,7 @@ struct OrnamentPresentation {
 
 extension OrnamentPresentation {
     struct Key: HostPreferenceKey {
-        @safe static nonisolated(unsafe) let defaultValue: [Namespace.ID: OrnamentPresentation] = [:]
+        static let defaultValue: [Namespace.ID: OrnamentPresentation] = [:]
         
         static func reduce(value: inout [Namespace.ID: OrnamentPresentation], nextValue: () -> [Namespace.ID: OrnamentPresentation]) {
             assertUnimplemented()

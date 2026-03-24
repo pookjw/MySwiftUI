@@ -259,5 +259,5 @@ extension MySwiftUICore.EnvironmentValues {
 }
 
 fileprivate struct BridgedEnvironmentKeysKey: MySwiftUICore.EnvironmentKey {
-    @safe static nonisolated(unsafe) let defaultValue: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
+    static let defaultValue: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
 }
