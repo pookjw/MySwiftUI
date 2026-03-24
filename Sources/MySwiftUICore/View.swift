@@ -71,8 +71,8 @@ extension Optional: DynamicView where Wrapped : View {
     }
     
     func childInfo(metadata: ConditionalMetadata<ViewDescriptor>) -> (any Any.Type, UniqueID?) {
-        return withUnsafePointer(to: self) { pointer in
-            return metadata.childInfo(ptr: pointer, emptyType: EmptyView.self)
+        return unsafe withUnsafePointer(to: self) { pointer in
+            return unsafe metadata.childInfo(ptr: pointer, emptyType: EmptyView.self)
         }
     }
     
@@ -81,8 +81,8 @@ extension Optional: DynamicView where Wrapped : View {
     }
     
     func makeChildViewList(metadata: ConditionalMetadata<ViewDescriptor>, view: Attribute<Optional<Wrapped>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        return withUnsafePointer(to: self) { pointer in
-            return metadata.makeViewList(ptr: pointer, view: view, inputs: inputs)
+        return unsafe withUnsafePointer(to: self) { pointer in
+            return unsafe metadata.makeViewList(ptr: pointer, view: view, inputs: inputs)
         }
     }
 }

@@ -118,7 +118,7 @@ final class UIKitMainMenuController: UIResponder {
     var supportsMainMenu: Bool {
         if UIDevice.current.userInterfaceIdiom == .phone {
             var answer: UInt = 0
-            let status = os_eligibility_get_domain_answer(0x7a, &answer, 0, 0, 0)
+            let status = unsafe os_eligibility_get_domain_answer(0x7a, &answer, 0, 0, 0)
             
             if status == 0 {
                 return answer == 4

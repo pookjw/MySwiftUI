@@ -62,6 +62,6 @@ extension _GraphInputs {
     }
     
     fileprivate struct ViewGraphBridgePropertiesKey: ViewInput {
-        @safe static nonisolated(unsafe) let defaultValue = WeakAttribute<ViewGraphBridgeProperties>()
+        static let defaultValue = WeakAttribute<ViewGraphBridgeProperties>()
     }
 }

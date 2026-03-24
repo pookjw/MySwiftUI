@@ -869,7 +869,7 @@ extension Color.Resolved {
         var blue: CGFloat = 0
         // sp + 0x8
         var alpha: CGFloat = 0
-        guard CoreColorPlatformColorGetComponents(.uiKit, platformColor, &red, &green, &blue, &alpha) else {
+        guard unsafe CoreColorPlatformColorGetComponents(.uiKit, platformColor, &red, &green, &blue, &alpha) else {
             return nil
         }
         

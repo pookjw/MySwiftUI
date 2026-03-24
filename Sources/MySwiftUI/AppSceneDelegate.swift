@@ -88,7 +88,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         
         // <+1900>
         if ViewGraphHost.isDefaultEnvironmentConfigured {
-            graph.setEnvironment(ViewGraphHost.defaultEnvironment)
+            unsafe graph.setEnvironment(ViewGraphHost.defaultEnvironment)
         }
         
         // <+2004>
@@ -349,7 +349,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+8556>
-            SceneNavigationStrategy_Phone.shared.removeCache(id: self.hashableSceneID()!, value: presentationDataValue)
+            unsafe SceneNavigationStrategy_Phone.shared.removeCache(id: self.hashableSceneID()!, value: presentationDataValue)
         }
         
         // <+8772>
@@ -529,7 +529,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             if self.sceneBridge != nil {
                 let viewGraph = hostingController.host.base.viewGraph.viewGraph
                 if PPTFeature.isEnabled {
-                    if let feature = viewGraph[PPTFeature.self]?.pointee {
+                    if let feature = unsafe viewGraph[PPTFeature.self]?.pointee {
                         viewGraph.append(feature: feature)
                     }
                 }
@@ -543,7 +543,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                     if isLinkedOnOrAfter(.v6) {
                         if sceneIsVolume {
                             // <+1920>
-                            if viewGraph[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] == nil {
+                            if unsafe viewGraph[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] == nil {
                                 let feature = ContentSizedSceneFeature<VolumeThatFitsMeasurer>.volume(graph: viewGraph)
                                 viewGraph.append(feature: feature)
                             }
@@ -553,7 +553,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                             // <+2276>
                         } else {
                             // <+2108>
-                            if viewGraph[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] == nil {
+                            if unsafe viewGraph[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] == nil {
                                 let feature = ContentSizedSceneFeature<SizeThatFitsMeasurer>.window(graph: viewGraph)
                                 viewGraph.append(feature: feature)
                             }

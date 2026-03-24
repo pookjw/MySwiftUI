@@ -46,8 +46,8 @@ final class AttachmentRegistrationManager {
     @MainActor func registerSceneIfNeeded(_ windowScene: UIWindowScene) {
         // <+180>
         _ = windowScene._sceneIdentifier
-        let reScene = windowScene.reScene
-        let sceneRef = RealityKit.__SceneRef.__fromCore(reScene)
+        let reScene = unsafe windowScene.reScene
+        let sceneRef = unsafe RealityKit.__SceneRef.__fromCore(reScene)
         let scene = RealityKit.Scene.__fromCore(sceneRef)
         
         let count = self.registrations.count

@@ -61,16 +61,16 @@ public struct GeometryProxy {
     }
     
     mutating func asCurrent<T>(do block: () throws -> T) rethrows -> T {
-        let old = _threadGeometryProxyData()
+        let old = unsafe _threadGeometryProxyData()
         
-        _setThreadGeometryProxyData(&self)
+        unsafe _setThreadGeometryProxyData(&self)
         
         do {
             let result = try block()
-            _setThreadGeometryProxyData(old)
+            unsafe _setThreadGeometryProxyData(old)
             return result
         } catch {
-            _setThreadGeometryProxyData(old)
+            unsafe _setThreadGeometryProxyData(old)
             throw error
         }
     }

@@ -93,7 +93,7 @@ extension CoreViewRepresentable {
             // x19 + 0x300 (sp + 0x380)
             let dynamicProperties = Self.dynamicProperties
             // x19 + 0x280 (sp + 0x360)
-            let buffer = _DynamicPropertyBuffer(fields: dynamicProperties.base, container: _GraphValue(attribute), inputs: &copy_2.base)
+            let buffer = unsafe _DynamicPropertyBuffer(fields: dynamicProperties.base, container: _GraphValue(attribute), inputs: &copy_2.base)
             
             // <+520>
             // x19 + 0x2f0 (sp + 0x370)
@@ -122,7 +122,7 @@ extension CoreViewRepresentable {
             // x19 + 0x300 (sp + 0x380) -> w25
             let childAttribute = Attribute(child)
             // attribute -> w28 -> x19 + 0x220 (sp + 0x2a0)
-            buffer.traceMountedProperties(to: view, fields: dynamicProperties.base)
+            unsafe buffer.traceMountedProperties(to: view, fields: dynamicProperties.base)
             
             // x19 + 0x300 / x19 + 0x80
             let featureProxy = CoreViewRepresentableFeatureProxy(base: childAttribute)
@@ -131,7 +131,7 @@ extension CoreViewRepresentable {
             let flags: AnyAttribute.Flags
             if copy_2.base.options.contains(.viewNeedsGeometry) {
                 // <+1656>
-                if copy_2.preferences.contains(DisplayList.Key.self) {
+                if unsafe copy_2.preferences.contains(DisplayList.Key.self) {
                     if copy_2.base.options.contains(.doNotScrape) {
                         flags = [.unknown0, .unknown1, .unknown2]
                     } else {
@@ -212,11 +212,11 @@ extension CoreViewRepresentable where Coordinator == Void {
     private(set) var base: DynamicPropertyCache.Fields
     
     init(base: DynamicPropertyCache.Fields) {
-        self.base = base
+        unsafe self.base = unsafe base
     }
     
     public init(for type: Any.Type) {
-        self.base = DynamicPropertyCache.fields(of: type)
+        unsafe self.base = unsafe DynamicPropertyCache.fields(of: type)
     }
 }
 
@@ -424,8 +424,8 @@ extension CoreViewRepresentableFeatureBuffer {
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-            let body = elt.body(as: Feature.self)
-            body.deinitialize(count: 1)
+            let body = unsafe elt.body(as: Feature.self)
+            unsafe body.deinitialize(count: 1)
         }
         
         override class func modifyViewInputs<Representable: CoreViewRepresentable>(
@@ -433,7 +433,7 @@ extension CoreViewRepresentableFeatureBuffer {
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            elt.body(as: Feature.self).pointee.modifyViewInputs(inputs: &inputs, proxy: proxy)
+            unsafe elt.body(as: Feature.self).pointee.modifyViewInputs(inputs: &inputs, proxy: proxy)
         }
         
         override class func modifyBridgedInputs<Representable: CoreViewRepresentable>(
@@ -441,7 +441,7 @@ extension CoreViewRepresentableFeatureBuffer {
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            elt.body(as: Feature.self).pointee.modifyBridgedInputs(inputs: &inputs, proxy: proxy)
+            unsafe elt.body(as: Feature.self).pointee.modifyBridgedInputs(inputs: &inputs, proxy: proxy)
         }
         
         override class func modifyViewOutputs<Representable: CoreViewRepresentable>(
@@ -449,7 +449,7 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            elt.body(as: Feature.self).pointee.modifyViewOutputs(outputs: &outputs, proxy: proxy)
+            unsafe elt.body(as: Feature.self).pointee.modifyViewOutputs(outputs: &outputs, proxy: proxy)
         }
         
         override class func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
@@ -466,7 +466,7 @@ extension CoreViewRepresentableFeatureBuffer {
             environment: inout EnvironmentValues,
             isInitialUpdate: Bool
         ) {
-            elt.body(as: Feature.self).pointee.update(forHost: host, environment: &environment, isInitialUpdate: isInitialUpdate)
+            unsafe elt.body(as: Feature.self).pointee.update(forHost: host, environment: &environment, isInitialUpdate: isInitialUpdate)
         }
     }
 }

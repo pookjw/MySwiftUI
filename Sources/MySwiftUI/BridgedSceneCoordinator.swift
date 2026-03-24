@@ -4,7 +4,7 @@ private import MySwiftUICore
 
 struct BridgedSceneCoordinator {
     // $s7SwiftUI23BridgedSceneCoordinatorV6shared_WZ
-    @safe static nonisolated(unsafe) let shared = BridgedSceneCoordinator()
+    static let shared = BridgedSceneCoordinator()
     
     private init() {
         _UIWorkspaceSceneRequestOptionsFactory

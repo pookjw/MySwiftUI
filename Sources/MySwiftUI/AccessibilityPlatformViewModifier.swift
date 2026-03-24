@@ -17,11 +17,11 @@ struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
          */
         // <+124>
         let attribute: Attribute<AccessibilityNodeList>?
-        if inputs.preferences.contains(AccessibilityNodesKey.self) {
+        if unsafe inputs.preferences.contains(AccessibilityNodesKey.self) {
             // <+188>
             attribute = Self.makeResolvableTransform(context: representable, inputs: inputs, outputs: outputs, includeGeometry: options.contains(.unknown0), for: AccessibilityBridgedPlatformView<T>.self)
             // <+868>
-            outputs[AccessibilityNodesKey.self] = attribute
+            unsafe outputs[AccessibilityNodesKey.self] = attribute
         } else {
             // <+344>
             assertUnimplemented()

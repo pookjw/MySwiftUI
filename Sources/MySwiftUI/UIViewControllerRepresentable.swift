@@ -62,7 +62,7 @@ extension UIViewControllerRepresentable {
             
             var outputs = _ViewOutputs()
             
-            if inputs.preferences.contains(DisplayList.Key.self) {
+            if unsafe inputs.preferences.contains(DisplayList.Key.self) {
                 let displayList = UnsupportedDisplayList(
                     identity: inputs.pushIdentity(),
                     position: inputs.animatedPosition(),
@@ -70,7 +70,7 @@ extension UIViewControllerRepresentable {
                     containerPosition: inputs.containerPosition
                 )
                 
-                outputs[DisplayList.Key.self] = Attribute(displayList)
+                unsafe outputs[DisplayList.Key.self] = Attribute(displayList)
             }
             
             return outputs

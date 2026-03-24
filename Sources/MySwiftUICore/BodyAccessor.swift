@@ -179,9 +179,9 @@ fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStrin
             /*
              containerChanged -> x23
              */
-            withUnsafeMutablePointer(to: &container) { pointer in
+            unsafe withUnsafeMutablePointer(to: &container) { pointer in
                 // $s7SwiftUI11DynamicBody33_A4C1D658B3717A3062FEFC91A812D6EBLLV11updateValueyyFyyXEfU_ySpy9ContainerQzGXEfU_TA
-                let result = self.links.update(container: pointer, phase: self.phase)
+                let result = unsafe self.links.update(container: pointer, phase: self.phase)
                 if result {
                     containerChanged = true
                 }

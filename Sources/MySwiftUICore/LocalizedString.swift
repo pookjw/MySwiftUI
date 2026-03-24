@@ -323,7 +323,7 @@ extension LocalizedStringKey {
             if options.contains(.includeAccessibility) {
                 // <+1312>
                 let arguments = getArgumentsForInflection(for: localized, in: environmentValues, idiom: container.idiom, with: options, including: container.style)
-                let resolved = NSAttributedString(swiftUIAttributedStringWithFormat: localized, options: [], locale: environmentValues.locale, arguments: getVaList(arguments.arguments))
+                let resolved = unsafe NSAttributedString(swiftUIAttributedStringWithFormat: localized, options: [], locale: environmentValues.locale, arguments: getVaList(arguments.arguments))
                 resolveArguments(from: resolved, into: &container, in: environmentValues, options: options, isUniqueSizeVariant: arguments.isUniqueSizeVariant)
             } else {
                 // <+1496>
@@ -343,7 +343,7 @@ extension LocalizedStringKey {
                     assertUnimplemented()
                 }
                 
-                let resolved = String(format: localized, locale: environmentValues.locale, arguments: args)
+                let resolved = unsafe String(format: localized, locale: environmentValues.locale, arguments: args)
                 resolveArguments(from: resolved, into: &container, in: environmentValues, options: options, isUniqueSizeVariant: false /* 확실하지 않음 */)
             } else {
                 // <+1080>

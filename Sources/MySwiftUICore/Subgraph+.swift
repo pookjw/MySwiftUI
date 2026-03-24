@@ -51,7 +51,7 @@ extension Subgraph {
 
 fileprivate struct RemovableAttributeDescriptor: ProtocolDescriptor {
     static var descriptor: UnsafeRawPointer {
-        return _removableAttributeProtocolDescriptor()
+        return unsafe _removableAttributeProtocolDescriptor()
     }
     
     private static nonisolated(unsafe) var typeCache: [ObjectIdentifier: TypeConformance<RemovableAttributeDescriptor>] = [:]
@@ -59,20 +59,20 @@ fileprivate struct RemovableAttributeDescriptor: ProtocolDescriptor {
     static func cachedConformance(of type: Any.Type) -> TypeConformance<RemovableAttributeDescriptor>? {
         Update.assertIsLocked()
         
-        if let conformance = typeCache[ObjectIdentifier(type)] {
+        if let conformance = unsafe typeCache[ObjectIdentifier(type)] {
             return conformance
         }
         
         // <+196>
         let conformance = conformance(of: type)
-        typeCache[ObjectIdentifier(type)] = conformance
+        unsafe typeCache[ObjectIdentifier(type)] = conformance
         return conformance
     }
 }
 
 fileprivate struct InvalidatableAttributeDescriptor: ProtocolDescriptor {
     static var descriptor: UnsafeRawPointer {
-        return _invalidatableAttributeProtocolDescriptor()
+        return unsafe _invalidatableAttributeProtocolDescriptor()
     }
     
     private static nonisolated(unsafe) var typeCache: [ObjectIdentifier: TypeConformance<InvalidatableAttributeDescriptor>] = [:]
@@ -80,12 +80,12 @@ fileprivate struct InvalidatableAttributeDescriptor: ProtocolDescriptor {
     static func cachedConformance(of type: Any.Type) -> TypeConformance<InvalidatableAttributeDescriptor>? {
         Update.assertIsLocked()
         
-        if let conformance = typeCache[ObjectIdentifier(type)] {
+        if let conformance = unsafe typeCache[ObjectIdentifier(type)] {
             return conformance
         }
         
         let conformance = conformance(of: type)
-        typeCache[ObjectIdentifier(type)] = conformance
+        unsafe typeCache[ObjectIdentifier(type)] = conformance
         return conformance
     }
 }

@@ -27,7 +27,7 @@ final class WindowLayoutHostProxy {
     static func pendingHost<Content: View>(item: SceneList.Item, rootViewType: Content.Type) -> UIHostingController<Content>? {
         assert(Content.self == ModifiedContent<AnyView, RootModifier>.self, "나머지는 검증이 필요함")
         
-        guard let pending = WindowLayoutHostProxy.layoutProxiesAwaitingConnection.removeValue(forKey: item.id) else {
+        guard let pending = unsafe WindowLayoutHostProxy.layoutProxiesAwaitingConnection.removeValue(forKey: item.id) else {
             return nil
         } 
         
@@ -39,7 +39,7 @@ final class WindowLayoutHostProxy {
             return nil
         }
         
-        let hostingView = unsafeBitCast(pending, to: _UIHostingView<Content>.self)
+        let hostingView = unsafe unsafeBitCast(pending, to: _UIHostingView<Content>.self)
         hostingView.base.isHiddenForReuse = false
         
         return UIWindowLayoutHostingController(_hostingView: hostingView)

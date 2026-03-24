@@ -609,14 +609,14 @@ package final class ViewGraph: GraphHost {
     }
     
     package func observeWindowResizeProposal(_ size: _ProposedSize) {
-        if let feature = self.features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
+        if let feature = unsafe self.features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
             // <+208>
             if let resize = Log.resize {
                 resize.log(level: .debug, "Observe \(ResizeLogs.proposal(size))")
             }
             
             // <+740>
-            feature.pointee.$sizesForProposals.mutateBody(as: SizeThatFitsRule<SizeThatFitsMeasurer>.self, invalidating: true) { rule in
+            unsafe feature.pointee.$sizesForProposals.mutateBody(as: SizeThatFitsRule<SizeThatFitsMeasurer>.self, invalidating: true) { rule in
                 // $s7SwiftUI24ContentSizedSceneFeatureV11addObserver3fory8ProposalQz_tFyAA16SizeThatFitsRuleVyxGzXEfU_AA0klM8MeasurerV_TG5TA
                 rule.proposals.insert(size)
             }
@@ -629,14 +629,14 @@ package final class ViewGraph: GraphHost {
     }
     
     package func stopObservingWindowResizeProposal(_ size: _ProposedSize) {
-        if let feature = self.features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
+        if let feature = unsafe self.features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
             // <+208>
             if let resize = Log.resize {
                 resize.log(level: .debug, "Remove \(ResizeLogs.proposal(size))")
             }
             
             // <+740>
-            feature.pointee.$sizesForProposals.mutateBody(as: SizeThatFitsRule<SizeThatFitsMeasurer>.self, invalidating: true) { rule in
+            unsafe feature.pointee.$sizesForProposals.mutateBody(as: SizeThatFitsRule<SizeThatFitsMeasurer>.self, invalidating: true) { rule in
                 // $s7SwiftUI24ContentSizedSceneFeatureV13stopObserving8proposaly8ProposalQz_tFyAA16SizeThatFitsRuleVyxGzXEfU_AA0klM8MeasurerV_TG5TA
                 rule.proposals.remove(size)
             }

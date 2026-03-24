@@ -4,7 +4,7 @@ internal import AttributeGraph
 @safe package final class PreferenceBridge {
     private(set) weak var viewGraph: ViewGraph? = nil // 0x10
     private var isValid: Bool = false // 0x18
-    package private(set) var children: [Unmanaged<ViewGraph>] = [] // 0x20
+    package private(set) var children: [Unmanaged<ViewGraph>] = unsafe [] // 0x20
     private var requestedPreferences = PreferenceKeys() // 0x28
     private(set) var bridgedViewInputs = PropertyList() // 0x30
     @WeakAttribute private var hostPreferenceKeys: PreferenceKeys? // 0x38
@@ -88,7 +88,7 @@ internal import AttributeGraph
         self.requestedPreferences = PreferenceKeys()
         self.bridgedViewInputs = PropertyList()
         
-        if !children.isEmpty {
+        if unsafe !children.isEmpty {
             assertUnimplemented()
         }
         

@@ -111,12 +111,12 @@ public struct LayoutSubview : Equatable {
     }
     
     func place(in geometry: ViewGeometry, layoutDirection: LayoutDirection) {
-        let placementDataPointer = _threadLayoutData()!
+        let placementDataPointer = unsafe _threadLayoutData()!
             .assumingMemoryBound(to: PlacementData.self)
         
-        assert(placementDataPointer.pointee.signature == .placement)
+        unsafe assert(placementDataPointer.pointee.signature == .placement)
         
-        placementDataPointer
+        unsafe placementDataPointer
             .pointee
             .setGeometry(geometry, at: Int(index), layoutDirection: layoutDirection)
     }
@@ -295,7 +295,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         // sp + 0xa8
         let proposal = size.proposal
         
-        var placementData = PlacementData(
+        var placementData = unsafe PlacementData(
             signature: .placement,
             geometry: Array(repeating: ViewGeometry.invalidValue, count: count),
             unknown: 0,
@@ -303,7 +303,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
             layoutDirection: layoutDirection
         )
         
-        withUnsafeMutablePointer(to: &placementData) { pointer in
+        unsafe withUnsafeMutablePointer(to: &placementData) { pointer in
             // $s7SwiftUI16ViewLayoutEngineV15childGeometries2at6originSayAA0C8GeometryVGAA0C4SizeV_So7CGPointVtFySpyAA13PlacementData33_57DDCF0A00C1B77B475771403C904EF9LLVGXEfU_
             /*
              origin -> d0, d1 -> d13, d12
@@ -316,14 +316,14 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
              pointer -> x0 -> x24
              */
             // type metadata accessor for SwiftUI.ViewLayoutEngine -> x25
-            let old = _threadLayoutData()
-            _setThreadLayoutData(pointer)
+            let old = unsafe _threadLayoutData()
+            unsafe _setThreadLayoutData(pointer)
             // layout -> x28
             // type metadata accessor for SwiftUI.ViewLayoutEngine -> x20
             layout.placeSubviews(in: CGRect(origin: origin, size: size.value), proposal: ProposedViewSize(proposal), subviews: subviews, cache: &cache)
-            _setThreadLayoutData(old)
+            unsafe _setThreadLayoutData(old)
             
-            guard pointer.pointee.unknown != count else {
+            guard unsafe pointer.pointee.unknown != count else {
                 return 
             }
             
@@ -333,13 +333,13 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
             
             // x26
             for index in 0..<count {
-                guard pointer.pointee.geometry[index].isInvalid else {
+                guard unsafe pointer.pointee.geometry[index].isInvalid else {
                     continue
                 }
                 
                 // sp + 0x550
                 let dimensions = proxies[index].dimensions(in: proposedSize)
-                pointer.pointee.setGeometry(
+                unsafe pointer.pointee.setGeometry(
                     dimensions.centered(in: CGSize(pointer.pointee.bounds.center)),
                     at: index,
                     layoutDirection: .leftToRight
@@ -397,8 +397,8 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
         set {
             if shouldUseCacheOfCache {
                 let depth: CGFloat?
-                if let data = _threadLayoutDepthData() {
-                    depth = data
+                if let data = unsafe _threadLayoutDepthData() {
+                    depth = unsafe data
                         .assumingMemoryBound(to: CGFloat?.self)
                         .pointee
                 } else {
@@ -506,8 +506,8 @@ struct ViewSizeCache {
     
     @inlinable mutating func get(_ key: _ProposedSize, makeValue: () -> CGSize) -> CGSize {
         let depth: CGFloat?
-        if let layoutDepthData = _threadLayoutDepthData() {
-            depth = layoutDepthData
+        if let layoutDepthData = unsafe _threadLayoutDepthData() {
+            depth = unsafe layoutDepthData
                 .assumingMemoryBound(to: CGFloat?.self)
                 .pointee
         } else {
@@ -517,7 +517,7 @@ struct ViewSizeCache {
         let key3D = _ProposedSize3D(width: key.width, height: key.height, depth: depth)
         
         let result = cache.get(key3D, makeValue: makeValue)
-        if let recorder = LayoutTrace.recorder {
+        if let recorder = unsafe LayoutTrace.recorder {
             recorder.cacheLookup = (proposal: key, hit: false)
         }
         

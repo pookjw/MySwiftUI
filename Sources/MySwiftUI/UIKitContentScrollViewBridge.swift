@@ -142,7 +142,7 @@ struct ContentScrollViewBox {
 }
 
 struct ContentScrollViewPreferenceKey: HostPreferenceKey {
-    static nonisolated(unsafe) let defaultValue: [ContentScrollViewBox] = []
+    static nonisolated let defaultValue: [ContentScrollViewBox] = []
     
     static func reduce(value: inout [ContentScrollViewBox], nextValue: () -> [ContentScrollViewBox]) {
         assertUnimplemented()

@@ -89,7 +89,7 @@ extension ViewResponder {
                 // <+96>
                 // parent -> x22
                 if let gestureContainer = parent.gestureContainer {
-                    return unsafeBitCast(gestureContainer, to: (UIResponder & _UIGestureRecognizerContainer).self)
+                    return unsafe unsafeBitCast(gestureContainer, to: (UIResponder & _UIGestureRecognizerContainer).self)
                 } else {
                     // <+112>
                     if

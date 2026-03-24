@@ -6,9 +6,9 @@ open class PlatformGlassDefinition {
     package static func setDefinition(_ definition: PlatformGlassDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .appKit:
-            PlatformGlassDefinition.appKit = definition
+            unsafe PlatformGlassDefinition.appKit = definition
         case .uiKit:
-            PlatformGlassDefinition.uiKit = definition
+            unsafe PlatformGlassDefinition.uiKit = definition
         default:
             break
         }

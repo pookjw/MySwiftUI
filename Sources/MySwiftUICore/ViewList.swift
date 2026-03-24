@@ -1164,18 +1164,18 @@ struct _ViewList_IteratorStyle: Equatable {
     
     func apply(sublist: inout _ViewList_Sublist) {
         // sublist -> x19
-        switch storage {
+        switch unsafe storage {
         case .node(let pointer):
-            guard let pointer else {
+            guard let pointer = unsafe pointer else {
                 return
             }
             
-            sublist.elements.subgraphs.subgraphs.reserveCapacity(pointer.pointee.subgraphCount)
+            unsafe sublist.elements.subgraphs.subgraphs.reserveCapacity(pointer.pointee.subgraphCount)
             
-            var next: _ViewList_TemporarySublistTransform.ItemNode? = pointer.pointee
-            while let _next = next {
-                _next.value.apply(sublist: &sublist)
-                next = _next.next?.pointee
+            var next: _ViewList_TemporarySublistTransform.ItemNode? = unsafe pointer.pointee
+            while let _next = unsafe next {
+                unsafe _next.value.apply(sublist: &sublist)
+                unsafe next = unsafe _next.next?.pointee
             }
         case .transform(_):
             // _ViewList_SublistTransform.apply(sublist: inout _ViewList_Sublist)의 inline일 수도 있음
@@ -1190,15 +1190,15 @@ struct _ViewList_IteratorStyle: Equatable {
     func withPushedItem<T, U: _ViewList_SublistTransform_Item>(_ item: U, do block: (borrowing _ViewList_TemporarySublistTransform) -> T) -> T {
         let flags = U.flags
         
-        switch storage {
+        switch unsafe storage {
         case .node(let node):
             // <+196>
             var subgraphCount: Int
             // x20
             let depth: Int
-            if let node {
-                subgraphCount = node.pointee.subgraphCount
-                depth = node.pointee.depth &+ 1
+            if let node = unsafe node {
+                subgraphCount = unsafe node.pointee.subgraphCount
+                depth = unsafe node.pointee.depth &+ 1
             } else {
                 subgraphCount = 0
                 depth = 0
@@ -1208,10 +1208,10 @@ struct _ViewList_IteratorStyle: Equatable {
                 subgraphCount &+= 1
             }
             
-            var node = _ViewList_TemporarySublistTransform.ItemNode(next: node, value: item, subgraphCount: subgraphCount, depth: depth)
-            return withUnsafePointer(to: &node) { pointer in
+            var node = unsafe _ViewList_TemporarySublistTransform.ItemNode(next: node, value: item, subgraphCount: subgraphCount, depth: depth)
+            return unsafe withUnsafePointer(to: &node) { pointer in
                 var transform = _ViewList_TemporarySublistTransform()
-                transform.storage = .node(UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>(mutating: pointer))
+                unsafe transform.storage = unsafe .node(UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>(mutating: pointer))
                 return block(transform)
             }
         case .transform(_):

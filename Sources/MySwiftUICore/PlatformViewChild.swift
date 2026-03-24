@@ -60,7 +60,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             return nil
         }
         
-        return unsafeBitCast(platformView.coreRepresentedViewProvider, to: Representable.PlatformViewProvider.self) // FIXME
+        return unsafe unsafeBitCast(platformView.coreRepresentedViewProvider, to: Representable.PlatformViewProvider.self) // FIXME
     }
     
     mutating func updateValue() {
@@ -93,13 +93,13 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             
             // <+1404>
             // x20
-            let leafView: UnsafePointer<ViewLeafView<Representable>>? = Graph.outputValue()
+            let leafView: UnsafePointer<ViewLeafView<Representable>>? = unsafe Graph.outputValue()
             // x29 - 0x278
-            let hasLeafView = (leafView != nil)
+            let hasLeafView = unsafe (leafView != nil)
             
-            let updated = withUnsafePointer(to: &view) { pointer in
+            let updated = unsafe withUnsafePointer(to: &view) { pointer in
                 // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_SbSpyxGXEfU_TA
-                return links.update(container: UnsafeMutableRawPointer(mutating: pointer), phase: phase)
+                return unsafe links.update(container: UnsafeMutableRawPointer(mutating: pointer), phase: phase)
             }
             
             // x29 - 0x200
@@ -272,7 +272,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                                 let environment = unchecked.value.3
                                 // x27
                                 let provider = view.makeViewProvider(context: context)
-                                let host = Representable.Host(
+                                let host = unsafe Representable.Host(
                                     unsafeBitCast(provider, to: Representable.Host.Content.PlatformViewProvider.self), // FIXME
                                     host: renderHost,
                                     environment: environment,
@@ -389,15 +389,15 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     
     static func willRemove(attribute: AnyAttribute) {
         // x19
-        let bridge = attribute
+        let bridge = unsafe attribute
             ._bodyPointer
             .assumingMemoryBound(to: self)
             .pointee
             .bridge
         // x21
-        let children = bridge.children
+        let children = unsafe bridge.children
         
-        guard !children.isEmpty else {
+        guard unsafe !children.isEmpty else {
             return
         }
         
@@ -427,7 +427,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     package var representedViewProvider: Representable.PlatformViewProvider {
-        return unsafeBitCast(platformView.coreRepresentedViewProvider, to: Representable.PlatformViewProvider.self)
+        return unsafe unsafeBitCast(platformView.coreRepresentedViewProvider, to: Representable.PlatformViewProvider.self)
     }
     
     func makePlatformView() -> AnyObject? {
@@ -588,7 +588,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         // x29 - 0x118 (sp + 0x48)
         let copy_1 = inputs
         // <+152>
-        if inputs.preferences.contains(DisplayList.Key.self) {
+        if unsafe inputs.preferences.contains(DisplayList.Key.self) {
             // <+196>
             // x29 - 0x158
             let identity: _DisplayList_Identity
@@ -622,7 +622,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
             )
             // x29 - 0xd0 (sp + 0x90)
             let platformDisplayListAttribute = Attribute(platformDisplayList)
-            outputs.preferences.appendPreference(key: DisplayList.Key.self, value: platformDisplayListAttribute)
+            unsafe outputs.preferences.appendPreference(key: DisplayList.Key.self, value: platformDisplayListAttribute)
             
             // <+788>
         }

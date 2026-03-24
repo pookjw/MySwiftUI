@@ -27,21 +27,21 @@ struct SizeAndSpacingContext {
     subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
         let fetch = EnvironmentFetch<Value>(environment: $environment, keyPath: dynamicMember)
         
-        return withUnsafePointer(to: fetch) { pointer in
-            return EnvironmentFetch<Value>._cachedValue(
+        return unsafe withUnsafePointer(to: fetch) { pointer in
+            return unsafe EnvironmentFetch<Value>._cachedValue(
                 options: .unknown0,
                 owner: owner,
                 hashValue: $environment.identifier.hashValue,
                 bodyPtr: UnsafeRawPointer(pointer),
                 update: {
                     return { body, attribute in
-                        let environment = body
+                        let environment = unsafe body
                             .assumingMemoryBound(to: Attribute<EnvironmentValues>.self)
                             .pointee
                             .value
                         
                         var result = environment[keyPath: dynamicMember]
-                        Graph.setOutputValue(&result)
+                        unsafe Graph.setOutputValue(&result)
                     }
                 }
             ).pointee

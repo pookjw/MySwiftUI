@@ -13,9 +13,9 @@ private import os.log
     unsafe os_log(.error, log: OSLog.stopwatchSupport, "Failed to load UIKit defaults")
     return nil
 }()
-@safe private nonisolated(unsafe) let borderedButtonsByDefault = AppStorage(wrappedValue: true, "BorderedButtonsByDefault", store: uiKitDefault)
+private let borderedButtonsByDefault = AppStorage(wrappedValue: true, "BorderedButtonsByDefault", store: uiKitDefault)
 
-@safe private nonisolated(unsafe) let blocklist: Set<String> = [
+private let blocklist: Set<String> = [
     "com.apple.Mind",
     "com.apple.mobilesafari",
     "com.apple.SafariViewService",
@@ -29,7 +29,7 @@ private import os.log
     "com.apple.GenerativePlaygroundApp"
 ]
 
-@safe private nonisolated(unsafe) let implicitButtonStyleSensoryFeedback: Bool = {
+private let implicitButtonStyleSensoryFeedback: Bool = {
     if UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.ImplicitButtonStyleSensoryFeedback_BypassAppCheck") {
         unsafe os_log(.info, log: OSLog.stopwatchSupport, "Implicit ButtonStyle feedback: Bypass app checks default set, enabled.")
         return true

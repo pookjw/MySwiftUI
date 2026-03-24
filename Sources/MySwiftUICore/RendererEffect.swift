@@ -42,7 +42,7 @@ extension _RendererEffect {
         let scrapeableID: ScrapeableID
         if isScrapeable && copy_1.needsGeometry {
             // <+700>
-            let hasDisplayList = copy_1.preferences.contains(DisplayList.Key.self)
+            let hasDisplayList = unsafe copy_1.preferences.contains(DisplayList.Key.self)
             
             if !copy_1.base.options.contains(.doNotScrape) && hasDisplayList {
                 scrapeableID = ScrapeableID()
@@ -57,7 +57,7 @@ extension _RendererEffect {
         
         // <+208>
         // w22
-        let hasDisplayList = copy_1.preferences.contains(DisplayList.Key.self)
+        let hasDisplayList = unsafe copy_1.preferences.contains(DisplayList.Key.self)
         if hasDisplayList {
             // <+236>
             // x27
@@ -124,7 +124,7 @@ extension _RendererEffect {
             let size = cachedEnvironment.value.animatedSize(for: copy_7)
             // w22
             let displayList: OptionalAttribute<DisplayList>
-            if let attribute: Attribute<DisplayList> = outputs[DisplayList.Key.self] {
+            if let attribute: Attribute<DisplayList> = unsafe outputs[DisplayList.Key.self] {
                 displayList = OptionalAttribute(attribute)
             } else {
                 displayList = OptionalAttribute()
@@ -157,7 +157,7 @@ extension _RendererEffect {
             }
             
             // <+1552>
-            outputs[DisplayList.Key.self] = renderEffectDisplayList
+            unsafe outputs[DisplayList.Key.self] = renderEffectDisplayList
         }
         
         // <+1592>

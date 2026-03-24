@@ -13,9 +13,9 @@ private import AttributeGraph
 extension Scene {
     nonisolated public static func _makeScene(scene: _GraphValue<Self>, inputs: _SceneInputs) -> _SceneOutputs {
         // <+332>
-        let fields = DynamicPropertyCache.fields(of: self)
+        let fields = unsafe DynamicPropertyCache.fields(of: self)
         var inputs = inputs
-        let body = Self.makeBody(scene: scene, inputs: &inputs.base, fields: fields)
+        let body = unsafe Self.makeBody(scene: scene, inputs: &inputs.base, fields: fields)
         // x29 - 0x68
         let resolved = Self.Body._makeScene(scene: body.0, inputs: inputs)
         
@@ -24,7 +24,7 @@ extension Scene {
         }
         
         // <+608>
-        buffer.traceMountedProperties(to: scene, fields: fields)
+        unsafe buffer.traceMountedProperties(to: scene, fields: fields)
         return resolved
     }
     
@@ -35,7 +35,7 @@ extension Scene {
         )
         
         let accessor = SceneBodyAccessor<Self>()
-        return accessor.makeBody(container: scene, inputs: &inputs, fields: fields)
+        return unsafe accessor.makeBody(container: scene, inputs: &inputs, fields: fields)
     }
 }
 

@@ -265,7 +265,7 @@ public import _UIKitPrivate
             return false
         }
         
-        let implementsFittingSize = hostedView.method(for: sizeThatFitsSEL) != UIViewSizeThatFitsIMP
+        let implementsFittingSize = unsafe hostedView.method(for: sizeThatFitsSEL) != UIViewSizeThatFitsIMP
         self.cachedImplementsFittingSize = implementsFittingSize
         return implementsFittingSize
     }
@@ -432,7 +432,7 @@ public import _UIKitPrivate
         // <+168>
         if let hostedView {
             // <+204>
-            self.separatedThicknessRegistration = UICorePlatformViewHost.SeparatedThicknessRegistration(
+            self.separatedThicknessRegistration = unsafe UICorePlatformViewHost.SeparatedThicknessRegistration(
                 hostedView: unsafeBitCast(hostedView, to: Representable.PlatformViewProvider.self), // FIXME
                 onChange: { [weak self] in
                     guard let self else {
@@ -1038,7 +1038,7 @@ extension UICorePlatformViewHost {
             super.init()
             
             // <+184>
-            let view = unsafeBitCast(hostedView, to: UIView.self) // FIXME
+            let view = unsafe unsafeBitCast(hostedView, to: UIView.self) // FIXME
             
             self.traitChangeRegistration = view._register(forTraitTokenChanges: [DisplayScaleToken()!]) { [weak self] (traitEnvironment: any UITraitEnvironment, previousTraitCollection: UITraitCollection) in
                 // ___lldb_unnamed_symbol_291f1c
@@ -1046,7 +1046,7 @@ extension UICorePlatformViewHost {
                     return
                 }
                 
-                let view = unsafeBitCast(self.hostedView, to: UIView.self) // FIXME
+                let view = unsafe unsafeBitCast(self.hostedView, to: UIView.self) // FIXME
                 let newDisplayScale = view.traitCollection.displayScale
                 
                 guard self.displayScale != newDisplayScale else {
@@ -1057,7 +1057,7 @@ extension UICorePlatformViewHost {
                 onChange()
             }
             
-            view.layer.addObserver(self, forKeyPath: "separatedOptions.separatedThickness", options: [.new], context: nil)
+            unsafe view.layer.addObserver(self, forKeyPath: "separatedOptions.separatedThickness", options: [.new], context: nil)
         }
         
         @MainActor func invalidate() {
@@ -1065,8 +1065,8 @@ extension UICorePlatformViewHost {
                 return
             }
             
-            let view = unsafeBitCast(self.hostedView, to: UIView.self) // FIXME
-            view.layer.removeObserver(self, forKeyPath: "separatedOptions.separatedThickness", context: nil)
+            let view = unsafe unsafeBitCast(self.hostedView, to: UIView.self) // FIXME
+            unsafe view.layer.removeObserver(self, forKeyPath: "separatedOptions.separatedThickness", context: nil)
             view.unregisterForTraitChanges(traitChangeRegistration)
             // self.traitChangeRegistration = nil은 안 보임
         }
@@ -1099,4 +1099,4 @@ extension UICorePlatformViewHost {
 }
 
 fileprivate let sizeThatFitsSEL = #selector(UIView.sizeThatFits(_:))
-fileprivate nonisolated(unsafe) let UIViewSizeThatFitsIMP = UIView.instanceMethod(for: sizeThatFitsSEL)
+fileprivate nonisolated(unsafe) let UIViewSizeThatFitsIMP = unsafe UIView.instanceMethod(for: sizeThatFitsSEL)

@@ -57,11 +57,11 @@ final class AppGraph: GraphHost {
             // $s7SwiftUI8AppGraphC3appACx_tcAA0C0RzlufcAA13_SceneOutputsVAA01_F6InputsVcfU_TA
             // <+384>
             // x27
-            let fields = DynamicPropertyCache.fields(of: T.self)
+            let fields = unsafe DynamicPropertyCache.fields(of: T.self)
             var inputs = inputs
             let graphValue = _GraphValue(Attribute(value: app))
             
-            let body = AppBodyAccessor<T>().makeBody(
+            let body = unsafe AppBodyAccessor<T>().makeBody(
                 container: graphValue,
                 inputs: &inputs.base,
                 fields: fields

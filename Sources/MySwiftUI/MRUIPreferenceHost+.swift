@@ -8,7 +8,7 @@ extension MRUIPreferenceHost {
         if let value = preference as? T.Value {
             return value
         } else {
-            return T.value(from: unsafeBitCast(preference, to: T.BridgedValue.self))
+            return unsafe T.value(from: unsafeBitCast(preference, to: T.BridgedValue.self))
         }
     }
 }

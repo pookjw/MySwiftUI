@@ -111,7 +111,7 @@ struct ConfirmationDialog {
 
 extension ConfirmationDialog {
     struct PreferenceKey: HostPreferenceKey {
-        static nonisolated(unsafe) let defaultValue: [ViewIdentity: ConfirmationDialog] = [:]
+        static nonisolated let defaultValue: [ViewIdentity: ConfirmationDialog] = [:]
         
         static func reduce(value: inout [ViewIdentity: ConfirmationDialog], nextValue: () -> [ViewIdentity: ConfirmationDialog]) {
             assertUnimplemented()
@@ -133,7 +133,7 @@ struct AlertStorage {
 
 extension AlertStorage {
     struct PreferenceKey: HostPreferenceKey {
-        static nonisolated(unsafe) let defaultValue: [ViewIdentity: AlertStorage] = [:]
+        static nonisolated let defaultValue: [ViewIdentity: AlertStorage] = [:]
         
         static func reduce(value: inout [ViewIdentity: AlertStorage], nextValue: () -> [ViewIdentity: AlertStorage]) {
             assertUnimplemented()

@@ -423,11 +423,11 @@ extension ViewTransform.UnsafeBuffer {
         }
         
         override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
-            let eltPtr = elt.body(as: Element.self)
-            let fromPtr = from.body(as: Element.self)
+            let eltPtr = unsafe elt.body(as: Element.self)
+            let fromPtr = unsafe from.body(as: Element.self)
             
-            let element = fromPtr.move()
-            eltPtr.initialize(to: element)
+            let element = unsafe fromPtr.move()
+            unsafe eltPtr.initialize(to: element)
         }
         
         override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {

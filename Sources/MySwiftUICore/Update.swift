@@ -28,7 +28,7 @@ package enum Update {
             return false
         }
         
-        return !actions.isEmpty
+        return unsafe !actions.isEmpty
     }
     
     @discardableResult
@@ -200,10 +200,10 @@ package enum Update {
             return
         }
         
-        var actions = Update.actions
+        var actions = unsafe Update.actions
         
         while !actions.isEmpty {
-            Update.actions = []
+            unsafe Update.actions = []
             
             onMainThread { [unchecked = UncheckedSendable(actions)] in
                 let traceHost = unsafe Update.traceHost
@@ -232,7 +232,7 @@ package enum Update {
                 }
             }
             
-            actions = Update.actions
+            actions = unsafe Update.actions
         }
     }
 }

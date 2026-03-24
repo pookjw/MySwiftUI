@@ -69,7 +69,7 @@ protocol AnyPlatformViewHost {
     }
     
     func modifyBridgedInputs<Representable: CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
-        inputs.preferences.remove(AccessibilityNodesKey.self)
+        unsafe inputs.preferences.remove(AccessibilityNodesKey.self)
         representableType.modifyBridgedViewInputs(&inputs)
     }
     
@@ -125,11 +125,11 @@ protocol AnyPlatformViewHost {
         AccessibilityPlatformViewModifier.makeAccessibilityPlatformTransform(inputs: copy_2, representable: proxy.base, outputs: &outputs)
         
         // <+1200>
-        self.$platformViewAccessibilityNodes = outputs[AccessibilityNodesKey.self]
+        self.$platformViewAccessibilityNodes = unsafe outputs[AccessibilityNodesKey.self]
         
-        if copy_2.preferences.contains(AccessibilityNodesKey.self) {
+        if unsafe copy_2.preferences.contains(AccessibilityNodesKey.self) {
             // <+1316>
-            outputs[AccessibilityNodesKey.self] = nil
+            unsafe outputs[AccessibilityNodesKey.self] = nil
         }
         
         // <+1348>

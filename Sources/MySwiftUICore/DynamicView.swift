@@ -282,18 +282,18 @@ extension DynamicViewContainer {
             for unsafe item in unsafe allItems.value {
                 let matches = unsafe item.takeUnretainedValue().matches(type: type, id: id)
                 if matches {
-                    matchedItem = item
+                    unsafe matchedItem = unsafe item
                     break
                 }
             }
             
-            if let matchedItem {
+            if let matchedItem = unsafe matchedItem {
                 // <+1640>
-                let subgraph = matchedItem.takeUnretainedValue().subgraph
+                let subgraph = unsafe matchedItem.takeUnretainedValue().subgraph
                 parentSubgraph.addChild(subgraph)
                 subgraph.didReinsert()
-                item = matchedItem.takeUnretainedValue()
-                self.lastItem = matchedItem.takeUnretainedValue()
+                item = unsafe matchedItem.takeUnretainedValue()
+                self.lastItem = unsafe matchedItem.takeUnretainedValue()
                 // <+1928>
             } else {
                 // <+1208>
@@ -444,15 +444,15 @@ extension DynamicViewList {
         override func invalidate() {
             // self -> x21
             // x23
-            let allItems = allItems
+            let allItems = unsafe allItems
             
-            let index = allItems.value.firstIndex { item in
+            let index = unsafe allItems.value.firstIndex { item in
                 // $s7SwiftUI23ResettableListContainer33_6EC83A31B57F45269398E452A4758CA7LLV4ItemC10invalidateyyFSbs9UnmanagedVyAFyx_GGXEfU_TA
-                return item == Unmanaged.passUnretained(self)
+                return unsafe item == Unmanaged.passUnretained(self)
             }
             
             if let index {
-                allItems.value.remove(at: index)
+                unsafe allItems.value.remove(at: index)
             }
         }
     }

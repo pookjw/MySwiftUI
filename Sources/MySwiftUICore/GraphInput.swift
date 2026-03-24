@@ -71,7 +71,7 @@ struct GraphReuseOptions: OptionSet {
     var rawValue: Int
     
     static var current: GraphReuseOptions {
-        return overrideValue ?? defaultsValue
+        return unsafe overrideValue ?? defaultsValue
     }
     
     static var lazyLayouts: GraphReuseOptions {
@@ -92,11 +92,11 @@ struct GraphReuseOptions: OptionSet {
     
     static nonisolated(unsafe) var overrideValue: GraphReuseOptions?
     
-    fileprivate static nonisolated(unsafe) let defaultsValue: GraphReuseOptions = {
+    fileprivate static nonisolated let defaultsValue: GraphReuseOptions = {
         if let value = UserDefaults.standard.object(forKey: "GraphReuseOptions") as? Int {
             return GraphReuseOptions(rawValue: value)
         } else if let value = unsafe getenv("SWIFTUI_GRAPH_REUSE_OPTIONS") {
-            return GraphReuseOptions(rawValue: Int(atoi(value)))
+            return unsafe GraphReuseOptions(rawValue: Int(atoi(value)))
         } else {
             return .default
         }

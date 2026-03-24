@@ -6,8 +6,8 @@ internal import AttributeGraph
     public nonisolated(unsafe) var disappear: (() -> Void)?
     
     @inlinable public nonisolated init(appear: (() -> Void)? = nil, disappear: (() -> Void)? = nil) {
-        self.appear = appear
-        self.disappear = disappear
+        unsafe self.appear = appear
+        unsafe self.disappear = disappear
     }
     
     public static nonisolated func _makeView(modifier: _GraphValue<_AppearanceActionModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
@@ -115,7 +115,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
             return
         }
         
-        if let disappear = lastValue?.disappear {
+        if let disappear = unsafe lastValue?.disappear {
             Update.enqueueAction(reason: .onDisappear, disappear)
         }
         
@@ -127,7 +127,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
             return
         }
         
-        if let appear = lastValue?.appear {
+        if let appear = unsafe lastValue?.appear {
             // <+40>
             Update.enqueueAction(reason: .onAppear, appear)
         }
@@ -158,10 +158,10 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
     }
     
     static func willRemove(attribute: AnyAttribute) {
-        let effect = attribute
+        let effect = unsafe attribute
             ._bodyPointer
             .assumingMemoryBound(to: AppearanceEffect.self)
-        UnsafeMutablePointer(mutating: effect).pointee.disappeared()
+        unsafe UnsafeMutablePointer(mutating: effect).pointee.disappeared()
     }
     
     static func didReinsert(attribute: AnyAttribute) {
@@ -272,14 +272,14 @@ extension _AppearanceActionModifier {
                     if w8 < 1 {
                         // <+112>
                     } else {
-                        self.base.appear?()
+                        unsafe self.base.appear?()
                     }
                 } else {
                     // <+32>
                     if w8 > 0 {
                         // <+112>
                     } else {
-                        self.base.disappear?()
+                        unsafe self.base.disappear?()
                     }
                 }
             }
@@ -288,7 +288,7 @@ extension _AppearanceActionModifier {
         deinit {
             if
                 lastCount >= 1,
-                let disappear = base.disappear
+                let disappear = unsafe base.disappear
             {
                 Update.enqueueAction(reason: nil, disappear)
             }

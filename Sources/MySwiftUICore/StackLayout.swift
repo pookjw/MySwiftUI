@@ -184,7 +184,7 @@ struct StackLayout {
                 header.internalSpacing = d9
             }
             
-            let child = StackLayout.Child(
+            let child = unsafe StackLayout.Child(
                 layoutPriority: header.proxies[index].priority,
                 majorAxisRangeCache: MajorAxisRangeCache(min: nil, max: nil),
                 distanceToPrevious: d10,
@@ -198,8 +198,8 @@ struct StackLayout {
     
     @inline(__always)
     fileprivate mutating func withUnmanagedImplementation<T>(body: (StackLayout.UnmanagedImplementation) throws -> T) rethrows -> T {
-        return try children.withUnsafeMutableBufferPointer { children in
-            return try body(StackLayout.UnmanagedImplementation(header: &header, children: children))
+        return unsafe try children.withUnsafeMutableBufferPointer { children in
+            return unsafe try body(StackLayout.UnmanagedImplementation(header: &header, children: children))
         }
     }
 }
@@ -243,7 +243,7 @@ extension StackLayout {
         func sizeThatFits(proposal: ProposedViewSize) -> CGSize {
             // $s7SwiftUI12VStackLayoutVAA0D0A2aDP12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsV5CacheQzztFTWTm
             placeChildren(in: proposal)
-            return header.pointee.stackSize
+            return unsafe header.pointee.stackSize
         }
         
         func prioritize(_ children: UnsafeMutableBufferPointer<StackLayout.Child>, proposedSize: ProposedViewSize) {
@@ -252,25 +252,25 @@ extension StackLayout {
              children (arg) -> x0
              header -> x6 -> x19
              */
-            let majorAxis = header.pointee.majorAxis
+            let majorAxis = unsafe header.pointee.majorAxis
             guard
-                header.pointee.lastProposedSize[majorAxis] != proposedSize[majorAxis] ||
+                unsafe header.pointee.lastProposedSize[majorAxis] != proposedSize[majorAxis] ||
                 header.pointee.lastProposedSize[majorAxis] == nil
             else {
                 return
             }
             
             for index in children.indices.reversed() {
-                children[index].majorAxisRangeCache = StackLayout.MajorAxisRangeCache(min: nil, max: nil)
+                unsafe children[index].majorAxisRangeCache = StackLayout.MajorAxisRangeCache(min: nil, max: nil)
             }
             
             // <+224>
             // x28
-            let layoutPriorityBuffer = UnsafeMutableBufferProjectionPointer(children, \.layoutPriority)
+            let layoutPriorityBuffer = unsafe UnsafeMutableBufferProjectionPointer(children, \.layoutPriority)
             // x21
-            var majorAxisRangeCacheBuffer = UnsafeMutableBufferProjectionPointer(children, \.majorAxisRangeCache)
+            var majorAxisRangeCacheBuffer = unsafe UnsafeMutableBufferProjectionPointer(children, \.majorAxisRangeCache)
             // x23 -> sp + 0xb8
-            var fittingOrderBuffer = UnsafeMutableBufferProjectionPointer(children, \.fittingOrder)
+            var fittingOrderBuffer = unsafe UnsafeMutableBufferProjectionPointer(children, \.fittingOrder)
             /*
              count -> sp + 0xc0
              AGAttributeNil -> sp + 0x4c
@@ -284,13 +284,13 @@ extension StackLayout {
              lengthThatFits
              */
             // <+2504>에서 fittingOrderBuffer로 slowPath하고 있기에 fittingOrderBuffer임
-            fittingOrderBuffer.sort { lhs, rhs in
+            unsafe fittingOrderBuffer.sort { lhs, rhs in
                 // inlined
                 // <+460>
                 // d1
-                let lhsLayoutPriority = layoutPriorityBuffer[lhs]
+                let lhsLayoutPriority = unsafe layoutPriorityBuffer[lhs]
                 // d0
-                let rhsLayoutPriority = layoutPriorityBuffer[rhs]
+                let rhsLayoutPriority = unsafe layoutPriorityBuffer[rhs]
                 
                 if (lhsLayoutPriority > rhsLayoutPriority) {
                     return true
@@ -301,56 +301,56 @@ extension StackLayout {
                 // <+632>
                 // d8
                 let rhsRangeMin: CGFloat
-                if let min = majorAxisRangeCacheBuffer[rhs].min {
+                if let min = unsafe majorAxisRangeCacheBuffer[rhs].min {
                     rhsRangeMin = min
                 } else {
-                    let min = header.pointee.proxies[rhs].lengthThatFits(
+                    let min = unsafe header.pointee.proxies[rhs].lengthThatFits(
                         ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
                         in: header.pointee.majorAxis
                     )
-                    majorAxisRangeCacheBuffer[rhs].min = min
+                    unsafe majorAxisRangeCacheBuffer[rhs].min = min
                     rhsRangeMin = min
                 }
                 
                 // <+980>
                 // d9
                 let rhsRangeMax: CGFloat
-                if let max = majorAxisRangeCacheBuffer[rhs].max {
+                if let max = unsafe majorAxisRangeCacheBuffer[rhs].max {
                     rhsRangeMax = max
                 } else {
-                    let max = header.pointee.proxies[rhs].lengthThatFits(
+                    let max = unsafe header.pointee.proxies[rhs].lengthThatFits(
                         ProposedViewSize(.infinity, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
                         in: header.pointee.majorAxis
                     )
-                    majorAxisRangeCacheBuffer[rhs].max = max
+                    unsafe majorAxisRangeCacheBuffer[rhs].max = max
                     rhsRangeMax = max
                 }
                 
                 // <+1188>
                 // d10
                 let lhsRangeMin: CGFloat
-                if let min = majorAxisRangeCacheBuffer[lhs].min {
+                if let min = unsafe majorAxisRangeCacheBuffer[lhs].min {
                     lhsRangeMin = min
                 } else {
-                    let min = header.pointee.proxies[lhs].lengthThatFits(
+                    let min = unsafe header.pointee.proxies[lhs].lengthThatFits(
                         ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
                         in: header.pointee.majorAxis
                     )
-                    majorAxisRangeCacheBuffer[lhs].min = min
+                    unsafe majorAxisRangeCacheBuffer[lhs].min = min
                     lhsRangeMin = min
                 }
                 
                 // <+1712>
                 // d11
                 let lhsRangeMax: CGFloat
-                if let max = majorAxisRangeCacheBuffer[lhs].max {
+                if let max = unsafe majorAxisRangeCacheBuffer[lhs].max {
                     lhsRangeMax = max
                 } else {
-                    let max = header.pointee.proxies[lhs].lengthThatFits(
+                    let max = unsafe header.pointee.proxies[lhs].lengthThatFits(
                         ProposedViewSize(.infinity, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
                         in: header.pointee.majorAxis
                     )
-                    majorAxisRangeCacheBuffer[lhs].max = max
+                    unsafe majorAxisRangeCacheBuffer[lhs].max = max
                     lhsRangeMax = max
                 }
                 
@@ -362,22 +362,22 @@ extension StackLayout {
             
             // <+2508>
             // d9
-            let firstLayoutPriority = layoutPriorityBuffer[fittingOrderBuffer[0]]
-            for index in fittingOrderBuffer.indices.reversed() {
-                let fittingOrder = fittingOrderBuffer[index]
+            let firstLayoutPriority = unsafe layoutPriorityBuffer[fittingOrderBuffer[0]]
+            for index in unsafe fittingOrderBuffer.indices.reversed() {
+                let fittingOrder = unsafe fittingOrderBuffer[index]
                 // d0
-                let layoutPriority = layoutPriorityBuffer[fittingOrder]
+                let layoutPriority = unsafe layoutPriorityBuffer[fittingOrder]
                 guard layoutPriority != firstLayoutPriority else {
                     return
                 }
                 
-                let majorAxisRangeCache = majorAxisRangeCacheBuffer[fittingOrder]
+                let majorAxisRangeCache = unsafe majorAxisRangeCacheBuffer[fittingOrder]
                 guard majorAxisRangeCache.min == nil else {
                     continue
                 }
                 
                 // <+2776>
-                let min = header.pointee.proxies[fittingOrder].lengthThatFits(
+                let min = unsafe header.pointee.proxies[fittingOrder].lengthThatFits(
                     ProposedViewSize(
                         0,
                         in: header.pointee.majorAxis,
@@ -386,7 +386,7 @@ extension StackLayout {
                     in: header.pointee.majorAxis
                 )
                 
-                majorAxisRangeCacheBuffer[fittingOrder].min = min
+                unsafe majorAxisRangeCacheBuffer[fittingOrder].min = min
             }
         }
         
@@ -416,25 +416,25 @@ extension StackLayout {
             placeChildren(in: proposal)
             
             // w23
-            let layoutDirection = header.pointee.proxies.layoutDirection
+            let layoutDirection = unsafe header.pointee.proxies.layoutDirection
             /*
              bounds.size.width -> sp + 0x30
              bounds.origin.y -> sp + 0x40
              bounds.origin.x -> sp + 0x48
              */
             
-            switch header.pointee.majorAxis {
+            switch unsafe header.pointee.majorAxis {
             case .vertical:
                 d13 = bounds.minY
                 
                 // sp + 0x250
-                let copy_1 = header.pointee
+                let copy_1 = unsafe header.pointee
                 // sp + 0x1d0
                 let copy_2 = copy_1
                 
                 // children -> x26
                 // x28(index), x26, x25
-                for (child, proxy) in zip(children, copy_1.proxies) {
+                for (child, proxy) in unsafe zip(children, copy_1.proxies) {
                     // <+536>
                     // sp + 0x1d0
                     let copy_3 = child
@@ -512,13 +512,13 @@ extension StackLayout {
                 var d12 = d0
                 
                 // sp + 0x250
-                let copy_1 = header.pointee
+                let copy_1 = unsafe header.pointee
                 
                 // <+1108>
                 // sp + 0x1d0
                 let copy_2 = copy_1
                 
-                guard !children.isEmpty else {
+                guard unsafe !children.isEmpty else {
                     return
                 }
                 
@@ -527,7 +527,7 @@ extension StackLayout {
                  children -> x19
                  */
                 // (x19, x26)
-                for (child, proxy) in zip(children, copy_1.proxies) {
+                for (child, proxy) in unsafe zip(children, copy_1.proxies) {
                     // <+1356>
                     // sp + 0x1d0
                     let copy_3 = child
@@ -601,12 +601,12 @@ extension StackLayout {
              header -> x4
              children -> x5, x6 -> x25, x24
              */
-            guard size != header.pointee.lastProposedSize else {
+            guard unsafe size != header.pointee.lastProposedSize else {
                 return
             }
             
             let minorProposal: CGFloat?
-            switch header.pointee.majorAxis {
+            switch unsafe header.pointee.majorAxis {
             case .horizontal:
                 minorProposal = size[.vertical]
             case .vertical:
@@ -616,7 +616,7 @@ extension StackLayout {
                 return minorProposal
             }
             
-            if header.pointee.resizeChildrenWithTrailingOverflow {
+            if unsafe header.pointee.resizeChildrenWithTrailingOverflow {
                 resizeAnyChildrenWithTrailingOverflow(in: size)
             }
         }
@@ -639,7 +639,7 @@ extension StackLayout {
              children -> x5, x6 -> x21, x20
              minorProposalForChild의 결과값 -> x7
              */
-            if size[header.pointee.majorAxis] == nil {
+            if unsafe size[header.pointee.majorAxis] == nil {
                 sizeChildrenIdeally(in: size, minorProposalForChild: minorProposalForChild)
             } else {
                 sizeChildrenGenerallyWithConcreteMajorProposal(in: size, minorProposalForChild: minorProposalForChild)
@@ -650,11 +650,11 @@ extension StackLayout {
             var d12: CGFloat = 0
             var d15: CGFloat = 0
             
-            for child in children {
+            for child in unsafe children {
                 // sp + 0x80
                 let copy = child
                 // w26
-                let majorAxis = header.pointee.majorAxis
+                let majorAxis = unsafe header.pointee.majorAxis
                 // d8, d9, d10, d11
                 let frame = copy.geometry.frame
                 
@@ -698,29 +698,29 @@ extension StackLayout {
             }
             
             // <+380>
-            if !children.isEmpty {
-                let majorAxis = header.pointee.majorAxis
+            if unsafe !children.isEmpty {
+                let majorAxis = unsafe header.pointee.majorAxis
                 d14 = 0
                 
-                for index in children.indices {
-                    var d0 = children[index].distanceToPrevious
+                for index in unsafe children.indices {
+                    var d0 = unsafe children[index].distanceToPrevious
                     d0 += d14
                     
                     if d0.bitPattern & 0xfffffffffffff == 0 {
                         switch majorAxis {
                         case .horizontal:
-                            children[index].geometry.origin.x = d0
+                            unsafe children[index].geometry.origin.x = d0
                         case .vertical:
-                            children[index].geometry.origin.y = d0
+                            unsafe children[index].geometry.origin.y = d0
                         }
                     }
                     
                     var d1: CGFloat
                     switch majorAxis {
                     case .horizontal:
-                        d1 = children[index].geometry.origin.y
+                        d1 = unsafe children[index].geometry.origin.y
                     case .vertical:
-                        d1 = children[index].geometry.origin.x
+                        d1 = unsafe children[index].geometry.origin.x
                     }
                     
                     d1 -= d13
@@ -728,18 +728,18 @@ extension StackLayout {
                     if d1.bitPattern & 0xfffffffffffff == 0 {
                         switch majorAxis {
                         case .horizontal:
-                            children[index].geometry.origin.y = d1
+                            unsafe children[index].geometry.origin.y = d1
                         case .vertical:
-                            children[index].geometry.origin.x = d1
+                            unsafe children[index].geometry.origin.x = d1
                         }
                     }
                     
                     // <+432>
                     switch majorAxis {
                     case .horizontal:
-                        d1 = children[index].geometry.dimensions.size.width
+                        d1 = unsafe children[index].geometry.dimensions.size.width
                     case .vertical:
-                        d1 = children[index].geometry.dimensions.size.height
+                        d1 = unsafe children[index].geometry.dimensions.size.height
                     }
                     
                     d14 = d0 + d1
@@ -749,7 +749,7 @@ extension StackLayout {
             // <+536>
             var d0 = d12 - d13
             let d1: CGFloat
-            switch header.pointee.majorAxis {
+            switch unsafe header.pointee.majorAxis {
             case .horizontal:
                 d1 = d14
             case .vertical:
@@ -757,7 +757,7 @@ extension StackLayout {
                 d0 = d14
             }
             
-            header.pointee.stackSize = CGSize(width: d1, height: d0)
+            unsafe header.pointee.stackSize = CGSize(width: d1, height: d0)
         }
         
         func sizeChildrenIdeally(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
@@ -770,17 +770,17 @@ extension StackLayout {
              children -> x25, x21
              */
             // w19
-            let majorAxis = header.pointee.majorAxis
-            assert(size[header.pointee.majorAxis] != nil)
-            let internalSpacing = header.pointee.internalSpacing
-            prioritize(children, proposedSize: size)
+            let majorAxis = unsafe header.pointee.majorAxis
+            unsafe assert(size[header.pointee.majorAxis] != nil)
+            let internalSpacing = unsafe header.pointee.internalSpacing
+            unsafe prioritize(children, proposedSize: size)
             
-            guard !children.isEmpty else {
+            guard unsafe !children.isEmpty else {
                 return
             }
             
             // x14
-            let fittingOrderBuffer = UnsafeMutableBufferProjectionPointer(children, \.fittingOrder)
+            let fittingOrderBuffer = unsafe UnsafeMutableBufferProjectionPointer(children, \.fittingOrder)
             // d0
             let length = size[majorAxis]!
             var d10 = length - internalSpacing
@@ -790,43 +790,43 @@ extension StackLayout {
             var index = 0
             repeat {
                 // x10 / x9 (offset from fittingOrderBuffer)
-                let fittingOrder = fittingOrderBuffer[index]
-                w15 = (index == children.count)
+                let fittingOrder = unsafe fittingOrderBuffer[index]
+                w15 = unsafe (index == children.count)
                 
                 var otherIndex: Int
                 if !w15 {
                     // d0
-                    let layoutPriority = children[fittingOrder].layoutPriority
+                    let layoutPriority = unsafe children[fittingOrder].layoutPriority
                     
                     // x19
                     otherIndex = index
                     // d1
                     var otherLayoutPriority: CGFloat
                     while true {
-                        otherLayoutPriority = children[fittingOrderBuffer[otherIndex]].layoutPriority
+                        otherLayoutPriority = unsafe children[fittingOrderBuffer[otherIndex]].layoutPriority
                         guard otherLayoutPriority == layoutPriority else {
                             break
                         }
                         
                         otherIndex &+= 1
-                        w15 = (children.count == otherIndex)
+                        w15 = unsafe (children.count == otherIndex)
                         
-                        if otherIndex == children.count {
-                            otherIndex = children.count
+                        if unsafe otherIndex == children.count {
+                            otherIndex = unsafe children.count
                             break
                         }
                     }
                 } else {
-                    otherIndex = children.count
+                    otherIndex = unsafe children.count
                 }
                 
                 // <+368>
                 assert(otherIndex >= index)
-                assert(otherIndex <= children.count)
+                unsafe assert(otherIndex <= children.count)
                 
                 // <+388>
                 // x11
-                let firstFittingOrder = fittingOrderBuffer[0]
+                let firstFittingOrder = unsafe fittingOrderBuffer[0]
                 // d0
                 var total: CGFloat = 0
                 // x28
@@ -834,9 +834,9 @@ extension StackLayout {
                 if fittingOrder == firstFittingOrder {
                     // <+404>
                     var x10 = otherIndex
-                    while children.count != x10 {
+                    while unsafe children.count != x10 {
                         // d1
-                        let min = children[fittingOrderBuffer[x10]].majorAxisRangeCache.min!
+                        let min = unsafe children[fittingOrderBuffer[x10]].majorAxisRangeCache.min!
                         x10 &+= 1
                         total += min
                     }
@@ -853,7 +853,7 @@ extension StackLayout {
                     if otherIndex != index {
                         var x11 = index
                         repeat {
-                            let min = children[fittingOrderBuffer[x11]].majorAxisRangeCache.min!
+                            let min = unsafe children[fittingOrderBuffer[x11]].majorAxisRangeCache.min!
                             x11 &+= 1
                             total += min
                         } while x11 != otherIndex
@@ -872,12 +872,12 @@ extension StackLayout {
                 // w15 -> sp + 0x1c
                 var x22 = index
                 let sp40 = -otherIndex
-                let sp48 = -max(index, children.count)
+                let sp48 = unsafe -max(index, children.count)
                 assert(sp48 &+ x22 != 1)
                 // <+636>
                 repeat {
                     // x21
-                    let fittingOrder2 = fittingOrderBuffer[x22]
+                    let fittingOrder2 = unsafe fittingOrderBuffer[x22]
                     x22 &+= 1
                     var d0 = d10 / CGFloat(dist)
                     if d0 <= 0 {
@@ -885,16 +885,16 @@ extension StackLayout {
                     }
                     // index는 더 이상 x8이 아님
                     // sp + 0x60
-                    let size2 = ProposedViewSize(
+                    let size2 = unsafe ProposedViewSize(
                         d0,
                         in: header.pointee.majorAxis,
                         by: minorProposalForChild(children[fittingOrder2])
                     )
-                    let proxy = header.pointee.proxies[fittingOrder2]
+                    let proxy = unsafe header.pointee.proxies[fittingOrder2]
                     // d9/d8
                     let sizeThatFits = proxy.sizeThatFits(size2)
                     // d0
-                    var explicitAlignment = proxy.proxy.explicitAlignment(
+                    var explicitAlignment = unsafe proxy.proxy.explicitAlignment(
                         header.pointee.minorAxisAlignment,
                         at: ViewSize(sizeThatFits, proposal: _ProposedSize(width: size.width, height: size.height))
                     )
@@ -905,7 +905,7 @@ extension StackLayout {
                             proposal: _ProposedSize(width: size.width, height: size.height)
                         )
                         
-                        explicitAlignment = header.pointee.minorAxisAlignment.id.defaultValue(in: dimensions)
+                        explicitAlignment = unsafe header.pointee.minorAxisAlignment.id.defaultValue(in: dimensions)
                     }
                     
                     // <+1264>
@@ -918,7 +918,7 @@ extension StackLayout {
                     }
                     
                     explicitAlignment = -explicitAlignment!
-                    children[fittingOrder2].geometry = ViewGeometry(
+                    unsafe children[fittingOrder2].geometry = unsafe ViewGeometry(
                         origin: CGPoint(0, in: header.pointee.majorAxis, by: explicitAlignment!),
                         dimensions: ViewDimensions(
                             guideComputer: proxy.proxy.layoutComputer,
@@ -928,11 +928,11 @@ extension StackLayout {
                     )
                     
                     // <+1412>
-                    switch header.pointee.majorAxis {
+                    switch unsafe header.pointee.majorAxis {
                     case .horizontal:
-                        d0 = children[fittingOrder2].geometry.dimensions.size.width
+                        d0 = unsafe children[fittingOrder2].geometry.dimensions.size.width
                     case .vertical:
-                        d0 = children[fittingOrder2].geometry.dimensions.size.height
+                        d0 = unsafe children[fittingOrder2].geometry.dimensions.size.height
                     }
                     
                     d0 = d10 - d0

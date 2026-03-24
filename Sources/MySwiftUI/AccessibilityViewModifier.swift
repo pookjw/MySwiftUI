@@ -170,7 +170,7 @@ extension AccessibilityViewModifier {
          includeGeometry -> w3 -> x29 - 0x6c
          */
         // <+176>
-        guard inputs.preferences.contains(AccessibilityNodesKey.self) else {
+        guard unsafe inputs.preferences.contains(AccessibilityNodesKey.self) else {
             return nil
         }
         
@@ -279,11 +279,11 @@ fileprivate final class AccessibilityViewModifierAccessor<T>: AnyAccessibilityVi
 
 fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, RemovableAttribute, CustomStringConvertible {
     static func willRemove(attribute: AnyAttribute) {
-        let transform = attribute
+        let transform = unsafe attribute
             ._bodyPointer
             .assumingMemoryBound(to: PropertiesTransform.self)
-        let mutable = UnsafeMutablePointer(mutating: transform)
-        mutable[].removedParentNode = mutable[].parentNode
+        let mutable = unsafe UnsafeMutablePointer(mutating: transform)
+        unsafe mutable[].removedParentNode = unsafe mutable[].parentNode
     }
     
     static func didReinsert(attribute: AnyAttribute) {

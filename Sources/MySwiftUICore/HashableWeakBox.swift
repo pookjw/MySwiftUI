@@ -4,14 +4,14 @@ package struct HashableWeakBox<T: AnyObject>: Hashable {
     
     package init(_ base: T) {
         self.base = base
-        self.basePointer = Unmanaged.passUnretained(base).toOpaque()
+        unsafe self.basePointer = unsafe Unmanaged.passUnretained(base).toOpaque()
     }
     
     package func hash(into hasher: inout Hasher) {
-        hasher.combine(basePointer)
+        unsafe hasher.combine(basePointer)
     }
     
     package static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.basePointer == rhs.basePointer
+        return unsafe lhs.basePointer == rhs.basePointer
     }
 }

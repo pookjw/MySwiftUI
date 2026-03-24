@@ -27,7 +27,7 @@ private import AttributeGraph
             // sp + 0x88
             let copy_2 = copy_1
             var unary = MakeUnary(view: view, inputs: inputs, outputs: nil)
-            typeDescription.contentTypes[0].1.visitType(visitor: &unary)
+            unsafe typeDescription.contentTypes[0].1.visitType(visitor: &unary)
             return unary.outputs!
         } else {
             // <+368>
@@ -73,7 +73,7 @@ private import AttributeGraph
             // sp + 0x98
             makeList.index = contentType.0
             makeList.offset = TupleType(T.self).offset(at: contentType.0, as: contentType.1.type)
-            contentType.1.visitType(visitor: &makeList)
+            unsafe contentType.1.visitType(visitor: &makeList)
         }
         
         // <+264>

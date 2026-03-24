@@ -10,7 +10,7 @@ func registerAppRootModifier<T: ViewModifier>(_ modifier: T) {
 @inline(__always) // 원래 없음
 func resolveAppRootView(_ view: AnyView) -> AnyView {
     var view = view
-    for wrapper in appRootViewWrappers {
+    for wrapper in unsafe appRootViewWrappers {
         view = wrapper(view)
     }
     return view

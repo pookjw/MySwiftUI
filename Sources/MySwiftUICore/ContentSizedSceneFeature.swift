@@ -157,14 +157,14 @@ struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer>: StatefulRu
 
 extension ViewGraph {
     package func setWindowResizeDelegate(_ delegate: ContentSizedSceneDelegate) {
-        if let feature = self.features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
+        if let feature = unsafe self.features[ContentSizedSceneFeature<SizeThatFitsMeasurer>.self] {
             // <+192>
             if let resize = Log.resize {
                 resize.log(level: .debug, "Adding 2D ContentSizedSceneDelegate")
             }
             
             // <+576>
-            feature.pointee.dispatcher.delegate = delegate
+            unsafe feature.pointee.dispatcher.delegate = delegate
         } else {
             // <+324>
             if let resize = Log.resize {
@@ -174,14 +174,14 @@ extension ViewGraph {
     } 
     
     package func setVolumeResizeDelegate(_ delegate: ContentSizedSceneDelegate) {
-        if let feature = self.features[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] {
+        if let feature = unsafe self.features[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] {
             // <+192>
             if let resize = Log.resize {
                 resize.log(level: .debug, "Adding 3D ContentSizedSceneDelegate")
             }
             
             // <+576>
-            feature.pointee.dispatcher.delegate = delegate
+            unsafe feature.pointee.dispatcher.delegate = delegate
         } else {
             // <+324>
             if let resize = Log.resize {

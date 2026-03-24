@@ -7,7 +7,7 @@ extension UnsafePointer {
     
     subscript() -> Pointee {
         unsafeAddress {
-            return self
+            return unsafe self
         }
     }
 }
@@ -21,10 +21,10 @@ extension UnsafeMutablePointer {
     
     package subscript() -> Pointee {
         unsafeAddress {
-            return UnsafePointer(self)
+            return unsafe UnsafePointer(self)
         }
         nonmutating unsafeMutableAddress {
-            return self
+            return unsafe self
         }
     }
 }

@@ -73,7 +73,7 @@ public struct _ResolvedCommands {
     @_transparent fileprivate static var bundle: Bundle {
         let bundleClass: AnyClass
 #if SwiftUICompataibility
-        bundleClass = objc_lookUpClass("_TtC7SwiftUIP33_7CAAF8CB17093C835B3EA3980BA79FD812SwiftUIClass")!
+        bundleClass = unsafe objc_lookUpClass("_TtC7SwiftUIP33_7CAAF8CB17093C835B3EA3980BA79FD812SwiftUIClass")!
 #else
         bundleClass = SwiftUIClass.self
 #endif
@@ -81,22 +81,22 @@ public struct _ResolvedCommands {
     }
     
     // $s7SwiftUI17_ResolvedCommandsV8fileItem_WZ
-    @safe static nonisolated(unsafe) let fileItem = Text("File", tableName: "MainMenu", bundle: bundle, comment: "Title of top level File main menu")
+    static let fileItem = Text("File", tableName: "MainMenu", bundle: bundle, comment: "Title of top level File main menu")
     
     // $s7SwiftUI17_ResolvedCommandsV8editItem_WZ
-    @safe static nonisolated(unsafe) let editItem = Text("Edit", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Edit main menu")
+    static let editItem = Text("Edit", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Edit main menu")
     
     // $s7SwiftUI17_ResolvedCommandsV10formatItem_WZ
-    @safe static nonisolated(unsafe) let formatItem = Text("Format", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Format main menu")
+    static let formatItem = Text("Format", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Format main menu")
     
     // $s7SwiftUI17_ResolvedCommandsV8viewItem_WZ
-    @safe static nonisolated(unsafe) let viewItem = Text("View", tableName: "MainMenu", bundle: bundle, comment: "Title of top level View main menu")
+    static let viewItem = Text("View", tableName: "MainMenu", bundle: bundle, comment: "Title of top level View main menu")
     
     // $s7SwiftUI17_ResolvedCommandsV10windowItem_WZ
-    @safe static nonisolated(unsafe) let windowItem = Text("Window", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Window main menu")
+    static let windowItem = Text("Window", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Window main menu")
     
     // $s7SwiftUI17_ResolvedCommandsV8helpItem_WZ
-    @safe static nonisolated(unsafe) let helpItem = Text("Help", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Help main menu")
+    static let helpItem = Text("Help", tableName: "MainMenu", bundle: bundle, comment: "Title of top level Help main menu")
     
     var topLevelCommands: [HashableCommandGroupPlacementWrapper] = []
     var storage: [HashableCommandGroupPlacementWrapper: CommandAccumulator] = [:]

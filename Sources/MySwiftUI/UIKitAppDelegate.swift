@@ -25,7 +25,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         self.fallbackDelegate = AppGraph.delegateBox?.delegate as? UIApplicationDelegate
         
         // <+276>
-        SceneNavigationStrategy_Phone.shared.sceneNavigationEnabled = true
+        unsafe SceneNavigationStrategy_Phone.shared.sceneNavigationEnabled = true
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -128,7 +128,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let graph = AppGraph.shared,
             ViewGraphHost.isDefaultEnvironmentConfigured
         {
-            graph.setEnvironment(ViewGraphHost.defaultEnvironment)
+            unsafe graph.setEnvironment(ViewGraphHost.defaultEnvironment)
         }
         
         // <+336>

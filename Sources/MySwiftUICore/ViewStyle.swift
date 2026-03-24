@@ -4,7 +4,7 @@ private import _SwiftPrivate
 
 package enum ViewStyleRegistry: Sendable {
     package static func registerOverrides(_ overrides: ViewStyleOverrides, for idiom: ViewStyleRegistry.InterfaceIdiom) {
-        if var existing = registries[idiom.idiom] {
+        if var existing = unsafe registries[idiom.idiom] {
             existing.merge(with: overrides)
             unsafe registries[idiom.idiom]
         } else {

@@ -9,10 +9,10 @@ internal import CoreGraphics
     fileprivate static nonisolated(unsafe) var _defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
     package static nonisolated(unsafe) var defaultEnvironment: EnvironmentValues {
         get {
-            return _defaultEnvironment
+            return unsafe _defaultEnvironment
         }
         set {
-            _defaultEnvironment = newValue
+            unsafe _defaultEnvironment = newValue
             isDefaultEnvironmentConfigured = true
         }
     }

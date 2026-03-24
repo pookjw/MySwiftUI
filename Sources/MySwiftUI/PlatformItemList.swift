@@ -230,11 +230,11 @@ extension ViewRendererHost {
             Update.assertIsActive()
             graph.instantiateIfNeeded()
             
-            guard let platformItemListViewGraph = graph[PlatformItemListViewGraph.self] else {
+            guard let platformItemListViewGraph = unsafe graph[PlatformItemListViewGraph.self] else {
                 return PlatformItemList(items: [])
             }
             
-            return platformItemListViewGraph.pointee.readAndUpdate(graph: graph)
+            return unsafe platformItemListViewGraph.pointee.readAndUpdate(graph: graph)
         }
     }
 }
@@ -245,7 +245,7 @@ extension _ViewInputs {
 //    @_specialize(exported: false, where T == TextPlatformItemListFlags)
 //    @_specialize(exported: false, where T == WidgetMetadataPlatformItemListFlags)
     mutating func addPlatformItemListKey<T: PlatformItemListFlags>(flags: T.Type, editOperation: PlatformItemListFlagsSet.EditOperation?) {
-        self.preferences.add(PlatformItemList.Key.self)
+        unsafe self.preferences.add(PlatformItemList.Key.self)
         
         self.requestedTextRepresentation = PlatformItemListTextRepresentable.self
         self.requestedImageRepresentation = PlatformItemListImageRepresentable.self
@@ -404,16 +404,16 @@ struct PlatformItemListTransformModifier<T: PlatformItemListFlags>: PrimitiveVie
         let platformItemListFlags = inputs[PlatformItemListFlagsInput.self]
         
         if
-            ((T.flags.rawValue & ~platformItemListFlags.rawValue) == 0) &&
+            unsafe ((T.flags.rawValue & ~platformItemListFlags.rawValue) == 0) &&
                 inputs.preferences.contains(PlatformItemList.Key.self)
         {
             // <+368>
             let modifierAttribute = modifier.value
-            let platformItemList = outputs[PlatformItemList.Key.self]
+            let platformItemList = unsafe outputs[PlatformItemList.Key.self]
             let transformRule = PlatformItemListTransformModifier.Transform(modifier: modifierAttribute, _list: OptionalAttribute(platformItemList))
             let transformAttribute = Attribute(transformRule)
             
-            outputs[PlatformItemList.Key.self] = transformAttribute
+            unsafe outputs[PlatformItemList.Key.self] = transformAttribute
         }
         
         // <+660>

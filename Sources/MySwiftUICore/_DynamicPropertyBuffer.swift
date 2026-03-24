@@ -220,9 +220,9 @@ fileprivate class BoxVTableBase: _UnsafeHeterogeneousBuffer_VTable {
 
 fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
     override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-        let body = elt.body(as: U.self)
-        body.pointee.destroy()
-        body.deinitialize(count: 1)
+        let body = unsafe elt.body(as: U.self)
+        unsafe body.pointee.destroy()
+        unsafe body.deinitialize(count: 1)
     }
     
     override class func reset(elt: _UnsafeHeterogeneousBuffer_Element) {
@@ -237,9 +237,9 @@ fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
          */
         // phase -> w21
         // x20
-        let body = elt.body(as: U.self)
+        let body = unsafe elt.body(as: U.self)
         // phase -> sp + 0xa8
-        let updated = body.pointee.update(
+        let updated = unsafe body.pointee.update(
             property: &property.assumingMemoryBound(to: U.Property.self).pointee,
             phase: phase
         )
@@ -253,7 +253,7 @@ fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
          elt -> sp + 0x98
          updated -> sp + 0x34
          */
-        traceDynamicPropertyEvent(
+        unsafe traceDynamicPropertyEvent(
             property: property.assumingMemoryBound(to: U.Property.self).pointee,
             elt: elt.address
         )

@@ -10,24 +10,24 @@ func onDyldLoaded() {
 
 private nonisolated(unsafe) var original_setupDefaultEnvironmentWithScreen: IMP!
 private func swizzle_setupDefaultEnvironmentWithScreen() {
-    assert(original_setupDefaultEnvironmentWithScreen == nil)
+    unsafe assert(original_setupDefaultEnvironmentWithScreen == nil)
     
-    let method = class_getClassMethod(UIApplication.self, Selector(("_setupDefaultEnvironmentWithScreen:")))!
-    original_setupDefaultEnvironmentWithScreen = method_getImplementation(method)
+    let method = unsafe class_getClassMethod(UIApplication.self, Selector(("_setupDefaultEnvironmentWithScreen:")))!
+    unsafe original_setupDefaultEnvironmentWithScreen = unsafe method_getImplementation(method)
     
     let custom: (@convention(c) (AnyClass, Selector, AnyObject) -> Void) = { `self`, _cmd, screen in
-        let casted = unsafeBitCast(original_setupDefaultEnvironmentWithScreen, to: (@convention(c) (AnyClass, Selector, AnyObject) -> Void).self)
+        let casted = unsafe unsafeBitCast(original_setupDefaultEnvironmentWithScreen, to: (@convention(c) (AnyClass, Selector, AnyObject) -> Void).self)
         casted(self, _cmd, screen)
         setupDefaultEnvironmentWithScreen(screen: MyUIScreen(screen: screen))
     }
     
-    method_setImplementation(method, unsafeBitCast(custom, to: IMP.self))
+    unsafe method_setImplementation(method, unsafeBitCast(custom, to: IMP.self))
 }
 
 private func setupDefaultEnvironmentWithScreen(screen: MyUIScreen) {
     // screen -> x0 -> x23
     // <+388>
-    var environment = ViewGraphHost.defaultEnvironment
+    var environment = unsafe ViewGraphHost.defaultEnvironment
     let traitCollection = screen.traitCollection
     
     if let idiom = ViewGraphHost.Idiom(_uiIdiom: traitCollection.userInterfaceIdiom) {
@@ -50,5 +50,5 @@ private func setupDefaultEnvironmentWithScreen(screen: MyUIScreen) {
     }
     environment.setDefaultOpenURL(urlAction)
     
-    ViewGraphHost.defaultEnvironment = environment
+    unsafe ViewGraphHost.defaultEnvironment = environment
 }

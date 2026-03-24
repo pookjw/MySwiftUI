@@ -24,14 +24,14 @@ private import AttributeGraph
                 return value
             case let .keyPath(keyPath):
                 if #available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *) {
-                    os_log(.fault, log: Log.runtimeIssuesLog, """
+                    unsafe os_log(.fault, log: Log.runtimeIssuesLog, """
                     Accessing Environment<\(Value.self)>'s value outside of \
                     being installed on a View. \
                     This will always read the default value \
                     and will not update.
                     """)
                 } else {
-                    os_log(.fault, log: Log.runtimeIssuesLog, """
+                    unsafe os_log(.fault, log: Log.runtimeIssuesLog, """
                     Accessing Environment's value outside of being \
                     installed on a View. \
                     This will always read the default value \
@@ -39,7 +39,7 @@ private import AttributeGraph
                     """)
                 }
                 
-                os_log(.fault, log: Log.runtimeIssuesLog, """
+                unsafe os_log(.fault, log: Log.runtimeIssuesLog, """
                 Accessing Environment's value outside of being \
                 installed on a View. \
                 This will always read the default value \

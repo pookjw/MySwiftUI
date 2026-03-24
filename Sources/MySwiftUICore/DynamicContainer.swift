@@ -114,7 +114,7 @@ extension DynamicContainer {
         }
         
         func `for`<T: DynamicContainerAdaptor>(_ type: T.Type) -> DynamicContainer._ItemInfo<T> {
-            return unsafeBitCast(self, to: DynamicContainer._ItemInfo<T>.self)
+            return unsafe unsafeBitCast(self, to: DynamicContainer._ItemInfo<T>.self)
         }
     }
     

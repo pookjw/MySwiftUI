@@ -303,7 +303,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                  fromBuffer count -> x23 -> sp + 0x1c8 (x29 - 0xf8)
                  */
                 for index in fromBuffer.indices {
-                    fromDictionary[fromBuffer[index]] = index
+                    unsafe fromDictionary[fromBuffer[index]] = index
                 }
                 
                 // <+560>
@@ -311,7 +311,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                 var toDictionary: [T.Element: Int] = .init()
                 toDictionary.reserveCapacity(toBuffer.count)
                 for index in toBuffer.indices {
-                    toDictionary[toBuffer[index]] = index
+                    unsafe toDictionary[toBuffer[index]] = index
                 }
                 
                 // <+736>
@@ -320,7 +320,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                 if (fromDictionary.count != fromBuffer.count) || (toDictionary.count != toBuffer.count) {
                     // <+952>
                     // x20
-                    let difference = toBuffer.difference(from: fromBuffer)
+                    let difference = unsafe toBuffer.difference(from: fromBuffer)
                     
                     let removalIndices: [Int] = difference.removals.map { change in
                         // $s7SwiftUI17CollectionChangesV14changedOffsets33_FC193EF4CDDE14447FC4651D4987AA15LL4from2to5limitSaySiG_AItSgqd___qd_0_SitSKRd__SKRd_0_SH7ElementRpd__AKQyd_0_ALRSr0_lFAJSRyALGXEfU_AjNXEfU_Sis0C10DifferenceV6ChangeOyAL_GXEfU_TA
@@ -378,9 +378,9 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
                                     // x22 -> x29 - 0xd8
                                     // removalIndices -> x3 -> x29 - 0xd0
                                     // x22
-                                    let fromValue = fromBuffer[x22]
+                                    let fromValue = unsafe fromBuffer[x22]
                                     // x19
-                                    let toValue = toBuffer[x9]
+                                    let toValue = unsafe toBuffer[x9]
                                     
                                     // <+1880>
                                     // x20

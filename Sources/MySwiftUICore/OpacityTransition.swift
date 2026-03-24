@@ -58,7 +58,7 @@ struct OpacityRendererEffect: RendererEffect, _RemoveGlobalActorIsolation {
     }
     
     static nonisolated func _makeView(modifier: _GraphValue<OpacityRendererEffect>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        if inputs.preferences.contains(DisplayList.Key.self) {
+        if unsafe inputs.preferences.contains(DisplayList.Key.self) {
             var modifier = modifier
             _makeAnimatable(value: &modifier, inputs: inputs.base)
             return _makeRendererEffect(effect: modifier, inputs: inputs, body: body)

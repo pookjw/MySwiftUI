@@ -202,7 +202,7 @@ package struct PreferenceValues {
             var to: Int // 0x18
         }
         
-        withUnsafeTemporaryAllocation(of: Child.self, capacity: childIndices.count) { pointer in
+        unsafe withUnsafeTemporaryAllocation(of: Child.self, capacity: childIndices.count) { pointer in
             // $s7SwiftUI16PreferenceValuesV014combineHostKeyD04into4keys12childIndices0J2AtyACz_AA0C4KeysVSnySiGAJ_ACtSiXEtFZySryAcdefgHyACz_AjkJ_ACtSiXEtFZ5ChildL_VGXEfU_03$s7a4UI23f30PreferencesCombinerV5valueAA16cd8VvgAA0G4M12V_AFtSiXEfU_SayAA0fqR0VALVGTf1nnnncnn_n
             /*
              pointer -> x0 -> x23
@@ -225,7 +225,7 @@ package struct PreferenceValues {
                         continue
                     }
                     
-                    pointer.initializeElement(
+                    unsafe pointer.initializeElement(
                         at: bufferCount,
                         to: Child(keys: child.0, values: child.1, from: 0, to: 0)
                     )
@@ -318,7 +318,7 @@ package struct PreferenceValues {
                     assert(index != max)
                     
                     do {
-                        let child = pointer[index]
+                        let child = unsafe pointer[index]
                         let x8 = child.keys
                         var x9 = child.from
                         let x10 = Swift.max(x9, child.keys.count)
@@ -342,7 +342,7 @@ package struct PreferenceValues {
                                 } else {
                                     // <+532>
                                     x12 &+= 1
-                                    pointer[index].from = x12
+                                    unsafe pointer[index].from = x12
                                     
                                     if x13 != key {
                                         continue
@@ -364,7 +364,7 @@ package struct PreferenceValues {
                     // x29 - 0x90
                     var entry: PreferenceValues.Entry!
                     while true {
-                        let child = pointer[index]
+                        let child = unsafe pointer[index]
                         let x9 = child.values
                         let x26 = child.to
                         let x8 = x9.entries.count
@@ -382,7 +382,7 @@ package struct PreferenceValues {
                             
                             // <+600>
                             assert(!(x26 >= x8))
-                            pointer[index].to = x26 &+ 1
+                            unsafe pointer[index].to = x26 &+ 1
                             
                             if entry.key != key {
                                 continue

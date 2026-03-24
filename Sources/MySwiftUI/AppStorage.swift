@@ -427,8 +427,8 @@ fileprivate final class UserDefaultObserver: NSObject {
          object -> x26
          context -> x23
          */
-        let owned = withUnsafeMutablePointer(to: &UserDefaultObserver.observationContext) {
-            return context == UnsafeMutableRawPointer($0)
+        let owned = unsafe withUnsafeMutablePointer(to: &UserDefaultObserver.observationContext) {
+            return unsafe context == UnsafeMutableRawPointer($0)
         }
         
         guard owned else {
@@ -500,7 +500,7 @@ fileprivate final class UserDefaultObserver: NSObject {
                 )
         } else {
             // <+564>
-            store
+            unsafe store
                 .addObserver(
                     self,
                     forKeyPath: key,
@@ -517,7 +517,7 @@ fileprivate final class UserDefaultObserver: NSObject {
         if key.contains(".") {
             NotificationCenter.default.removeObserver(self, name: UserDefaults.didChangeNotification, object: oldDefaults)
         } else {
-            oldDefaults.removeObserver(self, forKeyPath: key, context: &UserDefaultObserver.observationContext)
+            unsafe oldDefaults.removeObserver(self, forKeyPath: key, context: &UserDefaultObserver.observationContext)
         }
     }
     

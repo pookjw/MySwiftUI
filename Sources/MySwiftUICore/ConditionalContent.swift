@@ -198,12 +198,12 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
         
         if unsafe (nominalDescriptor == conditionalTypeDescriptor) {
             // <+88>
-            let base = UnsafeRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(type)))!
+            let base = unsafe UnsafeRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(type)))!
                 .advanced(by: 0x10)
-            let x23 = base
+            let x23 = unsafe base
                 .assumingMemoryBound(to: Any.Type.self)
                 .pointee
-            let x21 = base
+            let x21 = unsafe base
                 .advanced(by: 0x8)
                 .assumingMemoryBound(to: Any.Type.self)
                 .pointee
@@ -307,13 +307,13 @@ fileprivate struct UnwrapConditional<T: ConditionalProtocolDescriptor, Source, C
     typealias Value = Content
     
     func updateValue() {
-        withUnsafePointer(to: source) { pointer1 in
-            desc.project(at: pointer1, baseIndex: 0) { index, conformance, pointer2 in
+        unsafe withUnsafePointer(to: source) { pointer1 in
+            unsafe desc.project(at: pointer1, baseIndex: 0) { index, conformance, pointer2 in
                 guard self.index == index else {
                     return
                 }
                 
-                value = pointer2!
+                value = unsafe pointer2!
                     .assumingMemoryBound(to: Content.self)
                     .pointee
             }

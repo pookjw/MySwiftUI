@@ -8,27 +8,27 @@ final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilityS
     override func currentValue(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
         switch setting {
         case .differentiateWithoutColors:
-            return UIAccessibility.shouldDifferentiateWithoutColor
+            return unsafe UIAccessibility.shouldDifferentiateWithoutColor
         case .reduceTransparency:
-            return UIAccessibility.isReduceTransparencyEnabled
+            return unsafe UIAccessibility.isReduceTransparencyEnabled
         case .reduceMotion:
-            return UIAccessibility.isReduceMotionEnabled
+            return unsafe UIAccessibility.isReduceMotionEnabled
         case .prefersCrossFadeTransitions:
-            return UIAccessibility.prefersCrossFadeTransitions
+            return unsafe UIAccessibility.prefersCrossFadeTransitions
         case .invertColors:
-            return UIAccessibility.isInvertColorsEnabled
+            return unsafe UIAccessibility.isInvertColorsEnabled
         case .boldText:
-            return UIAccessibility.isBoldTextEnabled
+            return unsafe UIAccessibility.isBoldTextEnabled
         case .buttonShapes:
-            return UIAccessibility.buttonShapesEnabled
+            return unsafe UIAccessibility.buttonShapesEnabled
         case .dimFlashingLights:
-            return AccessibilitySettings._isPhotosensitiveMitigationEnabled
+            return unsafe AccessibilitySettings._isPhotosensitiveMitigationEnabled
         case .playAnimatedImages:
-            return AccessibilitySettings.animatedImagesEnabled
+            return unsafe AccessibilitySettings.animatedImagesEnabled
         case .headAnchorAlternative:
-            return AccessibilitySettings.prefersHeadAnchorAlternative
+            return unsafe AccessibilitySettings.prefersHeadAnchorAlternative
         case .increaseFocusState:
-            return AccessibilitySettings._isHighContrastFocusIndicatorsEnabled
+            return unsafe AccessibilitySettings._isHighContrastFocusIndicatorsEnabled
         case .reduceHoverReveal:
 #if os(visionOS)
             return false
@@ -36,7 +36,7 @@ final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilityS
 #error("TODO")
 #endif
         case .onOffLabels:
-            return AccessibilitySettings._isIncreaseButtonLegibility
+            return unsafe AccessibilitySettings._isIncreaseButtonLegibility
         case .quickActions:
 #if os(visionOS)
             return false
@@ -46,13 +46,13 @@ final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilityS
         case .largeContentViewer:
             return UILargeContentViewerInteraction.isEnabled
         case .voiceOver:
-            return UIAccessibility.isVoiceOverRunning
+            return unsafe UIAccessibility.isVoiceOverRunning
         case .switchControl:
-            return UIAccessibility.isSwitchControlRunning
+            return unsafe UIAccessibility.isSwitchControlRunning
         case .fullKeyboardAccess:
-            return AccessibilitySettings._isFullKeyboardAccessEnabled
+            return unsafe AccessibilitySettings._isFullKeyboardAccessEnabled
         case .voiceControl:
-            return AccessibilitySettings._isCommandAndControlEnabled
+            return unsafe AccessibilitySettings._isCommandAndControlEnabled
         case .hoverText:
 #if os(visionOS)
             return false
@@ -67,27 +67,27 @@ final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilityS
     override func notification(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> Notification.Name? {
         switch setting {
         case .differentiateWithoutColors:
-            return UIAccessibility.differentiateWithoutColorDidChangeNotification
+            return unsafe UIAccessibility.differentiateWithoutColorDidChangeNotification
         case .reduceTransparency:
-            return UIAccessibility.reduceTransparencyStatusDidChangeNotification
+            return unsafe UIAccessibility.reduceTransparencyStatusDidChangeNotification
         case .reduceMotion:
-            return UIAccessibility.reduceMotionStatusDidChangeNotification
+            return unsafe UIAccessibility.reduceMotionStatusDidChangeNotification
         case .prefersCrossFadeTransitions:
-            return UIAccessibility.prefersCrossFadeTransitionsStatusDidChange
+            return unsafe UIAccessibility.prefersCrossFadeTransitionsStatusDidChange
         case .invertColors:
-            return UIAccessibility.invertColorsStatusDidChangeNotification
+            return unsafe UIAccessibility.invertColorsStatusDidChangeNotification
         case .boldText:
-            return UIAccessibility.boldTextStatusDidChangeNotification
+            return unsafe UIAccessibility.boldTextStatusDidChangeNotification
         case .buttonShapes:
-            return UIAccessibility.buttonShapesEnabledStatusDidChangeNotification
+            return unsafe UIAccessibility.buttonShapesEnabledStatusDidChangeNotification
         case .dimFlashingLights:
-            return AccessibilitySettings._photosensitiveMitigationEnabledDidChangeNotification
+            return unsafe AccessibilitySettings._photosensitiveMitigationEnabledDidChangeNotification
         case .playAnimatedImages:
-            return AccessibilitySettings.animatedImagesEnabledDidChangeNotification
+            return unsafe AccessibilitySettings.animatedImagesEnabledDidChangeNotification
         case .headAnchorAlternative:
-            return AccessibilitySettings.prefersHeadAnchorAlternativeDidChangeNotification
+            return unsafe AccessibilitySettings.prefersHeadAnchorAlternativeDidChangeNotification
         case .increaseFocusState:
-            return AccessibilitySettings._highContrastFocusIndicatorsEnabledDidChangeNotification
+            return unsafe AccessibilitySettings._highContrastFocusIndicatorsEnabledDidChangeNotification
         case .reduceHoverReveal:
 #if os(visionOS)
             return nil
@@ -95,7 +95,7 @@ final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilityS
 #error("TODO")
 #endif
         case .onOffLabels:
-            return AccessibilitySettings._increaseButtonLegibilityDidChangeNotification
+            return unsafe AccessibilitySettings._increaseButtonLegibilityDidChangeNotification
         case .quickActions:
 #if os(visionOS)
             return nil
@@ -105,15 +105,15 @@ final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilityS
         case .largeContentViewer:
             return UILargeContentViewerInteraction.enabledStatusDidChangeNotification
         case .voiceOver:
-            return UIAccessibility.voiceOverStatusDidChangeNotification
+            return unsafe UIAccessibility.voiceOverStatusDidChangeNotification
         case .switchControl:
-            return UIAccessibility.switchControlStatusDidChangeNotification
+            return unsafe UIAccessibility.switchControlStatusDidChangeNotification
         case .fullKeyboardAccess:
-            return AccessibilitySettings._fullKeyboardAccessEnabledDidChangeNotification
+            return unsafe AccessibilitySettings._fullKeyboardAccessEnabledDidChangeNotification
         case .voiceControl:
-            return AccessibilitySettings._commandAndControlEnabledDidChangeNotification
+            return unsafe AccessibilitySettings._commandAndControlEnabledDidChangeNotification
         case .hoverText:
-            return AccessibilitySettings._hoverTextEnabledNotification
+            return unsafe AccessibilitySettings._hoverTextEnabledNotification
         @unknown default:
             return nil
         }

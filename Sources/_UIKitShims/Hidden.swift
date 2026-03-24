@@ -50,7 +50,7 @@ func MaterialBackdropContextTraitToken() -> (any _UITraitTokenProtocol)? {
      */
     _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "MaterialBackdropContext", identifier: "UIMaterialBackdropContext")!
-    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+    return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
@@ -60,7 +60,7 @@ func ResolvedProviderTraitToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
     _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "ResolvedProvider", identifier: "UIResolvedProviderTrait")!
-    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+    return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
@@ -73,7 +73,7 @@ func ColorMaterialRenderingModeToken() -> (any _UITraitTokenProtocol)? {
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "UIColor.materialRenderingMode", identifier: "UITraitColorMaterialRenderingMode")!
     
-    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+    return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
@@ -84,7 +84,7 @@ func DisplayScaleToken() -> (any _UITraitTokenProtocol)? {
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "DisplayScale", identifier: "UITraitDisplayScale")!
-    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+    return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
@@ -95,7 +95,7 @@ func GlassElevationLevelToken() -> (any _UITraitTokenProtocol)? {
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassElevationLevel", identifier: "_UITraitGlassElevationLevel")!
-    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+    return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
@@ -106,7 +106,7 @@ func GlassBackgroundStyleToken() -> (any _UITraitTokenProtocol)? {
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassBackgroundStyle", identifier: "UIGlassBackgroundStyleTrait")!
-    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+    return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
@@ -117,7 +117,7 @@ func GlassFrostToken() -> (any _UITraitTokenProtocol)? {
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassFrost", identifier: "UIGlassFrost")!
-    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+    return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
@@ -128,7 +128,7 @@ func GlassPocketContainerToken() -> (any _UITraitTokenProtocol)? {
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassPocketContainer", identifier: "UIGlassPocketContainer")!
-    return unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
+    return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
 #error("TODO")
 #endif
@@ -136,37 +136,37 @@ func GlassPocketContainerToken() -> (any _UITraitTokenProtocol)? {
 
 #if SwiftUICompataibility
 func makeMaterialBackdropContext(flags: Int, proxy: _SwiftUIPrivate.MaterialBackdropProxy?) -> AnyObject {
-    let contextClass = objc_lookUpClass("_TtC5UIKit23MaterialBackdropContext")!
+    let contextClass = unsafe objc_lookUpClass("_TtC5UIKit23MaterialBackdropContext")!
     var object = (contextClass as AnyObject).alloc()
     
     var flagsOffset: Int!
     var proxyOffset: Int!
     
-    _forEachField(of: _typeByName("5UIKit23MaterialBackdropContextC")!, options: [.classType]) { name, offset, type, kind in
-        if String(cString: name) == "flags" {
+    unsafe _forEachField(of: _typeByName("5UIKit23MaterialBackdropContextC")!, options: [.classType]) { name, offset, type, kind in
+        if unsafe String(cString: name) == "flags" {
             flagsOffset = offset
-        } else if String(cString: name) == "proxy" {
+        } else if unsafe String(cString: name) == "proxy" {
             proxyOffset = offset
         }
         
         return (flagsOffset == nil) || (proxyOffset == nil)
     }
     
-    let base = Unmanaged.passUnretained(object).toOpaque()
+    let base = unsafe Unmanaged.passUnretained(object).toOpaque()
     
-    base
+    unsafe base
         .advanced(by: flagsOffset)
         .assumingMemoryBound(to: Int.self)
         .initialize(to: flags)
     
-    base
+    unsafe base
         .advanced(by: proxyOffset)
         .assumingMemoryBound(to: _SwiftUIPrivate.MaterialBackdropProxy?.self)
         .initialize(to: proxy)
     
-    var superInfo = objc_super(receiver: Unmanaged.passUnretained(object), super_class: type(of: object))
+    var superInfo = unsafe objc_super(receiver: Unmanaged.passUnretained(object), super_class: type(of: object))
     let casted = unsafe unsafeBitCast(msui_objc_msgSendSuper2(), to: (@convention(c) (UnsafePointer<objc_super>, Selector) -> AnyObject).self)
-    object = casted(&superInfo, Selector(("init")))
+    object = unsafe casted(&superInfo, Selector(("init")))
     
     return object
 }
@@ -177,27 +177,27 @@ func modifyMaterialBackdropContext<T>(_ context: AnyObject, mutation: (_ flags: 
     var flagsOffset: Int!
     var proxyOffset: Int!
     
-    _forEachField(of: _typeByName("5UIKit23MaterialBackdropContextC")!, options: [.classType]) { name, offset, type, kind in
-        if String(cString: name) == "flags" {
+    unsafe _forEachField(of: _typeByName("5UIKit23MaterialBackdropContextC")!, options: [.classType]) { name, offset, type, kind in
+        if unsafe String(cString: name) == "flags" {
             flagsOffset = offset
-        } else if String(cString: name) == "proxy" {
+        } else if unsafe String(cString: name) == "proxy" {
             proxyOffset = offset
         }
         
         return (flagsOffset == nil) || (proxyOffset == nil)
     }
     
-    let base = Unmanaged.passUnretained(context).toOpaque()
+    let base = unsafe Unmanaged.passUnretained(context).toOpaque()
     
-    let flags = base
+    let flags = unsafe base
         .advanced(by: flagsOffset)
         .assumingMemoryBound(to: Int.self)
     
-    let proxy = base
+    let proxy = unsafe base
         .advanced(by: proxyOffset)
         .assumingMemoryBound(to: _SwiftUIPrivate.MaterialBackdropProxy?.self)
     
-    return mutation(&flags.pointee, &proxy.pointee)
+    return unsafe mutation(&flags.pointee, &proxy.pointee)
 }
 #endif
 
@@ -247,7 +247,7 @@ fileprivate func iterateIvars(type: AnyClass, includeSuperclass: Bool, iteration
         
         for i in unsafe span.indices {
             let ivar = unsafe span[i]
-            let shouldContinue = iteration(ivar)
+            let shouldContinue = unsafe iteration(ivar)
             guard shouldContinue else {
                 return
             }
@@ -256,41 +256,41 @@ fileprivate func iterateIvars(type: AnyClass, includeSuperclass: Bool, iteration
 }
 
 fileprivate func iterateIvars(object: AnyObject, iteration: (_ ivar: Ivar, _ name: String, _ offset: Int, _ pointer: UnsafeMutableRawPointer) -> Bool) {
-    iterateIvars(type: type(of: object), includeSuperclass: true) { ivar in
+    unsafe iterateIvars(type: type(of: object), includeSuperclass: true) { ivar in
         let name = unsafe String(cString: ivar_getName(ivar)!)
-        let offset = ivar_getOffset(ivar)
-        let pointer = Unmanaged
+        let offset = unsafe ivar_getOffset(ivar)
+        let pointer = unsafe Unmanaged
             .passUnretained(object)
             .toOpaque()
             .advanced(by: offset)
         
-        return iteration(ivar, name, offset, pointer)
+        return unsafe iteration(ivar, name, offset, pointer)
     }
 }
 
 fileprivate func item(from phase: UIUpdateActionPhase) -> UnsafeMutablePointer<_UIUpdateSequenceItemInternal>? {
     var result: UnsafeMutablePointer<_UIUpdateSequenceItemInternal>?
     
-    iterateIvars(object: phase) { ivar, name, offset, pointer in
+    unsafe iterateIvars(object: phase) { ivar, name, offset, pointer in
         guard name == "_item" else {
             return true
         }
         
-        result = pointer
+        unsafe result = unsafe pointer
             .assumingMemoryBound(to: UnsafeMutablePointer<_UIUpdateSequenceItemInternal>.self)
             .pointee
         
         return false
     }
     
-    return result
+    return unsafe result
 }
 
 extension UIView {
     var typedStorage: _UITypedStorage {
         var storage: _UITypedStorage!
         
-        iterateIvars(object: self) { ivar, name, offset, pointer in
+        unsafe iterateIvars(object: self) { ivar, name, offset, pointer in
             guard name == "_typedStorage" else {
                 return true
             }
@@ -321,15 +321,15 @@ extension UIView {
 fileprivate func modifyTypedStorage<T>(_ storage: AnyObject, mutation: (_ storage: inout [ObjectIdentifier: AnyObject]) -> T) -> T {
     var result: T!
     
-    iterateIvars(object: storage) { ivar, name, offset, pointer in
+    unsafe iterateIvars(object: storage) { ivar, name, offset, pointer in
         guard name == "storage" else {
             return true
         }
         
-        let storagePointer = pointer
+        let storagePointer = unsafe pointer
             .assumingMemoryBound(to: [ObjectIdentifier: AnyObject].self)
         
-        result = mutation(&storagePointer.pointee)
+        result = unsafe mutation(&storagePointer.pointee)
         return false
     }
     
@@ -340,7 +340,7 @@ func glassBackgroundStyle(typedStorage: _UITypedStorage) -> AnyObject? {
     return modifyTypedStorage(typedStorage) { storage in
         for key in storage.keys {
             // UIKit._UIIntelligenceLightSourceConfiguration._GlassBackgroundStyleKey
-            if _mangledTypeName(unsafeBitCast(key, to: Any.Type.self)) == "So6UIViewC5UIKitE10$186ef90d8yXZ24_GlassBackgroundStyleKeyV" {
+            if unsafe _mangledTypeName(unsafeBitCast(key, to: Any.Type.self)) == "So6UIViewC5UIKitE10$186ef90d8yXZ24_GlassBackgroundStyleKeyV" {
                 return storage[key]
             }
         }
@@ -357,9 +357,9 @@ enum _GlassBackgroundStyle: Hashable {
 
 func castToGlassBackgroundStyle(_ style: Any) -> _GlassBackgroundStyle {
     if type(of: style) == _typeByName("5UIKit21_GlassBackgroundStyleO")! {
-        return withUnsafePointer(to: style) { stylePointer in
-            return withUnsafeTemporaryAllocation(of: _GlassBackgroundStyle.self, capacity: 1) { resultPointer in
-                let success = swift_dynamicCast(
+        return unsafe withUnsafePointer(to: style) { stylePointer in
+            return unsafe withUnsafeTemporaryAllocation(of: _GlassBackgroundStyle.self, capacity: 1) { resultPointer in
+                let success = unsafe swift_dynamicCast(
                     resultPointer.baseAddress.unsafelyUnwrapped,
                     stylePointer,
                     UnsafeRawPointer(bitPattern: UInt(bitPattern: ObjectIdentifier(Any.self)))!,
@@ -368,7 +368,7 @@ func castToGlassBackgroundStyle(_ style: Any) -> _GlassBackgroundStyle {
                 )
                 assert(success)
                 
-                return resultPointer.baseAddress.unsafelyUnwrapped.pointee
+                return unsafe resultPointer.baseAddress.unsafelyUnwrapped.pointee
             }
         }
     } else if let object = style as? NSObject {
@@ -389,5 +389,5 @@ func swift_dynamicCast(
 ) -> Bool
 
 func getTraitsInternal(_ mutation: any UIMutableTraits) -> any UIMutableTraitsInternal {
-    return unsafeBitCast(mutation, to: (any UIMutableTraitsInternal).self)
+    return unsafe unsafeBitCast(mutation, to: (any UIMutableTraitsInternal).self)
 }

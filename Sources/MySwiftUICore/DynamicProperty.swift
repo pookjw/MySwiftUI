@@ -90,17 +90,17 @@ extension DynamicProperty {
     }
     
     static func addTreeValueSlow<T>(_ attribute: AnyAttribute, as firstType: T.Type, in secondType: Any.Type, fieldOffset: Int = 0, flags: TreeValueFlags) {
-        let fields = DynamicPropertyCache.fields(of: secondType)
+        let fields = unsafe DynamicPropertyCache.fields(of: secondType)
         
         // inlined
-        if let name = fields._name(at: fieldOffset) {
-            Subgraph.addTreeValue(
+        if let name = unsafe fields._name(at: fieldOffset) {
+            unsafe Subgraph.addTreeValue(
                 Attribute<T>(identifier: attribute),
                 forKey: name,
                 flags: flags.rawValue
             )
         } else {
-            Subgraph.addTreeValue(
+            unsafe Subgraph.addTreeValue(
                 Attribute<T>(identifier: attribute),
                 forKey: "<unknown>",
                 flags: flags.rawValue

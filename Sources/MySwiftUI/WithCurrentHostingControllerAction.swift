@@ -32,5 +32,5 @@ extension EnvironmentValues {
 }
 
 fileprivate struct WithCurrentHostingControllerKey: EnvironmentKey {
-    static nonisolated(unsafe) let defaultValue = WithCurrentHostingControllerAction()
+    static nonisolated let defaultValue = WithCurrentHostingControllerAction()
 }
