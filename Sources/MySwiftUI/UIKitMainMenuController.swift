@@ -112,6 +112,7 @@ final class UIKitMainMenuController: UIResponder {
         
         // <+2560>
         // coordinators -> x19
+        self.synthesizeSystemMenus(builder)
         assertUnimplemented()
     }
     
@@ -144,8 +145,58 @@ final class UIKitMainMenuController: UIResponder {
          self -> x20 -> sp + 0x8
          instructions -> sp + 0x10
          */
-        let optionalMenus = self.optionalMenus
+        if !self.optionalMenus.contains(.unknown1) {
+            // <+76>
+            for instruction in instructions {
+                if instruction.identifier == .format {
+                    self.optionalMenus.formUnion(.unknown1)
+                    break
+                }
+            }
+        }
         
+        if !self.optionalMenus.contains(.unknown0) {
+            // <+352>
+            for instruction in instructions {
+                if instruction.identifier.rawValue == "com.apple.swiftui.synthesized.textEditing" {
+                    self.optionalMenus.formUnion(.unknown0)
+                    break
+                }
+            }
+        }
+        
+        if !self.optionalMenus.contains(.unknown2) {
+            // <+640>
+            for instruction in instructions {
+                if instruction.identifier == .toolbar {
+                    self.optionalMenus.formUnion(.unknown2)
+                    break
+                }
+            }
+        }
+        
+        if !self.optionalMenus.contains(.unknown3) {
+            // <+916>
+            for instruction in instructions {
+                if instruction.identifier == .sidebar {
+                    self.optionalMenus.formUnion(.unknown3)
+                    break
+                }
+            }
+        }
+        
+        if !self.optionalMenus.contains(.unknown4) {
+            // <+1192>
+            for instruction in instructions {
+                if instruction.identifier == .print {
+                    self.optionalMenus.formUnion(.unknown4)
+                    break
+                }
+            }
+        }
+    }
+    
+    fileprivate func synthesizeSystemMenus(_ builder: any UIMenuBuilder) {
         assertUnimplemented()
     }
 }
@@ -227,6 +278,26 @@ fileprivate enum MenuBuilderInstruction {
     case siblingBefore(UIMenu.Identifier, UIMenu)
     case siblingAfter(UIMenu.Identifier, UIMenu)
     case replace(UIMenu.Identifier, [UIMenuElement])
+    
+    @inline(__always) // 원래 없음
+    var identifier: UIMenu.Identifier {
+        switch self {
+        case .elementBefore(let identifier, _):
+            return identifier
+        case .elementAfter(let identifier, _):
+            return identifier
+        case .childBefore(let identifier, _):
+            return identifier
+        case .childAfter(let identifier, _):
+            return identifier
+        case .siblingBefore(let identifier, _):
+            return identifier
+        case .siblingAfter(let identifier, _):
+            return identifier
+        case .replace(let identifier, _):
+            return identifier
+        }
+    }
 }
 
 struct KeyCommandID: Hashable {
