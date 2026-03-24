@@ -311,7 +311,7 @@ private import _MySwiftUIShims
         // x26
         let toUpdateBars = self.toUpdateBars
         let array: [AnyHashable] = []
-        for role in toUpdateBars {
+        for _ in toUpdateBars {
             assertUnimplemented()
         }
         

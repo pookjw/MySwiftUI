@@ -8,7 +8,7 @@ package func changedBodyProperties<T>(of type: T.Type) -> [String] {
 }
 
 package func logChangedBodyProperties<T>(of type: T.Type) {
-    let todo = changedBodyProperties(of: type)
+    let _ = changedBodyProperties(of: type)
     assertUnimplemented()
 }
 

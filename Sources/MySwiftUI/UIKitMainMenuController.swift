@@ -97,7 +97,7 @@ final class UIKitMainMenuController: UIResponder {
                 menuHost.focusedValues = focusedValues
                 
                 // TODO
-                oldFocusedValues.version
+                _ = oldFocusedValues.version
             }
             assertUnimplemented()
         }
@@ -168,7 +168,7 @@ fileprivate final class MainMenuItemCoordinator {
         
         // <+644>
         // inlined
-        let platformItemList = self.menuHost.platformItemList
+        let _ = self.menuHost.platformItemList
         assertUnimplemented()
     }
     

@@ -1008,7 +1008,7 @@ public import _UIKitPrivate
         // d11, d10, d9, d8
         let safeAreaInsets = superview.safeAreaInsets
         
-        if shouldEagerlyUpdate, let lastParentSafeAreaInsets {
+        if shouldEagerlyUpdate, let _ = lastParentSafeAreaInsets {
             // <+168>
             assertUnimplemented()
         }

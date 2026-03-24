@@ -771,7 +771,7 @@ package final class UIHostingViewBase: NSObject {
         }
         
         // <+856>
-        if let environmentOverride = self.environmentOverride {
+        if let _ = self.environmentOverride {
             // <+952>
             assertUnimplemented()
         }

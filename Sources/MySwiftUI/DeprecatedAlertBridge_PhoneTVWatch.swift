@@ -74,7 +74,7 @@ extension DeprecatedAlertBridge where T == Alert.Presentation {
         
         self.seed = presentationValue.seed
         
-        if let alertController {
+        if alertController != nil {
             // <+1228>
             assertUnimplemented()
         } else {

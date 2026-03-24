@@ -189,7 +189,7 @@ extension BarAppearanceBridge {
                     
                     // <+2364>
                     // w26
-                    let isSolariumEnabled = Solarium.isEnabled(for: _GraphInputs.defaultInterfaceIdiom)
+                    let _ = Solarium.isEnabled(for: _GraphInputs.defaultInterfaceIdiom)
                     assertUnimplemented()
                 } else {
                     // <+2496>
@@ -218,7 +218,7 @@ extension BarAppearanceBridge {
             // copy_1 -> x26
             // x20, x21
             let resolvedSubtitleString: String?
-            if let subtitleStroage {
+            if subtitleStroage != nil {
                 // <+2656>
                 assertUnimplemented()
                 // <+2800>
@@ -348,7 +348,7 @@ extension BarAppearanceBridge {
                 // x20
                 let lastToolbarInputContent = self.lastToolbarInputContent
                 
-                if let lastToolbarInputContent {
+                if lastToolbarInputContent != nil {
                     // <+756>
                     assertUnimplemented()
                 } else {
@@ -493,7 +493,7 @@ extension BarAppearanceBridge {
          navigationController -> x0 -> x20
          */
         // <+416>
-        if let casted = navigationController as? UIKitNavigationController {
+        if let _ = navigationController as? UIKitNavigationController {
             // <+432>
             assertUnimplemented()
         }
@@ -833,7 +833,7 @@ extension BarAppearanceBridge {
             }
             
             // <+1664>
-            if let background = copy_3.background {
+            if let _ = copy_3.background {
                 // <+2876>
                 assertUnimplemented()
             } else {
@@ -842,7 +842,7 @@ extension BarAppearanceBridge {
                 // x29 - 0x158 (x26)
                 let copy_5 = copy_3.colorScheme
                 
-                if let copy_5 {
+                if copy_5 != nil {
                     // <+1956>
                     assertUnimplemented()
                 } else {
@@ -857,7 +857,7 @@ extension BarAppearanceBridge {
                         let copy_4 = copy_3.colorScheme
                         // x20 + x25 (nil)
                         
-                        if let copy_4 {
+                        if copy_4 != nil {
                             // <+2572>
                             assertUnimplemented()
                         } else {

@@ -151,10 +151,10 @@ extension ForEach: DynamicViewContent where Content: View {}
 
 extension ForEach where Content: View {
     static func makeForEachView(view: _GraphValue<ForEach<Data, ID, Content>>, inputs: _ViewInputs) -> _ViewOutputs? {
-        if let casted = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>> {
+        if let _ = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>> {
             // <+288>
             assertUnimplemented()
-        } else if let casted = view as? _GraphValue<ForEach<ForEachSectionCollection<Content>, SectionConfiguration.ID, Content>> {
+        } else if let _ = view as? _GraphValue<ForEach<ForEachSectionCollection<Content>, SectionConfiguration.ID, Content>> {
             // <+484>
             assertUnimplemented()
         } else {
@@ -344,7 +344,7 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
             assertUnimplemented()
         } else {
             // <+568>
-            if let element = self.fetchViewsPerElement() {
+            if let _ = self.fetchViewsPerElement() {
                 // <+856>
                 assertUnimplemented()
             } else {

@@ -38,11 +38,11 @@ private import _UIKitPrivate
         let activePresentation = activePresentation
         
         switch activePresentation {
-        case .popoverItem(let anyHashable):
+        case .popoverItem(let _):
             assertUnimplemented()
-        case .popover(let viewIdentity):
+        case .popover(let _):
             assertUnimplemented()
-        case .inspector(let viewIdentity):
+        case .inspector(let _):
             // <+564>
             assertUnimplemented()
         case .none:

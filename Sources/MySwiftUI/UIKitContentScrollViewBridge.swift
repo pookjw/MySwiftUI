@@ -26,8 +26,8 @@ final class UIKitContentScrollViewBridge {
             // <+336>
             // sp + 0x58 (x29 - 0x98)
             let newValue = contentScrollView.value
-            var w21 = true
-            for value in newValue {
+            let w21 = true
+            for _ in newValue {
                 // <+412>
                 assertUnimplemented()
             }
@@ -120,8 +120,8 @@ final class UIKitContentScrollViewBridge {
             return Candidates(scrollView1: nil, scrollView2: nil)
         }
         
-        var results: [ContentScrollViewBox] = []
-        for scrollView in scrollViews {
+        let _: [ContentScrollViewBox] = []
+        for _ in scrollViews {
             assertUnimplemented()
         }
         assertUnimplemented()

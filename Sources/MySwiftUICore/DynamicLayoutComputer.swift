@@ -6,7 +6,7 @@ extension DynamicLayoutViewAdaptor {
         let original = body
         
         switch depthData {
-        case .geometries(let depthGeometry):
+        case .geometries(let _):
             body = { _ in
                 // $s7SwiftUI24DynamicLayoutViewAdaptorV18makeDepthTransform9depthData13containerInfo2id4bodyyAC05ChildhK0O_14AttributeGraph0Q0VyAA0C9ContainerV0M0VGAA0cS2IDVAA01_E7OutputsVAA01_E6InputsVcztFZAvXcfU_TA
                 assertUnimplemented()

@@ -384,7 +384,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         
         
         // <+9576>
-        if let userActicity = connectionOptions.userActivities.first {
+        if let _ = connectionOptions.userActivities.first {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
                 // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU1_TA
                 assertUnimplemented()
@@ -392,7 +392,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         }
         
         // <+10052>
-        if let urlContext = urlContexts.first {
+        if let _ = urlContexts.first {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
                 // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU2_TA
                 assertUnimplemented()
@@ -576,7 +576,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             if
                 case .immersiveSpace = sceneListItem.kind,
                 let appDelegate = AppDelegate.shared,
-                let currentRemoteSessionInfo = appDelegate.immersiveSpaceAuthority.currentRemoteSessionInfo
+                let _ = appDelegate.immersiveSpaceAuthority.currentRemoteSessionInfo
             {
                 // <+2384>
                 assertUnimplemented()
@@ -729,31 +729,31 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+12856>
-        case .immersiveSpace(let windowSceneConfiguration):
+        case .immersiveSpace(let _):
             // <+2684>
             assertUnimplemented()
-        case .volume(let windowSceneConfiguration):
+        case .volume(let _):
             // <+3596>
             assertUnimplemented()
-        case .documentGroup(let configuration):
+        case .documentGroup(let _):
             // <+2596>
             assertUnimplemented()
-        case .settings(let anyView):
+        case .settings(let _):
             // <+13260>
             assertUnimplemented()
-        case .menuBarExtra(let menuBarExtraConfiguration):
+        case .menuBarExtra(let _):
             // <+13260>
             assertUnimplemented()
-        case .customScene(let uISceneAdaptorConfiguration):
+        case .customScene(let _):
             // <+3888>
             assertUnimplemented()
-        case .singleWindow(let windowSceneConfiguration):
+        case .singleWindow(let _):
             // <+3008>
             assertUnimplemented()
-        case .documentIntroduction(let documentIntroductionConfiguration):
+        case .documentIntroduction(let _):
             // <+4028>
             assertUnimplemented()
-        case .alertDialog(let dialogConfiguration):
+        case .alertDialog(let _):
             // <+13260>
             assertUnimplemented()
         }
@@ -819,7 +819,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         for item in sceneList.items {
             // <+2160>
             switch item.value {
-            case .customScene(let configuration):
+            case .customScene(let _):
                 // <+2308>
                 assertUnimplemented()
             default:
@@ -1121,13 +1121,13 @@ extension AppSceneDelegate: AppGraphObserver {
             self.lastVersion = sceneItem.version
             Update.end()
             return
-        case .immersiveSpace(let configuration):
+        case .immersiveSpace(let _):
             // <+1424>
             assertUnimplemented()
-        case .volume(let configuration):
+        case .volume(let _):
             // <+4048>
             assertUnimplemented()
-        case .documentGroup(let configuration):
+        case .documentGroup(let _):
             // <+1244>
             assertUnimplemented()
         case .settings(_):
@@ -1136,13 +1136,13 @@ extension AppSceneDelegate: AppGraphObserver {
         case .menuBarExtra(_):
             // <+10816>
             _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
-        case .customScene(let configuration):
+        case .customScene(let _):
             // <+4864>
             assertUnimplemented()
-        case .singleWindow(let configuration):
+        case .singleWindow(let _):
             // <+2244>
             assertUnimplemented()
-        case .documentIntroduction(let configuration):
+        case .documentIntroduction(let _):
             // <+5092>
             assertUnimplemented()
         case .alertDialog(_):

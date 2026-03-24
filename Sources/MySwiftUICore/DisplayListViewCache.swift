@@ -71,13 +71,13 @@ extension DisplayList.ViewUpdater {
             case .content(let content):
                 // <+404>
                 switch content.value {
-                case .shape(let path, let anyResolvedPaint, let fillStyle):
+                case .shape(let _, let _, let _):
                     // <+416>
                     assertUnimplemented()
                 default:
                     return .infinity
                 }
-            case .effect(let effect, let displayList):
+            case .effect(let _, let _):
                 // <+156>
                 assertUnimplemented()
             default:

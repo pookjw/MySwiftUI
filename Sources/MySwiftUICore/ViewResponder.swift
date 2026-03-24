@@ -53,7 +53,7 @@ private import os.log
         if
             let copy_2 = serverHitTest, // x29 - 0xd0
             let responderID = copy_2.responderID,
-            let result = self.lookupResponder(for: responderID, startingFrom: self, searchParentChain: true)
+            let _ = self.lookupResponder(for: responderID, startingFrom: self, searchParentChain: true)
         {
             // <+220>
             assertUnimplemented()

@@ -149,6 +149,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
             w28 = false
             // <+244>
         }
+        let _ = w28
         
         // <+244>
         // x29 - 0xb0 (x19)
@@ -285,7 +286,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         
         // <+112>
         if let lastToolbarStorage {
-            if let lastInputToolbarStorage {
+            if lastInputToolbarStorage != nil {
                 // <+140>
                 // 둘이 합쳐서 반환하는 것 같음
                 assertUnimplemented()
@@ -306,9 +307,9 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     }
     
     var allowsUpdates: Bool {
-        var result = true
+        let result = true
         
-        for adaptor in navigationAdaptor.adaptors {
+        for _ in navigationAdaptor.adaptors {
             assertUnimplemented()
         }
         
@@ -976,7 +977,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         return withUpdate { bridge, context in
             // $s7SwiftUI20UIKitToolbarStrategyV14updateBarTitle33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
             // x29 - 0x60
-            var titleView: UIView? = nil
+            let titleView: UIView? = nil
             bridge.adjustEntries(in: .navigationBarTitle) { entry, item in
                 // titleView을 설정해 주는듯
                 assertUnimplemented()
@@ -992,8 +993,8 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             if let copy_1 {
                 // <+220>
                 // sp + 0x24
-                let isAnimated = copy_1.isAnimated
-                if let copy_2 {
+                let _ = copy_1.isAnimated
+                if copy_2 != nil {
                     // <+264>
                     assertUnimplemented()
                 } else {
@@ -1010,7 +1011,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 }
             } else {
                 // <+596>
-                if let copy_2 {
+                if copy_2 != nil {
                     // <+604>
                     assertUnimplemented()
                 } else {
@@ -1030,7 +1031,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
              bridge -> x0 -> x21
              */
             // sp + 0x28
-            var new: UIView?
+            let new: UIView? = nil
             bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
                 assertUnimplemented()
             }
@@ -1097,7 +1098,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
              bridge -> x0 -> x21
              */
             // sp + 0x28
-            var new: UIView?
+            let new: UIView? = nil
             bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
                 assertUnimplemented()
             }
@@ -1136,7 +1137,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
              bridge -> x0 -> x21
              */
             // sp + 0x28
-            var new: UIView?
+            let new: UIView? = nil
             bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
                 assertUnimplemented()
             }
@@ -1175,7 +1176,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
              bridge -> x0 -> x21
              */
             // sp + 0x28
-            var new: UIView?
+            let new: UIView? = nil
             bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
                 assertUnimplemented()
             }
@@ -1237,7 +1238,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x24
             let copy_2 = navigationProperties
             
-            if let copy_2 {
+            if copy_2 != nil {
                 // <+916>
                 assertUnimplemented()
             }
@@ -1246,7 +1247,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x23
             let copy_3 = copy_2
             
-            if let copy_3 {
+            if copy_3 != nil {
                 // <+1224>
                 assertUnimplemented()
             }
@@ -1282,7 +1283,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x21
             let navigationProperties = bridge.navigationProperties
             
-            if let titleMenuProvider = bridge.platformVended.uiNavigationItem.titleMenuProvider {
+            if let _ = bridge.platformVended.uiNavigationItem.titleMenuProvider {
                 // <+356>
                 assertUnimplemented()
             } else {
@@ -1342,7 +1343,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let renameDelegate = bridge.platformVended.uiNavigationItem.renameDelegate ?? bridge.platformVended.uiNavigationItem._objc_renameDelegate
             // <+512>
             // x22
-            if let navigationProperties = bridge.navigationProperties {
+            if let _ = bridge.navigationProperties {
                 // <+604>
                 assertUnimplemented()
             } else {
@@ -1351,7 +1352,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             }
             
             // <+680>
-            if let navigationProperties = bridge.navigationProperties {
+            if let _ = bridge.navigationProperties {
                 // <+768>
                 assertUnimplemented()
             } else {
@@ -1403,7 +1404,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             }
             
             // <+2100>
-            if let old {
+            if old != nil {
                 // <+2420>
                 assertUnimplemented()
             } else {
@@ -1446,7 +1447,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let copy_1 = context
             // x25
             let targetController = copy_1.targetController
-            let w26 = (targetController != nil)
+            let _ = (targetController != nil)
             
             bridge.adjustEntries(in: .keyboardBar) { _, _ in
                 assertUnimplemented()
@@ -1523,7 +1524,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             }
             
             // <+228>
-            let entryCount = bridge.entryCount(in: location) - 1
+            let _ = bridge.entryCount(in: location) - 1
             bridge.adjustEntries(in: location) { _, _ in
                 assertUnimplemented()
             }
@@ -1556,7 +1557,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 x290x48 = 0
             }
             
-            let entryCount = bridge.entryCount(in: location)
+            let _ = bridge.entryCount(in: location)
             
             bridge.adjustEntries(in: location) { _, _ in
                 assertUnimplemented()
@@ -1621,7 +1622,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         
         // <+208>
         withUpdate { bridge, context in
-            if let bottomOrnament = bridge.platformVended.bottomOrnament {
+            if let _ = bridge.platformVended.bottomOrnament {
                 // <+292>
                 assertUnimplemented()
             }

@@ -45,7 +45,7 @@ extension ViewModifierContentProvider {
                 let _ = copy_3
                 let outputs = transform(_Graph(), copy_4)
                 return outputs
-            case .list(let transform):
+            case .list(let _):
                 // <+184>
                 assertUnimplemented()
             }

@@ -27,7 +27,7 @@ struct CommandsList: Hashable {
     var items: [CommandsList.Item] = []
     
     var version: DisplayList.Version {
-        var result = DisplayList.Version()
+        let result = DisplayList.Version()
         
         if !items.isEmpty {
             assertUnimplemented()

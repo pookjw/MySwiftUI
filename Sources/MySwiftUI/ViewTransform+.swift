@@ -11,7 +11,7 @@ extension ViewTransform {
             // x21
             if
                 let settings = windowScene._FBSScene.settings as? MRUISharedApplicationSceneSettings,
-                let appDelegate = AppDelegate.shared
+                let _ = AppDelegate.shared
             {
                 // <+324>
                 assertUnimplemented()

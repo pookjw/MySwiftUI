@@ -799,10 +799,10 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
             default:
                 assertUnimplemented()
             }
-        case .effect(let effect, let displayList):
+        case .effect(let _, let _):
             // <+1272>
             assertUnimplemented()
-        case .states(let array):
+        case .states(let _):
             // <+1672>
             assertUnimplemented()
         case .empty:

@@ -28,7 +28,7 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
         switch copy_1 {
         case .alert(let viewIdentity):
             return
-        case .confirmationDialog(let viewIdentity):
+        case .confirmationDialog(let _):
             // <+328>
             assertUnimplemented()
         case .none:

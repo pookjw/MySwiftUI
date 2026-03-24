@@ -94,7 +94,7 @@ internal import UIKit
         
         // <+2120>
         // x19
-        if let uiViewController = host!.uiViewController as? PresentationHostingController<AnyView> {
+        if let _ = host!.uiViewController as? PresentationHostingController<AnyView> {
             // <+2280>
             assertUnimplemented()
         }

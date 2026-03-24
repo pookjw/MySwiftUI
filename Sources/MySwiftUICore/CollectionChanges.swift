@@ -276,9 +276,9 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
     
     func getOffset<T>(from change: CollectionDifference<T>.Change) -> Int {
         switch change {
-        case .insert(let offset, let _, let _):
+        case .insert(let offset, _, _):
             return offset
-        case .remove(let offset, let _, let _):
+        case .remove(let offset, _, _):
             return offset
         }
     }
@@ -526,11 +526,11 @@ extension CollectionChanges {
         
         var kind: CollectionChanges.Element.Kind {
             switch self {
-            case .removed(let _):
+            case .removed(_):
                 return .removed
-            case .inserted(let _):
+            case .inserted(_):
                 return .inserted
-            case .matched(let _, let _):
+            case .matched(_, _):
                 return .matched
             }
         }

@@ -77,12 +77,12 @@ extension BarAppearanceBridge {
         // *(x19 + 0x60) + 0x50 (x26 + x20)
         let copy_4 = copy_2
         
-        if let copy_3 {
+        if copy_3 != nil {
             // <+1876>
             assertUnimplemented()
         } else {
             // <+1808>
-            if let copy_4 {
+            if copy_4 != nil {
                 // <+1956>
                 // x29 - 0xf0
                 let copy_5 = role

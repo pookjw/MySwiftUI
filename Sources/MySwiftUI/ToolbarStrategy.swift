@@ -61,8 +61,8 @@ extension ToolbarStrategy {
             result.hidesSystemItems = preferences[NavigationBarBackButtonHiddenKey.self].value
             
             // <+348>
-            var w8: Bool = false
-            for placement in storage.placements {
+            let w8: Bool = false
+            for _ in storage.placements {
                 assertUnimplemented()
             }
             
@@ -133,7 +133,7 @@ extension UIViewController {
         // sp
         let copy_2 = copy_1
         
-        if let copy_2 {
+        if copy_2 != nil {
             // <+316>
             assertUnimplemented()
         } else {

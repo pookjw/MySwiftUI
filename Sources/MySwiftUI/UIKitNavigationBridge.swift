@@ -182,7 +182,7 @@ class UIKitNavigationBridge {
                 // <+680>
                 updatePresentedContent(content, animated: !content.transaction.disablesAnimations)
                 // <+772>
-            case .notPresented(let _, let transaction):
+            case .notPresented(_, let transaction):
                 // <+536>
                 popCurrentView(transaction: transaction)
                 // <+768>

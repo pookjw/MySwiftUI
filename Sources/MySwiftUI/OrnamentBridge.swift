@@ -42,11 +42,11 @@ class OrnamentBridge<Content: View> {
         
         // <+204>
         // platterOrnamentManager -> sp + 0x8
-        if let sceneOrnamentFrameMonitor {
+        if sceneOrnamentFrameMonitor != nil {
             // <+224>
             assertUnimplemented()
         } else {
-            guard let platterOrnamentManager else {
+            guard platterOrnamentManager != nil else {
                 return
             }
             

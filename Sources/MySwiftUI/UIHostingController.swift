@@ -242,7 +242,7 @@ open class UIHostingController<Content: View>: UIViewController {
         let isLinked = isLinkedOnOrAfter(.v6_2)
         // x24
         var flag = false
-        if let sceneBridge = host.sceneBridge {
+        if let _ = host.sceneBridge {
             // <+192>
             // flag를 조건에 따라 true
             assertUnimplemented()
@@ -1029,7 +1029,7 @@ open class UIHostingController<Content: View>: UIViewController {
         }
         
         // <+320>
-        if let testBridge {
+        if testBridge != nil {
             // <+332>
             assertUnimplemented()
         }

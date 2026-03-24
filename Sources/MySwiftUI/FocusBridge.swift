@@ -339,14 +339,14 @@ final class FocusBridge {
          */
         if
             _SemanticFeature<Semantics_v6>.isEnabled,
-            let baseFocusResponder = responder as? BaseFocusResponder
+            let _ = responder as? BaseFocusResponder
         {
             // <+336>
             assertUnimplemented()
         }
         
         // <+400>
-        if let focusResponder = responder as? FocusResponder {
+        if let _ = responder as? FocusResponder {
             assertUnimplemented()
         }
         
@@ -359,11 +359,11 @@ final class FocusBridge {
         let children = responder.children
         
         for child in children {
-            if let baseFocusResponder = child as? BaseFocusResponder {
+            if let _ = child as? BaseFocusResponder {
                 assertUnimplemented()
             }
             
-            if let focusNamespaceViewResponder = child as? FocusNamespaceViewResponder {
+            if let _ = child as? FocusNamespaceViewResponder {
                 assertUnimplemented()
             }
             

@@ -16,7 +16,7 @@ class ModernNavigationBridge {
         // inlined
         seedTracker.didChange(preferences) { value in
             // <+680>
-            for (key, value) in value {
+            for (_, _) in value {
                 assertUnimplemented()
             }
         }
