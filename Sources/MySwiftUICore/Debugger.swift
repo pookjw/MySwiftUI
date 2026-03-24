@@ -3,7 +3,7 @@ private import _DarwinFoundation3
 private import Darwin.sys.sysctl
 private import os.log
 
-@safe nonisolated let isDebuggerAttached: Bool = {
+let isDebuggerAttached: Bool = {
     // $s7SwiftUI18isDebuggerAttachedSbvpfiSbyXEfU_
     // sp + 0x10
     var info = unsafe kinfo_proc()

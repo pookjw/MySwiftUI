@@ -92,7 +92,7 @@ struct GraphReuseOptions: OptionSet {
     
     static nonisolated(unsafe) var overrideValue: GraphReuseOptions?
     
-    fileprivate static nonisolated let defaultsValue: GraphReuseOptions = {
+    fileprivate static let defaultsValue: GraphReuseOptions = {
         if let value = UserDefaults.standard.object(forKey: "GraphReuseOptions") as? Int {
             return GraphReuseOptions(rawValue: value)
         } else if let value = unsafe getenv("SWIFTUI_GRAPH_REUSE_OPTIONS") {

@@ -14,7 +14,7 @@ public struct ImmersiveContentBrightness : Equatable {
     @safe public nonisolated(unsafe) static let bright = ImmersiveContentBrightness(value: 0.3)
     @safe public nonisolated(unsafe) static let automatic = ImmersiveContentBrightness(value: nil)
     
-    @safe public nonisolated static func custom(_ value: Double) -> ImmersiveContentBrightness {
+    public static func custom(_ value: Double) -> ImmersiveContentBrightness {
         var d0 = value
         var d1: CGFloat = 0
         d0 = (d0 >= 0) ? d0 : d1

@@ -379,7 +379,7 @@ extension ToolbarBridge: ToolbarNamespace {
 }
 
 struct ToolbarKey: HostPreferenceKey {
-    static nonisolated let defaultValue = ToolbarStorage(
+    static let defaultValue = ToolbarStorage(
         identifier: nil,
         selection: nil,
         isAnimated: false,

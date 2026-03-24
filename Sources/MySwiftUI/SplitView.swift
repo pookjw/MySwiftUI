@@ -13,7 +13,7 @@ extension EnvironmentValues {
 }
 
 struct ExpandedSplitViewKey: EnvironmentKey {
-    static nonisolated let defaultValue = !isLinkedOnOrAfter(.v4)
+    static let defaultValue = !isLinkedOnOrAfter(.v4)
 }
 
 class NotificationSendingSplitViewController: UISplitViewController {

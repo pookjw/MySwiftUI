@@ -1649,7 +1649,7 @@ public func _makeWatchKitUIHostingController(_ view: AnyView) -> any NSObject & 
     assertUnimplemented()
 }
 
-@safe fileprivate nonisolated let clientNeedsNestedToolbarBridgeSuppression: Bool = {
+fileprivate let clientNeedsNestedToolbarBridgeSuppression: Bool = {
     // $s7SwiftUI41clientNeedsNestedToolbarBridgeSuppression33_1D3224F5185670D36FFEB48E24E43C4FLLSbvpfiSbyXEfU_
     assertUnimplemented()
 }()

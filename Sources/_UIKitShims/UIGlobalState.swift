@@ -4,7 +4,7 @@ private import Foundation
 @Observable
 @MainActor
 final class UIGlobalState {
-    static nonisolated let shared = UIGlobalState()
+    static let shared = UIGlobalState()
     
     private var storedIsLowPowerModeEnabled: Bool? = nil
     private var storedIsReduceTransparencyEnabled: Bool? = nil
