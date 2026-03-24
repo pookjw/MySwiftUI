@@ -445,7 +445,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
                 // <+3772>
                 // info.items -> x21
                 // removedCount -> sp + 0x38
-                var x22 = -(info.removedCount &+ info.unusedCount)
+                let x22 = -(info.removedCount &+ info.unusedCount)
                 // x28
                 for index in 0..<usedCount {
                     let _index: Int
@@ -560,7 +560,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             // sp + 0xb0
             _ = copy_1
             // sp + 0xb0
-            let copy_4 = cachedEnvironment
+            let _ = cachedEnvironment
             // x20
             let copy_5 = self
             
@@ -574,7 +574,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
             // sp + 0xb0
             let copy_7 = copy_6
             // sp + 0x2c0
-            let copy_8 = copy_6
+            let _ = copy_6
             
             let (outptus, itemLayout) = copy_5.adaptor.makeItemLayout(item: item, uniqueId: uniqueId, inputs: copy_7, containerInfo: container) { inputs in
                 // $s7SwiftUI20DynamicContainerInfoV8makeItem_8uniqueId9container18disableTransitionsAA0cD0V0gE0C0G0Qz_s6UInt32V14AttributeGraph0N0VyAI0E0VGSbtFAKyXEfU0_yAA11_ViewInputsVzXEfU_TA

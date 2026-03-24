@@ -112,10 +112,10 @@ extension SceneList {
             case .singleWindow(_):
                 // <+116>
                 return .windowApplication
-            case .documentIntroduction(let configuration):
+            case .documentIntroduction(_):
                 // <+172>
                 return nil
-            case .alertDialog(let configuration):
+            case .alertDialog(_):
                 // <+172>
                 return nil
             }

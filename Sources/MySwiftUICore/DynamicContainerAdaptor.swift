@@ -182,7 +182,7 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
                     // x28
                     let cachedEnvironmentBox = copy_1.base.cachedEnvironment
                     // sp + 0x2a0
-                    let cachedEnvironment = cachedEnvironmentBox.value
+                    let _ = cachedEnvironmentBox.value
                     // x21
                     copy_2.base.cachedEnvironment = MutableBox(cachedEnvironmentBox.value)
                     _ = consume copy_1

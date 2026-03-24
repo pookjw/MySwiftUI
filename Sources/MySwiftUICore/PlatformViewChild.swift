@@ -747,8 +747,8 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
             // w23
             let layoutDirection = environment.layoutDirection
             
-            var d12 = (layoutDirection == .rightToLeft) ? d10 : d11
-            var d13 = (layoutDirection == .rightToLeft) ? d11 : d10
+            let d12 = (layoutDirection == .rightToLeft) ? d10 : d11
+            let d13 = (layoutDirection == .rightToLeft) ? d11 : d10
             
             d1 = x190x10
             d8 = x190x18
@@ -792,7 +792,7 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
         case .content(let content):
             // <+1560>
             switch content.value {
-            case .platformView(let factory):
+            case .platformView(let _):
                 // <+2444>
                 // <+2184>
                 break
@@ -893,7 +893,7 @@ fileprivate struct PlatformViewLayoutEngine<Representable: CoreViewRepresentable
          proposedSize -> x0 -> x20
          */
         // x29 - 0x128
-        let copy_1 = proposedSize
+        let _ = proposedSize
         // x29 - 0xa0
         let layoutInvalidtor = view.platformView.coreLayoutInvalidator
         view.platformView.coreLayoutInvalidator = nil

@@ -101,7 +101,7 @@ extension MainMenuItemHost: ViewGraphRootValueUpdater {
                 delegate.menuHostDidChangeMenuItems(self)
             }
             
-            graph.updatePreferences()
+            _ = graph.updatePreferences()
         }
     }
     

@@ -165,13 +165,13 @@ extension CoreViewRepresentable {
             
             // <+1932>
             // x24 + 0x120 (sp + 0x2a0)
-            let copy_6 = copy_4
+            let _ = copy_4
             // x24 + 0x60 (sp + 0x1e0)
             let copy_7 = copy_4
             // x19 + 0x100 (sp + 0x180)
-            let copy_8 = copy_7
+            let _ = copy_7
             // x19 + 0xa8 (sp + 0x128)
-            let copy_9 = copy_5
+            let _ = copy_5
             
             // x23
             var outptus = ViewLeafView<Self>.makeDebuggableView(view: _GraphValue(childAttribute), inputs: copy_7)

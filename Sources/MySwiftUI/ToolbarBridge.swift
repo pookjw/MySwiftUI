@@ -93,7 +93,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         
         // <+996>
         // x29 - 0x140 (x19)
-        var copy_2 = copy_1.overrides
+        let copy_2 = copy_1.overrides
         // environment -> x29 - 0x168 -> x25
         if (copy_2.navigation ?? copy_1.navigationController) != nil {
             // <+1076>
@@ -121,7 +121,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     
     @inline(__always)
     func layout() {
-        guard let uiToolbar = platformVended.uiToolbar else {
+        guard let _ = platformVended.uiToolbar else {
             return
         }
         
@@ -237,7 +237,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         /*
          hostingController -> x0 -> x19
          */
-        guard let uiToolbar = platformVended.uiToolbar else {
+        guard let _ = platformVended.uiToolbar else {
             return
         }
         
@@ -248,7 +248,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         /*
          hostingController -> x0 -> x19
          */
-        guard let bottomOrnament = platformVended.bottomOrnament else {
+        guard let _ = platformVended.bottomOrnament else {
             return
         }
         
@@ -712,7 +712,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             // x26
             let uiSearchController: SwiftUISearchController?
-            if let copy_2 {
+            if copy_2 != nil {
                 // <+516>
                 if let _uiSearchController = updater.platformVended.uiSearchController {
                     uiSearchController = _uiSearchController
@@ -734,7 +734,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             let w24: Bool
             if let searchController_1 {
-                if let searchController_2 {
+                if searchController_2 != nil {
                     // <+724>
                     w24 = (searchController_2 !== searchController_1)
                 } else {
@@ -743,7 +743,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 }
             } else {
                 // <+748>
-                if let searchController_2 {
+                if searchController_2 != nil {
                     // <+768>
                     w24 = true
                 } else {
@@ -791,7 +791,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x20
             let copy_4 = copy_1
             
-            guard let copy_4 else {
+            guard copy_4 != nil else {
                 return w24
             }
             
@@ -844,7 +844,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 if w8 {
                     // <+568>
                     // x27
-                    let copy_1 = context
+                    let _ = context
                     // <+620>
                     bridge.platformVended.uiToolbar = nil
                     // <+1196>
@@ -918,7 +918,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // <+684>
             if let role, _SemanticFeature<Semantics_v4>.isEnabled {
                 switch role {
-                case .navigationBarDrawer(let mode):
+                case .navigationBarDrawer(_):
                     preferredSearchBarPlacement = .stacked
                 case .automatic:
                     preferredSearchBarPlacement = .automatic
@@ -944,26 +944,6 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         
         // <+788>
         if _SemanticFeature<Semantics_v7>.isEnabled {
-            let shouldUpdate: Bool
-            switch role {
-            case .navigationBarDrawer(_):
-                shouldUpdate = false
-            case .automatic:
-                shouldUpdate = true
-            case .toolbar:
-                shouldUpdate = true
-            case .toolbarPrincipal:
-                shouldUpdate = false
-            case .sidebarList:
-                shouldUpdate = true
-            case .navigationColumn:
-                shouldUpdate = true
-            case .none:
-                shouldUpdate = true
-            case .some(.none):
-                shouldUpdate = false
-            }
-            
             let copy_3 = searchItem
             if let copy_3, copy_3.allowsGlobalSearch {
                 navigationItem.msui_searchBarPlacementAllowsExternalIntegration = true
@@ -1002,9 +982,9 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                     // sp + 0x90
                     let copy_3 = bridge.lastToolbarStorage
                     // sp + 0x48
-                    let copy_4 = copy_3
+                    let _ = copy_3
                     // sp + 0x90
-                    let copy_5 = copy_1
+                    let _ = copy_1
                     // <+728>
                     bridge.platformVended.uiNavigationItem.customizationIdentifier = copy_3?.identifier
                     return true
@@ -1043,7 +1023,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let new2 = bridge.platformVended.uiNavigationItem._largeTitleView
             
             if let old {
-                if let new2 {
+                if new2 != nil {
                     // <+200>
                     return old !== new2
                 } else {
@@ -1052,7 +1032,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 }
             } else {
                 // <+220>
-                if let new2 {
+                if new2 != nil {
                     // <+236>
                     return true
                 } else {
@@ -1110,7 +1090,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let new2 = bridge.platformVended.uiNavigationItem._largeTitleAccessoryView
             
             if let old {
-                if let new2 {
+                if new2 != nil {
                     // <+200>
                     return old !== new2
                 } else {
@@ -1119,7 +1099,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 }
             } else {
                 // <+220>
-                if let new2 {
+                if new2 != nil {
                     // <+236>
                     return true
                 } else {
@@ -1149,7 +1129,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let new2 = bridge.platformVended.uiNavigationItem._subtitleView
             
             if let old {
-                if let new2 {
+                if new2 != nil {
                     // <+200>
                     return old !== new2
                 } else {
@@ -1158,7 +1138,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 }
             } else {
                 // <+220>
-                if let new2 {
+                if new2 != nil {
                     // <+236>
                     return true
                 } else {
@@ -1188,7 +1168,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             let new2 = bridge.platformVended.uiNavigationItem._largeSubtitleView
             
             if let old {
-                if let new2 {
+                if new2 != nil {
                     // <+200>
                     return old !== new2
                 } else {
@@ -1197,7 +1177,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 }
             } else {
                 // <+220>
-                if let new2 {
+                if new2 != nil {
                     // <+236>
                     return true
                 } else {
@@ -1234,7 +1214,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x21
             let navigationProperties = bridge.navigationProperties
             // x25
-            let copy_1 = bridge.lastEnvironment
+            let _ = bridge.lastEnvironment
             // x24
             let copy_2 = navigationProperties
             
@@ -1281,7 +1261,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // $s7SwiftUI20UIKitToolbarStrategyV23updateTitleMenuProvider33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
             // self -> x0 -> x20
             // x21
-            let navigationProperties = bridge.navigationProperties
+            let _ = bridge.navigationProperties
             
             if let _ = bridge.platformVended.uiNavigationItem.titleMenuProvider {
                 // <+356>
@@ -1442,7 +1422,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
              context -> x1 -> x21
              */
             // x29 - 0x48
-            var barItems: [UIBarButtonItem] = []
+            let barItems: [UIBarButtonItem] = []
             // x24
             let copy_1 = context
             // x25
@@ -1511,17 +1491,14 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x25
             let copy_1 = context
             // x23 -> x29 - 0x50
-            guard let targetController = copy_1.targetController else {
+            guard copy_1.targetController != nil else {
                 return []
             }
             
             // <+152>
-            var x290x48: UInt8 = 2
+            let _: UInt8 = (location == .navigationBarLeading) ? 0 : 2
             // x29 - 0x58
-            var results: [UIBarButtonItem] = []
-            if location == .navigationBarLeading {
-                x290x48 = 0
-            }
+            let results: [UIBarButtonItem] = []
             
             // <+228>
             let _ = bridge.entryCount(in: location) - 1
@@ -1544,18 +1521,14 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             // x25
             let copy_1 = context
             // x23
-            guard let targetController = copy_1.targetController else {
+            guard copy_1.targetController != nil else {
                 return []
             }
             
             // targetController -> x23 -> x29 - 0x50
-            var x290x48: UInt8 = 2
+            let _: UInt8 = (location == .navigationBarLeading) ? 0 : 2
             // x29 - 0x58
-            var results: [UIBarButtonItemGroup] = []
-            
-            if location == .navigationBarLeading {
-                x290x48 = 0
-            }
+            let results: [UIBarButtonItemGroup] = []
             
             let _ = bridge.entryCount(in: location)
             
@@ -1569,9 +1542,9 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     
     fileprivate func makeBarItems() -> [UIBarButtonItem] {
         // sp + 0x10
-        var array1: [UIBarButtonItem] = []
+        let array1: [UIBarButtonItem] = []
         // sp + 0x18
-        var array2: [UIBarButtonItem] = []
+        let array2: [UIBarButtonItem] = []
         
         withUpdate { bridge, context in
             // $s7SwiftUI13ToolbarBridgeC13adjustEntries2in_yAA0C0O11BarLocationO_yAA0C7StorageV5EntryV_AG10VendedItemOSgztXEtFAA05UIKitC8StrategyV_Tg503$s7a4UI20nco7V12makeh60Items33_A409749AC298CF150D90E447BB4FA064LLSaySo15UIBarButtonm10CGyFyAA0D6d40CyACG_AA0D0O13UpdateContextVtXEfU_yAA0D7j2V5k6V_AM06L12R0OSgztXEfU_AA05UIBarM7ContextVSgSaySo011UIBarButtonM0CGAYTf1ncn_nTf4nngnn_n

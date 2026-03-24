@@ -241,7 +241,7 @@ open class UIHostingController<Content: View>: UIViewController {
         // w25
         let isLinked = isLinkedOnOrAfter(.v6_2)
         // x24
-        var flag = false
+        let flag = false
         if let _ = host.sceneBridge {
             // <+192>
             // flag를 조건에 따라 true
@@ -604,7 +604,7 @@ open class UIHostingController<Content: View>: UIViewController {
     
     final func _willMove(toParent parent: UIViewController?) {
         let overrides: HostingControllerOverrides
-        if let parent {
+        if parent != nil {
             overrides = HostingControllerOverrides(
                 pushTarget: nil,
                 navigation: nil,
@@ -763,7 +763,7 @@ open class UIHostingController<Content: View>: UIViewController {
         
         let flag: Bool // true -> <+288> / false -> <+1196>
         if !managedBars.isEmpty {
-            if let barAppearanceBridge {
+            if barAppearanceBridge != nil {
                 // <+1196>
                 flag = false
             } else {
@@ -772,7 +772,7 @@ open class UIHostingController<Content: View>: UIViewController {
             }
         } else {
             // <+188>
-            if let barAppearanceBridge {
+            if barAppearanceBridge != nil {
                 // <+192>
                 if allowedBehaviors.contains(.unknown0) {
                     // <+1196>
@@ -1148,7 +1148,7 @@ open class UIHostingController<Content: View>: UIViewController {
         // x22
         let environment = host.viewGraph.environment
         let flag_1: Bool // true -> <+500> / false -> <+660>
-        if let properties {
+        if properties != nil {
             if allowedActions.isDisjoint(with: [.unknown0, .unknown1]) {
                 // <+660>
                 flag_1 = false
@@ -1207,7 +1207,7 @@ open class UIHostingController<Content: View>: UIViewController {
                 // <+680>
                 if let navigationBridge, let _host = navigationBridge.host {
                     // <+748>
-                    if let navigation = _host.hostingControllerOverrides.navigation {
+                    if _host.hostingControllerOverrides.navigation != nil {
                         // <+808>
                         flag_2 = false
                     } else {
@@ -1226,7 +1226,7 @@ open class UIHostingController<Content: View>: UIViewController {
                 // <+808>
                 x26 = requiredBridges.rawValue | (x290xa8.rawValue << 2)
                 
-                if let navigationController {
+                if navigationController != nil {
                     // <+848>
                     flag_3 = true
                 } else {
@@ -1424,7 +1424,7 @@ open class UIHostingController<Content: View>: UIViewController {
         // <+440>
         if x28.contains(.unknown2) {
             // <+728>
-            if let navigationBridge {
+            if navigationBridge != nil {
                 // <+740>
                 host.viewGraph.removePreference(NavigationDestinationsKey.self)
             }

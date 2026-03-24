@@ -447,7 +447,7 @@ extension UITraitCollection {
             let glassMaterialForeground = environment.glassMaterialForeground
             traits._glassElevationLevel = glassMaterialForeground ? .unknown1 : .unknown0
             
-            if let glassMaterialContainerStyle = environment.glassMaterialContainerStyle {
+            if environment.glassMaterialContainerStyle != nil {
                 // <+568>
                 traits._userInterfaceRenderingMode = .unknown2
             }
@@ -497,7 +497,7 @@ extension MySwiftUICore.EnvironmentValues {
         }
         
         // <+456>
-        guard let resolvedProvider = collection.resolvedProvider as? GlassMaterialProvider.ResolvedStyleProvider else {
+        guard let _ = collection.resolvedProvider as? GlassMaterialProvider.ResolvedStyleProvider else {
             return
         }
         

@@ -156,7 +156,7 @@ class UIKitNavigationBridge {
         let incomingSeed = preference.seed
         // preference -> sp + 0x40
         // sp + 0xb0 -> sp + 0x48
-        let incomingValue = preference.value
+        let _ = preference.value
         // x21
         let oldSeed = navigationDestinationSeed
         let matches = incomingSeed.matches(oldSeed)
@@ -290,7 +290,7 @@ final class NavigationBridge_PhoneTV: UIKitNavigationBridge {
                 flag = true
             }
         } else {
-            if let result {
+            if result != nil {
                 // <+724>
                 flag = true
             } else {

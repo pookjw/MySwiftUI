@@ -24,7 +24,7 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
     
     static func bridgedValue(from value: PreferredAnchoredPlaneKey.PreferredValue?) -> RSSPlacementTarget? {
         // value -> x0 -> x23 -> x24
-        guard let value else {
+        guard value != nil else {
             return nil
         }
         

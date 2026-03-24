@@ -30,7 +30,7 @@ internal import MySwiftUICore
             return
         }
         
-        guard let configuration else {
+        guard configuration != nil else {
             // <+136>
             if let uiViewController = host.uiViewController {
                 uiViewController.activityItemsConfiguration = nil

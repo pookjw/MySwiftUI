@@ -21,9 +21,9 @@ extension Layout {
         let copy_1 = inputs
         // inputs.phase (pointer) -> x24
         // sp + 0x88
-        let phase = inputs.base.phase
+        let _ = inputs.base.phase
         // sp + 0x8c
-        let transaction = inputs.base.transaction
+        let _ = inputs.base.transaction
         // w25
         let isDefaultEmptyLayout = properties.isDefaultEmptyLayout
         // w22
@@ -86,7 +86,7 @@ extension Layout {
             // sp + 0x78
             var index = 0
             // sp + 0x110
-            let copy_2 = copy_1
+            var copy_2 = copy_1
             var outputs: _ViewOutputs = list.makeAllElements(inputs: copy_2, indirectMap: nil) { inputs, transform in
                 // $s7SwiftUI6LayoutPAAE14makeStaticView4root6inputs10properties4listAA01_F7OutputsVAA11_GraphValueVyxG_AA01_F6InputsVAA0C10PropertiesVAA01_F13List_Elements_ptFZAJSgAO_AjOctXEfU0_TA를
                 /*
@@ -96,9 +96,9 @@ extension Layout {
                 // sp + 0x1c0
                 let copy_1 = inputs
                 // w22
-                let changedDebugProperties = copy_1.base.changedDebugProperties
+                let _ = copy_1.base.changedDebugProperties
                 // sp + 0x120
-                let copy_2: _ViewInputs
+                let _: _ViewInputs
                 // copy_1.options -> sp + 0x24
                 // w19
                 var originAttribute = copy_1.position
@@ -130,7 +130,7 @@ extension Layout {
                 // <+444>
                 // transform -> x21/x20
                 // sp + 0xc0
-                let copy_4 = inputs
+                let _ = inputs
                 // sp + 0x60
                 var copy_5 = inputs
                 copy_5.position = originAttribute
@@ -139,7 +139,7 @@ extension Layout {
                 // sp + 0x120
                 let _ = copy_5
                 // sp + 0x40
-                var outputs = transform(copy_5)
+                let outputs = transform(copy_5)
                 // <+564>
                 // sp + 0x120
                 let _ = copy_5

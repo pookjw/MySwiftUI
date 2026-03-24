@@ -40,7 +40,7 @@ final class ImmersiveSpaceAuthority {
          item -> x4 -> x19
          */
         // <+312>
-        guard case .immersiveSpace(let configuration) = item.value else {
+        guard case .immersiveSpace(let _) = item.value else {
             return
         }
         

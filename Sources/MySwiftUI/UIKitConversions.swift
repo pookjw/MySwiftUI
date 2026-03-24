@@ -55,12 +55,12 @@ extension BarAppearanceBridge {
             // <+1508>
             // targetController -> x25
             // x19 + 0x14
-            let hasOrWillHaveBackItem = targetController.hasOrWillHaveBackItem(overrides: updateContext.overrides)
+            let _ = targetController.hasOrWillHaveBackItem(overrides: updateContext.overrides)
             
             // <+1532>
             // inlined
             // x19 + 0x10
-            let contained = self.containedInExpandedSplitViewColumn(columns: )
+            let _ = self.containedInExpandedSplitViewColumn(columns: )
             
             // <+1600>
             // x19 + 0x60
@@ -180,11 +180,10 @@ extension BarAppearanceBridge {
                 if _SemanticFeature<Semantics_v4>.isEnabled {
                     // <+2300>
                     // w20
-                    let hasLargeContent: Bool
                     if resolvedTitleString != nil {
-                        hasLargeContent = true
+                        let _ = true
                     } else {
-                        hasLargeContent = targetController.navigationItem.hasLargeContent
+                        let _ = targetController.navigationItem.hasLargeContent
                     }
                     
                     // <+2364>
@@ -414,7 +413,7 @@ extension BarAppearanceBridge {
             let copy_1 = updateContext.overrides
             // x24
             let split = copy_1.split ?? viewController.splitViewController
-            guard let split else {
+            guard split != nil else {
                 return
             }
             
@@ -430,7 +429,7 @@ extension BarAppearanceBridge {
             /*
              columns -> x1 -> x20
              */
-            guard let hostingController = updateContext.targetController as? NavigationStackHostingController<AnyView> else {
+            guard let _ = updateContext.targetController as? NavigationStackHostingController<AnyView> else {
                 return false
             }
             
@@ -542,7 +541,7 @@ extension BarAppearanceBridge {
             // x29 - 0x100
             let titleMode = (self.lastNavigationTitleStorage?.title == nil) ? ToolbarTitleDisplayMode.inline : self.lastNavigationTitleStorage?.titleMode
             // x29 - 0x138
-            let copy_4 = self.lastEnvironment
+            let _ = self.lastEnvironment
             
             // x21 -> (index of array)
             let array: [UInt8] = [0, 1, 2, 3]
@@ -581,7 +580,7 @@ extension BarAppearanceBridge {
                     // x29 - 0x198
                     let oldColorScheme = copy_2.colorScheme
                     
-                    if let oldColorScheme {
+                    if oldColorScheme != nil {
                         // <+2348>
                         // <+2428>
                         // <+3312>
@@ -635,7 +634,7 @@ extension BarAppearanceBridge {
                         appearance = navigationItem.compactScrollEdgeAppearance
                     }
                     
-                    guard let appearance else {
+                    guard appearance != nil else {
                         continue
                     }
                     
@@ -760,7 +759,7 @@ extension BarAppearanceBridge {
                     let w0 = _SemanticFeature<Semantics_v4>.isEnabled
                     let w8 = newConfiguration.visibility
                     let w10 = w25 != .visible
-                    let w11 = isFromSwiftUI && !hasNavigationBarContent && w0 && w10
+                    let _ = isFromSwiftUI && !hasNavigationBarContent && w0 && w10
                     let w2 = (w8 == .automatic) ? w10 : ((w8 == .visible) ? false : true)
                     // <+1304>
                     navigationController.setNavigationBarHidden(w2, animated: newConfiguration.animation != nil)
@@ -805,7 +804,7 @@ extension BarAppearanceBridge {
         // x29 - 0x130 (x26)
         let copy_3 = copy_2
         // x29 - 0x1a8
-        let copy_4 = self.lastEnvironment
+        let _ = self.lastEnvironment
         
         // <+1380>
         let array: [UInt8] = [0, 1, 2, 3]
@@ -880,7 +879,7 @@ extension BarAppearanceBridge {
                             }
                             
                             // <+4372>
-                            guard let appearance else {
+                            guard appearance != nil else {
                                 continue
                             }
                             
@@ -917,7 +916,7 @@ extension BarAppearanceBridge {
         // x21
         let targetController = copy_1.targetController
         
-        guard let bottomOrnament = self.bottomOrnament(viewController: targetController) else {
+        guard let _ = self.bottomOrnament(viewController: targetController) else {
             return true
         }
         
@@ -1075,8 +1074,8 @@ extension UINavigationItem {
         }
         
         // <+644>
-        var w21 = bottomPalette != nil
-        var w0 = hasLargeContent
+        let w21 = bottomPalette != nil
+        let w0 = hasLargeContent
         var w8 = w0 || hasLeftContent
         w8 = w21 || w8
         

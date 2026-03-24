@@ -26,7 +26,7 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
         let copy_1 = activePresentation
         
         switch copy_1 {
-        case .alert(let viewIdentity):
+        case .alert(let _):
             return
         case .confirmationDialog(let _):
             // <+328>

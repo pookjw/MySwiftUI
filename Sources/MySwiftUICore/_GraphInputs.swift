@@ -156,7 +156,7 @@ public struct _GraphInputs {
             return
         }
         
-        var inputs = customInputs[ReusableInputs.self]
+        let inputs = customInputs[ReusableInputs.self]
         guard inputs.stack.top != Input.self else {
             return
         }

@@ -36,7 +36,7 @@ internal import AttributeGraph
         }
         
         // x29 - 0xb8
-        let empty = AnyAttribute.empty
+        let _ = AnyAttribute.empty
         
         for key in inputs.preferences.keys {
             // <+412>

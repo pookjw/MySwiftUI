@@ -52,7 +52,7 @@ protocol AnyPlatformViewHost {
          proxy -> x1 -> x20
          */
         // x24
-        let base = proxy.base
+        let _ = proxy.base
         self.inputs = inputs
         // <+300>
         self._focusedValues = inputs.base[FocusedValuesInputKey.self]
@@ -246,7 +246,7 @@ fileprivate struct ViewResponderFilter<Representable: CoreViewRepresentable>: St
     }
     
     var preferredFocusableView: ((Representable.PlatformViewProvider) -> UIView?)?? {
-        guard let attribute = _preferredFocusableView.attribute else {
+        guard let _ = _preferredFocusableView.attribute else {
             return nil
         }
         

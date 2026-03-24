@@ -260,7 +260,7 @@ struct ViewLayoutEngine<L: Layout>: LayoutEngine {
          size -> x22
          */
         let subviews = subviews
-        let cache = cache
+        let _ = cache
         
         // inlined
         var sizeCache = sizeCache
@@ -734,12 +734,12 @@ fileprivate struct PlacementData {
         
         // <+176>
         if layoutDirection != self.layoutDirection {
-            var d8 = bounds.origin.x
+            let d8 = bounds.origin.x
             var d9 = bounds.origin.y
-            var d10 = bounds.size.width
-            var d11 = bounds.size.height
+            let d10 = bounds.size.width
+            let d11 = bounds.size.height
             // sp
-            let copy_2 = copy_1
+            let _ = copy_1
             
             var d0 = d8
             var d1 = d9

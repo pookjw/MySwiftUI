@@ -18,7 +18,7 @@ final class FileImportExportBridge: NSObject {
          preferences -> x25
          */
         // x26
-        guard let effect = presentationState.update(preferences: preferences) else {
+        guard let _ = presentationState.update(preferences: preferences) else {
             return
         }
         
@@ -42,7 +42,7 @@ extension FileImportExportBridge {
              */
             // <+800>
             // x20(sp, x29 - 0x70)
-            let presentation: FileImportExportBridge.Presentation? = nil
+            let _: FileImportExportBridge.Presentation? = nil
             
             // x27
             let importValue = preferences[FileImportOperation.Key.self]

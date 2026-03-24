@@ -110,7 +110,7 @@ final class UIKitContentScrollViewBridge {
         // scrollView -> x23
         guard
             let viewController,
-            let view = viewController.view // sp + 0x30
+            let _ = viewController.view // sp + 0x30
         else {
             return nil
         }

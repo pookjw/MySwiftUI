@@ -17,7 +17,7 @@ final class InputAccessoryGenerator {
     
     fileprivate func updateHostIfNeeded() {
         // <+84>
-        guard let root else {
+        guard root != nil else {
             return
         }
         

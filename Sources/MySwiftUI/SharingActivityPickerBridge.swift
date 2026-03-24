@@ -57,6 +57,7 @@ private import AttributeGraph
         } else {
             uiPresenterViewController = nil
         }
+        let _ = uiPresenterViewController
         
         // <+332>
         // x26
@@ -77,11 +78,11 @@ private import AttributeGraph
         }
         
         // sp + 0x140
-        let copy_1 = activePresentation
+        let _ = activePresentation
         // sp + 0x1e0
         let copy_2 = activePresentation
         
-        guard let copy_2 else {
+        guard copy_2 != nil else {
             return
         } 
         

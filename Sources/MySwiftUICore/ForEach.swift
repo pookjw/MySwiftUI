@@ -336,8 +336,8 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
             return true
         }
         
-        let endIndex = self.view!.data.endIndex
-        let startIndex = self.view!.data.startIndex
+        let _ = self.view!.data.endIndex
+        let _ = self.view!.data.startIndex
         
         if index < 1 {
             // <+896>

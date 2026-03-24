@@ -87,8 +87,6 @@ extension HVStack {
          cache -> x19
          subviews -> x20
          */
-        // sp + 0x1c
-        let copy_1 = cache
         // x28
         let majorAxis = Self.majorAxis
         // x27

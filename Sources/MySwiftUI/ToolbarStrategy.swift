@@ -128,7 +128,7 @@ extension UIViewController {
         // sp + 0x40
         let copy_1 = overrides.pushTarget
         // x19
-        let split = overrides.split ?? self.splitViewController
+        let _ = overrides.split ?? self.splitViewController
         // <+112>
         // sp
         let copy_2 = copy_1

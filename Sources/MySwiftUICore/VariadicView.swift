@@ -34,7 +34,7 @@ extension _VariadicView.Tree: View where Root: _VariadicView_ViewRoot, Content: 
         // sp + 0x200
         var copy_2 = inputs
         // sp + 0x1a0
-        let copy_3 = copy_1
+        let _ = copy_1
         
         copy_2[ViewListOptionsInput.self] = Root._viewListOptions
         

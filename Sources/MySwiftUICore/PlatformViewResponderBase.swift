@@ -46,7 +46,7 @@ public import CoreGraphics
         let policy = self.hitTestPolicy(options: options)
         
         // x21
-        var result = ViewResponder.ContainsPointsResult(mask: BitVector64(), priority: 0, children: [])
+        let result = ViewResponder.ContainsPointsResult(mask: BitVector64(), priority: 0, children: [])
         
         guard policy != .exclude else {
             return result
@@ -69,7 +69,7 @@ public import CoreGraphics
         }
         
         // <+608>
-        guard let hitView else {
+        guard hitView != nil else {
             // <+884>
             if let cacheKey {
                 self.lastResult = PlatformViewResponderBase<T, U>.PlatformHitTestResult(key: cacheKey, globalPoint: point, hitView: hitView)

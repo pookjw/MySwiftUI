@@ -416,7 +416,7 @@ public import _UIKitPrivate
             }
         } else {
             // <+104>
-            if let hostedView {
+            if hostedView != nil {
                 // <+128>
             } else {
                 // <+180>
@@ -545,10 +545,10 @@ public import _UIKitPrivate
             var d8 = fromOwn.right
             
             let fromSuper = super.safeAreaInsets
-            var d0 = fromSuper.top
-            var d1 = fromSuper.left
-            var d2 = fromSuper.bottom
-            var d3 = fromSuper.right
+            let d0 = fromSuper.top
+            let d1 = fromSuper.left
+            let d2 = fromSuper.bottom
+            let d3 = fromSuper.right
             
             let d7 = Double.greatestFiniteMagnitude
             
@@ -590,7 +590,7 @@ public import _UIKitPrivate
          newSuperview -> x0 -> x19
          */
         // <+168>
-        if let newSuperview, let vc {
+        if newSuperview != nil, let vc {
             // vc -> x23
             // x29 - 0x80
             let vcView = vc.view

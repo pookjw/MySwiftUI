@@ -634,7 +634,7 @@ open class _UIHostingView<Content: View>: UIView {
         // x25
         let testResponder = responderNode.hitTest(globalPoint: point3D, radius: d11, serverHitTest: serverHitTest)
         
-        guard let testResponder else {
+        guard testResponder != nil else {
             Update.end()
             self.currentEvent = nil
             return self
@@ -1219,7 +1219,7 @@ open class _UIHostingView<Content: View>: UIView {
             setBackground(containerBackgroundColor, canOverwriteClientValue: true)
         } else {
             // <+60>
-            guard let viewController else {
+            guard viewController != nil else {
                 return
             }
             

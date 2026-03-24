@@ -33,7 +33,7 @@ extension ToolbarBridge {
         // sp + 0x128
         let copy_1 = toolbarStorage
         // sp + 0x1c0
-        let copy_2 = copy_1
+        let _ = copy_1
         
         // <+884>
         allowedLocations.formUnion([])
@@ -132,7 +132,7 @@ extension ToolbarBridge {
         // sp + 0x160 (x29 - 0xf0)
         let copy_1 = newStorage
         // sp + 0xa0
-        let copy_2 = newStorage
+        let _ = newStorage
         copy_1.removeRequestedDefaultItems()
         
         // x20, sp + 0xa0
@@ -194,7 +194,7 @@ extension ToolbarBridge {
         // sp + 0x1b38 (x29 - 0x68)
         var entries: [ToolbarStorage.Entry] = []
         // sp + 0x1b30
-        var dictionary: [ToolbarStorage.Entry.ID: Int] = .init()
+        let dictionary: [ToolbarStorage.Entry.ID: Int] = .init()
         // x23
         let toolbarEntries = newStorage.toolbarEntries
         
@@ -249,11 +249,11 @@ extension ToolbarBridge {
         // x29 - 0xb0
         let navigationBarLeadingLocation = Toolbar.BarLocation.navigationBarLeading
         let isEqual = location == navigationBarLeadingLocation
-        let w22 = isEqual ? 0 : 2
+        let _ = isEqual ? 0 : 2
         // x29 - 0x118
-        var dictionary_1: [String: ToolbarStorage.Entry] = .init()
+        let dictionary_1: [String: ToolbarStorage.Entry] = .init()
         // x29 - 0x178
-        var dictionary_2: [String: Toolbar.VendedItem] = .init()
+        let dictionary_2: [String: Toolbar.VendedItem] = .init()
         // x19
         let copy_1 = changes
         // x20

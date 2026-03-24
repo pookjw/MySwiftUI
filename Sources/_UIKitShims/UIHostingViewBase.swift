@@ -959,10 +959,10 @@ package final class UIHostingViewBase: NSObject {
         }
         
         // x25
-        let traitCollection = traitCollectionOverride ?? uiView.traitCollection
+        let _ = traitCollectionOverride ?? uiView.traitCollection
         let typedStorage = uiView.typedStorage
         
-        guard let glassBackgroundStyle = glassBackgroundStyle(typedStorage: typedStorage) else {
+        guard let _ = glassBackgroundStyle(typedStorage: typedStorage) else {
             return
         }
         

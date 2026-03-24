@@ -72,7 +72,7 @@ extension _RendererEffect {
                 let transform = Attribute(ResetPositionTransform(position: position, transform: copy_1.transform))
                 copy_2.transform = transform
                 
-                let graph = ViewGraph.current
+                let _ = ViewGraph.current
                 
                 let pixelLength: Attribute<CGFloat> = cachedEnvironment.value.attribute(id: .pixelLength) { environmentValues in
                     // $s7SwiftUI17CachedEnvironmentV17withAnimatedFrame33_B62A4B04AF9F1325924A089D63071424LL3for4bodyxAA11_ViewInputsV_xAC0fG0VzXEtlF12CoreGraphics7CGFloatVAA0D6ValuesVcfU_
@@ -86,7 +86,7 @@ extension _RendererEffect {
                 // <+784>
                 copy_3 = copy_1
                 // sp + 0x1f4
-                let position = cachedEnvironment.value.animatedPosition(for: copy_3)
+                let _ = cachedEnvironment.value.animatedPosition(for: copy_3)
                 // <+868>
             }
         }
@@ -228,7 +228,7 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
          return pointer -> sp + 0x60
          */
         // sp + 0x40
-        let properties = content.properties
+        let _ = content.properties
         
         var proxy = GeometryProxy(
             owner: currentAttribute,
@@ -266,8 +266,8 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
         var d9 = position.y
         
         let containerPosition = copy_1.containerPosition
-        var d0 = containerPosition.x
-        var d1 = containerPosition.y
+        let d0 = containerPosition.x
+        let d1 = containerPosition.y
         
         d8 = d8 - d0
         d9 = d9 - d1

@@ -483,7 +483,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         // <+1324>
         // self -> x29 - 0x18 -> x21
         // x26
-        let sceneList = appGraph.sceneList(namespace: self.sceneNamespace)
+        let _ = appGraph.sceneList(namespace: self.sceneNamespace)
         // x25
         let sceneListItem = self.findSceneListItem(
             restorationSceneItemID: restorationSceneItemID,
@@ -583,7 +583,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+2888>
-            var predicates: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil)
+            let predicates: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil)
             
             if case .singleWindow = sceneListItem.kind {
                 // <+2968>
@@ -599,7 +599,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             hostingController.host.base.inheritedEnvironment = sceneListItem.environment
             
             // <+3384>
-            if let sizeRestrictions = windowScene.sizeRestrictions {
+            if let _ = windowScene.sizeRestrictions {
                 hostingController.sizingOptions = sceneListItem.resizability.sizingOptions
                 
                 // <+3504>
@@ -729,31 +729,31 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             }
             
             // <+12856>
-        case .immersiveSpace(let _):
+        case .immersiveSpace(_):
             // <+2684>
             assertUnimplemented()
-        case .volume(let _):
+        case .volume(_):
             // <+3596>
             assertUnimplemented()
-        case .documentGroup(let _):
+        case .documentGroup(_):
             // <+2596>
             assertUnimplemented()
-        case .settings(let _):
+        case .settings(_):
             // <+13260>
             assertUnimplemented()
-        case .menuBarExtra(let _):
+        case .menuBarExtra(_):
             // <+13260>
             assertUnimplemented()
-        case .customScene(let _):
+        case .customScene(_):
             // <+3888>
             assertUnimplemented()
-        case .singleWindow(let _):
+        case .singleWindow(_):
             // <+3008>
             assertUnimplemented()
-        case .documentIntroduction(let _):
+        case .documentIntroduction(_):
             // <+4028>
             assertUnimplemented()
-        case .alertDialog(let _):
+        case .alertDialog(_):
             // <+13260>
             assertUnimplemented()
         }
@@ -819,7 +819,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         for item in sceneList.items {
             // <+2160>
             switch item.value {
-            case .customScene(let _):
+            case .customScene(_):
                 // <+2308>
                 assertUnimplemented()
             default:
@@ -940,7 +940,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
          return pointer -> x8 -> x19
          */
         // <+180>
-        guard let decoder = config.decoder else {
+        guard let _ = config.decoder else {
             return nil
         }
         
@@ -1062,7 +1062,7 @@ extension AppSceneDelegate: AppGraphObserver {
                 if
                     let window = self.window,
                     let windowScene = window.windowScene,
-                    let sizeRestrictions = windowScene.sizeRestrictions
+                    let _ = windowScene.sizeRestrictions
                 {
                     // <+3724>
                     casted.sizingOptions = sceneItem.resizability.sizingOptions
@@ -1121,13 +1121,13 @@ extension AppSceneDelegate: AppGraphObserver {
             self.lastVersion = sceneItem.version
             Update.end()
             return
-        case .immersiveSpace(let _):
+        case .immersiveSpace(_):
             // <+1424>
             assertUnimplemented()
-        case .volume(let _):
+        case .volume(_):
             // <+4048>
             assertUnimplemented()
-        case .documentGroup(let _):
+        case .documentGroup(_):
             // <+1244>
             assertUnimplemented()
         case .settings(_):
@@ -1136,13 +1136,13 @@ extension AppSceneDelegate: AppGraphObserver {
         case .menuBarExtra(_):
             // <+10816>
             _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
-        case .customScene(let _):
+        case .customScene(_):
             // <+4864>
             assertUnimplemented()
-        case .singleWindow(let _):
+        case .singleWindow(_):
             // <+2244>
             assertUnimplemented()
-        case .documentIntroduction(let _):
+        case .documentIntroduction(_):
             // <+5092>
             assertUnimplemented()
         case .alertDialog(_):

@@ -57,7 +57,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // <+148>
         // 밑에 정의 안 된 Role에서 사용함
         // x21
-        let items: [SceneList.Item]? = Update.ensure { 
+        let _: [SceneList.Item]? = Update.ensure { 
             // $s7SwiftUI11AppDelegateC11application_26configurationForConnecting7optionsSo20UISceneConfigurationCSo13UIApplicationC_So0J7SessionCSo0J17ConnectionOptionsCtFSayAA9SceneListV4ItemVGSgyXEfU_
             guard let appGraph = AppGraph.shared else {
                 return nil
@@ -68,12 +68,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // x25
-        let isSwiftUIStageManaged: Bool
-        if let specification = options._specification as? MRUIStageSceneSpecification {
-            isSwiftUIStageManaged = specification.isSwiftUIStageManaged
-        } else {
-            isSwiftUIStageManaged = false
-        }
+        let _ = (options._specification as? MRUIStageSceneSpecification)?.isSwiftUIStageManaged ?? false
         
         switch connectingSceneSession.role {
         case

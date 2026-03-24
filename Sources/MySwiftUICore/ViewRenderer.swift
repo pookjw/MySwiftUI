@@ -20,7 +20,7 @@ extension ViewRendererHost {
         // x19
         let viewGraph = viewGraph
         
-        guard let viewGraph = viewGraph._preferenceBridge else {
+        guard let _ = viewGraph._preferenceBridge else {
             return true
         }
         

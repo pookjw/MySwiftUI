@@ -114,9 +114,9 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         // x28
         let toCount = to.count
         // sp + 0xc0 (x29 - 0x110)
-        let fromEndIndex = from.endIndex
+        let _ = from.endIndex
         // sp + 0xc8 (x29 - 0x108)
-        let toEndIndex = to.endIndex
+        let _ = to.endIndex
         // from -> x25/x26 -> sp + 0xf0 (x29 - 0xe0) / sp + 0xf8 (x29 - 0xd8)
         // sp + 0x130 (x29 - 0xa0)
         var fromStartIndex = from.startIndex

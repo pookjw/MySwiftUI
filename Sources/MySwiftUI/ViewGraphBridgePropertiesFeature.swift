@@ -91,7 +91,7 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
             }
         } else {
             // <+868>
-            if let lastParentBridgeProperties {
+            if lastParentBridgeProperties != nil {
                 // <+892>
                 w27 = true
             }
@@ -145,7 +145,7 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
         }
         
         // sp + 0x108
-        let copy_1 = newProperties
+        let _ = newProperties
         
         graph.asyncTransaction(
             mutation: ViewGraphBridgePropertiesFeature.BridgePropertiesMutation(

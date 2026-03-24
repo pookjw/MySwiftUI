@@ -140,7 +140,7 @@ fileprivate struct ChildEnvironment<Value>: StatefulRule, AsyncAttribute, Custom
         
         // self -> x23
         // x25
-        let copy_3 = modifier
+        let _ = modifier
         self.oldModifier = modifier
     }
     

@@ -190,7 +190,7 @@ fileprivate struct ExportedCustomPreferences: AnyExportedPreference {
             return
         }
         
-        for (key, value) in newValue {
+        for (_, _) in newValue {
             /*
              key -> x29 - 0xf0
              value -> x29 - 0xc8

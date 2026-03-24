@@ -28,7 +28,7 @@ fileprivate protocol ViewModifierContentProvider: PrimitiveView {
 extension ViewModifierContentProvider {
     static nonisolated func providerMakeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         // sp + 0x230
-        let copy_1 = inputs
+        let _ = inputs
         // sp + 0x1d0
         var copy_2 = inputs
         

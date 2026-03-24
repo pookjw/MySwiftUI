@@ -202,7 +202,7 @@ private import _MySwiftUIShims
         // <+576>
         // self.updateContext -> x24
         // x20
-        let targetController = updateContext?.targetController
+        let _ = updateContext?.targetController
         var roles = ToolbarPlacement.Role.allCases
         if let customPlacements = updateContext?.customPlacements {
             roles.append(contentsOf: customPlacements)
@@ -469,7 +469,7 @@ struct NavigationTitleStorage {
         }
         
         // x20
-        guard let incoming = onto() else {
+        guard let _ = onto() else {
             return
         }
         

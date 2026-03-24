@@ -253,7 +253,7 @@ extension DisplayList {
                         case .platformGroup(let factory):
                             // <+388>
                             // sp + 0x40
-                            let factoryCopy = factory
+                            let _ = factory
                             // w20
                             let groupHasContent = factory.groupHasContent
                             
@@ -326,7 +326,7 @@ extension DisplayList {
             self.frame = CGRect(origin: origin, size: itemFrame.size)
             self.version = max(self.version, item.version)
             
-            let value = item.value
+            let _ = item.value
             let identity = item.identity
             self.value = item.value
             

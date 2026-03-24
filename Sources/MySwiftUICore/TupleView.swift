@@ -25,7 +25,7 @@ private import AttributeGraph
         } else if count == 1 {
             // <+156>
             // sp + 0x88
-            let copy_2 = copy_1
+            let _ = copy_1
             var unary = MakeUnary(view: view, inputs: inputs, outputs: nil)
             unsafe typeDescription.contentTypes[0].1.visitType(visitor: &unary)
             return unary.outputs!

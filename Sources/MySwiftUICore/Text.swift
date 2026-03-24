@@ -61,7 +61,7 @@ private import UIFoundation
         switch storage {
         case .verbatim(let string):
             return string
-        case .anyTextStorage(let textStorage):
+        case .anyTextStorage(let _):
             var resolved = Text.ResolvedString(
                 style: Text.Style(),
                 idiom: nil,
@@ -100,7 +100,7 @@ private import UIFoundation
     }
     
     func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, with options: Text.ResolveOptions) {
-        let style = container.style
+        let _ = container.style
         
         if modifiers.isEmpty {
             storage.resolve(into: &container, in: environmentValues, with: options)

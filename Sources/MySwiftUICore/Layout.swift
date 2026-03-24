@@ -151,7 +151,7 @@ extension Layout {
         case .staticList(let elements):
             // <+1076>
             // sp + 0xa8
-            let copy_6 = views
+            let _ = views
             if options.contains(.needsDynamicLayout) {
                 // <+1304>
                 // sp + 0x130
@@ -200,7 +200,7 @@ extension Layout {
 extension Layout {
     static func defaultDepthThatFits(_ size: _ProposedSize3D, children: LayoutProxyCollection, geometries: [ViewGeometry]) -> CGFloat {
         // sp + 0x38, sp + 0x34
-        let depth = size.depth
+        let _ = size.depth
         // sp + 0x24, (x28 -> sp + 0x18), x21 (buffer)
         let copy_1 = children
         // geometries -> sp + 0x40

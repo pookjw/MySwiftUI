@@ -50,7 +50,7 @@ final class FocusBridge {
     }
     
     var requestedFocusEnvironments: [any UIFocusEnvironment] {
-        guard let requestedFocusItem else {
+        guard requestedFocusItem != nil else {
             return []
         }
         
@@ -306,7 +306,7 @@ final class FocusBridge {
         // self -> x20
         // <+132>
         // x22
-        guard let host else {
+        guard host != nil else {
             return
         }
         
@@ -394,10 +394,10 @@ extension FocusBridge {
          */
         
         // sp + 0x100
-        var results: [any UIFocusItem] = []
+        let results: [any UIFocusItem] = []
         responderNode.visit { node in
             // $s7SwiftUI13ResponderNodeCAAE24visitBaseFocusResponders8applyingyAA0C13VisitorResultOAA0fgC0_pXE_tFAgCXEfU_TA.33
-            guard let baseFocusResponder = node as? BaseFocusResponder else {
+            guard let _ = node as? BaseFocusResponder else {
                 return .next
             }
             

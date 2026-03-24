@@ -102,7 +102,7 @@ private import _UIKitPrivate
         let popoverPresentationCount = popoverPresentationPreference.value.count
         // popoverPresentationPreference -> x20 -> x19 + 0x150
         // x27
-        let firstPopoverPresentation = popoverPresentationPreference.value.first
+        let _ = popoverPresentationPreference.value.first
         
         guard popoverPresentationCount <= 1 else {
             // <+2384>
@@ -113,7 +113,7 @@ private import _UIKitPrivate
         switch activePresentation {
         case .none:
             // <+1940>
-            if let presenter = self.presenter {
+            if let _ = self.presenter {
                 // <+1956>
                 // presenter -> x19 + 0x8
                 if self.popoverSeed.matches(popoverPresentationPreference.seed) {
@@ -160,7 +160,7 @@ private import _UIKitPrivate
         guard
             let host,
             let uiViewController = host.uiViewController,
-            let presentationHostingController = uiViewController as? PresentationHostingController<AnyView>
+            let _ = uiViewController as? PresentationHostingController<AnyView>
         else {
             return false
         }

@@ -62,7 +62,7 @@ internal import UIKit
          */
         // <+1628>
         // x19 + 0x1b0
-        let sheetPreferenceValue = preferenceValues[SheetPreference.Key.self]
+        let _ = preferenceValues[SheetPreference.Key.self]
         // self -> x19 + 0x1b8 -> x21
         // x25
         let lastEnvironment = lastEnvironment
@@ -80,7 +80,7 @@ internal import UIKit
         
         // <+1836>
         // x19 + 0x1a0
-        let presentationOptions = preferenceValues[PresentationOptionsPreferenceKey.self]
+        let _ = preferenceValues[PresentationOptionsPreferenceKey.self]
         // self -> x19 + 0x1b8 -> x26
         
         // x22

@@ -260,14 +260,14 @@ extension _ViewListOutputs {
         }
         
         // <+224>
-        let w25 = AnyAttribute.empty
+        let _ = AnyAttribute.empty
         let w26 = inputs.$traits
         let needsDynamicView: Bool // true -> <+280> / false -> <+596>
         if (w26 == nil) && !((w27.contains(.canTransition) && !w27.contains(.disableTransitions)) || (attribute != nil)) {
             // <+256>
             
             switch inputs.contentOffset {
-            case .staticCount(let count, let _needsDynamicView):
+            case .staticCount(let _, let _needsDynamicView):
                 // <+272>
                 if _needsDynamicView {
                     // <+280>
@@ -276,7 +276,7 @@ extension _ViewListOutputs {
                     // <+596>
                     needsDynamicView = false
                 }
-            case .dynamic(let count, let staticCount):
+            case .dynamic(let _, let _):
                 // <+280>
                 needsDynamicView = true
             case nil:
@@ -329,10 +329,10 @@ extension _ViewListOutputs {
             // sp + 0xd0
             let copy_2 = elements
             // sp + 0x58
-            let copy_3 = copy_2
+            let _ = copy_2
             
             // x22
-            let implicitID = inputs.implicitID
+            let _ = inputs.implicitID
             // x20
             let options = inputs.options.intersection([.canTransition, .disableTransitions])
             
@@ -589,7 +589,7 @@ extension _ViewListOutputs {
                     // <+172>
                     // <+188>
                     break
-                case .dynamicList(let listAttribute, let listModifier):
+                case .dynamicList(let _, let _):
                     if x20 < x27 {
                         // <+288>
                         // sp + 0x38
@@ -919,7 +919,7 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
             // sp + 0x210
             let copy_5 = copy_2.baseInputs
             // sp + 0x180
-            let copy_6 = copy_4
+            let _ = copy_4
             
             if let indirectMap {
                 copy_5.makeReusable(indirectMap: indirectMap)
@@ -930,7 +930,7 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
             // sp + 0x120
             let copy_8 = copy_5
             // sp + 0x180
-            let copy_9 = copy_3
+            let _ = copy_3
             
             copy_7.base.merge(copy_8, ignoringPhase: false)
             
@@ -939,7 +939,7 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
             // sp
             let copy_11 = copy_7
             // sp + 0x180
-            let copy_12 = copy_10
+            let _ = copy_10
             
             return copy_2.body.makeView(inputs: copy_11, indirectMap: indirectMap)
         }
@@ -1294,7 +1294,7 @@ enum _ViewList_Node {
          transform -> sp + 0x30
          */
         // sp + 0xd0
-        let copy_1 = self
+        let _ = self
         
         // <+84>
         switch self {
@@ -1632,7 +1632,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
                     // sp + 0x60
                     let copy_5 = copy_2
                     // sp
-                    let copy_6 = copy_1
+                    let _ = copy_1
                     
                     copy_4.base.merge(copy_5, ignoringPhase: false)
                     

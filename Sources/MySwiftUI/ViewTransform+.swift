@@ -10,7 +10,7 @@ extension ViewTransform {
             // <+172>
             // x21
             if
-                let settings = windowScene._FBSScene.settings as? MRUISharedApplicationSceneSettings,
+                let _ = windowScene._FBSScene.settings as? MRUISharedApplicationSceneSettings,
                 let _ = AppDelegate.shared
             {
                 // <+324>
