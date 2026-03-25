@@ -372,7 +372,7 @@ extension EdgeInsets {
         assertUnimplemented()
     }
     
-    @inline(__always)
+    @inlinable
     package mutating func xFlipIfRightToLeft(layoutDirection: () -> LayoutDirection) {
         let leading = leading
         let trailing = trailing

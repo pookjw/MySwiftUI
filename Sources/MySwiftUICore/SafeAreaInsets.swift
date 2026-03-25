@@ -2,7 +2,7 @@
 private import AttributeGraph
 private import CoreGraphics
 
-struct SafeAreaInsets {
+package struct SafeAreaInsets {
     var space: CoordinateSpace.ID
     var elements: [SafeAreaInsets.Element]
     var next: SafeAreaInsets.OptionalValue

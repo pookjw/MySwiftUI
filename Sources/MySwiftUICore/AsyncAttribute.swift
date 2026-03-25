@@ -1,10 +1,10 @@
-internal import AttributeGraph
+package import AttributeGraph
 
-protocol AsyncAttribute: _AttributeBody {
+package protocol AsyncAttribute: _AttributeBody {
 }
 
-extension AsyncAttribute {
-    static var flags: AnyAttribute.TypeFlags {
+package extension AsyncAttribute {
+    package static var flags: AnyAttribute.TypeFlags {
         return []
     }
 }

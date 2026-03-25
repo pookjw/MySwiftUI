@@ -3,19 +3,19 @@ public import QuartzCore
 
 @_spi(Internal) open class PlatformViewDefinition {
     open class func setAllowsWindowActivationEvents(_ allowed: Bool?, for object: AnyObject) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class func setHitTestsAsOpaque(_ flag: Bool, for object: AnyObject) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class var system: System {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class func makeView(kind: PlatformViewDefinition.ViewKind, item: Any) -> AnyObject {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class var supportsMixedHierarchy: Bool {
@@ -27,31 +27,31 @@ public import QuartzCore
     }
     
     open class func makeLayerView(type: CALayer.Type, kind: PlatformViewDefinition.ViewKind) -> AnyObject {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class func makePlatformView(view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class func makeDrawingView(options: PlatformDrawableOptions) -> any PlatformDrawable {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class func setPath(_ path: Path, shapeView: AnyObject) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class func setProjectionTransform(_ transform: ProjectionTransform, projectionView: AnyObject) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class func setIgnoresEvents(_ flag: Bool, of object: AnyObject) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open class func setHiddenForReuse(_ flag: Bool, of object: AnyObject ) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     package static func `for`(_ type: AnyObject.Type) -> PlatformViewDefinition.Type? {

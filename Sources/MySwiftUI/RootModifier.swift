@@ -29,20 +29,24 @@ struct RootModifier: ViewModifier {
     private(set) var _rootFocusScope: Namespace
     
     func body(content: Content) -> some View {
-//        content
-//            .modifier(
-//                RootEnvironmentModifier(
-//                    sceneBridge: sceneBridge,
-//                    sceneDelegateBox: sceneDelegateBox,
-//                    sceneStorageValues: sceneStorageValues,
-//                    scenePhase: scenePhase,
-//                    sceneID: sceneID,
-//                    connectionOptions: connectionOptions
-//                )
-//            )
-//            .presentedSceneValue(presentationDataValue)
-        
-        assertUnimplemented()
+        content
+            .modifier(
+                RootEnvironmentModifier(
+                    sceneBridge: sceneBridge,
+                    sceneDelegateBox: sceneDelegateBox,
+                    sceneStorageValues: sceneStorageValues,
+                    scenePhase: scenePhase,
+                    sceneID: sceneID,
+                    connectionOptions: connectionOptions
+                )
+            )
+            .presentedSceneValue(presentationDataValue)
+            .modifier(
+                StaticIf(
+                    ClientSideSceneClipping3DDuringResize.self,
+                    then: Clipped3DDuringSceneResizeModifier()
+                )
+            )
     }
 }
 

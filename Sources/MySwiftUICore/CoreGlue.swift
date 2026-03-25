@@ -7,15 +7,15 @@ open class CoreGlue2: NSObject {
     @safe static nonisolated(unsafe) var shared: CoreGlue2 = _initializeMyCoreGlue2() as! CoreGlue2
     
     open func configureEmptyEnvironment(_ environmentValues: inout EnvironmentValues) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open func setupPlatformProperties(_ parameters: CoreGlue2.SetupPlatformPropertiesParameters) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     open func setSeparatedState(_ parameters: CoreGlue2.SetSeparatedStateParameters) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
 }
 

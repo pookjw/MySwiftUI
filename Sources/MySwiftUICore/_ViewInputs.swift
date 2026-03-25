@@ -14,13 +14,13 @@ public struct _ViewInputs {
             base.changedDebugProperties.formUnion(.position)
         }
     }
-    package internal(set) var containerPosition: Attribute<CGPoint>
+    package var containerPosition: Attribute<CGPoint>
     package internal(set) var size: Attribute<ViewSize> {
         didSet {
             base.changedDebugProperties.formUnion(.size)
         }
     }
-    var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
+    package internal(set) var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
     var containerSize: OptionalAttribute<ViewSize>
     
     package var time: Attribute<Time> {
@@ -29,6 +29,15 @@ public struct _ViewInputs {
         }
         set {
             base.time = newValue
+        }
+    }
+    
+    var transaction: Attribute<Transaction> {
+        get {
+            return base.transaction
+        }
+        set {
+            base.transaction = newValue
         }
     }
     
@@ -108,6 +117,10 @@ public struct _ViewInputs {
     
     package func animatedSize() -> Attribute<ViewSize> {
         return base.cachedEnvironment.value.animatedSize(for: self)
+    }
+    
+    package func animatedDepth() -> Attribute<ViewDepth> {
+        return base.cachedEnvironment.value.animatedDepth(for: self)
     }
     
     @inline(__always)

@@ -1,6 +1,6 @@
 // F37E3733E490AA5E3BDC045E3D34D9F8
 
-internal import CoreGraphics
+package import CoreGraphics
 internal import _MySwiftUIShims
 private import _QuartzCorePrivate
 internal import QuartzCore
@@ -613,7 +613,7 @@ extension DisplayList {
 }
 
 extension DisplayList {
-    enum Effect {
+    package enum Effect {
         case backdropGroup(DisplayList.BackdropGroup)
         case archive(DisplayList.ArchiveIDs?)
 //        case properties(DisplayList.Properties)
@@ -847,14 +847,14 @@ extension DisplayList.Content {
 }
 
 extension DisplayList {
-    struct Options: OptionSet, ViewInput {
-        let rawValue: UInt8
+    package struct Options: OptionSet, ViewInput {
+        package let rawValue: UInt8
         
-        init(rawValue: UInt8) {
+        package init(rawValue: UInt8) {
             self.rawValue = rawValue
         }
         
-        static var defaultValue: DisplayList.Options {
+        package static var defaultValue: DisplayList.Options {
             return DisplayList.Options(rawValue: 0)
         }
         
@@ -926,17 +926,17 @@ extension DisplayList {
         private var filters: [GraphicsFilter]
     }
     
-    struct ArchiveIDs {
+    package struct ArchiveIDs {
         private var uuid: UUID
         private var stableIDs: _DisplayList_StableIdentityMap
     }
     
-    struct BackdropGroup {
+    package struct BackdropGroup {
         private var isEnabled: Bool
         private var name: String?
     }
     
-    enum Transform {
+    package enum Transform {
         case affine(CGAffineTransform)
         case projection(ProjectionTransform)
 //        case affine(AffineTransform3D)

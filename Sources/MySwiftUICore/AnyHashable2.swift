@@ -52,7 +52,7 @@ fileprivate class AnyHashableBox: CustomStringConvertible, CustomDebugStringConv
     }
     
     var anyValue: any Hashable {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func isEqual(to other: AnyHashableBox) -> Bool {

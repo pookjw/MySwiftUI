@@ -574,7 +574,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         return depth
     }
     
-    var viewType: Any.Type {
+    package var viewType: Any.Type {
         assertUnimplemented()
     }
     

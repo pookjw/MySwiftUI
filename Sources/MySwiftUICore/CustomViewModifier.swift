@@ -100,7 +100,7 @@ extension ViewModifier {
         let input = BodyInputElement.view(body)
         copy_1.append(input, to: BodyInput<Content>.self)
         
-        let outputs = Self.makeDebuggableView(modifier: modifier, inputs: copy_1, body: body)
+        let outputs = Body.makeDebuggableView(view: _body, inputs: inputs)
         
         if let buffer {
             buffer.traceMountedProperties(to: modifier, fields: fields)
@@ -110,9 +110,7 @@ extension ViewModifier {
     }
     
     fileprivate static nonisolated func makeBody(modifier: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
-        guard TypeID(self).isValueType else {
-            preconditionFailure("view modifiers must be value types: \(_typeName(self, qualified: false))")
-        }
+        precondition(TypeID(self).isValueType, "view modifiers must be value types: \(_typeName(self, qualified: false))")
         
         let body = ModifierBodyAccessor<Self>()
             .makeBody(container: modifier, inputs: &inputs, fields: fields)
@@ -130,7 +128,7 @@ package protocol PrimitiveViewModifier: ViewModifier where Body == Never {
 
 public struct _ViewModifier_Content<Modifier>: View where Modifier: ViewModifier {
     public static nonisolated func _makeView(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        return Self.providerMakeView(view: view, inputs: inputs)
     }
     
     public static nonisolated func _makeViewList(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -158,6 +156,9 @@ extension ViewModifier {
     func bodyError() -> Never {
         fatalError()
     }
+}
+
+extension _ViewModifier_Content: ViewModifierContentProvider {
 }
 
 extension View {

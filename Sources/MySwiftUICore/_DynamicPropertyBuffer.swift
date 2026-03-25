@@ -219,6 +219,12 @@ fileprivate class BoxVTableBase: _UnsafeHeterogeneousBuffer_VTable {
 }
 
 fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
+    override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+        let new = unsafe elt.body(as: U.self)
+        let old = unsafe from.body(as: U.self)
+        unsafe new.initialize(to: old.move())
+    }
+    
     override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
         let body = unsafe elt.body(as: U.self)
         unsafe body.pointee.destroy()

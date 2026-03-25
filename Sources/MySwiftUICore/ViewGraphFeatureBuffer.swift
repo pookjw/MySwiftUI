@@ -118,35 +118,35 @@ extension ViewGraphFeatureBuffer {
 extension ViewGraphFeatureBuffer {
     fileprivate class VTable: _UnsafeHeterogeneousBuffer_VTable {
         class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
-            fatalError() // abstract
+            preconditionFailure() // abstract
         }
         
         class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            fatalError() // abstract
+            preconditionFailure() // abstract
         }
         
         class func uninstantiate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError() // abstract
+            preconditionFailure() // abstract
         }
         
         class func isHiddenForReuseDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError() // abstract
+            preconditionFailure() // abstract
         }
         
         class func needsUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
-            fatalError() // abstract
+            preconditionFailure() // abstract
         }
         
         class func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
-            fatalError() // abstract
+            preconditionFailure() // abstract
         }
         
         class func outputsDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError() // abstract
+            preconditionFailure() // abstract
         }
         
         class func update(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError() // abstract
+            preconditionFailure() // abstract
         }
     }
     

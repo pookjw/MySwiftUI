@@ -126,7 +126,7 @@ extension Animatable where Self.AnimatableData == EmptyAnimatableData {
         @inlinable set {}
     }
     
-    public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
+    public static nonisolated func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
     }
 }
 
@@ -618,35 +618,35 @@ protocol AnimationFinishingDefinition<Value>: VectorArithmetic {
 
 class AnimationBoxBase {
     var base: (any CustomAnimation) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     var function: Animation.Function {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func isEqual(to: AnimationBoxBase) -> Bool {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func hash(into hasher: inout Hasher) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func animate<A: VectorArithmetic>(value: A, time: Double, context: inout AnimationContext<A>) -> A? {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func velocity<A: VectorArithmetic>(value: A, time: Double, context: AnimationContext<A>) -> A? {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func shouldMerge<A: VectorArithmetic>(previous: Animation, value: A, time: Double, context: inout AnimationContext<A>) -> Bool {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func modifier<A: CustomAnimationModifier>(_ modifier: A) -> Animation {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
 }
 

@@ -70,15 +70,15 @@ extension Color: Serializable {}
 @usableFromInline
 package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     package func hash(into hasher: inout Hasher) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     package func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     package func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
 }
 

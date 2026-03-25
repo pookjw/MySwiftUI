@@ -16,6 +16,12 @@ let package = Package(
                 "_StopwatchSupportShims"
             ]
         ),
+        .library(
+            name: "Sample",
+            targets: [
+                "Sample"
+            ]
+        )
     ],
     traits: [
         .trait(name: "SwiftUICompataibility"),
@@ -24,6 +30,12 @@ let package = Package(
     dependencies: [
     ],
     targets: [
+        .target(
+            name: "Sample",
+            dependencies: [
+                .byName(name: "MySwiftUI")
+            ]
+        ),
         .target(
             name: "MySwiftUI",
             dependencies: [

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Sample
 
 final class DemoViewController: UICollectionViewController {
     private let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, DemoViewController.Item> { cell, indexPath, item in
@@ -40,7 +41,7 @@ final class DemoViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.openURLActionView
+        let item = DemoViewController.Item.staticIfView
         pushToItem(item)
         
 //        Task {

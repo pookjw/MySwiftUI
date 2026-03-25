@@ -17,6 +17,14 @@ package struct ViewDepth: Equatable, Animatable {
         return ViewDepth(depth, proposal: depth)
     }
     
+    static var zero: ViewDepth {
+        return ViewDepth(0, proposal: 0)
+    }
+    
+    static var invalidValue: ViewDepth {
+        return ViewDepth(-CGFloat.infinity, proposal: -CGFloat.infinity)
+    }
+    
     var value: CGFloat
     private var _proposal: CGFloat
     

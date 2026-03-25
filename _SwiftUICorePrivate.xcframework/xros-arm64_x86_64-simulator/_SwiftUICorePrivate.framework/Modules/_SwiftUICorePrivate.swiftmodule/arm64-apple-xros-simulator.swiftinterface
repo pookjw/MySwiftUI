@@ -1070,8 +1070,8 @@ extension _SwiftUICorePrivate.StaticIf: SwiftUI.ViewModifier, _SwiftUICorePrivat
   public init(_ predicate: Predicate.Type, then: TrueBody, else: FalseBody)
   public init(_ predicate: Predicate.Type, then: TrueBody) where FalseBody == SwiftUICore.EmptyModifier
   public init(_ predicate: Predicate, then: TrueBody) where FalseBody == SwiftUICore.EmptyModifier
-  public static func _makeView(modifier: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs, body: (SwiftUICore._Graph, SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs) -> SwiftUICore._ViewOutputs
-  public static func _makeViewList(modifier: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewListInputs, body: (SwiftUICore._Graph, SwiftUICore._ViewListInputs) -> SwiftUICore._ViewListOutputs) -> SwiftUICore._ViewListOutputs
+  public static func _makeView(modifier: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs, body: @escaping (SwiftUICore._Graph, SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs) -> SwiftUICore._ViewOutputs
+  public static func _makeViewList(modifier: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewListInputs, body: @escaping (SwiftUICore._Graph, SwiftUICore._ViewListInputs) -> SwiftUICore._ViewListOutputs) -> SwiftUICore._ViewListOutputs
   public static func _viewListCount(inputs: SwiftUICore._ViewListCountInputs, body: (SwiftUICore._ViewListCountInputs) -> Swift.Int?) -> Swift.Int?
 //  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
 //  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUICore.EmptyModifier

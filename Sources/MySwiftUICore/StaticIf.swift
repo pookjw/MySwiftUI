@@ -1,21 +1,48 @@
 extension View {
     package func staticIf<Predicate: ViewInputPredicate, TrueBody: View, FalseBody: View>(
         _ predicate: Predicate,
-        then: (Self) -> TrueBody,
-        else: (Self) -> FalseBody
+        @ViewBuilder then: (Self) -> TrueBody,
+        @ViewBuilder else: (Self) -> FalseBody
     ) -> some View {
-        assertUnimplemented()
+        return StaticIf(
+            predicate,
+            then: {
+                return then(self)
+            },
+            else: {
+                return `else`(self)
+            }
+        )
     }
     
     package func staticIf<Predicate: ViewInputPredicate, Content: View>(
         _ predicate: Predicate.Type,
-        then: (Self) -> Content
+        @ViewBuilder then: (Self) -> Content
     ) -> some View {
-        assertUnimplemented()
+        return StaticIf(
+            predicate,
+            then: {
+                return then(self)
+            },
+            else: {
+                return self
+            }
+        )
     }
     
-    package func staticIf<Predicate: ViewInputPredicate, Content: View>(_: Predicate, then: (Self) -> Content) -> some View {
-        assertUnimplemented()
+    package func staticIf<Predicate: ViewInputPredicate, Content: View>(
+        _ type: Predicate,
+        @ViewBuilder then: (Self) -> Content
+    ) -> some View {
+        return StaticIf(
+            type,
+            then: {
+                return then(self)
+            },
+            else: {
+                return self
+            }
+        )
     }
 }
 
@@ -30,30 +57,68 @@ package struct StaticIf<Predicate, TrueBody, FalseBody> {
 }
 
 extension StaticIf: View, PrimitiveView where Predicate: ViewInputPredicate, TrueBody: View, FalseBody: View {
-    package init(_ predicate: Predicate.Type, then: () -> TrueBody, else: () -> FalseBody) {
+    package init(
+        _ predicate: Predicate.Type,
+        @ViewBuilder then: () -> TrueBody,
+        @ViewBuilder else: () -> FalseBody
+    ) {
         self.trueBody = then()
         self.falseBody = `else`()
     }
     
-    package init(_: Predicate, then: () -> TrueBody, else: () -> FalseBody) {
+    package init(
+        _: Predicate,
+        @ViewBuilder then: () -> TrueBody,
+        @ViewBuilder else: () -> FalseBody
+    ) {
         self.trueBody = then()
         self.falseBody = `else`()
     }
     
-    package init(_ predicate: Predicate.Type, then: () -> TrueBody) where FalseBody == EmptyView {
-        assertUnimplemented()
+    package init(
+        _ predicate: Predicate.Type,
+        @ViewBuilder then: () -> TrueBody
+    ) where FalseBody == EmptyView {
+        self.trueBody = then()
+        self.falseBody = EmptyView()
     }
     
-    package init(_ predicate: Predicate, then: () -> TrueBody) where FalseBody == EmptyView {
-        assertUnimplemented()
+    package init(
+        _ predicate: Predicate,
+        @ViewBuilder then: () -> TrueBody
+    ) where FalseBody == EmptyView {
+        self.trueBody = then()
+        self.falseBody = EmptyView()
     }
     
     package static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        /*
+         view -> x0 -> w21
+         inputs -> x1
+         */
+        let result = Predicate.evaluate(inputs: inputs.base)
+        
+        if result {
+            // <+212>
+            let resolved = view[{ .of(&$0.trueBody)} ]
+            return TrueBody.makeDebuggableView(view: resolved, inputs: inputs)
+        } else {
+            // <+520>
+            let resolved = view[{ .of(&$0.falseBody)} ]
+            return FalseBody.makeDebuggableView(view: resolved, inputs: inputs)
+        }
     }
     
     package static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        let result = Predicate.evaluate(inputs: inputs.base)
+        
+        if result {
+            let resolved = view[{ .of(&$0.trueBody)} ]
+            return TrueBody.makeDebuggableViewList(view: resolved, inputs: inputs)
+        } else {
+            let resolved = view[{ .of(&$0.falseBody)} ]
+            return FalseBody.makeDebuggableViewList(view: resolved, inputs: inputs)
+        }
     }
     
     package static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
@@ -103,23 +168,42 @@ extension StaticIf: View, PrimitiveView where Predicate: ViewInputPredicate, Tru
 
 extension StaticIf: ViewModifier, PrimitiveViewModifier where Predicate : ViewInputPredicate, TrueBody : ViewModifier, FalseBody : ViewModifier {
     package init(_ predicate: Predicate.Type, then: TrueBody, else: FalseBody) {
-        assertUnimplemented()
+        self.trueBody = then
+        self.falseBody = `else`
     }
     
     package init(_ predicate: Predicate.Type, then: TrueBody) where FalseBody == EmptyModifier {
-        assertUnimplemented()
+        self.trueBody = then
+        self.falseBody = EmptyModifier()
     }
     
     package init(_ predicate: Predicate, then: TrueBody) where FalseBody == EmptyModifier {
-        assertUnimplemented()
+        self.trueBody = then
+        self.falseBody = EmptyModifier()
     }
     
-    package static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+    package static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        let result = Predicate.evaluate(inputs: inputs.base)
+        
+        if result {
+            let resolved = modifier[{ .of(&$0.trueBody)} ]
+            return TrueBody.makeDebuggableView(modifier: resolved, inputs: inputs, body: body)
+        } else {
+            let resolved = modifier[{ .of(&$0.falseBody)} ]
+            return FalseBody.makeDebuggableView(modifier: resolved, inputs: inputs, body: body)
+        }
     }
     
-    package static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+    package static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        let result = Predicate.evaluate(inputs: inputs.base)
+        
+        if result {
+            let resolved = modifier[{ .of(&$0.trueBody)} ]
+            return TrueBody.makeDebuggableViewList(modifier: resolved, inputs: inputs, body: body)
+        } else {
+            let resolved = modifier[{ .of(&$0.falseBody)} ]
+            return FalseBody.makeDebuggableViewList(modifier: resolved, inputs: inputs, body: body)
+        }
     }
     
     package static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {

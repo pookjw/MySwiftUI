@@ -279,39 +279,39 @@ extension LayoutComputer {
 
 fileprivate class AnyLayoutEngineBox {
     func mutateEngine<T: LayoutEngine, U>(as type: T.Type, do body: (inout T) -> U) -> U {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func layoutPriority() -> Double {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     func spacing() -> Spacing {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
 }
 

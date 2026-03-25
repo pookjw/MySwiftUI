@@ -178,6 +178,7 @@ func printOffsets() {
     printFields(_SceneInputs.self, isClassType: false)
     printFields(SizingPreferences.self, isClassType: false)
     printFields(ForEach<[String], Int, AnyView>.self, isClassType: false)
+    printFields(ViewDepth.self, isClassType: false)
     
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))

@@ -3,7 +3,7 @@
 private import CoreGraphics
 
 extension DisplayList {
-    final class GraphicsRenderer {
+    package final class GraphicsRenderer {
         private var oldCache: DisplayList.GraphicsRenderer.Cache
         private var newCache: DisplayList.GraphicsRenderer.Cache
         private var index: DisplayList.Index

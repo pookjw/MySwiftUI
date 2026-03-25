@@ -1,6 +1,6 @@
 internal import CoreGraphics
 
-protocol AnyViewFactory {
+package protocol AnyViewFactory {
     var viewType: Any.Type {
         get
     }
@@ -9,7 +9,7 @@ protocol AnyViewFactory {
 }
 
 extension AnyViewFactory {
-    func encoding() -> (id: String, data: any (Decodable & Encodable))? {
+    package func encoding() -> (id: String, data: any (Decodable & Encodable))? {
         assertUnimplemented()
     }
 }

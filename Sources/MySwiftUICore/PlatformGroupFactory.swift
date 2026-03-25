@@ -1,6 +1,6 @@
-internal import CoreGraphics
+package import CoreGraphics
 
-protocol PlatformGroupFactory: AnyViewFactory {
+package protocol PlatformGroupFactory: AnyViewFactory {
     func makePlatformGroup() -> AnyObject?
     
     func needsUpdateFor(newValue: PlatformGroupFactory) -> Bool

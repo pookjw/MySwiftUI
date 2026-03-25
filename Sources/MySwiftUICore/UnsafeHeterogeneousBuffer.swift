@@ -329,14 +329,14 @@ extension UnsafeHeterogeneousBuffer {
 
 class _UnsafeHeterogeneousBuffer_VTable {
     class var type: Any.Type {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
     
     class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
-        fatalError() // abstract
+        preconditionFailure() // abstract
     }
 }

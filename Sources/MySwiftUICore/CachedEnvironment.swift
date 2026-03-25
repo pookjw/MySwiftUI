@@ -7,7 +7,7 @@ package struct CachedEnvironment {
     private var mapItems: [MapItem] = []
     private var animatedFrame: AnimatedFrame?
     private var resolvedShapeStyles: [ResolvedShapeStyles] = []
-    private var platformCache = CachedEnvironment.PlatformCache()
+    var platformCache = CachedEnvironment.PlatformCache()
     
     init(environment: Attribute<EnvironmentValues>) {
         self.environment = environment
@@ -136,10 +136,6 @@ extension CachedEnvironment {
             self.base = UniqueID()
         }
     }
-    
-    struct PlatformCache {
-        private var animatedDepth: AnimatedDepth? = nil
-    }
 }
 
 extension CachedEnvironment {
@@ -255,13 +251,4 @@ fileprivate struct ResolvedShapeStyles {
     private let role: ShapeRole
     private let substrate: Material.Substrate?
     private let animationsDisabled: Bool
-}
-
-fileprivate struct AnimatedDepth {
-    let transform: Attribute<ViewTransform>
-    let pixelLength: Attribute<CGFloat>
-    let time: Attribute<Time>
-    let transaction: Attribute<Transaction>
-    let viewPhase: Attribute<_GraphInputs.Phase>
-    let animatedDepth: Attribute<ViewDepth>
 }
