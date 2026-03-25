@@ -845,8 +845,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
 
     open override func tintColorDidChange() {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        super.tintColorDidChange()
+        base.tintColorDidChange()
     }
 
     open override func willRemoveSubview(_ subview: UIView) {

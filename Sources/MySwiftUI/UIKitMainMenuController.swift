@@ -113,7 +113,22 @@ final class UIKitMainMenuController: UIResponder {
         // <+2560>
         // coordinators -> x19
         self.synthesizeSystemMenus(builder)
-        assertUnimplemented()
+        
+        var dictionary: [KeyCommandID: () -> Void] = .init()
+        for coordinator in coordinators {
+            // coordinator -> x26
+            for instruction in coordinator.instructions {
+                builder.perform(instruction: instruction)
+            }
+            
+            dictionary.merge(coordinator.builderContext.keyCommandMap) { _, _ in
+                // $sxq_xq_Iegnnrr_x3key_q_5valuetx_q_tIegnr_SHRzr0_lTR7SwiftUI12KeyCommandIDV_yycTG5068$sSD5merge_16uniquingKeysWithySDyxq_Gn_q_q__q_tKXEtKFx_q_tx_q_tcfU_7c4UI12eF10IDV_yycTG5Tf3nnpf_n
+                assertUnimplemented()
+            }
+        }
+        
+        // <+3116>
+        self.keyCommandMap = dictionary
     }
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
@@ -138,6 +153,16 @@ final class UIKitMainMenuController: UIResponder {
         } else {
             return true
         }
+    }
+    
+    @inline(always) // 원래 없음
+    func updateDocumentCommands(environment: inout EnvironmentValues) {
+        environment.documentCommands = self.documentCommands()
+    }
+    
+    fileprivate func documentCommands() -> PlatformItemList {
+        // <+124>
+        assertUnimplemented()
     }
     
     fileprivate func resolveOptionalMenus(_ instructions: [MenuBuilderInstruction]) {
@@ -234,7 +259,10 @@ final class UIKitMainMenuController: UIResponder {
             // <+364>
             builder.replaceChildren(ofMenu: .edit) { elements in
                 // $sSaySo13UIMenuElementCGACIggo_A2CIeggo_TR0105$s7SwiftUI23UIKitMainMenuControllerC021synthesizeTextEditingE033_B619265B3CBBC7F42E2392FC185432F2LLyySo13a18Builder_pFSaySo0Q7B9CGAIXEfU_Tf3npf_n
-                for element in elements {
+                let indices = elements.indices
+                for index in indices {
+                    let element = elements[index]
+                    
                     guard let casted = element as? UIMenu else {
                         continue
                     }
@@ -244,14 +272,63 @@ final class UIKitMainMenuController: UIResponder {
                     }
                     
                     // <+348>
+                    let menu = UIMenu(
+                        title: "",
+                        subtitle: nil,
+                        image: nil,
+                        identifier: UIMenu.Identifier(rawValue: "com.apple.swiftui.synthesized.textEditing"),
+                        options: [.displayInline],
+                        preferredElementSize: .automatic,
+                        children: Array(elements[index..<indices.endIndex])
+                    )
+                    
+                    var elements = elements
+                    elements.replaceSubrange(index..<indices.endIndex, with: [menu])
+                    return elements
                 }
-                assertUnimplemented()
+                
+                return elements
             }
-            assertUnimplemented()
         }
         
         // <+492>
-        assertUnimplemented()
+        if
+            !self.optionalMenus.contains(.unknown1),
+            isLinkedOnOrAfter(.v7)
+        {
+            builder.remove(menu: .format)
+        } else {
+            // <+536>
+            builder.replaceChildren(ofMenu: .format) { elements in
+                // $sSaySo13UIMenuElementCGACIggo_A2CIeggo_TR0100$s7SwiftUI23UIKitMainMenuControllerC016synthesizeFormatE033_B619265B3CBBC7F42E2392FC185432F2LLyySo13a18Builder_pFSaySo0P7B9CGAIXEfU_Tf3npf_n
+                let menu = UIMenu(
+                    title: "",
+                    subtitle: nil,
+                    image: nil,
+                    identifier: UIMenu.Identifier(rawValue: "com.apple.swiftui.synthesized.textFormatting"),
+                    options: [.displayInline]
+                    , preferredElementSize: .automatic,
+                    children: elements
+                )
+                
+                return [menu]
+            }
+        }
+        
+        // <+664>
+        if
+            !self.optionalMenus.contains(.unknown2),
+            isLinkedOnOrAfter(.v7)
+        {
+            builder.remove(menu: .toolbar)
+        }
+        
+        if
+            !self.optionalMenus.contains(.unknown3),
+            isLinkedOnOrAfter(.v7)
+        {
+            builder.remove(menu: .sidebar)
+        }
     }
 }
 
@@ -267,7 +344,7 @@ extension UIKitMainMenuController: AppGraphObserver {
 
 fileprivate final class MainMenuItemCoordinator {
     private(set) var menuHost: MainMenuItemHost // 0x10
-    private var builderContext = MenuBuilderContext() // 0x18
+    fileprivate private(set) var builderContext = MenuBuilderContext() // 0x18
     fileprivate private(set) var instructions: [MenuBuilderInstruction] = [] // 0x40
     private var needsUpdate: Bool = true // 0x48
     
@@ -388,4 +465,10 @@ fileprivate struct OptionalMenus: OptionSet {
 
 struct ResponderCommandsKey {
     @safe static nonisolated(unsafe) let defaultValue: [Selector: any CommandAction] = [:]
+}
+
+extension UIMenuBuilder {
+    fileprivate func perform(instruction: MenuBuilderInstruction) {
+        assertUnimplemented()
+    }
 }

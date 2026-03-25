@@ -433,7 +433,11 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        assertUnimplemented()
+        self.scenePhase = .active
+        
+        if let delegate = sceneDelegateBox?.delegate as? UISceneDelegate {
+            delegate.sceneDidBecomeActive?(scene)
+        }
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -445,7 +449,26 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x21
+         scene -> x0 -> x19
+         */
+        self.scenePhase = .active
+        
+        if
+            let window,
+            let rootViewController = window.rootViewController,
+            let sceneItemID
+        {
+            // rootViewController -> x22
+            self.scenesDidChange(phaseChanged: true)
+            PlatformSceneCache.shared.setPhase(self.scenePhase, id: sceneItemID, host: rootViewController)
+        }
+        
+        // <+244>
+        if let delegate = sceneDelegateBox?.delegate as? UISceneDelegate {
+            delegate.sceneWillEnterForeground?(scene)
+        }
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
@@ -1004,7 +1027,14 @@ extension AppSceneDelegate: UIHostingViewDelegate {
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
-        assertUnimplemented()
+        guard
+            let delegate = AppDelegate.shared,
+            let mainMenuController = delegate.mainMenuController
+        else {
+            return
+        }
+        
+        mainMenuController.updateDocumentCommands(environment: &values)
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {

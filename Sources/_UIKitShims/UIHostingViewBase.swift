@@ -335,6 +335,14 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
+    @MainActor package func tintColorDidChange() {
+        guard let delegate = self.viewGraph.updateDelegate else {
+            return
+        }
+        
+        delegate.invalidateProperties(.environment, mayDeferUpdate: true)
+    }
+    
     // ___lldb_unnamed_symbol317399
     package func interval(time: Double) -> Double {
         // time = x19

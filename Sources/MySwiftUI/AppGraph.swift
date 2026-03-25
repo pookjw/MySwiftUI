@@ -33,7 +33,7 @@ final class AppGraph: GraphHost {
     
     private var makeRootScene: (_SceneInputs) -> _SceneOutputs // 0xb0
     private var observers: Set<HashableWeakBox<AnyObject>> = [] // 0xc0
-    @Attribute private var rootScenePhase: ScenePhase // 0xc8
+    @Attribute var rootScenePhase: ScenePhase // 0xc8
     private var rootSceneLists: IndirectAttribute<[SceneList.Namespace: SceneList]>? = nil // 0xcc
     @Attribute private var primarySceneSummaries: [SceneList.Item.Summary] // 0xd4
     @Attribute private(set) var focusedValues: FocusedValues // 0xd8
