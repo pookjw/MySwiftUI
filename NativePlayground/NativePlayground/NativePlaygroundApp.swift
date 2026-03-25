@@ -10,6 +10,13 @@
 import SwiftUI
 import UIKit
 import Combine
+import _SwiftUICorePrivate
+
+fileprivate struct TestPredicate: ViewInputPredicate {
+    static func evaluate(inputs: _GraphInputs) -> Bool {
+        return true
+    }
+}
 
 @main
 struct NativePlaygroundApp: App {
@@ -20,7 +27,20 @@ struct NativePlaygroundApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Color.blue
+                .staticIf(TestPredicate.self) { _ in
+                    Color.green
+                }
+//                .staticIf(
+//                    TestPredicate(),
+//                    then: { _ in
+//                        Color.green
+//                    },
+//                    else: { _ in
+//                        Color.orange
+//                    }
+//                )
+//            ContentView()
 //                .task {
 //                    try! await Task.sleep(for: .seconds(1))
 //                    if let requestWithID = UISceneSessionActivationRequest(

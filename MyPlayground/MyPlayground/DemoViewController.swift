@@ -112,6 +112,7 @@ extension DemoViewController {
         case viewControllerRepresentable
         case toggleRepView
         case colorSchemeTestView
+        case staticIfView
         case testView
         case openURLActionView
         
@@ -171,6 +172,8 @@ extension DemoViewController {
                 return _typeName(SwitchRepViewController.self, qualified: false)
             case .colorSchemeTestView:
                 return _typeName(ColorSchemeTestViewController.self, qualified: false)
+            case .staticIfView:
+                return _typeName(StaticIfViewController.self, qualified: false)
             case .testView:
                 return _typeName(TestViewController.self, qualified: false)
             case .openURLActionView:
@@ -234,6 +237,8 @@ extension DemoViewController {
                 return SwitchRepViewController()
             case .colorSchemeTestView:
                 return ColorSchemeTestViewController()
+            case .staticIfView:
+                return StaticIfViewController()
             case .testView:
                 return TestViewController()
             case .openURLActionView:
