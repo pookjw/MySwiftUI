@@ -145,7 +145,7 @@ protocol MainMenuItemHostDelegate: AnyObject {
 struct MenuBuilderContext {
     private var placementKind: MenuBuilderContext.PlacementKind = .unknown // 0x0
     private(set) var keyCommandMap: [KeyCommandID: () -> Void] = [:] // 0x8
-    private var placementMap = MenuBuilderContext.PlacementMap() // 0x10
+    private(set) var placementMap = MenuBuilderContext.PlacementMap() // 0x10
     private var menuElements: [UIMenuElement] = [] // 0x18
     private var operationMap: [UIMenuElement: CommandOperation] = [:] // 0x20
 }

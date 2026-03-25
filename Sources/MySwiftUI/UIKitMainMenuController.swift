@@ -162,7 +162,23 @@ final class UIKitMainMenuController: UIResponder {
     
     fileprivate func documentCommands() -> PlatformItemList {
         // <+124>
-        assertUnimplemented()
+        // x29 - 0xa8
+        let placements: [CommandGroupPlacement] = [
+            .saveItem,
+            .printItem
+        ]
+        
+        // x27
+        var result = PlatformItemList(items: [])
+        
+        for coordinator in self.topLevelItemCoordinators.values {
+            for placement in placements {
+                let list = coordinator.builderContext.placementMap.map[placement.id] ?? PlatformItemList(items: [])
+                result.items.append(contentsOf: list.items)
+            }
+        }
+        
+        return result
     }
     
     fileprivate func resolveOptionalMenus(_ instructions: [MenuBuilderInstruction]) {
@@ -391,7 +407,7 @@ extension MainMenuItemCoordinator: MainMenuItemHostDelegate {
 
 extension MenuBuilderContext {
     struct PlacementMap {
-        private var map: [UUID: PlatformItemList] = .init()
+        private(set) var map: [UUID: PlatformItemList] = .init()
     }
     
     enum PlacementKind {

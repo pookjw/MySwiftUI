@@ -1,3 +1,5 @@
+// 2BA0A33A15B7F322F46AFB9D0D1A262D
+private import AttributeGraph
 
 @preconcurrency @MainActor public protocol ViewModifier {
     static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs
@@ -15,7 +17,7 @@
 
 extension ViewModifier {
     public static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        return Self.makeView(modifier: modifier, inputs: inputs, body: body)
     }
     
     public static nonisolated func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
@@ -84,8 +86,37 @@ extension ViewModifier {
 }
 
 extension ViewModifier {
-    static nonisolated func makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+    static nonisolated func makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        /*
+         modifier -> x0 -> w22
+         inputs -> x1 -> x26
+         body -> x2/x3 -> x28/x27
+         */
+        let fields = DynamicPropertyCache.fields(of: self)
+        // x19 + 0x120
+        var copy_1 = inputs
+        let (_body, buffer) = Self.makeBody(modifier: modifier, inputs: &copy_1.base, fields: fields)
+        
+        let input = BodyInputElement.view(body)
+        copy_1.append(input, to: BodyInput<Content>.self)
+        
+        let outputs = Self.makeDebuggableView(modifier: modifier, inputs: copy_1, body: body)
+        
+        if let buffer {
+            buffer.traceMountedProperties(to: modifier, fields: fields)
+        }
+        
+        return outputs
+    }
+    
+    fileprivate static nonisolated func makeBody(modifier: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
+        guard TypeID(self).isValueType else {
+            preconditionFailure("view modifiers must be value types: \(_typeName(self, qualified: false))")
+        }
+        
+        let body = ModifierBodyAccessor<Self>()
+            .makeBody(container: modifier, inputs: &inputs, fields: fields)
+        return body
     }
 }
 
@@ -132,5 +163,108 @@ extension ViewModifier {
 extension View {
   @inlinable public nonisolated func modifier<T>(_ modifier: T) -> ModifiedContent<Self, T> {
         return .init(content: self, modifier: modifier)
+    }
+}
+
+public struct PlaceholderContentView<Value>: View {
+    public nonisolated static func _makeView(view: _GraphValue<PlaceholderContentView<Value>>, inputs: _ViewInputs) -> _ViewOutputs {
+        return providerMakeView(view: view, inputs: inputs)
+    }
+    
+    public nonisolated static func _makeViewList(view: _GraphValue<PlaceholderContentView<Value>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Swift.Int? {
+        assertUnimplemented()
+    }
+    
+    public typealias Body = Never
+}
+
+@available(*, unavailable)
+extension PlaceholderContentView: Sendable {
+}
+
+extension _ViewInputs {
+    mutating func pushModifierBody<Body>(_ bodyType: Body.Type, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) {
+        append(
+            BodyInputElement.view(body),
+            to: BodyInput<Body>.self
+        )
+    }
+}
+
+fileprivate struct BodyInput<Body>: ViewInput {
+    typealias Value = Stack<BodyInputElement>
+    
+    static var defaultValue: Stack<BodyInputElement> {
+        return .empty
+    }
+}
+
+fileprivate enum BodyInputElement: GraphReusable, Equatable {
+    func makeReusable(indirectMap: IndirectAttributeMap) {
+        assertUnimplemented()
+    }
+    
+    func tryToReuse(by: BodyInputElement, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func == (lhs: BodyInputElement, rhs: BodyInputElement) -> Bool {
+        assertUnimplemented() // _AGCompareValues
+    }
+    
+    case view((_Graph, _ViewInputs) -> _ViewOutputs)
+    case list((_Graph, _ViewListInputs) -> _ViewListOutputs)
+}
+
+fileprivate protocol ViewModifierContentProvider: PrimitiveView {
+}
+
+extension PlaceholderContentView: ViewModifierContentProvider {}
+
+extension ViewModifierContentProvider {
+    static nonisolated func providerMakeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        // sp + 0x230
+        let _ = inputs
+        // sp + 0x1d0
+        var copy_2 = inputs
+        
+        if let last = copy_2.popLast(BodyInput<Self>.self) {
+            // <+176>
+            switch last {
+            case .view(let transform):
+                // <+664>
+                // sp + 0x160
+                let copy_3 = copy_2
+                // sp + 0x80
+                let copy_4 = copy_2
+                // sp + 0xe0
+                let _ = copy_3
+                let outputs = transform(_Graph(), copy_4)
+                return outputs
+            case .list(let _):
+                // <+184>
+                assertUnimplemented()
+            }
+        } else {
+            // <+588>
+            return _ViewOutputs()
+        }
+    }
+    
+    static nonisolated func providerMakeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct ModifierBodyAccessor<T: ViewModifier>: BodyAccessor {
+    typealias Container = T
+    typealias Body = T.Body
+    
+    func updateBody(of container: T, changed: Bool) {
+        assertUnimplemented()
     }
 }
