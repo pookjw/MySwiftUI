@@ -28,20 +28,21 @@ struct RootModifier: ViewModifier {
     private(set) var connectionOptions: UIScene.ConnectionOptions?
     private(set) var _rootFocusScope: Namespace
     
-    func body(content: _ViewModifier_Content<Self>) -> some View {
-        content
-            .modifier(
-                RootEnvironmentModifier(
-                    sceneBridge: sceneBridge,
-                    sceneDelegateBox: sceneDelegateBox,
-                    sceneStorageValues: sceneStorageValues,
-                    scenePhase: scenePhase,
-                    sceneID: sceneID,
-                    connectionOptions: connectionOptions
-                )
-            )
+    func body(content: Content) -> some View {
+//        content
+//            .modifier(
+//                RootEnvironmentModifier(
+//                    sceneBridge: sceneBridge,
+//                    sceneDelegateBox: sceneDelegateBox,
+//                    sceneStorageValues: sceneStorageValues,
+//                    scenePhase: scenePhase,
+//                    sceneID: sceneID,
+//                    connectionOptions: connectionOptions
+//                )
+//            )
+//            .presentedSceneValue(presentationDataValue)
         
-        // TODO
+        assertUnimplemented()
     }
 }
 
