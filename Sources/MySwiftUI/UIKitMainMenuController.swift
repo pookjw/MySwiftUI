@@ -197,6 +197,60 @@ final class UIKitMainMenuController: UIResponder {
     }
     
     fileprivate func synthesizeSystemMenus(_ builder: any UIMenuBuilder) {
+        /*
+         self -> x20 -> x21
+         builder -> x0 -> x19
+         */
+        let importExportMenu = UIMenu(
+            title: "",
+            subtitle: nil,
+            image: nil,
+            identifier: UIMenu.Identifier(rawValue: "com.apple.swiftui.synthesized.importExport"),
+            options: [.displayInline],
+            preferredElementSize: .automatic,
+            children: []
+        )
+        
+        builder.insertSibling(importExportMenu, afterMenu: .close)
+        
+        if
+            !self.optionalMenus.contains(.unknown4),
+            isLinkedOnOrAfter(.v7)
+        {
+            builder.remove(menu: .print)
+        }
+        
+        // <+220>
+        if
+            !self.optionalMenus.contains(.unknown0),
+            isLinkedOnOrAfter(.v7)
+        {
+            builder.remove(menu: .find)
+            builder.remove(menu: .spelling)
+            builder.remove(menu: .substitutions)
+            builder.remove(menu: .transformations)
+            builder.remove(menu: .speech)
+        } else {
+            // <+364>
+            builder.replaceChildren(ofMenu: .edit) { elements in
+                // $sSaySo13UIMenuElementCGACIggo_A2CIeggo_TR0105$s7SwiftUI23UIKitMainMenuControllerC021synthesizeTextEditingE033_B619265B3CBBC7F42E2392FC185432F2LLyySo13a18Builder_pFSaySo0Q7B9CGAIXEfU_Tf3npf_n
+                for element in elements {
+                    guard let casted = element as? UIMenu else {
+                        continue
+                    }
+                    
+                    guard casted.identifier == .spelling else {
+                        continue
+                    }
+                    
+                    // <+348>
+                }
+                assertUnimplemented()
+            }
+            assertUnimplemented()
+        }
+        
+        // <+492>
         assertUnimplemented()
     }
 }
