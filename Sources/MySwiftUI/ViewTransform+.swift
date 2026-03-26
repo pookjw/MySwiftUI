@@ -131,7 +131,7 @@ extension ViewTransform {
                     }
                 }
                 
-                let d11: CGFloat
+                var d11: CGFloat
                 if let immersiveSpaceWindowScene {
                     // <+1076>
                     d11 = immersiveSpaceWindowScene.traitCollection._pointsPerMeter()
@@ -143,6 +143,37 @@ extension ViewTransform {
                 }
                 
                 // <+1196>
+                var d1 = d11
+                var d0 = d11
+                var d2 = d11
+                // x19 + 0x380
+                let size_1 = Size3D(width: d0, height: d1, depth: d2)
+                d0 = size_1.width
+                d1 = size_1.height
+                d2 = size_1.depth
+                // x19 + 0x600
+                let transform = AffineTransform3D(scale: size_1)
+                // x29 - 0xd0
+                let relativeTransform = settings.relativeTransform
+                // x19 + 0x380
+                let size_2 = windowScene.effectiveGeometry._size
+                let d15 = size_2.width
+                d1 = size_2.height
+                d0 = size_2.depth
+                let x190x8 = d1
+                let x190x10 = d0
+                d0 = d8
+                d1 = d9
+                d2 = d10
+                // x19 + 0x380
+                let size_3 = __SPSize3DMake(d0, d1, d2)
+                // x19 + 0x18
+                let size_4 = size_3
+                let w27 = windowScene.session.role == .windowApplicationVolumetric
+                d0 = settings.pointsPerMeter
+                d11 = d0
+                
+                // <+1532>
                 assertUnimplemented()
             }
             
