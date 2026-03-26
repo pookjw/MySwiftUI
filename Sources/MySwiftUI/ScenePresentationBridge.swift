@@ -1,6 +1,7 @@
 internal import MySwiftUICore
 private import Foundation
 
+@MainActor
 final class ScenePresentationBridge {
     private var presentedSceneValueSeed = VersionSeedTracker<PresentedSceneValueKey>(seed: .invalid)
     private let encoder = JSONEncoder()

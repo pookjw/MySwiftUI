@@ -1269,29 +1269,21 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
     }
 }
 
-extension UIHostingViewBase: ViewGraphHostDelegate {
-    package func updateGraphInputs(_ inputs: inout MySwiftUICore._GraphInputs) {
-        var unchecked = UncheckedSendable(inputs)
-        MainActor.assumeIsolated {
-            var inputs = unchecked.value
-            
-            // x20
-            guard let uiView else {
-                return
-            }
-            
-            guard let idiom = ViewGraphHost.Idiom(_msui_uiIdiom: uiView.traitCollection.userInterfaceIdiom) else {
-                return
-            }
-            
-            guard inputs.viewGraphHostIdiom == nil else {
-                return
-            }
-            
-            inputs.viewGraphHostIdiom = idiom
-            unchecked.value = inputs
+extension UIHostingViewBase: @preconcurrency ViewGraphHostDelegate {
+    @MainActor package func updateGraphInputs(_ inputs: inout MySwiftUICore._GraphInputs) {
+        guard let uiView else {
+            return
         }
-        inputs = unchecked.value
+        
+        guard let idiom = ViewGraphHost.Idiom(_msui_uiIdiom: uiView.traitCollection.userInterfaceIdiom) else {
+            return
+        }
+        
+        guard inputs.viewGraphHostIdiom == nil else {
+            return
+        }
+        
+        inputs.viewGraphHostIdiom = idiom
     }
 }
 

@@ -400,24 +400,22 @@ open class _UIHostingView<Content: View>: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        MainActor.assumeIsolated {
-            _base.tearDown(uiView: self, updateDelegate: self)
-            NotificationCenter.default.removeObserver(self)
-            
-            if let windowGeometryScene = unsafe self.windowGeometryScene {
-                windowGeometryScene.removeObserver(self, forKeyPath: "effectiveGeometry")
-            }
-            
-            _base.clearDisplayLink()
-            _base.clearUpdateTimer()
-            
-            HostingViewRegistry.shared.remove(self)
-            
-            if let dumpLayerNotificationTokens = unsafe dumpLayerNotificationTokens {
-                notify_cancel(dumpLayerNotificationTokens.0)
-                notify_cancel(dumpLayerNotificationTokens.1)
-            }
+    @MainActor deinit {
+        _base.tearDown(uiView: self, updateDelegate: self)
+        NotificationCenter.default.removeObserver(self)
+        
+        if let windowGeometryScene = unsafe self.windowGeometryScene {
+            windowGeometryScene.removeObserver(self, forKeyPath: "effectiveGeometry")
+        }
+        
+        _base.clearDisplayLink()
+        _base.clearUpdateTimer()
+        
+        HostingViewRegistry.shared.remove(self)
+        
+        if let dumpLayerNotificationTokens = unsafe dumpLayerNotificationTokens {
+            notify_cancel(dumpLayerNotificationTokens.0)
+            notify_cancel(dumpLayerNotificationTokens.1)
         }
     }
     
@@ -525,23 +523,17 @@ open class _UIHostingView<Content: View>: UIView {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if unsafe context == &effectiveGeometryObservationContext {
-            MainActor.assumeIsolated { [unchecked = UncheckedSendable((object, change))] in
-                let object = unchecked.value.0
-                let change = unchecked.value.1
-                
-                guard change != nil else {
-                    return
-                }
-                
-                guard keyPath == #keyPath(UIWindowScene.effectiveGeometry) else {
-                    return
-                }
-                
-                // <+148>
-                guard let windowScene = object as? UIWindowScene else {
-                    return
-                }
-                
+            guard change != nil else {
+                return
+            }
+            guard keyPath == "effectiveGeometry" else {
+                return
+            }
+            guard let windowScene = object as? UIWindowScene else {
+                return
+            }
+            
+            MainActor.assumeIsolated {
                 // x21
                 let effectiveGeometry = windowScene.effectiveGeometry
                 // x23
@@ -1282,7 +1274,7 @@ extension _UIHostingView {
 }
 
 extension _UIHostingView {
-    fileprivate struct HostViewGraph<T: View>: ViewGraphFeature {
+    @MainActor fileprivate struct HostViewGraph<T: View>: @preconcurrency ViewGraphFeature {
         private weak var host: _UIHostingView<T>?
         
         init(host: _UIHostingView<T>) {
@@ -1296,14 +1288,14 @@ extension _UIHostingView {
             
             inputs.base[EventBindingBridgeFactoryInput.self] = UIKitResponderEventBindingBridge.Factory.self
             inputs.base[GestureContainerFactoryInput.self] = ViewResponderGestureContainerFactory.self
-            inputs.animationsDisabled = MainActor.assumeIsolated { host.disallowAnimations }
+            inputs.animationsDisabled = host.disallowAnimations
             inputs.base.platformProvidersDefinition = SwiftUIPlatformProvidersDefinition.self
             inputs.base.coreInteractionResponderProvider = UIInteractionResponderProvider.self
             
             // <+532>
             inputs.base.updateCycleUseSetNeedsLayout = UIKitUpdateCycle.defaultUseSetNeedsLayout
             
-            if let delegate = MainActor.assumeIsolated({ UncheckedSendable(host.delegate) }).value {
+            if let delegate = host.delegate {
                 delegate.hostingView(host, willModifyViewInputs: &inputs)
             }
             
@@ -1323,9 +1315,8 @@ extension _UIHostingView {
             inputs.uiKitHostContainerFocusItem = Attribute(value: WeakBox(host))
             
             // <+1016>
-            if let navigationBridge = MainActor.assumeIsolated({ UncheckedSendable(host.navigationBridge) }).value {
-                navigationBridge.hasSearch = inputs[IsSearchAllowedInput.self]
-            }
+            let hasSearch = inputs[IsSearchAllowedInput.self]
+            host.navigationBridge?.hasSearch = hasSearch
             
             // <+1128>
             let viewStyle = ViewStyleRegistry.InterfaceIdiom(idiom: inputs.base.interfaceIdiom)
@@ -1761,10 +1752,8 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    @_spi(Internal) public nonisolated final func requestUpdate(after time: Double) {
-        MainActor.assumeIsolated {
-            base._requestUpdate(after: time)
-        }
+    @_spi(Internal) @MainActor public final func requestUpdate(after time: Double) {
+        base._requestUpdate(after: time)
     }
     
     package nonisolated final func startUpdateTimer(delay: Double) {

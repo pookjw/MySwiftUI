@@ -56,7 +56,7 @@ struct FocusViewGraph {
     }
 }
 
-extension FocusViewGraph: ViewGraphFeature {
+extension FocusViewGraph: @preconcurrency ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         inputs.base[FocusedItemInputKey.self] = _focusedItem
         inputs.base[FocusedValuesInputKey.self] = _focusedValues
@@ -76,14 +76,14 @@ extension FocusViewGraph: ViewGraphFeature {
         assertUnimplemented()
     }
     
-    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+    @MainActor mutating func needsUpdate(graph: ViewGraph) -> Bool {
         let needsFocusUpdate = needsFocusUpdate
         
         if
             let delegate = graph.delegate,
             let uiView = delegate.uiView
         {
-            let w8 = MainActor.assumeIsolated { UIFocusSystem.focusSystem(for: uiView) != nil }
+            let w8 = UIFocusSystem.focusSystem(for: uiView) != nil
             let w9 = (w8 != wasFocusSystemEnabled)
             self.needsFocusSystemEnabledUpdate = w9
             self.wasFocusSystemEnabled = w8

@@ -2,6 +2,7 @@ internal import Foundation
 internal import MySwiftUICore
 private import UIKit
 
+@MainActor
 final class KeyboardShortcutBridge: NSObject {
     private var currentBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid) // 0x5f0
     private var updatedBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid) // 0x5f8

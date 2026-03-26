@@ -2,6 +2,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import _UIKitPrivate
 
+@MainActor
 final class ContextMenuBridge: NSObject {
     weak var host: (any ViewRendererHost)? = nil
     private var interaction: UIContextMenuInteraction? = nil

@@ -2,6 +2,7 @@
 internal import UIKit
 private import _UIKitPrivate
 
+@MainActor
 final class UIKitEventBindingBridge: EventBindingBridge {
     private(set) var gestureRecognizer: UIKitGestureRecognizer? = nil
     private(set) var hoverGestureRecognizer: UIKitHoverGestureRecognizer

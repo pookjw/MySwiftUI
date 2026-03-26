@@ -1,6 +1,7 @@
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
+@MainActor
 final class EditMenuBridge: NSObject {
     weak var host: ViewRendererHost? = nil
     private weak var listCell: ListCollectionViewCell? = nil

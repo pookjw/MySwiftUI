@@ -5,6 +5,7 @@ internal import UIKit
 internal import _UIKitPrivate
 private import os.log
 
+@MainActor
 final class SceneBridge: CustomStringConvertible, ObservableObject {
     private var sceneBridgePublishers: [ObjectIdentifier: [String: PassthroughSubject<Any, Never>]] = .init() // 0x10
     private(set) var isAnimatingSceneResize: Bool = false // 0x18

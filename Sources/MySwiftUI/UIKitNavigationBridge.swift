@@ -3,6 +3,7 @@ internal import MySwiftUICore
 internal import UIKit
 private import _UIKitPrivate
 
+@MainActor
 class UIKitNavigationBridge {
     weak var host: ViewRendererHost? = nil // 0x10
     private lazy var presentationModeLocation = LocationBox<UIKitNavigationBridgePresentationModeLocation>(location: UIKitNavigationBridgePresentationModeLocation(bridge: self)) // 0x18

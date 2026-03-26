@@ -35,9 +35,9 @@ extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
             return PointerOffset<Self, Modifier>.of(&value.modifier)
         }]
         
-        let result = Modifier.makeDebuggableView(modifier: modifier, inputs: inputs) { [view = UncheckedSendable(view)] graph, inputs in
+        let result = Modifier.makeDebuggableView(modifier: modifier, inputs: inputs) { [view] graph, inputs in
             // $s7SwiftUI15ModifiedContentVA2A4ViewRzAA0E8ModifierR_rlE05_makeE04view6inputsAA01_E7OutputsVAA11_GraphValueVyACyxq_GG_AA01_E6InputsVtFZAjA01_K0V_APtcfU0_TA
-            let view: _GraphValue<Content> = view.value[{ value in
+            let view: _GraphValue<Content> = view[{ value in
                 return PointerOffset<Self, Content>.of(&value.content)
             }]
             

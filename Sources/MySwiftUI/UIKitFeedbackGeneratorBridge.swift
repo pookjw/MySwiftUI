@@ -4,6 +4,7 @@ private import _UIKitPrivate
 private import MRUIKit
 private import CoreRE
 
+@MainActor
 class UIKitFeedbackGeneratorBridge<Content: View> {
     weak var host: _UIHostingView<Content>? = nil
     private var hostingEntity: RealityKit.Entity? = nil

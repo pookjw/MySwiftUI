@@ -3,6 +3,7 @@
 internal import UIKit
 private import MRUIKit
 
+@MainActor
 class OrnamentBridge<Content: View> {
     weak var hostingController: UIHostingController<Content>? = nil {
         didSet {

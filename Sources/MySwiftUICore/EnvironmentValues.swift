@@ -136,6 +136,9 @@ extension EnvironmentValues {
     }
 }
 
+@available(*, unavailable)
+extension EnvironmentValues: Sendable {}
+
 protocol DerivedEnvironmentKey {
     associatedtype Value : Equatable
     static func value(in environment: EnvironmentValues) -> Self.Value

@@ -1,6 +1,7 @@
 internal import UIKit
 private import MySwiftUICore
 
+@MainActor
 protocol ToolbarStrategy: ToolbarNamespace {
     var updater: ToolbarBridge<Self>? { get set }
     var updateContext: Toolbar.UpdateContext? { get set }
@@ -18,6 +19,7 @@ protocol ToolbarStrategy: ToolbarNamespace {
 }
 
 extension ToolbarStrategy {
+    @MainActor
     func makeBarContext(storage: ToolbarStorage, preferences: PreferenceValues) -> Toolbar.BarContext {
         /*
          storage -> x0 -> x23
@@ -49,9 +51,7 @@ extension ToolbarStrategy {
             // w27
             let hasOrWillHaveSystemLeadingItems: Bool
             if let targetController = context.targetController {
-                hasOrWillHaveSystemLeadingItems = MainActor.assumeIsolated { [unchecked = UncheckedSendable(context)] in
-                    return targetController.hasOrWillHaveSystemLeadingItems(unchecked.value)
-                }
+                hasOrWillHaveSystemLeadingItems = targetController.hasOrWillHaveSystemLeadingItems(context)
             } else {
                 hasOrWillHaveSystemLeadingItems = false
             }
@@ -108,6 +108,7 @@ extension ToolbarStrategy {
 }
 
 extension UIViewController {
+    @MainActor
     func hasOrWillHaveSystemLeadingItems(_ context: Toolbar.UpdateContext) -> Bool {
         guard !hasOrWillHaveBackItem(overrides: context.overrides) else {
             return true
@@ -116,6 +117,7 @@ extension UIViewController {
         assertUnimplemented()
     }
     
+    @MainActor
     func hasOrWillHaveBackItem(overrides: HostingControllerOverrides) -> Bool {
         /*
          self -> x20

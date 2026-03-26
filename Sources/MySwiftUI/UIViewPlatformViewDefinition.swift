@@ -1,6 +1,6 @@
 // A34643117F00277B93DEBAB70EC06971
 @_spi(Internal) internal import MySwiftUICore
-public import UIKit
+@preconcurrency public import UIKit
 private import _UIKitPrivate
 
 final class UIViewPlatformViewDefinition: PlatformViewDefinition {
@@ -9,35 +9,29 @@ final class UIViewPlatformViewDefinition: PlatformViewDefinition {
     }
     
     override class func makeView(kind: PlatformViewDefinition.ViewKind) -> AnyObject {
-        let result = MainActor.assumeIsolated {
-            switch kind {
-            case .shape:
-                // <+356>
-                assertUnimplemented()
-            default:
-                let view: UIView
-                if kind.isContainer {
-                    view = _UIInheritedView()
-                } else {
-                    view = _UIGraphicsView()
-                }
-                
-                UIViewPlatformViewDefinition.initView(view, kind: kind)
-                return UncheckedSendable(view)
+        switch kind {
+        case .shape:
+            // <+356>
+            assertUnimplemented()
+        default:
+            let view: UIView
+            if kind.isContainer {
+                view = _UIInheritedView()
+            } else {
+                view = _UIGraphicsView()
             }
+            
+            UIViewPlatformViewDefinition.initView(view, kind: kind)
+            return view
         }
-        
-        return result.value
     }
     
     override class func makePlatformView(view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
         let view = view as! UIView
-        MainActor.assumeIsolated {
-            UIViewPlatformViewDefinition.initView(view, kind: kind)
-        }
+        UIViewPlatformViewDefinition.initView(view, kind: kind)
     }
     
-    @MainActor fileprivate static func initView(_ view: UIView, kind: PlatformViewDefinition.ViewKind) {
+    fileprivate static func initView(_ view: UIView, kind: PlatformViewDefinition.ViewKind) {
         if case .platformGroup = kind {
             // nop
         } else {

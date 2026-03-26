@@ -4,6 +4,7 @@ internal import UIKit
 internal import AttributeGraph
 private import _UIKitPrivate
 
+@MainActor
 final class FocusBridge {
     private var flags: Flags = []
     weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil

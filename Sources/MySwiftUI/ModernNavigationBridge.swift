@@ -1,5 +1,6 @@
 internal import MySwiftUICore
 
+@MainActor
 class ModernNavigationBridge {
     private var seedTracker: VersionSeedTracker<UpdateViewDestinationRequest.UpdateViewDestinationRequestKey> // 0x290
     

@@ -1,5 +1,6 @@
 internal import UIKit
 
+@MainActor
 class PPTTestBridge {
     weak var host: (UIView & ViewRendererHost)?
     private var shouldUpdateEnvironment: Bool

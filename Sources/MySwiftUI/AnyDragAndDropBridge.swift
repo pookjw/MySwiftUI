@@ -1,5 +1,6 @@
 internal import UIKit
 
+@MainActor
 class AnyDragAndDropBridge: NSObject {
     func outermostDropResponder() -> (DragDropDefaultPreviewResponder & DropPayloadProvider)? {
         preconditionFailure() // abstract

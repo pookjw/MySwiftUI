@@ -3,6 +3,7 @@ internal import UIKit
 internal import MySwiftUICore
 private import _MySwiftUIShims
 
+@MainActor
 final class UIKitContentScrollViewBridge {
     weak var viewController: UIViewController? = nil // 0x10
     private var lastSeed: VersionSeed = .invalid // 0x208

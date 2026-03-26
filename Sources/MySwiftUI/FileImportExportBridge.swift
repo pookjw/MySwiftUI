@@ -2,6 +2,7 @@
 internal import Foundation
 internal import MySwiftUICore
 
+@MainActor
 final class FileImportExportBridge: NSObject {
     weak var host: ViewRendererHost? = nil // 0x530
     private var presentationState = FileImportExportBridge.PresentationState(currentPresentation: nil, importSeed: .empty, exportSeed: .empty) // 0x538

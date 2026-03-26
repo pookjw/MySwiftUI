@@ -9,6 +9,7 @@ extension RemoteScenes {
         // TODO
     }
     
+    @MainActor
     class Bridge {
         // TODO
     }

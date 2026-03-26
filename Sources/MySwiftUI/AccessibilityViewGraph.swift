@@ -33,7 +33,7 @@ struct AccessibilityViewGraph {
     }
 }
 
-extension AccessibilityViewGraph: ViewGraphFeature {
+extension AccessibilityViewGraph: @preconcurrency ViewGraphFeature {
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         // $s7SwiftUI22AccessibilityViewGraphV06modifyD6Inputs6inputs5graphyAA01_dG0Vz_AA0dE0CtF
         /*
@@ -75,7 +75,7 @@ extension AccessibilityViewGraph: ViewGraphFeature {
         }
     }
     
-    mutating func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+    @MainActor mutating func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
         /*
          self = x19
          inputs = x20
@@ -85,16 +85,13 @@ extension AccessibilityViewGraph: ViewGraphFeature {
         var copy = inputs
         copy.base.accessibilityCapturesViewResponders = false
         
-        let nodeList = MainActor.assumeIsolated { [unchecked = UncheckedSendable((copy, outputs))] in
-            let nodeList = AccessibilityContainerModifier
-                .makeResolvableTransform(
-                    inputs: unchecked.value.0,
-                    outputs: unchecked.value.1,
-                    includeGeometry: true,
-                    for: AccessibilityContainerResolver<AccessibilityChildBehavior.Host>.self
-                )
-            return UncheckedSendable(nodeList)
-        }.value
+        let nodeList = AccessibilityContainerModifier
+            .makeResolvableTransform(
+                inputs: copy,
+                outputs: outputs,
+                includeGeometry: true,
+                for: AccessibilityContainerResolver<AccessibilityChildBehavior.Host>.self
+            )
         
         unsafe outputs[AccessibilityNodesKey.self] = nodeList
         self._rootNodes = unsafe WeakAttribute(outputs[AccessibilityNodesKey.self])

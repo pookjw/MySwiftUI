@@ -52,6 +52,7 @@ final class UIKitPlatformColorDefinition: PlatformColorDefinition {
 }
 
 extension UITraitCollection {
+    @MainActor
     func resolvedEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
         // base -> x23
         var resolved = self.resolvedPreEnvironment(base: base)
@@ -62,6 +63,7 @@ extension UITraitCollection {
     }
     
     @inline(__always)
+    @MainActor
     func resolvedTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
         let resolved_1 = self.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
         let resolved_2 = resolved_1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: [])

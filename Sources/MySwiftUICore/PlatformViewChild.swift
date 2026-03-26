@@ -208,14 +208,13 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 // x29 - 0x158
                 context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA0cD20RepresentableContextVyxGyScMYcXEfU2_Tm
-                    let context = PlatformViewRepresentableContext<Representable>(
+                    return PlatformViewRepresentableContext<Representable>(
                         coordinator: coordinator.value!,
                         preferenceBridge: unchecked.value.0,
                         transaction: unchecked.value.1,
                         environmentStorage: .eager(unchecked.value.2)
                     )
-                    return UncheckedSendable(context)
-                }.value
+                }
                 
                 if modified {
                     // <+2636>
@@ -233,14 +232,13 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                 // x29 - 0x158
                 context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA0cD20RepresentableContextVyxGyScMYcXEfU2_Tm
-                    let context = PlatformViewRepresentableContext<Representable>(
+                    return PlatformViewRepresentableContext<Representable>(
                         coordinator: coordinator.value!,
                         preferenceBridge: unchecked.value.0,
                         transaction: unchecked.value.1,
                         environmentStorage: .eager(unchecked.value.2)
                     )
-                    return UncheckedSendable(context)
-                }.value
+                }
                 
                 let renderHost = ViewGraph.current.delegate as? ViewRendererHost
                 let attribute = Attribute<ViewLeafView<Representable>>(identifier: .current!)
@@ -329,12 +327,8 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
                         }
                         
                         // <+316>
-                        let view = UncheckedSendable(unchecked.value.0)
-                        let context = UncheckedSendable(unchecked.value.1)
-                        let representedViewProvider = UncheckedSendable(unchecked.value.2)
-                        
                         values.value.asCurrent {
-                            view.value.updateViewProvider(representedViewProvider.value, context: context.value)
+                            unchecked.value.0.updateViewProvider(unchecked.value.2, context: unchecked.value.1)
                         }
                     }
                     
@@ -701,11 +695,9 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
         }
         
         // <+432>
-        let options: CoreViewRepresentableLayoutOptions = MainActor.assumeIsolated { [unchecked = UncheckedSendable(view.value)] in
+        let options: CoreViewRepresentableLayoutOptions = MainActor.assumeIsolated {
             // $s7SwiftUI23PlatformViewDisplayList33_6401BBC0F2663213443101ED0E1CE437LLV11updateValueyyFAA04CoreD26RepresentableLayoutOptionsVyScMYcXEfU_
-            // x20
-            let view = unchecked.value
-            let provider = view.representedViewProvider
+            let provider = view.value.representedViewProvider
             return Representable.layoutOptions(provider)
         }
         

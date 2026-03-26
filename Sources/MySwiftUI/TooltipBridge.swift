@@ -1,6 +1,7 @@
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
+@MainActor
 final class TooltipBridge: NSObject {
     weak var host: ViewRendererHost? = nil
     var hasTooltipSeed: VersionSeed = .empty

@@ -2,6 +2,7 @@ internal import UIKit
 private import MySwiftUICore
 private import AttributeGraph
 
+@MainActor
 class UIKitDialogBridge/*: DialogActionDelegate*/ {
     weak var hostingController: UIViewController? = nil // 0x10
     weak var host: (UIView & ViewRendererHost)? = nil // 0x18

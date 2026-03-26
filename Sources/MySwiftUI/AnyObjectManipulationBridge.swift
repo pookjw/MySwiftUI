@@ -1,5 +1,6 @@
 private import MySwiftUICore
 
+@MainActor
 class AnyObjectManipulationBridge {
     
 }

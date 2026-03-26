@@ -6,6 +6,7 @@ internal import MRUIKit
 private import AttributeGraph
 private import Combine
 
+@MainActor
 enum Toolbar {}
 
 extension Toolbar {
@@ -18,6 +19,7 @@ extension Toolbar {
         var verticalSizeClass: UserInterfaceSizeClass? = .regular // 0x24 (offset field)
         var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0x28 (offset field)
         
+        @MainActor
         init<Content: View>(hostingController: UIHostingController<Content>) {
             // <+280>
             // hostingController -> x20
@@ -107,13 +109,10 @@ extension Toolbar {
         var navigationProperties: Toolbar.Updates.NavigationProperties
     }
     
+    @MainActor
     struct PlatformVended {
         private var platformDelegate: ToolbarPlatformDelegate? = nil // 0x0
-        private(set) var uiNavigationItem: UINavigationItem = {
-            return MainActor.assumeIsolated { 
-                return UINavigationItem()
-            }
-        }() // 0x8
+        private(set) var uiNavigationItem: UINavigationItem = UINavigationItem() // 0x8
         var uiToolbarItems: [UIBarButtonItem] = [] // 0x10
         var uiToolbar: UIKitToolbar? = nil // 0x18
         var uiSearchController: SwiftUISearchController? = nil // 0x20
@@ -121,11 +120,7 @@ extension Toolbar {
         var uiTabViewSidebarOverflowItems: [UIKitBarButtonItem] = [] // 0x30
         var uiTabViewSidebarBottomBarItem: ToolbarStorage.Item? = nil // 0x2c (offset field)
         var uiInputAccessoryGenerator: InputAccessoryGenerator? // 0x30 (offset field)
-        private(set) var uiSplitControllerNavigationItem: UINavigationItem = {
-            return MainActor.assumeIsolated { 
-                return UINavigationItem()
-            }
-        }() // 0x34 (offset field)
+        private(set) var uiSplitControllerNavigationItem: UINavigationItem = UINavigationItem() // 0x34 (offset field)
         var ornamentItems: [ToolbarStorage.Item] = [] // 0x38 (offset field)
         var bottomOrnament: ToolbarOrnament? = nil // 0x3c (offset field)
         

@@ -804,9 +804,11 @@ extension ViewGraph: ViewGraphRenderHost {
             return nextTime
         } else {
             // <+1164>
-            return MainActor.assumeIsolated {
-                return renderOnMainThread()
+            var renderedTime = Time(seconds: .nan)
+            Update.syncMain {
+                renderedTime = renderOnMainThread()
             }
+            return renderedTime
         }
     }
 }

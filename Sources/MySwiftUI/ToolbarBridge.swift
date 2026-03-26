@@ -2,8 +2,10 @@
 internal import MySwiftUICore
 internal import Foundation
 private import _MySwiftUIShims
+@preconcurrency internal import UIKit
 internal import _MySwiftUIShims
 
+@MainActor
 final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     var platformVended = Toolbar.PlatformVended() // 0xb28
     var lastToolbarStorage: ToolbarStorage? = nil // 0x2f8
@@ -477,10 +479,10 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
         assertUnimplemented()
     }
     
-    func updateLocations() -> Set<Toolbar.BarLocation> {
+    @MainActor func updateLocations() -> Set<Toolbar.BarLocation> {
         let array: [(() -> Bool, Toolbar.BarLocation)] = [
             (
-                { @Sendable (strategy: UIKitToolbarStrategy) in
+                { (strategy: UIKitToolbarStrategy) in
                     return {
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu_Sbycfu0_TA
                         return strategy.updateBarTitle()
@@ -491,7 +493,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu1_Sbycfu2_TA
                         return strategy.updateBarLargeTitle()
@@ -502,7 +504,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu3_Sbycfu4_TA
                         return strategy.updateBarCenter()
@@ -513,7 +515,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu5_Sbycfu6_TA
                         return strategy.updateBarAccessory()
@@ -524,7 +526,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu7_Sbycfu8_TA
                         return strategy.updateBarSubtitle()
@@ -535,7 +537,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu9_Sbycfu10_TA
                         return strategy.updateNavigationLargeSubtitle()
@@ -546,7 +548,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu11_Sbycfu12_TA
                         return strategy.updateNavigationBarTrailing()
@@ -557,7 +559,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu13_Sbycfu14_TA
                         return strategy.updateNavigationBarLeading()
@@ -579,7 +581,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu17_Sbycfu18_TA
                         return strategy.updateSplitControllerLeadingItems()
@@ -590,7 +592,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu19_Sbycfu20_TA
                         return strategy.updateSplitControllerTrailingItems()
@@ -601,7 +603,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
                         return false
@@ -612,7 +614,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu23_Sbycfu24_TA
                         return false
@@ -623,7 +625,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu25_Sbycfu26_TA
                         return strategy.updateBottomBar()
@@ -634,7 +636,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu27_Sbycfu28_TA
                         return strategy.updateKeyboardBar()
@@ -645,7 +647,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (_ strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu29_Sbycfu30_TA
                         return strategy.updateBottomOrnament()
@@ -656,7 +658,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (_ strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu31_Sbycfu32_TA
                         return strategy.updateTabSidebarOverflowMenu()
@@ -667,7 +669,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             
             (
                 {
-                    @Sendable (strategy: UIKitToolbarStrategy) in
+                    (strategy: UIKitToolbarStrategy) in
                     return { () -> Bool in
                         // $s7SwiftUI20UIKitToolbarStrategyV15updateLocationsShyAA0D0O11BarLocationOGyFSbycACYbcfu33_Sbycfu34_TA
                         return strategy.updateTabBottomBarEntry(placement: ._tabViewSidebarBottomBar)

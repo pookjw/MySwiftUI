@@ -5,6 +5,7 @@ private import Accessibility
 private import _AccessibilityPrivate
 
 final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilitySettingsDefinition {
+    @preconcurrency
     override func currentValue(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
         switch setting {
         case .differentiateWithoutColors:
@@ -64,6 +65,7 @@ final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilityS
         }
     }
     
+    @preconcurrency
     override func notification(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> Notification.Name? {
         switch setting {
         case .differentiateWithoutColors:

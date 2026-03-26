@@ -388,6 +388,7 @@ extension BarAppearanceBridge {
         private(set) var navigationAdaptor = UINavigationItemAdaptorStorage() // 0x48
         private(set) var customPlacements: [ToolbarPlacement.Role] = []
         
+        @MainActor
         init<Content: View>(hostingController: UIHostingController<Content>) {
             // hostingController -> x21
             self.targetController = hostingController

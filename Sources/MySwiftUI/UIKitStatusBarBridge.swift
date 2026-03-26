@@ -1,6 +1,7 @@
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
+@MainActor
 final class UIKitStatusBarBridge {
     private var statusBarHidden: Bool? = nil
     private var _shouldDeferToChildViewController: Bool? = nil

@@ -1,6 +1,7 @@
 @_spi(Internal) private import MySwiftUICore
 internal import UIKit
 
+@MainActor
 final class PointerBridge: NSObject {
     weak var host: ViewRendererHost? = nil
     private var interaction: UIPointerInteraction? = nil

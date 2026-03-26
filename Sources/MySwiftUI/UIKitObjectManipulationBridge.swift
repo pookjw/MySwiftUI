@@ -2,6 +2,7 @@
 internal import MRUIKit
 internal import AttributeGraph
 
+@MainActor
 final class UIKitObjectManipulationBridge<Content: View>: AnyObjectManipulationBridge {
     weak var host: _UIHostingView<Content>? = nil
     var mapping: [_MRUIObjectTransformInteraction.Target.ID: UIKitObjectManipulationBridge<Content>.Context] = [:]

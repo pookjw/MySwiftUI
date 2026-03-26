@@ -157,9 +157,7 @@ package protocol PreferenceKey {
 extension PreferenceKey {
     package static func _delay<Content : View>(_: (_PreferenceValue<Value>) -> Content) -> some View {
         assertUnimplemented()
-        return MainActor.assumeIsolated { 
-            return EmptyView()
-        }
+        return EmptyView()
     }
     
     package static var _isReadableByHost: Bool {

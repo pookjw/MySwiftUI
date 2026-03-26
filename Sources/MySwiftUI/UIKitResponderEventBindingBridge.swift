@@ -1,5 +1,6 @@
 internal import MySwiftUICore
 
+@MainActor
 final class UIKitResponderEventBindingBridge {
     private var gestureRecognizer: UIKitResponderGestureRecognizer
     private var actions: [() -> Void]

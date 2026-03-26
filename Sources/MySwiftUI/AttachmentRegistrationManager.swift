@@ -84,12 +84,12 @@ extension AttachmentRegistrationManager {
 
 struct Registration {
     fileprivate let componentType: any RealityKit.Component.Type
-    fileprivate let getGuts: (RealityKit.Entity) -> AttachmentComponentGuts?
-    fileprivate let setGuts: (RealityKit.Entity, AttachmentComponentGuts) -> Void
+    fileprivate let getGuts: @MainActor (RealityKit.Entity) -> AttachmentComponentGuts?
+    fileprivate let setGuts: @MainActor (RealityKit.Entity, AttachmentComponentGuts) -> Void
     
     init<T: RealityKit.Component>(
-        setGuts: @escaping (inout T, AttachmentComponentGuts) -> Void,
-        getGuts: @escaping (T) -> AttachmentComponentGuts?
+        setGuts: @MainActor @escaping (inout T, AttachmentComponentGuts) -> Void,
+        getGuts: @MainActor @escaping (T) -> AttachmentComponentGuts?
     ) {
         self.componentType = T.self
         

@@ -9,7 +9,8 @@ final class UIKitBarButtonItem: UIBarButtonItem {
 }
 
 extension UINavigationItem {
-    nonisolated func adoptNavigationItem(_ other: UINavigationItem, updates: Toolbar.Updates, forceUpdate: Bool, isFromSwiftUI: Bool) {
+    @MainActor
+    func adoptNavigationItem(_ other: UINavigationItem, updates: Toolbar.Updates, forceUpdate: Bool, isFromSwiftUI: Bool) {
         // inlined from ToolbarBridge.adoptUpdates(_:hostingController:context:)
         /*
          self -> x21
@@ -73,7 +74,8 @@ extension UINavigationItem {
         // <+1092>
     }
     
-    fileprivate nonisolated func adoptSystemUpdates(_ other: UINavigationItem, updates: Toolbar.Updates, forceUpdate: Bool, isFromSwiftUI: Bool) {
+    @MainActor
+    fileprivate func adoptSystemUpdates(_ other: UINavigationItem, updates: Toolbar.Updates, forceUpdate: Bool, isFromSwiftUI: Bool) {
         /*
          self -> x20
          other -> x0 -> x19
@@ -139,7 +141,8 @@ extension UINavigationItem {
         self.customizationIdentifier = other.customizationIdentifier
     }
     
-    fileprivate nonisolated func updateSearchControllerIfNeeded(_ other: UINavigationItem) {
+    @MainActor
+    fileprivate func updateSearchControllerIfNeeded(_ other: UINavigationItem) {
         /*
          other -> x0 -> x19
          self -> x20

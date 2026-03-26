@@ -46,7 +46,7 @@ extension EnvironmentalModifier {
     }
 }
 
-struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, CustomStringConvertible, StatefulRule {
+struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, CustomStringConvertible, @preconcurrency StatefulRule {
     @Attribute private var view: Content
     @Attribute private var env: EnvironmentValues
     private let tracker: PropertyList.Tracker
@@ -63,7 +63,7 @@ struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, Custo
     
     typealias Value = Content.EnvironmentBody
     
-    func updateValue() {
+    @MainActor func updateValue() {
         // x29 = sp + 0x1b0
         // sp + 0x98
         let tracker = self.tracker
@@ -94,7 +94,6 @@ struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, Custo
         tracker.reset()
         tracker.initializeValues(from: env.plist)
         
-        // 원래는 view만 UncheckedSendable
         let body = Signpost.bodyInvoke.traceInterval(
             object: nil,
             "%{public}@.body [in %{public}@]",
@@ -102,15 +101,10 @@ struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, Custo
                 TypeID(Content.self).description,
                 Tracing.libraryName(defining: Content.self)
             ]
-        ) { [unchecked = UncheckedSendable((view, env))] in
+        ) {
             // $s7SwiftUI22EnvironmentalViewChildV11updateValueyyF15EnvironmentBodyQzyXEfU_ 
-            return MainActor.assumeIsolated {
-                let view = unchecked.value.0
-                let env = unchecked.value.1
-                let body = view.body(environment: env)
-                return UncheckedSendable(body)
-            }
-        }.value
+            return view.body(environment: env)
+        }
         
         self.value = body
     }

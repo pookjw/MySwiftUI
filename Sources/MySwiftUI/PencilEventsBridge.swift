@@ -2,6 +2,7 @@
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
+@MainActor
 final class PencilEventsBridge: NSObject, UIPencilInteractionDelegate {
     weak var host: ViewRendererHost? = nil
     private var wantsPencilEventsSeed: VersionSeed = .empty
