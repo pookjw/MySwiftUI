@@ -237,7 +237,7 @@
 			mainGroup = 4F4808332E4CAFAF004F6972;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				4FC5B5992F447524007D14DB /* XCLocalSwiftPackageReference "../../MySwiftUI" */,
+				4FC5B5992F447524007D14DB /* XCLocalSwiftPackageReference "../" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4F48083D2E4CAFAF004F6972 /* Products */;
@@ -697,9 +697,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		4FC5B5992F447524007D14DB /* XCLocalSwiftPackageReference "../../MySwiftUI" */ = {
+		4FC5B5992F447524007D14DB /* XCLocalSwiftPackageReference "../" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../MySwiftUI;
+			relativePath = ../;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -710,7 +710,7 @@
 		};
 		4FF929C12F73F525005C7882 /* Sample */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4FC5B5992F447524007D14DB /* XCLocalSwiftPackageReference "../../MySwiftUI" */;
+			package = 4FC5B5992F447524007D14DB /* XCLocalSwiftPackageReference "../" */;
 			productName = Sample;
 		};
 /* End XCSwiftPackageProductDependency section */
