@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import <RealitySimulationServices/Defines.h>
 #import <_UIKitPrivate/UITraitChangeObservableInternal.h>
+#import <_UIKitPrivate/UIWindowSceneCoordinateSpace.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -15,6 +16,7 @@ UIKIT_EXTERN const NSNotificationName _UISceneDidResignKeyNotification NS_SWIFT_
 @property (nonatomic, readonly) UIUserInterfaceStyle _systemUserInterfaceStyle;
 @property (nonatomic, readonly) BOOL isSnappedToSurface;
 @property (nonatomic, readonly) RCPSurfaceSnappingClassification snappingSurfaceClassification;
+@property (readonly, nonatomic, nullable) id<UIRealityCoordinateSpace> _realityCoordinateSpace;
 - (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withHandler:(UITraitChangeHandler)handler;
 - (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withTarget:(id)target action:(SEL)action;
 @end

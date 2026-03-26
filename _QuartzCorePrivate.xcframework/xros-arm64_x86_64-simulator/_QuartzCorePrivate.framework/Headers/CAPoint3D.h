@@ -4,6 +4,7 @@
 #include <CoreGraphics/CGBase.h>
 #include <CoreFoundation/CFBase.h>
 #include <CoreFoundation/CFAvailability.h>
+#import <Foundation/Foundation.h>
 
 CF_IMPLICIT_BRIDGING_ENABLED
 
@@ -16,7 +17,7 @@ struct CAPoint3D {
 };
 typedef struct CG_BOXABLE CAPoint3D CAPoint3D;
 
-CG_EXTERN const CAPoint3D CAPoint3DZero;
+CG_EXTERN const CAPoint3D CAPoint3DZero NS_SWIFT_NAME(CAPoint3D.zero);
 
 CF_ASSUME_NONNULL_END
 

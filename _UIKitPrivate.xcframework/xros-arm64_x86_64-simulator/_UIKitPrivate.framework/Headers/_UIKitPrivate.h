@@ -59,3 +59,4 @@
 #import <_UIKitPrivate/UISceneConfiguration+Private.h>
 #import <_UIKitPrivate/UISceneSession+Private.h>
 #import <_UIKitPrivate/UIWindowSceneGeometryPreferencesVision+Private.h>
+#import <_UIKitPrivate/UIWindowSceneCoordinateSpace.h>
