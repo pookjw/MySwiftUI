@@ -139,6 +139,7 @@ func printOffsets() {
     printFields("7SwiftUI14_UIHostingViewCyAA15ModifiedContentVyAA03AnyD0VAA12RootModifierVGG", isClassType: true)
     printFields("7SwiftUI13FocusedValuesV", isClassType: false)
     printFields("7SwiftUI12ForEachStateCySnySiGSiAA7AnyViewVG", isClassType: true)
+    printFields("7SwiftUI24AnimatableDepthAttributeV", isClassType: false)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)

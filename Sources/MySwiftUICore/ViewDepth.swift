@@ -26,7 +26,7 @@ package struct ViewDepth: Equatable, Animatable {
     }
     
     var value: CGFloat
-    private var _proposal: CGFloat
+    var _proposal: CGFloat
     
     init(_ value: CGFloat, proposal: CGFloat?) {
         self.value = value

@@ -58,7 +58,16 @@ package struct ContentSizedSceneFeature<GeometryMeasurer: ViewGraphGeometryMeasu
     }
     
     package func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-        assertUnimplemented()
+        $sizesForProposals.mutateBody(as: SizeThatFitsRule<GeometryMeasurer>.self, invalidating: true) { rule in
+            // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_TA.1
+            let layoutDirection = inputs.base.cachedEnvironment.value.attribute(id: .layoutDirection) { environment in
+                return environment.layoutDirection
+            }
+            
+            rule.$layoutDirection = layoutDirection
+            rule._layoutComputer = WeakAttribute(outputs.layoutComputer)
+            rule._transaction = WeakAttribute(inputs.transaction)
+        }
     }
     
     package func uninstantiate(graph: ViewGraph) {
@@ -108,13 +117,13 @@ fileprivate final class SizingPreferencesChangeDispatcher {
 }
 
 struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer>: StatefulRule, AsyncAttribute {
-    private var _layoutComputer: WeakAttribute<LayoutComputer>
-    private var _safeAreaInsets: WeakAttribute<_SafeAreaInsetsModifier>
-    @WeakAttribute private var layoutDirection: LayoutDirection?
-    private var _transaction: WeakAttribute<Transaction>
-    private weak var dispatcher: SizingPreferencesChangeDispatcher?
-    private var sizeRestrictionsCallback: (_ proposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences
-    var proposals: Set<GeometryMeasurer.Proposal>
+    fileprivate var _layoutComputer: WeakAttribute<LayoutComputer> // 0x0
+    private var _safeAreaInsets: WeakAttribute<_SafeAreaInsetsModifier> // 0x8
+    @WeakAttribute fileprivate var layoutDirection: LayoutDirection? // 0x10
+    fileprivate var _transaction: WeakAttribute<Transaction> // 0x18
+    private weak var dispatcher: SizingPreferencesChangeDispatcher? // 0x20
+    private var sizeRestrictionsCallback: (_ proposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences // 0x28
+    var proposals: Set<GeometryMeasurer.Proposal> // 0x38
     
     var layoutComputer: LayoutComputer? {
         return _layoutComputer.wrappedValue
@@ -151,7 +160,50 @@ struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer>: StatefulRu
     @_specialize(exported: true, where GeometryMeasurer == SizeThatFitsMeasurer)
     @_specialize(exported: true, where GeometryMeasurer == VolumeThatFitsMeasurer)
     func updateValue() {
-        assertUnimplemented()
+        // self -> x20 -> x26
+        // proposals -> x21
+        
+        if proposals.isEmpty {
+            // <+176>
+            if hasValue, self.value.isEmpty {
+                // <+768>
+            } else {
+                // <+288>
+                self.value = Dictionary()
+                // <+716>
+                // <+768>
+            }
+            // <+768>
+            return
+        } else {
+            // <+436>
+            if
+                let _ = layoutComputer, // x29 - 0xf8
+                let _ = layoutDirection, // w25
+                let _ = safeAreaInsets // x29 - 0xf8 -> x19 + 0x38
+            {
+                // <+848>
+                // x29 - 0xf8
+                let _ = Graph.withoutUpdate {
+                    // $s7SwiftUI16SizeThatFitsRuleV11updateValueyyFAA11TransactionVSgyXEfU_
+                    return self.transaction
+                }
+                
+                // <+1056>
+                assertUnimplemented()
+            } else {
+                // <+508>
+                if !hasValue {
+                    self.value = Dictionary()
+                    // <+768>
+                } else {
+                    // <+768>
+                }
+                
+                // <+768>
+                return
+            }
+        }
     }
 }
 

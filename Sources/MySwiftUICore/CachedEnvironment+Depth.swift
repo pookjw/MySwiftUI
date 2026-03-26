@@ -83,16 +83,59 @@ extension CachedEnvironment {
 }
 
 struct AnimatableDepthAttribute: ObservedAttribute, StatefulRule, AsyncAttribute {
-    @Attribute fileprivate private(set) var transform: ViewTransform
-    @Attribute fileprivate private(set) var pixelLength: CGFloat
-    @Attribute fileprivate private(set) var environment: EnvironmentValues
-    fileprivate private(set) var helper: AnimatableAttributeHelper<ViewDepth>
-    fileprivate private(set) var cachedDepth: ViewDepth
-    fileprivate let animationsDisabled: Bool
+    @Attribute fileprivate private(set) var transform: ViewTransform // 0x0
+    @Attribute fileprivate private(set) var pixelLength: CGFloat // 0x4
+    @Attribute fileprivate private(set) var environment: EnvironmentValues // 0x8
+    fileprivate private(set) var helper: AnimatableAttributeHelper<ViewDepth> // 0x10
+    fileprivate private(set) var cachedDepth: ViewDepth // 0x40
+    fileprivate let animationsDisabled: Bool // 0x50
     
     typealias Value = ViewDepth
     
-    func updateValue() {
+    mutating func updateValue() {
+        // (head = x19, spaces = x21, depth = d8, d10), (w23)
+        let (transform, tChanged) = self.$transform.changedValue(options: [])
+        // (d9, w22)
+        let (pixelLength, pChanged) = self.$pixelLength.changedValue(options: [])
+        
+        var sp0x10: CGFloat!
+        var sp0x18: CGFloat!
+        let sp0x20: Bool
+        if tChanged {
+            // <+140>
+            sp0x10 = transform.depth.value
+            sp0x18 = transform.depth._proposal
+            
+            if transform.depth == self.cachedDepth {
+                self.cachedDepth = transform.depth
+                // <+168>
+                sp0x20 = pChanged
+                // <+184>
+            } else {
+                self.cachedDepth = transform.depth
+                // <+176>
+                sp0x20 = true
+                // <+184>
+            }
+        } else {
+            // <+132>
+            sp0x18 = transform.depth._proposal
+            // <+168>
+            sp0x20 = pChanged
+            // <+184>
+        }
+        
+        // <+184>
+        var d0: CGFloat = 1
+        if pixelLength == d0 {
+            d0 = round(transform.depth.value)
+        } else {
+            d0 = transform.depth.value / pixelLength
+            d0 = round(d0)
+            d0 = pixelLength * d0
+        }
+        
+        // <+216>
         assertUnimplemented()
     }
     
