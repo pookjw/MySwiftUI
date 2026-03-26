@@ -2,6 +2,7 @@
 #define Defines_h
 
 #import <Foundation/Foundation.h>
+#import <Spatial/Spatial.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -10,6 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 #else
 #define RE_EXTERN           extern
 #endif
+
+typedef struct {
+    SPSize3DFloat s;
+    SPRotation3DFloat r;
+    SPPoint3DFloat t;
+} RESRT NS_SWIFT_NAME(SRT);
 
 struct REEntity {};
 typedef const struct REEntity * REEntityRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Entity);

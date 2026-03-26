@@ -1,10 +1,10 @@
 #import <_UIKitPrivate/UIApplicationSceneSettings.h>
-#import <Spatial/Spatial.h>
+#import <CoreRE/CoreRE.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MRUISharedApplicationSceneSettings : UIApplicationSceneSettings
-@property (readonly, nonatomic) SPAffineTransform3D relativeTransform;
+@property (readonly, nonatomic) RESRT relativeTransform;
 @property (readonly, nonatomic) CGFloat pointsPerMeter;
 @end
 

@@ -152,7 +152,7 @@ extension ViewTransform {
                 d1 = size_1.height
                 d2 = size_1.depth
                 // x19 + 0x600
-                let transform = AffineTransform3D(scale: size_1)
+                let transform_1 = AffineTransform3D(scale: size_1)
                 // x29 - 0xd0
                 let relativeTransform = settings.relativeTransform
                 // x19 + 0x380
@@ -174,6 +174,8 @@ extension ViewTransform {
                 d11 = d0
                 
                 // <+1532>
+                // x19 + 0x580
+                let transform_2 = AffineTransform3D(relativeTransform)
                 assertUnimplemented()
             }
             
