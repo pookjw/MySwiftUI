@@ -83,7 +83,7 @@ extension CoordinateSpace {
 }
 
 extension CoordinateSpace.ID {
-    static let immersiveSpace = CoordinateSpace.ID()
+    package static let immersiveSpace = CoordinateSpace.ID()
     package static let worldReference = CoordinateSpace.ID()
     static let viewGraphHost = CoordinateSpace.ID()
     package static let viewGraphHostContainerCoordinateSpace = CoordinateSpace.ID()

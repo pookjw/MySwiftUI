@@ -181,10 +181,6 @@ fileprivate struct AffineTransformElement: ViewTransformElement {
     }
 }
 
-fileprivate struct AffineTransform3DElement: ViewTransformElement {
-    // TODO
-}
-
 fileprivate struct SizedSpaceElement: ViewTransformElement {
     var space: CoordinateSpaceTag
     var size: CGSize
@@ -370,7 +366,7 @@ extension ViewTransform {
              isClipped -> x19
              */
             let item = ViewTransform.ScrollGeometryItem(base: geometry, isClipped: isClipped)
-            contents.append(item, vtable: ViewTransform.UnsafeBuffer._VTable<ViewTransform.ScrollGeometryItem>.self)
+            append(item)
         }
         
         package mutating func appendCoordinateSpace(id: CoordinateSpace.ID, transform: inout ViewTransform) {
@@ -382,7 +378,7 @@ extension ViewTransform {
             
             // <+264>
             let element = CoordinateSpaceElement(space: tag)
-            contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<CoordinateSpaceElement>.self)
+            append(element)
         }
         
         package mutating func appendAffineTransform(_ transform: CGAffineTransform, inverse: Bool) {
@@ -396,19 +392,22 @@ extension ViewTransform {
             if (transform.a != 1) || (transform.b != 0) || (transform.c != 0) || (transform.d != 1) {
                 // <+84>
                 let element = AffineTransformElement(matrix: transform, inverse: inverse)
-                contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<AffineTransformElement>.self)
+                append(element)
             } else {
                 // <+228>
                 if (transform.tx != 0) || (transform.ty != 0) {
                     // <+244>
                     let element = TranslationElement(offset: CGSize(width: transform.tx, height: transform.ty))
-                    contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<TranslationElement>.self)
+                    append(element)
                 } else {
                     // <+388>
                     return
                 }
             }
-            
+        }
+        
+        mutating func append<T: ViewTransformElement>(_ element: T) {
+            contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<T>.self)
         }
     }
 }

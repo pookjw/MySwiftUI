@@ -2,7 +2,7 @@
 #define Defines_h
 
 #import <Foundation/Foundation.h>
-#import <Spatial/Spatial.h>
+#include <simd/simd.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 #endif
 
 typedef struct {
-    SPSize3DFloat s;
-    SPRotation3DFloat r;
-    SPPoint3DFloat t;
+    simd_float3 s;
+    simd_quatf r;
+    simd_float3 t;
 } RESRT NS_SWIFT_NAME(SRT);
 
 struct REEntity {};

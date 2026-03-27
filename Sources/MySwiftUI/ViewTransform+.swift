@@ -19,6 +19,8 @@ extension ViewTransform {
             // x28
             let immersiveSpaceWindowScene = appDelegate.immersiveSpaceAuthority.immersiveSpaceScene as? UIWindowScene
             
+            let x190x600: AffineTransform3D
+            let x190x680: AffineTransform3D
             if
                 let immersiveSpaceWindowScene,
                 windowScene === immersiveSpaceWindowScene
@@ -35,10 +37,10 @@ extension ViewTransform {
                 
                 let d8 = immersiveSpaceWindowScene.traitCollection._pointsPerMeter()
                 
-                var d0: CGFloat
-                var d1: CGFloat
-                var d2: CGFloat
-                let size1 = Size3D(width: d8, height: d8, depth: d8)
+                var d0 = d8
+                var d1 = -d8
+                var d2 = d8
+                let size1 = Size3D(width: d0, height: d1, depth: d2)
                 d0 = size1.width
                 d1 = size1.height
                 d2 = size1.depth
@@ -54,17 +56,15 @@ extension ViewTransform {
                 // x19 + 0x380
                 let size2 = __SPSize3DMake(d0, d1, d2)
                 // x19 + 0x100
-                let translation = AffineTransform3D(translation: unsafeBitCast(size2, to: Vector3D.self))
+                let translation = AffineTransform3D(translation: Vector3D(vector: size2.vector))
                 // sp + 0x180
                 let inverted = transform.inverse!
                 
                 // <+596>
                 // sp + 0x380
                 let copy_1 = inverted
-                // x19 + 0x680
-                let concat = translation.concatenating(copy_1)
-                // x19 + 0x600
-                let copy_2 = transform
+                x190x680 = copy_1.concatenating(translation)
+                x190x600 = transform
                 // <+1892>
             } else {
                 // <+848>
@@ -143,7 +143,7 @@ extension ViewTransform {
                 }
                 
                 // <+1196>
-                var d1 = d11
+                var d1 = -d11
                 var d0 = d11
                 var d2 = d11
                 // x19 + 0x380
@@ -153,6 +153,7 @@ extension ViewTransform {
                 d2 = size_1.depth
                 // x19 + 0x600
                 let transform_1 = AffineTransform3D(scale: size_1)
+                x190x600 = transform_1
                 // x29 - 0xd0
                 let relativeTransform = settings.relativeTransform
                 // x19 + 0x380
@@ -176,14 +177,137 @@ extension ViewTransform {
                 // <+1532>
                 // x19 + 0x580
                 let transform_2 = AffineTransform3D(relativeTransform)
-                assertUnimplemented()
+                
+                do {
+                    let point = UnitPoint3D.topLeadingBack
+                    d0 = point.x
+                    d1 = point.y
+                    d2 = point.z
+                    d10 = d0
+                    d9 = d1
+                    d8 = d2
+                }
+                
+                // x20
+                var transform_3: AffineTransform3D!
+                if w27 {
+                    // <+1560>
+                    let point = UnitPoint3D.bottom
+                    d0 = point.x
+                    d1 = point.y
+                    d2 = point.z
+                    // <+1584>
+                } else {
+                    // <+1572>
+                    transform_3 = .identity
+                    let point = UnitPoint3D.back
+                    d0 = point.x
+                    d1 = point.y
+                    d2 = point.z
+                    // <+1584>
+                }
+                
+                // <+1584>
+                let d12 = d0
+                let d13 = d1
+                let d14 = d2
+                
+                do {
+                    let axis = RotationAxis3D.x
+                    d0 = axis.x
+                    d1 = axis.y
+                    d2 = axis.z
+                }
+                
+                // x19 + 0x280
+                let axis = RotationAxis3D(x: d0, y: d1, z: d2)
+                // <+1620>
+                d0 = .pi * 0.5
+                // x19 + 0x200
+                let rotation = Rotation3D(angle: Angle2D(radians: d0), axis: axis)
+                let transform_4 = AffineTransform3D(rotation: rotation)
+                if w27 {
+                    transform_3 = transform_4
+                }
+                
+                // <+1660>
+                d0 = 1.0
+                d0 = d0 / d11
+                d1 = -1.0
+                d1 = d1 / d11
+                d2 = d0
+                // x19 + 0x280
+                let size_5 = Size3D(width: d0, height: d1, depth: d2)
+                // x19 + 0x400
+                let transform_5 = AffineTransform3D(scale: size_5)
+                
+                d0 = d10 - d12
+                d0 = d15 * d0
+                d1 = d9 - d13
+                d2 = x190x8
+                let d3 = x190x10
+                d1 = d2 * d1
+                d2 = d8 - d14
+                d2 = d3 * d2
+                // x19 + 0x280
+                let size_6 = Size3D(width: d0, height: d1, depth: d2)
+                // x19 + 0x480
+                let transform_6 = AffineTransform3D(translation: Vector3D(vector: size_6.vector))
+                
+                // <+1756>
+                // x19 + 0x280
+                let vector = Vector3D(vector: size_4.vector)
+                // x19 + 0x500
+                let transform_7 = AffineTransform3D(translation: vector)
+                // x19 + 0x300
+                let transform_8 = transform_3!
+                // x19 + 0x280
+                let transform_9 = transform_2.concatenating(transform_8)
+                // x19 + 0x200
+                let transform_10 = transform_9.concatenating(transform_5)
+                // x19 + 0x280
+                let transform_11 = transform_10.concatenating(transform_6)
+                // x19 + 0x680
+                x190x680 = transform_11.concatenating(transform_7)
+                // <+1892>
             }
             
             // <+1892>
-            assertUnimplemented()
+            // x24
+            var buffer = ViewTransform.UnsafeBuffer()
+            
+            do {
+                let linkedAfterV7 = isLinkedOnOrAfter(.v7)
+                if (immersiveSpaceWindowScene != nil) || linkedAfterV7 {
+                    // <+1916>
+                    buffer.appendAffineTransform3D(x190x680, inverse: false)
+                    
+                    if immersiveSpaceWindowScene != nil {
+                        buffer.appendAffineTransform3D(x190x600, inverse: false)
+                        buffer.appendCoordinateSpace(id: .immersiveSpace, transform: &self)
+                        buffer.appendAffineTransform3D(x190x600, inverse: true)
+                    }
+                }
+            }
+            
+            // <+2004>
+            do {
+                let linkedAfterV7 = isLinkedOnOrAfter(.v7)
+                if (immersiveSpaceWindowScene != nil) || linkedAfterV7 {
+                    // <+2020>
+                    buffer.appendCoordinateSpace(id: .worldReference, transform: &self)
+                    buffer.appendAffineTransform3D(x190x680, inverse: true)
+                }
+            }
+            
+            // <+2076>
+            self.append(movingContentsOf: &buffer)
+            // <+776>
+        } else {
+            // <+748>
+            self.appendCoordinateSpace(id: .worldReference)
         }
         
-        // <+748>
-        self.appendCoordinateSpace(id: .worldReference)
+        // <+776>
     }
 }

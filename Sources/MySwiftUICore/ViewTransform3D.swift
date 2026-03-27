@@ -15,11 +15,49 @@ extension ViewTransform {
     }
 }
 
+extension ViewTransform.UnsafeBuffer {
+    package mutating func appendAffineTransform3D(_ transform: AffineTransform3D, inverse: Bool) {
+        /*
+         self -> x20
+         transform -> x0 -> x21
+         inverse -> w1 -> w19
+         */
+        if transform.isTranslation {
+            // <+36>
+            // sp + 0x20
+            let translation = transform.translation
+            // sp
+            let size = Size3D(vector: translation.vector)
+            
+            if inverse {
+                let d0 = size.depth
+                let d1 = size.width
+                // <+80
+            }
+            
+            assertUnimplemented()
+        } else {
+            // <+160>
+            let element = AffineTransform3DElement(matrix: transform, inverse: inverse)
+            append(element)
+        }
+    }
+}
+
 fileprivate struct SizedSpace3DElement: ViewTransformElement {
-    var space: CoordinateSpaceTag
-    var size3D: Size3D
+    private(set) var space: CoordinateSpaceTag
+    private(set) var size3D: Size3D
 }
 
 fileprivate struct DepthTranslationElement: ViewTransformElement {
-    var depth: CGFloat
+    private(set) var depth: CGFloat
+}
+
+fileprivate struct Translation3DElement: ViewTransformElement {
+    private(set) var offset: Size3D
+}
+
+fileprivate struct AffineTransform3DElement: ViewTransformElement {
+    private(set) var matrix: AffineTransform3D
+    private(set) var inverse: Bool
 }
