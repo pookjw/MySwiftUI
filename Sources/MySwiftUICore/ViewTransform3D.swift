@@ -30,12 +30,14 @@ extension ViewTransform.UnsafeBuffer {
             let size = Size3D(vector: translation.vector)
             
             if inverse {
-                let d0 = size.depth
-                let d1 = size.width
-                // <+80
+                // sp
+                let point = Point3D(x: size.width, y: -size.height, z: -size.depth)
+                let element = Translation3DElement(offset: Size3D(point))
+                append(element)
+            } else {
+                let element = Translation3DElement(offset: size)
+                append(element)
             }
-            
-            assertUnimplemented()
         } else {
             // <+160>
             let element = AffineTransform3DElement(matrix: transform, inverse: inverse)

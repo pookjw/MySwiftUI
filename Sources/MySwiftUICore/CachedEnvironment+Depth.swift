@@ -98,9 +98,9 @@ struct AnimatableDepthAttribute: ObservedAttribute, StatefulRule, AsyncAttribute
         // (d9, w22)
         let (pixelLength, pChanged) = self.$pixelLength.changedValue(options: [])
         
-        var sp0x10: CGFloat!
-        var sp0x18: CGFloat!
-        let sp0x20: Bool
+        var sp0x10: CGFloat
+        var sp0x18: CGFloat
+        var sp0x20: Bool
         if tChanged {
             // <+140>
             sp0x10 = transform.depth.value
@@ -136,7 +136,29 @@ struct AnimatableDepthAttribute: ObservedAttribute, StatefulRule, AsyncAttribute
         }
         
         // <+216>
-        assertUnimplemented()
+        sp0x10 = d0
+        
+        if !animationsDisabled {
+            // sp + 0x10
+            var value = (
+                value: ViewDepth(sp0x10, proposal: sp0x18),
+                changed: sp0x20
+            )
+            
+            helper.update(value: &value, defaultAnimation: nil, environment: $environment)
+            
+            sp0x10 = value.value.value
+            sp0x18 = value.value._proposal
+            sp0x20 = value.changed
+        }
+        
+        // <+248>
+        if !sp0x20 && hasValue {
+            // <+256>
+        } else {
+            // <+340>
+            self.value = ViewDepth(sp0x10, proposal: sp0x18)
+        }
     }
     
     mutating func destroy() {

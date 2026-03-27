@@ -114,6 +114,11 @@ extension UIViewController {
             return true
         }
         
+        // <+40>
+        guard self.navigationItem.leftBarButtonItems != nil else {
+            return false
+        }
+        
         assertUnimplemented()
     }
     
@@ -130,27 +135,41 @@ extension UIViewController {
         // sp + 0x40
         let copy_1 = overrides.pushTarget
         // x19
-        let _ = overrides.split ?? self.splitViewController
+        let splitViewController = overrides.split ?? self.splitViewController
         // <+112>
         // sp
         let copy_2 = copy_1
         
-        if copy_2 != nil {
-            // <+316>
-            assertUnimplemented()
+        if let copy_2 {
+            // <+292>
+            // sp + 0x20
+            let copy_3 = copy_2
+            let w22 = copy_3.column == nil
+            let w21 = copy_3.shouldReplaceRoot
+            _ = consume copy_3
+            
+            if w22 && !w21 {
+                return true
+            }
+            
+            // <+344>
         } else {
-            // <+152>
+            // <+144>
             if let navigationController {
                 guard navigationController.viewControllers.isEmpty else {
                     return true
                 }
-                // <+368>
+                
+                // <+344>
             }
-            
-            // <+368>
         }
         
-        // <+368>
+        // <+344>
+        guard splitViewController != nil else {
+            return false
+        }
+        
+        // <+400>
         assertUnimplemented()
     }
 }

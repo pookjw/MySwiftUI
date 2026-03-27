@@ -75,7 +75,7 @@ package struct ContentSizedSceneFeature<GeometryMeasurer: ViewGraphGeometryMeasu
     }
     
     package func needsUpdate(graph: ViewGraph) -> Bool {
-        assertUnimplemented()
+        return !self.dispatcher.pendingChanges.isEmpty
     }
     
     package func update(graph: ViewGraph) {
@@ -100,7 +100,7 @@ extension ContentSizedSceneFeature where GeometryMeasurer == VolumeThatFitsMeasu
 
 fileprivate final class SizingPreferencesChangeDispatcher {
     fileprivate weak var delegate: ContentSizedSceneDelegate?
-    private var pendingChanges: [(SizingPreferences, Transaction?)]
+    private(set) var pendingChanges: [(SizingPreferences, Transaction?)]
     
     init(delegate: ContentSizedSceneDelegate? = nil, pendingChanges: [(SizingPreferences, Transaction?)]) {
         self.delegate = delegate

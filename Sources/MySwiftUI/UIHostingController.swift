@@ -17,11 +17,7 @@ open class UIHostingController<Content: View>: UIViewController {
     final var host: _UIHostingView<Content>
     
     final var overrides = HostingControllerOverrides(
-        pushTarget: PushTarget(
-            navController: nil,
-            shouldReplaceRoot: false,
-            column: nil
-        ),
+        pushTarget: nil,
         navigation: nil,
         split: nil,
         hasBackItem: nil

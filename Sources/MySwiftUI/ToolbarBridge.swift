@@ -7,24 +7,24 @@ internal import _MySwiftUIShims
 
 @MainActor
 final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
-    var platformVended = Toolbar.PlatformVended() // 0xb28
-    var lastToolbarStorage: ToolbarStorage? = nil // 0x2f8
-    private(set) var lastInputToolbarStorage: ToolbarStorage? = nil // 0x300
-    var searchItem: ToolbarStorage.SearchItem? = nil // 0xb30
-    var navigationAdaptor = UINavigationItemAdaptorStorage() // 0xb38
-    var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb40
-    private var lastInputNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xb48
-    var lastBarContext: Toolbar.BarContext? = nil // 0xb50
-    var lastEnvironment = EnvironmentValues() // 0xb58
-    var allowedLocations = Set<Toolbar.BarLocation>(Toolbar.BarLocation.allCases) // 0xb60
-    private var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0xb68
-    var toolbarTracker = VersionSeedTracker<ToolbarKey>(seed: .invalid) // 0x308
-    var searchTracker = VersionSeedTracker<SearchKey>(seed: .invalid) // 0x310
-    var navigationPropertiesTracker = VersionSeedTracker<NavigationPropertiesKey>(seed: .invalid) // 0x318
-    private var navigationTitleTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x320
-    var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x328
-    private var lastNavigationSeed = VersionSeed.invalid // 0x330
-    var storageByLocation: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init() // 0x338
+    var platformVended = Toolbar.PlatformVended() // 0x8
+    var lastToolbarStorage: ToolbarStorage? = nil // 0x5b0
+    private(set) var lastInputToolbarStorage: ToolbarStorage? = nil // 0x5f8
+    var searchItem: ToolbarStorage.SearchItem? = nil // 0x640
+    var navigationAdaptor = UINavigationItemAdaptorStorage() // 0x7e8
+    var lastNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0x7f0
+    private var lastInputNavigationProperties: ToolbarStorage.NavigationProperties? = nil // 0xc48
+    var lastBarContext: Toolbar.BarContext? = nil // 0x10a0
+    var lastEnvironment = EnvironmentValues() // 0x10a8
+    var allowedLocations = Set<Toolbar.BarLocation>(Toolbar.BarLocation.allCases) // 0x10b8
+    private var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0x10c0
+    var toolbarTracker = VersionSeedTracker<ToolbarKey>(seed: .invalid) // 0x10c8
+    var searchTracker = VersionSeedTracker<SearchKey>(seed: .invalid) // 0x10cc
+    var navigationPropertiesTracker = VersionSeedTracker<NavigationPropertiesKey>(seed: .invalid) // 0x10d0
+    private var navigationTitleTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x10d4
+    var adaptorTracker = VersionSeedTracker<UINavigationItemAdaptorKey>(seed: .invalid) // 0x10d8
+    private var lastNavigationSeed = VersionSeed.invalid // 0x10dc
+    var storageByLocation: [Toolbar.BarLocation: Toolbar.LocationStorage] = .init() // 0x10e0
     
     override init() {
         super.init()
@@ -129,6 +129,14 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         
         // $s7SwiftUI19UIHostingControllerC21layoutToolbarIfNeeded33_1D3224F5185670D36FFEB48E24E43C4FLLyyF (<+88>)
         assertUnimplemented()
+    }
+    
+    func hasEntries(in location: Toolbar.BarLocation) -> Bool {
+        guard let storage = self.storageByLocation[location] else {
+            return false
+        }
+        
+        return !storage.entries.isEmpty
     }
     
     fileprivate func adoptUpdates<Content: View>(
@@ -829,6 +837,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
          preferences -> x2 (안 씀)
          */
         return withUpdate { bridge, context in
+            // bridge -> x24
             // <+372>
             let w28: Bool
             if (context.overrides.navigation ?? context.navigationController) != nil {
@@ -840,7 +849,9 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             }
             
             // <+468>
-            if updates.locations.contains(.bottomBar) {
+            // x29 - 0x88
+            let bottomBarLocation = Toolbar.BarLocation.bottomBar
+            if updates.locations.contains(bottomBarLocation) {
                 // <+716>
                 let w8 = (bridge.platformVended.uiToolbar != nil) ? w28 : true
                 if w8 {
@@ -856,6 +867,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                 }
             } else {
                 // <+520>
+                let _ = bridge.hasEntries(in: bottomBarLocation)
                 assertUnimplemented()
             }
             
