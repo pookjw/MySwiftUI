@@ -4,6 +4,7 @@ private import MySwiftUICore
 private import _UIKitPrivate
 private import _MySwiftUIShims
 private import MRUIKit
+private import _SwiftPrivate
 
 extension BarAppearanceBridge {
     @inline(__always)
@@ -55,12 +56,12 @@ extension BarAppearanceBridge {
             // <+1508>
             // targetController -> x25
             // x19 + 0x14
-            let _ = targetController.hasOrWillHaveBackItem(overrides: updateContext.overrides)
+            let hasOrWillHaveBackItem = targetController.hasOrWillHaveBackItem(overrides: updateContext.overrides)
             
             // <+1532>
             // inlined
             // x19 + 0x10
-            let _ = self.containedInExpandedSplitViewColumn(columns: )
+            let isContainedInExpandedSplitViewColumn = self.containedInExpandedSplitViewColumn()
             
             // <+1600>
             // x19 + 0x60
@@ -179,17 +180,58 @@ extension BarAppearanceBridge {
                 // <+2236>
                 if _SemanticFeature<Semantics_v4>.isEnabled {
                     // <+2300>
-                    // w20
+                    let w20: Bool
                     if resolvedTitleString != nil {
-                        let _ = true
+                        w20 = true
                     } else {
-                        let _ = targetController.navigationItem.hasLargeContent
+                        w20 = targetController.navigationItem.hasLargeContent
                     }
                     
                     // <+2364>
-                    // w26
-                    let _ = Solarium.isEnabled(for: _GraphInputs.defaultInterfaceIdiom)
-                    assertUnimplemented()
+                    var w26 = Solarium.isEnabled(for: _GraphInputs.defaultInterfaceIdiom)
+                    w26 = w26 || isContainedInExpandedSplitViewColumn
+                    
+                    var w8 = barBackButtonHidden
+                    let w9 = hasOrWillHaveBackItem
+                    
+                    if !w8 || w9 {
+                        // <+2456>
+                        w8 = w9 && w20
+                        w8 = w8 || w26
+                        
+                        if w8 {
+                            largeTitleDisplayMode = .automatic
+                            // <+2508>
+                        } else {
+                            // <+2488>
+                            if w20 {
+                                // <+2492>
+                                if w9 {
+                                    // <+3908>
+                                    _diagnoseUnexpectedEnumCase(type: (Bool, Bool, Bool, Bool).self)
+                                } else {
+                                    largeTitleDisplayMode = .always
+                                    // <+2508>
+                                }
+                            } else {
+                                // <+3784>
+                                largeTitleDisplayMode = .never
+                                // <+2508>
+                            }
+                        }
+                    } else {
+                        // <+2440>
+                        w8 = w20 || w26
+                        if w8 {
+                            // <+2472>
+                            largeTitleDisplayMode = .automatic
+                            // <+2508>
+                        } else {
+                            // <+3784>
+                            largeTitleDisplayMode = .never
+                            // <+2508>
+                        }
+                    }
                 } else {
                     // <+2496>
                     largeTitleDisplayMode = .always

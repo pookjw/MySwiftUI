@@ -462,7 +462,7 @@ struct UINavigationItemAdaptorKey: HostPreferenceKey {
 
 struct UIKitToolbarStrategy: ToolbarStrategy {
     var updater: ToolbarBridge<UIKitToolbarStrategy>? // 0x0
-    var updateContext: Toolbar.UpdateContext? // 0x14 (offset field)
+    var updateContext: Toolbar.UpdateContext? // 0x8
     
     init() {
     }
@@ -849,6 +849,8 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
             }
             
             // <+468>
+            
+            let flag: Bool // true -> <+568> / false -> <+772>
             // x29 - 0x88
             let bottomBarLocation = Toolbar.BarLocation.bottomBar
             if updates.locations.contains(bottomBarLocation) {
@@ -861,18 +863,48 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
                     // <+620>
                     bridge.platformVended.uiToolbar = nil
                     // <+1196>
+                    updateBottomOrnamentIfNeeded()
+                    return
                 } else {
                     // <+772>
-                    assertUnimplemented()
+                    flag = false
                 }
             } else {
                 // <+520>
-                let _ = bridge.hasEntries(in: bottomBarLocation)
-                assertUnimplemented()
+                let hasEntries = bridge.hasEntries(in: bottomBarLocation)
+                
+                if hasEntries {
+                    // <+564>
+                    if !w28 {
+                        // <+568>
+                        flag = true
+                    } else {
+                        // <+772>
+                        flag = false
+                    }
+                } else {
+                    // <+716>
+                    let w8 = (bridge.platformVended.uiToolbar != nil) ? !w28 : true
+                    if w8 {
+                        flag = true
+                    } else {
+                        flag = false
+                    }
+                }
             }
             
-            // <+1196>
-            updateBottomOrnamentIfNeeded()
+            if flag {
+                // <+568>
+                withUpdate { bridge, context in
+                    bridge.platformVended.uiToolbar = nil
+                }
+                
+                // <+1196>
+                updateBottomOrnamentIfNeeded()
+            } else {
+                // <+772>
+                assertUnimplemented()
+            }
         }
     }
     

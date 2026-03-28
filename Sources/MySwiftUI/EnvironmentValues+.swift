@@ -100,6 +100,8 @@ extension EnvironmentValues {
             self.designIdiom = .tv
         case .carPlay:
             self.designIdiom = .carPlay
+        case .watch:
+            self.designIdiom = .watch
         case .mac:
             self.designIdiom = .mac
         case .vision:

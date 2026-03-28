@@ -38,7 +38,7 @@ extension InterfaceIdiom {
 
 package struct AnyInterfaceIdiom: Hashable, Sendable {
     package static func == (lhs: AnyInterfaceIdiom, rhs: AnyInterfaceIdiom) -> Bool {
-        return lhs.base == rhs.base
+        return lhs.base.isEqual(to: rhs.base)
     }
     
     package static func ~= <T: InterfaceIdiomProtocol>(_ lhs: T, _ rhs: AnyInterfaceIdiom) -> Bool {
@@ -46,7 +46,7 @@ package struct AnyInterfaceIdiom: Hashable, Sendable {
         return other == rhs
     }
     
-    private let base: (any AnyInterfaceIdiomBox.Type)
+    fileprivate let base: (any AnyInterfaceIdiomBox.Type)
     
     package init(idiom: InterfaceIdiom) {
         switch idiom {

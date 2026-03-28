@@ -14,6 +14,8 @@ extension ViewGraphHost.Idiom {
             self.init(.tv)
         case .carPlay:
             self.init(.carPlay)
+        case .watch:
+            self.init(.watch)
         case .mac:
             self.init(.mac)
         case .vision:

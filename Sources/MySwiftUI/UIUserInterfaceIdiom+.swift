@@ -1,5 +1,6 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
+private import _UIKitShims
 
 extension UIUserInterfaceIdiom {
     var viewGraphIdiom: ViewGraphHost.Idiom? {
@@ -21,6 +22,8 @@ extension UIUserInterfaceIdiom {
             return AnyInterfaceIdiom(.tv)
         case .carPlay:
             return AnyInterfaceIdiom(.carPlay)
+        case .watch:
+            return AnyInterfaceIdiom(.watch)
         case .mac:
             return AnyInterfaceIdiom(.mac)
         case .vision:

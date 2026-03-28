@@ -60,3 +60,6 @@
 #import <_UIKitPrivate/UISceneSession+Private.h>
 #import <_UIKitPrivate/UIWindowSceneGeometryPreferencesVision+Private.h>
 #import <_UIKitPrivate/UIWindowSceneCoordinateSpace.h>
+#import <_UIKitPrivate/UISolarium.h>
+#import <_UIKitPrivate/UIKitFeatures.h>
+#import <_UIKitPrivate/UIDevice+Private.h>
