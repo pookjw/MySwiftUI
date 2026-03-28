@@ -310,9 +310,16 @@ private import _MySwiftUIShims
         // <+1964>
         // x26
         let toUpdateBars = self.toUpdateBars
-        let array: [AnyHashable] = []
-        for _ in toUpdateBars {
-            assertUnimplemented()
+        // x19 + 0xd0
+        var array: [AnyHashable] = []
+        
+        for role in toUpdateBars {
+            switch role {
+            case .accessoryBar(let value):
+                array.append(value)
+            default:
+                break
+            }
         }
         
         // <+2436>

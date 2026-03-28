@@ -41,7 +41,53 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x22
+         preferenceValues -> x0 -> x26
+         */
+        // <+312>
+        self.userActivityPreferencesDidChange(preferenceValues)
+        self.activationConditionsPreferencesDidChange(preferenceValues)
+        // x19
+        let storageValue = preferenceValues[ConnectionOptionPayloadStoragePreferenceKey.self]
+        
+        if !self.sceneDefinitionOptionsSeedTracker.seed.matches(storageValue.seed) {
+            // <+476>
+            self.sceneDefinitionOptionsSeedTracker.seed = storageValue.seed
+            self.sceneDefinitionOptions = storageValue.value
+        }
+        
+        // <+592>
+        // x23
+        let titleValue = preferenceValues[NavigationTitleKey.self]
+        if !self.titleSeedTracker.seed.matches(titleValue.seed) {
+            self.titleSeedTracker.seed = titleValue.seed
+            titleValue.value.map { storage in
+                // $s7SwiftUI11SceneBridgeC20preferencesDidChangeyyAA16PreferenceValuesVFyAA22NavigationTitleStorageVSgXEfU0_
+                /*
+                 storage -> x0
+                 self -> x1
+                 */
+                assertUnimplemented()
+            }
+        }
+        
+        // <+808>
+        let protectionValue = preferenceValues[ContentCaptureProtectionPreferenceKey.self]
+        if !self.contentCaptureProtectionSeedTracker.seed.matches(protectionValue.seed) {
+            // <+956>
+            self.contentCaptureProtectionSeedTracker.seed = protectionValue.seed
+            let value = protectionValue.value
+            
+            if
+                let windowScene,
+                let renderingEnvironment = windowScene.renderingEnvironment()
+            {
+                renderingEnvironment.prefersContentProtection = value
+            }
+        }
+        
+        // <+1072>
     }
     
     func updateMinimumSizeObserver(added: Bool, viewGraph: ViewGraph) {
@@ -108,7 +154,15 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
                 viewGraph.sizeThatFitsObservers.stopObserving(proposal: _ProposedSize(ProposedViewSize.infinity))
             }
         }
-    } 
+    }
+    
+    func userActivityPreferencesDidChange(_ preferenceValues: PreferenceValues) {
+        assertUnimplemented()
+    }
+    
+    func activationConditionsPreferencesDidChange(_ preferenceValues: PreferenceValues) {
+        assertUnimplemented()
+    }
     
     static func targetContentIdentifierForExternalEvent(userActivity: NSUserActivity?, url: URL?) -> String? {
         /*
@@ -135,10 +189,9 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
 }
 
 struct ConnectionOptionPayloadStoragePreferenceKey: HostPreferenceKey {
-    // TODO
-    typealias Value = Never?
+    @safe static nonisolated(unsafe) let defaultValue = ConnectionOptionPayloadStorage()
     
-    static func reduce(value: inout Never?, nextValue: () -> Never?) {
+    static func reduce(value: inout ConnectionOptionPayloadStorage, nextValue: () -> ConnectionOptionPayloadStorage) {
         assertUnimplemented()
     }
 }
@@ -146,15 +199,6 @@ struct ConnectionOptionPayloadStoragePreferenceKey: HostPreferenceKey {
 struct ConnectionOptionPayloadStorage {
     private(set) var types: [any UISceneConnectionOptionDefinition.Type] = []
     private var actions: [ObjectIdentifier: [AnyConnectionOptionActionBox]] = .init()
-}
-
-struct ContentCaptureProtectionPreferenceKey: HostPreferenceKey {
-    // TODO
-    typealias Value = Never?
-    
-    static func reduce(value: inout Never?, nextValue: () -> Never?) {
-        assertUnimplemented()
-    }
 }
 
 final class UserActivityTrackingInfo: NSObject {

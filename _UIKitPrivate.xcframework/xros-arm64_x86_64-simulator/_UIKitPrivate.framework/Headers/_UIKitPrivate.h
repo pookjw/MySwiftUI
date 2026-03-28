@@ -63,3 +63,4 @@
 #import <_UIKitPrivate/UISolarium.h>
 #import <_UIKitPrivate/UIKitFeatures.h>
 #import <_UIKitPrivate/UIDevice+Private.h>
+#import <_UIKitPrivate/UISceneRenderingEnvironmentClientComponent.h>
