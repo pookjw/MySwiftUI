@@ -238,12 +238,12 @@ private import _MySwiftUIShims
     
     fileprivate func updateBarsToConfiguration() {
         // self -> x20 -> x21
-        // <+352>
+        // <+392>
         guard !self.toUpdateBars.isEmpty else {
             return
         }
         
-        // <+396>
+        // <+412>
         // x23
         let roles: [ToolbarPlacement.Role] = [
             .navigationBar,
@@ -252,7 +252,7 @@ private import _MySwiftUIShims
             .bottomOrnament
         ]
         
-        // <+532>
+        // <+600>
         // x19 + 0xa0
         let bottomBar = ToolbarPlacement.Role.bottomBar
         
@@ -262,7 +262,7 @@ private import _MySwiftUIShims
                 continue
             }
             
-            // <+744>
+            // <+760>
             // x19 + 0x110
             let navigationBarRole = ToolbarPlacement.Role.navigationBar
             // x19 + 0x170
@@ -270,14 +270,14 @@ private import _MySwiftUIShims
             // x19 + 0x198
             let copy_2 = navigationBarRole
             
-            // <+788>
+            // <+800>
             let set: Set<ToolbarPlacement.Role>
             if copy_1 != copy_2 {
-                // <+996>
+                // <+1012>
                 // x26
                 set = Set<ToolbarPlacement.Role>([role])
             } else {
-                // <+1164>
+                // <+1184>
                 // x26
                 set = Set<ToolbarPlacement.Role>(
                     [
@@ -287,7 +287,7 @@ private import _MySwiftUIShims
                 )
             }
             
-            // <+1268>
+            // <+1308>
             guard !set.isEmpty else {
                 continue
             }
@@ -299,7 +299,7 @@ private import _MySwiftUIShims
                 continue
             }
             
-            // <+1556>
+            // <+1576>
             self.toUpdateBars.subtract(set)
             
             if role == .navigationBar {
@@ -307,7 +307,7 @@ private import _MySwiftUIShims
             }
         }
         
-        // <+1900>
+        // <+1964>
         // x26
         let toUpdateBars = self.toUpdateBars
         let array: [AnyHashable] = []
@@ -315,12 +315,12 @@ private import _MySwiftUIShims
             assertUnimplemented()
         }
         
-        // <+2392>
+        // <+2436>
         guard !array.isEmpty else {
             return
         }
         
-        // <+2420>
+        // <+2440>
         assertUnimplemented()
     }
     
