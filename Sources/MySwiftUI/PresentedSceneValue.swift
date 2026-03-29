@@ -11,9 +11,15 @@ extension View {
 fileprivate struct PresentedSceneValueInputModifier: ViewInputsModifier {
     typealias Body = Never
     
-    private(set) var presentedValue: AnyHashable?
+    @safe private(set) nonisolated(unsafe) var presentedValue: AnyHashable?
     
-    static func _makeViewInputs(modifier: MySwiftUICore._GraphValue<PresentedSceneValueInputModifier>, inputs: inout MySwiftUICore._ViewInputs) {
-        assertUnimplemented()
+    static nonisolated func _makeViewInputs(modifier: _GraphValue<PresentedSceneValueInputModifier>, inputs: inout _ViewInputs) {
+        inputs[PresentedSceneValueInput.self] = modifier.value[keyPath: \.presentedValue]
+    }
+}
+
+fileprivate struct PresentedSceneValueInput: ViewInput {
+    static var defaultValue: AnyHashable? {
+        return nil
     }
 }

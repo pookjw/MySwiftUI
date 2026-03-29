@@ -45,6 +45,7 @@ private import AttributeGraph
         let copy_3 = copy_1
         
         // <+1020>
+        let x290xf8: Bool
         if let copy_2 {
             // <+1156>
             // x28
@@ -52,23 +53,102 @@ private import AttributeGraph
             
             if let copy_3 {
                 // <+1332>
-                assertUnimplemented()
+                // x22
+                let copy_5 = copy_3
+                let w26 = copy_4.version == copy_5.version
+                x290xf8 = !w26
+                // <+1464>
             } else {
                 // <+1216>
-                assertUnimplemented()
+                x290xf8 = true
+                // <+1464>
             }
         } else {
             // <+1048>
             if let copy_3 {
                 // <+1272>
-                assertUnimplemented()
+                x290xf8 = true
+                // <+1464>
             } else {
                 // <+1320>
-                assertUnimplemented()
+                x290xf8 = false
+                // <+1464>
             }
         }
         
-        assertUnimplemented()
+        // <+1464>
+        // x19
+        let focusBridge = view.focusBridge
+        // x21
+        let bridgeFocusStore = focusBridge.focusStore
+        // x23
+        let appFocusStore: FocusStore?
+        if let appGraph = AppGraph.shared {
+            appFocusStore = appGraph.focusStore
+        } else {
+            appFocusStore = nil
+        }
+        
+        // <+1636>
+        // x22
+        let copy_5: FocusStore? = bridgeFocusStore
+        // x27
+        let copy_6 = appFocusStore
+        // x27 + x21
+        let copy_7 = copy_5
+        
+        // <+1740>
+        let flag: Bool // true -> <+2168> / false -> <+2340>
+        if let copy_6 {
+            // <+1872>
+            // x28
+            let copy_8 = copy_6
+            if let copy_7 {
+                // <+2032>
+                // x21
+                let copy_9 = copy_7
+                let w8 = !(copy_8.version == copy_9.version)
+                // <+2152>
+                flag = w8 || x290xf8
+            } else {
+                // <+1924>
+                // <+2168>
+                flag = true
+            }
+        } else {
+            // <+1768>
+            if let copy_7 {
+                // <+1984>
+                // <+2168>
+                flag = true
+            } else {
+                // <+1840>
+                // <+2152>
+                flag = false
+            }
+        }
+        
+        if flag {
+            // <+2168>
+            if let appGraph = AppGraph.shared {
+                let valuesChanged = appGraph.$focusedValues.setValue(viewFocusedValues)
+                let storeChanged = appGraph.$focusStore.setValue(bridgeFocusStore)
+                
+                if valuesChanged || storeChanged {
+                    appGraph.graphDidChange()
+                }
+            }
+            
+            // <+2264>
+            if
+                let appDelegate = AppDelegate.shared,
+                let mainMenuController = appDelegate.mainMenuController
+            {
+                mainMenuController.commandsDidChange()
+            }
+        }
+        
+        // <+2340>
     }
 }
 

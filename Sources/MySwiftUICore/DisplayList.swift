@@ -58,6 +58,10 @@ package struct DisplayList {
             self.properties.formUnion(copy_2.properties)
         }
     }
+    
+    package var isEmpty: Bool {
+        return items.isEmpty
+    }
 }
 
 extension DisplayList {

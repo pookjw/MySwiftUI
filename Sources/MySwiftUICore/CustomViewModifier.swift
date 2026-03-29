@@ -100,7 +100,7 @@ extension ViewModifier {
         let input = BodyInputElement.view(body)
         copy_1.append(input, to: BodyInput<Content>.self)
         
-        let outputs = Body.makeDebuggableView(view: _body, inputs: inputs)
+        let outputs = Body.makeDebuggableView(view: _body, inputs: copy_1)
         
         if let buffer {
             buffer.traceMountedProperties(to: modifier, fields: fields)

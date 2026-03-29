@@ -58,8 +58,19 @@ fileprivate struct RootEnvironmentModifier: PrimitiveViewModifier, _GraphInputsM
     private(set) var sceneID: SceneID?
     private(set) var connectionOptions: UIScene.ConnectionOptions?
     
-    static func _makeInputs(modifier: MySwiftUICore._GraphValue<RootEnvironmentModifier>, inputs: inout MySwiftUICore._GraphInputs) {
-        assertUnimplemented()
+    static func _makeInputs(modifier: _GraphValue<RootEnvironmentModifier>, inputs: inout _GraphInputs) {
+        /*
+         modifier -> x0 -> x20
+         inputs -> x1 -> x19
+         */
+        let child = RootEnvironmentModifier.Child(
+            modifier: modifier.value,
+            env: inputs.environment,
+            oldModifier: nil
+        )
+        
+        let attribute = Attribute(child)
+        inputs.environment = attribute
     }
 }
 
@@ -69,9 +80,25 @@ extension RootEnvironmentModifier {
         @Attribute private(set) var env: EnvironmentValues
         private(set) var oldModifier: RootEnvironmentModifier?
         
-        typealias Value = Never // TODO
+        typealias Value = EnvironmentValues
         
         func updateValue() {
+            // self -> x20 -> x19
+            // <+296>
+            // x19 - 0xa8 / (w23 -> w25 -> x19 - 0x68)
+            let (modifier, modifierChanged) = self.$modifier.changedValue(options: [])
+            // x21 / (w20 -> x21 + x27)
+            let (env, envChanged) = self.$env.changedValue(options: [])
+            
+            // <+412>
+            if envChanged {
+                // <+552>
+                assertUnimplemented()
+            } else {
+                // <+416>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
         }
     }
