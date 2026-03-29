@@ -292,6 +292,7 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
             
             // <+1120>
             if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+                // $s7SwiftUI4vlog33_A9714FE7FB47B9EE521B92A735A59E38LLyySSyXKFSSyXEfu_03$s7A83UI11SceneBridgeC32userActivityPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu1_Tf3pf_n
                 Log.log("Cleared AdvertiseUserActivity tracking info since UserActivity preferences are empty")
             }
             
