@@ -65,3 +65,17 @@ if ((~w25 & 0x5) != 0) {
     goto 0x1d352663c;
 }
 ```
+
+---
+
+```asm
+cmp    x8, #0x0
+ccmp   x20, x8, #0x0, ne
+b.eq   0x1d207fcf8
+```
+
+```swift
+if x8 != 0 && x20 == x8 {
+    goto 0x1d207fcf8
+}
+```

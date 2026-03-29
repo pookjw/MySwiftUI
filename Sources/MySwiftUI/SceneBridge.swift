@@ -1,12 +1,16 @@
+// A9714FE7FB47B9EE521B92A735A59E38
 @_spi(Internal) internal import MySwiftUICore
 internal import Foundation
 private import Combine
 internal import UIKit
 internal import _UIKitPrivate
 private import os.log
+private import BaseBoard
 
 @MainActor
 final class SceneBridge: CustomStringConvertible, ObservableObject {
+    fileprivate static var _devNullSceneBridge: SceneBridge?
+    
     private var sceneBridgePublishers: [ObjectIdentifier: [String: PassthroughSubject<Any, Never>]] = .init() // 0x10
     private(set) var isAnimatingSceneResize: Bool = false // 0x18
     weak var windowScene: UIWindowScene? = nil // 0x20
@@ -169,23 +173,186 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
             // <+432>
             if userActivityPreference.seed.matches(seed) {
                 // <+504>
-                assertUnimplemented()
+                if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+                    // $s7SwiftUI11SceneBridgeC32userActivityPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu_
+                    Log.log("UserActivity Preferences hasn't changed, skipping update for advertised NSUserActivities. Seed is \(userActivityPreference.seed.description)")
+                }
+                
+                // <+2208>
+                return
             } else {
                 // <+656>
-                assertUnimplemented()
+                // <+668>
             }
-            assertUnimplemented()
         } else {
             // <+412>
             // <+668>
-            assertUnimplemented()
         }
         
-        assertUnimplemented()
+        // <+668>
+        if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+            // $s7SwiftUI11SceneBridgeC32userActivityPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu0_
+            Log.log("UserActivityPreferences changed: \(userActivityPreference)")
+        }
+        
+        // <+800>
+        self.userActivityPreferenceSeed = userActivityPreference.seed
+        
+        // <+900>
+        if
+            let value = userActivityPreference.value,
+            !value.handlers.isEmpty
+        {
+            // value -> x29 - 0xa0
+            // <+932>
+            // x24
+            let info: UserActivityTrackingInfo
+            if let _info = self.userActivityTrackingInfo {
+                info = _info
+            } else {
+                info = UserActivityTrackingInfo(self, activityType: value.activityType)
+                self.userActivityTrackingInfo = info
+            }
+            
+            // <+1304>
+            if
+                let userActivity = info.userActivity,
+                userActivity.activityType == value.activityType
+            {
+                // <+1436>
+                if let activity = info.userActivity {
+                    activity.needsSave = true
+                }
+                
+                // <+2052>
+            } else {
+                // <+1464>
+                // x26
+                let userActivity = NSUserActivity(activityType: value.activityType)
+                userActivity.becomeCurrent()
+                let old = info.userActivity
+                info.userActivity = userActivity
+                
+                if userActivity == old {
+                    // <+1652>
+                } else {
+                    // <+1640>
+                    userActivity.delegate = info
+                }
+                
+                // <+1652>
+                if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+                    // $s7SwiftUI11SceneBridgeC32userActivityPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu3_TA
+                    Log.log("Initializing advertised user activity: \(String(describing: info))")
+                }
+                
+                // <+1764>
+                self.userActivityTrackingInfo = info
+                self.publishEvent(event: Optional<UserActivityTrackingInfo>(info), type: UserActivityTrackingInfo?.self, identifier: "")
+                
+                // <+1876>
+                let activity = info.userActivity
+                if let rootViewController {
+                    rootViewController.userActivity = activity
+                    // <+1928>
+                } else {
+                    // <+1908>
+                    self.initialUserActivity = activity
+                    // <+1928>
+                }
+                
+                // <+1928>
+                if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+                    // $s7SwiftUI11SceneBridgeC32userActivityPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu4_TA
+                    Log.log("View Advertising UserActivity, set rootViewController activity to \(String(describing: info))")
+                }
+                
+                // <+2052>
+            }
+            
+            // <+2052>
+            info.handlers = value.handlers
+            
+            if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+                // $s7SwiftUI11SceneBridgeC32userActivityPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu5_TA
+                Log.log("Set up AdvertiseUserActivity tracking info from value in UserActivityPreferenceKey: \(info.description)")
+            }
+            
+            return
+        } else {
+            // <+992>
+            self.userActivityTrackingInfo = nil
+            self.publishEvent(event: Optional<UserActivityTrackingInfo>(nil), type: UserActivityTrackingInfo?.self, identifier: "")
+            
+            if let rootViewController {
+                rootViewController.userActivity = nil
+            } else {
+                self.initialUserActivity = nil
+            }
+            
+            // <+1120>
+            if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+                Log.log("Cleared AdvertiseUserActivity tracking info since UserActivity preferences are empty")
+            }
+            
+            // <+2208>
+            return
+        }
     }
     
     func activationConditionsPreferencesDidChange(_ preferenceValues: PreferenceValues) {
         assertUnimplemented()
+    }
+    
+    @discardableResult
+    fileprivate func publishEvent(event: Any, type: Any.Type, identifier: String) -> Bool {
+        /*
+         self -> x20
+         event -> x0 -> x22
+         type -> x1 -> x23
+         identifier -> x2/x3 -> x21/x19
+         */
+        let flag: Bool // true -> <+236> / false -> <+216>
+        if
+            let devNullSceneBridge = SceneBridge._devNullSceneBridge,
+            self === devNullSceneBridge
+        {
+            // <+236>
+            flag = true
+        } else {
+            if
+                let publishers = self.sceneBridgePublishers[ObjectIdentifier(type)],
+                let publisher = publishers[identifier]
+            {
+                // <+216>
+                flag = false
+            } else {
+                // <+236>
+                flag = true
+            }
+        }
+        
+        
+        if flag {
+            // <+236>
+            self.enqueueUnpublishedEvent(event, for: identifier)
+            return false
+        } else {
+            // <+216>
+            return true
+        }
+    }
+    
+    fileprivate func enqueueUnpublishedEvent(_ event: Any, for identifier: String) {
+        /*
+         self -> x20 -> x19
+         event -> x0 -> x24
+         identifier -> x1/x2 -> x22/x21
+         */
+        // x23
+        var events = self.enqueuedEvents[identifier] ?? []
+        events.append(event)
+        self.enqueuedEvents[identifier] = events
     }
     
     static func targetContentIdentifierForExternalEvent(userActivity: NSUserActivity?, url: URL?) -> String? {
@@ -225,13 +392,23 @@ struct ConnectionOptionPayloadStorage {
     private var actions: [ObjectIdentifier: [AnyConnectionOptionActionBox]] = .init()
 }
 
-final class UserActivityTrackingInfo: NSObject {
-    private var userActivity: NSUserActivity?
-    private var handlers: [ViewIdentity: (NSUserActivity) -> Bool]
-    private weak var sceneBridge: SceneBridge?
+final class UserActivityTrackingInfo: NSObject, NSUserActivityDelegate {
+    fileprivate var userActivity: NSUserActivity? = nil
+    fileprivate var handlers: [ViewIdentity: (NSUserActivity) -> Bool] = .init()
+    private weak var sceneBridge: SceneBridge? = nil
     private let activityType: String
     
-    override init() {
+    override var description: String {
+        assertUnimplemented()
+    }
+    
+    init(_ sceneBridge: SceneBridge, activityType: String) {
+        self.sceneBridge = sceneBridge
+        self.activityType = activityType
+        super.init()
+    }
+    
+    func userActivityWillSave(_ userActivity: NSUserActivity) {
         assertUnimplemented()
     }
 }
@@ -250,11 +427,14 @@ class AnyConnectionOptionActionBox {
 
 extension SceneBridge {
     struct UserActivityPreferenceKey: HostPreferenceKey {
-        static var defaultValue: Never {
-            assertUnimplemented()
+        static var defaultValue: (activityType: String, handlers: [ViewIdentity: (NSUserActivity) -> Bool])? {
+            return nil
         }
         
-        static func reduce(value: inout Never, nextValue: () -> Never) {
+        static func reduce(
+            value: inout (activityType: String, handlers: [ViewIdentity: (NSUserActivity) -> Bool])?,
+            nextValue: () -> (activityType: String, handlers: [ViewIdentity: (NSUserActivity) -> Bool])?
+        ) {
             assertUnimplemented()
         }
     }
@@ -271,3 +451,35 @@ extension SceneBridge {
 }
 
 @safe nonisolated(unsafe) var _defaultSwiftUIActivityEnvironmentLoggingEnabled = false
+
+struct OpenURLOptions {
+    private var storage: OpenURLOptions.Storage
+    
+    var uiSceneOpenURLOptions: UIScene.OpenURLOptions {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    var sourceApplication: String? {
+        assertUnimplemented()
+    }
+    
+    var originatingProcess: BSProcessHandle? {
+        assertUnimplemented()
+    }
+    
+    var referrerURL: URL? {
+        assertUnimplemented()
+    }
+}
+
+extension OpenURLOptions {
+    fileprivate enum Storage {
+        case uiSceneOpenURLOption(UIScene.OpenURLOptions)
+        case userActivity(NSUserActivity)
+    }
+}

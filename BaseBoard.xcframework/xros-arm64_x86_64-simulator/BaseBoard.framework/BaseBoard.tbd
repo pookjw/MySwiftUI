@@ -6,6 +6,7 @@ swift-abi-version: 7
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
     symbols:              [  ]
-    objc-classes:         [ BSAnimationSettings ]
+    objc-classes:         [ BSAnimationSettings,
+    BSProcessHandle ]
     objc-ivars:           [  ]
 ...
