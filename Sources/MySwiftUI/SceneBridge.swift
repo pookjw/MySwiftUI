@@ -11,6 +11,24 @@ private import BaseBoard
 final class SceneBridge: CustomStringConvertible, ObservableObject {
     fileprivate static var _devNullSceneBridge: SceneBridge?
     
+    static func merge(predicate: Predicate<String>?, with other: Predicate<String>?) -> Predicate<String>? {
+        /*
+         predicate -> x0 -> x26
+         other -> x1 -> x23
+         result pointer -> x8 -> x19
+         */
+        guard predicate != nil else {
+            return nil
+        }
+        
+        // <+300>
+        assertUnimplemented()
+    }
+    
+    fileprivate static func buildActivationConditions(_ predicate: Predicate<String>) -> NSPredicate {
+        assertUnimplemented()
+    }
+    
     private var sceneBridgePublishers: [ObjectIdentifier: [String: PassthroughSubject<Any, Never>]] = .init() // 0x10
     private(set) var isAnimatingSceneResize: Bool = false // 0x18
     weak var windowScene: UIWindowScene? = nil // 0x20
@@ -66,14 +84,21 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
         let titleValue = preferenceValues[NavigationTitleKey.self]
         if !self.titleSeedTracker.seed.matches(titleValue.seed) {
             self.titleSeedTracker.seed = titleValue.seed
-            titleValue.value.map { storage in
+            let block: (NavigationTitleStorage?) -> Void = { storage in
                 // $s7SwiftUI11SceneBridgeC20preferencesDidChangeyyAA16PreferenceValuesVFyAA22NavigationTitleStorageVSgXEfU0_
                 /*
-                 storage -> x0
-                 self -> x1
+                 storage -> x0 -> x25
+                 self -> x1 -> x20
                  */
+                // <+240>
+                guard storage != nil else {
+                    return
+                }
+                
                 assertUnimplemented()
             }
+            
+            block(titleValue.value)
         }
         
         // <+808>
@@ -302,7 +327,42 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     }
     
     func activationConditionsPreferencesDidChange(_ preferenceValues: PreferenceValues) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x23
+         preferenceValues -> x0 -> x20
+         */
+        // <+356>
+        // x22
+        let activationConditions = preferenceValues[SceneBridge.ActivationConditionsPreferenceKey.self]
+        
+        if
+            let seed = self.activationConditionsPreferenceSeed,
+            activationConditions.seed.matches(seed)
+        {
+            // <+556>
+            if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+                // $s7SwiftUI11SceneBridgeC40activationConditionsPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu_TA
+                Log.log("ActivationConditions Preferences hasn't changed, skipping update for Scene ActivationConditions. Seed is \(activationConditions.seed.description)")
+            }
+            
+            return
+        }
+        
+        // <+720>
+        if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+            // $s7SwiftUI11SceneBridgeC40activationConditionsPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu0_TA
+            Log.log("ActivationConditionPreferences changed: \(activationConditions)")
+        }
+        
+        // <+856>
+        self.activationConditionsPreferenceSeed = activationConditions.seed
+        // <+952>
+        self.setActivationConditions(preferred: activationConditions.value)
+        
+        if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+            // $s7SwiftUI11SceneBridgeC40activationConditionsPreferencesDidChangeyyAA16PreferenceValuesVFSSyXEfu1_TA
+            Log.log("Set Preferred Scene ActivationConditions to \(String(describing: self))")
+        }
     }
     
     @discardableResult
@@ -354,6 +414,59 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
         var events = self.enqueuedEvents[identifier] ?? []
         events.append(event)
         self.enqueuedEvents[identifier] = events
+    }
+    
+    fileprivate func setActivationConditions(preferred: (preferring: Predicate<String>?, allowing: Predicate<String>?)) {
+        /*
+         self -> x20
+         preferred.preferring -> x0 -> x23
+         preferred.allowing -> x1 -> x29 - 0x88
+         */
+        // <+396>
+        // x21
+        let copy_1 = preferred
+        // x27
+        let copy_2 = copy_1
+        // self._preferredActivationConditions -> x21
+        self._preferredActivationConditions = copy_2
+        // x24
+        let copy_3 = self._preferredActivationConditions.preferring
+        // self.defaultActivationConditions -> x23
+        // x22
+        let copy_4 = self.defaultActivationConditions.preferring
+        // x19
+        let result_1 = SceneBridge.merge(predicate: copy_3, with: copy_4)
+        // <+644>
+        // x24
+        let copy_5 = self._preferredActivationConditions.allowing
+        // x22
+        let copy_6 = self.defaultActivationConditions.allowing
+        // x19 + x27
+        let result_2 = SceneBridge.merge(predicate: copy_5, with: copy_6)
+        
+        guard let windowScene else {
+            return
+        }
+        
+        // <+736>
+        // x20
+        let conditions = UISceneActivationConditions()
+        
+        if let result_1 {
+            conditions.prefersToActivateForTargetContentIdentifierPredicate = SceneBridge.buildActivationConditions(result_1)
+        }
+        
+        if let result_2 {
+            conditions.canActivateForTargetContentIdentifierPredicate = SceneBridge.buildActivationConditions(result_2)
+        }
+        
+        // <+1132>
+        windowScene.activationConditions = conditions
+        
+        if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
+            // $s7SwiftUI11SceneBridgeC23setActivationConditions33_A9714FE7FB47B9EE521B92A735A59E38LL9preferredy10Foundation9PredicateVySS_QPGSg10preferring_AK8allowingt_tFSSyXEfu_TA
+            Log.log("Changed Scene ActivationConditions to \(windowScene.activationConditions.description)")
+        }
     }
     
     static func targetContentIdentifierForExternalEvent(userActivity: NSUserActivity?, url: URL?) -> String? {
@@ -441,11 +554,11 @@ extension SceneBridge {
     }
     
     struct ActivationConditionsPreferenceKey: HostPreferenceKey {
-        static var defaultValue: Never {
-            assertUnimplemented()
+        static var defaultValue: (preferring: Predicate<String>?, allowing: Predicate<String>?) {
+            return (nil, nil)
         }
         
-        static func reduce(value: inout Never, nextValue: () -> Never) {
+        static func reduce(value: inout (preferring: Predicate<String>?, allowing: Predicate<String>?), nextValue: () -> (preferring: Predicate<String>?, allowing: Predicate<String>?)) {
             assertUnimplemented()
         }
     }
