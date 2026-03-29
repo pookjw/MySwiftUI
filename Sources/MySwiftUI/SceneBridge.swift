@@ -157,6 +157,30 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     }
     
     func userActivityPreferencesDidChange(_ preferenceValues: PreferenceValues) {
+        /*
+         self -> x20 -> x24
+         preferenceValues -> x0 -> x20
+         */
+        // <+292>
+        // x22
+        let userActivityPreference = preferenceValues[SceneBridge.UserActivityPreferenceKey.self]
+        
+        if let seed = self.userActivityPreferenceSeed {
+            // <+432>
+            if userActivityPreference.seed.matches(seed) {
+                // <+504>
+                assertUnimplemented()
+            } else {
+                // <+656>
+                assertUnimplemented()
+            }
+            assertUnimplemented()
+        } else {
+            // <+412>
+            // <+668>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     
@@ -245,3 +269,5 @@ extension SceneBridge {
         }
     }
 }
+
+@safe nonisolated(unsafe) var _defaultSwiftUIActivityEnvironmentLoggingEnabled = false
