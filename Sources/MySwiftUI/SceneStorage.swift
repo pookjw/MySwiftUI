@@ -39,6 +39,27 @@ extension SceneStorageValues {
     }
 }
 
+extension EnvironmentValues {
+    @inline(always)
+    var sceneStorageValues: SceneStorageValues? {
+        get {
+            if let box = self[SceneStorageValuesKey.self] {
+                return box.base
+            } else {
+                return nil
+            }
+        }
+        set {
+            if let newValue {
+                self[SceneStorageValuesKey.self] = WeakBox(newValue)
+            } else {
+                self[SceneStorageValuesKey.self] = nil
+            }
+        }
+    }
+    
+}
+
 fileprivate struct SceneStorageValuesKey: EnvironmentKey {
     @safe static nonisolated(unsafe) let defaultValue: WeakBox<SceneStorageValues>? = nil
 }

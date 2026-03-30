@@ -75,27 +75,27 @@ fileprivate struct RootEnvironmentModifier: PrimitiveViewModifier, _GraphInputsM
 }
 
 extension RootEnvironmentModifier {
-    struct Child: StatefulRule {
+    @MainActor struct Child: StatefulRule {
         @Attribute private(set) var modifier: RootEnvironmentModifier // 0x0
         @Attribute private(set) var env: EnvironmentValues // 0x4
         private(set) var oldModifier: RootEnvironmentModifier? // 0x8
         
         typealias Value = EnvironmentValues
         
-        func updateValue() {
+        mutating func updateValue() {
             // self -> x20 -> x19
             // <+296>
             // x29 - 0xa8 / (w23 -> w25 -> x29 - 0x68)
-            let (modifier, modifierChanged) = self.$modifier.changedValue(options: [])
+            let modifier = self.$modifier.changedValue(options: [])
             // x21 / (w20 -> x21 + x27)
-            let (env, envChanged) = self.$env.changedValue(options: [])
+            var (env, envChanged) = self.$env.changedValue(options: [])
             
             // <+412>
             if envChanged {
                 // <+552>
             } else {
                 // <+416>
-                if modifierChanged {
+                if modifier.changed {
                     // <+460>
                     // x29 - 0xf0
                     let oldModifier = self.oldModifier
@@ -103,7 +103,7 @@ extension RootEnvironmentModifier {
                     // x29 + 0x130
                     if let copy_1 = oldModifier {
                         // <+500>
-                        if compareValues(copy_1, modifier, options: [.unknown1, .unknown8]) {
+                        if compareValues(copy_1, modifier.value, options: [.unknown1, .unknown8]) {
                             // <+420>
                             if hasValue {
                                 // <+1556>
@@ -130,7 +130,50 @@ extension RootEnvironmentModifier {
             }
             
             // <+552>
-            assertUnimplemented()
+            let keyPath = SceneBridge.environmentStore
+            // x29 - 0xf0
+            let copy_2 = modifier
+            env[keyPath: keyPath] = copy_2.value.sceneBridge
+            
+            // x29 - 0xf0
+            let copy_3 = modifier
+            env.sceneStorageValues = copy_3.value.sceneStorageValues
+            
+            // <+840>
+            // x29 - 0xf0
+            let copy_4 = modifier
+            env.scenePhase = copy_4.value.scenePhase
+            
+            // x29 - 0xf0
+            let copy_5 = modifier
+            if case .active = copy_5.value.scenePhase {
+                // <+1176>
+            } else {
+                // <+936>
+                env.redactionReasons.formUnion(.privacy)
+                // <+1176>
+            }
+            
+            // <+1176>
+            // x29 - 0xf0
+            let copy_6 = modifier
+            env.connectionOptions = copy_6.value.connectionOptions
+            
+            // <+1368>
+            // x29 - 0xf0
+            let copy_7 = modifier
+            if let box = copy_7.value.sceneDelegateBox {
+                box.addDelegate(to: &env)
+            }
+            
+            // <+1428>
+            if let delegateBox = AppGraph.delegateBox {
+                delegateBox.addDelegate(to: &env)
+            }
+            
+            // <+1480>
+            self.value = env
+            self.oldModifier = modifier.value
         }
     }
 }

@@ -85,7 +85,6 @@ fileprivate struct RendererEffect3DDisplayList<T: _RendererEffect3D>: Rule, Asyn
         let displayList = self.content ?? DisplayList()
         
         guard !displayList.isEmpty else {
-            fatalError() // 지우기
             return DisplayList()
         }
         

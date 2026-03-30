@@ -87,15 +87,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     open override dynamic var childForHomeIndicatorAutoHidden: UIViewController? {
-        guard self._persistentSystemOverlays == .automatic else {
-            return nil
-        }
-        
-        guard self.shouldDeferPersistentSystemOverlaysToChildViewController else {
-            return nil
-        }
-        
-        assertUnimplemented()
+        return self._childForHomeIndicatorAutoHidden
     }
     
 #if os(visionOS)
@@ -467,9 +459,23 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final var _childForHomeIndicatorAutoHidden: UIViewController? {
-        get {
+        guard self._persistentSystemOverlays == .automatic else {
+            return nil
+        }
+        
+        guard self.shouldDeferPersistentSystemOverlaysToChildViewController else {
+            return nil
+        }
+        
+        if !self.children.isEmpty {
             assertUnimplemented()
         }
+        
+        if !self.children.isEmpty {
+            assertUnimplemented()
+        }
+        
+        return nil
     }
     
     final var disallowAnimations: Bool {
@@ -721,7 +727,15 @@ open class UIHostingController<Content: View>: UIViewController {
         }
         
         // <+52>
-        assertUnimplemented()
+        if !self.children.isEmpty {
+            assertUnimplemented()
+        }
+        
+        if !self.children.isEmpty {
+            assertUnimplemented()
+        }
+        
+        return nil
     }
     
     final var _preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
