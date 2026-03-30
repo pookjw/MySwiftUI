@@ -15,12 +15,12 @@ protocol StronglyHashable {
     func hash(into hasher: inout StrongHasher)
 }
 
-struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable, CustomStringConvertible, ProtobufEncodableMessage, ProtobufDecodableMessage, Sendable {
+package struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable, CustomStringConvertible, ProtobufEncodableMessage, ProtobufDecodableMessage, Sendable {
     static var random: StrongHash {
         return StrongHash(of: UUID())
     }
     
-    static func == (lhs: StrongHash, rhs: StrongHash) -> Bool {
+    package static func == (lhs: StrongHash, rhs: StrongHash) -> Bool {
         return (lhs.words.0 == rhs.words.0) &&
         (lhs.words.1 == rhs.words.1) &&
         (lhs.words.2 == rhs.words.2) &&
@@ -46,15 +46,15 @@ struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable,
         assertUnimplemented()
     }
     
-    init(from decoder: any Decoder) throws {
+    package init(from decoder: any Decoder) throws {
         assertUnimplemented()
     }
     
-    func encode(to encoder: any Encoder) throws {
+    package func encode(to encoder: any Encoder) throws {
         assertUnimplemented()
     }
     
-    func hash(into hasher: inout Hasher) {
+    package func hash(into hasher: inout Hasher) {
         unsafe withUnsafePointer(to: words) { pointer in
             let buffer = unsafe UnsafeRawBufferPointer(
                 start: UnsafeRawPointer(pointer),
@@ -64,7 +64,7 @@ struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable,
         }
     }
     
-    var description: String {
+    package var description: String {
         assertUnimplemented()
     }
 }

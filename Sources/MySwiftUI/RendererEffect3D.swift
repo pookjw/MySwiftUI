@@ -2,6 +2,7 @@
 internal import MySwiftUICore
 internal import Spatial
 private import AttributeGraph
+private import CoreGraphics
 
 protocol _RendererEffect3D {
     func effectValue(size: Size3D) -> DisplayList.Effect
@@ -104,8 +105,39 @@ fileprivate struct RendererEffect3DDisplayList<T: _RendererEffect3D>: Rule, Asyn
         
         let effect: DisplayList.Effect = proxy.asCurrent { 
             // $s7SwiftUI27RendererEffect3DDisplayList33_B70BDD1D6CCDD38A0422AB36A90F7369LLV5valueAA07DisplayF0VvgAG6EffectOyXEfU_TA
-            assertUnimplemented()
+            let effect = self.effect
+            let size = self.size.value
+            let depth = self.depth.value
+            return effect.effectValue(size: Size3D(size, depth: depth))
         }
-        assertUnimplemented()
+        
+        var d8: CGFloat
+        var d9: CGFloat
+        do {
+            let position = self.position
+            d8 = position.x
+            d9 = position.y
+        }
+        
+        let d0: CGFloat
+        let d1: CGFloat
+        do {
+            let containerPosition = self.containerPosition
+            d0 = containerPosition.x
+            d1 = containerPosition.y
+        }
+        
+        d8 = d8 - d0
+        d9 = d9 - d1
+        
+        var item = DisplayList.Item(
+            .effect(effect, displayList),
+            frame: CGRect(origin: CGPoint(x: d8, y: d9), size: self.size.value),
+            identity: self.identity,
+            version: version
+        )
+        item.canonicalize(options: self.options)
+        
+        return DisplayList(item)
     }
 }

@@ -1,5 +1,4 @@
 // F37E3733E490AA5E3BDC045E3D34D9F8
-
 package import CoreGraphics
 internal import _MySwiftUIShims
 private import _QuartzCorePrivate
@@ -19,7 +18,7 @@ package struct DisplayList {
         properties = DisplayList.Properties(rawValue: 0)
     }
     
-    init(_ item: DisplayList.Item) {
+    package init(_ item: DisplayList.Item) {
         // x29 = sp + 0xe0
         // x22 = sp + 0x60
         /*
@@ -83,7 +82,7 @@ extension DisplayList {
             return frame.size
         }
         
-        init(_ value: DisplayList.Item.Value, frame: CGRect, identity: _DisplayList_Identity, version: DisplayList.Version) {
+        package init(_ value: DisplayList.Item.Value, frame: CGRect, identity: _DisplayList_Identity, version: DisplayList.Version) {
             self.frame = frame
             self.value = value
             self.identity = identity
@@ -182,7 +181,7 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        mutating func canonicalize(options: DisplayList.Options = .defaultValue) {
+        package mutating func canonicalize(options: DisplayList.Options = .defaultValue) {
             /*
              options = w26
              self.value -> x21
@@ -530,7 +529,7 @@ extension DisplayList {
 
 extension DisplayList.Item {
     // *(int *)(base + 0x18) >> 30 -> enum case (0, 1, 2, 3)
-    enum Value {
+    package enum Value {
         case content(DisplayList.Content)
         case effect(DisplayList.Effect, DisplayList)
         case states([(StrongHash, DisplayList)])
@@ -819,7 +818,7 @@ extension DisplayList {
 }
 
 extension DisplayList {
-    struct Content {
+    package struct Content {
         var value: DisplayList.Content.Value
         var seed: DisplayList.Seed
         

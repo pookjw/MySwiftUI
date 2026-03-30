@@ -18,7 +18,7 @@ package struct ViewSize: Equatable, Animatable {
         return ViewSize(size, proposal: _ProposedSize(width: size.width, height: size.height))
     }
     
-    var value: CGSize
+    package var value: CGSize
     private var _proposal: CGSize
     
     init(_ value: CGSize, proposal: _ProposedSize) {
