@@ -218,8 +218,7 @@ fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, Asy
         // <+164>
         // x20
         let version = DisplayList.Version(forUpdate: ())
-        let currentAttribute = Graph.currentAttribute
-        assert(currentAttribute != .empty)
+        let currentAttribute = AnyAttribute.current!
         
         /*
          x26 -> sp + 0x48

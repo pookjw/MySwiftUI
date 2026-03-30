@@ -479,8 +479,7 @@ func withStashedDepthProposal<T>(execute: (CGFloat?) -> T) -> T {
 extension StatefulRule where Value == LayoutComputer {
     mutating func updateLayoutComputer<T: Layout>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
         // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE06updategH06layout11environment10attributesyqd___AA0A0VyAD17EnvironmentValuesVGSayAD0G15ProxyAttributesVGtAD0G0Rd__lF
-        let currentAttribute = Graph.currentAttribute
-        assert(currentAttribute != .empty)
+        let currentAttribute = AnyAttribute.current!
         
         layout.updateLayoutComputer(
             rule: &self,

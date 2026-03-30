@@ -65,7 +65,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     
     mutating func updateValue() {
         // self -> x20 -> x22
-        let graph = Graph.currentAttribute.graph
+        let graph = AnyAttribute.current!.graph
         let pattern: UInt
         if let platformView {
             pattern = UInt(bitPattern: ObjectIdentifier(platformView))

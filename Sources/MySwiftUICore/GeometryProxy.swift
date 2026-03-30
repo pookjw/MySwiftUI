@@ -1,6 +1,6 @@
 public import CoreGraphics
 public import Spatial
-internal import AttributeGraph
+package import AttributeGraph
 private import _MySwiftUIShims
 
 public struct GeometryProxy {
@@ -12,7 +12,7 @@ public struct GeometryProxy {
     private var _safeAreaInsets: WeakAttribute<SafeAreaInsets>
     private var _seed: Swift.UInt32
     
-    init(
+    package init(
         owner: AnyAttribute,
         size: Attribute<ViewSize>,
         environment: Attribute<EnvironmentValues>,
@@ -60,7 +60,7 @@ public struct GeometryProxy {
         assertUnimplemented()
     }
     
-    mutating func asCurrent<T>(do block: () throws -> T) rethrows -> T {
+    package mutating func asCurrent<T>(do block: () throws -> T) rethrows -> T {
         let old = unsafe _threadGeometryProxyData()
         
         unsafe _setThreadGeometryProxyData(&self)
