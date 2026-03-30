@@ -57,7 +57,8 @@ typedef NS_ENUM(NSUInteger, AGComparisonMode) {
 
 typedef NS_OPTIONS(uint32_t, AGComparisonOptions) {
     AGComparisonOptionsUnknown0 = 1 << 0,
-    AGComparisonOptionsUnknown1 = 1 << 1
+    AGComparisonOptionsUnknown1 = 1 << 1,
+    AGComparisonOptionsUnknown8 = 1 << 8
 };
 
 typedef NS_OPTIONS(uint32_t, AGValueState) {

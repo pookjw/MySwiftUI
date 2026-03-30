@@ -266,6 +266,18 @@ fileprivate struct ModifierBodyAccessor<T: ViewModifier>: BodyAccessor {
     typealias Body = T.Body
     
     func updateBody(of container: T, changed: Bool) {
-        assertUnimplemented()
+        /*
+         container -> x24
+         changed -> w1 -> w21
+         */
+        let unchecked = UncheckedSendable(container)
+        if changed {
+            MainActor.assumeIsolated { 
+                // $s7SwiftUI20ModifierBodyAccessor33_2BA0A33A15B7F322F46AFB9D0D1A262DLLV06updateD02of7changedyx_SbtFyyScMYcXEfU_
+                setBody {
+                    return unchecked.value.body(content: _ViewModifier_Content<T>())
+                }
+            }
+        }
     }
 }

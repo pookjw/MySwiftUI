@@ -10,6 +10,7 @@ struct Tracing {
     }
 }
 
+@inline(always)
 func traceRuleBody<T>(_ type: Any.Type, body: () -> T) -> T {
     defer {
         // $s7SwiftUI13traceRuleBody_4bodyxypXp_xyXEtlF6$deferL_yylF

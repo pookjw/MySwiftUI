@@ -76,16 +76,16 @@ fileprivate struct RootEnvironmentModifier: PrimitiveViewModifier, _GraphInputsM
 
 extension RootEnvironmentModifier {
     struct Child: StatefulRule {
-        @Attribute private(set) var modifier: RootEnvironmentModifier
-        @Attribute private(set) var env: EnvironmentValues
-        private(set) var oldModifier: RootEnvironmentModifier?
+        @Attribute private(set) var modifier: RootEnvironmentModifier // 0x0
+        @Attribute private(set) var env: EnvironmentValues // 0x4
+        private(set) var oldModifier: RootEnvironmentModifier? // 0x8
         
         typealias Value = EnvironmentValues
         
         func updateValue() {
             // self -> x20 -> x19
             // <+296>
-            // x19 - 0xa8 / (w23 -> w25 -> x19 - 0x68)
+            // x29 - 0xa8 / (w23 -> w25 -> x29 - 0x68)
             let (modifier, modifierChanged) = self.$modifier.changedValue(options: [])
             // x21 / (w20 -> x21 + x27)
             let (env, envChanged) = self.$env.changedValue(options: [])
@@ -93,12 +93,43 @@ extension RootEnvironmentModifier {
             // <+412>
             if envChanged {
                 // <+552>
-                assertUnimplemented()
             } else {
                 // <+416>
-                assertUnimplemented()
+                if modifierChanged {
+                    // <+460>
+                    // x29 - 0xf0
+                    let oldModifier = self.oldModifier
+                    
+                    // x29 + 0x130
+                    if let copy_1 = oldModifier {
+                        // <+500>
+                        if compareValues(copy_1, modifier, options: [.unknown1, .unknown8]) {
+                            // <+420>
+                            if hasValue {
+                                // <+1556>
+                                return
+                            } else {
+                                // <+552>
+                            }
+                        } else {
+                            // <+552>
+                        }
+                    } else {
+                        // <+552>
+                    }
+                } else {
+                    // <+420>
+                    if hasValue {
+                        // <+432>
+                        // <+1556>
+                        return
+                    } else {
+                        // <+552>
+                    }
+                }
             }
             
+            // <+552>
             assertUnimplemented()
         }
     }

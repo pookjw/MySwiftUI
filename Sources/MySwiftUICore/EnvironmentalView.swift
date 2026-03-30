@@ -94,14 +94,7 @@ struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, Custo
         tracker.reset()
         tracker.initializeValues(from: env.plist)
         
-        let body = Signpost.bodyInvoke.traceInterval(
-            object: nil,
-            "%{public}@.body [in %{public}@]",
-            [
-                TypeID(Content.self).description,
-                Tracing.libraryName(defining: Content.self)
-            ]
-        ) {
+        let body = traceRuleBody(Content.self) { 
             // $s7SwiftUI22EnvironmentalViewChildV11updateValueyyF15EnvironmentBodyQzyXEfU_ 
             return view.body(environment: env)
         }
