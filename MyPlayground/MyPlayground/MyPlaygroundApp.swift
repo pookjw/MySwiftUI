@@ -15,6 +15,7 @@ struct MyPlaygroundApp: App {
     var body: some Scene {
         WindowGroup { 
             ContentView()
+//            Color.black
         }
     }
 }

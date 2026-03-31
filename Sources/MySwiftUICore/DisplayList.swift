@@ -246,11 +246,13 @@ extension DisplayList {
                         // <+4648>
                         if !displsyList.features.contains(.required) {
                             // <+4660>
-                            assertUnimplemented()
+                            // effect의 case를 확인하지만 .identity는 아무것도 안함
+                            // <+4720>
                         } else {
                             // <+4720>
-                            return
                         }
+                        
+                        return
                     default:
                         assertUnimplemented()
                     }

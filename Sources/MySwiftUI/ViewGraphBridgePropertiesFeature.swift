@@ -31,6 +31,7 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
         let rule = ViewGraphBridgePropertiesFeature.MakeBridgeProperties(overrideValue: newAttribute, localValue: nil)
         // x24
         let attribute = WeakAttribute(Attribute(rule))
+        self._bridgeProperties = attribute
         inputs.base.viewGraphBridgeProperties = attribute
     }
     
@@ -144,9 +145,6 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
             return
         }
         
-        // sp + 0x108
-        let _ = newProperties
-        
         graph.asyncTransaction(
             mutation: ViewGraphBridgePropertiesFeature.BridgePropertiesMutation(
                 bridgeProperties: _bridgeProperties,
@@ -164,6 +162,10 @@ extension ViewGraphBridgePropertiesFeature {
         var localValue: ViewGraphBridgeProperties?
         
         var value: ViewGraphBridgeProperties {
+            if let localValue {
+                return localValue
+            }
+            
             assertUnimplemented()
         }
     }

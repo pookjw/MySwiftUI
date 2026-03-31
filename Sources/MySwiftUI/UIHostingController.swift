@@ -459,23 +459,15 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final var _childForHomeIndicatorAutoHidden: UIViewController? {
-        guard self._persistentSystemOverlays == .automatic else {
+        guard
+            self._persistentSystemOverlays == .automatic,
+            self.shouldDeferPersistentSystemOverlaysToChildViewController,
+            let index = self.children.firstIndex(where: { $0.childForHomeIndicatorAutoHidden != nil })
+        else {
             return nil
         }
         
-        guard self.shouldDeferPersistentSystemOverlaysToChildViewController else {
-            return nil
-        }
-        
-        if !self.children.isEmpty {
-            assertUnimplemented()
-        }
-        
-        if !self.children.isEmpty {
-            assertUnimplemented()
-        }
-        
-        return nil
+        return self.children[index]
     }
     
     final var disallowAnimations: Bool {
@@ -721,21 +713,13 @@ open class UIHostingController<Content: View>: UIViewController {
     final var _childForScreenEdgesDeferringSystemGestures: UIViewController? {
         guard
             deferredEdges == nil,
-            shouldDeferScreenEdgesSystemGestureToChildViewController
+            shouldDeferScreenEdgesSystemGestureToChildViewController,
+            let index = self.children.firstIndex(where: { $0.childForScreenEdgesDeferringSystemGestures != nil })
         else {
             return nil
         }
         
-        // <+52>
-        if !self.children.isEmpty {
-            assertUnimplemented()
-        }
-        
-        if !self.children.isEmpty {
-            assertUnimplemented()
-        }
-        
-        return nil
+        return self.children[index]
     }
     
     final var _preferredScreenEdgesDeferringSystemGestures: UIRectEdge {

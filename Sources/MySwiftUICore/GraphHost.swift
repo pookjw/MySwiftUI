@@ -4,6 +4,7 @@ package import AttributeGraph
 private import notify
 private import Darwin.POSIX.dlfcn
 private import _DarwinFoundation3._stdlib
+private import _MySwiftUIShims
 
 fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
     unknown_block_1: nil,
@@ -192,7 +193,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     
     package private(set) final var data: GraphHost.Data
     private var constants: [ConstantKey: AnyAttribute]
-    private var isInstantiated: Bool
+    private(set) var isInstantiated: Bool
     package final var hostPreferenceValues: WeakAttribute<PreferenceValues>
     private var lastHostPreferencesSeed: VersionSeed
     private var pendingTransactions: [AsyncTransaction]
@@ -445,7 +446,56 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     package final func graphInvalidation(from attribute: AnyAttribute?) {
-        assertUnimplemented()
+        // self -> x20
+        let flag: Bool // true -> <+248> / false -> <+296>
+        if let attribute {
+            // <+36>
+            let ref = Unmanaged<GraphHost>.fromOpaque(attribute.graph.context!)
+            // x19
+            let context = ref.takeRetainedValue()
+            // x21
+            let transaction = context.data.transaction
+            
+            var w8 = false
+            if self.mayDeferUpdate {
+                // <+152>
+                w8 = context.mayDeferUpdate
+            }
+            
+            // <+176>
+            self.mayDeferUpdate = w8
+            
+            if !transaction.isEmpty {
+                // <+184>
+                self.asyncTransaction(
+                    transaction,
+                    id: Transaction.ID(value: _threadTransactionID(false)),
+                    mutation: EmptyGraphMutation(),
+                    style: .deferred,
+                    mayDeferUpdate: true
+                )
+                
+                // <+296>
+                flag = false
+            } else {
+                // <+240>
+                ref.release()
+                // <+248>
+                flag = true
+            }
+        } else {
+            // <+248>
+            flag = true
+        }
+        
+        if flag {
+            // <+248>
+            if let graphDelegate {
+                graphDelegate.graphDidChange()
+            }
+        }
+        
+        // <+296>
     }
     
     package final func instantiateIfNeeded() {
@@ -898,4 +948,14 @@ fileprivate struct AsyncTransaction {
 package enum _GraphMutation_Style: Hashable {
     case immediate
     case deferred
+}
+
+fileprivate struct EmptyGraphMutation: GraphMutation {
+    func apply() {
+        // nop
+    }
+    
+    func combine<T>(with other: T) -> Bool where T : GraphMutation {
+        return T.self == EmptyGraphMutation.self
+    }
 }

@@ -1,14 +1,14 @@
-// 76C8A4B3FC8EE0F99045B3425CD62255
+// 
 internal import AttributeGraph
 
 @safe package final class PreferenceBridge {
     private(set) weak var viewGraph: ViewGraph? = nil // 0x10
     private var isValid: Bool = false // 0x18
     package private(set) var children: [Unmanaged<ViewGraph>] = unsafe [] // 0x20
-    private var requestedPreferences = PreferenceKeys() // 0x28
+    private(set) var requestedPreferences = PreferenceKeys() // 0x28
     private(set) var bridgedViewInputs = PropertyList() // 0x30
     @WeakAttribute private var hostPreferenceKeys: PreferenceKeys? // 0x38
-    @WeakAttribute private var hostPreferencesCombiner: PreferenceValues? // 0x40
+    @WeakAttribute var hostPreferencesCombiner: PreferenceValues? // 0x40
     private var bridgedPreferences: [PreferenceBridge.BridgedPreference] = [] // 0x48
     
     init() {
@@ -17,7 +17,19 @@ internal import AttributeGraph
     }
     
     func wrapInputs(_ inputs: inout _ViewInputs) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         inputs -> x0 -> x19
+         */
+        inputs.base.customInputs = self.bridgedViewInputs
+        // <+100>
+        for key in self.requestedPreferences {
+            
+            inputs.preferences.keys.add(key)
+        }
+        // <+416>
+        let merged = MergePreferenceKeys(lhs: inputs.preferences.hostKeys, rhs: self._hostPreferenceKeys)
+        inputs.preferences.hostKeys = Attribute(merged)
     }
     
     func wrapOutputs(_ outputs: inout PreferencesOutputs, inputs: _ViewInputs) {
@@ -96,6 +108,48 @@ internal import AttributeGraph
         self.viewGraph = nil
         self.isValid = false
     }
+    
+    func addChild(_ viewGraph: ViewGraph) {
+        /*
+         self -> x20
+         viewGraph -> x0 -> x19
+         */
+        self.children.append(Unmanaged<ViewGraph>.passUnretained(viewGraph))
+    }
+    
+    func removeChild(_ viewGraph: ViewGraph) {
+        assertUnimplemented()
+    }
+    
+    func addValue(_: AnyAttribute, for key: PreferenceKey.Type) {
+        assertUnimplemented()
+    }
+    
+    func removeHostValues(for keys: Attribute<PreferenceKeys>, isInvalidating: Bool = false) {
+        /*
+         keys -> w0 -> w21
+         isInvalidating -> w1 -> w19
+         */
+        // x22
+        guard
+            let viewGraph,
+            let hostPreferencesCombiner = $hostPreferencesCombiner
+        else {
+            return
+        }
+        
+        // <+112>
+        var result = false
+        
+        hostPreferencesCombiner.mutateBody(as: HostPreferencesCombiner.self, invalidating: true) { combiner in
+            // $s7SwiftUI16PreferenceBridgeC16removeHostValues3for14isInvalidatingy14AttributeGraph0K0VyAA0C4KeysVG_SbtFyAA0F19PreferencesCombinerVzXEfU_TA.7
+            assertUnimplemented()
+        }
+        
+        if result {
+            viewGraph.graphInvalidation(from: isInvalidating ? nil : keys.identifier)
+        }
+    }
 }
 
 extension PreferenceBridge {
@@ -105,19 +159,13 @@ extension PreferenceBridge {
     }
 }
 
-extension EnvironmentValues {
-    package var preferenceBridge: PreferenceBridge? {
-        get {
-            return self[PreferenceBridgeKey.self].base
-        }
-        set {
-            self[PreferenceBridgeKey.self] = WeakBox(newValue)
-        }
-    }
+fileprivate struct MergePreferenceKeys: Rule, AsyncAttribute {
+    @Attribute private(set) var lhs: PreferenceKeys
+    @WeakAttribute var rhs: PreferenceKeys?
     
-    fileprivate struct PreferenceBridgeKey: EnvironmentKey {
-        static var defaultValue: WeakBox<PreferenceBridge> {
-            return WeakBox(nil)
-        }
+    typealias Value = PreferenceKeys
+    
+    var value: PreferenceKeys {
+        assertUnimplemented()
     }
 }

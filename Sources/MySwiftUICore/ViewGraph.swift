@@ -52,7 +52,7 @@ package final class ViewGraph: GraphHost {
     private var mainUpdates: Int = 0
     private(set) var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
     private(set) weak var _preferenceBridge: PreferenceBridge? = nil
-    private var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
+    private(set) var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
     
     package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
         // <+224>
@@ -532,7 +532,21 @@ package final class ViewGraph: GraphHost {
             return
         }
         
-        assertUnimplemented()
+        self.removePreferenceOutlets(isInvalidating: isInvalidating)
+        self._preferenceBridge = nil
+        
+        if self.isInstantiated {
+            self.uninstantiate(immediately: isInvalidating)
+        }
+        
+        // <+136>
+        self._preferenceBridge = bridge
+        
+        if let preferenceBridge = self._preferenceBridge {
+            preferenceBridge.addChild(self)
+        }
+        
+        self.updateRemovedState()
     }
     
     private func beginNextUpdate(at time: Time) {
@@ -545,17 +559,62 @@ package final class ViewGraph: GraphHost {
         mainUpdates = Int(data.graph!.counter(options: [.unknown1, .unknown3]))
     }
     
-    private func makePreferenceOutlets(outputs: _ViewOutputs) {
+    fileprivate func makePreferenceOutlets(outputs: _ViewOutputs) {
         /*
          self = x21
          outputs = x22
          */
         // x19
-        guard _preferenceBridge != nil else {
+        guard let preferenceBridge = _preferenceBridge else {
             return
         }
         
-        assertUnimplemented()
+        // x29 - 0xf4
+        let debugProperties = outputs.preferences.debugProperties
+        for preference in preferenceBridge.requestedPreferences {
+            guard let attribute = outputs.preferences[anyKey: preference] else {
+                continue
+            }
+            
+            if !self.data.isHiddenForReuse {
+                preferenceBridge.addValue(attribute, for: preference)
+            }
+            
+            self.bridgedPreferences.append((preference, attribute))
+        }
+        
+        // <+412>
+        guard
+            !self.data.isHiddenForReuse,
+            let hostPreference = outputs.preferences[HostPreferencesKey.self]
+        else {
+            return
+        }
+        
+        // <+452>
+        // w22
+        let weakAttribute = WeakAttribute(hostPreference)
+        // w20
+        let hostPreferenceKeys = self.data.$hostPreferenceKeys
+        
+        // x21
+        guard
+            let viewGraph = preferenceBridge.viewGraph,
+            let hostPreferencesCombiner = preferenceBridge.$hostPreferencesCombiner
+        else {
+            return
+        }
+        
+        hostPreferencesCombiner.mutateBody(as: HostPreferencesCombiner.self, invalidating: true) { combiner in
+            // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_7SwiftUI27SecondaryLayerGeometryQueryV_Tg5TA.8
+            /*
+             hostPreferenceKeys
+             weakAttribute
+             */
+            assertUnimplemented()
+        }
+        
+        viewGraph.graphInvalidation(from: hostPreferenceKeys.identifier)
     }
     
     func setSafeAreaInsets(_ elements: [SafeAreaInsets.Element]) -> Bool {
@@ -579,12 +638,25 @@ package final class ViewGraph: GraphHost {
     }
     
     private func removePreferenceOutlets(isInvalidating: Bool) {
-        // isInvalidating = x19
-        guard _preferenceBridge != nil else {
+        /*
+         self -> x20
+         isInvalidating -> w0 -> w19
+         */
+        // x21
+        guard let preferenceBridge = _preferenceBridge else {
             return
         }
         
-        assertUnimplemented()
+        if !self.bridgedPreferences.isEmpty {
+            // <+84>
+            assertUnimplemented()
+        }
+        
+        // <+524>
+        self.bridgedPreferences = []
+        // <+544>
+        preferenceBridge.removeHostValues(for: self.data.$hostPreferenceKeys, isInvalidating: isInvalidating)
+        preferenceBridge.removeChild(self)
     }
     
     package var viewGraphInputs: _GraphInputs {
