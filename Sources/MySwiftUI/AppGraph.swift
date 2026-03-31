@@ -232,6 +232,13 @@ final class AppGraph: GraphHost {
             return SceneList()
         }
     }
+    
+    func extendedLaunchTestName() -> String? {
+        return Update.ensure { 
+            // $s7SwiftUI8AppGraphC22extendedLaunchTestNameSSSgyFAEyXEfU_TA
+            return self.extendedLaunchTestName
+        }
+    }
 }
 
 extension AppGraph {

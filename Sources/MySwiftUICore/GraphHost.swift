@@ -564,6 +564,26 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
     }
     
+    package final func preferenceValue<T: HostPreferenceKey>(_: T.Type) -> T.Value {
+        /*
+         self -> x20 -> x25
+         T -> x1 -> x19
+         */
+        // <+140>
+        if self.data.hostPreferenceKeys.contains(T.self) {
+            // <+468>
+            self.instantiateIfNeeded()
+            return (self.hostPreferenceValues.wrappedValue ?? PreferenceValues())[T.self].value
+        } else {
+            // <+236>
+            self.addPreference(T.self)
+            self.instantiateIfNeeded()
+            let result = (self.hostPreferenceValues.wrappedValue ?? PreferenceValues())[T.self].value
+            self.removePreference(T.self)
+            return result
+        }
+    }
+    
     @discardableResult
     package final func asyncTransaction<T>(
         _ transaction: Transaction = Transaction(),
