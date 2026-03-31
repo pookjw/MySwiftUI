@@ -9,7 +9,7 @@ struct WithCurrentHostingControllerAction {
         hostBox = WeakBox(hostingController)
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate init() {
         hostBox = WeakBox(nil)
     }
@@ -20,7 +20,7 @@ struct WithCurrentHostingControllerAction {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var withCurrentHostingController: WithCurrentHostingControllerAction {
         get {
             return self[WithCurrentHostingControllerKey.self]

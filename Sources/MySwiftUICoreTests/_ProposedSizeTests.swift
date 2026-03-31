@@ -30,12 +30,12 @@ extension _ProposedSizeTests {
     
     @Test(arguments: Self.init_width_height_expectations)
     func test_init_width_height(input: Input_init_width_height, output: Output_init_width_height) {
-        let impl = MySwiftUICore._ProposedSize(width: input.width, height: input.height)
+        let impl = MySwiftUICore::_ProposedSize(width: input.width, height: input.height)
         
         #expect(impl.width?.bitPattern == output.width?.bitPattern)
         #expect(impl.height?.bitPattern == output.height?.bitPattern)
         
-        let original = SwiftUI._ProposedSize(width: input.width, height: input.height)
+        let original = SwiftUI::_ProposedSize(width: input.width, height: input.height)
         
         #expect(original.width?.bitPattern == output.width?.bitPattern)
         #expect(original.height?.bitPattern == output.height?.bitPattern)
@@ -44,12 +44,12 @@ extension _ProposedSizeTests {
 
 extension _ProposedSizeTests {
     @Test func test_init() {
-        let impl = MySwiftUICore._ProposedSize()
+        let impl = MySwiftUICore::_ProposedSize()
         
         #expect(impl.width == nil)
         #expect(impl.height == nil)
         
-        let original = SwiftUI._ProposedSize()
+        let original = SwiftUI::_ProposedSize()
         
         #expect(original.width == nil)
         #expect(original.height == nil)
@@ -126,7 +126,7 @@ extension _ProposedSizeTests {
     
     @Test(arguments: Self.fixingUnspecified_at_expectations)
     func test_fixingUnspecifiedDimensions_at(input: Input_fixingUnspecified_at, output: Output_fixingUnspecified_at) {
-        let impl = MySwiftUICore._ProposedSize(
+        let impl = MySwiftUICore::_ProposedSize(
             width: input.proposalWidth,
             height: input.proposalHeight
         ).fixingUnspecifiedDimensions(
@@ -136,7 +136,7 @@ extension _ProposedSizeTests {
         #expect(impl.width.bitPattern == output.result.width.bitPattern)
         #expect(impl.height.bitPattern == output.result.height.bitPattern)
         
-        let original = SwiftUI._ProposedSize(
+        let original = SwiftUI::_ProposedSize(
             width: input.proposalWidth,
             height: input.proposalHeight
         ).fixingUnspecifiedDimensions(
@@ -197,7 +197,7 @@ extension _ProposedSizeTests {
     
     @Test(arguments: Self.fixingUnspecified_expectations)
     func test_fixingUnspecifiedDimensions(input: Input_fixingUnspecified, output: Output_fixingUnspecified) {
-        let impl = MySwiftUICore._ProposedSize(
+        let impl = MySwiftUICore::_ProposedSize(
             width: input.proposalWidth,
             height: input.proposalHeight
         ).fixingUnspecifiedDimensions()
@@ -205,7 +205,7 @@ extension _ProposedSizeTests {
         #expect(impl.width.bitPattern == output.result.width.bitPattern)
         #expect(impl.height.bitPattern == output.result.height.bitPattern)
         
-        let original = SwiftUI._ProposedSize(
+        let original = SwiftUI::_ProposedSize(
             width: input.proposalWidth,
             height: input.proposalHeight
         ).fixingUnspecifiedDimensions()
@@ -217,31 +217,31 @@ extension _ProposedSizeTests {
 
 extension _ProposedSizeTests {
     @Test func test_zero() {
-        let impl = MySwiftUICore._ProposedSize.zero
+        let impl = MySwiftUICore::_ProposedSize.zero
         #expect(impl.width == 0)
         #expect(impl.height == 0)
         
-        let original = SwiftUI._ProposedSize.zero
+        let original = SwiftUI::_ProposedSize.zero
         #expect(original.width == 0)
         #expect(original.height == 0)
     }
     
     @Test func test_infinity() {
-        let impl = MySwiftUICore._ProposedSize.infinity
+        let impl = MySwiftUICore::_ProposedSize.infinity
         #expect(impl.width?.bitPattern == CGFloat.infinity.bitPattern)
         #expect(impl.height?.bitPattern == CGFloat.infinity.bitPattern)
         
-        let original = SwiftUI._ProposedSize.infinity
+        let original = SwiftUI::_ProposedSize.infinity
         #expect(original.width?.bitPattern == CGFloat.infinity.bitPattern)
         #expect(original.height?.bitPattern == CGFloat.infinity.bitPattern)
     }
     
     @Test func test_unspecified() {
-        let impl = MySwiftUICore._ProposedSize.unspecified
+        let impl = MySwiftUICore::_ProposedSize.unspecified
         #expect(impl.width == nil)
         #expect(impl.height == nil)
         
-        let original = SwiftUI._ProposedSize.unspecified
+        let original = SwiftUI::_ProposedSize.unspecified
         #expect(original.width == nil)
         #expect(original.height == nil)
     }

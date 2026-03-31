@@ -63,7 +63,7 @@ extension WindowResizability {
         case contentMinSize
         case full
         
-        @inline(__always)
+        @inline(always)
         var sizingOptions: UIHostingControllerSizingOptions {
             switch self {
             case .automatic:

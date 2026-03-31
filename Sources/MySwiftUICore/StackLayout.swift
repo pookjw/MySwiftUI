@@ -194,7 +194,7 @@ struct StackLayout {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate mutating func withUnmanagedImplementation<T>(body: (StackLayout.UnmanagedImplementation) throws -> T) rethrows -> T {
         return unsafe try children.withUnsafeMutableBufferPointer { children in
             return unsafe try body(StackLayout.UnmanagedImplementation(header: &header, children: children))

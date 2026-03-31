@@ -47,8 +47,8 @@ final class AttachmentRegistrationManager {
         // <+180>
         _ = windowScene._sceneIdentifier
         let reScene = unsafe windowScene.reScene
-        let sceneRef = unsafe RealityKit.__SceneRef.__fromCore(reScene)
-        let scene = RealityKit.Scene.__fromCore(sceneRef)
+        let sceneRef = unsafe RealityKit::__SceneRef.__fromCore(reScene)
+        let scene = RealityKit::Scene.__fromCore(sceneRef)
         
         let count = self.registrations.count
         
@@ -83,11 +83,11 @@ extension AttachmentRegistrationManager {
 }
 
 struct Registration {
-    fileprivate let componentType: any RealityKit.Component.Type
-    fileprivate let getGuts: @MainActor (RealityKit.Entity) -> AttachmentComponentGuts?
-    fileprivate let setGuts: @MainActor (RealityKit.Entity, AttachmentComponentGuts) -> Void
+    fileprivate let componentType: any RealityKit::Component.Type
+    fileprivate let getGuts: @MainActor (RealityKit::Entity) -> AttachmentComponentGuts?
+    fileprivate let setGuts: @MainActor (RealityKit::Entity, AttachmentComponentGuts) -> Void
     
-    init<T: RealityKit.Component>(
+    init<T: RealityKit::Component>(
         setGuts: @MainActor @escaping (inout T, AttachmentComponentGuts) -> Void,
         getGuts: @MainActor @escaping (T) -> AttachmentComponentGuts?
     ) {
@@ -123,7 +123,7 @@ fileprivate final class AttachmentManager {
     
     init() {}
     
-    @MainActor func setupWithScene(_ scene: RealityKit.Scene, registration: Registration) {
+    @MainActor func setupWithScene(_ scene: RealityKit::Scene, registration: Registration) {
         /*
          self -> x20 -> x19
          scene -> x0 -> x21
@@ -185,10 +185,10 @@ struct AttachmentComponentGuts {
     // TODO
 }
 
-struct _AttachmentComponent: RealityKit.Component {
+struct _AttachmentComponent: RealityKit::Component {
     // TODO
 }
 
-struct _PopoverComponent: RealityKit.Component {
+struct _PopoverComponent: RealityKit::Component {
     // TODO
 }

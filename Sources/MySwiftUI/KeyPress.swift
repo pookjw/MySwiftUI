@@ -39,7 +39,7 @@ extension _GraphInputs {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var keyPressHandlers: [KeyPress.Handler] {
         get {
             return self[KeyPressHandlersKey.self]

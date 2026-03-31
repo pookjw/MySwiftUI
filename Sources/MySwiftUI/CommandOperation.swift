@@ -59,7 +59,7 @@ public struct CommandGroupPlacement: Sendable {
     private let name: Text
     let id: UUID
     
-    @inline(__always)
+    @inline(always)
     fileprivate init(_ name: Text) {
         name.assertUnstyled(#function)
         self.name = name

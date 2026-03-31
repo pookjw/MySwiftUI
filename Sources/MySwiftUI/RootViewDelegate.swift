@@ -153,7 +153,7 @@ private import AttributeGraph
 }
 
 extension RootViewDelegate: UIHostingViewDelegate {
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore.View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore::View {
         let viewGraph = hostingView.viewGraph
         if window != nil {
             viewGraph.addPreference(PreferredColorSchemeKey.self)
@@ -166,7 +166,7 @@ extension RootViewDelegate: UIHostingViewDelegate {
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate environmentValues: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate environmentValues: inout MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
         environmentValues.explicitPreferredColorScheme = hostingView.colorScheme
         
         if let nextDelegate {
@@ -174,7 +174,7 @@ extension RootViewDelegate: UIHostingViewDelegate {
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
         if let nextDelegate {
             nextDelegate.hostingView(hostingView, didUpdate: values)
         }
@@ -186,7 +186,7 @@ extension RootViewDelegate: UIHostingViewDelegate {
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
         updateAppFocus(view: hostingView)
         
         let value = values[PreferredColorSchemeKey.self]
@@ -200,11 +200,11 @@ extension RootViewDelegate: UIHostingViewDelegate {
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore::View {
         assertUnimplemented()
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore::_ViewInputs) where Content : MySwiftUICore::View {
         // nop
     }
 }

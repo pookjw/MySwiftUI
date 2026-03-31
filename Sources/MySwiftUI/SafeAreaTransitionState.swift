@@ -6,7 +6,7 @@ protocol SafeAreaTransitionState: AnyObject {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var safeAreaTransitionState: (any SafeAreaTransitionState)? {
         get {
             return self[SafeAreaTransitionStateKey.self].base

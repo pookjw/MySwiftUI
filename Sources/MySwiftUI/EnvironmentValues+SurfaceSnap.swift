@@ -14,7 +14,7 @@ public struct SurfaceSnappingInfo: Equatable, Sendable, CustomDebugStringConvert
     }
     
     public internal(set) var isSnapped = false
-    public internal(set) var classification: ARKit.SurfaceClassification? = nil
+    public internal(set) var classification: ARKit::SurfaceClassification? = nil
     
     public var debugDescription: String {
         assertUnimplemented()
@@ -40,7 +40,7 @@ struct _SceneSnapState: Equatable, CustomDebugStringConvertible {
 }
 
 enum _SurfaceClassificationStatus: Equatable, CustomDebugStringConvertible {
-    case authorized(ARKit.SurfaceClassification?)
+    case authorized(ARKit::SurfaceClassification?)
     case notDetermined
     case denied
     

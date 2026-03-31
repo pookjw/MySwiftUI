@@ -18,7 +18,7 @@ public struct _ViewOutputs {
     }
     
     // 원래 없음
-    @inline(__always)
+    @inline(always)
     init(preferences: PreferencesOutputs, layoutComputer: OptionalAttribute<LayoutComputer>) {
         self.preferences = preferences
         self._layoutComputer = layoutComputer
@@ -45,7 +45,7 @@ public struct _ViewOutputs {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     func detachIndirectOutputs() {
         preferences.detachIndirectOutputs()
         if let layoutComputer {
@@ -53,7 +53,7 @@ public struct _ViewOutputs {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     func setIndirectDependency(_ attribute: AnyAttribute?) {
         preferences.setIndirectDependency(attribute)
         if let layoutComputer {
@@ -61,7 +61,7 @@ public struct _ViewOutputs {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     func attachIndirectOutputs(to other: _ViewOutputs) {
         preferences.attachIndirectOutputs(to: other.preferences)
         if let layoutComputer, let otherLayoutComputer = other.layoutComputer {

@@ -6,15 +6,15 @@ private import SwiftUI
 struct _ViewList_IteratorStyleTests {
     @Test func test_init() {
         for i in 0...1_000 {
-            let impl = MySwiftUICore._ViewList_IteratorStyle(granularity: i)
-            let original = _SwiftUICorePrivate._ViewList_IteratorStyle(granularity: i)
+            let impl = MySwiftUICore::_ViewList_IteratorStyle(granularity: i)
+            let original = _SwiftUICorePrivate::_ViewList_IteratorStyle(granularity: i)
             #expect(impl.value == original.value)
         }
     }
     
     @Test func test_granularity() {
-        var impl = MySwiftUICore._ViewList_IteratorStyle(granularity: 0)
-        var original = _SwiftUICorePrivate._ViewList_IteratorStyle(granularity: 0)
+        var impl = MySwiftUICore::_ViewList_IteratorStyle(granularity: 0)
+        var original = _SwiftUICorePrivate::_ViewList_IteratorStyle(granularity: 0)
         
         #expect(impl.granularity == original.granularity)
         #expect(impl.value == original.value)
@@ -29,8 +29,8 @@ struct _ViewList_IteratorStyleTests {
     
     @Test func test_alignToNextGranularityMultiple() {
         for n in 1...100 {
-            let impl = MySwiftUICore._ViewList_IteratorStyle(granularity: n)
-            let original = _SwiftUICorePrivate._ViewList_IteratorStyle(granularity: n)
+            let impl = MySwiftUICore::_ViewList_IteratorStyle(granularity: n)
+            let original = _SwiftUICorePrivate::_ViewList_IteratorStyle(granularity: n)
             
             for i in 0...100 {
                 var i1 = i
@@ -46,8 +46,8 @@ struct _ViewList_IteratorStyleTests {
     
     @Test func test_alignToPreviousGranularityMultiple() {
         for n in 1...100 {
-            let impl = MySwiftUICore._ViewList_IteratorStyle(granularity: n)
-            let original = _SwiftUICorePrivate._ViewList_IteratorStyle(granularity: n)
+            let impl = MySwiftUICore::_ViewList_IteratorStyle(granularity: n)
+            let original = _SwiftUICorePrivate::_ViewList_IteratorStyle(granularity: n)
             
             for i in 0...100 {
                 var i1 = i
@@ -63,8 +63,8 @@ struct _ViewList_IteratorStyleTests {
     
     @Test func test_applyGranularity() {
         for i in 1...1_000 {
-            var impl = MySwiftUICore._ViewList_IteratorStyle(granularity: i)
-            var original = _SwiftUICorePrivate._ViewList_IteratorStyle(granularity: i)
+            var impl = MySwiftUICore::_ViewList_IteratorStyle(granularity: i)
+            var original = _SwiftUICorePrivate::_ViewList_IteratorStyle(granularity: i)
             
             #expect(impl.applyGranularity == original.applyGranularity)
             
@@ -82,8 +82,8 @@ struct _ViewList_IteratorStyleTests {
     
     @Test func test_applyGranularity2() {
         for i in 1...1_000 {
-            let impl = MySwiftUICore._ViewList_IteratorStyle(granularity: i)
-            let original = _SwiftUICorePrivate._ViewList_IteratorStyle(granularity: i)
+            let impl = MySwiftUICore::_ViewList_IteratorStyle(granularity: i)
+            let original = _SwiftUICorePrivate::_ViewList_IteratorStyle(granularity: i)
             
             let a = impl.applyGranularity(to: i)
             let b = original.applyGranularity(to: i)
@@ -93,13 +93,13 @@ struct _ViewList_IteratorStyleTests {
     }
 }
 
-extension MySwiftUICore._ViewList_IteratorStyle {
+extension MySwiftUICore::_ViewList_IteratorStyle {
     fileprivate var value: UInt {
         return unsafe unsafeBitCast(self, to: UInt.self)
     }
 }
 
-extension _SwiftUICorePrivate._ViewList_IteratorStyle {
+extension _SwiftUICorePrivate::_ViewList_IteratorStyle {
     fileprivate var value: UInt {
         return unsafe unsafeBitCast(self, to: UInt.self)
     }

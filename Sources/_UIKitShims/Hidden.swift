@@ -48,7 +48,7 @@ func MaterialBackdropContextTraitToken() -> (any _UITraitTokenProtocol)? {
      2. +[UITraitCollection _defineObjectTraitWithName:identifier:defaultValue:affectsColorAppearance:defaultValueRepresentsUnspecified:isPrivate:placeholderToken:]을 통해 Trait를 정의
      3. 만약 내가 이 로직을 똑같이 구현하면 "Attempting to define a trait for a placeholder token that corresponds to a trait that was already defined: 30" Exception이 나오게 되기에 UIKit에서 등록을 시키고 그것을 가져와야함
      */
-    _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
+    _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI::EnvironmentValues())
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "MaterialBackdropContext", identifier: "UIMaterialBackdropContext")!
     return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
@@ -58,7 +58,7 @@ func MaterialBackdropContextTraitToken() -> (any _UITraitTokenProtocol)? {
 
 func ResolvedProviderTraitToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
-    _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI.EnvironmentValues())
+    _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI::EnvironmentValues())
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "ResolvedProvider", identifier: "UIResolvedProviderTrait")!
     return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
 #else
@@ -69,7 +69,7 @@ func ResolvedProviderTraitToken() -> (any _UITraitTokenProtocol)? {
 // ___lldb_unnamed_symbol324225
 func ColorMaterialRenderingModeToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
-    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "UIColor.materialRenderingMode", identifier: "UITraitColorMaterialRenderingMode")!
     
@@ -81,7 +81,7 @@ func ColorMaterialRenderingModeToken() -> (any _UITraitTokenProtocol)? {
 
 func DisplayScaleToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
-    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "DisplayScale", identifier: "UITraitDisplayScale")!
     return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
@@ -92,7 +92,7 @@ func DisplayScaleToken() -> (any _UITraitTokenProtocol)? {
 
 func GlassElevationLevelToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
-    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassElevationLevel", identifier: "_UITraitGlassElevationLevel")!
     return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
@@ -103,7 +103,7 @@ func GlassElevationLevelToken() -> (any _UITraitTokenProtocol)? {
 
 func GlassBackgroundStyleToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
-    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassBackgroundStyle", identifier: "UIGlassBackgroundStyleTrait")!
     return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
@@ -114,7 +114,7 @@ func GlassBackgroundStyleToken() -> (any _UITraitTokenProtocol)? {
 
 func GlassFrostToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
-    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassFrost", identifier: "UIGlassFrost")!
     return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
@@ -125,7 +125,7 @@ func GlassFrostToken() -> (any _UITraitTokenProtocol)? {
 
 func GlassPocketContainerToken() -> (any _UITraitTokenProtocol)? {
 #if SwiftUICompataibility
-    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI.EnvironmentValues())
+    _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassPocketContainer", identifier: "UIGlassPocketContainer")!
     return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
@@ -135,7 +135,7 @@ func GlassPocketContainerToken() -> (any _UITraitTokenProtocol)? {
 }
 
 #if SwiftUICompataibility
-func makeMaterialBackdropContext(flags: Int, proxy: _SwiftUIPrivate.MaterialBackdropProxy?) -> AnyObject {
+func makeMaterialBackdropContext(flags: Int, proxy: _SwiftUIPrivate::MaterialBackdropProxy?) -> AnyObject {
     let contextClass = unsafe objc_lookUpClass("_TtC5UIKit23MaterialBackdropContext")!
     var object = (contextClass as AnyObject).alloc()
     
@@ -161,7 +161,7 @@ func makeMaterialBackdropContext(flags: Int, proxy: _SwiftUIPrivate.MaterialBack
     
     unsafe base
         .advanced(by: proxyOffset)
-        .assumingMemoryBound(to: _SwiftUIPrivate.MaterialBackdropProxy?.self)
+        .assumingMemoryBound(to: _SwiftUIPrivate::MaterialBackdropProxy?.self)
         .initialize(to: proxy)
     
     var superInfo = unsafe objc_super(receiver: Unmanaged.passUnretained(object), super_class: type(of: object))
@@ -171,7 +171,7 @@ func makeMaterialBackdropContext(flags: Int, proxy: _SwiftUIPrivate.MaterialBack
     return object
 }
 
-func modifyMaterialBackdropContext<T>(_ context: AnyObject, mutation: (_ flags: inout Int, _ proxy: inout _SwiftUIPrivate.MaterialBackdropProxy?) -> T) -> T {
+func modifyMaterialBackdropContext<T>(_ context: AnyObject, mutation: (_ flags: inout Int, _ proxy: inout _SwiftUIPrivate::MaterialBackdropProxy?) -> T) -> T {
     assert(_typeByName("5UIKit23MaterialBackdropContextC")! == type(of: context))
     
     var flagsOffset: Int!
@@ -195,7 +195,7 @@ func modifyMaterialBackdropContext<T>(_ context: AnyObject, mutation: (_ flags: 
     
     let proxy = unsafe base
         .advanced(by: proxyOffset)
-        .assumingMemoryBound(to: _SwiftUIPrivate.MaterialBackdropProxy?.self)
+        .assumingMemoryBound(to: _SwiftUIPrivate::MaterialBackdropProxy?.self)
     
     return unsafe mutation(&flags.pointee, &proxy.pointee)
 }
@@ -316,7 +316,7 @@ extension UIView {
 /*
  [ObjectIdentifier: _UITypedStorage.BaseValue]
  _UITypedStorage.BaseValue
- -> (subclass) _UITypedStorage.(TypedValue in $186ef9d7c)<Swift.Optional<UIKit._UICornerProvider>>
+ -> (subclass) _UITypedStorage.(TypedValue in $186ef9d7c)<Swift.Optional<UIKit::_UICornerProvider>>
  */
 fileprivate func modifyTypedStorage<T>(_ storage: AnyObject, mutation: (_ storage: inout [ObjectIdentifier: AnyObject]) -> T) -> T {
     var result: T!
@@ -339,7 +339,7 @@ fileprivate func modifyTypedStorage<T>(_ storage: AnyObject, mutation: (_ storag
 func glassBackgroundStyle(typedStorage: _UITypedStorage) -> AnyObject? {
     return modifyTypedStorage(typedStorage) { storage in
         for key in storage.keys {
-            // UIKit._UIIntelligenceLightSourceConfiguration._GlassBackgroundStyleKey
+            // UIKit::_UIIntelligenceLightSourceConfiguration._GlassBackgroundStyleKey
             if unsafe _mangledTypeName(unsafeBitCast(key, to: Any.Type.self)) == "So6UIViewC5UIKitE10$186ef90d8yXZ24_GlassBackgroundStyleKeyV" {
                 return storage[key]
             }

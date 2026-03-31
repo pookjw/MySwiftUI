@@ -10,8 +10,8 @@ fileprivate struct _ProposedSize3DTests {
 
 extension _ProposedSize3DTests {
     @Test func test_unspecified() {
-        let impl = MySwiftUICore._ProposedSize3D.unspecified
-        let original = _SwiftUICorePrivate._ProposedSize3D.unspecified
+        let impl = MySwiftUICore::_ProposedSize3D.unspecified
+        let original = _SwiftUICorePrivate::_ProposedSize3D.unspecified
         
         #expect(impl.width == original.width)
         #expect(impl.height == original.height)
@@ -21,8 +21,8 @@ extension _ProposedSize3DTests {
 
 extension _ProposedSize3DTests {
     @Test func test_defaultSize() {
-        let impl = MySwiftUICore._ProposedSize3D.defaultSize
-        let original = _SwiftUICorePrivate._ProposedSize3D.defaultSize
+        let impl = MySwiftUICore::_ProposedSize3D.defaultSize
+        let original = _SwiftUICorePrivate::_ProposedSize3D.defaultSize
         
         #expect(impl.width == original.width)
         #expect(impl.height == original.height)
@@ -142,7 +142,7 @@ extension _ProposedSize3DTests {
         input: Input_unspecifyingInfiniteDimensions,
         output: Output_unspecifyingInfiniteDimensions
     ) {
-        let impl = MySwiftUICore._ProposedSize3D(
+        let impl = MySwiftUICore::_ProposedSize3D(
             width: input.width,
             height: input.height,
             depth: input.depth
@@ -166,7 +166,7 @@ extension _ProposedSize3DTests {
             #expect(impl.depth == nil)
         }
 
-        let original = _SwiftUICorePrivate._ProposedSize3D(
+        let original = _SwiftUICorePrivate::_ProposedSize3D(
             width: input.width,
             height: input.height,
             depth: input.depth
@@ -374,7 +374,7 @@ extension _ProposedSize3DTests {
         input: Input_unspecifyingZeroOrInfiniteDimensions,
         output: Output_unspecifyingZeroOrInfiniteDimensions
     ) {
-        let impl = MySwiftUICore._ProposedSize3D(
+        let impl = MySwiftUICore::_ProposedSize3D(
             width: input.width,
             height: input.height,
             depth: input.depth
@@ -398,7 +398,7 @@ extension _ProposedSize3DTests {
             #expect(impl.depth == nil)
         }
 
-        let original = _SwiftUICorePrivate._ProposedSize3D(
+        let original = _SwiftUICorePrivate::_ProposedSize3D(
             width: input.width,
             height: input.height,
             depth: input.depth
@@ -508,7 +508,7 @@ extension _ProposedSize3DTests {
         input: Input_fixingUnspecifiedDimensions,
         output: Output_fixingUnspecifiedDimensions
     ) {
-        let impl = MySwiftUICore._ProposedSize3D(
+        let impl = MySwiftUICore::_ProposedSize3D(
             width: input.width,
             height: input.height,
             depth: input.depth
@@ -518,7 +518,7 @@ extension _ProposedSize3DTests {
         #expect(impl.height.bitPattern == output.result.height.bitPattern)
         #expect(impl.depth.bitPattern == output.result.depth.bitPattern)
 
-        let original = _SwiftUICorePrivate._ProposedSize3D(
+        let original = _SwiftUICorePrivate::_ProposedSize3D(
             width: input.width,
             height: input.height,
             depth: input.depth
@@ -650,12 +650,12 @@ extension _ProposedSize3DTests {
     
     @Test(arguments: Self.inset_expectations)
     func test_inset(input: Input_inset, output: Output_inset) {
-        let impl = MySwiftUICore._ProposedSize3D(
+        let impl = MySwiftUICore::_ProposedSize3D(
             width: input.proposalWidth,
             height: input.proposalHeight,
             depth: input.proposalDepth
         ).inset(
-            by: MySwiftUICore.EdgeInsets3D(
+            by: MySwiftUICore::EdgeInsets3D(
                 top: input.insetsTop,
                 leading: input.insetsLeading,
                 bottom: input.insetsBottom,
@@ -669,12 +669,12 @@ extension _ProposedSize3DTests {
         #expect(impl.height?.bitPattern == output.proposalHeight?.bitPattern)
         #expect(impl.depth?.bitPattern == output.proposalDepth?.bitPattern)
         
-        let original = _SwiftUICorePrivate._ProposedSize3D(
+        let original = _SwiftUICorePrivate::_ProposedSize3D(
             width: input.proposalWidth,
             height: input.proposalHeight,
             depth: input.proposalDepth
         ).inset(
-            by: SwiftUI.EdgeInsets3D(
+            by: SwiftUI::EdgeInsets3D(
                 top: input.insetsTop,
                 leading: input.insetsLeading,
                 bottom: input.insetsBottom,

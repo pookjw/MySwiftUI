@@ -62,7 +62,7 @@ struct ToolbarRoleKey: HostPreferenceKey {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var toolbarRole: ToolbarRole? {
         get {
             return self[EnvironmentValues.DefaultToolbarRoleKey.self]

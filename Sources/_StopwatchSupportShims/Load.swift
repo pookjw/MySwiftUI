@@ -1,6 +1,6 @@
 private import ObjectiveC.runtime
 
-@_cdecl("stopwatchSupportShims_onDyldLoaded")
+@c(stopwatchSupportShims_onDyldLoaded)
 func onDyldLoaded() {
     swizzle_applyVisualStyles()
 }

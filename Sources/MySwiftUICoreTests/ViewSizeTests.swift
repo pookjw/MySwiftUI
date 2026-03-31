@@ -12,7 +12,7 @@ fileprivate struct ViewSizeTests {
 extension ViewSizeTests {
     @Test func test_zero() {
         let impl = MySwiftUICore.ViewSize.zero
-        let original = _SwiftUICorePrivate.ViewSize.zero
+        let original = _SwiftUICorePrivate::ViewSize.zero
         
         #expect(impl.value == .zero)
         #expect(impl._proposal == .zero)
@@ -25,7 +25,7 @@ extension ViewSizeTests {
 extension ViewSizeTests {
     @Test func test_invalidValue() {
         let impl = MySwiftUICore.ViewSize.invalidValue
-        let original = _SwiftUICorePrivate.ViewSize.invalidValue
+        let original = _SwiftUICorePrivate::ViewSize.invalidValue
         
         #expect(impl.value == CGSize(width: -CGFloat.infinity, height: -CGFloat.infinity))
         #expect(impl._proposal == CGSize(width: -CGFloat.infinity, height: -CGFloat.infinity))
@@ -149,9 +149,9 @@ extension ViewSizeTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let original = _SwiftUICorePrivate.ViewSize(
+        let original = _SwiftUICorePrivate::ViewSize(
             input.value,
-            proposal: SwiftUI._ProposedSize(width: input.proposalWidth, height: input.proposalHeight)
+            proposal: SwiftUI::_ProposedSize(width: input.proposalWidth, height: input.proposalHeight)
         )
         
         #expect(original.value.isEqual(to: output.value))
@@ -275,10 +275,10 @@ extension ViewSizeTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let original = _SwiftUICorePrivate.ViewSize(
-            _SwiftUICorePrivate.ViewSize3D(
+        let original = _SwiftUICorePrivate::ViewSize(
+            _SwiftUICorePrivate::ViewSize3D(
                 input.value,
-                proposal: _SwiftUICorePrivate._ProposedSize3D(width: input.proposalWidth, height: input.proposalHeight, depth: input.proposalDepth)
+                proposal: _SwiftUICorePrivate::_ProposedSize3D(width: input.proposalWidth, height: input.proposalHeight, depth: input.proposalDepth)
             )
         )
         
@@ -389,12 +389,12 @@ extension ViewSizeTests {
         impl.proposal = impl_newProposal
         #expect(impl.proposal == impl_newProposal)
         
-        var original = _SwiftUICorePrivate.ViewSize(
+        var original = _SwiftUICorePrivate::ViewSize(
             input.value,
-            proposal: SwiftUI._ProposedSize(width: input.proposalWidth, height: input.proposalHeight)
+            proposal: SwiftUI::_ProposedSize(width: input.proposalWidth, height: input.proposalHeight)
         )
         
-        let original_newProposal = SwiftUI._ProposedSize(width: input.newProposalWidth, height: input.newProposalHeight)
+        let original_newProposal = SwiftUI::_ProposedSize(width: input.newProposalWidth, height: input.newProposalHeight)
         original.proposal = original_newProposal
         #expect(original.proposal == original_newProposal)
     }
@@ -452,9 +452,9 @@ extension ViewSizeTests {
         #expect(impl.value.height.bitPattern == input.initialValue.height.bitPattern)
         #expect(impl.proposal == originalProposal)
         
-        var original = _SwiftUICorePrivate.ViewSize(
+        var original = _SwiftUICorePrivate::ViewSize(
             input.initialValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.proposalWidth,
                 height: input.proposalHeight
             )
@@ -521,9 +521,9 @@ extension ViewSizeTests {
         #expect(impl.value.width.bitPattern == input.initialValue.width.bitPattern)
         #expect(impl.proposal == originalProposal)
         
-        var original = _SwiftUICorePrivate.ViewSize(
+        var original = _SwiftUICorePrivate::ViewSize(
             input.initialValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.proposalWidth,
                 height: input.proposalHeight
             )
@@ -543,7 +543,7 @@ extension ViewSizeTests {
         let initialValue: CGSize
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
-        let axis: SwiftUI.Axis
+        let axis: SwiftUI::Axis
         let newValue: CGFloat
     }
     
@@ -634,9 +634,9 @@ extension ViewSizeTests {
         #expect(impl._proposal.isEqual(to: output._proposal))
         
         
-        var original = _SwiftUICorePrivate.ViewSize(
+        var original = _SwiftUICorePrivate::ViewSize(
             input.initialValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.proposalWidth,
                 height: input.proposalHeight
             )
@@ -736,9 +736,9 @@ extension ViewSizeTests {
         #expect(impl.animatableData.first.bitPattern == input.newAnimatableDataFirst.bitPattern)
         #expect(impl.animatableData.second.bitPattern == input.newAnimatableDataSecond.bitPattern)
         
-        var original = _SwiftUICorePrivate.ViewSize(
+        var original = _SwiftUICorePrivate::ViewSize(
             input.initialValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.proposalWidth,
                 height: input.proposalHeight
             )
@@ -748,7 +748,7 @@ extension ViewSizeTests {
         #expect(originalInitialAnimatable.first.bitPattern == input.initialValue.width.bitPattern)
         #expect(originalInitialAnimatable.second.bitPattern == input.initialValue.height.bitPattern)
         
-        original.animatableData = SwiftUI.AnimatablePair(
+        original.animatableData = SwiftUI::AnimatablePair(
             input.newAnimatableDataFirst,
             input.newAnimatableDataSecond
         )
@@ -807,7 +807,7 @@ extension ViewSizeTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let original = _SwiftUICorePrivate.ViewSize.fixed(input.size)
+        let original = _SwiftUICorePrivate::ViewSize.fixed(input.size)
         
         #expect(original.value.isEqual(to: output.value))
         #expect(original._proposal.isEqual(to: output._proposal))
@@ -943,14 +943,14 @@ extension ViewSizeTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let original = _SwiftUICorePrivate.ViewSize(
+        let original = _SwiftUICorePrivate::ViewSize(
             input.value,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.proposalWidth,
                 height: input.proposalHeight
             )
         ).inset(
-            by: SwiftUI.EdgeInsets(
+            by: SwiftUI::EdgeInsets(
                 top: input.insetsTop,
                 leading: input.insetsLeading,
                 bottom: input.insetsBottom,
@@ -1136,17 +1136,17 @@ extension ViewSizeTests {
         
         #expect((lhs == rhs) == input.expected)
         
-        let originalLhs = _SwiftUICorePrivate.ViewSize(
+        let originalLhs = _SwiftUICorePrivate::ViewSize(
             input.lhsValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.lhsProposalWidth,
                 height: input.lhsProposalHeight
             )
         )
         
-        let originalRhs = _SwiftUICorePrivate.ViewSize(
+        let originalRhs = _SwiftUICorePrivate::ViewSize(
             input.rhsValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.rhsProposalWidth,
                 height: input.rhsProposalHeight
             )
@@ -1158,7 +1158,7 @@ extension ViewSizeTests {
 
 
 
-extension _SwiftUICorePrivate.ViewSize {
+extension _SwiftUICorePrivate::ViewSize {
     fileprivate var _proposal: CGSize {
         return Mirror(reflecting: self).descendant("_proposal") as! CGSize
     }

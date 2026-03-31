@@ -19,7 +19,7 @@ private let fromToArguments: [([Int], [Int])] = [
 struct CollectionChangesTests {
     @Test func test_init() {
         let impl = MySwiftUICore.CollectionChanges<Int, Int>()
-        let original = _SwiftUICorePrivate.CollectionChanges<Int, Int>()
+        let original = _SwiftUICorePrivate::CollectionChanges<Int, Int>()
         
         #expect(normalizedChanges(impl: impl).isEmpty)
         #expect(normalizedChanges(original: original).isEmpty)
@@ -30,7 +30,7 @@ struct CollectionChangesTests {
     @Test(arguments: fromToArguments)
     func test_init_from_to(from: [Int], to: [Int]) {
         let impl = MySwiftUICore.CollectionChanges(from: from, to: to)
-        let original = _SwiftUICorePrivate.CollectionChanges(from: from, to: to)
+        let original = _SwiftUICorePrivate::CollectionChanges(from: from, to: to)
         
         #expect(normalizedChanges(impl: impl) == normalizedChanges(original: original))
     }
@@ -38,7 +38,7 @@ struct CollectionChangesTests {
     @Test(arguments: fromToArguments)
     func test_collection_conformance_from_to(from: [Int], to: [Int]) {
         let impl = MySwiftUICore.CollectionChanges(from: from, to: to)
-        let original = _SwiftUICorePrivate.CollectionChanges(from: from, to: to)
+        let original = _SwiftUICorePrivate::CollectionChanges(from: from, to: to)
         
         #expect(impl.startIndex == original.startIndex)
         #expect(impl.endIndex == original.endIndex)
@@ -57,7 +57,7 @@ struct CollectionChangesTests {
     @Test(arguments: fromToArguments)
     func test_removed_inserted_matched_sequences_from_to(from: [Int], to: [Int]) {
         let impl = MySwiftUICore.CollectionChanges(from: from, to: to)
-        let original = _SwiftUICorePrivate.CollectionChanges(from: from, to: to)
+        let original = _SwiftUICorePrivate::CollectionChanges(from: from, to: to)
         
         let implChanges = normalizedChanges(impl: impl)
         let originalChanges = normalizedChanges(original: original)
@@ -68,9 +68,9 @@ struct CollectionChangesTests {
     }
 }
 
-extension _SwiftUICorePrivate.CollectionChanges {
-    fileprivate var changes: [_SwiftUICorePrivate.CollectionChanges<A, B>.Element] {
-        return Mirror(reflecting: self).descendant("changes") as! [_SwiftUICorePrivate.CollectionChanges<A, B>.Element]
+extension _SwiftUICorePrivate::CollectionChanges {
+    fileprivate var changes: [_SwiftUICorePrivate::CollectionChanges<A, B>.Element] {
+        return Mirror(reflecting: self).descendant("changes") as! [_SwiftUICorePrivate::CollectionChanges<A, B>.Element]
     }
 }
 
@@ -92,7 +92,7 @@ fileprivate func normalizedChanges<A: Comparable, B: Comparable>(
 }
 
 fileprivate func normalizedChanges<A: Comparable, B: Comparable>(
-    original: _SwiftUICorePrivate.CollectionChanges<A, B>
+    original: _SwiftUICorePrivate::CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     return original.changes.map { normalize($0) }
 }
@@ -111,7 +111,7 @@ fileprivate func normalizedForwardIteration<A: Comparable, B: Comparable>(
 }
 
 fileprivate func normalizedForwardIteration<A: Comparable, B: Comparable>(
-    original: _SwiftUICorePrivate.CollectionChanges<A, B>
+    original: _SwiftUICorePrivate::CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     var index = original.startIndex
     var result: [NormalizedChange<A, B>] = []
@@ -141,7 +141,7 @@ fileprivate func normalizedBackwardIteration<A: Comparable, B: Comparable>(
 }
 
 fileprivate func normalizedBackwardIteration<A: Comparable, B: Comparable>(
-    original: _SwiftUICorePrivate.CollectionChanges<A, B>
+    original: _SwiftUICorePrivate::CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     guard original.startIndex < original.endIndex else {
         return []
@@ -210,7 +210,7 @@ fileprivate func normalize<A: Comparable, B: Comparable>(
 }
 
 fileprivate func normalize<A: Comparable, B: Comparable>(
-    _ element: _SwiftUICorePrivate.CollectionChanges<A, B>.Element
+    _ element: _SwiftUICorePrivate::CollectionChanges<A, B>.Element
 ) -> NormalizedChange<A, B> {
     switch element {
     case .removed(let range):
@@ -220,6 +220,6 @@ fileprivate func normalize<A: Comparable, B: Comparable>(
     case .matched(let lhs, let rhs):
         return .matched(lhs, rhs)
     @unknown default:
-        fatalError("Unknown _SwiftUICorePrivate.CollectionChanges.Element")
+        fatalError("Unknown _SwiftUICorePrivate::CollectionChanges.Element")
     }
 }

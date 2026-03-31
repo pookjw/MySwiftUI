@@ -41,7 +41,7 @@ struct TextSizeVariant: Hashable, Comparable, Codable, RawRepresentable {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var textSizeVariant: TextSizeVariant {
         get {
             return self[TextSizeVariantKey.self]

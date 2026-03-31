@@ -11,7 +11,7 @@ struct DynamicLayoutMapTests {
         #expect(impl.sortedArray.isEmpty)
         #expect(impl.sortedSeed == 0)
         
-        let original = _SwiftUICorePrivate.DynamicLayoutMap()
+        let original = _SwiftUICorePrivate::DynamicLayoutMap()
         #expect(original.map.isEmpty)
         #expect(original.sortedArray.isEmpty)
         #expect(original.sortedSeed == 0)
@@ -19,12 +19,12 @@ struct DynamicLayoutMapTests {
     
     @Test func test_subscript() {
         var impl = MySwiftUICore.DynamicLayoutMap()
-        var original = _SwiftUICorePrivate.DynamicLayoutMap()
+        var original = _SwiftUICorePrivate::DynamicLayoutMap()
         
         
         let key_1 = (
             MySwiftUICore.DynamicContainerID(uniqueId: 10, viewIndex: 10),
-            _SwiftUICorePrivate.DynamicContainerID(uniqueId: 10, viewIndex: 10)
+            _SwiftUICorePrivate::DynamicContainerID(uniqueId: 10, viewIndex: 10)
         )
         
         #expect(impl[key_1.0].isEmpty)
@@ -32,7 +32,7 @@ struct DynamicLayoutMapTests {
         
         let value_1 = (
             MySwiftUICore.LayoutProxyAttributes(),
-            _SwiftUICorePrivate.LayoutProxyAttributes()
+            _SwiftUICorePrivate::LayoutProxyAttributes()
         )
         
         impl[key_1.0] = value_1.0
@@ -51,12 +51,12 @@ struct DynamicLayoutMapTests {
         
         let key_2 = (
             MySwiftUICore.DynamicContainerID(uniqueId: 20, viewIndex: 20),
-            _SwiftUICorePrivate.DynamicContainerID(uniqueId: 20, viewIndex: 20)
+            _SwiftUICorePrivate::DynamicContainerID(uniqueId: 20, viewIndex: 20)
         )
         
         let value_2_1 = (
             MySwiftUICore.LayoutProxyAttributes.create(),
-            _SwiftUICorePrivate.LayoutProxyAttributes.create()
+            _SwiftUICorePrivate::LayoutProxyAttributes.create()
         )
         
         impl[key_2.0] = value_2_1.0
@@ -75,12 +75,12 @@ struct DynamicLayoutMapTests {
         
         let key_3 = (
             MySwiftUICore.DynamicContainerID(uniqueId: 30, viewIndex: 30),
-            _SwiftUICorePrivate.DynamicContainerID(uniqueId: 30, viewIndex: 30)
+            _SwiftUICorePrivate::DynamicContainerID(uniqueId: 30, viewIndex: 30)
         )
         
         let value_3_1 = (
             MySwiftUICore.LayoutProxyAttributes.create(),
-            _SwiftUICorePrivate.LayoutProxyAttributes.create()
+            _SwiftUICorePrivate::LayoutProxyAttributes.create()
         )
         
         impl[key_3.0] = value_3_1.0
@@ -101,7 +101,7 @@ struct DynamicLayoutMapTests {
         
         let value_3_2 = (
             MySwiftUICore.LayoutProxyAttributes.create(),
-            _SwiftUICorePrivate.LayoutProxyAttributes.create()
+            _SwiftUICorePrivate::LayoutProxyAttributes.create()
         )
         
         impl[key_3.0] = value_3_2.0
@@ -122,7 +122,7 @@ struct DynamicLayoutMapTests {
         
         let value_2_2 = (
             MySwiftUICore.LayoutProxyAttributes.create(),
-            _SwiftUICorePrivate.LayoutProxyAttributes.create()
+            _SwiftUICorePrivate::LayoutProxyAttributes.create()
         )
         
         impl[key_2.0] = value_2_2.0
@@ -143,26 +143,26 @@ struct DynamicLayoutMapTests {
     
     @Test func test_remove() {
         var impl = MySwiftUICore.DynamicLayoutMap()
-        var original = _SwiftUICorePrivate.DynamicLayoutMap()
+        var original = _SwiftUICorePrivate::DynamicLayoutMap()
         
         let key_1 = (
             MySwiftUICore.DynamicContainerID(uniqueId: 10, viewIndex: 10),
-            _SwiftUICorePrivate.DynamicContainerID(uniqueId: 10, viewIndex: 10)
+            _SwiftUICorePrivate::DynamicContainerID(uniqueId: 10, viewIndex: 10)
         )
         
         let value_1 = (
             MySwiftUICore.LayoutProxyAttributes.create(),
-            _SwiftUICorePrivate.LayoutProxyAttributes.create()
+            _SwiftUICorePrivate::LayoutProxyAttributes.create()
         )
         
         let key_2 = (
             MySwiftUICore.DynamicContainerID(uniqueId: 20, viewIndex: 20),
-            _SwiftUICorePrivate.DynamicContainerID(uniqueId: 20, viewIndex: 20)
+            _SwiftUICorePrivate::DynamicContainerID(uniqueId: 20, viewIndex: 20)
         )
         
         let value_2 = (
             MySwiftUICore.LayoutProxyAttributes.create(),
-            _SwiftUICorePrivate.LayoutProxyAttributes.create()
+            _SwiftUICorePrivate::LayoutProxyAttributes.create()
         )
         
         impl[key_1.0] = value_1.0
@@ -204,16 +204,16 @@ struct DynamicLayoutMapTests {
     }
 }
 
-extension _SwiftUICorePrivate.DynamicLayoutMap {
-    fileprivate var map: [(id: _SwiftUICorePrivate.DynamicContainerID, value: _SwiftUICorePrivate.LayoutProxyAttributes)] {
-        return Mirror(reflecting: self).descendant("map") as! [(id: _SwiftUICorePrivate.DynamicContainerID, value: _SwiftUICorePrivate.LayoutProxyAttributes)]
+extension _SwiftUICorePrivate::DynamicLayoutMap {
+    fileprivate var map: [(id: _SwiftUICorePrivate::DynamicContainerID, value: _SwiftUICorePrivate::LayoutProxyAttributes)] {
+        return Mirror(reflecting: self).descendant("map") as! [(id: _SwiftUICorePrivate::DynamicContainerID, value: _SwiftUICorePrivate::LayoutProxyAttributes)]
     }
 }
 
-extension _SwiftUICorePrivate.LayoutProxyAttributes {
-    fileprivate static func create() -> _SwiftUICorePrivate.LayoutProxyAttributes {
+extension _SwiftUICorePrivate::LayoutProxyAttributes {
+    fileprivate static func create() -> _SwiftUICorePrivate::LayoutProxyAttributes {
         return withGraphContext { 
-            _SwiftUICorePrivate.LayoutProxyAttributes(
+            _SwiftUICorePrivate::LayoutProxyAttributes(
                 layoutComputer: OptionalAttribute(Attribute(SwiftUICoreLayoutComputerRule())),
                 traitsList: OptionalAttribute(Attribute(SwiftUICoreViewListRule()))
             )
@@ -233,13 +233,13 @@ extension MySwiftUICore.LayoutProxyAttributes {
 }
 
 fileprivate struct SwiftUICoreLayoutComputerRule: Rule {
-    var value: _SwiftUICorePrivate.LayoutComputer {
+    var value: _SwiftUICorePrivate::LayoutComputer {
         fatalError("Do not call")
     }
 }
 
 fileprivate struct SwiftUICoreViewListRule: Rule {
-    var value: any _SwiftUICorePrivate.ViewList {
+    var value: any _SwiftUICorePrivate::ViewList {
         fatalError("Do not call")
     }
 }

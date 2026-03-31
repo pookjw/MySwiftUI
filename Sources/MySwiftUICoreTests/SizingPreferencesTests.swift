@@ -86,7 +86,7 @@ extension SizingPreferencesTests {
         ]
         
         for input in cases {
-            let original = _SwiftUICorePrivate.SizingPreferences(
+            let original = _SwiftUICorePrivate::SizingPreferences(
                 width: input.width,
                 height: input.height,
                 depth: input.depth,
@@ -144,7 +144,7 @@ extension SizingPreferencesTests {
         ]
         
         for input in cases {
-            let original = _SwiftUICorePrivate.SizingPreferences.window(
+            let original = _SwiftUICorePrivate::SizingPreferences.window(
                 size: input.size,
                 minimum: input.minimum,
                 maximum: input.maximum
@@ -187,7 +187,7 @@ extension SizingPreferencesTests {
         ]
         
         for input in cases {
-            let original = _SwiftUICorePrivate.SizingPreferences.volume(
+            let original = _SwiftUICorePrivate::SizingPreferences.volume(
                 size: input.size,
                 minimum: input.minimum,
                 maximum: input.maximum
@@ -256,7 +256,7 @@ extension SizingPreferencesTests {
         ]
         
         let originalValues = cases.map {
-            _SwiftUICorePrivate.SizingPreferences(
+            _SwiftUICorePrivate::SizingPreferences(
                 width: $0.width,
                 height: $0.height,
                 depth: $0.depth,
@@ -670,8 +670,8 @@ fileprivate let mutation3DInputs: [Mutation3DInput] = [
     )
 ]
 
-fileprivate func makeOriginal(_ input: InitInput) -> _SwiftUICorePrivate.SizingPreferences {
-    _SwiftUICorePrivate.SizingPreferences(
+fileprivate func makeOriginal(_ input: InitInput) -> _SwiftUICorePrivate::SizingPreferences {
+    _SwiftUICorePrivate::SizingPreferences(
         width: input.width,
         height: input.height,
         depth: input.depth,
@@ -701,7 +701,7 @@ fileprivate func makeImpl(_ input: InitInput) -> MySwiftUICore.SizingPreferences
 }
 
 fileprivate func assert2DPropertySetModifyEquivalence(
-    originalKeyPath: WritableKeyPath<_SwiftUICorePrivate.SizingPreferences, CGSize?>,
+    originalKeyPath: WritableKeyPath<_SwiftUICorePrivate::SizingPreferences, CGSize?>,
     implKeyPath: WritableKeyPath<MySwiftUICore.SizingPreferences, CGSize?>
 ) {
     for input in mutation2DInputs {
@@ -742,7 +742,7 @@ fileprivate func assert2DPropertySetModifyEquivalence(
 }
 
 fileprivate func assert3DPropertySetModifyEquivalence(
-    originalKeyPath: WritableKeyPath<_SwiftUICorePrivate.SizingPreferences, Size3D?>,
+    originalKeyPath: WritableKeyPath<_SwiftUICorePrivate::SizingPreferences, Size3D?>,
     implKeyPath: WritableKeyPath<MySwiftUICore.SizingPreferences, Size3D?>
 ) {
     for input in mutation3DInputs {
@@ -789,7 +789,7 @@ fileprivate func applyModify<T>(_ value: inout T, _ body: (inout T) -> Void) {
 }
 
 fileprivate func assertEquivalent(
-    original: _SwiftUICorePrivate.SizingPreferences,
+    original: _SwiftUICorePrivate::SizingPreferences,
     impl: MySwiftUICore.SizingPreferences
 ) {
     assertPrivateStorageEquivalent(original: original, impl: impl)
@@ -807,7 +807,7 @@ fileprivate func assertEquivalent(
 }
 
 fileprivate func assertPrivateStorageEquivalent(
-    original: _SwiftUICorePrivate.SizingPreferences,
+    original: _SwiftUICorePrivate::SizingPreferences,
     impl: MySwiftUICore.SizingPreferences
 ) {
     assertOptionalCGFloatBitPatternEqual(lhs: original.widthForTest, rhs: impl.widthForTest)
@@ -885,7 +885,7 @@ fileprivate func extractCGFloat(from value: Any) -> CGFloat? {
     return nil
 }
 
-extension _SwiftUICorePrivate.SizingPreferences {
+extension _SwiftUICorePrivate::SizingPreferences {
     fileprivate var widthForTest: CGFloat? {
         extractOptionalCGFloat(from: Mirror(reflecting: self).descendant("width"))
     }

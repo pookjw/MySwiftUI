@@ -23,7 +23,7 @@ struct ToolbarBackgroundVisibility: Equatable {
         assertUnimplemented()
     }
     
-    @inline(__always)
+    @inline(always)
     private init(role: ToolbarBackgroundVisibility.Role) {
         self.role = role
     }

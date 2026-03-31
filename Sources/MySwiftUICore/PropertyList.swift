@@ -691,7 +691,7 @@ fileprivate struct TrackerData {
     var invalidValues: [any AnyTrackedValue]
     var unrecordedDependencies: Bool
     
-    @inline(__always)
+    @inline(always)
     init(
         plistID: UniqueID,
         values: [ObjectIdentifier : any AnyTrackedValue],

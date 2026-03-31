@@ -412,7 +412,7 @@ extension DisplayList.ViewUpdater.ViewInfo {
         var platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         init(item: DisplayList.Seed, content: DisplayList.Seed, opacity: DisplayList.Seed, blend: DisplayList.Seed, transform: DisplayList.Seed, clips: DisplayList.Seed, filters: DisplayList.Seed, shadow: DisplayList.Seed, properties: DisplayList.Seed, platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds) {
             self.item = item
             self.content = content
@@ -524,7 +524,7 @@ extension DisplayList.ViewUpdater {
         private(set) var seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         init(view: AnyObject, kind: PlatformViewDefinition.ViewKind, state: UnsafeMutablePointer<DisplayList.ViewUpdater.Platform.State>, seeds: UnsafeMutablePointer<DisplayList.ViewUpdater.PlatformViewInfo.Seeds>) {
             self.view = view
             self.kind = kind

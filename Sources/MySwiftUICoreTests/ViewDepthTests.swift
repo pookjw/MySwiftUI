@@ -35,7 +35,7 @@ extension ViewDepthTests {
     
     @Test(arguments: Self.initExpectations) func test_init(input: Input, expectation: (CGFloat, CGFloat)) throws {
         let impl = MySwiftUICore.ViewDepth(input.a, proposal: input.b)
-        let original = _SwiftUICorePrivate.ViewDepth(input.a, proposal: input.b)
+        let original = _SwiftUICorePrivate::ViewDepth(input.a, proposal: input.b)
         
         #expect(impl.value.bitPattern == expectation.0.bitPattern)
         #expect(impl._proposal.bitPattern == expectation.1.bitPattern)
@@ -76,7 +76,7 @@ extension ViewDepthTests {
     
     @Test(arguments: Self.proposalExpectations) func test_proposal(input: Input, expectation: (CGFloat, CGFloat)) {
         let impl = MySwiftUICore.ViewDepth(input.a, proposal: input.b)
-        let original = _SwiftUICorePrivate.ViewDepth(input.a, proposal: input.b)
+        let original = _SwiftUICorePrivate::ViewDepth(input.a, proposal: input.b)
         
         #expect(impl.value.bitPattern == expectation.0.bitPattern)
         #expect(impl._proposal.bitPattern == expectation.1.bitPattern)
@@ -108,7 +108,7 @@ extension ViewDepthTests {
     
     @Test(arguments: Self.equalityExpectations) func testEquality(input: Input) {
         #expect(MySwiftUICore.ViewDepth(input.a, proposal: input.b) == MySwiftUICore.ViewDepth(input.a, proposal: input.b))
-        #expect(_SwiftUICorePrivate.ViewDepth(input.a, proposal: input.b) == _SwiftUICorePrivate.ViewDepth(input.a, proposal: input.b))
+        #expect(_SwiftUICorePrivate::ViewDepth(input.a, proposal: input.b) == _SwiftUICorePrivate::ViewDepth(input.a, proposal: input.b))
     }
 }
 
@@ -153,7 +153,7 @@ extension ViewDepthTests {
         let rhs = Self.notEqualityRhsExpectations[index]
         
         #expect(MySwiftUICore.ViewDepth(lhs.a, proposal: lhs.b) != MySwiftUICore.ViewDepth(rhs.a, proposal: rhs.b))
-        #expect(_SwiftUICorePrivate.ViewDepth(lhs.a, proposal: lhs.b) != _SwiftUICorePrivate.ViewDepth(rhs.a, proposal: rhs.b))
+        #expect(_SwiftUICorePrivate::ViewDepth(lhs.a, proposal: lhs.b) != _SwiftUICorePrivate::ViewDepth(rhs.a, proposal: rhs.b))
     }
 }
 
@@ -168,7 +168,7 @@ extension ViewDepthTests {
     
     @Test(arguments: Self.animatableDataExpectations) func test_animatableData(input: CGFloat, expectation: (CGFloat, CGFloat)) {
         var impl = MySwiftUICore.ViewDepth(10, proposal: 20)
-        var original = _SwiftUICorePrivate.ViewDepth(10, proposal: 20)
+        var original = _SwiftUICorePrivate::ViewDepth(10, proposal: 20)
         
         impl.animatableData = input
         original.animatableData = input
@@ -198,7 +198,7 @@ extension CGFloat {
     }
 }
 
-extension _SwiftUICorePrivate.ViewDepth {
+extension _SwiftUICorePrivate::ViewDepth {
     fileprivate var _proposal: CGFloat {
         return Mirror(reflecting: self).descendant("_proposal") as! CGFloat
     }

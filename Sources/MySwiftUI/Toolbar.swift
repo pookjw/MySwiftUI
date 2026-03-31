@@ -408,7 +408,7 @@ struct ToolbarPlacementEnvironment {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var toolbarForegroundStyle: [ToolbarPlacement.Role: AnyShapeStyle] {
         get {
             return self[EnvironmentValues.ToolbarForegroundStyleKey.self]

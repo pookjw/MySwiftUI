@@ -52,7 +52,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     
     private var _rootView: Content
-    private let _base: _UIKitShims.UIHostingViewBase
+    private let _base: _UIKitShims::UIHostingViewBase
     private var isBaseConfigured: Bool = false
     internal final let eventBindingManager = EventBindingManager()
     private var allowUIKitAnimations: Int32 = 0
@@ -184,7 +184,7 @@ open class _UIHostingView<Content: View>: UIView {
         }
     }
     
-    final var base: _UIKitShims.UIHostingViewBase {
+    final var base: _UIKitShims::UIHostingViewBase {
         let base = _base
         base.uiView = self
         base.delegate = self
@@ -596,7 +596,7 @@ open class _UIHostingView<Content: View>: UIView {
         let serverHitTestedResponder = context.serverHitTestedResponder
         let serverHitTestedEntityID = context.serverHitTestedEntityID
         
-        var leafHitTestedEntity: RealityKit.Entity?
+        var leafHitTestedEntity: RealityKit::Entity?
         if
             serverHitTestedEntityID != 0,
             let serverHitTestedResponder,
@@ -1327,11 +1327,11 @@ extension _UIHostingView {
 }
 
 extension _UIHostingView: @preconcurrency ViewRendererHost {
-    package nonisolated final var viewGraph: MySwiftUICore.ViewGraph {
+    package nonisolated final var viewGraph: MySwiftUICore::ViewGraph {
         return self._base.viewGraph.viewGraph
     }
     
-    package final var currentTimestamp: MySwiftUICore.Time {
+    package final var currentTimestamp: MySwiftUICore::Time {
         get {
             assertUnimplemented()
         }
@@ -1340,7 +1340,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package final var valuesNeedingUpdate: MySwiftUICore.ViewGraphRootValues {
+    package final var valuesNeedingUpdate: MySwiftUICore::ViewGraphRootValues {
         get {
             assertUnimplemented()
         }
@@ -1349,7 +1349,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         }
     }
     
-    package final var renderingPhase: MySwiftUICore.ViewRenderingPhase {
+    package final var renderingPhase: MySwiftUICore::ViewRenderingPhase {
         get {
             assertUnimplemented()
         }
@@ -1916,21 +1916,21 @@ extension _UIHostingView: @preconcurrency UICoreViewControllerProvider {
 }
 
 extension _UIHostingView: @preconcurrency HostingViewProtocol {
-    final func convertAnchor<T>(_ anchor: MySwiftUICore.Anchor<T>) -> T {
+    final func convertAnchor<T>(_ anchor: MySwiftUICore::Anchor<T>) -> T {
         assertUnimplemented()
     }
 }
 
 extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
-    final func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims.UIHostingViewBase) -> Bool {
+    final func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims::UIHostingViewBase) -> Bool {
         return shouldDisableUIKitAnimation
     }
     
-    final func baseDidMoveToScene(_ base: _UIKitShims.UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {
+    final func baseDidMoveToScene(_ base: _UIKitShims::UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?) {
         updateImmersiveSpaceAuthorityNotifications(oldScene: oldScene, newScene: newScene)
     }
     
-    final func baseSceneActivationStateDidChange(_ base: _UIKitShims.UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {
+    final func baseSceneActivationStateDidChange(_ base: _UIKitShims::UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?) {
         guard let newState else {
             return
         }
@@ -1948,11 +1948,11 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
         }
     }
     
-    final func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims.UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
+    final func baseKeyboardSafeAreaDidChange(_ base: _UIKitShims::UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat) {
         assertUnimplemented()
     }
     
-    final func baseSceneBecameKey(_ base: _UIKitShims.UIHostingViewBase) {
+    final func baseSceneBecameKey(_ base: _UIKitShims::UIHostingViewBase) {
         guard let rootViewDelegate else {
             return
         }
@@ -1962,7 +1962,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
         }
     }
     
-    final func baseSceneResignedKey(_ base: _UIKitShims.UIHostingViewBase) {
+    final func baseSceneResignedKey(_ base: _UIKitShims::UIHostingViewBase) {
         assertUnimplemented()
     }
 }

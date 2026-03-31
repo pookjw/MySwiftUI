@@ -116,7 +116,7 @@ struct _ViewList_SubgraphElements {
     var base: any _ViewList_Elements
     var subgraphs: _ViewList_SublistSubgraphStorage
     
-    @inline(__always)
+    @inline(always)
     init(base: any _ViewList_Elements, subgraphs: _ViewList_SublistSubgraphStorage) {
         self.base = base
         self.subgraphs = subgraphs
@@ -182,7 +182,7 @@ struct _ViewList_Sublist {
     var traits: ViewTraitCollection
     var list: Attribute<ViewList>?
     
-    @inline(__always)
+    @inline(always)
     init(start: Int, count: Int, id: _ViewList_ID, elements: _ViewList_SubgraphElements, traits: ViewTraitCollection, list: Attribute<ViewList>?) {
         self.start = start
         self.count = count
@@ -850,7 +850,7 @@ fileprivate struct TypedUnaryViewGenerator: UnaryViewGenerator {
     private let view: AnyWeakAttribute
     private let viewType: any View.Type
     
-    @inline(__always)
+    @inline(always)
     init(view: AnyWeakAttribute, viewType: any View.Type) {
         self.view = view
         self.viewType = viewType
@@ -1097,7 +1097,7 @@ struct _ViewList_IteratorStyle: Equatable {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     init(granularity: Int) {
         value = UInt(bitPattern: granularity) << 1
     }
@@ -1579,7 +1579,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
     let modifierType: any ViewModifier.Type
     let baseInputs: _GraphInputs
     
-    @inline(__always)
+    @inline(always)
     init(base: _ViewList_Elements, modifier: AnyWeakAttribute, modifierType: any ViewModifier.Type, baseInputs: _GraphInputs) {
         self.base = base
         self.modifier = modifier

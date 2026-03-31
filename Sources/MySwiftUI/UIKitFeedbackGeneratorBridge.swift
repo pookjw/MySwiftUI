@@ -7,7 +7,7 @@ private import CoreRE
 @MainActor
 class UIKitFeedbackGeneratorBridge<Content: View> {
     weak var host: _UIHostingView<Content>? = nil
-    private var hostingEntity: RealityKit.Entity? = nil
+    private var hostingEntity: RealityKit::Entity? = nil
     private var activeEntities: [ViewIdentity: AudioFeedbackEntity] = [:]
     private var processedFeedbackSeeds: Set<FeedbackRequest.Seed> = []
     private var feedbackSeed = VersionSeed.empty
@@ -69,7 +69,7 @@ class UIKitFeedbackGeneratorBridge<Content: View> {
                             continue
                         }
                         
-                        unsafe feedback.entityRef = unsafe entity.__coreEntity.__as(CoreRE.Entity.self)
+                        unsafe feedback.entityRef = unsafe entity.__coreEntity.__as(CoreRE::Entity.self)
                         feedback.play()
                     }
                 }

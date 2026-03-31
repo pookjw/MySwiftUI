@@ -192,7 +192,7 @@ extension CGPoint {
 
 extension CGPoint {
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inline(__always) @inlinable package mutating func round(_ rule: FloatingPointRoundingRule, toMultipleOf m: CGFloat) {
+    @inline(always) @inlinable package mutating func round(_ rule: FloatingPointRoundingRule, toMultipleOf m: CGFloat) {
         x.round(rule, toMultipleOf: m)
         y.round(rule, toMultipleOf: m)
     }
@@ -203,7 +203,7 @@ extension CGPoint {
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inline(__always) @inlinable package func rounded(_ rule: FloatingPointRoundingRule, toMultipleOf m: CGFloat) -> CGPoint {
+    @inline(always) @inlinable package func rounded(_ rule: FloatingPointRoundingRule, toMultipleOf m: CGFloat) -> CGPoint {
         var r = self
         r.round(rule, toMultipleOf: m)
         return r

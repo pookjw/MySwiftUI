@@ -136,7 +136,7 @@ extension FocusViewGraph {
             attr.projectedValue?.value = value
         }
         
-        func combine<T>(with other: T) -> Bool where T : MySwiftUICore.GraphMutation {
+        func combine<T>(with other: T) -> Bool where T : MySwiftUICore::GraphMutation {
             assertUnimplemented()
         }
     }

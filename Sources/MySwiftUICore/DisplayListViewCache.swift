@@ -203,7 +203,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         private var tag: DisplayList.ViewUpdater.ViewCache.Tag
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         init(id: DisplayList.Index.ID, system: PlatformViewDefinition.System, tag: DisplayList.ViewUpdater.ViewCache.Tag) {
             self.id = id
             self.system = system
@@ -222,7 +222,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         private(set) var nextUpdate: Time
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         init(
             platform: DisplayList.ViewUpdater.Platform,
             view: AnyObject,

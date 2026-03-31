@@ -184,136 +184,82 @@ extension DisplayList {
         package mutating func canonicalize(options: DisplayList.Options = .defaultValue) {
             /*
              options = w26
+             self -> x20 -> x22
              self.value -> x21
              self.value case -> x24
              */
             guard !options.contains(.disableCanonicalization) else {
+                // <+4736>
                 return
             }
             
             switch value {
             case .content(let content):
-                guard !frame.isEmpty || features.contains(.required) else {
-                    return
-                }
-                
-                // <+264>
-                switch content.value {
-                case .color(let colorView):
-                    // <+1232>
-                    if (colorView.color.base.linearRed == 0) &&
-                        (colorView.color.base.linearGreen == 0) &&
-                        (colorView.color.base.linearBlue == 0) &&
-                        (colorView.color.base.opacity == 0)
-                    {
-                        // <+4268>
-                        value = .empty
-                    } else {
-                        // <+4072>
+                // <+100>
+                if frame.isEmpty {
+                    // <+140>
+                    assertUnimplemented()
+                } else {
+                    // <+3492>
+                    switch content.value {
+                    case .color(let colorView):
+                        // <+3684>
+                        if (colorView.color.base.linearRed == 0) &&
+                            (colorView.color.base.linearGreen == 0) &&
+                            (colorView.color.base.linearBlue == 0) &&
+                            (colorView.color.base.opacity == 0)
+                        {
+                            // <+4600>
+                            value = .empty
+                        } else {
+                            // <+3760>
+                            // nop
+                        }
+                        
+                        return
+                    case .shape(_, _, _):
+                        // <+3560>
+                        assertUnimplemented()
+                    case .shadow(_, _):
+                        // <+3608>
+                        assertUnimplemented()
+                    case .text(_, _):
+                        assertUnimplemented()
+                    case .flattened(_, _, _):
+                        // <+3528>
+                        assertUnimplemented()
+                    default:
+                        // <+3760>
                         // nop
+                        return
                     }
-                case .shape(_, _, _):
-                    // <+1068>
-                    assertUnimplemented()
-                case .shadow(_, _):
-                    // <+1152>
-                    assertUnimplemented()
-                case .text(_, _):
-                    // <+1200>
-                    assertUnimplemented()
-                case .flattened(_, _, _):
-                    // <+300>
-                    assertUnimplemented()
-                default:
-                    // <+4072>
-                    return
                 }
             case .effect(let effect, let displsyList):
-                // <+216>
-                /*
-                 effect -> x19
-                 effect case -> x23
-                 displsyList.items -> x22
-                 displsyList.features | displsyList.properties -> x24
-                 self -> sp + 0x38
-                 */
-                // x21
-                let effectCopy: DisplayList.Effect
-                if !displsyList.items.isEmpty {
-                    // <+236>
-                    effectCopy = effect
-                    // <+492>
-                } else {
-                    // <+316>
-                    // self.value -> sp + 0x40
-                    effectCopy = effect
-                    // sp + 0x220
-                    let features = effectCopy.features
-                    // self -> x20
-                    
-                    if !features.contains(.required) {
-                        switch effect {
-                        case .platformGroup(let factory):
-                            // <+388>
-                            // sp + 0x40
-                            let _ = factory
-                            // w20
-                            let groupHasContent = factory.groupHasContent
-                            
-                            if !groupHasContent {
-                                // <+468>
-                                // <+1816>
-                                // <+4296>
-                                value = .empty
-                                return
-                            } else {
-                                // <+3108>
-                                assertUnimplemented()
-                            }
-                        default:
-                            // <+1792>
-                            // <+4296>
-                            value = .empty
-                            return
-                        }
-                    } else {
-                        // <+492>
-                    }
-                }
-                
-                // <+492>
-                switch effectCopy {
-                case .opacity(let opacity):
-                    // <+1288>
-                    // opacity -> w21 -> s0
-                    if opacity < 1.0 {
-                        // <+3100>
-                        assertUnimplemented()
-                    } else {
-                        // <+1304>
-                        // <+3080>
-                        canonicalizeIdentityEffect(list: displsyList)
-                        
-                        if displsyList.properties.contains(.foregroundLayer) {
-                            // <+3172>
-                            return
-                        }
-                        
-                        // <+3144>
-                        if opacity > 0.0 {
-                            // <+4316>
-                            return
+                // <+288>
+                if !displsyList.isEmpty || effect.features.contains(.required) {
+                    // <+512>
+                    switch effect {
+                    case .identity:
+                        // <+1140>
+                        // <+1396>
+                        self.canonicalizeIdentityEffect(list: displsyList)
+                        // <+4648>
+                        if !displsyList.features.contains(.required) {
+                            // <+4660>
+                            assertUnimplemented()
                         } else {
-                            // <+4516>
-                            value = .empty
+                            // <+4720>
                             return
                         }
+                    default:
+                        assertUnimplemented()
                     }
-                default:
+                } else {
+                    // <+396>
                     assertUnimplemented()
                 }
             default:
-                // <+4316>
+                // <+4736>
                 return
             }
         }
@@ -591,7 +537,7 @@ extension DisplayList {
         
         package private(set) var value: Int
         
-        @inline(__always)
+        @inline(always)
         package init() {
             self.value = 0
         }
@@ -601,14 +547,14 @@ extension DisplayList {
             self.value = decodedValue
         }
         
-        @inline(__always)
+        @inline(always)
         package init(forUpdate: Void) {
             let value = DisplayList.Version.lastValue &+ 1
             DisplayList.Version.lastValue = value
             self.value = value
         }
         
-        @inline(__always)
+        @inline(always)
         package mutating func combine(with other: DisplayList.Version) {
             self.value = max(other.value, self.value)
         }
@@ -657,12 +603,12 @@ extension DisplayList {
         
         init() {}
         
-        @inline(__always)
+        @inline(always)
         var id: DisplayList.Index.ID {
             return DisplayList.Index.ID(identity: identity, serial: serial, archiveIdentity: archiveIdentity, archiveSerial: archiveSerial)
         }
         
-        @inline(__always)
+        @inline(always)
         mutating func enter(identity: _DisplayList_Identity) -> DisplayList.Index {
             var old = self
             if identity.value != 0 {
@@ -678,7 +624,7 @@ extension DisplayList {
             return old
         }
         
-        @inline(__always)
+        @inline(always)
         mutating func leave(index: DisplayList.Index) {
             let restored = restored
             if restored.contains(.unknown4) || restored.contains(.unknown8) {

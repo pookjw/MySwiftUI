@@ -30,7 +30,7 @@ extension AlignmentKeyTests {
         let implKey = MySwiftUICore.AlignmentKey(id: MyAlignmentID_1.self, axis: .vertical)
         #expect(implKey.fraction == 1)
         
-        let originalKey = SwiftUI.AlignmentKey(id: MyAlignmentID_3.self, axis: .horizontal)
+        let originalKey = SwiftUI::AlignmentKey(id: MyAlignmentID_3.self, axis: .horizontal)
         #expect(originalKey.fraction == 3)
     }
 }
@@ -47,8 +47,8 @@ fileprivate struct MyAlignmentID_2: MySwiftUICore.AlignmentID {
     }
 }
 
-fileprivate struct MyAlignmentID_3: SwiftUI.AlignmentID {
-    static func defaultValue(in context: SwiftUI.ViewDimensions) -> CGFloat {
+fileprivate struct MyAlignmentID_3: SwiftUI::AlignmentID {
+    static func defaultValue(in context: SwiftUI::ViewDimensions) -> CGFloat {
         return 3
     }
 }

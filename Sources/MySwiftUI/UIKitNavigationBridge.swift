@@ -121,7 +121,7 @@ class UIKitNavigationBridge {
         return (navController, false, nil)
     }
     
-    @inline(__always)
+    @inline(always)
     @MainActor final func hostingControllerDidAppear() {
         guard isBeingPresented else {
             return
@@ -138,7 +138,7 @@ class UIKitNavigationBridge {
         assertUnimplemented()
     }
     
-    @inline(__always)
+    @inline(always)
     final func preferencesDidChange(_ preferences: PreferenceValues) {
         let destinations = preferences[NavigationDestinationsKey.self]
         updateNavigationDestinationsIfNeeded(preference: destinations)
@@ -381,7 +381,7 @@ fileprivate struct UIKitNavigationBridgePresentationModeLocation: Location {
         assertUnimplemented()
     }
     
-    mutating func set(_ newValue: PresentationMode, transaction: MySwiftUICore.Transaction) {
+    mutating func set(_ newValue: PresentationMode, transaction: MySwiftUICore::Transaction) {
         assertUnimplemented()
     }
     

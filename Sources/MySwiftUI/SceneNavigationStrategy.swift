@@ -160,7 +160,7 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    @inline(__always) // 원래 없음
+    @inline(always) // 원래 없음
     mutating func removeCache(id: String, value: AnyHashable) {
         let item = SceneRequestCache.Item(id: id, value: value)
         self.sceneRequestCache.sceneActivationRequestCache.remove(item)

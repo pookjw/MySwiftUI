@@ -4,18 +4,18 @@ private import AttributeGraph
 public struct _DynamicPropertyBuffer {
     private var contents: UnsafeHeterogeneousBuffer
     
-    @inline(__always)
+    @inline(always)
     init<T>(fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs) {
         contents = UnsafeHeterogeneousBuffer()
         unsafe addFields(fields, container: container, inputs: &inputs, baseOffset: 0)
     }
     
-    @inline(__always)
+    @inline(always)
     init() {
         contents = UnsafeHeterogeneousBuffer()
     }
     
-    @inline(__always)
+    @inline(always)
     init<T>(fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs, baseOffset: Int) {
         contents = UnsafeHeterogeneousBuffer()
         unsafe addFields(fields, container: container, inputs: &inputs, baseOffset: baseOffset)
@@ -295,7 +295,7 @@ fileprivate struct EnumBox {
     private var active: (tag: Int, index: Int)?
     
     // 원래 없음
-    @inline(__always)
+    @inline(always)
     init(cases: [(tag: Int, links: _DynamicPropertyBuffer)], active: (tag: Int, index: Int)?) {
         self.cases = cases
         self.active = active

@@ -93,7 +93,7 @@ private import AttributeGraph
         assertUnimplemented()
     }
     
-    @inline(__always)
+    @inline(always)
     final func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(SharingActivityPickerPresentation.Key.self)
     }

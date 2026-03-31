@@ -6,13 +6,13 @@ private import _SwiftUICorePrivate
 fileprivate struct Cache3Tests {
     @Test func test_init() {
         let impl = MySwiftUICore.Cache3<MyKey, MyValue>()
-        let original = _SwiftUICorePrivate.Cache3<MyKey, MyValue>()
+        let original = _SwiftUICorePrivate::Cache3<MyKey, MyValue>()
         #expect(isEqual(impl: impl, original: original))
     }
     
     @Test func test_get() {
         var impl = MySwiftUICore.Cache3<MyKey, MyValue>()
-        var original = _SwiftUICorePrivate.Cache3<MyKey, MyValue>()
+        var original = _SwiftUICorePrivate::Cache3<MyKey, MyValue>()
         
         var called = false
         
@@ -50,7 +50,7 @@ fileprivate struct Cache3Tests {
     
     @Test func test_find() {
         var impl = MySwiftUICore.Cache3<MyKey, MyValue>()
-        var original = _SwiftUICorePrivate.Cache3<MyKey, MyValue>()
+        var original = _SwiftUICorePrivate::Cache3<MyKey, MyValue>()
         
         let key_1 = MyKey(key: 1)
         let value_1 = MyValue(value: 1)
@@ -104,7 +104,7 @@ fileprivate struct Cache3Tests {
     
     @Test func test_put() {
         var impl = MySwiftUICore.Cache3<MyKey, MyValue>()
-        var original = _SwiftUICorePrivate.Cache3<MyKey, MyValue>()
+        var original = _SwiftUICorePrivate::Cache3<MyKey, MyValue>()
         
         let key_1 = MyKey(key: 1)
         let value_1 = MyValue(value: 1)
@@ -140,7 +140,7 @@ fileprivate struct Cache3Tests {
     
     @Test func test_map() {
         var impl = MySwiftUICore.Cache3<MyKey, MyValue>()
-        var original = _SwiftUICorePrivate.Cache3<MyKey, MyValue>()
+        var original = _SwiftUICorePrivate::Cache3<MyKey, MyValue>()
         
         do {
             var count = 0
@@ -225,7 +225,7 @@ fileprivate struct Cache3Tests {
     }
 }
 
-extension _SwiftUICorePrivate.Cache3 {
+extension _SwiftUICorePrivate::Cache3 {
     fileprivate var store: ((key: Key, value: Value)?, (key: Key, value: Value)?, (key: Key, value: Value)?) {
         return Mirror(reflecting: self).descendant("store") as! ((key: Key, value: Value)?, (key: Key, value: Value)?, (key: Key, value: Value)?)
     }
@@ -239,7 +239,7 @@ fileprivate struct MyValue {
     let value: Int
 }
 
-fileprivate func isEqual(impl: MySwiftUICore.Cache3<MyKey, MyValue>, original: _SwiftUICorePrivate.Cache3<MyKey, MyValue>) -> Bool {
+fileprivate func isEqual(impl: MySwiftUICore.Cache3<MyKey, MyValue>, original: _SwiftUICorePrivate::Cache3<MyKey, MyValue>) -> Bool {
     return impl.store.0?.key == original.store.0?.key &&
     impl.store.0?.value.value == original.store.0?.value.value &&
     impl.store.1?.key == original.store.1?.key &&

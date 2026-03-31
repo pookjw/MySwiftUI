@@ -7,7 +7,7 @@ private import _QuartzCorePrivate
 private import _UIKitPrivate
 
 extension ServerHitTest {
-    @MainActor init(uiResponder: UIResponder?, leafHitTestedEntity: RealityKit.Entity?) {
+    @MainActor init(uiResponder: UIResponder?, leafHitTestedEntity: RealityKit::Entity?) {
         /*
          uiResponder -> x0 -> x21
          leafHitTestedEntity -> x1 -> x19

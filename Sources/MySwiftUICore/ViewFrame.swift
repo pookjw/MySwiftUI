@@ -6,13 +6,13 @@ struct ViewFrame: Equatable {
     private(set) var origin: CGPoint
     private(set) var size: ViewSize
     
-    @inline(__always)
+    @inline(always)
     init(origin: CGPoint, size: ViewSize) {
         self.origin = origin
         self.size = size
     }
     
-    @inline(__always)
+    @inline(always)
     mutating func round(toMultipleOf multiple: CGFloat) {
         roundCoordinatesToNearestOrUp(toMultipleOf: multiple)
     }

@@ -30,7 +30,7 @@ fileprivate typealias EntryInput = (key: TestKey, valueCount: Int, seed: UInt32)
 struct PreferenceValuesTests {
     @Test
     func test_seed_empty() {
-        let original = _SwiftUICorePrivate.PreferenceValues()
+        let original = _SwiftUICorePrivate::PreferenceValues()
         let impl = MySwiftUICore.PreferenceValues()
         
         assertEquivalent(original: original, impl: impl)
@@ -63,7 +63,7 @@ struct PreferenceValuesTests {
     
     @Test
     func test_subscript_getter_defaultValue_allKeys() {
-        let original = _SwiftUICorePrivate.PreferenceValues()
+        let original = _SwiftUICorePrivate::PreferenceValues()
         let impl = MySwiftUICore.PreferenceValues()
         
         for key in TestKey.allCases {
@@ -77,7 +77,7 @@ struct PreferenceValuesTests {
     
     @Test
     func test_subscript_setter_ignoresEmptySeed_allKeys() {
-        var original = _SwiftUICorePrivate.PreferenceValues()
+        var original = _SwiftUICorePrivate::PreferenceValues()
         var impl = MySwiftUICore.PreferenceValues()
         
         for (index, key) in TestKey.allCases.enumerated() {
@@ -131,7 +131,7 @@ struct PreferenceValuesTests {
             (.key3, 3, .max)
         ]
         
-        var original = _SwiftUICorePrivate.PreferenceValues()
+        var original = _SwiftUICorePrivate::PreferenceValues()
         let originalOther = makeOriginalPreferenceValues(entries: otherEntries)
         
         var impl = MySwiftUICore.PreferenceValues()
@@ -206,8 +206,8 @@ struct PreferenceValuesTests {
     }
 }
 
-fileprivate func makeOriginalPreferenceValues(entries: [EntryInput]) -> _SwiftUICorePrivate.PreferenceValues {
-    var values = _SwiftUICorePrivate.PreferenceValues()
+fileprivate func makeOriginalPreferenceValues(entries: [EntryInput]) -> _SwiftUICorePrivate::PreferenceValues {
+    var values = _SwiftUICorePrivate::PreferenceValues()
     
     for entry in entries {
         setValue(
@@ -237,13 +237,13 @@ fileprivate func makeImplPreferenceValues(entries: [EntryInput]) -> MySwiftUICor
 }
 
 fileprivate func setValue(
-    original values: inout _SwiftUICorePrivate.PreferenceValues,
+    original values: inout _SwiftUICorePrivate::PreferenceValues,
     key: TestKey,
     valueCount: Int,
     seed: UInt32
 ) {
     let value = makeValues(count: valueCount)
-    let seedValue = _SwiftUICorePrivate.VersionSeed(value: seed)
+    let seedValue = _SwiftUICorePrivate::VersionSeed(value: seed)
     
     switch key {
     case .key1:
@@ -275,9 +275,9 @@ fileprivate func setValue(
 }
 
 fileprivate func value(
-    original values: _SwiftUICorePrivate.PreferenceValues,
+    original values: _SwiftUICorePrivate::PreferenceValues,
     key: TestKey
-) -> _SwiftUICorePrivate.PreferenceValues.Value<[Int]> {
+) -> _SwiftUICorePrivate::PreferenceValues.Value<[Int]> {
     switch key {
     case .key1:
         return values[MyOriginalKey1.self]
@@ -320,13 +320,13 @@ fileprivate struct PreferenceValuesSnapshot: Equatable {
 }
 
 fileprivate func assertEquivalent(
-    original: _SwiftUICorePrivate.PreferenceValues,
+    original: _SwiftUICorePrivate::PreferenceValues,
     impl: MySwiftUICore.PreferenceValues
 ) {
     #expect(snapshot(original: original) == snapshot(impl: impl))
 }
 
-fileprivate func snapshot(original: _SwiftUICorePrivate.PreferenceValues) -> PreferenceValuesSnapshot {
+fileprivate func snapshot(original: _SwiftUICorePrivate::PreferenceValues) -> PreferenceValuesSnapshot {
     return PreferenceValuesSnapshot(
         seed: original.seed.valueForTest,
         entriesCount: original.entriesCountForTest,
@@ -347,7 +347,7 @@ fileprivate func snapshot(impl: MySwiftUICore.PreferenceValues) -> PreferenceVal
 }
 
 fileprivate func keySnapshot(
-    original values: _SwiftUICorePrivate.PreferenceValues,
+    original values: _SwiftUICorePrivate::PreferenceValues,
     key: TestKey
 ) -> KeySnapshot {
     let entry = value(original: values, key: key)
@@ -362,7 +362,7 @@ fileprivate func keySnapshot(
     return KeySnapshot(valueCount: entry.value.count, seed: entry.seed.value)
 }
 
-fileprivate struct MyOriginalKey1: SwiftUI.PreferenceKey {
+fileprivate struct MyOriginalKey1: SwiftUI::PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }
@@ -372,7 +372,7 @@ fileprivate struct MyOriginalKey1: SwiftUI.PreferenceKey {
     }
 }
 
-fileprivate struct MyOriginalKey2: SwiftUI.PreferenceKey {
+fileprivate struct MyOriginalKey2: SwiftUI::PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }
@@ -382,7 +382,7 @@ fileprivate struct MyOriginalKey2: SwiftUI.PreferenceKey {
     }
 }
 
-fileprivate struct MyOriginalKey3: SwiftUI.PreferenceKey {
+fileprivate struct MyOriginalKey3: SwiftUI::PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }
@@ -422,13 +422,13 @@ fileprivate struct MyImplKey3: MySwiftUICore.PreferenceKey {
     }
 }
 
-extension _SwiftUICorePrivate.PreferenceValues {
+extension _SwiftUICorePrivate::PreferenceValues {
     fileprivate var entriesCountForTest: Int {
         return (Mirror(reflecting: self).descendant("entries") as! [Any]).count
     }
 }
 
-extension _SwiftUICorePrivate.VersionSeed {
+extension _SwiftUICorePrivate::VersionSeed {
     fileprivate var valueForTest: UInt32 {
         return Mirror(reflecting: self).descendant("value") as! UInt32
     }

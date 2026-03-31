@@ -65,7 +65,7 @@ package struct ViewTransform {
     }
     
     // 원래 없음
-    @inline(__always)
+    @inline(always)
     mutating func updateNode(coordinateSpace: CoordinateSpace) -> CoordinateSpaceTag {
         let tag: CoordinateSpaceTag
         if let _tag = coordinateSpaceTag(coordinateSpace) {
@@ -80,7 +80,7 @@ package struct ViewTransform {
     }
     
     // 원래 없음
-    @inline(__always)
+    @inline(always)
     mutating func updateHead<T: ViewTransformElement>(element: T) {
         let element = Element(
             next: head,

@@ -6,7 +6,7 @@ private import SwiftUI
 fileprivate struct UnsafeMutableBufferProjectionPointerTests {
     @Test func test_init() {
         let impl = MySwiftUICore.UnsafeMutableBufferProjectionPointer<MyBase, UInt8>()
-        let original = _SwiftUICorePrivate.UnsafeMutableBufferProjectionPointer<MyBase, UInt8>()
+        let original = _SwiftUICorePrivate::UnsafeMutableBufferProjectionPointer<MyBase, UInt8>()
         
         #expect(impl._start == original._start)
         #expect(impl.endIndex == original.endIndex)
@@ -19,7 +19,7 @@ fileprivate struct UnsafeMutableBufferProjectionPointerTests {
                 start: pointer.baseAddress!,
                 count: pointer.count
             )
-            let original = _SwiftUICorePrivate.UnsafeMutableBufferProjectionPointer<MyBase, MyBase>(
+            let original = _SwiftUICorePrivate::UnsafeMutableBufferProjectionPointer<MyBase, MyBase>(
                 start: pointer.baseAddress!,
                 count: pointer.count
             )
@@ -37,7 +37,7 @@ fileprivate struct UnsafeMutableBufferProjectionPointerTests {
                 \.i2
             )
             
-            let original = _SwiftUICorePrivate.UnsafeMutableBufferProjectionPointer<MyBase, UInt8>(
+            let original = _SwiftUICorePrivate::UnsafeMutableBufferProjectionPointer<MyBase, UInt8>(
                 pointer,
                 \.i2
             )
@@ -49,7 +49,7 @@ fileprivate struct UnsafeMutableBufferProjectionPointerTests {
     }
 }
 
-extension _SwiftUICorePrivate.UnsafeMutableBufferProjectionPointer {
+extension _SwiftUICorePrivate::UnsafeMutableBufferProjectionPointer {
     fileprivate var _start: UnsafeMutableRawPointer {
         return unsafe Mirror(reflecting: self).descendant("_start") as! UnsafeMutableRawPointer
     }

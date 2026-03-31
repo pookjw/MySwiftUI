@@ -86,7 +86,7 @@ extension UIHostingController {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var internalNavigationEnabled: Bool {
         get {
             return self[InternalNavigationEnabledKey.self]

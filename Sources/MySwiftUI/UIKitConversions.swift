@@ -7,12 +7,12 @@ private import MRUIKit
 private import _SwiftPrivate
 
 extension BarAppearanceBridge {
-    @inline(__always)
+    @inline(always)
     func updateNavigationBar(preferences: PreferenceValues) {
         updateNavigationBar(updating: NavigationBarUpdateFlags(), preferences: preferences)
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate func updateNavigationBar(updating: NavigationBarUpdateFlags, preferences: PreferenceValues) {
         self.withUpdate { updateContext in
             // $s7SwiftUI19BarAppearanceBridgeC016updateNavigationC033_BF747AB022DCE7FC5B6AD0F035BC8E0DLL8updating11preferencesyAA0gC11UpdateFlagsV_AA16PreferenceValuesVtFyAC0S7ContextVXEfU_
@@ -315,7 +315,7 @@ extension BarAppearanceBridge {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate func updateNavigationStyle(_ preferences: PreferenceValues) {
         self.withUpdate { updateContext in
             // $s7SwiftUI19BarAppearanceBridgeC21updateNavigationStyle33_BF747AB022DCE7FC5B6AD0F035BC8E0DLLyyAA16PreferenceValuesVFyAC13UpdateContextVXEfU_
@@ -349,7 +349,7 @@ extension BarAppearanceBridge {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate func updateBackAction(_ preferences: PreferenceValues) {
         self.withUpdate { updateContext in
             // $s7SwiftUI19BarAppearanceBridgeC16updateBackAction33_BF747AB022DCE7FC5B6AD0F035BC8E0DLLyyAA16PreferenceValuesVFyAC13UpdateContextVXEfU_
@@ -407,7 +407,7 @@ extension BarAppearanceBridge {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate func updateSidebarToggle(_ preferences: PreferenceValues) {
         self.withUpdate { updateContext in
             // $s7SwiftUI19BarAppearanceBridgeC19updateSidebarToggle33_BF747AB022DCE7FC5B6AD0F035BC8E0DLLyyAA16PreferenceValuesVFyAC13UpdateContextVXEfU_
@@ -464,7 +464,7 @@ extension BarAppearanceBridge {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate func containedInExpandedSplitViewColumn(columns: NavigationSplitColumn...) -> Bool {
         return withUpdate { updateContext in
             // $s7SwiftUI19BarAppearanceBridgeC34containedInExpandedSplitViewColumn33_BF747AB022DCE7FC5B6AD0F035BC8E0DLL7columnsSbAA010NavigationiK0Od_tFSbAC13UpdateContextVXEfU_
@@ -499,7 +499,7 @@ extension BarAppearanceBridge {
         return updateContext?.containingController
     }
     
-    @inline(__always)
+    @inline(always)
     func updateBarConfiguration(role: ToolbarPlacement.Role) -> Bool {
         switch role {
         case .accessoryBar(_), .windowToolbarItems, .windowToolbar, .keyboardBar:
@@ -701,7 +701,7 @@ extension BarAppearanceBridge {
         return true
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate func updateNavigationVisibilities(navigationController: UINavigationController) -> Bool {
         return withUpdate { updateContext in
             // $s7SwiftUI19BarAppearanceBridgeC28updateNavigationVisibilities33_BF747AB022DCE7FC5B6AD0F035BC8E0DLL20navigationControllerSbSo012UINavigationS0C_tFSbAC13UpdateContextVXEfU_

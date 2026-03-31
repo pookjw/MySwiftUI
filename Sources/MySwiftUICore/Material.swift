@@ -145,7 +145,7 @@ package protocol MaterialProvider {
 
 #if SwiftUICompataibility
 extension EnvironmentValues {
-    public var backgroundMaterial: SwiftUI.Material? {
+    public var backgroundMaterial: SwiftUI::Material? {
         get {
             return self[BackgroundMaterialKey.self]
         }
@@ -156,7 +156,7 @@ extension EnvironmentValues {
 }
 
 fileprivate struct BackgroundMaterialKey: EnvironmentKey {
-    static var defaultValue: SwiftUI.Material? {
+    static var defaultValue: SwiftUI::Material? {
         return nil
     }
 }

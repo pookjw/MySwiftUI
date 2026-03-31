@@ -68,11 +68,11 @@ extension ForEach: DynamicView, PrimitiveView where Content: View {
         assertUnimplemented()
     }
     
-    func makeChildView(metadata: Never, view: AttributeGraph.Attribute<ForEach<Data, ID, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+    func makeChildView(metadata: Never, view: AttributeGraph::Attribute<ForEach<Data, ID, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    func makeChildViewList(metadata: Never, view: AttributeGraph.Attribute<ForEach<Data, ID, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    func makeChildViewList(metadata: Never, view: AttributeGraph::Attribute<ForEach<Data, ID, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
@@ -491,7 +491,7 @@ extension ForEachState {
         private var removes: Set<ID>
         private var inserts: Set<ID>
         
-        @inline(__always)
+        @inline(always)
         init(removes: Set<ID> = Set([]), inserts: Set<ID> = Set([])) {
             self.removes = removes
             self.inserts = inserts
@@ -588,7 +588,7 @@ fileprivate struct ForEachList<Data: RandomAccessCollection, ID: Hashable, Conte
         assertUnimplemented()
     }
     
-    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph.Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph::Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
         return self.state.forEachItem(from: &index, style: style) { index, style, state in
             // $s7SwiftUI12ForEachStateC10applyNodes4from5style4list9transform2toSbSiz_AA23_ViewList_IteratorStyleV14AttributeGraph0Q0VyAA0mN0_pGSgAA01_mN26_TemporarySublistTransformVSbSiz_AkA01_mN5_NodeOAStXEtFSbSiz_AkC4ItemCyxq_q0__GtXEfU_TA
             assertUnimplemented()

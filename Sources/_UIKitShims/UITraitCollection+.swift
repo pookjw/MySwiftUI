@@ -94,12 +94,12 @@ extension UIMutableTraitsInternal {
 
 extension UITraitCollection {
     @MainActor
-    func environmentValues() -> MySwiftUICore.EnvironmentValues {
-        if let environmentWrapper = _environmentWrapper as? MySwiftUICore.ViewGraphHostEnvironmentWrapper {
+    func environmentValues() -> MySwiftUICore::EnvironmentValues {
+        if let environmentWrapper = _environmentWrapper as? MySwiftUICore::ViewGraphHostEnvironmentWrapper {
             return environmentWrapper.environment
         }
         
-        var enviromentValues = MySwiftUICore.EnvironmentValues()
+        var enviromentValues = MySwiftUICore::EnvironmentValues()
         enviromentValues.locale = .current
         enviromentValues.calendar = .current
         enviromentValues.timezone = .current
@@ -107,7 +107,7 @@ extension UITraitCollection {
     }
     
     @preconcurrency
-    package func coreResolvedBaseEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
+    package func coreResolvedBaseEnvironment(base: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::EnvironmentValues {
         /*
          base = x26
          self = x24
@@ -229,7 +229,7 @@ extension UITraitCollection {
     }
     
     @preconcurrency
-    package func coreResolvedGlassMaterialEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
+    package func coreResolvedGlassMaterialEnvironment(base: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::EnvironmentValues {
         /*
          self -> x20 -> x21
          base -> x0 -> x20
@@ -248,7 +248,7 @@ extension UITraitCollection {
     }
     
     @preconcurrency
-    package func coreResolvedBaseTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper?, options: UICoreTraitCollectionResolutionOptions) -> UITraitCollection {
+    package func coreResolvedBaseTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: MySwiftUICore::ViewGraphHostEnvironmentWrapper?, options: UICoreTraitCollectionResolutionOptions) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> x22
@@ -441,7 +441,7 @@ extension UITraitCollection {
     }
     
     @preconcurrency
-    package func coreResolvedGlassMaterialTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper?) -> UITraitCollection {
+    package func coreResolvedGlassMaterialTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: MySwiftUICore::ViewGraphHostEnvironmentWrapper?) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> sp + 0x10
@@ -480,7 +480,7 @@ extension UITraitCollection {
     }
 }
 
-extension MySwiftUICore.EnvironmentValues {
+extension MySwiftUICore::EnvironmentValues {
     @preconcurrency
     fileprivate func updateGlassBackgroundStyle(style: _GlassBackgroundStyle, collection: UITraitCollection) {
         /*

@@ -1,3 +1,3 @@
 internal import RealityKit
 
-class AudioFeedbackEntity: RealityKit.Entity {}
+class AudioFeedbackEntity: RealityKit::Entity {}

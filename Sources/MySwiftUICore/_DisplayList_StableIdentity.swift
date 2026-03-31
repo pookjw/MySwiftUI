@@ -1,7 +1,7 @@
 // 6C8682BE0755616E63B02969BA08C92E
 
 extension _GraphInputs {
-    @inline(__always)
+    @inline(always)
     func pushStableIndex(_ index: Int) {
         guard needsStableDisplayListIDs else {
             return
@@ -10,7 +10,7 @@ extension _GraphInputs {
         pushScope(id: index)
     }
     
-    @inline(__always)
+    @inline(always)
     func pushStableType(_ type: Any.Type) {
         guard needsStableDisplayListIDs else {
             return
@@ -27,7 +27,7 @@ extension _GraphInputs {
         assertUnimplemented()
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate func pushScope<T: StronglyHashable>(id: T) {
         assertUnimplemented()
     }

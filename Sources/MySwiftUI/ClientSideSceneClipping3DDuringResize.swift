@@ -60,6 +60,13 @@ fileprivate struct ConditionalClipping3DEffect: ViewModifier, PrimitiveViewModif
     }
     
     func effectValue(size: Size3D) -> DisplayList.Effect {
+        /*
+         self -> x20 -> x27
+         */
+        guard clips else {
+            return .identity
+        }
+        
         assertUnimplemented()
     }
     

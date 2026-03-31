@@ -106,7 +106,7 @@ public struct _ViewInputs {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     mutating func copyCaches() {
         base.copyCaches()
     }
@@ -123,7 +123,7 @@ public struct _ViewInputs {
         return base.cachedEnvironment.value.animatedDepth(for: self)
     }
     
-    @inline(__always)
+    @inline(always)
     func animatedCGSize() -> Attribute<CGSize> {
         return base.cachedEnvironment.value.animatedCGSize(for: self)
     }

@@ -7,7 +7,7 @@ struct ViewGraphTests {
     @Test
     func test_updateGraphPhase() {
         let impl = MySwiftUICore.ViewGraph(rootViewType: MySwiftUICore.EmptyView.self, requestedOutputs: .defaults)
-        let native = _SwiftUICorePrivate.ViewGraph(rootViewType: SwiftUI.EmptyView.self, requestedOutputs: .defaults)
+        let native = _SwiftUICorePrivate::ViewGraph(rootViewType: SwiftUI::EmptyView.self, requestedOutputs: .defaults)
 
         #expect(impl.data.phase.value == native.data.phase.value)
 

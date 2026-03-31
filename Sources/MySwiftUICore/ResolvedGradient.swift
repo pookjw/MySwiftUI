@@ -25,7 +25,7 @@ extension ResolvedGradient {
         
         func convertIn(_ resolved: Color.Resolved) -> ResolvedGradient.ColorSpace.InterpolatableColor {
 #if SwiftUICompataibility
-            let colorSpace = unsafe unsafeBitCast(self, to: _SwiftUICorePrivate.ResolvedGradient.ColorSpace.self)
+            let colorSpace = unsafe unsafeBitCast(self, to: _SwiftUICorePrivate::ResolvedGradient.ColorSpace.self)
             let resolved = SwiftUICore.Color.Resolved(
                 linearRed: resolved.linearRed,
                 linearGreen: resolved.linearGreen,
@@ -43,8 +43,8 @@ extension ResolvedGradient {
         
         func convertOut(_ converted: ResolvedGradient.ColorSpace.InterpolatableColor) -> Color.Resolved {
 #if SwiftUICompataibility
-            let colorSpace = unsafe unsafeBitCast(self, to: _SwiftUICorePrivate.ResolvedGradient.ColorSpace.self)
-            let converted = unsafe unsafeBitCast(converted, to: _SwiftUICorePrivate.ResolvedGradient.ColorSpace.InterpolatableColor.self)
+            let colorSpace = unsafe unsafeBitCast(self, to: _SwiftUICorePrivate::ResolvedGradient.ColorSpace.self)
+            let converted = unsafe unsafeBitCast(converted, to: _SwiftUICorePrivate::ResolvedGradient.ColorSpace.InterpolatableColor.self)
             let resolved = colorSpace.convertOut(converted)
             
             let result = MySwiftUICore.Color.Resolved(

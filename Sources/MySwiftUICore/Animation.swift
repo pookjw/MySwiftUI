@@ -150,7 +150,7 @@ extension Animatable {
         value.value.setFlags(.unknown0, mask: .all)
     }
     
-    @inline(__always)
+    @inline(always)
     static func makeAnimatable(value: _GraphValue<Self>, inputs: _GraphInputs) -> Attribute<Self> {
         var value = value
         _makeAnimatable(value: &value, inputs: inputs)
@@ -159,25 +159,25 @@ extension Animatable {
 }
 
 extension Animatable {
-    @inline(__always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.Type where T : VectorArithmetic {
+    @inline(always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.Type where T : VectorArithmetic {
         get {
             T.self
         }
     }
     
-    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.AnimatableData.Type where T : Animatable {
+    @_disfavoredOverload @inline(always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.AnimatableData.Type where T : Animatable {
         get {
             T.AnimatableData.self
         }
     }
     
-    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.Type {
+    @_disfavoredOverload @inline(always) @_alwaysEmitIntoClient public static subscript<T>(_animatableType _: KeyPath<Self, T>) -> T.Type {
         get {
             T.self
         }
     }
     
-    @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> T where T : VectorArithmetic {
+    @inline(always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> T where T : VectorArithmetic {
         get {
             self[keyPath: keyPath]
         }
@@ -186,7 +186,7 @@ extension Animatable {
         }
     }
     
-    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> T.AnimatableData where T : Animatable {
+    @_disfavoredOverload @inline(always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> T.AnimatableData where T : Animatable {
         get {
             self[keyPath: keyPath].animatableData
         }
@@ -195,7 +195,7 @@ extension Animatable {
         }
     }
     
-    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> EmptyAnimatableData {
+    @_disfavoredOverload @inline(always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: WritableKeyPath<Self, T>) -> EmptyAnimatableData {
         get {
             .zero
         }
@@ -204,12 +204,12 @@ extension Animatable {
         }
     }
     
-    @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: ReferenceWritableKeyPath<Self, T>) -> T where T : VectorArithmetic {
+    @inline(always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: ReferenceWritableKeyPath<Self, T>) -> T where T : VectorArithmetic {
         get { self[keyPath: keyPath] }
         nonmutating set { self[keyPath: keyPath] = newValue }
     }
     
-    @_disfavoredOverload @inline(__always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: ReferenceWritableKeyPath<Self, T>) -> T.AnimatableData where T : Animatable {
+    @_disfavoredOverload @inline(always) @_alwaysEmitIntoClient public subscript<T>(_animatableValue keyPath: ReferenceWritableKeyPath<Self, T>) -> T.AnimatableData where T : Animatable {
         get {
             self[keyPath: keyPath].animatableData
         }

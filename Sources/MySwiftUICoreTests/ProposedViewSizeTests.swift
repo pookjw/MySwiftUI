@@ -47,20 +47,20 @@ extension ProposedViewSizeTests {
     
     @Test(arguments: Self.init_expectations)
     func test_init(input: Input_init, output: Output_init) {
-        let implSource = MySwiftUICore._ProposedSize(
+        let implSource = MySwiftUICore::_ProposedSize(
             width: input.width,
             height: input.height
         )
-        let impl = MySwiftUICore.ProposedViewSize(implSource)
+        let impl = MySwiftUICore::ProposedViewSize(implSource)
         
         #expect(impl.width?.bitPattern == output.width?.bitPattern)
         #expect(impl.height?.bitPattern == output.height?.bitPattern)
         
-        let originalSource = SwiftUI._ProposedSize(
+        let originalSource = SwiftUI::_ProposedSize(
             width: input.width,
             height: input.height
         )
-        let original = SwiftUI.ProposedViewSize(originalSource)
+        let original = SwiftUI::ProposedViewSize(originalSource)
         
         #expect(original.width?.bitPattern == output.width?.bitPattern)
         #expect(original.height?.bitPattern == output.height?.bitPattern)
@@ -70,7 +70,7 @@ extension ProposedViewSizeTests {
 extension ProposedViewSizeTests {
     struct Input_init_in_by: Hashable {
         let value: CGFloat?
-        let axis: SwiftUI.Axis
+        let axis: SwiftUI::Axis
         let other: CGFloat?
     }
     
@@ -128,9 +128,9 @@ extension ProposedViewSizeTests {
 
     
     @Test(arguments: init_in_by_expectations) func test_init_in_by(input: Input_init_in_by, output: Output_init_in_by) {
-        let implAxis: MySwiftUICore.Axis = input.axis == .horizontal ? .horizontal : .vertical
-        let impl = MySwiftUICore.ProposedViewSize(input.value, in: implAxis, by: input.other)
-        let original = SwiftUI.ProposedViewSize(input.value, in: input.axis, by: input.other)
+        let implAxis: MySwiftUICore::Axis = input.axis == .horizontal ? .horizontal : .vertical
+        let impl = MySwiftUICore::ProposedViewSize(input.value, in: implAxis, by: input.other)
+        let original = SwiftUI::ProposedViewSize(input.value, in: input.axis, by: input.other)
         
         #expect(impl.width?.bitPattern == original.width?.bitPattern)
         #expect(impl.height?.bitPattern == original.height?.bitPattern)
@@ -141,7 +141,7 @@ extension ProposedViewSizeTests {
     struct Input_subscript_axis: Hashable {
         let initialWidth: CGFloat?
         let initialHeight: CGFloat?
-        let axis: SwiftUI.Axis
+        let axis: SwiftUI::Axis
         let setValue: CGFloat?
         let modifyDelta: CGFloat?
     }
@@ -219,14 +219,14 @@ extension ProposedViewSizeTests {
     
     @Test(arguments: Self.subscript_axis_expectations)
     func test_subscript_axis(input: Input_subscript_axis, output: Output_subscript_axis) throws {
-        var impl = MySwiftUICore.ProposedViewSize(
-            MySwiftUICore._ProposedSize(
+        var impl = MySwiftUICore::ProposedViewSize(
+            MySwiftUICore::_ProposedSize(
                 width: input.initialWidth,
                 height: input.initialHeight
             )
         )
         
-        let implAxis: MySwiftUICore.Axis = input.axis == .horizontal ? .horizontal : .vertical
+        let implAxis: MySwiftUICore::Axis = input.axis == .horizontal ? .horizontal : .vertical
         impl[implAxis] = input.setValue
         let implReadAfterSet = impl[implAxis]
         
@@ -243,14 +243,14 @@ extension ProposedViewSizeTests {
         #expect(implReadAfterSet?.bitPattern == output.readAfterSet?.bitPattern)
         #expect(implReadAfterModify?.bitPattern == output.readAfterModify?.bitPattern)
         
-        var original = SwiftUI.ProposedViewSize(
-            SwiftUI._ProposedSize(
+        var original = SwiftUI::ProposedViewSize(
+            SwiftUI::_ProposedSize(
                 width: input.initialWidth,
                 height: input.initialHeight
             )
         )
         
-        let originalAxis: SwiftUI.Axis = input.axis == .horizontal ? .horizontal : .vertical
+        let originalAxis: SwiftUI::Axis = input.axis == .horizontal ? .horizontal : .vertical
         original[originalAxis] = input.setValue
         let originalReadAfterSet = original[originalAxis]
         

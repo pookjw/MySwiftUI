@@ -55,21 +55,21 @@ package struct PreferencesOutputs {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     func setIndirectDependency(_ attribute: AnyAttribute?) {
         for preference in preferences {
             preference.value.indirectDependency = attribute
         }
     }
     
-    @inline(__always)
+    @inline(always)
     func detachIndirectOutputs() {
         for preference in preferences {
             preference.value.indirectAttribute = .empty
         }
     }
     
-    @inline(__always)
+    @inline(always)
     func attachIndirectOutputs(to other: PreferencesOutputs) {
         for preference in preferences {
             for otherPreference in other.preferences {

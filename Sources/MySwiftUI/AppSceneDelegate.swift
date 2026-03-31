@@ -947,9 +947,9 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         return items.first!
     }
     
-    @_specialize(exported: false, where T == WindowGroupConfigurationAttributes)
-    @_specialize(exported: false, where T == ImmersiveSpaceConfigurationAttributes)
-    @_specialize(exported: false, where T == VolumeConfigurationAttributes)
+    @specialized(where T == WindowGroupConfigurationAttributes)
+    @specialized(where T == ImmersiveSpaceConfigurationAttributes)
+    @specialized(where T == VolumeConfigurationAttributes)
     fileprivate func openWindowPresentedValue<T: WindowSceneConfigurationAttributes>(
         from connectionOptions: UIScene.ConnectionOptions,
         restorationData: [AnyHashable: Any],
@@ -1022,11 +1022,11 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
 }
 
 extension AppSceneDelegate: UIHostingViewDelegate {
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore.View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore::View {
         // nop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
         guard
             let delegate = AppDelegate.shared,
             let mainMenuController = delegate.mainMenuController
@@ -1037,23 +1037,23 @@ extension AppSceneDelegate: UIHostingViewDelegate {
         mainMenuController.updateDocumentCommands(environment: &values)
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore.EnvironmentValues) where Content : MySwiftUICore.View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
         // nop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore.View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
         // nop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore.PreferenceValues) where Content : MySwiftUICore.View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
         // nop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore.View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore::View {
         // nop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore._ViewInputs) where Content : MySwiftUICore.View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore::_ViewInputs) where Content : MySwiftUICore::View {
         // nop
     }
 }

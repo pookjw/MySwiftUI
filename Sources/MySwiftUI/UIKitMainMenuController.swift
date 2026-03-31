@@ -426,7 +426,7 @@ fileprivate enum MenuBuilderInstruction {
     case siblingAfter(UIMenu.Identifier, UIMenu)
     case replace(UIMenu.Identifier, [UIMenuElement])
     
-    @inline(__always) // 원래 없음
+    @inline(always) // 원래 없음
     var identifier: UIMenu.Identifier {
         switch self {
         case .elementBefore(let identifier, _):

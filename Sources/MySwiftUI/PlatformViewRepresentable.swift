@@ -322,7 +322,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
     var focusedValues = FocusedValues() // 0x2e0
     weak var responder: UIViewResponder? = nil // 0x300
     
-    required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
+    required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: MySwiftUICore::EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
         /*
          coreRepresentedViewProvider -> x0 -> x29 - 0x98
          host -> x1 -> x29 - 0x60
@@ -367,7 +367,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
         assertUnimplemented()
     }
     
-    override func makeEnvironmentWrapper(_ environment: MySwiftUICore.EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
+    override func makeEnvironmentWrapper(_ environment: MySwiftUICore::EnvironmentValues, viewPhase: ViewGraphHost.Phase) -> ViewGraphHostEnvironmentWrapper {
         /*
          self -> x20
          environment -> x0 -> x29 - 0x88
@@ -380,7 +380,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
         return wrapper
     }
     
-    override func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
+    override func resolvedTraitCollection(baseTraitCollection: UITraitCollection, environment: MySwiftUICore::EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
         /*
          baseTraitCollection -> x0 -> x20
          environment -> x1 -> x21
@@ -477,7 +477,7 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
         assertUnimplemented()
     }
     
-    static func modifyBridgedViewInputs(_ inputs: inout MySwiftUICore._ViewInputs) {
+    static func modifyBridgedViewInputs(_ inputs: inout MySwiftUICore::_ViewInputs) {
         // nop
     }
     

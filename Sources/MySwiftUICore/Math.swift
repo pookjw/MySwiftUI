@@ -2,7 +2,7 @@ internal import CoreGraphics
 
 extension FloatingPoint {
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inline(__always) @inlinable package mutating func round(_ rule: FloatingPointRoundingRule, toMultipleOf m: Self) {
+    @inline(always) @inlinable package mutating func round(_ rule: FloatingPointRoundingRule, toMultipleOf m: Self) {
         if m == 1 {
             round(rule)
         } else {
@@ -18,7 +18,7 @@ extension FloatingPoint {
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inline(__always) @inlinable package func rounded(_ rule: FloatingPointRoundingRule, toMultipleOf m: Self) -> Self {
+    @inline(always) @inlinable package func rounded(_ rule: FloatingPointRoundingRule, toMultipleOf m: Self) -> Self {
         var r = self
         r.round(rule, toMultipleOf: m)
         return r

@@ -31,7 +31,7 @@ extension WindowProxy: Sendable {}
 extension WindowProxy: Hashable {}
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var activeWindows: [WindowProxy] {
         get {
             return self[EnvironmentValues.ActiveWindowsKey.self]

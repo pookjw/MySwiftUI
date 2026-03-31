@@ -40,15 +40,15 @@ struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
         assertUnimplemented()
     }
     
-    func initialAttachment(for node: AccessibilityNode) -> MySwiftUICore.AccessibilityAttachment {
+    func initialAttachment(for node: AccessibilityNode) -> MySwiftUICore::AccessibilityAttachment {
         assertUnimplemented()
     }
     
-    func createOrUpdateNode(viewRendererHost: (any MySwiftUICore.ViewRendererHost)?, existingNode: AccessibilityNode?) -> AccessibilityNode {
+    func createOrUpdateNode(viewRendererHost: (any MySwiftUICore::ViewRendererHost)?, existingNode: AccessibilityNode?) -> AccessibilityNode {
         assertUnimplemented()
     }
     
-    func scrapeableContent(environment: MySwiftUICore.EnvironmentValues, idiom: MySwiftUICore.AnyInterfaceIdiom) -> MySwiftUICore.ScrapeableContent.Content? {
+    func scrapeableContent(environment: MySwiftUICore::EnvironmentValues, idiom: MySwiftUICore::AnyInterfaceIdiom) -> MySwiftUICore::ScrapeableContent.Content? {
         assertUnimplemented()
     }
     

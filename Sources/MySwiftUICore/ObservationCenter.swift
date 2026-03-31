@@ -184,7 +184,7 @@ struct ObservationGraphMutation: GraphMutation, @unchecked Sendable {
     private var observationTracking: [ObservationTracking]
     private var subgraphObservers: [(Subgraph, Int)]
     
-    @inline(__always)
+    @inline(always)
     fileprivate init(observationCenter: ObservationCenter, invalidatingMutation: InvalidatingGraphMutation, observationTracking: [ObservationTracking], subgraphObservers: [(Subgraph, Int)]) {
         self.observationCenter = observationCenter
         self.invalidatingMutation = invalidatingMutation

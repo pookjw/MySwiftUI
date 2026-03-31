@@ -33,7 +33,7 @@ struct HostingControllerBridges: OptionSet {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var viewGraphBridgeProperties: ViewGraphBridgeProperties {
         get {
             return self[BridgePropertiesEnvironmentKey.self]
@@ -51,7 +51,7 @@ fileprivate struct BridgePropertiesEnvironmentKey: EnvironmentKey {
 }
 
 extension _GraphInputs {
-    @inline(__always)
+    @inline(always)
     var viewGraphBridgeProperties: WeakAttribute<ViewGraphBridgeProperties> {
         get {
             return self[ViewGraphBridgePropertiesKey.self]

@@ -121,7 +121,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         return platformVended.uiInputAccessoryGenerator
     }
     
-    @inline(__always)
+    @inline(always)
     func layout() {
         guard let _ = platformVended.uiToolbar else {
             return

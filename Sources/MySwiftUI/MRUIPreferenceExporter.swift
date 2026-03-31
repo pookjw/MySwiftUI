@@ -146,7 +146,7 @@ fileprivate struct ExportedCustomPreferences: AnyExportedPreference {
     var seed: VersionSeed
     var values: [AnyHashable: ExportedCustomPreferences.Value]
     
-    func addPreference(to graph: MySwiftUICore.ViewGraph) {
+    func addPreference(to graph: MySwiftUICore::ViewGraph) {
         graph.addPreference(MRUICustomPreferencesKey.self)
     }
     
@@ -168,7 +168,7 @@ fileprivate struct ExportedCustomPreferences: AnyExportedPreference {
         assertUnimplemented()
     }
     
-    mutating func preferencesDidChange(_ values: MySwiftUICore.PreferenceValues) {
+    mutating func preferencesDidChange(_ values: MySwiftUICore::PreferenceValues) {
         /*
          self -> x20 -> x27
          values -> x0 -> x20

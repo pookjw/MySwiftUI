@@ -12,7 +12,7 @@ final class UIKitPlatformColorDefinition: PlatformColorDefinition {
         return .uiKit
     }
     
-    override class func resolvedColor(_ color: AnyObject, environment: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.Color.Resolved? {
+    override class func resolvedColor(_ color: AnyObject, environment: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::Color.Resolved? {
         /*
          color -> x0 -> x19
          environment -> x1 -> x21
@@ -53,7 +53,7 @@ final class UIKitPlatformColorDefinition: PlatformColorDefinition {
 
 extension UITraitCollection {
     @MainActor
-    func resolvedEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
+    func resolvedEnvironment(base: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::EnvironmentValues {
         // base -> x23
         var resolved = self.resolvedPreEnvironment(base: base)
         resolved = self.coreResolvedBaseEnvironment(base: resolved)
@@ -62,16 +62,16 @@ extension UITraitCollection {
         return resolved
     }
     
-    @inline(__always)
+    @inline(always)
     @MainActor
-    func resolvedTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
+    func resolvedTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
         let resolved_1 = self.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
         let resolved_2 = resolved_1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: [])
         let resolved_3 = resolved_2.coreResolvedGlassMaterialTraitCollection(environment: environment, wrapper: wrapper)
         return resolved_3
     }
     
-    fileprivate func resolvedPreEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
+    fileprivate func resolvedPreEnvironment(base: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::EnvironmentValues {
         /*
          self = x25
          base = x24
@@ -105,9 +105,9 @@ extension UITraitCollection {
         
         if self.userInterfaceIdiom == .vision {
 #if SwiftUICompataibility
-            let material: SwiftUI.Material?
+            let material: SwiftUI::Material?
 #else
-            let material: MySwiftUICore.Material?
+            let material: MySwiftUICore::Material?
 #endif
             switch _containerVibrancy() {
             case .lighterGlass:
@@ -132,7 +132,7 @@ extension UITraitCollection {
         return environmentValues
     }
     
-    fileprivate func resolvedPostEnvironment(base: MySwiftUICore.EnvironmentValues) -> MySwiftUICore.EnvironmentValues {
+    fileprivate func resolvedPostEnvironment(base: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::EnvironmentValues {
         var result = base
         
         guard self._vibrancy() == 1 else {
@@ -170,7 +170,7 @@ extension UITraitCollection {
         return result
     }
     
-    fileprivate func resolvedPreTraitCollection(environment: MySwiftUICore.EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
+    fileprivate func resolvedPreTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> x26
@@ -249,7 +249,7 @@ extension UITraitCollection {
     }
 }
 
-extension MySwiftUICore.EnvironmentValues {
+extension MySwiftUICore::EnvironmentValues {
     var bridgedEnvironmentKeys: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] {
         get {
             return self[BridgedEnvironmentKeysKey.self]
@@ -260,6 +260,6 @@ extension MySwiftUICore.EnvironmentValues {
     }
 }
 
-fileprivate struct BridgedEnvironmentKeysKey: MySwiftUICore.EnvironmentKey {
+fileprivate struct BridgedEnvironmentKeysKey: MySwiftUICore::EnvironmentKey {
     static let defaultValue: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
 }

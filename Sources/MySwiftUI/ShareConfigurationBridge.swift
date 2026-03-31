@@ -8,7 +8,7 @@ internal import MySwiftUICore
     init() {
     }
     
-    @inline(__always)
+    @inline(always)
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         // x26
         let pref = preferenceValues[AnyShareConfiguration.Key.self]

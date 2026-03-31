@@ -12,14 +12,14 @@ extension DisplayList.ViewUpdater {
         }
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         func addDrawingView(rootView: AnyObject, options: PlatformDrawableOptions) {
             let drawingView = encoding.definition.makeDrawingView(options: options)
             let system = encoding.viewSystem
             CoreViewAddSubview(system, rootView, system, drawingView, 0)
         }
         
-        @inline(__always)
+        @inline(always)
         func viewLayer(_ view: AnyObject) -> CALayer {
             return CoreViewLayer(encoding.viewSystem, view)
         }
@@ -28,7 +28,7 @@ extension DisplayList.ViewUpdater {
             CoreViewSetFilters(encoding.viewSystem, view, filters.caFilters)
         }
         
-        @inline(__always)
+        @inline(always)
         func setShadow(_ style: ResolvedShadowStyle?, layer: CALayer) {
             let system = encoding.viewSystem
             
@@ -1202,7 +1202,7 @@ extension DisplayList.ViewUpdater {
         }
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         var system: ViewSystem {
             return encoding.viewSystem
         }
@@ -1221,7 +1221,7 @@ extension DisplayList.ViewUpdater.PlatformViewInfo {
         var serverResponderID: DisplayList.Seed
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         init(zPosition: DisplayList.Seed, separatedState: DisplayList.Seed, separatedOptions: DisplayList.Seed, remoteEffects: DisplayList.Seed, renderingTechnique: DisplayList.Seed, projectiveShadow: DisplayList.Seed, hitTestsAsOpaque: DisplayList.Seed, serverResponderID: DisplayList.Seed) {
             self.zPosition = zPosition
             self.separatedState = separatedState
@@ -1244,7 +1244,7 @@ extension DisplayList.ViewUpdater.Platform {
         var platformState: DisplayList.ViewUpdater.Platform.PlatformState // 0x28
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         init(
             position: CGPoint,
             size: CGSize,
@@ -1289,20 +1289,20 @@ extension DisplayList.ViewUpdater.Platform {
         }
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         init(definition: PlatformViewDefinition.Type) {
             let system = definition.system
             self.rawValue = UInt(bitPattern: ObjectIdentifier(definition)) | UInt(system.base.rawValue)
         }
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         var definition: PlatformViewDefinition.Type {
             return unsafe unsafeBitCast(self.rawValue & ~0x7, to: PlatformViewDefinition.Type.self)
         }
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         var viewSystem: ViewSystem {
             let all = UInt(ViewSystem.caLayer.rawValue | ViewSystem.uiView.rawValue | ViewSystem.nsView.rawValue)
             let system = ViewSystem(rawValue: UInt8(self.rawValue & all))!
@@ -1310,14 +1310,14 @@ extension DisplayList.ViewUpdater.Platform {
         }
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         var mixedViewHierarchy: Bool {
             return (rawValue & 0x4) != 0
         }
         
 #if !os(visionOS)
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         func asMixedViewHierarchy() -> DisplayList.ViewUpdater.Platform.Encoding {
             return DisplayList.ViewUpdater.Platform.Encoding(rawValue: rawValue | 0x4)
         }

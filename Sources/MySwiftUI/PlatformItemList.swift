@@ -240,10 +240,10 @@ extension ViewRendererHost {
 }
 
 extension _ViewInputs {
-    @_specialize(exported: false, where T == AllPlatformItemListFlags)
-//    @_specialize(exported: false, where T == LabelPlatformItemListFlags)
-//    @_specialize(exported: false, where T == TextPlatformItemListFlags)
-//    @_specialize(exported: false, where T == WidgetMetadataPlatformItemListFlags)
+    @specialized(where T == AllPlatformItemListFlags)
+//    @specialized(where T == LabelPlatformItemListFlags)
+//    @specialized(where T == TextPlatformItemListFlags)
+//    @specialized(where T == WidgetMetadataPlatformItemListFlags)
     mutating func addPlatformItemListKey<T: PlatformItemListFlags>(flags: T.Type, editOperation: PlatformItemListFlagsSet.EditOperation?) {
         unsafe self.preferences.add(PlatformItemList.Key.self)
         
@@ -284,15 +284,15 @@ extension _ViewInputs {
 }
 
 struct PlatformItemListTextRepresentable: PlatformTextRepresentable {
-    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
     
-    static func representationOptions(inputs: MySwiftUICore._ViewInputs) -> MySwiftUICore.PlatformTextRepresentationOptions {
+    static func representationOptions(inputs: MySwiftUICore::_ViewInputs) -> MySwiftUICore::PlatformTextRepresentationOptions {
         assertUnimplemented()
     }
     
-    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, context: AttributeGraph.Attribute<MySwiftUICore.PlatformTextRepresentableContext>, outputs: inout MySwiftUICore._ViewOutputs) {
+    static func makeRepresentation(inputs: MySwiftUICore::_ViewInputs, context: AttributeGraph::Attribute<MySwiftUICore::PlatformTextRepresentableContext>, outputs: inout MySwiftUICore::_ViewOutputs) {
         assertUnimplemented()
     }
 }
@@ -304,11 +304,11 @@ extension PlatformItemListTextRepresentable {
 }
 
 struct PlatformItemListImageRepresentable: PlatformImageRepresentable {
-    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
     
-    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, context: AttributeGraph.Attribute<MySwiftUICore.PlatformImageRepresentableContext>, outputs: inout MySwiftUICore._ViewOutputs) {
+    static func makeRepresentation(inputs: MySwiftUICore::_ViewInputs, context: AttributeGraph::Attribute<MySwiftUICore::PlatformImageRepresentableContext>, outputs: inout MySwiftUICore::_ViewOutputs) {
         assertUnimplemented()
     }
 }
@@ -320,11 +320,11 @@ extension PlatformItemListImageRepresentable {
 }
 
 struct PlatformItemListNamedImageRepresentable: PlatformNamedImageRepresentable {
-    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
     
-    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, context: AttributeGraph.Attribute<MySwiftUICore.PlatformNamedImageRepresentableContext>, outputs: inout MySwiftUICore._ViewOutputs) {
+    static func makeRepresentation(inputs: MySwiftUICore::_ViewInputs, context: AttributeGraph::Attribute<MySwiftUICore::PlatformNamedImageRepresentableContext>, outputs: inout MySwiftUICore::_ViewOutputs) {
         assertUnimplemented()
     }
 }
@@ -336,31 +336,31 @@ extension PlatformItemListNamedImageRepresentable {
 }
 
 struct PlatformItemListSpacerRepresentable: PlatformSpacerRepresentable {
-    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
     
-    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, outputs: inout MySwiftUICore._ViewOutputs) {
+    static func makeRepresentation(inputs: MySwiftUICore::_ViewInputs, outputs: inout MySwiftUICore::_ViewOutputs) {
         assertUnimplemented()
     }
 }
 
 struct PlatformItemListDividerRepresentable: PlatformDividerRepresentable {
-    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
     
-    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, outputs: inout MySwiftUICore._ViewOutputs) {
+    static func makeRepresentation(inputs: MySwiftUICore::_ViewInputs, outputs: inout MySwiftUICore::_ViewOutputs) {
         assertUnimplemented()
     }
 }
 
 struct PlatformItemListViewThatFitsRepresentable: PlatformViewThatFitsRepresentable {
-    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
     
-    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, state: SizeFittingState, outputs: inout MySwiftUICore._ViewOutputs) {
+    static func makeRepresentation(inputs: MySwiftUICore::_ViewInputs, state: SizeFittingState, outputs: inout MySwiftUICore::_ViewOutputs) {
         assertUnimplemented()
     }
 }
@@ -372,17 +372,17 @@ extension PlatformItemListViewThatFitsRepresentable {
 }
 
 struct PlatformItemListHiddenRepresentable: PlatformHiddenRepresentable {
-    static func makeRepresentation(inputs: inout MySwiftUICore._ViewInputs, allowedKeys: MySwiftUICore.AllowedPreferenceKeysWhileHidden) {
+    static func makeRepresentation(inputs: inout MySwiftUICore::_ViewInputs, allowedKeys: MySwiftUICore::AllowedPreferenceKeysWhileHidden) {
         assertUnimplemented()
     }
 }
 
 struct PlatformItemListDynamicHiddenRepresentable: PlatformDynamicHiddenRepresentable  {
-    static func shouldMakeRepresentation(inputs: MySwiftUICore._ViewInputs) -> Bool {
+    static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
     
-    static func makeRepresentation(inputs: MySwiftUICore._ViewInputs, modifier: AttributeGraph.Attribute<DynamicHiddenModifier>, outputs: inout MySwiftUICore._ViewOutputs) {
+    static func makeRepresentation(inputs: MySwiftUICore::_ViewInputs, modifier: AttributeGraph::Attribute<DynamicHiddenModifier>, outputs: inout MySwiftUICore::_ViewOutputs) {
         assertUnimplemented()
     }
 }

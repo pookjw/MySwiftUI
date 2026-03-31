@@ -70,7 +70,7 @@ extension Attribute {
 }
 
 extension TypeID {
-    @inline(__always)
+    @inline(always)
     func projectEnum(at pointer: UnsafeRawPointer, tag: Int, _ body: (UnsafeRawPointer) -> Void) {
         unsafe projectEnumData(UnsafeMutableRawPointer(mutating: pointer))
         unsafe body(pointer)

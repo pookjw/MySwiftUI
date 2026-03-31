@@ -50,7 +50,7 @@ public struct OpenURLAction {
         self.isDefault = false
     }
     
-    @inline(__always)
+    @inline(always)
     fileprivate init(handler: OpenURLAction.Handler, isDefault: Bool) {
         self.handler = handler
         self.isDefault = isDefault

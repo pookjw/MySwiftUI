@@ -356,7 +356,7 @@ private import _MySwiftUIShims
         }
     }
     
-    @inline(__always)
+    @inline(always)
     func withUpdate<T>(_ block: (_ updateContext: BarAppearanceBridge.UpdateContext) -> T) -> T {
         guard let updateContext else {
             fatalError("Attempted to update outside of update path")

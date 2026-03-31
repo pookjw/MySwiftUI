@@ -27,6 +27,7 @@ struct NativePlaygroundApp: App {
     
     var body: some Scene {
         WindowGroup {
+//            Color.black
             ContentView()
 //                .task {
 //                    try! await Task.sleep(for: .seconds(1))

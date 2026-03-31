@@ -6,7 +6,7 @@ package struct AbsoluteRectangleCornerInsets {
     package var bottomLeading: CGSize
     package var bottomTrailing: CGSize
     
-    @inline(__always)
+    @inline(always)
     package init(_ insets: RectangleCornerInsets, layoutDirection: LayoutDirection = .leftToRight) {
         switch layoutDirection {
         case .leftToRight:

@@ -410,7 +410,7 @@ extension DepthStashingLayoutComputer {
         let depthProposal: CGFloat?
         
         // 원래 없음
-        @inline(__always)
+        @inline(always)
         fileprivate init(base: LayoutComputer, depthProposal: CGFloat?) {
             self.base = base
             self.depthProposal = depthProposal

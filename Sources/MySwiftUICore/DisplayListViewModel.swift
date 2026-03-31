@@ -43,7 +43,7 @@ extension DisplayList.ViewUpdater {
             var platformState = DisplayList.ViewUpdater.Model.PlatformState()
             var versions = DisplayList.ViewUpdater.Model.State.Versions()
             
-            @inline(__always)
+            @inline(always)
             init(
                 globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
             ) {

@@ -12,15 +12,15 @@ package final class UIHostingViewBase: NSObject {
     package weak var uiView: UIView? = nil
     package weak var delegate: UIHostingViewBaseDelegate? = nil
     
-    package var safeAreaRegions: MySwiftUICore.SafeAreaRegions = .all {
+    package var safeAreaRegions: MySwiftUICore::SafeAreaRegions = .all {
         didSet {
             assertUnimplemented()
         }
     }
     
     private let configuration: UIHostingViewBase.Configuration
-    package let viewGraph: MySwiftUICore.ViewGraphHost
-    package var inheritedEnvironment: MySwiftUICore.EnvironmentValues? = nil {
+    package let viewGraph: MySwiftUICore::ViewGraphHost
+    package var inheritedEnvironment: MySwiftUICore::EnvironmentValues? = nil {
         didSet {
             if let updateDelegate = self.viewGraph.updateDelegate {
                 updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
@@ -28,7 +28,7 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    package var environmentOverride: MySwiftUICore.EnvironmentValues? = nil {
+    package var environmentOverride: MySwiftUICore::EnvironmentValues? = nil {
         didSet {
             if let updateDelegate {
                 updateDelegate.invalidateProperties([.environment], mayDeferUpdate: true)
@@ -37,10 +37,10 @@ package final class UIHostingViewBase: NSObject {
     }
     
     package var traitCollectionOverride: UITraitCollection?
-    private var cachedContainerShape: MySwiftUICore.UnevenRoundedRectangle?
+    private var cachedContainerShape: MySwiftUICore::UnevenRoundedRectangle?
     private var canAdvanceTimeAutomatically: Bool = true
     package private(set) var allowUIKitAnimationsForNextUpdate: Bool = false
-    private var lastRenderTime: MySwiftUICore.Time = .zero
+    private var lastRenderTime: MySwiftUICore::Time = .zero
     private var pendingPreferencesUpdate: Bool = false
     private var pendingPostDisappearPreferencesUpdate: Bool = false
     private var _updateFidelity: _UpdateFidelity = .milliseconds
@@ -134,7 +134,7 @@ package final class UIHostingViewBase: NSObject {
         }
     }
     
-    @MainActor package var _containerSafeArea: MySwiftUICore.EdgeInsets {
+    @MainActor package var _containerSafeArea: MySwiftUICore::EdgeInsets {
         // x29 = sp + 0x110
         // x22
         guard let uiView else {
@@ -145,7 +145,7 @@ package final class UIHostingViewBase: NSObject {
         let pixelLength = viewGraph.environment.pixelLength
         let safeAreaInsets = uiView.safeAreaInsets
         // sp + 0x58
-        var insets = MySwiftUICore.EdgeInsets(
+        var insets = MySwiftUICore::EdgeInsets(
             top: safeAreaInsets.top,
             leading: safeAreaInsets.left,
             bottom: safeAreaInsets.bottom,
@@ -157,11 +157,11 @@ package final class UIHostingViewBase: NSObject {
         return insets
     }
     
-    package init(viewGraph: MySwiftUICore.ViewGraphHost, options: UIHostingViewBase.Options) {
+    package init(viewGraph: MySwiftUICore::ViewGraphHost, options: UIHostingViewBase.Options) {
         assertUnimplemented()
     }
     
-    package init(viewGraph: MySwiftUICore.ViewGraphHost, configuration: UIHostingViewBase.Configuration) {
+    package init(viewGraph: MySwiftUICore::ViewGraphHost, configuration: UIHostingViewBase.Configuration) {
         ___lldb_unnamed_symbol319514(configuration: configuration)
         self.viewGraph = viewGraph
         self.configuration = configuration
@@ -348,7 +348,7 @@ package final class UIHostingViewBase: NSObject {
         // time = x19
         // x23
         var lastRenderTime = lastRenderTime
-        let zeroTime = MySwiftUICore.Time.zero
+        let zeroTime = MySwiftUICore::Time.zero
         
         if lastRenderTime <= zeroTime {
             // <+320>
@@ -414,7 +414,7 @@ package final class UIHostingViewBase: NSObject {
         viewGraph.updateRemovedState(isUnattached: window == nil, isHiddenForReuse: isHiddenForReuse)
     }
     
-    @MainActor package func _updateSafeArea(container: @MainActor () -> MySwiftUICore.EdgeInsets, keyboardHeight: @MainActor () -> CGFloat) {
+    @MainActor package func _updateSafeArea(container: @MainActor () -> MySwiftUICore::EdgeInsets, keyboardHeight: @MainActor () -> CGFloat) {
         /*
          self = x21
          container = x25/x20
@@ -426,8 +426,8 @@ package final class UIHostingViewBase: NSObject {
             return
         }
         
-        let insets: MySwiftUICore.EdgeInsets?
-        let cornerInsets: MySwiftUICore.RectangleCornerInsets?
+        let insets: MySwiftUICore::EdgeInsets?
+        let cornerInsets: MySwiftUICore::RectangleCornerInsets?
         if safeAreaRegions.contains(.container) {
             // <+192>
             let _insets = container()
@@ -518,11 +518,11 @@ package final class UIHostingViewBase: NSObject {
     }
     
     // ___lldb_unnamed_symbol322028
-    @MainActor private var cornerInsets: MySwiftUICore.RectangleCornerInsets {
+    @MainActor private var cornerInsets: MySwiftUICore::RectangleCornerInsets {
         // x29 = sp + 0x170
         // x23
         guard let uiView else {
-            return MySwiftUICore.RectangleCornerInsets()
+            return MySwiftUICore::RectangleCornerInsets()
         }
         
         // sp + 0x38
@@ -530,14 +530,14 @@ package final class UIHostingViewBase: NSObject {
         // d11, d12, d9, d10, d8, d15, d14, d13
         let insets = uiView._safeAreaCornerInsets
         
-        var cornerInsets = MySwiftUICore.RectangleCornerInsets(
+        var cornerInsets = MySwiftUICore::RectangleCornerInsets(
             topLeading: insets.topLeft,
             topTrailing: insets.topRight,
             bottomLeading: insets.bottomLeft,
             bottomTrailing: insets.bottomRight
         )
-        let absolute = MySwiftUICore.AbsoluteRectangleCornerInsets(cornerInsets, layoutDirection: .leftToRight)
-        cornerInsets = MySwiftUICore.RectangleCornerInsets(
+        let absolute = MySwiftUICore::AbsoluteRectangleCornerInsets(cornerInsets, layoutDirection: .leftToRight)
+        cornerInsets = MySwiftUICore::RectangleCornerInsets(
             topLeading: absolute.topLeading,
             topTrailing: absolute.topTrailing,
             bottomLeading: absolute.bottomLeading,
@@ -725,17 +725,17 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @MainActor
-    package func _startUpdateEnvironment() -> MySwiftUICore.EnvironmentValues {
+    package func _startUpdateEnvironment() -> MySwiftUICore::EnvironmentValues {
         // <+280>
         guard let uiView else {
-            return MySwiftUICore.EnvironmentValues()
+            return MySwiftUICore::EnvironmentValues()
         }
         
         // x22
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
         // <+408>
         // x23
-        let environmentValues: MySwiftUICore.EnvironmentValues
+        let environmentValues: MySwiftUICore::EnvironmentValues
         if traitCollection._environmentWrapper != nil {
             // <+440>
             // x26
@@ -788,14 +788,14 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @MainActor
-    package func _updateEnvironment(_ environmentValues: inout MySwiftUICore.EnvironmentValues) {
+    package func _updateEnvironment(_ environmentValues: inout MySwiftUICore::EnvironmentValues) {
         guard let uiView else {
             return
         }
         
         if let uiView = self.uiView {
             // <+364>
-            if let idiom = MySwiftUICore.ViewGraphHost.Idiom(_uiIdiom: uiView.traitCollection.userInterfaceIdiom) {
+            if let idiom = MySwiftUICore::ViewGraphHost.Idiom(_uiIdiom: uiView.traitCollection.userInterfaceIdiom) {
                 environmentValues.viewGraphIdiom = idiom
             }
         }
@@ -852,20 +852,20 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @MainActor
-    package func _endUpdateEnvironment(_ environmentValues: MySwiftUICore.EnvironmentValues) {
+    package func _endUpdateEnvironment(_ environmentValues: MySwiftUICore::EnvironmentValues) {
         guard let uiView else {
             return
         }
         
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
         
-        let environmentWrapper: MySwiftUICore.ViewGraphHostEnvironmentWrapper
-        if let _environmentWrapper = traitCollection._environmentWrapper as? MySwiftUICore.ViewGraphHostEnvironmentWrapper {
+        let environmentWrapper: MySwiftUICore::ViewGraphHostEnvironmentWrapper
+        if let _environmentWrapper = traitCollection._environmentWrapper as? MySwiftUICore::ViewGraphHostEnvironmentWrapper {
             // <+180>
             environmentWrapper = _environmentWrapper
         } else {
             // <+240>
-            environmentWrapper = MySwiftUICore.ViewGraphHostEnvironmentWrapper()
+            environmentWrapper = MySwiftUICore::ViewGraphHostEnvironmentWrapper()
         }
         
         viewGraph.setEnvironment(environmentValues, wrapper: environmentWrapper)
@@ -902,7 +902,7 @@ package final class UIHostingViewBase: NSObject {
         }
         
         let safeAreaInsets = uiView.safeAreaInsets
-        var insets = MySwiftUICore.EdgeInsets(top: safeAreaInsets.top, leading: safeAreaInsets.left, bottom: safeAreaInsets.bottom, trailing: safeAreaInsets.right)
+        var insets = MySwiftUICore::EdgeInsets(top: safeAreaInsets.top, leading: safeAreaInsets.left, bottom: safeAreaInsets.bottom, trailing: safeAreaInsets.right)
         insets.xFlipIfRightToLeft { .leftToRight }
         
         let bounds = uiView.bounds
@@ -960,7 +960,7 @@ package final class UIHostingViewBase: NSObject {
     }
     
     @MainActor
-    private func updateMaterial(environmentValues: inout MySwiftUICore.EnvironmentValues) {
+    private func updateMaterial(environmentValues: inout MySwiftUICore::EnvironmentValues) {
         // x23
         guard let uiView else {
             return
@@ -1161,7 +1161,7 @@ package final class UIHostingViewBase: NSObject {
     }
     
     // ___lldb_unnamed_symbol318822
-    private func renderInterval(from time: MySwiftUICore.Time) -> Double {
+    private func renderInterval(from time: MySwiftUICore::Time) -> Double {
         /*
          self = x21
          time (Time *) = x19
@@ -1191,7 +1191,7 @@ package final class UIHostingViewBase: NSObject {
 extension UIHostingViewBase {
     package struct Configuration {
         package var options = UIHostingViewBase.Options.allowKeyboardSafeArea
-        package var colorDefinitions: MySwiftUICore.PlatformColorDefinition.Type? = nil
+        package var colorDefinitions: MySwiftUICore::PlatformColorDefinition.Type? = nil
         
         package init() {}
     }
@@ -1220,7 +1220,7 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
         }
     }
     
-    package func updateRenderContext(_ context: inout MySwiftUICore.ViewGraphRenderContext) {
+    package func updateRenderContext(_ context: inout MySwiftUICore::ViewGraphRenderContext) {
         guard let uiView else {
             return
         }
@@ -1232,7 +1232,7 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
         }
     }
     
-    package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> MySwiftUICore.Time) -> MySwiftUICore.Time {
+    package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> MySwiftUICore::Time) -> MySwiftUICore::Time {
         let baseShouldDisableUIKitAnimationsWhenRendering: Bool
         if let delegate {
             baseShouldDisableUIKitAnimationsWhenRendering = delegate.baseShouldDisableUIKitAnimationsWhenRendering(self)
@@ -1254,7 +1254,7 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
                 return body()
             } else {
                 // <+256>
-                var result = MySwiftUICore.Time.infinity
+                var result = MySwiftUICore::Time.infinity
                 UIView.performWithoutAnimation {
                     result = body()
                 }
@@ -1264,13 +1264,13 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
         }
     }
     
-    package func renderIntervalForDisplayLink(timestamp: MySwiftUICore.Time) -> Double {
+    package func renderIntervalForDisplayLink(timestamp: MySwiftUICore::Time) -> Double {
         assertUnimplemented()
     }
 }
 
 extension UIHostingViewBase: @preconcurrency ViewGraphHostDelegate {
-    @MainActor package func updateGraphInputs(_ inputs: inout MySwiftUICore._GraphInputs) {
+    @MainActor package func updateGraphInputs(_ inputs: inout MySwiftUICore::_GraphInputs) {
         guard let uiView else {
             return
         }

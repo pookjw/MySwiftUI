@@ -19,7 +19,7 @@ final class AccessibilityNode {
 }
 
 extension _GraphInputs {
-    @inline(__always)
+    @inline(always)
     var accessibilityCapturesViewResponders: Bool {
         get {
             return self[AccessibilityCapturesViewResponders.self]

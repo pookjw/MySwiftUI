@@ -338,7 +338,7 @@ extension _ViewListOutputs {
         @Attribute private var base: ViewList
         private let modifier: _ViewListOutputs.ListModifier
         
-        @inline(__always)
+        @inline(always)
         init(base: Attribute<ViewList>, modifier: _ViewListOutputs.ListModifier) {
             self._base = base
             self.modifier = modifier

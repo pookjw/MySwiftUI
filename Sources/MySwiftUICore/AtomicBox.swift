@@ -4,7 +4,7 @@ private import Darwin.os
 package struct AtomicBox<T> {
     private let buffer: AtomicBuffer<T>
     
-    @inline(__always)
+    @inline(always)
     package var wrappedValue: T {
         get {
             unsafe buffer.withUnsafeMutablePointers { lock, pointer in
@@ -32,7 +32,7 @@ package struct AtomicBox<T> {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     package var projectedValue: AtomicBox<T> {
         return self
     }

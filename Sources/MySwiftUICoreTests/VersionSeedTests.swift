@@ -36,14 +36,14 @@ struct VersionSeedTests {
     
     @Test(arguments: valueArguments)
     func test_init_value(value: UInt32) {
-        let original = _SwiftUICorePrivate.VersionSeed(value: value)
+        let original = _SwiftUICorePrivate::VersionSeed(value: value)
         let impl = MySwiftUICore.VersionSeed(value: value)
         assertEquivalent(original: original, impl: impl)
     }
     
     @Test(arguments: nodeViewArguments)
     func test_init_nodeId_viewSeed(nodeId: UInt32, viewSeed: UInt32) {
-        let original = _SwiftUICorePrivate.VersionSeed(nodeId: nodeId, viewSeed: viewSeed)
+        let original = _SwiftUICorePrivate::VersionSeed(nodeId: nodeId, viewSeed: viewSeed)
         let impl = MySwiftUICore.VersionSeed(nodeId: nodeId, viewSeed: viewSeed)
         assertEquivalent(original: original, impl: impl)
     }
@@ -144,8 +144,8 @@ struct VersionSeedTests {
         ]
         
         for (lhs, rhs) in branchCases {
-            var original = _SwiftUICorePrivate.VersionSeed(value: lhs)
-            let originalOther = _SwiftUICorePrivate.VersionSeed(value: rhs)
+            var original = _SwiftUICorePrivate::VersionSeed(value: lhs)
+            let originalOther = _SwiftUICorePrivate::VersionSeed(value: rhs)
             original.merge(originalOther)
             
             var impl = MySwiftUICore.VersionSeed(value: lhs)
@@ -164,7 +164,7 @@ struct VersionSeedTests {
         ]
         
         for (lhs, rhs) in branchCases {
-            var original = _SwiftUICorePrivate.VersionSeed(value: lhs)
+            var original = _SwiftUICorePrivate::VersionSeed(value: lhs)
             original.mergeValue(rhs)
             
             var impl = MySwiftUICore.VersionSeed(value: lhs)
@@ -175,13 +175,13 @@ struct VersionSeedTests {
     }
 }
 
-fileprivate func makeOriginalSeeds() -> [_SwiftUICorePrivate.VersionSeed] {
-    var result: [_SwiftUICorePrivate.VersionSeed] = [
+fileprivate func makeOriginalSeeds() -> [_SwiftUICorePrivate::VersionSeed] {
+    var result: [_SwiftUICorePrivate::VersionSeed] = [
         .invalid,
         .empty
     ]
-    result.append(contentsOf: valueArguments.map { _SwiftUICorePrivate.VersionSeed(value: $0) })
-    result.append(contentsOf: nodeViewArguments.map { _SwiftUICorePrivate.VersionSeed(nodeId: $0.0, viewSeed: $0.1) })
+    result.append(contentsOf: valueArguments.map { _SwiftUICorePrivate::VersionSeed(value: $0) })
+    result.append(contentsOf: nodeViewArguments.map { _SwiftUICorePrivate::VersionSeed(nodeId: $0.0, viewSeed: $0.1) })
     return result
 }
 
@@ -196,13 +196,13 @@ fileprivate func makeImplSeeds() -> [MySwiftUICore.VersionSeed] {
 }
 
 fileprivate func assertEquivalent(
-    original: _SwiftUICorePrivate.VersionSeed,
+    original: _SwiftUICorePrivate::VersionSeed,
     impl: MySwiftUICore.VersionSeed
 ) {
     #expect(original.value == impl.valueForTest)
 }
 
-extension _SwiftUICorePrivate.VersionSeed {
+extension _SwiftUICorePrivate::VersionSeed {
     fileprivate var value: UInt32 {
         Mirror(reflecting: self).descendant("value") as! UInt32
     }

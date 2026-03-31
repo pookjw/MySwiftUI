@@ -2,13 +2,13 @@
 package import _SwiftUIPrivate
 
 fileprivate struct MaterialBackdropProxyKey: EnvironmentKey {
-    static var defaultValue: _SwiftUIPrivate.MaterialBackdropProxy? {
+    static var defaultValue: _SwiftUIPrivate::MaterialBackdropProxy? {
         return nil
     }
 }
 
 extension EnvironmentValues {
-    package var materialBackdropProxy: _SwiftUIPrivate.MaterialBackdropProxy? {
+    package var materialBackdropProxy: _SwiftUIPrivate::MaterialBackdropProxy? {
         get {
             return self[MaterialBackdropProxyKey.self]
         }

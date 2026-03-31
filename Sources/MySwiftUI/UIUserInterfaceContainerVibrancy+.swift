@@ -7,9 +7,9 @@ internal import MySwiftUICore
 
 extension _UIUserInterfaceContainerVibrancy {
 #if SwiftUICompataibility
-    typealias ResolvedMaterial = SwiftUI.Material
+    typealias ResolvedMaterial = SwiftUI::Material
 #else
-    typealias ResolvedMaterial = MySwiftUICore.Material
+    typealias ResolvedMaterial = MySwiftUICore::Material
 #endif
     
     init(material: ResolvedMaterial?) {

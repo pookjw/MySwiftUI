@@ -79,7 +79,7 @@ extension ViewTraitCollection {
     fileprivate struct AnyTrait<T: _ViewTraitKey>: AnyViewTrait {
         private var value: T.Value
         
-        @inline(__always)
+        @inline(always)
         init(value: T.Value) {
             self.value = value
         }

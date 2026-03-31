@@ -7,17 +7,17 @@ fileprivate struct ViewGeometryTests {}
 
 extension ViewGeometryTests {
     @Test func test_isInvalid() {
-        var impl = MySwiftUICore.ViewGeometry(
+        var impl = MySwiftUICore::ViewGeometry(
             origin: .zero,
-            dimensions: MySwiftUICore.ViewDimensions(
+            dimensions: MySwiftUICore::ViewDimensions(
                 guideComputer: .defaultValue,
                 size: .invalidValue
             )
         )
         
-        var original = _SwiftUICorePrivate.ViewGeometry(
+        var original = _SwiftUICorePrivate::ViewGeometry(
             origin: .zero,
-            dimensions: SwiftUI.ViewDimensions(
+            dimensions: SwiftUI::ViewDimensions(
                 guideComputer: .defaultValue,
                 size: .invalidValue
             )

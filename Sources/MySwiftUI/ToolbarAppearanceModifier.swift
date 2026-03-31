@@ -24,7 +24,7 @@ extension BarAppearanceBridge {
         self.allowedBars = roles
     }
     
-    @inline(__always)
+    @inline(always)
     func updateBarConfigurations(role: ToolbarPlacement.Role, preferences: PreferenceValues) -> Bool {
         // self.updateContext -> x24 -> x19 + 0x40
         // self -> x26 -> x19 + 0xa8

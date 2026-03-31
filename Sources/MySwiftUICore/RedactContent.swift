@@ -43,7 +43,7 @@ extension EnvironmentValues {
 }
 
 extension EnvironmentValues {
-    @inline(__always)
+    @inline(always)
     var shouldRedactContent: Bool {
         return self[ShouldRedactContentKey.self]
     }

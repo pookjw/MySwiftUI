@@ -96,7 +96,7 @@ extension CGSize {
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inlinable package func contains(point p: Spatial.Point3D) -> Bool {
+    @inlinable package func contains(point p: Spatial::Point3D) -> Bool {
         return !(p.x < 0) && !(p.y < 0) && p.x < width && p.y < height
     }
 }
@@ -182,7 +182,7 @@ extension CGSize {
 
 extension CGSize {
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inline(__always) @inlinable package mutating func round(_ rule: FloatingPointRoundingRule, toMultipleOf m: CGFloat) {
+    @inline(always) @inlinable package mutating func round(_ rule: FloatingPointRoundingRule, toMultipleOf m: CGFloat) {
         width.round(rule, toMultipleOf: m)
         height.round(rule, toMultipleOf: m)
     }
@@ -193,7 +193,7 @@ extension CGSize {
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inline(__always) @inlinable package func rounded(_ rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero, toMultipleOf m: CGFloat) -> CGSize {
+    @inline(always) @inlinable package func rounded(_ rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero, toMultipleOf m: CGFloat) -> CGSize {
         var r = self
         r.round(rule, toMultipleOf: m)
         return r

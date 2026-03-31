@@ -9,7 +9,7 @@ func registerAppRootModifier<T: ViewModifier>(_ modifier: T) {
     assertUnimplemented()
 }
 
-@inline(__always) // 원래 없음
+@inline(always) // 원래 없음
 func resolveAppRootView(_ view: AnyView) -> AnyView {
     var view = view
     for wrapper in unsafe appRootViewWrappers {

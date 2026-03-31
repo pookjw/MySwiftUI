@@ -5,7 +5,7 @@ private import _QuartzCorePrivate
 private import CoreGraphics
 
 extension CALayer {
-    @inline(__always)
+    @inline(always)
     func updateEDR(allowedDynamicRange: Image.DynamicRange, contentHeadroom: @autoclosure () -> Float) {
         let preferredDynamicRange: CALayer.DynamicRange
         var w21 = false

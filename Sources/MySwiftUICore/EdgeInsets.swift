@@ -56,7 +56,7 @@ extension EdgeInsets: BitwiseCopyable {}
 
 extension EdgeInsets {
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inline(__always) @inlinable package mutating func round(_ rule: FloatingPointRoundingRule, toMultipleOf m: CGFloat) {
+    @inline(always) @inlinable package mutating func round(_ rule: FloatingPointRoundingRule, toMultipleOf m: CGFloat) {
         top.round(rule, toMultipleOf: m)
         leading.round(rule, toMultipleOf: m)
         bottom.round(rule, toMultipleOf: m)
@@ -69,7 +69,7 @@ extension EdgeInsets {
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inline(__always) @inlinable package func rounded(_ rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero, toMultipleOf m: CGFloat) -> EdgeInsets {
+    @inline(always) @inlinable package func rounded(_ rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero, toMultipleOf m: CGFloat) -> EdgeInsets {
         var r = self
         r.round(rule, toMultipleOf: m)
         return r

@@ -7,17 +7,17 @@ private import CoreGraphics
 
 fileprivate struct SpacingTests {
     @Test func test_init_minima() {
-        let impl = MySwiftUICore.Spacing(
+        let impl = MySwiftUICore::Spacing(
             minima: [
-                MySwiftUICore.Spacing.Key(category: .default, edge: .top): MySwiftUICore.Spacing.Value.distance(1),
-                MySwiftUICore.Spacing.Key(category: .edgeBelowText, edge: .left): MySwiftUICore.Spacing.Value.distance(2),
+                MySwiftUICore::Spacing.Key(category: .default, edge: .top): MySwiftUICore::Spacing.Value.distance(1),
+                MySwiftUICore::Spacing.Key(category: .edgeBelowText, edge: .left): MySwiftUICore::Spacing.Value.distance(2),
             ]
         )
         
-        let original = _SwiftUICorePrivate.Spacing(
+        let original = _SwiftUICorePrivate::Spacing(
             minima: [
-                _SwiftUICorePrivate.Spacing.Key(category: .default, edge: .top): _SwiftUICorePrivate.Spacing.Value.distance(1),
-                _SwiftUICorePrivate.Spacing.Key(category: .edgeBelowText, edge: .left): _SwiftUICorePrivate.Spacing.Value.distance(2)
+                _SwiftUICorePrivate::Spacing.Key(category: .default, edge: .top): _SwiftUICorePrivate::Spacing.Value.distance(1),
+                _SwiftUICorePrivate::Spacing.Key(category: .edgeBelowText, edge: .left): _SwiftUICorePrivate::Spacing.Value.distance(2)
             ]
         )
         
@@ -25,64 +25,64 @@ fileprivate struct SpacingTests {
     }
     
     @Test func test_init() {
-        let impl = MySwiftUICore.Spacing()
-        let original = _SwiftUICorePrivate.Spacing()
+        let impl = MySwiftUICore::Spacing()
+        let original = _SwiftUICorePrivate::Spacing()
         #expect(isEqual(impl: impl, original: original))
     }
     
     @Test func test_defaultMinimum() {
-        MySwiftUICore.Spacing.defaultValue = CGSize(width: 10, height: 20)
-        _SwiftUICorePrivate.Spacing.defaultValue = CGSize(width: 10, height: 20)
-        #expect(MySwiftUICore.Spacing.defaultMinimum == _SwiftUICorePrivate.Spacing.defaultMinimum)
+        MySwiftUICore::Spacing.defaultValue = CGSize(width: 10, height: 20)
+        _SwiftUICorePrivate::Spacing.defaultValue = CGSize(width: 10, height: 20)
+        #expect(MySwiftUICore::Spacing.defaultMinimum == _SwiftUICorePrivate::Spacing.defaultMinimum)
         
-        MySwiftUICore.Spacing.defaultValue = CGSize(width: 20, height: 10)
-        _SwiftUICorePrivate.Spacing.defaultValue = CGSize(width: 20, height: 10)
-        #expect(MySwiftUICore.Spacing.defaultMinimum == _SwiftUICorePrivate.Spacing.defaultMinimum)
+        MySwiftUICore::Spacing.defaultValue = CGSize(width: 20, height: 10)
+        _SwiftUICorePrivate::Spacing.defaultValue = CGSize(width: 20, height: 10)
+        #expect(MySwiftUICore::Spacing.defaultMinimum == _SwiftUICorePrivate::Spacing.defaultMinimum)
         
-        MySwiftUICore.Spacing.defaultValue = CGSize(width: CGFloat.nan, height: 20)
-        _SwiftUICorePrivate.Spacing.defaultValue = CGSize(width: CGFloat.nan, height: 20)
-        #expect(MySwiftUICore.Spacing.defaultMinimum.bitPattern == _SwiftUICorePrivate.Spacing.defaultMinimum.bitPattern)
+        MySwiftUICore::Spacing.defaultValue = CGSize(width: CGFloat.nan, height: 20)
+        _SwiftUICorePrivate::Spacing.defaultValue = CGSize(width: CGFloat.nan, height: 20)
+        #expect(MySwiftUICore::Spacing.defaultMinimum.bitPattern == _SwiftUICorePrivate::Spacing.defaultMinimum.bitPattern)
         
-        MySwiftUICore.Spacing.defaultValue = CGSize(width: 20, height: CGFloat.nan)
-        _SwiftUICorePrivate.Spacing.defaultValue = CGSize(width: 20, height: CGFloat.nan)
-        #expect(MySwiftUICore.Spacing.defaultMinimum.bitPattern == _SwiftUICorePrivate.Spacing.defaultMinimum.bitPattern)
+        MySwiftUICore::Spacing.defaultValue = CGSize(width: 20, height: CGFloat.nan)
+        _SwiftUICorePrivate::Spacing.defaultValue = CGSize(width: 20, height: CGFloat.nan)
+        #expect(MySwiftUICore::Spacing.defaultMinimum.bitPattern == _SwiftUICorePrivate::Spacing.defaultMinimum.bitPattern)
     }
     
     @Test func test_defaultValue() {
-        #expect(MySwiftUICore.Spacing.defaultValue == _SwiftUICorePrivate.Spacing.defaultValue)
+        #expect(MySwiftUICore::Spacing.defaultValue == _SwiftUICorePrivate::Spacing.defaultValue)
     }
     
     @Test func test_zero() {
-        let impl = MySwiftUICore.Spacing.zero
-        let original = _SwiftUICorePrivate.Spacing.zero
+        let impl = MySwiftUICore::Spacing.zero
+        let original = _SwiftUICorePrivate::Spacing.zero
         #expect(isEqual(impl: impl, original: original))
     }
     
     @Test func test_all() {
-        let impl = MySwiftUICore.Spacing.all(1)
-        let original = _SwiftUICorePrivate.Spacing.all(1)
+        let impl = MySwiftUICore::Spacing.all(1)
+        let original = _SwiftUICorePrivate::Spacing.all(1)
         #expect(isEqual(impl: impl, original: original))
     }
     
     @Test func test_horizontal() {
-        let impl = MySwiftUICore.Spacing.horizontal(1)
-        let original = _SwiftUICorePrivate.Spacing.horizontal(1)
+        let impl = MySwiftUICore::Spacing.horizontal(1)
+        let original = _SwiftUICorePrivate::Spacing.horizontal(1)
         #expect(isEqual(impl: impl, original: original))
     }
     
     @Test func test_vertical() {
-        let impl = MySwiftUICore.Spacing.vertical(1)
-        let original = _SwiftUICorePrivate.Spacing.vertical(1)
+        let impl = MySwiftUICore::Spacing.vertical(1)
+        let original = _SwiftUICorePrivate::Spacing.vertical(1)
         #expect(isEqual(impl: impl, original: original))
     }
 }
 
 extension SpacingTests {
     fileprivate struct Test_distanceToSuccessorView: Sendable {
-        let selfSpacing: _SwiftUICorePrivate.Spacing
-        let axis: SwiftUI.Axis
-        let layoutDirection: SwiftUI.LayoutDirection
-        let preferring: _SwiftUICorePrivate.Spacing
+        let selfSpacing: _SwiftUICorePrivate::Spacing
+        let axis: SwiftUI::Axis
+        let layoutDirection: SwiftUI::LayoutDirection
+        let preferring: _SwiftUICorePrivate::Spacing
         
         static let allCases: [Test_distanceToSuccessorView] = {
             let scalars: [CGFloat] = [
@@ -94,27 +94,27 @@ extension SpacingTests {
                 0
             ]
             
-            let textMetrics: [_SwiftUICorePrivate.Spacing.TextMetrics] = [
+            let textMetrics: [_SwiftUICorePrivate::Spacing.TextMetrics] = [
                 .init(ascend: 10, descend: 4, leading: 2, pixelLength: 16)
             ]
             
-            let distanceValues: [_SwiftUICorePrivate.Spacing.Value] =
+            let distanceValues: [_SwiftUICorePrivate::Spacing.Value] =
             scalars.map { .distance($0) }
             
-            let textValues: [_SwiftUICorePrivate.Spacing.Value] = [
+            let textValues: [_SwiftUICorePrivate::Spacing.Value] = [
 //                .topTextMetrics(textMetrics[0]),
 //                .bottomTextMetrics(textMetrics[0])
             ]
             
-            let categories: [_SwiftUICorePrivate.Spacing.Category] = [
+            let categories: [_SwiftUICorePrivate::Spacing.Category] = [
                 .default,
                 .edgeAboveText
             ]
             
             func makeSpacing(
-                _ value: _SwiftUICorePrivate.Spacing.Value,
-                category: _SwiftUICorePrivate.Spacing.Category
-            ) -> _SwiftUICorePrivate.Spacing {
+                _ value: _SwiftUICorePrivate::Spacing.Value,
+                category: _SwiftUICorePrivate::Spacing.Category
+            ) -> _SwiftUICorePrivate::Spacing {
                 .init(
                     minima: [
                         .init(category: category, edge: .left): value,
@@ -157,11 +157,11 @@ extension SpacingTests {
                 preferring: data.preferring
             )
         
-        let impl = MySwiftUICore.Spacing(original: data.selfSpacing)
+        let impl = MySwiftUICore::Spacing(original: data.selfSpacing)
             .distanceToSuccessorView(
                 along: data.axis == .horizontal ? .horizontal : .vertical,
                 layoutDirection: data.layoutDirection == .leftToRight ? .leftToRight : .rightToLeft,
-                preferring: MySwiftUICore.Spacing(original: data.preferring)
+                preferring: MySwiftUICore::Spacing(original: data.preferring)
             )
         
         #expect(original?.bitPattern == impl?.bitPattern)
@@ -175,8 +175,8 @@ fileprivate struct SpacingTextMetricsTests {
         let leading: CGFloat = 3
         let pixelLength: CGFloat = 4
         
-        let impl = MySwiftUICore.Spacing.TextMetrics(ascend: ascend, descend: descend, leading: leading, pixelLength: pixelLength)
-        let original = _SwiftUICorePrivate.Spacing.TextMetrics(ascend: ascend, descend: descend, leading: leading, pixelLength: pixelLength)
+        let impl = MySwiftUICore::Spacing.TextMetrics(ascend: ascend, descend: descend, leading: leading, pixelLength: pixelLength)
+        let original = _SwiftUICorePrivate::Spacing.TextMetrics(ascend: ascend, descend: descend, leading: leading, pixelLength: pixelLength)
         
         #expect(impl.ascend == original.ascend)
         #expect(impl.descend == original.descend)
@@ -190,8 +190,8 @@ fileprivate struct SpacingTextMetricsTests {
         let leading: CGFloat = 3
         let pixelLength: CGFloat = 4
         
-        let impl = MySwiftUICore.Spacing.TextMetrics(ascend: ascend, descend: descend, leading: leading, pixelLength: pixelLength)
-        let original = _SwiftUICorePrivate.Spacing.TextMetrics(ascend: ascend, descend: descend, leading: leading, pixelLength: pixelLength)
+        let impl = MySwiftUICore::Spacing.TextMetrics(ascend: ascend, descend: descend, leading: leading, pixelLength: pixelLength)
+        let original = _SwiftUICorePrivate::Spacing.TextMetrics(ascend: ascend, descend: descend, leading: leading, pixelLength: pixelLength)
         
         #expect(impl.lineSpacing == original.lineSpacing)
     }
@@ -206,12 +206,12 @@ fileprivate struct SpacingTextMetricsTests {
         let leading_2: CGFloat = 7
         let pixelLength_2: CGFloat = 0
         
-        let impl_1 = MySwiftUICore.Spacing.TextMetrics(ascend: ascend_1, descend: descend_1, leading: leading_1, pixelLength: pixelLength_1)
-        let impl_2 = MySwiftUICore.Spacing.TextMetrics(ascend: ascend_2, descend: descend_2, leading: leading_2, pixelLength: pixelLength_2)
+        let impl_1 = MySwiftUICore::Spacing.TextMetrics(ascend: ascend_1, descend: descend_1, leading: leading_1, pixelLength: pixelLength_1)
+        let impl_2 = MySwiftUICore::Spacing.TextMetrics(ascend: ascend_2, descend: descend_2, leading: leading_2, pixelLength: pixelLength_2)
         #expect(impl_1 < impl_2)
         
-        let original_1 = _SwiftUICorePrivate.Spacing.TextMetrics(ascend: ascend_1, descend: descend_1, leading: leading_1, pixelLength: pixelLength_1)
-        let original_2 = _SwiftUICorePrivate.Spacing.TextMetrics(ascend: ascend_2, descend: descend_2, leading: leading_2, pixelLength: pixelLength_2)
+        let original_1 = _SwiftUICorePrivate::Spacing.TextMetrics(ascend: ascend_1, descend: descend_1, leading: leading_1, pixelLength: pixelLength_1)
+        let original_2 = _SwiftUICorePrivate::Spacing.TextMetrics(ascend: ascend_2, descend: descend_2, leading: leading_2, pixelLength: pixelLength_2)
         #expect(original_1 < original_2)
     }
     
@@ -222,7 +222,7 @@ fileprivate struct SpacingTextMetricsTests {
 
 fileprivate struct SpacingValueTests {
     @Test func test_init() {
-        let impl = MySwiftUICore.Spacing.Value(3)
+        let impl = MySwiftUICore::Spacing.Value(3)
         let test_1: Bool
         if case .distance(let value) = impl {
             test_1 = value == 3
@@ -231,7 +231,7 @@ fileprivate struct SpacingValueTests {
         }
         #expect(test_1)
         
-        let original = _SwiftUICorePrivate.Spacing.Value(3)
+        let original = _SwiftUICorePrivate::Spacing.Value(3)
         let test_2: Bool
         if case .distance(let value) = original {
             test_2 = value == 3
@@ -242,70 +242,70 @@ fileprivate struct SpacingValueTests {
     }
     
     @Test func test_value() {
-        let impl_topTextMetrics = MySwiftUICore.Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4)
-        let impl_bottomTextMetrics = MySwiftUICore.Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8)
-        let impl_1 = MySwiftUICore.Spacing.Value.distance(3)
+        let impl_topTextMetrics = MySwiftUICore::Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4)
+        let impl_bottomTextMetrics = MySwiftUICore::Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8)
+        let impl_1 = MySwiftUICore::Spacing.Value.distance(3)
         #expect(impl_1.value == 3)
-        let impl_2 = MySwiftUICore.Spacing.Value.topTextMetrics(impl_topTextMetrics)
+        let impl_2 = MySwiftUICore::Spacing.Value.topTextMetrics(impl_topTextMetrics)
         #expect(impl_2.value == nil)
-        let impl_3 = MySwiftUICore.Spacing.Value.bottomTextMetrics(impl_bottomTextMetrics)
+        let impl_3 = MySwiftUICore::Spacing.Value.bottomTextMetrics(impl_bottomTextMetrics)
         #expect(impl_3.value == nil)
         
-        let original_topTextMetrics = _SwiftUICorePrivate.Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4)
-        let original_bottomTextMetrics = _SwiftUICorePrivate.Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8)
-        let original_1 = _SwiftUICorePrivate.Spacing.Value.distance(3)
+        let original_topTextMetrics = _SwiftUICorePrivate::Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4)
+        let original_bottomTextMetrics = _SwiftUICorePrivate::Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8)
+        let original_1 = _SwiftUICorePrivate::Spacing.Value.distance(3)
         #expect(original_1.value == 3)
-        let original_2 = _SwiftUICorePrivate.Spacing.Value.topTextMetrics(original_topTextMetrics)
+        let original_2 = _SwiftUICorePrivate::Spacing.Value.topTextMetrics(original_topTextMetrics)
         #expect(original_2.value == nil)
-        let original_3 = _SwiftUICorePrivate.Spacing.Value.bottomTextMetrics(original_bottomTextMetrics)
+        let original_3 = _SwiftUICorePrivate::Spacing.Value.bottomTextMetrics(original_bottomTextMetrics)
         #expect(original_3.value == nil)
     }
     
     @Test func test_distance() {
         do {
-            let impl_1 = MySwiftUICore.Spacing.Value.distance(2)
-            let impl_2 = MySwiftUICore.Spacing.Value.distance(3)
+            let impl_1 = MySwiftUICore::Spacing.Value.distance(2)
+            let impl_2 = MySwiftUICore::Spacing.Value.distance(3)
             #expect(impl_1.distance(to: impl_2) == 5)
             
-            let original_1 = _SwiftUICorePrivate.Spacing.Value.distance(2)
-            let original_2 = _SwiftUICorePrivate.Spacing.Value.distance(3)
+            let original_1 = _SwiftUICorePrivate::Spacing.Value.distance(2)
+            let original_2 = _SwiftUICorePrivate::Spacing.Value.distance(3)
             #expect(original_1.distance(to: original_2) == 5)
         }
         
         do {
-            let impl_1 = MySwiftUICore.Spacing.Value.distance(20)
-            let impl_2 = MySwiftUICore.Spacing.Value.topTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: 0, descend: 1, leading: 2, pixelLength: 3))
+            let impl_1 = MySwiftUICore::Spacing.Value.distance(20)
+            let impl_2 = MySwiftUICore::Spacing.Value.topTextMetrics(MySwiftUICore::Spacing.TextMetrics(ascend: 0, descend: 1, leading: 2, pixelLength: 3))
             #expect(impl_1.distance(to: impl_2) == 20)
             
-            let original_1 = _SwiftUICorePrivate.Spacing.Value.distance(20)
-            let original_2 = _SwiftUICorePrivate.Spacing.Value.topTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics(ascend: 0, descend: 1, leading: 2, pixelLength: 3))
+            let original_1 = _SwiftUICorePrivate::Spacing.Value.distance(20)
+            let original_2 = _SwiftUICorePrivate::Spacing.Value.topTextMetrics(_SwiftUICorePrivate::Spacing.TextMetrics(ascend: 0, descend: 1, leading: 2, pixelLength: 3))
             #expect(original_1.distance(to: original_2) == 20)
         }
         
         do {
-            let impl_1 = MySwiftUICore.Spacing.Value.bottomTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4))
-            let impl_2 = MySwiftUICore.Spacing.Value.topTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8))
+            let impl_1 = MySwiftUICore::Spacing.Value.bottomTextMetrics(MySwiftUICore::Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4))
+            let impl_2 = MySwiftUICore::Spacing.Value.topTextMetrics(MySwiftUICore::Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8))
             // TODO
 //            #expect(impl_1.distance(to: impl_2) == 8)
             
-            let original_1 = _SwiftUICorePrivate.Spacing.Value.bottomTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4))
-            let original_2 = _SwiftUICorePrivate.Spacing.Value.topTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8))
+            let original_1 = _SwiftUICorePrivate::Spacing.Value.bottomTextMetrics(_SwiftUICorePrivate::Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4))
+            let original_2 = _SwiftUICorePrivate::Spacing.Value.topTextMetrics(_SwiftUICorePrivate::Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8))
             #expect(original_1.distance(to: original_2) == 8)
         }
         
         do {
-            let impl_1 = MySwiftUICore.Spacing.Value.bottomTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4))
-            let impl_2 = MySwiftUICore.Spacing.Value.bottomTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8))
+            let impl_1 = MySwiftUICore::Spacing.Value.bottomTextMetrics(MySwiftUICore::Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4))
+            let impl_2 = MySwiftUICore::Spacing.Value.bottomTextMetrics(MySwiftUICore::Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8))
             #expect(impl_1.distance(to: impl_2) == nil)
             
-            let original_1 = _SwiftUICorePrivate.Spacing.Value.bottomTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4))
-            let original_2 = _SwiftUICorePrivate.Spacing.Value.bottomTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8))
+            let original_1 = _SwiftUICorePrivate::Spacing.Value.bottomTextMetrics(_SwiftUICorePrivate::Spacing.TextMetrics(ascend: 1, descend: 2, leading: 3, pixelLength: 4))
+            let original_2 = _SwiftUICorePrivate::Spacing.Value.bottomTextMetrics(_SwiftUICorePrivate::Spacing.TextMetrics(ascend: 5, descend: 6, leading: 7, pixelLength: 8))
             #expect(original_1.distance(to: original_2) == nil)
         }
     }
 }
 
-fileprivate func isEqual(impl: MySwiftUICore.Spacing, original: _SwiftUICorePrivate.Spacing) -> Bool {
+fileprivate func isEqual(impl: MySwiftUICore::Spacing, original: _SwiftUICorePrivate::Spacing) -> Bool {
     let keys_1 = impl.minima.keys
     let keys_2 = original.minima.keys
     
@@ -313,7 +313,7 @@ fileprivate func isEqual(impl: MySwiftUICore.Spacing, original: _SwiftUICorePriv
         return false
     }
     
-    var keyToKey: [MySwiftUICore.Spacing.Key: _SwiftUICorePrivate.Spacing.Key] = [:]
+    var keyToKey: [MySwiftUICore::Spacing.Key: _SwiftUICorePrivate::Spacing.Key] = [:]
     keyToKey.reserveCapacity(keys_2.count)
     
     for key_1 in keys_1 {
@@ -397,9 +397,9 @@ fileprivate func isEqual(impl: MySwiftUICore.Spacing, original: _SwiftUICorePriv
     return true
 }
 
-extension MySwiftUICore.Spacing {
-    fileprivate init(original: _SwiftUICorePrivate.Spacing) {
-        var minima: [MySwiftUICore.Spacing.Key: MySwiftUICore.Spacing.Value] = [:]
+extension MySwiftUICore::Spacing {
+    fileprivate init(original: _SwiftUICorePrivate::Spacing) {
+        var minima: [MySwiftUICore::Spacing.Key: MySwiftUICore::Spacing.Value] = [:]
         minima.reserveCapacity(original.minima.count)
         
         for (originalKey, originalValue) in original.minima {
@@ -410,8 +410,8 @@ extension MySwiftUICore.Spacing {
     }
 }
 
-extension MySwiftUICore.Spacing.Key {
-    fileprivate init(original: _SwiftUICorePrivate.Spacing.Key) {
+extension MySwiftUICore::Spacing.Key {
+    fileprivate init(original: _SwiftUICorePrivate::Spacing.Key) {
         self.init(
             category: .init(original: original.category),
             edge: .init(rawValue: original.edge.rawValue)!
@@ -419,43 +419,43 @@ extension MySwiftUICore.Spacing.Key {
     }
 }
 
-extension MySwiftUICore.Spacing.Category {
-    fileprivate init(original: _SwiftUICorePrivate.Spacing.Category) {
+extension MySwiftUICore::Spacing.Category {
+    fileprivate init(original: _SwiftUICorePrivate::Spacing.Category) {
         self.init()
         
-        if original.base == _SwiftUICorePrivate.Spacing.Category.default.base {
-            self.base = MySwiftUICore.Spacing.Category.default.base
-        } else if original.base == _SwiftUICorePrivate.Spacing.Category.textToText.base {
-            self.base = MySwiftUICore.Spacing.Category.textToText.base
-        } else if original.base == _SwiftUICorePrivate.Spacing.Category.edgeAboveText.base {
-            self.base = MySwiftUICore.Spacing.Category.edgeAboveText.base
-        } else if original.base == _SwiftUICorePrivate.Spacing.Category.edgeBelowText.base {
-            self.base = MySwiftUICore.Spacing.Category.edgeBelowText.base
-        } else if original.base == _SwiftUICorePrivate.Spacing.Category.textBaseline.base {
-            self.base = MySwiftUICore.Spacing.Category.textBaseline.base
-        } else if original.base == _SwiftUICorePrivate.Spacing.Category.edgeLeftText.base {
-            self.base = MySwiftUICore.Spacing.Category.edgeLeftText.base
-        } else if original.base == _SwiftUICorePrivate.Spacing.Category.edgeRightText.base {
-            self.base = MySwiftUICore.Spacing.Category.edgeRightText.base
-        } else if original.base == _SwiftUICorePrivate.Spacing.Category.leftTextBaseline.base {
-            self.base = MySwiftUICore.Spacing.Category.leftTextBaseline.base
-        } else if original.base == _SwiftUICorePrivate.Spacing.Category.rightTextBaseline.base {
-            self.base = MySwiftUICore.Spacing.Category.rightTextBaseline.base
+        if original.base == _SwiftUICorePrivate::Spacing.Category.default.base {
+            self.base = MySwiftUICore::Spacing.Category.default.base
+        } else if original.base == _SwiftUICorePrivate::Spacing.Category.textToText.base {
+            self.base = MySwiftUICore::Spacing.Category.textToText.base
+        } else if original.base == _SwiftUICorePrivate::Spacing.Category.edgeAboveText.base {
+            self.base = MySwiftUICore::Spacing.Category.edgeAboveText.base
+        } else if original.base == _SwiftUICorePrivate::Spacing.Category.edgeBelowText.base {
+            self.base = MySwiftUICore::Spacing.Category.edgeBelowText.base
+        } else if original.base == _SwiftUICorePrivate::Spacing.Category.textBaseline.base {
+            self.base = MySwiftUICore::Spacing.Category.textBaseline.base
+        } else if original.base == _SwiftUICorePrivate::Spacing.Category.edgeLeftText.base {
+            self.base = MySwiftUICore::Spacing.Category.edgeLeftText.base
+        } else if original.base == _SwiftUICorePrivate::Spacing.Category.edgeRightText.base {
+            self.base = MySwiftUICore::Spacing.Category.edgeRightText.base
+        } else if original.base == _SwiftUICorePrivate::Spacing.Category.leftTextBaseline.base {
+            self.base = MySwiftUICore::Spacing.Category.leftTextBaseline.base
+        } else if original.base == _SwiftUICorePrivate::Spacing.Category.rightTextBaseline.base {
+            self.base = MySwiftUICore::Spacing.Category.rightTextBaseline.base
         } else {
             fatalError()
         }
     }
 }
 
-extension MySwiftUICore.Spacing.Value {
-    fileprivate init(original: _SwiftUICorePrivate.Spacing.Value) {
+extension MySwiftUICore::Spacing.Value {
+    fileprivate init(original: _SwiftUICorePrivate::Spacing.Value) {
         switch original {
         case .distance(let distance):
             self = .distance(distance)
         case .topTextMetrics(let metrics):
-            self = .topTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: metrics.ascend, descend: metrics.descend, leading: metrics.leading, pixelLength: metrics.pixelLength))
+            self = .topTextMetrics(MySwiftUICore::Spacing.TextMetrics(ascend: metrics.ascend, descend: metrics.descend, leading: metrics.leading, pixelLength: metrics.pixelLength))
         case .bottomTextMetrics(let metrics):
-            self = .bottomTextMetrics(MySwiftUICore.Spacing.TextMetrics(ascend: metrics.ascend, descend: metrics.descend, leading: metrics.leading, pixelLength: metrics.pixelLength))
+            self = .bottomTextMetrics(MySwiftUICore::Spacing.TextMetrics(ascend: metrics.ascend, descend: metrics.descend, leading: metrics.leading, pixelLength: metrics.pixelLength))
         default:
             fatalError()
         }

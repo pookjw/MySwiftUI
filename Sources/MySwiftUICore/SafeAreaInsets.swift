@@ -46,7 +46,7 @@ struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
     }
     
     @inlinable
-    @inline(__always)
+    @inline(always)
     static func _makeView(modifier: _GraphValue<_SafeAreaInsetsModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         // x29 = sp + 0x260
         /*

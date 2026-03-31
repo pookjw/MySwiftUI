@@ -24,8 +24,8 @@ package struct ContentSizedSceneFeature<GeometryMeasurer: ViewGraphGeometryMeasu
     fileprivate let dispatcher: SizingPreferencesChangeDispatcher
     private var sizeRestrictionsCallback: ([GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences
     
-    @_specialize(exported: true, where GeometryMeasurer == SizeThatFitsMeasurer)
-    @_specialize(exported: true, where GeometryMeasurer == VolumeThatFitsMeasurer)
+    @specialized(where GeometryMeasurer == SizeThatFitsMeasurer)
+    @specialized(where GeometryMeasurer == VolumeThatFitsMeasurer)
     init(
         graph: ViewGraph,
         delegate: (any ContentSizedSceneDelegate)?,
@@ -157,8 +157,8 @@ struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer>: StatefulRu
     
     typealias Value = [GeometryMeasurer.Proposal: GeometryMeasurer.Size]
     
-    @_specialize(exported: true, where GeometryMeasurer == SizeThatFitsMeasurer)
-    @_specialize(exported: true, where GeometryMeasurer == VolumeThatFitsMeasurer)
+    @specialized(where GeometryMeasurer == SizeThatFitsMeasurer)
+    @specialized(where GeometryMeasurer == VolumeThatFitsMeasurer)
     func updateValue() {
         // self -> x20 -> x26
         // proposals -> x21

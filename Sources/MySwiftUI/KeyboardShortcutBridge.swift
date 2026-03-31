@@ -30,7 +30,7 @@ final class KeyboardShortcutBridge: NSObject {
         self.updatedBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid)
     }
     
-    @inline(__always)
+    @inline(always)
     func preferencesDidChange(_ preferences: PreferenceValues) {
         guard isObservingPreferences else {
             return

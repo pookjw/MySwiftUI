@@ -71,7 +71,7 @@ enum SceneID: Hashable {
     case string(String)
     case type(Any.Type, UInt8)
     
-    @inline(__always)
+    @inline(always)
     var sessionID: String { // 원래 없음
         switch self {
         case .string(let id):

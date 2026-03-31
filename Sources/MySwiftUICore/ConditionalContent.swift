@@ -227,7 +227,7 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
     }
     
     // 원래 없음
-    @inline(__always)
+    @inline(always)
     fileprivate init(storage: ConditionalTypeDescriptor<T>.Storage, count: Int) {
         self.storage = storage
         self.count = count

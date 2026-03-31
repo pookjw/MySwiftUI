@@ -11,7 +11,7 @@ fileprivate struct ViewSize3DTests {
 extension ViewSize3DTests {
     @Test func test_zero() {
         let impl = MySwiftUICore.ViewSize3D.zero
-        let original = _SwiftUICorePrivate.ViewSize3D.zero
+        let original = _SwiftUICorePrivate::ViewSize3D.zero
         
         let expectedValue = Size3D.zero
         let expectedProposal = Size3D.zero
@@ -27,7 +27,7 @@ extension ViewSize3DTests {
 extension ViewSize3DTests {
     @Test func test_invalidValue() {
         let impl = MySwiftUICore.ViewSize3D.invalidValue
-        let original = _SwiftUICorePrivate.ViewSize3D.invalidValue
+        let original = _SwiftUICorePrivate::ViewSize3D.invalidValue
         
         let expected = Size3D(
             width: -CGFloat.infinity,
@@ -118,7 +118,7 @@ extension ViewSize3DTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let original = _SwiftUICorePrivate.ViewSize3D.fixed(input.size)
+        let original = _SwiftUICorePrivate::ViewSize3D.fixed(input.size)
         
         #expect(original.value.isEqual(to: output.value))
         #expect(original._proposal.isEqual(to: output._proposal))
@@ -244,9 +244,9 @@ extension ViewSize3DTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let original = _SwiftUICorePrivate.ViewSize3D(
+        let original = _SwiftUICorePrivate::ViewSize3D(
             input.value,
-            proposal: _SwiftUICorePrivate._ProposedSize3D(
+            proposal: _SwiftUICorePrivate::_ProposedSize3D(
                 width: input.proposalWidth,
                 height: input.proposalHeight,
                 depth: input.proposalDepth
@@ -341,9 +341,9 @@ extension ViewSize3DTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let originalInitial = _SwiftUICorePrivate.ViewSize3D(
+        let originalInitial = _SwiftUICorePrivate::ViewSize3D(
             input.initialValue,
-            proposal: _SwiftUICorePrivate._ProposedSize3D(
+            proposal: _SwiftUICorePrivate::_ProposedSize3D(
                 width: input.proposalWidth,
                 height: input.proposalHeight,
                 depth: input.proposalDepth
@@ -476,16 +476,16 @@ extension ViewSize3DTests {
         #expect(proposal.height == output.proposalHeight)
         #expect(proposal.depth == output.proposalDepth)
         
-        var original = _SwiftUICorePrivate.ViewSize3D(
+        var original = _SwiftUICorePrivate::ViewSize3D(
             input.initialValue,
-            proposal: _SwiftUICorePrivate._ProposedSize3D(
+            proposal: _SwiftUICorePrivate::_ProposedSize3D(
                 width: input.proposalWidth,
                 height: input.proposalHeight,
                 depth: input.proposalDepth
             )
         )
         
-        original.proposal = _SwiftUICorePrivate._ProposedSize3D(
+        original.proposal = _SwiftUICorePrivate::_ProposedSize3D(
             width: input.newProposalWidth,
             height: input.newProposalHeight,
             depth: input.newProposalDepth
@@ -601,9 +601,9 @@ extension ViewSize3DTests {
         #expect(resultViewDepth.value.bitPattern == output.viewDepthValue.bitPattern)
         #expect(resultViewDepth.proposal == output.viewDepthProposal)
         
-        var original = _SwiftUICorePrivate.ViewSize3D(
+        var original = _SwiftUICorePrivate::ViewSize3D(
             input.initialValue,
-            proposal: _SwiftUICorePrivate._ProposedSize3D(
+            proposal: _SwiftUICorePrivate::_ProposedSize3D(
                 width: input.proposalWidth,
                 height: input.proposalHeight,
                 depth: input.proposalDepth
@@ -614,7 +614,7 @@ extension ViewSize3DTests {
         #expect(originalInitialViewDepth.value.bitPattern == input.initialValue.depth.bitPattern)
         #expect(originalInitialViewDepth.proposal == (input.proposalDepth?.isNaN == true ? nil : input.proposalDepth))
         
-        original.viewDepth = _SwiftUICorePrivate.ViewDepth(
+        original.viewDepth = _SwiftUICorePrivate::ViewDepth(
             input.newDepthValue,
             proposal: input.newDepthProposal
         )
@@ -716,18 +716,18 @@ extension ViewSize3DTests {
         #expect(impl._proposal.isEqual(to: output._proposal))
         #expect(result2D.value.isEqual(to: output.size2DValue))
         
-        var original = _SwiftUICorePrivate.ViewSize3D(
+        var original = _SwiftUICorePrivate::ViewSize3D(
             input.initialValue,
-            proposal: _SwiftUICorePrivate._ProposedSize3D(
+            proposal: _SwiftUICorePrivate::_ProposedSize3D(
                 width: input.proposalWidth,
                 height: input.proposalHeight,
                 depth: input.proposalDepth
             )
         )
         
-        original.size2D = _SwiftUICorePrivate.ViewSize(
+        original.size2D = _SwiftUICorePrivate::ViewSize(
             input.new2DValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.new2DProposalWidth,
                 height: input.new2DProposalHeight
             )
@@ -744,7 +744,7 @@ extension ViewSize3DTests {
     struct Input_subscript_axis: Hashable {
         let initialValue: Size3D
         let initialProposal: Size3D
-        let axis: SwiftUI.Axis
+        let axis: SwiftUI::Axis
         let setValue: CGFloat
         let modifyDelta: CGFloat
     }
@@ -836,16 +836,16 @@ extension ViewSize3DTests {
         #expect(impl.value.isEqual(to: output.afterModifyValue))
         #expect(implReadAfterModify.bitPattern == output.readAfterModify.bitPattern)
         
-        var original = _SwiftUICorePrivate.ViewSize3D(
+        var original = _SwiftUICorePrivate::ViewSize3D(
             input.initialValue,
-            proposal: _SwiftUICorePrivate._ProposedSize3D(
+            proposal: _SwiftUICorePrivate::_ProposedSize3D(
                 width: input.initialProposal.width,
                 height: input.initialProposal.height,
                 depth: input.initialProposal.depth
             )
         )
         
-        let originalAxis: SwiftUI.Axis =
+        let originalAxis: SwiftUI::Axis =
         input.axis == .horizontal ? .horizontal : .vertical
         
         original[originalAxis] = input.setValue
@@ -866,7 +866,7 @@ extension ViewSize3DTests {
     struct Input_subscript_axis3D: Hashable {
         let initialValue: Size3D
         let initialProposal: Size3D
-        let axis: _SwiftUICorePrivate._Axis3D
+        let axis: _SwiftUICorePrivate::_Axis3D
         let setValue: CGFloat
         let modifyDelta: CGFloat
     }
@@ -968,16 +968,16 @@ extension ViewSize3DTests {
         #expect(impl.value.isEqual(to: output.afterModifyValue))
         #expect(implReadAfterModify.bitPattern == output.readAfterModify.bitPattern)
         
-        var original = _SwiftUICorePrivate.ViewSize3D(
+        var original = _SwiftUICorePrivate::ViewSize3D(
             input.initialValue,
-            proposal: _SwiftUICorePrivate._ProposedSize3D(
+            proposal: _SwiftUICorePrivate::_ProposedSize3D(
                 width: input.initialProposal.width,
                 height: input.initialProposal.height,
                 depth: input.initialProposal.depth
             )
         )
         
-        let originalAxis: _SwiftUICorePrivate._Axis3D = input.axis
+        let originalAxis: _SwiftUICorePrivate::_Axis3D = input.axis
         
         original[originalAxis] = input.setValue
         let originalReadAfterSet = original[originalAxis]
@@ -1080,15 +1080,15 @@ extension ViewSize3DTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let viewSizeOriginal = _SwiftUICorePrivate.ViewSize(
+        let viewSizeOriginal = _SwiftUICorePrivate::ViewSize(
             CGSize(width: input.viewSizeWidth, height: input.viewSizeHeight),
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.proposalWidth,
                 height: input.proposalHeight
             )
         )
         
-        let original = _SwiftUICorePrivate.ViewSize3D(
+        let original = _SwiftUICorePrivate::ViewSize3D(
             viewSizeOriginal,
             depth: input.depth,
             proposedDepth: input.proposedDepth
@@ -1195,24 +1195,24 @@ extension ViewSize3DTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let viewSizeOriginal = _SwiftUICorePrivate.ViewSize(
+        let viewSizeOriginal = _SwiftUICorePrivate::ViewSize(
             CGSize(width: input.viewSizeWidth, height: input.viewSizeHeight),
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.proposalWidth,
                 height: input.proposalHeight
             )
         )
         
-        let source3DOriginal = _SwiftUICorePrivate.ViewSize3D(
+        let source3DOriginal = _SwiftUICorePrivate::ViewSize3D(
             Size3D(width: 0, height: 0, depth: input.sourceDepthValue),
-            proposal: _SwiftUICorePrivate._ProposedSize3D(
+            proposal: _SwiftUICorePrivate::_ProposedSize3D(
                 width: nil,
                 height: nil,
                 depth: input.sourceDepthProposal
             )
         )
         
-        let original = _SwiftUICorePrivate.ViewSize3D(
+        let original = _SwiftUICorePrivate::ViewSize3D(
             viewSizeOriginal,
             usingDepthFrom: source3DOriginal
         )
@@ -1326,20 +1326,20 @@ extension ViewSize3DTests {
         #expect(impl.value.isEqual(to: output.value))
         #expect(impl._proposal.isEqual(to: output._proposal))
         
-        let viewSizeOriginal = _SwiftUICorePrivate.ViewSize(
+        let viewSizeOriginal = _SwiftUICorePrivate::ViewSize(
             CGSize(width: input.viewSizeWidth, height: input.viewSizeHeight),
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.proposalWidth,
                 height: input.proposalHeight
             )
         )
         
-        let depthOriginal = _SwiftUICorePrivate.ViewDepth(
+        let depthOriginal = _SwiftUICorePrivate::ViewDepth(
             input.depthValue,
             proposal: input.depthProposal
         )
         
-        let original = _SwiftUICorePrivate.ViewSize3D(
+        let original = _SwiftUICorePrivate::ViewSize3D(
             viewSizeOriginal,
             depth: depthOriginal
         )
@@ -1470,29 +1470,29 @@ extension ViewSize3DTests {
         
         #expect((lhs == rhs) == input.expected)
         
-        let originalLhsViewSize = _SwiftUICorePrivate.ViewSize(
+        let originalLhsViewSize = _SwiftUICorePrivate::ViewSize(
             input.lhsViewSizeValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.lhsProposalWidth,
                 height: input.lhsProposalHeight
             )
         )
         
-        let originalRhsViewSize = _SwiftUICorePrivate.ViewSize(
+        let originalRhsViewSize = _SwiftUICorePrivate::ViewSize(
             input.rhsViewSizeValue,
-            proposal: SwiftUI._ProposedSize(
+            proposal: SwiftUI::_ProposedSize(
                 width: input.rhsProposalWidth,
                 height: input.rhsProposalHeight
             )
         )
         
-        let originalLhs = _SwiftUICorePrivate.ViewSize3D(
+        let originalLhs = _SwiftUICorePrivate::ViewSize3D(
             originalLhsViewSize,
             depth: input.lhsDepth,
             proposedDepth: input.lhsProposedDepth
         )
         
-        let originalRhs = _SwiftUICorePrivate.ViewSize3D(
+        let originalRhs = _SwiftUICorePrivate::ViewSize3D(
             originalRhsViewSize,
             depth: input.rhsDepth,
             proposedDepth: input.rhsProposedDepth
@@ -1505,7 +1505,7 @@ extension ViewSize3DTests {
 
 
 
-extension _SwiftUICorePrivate.ViewSize3D {
+extension _SwiftUICorePrivate::ViewSize3D {
     fileprivate var _proposal: Size3D {
         return Mirror(reflecting: self).descendant("_proposal") as! Size3D
     }

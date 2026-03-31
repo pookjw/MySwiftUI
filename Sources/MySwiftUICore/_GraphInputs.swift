@@ -78,7 +78,7 @@ public struct _GraphInputs {
         }
     }
     
-    @inline(__always)
+    @inline(always)
     mutating func copyCaches() {
         cachedEnvironment = MutableBox(cachedEnvironment.value)
     }
