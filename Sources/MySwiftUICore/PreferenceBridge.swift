@@ -118,7 +118,12 @@ internal import AttributeGraph
     }
     
     func removeChild(_ viewGraph: ViewGraph) {
-        assertUnimplemented()
+        for index in self.children.indices {
+            if self.children[index].takeUnretainedValue() === viewGraph {
+                self.children.remove(at: index)
+                break
+            }
+        }
     }
     
     func addValue(_: AnyAttribute, for key: PreferenceKey.Type) {
@@ -143,7 +148,15 @@ internal import AttributeGraph
         
         hostPreferencesCombiner.mutateBody(as: HostPreferencesCombiner.self, invalidating: true) { combiner in
             // $s7SwiftUI16PreferenceBridgeC16removeHostValues3for14isInvalidatingy14AttributeGraph0K0VyAA0C4KeysVG_SbtFyAA0F19PreferencesCombinerVzXEfU_TA.7
-            assertUnimplemented()
+            for index in combiner.children.indices {
+                // AGWeakAttributeGetAttribute를 호출하지 않고 있음 바로 Attribute를 가져오는 것으로 보임
+                if combiner.children[index]._keys.base.attribute == keys.identifier {
+                    result = true
+                    return
+                }
+            }
+            
+            result = false
         }
         
         if result {

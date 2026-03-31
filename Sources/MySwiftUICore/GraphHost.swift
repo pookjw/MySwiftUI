@@ -452,7 +452,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             // <+36>
             let ref = Unmanaged<GraphHost>.fromOpaque(attribute.graph.context!)
             // x19
-            let context = ref.takeRetainedValue()
+            let context = ref.takeUnretainedValue()
             // x21
             let transaction = context.data.transaction
             
@@ -479,7 +479,6 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
                 flag = false
             } else {
                 // <+240>
-                ref.release()
                 // <+248>
                 flag = true
             }

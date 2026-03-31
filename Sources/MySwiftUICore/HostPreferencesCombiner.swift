@@ -22,7 +22,7 @@ struct HostPreferencesCombiner: Rule, AsyncAttribute {
         if count != 0 {
             PreferenceValues.combineHostKeyValues(into: &values, keys: self.keys, childIndices: 0..<count) { index in
                 let child = children[index]
-                return (child.keys ?? PreferenceKeys(), child.values ?? PreferenceValues())
+                return (child._keys.wrappedValue ?? PreferenceKeys(), child._values.wrappedValue ?? PreferenceValues())
             }
         }
         
@@ -32,7 +32,7 @@ struct HostPreferencesCombiner: Rule, AsyncAttribute {
 
 extension HostPreferencesCombiner {
     struct Child {
-        @WeakAttribute fileprivate var keys: PreferenceKeys?
-        @WeakAttribute fileprivate var values: PreferenceValues?
+        var _keys: WeakAttribute<PreferenceKeys>
+        fileprivate var _values: WeakAttribute<PreferenceValues>
     }
 }
