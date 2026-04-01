@@ -64,10 +64,6 @@ extension FocusViewGraph: @preconcurrency ViewGraphFeature {
         inputs.base[_GraphInputs.IsFocusSystemEnabledKey.self] = _isFocusSystemEnabled
     }
     
-    func uninstantiate(graph: ViewGraph) {
-        assertUnimplemented()
-    }
-    
     func isHiddenForReuseDidChange(graph: ViewGraph) {
         assertUnimplemented()
     }

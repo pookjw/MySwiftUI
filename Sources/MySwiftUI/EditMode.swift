@@ -18,10 +18,6 @@ struct EditModeScopeFeature: ViewGraphFeature {
         inputs.environment = Attribute(editModeEnvironment)
     }
     
-    func uninstantiate(graph: ViewGraph) {
-        assertUnimplemented()
-    }
-    
     func isHiddenForReuseDidChange(graph: ViewGraph) {
         assertUnimplemented()
     }

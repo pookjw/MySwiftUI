@@ -277,7 +277,7 @@ fileprivate final class CoordinateSpaceNode {
 }
 
 struct RootDepthTransform: Rule {
-    @Attribute private var transform: ViewTransform
+    @Attribute var transform: ViewTransform
     @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute private var proposedSize: ViewSize
     @OptionalAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?

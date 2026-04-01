@@ -10,5 +10,9 @@ final class UIKitInspectorBridgeV5<T>: SheetBridge<T> {
         viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
     }
     
+    override func removePreferences(from graph: ViewGraph) {
+        assertUnimplemented()
+    }
+    
     // TODO
 }

@@ -1,5 +1,5 @@
 // 950FC9541E969A331FB3CF1283EA4AEC
-internal import CoreGraphics
+package import CoreGraphics
 
 public struct _LayoutTraits: Equatable {
     var width: _LayoutTraits.Dimension
@@ -10,7 +10,7 @@ public struct _LayoutTraits: Equatable {
         height = _LayoutTraits.Dimension(min: 0, ideal: 0, max: .infinity)
     }
     
-    init(width: _LayoutTraits.Dimension, height: _LayoutTraits.Dimension) {
+    package init(width: _LayoutTraits.Dimension, height: _LayoutTraits.Dimension) {
         self.width = width
         self.height = height
     }
@@ -21,12 +21,13 @@ public struct _LayoutTraits: Equatable {
 }
 
 extension _LayoutTraits {
-    var idealSize: CGSize {
+    package var idealSize: CGSize {
         get {
             return CGSize(width: width.ideal, height: height.ideal)
         }
         set {
-            assertUnimplemented()
+            width.ideal = newValue.width
+            height.ideal = newValue.height
         }
     }
     
@@ -35,7 +36,8 @@ extension _LayoutTraits {
             return CGSize(width: width.min, height: height.min)
         }
         set {
-            assertUnimplemented()
+            width.min = newValue.width
+            height.min = newValue.height
         }
     }
     
@@ -44,7 +46,8 @@ extension _LayoutTraits {
             return CGSize(width: width.max, height: height.max)
         }
         set {
-            assertUnimplemented()
+            width.max = newValue.width
+            height.max = newValue.height
         }
     }
 }
@@ -60,12 +63,26 @@ extension _LayoutTraits: CustomStringConvertible {
 }
 
 extension _LayoutTraits {
-    struct Dimension: Equatable {
-        var min: CGFloat
-        var ideal: CGFloat
-        var max: CGFloat
+    package struct Dimension: Equatable {
+        var min: CGFloat {
+            didSet {
+                _checkInvariant()
+            }
+        }
         
-        init(min: CGFloat, ideal: CGFloat, max: CGFloat) {
+        var ideal: CGFloat {
+            didSet {
+                _checkInvariant()
+            }
+        }
+        
+        var max: CGFloat {
+            didSet {
+                _checkInvariant()
+            }
+        }
+        
+        package init(min: CGFloat, ideal: CGFloat, max: CGFloat) {
             self.min = min
             self.ideal = ideal
             self.max = max
@@ -73,15 +90,10 @@ extension _LayoutTraits {
         }
         
         fileprivate func _checkInvariant() {
-            var malfomed = false
-            malfomed = !min.isFinite || !ideal.isFinite
-            if !malfomed {
-                assert(min <= max)
-                malfomed = min > ideal && ideal <= max
-            }
+            let normal = (min.isFinite && min >= 0) && (ideal < .infinity) && (min <= max) && (min <= ideal) && (ideal <= max)
             
-            if malfomed {
-                fatalError("malformed dimension \(min)...\(ideal)...\(max)")
+            if !normal {
+                assertionFailure("malformed dimension \(min)...\(ideal)...\(max)")
             }
         }
         

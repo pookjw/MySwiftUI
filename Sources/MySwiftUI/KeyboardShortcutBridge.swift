@@ -7,7 +7,7 @@ final class KeyboardShortcutBridge: NSObject {
     private var currentBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid) // 0x5f0
     private var updatedBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid) // 0x5f8
     private var shortcutMap: [KeyboardShortcut: KeyboardShortcutBridge.Shortcut] = [:] // 0xdb0
-    private var isObservingPreferences: Bool = false // 0x608
+    var isObservingPreferences: Bool = false // 0x608
     
     override init() {
         super.init()

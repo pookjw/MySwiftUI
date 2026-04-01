@@ -6,7 +6,7 @@ package struct CachedEnvironment {
     var environment: Attribute<EnvironmentValues>
     private var mapItems: [MapItem] = []
     private var animatedFrame: AnimatedFrame?
-    private var resolvedShapeStyles: [ResolvedShapeStyles] = []
+    private var resolvedShapeStyles: [ResolvedShapeStyles: Attribute<_ShapeStyle_Pack>] = .init()
     var platformCache = CachedEnvironment.PlatformCache()
     
     init(environment: Attribute<EnvironmentValues>) {
@@ -243,7 +243,7 @@ extension CachedEnvironment {
     }
 }
 
-fileprivate struct ResolvedShapeStyles {
+fileprivate struct ResolvedShapeStyles: Hashable {
     private let environment: Attribute<EnvironmentValues>
     private let time: Attribute<Time>
     private let transaction: Attribute<Transaction>
@@ -251,4 +251,8 @@ fileprivate struct ResolvedShapeStyles {
     private let role: ShapeRole
     private let substrate: Material.Substrate?
     private let animationsDisabled: Bool
+}
+
+struct _ShapeStyle_Pack {
+    // TODO
 }

@@ -35,8 +35,10 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
         inputs.base.viewGraphBridgeProperties = attribute
     }
     
-    func uninstantiate(graph: ViewGraph) {
-        assertUnimplemented()
+    mutating func uninstantiate(graph: ViewGraph) {
+        self._parentBridgeProperties = WeakAttribute()
+        self._bridgeProperties = WeakAttribute()
+        self._environment = OptionalAttribute()
     }
     
     func needsUpdate(graph: ViewGraph) -> Bool {

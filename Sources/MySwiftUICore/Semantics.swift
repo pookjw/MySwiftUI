@@ -91,7 +91,7 @@ extension Semantics {
 extension Semantics {
     package struct UnifiedLayout: Feature {
         package static var isEnabled: Bool {
-            if isLinkedOnOrAfter(.v6) {
+            if isLinkedOnOrAfter(.maximal) {
                 return true
             } else {
                 let key = "com.apple.SwiftUI.EnableUnifiedLayout"

@@ -19,12 +19,15 @@ extension ViewRendererHost {
     package var isRootHost: Bool {
         // x19
         let viewGraph = viewGraph
-        
-        guard let _ = viewGraph._preferenceBridge else {
+        // x20
+        if
+            let preferenceBridge = viewGraph._preferenceBridge,
+            preferenceBridge.viewGraph != nil
+        {
+            return false
+        } else {
             return true
         }
-        
-        assertUnimplemented()
     }
     
     func performExternalUpdate(_ action: () -> Void) {

@@ -164,8 +164,9 @@ internal import UIKit
         // nop
     }
     
-    final func removePreferences(from graph: ViewGraph) {
-        assertUnimplemented()
+    func removePreferences(from graph: ViewGraph) {
+        // nop
+        assert(type(of: self) == UIKitInspectorBridgeV5<T>.self)
     }
 }
 

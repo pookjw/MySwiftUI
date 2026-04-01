@@ -98,8 +98,10 @@ extension AccessibilityViewGraph: @preconcurrency ViewGraphFeature {
         self._hostPreferences = WeakAttribute(outputs[HostPreferencesKey.self])
     }
     
-    func uninstantiate(graph: ViewGraph) {
-        assertUnimplemented()
+    mutating func uninstantiate(graph: ViewGraph) {
+        self._rootNodes = WeakAttribute()
+        self._hostPreferences = WeakAttribute()
+        self.relationshipScope = nil
     }
     
     func isHiddenForReuseDidChange(graph: ViewGraph) {

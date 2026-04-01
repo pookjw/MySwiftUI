@@ -239,9 +239,9 @@ extension CGSize {
         assert(!(d5 > d4))
         
         d0 = (d3 <= d0) ? d0 : d3
-        d0 = (d2 > d0) ? d2 : d0
+        d0 = (d2 < d0) ? d2 : d0
         d1 = (d5 <= d1) ? d1 : d5
-        d1 = (d4 > d1) ? d4 : d1
+        d1 = (d4 < d1) ? d4 : d1
         
         return CGSize(width: d0, height: d1)
     }

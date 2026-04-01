@@ -3,8 +3,8 @@ package import AttributeGraph
 package struct CustomEventTrace {
     static nonisolated(unsafe) var recorder: Recorder? = nil
     
-    @inlinable
-    public static func instantiateBegin(_ subgraph: Subgraph) {
+    @inline(always)
+    package static func instantiateBegin(_ subgraph: Subgraph) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
             let recorder = unsafe recorder
@@ -18,27 +18,72 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: subgraph)
     }
     
-    public static func register(graph: Graph) {
+    @inline(always)
+    package static func instantiateEnd(_ subgraph: Subgraph) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.instantiation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.InstantiationEventType.instantiateEnd.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: subgraph)
+    }
+    
+    @inline(always) // 원래 없음
+    package static func uninstantiateBegin(_ subgraph: Subgraph) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.instantiation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.InstantiationEventType.uninstantiateBegin.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: subgraph)
+    }
+    
+    @inline(always) // 원래 없음
+    package static func uninstantiateEnd(_ subgraph: Subgraph) {
+        guard
+            unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
+            let recorder = unsafe recorder
+        else {
+            return
+        }
+        
+        let cefOp = unsafe recorder.cefOp
+        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.instantiation.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.InstantiationEventType.uninstantiateEnd.rawValue
+        unsafe recorder.graph.addTraceEvent(cefOp, value: subgraph)
+    }
+    
+    package static func register(graph: Graph) {
         assertUnimplemented()
     }
     
-    public static var isEnabled: Bool {
+    package static var isEnabled: Bool {
         return unsafe recorder != nil
     }
     
-    public static func setEnabledCategory(_ category: CustomEventCategory, enabled: Bool) {
+    package static func setEnabledCategory(_ category: CustomEventCategory, enabled: Bool) {
         unsafe enabledCategories[Int(category.rawValue)] = enabled
     }
     
-    public static func trace<T>(_ cateogry: CustomEventCategory, _: Int8, value: T) {
+    package static func trace<T>(_ cateogry: CustomEventCategory, _: Int8, value: T) {
         assertUnimplemented()
     }
     
-    public static func getNextTrace(id: inout UInt32) -> UInt32 {
+    package static func getNextTrace(id: inout UInt32) -> UInt32 {
         assertUnimplemented()
     }
     
-    public static func observableFireWithTransaction(transaction: UInt32, key: AnyKeyPath?, attribute: AnyAttribute) {
+    package static func observableFireWithTransaction(transaction: UInt32, key: AnyKeyPath?, attribute: AnyAttribute) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.observable.rawValue)],
             let recorder = unsafe recorder
@@ -52,7 +97,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (transaction, key, attribute))
     }
     
-    public static func transactionBegin(_ transaction: UInt32) {
+    package static func transactionBegin(_ transaction: UInt32) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
             let recorder = unsafe recorder
@@ -66,7 +111,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionEnd(_ transaction: UInt32) {
+    package static func transactionEnd(_ transaction: UInt32) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
             let recorder = unsafe recorder
@@ -80,7 +125,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionAppend(_ transaction: UInt32) {
+    package static func transactionAppend(_ transaction: UInt32) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
             let recorder = unsafe recorder
@@ -94,7 +139,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionEnqueue(_ transaction: UInt32) {
+    package static func transactionEnqueue(_ transaction: UInt32) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
             let recorder = unsafe recorder
@@ -108,7 +153,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionContinueAsNewTransaction(_ transaction: UInt32) {
+    package static func transactionContinueAsNewTransaction(_ transaction: UInt32) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
             let recorder = unsafe recorder
@@ -122,7 +167,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    public static func transactionContinueAsContinuation(_ graphHost: GraphHost) {
+    package static func transactionContinueAsContinuation(_ graphHost: GraphHost) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
             let recorder = unsafe recorder
@@ -136,7 +181,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: graphHost)
     }
     
-    public static func enqueueAction(_ actionID: UInt32, _ reason: CustomEventTrace.ActionEventType.Reason?) {
+    package static func enqueueAction(_ actionID: UInt32, _ reason: CustomEventTrace.ActionEventType.Reason?) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.action.rawValue)],
             let recorder = unsafe recorder
@@ -150,7 +195,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (actionID, reason?.rawValue))
     }
     
-    public static func startAction(_ actionID: UInt32, _ reason: CustomEventTrace.ActionEventType.Reason?) {
+    package static func startAction(_ actionID: UInt32, _ reason: CustomEventTrace.ActionEventType.Reason?) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.action.rawValue)],
             let recorder = unsafe recorder
@@ -164,7 +209,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (actionID, reason?.rawValue))
     }
     
-    public static func finishAction(_ actionID: UInt32, _ reason: CustomEventTrace.ActionEventType.Reason?) {
+    package static func finishAction(_ actionID: UInt32, _ reason: CustomEventTrace.ActionEventType.Reason?) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.action.rawValue)],
             let recorder = unsafe recorder
@@ -178,11 +223,11 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (actionID, reason?.rawValue))
     }
     
-    public static func additionalInfo(_: UInt32, info: AnyAttribute?) {
+    package static func additionalInfo(_: UInt32, info: AnyAttribute?) {
         assertUnimplemented()
     }
     
-    public static func setNeedsUpdate(values: ViewGraphRootValues, graph: Graph) {
+    package static func setNeedsUpdate(values: ViewGraphRootValues, graph: Graph) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.graph.rawValue)],
             let recorder = unsafe recorder
@@ -195,7 +240,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (values, graph))
     }
     
-    public static func animationBegin(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
+    package static func animationBegin(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
         var d0: Double = 1.0
         var d1: Double = .nan
         var d2: Double = .nan
@@ -215,7 +260,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (attribute, propertyType, d0, d1, d2, d3))
     }
     
-    public static func animationEnd(attribute: AnyAttribute?) {
+    package static func animationEnd(attribute: AnyAttribute?) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
             let recorder = unsafe recorder
@@ -229,7 +274,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: attribute)
     }
     
-    public static func animationAttrUpdate(_ attribute: AnyAttribute?) {
+    package static func animationAttrUpdate(_ attribute: AnyAttribute?) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
             let recorder = unsafe recorder
@@ -243,7 +288,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: attribute)
     }
     
-    public static func animationScheduleTick(attribute: AnyAttribute?, time: Time) {
+    package static func animationScheduleTick(attribute: AnyAttribute?, time: Time) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
             let recorder = unsafe recorder
@@ -257,7 +302,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (attribute, time.seconds))
     }
     
-    public static func animationTick(onMain: Bool, time: Time) {
+    package static func animationTick(onMain: Bool, time: Time) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.animation.rawValue)],
             let recorder = unsafe recorder
@@ -271,7 +316,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (onMain, time.seconds))
     }
     
-    public static func animationRetarget(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
+    package static func animationRetarget(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
         var d0: Double = 1.0
         var d1: Double = .nan
         var d2: Double = .nan
@@ -291,7 +336,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (attribute, propertyType, d0, d1, d2, d3))
     }
     
-    public static func recordGraphHostRoot(_ graph: Graph?, _ globalGraph: Subgraph, newRoot: Subgraph, _ host: GraphHost) {
+    package static func recordGraphHostRoot(_ graph: Graph?, _ globalGraph: Subgraph, newRoot: Subgraph, _ host: GraphHost) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
             let recorder = unsafe recorder
@@ -305,7 +350,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (host.hostKind().rawValue, graph, globalGraph, newRoot))
     }
     
-    public static func recordNamedProperty<T>(_ values: ViewGraphRootValues, _ attribute: Attribute<T>) {
+    package static func recordNamedProperty<T>(_ values: ViewGraphRootValues, _ attribute: Attribute<T>) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
             let recorder = unsafe recorder
@@ -319,32 +364,25 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (values, attribute))
     }
     
-    public static func instantiateEnd(_ subgraph: Subgraph) {
-        guard
-            unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
-            let recorder = unsafe recorder
-        else {
-            return
-        }
-        
-        let cefOp = unsafe recorder.cefOp
-        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.instantiation.rawValue
-        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.InstantiationEventType.instantiateEnd.rawValue
-        unsafe recorder.graph.addTraceEvent(cefOp, value: subgraph)
-    }
-    
-    public static func instantiate<T>(root: Subgraph, closure: () -> T) -> T {
+    package static func instantiate<T>(root: Subgraph, closure: () -> T) -> T {
         CustomEventTrace.instantiateBegin(root)
+        defer {
+            CustomEventTrace.instantiateEnd(root)
+        }
         let result = closure()
-        CustomEventTrace.instantiateEnd(root)
         return result
     }
     
-    public static func uninstantiate<T>(root: Subgraph, closure: () -> T) -> T {
-        assertUnimplemented()
+    package static func uninstantiate<T>(root: Subgraph, closure: () -> T) -> T {
+        CustomEventTrace.uninstantiateBegin(root)
+        defer {
+            CustomEventTrace.uninstantiateEnd(root)
+        }
+        let result = closure()
+        return result
     }
     
-    public static func dynamicBodyUpdate(buffer: _DynamicPropertyBuffer, hasValue: Bool, bodyChanged: Bool) {
+    package static func dynamicBodyUpdate(buffer: _DynamicPropertyBuffer, hasValue: Bool, bodyChanged: Bool) {
         /*
          buffer -> x19
          hasValue -> w23

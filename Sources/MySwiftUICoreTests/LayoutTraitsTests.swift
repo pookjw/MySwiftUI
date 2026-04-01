@@ -3,32 +3,112 @@ private import _SwiftUICorePrivate
 internal import Testing
 private import SwiftUI
 
+fileprivate struct LayoutTraitsTests {
+    @Test func test_idealSize_getter() {
+        let expectedWidth = SwiftUI::_LayoutTraits.Dimension(min: 1, ideal: 2.5, max: 4)
+        let expectedHeight = SwiftUI::_LayoutTraits.Dimension(min: 3, ideal: 6.5, max: 9)
+        
+        let traits = MySwiftUICore::_LayoutTraits(
+            width: MySwiftUICore::_LayoutTraits.Dimension(min: expectedWidth.min, ideal: expectedWidth.ideal, max: expectedWidth.max),
+            height: MySwiftUICore::_LayoutTraits.Dimension(min: expectedHeight.min, ideal: expectedHeight.ideal, max: expectedHeight.max)
+        )
+        
+        #expect(isEqual(impl: traits.width, original: expectedWidth))
+        #expect(isEqual(impl: traits.height, original: expectedHeight))
+        #expect(isEqual(lhs: traits.idealSize, rhs: CGSize(width: expectedWidth.ideal, height: expectedHeight.ideal)))
+    }
+    
+    @Test func test_minSize_getter() {
+        let expectedWidth = SwiftUI::_LayoutTraits.Dimension(min: 2, ideal: 6, max: 10)
+        let expectedHeight = SwiftUI::_LayoutTraits.Dimension(min: 0, ideal: 4, max: 8)
+        
+        let traits = MySwiftUICore::_LayoutTraits(
+            width: MySwiftUICore::_LayoutTraits.Dimension(min: expectedWidth.min, ideal: expectedWidth.ideal, max: expectedWidth.max),
+            height: MySwiftUICore::_LayoutTraits.Dimension(min: expectedHeight.min, ideal: expectedHeight.ideal, max: expectedHeight.max)
+        )
+        
+        #expect(isEqual(impl: traits.width, original: expectedWidth))
+        #expect(isEqual(impl: traits.height, original: expectedHeight))
+        #expect(isEqual(lhs: traits.minSize, rhs: CGSize(width: expectedWidth.min, height: expectedHeight.min)))
+    }
+    
+    @Test func test_maxSize_getter() {
+        let expectedWidth = SwiftUI::_LayoutTraits.Dimension(min: 1, ideal: 3, max: 14)
+        let expectedHeight = SwiftUI::_LayoutTraits.Dimension(min: 2, ideal: 4, max: 10)
+        
+        let traits = MySwiftUICore::_LayoutTraits(
+            width: MySwiftUICore::_LayoutTraits.Dimension(min: expectedWidth.min, ideal: expectedWidth.ideal, max: expectedWidth.max),
+            height: MySwiftUICore::_LayoutTraits.Dimension(min: expectedHeight.min, ideal: expectedHeight.ideal, max: expectedHeight.max)
+        )
+        
+        #expect(isEqual(impl: traits.width, original: expectedWidth))
+        #expect(isEqual(impl: traits.height, original: expectedHeight))
+        #expect(isEqual(lhs: traits.maxSize, rhs: CGSize(width: expectedWidth.max, height: expectedHeight.max)))
+    }
+    
+    @Test func test_idealSize_setter() {
+        var traits = MySwiftUICore::_LayoutTraits(
+            width: MySwiftUICore::_LayoutTraits.Dimension(min: 1, ideal: 2, max: 4),
+            height: MySwiftUICore::_LayoutTraits.Dimension(min: 3, ideal: 5, max: 9)
+        )
+        
+        traits.idealSize = CGSize(width: 2.5, height: 6.5)
+        
+        #expect(isEqual(impl: traits.width, original: SwiftUI::_LayoutTraits.Dimension(min: 1, ideal: 2.5, max: 4)))
+        #expect(isEqual(impl: traits.height, original: SwiftUI::_LayoutTraits.Dimension(min: 3, ideal: 6.5, max: 9)))
+    }
+    
+    @Test func test_minSize_setter() {
+        var traits = MySwiftUICore::_LayoutTraits(
+            width: MySwiftUICore::_LayoutTraits.Dimension(min: 1, ideal: 2, max: 4),
+            height: MySwiftUICore::_LayoutTraits.Dimension(min: 3, ideal: 5, max: 9)
+        )
+        
+        traits.minSize = CGSize(width: 0, height: 4.5)
+        
+        #expect(isEqual(impl: traits.width, original: SwiftUI::_LayoutTraits.Dimension(min: 0, ideal: 2, max: 4)))
+        #expect(isEqual(impl: traits.height, original: SwiftUI::_LayoutTraits.Dimension(min: 4.5, ideal: 5, max: 9)))
+    }
+    
+    @Test func test_maxSize_setter() {
+        var traits = MySwiftUICore::_LayoutTraits(
+            width: MySwiftUICore::_LayoutTraits.Dimension(min: 1, ideal: 2, max: 4),
+            height: MySwiftUICore::_LayoutTraits.Dimension(min: 3, ideal: 5, max: 9)
+        )
+        
+        traits.maxSize = CGSize(width: 10, height: 12)
+        
+        #expect(isEqual(impl: traits.width, original: SwiftUI::_LayoutTraits.Dimension(min: 1, ideal: 2, max: 10)))
+        #expect(isEqual(impl: traits.height, original: SwiftUI::_LayoutTraits.Dimension(min: 3, ideal: 5, max: 12)))
+    }
+}
+
 fileprivate struct LayoutTraitsDimensionTests {
     @Test func test_init() {
         #expect(
             isEqual(
-                impl: MySwiftUICore._LayoutTraits.Dimension(min: 1, ideal: 2, max: 4),
+                impl: MySwiftUICore::_LayoutTraits.Dimension(min: 1, ideal: 2, max: 4),
                 original: SwiftUI::_LayoutTraits.Dimension(min: 1, ideal: 2, max: 4)
             )
         )
         
         #expect(
             isEqual(
-                impl: MySwiftUICore._LayoutTraits.Dimension(min: 2, ideal: 2, max: 4),
+                impl: MySwiftUICore::_LayoutTraits.Dimension(min: 2, ideal: 2, max: 4),
                 original: SwiftUI::_LayoutTraits.Dimension(min: 2, ideal: 2, max: 4)
             )
         )
         
         #expect(
             isEqual(
-                impl: MySwiftUICore._LayoutTraits.Dimension(min: 1, ideal: 2, max: .infinity),
+                impl: MySwiftUICore::_LayoutTraits.Dimension(min: 1, ideal: 2, max: .infinity),
                 original: SwiftUI::_LayoutTraits.Dimension(min: 1, ideal: 2, max: .infinity)
             )
         )
         
         #expect(
             isEqual(
-                impl: MySwiftUICore._LayoutTraits.Dimension(min: 4, ideal: 4, max: 5),
+                impl: MySwiftUICore::_LayoutTraits.Dimension(min: 4, ideal: 4, max: 5),
                 original: SwiftUI::_LayoutTraits.Dimension(min: 4, ideal: 4, max: 5)
             )
         )
@@ -39,14 +119,14 @@ fileprivate struct LayoutTraitsFlexibilityEstimateTests {
     @Test func test_init() {
         #expect(
             isEqual(
-                impl: MySwiftUICore._LayoutTraits.FlexibilityEstimate(minLength: 1, maxLength: 2),
+                impl: MySwiftUICore::_LayoutTraits.FlexibilityEstimate(minLength: 1, maxLength: 2),
                 original: SwiftUI::_LayoutTraits.FlexibilityEstimate(minLength: 1, maxLength: 2)
             )
         )
         
         #expect(
             isEqual(
-                impl: MySwiftUICore._LayoutTraits.FlexibilityEstimate(minLength: .nan, maxLength: .infinity),
+                impl: MySwiftUICore::_LayoutTraits.FlexibilityEstimate(minLength: .nan, maxLength: .infinity),
                 original: SwiftUI::_LayoutTraits.FlexibilityEstimate(minLength: .nan, maxLength: .infinity)
             )
         )
@@ -89,8 +169,8 @@ extension LayoutTraitsFlexibilityEstimateTests {
     
     @Test(arguments: BiggerThanExpectation.allCases) func test_biggerThan(expectation: BiggerThanExpectation) {
         #expect(
-            (MySwiftUICore._LayoutTraits.FlexibilityEstimate(minLength: expectation.minLength1, maxLength: expectation.maxLength1) <
-            MySwiftUICore._LayoutTraits.FlexibilityEstimate(minLength: expectation.minLength2, maxLength: expectation.maxLength2)) ==
+            (MySwiftUICore::_LayoutTraits.FlexibilityEstimate(minLength: expectation.minLength1, maxLength: expectation.maxLength1) <
+            MySwiftUICore::_LayoutTraits.FlexibilityEstimate(minLength: expectation.minLength2, maxLength: expectation.maxLength2)) ==
             expectation.result
         )
         
@@ -102,15 +182,20 @@ extension LayoutTraitsFlexibilityEstimateTests {
     }
 }
 
-fileprivate func isEqual(impl: MySwiftUICore._LayoutTraits.Dimension, original: SwiftUI::_LayoutTraits.Dimension) -> Bool {
+fileprivate func isEqual(impl: MySwiftUICore::_LayoutTraits.Dimension, original: SwiftUI::_LayoutTraits.Dimension) -> Bool {
     return impl.min.bitPattern == original.min.bitPattern &&
     impl.ideal.bitPattern == original.ideal.bitPattern
     && impl.max.bitPattern == original.max.bitPattern
 }
 
-fileprivate func isEqual(impl: MySwiftUICore._LayoutTraits.FlexibilityEstimate, original: SwiftUI::_LayoutTraits.FlexibilityEstimate) -> Bool {
+fileprivate func isEqual(impl: MySwiftUICore::_LayoutTraits.FlexibilityEstimate, original: SwiftUI::_LayoutTraits.FlexibilityEstimate) -> Bool {
     return impl.minLength.bitPattern == original.minLength.bitPattern &&
     impl.maxLength.bitPattern == original.maxLength.bitPattern
+}
+
+fileprivate func isEqual(lhs: CGSize, rhs: CGSize) -> Bool {
+    return lhs.width.bitPattern == rhs.width.bitPattern &&
+    lhs.height.bitPattern == rhs.height.bitPattern
 }
 
 extension SwiftUI::_LayoutTraits.FlexibilityEstimate {

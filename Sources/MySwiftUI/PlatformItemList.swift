@@ -64,8 +64,8 @@ extension PlatformItemListViewGraph: ViewGraphFeature {
         self.rootList = WeakAttribute(items)
     }
     
-    func uninstantiate(graph: ViewGraph) {
-        assertUnimplemented()
+    mutating func uninstantiate(graph: ViewGraph) {
+        self.rootList = WeakAttribute()
     }
     
     func isHiddenForReuseDidChange(graph: ViewGraph) {

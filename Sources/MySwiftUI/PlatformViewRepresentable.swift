@@ -470,7 +470,32 @@ struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresen
     }
     
     func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Base.UIViewControllerType) {
-        assertUnimplemented()
+        // traits -> x0 -> x20
+        let d0: CGFloat
+        let d1: CGFloat
+        do {
+            let size = provider.preferredContentSize
+            d0 = size.width
+            d1 = size.height
+        }
+        let d8 = d1
+        
+        if d0 <= 0 {
+            // <+76>
+        } else {
+            // <+44>
+            let d9 = d0
+            traits.idealSize.width = d9
+            // <+76>
+        }
+        
+        // <+76>
+        if d8 <= 0 {
+            // <+112>
+        } else {
+            traits.idealSize.height = d8
+            // <+112>
+        }
     }
     
     var body: Never {

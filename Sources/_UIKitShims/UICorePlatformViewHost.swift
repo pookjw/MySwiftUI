@@ -27,7 +27,12 @@ public import _UIKitPrivate
     private var cachedLayoutTraits: _LayoutTraits? = nil // 0x2a0
     
     open override var intrinsicContentSize: CGSize {
-        assertUnimplemented()
+        // self -> x20 -> x19
+        if Representable.isViewController {
+            return super.intrinsicContentSize
+        } else {
+            return representedView.intrinsicContentSize
+        }
     }
     
     open override func removeFromSuperview() {
@@ -840,7 +845,14 @@ public import _UIKitPrivate
     }
     
     open func coreLayoutTraits() -> _LayoutTraits {
-        assertUnimplemented()
+        // <+176>
+        if let cachedLayoutTraits {
+            return cachedLayoutTraits
+        }
+        
+        let result = self.layoutTraits()
+        self.cachedLayoutTraits = result
+        return result
     }
     
     open func coreUpdateEnvironment(_ environment: EnvironmentValues, viewPhase: ViewGraphHost.Phase) {
@@ -968,8 +980,79 @@ public import _UIKitPrivate
         return Representable.platformView(for: coreRepresentedViewProvider) as! UIView
     }
     
-    private final nonisolated var representedViewController: UIViewController {
+    fileprivate final nonisolated var representedViewController: UIViewController {
         return coreRepresentedViewProvider as! UIViewController
+    }
+    
+    // 원래 없음
+    fileprivate final func layoutTraits() -> _LayoutTraits {
+        // self -> x20 -> x22
+        var d0: CGFloat
+        var d1: CGFloat
+        do {
+            let intrinsicContentSize = self.intrinsicContentSize
+            d0 = intrinsicContentSize.width
+            d1 = intrinsicContentSize.height
+        }
+        
+        let d10 = UIView.noIntrinsicMetric
+        var d2: CGFloat
+        if d0 == d10 {
+            // <+140>
+            d0 = 0
+            d1 = 0
+            d2 = .infinity
+            // <+248>
+        } else {
+            // <+164>
+            var d9: CGFloat = 0
+            let d8 = (d0 <= 0) ? d9 : d0
+            var s0 = self.contentCompressionResistancePriority(for: .horizontal)
+            let s11 = UILayoutPriority.defaultHigh
+            d9 = (s0 >= s11) ? d8 : d9
+            s0 = self.contentHuggingPriority(for: .horizontal)
+            d0 = .infinity
+            d2 = (s0 >= s11) ? d8 : d0
+            d0 = d9
+            d1 = d8
+            // <+248>
+        }
+        
+        // <+248>
+        // x21
+        let width = _LayoutTraits.Dimension(min: d0, ideal: d1, max: d2)
+        
+        do {
+            let intrinsicContentSize = self.intrinsicContentSize
+            d0 = intrinsicContentSize.width
+            d1 = intrinsicContentSize.height
+        }
+        
+        if d1 == d10 {
+            // <+268>
+            d2 = .infinity
+            d0 = 0
+            d1 = 0
+            // <+376>
+        } else {
+            // <+292>
+            var d9: CGFloat = 0
+            let d8 = (d1 <= 0) ? d9 : d1
+            var s0 = self.contentCompressionResistancePriority(for: .vertical)
+            let s10 = UILayoutPriority.defaultHigh
+            d9 = (s0 >= s10) ? d8 : d9
+            s0 = self.contentHuggingPriority(for: .vertical)
+            d0 = .infinity
+            d2 = (s0 >= s10) ? d8 : d0
+            d0 = d9
+            d1 = d8
+            // <+376>
+        }
+        
+        // <+376>
+        // x20
+        let height = _LayoutTraits.Dimension(min: d0, ideal: d1, max: d2)
+        return _LayoutTraits(width: width, height: height)
     }
 }
 

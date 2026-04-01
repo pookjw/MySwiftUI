@@ -13,7 +13,14 @@ import MySwiftUI
 #endif
 
 final class ColorBlackViewController: UIViewController {
-    override func loadView() {
-        view = _UIHostingView(rootView: Color.black)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let hostingController = UIHostingController(rootView: Color.black)
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.frame = view.bounds
+        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        hostingController.didMove(toParent: self)
     }
 }

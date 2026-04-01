@@ -270,7 +270,60 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     final func uninstantiate(immediately: Bool) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         immediately -> w0 -> w19
+         */
+        guard isInstantiated else {
+            return
+        }
+        
+        let rootSubgraph = self.data.rootSubgraph
+        CustomEventTrace.uninstantiate(root: rootSubgraph) { 
+            // $s7SwiftUI9GraphHostC13uninstantiate11immediatelyySb_tFyyXEfU_
+            /*
+             self -> x0 -> x19
+             immediately -> w1 -> w21
+             */
+            self.data.inputs.cachedEnvironment = MutableBox(
+                CachedEnvironment(
+                    environment: self.data.inputs.cachedEnvironment.value.environment
+                )
+            )
+            
+            // <+232>
+            self.uninstantiateOutputs()
+            self.data.rootSubgraph.willRemove()
+            if !self.data.isRemoved {
+                self.data.globalSubgraph.removeChild(self.data.rootSubgraph)
+            }
+            self.data.rootSubgraph.willInvalidate(isInserted: false)
+            
+            // x20
+            let rootSubgraph = self.data.rootSubgraph
+            if immediately {
+                // <+332>
+                rootSubgraph.invalidate()
+                // <+412>
+            } else {
+                // <+344>
+                Update.enqueueAction(reason: nil) { 
+                    // $s7SwiftUI9GraphHostC13uninstantiate11immediatelyySb_tFyyXEfU_yycfU_TA
+                    assertUnimplemented()
+                }
+            }
+            
+            // <+412>
+            let oldSubgraph = self.data.rootSubgraph
+            self.data.rootSubgraph = Subgraph(graph: self.data.graph!)
+            CustomEventTrace.recordGraphHostRoot(self.data.graph!, oldSubgraph, newRoot: self.data.rootSubgraph, self)
+            
+            if !self.data.isRemoved {
+                self.data.globalSubgraph.addChild(self.data.rootSubgraph)
+            }
+            
+            self.isInstantiated = false
+        }
     }
     
     package func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
@@ -790,7 +843,7 @@ extension GraphHost {
     package struct Data {
         package private(set) var graph: Graph?
         package private(set) var globalSubgraph: Subgraph
-        package private(set) var rootSubgraph: Subgraph
+        package fileprivate(set) var rootSubgraph: Subgraph
         fileprivate var isRemoved: Bool
         package fileprivate(set) var isHiddenForReuse: Bool
         @Attribute var time: Time
@@ -800,7 +853,7 @@ extension GraphHost {
         @Attribute fileprivate var transaction: Transaction
         @Attribute package var updateSeed: UInt32
         @Attribute fileprivate var transactionSeed: UInt32
-        private(set) var inputs: _GraphInputs
+        fileprivate(set) var inputs: _GraphInputs
         
         package init() {
             let graph = Graph(shared: GraphHost.sharedGraph)

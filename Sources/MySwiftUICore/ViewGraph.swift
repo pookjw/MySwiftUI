@@ -505,7 +505,23 @@ package final class ViewGraph: GraphHost {
     }
     
     package override func uninstantiateOutputs() {
-        assertUnimplemented()
+        // self -> x20 -> x19
+        self.removePreferenceOutlets(isInvalidating: false)
+        
+        for feature in self.features {
+            feature.uninstantiate(graph: self)
+        }
+        
+        // <+144>
+        self.$rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { rootGeometry in
+            // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_7SwiftUI12RootGeometryV_Tg503$s7h7UI9Viewc31C20uninstantiateOutputsyyFyAA12jK7VzXEfU_Tf3npf_n
+            assertUnimplemented()
+        }
+        
+        self._rootLayoutComputer = WeakAttribute()
+        self._rootResponders = WeakAttribute()
+        self._rootDisplayList = WeakAttribute()
+        self.hostPreferenceValues = WeakAttribute()
     }
     
     package var rootViewInsets: EdgeInsets {
@@ -907,7 +923,7 @@ fileprivate struct RootTransform: Rule {
 package protocol ViewGraphFeature {
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph)
     mutating func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph)
-    func uninstantiate(graph: ViewGraph)
+    mutating func uninstantiate(graph: ViewGraph)
     func isHiddenForReuseDidChange(graph: ViewGraph)
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
     mutating func needsUpdate(graph: ViewGraph) -> Bool

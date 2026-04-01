@@ -551,7 +551,17 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
     
     func layoutTraits() -> _LayoutTraits {
-        assertUnimplemented()
+        return Graph.withoutUpdate {
+            // $s7SwiftUI08ViewLeafC0V12layoutTraitsAA07_LayoutF0VyFAFyXEfU_
+            var traits = platformView.coreLayoutTraits()
+            let block: @MainActor () -> _LayoutTraits = {
+                // $s7SwiftUI08ViewLeafC0V12layoutTraitsAA07_LayoutF0VyFAFyXEfU_yyScMYcXEfU_
+                self.content.overrideLayoutTraits(&traits, for: self.representedViewProvider)
+                return traits
+            }
+            
+            return block()
+        }
     }
     
     nonisolated func depthThatFits(in proposedSize: _ProposedSize3D) -> CGFloat {

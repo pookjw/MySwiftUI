@@ -1626,6 +1626,7 @@ public struct _ProposedSize3D {
   public func inset(by insets: SwiftUI.EdgeInsets3D) -> _SwiftUICorePrivate._ProposedSize3D
   // public var isNaN: Swift.Bool { get }
   //public static var zero: _SwiftUICorePrivate._ProposedSize3D { get }
+  public func fixingUnspecifiedDimensions() -> Spatial.Size3D
 }
 
 @available(visionOS 26.0, *)
@@ -1898,6 +1899,20 @@ extension SwiftUI._LayoutTraits {
   public struct FlexibilityEstimate: Swift.Comparable {
     public init(minLength: CoreFoundation.CGFloat, maxLength: CoreFoundation.CGFloat)
     public static func < (lhs: SwiftUI._LayoutTraits.FlexibilityEstimate, rhs: SwiftUI._LayoutTraits.FlexibilityEstimate) -> Swift.Bool
+  }
+}
+
+extension _LayoutTraits {
+  public var idealSize: CoreFoundation.CGSize {
+    get set _modify
+  }
+  
+  public var minSize: CoreFoundation.CGSize {
+    get set _modify
+  }
+  
+  public var maxSize: CoreFoundation.CGSize {
+    get set _modify
   }
 }
 

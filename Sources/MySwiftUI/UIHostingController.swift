@@ -1409,10 +1409,11 @@ open class UIHostingController<Content: View>: UIViewController {
         let x26 = requiredBridges.subtracting(oldValue)
         
         if x28.contains(.unknown1) {
-            // <+236>
-            if keyboardShortcutBridge != nil {
+            // <+228>
+            if let keyboardShortcutBridge {
                 // <+248>
                 host.viewGraph.removePreference(KeyboardShortcutBindingsKey.self)
+                keyboardShortcutBridge.isObservingPreferences = false
             }
             
             // <+344>
@@ -1422,45 +1423,45 @@ open class UIHostingController<Content: View>: UIViewController {
             
             // <+428>
             self.keyboardShortcutBridge = nil
-            // <+440>
+            // <+432>
         } else if x26.contains(.unknown1) {
             // <+208>
             self.keyboardShortcutBridge = KeyboardShortcutBridge()
-            // <+440>
+            // <+432>
         } else {
-            // <+440>
+            // <+432>
         }
         
-        // <+440>
+        // <+432>
         if x28.contains(.unknown2) {
-            // <+728>
+            // <+720>
             if navigationBridge != nil {
-                // <+740>
+                // <+788>
                 host.viewGraph.removePreference(NavigationDestinationsKey.self)
             }
             
             // <+808>
             self.navigationBridge = nil
-            // <+820> (<+632>와 동일)
+            // <+812>
         } else if x26.contains(.unknown2) {
-            // <+448>
+            // <+440>
             self.navigationBridge = NavigationBridge_PhoneTV()
             self.navigationBridge!.host = host
             assert(self.navigationBridge != nil)
             self.host.viewGraph.addPreference(NavigationDestinationsKey.self)
-            // <+632>
+            // <+612>
         } else {
-            // <+632>
+            // <+624>
         }
         
-        // <+632>
+        // <+624>
         if x28.contains(.unknown0) {
-            // <+824>
+            // <+816>
             if let logger = Log.toolbar {
                 logger.log(level: .default, "Removed toolbar bridge from \(self)")
             }
             
-            // <+1120>
+            // <+1332>
             if toolbarBridge != nil {
                 let viewGraph = host.viewGraph
                 viewGraph.removePreference(ToolbarKey.self)
@@ -1469,55 +1470,58 @@ open class UIHostingController<Content: View>: UIViewController {
                 viewGraph.removePreference(UINavigationItemAdaptorKey.self)
             }
             
+            // <+1488>
             self.toolbarBridge = nil
-            // <+1300>
+            // <+1492>
         } else if x26.contains(.unknown0) {
-            // <+640>
+            // <+632>
             if let logger = Log.toolbar {
                 logger.log(level: .default, "Added toolbar bridge to \(self)")
             }
             
-            // <+2020>
+            // <+2012>
             self.toolbarBridge = ToolbarBridge<UIKitToolbarStrategy>()
             assert(self.toolbarBridge != nil)
             host.viewGraph.addPreference(ToolbarKey.self)
             host.viewGraph.addPreference(SearchKey.self)
             host.viewGraph.addPreference(NavigationPropertiesKey.self)
             host.viewGraph.addPreference(UINavigationItemAdaptorKey.self)
-            // <+2200> (<+1300>와 동일)
+            // <+2100>
         } else {
-            // <+1300>
+            // <+1492>
         }
         
-        // <+1300>
+        // <+1492>
         if x28.contains(.unknown4) {
-            // <+2204>
+            // <+2188>
             if contentScrollViewBridge != nil {
                 host.viewGraph.removePreference(ContentScrollViewPreferenceKey.self)
             }
+            // <+2276>
             self.contentScrollViewBridge = nil
-            // <+2296> (<+1520>와 동일)
+            // <+2280>
         } else if x26.contains(.unknown4) {
-            // <+1308>
+            // <+1500>
             self.contentScrollViewBridge = UIKitContentScrollViewBridge()
             self.contentScrollViewBridge!.viewController = self
             host.viewGraph.addPreference(ContentScrollViewPreferenceKey.self)
-            // <+1520>
+            // <+1700>
         } else {
-            // <+1520>
+            // <+1712>
         }
         
-        // <+1520>
+        // <+1712>
         if x28.contains(.unknown7) {
-            // <+2300>
+            // <+2284>
             if let inspectorBridgeV5 {
                 inspectorBridgeV5.removePreferences(from: host.viewGraph)
             }
             
+            // <+2372>
             self.inspectorBridgeV5 = nil
-            // <+2392>
+            // <+2376>
         } else if x26.contains(.unknown7) {
-            // <+1528>
+            // <+1720>
             self.inspectorBridgeV5 = UIKitInspectorBridgeV5()
             
             if let inspectorBridgeV5 {
@@ -1526,16 +1530,16 @@ open class UIHostingController<Content: View>: UIViewController {
                 inspectorBridgeV5.transitioningDelegate.host = host
             }
             
-            // <+1708>
+            // <+1968>
             if let inspectorBridgeV5 {
                 inspectorBridgeV5.addPreferences(to: host.viewGraph)
             }
-            // <+2392>
+            // <+2376>
         } else {
-            // <+2392>
+            // <+2376>
         }
         
-        // <+2392>
+        // <+2376>
         Update.end()
     }
     

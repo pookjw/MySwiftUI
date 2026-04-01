@@ -20,10 +20,6 @@ extension InteractiveResizeChangeViewGraphFeature: ViewGraphFeature {
         inputs.base.interactiveResize = WeakAttribute(_isInteractivelyResizing)
     }
     
-    func uninstantiate(graph: ViewGraph) {
-        assertUnimplemented()
-    }
-    
     func isHiddenForReuseDidChange(graph: ViewGraph) {
         assertUnimplemented()
     }
