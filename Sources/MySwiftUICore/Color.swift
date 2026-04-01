@@ -1034,7 +1034,142 @@ extension Color.ResolvedHDR {
 }
 
 extension Color.Resolved {
-    init?(failableCGColor: CGColor) {
+    init?(failableCGColor cgColor: CGColor) {
+        // cgColor -> x21
+        // x19
+        let colorSpace = cgColor.colorSpace
+        let w22: UInt32
+        if let colorSpace, colorSpace === Color.Resolved.srgb {
+            // <+352>
+            w22 = 0
+            // <+372>
+        } else if let colorSpace, colorSpace === Color.Resolved.srgbExtended {
+            // <+352>
+            w22 = 0
+            // <+372>
+        } else if let colorSpace, colorSpace === Color.Resolved.displayP3 {
+            // <+368>
+            w22 = 2
+            // <+372>
+        } else if let colorSpace, colorSpace === Color.Resolved.srgbLinear {
+            // <+360>
+            w22 = 1
+            // <+372>
+        } else if let colorSpace, colorSpace === Color.Resolved.srgbExtendedLinear {
+            // <+360>
+            w22 = 1
+            // <+372>
+        } else {
+            // <+292>
+            if let converted = cgColor.converted(
+                to: Color.Resolved.srgbExtended,
+                intent: .defaultIntent,
+                options: nil
+            ) {
+                w22 = 0
+                // <+372>
+            } else {
+                // <+664>
+                return nil
+            }
+        }
+        
+        // <+372>
+        guard let components = cgColor.components else {
+            return nil
+        }
+        
+        // <+384>
+        var d0 = components[0]
+        let d1 = components[1]
+        var s11 = Float(d0)
+        var s10 = Float(d1)
+        let d8 = components[2]
+        let s9 = Float(d8)
+        d0 = cgColor.alpha
+        let s8 = Float(d0)
+        
+        if w22 == 0 {
+            // <+472>
+            var s0 = -s11
+            var s1 = (s11 > 0) ? s11 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s1 <= s0 {
+                // <+688>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s1 * s0
+                // <+704>
+            } else {
+                s0 = 1
+                if s1 == s0 {
+                    // <+704>
+                } else {
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s1 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+704>
+                }
+            }
+            
+            // <+704>
+            s1 = -s0
+            s11 = (s11 > 0) ? s0 : s1
+            s0 = -s10
+            s1 = (s10 > 0) ? s10 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s1 <= s0 {
+                // <+812>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s1 * s0
+                // <+828>
+            } else {
+                // <+748>
+                s0 = 1
+                
+                if s1 == s0 {
+                    // <+828>
+                } else {
+                    // <+760>
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s1 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+828>
+                }
+            }
+            
+            // <+828>
+            s1 = -s0
+            s10 = (s10 > 0) ? s0 : s1
+            s0 = -s9
+            let s12 = (s9 > 0) ? s9 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s12 <= s0 {
+                // <+948>
+                assertUnimplemented()
+            } else {
+                // <+872>
+                s0 = 1
+                assertUnimplemented()
+            }
+            assertUnimplemented()
+        } else if w22 == 1 {
+            // <+456>
+            // <+1420>
+            assertUnimplemented()
+        } else {
+            // <+568>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
 }

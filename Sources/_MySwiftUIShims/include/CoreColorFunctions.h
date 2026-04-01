@@ -9,7 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 MSUI_EXTERN BOOL CoreColorDependsOnEnvironment(id color, CoreSystem system);
-MSUI_EXTERN CGColorRef _Nullable CGColorForCoreColor(CoreSystem system, id color) CF_RETURNS_NOT_RETAINED;
+MSUI_EXTERN CGColorRef _Nullable CGColorForCoreColor(CoreSystem system, id _Nullable color) CF_RETURNS_NOT_RETAINED;
 MSUI_EXTERN Class _Nullable CoreColorGetKitColorClass(CoreSystem system);
 MSUI_EXTERN Class CoreColorClass(CoreSystem system);
 MSUI_EXTERN BOOL CoreColorPlatformColorGetComponents(CoreSystem system, id color, CGFloat * _Nullable red, CGFloat * _Nullable green, CGFloat * _Nullable blue, CGFloat * _Nullable alpha);

@@ -22,8 +22,9 @@ BOOL CoreColorDependsOnEnvironment(id color, CoreSystem system) {
     return method != incomingMethod;
 }
 
-CGColorRef _Nullable CGColorForCoreColor(CoreSystem system, id color) {
-    abort();
+CGColorRef _Nullable CGColorForCoreColor(CoreSystem system, id _Nullable color) {
+    if (color == nil) return nil;
+    return [color CGColor];
 }
 
 Class _Nullable CoreColorGetKitColorClass(CoreSystem system) {

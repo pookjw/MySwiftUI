@@ -623,12 +623,13 @@ package final class ViewGraph: GraphHost {
         }
         
         hostPreferencesCombiner.mutateBody(as: HostPreferencesCombiner.self, invalidating: true) { combiner in
-            // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_7SwiftUI27SecondaryLayerGeometryQueryV_Tg5TA.8
+            // $s7SwiftUI16PreferenceBridgeC13addHostValues_3fory14AttributeGraph04WeakI0VyAA0cG0VG_AF0I0VyAA0C4KeysVGtFyAA0F19PreferencesCombinerVzXEfU_TA.56
             /*
-             hostPreferenceKeys
-             weakAttribute
+             combiner -> x0
+             hostPreferenceKeys -> x1
+             weakAttribute -> x2
              */
-            assertUnimplemented()
+            combiner.addChild(keys: hostPreferenceKeys, values: weakAttribute)
         }
         
         viewGraph.graphInvalidation(from: hostPreferenceKeys.identifier)

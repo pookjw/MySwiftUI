@@ -935,6 +935,14 @@ extension SwiftUICore.Color.Resolved {
   public init(linearRed: Swift.Float, linearGreen: Swift.Float, linearBlue: Swift.Float, opacity: Swift.Float)
 }
 
+extension SwiftUICore.Color.Resolved {
+  public static let srgb: CoreGraphics.CGColorSpace
+  public static let srgbExtended: CoreGraphics.CGColorSpace
+  public static let srgbLinear: CoreGraphics.CGColorSpace
+  public static let srgbExtendedLinear: CoreGraphics.CGColorSpace
+  public static let displayP3: CoreGraphics.CGColorSpace
+}
+
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public class AnimatorState<T: SwiftUICore.VectorArithmetic> {

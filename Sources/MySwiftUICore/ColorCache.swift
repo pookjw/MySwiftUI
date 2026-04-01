@@ -250,5 +250,9 @@ extension Color.Resolved {
         }
     }
     
+    static let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
     static let srgbExtended = CGColorSpace(name: CGColorSpace.extendedSRGB)!
+    static let srgbLinear = CGColorSpace(name: CGColorSpace.linearSRGB)!
+    static let srgbExtendedLinear = CGColorSpace(name: CGColorSpace.extendedLinearSRGB)!
+    static let displayP3 = CGColorSpace(name: CGColorSpace.displayP3)!
 }

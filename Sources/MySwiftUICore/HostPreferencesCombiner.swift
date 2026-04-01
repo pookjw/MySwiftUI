@@ -5,8 +5,24 @@ struct HostPreferencesCombiner: Rule, AsyncAttribute {
     @OptionalAttribute var values: PreferenceValues?
     private(set) var children: [HostPreferencesCombiner.Child]
     
-    func addChild(keys: Attribute<PreferenceKeys>, values: WeakAttribute<PreferenceValues>) {
-        assertUnimplemented()
+    mutating func addChild(keys: Attribute<PreferenceKeys>, values: WeakAttribute<PreferenceValues>) {
+        /*
+         self -> x20
+         keys -> w0 -> w23
+         values -> w1 -> w19
+         */
+        // w21
+        let weakKeys = WeakAttribute(keys)
+        for index in children.indices {
+            if children[index]._keys.base.attribute == keys.identifier {
+                children[index] = HostPreferencesCombiner.Child(_keys: weakKeys, _values: values)
+                return
+            }
+        }
+        
+        children.append(
+            HostPreferencesCombiner.Child(_keys: weakKeys, _values: values)
+        )
     }
     
     var value: PreferenceValues {
