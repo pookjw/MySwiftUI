@@ -27,28 +27,12 @@ struct NativePlaygroundApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            Color.black
             ContentView()
-//                .task {
-//                    try! await Task.sleep(for: .seconds(1))
-//                    if let requestWithID = UISceneSessionActivationRequest(
-//                        hostingDelegateClass: HostingSceneDelegate.self,
-////                        id: "swiftui-window"
-//                        value: Int(8)
-//                    ) {
-//                        UIApplication.shared.activateSceneSession(for: requestWithID)
-//                    }
-//                }
-//                .task {
-//                    await openImmersiveSpace(id: "immersive")
-//                }
         }
-//        .defaultSize(CGSize(width: 300, height: 300))
-//        .defaultSize(width: 300, height: 300, depth: 400)
         
-//        ImmersiveSpace(id: "immersive") { 
-//            ContentView()
-//        }
+        WindowGroup(id: "1") { 
+            Color.black
+        }
     }
 }
 
@@ -56,7 +40,7 @@ fileprivate struct ContentView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
-        navigationController.viewControllers = [PushViewController(), OpenURLActionViewController()]
+        navigationController.viewControllers = [PushViewController(), OpenWindowActionViewController()]
         return navigationController
     }
     

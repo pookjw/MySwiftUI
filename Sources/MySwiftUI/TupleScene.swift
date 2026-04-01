@@ -18,6 +18,11 @@ internal import MySwiftUICore
     
     @usableFromInline
     nonisolated internal static func _makeScene(scene: _GraphValue<_TupleScene<T>>, inputs: _SceneInputs) -> _SceneOutputs {
+        /*
+         scene -> x0 -> x29 - 0x98
+         inputs -> x1/x2 -> x29 - 0xb8 / x28
+         */
+        // <+832>
         assertUnimplemented()
     }
     

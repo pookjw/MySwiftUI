@@ -179,6 +179,12 @@ fileprivate struct MergePreferenceKeys: Rule, AsyncAttribute {
     typealias Value = PreferenceKeys
     
     var value: PreferenceKeys {
-        assertUnimplemented()
+        guard let rhs else {
+            return lhs
+        }
+        
+        let lhs = lhs
+        lhs.union(rhs)
+        return lhs
     }
 }

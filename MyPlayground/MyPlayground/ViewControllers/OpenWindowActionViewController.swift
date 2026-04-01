@@ -1,8 +1,8 @@
 //
-//  OpenURLActionViewController.swift
+//  OpenWindowActionViewController.swift
 //  MyPlayground
 //
-//  Created by Jinwoo Kim on 3/13/26.
+//  Created by Jinwoo Kim on 4/1/26.
 //
 
 import UIKit
@@ -13,16 +13,16 @@ import MySwiftUI
 #endif
 
 fileprivate struct MyView: View {
-    @Environment(\.openURL) private var openURL
+    @Environment(\.openWindow) private var openWindow
     
     var body: some View {
-        MyButton(title: "Open URL") { 
-            openURL(URL(string: "https://www.apple.com")!)
+        MyButton(title: "Open Window") { 
+            openWindow(id: "1")
         }
     }
 }
 
-final class OpenURLActionViewController: UIViewController {
+final class OpenWindowActionViewController: UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

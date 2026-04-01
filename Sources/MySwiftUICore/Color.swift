@@ -1035,7 +1035,8 @@ extension Color.ResolvedHDR {
 
 extension Color.Resolved {
     init?(failableCGColor cgColor: CGColor) {
-        // cgColor -> x21
+        // x21
+        var cgColor = cgColor
         // x19
         let colorSpace = cgColor.colorSpace
         let w22: UInt32
@@ -1067,6 +1068,7 @@ extension Color.Resolved {
                 options: nil
             ) {
                 w22 = 0
+                cgColor = converted
                 // <+372>
             } else {
                 // <+664>
@@ -1085,7 +1087,7 @@ extension Color.Resolved {
         var s11 = Float(d0)
         var s10 = Float(d1)
         let d8 = components[2]
-        let s9 = Float(d8)
+        var s9 = Float(d8)
         d0 = cgColor.alpha
         let s8 = Float(d0)
         
@@ -1154,22 +1156,148 @@ extension Color.Resolved {
             
             if s12 <= s0 {
                 // <+948>
-                assertUnimplemented()
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s12 * s0
+                // <+976>
             } else {
                 // <+872>
                 s0 = 1
-                assertUnimplemented()
+                if s12 == s0 {
+                    // <+976>
+                } else {
+                    // <+896>
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s12 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+976>
+                }
             }
-            assertUnimplemented()
+            
+            // <+976>
+            s1 = -s0
+            s9 = (s9 > 0) ? s0 : s1
+            // <+1420>
         } else if w22 == 1 {
             // <+456>
             // <+1420>
-            assertUnimplemented()
         } else {
             // <+568>
-            assertUnimplemented()
+            var s0 = -s11
+            var s1 = (s11 > 0) ? s11 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s1 <= s0 {
+                // <+992>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s1 * s0
+                // <+1008>
+            } else {
+                // <+600>
+                s0 = 1
+                if s1 == s0 {
+                    // <+1008>
+                } else {
+                    // <+612>
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s1 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+1008>
+                }
+            }
+            
+            // <+1008>
+            s1 = -s0
+            let s12 = (s11 > 0) ? s0 : s1
+            s0 = -s10
+            s1 = (s10 > 0) ? s10 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s1 <= s0 {
+                // <+1116>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s1 * s0
+                // <+1132>
+            } else {
+                // <+1052>
+                s0 = 1
+                
+                if s1 == s0 {
+                    // <+1132>
+                } else {
+                    // <+1064>
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s1 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+1132>
+                }
+            }
+            
+            // <+1132>
+            s1 = -s0
+            let s13 = (s10 > 0) ? s0 : s1
+            s0 = -s9
+            s10 = (s9 > 0) ? s9 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s10 <= s0 {
+                // <+1252>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s10 * s0
+                // <+1280>
+            } else {
+                s0 = 1
+                
+                if s10 == s0 {
+                    // <+1280>
+                } else {
+                    // <+1200>
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s10 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+1280>
+                }
+            }
+            
+            // <+1280>
+            s1 = -s0
+            s0 = (s9 > 0) ? s0 : s1
+            s1 = Float(bitPattern: 0x3f9cc986)
+            s1 = s12 * s1
+            var s2 = Float(bitPattern: 0xbe6617c2)
+            s2 = s13 * s2
+            s11 = s1 + s2
+            s1 = Float(bitPattern: 0xbd2c0831)
+            s1 = s12 * s1
+            s2 = Float(bitPattern: 0x3f855cfb)
+            s2 = s13 * s2
+            s10 = s2 + s1
+            s1 = Float(bitPattern: 0xbca161e5)
+            s1 = s12 * s1
+            s2 = Float(bitPattern: 0xbda0f909)
+            s2 = s13 * s2
+            s1 = s1 + s2
+            s2 = Float(bitPattern: 0x3f8c87fd)
+            s0 = s0 * s2
+            s9 = s1 + s0
+            // <+1420>
         }
         
-        assertUnimplemented()
+        // <+1420>
+        self.linearRed = s11
+        self.linearGreen = s10
+        self.linearBlue = s9
+        self.opacity = s8
     }
 }

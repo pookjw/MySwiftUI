@@ -41,8 +41,8 @@ final class DemoViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.openURLActionView
-        pushToItem(item)
+//        let item = DemoViewController.Item.openWindowActionView
+//        pushToItem(item)
         
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))
@@ -116,6 +116,7 @@ extension DemoViewController {
         case staticIfView
         case testView
         case openURLActionView
+        case openWindowActionView
         
         var title: String {
             switch self {
@@ -179,6 +180,8 @@ extension DemoViewController {
                 return _typeName(TestViewController.self, qualified: false)
             case .openURLActionView:
                 return _typeName(OpenURLActionViewController.self, qualified: false)
+            case .openWindowActionView:
+                return _typeName(OpenWindowActionViewController.self, qualified: false)
             }
         }
         
@@ -244,6 +247,8 @@ extension DemoViewController {
                 return TestViewController()
             case .openURLActionView:
                 return OpenURLActionViewController()
+            case .openWindowActionView:
+                return OpenWindowActionViewController()
             }
         }
     }

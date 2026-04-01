@@ -349,11 +349,19 @@ public import _UIKitPrivate
     }
     
     open override func contentCompressionResistancePriority(for axis: NSLayoutConstraint.Axis) -> UILayoutPriority {
-        assertUnimplemented()
+        if Representable.isViewController {
+            return super.contentCompressionResistancePriority(for: axis)
+        } else {
+            return self.representedView.contentCompressionResistancePriority(for: axis)
+        }
     }
     
     open override func contentHuggingPriority(for axis: NSLayoutConstraint.Axis) -> UILayoutPriority {
-        assertUnimplemented()
+        if Representable.isViewController {
+            return super.contentHuggingPriority(for: axis)
+        } else {
+            return self.representedView.contentHuggingPriority(for: axis)
+        }
     }
     
     // ___lldb_unnamed_symbol_29101c

@@ -79,7 +79,7 @@ extension UIViewRepresentable {
     }
     
     @MainActor @preconcurrency public func _overrideLayoutTraits(_ layoutTraits: inout _LayoutTraits, for uiView: Self.UIViewType) {
-        assertUnimplemented()
+        // nop
     }
     
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
@@ -184,7 +184,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
     }
     
     func overrideLayoutTraits(_ traits: inout _LayoutTraits, for provider: Base.UIViewType) {
-        assertUnimplemented()
+        base._overrideLayoutTraits(&traits, for: provider)
     }
     
     static nonisolated func modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
