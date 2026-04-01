@@ -106,12 +106,11 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
     mutating func outputsDidChange(graph: ViewGraph) {
         /*
          self -> x20 -> x19
-         graph -> x0 -> x26
+         graph -> x0 -> x27
          */
         defer {
             // $s7SwiftUI32ViewGraphBridgePropertiesFeatureV16outputsDidChange5graphyAA0cD0C_tF6$deferL_yyF
             // self -> x0 -> x19
-            // x27, x28, x24, x25
             let parentBridgeProperties = parentBridgeProperties
             self.lastParentBridgeProperties = parentBridgeProperties
             
@@ -119,34 +118,53 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
             self.lastEnvironment = environment
         }
         
-        // <+212>
+        // <+156>
         guard
             let delegate = graph.delegate,
-            let propertiesDelegate = delegate.as(ViewGraphBridgePropertiesDelegate.self)
+            let propertiesDelegate = delegate.as(ViewGraphBridgePropertiesDelegate.self) // x20
         else {
-            // <+372>
+            // <+296>
             _parentBridgeProperties = WeakAttribute()
             _bridgeProperties = WeakAttribute()
             _environment = OptionalAttribute()
             return
         }
         
-        // <+284>
+        // <+228>
         // x26, x25, x28, x27
         let parentBridgeProperties = parentBridgeProperties
         
-        // <+440>
-        // x21, x22, x27, x28
+        // <+336>
+        // x20, x21, x28, x23
         let newProperties = propertiesDelegate.updateRequiredBridges(parentBridgeProperties, allowedActions: [.unknown0, .unknown1])
-        _ = consume parentBridgeProperties
-        
-        // x23, x24, x25, x26
+        // <+420>
+        // x24, x26, x27, (x22 -> x29 - 0xb8)
         let lastLocalBridgeProperties = lastLocalBridgeProperties
         
-        guard newProperties != lastLocalBridgeProperties else {
-            return
+        // <+432>
+        if let lastLocalBridgeProperties {
+            // <+444>
+            if
+                (newProperties.suppliedBridges != lastLocalBridgeProperties.suppliedBridges) ||
+                    (newProperties.managedBridges != lastLocalBridgeProperties.managedBridges)
+            {
+                // <+708>
+                // <+764>
+            } else if newProperties.requestedBars != lastLocalBridgeProperties.requestedBars {
+                // <+1076>
+                // <+764>
+            } else if newProperties.managedBars != lastLocalBridgeProperties.managedBars {
+                // <+764>
+            } else {
+                // <+1036>
+                return
+            }
+        } else {
+            // <+624>
+            // <+764>
         }
         
+        // <+764>
         graph.asyncTransaction(
             mutation: ViewGraphBridgePropertiesFeature.BridgePropertiesMutation(
                 bridgeProperties: _bridgeProperties,

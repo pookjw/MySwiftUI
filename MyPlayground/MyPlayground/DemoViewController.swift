@@ -44,10 +44,10 @@ final class DemoViewController: UICollectionViewController {
         let item = DemoViewController.Item.colorBlackView
         pushToItem(item)
         
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            navigationController?.popViewController(animated: true)
-        }
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            navigationController?.popViewController(animated: true)
+//        }
     }
     
     @objc private func activateSceneBarButtonItem(_ sender: UIBarButtonItem) {

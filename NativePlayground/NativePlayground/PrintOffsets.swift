@@ -141,6 +141,7 @@ func printOffsets() {
     printFields("7SwiftUI12ForEachStateCySnySiGSiAA7AnyViewVG", isClassType: true)
     printFields("7SwiftUI24AnimatableDepthAttributeV", isClassType: false)
     printFields("7SwiftUI23ScenePresentationBridgeC", isClassType: true)
+    printFields("7SwiftUI32ViewGraphBridgePropertiesFeatureV", isClassType: false)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)

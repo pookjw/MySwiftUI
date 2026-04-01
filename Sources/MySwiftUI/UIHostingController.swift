@@ -1138,7 +1138,6 @@ open class UIHostingController<Content: View>: UIViewController {
             } else {
                 // <+200>
                 resolved = graphValue()
-                resolved.suppliedBridges = [] // x19는 복사 안하고 있음. nil인채로 들어오면 0임
                 // <+360>
             }
         } else {
@@ -1286,10 +1285,7 @@ open class UIHostingController<Content: View>: UIViewController {
             var x19: Int
             if !flag_5 {
                 // <+956>
-                x19 = x26
-                if (x26 & 1) == 0 {
-                    x19 = x19 | x290xa8.rawValue
-                }
+                x19 = x26 | x290xa8.rawValue
                 // <+984>
             } else {
                 // <+968>

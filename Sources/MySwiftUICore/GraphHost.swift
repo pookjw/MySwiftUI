@@ -309,7 +309,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
                 // <+344>
                 Update.enqueueAction(reason: nil) { 
                     // $s7SwiftUI9GraphHostC13uninstantiate11immediatelyySb_tFyyXEfU_yycfU_TA
-                    assertUnimplemented()
+                    rootSubgraph.invalidate()
                 }
             }
             

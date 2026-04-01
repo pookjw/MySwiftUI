@@ -515,7 +515,8 @@ package final class ViewGraph: GraphHost {
         // <+144>
         self.$rootGeometry.mutateBody(as: RootGeometry.self, invalidating: true) { rootGeometry in
             // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_7SwiftUI12RootGeometryV_Tg503$s7h7UI9Viewc31C20uninstantiateOutputsyyFyAA12jK7VzXEfU_Tf3npf_n
-            assertUnimplemented()
+            rootGeometry.$childLayoutComputer = nil
+            rootGeometry.$layoutDirection = nil
         }
         
         self._rootLayoutComputer = WeakAttribute()
