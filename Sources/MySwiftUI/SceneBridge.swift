@@ -34,7 +34,7 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     weak var windowScene: UIWindowScene? = nil // 0x20
     weak var rootViewController: UIViewController? = nil // 0x28
     private var sceneDefinitionOptionsSeedTracker = VersionSeedTracker<ConnectionOptionPayloadStoragePreferenceKey>(seed: .invalid) // 0x30
-    private var sceneDefinitionOptions = ConnectionOptionPayloadStorage() // 0x38
+    private(set) var sceneDefinitionOptions = ConnectionOptionPayloadStorage() // 0x38
     private var titleSeedTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x48
     private var colorSchemeSeed = VersionSeedTracker<PreferredColorSchemeKey>(seed: .invalid) // 0x4c
     private var contentCaptureProtectionSeedTracker = VersionSeedTracker<ContentCaptureProtectionPreferenceKey>(seed: .invalid) // 0x50

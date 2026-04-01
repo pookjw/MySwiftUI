@@ -9,6 +9,7 @@ UIKIT_EXTERN const UIApplication * _Nullable UIApp NS_SWIFT_UI_ACTOR;
 - (id _Nullable)_extendLaunchTest;
 - (UISceneSessionRole _Nullable)_preferredDefaultSceneSessionRole;
 - (void)_setupDefaultEnvironmentWithScreen:(id)screen;
+- (void)_saveRestorationUserActivityStateForScene:(UIScene *)scene;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

@@ -7,6 +7,7 @@ private import Observation
 private import Combine
 private import _SwiftPrivate
 
+// _TtC7SwiftUI16AppSceneDelegate
 final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     @safe fileprivate static nonisolated(unsafe) var hasConnectedFirstScene = false
     
@@ -379,7 +380,14 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         // <+9096>
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { 
             // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU0_TA
-            assertUnimplemented()
+            for type in sceneBridge.sceneDefinitionOptions.types {
+                func _do<T: UISceneConnectionOptionDefinition>(_ type: T.Type) {
+                    // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtF06handlemN9CallbacksL_yyAA0M20OptionPayloadStorageVF3_doL_yyxm5UIKit0kmQ10DefinitionRzlFTf4nnx_n
+                    assertUnimplemented()
+                }
+                
+                _openExistential(type, do: _do)
+            }
         }
         
         
@@ -418,7 +426,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         
         DispatchQueue.main.async { 
             // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU3_TA
-            assertUnimplemented()
+            UIApplication.shared._saveRestorationUserActivityState(for: scene)
         }
         
         if !AppSceneDelegate.hasConnectedFirstScene {
@@ -476,7 +484,51 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
-        assertUnimplemented()
+        // self -> x20 -> x22
+        // <+156>
+        // x25
+        let item = self.sceneItem()
+        if case .volume(_) = item.value {
+            return nil
+        }
+        
+        let activity = NSUserActivity(activityType: "com.apple.SwiftUI.stateRestoration")
+        // x21
+        var encodedValues: [AnyHashable: Any] = .init()
+        
+        if let sceneStorageValues {
+            // inlined
+            sceneStorageValues.encode(into: &encodedValues)
+        }
+        
+        // <+640>
+        // x29 - 0x60
+        var keys: Set<String> = []
+        
+        if let presentationDataType {
+            encodedValues[AnyHashable("com.apple.SwiftUI.sceneType")] = makeStableTypeData(presentationDataType).description
+        }
+        
+        // <+860>
+        if let sceneItemID {
+            let id = sceneItemID.sessionID
+            encodedValues[AnyHashable("com.apple.SwiftUI.sceneID")] = id
+            keys.insert("com.apple.SwiftUI.sceneID")
+        }
+        
+        // <+1148>
+        if let rawPresentationDataValue {
+            encodedValues[AnyHashable("com.apple.SwiftUI.sceneValue")] = rawPresentationDataValue
+            keys.insert("com.apple.SwiftUI.sceneValue")
+        }
+        
+        // <+1368>
+        if !keys.isEmpty {
+            activity.requiredUserInfoKeys = keys
+        }
+        
+        activity.userInfo = encodedValues
+        return activity
     }
     
     fileprivate func makeSceneHostWindow(
@@ -1250,4 +1302,8 @@ extension AppDelegate {
         
         Update.end()
     }
+}
+
+func makeStableTypeData(_ type: Any.Type) -> StrongHash {
+    assertUnimplemented()
 }

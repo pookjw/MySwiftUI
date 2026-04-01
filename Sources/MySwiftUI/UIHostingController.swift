@@ -229,31 +229,47 @@ open class UIHostingController<Content: View>: UIViewController {
         // w25
         let isLinked = isLinkedOnOrAfter(.v6_2)
         // x24
-        let flag = false
-        if let _ = host.sceneBridge {
+        var flag_1 = false
+        let flag_2: Bool // true -> <+240> / false -> <+428>
+        if
+            let sceneBridge = host.sceneBridge,
+            sceneBridge.isAnimatingSceneResize
+        {
             // <+192>
-            // flag를 조건에 따라 true
-            assertUnimplemented()
+            flag_1 = true
+            if isLinked {
+                host.isInSizeTransition = true
+            }
+            flag_2 = true
+        } else {
+            if isLinked {
+                // <+224>
+                let host = self.host
+                host.isInSizeTransition = true
+                flag_2 = true
+            } else {
+                flag_2 = false
+            }
         }
         
-        // <+220>
-        if isLinked {
-            // <+224>
-            let host = host
-            host.isInSizeTransition = true
-            coordinator.animate(alongsideTransition: nil) { [weak host] _ in
+        if flag_2 {
+            // <+240>
+            coordinator.animate(alongsideTransition: nil) { [weak self] _ in
                 // $s7SwiftUI19UIHostingControllerC18viewWillTransition2to4withySo6CGSizeV_So06UIViewdG11Coordinator_ptFySo0kdgL7Context_pcfU_TA
                 /*
                  isLinked -> w1 -> x20
                  weak host -> x2 -> x22
                  flag -> x3 -> x24
                  */
-                if isLinked, let host {
-                    host.isInSizeTransition = false
+                if
+                    isLinked,
+                    let self
+                {
+                    self.host.isInSizeTransition = false
                 }
                 
                 // <+192>
-                guard flag else {
+                guard flag_1 else {
                     return
                 }
                 
