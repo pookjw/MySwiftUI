@@ -1148,7 +1148,6 @@ open class UIHostingController<Content: View>: UIViewController {
             } else {
                 // <+244>
                 resolved = host.viewGraph.environment.viewGraphBridgeProperties
-                resolved.suppliedBridges = []
                 // <+360>
             }
         }

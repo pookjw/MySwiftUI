@@ -411,7 +411,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         graph.addPreference(CommandsKey.self)
         graph.addObserver(self)
         
-        if let delegate = sceneDelegateBox as? UISceneDelegate {
+        if let delegate = sceneDelegateBox?.delegate as? UISceneDelegate {
             delegate.scene?(scene, willConnectTo: session, options: connectionOptions)
         }
         
@@ -453,7 +453,23 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        assertUnimplemented()
+        self.scenePhase = .background
+        
+        if
+            let window,
+            let rootViewController = window.rootViewController, // x22
+            let sceneItemID
+        {
+            self.scenesDidChange(phaseChanged: true)
+            PlatformSceneCache.shared.setPhase(self.scenePhase, id: sceneItemID, host: rootViewController)
+        }
+        
+        if
+            let sceneDelegateBox,
+            let delegate = sceneDelegateBox.delegate as? UISceneDelegate
+        {
+            delegate.sceneDidEnterBackground?(scene)
+        }
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -480,7 +496,29 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x21
+         scene -> x0 -> x19
+         */
+        self.scenePhase = .inactive
+        
+        if
+            let window,
+            let rootViewController = window.rootViewController, // x22
+            let sceneItemID
+        {
+            // <+84>
+            self.scenesDidChange(phaseChanged: true)
+            PlatformSceneCache.shared.setPhase(self.scenePhase, id: sceneItemID, host: rootViewController)
+        }
+        
+        // <+244>
+        if
+            let sceneDelegateBox,
+            let delegate = sceneDelegateBox.delegate as? UISceneDelegate
+        {
+            delegate.sceneWillResignActive?(scene)
+        }
     }
     
     func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {

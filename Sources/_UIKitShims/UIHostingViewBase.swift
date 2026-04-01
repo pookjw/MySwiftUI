@@ -605,10 +605,10 @@ package final class UIHostingViewBase: NSObject {
         }
         
         if let newScene {
-            notificationCenter.addObserver(self, selector: #selector(sceneWillDeactivate), name: UIScene.willDeactivateNotification, object: newScene)
-            notificationCenter.addObserver(self, selector: #selector(sceneDidActivate), name: UIScene.didActivateNotification, object: newScene)
-            notificationCenter.addObserver(self, selector: #selector(sceneDidEnterBackground), name: UIScene.didEnterBackgroundNotification, object: newScene)
-            notificationCenter.addObserver(self, selector: #selector(sceneWillEnterForeground), name: ._UIWindowSceneDidUpdateSystemUserInterfaceStyle, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(_sceneWillDeactivate), name: UIScene.willDeactivateNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(_sceneDidActivate), name: UIScene.didActivateNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(_sceneDidEnterBackground), name: UIScene.didEnterBackgroundNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(_sceneWillEnterForeground), name: ._UIWindowSceneDidUpdateSystemUserInterfaceStyle, object: newScene)
             notificationCenter.addObserver(self, selector: #selector(sceneDidBeginResize), name: ._UIWindowSceneDidBeginLiveResize, object: newScene)
             notificationCenter.addObserver(self, selector: #selector(sceneDidEndResize), name: ._UIWindowSceneDidEndLiveResize, object: newScene)
             notificationCenter.addObserver(self, selector: #selector(sceneDidBecomeKey), name: ._UISceneDidBecomeKey, object: newScene)
@@ -1031,22 +1031,22 @@ package final class UIHostingViewBase: NSObject {
         assertUnimplemented()
     }
     
-    @MainActor @objc private func sceneWillDeactivate() {
+    @MainActor @objc(sceneWillDeactivate) private func _sceneWillDeactivate() {
         updateSceneActivationState()
         isExitingForeground = true
     }
     
-    @MainActor @objc private func sceneDidActivate() {
+    @MainActor @objc(sceneDidActivate) private func _sceneDidActivate() {
         updateSceneActivationState()
         isExitingForeground = false
         requestUpdateForFidelity()
     }
     
-    @objc private func sceneDidEnterBackground() {
-        assertUnimplemented()
+    @MainActor @objc(sceneDidEnterBackground) private func _sceneDidEnterBackground() {
+        self._sceneDidActivate()
     }
     
-    @objc private func sceneWillEnterForeground() {
+    @objc(sceneWillEnterForeground) private func _sceneWillEnterForeground() {
         assertUnimplemented()
     }
     

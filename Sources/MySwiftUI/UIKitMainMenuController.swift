@@ -354,7 +354,66 @@ extension UIKitMainMenuController: AppGraphObserver {
     }
     
     func commandsDidChange() {
-        assertUnimplemented()
+        // self -> x20
+        // <+284>
+        // x23
+        let version: DisplayList.Version?
+        if let appGraph = AppGraph.shared {
+            let list: CommandsList
+            if let rootCommandsList = appGraph.rootCommandsList {
+                list = rootCommandsList
+            } else {
+                list = CommandsList()
+            }
+            
+            // <+396>
+            version = list.version
+        } else {
+            // <+340>
+            version = nil
+        }
+        
+        // <+440>
+        // x24
+        let current: DisplayList.Version? = self.commandsListVersion
+        // x19
+        let copy_1 = version
+        // x19 + 0x20
+        let copy_2 = current
+        
+        // <+584>
+        if let copy_1 {
+            // <+728>
+            if let copy_2 {
+                // <+924>
+                if copy_1 == copy_2 {
+                    // <+1116>
+                    return
+                } else {
+                    // <+876>
+                }
+            } else {
+                // <+788>
+                // <+876>
+            }
+        } else {
+            // <+612>
+            if let copy_2 {
+                // <+860>
+                // <+876>
+            } else {
+                // <+692>
+                // <+1116>
+                return
+            }
+        }
+        
+        // <+876>
+        guard supportsMainMenu else {
+            return
+        }
+        
+        UIMenuSystem.main.setNeedsRebuild()
     }
 }
 
