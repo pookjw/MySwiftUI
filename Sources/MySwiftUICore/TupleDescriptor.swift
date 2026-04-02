@@ -1,14 +1,14 @@
-internal import AttributeGraph
+package import AttributeGraph
 private import os.log
 
-protocol TupleDescriptor : ProtocolDescriptor {
+package protocol TupleDescriptor : ProtocolDescriptor {
     static var typeCache: [ObjectIdentifier: TupleTypeDescription<Self>] {
         get set
     }
 }
 
 extension TupleDescriptor {
-    static func tupleDescription(_ tupleType: TupleType) -> TupleTypeDescription<Self> {
+    package static func tupleDescription(_ tupleType: TupleType) -> TupleTypeDescription<Self> {
         let key = ObjectIdentifier(tupleType.type)
         if let existing = typeCache[key] {
             return existing
@@ -20,7 +20,7 @@ extension TupleDescriptor {
     }
 }
 
-struct TupleTypeDescription<T : ProtocolDescriptor> {
+package struct TupleTypeDescription<T : ProtocolDescriptor> {
     let contentTypes: [(Int, TypeConformance<T>)]
     
     init(_ tupleType: TupleType) {

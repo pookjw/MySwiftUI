@@ -29,3 +29,8 @@ MSUI_EXTERN const void *$s13MySwiftUICore22InvalidatableAttributeMp;
 const void * _Nonnull _invalidatableAttributeProtocolDescriptor(void) {
     return &$s13MySwiftUICore22InvalidatableAttributeMp;
 }
+
+MSUI_EXTERN const void *$s9MySwiftUI5SceneMp;
+const void * _Nonnull _sceneProtocolDescriptor(void) {
+    return &$s9MySwiftUI5SceneMp;
+}
