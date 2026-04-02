@@ -203,6 +203,48 @@
     }
 }
 
++ (BOOL)_copyHeadersToURL:(NSURL *)toURL fromURL:(NSURL *)fromURL __attribute__((objc_direct)) {
+    NSFileManager *fileManager = NSFileManager.defaultManager;
+    NSError * _Nullable error = nil;
+    BOOL isDirectory;
+    BOOL exists = [fileManager fileExistsAtPath:fromURL.path isDirectory:&isDirectory];
+    
+    if (!exists) {
+        exists = [fileManager fileExistsAtPath:toURL.path];
+        if (exists) {
+            BOOL success = [fileManager removeItemAtURL:toURL error:&error];
+            if (!success) {
+                NSLog(@"%@", error);
+                return NO;
+            }
+        }
+        
+        return YES;
+    }
+    
+    if (!isDirectory) {
+        NSLog(@"%@ is not a directory.", fromURL);
+        return NO;
+    }
+    
+    exists = [fileManager fileExistsAtPath:toURL.path];
+    if (exists) {
+        BOOL success = [fileManager removeItemAtURL:toURL error:&error];
+        if (!success) {
+            NSLog(@"%@", error);
+            return NO;
+        }
+    }
+    
+    BOOL success = [fileManager copyItemAtURL:fromURL toURL:toURL error:&error];
+    if (!success) {
+        NSLog(@"%@", error);
+        return NO;
+    }
+    
+    return YES;
+}
+
 + (BOOL)generateToURL:(NSURL *)url {
     NSDictionary<NSString *, NSArray<NSString *> *> *libraryToVariants = @{
         @"xros-arm64_arm64e": @[
@@ -230,11 +272,11 @@
     if (![InterfaceGeneratorBase _checkDirectoryExists:baseFrameworkURL]) {
         return NO;
     }
+    
+    // 없을 수도 있음
     NSURL *baseHeadersURL = baseFrameworkURL;
     baseHeadersURL = [baseHeadersURL URLByAppendingPathComponent:@"Headers" isDirectory:YES];
-    if (![InterfaceGeneratorBase _checkDirectoryExists:baseHeadersURL]) {
-        return NO;
-    }
+    
     NSURL *baseSwiftInterfaceURL = baseFrameworkURL;
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
@@ -283,6 +325,11 @@
             if (!result) {
                 return NO;
             }
+        }
+        
+        BOOL result = [InterfaceGeneratorBase _copyHeadersToURL:baseHeadersURL fromURL:targetHeadersURL];
+        if (!result) {
+            return NO;
         }
     }
     
