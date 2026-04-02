@@ -109,6 +109,6 @@ protocol SceneTypeVisitor {
 
 extension TypeConformance where T == SceneDescriptor {
     func visitType<Visitor : SceneTypeVisitor>(visitor: UnsafeMutablePointer<Visitor>) {
-        assertUnimplemented()
+        visitor.pointee.visit(type: unsafeExistentialMetatype((any Scene.Type).self))
     }
 }
