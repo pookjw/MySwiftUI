@@ -5,7 +5,42 @@ install-name:    '/System/Library/PrivateFrameworks/DesignLibrary.framework/Desi
 swift-abi-version: 7
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
-    symbols:              [  ]
+    symbols:         [ _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE11designIdiomAD0eH0Ovg,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE11designIdiomAD0eH0Ovs,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE11designIdiomAD0eH0OvM,
+    _$s13DesignLibrary0A5IdiomO2eeoiySbAC_ACtFZ,
+    _$s13DesignLibrary0A5IdiomO4hash4intoys6HasherVz_tF,
+    _$s13DesignLibrary0A5IdiomO9hashValueSivg,
+    _$s13DesignLibrary0A5IdiomOMa,
+    _$s13DesignLibrary0A5IdiomOSQAAMc,
+    _$s13DesignLibrary0A5IdiomOSHAAMc,
+    _$s13DesignLibrary0A5IdiomO9hashValueSivpMV,
+    _$s13DesignLibrary0A5IdiomO9universalyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO3macyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO5phoneyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO3padyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO2tvyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO5watchyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO7spatialyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO7carPlayyA2CmFWC,
+    _$s13DesignLibrary0A5IdiomO8touchBaryA2CmFWC,
+    _$s13DesignLibrary0A5IdiomOMn,
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVMn,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE27glassMaterialContainerStyleAD05GlassH8ProviderV08ResolvedJ0VSgvg,
+    _$s13DesignLibrary21GlassMaterialProviderV013ResolvedStyleE0VMa,
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVMa,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE23glassMaterialForegroundSbvg,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE23glassMaterialForegroundSbvs,
+    _$s7SwiftUI17EnvironmentValuesV13DesignLibraryE23glassMaterialForegroundSbvM,
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVSHAAMc,
+    _$s13DesignLibrary21GlassMaterialProviderV13ResolvedStyleVSQAAMc,
+    _$s13DesignLibrary21GlassMaterialProviderV6PocketVMn,
+    _$s13DesignLibrary21GlassMaterialProviderV6PocketVMa,
+    _$s13DesignLibrary21GlassMaterialProviderV013ResolvedStyleE0VMn,
+    _$s13DesignLibrary21GlassMaterialProviderV013ResolvedStyleE0V7SwiftUI0dE0AAMc,
+    _$s13DesignLibrary21GlassMaterialProviderV013ResolvedStyleE0VSHAAMc,
+    _$s13DesignLibrary21GlassMaterialProviderV013ResolvedStyleE0VSQAAMc
+    ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

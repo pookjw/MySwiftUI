@@ -5,7 +5,17 @@ install-name:    '/usr/lib/libAccessibility.dylib'
 swift-abi-version: 7
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
-    symbols:              [  ]
+    symbols:              [ __AXSPhotosensitiveMitigationEnabled,
+    __AXSHighContrastFocusIndicatorsEnabled,
+    __AXSIncreaseButtonLegibility,
+    __AXSFullKeyboardAccessEnabled,
+    __AXSCommandAndControlEnabled,
+    _kAXSPhotosensitiveMitigationEnabledNotification,
+    _kAXSHighContrastFocusIndicatorsEnabledNotification,
+    _kAXSIncreaseButtonLegibilityNotification,
+    _kAXSFullKeyboardAccessEnabledNotification,
+    _kAXSCommandAndControlEnabledNotification,
+    _kAXSHoverTextEnabledNotification ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

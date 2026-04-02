@@ -8,4 +8,14 @@ exports:
     symbols:              [  ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ arm64-xros, arm64e-xros ]
+install-name:    '/System/Library/PrivateFrameworks/UIKitCore.framework/UIKitCore'
+swift-abi-version: 7
+exports:
+  - targets:         [ arm64-xros, arm64e-xros ]
+    symbols:              [  ]
+    objc-classes:         [  ]
+    objc-ivars:           [  ]
 ...

@@ -5,7 +5,9 @@ install-name:    '/System/Library/PrivateFrameworks/UIIntelligenceSupport.framew
 swift-abi-version: 7
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
-    symbols:              [  ]
+    symbols:         [ _$s21UIIntelligenceSupport0A16ElementCollectorCMa,
+    _$s21UIIntelligenceSupport0A16ElementCollectorCMn
+    ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

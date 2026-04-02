@@ -41,3 +41,10 @@ Tag sdkTag = {
     @"dyn.ah62d4rv4ge81g3dp"
 };
 UTType * const UTTypeSDK = (UTType *)&sdkTag;
+
+Tag tbdTag = {
+    objc_lookUpClass("_UTCoreType"),
+    NULL,
+    @"com.apple.text-based-dylib"
+};
+UTType * const UTTypeTBD = (UTType *)&tbdTag;

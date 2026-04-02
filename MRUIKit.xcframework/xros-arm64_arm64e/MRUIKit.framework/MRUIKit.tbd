@@ -5,7 +5,39 @@ install-name:    '/System/Library/PrivateFrameworks/MRUIKit.framework/MRUIKit'
 swift-abi-version: 7
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
-    symbols:              [  ]
-    objc-classes:         [  ]
+    symbols:              [ _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVMa,
+    _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVMn,
+    _$s7MRUIKit31_MRUIObjectTransformInteractionC6TargetV2IDVSHAAMc,
+    __MRUISceneDidChangeImmersionStateNotification,
+    __MRUICadenzaNameForFeedback,
+    __NSStringFromMRUIWorldTrackingCapabilities,
+    _$sSo6UIViewC7MRUIKitE11layerEntity10RealityKit0D0CSgvg,
+    _$sSo6UIViewC7MRUIKitE11layerEntity10RealityKit0D0CSgvpMV,
+    _$s7MRUIKit24MRUISceneScalingBehaviorO12dynamicScaleyA2CmFWC,
+    _$s7MRUIKit24MRUISceneScalingBehaviorO9trueScaleyA2CmFWC,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOMa,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOMn,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOSQAAMc,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOSHAAMc,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOs23CustomStringConvertibleAAMc,
+    _$s7MRUIKit24MRUISceneScalingBehaviorOs28CustomDebugStringConvertibleAAMc,
+    __MRUISceneSessionRoleRepresentsImmersiveSpace,
+    _$sSo13UIWindowSceneC7MRUIKitE02reB0s13OpaquePointerVvg ]
+    objc-classes:         [ MRUIPreferenceKey,
+    MRUIPreferenceHost,
+    MRUISharedApplicationSceneSettings,
+    MRUIPlatterOrnamentManager,
+    MRUIPlatterOrnament,
+    MRUIOrnamentsItem,
+    MRUIPlacementTargetKey,
+    MRUIVideoPassthroughBrightnessPreferenceKey,
+    MRUIPreferredDarknessPreferenceKey,
+    MRUIUpperLimbsVisibilityPreferenceKey,
+    MRUIPreferredTintPreferenceKey,
+    MRUIVolumeBaseplateVisibilityPreferenceKey,
+    MRUIDisplayContentModePreferenceKey,
+    MRUISupportedVolumeViewpointsPreferenceKey,
+    _MRUIApplicationImmersiveSpaceSceneRequestBuilder,
+    _MRUIApplicationCompositorServicesImmersiveSpaceSceneRequestBuilder ]
     objc-ivars:           [  ]
 ...

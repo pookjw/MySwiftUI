@@ -5,7 +5,12 @@ install-name:    '/System/Library/PrivateFrameworks/FeatureFlags.framework/Featu
 swift-abi-version: 7
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
-    symbols:              [  ]
+    symbols:              [ _$s12FeatureFlags02isA7EnabledySbAA0aB3Key_pF,
+    _$s12FeatureFlags0aB3KeyMp,
+    _$s12FeatureFlags0aB3KeyP6domains12StaticStringVvgTq,
+    _$s12FeatureFlags0aB3KeyP7features12StaticStringVvgTq,
+    _$s12FeatureFlags0aB3KeyP6domains12StaticStringVvgTj,
+    _$s12FeatureFlags0aB3KeyP7features12StaticStringVvgTj ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

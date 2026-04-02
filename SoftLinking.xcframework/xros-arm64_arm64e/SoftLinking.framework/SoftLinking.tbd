@@ -5,7 +5,7 @@ install-name:    '/System/Library/PrivateFrameworks/SoftLinking.framework/SoftLi
 swift-abi-version: 7
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
-    symbols:              [  ]
+    symbols:              [ __sl_dlopen, __sl_dlopen_audited ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

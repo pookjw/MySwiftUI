@@ -3,6 +3,12 @@
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #import "UTType+Private.h"
 
+@interface InterfaceGeneratorBase ()
+@property (class, nonatomic, readonly, direct) NSString *baseLibraryIdentifier;
+@property (class, nonatomic, readonly, direct) NSString *baseVariantIdentifier;
+@property (class, nonatomic, readonly, direct) NSArray<NSString *> *baseTargets;
+@end
+
 @implementation InterfaceGeneratorBase
 
 + (NSString *)frameworkName {
@@ -19,6 +25,10 @@
 
 + (NSString *)baseVariantIdentifier {
     return @"arm64-apple-xros-simulator";
+}
+
++ (NSArray<NSString *> *)baseTargets {
+    return @[@"x86_64-xros-simulator", @"arm64-xros-simulator"];
 }
 
 + (BOOL)_checkDirectoryExists:(NSURL *)url __attribute__((objc_direct)) {
@@ -69,8 +79,7 @@
 }
 
 + (NSString * _Nullable)_xcodeSwiftInterfaceHeaderWithVariant:(NSString *)variant platform:(NSString *)platform {
-    NSURL *baseURL = XCSelect.developerDirectoryURL;
-    baseURL = [baseURL URLByAppendingPathComponent:@"Platforms" isDirectory:YES];
+    NSURL *baseURL = [XCSelect.developerDirectoryURL URLByAppendingPathComponent:@"Platforms" isDirectory:YES];
     baseURL = [baseURL URLByAppendingPathComponent:platform conformingToType:UTTypePlatform];
     baseURL = [baseURL URLByAppendingPathComponent:@"Developer" isDirectory:YES];
     baseURL = [baseURL URLByAppendingPathComponent:@"SDKs" isDirectory:YES];
@@ -196,6 +205,41 @@
     }
 }
 
++ (BOOL)_writeTBDFromURL:(NSURL *)fromURL toURL:(NSURL *)toURL newTargets:(NSArray<NSString *> *)newTargets {
+    if ([toURL isEqual:fromURL]) {
+        return YES;
+    }
+    
+    NSFileManager *fileManager = NSFileManager.defaultManager;
+    NSError * _Nullable error = nil;
+    
+    if ([fileManager fileExistsAtPath:toURL.path]) {
+        BOOL success = [fileManager removeItemAtURL:toURL error:&error];
+        if (!success) {
+            NSLog(@"%@", error);
+            return NO;
+        }
+    }
+    
+    NSData *data = [[NSData alloc] initWithContentsOfURL:fromURL options:0 error:&error];
+    if (data == nil) {
+        NSLog(@"%@", error);
+        return NO;
+    }
+    
+    NSMutableString *string = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    [data release];
+    [string replaceOccurrencesOfString:[self.baseTargets componentsJoinedByString:@", "] withString:[newTargets componentsJoinedByString:@", "] options:0 range:NSMakeRange(0, string.length)];
+    BOOL success = [string writeToURL:toURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    if (!success) {
+        NSLog(@"%@", error);
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 + (BOOL)_copyHeadersToURL:(NSURL *)toURL fromURL:(NSURL *)fromURL __attribute__((objc_direct)) {
     if ([toURL isEqual:fromURL]) {
         return YES;
@@ -256,6 +300,10 @@
         @"xros-arm64_arm64e": @"XROS",
         @"xros-arm64_x86_64-simulator": @"XRSimulator"
     };
+    NSDictionary<NSString *, NSArray<NSString *> *> *libraryToTargets = @{
+        @"xros-arm64_arm64e": @[@"arm64-xros", @"arm64e-xros"],
+        @"xros-arm64_x86_64-simulator": @[@"x86_64-xros-simulator", @"arm64-xros-simulator"]
+    };
     
     NSURL *frameworkURL = url;
     frameworkURL = [frameworkURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeXCFramework];
@@ -263,8 +311,7 @@
         return NO;
     }
     
-    NSURL *baseFrameworkURL = frameworkURL;
-    baseFrameworkURL = [baseFrameworkURL URLByAppendingPathComponent:self.baseLibraryIdentifier isDirectory:YES];
+    NSURL *baseFrameworkURL = [frameworkURL URLByAppendingPathComponent:self.baseLibraryIdentifier isDirectory:YES];
     baseFrameworkURL = [baseFrameworkURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeFramework];
     if (![InterfaceGeneratorBase _checkDirectoryExists:baseFrameworkURL]) {
         return NO;
@@ -273,20 +320,22 @@
     // 없을 수도 있음
     NSURL *baseHeadersURL = [baseFrameworkURL URLByAppendingPathComponent:@"Headers" isDirectory:YES];
     
-    NSURL *baseSwiftInterfaceURL = baseFrameworkURL;
-    baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
+    NSURL *baseSwiftInterfaceURL = [baseFrameworkURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:self.baseVariantIdentifier conformingToType:UTTypeSwiftInterface];
     NSString * _Nullable oldSwiftHeader = [InterfaceGeneratorBase _swiftInterfaceFromURL:baseSwiftInterfaceURL];
     NSString * _Nullable declarations = [InterfaceGeneratorBase _interfaceDeclarationsFromURL:baseSwiftInterfaceURL];
     
-    NSURL *basePrivateSwiftInterfaceURL = baseFrameworkURL;
-    basePrivateSwiftInterfaceURL = [basePrivateSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
+    NSURL *basePrivateSwiftInterfaceURL = [baseFrameworkURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
     basePrivateSwiftInterfaceURL = [basePrivateSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
     basePrivateSwiftInterfaceURL = [basePrivateSwiftInterfaceURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.private", self.baseVariantIdentifier] conformingToType:UTTypeSwiftInterface];
     NSString * _Nullable oldPrivateSwiftHeader = [InterfaceGeneratorBase _swiftInterfaceFromURL:basePrivateSwiftInterfaceURL];
     NSString * _Nullable privateDeclarations = [InterfaceGeneratorBase _interfaceDeclarationsFromURL:basePrivateSwiftInterfaceURL];
     
+    NSURL *baseTBDURL = [baseFrameworkURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeTBD];
+    if (![InterfaceGeneratorBase _checkFileExists:baseTBDURL]) {
+        return NO;
+    }
     
     for (NSString *libraryName in libraryToVariants.allKeys) {
         NSURL *targetFrameworkURL = frameworkURL;
@@ -347,6 +396,15 @@
         }
         
         BOOL result = [InterfaceGeneratorBase _copyHeadersToURL:targetHeadersURL fromURL:baseHeadersURL];
+        if (!result) {
+            return NO;
+        }
+        
+        NSURL *targetTBDURL = [targetFrameworkURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeTBD];
+        if (![InterfaceGeneratorBase _checkFileExists:targetTBDURL]) {
+            return NO;
+        }
+        result = [InterfaceGeneratorBase _writeTBDFromURL:baseTBDURL toURL:targetTBDURL newTargets:libraryToTargets[libraryName]];
         if (!result) {
             return NO;
         }

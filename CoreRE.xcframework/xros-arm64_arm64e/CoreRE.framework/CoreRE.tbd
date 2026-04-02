@@ -5,7 +5,8 @@ install-name:    '/System/Library/PrivateFrameworks/CoreRE.framework/CoreRE'
 swift-abi-version: 7
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
-    symbols:              [  ]
-    objc-classes:         [  ]
+    symbols:              [ _REEntityGetSceneNullable,
+    _RESceneFindEntity ]
+    objc-classes:         [ BSAnimationSettings ]
     objc-ivars:           [  ]
 ...

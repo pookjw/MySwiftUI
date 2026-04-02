@@ -5,6 +5,6 @@ install-name:    '/System/Library/PrivateFrameworks/UIFoundation.framework/UIFou
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
     symbols:              [  ]
-    objc-classes:         [  ]
+    objc-classes:         [ UIFont ]
     objc-ivars:           [  ]
 ...
