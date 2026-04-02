@@ -7,16 +7,16 @@ struct PairwisePreferenceCombinerVisitor {
     // TODO
 }
 
-struct MultiPreferenceCombinerVisitor : PreferenceKeyVisitor {
+package struct MultiPreferenceCombinerVisitor : PreferenceKeyVisitor {
     let outputs: [PreferencesOutputs]
-    var result: PreferencesOutputs
+    package var result: PreferencesOutputs
     
-    init(outputs: [PreferencesOutputs], result: PreferencesOutputs) {
+    package init(outputs: [PreferencesOutputs], result: PreferencesOutputs) {
         self.outputs = outputs
         self.result = result
     }
     
-    mutating func visit<Key>(key: Key.Type) where Key : PreferenceKey {
+    package mutating func visit<Key>(key: Key.Type) where Key : PreferenceKey {
         // self -> x23
         // outputs -> x26 -> sp + 0x18
         // x20

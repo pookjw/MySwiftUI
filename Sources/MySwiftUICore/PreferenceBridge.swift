@@ -24,7 +24,6 @@ internal import AttributeGraph
         inputs.base.customInputs = self.bridgedViewInputs
         // <+100>
         for key in self.requestedPreferences {
-            
             inputs.preferences.keys.add(key)
         }
         // <+416>

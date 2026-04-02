@@ -294,7 +294,8 @@ exports:
     _$s14AttributeGraph08IndirectA0V12wrappedValuexvM,
     _AGGraphCreateIndirectAttribute2,
     _$s14AttributeGraph04WeakA0V2eeoiySbACyxG_AEtFZ,
-    _$s14AttributeGraph04WeakA0VyxGSQAAMc ]
+    _$s14AttributeGraph04WeakA0VyxGSQAAMc,
+    _AGTupleElementOffset ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

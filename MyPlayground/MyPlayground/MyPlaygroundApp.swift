@@ -17,9 +17,9 @@ struct MyPlaygroundApp : App {
             ContentView()
         }
         
-//        WindowGroup(id: "1") { 
-//            Color.black
-//        }
+        WindowGroup(id: "1") { 
+            Color.black
+        }
     }
 }
 

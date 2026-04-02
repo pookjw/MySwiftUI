@@ -1,7 +1,7 @@
 package import AttributeGraph
 
 package struct PreferencesInputs {
-    var keys: PreferenceKeys
+    package internal(set) var keys: PreferenceKeys
     var hostKeys: Attribute<PreferenceKeys>
     
     package init(hostKeys: Attribute<PreferenceKeys>) {

@@ -21,7 +21,7 @@ extension TupleDescriptor {
 }
 
 package struct TupleTypeDescription<T : ProtocolDescriptor> {
-    let contentTypes: [(Int, TypeConformance<T>)]
+    package let contentTypes: [(Int, TypeConformance<T>)]
     
     init(_ tupleType: TupleType) {
         /*

@@ -1,6 +1,7 @@
 // 0097A5536FDAF33A03BB54B9D6A80407
 private import MySwiftUICore
 private import AttributeGraph
+private import _MySwiftUIShims
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 @preconcurrency @MainActor public protocol Scene {
@@ -91,5 +92,23 @@ fileprivate struct SceneBodyAccessor<T : Scene>: BodyAccessor {
             // $s7SwiftUI35TableRowContentModifierBodyAccessor33_3FCAC41ECA223CCA916A97D58BF9A4E6LLV06updateG02of7changedyx_SbtF0G0QzyXEfU_TA
             return container.body
         }
+    }
+}
+
+struct SceneDescriptor: TupleDescriptor {
+    static nonisolated(unsafe) var typeCache: [ObjectIdentifier : TupleTypeDescription<SceneDescriptor>] = [:]
+    
+    static var descriptor: UnsafeRawPointer {
+        return _sceneProtocolDescriptor()
+    }
+}
+
+protocol SceneTypeVisitor {
+    func visit<T: Scene>(type: T.Type)
+}
+
+extension TypeConformance where T == SceneDescriptor {
+    func visitType<Visitor : SceneTypeVisitor>(visitor: UnsafeMutablePointer<Visitor>) {
+        assertUnimplemented()
     }
 }

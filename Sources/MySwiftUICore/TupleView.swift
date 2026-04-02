@@ -42,8 +42,9 @@ private import AttributeGraph
          view -> w23
          inputs -> x1
          */
+        let tupleType = TupleType(T.self)
         // sp + 0x98
-        let tupleDescription = ViewDescriptor.tupleDescription(TupleType(T.self))
+        let tupleDescription = ViewDescriptor.tupleDescription(tupleType)
         // x25
         let options = inputs.options
         // sp + 0x10
@@ -72,7 +73,7 @@ private import AttributeGraph
             // <+176>
             // sp + 0x98
             makeList.index = contentType.0
-            makeList.offset = TupleType(T.self).offset(at: contentType.0, as: contentType.1.type)
+            makeList.offset = tupleType.offset(at: contentType.0)
             unsafe contentType.1.visitType(visitor: &makeList)
         }
         
