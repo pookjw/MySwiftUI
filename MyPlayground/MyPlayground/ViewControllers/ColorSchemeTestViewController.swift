@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate final class MyViewController: UIViewController {
+fileprivate final class MyViewController : UIViewController {
     @ViewLoading private var label: UILabel
     @ViewLoading private var registration: any UITraitChangeRegistration
     
@@ -40,7 +40,7 @@ fileprivate final class MyViewController: UIViewController {
     }
 }
 
-fileprivate struct MyViewControllerRep: UIViewControllerRepresentable {
+fileprivate struct MyViewControllerRep : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> MyViewController {
         let viewController = MyViewController()
         viewController.overrideUserInterfaceStyle = .dark
@@ -52,7 +52,7 @@ fileprivate struct MyViewControllerRep: UIViewControllerRepresentable {
     }
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     var flag: Bool
     
     var body: some View {
@@ -61,7 +61,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class ColorSchemeTestViewController: UIViewController {
+final class ColorSchemeTestViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     

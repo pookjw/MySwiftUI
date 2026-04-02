@@ -18,6 +18,6 @@ extension TransitionPhase {
     }
 }
 
-extension TransitionPhase: Hashable {}
-extension TransitionPhase: Sendable {}
-extension TransitionPhase: BitwiseCopyable {}
+extension TransitionPhase : Hashable {}
+extension TransitionPhase : Sendable {}
+extension TransitionPhase : BitwiseCopyable {}

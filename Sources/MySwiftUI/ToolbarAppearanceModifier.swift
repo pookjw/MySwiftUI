@@ -192,7 +192,7 @@ extension ToolbarPlacement.Role {
     }
 }
 
-protocol ToolbarAppearanceKey: HostPreferenceKey {
+protocol ToolbarAppearanceKey : HostPreferenceKey {
     static var toolbarPlacement: ToolbarPlacement.Role? {
         get
     }
@@ -204,7 +204,7 @@ protocol ToolbarAppearanceKey: HostPreferenceKey {
     typealias Value = [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]
 }
 
-struct BottomBarAppearanceKey: ToolbarAppearanceKey {
+struct BottomBarAppearanceKey : ToolbarAppearanceKey {
     static var toolbarPlacement: ToolbarPlacement.Role? {
         assertUnimplemented()
     }
@@ -230,7 +230,7 @@ struct BottomBarAppearanceKey: ToolbarAppearanceKey {
     }
 }
 
-struct BottomOrnamentAppearanceKey: ToolbarAppearanceKey {
+struct BottomOrnamentAppearanceKey : ToolbarAppearanceKey {
     static var toolbarPlacement: ToolbarPlacement.Role? {
         assertUnimplemented()
     }
@@ -256,7 +256,7 @@ struct BottomOrnamentAppearanceKey: ToolbarAppearanceKey {
     }
 }
 
-struct NavigationBarAppearanceKey: ToolbarAppearanceKey {
+struct NavigationBarAppearanceKey : ToolbarAppearanceKey {
     static var toolbarPlacement: ToolbarPlacement.Role? {
         assertUnimplemented()
     }
@@ -317,7 +317,7 @@ extension PreferenceValues {
         }
     }
     
-    fileprivate func configurationValue<Key: ToolbarAppearanceKey>(key: Key.Type, placement: ToolbarPlacement.Role?) -> PreferenceValues.Value<ToolbarAppearanceConfiguration> {
+    fileprivate func configurationValue<Key : ToolbarAppearanceKey>(key: Key.Type, placement: ToolbarPlacement.Role?) -> PreferenceValues.Value<ToolbarAppearanceConfiguration> {
         let value = self[key.self]
         // x23
         let configuration = placement!.effectiveConfiguration(value.value)

@@ -1,4 +1,4 @@
-public enum LayoutDirection: Hashable, CaseIterable, Sendable {
+public enum LayoutDirection : Hashable, CaseIterable, Sendable {
     case leftToRight
     case rightToLeft
 }
@@ -14,13 +14,13 @@ extension EnvironmentValues {
     }
 }
 
-struct LayoutDirectionKey: EnvironmentKey {
+struct LayoutDirectionKey : EnvironmentKey {
     static var defaultValue: LayoutDirection {
         return .leftToRight
     }
 }
 
-public enum LayoutDirectionBehavior: Hashable, Sendable {
+public enum LayoutDirectionBehavior : Hashable, Sendable {
     case fixed
     case mirrors(in: LayoutDirection)
 }

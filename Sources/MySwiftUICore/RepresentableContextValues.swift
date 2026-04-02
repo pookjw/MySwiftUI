@@ -1,7 +1,7 @@
 package import AttributeGraph
 
 package struct RepresentableContextValues {
-    package static nonisolated(unsafe) var current: RepresentableContextValues?
+    nonisolated(unsafe) package static var current: RepresentableContextValues?
     
     package var preferenceBridge: PreferenceBridge?
     package var transaction: Transaction

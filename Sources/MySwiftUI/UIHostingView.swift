@@ -22,18 +22,18 @@ fileprivate let mySwiftUI_disableUnimplementedAssertion: Bool = {
 }()
 
 
-@safe fileprivate nonisolated(unsafe) var effectiveGeometryObservationContext: Int = 0
+@safe nonisolated(unsafe) fileprivate var effectiveGeometryObservationContext: Int = 0
 
-open class _UIHostingView<Content: View>: UIView {
-    class var ignoresPresentations: Bool {
+open class _UIHostingView<Content : View>: UIView {
+    class var ignoresPresentations : Bool {
         return false
     }
     
-    class var createsUIInteractions: Bool {
+    class var createsUIInteractions : Bool {
         return true
     }
     
-    class var defaultViewGraphOutputs: ViewGraph.Outputs {
+    class var defaultViewGraphOutputs : ViewGraph.Outputs {
         return ViewGraph.Outputs.defaults
     }
     
@@ -72,7 +72,7 @@ open class _UIHostingView<Content: View>: UIView {
     }
     private(set) final var currentEvent: UIEvent? = nil
     private var eventBridge: UIKitEventBindingBridge
-    private nonisolated(unsafe) var dumpLayerNotificationTokens: (Int32, Int32)? = nil
+    nonisolated(unsafe) private var dumpLayerNotificationTokens: (Int32, Int32)? = nil
     private var colorAppearanceSeed: UInt32 = 0
     final var colorScheme: ColorScheme? = nil {
         didSet {
@@ -147,7 +147,7 @@ open class _UIHostingView<Content: View>: UIView {
     private var rootViewDelegate: RootViewDelegate? = nil
     final var focusedValues = FocusedValues()
     private var disallowAnimations: Bool = false
-    private weak nonisolated(unsafe) var windowGeometryScene: UIWindowScene? = nil
+    nonisolated(unsafe) private weak var windowGeometryScene: UIWindowScene? = nil
     private var invalidatesIntrinsicContentSizeOnIdealSizeChange: Bool = false
     private var appliesContainerBackgroundColor: Bool = false
     private var containerBackgroundColor: UIColor? = nil
@@ -1231,18 +1231,18 @@ open class _UIHostingView<Content: View>: UIView {
     }
 }
 
-protocol UIHostingViewDelegate: AnyObject {
-    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?)
-    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout EnvironmentValues)
-    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didUpdate values: EnvironmentValues)
-    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties)
-    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: PreferenceValues)
-    @MainActor func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList)
-    func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs)
+protocol UIHostingViewDelegate : AnyObject {
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout EnvironmentValues)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didUpdate values: EnvironmentValues)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: PreferenceValues)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList)
+    func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs)
 }
 
 extension _UIHostingView {
-    struct EnableVFDFeature: ViewGraphFeature {
+    struct EnableVFDFeature : ViewGraphFeature {
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
             assertUnimplemented()
         }
@@ -1274,7 +1274,7 @@ extension _UIHostingView {
 }
 
 extension _UIHostingView {
-    @MainActor fileprivate struct HostViewGraph<T: View>: @preconcurrency ViewGraphFeature {
+    @MainActor fileprivate struct HostViewGraph<T : View>: @preconcurrency ViewGraphFeature {
         private weak var host: _UIHostingView<T>?
         
         init(host: _UIHostingView<T>) {
@@ -1326,8 +1326,8 @@ extension _UIHostingView {
     }
 }
 
-extension _UIHostingView: @preconcurrency ViewRendererHost {
-    package nonisolated final var viewGraph: MySwiftUICore::ViewGraph {
+extension _UIHostingView : @preconcurrency ViewRendererHost {
+    nonisolated package final var viewGraph: MySwiftUICore::ViewGraph {
         return self._base.viewGraph.viewGraph
     }
     
@@ -1756,7 +1756,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
         base._requestUpdate(after: time)
     }
     
-    package nonisolated final func startUpdateTimer(delay: Double) {
+    nonisolated package final func startUpdateTimer(delay: Double) {
         assertUnimplemented()
     }
     
@@ -1886,7 +1886,7 @@ extension _UIHostingView: @preconcurrency ViewRendererHost {
     }
 }
 
-extension _UIHostingView: @preconcurrency UIHostingViewProvider {
+extension _UIHostingView : @preconcurrency UIHostingViewProvider {
     final var environmentOverride: EnvironmentValues? {
         get {
             return base.environmentOverride
@@ -1909,19 +1909,19 @@ extension _UIHostingView: @preconcurrency UIHostingViewProvider {
     }
 }
 
-extension _UIHostingView: @preconcurrency UICoreViewControllerProvider {
+extension _UIHostingView : @preconcurrency UICoreViewControllerProvider {
     final var coreUIViewController: UIViewController? {
         return viewController
     }
 }
 
-extension _UIHostingView: @preconcurrency HostingViewProtocol {
+extension _UIHostingView : @preconcurrency HostingViewProtocol {
     final func convertAnchor<T>(_ anchor: MySwiftUICore::Anchor<T>) -> T {
         assertUnimplemented()
     }
 }
 
-extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
+extension _UIHostingView : @preconcurrency UIHostingViewBaseDelegate {
     final func baseShouldDisableUIKitAnimationsWhenRendering(_ base: _UIKitShims::UIHostingViewBase) -> Bool {
         return shouldDisableUIKitAnimation
     }
@@ -1967,7 +1967,7 @@ extension _UIHostingView: @preconcurrency UIHostingViewBaseDelegate {
     }
 }
 
-extension _UIHostingView: @preconcurrency FocusHost {
+extension _UIHostingView : @preconcurrency FocusHost {
     var focustedItem: FocusItem? {
         return focusBridge.focusedItem
     }
@@ -1981,51 +1981,51 @@ extension _UIHostingView: @preconcurrency FocusHost {
     }
 }
 
-extension _UIHostingView: FocusBridgeProvider {
+extension _UIHostingView : FocusBridgeProvider {
     
 }
 
-extension _UIHostingView: PlatformItemListHost {
+extension _UIHostingView : PlatformItemListHost {
     func platformItemListDidChange(list: () -> PlatformItemList) {
         assertUnimplemented()
     }
 }
 
-extension _UIHostingView: AccessibilityHost {
+extension _UIHostingView : AccessibilityHost {
     
 }
 
-extension _UIHostingView: EventGraphHost {
+extension _UIHostingView : EventGraphHost {
     
 }
 
-extension _UIHostingView: PointerHost {
+extension _UIHostingView : PointerHost {
     
 }
 
-extension _UIHostingView: WindowLayoutHost {
+extension _UIHostingView : WindowLayoutHost {
     
 }
 
-extension _UIHostingView: CurrentEventProvider {
+extension _UIHostingView : CurrentEventProvider {
     
 }
 
-extension _UIHostingView: FallbackResponderProvider {
+extension _UIHostingView : FallbackResponderProvider {
     
 }
 
-extension _UIHostingView: ContainerBackgroundHost {
+extension _UIHostingView : ContainerBackgroundHost {
     
 }
 
-extension _UIHostingView: UIKitContainerFocusItem {
+extension _UIHostingView : UIKitContainerFocusItem {
     var host: UIView? {
         return self
     }
 }
 
-extension _UIHostingView: RootTransformAdjuster {
+extension _UIHostingView : RootTransformAdjuster {
     package func updateRootTransform(_ transform: inout ViewTransform) {
         if !base.registeredForGeometryChanges {
             base.registeredForGeometryChanges = true
@@ -2080,11 +2080,11 @@ extension _UIHostingView: RootTransformAdjuster {
     }
 }
 
-extension _UIHostingView: RootTransformUpdater {
+extension _UIHostingView : RootTransformUpdater {
     
 }
 
-extension _UIHostingView: @preconcurrency ViewGraphRenderObserver {
+extension _UIHostingView : @preconcurrency ViewGraphRenderObserver {
     package func didRender() {
         if let viewController {
             viewController.didRender()
@@ -2092,15 +2092,15 @@ extension _UIHostingView: @preconcurrency ViewGraphRenderObserver {
     }
 }
 
-extension _UIHostingView: ToolbarInputFeatureDelegate {
+extension _UIHostingView : ToolbarInputFeatureDelegate {
     
 }
 
-extension _UIHostingView: SensoryFeedbackCacheHost {
+extension _UIHostingView : SensoryFeedbackCacheHost {
     
 }
 
-extension _UIHostingView: @preconcurrency ViewGraphBridgePropertiesDelegate {
+extension _UIHostingView : @preconcurrency ViewGraphBridgePropertiesDelegate {
     func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
         /*
          self -> x20 -> x19
@@ -2136,5 +2136,5 @@ extension _UIHostingView: @preconcurrency ViewGraphBridgePropertiesDelegate {
 }
 
 extension Spacing {
-    @safe fileprivate static nonisolated(unsafe) var hasSetupDefaultValue = false
+    @safe nonisolated(unsafe) fileprivate static var hasSetupDefaultValue = false
 }

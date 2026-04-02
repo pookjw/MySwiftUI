@@ -16,11 +16,11 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct ImageAccessibilityProviderKey: GraphInput {
+    fileprivate struct ImageAccessibilityProviderKey : GraphInput {
         static let defaultValue: (any ImageAccessibilityProvider.Type) = EmptyImageAccessibilityProvider.self
     }
 }
 
-struct EmptyImageAccessibilityProvider: ImageAccessibilityProvider {
+struct EmptyImageAccessibilityProvider : ImageAccessibilityProvider {
     
 }

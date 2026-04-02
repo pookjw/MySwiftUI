@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-final class ColorBlackViewController: UIViewController {
+final class ColorBlackViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

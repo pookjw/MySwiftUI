@@ -2,7 +2,7 @@
 
 private import AttributeGraph
 
-package struct HostPreferencesKey: PreferenceKey {
+package struct HostPreferencesKey : PreferenceKey {
     package static var defaultValue: PreferenceValues {
         return PreferenceValues()
     }
@@ -17,10 +17,10 @@ package struct HostPreferencesKey: PreferenceKey {
         return id
     }
     
-    @safe fileprivate static nonisolated(unsafe) var nodeId: UInt32 = 0
+    @safe nonisolated(unsafe) fileprivate static var nodeId: UInt32 = 0
 }
 
-package struct PreferenceKeys: Equatable, RandomAccessCollection {
+package struct PreferenceKeys : Equatable, RandomAccessCollection {
     package static func == (lhs: PreferenceKeys, rhs: PreferenceKeys) -> Bool {
         let lhsKeys = lhs.keys
         let rhsKeys = rhs.keys
@@ -168,7 +168,7 @@ extension PreferenceKey {
         return false
     }
     
-    package static func visitKey<T: PreferenceKeyVisitor>(_ visitor: inout T) {
+    package static func visitKey<T : PreferenceKeyVisitor>(_ visitor: inout T) {
         visitor.visit(key: self)
     }
     
@@ -177,18 +177,18 @@ extension PreferenceKey {
     }
 }
 
-extension PreferenceKey where Value: ExpressibleByNilLiteral {
+extension PreferenceKey where Value : ExpressibleByNilLiteral {
     package static var defaultValue: Value {
         return nil
     }
 }
 
-package struct _PreferenceValue<Key: PreferenceKey> {
+package struct _PreferenceValue<Key : PreferenceKey> {
     private var attribute: WeakAttribute<Key.Value>
 }
 
 package protocol PreferenceKeyVisitor {
-    mutating func visit<Key: PreferenceKey>(key: Key.Type)
+    mutating func visit<Key : PreferenceKey>(key: Key.Type)
 }
 
 package struct PreferenceValues {
@@ -430,7 +430,7 @@ package struct PreferenceValues {
         return seed
     }
     
-    package subscript<T: PreferenceKey>(_ key: T.Type) -> Value<T.Value> {
+    package subscript<T : PreferenceKey>(_ key: T.Type) -> Value<T.Value> {
         get {
             if let value = index(of: key).map({ index -> Value<T.Value> in entries[index][] }) {
                 return value
@@ -519,7 +519,7 @@ package struct PreferenceValues {
         // <+976>
     }
     
-    fileprivate func index<T: PreferenceKey>(of key: T.Type) -> Int? {
+    fileprivate func index<T : PreferenceKey>(of key: T.Type) -> Int? {
         let index = _index(of: key.self)
         let count = entries.count
         if index == count {
@@ -593,7 +593,7 @@ extension PreferenceValues {
         }
         
         mutating func reduce(_ other: PreferenceValues.Entry) {
-            func reduce<T: PreferenceKey>(key: T.Type) {
+            func reduce<T : PreferenceKey>(key: T.Type) {
                 var value = value as! T.Value
                 T.reduce(value: &value) {
                     // $s7SwiftUI16PreferenceValuesV5Entry33_2D6196CBE9271629B89E259BFBFD6A9ALLV6reduceyyAFFAGL_3keyyxm_tAA0C3KeyRzlF5ValueQzyXEfU_

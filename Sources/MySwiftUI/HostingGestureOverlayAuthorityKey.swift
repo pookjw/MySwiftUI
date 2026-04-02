@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct HostingGestureOverlayAuthorityKey: HostPreferenceKey {
+struct HostingGestureOverlayAuthorityKey : HostPreferenceKey {
     static var defaultValue: Bool {
         return false
     }

@@ -1,4 +1,4 @@
 
-protocol PlatformItemListHost: AnyObject {
+protocol PlatformItemListHost : AnyObject {
     func platformItemListDidChange(list: () -> PlatformItemList)
 }

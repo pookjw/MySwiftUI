@@ -3,7 +3,7 @@
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-@frozen public struct Alignment3D: Equatable, Sendable {
+@frozen public struct Alignment3D : Equatable, Sendable {
     @usableFromInline internal var base: Alignment
     
     public var horizontal: HorizontalAlignment {

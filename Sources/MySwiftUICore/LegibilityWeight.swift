@@ -1,4 +1,4 @@
-public enum LegibilityWeight: Hashable, Sendable {
+public enum LegibilityWeight : Hashable, Sendable {
     case regular
     case bold
 }
@@ -14,7 +14,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct LegibilityWeightKey: EnvironmentKey {
+fileprivate struct LegibilityWeightKey : EnvironmentKey {
     static var defaultValue: LegibilityWeight? {
         return nil
     }

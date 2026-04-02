@@ -3,9 +3,9 @@ public import os.log
 public import Observation
 private import AttributeGraph
 
-@frozen @propertyWrapper public struct Environment<Value>: DynamicProperty {
+@frozen @propertyWrapper public struct Environment<Value> : DynamicProperty {
     @usableFromInline
-    @frozen internal enum Content: @unchecked Sendable {
+    @frozen internal enum Content : @unchecked Sendable {
         case keyPath(KeyPath<EnvironmentValues, Value>)
         case value(Value)
     }
@@ -90,10 +90,10 @@ private import AttributeGraph
     }
 }
 
-extension Environment: Sendable where Value: Sendable {
+extension Environment : Sendable where Value : Sendable {
 }
 
-fileprivate struct FullEnvironmentBox<Value>: DynamicPropertyBox {
+fileprivate struct FullEnvironmentBox<Value> : DynamicPropertyBox {
     @Attribute private(set) var environment: EnvironmentValues
     private(set) var keyPath: KeyPath<EnvironmentValues, Value>?
     private(set) var value: EnvironmentValues?
@@ -116,7 +116,7 @@ fileprivate struct FullEnvironmentBox<Value>: DynamicPropertyBox {
     }
 }
 
-fileprivate struct EnvironmentBox<Value>: DynamicPropertyBox {
+fileprivate struct EnvironmentBox<Value> : DynamicPropertyBox {
     @Attribute private(set) var environment: EnvironmentValues
     private(set) var keyPath: KeyPath<EnvironmentValues, Value>?
     private(set) var value: Value?

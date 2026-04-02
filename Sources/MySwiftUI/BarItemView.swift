@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct BarItemView: View {
+struct BarItemView : View {
     var body: some View {
         assertUnimplemented()
     }

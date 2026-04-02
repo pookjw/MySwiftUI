@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct HelpStyleModifier<Style>: StyleModifier {
+struct HelpStyleModifier<Style> : StyleModifier {
     var style: Style
     
     init(style: Style) {

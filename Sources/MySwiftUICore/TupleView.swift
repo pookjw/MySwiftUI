@@ -1,14 +1,14 @@
 // DE681AB5F1A334FA14ECABDE70CB1955
 private import AttributeGraph
 
-@frozen public struct TupleView<T>: View {
-    public nonisolated var value: T
+@frozen public struct TupleView<T> : View {
+    nonisolated public var value: T
     
-    @inlinable public nonisolated init(_ value: T) {
+    @inlinable nonisolated public init(_ value: T) {
         self.value = value
     }
     
-    public static nonisolated func _makeView(view: _GraphValue<TupleView<T>>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<TupleView<T>>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          return pointer -> x19
          view -> w21
@@ -37,7 +37,7 @@ private import AttributeGraph
         }
     }
     
-    public static nonisolated func _makeViewList(view: _GraphValue<TupleView<T>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<TupleView<T>>, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          view -> w23
          inputs -> x1
@@ -82,7 +82,7 @@ private import AttributeGraph
         return _ViewListOutputs.concat(makeList.outputs, inputs: copy_3)
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
     
@@ -96,17 +96,17 @@ extension TupleView : Sendable {
 }
 
 extension TupleView {
-    fileprivate struct MakeUnary: ViewTypeVisitor {
+    fileprivate struct MakeUnary : ViewTypeVisitor {
         private(set) var view: _GraphValue<TupleView<T>>
         private(set) var inputs: _ViewInputs
         private(set) var outputs: _ViewOutputs?
         
-        mutating func visit<Content: View>(type: Content.Type) {
+        mutating func visit<Content : View>(type: Content.Type) {
             assertUnimplemented()
         }
     }
     
-    fileprivate struct MakeList: ViewTypeVisitor {
+    fileprivate struct MakeList : ViewTypeVisitor {
         private(set) var view: _GraphValue<TupleView<T>> // 0x0
         private(set) var inputs: _ViewListInputs
         var index: Int // 0x90
@@ -115,7 +115,7 @@ extension TupleView {
         let includeOffsets: Bool // 0xa1
         private(set) var outputs: [_ViewListOutputs] // 0xa8
         
-        mutating func visit<Content: View>(type: Content.Type) {
+        mutating func visit<Content : View>(type: Content.Type) {
             // $s7SwiftUI12TupleContentVAARvzAA4ViewRzlE8MakeList33_99F7483FD5E72B0CC96AAE11DAE05002LLV5visit4typeyqd__m_tAaDRd__lF
             // self - > x19
             // sp + 0x98

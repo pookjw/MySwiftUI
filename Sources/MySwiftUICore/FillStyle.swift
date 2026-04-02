@@ -1,5 +1,5 @@
 
-@frozen public struct FillStyle: Equatable {
+@frozen public struct FillStyle : Equatable {
     public var isEOFilled: Bool
     public var isAntialiased: Bool
     

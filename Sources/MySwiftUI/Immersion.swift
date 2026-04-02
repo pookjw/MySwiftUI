@@ -2,7 +2,7 @@ internal import Observation
 internal import MySwiftUICore
 
 @Observable
-final class Immersion: Equatable {
+final class Immersion : Equatable {
     var amount: Double = 0
     
     init() {}
@@ -22,7 +22,7 @@ extension EnvironmentValues {
         }
     }
     
-    struct ImmersionKey: EnvironmentKey {
+    struct ImmersionKey : EnvironmentKey {
         static var defaultValue: Immersion? {
             return nil
         }

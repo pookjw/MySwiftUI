@@ -1,4 +1,4 @@
-@safe package struct TypeConformance<T: ProtocolDescriptor>: Sendable {
+@safe package struct TypeConformance<T : ProtocolDescriptor>: Sendable {
     @safe nonisolated(unsafe) let storage: (type: Any.Type, conformance: UnsafeRawPointer)
     
     init(storage: (type: Any.Type, conformance: UnsafeRawPointer)) {
@@ -23,7 +23,7 @@
 }
 
 extension TypeConformance where T == ViewDescriptor {
-    func visitType<Visitor: ViewTypeVisitor>(visitor: UnsafeMutablePointer<Visitor>) {
+    func visitType<Visitor : ViewTypeVisitor>(visitor: UnsafeMutablePointer<Visitor>) {
         unsafe visitor.pointee.visit(type: unsafeBitCast(storage, to: (any View.Type).self))
     }
 }

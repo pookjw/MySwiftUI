@@ -74,7 +74,7 @@ struct PreferenceKeysTests {
     }
 }
 
-fileprivate struct MyKey_1: PreferenceKey {
+fileprivate struct MyKey_1 : PreferenceKey {
     static var defaultValue: Bool {
         return true
     }
@@ -84,7 +84,7 @@ fileprivate struct MyKey_1: PreferenceKey {
     }
 }
 
-fileprivate struct MyKey_2: PreferenceKey {
+fileprivate struct MyKey_2 : PreferenceKey {
     static var defaultValue: Bool {
         return true
     }
@@ -94,7 +94,7 @@ fileprivate struct MyKey_2: PreferenceKey {
     }
 }
 
-fileprivate struct MyKey_3: PreferenceKey {
+fileprivate struct MyKey_3 : PreferenceKey {
     static var defaultValue: Bool {
         return true
     }

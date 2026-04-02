@@ -1,4 +1,4 @@
 
 protocol Serializable {}
 
-protocol CodableSerializable: Serializable {}
+protocol CodableSerializable : Serializable {}

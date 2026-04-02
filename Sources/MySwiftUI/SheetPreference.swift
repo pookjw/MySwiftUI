@@ -9,8 +9,8 @@ extension SheetPreference {
         
     }
     
-    struct InspectorKey: HostPreferenceKey {
-        @safe static nonisolated(unsafe) let defaultValue: SheetPreference.Value = {
+    struct InspectorKey : HostPreferenceKey {
+        @safe nonisolated(unsafe) static let defaultValue: SheetPreference.Value = {
             assertUnimplemented()
         }()
         
@@ -25,7 +25,7 @@ extension SheetPreference {
         case unspecified
     }
     
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static var defaultValue: SheetPreference.Value {
             return .unspecified
         }

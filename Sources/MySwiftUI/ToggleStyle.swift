@@ -3,7 +3,7 @@ public import MySwiftUICore
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 @preconcurrency @MainActor
 public protocol ToggleStyle {
-    associatedtype Body: View
+    associatedtype Body : View
     
     @ViewBuilder @MainActor @preconcurrency
     func makeBody(configuration: Self.Configuration) -> Self.Body
@@ -45,7 +45,7 @@ public struct ToggleStyleConfiguration {
 //
 //@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 //extension View {
-//    nonisolated public func toggleStyle<S>(_ style: S) -> some View where S: ToggleStyle {
+//    nonisolated public func toggleStyle<S>(_ style: S) -> some View where S : ToggleStyle {
 //        assertUnimplemented()
 //    }
 //}

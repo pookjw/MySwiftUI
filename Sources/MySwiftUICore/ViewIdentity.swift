@@ -3,7 +3,7 @@ package struct ViewIdentity {
     package static var invalid: ViewIdentity { ViewIdentity(seed: 0) }
     private let seed: UInt32
     
-    @safe private static nonisolated(unsafe) var nextSeed: UInt32 = 0
+    @safe nonisolated(unsafe) private static var nextSeed: UInt32 = 0
     
     init() {
         let seed = ViewIdentity.nextSeed
@@ -22,5 +22,5 @@ package struct ViewIdentity {
     }
 }
 
-extension ViewIdentity: Hashable {}
-extension ViewIdentity: BitwiseCopyable {}
+extension ViewIdentity : Hashable {}
+extension ViewIdentity : BitwiseCopyable {}

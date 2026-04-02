@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     @State private var flag = false
     
     var body: some View {
@@ -38,7 +38,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class StateViewController: UIViewController {
+final class StateViewController : UIViewController {
     override func loadView() {
         let rootView = MyView()
         view = _UIHostingView(rootView: rootView)

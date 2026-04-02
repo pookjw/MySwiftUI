@@ -4,7 +4,7 @@ internal import MRUIKit
 private import AttributeGraph
 internal import Foundation
 
-final class MRUIPreferenceImporter: NSObject, MRUIPreferenceHostConformer {
+final class MRUIPreferenceImporter : NSObject, MRUIPreferenceHostConformer {
     private weak var graph: ViewGraph? = nil // 0x8
     private let preferenceHost = MRUIPreferenceHost() // 0x10
     private var importedPreferences: [MRUIPreferenceImporter.PreferenceNode] = [] // 0x18
@@ -86,7 +86,7 @@ extension MRUIPreferenceImporter {
         private(set) var invalidationSignal: WeakAttribute<Void>
     }
     
-    fileprivate struct ImportVisitor: MRUIBridgedPreferenceKeyVisitor {
+    fileprivate struct ImportVisitor : MRUIBridgedPreferenceKeyVisitor {
         let host: MRUIPreferenceHost
         let inputs: _ViewInputs
         private(set) var outputs: _ViewOutputs
@@ -141,7 +141,7 @@ extension MRUIPreferenceImporter.PreferenceNode {
     }
 }
 
-fileprivate struct ImportedPreference<T: MRUIBridgedPreferenceKey>: StatefulRule {
+fileprivate struct ImportedPreference<T : MRUIBridgedPreferenceKey>: StatefulRule {
     private(set) weak var host: MRUIPreferenceHost?
     
     typealias Value = T.Value
@@ -158,7 +158,7 @@ fileprivate struct ImportedPreference<T: MRUIBridgedPreferenceKey>: StatefulRule
     }
 }
 
-fileprivate struct ImportedCustomPreferences: StatefulRule {
+fileprivate struct ImportedCustomPreferences : StatefulRule {
     private(set) weak var host: MRUIPreferenceHost?
     private(set) var excludedKeys: [AnyObject.Type]
     
@@ -175,8 +175,8 @@ fileprivate struct ImportedCustomPreferences: StatefulRule {
     }
 }
 
-struct MRUICustomPreferencesKey: HostPreferenceKey {
-    static nonisolated(unsafe) let defaultValue: [AnyHashable: Any] = [:]
+struct MRUICustomPreferencesKey : HostPreferenceKey {
+    nonisolated(unsafe) static let defaultValue: [AnyHashable: Any] = [:]
     
     static func reduce(value: inout [AnyHashable: Any], nextValue: () -> [AnyHashable: Any]) {
         // value -> x0 -> x19

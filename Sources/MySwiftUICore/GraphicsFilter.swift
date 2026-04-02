@@ -108,7 +108,7 @@ extension GraphicsFilter {
 }
 
 extension GraphicsFilter.VibrantColorMatrix {
-    struct Options: OptionSet {
+    struct Options : OptionSet {
         let rawValue: UInt8
     }
 }

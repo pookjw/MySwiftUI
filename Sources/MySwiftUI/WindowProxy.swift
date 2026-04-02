@@ -26,9 +26,9 @@ public struct WindowProxy {
 }
 
 @available(*, unavailable)
-extension WindowProxy: Sendable {}
+extension WindowProxy : Sendable {}
 
-extension WindowProxy: Hashable {}
+extension WindowProxy : Hashable {}
 
 extension EnvironmentValues {
     @inline(always)
@@ -41,7 +41,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct ActiveWindowsKey: EnvironmentKey {
-        @safe static nonisolated(unsafe) let defaultValue: [WindowProxy] = []
+    fileprivate struct ActiveWindowsKey : EnvironmentKey {
+        @safe nonisolated(unsafe) static let defaultValue: [WindowProxy] = []
     }
 }

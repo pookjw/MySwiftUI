@@ -1,4 +1,4 @@
-struct ImmersiveSpaceActivationBehavior: Equatable {
+struct ImmersiveSpaceActivationBehavior : Equatable {
     private var storage: ImmersiveSpaceActivationBehavior.Storage
     
     static var automatic: ImmersiveSpaceActivationBehavior {
@@ -11,7 +11,7 @@ struct ImmersiveSpaceActivationBehavior: Equatable {
 }
 
 extension ImmersiveSpaceActivationBehavior {
-    enum Storage: Hashable {
+    enum Storage : Hashable {
         case automatic
         case replacing
     }

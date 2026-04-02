@@ -10,7 +10,7 @@ struct LayoutTrace {
         assertUnimplemented()
     }
     
-    static nonisolated(unsafe) var recorder: LayoutTrace.Recorder? = nil
+    nonisolated(unsafe) static var recorder: LayoutTrace.Recorder? = nil
     
     static func traceSizeThatFits(_: AnyAttribute?, proposal: _ProposedSize, _: () -> CGSize) -> CGSize {
         assertUnimplemented()

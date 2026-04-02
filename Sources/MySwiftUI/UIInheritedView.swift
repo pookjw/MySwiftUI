@@ -1,7 +1,7 @@
 internal import UIKit
 internal import UIAccessibility
 
-final class _UIInheritedView: _UIGraphicsView {
+final class _UIInheritedView : _UIGraphicsView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }

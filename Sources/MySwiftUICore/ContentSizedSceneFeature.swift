@@ -19,7 +19,7 @@ extension ViewGraph {
     }
 }
 
-package struct ContentSizedSceneFeature<GeometryMeasurer: ViewGraphGeometryMeasurer>: ViewGraphFeature {
+package struct ContentSizedSceneFeature<GeometryMeasurer : ViewGraphGeometryMeasurer>: ViewGraphFeature {
     @Attribute private(set) var sizesForProposals: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]
     fileprivate let dispatcher: SizingPreferencesChangeDispatcher
     private var sizeRestrictionsCallback: ([GeometryMeasurer.Proposal: GeometryMeasurer.Size]) -> SizingPreferences
@@ -116,7 +116,7 @@ fileprivate final class SizingPreferencesChangeDispatcher {
     }
 }
 
-struct SizeThatFitsRule<GeometryMeasurer: ViewGraphGeometryMeasurer>: StatefulRule, AsyncAttribute {
+struct SizeThatFitsRule<GeometryMeasurer : ViewGraphGeometryMeasurer>: StatefulRule, AsyncAttribute {
     fileprivate var _layoutComputer: WeakAttribute<LayoutComputer> // 0x0
     private var _safeAreaInsets: WeakAttribute<_SafeAreaInsetsModifier> // 0x8
     @WeakAttribute fileprivate var layoutDirection: LayoutDirection? // 0x10

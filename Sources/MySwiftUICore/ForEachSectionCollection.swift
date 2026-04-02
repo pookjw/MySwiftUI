@@ -1,5 +1,5 @@
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-public struct ForEachSectionCollection<Content>: RandomAccessCollection where Content: View {
+public struct ForEachSectionCollection<Content> : RandomAccessCollection where Content : View {
     public var startIndex: Int {
         assertUnimplemented()
     }
@@ -25,18 +25,18 @@ public struct ForEachSectionCollection<Content>: RandomAccessCollection where Co
 }
 
 @available(*, unavailable)
-extension ForEachSectionCollection: Sendable {}
+extension ForEachSectionCollection : Sendable {}
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension ForEach {
-    public init<V>(sections view: V, @ViewBuilder content: @escaping (SectionConfiguration) -> Content) where Data == ForEachSectionCollection<Content>, ID == SectionConfiguration.ID, Content: View, V: View {
+    public init<V>(sections view: V, @ViewBuilder content: @escaping (SectionConfiguration) -> Content) where Data == ForEachSectionCollection<Content>, ID == SectionConfiguration.ID, Content : View, V : View {
         assertUnimplemented()
     }
 }
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension ForEach {
-    public init<V>(subviews view: V, @ViewBuilder content: @escaping (Subview) -> Content) where Data == ForEachSubviewCollection<Content>, ID == Subview.ID, Content: View, V: View {
+    public init<V>(subviews view: V, @ViewBuilder content: @escaping (Subview) -> Content) where Data == ForEachSubviewCollection<Content>, ID == Subview.ID, Content : View, V : View {
         assertUnimplemented()
     }
 }

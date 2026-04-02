@@ -2,7 +2,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
 @MainActor
-final class TooltipBridge: NSObject {
+final class TooltipBridge : NSObject {
     weak var host: ViewRendererHost? = nil
     var hasTooltipSeed: VersionSeed = .empty
     var tooltipInteraction: UIToolTipInteraction? = nil
@@ -28,7 +28,7 @@ final class TooltipBridge: NSObject {
     }
 }
 
-extension TooltipBridge: UIToolTipInteractionDelegate {
+extension TooltipBridge : UIToolTipInteractionDelegate {
     @objc(toolTipInteraction:configurationAtPoint:) func _toolTipInteraction(_ interaction: UIToolTipInteraction, configurationAt point: CGPoint) -> UIToolTipConfiguration? {
         assertUnimplemented()
     }

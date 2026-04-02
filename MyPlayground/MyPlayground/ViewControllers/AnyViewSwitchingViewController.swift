@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-final class AnyViewSwitchingViewController: UIViewController {
+final class AnyViewSwitchingViewController : UIViewController {
     private var task: Task<Void, Never>?
     
     private var hostingView: _UIHostingView<AnyView> {

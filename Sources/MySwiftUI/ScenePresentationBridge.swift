@@ -51,7 +51,7 @@ final class ScenePresentationBridge {
     }
 }
 
-struct PresentedSceneValueKey: HostPreferenceKey {
+struct PresentedSceneValueKey : HostPreferenceKey {
     typealias Value = AnyHashable?
     
     static func reduce(value: inout AnyHashable?, nextValue: () -> AnyHashable?) {

@@ -7,7 +7,7 @@ struct ViewTraitCollection {
         storage = []
     }
     
-    subscript<Key: _ViewTraitKey>(_ key: Key.Type) -> Key.Value {
+    subscript<Key : _ViewTraitKey>(_ key: Key.Type) -> Key.Value {
         get {
             return value(for: key)
         }
@@ -26,7 +26,7 @@ struct ViewTraitCollection {
         }
     }
     
-    func value<Key: _ViewTraitKey>(for key: Key.Type, defaultValue: Key.Value) -> Key.Value {
+    func value<Key : _ViewTraitKey>(for key: Key.Type, defaultValue: Key.Value) -> Key.Value {
         for trait in storage {
             if trait.keyType == key {
                 return trait[]
@@ -35,7 +35,7 @@ struct ViewTraitCollection {
         return defaultValue
     }
     
-    func value<Key: _ViewTraitKey>(for key: Key.Type) -> Key.Value {
+    func value<Key : _ViewTraitKey>(for key: Key.Type) -> Key.Value {
         return value(for: key, defaultValue: Key.defaultValue)
     }
 }
@@ -76,7 +76,7 @@ fileprivate protocol AnyViewTrait {
 }
 
 extension ViewTraitCollection {
-    fileprivate struct AnyTrait<T: _ViewTraitKey>: AnyViewTrait {
+    fileprivate struct AnyTrait<T : _ViewTraitKey>: AnyViewTrait {
         private var value: T.Value
         
         @inline(always)

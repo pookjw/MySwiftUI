@@ -2,8 +2,8 @@ package import Foundation
 public import CoreGraphics
 private import _MySwiftUIShims
 
-public struct Color: View, Hashable, CustomStringConvertible, Sendable {
-    public static nonisolated func == (lhs: Color, rhs: Color) -> Bool {
+public struct Color : View, Hashable, CustomStringConvertible, Sendable {
+    nonisolated public static func == (lhs: Color, rhs: Color) -> Bool {
         if ObjectIdentifier(lhs.provider) == ObjectIdentifier(rhs.provider) {
             return true
         }
@@ -12,15 +12,15 @@ public struct Color: View, Hashable, CustomStringConvertible, Sendable {
     
     package var provider: AnyColorBox
     
-    package nonisolated init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
+    nonisolated package init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
         self.provider = ColorBox(UIKitPlatformColorProvider(platformColor: _platformColor))
     }
     
-    package nonisolated init(box: AnyColorBox) {
+    nonisolated package init(box: AnyColorBox) {
         self.provider = box
     }
     
-    package nonisolated init(_ resolved: Color.ResolvedHDR) {
+    nonisolated package init(_ resolved: Color.ResolvedHDR) {
         self.provider = ColorBox(ResolvedColorProvider(color: resolved))
     }
     
@@ -28,26 +28,26 @@ public struct Color: View, Hashable, CustomStringConvertible, Sendable {
         assertUnimplemented()
     }
     
-    public nonisolated var description: String {
+    nonisolated public var description: String {
         assertUnimplemented()
     }
     
-    public nonisolated func hash(into hasher: inout Hasher) {
+    nonisolated public func hash(into hasher: inout Hasher) {
         provider.hash(into: &hasher)
     }
 }
 
-extension Color: ShapeStyle {
-    public nonisolated func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+extension Color : ShapeStyle {
+    nonisolated public func resolve(in environment: EnvironmentValues) -> Color.Resolved {
         return provider.resolve(in: environment)
     }
     
-    @_alwaysEmitIntoClient public static nonisolated func _makeView<S>(view: _GraphValue<_ShapeView<S, Color>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
+    @_alwaysEmitIntoClient nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Color>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
         _ShapeView<S, Self>._makeView(view: view, inputs: inputs)
     }
 }
 
-extension Color: EnvironmentalView {
+extension Color : EnvironmentalView {
     func body(environment: EnvironmentValues) -> ColorView {
         let resolvedHDR = provider.resolveHDR(in: environment)
         let dynamicRange: Image.DynamicRange
@@ -61,11 +61,11 @@ extension Color: EnvironmentalView {
     }
 }
 
-extension Color: Paint {
+extension Color : Paint {
     typealias ResolvedPaintType = Never // TODO
 }
 
-extension Color: Serializable {}
+extension Color : Serializable {}
 
 @usableFromInline
 package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
@@ -82,7 +82,7 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     }
 }
 
-final class ColorBox<T: ColorProvider>: AnyColorBox, @unchecked Sendable {
+final class ColorBox<T : ColorProvider>: AnyColorBox, @unchecked Sendable {
     private let base: T
     
     init(_ base: T) {
@@ -98,7 +98,7 @@ final class ColorBox<T: ColorProvider>: AnyColorBox, @unchecked Sendable {
     }
 }
 
-struct ResolvedColorProvider: Hashable, ColorProvider {
+struct ResolvedColorProvider : Hashable, ColorProvider {
     private var color: Color.ResolvedHDR
     
     init(color: Color.ResolvedHDR) {
@@ -138,7 +138,7 @@ struct ResolvedColorProvider: Hashable, ColorProvider {
     }
 }
 
-protocol ColorProvider: Serializable {
+protocol ColorProvider : Serializable {
     var tag: Color.ProviderTag { get }
     func resolve(in environment: EnvironmentValues) -> Color.Resolved
     func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR
@@ -149,7 +149,7 @@ protocol ColorProvider: Serializable {
     func opacity(at: Int, environment: EnvironmentValues) -> Float
 }
 
-protocol PlatformColorProvider: ColorProvider {}
+protocol PlatformColorProvider : ColorProvider {}
 
 extension Color {
     enum ProviderTag {
@@ -194,8 +194,8 @@ extension Color.ProviderTag {
 }
 
 extension Color {
-    public struct Resolved: Hashable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
-        @safe static nonisolated(unsafe) var legacyInterpolation = !isLinkedOnOrAfter(.v6)
+    public struct Resolved : Hashable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
+        @safe nonisolated(unsafe) static var legacyInterpolation = !isLinkedOnOrAfter(.v6)
         
         public var linearRed: Float
         public var linearGreen: Float
@@ -406,10 +406,10 @@ extension Color {
     }
 }
 
-extension Color.Resolved: BitwiseCopyable {}
+extension Color.Resolved : BitwiseCopyable {}
 
 extension Color {
-    @frozen public struct ResolvedHDR: Hashable, Sendable {
+    @frozen public struct ResolvedHDR : Hashable, Sendable {
         @usableFromInline package var base: Color.Resolved
         @usableFromInline var _headroom: Float
         
@@ -517,79 +517,79 @@ extension Color {
     }
 }
 
-extension Color.ResolvedHDR: BitwiseCopyable, ShapeStyle {}
+extension Color.ResolvedHDR : BitwiseCopyable, ShapeStyle {}
 
 extension Color {
-    public static nonisolated let red: Color = {
+    nonisolated public static let red: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let orange: Color = {
+    nonisolated public static let orange: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let yellow: Color = {
+    nonisolated public static let yellow: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let green: Color = {
+    nonisolated public static let green: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let mint: Color = {
+    nonisolated public static let mint: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let teal: Color = {
+    nonisolated public static let teal: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let cyan: Color = {
+    nonisolated public static let cyan: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let blue = Color(box: ColorBox(SystemColorType.blue))
+    nonisolated public static let blue = Color(box: ColorBox(SystemColorType.blue))
     
-    public static nonisolated let indigo: Color = {
+    nonisolated public static let indigo: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let purple: Color = {
+    nonisolated public static let purple: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let pink: Color = {
+    nonisolated public static let pink: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let brown: Color = {
+    nonisolated public static let brown: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let white = Color(.white)
+    nonisolated public static let white = Color(.white)
     
-    public static nonisolated let gray: Color = {
+    nonisolated public static let gray: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let black = Color(.black)
+    nonisolated public static let black = Color(.black)
     
-    public static nonisolated let clear = Color(.clear)
+    nonisolated public static let clear = Color(.clear)
     
-    public static nonisolated let primary: Color = {
+    nonisolated public static let primary: Color = {
         assertUnimplemented()
     }()
     
-    public static nonisolated let secondary: Color = {
+    nonisolated public static let secondary: Color = {
         assertUnimplemented()
     }()
     
-    package static nonisolated let _background: Color = {
+    nonisolated package static let _background: Color = {
         assertUnimplemented()
     }()
 }
 
-enum SystemColorType: CodableSerializable, Hashable, ColorProvider, Codable {
+enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     case red
     case orange
     case yellow
@@ -650,7 +650,7 @@ enum SystemColorType: CodableSerializable, Hashable, ColorProvider, Codable {
     
 }
 
-struct UIKitPlatformColorProvider: PlatformColorProvider, Hashable, Serializable {
+struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializable {
     static let safeDefinition: PlatformColorDefinition.Type? = {
        // $s7SwiftUI26UIKitPlatformColorProviderV14safeDefinition_WZ
         if let uiKitInternal = PlatformColorDefinition.uiKitInternal {
@@ -794,16 +794,16 @@ extension ShapeStyle where Self == Color {
     }
 }
 
-struct ColorView: ResolvedPaint, RendererLeafView {
+struct ColorView : ResolvedPaint, RendererLeafView {
     private(set) var color: Color.ResolvedHDR
     private(set) var isAntialiased: Bool
-    @safe private(set) nonisolated(unsafe) var allowedDynamicRange: Image.DynamicRange
+    @safe nonisolated(unsafe) private(set) var allowedDynamicRange: Image.DynamicRange
     
-    static nonisolated func == (lhs: ColorView, rhs: ColorView) -> Bool {
+    nonisolated static func == (lhs: ColorView, rhs: ColorView) -> Bool {
         assertUnimplemented()
     }
     
-    static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          $s7SwiftUI9ColorViewV05_makeD04view6inputsAA01_D7OutputsVAA11_GraphValueVyACG_AA01_D6InputsVtFZ
          inlined
@@ -849,7 +849,7 @@ extension EnvironmentValues {
 }
 
 extension Color {
-    public enum RGBColorSpace: Sendable, Hashable {
+    public enum RGBColorSpace : Sendable, Hashable {
         case sRGB
         case sRGBLinear
         case displayP3
@@ -989,7 +989,7 @@ extension Color.ResolvedHDR {
         self._headroom = .nan
     }
     
-    struct _Animatable: VectorArithmetic, Equatable {
+    struct _Animatable : VectorArithmetic, Equatable {
         static func += (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
             assertUnimplemented()
         }

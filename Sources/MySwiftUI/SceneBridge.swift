@@ -8,7 +8,7 @@ private import os.log
 private import BaseBoard
 
 @MainActor
-final class SceneBridge: CustomStringConvertible, ObservableObject {
+final class SceneBridge : CustomStringConvertible, ObservableObject {
     fileprivate static var _devNullSceneBridge: SceneBridge?
     
     static func merge(predicate: Predicate<String>?, with other: Predicate<String>?) -> Predicate<String>? {
@@ -493,8 +493,8 @@ final class SceneBridge: CustomStringConvertible, ObservableObject {
     }
 }
 
-struct ConnectionOptionPayloadStoragePreferenceKey: HostPreferenceKey {
-    @safe static nonisolated(unsafe) let defaultValue = ConnectionOptionPayloadStorage()
+struct ConnectionOptionPayloadStoragePreferenceKey : HostPreferenceKey {
+    @safe nonisolated(unsafe) static let defaultValue = ConnectionOptionPayloadStorage()
     
     static func reduce(value: inout ConnectionOptionPayloadStorage, nextValue: () -> ConnectionOptionPayloadStorage) {
         assertUnimplemented()
@@ -506,7 +506,7 @@ struct ConnectionOptionPayloadStorage {
     private var actions: [ObjectIdentifier: [AnyConnectionOptionActionBox]] = .init()
 }
 
-final class UserActivityTrackingInfo: NSObject, NSUserActivityDelegate {
+final class UserActivityTrackingInfo : NSObject, NSUserActivityDelegate {
     fileprivate var userActivity: NSUserActivity? = nil
     fileprivate var handlers: [ViewIdentity: (NSUserActivity) -> Bool] = .init()
     private weak var sceneBridge: SceneBridge? = nil
@@ -540,7 +540,7 @@ class AnyConnectionOptionActionBox {
 }
 
 extension SceneBridge {
-    struct UserActivityPreferenceKey: HostPreferenceKey {
+    struct UserActivityPreferenceKey : HostPreferenceKey {
         static var defaultValue: (activityType: String, handlers: [ViewIdentity: (NSUserActivity) -> Bool])? {
             return nil
         }
@@ -553,7 +553,7 @@ extension SceneBridge {
         }
     }
     
-    struct ActivationConditionsPreferenceKey: HostPreferenceKey {
+    struct ActivationConditionsPreferenceKey : HostPreferenceKey {
         static var defaultValue: (preferring: Predicate<String>?, allowing: Predicate<String>?) {
             return (nil, nil)
         }

@@ -97,14 +97,14 @@ struct PropertyListTests {
     }
 }
 
-fileprivate struct MyPropertyKey_1: PropertyKey {
+fileprivate struct MyPropertyKey_1 : PropertyKey {
     static let defaultValue: Int = 1
 }
 
-fileprivate struct MyPropertyKey_2: PropertyKey {
+fileprivate struct MyPropertyKey_2 : PropertyKey {
     static let defaultValue: Int = 2
 }
 
-fileprivate struct MyPropertyKey_3: PropertyKey {
+fileprivate struct MyPropertyKey_3 : PropertyKey {
     static let defaultValue: Int = 3
 }

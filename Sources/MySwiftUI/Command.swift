@@ -1,8 +1,8 @@
 // 8CA450E42E2AFC68A9A1CEB51C79EBE5
 internal import MySwiftUICore
 
-struct CommandFlag: Hashable, Sendable {
-    fileprivate static nonisolated(unsafe) var nextID = 0
+struct CommandFlag : Hashable, Sendable {
+    nonisolated(unsafe) fileprivate static var nextID = 0
     
     @_transparent fileprivate static func getID() -> Int {
         let id = unsafe nextID
@@ -19,7 +19,7 @@ struct CommandFlag: Hashable, Sendable {
     private let id: Int
 }
 
-struct CommandsList: Hashable {
+struct CommandsList : Hashable {
     static func == (lhs: CommandsList, rhs: CommandsList) -> Bool {
         assertUnimplemented()
     }
@@ -50,7 +50,7 @@ struct CommandsList: Hashable {
 }
 
 extension CommandsList {
-    struct Key: PreferenceKey {
+    struct Key : PreferenceKey {
         static var defaultValue: CommandsList {
             return CommandsList()
         }
@@ -73,7 +73,7 @@ extension CommandsList.Item {
     }
 }
 
-struct CommandsKey: HostPreferenceKey {
+struct CommandsKey : HostPreferenceKey {
     static var defaultValue: Never {
         assertUnimplemented()
     }

@@ -49,12 +49,12 @@ extension Subgraph {
     }
 }
 
-fileprivate struct RemovableAttributeDescriptor: ProtocolDescriptor {
+fileprivate struct RemovableAttributeDescriptor : ProtocolDescriptor {
     static var descriptor: UnsafeRawPointer {
         return unsafe _removableAttributeProtocolDescriptor()
     }
     
-    private static nonisolated(unsafe) var typeCache: [ObjectIdentifier: TypeConformance<RemovableAttributeDescriptor>] = [:]
+    nonisolated(unsafe) private static var typeCache: [ObjectIdentifier: TypeConformance<RemovableAttributeDescriptor>] = [:]
     
     static func cachedConformance(of type: Any.Type) -> TypeConformance<RemovableAttributeDescriptor>? {
         Update.assertIsLocked()
@@ -70,12 +70,12 @@ fileprivate struct RemovableAttributeDescriptor: ProtocolDescriptor {
     }
 }
 
-fileprivate struct InvalidatableAttributeDescriptor: ProtocolDescriptor {
+fileprivate struct InvalidatableAttributeDescriptor : ProtocolDescriptor {
     static var descriptor: UnsafeRawPointer {
         return unsafe _invalidatableAttributeProtocolDescriptor()
     }
     
-    private static nonisolated(unsafe) var typeCache: [ObjectIdentifier: TypeConformance<InvalidatableAttributeDescriptor>] = [:]
+    nonisolated(unsafe) private static var typeCache: [ObjectIdentifier: TypeConformance<InvalidatableAttributeDescriptor>] = [:]
     
     static func cachedConformance(of type: Any.Type) -> TypeConformance<InvalidatableAttributeDescriptor>? {
         Update.assertIsLocked()

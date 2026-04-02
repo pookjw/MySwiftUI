@@ -43,11 +43,11 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct CorePlatfromProvidersDefinitionKey: GraphInput, EnvironmentKey {
+fileprivate struct CorePlatfromProvidersDefinitionKey : GraphInput, EnvironmentKey {
     static let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
 }
 
-fileprivate struct PlatformSystemKey: GraphInput {
+fileprivate struct PlatformSystemKey : GraphInput {
     static var defaultValue: CoreSystem {
         return .uiKit
     }

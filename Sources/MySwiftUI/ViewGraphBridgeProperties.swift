@@ -2,7 +2,7 @@
 internal import MySwiftUICore
 internal import AttributeGraph
 
-struct ViewGraphBridgeProperties: Equatable {
+struct ViewGraphBridgeProperties : Equatable {
     fileprivate static var defaultRequestedBars: Set<ToolbarPlacement.Role> {
         var result = Set<ToolbarPlacement.Role>([.navigationBar])
         result.insert(.bottomOrnament)
@@ -14,7 +14,7 @@ struct ViewGraphBridgeProperties: Equatable {
         return result
     }
     
-    @safe static nonisolated(unsafe) let defaultValue = ViewGraphBridgeProperties(suppliedBridges: [], managedBridges: [], requestedBars: [], managedBars: ViewGraphBridgeProperties.defaultRequestedBars)
+    @safe nonisolated(unsafe) static let defaultValue = ViewGraphBridgeProperties(suppliedBridges: [], managedBridges: [], requestedBars: [], managedBars: ViewGraphBridgeProperties.defaultRequestedBars)
     
     var suppliedBridges: HostingControllerBridges
     private(set) var managedBridges: HostingControllerBridges
@@ -22,7 +22,7 @@ struct ViewGraphBridgeProperties: Equatable {
     private(set) var managedBars: Set<ToolbarPlacement.Role>
 }
 
-struct HostingControllerBridges: OptionSet {
+struct HostingControllerBridges : OptionSet {
     let rawValue: Int
     
     static let unknown0 = HostingControllerBridges(rawValue: 1 << 0)
@@ -44,7 +44,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct BridgePropertiesEnvironmentKey: EnvironmentKey {
+fileprivate struct BridgePropertiesEnvironmentKey : EnvironmentKey {
     static var defaultValue: ViewGraphBridgeProperties {
         return ViewGraphBridgeProperties(suppliedBridges: [], managedBridges: [], requestedBars: [], managedBars: ViewGraphBridgeProperties.defaultRequestedBars)
     }
@@ -61,7 +61,7 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct ViewGraphBridgePropertiesKey: ViewInput {
+    fileprivate struct ViewGraphBridgePropertiesKey : ViewInput {
         static let defaultValue = WeakAttribute<ViewGraphBridgeProperties>()
     }
 }

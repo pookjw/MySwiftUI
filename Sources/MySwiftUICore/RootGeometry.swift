@@ -1,7 +1,7 @@
 internal import AttributeGraph
 internal import CoreGraphics
 
-struct RootGeometry: Rule, AsyncAttribute {
+struct RootGeometry : Rule, AsyncAttribute {
     @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute private var proposedSize: ViewSize
     @OptionalAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?

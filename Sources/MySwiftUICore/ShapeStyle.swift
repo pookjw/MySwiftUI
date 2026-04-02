@@ -1,5 +1,5 @@
 
-public protocol ShapeStyle: Sendable {
+public protocol ShapeStyle : Sendable {
     @available(*, deprecated, message: "obsolete")
     static func _makeView<S>(view: _GraphValue<_ShapeView<S, Self>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape
     
@@ -17,7 +17,7 @@ public protocol ShapeStyle: Sendable {
 }
 
 extension ShapeStyle {
-    public static nonisolated func _makeView<S>(view: _GraphValue<_ShapeView<S, Self>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
+    nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Self>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
         assertUnimplemented()
     }
     
@@ -40,10 +40,10 @@ extension ShapeStyle where Self.Resolved == Never {
     }
 }
 
-extension Never: ShapeStyle {
+extension Never : ShapeStyle {
     public typealias Resolved = Never
     
-    public static nonisolated func _makeView<S>(view: _GraphValue<_ShapeView<S, Never>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
+    nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Never>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
         assertUnimplemented()
     }
 }
@@ -57,4 +57,4 @@ public struct _ShapeStyle_ShapeType {
 }
 
 @available(*, unavailable)
-extension _ShapeStyle_ShapeType: Sendable {}
+extension _ShapeStyle_ShapeType : Sendable {}

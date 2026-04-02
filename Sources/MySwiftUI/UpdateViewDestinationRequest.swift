@@ -6,8 +6,8 @@ struct UpdateViewDestinationRequest {
 }
 
 extension UpdateViewDestinationRequest {
-    struct UpdateViewDestinationRequestKey: HostPreferenceKey {
-        static nonisolated(unsafe) let defaultValue: [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest] = [:]
+    struct UpdateViewDestinationRequestKey : HostPreferenceKey {
+        nonisolated(unsafe) static let defaultValue: [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest] = [:]
         
         static func reduce(value: inout [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest], nextValue: () -> [NavigationLinkSelectionIdentifier: UpdateViewDestinationRequest]) {
             assertUnimplemented()
@@ -23,7 +23,7 @@ extension UpdateViewDestinationRequest {
     }
 }
 
-struct NavigationLinkSelectionIdentifier: Hashable {
+struct NavigationLinkSelectionIdentifier : Hashable {
     static func == (lhs: NavigationLinkSelectionIdentifier, rhs: NavigationLinkSelectionIdentifier) -> Bool {
         assertUnimplemented()
     }

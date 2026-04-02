@@ -14,9 +14,9 @@ import AttributeGraph
 // expr -l objc -O -- [(Class)NSClassFromString(@"Helper") dumpWithAttribute:$w25 resolveValue:NO]
 
 @objc(Helper)
-final class Helper: NSObject {
+final class Helper : NSObject {
     @objc(dumpWithObject:)
-    class func dump(object: AnyObject) {
+    class func dump(object : AnyObject) {
         _forEachField(of: type(of: object), options: [.classType]) { name, offset, type, kind in
             print(String(format: "%s (%@) (0x%lx)", name, _typeName(type, qualified: true), offset))
             return true
@@ -24,7 +24,7 @@ final class Helper: NSObject {
     }
     
     @objc(dumpWithAttribute:resolveValue:)
-    class func dump(attribute: AnyAttribute, resolveValue: Bool) {
+    class func dump(attribute : AnyAttribute, resolveValue: Bool) {
         print(attribute.valueType)
         print(attribute._bodyType)
         

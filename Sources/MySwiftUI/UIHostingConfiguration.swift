@@ -1,4 +1,4 @@
 internal import MySwiftUICore
 
-struct IsInHostingConfiguration: ViewInputBoolFlag {
+struct IsInHostingConfiguration : ViewInputBoolFlag {
 }

@@ -56,7 +56,7 @@ struct FocusViewGraph {
     }
 }
 
-extension FocusViewGraph: @preconcurrency ViewGraphFeature {
+extension FocusViewGraph : @preconcurrency ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         inputs.base[FocusedItemInputKey.self] = _focusedItem
         inputs.base[FocusedValuesInputKey.self] = _focusedValues
@@ -120,7 +120,7 @@ extension FocusViewGraph: @preconcurrency ViewGraphFeature {
 }
 
 extension FocusViewGraph {
-    fileprivate struct IsFocusSystemEnabledMutation: GraphMutation {
+    fileprivate struct IsFocusSystemEnabledMutation : GraphMutation {
         var attr = WeakAttribute<Bool>()
         var value: Bool
         
@@ -138,19 +138,19 @@ extension FocusViewGraph {
     }
 }
 
-fileprivate struct FocusedItemInputKey: ViewInput {
+fileprivate struct FocusedItemInputKey : ViewInput {
     static var defaultValue: OptionalAttribute<FocusItem?> {
         return OptionalAttribute()
     }
 }
 
-struct FocusedValuesInputKey: ViewInput {
+struct FocusedValuesInputKey : ViewInput {
     static var defaultValue: OptionalAttribute<FocusedValues> {
         return OptionalAttribute()
     }
 }
 
-struct FocusStoreInputKey: ViewInput {
+struct FocusStoreInputKey : ViewInput {
     static var defaultValue: OptionalAttribute<FocusStore> {
         return OptionalAttribute()
     }

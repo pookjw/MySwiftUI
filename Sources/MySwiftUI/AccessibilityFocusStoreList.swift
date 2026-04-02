@@ -13,7 +13,7 @@ extension AccessibilityFocusStoreList {
         // TODO
     }
     
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static var defaultValue: AccessibilityFocusStoreList {
             return AccessibilityFocusStoreList()
         }

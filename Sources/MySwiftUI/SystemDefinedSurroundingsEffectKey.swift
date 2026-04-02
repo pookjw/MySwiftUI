@@ -2,7 +2,7 @@ internal import MySwiftUICore
 internal import MRUIKit
 internal import Foundation
 
-struct SystemDefinedSurroundingsEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
+struct SystemDefinedSurroundingsEffectKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: SystemDefinedSurroundingsEffectKey.PreferredValue? {
         return nil
     }
@@ -57,7 +57,7 @@ struct SystemDefinedSurroundingsEffectKey: MRUIBridgedPreferenceKey, HostPrefere
 }
 
 extension SystemDefinedSurroundingsEffectKey {
-    struct PreferredValue: Equatable {
+    struct PreferredValue : Equatable {
         fileprivate private(set) var level: SurroundingsEffectKind.Resolved
         fileprivate private(set) var animation: Animation?
     }

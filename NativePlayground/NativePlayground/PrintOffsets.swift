@@ -188,13 +188,13 @@ func printOffsets() {
 //    debugTextResolveExample()
 }
 
-fileprivate struct GeometryMeasurer: ViewGraphGeometryMeasurer {
+fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {
     typealias Proposal = CGPoint
     typealias Size = CGSize
 }
 
 // Text.resolve example
-private struct _DebugResolvedTextContainer: ResolvedTextContainer {
+private struct _DebugResolvedTextContainer : ResolvedTextContainer {
     var style: Text.Style {
         get { Text.Resolved().style }
         set {}
@@ -229,7 +229,7 @@ func debugTextResolveExample() {
     Text("Hello Text.resolve").resolve(into: &container, in: .init(), with: [])
 }
 
-fileprivate struct DKey: DerivedEnvironmentKey {
+fileprivate struct DKey : DerivedEnvironmentKey {
     static func value(in environment: EnvironmentValues) -> Int {
         fatalError()
     }

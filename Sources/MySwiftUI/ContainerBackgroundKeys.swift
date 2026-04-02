@@ -9,7 +9,7 @@ extension ContainerBackgroundKeys {
         case automatic
     }
     
-    struct HostTransparency: HostPreferenceKey {
+    struct HostTransparency : HostPreferenceKey {
         static var defaultValue: Transparency {
             return .automatic
         }
@@ -32,7 +32,7 @@ extension EnvironmentValues {
 }
 
 extension ContainerBackgroundKeys {
-    fileprivate struct TransparentPresentation: EnvironmentKey {
+    fileprivate struct TransparentPresentation : EnvironmentKey {
         static var defaultValue: Bool {
             return false
         }

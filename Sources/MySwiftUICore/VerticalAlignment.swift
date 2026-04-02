@@ -1,7 +1,7 @@
 // 1135C055CD2C2B1265C25B13E3E74C01
 public import CoreGraphics
 
-@frozen public struct VerticalAlignment: Equatable {
+@frozen public struct VerticalAlignment : Equatable {
     public init(_ id: any AlignmentID.Type) {
         key = AlignmentKey(id: id, axis: .vertical)
     }
@@ -33,11 +33,11 @@ extension VerticalAlignment {
     public static let lastTextBaseline = VerticalAlignment(VerticalAlignment.LastTextBaseline.self)
 }
 
-extension VerticalAlignment: Sendable {}
-extension VerticalAlignment: BitwiseCopyable {}
+extension VerticalAlignment : Sendable {}
+extension VerticalAlignment : BitwiseCopyable {}
 
 extension VerticalAlignment {
-    fileprivate enum FirstTextBaseline: AlignmentID {
+    fileprivate enum FirstTextBaseline : AlignmentID {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             return context.height
         }
@@ -47,7 +47,7 @@ extension VerticalAlignment {
         }
     }
     
-    fileprivate enum LastTextBaseline: AlignmentID {
+    fileprivate enum LastTextBaseline : AlignmentID {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             return context.height
         }

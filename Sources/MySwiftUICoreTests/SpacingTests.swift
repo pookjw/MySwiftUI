@@ -78,7 +78,7 @@ fileprivate struct SpacingTests {
 }
 
 extension SpacingTests {
-    fileprivate struct Test_distanceToSuccessorView: Sendable {
+    fileprivate struct Test_distanceToSuccessorView : Sendable {
         let selfSpacing: _SwiftUICorePrivate::Spacing
         let axis: SwiftUI::Axis
         let layoutDirection: SwiftUI::LayoutDirection

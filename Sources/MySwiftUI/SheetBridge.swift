@@ -1,7 +1,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
-@MainActor class SheetBridge<T>: NSObject {
+@MainActor class SheetBridge<T> : NSObject {
     weak var host: ViewRendererHost? = nil
     private var seed: VersionSeed = .empty
     private var presentationOptionsTracker = VersionSeedTracker<PresentationOptionsPreferenceKey>(seed: .empty)
@@ -170,7 +170,7 @@ internal import UIKit
     }
 }
 
-extension SheetBridge: UIHostingViewDelegate {
+extension SheetBridge : UIHostingViewDelegate {
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore::View {
         assertUnimplemented()
     }

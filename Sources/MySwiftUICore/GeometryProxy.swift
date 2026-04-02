@@ -93,5 +93,5 @@ extension GeometryProxy {
 }
 
 @available(*, unavailable)
-extension GeometryProxy: Sendable {
+extension GeometryProxy : Sendable {
 }

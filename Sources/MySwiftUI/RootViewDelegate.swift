@@ -7,7 +7,7 @@ private import AttributeGraph
     private var colorSchemeSeed = VersionSeedTracker<PreferredColorSchemeKey>(seed: .invalid)
     weak var nextDelegate: UIHostingViewDelegate? = nil
     
-    func updateAppFocus<Content: View>(view: _UIHostingView<Content>) {
+    func updateAppFocus<Content : View>(view: _UIHostingView<Content>) {
         // view -> x20 -> x29 - >0x98
         // <+680>
         // w20
@@ -152,7 +152,7 @@ private import AttributeGraph
     }
 }
 
-extension RootViewDelegate: UIHostingViewDelegate {
+extension RootViewDelegate : UIHostingViewDelegate {
     @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore::View {
         let viewGraph = hostingView.viewGraph
         if window != nil {

@@ -1,4 +1,4 @@
 
-public struct SymbolVariants: Hashable, Sendable {
+public struct SymbolVariants : Hashable, Sendable {
     
 }

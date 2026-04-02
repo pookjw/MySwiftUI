@@ -2,7 +2,7 @@
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 public protocol CustomHoverEffect {
-    associatedtype Body: CustomHoverEffect
+    associatedtype Body : CustomHoverEffect
     typealias Content = EmptyHoverEffect
     func body(content: Self.Content) -> Self.Body
     static func _makeCustomHoverEffect(effect: _GraphValue<Self>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs
@@ -20,7 +20,7 @@ extension CustomHoverEffect {
     }
 }
 
-public struct EmptyHoverEffect: CustomHoverEffect {
+public struct EmptyHoverEffect : CustomHoverEffect {
     public static func _makeCustomHoverEffect(effect: _GraphValue<EmptyHoverEffect>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs {
         assertUnimplemented()
     }
@@ -35,22 +35,22 @@ extension CustomHoverEffect where Self == EmptyHoverEffect {
 }
 
 @available(*, unavailable)
-extension EmptyHoverEffect: Sendable {
+extension EmptyHoverEffect : Sendable {
 }
 
 public struct _CustomHoverEffectInputs {
 }
 
 @available(*, unavailable)
-extension _CustomHoverEffectInputs: Sendable {
+extension _CustomHoverEffectInputs : Sendable {
 }
 
 public struct _CustomHoverEffectOutputs {
 }
 
 @available(*, unavailable)
-extension _CustomHoverEffectOutputs: Sendable {
+extension _CustomHoverEffectOutputs : Sendable {
 }
 
-extension Never: CustomHoverEffect {
+extension Never : CustomHoverEffect {
 }

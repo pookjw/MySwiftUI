@@ -4,7 +4,7 @@ internal import MySwiftUICore
 struct VersionSeedSetTracker {
     fileprivate var values: [VersionSeedSetTracker.Value] = []
     
-    mutating func addPreference<T: HostPreferenceKey>(_ key: T.Type) {
+    mutating func addPreference<T : HostPreferenceKey>(_ key: T.Type) {
         values.append(VersionSeedSetTracker.Value(key: key, seed: .invalid))
     }
     
@@ -48,7 +48,7 @@ extension VersionSeedSetTracker {
 }
 
 extension PreferenceValues {
-    fileprivate func seed<T: PreferenceKey>(for type: T.Type) -> VersionSeed {
+    fileprivate func seed<T : PreferenceKey>(for type: T.Type) -> VersionSeed {
         return self[type].seed
     }
 }

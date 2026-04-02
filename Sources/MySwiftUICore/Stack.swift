@@ -1,4 +1,4 @@
-enum Stack<Element>: Sequence, IteratorProtocol {
+enum Stack<Element> : Sequence, IteratorProtocol {
     case empty
     indirect case node(value: Element, next: Stack<Element>)
     
@@ -77,4 +77,4 @@ enum Stack<Element>: Sequence, IteratorProtocol {
     }
 }
 
-extension Stack: Sendable where Element: Sendable {}
+extension Stack : Sendable where Element : Sendable {}

@@ -1,6 +1,6 @@
 // 76C8A4B3FC8EE0F99045B3425CD62255
 
-package protocol ViewRendererHost: ViewGraphOwner, ViewGraphRootValueUpdater {
+package protocol ViewRendererHost : ViewGraphOwner, ViewGraphRootValueUpdater {
 }
 
 extension ViewRendererHost {
@@ -12,7 +12,7 @@ extension ViewRendererHost {
         return result
     }
     
-    package func preferenceValue<T: HostPreferenceKey>(_ type: T.Type) -> T.Value {
+    package func preferenceValue<T : HostPreferenceKey>(_ type: T.Type) -> T.Value {
         assertUnimplemented()
     }
     
@@ -78,7 +78,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct PreferenceBridgeKey: EnvironmentKey {
+    fileprivate struct PreferenceBridgeKey : EnvironmentKey {
         static var defaultValue: WeakBox<PreferenceBridge> {
             return WeakBox(nil)
         }

@@ -1,7 +1,7 @@
 
 @frozen
 @propertyWrapper
-public struct Namespace: Sendable {
+public struct Namespace : Sendable {
     @usableFromInline var id: Int
     
     public var wrappedValue: ID {
@@ -22,7 +22,7 @@ public struct Namespace: Sendable {
 }
 
 extension Namespace {
-    @frozen public struct ID: Hashable {
+    @frozen public struct ID : Hashable {
         package var id: Int
         
         package init(id: Int) {

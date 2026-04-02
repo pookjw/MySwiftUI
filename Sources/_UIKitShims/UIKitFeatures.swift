@@ -2,7 +2,7 @@ private import _UIKitPrivate
 private import ObjectiveC.runtime
 private import MySwiftUICore
 
-private nonisolated(unsafe) var original_uncachedSolariumEnabledForCurrentDeviceIdiom: IMP!
+nonisolated(unsafe) private var original_uncachedSolariumEnabledForCurrentDeviceIdiom: IMP!
 func swizzle_uncachedSolariumEnabledForCurrentDeviceIdiom() {
     unsafe assert(original_uncachedSolariumEnabledForCurrentDeviceIdiom == nil)
     

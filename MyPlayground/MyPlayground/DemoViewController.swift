@@ -8,7 +8,7 @@
 import UIKit
 import Sample
 
-final class DemoViewController: UICollectionViewController {
+final class DemoViewController : UICollectionViewController {
     private let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, DemoViewController.Item> { cell, indexPath, item in
         var contentConfiguration = cell.defaultContentConfiguration()
         contentConfiguration.text = item.title
@@ -85,7 +85,7 @@ final class DemoViewController: UICollectionViewController {
 }
 
 extension DemoViewController {
-    private enum Item: CaseIterable {
+    private enum Item : CaseIterable {
         case emptyView
         case anyEmptyView
         case colorBlackView

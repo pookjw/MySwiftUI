@@ -6,7 +6,7 @@ public struct Alert {
 }
 
 extension Alert {
-    struct Presentation: AlertControllerConvertible {
+    struct Presentation : AlertControllerConvertible {
         let alert: Alert
         let onDismiss: (() -> Void)?
         let viewID: ViewIdentity
@@ -16,7 +16,7 @@ extension Alert {
 }
 
 extension Alert.Presentation {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         typealias Value = Never? // TODO
         
         static func reduce(value: inout Never?, nextValue: () -> Never?) {

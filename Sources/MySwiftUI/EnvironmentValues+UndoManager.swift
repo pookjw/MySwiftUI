@@ -12,7 +12,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct UndoManagerKey: EnvironmentKey {
+fileprivate struct UndoManagerKey : EnvironmentKey {
     static var defaultValue: UndoManager? {
         return nil
     }

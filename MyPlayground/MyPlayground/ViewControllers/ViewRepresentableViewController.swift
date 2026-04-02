@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: UIViewRepresentable {
+fileprivate struct MyView : UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let uiView = UIView()
         uiView.backgroundColor = .systemOrange
@@ -23,7 +23,7 @@ fileprivate struct MyView: UIViewRepresentable {
     }
 }
 
-final class ViewRepViewController: UIViewController {
+final class ViewRepViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

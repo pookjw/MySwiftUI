@@ -19,7 +19,7 @@ extension _GraphInputs {
         pushScope(id: makeStableTypeData(type))
     }
     
-    func pushStableID<T: Hashable>(_ id: T) {
+    func pushStableID<T : Hashable>(_ id: T) {
         guard needsStableDisplayListIDs else {
             return
         }
@@ -28,7 +28,7 @@ extension _GraphInputs {
     }
     
     @inline(always)
-    fileprivate func pushScope<T: StronglyHashable>(id: T) {
+    fileprivate func pushScope<T : StronglyHashable>(id: T) {
         assertUnimplemented()
     }
 }

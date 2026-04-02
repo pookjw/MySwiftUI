@@ -6,12 +6,12 @@
 
 @discardableResult
 public func _forEachField(
-  of type: Any.Type,
-  options: _SwiftPrivate._EachFieldOptions = [],
-  body: (Swift.UnsafePointer<Swift.CChar>, Swift.Int, Any.Type, _SwiftPrivate._MetadataKind) -> Swift.Bool
+of type: Any.Type,
+options: _SwiftPrivate._EachFieldOptions = [],
+body: (Swift.UnsafePointer<Swift.CChar>, Swift.Int, Any.Type, _SwiftPrivate._MetadataKind) -> Swift.Bool
 ) -> Bool
 
-public struct _EachFieldOptions: Swift.OptionSet {
+public struct _EachFieldOptions : Swift.OptionSet {
   public var rawValue: Swift.UInt32 {
     get
     set
@@ -27,7 +27,7 @@ public struct _EachFieldOptions: Swift.OptionSet {
   }
 }
 
-public enum _MetadataKind: Swift.UInt {
+public enum _MetadataKind : Swift.UInt {
   case `class`
   case `struct`
   case `enum`
@@ -48,17 +48,17 @@ public enum _MetadataKind: Swift.UInt {
 
 @_silgen_name("swift_conformsToProtocol")
 public func swift_conformsToProtocol(
-    _ type: Any.Type,
-    _ protocolDescriptor: UnsafeRawPointer
+_ type: Any.Type,
+_ protocolDescriptor: UnsafeRawPointer
 ) -> UnsafeRawPointer? // witness
 
 @_silgen_name("swift_conformsToProtocol2")
 public func swift_conformsToProtocol2(
-    _ type: Any.Type,
-    _ protocolDescriptor: UnsafeRawPointer
+_ type: Any.Type,
+_ protocolDescriptor: UnsafeRawPointer
 ) -> UnsafeRawPointer? // witness
 
 @_silgen_name("$ss27_diagnoseUnexpectedEnumCase4types5NeverOxm_tlF")
 public func _diagnoseUnexpectedEnumCase<SwitchedValue>(
-    type: SwitchedValue.Type
+type: SwitchedValue.Type
 ) -> Swift.Never

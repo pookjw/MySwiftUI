@@ -6,7 +6,7 @@ func onDyldLoaded() {
 }
 
 
-private nonisolated(unsafe) var original_applyVisualStyles: IMP!
+nonisolated(unsafe) private var original_applyVisualStyles: IMP!
 private func swizzle_applyVisualStyles() {
     assert(original_applyVisualStyles == nil)
     

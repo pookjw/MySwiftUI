@@ -2,7 +2,7 @@ package import Foundation
 package import Spatial
 internal import CoreGraphics
 
-package enum LengthUnit: Equatable {
+package enum LengthUnit : Equatable {
     case length(UnitLength)
     case points
     
@@ -26,7 +26,7 @@ package protocol LengthUnitConvertible {
     mutating func scale(by scale: Double)
 }
 
-extension Point3D: LengthUnitConvertible {
+extension Point3D : LengthUnitConvertible {
     package mutating func scale(by scale: Double) {
         self.x *= scale
         self.y *= scale
@@ -35,7 +35,7 @@ extension Point3D: LengthUnitConvertible {
     }
 }
 
-extension CGRect: LengthUnitConvertible {
+extension CGRect : LengthUnitConvertible {
     package mutating func scale(by scale: Double) {
         self.origin.x *= scale
         self.origin.y *= scale
@@ -44,13 +44,13 @@ extension CGRect: LengthUnitConvertible {
     }
 }
 
-extension Rect3D: LengthUnitConvertible {
+extension Rect3D : LengthUnitConvertible {
     package mutating func scale(by scale: Double) {
         self.uniformlyScale(by: scale)
     }
 }
 
-extension ViewTransform: LengthUnitConvertible {
+extension ViewTransform : LengthUnitConvertible {
     package mutating func scale(by scale: Double) {
         guard scale != 1 else {
             return
@@ -63,7 +63,7 @@ extension ViewTransform: LengthUnitConvertible {
     }
 }
 
-extension _ProposedSize: LengthUnitConvertible {
+extension _ProposedSize : LengthUnitConvertible {
     public mutating func scale(by scale: Double) {
         if let width {
             self.width = width * scale
@@ -75,14 +75,14 @@ extension _ProposedSize: LengthUnitConvertible {
     }
 }
 
-extension CGSize: LengthUnitConvertible {
+extension CGSize : LengthUnitConvertible {
     package mutating func scale(by scale: Double) {
         self.width *= scale
         self.height *= scale
     }
 }
 
-extension _ProposedSize3D: LengthUnitConvertible {
+extension _ProposedSize3D : LengthUnitConvertible {
     package mutating func scale(by scale: Double) {
         if let width {
             self.width = width * scale
@@ -98,7 +98,7 @@ extension _ProposedSize3D: LengthUnitConvertible {
     }
 }
 
-extension EdgeInsets3D: LengthUnitConvertible {
+extension EdgeInsets3D : LengthUnitConvertible {
     package mutating func scale(by scale: Double) {
         self.top *= scale
         self.leading *= scale

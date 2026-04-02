@@ -1,4 +1,4 @@
 
-public struct ButtonRole: Equatable, Sendable {
+public struct ButtonRole : Equatable, Sendable {
     
 }

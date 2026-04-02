@@ -1,7 +1,7 @@
 internal import MySwiftUICore
 internal import UIKit
 
-final class _UISecureHostingController<Content: View>: UIHostingController<Content> {
+final class _UISecureHostingController<Content : View>: UIHostingController<Content> {
     override init(rootView: Content) {
         assertUnimplemented()
     }
@@ -19,7 +19,7 @@ extension EnvironmentValues {
     }
 }
 
-struct SceneAllowsSecureDrawingKey: EnvironmentKey {
+struct SceneAllowsSecureDrawingKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

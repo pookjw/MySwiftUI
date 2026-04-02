@@ -9,7 +9,7 @@ protocol _RendererEffect3D {
 }
 
 extension _RendererEffect3D {
-    static nonisolated func _makeRendererEffect3D(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func _makeRendererEffect3D(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         /*
          effect -> x0 -> x29 - 0xd0
          inputs -> x1 -> x27
@@ -49,16 +49,16 @@ extension _RendererEffect3D {
     }
 }
 
-protocol RendererEffect3D: _RendererEffect3D {
+protocol RendererEffect3D : _RendererEffect3D {
 }
 
 extension RendererEffect3D {
-    static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
 }
 
-fileprivate struct RendererEffect3DDisplayList<T: _RendererEffect3D>: Rule, AsyncAttribute {
+fileprivate struct RendererEffect3DDisplayList<T : _RendererEffect3D>: Rule, AsyncAttribute {
     let identity: _DisplayList_Identity // 0x0
     @Attribute private(set) var effect: T // 0x4
     @Attribute private(set) var position: CGPoint // 0x8

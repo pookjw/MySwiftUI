@@ -40,7 +40,7 @@ extension Scene {
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-extension Never: Scene {}
+extension Never : Scene {}
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension Scene {
@@ -53,7 +53,7 @@ extension Scene {
  0x0~0x18 (total 0x20)
  nil -> 모두 0x0
  */
-enum SceneID: Hashable {
+enum SceneID : Hashable {
     static func == (lhs: SceneID, rhs: SceneID) -> Bool {
         return lhs.sessionID == rhs.sessionID
     }
@@ -82,7 +82,7 @@ enum SceneID: Hashable {
     }
 }
 
-fileprivate struct SceneBodyAccessor<T: Scene>: BodyAccessor {
+fileprivate struct SceneBodyAccessor<T : Scene>: BodyAccessor {
     typealias Container = T
     typealias Body = T.Body
     

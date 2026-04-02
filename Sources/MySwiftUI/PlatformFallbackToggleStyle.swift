@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct PlatformFallbackToggleStyle: ToggleStyle {
+struct PlatformFallbackToggleStyle : ToggleStyle {
     func makeBody(configuration: ToggleStyleConfiguration) -> some View {
         assertUnimplemented()
     }

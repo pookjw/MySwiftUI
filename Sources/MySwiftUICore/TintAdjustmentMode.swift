@@ -1,4 +1,4 @@
-package struct TintAdjustmentMode: Hashable {
+package struct TintAdjustmentMode : Hashable {
     package static var normal: TintAdjustmentMode {
         return TintAdjustmentMode(role: .normal)
     }
@@ -28,7 +28,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct TintAdjustmentModeKey: EnvironmentKey {
+fileprivate struct TintAdjustmentModeKey : EnvironmentKey {
     static var defaultValue: TintAdjustmentMode? {
         return nil
     }

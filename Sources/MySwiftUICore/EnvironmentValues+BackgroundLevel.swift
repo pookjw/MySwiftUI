@@ -9,6 +9,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct BackgroundInfoKey: EnvironmentKey {
+fileprivate struct BackgroundInfoKey : EnvironmentKey {
     static let defaultValue: Int = 0
 }

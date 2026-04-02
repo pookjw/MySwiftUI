@@ -1,5 +1,5 @@
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-public struct ToolbarPlacement: Hashable {
+public struct ToolbarPlacement : Hashable {
     private(set) var storage: ToolbarPlacement.Storage
     
     public static var automatic: ToolbarPlacement {
@@ -85,12 +85,12 @@ extension ToolbarPlacement {
 }
 
 extension ToolbarPlacement {
-    enum Storage: Hashable {
+    enum Storage : Hashable {
         case role(ToolbarPlacement.Role) // 0x0~0x20 -> 0, 0x28 -> case (0~6)
         case automatic // 0x0~0x20 -> 0, 0x28 -> 7
     }
     
-    enum Role: Hashable, CaseIterable {
+    enum Role : Hashable, CaseIterable {
         static var allCases: [ToolbarPlacement.Role] {
             return [
                 .navigationBar,

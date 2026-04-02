@@ -2,7 +2,7 @@
 
 internal import CoreGraphics
 
-struct ViewFrame: Equatable {
+struct ViewFrame : Equatable {
     private(set) var origin: CGPoint
     private(set) var size: ViewSize
     
@@ -25,7 +25,7 @@ struct ViewFrame: Equatable {
     }
 }
 
-extension ViewFrame: Animatable {
+extension ViewFrame : Animatable {
     var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>> {
         get {
             return AnimatablePair(origin.animatableData, size.value.animatableData)

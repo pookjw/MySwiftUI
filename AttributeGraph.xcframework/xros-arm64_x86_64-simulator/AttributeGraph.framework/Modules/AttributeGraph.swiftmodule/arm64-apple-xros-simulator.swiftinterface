@@ -8,214 +8,214 @@
 @frozen
 @propertyWrapper
 public struct WeakAttribute<T> : Swift.Sendable, Swift.Hashable, Swift.CustomStringConvertible {
-    @_hasStorage
-    public var base: AttributeGraph.AnyWeakAttribute {
-        get
-        set
-    }
+  @_hasStorage
+  public var base: AttributeGraph.AnyWeakAttribute {
+    get
+    set
+  }
 
-    public var wrappedValue: T? {
-        get
-    }
+  public var wrappedValue: T? {
+    get
+  }
 
-    public var projectedValue: AttributeGraph.Attribute<T>? {
-        get
-        set
-    }
+  public var projectedValue: AttributeGraph.Attribute<T>? {
+    get
+    set
+  }
 
-    public var attribute: AttributeGraph.Attribute<T>? { get }
-    
-    @_alwaysEmitIntoClient public init(base: AttributeGraph.AnyWeakAttribute) {
-        self.base = base
-    }
+  public var attribute: AttributeGraph.Attribute<T>? { get }
 
-    public init()
-    public init(_: AttributeGraph.Attribute<T>)
-    public init(_: AttributeGraph.Attribute<T>?)
+  @_alwaysEmitIntoClient public init(base: AttributeGraph.AnyWeakAttribute) {
+    self.base = base
+  }
 
-    public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)?
+  public init()
+  public init(_: AttributeGraph.Attribute<T>)
+  public init(_: AttributeGraph.Attribute<T>?)
 
-    public static func == (lhs: AttributeGraph.WeakAttribute<T>, rhs: AttributeGraph.WeakAttribute<T>) -> Swift.Bool
-    public func hash(into: inout Swift.Hasher)
-    public var hashValue: Swift.Int { get }
+  public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)?
+
+  public static func == (lhs: AttributeGraph.WeakAttribute<T>, rhs: AttributeGraph.WeakAttribute<T>) -> Swift.Bool
+  public func hash(into: inout Swift.Hasher)
+  public var hashValue: Swift.Int { get }
 }
 
 @frozen
 @propertyWrapper
 @dynamicMemberLookup
-public struct Attribute<T>: Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
-    public static func == (lhs: AttributeGraph.Attribute<T>, rhs: AttributeGraph.Attribute<T>) -> Swift.Bool
+public struct Attribute<T> : Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
+  public static func == (lhs: AttributeGraph.Attribute<T>, rhs: AttributeGraph.Attribute<T>) -> Swift.Bool
 
-    public var wrappedValue: T {
-        get
-        nonmutating set 
-    }
+  public var wrappedValue: T {
+    get
+    nonmutating set 
+  }
 
-    public var projectedValue: AttributeGraph.Attribute<T> {
-        get
-        set
-    }
+  public var projectedValue: AttributeGraph.Attribute<T> {
+    get
+    set
+  }
 
-    public var value: T {
-        get
-        nonmutating set
-    }
+  public var value: T {
+    get
+    nonmutating set
+  }
 
-    @_hasStorage
-    public var identifier: AttributeGraph.AnyAttribute {
-        get
-        set
-    }
+  @_hasStorage
+  public var identifier: AttributeGraph.AnyAttribute {
+    get
+    set
+  }
 
-    public init<C: AttributeGraph.Rule>(_ rule: C) where C.Value == T
-    public init<C: AttributeGraph.Rule>(_ rule: C, initialValue: T) where C.Value == T
-    public init<C: AttributeGraph.StatefulRule>(_ rule: C) where C.Value == T
-    public init<C: AttributeGraph.StatefulRule>(_ rule: C, initialValue: T) where C.Value == T
+  public init<C : AttributeGraph.Rule>(_ rule: C) where C.Value == T
+  public init<C : AttributeGraph.Rule>(_ rule: C, initialValue: T) where C.Value == T
+  public init<C : AttributeGraph.StatefulRule>(_ rule: C) where C.Value == T
+  public init<C : AttributeGraph.StatefulRule>(_ rule: C, initialValue: T) where C.Value == T
 
-    public init(value: T)
-    public init(type: T.Type)
+  public init(value: T)
+  public init(type: T.Type)
 
-    public init<C: AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AnyAttribute.TypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
-    public init(identifier: AttributeGraph.AnyAttribute)
+  public init<C : AttributeGraph._AttributeBody>(body: Swift.UnsafePointer<C>, value: Swift.UnsafePointer<T>?, flags: AttributeGraph.AnyAttribute.TypeFlags, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())
+  public init(identifier: AttributeGraph.AnyAttribute)
 
-    public subscript<U>(keyPath keyPath: Swift.KeyPath<T, U>) -> AttributeGraph.Attribute<U> {
-        get
-    }
+  public subscript<U>(keyPath keyPath: Swift.KeyPath<T, U>) -> AttributeGraph.Attribute<U> {
+    get
+  }
 
-    public subscript<U>(dynamicMember keyPath: Swift.KeyPath<T, U>) -> AttributeGraph.Attribute<U> {
-        get
-    }
+  public subscript<U>(dynamicMember keyPath: Swift.KeyPath<T, U>) -> AttributeGraph.Attribute<U> {
+    get
+  }
 
-    public subscript<U>(offset body: (inout T) -> AttributeGraph.PointerOffset<T, U>) -> AttributeGraph.Attribute<U> {
-        get
-    }
+  public subscript<U>(offset body: (inout T) -> AttributeGraph.PointerOffset<T, U>) -> AttributeGraph.Attribute<U> {
+    get
+  }
 
-    @discardableResult public func setValue(_: T) -> Swift.Bool
+  @discardableResult public func setValue(_: T) -> Swift.Bool
 
-    public func mutateBody<T>(as: T.Type, invalidating: Swift.Bool, _: (inout T) -> ())
+  public func mutateBody<T>(as: T.Type, invalidating: Swift.Bool, _: (inout T) -> ())
 
-    public func hash(into: inout Swift.Hasher)
-    public var description: Swift.String {
-        get
-    }
+  public func hash(into: inout Swift.Hasher)
+  public var description: Swift.String {
+    get
+  }
 
-    public var flags: AttributeGraph.AnyAttribute.Flags {
-        get
-        nonmutating set
-    }
+  public var flags: AttributeGraph.AnyAttribute.Flags {
+    get
+    nonmutating set
+  }
 
-    public func valueAndFlags(options: AttributeGraph.AGValueOptions) -> (value: T, flags: AttributeGraph.AGChangedValueFlags)
+  public func valueAndFlags(options: AttributeGraph.AGValueOptions) -> (value: T, flags: AttributeGraph.AGChangedValueFlags)
 
-    public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
+  public func changedValue(options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
 
-    public var valueState: AttributeGraph.AGValueState {
-        get
-    }
+  public var valueState: AttributeGraph.AGValueState {
+    get
+  }
 
-    public func invalidateValue()
+  public func invalidateValue()
 
-    public func setFlags(_: AttributeGraph.AnyAttribute.Flags, mask: AttributeGraph.AnyAttribute.Flags)
+  public func setFlags(_: AttributeGraph.AnyAttribute.Flags, mask: AttributeGraph.AnyAttribute.Flags)
 
-    public func applying<A>(offset: AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A>
+  public func applying<A>(offset: AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A>
 
-    public subscript<A>(offset: (inout T) -> AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A> {
-        get
-    }
+  public subscript<A>(offset: (inout T) -> AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A> {
+    get
+  }
 
-    public func unsafeOffset<U>(at: Swift.Int, as: U.Type) -> AttributeGraph.Attribute<U>
+  public func unsafeOffset<U>(at: Swift.Int, as: U.Type) -> AttributeGraph.Attribute<U>
 
-    public func addInput<T>(_: AttributeGraph.Attribute<T>, options: AttributeGraph.AGInputOptions, token: Swift.Int)
-    public func addInput(_: AttributeGraph.AnyAttribute, options: AttributeGraph.AGInputOptions, token: Swift.Int)
+  public func addInput<T>(_: AttributeGraph.Attribute<T>, options: AttributeGraph.AGInputOptions, token: Swift.Int)
+  public func addInput(_: AttributeGraph.AnyAttribute, options: AttributeGraph.AGInputOptions, token: Swift.Int)
 }
 
 @frozen
 @propertyWrapper
 public struct IndirectAttribute<T> : Swift.Sendable {
-    @_hasStorage
-    public var identifier: AttributeGraph.Attribute<T> {
-        get
-    }
+  @_hasStorage
+  public var identifier: AttributeGraph.Attribute<T> {
+    get
+  }
 
-    public init(source: AttributeGraph.Attribute<T>)
+  public init(source: AttributeGraph.Attribute<T>)
 
-    public var wrappedValue: T {
-        get
-        nonmutating set
-        nonmutating _modify
-    }
+  public var wrappedValue: T {
+    get
+    nonmutating set
+    nonmutating _modify
+  }
 
-    public var value: T {
-        get
-        nonmutating set
-        nonmutating _modify
-    }
+  public var value: T {
+    get
+    nonmutating set
+    nonmutating _modify
+  }
 
-    public var projectedValue: AttributeGraph.Attribute<T> {
-        get
-    }
+  public var projectedValue: AttributeGraph.Attribute<T> {
+    get
+  }
 }
 
 @frozen
-public struct AnyRuleContext: Swift.Equatable, Swift.Sendable {
-    @_hasStorage
-    public var attribute: AttributeGraph.AnyAttribute {
-        get set
-    }
+public struct AnyRuleContext : Swift.Equatable, Swift.Sendable {
+  @_hasStorage
+  public var attribute: AttributeGraph.AnyAttribute {
+    get set
+  }
 
-    public init(attribute: AttributeGraph.AnyAttribute)
-    public init<T>(_: AttributeGraph.RuleContext<T>)
+  public init(attribute: AttributeGraph.AnyAttribute)
+  public init<T>(_: AttributeGraph.RuleContext<T>)
 
-    public func unsafeCast<T>(to: T.Type) -> AttributeGraph.RuleContext<T>
+  public func unsafeCast<T>(to: T.Type) -> AttributeGraph.RuleContext<T>
 
-   public subscript<T>(_: AttributeGraph.Attribute<T>) -> T {
-        get
-    }
+  public subscript<T>(_: AttributeGraph.Attribute<T>) -> T {
+    get
+  }
 
-    public subscript<T>(_: AttributeGraph.WeakAttribute<T>) -> T {
-        get
-    }
+  public subscript<T>(_: AttributeGraph.WeakAttribute<T>) -> T {
+    get
+  }
 
-    public subscript<T>(_: AttributeGraph.OptionalAttribute<T>) -> T {
-        get
-    }
+  public subscript<T>(_: AttributeGraph.OptionalAttribute<T>) -> T {
+    get
+  }
 
-    public func valueAndFlags<T>(of: AttributeGraph.Attribute<T>, options: AttributeGraph.AGValueOptions) -> (value: T, flags: AGChangedValueFlags)
-    public func changedValue<T>(of: AttributeGraph.Attribute<T>, options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
-    public func update(body: () -> Void)
+  public func valueAndFlags<T>(of: AttributeGraph.Attribute<T>, options: AttributeGraph.AGValueOptions) -> (value: T, flags: AGChangedValueFlags)
+  public func changedValue<T>(of: AttributeGraph.Attribute<T>, options: AttributeGraph.AGValueOptions) -> (value: T, changed: Swift.Bool)
+  public func update(body: () -> Void)
 }
 
 @frozen
-public struct RuleContext<T>: Swift.Equatable, Swift.Sendable {
-    public init(attribute: AttributeGraph.Attribute<T>)
+public struct RuleContext<T> : Swift.Equatable, Swift.Sendable {
+  public init(attribute: AttributeGraph.Attribute<T>)
 
-    @_hasStorage
-    public var attribute: AttributeGraph.Attribute<T> {
-        get set
-    }
+  @_hasStorage
+  public var attribute: AttributeGraph.Attribute<T> {
+    get set
+  }
 
-    public var hasValue: Swift.Bool {
-        get
-    }
+  public var hasValue: Swift.Bool {
+    get
+  }
 
-    public var value: T {
-        get set
-    }
+  public var value: T {
+    get set
+  }
 
-    public subscript<U>(_: AttributeGraph.Attribute<U>) -> U {
-        get
-    }
+  public subscript<U>(_: AttributeGraph.Attribute<U>) -> U {
+    get
+  }
 
-    public subscript<U>(_: AttributeGraph.WeakAttribute<U>) -> U {
-        get
-    }
+  public subscript<U>(_: AttributeGraph.WeakAttribute<U>) -> U {
+    get
+  }
 
-    public subscript<U>(_: AttributeGraph.OptionalAttribute<U>) -> U {
-        get
-    }
+  public subscript<U>(_: AttributeGraph.OptionalAttribute<U>) -> U {
+    get
+  }
 
-    public func valueAndFlags<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, flags: AGChangedValueFlags)
-    public func changedValue<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, changed: Swift.Bool)
-    public func update(body: () -> Void)
+  public func valueAndFlags<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, flags: AGChangedValueFlags)
+  public func changedValue<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, changed: Swift.Bool)
+  public func update(body: () -> Void)
 }
 
 public struct Focus<Key, Value> {
@@ -225,277 +225,277 @@ public struct Focus<Key, Value> {
 @frozen
 @propertyWrapper
 public struct OptionalAttribute<T> : Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
-    public var wrappedValue: T? {
-        get
-    }
+  public var wrappedValue: T? {
+    get
+  }
 
-    public var projectedValue: AttributeGraph.Attribute<T>? {
-        get
-        set
-    }
+  public var projectedValue: AttributeGraph.Attribute<T>? {
+    get
+    set
+  }
 
-    public var attribute: AttributeGraph.Attribute<T>? {
-        get
-        set
-    }
+  public var attribute: AttributeGraph.Attribute<T>? {
+    get
+    set
+  }
 
-    @_hasStorage
-    public var base: AttributeGraph.AnyOptionalAttribute {
-        get
-        set
-    }
+  @_hasStorage
+  public var base: AttributeGraph.AnyOptionalAttribute {
+    get
+    set
+  }
 
-    public init()
-    public init(_: AttributeGraph.Attribute<T>)
-    public init(_: AttributeGraph.WeakAttribute<T>)
-    public init(_: AttributeGraph.Attribute<T>?)
-    public init(base: AttributeGraph.AnyOptionalAttribute)
+  public init()
+  public init(_: AttributeGraph.Attribute<T>)
+  public init(_: AttributeGraph.WeakAttribute<T>)
+  public init(_: AttributeGraph.Attribute<T>?)
+  public init(base: AttributeGraph.AnyOptionalAttribute)
 
-    public static func == (lhs: Self, rhs: Self) -> Swift.Bool
+  public static func == (lhs: Self, rhs: Self) -> Swift.Bool
 }
 
 public protocol _AttributeBody {
-    static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
-    static var _hasDestroySelf: Swift.Bool {
-        get
-    }
-    static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
-    static var comparisonMode: AttributeGraph.AGComparisonMode {
-        get
-    }
-    static var flags: AttributeGraph.AnyAttribute.TypeFlags {
-        get
-    }
+  static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
+  static var _hasDestroySelf: Swift.Bool {
+    get
+  }
+  static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
+  static var comparisonMode: AttributeGraph.AGComparisonMode {
+    get
+  }
+  static var flags: AttributeGraph.AnyAttribute.TypeFlags {
+    get
+  }
 }
 
 extension AttributeGraph._AttributeBody {
-    public static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
+  public static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
 
-    public static var _hasDestroySelf: Swift.Bool {
-        get
-    }
+  public static var _hasDestroySelf: Swift.Bool {
+    get
+  }
 
-    public static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
-    
-    public static var comparisonMode: AttributeGraph.AGComparisonMode {
-        get
-    }
+  public static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
 
-    public static var flags: AttributeGraph.AnyAttribute.TypeFlags {
-        get
-    }
+  public static var comparisonMode: AttributeGraph.AGComparisonMode {
+    get
+  }
+
+  public static var flags: AttributeGraph.AnyAttribute.TypeFlags {
+    get
+  }
 }
 
 public protocol Rule : AttributeGraph._AttributeBody {
-    associatedtype Value
+  associatedtype Value
 
-    var value: Self.Value {
-        get
-    }
+  var value: Self.Value {
+    get
+  }
 
-    static var initialValue: Self.Value? {
-        get
-    }
+  static var initialValue: Self.Value? {
+    get
+  }
 }
 
 extension AttributeGraph.Rule {
-    public static var initialValue: Self.Value? {
-        get
-    }
+  public static var initialValue: Self.Value? {
+    get
+  }
 
-    public static func _update(_: UnsafeMutableRawPointer, attribute: AttributeGraph.AnyAttribute)
+  public static func _update(_: UnsafeMutableRawPointer, attribute: AttributeGraph.AnyAttribute)
 
-    public var context: AttributeGraph.RuleContext<Self.Value> {
-        get
-    }
+  public var context: AttributeGraph.RuleContext<Self.Value> {
+    get
+  }
 
-    public static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
+  public static func _updateDefault(_: Swift.UnsafeMutableRawPointer)
 }
 
 extension AttributeGraph.Rule where Value : Swift.Hashable {
-    public func cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value
-    public static func _cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeMutableRawPointer, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ()) -> Swift.UnsafePointer<Self.Value>
-    public func cachedValueIfExists(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value?
+  public func cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value
+  public static func _cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeMutableRawPointer, update: () -> (Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ()) -> Swift.UnsafePointer<Self.Value>
+  public func cachedValueIfExists(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?) -> Self.Value?
 }
 
 extension AttributeGraph.Rule {
-    public var attribute: AttributeGraph.Attribute<Self.Value> {
-        get
-    }
+  public var attribute: AttributeGraph.Attribute<Self.Value> {
+    get
+  }
 }
 
 public protocol StatefulRule : AttributeGraph._AttributeBody {
-    associatedtype Value
-    mutating func updateValue()
+  associatedtype Value
+  mutating func updateValue()
 }
 
 extension AttributeGraph.StatefulRule {
-    public var hasValue: Swift.Bool {
-        get
-    }
-    
-    public var value: Value {
-        get
-        nonmutating set
-    }
+  public var hasValue: Swift.Bool {
+    get
+  }
+
+  public var value: Value {
+    get
+    nonmutating set
+  }
 }
 
 public protocol ObservedAttribute : AttributeGraph._AttributeBody {
-    mutating func destroy()
+  mutating func destroy()
 }
 
 extension AttributeGraph.ObservedAttribute {
-    public static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
+  public static func _destroySelf(_: Swift.UnsafeMutableRawPointer)
 
-    public static var _hasDestroySelf: Swift.Bool {
-        get
-    }
+  public static var _hasDestroySelf: Swift.Bool {
+    get
+  }
 }
 
 public protocol AttributeBodyVisitor {
 }
 
-extension AttributeGraph.AnyAttribute: Swift.Hashable {}
+extension AttributeGraph.AnyAttribute : Swift.Hashable {}
 
 extension AttributeGraph.AnyAttribute {
-    public func mutateBody<T>(as: T.Type, invalidating: Swift.Bool, _: (inout T) -> ())
+  public func mutateBody<T>(as: T.Type, invalidating: Swift.Bool, _: (inout T) -> ())
 
-    public var indirectDependency: AttributeGraph.AnyAttribute? {
-        get
-        nonmutating set
-        nonmutating _modify
-    }
+  public var indirectDependency: AttributeGraph.AnyAttribute? {
+    get
+    nonmutating set
+    nonmutating _modify
+  }
 
-    public func setFlags(_: AttributeGraph.AnyAttribute.Flags, mask: AttributeGraph.AnyAttribute.Flags)
+  public func setFlags(_: AttributeGraph.AnyAttribute.Flags, mask: AttributeGraph.AnyAttribute.Flags)
 
-    public func visitBody<A: AttributeGraph.AttributeBodyVisitor>(_: inout A) -> ()
+  public func visitBody<A : AttributeGraph.AttributeBodyVisitor>(_: inout A) -> ()
 
-    public var _bodyPointer: Swift.UnsafeRawPointer { get }
+  public var _bodyPointer: Swift.UnsafeRawPointer { get }
 
-    public func addInput(_: AttributeGraph.AnyAttribute, options: AttributeGraph.AGInputOptions, token: Swift.Int)
-    public func addInput<A>(_: AttributeGraph.Attribute<A>, options: AttributeGraph.AGInputOptions, token: Swift.Int)
+  public func addInput(_: AttributeGraph.AnyAttribute, options: AttributeGraph.AGInputOptions, token: Swift.Int)
+  public func addInput<A>(_: AttributeGraph.Attribute<A>, options: AttributeGraph.AGInputOptions, token: Swift.Int)
 }
 
 extension AttributeGraph.Graph {
-    public func onUpdate(_ callback: @escaping () -> Swift.Void)
-    public func onInvalidation(_ callback: @escaping (AttributeGraph.AnyAttribute) -> Swift.Void)
+  public func onUpdate(_ callback: @escaping () -> Swift.Void)
+  public func onInvalidation(_ callback: @escaping (AttributeGraph.AnyAttribute) -> Swift.Void)
 }
 
 extension AttributeGraph.Graph {
-    public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, context: Swift.UnsafePointer<T>)
-    public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, value: T)
-    public static func withoutUpdate<T>(_: () -> T) -> T
+  public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, context: Swift.UnsafePointer<T>)
+  public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, value: T)
+  public static func withoutUpdate<T>(_: () -> T) -> T
 }
 
 public func compareValues<T>(_: T, _: T, mode: AttributeGraph.AGComparisonMode) -> Swift.Bool
 public func compareValues<T>(_: T, _: T, options: AttributeGraph.AGComparisonOptions) -> Swift.Bool
 
 extension AttributeGraph.Subgraph {
-    public func apply<T>(_: () -> T) -> T
+  public func apply<T>(_: () -> T) -> T
 
-    public func forEach(_: AttributeGraph.AnyAttribute.Flags, _: (AttributeGraph.AnyAttribute) -> ())
+  public func forEach(_: AttributeGraph.AnyAttribute.Flags, _: (AttributeGraph.AnyAttribute) -> ())
 
-    public static func beginTreeElement<A>(value: AttributeGraph.Attribute<A>, flags: Swift.UInt32)
-    public static func addTreeValue<A>(_: AttributeGraph.Attribute<A>, forKey: Swift.UnsafePointer<Swift.Int8>, flags: Swift.UInt32)
-    public static func endTreeElement<A>(value: AttributeGraph.Attribute<A>)
+  public static func beginTreeElement<A>(value: AttributeGraph.Attribute<A>, flags: Swift.UInt32)
+  public static func addTreeValue<A>(_: AttributeGraph.Attribute<A>, forKey: Swift.UnsafePointer<Swift.Int8>, flags: Swift.UInt32)
+  public static func endTreeElement<A>(value: AttributeGraph.Attribute<A>)
 
-    @_silgen_name("AGSubgraphAddObserver")
-    public static func addObserver(_: AttributeGraph.Subgraph, _: @escaping () -> Void) -> Swift.Int
+  @_silgen_name("AGSubgraphAddObserver")
+  public static func addObserver(_: AttributeGraph.Subgraph, _: @escaping () -> Void) -> Swift.Int
 }
 
-extension AttributeGraph.TypeID: Swift.Hashable, Swift.CustomStringConvertible {
-    public init(_: Any.Type)
-    public var type: Any.Type { get }
-    public var description: Swift.String { get }
-    public func forEachField(options: AttributeGraph.TypeApplyOptions, do: (Swift.UnsafePointer<Swift.Int8>, Swift.Int, Any.Type) -> Swift.Bool) -> Swift.Bool
+extension AttributeGraph.TypeID : Swift.Hashable, Swift.CustomStringConvertible {
+  public init(_: Any.Type)
+  public var type: Any.Type { get }
+  public var description: Swift.String { get }
+  public func forEachField(options: AttributeGraph.TypeApplyOptions, do: (Swift.UnsafePointer<Swift.Int8>, Swift.Int, Any.Type) -> Swift.Bool) -> Swift.Bool
 }
 
 @frozen
-public struct Map<T, U>: Swift.CustomStringConvertible, AttributeGraph.Rule, Swift.Sendable {
-    public static var flags: AttributeGraph.AnyAttribute.TypeFlags {
-        get
-    }
+public struct Map<T, U> : Swift.CustomStringConvertible, AttributeGraph.Rule, Swift.Sendable {
+  public static var flags: AttributeGraph.AnyAttribute.TypeFlags {
+    get
+  }
 
-    @_hasStorage
-    public var arg: AttributeGraph.Attribute<T> {
-        get set
-    }
+  @_hasStorage
+  public var arg: AttributeGraph.Attribute<T> {
+    get set
+  }
 
-    @_hasStorage
-    public var body: (T) -> U {
-        get
-    }
+  @_hasStorage
+  public var body: (T) -> U {
+    get
+  }
 
-    public var value: U {
-        get
-    }
+  public var value: U {
+    get
+  }
 
-    public init(_: AttributeGraph.Attribute<T>, _: @escaping (T) -> U)
+  public init(_: AttributeGraph.Attribute<T>, _: @escaping (T) -> U)
 
-    public var description: Swift.String {
-        get
-    }
+  public var description: Swift.String {
+    get
+  }
 }
 
-@frozen public struct AnyOptionalAttribute: Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
-    public static var current: AttributeGraph.AnyOptionalAttribute {
-        get
-    }
+@frozen public struct AnyOptionalAttribute : Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
+  public static var current: AttributeGraph.AnyOptionalAttribute {
+    get
+  }
 
-    public init(_: AttributeGraph.AnyAttribute)
-    public init(_: AttributeGraph.AnyAttribute?)
+  public init(_: AttributeGraph.AnyAttribute)
+  public init(_: AttributeGraph.AnyAttribute?)
 
-    @_hasStorage
-    public var identifier: AttributeGraph.AnyAttribute {
-        get set
-    }
+  @_hasStorage
+  public var identifier: AttributeGraph.AnyAttribute {
+    get set
+  }
 
-    public var attribute: AttributeGraph.AnyAttribute? {
-        get set
-    }
+  public var attribute: AttributeGraph.AnyAttribute? {
+    get set
+  }
 
-    public var description: Swift.String {
-        get
-    }
+  public var description: Swift.String {
+    get
+  }
 }
 
 extension Graph {
-    @_silgen_name("AGGraphGetOutputValue")
-    public static func outputValue<Value>() -> Swift.UnsafePointer<Value>?
+  @_silgen_name("AGGraphGetOutputValue")
+  public static func outputValue<Value>() -> Swift.UnsafePointer<Value>?
 
-    @_silgen_name("AGGraphSetOutputValue")
-    public static func setOutputValue<Value>(_ value: Swift.UnsafePointer<Value>)
+  @_silgen_name("AGGraphSetOutputValue")
+  public static func setOutputValue<Value>(_ value: Swift.UnsafePointer<Value>)
 }
 
 extension AttributeGraph.AnyAttribute {
-    public static var current: AttributeGraph.AnyAttribute? {
-        get
-    }
+  public static var current: AttributeGraph.AnyAttribute? {
+    get
+  }
 
-    public func unsafeCast<A>(to: A.Type) -> AttributeGraph.Attribute<A>
+  public func unsafeCast<A>(to: A.Type) -> AttributeGraph.Attribute<A>
 
-    public var _bodyType: any Any.Type {
-        get
-    }
+  public var _bodyType: any Any.Type {
+    get
+  }
 
-    public var valueType: any Any.Type {
-        get
-    }
+  public var valueType: any Any.Type {
+    get
+  }
 }
 
 extension AttributeGraph.AnyWeakAttribute {
-    public func unsafeCast<A>(to: A.Type) -> AttributeGraph.WeakAttribute<A>
+  public func unsafeCast<A>(to: A.Type) -> AttributeGraph.WeakAttribute<A>
 }
 
-extension AttributeGraph.AnyWeakAttribute: Swift.Hashable {
-    public static func == (lhs: AttributeGraph.AnyWeakAttribute, rhs: AttributeGraph.AnyWeakAttribute) -> Swift.Bool
-    public func hash(into: inout Swift.Hasher)
-    @_silgen_name("$sSo15AGWeakAttributea0B5GraphE9hashValueSivg")
-    public var hashValue: Swift.Int { get }
+extension AttributeGraph.AnyWeakAttribute : Swift.Hashable {
+  public static func == (lhs: AttributeGraph.AnyWeakAttribute, rhs: AttributeGraph.AnyWeakAttribute) -> Swift.Bool
+  public func hash(into: inout Swift.Hasher)
+  @_silgen_name("$sSo15AGWeakAttributea0B5GraphE9hashValueSivg")
+  public var hashValue: Swift.Int { get }
 }
 
-extension AttributeGraph.AnyWeakAttribute: Swift.CustomStringConvertible {
-    public var description : Swift.String { get }
+extension AttributeGraph.AnyWeakAttribute : Swift.CustomStringConvertible {
+  public var description : Swift.String { get }
 }
 
 @_silgen_name("AGTypeApplyFields2")
@@ -506,69 +506,69 @@ public func AGTypeApplyFields2(type: any Any.Type, options: AttributeGraph.TypeA
 public func forEachField(of: Any.Type, do: (Swift.UnsafePointer<Swift.Int8>, Swift.Int, Any.Type) -> Void)
 
 extension AttributeGraph.TupleType {
-    public init(_: [Any.Type])
-    public init(_: Any.Type)
-    public var type: Any.Type { get }
-    public var isEmpty: Swift.Bool { get }
-    public var indices: Swift.Range<Swift.Int> { get }
-    public func type(at: Swift.Int) -> Any.Type
-    public func offset<T>(at: Swift.Int, as: T.Type) -> Swift.Int
-    public func setElement<T>(in: Swift.UnsafeMutableRawPointer, at: Swift.Int, from: Swift.UnsafePointer<T>, options: AttributeGraph.TupleCopyOptions)
-    public func getElement<T>(in: Swift.UnsafeMutableRawPointer, at: Swift.Int, to: Swift.UnsafeMutablePointer<T>, options: AttributeGraph.TupleCopyOptions)
+  public init(_: [Any.Type])
+  public init(_: Any.Type)
+  public var type: Any.Type { get }
+  public var isEmpty: Swift.Bool { get }
+  public var indices: Swift.Range<Swift.Int> { get }
+  public func type(at: Swift.Int) -> Any.Type
+  public func offset<T>(at: Swift.Int, as: T.Type) -> Swift.Int
+  public func setElement<T>(in: Swift.UnsafeMutableRawPointer, at: Swift.Int, from: Swift.UnsafePointer<T>, options: AttributeGraph.TupleCopyOptions)
+  public func getElement<T>(in: Swift.UnsafeMutableRawPointer, at: Swift.Int, to: Swift.UnsafeMutablePointer<T>, options: AttributeGraph.TupleCopyOptions)
 }
 
 @frozen
 public struct PointerOffset<A, B> {
-    @_hasStorage public var byteOffset: Swift.Int {
-        get
-        set
-        _modify
-    }
+  @_hasStorage public var byteOffset: Swift.Int {
+    get
+    set
+    _modify
+  }
 
-    public init(byteOffset: Swift.Int)
+  public init(byteOffset: Swift.Int)
 
-    public static func offset(_: (inout A) -> AttributeGraph.PointerOffset<A, B>) -> AttributeGraph.PointerOffset<A, B>
-    public static func invalidScenePointer() -> Swift.UnsafeMutablePointer<A>
-    public static func of(_: inout B) -> AttributeGraph.PointerOffset<A, B>
+  public static func offset(_: (inout A) -> AttributeGraph.PointerOffset<A, B>) -> AttributeGraph.PointerOffset<A, B>
+  public static func invalidScenePointer() -> Swift.UnsafeMutablePointer<A>
+  public static func of(_: inout B) -> AttributeGraph.PointerOffset<A, B>
 
-    public static func + <T> (_: AttributeGraph.PointerOffset<A, T>, _: AttributeGraph.PointerOffset<T, B>) -> AttributeGraph.PointerOffset<A, B>
+  public static func + <T> (_: AttributeGraph.PointerOffset<A, T>, _: AttributeGraph.PointerOffset<T, B>) -> AttributeGraph.PointerOffset<A, B>
 }
 
 extension PointerOffset where A == B {
-    public init()
+  public init()
 }
 
-extension AttributeGraph.Rule where Self: Swift.Hashable {
-    public static func _cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeRawPointer, update: () -> ((Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())) -> Swift.UnsafePointer<Value>
+extension AttributeGraph.Rule where Self : Swift.Hashable {
+  public static func _cachedValue(options: AttributeGraph.CachedValueOptions, owner: AttributeGraph.AnyAttribute?, hashValue: Swift.Int, bodyPtr: Swift.UnsafeRawPointer, update: () -> ((Swift.UnsafeMutableRawPointer, AttributeGraph.AnyAttribute) -> ())) -> Swift.UnsafePointer<Value>
 }
 
 extension Swift.UnsafePointer {
-    public subscript<T>(offset: AttributeGraph.PointerOffset<Pointee, T>) -> T {
-        unsafeAddress
-    }
+  public subscript<T>(offset: AttributeGraph.PointerOffset<Pointee, T>) -> T {
+    unsafeAddress
+  }
 
-    public static func + <T>(_: Swift.UnsafePointer<Pointee>, _: AttributeGraph.PointerOffset<Pointee, T>) -> Swift.UnsafePointer<T>
+  public static func + <T>(_: Swift.UnsafePointer<Pointee>, _: AttributeGraph.PointerOffset<Pointee, T>) -> Swift.UnsafePointer<T>
 }
 
 extension Swift.UnsafeMutablePointer {
-    public subscript<T>(offset: AttributeGraph.PointerOffset<Pointee, T>) -> T {
-        unsafeAddress
-        unsafeMutableAddress
-    }
+  public subscript<T>(offset: AttributeGraph.PointerOffset<Pointee, T>) -> T {
+    unsafeAddress
+    unsafeMutableAddress
+  }
 
-    public static func + <T>(_: Swift.UnsafeMutablePointer<Pointee>, _: AttributeGraph.PointerOffset<Pointee, T>) -> Swift.UnsafeMutablePointer<T>
+  public static func + <T>(_: Swift.UnsafeMutablePointer<Pointee>, _: AttributeGraph.PointerOffset<Pointee, T>) -> Swift.UnsafeMutablePointer<T>
 }
 
-@frozen public struct _External: AttributeGraph._AttributeBody, Swift.CustomStringConvertible {
-    public var description: Swift.String { get }
+@frozen public struct _External : AttributeGraph._AttributeBody, Swift.CustomStringConvertible {
+  public var description: Swift.String { get }
 }
 
-@frozen public struct External<Value>: AttributeGraph._AttributeBody, Swift.CustomStringConvertible {
-    public var description: Swift.String { get }
+@frozen public struct External<Value> : AttributeGraph._AttributeBody, Swift.CustomStringConvertible {
+  public var description: Swift.String { get }
 
-    public init()
+  public init()
 
-    public static var flags: AttributeGraph.AnyAttribute.TypeFlags { get }
-    public static var comparisonMode: AttributeGraph.AGComparisonMode { get }
-    public static func _update(_: Swift.UnsafeMutableRawPointer, attribute: AttributeGraph.AnyAttribute)
+  public static var flags: AttributeGraph.AnyAttribute.TypeFlags { get }
+  public static var comparisonMode: AttributeGraph.AGComparisonMode { get }
+  public static func _update(_: Swift.UnsafeMutableRawPointer, attribute: AttributeGraph.AnyAttribute)
 }

@@ -16,7 +16,7 @@ extension AnyShareConfiguration {
 }
 
 extension AnyShareConfiguration {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static func reduce(value: inout AnyShareConfiguration?, nextValue: () -> AnyShareConfiguration?) {
             assertUnimplemented()
         }

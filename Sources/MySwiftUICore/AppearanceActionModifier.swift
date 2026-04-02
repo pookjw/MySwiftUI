@@ -2,15 +2,15 @@
 internal import AttributeGraph
 
 @frozen public struct _AppearanceActionModifier : ViewModifier {
-    public nonisolated(unsafe) var appear: (() -> Void)?
-    public nonisolated(unsafe) var disappear: (() -> Void)?
+    nonisolated(unsafe) public var appear: (() -> Void)?
+    nonisolated(unsafe) public var disappear: (() -> Void)?
     
-    @inlinable public nonisolated init(appear: (() -> Void)? = nil, disappear: (() -> Void)? = nil) {
+    @inlinable nonisolated public init(appear: (() -> Void)? = nil, disappear: (() -> Void)? = nil) {
         unsafe self.appear = appear
         unsafe self.disappear = disappear
     }
     
-    public static nonisolated func _makeView(modifier: _GraphValue<_AppearanceActionModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(modifier: _GraphValue<_AppearanceActionModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         /*
          body -> x19/x20
          return register -> x21
@@ -28,7 +28,7 @@ internal import AttributeGraph
         return body(_Graph(), copy_1)
     }
     
-    public static nonisolated func _makeViewList(modifier: _GraphValue<_AppearanceActionModifier>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(modifier: _GraphValue<_AppearanceActionModifier>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         // x23
         var modifier = modifier.value
         
@@ -54,23 +54,23 @@ internal import AttributeGraph
     public typealias Body = Never
 }
 
-extension _AppearanceActionModifier: PrimitiveViewModifier {}
+extension _AppearanceActionModifier : PrimitiveViewModifier {}
 
 @available(*, unavailable)
-extension _AppearanceActionModifier: Sendable {
+extension _AppearanceActionModifier : Sendable {
 }
 
 extension View {
-    @inlinable public nonisolated func onAppear(perform action: (() -> Void)? = nil) -> some View {
+    @inlinable nonisolated public func onAppear(perform action: (() -> Void)? = nil) -> some View {
         return modifier(_AppearanceActionModifier(appear: action, disappear: nil))
     }
     
-    @inlinable public nonisolated func onDisappear(perform action: (() -> Void)? = nil) -> some View {
+    @inlinable nonisolated public func onDisappear(perform action: (() -> Void)? = nil) -> some View {
         return modifier(_AppearanceActionModifier(appear: nil, disappear: action))
     }
 }
 
-struct AppearanceEffect: StatefulRule, RemovableAttribute {
+struct AppearanceEffect : StatefulRule, RemovableAttribute {
     @Attribute private var modifier: _AppearanceActionModifier // 0x0
     @Attribute private var phase: _GraphInputs.Phase // 0x4
     private var lastValue: _AppearanceActionModifier? = nil // 0x8
@@ -170,7 +170,7 @@ struct AppearanceEffect: StatefulRule, RemovableAttribute {
 }
 
 extension _AppearanceActionModifier {
-    fileprivate struct MergedCallbacks: StatefulRule {
+    fileprivate struct MergedCallbacks : StatefulRule {
         @Attribute var modifier: _AppearanceActionModifier
         @Attribute var phase: _GraphInputs.Phase
         var box: _AppearanceActionModifier.MergedBox?

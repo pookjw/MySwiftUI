@@ -231,7 +231,7 @@ extension _SwiftUICorePrivate::Cache3 {
     }
 }
 
-fileprivate struct MyKey: Equatable {
+fileprivate struct MyKey : Equatable {
     let key: Int
 }
 

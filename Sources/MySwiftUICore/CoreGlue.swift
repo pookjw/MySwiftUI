@@ -3,8 +3,8 @@ private import _MySwiftUIShims
 
 @_spi(Internal)
 @objc(MySwiftUICoreGlue2)
-open class CoreGlue2: NSObject {
-    @safe static nonisolated(unsafe) var shared: CoreGlue2 = _initializeMyCoreGlue2() as! CoreGlue2
+open class CoreGlue2 : NSObject {
+    @safe nonisolated(unsafe) static var shared: CoreGlue2 = _initializeMyCoreGlue2() as! CoreGlue2
     
     open func configureEmptyEnvironment(_ environmentValues: inout EnvironmentValues) {
         preconditionFailure() // abstract

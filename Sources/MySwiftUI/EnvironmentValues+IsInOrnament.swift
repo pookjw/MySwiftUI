@@ -11,7 +11,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct IsInOrnamentKey: EnvironmentKey {
+fileprivate struct IsInOrnamentKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

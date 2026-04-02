@@ -3,7 +3,7 @@ public import MySwiftUICore
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 @preconcurrency @MainActor
 public protocol ButtonStyle {
-    associatedtype Body: View
+    associatedtype Body : View
 
     @ViewBuilder @MainActor @preconcurrency
     func makeBody(configuration: Self.Configuration) -> Self.Body
@@ -27,20 +27,20 @@ public struct ButtonStyleConfiguration {
 }
 
 @available(*, unavailable)
-extension ButtonStyleConfiguration: Sendable {}
+extension ButtonStyleConfiguration : Sendable {}
 
 //@available(*, unavailable)
 //extension ButtonStyleConfiguration.Label: Sendable {}
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension View {
-    public nonisolated func buttonStyle<S>(_ style: S) -> some View where S: ButtonStyle {
+    nonisolated public func buttonStyle<S>(_ style: S) -> some View where S : ButtonStyle {
         assertUnimplemented()
     }
 }
 
 package protocol ButtonStyleConvertible {
-    associatedtype ButtonStyleRepresentation: ButtonStyle
+    associatedtype ButtonStyleRepresentation : ButtonStyle
 
     var buttonStyleRepresentation: Self.ButtonStyleRepresentation {
         get

@@ -223,13 +223,13 @@ struct ViewSize3D {
     }
 }
 
-extension ViewSize3D: Equatable {
+extension ViewSize3D : Equatable {
     static func == (lhs: ViewSize3D, rhs: ViewSize3D) -> Bool {
         return lhs.value == rhs.value && lhs.proposal == rhs.proposal
     }
 }
 
-extension ViewSize3D: Animatable {
+extension ViewSize3D : Animatable {
     var animatableData: Vector3D {
         get {
             return Vector3D(x: value.width, y: value.height, z: value.depth)

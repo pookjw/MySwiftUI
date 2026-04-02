@@ -27,7 +27,7 @@ public struct WindowManagerRole : Sendable {
 }
 
 extension WindowManagerRole {
-    enum Guts: Hashable {
+    enum Guts : Hashable {
         case automatic
         case principal
         case associated

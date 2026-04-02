@@ -9,14 +9,14 @@ extension EnvironmentValues {
     }
     
     // TODO: Entry Macro
-    fileprivate struct __Key_materialColorRenderingMode: EnvironmentKey {
+    fileprivate struct __Key_materialColorRenderingMode : EnvironmentKey {
         static var defaultValue: MaterialColorRenderingMode {
             return .automatic
         }
     }
 }
 
-package struct MaterialColorRenderingMode: Equatable {
+package struct MaterialColorRenderingMode : Equatable {
     package static var automatic: MaterialColorRenderingMode {
         return MaterialColorRenderingMode(role: .automatic)
     }
@@ -32,7 +32,7 @@ package struct MaterialColorRenderingMode: Equatable {
     private var role: MaterialColorRenderingMode.Role
 }
 
-extension MaterialColorRenderingMode: Hashable {
+extension MaterialColorRenderingMode : Hashable {
     package enum Role {
         case automatic
         case adaptiveSystemColors

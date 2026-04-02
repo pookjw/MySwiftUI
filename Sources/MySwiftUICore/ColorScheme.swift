@@ -64,36 +64,36 @@ extension EnvironmentValues {
     }
 }
 
-public enum ColorSchemeContrast: CaseIterable, Sendable {
+public enum ColorSchemeContrast : CaseIterable, Sendable {
     case standard
     case increased
 }
 
-fileprivate struct ColorSchemeContrastKey: EnvironmentKey {
+fileprivate struct ColorSchemeContrastKey : EnvironmentKey {
     static var defaultValue: ColorSchemeContrast {
         return .standard
     }
 }
 
-fileprivate struct SystemColorSchemeKey: EnvironmentKey {
+fileprivate struct SystemColorSchemeKey : EnvironmentKey {
     static var defaultValue: ColorScheme {
         return .light
     }
 }
 
-fileprivate struct ExplicitPreferredColorSchemeKey: EnvironmentKey {
+fileprivate struct ExplicitPreferredColorSchemeKey : EnvironmentKey {
     static var defaultValue: ColorScheme? {
         return nil
     }
 }
 
-fileprivate struct ExplicitColorSchemeKey: EnvironmentKey {
+fileprivate struct ExplicitColorSchemeKey : EnvironmentKey {
     static var defaultValue: ColorScheme? {
         return nil
     }
 }
 
-fileprivate struct PlatformColorSchemeKey: EnvironmentKey {
+fileprivate struct PlatformColorSchemeKey : EnvironmentKey {
     static var defaultValue: ColorScheme? {
         return nil
     }

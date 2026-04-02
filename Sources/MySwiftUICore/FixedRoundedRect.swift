@@ -2,7 +2,7 @@ internal import CoreGraphics
 internal import RenderBox
 
 @usableFromInline
-package struct FixedRoundedRect: Equatable {
+package struct FixedRoundedRect : Equatable {
     @usableFromInline
     package static func == (a: FixedRoundedRect, b: FixedRoundedRect) -> Bool {
         assertUnimplemented()
@@ -82,5 +82,5 @@ package struct FixedRoundedRect: Equatable {
 }
 
 @available(*, unavailable)
-extension FixedRoundedRect: Sendable {
+extension FixedRoundedRect : Sendable {
 }

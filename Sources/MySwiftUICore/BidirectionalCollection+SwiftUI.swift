@@ -1,4 +1,4 @@
-extension BidirectionalCollection where Self: MutableCollection {
+extension BidirectionalCollection where Self : MutableCollection {
     mutating func insertionSort(by block: (Self.Element, Self.Element) throws -> Bool) rethrows {
         /*
          self = x28

@@ -31,7 +31,7 @@ extension _ProposedSize3DTests {
 }
 
 extension _ProposedSize3DTests {
-    struct Input_unspecifyingInfiniteDimensions: Hashable {
+    struct Input_unspecifyingInfiniteDimensions : Hashable {
         let width: CGFloat?
         let height: CGFloat?
         let depth: CGFloat?
@@ -193,7 +193,7 @@ extension _ProposedSize3DTests {
 }
 
 extension _ProposedSize3DTests {
-    struct Input_unspecifyingZeroOrInfiniteDimensions: Hashable {
+    struct Input_unspecifyingZeroOrInfiniteDimensions : Hashable {
         let width: CGFloat?
         let height: CGFloat?
         let depth: CGFloat?
@@ -425,7 +425,7 @@ extension _ProposedSize3DTests {
 }
 
 extension _ProposedSize3DTests {
-    struct Input_fixingUnspecifiedDimensions: Hashable {
+    struct Input_fixingUnspecifiedDimensions : Hashable {
         let width: CGFloat?
         let height: CGFloat?
         let depth: CGFloat?
@@ -532,7 +532,7 @@ extension _ProposedSize3DTests {
 
 
 extension _ProposedSize3DTests {
-    struct Input_inset: Hashable {
+    struct Input_inset : Hashable {
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
         let proposalDepth: CGFloat?

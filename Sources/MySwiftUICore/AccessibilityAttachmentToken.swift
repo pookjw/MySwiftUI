@@ -1,6 +1,6 @@
 package import AttributeGraph
 
-package enum AccessibilityAttachmentToken: Hashable, Codable {
+package enum AccessibilityAttachmentToken : Hashable, Codable {
     package static func == (lhs: AccessibilityAttachmentToken, rhs: AccessibilityAttachmentToken) -> Bool {
         assertUnimplemented()
     }

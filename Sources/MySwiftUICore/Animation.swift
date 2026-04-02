@@ -4,12 +4,12 @@ public import CoreGraphics
 public import Spatial
 internal import AttributeGraph
 
-public struct Animation: Equatable, Sendable {
+public struct Animation : Equatable, Sendable {
     public static func == (lhs: Animation, rhs: Animation) -> Bool {
         assertUnimplemented()
     }
     
-    @safe private nonisolated(unsafe) var box: AnimationBoxBase
+    @safe nonisolated(unsafe) private var box: AnimationBoxBase
     
     public init<A>(_ base: A) where A : CustomAnimation {
         self.box = AnimationBox(base)
@@ -41,7 +41,7 @@ extension Animation {
     }
 }
 
-public struct AnimationContext<Value: VectorArithmetic> {
+public struct AnimationContext<Value : VectorArithmetic> {
     
 }
 
@@ -50,7 +50,7 @@ public protocol VectorArithmetic : AdditiveArithmetic {
     var magnitudeSquared: Double { get }
 }
 
-extension CGFloat: VectorArithmetic {
+extension CGFloat : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
         assertUnimplemented()
     }
@@ -60,7 +60,7 @@ extension CGFloat: VectorArithmetic {
     }
 }
 
-extension Double: VectorArithmetic {
+extension Double : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
         assertUnimplemented()
     }
@@ -70,7 +70,7 @@ extension Double: VectorArithmetic {
     }
 }
 
-extension Float: VectorArithmetic {
+extension Float : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
         self *= Float(rhs)
     }
@@ -80,7 +80,7 @@ extension Float: VectorArithmetic {
     }
 }
 
-extension Vector3D: VectorArithmetic {
+extension Vector3D : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
         assertUnimplemented()
     }
@@ -90,7 +90,7 @@ extension Vector3D: VectorArithmetic {
     }
 }
 
-extension Size3D: VectorArithmetic {
+extension Size3D : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
         assertUnimplemented()
     }
@@ -126,7 +126,7 @@ extension Animatable where Self.AnimatableData == EmptyAnimatableData {
         @inlinable set {}
     }
     
-    public static nonisolated func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
+    nonisolated public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
     }
 }
 
@@ -219,7 +219,7 @@ extension Animatable {
     }
 }
 
-@frozen public struct AnimatablePair<First: VectorArithmetic, Second: VectorArithmetic>: VectorArithmetic {
+@frozen public struct AnimatablePair<First : VectorArithmetic, Second : VectorArithmetic>: VectorArithmetic {
     public var first: First
     public var second: Second
     
@@ -282,9 +282,9 @@ extension Animatable {
     }
 }
 
-extension AnimatablePair: Sendable where First : Sendable, Second : Sendable {}
+extension AnimatablePair : Sendable where First : Sendable, Second : Sendable {}
 
-struct AnimatableAttributeHelper<T: Animatable> {
+struct AnimatableAttributeHelper<T : Animatable> {
     @Attribute private var phase: _GraphInputs.Phase // 0x0
     @Attribute private var time: Time // 0x4
     @Attribute private var transaction: Transaction // 0x8
@@ -477,7 +477,7 @@ struct AnimatableAttributeHelper<T: Animatable> {
     }
 }
 
-struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribute, ObservedAttribute, StatefulRule {
+struct AnimatableAttribute<T : Animatable>: CustomStringConvertible, AsyncAttribute, ObservedAttribute, StatefulRule {
     @Attribute private var source: T
     @Attribute private var environment: EnvironmentValues
     private var helper: AnimatableAttributeHelper<T>
@@ -518,7 +518,7 @@ struct AnimatableAttribute<T: Animatable>: CustomStringConvertible, AsyncAttribu
     }
 }
 
-final class AnimatorState<Value: VectorArithmetic> {
+final class AnimatorState<Value : VectorArithmetic> {
     //    var animation: Animation
     //    var state: AnimationState<Value>
     //    var interval: Value
@@ -612,7 +612,7 @@ extension VectorArithmetic {
     }
 }
 
-protocol AnimationFinishingDefinition<Value>: VectorArithmetic {
+protocol AnimationFinishingDefinition<Value> : VectorArithmetic {
     associatedtype Value
 }
 
@@ -633,24 +633,24 @@ class AnimationBoxBase {
         preconditionFailure() // abstract
     }
     
-    func animate<A: VectorArithmetic>(value: A, time: Double, context: inout AnimationContext<A>) -> A? {
+    func animate<A : VectorArithmetic>(value: A, time: Double, context: inout AnimationContext<A>) -> A? {
         preconditionFailure() // abstract
     }
     
-    func velocity<A: VectorArithmetic>(value: A, time: Double, context: AnimationContext<A>) -> A? {
+    func velocity<A : VectorArithmetic>(value: A, time: Double, context: AnimationContext<A>) -> A? {
         preconditionFailure() // abstract
     }
     
-    func shouldMerge<A: VectorArithmetic>(previous: Animation, value: A, time: Double, context: inout AnimationContext<A>) -> Bool {
+    func shouldMerge<A : VectorArithmetic>(previous: Animation, value: A, time: Double, context: inout AnimationContext<A>) -> Bool {
         preconditionFailure() // abstract
     }
     
-    func modifier<A: CustomAnimationModifier>(_ modifier: A) -> Animation {
+    func modifier<A : CustomAnimationModifier>(_ modifier: A) -> Animation {
         preconditionFailure() // abstract
     }
 }
 
-fileprivate class AnimationBox<T: CustomAnimation>: AnimationBoxBase {
+fileprivate class AnimationBox<T : CustomAnimation>: AnimationBoxBase {
     var _base: T
     
     init(_ base: T) {
@@ -690,7 +690,7 @@ fileprivate class AnimationBox<T: CustomAnimation>: AnimationBoxBase {
     }
 }
 
-fileprivate final class InternalAnimationBox<T: CustomAnimation>: AnimationBox<T> {
+fileprivate final class InternalAnimationBox<T : CustomAnimation>: AnimationBox<T> {
     override func modifier<A>(_ modifier: A) -> Animation where A : CustomAnimationModifier {
         assertUnimplemented()
     }
@@ -700,7 +700,7 @@ fileprivate final class InternalAnimationBox<T: CustomAnimation>: AnimationBox<T
     }
 }
 
-@frozen public struct _AnyAnimatableData: VectorArithmetic {
+@frozen public struct _AnyAnimatableData : VectorArithmetic {
     package var vtable: _AnyAnimatableDataVTable.Type {
         get {
             assertUnimplemented()
@@ -756,7 +756,7 @@ fileprivate final class InternalAnimationBox<T: CustomAnimation>: AnimationBox<T
 }
 
 @available(*, unavailable)
-extension _AnyAnimatableData: Sendable {
+extension _AnyAnimatableData : Sendable {
 }
 
 @usableFromInline
@@ -765,5 +765,5 @@ package class _AnyAnimatableDataVTable {
 }
 
 @available(*, unavailable)
-extension _AnyAnimatableDataVTable: Sendable {
+extension _AnyAnimatableDataVTable : Sendable {
 }

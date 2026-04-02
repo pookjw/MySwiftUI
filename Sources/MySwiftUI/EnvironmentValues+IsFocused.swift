@@ -19,13 +19,13 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct IsFocusedKey: EnvironmentKey {
+    fileprivate struct IsFocusedKey : EnvironmentKey {
         static var defaultValue: Bool {
             return false
         }
     }
     
-    fileprivate struct IsPlatformFocusSystemEnabled: EnvironmentKey {
+    fileprivate struct IsPlatformFocusSystemEnabled : EnvironmentKey {
         static var defaultValue: Bool {
             return false
         }

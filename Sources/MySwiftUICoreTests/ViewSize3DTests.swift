@@ -44,7 +44,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_fixed: Hashable {
+    struct Input_fixed : Hashable {
         let size: Size3D
     }
     
@@ -126,7 +126,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_init_proposal: Hashable {
+    struct Input_init_proposal : Hashable {
         let value: Size3D
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -259,7 +259,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_dimension: Hashable {
+    struct Input_dimension : Hashable {
         let initialValue: Size3D
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -368,7 +368,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_proposal: Hashable {
+    struct Input_proposal : Hashable {
         let initialValue: Size3D
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -501,7 +501,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_viewDepth: Hashable {
+    struct Input_viewDepth : Hashable {
         let initialValue: Size3D
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -628,7 +628,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_size2D: Hashable {
+    struct Input_size2D : Hashable {
         let initialValue: Size3D
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -741,7 +741,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_subscript_axis: Hashable {
+    struct Input_subscript_axis : Hashable {
         let initialValue: Size3D
         let initialProposal: Size3D
         let axis: SwiftUI::Axis
@@ -863,7 +863,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_subscript_axis3D: Hashable {
+    struct Input_subscript_axis3D : Hashable {
         let initialValue: Size3D
         let initialProposal: Size3D
         let axis: _SwiftUICorePrivate::_Axis3D
@@ -994,7 +994,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_init_depth_proposedDepth: Hashable {
+    struct Input_init_depth_proposedDepth : Hashable {
         let viewSizeWidth: CGFloat
         let viewSizeHeight: CGFloat
         let proposalWidth: CGFloat?
@@ -1100,7 +1100,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_init_usingDepthFrom: Hashable {
+    struct Input_init_usingDepthFrom : Hashable {
         let viewSizeWidth: CGFloat
         let viewSizeHeight: CGFloat
         let proposalWidth: CGFloat?
@@ -1223,7 +1223,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_init_depth_ViewDepth: Hashable {
+    struct Input_init_depth_ViewDepth : Hashable {
         let viewSizeWidth: CGFloat
         let viewSizeHeight: CGFloat
         let proposalWidth: CGFloat?
@@ -1350,7 +1350,7 @@ extension ViewSize3DTests {
 }
 
 extension ViewSize3DTests {
-    struct Input_equatable: Hashable {
+    struct Input_equatable : Hashable {
         let lhsViewSizeValue: CGSize
         let lhsProposalWidth: CGFloat?
         let lhsProposalHeight: CGFloat?

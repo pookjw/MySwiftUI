@@ -1,3 +1,3 @@
-struct WindowCoordinateSpace: Hashable {
+struct WindowCoordinateSpace : Hashable {
     
 }

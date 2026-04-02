@@ -5,10 +5,10 @@
 @_exported import UIIntelligenceSupport
 @_exported import ObjectiveC
 
-@objc public final class UIIntelligenceElementCollector: ObjectiveC.NSObject {
-    // TODO
+@objc public final class UIIntelligenceElementCollector : ObjectiveC.NSObject {
+  // TODO
 }
 
-@objc public final class UIIntelligenceCollectionRemoteContextWrapper: ObjectiveC.NSObject {
-    // TODO
+@objc public final class UIIntelligenceCollectionRemoteContextWrapper : ObjectiveC.NSObject {
+  // TODO
 }

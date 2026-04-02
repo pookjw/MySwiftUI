@@ -16,12 +16,12 @@ func isDeployedOnOrAfter(_ semantics: Semantics) -> Bool {
     }
 }
 
-package struct Semantics: Hashable, Comparable, CustomStringConvertible {
-    package static func <(lhs: Semantics, rhs: Semantics) -> Bool {
+package struct Semantics : Hashable, Comparable, CustomStringConvertible {
+    package static func <(lhs : Semantics, rhs : Semantics) -> Bool {
         return lhs.value < rhs.value
     }
     
-    package static func <=(lhs: Semantics, rhs: Semantics) -> Bool {
+    package static func <=(lhs : Semantics, rhs : Semantics) -> Bool {
         return lhs.value <= rhs.value
     }
     
@@ -51,7 +51,7 @@ package struct Semantics: Hashable, Comparable, CustomStringConvertible {
     package static var v7_4: Semantics { Semantics(value: SwiftUI_v7_4().version) }
     package static var v8: Semantics { Semantics(value: SwiftUI_v8().version) }
     
-    @safe package static nonisolated(unsafe) var forced: Semantics.Forced = Semantics.Forced()
+    @safe nonisolated(unsafe) package static var forced: Semantics.Forced = Semantics.Forced()
     
     fileprivate var value: UInt32
     
@@ -89,7 +89,7 @@ extension Semantics {
 }
 
 extension Semantics {
-    package struct UnifiedLayout: Feature {
+    package struct UnifiedLayout : Feature {
         package static var isEnabled: Bool {
             if isLinkedOnOrAfter(.maximal) {
                 return true
@@ -127,51 +127,51 @@ package protocol SemanticProtocol {
     }
 }
 
-package struct Semantics_v2: SemanticProtocol {
+package struct Semantics_v2 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v2().version)
 }
 
-package struct Semantics_v2_1: SemanticProtocol {
+package struct Semantics_v2_1 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v2_1().version)
 }
 
-package struct Semantics_v2_3: SemanticProtocol {
+package struct Semantics_v2_3 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v2_3().version)
 }
 
-package struct Semantics_v3: SemanticProtocol {
+package struct Semantics_v3 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v3().version)
 }
 
-package struct Semantics_v4: SemanticProtocol {
+package struct Semantics_v4 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v4().version)
 }
 
-package struct Semantics_v4_4: SemanticProtocol {
+package struct Semantics_v4_4 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v4_4().version)
 }
 
-package struct Semantics_v5: SemanticProtocol {
+package struct Semantics_v5 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v5().version)
 }
 
-package struct Semantics_v5_2: SemanticProtocol {
+package struct Semantics_v5_2 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v5_2().version)
 }
 
-package struct Semantics_v6: SemanticProtocol {
+package struct Semantics_v6 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v6().version)
 }
 
-package struct Semantics_v6_1: SemanticProtocol {
+package struct Semantics_v6_1 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v6_1().version)
 }
 
-package struct Semantics_v6_4: SemanticProtocol {
+package struct Semantics_v6_4 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v6_4().version)
 }
 
-package struct Semantics_v7: SemanticProtocol {
+package struct Semantics_v7 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v7().version)
 }
 
@@ -305,7 +305,7 @@ package func SwiftUI_v8() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07ea0000)
 }
 
-package protocol SemanticFeature: Feature {
+package protocol SemanticFeature : Feature {
     static var introduced: Semantics { get }
     static var requirement: SemanticRequirement { get }
 }
@@ -329,7 +329,7 @@ extension SemanticFeature {
     }
 }
 
-package struct _SemanticFeature<T: SemanticProtocol>: SemanticFeature {
+package struct _SemanticFeature<T : SemanticProtocol>: SemanticFeature {
     package static var introduced: Semantics {
         return T.semantic
     }

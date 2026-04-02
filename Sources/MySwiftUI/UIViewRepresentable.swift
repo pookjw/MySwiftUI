@@ -6,7 +6,7 @@ private import AttributeGraph
 @available(iOS 13.0, tvOS 13.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
-@preconcurrency @MainActor public protocol UIViewRepresentable: View where Body == Never {
+@preconcurrency @MainActor public protocol UIViewRepresentable : View where Body == Never {
     associatedtype UIViewType : UIView
     @MainActor @preconcurrency func makeUIView(context: Self.Context) -> Self.UIViewType
     @MainActor @preconcurrency func updateUIView(_ uiView: Self.UIViewType, context: Self.Context)
@@ -47,7 +47,7 @@ extension UIViewRepresentable {
         // nop
     }
     
-    public nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         precondition(
             (isLinkedOnOrAfter(.v4) ? TypeID(self).isValueType : true),
             "UIViewRepresentables must be value types: \(self)"
@@ -60,7 +60,7 @@ extension UIViewRepresentable {
         }.value
     }
     
-    public nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
         return _ViewListOutputs.unaryViewList(view: view, inputs: inputs)
     }
     
@@ -122,12 +122,12 @@ extension UIViewRepresentable {
 @available(iOS 13.0, tvOS 13.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
-extension UIViewRepresentableContext: Sendable {}
+extension UIViewRepresentableContext : Sendable {}
 
 @available(iOS 13.0, tvOS 13.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
-fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: @MainActor PlatformViewRepresentable {
+fileprivate struct PlatformViewRepresentableAdaptor<Base : UIViewRepresentable>: @MainActor PlatformViewRepresentable {
     typealias PlatformViewProvider = Base.UIViewType
     typealias Host = UIKitPlatformViewHost<Self>
     typealias Coordinator = Base.Coordinator
@@ -187,7 +187,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base: UIViewRepresentable>: 
         base._overrideLayoutTraits(&traits, for: provider)
     }
     
-    static nonisolated func modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
+    nonisolated static func modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
         // FIXME
         inputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable(inputs)] in
             var copy = unchecked.value

@@ -19,7 +19,7 @@ fileprivate final class Model {
     var flag = false
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let model: Model
     
     var body: some View {
@@ -33,7 +33,7 @@ fileprivate struct MyView: View {
     }
 }
 
-fileprivate struct MyLayout: Layout {
+fileprivate struct MyLayout : Layout {
     let model: Model
     
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
@@ -59,7 +59,7 @@ fileprivate struct MyLayout: Layout {
     }
 }
 
-final class MutatingLayoutViewController: UIViewController {
+final class MutatingLayoutViewController : UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     private let model = Model()
     private var task: Task<Void, Never>?

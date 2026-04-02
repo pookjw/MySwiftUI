@@ -3,9 +3,9 @@ private import MySwiftUI
 private import Foundation
 private import os.log
 
-@safe private nonisolated(unsafe) var didAppliedVisualStyles = false
+@safe nonisolated(unsafe) private var didAppliedVisualStyles = false
 
-@safe private nonisolated(unsafe) let uiKitDefault: UserDefaults? = {
+@safe nonisolated(unsafe) private let uiKitDefault: UserDefaults? = {
     if let defaults = UserDefaults(suiteName: "com.apple.UIKit") {
         return defaults
     }

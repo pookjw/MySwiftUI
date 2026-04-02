@@ -1,4 +1,4 @@
 
-protocol SensoryFeedbackCacheHost: AnyObject {
+protocol SensoryFeedbackCacheHost : AnyObject {
     
 }

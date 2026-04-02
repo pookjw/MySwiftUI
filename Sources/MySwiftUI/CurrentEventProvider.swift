@@ -1,5 +1,5 @@
 internal import UIKit
 
-protocol CurrentEventProvider: AnyObject {
+protocol CurrentEventProvider : AnyObject {
     var currentEvent: UIEvent? { get }
 }

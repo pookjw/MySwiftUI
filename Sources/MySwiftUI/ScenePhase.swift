@@ -1,13 +1,13 @@
 public import MySwiftUICore
 
-public enum ScenePhase: Comparable {
+public enum ScenePhase : Comparable {
     case background
     case inactive
     case active
 }
 
-extension ScenePhase: Sendable {}
-extension ScenePhase: Hashable {}
+extension ScenePhase : Sendable {}
+extension ScenePhase : Hashable {}
 
 extension EnvironmentValues {
     public var scenePhase: ScenePhase {
@@ -20,7 +20,7 @@ extension EnvironmentValues {
     }
 }
 
-struct ScenePhaseKey: EnvironmentKey {
+struct ScenePhaseKey : EnvironmentKey {
     static var defaultValue: ScenePhase {
         return .background
     }

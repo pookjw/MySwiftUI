@@ -2,7 +2,7 @@ internal import _UIKitPrivate
 internal import UIKit
 private import MySwiftUICore
 
-enum OpenSceneConnectionOptionDefinition: UISceneConnectionOptionDefinition {
+enum OpenSceneConnectionOptionDefinition : UISceneConnectionOptionDefinition {
     typealias Payload = OpenScenePayload
     typealias SceneType = Never
     typealias SceneDelegate = Never

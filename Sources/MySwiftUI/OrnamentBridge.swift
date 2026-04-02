@@ -4,7 +4,7 @@ internal import UIKit
 private import MRUIKit
 
 @MainActor
-class OrnamentBridge<Content: View> {
+class OrnamentBridge<Content : View> {
     weak var hostingController: UIHostingController<Content>? = nil {
         didSet {
             updateSceneOrnamentFrameMonitor()
@@ -136,7 +136,7 @@ struct OrnamentPresentation {
 }
 
 extension OrnamentPresentation {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static let defaultValue: [Namespace.ID: OrnamentPresentation] = [:]
         
         static func reduce(value: inout [Namespace.ID: OrnamentPresentation], nextValue: () -> [Namespace.ID: OrnamentPresentation]) {

@@ -1,6 +1,6 @@
 internal import QuartzCore
 
-final class ViewGraphDisplayLink: NSObject {
+final class ViewGraphDisplayLink : NSObject {
     var link: CADisplayLink? = nil
     private weak var host: ViewGraphHost? = nil
     private(set) var nextUpdate: Time = .infinity

@@ -1,3 +1,3 @@
-package protocol MultiView: View {
+package protocol MultiView : View {
     // TODO
 }

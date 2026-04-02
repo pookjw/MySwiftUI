@@ -12,7 +12,7 @@ public protocol ImmersionStyle {}
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 extension Scene {
-    public nonisolated func immersionStyle(
+    nonisolated public func immersionStyle(
         selection: Binding<any ImmersionStyle>,
         in styles: any ImmersionStyle...
     ) -> some Scene {
@@ -35,14 +35,14 @@ extension ImmersionStyle where Self == AutomaticImmersionStyle {
 @available(iOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-public struct AutomaticImmersionStyle: ImmersionStyle {
+public struct AutomaticImmersionStyle : ImmersionStyle {
     public init() {
         assertUnimplemented()
     }
 }
 
 @available(*, unavailable)
-extension AutomaticImmersionStyle: Sendable {}
+extension AutomaticImmersionStyle : Sendable {}
 
 @available(macOS 26.0, visionOS 1.0, *)
 @available(iOS, unavailable)
@@ -59,14 +59,14 @@ extension ImmersionStyle where Self == FullImmersionStyle {
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-public struct FullImmersionStyle: ImmersionStyle {
+public struct FullImmersionStyle : ImmersionStyle {
     public init() {
         assertUnimplemented()
     }
 }
 
 @available(*, unavailable)
-extension FullImmersionStyle: Sendable {}
+extension FullImmersionStyle : Sendable {}
 
 @available(visionOS 1.0, *)
 @available(iOS, unavailable)
@@ -85,14 +85,14 @@ extension ImmersionStyle where Self == MixedImmersionStyle {
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-public struct MixedImmersionStyle: ImmersionStyle {
+public struct MixedImmersionStyle : ImmersionStyle {
     public init() {
         assertUnimplemented()
     }
 }
 
 @available(*, unavailable)
-extension MixedImmersionStyle: Sendable {}
+extension MixedImmersionStyle : Sendable {}
 
 @available(macOS 26.0, visionOS 1.0, *)
 @available(iOS, unavailable)
@@ -167,7 +167,7 @@ extension ImmersionStyle where Self == ProgressiveImmersionStyle {
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-public struct ProgressiveImmersionStyle: ImmersionStyle {
+public struct ProgressiveImmersionStyle : ImmersionStyle {
     @available(visionOS 26.0, *)
     public let aspectRatio: ProgressiveImmersionAspectRatio
 
@@ -202,13 +202,13 @@ public struct ProgressiveImmersionStyle: ImmersionStyle {
 }
 
 @available(*, unavailable)
-extension ProgressiveImmersionStyle: Sendable {}
+extension ProgressiveImmersionStyle : Sendable {}
 
 @available(macOS 26.0, visionOS 26.0, *)
 @available(iOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-public struct ProgressiveImmersionAspectRatio: Equatable, Sendable {
+public struct ProgressiveImmersionAspectRatio : Equatable, Sendable {
     public static var automatic: ProgressiveImmersionAspectRatio {
         get {
             assertUnimplemented()
@@ -235,13 +235,13 @@ public struct ProgressiveImmersionAspectRatio: Equatable, Sendable {
     }
 }
 
-struct ImmersionStyleSelectionInput: SceneInput {
+struct ImmersionStyleSelectionInput : SceneInput {
     static var defaultValue: OptionalAttribute<Binding<any ImmersionStyle>> {
         return OptionalAttribute()
     }
 }
 
-struct AllowedImmersionStylesInput: SceneInput {
+struct AllowedImmersionStylesInput : SceneInput {
     static var defaultValue: OptionalAttribute<[any ImmersionStyle]> {
         return OptionalAttribute()
     }

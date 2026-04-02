@@ -1,4 +1,4 @@
-public struct EventModifiers: OptionSet {
+public struct EventModifiers : OptionSet {
     public let rawValue: Int
     
     public init(rawValue: Int) {
@@ -24,6 +24,6 @@ public struct EventModifiers: OptionSet {
     public static let all: EventModifiers = [.capsLock, .shift, .control, .option, .command, .numericPad, ._function]
 }
 
-extension EventModifiers: Sendable {}
-extension EventModifiers: BitwiseCopyable {}
-extension EventModifiers: Hashable {}
+extension EventModifiers : Sendable {}
+extension EventModifiers : BitwiseCopyable {}
+extension EventModifiers : Hashable {}

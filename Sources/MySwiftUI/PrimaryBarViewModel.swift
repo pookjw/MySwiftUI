@@ -1,3 +1,3 @@
-final class PrimaryBarViewModel: BarEnvironmentViewModel {
+final class PrimaryBarViewModel : BarEnvironmentViewModel {
     // TODO
 }

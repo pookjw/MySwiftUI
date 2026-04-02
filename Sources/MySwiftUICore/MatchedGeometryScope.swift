@@ -12,7 +12,7 @@ extension _ViewInputs {
     }
 }
 
-fileprivate final class MatchedGeometryScope: ViewInput {
+fileprivate final class MatchedGeometryScope : ViewInput {
     static var defaultValue: MatchedGeometryScope? {
         return nil
     }
@@ -53,7 +53,7 @@ extension MatchedGeometryScope.Frame {
 }
 
 extension MatchedGeometryScope {
-    fileprivate struct EmptyKey: Hashable {
+    fileprivate struct EmptyKey : Hashable {
     }
 }
 
@@ -74,7 +74,7 @@ extension SharedFrame {
     }
 }
 
-@frozen public struct MatchedGeometryProperties: OptionSet {
+@frozen public struct MatchedGeometryProperties : OptionSet {
     public let rawValue: UInt32
     
     @inlinable public init(rawValue: UInt32) {

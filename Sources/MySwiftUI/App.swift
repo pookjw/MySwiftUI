@@ -25,7 +25,7 @@ extension App {
     }
 }
 
-func runApp<T: App>(_ app: T) -> Never {
+func runApp<T : App>(_ app: T) -> Never {
     Update.dispatchImmediately(reason: nil) { 
         // $s7SwiftUI6runAppys5NeverOxAA0D0RzlFyyXEfU_TA
         AppGraph.shared = AppGraph(app: app)
@@ -50,7 +50,7 @@ fileprivate func KitRendererCommon(_ type: AnyObject.Type) -> Never {
 }
 
 // _TtC7SwiftUIP33_ACC2C5639A7D76F611E170E831FCA49118SwiftUIApplication
-fileprivate final class SwiftUIApplication: UIApplication {
+fileprivate final class SwiftUIApplication : UIApplication {
     override func _extendLaunchTest() -> Any? {
         guard let appGraph = AppGraph.shared else {
             return nil

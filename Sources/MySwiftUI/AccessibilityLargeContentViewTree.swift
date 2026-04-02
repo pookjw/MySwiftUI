@@ -7,7 +7,7 @@ enum AccessibilityLargeContentViewTree {
 }
 
 extension AccessibilityLargeContentViewTree {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static let defaultValue = AccessibilityLargeContentViewTree.empty
         
         static func reduce(value: inout AccessibilityLargeContentViewTree, nextValue: () -> AccessibilityLargeContentViewTree) {

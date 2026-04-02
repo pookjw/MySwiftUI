@@ -1,4 +1,4 @@
-public enum UserInterfaceSizeClass: Sendable, Hashable {
+public enum UserInterfaceSizeClass : Sendable, Hashable {
     case compact
     case regular
 }
@@ -43,13 +43,13 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct HorizontalUserInterfaceSizeClassKey: EnvironmentKey {
+fileprivate struct HorizontalUserInterfaceSizeClassKey : EnvironmentKey {
     static var defaultValue: UserInterfaceSizeClass? {
         return nil
     }
 }
 
-fileprivate struct VerticalUserInterfaceSizeClassKey: EnvironmentKey {
+fileprivate struct VerticalUserInterfaceSizeClassKey : EnvironmentKey {
     static var defaultValue: UserInterfaceSizeClass? {
         return nil
     }

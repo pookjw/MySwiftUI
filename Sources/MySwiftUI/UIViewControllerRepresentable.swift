@@ -7,8 +7,8 @@ private import os.log
 @available(iOS 13.0, tvOS 13.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
-@preconcurrency @MainActor public protocol UIViewControllerRepresentable: View where Body == Never {
-    associatedtype UIViewControllerType: UIViewController
+@preconcurrency @MainActor public protocol UIViewControllerRepresentable : View where Body == Never {
+    associatedtype UIViewControllerType : UIViewController
     @MainActor @preconcurrency func makeUIViewController(context: Self.Context) -> Self.UIViewControllerType
     @MainActor @preconcurrency func updateUIViewController(_ uiViewController: Self.UIViewControllerType, context: Self.Context)
     @MainActor @preconcurrency static func dismantleUIViewController(_ uiViewController: Self.UIViewControllerType, coordinator: Self.Coordinator)
@@ -49,7 +49,7 @@ extension UIViewControllerRepresentable {
         // nop
     }
     
-    public nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          view -> x0 -> x29 - 0xb0
          inputs -> x1 -> x21
@@ -95,7 +95,7 @@ extension UIViewControllerRepresentable {
         }
     }
     
-    public nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
@@ -116,7 +116,7 @@ extension UIViewControllerRepresentable {
 @available(iOS 13.0, tvOS 13.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
-@preconcurrency @MainActor public struct UIViewControllerRepresentableContext<Representable> where Representable: UIViewControllerRepresentable {
+@preconcurrency @MainActor public struct UIViewControllerRepresentableContext<Representable> where Representable : UIViewControllerRepresentable {
     @MainActor @preconcurrency public let coordinator: Representable.Coordinator
     
     @MainActor @preconcurrency public var transaction: Transaction {
@@ -138,9 +138,9 @@ extension UIViewControllerRepresentable {
 @available(iOS 13.0, tvOS 13.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
-extension UIViewControllerRepresentableContext: Sendable {}
+extension UIViewControllerRepresentableContext : Sendable {}
 
-fileprivate struct UnsupportedDisplayList: Rule {
+fileprivate struct UnsupportedDisplayList : Rule {
     private(set) var identity: _DisplayList_Identity
     @Attribute private(set) var position: CGPoint
     @Attribute private(set) var size: ViewSize

@@ -1,5 +1,5 @@
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-public struct ForEachSubviewCollection<Content>: RandomAccessCollection where Content: View {
+public struct ForEachSubviewCollection<Content> : RandomAccessCollection where Content : View {
     private(set) var substituteView: AnyView
     
     public var startIndex: Int {
@@ -27,4 +27,4 @@ public struct ForEachSubviewCollection<Content>: RandomAccessCollection where Co
 }
 
 @available(*, unavailable)
-extension ForEachSubviewCollection: Sendable {}
+extension ForEachSubviewCollection : Sendable {}

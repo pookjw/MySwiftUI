@@ -3,13 +3,13 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import AttributeGraph
 
-struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
+struct AccessibilityPlatformViewModifier : AccessibilityViewModifier {
     private(set) var platformView: UIView
     private(set) var properties: AccessibilityProperties
     
     typealias Body = Never
     
-    static nonisolated func makeAccessibilityPlatformTransform<T: CoreViewRepresentable>(inputs: _ViewInputs, representable: Attribute<ViewLeafView<T>>, outputs: inout _ViewOutputs) {
+    nonisolated static func makeAccessibilityPlatformTransform<T : CoreViewRepresentable>(inputs: _ViewInputs, representable: Attribute<ViewLeafView<T>>, outputs: inout _ViewOutputs) {
         /*
          inputs -> x0 -> x24
          representable -> x1 -> x21
@@ -28,7 +28,7 @@ struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
         }
     }
     
-    static nonisolated func makeAccessibilityViewModifier(modifier: _GraphValue<AccessibilityPlatformViewModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func makeAccessibilityViewModifier(modifier: _GraphValue<AccessibilityPlatformViewModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
@@ -58,7 +58,7 @@ struct AccessibilityPlatformViewModifier: AccessibilityViewModifier {
 }
 
 extension AccessibilityPlatformViewModifier {
-    fileprivate struct PlatformViewAttachment: Rule {
+    fileprivate struct PlatformViewAttachment : Rule {
         @Attribute private(set) var properties: AccessibilityProperties
         @Attribute private(set) var view: UIView
         
@@ -68,7 +68,7 @@ extension AccessibilityPlatformViewModifier {
     }
 }
 
-struct AccessibilityBridgedPlatformView<Representable: CoreViewRepresentable>: ResolvableAccessibilityModifierStatefulRule {
+struct AccessibilityBridgedPlatformView<Representable : CoreViewRepresentable>: ResolvableAccessibilityModifierStatefulRule {
     static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute {
         assertUnimplemented()
     }

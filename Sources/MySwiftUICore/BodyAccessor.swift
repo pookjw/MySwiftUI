@@ -32,7 +32,7 @@ extension BodyAccessor {
                 flags = MainThreadFlags.self
             }
             
-            func project<T: RuleThreadFlags>(flags: T.Type) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
+            func project<T : RuleThreadFlags>(flags: T.Type) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
                 var buffer = unsafe _DynamicPropertyBuffer(fields: fields, container: container, inputs: &inputs)
                 if buffer.isEmpty {
                     buffer.destroy()
@@ -66,13 +66,13 @@ protocol BodyAccessorRule {
     static func metaProperties<T>(as: T.Type, attribute: AnyAttribute) -> [(String, AnyAttribute)]
 }
 
-fileprivate struct MainThreadFlags: RuleThreadFlags {
+fileprivate struct MainThreadFlags : RuleThreadFlags {
     static var flags: AnyAttribute.Flags {
         return .unknown3
     }
 }
 
-fileprivate struct AsyncThreadFlags: RuleThreadFlags {
+fileprivate struct AsyncThreadFlags : RuleThreadFlags {
     static var flags: AnyAttribute.Flags {
         return .unknown5
     }
@@ -82,13 +82,13 @@ fileprivate protocol RuleThreadFlags {
     static var flags: AnyAttribute.Flags { get }
 }
 
-fileprivate struct EmbeddedDynamicPropertyBox<T: DynamicProperty>: DynamicPropertyBox {
+fileprivate struct EmbeddedDynamicPropertyBox<T : DynamicProperty>: DynamicPropertyBox {
     func update(property: inout T, phase: _GraphInputs.Phase) -> Bool {
         assertUnimplemented()
     }
 }
 
-fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStringConvertible, BodyAccessorRule, StatefulRule {
+fileprivate struct StaticBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStringConvertible, BodyAccessorRule, StatefulRule {
     typealias Value = T.Body
     
     var description: String {
@@ -135,7 +135,7 @@ fileprivate struct StaticBody<T: BodyAccessor, U: RuleThreadFlags>: CustomString
     }
 }
 
-fileprivate struct DynamicBody<T: BodyAccessor, U: RuleThreadFlags>: CustomStringConvertible, ObservedAttribute, BodyAccessorRule, StatefulRule {
+fileprivate struct DynamicBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStringConvertible, ObservedAttribute, BodyAccessorRule, StatefulRule {
     typealias Value = T.Body
     
     let accessor: T

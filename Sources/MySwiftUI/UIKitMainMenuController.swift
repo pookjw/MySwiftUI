@@ -4,7 +4,7 @@ internal import UIKit
 private import _Elegibility
 private import AttributeGraph
 
-final class UIKitMainMenuController: UIResponder {
+final class UIKitMainMenuController : UIResponder {
     private var topLevelItemCoordinators: [String: MainMenuItemCoordinator] = .init() // 0x10
     private var keyCommandMap: [KeyCommandID: () -> Void] = .init() // 0x18
     private var currentResponderCommands: [Selector: any CommandAction] = ResponderCommandsKey.defaultValue // 0x20
@@ -348,7 +348,7 @@ final class UIKitMainMenuController: UIResponder {
     }
 }
 
-extension UIKitMainMenuController: AppGraphObserver {
+extension UIKitMainMenuController : AppGraphObserver {
     func scenesDidChange(phaseChanged: Bool) {
         // nop
     }
@@ -458,7 +458,7 @@ fileprivate final class MainMenuItemCoordinator {
     // TODO
 }
 
-extension MainMenuItemCoordinator: MainMenuItemHostDelegate {
+extension MainMenuItemCoordinator : MainMenuItemHostDelegate {
     func menuHostDidChangeMenuItems(_ host: MainMenuItemHost) {
         updateIfNeeded()
     }
@@ -506,7 +506,7 @@ fileprivate enum MenuBuilderInstruction {
     }
 }
 
-struct KeyCommandID: Hashable {
+struct KeyCommandID : Hashable {
     fileprivate private(set) var seed: Int
 }
 
@@ -514,7 +514,7 @@ protocol CommandAction {
     // TODO
 }
 
-fileprivate struct OptionalMenus: OptionSet {
+fileprivate struct OptionalMenus : OptionSet {
     static var unknown0: OptionalMenus {
         return OptionalMenus(rawValue: 1 << 0)
     }
@@ -539,7 +539,7 @@ fileprivate struct OptionalMenus: OptionSet {
 }
 
 struct ResponderCommandsKey {
-    @safe static nonisolated(unsafe) let defaultValue: [Selector: any CommandAction] = [:]
+    @safe nonisolated(unsafe) static let defaultValue: [Selector: any CommandAction] = [:]
 }
 
 extension UIMenuBuilder {

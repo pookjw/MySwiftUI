@@ -2,7 +2,7 @@
 
 public import CoreGraphics
 
-public struct ScrollGeometry: Equatable, Sendable {
+public struct ScrollGeometry : Equatable, Sendable {
     public var contentOffset: CGPoint
     public var contentSize: CGSize
     public var contentInsets: EdgeInsets
@@ -54,7 +54,7 @@ extension ScrollGeometry {
     }
 }
 
-extension ScrollGeometry: CustomDebugStringConvertible {
+extension ScrollGeometry : CustomDebugStringConvertible {
     public var debugDescription: String {
         assertUnimplemented()
     }

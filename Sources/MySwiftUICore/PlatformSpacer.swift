@@ -24,7 +24,7 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    fileprivate struct SpacerRepresentationKey: ViewInput {
+    fileprivate struct SpacerRepresentationKey : ViewInput {
         static var defaultValue: (any PlatformSpacerRepresentable.Type)? {
             return nil
         }

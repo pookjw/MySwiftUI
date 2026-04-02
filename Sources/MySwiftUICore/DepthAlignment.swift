@@ -8,7 +8,7 @@ private import Spatial
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-@frozen public struct DepthAlignment: Equatable, Sendable {
+@frozen public struct DepthAlignment : Equatable, Sendable {
     public init(_ id: any DepthAlignmentID.Type) {
         assertUnimplemented()
     }
@@ -94,7 +94,7 @@ extension DepthAlignment {
         assertUnimplemented()
     }
     
-    public static func < (lhs: DepthAlignmentKey, rhs: DepthAlignmentKey) -> Bool {
+    public static func < (lhs : DepthAlignmentKey, rhs : DepthAlignmentKey) -> Bool {
         assertUnimplemented()
     }
     
@@ -109,7 +109,7 @@ extension DepthAlignment {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension DepthAlignmentKey {
-    fileprivate struct TypeCache: Sendable {
+    fileprivate struct TypeCache : Sendable {
         var bits: [ObjectIdentifier: UInt] = [:]
         var ids: [any DepthAlignmentID.Type] = []
     }

@@ -1,5 +1,5 @@
 
-public struct DebugReplaceableView: View {
+public struct DebugReplaceableView : View {
     @_alwaysEmitIntoClient @_documentation(visibility: private) public init<V>(erasing view: V) where V : View {
         self.init(_erasing: view)
     }
@@ -9,15 +9,15 @@ public struct DebugReplaceableView: View {
         assertUnimplemented()
     }
     
-    public static nonisolated func _makeView(view: _GraphValue<DebugReplaceableView>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<DebugReplaceableView>, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _makeViewList(view: _GraphValue<DebugReplaceableView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<DebugReplaceableView>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
     
@@ -25,4 +25,4 @@ public struct DebugReplaceableView: View {
 }
 
 @available(*, unavailable)
-extension DebugReplaceableView: Sendable {}
+extension DebugReplaceableView : Sendable {}

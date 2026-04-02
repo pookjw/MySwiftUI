@@ -11,7 +11,7 @@ internal import AttributeGraph
 }
 
 @available(*, unavailable)
-extension _ConditionalContent.Storage: Sendable {
+extension _ConditionalContent.Storage : Sendable {
 }
 @available(*, unavailable)
 extension _ConditionalContent : Sendable {
@@ -28,13 +28,13 @@ extension _ConditionalContent {
     }
 }
 
-extension _ConditionalContent: View, PrimitiveView where TrueContent: View, FalseContent: View {
+extension _ConditionalContent : View, PrimitiveView where TrueContent : View, FalseContent : View {
     @usableFromInline
     init(storage: _ConditionalContent<TrueContent, FalseContent>.Storage) {
         self.storage = storage
     }
     
-    public static nonisolated func _makeView(view: _GraphValue<_ConditionalContent<TrueContent, FalseContent>>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<_ConditionalContent<TrueContent, FalseContent>>, inputs: _ViewInputs) -> _ViewOutputs {
         if isLinkedOnOrAfter(.v6) {
             return Self.makeImplicitRoot(view: view, inputs: inputs)
         } else {
@@ -42,19 +42,19 @@ extension _ConditionalContent: View, PrimitiveView where TrueContent: View, Fals
         }
     }
     
-    public static nonisolated func _makeViewList(view: _GraphValue<_ConditionalContent<TrueContent, FalseContent>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<_ConditionalContent<TrueContent, FalseContent>>, inputs: _ViewListInputs) -> _ViewListOutputs {
         let metadata = Self.makeConditionalMetadata(ViewDescriptor.self)
         let listOutputs = Self.makeDynamicViewList(metadata: metadata, view: view, inputs: inputs)
         return listOutputs
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
 }
 
 extension _ConditionalContent {
-    static func makeConditionalMetadata<T: ConditionalProtocolDescriptor>(_ descriptor: T.Type) -> ConditionalMetadata<T> {
+    static func makeConditionalMetadata<T : ConditionalProtocolDescriptor>(_ descriptor: T.Type) -> ConditionalMetadata<T> {
         if let descriptor = T.fetchConditionalType(key: ObjectIdentifier(Self.self)) {
             return ConditionalMetadata(descriptor)
         } else {
@@ -75,11 +75,11 @@ extension _ConditionalContent {
     }
 }
 
-extension _ConditionalContent: DynamicView where TrueContent: View, FalseContent: View {
+extension _ConditionalContent : DynamicView where TrueContent : View, FalseContent : View {
     typealias Metadata = ConditionalMetadata<ViewDescriptor>
     typealias ID = UniqueID
     
-    static nonisolated var canTransition: Bool {
+    nonisolated static var canTransition: Bool {
         return true
     }
     
@@ -106,7 +106,7 @@ extension _ConditionalContent: DynamicView where TrueContent: View, FalseContent
     }
 }
 
-struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
+struct ConditionalMetadata<T : ConditionalProtocolDescriptor> {
     private var desc: ConditionalTypeDescriptor<T>
     private var ids: [UniqueID]
     
@@ -139,7 +139,7 @@ struct ConditionalMetadata<T: ConditionalProtocolDescriptor> {
 }
 
 extension ConditionalMetadata where T == ViewDescriptor {
-    func makeViewList<U: View>(ptr: UnsafePointer<U>, view: Attribute<U>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    func makeViewList<U : View>(ptr: UnsafePointer<U>, view: Attribute<U>, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          ptr = x22
          view = x24
@@ -170,12 +170,12 @@ extension ConditionalMetadata where T == ViewDescriptor {
     }
 }
 
-protocol ConditionalProtocolDescriptor: ProtocolDescriptor {
+protocol ConditionalProtocolDescriptor : ProtocolDescriptor {
     static func fetchConditionalType(key: ObjectIdentifier) -> ConditionalTypeDescriptor<Self>?
     static func insertConditionalType(key: ObjectIdentifier, value: ConditionalTypeDescriptor<Self>)
 }
 
-struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
+struct ConditionalTypeDescriptor<T : ConditionalProtocolDescriptor>: Sendable {
     fileprivate static func descriptor(type: any Any.Type) -> ConditionalTypeDescriptor<T> {
         if let descriptor = T.fetchConditionalType(key: ObjectIdentifier(type)) {
             return descriptor
@@ -269,18 +269,18 @@ struct ConditionalTypeDescriptor<T: ConditionalProtocolDescriptor>: Sendable {
 }
 
 extension ConditionalTypeDescriptor {
-    fileprivate enum Storage: Sendable {
+    fileprivate enum Storage : Sendable {
         case atom(TypeConformance<T>)
         indirect case optional(any Any.Type, ConditionalTypeDescriptor<T>)
         indirect case either(any Any.Type, f: ConditionalTypeDescriptor<T>, t: ConditionalTypeDescriptor<T>)
     }
 }
 
-fileprivate nonisolated(unsafe) let conditionalTypeDescriptor: UnsafeRawPointer = unsafe TypeID(_ConditionalContent<Void, Void>.self).nominalDescriptor
-fileprivate nonisolated(unsafe) let optionalTypeDescriptor: UnsafeRawPointer = unsafe TypeID(Void?.self).nominalDescriptor
+nonisolated(unsafe) fileprivate let conditionalTypeDescriptor: UnsafeRawPointer = unsafe TypeID(_ConditionalContent<Void, Void>.self).nominalDescriptor
+nonisolated(unsafe) fileprivate let optionalTypeDescriptor: UnsafeRawPointer = unsafe TypeID(Void?.self).nominalDescriptor
 
 extension ConditionalMetadata where T == ViewDescriptor {
-    fileprivate struct MakeList<U>: ViewTypeVisitor {
+    fileprivate struct MakeList<U> : ViewTypeVisitor {
         private(set) var desc: ConditionalTypeDescriptor<ViewDescriptor>
         private(set) var view: Attribute<U>
         var index: Int
@@ -288,7 +288,7 @@ extension ConditionalMetadata where T == ViewDescriptor {
         private(set) var inputs: _ViewListInputs
         var outputs: _ViewListOutputs?
         
-        mutating func visit<Content: View>(type: Content.Type) {
+        mutating func visit<Content : View>(type: Content.Type) {
             // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE8MakeList33_2319071E64CA2FA820BFB26F46C6ECC6LLV5visit4typeyqd0__m_tAA0E0Rd0__lF
             inputs.base.pushStableType(type)
             let rule = UnwrapConditional<T, U, Content>(source: view, desc: desc, index: index)
@@ -299,7 +299,7 @@ extension ConditionalMetadata where T == ViewDescriptor {
     }
 }
 
-fileprivate struct UnwrapConditional<T: ConditionalProtocolDescriptor, Source, Content: View>: StatefulRule, AsyncAttribute {
+fileprivate struct UnwrapConditional<T : ConditionalProtocolDescriptor, Source, Content : View>: StatefulRule, AsyncAttribute {
     @Attribute private(set) var source: Source
     let desc: ConditionalTypeDescriptor<T>
     let index: Int
@@ -322,7 +322,7 @@ fileprivate struct UnwrapConditional<T: ConditionalProtocolDescriptor, Source, C
 }
 
 extension Optional {
-    static func makeConditionalMetadata<T: ConditionalProtocolDescriptor>(_ type: T.Type) -> ConditionalMetadata<T> {
+    static func makeConditionalMetadata<T : ConditionalProtocolDescriptor>(_ type: T.Type) -> ConditionalMetadata<T> {
         // sp + 0x8
         if let descriptor = type.fetchConditionalType(key: ObjectIdentifier(Self.self)) {
             // <+156>

@@ -15,7 +15,7 @@ struct AccessibilityRequestFocusAction {
     var onAccessibilityFocus: ((AnyHashable, Namespace.ID) -> Void)?
 }
 
-fileprivate struct AccessibilityRequestFocusKey: EnvironmentKey {
+fileprivate struct AccessibilityRequestFocusKey : EnvironmentKey {
     static var defaultValue: AccessibilityRequestFocusAction {
         return AccessibilityRequestFocusAction(onAccessibilityFocus: nil)
     }

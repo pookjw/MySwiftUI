@@ -15,11 +15,11 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct HiddenAccessibilityProviderKey: GraphInput {
+    fileprivate struct HiddenAccessibilityProviderKey : GraphInput {
         static let defaultValue: (any HiddenAccessibilityProvider.Type) = EmptyHiddenAccessibilityProvider.self
     }
 }
 
-struct EmptyHiddenAccessibilityProvider: HiddenAccessibilityProvider {
+struct EmptyHiddenAccessibilityProvider : HiddenAccessibilityProvider {
     
 }

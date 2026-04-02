@@ -1,6 +1,6 @@
 // FC193EF4CDDE14447FC4651D4987AA15
 
-package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessCollection, CustomStringConvertible {
+package struct CollectionChanges<A : Comparable, B : Comparable>: RandomAccessCollection, CustomStringConvertible {
     private var changes: [CollectionChanges<A, B>.Element]
     
     init() {
@@ -19,7 +19,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         return CollectionChanges<A, B>.Projection<(Range<A>, Range<B>)>(kind: .matched, changes: changes)
     }
     
-    package init<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T: BidirectionalCollection, U: BidirectionalCollection, T.Element: Hashable, T.Element == U.Element {
+    package init<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T : BidirectionalCollection, U : BidirectionalCollection, T.Element : Hashable, T.Element == U.Element {
         changes = .init()
         formChanges(from: from, to: to)
     }
@@ -48,7 +48,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         return changes.description
     }
     
-    mutating func formChanges<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T: BidirectionalCollection, U: BidirectionalCollection, T.Element: Hashable, T.Element == U.Element {
+    mutating func formChanges<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T : BidirectionalCollection, U : BidirectionalCollection, T.Element : Hashable, T.Element == U.Element {
         /*
          self -> x20 -> x28 -> x23
          from -> x0 -> x25 -> x21
@@ -138,7 +138,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
             var x23 = 0
             // ranges1 (buffer pointer) -> x29 - 0x158
             
-            func iterateRange<V>(from index: inout V.Index, length: Int, in collection: V) -> Range<V.Index> where V: BidirectionalCollection {
+            func iterateRange<V>(from index: inout V.Index, length: Int, in collection: V) -> Range<V.Index> where V : BidirectionalCollection {
                 /*
                  index -> x0 -> x24
                  length -> x1 -> x29 - 0x58
@@ -283,7 +283,7 @@ package struct CollectionChanges<A: Comparable, B: Comparable>: RandomAccessColl
         }
     }
     
-    fileprivate func changedOffsets<T, U>(from: T, to: U, limit: Int) -> ([Int], [Int])? where A == T.Index, B == U.Index, T: BidirectionalCollection, U: BidirectionalCollection, T.Element: Hashable, T.Element == U.Element {
+    fileprivate func changedOffsets<T, U>(from: T, to: U, limit: Int) -> ([Int], [Int])? where A == T.Index, B == U.Index, T : BidirectionalCollection, U : BidirectionalCollection, T.Element : Hashable, T.Element == U.Element {
         return from.withContiguousStorageIfAvailable { fromBuffer -> ([Int], [Int])? in
             return to.withContiguousStorageIfAvailable { toBuffer -> ([Int], [Int])? in
                 // $s7SwiftUI17CollectionChangesV14changedOffsets33_FC193EF4CDDE14447FC4651D4987AA15LL4from2to5limitSaySiG_AItSgqd___qd_0_SitSKRd__SKRd_0_SH7ElementRpd__AKQyd_0_ALRSr0_lFAJSRyALGXEfU_AjNXEfU_TA
@@ -536,7 +536,7 @@ extension CollectionChanges {
         }
     }
     
-    struct Projection<C>: BidirectionalCollection {
+    struct Projection<C> : BidirectionalCollection {
         let kind: CollectionChanges<A, B>.Element.Kind // 0x0
         let changes: [CollectionChanges<A, B>.Element] // 0x8
         let startIndex: Int // 0x10
@@ -639,7 +639,7 @@ extension CollectionChanges {
 }
 
 extension CollectionChanges.Element {
-    enum Kind: Hashable {
+    enum Kind : Hashable {
         case removed
         case inserted
         case matched

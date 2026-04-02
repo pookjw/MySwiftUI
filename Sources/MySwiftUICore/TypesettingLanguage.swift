@@ -1,6 +1,6 @@
 public import Foundation
 
-package struct TypesettingConfiguration: Equatable {
+package struct TypesettingConfiguration : Equatable {
     package static func == (lhs: TypesettingConfiguration, rhs: TypesettingConfiguration) -> Bool {
         assertUnimplemented()
     }
@@ -56,12 +56,12 @@ extension EnvironmentValues {
     }
 }
 
-package struct TypesettingConfigurationKey: BridgedEnvironmentKey {
+package struct TypesettingConfigurationKey : BridgedEnvironmentKey {
     package static let defaultValue = TypesettingConfiguration(language: .automatic, languageAwareLineHeightRatio: .automatic)
 }
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
-public struct TypesettingLanguage: Sendable, Equatable {
+public struct TypesettingLanguage : Sendable, Equatable {
     public static let automatic = TypesettingLanguage(storage: .automatic)
     
     public static func explicit(_ language: Locale.Language) -> TypesettingLanguage {
@@ -76,7 +76,7 @@ public struct TypesettingLanguage: Sendable, Equatable {
 }
 
 extension TypesettingLanguage {
-    package struct Flags: OptionSet {
+    package struct Flags : OptionSet {
         package var rawValue: UInt8
         
         package init(rawValue: UInt8) {

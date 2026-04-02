@@ -3,7 +3,7 @@ package import AttributeGraph
 private import os.log
 private import _MySwiftUIShims
 
-package class StoredLocationBase<Value>: AnyLocation<Value> {
+package class StoredLocationBase<Value> : AnyLocation<Value> {
     @AtomicBox private var data: StoredLocationBase<Value>.Data
     private var _wasRead: Bool
     
@@ -147,7 +147,7 @@ package class StoredLocationBase<Value>: AnyLocation<Value> {
     }
 }
 
-package final class StoredLocation<Value>: StoredLocationBase<Value> {
+package final class StoredLocation<Value> : StoredLocationBase<Value> {
     private weak var host: GraphHost?
     @WeakAttribute private var signal: Void?
     
@@ -204,7 +204,7 @@ package final class StoredLocation<Value>: StoredLocationBase<Value> {
 }
 
 extension StoredLocationBase {
-    fileprivate struct BeginUpdate: GraphMutation {
+    fileprivate struct BeginUpdate : GraphMutation {
         private(set) weak var box: StoredLocationBase<Value>?
         
         func apply() {

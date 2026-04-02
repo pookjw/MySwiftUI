@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     @Environment(\.openWindow) private var openWindow
     
     var body: some View {
@@ -18,7 +18,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class OpenWindowActionViewController: UIViewController {
+final class OpenWindowActionViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

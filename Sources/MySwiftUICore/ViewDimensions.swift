@@ -64,9 +64,9 @@ public struct ViewDimensions {
 }
 
 @available(*, unavailable)
-extension ViewDimensions: Sendable {}
+extension ViewDimensions : Sendable {}
 
-extension ViewDimensions: Equatable {
+extension ViewDimensions : Equatable {
 }
 
 extension ViewDimensions {
@@ -76,9 +76,9 @@ extension ViewDimensions {
         }
     }
     
-    static nonisolated(unsafe) let invalidValue = ViewDimensions(guideComputer: .defaultValue, size: .invalidValue)
+    nonisolated(unsafe) static let invalidValue = ViewDimensions(guideComputer: .defaultValue, size: .invalidValue)
     
-    static nonisolated(unsafe) let zero = ViewDimensions(guideComputer: .defaultValue, size: .zero, proposal: .zero)
+    nonisolated(unsafe) static let zero = ViewDimensions(guideComputer: .defaultValue, size: .zero, proposal: .zero)
     
     func at(_: CGPoint) -> ViewGeometry {
         assertUnimplemented()

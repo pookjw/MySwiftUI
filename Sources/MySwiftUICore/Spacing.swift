@@ -1,7 +1,7 @@
 // EF1C7FCB82CB27FA7772A4944789FD3D
 internal import CoreGraphics
 
-package struct Spacing: Equatable, CustomStringConvertible {
+package struct Spacing : Equatable, CustomStringConvertible {
     var minima: [Spacing.Key: Spacing.Value]
     
     package var description: String {
@@ -209,7 +209,7 @@ package struct Spacing: Equatable, CustomStringConvertible {
         }
     }
     
-    @safe static nonisolated(unsafe) var defaultValue = CGSize(width: 8, height: 8)
+    @safe nonisolated(unsafe) static var defaultValue = CGSize(width: 8, height: 8)
     
     static let zero = Spacing.all(0)
     
@@ -244,7 +244,7 @@ package struct Spacing: Equatable, CustomStringConvertible {
 }
 
 extension Spacing {
-    struct Category: Hashable {
+    struct Category : Hashable {
         static let `default` = Spacing.Category()
         static let textToText = Spacing.Category()
         static let edgeAboveText = Spacing.Category()
@@ -262,7 +262,7 @@ extension Spacing {
         }
     }
     
-    struct Key: Hashable {
+    struct Key : Hashable {
         var category: Spacing.Category
         var edge: AbsoluteEdge
         
@@ -272,7 +272,7 @@ extension Spacing {
         }
     }
     
-    struct TextMetrics: Comparable {
+    struct TextMetrics : Comparable {
         var ascend: CGFloat
         var descend: CGFloat
         var leading: CGFloat
@@ -289,7 +289,7 @@ extension Spacing {
             return ascend + descend + leading
         }
         
-        static func < (lhs: Spacing.TextMetrics, rhs: Spacing.TextMetrics) -> Bool {
+        static func < (lhs : Spacing.TextMetrics, rhs : Spacing.TextMetrics) -> Bool {
             return lhs.lineSpacing < rhs.lineSpacing
         }
         
@@ -299,12 +299,12 @@ extension Spacing {
         }
     }
     
-    enum Value: Comparable {
+    enum Value : Comparable {
         case distance(CGFloat)
         case topTextMetrics(Spacing.TextMetrics)
         case bottomTextMetrics(Spacing.TextMetrics)
         
-        static func < (lhs: Spacing.Value, rhs: Spacing.Value) -> Bool {
+        static func < (lhs : Spacing.Value, rhs : Spacing.Value) -> Bool {
             switch (lhs, rhs) {
             case (.distance(let lhs), .distance(let rhs)):
                 return lhs < rhs

@@ -1,4 +1,4 @@
 
-package struct EventID: Hashable {
+package struct EventID : Hashable {
     
 }

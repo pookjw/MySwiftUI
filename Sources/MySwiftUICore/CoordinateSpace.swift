@@ -53,9 +53,9 @@ public enum CoordinateSpace {
 }
 
 @available(*, unavailable)
-extension CoordinateSpace: Sendable {}
+extension CoordinateSpace : Sendable {}
 
-extension CoordinateSpace: Hashable {
+extension CoordinateSpace : Hashable {
     public func hash(into hasher: inout Hasher) {
         assertUnimplemented()
     }
@@ -63,7 +63,7 @@ extension CoordinateSpace: Hashable {
 
 extension CoordinateSpace {
     @_spi(Internal)
-    public struct ID: Equatable, Sendable {
+    public struct ID : Equatable, Sendable {
         var value: UniqueID
         
         init() {
@@ -94,7 +94,7 @@ public protocol CoordinateSpaceProtocol {
     // TODO: Extensions
 }
 
-public struct NamedCoordinateSpace: CoordinateSpaceProtocol, Equatable {
+public struct NamedCoordinateSpace : CoordinateSpaceProtocol, Equatable {
     public var coordinateSpace: CoordinateSpace {
         assertUnimplemented()
     }
@@ -105,5 +105,5 @@ public struct NamedCoordinateSpace: CoordinateSpaceProtocol, Equatable {
 }
 
 @available(*, unavailable)
-extension NamedCoordinateSpace: Sendable {
+extension NamedCoordinateSpace : Sendable {
 }

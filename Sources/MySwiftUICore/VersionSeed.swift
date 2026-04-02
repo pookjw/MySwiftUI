@@ -1,6 +1,6 @@
 // F99DF4753FB5F5765C388695646E450B
 
-package struct VersionSeed: CustomStringConvertible {
+package struct VersionSeed : CustomStringConvertible {
     private(set) var value: UInt32
     
     init(nodeId: UInt32, viewSeed: UInt32) {
@@ -72,7 +72,7 @@ package struct VersionSeed: CustomStringConvertible {
     }
 }
 
-extension VersionSeed: BitwiseCopyable {}
+extension VersionSeed : BitwiseCopyable {}
 
 fileprivate func merge32(_ first: UInt32, _ second: UInt32) -> UInt32 {
     var x8 = UInt(second)

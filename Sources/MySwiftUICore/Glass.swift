@@ -7,7 +7,7 @@ extension _Glass {
         // TODO
     }
     
-    package struct Frost: Equatable {
+    package struct Frost : Equatable {
         private var role: _Glass.Frost.Role
         
         package static var automatic: _Glass.Frost {
@@ -82,7 +82,7 @@ extension _Glass.Diffusion {
 }
 
 extension _Glass.Frost {
-    package enum Role: Hashable {
+    package enum Role : Hashable {
         case automatic
         case reduced
         case none
@@ -116,7 +116,7 @@ extension EnvironmentValues {
     }
     
     // TOOD: Macro Entry
-    fileprivate struct __Key_glassFrost: EnvironmentKey {
+    fileprivate struct __Key_glassFrost : EnvironmentKey {
         static var defaultValue: _Glass.Frost {
             return _Glass.Frost.automatic
         }
@@ -132,7 +132,7 @@ extension EnvironmentValues {
     }
     
     // TOOD: Macro Entry
-    fileprivate struct __Key_glassDiffusion: EnvironmentKey {
+    fileprivate struct __Key_glassDiffusion : EnvironmentKey {
         static var defaultValue: _Glass.Diffusion {
             return .automatic
         }

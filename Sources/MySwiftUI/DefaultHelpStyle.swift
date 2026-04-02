@@ -1,3 +1,3 @@
-struct DefaultHelpStyle: HelpStyle {
+struct DefaultHelpStyle : HelpStyle {
     // TODO
 }

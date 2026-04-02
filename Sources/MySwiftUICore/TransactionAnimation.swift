@@ -15,7 +15,7 @@ extension Transaction {
     }
 }
 
-fileprivate struct AnimationKey: TransactionKey {
+fileprivate struct AnimationKey : TransactionKey {
     static var defaultValue: Animation? {
         return nil
     }

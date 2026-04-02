@@ -16,7 +16,7 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct CorePlatfromProvidersDefinitionKey: GraphInput {
+    fileprivate struct CorePlatfromProvidersDefinitionKey : GraphInput {
         static let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
     }
 }
@@ -34,7 +34,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct CorePlatfromProvidersDefinitionKey: EnvironmentKey {
+    fileprivate struct CorePlatfromProvidersDefinitionKey : EnvironmentKey {
         static let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
     }
 }

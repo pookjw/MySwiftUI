@@ -21,7 +21,7 @@ extension Scene {
 }
 
 extension SceneRestorationBehavior {
-    enum Role: Hashable {
+    enum Role : Hashable {
         case automatic
         case enabled
         case disabled

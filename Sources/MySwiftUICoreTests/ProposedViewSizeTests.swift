@@ -9,7 +9,7 @@ fileprivate struct ProposedViewSizeTests {
 }
 
 extension ProposedViewSizeTests {
-    struct Input_init: Hashable {
+    struct Input_init : Hashable {
         let width: CGFloat?
         let height: CGFloat?
     }
@@ -68,7 +68,7 @@ extension ProposedViewSizeTests {
 }
 
 extension ProposedViewSizeTests {
-    struct Input_init_in_by: Hashable {
+    struct Input_init_in_by : Hashable {
         let value: CGFloat?
         let axis: SwiftUI::Axis
         let other: CGFloat?
@@ -138,7 +138,7 @@ extension ProposedViewSizeTests {
 }
 
 extension ProposedViewSizeTests {
-    struct Input_subscript_axis: Hashable {
+    struct Input_subscript_axis : Hashable {
         let initialWidth: CGFloat?
         let initialHeight: CGFloat?
         let axis: SwiftUI::Axis

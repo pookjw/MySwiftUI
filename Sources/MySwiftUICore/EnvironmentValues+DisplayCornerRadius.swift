@@ -11,7 +11,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct DisplayCornerRadiusKey: EnvironmentKey {
+fileprivate struct DisplayCornerRadiusKey : EnvironmentKey {
     static var defaultValue: CGFloat? {
         return nil
     }

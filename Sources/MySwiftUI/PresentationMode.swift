@@ -12,7 +12,7 @@ public struct PresentationMode {
     }
 }
 
-extension PresentationMode: Sendable {}
+extension PresentationMode : Sendable {}
 
 extension EnvironmentValues {
     public internal(set) var presentationMode: Binding<PresentationMode> {
@@ -25,6 +25,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct PresentationModeKey: EnvironmentKey {
+fileprivate struct PresentationModeKey : EnvironmentKey {
     static let defaultValue = Binding<PresentationMode>.constant(PresentationMode(isPresented: false))
 }

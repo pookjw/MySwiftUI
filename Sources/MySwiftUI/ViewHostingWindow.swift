@@ -1,5 +1,5 @@
 internal import UIKit
 
-class ViewHostingWindow: UIWindow {
+class ViewHostingWindow : UIWindow {
     // TODO
 }

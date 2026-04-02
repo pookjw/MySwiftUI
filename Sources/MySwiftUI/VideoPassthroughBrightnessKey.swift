@@ -2,7 +2,7 @@ internal import MySwiftUICore
 internal import MRUIKit
 internal import Foundation
 
-struct VideoPassthroughBrightnessKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
+struct VideoPassthroughBrightnessKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: VideoPassthroughBrightnessKey.PreferredValue? {
         return nil
     }
@@ -42,7 +42,7 @@ struct VideoPassthroughBrightnessKey: MRUIBridgedPreferenceKey, HostPreferenceKe
 }
 
 extension VideoPassthroughBrightnessKey {
-    struct PreferredValue: Equatable {
+    struct PreferredValue : Equatable {
         fileprivate private(set) var brightness: Double
         fileprivate private(set) var animation: Animation?
     }

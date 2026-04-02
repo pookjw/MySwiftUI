@@ -2,7 +2,7 @@
 package import AttributeGraph
 
 extension PreferencesOutputs {
-    package mutating func makePreferenceWriter<T: PreferenceKey>(inputs: PreferencesInputs, key: T.Type, value: @autoclosure () -> Attribute<T.Value>) {
+    package mutating func makePreferenceWriter<T : PreferenceKey>(inputs: PreferencesInputs, key: T.Type, value: @autoclosure () -> Attribute<T.Value>) {
         /*
          inputs -> x0 -> x29 - 0x70, w25
          value -> x2/x3 -> x23/x24
@@ -37,7 +37,7 @@ extension PreferencesOutputs {
     }
 }
 
-fileprivate struct HostPreferencesWriter<T: PreferenceKey>: StatefulRule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct HostPreferencesWriter<T : PreferenceKey>: StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var keyValue: T.Value // 0x0
     @Attribute private(set) var keys: PreferenceKeys // 0x4
     @OptionalAttribute var childValues: PreferenceValues? // 0x8

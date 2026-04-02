@@ -1,4 +1,4 @@
-package protocol HostPreferenceKey: PreferenceKey {
+package protocol HostPreferenceKey : PreferenceKey {
     
 }
 

@@ -5,7 +5,7 @@ public import Foundation
 @preconcurrency @MainActor
 public struct OpenURLAction {
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
-    public struct Result: Sendable {
+    public struct Result : Sendable {
         fileprivate private(set) var actionResult: OpenURLAction.Result.ActionResult
         
         public static let handled = OpenURLAction.Result(actionResult: .handled)
@@ -197,7 +197,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct DefaultOpenURLActionKey: EnvironmentKey {
+    fileprivate struct DefaultOpenURLActionKey : EnvironmentKey {
         static var defaultValue: OpenURLAction? {
             return nil
         }
@@ -269,21 +269,21 @@ extension OpenURLAction.Result {
     } 
 }
 
-extension OpenURLAction: Sendable {}
+extension OpenURLAction : Sendable {}
 
-struct OpenURLActionKey: EnvironmentKey {
+struct OpenURLActionKey : EnvironmentKey {
     static var defaultValue: OpenURLAction? {
         return nil
     }
 }
 
-struct OpenSensitiveURLActionKey: EnvironmentKey {
+struct OpenSensitiveURLActionKey : EnvironmentKey {
     static var defaultValue: OpenURLAction? {
         return nil
     }
 }
 
-fileprivate struct HasSystemOpenURLActionKey: EnvironmentKey {
+fileprivate struct HasSystemOpenURLActionKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

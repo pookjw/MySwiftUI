@@ -27,12 +27,12 @@ package struct PointScale {
         self.pointsPerMeter = pointsPerMeter
     }
     
-    package func convert<T: LengthUnitConvertible>(_ fromValue: T, to unit: LengthUnit) -> T {
+    package func convert<T : LengthUnitConvertible>(_ fromValue: T, to unit: LengthUnit) -> T {
         assertUnimplemented()
     }
 }
 
-struct PointScaleKey: BridgedEnvironmentKey {
+struct PointScaleKey : BridgedEnvironmentKey {
     static var defaultValue: PointScale {
         return PointScale(pointsPerMeter: 1280)
     }

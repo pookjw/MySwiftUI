@@ -2,7 +2,7 @@
 internal import CoreGraphics
 private import Synchronization
 
-@frozen public struct Alignment: Equatable {
+@frozen public struct Alignment : Equatable {
     public var horizontal: HorizontalAlignment
     public var vertical: VerticalAlignment
     
@@ -80,13 +80,13 @@ extension Alignment {
     }
 }
 
-extension Alignment: Sendable {}
-extension Alignment: BitwiseCopyable {}
+extension Alignment : Sendable {}
+extension Alignment : BitwiseCopyable {}
 
 @_documentation(visibility: private) @frozen public struct AlignmentKey: Hashable, Comparable {
     private let bits: UInt
     
-    public static func < (lhs: AlignmentKey, rhs: AlignmentKey) -> Bool {
+    public static func < (lhs : AlignmentKey, rhs : AlignmentKey) -> Bool {
         return lhs.bits < rhs.bits
     }
     
@@ -134,16 +134,16 @@ extension Alignment: BitwiseCopyable {}
 extension AlignmentKey {
     fileprivate static let typeCache = Mutex(TypeCache())
     
-    fileprivate struct TypeCache: Sendable {
+    fileprivate struct TypeCache : Sendable {
         var bits: [ObjectIdentifier: UInt] = [:]
         var ids: [any AlignmentID.Type] = []
     }
 }
 
-extension AlignmentKey: Sendable {}
-extension AlignmentKey: BitwiseCopyable {}
+extension AlignmentKey : Sendable {}
+extension AlignmentKey : BitwiseCopyable {}
 
-protocol FrameAlignment: AlignmentID {
+protocol FrameAlignment : AlignmentID {
 }
 
 extension FrameAlignment {

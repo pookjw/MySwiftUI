@@ -64,7 +64,7 @@ package struct DisplayList {
 }
 
 extension DisplayList {
-    package struct Item: Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package struct Item : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
         package static func == (lhs: DisplayList.Item, rhs: DisplayList.Item) -> Bool {
             return (lhs.identity == rhs.identity) && (lhs.version == rhs.version)
         }
@@ -437,7 +437,7 @@ extension DisplayList {
         }
     }
     
-    struct Seed: Hashable {
+    struct Seed : Hashable {
         private(set) var value: UInt16
         
         init() {
@@ -486,7 +486,7 @@ extension DisplayList.Item {
 }
 
 extension DisplayList {
-    package struct Features: OptionSet {
+    package struct Features : OptionSet {
         package static var required: DisplayList.Features { return DisplayList.Features(rawValue: 1 << 0) }
         package static var animations: DisplayList.Features { return DisplayList.Features(rawValue: 1 << 2) }
         package static var dynamicContent: DisplayList.Features { return DisplayList.Features(rawValue: 1 << 3) }
@@ -508,7 +508,7 @@ extension DisplayList {
 }
 
 extension DisplayList {
-    package struct Properties: OptionSet {
+    package struct Properties : OptionSet {
         package static var foregroundLayer: DisplayList.Properties { return DisplayList.Properties(rawValue: 1 << 0) }
         package static var ignoresEvents: DisplayList.Properties { return DisplayList.Properties(rawValue: 1 << 1) }
         package static var privacySensitive: DisplayList.Properties { return DisplayList.Properties(rawValue: 1 << 2) }
@@ -530,10 +530,10 @@ extension DisplayList {
 }
 
 extension DisplayList {
-    package struct Version: Comparable, Hashable {
-        @safe private static nonisolated(unsafe) var lastValue: Int = 0
+    package struct Version : Comparable, Hashable {
+        @safe nonisolated(unsafe) private static var lastValue: Int = 0
         
-        package static func < (lhs: DisplayList.Version, rhs: DisplayList.Version) -> Bool {
+        package static func < (lhs : DisplayList.Version, rhs : DisplayList.Version) -> Bool {
             return lhs.value < rhs.value
         }
         
@@ -662,7 +662,7 @@ extension DisplayList {
 }
 
 extension DisplayList.Index {
-    struct ID: Hashable {
+    struct ID : Hashable {
         private(set) var identity: _DisplayList_Identity
         private(set) var serial: UInt32
         private(set) var archiveIdentity: _DisplayList_Identity
@@ -676,7 +676,7 @@ extension DisplayList.Index {
         }
     }
     
-    fileprivate struct RestoreOptions: OptionSet {
+    fileprivate struct RestoreOptions : OptionSet {
         static let unknown1 = RestoreOptions(rawValue: 1 << 0)
         static let unknown2 = RestoreOptions(rawValue: 1 << 1)
         static let unknown4 = RestoreOptions(rawValue: 1 << 2)
@@ -690,16 +690,16 @@ protocol _DisplayList_AnyEffectAnimator {
     // TODO
 }
 
-struct _DisplayList_StableIdentity: Sendable {
+struct _DisplayList_StableIdentity : Sendable {
     var hash: StrongHash
     var serial: UInt32
 }
 
-struct _DisplayList_StableIdentityMap: Sendable {
+struct _DisplayList_StableIdentityMap : Sendable {
     fileprivate var map: [_DisplayList_Identity: _DisplayList_StableIdentity]
 }
 
-protocol ViewRendererBase: AnyObject {
+protocol ViewRendererBase : AnyObject {
     var rootPlatform: DisplayList.ViewUpdater.Platform {
         get
     }
@@ -719,9 +719,9 @@ protocol ViewRendererBase: AnyObject {
     }
 }
 
-@safe fileprivate nonisolated(unsafe) var lastIdentity: UInt32 = 0
+@safe nonisolated(unsafe) fileprivate var lastIdentity: UInt32 = 0
 
-package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible, Sendable {
+package struct _DisplayList_Identity : Hashable, Codable, CustomStringConvertible, Sendable {
     var value: UInt32
     
     init() {
@@ -744,19 +744,19 @@ package struct _DisplayList_Identity: Hashable, Codable, CustomStringConvertible
 }
 
 extension DisplayList {
-    package struct Key: @unsafe PreferenceKey {
+    package struct Key : @unsafe PreferenceKey {
         package static var _includesRemovedValues: Bool {
             return true
         }
         
-        @safe package static nonisolated(unsafe) let defaultValue = DisplayList()
+        @safe nonisolated(unsafe) package static let defaultValue = DisplayList()
         
         package static func reduce(value: inout DisplayList, nextValue: () -> DisplayList) {
             value.append(contentsOf: nextValue())
         }
     }
     
-    struct PlatformViewCapabilities: OptionSet {
+    struct PlatformViewCapabilities : OptionSet {
         var rawValue: UInt8
         
         init(rawValue: UInt8) {
@@ -798,7 +798,7 @@ extension DisplayList.Content {
 }
 
 extension DisplayList {
-    package struct Options: OptionSet, ViewInput {
+    package struct Options : OptionSet, ViewInput {
         package let rawValue: UInt8
         
         package init(rawValue: UInt8) {
@@ -815,7 +815,7 @@ extension DisplayList {
     }
 }
 
-struct _DisplayList_StableIdentityScope: ViewInput, _ViewTraitKey {
+struct _DisplayList_StableIdentityScope : ViewInput, _ViewTraitKey {
     static let defaultValue = WeakAttribute<_DisplayList_StableIdentityScope>()
     
     let root: _DisplayList_StableIdentityRoot

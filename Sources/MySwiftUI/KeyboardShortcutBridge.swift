@@ -3,7 +3,7 @@ internal import MySwiftUICore
 private import UIKit
 
 @MainActor
-final class KeyboardShortcutBridge: NSObject {
+final class KeyboardShortcutBridge : NSObject {
     private var currentBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid) // 0x5f0
     private var updatedBindings = PreferenceValues.Value<[KeyboardShortcutBinding]>(value: [], seed: .invalid) // 0x5f8
     private var shortcutMap: [KeyboardShortcut: KeyboardShortcutBridge.Shortcut] = [:] // 0xdb0
@@ -53,7 +53,7 @@ struct KeyboardShortcutBinding {
     // TODO
 }
 
-struct KeyboardShortcutBindingsKey: HostPreferenceKey {
+struct KeyboardShortcutBindingsKey : HostPreferenceKey {
     static var defaultValue: [KeyboardShortcutBinding] {
         assertUnimplemented()
     }

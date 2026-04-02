@@ -11,7 +11,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct SensitiveContentKey: EnvironmentKey {
+fileprivate struct SensitiveContentKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

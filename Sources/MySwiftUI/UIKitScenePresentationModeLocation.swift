@@ -1,7 +1,7 @@
 
 internal import MySwiftUICore
 
-struct UIKitScenePresentationModeLocation<Content: View>: Location {
+struct UIKitScenePresentationModeLocation<Content : View>: Location {
     typealias Value = PresentationMode
     
     private weak var host: _UIHostingView<Content>?

@@ -1,8 +1,8 @@
 
-protocol Paint: ShapeStyle {
+protocol Paint : ShapeStyle {
     associatedtype ResolvedPaintType
 }
 
-protocol ResolvedPaint: Equatable, Animatable, ProtobufEncodableMessage {
+protocol ResolvedPaint : Equatable, Animatable, ProtobufEncodableMessage {
     
 }

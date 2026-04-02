@@ -1,7 +1,7 @@
 public import CoreGraphics
 internal import AttributeGraph
 
-public struct UnevenRoundedRectangle: RoundedRectangularShape {
+public struct UnevenRoundedRectangle : RoundedRectangularShape {
     public var cornerRadii: RectangleCornerRadii
     public var style: RoundedCornerStyle
     
@@ -23,7 +23,7 @@ public struct UnevenRoundedRectangle: RoundedRectangularShape {
     }
 }
 
-struct RootContainerShape: Rule {
+struct RootContainerShape : Rule {
     var value: UnevenRoundedRectangle {
         assertUnimplemented()
     }

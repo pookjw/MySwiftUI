@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct AllowsSecureDrawingKey: HostPreferenceKey {
+struct AllowsSecureDrawingKey : HostPreferenceKey {
     static var defaultValue: Bool? {
         return nil
     }

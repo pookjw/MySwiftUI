@@ -1,6 +1,6 @@
 @_spi(Internal) internal import MySwiftUICore
 
-protocol UIHostingViewProvider: AnyObject {
+protocol UIHostingViewProvider : AnyObject {
     var environmentOverride: EnvironmentValues? {
         get
         set

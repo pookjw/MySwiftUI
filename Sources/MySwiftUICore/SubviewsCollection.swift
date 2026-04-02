@@ -1,5 +1,5 @@
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-public struct SubviewsCollection: RandomAccessCollection {
+public struct SubviewsCollection : RandomAccessCollection {
     public func index(before i: Int) -> Int {
         assertUnimplemented()
     }
@@ -37,10 +37,10 @@ public struct SubviewsCollection: RandomAccessCollection {
 }
 
 @available(*, unavailable)
-extension SubviewsCollection: Sendable {}
+extension SubviewsCollection : Sendable {}
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-public struct SubviewsCollectionSlice: RandomAccessCollection {
+public struct SubviewsCollectionSlice : RandomAccessCollection {
     public subscript(index: Int) -> Subview {
         assertUnimplemented()
     }
@@ -70,4 +70,4 @@ public struct SubviewsCollectionSlice: RandomAccessCollection {
 }
 
 @available(*, unavailable)
-extension SubviewsCollectionSlice: Sendable {}
+extension SubviewsCollectionSlice : Sendable {}

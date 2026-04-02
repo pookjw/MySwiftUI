@@ -1,7 +1,7 @@
 // 2E1763F29582B40676AFBCD6CC82217B
 internal import MySwiftUICore
 
-struct WindowToolbarConfiguration: Equatable {
+struct WindowToolbarConfiguration : Equatable {
     var titleMode: ToolbarTitleDisplayMode?
     var titleVisibility: Visibility?
     var labelStyle: ToolbarLabelStyle.Data?
@@ -17,7 +17,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct WindowToolbarConfigurationKey: EnvironmentKey {
+    fileprivate struct WindowToolbarConfigurationKey : EnvironmentKey {
         static var defaultValue: WindowToolbarConfiguration {
             return WindowToolbarConfiguration()
         }

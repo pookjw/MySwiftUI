@@ -126,7 +126,7 @@ package struct CachedEnvironment {
 }
 
 extension CachedEnvironment {
-    package struct ID: Equatable {
+    package struct ID : Equatable {
         static let layoutDirection = CachedEnvironment.ID()
         static let pixelLength = CachedEnvironment.ID()
         
@@ -243,7 +243,7 @@ extension CachedEnvironment {
     }
 }
 
-fileprivate struct ResolvedShapeStyles: Hashable {
+fileprivate struct ResolvedShapeStyles : Hashable {
     private let environment: Attribute<EnvironmentValues>
     private let time: Attribute<Time>
     private let transaction: Attribute<Transaction>

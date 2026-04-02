@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-struct MyButton: UIViewRepresentable {
+struct MyButton : UIViewRepresentable {
     let title: String
     let onTrigger: () -> Void
     

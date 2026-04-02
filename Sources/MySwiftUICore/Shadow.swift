@@ -19,7 +19,7 @@ extension ShadowStyle {
         case custom(ShadowStyle.Kind, Color, CGFloat, CGSize)
     }
     
-    struct Kind: RawRepresentable {
+    struct Kind : RawRepresentable {
         let rawValue: UInt8
     }
 }

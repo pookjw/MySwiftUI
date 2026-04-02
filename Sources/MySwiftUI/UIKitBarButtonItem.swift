@@ -4,7 +4,7 @@ private import MySwiftUICore
 private import _MySwiftUIShims
 private import _UIKitShims
 
-final class UIKitBarButtonItem: UIBarButtonItem {
+final class UIKitBarButtonItem : UIBarButtonItem {
     // TODO
 }
 

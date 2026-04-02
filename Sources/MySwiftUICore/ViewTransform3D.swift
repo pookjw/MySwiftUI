@@ -46,20 +46,20 @@ extension ViewTransform.UnsafeBuffer {
     }
 }
 
-fileprivate struct SizedSpace3DElement: ViewTransformElement {
+fileprivate struct SizedSpace3DElement : ViewTransformElement {
     private(set) var space: CoordinateSpaceTag
     private(set) var size3D: Size3D
 }
 
-fileprivate struct DepthTranslationElement: ViewTransformElement {
+fileprivate struct DepthTranslationElement : ViewTransformElement {
     private(set) var depth: CGFloat
 }
 
-fileprivate struct Translation3DElement: ViewTransformElement {
+fileprivate struct Translation3DElement : ViewTransformElement {
     private(set) var offset: Size3D
 }
 
-fileprivate struct AffineTransform3DElement: ViewTransformElement {
+fileprivate struct AffineTransform3DElement : ViewTransformElement {
     private(set) var matrix: AffineTransform3D
     private(set) var inverse: Bool
 }

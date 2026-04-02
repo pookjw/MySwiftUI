@@ -15,7 +15,7 @@ extension Transaction {
     }
 }
 
-fileprivate struct TracksVelocityKey: TransactionKey {
+fileprivate struct TracksVelocityKey : TransactionKey {
     static var defaultValue: Bool {
         return false
     }

@@ -12,7 +12,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct WindowSceneKey: EnvironmentKey {
+fileprivate struct WindowSceneKey : EnvironmentKey {
     static var defaultValue: WeakBox<UIWindowScene> {
         return WeakBox(nil)
     }

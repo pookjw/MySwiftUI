@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct TintAdjustmentMode: Hashable {
+struct TintAdjustmentMode : Hashable {
     static var normal: TintAdjustmentMode {
         return TintAdjustmentMode(role: .normal)
     }

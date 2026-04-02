@@ -33,7 +33,7 @@ extension DisplayList.GraphicsRenderer {
 }
 
 extension DisplayList.GraphicsRenderer.Cache {
-    fileprivate struct AnimatorKey: Hashable {
+    fileprivate struct AnimatorKey : Hashable {
         private var index: DisplayList.Index.ID
         
         static func == (lhs: DisplayList.GraphicsRenderer.Cache.AnimatorKey, rhs: DisplayList.GraphicsRenderer.Cache.AnimatorKey) -> Bool {
@@ -45,7 +45,7 @@ extension DisplayList.GraphicsRenderer.Cache {
         }
     }
     
-    fileprivate struct CallbackKey: Hashable {
+    fileprivate struct CallbackKey : Hashable {
         private var index: DisplayList.Index.ID
         private var seed: DisplayList.Seed
         private var scale: CGFloat

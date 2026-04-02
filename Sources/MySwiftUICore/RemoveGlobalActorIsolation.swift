@@ -3,14 +3,14 @@
 @globalActor public actor _ImpossibleActor {
     public static let shared = _ImpossibleActor()
     
-    public nonisolated var unownedExecutor: UnownedSerialExecutor {
+    nonisolated public var unownedExecutor: UnownedSerialExecutor {
         return unsafe _ImpossibleExecutor.shared.asUnownedSerialExecutor()
     }
 }
 
 @_marker @_ImpossibleActor public protocol _RemoveGlobalActorIsolation {}
 
-fileprivate final class _ImpossibleExecutor: SerialExecutor {
+fileprivate final class _ImpossibleExecutor : SerialExecutor {
     static let shared = _ImpossibleExecutor()
     
     func enqueue(_ job: consuming ExecutorJob) {

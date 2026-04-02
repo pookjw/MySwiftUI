@@ -1,6 +1,6 @@
 
 @_spi(Internal) internal import MySwiftUICore
 
-class UICorePlatformColorDefinition: PlatformColorDefinition {
+class UICorePlatformColorDefinition : PlatformColorDefinition {
     
 }

@@ -1,5 +1,5 @@
 internal import UIKit
 
-class PresentationHostingController<Content: View>: UIHostingController<Content> {
+class PresentationHostingController<Content : View>: UIHostingController<Content> {
     
 }

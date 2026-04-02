@@ -29,7 +29,7 @@ struct BridgedSceneCoordinator {
                 )
     }
     
-    func register<T: UIHostingSceneDelegate>(_: T.Type) {
+    func register<T : UIHostingSceneDelegate>(_: T.Type) {
         assertUnimplemented()
     }
 }

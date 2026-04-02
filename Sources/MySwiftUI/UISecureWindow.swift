@@ -1,5 +1,5 @@
 internal import UIKit
 
-final class UISecureWindow: UIWindow {
+final class UISecureWindow : UIWindow {
     // TODO
 }

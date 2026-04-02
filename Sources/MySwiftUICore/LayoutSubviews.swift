@@ -4,7 +4,7 @@ internal import AttributeGraph
 internal import Spatial
 private import _MySwiftUIShims
 
-public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
+public struct LayoutSubviews : Equatable, RandomAccessCollection, Sendable {
     public typealias SubSequence = LayoutSubviews
     public typealias Element = LayoutSubview
     public typealias Index = Int
@@ -70,7 +70,7 @@ public struct LayoutSubviews: Equatable, RandomAccessCollection, Sendable {
     public typealias Indices = Range<LayoutSubviews.Index>
     public typealias Iterator = IndexingIterator<LayoutSubviews>
     
-    func selecting<T: Sequence>(indices: T) -> LayoutSubviews where T.Element == Int {
+    func selecting<T : Sequence>(indices: T) -> LayoutSubviews where T.Element == Int {
         assertUnimplemented()
     }
 }
@@ -157,20 +157,20 @@ extension LayoutSubview : Sendable {
 }
 
 extension LayoutSubviews {
-    fileprivate enum Storage: Equatable {
+    fileprivate enum Storage : Equatable {
         case direct([LayoutProxyAttributes])
         case indirect([LayoutSubviews.Storage.IndexedAttributes])
     }
 }
 
 extension LayoutSubviews.Storage {
-    fileprivate struct IndexedAttributes: Equatable {
+    fileprivate struct IndexedAttributes : Equatable {
         var attributes: LayoutProxyAttributes
         var index: Int32
     }
 }
 
-struct ViewLayoutEngine<L: Layout>: LayoutEngine {
+struct ViewLayoutEngine<L : Layout>: LayoutEngine {
     private var layout: L
     private var proxies: LayoutProxyCollection // 0x24
     private var layoutDirection: LayoutDirection // 0x28
@@ -525,7 +525,7 @@ struct ViewSizeCache {
     }
 }
 
-struct LayoutProxy: Equatable {
+struct LayoutProxy : Equatable {
     private var context: AnyRuleContext
     private var attributes: LayoutProxyAttributes
     
@@ -618,7 +618,7 @@ struct LayoutProxy: Equatable {
         assertUnimplemented()
     }
     
-    subscript<A: _ViewTraitKey>(_: A.Type) -> A.Value {
+    subscript<A : _ViewTraitKey>(_: A.Type) -> A.Value {
         assertUnimplemented()
     }
     
@@ -631,7 +631,7 @@ struct LayoutProxy: Equatable {
     }
 }
 
-struct LayoutProxyCollection: RandomAccessCollection {
+struct LayoutProxyCollection : RandomAccessCollection {
     fileprivate private(set) var context: AnyRuleContext
     fileprivate private(set) var attributes: [LayoutProxyAttributes]
     
@@ -684,7 +684,7 @@ struct LayoutProxyCollection: RandomAccessCollection {
     }
 }
 
-struct LayoutProxyAttributes: Equatable {
+struct LayoutProxyAttributes : Equatable {
     @OptionalAttribute fileprivate var layoutComputer: LayoutComputer?
     @OptionalAttribute private var traitsList: ViewList?
     

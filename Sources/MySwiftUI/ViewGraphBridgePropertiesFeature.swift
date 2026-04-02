@@ -2,7 +2,7 @@
 @_spi(Internal) internal import MySwiftUICore
 private import AttributeGraph
 
-struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
+struct ViewGraphBridgePropertiesFeature : ViewGraphFeature {
     @WeakAttribute private var parentBridgeProperties: ViewGraphBridgeProperties?
     @WeakAttribute private var bridgeProperties: ViewGraphBridgeProperties?
     @OptionalAttribute private var environment: EnvironmentValues?
@@ -177,7 +177,7 @@ struct ViewGraphBridgePropertiesFeature: ViewGraphFeature {
 }
 
 extension ViewGraphBridgePropertiesFeature {
-    fileprivate struct MakeBridgeProperties: Rule {
+    fileprivate struct MakeBridgeProperties : Rule {
         @WeakAttribute var overrideValue: ViewGraphBridgeProperties?
         var localValue: ViewGraphBridgeProperties?
         
@@ -190,7 +190,7 @@ extension ViewGraphBridgePropertiesFeature {
         }
     }
     
-    fileprivate struct BridgePropertiesMutation: GraphMutation {
+    fileprivate struct BridgePropertiesMutation : GraphMutation {
         @WeakAttribute var bridgeProperties: ViewGraphBridgeProperties?
         private(set) var newValue: ViewGraphBridgeProperties?
         

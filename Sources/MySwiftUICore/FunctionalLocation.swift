@@ -1,6 +1,6 @@
 private import AttributeGraph
 
-struct FunctionalLocation<Value>: Location {
+struct FunctionalLocation<Value> : Location {
     private(set) var functions: FunctionalLocation<Value>.Functions
     
     var wasRead: Bool {

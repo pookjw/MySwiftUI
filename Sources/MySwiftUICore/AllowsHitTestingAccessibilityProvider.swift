@@ -15,11 +15,11 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct AllowsHitTestingAccessibilityProviderKey: GraphInput {
+    fileprivate struct AllowsHitTestingAccessibilityProviderKey : GraphInput {
         static let defaultValue: (any AllowsHitTestingAccessibilityProvider.Type) = EmptyAllowsHitTestingAccessibilityProvider.self
     }
 }
 
-struct EmptyAllowsHitTestingAccessibilityProvider: AllowsHitTestingAccessibilityProvider {
+struct EmptyAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibilityProvider {
     
 }

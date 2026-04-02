@@ -1,4 +1,4 @@
-@frozen public enum Edge: Int8, CaseIterable {
+@frozen public enum Edge : Int8, CaseIterable {
     case top, leading, bottom, trailing
 }
 
@@ -11,11 +11,11 @@ extension Edge {
     }
 }
 
-extension Edge: Equatable {}
-extension Edge: Hashable {}
-extension Edge: RawRepresentable {}
-extension Edge: Sendable {}
-extension Edge: BitwiseCopyable {}
+extension Edge : Equatable {}
+extension Edge : Hashable {}
+extension Edge : RawRepresentable {}
+extension Edge : Sendable {}
+extension Edge : BitwiseCopyable {}
 
 extension Edge {
     @frozen public struct Set : OptionSet {
@@ -57,16 +57,16 @@ extension Edge {
     }
 }
 
-extension Edge.Set: Sendable {}
-extension Edge.Set: BitwiseCopyable {}
+extension Edge.Set : Sendable {}
+extension Edge.Set : BitwiseCopyable {}
 
-enum AbsoluteEdge: Int8, Hashable, CaseIterable {
+enum AbsoluteEdge : Int8, Hashable, CaseIterable {
     case top
     case left
     case bottom
     case right
     
-    struct Set: OptionSet {
+    struct Set : OptionSet {
         static var top: AbsoluteEdge.Set {
             return AbsoluteEdge.Set(rawValue: 1 << 0)
         }

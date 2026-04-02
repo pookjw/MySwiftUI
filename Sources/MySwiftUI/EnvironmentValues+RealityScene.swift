@@ -12,6 +12,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct RealitySceneKey: EnvironmentKey {
+fileprivate struct RealitySceneKey : EnvironmentKey {
     static let defaultValue = WeakBox<RealityKit::Scene>(nil)
 }

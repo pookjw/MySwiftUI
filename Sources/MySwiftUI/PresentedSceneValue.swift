@@ -8,17 +8,17 @@ extension View {
     }
 }
 
-fileprivate struct PresentedSceneValueInputModifier: ViewInputsModifier {
+fileprivate struct PresentedSceneValueInputModifier : ViewInputsModifier {
     typealias Body = Never
     
-    @safe private(set) nonisolated(unsafe) var presentedValue: AnyHashable?
+    @safe nonisolated(unsafe) private(set) var presentedValue: AnyHashable?
     
-    static nonisolated func _makeViewInputs(modifier: _GraphValue<PresentedSceneValueInputModifier>, inputs: inout _ViewInputs) {
+    nonisolated static func _makeViewInputs(modifier: _GraphValue<PresentedSceneValueInputModifier>, inputs: inout _ViewInputs) {
         inputs[PresentedSceneValueInput.self] = modifier.value[keyPath: \.presentedValue]
     }
 }
 
-fileprivate struct PresentedSceneValueInput: ViewInput {
+fileprivate struct PresentedSceneValueInput : ViewInput {
     static var defaultValue: AnyHashable? {
         return nil
     }

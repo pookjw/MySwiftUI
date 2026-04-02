@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyViewRep: UIViewRepresentable {
+fileprivate struct MyViewRep : UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let view = UISwitch()
 //        view.isEnabled = true
@@ -23,14 +23,14 @@ fileprivate struct MyViewRep: UIViewRepresentable {
     }
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     var body: some View {
         MyViewRep()
 //            .environment(\.isEnabled, false)
     }
 }
 
-final class TestViewController: UIViewController {
+final class TestViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

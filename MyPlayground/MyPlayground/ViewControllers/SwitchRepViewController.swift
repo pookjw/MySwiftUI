@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MySwitch: UIViewRepresentable {
+fileprivate struct MySwitch : UIViewRepresentable {
     @Binding var isOn: Bool
     
     func makeUIView(context: Context) -> UISwitch {
@@ -43,7 +43,7 @@ fileprivate struct MySwitch: UIViewRepresentable {
     }
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     @State private var isOn = true
     
     var body: some View {
@@ -55,7 +55,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class SwitchRepViewController: UIViewController {
+final class SwitchRepViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

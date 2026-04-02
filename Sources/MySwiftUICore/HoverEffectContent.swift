@@ -10,11 +10,11 @@ public protocol HoverEffectContent {
 public struct _HoverEffectContentInputs {
 }
 
-extension _HoverEffectContentInputs: Sendable {
+extension _HoverEffectContentInputs : Sendable {
 }
 
 public struct _HoverEffectContentOutputs {
 }
 
-extension _HoverEffectContentOutputs: Sendable {
+extension _HoverEffectContentOutputs : Sendable {
 }

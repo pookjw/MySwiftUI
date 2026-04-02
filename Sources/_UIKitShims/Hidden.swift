@@ -349,7 +349,7 @@ func glassBackgroundStyle(typedStorage: _UITypedStorage) -> AnyObject? {
     }
 }
 
-enum _GlassBackgroundStyle: Hashable {
+enum _GlassBackgroundStyle : Hashable {
     case glass(GlassMaterialProvider.ResolvedStyle?)
     case unspecified
     case solidColor

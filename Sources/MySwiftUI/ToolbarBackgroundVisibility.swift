@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct ToolbarBackgroundVisibility: Equatable {
+struct ToolbarBackgroundVisibility : Equatable {
     private(set) var role: ToolbarBackgroundVisibility.Role
     
     static var automatic: ToolbarBackgroundVisibility {
@@ -30,7 +30,7 @@ struct ToolbarBackgroundVisibility: Equatable {
 }
 
 extension ToolbarBackgroundVisibility {
-    enum Role: Hashable {
+    enum Role : Hashable {
         case automatic
         case visible
         case visibleOnScroll

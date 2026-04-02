@@ -3,7 +3,7 @@ internal import MRUIKit
 private import simd
 internal import Foundation
 
-struct TintEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
+struct TintEffectKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: TintEffectKey.PreferredValue? {
         return nil
     }
@@ -53,7 +53,7 @@ struct TintEffectKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
 }
 
 extension TintEffectKey {
-    struct PreferredValue: Equatable {
+    struct PreferredValue : Equatable {
         fileprivate private(set) var effect: SurroundingsEffectKind.Resolved
         fileprivate private(set) var animation: Animation?
     }

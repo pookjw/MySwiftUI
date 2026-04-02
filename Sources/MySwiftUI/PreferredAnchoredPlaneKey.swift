@@ -2,7 +2,7 @@ internal import MySwiftUICore
 internal import RealitySimulationServices
 internal import MRUIKit
 
-struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
+struct PreferredAnchoredPlaneKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: PreferredAnchoredPlaneKey.PreferredValue? {
         return nil
     }
@@ -42,7 +42,7 @@ struct PreferredAnchoredPlaneKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
 }
 
 extension PreferredAnchoredPlaneKey {
-    struct PreferredValue: Equatable {
+    struct PreferredValue : Equatable {
         var plane: AnchoredPlane
         var animation: Animation?
     }

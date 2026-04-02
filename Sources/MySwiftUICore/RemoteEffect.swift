@@ -33,7 +33,7 @@ extension RemoteEffectGroupInfo {
         private var hitTestMode: RemoteEffectGroupInfo.HitTestMode?
     }
     
-    enum ID: Hashable {
+    enum ID : Hashable {
         case namespace(Namespace.ID)
         case custom(String)
         case implicit(_DisplayList_Identity)

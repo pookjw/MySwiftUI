@@ -3,7 +3,7 @@ private import MySwiftUICore
 private import AttributeGraph
 private import os.log
 
-struct WindowSceneList<T: WindowSceneConfigurationAttributes>: PrimitiveScene {
+struct WindowSceneList<T : WindowSceneConfigurationAttributes>: PrimitiveScene {
     private(set) var configuration: WindowSceneConfiguration<T>
     private(set) var id: String?
     private(set) var contentType: Any.Type
@@ -64,7 +64,7 @@ struct WindowSceneList<T: WindowSceneConfigurationAttributes>: PrimitiveScene {
 }
 
 extension WindowSceneList {
-    fileprivate struct ResolvedConfiguration: Rule {
+    fileprivate struct ResolvedConfiguration : Rule {
         private(set) var _configuration: Attribute<WindowSceneConfiguration<T>> // 0x0
         private(set) var _allowedImmersionStyles: OptionalAttribute<[any ImmersionStyle]> // 0x4
         private(set) var _immersionStyleSelection: OptionalAttribute<Binding<any ImmersionStyle>> // 0x8
@@ -142,7 +142,7 @@ extension WindowSceneList {
         }
     }
     
-    fileprivate struct MakeList: StatefulRule {
+    fileprivate struct MakeList : StatefulRule {
         private(set) var _configuration: Attribute<WindowSceneConfiguration<T>>
         @Attribute private(set) var environment: EnvironmentValues
         @Attribute private(set) var id: String?

@@ -42,13 +42,13 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    fileprivate struct ImageRepresentationKey: ViewInput {
+    fileprivate struct ImageRepresentationKey : ViewInput {
         static var defaultValue: (any PlatformImageRepresentable.Type)? {
             return nil
         }
     }
     
-    fileprivate struct NamedImageRepresentationKey: ViewInput {
+    fileprivate struct NamedImageRepresentationKey : ViewInput {
         static var defaultValue: (any PlatformNamedImageRepresentable.Type)? {
             return nil
         }

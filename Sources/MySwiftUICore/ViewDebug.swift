@@ -4,8 +4,8 @@ private import _DarwinFoundation3._stdlib
 private import AttributeGraph
 
 public enum _ViewDebug {
-    @safe static nonisolated(unsafe) var isInitialized = false
-    @safe static nonisolated(unsafe) var properties: _ViewDebug.Properties = []
+    @safe nonisolated(unsafe) static var isInitialized = false
+    @safe nonisolated(unsafe) static var properties: _ViewDebug.Properties = []
 }
 
 extension _ViewDebug {
@@ -38,7 +38,7 @@ extension _ViewDebug {
 }
 
 extension _ViewDebug {
-    public struct Properties: OptionSet, Sendable {
+    public struct Properties : OptionSet, Sendable {
         public let rawValue: UInt32
         
         public init(rawValue: UInt32) {
@@ -120,7 +120,7 @@ extension _ViewDebug {
 
 extension View {
     @inline(__always)
-    package static nonisolated func makeDebuggableView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated package static func makeDebuggableView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         let shouldRecordTree = Subgraph.shouldRecordTree
         if shouldRecordTree {
             Subgraph.beginTreeElement(value: view.value, flags: 0)
@@ -141,7 +141,7 @@ extension View {
         return outputs
     }
     
-    static nonisolated func makeDebuggableViewList<T: View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated static func makeDebuggableViewList<T : View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
         let shouldRecordTree = Subgraph.shouldRecordTree
         if shouldRecordTree {
             Subgraph.beginTreeElement(value: view.value, flags: 0)
@@ -158,7 +158,7 @@ extension View {
 
 extension ViewModifier {
     @inline(__always)
-    static nonisolated func makeDebuggableView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func makeDebuggableView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         let shouldRecordTree = Subgraph.shouldRecordTree
         if shouldRecordTree {
             Subgraph.beginTreeElement(value: modifier.value, flags: 0)
@@ -181,7 +181,7 @@ extension ViewModifier {
         return outputs
     }
     
-    static nonisolated func makeDebuggableViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    nonisolated static func makeDebuggableViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         let value = modifier.value
         if Subgraph.shouldRecordTree {
             Subgraph.beginTreeElement(value: modifier.value, flags: 1)

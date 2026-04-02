@@ -1,20 +1,20 @@
 internal import MySwiftUICore
 
-enum SurroundingsEffectKind: Equatable {
+enum SurroundingsEffectKind : Equatable {
     case system(SystemTintLevel)
     case customUnresolvedColor(Color)
     case customDarkness(Float)
 }
 
 extension SurroundingsEffectKind {
-    enum Resolved: Equatable {
+    enum Resolved : Equatable {
         case system(SystemTintLevel)
         case customColor(Color.Resolved)
         case customDarkness(Float)
     }
 }
 
-enum SystemTintLevel: Hashable {
+enum SystemTintLevel : Hashable {
     case semiDark
     case dark
     case ultraDark

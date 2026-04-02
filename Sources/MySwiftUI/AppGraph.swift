@@ -3,8 +3,8 @@
 internal import AttributeGraph
 private import _DarwinFoundation3._stdlib
 
-final class AppGraph: GraphHost {
-    @safe static nonisolated(unsafe) var shared: AppGraph? = nil {
+final class AppGraph : GraphHost {
+    @safe nonisolated(unsafe) static var shared: AppGraph? = nil {
         willSet {
             guard let newValue else {
                 return
@@ -29,12 +29,12 @@ final class AppGraph: GraphHost {
         }
     }
     
-    @safe static nonisolated(unsafe) var delegateBox: AnyFallbackDelegateBox?
+    @safe nonisolated(unsafe) static var delegateBox: AnyFallbackDelegateBox?
     
     private var makeRootScene: (_SceneInputs) -> _SceneOutputs // 0xb0
     private var observers: Set<HashableWeakBox<AnyObject>> = [] // 0xc0
     @Attribute var rootScenePhase: ScenePhase // 0xc8
-    private var rootSceneLists: IndirectAttribute<[SceneList.Namespace: SceneList]>? = nil // 0xcc
+    private var rootSceneLists: IndirectAttribute<[SceneList.Namespace : SceneList]>? = nil // 0xcc
     @Attribute private var primarySceneSummaries: [SceneList.Item.Summary] // 0xd4
     @Attribute private(set) var focusedValues: FocusedValues // 0xd8
     @Attribute private(set) var focusStore: FocusStore // 0xdc
@@ -52,7 +52,7 @@ final class AppGraph: GraphHost {
     private var didCollectLaunchProfile = false // 0xee
     @OptionalAttribute var rootCommandsList: CommandsList? // 0xf0
     
-    convenience init<T: App>(app: T) {
+    convenience init<T : App>(app: T) {
         self.init { inputs in
             // $s7SwiftUI8AppGraphC3appACx_tcAA0C0RzlufcAA13_SceneOutputsVAA01_F6InputsVcfU_TA
             // <+384>
@@ -72,7 +72,7 @@ final class AppGraph: GraphHost {
         }
     }
     
-    init<T: Scene>(content: T, namespace: SceneList.Namespace) {
+    init<T : Scene>(content: T, namespace: SceneList.Namespace) {
         assertUnimplemented()
     }
     
@@ -242,7 +242,7 @@ final class AppGraph: GraphHost {
 }
 
 extension AppGraph {
-    struct LaunchProfileOptions: OptionSet {
+    struct LaunchProfileOptions : OptionSet {
         static var unknown1: AppGraph.LaunchProfileOptions {
             return AppGraph.LaunchProfileOptions(rawValue: 1 << 1)
         }
@@ -251,12 +251,12 @@ extension AppGraph {
     }
 }
 
-protocol AppGraphObserver: AnyObject {
+protocol AppGraphObserver : AnyObject {
     func scenesDidChange(phaseChanged: Bool)
     func commandsDidChange()
 }
 
-fileprivate struct RootEnvironment: @preconcurrency Rule {
+fileprivate struct RootEnvironment : @preconcurrency Rule {
     @Attribute var environment: EnvironmentValues
     @Attribute var phase: ScenePhase
     @Attribute var sceneKeyboardShortcuts: [SceneID: KeyboardShortcut]
@@ -274,7 +274,7 @@ fileprivate struct RootEnvironment: @preconcurrency Rule {
     }
 }
 
-fileprivate struct AppBodyAccessor<T: App>: BodyAccessor {
+fileprivate struct AppBodyAccessor<T : App>: BodyAccessor {
     typealias Container = T
     typealias Body = T.Body
     

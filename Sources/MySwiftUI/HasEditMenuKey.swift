@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct HasEditMenuKey: HostPreferenceKey {
+struct HasEditMenuKey : HostPreferenceKey {
     typealias Value = Never? // TODO
     
     static func reduce(value: inout Never?, nextValue: () -> Never?) {

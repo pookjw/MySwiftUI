@@ -1,4 +1,4 @@
-package struct UncheckedSendable<T>: @unchecked Sendable {
+package struct UncheckedSendable<T> : @unchecked Sendable {
     package var value: T
     
     package init(_ value: T) {
@@ -6,5 +6,5 @@ package struct UncheckedSendable<T>: @unchecked Sendable {
     }
 }
 
-extension UncheckedSendable: Equatable where T: Equatable {}
-extension UncheckedSendable: Hashable where T: Hashable {}
+extension UncheckedSendable : Equatable where T : Equatable {}
+extension UncheckedSendable : Hashable where T : Hashable {}

@@ -17,7 +17,7 @@ struct PresentationOptionsPreference {
 //    private var popoverEdgeAppearance: PopoverEdgeAppearance?
 }
 
-struct PresentationOptionsPreferenceKey: HostPreferenceKey {
+struct PresentationOptionsPreferenceKey : HostPreferenceKey {
     static let defaultValue = PresentationOptionsPreference()
     
     static func reduce(value: inout PresentationOptionsPreference, nextValue: () -> PresentationOptionsPreference) {

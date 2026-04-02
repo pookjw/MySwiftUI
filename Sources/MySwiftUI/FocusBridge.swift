@@ -412,7 +412,7 @@ extension FocusBridge {
 }
 
 extension FocusBridge {
-    struct Flags: OptionSet {
+    struct Flags : OptionSet {
         static var unknown0: FocusBridge.Flags {
             return FocusBridge.Flags(rawValue: 1 << 0)
         }
@@ -425,11 +425,11 @@ extension FocusBridge {
     }
 }
 
-protocol FocusBridgeProvider: ViewRendererHost {
+protocol FocusBridgeProvider : ViewRendererHost {
     
 }
 
-protocol FocusHost: AnyObject {
+protocol FocusHost : AnyObject {
     var focustedItem: FocusItem? {
         get
     }
@@ -477,7 +477,7 @@ extension FocusItem {
     }
 }
 
-struct FocusableOptions: OptionSet {
+struct FocusableOptions : OptionSet {
     static var fromMouse: FocusableOptions { return FocusableOptions(rawValue: 1 << 0) }
     static var fromKeyboard: FocusableOptions { return FocusableOptions(rawValue: 1 << 1) }
     static var platformItemDrawsFocusRingMask: FocusableOptions { return FocusableOptions(rawValue: 1 << 2) }
@@ -509,7 +509,7 @@ extension FocusedValueList {
         private var update: (inout FocusedValues) -> ()
     }
     
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static var defaultValue: FocusedValueList {
             return FocusedValueList()
         }
@@ -520,7 +520,7 @@ extension FocusedValueList {
     }
 }
 
-struct FocusStoreList: Equatable, Collection {
+struct FocusStoreList : Equatable, Collection {
     private var items: [FocusStoreList.Item]
     
     init() {
@@ -583,7 +583,7 @@ extension FocusStoreList {
         private var isFocused: Bool
     }
     
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static var defaultValue: FocusStoreList {
             return FocusStoreList()
         }
@@ -605,13 +605,13 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct FocusBridgeKey: EnvironmentKey {
+fileprivate struct FocusBridgeKey : EnvironmentKey {
     static var defaultValue: WeakBox<FocusBridge> {
         return WeakBox(nil)
     }
 }
 
-struct UIKitHostContainerFocusItemInput: ViewInput {
+struct UIKitHostContainerFocusItemInput : ViewInput {
     static let defaultValue = Attribute<WeakBox<UIView>>(identifier: .empty) 
 }
 
@@ -630,7 +630,7 @@ extension _ViewInputs {
     }
 }
 
-@MainActor protocol UIKitContainerFocusItem: UIFocusItem {
+@MainActor protocol UIKitContainerFocusItem : UIFocusItem {
     var host: UIView? {
         get
     }
@@ -691,7 +691,7 @@ extension UIKitContainerFocusItem {
     }
 }
 
-extension UIKitContainerFocusItem where Self: UIView {
+extension UIKitContainerFocusItem where Self : UIView {
     func rootResponder() -> (responder: ResponderNode, isVisited: Bool)? {
         /*
          self = x19
@@ -716,17 +716,17 @@ extension UIKitContainerFocusItem where Self: UIView {
     }
 }
 
-extension UIKitContainerFocusItem where Self: AnyUIKitHostedFocusItem {
+extension UIKitContainerFocusItem where Self : AnyUIKitHostedFocusItem {
     func rootResponder() -> (responder: ResponderNode, isVisited: Bool)? {
         assertUnimplemented()
     }
 }
 
-protocol UIKitHostedContainerFocusItem: AnyUIKitHostedFocusItem, UIKitContainerFocusItem {
+protocol UIKitHostedContainerFocusItem : AnyUIKitHostedFocusItem, UIKitContainerFocusItem {
     // TODO
 }
 
-protocol AnyUIKitHostedFocusItem: UIFocusItem {
+protocol AnyUIKitHostedFocusItem : UIFocusItem {
     // TODO
 }
 
@@ -748,14 +748,14 @@ extension UIFocusEnvironment {
     }
 }
 
-final class FocusNamespaceViewResponder: DefaultLayoutViewResponder {
+final class FocusNamespaceViewResponder : DefaultLayoutViewResponder {
     fileprivate private(set) var namespace: Namespace.ID?
     private var context: AnyRuleContext?
 //    @Attribute var modifier: FocusNamespaceModifier
     @Attribute private var viewResponders: [ViewResponder]
 }
 
-struct UIKitFocusItemDescription<T: UIFocusItem>: CustomStringConvertible {
+struct UIKitFocusItemDescription<T : UIFocusItem>: CustomStringConvertible {
     init(_ item: T) {
         assertUnimplemented()
     }

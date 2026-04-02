@@ -63,7 +63,7 @@ public struct _DynamicPropertyBuffer {
         }
     }
     
-    package mutating func append<T: DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
+    package mutating func append<T : DynamicPropertyBox>(_ box: T, fieldOffset: Int) {
         let index = contents.append(box, vtable: BoxVTable<T>.self)
         var flags = contents[index].flags
         flags &= 0x80000000
@@ -182,10 +182,10 @@ public struct _DynamicPropertyBuffer {
 }
 
 @available(*, unavailable)
-extension _DynamicPropertyBuffer: Sendable {}
+extension _DynamicPropertyBuffer : Sendable {}
 
 package protocol DynamicPropertyBox {
-    associatedtype Property: DynamicProperty
+    associatedtype Property : DynamicProperty
     
     func destroy()
     func reset()
@@ -205,37 +205,37 @@ extension DynamicPropertyBox {
     }
 }
 
-fileprivate class BoxVTableBase: _UnsafeHeterogeneousBuffer_VTable {
-    class func reset(elt: _UnsafeHeterogeneousBuffer_Element) {
+fileprivate class BoxVTableBase : _UnsafeHeterogeneousBuffer_VTable {
+    class func reset(elt : _UnsafeHeterogeneousBuffer_Element) {
     }
     
-    class func update(elt: _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
+    class func update(elt : _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
         return false
     }
     
-    class func getState<T>(elt: _UnsafeHeterogeneousBuffer_Element, type: T.Type) -> Binding<T>? {
+    class func getState<T>(elt : _UnsafeHeterogeneousBuffer_Element, type: T.Type) -> Binding<T>? {
         return nil
     }
 }
 
-fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
-    override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+fileprivate final class BoxVTable<U : DynamicPropertyBox>: BoxVTableBase {
+    override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
         let new = unsafe elt.body(as: U.self)
         let old = unsafe from.body(as: U.self)
         unsafe new.initialize(to: old.move())
     }
     
-    override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+    override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
         let body = unsafe elt.body(as: U.self)
         unsafe body.pointee.destroy()
         unsafe body.deinitialize(count: 1)
     }
     
-    override class func reset(elt: _UnsafeHeterogeneousBuffer_Element) {
+    override class func reset(elt : _UnsafeHeterogeneousBuffer_Element) {
         assertUnimplemented()
     }
     
-    override class func update(elt: _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
+    override class func update(elt : _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
         /*
          elt -> x24
          property -> x26
@@ -267,25 +267,25 @@ fileprivate final class BoxVTable<U: DynamicPropertyBox>: BoxVTableBase {
         return updated
     }
     
-    override class func getState<T>(elt: _UnsafeHeterogeneousBuffer_Element, type: T.Type) -> Binding<T>? {
+    override class func getState<T>(elt : _UnsafeHeterogeneousBuffer_Element, type: T.Type) -> Binding<T>? {
         assertUnimplemented()
     }
 }
 
-fileprivate final class EnumVTable<T>: BoxVTableBase {
-    override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+fileprivate final class EnumVTable<T> : BoxVTableBase {
+    override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
         assertUnimplemented()
     }
     
-    override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+    override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
         assertUnimplemented()
     }
     
-    override class func reset(elt: _UnsafeHeterogeneousBuffer_Element) {
+    override class func reset(elt : _UnsafeHeterogeneousBuffer_Element) {
         assertUnimplemented()
     }
     
-    override class func update(elt: _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
+    override class func update(elt : _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
         assertUnimplemented()
     }
 }

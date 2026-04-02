@@ -6,7 +6,7 @@ struct PopoverPresentation {
 }
 
 extension PopoverPresentation {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static var defaultValue: [PopoverPresentation] {
             return []
         }
@@ -18,7 +18,7 @@ extension PopoverPresentation {
 }
 
 // TODO: final인지 검증
-class PopoverPresentationDelegate: NSObject {
+class PopoverPresentationDelegate : NSObject {
     private weak var delegate: PopoverPresentationDelegateDelegate?
     private var isLayoutPreventionActive: Bool
     
@@ -27,7 +27,7 @@ class PopoverPresentationDelegate: NSObject {
     }
 }
 
-extension PopoverPresentationDelegate: UIPopoverPresentationControllerDelegate {
+extension PopoverPresentationDelegate : UIPopoverPresentationControllerDelegate {
     func popoverPresentationController(_ popoverPresentationController: UIPopoverPresentationController, willRepositionPopoverTo rect: UnsafeMutablePointer<CGRect>, in view: AutoreleasingUnsafeMutablePointer<UIView>) {
         assertUnimplemented()
     }
@@ -45,6 +45,6 @@ extension PopoverPresentationDelegate: UIPopoverPresentationControllerDelegate {
     }
 }
 
-protocol PopoverPresentationDelegateDelegate: AnyObject {
+protocol PopoverPresentationDelegateDelegate : AnyObject {
     // TODO
 }

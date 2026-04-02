@@ -2,8 +2,8 @@ private import CoreFoundation
 private import _DarwinFoundation3.pthread
 private import os.lock
 
-package final class RunLoopTaskExecutor: TaskExecutor {
-    private final class Storage: @unchecked Sendable {
+package final class RunLoopTaskExecutor : TaskExecutor {
+    private final class Storage : @unchecked Sendable {
         let lock = OSAllocatedUnfairLock()
         var runLoop: CFRunLoop?
         var source: CFRunLoopSource?
@@ -12,7 +12,7 @@ package final class RunLoopTaskExecutor: TaskExecutor {
         var executor: UnownedTaskExecutor?
     }
     
-    @safe private nonisolated(unsafe) var thread: pthread_t?
+    @safe nonisolated(unsafe) private var thread: pthread_t?
     private let storage = Storage()
     
     package init() {

@@ -3,7 +3,7 @@ internal import UIKit
 private import _UIKitPrivate
 
 @MainActor
-final class UIKitEventBindingBridge: EventBindingBridge {
+final class UIKitEventBindingBridge : EventBindingBridge {
     private(set) var gestureRecognizer: UIKitGestureRecognizer? = nil
     private(set) var hoverGestureRecognizer: UIKitHoverGestureRecognizer
     private(set) var keyPressResponder: UIKitKeyPressResponder? = nil
@@ -22,7 +22,7 @@ final class UIKitEventBindingBridge: EventBindingBridge {
     }
     
     @MainActor
-    func hostingView<Content: View>(_ hostingView: _UIHostingView<Content>, didMoveToWindow window: UIWindow?) {
+    func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didMoveToWindow window: UIWindow?) {
         if let gestureRecognizer {
             let twoHandedInteractionRelationshipGesture = gestureRecognizer.twoHandedInteractionRelationshipGesture
             let gesturesRequiringFailure = twoHandedInteractionRelationshipGesture.gesturesRequiringFailure

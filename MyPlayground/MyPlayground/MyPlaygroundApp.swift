@@ -11,7 +11,7 @@ import MySwiftUI
 import UIKit
 
 @main
-struct MyPlaygroundApp: App {
+struct MyPlaygroundApp : App {
     var body: some Scene {
         WindowGroup { 
             ContentView()
@@ -23,7 +23,7 @@ struct MyPlaygroundApp: App {
     }
 }
 
-fileprivate struct ContentView: UIViewControllerRepresentable {
+fileprivate struct ContentView : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let rootViewController = DemoViewController(nibName: nil, bundle: nil)
         let navigationController = UINavigationController(rootViewController: rootViewController)

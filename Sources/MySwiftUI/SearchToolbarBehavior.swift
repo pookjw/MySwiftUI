@@ -2,7 +2,7 @@
 internal import MySwiftUICore
 
 @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
-public struct SearchToolbarBehavior: Hashable, Sendable {
+public struct SearchToolbarBehavior : Hashable, Sendable {
     private(set) var role: SearchToolbarBehavior.Role
     
     public static var automatic: SearchToolbarBehavior {
@@ -23,7 +23,7 @@ public struct SearchToolbarBehavior: Hashable, Sendable {
 }
 
 extension SearchToolbarBehavior {
-    enum Role: Hashable {
+    enum Role : Hashable {
         case automatic
         case minimize
     }
@@ -40,7 +40,7 @@ extension EnvironmentValues {
     }
     
     // TODO: Entry macro
-    fileprivate struct __Key_searchToolbarBehavior: EnvironmentKey {
+    fileprivate struct __Key_searchToolbarBehavior : EnvironmentKey {
         static var defaultValue: SearchToolbarBehavior {
             return .automatic
         }

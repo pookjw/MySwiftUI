@@ -1,17 +1,17 @@
 package import AttributeGraph
 
-public struct _GraphValue<Value>: Equatable {
+public struct _GraphValue<Value> : Equatable {
     package internal(set) var value: Attribute<Value>
     
     package init(_ value: Attribute<Value>) {
         self.value = value
     }
     
-    init<T: Rule>(_ rule: T) where T.Value == Value {
+    init<T : Rule>(_ rule: T) where T.Value == Value {
         self.value = Attribute(rule)
     }
     
-    init<T: StatefulRule>(_ rule: T) where T.Value == Value {
+    init<T : StatefulRule>(_ rule: T) where T.Value == Value {
         self.value = Attribute(rule)
     }
     
@@ -47,4 +47,4 @@ extension _GraphValue {
 }
 
 @available(*, unavailable)
-extension _GraphValue: Sendable {}
+extension _GraphValue : Sendable {}

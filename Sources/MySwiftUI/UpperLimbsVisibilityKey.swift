@@ -3,7 +3,7 @@ internal import MRUIKit
 internal import Foundation
 internal import AttributeGraph
 
-struct UpperLimbsVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
+struct UpperLimbsVisibilityKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: UpperLimbsVisibilityKey.PreferredValue? {
         return nil
     }
@@ -66,18 +66,18 @@ struct UpperLimbsVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
 }
 
 extension UpperLimbsVisibilityKey {
-    struct PreferredValue: Equatable {
+    struct PreferredValue : Equatable {
         fileprivate private(set) var visibility: UpperLimbVisibility
         fileprivate private(set) var animation: Animation?
     }
 }
 
-struct UpperLimbVisibility: Hashable {
+struct UpperLimbVisibility : Hashable {
     fileprivate private(set) var storage: UpperLimbVisibility.Storage
 }
 
 extension UpperLimbVisibility {
-    enum Storage: Hashable {
+    enum Storage : Hashable {
         case automatic
         case visible
         case hidden
@@ -85,7 +85,7 @@ extension UpperLimbVisibility {
     }
 }
 
-struct UpperLimbVisibilitySceneInput: SceneInput {
+struct UpperLimbVisibilitySceneInput : SceneInput {
     static var defaultValue: OptionalAttribute<UpperLimbVisibility> {
         return OptionalAttribute()
     }

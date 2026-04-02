@@ -4,7 +4,7 @@
 internal import UIKit
 private import _MySwiftUIShims
 
-@MainActor final class BarAppearanceBridge: NSObject {
+@MainActor final class BarAppearanceBridge : NSObject {
     var platformStorage = BarAppearanceBridge.PlatformStorage() // 0xea0
     private(set) var updateContext: BarAppearanceBridge.UpdateContext? = nil // 0xea8
     var allowedBars: Set<ToolbarPlacement.Role> = [] // 0xeb0
@@ -23,11 +23,11 @@ private import _MySwiftUIShims
         super.init()
     }
     
-    func viewWillAppear<Content: View>(hostingController: UIHostingController<Content>) {
+    func viewWillAppear<Content : View>(hostingController: UIHostingController<Content>) {
         assertUnimplemented()
     }
     
-    func didMoveToWindow<Content: View>(hostingController: UIHostingController<Content>) {
+    func didMoveToWindow<Content : View>(hostingController: UIHostingController<Content>) {
         // sp + 0x78
         let context = BarAppearanceBridge.UpdateContext(hostingController: hostingController)
         // sp + 0x20
@@ -102,7 +102,7 @@ private import _MySwiftUIShims
         seedTracker.addPreference(ToolbarKey.self)
     }
     
-    func preferencesDidChange<Content: View>(_ preferenceValues: PreferenceValues, hostingController: UIHostingController<Content>) {
+    func preferencesDidChange<Content : View>(_ preferenceValues: PreferenceValues, hostingController: UIHostingController<Content>) {
         /*
          self -> x20 -> x19
          preferenceValues -> x0 -> x20
@@ -396,7 +396,7 @@ extension BarAppearanceBridge {
         private(set) var customPlacements: [ToolbarPlacement.Role] = []
         
         @MainActor
-        init<Content: View>(hostingController: UIHostingController<Content>) {
+        init<Content : View>(hostingController: UIHostingController<Content>) {
             // hostingController -> x21
             self.targetController = hostingController
             // x22
@@ -442,7 +442,7 @@ extension BarAppearanceBridge {
         }
     }
     
-    struct Updates: OptionSet {
+    struct Updates : OptionSet {
         static var unknown0: BarAppearanceBridge.Updates {
             return BarAppearanceBridge.Updates(rawValue: 1 << 0)
         }
@@ -495,7 +495,7 @@ struct ToolbarContentDescription {
     // TODO
 }
 
-struct ToolbarAppearanceConfiguration: Equatable {
+struct ToolbarAppearanceConfiguration : Equatable {
     static func == (lhs: ToolbarAppearanceConfiguration, rhs: ToolbarAppearanceConfiguration) -> Bool {
         assertUnimplemented()
     }

@@ -16,7 +16,7 @@ struct IdealWindowPlacementLayout {
     // TODO
 }
 
-protocol WindowLayoutHost: AnyObject {
+protocol WindowLayoutHost : AnyObject {
     // TODO
 }
 

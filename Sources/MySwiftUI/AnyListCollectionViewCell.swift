@@ -1,5 +1,5 @@
 internal import UIKit
 
-class AnyListCollectionViewCell: UICollectionViewListCell {
+class AnyListCollectionViewCell : UICollectionViewListCell {
     
 }

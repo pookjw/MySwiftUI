@@ -24,7 +24,7 @@ public struct _ViewOutputs {
         self._layoutComputer = layoutComputer
     }
     
-    package subscript<Key: PreferenceKey>(_ key: Key.Type) -> Attribute<Key.Value>? {
+    package subscript<Key : PreferenceKey>(_ key: Key.Type) -> Attribute<Key.Value>? {
         get {
             return preferences[key]
         }
@@ -75,4 +75,4 @@ public struct _ViewOutputs {
 }
 
 @available(*, unavailable)
-extension _ViewOutputs: Sendable {}
+extension _ViewOutputs : Sendable {}

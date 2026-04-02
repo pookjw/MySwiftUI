@@ -1,4 +1,4 @@
 
-package protocol ViewGraphHostDelegate: AnyObject {
+package protocol ViewGraphHostDelegate : AnyObject {
     func updateGraphInputs(_ inputs: inout _GraphInputs)
 }

@@ -9,10 +9,10 @@ internal import AttributeGraph
 public struct ImmersiveContentBrightness : Equatable {
     private let value: Double?
     
-    @safe public nonisolated(unsafe) static let dark = ImmersiveContentBrightness(value: 0)
-    @safe public nonisolated(unsafe) static let dim = ImmersiveContentBrightness(value: 0.05)
-    @safe public nonisolated(unsafe) static let bright = ImmersiveContentBrightness(value: 0.3)
-    @safe public nonisolated(unsafe) static let automatic = ImmersiveContentBrightness(value: nil)
+    @safe nonisolated(unsafe) public static let dark = ImmersiveContentBrightness(value: 0)
+    @safe nonisolated(unsafe) public static let dim = ImmersiveContentBrightness(value: 0.05)
+    @safe nonisolated(unsafe) public static let bright = ImmersiveContentBrightness(value: 0.3)
+    @safe nonisolated(unsafe) public static let automatic = ImmersiveContentBrightness(value: nil)
     
     public static func custom(_ value: Double) -> ImmersiveContentBrightness {
         var d0 = value
@@ -39,7 +39,7 @@ extension Scene {
     }
 }
 
-struct ImmersiveContentBrightnessInput: SceneInput {
+struct ImmersiveContentBrightnessInput : SceneInput {
     static var defaultValue: Attribute<ImmersiveContentBrightness> {
         return Attribute(value: .automatic)
     }

@@ -2,7 +2,7 @@
 public import AttributeGraph
 internal import CoreGraphics
 
-struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, ObservedAttribute, RemovableAttribute, InvalidatableAttribute, ScrapeableAttribute {
+struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, ObservedAttribute, RemovableAttribute, InvalidatableAttribute, ScrapeableAttribute {
     @Attribute private var view: Representable // 0x0
     @Attribute private var environment: EnvironmentValues // 0x4
     @Attribute private var transaction: Transaction // 0x8
@@ -409,7 +409,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
 }
 
-@_spi(Internal) public struct ViewLeafView<Representable: CoreViewRepresentable>: UnaryView, PrimitiveView, @preconcurrency PlatformViewFactory {
+@_spi(Internal) public struct ViewLeafView<Representable : CoreViewRepresentable>: UnaryView, PrimitiveView, @preconcurrency PlatformViewFactory {
     let content: Representable
     package let platformView: Representable.Host
     private var coordinator: Representable.Coordinator
@@ -582,7 +582,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
         assertUnimplemented()
     }
     
-    public static nonisolated func _makeView(view: _GraphValue<ViewLeafView<Representable>>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<ViewLeafView<Representable>>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          view -> x0 -> x29 - 0xf4
          inputs -> x1 -> x24
@@ -648,7 +648,7 @@ struct PlatformViewChild<Representable: CoreViewRepresentable>: StatefulRule, Ob
     }
 }
 
-fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>: StatefulRule {
+fileprivate struct PlatformViewDisplayList<Representable : CoreViewRepresentable>: StatefulRule {
     let identity: _DisplayList_Identity // 0x0
     @Attribute private(set) var view: ViewLeafView<Representable> // 0x4
     @Attribute private(set) var position: CGPoint // 0x8
@@ -819,7 +819,7 @@ fileprivate struct PlatformViewDisplayList<Representable: CoreViewRepresentable>
     }
 }
 
-fileprivate struct LeafLayoutEnvironment: StatefulRule {
+fileprivate struct LeafLayoutEnvironment : StatefulRule {
     @Attribute var environment: EnvironmentValues
     let tracker: PropertyList.Tracker
     
@@ -830,7 +830,7 @@ fileprivate struct LeafLayoutEnvironment: StatefulRule {
     }
 }
 
-fileprivate struct InvalidatableLeafLayoutComputer<Representable: CoreViewRepresentable>: StatefulRule, CustomStringConvertible {
+fileprivate struct InvalidatableLeafLayoutComputer<Representable : CoreViewRepresentable>: StatefulRule, CustomStringConvertible {
     private(set) var _view: Attribute<ViewLeafView<Representable>>
     @Attribute private(set) var environment: EnvironmentValues
     private(set) weak var viewGraph: ViewGraph?
@@ -869,7 +869,7 @@ fileprivate struct InvalidatableLeafLayoutComputer<Representable: CoreViewRepres
     }
 }
 
-fileprivate struct PlatformViewLayoutEngine<Representable: CoreViewRepresentable>: LayoutEngine {
+fileprivate struct PlatformViewLayoutEngine<Representable : CoreViewRepresentable>: LayoutEngine {
     private var cache: ViewSizeCache
     private var view: ViewLeafView<Representable>
     private var environment: Attribute<EnvironmentValues>

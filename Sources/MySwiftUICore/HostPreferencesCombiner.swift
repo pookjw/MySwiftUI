@@ -1,6 +1,6 @@
 internal import AttributeGraph
 
-struct HostPreferencesCombiner: Rule, AsyncAttribute {
+struct HostPreferencesCombiner : Rule, AsyncAttribute {
     @Attribute private(set) var keys: PreferenceKeys
     @OptionalAttribute var values: PreferenceValues?
     private(set) var children: [HostPreferencesCombiner.Child]

@@ -3,8 +3,8 @@ public import Spatial
 package import CoreGraphics
 private import os.log
 
-@_spi(Internal) open class ViewResponder: ResponderNode {
-    static private(set) nonisolated(unsafe) var hitTestKey: UInt32 = 0
+@_spi(Internal) open class ViewResponder : ResponderNode {
+    nonisolated(unsafe) private(set) static var hitTestKey: UInt32 = 0
     
     static func nextHitTestKey() -> UInt32 {
         let next = unsafe Self.hitTestKey
@@ -149,7 +149,7 @@ extension ViewResponder {
         }
     }
     
-    public struct ContainsPointsOptions: OptionSet {
+    public struct ContainsPointsOptions : OptionSet {
         static var platformDefault: ViewResponder.ContainsPointsOptions {
             return [useZDistanceAsPriority, .disablePointCloudHitTesting]
         }
@@ -189,7 +189,7 @@ extension ViewResponder {
         }
     }
     
-    public enum HitTestPolicy: Hashable {
+    public enum HitTestPolicy : Hashable {
         case include
         case exclude
         case passthrough
@@ -210,7 +210,7 @@ extension ViewResponder {
     }
 }
 
-package struct ViewRespondersKey: PreferenceKey {
+package struct ViewRespondersKey : PreferenceKey {
     package static var defaultValue: [ViewResponder] {
         return []
     }

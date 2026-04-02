@@ -3,7 +3,7 @@ internal import Foundation
 internal import MySwiftUICore
 
 @MainActor
-final class FileImportExportBridge: NSObject {
+final class FileImportExportBridge : NSObject {
     weak var host: ViewRendererHost? = nil // 0x530
     private var presentationState = FileImportExportBridge.PresentationState(currentPresentation: nil, importSeed: .empty, exportSeed: .empty) // 0x538
     private var presentedPicker: PlatformFilePicker? = nil // 0x540
@@ -93,7 +93,7 @@ extension FileImportExportBridge.PresentationState {
     }
 }
 
-fileprivate protocol PlatformFilePicker: AnyObject {
+fileprivate protocol PlatformFilePicker : AnyObject {
     // TODO
 }
 
@@ -102,7 +102,7 @@ struct FileImportOperation {
 }
 
 extension FileImportOperation {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static func reduce(value: inout FileImportOperation?, nextValue: () -> FileImportOperation?) {
             assertUnimplemented()
         }
@@ -122,7 +122,7 @@ struct FileExportOperation {
 }
 
 extension FileExportOperation {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static func reduce(value: inout FileExportOperation?, nextValue: () -> FileExportOperation?) {
             assertUnimplemented()
         }

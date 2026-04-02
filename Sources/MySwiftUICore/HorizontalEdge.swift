@@ -1,13 +1,13 @@
-@frozen public enum HorizontalEdge: Int8, CaseIterable, Codable {
+@frozen public enum HorizontalEdge : Int8, CaseIterable, Codable {
     case leading
     case trailing
 }
 
-extension HorizontalEdge: Equatable {}
-extension HorizontalEdge: Hashable {}
-extension HorizontalEdge: RawRepresentable {}
-extension HorizontalEdge: Sendable {}
-extension HorizontalEdge: BitwiseCopyable {}
+extension HorizontalEdge : Equatable {}
+extension HorizontalEdge : Hashable {}
+extension HorizontalEdge : RawRepresentable {}
+extension HorizontalEdge : Sendable {}
+extension HorizontalEdge : BitwiseCopyable {}
 
 extension HorizontalEdge {
     @frozen public struct Set : OptionSet {
@@ -36,5 +36,5 @@ extension HorizontalEdge {
 }
 
 
-extension HorizontalEdge.Set: Sendable {}
-extension HorizontalEdge.Set: BitwiseCopyable {}
+extension HorizontalEdge.Set : Sendable {}
+extension HorizontalEdge.Set : BitwiseCopyable {}

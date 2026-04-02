@@ -5,7 +5,7 @@ private import MySwiftUICore
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-public struct ImmersiveEnvironmentBehavior: Equatable, Sendable {
+public struct ImmersiveEnvironmentBehavior : Equatable, Sendable {
     private var storage: ImmersiveEnvironmentBehavior.Storage
     
     public static var automatic: ImmersiveEnvironmentBehavior {
@@ -33,7 +33,7 @@ extension Scene {
 }
 
 extension ImmersiveEnvironmentBehavior {
-    enum Storage: CustomStringConvertible, Hashable {
+    enum Storage : CustomStringConvertible, Hashable {
         case automatic
         case hide
         case coexist

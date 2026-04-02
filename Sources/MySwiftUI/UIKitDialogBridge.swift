@@ -3,7 +3,7 @@ private import MySwiftUICore
 private import AttributeGraph
 
 @MainActor
-class UIKitDialogBridge/*: DialogActionDelegate*/ {
+class UIKitDialogBridge/* : DialogActionDelegate*/ {
     weak var hostingController: UIViewController? = nil // 0x10
     weak var host: (UIView & ViewRendererHost)? = nil // 0x18
     private var activePresentation: UIKitDialogBridge.ActivePresentation = .none // 0xca0
@@ -43,7 +43,7 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
          preferences -> x0 -> sp + 0xcc8
          */
         // x20
-        let dialogValue: PreferenceValues.Value<[ViewIdentity: ConfirmationDialog]>
+        let dialogValue: PreferenceValues.Value<[ViewIdentity : ConfirmationDialog]>
         let x290x54: Bool
         if let host, host.window != nil {
             // <+1144>
@@ -68,7 +68,7 @@ class UIKitDialogBridge/*: DialogActionDelegate*/ {
         
         // <+2556>
         // x26
-        let alertValue: PreferenceValues.Value<[ViewIdentity: AlertStorage]>
+        let alertValue: PreferenceValues.Value<[ViewIdentity : AlertStorage]>
         if x290x54 {
             alertValue = preferences[AlertStorage.PreferenceKey.self]
         } else {
@@ -111,7 +111,7 @@ struct ConfirmationDialog {
 }
 
 extension ConfirmationDialog {
-    struct PreferenceKey: HostPreferenceKey {
+    struct PreferenceKey : HostPreferenceKey {
         static let defaultValue: [ViewIdentity: ConfirmationDialog] = [:]
         
         static func reduce(value: inout [ViewIdentity: ConfirmationDialog], nextValue: () -> [ViewIdentity: ConfirmationDialog]) {
@@ -133,7 +133,7 @@ struct AlertStorage {
 }
 
 extension AlertStorage {
-    struct PreferenceKey: HostPreferenceKey {
+    struct PreferenceKey : HostPreferenceKey {
         static let defaultValue: [ViewIdentity: AlertStorage] = [:]
         
         static func reduce(value: inout [ViewIdentity: AlertStorage], nextValue: () -> [ViewIdentity: AlertStorage]) {

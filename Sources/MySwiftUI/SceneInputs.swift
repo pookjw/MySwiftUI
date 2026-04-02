@@ -10,4 +10,4 @@ public struct _SceneInputs {
 extension _SceneInputs : Sendable {
 }
 
-protocol SceneInput: GraphInput {}
+protocol SceneInput : GraphInput {}

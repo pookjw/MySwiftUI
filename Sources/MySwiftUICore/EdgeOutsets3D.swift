@@ -1,6 +1,6 @@
 package import CoreGraphics
 
-package struct EdgeOutsets3D: Equatable, Sendable {
+package struct EdgeOutsets3D : Equatable, Sendable {
     package var top: CGFloat
     package var leading: CGFloat
     package var bottom: CGFloat

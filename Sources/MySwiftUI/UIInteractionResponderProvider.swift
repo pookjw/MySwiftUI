@@ -6,6 +6,6 @@
 //
 internal import MySwiftUICore
 
-struct UIInteractionResponderProvider: CoreInteractionResponderProvider {
+struct UIInteractionResponderProvider : CoreInteractionResponderProvider {
     
 }

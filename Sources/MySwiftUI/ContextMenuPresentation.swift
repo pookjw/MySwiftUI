@@ -9,7 +9,7 @@ struct ContextMenuPresentation {
 }
 
 extension ContextMenuPresentation {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static let defaultValue: [ViewIdentity: ContextMenuPresentation] = [:]
         
         static func reduce(value: inout [ViewIdentity : ContextMenuPresentation], nextValue: () -> [ViewIdentity : ContextMenuPresentation]) {

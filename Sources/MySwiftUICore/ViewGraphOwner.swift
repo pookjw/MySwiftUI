@@ -1,4 +1,4 @@
-package protocol ViewGraphOwner: AnyObject {
+package protocol ViewGraphOwner : AnyObject {
     var viewGraph: ViewGraph { get }
     var currentTimestamp: Time { get set }
     var valuesNeedingUpdate: ViewGraphRootValues { get set }

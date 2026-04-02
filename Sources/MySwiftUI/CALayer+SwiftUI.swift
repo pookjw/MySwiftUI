@@ -66,7 +66,7 @@ extension CALayer {
 }
 
 extension CALayer {
-    subscript<T: SeparatedOptionKey>(key: T.Type) -> T.Value? {
+    subscript<T : SeparatedOptionKey>(key: T.Type) -> T.Value? {
         get {
             let keyPath = "\(key.keyPathPrefix) + \(key.keyPath)"
             return value(forKeyPath: keyPath) as? T.Value
@@ -76,7 +76,7 @@ extension CALayer {
         }
     }
     
-    subscript<T: LayerProperty>(key: T.Type) -> T.Value? {
+    subscript<T : LayerProperty>(key: T.Type) -> T.Value? {
         get {
             assertUnimplemented()
         }

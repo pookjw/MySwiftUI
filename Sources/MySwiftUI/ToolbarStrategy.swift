@@ -2,7 +2,7 @@ internal import UIKit
 private import MySwiftUICore
 
 @MainActor
-protocol ToolbarStrategy: ToolbarNamespace {
+protocol ToolbarStrategy : ToolbarNamespace {
     var updater: ToolbarBridge<Self>? { get set }
     var updateContext: Toolbar.UpdateContext? { get set }
     

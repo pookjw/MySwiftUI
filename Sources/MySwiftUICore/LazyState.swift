@@ -1,7 +1,7 @@
 // B05A38AC07D1D9619F47AAB3A683746F
 
 @propertyWrapper
-struct LazyState<Value>: DynamicProperty {
+struct LazyState<Value> : DynamicProperty {
     private var _storage: LazyState<Value>.Storage
     private var _location: AnyLocation<Value>? = nil
     
@@ -39,7 +39,7 @@ extension LazyState {
 }
 
 @propertyWrapper
-struct LazyState2<Value>: DynamicProperty {
+struct LazyState2<Value> : DynamicProperty {
     private let lazyState: LazyState<Value>
     
     init(wrappedValue: @autoclosure @escaping () -> Value) {

@@ -1,5 +1,5 @@
 internal import UIKit
 
-class UIKitBarButtonItemGroup: UIBarButtonItemGroup {
+class UIKitBarButtonItemGroup : UIBarButtonItemGroup {
     // TODO
 }

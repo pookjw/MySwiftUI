@@ -1,6 +1,6 @@
 private import AttributeGraph
 
-package struct UniqueID: Hashable, Sendable {
+package struct UniqueID : Hashable, Sendable {
     private let value: Int
     
     @inlinable

@@ -24,7 +24,7 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    fileprivate struct ViewThatFitsRepresentationKey: ViewInput {
+    fileprivate struct ViewThatFitsRepresentationKey : ViewInput {
         static var defaultValue: (any PlatformViewThatFitsRepresentable.Type)? {
             return nil
         }

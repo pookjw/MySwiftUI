@@ -3,7 +3,7 @@
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-@frozen public enum SquareAzimuth: CaseIterable, Sendable {
+@frozen public enum SquareAzimuth : CaseIterable, Sendable {
     case front
     case right
     case back
@@ -11,7 +11,7 @@
     
     // TODO
     
-    @frozen public struct Set: OptionSet {
+    @frozen public struct Set : OptionSet {
         public let rawValue: Int
         
         public init(rawValue: Int) {

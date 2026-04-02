@@ -58,7 +58,7 @@ package struct AtomicBox<T> {
 }
 
 extension AtomicBox {
-    fileprivate class AtomicBuffer<S>: ManagedBuffer<os_unfair_lock_s, S> {
+    fileprivate class AtomicBuffer<S> : ManagedBuffer<os_unfair_lock_s, S> {
         @inlinable
         static func allocate(value: S) -> AtomicBuffer<S> {
             let buffer = AtomicBuffer<S>.create(minimumCapacity: 1) { buffer in
@@ -74,25 +74,25 @@ extension AtomicBox {
     }
 }
 
-extension AtomicBox where T: ExpressibleByNilLiteral {
+extension AtomicBox where T : ExpressibleByNilLiteral {
     @inlinable
     package init() {
         self.init(wrappedValue: nil)
     }
 }
 
-extension AtomicBox: Equatable where T: Equatable {
+extension AtomicBox : Equatable where T : Equatable {
     @inlinable
     package static func ==(lhs: AtomicBox<T>, rhs: AtomicBox<T>) -> Bool {
         return lhs.wrappedValue == rhs.wrappedValue
     }
 } 
 
-extension AtomicBox: Hashable where T: Hashable {
+extension AtomicBox : Hashable where T : Hashable {
     @inlinable
     package func hash(into hasher: inout Hasher) {
         wrappedValue.hash(into: &hasher)
     }
 }
 
-extension AtomicBox: @unchecked Sendable {}
+extension AtomicBox : @unchecked Sendable {}

@@ -1,6 +1,6 @@
 public import CoreGraphics
 
-@frozen public struct EdgeInsets3D: Equatable {
+@frozen public struct EdgeInsets3D : Equatable {
     public var top: CGFloat
     public var leading: CGFloat
     public var bottom: CGFloat

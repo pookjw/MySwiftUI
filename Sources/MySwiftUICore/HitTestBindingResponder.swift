@@ -2,7 +2,7 @@
 
 internal import AttributeGraph
 
-struct HitTestBindingFeature: ViewGraphFeature {
+struct HitTestBindingFeature : ViewGraphFeature {
     func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
         // $s7SwiftUI21HitTestBindingFeatureV17modifyViewOutputs7outputs6inputs5graphyAA01_hI0Vz_AA01_H6InputsVAA0H5GraphCtFTf4nndn_n
         /*
@@ -37,7 +37,7 @@ struct HitTestBindingFeature: ViewGraphFeature {
     }
 }
 
-final class HitTestBindingResponder3D: DefaultLayoutViewResponder {
+final class HitTestBindingResponder3D : DefaultLayoutViewResponder {
     @inline(__always)
     override init(inputs: _ViewInputs) {
         super.init(inputs: inputs)
@@ -49,9 +49,9 @@ final class HitTestBindingResponder3D: DefaultLayoutViewResponder {
     }
 }
 
-fileprivate final class HitTestBindingResponder: DefaultLayoutViewResponder {}
+fileprivate final class HitTestBindingResponder : DefaultLayoutViewResponder {}
 
-fileprivate struct HitTestBindingFilter: StatefulRule {
+fileprivate struct HitTestBindingFilter : StatefulRule {
     @Attribute private var children: [ViewResponder]
     private let responder: HitTestBindingResponder3D
     

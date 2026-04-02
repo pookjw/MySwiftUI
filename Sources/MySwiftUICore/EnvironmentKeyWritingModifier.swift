@@ -2,16 +2,16 @@
 private import AttributeGraph
 
 extension View {
-    @inlinable public nonisolated func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, _ value: V) -> some View {
+    @inlinable nonisolated public func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, _ value: V) -> some View {
         modifier(_EnvironmentKeyWritingModifier(keyPath: keyPath, value: value))
     }
 }
 
-@frozen public struct _EnvironmentKeyWritingModifier<Value>: ViewModifier, _GraphInputsModifier {
-    @safe public nonisolated(unsafe) var keyPath: WritableKeyPath<EnvironmentValues, Value>
-    @safe public nonisolated(unsafe) var value: Value
+@frozen public struct _EnvironmentKeyWritingModifier<Value> : ViewModifier, _GraphInputsModifier {
+    @safe nonisolated(unsafe) public var keyPath: WritableKeyPath<EnvironmentValues, Value>
+    @safe nonisolated(unsafe) public var value: Value
     
-    @inlinable public nonisolated init(keyPath: WritableKeyPath<EnvironmentValues, Value>, value: Value) {
+    @inlinable nonisolated public init(keyPath: WritableKeyPath<EnvironmentValues, Value>, value: Value) {
         self.keyPath = keyPath
         self.value = value
     }
@@ -33,7 +33,7 @@ extension View {
 extension _EnvironmentKeyWritingModifier : Sendable {
 }
 
-fileprivate struct ChildEnvironment<Value>: StatefulRule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct ChildEnvironment<Value> : StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private var modifier: _EnvironmentKeyWritingModifier<Value>
     @Attribute private var env: EnvironmentValues
     private var oldModifier: _EnvironmentKeyWritingModifier<Value>?

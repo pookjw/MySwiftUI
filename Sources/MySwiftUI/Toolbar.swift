@@ -20,7 +20,7 @@ extension Toolbar {
         var accessoryBarLocations: [Toolbar.BarLocation] = [] // 0x28 (offset field)
         
         @MainActor
-        init<Content: View>(hostingController: UIHostingController<Content>) {
+        init<Content : View>(hostingController: UIHostingController<Content>) {
             // <+280>
             // hostingController -> x20
             self.overrides = hostingController.overrides
@@ -38,7 +38,7 @@ extension Toolbar {
         }
     }
     
-    enum BarLocation: Hashable, CaseIterable, CustomStringConvertible {
+    enum BarLocation : Hashable, CaseIterable, CustomStringConvertible {
         static var allCases: [Toolbar.BarLocation] {
             // $s7SwiftUI7ToolbarO11BarLocationO8allCasesSayAEGvgZTf4d_n
             // 아마 Platform 마다 다른 것 같음
@@ -153,7 +153,7 @@ extension Toolbar {
 }
 
 extension Toolbar.Updates {
-    struct NavigationProperties: OptionSet {
+    struct NavigationProperties : OptionSet {
         static var unknown0: Toolbar.Updates.NavigationProperties {
             return Toolbar.Updates.NavigationProperties(rawValue: 1 << 0)
         }
@@ -181,11 +181,11 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct ToolbarUpdateContextKey: EnvironmentKey {
-    static nonisolated(unsafe) let defaultValue: Toolbar.UpdateContext? = nil
+fileprivate struct ToolbarUpdateContextKey : EnvironmentKey {
+    nonisolated(unsafe) static let defaultValue: Toolbar.UpdateContext? = nil
 }
 
-class ToolbarPlatformDelegate: NSObject {
+class ToolbarPlatformDelegate : NSObject {
     private weak var provider: ToolbarBridgeProvider?
     
     override init() {
@@ -195,15 +195,15 @@ class ToolbarPlatformDelegate: NSObject {
     // TODO
 }
 
-protocol ToolbarBridgeProvider: AnyObject {
+protocol ToolbarBridgeProvider : AnyObject {
     // TODO
 }
 
-class UIKitToolbar: UIToolbar {
+class UIKitToolbar : UIToolbar {
     // TODO
 }
 
-class SwiftUISearchController: UISearchController {
+class SwiftUISearchController : UISearchController {
     // TODO
 }
 
@@ -309,7 +309,7 @@ extension ToolbarStorage.Entry {
         case document
     }
     
-    struct ID: Hashable, CustomStringConvertible {
+    struct ID : Hashable, CustomStringConvertible {
         private(set) var base: AnyHashable
         private(set) var placement: ToolbarItemPlacement.Role?
         
@@ -333,11 +333,11 @@ extension ToolbarDefaultItemKind {
     }
 }
 
-class ToolbarOrnament: MRUIPlatterOrnament {
+class ToolbarOrnament : MRUIPlatterOrnament {
     // TODO
 }
 
-struct NavigationTitleKey: HostPreferenceKey {
+struct NavigationTitleKey : HostPreferenceKey {
     static func reduce(value: inout NavigationTitleStorage?, nextValue: () -> NavigationTitleStorage?) {
         assertUnimplemented()
     }
@@ -351,7 +351,7 @@ struct NavigationTitleKey: HostPreferenceKey {
     }
 }
 
-struct NavigationSubtitleKey: HostPreferenceKey {
+struct NavigationSubtitleKey : HostPreferenceKey {
     static func reduce(value: inout NavigationTitleStorage?, nextValue: () -> NavigationTitleStorage?) {
         assertUnimplemented()
     }
@@ -365,7 +365,7 @@ struct NavigationSubtitleKey: HostPreferenceKey {
     }
 }
 
-struct NavigationBarBackButtonHiddenKey: HostPreferenceKey {
+struct NavigationBarBackButtonHiddenKey : HostPreferenceKey {
     static var defaultValue: Bool {
         return false
     }
@@ -418,8 +418,8 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct ToolbarForegroundStyleKey: EnvironmentKey {
-        @safe static nonisolated(unsafe) let defaultValue: [ToolbarPlacement.Role: AnyShapeStyle] = [:]
+    fileprivate struct ToolbarForegroundStyleKey : EnvironmentKey {
+        @safe nonisolated(unsafe) static let defaultValue: [ToolbarPlacement.Role: AnyShapeStyle] = [:]
         
         static func _valuesEqual(_ lhs: [ToolbarPlacement.Role : AnyShapeStyle], _ rhs: [ToolbarPlacement.Role : AnyShapeStyle]) -> Bool {
             assertUnimplemented()

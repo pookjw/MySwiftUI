@@ -1,7 +1,7 @@
 
 internal import MySwiftUICore
 
-protocol Geometry3DEffect: Animatable, ViewModifier {
+protocol Geometry3DEffect : Animatable, ViewModifier {
     static var _affectsLayout: Bool { get }
 }
 
@@ -12,7 +12,7 @@ extension Geometry3DEffect {
 }
 
 // SwiftUI에서 Geometry3DEffect를 conform하는 Type이 존재하지 않음
-struct Geometry3DEffectImpl: Geometry3DEffect {
+struct Geometry3DEffectImpl : Geometry3DEffect {
     func body(content: Content) -> some View {
         assertUnimplemented() // TODO
     }

@@ -3,12 +3,12 @@
 @preconcurrency public import UIKit
 private import _UIKitPrivate
 
-final class UIViewPlatformViewDefinition: PlatformViewDefinition {
-    override class var system: PlatformViewDefinition.System {
+final class UIViewPlatformViewDefinition : PlatformViewDefinition {
+    override class var system : PlatformViewDefinition.System {
         return .uiView
     }
     
-    override class func makeView(kind: PlatformViewDefinition.ViewKind) -> AnyObject {
+    override class func makeView(kind : PlatformViewDefinition.ViewKind) -> AnyObject {
         switch kind {
         case .shape:
             // <+356>
@@ -26,7 +26,7 @@ final class UIViewPlatformViewDefinition: PlatformViewDefinition {
         }
     }
     
-    override class func makePlatformView(view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
+    override class func makePlatformView(view : AnyObject, kind: PlatformViewDefinition.ViewKind) {
         let view = view as! UIView
         UIViewPlatformViewDefinition.initView(view, kind: kind)
     }

@@ -9,7 +9,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct IsPlatterPresentKey: EnvironmentKey {
+fileprivate struct IsPlatterPresentKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

@@ -1,9 +1,9 @@
-struct ArchivedViewInput: ViewInput {
+struct ArchivedViewInput : ViewInput {
     static let defaultValue = ArchivedViewInput.Value(flags: [], deploymentVersion: .current)
 }
 
 extension ArchivedViewInput {
-    struct Flags: OptionSet {
+    struct Flags : OptionSet {
         static var customFontURLs: ArchivedViewInput.Flags {
             return ArchivedViewInput.Flags(rawValue: 1 << 2)
         }
@@ -31,7 +31,7 @@ extension ArchivedViewInput {
         let rawValue: UInt8
     }
     
-    struct Value: Equatable {
+    struct Value : Equatable {
         static var isArchived: ArchivedViewInput.Value {
             return ArchivedViewInput.Value(flags: .isArchived, deploymentVersion: .current)
         }
@@ -65,8 +65,8 @@ extension ArchivedViewInput {
         }
     }
     
-    struct DeploymentVersion: Hashable, Comparable, Codable {
-        static func < (lhs: ArchivedViewInput.DeploymentVersion, rhs: ArchivedViewInput.DeploymentVersion) -> Bool {
+    struct DeploymentVersion : Hashable, Comparable, Codable {
+        static func < (lhs : ArchivedViewInput.DeploymentVersion, rhs : ArchivedViewInput.DeploymentVersion) -> Bool {
             return lhs.rawValue < rhs.rawValue
         }
         

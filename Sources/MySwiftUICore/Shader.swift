@@ -1,5 +1,5 @@
 
-public struct Shader: Equatable, Sendable {
+public struct Shader : Equatable, Sendable {
 //    private var function: ShaderFunction
 //    private var arguments: [Shader.Argument]
 //    private var options: Shader.Options

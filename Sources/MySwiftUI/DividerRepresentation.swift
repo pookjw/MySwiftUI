@@ -24,7 +24,7 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    fileprivate struct DividerRepresentationKey: ViewInput {
+    fileprivate struct DividerRepresentationKey : ViewInput {
         static var defaultValue: (any PlatformDividerRepresentable.Type)? {
             return nil
         }

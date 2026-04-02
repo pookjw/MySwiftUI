@@ -3,9 +3,9 @@ internal import MySwiftUICore
 private import FeatureFlags
 private import Spatial
 
-struct ClientSideSceneClipping3DDuringResize: Feature {
+struct ClientSideSceneClipping3DDuringResize : Feature {
     @usableFromInline
-    @safe static nonisolated(unsafe) var isEnabledForTesting: Bool = false
+    @safe nonisolated(unsafe) static var isEnabledForTesting: Bool = false
     
     @inlinable
     static var isEnabled: Bool {
@@ -27,7 +27,7 @@ struct ClientSideSceneClipping3DDuringResize: Feature {
 }
 
 extension ClientSideSceneClipping3DDuringResize {
-    fileprivate struct Key: FeatureFlagsKey {
+    fileprivate struct Key : FeatureFlagsKey {
         var domain: StaticString {
             return "SwiftUI"
         }
@@ -38,7 +38,7 @@ extension ClientSideSceneClipping3DDuringResize {
     }
 }
 
-struct Clipped3DDuringSceneResizeModifier: ViewModifier {
+struct Clipped3DDuringSceneResizeModifier : ViewModifier {
     @Environment(\.isAnimatingSceneResize) private var isAnimatingSceneResize
     @Environment(\.effectiveWindowMargins) private var effectiveWindowMargins
     
@@ -48,7 +48,7 @@ struct Clipped3DDuringSceneResizeModifier: ViewModifier {
     }
 }
 
-fileprivate struct ConditionalClipping3DEffect: ViewModifier, PrimitiveViewModifier, MultiViewModifier, @preconcurrency Animatable, @preconcurrency RendererEffect3D {
+fileprivate struct ConditionalClipping3DEffect : ViewModifier, PrimitiveViewModifier, MultiViewModifier, @preconcurrency Animatable, @preconcurrency RendererEffect3D {
     private(set) var clips: Bool
     private(set) var effectiveMargins: EdgeOutsets3D
     

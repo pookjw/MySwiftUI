@@ -3,7 +3,7 @@ public import AttributeGraph
 @_spi(Internal) public protocol ContentResponder {}
 
 extension _ViewOutputs {
-    @_spi(Internal) public func makeContentPathPreferenceWriter<T: ContentResponder>(
+    @_spi(Internal) public func makeContentPathPreferenceWriter<T : ContentResponder>(
         inputs: _ViewInputs,
         contentResponder: @autoclosure () -> Attribute<T>,
         kinds: OptionalAttribute<ContentShapeKinds> = OptionalAttribute()
@@ -21,7 +21,7 @@ extension _ViewOutputs {
 }
 
 
-struct ContentShapePathData: PreferenceKey {
+struct ContentShapePathData : PreferenceKey {
     static var defaultValue: ContentShapePathData? {
         return nil
     }
@@ -39,6 +39,6 @@ struct MergedContentShapes {
     // TODO
 }
 
-package struct TrivialContentResponder: ContentResponder {
+package struct TrivialContentResponder : ContentResponder {
     package init() {}
 }

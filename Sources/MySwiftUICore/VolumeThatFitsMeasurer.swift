@@ -1,7 +1,7 @@
 package import Spatial
 package import CoreGraphics
 
-package struct VolumeThatFitsMeasurer: ViewGraphGeometryMeasurer {
+package struct VolumeThatFitsMeasurer : ViewGraphGeometryMeasurer {
     package static func measure(given: _ProposedSize3D, in graph: ViewGraph) -> Size3D {
         graph.sizeThatFitsObservers
         assertUnimplemented()

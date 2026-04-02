@@ -2,18 +2,18 @@ public import Observation
 public import Combine
 
 extension View {
-    public nonisolated func environment<T>(_ object: T?) -> some View where T : AnyObject, T : Observable {
+    nonisolated public func environment<T>(_ object: T?) -> some View where T : AnyObject, T : Observable {
         let key = EnvironmentObjectKey<T>()
         return environment(\EnvironmentValues[key], object)
     }
     
-    @inlinable public nonisolated func environmentObject<T>(_ object: T) -> some View where T : ObservableObject {
+    @inlinable nonisolated public func environmentObject<T>(_ object: T) -> some View where T : ObservableObject {
 //        environment(T.environmentStore, object)
         _assertUnimplemented()
     }
 }
 
-struct EnvironmentObjectKey<Value: AnyObject>: EnvironmentKey, Hashable {
+struct EnvironmentObjectKey<Value : AnyObject>: EnvironmentKey, Hashable {
     init() {}
     
     static var defaultValue: Value? {
@@ -30,7 +30,7 @@ struct EnvironmentObjectKey<Value: AnyObject>: EnvironmentKey, Hashable {
 }
 
 extension EnvironmentValues {
-    subscript<T: AnyObject>(objectType _: T.Type) -> T? {
+    subscript<T : AnyObject>(objectType _: T.Type) -> T? {
         get {
             return self[EnvironmentObjectKey<T>.self]
         }
@@ -39,7 +39,7 @@ extension EnvironmentValues {
         }
     }
     
-    subscript<T: AnyObject>(_ key: EnvironmentObjectKey<T>) -> T? {
+    subscript<T : AnyObject>(_ key: EnvironmentObjectKey<T>) -> T? {
         get {
             return self[objectType: T.self]
         }
@@ -48,7 +48,7 @@ extension EnvironmentValues {
         }
     }
     
-    subscript<T: AnyObject>(forceUnwrapping key: EnvironmentObjectKey<T>) -> T {
+    subscript<T : AnyObject>(forceUnwrapping key: EnvironmentObjectKey<T>) -> T {
         get {
             guard let value = self[objectType: T.self] else {
                 fatalError("No Observable object of type \(T.self) found. A View.environmentObject(_:) for Model may be missing as an ancestor of this view.")
@@ -61,7 +61,7 @@ extension EnvironmentValues {
         }
     }
     
-    package subscript<T: ObservableObject>(_ type: T.Type) -> T? {
+    package subscript<T : ObservableObject>(_ type: T.Type) -> T? {
         get {
             return self[objectType: type]
         }

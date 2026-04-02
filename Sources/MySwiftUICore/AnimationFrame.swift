@@ -3,7 +3,7 @@
 private import CoreGraphics
 internal import AttributeGraph
 
-struct AnimatableFrameAttribute: StatefulRule, AsyncAttribute, ObservedAttribute {
+struct AnimatableFrameAttribute : StatefulRule, AsyncAttribute, ObservedAttribute {
     typealias Value = ViewFrame
     @Attribute private var position: CGPoint
     @Attribute private var size: ViewSize
@@ -63,7 +63,7 @@ struct AnimatableFrameAttribute: StatefulRule, AsyncAttribute, ObservedAttribute
     }
 }
 
-struct AnimatableFrameAttributeVFD: StatefulRule, AsyncAttribute, ObservedAttribute {
+struct AnimatableFrameAttributeVFD : StatefulRule, AsyncAttribute, ObservedAttribute {
     typealias Value = ViewFrame
     
     @Attribute private var position: CGPoint

@@ -3,14 +3,14 @@
 internal import AttributeGraph
 @_spi(Internal) internal import MySwiftUICore
 
-protocol AccessibilityViewModifier: PrimitiveViewModifier, MultiViewModifier {
+protocol AccessibilityViewModifier : PrimitiveViewModifier, MultiViewModifier {
     static var options: AccessibilityModifierOptions { get }
     func willCreateNode(for nodes: [AccessibilityNode]) -> Bool
     func initialAttachment(for node: AccessibilityNode) -> AccessibilityAttachment
     func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment
     func createOrUpdateNode(viewRendererHost: ViewRendererHost?, existingNode: AccessibilityNode?) -> AccessibilityNode
     func scrapeableContent(environment: EnvironmentValues, idiom: AnyInterfaceIdiom) -> ScrapeableContent.Content?
-    static nonisolated func makeAccessibilityViewModifier(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs
+    nonisolated static func makeAccessibilityViewModifier(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs
     var supportsPlaceholders: Bool { get }
 }
 
@@ -19,7 +19,7 @@ extension AccessibilityViewModifier {
         assertUnimplemented()
     }
     
-    static nonisolated func _makeView(modifier: _GraphValue<any AccessibilityViewModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func _makeView(modifier: _GraphValue<any AccessibilityViewModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
@@ -27,7 +27,7 @@ extension AccessibilityViewModifier {
         assertUnimplemented()
     }
     
-    fileprivate static nonisolated func makePropertiesTransform(
+    nonisolated fileprivate static func makePropertiesTransform(
         modifier: AnyAttribute,
         inputs: _ViewInputs,
         outputs: _ViewOutputs,
@@ -162,7 +162,7 @@ extension AccessibilityViewModifier {
         return attribute
     }
     
-    static nonisolated func makeResolvableTransform<T: ResolvableAccessibilityModifierStatefulRule>(context: Attribute<T.Context>, inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for type: T.Type) -> Attribute<AccessibilityNodeList>? where T.Value == Self {
+    nonisolated static func makeResolvableTransform<T : ResolvableAccessibilityModifierStatefulRule>(context: Attribute<T.Context>, inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for type: T.Type) -> Attribute<AccessibilityNodeList>? where T.Value == Self {
         /*
          self -> w0 -> x29 - 0x7c
          inputs -> x1 -> x24
@@ -182,7 +182,7 @@ extension AccessibilityViewModifier {
         return attribute
     }
     
-    static func makeResolvableTransform<T: AnyResolvableAccessibilityViewModifier>(inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for: T.Type) -> Attribute<AccessibilityNodeList>? {
+    static func makeResolvableTransform<T : AnyResolvableAccessibilityViewModifier>(inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for: T.Type) -> Attribute<AccessibilityNodeList>? {
         // $s7SwiftUI25AccessibilityViewModifierPAAE23makeResolvableTransform6inputs7outputs15includeGeometry3for14AttributeGraph0N0VyAA0C8NodeListVGSgAA01_D6InputsV_AA01_D7OutputsVSbqd__mtAA03AnygcdE0Rd__lFZAA0c9ContainerE0V_AA0cU8ResolverVyAA0C13ChildBehaviorV4HostVGTt2t3g5
         /*
          inputs = x22
@@ -203,19 +203,19 @@ protocol AnyResolvableAccessibilityViewModifier {
     static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute
 }
 
-protocol ResolvableAccessibilityModifierRule: Rule, AnyResolvableAccessibilityViewModifier {
+protocol ResolvableAccessibilityModifierRule : Rule, AnyResolvableAccessibilityViewModifier {
     associatedtype Context
     
     init(context: Attribute<Self.Context>)
 }
 
-protocol ResolvableAccessibilityModifierStatefulRule: StatefulRule, AnyResolvableAccessibilityViewModifier {
+protocol ResolvableAccessibilityModifierStatefulRule : StatefulRule, AnyResolvableAccessibilityViewModifier {
     associatedtype Context
     
     init(context: Attribute<Self.Context>)
 }
 
-struct AccessibilityContainerModifier: AccessibilityViewModifier {
+struct AccessibilityContainerModifier : AccessibilityViewModifier {
     static var options: AccessibilityModifierOptions {
         assertUnimplemented()
     }
@@ -249,7 +249,7 @@ struct AccessibilityContainerModifier: AccessibilityViewModifier {
     private let behavior: AccessibilityChildBehavior
 }
 
-struct AccessibilityContainerResolver<T>: AnyResolvableAccessibilityViewModifier {
+struct AccessibilityContainerResolver<T> : AnyResolvableAccessibilityViewModifier {
     static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute {
         assertUnimplemented()
     }
@@ -260,7 +260,7 @@ fileprivate struct ResolvableModifier {
     var context: AnyAttribute
     var base: (any AnyResolvableAccessibilityViewModifier.Type)
     
-    init<T: AnyResolvableAccessibilityViewModifier>(context: AnyAttribute, type: T.Type) {
+    init<T : AnyResolvableAccessibilityViewModifier>(context: AnyAttribute, type: T.Type) {
         self.subgraph = .current!
         self.context = context
         self.base = type
@@ -273,11 +273,11 @@ fileprivate struct ResolvableModifier {
 
 fileprivate class AnyAccessibilityViewModifierAccessor {}
 
-fileprivate final class AccessibilityViewModifierAccessor<T>: AnyAccessibilityViewModifierAccessor {
+fileprivate final class AccessibilityViewModifierAccessor<T> : AnyAccessibilityViewModifierAccessor {
     
 }
 
-fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, RemovableAttribute, CustomStringConvertible {
+fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, RemovableAttribute, CustomStringConvertible {
     static func willRemove(attribute: AnyAttribute) {
         let transform = unsafe attribute
             ._bodyPointer
@@ -321,13 +321,13 @@ fileprivate struct PropertiesTransform: ScrapeableAttribute, StatefulRule, Remov
     }
 }
 
-public struct AccessibilityAttachmentModifier: ViewModifier {
+public struct AccessibilityAttachmentModifier : ViewModifier {
     public func body(content: Content) -> some View {
         assertUnimplemented()
     }
 }
 
-struct AccessibilityModifierOptions: OptionSet {
+struct AccessibilityModifierOptions : OptionSet {
     static var unknown0: AccessibilityModifierOptions {
         return AccessibilityModifierOptions(rawValue: 1 << 0)
     }

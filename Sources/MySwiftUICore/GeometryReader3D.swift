@@ -2,7 +2,7 @@
 private import CoreGraphics
 private import Spatial
 
-fileprivate struct GeometryReaderLayout3D: Layout3D {
+fileprivate struct GeometryReaderLayout3D : Layout3D {
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat {
         assertUnimplemented()
     }

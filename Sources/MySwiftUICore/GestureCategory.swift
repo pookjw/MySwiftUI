@@ -1,5 +1,5 @@
 
-package struct GestureCategory: RawRepresentable {
+package struct GestureCategory : RawRepresentable {
     package static var drag: GestureCategory { return GestureCategory(rawValue: 1 << 2) }
     package static var select: GestureCategory { return GestureCategory(rawValue: 1 << 3) }
     package static var longPress: GestureCategory { return GestureCategory(rawValue: 1 << 4) }
@@ -17,7 +17,7 @@ extension GestureCategory {
 }
 
 extension GestureCategory {
-    package struct Key: PreferenceKey {
+    package struct Key : PreferenceKey {
         package static var defaultValue: GestureCategory { return GestureCategory.defaultValue }
         
         package static func reduce(value: inout GestureCategory, nextValue: () -> GestureCategory) {

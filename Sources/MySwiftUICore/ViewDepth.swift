@@ -1,6 +1,6 @@
 package import CoreGraphics
 
-package struct ViewDepth: Equatable, Animatable {
+package struct ViewDepth : Equatable, Animatable {
     package static func == (lhs: ViewDepth, rhs: ViewDepth) -> Bool {
         guard lhs.value == rhs.value else {
             return false

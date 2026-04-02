@@ -5,20 +5,20 @@ private import _SwiftUICorePrivate
 private import SwiftUI
 #endif
 
-struct ResolvedGradient: Sendable {
+struct ResolvedGradient : Sendable {
     private var stops: [ResolvedGradient.Stop]
     private var colorSpace: ResolvedGradient.ColorSpace
     private var headroom: Float?
 }
 
 extension ResolvedGradient {
-    struct Stop: Sendable {
+    struct Stop : Sendable {
         private var color: Color.Resolved
         private var location: CGFloat
         //        var interpolation: BezierTimingFunction<Float>?        
     }
     
-    enum ColorSpace: Sendable {
+    enum ColorSpace : Sendable {
         case device
         case linear
         case perceptual
@@ -62,7 +62,7 @@ extension ResolvedGradient {
 }
 
 extension ResolvedGradient.ColorSpace {
-    struct InterpolatableColor: Sendable {
+    struct InterpolatableColor : Sendable {
         var r: Float
         var g: Float
         var b: Float

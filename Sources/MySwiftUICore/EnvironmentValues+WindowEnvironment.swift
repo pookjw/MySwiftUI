@@ -46,31 +46,31 @@ extension EnvironmentValues {
 }
 
 enum WindowEnvironmentKeys {
-    struct AppearsFocused: EnvironmentKey {
+    struct AppearsFocused : EnvironmentKey {
         static var defaultValue: Bool {
             return true
         }
     }
     
-    struct AppearsMain: EnvironmentKey {
+    struct AppearsMain : EnvironmentKey {
         static var defaultValue: Bool {
             return false
         }
     }
     
-    struct AppearsActive: EnvironmentKey {
+    struct AppearsActive : EnvironmentKey {
         static var defaultValue: Bool {
             return true
         }
     }
     
-    struct IsFocused: EnvironmentKey {
+    struct IsFocused : EnvironmentKey {
         static var defaultValue: Bool {
             return true
         }
     }
     
-    struct IsMain: EnvironmentKey {
+    struct IsMain : EnvironmentKey {
         static var defaultValue: Bool {
             return true
         }

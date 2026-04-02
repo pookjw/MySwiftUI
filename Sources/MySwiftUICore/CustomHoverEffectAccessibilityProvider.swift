@@ -15,11 +15,11 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct CustomHoverEffectAccessibilityProviderKey: GraphInput {
+    fileprivate struct CustomHoverEffectAccessibilityProviderKey : GraphInput {
         static let defaultValue: (any CustomHoverEffectAccessibilityProvider.Type) = EmptyCustomHoverEffectAccessibilityProvider.self
     }
 }
 
-struct EmptyCustomHoverEffectAccessibilityProvider: CustomHoverEffectAccessibilityProvider {
+struct EmptyCustomHoverEffectAccessibilityProvider : CustomHoverEffectAccessibilityProvider {
     
 }

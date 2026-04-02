@@ -56,7 +56,7 @@ final class MainMenuItemHost {
     }
 }
 
-extension MainMenuItemHost: ViewGraphRootValueUpdater {
+extension MainMenuItemHost : ViewGraphRootValueUpdater {
     func updateRootView() {
         let rootView = MainMenuItemHost.RootView(
             itemContent: MainMenuItem.Content(item: mainMenuItem)
@@ -110,14 +110,14 @@ extension MainMenuItemHost: ViewGraphRootValueUpdater {
     }
 }
 
-extension MainMenuItemHost: ViewGraphOwner {
+extension MainMenuItemHost : ViewGraphOwner {
 }
 
-extension MainMenuItemHost: ViewRendererHost {
+extension MainMenuItemHost : ViewRendererHost {
 }
 
 extension MainMenuItemHost {
-    struct RootView: View {
+    struct RootView : View {
         fileprivate private(set) var itemContent: MainMenuItem.Content
         
         typealias Body = ModifiedContent<MainMenuItem.Content, PlatformItemListTransformModifier<AllPlatformItemListFlags>>
@@ -138,7 +138,7 @@ extension MainMenuItemHost {
     }
 }
 
-protocol MainMenuItemHostDelegate: AnyObject {
+protocol MainMenuItemHostDelegate : AnyObject {
     func menuHostDidChangeMenuItems(_ host: MainMenuItemHost)
 }
 
@@ -150,18 +150,18 @@ struct MenuBuilderContext {
     private var operationMap: [UIMenuElement: CommandOperation] = [:] // 0x20
 }
 
-fileprivate struct MainMenuItemViewGraph: ViewGraphFeature {
+fileprivate struct MainMenuItemViewGraph : ViewGraphFeature {
     // TODO
 }
 
-struct MainMenuItem: Sendable {
+struct MainMenuItem : Sendable {
     private(set) var name: String
     private(set) var id: MainMenuItem.Identifier
     private(set) var groups: [CommandAccumulator.Result]
 }
 
 extension MainMenuItem {
-    struct Content: View {
+    struct Content : View {
         fileprivate private(set) var item: MainMenuItem
         
         var body: some View {

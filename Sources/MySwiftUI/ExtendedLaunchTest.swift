@@ -7,7 +7,7 @@ extension GraphHost {
     }
 }
 
-fileprivate struct ExtendedLaunchTestNameKey: HostPreferenceKey {
+fileprivate struct ExtendedLaunchTestNameKey : HostPreferenceKey {
     static var defaultValue: String? {
         return nil
     }

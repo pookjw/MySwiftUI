@@ -1,10 +1,10 @@
 @usableFromInline
-package struct AppearsActiveKey: EnvironmentKey {
+package struct AppearsActiveKey : EnvironmentKey {
     @usableFromInline
      package static let defaultValue: Bool = true
 }
 
-extension AppearsActiveKey: Sendable {}
+extension AppearsActiveKey : Sendable {}
 
 extension EnvironmentValues {
     public var appearsActive: Bool {

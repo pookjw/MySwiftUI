@@ -5,4 +5,4 @@ struct ActiveContextMenu {
     var isPortaled: Bool = false
 }
 
-extension ActiveContextMenu: BitwiseCopyable {}
+extension ActiveContextMenu : BitwiseCopyable {}

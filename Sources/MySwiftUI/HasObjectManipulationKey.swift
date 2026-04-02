@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct HasObjectManipulationKey: HostPreferenceKey {
+struct HasObjectManipulationKey : HostPreferenceKey {
     static var defaultValue: Bool {
         return false
     }

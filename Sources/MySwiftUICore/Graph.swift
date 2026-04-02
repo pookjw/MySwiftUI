@@ -3,5 +3,5 @@ public struct _Graph {
 }
 
 @available(*, unavailable)
-extension _Graph: Sendable {
+extension _Graph : Sendable {
 }

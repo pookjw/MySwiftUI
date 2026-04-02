@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     @AppStorage("flag", store: .standard) private var flag: Bool = false
     
     var body: some View {
@@ -26,7 +26,7 @@ fileprivate struct MyView: View {
     }
 }
 
-fileprivate struct MyChildView: View {
+fileprivate struct MyChildView : View {
     @Binding var flag: Bool
     @AppStorage("flag", store: .standard) private var flag2: Bool = false
     
@@ -49,7 +49,7 @@ fileprivate struct MyChildView: View {
     }
 }
 
-final class AppStorageViewController: UIViewController {
+final class AppStorageViewController : UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     
     override func loadView() {

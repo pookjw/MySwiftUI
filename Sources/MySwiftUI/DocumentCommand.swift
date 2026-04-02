@@ -12,7 +12,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct DocumentCommandsKey: EnvironmentKey {
-        @safe static nonisolated(unsafe) let defaultValue = PlatformItemList(items: [])
+    fileprivate struct DocumentCommandsKey : EnvironmentKey {
+        @safe nonisolated(unsafe) static let defaultValue = PlatformItemList(items: [])
     }
 }

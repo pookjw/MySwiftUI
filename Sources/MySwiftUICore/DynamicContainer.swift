@@ -2,7 +2,7 @@
 internal import AttributeGraph
 
 struct DynamicContainer {
-    static func makeContainer<T: DynamicContainerAdaptor>(adaptor: T, inputs: _ViewInputs) -> (Attribute<DynamicContainer.Info>, _ViewOutputs) {
+    static func makeContainer<T : DynamicContainerAdaptor>(adaptor: T, inputs: _ViewInputs) -> (Attribute<DynamicContainer.Info>, _ViewOutputs) {
         /*
          adaptor -> sp + 0xf8 / sp + 0xc0
          inputs -> x20
@@ -13,7 +13,7 @@ struct DynamicContainer {
         var outputs = _ViewOutputs()
         
         for key in inputs.preferences.keys {
-            func project<Key: PreferenceKey>(_ type: Key.Type) {
+            func project<Key : PreferenceKey>(_ type: Key.Type) {
                 let combiner = DynamicPreferenceCombiner<Key>()
                 outputs[type] = Attribute(combiner)
             }
@@ -59,7 +59,7 @@ struct DynamicContainer {
         // <+964>
         copy_3.forEachPrefence { key, other in
             // $s7SwiftUI16DynamicContainerV04makeD07adaptor6inputs14AttributeGraph0H0VyAC4InfoVG_AA12_ViewOutputsVtx_AA01_K6InputsVtAA0cD7AdaptorRzlFZyAA13PreferenceKey_pXp_So11AGAttributeatXEfU_
-            func project<Key: PreferenceKey>(_ type: Key.Type) {
+            func project<Key : PreferenceKey>(_ type: Key.Type) {
                 other.mutateBody(as: DynamicPreferenceCombiner<Key>.self, invalidating: true) { combiner in
                     combiner.$info = attribute
                 }
@@ -113,12 +113,12 @@ extension DynamicContainer {
             self.phase = phase
         }
         
-        func `for`<T: DynamicContainerAdaptor>(_ type: T.Type) -> DynamicContainer._ItemInfo<T> {
+        func `for`<T : DynamicContainerAdaptor>(_ type: T.Type) -> DynamicContainer._ItemInfo<T> {
             return unsafe unsafeBitCast(self, to: DynamicContainer._ItemInfo<T>.self)
         }
     }
     
-    final class _ItemInfo<T: DynamicContainerAdaptor>: DynamicContainer.ItemInfo {
+    final class _ItemInfo<T : DynamicContainerAdaptor>: DynamicContainer.ItemInfo {
         fileprivate var item: T.Item
         fileprivate let itemLayout: T.ItemLayout
         
@@ -139,7 +139,7 @@ extension DynamicContainer {
     }
 }
 
-struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedAttribute, AsyncAttribute, CustomStringConvertible {
+struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, ObservedAttribute, AsyncAttribute, CustomStringConvertible {
     private var adaptor: T
     private let inputs: _ViewInputs
     private let outputs: _ViewOutputs
@@ -972,7 +972,7 @@ struct DynamicContainerInfo<T: DynamicContainerAdaptor>: StatefulRule, ObservedA
     }
 }
 
-struct DynamicContainerID: Comparable, Hashable {
+struct DynamicContainerID : Comparable, Hashable {
     var uniqueId: UInt32
     var viewIndex: Int32
     
@@ -981,7 +981,7 @@ struct DynamicContainerID: Comparable, Hashable {
         self.viewIndex = viewIndex
     }
     
-    static func < (lhs: DynamicContainerID, rhs: DynamicContainerID) -> Bool {
+    static func < (lhs : DynamicContainerID, rhs : DynamicContainerID) -> Bool {
         let w8 = lhs.uniqueId
         let w9 = rhs.uniqueId
         
@@ -1000,7 +1000,7 @@ struct DynamicContainerID: Comparable, Hashable {
     }
 }
 
-fileprivate struct DynamicViewContainer<T: DynamicView> {
+fileprivate struct DynamicViewContainer<T : DynamicView> {
     private let metadata: T.Metadata
     @Attribute private var view: T
     private let inputs: _ViewInputs
@@ -1020,7 +1020,7 @@ class AnimationListener {
     // TODO
 }
 
-fileprivate final class DynamicAnimationListener: AnimationListener {
+fileprivate final class DynamicAnimationListener : AnimationListener {
     weak var viewGraph: ViewGraph?
     let asyncSignal: AnyWeakAttribute
     var count: Int
@@ -1048,7 +1048,7 @@ fileprivate final class DynamicAnimationListener: AnimationListener {
     }
 }
 
-fileprivate struct DynamicPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct DynamicPreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttribute, CustomStringConvertible {
     @OptionalAttribute var info: DynamicContainer.Info?
     
     init() {
@@ -1167,7 +1167,7 @@ fileprivate struct DynamicPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttri
     }
 }
 
-fileprivate struct DynamicTransaction: StatefulRule, AsyncAttribute {
+fileprivate struct DynamicTransaction : StatefulRule, AsyncAttribute {
     @Attribute private(set) var info: DynamicContainer.Info
     @Attribute private(set) var transaction: Transaction
     let uniqueId: UInt32
@@ -1245,7 +1245,7 @@ fileprivate struct DynamicTransaction: StatefulRule, AsyncAttribute {
     }
 }
 
-fileprivate struct DynamicViewPhase: Rule, AsyncAttribute {
+fileprivate struct DynamicViewPhase : Rule, AsyncAttribute {
     @Attribute private(set) var info: DynamicContainer.Info
     @Attribute private(set) var phase: _GraphInputs.Phase
     let uniqueId: UInt32

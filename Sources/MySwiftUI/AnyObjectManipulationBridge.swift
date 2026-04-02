@@ -24,7 +24,7 @@ extension EnvironmentValues {
     }
     
     // TODO: Entry Macro
-    fileprivate struct __Key_objectManipulationBridge: EnvironmentKey {
+    fileprivate struct __Key_objectManipulationBridge : EnvironmentKey {
         static var defaultValue: ObjectManipulationBridgeWrapper? {
             return nil
         }

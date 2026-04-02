@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct StyledTextContentView: View {
+struct StyledTextContentView : View {
     // TODO
     public var body: Never {
         assertUnimplemented()

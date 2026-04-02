@@ -7,7 +7,7 @@ struct PairwisePreferenceCombinerVisitor {
     // TODO
 }
 
-struct MultiPreferenceCombinerVisitor: PreferenceKeyVisitor {
+struct MultiPreferenceCombinerVisitor : PreferenceKeyVisitor {
     let outputs: [PreferencesOutputs]
     var result: PreferencesOutputs
     
@@ -53,7 +53,7 @@ struct MultiPreferenceCombinerVisitor: PreferenceKeyVisitor {
     }
 }
 
-struct PreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribute, CustomStringConvertible {
+struct PreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttribute, CustomStringConvertible {
     var attributes: [WeakAttribute<T.Value>]
     
     init() {
@@ -95,7 +95,7 @@ struct PreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribute, CustomStringC
     }
 }
 
-fileprivate struct PairPreferenceCombiner<T: PreferenceKey>: Rule, AsyncAttribute {
+fileprivate struct PairPreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttribute {
     var attributes: (Attribute<T.Value>, Attribute<T.Value>)
     
     static var initialValue: T.Value? {

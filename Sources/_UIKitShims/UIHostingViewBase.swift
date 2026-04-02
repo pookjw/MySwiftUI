@@ -8,7 +8,7 @@ private import _SwiftUIPrivate
 private import DesignLibrary
 private import _DesignLibraryShims
 
-package final class UIHostingViewBase: NSObject {    
+package final class UIHostingViewBase : NSObject {    
     package weak var uiView: UIView? = nil
     package weak var delegate: UIHostingViewBaseDelegate? = nil
     
@@ -362,7 +362,7 @@ package final class UIHostingViewBase: NSObject {
         return result
     }
     
-    package nonisolated func _requestUpdate(after time: Double) {
+    nonisolated package func _requestUpdate(after time: Double) {
         ViewGraphHostUpdate.lock()
         defer {
             ViewGraphHostUpdate.unlock()
@@ -1198,7 +1198,7 @@ extension UIHostingViewBase {
 }
 
 extension UIHostingViewBase {
-    package struct Options: OptionSet {
+    package struct Options : OptionSet {
         package static var allowUnregisteredGeometryChanges: Options { return Options(rawValue: 1 << 0) }
         package static var allowKeyboardSafeArea: Options { return Options(rawValue: 1 << 1) }
         package static var allowContainerShape: Options { return Options(rawValue: 0) }
@@ -1211,7 +1211,7 @@ extension UIHostingViewBase {
     }
 }
 
-extension UIHostingViewBase: ViewGraphRenderDelegate {
+extension UIHostingViewBase : ViewGraphRenderDelegate {
     package var renderingRootView: AnyObject {
         if let uiView {
             return uiView
@@ -1269,7 +1269,7 @@ extension UIHostingViewBase: ViewGraphRenderDelegate {
     }
 }
 
-extension UIHostingViewBase: @preconcurrency ViewGraphHostDelegate {
+extension UIHostingViewBase : @preconcurrency ViewGraphHostDelegate {
     @MainActor package func updateGraphInputs(_ inputs: inout MySwiftUICore::_GraphInputs) {
         guard let uiView else {
             return
@@ -1287,9 +1287,9 @@ extension UIHostingViewBase: @preconcurrency ViewGraphHostDelegate {
     }
 }
 
-extension UIHostingViewBase: RootContainerShapeProvider {}
+extension UIHostingViewBase : RootContainerShapeProvider {}
 
-package protocol UIHostingViewBaseDelegate: AnyObject {
+package protocol UIHostingViewBaseDelegate : AnyObject {
     func baseShouldDisableUIKitAnimationsWhenRendering(_ base: UIHostingViewBase) -> Bool
     func baseDidMoveToScene(_ base: UIHostingViewBase, oldScene: UIScene?, newScene: UIScene?)
     func baseSceneActivationStateDidChange(_ base: UIHostingViewBase, oldState: UIScene.ActivationState?, newState: UIScene.ActivationState?)
@@ -1302,7 +1302,7 @@ fileprivate let isChaaranaApp: Bool = {
     return Bundle.main.bundleIdentifier == "com.parjanya.ChaaranaVision"
 }()
 
-extension UIHostingViewBase: @unchecked Sendable {}
+extension UIHostingViewBase : @unchecked Sendable {}
 
 fileprivate func ___lldb_unnamed_symbol319514(configuration: UIHostingViewBase.Configuration) {
     let colorDefinitions = configuration.colorDefinitions ?? UICorePlatformColorDefinition.self

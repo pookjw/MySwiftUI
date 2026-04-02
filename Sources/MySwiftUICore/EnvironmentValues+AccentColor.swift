@@ -29,13 +29,13 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct DefaultAccentColorKey: EnvironmentKey {
+fileprivate struct DefaultAccentColorKey : EnvironmentKey {
     static var defaultValue: Color? {
         return nil
     }
 }
 
-fileprivate struct AccentColorKey: EnvironmentKey {
+fileprivate struct AccentColorKey : EnvironmentKey {
     static var defaultValue: Color? {
         return nil
     }

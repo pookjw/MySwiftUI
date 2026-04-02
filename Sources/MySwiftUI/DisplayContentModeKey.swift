@@ -2,7 +2,7 @@ internal import MySwiftUICore
 internal import MRUIKit
 internal import Foundation
 
-struct DisplayContentModeKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
+struct DisplayContentModeKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: DisplayContentModeKey.PreferredValue? {
         return nil
     }
@@ -55,18 +55,18 @@ struct DisplayContentModeKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
 }
 
 extension DisplayContentModeKey {
-    struct PreferredValue: Equatable {
+    struct PreferredValue : Equatable {
         var displayContentMode: DisplayContentMode
         var animation: Animation?
     }
 }
 
-struct DisplayContentMode: Hashable {
+struct DisplayContentMode : Hashable {
     fileprivate private(set) var storage: DisplayContentMode.Storage
 }
 
 extension DisplayContentMode {
-    enum Storage: Hashable {
+    enum Storage : Hashable {
         case automatic
         case media
     }

@@ -2,7 +2,7 @@
 private import _MySwiftUIShims
 private import _SwiftPrivate
 
-package enum ViewStyleRegistry: Sendable {
+package enum ViewStyleRegistry : Sendable {
     package static func registerOverrides(_ overrides: ViewStyleOverrides, for idiom: ViewStyleRegistry.InterfaceIdiom) {
         if let existing = unsafe registries[idiom.idiom] {
             existing.merge(with: overrides)
@@ -16,12 +16,12 @@ package enum ViewStyleRegistry: Sendable {
         return unsafe registries[idiom.idiom] ?? fallbackOverrides
     }
     
-    static nonisolated(unsafe) var registries: [AnyInterfaceIdiom: ViewStyleOverrides] = [:]
-    static nonisolated(unsafe) var fallbackOverrides = ViewStyleOverrides()
+    nonisolated(unsafe) static var registries: [AnyInterfaceIdiom: ViewStyleOverrides] = [:]
+    nonisolated(unsafe) static var fallbackOverrides = ViewStyleOverrides()
 }
 
 extension ViewStyleRegistry {
-    package struct InterfaceIdiom: Sendable {
+    package struct InterfaceIdiom : Sendable {
         package let idiom: AnyInterfaceIdiom
         
         package init(idiom: AnyInterfaceIdiom) {
@@ -38,19 +38,19 @@ extension ViewStyleRegistry {
         package static let tv = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .tv))
         package static let touchBar = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .touchBar))
         package static let watch = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .watch))
-        @safe package static nonisolated(unsafe) var vision = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
-        @safe package static nonisolated(unsafe) var reality = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
+        @safe nonisolated(unsafe) package static var vision = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
+        @safe nonisolated(unsafe) package static var reality = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
     }
 }
 
-package struct ViewStyleOverrides: Sendable {
+package struct ViewStyleOverrides : Sendable {
     package var registeredStyles: [ObjectIdentifier: Any.Type] = [:]
     package var registeredStyleOverrides: [ObjectIdentifier: Any.Type] = [:]
     package var registeredStyleWriterOverrides: [ObjectIdentifier: Any.Type] = [:]
     
     package init() {}
     
-    func registerStyleOverride<T, U: StyleModifier>(_: U.Type, style: T.Type) where U.Style: AnyDefaultStyle {
+    func registerStyleOverride<T, U : StyleModifier>(_: U.Type, style: T.Type) where U.Style : AnyDefaultStyle {
         assertUnimplemented()
     }
     
@@ -101,7 +101,7 @@ package struct ViewStyleOverrides: Sendable {
         assertUnimplemented()
     }
     
-    package mutating func registerStyleOverride<T, U: StyleModifier>(_: T.Type, style: U.Type) where U.Style: AnyDefaultStyle {
+    package mutating func registerStyleOverride<T, U : StyleModifier>(_: T.Type, style: U.Type) where U.Style : AnyDefaultStyle {
         registeredStyleOverrides[ObjectIdentifier(U.self)] = T.self
     }
 }
@@ -110,27 +110,27 @@ package protocol AnyDefaultStyle {
     init()
 }
 
-protocol DefaultStyleModifier: StyleModifier, AnyDefaultStyle {
+protocol DefaultStyleModifier : StyleModifier, AnyDefaultStyle {
     associatedtype Style : AnyDefaultStyle
 }
 
 extension DefaultStyleModifier {
-    static nonisolated func registerDefaultStyle(in: inout _ViewInputs) {
+    nonisolated static func registerDefaultStyle(in: inout _ViewInputs) {
         assertUnimplemented()
     }
 }
 
-protocol StyleOverrideModifier: DefaultStyleModifier {
-    static nonisolated func injectStyleOverride(in: inout _ViewInputs)
+protocol StyleOverrideModifier : DefaultStyleModifier {
+    nonisolated static func injectStyleOverride(in: inout _ViewInputs)
 }
 
 extension StyleOverrideModifier {
-    static nonisolated func injectStyleOverride(in: inout _ViewInputs) {
+    nonisolated static func injectStyleOverride(in: inout _ViewInputs) {
         assertUnimplemented()
     }
 }
 
-protocol StyleWriterOverrideModifier: AnyDefaultStyle {
+protocol StyleWriterOverrideModifier : AnyDefaultStyle {
     associatedtype OriginalStyle
     associatedtype StyleOverride
     
@@ -139,7 +139,7 @@ protocol StyleWriterOverrideModifier: AnyDefaultStyle {
 }
 
 extension StyleWriterOverrideModifier {
-    static nonisolated func injectStyleOverride<T: ViewInputPredicate>(in: inout _ViewInputs, requiring: T.Type) {
+    nonisolated static func injectStyleOverride<T : ViewInputPredicate>(in: inout _ViewInputs, requiring: T.Type) {
         assertUnimplemented()
     }
 }

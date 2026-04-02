@@ -15,13 +15,13 @@ extension _VStackLayout {
     public typealias Body = Never
 }
 
-extension _VStackLayout: _VariadicView_ImplicitRoot {
-    static nonisolated var implicitRoot: _VStackLayout {
+extension _VStackLayout : _VariadicView_ImplicitRoot {
+    nonisolated static var implicitRoot: _VStackLayout {
         return _VStackLayout(alignment: .center, spacing: nil)
     }
 }
 
-extension _VStackLayout: Layout, HVStack {
+extension _VStackLayout : Layout, HVStack {
     public typealias Cache = _StackLayoutCache
     public typealias AnimatableData = EmptyAnimatableData
     
@@ -30,8 +30,8 @@ extension _VStackLayout: Layout, HVStack {
     }
 }
 
-protocol HVStack: Layout, _VariadicView_UnaryViewRoot {
-    associatedtype MinorAxisAlignment: AlignmentGuide
+protocol HVStack : Layout, _VariadicView_UnaryViewRoot {
+    associatedtype MinorAxisAlignment : AlignmentGuide
     
     var spacing: CGFloat? { get }
     var alignment: Self.MinorAxisAlignment { get }
@@ -44,15 +44,15 @@ extension HVStack {
         return false
     }
     
-    public static nonisolated func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
         return Self.makeLayoutView(root: root, inputs: inputs, body: body)
     }
     
-    public static nonisolated var layoutProperties: LayoutProperties {
+    nonisolated public static var layoutProperties: LayoutProperties {
         return LayoutProperties()
     }
     
-    public nonisolated func makeCache(subviews: LayoutSubviews) -> _StackLayoutCache {
+    nonisolated public func makeCache(subviews: LayoutSubviews) -> _StackLayoutCache {
         let majorAxis = Self.majorAxis
         let alignment = alignment
         let alignmentKey = alignment.key
@@ -81,7 +81,7 @@ extension HVStack {
         return cache
     }
     
-    public nonisolated func updateCache(_ cache: inout _StackLayoutCache, subviews: LayoutSubviews) {
+    nonisolated public func updateCache(_ cache: inout _StackLayoutCache, subviews: LayoutSubviews) {
         /*
          self -> x23
          cache -> x19
@@ -111,17 +111,17 @@ extension HVStack {
         cache.stack.makeChildren()
     }
     
-    public nonisolated func spacing(subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> ViewSpacing {
+    nonisolated public func spacing(subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> ViewSpacing {
         assertUnimplemented()
     }
     
-    public nonisolated func sizeThatFits(proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGSize {
+    nonisolated public func sizeThatFits(proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGSize {
         return cache.stack.withUnmanagedImplementation { unmanaged in
             return unmanaged.sizeThatFits(proposal: proposal)
         }
     }
     
-    public nonisolated func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) {
+    nonisolated public func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) {
         /*
          rect -> d11, d10, d9, d8
          proposal -> x22
@@ -133,11 +133,11 @@ extension HVStack {
         }
     }
     
-    public nonisolated func explicitAlignment(of: HorizontalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
+    nonisolated public func explicitAlignment(of: HorizontalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
         assertUnimplemented()
     }
     
-    public nonisolated func explicitAlignment(of: VerticalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
+    nonisolated public func explicitAlignment(of: VerticalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
         assertUnimplemented()
     }
 }
@@ -147,7 +147,7 @@ public struct _StackLayoutCache {
 }
 
 @available(*, unavailable)
-extension _StackLayoutCache: Sendable {
+extension _StackLayoutCache : Sendable {
 }
 
 struct StackLayout {

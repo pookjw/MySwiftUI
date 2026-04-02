@@ -19,7 +19,7 @@ private let combineArguments: [(UInt32, UInt32, Int, Int)] = [
     (.max, 1, 2, 1)
 ]
 
-fileprivate enum TestKey: CaseIterable {
+fileprivate enum TestKey : CaseIterable {
     case key1
     case key2
     case key3
@@ -306,12 +306,12 @@ fileprivate func makeValues(count: Int) -> [Int] {
     return Array(0..<count)
 }
 
-fileprivate struct KeySnapshot: Equatable {
+fileprivate struct KeySnapshot : Equatable {
     var valueCount: Int
     var seed: UInt32
 }
 
-fileprivate struct PreferenceValuesSnapshot: Equatable {
+fileprivate struct PreferenceValuesSnapshot : Equatable {
     var seed: UInt32
     var entriesCount: Int
     var key1: KeySnapshot
@@ -362,7 +362,7 @@ fileprivate func keySnapshot(
     return KeySnapshot(valueCount: entry.value.count, seed: entry.seed.value)
 }
 
-fileprivate struct MyOriginalKey1: SwiftUI::PreferenceKey {
+fileprivate struct MyOriginalKey1 : SwiftUI::PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }
@@ -372,7 +372,7 @@ fileprivate struct MyOriginalKey1: SwiftUI::PreferenceKey {
     }
 }
 
-fileprivate struct MyOriginalKey2: SwiftUI::PreferenceKey {
+fileprivate struct MyOriginalKey2 : SwiftUI::PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }
@@ -382,7 +382,7 @@ fileprivate struct MyOriginalKey2: SwiftUI::PreferenceKey {
     }
 }
 
-fileprivate struct MyOriginalKey3: SwiftUI::PreferenceKey {
+fileprivate struct MyOriginalKey3 : SwiftUI::PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }
@@ -392,7 +392,7 @@ fileprivate struct MyOriginalKey3: SwiftUI::PreferenceKey {
     }
 }
 
-fileprivate struct MyImplKey1: MySwiftUICore.PreferenceKey {
+fileprivate struct MyImplKey1 : MySwiftUICore.PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }
@@ -402,7 +402,7 @@ fileprivate struct MyImplKey1: MySwiftUICore.PreferenceKey {
     }
 }
 
-fileprivate struct MyImplKey2: MySwiftUICore.PreferenceKey {
+fileprivate struct MyImplKey2 : MySwiftUICore.PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }
@@ -412,7 +412,7 @@ fileprivate struct MyImplKey2: MySwiftUICore.PreferenceKey {
     }
 }
 
-fileprivate struct MyImplKey3: MySwiftUICore.PreferenceKey {
+fileprivate struct MyImplKey3 : MySwiftUICore.PreferenceKey {
     fileprivate static var defaultValue: [Int] {
         return []
     }

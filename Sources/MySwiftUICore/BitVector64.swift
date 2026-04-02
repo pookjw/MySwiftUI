@@ -1,4 +1,4 @@
-public struct BitVector64: OptionSet {
+public struct BitVector64 : OptionSet {
     public var rawValue: UInt64
     
     public init() {

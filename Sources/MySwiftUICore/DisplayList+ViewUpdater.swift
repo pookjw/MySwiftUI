@@ -5,13 +5,13 @@ private import CoreGraphics
 internal import _MySwiftUIShims
 private import AttributeGraph
 
-@safe fileprivate nonisolated(unsafe) var printTree: Bool? = nil
-@safe fileprivate nonisolated(unsafe) var disableMixedViewHierarchy: Bool? = nil
+@safe nonisolated(unsafe) fileprivate var printTree: Bool? = nil
+@safe nonisolated(unsafe) fileprivate var disableMixedViewHierarchy: Bool? = nil
 
 extension DisplayList {
     @safe nonisolated(unsafe) static var overrideMayInsertCALayers: Bool? = nil
     
-    package final class ViewUpdater: ViewRendererBase {
+    package final class ViewUpdater : ViewRendererBase {
         let rootPlatform: DisplayList.ViewUpdater.Platform
         private weak var host: ViewRendererHost? = nil
         private var viewCache: DisplayList.ViewUpdater.ViewCache
@@ -391,7 +391,7 @@ extension DisplayList {
 }
 
 extension DisplayList.ViewUpdater.ViewInfo {
-    struct ID: Equatable {
+    struct ID : Equatable {
         private(set) var value: Int
         
         fileprivate init(value: Int) {

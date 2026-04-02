@@ -11,7 +11,7 @@ final class UIGlobalState {
     private var storedIsReduceMotionEnabled: Bool? = nil
     private var storedIsButtonShapesEnabled: Bool? = nil
     
-    private nonisolated init() {}
+    nonisolated private init() {}
     
     // ___lldb_unnamed_symbol318931
     var isLowPowerModeEnabled: Bool {

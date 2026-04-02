@@ -6,15 +6,15 @@ internal import AttributeGraph
     associatedtype Metadata
     associatedtype ID : Hashable
     
-    static nonisolated var canTransition: Bool {
+    nonisolated static var canTransition: Bool {
         get
     }
     
-    static nonisolated var traitKeysDependOnView: Bool {
+    nonisolated static var traitKeysDependOnView: Bool {
         get
     }
     
-    static nonisolated func makeID() -> ID
+    nonisolated static func makeID() -> ID
     
     nonisolated func childInfo(metadata: Metadata) -> (Any.Type, ID?)
     
@@ -24,7 +24,7 @@ internal import AttributeGraph
 }
 
 extension DynamicView {
-    static nonisolated func makeDynamicView(metadata: Metadata, view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated static func makeDynamicView(metadata: Metadata, view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          x29 = sp + 0x1b0
          x25 = sp + 0x70
@@ -56,25 +56,25 @@ extension DynamicView {
         return outputs
     }
     
-    static nonisolated func makeDynamicViewList(metadata: Metadata, view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated static func makeDynamicViewList(metadata: Metadata, view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
         let rule = DynamicViewList<Self>(metadata: metadata, view: view.value, inputs: inputs, lastItem: nil)
         let attribute = Attribute(rule)
         let outputs = _ViewListOutputs(.dynamicList(attribute, nil), nextImplicitID: inputs.implicitID)
         return outputs
     }
     
-    static nonisolated var traitKeysDependOnView: Bool {
+    nonisolated static var traitKeysDependOnView: Bool {
         return true
     }
 }
 
 extension DynamicView where ID == UniqueID {
-    static nonisolated func makeID() -> UniqueID {
+    nonisolated static func makeID() -> UniqueID {
         return UniqueID()
     }
 }
 
-fileprivate struct DynamicViewContainer<Content: DynamicView>: StatefulRule {
+fileprivate struct DynamicViewContainer<Content : DynamicView>: StatefulRule {
     private let metadata: Content.Metadata
     @Attribute private var view: Content
     private let inputs: _ViewInputs
@@ -166,7 +166,7 @@ extension DynamicViewContainer {
     }
 }
 
-@safe fileprivate struct DynamicViewList<Content: DynamicView>: StatefulRule, AsyncAttribute {
+@safe fileprivate struct DynamicViewList<Content : DynamicView>: StatefulRule, AsyncAttribute {
     private let metadata: Content.Metadata
     @Attribute private var view: Content
     private let inputs: _ViewListInputs
@@ -383,7 +383,7 @@ extension DynamicViewContainer {
 }
 
 extension DynamicViewList {
-    @safe fileprivate final class Item: _ViewList_Subgraph {
+    @safe fileprivate final class Item : _ViewList_Subgraph {
         private let type: any Any.Type
         let id: Content.ID
         private let owner: AnyAttribute
@@ -457,7 +457,7 @@ extension DynamicViewList {
         }
     }
     
-    fileprivate struct WrappedList: CustomStringConvertible {
+    fileprivate struct WrappedList : CustomStringConvertible {
         private let base: any ViewList
         private let item: DynamicViewList<Content>.Item
         private let lastID: Content.ID?
@@ -480,7 +480,7 @@ extension DynamicViewList {
         private let item: DynamicViewList<Content>.Item
     }
     
-    fileprivate struct Transform: _ViewList_SublistTransform_Item {
+    fileprivate struct Transform : _ViewList_SublistTransform_Item {
         private(set) var item: DynamicViewList<Content>.Item
         
         static var flags: _ViewList_SublistTransform_ItemFlags {
@@ -502,7 +502,7 @@ extension DynamicViewList {
     }
 }
 
-extension DynamicViewList.WrappedList: ViewList {
+extension DynamicViewList.WrappedList : ViewList {
     func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
         assertUnimplemented()
     }
@@ -547,7 +547,7 @@ extension DynamicViewList.WrappedList: ViewList {
     }
 }
 
-struct DynamicViewListItem: DynamicContainerItem {
+struct DynamicViewListItem : DynamicContainerItem {
     var count: Int {
         return elements.base.count
     }
@@ -564,7 +564,7 @@ struct DynamicViewListItem: DynamicContainerItem {
 }
 
 extension DynamicViewListItem {
-    @unsafe fileprivate class Item<T: DynamicView> {
+    @unsafe fileprivate class Item<T : DynamicView> {
         private let type: any Any.Type
         private let id: T.ID
         private let owner: AnyAttribute
@@ -578,13 +578,13 @@ extension DynamicViewListItem {
     }
 }
 
-struct EmptyViewList: CustomStringConvertible {
+struct EmptyViewList : CustomStringConvertible {
     var description: String {
         assertUnimplemented()
     }
 }
 
-extension EmptyViewList: ViewList {
+extension EmptyViewList : ViewList {
     func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
         assertUnimplemented()
     }
@@ -626,7 +626,7 @@ extension EmptyViewList: ViewList {
     }
 }
 
-struct EmptyViewListElements: _ViewList_Elements {
+struct EmptyViewListElements : _ViewList_Elements {
     var count: Int {
         return 0
     }

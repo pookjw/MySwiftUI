@@ -16,10 +16,10 @@ fileprivate let lockAssertionsAreEnabled: Bool = {
 
 package enum Update {
     private static let _lock = MovableLock.create()
-    @safe private static nonisolated(unsafe) var depth: Int = 0
-    @safe private static nonisolated(unsafe) var dispatchDepth: Int = 0
-    private static nonisolated(unsafe) var actions: [Update.Action] = []
-    static nonisolated(unsafe) let traceHost: AnyObject = TraceHost()
+    @safe nonisolated(unsafe) private static var depth: Int = 0
+    @safe nonisolated(unsafe) private static var dispatchDepth: Int = 0
+    nonisolated(unsafe) private static var actions: [Update.Action] = []
+    nonisolated(unsafe) static let traceHost: AnyObject = TraceHost()
     
     package static var canDispatch: Bool {
         Update.assertIsLocked()
@@ -244,7 +244,7 @@ extension Update {
 
 extension Update {
     struct Action {
-        @safe static nonisolated(unsafe) var nextActionID: UInt32 = 1
+        @safe nonisolated(unsafe) static var nextActionID: UInt32 = 1
         fileprivate let reason: CustomEventTrace.ActionEventType.Reason?
         private let thunk: () -> Void
         fileprivate let actionID: UInt32

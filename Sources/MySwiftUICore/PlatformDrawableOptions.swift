@@ -1,7 +1,7 @@
 private import _MySwiftUIShims
 
 @_spi(Internal)
-public struct PlatformDrawableOptions: Equatable {
+public struct PlatformDrawableOptions : Equatable {
     var base: RasterizationOptions
     
     init(base: RasterizationOptions) {
@@ -10,6 +10,6 @@ public struct PlatformDrawableOptions: Equatable {
 }
 
 @_spi(Internal)
-public protocol PlatformDrawable: AnyObject {
+public protocol PlatformDrawable : AnyObject {
     
 }

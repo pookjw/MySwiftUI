@@ -2,7 +2,7 @@ private import CommonCrypto
 internal import Foundation
 private import AttributeGraph
 
-protocol StronglyHashableByBitPattern: StronglyHashable {
+protocol StronglyHashableByBitPattern : StronglyHashable {
 }
 
 extension StronglyHashableByBitPattern {
@@ -15,7 +15,7 @@ protocol StronglyHashable {
     func hash(into hasher: inout StrongHasher)
 }
 
-package struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, Encodable, CustomStringConvertible, ProtobufEncodableMessage, ProtobufDecodableMessage, Sendable {
+package struct StrongHash : Hashable, StronglyHashableByBitPattern, Decodable, Encodable, CustomStringConvertible, ProtobufEncodableMessage, ProtobufDecodableMessage, Sendable {
     static var random: StrongHash {
         return StrongHash(of: UUID())
     }
@@ -38,11 +38,11 @@ package struct StrongHash: Hashable, StronglyHashableByBitPattern, Decodable, En
         self.words = words
     }
     
-    init<T: Encodable>(encodable: T) throws {
+    init<T : Encodable>(encodable: T) throws {
         assertUnimplemented()
     }
     
-    init<T: StronglyHashable>(of value: T) {
+    init<T : StronglyHashable>(of value: T) {
         assertUnimplemented()
     }
     
@@ -79,7 +79,7 @@ struct StrongHasher {
         }
     }
     
-    mutating func combine<T: StronglyHashable>(_ value: T) {
+    mutating func combine<T : StronglyHashable>(_ value: T) {
         value.hash(into: &self)
     }
     
@@ -109,13 +109,13 @@ func makeStableTypeData(_ type: Any.Type) -> StrongHash {
     return StrongHash(words: TypeID(type).signature.words)
 }
 
-extension UUID: StronglyHashable {
+extension UUID : StronglyHashable {
     func hash(into hasher: inout StrongHasher) {
         assertUnimplemented()
     }
 }
 
-extension Int: StronglyHashable {
+extension Int : StronglyHashable {
     func hash(into hasher: inout StrongHasher) {
         assertUnimplemented()
     }

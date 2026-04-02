@@ -39,7 +39,7 @@ extension DynamicLayoutViewAdaptor {
     }
 }
 
-fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct DynamicLayoutComputer<T : Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var layout: T
     @Attribute private(set) var environment: EnvironmentValues
     @OptionalAttribute var containerInfo: DynamicContainer.Info?
@@ -56,7 +56,7 @@ fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribut
     }
 }
 
-fileprivate struct DynamicLayoutViewChildDepth: StatefulRule, AsyncAttribute {
+fileprivate struct DynamicLayoutViewChildDepth : StatefulRule, AsyncAttribute {
     @Attribute private(set) var containerInfo: DynamicContainer.Info
     @Attribute private(set) var childDepths: [ViewDepth]
 

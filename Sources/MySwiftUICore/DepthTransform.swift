@@ -18,7 +18,7 @@ extension _ViewOutputs {
     }
 }
 
-fileprivate struct DepthTransform: Rule, AsyncAttribute {
+fileprivate struct DepthTransform : Rule, AsyncAttribute {
     @Attribute private(set) var transform: ViewTransform
     @Attribute private(set) var depth: ViewDepth
     

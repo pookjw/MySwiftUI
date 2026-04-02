@@ -11,7 +11,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct EnabledKey: EnvironmentKey {
+fileprivate struct EnabledKey : EnvironmentKey {
     static var defaultValue: Bool {
         return true
     }

@@ -1,7 +1,7 @@
 public import CoreGraphics
 
 @frozen public struct GraphicsContext {
-    @frozen public struct BlendMode: RawRepresentable, Equatable {
+    @frozen public struct BlendMode : RawRepresentable, Equatable {
         public let rawValue: Int32
         
         @inlinable public init(rawValue: Swift.Int32) {

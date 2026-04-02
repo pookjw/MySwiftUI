@@ -1,5 +1,5 @@
 
-enum RenderingTechnique: UInt8, Hashable, Codable {
+enum RenderingTechnique : UInt8, Hashable, Codable {
     case texture
     case perspectiveCorrect
 }

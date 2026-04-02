@@ -1,6 +1,6 @@
 internal import CoreGraphics
 
-struct ViewDepthGeometry: Equatable, Animatable {
+struct ViewDepthGeometry : Equatable, Animatable {
     var origin: ViewDepthOrigin
     var size: ViewDepth
     
@@ -45,7 +45,7 @@ struct ViewDepthGeometry: Equatable, Animatable {
     }
 }
 
-struct ViewDepthOrigin: Equatable, Animatable {
+struct ViewDepthOrigin : Equatable, Animatable {
     var value: CGFloat
     
     init(_ value: CGFloat) {

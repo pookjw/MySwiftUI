@@ -1,5 +1,5 @@
 internal import MySwiftUICore
 
-final class NavigationStackHostingController<Content: View>: UIHostingController<Content> {
+final class NavigationStackHostingController<Content : View>: UIHostingController<Content> {
     // TODO
 } 

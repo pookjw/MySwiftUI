@@ -4,7 +4,7 @@ private import CoreGraphics
 internal import _MySwiftUIShims
 
 extension DisplayList.ViewUpdater {
-    package struct Platform: Equatable, CustomStringConvertible {
+    package struct Platform : Equatable, CustomStringConvertible {
         fileprivate private(set) var encoding: DisplayList.ViewUpdater.Platform.Encoding
         
         init(definition: PlatformViewDefinition.Type) {
@@ -1260,7 +1260,7 @@ extension DisplayList.ViewUpdater.Platform {
         }
     }
     
-    struct ViewFlags: OptionSet {
+    struct ViewFlags : OptionSet {
         static let unknown0 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 0)
         static let unknown1 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 1)
         static let unknown2 = DisplayList.ViewUpdater.Platform .ViewFlags(rawValue: 1 << 2)
@@ -1281,7 +1281,7 @@ extension DisplayList.ViewUpdater.Platform {
 }
 
 extension DisplayList.ViewUpdater.Platform {
-    fileprivate struct Encoding: OptionSet {
+    fileprivate struct Encoding : OptionSet {
         let rawValue: UInt
         
         init(rawValue: UInt) {

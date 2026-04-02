@@ -197,7 +197,7 @@ extension DisplayList.ViewUpdater {
 }
 
 extension DisplayList.ViewUpdater.ViewCache {
-    struct Key: Hashable {
+    struct Key : Hashable {
         private(set) var id: DisplayList.Index.ID
         private var system: PlatformViewDefinition.System
         private var tag: DisplayList.ViewUpdater.ViewCache.Tag

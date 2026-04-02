@@ -7,7 +7,7 @@ package struct PreferencesOutputs {
     
     package init() {}
     
-    package subscript<T: PreferenceKey>(_ type: T.Type) -> Attribute<T.Value>? {
+    package subscript<T : PreferenceKey>(_ type: T.Type) -> Attribute<T.Value>? {
         get {
             var value: AnyAttribute?
             for preference in preferences {
@@ -80,7 +80,7 @@ package struct PreferencesOutputs {
         }
     }
     
-    mutating func appendPreference<Key: PreferenceKey>(key: Key.Type, value: Attribute<Key.Value>) {
+    mutating func appendPreference<Key : PreferenceKey>(key: Key.Type, value: Attribute<Key.Value>) {
         /*
          self = x23
          x22 = key

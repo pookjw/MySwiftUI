@@ -47,16 +47,16 @@ fileprivate struct TupleDescriptorTests {
     }
 }
 
-fileprivate struct ImplMyTupleDescriptor: MySwiftUICore::TupleDescriptor {
-    static nonisolated(unsafe) var typeCache: [ObjectIdentifier: MySwiftUICore::TupleTypeDescription<ImplMyTupleDescriptor>] = [:]
+fileprivate struct ImplMyTupleDescriptor : MySwiftUICore::TupleDescriptor {
+    nonisolated(unsafe) static var typeCache: [ObjectIdentifier: MySwiftUICore::TupleTypeDescription<ImplMyTupleDescriptor>] = [:]
     
     static var descriptor: UnsafeRawPointer {
         return _MySwiftUIShims::_viewProtocolDescriptor()
     }
 }
 
-fileprivate struct OriginalMyTupleDescriptor: _SwiftUICorePrivate::TupleDescriptor {
-    static nonisolated(unsafe) var typeCache: [ObjectIdentifier: _SwiftUICorePrivate::TupleTypeDescription<OriginalMyTupleDescriptor>] = [:]
+fileprivate struct OriginalMyTupleDescriptor : _SwiftUICorePrivate::TupleDescriptor {
+    nonisolated(unsafe) static var typeCache: [ObjectIdentifier: _SwiftUICorePrivate::TupleTypeDescription<OriginalMyTupleDescriptor>] = [:]
     
     static var descriptor: UnsafeRawPointer {
         return withUnsafePointer(to: &_SwiftUICorePrivate::__viewProtocolDescriptor) { UnsafeRawPointer($0) }

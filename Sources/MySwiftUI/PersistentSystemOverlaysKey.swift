@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct PersistentSystemOverlaysKey: HostPreferenceKey {
+struct PersistentSystemOverlaysKey : HostPreferenceKey {
     static var defaultValue: (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?) {
         return (nil, nil)
     }

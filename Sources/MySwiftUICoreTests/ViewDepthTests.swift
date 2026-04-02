@@ -182,7 +182,7 @@ extension ViewDepthTests {
     }
 }
 
-fileprivate struct Input: Hashable {
+fileprivate struct Input : Hashable {
     let a: CGFloat
     let b: CGFloat?
     

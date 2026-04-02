@@ -2,7 +2,7 @@ internal import CoreGraphics
 internal import Spatial
 internal import AttributeGraph
 
-protocol Layout3D: Layout {
+protocol Layout3D : Layout {
     static var depthProperties: LayoutDepthProperties { get }
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Cache) -> CGFloat
     func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Cache)
@@ -22,7 +22,7 @@ extension Layout3D {
         assertUnimplemented()
     }
     
-    func updateLayoutComputer<T: StatefulRule>(rule: inout T, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) where T.Value == LayoutComputer {
+    func updateLayoutComputer<T : StatefulRule>(rule: inout T, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) where T.Value == LayoutComputer {
         assertUnimplemented()
     }
     

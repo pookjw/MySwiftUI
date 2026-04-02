@@ -1,4 +1,4 @@
 
-protocol FallbackResponderProvider: AnyObject {
+protocol FallbackResponderProvider : AnyObject {
     
 }

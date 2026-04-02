@@ -1,13 +1,13 @@
 
-struct DisableRemoteEffects: UserDefaultKeyedFeature {
+struct DisableRemoteEffects : UserDefaultKeyedFeature {
     static var key: String {
         return "com.apple.SwiftUI.DisableRemoteEffects"
     }
     
-    @safe static nonisolated(unsafe) var cachedValue: Bool? = nil
-    @safe static nonisolated(unsafe) var defaultFeatureValue: Bool = false    
+    @safe nonisolated(unsafe) static var cachedValue: Bool? = nil
+    @safe nonisolated(unsafe) static var defaultFeatureValue: Bool = false    
 }
 
-extension DisableRemoteEffects: PropertyKey {
+extension DisableRemoteEffects : PropertyKey {
     
 }

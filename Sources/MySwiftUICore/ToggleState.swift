@@ -1,5 +1,5 @@
 
-package enum ToggleState: UInt, Codable, CaseIterable, Hashable, StronglyHashable, CustomDebugStringConvertible {
+package enum ToggleState : UInt, Codable, CaseIterable, Hashable, StronglyHashable, CustomDebugStringConvertible {
     case on
     case off
     case mixed
@@ -21,7 +21,7 @@ package enum ToggleState: UInt, Codable, CaseIterable, Hashable, StronglyHashabl
         assertUnimplemented()
     }
     
-    package static func stateFor<A, B>(item: A, in: B) where A: Equatable, B: Collection, B.Element == (Binding<A>) -> ToggleState {
+    package static func stateFor<A, B>(item: A, in: B) where A : Equatable, B : Collection, B.Element == (Binding<A>) -> ToggleState {
         assertUnimplemented()
     }
     

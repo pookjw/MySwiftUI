@@ -30,12 +30,12 @@ extension _GraphInputs {
     }
 }
 
-fileprivate struct AccessibilityCapturesViewResponders: ViewInputBoolFlag {
+fileprivate struct AccessibilityCapturesViewResponders : ViewInputBoolFlag {
     
 }
 
-struct AccessibilityNodesKey: @unsafe PreferenceKey {
-    static nonisolated(unsafe) let defaultValue = AccessibilityNodeList(nodes: [], version: DisplayList.Version())
+struct AccessibilityNodesKey : @unsafe PreferenceKey {
+    nonisolated(unsafe) static let defaultValue = AccessibilityNodeList(nodes: [], version: DisplayList.Version())
     
     static func reduce(value: inout AccessibilityNodeList, nextValue: () -> AccessibilityNodeList) {
         assertUnimplemented()

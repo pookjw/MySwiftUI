@@ -1,6 +1,6 @@
 package import CoreGraphics
 
-package struct ViewSize: Equatable, Animatable {
+package struct ViewSize : Equatable, Animatable {
     package static func == (lhs: ViewSize, rhs: ViewSize) -> Bool {
         return lhs.value == rhs.value && lhs.proposal == rhs.proposal
     }

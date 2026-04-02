@@ -3,7 +3,7 @@ internal import UIKit
 internal import _UIKitPrivate
 
 @MainActor
-final class DragAndDropBridge: AnyDragAndDropBridge {
+final class DragAndDropBridge : AnyDragAndDropBridge {
     weak var host: (any ViewRendererHost)? = nil
     private var hasDragItemsSeed: VersionSeed = .empty
     private var dragTimingsSeed: VersionSeed = .empty
@@ -186,7 +186,7 @@ final class DragAndDropBridge: AnyDragAndDropBridge {
     }
 }
 
-extension DragAndDropBridge: UIDragInteractionDelegate {
+extension DragAndDropBridge : UIDragInteractionDelegate {
     @objc(_dragInteraction:sessionPropertiesForSession:) func _dragInteraction(_ interaction: UIDragInteraction, sessionPropertiesForSession session: any UIDragSession) -> _UIDragSessionProperties {
         assertUnimplemented()
     }
@@ -228,7 +228,7 @@ extension DragAndDropBridge: UIDragInteractionDelegate {
     }
 }
 
-extension DragAndDropBridge: UIDropInteractionDelegate {
+extension DragAndDropBridge : UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidExit session: any UIDropSession) {
         assertUnimplemented()
     }
@@ -264,7 +264,7 @@ extension DragAndDropBridge: UIDropInteractionDelegate {
 
 extension DragAndDropBridge {
     @MainActor
-    final class SpringLoadedBehavior: NSObject, UISpringLoadedInteractionBehavior {
+    final class SpringLoadedBehavior : NSObject, UISpringLoadedInteractionBehavior {
         private weak var bridge: DragAndDropBridge? = nil
         private let base: any UISpringLoadedInteractionBehavior = UISpringLoadedInteraction._defaultInteractionBehavior()
         
@@ -283,7 +283,7 @@ extension DragAndDropBridge {
     }
     
     @MainActor
-    final class SpringLoadedEffect: NSObject, UISpringLoadedInteractionEffect {
+    final class SpringLoadedEffect : NSObject, UISpringLoadedInteractionEffect {
         private weak var bridge: DragAndDropBridge? = nil
         private var blinkTimer: Timer? = nil
         private var previousHighlightState: SpringLoadingBehavior.HighlightState = .none

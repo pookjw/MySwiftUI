@@ -68,7 +68,7 @@ extension DynamicContainerAdaptor where Self.Item == Self.Items {
     }
 }
 
-struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
+struct DynamicLayoutViewAdaptor : DynamicContainerAdaptor {
     typealias Item = DynamicViewListItem
     typealias Items = ViewList
     
@@ -300,7 +300,7 @@ struct DynamicLayoutViewAdaptor: DynamicContainerAdaptor {
 }
 
 extension DynamicLayoutViewAdaptor {
-    fileprivate struct MakeTransition: TransitionVisitor {
+    fileprivate struct MakeTransition : TransitionVisitor {
         private(set) var containerInfo: Attribute<DynamicContainer.Info>
         private(set) var uniqueId: UInt32
         private(set) var item: DynamicViewListItem
@@ -309,7 +309,7 @@ extension DynamicLayoutViewAdaptor {
         private(set) var outputs: _ViewOutputs?
         private(set) var isArchived: Bool // 0xd0
         
-        mutating func visit<T: Transition>(_ transition: T) {
+        mutating func visit<T : Transition>(_ transition: T) {
             /*
              transition -> x23
              */
@@ -350,7 +350,7 @@ extension DynamicLayoutViewAdaptor {
             }
         }
         
-        fileprivate func makeArchivedTransition<T: Transition>(helper: TransitionHelper<T>) {
+        fileprivate func makeArchivedTransition<T : Transition>(helper: TransitionHelper<T>) {
             assertUnimplemented()
         }
     }
@@ -366,7 +366,7 @@ extension DynamicLayoutViewAdaptor {
     }
 }
 
-struct LayoutChildGeometries: Rule, AsyncAttribute {
+struct LayoutChildGeometries : Rule, AsyncAttribute {
     @Attribute private var parentSize: ViewSize
     @Attribute private var parentPosition: CGPoint
     @Attribute var layoutComputer: LayoutComputer
@@ -393,7 +393,7 @@ struct LayoutChildGeometries: Rule, AsyncAttribute {
     }
 }
 
-struct LayoutChildDepths<T: Layout>: Rule, AsyncAttribute {
+struct LayoutChildDepths<T : Layout>: Rule, AsyncAttribute {
     @Attribute private var parentSize: ViewSize
     @Attribute private var parentDepth: ViewDepth
     @Attribute private var childGeometries: [ViewGeometry]
@@ -429,7 +429,7 @@ struct LayoutChildDepths<T: Layout>: Rule, AsyncAttribute {
     }
 }
 
-fileprivate struct DynamicLayoutViewChildGeometry: StatefulRule, AsyncAttribute {
+fileprivate struct DynamicLayoutViewChildGeometry : StatefulRule, AsyncAttribute {
     @Attribute private(set) var containerInfo: DynamicContainer.Info
     @Attribute private(set) var childGeometries: [ViewGeometry]
     let id: DynamicContainerID
@@ -455,7 +455,7 @@ fileprivate struct DynamicLayoutViewChildGeometry: StatefulRule, AsyncAttribute 
     }
 }
 
-fileprivate struct TransitionHelper<T: Transition> {
+fileprivate struct TransitionHelper<T : Transition> {
     @OptionalAttribute var list: ViewList?
     @Attribute private(set) var info: DynamicContainer.Info
     let uniqueId: UInt32
@@ -499,7 +499,7 @@ fileprivate struct TransitionHelper<T: Transition> {
     }
 }
 
-fileprivate struct ViewListTransition<T: Transition>: StatefulRule, AsyncAttribute {
+fileprivate struct ViewListTransition<T : Transition>: StatefulRule, AsyncAttribute {
     private(set) var helper: TransitionHelper<T>
     
     typealias Value = T.Body
@@ -518,7 +518,7 @@ fileprivate struct ViewListTransition<T: Transition>: StatefulRule, AsyncAttribu
     }
 }
 
-fileprivate struct ViewListContentTransition<T: Transition>: StatefulRule, AsyncAttribute {
+fileprivate struct ViewListContentTransition<T : Transition>: StatefulRule, AsyncAttribute {
     private(set) var helper: TransitionHelper<T>
     @Attribute private(set) var size: ViewSize
     @Attribute private(set) var environment: EnvironmentValues
@@ -717,7 +717,7 @@ extension Layout {
     }
 }
 
-fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct DynamicLayoutComputer<T : Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var layout: T
     @Attribute private(set) var environment: EnvironmentValues
     var _containerInfo: OptionalAttribute<DynamicContainer.Info>
@@ -748,7 +748,7 @@ fileprivate struct DynamicLayoutComputer<T: Layout>: StatefulRule, AsyncAttribut
 }
 
 extension Layout {
-    func updateLayoutComputer<T: StatefulRule>(
+    func updateLayoutComputer<T : StatefulRule>(
         rule: inout T,
         layoutContext: SizeAndSpacingContext,
         children: LayoutProxyCollection

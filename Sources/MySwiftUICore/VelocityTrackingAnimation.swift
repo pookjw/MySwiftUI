@@ -6,7 +6,7 @@ extension Animation {
     @safe static let velocityTracking = Animation(VelocityTrackingAnimation())
 }
 
-fileprivate struct VelocityTrackingAnimation: CustomAnimation {
+fileprivate struct VelocityTrackingAnimation : CustomAnimation {
     func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
         assertUnimplemented()
     }

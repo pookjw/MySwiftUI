@@ -1,5 +1,5 @@
 package import UIKit
 
-package final class MyUIFeedbackGenerator: NSObject {
+package final class MyUIFeedbackGenerator : NSObject {
     
 }

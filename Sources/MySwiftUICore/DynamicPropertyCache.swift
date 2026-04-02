@@ -3,7 +3,7 @@ private import AttributeGraph
 private import os.log
 
 package struct DynamicPropertyCache {
-    @safe fileprivate static nonisolated(unsafe) let cache = unsafe MutableBox<[ObjectIdentifier: DynamicPropertyCache.Fields]>([:])
+    @safe nonisolated(unsafe) fileprivate static let cache = unsafe MutableBox<[ObjectIdentifier : DynamicPropertyCache.Fields]>([:])
     
     package static func fields(of type: any Any.Type) -> DynamicPropertyCache.Fields {
         // x29 = sp + 0x80
@@ -170,7 +170,7 @@ extension DSLDynamicPropertyCache {
     }
 }
 
-struct DynamicPropertyBehaviors: OptionSet {
+struct DynamicPropertyBehaviors : OptionSet {
     static var allowsAsync: DynamicPropertyBehaviors {
         return DynamicPropertyBehaviors(rawValue: 1 << 0)
     }

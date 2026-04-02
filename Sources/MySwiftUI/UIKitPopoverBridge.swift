@@ -3,7 +3,7 @@ internal import UIKit
 internal import MySwiftUICore
 private import _UIKitPrivate
 
-@MainActor final class UIKitPopoverBridge: NSObject {
+@MainActor final class UIKitPopoverBridge : NSObject {
     weak var host: ViewRendererHost? = nil // 0x8
     private var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x18
     private weak var presenterOverride: UIViewController? = nil // 0x28

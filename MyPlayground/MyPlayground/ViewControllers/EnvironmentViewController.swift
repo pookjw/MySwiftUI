@@ -19,7 +19,7 @@ fileprivate final class Model {
     var flag = false
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let model: Model
     
     var body: some View {
@@ -28,7 +28,7 @@ fileprivate struct MyView: View {
     }
 }
 
-fileprivate struct MyChildView: View {
+fileprivate struct MyChildView : View {
     @Environment(\.flag) private var flag
     
     var body: some View {
@@ -51,13 +51,13 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct FlagKey: EnvironmentKey {
+fileprivate struct FlagKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }
 }
 
-final class EnvironmentViewController: UIViewController {
+final class EnvironmentViewController : UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     private let model = Model()
     private var task: Task<Void, Never>?

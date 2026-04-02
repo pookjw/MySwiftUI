@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct ScreenEdgesSystemGestureKey: HostPreferenceKey {
+struct ScreenEdgesSystemGestureKey : HostPreferenceKey {
     static var defaultValue: Edge.Set? {
         return nil
     }

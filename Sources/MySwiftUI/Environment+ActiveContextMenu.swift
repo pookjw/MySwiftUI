@@ -11,6 +11,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct ActiveContextMenuKey: EnvironmentKey {
+fileprivate struct ActiveContextMenuKey : EnvironmentKey {
     static let defaultValue = ActiveContextMenu()
 }

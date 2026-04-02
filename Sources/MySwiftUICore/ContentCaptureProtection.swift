@@ -1,4 +1,4 @@
-package struct ContentCaptureProtectionPreferenceKey: HostPreferenceKey {
+package struct ContentCaptureProtectionPreferenceKey : HostPreferenceKey {
     package static var defaultValue: Bool {
         return false
     }

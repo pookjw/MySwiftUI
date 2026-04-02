@@ -4,7 +4,7 @@ internal import AttributeGraph
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
 @available(watchOS, unavailable)
-public struct KeyPress: Sendable {
+public struct KeyPress : Sendable {
 //    public let phase: KeyPress.Phases
 //    public let key: KeyEquivalent
 //    public let characters: String
@@ -49,7 +49,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct KeyPressHandlersKey: EnvironmentKey {
+    fileprivate struct KeyPressHandlersKey : EnvironmentKey {
         static var defaultValue: [KeyPress.Handler] {
             return []
         }

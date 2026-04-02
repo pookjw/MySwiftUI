@@ -1,14 +1,14 @@
 private import MySwiftUICore
 
 final class HostingViewRegistry {
-    @safe static nonisolated(unsafe) let shared = HostingViewRegistry()
+    @safe nonisolated(unsafe) static let shared = HostingViewRegistry()
     private var elements: [ObjectIdentifier : WeakBox<AnyObject>] = [:]
     
-    func add<T: HostingViewProtocol>(_ view: T) {
+    func add<T : HostingViewProtocol>(_ view: T) {
         elements[ObjectIdentifier(view)] = WeakBox(view)
     }
     
-    func remove<T: HostingViewProtocol>(_ view: T) {
+    func remove<T : HostingViewProtocol>(_ view: T) {
         elements.removeValue(forKey: ObjectIdentifier(view))
     }
     
@@ -21,7 +21,7 @@ final class HostingViewRegistry {
     }
 }
 
-protocol HostingViewProtocol: AnyObject {
-    func preferenceValue<T: HostPreferenceKey>(_ type: T.Type) -> T.Value
+protocol HostingViewProtocol : AnyObject {
+    func preferenceValue<T : HostPreferenceKey>(_ type: T.Type) -> T.Value
     func convertAnchor<T>(_ anchor: Anchor<T>) -> T
 }

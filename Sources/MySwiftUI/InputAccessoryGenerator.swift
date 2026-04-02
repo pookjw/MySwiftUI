@@ -28,16 +28,16 @@ final class InputAccessoryGenerator {
 }
 
 extension InputAccessoryGenerator {
-    fileprivate final class RootUIView: UIView {
+    fileprivate final class RootUIView : UIView {
         var host: InputAccessoryHost<InputAccessoryBar>?
     }
 }
 
-fileprivate final class InputAccessoryHost<T: View>: _UIHostingView<T> {
+fileprivate final class InputAccessoryHost<T : View>: _UIHostingView<T> {
     // TODO
 }
 
-fileprivate struct InputAccessoryBar: View {
+fileprivate struct InputAccessoryBar : View {
     private var barItems: [UIBarButtonItem]
     
     var body: some View {

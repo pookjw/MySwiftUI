@@ -1,4 +1,4 @@
-public struct ContentShapeKinds: OptionSet, Sendable {
+public struct ContentShapeKinds : OptionSet, Sendable {
     public var rawValue: Int
     
     public init(rawValue: Int) {

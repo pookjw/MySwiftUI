@@ -11,7 +11,7 @@ extension EnvironmentValues {
     }
     
     // TODO: Entry Macro
-    fileprivate struct __Key_activeEditMenu: EnvironmentKey {
+    fileprivate struct __Key_activeEditMenu : EnvironmentKey {
         static var defaultValue: ActiveEditMenu? {
             return nil
         }

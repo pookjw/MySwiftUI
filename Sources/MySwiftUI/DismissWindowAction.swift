@@ -32,6 +32,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct DismissWindowActionKey: EnvironmentKey {
+fileprivate struct DismissWindowActionKey : EnvironmentKey {
     static let defaultValue = DismissWindowAction()
 }

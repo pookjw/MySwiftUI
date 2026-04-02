@@ -49,8 +49,8 @@ extension EnvironmentValues {
 
 @_spi(Internal) open class PlatformAccessibilitySettingsDefinition {
     package static let notification = Notification.Name(rawValue: "AXUserSettingsDidChange")
-    package static nonisolated(unsafe)var uiKit: PlatformAccessibilitySettingsDefinition?
-    package static nonisolated(unsafe)var appKit: PlatformAccessibilitySettingsDefinition?
+    nonisolated(unsafe) package static var uiKit: PlatformAccessibilitySettingsDefinition?
+    nonisolated(unsafe) package static var appKit: PlatformAccessibilitySettingsDefinition?
     
     package static func setDefinition(_ defition: PlatformAccessibilitySettingsDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
@@ -195,7 +195,7 @@ extension EnvironmentValues {
 }
 
 extension PlatformAccessibilitySettingsDefinition {
-    @_spi(Internal) public enum Setting: Hashable, Sendable {
+    @_spi(Internal) public enum Setting : Hashable, Sendable {
         case differentiateWithoutColors
         case reduceTransparency
         case reduceMotion
@@ -218,12 +218,12 @@ extension PlatformAccessibilitySettingsDefinition {
         case hoverText
     }
     
-    fileprivate struct Storage: Sendable {
+    fileprivate struct Storage : Sendable {
         var entries: [PlatformAccessibilitySettingsDefinition.Entry] = []
         var seed: UInt32 = 0
     }
     
-    fileprivate struct Entry: Sendable {
+    fileprivate struct Entry : Sendable {
         var setting: PlatformAccessibilitySettingsDefinition.Setting
         var notification: Notification.Name?
         var value: Bool?
@@ -238,7 +238,7 @@ package enum AccessibilityEnabledTechnology {
     case hoverText
 }
 
-fileprivate struct AccessibilitySettingsDefinitionKey: EnvironmentKey {
+fileprivate struct AccessibilitySettingsDefinitionKey : EnvironmentKey {
     static var defaultValue: AccessibilitySettingsDefinitionKey? {
         return nil
     }

@@ -27,9 +27,9 @@ extension SafeAreaInsets {
     }
 }
 
-struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
+struct _SafeAreaInsetsModifier : PrimitiveViewModifier, MultiViewModifier {
     private(set) var elements: [SafeAreaInsets.Element]
-    @safe private(set) nonisolated(unsafe) var nextInsets: SafeAreaInsets.OptionalValue?
+    @safe nonisolated(unsafe) private(set) var nextInsets: SafeAreaInsets.OptionalValue?
     
     nonisolated init(insets: EdgeInsets, cornerInsets: AbsoluteRectangleCornerInsets?, nextInsets: SafeAreaInsets.OptionalValue?) {
         assertUnimplemented() // TODO
@@ -103,7 +103,7 @@ struct _SafeAreaInsetsModifier: PrimitiveViewModifier, MultiViewModifier {
 }
 
 extension _SafeAreaInsetsModifier {
-    fileprivate struct Transform: Rule, AsyncAttribute {
+    fileprivate struct Transform : Rule, AsyncAttribute {
         let space: CoordinateSpace.ID
         @Attribute var transform: ViewTransform
         @Attribute var position: CGPoint
@@ -128,7 +128,7 @@ extension _SafeAreaInsetsModifier {
         }
     }
     
-    fileprivate struct Insets: Rule, AsyncAttribute {
+    fileprivate struct Insets : Rule, AsyncAttribute {
         let space: CoordinateSpace.ID
         @Attribute var modifier: _SafeAreaInsetsModifier
         @OptionalAttribute var next: SafeAreaInsets?
@@ -156,7 +156,7 @@ extension _SafeAreaInsetsModifier {
     }
 }
 
-@frozen public struct SafeAreaRegions: OptionSet {
+@frozen public struct SafeAreaRegions : OptionSet {
     public static var all: SafeAreaRegions {
         SafeAreaRegions(rawValue: .max)
     }

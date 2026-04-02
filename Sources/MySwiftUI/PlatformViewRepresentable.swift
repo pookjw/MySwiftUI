@@ -6,8 +6,8 @@ internal import AttributeGraph
 internal import MRUIKit
 internal import _UIKitPrivate
 
-protocol PlatformViewRepresentable: CoreViewRepresentable {
-    static nonisolated func modifyBridgedViewInputs(_ inputs: inout _ViewInputs)
+protocol PlatformViewRepresentable : CoreViewRepresentable {
+    nonisolated static func modifyBridgedViewInputs(_ inputs: inout _ViewInputs)
 }
 
 extension PlatformViewRepresentable {
@@ -17,7 +17,7 @@ extension PlatformViewRepresentable {
     }
 }
 
-extension PlatformViewRepresentable where PlatformViewProvider: UIViewController {
+extension PlatformViewRepresentable where PlatformViewProvider : UIViewController {
     static func platformView(for provider: Self.PlatformViewProvider) -> AnyObject {
         assertUnimplemented()
     }
@@ -27,7 +27,7 @@ extension PlatformViewRepresentable where PlatformViewProvider: UIViewController
     }
 }
 
-extension PlatformViewRepresentable where PlatformViewProvider: UIView {
+extension PlatformViewRepresentable where PlatformViewProvider : UIView {
     func depthThatFits(_ proposedSize: _ProposedSize3D, provider: Self.PlatformViewProvider) -> CGFloat {
         return provider._separatedThickness
     }
@@ -37,7 +37,7 @@ protocol AnyPlatformViewHost {
     // TODO
 }
 
-@MainActor struct PlatformViewRepresentableFeature: CoreViewRepresentableFeature {
+@MainActor struct PlatformViewRepresentableFeature : CoreViewRepresentableFeature {
     private(set) var inputs: _ViewInputs? // 0x0
     @OptionalAttribute var identifiedViews: _IdentifiedViewTree? // 0x54 (actual), 0x14 (offset field)
     @OptionalAttribute var focusedValues: FocusedValues? // 0x58 (actual), 0x18 (offset field)
@@ -45,7 +45,7 @@ protocol AnyPlatformViewHost {
     private(set) var representableType: any PlatformViewRepresentable.Type // 0x60 (actual), 0x20 (offset field)
     private(set) var importer: MRUIPreferenceImporter? // 0x70 (actual), 0x24 (offset field)
     
-    mutating func modifyViewInputs<Representable: CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
+    mutating func modifyViewInputs<Representable : CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         /*
          self -> x20 -> x22
          inputs -> x0 -> x19
@@ -68,7 +68,7 @@ protocol AnyPlatformViewHost {
         inputs.preferences.remove(_IdentifiedViewsKey.self)
     }
     
-    func modifyBridgedInputs<Representable: CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
+    func modifyBridgedInputs<Representable : CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         unsafe inputs.preferences.remove(AccessibilityNodesKey.self)
         representableType.modifyBridgedViewInputs(&inputs)
     }
@@ -146,11 +146,11 @@ protocol AnyPlatformViewHost {
         importer.writePreferences(to: &outputs, inputs: copy_2)
     }
     
-    func modifyWrappedOutputs<Representable: CoreViewRepresentable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
+    func modifyWrappedOutputs<Representable : CoreViewRepresentable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         assertUnimplemented()
     }
     
-    func update<Host: CoreViewRepresentableHost>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) {
+    func update<Host : CoreViewRepresentableHost>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) {
         /*
          self -> x20 -> x29 - 0xb0
          host -> x0 -> x26
@@ -199,7 +199,7 @@ protocol AnyPlatformViewHost {
     }
 }
 
-struct PlatformViewIdentifiedViews<Representable: CoreViewRepresentable>: Rule {
+struct PlatformViewIdentifiedViews<Representable : CoreViewRepresentable>: Rule {
     @Attribute fileprivate private(set) var leafView: ViewLeafView<Representable>
     @Attribute fileprivate private(set) var time: Time
     
@@ -208,7 +208,7 @@ struct PlatformViewIdentifiedViews<Representable: CoreViewRepresentable>: Rule {
     }
 }
 
-@MainActor fileprivate struct ViewResponderFilter<Representable: CoreViewRepresentable>: @preconcurrency StatefulRule {
+@MainActor fileprivate struct ViewResponderFilter<Representable : CoreViewRepresentable>: @preconcurrency StatefulRule {
     private var _view: Attribute<ViewLeafView<Representable>> // 0x0
     @Attribute private(set) var position: CGPoint // 0x4
     @Attribute private(set) var size: ViewSize // 0x8
@@ -311,13 +311,13 @@ struct PlatformViewIdentifiedViews<Representable: CoreViewRepresentable>: Rule {
     }
 }
 
-struct RepresentablePreferredFocusableViewInput<Representable: CoreViewRepresentable>: ViewInput {
+struct RepresentablePreferredFocusableViewInput<Representable : CoreViewRepresentable>: ViewInput {
     static var defaultValue: OptionalAttribute<Representable.PlatformViewProvider> {
         return OptionalAttribute()
     }
 }
 
-final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
+final class UIKitPlatformViewHost<Representable : CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
     var importer: MRUIPreferenceImporter? = nil // 0x2d8
     var focusedValues = FocusedValues() // 0x2e0
     weak var responder: UIViewResponder? = nil // 0x300
@@ -393,7 +393,7 @@ final class UIKitPlatformViewHost<Representable: CoreViewRepresentable>: UICoreP
 }
 
 extension UIKitPlatformViewHost {
-    fileprivate struct UnarySubtreeSequence: Sequence {
+    fileprivate struct UnarySubtreeSequence : Sequence {
         typealias Element = UIView
         typealias Iterator = AnyIterator<UIView>
         
@@ -421,7 +421,7 @@ extension UIKitPlatformViewHost {
     }
 }
 
-struct PlatformViewControllerRepresentableAdaptor<Base: UIViewControllerRepresentable>: @MainActor PlatformViewRepresentable {
+struct PlatformViewControllerRepresentableAdaptor<Base : UIViewControllerRepresentable>: @MainActor PlatformViewRepresentable {
     typealias PlatformViewProvider = Base.UIViewControllerType
     typealias Host = UIKitPlatformViewHost<Self>
     typealias Coordinator = Base.Coordinator

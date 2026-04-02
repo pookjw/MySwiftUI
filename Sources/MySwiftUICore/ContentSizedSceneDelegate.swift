@@ -1,5 +1,5 @@
 
-package protocol ContentSizedSceneDelegate: AnyObject {
+package protocol ContentSizedSceneDelegate : AnyObject {
     var coalesceChanges: Bool { get }
     func updateSceneSizing(_ sizingPreferences: SizingPreferences, transaction: Transaction?)
     func updateSceneSizing(changes: [(SizingPreferences, Transaction?)])

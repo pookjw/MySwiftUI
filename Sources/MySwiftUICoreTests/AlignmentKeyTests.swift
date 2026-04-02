@@ -35,19 +35,19 @@ extension AlignmentKeyTests {
     }
 }
 
-fileprivate struct MyAlignmentID_1: MySwiftUICore.AlignmentID {
+fileprivate struct MyAlignmentID_1 : MySwiftUICore.AlignmentID {
     static func defaultValue(in context: MySwiftUICore.ViewDimensions) -> CGFloat {
         return 1
     }
 }
 
-fileprivate struct MyAlignmentID_2: MySwiftUICore.AlignmentID {
+fileprivate struct MyAlignmentID_2 : MySwiftUICore.AlignmentID {
     static func defaultValue(in context: MySwiftUICore.ViewDimensions) -> CGFloat {
         return 2
     }
 }
 
-fileprivate struct MyAlignmentID_3: SwiftUI::AlignmentID {
+fileprivate struct MyAlignmentID_3 : SwiftUI::AlignmentID {
     static func defaultValue(in context: SwiftUI::ViewDimensions) -> CGFloat {
         return 3
     }

@@ -21,7 +21,7 @@ extension CommandOperation {
     }
 }
 
-public struct CommandGroupPlacement: Sendable {
+public struct CommandGroupPlacement : Sendable {
     public static let appInfo = CommandGroupPlacement(Text(verbatim: "App Info"))
     public static let appSettings = CommandGroupPlacement(Text(verbatim: "App Settings"))
     public static let systemServices = CommandGroupPlacement(Text(verbatim: "System Services"))
@@ -272,9 +272,9 @@ public struct _ResolvedCommands {
     }
 }
 
-extension _ResolvedCommands: Sendable {}
+extension _ResolvedCommands : Sendable {}
 
-struct HashableCommandGroupPlacementWrapper: Hashable {
+struct HashableCommandGroupPlacementWrapper : Hashable {
     private(set) var placement: CommandGroupPlacement
     
     func hash(into hasher: inout Hasher) {
@@ -307,7 +307,7 @@ extension MainMenuItem {
 }
 
 extension MainMenuItem.Template {
-    fileprivate struct Options: OptionSet {
+    fileprivate struct Options : OptionSet {
         static var unknown0: MainMenuItem.Template.Options {
             return MainMenuItem.Template.Options(rawValue: 1 << 0)
         }
@@ -317,5 +317,5 @@ extension MainMenuItem.Template {
 }
 
 #if !SwiftUICompataibility
-fileprivate final class SwiftUIClass: NSObject {}
+fileprivate final class SwiftUIClass : NSObject {}
 #endif

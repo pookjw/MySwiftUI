@@ -9,7 +9,7 @@ fileprivate struct _ProposedSizeTests {
 }
 
 extension _ProposedSizeTests {
-    struct Input_init_width_height: Hashable {
+    struct Input_init_width_height : Hashable {
         let width: CGFloat?
         let height: CGFloat?
     }
@@ -57,7 +57,7 @@ extension _ProposedSizeTests {
 }
 
 extension _ProposedSizeTests {
-    struct Input_fixingUnspecified_at: Hashable {
+    struct Input_fixingUnspecified_at : Hashable {
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
         let fallbackWidth: CGFloat
@@ -149,7 +149,7 @@ extension _ProposedSizeTests {
 }
 
 extension _ProposedSizeTests {
-    struct Input_fixingUnspecified: Hashable {
+    struct Input_fixingUnspecified : Hashable {
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
     }

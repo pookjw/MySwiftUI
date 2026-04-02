@@ -1,7 +1,7 @@
 private import _DarwinFoundation3._stdlib
 
 package enum CoreTesting {
-    @safe package static nonisolated(unsafe) var isRunning: Bool = {
+    @safe nonisolated(unsafe) package static var isRunning: Bool = {
         guard let value = unsafe getenv("XCODE_RUNNING_FOR_PREVIEWS") else {
             return false
         }

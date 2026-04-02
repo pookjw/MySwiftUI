@@ -2,7 +2,7 @@
 private import AttributeGraph
 
 extension View {
-    static nonisolated func makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated static func makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         // x29 = sp + 0x360
         /*
          view = w27
@@ -34,7 +34,7 @@ extension View {
         return Body.makeDebuggableView(view: body.0, inputs: inputs)
     }
     
-    static nonisolated func makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated static func makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          inputs -> x26
          view -> w24
@@ -57,7 +57,7 @@ extension View {
 }
 
 extension View {
-    fileprivate static nonisolated func makeBody(
+    nonisolated fileprivate static func makeBody(
         view: _GraphValue<Self>, // x2
         inputs: inout _GraphInputs, // x3
         fields: DynamicPropertyCache.Fields // x4
@@ -83,7 +83,7 @@ extension View {
     }
 }
 
-struct ViewBodyAccessor<Container: View>: BodyAccessor {
+struct ViewBodyAccessor<Container : View>: BodyAccessor {
     typealias Body = Container.Body
     
     init() {}

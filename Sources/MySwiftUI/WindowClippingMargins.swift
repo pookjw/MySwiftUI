@@ -7,6 +7,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct WindowClippingMarginsKey: EnvironmentKey {
+fileprivate struct WindowClippingMarginsKey : EnvironmentKey {
     static let defaultValue = EdgeOutsets3D.zero
 }

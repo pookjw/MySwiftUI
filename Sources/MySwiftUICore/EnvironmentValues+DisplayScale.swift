@@ -40,13 +40,13 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct DisplayScaleKey: EnvironmentKey {
+fileprivate struct DisplayScaleKey : EnvironmentKey {
     static var defaultValue: CGFloat {
         return 1
     }
 }
 
-fileprivate struct DefaultPixelLengthKey: EnvironmentKey {
+fileprivate struct DefaultPixelLengthKey : EnvironmentKey {
     static var defaultValue: CGFloat? {
         return nil
     }

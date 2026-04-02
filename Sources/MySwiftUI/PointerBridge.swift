@@ -2,7 +2,7 @@
 internal import UIKit
 
 @MainActor
-final class PointerBridge: NSObject {
+final class PointerBridge : NSObject {
     weak var host: ViewRendererHost? = nil
     private var interaction: UIPointerInteraction? = nil
     private var hasHoverEffectSeed = VersionSeed.empty
@@ -61,7 +61,7 @@ final class PointerBridge: NSObject {
     }
 }
 
-extension PointerBridge: UIPointerInteractionDelegate {
+extension PointerBridge : UIPointerInteractionDelegate {
     func pointerInteraction(_ interaction: UIPointerInteraction, regionFor request: UIPointerRegionRequest, defaultRegion: UIPointerRegion) -> UIPointerRegion? {
         assertUnimplemented()
     }

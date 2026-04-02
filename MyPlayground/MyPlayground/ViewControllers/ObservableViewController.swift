@@ -19,7 +19,7 @@ fileprivate final class Model {
     var flag = false
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let model: Model
     
     var body: some View {
@@ -27,7 +27,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class ObservableViewController: UIViewController {
+final class ObservableViewController : UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     private let model = Model()
     

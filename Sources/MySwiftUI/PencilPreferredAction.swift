@@ -7,13 +7,13 @@ public import MySwiftUICore
 public struct PencilPreferredAction : Hashable {
     private let guts: PencilPreferredAction.Guts
     
-    @safe public static nonisolated(unsafe) let switchEraser = PencilPreferredAction(guts: .switchEraser)
-    @safe public static nonisolated(unsafe) let switchPrevious = PencilPreferredAction(guts: .switchPrevious)
-    @safe public static nonisolated(unsafe) let showColorPalette = PencilPreferredAction(guts: .showColorPalette)
-    @safe public static nonisolated(unsafe) let showInkAttributes = PencilPreferredAction(guts: .showInkAttributes)
-    @safe public static nonisolated(unsafe) let showContextualPalette = PencilPreferredAction(guts: .showContextualPalette)
-    @safe public static nonisolated(unsafe) let runSystemShortcut = PencilPreferredAction(guts: .runSystemShortcut)
-    @safe public static nonisolated(unsafe) let ignore = PencilPreferredAction(guts: .ignore)
+    @safe nonisolated(unsafe) public static let switchEraser = PencilPreferredAction(guts: .switchEraser)
+    @safe nonisolated(unsafe) public static let switchPrevious = PencilPreferredAction(guts: .switchPrevious)
+    @safe nonisolated(unsafe) public static let showColorPalette = PencilPreferredAction(guts: .showColorPalette)
+    @safe nonisolated(unsafe) public static let showInkAttributes = PencilPreferredAction(guts: .showInkAttributes)
+    @safe nonisolated(unsafe) public static let showContextualPalette = PencilPreferredAction(guts: .showContextualPalette)
+    @safe nonisolated(unsafe) public static let runSystemShortcut = PencilPreferredAction(guts: .runSystemShortcut)
+    @safe nonisolated(unsafe) public static let ignore = PencilPreferredAction(guts: .ignore)
 }
 
 @available(*, unavailable)
@@ -34,7 +34,7 @@ extension EnvironmentValues {
     }
     
     // TODO: Macro Entry
-    fileprivate struct __Key_preferredPencilDoubleTapAction: EnvironmentKey {
+    fileprivate struct __Key_preferredPencilDoubleTapAction : EnvironmentKey {
         static var defaultValue: PencilPreferredAction {
             return .switchEraser
         }
@@ -55,7 +55,7 @@ extension EnvironmentValues {
     }
     
     // TODO: Macro Entry
-    fileprivate struct __Key_preferredPencilSqueezeAction: EnvironmentKey {
+    fileprivate struct __Key_preferredPencilSqueezeAction : EnvironmentKey {
         static var defaultValue: PencilPreferredAction {
             return .showContextualPalette
         }
@@ -66,7 +66,7 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension PencilPreferredAction {
-    fileprivate enum Guts: Hashable {
+    fileprivate enum Guts : Hashable {
         case switchEraser
         case switchPrevious
         case showColorPalette

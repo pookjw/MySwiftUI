@@ -2,7 +2,7 @@ internal import MySwiftUICore
 internal import MRUIKit
 internal import Foundation
 
-struct SupportedVolumeViewpointsKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
+struct SupportedVolumeViewpointsKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: SupportedVolumeViewpointsKey.PreferredValue? {
         return nil
     }
@@ -42,7 +42,7 @@ struct SupportedVolumeViewpointsKey: MRUIBridgedPreferenceKey, HostPreferenceKey
 }
 
 extension SupportedVolumeViewpointsKey {
-    struct PreferredValue: Equatable {
+    struct PreferredValue : Equatable {
         var supportedViewpoints: SquareAzimuth.Set
         var animation: Animation?
     }

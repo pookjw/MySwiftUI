@@ -18,8 +18,8 @@ package func onNextMainRunLoop(do block: @MainActor @Sendable @escaping () -> Vo
     unsafe RunLoop.main.perform(inModes: [.common], block: unsafeBitCast(block, to: (@Sendable () -> Void).self))
 }
 
-fileprivate nonisolated(unsafe) var observer: CFRunLoopObserver?
-@safe fileprivate nonisolated(unsafe) var observerActions: [() -> Void] = []
+nonisolated(unsafe) fileprivate var observer: CFRunLoopObserver?
+@safe nonisolated(unsafe) fileprivate var observerActions: [() -> Void] = []
 
 extension RunLoop {
     package static func addObserver(_ action: @escaping () -> Void) {
@@ -79,8 +79,8 @@ extension RunLoop {
     }
 }
 
-final class ThreadSpecific<T: Sendable> {
-    private nonisolated(unsafe) var key: UInt
+final class ThreadSpecific<T : Sendable> {
+    nonisolated(unsafe) private var key: UInt
     private let defaultValue: T
     
     init(_ defaultValue: T) {
@@ -123,4 +123,4 @@ final class ThreadSpecific<T: Sendable> {
     }
 }
 
-extension ThreadSpecific: Sendable {}
+extension ThreadSpecific : Sendable {}

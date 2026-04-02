@@ -1,6 +1,6 @@
 internal import CoreGraphics
 
-public struct OpacityTransition: Transition {
+public struct OpacityTransition : Transition {
     public init() {
     }
     
@@ -21,7 +21,7 @@ public struct OpacityTransition: Transition {
 }
 
 @available(*, unavailable)
-extension OpacityTransition: Sendable {
+extension OpacityTransition : Sendable {
 }
 
 extension Transition where Self == OpacityTransition {
@@ -30,7 +30,7 @@ extension Transition where Self == OpacityTransition {
     }
 }
 
-struct OpacityRendererEffect: RendererEffect, _RemoveGlobalActorIsolation {
+struct OpacityRendererEffect : RendererEffect, _RemoveGlobalActorIsolation {
     var opacity: Double
     
     init(opacity: Double) {
@@ -57,7 +57,7 @@ struct OpacityRendererEffect: RendererEffect, _RemoveGlobalActorIsolation {
         return .opacity(Float(opacity))
     }
     
-    static nonisolated func _makeView(modifier: _GraphValue<OpacityRendererEffect>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func _makeView(modifier: _GraphValue<OpacityRendererEffect>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         if unsafe inputs.preferences.contains(DisplayList.Key.self) {
             var modifier = modifier
             _makeAnimatable(value: &modifier, inputs: inputs.base)

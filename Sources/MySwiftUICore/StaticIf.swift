@@ -1,5 +1,5 @@
 extension View {
-    package func staticIf<Predicate: ViewInputPredicate, TrueBody: View, FalseBody: View>(
+    package func staticIf<Predicate : ViewInputPredicate, TrueBody : View, FalseBody : View>(
         _ predicate: Predicate,
         @ViewBuilder then: (Self) -> TrueBody,
         @ViewBuilder else: (Self) -> FalseBody
@@ -15,7 +15,7 @@ extension View {
         )
     }
     
-    package func staticIf<Predicate: ViewInputPredicate, Content: View>(
+    package func staticIf<Predicate : ViewInputPredicate, Content : View>(
         _ predicate: Predicate.Type,
         @ViewBuilder then: (Self) -> Content
     ) -> some View {
@@ -30,7 +30,7 @@ extension View {
         )
     }
     
-    package func staticIf<Predicate: ViewInputPredicate, Content: View>(
+    package func staticIf<Predicate : ViewInputPredicate, Content : View>(
         _ type: Predicate,
         @ViewBuilder then: (Self) -> Content
     ) -> some View {
@@ -56,7 +56,7 @@ package struct StaticIf<Predicate, TrueBody, FalseBody> {
     }
 }
 
-extension StaticIf: View, PrimitiveView where Predicate: ViewInputPredicate, TrueBody: View, FalseBody: View {
+extension StaticIf : View, PrimitiveView where Predicate : ViewInputPredicate, TrueBody : View, FalseBody : View {
     package init(
         _ predicate: Predicate.Type,
         @ViewBuilder then: () -> TrueBody,
@@ -125,48 +125,48 @@ extension StaticIf: View, PrimitiveView where Predicate: ViewInputPredicate, Tru
         assertUnimplemented()
     }
     
-//    init<Idiom: InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
+//    init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Idiom: InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyView {
+//    init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyView {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Context: StyleContext>(in context: Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == StyleContextAcceptsPredicate<Context> {
+//    init<Context : StyleContext>(in context: Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == StyleContextAcceptsPredicate<Context> {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Context: StyleContext>(in context: Context, then: () -> TrueBody) where Predicate == StyleContextAcceptsPredicate<Context>, FalseBody == EmptyView {
+//    init<Context : StyleContext>(in context: Context, then: () -> TrueBody) where Predicate == StyleContextAcceptsPredicate<Context>, FalseBody == EmptyView {
 //        assertUnimplemented()
 //    }
 //    
-//    init<each Context>(any contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == StyleContextAcceptsAnyPredicate<(repeat each Context)>, repeat each Context: StyleContext {
+//    init<each Context>(any contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == StyleContextAcceptsAnyPredicate<(repeat each Context)>, repeat each Context : StyleContext {
 //        assertUnimplemented()
 //    }
 //    
-//    init<each Context>(any contexts: repeat each Context, then: () -> TrueBody) where Predicate == StyleContextAcceptsAnyPredicate<(repeat each Context)>, FalseBody == EmptyView, repeat each Context: StyleContext {
+//    init<each Context>(any contexts: repeat each Context, then: () -> TrueBody) where Predicate == StyleContextAcceptsAnyPredicate<(repeat each Context)>, FalseBody == EmptyView, repeat each Context : StyleContext {
 //        assertUnimplemented()
 //    }
 //    
-//    init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == StyleContextAcceptsPredicate<(repeat each Context)>, repeat each Context: StyleContext {
+//    init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == StyleContextAcceptsPredicate<(repeat each Context)>, repeat each Context : StyleContext {
 //        assertUnimplemented()
 //    }
 //    
-//    init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody) where Predicate == StyleContextAcceptsPredicate<(repeat each Context)>, FalseBody == EmptyView, repeat each Context: StyleContext {
+//    init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody) where Predicate == StyleContextAcceptsPredicate<(repeat each Context)>, FalseBody == EmptyView, repeat each Context : StyleContext {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Semantic: SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SemanticsIsLinkedOnOrAfter<Semantic> {
+//    init<Semantic : SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SemanticsIsLinkedOnOrAfter<Semantic> {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Semantic: SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody) where Predicate == SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == EmptyView {
+//    init<Semantic : SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody) where Predicate == SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == EmptyView {
 //        assertUnimplemented()
 //    }
 }
 
-extension StaticIf: ViewModifier, PrimitiveViewModifier where Predicate : ViewInputPredicate, TrueBody : ViewModifier, FalseBody : ViewModifier {
+extension StaticIf : ViewModifier, PrimitiveViewModifier where Predicate : ViewInputPredicate, TrueBody : ViewModifier, FalseBody : ViewModifier {
     package init(_ predicate: Predicate.Type, then: TrueBody, else: FalseBody) {
         self.trueBody = then
         self.falseBody = `else`
@@ -210,23 +210,23 @@ extension StaticIf: ViewModifier, PrimitiveViewModifier where Predicate : ViewIn
         assertUnimplemented()
     }
     
-//    init<Idiom: InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
+//    init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Idiom: InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyModifier {
+//    init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyModifier {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Context: StyleContext>(in context: Context, then: TrueBody, else: FalseBody) where Predicate == StyleContextAcceptsPredicate<Context> {
+//    init<Context : StyleContext>(in context: Context, then: TrueBody, else: FalseBody) where Predicate == StyleContextAcceptsPredicate<Context> {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Semantic: SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody, else: FalseBody) where Predicate == SemanticsIsLinkedOnOrAfter<Semantic> {
+//    init<Semantic : SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody, else: FalseBody) where Predicate == SemanticsIsLinkedOnOrAfter<Semantic> {
 //        assertUnimplemented()
 //    }
 //    
-//    init<Semantic: SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody) where Predicate == SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == EmptyModifier {
+//    init<Semantic : SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody) where Predicate == SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == EmptyModifier {
 //        assertUnimplemented()
 //    }
 }
@@ -241,7 +241,7 @@ extension StaticIf: ViewModifier, PrimitiveViewModifier where Predicate : ViewIn
 //    }
 //}
 
-//extension StaticIf: ToolbarContent where Predicate: ViewInputPredicate, TrueBody: ToolbarContent, FalseBody: ToolbarContent {
+//extension StaticIf: ToolbarContent where Predicate : ViewInputPredicate, TrueBody : ToolbarContent, FalseBody : ToolbarContent {
 //    init(_ predicate: Predicate.Type, then: () -> TrueBody, else: () -> FalseBody) {
 //        assertUnimplemented()
 //    }

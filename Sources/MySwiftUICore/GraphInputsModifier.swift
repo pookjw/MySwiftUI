@@ -3,7 +3,7 @@ public protocol _GraphInputsModifier {
 }
 
 extension ViewModifier where Self : _GraphInputsModifier, Body == Never {
-    public static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         /*
          body -> x19/x21
          return pointer -> x22
@@ -28,11 +28,11 @@ extension ViewModifier where Self : _GraphInputsModifier, Body == Never {
         return body(_Graph(), copy_6)
     }
     
-    public static nonisolated func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
         assertUnimplemented()
     }
 }

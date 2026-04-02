@@ -6,7 +6,7 @@ private import _MySwiftUIShims
 internal import _MySwiftUIShims
 
 @MainActor
-final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
+final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
     var platformVended = Toolbar.PlatformVended() // 0x8
     var lastToolbarStorage: ToolbarStorage? = nil // 0x5b0
     private(set) var lastInputToolbarStorage: ToolbarStorage? = nil // 0x5f8
@@ -30,7 +30,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         super.init()
     }
     
-    static func update<Content: View>(environment: inout EnvironmentValues, toolbarBridge: ToolbarBridge<T>?, hostingController: UIHostingController<Content>) {
+    static func update<Content : View>(environment: inout EnvironmentValues, toolbarBridge: ToolbarBridge<T>?, hostingController: UIHostingController<Content>) {
         /*
          environment -> x19
          toolbarBridge -> x20
@@ -48,11 +48,11 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         environment.toolbarUpdateContext = context
     }
     
-    func viewWillAppear<Content: View>(hostingController: UIHostingController<Content>) {
+    func viewWillAppear<Content : View>(hostingController: UIHostingController<Content>) {
         assertUnimplemented()
     }
     
-    func safeAreaDidChange<Content: View>(hostingController: UIHostingController<Content>) {
+    func safeAreaDidChange<Content : View>(hostingController: UIHostingController<Content>) {
         assertUnimplemented()
     }
     
@@ -139,7 +139,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         return !storage.entries.isEmpty
     }
     
-    fileprivate func adoptUpdates<Content: View>(
+    fileprivate func adoptUpdates<Content : View>(
         _ updates: Toolbar.Updates,
         hostingController: UIHostingController<Content>,
         context: Toolbar.UpdateContext
@@ -210,7 +210,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         }
     }
     
-    fileprivate func adoptSystemUpdates<Content: View>(_ updates: Toolbar.Updates, hostingController: UIHostingController<Content>, context: Toolbar.UpdateContext) {
+    fileprivate func adoptSystemUpdates<Content : View>(_ updates: Toolbar.Updates, hostingController: UIHostingController<Content>, context: Toolbar.UpdateContext) {
         /*
          updates.locations -> x0 -> x21
          updates.flag1/flag2/navigationProperties -> x1 -> x22
@@ -243,7 +243,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         // <+452>
     }
     
-    fileprivate func updateToolbarVisibility<Content: View>(hostingController: UIHostingController<Content>) {
+    fileprivate func updateToolbarVisibility<Content : View>(hostingController: UIHostingController<Content>) {
         /*
          hostingController -> x0 -> x19
          */
@@ -254,7 +254,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         assertUnimplemented()
     }
     
-    fileprivate func updateBottomOrnamentVisibility<Content: View>(hostingController: UIHostingController<Content>) {
+    fileprivate func updateBottomOrnamentVisibility<Content : View>(hostingController: UIHostingController<Content>) {
         /*
          hostingController -> x0 -> x19
          */
@@ -265,7 +265,7 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
         assertUnimplemented()
     }
     
-    fileprivate func updateTabBarSidebar<Content: View>(hostingController: UIHostingController<Content>, updates: Toolbar.Updates) {
+    fileprivate func updateTabBarSidebar<Content : View>(hostingController: UIHostingController<Content>, updates: Toolbar.Updates) {
         assertUnimplemented()
     }
     
@@ -386,10 +386,10 @@ final class ToolbarBridge<T: ToolbarStrategy>: NSObject {
     // TODO
 }
 
-extension ToolbarBridge: ToolbarNamespace {
+extension ToolbarBridge : ToolbarNamespace {
 }
 
-struct ToolbarKey: HostPreferenceKey {
+struct ToolbarKey : HostPreferenceKey {
     static let defaultValue = ToolbarStorage(
         identifier: nil,
         selection: nil,
@@ -412,8 +412,8 @@ struct ToolbarKey: HostPreferenceKey {
     }
 }
 
-struct SearchKey: HostPreferenceKey {
-    static nonisolated(unsafe) let defaultValue: ToolbarStorage.SearchItem? = nil
+struct SearchKey : HostPreferenceKey {
+    nonisolated(unsafe) static let defaultValue: ToolbarStorage.SearchItem? = nil
     
     static func reduce(value: inout ToolbarStorage.SearchItem?, nextValue: () -> ToolbarStorage.SearchItem?) {
         assertUnimplemented()
@@ -428,8 +428,8 @@ struct SearchKey: HostPreferenceKey {
     }
 }
 
-struct NavigationPropertiesKey: HostPreferenceKey {
-    static nonisolated(unsafe) let defaultValue: ToolbarStorage.NavigationProperties? = nil
+struct NavigationPropertiesKey : HostPreferenceKey {
+    nonisolated(unsafe) static let defaultValue: ToolbarStorage.NavigationProperties? = nil
     
     static func reduce(value: inout ToolbarStorage.NavigationProperties?, nextValue: () -> ToolbarStorage.NavigationProperties?) {
         assertUnimplemented()
@@ -444,8 +444,8 @@ struct NavigationPropertiesKey: HostPreferenceKey {
     }
 }
 
-struct UINavigationItemAdaptorKey: HostPreferenceKey {
-    static nonisolated(unsafe) let defaultValue = UINavigationItemAdaptorStorage()
+struct UINavigationItemAdaptorKey : HostPreferenceKey {
+    nonisolated(unsafe) static let defaultValue = UINavigationItemAdaptorStorage()
     
     static func reduce(value: inout UINavigationItemAdaptorStorage, nextValue: () -> UINavigationItemAdaptorStorage) {
         assertUnimplemented()
@@ -460,7 +460,7 @@ struct UINavigationItemAdaptorKey: HostPreferenceKey {
     }
 }
 
-struct UIKitToolbarStrategy: ToolbarStrategy {
+struct UIKitToolbarStrategy : ToolbarStrategy {
     var updater: ToolbarBridge<UIKitToolbarStrategy>? // 0x0
     var updateContext: Toolbar.UpdateContext? // 0x8
     
@@ -1655,7 +1655,7 @@ struct UIKitToolbarStrategy: ToolbarStrategy {
     }
 }
 
-final class ToolbarSafeAreaTransitionState: SafeAreaTransitionState {
+final class ToolbarSafeAreaTransitionState : SafeAreaTransitionState {
     fileprivate var count: Int // 0x10
     
     var isActive: Bool {
@@ -1677,7 +1677,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct InputAccessoryKey: EnvironmentKey {
-        @safe static nonisolated(unsafe) let defaultValue = WeakBox<InputAccessoryGenerator>(nil)
+    fileprivate struct InputAccessoryKey : EnvironmentKey {
+        @safe nonisolated(unsafe) static let defaultValue = WeakBox<InputAccessoryGenerator>(nil)
     }
 }

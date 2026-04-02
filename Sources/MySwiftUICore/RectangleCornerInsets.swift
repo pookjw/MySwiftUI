@@ -1,6 +1,6 @@
 public import CoreGraphics
 
-@frozen public struct RectangleCornerInsets: Hashable, Sendable {
+@frozen public struct RectangleCornerInsets : Hashable, Sendable {
     public var topLeading: CGSize
     public var topTrailing: CGSize
     public var bottomLeading: CGSize
@@ -29,4 +29,4 @@ public import CoreGraphics
     }
 }
 
-extension RectangleCornerInsets: BitwiseCopyable {}
+extension RectangleCornerInsets : BitwiseCopyable {}

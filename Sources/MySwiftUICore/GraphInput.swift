@@ -2,7 +2,7 @@
 private import Foundation
 private import _DarwinFoundation3._stdlib
 
-package protocol GraphInput: PropertyKey {
+package protocol GraphInput : PropertyKey {
     static var isTriviallyReusable: Bool {
         get
     }
@@ -25,7 +25,7 @@ extension GraphInput {
     }
 }
 
-extension GraphInput where Self.Value: GraphReusable {
+extension GraphInput where Self.Value : GraphReusable {
     package static var isTriviallyReusable: Bool {
         assertUnimplemented()
     }
@@ -61,13 +61,13 @@ extension GraphReusable {
     }
 }
 
-extension Stack: GraphReusable where Element: GraphReusable {
+extension Stack : GraphReusable where Element : GraphReusable {
     func tryToReuse(by: Stack<Element>, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
         assertUnimplemented()
     }
 }
 
-struct GraphReuseOptions: OptionSet {
+struct GraphReuseOptions : OptionSet {
     var rawValue: Int
     
     static var current: GraphReuseOptions {
@@ -90,7 +90,7 @@ struct GraphReuseOptions: OptionSet {
         return []
     }
     
-    static nonisolated(unsafe) var overrideValue: GraphReuseOptions?
+    nonisolated(unsafe) static var overrideValue: GraphReuseOptions?
     
     fileprivate static let defaultsValue: GraphReuseOptions = {
         if let value = UserDefaults.standard.object(forKey: "GraphReuseOptions") as? Int {
@@ -103,8 +103,8 @@ struct GraphReuseOptions: OptionSet {
     }()
 }
 
-struct ReusableInputs: GraphInput {
-    @safe static nonisolated(unsafe) let defaultValue = ReusableInputStorage(filter: BloomFilter(), stack: Stack())
+struct ReusableInputs : GraphInput {
+    @safe nonisolated(unsafe) static let defaultValue = ReusableInputStorage(filter: BloomFilter(), stack: Stack())
 }
 
 struct ReusableInputStorage {

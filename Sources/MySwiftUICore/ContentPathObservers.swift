@@ -27,7 +27,7 @@ extension ContentPathObservers {
     }
 }
 
-struct ContentPathChanges: OptionSet {
+struct ContentPathChanges : OptionSet {
     static var data: ContentPathChanges { return ContentPathChanges(rawValue: 1 << 0) }
     static var size: ContentPathChanges { return ContentPathChanges(rawValue: 1 << 1) }
     static var transform: ContentPathChanges { return ContentPathChanges(rawValue: 1 << 2) }
@@ -39,12 +39,12 @@ struct ContentPathChanges: OptionSet {
     }
 }
 
-protocol ContentPathObserver: AnyObject {
+protocol ContentPathObserver : AnyObject {
     func respondersDidChange(for: ViewResponder)
     func contentPathDidChange(for: ViewResponder, changes: ContentPathChanges, transform: (old: ViewTransform, new: ViewTransform), finished: inout Bool)
 }
 
-protocol TrivialContentPathObserver: ContentPathObserver {
+protocol TrivialContentPathObserver : ContentPathObserver {
     func contentPathDidChange(for: ViewResponder)
 }
 
@@ -58,7 +58,7 @@ extension TrivialContentPathObserver {
     }
 }
 
-fileprivate final class PathObserver: TrivialContentPathObserver {
+fileprivate final class PathObserver : TrivialContentPathObserver {
     @Attribute private var invalidationSignal: Void
     private weak var graphHost: GraphHost?
     
@@ -72,7 +72,7 @@ fileprivate final class PathObserver: TrivialContentPathObserver {
     }
 }
 
-package struct ContentResponderHelper<T: ContentResponder> {
+package struct ContentResponderHelper<T : ContentResponder> {
     var size = CGSize.zero
     var data: T? = nil
     var transform = ViewTransform()

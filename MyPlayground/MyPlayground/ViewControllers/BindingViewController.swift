@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     @State private var flag = false
     
     var body: some View {
@@ -41,7 +41,7 @@ fileprivate struct MyView: View {
     }
 }
 
-fileprivate struct MyChildView: View {
+fileprivate struct MyChildView : View {
     @Binding var flag: Bool
     
     var body: some View {
@@ -54,7 +54,7 @@ fileprivate struct MyChildView: View {
     }
 }
 
-fileprivate struct MyConstantView: View {
+fileprivate struct MyConstantView : View {
     @Binding var flag: Bool
     
     var body: some View {
@@ -66,7 +66,7 @@ fileprivate struct MyConstantView: View {
     }
 }
 
-final class BindingViewController: UIViewController {
+final class BindingViewController : UIViewController {
     override func loadView() {
         let rootView = MyView()
         view = _UIHostingView(rootView: rootView)

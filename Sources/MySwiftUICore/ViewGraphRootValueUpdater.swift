@@ -3,7 +3,7 @@ package import CoreGraphics
 package import Spatial
 private import _UIKitPrivate
 
-@_spi(Internal) public protocol ViewGraphRootValueUpdater: ViewGraphDelegate {
+@_spi(Internal) public protocol ViewGraphRootValueUpdater : ViewGraphDelegate {
     func updateRootView()
     func updateEnvironment()
     func updateTransform()
@@ -146,11 +146,11 @@ extension ViewGraphRootValueUpdater {
         assertUnimplemented()
     }
     
-    package func _preferenceValue<T: HostPreferenceKey>(_ key: T.Type) -> T.Value {
+    package func _preferenceValue<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
         assertUnimplemented()
     }
     
-    package func _addPreference<T: HostPreferenceKey>(_ key: T.Type) -> T.Value {
+    package func _addPreference<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
         assertUnimplemented()
     }
     

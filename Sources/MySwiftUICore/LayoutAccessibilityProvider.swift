@@ -15,11 +15,11 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct LayoutAccessibilityProviderKey: GraphInput {
+    fileprivate struct LayoutAccessibilityProviderKey : GraphInput {
         static let defaultValue: (any LayoutAccessibilityProvider.Type) = EmptyLayoutAccessibilityProvider.self
     }
 }
 
-struct EmptyLayoutAccessibilityProvider: LayoutAccessibilityProvider {
+struct EmptyLayoutAccessibilityProvider : LayoutAccessibilityProvider {
     
 }

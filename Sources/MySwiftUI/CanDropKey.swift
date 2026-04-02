@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct CanDropKey: HostPreferenceKey {
+struct CanDropKey : HostPreferenceKey {
     static var defaultValue: Bool {
         return false
     }

@@ -1,4 +1,4 @@
 
-protocol PointerHost: AnyObject {
+protocol PointerHost : AnyObject {
     
 }

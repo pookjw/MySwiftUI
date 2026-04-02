@@ -6,19 +6,19 @@ private import AttributeGraph
     public var content: Content
     public var modifier: Modifier
     
-    @inlinable public nonisolated init(content: Content, modifier: Modifier) {
+    @inlinable nonisolated public init(content: Content, modifier: Modifier) {
         self.content = content
         self.modifier = modifier
     }
 }
 
-extension ModifiedContent: Equatable where Content: Equatable, Modifier: Equatable {
+extension ModifiedContent : Equatable where Content : Equatable, Modifier : Equatable {
 }
 
-extension ModifiedContent: Sendable where Content: Sendable, Modifier: Sendable {
+extension ModifiedContent : Sendable where Content : Sendable, Modifier : Sendable {
 }
 
-extension ModifiedContent: Animatable where Content: Animatable, Modifier: Animatable {
+extension ModifiedContent : Animatable where Content : Animatable, Modifier : Animatable {
     public var animatableData: AnimatablePair<Content.AnimatableData, Modifier.AnimatableData> {
         get {
             assertUnimplemented()
@@ -29,8 +29,8 @@ extension ModifiedContent: Animatable where Content: Animatable, Modifier: Anima
     }
 }
 
-extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
-    public static nonisolated func _makeView(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
+extension ModifiedContent : View where Content : View, Modifier : ViewModifier {
+    nonisolated public static func _makeView(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
         let modifier: _GraphValue<Modifier> = view[{ value in
             return PointerOffset<Self, Modifier>.of(&value.modifier)
         }]
@@ -47,7 +47,7 @@ extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
         return result
     }
     
-    public static nonisolated func _makeViewList(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
         let modifier: _GraphValue<Modifier> = view[{ value in
             return PointerOffset<Self, Modifier>.of(&value.modifier)
         }]
@@ -62,7 +62,7 @@ extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
         }
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
     
@@ -71,21 +71,21 @@ extension ModifiedContent: View where Content: View, Modifier: ViewModifier {
     }
 }
 
-extension ModifiedContent: ViewModifier where Content: ViewModifier, Modifier: ViewModifier {
-    public static nonisolated func _makeView(modifier: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+extension ModifiedContent : ViewModifier where Content : ViewModifier, Modifier : ViewModifier {
+    nonisolated public static func _makeView(modifier: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _makeViewList(modifier: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(modifier: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
         assertUnimplemented()
     }
 }
 
-extension ModifiedContent: DynamicViewContent where Content: DynamicViewContent, Modifier: ViewModifier {
+extension ModifiedContent : DynamicViewContent where Content : DynamicViewContent, Modifier : ViewModifier {
   public var data: Content.Data {
       assertUnimplemented()
   }
@@ -93,24 +93,24 @@ extension ModifiedContent: DynamicViewContent where Content: DynamicViewContent,
   public typealias Data = Content.Data
 }
 
-extension ModifiedContent: VisualEffect where Content: VisualEffect, Modifier: VisualEffect {
+extension ModifiedContent : VisualEffect where Content : VisualEffect, Modifier : VisualEffect {
     public static func _makeVisualEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
 }
 
-extension ModifiedContent: CustomHoverEffect where Content: CustomHoverEffect, Modifier: CustomHoverEffect {
+extension ModifiedContent : CustomHoverEffect where Content : CustomHoverEffect, Modifier : CustomHoverEffect {
     public static func _makeCustomHoverEffect(effect: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs {
         assertUnimplemented()
     }
 }
 
-extension ModifiedContent: HoverEffectContent where Content: HoverEffectContent, Modifier: HoverEffectContent {
+extension ModifiedContent : HoverEffectContent where Content : HoverEffectContent, Modifier : HoverEffectContent {
     public static func _makeHoverEffectContent(effect: _GraphValue<ModifiedContent<Content, Modifier>>, inputs: _HoverEffectContentInputs, body: @escaping (_HoverEffectContentInputs) -> _HoverEffectContentOutputs) -> _HoverEffectContentOutputs {
         assertUnimplemented()
     }
 }
 
-extension ModifiedContent: CustomViewDebugReflectable {
+extension ModifiedContent : CustomViewDebugReflectable {
     // TODO
 }

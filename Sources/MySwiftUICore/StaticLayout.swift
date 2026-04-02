@@ -208,7 +208,7 @@ extension Layout {
     }
 }
 
-fileprivate struct StaticLayoutComputer<L: Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct StaticLayoutComputer<L : Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var layout: L
     @Attribute private(set) var environment: EnvironmentValues
     var childAttributes: [LayoutProxyAttributes]
@@ -224,7 +224,7 @@ fileprivate struct StaticLayoutComputer<L: Layout>: StatefulRule, AsyncAttribute
     }
 }
 
-fileprivate struct LayoutChildGeometry: Rule, AsyncAttribute {
+fileprivate struct LayoutChildGeometry : Rule, AsyncAttribute {
     @Attribute private(set) var childGeometries: [ViewGeometry]
     let index: Int
     
@@ -233,7 +233,7 @@ fileprivate struct LayoutChildGeometry: Rule, AsyncAttribute {
     }
 }
 
-fileprivate struct LayoutChildDepth: Rule, AsyncAttribute {
+fileprivate struct LayoutChildDepth : Rule, AsyncAttribute {
     @Attribute var childDepths: [ViewDepth]
     let index: Int
     

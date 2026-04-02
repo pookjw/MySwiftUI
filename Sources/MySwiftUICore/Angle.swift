@@ -36,14 +36,14 @@
     }
 }
 
-extension Angle: Hashable, Comparable {
-    @inlinable public static func < (lhs: Angle, rhs: Angle) -> Bool {
+extension Angle : Hashable, Comparable {
+    @inlinable public static func < (lhs : Angle, rhs : Angle) -> Bool {
         return lhs.radians < rhs.radians
     }
 }
 
-extension Angle: Codable {}
-extension Angle: Animatable {
+extension Angle : Codable {}
+extension Angle : Animatable {
     public var animatableData: Double {
         get {
             assertUnimplemented()

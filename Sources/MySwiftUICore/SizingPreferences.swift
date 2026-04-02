@@ -1,7 +1,7 @@
 package import CoreGraphics
 package import Spatial
 
-package struct SizingPreferences: Equatable, CustomStringConvertible {
+package struct SizingPreferences : Equatable, CustomStringConvertible {
     package init(
         width: CGFloat?,
         height: CGFloat?,

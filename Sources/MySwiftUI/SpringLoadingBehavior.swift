@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-public struct SpringLoadingBehavior: Hashable, Sendable {
+public struct SpringLoadingBehavior : Hashable, Sendable {
     public static let automatic = SpringLoadingBehavior(guts: .automatic)
     public static let enabled = SpringLoadingBehavior(guts: .enabled)
     public static let disabled = SpringLoadingBehavior(guts: .disabled)
@@ -9,7 +9,7 @@ public struct SpringLoadingBehavior: Hashable, Sendable {
 }
 
 extension SpringLoadingBehavior {
-    enum HighlightState: Hashable {
+    enum HighlightState : Hashable {
         case none
         case standard
         case prominent
@@ -17,7 +17,7 @@ extension SpringLoadingBehavior {
 }
 
 extension SpringLoadingBehavior {
-    fileprivate enum Guts: Hashable {
+    fileprivate enum Guts : Hashable {
         case automatic
         case enabled
         case disabled
@@ -31,6 +31,6 @@ extension SpringLoadingBehavior {
 
 
 extension SpringLoadingBehavior {
-    struct HasCustomSpringLoadedBehavior: PropertyKey, _GraphInputsModifier, ViewInputPredicate, GraphInput, ViewInputBoolFlag, ViewInputFlag {
+    struct HasCustomSpringLoadedBehavior : PropertyKey, _GraphInputsModifier, ViewInputPredicate, GraphInput, ViewInputBoolFlag, ViewInputFlag {
     }
 }

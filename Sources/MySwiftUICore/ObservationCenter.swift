@@ -5,7 +5,7 @@ private import Observation
 internal import AttributeGraph
 private import _DarwinFoundation3.pthread
 
-final class ObservationCenter: @unchecked Sendable {
+final class ObservationCenter : @unchecked Sendable {
     static var current: ObservationCenter {
         return _current.value
     }
@@ -178,7 +178,7 @@ final class ObservationCenter: @unchecked Sendable {
     }
 }
 
-struct ObservationGraphMutation: GraphMutation, @unchecked Sendable {
+struct ObservationGraphMutation : GraphMutation, @unchecked Sendable {
     private let observationCenter: ObservationCenter
     private var invalidatingMutation: InvalidatingGraphMutation
     private var observationTracking: [ObservationTracking]
@@ -223,7 +223,7 @@ struct ObservationGraphMutation: GraphMutation, @unchecked Sendable {
         }
     }
     
-    func combine<T: GraphMutation>(with other: T) -> Bool {
+    func combine<T : GraphMutation>(with other: T) -> Bool {
         assertUnimplemented()
     }
     

@@ -1,6 +1,6 @@
 package import AttributeGraph
 
-@_spi(Internal) open class DefaultLayoutViewResponder: MultiViewResponder {
+@_spi(Internal) open class DefaultLayoutViewResponder : MultiViewResponder {
     let inputs: _ViewInputs
     let viewSubgraph: Subgraph
     var childSubgraph: Subgraph?

@@ -1,4 +1,4 @@
-struct ScrollablePreferenceKey: PreferenceKey {
+struct ScrollablePreferenceKey : PreferenceKey {
     static func reduce(value: inout [any Scrollable], nextValue: () -> [any Scrollable]) {
         assertUnimplemented()
     }
@@ -12,6 +12,6 @@ protocol Scrollable {
     // TODO
 }
 
-protocol ScrollableCollection: Scrollable {
+protocol ScrollableCollection : Scrollable {
     // TODO
 }

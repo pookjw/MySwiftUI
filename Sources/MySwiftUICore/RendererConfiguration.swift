@@ -33,7 +33,7 @@ extension _RendererConfiguration {
     }
 }
 
-struct RasterizationOptions: Equatable {
+struct RasterizationOptions : Equatable {
     // TODO
     
     init(_ options: _RendererConfiguration.RasterizationOptions) {

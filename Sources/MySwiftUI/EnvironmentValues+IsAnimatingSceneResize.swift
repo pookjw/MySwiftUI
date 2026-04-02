@@ -10,7 +10,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct IsAnimatingSceneResize: EnvironmentKey {
+    fileprivate struct IsAnimatingSceneResize : EnvironmentKey {
         static var defaultValue: Bool {
             return false
         }

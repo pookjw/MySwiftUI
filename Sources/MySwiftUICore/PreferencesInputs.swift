@@ -14,15 +14,15 @@ package struct PreferencesInputs {
         self.hostKeys = hostKeys
     }
     
-    package mutating func add<Key: PreferenceKey>(_ key: Key.Type) {
+    package mutating func add<Key : PreferenceKey>(_ key: Key.Type) {
         keys.add(key)
     }
     
-    package func contains<Key: PreferenceKey>(_ key: Key.Type) -> Bool {
+    package func contains<Key : PreferenceKey>(_ key: Key.Type) -> Bool {
         return contains(key, includeHostPreferences: false)
     }
     
-    package func contains<Key: PreferenceKey>(_ key: Key.Type, includeHostPreferences: Bool) -> Bool {
+    package func contains<Key : PreferenceKey>(_ key: Key.Type, includeHostPreferences: Bool) -> Bool {
         if keys.contains(key) {
             return true
         } else {
@@ -35,7 +35,7 @@ package struct PreferencesInputs {
         }
     }
     
-    package mutating func remove<T: PreferenceKey>(_ key: T.Type) {
+    package mutating func remove<T : PreferenceKey>(_ key: T.Type) {
         remove(key)
     }
     
@@ -51,7 +51,7 @@ package struct PreferencesInputs {
         var outputs = PreferencesOutputs()
         
         for key in keys {
-            func wrap<Key: PreferenceKey>(key: Key.Type) {
+            func wrap<Key : PreferenceKey>(key: Key.Type) {
                 let attribute = GraphHost.currentHost.intern(key.defaultValue, for: key.self, id: .preferenceKeyDefault)
                 let indirect = IndirectAttribute(source: attribute)
                 outputs.appendPreference(key: key, value: indirect.identifier)

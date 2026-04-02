@@ -7,7 +7,7 @@ private import _UIKitPrivate
 private import MRUIKit
 
 final class AttachmentRegistrationManager {
-    @safe static nonisolated(unsafe) let shared = AttachmentRegistrationManager()
+    @safe nonisolated(unsafe) static let shared = AttachmentRegistrationManager()
     
     var registrations: [Registration]
     private var registeredSceneIdentifiers: Set<AttachmentRegistrationManager.SceneRegistration>
@@ -76,7 +76,7 @@ final class AttachmentRegistrationManager {
 }
 
 extension AttachmentRegistrationManager {
-    struct SceneRegistration: Hashable {
+    struct SceneRegistration : Hashable {
         fileprivate let sceneID: String
         fileprivate let componentID: ObjectIdentifier
     }
@@ -87,7 +87,7 @@ struct Registration {
     fileprivate let getGuts: @MainActor (RealityKit::Entity) -> AttachmentComponentGuts?
     fileprivate let setGuts: @MainActor (RealityKit::Entity, AttachmentComponentGuts) -> Void
     
-    init<T: RealityKit::Component>(
+    init<T : RealityKit::Component>(
         setGuts: @MainActor @escaping (inout T, AttachmentComponentGuts) -> Void,
         getGuts: @MainActor @escaping (T) -> AttachmentComponentGuts?
     ) {
@@ -113,7 +113,7 @@ struct Registration {
 }
 
 fileprivate final class AttachmentManager {
-    @safe static nonisolated(unsafe) let shared = AttachmentManager()
+    @safe nonisolated(unsafe) static let shared = AttachmentManager()
     
     private var attachmentState: [AttachmentManager.PhaseKey: PhaseHolder] = [:]
     private var bag: Set<AnyCancellable> = []
@@ -171,7 +171,7 @@ extension AttachmentManager {
         // TODO
     }
     
-    struct PhaseKey: Hashable {
+    struct PhaseKey : Hashable {
         let aID: UInt64
         let typeID: ObjectIdentifier
     }
@@ -185,10 +185,10 @@ struct AttachmentComponentGuts {
     // TODO
 }
 
-struct _AttachmentComponent: RealityKit::Component {
+struct _AttachmentComponent : RealityKit::Component {
     // TODO
 }
 
-struct _PopoverComponent: RealityKit::Component {
+struct _PopoverComponent : RealityKit::Component {
     // TODO
 }

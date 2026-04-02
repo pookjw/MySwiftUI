@@ -65,9 +65,9 @@ fileprivate protocol AnyExportedPreference {
     mutating func preferencesDidChange(_ values: PreferenceValues)
 }
 
-protocol MRUIBridgedPreferenceKey: HostPreferenceKey {
+protocol MRUIBridgedPreferenceKey : HostPreferenceKey {
     associatedtype Value
-    associatedtype BridgedValue: AnyObject
+    associatedtype BridgedValue : AnyObject
     
     static var bridgedKey: MRUIPreferenceKey<BridgedValue>.Type { get }
     static func bridgedValue(from value: Value) -> BridgedValue?
@@ -76,7 +76,7 @@ protocol MRUIBridgedPreferenceKey: HostPreferenceKey {
 }
 
 extension MRUIBridgedPreferenceKey {
-    static func visitKey<T: MRUIBridgedPreferenceKeyVisitor>(_ visitor: inout T) {
+    static func visitKey<T : MRUIBridgedPreferenceKeyVisitor>(_ visitor: inout T) {
         visitor.visit(key: self)
     }
     
@@ -85,19 +85,19 @@ extension MRUIBridgedPreferenceKey {
     }
 }
 
-fileprivate struct ExportPreferenceVisitor: MRUIBridgedPreferenceKeyVisitor {
+fileprivate struct ExportPreferenceVisitor : MRUIBridgedPreferenceKeyVisitor {
     var exportedPreference: (any AnyExportedPreference)?
     
-    mutating func visit<T: MRUIBridgedPreferenceKey>(key: T.Type) {
+    mutating func visit<T : MRUIBridgedPreferenceKey>(key: T.Type) {
         exportedPreference = ExportedPreference(key: key)
     }
 }
 
 protocol MRUIBridgedPreferenceKeyVisitor {
-    mutating func visit<T: MRUIBridgedPreferenceKey>(key: T.Type)
+    mutating func visit<T : MRUIBridgedPreferenceKey>(key: T.Type)
 }
 
-fileprivate struct ExportedPreference<T: MRUIBridgedPreferenceKey>: AnyExportedPreference {
+fileprivate struct ExportedPreference<T : MRUIBridgedPreferenceKey>: AnyExportedPreference {
     let key: T.Type
     var value: T.Value
     var seed: VersionSeed = .empty
@@ -141,7 +141,7 @@ fileprivate struct ExportedPreference<T: MRUIBridgedPreferenceKey>: AnyExportedP
     }
 }
 
-fileprivate struct ExportedCustomPreferences: AnyExportedPreference {
+fileprivate struct ExportedCustomPreferences : AnyExportedPreference {
     let key: MRUICustomPreferencesKey.Type
     var seed: VersionSeed
     var values: [AnyHashable: ExportedCustomPreferences.Value]

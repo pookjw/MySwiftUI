@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct InteractiveDismissAttemptKey: HostPreferenceKey {
+struct InteractiveDismissAttemptKey : HostPreferenceKey {
     static var defaultValue: (() -> Void)? {
         return nil
     }

@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let onAppear: () -> Void
     let onDisappear: () -> Void
     
@@ -23,7 +23,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class AppearanceActionViewController: UIViewController {
+final class AppearanceActionViewController : UIViewController {
     @ViewLoading private var barButtonItem: UIBarButtonItem
     
     override func loadView() {

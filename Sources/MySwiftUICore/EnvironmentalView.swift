@@ -1,13 +1,13 @@
 private import AttributeGraph
 
-protocol EnvironmentalView: PrimitiveView, UnaryView {
+protocol EnvironmentalView : PrimitiveView, UnaryView {
     associatedtype EnvironmentBody : View
     
     func body(environment: EnvironmentValues) -> EnvironmentBody
 }
 
 extension EnvironmentalView {
-    public static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          x29 = sp + 0x260
          x27 = sp + 0x70
@@ -26,7 +26,7 @@ extension EnvironmentalView {
     }
 }
 
-protocol EnvironmentalModifier: ViewModifier {}
+protocol EnvironmentalModifier : ViewModifier {}
 
 extension EnvironmentalModifier {
     static var _tracksEnvironmentDependencies: Bool {
@@ -46,7 +46,7 @@ extension EnvironmentalModifier {
     }
 }
 
-struct EnvironmentalViewChild<Content: EnvironmentalView>: AsyncAttribute, CustomStringConvertible, @preconcurrency StatefulRule {
+struct EnvironmentalViewChild<Content : EnvironmentalView>: AsyncAttribute, CustomStringConvertible, @preconcurrency StatefulRule {
     @Attribute private var view: Content
     @Attribute private var env: EnvironmentValues
     private let tracker: PropertyList.Tracker

@@ -1,7 +1,7 @@
 public import CoreGraphics
 
 @frozen
-public struct EdgeInsets: Equatable {
+public struct EdgeInsets : Equatable {
     public var top: CGFloat
     public var leading: CGFloat
     public var bottom: CGFloat
@@ -23,7 +23,7 @@ public struct EdgeInsets: Equatable {
     }
 }
 
-extension EdgeInsets: _VectorMath {
+extension EdgeInsets : _VectorMath {
     public typealias AnimatableData = AnimatablePair<CGFloat, AnimatablePair<CGFloat, AnimatablePair<CGFloat, CGFloat>>>
     
     public var animatableData: EdgeInsets.AnimatableData {
@@ -51,8 +51,8 @@ extension EdgeInsets {
     }
 }
 
-extension EdgeInsets: Sendable {}
-extension EdgeInsets: BitwiseCopyable {}
+extension EdgeInsets : Sendable {}
+extension EdgeInsets : BitwiseCopyable {}
 
 extension EdgeInsets {
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
@@ -398,6 +398,6 @@ extension EdgeInsets {
     // TODO
 }
 
-extension EdgeInsets: ProtobufDecodableMessage, ProtobufEncodableMessage {
+extension EdgeInsets : ProtobufDecodableMessage, ProtobufEncodableMessage {
     // TODO
 }

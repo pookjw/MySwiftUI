@@ -1,5 +1,5 @@
 
-package protocol TextAccessibilityProvider: View {
+package protocol TextAccessibilityProvider : View {
     
 }
 
@@ -16,12 +16,12 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct TextAccessibilityProviderKey: GraphInput {
+    fileprivate struct TextAccessibilityProviderKey : GraphInput {
         static let defaultValue: (any TextAccessibilityProvider.Type) = EmptyTextAccessibilityProvider.self
     }
 }
 
-struct EmptyTextAccessibilityProvider: TextAccessibilityProvider {
+struct EmptyTextAccessibilityProvider : TextAccessibilityProvider {
     public var body: Never {
         assertUnimplemented()
     } // TODO

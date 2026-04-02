@@ -3,7 +3,7 @@ internal import FeatureFlags
 private import Synchronization
 private import _MySwiftUIShims
 
-package struct Solarium: ViewInputPredicate {
+package struct Solarium : ViewInputPredicate {
     fileprivate static let cachedValues = Mutex<[Solarium.EnablementIdiom: (Solarium.EnablementLevel, Solarium.EnablementCriteria)]>([:])
     
     package static func evaluate(inputs: _GraphInputs) -> Bool {
@@ -194,7 +194,7 @@ package struct Solarium: ViewInputPredicate {
 }
 
 extension Solarium {
-    package enum EnablementIdiom: Hashable {
+    package enum EnablementIdiom : Hashable {
         case iOS
         case macOS
         case tvOS
@@ -216,13 +216,13 @@ extension Solarium {
         }
     }
     
-    enum EnablementLevel: Hashable {
+    enum EnablementLevel : Hashable {
         case disabled
         case compatibility
         case enabled
     }
     
-    struct EnablementCriteria: OptionSet {
+    struct EnablementCriteria : OptionSet {
         static var featureFlag: Solarium.EnablementCriteria {
             return Solarium.EnablementCriteria(rawValue: 1 << 0)
         }
@@ -238,39 +238,39 @@ extension Solarium {
         let rawValue: Int
     }
     
-    struct AllowedInCompatibilityKey: ViewInputBoolFlag {
+    struct AllowedInCompatibilityKey : ViewInputBoolFlag {
         
     }
     
-    struct SolariumMetrics: ViewInputPredicate {
+    struct SolariumMetrics : ViewInputPredicate {
         static func evaluate(inputs: _GraphInputs) -> Bool {
             assertUnimplemented()
         }
     }
     
-    fileprivate struct TVFeatureFlagKey: FeatureFlagsKey {
+    fileprivate struct TVFeatureFlagKey : FeatureFlagsKey {
         let domain: StaticString = "SwiftUI"
         let feature: StaticString = "SolariumTV"
     }
     
-    struct FeatureFlagKey: FeatureFlagsKey {
+    struct FeatureFlagKey : FeatureFlagsKey {
         let domain: StaticString = "SwiftUI"
         let feature: StaticString = "Solarium"
     }
     
-    fileprivate struct IgnoreSolariumLinkedOnCheckUserDefault: UserDefaultKeyedFeature {
+    fileprivate struct IgnoreSolariumLinkedOnCheckUserDefault : UserDefaultKeyedFeature {
         static let key: String = "com.apple.SwiftUI.IgnoreSolariumLinkedOnCheck"
-        @safe static nonisolated(unsafe) var cachedValue: Bool?
+        @safe nonisolated(unsafe) static var cachedValue: Bool?
     }
     
-    fileprivate struct IgnoreSolariumHardwareCheckUserDefault: UserDefaultKeyedFeature {
+    fileprivate struct IgnoreSolariumHardwareCheckUserDefault : UserDefaultKeyedFeature {
         static let key: String = "com.apple.SwiftUI.IgnoreSolariumHardwareCheck"
-        @safe static nonisolated(unsafe) var cachedValue: Bool?
+        @safe nonisolated(unsafe) static var cachedValue: Bool?
     }
     
-    fileprivate struct FailSolariumHardwareCheckUserDefault: UserDefaultKeyedFeature {
+    fileprivate struct FailSolariumHardwareCheckUserDefault : UserDefaultKeyedFeature {
         static let key: String = "com.apple.SwiftUI.FailSolariumHardwareCheck"
-        @safe static nonisolated(unsafe) var cachedValue: Bool?
+        @safe nonisolated(unsafe) static var cachedValue: Bool?
     }
     
     fileprivate struct SolariumHardwareSupport {
@@ -288,9 +288,9 @@ extension Solarium {
         }()
     }
     
-    fileprivate struct IgnoreSolariumOptOutUserDefault: UserDefaultKeyedFeature {
+    fileprivate struct IgnoreSolariumOptOutUserDefault : UserDefaultKeyedFeature {
         static let key: String = "com.apple.SwiftUI.IgnoreSolariumOptOut"
-        @safe static nonisolated(unsafe) var cachedValue: Bool?
+        @safe nonisolated(unsafe) static var cachedValue: Bool?
     }
 }
 

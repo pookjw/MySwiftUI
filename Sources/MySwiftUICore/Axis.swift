@@ -1,5 +1,5 @@
 
-@frozen public enum Axis: Int8, CaseIterable {
+@frozen public enum Axis : Int8, CaseIterable {
     case horizontal
     case vertical
     
@@ -15,17 +15,17 @@
     }
 }
 
-extension Axis: CustomStringConvertible {
+extension Axis : CustomStringConvertible {
     public var description: String {
         assertUnimplemented()
     }
 }
 
-extension Axis: Equatable {}
-extension Axis: Hashable {}
-extension Axis: RawRepresentable {}
-extension Axis: Sendable {}
-extension Axis: BitwiseCopyable {}
+extension Axis : Equatable {}
+extension Axis : Hashable {}
+extension Axis : RawRepresentable {}
+extension Axis : Sendable {}
+extension Axis : BitwiseCopyable {}
 
 extension Axis {
     @frozen public struct Set : OptionSet {
@@ -43,5 +43,5 @@ extension Axis {
     }
 }
 
-extension Axis.Set: Sendable {}
-extension Axis.Set: BitwiseCopyable {}
+extension Axis.Set : Sendable {}
+extension Axis.Set : BitwiseCopyable {}

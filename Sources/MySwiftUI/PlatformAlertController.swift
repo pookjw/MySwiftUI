@@ -3,7 +3,7 @@ internal import _UIKitPrivate
 internal import MySwiftUICore
 
 // TODO: final인지 검증
-class PlatformAlertController: UIAlertController {
+class PlatformAlertController : UIAlertController {
     var onDismissAction: (() -> Void)? = nil
     var allowsSecureDrawing: Bool = false
     
@@ -20,7 +20,7 @@ class PlatformAlertController: UIAlertController {
     }
     
     @MainActor
-    func update<T: AlertControllerConvertible>(for: T, with: EnvironmentValues, environmentChanged: Bool) {
+    func update<T : AlertControllerConvertible>(for: T, with: EnvironmentValues, environmentChanged: Bool) {
         assertUnimplemented()
     }
 }

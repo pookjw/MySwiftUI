@@ -1,6 +1,6 @@
 private import QuartzCore
 
-package struct Time: Hashable, Comparable {
+package struct Time : Hashable, Comparable {
     package static var zero: Time {
         return Time(seconds: 0)
     }
@@ -31,7 +31,7 @@ package struct Time: Hashable, Comparable {
     }
     
     @inlinable
-    package static func < (lhs: Time, rhs: Time) -> Bool {
+    package static func < (lhs : Time, rhs : Time) -> Bool {
         return lhs.seconds < rhs.seconds
     }
     
@@ -87,4 +87,4 @@ package struct Time: Hashable, Comparable {
 }
 
 // UIKitCore - ___lldb_unnamed_symbol317399에서 memcpy
-extension Time: BitwiseCopyable {}
+extension Time : BitwiseCopyable {}

@@ -5,14 +5,14 @@ internal import CoreGraphics
 private import _MySwiftUIShims
 
 // ViewDimensions3D이 그냥 Sendable인 것을 보아 LayoutComputer이 @unchecked Sendable
-package struct LayoutComputer: @unchecked Sendable {
+package struct LayoutComputer : @unchecked Sendable {
     @safe static let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())
     @safe static let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())
     
     private var box: AnyLayoutEngineBox
     fileprivate var seed: Int
     
-    init<T: LayoutEngine>(_ engine: T) {
+    init<T : LayoutEngine>(_ engine: T) {
         if unsafe LayoutTrace.recorder != nil {
             self.box = TracingLayoutEngineBox(engine: engine)
         } else {
@@ -60,7 +60,7 @@ package struct LayoutComputer: @unchecked Sendable {
         }
     }
     
-    mutating func withMutableEngine<T: LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
+    mutating func withMutableEngine<T : LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
         Update.assertIsLocked()
         return box.mutateEngine(as: type, do: block)
     }
@@ -89,7 +89,7 @@ package struct LayoutComputer: @unchecked Sendable {
     }
 }
 
-extension LayoutComputer: Equatable {
+extension LayoutComputer : Equatable {
     package static func == (lhs: LayoutComputer, rhs: LayoutComputer) -> Bool {
         return lhs.seed == rhs.seed && lhs.box === rhs.box
     }
@@ -189,7 +189,7 @@ extension LayoutEngine {
     }
 }
 
-protocol DerivedLayoutEngine: LayoutEngine {
+protocol DerivedLayoutEngine : LayoutEngine {
     var base: LayoutComputer { get }
 }
 
@@ -248,7 +248,7 @@ extension DerivedLayoutEngine {
 }
 
 extension LayoutComputer {
-    struct DefaultEngine: LayoutEngine {
+    struct DefaultEngine : LayoutEngine {
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
             return proposedSize.fixingUnspecifiedDimensions()
         }
@@ -262,7 +262,7 @@ extension LayoutComputer {
         }
     }
     
-    struct DefaultEngine3D: LayoutEngine {
+    struct DefaultEngine3D : LayoutEngine {
         func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
             assertUnimplemented()
         }
@@ -278,7 +278,7 @@ extension LayoutComputer {
 }
 
 fileprivate class AnyLayoutEngineBox {
-    func mutateEngine<T: LayoutEngine, U>(as type: T.Type, do body: (inout T) -> U) -> U {
+    func mutateEngine<T : LayoutEngine, U>(as type: T.Type, do body: (inout T) -> U) -> U {
         preconditionFailure() // abstract
     }
     
@@ -315,7 +315,7 @@ fileprivate class AnyLayoutEngineBox {
     }
 }
 
-fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
+fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
     var engine: Engine
     
     init(engine: Engine) {
@@ -367,7 +367,7 @@ fileprivate class LayoutEngineBox<Engine: LayoutEngine>: AnyLayoutEngineBox {
     }
 }
 
-fileprivate class TracingLayoutEngineBox<T: LayoutEngine>: LayoutEngineBox<T> {
+fileprivate class TracingLayoutEngineBox<T : LayoutEngine>: LayoutEngineBox<T> {
     var attribute: AnyAttribute?
     
     override init(engine: T) {
@@ -375,7 +375,7 @@ fileprivate class TracingLayoutEngineBox<T: LayoutEngine>: LayoutEngineBox<T> {
     }
 }
 
-struct DepthStashingLayoutComputer: StatefulRule, AsyncAttribute {
+struct DepthStashingLayoutComputer : StatefulRule, AsyncAttribute {
     typealias Value = LayoutComputer
     
     @Attribute private var layoutComputer: LayoutComputer
@@ -405,7 +405,7 @@ struct DepthStashingLayoutComputer: StatefulRule, AsyncAttribute {
 }
 
 extension DepthStashingLayoutComputer {
-    struct Engine: DerivedLayoutEngine {
+    struct Engine : DerivedLayoutEngine {
         let base: LayoutComputer
         let depthProposal: CGFloat?
         
@@ -462,14 +462,14 @@ extension DepthStashingLayoutComputer {
     }
 }
 
-struct EnableLayoutDepthStashing: UserDefaultKeyedFeature, PropertyKey {
+struct EnableLayoutDepthStashing : UserDefaultKeyedFeature, PropertyKey {
     static var key: String {
         return "com.apple.SwiftUI.EnableLayoutDepthStashing"
     }
     
-    @safe static nonisolated(unsafe) var cachedValue: Bool? = nil
+    @safe nonisolated(unsafe) static var cachedValue: Bool? = nil
     
-    @safe static nonisolated(unsafe) var defaultFeatureValue: Bool = true
+    @safe nonisolated(unsafe) static var defaultFeatureValue: Bool = true
 }
 
 func withStashedDepthProposal<T>(execute: (CGFloat?) -> T) -> T {
@@ -477,7 +477,7 @@ func withStashedDepthProposal<T>(execute: (CGFloat?) -> T) -> T {
 }
 
 extension StatefulRule where Value == LayoutComputer {
-    mutating func updateLayoutComputer<T: Layout>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
+    mutating func updateLayoutComputer<T : Layout>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
         // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE06updategH06layout11environment10attributesyqd___AA0A0VyAD17EnvironmentValuesVGSayAD0G15ProxyAttributesVGtAD0G0Rd__lF
         let currentAttribute = AnyAttribute.current!
         
@@ -495,7 +495,7 @@ extension StatefulRule where Value == LayoutComputer {
         )
     }
     
-    func update<T: LayoutEngine>(modify: (inout T) -> Void, create: () -> T) {
+    func update<T : LayoutEngine>(modify: (inout T) -> Void, create: () -> T) {
         if hasValue {
             var value = self.value
             value.withMutableEngine(type: T.self, do: modify)
@@ -506,7 +506,7 @@ extension StatefulRule where Value == LayoutComputer {
         }
     }
     
-    func update<Engine: LayoutEngine>(to engine: Engine) {
+    func update<Engine : LayoutEngine>(to engine: Engine) {
         update(
             modify: { _engine in
                 // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE6update2toyqd___tAD0G6EngineRd__lFyqd__zXEfU_TA

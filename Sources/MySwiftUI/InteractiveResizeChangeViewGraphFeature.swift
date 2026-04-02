@@ -15,7 +15,7 @@ struct InteractiveResizeChangeViewGraphFeature {
     }
 }
 
-extension InteractiveResizeChangeViewGraphFeature: ViewGraphFeature {
+extension InteractiveResizeChangeViewGraphFeature : ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         inputs.base.interactiveResize = WeakAttribute(_isInteractivelyResizing)
     }
@@ -48,7 +48,7 @@ extension _GraphInputs {
     }
 }
 
-fileprivate struct InteractiveResizeInput: ViewInput {
+fileprivate struct InteractiveResizeInput : ViewInput {
     static var defaultValue: WeakAttribute<Bool> {
         return WeakAttribute()
     }

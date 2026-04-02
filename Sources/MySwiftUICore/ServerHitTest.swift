@@ -13,7 +13,7 @@ package struct ServerHitTest {
     }
 }
 
-struct RequiresServerHitTesting: ViewInput {
+struct RequiresServerHitTesting : ViewInput {
     static var defaultValue: Attribute<Bool>? {
         return nil
     }

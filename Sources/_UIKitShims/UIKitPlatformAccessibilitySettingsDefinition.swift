@@ -4,7 +4,7 @@ private import UIKit
 private import Accessibility
 private import _AccessibilityPrivate
 
-final class UIKitPlatformAccessibilitySettingsDefinition: PlatformAccessibilitySettingsDefinition {
+final class UIKitPlatformAccessibilitySettingsDefinition : PlatformAccessibilitySettingsDefinition {
     @preconcurrency
     override func currentValue(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
         switch setting {

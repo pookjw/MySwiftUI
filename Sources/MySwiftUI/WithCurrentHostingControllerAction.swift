@@ -5,7 +5,7 @@ internal import UIKit
 struct WithCurrentHostingControllerAction {
     private var hostBox: WeakBox<UIViewController>
     
-    init<Content: View>(_ hostingController: UIHostingController<Content>) {
+    init<Content : View>(_ hostingController: UIHostingController<Content>) {
         hostBox = WeakBox(hostingController)
     }
     
@@ -31,6 +31,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct WithCurrentHostingControllerKey: EnvironmentKey {
+fileprivate struct WithCurrentHostingControllerKey : EnvironmentKey {
     static let defaultValue = WithCurrentHostingControllerAction()
 }

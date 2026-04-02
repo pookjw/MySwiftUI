@@ -63,7 +63,7 @@ extension DisplayList.ViewUpdater {
             }
         }
         
-        struct MergedViewRequirements: OptionSet {
+        struct MergedViewRequirements : OptionSet {
             static let unknown1 = MergedViewRequirements(rawValue: 1 << 0)
             static let unknown2 = MergedViewRequirements(rawValue: 1 << 1)
             static let unknown4 = MergedViewRequirements(rawValue: 1 << 2)

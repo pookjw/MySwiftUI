@@ -3,7 +3,7 @@
 public import CoreGraphics
 internal import AttributeGraph
 
-@preconcurrency public protocol Layout: Sendable, Animatable {
+@preconcurrency public protocol Layout : Sendable, Animatable {
     static var layoutProperties: LayoutProperties { get }
     
     associatedtype Cache = Void
@@ -237,7 +237,7 @@ extension Layout {
 }
 
 @usableFromInline
-package struct LayoutPriorityTraitKey: _ViewTraitKey {
+package struct LayoutPriorityTraitKey : _ViewTraitKey {
     @inlinable package static var defaultValue: Double {
         get { 0.0 }
     }
@@ -247,10 +247,10 @@ package struct LayoutPriorityTraitKey: _ViewTraitKey {
 }
 
 @available(*, unavailable)
-extension LayoutPriorityTraitKey: Sendable {
+extension LayoutPriorityTraitKey : Sendable {
 }
 
-public struct LayoutProperties: Sendable {
+public struct LayoutProperties : Sendable {
     public init() {
         stackOrientation = nil
         isDefaultEmptyLayout = false
@@ -267,14 +267,14 @@ public protocol LayoutValueKey {
     static var defaultValue: Self.Value { get }
 }
 
-@frozen public struct AnyLayout: Layout, Sendable {
+@frozen public struct AnyLayout : Layout, Sendable {
     var storage: AnyLayoutBox
     
     public init<L>(_ layout: L) where L : Layout {
         assertUnimplemented()
     }
     
-    public struct Cache: Sendable {
+    public struct Cache : Sendable {
     }
     
     public typealias AnimatableData = _AnyAnimatableData
@@ -317,11 +317,11 @@ public protocol LayoutValueKey {
     }
 }
 
-@usableFromInline class AnyLayoutBox: @unchecked Sendable {
+@usableFromInline class AnyLayoutBox : @unchecked Sendable {
     @usableFromInline deinit {}
 }
 
-struct AnyLayoutProperties: Rule, AsyncAttribute {
+struct AnyLayoutProperties : Rule, AsyncAttribute {
     @Attribute private var layout: AnyLayout
     
     init(layout: Attribute<AnyLayout>) {
@@ -334,7 +334,7 @@ struct AnyLayoutProperties: Rule, AsyncAttribute {
 }
 
 extension _ViewListOutputs {
-    fileprivate struct ApplyModifiers: Rule, AsyncAttribute {
+    fileprivate struct ApplyModifiers : Rule, AsyncAttribute {
         @Attribute private var base: ViewList
         private let modifier: _ViewListOutputs.ListModifier
         

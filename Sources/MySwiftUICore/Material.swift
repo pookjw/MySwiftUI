@@ -4,7 +4,7 @@ package import Foundation
 public import SwiftUI
 #endif
 
-public struct Material: Sendable {
+public struct Material : Sendable {
     package var id: Material.ID
     private var flags: Material.ResolvedMaterial.Flags
     
@@ -24,11 +24,11 @@ extension Material {
 }
 
 extension Material {
-    package init<T: MaterialProvider>(provider: T) {
+    package init<T : MaterialProvider>(provider: T) {
         assertUnimplemented()
     }
     
-    package func provider<T: MaterialProvider>(ofType type: T.Type) -> T? {
+    package func provider<T : MaterialProvider>(ofType type: T.Type) -> T? {
         assertUnimplemented()
     }
 }
@@ -48,12 +48,12 @@ extension Material {
 }
 
 extension Material.ResolvedMaterial {
-    struct Flags: OptionSet {
+    struct Flags : OptionSet {
         let rawValue: UInt32
     }
 }
 
-extension Material: ShapeStyle {
+extension Material : ShapeStyle {
     public typealias Resolved = Never
 }
 
@@ -62,7 +62,7 @@ extension Material {
 }
 
 extension Material {
-    package enum ID: @unchecked Sendable {
+    package enum ID : @unchecked Sendable {
         case coreMaterial(light: String, dark: String, bundle: Bundle?)
         case provider(MaterialProviderBoxBase)
         case layers(Material.Layers)
@@ -155,7 +155,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct BackgroundMaterialKey: EnvironmentKey {
+fileprivate struct BackgroundMaterialKey : EnvironmentKey {
     static var defaultValue: SwiftUI::Material? {
         return nil
     }
@@ -173,7 +173,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct BackgroundMaterialKey: EnvironmentKey {
+fileprivate struct BackgroundMaterialKey : EnvironmentKey {
     static var defaultValue: Material? {
         return nil
     }

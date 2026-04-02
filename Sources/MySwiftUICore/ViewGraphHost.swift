@@ -5,9 +5,9 @@ package import QuartzCore
 internal import CoreGraphics
 
 @_spi(Internal) public final class ViewGraphHost {
-    @safe package static nonisolated(unsafe) var isDefaultEnvironmentConfigured: Bool = true
-    fileprivate static nonisolated(unsafe) var _defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
-    package static nonisolated(unsafe) var defaultEnvironment: EnvironmentValues {
+    @safe nonisolated(unsafe) package static var isDefaultEnvironmentConfigured: Bool = true
+    nonisolated(unsafe) fileprivate static var _defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
+    nonisolated(unsafe) package static var defaultEnvironment: EnvironmentValues {
         get {
             return unsafe _defaultEnvironment
         }
@@ -33,7 +33,7 @@ internal import CoreGraphics
     private var nextTimerTime: Time? = nil
     private var updateTimer: Timer? = nil
     
-    package init<T: View>(
+    package init<T : View>(
         rootViewType: T.Type,
         outputs: ViewGraph.Outputs,
         viewDefinition: PlatformViewDefinition.Type
@@ -141,7 +141,7 @@ internal import CoreGraphics
         return displayLink.nextUpdate != .infinity
     }
     
-    package nonisolated func startDisplayLink(delay: Double, makeCADisplayLink: (Any, Selector) -> CADisplayLink?) {
+    nonisolated package func startDisplayLink(delay: Double, makeCADisplayLink: (Any, Selector) -> CADisplayLink?) {
         let displayLink: ViewGraphDisplayLink
         if let _displayLink = self.displayLink {
             displayLink = _displayLink
@@ -296,7 +296,7 @@ internal import CoreGraphics
 }
 
 extension ViewGraphHost {
-    package struct Idiom: Hashable {
+    package struct Idiom : Hashable {
         static var phone: Idiom { return Idiom(.phone) }
         static var pad: Idiom { return Idiom(.pad) }
         static var tv: Idiom { return Idiom(.tv) }
@@ -350,7 +350,7 @@ extension _GraphInputs {
 }
 
 extension ViewGraphHost {
-    struct GraphFeature: ViewGraphFeature {
+    struct GraphFeature : ViewGraphFeature {
         private weak var host: ViewGraphHost?
         
         init(host: ViewGraphHost) {
@@ -373,7 +373,7 @@ extension ViewGraphHost {
 }
 
 extension ViewGraphHost {
-    package struct AssetCatalogConfiguration: Equatable {
+    package struct AssetCatalogConfiguration : Equatable {
         package var referenceBounds: CGRect
         package var pointsPerInch: CGFloat
         package var preferredArtworkSubtype: Int
@@ -386,9 +386,9 @@ extension ViewGraphHost {
     }
 }
 
-extension ViewGraphHost: ViewGraphOwner {}
+extension ViewGraphHost : ViewGraphOwner {}
 
-extension ViewGraphHost: RootTransformProvider {
+extension ViewGraphHost : RootTransformProvider {
     func rootTransform() -> ViewTransform {
         var transform = ViewTransform()
         

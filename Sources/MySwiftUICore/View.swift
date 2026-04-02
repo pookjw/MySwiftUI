@@ -1,11 +1,11 @@
 internal import AttributeGraph
 
 @_typeEraser(DebugReplaceableView) @_typeEraser(AnyView) @preconcurrency @MainActor public protocol View {
-    static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs
+    nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs
     
-    static nonisolated func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs
+    nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs
     
-    static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int?
+    nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int?
     
     associatedtype Body : View
     
@@ -13,21 +13,21 @@ internal import AttributeGraph
 } 
 
 extension View {
-    public static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         return makeView(view: view, inputs: inputs)
     }
     
-    public static nonisolated func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
         return makeViewList(view: view, inputs: inputs)
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
 }
 
-extension Never: View {
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+extension Never : View {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
 }
@@ -38,14 +38,14 @@ extension View {
     }
 }
 
-extension Optional: View where Wrapped : View {
+extension Optional : View where Wrapped : View {
     public typealias Body = Never
     
-    public nonisolated static func _makeView(view: _GraphValue<Wrapped?>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<Wrapped?>, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    public nonisolated static func _makeViewList(view: _GraphValue<Wrapped?>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<Wrapped?>, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          view -> w24
          inputs -> x21
@@ -57,15 +57,15 @@ extension Optional: View where Wrapped : View {
         return makeDynamicViewList(metadata: copy_1, view: view, inputs: inputs)
     }
     
-    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
 }
 
-extension Optional: PrimitiveView where Wrapped : View {
+extension Optional : PrimitiveView where Wrapped : View {
 }
 
-extension Optional: DynamicView where Wrapped : View {
+extension Optional : DynamicView where Wrapped : View {
     static var canTransition: Bool {
         return true
     }

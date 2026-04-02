@@ -3,7 +3,7 @@ private import UIKit
 @_spi(Internal) private import MySwiftUICore
 private import _UIKitPrivate
 
-private nonisolated(unsafe) var original_setupDefaultEnvironmentWithScreen: IMP!
+nonisolated(unsafe) private var original_setupDefaultEnvironmentWithScreen: IMP!
 func swizzle_setupDefaultEnvironmentWithScreen() {
     unsafe assert(original_setupDefaultEnvironmentWithScreen == nil)
     

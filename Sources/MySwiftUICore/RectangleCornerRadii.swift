@@ -1,6 +1,6 @@
 public import CoreGraphics
 
-@frozen public struct RectangleCornerRadii: Equatable {
+@frozen public struct RectangleCornerRadii : Equatable {
     @usableFromInline package var topLeft: CGFloat
     @usableFromInline package var topRight: CGFloat
     @usableFromInline package var bottomRight: CGFloat

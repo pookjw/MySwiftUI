@@ -1,4 +1,4 @@
-package final class LocationBox<T: Location>: AnyLocation<T.Value>, @unchecked Sendable {
+package final class LocationBox<T : Location>: AnyLocation<T.Value>, @unchecked Sendable {
     package private(set) var location: T
     @AtomicBox private var cache = LocationProjectionCache()
     
@@ -54,7 +54,7 @@ struct LocationProjectionCache {
         cache = [:]
     }
     
-    func reference<T: Projection, U: Location>(for: T, on: U) -> AnyLocation<T.Projected> where T.Base == U.Value {
+    func reference<T : Projection, U : Location>(for: T, on: U) -> AnyLocation<T.Projected> where T.Base == U.Value {
         assertUnimplemented()
     }
     

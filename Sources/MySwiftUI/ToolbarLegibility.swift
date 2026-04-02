@@ -1,4 +1,4 @@
-struct ToolbarLegibility: Hashable {
+struct ToolbarLegibility : Hashable {
     private(set) var role: ToolbarLegibility.Role
     
     static var standard: ToolbarLegibility {
@@ -11,7 +11,7 @@ struct ToolbarLegibility: Hashable {
 }
 
 extension ToolbarLegibility {
-    enum Role: Hashable {
+    enum Role : Hashable {
         case unspecified
         case standard
         case fullscreen

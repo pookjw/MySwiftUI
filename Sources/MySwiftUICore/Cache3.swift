@@ -1,4 +1,4 @@
-struct Cache3<Key: Equatable, Value> {
+struct Cache3<Key : Equatable, Value> {
     private var store: ((key: Key, value: Value)?, (key: Key, value: Value)?, (key: Key, value: Value)?)
     
     @inlinable init() {

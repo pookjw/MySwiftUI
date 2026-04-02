@@ -34,7 +34,7 @@ package enum Log {
         Log.events.log(level: .default, "\(message)")
     }
     
-    @usableFromInline package static fileprivate(set) nonisolated(unsafe) var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
+    @usableFromInline nonisolated(unsafe) package fileprivate(set) static var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
     
     package static func log(_: @autoclosure () -> String) {
         // nop
@@ -65,11 +65,11 @@ package enum Log {
         print("\(message()) - \(file):\(line) - please file a bug report.")
     }
     
-    package static nonisolated(unsafe) var propertyChangeLog = Logger(subsystem: Log.subsystem, category: "Changed Body Properties")
-    package static nonisolated(unsafe) var unlocatedIssuesLog = Logger(subsystem: Log.subsystem, category: "Invalid Configuration")
-    @usableFromInline package static nonisolated(unsafe) var internalErrorsLog = OSLog(subsystem: Log.subsystem, category: "SwiftUI")
-    @usableFromInline package static nonisolated(unsafe) var eventDebuggingLog = OSLog(subsystem: "com.apple.diagnostics.events", category: "SwiftUI")
-    package static nonisolated(unsafe) var archiving = Logger(subsystem: Log.subsystem, category: "Archiving")
+    nonisolated(unsafe) package static var propertyChangeLog = Logger(subsystem: Log.subsystem, category: "Changed Body Properties")
+    nonisolated(unsafe) package static var unlocatedIssuesLog = Logger(subsystem: Log.subsystem, category: "Invalid Configuration")
+    @usableFromInline nonisolated(unsafe) package static var internalErrorsLog = OSLog(subsystem: Log.subsystem, category: "SwiftUI")
+    @usableFromInline nonisolated(unsafe) package static var eventDebuggingLog = OSLog(subsystem: "com.apple.diagnostics.events", category: "SwiftUI")
+    nonisolated(unsafe) package static var archiving = Logger(subsystem: Log.subsystem, category: "Archiving")
     package static let archivedToggle = Logger(subsystem: Log.subsystem, category: "ArchivedToggle")
     package static let archivedButton = Logger(subsystem: Log.subsystem, category: "ArchivedButton")
     package static let archivedPlaybackButton = Logger(subsystem: Log.subsystem, category: "ArchivedPlaybackButton")
@@ -228,7 +228,7 @@ extension Log {
 }
 
 extension OSLog {
-    package static nonisolated(unsafe) var runtimeIssuesLog: OSLog {
+    nonisolated(unsafe) package static var runtimeIssuesLog: OSLog {
         get {
             return unsafe Log.runtimeIssuesLog
         }
@@ -238,7 +238,7 @@ extension OSLog {
     }
 }
 
-package struct LoggableRect: CustomStringConvertible {
+package struct LoggableRect : CustomStringConvertible {
     private var rect: CGRect
     
     package init(_ rect: CGRect) {

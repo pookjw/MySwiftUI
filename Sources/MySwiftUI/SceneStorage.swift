@@ -82,8 +82,8 @@ extension EnvironmentValues {
     
 }
 
-fileprivate struct SceneStorageValuesKey: EnvironmentKey {
-    @safe static nonisolated(unsafe) let defaultValue: WeakBox<SceneStorageValues>? = nil
+fileprivate struct SceneStorageValuesKey : EnvironmentKey {
+    @safe nonisolated(unsafe) static let defaultValue: WeakBox<SceneStorageValues>? = nil
 }
 
 class SceneStorageTransformBox {

@@ -4,7 +4,7 @@ internal import QuartzCore
 internal import MySwiftUICore
 internal import _UIKitPrivate
 
-class UICoreHostingView<Content: View>: UIView {
+class UICoreHostingView<Content : View>: UIView {
     override var frame: CGRect {
         get {
             assertUnimplemented()

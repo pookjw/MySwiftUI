@@ -1,4 +1,4 @@
 
-protocol ToolbarInputFeatureDelegate: AnyObject {
+protocol ToolbarInputFeatureDelegate : AnyObject {
     
 }

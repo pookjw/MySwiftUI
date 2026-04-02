@@ -6,7 +6,7 @@ struct OutlineRootConfiguration {
 }
 
 extension OutlineRootConfiguration {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         typealias Value = Never? // TODO
         
         static func reduce(value: inout Never?, nextValue: () -> Never?) {

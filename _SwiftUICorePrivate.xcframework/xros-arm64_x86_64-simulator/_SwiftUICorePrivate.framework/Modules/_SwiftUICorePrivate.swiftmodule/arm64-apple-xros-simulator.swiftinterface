@@ -18,7 +18,7 @@ import AttributeGraph
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct HostingViewTransparentBackgroundReason: Swift.OptionSet, Swift.CustomStringConvertible {
+public struct HostingViewTransparentBackgroundReason : Swift.OptionSet, Swift.CustomStringConvertible {
   public typealias RawValue = Swift.UInt32
   public var description: Swift.String {
     get
@@ -28,7 +28,7 @@ public struct HostingViewTransparentBackgroundReason: Swift.OptionSet, Swift.Cus
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public class PlatformColorDefinition {
-  public class func resolvedHDRColor(_: Swift.AnyObject, environment: SwiftUI.EnvironmentValues) -> SwiftUI.Color.ResolvedHDR?
+  public class func resolvedHDRColor(_ : Swift.AnyObject, environment: SwiftUI.EnvironmentValues) -> SwiftUI.Color.ResolvedHDR?
 }
 
 @available(visionOS 26.0, *)
@@ -63,15 +63,15 @@ extension _SwiftUICorePrivate.GraphHost {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public class ViewGraph: _SwiftUICorePrivate.GraphHost {
-  public init<T: SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUICorePrivate.ViewGraph.Outputs)
+public class ViewGraph : _SwiftUICorePrivate.GraphHost {
+  public init<T : SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUICorePrivate.ViewGraph.Outputs)
   public final func updateGraphPhase(oldParentPhase: SwiftUICore._GraphInputs.Phase?, newParentPhase: SwiftUICore._GraphInputs.Phase)
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.ViewGraph {
-  public struct Outputs: Swift.OptionSet {
+  public struct Outputs : Swift.OptionSet {
     public var rawValue: Swift.UInt8 {
       get
       set
@@ -87,21 +87,21 @@ extension _SwiftUICorePrivate.ViewGraph {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public enum CustomEventCategory: Swift.Int8 {
-    public static func setEnabledCategory(_ category: _SwiftUICorePrivate.CustomEventCategory, enabled: Swift.Bool)
-    
-    public var rawValue: Swift.Int8 {
-      get
-    }
+public enum CustomEventCategory : Swift.Int8 {
+  public static func setEnabledCategory(_ category: _SwiftUICorePrivate.CustomEventCategory, enabled: Swift.Bool)
 
-    case unknown
-    case observable
-    case transaction
-    case action
-    case graph
-    case animation
-    case instantiation
-    case dynamicProperties
+  public var rawValue: Swift.Int8 {
+    get
+  }
+
+  case unknown
+  case observable
+  case transaction
+  case action
+  case graph
+  case animation
+  case instantiation
+  case dynamicProperties
 }
 
 @available(visionOS 26.0, *)
@@ -113,10 +113,10 @@ public struct CustomEventTrace {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.CustomEventTrace {
   public class Recorder {
-    
+
   }
 
-  public enum ActionEventType: Swift.Int8, Swift.Hashable {
+  public enum ActionEventType : Swift.Int8, Swift.Hashable {
     case enqueue
     case start
     case finish
@@ -125,7 +125,7 @@ extension _SwiftUICorePrivate.CustomEventTrace {
     public var rawValue: Swift.Int8 { get }
   }
 
-  public enum AnimationEventType: Swift.Int8, Swift.Hashable {
+  public enum AnimationEventType : Swift.Int8, Swift.Hashable {
     case animationBegin
     case animationEnd
     case animationAttrUpdate
@@ -136,7 +136,7 @@ extension _SwiftUICorePrivate.CustomEventTrace {
     public var rawValue: Swift.Int8 { get }
   }
 
-  public enum InstantiationEventType: Swift.Int8, Swift.Hashable {
+  public enum InstantiationEventType : Swift.Int8, Swift.Hashable {
     case assign
     case instantiateBegin
     case instantiateEnd
@@ -151,7 +151,7 @@ extension _SwiftUICorePrivate.CustomEventTrace {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.CustomEventTrace.ActionEventType {
-  public enum Reason: Swift.UInt32, Swift.Hashable {
+  public enum Reason : Swift.UInt32, Swift.Hashable {
     case onAppear
     case onChange
     case onDisappear
@@ -177,7 +177,7 @@ extension _SwiftUICorePrivate.CustomEventTrace.ActionEventType {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.CustomEventTrace.InstantiationEventType {
-  public enum Kind: Swift.Int8, Swift.Hashable {
+  public enum Kind : Swift.Int8, Swift.Hashable {
     case graph
     case app
     case view
@@ -190,7 +190,7 @@ extension _SwiftUICorePrivate.CustomEventTrace.InstantiationEventType {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewGraphGeometryObservers<T: _SwiftUICorePrivate.ViewGraphGeometryMeasurer> {
+public struct ViewGraphGeometryObservers<T : _SwiftUICorePrivate.ViewGraphGeometryMeasurer> {
 
 }
 
@@ -215,21 +215,21 @@ public class PlatformViewDefinition {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public class ViewGraphHost {
-  public init<A>(rootViewType: A.Type, outputs: _SwiftUICorePrivate.ViewGraph.Outputs, viewDefinition: _SwiftUICorePrivate.PlatformViewDefinition.Type) where A: SwiftUI.View
+  public init<A>(rootViewType: A.Type, outputs: _SwiftUICorePrivate.ViewGraph.Outputs, viewDefinition: _SwiftUICorePrivate.PlatformViewDefinition.Type) where A : SwiftUI.View
   public final func startDisplayLink(delay: Swift.Double, makeCADisplayLink: (Any, ObjectiveC.Selector) -> QuartzCore.CADisplayLink?)
 
-  public struct Idiom: Swift.Hashable {}
+  public struct Idiom : Swift.Hashable {}
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public class ViewGraphDisplayLink: ObjectiveC.NSObject {
+public class ViewGraphDisplayLink : ObjectiveC.NSObject {
 
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct Time: Swift.Hashable, Swift.Comparable {
+public struct Time : Swift.Hashable, Swift.Comparable {
   public static var zero: _SwiftUICorePrivate.Time { get }
   public static var infinity: _SwiftUICorePrivate.Time { get }
   public init(seconds: Swift.Double)
@@ -237,11 +237,11 @@ public struct Time: Swift.Hashable, Swift.Comparable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct BloomFilter: Swift.Equatable {
+public struct BloomFilter : Swift.Equatable {
   public init()
   public init(value: Swift.UInt)
   public init(hashValue: Swift.Int)
-  public init<T: Swift.Hashable>(value: T)
+  public init<T : Swift.Hashable>(value: T)
   public init(type: Any.Type)
   public func mayContain(_ other: _SwiftUICorePrivate.BloomFilter) -> Swift.Bool
   public mutating func formUnion(_ other: _SwiftUICorePrivate.BloomFilter)
@@ -257,30 +257,30 @@ public struct StrongHash {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct DisplayList {
-    public struct Item {
-      public enum Value {
-        case content(_SwiftUICorePrivate.DisplayList.Content)
-        case effect(_SwiftUICorePrivate.DisplayList.Effect, _SwiftUICorePrivate.DisplayList)
-        case states([(_SwiftUICorePrivate.StrongHash, _SwiftUICorePrivate.DisplayList)])
-        case empty
-      }
-
-      public init(_: _SwiftUICorePrivate.DisplayList.Item.Value, frame: CoreGraphics.CGRect, identity: _SwiftUICorePrivate._DisplayList_Identity, version: _SwiftUICorePrivate.DisplayList.Version)
+  public struct Item {
+    public enum Value {
+      case content(_SwiftUICorePrivate.DisplayList.Content)
+      case effect(_SwiftUICorePrivate.DisplayList.Effect, _SwiftUICorePrivate.DisplayList)
+      case states([(_SwiftUICorePrivate.StrongHash, _SwiftUICorePrivate.DisplayList)])
+      case empty
     }
 
-    public enum Effect {
-      case identity
-    }
+    public init(_: _SwiftUICorePrivate.DisplayList.Item.Value, frame: CoreGraphics.CGRect, identity: _SwiftUICorePrivate._DisplayList_Identity, version: _SwiftUICorePrivate.DisplayList.Version)
+  }
 
-    public struct Version {
-      public init()
-    }
+  public enum Effect {
+    case identity
+  }
 
-    public var items: [_SwiftUICorePrivate.DisplayList.Item] { get set }
-
-    public init(_ item: _SwiftUICorePrivate.DisplayList.Item)
+  public struct Version {
     public init()
-    public mutating func append(contentsOf: _SwiftUICorePrivate.DisplayList)
+  }
+
+  public var items: [_SwiftUICorePrivate.DisplayList.Item] { get set }
+
+  public init(_ item: _SwiftUICorePrivate.DisplayList.Item)
+  public init()
+  public mutating func append(contentsOf: _SwiftUICorePrivate.DisplayList)
 }
 
 @available(visionOS 26.0, *)
@@ -324,7 +324,7 @@ public struct RepresentableContextValues {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol HostPreferenceKey: SwiftUI.PreferenceKey {
+public protocol HostPreferenceKey : SwiftUI.PreferenceKey {
 }
 
 @available(visionOS 26.0, *)
@@ -337,7 +337,7 @@ public struct PreferenceValues {
   }
   public init()
   public var seed: _SwiftUICorePrivate.VersionSeed { get }
-  public subscript<T: SwiftUI.PreferenceKey>(_ key: T.Type) -> _SwiftUICorePrivate.PreferenceValues.Value<T.Value> {
+  public subscript<T : SwiftUI.PreferenceKey>(_ key: T.Type) -> _SwiftUICorePrivate.PreferenceValues.Value<T.Value> {
     get
     mutating set
   }
@@ -346,7 +346,7 @@ public struct PreferenceValues {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct PreferenceKeys: Swift.Equatable, Swift.RandomAccessCollection {
+public struct PreferenceKeys : Swift.Equatable, Swift.RandomAccessCollection {
   public init()
   public mutating func remove(_ key: any (SwiftUI.PreferenceKey).Type)
   public func contains(_ key: any (SwiftUI.PreferenceKey).Type) -> Swift.Bool
@@ -389,10 +389,10 @@ public struct Signpost {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol UserDefaultKeyedFeature {
-    static var key: Swift.String { get }
-    static var defaultFeatureValue: Swift.Bool { get }
-    static var defaults: Foundation.UserDefaults { get }
-    static var cachedValue: Swift.Bool? { get set }
+  static var key: Swift.String { get }
+  static var defaultFeatureValue: Swift.Bool { get }
+  static var defaults: Foundation.UserDefaults { get }
+  static var cachedValue: Swift.Bool? { get set }
 }
 
 @available(visionOS 26.0, *)
@@ -403,10 +403,10 @@ extension _SwiftUICorePrivate.UserDefaultKeyedFeature {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct DisableRemoteEffects: _SwiftUICorePrivate.UserDefaultKeyedFeature {
-    public static var key: Swift.String { get }
-    public static var defaultFeatureValue: Swift.Bool { get }
-    public static var cachedValue: Swift.Bool? { get set }
+public struct DisableRemoteEffects : _SwiftUICorePrivate.UserDefaultKeyedFeature {
+  public static var key: Swift.String { get }
+  public static var defaultFeatureValue: Swift.Bool { get }
+  public static var cachedValue: Swift.Bool? { get set }
 }
 
 @available(visionOS 26.0, *)
@@ -562,7 +562,7 @@ public func set(isVibrantColorStyleEnabled: Bool)
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct MaterialBackdropProxy: Swift.Equatable {
+public struct MaterialBackdropProxy : Swift.Equatable {
   public static func == (lhs: _SwiftUICorePrivate.MaterialBackdropProxy, rhs: _SwiftUICorePrivate.MaterialBackdropProxy) -> Swift.Bool
   public var luminance: Swift.Float? {
     get
@@ -575,13 +575,13 @@ public struct MaterialBackdropProxy: Swift.Equatable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol MaterialBackdropObserver: AnyObject {
+public protocol MaterialBackdropObserver : AnyObject {
   func luminanceDidChange(_: Swift.Float?)
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct PlatformSystemDefinition: Swift.Hashable {
+public struct PlatformSystemDefinition : Swift.Hashable {
   public static var uiKit: _SwiftUICorePrivate.PlatformSystemDefinition { get }
   public static var appKit: _SwiftUICorePrivate.PlatformSystemDefinition { get }
 }
@@ -606,7 +606,7 @@ extension SwiftUI.EnvironmentValues {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public class AnyShapeStyleBox: @unchecked Swift.Sendable {
+public class AnyShapeStyleBox : @unchecked Swift.Sendable {
   public init()
   public func apply(to: inout SwiftUI._ShapeStyle_Shape)  
   public func isEqual(to: _SwiftUICorePrivate.AnyShapeStyleBox) -> Swift.Bool
@@ -614,7 +614,7 @@ public class AnyShapeStyleBox: @unchecked Swift.Sendable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public class AnyColorBox: _SwiftUICorePrivate.AnyShapeStyleBox, @unchecked Sendable {
+public class AnyColorBox : _SwiftUICorePrivate.AnyShapeStyleBox, @unchecked Sendable {
 }
 
 @available(visionOS 26.0, *)
@@ -661,7 +661,7 @@ extension SwiftUI.Material {
 
 @available(visionOS 26.0, *)
 extension SwiftUI.Material {
-  public func provider<A: _SwiftUICorePrivate.MaterialProvider>(ofType: A.Type) -> A?
+  public func provider<A : _SwiftUICorePrivate.MaterialProvider>(ofType: A.Type) -> A?
 
   public struct Layers {
     // TODO
@@ -682,11 +682,11 @@ extension SwiftUI.Material {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public final class ViewGraphHostEnvironmentWrapper: Foundation.NSObject, Foundation.NSSecureCoding {
-   public static var supportsSecureCoding: Swift.Bool { get }
-   public init?(coder: Foundation.NSCoder)
-   public func encode(with coder: Foundation.NSCoder)
-   public override func isEqual(_ object: Any?) -> Swift.Bool
+public final class ViewGraphHostEnvironmentWrapper : Foundation.NSObject, Foundation.NSSecureCoding {
+  public static var supportsSecureCoding: Swift.Bool { get }
+  public init?(coder: Foundation.NSCoder)
+  public func encode(with coder: Foundation.NSCoder)
+  public override func isEqual(_ object: Any?) -> Swift.Bool
 
   public var environment: SwiftUI.EnvironmentValues {
     get set
@@ -696,7 +696,7 @@ public final class ViewGraphHostEnvironmentWrapper: Foundation.NSObject, Foundat
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUICore._GraphInputs {
-  public struct Phase: Swift.Equatable {
+  public struct Phase : Swift.Equatable {
     public var resetSeed: Swift.UInt32 {
       get set
     }
@@ -744,40 +744,40 @@ extension _SwiftUICorePrivate.DisplayList.ViewUpdater {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct AnimatableAttributeHelper<T: SwiftUI.Animatable> {}
+public struct AnimatableAttributeHelper<T : SwiftUI.Animatable> {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol DynamicView {
   associatedtype Metadata
   associatedtype ID
-  
+
   static var canTransition: Swift.Bool {
-      get
+    get
   }
-    
+
   static var traitKeysDependOnView: Swift.Bool {
-      get
+    get
   }
-    
-  static nonisolated func makeID() -> ID
-    
+
+  nonisolated static func makeID() -> ID
+
   nonisolated func childInfo(metadata: Metadata) -> (Any.Type, ID?)
-    
+
   nonisolated func makeChildView(metadata: Metadata, view: AttributeGraph.Attribute<Self>, inputs: SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs
-    
+
   nonisolated func makeChildViewList(metadata: Metadata, view: AttributeGraph.Attribute<Self>, inputs: SwiftUI._ViewListInputs) -> SwiftUI._ViewListOutputs
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.DynamicView {
-  public static nonisolated func makeDynamicView(metadata: Metadata, view: SwiftUICore._GraphValue<Self>, inputs: SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs
+  nonisolated public static func makeDynamicView(metadata: Metadata, view: SwiftUICore._GraphValue<Self>, inputs: SwiftUI._ViewInputs) -> SwiftUI._ViewOutputs
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct UniqueID: Swift.Hashable, Swift.Sendable {
+public struct UniqueID : Swift.Hashable, Swift.Sendable {
   public init()
 }
 
@@ -810,7 +810,7 @@ extension SwiftUICore._GraphValue {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewSize: Swift.Equatable, SwiftUI.Animatable {
+public struct ViewSize : Swift.Equatable, SwiftUI.Animatable {
   public static func == (lhs: _SwiftUICorePrivate.ViewSize, rhs: _SwiftUICorePrivate.ViewSize) -> Swift.Bool
   public static var zero: _SwiftUICorePrivate.ViewSize { get }
   public static let invalidValue: _SwiftUICorePrivate.ViewSize
@@ -846,7 +846,7 @@ extension SwiftUI._ViewOutputs {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol PrimitiveView: SwiftUICore.View {
+public protocol PrimitiveView : SwiftUICore.View {
   typealias Body = Swift.Never
 }
 
@@ -858,16 +858,16 @@ extension _SwiftUICorePrivate.PrimitiveView {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol UnaryView: SwiftUICore.View {
+public protocol UnaryView : SwiftUICore.View {
   nonisolated static func _makeView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
   nonisolated static func _makeViewList(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewListInputs) -> SwiftUICore._ViewListOutputs
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol EnvironmentalView: _SwiftUICorePrivate.PrimitiveView, _SwiftUICorePrivate.UnaryView {
+public protocol EnvironmentalView : _SwiftUICorePrivate.PrimitiveView, _SwiftUICorePrivate.UnaryView {
   associatedtype EnvironmentBody : SwiftUICore.View
-    
+
   func body(environment: SwiftUICore.EnvironmentValues) -> EnvironmentBody
 }
 
@@ -883,18 +883,18 @@ public protocol ContentResponder {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol RendererLeafView: _SwiftUICorePrivate.ContentResponder, _SwiftUICorePrivate.PrimitiveView, _SwiftUICorePrivate.UnaryView {
+public protocol RendererLeafView : _SwiftUICorePrivate.ContentResponder, _SwiftUICorePrivate.PrimitiveView, _SwiftUICorePrivate.UnaryView {
   static var requiresMainThread: Swift.Bool {
     get
   }
-    
+
   func content() -> _SwiftUICorePrivate.DisplayList.Content.Value
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.RendererLeafView {
-    public static nonisolated func makeLeafView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
+  nonisolated public static func makeLeafView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
 }
 
 @available(visionOS 26.0, *)
@@ -945,7 +945,7 @@ extension SwiftUICore.Color.Resolved {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public class AnimatorState<T: SwiftUICore.VectorArithmetic> {
+public class AnimatorState<T : SwiftUICore.VectorArithmetic> {
   public init(animation: SwiftUICore.Animation, interval: T, at: _SwiftUICorePrivate.Time, in: SwiftUICore.Transaction)
 }
 
@@ -979,12 +979,12 @@ extension SwiftUICore.EdgeInsets {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct AbsoluteRectangleCornerInsets {
-    public var topLeading: CoreGraphics.CGSize
-    public var topTrailing: CoreGraphics.CGSize
-    public var bottomLeading: CoreGraphics.CGSize
-    public var bottomTrailing: CoreGraphics.CGSize
-    
-    public init(_ insets: SwiftUICore.RectangleCornerInsets, layoutDirection: SwiftUICore.LayoutDirection)
+  public var topLeading: CoreGraphics.CGSize
+  public var topTrailing: CoreGraphics.CGSize
+  public var bottomLeading: CoreGraphics.CGSize
+  public var bottomTrailing: CoreGraphics.CGSize
+
+  public init(_ insets: SwiftUICore.RectangleCornerInsets, layoutDirection: SwiftUICore.LayoutDirection)
 }
 
 @available(visionOS 26.0, *)
@@ -999,9 +999,9 @@ public final class ObjectCache<Key, Value> where Key : Swift.Hashable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public enum RenderingTechnique: Swift.UInt8, Swift.Hashable, Swift.Codable {
-    case texture
-    case perspectiveCorrect
+public enum RenderingTechnique : Swift.UInt8, Swift.Hashable, Swift.Codable {
+  case texture
+  case perspectiveCorrect
 }
 
 @available(visionOS 26.0, *)
@@ -1026,9 +1026,9 @@ extension SwiftUI.View {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI.View {
-  public func staticIf<Predicate: _SwiftUICorePrivate.ViewInputPredicate, TrueBody: SwiftUICore.View, FalseBody: SwiftUICore.View>(_ predicate: Predicate, then: (Self) -> TrueBody, else: (Self) -> FalseBody) -> some SwiftUI.View
-  public func staticIf<Predicate: _SwiftUICorePrivate.ViewInputPredicate, Content: SwiftUICore.View>(_ predicate: Predicate.Type, then: (Self) -> Content) -> some SwiftUI.View
-  public func staticIf<Predicate: _SwiftUICorePrivate.ViewInputPredicate, Content: SwiftUICore.View>(_: Predicate, then: (Self) -> Content) -> some SwiftUI.View
+  public func staticIf<Predicate : _SwiftUICorePrivate.ViewInputPredicate, TrueBody : SwiftUICore.View, FalseBody : SwiftUICore.View>(_ predicate: Predicate, then: (Self) -> TrueBody, else: (Self) -> FalseBody) -> some SwiftUI.View
+  public func staticIf<Predicate : _SwiftUICorePrivate.ViewInputPredicate, Content : SwiftUICore.View>(_ predicate: Predicate.Type, then: (Self) -> Content) -> some SwiftUI.View
+  public func staticIf<Predicate : _SwiftUICorePrivate.ViewInputPredicate, Content : SwiftUICore.View>(_: Predicate, then: (Self) -> Content) -> some SwiftUI.View
 }
 
 @available(visionOS 26.0, *)
@@ -1042,7 +1042,7 @@ public struct StaticIf<Predicate, TrueBody, FalseBody> {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-extension _SwiftUICorePrivate.StaticIf: SwiftUICore.View, _SwiftUICorePrivate.PrimitiveView where Predicate : _SwiftUICorePrivate.ViewInputPredicate, TrueBody : SwiftUICore.View, FalseBody : SwiftUICore.View {
+extension _SwiftUICorePrivate.StaticIf : SwiftUICore.View, _SwiftUICorePrivate.PrimitiveView where Predicate : _SwiftUICorePrivate.ViewInputPredicate, TrueBody : SwiftUICore.View, FalseBody : SwiftUICore.View {
   public init(_ predicate: Predicate.Type, then: () -> TrueBody, else: () -> FalseBody)
   public init(_: Predicate, then: () -> TrueBody, else: () -> FalseBody)
   public init(_ predicate: Predicate.Type, then: () -> TrueBody) where FalseBody == SwiftUI.EmptyView
@@ -1050,47 +1050,47 @@ extension _SwiftUICorePrivate.StaticIf: SwiftUICore.View, _SwiftUICorePrivate.Pr
   public static func _makeView(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs
   public static func _makeViewList(view: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewListInputs) -> SwiftUICore._ViewListOutputs
   public static func _viewListCount(inputs: SwiftUICore._ViewListCountInputs) -> Swift.Int?
-//  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
-//  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUI.EmptyView
-//  public init<Context: SwiftUICore.StyleContext>(in context: Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>
-//  public init<Context: SwiftUICore.StyleContext>(in context: Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>, FalseBody == SwiftUI.EmptyView
-//  public init<each Context>(any contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsAnyPredicate<(repeat each Context)>, repeat each Context : SwiftUICore.StyleContext
-//  public init<each Context>(any contexts: repeat each Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsAnyPredicate<(repeat each Context)>, FalseBody == SwiftUI.EmptyView, repeat each Context : SwiftUICore.StyleContext
-//  public init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<(repeat each Context)>, repeat each Context : SwiftUICore.StyleContext
-//  public init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<(repeat each Context)>, FalseBody == SwiftUI.EmptyView, repeat each Context : SwiftUICore.StyleContext
-//  public init<Semantic: SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>
-//  public init<Semantic: SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == SwiftUI.EmptyView
-//  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
-//  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUI.EmptyView
-//  public init<Context: SwiftUICore.StyleContext>(in context: Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>
-//  public init<Context: SwiftUICore.StyleContext>(in context: Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>, FalseBody == SwiftUI.EmptyView
-//  public init<each Context>(any contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsAnyPredicate<(repeat each Context)>, repeat each Context : SwiftUICore.StyleContext
-//  public init<each Context>(any contexts: repeat each Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsAnyPredicate<(repeat each Context)>, FalseBody == SwiftUI.EmptyView, repeat each Context : SwiftUICore.StyleContext
-//  public init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<(repeat each Context)>, repeat each Context : SwiftUICore.StyleContext
-//  public init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<(repeat each Context)>, FalseBody == SwiftUI.EmptyView, repeat each Context : SwiftUICore.StyleContext
-//  public init<Semantic: SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>
-//  public init<Semantic: SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == SwiftUI.EmptyView
+  //  public init<Idiom : SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
+  //  public init<Idiom : SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUI.EmptyView
+  //  public init<Context : SwiftUICore.StyleContext>(in context: Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>
+  //  public init<Context : SwiftUICore.StyleContext>(in context: Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>, FalseBody == SwiftUI.EmptyView
+  //  public init<each Context>(any contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsAnyPredicate<(repeat each Context)>, repeat each Context : SwiftUICore.StyleContext
+  //  public init<each Context>(any contexts: repeat each Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsAnyPredicate<(repeat each Context)>, FalseBody == SwiftUI.EmptyView, repeat each Context : SwiftUICore.StyleContext
+  //  public init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<(repeat each Context)>, repeat each Context : SwiftUICore.StyleContext
+  //  public init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<(repeat each Context)>, FalseBody == SwiftUI.EmptyView, repeat each Context : SwiftUICore.StyleContext
+  //  public init<Semantic : SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>
+  //  public init<Semantic : SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == SwiftUI.EmptyView
+  //  public init<Idiom : SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
+  //  public init<Idiom : SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUI.EmptyView
+  //  public init<Context : SwiftUICore.StyleContext>(in context: Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>
+  //  public init<Context : SwiftUICore.StyleContext>(in context: Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>, FalseBody == SwiftUI.EmptyView
+  //  public init<each Context>(any contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsAnyPredicate<(repeat each Context)>, repeat each Context : SwiftUICore.StyleContext
+  //  public init<each Context>(any contexts: repeat each Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsAnyPredicate<(repeat each Context)>, FalseBody == SwiftUI.EmptyView, repeat each Context : SwiftUICore.StyleContext
+  //  public init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<(repeat each Context)>, repeat each Context : SwiftUICore.StyleContext
+  //  public init<each Context>(_ contexts: repeat each Context, then: () -> TrueBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<(repeat each Context)>, FalseBody == SwiftUI.EmptyView, repeat each Context : SwiftUICore.StyleContext
+  //  public init<Semantic : SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody, else: () -> FalseBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>
+  //  public init<Semantic : SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: () -> TrueBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == SwiftUI.EmptyView
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-extension _SwiftUICorePrivate.StaticIf: SwiftUI.ViewModifier, _SwiftUICorePrivate.PrimitiveViewModifier where Predicate : _SwiftUICorePrivate.ViewInputPredicate, TrueBody : SwiftUI.ViewModifier, FalseBody : SwiftUI.ViewModifier {
+extension _SwiftUICorePrivate.StaticIf : SwiftUI.ViewModifier, _SwiftUICorePrivate.PrimitiveViewModifier where Predicate : _SwiftUICorePrivate.ViewInputPredicate, TrueBody : SwiftUI.ViewModifier, FalseBody : SwiftUI.ViewModifier {
   public init(_ predicate: Predicate.Type, then: TrueBody, else: FalseBody)
   public init(_ predicate: Predicate.Type, then: TrueBody) where FalseBody == SwiftUICore.EmptyModifier
   public init(_ predicate: Predicate, then: TrueBody) where FalseBody == SwiftUICore.EmptyModifier
   public static func _makeView(modifier: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewInputs, body: @escaping (SwiftUICore._Graph, SwiftUICore._ViewInputs) -> SwiftUICore._ViewOutputs) -> SwiftUICore._ViewOutputs
   public static func _makeViewList(modifier: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ViewListInputs, body: @escaping (SwiftUICore._Graph, SwiftUICore._ViewListInputs) -> SwiftUICore._ViewListOutputs) -> SwiftUICore._ViewListOutputs
   public static func _viewListCount(inputs: SwiftUICore._ViewListCountInputs, body: (SwiftUICore._ViewListCountInputs) -> Swift.Int?) -> Swift.Int?
-//  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
-//  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUICore.EmptyModifier
-//  public init<Context: SwiftUICore.StyleContext>(in context: Context, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>
-//  public init<Semantic: SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>
-//  public init<Semantic: SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == SwiftUICore.EmptyModifier
-//  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
-//  public init<Idiom: SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUICore.EmptyModifier
-//  public init<Context: SwiftUICore.StyleContext>(in context: Context, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>
-//  public init<Semantic: SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>
-//  public init<Semantic: SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == SwiftUICore.EmptyModifier
+  //  public init<Idiom : SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
+  //  public init<Idiom : SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUICore.EmptyModifier
+  //  public init<Context : SwiftUICore.StyleContext>(in context: Context, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>
+  //  public init<Semantic : SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>
+  //  public init<Semantic : SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == SwiftUICore.EmptyModifier
+  //  public init<Idiom : SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>
+  //  public init<Idiom : SwiftUICore.InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == SwiftUICore.InterfaceIdiomPredicate<Idiom>, FalseBody == SwiftUICore.EmptyModifier
+  //  public init<Context : SwiftUICore.StyleContext>(in context: Context, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.StyleContextAcceptsPredicate<Context>
+  //  public init<Semantic : SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody, else: FalseBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>
+  //  public init<Semantic : SwiftUICore.SemanticProtocol>(isLinkedOnOrAfter semantic: Semantic, then: TrueBody) where Predicate == SwiftUICore.SemanticsIsLinkedOnOrAfter<Semantic>, FalseBody == SwiftUICore.EmptyModifier
 }
 
 //@available(visionOS 26.0, *)
@@ -1109,15 +1109,15 @@ extension _SwiftUICorePrivate.StaticIf: SwiftUI.ViewModifier, _SwiftUICorePrivat
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-extension _SwiftUICorePrivate.StaticIf: SwiftUI.ToolbarContent where Predicate : _SwiftUICorePrivate.ViewInputPredicate, TrueBody : SwiftUI.ToolbarContent, FalseBody : SwiftUI.ToolbarContent {
-//  public init(_ predicate: Predicate.Type, then: () -> TrueBody, else: () -> FalseBody)
-//  public init(_ predicate: Predicate, then: () -> TrueBody, else: () -> FalseBody)
-//  public init(_ predicate: Predicate.Type, then: () -> TrueBody) where FalseBody == SwiftUICore.EmptyToolbarContent
-//  public init(_ predicate: Predicate, then: () -> TrueBody) where FalseBody == SwiftUICore.EmptyToolbarContent
-//  public static func _makeToolbar(content: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ToolbarInputs) -> SwiftUICore._ToolbarOutputs
-//  public init(_ predicate: Predicate.Type, then: () -> TrueBody) where FalseBody == SwiftUICore.EmptyToolbarContent
-//  public init(_ predicate: Predicate, then: () -> TrueBody) where FalseBody == SwiftUICore.EmptyToolbarContent
-//  public static func _makeToolbar(content: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ToolbarInputs) -> SwiftUICore._ToolbarOutputs
+extension _SwiftUICorePrivate.StaticIf : SwiftUI.ToolbarContent where Predicate : _SwiftUICorePrivate.ViewInputPredicate, TrueBody : SwiftUI.ToolbarContent, FalseBody : SwiftUI.ToolbarContent {
+  //  public init(_ predicate: Predicate.Type, then: () -> TrueBody, else: () -> FalseBody)
+  //  public init(_ predicate: Predicate, then: () -> TrueBody, else: () -> FalseBody)
+  //  public init(_ predicate: Predicate.Type, then: () -> TrueBody) where FalseBody == SwiftUICore.EmptyToolbarContent
+  //  public init(_ predicate: Predicate, then: () -> TrueBody) where FalseBody == SwiftUICore.EmptyToolbarContent
+  //  public static func _makeToolbar(content: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ToolbarInputs) -> SwiftUICore._ToolbarOutputs
+  //  public init(_ predicate: Predicate.Type, then: () -> TrueBody) where FalseBody == SwiftUICore.EmptyToolbarContent
+  //  public init(_ predicate: Predicate, then: () -> TrueBody) where FalseBody == SwiftUICore.EmptyToolbarContent
+  //  public static func _makeToolbar(content: SwiftUICore._GraphValue<Self>, inputs: SwiftUICore._ToolbarInputs) -> SwiftUICore._ToolbarOutputs
 }
 
 @available(visionOS 26.0, *)
@@ -1141,7 +1141,7 @@ extension SwiftUI.CoordinateSpace {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension Spatial.AffineTransform3D {
-    public init(_ transform3D: QuartzCore.CATransform3D)
+  public init(_ transform3D: QuartzCore.CATransform3D)
 }
 
 @available(visionOS 26.0, *)
@@ -1153,13 +1153,13 @@ extension QuartzCore.CGAffineTransform {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol ViewGraphGeometryMeasurer {
-  associatedtype Proposal: Swift.Hashable
-  associatedtype Size: Swift.Equatable
+  associatedtype Proposal : Swift.Hashable
+  associatedtype Size : Swift.Equatable
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ContentSizedSceneFeature<GeometryMeasurer: _SwiftUICorePrivate.ViewGraphGeometryMeasurer>: _SwiftUICorePrivate.ViewGraphFeature {
+public struct ContentSizedSceneFeature<GeometryMeasurer : _SwiftUICorePrivate.ViewGraphGeometryMeasurer>: _SwiftUICorePrivate.ViewGraphFeature {
 
 }
 
@@ -1169,16 +1169,16 @@ public protocol ViewGraphFeature {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ContentResponderHelper<T: _SwiftUICorePrivate.ContentResponder> {
+public struct ContentResponderHelper<T : _SwiftUICorePrivate.ContentResponder> {
   public var data: T?
   public init()
 
   public mutating func update(
-    data: (value: T, changed: Swift.Bool),
-    size: (value: _SwiftUICorePrivate.ViewSize, changed: Swift.Bool),
-    position: (value: CoreGraphics.CGPoint, changed: Swift.Bool),
-    transform: (value: _SwiftUICorePrivate.ViewTransform, changed: Swift.Bool),
-    parent: _SwiftUICorePrivate.ViewResponder
+  data: (value: T, changed: Swift.Bool),
+  size: (value: _SwiftUICorePrivate.ViewSize, changed: Swift.Bool),
+  position: (value: CoreGraphics.CGPoint, changed: Swift.Bool),
+  transform: (value: _SwiftUICorePrivate.ViewTransform, changed: Swift.Bool),
+  parent: _SwiftUICorePrivate.ViewResponder
   )
 }
 
@@ -1195,7 +1195,7 @@ public struct DynamicPropertyCache {
 extension SwiftUI._DynamicPropertyBuffer {
   @_silgen_name("$s7SwiftUI22_DynamicPropertyBufferVACycfC")
   public init()
-  public mutating func append<T: _SwiftUICorePrivate.DynamicPropertyBox>(_ box: T, fieldOffset: Swift.Int)
+  public mutating func append<T : _SwiftUICorePrivate.DynamicPropertyBox>(_ box: T, fieldOffset: Swift.Int)
   public func reset()
   public mutating func destroy()
   public func applyChanged(to: (Swift.Int) -> ())
@@ -1208,7 +1208,7 @@ extension SwiftUI._DynamicPropertyBuffer {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol DynamicPropertyBox {
-  associatedtype Property: DynamicProperty
+  associatedtype Property : DynamicProperty
   func update(property: inout Self.Property, phase: SwiftUI._GraphInputs.Phase) -> Bool
 }
 
@@ -1238,7 +1238,7 @@ public final class MutableBox<T> {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-extension _SwiftUICorePrivate.MutableBox: Swift.Equatable where T: Swift.Equatable {
+extension _SwiftUICorePrivate.MutableBox : Swift.Equatable where T : Swift.Equatable {
   public static func == (lhs: _SwiftUICorePrivate.MutableBox<T>, rhs: _SwiftUICorePrivate.MutableBox<T>) -> Swift.Bool
 }
 
@@ -1258,17 +1258,17 @@ public final class ObservationCenter {
 public struct ArchivedViewInput {
   public static var defaultValue: _SwiftUICorePrivate.ArchivedViewInput.Value { get }
 
-  public struct Flags: Swift.OptionSet {
+  public struct Flags : Swift.OptionSet {
     public var rawValue: Swift.UInt8 { get }
   }
 
-  public struct Value: Swift.Equatable {
+  public struct Value : Swift.Equatable {
     public static var isArchived: _SwiftUICorePrivate.ArchivedViewInput.Value { get }
     public var flags: _SwiftUICorePrivate.ArchivedViewInput.Flags
     public var deploymentVersion: _SwiftUICorePrivate.ArchivedViewInput.DeploymentVersion
   }
 
-  public struct DeploymentVersion: Swift.Hashable, Swift.Comparable, Swift.Codable {
+  public struct DeploymentVersion : Swift.Hashable, Swift.Comparable, Swift.Codable {
     public var rawValue: Swift.Int8 { get }
   }
 }
@@ -1297,25 +1297,25 @@ extension AttributeGraph.Attribute {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol DynamicContainerItem {
-    var count: Swift.Int { get }
-    var needsTransitions: Swift.Bool { get }
-    var zIndex: Swift.Double { get }
-    func matchesIdentity(of item: Self) -> Swift.Bool
-    static var supportsReuse: Swift.Bool { get }
-    func canBeReused(by item: Self) -> Swift.Bool
-    var list: AttributeGraph.Attribute<ViewList>? { get }
-    var viewID: _SwiftUICorePrivate._ViewList_ID? { get }
+  var count: Swift.Int { get }
+  var needsTransitions: Swift.Bool { get }
+  var zIndex: Swift.Double { get }
+  func matchesIdentity(of item: Self) -> Swift.Bool
+  static var supportsReuse: Swift.Bool { get }
+  func canBeReused(by item: Self) -> Swift.Bool
+  var list: AttributeGraph.Attribute<ViewList>? { get }
+  var viewID: _SwiftUICorePrivate._ViewList_ID? { get }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.DynamicContainerItem {
-    public var needsTransitions: Swift.Bool { get }
-    public var zIndex: Swift.Double { get }
-    public static var supportsReuse: Swift.Bool { get }
-    public func canBeReused(by item: Self) -> Swift.Bool
-    public var list: AttributeGraph.Attribute<ViewList>? { get }
-    public var viewID: _SwiftUICorePrivate._ViewList_ID? { get }
+  public var needsTransitions: Swift.Bool { get }
+  public var zIndex: Swift.Double { get }
+  public static var supportsReuse: Swift.Bool { get }
+  public func canBeReused(by item: Self) -> Swift.Bool
+  public var list: AttributeGraph.Attribute<ViewList>? { get }
+  public var viewID: _SwiftUICorePrivate._ViewList_ID? { get }
 }
 
 @available(visionOS 26.0, *)
@@ -1328,16 +1328,16 @@ public struct _ViewList_ID {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol DynamicContainerAdaptor {
-    associatedtype Item : _SwiftUICorePrivate.DynamicContainerItem
-    associatedtype Items
-    associatedtype ItemLayout
+  associatedtype Item : _SwiftUICorePrivate.DynamicContainerItem
+  associatedtype Items
+  associatedtype ItemLayout
 
-    static var maxUnusedItems: Swift.Int { get }
-    func updatedItems() -> Self.Items?
-    func foreachItem(items: Self.Items, _ body: (Self.Item) -> Void)
-    static func containsItem(_: Self.Items, _: Self.Item) -> Swift.Bool
-    func makeItemLayout(item: Self.Item, uniqueId: Swift.UInt32, inputs: SwiftUI._ViewInputs, containerInfo: AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, containerInputs: (inout SwiftUI._ViewInputs) -> Swift.Void) -> (SwiftUI._ViewOutputs, Self.ItemLayout)
-    func removeItemLayout(uniqueId: Swift.UInt32, itemLayout: Self.ItemLayout)
+  static var maxUnusedItems: Swift.Int { get }
+  func updatedItems() -> Self.Items?
+  func foreachItem(items: Self.Items, _ body: (Self.Item) -> Void)
+  static func containsItem(_: Self.Items, _: Self.Item) -> Swift.Bool
+  func makeItemLayout(item: Self.Item, uniqueId: Swift.UInt32, inputs: SwiftUI._ViewInputs, containerInfo: AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, containerInputs: (inout SwiftUI._ViewInputs) -> Swift.Void) -> (SwiftUI._ViewOutputs, Self.ItemLayout)
+  func removeItemLayout(uniqueId: Swift.UInt32, itemLayout: Self.ItemLayout)
 }
 
 @available(visionOS 26.0, *)
@@ -1356,7 +1356,7 @@ extension _SwiftUICorePrivate.DynamicContainerAdaptor where Self.Item == Self.It
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct DynamicContainer {
-  public static func makeContainer<T: _SwiftUICorePrivate.DynamicContainerAdaptor>(adaptor: T, inputs: SwiftUI._ViewInputs) -> (AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, SwiftUI._ViewOutputs)
+  public static func makeContainer<T : _SwiftUICorePrivate.DynamicContainerAdaptor>(adaptor: T, inputs: SwiftUI._ViewInputs) -> (AttributeGraph.Attribute<_SwiftUICorePrivate.DynamicContainer.Info>, SwiftUI._ViewOutputs)
 }
 
 @available(visionOS 26.0, *)
@@ -1370,19 +1370,19 @@ extension _SwiftUICorePrivate.DynamicContainer {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct PreferencesInputs {
-  public mutating func add<Key: SwiftUI.PreferenceKey>(_: Key.Type)
+  public mutating func add<Key : SwiftUI.PreferenceKey>(_: Key.Type)
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewRespondersKey: SwiftUI.PreferenceKey {
+public struct ViewRespondersKey : SwiftUI.PreferenceKey {
   public static var defaultValue: [_SwiftUICorePrivate.ViewResponder]
   public static func reduce(value: inout [_SwiftUICorePrivate.ViewResponder], nextValue: () -> [_SwiftUICorePrivate.ViewResponder])
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct DynamicContainerInfo<T: _SwiftUICorePrivate.DynamicContainerAdaptor> {
+public struct DynamicContainerInfo<T : _SwiftUICorePrivate.DynamicContainerAdaptor> {
   public init(adaptor: T, inputs: SwiftUI._ViewInputs, outputs: SwiftUI._ViewOutputs, info: _SwiftUICorePrivate.DynamicContainer.Info, lastUniqueId: Swift.UInt32, lastRemoved: Swift.UInt32, lastResetSeed: Swift.UInt32, needsPhaseUpdate: Swift.Bool)
 }
 
@@ -1390,7 +1390,7 @@ public struct DynamicContainerInfo<T: _SwiftUICorePrivate.DynamicContainerAdapto
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct ViewTraitCollection {
   public init()
-  public subscript<Key: SwiftUI._ViewTraitKey>(_ key: Key.Type) -> Key.Value {
+  public subscript<Key : SwiftUI._ViewTraitKey>(_ key: Key.Type) -> Key.Value {
     get
     mutating set
   }
@@ -1398,11 +1398,11 @@ public struct ViewTraitCollection {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct DynamicViewListItem: _SwiftUICorePrivate.DynamicContainerItem {}
+public struct DynamicViewListItem : _SwiftUICorePrivate.DynamicContainerItem {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct DynamicLayoutViewAdaptor: _SwiftUICorePrivate.DynamicContainerAdaptor {
+public struct DynamicLayoutViewAdaptor : _SwiftUICorePrivate.DynamicContainerAdaptor {
   public typealias Item = _SwiftUICorePrivate.DynamicViewListItem
   public typealias Items = _SwiftUICorePrivate.ViewList
 
@@ -1415,7 +1415,7 @@ public protocol ViewList {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct _ViewList_IteratorStyle: Swift.Equatable {
+public struct _ViewList_IteratorStyle : Swift.Equatable {
   public init(granularity: Swift.Int)
   public var granularity: Swift.Int { get set }
   public var applyGranularity: Swift.Bool { get set }
@@ -1433,7 +1433,7 @@ public struct _ViewList_TemporarySublistTransform {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 open class PlatformAccessibilitySettingsDefinition {
-  public enum Setting: Swift.Hashable {
+  public enum Setting : Swift.Hashable {
     case differentiateWithoutColors
     case reduceTransparency
     case reduceMotion
@@ -1463,11 +1463,11 @@ open class PlatformAccessibilitySettingsDefinition {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public enum Stack<Element>: Swift.Sequence, Swift.IteratorProtocol {
+public enum Stack<Element> : Swift.Sequence, Swift.IteratorProtocol {
   case empty
   indirect case node(
-    value: Element,
-    next: _SwiftUICorePrivate.Stack<Element>
+  value: Element,
+  next: _SwiftUICorePrivate.Stack<Element>
   )
 
   public init()
@@ -1487,24 +1487,24 @@ public enum Stack<Element>: Swift.Sequence, Swift.IteratorProtocol {
   public mutating func popAll()
 
   public func map<T>(
-    _ transform: (Element) -> T
+  _ transform: (Element) -> T
   ) -> _SwiftUICorePrivate.Stack<T>
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct DynamicContainerID: Swift.Comparable, Swift.Hashable {
+public struct DynamicContainerID : Swift.Comparable, Swift.Hashable {
   public var uniqueId: Swift.UInt32 { get set }
   public var viewIndex: Swift.Int32 { get set }
 
   public init(uniqueId: Swift.UInt32, viewIndex: Swift.Int32)
 
-  public static func < (lhs: _SwiftUICorePrivate.DynamicContainerID, rhs: _SwiftUICorePrivate.DynamicContainerID) -> Swift.Bool
+  public static func < (lhs : _SwiftUICorePrivate.DynamicContainerID, rhs : _SwiftUICorePrivate.DynamicContainerID) -> Swift.Bool
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct LayoutProxyAttributes: Swift.Equatable {
+public struct LayoutProxyAttributes : Swift.Equatable {
   public init()
   public init(layoutComputer: AttributeGraph.OptionalAttribute<_SwiftUICorePrivate.LayoutComputer>, traitsList: AttributeGraph.OptionalAttribute<any _SwiftUICorePrivate.ViewList>)
   public var isEmpty: Swift.Bool { get }
@@ -1524,9 +1524,9 @@ public struct DynamicLayoutMap {
 
   public init()
   public init(
-    map: [(id: _SwiftUICorePrivate.DynamicContainerID, value: _SwiftUICorePrivate.LayoutProxyAttributes)],
-      sortedArray: [_SwiftUICorePrivate.LayoutProxyAttributes] = [],
-      sortedSeed: Swift.UInt32 = 0
+  map: [(id: _SwiftUICorePrivate.DynamicContainerID, value: _SwiftUICorePrivate.LayoutProxyAttributes)],
+  sortedArray: [_SwiftUICorePrivate.LayoutProxyAttributes] = [],
+  sortedSeed: Swift.UInt32 = 0
   )
 
   public subscript(_ containerID: _SwiftUICorePrivate.DynamicContainerID) -> _SwiftUICorePrivate.LayoutProxyAttributes {
@@ -1540,13 +1540,13 @@ public struct DynamicLayoutMap {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension Swift.RandomAccessCollection {
-    public func lowerBound(_: (Self.Element) -> Swift.Bool) -> Self.Index
+  public func lowerBound(_: (Self.Element) -> Swift.Bool) -> Self.Index
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension Collection {
-    public func partitionPoint(where block: (Self.Element) throws -> Swift.Bool) rethrows -> Self.Index
+  public func partitionPoint(where block: (Self.Element) throws -> Swift.Bool) rethrows -> Self.Index
 }
 
 @available(visionOS 26.0, *)
@@ -1557,7 +1557,7 @@ extension Swift.BidirectionalCollection where Self : Swift.MutableCollection {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewSize3D: Swift.Equatable {
+public struct ViewSize3D : Swift.Equatable {
   public static var zero: _SwiftUICorePrivate.ViewSize3D { get }
   public static var invalidValue: _SwiftUICorePrivate.ViewSize3D { get }
   public static func fixed(_ size: Spatial.Size3D) -> _SwiftUICorePrivate.ViewSize3D
@@ -1600,7 +1600,7 @@ public struct ViewSize3D: Swift.Equatable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewDepth: Swift.Equatable, SwiftUI.Animatable {
+public struct ViewDepth : Swift.Equatable, SwiftUI.Animatable {
   public static func == (lhs: _SwiftUICorePrivate.ViewDepth, rhs: _SwiftUICorePrivate.ViewDepth) -> Swift.Bool
 
   public static func fixed(_ depth: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.ViewDepth 
@@ -1655,7 +1655,7 @@ extension _ProposedSize {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public enum _Axis3D: Swift.Int8, Swift.CaseIterable, Swift.Hashable, Swift.Sendable {
+public enum _Axis3D : Swift.Int8, Swift.CaseIterable, Swift.Hashable, Swift.Sendable {
   case horizontal
   case vertical
   case depth
@@ -1690,11 +1690,11 @@ extension SwiftUI.AlignmentKey {
 
 //@available(visionOS 26.0, *)
 //@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-//public struct ViewLayoutEngine<L: SwiftUI.Layout> {}
+//public struct ViewLayoutEngine<L : SwiftUI.Layout> {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct Cache3<Key: Swift.Equatable, Value> {
+public struct Cache3<Key : Swift.Equatable, Value> {
   public init()
   public mutating func get(_ key: Key, makeValue: () -> Value) -> Value
   public func find(_ key: Key) -> Value?
@@ -1704,7 +1704,7 @@ public struct Cache3<Key: Swift.Equatable, Value> {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public enum AbsoluteEdge: Swift.Int8, Swift.Hashable, Swift.CaseIterable {
+public enum AbsoluteEdge : Swift.Int8, Swift.Hashable, Swift.CaseIterable {
   case top
   case left
   case bottom
@@ -1714,7 +1714,7 @@ public enum AbsoluteEdge: Swift.Int8, Swift.Hashable, Swift.CaseIterable {
   public init(rawValue: Swift.Int8)
   public var rawValue: Swift.Int8 { get }
 
-  public struct Set: Swift.OptionSet {
+  public struct Set : Swift.OptionSet {
     public static var top: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
     public static var left: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
     public static var bottom: _SwiftUICorePrivate.AbsoluteEdge.Set { get }
@@ -1733,7 +1733,7 @@ public enum AbsoluteEdge: Swift.Int8, Swift.Hashable, Swift.CaseIterable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct Spacing: Swift.Sendable {
+public struct Spacing : Swift.Sendable {
   public var description: Swift.String { get }
   public var minima: [_SwiftUICorePrivate.Spacing.Key: _SwiftUICorePrivate.Spacing.Value] { get }
 
@@ -1742,26 +1742,26 @@ public struct Spacing: Swift.Sendable {
   public init(minima: [_SwiftUICorePrivate.Spacing.Key: _SwiftUICorePrivate.Spacing.Value])
 
   public func incorporate(
-    _ set: _SwiftUICorePrivate.AbsoluteEdge.Set,
-    of other: _SwiftUICorePrivate.Spacing
+  _ set: _SwiftUICorePrivate.AbsoluteEdge.Set,
+  of other: _SwiftUICorePrivate.Spacing
   )
 
   public func reset(
-    _ set: SwiftUI.Edge.Set,
-    layoutDirection: SwiftUI.LayoutDirection
+  _ set: SwiftUI.Edge.Set,
+  layoutDirection: SwiftUI.LayoutDirection
   )
 
   public func clear(
-    _ set: SwiftUI.Edge.Set,
-    layoutDirection: SwiftUI.LayoutDirection
+  _ set: SwiftUI.Edge.Set,
+  layoutDirection: SwiftUI.LayoutDirection
   )
 
   public var isLayoutDirectionSymmetric: Swift.Bool { get }
 
   public func distanceToSuccessorView(
-    along axis: SwiftUI.Axis,
-    layoutDirection: SwiftUI.LayoutDirection,
-    preferring other: _SwiftUICorePrivate.Spacing
+  along axis: SwiftUI.Axis,
+  layoutDirection: SwiftUI.LayoutDirection,
+  preferring other: _SwiftUICorePrivate.Spacing
   ) -> CoreFoundation.CGFloat?
 
   public static var defaultMinimum: CoreFoundation.CGFloat { get }
@@ -1780,7 +1780,7 @@ public struct Spacing: Swift.Sendable {
 
   public static func vertical(_ value: CoreFoundation.CGFloat) -> _SwiftUICorePrivate.Spacing
 
-  public struct Category: Swift.Hashable, Swift.Sendable {
+  public struct Category : Swift.Hashable, Swift.Sendable {
     public static var `default`: _SwiftUICorePrivate.Spacing.Category { get }
     public static var textToText: _SwiftUICorePrivate.Spacing.Category { get }
     public static var edgeAboveText: _SwiftUICorePrivate.Spacing.Category { get }
@@ -1795,25 +1795,25 @@ public struct Spacing: Swift.Sendable {
     public init()
   }
 
-  public struct Key: Swift.Hashable, Swift.Sendable {
+  public struct Key : Swift.Hashable, Swift.Sendable {
     public var category: _SwiftUICorePrivate.Spacing.Category { get set }
     public var edge: _SwiftUICorePrivate.AbsoluteEdge { get set }
     public init(category: _SwiftUICorePrivate.Spacing.Category, edge: _SwiftUICorePrivate.AbsoluteEdge)
   }
 
-  public struct TextMetrics: Swift.Comparable, Swift.Sendable {
+  public struct TextMetrics : Swift.Comparable, Swift.Sendable {
     public var ascend: CoreFoundation.CGFloat
     public var descend: CoreFoundation.CGFloat
     public var leading: CoreFoundation.CGFloat
     public var pixelLength: CoreFoundation.CGFloat
-        
+
     public init(ascend: CoreFoundation.CGFloat, descend: CoreFoundation.CGFloat, leading: CoreFoundation.CGFloat, pixelLength: CoreFoundation.CGFloat)
     public var lineSpacing: CoreFoundation.CGFloat { get }
-    public static func < (lhs: _SwiftUICorePrivate.Spacing.TextMetrics, rhs: _SwiftUICorePrivate.Spacing.TextMetrics) -> Swift.Bool
+    public static func < (lhs : _SwiftUICorePrivate.Spacing.TextMetrics, rhs : _SwiftUICorePrivate.Spacing.TextMetrics) -> Swift.Bool
     public static func spacing(top: _SwiftUICorePrivate.Spacing.TextMetrics, bottom: _SwiftUICorePrivate.Spacing.TextMetrics) -> CoreFoundation.CGFloat
   }
 
-  public enum Value: Swift.Comparable {
+  public enum Value : Swift.Comparable {
     case distance(CoreFoundation.CGFloat)
     case topTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics)
     case bottomTextMetrics(_SwiftUICorePrivate.Spacing.TextMetrics)
@@ -1827,14 +1827,14 @@ public struct Spacing: Swift.Sendable {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 @_Concurrency.MainActor public protocol AlignmentGuide {
-    var key: SwiftUI.AlignmentKey { get }
+  var key: SwiftUI.AlignmentKey { get }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol HVStack: SwiftUI.Layout {
-  associatedtype MinorAxisAlignment: AlignmentGuide
-    
+public protocol HVStack : SwiftUI.Layout {
+  associatedtype MinorAxisAlignment : AlignmentGuide
+
   var spacing: CoreFoundation.CGFloat? { get }
   var alignment: Self.MinorAxisAlignment { get }
   static var majorAxis: SwiftUI.Axis { get }
@@ -1844,8 +1844,8 @@ public protocol HVStack: SwiftUI.Layout {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.HVStack {
-  public nonisolated func makeCache(subviews: SwiftUI.LayoutSubviews) -> SwiftUI._StackLayoutCache
-  public nonisolated func updateCache(_ cache: inout SwiftUI._StackLayoutCache, subviews: SwiftUI.LayoutSubviews)
+  nonisolated public func makeCache(subviews: SwiftUI.LayoutSubviews) -> SwiftUI._StackLayoutCache
+  nonisolated public func updateCache(_ cache: inout SwiftUI._StackLayoutCache, subviews: SwiftUI.LayoutSubviews)
 }
 
 @available(visionOS 26.0, *)
@@ -1856,7 +1856,7 @@ extension SwiftUI.ViewDimensions {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct ViewGeometry: Swift.Equatable, SwiftUI.Animatable {
+public struct ViewGeometry : Swift.Equatable, SwiftUI.Animatable {
   public var origin: CoreGraphics.CGPoint { get set _modify }
   public init(origin: CoreFoundation.CGPoint, dimensions: SwiftUI.ViewDimensions)
   public var isInvalid: Swift.Bool { get }
@@ -1882,7 +1882,7 @@ extension Swift.UnsafeMutablePointer {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct UnsafeMutableBufferProjectionPointer<T, U>: Swift.RandomAccessCollection, Swift.MutableCollection {
+public struct UnsafeMutableBufferProjectionPointer<T, U> : Swift.RandomAccessCollection, Swift.MutableCollection {
   public init()
   public init(start: Swift.UnsafeMutablePointer<U>, count: Swift.Int)
   public init(_ base: Swift.UnsafeMutableBufferPointer<T>, _ keyPath: Swift.WritableKeyPath<T, U>)
@@ -1896,7 +1896,7 @@ public struct UnsafeMutableBufferProjectionPointer<T, U>: Swift.RandomAccessColl
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI._LayoutTraits {
-  public struct Dimension: Swift.Equatable {
+  public struct Dimension : Swift.Equatable {
     public var min: CoreFoundation.CGFloat
     public var ideal: CoreFoundation.CGFloat
     public var max: CoreFoundation.CGFloat
@@ -1904,9 +1904,9 @@ extension SwiftUI._LayoutTraits {
     public static func fixed(_ value: CoreFoundation.CGFloat) -> SwiftUI._LayoutTraits.Dimension
   }
 
-  public struct FlexibilityEstimate: Swift.Comparable {
+  public struct FlexibilityEstimate : Swift.Comparable {
     public init(minLength: CoreFoundation.CGFloat, maxLength: CoreFoundation.CGFloat)
-    public static func < (lhs: SwiftUI._LayoutTraits.FlexibilityEstimate, rhs: SwiftUI._LayoutTraits.FlexibilityEstimate) -> Swift.Bool
+    public static func < (lhs : SwiftUI._LayoutTraits.FlexibilityEstimate, rhs : SwiftUI._LayoutTraits.FlexibilityEstimate) -> Swift.Bool
   }
 }
 
@@ -1914,11 +1914,11 @@ extension _LayoutTraits {
   public var idealSize: CoreFoundation.CGSize {
     get set _modify
   }
-  
+
   public var minSize: CoreFoundation.CGSize {
     get set _modify
   }
-  
+
   public var maxSize: CoreFoundation.CGSize {
     get set _modify
   }
@@ -1926,24 +1926,24 @@ extension _LayoutTraits {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct LayoutProxy: Swift.Equatable {
+public struct LayoutProxy : Swift.Equatable {
   public init(context: AttributeGraph.AnyRuleContext, layoutComputer: AttributeGraph.Attribute<_SwiftUICorePrivate.LayoutComputer>?)
   public func requiresTrueDepthLayout() -> Swift.Bool
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol _RendererEffect: _SwiftUICorePrivate.MultiViewModifier, _SwiftUICorePrivate.PrimitiveViewModifier {
+public protocol _RendererEffect : _SwiftUICorePrivate.MultiViewModifier, _SwiftUICorePrivate.PrimitiveViewModifier {
   nonisolated func effectValue(size: CoreGraphics.CGSize) -> _SwiftUICorePrivate.DisplayList.Effect
-  static nonisolated var isolatesChildPosition: Swift.Bool { get }
-  static nonisolated var disabledForFlattenedContent: Swift.Bool { get }
-  static nonisolated var preservesEmptyContent: Swift.Bool { get }
-  static nonisolated var isScrapeable: Swift.Bool { get }
+  nonisolated static var isolatesChildPosition: Swift.Bool { get }
+  nonisolated static var disabledForFlattenedContent: Swift.Bool { get }
+  nonisolated static var preservesEmptyContent: Swift.Bool { get }
+  nonisolated static var isScrapeable: Swift.Bool { get }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol RendererEffect: SwiftUI.Animatable, _SwiftUICorePrivate._RendererEffect {
+public protocol RendererEffect : SwiftUI.Animatable, _SwiftUICorePrivate._RendererEffect {
 }
 
 //@available(visionOS 26.0, *)
@@ -1960,14 +1960,14 @@ public protocol RendererEffect: SwiftUI.Animatable, _SwiftUICorePrivate._Rendere
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol MultiViewModifier: ViewModifier where Body == Swift.Never {
-    
+public protocol MultiViewModifier : ViewModifier where Body == Swift.Never {
+
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol PrimitiveViewModifier: ViewModifier where Body == Swift.Never {
-    
+public protocol PrimitiveViewModifier : ViewModifier where Body == Swift.Never {
+
 }
 
 @available(visionOS 26.0, *)
@@ -1988,29 +1988,29 @@ extension ProtocolDescriptor {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol TupleDescriptor: _SwiftUICorePrivate.ProtocolDescriptor {
-    static var typeCache: [Swift.ObjectIdentifier: _SwiftUICorePrivate.TupleTypeDescription<Self>] {
-        get set
-    }
+public protocol TupleDescriptor : _SwiftUICorePrivate.ProtocolDescriptor {
+  static var typeCache: [Swift.ObjectIdentifier: _SwiftUICorePrivate.TupleTypeDescription<Self>] {
+    get set
+  }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.TupleDescriptor {
-    public static func tupleDescription(_ tupleType: AttributeGraph.TupleType) -> _SwiftUICorePrivate.TupleTypeDescription<Self>
+  public static func tupleDescription(_ tupleType: AttributeGraph.TupleType) -> _SwiftUICorePrivate.TupleTypeDescription<Self>
 }
 
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct TupleTypeDescription<T: ProtocolDescriptor> {
-    public var contentTypes: [(Swift.Int, TypeConformance<T>)] { get }
-    public init(_ tupleType: AttributeGraph.TupleType)
+public struct TupleTypeDescription<T : ProtocolDescriptor> {
+  public var contentTypes: [(Swift.Int, TypeConformance<T>)] { get }
+  public init(_ tupleType: AttributeGraph.TupleType)
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct TypeConformance<T: _SwiftUICorePrivate.ProtocolDescriptor> {
+public struct TypeConformance<T : _SwiftUICorePrivate.ProtocolDescriptor> {
   public var type: Any.Type { get }
   public func unsafeExistentialMetatype<U>(_: U.Type) -> U
   public var storage: (type: Any.Type, conformance: Swift.UnsafeRawPointer) { get }
@@ -2033,12 +2033,12 @@ extension SwiftUI.Transaction {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct CollectionChanges<A: Swift.Comparable, B: Swift.Comparable>: Swift.RandomAccessCollection, Swift.CustomStringConvertible {
+public struct CollectionChanges<A : Swift.Comparable, B : Swift.Comparable>: Swift.RandomAccessCollection, Swift.CustomStringConvertible {
   public init()
   public var removals: _SwiftUICorePrivate.CollectionChanges<A, B>.Projection<Swift.Range<A>> { get }
   public var insertions: _SwiftUICorePrivate.CollectionChanges<A, B>.Projection<Swift.Range<B>> { get }
   public var matches: _SwiftUICorePrivate.CollectionChanges<A, B>.Projection<(Swift.Range<A>, Swift.Range<B>)> { get }
-  public init<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T: Swift.BidirectionalCollection, U: Swift.BidirectionalCollection, T.Element: Hashable, T.Element == U.Element
+  public init<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T : Swift.BidirectionalCollection, U : Swift.BidirectionalCollection, T.Element : Hashable, T.Element == U.Element
 
   public var startIndex: Swift.Int { get }
   public var endIndex: Swift.Int { get }
@@ -2046,7 +2046,7 @@ public struct CollectionChanges<A: Swift.Comparable, B: Swift.Comparable>: Swift
   public func index(before i: Swift.Int) -> Swift.Int
   public subscript(position: Swift.Int) -> Element { get }
   public var description: Swift.String { get }
-  public mutating func formChanges<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T: Swift.BidirectionalCollection, U: Swift.BidirectionalCollection, T.Element: Hashable, T.Element == U.Element
+  public mutating func formChanges<T, U>(from: T, to: U) where A == T.Index, B == U.Index, T : Swift.BidirectionalCollection, U : Swift.BidirectionalCollection, T.Element : Hashable, T.Element == U.Element
   public func getOffset<T>(from: Swift.CollectionDifference<T>.Change) -> Swift.Int
 
   public enum Element {
@@ -2054,14 +2054,14 @@ public struct CollectionChanges<A: Swift.Comparable, B: Swift.Comparable>: Swift
     case inserted(Swift.Range<B>)
     case matched(Swift.Range<A>, Swift.Range<B>)
 
-    public enum Kind: Swift.Hashable {
+    public enum Kind : Swift.Hashable {
       case removed
       case inserted
       case matched
     }
   }
 
-  public struct Projection<C>: Swift.BidirectionalCollection {
+  public struct Projection<C> : Swift.BidirectionalCollection {
     public init(kind: _SwiftUICorePrivate.CollectionChanges<A, B>.Element.Kind, changes: [_SwiftUICorePrivate.CollectionChanges<A, B>.Element])
     public var startIndex: Swift.Int { get }
     public var endIndex: Swift.Int { get }
@@ -2073,7 +2073,7 @@ public struct CollectionChanges<A: Swift.Comparable, B: Swift.Comparable>: Swift
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol CoreViewRepresentable: SwiftUICore.View {
+public protocol CoreViewRepresentable : SwiftUICore.View {
   // TODO
 }
 
@@ -2099,7 +2099,7 @@ extension SwiftUI.Material {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct VersionSeed: Swift.CustomStringConvertible {
+public struct VersionSeed : Swift.CustomStringConvertible {
   public init(nodeId: Swift.UInt32, viewSeed: Swift.UInt32)
   public static var invalid: _SwiftUICorePrivate.VersionSeed { get }
   public static var empty: _SwiftUICorePrivate.VersionSeed { get }
@@ -2133,7 +2133,7 @@ public protocol AnySeparatedOptionKey {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol LayerProperty {
   associatedtype Value
-  
+
   static var keyPathPrefix: Swift.String { get }
   static var keyPath: Swift.String { get }
   static func boxValue(_ value: Self.Value) -> ObjectiveC.NSObject
@@ -2153,23 +2153,23 @@ extension _SwiftUICorePrivate.LayerProperty where Self.Value == CoreFoundation.C
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol SeparatedOptionKey: _SwiftUICorePrivate.AnySeparatedOptionKey, _SwiftUICorePrivate.LayerProperty {
+public protocol SeparatedOptionKey : _SwiftUICorePrivate.AnySeparatedOptionKey, _SwiftUICorePrivate.LayerProperty {
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension _SwiftUICorePrivate.SeparatedOptionKey {
-    public static var keyPathPrefix: Swift.String { get }
-    public static var requiresSeparation: Swift.Bool { get }
-    public static var isRequiredEffect: Swift.Bool { get }
+  public static var keyPathPrefix: Swift.String { get }
+  public static var requiresSeparation: Swift.Bool { get }
+  public static var isRequiredEffect: Swift.Bool { get }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public enum SeparatedOptions {
-    public enum SeparatedThickness: _SwiftUICorePrivate.SeparatedOptionKey {
-      public typealias Value = CoreFoundation.CGFloat
-      public static var keyPath: Swift.String { get }
+  public enum SeparatedThickness : _SwiftUICorePrivate.SeparatedOptionKey {
+    public typealias Value = CoreFoundation.CGFloat
+    public static var keyPath: Swift.String { get }
   }
 }
 
@@ -2189,11 +2189,11 @@ open class ResponderNode {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-open class ViewResponder: _SwiftUICorePrivate.ResponderNode {}
+open class ViewResponder : _SwiftUICorePrivate.ResponderNode {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-open class MultiViewResponder: _SwiftUICorePrivate.ViewResponder {}
+open class MultiViewResponder : _SwiftUICorePrivate.ViewResponder {}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -2226,7 +2226,7 @@ extension SwiftUI.Text {
     // TODO
   }
 
-  public struct ResolveOptions: Swift.OptionSet {
+  public struct ResolveOptions : Swift.OptionSet {
     public let rawValue: Swift.Int
     public init(rawValue: Swift.Int)
   }
@@ -2234,24 +2234,24 @@ extension SwiftUI.Text {
   public struct ResolvedProperties {
   }
 
-  public struct Resolved: _SwiftUICorePrivate.ResolvedTextContainer {
+  public struct Resolved : _SwiftUICorePrivate.ResolvedTextContainer {
     public init()
     public var style: SwiftUI.Text.Style
     public var includeDefaultAttributes: Swift.Bool
     public var idiom: _SwiftUICorePrivate.AnyInterfaceIdiom?
     public var properties: SwiftUI.Text.ResolvedProperties
-    public mutating func append<S>(_ string: S, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool) where S: Swift.StringProtocol
+    public mutating func append<S>(_ string: S, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool) where S : Swift.StringProtocol
     public mutating func append(_ attributedString: NSAttributedString, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool)
     public mutating func append(_ image: SwiftUI.Image.Resolved, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions)
-    public mutating func append<T>(resolvable: T, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, transition: SwiftUI.ContentTransition?) where T: _SwiftUICorePrivate.ResolvableStringAttribute
+    public mutating func append<T>(resolvable: T, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, transition: SwiftUI.ContentTransition?) where T : _SwiftUICorePrivate.ResolvableStringAttribute
   }
 
-  public func resolve<T: _SwiftUICorePrivate.ResolvedTextContainer>(into container: inout T, in environmentValues: SwiftUI.EnvironmentValues, with: SwiftUI.Text.ResolveOptions)
+  public func resolve<T : _SwiftUICorePrivate.ResolvedTextContainer>(into container: inout T, in environmentValues: SwiftUI.EnvironmentValues, with: SwiftUI.Text.ResolveOptions)
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct AnyInterfaceIdiom: Swift.Hashable, Swift.Sendable {
+public struct AnyInterfaceIdiom : Swift.Hashable, Swift.Sendable {
 }
 
 @available(visionOS 26.0, *)
@@ -2265,10 +2265,10 @@ public protocol ResolvedTextContainer {
   var style: SwiftUI.Text.Style { get set }
   var properties: SwiftUI.Text.ResolvedProperties { get set }
   var idiom: _SwiftUICorePrivate.AnyInterfaceIdiom? { get }
-  mutating func append<S>(_ string: S, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool) where S: Swift.StringProtocol
+  mutating func append<S>(_ string: S, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool) where S : Swift.StringProtocol
   mutating func append(_ attributedString: NSAttributedString, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, isUniqueSizeVariant: Swift.Bool)
   mutating func append(_ image: SwiftUI.Image.Resolved, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions)
-  mutating func append<T>(resolvable: T, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, transition: SwiftUI.ContentTransition?) where T: _SwiftUICorePrivate.ResolvableStringAttribute
+  mutating func append<T>(resolvable: T, in environment: SwiftUI.EnvironmentValues, with options: SwiftUI.Text.ResolveOptions, transition: SwiftUI.ContentTransition?) where T : _SwiftUICorePrivate.ResolvableStringAttribute
 }
 
 extension SwiftUI.Image {
@@ -2294,23 +2294,23 @@ extension SwiftUI.EnvironmentValues {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct OpenURLActionKey: SwiftUI.EnvironmentKey {
+public struct OpenURLActionKey : SwiftUI.EnvironmentKey {
   public static var defaultValue: SwiftUI.OpenURLAction? { get }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public protocol ButtonStyleConvertible {
-  associatedtype ButtonStyleRepresentation: SwiftUI.ButtonStyle
+  associatedtype ButtonStyleRepresentation : SwiftUI.ButtonStyle
 
   var buttonStyleRepresentation: Self.ButtonStyleRepresentation {
-      get
+    get
   }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct SizingPreferences: Swift.Equatable, Swift.CustomStringConvertible {
+public struct SizingPreferences : Swift.Equatable, Swift.CustomStringConvertible {
   public init(width: CoreGraphics.CGFloat?, height: CoreGraphics.CGFloat?, depth: CoreGraphics.CGFloat?, minimumWidth: CoreGraphics.CGFloat?, minimumHeight: CoreGraphics.CGFloat?, minimumDepth: CoreGraphics.CGFloat?, maximumWidth: CoreGraphics.CGFloat?, maximumHeight: CoreGraphics.CGFloat?, maximumDepth: CoreGraphics.CGFloat?, use3D: Swift.Bool)
   public static func window(size: CoreGraphics.CGSize?, minimum: CoreGraphics.CGSize?, maximum: CoreGraphics.CGSize?) -> _SwiftUICorePrivate.SizingPreferences
   public static func volume(size: Spatial.Size3D?, minimum: Spatial.Size3D?, maximum: Spatial.Size3D?) -> _SwiftUICorePrivate.SizingPreferences

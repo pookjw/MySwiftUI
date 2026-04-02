@@ -6,7 +6,7 @@ struct InspectorStorage {
 }
 
 extension InspectorStorage {
-    struct PreferenceKey: HostPreferenceKey {
+    struct PreferenceKey : HostPreferenceKey {
         static let defaultValue: [ViewIdentity: InspectorStorage] = [:]
         
         static func reduce(value: inout [ViewIdentity: InspectorStorage], nextValue: () -> [ViewIdentity: InspectorStorage]) {
@@ -23,8 +23,8 @@ extension InspectorStorage {
     }
 }
 
-struct InspectorAnchorPreferenceKey: HostPreferenceKey {
-    @safe static nonisolated(unsafe) let defaultValue: [AnyHashable: Anchor<CGRect?>] = [:]
+struct InspectorAnchorPreferenceKey : HostPreferenceKey {
+    @safe nonisolated(unsafe) static let defaultValue: [AnyHashable: Anchor<CGRect?>] = [:]
     
     static func reduce(value: inout [AnyHashable: Anchor<CGRect?>], nextValue: () -> [AnyHashable: Anchor<CGRect?>]) {
         assertUnimplemented()

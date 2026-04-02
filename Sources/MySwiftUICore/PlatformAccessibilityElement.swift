@@ -1,5 +1,5 @@
 package import Foundation
 
-@objc package protocol PlatformAccessibilityElementProtocol: NSObjectProtocol {
+@objc package protocol PlatformAccessibilityElementProtocol : NSObjectProtocol {
     
 }

@@ -1,4 +1,4 @@
-package struct TreeValueFlags: OptionSet {
+package struct TreeValueFlags : OptionSet {
     package let rawValue: UInt32
     
     package init(rawValue: UInt32) {

@@ -1,7 +1,7 @@
 @preconcurrency internal import MySwiftUI
 internal import MySwiftUICore
 
-@MainActor struct LinkButtonStyle: AnyDefaultStyle, PrimitiveButtonStyle, ButtonStyleConvertible {
+@MainActor struct LinkButtonStyle : AnyDefaultStyle, PrimitiveButtonStyle, ButtonStyleConvertible {
     nonisolated init() {}
     
     func makeBody(configuration: PrimitiveButtonStyleConfiguration) -> Never {
@@ -14,7 +14,7 @@ internal import MySwiftUICore
 }
 
 extension LinkButtonStyle {
-    struct Representation: ButtonStyle, AnyDefaultStyle {
+    struct Representation : ButtonStyle, AnyDefaultStyle {
         nonisolated init() {}
         
         func makeBody(configuration: ButtonStyleConfiguration) -> Never {

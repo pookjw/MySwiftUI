@@ -1,7 +1,7 @@
 internal import CoreGraphics
 internal import Spatial
 
-struct Placement3D: Equatable {
+struct Placement3D : Equatable {
     var proposedSize_: _ProposedSize3D
     var anchor: UnitPoint3D
     var anchorPosition: Point3D

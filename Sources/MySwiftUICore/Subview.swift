@@ -1,6 +1,6 @@
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-public struct Subview: View, Identifiable {
-    public struct ID: Hashable {
+public struct Subview : View, Identifiable {
+    public struct ID : Hashable {
         public static func == (a: Subview.ID, b: Subview.ID) -> Bool {
             assertUnimplemented()
         }
@@ -35,9 +35,9 @@ public struct Subview: View, Identifiable {
 }
 
 @available(*, unavailable)
-extension Subview: Sendable {}
+extension Subview : Sendable {}
 
 @available(*, unavailable)
-extension Subview.ID: Sendable {}
+extension Subview.ID : Sendable {}
 
-extension Subview: UnaryView, PrimitiveView {}
+extension Subview : UnaryView, PrimitiveView {}

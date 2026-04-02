@@ -1,7 +1,7 @@
 public import CoreGraphics
 public import Spatial
 
-public struct UnitPoint: Hashable {
+public struct UnitPoint : Hashable {
     public var x: CGFloat
     public var y: CGFloat
     
@@ -26,7 +26,7 @@ public struct UnitPoint: Hashable {
     public static let bottomTrailing = UnitPoint(x: 1, y: 1)
 }
 
-extension UnitPoint: Animatable {
+extension UnitPoint : Animatable {
     public typealias AnimatableData = AnimatablePair<CGFloat, CGFloat>
     
     public var animatableData: UnitPoint.AnimatableData {
@@ -40,11 +40,11 @@ extension UnitPoint: Animatable {
     }
 }
 
-extension UnitPoint: Codable {
+extension UnitPoint : Codable {
 }
 
-extension UnitPoint: BitwiseCopyable {}
-extension UnitPoint: Sendable {}
+extension UnitPoint : BitwiseCopyable {}
+extension UnitPoint : Sendable {}
 
 
 @available(visionOS 1.0, *)
@@ -52,7 +52,7 @@ extension UnitPoint: Sendable {}
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-public struct UnitPoint3D: Hashable {
+public struct UnitPoint3D : Hashable {
     public var x: CGFloat
     public var y: CGFloat
     public var z: CGFloat
@@ -103,7 +103,7 @@ public struct UnitPoint3D: Hashable {
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-extension UnitPoint3D: Animatable {
+extension UnitPoint3D : Animatable {
     public typealias AnimatableData = Vector3D
     
     public var animatableData: Vector3D {
@@ -123,11 +123,11 @@ extension UnitPoint3D: Animatable {
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-extension UnitPoint3D: Sendable {}
+extension UnitPoint3D : Sendable {}
 
 @available(visionOS 1.0, *)
 @available(iOS, unavailable)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-extension UnitPoint3D: BitwiseCopyable {}
+extension UnitPoint3D : BitwiseCopyable {}

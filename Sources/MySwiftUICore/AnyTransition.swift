@@ -2,7 +2,7 @@
 @frozen public struct AnyTransition {
     fileprivate let box: AnyTransitionBox
     
-    public init<T: Transition>(_ transition: T) {
+    public init<T : Transition>(_ transition: T) {
         box = TransitionBox(transition)
     }
     
@@ -14,7 +14,7 @@
         return box.hasMotion
     }
     
-    public static nonisolated(unsafe) let opacity: AnyTransition = MainActor.assumeIsolated { 
+    nonisolated(unsafe) public static let opacity: AnyTransition = MainActor.assumeIsolated { 
         return UncheckedSendable(AnyTransition(.opacity))
     }.value
     
@@ -26,11 +26,11 @@
         }
     }
     
-    func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
+    func visitBase<Visitor : TransitionVisitor>(applying visitor: inout Visitor) {
         return box.visitBase(applying: &visitor)
     }
     
-    func base<T: Transition>(as type: T.Type) -> T? {
+    func base<T : Transition>(as type: T.Type) -> T? {
         guard let casted = box as? TransitionBox<T> else {
             return nil
         }
@@ -40,7 +40,7 @@
 }
 
 @available(*, unavailable)
-extension AnyTransition: Sendable {
+extension AnyTransition : Sendable {
 }
 
 @usableFromInline
@@ -53,7 +53,7 @@ class AnyTransitionBox {
         preconditionFailure() // abstract
     }
     
-    func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
+    func visitBase<Visitor : TransitionVisitor>(applying visitor: inout Visitor) {
         preconditionFailure() // abstract
     }
     
@@ -61,10 +61,10 @@ class AnyTransitionBox {
 }
 
 @available(*, unavailable)
-extension AnyTransitionBox: Sendable {
+extension AnyTransitionBox : Sendable {
 }
 
-fileprivate final class TransitionBox<T: Transition>: AnyTransitionBox {
+fileprivate final class TransitionBox<T : Transition>: AnyTransitionBox {
     let base: T
     
     init(_ base: T) {
@@ -79,7 +79,7 @@ fileprivate final class TransitionBox<T: Transition>: AnyTransitionBox {
         return T.properties.hasMotion
     }
     
-    override func visitBase<Visitor: TransitionVisitor>(applying visitor: inout Visitor) {
+    override func visitBase<Visitor : TransitionVisitor>(applying visitor: inout Visitor) {
         visitor.visit(base)
     }
     
@@ -93,5 +93,5 @@ extension AnyTransition {
 }
 
 protocol TransitionVisitor {
-    mutating func visit<T: Transition>(_ transition: T)
+    mutating func visit<T : Transition>(_ transition: T)
 }

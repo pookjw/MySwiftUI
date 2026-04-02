@@ -2,7 +2,7 @@
 internal import AttributeGraph
 private import Foundation
 
-public struct ForEach<Data, ID, Content> where Data: RandomAccessCollection, ID: Hashable {
+public struct ForEach<Data, ID, Content> where Data : RandomAccessCollection, ID : Hashable {
     public var data: Data
     public var content: (Data.Element) -> Content
     fileprivate private(set) var idGenerator: ForEach<Data, ID, Content>.IDGenerator
@@ -11,9 +11,9 @@ public struct ForEach<Data, ID, Content> where Data: RandomAccessCollection, ID:
 }
 
 @available(*, unavailable)
-extension ForEach: Sendable {}
+extension ForEach : Sendable {}
 
-extension ForEach: View where Content: View {
+extension ForEach : View where Content : View {
     public typealias Body = Never
     
     nonisolated public static func _makeView(view: _GraphValue<ForEach<Data, ID, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -59,7 +59,7 @@ extension ForEach: View where Content: View {
     }
 }
 
-extension ForEach: DynamicView, PrimitiveView where Content: View {
+extension ForEach : DynamicView, PrimitiveView where Content : View {
     static func makeID() -> Never {
         assertUnimplemented()
     }
@@ -85,24 +85,24 @@ extension ForEach: DynamicView, PrimitiveView where Content: View {
     }
 }
 
-extension ForEach where ID == Data.Element.ID, Content: View, Data.Element: Identifiable {
+extension ForEach where ID == Data.Element.ID, Content : View, Data.Element : Identifiable {
     public init(_ data: Data, @ViewBuilder content: @escaping (Data.Element) -> Content) {
         assertUnimplemented()
     }
 }
 
-extension ForEach where Content: View {
+extension ForEach where Content : View {
     public init(_ data: Data, id: KeyPath<Data.Element, ID>, @ViewBuilder content: @escaping (Data.Element) -> Content) {
         self.init(data, idGenerator: .keyPath(id), content: content)
     }
 }
 
-extension ForEach where Content: View {
-    @_disfavoredOverload @_alwaysEmitIntoClient public init<C>(_ data: Binding<C>, @ViewBuilder content: @escaping (Binding<C.Element>) -> Content) where Data == LazyMapSequence<C.Indices, (C.Index, ID)>, ID == C.Element.ID, C: MutableCollection, C: RandomAccessCollection, C.Element: Identifiable, C.Index: Hashable {
+extension ForEach where Content : View {
+    @_disfavoredOverload @_alwaysEmitIntoClient public init<C>(_ data: Binding<C>, @ViewBuilder content: @escaping (Binding<C.Element>) -> Content) where Data == LazyMapSequence<C.Indices, (C.Index, ID)>, ID == C.Element.ID, C : MutableCollection, C : RandomAccessCollection, C.Element : Identifiable, C.Index : Hashable {
         self.init(data, id: \.id, content: content)
     }
     
-    @_disfavoredOverload @_alwaysEmitIntoClient public init<C>(_ data: Binding<C>, id: KeyPath<C.Element, ID>, @ViewBuilder content: @escaping (Binding<C.Element>) -> Content) where Data == LazyMapSequence<C.Indices, (C.Index, ID)>, C: MutableCollection, C: RandomAccessCollection, C.Index: Hashable {
+    @_disfavoredOverload @_alwaysEmitIntoClient public init<C>(_ data: Binding<C>, id: KeyPath<C.Element, ID>, @ViewBuilder content: @escaping (Binding<C.Element>) -> Content) where Data == LazyMapSequence<C.Indices, (C.Index, ID)>, C : MutableCollection, C : RandomAccessCollection, C.Index : Hashable {
         let elementIDs = data.wrappedValue.indices.lazy.map { index in
             (index, data.wrappedValue[index][keyPath: id])
         }
@@ -117,14 +117,14 @@ extension ForEach where Content: View {
     }
 }
 
-extension ForEach where Data == Range<Int>, ID == Int, Content: View {
+extension ForEach where Data == Range<Int>, ID == Int, Content : View {
     @_semantics("swiftui.requires_constant_range") public init(_ data: Range<Int>, @ViewBuilder content: @escaping (Int) -> Content) {
         assertUnimplemented()
     }
 }
 
 @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
-extension ForEach where ID == Data.Element.ID, Data.Element: Identifiable {
+extension ForEach where ID == Data.Element.ID, Data.Element : Identifiable {
     @usableFromInline
     internal static func create(_ data: Data, @ViewBuilder content: @escaping (Data.Element) -> Content) -> ForEach<Data, ID, Content> {
         assertUnimplemented()
@@ -147,9 +147,9 @@ extension ForEach where Data == Range<Int>, ID == Int {
     }
 }
 
-extension ForEach: DynamicViewContent where Content: View {}
+extension ForEach : DynamicViewContent where Content : View {}
 
-extension ForEach where Content: View {
+extension ForEach where Content : View {
     static func makeForEachView(view: _GraphValue<ForEach<Data, ID, Content>>, inputs: _ViewInputs) -> _ViewOutputs? {
         if let _ = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>> {
             // <+288>
@@ -180,7 +180,7 @@ extension ForEach {
     }
 }
 
-final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
+final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> {
     private var inputs: _ViewListInputs
     private var parentSubgraph: Subgraph
     fileprivate var info: Attribute<ForEachState.Info>? = nil
@@ -262,11 +262,11 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
         assertUnimplemented()
     }
     
-    func appendViewIDs<V: ViewList>(into accumulator: inout HeterogeneousViewIDsAccumulator, viewList: V) {
+    func appendViewIDs<V : ViewList>(into accumulator: inout HeterogeneousViewIDsAccumulator, viewList: V) {
         assertUnimplemented()
     }
     
-    fileprivate func appendViewIDsForSingleChildView<V: Hashable>(
+    fileprivate func appendViewIDsForSingleChildView<V : Hashable>(
         into accumulator: inout HeterogeneousViewIDsAccumulator,
         explicitIDKeyPath: KeyPath<Data.Element, V>
     ) {
@@ -280,7 +280,7 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
         assertUnimplemented()
     }
     
-    fileprivate func appendViewIDsForMultipleChildren<V: Hashable>(
+    fileprivate func appendViewIDsForMultipleChildren<V : Hashable>(
         into accumulator: inout HeterogeneousViewIDsAccumulator,
         childViewIndices: Range<Int32>,
         explicitIDKeyPath: KeyPath<Data.Element, V>
@@ -296,7 +296,7 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
         assertUnimplemented()
     }
     
-    fileprivate func appendViewIDsForMultipleChildren<V: Hashable>(
+    fileprivate func appendViewIDsForMultipleChildren<V : Hashable>(
         into accumulator: inout HeterogeneousViewIDsAccumulator,
         childViews: [(index: Int32, implicitID: Int32)],
         explicitIDKeyPath: KeyPath<Data.Element, V>
@@ -410,11 +410,11 @@ final class ForEachState<Data: RandomAccessCollection, ID: Hashable, Content> {
         assertUnimplemented()
     }
     
-    fileprivate func matchingStrategy<T: Hashable>(for _: T.Type) -> ForEachState<Data, ID, Content>.IDTypeMatchingStrategy {
+    fileprivate func matchingStrategy<T : Hashable>(for _: T.Type) -> ForEachState<Data, ID, Content>.IDTypeMatchingStrategy {
         assertUnimplemented()
     }
     
-    func firstOffset<T: Hashable>(forID id: T, style: _ViewList_IteratorStyle) -> Int? {
+    func firstOffset<T : Hashable>(forID id: T, style: _ViewList_IteratorStyle) -> Int? {
         assertUnimplemented()
     }
 }
@@ -472,7 +472,7 @@ extension ForEachState {
         }
     }
     
-    struct Evictor: Rule, AsyncAttribute {
+    struct Evictor : Rule, AsyncAttribute {
         fileprivate private(set) var state: ForEachState<Data, ID, Content>
         @WeakAttribute var isEnabled: Bool?
         @Attribute fileprivate private(set) var updateSeed: UInt32
@@ -500,7 +500,7 @@ extension ForEachState {
 }
 
 extension ForEachState.Info {
-    struct Init: Rule, CustomStringConvertible {
+    struct Init : Rule, CustomStringConvertible {
         @Attribute fileprivate private(set) var view: ForEach<Data, ID, Content>
         fileprivate let state: ForEachState<Data, ID, Content>
         
@@ -535,7 +535,7 @@ enum DebugReplaceableViewCount {
     case indeterminate
 }
 
-struct ForEachEvictionInput: GraphInput {
+struct ForEachEvictionInput : GraphInput {
     static var defaultValue: WeakAttribute<Bool> {
         return WeakAttribute()
     }
@@ -544,7 +544,7 @@ struct ForEachEvictionInput: GraphInput {
     static let evictByDefault: Bool = isLinkedOnOrAfter(.v6)
 }
 
-fileprivate struct ForEachList<Data: RandomAccessCollection, ID: Hashable, Content>: ViewList, CustomStringConvertible {
+fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Content>: ViewList, CustomStringConvertible {
     private(set) var state: ForEachState<Data, ID, Content>
     private(set) var seed: UInt32
     
@@ -597,7 +597,7 @@ fileprivate struct ForEachList<Data: RandomAccessCollection, ID: Hashable, Conte
 }
 
 extension ForEachList {
-    struct Init: StatefulRule, AsyncAttribute, CustomStringConvertible {
+    struct Init : StatefulRule, AsyncAttribute, CustomStringConvertible {
         fileprivate private(set) var _info: Attribute<ForEachState<Data, ID, Content>.Info>
         fileprivate private(set) var seed: UInt32
         

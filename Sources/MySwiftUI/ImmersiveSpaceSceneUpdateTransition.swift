@@ -1,7 +1,7 @@
 internal import MySwiftUICore
 internal import AttributeGraph
 
-struct ImmersiveSpaceSceneUpdateTransition: CustomStringConvertible {
+struct ImmersiveSpaceSceneUpdateTransition : CustomStringConvertible {
     private let style: ImmersiveSpaceSceneUpdateTransition.Style
     private let seed: UInt
     
@@ -11,7 +11,7 @@ struct ImmersiveSpaceSceneUpdateTransition: CustomStringConvertible {
 }
 
 extension ImmersiveSpaceSceneUpdateTransition {
-    enum Style: CustomStringConvertible {
+    enum Style : CustomStringConvertible {
         case animated(Animation?)
         case notAnimated
         
@@ -21,7 +21,7 @@ extension ImmersiveSpaceSceneUpdateTransition {
     }
 }
 
-struct SceneUpdateTransitionAnimationInput: SceneInput {
+struct SceneUpdateTransitionAnimationInput : SceneInput {
     static var defaultValue: OptionalAttribute<ImmersiveSpaceSceneUpdateTransition> {
         return OptionalAttribute()
     }

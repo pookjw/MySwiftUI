@@ -6,7 +6,7 @@ import Swift
 import SwiftUI
 import _SwiftUICorePrivate
 
-public enum DesignIdiom: Swift.Hashable {
+public enum DesignIdiom : Swift.Hashable {
   case universal
   case mac
   case phone
@@ -19,29 +19,29 @@ public enum DesignIdiom: Swift.Hashable {
 }
 
 extension SwiftUI.EnvironmentValues {
-    public var designIdiom: DesignLibrary.DesignIdiom {
-        get set
-    }
+  public var designIdiom: DesignLibrary.DesignIdiom {
+    get set
+  }
 
-    public var glassMaterialContainerStyle: DesignLibrary.GlassMaterialProvider.ResolvedStyle? {
-        get set
-    }
+  public var glassMaterialContainerStyle: DesignLibrary.GlassMaterialProvider.ResolvedStyle? {
+    get set
+  }
 
-    public var glassMaterialForeground: Swift.Bool {
-        get set
-    }
+  public var glassMaterialForeground: Swift.Bool {
+    get set
+  }
 }
 
 public struct GlassMaterialProvider {
-    public struct ResolvedStyle: Swift.CustomStringConvertible, Swift.Hashable {
-        // TODO
-    }
+  public struct ResolvedStyle : Swift.CustomStringConvertible, Swift.Hashable {
+    // TODO
+  }
 
-    public struct Pocket {
-        // TODO
-    }
+  public struct Pocket {
+    // TODO
+  }
 
-    public struct ResolvedStyleProvider: Swift.Hashable, _SwiftUICorePrivate.MaterialProvider {
-        // TODO
-    }
+  public struct ResolvedStyleProvider : Swift.Hashable, _SwiftUICorePrivate.MaterialProvider {
+    // TODO
+  }
 }

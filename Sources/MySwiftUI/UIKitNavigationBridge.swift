@@ -144,7 +144,7 @@ class UIKitNavigationBridge {
         updateNavigationDestinationsIfNeeded(preference: destinations)
     }
     
-    fileprivate final func updateNavigationDestinationsIfNeeded(preference: PreferenceValues.Value<[Namespace.ID: NavigationDestinationPresentation]>) {
+    fileprivate final func updateNavigationDestinationsIfNeeded(preference: PreferenceValues.Value<[Namespace.ID : NavigationDestinationPresentation]>) {
         func popCurrentView(transaction: Transaction) {
             assertUnimplemented()
         }
@@ -208,7 +208,7 @@ class UIKitNavigationBridge {
     // TODO
 }
 
-final class NavigationBridge_PhoneTV: UIKitNavigationBridge {
+final class NavigationBridge_PhoneTV : UIKitNavigationBridge {
     @MainActor override func pushTargetComponents(isDetail: Bool) -> (navController: UINavigationController?, replaceRoot: Bool, column: UISplitViewController.Column?) {
         /*
          self -> x20 -> x21
@@ -357,11 +357,11 @@ final class NavigationBridge_PhoneTV: UIKitNavigationBridge {
     }
 }
 
-struct IsSearchAllowedInput: ViewInputBoolFlag {
+struct IsSearchAllowedInput : ViewInputBoolFlag {
 }
 
-struct NavigationDestinationsKey: HostPreferenceKey {
-    static nonisolated(unsafe) let defaultValue: [Namespace.ID: NavigationDestinationPresentation] = [:]
+struct NavigationDestinationsKey : HostPreferenceKey {
+    nonisolated(unsafe) static let defaultValue: [Namespace.ID: NavigationDestinationPresentation] = [:]
     
     static func reduce(value: inout [Namespace.ID: NavigationDestinationPresentation], nextValue: () -> [Namespace.ID: NavigationDestinationPresentation]) {
         assertUnimplemented()
@@ -376,7 +376,7 @@ struct NavigationDestinationsKey: HostPreferenceKey {
     }
 }
 
-fileprivate struct UIKitNavigationBridgePresentationModeLocation: Location {
+fileprivate struct UIKitNavigationBridgePresentationModeLocation : Location {
     func get() -> PresentationMode {
         assertUnimplemented()
     }
@@ -436,7 +436,7 @@ extension BridgedPresentation {
 //    }
 }
 
-fileprivate struct IsRepresentingSheetNavigationView: EnvironmentKey {
+fileprivate struct IsRepresentingSheetNavigationView : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

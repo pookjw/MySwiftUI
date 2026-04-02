@@ -21,13 +21,13 @@ extension EnvironmentValues {
     }
     
     // TODO: Entry Macro
-    fileprivate struct __Key_designIdiom: EnvironmentKey {
+    fileprivate struct __Key_designIdiom : EnvironmentKey {
         static var defaultValue: DesignIdiom {
             return .universal
         }
     }
     
-    fileprivate struct __Key_glassMaterialContainerStyle: EnvironmentKey {
+    fileprivate struct __Key_glassMaterialContainerStyle : EnvironmentKey {
         static var defaultValue: GlassMaterialProvider.ResolvedStyle? {
             return nil
         }
@@ -42,7 +42,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct __Key_glassMaterialForeground: EnvironmentKey {
+    fileprivate struct __Key_glassMaterialForeground : EnvironmentKey {
         static var defaultValue: Bool {
             return true
         }
@@ -57,7 +57,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct __Key_glassMaterialPocketContainer: EnvironmentKey {
+    fileprivate struct __Key_glassMaterialPocketContainer : EnvironmentKey {
         static var defaultValue: GlassMaterialProvider.Pocket? {
             return nil
         }

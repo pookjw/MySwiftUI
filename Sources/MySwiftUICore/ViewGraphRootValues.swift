@@ -1,5 +1,5 @@
 
-package struct ViewGraphRootValues: OptionSet {
+package struct ViewGraphRootValues : OptionSet {
     package static var rootView: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 0)) }
     package static var environment: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 1)) }
     package static var transform: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 2)) }

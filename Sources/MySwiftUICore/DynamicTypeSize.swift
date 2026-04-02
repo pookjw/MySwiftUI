@@ -33,7 +33,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct DynamicTypeSizeKey: EnvironmentKey {
+fileprivate struct DynamicTypeSizeKey : EnvironmentKey {
     static var defaultValue: DynamicTypeSize {
         return .large
     }

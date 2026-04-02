@@ -19,13 +19,13 @@ public struct BorderlessButtonStyle : PrimitiveButtonStyle {
 extension BorderlessButtonStyle : Sendable {
 }
 
-extension BorderlessButtonStyle: ButtonStyleConvertible {
+extension BorderlessButtonStyle : ButtonStyleConvertible {
     package var buttonStyleRepresentation: some ButtonStyle {
         return BorderlessButtonStyleBase()
     }
 }
 
-fileprivate struct BorderlessButtonStyleBase: ButtonStyle {
+fileprivate struct BorderlessButtonStyleBase : ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         assertUnimplemented()
     }

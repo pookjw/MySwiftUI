@@ -1,4 +1,4 @@
 
 class AnyResolvedPaint {}
 
-final class _AnyResolvedPaint: AnyResolvedPaint {}
+final class _AnyResolvedPaint : AnyResolvedPaint {}

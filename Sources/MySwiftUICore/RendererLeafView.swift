@@ -4,7 +4,7 @@ internal import Spatial
 internal import CoreGraphics
 private import AttributeGraph
 
-protocol RendererLeafView: ContentResponder, PrimitiveView, UnaryView {
+protocol RendererLeafView : ContentResponder, PrimitiveView, UnaryView {
     static var requiresMainThread: Bool {
         get
     }
@@ -13,7 +13,7 @@ protocol RendererLeafView: ContentResponder, PrimitiveView, UnaryView {
 }
 
 extension RendererLeafView {
-    static nonisolated func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated static func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         // x29 = sp + 0x1a0
         /*
          view = w27
@@ -72,7 +72,7 @@ extension RendererLeafView {
     }
 }
 
-fileprivate struct LeafDisplayList<Content: RendererLeafView>: CustomStringConvertible, StatefulRule {
+fileprivate struct LeafDisplayList<Content : RendererLeafView>: CustomStringConvertible, StatefulRule {
     let identity: _DisplayList_Identity
     @Attribute var view: Content
     @Attribute var position: CGPoint
@@ -117,7 +117,7 @@ fileprivate struct LeafDisplayList<Content: RendererLeafView>: CustomStringConve
     }
 }
 
-struct LeafResponderFilter<T: ContentResponder>: StatefulRule {
+struct LeafResponderFilter<T : ContentResponder>: StatefulRule {
     @Attribute private var data: T
     @Attribute private var size: ViewSize
     @Attribute private var position: CGPoint
@@ -149,7 +149,7 @@ struct LeafResponderFilter<T: ContentResponder>: StatefulRule {
     }
 }
 
-final class LeafViewResponder<T: ContentResponder>: ViewResponder {
+final class LeafViewResponder<T : ContentResponder>: ViewResponder {
     fileprivate var helper = ContentResponderHelper<T>()
     
     override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {

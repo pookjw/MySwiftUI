@@ -1,7 +1,7 @@
 internal import MySwiftUICore
 internal import UIKit
 
-final class UIWindowLayoutHostingController<Content: View>: UIHostingController<Content> {
+final class UIWindowLayoutHostingController<Content : View>: UIHostingController<Content> {
     override init(_hostingView: _UIHostingView<Content>) {
         assertUnimplemented()
     }

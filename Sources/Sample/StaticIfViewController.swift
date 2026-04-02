@@ -1,13 +1,13 @@
 public import UIKit
 private import MySwiftUI
 
-fileprivate struct MyPredicate: ViewInputPredicate {
+fileprivate struct MyPredicate : ViewInputPredicate {
     static func evaluate(inputs: _GraphInputs) -> Bool {
         return true
     }
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     var body: some View {
         Color.black
             .staticIf(
@@ -22,7 +22,7 @@ fileprivate struct MyView: View {
     }
 }
 
-public final class StaticIfViewController: UIViewController {
+public final class StaticIfViewController : UIViewController {
     public override func loadView() {
         self.view = _UIHostingView(rootView: MyView())
     }

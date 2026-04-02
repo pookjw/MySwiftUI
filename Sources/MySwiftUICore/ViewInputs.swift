@@ -85,7 +85,7 @@ public struct _ViewInputs {
         return base.phase
     }
     
-    package subscript<T: ViewInput>(_ type: T.Type) -> T.Value {
+    package subscript<T : ViewInput>(_ type: T.Type) -> T.Value {
         get {
             return base[type]
         }
@@ -94,7 +94,7 @@ public struct _ViewInputs {
         }
     }
     
-    subscript<T: ViewInput>(_ type: T.Type) -> T.Value where T.Value : GraphReusable {
+    subscript<T : ViewInput>(_ type: T.Type) -> T.Value where T.Value : GraphReusable {
         get {
             return base[type]
         }
@@ -132,15 +132,15 @@ public struct _ViewInputs {
         return base.intern(value, id: id)
     }
     
-    mutating func append<Input: ViewInput, Value>(_ value: Value, to input: Input.Type) where Input.Value == Stack<Value> {
+    mutating func append<Input : ViewInput, Value>(_ value: Value, to input: Input.Type) where Input.Value == Stack<Value> {
         base.append(value, to: input)
     }
     
-    mutating func append<Input: ViewInput, Reusable: GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
+    mutating func append<Input : ViewInput, Reusable : GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
         base.append(reusable, to: input)
     }
     
-    mutating func popLast<Input: ViewInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
+    mutating func popLast<Input : ViewInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
         return base.popLast(input)
     }
     

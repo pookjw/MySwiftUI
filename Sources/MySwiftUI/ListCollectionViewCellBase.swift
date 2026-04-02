@@ -1,5 +1,5 @@
 internal import MySwiftUICore
 
-class ListCollectionViewCellBase<T: View>: AnyListCollectionViewCell {
+class ListCollectionViewCellBase<T : View>: AnyListCollectionViewCell {
     
 }

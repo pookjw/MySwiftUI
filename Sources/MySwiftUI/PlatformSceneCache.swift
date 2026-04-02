@@ -3,7 +3,7 @@ internal import MySwiftUICore
 internal import UIKit
 
 final class PlatformSceneCache {
-    @safe static nonisolated(unsafe) let shared = PlatformSceneCache()
+    @safe nonisolated(unsafe) static let shared = PlatformSceneCache()
     
     private var infoMap: [SceneID: PlatformSceneCache.Info] = [:]
     

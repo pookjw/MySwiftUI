@@ -47,7 +47,7 @@ struct PlatformItemListViewGraph {
     }
 }
 
-extension PlatformItemListViewGraph: ViewGraphFeature {
+extension PlatformItemListViewGraph : ViewGraphFeature {
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         if graph.requestedOutputs.isSuperset(of: .platformItemList) {
             inputs.addPlatformItemListKey(flags: AllPlatformItemListFlags.self, editOperation: nil)
@@ -113,8 +113,8 @@ struct PlatformItemList {
 }
 
 extension PlatformItemList {
-    fileprivate struct Key: @unsafe PreferenceKey {
-        static nonisolated(unsafe) let defaultValue = PlatformItemList(items: [])
+    fileprivate struct Key : @unsafe PreferenceKey {
+        nonisolated(unsafe) static let defaultValue = PlatformItemList(items: [])
         
         static func reduce(value: inout PlatformItemList, nextValue: () -> PlatformItemList) {
             value.items.append(contentsOf: nextValue().items)
@@ -217,7 +217,7 @@ extension PlatformItemList.Item {
     }
 }
 
-struct AllPlatformItemListFlags: PlatformItemListFlags {
+struct AllPlatformItemListFlags : PlatformItemListFlags {
     static var flags: PlatformItemListFlagsSet {
         return PlatformItemListFlagsSet(rawValue: .max)
     }
@@ -244,7 +244,7 @@ extension _ViewInputs {
 //    @specialized(where T == LabelPlatformItemListFlags)
 //    @specialized(where T == TextPlatformItemListFlags)
 //    @specialized(where T == WidgetMetadataPlatformItemListFlags)
-    mutating func addPlatformItemListKey<T: PlatformItemListFlags>(flags: T.Type, editOperation: PlatformItemListFlagsSet.EditOperation?) {
+    mutating func addPlatformItemListKey<T : PlatformItemListFlags>(flags: T.Type, editOperation: PlatformItemListFlagsSet.EditOperation?) {
         unsafe self.preferences.add(PlatformItemList.Key.self)
         
         self.requestedTextRepresentation = PlatformItemListTextRepresentable.self
@@ -283,7 +283,7 @@ extension _ViewInputs {
     }
 }
 
-struct PlatformItemListTextRepresentable: PlatformTextRepresentable {
+struct PlatformItemListTextRepresentable : PlatformTextRepresentable {
     static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
@@ -303,7 +303,7 @@ extension PlatformItemListTextRepresentable {
     }
 }
 
-struct PlatformItemListImageRepresentable: PlatformImageRepresentable {
+struct PlatformItemListImageRepresentable : PlatformImageRepresentable {
     static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
@@ -319,7 +319,7 @@ extension PlatformItemListImageRepresentable {
     }
 }
 
-struct PlatformItemListNamedImageRepresentable: PlatformNamedImageRepresentable {
+struct PlatformItemListNamedImageRepresentable : PlatformNamedImageRepresentable {
     static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
@@ -335,7 +335,7 @@ extension PlatformItemListNamedImageRepresentable {
     }
 }
 
-struct PlatformItemListSpacerRepresentable: PlatformSpacerRepresentable {
+struct PlatformItemListSpacerRepresentable : PlatformSpacerRepresentable {
     static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
@@ -345,7 +345,7 @@ struct PlatformItemListSpacerRepresentable: PlatformSpacerRepresentable {
     }
 }
 
-struct PlatformItemListDividerRepresentable: PlatformDividerRepresentable {
+struct PlatformItemListDividerRepresentable : PlatformDividerRepresentable {
     static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
@@ -355,7 +355,7 @@ struct PlatformItemListDividerRepresentable: PlatformDividerRepresentable {
     }
 }
 
-struct PlatformItemListViewThatFitsRepresentable: PlatformViewThatFitsRepresentable {
+struct PlatformItemListViewThatFitsRepresentable : PlatformViewThatFitsRepresentable {
     static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
@@ -371,13 +371,13 @@ extension PlatformItemListViewThatFitsRepresentable {
     }
 }
 
-struct PlatformItemListHiddenRepresentable: PlatformHiddenRepresentable {
+struct PlatformItemListHiddenRepresentable : PlatformHiddenRepresentable {
     static func makeRepresentation(inputs: inout MySwiftUICore::_ViewInputs, allowedKeys: MySwiftUICore::AllowedPreferenceKeysWhileHidden) {
         assertUnimplemented()
     }
 }
 
-struct PlatformItemListDynamicHiddenRepresentable: PlatformDynamicHiddenRepresentable  {
+struct PlatformItemListDynamicHiddenRepresentable : PlatformDynamicHiddenRepresentable  {
     static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()
     }
@@ -393,10 +393,10 @@ extension PlatformItemListDynamicHiddenRepresentable {
     }
 }
 
-struct PlatformItemListTransformModifier<T: PlatformItemListFlags>: PrimitiveViewModifier, MultiViewModifier {
+struct PlatformItemListTransformModifier<T : PlatformItemListFlags>: PrimitiveViewModifier, MultiViewModifier {
     private(set) var transform: (inout PlatformItemList) -> Void
     
-    static nonisolated func _makeView(modifier: _GraphValue<PlatformItemListTransformModifier<T>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func _makeView(modifier: _GraphValue<PlatformItemListTransformModifier<T>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         // <+188>
         // x22
         var outputs = body(_Graph(), inputs)
@@ -422,7 +422,7 @@ struct PlatformItemListTransformModifier<T: PlatformItemListFlags>: PrimitiveVie
 }
 
 extension PlatformItemListTransformModifier {
-    fileprivate struct Transform: Rule {
+    fileprivate struct Transform : Rule {
         @Attribute private(set) var modifier: PlatformItemListTransformModifier<T>
         private(set) var _list: OptionalAttribute<PlatformItemList>
         

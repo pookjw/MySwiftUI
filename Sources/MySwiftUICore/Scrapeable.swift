@@ -2,7 +2,7 @@
 
 package import AttributeGraph
 
-package struct ScrapeableID: Hashable, GraphReusable {
+package struct ScrapeableID : Hashable, GraphReusable {
     package static var none: ScrapeableID {
         return ScrapeableID(value: 0)
     }
@@ -39,13 +39,13 @@ extension _ViewInputs {
         }
     }
     
-    fileprivate struct ScrapeableParentID: ViewInput {
+    fileprivate struct ScrapeableParentID : ViewInput {
         static var defaultValue: ScrapeableID {
             return ScrapeableID(value: 0)
         }
     }
 }
 
-package protocol ScrapeableAttribute: _AttributeBody {
+package protocol ScrapeableAttribute : _AttributeBody {
     // TODO
 }

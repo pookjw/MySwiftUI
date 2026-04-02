@@ -38,19 +38,19 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct LocaleKey: EnvironmentKey {
+fileprivate struct LocaleKey : EnvironmentKey {
     static let defaultValue = Locale(identifier: "")
 }
 
-fileprivate struct CalendarKey: EnvironmentKey {
+fileprivate struct CalendarKey : EnvironmentKey {
     static let defaultValue = Calendar.autoupdatingCurrent
 }
 
-fileprivate struct TimezoneKey: EnvironmentKey {
+fileprivate struct TimezoneKey : EnvironmentKey {
     static let defaultValue = TimeZone.autoupdatingCurrent
 }
 
-fileprivate struct IsLowPowerModeEnabledKey: EnvironmentKey {
+fileprivate struct IsLowPowerModeEnabledKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

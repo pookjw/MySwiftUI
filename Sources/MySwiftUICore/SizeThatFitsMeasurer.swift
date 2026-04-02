@@ -1,6 +1,6 @@
 package import CoreGraphics
 
-package struct SizeThatFitsMeasurer: ViewGraphGeometryMeasurer {
+package struct SizeThatFitsMeasurer : ViewGraphGeometryMeasurer {
     package static func measure(given: _ProposedSize, in graph: ViewGraph) -> CGSize {
         assertUnimplemented()
     }

@@ -19,7 +19,7 @@ fileprivate final class Model {
     var count = 1
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let model: Model
     
     var body: some View {
@@ -45,7 +45,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class DynamicTupleViewController: UIViewController {
+final class DynamicTupleViewController : UIViewController {
     private let model = Model()
     
     override func loadView() {

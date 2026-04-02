@@ -82,7 +82,7 @@ extension CachedEnvironment {
     }
 }
 
-struct AnimatableDepthAttribute: ObservedAttribute, StatefulRule, AsyncAttribute {
+struct AnimatableDepthAttribute : ObservedAttribute, StatefulRule, AsyncAttribute {
     @Attribute fileprivate private(set) var transform: ViewTransform // 0x0
     @Attribute fileprivate private(set) var pixelLength: CGFloat // 0x4
     @Attribute fileprivate private(set) var environment: EnvironmentValues // 0x8

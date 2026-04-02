@@ -2,10 +2,10 @@
 
 internal import AttributeGraph
 
-@frozen public struct AnyView: PrimitiveView {
+@frozen public struct AnyView : PrimitiveView {
     nonisolated var storage: AnyViewStorageBase
     
-    public nonisolated init<V>(_ view: V) where V : View {
+    nonisolated public init<V>(_ view: V) where V : View {
         let storage: AnyViewStorageBase
         if let anyView = view as? AnyView {
             storage = anyView.storage
@@ -15,7 +15,7 @@ internal import AttributeGraph
         self.storage = storage
     }
     
-    @_alwaysEmitIntoClient public nonisolated init<V>(erasing view: V) where V : View {
+    @_alwaysEmitIntoClient nonisolated public init<V>(erasing view: V) where V : View {
         self.init(view)
     }
     
@@ -23,20 +23,20 @@ internal import AttributeGraph
         assertUnimplemented()
     }
     
-    public static nonisolated func _makeView(view: _GraphValue<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
         return makeDynamicView(metadata: (), view: _GraphValue(view.value), inputs: inputs)
     }
     
-    public static nonisolated func _makeViewList(view: _GraphValue<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
 }
 
-extension AnyView: DynamicView {
+extension AnyView : DynamicView {
     typealias Metadata = Void
     typealias ID = UniqueID
     
-    static nonisolated var canTransition: Bool {
+    nonisolated static var canTransition: Bool {
         return false
     }
     
@@ -54,7 +54,7 @@ extension AnyView: DynamicView {
 }
 
 @available(*, unavailable)
-extension AnyView: Sendable {}
+extension AnyView : Sendable {}
 
 @usableFromInline class AnyViewStorageBase {
     fileprivate var childType: any Any.Type {
@@ -69,7 +69,7 @@ extension AnyView: Sendable {}
         preconditionFailure() // abstract
     }
     
-    fileprivate func visitContent<T: ViewVisitor>(_ visitor: inout T) {
+    fileprivate func visitContent<T : ViewVisitor>(_ visitor: inout T) {
         preconditionFailure() // abstract
     }
     
@@ -79,9 +79,9 @@ extension AnyView: Sendable {}
 }
 
 @available(*, unavailable)
-extension AnyViewStorageBase: Sendable {}
+extension AnyViewStorageBase : Sendable {}
 
-fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
+fileprivate final class AnyViewStorage<Content : View>: AnyViewStorageBase {
     let view: Content
     
     init(view: Content) {
@@ -130,7 +130,7 @@ fileprivate final class AnyViewStorage<Content: View>: AnyViewStorageBase {
     }
 }
 
-fileprivate struct AnyViewChild<Content: View>: CustomStringConvertible, AsyncAttribute, StatefulRule {
+fileprivate struct AnyViewChild<Content : View>: CustomStringConvertible, AsyncAttribute, StatefulRule {
     @Attribute private var view: AnyView
     
     init(view: Attribute<AnyView>) {

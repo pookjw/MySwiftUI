@@ -2,7 +2,7 @@ internal import MySwiftUICore
 internal import Foundation
 internal import UIKit
 
-struct WindowSceneConfiguration<T: WindowSceneConfigurationAttributes> {
+struct WindowSceneConfiguration<T : WindowSceneConfigurationAttributes> {
     var attributes: T
     private(set) var mainContent: AnyView
     private(set) var title: Text?
@@ -14,7 +14,7 @@ struct WindowSceneConfiguration<T: WindowSceneConfigurationAttributes> {
     }
 }
 
-struct WindowGroupConfigurationAttributes: WindowSceneConfigurationAttributes {
+struct WindowGroupConfigurationAttributes : WindowSceneConfigurationAttributes {
     typealias RootModifier = Never // TODO
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<WindowGroupConfigurationAttributes>) -> SceneList.Item.Value {
@@ -28,7 +28,7 @@ struct WindowGroupConfigurationAttributes: WindowSceneConfigurationAttributes {
     private(set) var suppressGlassBackground: Bool
 }
 
-struct ImmersiveSpaceConfigurationAttributes: WindowSceneConfigurationAttributes {
+struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttributes {
     private(set) var sceneSessionRole: UISceneSession.Role // 0x0
     private(set) var sceneWindowType: UIWindow.Type // 0x8
     private(set) var activationBehavior: ImmersiveSpaceActivationBehavior.Storage // 0x10
@@ -70,7 +70,7 @@ extension ImmersiveSpaceConfigurationAttributes {
     }
 }
 
-struct VolumeConfigurationAttributes: WindowSceneConfigurationAttributes {
+struct VolumeConfigurationAttributes : WindowSceneConfigurationAttributes {
     typealias RootModifier = Never // TODO
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<VolumeConfigurationAttributes>) -> SceneList.Item.Value {
@@ -100,7 +100,7 @@ struct UISceneAdaptorConfiguration {
 }
 
 extension UISceneAdaptorConfiguration {
-    enum Kind: Equatable {
+    enum Kind : Equatable {
         case custom(String)
         case carPlay
         case assistiveAccess
@@ -108,7 +108,7 @@ extension UISceneAdaptorConfiguration {
     }
 }
 
-struct SingleWindowConfigurationAttributes: WindowSceneConfigurationAttributes {
+struct SingleWindowConfigurationAttributes : WindowSceneConfigurationAttributes {
     typealias RootModifier = Never // TODO
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<SingleWindowConfigurationAttributes>) -> SceneList.Item.Value {

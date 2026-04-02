@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct CanSpringLoadKey: HostPreferenceKey {
+struct CanSpringLoadKey : HostPreferenceKey {
     static var defaultValue: Bool {
         return false
     }

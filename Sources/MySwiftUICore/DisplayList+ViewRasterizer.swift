@@ -3,7 +3,7 @@
 internal import CoreGraphics
 
 extension DisplayList {
-    fileprivate final class ViewRasterizer: ViewRendererBase {
+    fileprivate final class ViewRasterizer : ViewRendererBase {
         let rootPlatform: DisplayList.ViewUpdater.Platform // 0x10
         private weak var host: ViewRendererHost? // 0x18
         private var drawingView: AnyObject? // 0x20
@@ -73,7 +73,7 @@ extension DisplayList {
 }
 
 extension DisplayList {
-    package final class ViewRenderer: ViewRendererBase {
+    package final class ViewRenderer : ViewRendererBase {
         let platform: DisplayList.ViewUpdater.Platform
         private(set) var configuration = _RendererConfiguration(renderer: .default)
         package weak var host: ViewRendererHost? = nil
@@ -188,7 +188,7 @@ extension DisplayList {
 }
 
 extension DisplayList.ViewRenderer {
-    struct Environment: Equatable {
+    struct Environment : Equatable {
         static var invalid: DisplayList.ViewRenderer.Environment {
             return DisplayList.ViewRenderer.Environment(contentsScale: 0)
         }

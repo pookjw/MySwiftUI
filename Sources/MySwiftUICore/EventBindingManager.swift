@@ -16,12 +16,12 @@ internal import Foundation
     }
 }
 
-package protocol EventGraphHost: AnyObject, EventBindingManagerDelegate {
+package protocol EventGraphHost : AnyObject, EventBindingManagerDelegate {
     var responderNode: ResponderNode? { get }
     // TODO
 }
 
-package protocol EventBindingManagerDelegate: AnyObject {
+package protocol EventBindingManagerDelegate : AnyObject {
     
 }
 

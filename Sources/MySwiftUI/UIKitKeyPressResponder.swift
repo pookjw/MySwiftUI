@@ -2,7 +2,7 @@
 internal import UIKit
 @_spi(Internal) private import MySwiftUICore
 
-final class UIKitKeyPressResponder: UIResponder {
+final class UIKitKeyPressResponder : UIResponder {
     private weak var eventBindingManager: EventBindingManager? = nil
     private weak var fallbackResponderProvider: FallbackResponderProvider? = nil
     private var tracker = KeyEvent.Tracker()

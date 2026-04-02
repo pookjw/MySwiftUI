@@ -5,7 +5,7 @@ public import MySwiftUICore
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-public struct OrnamentAttachmentAnchor: Sendable {
+public struct OrnamentAttachmentAnchor : Sendable {
     public static func scene(_ anchor: UnitPoint) -> OrnamentAttachmentAnchor {
         assertUnimplemented()
     }
@@ -19,7 +19,7 @@ extension View {
     @available(macOS, unavailable)
     @available(watchOS, unavailable)
     @available(tvOS, unavailable)
-    @_disfavoredOverload public nonisolated func ornament<Content>(visibility: Visibility = .automatic, attachmentAnchor: OrnamentAttachmentAnchor, contentAlignment: Alignment = .center, @ViewBuilder ornament: () -> Content) -> some View where Content : View {
+    @_disfavoredOverload nonisolated public func ornament<Content>(visibility: Visibility = .automatic, attachmentAnchor: OrnamentAttachmentAnchor, contentAlignment: Alignment = .center, @ViewBuilder ornament: () -> Content) -> some View where Content : View {
         assertUnimplemented()
     }
 }

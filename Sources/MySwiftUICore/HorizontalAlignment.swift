@@ -1,6 +1,6 @@
 public import CoreGraphics
 
-@frozen public struct HorizontalAlignment: Equatable {
+@frozen public struct HorizontalAlignment : Equatable {
     public init(_ id: any AlignmentID.Type) {
         key = AlignmentKey(id: id, axis: .horizontal)
     }
@@ -37,51 +37,51 @@ extension HorizontalAlignment {
 }
 
 extension HorizontalAlignment {
-    fileprivate struct TrailingListSeparator: FrameAlignment {
+    fileprivate struct TrailingListSeparator : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             assertUnimplemented()
         }
     }
     
-    fileprivate struct LeadingListSeparator: FrameAlignment {
+    fileprivate struct LeadingListSeparator : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             assertUnimplemented()
         }
     }
     
-    fileprivate struct Trailing: FrameAlignment {
+    fileprivate struct Trailing : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             return context.size.value.width
         }
     }
     
-    fileprivate struct Leading: FrameAlignment {
+    fileprivate struct Leading : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             return 0
         }
     }
     
-    fileprivate struct LeadingText: FrameAlignment {
+    fileprivate struct LeadingText : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             assertUnimplemented()
         }
     }
     
-    fileprivate struct Center: FrameAlignment {
+    fileprivate struct Center : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             return context.size.value.width * 0.5
         }
     }
     
-    fileprivate struct FormDetailLeading: FrameAlignment {
+    fileprivate struct FormDetailLeading : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             assertUnimplemented()
         }
     }
 }
 
-extension HorizontalAlignment: Sendable {}
-extension HorizontalAlignment: BitwiseCopyable {}
+extension HorizontalAlignment : Sendable {}
+extension HorizontalAlignment : BitwiseCopyable {}
 
-extension HorizontalAlignment: AlignmentGuide {
+extension HorizontalAlignment : AlignmentGuide {
 }

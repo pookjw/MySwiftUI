@@ -26,13 +26,13 @@ public struct ToolbarTitleDisplayMode {
 }
 
 @available(*, unavailable)
-extension ToolbarTitleDisplayMode: Sendable {
+extension ToolbarTitleDisplayMode : Sendable {
 }
 
-extension ToolbarTitleDisplayMode: Equatable {}
+extension ToolbarTitleDisplayMode : Equatable {}
 
 extension ToolbarTitleDisplayMode {
-    enum Role: Hashable {
+    enum Role : Hashable {
         case automatic
         case large
         case inlineLarge
@@ -43,7 +43,7 @@ extension ToolbarTitleDisplayMode {
 
 extension View {
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
-    public nonisolated func toolbarTitleDisplayMode(_ mode: ToolbarTitleDisplayMode) -> some View {
+    nonisolated public func toolbarTitleDisplayMode(_ mode: ToolbarTitleDisplayMode) -> some View {
         assertUnimplemented()
     }
 }

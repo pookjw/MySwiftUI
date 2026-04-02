@@ -33,7 +33,7 @@ extension Scene {
 }
 
 extension WorldAlignmentBehavior {
-    enum Storage: Hashable {
+    enum Storage : Hashable {
         case automatic
         case adaptive
         case gravityAligned

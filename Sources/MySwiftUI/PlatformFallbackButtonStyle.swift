@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct PlatformFallbackButtonStyle: PrimitiveButtonStyle {
+struct PlatformFallbackButtonStyle : PrimitiveButtonStyle {
     func makeBody(configuration: PrimitiveButtonStyleConfiguration) -> some View {
         assertUnimplemented()
     }

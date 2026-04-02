@@ -1,7 +1,7 @@
 internal import Combine
 private import MySwiftUICore
 
-struct MakeObservableObjectDelegateBox: ObservableObjectTypeVisitor {
+struct MakeObservableObjectDelegateBox : ObservableObjectTypeVisitor {
     var value: Any
     var box: AnyFallbackDelegateBox?
     
@@ -11,5 +11,5 @@ struct MakeObservableObjectDelegateBox: ObservableObjectTypeVisitor {
 }
 
 protocol ObservableObjectTypeVisitor {
-    func visit<T: ObservableObject>(type: T.Type)
+    func visit<T : ObservableObject>(type: T.Type)
 }

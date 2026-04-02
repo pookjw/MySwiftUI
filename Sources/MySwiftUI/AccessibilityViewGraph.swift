@@ -33,7 +33,7 @@ struct AccessibilityViewGraph {
     }
 }
 
-extension AccessibilityViewGraph: @preconcurrency ViewGraphFeature {
+extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         // $s7SwiftUI22AccessibilityViewGraphV06modifyD6Inputs6inputs5graphyAA01_dG0Vz_AA0dE0CtF
         /*
@@ -157,54 +157,54 @@ extension AccessibilityViewGraph: @preconcurrency ViewGraphFeature {
     }
 }
 
-struct SwiftUITextAccessibilityProvider: TextAccessibilityProvider {
+struct SwiftUITextAccessibilityProvider : TextAccessibilityProvider {
     public var body: Never {
         assertUnimplemented()
     } // TODO
 }
 
-struct SwiftUIImageAccessibilityProvider: ImageAccessibilityProvider {
+struct SwiftUIImageAccessibilityProvider : ImageAccessibilityProvider {
     
 }
 
-struct SwiftUIPrivacyReductionAccessibilityProvider: PrivacyReductionAccessibilityProvider {
+struct SwiftUIPrivacyReductionAccessibilityProvider : PrivacyReductionAccessibilityProvider {
     func body(content: Content) -> Never {
         assertUnimplemented() // TODO
     }
 }
 
-struct SwiftUILayoutAccessibilityProvider: LayoutAccessibilityProvider {
+struct SwiftUILayoutAccessibilityProvider : LayoutAccessibilityProvider {
     
 }
 
-struct SwiftUIGestureAccessibilityProvider: GestureAccessibilityProvider {
+struct SwiftUIGestureAccessibilityProvider : GestureAccessibilityProvider {
     
 }
 
-struct SwiftUIOpacityAccessibilityProvider: OpacityAccessibilityProvider {
+struct SwiftUIOpacityAccessibilityProvider : OpacityAccessibilityProvider {
     
 }
 
-struct SwiftUIContentShapeAccessibilityProvider: ContentShapeAccessibilityProvider {
+struct SwiftUIContentShapeAccessibilityProvider : ContentShapeAccessibilityProvider {
     
 }
 
-struct SwiftUIAllowsHitTestingAccessibilityProvider: AllowsHitTestingAccessibilityProvider {
+struct SwiftUIAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibilityProvider {
     
 }
 
-struct SwiftUIHiddenAccessibilityProvider: HiddenAccessibilityProvider {
+struct SwiftUIHiddenAccessibilityProvider : HiddenAccessibilityProvider {
     
 }
 
-struct SwiftUICustomHoverEffectsAccessibilityProvider: CustomHoverEffectAccessibilityProvider {
+struct SwiftUICustomHoverEffectsAccessibilityProvider : CustomHoverEffectAccessibilityProvider {
     
 }
 
-struct SwiftUIRemoteEffectsAccessibilityProvider: RemoteEffectsAccessibilityProvider {
+struct SwiftUIRemoteEffectsAccessibilityProvider : RemoteEffectsAccessibilityProvider {
     
 }
 
-fileprivate struct AccessibilityCapturesViewResponders: ViewInputBoolFlag {
+fileprivate struct AccessibilityCapturesViewResponders : ViewInputBoolFlag {
     
 }

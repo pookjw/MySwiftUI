@@ -232,25 +232,25 @@ extension MySwiftUICore.LayoutProxyAttributes {
     }
 }
 
-fileprivate struct SwiftUICoreLayoutComputerRule: Rule {
+fileprivate struct SwiftUICoreLayoutComputerRule : Rule {
     var value: _SwiftUICorePrivate::LayoutComputer {
         fatalError("Do not call")
     }
 }
 
-fileprivate struct SwiftUICoreViewListRule: Rule {
+fileprivate struct SwiftUICoreViewListRule : Rule {
     var value: any _SwiftUICorePrivate::ViewList {
         fatalError("Do not call")
     }
 }
 
-fileprivate struct MySwiftUICoreLayoutComputerRule: Rule {
+fileprivate struct MySwiftUICoreLayoutComputerRule : Rule {
     var value: MySwiftUICore.LayoutComputer {
         fatalError("Do not call")
     }
 }
 
-fileprivate struct MySwiftUICoreViewListRule: Rule {
+fileprivate struct MySwiftUICoreViewListRule : Rule {
     var value: any MySwiftUICore.ViewList {
         fatalError("Do not call")
     }

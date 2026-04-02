@@ -13,7 +13,7 @@ package struct ViewGraph3D {
     }
 }
 
-extension ViewGraph3D: ViewGraphFeature {
+extension ViewGraph3D : ViewGraphFeature {
     package func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         inputs.transform = _depthTransform
         inputs.base.changedDebugProperties.formUnion(.transform)

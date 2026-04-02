@@ -7,12 +7,12 @@ private import SwiftUI
 private import RealitySimulationServices
 private import _UIKitPrivate
 
-final class UIKitPlatformColorDefinition: PlatformColorDefinition {
-    override class var system: PlatformSystemDefinition {
+final class UIKitPlatformColorDefinition : PlatformColorDefinition {
+    override class var system : PlatformSystemDefinition {
         return .uiKit
     }
     
-    override class func resolvedColor(_ color: AnyObject, environment: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::Color.Resolved? {
+    override class func resolvedColor(_ color : AnyObject, environment: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::Color.Resolved? {
         /*
          color -> x0 -> x19
          environment -> x1 -> x21
@@ -189,7 +189,7 @@ extension UITraitCollection {
             // x29 - 0x58
             let keys = environment[BridgedEnvironmentKeysKey.self]
             
-            func copyValueToMutableTraits<T: MySwiftUI.UITraitBridgedEnvironmentKey>(for type: T.Type) {
+            func copyValueToMutableTraits<T : MySwiftUI.UITraitBridgedEnvironmentKey>(for type: T.Type) {
                 assertUnimplemented()
             }
             
@@ -260,6 +260,6 @@ extension MySwiftUICore::EnvironmentValues {
     }
 }
 
-fileprivate struct BridgedEnvironmentKeysKey: MySwiftUICore::EnvironmentKey {
+fileprivate struct BridgedEnvironmentKeysKey : MySwiftUICore::EnvironmentKey {
     static let defaultValue: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
 }

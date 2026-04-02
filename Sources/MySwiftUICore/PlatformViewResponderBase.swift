@@ -1,12 +1,12 @@
 public import Spatial
 public import CoreGraphics
 
-@_spi(Internal) open class PlatformViewResponderBase<T: AnyObject, U: ContentResponder>: ViewResponder {
-    package weak final var hostView: T? = nil // 0x30
-    package weak final var representedView: T? = nil // 0x38
+@_spi(Internal) open class PlatformViewResponderBase<T : AnyObject, U : ContentResponder>: ViewResponder {
+    package final weak var hostView: T? = nil // 0x30
+    package final weak var representedView: T? = nil // 0x38
     package final var helper = ContentResponderHelper<U>()
     final var lastResult: PlatformViewResponderBase<T, U>.PlatformHitTestResult? = nil
-    package weak final var preferredFocusableView: T? = nil
+    package final weak var preferredFocusableView: T? = nil
     
     open var platformViewIsEnabled: Bool {
         assertUnimplemented()

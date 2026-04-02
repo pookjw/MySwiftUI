@@ -1,4 +1,4 @@
-package struct UnifiedHitTestingFeature: Feature {
+package struct UnifiedHitTestingFeature : Feature {
     package init() {}
     
     package static var isEnabled: Bool {

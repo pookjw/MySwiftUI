@@ -1,6 +1,6 @@
 public import CoreGraphics
 
-@frozen public struct ProposedViewSize: Equatable {
+@frozen public struct ProposedViewSize : Equatable {
     public var width: CGFloat?
     public var height: CGFloat?
     
@@ -67,5 +67,5 @@ public import CoreGraphics
     }
 }
 
-extension ProposedViewSize: Sendable {}
-extension ProposedViewSize: BitwiseCopyable {}
+extension ProposedViewSize : Sendable {}
+extension ProposedViewSize : BitwiseCopyable {}

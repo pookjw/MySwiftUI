@@ -2,7 +2,7 @@
 internal import AttributeGraph
 internal import CoreGraphics
 
-struct ContainerShapeTransform: Rule, AsyncAttribute {
+struct ContainerShapeTransform : Rule, AsyncAttribute {
     @Attribute private var transform: ViewTransform
     @Attribute private var position: CGPoint
     @Attribute private var size: CGSize
@@ -52,15 +52,15 @@ struct ContainerShapeContext {
     }
 }
 
-struct ContainerCornerShapeType<T>: AnyContainerShapeType {
+struct ContainerCornerShapeType<T> : AnyContainerShapeType {
     
 }
 
-fileprivate struct DefaultContainerShapeType: AnyContainerShapeType {
+fileprivate struct DefaultContainerShapeType : AnyContainerShapeType {
     
 }
 
-fileprivate struct ContainerShapeEnvironment: Rule, AsyncAttribute {
+fileprivate struct ContainerShapeEnvironment : Rule, AsyncAttribute {
     var value: EnvironmentValues {
         var environment = self.environment
         environment[ContainerShapeKey.self] = data.type
@@ -74,14 +74,14 @@ fileprivate struct ContainerShapeEnvironment: Rule, AsyncAttribute {
     var data: ContainerShapeData
 }
 
-fileprivate struct ContainerShapeKey: EnvironmentKey {
+fileprivate struct ContainerShapeKey : EnvironmentKey {
     static var defaultValue: (any AnyContainerShapeType.Type) {
         return DefaultContainerShapeType.self
     }
 }
 
 extension _ViewInputs {
-    mutating func setContainerShape<T: RoundedRectangularShape>(_ shape: Attribute<T>, isSystemShape: Bool) {
+    mutating func setContainerShape<T : RoundedRectangularShape>(_ shape: Attribute<T>, isSystemShape: Bool) {
         // $s7SwiftUI11_ViewInputsVAAE17setContainerShape_08isSystemG0y14AttributeGraph0J0VyxG_SbtAA018RoundedRectangularG0RzlFAA06UnevenL9RectangleV_Tg5
         /*
          self = x19

@@ -18,7 +18,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct AccessibilityPrefersCrossFadeTransitionsKey: EnvironmentKey {
+fileprivate struct AccessibilityPrefersCrossFadeTransitionsKey : EnvironmentKey {
     static var defaultValue: Bool? {
         return nil
     }

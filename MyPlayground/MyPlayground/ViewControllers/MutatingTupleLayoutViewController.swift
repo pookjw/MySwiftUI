@@ -12,7 +12,7 @@ fileprivate final class Model {
     var count = 1
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let model: Model
     
     var body: some View {
@@ -40,7 +40,7 @@ fileprivate struct MyView: View {
     }
 }
 
-fileprivate struct MyLayout: Layout {
+fileprivate struct MyLayout : Layout {
     let model: Model
     
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
@@ -68,7 +68,7 @@ fileprivate struct MyLayout: Layout {
     }
 }
 
-final class MutatingTupleLayoutViewController: UIViewController {
+final class MutatingTupleLayoutViewController : UIViewController {
     private let model = Model()
     
     override func loadView() {

@@ -1,3 +1,3 @@
-protocol BridgedEnvironmentKey: EnvironmentKey {
+protocol BridgedEnvironmentKey : EnvironmentKey {
     
 }

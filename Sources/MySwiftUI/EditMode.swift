@@ -2,7 +2,7 @@
 internal import MySwiftUICore
 private import AttributeGraph
 
-struct EditModeScopeFeature: ViewGraphFeature {
+struct EditModeScopeFeature : ViewGraphFeature {
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         /*
          inputs -> x19
@@ -35,7 +35,7 @@ struct EditModeScopeFeature: ViewGraphFeature {
     }
 }
 
-fileprivate struct EditModeEnvironment: Rule {
+fileprivate struct EditModeEnvironment : Rule {
     @Attribute private(set) var signal: Void
     @Attribute private(set) var environment: EnvironmentValues
     private(set) var location: StoredLocation<EditMode>
@@ -60,7 +60,7 @@ fileprivate struct EditModeEnvironment: Rule {
     }
 }
 
-fileprivate struct EditModeKey: EnvironmentKey {
+fileprivate struct EditModeKey : EnvironmentKey {
     static var defaultValue: Binding<EditMode>? {
         return nil
     }
@@ -82,7 +82,7 @@ extension EnvironmentValues {
     }
 }
 
-public enum EditMode: Sendable {
+public enum EditMode : Sendable {
     case inactive
     case transient
     case active
@@ -99,4 +99,4 @@ public enum EditMode: Sendable {
     }
 }
 
-extension EditMode: Hashable {}
+extension EditMode : Hashable {}

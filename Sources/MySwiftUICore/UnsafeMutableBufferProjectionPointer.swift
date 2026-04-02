@@ -1,4 +1,4 @@
-@unsafe struct UnsafeMutableBufferProjectionPointer<T, U>: @unsafe RandomAccessCollection, MutableCollection {
+@unsafe struct UnsafeMutableBufferProjectionPointer<T, U> : @unsafe RandomAccessCollection, MutableCollection {
     private let _start: UnsafeMutableRawPointer
     let endIndex: Int
     

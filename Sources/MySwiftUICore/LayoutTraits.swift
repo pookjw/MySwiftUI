@@ -1,7 +1,7 @@
 // 950FC9541E969A331FB3CF1283EA4AEC
 package import CoreGraphics
 
-public struct _LayoutTraits: Equatable {
+public struct _LayoutTraits : Equatable {
     var width: _LayoutTraits.Dimension
     var height: _LayoutTraits.Dimension
     
@@ -53,17 +53,17 @@ extension _LayoutTraits {
 }
 
 @available(*, unavailable)
-extension _LayoutTraits: Sendable {
+extension _LayoutTraits : Sendable {
 }
 
-extension _LayoutTraits: CustomStringConvertible {
+extension _LayoutTraits : CustomStringConvertible {
     public var description: String {
         assertUnimplemented()
     }
 }
 
 extension _LayoutTraits {
-    package struct Dimension: Equatable {
+    package struct Dimension : Equatable {
         var min: CGFloat {
             didSet {
                 _checkInvariant()
@@ -102,7 +102,7 @@ extension _LayoutTraits {
         }
     }
     
-    struct FlexibilityEstimate: Comparable {
+    struct FlexibilityEstimate : Comparable {
         private let minLength: CGFloat
         private let maxLength: CGFloat
         
@@ -111,7 +111,7 @@ extension _LayoutTraits {
             self.maxLength = maxLength
         }
         
-        static func < (lhs: _LayoutTraits.FlexibilityEstimate, rhs: _LayoutTraits.FlexibilityEstimate) -> Bool {
+        static func < (lhs : _LayoutTraits.FlexibilityEstimate, rhs : _LayoutTraits.FlexibilityEstimate) -> Bool {
             let d0 = lhs.maxLength - lhs.minLength
             let d1 = rhs.maxLength - rhs.minLength
             

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PushViewController: UIViewController {
+final class PushViewController : UIViewController {
     override func loadView() {
         var configuration = UIButton.Configuration.filled()
         configuration.title = "Push"

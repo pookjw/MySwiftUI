@@ -22,6 +22,6 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct ConnectionOptionsKey: EnvironmentKey {
-    @safe static nonisolated(unsafe) let defaultValue: WeakBox<UIScene.ConnectionOptions>? = nil
+fileprivate struct ConnectionOptionsKey : EnvironmentKey {
+    @safe nonisolated(unsafe) static let defaultValue: WeakBox<UIScene.ConnectionOptions>? = nil
 }

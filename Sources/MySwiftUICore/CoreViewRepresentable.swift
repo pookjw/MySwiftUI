@@ -2,16 +2,16 @@
 public import CoreGraphics
 public import AttributeGraph
 
-@_spi(Internal) public protocol CoreViewRepresentable: View {
-    associatedtype PlatformViewProvider: AnyObject
-    associatedtype Host: CoreViewRepresentableHost
+@_spi(Internal) public protocol CoreViewRepresentable : View {
+    associatedtype PlatformViewProvider : AnyObject
+    associatedtype Host : CoreViewRepresentableHost
     associatedtype Coordinator
     
     static var dynamicProperties: CoreViewRepresentableDynamicPropertyFields {
         get
     }
     
-    static nonisolated func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy)
+    nonisolated static func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy)
     
     func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Self.PlatformViewProvider
     func updateViewProvider(_ provider: Self.PlatformViewProvider, context: PlatformViewRepresentableContext<Self>)
@@ -70,7 +70,7 @@ extension CoreViewRepresentable {
         assertUnimplemented()
     }
     
-    public static nonisolated func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          view -> x0 -> x27
          inputs -> x1 -> x26
@@ -193,11 +193,11 @@ extension CoreViewRepresentable {
         assertUnimplemented()
     }
     
-    public func _unaryViewList<T: View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    public func _unaryViewList<T : View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
 }
@@ -228,7 +228,7 @@ extension CoreViewRepresentable where Coordinator == Void {
     }
 }
 
-@_spi(Internal) public struct PlatformViewRepresentableContext<T: CoreViewRepresentable>: @unchecked Sendable {
+@_spi(Internal) public struct PlatformViewRepresentableContext<T : CoreViewRepresentable>: @unchecked Sendable {
     var values: RepresentableContextValues
     package let coordinator: T.Coordinator
     
@@ -261,7 +261,7 @@ extension CoreViewRepresentable where Coordinator == Void {
     }
 }
 
-@_spi(Internal) public struct CoreViewRepresentableLayoutOptions: OptionSet, Sendable {
+@_spi(Internal) public struct CoreViewRepresentableLayoutOptions : OptionSet, Sendable {
     package static var invalidatesSizeOnConstraintChanges: CoreViewRepresentableLayoutOptions {
         return CoreViewRepresentableLayoutOptions(rawValue: 1 << 0)
     }
@@ -285,7 +285,7 @@ extension CoreViewRepresentable where Coordinator == Void {
     }
 }
 
-@_spi(Internal) public struct CoreViewRepresentableFeatureBuffer: Collection {
+@_spi(Internal) public struct CoreViewRepresentableFeatureBuffer : Collection {
     var contents: UnsafeHeterogeneousBuffer
     
     init() {
@@ -297,7 +297,7 @@ extension CoreViewRepresentable where Coordinator == Void {
     }
     
     @discardableResult
-    package mutating func append<Feature: CoreViewRepresentableFeature>(_ feature: Feature) -> UnsafeHeterogeneousBuffer.Index {
+    package mutating func append<Feature : CoreViewRepresentableFeature>(_ feature: Feature) -> UnsafeHeterogeneousBuffer.Index {
         return contents.append(feature, vtable: _VTable<Feature>.self)
     }
     
@@ -326,7 +326,7 @@ extension CoreViewRepresentableFeatureBuffer {
     @_spi(Internal) public struct Element {
         private(set) var base: _UnsafeHeterogeneousBuffer_Element
         
-        func modifyViewInputs<Representable: CoreViewRepresentable>(
+        func modifyViewInputs<Representable : CoreViewRepresentable>(
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
@@ -335,7 +335,7 @@ extension CoreViewRepresentableFeatureBuffer {
                 .modifyViewInputs(elt: base, inputs: &inputs, proxy: proxy)
         }
         
-        func modifyViewOutputs<Representable: CoreViewRepresentable>(
+        func modifyViewOutputs<Representable : CoreViewRepresentable>(
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
@@ -344,7 +344,7 @@ extension CoreViewRepresentableFeatureBuffer {
                 .modifyViewOutputs(elt: base, outputs: &outputs, proxy: proxy)
         }
         
-        func modifyBridgedInputs<Representable: CoreViewRepresentable>(
+        func modifyBridgedInputs<Representable : CoreViewRepresentable>(
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
@@ -353,14 +353,14 @@ extension CoreViewRepresentableFeatureBuffer {
                 .modifyBridgedInputs(elt: base, inputs: &inputs, proxy: proxy)
         }
         
-        func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
+        func modifyWrappedOutputs<Representable : CoreViewRepresentable>(
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
             assertUnimplemented()
         }
         
-        func update<Host: CoreViewRepresentableHost>(
+        func update<Host : CoreViewRepresentableHost>(
             forHost host: Host,
             environment: inout EnvironmentValues,
             isInitialUpdate: Bool
@@ -371,8 +371,8 @@ extension CoreViewRepresentableFeatureBuffer {
         }
     }
     
-    fileprivate class VTable: _UnsafeHeterogeneousBuffer_VTable {
-        class func modifyViewInputs<Representable: CoreViewRepresentable>(
+    fileprivate class VTable : _UnsafeHeterogeneousBuffer_VTable {
+        class func modifyViewInputs<Representable : CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
@@ -380,7 +380,7 @@ extension CoreViewRepresentableFeatureBuffer {
             preconditionFailure() // abstract
         }
         
-        class func modifyBridgedInputs<Representable: CoreViewRepresentable>(
+        class func modifyBridgedInputs<Representable : CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
@@ -388,7 +388,7 @@ extension CoreViewRepresentableFeatureBuffer {
             preconditionFailure() // abstract
         }
         
-        class func modifyViewOutputs<Representable: CoreViewRepresentable>(
+        class func modifyViewOutputs<Representable : CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
@@ -396,7 +396,7 @@ extension CoreViewRepresentableFeatureBuffer {
             preconditionFailure() // abstract
         }
         
-        class func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
+        class func modifyWrappedOutputs<Representable : CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
@@ -404,7 +404,7 @@ extension CoreViewRepresentableFeatureBuffer {
             preconditionFailure() // abstract
         }
         
-        class func update<Host: CoreViewRepresentableHost>(
+        class func update<Host : CoreViewRepresentableHost>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             forHost host: Host,
             environment: inout EnvironmentValues,
@@ -414,21 +414,21 @@ extension CoreViewRepresentableFeatureBuffer {
         }
     }
     
-    fileprivate final class _VTable<Feature: CoreViewRepresentableFeature>: VTable {
-        override class var type: any Any.Type {
+    fileprivate final class _VTable<Feature : CoreViewRepresentableFeature>: VTable {
+        override class var type : any Any.Type {
             assertUnimplemented()
         }
         
-        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+        override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
             assertUnimplemented()
         }
         
-        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+        override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
             let body = unsafe elt.body(as: Feature.self)
             unsafe body.deinitialize(count: 1)
         }
         
-        override class func modifyViewInputs<Representable: CoreViewRepresentable>(
+        override class func modifyViewInputs<Representable : CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
@@ -436,7 +436,7 @@ extension CoreViewRepresentableFeatureBuffer {
             unsafe elt.body(as: Feature.self).pointee.modifyViewInputs(inputs: &inputs, proxy: proxy)
         }
         
-        override class func modifyBridgedInputs<Representable: CoreViewRepresentable>(
+        override class func modifyBridgedInputs<Representable : CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
@@ -444,7 +444,7 @@ extension CoreViewRepresentableFeatureBuffer {
             unsafe elt.body(as: Feature.self).pointee.modifyBridgedInputs(inputs: &inputs, proxy: proxy)
         }
         
-        override class func modifyViewOutputs<Representable: CoreViewRepresentable>(
+        override class func modifyViewOutputs<Representable : CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
@@ -452,7 +452,7 @@ extension CoreViewRepresentableFeatureBuffer {
             unsafe elt.body(as: Feature.self).pointee.modifyViewOutputs(outputs: &outputs, proxy: proxy)
         }
         
-        override class func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
+        override class func modifyWrappedOutputs<Representable : CoreViewRepresentable>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
@@ -460,7 +460,7 @@ extension CoreViewRepresentableFeatureBuffer {
             assertUnimplemented()
         }
         
-        override class func update<Host: CoreViewRepresentableHost>(
+        override class func update<Host : CoreViewRepresentableHost>(
             elt: _UnsafeHeterogeneousBuffer_Element,
             forHost host: Host,
             environment: inout EnvironmentValues,
@@ -471,8 +471,8 @@ extension CoreViewRepresentableFeatureBuffer {
     }
 }
 
-@_spi(Internal) public protocol CoreViewRepresentableHost: AnyObject {
-    associatedtype Content: CoreViewRepresentable
+@_spi(Internal) public protocol CoreViewRepresentableHost : AnyObject {
+    associatedtype Content : CoreViewRepresentable
     
     init(
         _ coreRepresentedViewProvider: Content.PlatformViewProvider,
@@ -491,7 +491,7 @@ extension CoreViewRepresentableFeatureBuffer {
     func coreUpdateSafeAreaInsets(_ insets: EdgeInsets)
 }
 
-@_spi(Internal) public struct CoreViewRepresentableFeatureProxy<Representable: CoreViewRepresentable> {
+@_spi(Internal) public struct CoreViewRepresentableFeatureProxy<Representable : CoreViewRepresentable> {
     public var base: Attribute<ViewLeafView<Representable>>
     
     init(base: Attribute<ViewLeafView<Representable>>) {
@@ -500,27 +500,27 @@ extension CoreViewRepresentableFeatureBuffer {
 }
 
 @_spi(Internal) public protocol CoreViewRepresentableFeature {
-    mutating func modifyViewInputs<Representable: CoreViewRepresentable>(
+    mutating func modifyViewInputs<Representable : CoreViewRepresentable>(
         inputs: inout _ViewInputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     )
     
-    func modifyBridgedInputs<Representable: CoreViewRepresentable>(
+    func modifyBridgedInputs<Representable : CoreViewRepresentable>(
         inputs: inout _ViewInputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     )
     
-    mutating func modifyViewOutputs<Representable: CoreViewRepresentable>(
+    mutating func modifyViewOutputs<Representable : CoreViewRepresentable>(
         outputs: inout _ViewOutputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     )
     
-    func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
+    func modifyWrappedOutputs<Representable : CoreViewRepresentable>(
         outputs: inout _ViewOutputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     )
     
-    func update<Host: CoreViewRepresentableHost>(
+    func update<Host : CoreViewRepresentableHost>(
         forHost host: Host,
         environment: inout EnvironmentValues,
         isInitialUpdate: Bool
@@ -528,21 +528,21 @@ extension CoreViewRepresentableFeatureBuffer {
 }
 
 extension CoreViewRepresentableFeature {
-    func modifyViewOutputs<Representable: CoreViewRepresentable>(
+    func modifyViewOutputs<Representable : CoreViewRepresentable>(
         outputs: inout _ViewOutputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     ) {
         assertUnimplemented()
     }
     
-    func modifyWrappedOutputs<Representable: CoreViewRepresentable>(
+    func modifyWrappedOutputs<Representable : CoreViewRepresentable>(
         outputs: inout _ViewOutputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     ) {
         assertUnimplemented()
     }
     
-    func update<Host: CoreViewRepresentableHost>(
+    func update<Host : CoreViewRepresentableHost>(
         forHost host: Host,
         environment: inout EnvironmentValues,
         isInitialUpdate: Bool
@@ -550,14 +550,14 @@ extension CoreViewRepresentableFeature {
         assertUnimplemented()
     }
     
-    func modifyViewInputs<Representable: CoreViewRepresentable>(
+    func modifyViewInputs<Representable : CoreViewRepresentable>(
         inputs: inout _ViewInputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     ) {
         assertUnimplemented()
     }
     
-    func modifyBridgedInputs<Representable: CoreViewRepresentable>(
+    func modifyBridgedInputs<Representable : CoreViewRepresentable>(
         inputs: inout _ViewInputs,
         proxy: CoreViewRepresentableFeatureProxy<Representable>
     ) {

@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct HasContextMenuKey: HostPreferenceKey {
+struct HasContextMenuKey : HostPreferenceKey {
     static var defaultValue: Bool {
         return false
     }

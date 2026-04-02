@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct UIKitButtonStyleModifier<Style>: StyleModifier {
+struct UIKitButtonStyleModifier<Style> : StyleModifier {
     var style: Style
     
     init(style: Style) {

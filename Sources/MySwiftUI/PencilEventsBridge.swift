@@ -3,7 +3,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
 @MainActor
-final class PencilEventsBridge: NSObject, UIPencilInteractionDelegate {
+final class PencilEventsBridge : NSObject, UIPencilInteractionDelegate {
     weak var host: ViewRendererHost? = nil
     private var wantsPencilEventsSeed: VersionSeed = .empty
     private var pencilInteraction: UIPencilInteraction? = nil
@@ -59,7 +59,7 @@ final class PencilEventsBridge: NSObject, UIPencilInteractionDelegate {
     }
 }
 
-struct WantsPencilEventsKey: HostPreferenceKey {
+struct WantsPencilEventsKey : HostPreferenceKey {
     static var defaultValue: Bool {
         return false
     }

@@ -7,7 +7,7 @@ internal import MySwiftUICore
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-@MainActor @preconcurrency struct ManipulationGeometryModifier: PrimitiveViewModifier, MultiViewModifier {
+@MainActor @preconcurrency struct ManipulationGeometryModifier : PrimitiveViewModifier, MultiViewModifier {
     private let id: UUID
     
     @usableFromInline
@@ -15,7 +15,7 @@ internal import MySwiftUICore
         self.id = id
     }
     
-    public nonisolated static func _makeView(modifier: _GraphValue<ManipulationGeometryModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(modifier: _GraphValue<ManipulationGeometryModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
@@ -26,7 +26,7 @@ internal import MySwiftUICore
 }
 
 @available(*, unavailable)
-extension ManipulationGeometryModifier: Sendable {
+extension ManipulationGeometryModifier : Sendable {
 }
 
 @available(visionOS 26.0, *)
@@ -34,12 +34,12 @@ extension ManipulationGeometryModifier: Sendable {
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-extension ManipulationGeometryModifier: ViewModifier {
+extension ManipulationGeometryModifier : ViewModifier {
     
 }
 
 extension ManipulationGeometryModifier {
-    fileprivate struct GeometryPreferenceValue: Rule {
+    fileprivate struct GeometryPreferenceValue : Rule {
         @Attribute private var geometry: ObjectManipulationGeometry
         @Attribute private var id: UUID
         

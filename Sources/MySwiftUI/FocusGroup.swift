@@ -12,7 +12,7 @@ extension EnvironmentValues {
     }
     
     // TODO: Macro Entry
-    fileprivate struct __Key_focusGroupID: EnvironmentKey {
+    fileprivate struct __Key_focusGroupID : EnvironmentKey {
         static var defaultValue: FocusGroupIdentifier? {
             return .automatic
         }

@@ -21,7 +21,7 @@ extension _OrderOutScenesModifier {
     }
 }
 
-struct OrderOutSceneSessionIdentifiersProviderInput: SceneInput {
+struct OrderOutSceneSessionIdentifiersProviderInput : SceneInput {
     static var defaultValue: () -> Set<String> {
         return { return [] }
     }

@@ -7,47 +7,47 @@
 @_exported import Foundation
 
 extension Accessibility.AccessibilitySettings {
-    @_alwaysEmitIntoClient public static var _isPhotosensitiveMitigationEnabled: Swift.Bool {
-        return _AccessibilityPrivate.___AXSPhotosensitiveMitigationEnabled()
-    }
+  @_alwaysEmitIntoClient public static var _isPhotosensitiveMitigationEnabled: Swift.Bool {
+    return _AccessibilityPrivate.___AXSPhotosensitiveMitigationEnabled()
+  }
 
-    @_alwaysEmitIntoClient public static var _isHighContrastFocusIndicatorsEnabled: Swift.Bool {
-        return _AccessibilityPrivate.___AXSHighContrastFocusIndicatorsEnabled()
-    }
+  @_alwaysEmitIntoClient public static var _isHighContrastFocusIndicatorsEnabled: Swift.Bool {
+    return _AccessibilityPrivate.___AXSHighContrastFocusIndicatorsEnabled()
+  }
 
-    @_alwaysEmitIntoClient public static var _isIncreaseButtonLegibility: Swift.Bool {
-        return _AccessibilityPrivate.___AXSIncreaseButtonLegibility()
-    }
+  @_alwaysEmitIntoClient public static var _isIncreaseButtonLegibility: Swift.Bool {
+    return _AccessibilityPrivate.___AXSIncreaseButtonLegibility()
+  }
 
-    @_alwaysEmitIntoClient public static var _isFullKeyboardAccessEnabled: Swift.Bool {
-        return _AccessibilityPrivate.___AXSFullKeyboardAccessEnabled()
-    }
+  @_alwaysEmitIntoClient public static var _isFullKeyboardAccessEnabled: Swift.Bool {
+    return _AccessibilityPrivate.___AXSFullKeyboardAccessEnabled()
+  }
 
-    @_alwaysEmitIntoClient public static var _isCommandAndControlEnabled: Swift.Bool {
-        return _AccessibilityPrivate.___AXSCommandAndControlEnabled()
-    }
+  @_alwaysEmitIntoClient public static var _isCommandAndControlEnabled: Swift.Bool {
+    return _AccessibilityPrivate.___AXSCommandAndControlEnabled()
+  }
 
-    @_alwaysEmitIntoClient public static var _photosensitiveMitigationEnabledDidChangeNotification: Foundation.Notification.Name {
-        return Foundation.NSNotification.Name.__axsPhotosensitiveMitigationEnabled
-    }
+  @_alwaysEmitIntoClient public static var _photosensitiveMitigationEnabledDidChangeNotification: Foundation.Notification.Name {
+    return Foundation.NSNotification.Name.__axsPhotosensitiveMitigationEnabled
+  }
 
-    @_alwaysEmitIntoClient public static var _highContrastFocusIndicatorsEnabledDidChangeNotification: Foundation.Notification.Name {
-        return Foundation.NSNotification.Name.__axsHighContrastFocusIndicatorsEnabled
-    }
+  @_alwaysEmitIntoClient public static var _highContrastFocusIndicatorsEnabledDidChangeNotification: Foundation.Notification.Name {
+    return Foundation.NSNotification.Name.__axsHighContrastFocusIndicatorsEnabled
+  }
 
-    @_alwaysEmitIntoClient public static var _increaseButtonLegibilityDidChangeNotification: Foundation.Notification.Name {
-        return Foundation.NSNotification.Name.__axsIncreaseButtonLegibility
-    }
+  @_alwaysEmitIntoClient public static var _increaseButtonLegibilityDidChangeNotification: Foundation.Notification.Name {
+    return Foundation.NSNotification.Name.__axsIncreaseButtonLegibility
+  }
 
-    @_alwaysEmitIntoClient public static var _fullKeyboardAccessEnabledDidChangeNotification: Foundation.Notification.Name {
-        return Foundation.NSNotification.Name.__axsFullKeyboardAccessEnabled
-    }
+  @_alwaysEmitIntoClient public static var _fullKeyboardAccessEnabledDidChangeNotification: Foundation.Notification.Name {
+    return Foundation.NSNotification.Name.__axsFullKeyboardAccessEnabled
+  }
 
-    @_alwaysEmitIntoClient public static var _commandAndControlEnabledDidChangeNotification: Foundation.Notification.Name {
-        return Foundation.NSNotification.Name.__axsCommandAndControlEnabled
-    }
+  @_alwaysEmitIntoClient public static var _commandAndControlEnabledDidChangeNotification: Foundation.Notification.Name {
+    return Foundation.NSNotification.Name.__axsCommandAndControlEnabled
+  }
 
-    @_alwaysEmitIntoClient public static var _hoverTextEnabledNotification: Foundation.Notification.Name {
-        return Foundation.NSNotification.Name.__axsHoverTextEnabled
-    }
+  @_alwaysEmitIntoClient public static var _hoverTextEnabledNotification: Foundation.Notification.Name {
+    return Foundation.NSNotification.Name.__axsHoverTextEnabled
+  }
 }

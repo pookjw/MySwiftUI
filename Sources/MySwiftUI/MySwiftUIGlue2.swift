@@ -3,7 +3,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import Foundation
 
-@_objcRuntimeName(MySwiftUIGlue2) final class MySwiftUIGlue2: CoreGlue2 {
+@_objcRuntimeName(MySwiftUIGlue2) final class MySwiftUIGlue2 : CoreGlue2 {
     override func setupPlatformProperties(_ parameters: CoreGlue2.SetupPlatformPropertiesParameters) {
         _setupPlatformProperties(parameters.view, kind: parameters.kind, platform: parameters.platform)
     }

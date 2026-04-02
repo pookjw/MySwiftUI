@@ -2,12 +2,12 @@
 private import AttributeGraph
 
 @preconcurrency @MainActor public protocol ViewModifier {
-    static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs
+    nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs
     
-    static nonisolated func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs
+    nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int?
+    nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int?
     
     associatedtype Body : View
     
@@ -16,27 +16,27 @@ private import AttributeGraph
 }
 
 extension ViewModifier {
-    public static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         return Self.makeView(modifier: modifier, inputs: inputs, body: body)
     }
     
-    public static nonisolated func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
         assertUnimplemented()
     }
 }
 
-extension ViewModifier where Self: Animatable {
-    public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+extension ViewModifier where Self : Animatable {
+    nonisolated public static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         let attribute = makeAnimatable(value: modifier, inputs: inputs.base)
         return makeView(modifier: _GraphValue(attribute), inputs: inputs, body: body)
     }
     
-    public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
 }
@@ -46,33 +46,33 @@ extension ViewModifier where Self.Body == Swift.Never {
         return bodyError()
     }
     
-    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
         assertUnimplemented()
     }
 }
 
 extension ViewModifier where Self : _GraphInputsModifier, Self.Body == Never {
-//    public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+//    nonisolated public static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
 //        assertUnimplemented()
 //    }
 //    
-//    public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+//    nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
 //        assertUnimplemented()
 //    }
 //    
-//    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+//    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
 //        assertUnimplemented()
 //    }
 }
 
 extension ViewModifier {
-    @inlinable public nonisolated func concat<T>(_ modifier: T) -> ModifiedContent<Self, T> {
+    @inlinable nonisolated public func concat<T>(_ modifier: T) -> ModifiedContent<Self, T> {
         return .init(content: self, modifier: modifier)
     }
 }
 
 extension ViewModifier {
-//    @inlinable public nonisolated func transaction(_ transform: @escaping (inout Transaction) -> Void) -> some ViewModifier {
+//    @inlinable nonisolated public func transaction(_ transform: @escaping (inout Transaction) -> Void) -> some ViewModifier {
 //        return _PushPopTransactionModifier(content: self, transform: transform)
 //    }
 //    
@@ -86,7 +86,7 @@ extension ViewModifier {
 }
 
 extension ViewModifier {
-    static nonisolated func makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         /*
          modifier -> x0 -> w22
          inputs -> x1 -> x26
@@ -109,7 +109,7 @@ extension ViewModifier {
         return outputs
     }
     
-    fileprivate static nonisolated func makeBody(modifier: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
+    nonisolated fileprivate static func makeBody(modifier: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
         precondition(TypeID(self).isValueType, "view modifiers must be value types: \(_typeName(self, qualified: false))")
         
         let body = ModifierBodyAccessor<Self>()
@@ -118,20 +118,20 @@ extension ViewModifier {
     }
 }
 
-package protocol MultiViewModifier: ViewModifier where Body == Never {
+package protocol MultiViewModifier : ViewModifier where Body == Never {
     
 }
 
-package protocol PrimitiveViewModifier: ViewModifier where Body == Never {
+package protocol PrimitiveViewModifier : ViewModifier where Body == Never {
     
 } 
 
-public struct _ViewModifier_Content<Modifier>: View where Modifier: ViewModifier {
-    public static nonisolated func _makeView(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
+public struct _ViewModifier_Content<Modifier> : View where Modifier : ViewModifier {
+    nonisolated public static func _makeView(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewInputs) -> _ViewOutputs {
         return Self.providerMakeView(view: view, inputs: inputs)
     }
     
-    public static nonisolated func _makeViewList(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
@@ -142,7 +142,7 @@ public struct _ViewModifier_Content<Modifier>: View where Modifier: ViewModifier
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    @_alwaysEmitIntoClient public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    @_alwaysEmitIntoClient nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
 //        _viewListCount(inputs: inputs) { _ in nil }
         _assertUnimplemented()
     }
@@ -158,25 +158,25 @@ extension ViewModifier {
     }
 }
 
-extension _ViewModifier_Content: ViewModifierContentProvider {
+extension _ViewModifier_Content : ViewModifierContentProvider {
 }
 
 extension View {
-  @inlinable public nonisolated func modifier<T>(_ modifier: T) -> ModifiedContent<Self, T> {
+  @inlinable nonisolated public func modifier<T>(_ modifier: T) -> ModifiedContent<Self, T> {
         return .init(content: self, modifier: modifier)
     }
 }
 
-public struct PlaceholderContentView<Value>: View {
-    public nonisolated static func _makeView(view: _GraphValue<PlaceholderContentView<Value>>, inputs: _ViewInputs) -> _ViewOutputs {
+public struct PlaceholderContentView<Value> : View {
+    nonisolated public static func _makeView(view: _GraphValue<PlaceholderContentView<Value>>, inputs: _ViewInputs) -> _ViewOutputs {
         return providerMakeView(view: view, inputs: inputs)
     }
     
-    public nonisolated static func _makeViewList(view: _GraphValue<PlaceholderContentView<Value>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<PlaceholderContentView<Value>>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Swift.Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Swift.Int? {
         assertUnimplemented()
     }
     
@@ -184,7 +184,7 @@ public struct PlaceholderContentView<Value>: View {
 }
 
 @available(*, unavailable)
-extension PlaceholderContentView: Sendable {
+extension PlaceholderContentView : Sendable {
 }
 
 extension _ViewInputs {
@@ -196,7 +196,7 @@ extension _ViewInputs {
     }
 }
 
-fileprivate struct BodyInput<Body>: ViewInput {
+fileprivate struct BodyInput<Body> : ViewInput {
     typealias Value = Stack<BodyInputElement>
     
     static var defaultValue: Stack<BodyInputElement> {
@@ -204,7 +204,7 @@ fileprivate struct BodyInput<Body>: ViewInput {
     }
 }
 
-fileprivate enum BodyInputElement: GraphReusable, Equatable {
+fileprivate enum BodyInputElement : GraphReusable, Equatable {
     func makeReusable(indirectMap: IndirectAttributeMap) {
         assertUnimplemented()
     }
@@ -221,13 +221,13 @@ fileprivate enum BodyInputElement: GraphReusable, Equatable {
     case list((_Graph, _ViewListInputs) -> _ViewListOutputs)
 }
 
-fileprivate protocol ViewModifierContentProvider: PrimitiveView {
+fileprivate protocol ViewModifierContentProvider : PrimitiveView {
 }
 
-extension PlaceholderContentView: ViewModifierContentProvider {}
+extension PlaceholderContentView : ViewModifierContentProvider {}
 
 extension ViewModifierContentProvider {
-    static nonisolated func providerMakeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated static func providerMakeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         // sp + 0x230
         let _ = inputs
         // sp + 0x1d0
@@ -256,12 +256,12 @@ extension ViewModifierContentProvider {
         }
     }
     
-    static nonisolated func providerMakeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated static func providerMakeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
 }
 
-fileprivate struct ModifierBodyAccessor<T: ViewModifier>: BodyAccessor {
+fileprivate struct ModifierBodyAccessor<T : ViewModifier>: BodyAccessor {
     typealias Container = T
     typealias Body = T.Body
     

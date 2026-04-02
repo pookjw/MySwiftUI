@@ -2,32 +2,32 @@
 internal import CoreGraphics
 private import AttributeGraph
 
-protocol _RendererEffect: MultiViewModifier, PrimitiveViewModifier {
+protocol _RendererEffect : MultiViewModifier, PrimitiveViewModifier {
     nonisolated func effectValue(size: CGSize) -> DisplayList.Effect
-    static nonisolated var isolatesChildPosition: Bool { get }
-    static nonisolated var disabledForFlattenedContent: Bool { get }
-    static nonisolated var preservesEmptyContent: Bool { get }
-    static nonisolated var isScrapeable: Bool { get }
+    nonisolated static var isolatesChildPosition: Bool { get }
+    nonisolated static var disabledForFlattenedContent: Bool { get }
+    nonisolated static var preservesEmptyContent: Bool { get }
+    nonisolated static var isScrapeable: Bool { get }
 }
 
 extension _RendererEffect {
-    static nonisolated var isolatesChildPosition: Bool {
+    nonisolated static var isolatesChildPosition: Bool {
         return false
     }
     
-    static nonisolated var disabledForFlattenedContent: Bool {
+    nonisolated static var disabledForFlattenedContent: Bool {
         return false
     }
     
-    static nonisolated var preservesEmptyContent: Bool {
+    nonisolated static var preservesEmptyContent: Bool {
         return false
     }
     
-    static nonisolated var isScrapeable: Bool {
+    nonisolated static var isScrapeable: Bool {
         return false
     }
     
-    static nonisolated func _makeRendererEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func _makeRendererEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         /*
          effect -> x19 + 0x3c
          */
@@ -169,24 +169,24 @@ extension _RendererEffect {
     }
 }
 
-protocol RendererEffect: Animatable, _RendererEffect {
+protocol RendererEffect : Animatable, _RendererEffect {
 }
 
 extension RendererEffect {
-    static nonisolated func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+    nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
         assertUnimplemented()
     }
     
-    static nonisolated func makeRendererEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func makeRendererEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
 }
 
-fileprivate struct RendererEffectDisplayList<Effect: _RendererEffect>: Rule, AsyncAttribute, ScrapeableAttribute {
+fileprivate struct RendererEffectDisplayList<Effect : _RendererEffect>: Rule, AsyncAttribute, ScrapeableAttribute {
     let identity: _DisplayList_Identity // 0x4
     @Attribute private(set) var effect: Effect // 0x4
     @Attribute private(set) var position: CGPoint // 0x8

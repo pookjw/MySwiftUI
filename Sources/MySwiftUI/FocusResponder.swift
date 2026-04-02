@@ -1,7 +1,7 @@
 internal import UIKit
 internal import MySwiftUICore
 
-protocol BaseFocusResponder: AnyObject {
+protocol BaseFocusResponder : AnyObject {
     var platformItem: UIFocusItem? { get }
     var viewItem: FocusItem.ViewItem? { get }
     var frame: CGRect? { get }
@@ -15,7 +15,7 @@ protocol BaseFocusResponder: AnyObject {
     var focusDebugDescription: String? { get }
 }
 
-protocol FocusResponder: BaseFocusResponder {
+protocol FocusResponder : BaseFocusResponder {
     var focusItem: FocusItem? { get }
 //    var focusAccessibilityNode: AccessibilityNode? { get set _modify }
 //    var keyPressHandlers: [KeyPress.Handler] { get set _modify }

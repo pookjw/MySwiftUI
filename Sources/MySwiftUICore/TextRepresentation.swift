@@ -25,7 +25,7 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    fileprivate struct TextRepresentationKey: ViewInput {
+    fileprivate struct TextRepresentationKey : ViewInput {
         static var defaultValue: (any PlatformTextRepresentable.Type)? {
             return nil
         }
@@ -38,7 +38,7 @@ package protocol PlatformTextRepresentable {
     static func makeRepresentation(inputs: _ViewInputs, context: Attribute<PlatformTextRepresentableContext>, outputs: inout _ViewOutputs)
 }
 
-package struct PlatformTextRepresentationOptions: OptionSet {
+package struct PlatformTextRepresentationOptions : OptionSet {
     static var includeStyledText: PlatformTextRepresentationOptions {
         return PlatformTextRepresentationOptions(rawValue: 1 << 0)
     }

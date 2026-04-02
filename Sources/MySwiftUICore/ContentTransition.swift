@@ -7,5 +7,5 @@ public struct _Transition_ContentTransition {
 }
 
 @available(*, unavailable)
-extension _Transition_ContentTransition: Sendable {
+extension _Transition_ContentTransition : Sendable {
 }

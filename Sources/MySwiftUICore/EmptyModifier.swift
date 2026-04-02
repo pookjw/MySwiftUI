@@ -1,4 +1,4 @@
-@frozen public struct EmptyModifier: ViewModifier {
+@frozen public struct EmptyModifier : ViewModifier {
     public static let identity = EmptyModifier()
     
     public typealias Body = Never
@@ -23,4 +23,4 @@
     }
 }
 
-extension EmptyModifier: PrimitiveViewModifier {}
+extension EmptyModifier : PrimitiveViewModifier {}

@@ -5,7 +5,7 @@ struct SeparatedOptionValues {
 }
 
 extension SeparatedOptionValues {
-    struct Key: Hashable {
+    struct Key : Hashable {
         private var type: [any AnySeparatedOptionKey.Type]
         
         func hash(into hasher: inout Hasher) {
@@ -24,7 +24,7 @@ package protocol AnySeparatedOptionKey {
     static var isRequiredEffect: Bool { get }
 }
 
-package protocol SeparatedOptionKey: AnySeparatedOptionKey, LayerProperty {
+package protocol SeparatedOptionKey : AnySeparatedOptionKey, LayerProperty {
 }
 
 extension SeparatedOptionKey {
@@ -46,7 +46,7 @@ protocol AnySeparatedOption {
 }
 
 package enum SeparatedOptions {
-    package enum SeparatedThickness: SeparatedOptionKey {
+    package enum SeparatedThickness : SeparatedOptionKey {
         package static var keyPath: String {
             return "separatedThickness"
         }

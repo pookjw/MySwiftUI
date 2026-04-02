@@ -6,7 +6,7 @@ extension EnvironmentValues {
         return self[IsEagerNavigationTransitionEnabled.self]
     }
     
-    fileprivate struct IsEagerNavigationTransitionEnabled: EnvironmentKey {
+    fileprivate struct IsEagerNavigationTransitionEnabled : EnvironmentKey {
         static var defaultValue: Bool {
             return false
         }

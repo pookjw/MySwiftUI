@@ -2,7 +2,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
 @MainActor
-final class EditMenuBridge: NSObject {
+final class EditMenuBridge : NSObject {
     weak var host: ViewRendererHost? = nil
     private weak var listCell: ListCollectionViewCell? = nil
     private(set) var interaction: UIEditMenuInteraction? = nil
@@ -38,7 +38,7 @@ final class EditMenuBridge: NSObject {
     }
 }
 
-extension EditMenuBridge: UIEditMenuInteractionDelegate {
+extension EditMenuBridge : UIEditMenuInteractionDelegate {
     func editMenuInteraction(_ interaction: UIEditMenuInteraction, menuFor configuration: UIEditMenuConfiguration, suggestedActions: [UIMenuElement]) -> UIMenu? {
         assertUnimplemented()
     }

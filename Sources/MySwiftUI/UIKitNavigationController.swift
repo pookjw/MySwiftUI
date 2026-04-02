@@ -1,5 +1,5 @@
 internal import UIKit
 
-class UIKitNavigationController: UINavigationController {
+class UIKitNavigationController : UINavigationController {
     // TODO
 }

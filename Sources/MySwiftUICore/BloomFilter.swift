@@ -1,4 +1,4 @@
-struct BloomFilter: Equatable {
+struct BloomFilter : Equatable {
     @usableFromInline var value: UInt
     
     init() {
@@ -9,7 +9,7 @@ struct BloomFilter: Equatable {
         value = (1 &<< ((hashValue &>> 4))) | (1 &<< ((hashValue &>> 10))) | (1 &<< ((hashValue >> 16)))
     }
     
-    init<T: Hashable>(value: T) {
+    init<T : Hashable>(value: T) {
         self.init(hashValue: value.hashValue)
     }
     
@@ -37,4 +37,4 @@ struct BloomFilter: Equatable {
     }
 }
 
-extension BloomFilter: Sendable {}
+extension BloomFilter : Sendable {}

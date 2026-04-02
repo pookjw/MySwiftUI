@@ -1,6 +1,6 @@
 internal import CoreGraphics
 
-struct _Placement: Equatable {
+struct _Placement : Equatable {
     var proposedSize_: _ProposedSize
     var anchor: UnitPoint
     var anchorPosition: CGPoint

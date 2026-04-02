@@ -9,11 +9,11 @@ struct FeedbackRequest {
 }
 
 extension FeedbackRequest {
-    struct Seed: Hashable {
+    struct Seed : Hashable {
         private let value: Int
     }
     
-    struct PreferenceKey: HostPreferenceKey {
+    struct PreferenceKey : HostPreferenceKey {
         static let defaultValue: [ViewIdentity: (Size3D, [FeedbackRequest])] = [:]
         
         static func reduce(value: inout [ViewIdentity : (Size3D, [FeedbackRequest])], nextValue: () -> [ViewIdentity : (Size3D, [FeedbackRequest])]) {
@@ -26,7 +26,7 @@ struct _FeedbackGeneratorProxy {
     @WeakAttribute private var storage: [FeedbackRequest]?
     private weak var host: GraphHost?
     
-    enum FeedbackType: Hashable {
+    enum FeedbackType : Hashable {
         case unspecified
         case buttonNavigationBarHover
         case buttonNavigationBarTouchDown

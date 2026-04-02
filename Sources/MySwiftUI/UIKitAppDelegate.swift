@@ -4,8 +4,8 @@ private import _UIKitPrivate
 private import FrontBoardServices
 private import MRUIKit
 
-final class AppDelegate: UIResponder, UIApplicationDelegate {
-    static private(set) var shared: AppDelegate? {
+final class AppDelegate : UIResponder, UIApplicationDelegate {
+    private(set) static var shared: AppDelegate? {
         willSet {
             precondition(AppDelegate.shared == nil, "AppDelegate.shared may only be set once!")
         }

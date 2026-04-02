@@ -15,7 +15,7 @@ extension ScrollTargetRole {
         // TODO
     }
     
-    struct ContentKey: PreferenceKey {
+    struct ContentKey : PreferenceKey {
         static var defaultValue: [ScrollTargetRole.Role : [any ScrollableCollection]] {
             return [:]
         }
@@ -81,11 +81,11 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct ScrollTargetRoleKey: GraphInput {
+    fileprivate struct ScrollTargetRoleKey : GraphInput {
         static let defaultValue = OptionalAttribute<ScrollTargetRole.Role?>()
     }
     
-    fileprivate struct RemovePreferenceInput: GraphInput {
+    fileprivate struct RemovePreferenceInput : GraphInput {
         static var defaultValue: Bool {
             return false
         }

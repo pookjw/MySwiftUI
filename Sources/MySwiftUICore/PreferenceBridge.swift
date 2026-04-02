@@ -72,7 +72,7 @@ internal import AttributeGraph
             }
             
             // <+492>
-            func project<T: PreferenceKey>(type: T.Type) {
+            func project<T : PreferenceKey>(type: T.Type) {
                 // x29 - 0x88
                 let combiner = PreferenceCombiner<T>(attributes: [])
                 // w28
@@ -172,7 +172,7 @@ extension PreferenceBridge {
     }
 }
 
-fileprivate struct MergePreferenceKeys: Rule, AsyncAttribute {
+fileprivate struct MergePreferenceKeys : Rule, AsyncAttribute {
     @Attribute private(set) var lhs: PreferenceKeys
     @WeakAttribute var rhs: PreferenceKeys?
     

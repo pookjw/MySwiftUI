@@ -24,7 +24,7 @@ extension _GraphInputs {
     }
 }
 
-fileprivate struct AccessibilityFocusInputKey: ViewInput {
+fileprivate struct AccessibilityFocusInputKey : ViewInput {
     static var defaultValue: OptionalAttribute<AccessibilityFocus> {
         return OptionalAttribute()
     }

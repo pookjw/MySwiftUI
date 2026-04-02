@@ -1,7 +1,7 @@
 internal import AttributeGraph
 internal import CoreGraphics
 
-struct ResetPositionTransform: Rule, AsyncAttribute {
+struct ResetPositionTransform : Rule, AsyncAttribute {
     @Attribute private(set) var position: CGPoint
     @Attribute private(set) var transform: ViewTransform
     

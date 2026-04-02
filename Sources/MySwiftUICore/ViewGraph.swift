@@ -5,7 +5,7 @@ package import CoreGraphics
 internal import QuartzCore
 private import Spatial
 
-package final class ViewGraph: GraphHost {
+package final class ViewGraph : GraphHost {
     package static var current: ViewGraph {
         return GraphHost.currentHost as! ViewGraph
     }
@@ -54,7 +54,7 @@ package final class ViewGraph: GraphHost {
     private(set) weak var _preferenceBridge: PreferenceBridge? = nil
     private(set) var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
     
-    package init<T: View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
+    package init<T : View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
         // <+224>
         self.rootViewType = rootViewType
         self.requestedOutputs = requestedOutputs
@@ -150,7 +150,7 @@ package final class ViewGraph: GraphHost {
              inputs = x29 - 0xc0 (sp + 0x3d0) 
              
              T = sp + 0x10
-             protocol witness T: View = sp + 0x18
+             protocol witness T : View = sp + 0x18
              _containerShape = x25
              _safeAreaInsets = x28
              */
@@ -171,7 +171,7 @@ package final class ViewGraph: GraphHost {
                  inputs = x19
                  oldInputs = x3
                  T = x20
-                 protocol conformance T: View = x22
+                 protocol conformance T : View = x22
                  */
                 // x29 = sp + 0x320
                 // $s7SwiftUI9ViewGraphC04rootC4Type16requestedOutputsACxm_AC0H0VtcAA0C0RzlufcAA01_cH0VSo11AGAttributea_AA01_C6InputsVtcfU_AjA01_D0V_ANtcfU_Tf0nnnsnn_n
@@ -216,11 +216,11 @@ package final class ViewGraph: GraphHost {
         assertUnimplemented()
     }
     
-    package final func append<T: ViewGraphFeature>(feature: T) {
+    package final func append<T : ViewGraphFeature>(feature: T) {
         features.append(feature: feature)
     }
     
-    package final func setRootView<Content: View>(_ rootView: Content) {
+    package final func setRootView<Content : View>(_ rootView: Content) {
         self.rootView.unsafeCast(to: Content.self).value = rootView
     }
     
@@ -651,7 +651,7 @@ package final class ViewGraph: GraphHost {
         return true
     }
     
-    package subscript<T: ViewGraphFeature>(_ type: T.Type) -> UnsafeMutablePointer<T>? {
+    package subscript<T : ViewGraphFeature>(_ type: T.Type) -> UnsafeMutablePointer<T>? {
         return unsafe features[type]
     }
     
@@ -740,7 +740,7 @@ package final class ViewGraph: GraphHost {
 }
 
 extension ViewGraph {
-    package struct Outputs: OptionSet {
+    package struct Outputs : OptionSet {
         package let rawValue: UInt8
         
         package init(rawValue: UInt8) {
@@ -801,7 +801,7 @@ extension ViewGraph {
     }
 }
 
-extension ViewGraph: ViewGraphRenderHost {
+extension ViewGraph : ViewGraphRenderHost {
     func renderDisplayList(_ displayList: DisplayList, asynchronously: Bool, time: Time, nextTime: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time {
         /*
          asynchronously = x25
@@ -909,7 +909,7 @@ extension ViewGraph {
     }
 }
 
-fileprivate struct RootTransform: Rule {
+fileprivate struct RootTransform : Rule {
     var value: ViewTransform {
         if
             let delegate = ViewGraph.current.delegate,
@@ -967,7 +967,7 @@ extension ViewGraphFeature {
     }
 }
 
-package struct ViewGraphGeometryObservers<T: ViewGraphGeometryMeasurer> {
+package struct ViewGraphGeometryObservers<T : ViewGraphGeometryMeasurer> {
     private var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
     
     package func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
@@ -1016,8 +1016,8 @@ extension ViewGraphGeometryObservers.Observer {
 }
 
 package protocol ViewGraphGeometryMeasurer {
-    associatedtype Proposal: Hashable
-    associatedtype Size: Equatable
+    associatedtype Proposal : Hashable
+    associatedtype Size : Equatable
     
     static func measure(given: Proposal, in graph: ViewGraph) -> Size
     static func measure(proposal: Proposal, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size
@@ -1123,7 +1123,7 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     }
 }
 
-package protocol ViewGraphRenderDelegate: AnyObject {
+package protocol ViewGraphRenderDelegate : AnyObject {
     @MainActor var renderingRootView: AnyObject {
         get
     }
@@ -1135,12 +1135,12 @@ package protocol ViewGraphRenderDelegate: AnyObject {
     func renderIntervalForDisplayLink(timestamp: Time) -> Double
 }
 
-package struct ViewGraphRenderContext: Sendable {
+package struct ViewGraphRenderContext : Sendable {
     package var contentsScale: CGFloat
     package var opaqueBackground: Bool
 }
 
-fileprivate struct RootDisplayList: AsyncAttribute, Rule {
+fileprivate struct RootDisplayList : AsyncAttribute, Rule {
     @Attribute var content: DisplayList
     @Attribute var time: Time
     

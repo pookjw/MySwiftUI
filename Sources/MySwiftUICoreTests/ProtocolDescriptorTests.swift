@@ -14,13 +14,13 @@ fileprivate struct ProtocolDescriptionTests {
     }
 }
 
-fileprivate struct ImplMyDescriptor: MySwiftUICore::ProtocolDescriptor {
+fileprivate struct ImplMyDescriptor : MySwiftUICore::ProtocolDescriptor {
     static var descriptor: UnsafeRawPointer {
         return _MySwiftUIShims::_viewProtocolDescriptor()
     }
 }
 
-fileprivate struct OriginalMyDescriptor: _SwiftUICorePrivate::ProtocolDescriptor {
+fileprivate struct OriginalMyDescriptor : _SwiftUICorePrivate::ProtocolDescriptor {
     static var descriptor: UnsafeRawPointer {
         return withUnsafePointer(to: &_SwiftUICorePrivate::__viewProtocolDescriptor) { UnsafeRawPointer($0) }
     }

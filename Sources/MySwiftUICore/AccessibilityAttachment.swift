@@ -1,6 +1,6 @@
 private import ObjectiveC
 
-package struct AccessibilityAttachment: Equatable {
+package struct AccessibilityAttachment : Equatable {
     private var properties: AccessibilityProperties
     private var platformElement: NSObject & PlatformAccessibilityElementProtocol
     

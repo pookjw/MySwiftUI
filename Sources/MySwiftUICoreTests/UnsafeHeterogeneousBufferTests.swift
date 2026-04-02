@@ -85,32 +85,32 @@ fileprivate struct Value {
         var deinitialize = 0
     }
     
-    fileprivate final class VTable: _UnsafeHeterogeneousBuffer_VTable {
-        override class var type: any Any.Type {
+    fileprivate final class VTable : _UnsafeHeterogeneousBuffer_VTable {
+        override class var type : any Any.Type {
             return Int.self
         }
         
-        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+        override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
             elt.body(as: Value.self).initialize(to: from.body(as: Value.self).pointee)
             elt.body(as: Value.self).pointee.counter.moveInitialize += 1
         }
         
-        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+        override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
             elt.body(as: Value.self).pointee.counter.deinitialize += 1
         }
     }
 }
 
-fileprivate final class IntVTable: _UnsafeHeterogeneousBuffer_VTable {
-    override class var type: any Any.Type {
+fileprivate final class IntVTable : _UnsafeHeterogeneousBuffer_VTable {
+    override class var type : any Any.Type {
         return Int.self
     }
     
-    override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+    override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
         elt.body(as: Int.self).initialize(to: from.body(as: Int.self).pointee)
     }
     
-    override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+    override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
         // nop
     }
 }

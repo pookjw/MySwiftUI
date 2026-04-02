@@ -16,7 +16,7 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct CoreInteractionResponderProviderKey: GraphInput {
+    fileprivate struct CoreInteractionResponderProviderKey : GraphInput {
         static var defaultValue: (any CoreInteractionResponderProvider.Type)? {
             return nil
         }

@@ -1,4 +1,4 @@
-package enum DisplayGamut: Int, Hashable/*, ProtobufEnum, CodableByProxy, Serializable*/ {
+package enum DisplayGamut : Int, Hashable/*, ProtobufEnum, CodableByProxy, Serializable*/ {
     case sGRB
     case displayP3
     
@@ -19,7 +19,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct DisplayGamutKey: EnvironmentKey {
+fileprivate struct DisplayGamutKey : EnvironmentKey {
     static var defaultValue: DisplayGamut {
         return .sGRB
     }

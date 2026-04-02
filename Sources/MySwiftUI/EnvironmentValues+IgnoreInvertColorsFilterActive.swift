@@ -11,7 +11,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct IgnoreInvertColorsFilterActiveKey: EnvironmentKey {
+fileprivate struct IgnoreInvertColorsFilterActiveKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

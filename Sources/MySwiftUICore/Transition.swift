@@ -1,11 +1,11 @@
-struct CanTransitionTraitKey: _ViewTraitKey {
+struct CanTransitionTraitKey : _ViewTraitKey {
     static var defaultValue: Bool {
         return false
     }
 }
 
-struct TransitionTraitKey: _ViewTraitKey {
-    @safe static nonisolated(unsafe) let defaultValue = AnyTransition.opacity
+struct TransitionTraitKey : _ViewTraitKey {
+    @safe nonisolated(unsafe) static let defaultValue = AnyTransition.opacity
 }
 
 @preconcurrency @MainActor public protocol Transition {
@@ -45,7 +45,7 @@ extension Transition {
 }
 
 extension Transition {
-    static nonisolated func makeView(view: _GraphValue<Self.Body>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func makeView(view: _GraphValue<Self.Body>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         var copy = inputs
         copy.pushModifierBody(PlaceholderContentView<Self>.self, body: body)
         return Self.Body.makeDebuggableView(view: view, inputs: copy)

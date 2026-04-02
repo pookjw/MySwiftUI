@@ -5,7 +5,7 @@ private import _UIKitPrivate
 private import AttributeGraph
 private import os.log
 
-open class UIHostingController<Content: View>: UIViewController {
+open class UIHostingController<Content : View>: UIViewController {
     final var allowedBehaviors: HostingControllerAllowedBehaviors = [] // 0xa78
     
     final var requiredBridges: HostingControllerBridges = [] {
@@ -39,7 +39,7 @@ open class UIHostingController<Content: View>: UIViewController {
     final var persistentSystemOverlays: (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?) = (nil, nil) // 0xaf8
     final var persistentSystemOverlaysSeedTracker = VersionSeedSetTracker() // 0xb00
     final var shouldDeferPersistentSystemOverlaysToChildViewController: Bool = false // 0xb08
-    final private(set) var navigationBridge: NavigationBridge_PhoneTV? = nil // 0xb10
+    private(set) final var navigationBridge: NavigationBridge_PhoneTV? = nil // 0xb10
     final var keyboardShortcutBridge: KeyboardShortcutBridge? = nil // 0xb28
     final var ornamentBridge: OrnamentBridge<Content>? = nil // 0xb20
     final var overridePreferredContainerBackgroundStyle: UIContainerBackgroundStyle = .automatic /* 0xb28 */ {
@@ -595,7 +595,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func addScreenEdgesSystemGesturePreferences(to viewGraph: ViewGraph) {
-        func add<T: HostPreferenceKey>(preference: T.Type) {
+        func add<T : HostPreferenceKey>(preference: T.Type) {
             viewGraph.addPreference(preference)
             screenEdgesSystemGestureSeedTracker.addPreference(preference)
         }
@@ -604,7 +604,7 @@ open class UIHostingController<Content: View>: UIViewController {
     }
     
     final func addPersistentSystemOverlaysPreferences(to viewGraph: ViewGraph) {
-        func add<T: HostPreferenceKey>(preference: T.Type) {
+        func add<T : HostPreferenceKey>(preference: T.Type) {
             viewGraph.addPreference(preference)
             persistentSystemOverlaysSeedTracker.addPreference(preference)
         }
@@ -1602,17 +1602,17 @@ extension UIHostingController {
 extension UIHostingController : _UIHostingViewable where Content == AnyView {
 }
 
-extension UIHostingController: @preconcurrency ViewGraphBridgePropertiesDelegate {
+extension UIHostingController : @preconcurrency ViewGraphBridgePropertiesDelegate {
     func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
         assertUnimplemented()
     }
 }
 
-extension UIHostingController: KeyboardShortcutSource {
+extension UIHostingController : KeyboardShortcutSource {
     // TODO
 }
 
-extension UIHostingController: UIHostingControllerProvider {
+extension UIHostingController : UIHostingControllerProvider {
     var hostingControllerOverrides: HostingControllerOverrides {
         get {
             return overrides
@@ -1623,7 +1623,7 @@ extension UIHostingController: UIHostingControllerProvider {
     }
 }
 
-extension UIHostingController: ContentSizedSceneDelegate {
+extension UIHostingController : ContentSizedSceneDelegate {
     package var coalesceChanges: Bool {
         assertUnimplemented()
     }

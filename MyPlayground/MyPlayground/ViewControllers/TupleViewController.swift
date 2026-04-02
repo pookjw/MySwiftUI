@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     var body: some View {
         Color.black
         Color.white
@@ -21,7 +21,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class TupleViewController: UIViewController {
+final class TupleViewController : UIViewController {
     override func loadView() {
         let rootView = MyView()
         view = _UIHostingView(rootView: rootView)

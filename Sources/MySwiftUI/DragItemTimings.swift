@@ -17,7 +17,7 @@ struct DragItemTimings {
 }
 
 extension DragItemTimings {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static var defaultValue: DragItemTimings {
             return DragItemTimings()
         }

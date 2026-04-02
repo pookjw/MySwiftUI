@@ -121,7 +121,7 @@ extension CGSize {
 
 extension CGSize {
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inlinable prefix package static func - (operand: CGSize) -> CGSize {
+    @inlinable package static prefix func - (operand: CGSize) -> CGSize {
         var result = operand
         result.width = -result.width
         result.height = -result.height

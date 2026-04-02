@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-final class ColorWhiteViewController: UIViewController {
+final class ColorWhiteViewController : UIViewController {
     override func loadView() {
         view = _UIHostingView(rootView: Color.white)
     }

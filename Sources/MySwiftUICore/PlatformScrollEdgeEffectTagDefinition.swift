@@ -5,16 +5,16 @@ open class PlatformScrollEdgeEffectTagDefinition {
         assertUnimplemented()
     }
     
-    @safe package static nonisolated(unsafe) var definition: PlatformScrollEdgeEffectTagDefinition.Type?
+    @safe nonisolated(unsafe) package static var definition: PlatformScrollEdgeEffectTagDefinition.Type?
     
     package static func setDefinition(_ type: PlatformScrollEdgeEffectTagDefinition.Type) {
         definition = type
     }
     
-    open class var modifier: any PlatformScrollEdgeEffectTagModifier.Type {
+    open class var modifier : any PlatformScrollEdgeEffectTagModifier.Type {
         preconditionFailure() // abstract
     }
 }
 
-@_spi(Internal) public protocol PlatformScrollEdgeEffectTagModifier: ViewModifier {
+@_spi(Internal) public protocol PlatformScrollEdgeEffectTagModifier : ViewModifier {
     }

@@ -38,7 +38,7 @@
     }
 }
 
-@_spi(Internal) public enum ResponderVisitorResult: Hashable {
+@_spi(Internal) public enum ResponderVisitorResult : Hashable {
     case next
     case skipToNextSibling
     case cancel

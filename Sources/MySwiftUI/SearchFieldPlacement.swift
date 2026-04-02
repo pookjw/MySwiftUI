@@ -1,7 +1,7 @@
 // 01524358DA8FEB8BCC0A94C08F00494A
 private import MySwiftUICore
 
-public struct SearchFieldPlacement: Sendable {
+public struct SearchFieldPlacement : Sendable {
     private var role: SearchFieldPlacement.Role
     
     public static let automatic = SearchFieldPlacement(role: .automatic)
@@ -12,7 +12,7 @@ public struct SearchFieldPlacement: Sendable {
     @available(iOS 15.0, macOS 12.0, *)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
-    @safe public internal(set) static nonisolated(unsafe) var toolbarPrincipal = SearchFieldPlacement(role: .toolbarPrincipal)
+    @safe nonisolated(unsafe) public internal(set) static var toolbarPrincipal = SearchFieldPlacement(role: .toolbarPrincipal)
     
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
@@ -47,7 +47,7 @@ public struct SearchFieldPlacement: Sendable {
 }
 
 extension SearchFieldPlacement {
-    enum Role: Equatable {
+    enum Role : Equatable {
         case navigationBarDrawer(SearchFieldPlacement.DrawerDisplayMode) // 0/1
         case automatic // 2
         case toolbar // 3
@@ -86,7 +86,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct SearchFieldPlacementKey: EnvironmentKey {
+fileprivate struct SearchFieldPlacementKey : EnvironmentKey {
     static var defaultValue: SearchFieldPlacement.Role {
         return .none
     }

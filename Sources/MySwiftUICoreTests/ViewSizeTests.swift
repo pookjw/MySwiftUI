@@ -36,7 +36,7 @@ extension ViewSizeTests {
 }
 
 extension ViewSizeTests {
-    struct Input_init_proposal: Hashable {
+    struct Input_init_proposal : Hashable {
         let value: CGSize
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -160,7 +160,7 @@ extension ViewSizeTests {
 }
 
 extension ViewSizeTests {
-    struct Input_init_size3D: Hashable {
+    struct Input_init_size3D : Hashable {
         let value: Size3D
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -539,7 +539,7 @@ extension ViewSizeTests {
 }
 
 extension ViewSizeTests {
-    struct Input_subscript: Hashable {
+    struct Input_subscript : Hashable {
         let initialValue: CGSize
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -653,7 +653,7 @@ extension ViewSizeTests {
 }
 
 extension ViewSizeTests {
-    struct Input_animatableData: Hashable {
+    struct Input_animatableData : Hashable {
         let initialValue: CGSize
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -761,7 +761,7 @@ extension ViewSizeTests {
 }
 
 extension ViewSizeTests {
-    struct Input_fixed: Hashable {
+    struct Input_fixed : Hashable {
         let size: CGSize
     }
     
@@ -815,7 +815,7 @@ extension ViewSizeTests {
 }
 
 extension ViewSizeTests {
-    struct Input_inset: Hashable {
+    struct Input_inset : Hashable {
         let value: CGSize
         let proposalWidth: CGFloat?
         let proposalHeight: CGFloat?
@@ -964,7 +964,7 @@ extension ViewSizeTests {
 }
 
 extension ViewSizeTests {
-    struct Input_equatable: Hashable {
+    struct Input_equatable : Hashable {
         let lhsValue: CGSize
         let lhsProposalWidth: CGFloat?
         let lhsProposalHeight: CGFloat?

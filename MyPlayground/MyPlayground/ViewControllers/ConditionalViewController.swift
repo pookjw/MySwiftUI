@@ -19,7 +19,7 @@ fileprivate final class Model {
     var flag = false
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let model: Model
     
     var body: some View {
@@ -31,7 +31,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class ConditionalViewController: UIViewController {
+final class ConditionalViewController : UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     private let model = Model()
     private var task: Task<Void, Never>?

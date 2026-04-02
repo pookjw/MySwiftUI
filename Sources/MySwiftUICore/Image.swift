@@ -1,5 +1,5 @@
 
-public struct Image: View {
+public struct Image : View {
     public var body: Never {
         assertUnimplemented()
     } // TODO
@@ -35,9 +35,9 @@ extension Image {
     }
     
     public struct DynamicRange {
-        @safe public static nonisolated(unsafe) let standard = Image.DynamicRange(storage: .standard)
-        @safe public static nonisolated(unsafe) let constrainedHigh = Image.DynamicRange(storage: .constrainedHigh)
-        @safe public static nonisolated(unsafe) let high = Image.DynamicRange(storage: .high)
+        @safe nonisolated(unsafe) public static let standard = Image.DynamicRange(storage: .standard)
+        @safe nonisolated(unsafe) public static let constrainedHigh = Image.DynamicRange(storage: .constrainedHigh)
+        @safe nonisolated(unsafe) public static let high = Image.DynamicRange(storage: .high)
         
         private(set) var storage: Image.DynamicRange.Storage
         
@@ -47,7 +47,7 @@ extension Image {
     }
 }
 
-extension Image.ResizingMode: Hashable {}
+extension Image.ResizingMode : Hashable {}
 
 extension Image.DynamicRange {
     enum Storage {

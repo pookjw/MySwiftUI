@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     @Environment(\.openURL) private var openURL
     
     var body: some View {
@@ -22,7 +22,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class OpenURLActionViewController: UIViewController {
+final class OpenURLActionViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

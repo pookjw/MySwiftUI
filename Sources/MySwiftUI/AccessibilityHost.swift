@@ -1,4 +1,4 @@
 
-protocol AccessibilityHost: AnyObject {
+protocol AccessibilityHost : AnyObject {
     
 }

@@ -18,13 +18,13 @@ extension EnvironmentValues {
     } 
 }
 
-fileprivate struct AssetCatalogConfigurationKey: EnvironmentKey {
+fileprivate struct AssetCatalogConfigurationKey : EnvironmentKey {
     static var defaultValue: ViewGraphHost.AssetCatalogConfiguration {
         return ViewGraphHost.AssetCatalogConfiguration(referenceBounds: .zero, pointsPerInch: 0, preferredArtworkSubtype: 1)
     }
 }
 
-fileprivate struct RenderingRootViewKey: EnvironmentKey {
+fileprivate struct RenderingRootViewKey : EnvironmentKey {
     static var defaultValue: AnyObject? {
         return nil
     }

@@ -1,6 +1,6 @@
 private import AttributeGraph
 
-struct ConstantLocation<Value>: Location {
+struct ConstantLocation<Value> : Location {
     var value: Value
     
     var wasRead: Bool {

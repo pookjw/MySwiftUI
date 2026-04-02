@@ -1,6 +1,6 @@
 private import _DarwinFoundation2._string
 
-@safe @_spi(Internal) public struct UnsafeHeterogeneousBuffer: Collection {
+@safe @_spi(Internal) public struct UnsafeHeterogeneousBuffer : Collection {
     private var buf: UnsafeMutableRawPointer?
     private var available: Int32
     private var _count: Int32
@@ -264,7 +264,7 @@ private import _DarwinFoundation2._string
 }
 
 extension UnsafeHeterogeneousBuffer {
-    @_spi(Internal) public struct Index: Comparable {
+    @_spi(Internal) public struct Index : Comparable {
         fileprivate var index: Int32
         fileprivate var offset: Int32
         
@@ -273,7 +273,7 @@ extension UnsafeHeterogeneousBuffer {
             self.offset = offset
         }
         
-        public static func < (lhs: UnsafeHeterogeneousBuffer.Index, rhs: UnsafeHeterogeneousBuffer.Index) -> Bool {
+        public static func < (lhs : UnsafeHeterogeneousBuffer.Index, rhs : UnsafeHeterogeneousBuffer.Index) -> Bool {
             return lhs.index < rhs.index
         }
         
@@ -306,7 +306,7 @@ extension UnsafeHeterogeneousBuffer {
             .assumingMemoryBound(to: T.self)
     }
     
-    func vtable<T: _UnsafeHeterogeneousBuffer_VTable>(as: T.Type) -> T.Type {
+    func vtable<T : _UnsafeHeterogeneousBuffer_VTable>(as: T.Type) -> T.Type {
         return unsafe UnsafeRawPointer(item)
             .advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.offset(of: \.vtable)!)
             .assumingMemoryBound(to: Swift.type(of: T.self))
@@ -328,15 +328,15 @@ extension UnsafeHeterogeneousBuffer {
 }
 
 class _UnsafeHeterogeneousBuffer_VTable {
-    class var type: Any.Type {
+    class var type : Any.Type {
         preconditionFailure() // abstract
     }
     
-    class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+    class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
         preconditionFailure() // abstract
     }
     
-    class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+    class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
         preconditionFailure() // abstract
     }
 }

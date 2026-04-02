@@ -1,7 +1,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import Foundation
 
-@objc(SwiftUIEnvironmentWrapper) final class EnvironmentWrapper: ViewGraphHostEnvironmentWrapper {
+@objc(SwiftUIEnvironmentWrapper) final class EnvironmentWrapper : ViewGraphHostEnvironmentWrapper {
     private let focusedValues: FocusedValues
     
     init(focusedValues: FocusedValues) {

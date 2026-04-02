@@ -2,7 +2,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
 // TODO: final인지 검증
-class UIKitGestureRecognizer: UIGestureRecognizer {
+class UIKitGestureRecognizer : UIGestureRecognizer {
     weak var eventBridge: EventBindingBridge? = nil
     let twoHandedInteractionRelationshipGesture = UIKitRelationshipGestureRecognizer()
     private var inFlightTouchSerialIDs: [ObjectIdentifier : UInt32] = [:]

@@ -3,7 +3,7 @@ public import Observation
 private import AttributeGraph
 private import os.log
 
-@frozen @propertyWrapper public struct State<Value>: DynamicProperty {
+@frozen @propertyWrapper public struct State<Value> : DynamicProperty {
     @usableFromInline
     internal var _value: Value
     @usableFromInline
@@ -73,16 +73,16 @@ private import os.log
     }
 }
 
-extension State: Sendable where Value: Sendable {
+extension State : Sendable where Value : Sendable {
 }
 
-extension State where Value: ExpressibleByNilLiteral {
+extension State where Value : ExpressibleByNilLiteral {
     @inlinable public init() {
         self.init(wrappedValue: nil)
     }
 }
 
-fileprivate struct StatePropertyBox<Value>: DynamicPropertyBox {
+fileprivate struct StatePropertyBox<Value> : DynamicPropertyBox {
     let signal: WeakAttribute<Void>
     var location: StoredLocation<Value>?
     

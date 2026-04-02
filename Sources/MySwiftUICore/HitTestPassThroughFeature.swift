@@ -1,5 +1,5 @@
 enum HitTestPassThroughFeature {
-    @safe static nonisolated(unsafe) var overrideValue: Bool? = nil
+    @safe nonisolated(unsafe) static var overrideValue: Bool? = nil
     
     static var isEnabled: Bool {
         if let overrideValue {

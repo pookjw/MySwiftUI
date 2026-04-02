@@ -42,7 +42,7 @@ func traceDynamicPropertyEvent(
     )
 }
 
-protocol InstrumentsDescriptiveDynamicProperty: DynamicProperty {
+protocol InstrumentsDescriptiveDynamicProperty : DynamicProperty {
     var _instrumentsLinkValue: Any { get }
 }
 
@@ -58,19 +58,19 @@ extension InstrumentsDescriptiveDynamicProperty {
     }
 }
 
-extension State: InstrumentsDescriptiveDynamicProperty {
+extension State : InstrumentsDescriptiveDynamicProperty {
     var _instrumentsLinkValue: Any {
         assertUnimplemented()
     }
 }
 
-extension Environment: InstrumentsDescriptiveDynamicProperty {
+extension Environment : InstrumentsDescriptiveDynamicProperty {
     var _instrumentsLinkValue: Any {
         assertUnimplemented()
     }
 }
 
-extension Binding: InstrumentsDescriptiveDynamicProperty {
+extension Binding : InstrumentsDescriptiveDynamicProperty {
     var _instrumentsLinkValue: Any {
         assertUnimplemented()
     }

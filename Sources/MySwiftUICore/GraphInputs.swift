@@ -53,7 +53,7 @@ public struct _GraphInputs {
         }
     }
     
-    package subscript<T: GraphInput>(_ type: T.Type) -> T.Value {
+    package subscript<T : GraphInput>(_ type: T.Type) -> T.Value {
         get {
             return customInputs[type]
         }
@@ -65,7 +65,7 @@ public struct _GraphInputs {
         }
     }
     
-    subscript<T: GraphInput>(_ type: T.Type) -> T.Value where T.Value : GraphReusable {
+    subscript<T : GraphInput>(_ type: T.Type) -> T.Value where T.Value : GraphReusable {
         get {
             return customInputs[type]
         }
@@ -83,16 +83,16 @@ public struct _GraphInputs {
         cachedEnvironment = MutableBox(cachedEnvironment.value)
     }
     
-    mutating func append<Input: GraphInput, Value>(_ value: Value, to input: Input.Type) where Input.Value == Stack<Value> {
+    mutating func append<Input : GraphInput, Value>(_ value: Value, to input: Input.Type) where Input.Value == Stack<Value> {
         customInputs[Input.self].push(value)
     }
     
-    mutating func append<Input: GraphInput, Reusable: GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
+    mutating func append<Input : GraphInput, Reusable : GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
         recordReusableInput(input)
         customInputs[Input.self].push(reusable)
     }
     
-    mutating func popLast<Input: GraphInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
+    mutating func popLast<Input : GraphInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
         return customInputs[Input.self].pop()
     }
     
@@ -151,7 +151,7 @@ public struct _GraphInputs {
         return cachedEnvironment.value.attribute(id: id, block)
     }
     
-    fileprivate mutating func recordReusableInput<Input: GraphInput>(_ input: Input.Type) where Input.Value: GraphReusable {
+    fileprivate mutating func recordReusableInput<Input : GraphInput>(_ input: Input.Type) where Input.Value : GraphReusable {
         guard GraphReuseOptions.current.contains(.expandedReuse) else {
             return
         }
@@ -169,7 +169,7 @@ public struct _GraphInputs {
 }
 
 extension _GraphInputs {
-    package struct Phase: Equatable {
+    package struct Phase : Equatable {
         private var value: UInt32
         
         init(value: UInt32) {
@@ -217,7 +217,7 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    struct Options: OptionSet {
+    struct Options : OptionSet {
         static var viewRequestsLayoutComputer: _GraphInputs.Options {
             return _GraphInputs.Options(rawValue: (1 << 1))
         }
@@ -293,9 +293,9 @@ extension _GraphInputs {
 }
 
 @available(*, unavailable)
-extension _GraphInputs: Sendable {}
+extension _GraphInputs : Sendable {}
 
-fileprivate struct MergedEnvironment: Rule, AsyncAttribute {
+fileprivate struct MergedEnvironment : Rule, AsyncAttribute {
     @WeakAttribute var lhs: EnvironmentValues?
     @Attribute private(set) var rhs: EnvironmentValues
     
@@ -304,7 +304,7 @@ fileprivate struct MergedEnvironment: Rule, AsyncAttribute {
     }
 }
 
-fileprivate struct MergedTransaction: Rule, AsyncAttribute {
+fileprivate struct MergedTransaction : Rule, AsyncAttribute {
     @WeakAttribute var lhs: Transaction?
     @Attribute private(set) var rhs: Transaction
     
@@ -318,7 +318,7 @@ fileprivate struct MergedTransaction: Rule, AsyncAttribute {
     }
 }
 
-fileprivate struct MergedPhase: Rule, AsyncAttribute {
+fileprivate struct MergedPhase : Rule, AsyncAttribute {
     @WeakAttribute var lhs: _GraphInputs.Phase?
     @Attribute private(set) var rhs: _GraphInputs.Phase
     

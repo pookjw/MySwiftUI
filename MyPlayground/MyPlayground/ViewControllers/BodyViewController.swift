@@ -12,13 +12,13 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     var body: some View {
         Color.white
     }
 }
 
-final class BodyViewController: UIViewController {
+final class BodyViewController : UIViewController {
     override func loadView() {
         let rootView = MyView()
         view = _UIHostingView(rootView: rootView)

@@ -1,4 +1,4 @@
-protocol PrimitiveScene: Scene {
+protocol PrimitiveScene : Scene {
 }
 
 extension PrimitiveScene {

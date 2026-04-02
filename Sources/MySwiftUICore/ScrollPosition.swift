@@ -22,23 +22,23 @@ extension _GraphInputs {
         assertUnimplemented()
     }
     
-    fileprivate struct ScrollPositionKey: GraphInput {
+    fileprivate struct ScrollPositionKey : GraphInput {
         static var defaultValue: ScrollPositionStorage? {
             return nil
         }
     }
     
-    fileprivate struct ScrollPositionAnchorKey: GraphInput {
+    fileprivate struct ScrollPositionAnchorKey : GraphInput {
         static let defaultValue = OptionalAttribute<UnitPoint?>()
     }
     
-    fileprivate struct ContentScrollPositionKey: GraphInput {
+    fileprivate struct ContentScrollPositionKey : GraphInput {
         static var defaultValue: ScrollPositionStorage? {
             return nil
         }
     }
     
-    fileprivate struct ContentScrollPositionAnchorKey: GraphInput {
+    fileprivate struct ContentScrollPositionAnchorKey : GraphInput {
         static let defaultValue = OptionalAttribute<UnitPoint?>()
     }
 }
@@ -53,14 +53,14 @@ enum ScrollPositionStorage {
     case value(Attribute<ScrollPosition>)
 }
 
-public struct ScrollPosition: Sendable {
+public struct ScrollPosition : Sendable {
     private var storage: ScrollPosition.Storage
-    @safe private nonisolated(unsafe) var idType: any Hashable.Type
+    @safe nonisolated(unsafe) private var idType: any Hashable.Type
     private var seed: UInt
 }
 
 extension ScrollPosition {
-    enum Storage: Sendable {
+    enum Storage : Sendable {
         case viewID(ScrollPosition.ViewID)
         case edge(Edge)
         case point(CGPoint)
@@ -70,7 +70,7 @@ extension ScrollPosition {
         case positionedByUser
     }
     
-    struct ViewID: @unchecked Sendable {
+    struct ViewID : @unchecked Sendable {
         private var id: any Hashable
         private var anchor: UnitPoint?
     }

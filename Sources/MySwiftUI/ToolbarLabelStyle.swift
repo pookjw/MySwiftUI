@@ -2,7 +2,7 @@ public import MySwiftUICore
 public import Foundation
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-public struct ToolbarLabelStyle: Sendable, Equatable {
+public struct ToolbarLabelStyle : Sendable, Equatable {
     private(set) var role: ToolbarLabelStyle.Role
     
     public static var automatic: ToolbarLabelStyle {
@@ -32,14 +32,14 @@ public struct ToolbarLabelStyle: Sendable, Equatable {
 }
 
 extension ToolbarLabelStyle {
-    enum Role: UInt, Hashable {
+    enum Role : UInt, Hashable {
         case automatic
         case titleAndIcon
         case iconOnly
         case titleOnly
     }
     
-    enum Data: Equatable {
+    enum Data : Equatable {
         static func == (lhs: ToolbarLabelStyle.Data, rhs: ToolbarLabelStyle.Data) -> Bool {
             assertUnimplemented()
         }
@@ -51,11 +51,11 @@ extension ToolbarLabelStyle {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension Scene {
-    public nonisolated func windowToolbarLabelStyle(fixed: ToolbarLabelStyle) -> some Scene {
+    nonisolated public func windowToolbarLabelStyle(fixed: ToolbarLabelStyle) -> some Scene {
         assertUnimplemented()
     }
     
-    public nonisolated func windowToolbarLabelStyle(_ toolbarLabelStyle: Binding<ToolbarLabelStyle>) -> some Scene {
+    nonisolated public func windowToolbarLabelStyle(_ toolbarLabelStyle: Binding<ToolbarLabelStyle>) -> some Scene {
         assertUnimplemented()
     }
 }

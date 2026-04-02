@@ -24,5 +24,5 @@ enum UICoreUnifiedLayout {
         cachedValue = nil
     }
     
-    @safe private static nonisolated(unsafe) var cachedValue: Bool? = nil
+    @safe nonisolated(unsafe) private static var cachedValue: Bool? = nil
 }

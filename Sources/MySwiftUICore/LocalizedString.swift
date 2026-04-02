@@ -2,7 +2,7 @@
 public import Foundation
 private import _MySwiftUIShims
 
-@frozen public struct LocalizedStringKey: Equatable, ExpressibleByStringInterpolation {
+@frozen public struct LocalizedStringKey : Equatable, ExpressibleByStringInterpolation {
     internal var key: String
     internal var hasFormatting: Bool = false
     private var arguments: [LocalizedStringKey.FormatArgument]
@@ -23,14 +23,14 @@ private import _MySwiftUIShims
     }
     
     @usableFromInline
-    internal struct FormatArgument: Equatable {
+    internal struct FormatArgument : Equatable {
         @usableFromInline
         internal static func == (lhs: LocalizedStringKey.FormatArgument, rhs: LocalizedStringKey.FormatArgument) -> Bool {
             assertUnimplemented()
         }
     }
     
-    public struct StringInterpolation: StringInterpolationProtocol {
+    public struct StringInterpolation : StringInterpolationProtocol {
         @_semantics("swiftui.localized.interpolation_init")
         public init(literalCapacity: Int, interpolationCount: Int) {
             assertUnimplemented()
@@ -53,34 +53,34 @@ private import _MySwiftUIShims
         }
         
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
-        public mutating func appendInterpolation<Subject>(_ subject: Subject, formatter: Formatter? = nil) where Subject: ReferenceConvertible {
+        public mutating func appendInterpolation<Subject>(_ subject: Subject, formatter: Formatter? = nil) where Subject : ReferenceConvertible {
             assertUnimplemented()
         }
         
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
-        public mutating func appendInterpolation<Subject>(_ subject: Subject, formatter: Formatter? = nil) where Subject: NSObject {
+        public mutating func appendInterpolation<Subject>(_ subject: Subject, formatter: Formatter? = nil) where Subject : NSObject {
             assertUnimplemented()
         }
         
         @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
-        public mutating func appendInterpolation<F>(_ input: F.FormatInput, format: F) where F: FormatStyle, F.FormatInput: Equatable, F.FormatOutput == String {
+        public mutating func appendInterpolation<F>(_ input: F.FormatInput, format: F) where F : FormatStyle, F.FormatInput : Equatable, F.FormatOutput == String {
             assertUnimplemented()
         }
         
         @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
-        public mutating func appendInterpolation<F>(_ input: F.FormatInput, format: F) where F: FormatStyle, F.FormatInput: Equatable, F.FormatOutput == AttributedString {
+        public mutating func appendInterpolation<F>(_ input: F.FormatInput, format: F) where F : FormatStyle, F.FormatInput : Equatable, F.FormatOutput == AttributedString {
             assertUnimplemented()
         }
         
         @_transparent
-        public mutating func appendInterpolation<T>(_ value: T) where T: _FormatSpecifiable {
+        public mutating func appendInterpolation<T>(_ value: T) where T : _FormatSpecifiable {
             appendInterpolation(value, specifier: formatSpecifier(T.self))
         }
         
         @_semantics("swiftui.localized.appendInterpolation_param_specifier")
-        public mutating func appendInterpolation<T>(_ value: T, specifier: String) where T: _FormatSpecifiable {
+        public mutating func appendInterpolation<T>(_ value: T, specifier: String) where T : _FormatSpecifiable {
             assertUnimplemented()
         }
         
@@ -106,7 +106,7 @@ private import _MySwiftUIShims
         @usableFromInline
         @available(*, deprecated, message: "Localized string interpolation produces an unlocalized, debug description for this type of value. Use a type supported by LocalizedStringKey.StringInterpolation or initialize a LocalizedStringResource instead with an interpolated value that conforms to CustomLocalizedStringResourceConvertible.")
         @_semantics("swiftui.localized.appendInterpolation_@_specifier")
-        internal mutating func appendInterpolation<T>(_ view: T) where T: View {
+        internal mutating func appendInterpolation<T>(_ view: T) where T : View {
             assertUnimplemented()
         }
         
@@ -137,15 +137,15 @@ private import _MySwiftUIShims
 }
 
 @available(*, unavailable)
-extension LocalizedStringKey.StringInterpolation: Sendable {
+extension LocalizedStringKey.StringInterpolation : Sendable {
 }
 
 @available(*, unavailable)
-extension LocalizedStringKey: Sendable {
+extension LocalizedStringKey : Sendable {
 }
 
 @available(*, unavailable)
-extension LocalizedStringKey.FormatArgument: Sendable {
+extension LocalizedStringKey.FormatArgument : Sendable {
 }
 
 @available(iOS 16.0, macOS 13, tvOS 16.0, watchOS 9.0, *)
@@ -266,7 +266,7 @@ extension Text {
     }
 }
 
-fileprivate final class LocalizedTextStorage: AnyTextStorage {
+fileprivate final class LocalizedTextStorage : AnyTextStorage {
     let key: LocalizedStringKey
     let table: String?
     let bundle: Bundle?
@@ -311,7 +311,7 @@ extension _LocalizationInfo : Sendable {
 }
 
 extension LocalizedStringKey {
-    func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, options: Text.ResolveOptions, table: String?, bundle: Bundle?) {
+    func resolve<T : ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, options: Text.ResolveOptions, table: String?, bundle: Bundle?) {
         if isLinkedOnOrAfter(.v3) && !options.contains(.ignoreMarkdown) {
             let bundle = bundle ?? .main
             // <+684>
@@ -356,11 +356,11 @@ extension LocalizedStringKey {
         assertUnimplemented()
     }
     
-    func resolveArguments<T: ResolvedTextContainer>(from string: NSAttributedString, into container: inout T, in environment: EnvironmentValues, options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+    func resolveArguments<T : ResolvedTextContainer>(from string: NSAttributedString, into container: inout T, in environment: EnvironmentValues, options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
         assertUnimplemented()
     }
     
-    func resolveArguments<T: ResolvedTextContainer>(from string: String, into container: inout T, in environment: EnvironmentValues, options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
+    func resolveArguments<T : ResolvedTextContainer>(from string: String, into container: inout T, in environment: EnvironmentValues, options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
         assertUnimplemented()
     }
 }

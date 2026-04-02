@@ -25,7 +25,7 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    fileprivate struct DynamicHiddenRepresentationKey: ViewInput {
+    fileprivate struct DynamicHiddenRepresentationKey : ViewInput {
         static var defaultValue: (any PlatformDynamicHiddenRepresentable.Type)? {
             return nil
         }

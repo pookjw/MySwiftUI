@@ -1,7 +1,7 @@
 package import AttributeGraph
 
 package struct CustomEventTrace {
-    static nonisolated(unsafe) var recorder: Recorder? = nil
+    nonisolated(unsafe) static var recorder: Recorder? = nil
     
     @inline(always)
     package static func instantiateBegin(_ subgraph: Subgraph) {
@@ -401,7 +401,7 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: (hasValue, bodyChanged))
     }
     
-    fileprivate static nonisolated(unsafe) var enabledCategories: [Bool] = Array(repeating: false, count: 256)
+    nonisolated(unsafe) fileprivate static var enabledCategories: [Bool] = Array(repeating: false, count: 256)
     
     fileprivate static func extractFunctionData(_ function: Animation.Function, _ d0: inout Double, _ d1: inout Double, _ d2: inout Double, _ d3: inout Double) {
         assertUnimplemented()
@@ -420,7 +420,7 @@ extension CustomEventTrace {
     }
 }
 
-package enum CustomEventCategory: Int8, Hashable {
+package enum CustomEventCategory : Int8, Hashable {
     case unknown = 0
     case observable = 0x4f
     case transaction = 0x54
@@ -432,13 +432,13 @@ package enum CustomEventCategory: Int8, Hashable {
 }
 
 extension CustomEventTrace {
-    package enum ObservableEventType: Int8, Hashable {
+    package enum ObservableEventType : Int8, Hashable {
         case firedWithTransaction = 0x46
     }
 }
 
 extension CustomEventTrace {
-    package enum TransactionEventType: Int8, Hashable {
+    package enum TransactionEventType : Int8, Hashable {
         case begin = 0x42
         case end = 0x45
         case append = 0x41
@@ -449,7 +449,7 @@ extension CustomEventTrace {
 }
 
 extension CustomEventTrace {
-    package enum ActionEventType: Int8, Hashable {
+    package enum ActionEventType : Int8, Hashable {
         case enqueue = 0x45
         case start = 0x53
         case finish = 0x46
@@ -458,7 +458,7 @@ extension CustomEventTrace {
 }
 
 extension CustomEventTrace.ActionEventType {
-    package enum Reason: UInt32, Hashable {
+    package enum Reason : UInt32, Hashable {
         case onAppear = 0x41
         case onChange = 0x43
         case onDisappear = 0x44
@@ -480,7 +480,7 @@ extension CustomEventTrace.ActionEventType {
 }
 
 extension CustomEventTrace {
-    package enum AnimationEventType: Int8, Hashable {
+    package enum AnimationEventType : Int8, Hashable {
         case animationBegin = 0x1
         case animationEnd = 0x2
         case animationAttrUpdate = 0x3
@@ -491,7 +491,7 @@ extension CustomEventTrace {
 }
 
 extension CustomEventTrace {
-    package enum InstantiationEventType: Int8, Hashable {
+    package enum InstantiationEventType : Int8, Hashable {
         case assign = 0x41
         case instantiateBegin = 0x42
         case instantiateEnd = 0x43
@@ -502,7 +502,7 @@ extension CustomEventTrace {
 }
 
 extension CustomEventTrace.InstantiationEventType {
-    package enum Kind: Int8, Hashable {
+    package enum Kind : Int8, Hashable {
         case graph = 0x0
         case app = 0x1
         case view = 0x2
@@ -512,7 +512,7 @@ extension CustomEventTrace.InstantiationEventType {
 }
 
 extension CustomEventTrace {
-    package enum DynamicPropertyEventType: Int8, Hashable {
+    package enum DynamicPropertyEventType : Int8, Hashable {
         case propertiesUpdated = 0x41
     }
 }

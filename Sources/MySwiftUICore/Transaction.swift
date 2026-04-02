@@ -4,7 +4,7 @@ private import _MySwiftUIShims
 internal import AttributeGraph
 
 public struct Transaction {
-    package static fileprivate(set) var current: Transaction {
+    package fileprivate(set) static var current: Transaction {
         get {
             guard let transactionData = unsafe _threadTransactionData() else {
                 return Transaction()
@@ -56,7 +56,7 @@ public struct Transaction {
         assertUnimplemented()
     }
     
-    public subscript<K: TransactionKey>(key: K.Type) -> K.Value {
+    public subscript<K : TransactionKey>(key: K.Type) -> K.Value {
         get {
             return plist[TransactionPropertyKey<K>.self]
         }
@@ -108,7 +108,7 @@ extension Transaction {
 }
 
 @available(*, unavailable)
-extension Transaction: Sendable {}
+extension Transaction : Sendable {}
 
 public protocol TransactionKey {
     associatedtype Value
@@ -123,13 +123,13 @@ extension TransactionKey {
 }
 
 extension Transaction {
-    package struct ID: Hashable {
+    package struct ID : Hashable {
         var value: UInt32
     }
 }
 
-struct TransactionID: Hashable, Comparable {
-    static func < (lhs: TransactionID, rhs: TransactionID) -> Bool {
+struct TransactionID : Hashable, Comparable {
+    static func < (lhs : TransactionID, rhs : TransactionID) -> Bool {
         return lhs.id < rhs.id
     }
     
@@ -177,7 +177,7 @@ public func withTransaction<Result>(_ transaction: Transaction, _ body: () throw
     return try withTransaction(transaction, body)
 }
 
-fileprivate struct TransactionPropertyKey<Key: TransactionKey>: PropertyKey {
+fileprivate struct TransactionPropertyKey<Key : TransactionKey>: PropertyKey {
     static var defaultValue: Key.Value {
         return Key.defaultValue
     }

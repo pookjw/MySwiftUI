@@ -33,13 +33,13 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct AccessibilityInvertColorsKey: EnvironmentKey {
+fileprivate struct AccessibilityInvertColorsKey : EnvironmentKey {
     static var defaultValue: Bool? {
         return nil
     }
 }
 
-fileprivate struct AccessibilityEnabledKey: EnvironmentKey {
+fileprivate struct AccessibilityEnabledKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

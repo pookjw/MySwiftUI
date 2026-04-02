@@ -6,7 +6,7 @@ protocol PlatformItemListFlags {
     }
 }
 
-struct PlatformItemListFlagsSet: OptionSet {
+struct PlatformItemListFlagsSet : OptionSet {
     var rawValue: UInt32
 }
 
@@ -18,7 +18,7 @@ extension PlatformItemListFlagsSet {
     }
 }
 
-struct PlatformItemListFlagsInput: ViewInput {
+struct PlatformItemListFlagsInput : ViewInput {
     static var defaultValue: PlatformItemListFlagsSet {
         return PlatformItemListFlagsSet(rawValue: .max)
     }

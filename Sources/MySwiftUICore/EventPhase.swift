@@ -1,4 +1,4 @@
-package enum EventPhase: Hashable {
+package enum EventPhase : Hashable {
     case began
     case active
     case ended

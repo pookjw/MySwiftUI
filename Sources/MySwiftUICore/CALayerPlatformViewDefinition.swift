@@ -1,6 +1,6 @@
 
-final class CALayerPlatformViewDefinition: PlatformViewDefinition {
-    override class var system: PlatformViewDefinition.System {
+final class CALayerPlatformViewDefinition : PlatformViewDefinition {
+    override class var system : PlatformViewDefinition.System {
         return PlatformViewDefinition.System(base: .caLayer)
     }
 }

@@ -164,7 +164,7 @@ extension CGPoint {
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    @inlinable prefix package static func - (lhs: CGPoint) -> CGPoint {
+    @inlinable package static prefix func - (lhs: CGPoint) -> CGPoint {
         return CGPoint(x: -lhs.x, y: -lhs.y)
     }
     

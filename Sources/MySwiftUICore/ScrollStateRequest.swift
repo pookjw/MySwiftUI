@@ -1,4 +1,4 @@
-struct UpdateScrollStateRequestKey: PreferenceKey {
+struct UpdateScrollStateRequestKey : PreferenceKey {
     static var defaultValue: [ScrollStateRequest] {
         return []
     }

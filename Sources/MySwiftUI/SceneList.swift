@@ -52,7 +52,7 @@ struct SceneList {
 }
 
 extension SceneList {
-    struct Item: Identifiable {
+    struct Item : Identifiable {
         private(set) var value: SceneList.Item.Value // 0x0
         private(set) var id: SceneID // 0xe0
         private(set) var version: DisplayList.Version // 0xf8
@@ -227,7 +227,7 @@ extension SceneList {
         }
     }
     
-    enum Namespace: Hashable, CustomStringConvertible {
+    enum Namespace : Hashable, CustomStringConvertible {
         case string(String)
         case host(ObjectIdentifier)
         case app
@@ -237,8 +237,8 @@ extension SceneList {
         }
     }
     
-    struct Key: PreferenceKey {
-        @safe static nonisolated(unsafe) let defaultValue: [SceneList.Namespace: SceneList] = [:]
+    struct Key : PreferenceKey {
+        @safe nonisolated(unsafe) static let defaultValue: [SceneList.Namespace: SceneList] = [:]
         
         static func reduce(value: inout [SceneList.Namespace: SceneList], nextValue: () -> [SceneList.Namespace: SceneList]) {
             assertUnimplemented()
@@ -247,7 +247,7 @@ extension SceneList {
 }
 
 extension SceneList.Item {
-    struct Summary/*: Identifiable*/ {
+    struct Summary/* : Identifiable*/ {
         // TODO
     }
     
@@ -264,7 +264,7 @@ extension SceneList.Item {
         case alertDialog(DialogConfiguration)
     }
     
-    struct Options: OptionSet {
+    struct Options : OptionSet {
         static var unknown1: SceneList.Item.Options {
             return SceneList.Item.Options(rawValue: 1 << 1)
         }
@@ -272,7 +272,7 @@ extension SceneList.Item {
         let rawValue: UInt8
     }
     
-    enum Kind: Hashable {
+    enum Kind : Hashable {
         case windowGroup
         case singleWindow
         case custom

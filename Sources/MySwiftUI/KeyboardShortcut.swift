@@ -1,13 +1,13 @@
 // 254C3FE5924A018B482F2F0C0D49154F
 internal import MySwiftUICore
 
-public struct KeyboardShortcut: Sendable {
+public struct KeyboardShortcut : Sendable {
 //    private var key: KeyEquivalent
 //    private var modifiers: EventModifiers
 //    private var localization: KeyboardShortcut.Localization
 }
 
-extension KeyboardShortcut: Hashable {
+extension KeyboardShortcut : Hashable {
     
 }
 
@@ -21,7 +21,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct SceneKeyboardShortcutsKey: EnvironmentKey {
+    fileprivate struct SceneKeyboardShortcutsKey : EnvironmentKey {
         static var defaultValue: [SceneID: KeyboardShortcut] {
             assertUnimplemented()
         }

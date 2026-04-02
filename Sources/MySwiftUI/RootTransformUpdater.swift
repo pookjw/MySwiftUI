@@ -1,4 +1,4 @@
 
-protocol RootTransformUpdater: AnyObject {
+protocol RootTransformUpdater : AnyObject {
     
 }

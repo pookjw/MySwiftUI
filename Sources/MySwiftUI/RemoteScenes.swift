@@ -30,7 +30,7 @@ extension EnvironmentValues {
     }
     
     // TODO: Entry Macro
-    fileprivate struct __Key_remoteSessionController: EnvironmentKey {
+    fileprivate struct __Key_remoteSessionController : EnvironmentKey {
         static var defaultValue: RemoteScenes.SessionController? {
             return nil
         }

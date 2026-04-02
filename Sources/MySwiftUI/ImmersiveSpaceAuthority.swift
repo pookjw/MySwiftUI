@@ -3,7 +3,7 @@ internal import UIKit
 internal import AttributeGraph
 
 final class ImmersiveSpaceAuthority {
-    @safe static nonisolated(unsafe) let shared = ImmersiveSpaceAuthority()
+    @safe nonisolated(unsafe) static let shared = ImmersiveSpaceAuthority()
     
     static let didChangeCurrentImmersiveSpace = Notification.Name(
         rawValue: "ImmersiveSpaceAuthorityDidChangeCurrentImmersiveSpace"

@@ -14,7 +14,7 @@ extension AnyViewFactory {
     }
 }
 
-protocol PlatformViewFactory: AnyViewFactory {
+protocol PlatformViewFactory : AnyViewFactory {
     func makePlatformView() -> AnyObject?
     func updatePlatformView(_ view: inout AnyObject)
     func renderPlatformView(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer)
@@ -34,10 +34,10 @@ extension PlatformViewFactory {
     }
 }
 
-protocol PlatformLayerFactory: AnyViewFactory {
+protocol PlatformLayerFactory : AnyViewFactory {
     
 }
 
-protocol _DisplayList_ViewFactory: AnyViewFactory {
+protocol _DisplayList_ViewFactory : AnyViewFactory {
     
 }

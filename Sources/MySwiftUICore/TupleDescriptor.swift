@@ -1,7 +1,7 @@
 internal import AttributeGraph
 private import os.log
 
-protocol TupleDescriptor: ProtocolDescriptor {
+protocol TupleDescriptor : ProtocolDescriptor {
     static var typeCache: [ObjectIdentifier: TupleTypeDescription<Self>] {
         get set
     }
@@ -20,7 +20,7 @@ extension TupleDescriptor {
     }
 }
 
-struct TupleTypeDescription<T: ProtocolDescriptor> {
+struct TupleTypeDescription<T : ProtocolDescriptor> {
     let contentTypes: [(Int, TypeConformance<T>)]
     
     init(_ tupleType: TupleType) {

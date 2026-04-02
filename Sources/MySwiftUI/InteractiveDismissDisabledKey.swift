@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct InteractiveDismissDisabledKey: HostPreferenceKey {
+struct InteractiveDismissDisabledKey : HostPreferenceKey {
     // TODO
     typealias Value = Never?
     

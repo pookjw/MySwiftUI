@@ -28,7 +28,7 @@ extension _GraphInputs {
         }
     }
     
-    fileprivate struct SavedTransactionKey: ViewInput {
+    fileprivate struct SavedTransactionKey : ViewInput {
         static let defaultValue: [Attribute<Transaction>] = [] 
     }
 }

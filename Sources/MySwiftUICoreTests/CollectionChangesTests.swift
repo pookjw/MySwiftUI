@@ -74,30 +74,30 @@ extension _SwiftUICorePrivate::CollectionChanges {
     }
 }
 
-fileprivate enum NormalizedChange<A: Comparable, B: Comparable>: Equatable {
+fileprivate enum NormalizedChange<A : Comparable, B : Comparable>: Equatable {
     case removed(Range<A>)
     case inserted(Range<B>)
     case matched(Range<A>, Range<B>)
 }
 
-fileprivate struct NormalizedMatch<A: Comparable, B: Comparable>: Equatable {
+fileprivate struct NormalizedMatch<A : Comparable, B : Comparable>: Equatable {
     let from: Range<A>
     let to: Range<B>
 }
 
-fileprivate func normalizedChanges<A: Comparable, B: Comparable>(
+fileprivate func normalizedChanges<A : Comparable, B : Comparable>(
     impl: MySwiftUICore.CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     return impl.changes.map { normalize($0) }
 }
 
-fileprivate func normalizedChanges<A: Comparable, B: Comparable>(
+fileprivate func normalizedChanges<A : Comparable, B : Comparable>(
     original: _SwiftUICorePrivate::CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     return original.changes.map { normalize($0) }
 }
 
-fileprivate func normalizedForwardIteration<A: Comparable, B: Comparable>(
+fileprivate func normalizedForwardIteration<A : Comparable, B : Comparable>(
     impl: MySwiftUICore.CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     var index = impl.startIndex
@@ -110,7 +110,7 @@ fileprivate func normalizedForwardIteration<A: Comparable, B: Comparable>(
     return result
 }
 
-fileprivate func normalizedForwardIteration<A: Comparable, B: Comparable>(
+fileprivate func normalizedForwardIteration<A : Comparable, B : Comparable>(
     original: _SwiftUICorePrivate::CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     var index = original.startIndex
@@ -123,7 +123,7 @@ fileprivate func normalizedForwardIteration<A: Comparable, B: Comparable>(
     return result
 }
 
-fileprivate func normalizedBackwardIteration<A: Comparable, B: Comparable>(
+fileprivate func normalizedBackwardIteration<A : Comparable, B : Comparable>(
     impl: MySwiftUICore.CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     guard impl.startIndex < impl.endIndex else {
@@ -140,7 +140,7 @@ fileprivate func normalizedBackwardIteration<A: Comparable, B: Comparable>(
     return result
 }
 
-fileprivate func normalizedBackwardIteration<A: Comparable, B: Comparable>(
+fileprivate func normalizedBackwardIteration<A : Comparable, B : Comparable>(
     original: _SwiftUICorePrivate::CollectionChanges<A, B>
 ) -> [NormalizedChange<A, B>] {
     guard original.startIndex < original.endIndex else {
@@ -157,7 +157,7 @@ fileprivate func normalizedBackwardIteration<A: Comparable, B: Comparable>(
     return result
 }
 
-fileprivate func removedRanges<A: Comparable, B: Comparable>(
+fileprivate func removedRanges<A : Comparable, B : Comparable>(
     from changes: [NormalizedChange<A, B>]
 ) -> [Range<A>] {
     return changes.compactMap { change in
@@ -170,7 +170,7 @@ fileprivate func removedRanges<A: Comparable, B: Comparable>(
     }
 }
 
-fileprivate func insertedRanges<A: Comparable, B: Comparable>(
+fileprivate func insertedRanges<A : Comparable, B : Comparable>(
     from changes: [NormalizedChange<A, B>]
 ) -> [Range<B>] {
     return changes.compactMap { change in
@@ -183,7 +183,7 @@ fileprivate func insertedRanges<A: Comparable, B: Comparable>(
     }
 }
 
-fileprivate func matchedRanges<A: Comparable, B: Comparable>(
+fileprivate func matchedRanges<A : Comparable, B : Comparable>(
     from changes: [NormalizedChange<A, B>]
 ) -> [NormalizedMatch<A, B>] {
     return changes.compactMap { change in
@@ -196,7 +196,7 @@ fileprivate func matchedRanges<A: Comparable, B: Comparable>(
     }
 }
 
-fileprivate func normalize<A: Comparable, B: Comparable>(
+fileprivate func normalize<A : Comparable, B : Comparable>(
     _ element: MySwiftUICore.CollectionChanges<A, B>.Element
 ) -> NormalizedChange<A, B> {
     switch element {
@@ -209,7 +209,7 @@ fileprivate func normalize<A: Comparable, B: Comparable>(
     }
 }
 
-fileprivate func normalize<A: Comparable, B: Comparable>(
+fileprivate func normalize<A : Comparable, B : Comparable>(
     _ element: _SwiftUICorePrivate::CollectionChanges<A, B>.Element
 ) -> NormalizedChange<A, B> {
     switch element {

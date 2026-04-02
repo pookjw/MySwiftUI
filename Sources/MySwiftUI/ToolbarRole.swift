@@ -2,7 +2,7 @@
 public import MySwiftUICore
 
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-public struct ToolbarRole: Sendable {
+public struct ToolbarRole : Sendable {
     private(set) var role: ToolbarRole.Role
     
     public static var automatic: ToolbarRole {
@@ -29,7 +29,7 @@ public struct ToolbarRole: Sendable {
 }
 
 extension ToolbarRole {
-    enum Role: Hashable {
+    enum Role : Hashable {
         case navigationStack
         case browser
         case editor
@@ -38,12 +38,12 @@ extension ToolbarRole {
 
 extension View {
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    public nonisolated func toolbarRole(_ role: ToolbarRole) -> some View {
+    nonisolated public func toolbarRole(_ role: ToolbarRole) -> some View {
         assertUnimplemented()
     }
 }
 
-struct ToolbarRoleKey: HostPreferenceKey {
+struct ToolbarRoleKey : HostPreferenceKey {
     static var defaultValue: ToolbarRole? {
         return nil
     }
@@ -72,7 +72,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct DefaultToolbarRoleKey: EnvironmentKey {
+    fileprivate struct DefaultToolbarRoleKey : EnvironmentKey {
         static var defaultValue: ToolbarRole? {
             return nil
         }

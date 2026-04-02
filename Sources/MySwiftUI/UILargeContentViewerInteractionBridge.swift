@@ -2,7 +2,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 private import _UIKitPrivate
 
-@MainActor final class UILargeContentViewerInteractionBridge: NSObject {
+@MainActor final class UILargeContentViewerInteractionBridge : NSObject {
     weak var host: (UIView & ViewRendererHost)? = nil
     private var interaction: UILargeContentViewerInteraction? = nil
     private weak var gesture: UIGestureRecognizer? = nil

@@ -1,4 +1,4 @@
-struct HostingControllerAllowedBehaviors: OptionSet {
+struct HostingControllerAllowedBehaviors : OptionSet {
     let rawValue: Int
     
     static var unknown0: HostingControllerAllowedBehaviors {

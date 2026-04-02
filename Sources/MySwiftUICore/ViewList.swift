@@ -52,7 +52,7 @@ class _ViewList_Subgraph {
     }
 }
 
-package struct _ViewList_ID: Hashable {
+package struct _ViewList_ID : Hashable {
     var _index: Int32
     var implicitID: Int32
     var explicitIDs: [_ViewList_ID.Explicit]
@@ -69,19 +69,19 @@ package struct _ViewList_ID: Hashable {
         self.explicitIDs = []
     }
     
-    mutating func bind<H: Hashable>(explicitID: H, owner: AnyAttribute) {
+    mutating func bind<H : Hashable>(explicitID: H, owner: AnyAttribute) {
         bind(explicitID: explicitID, owner: owner, isUnary: false, reuseID: 0)
     }
     
-    mutating func bind<H: Hashable>(explicitID: H, owner: AnyAttribute, reuseID: Int) {
+    mutating func bind<H : Hashable>(explicitID: H, owner: AnyAttribute, reuseID: Int) {
         bind(explicitID: explicitID, owner: owner, isUnary: false, reuseID: reuseID)
     }
     
-    mutating func bind<H: Hashable>(explicitID: H, owner: AnyAttribute, isUnary: Bool) {
+    mutating func bind<H : Hashable>(explicitID: H, owner: AnyAttribute, isUnary: Bool) {
         bind(explicitID: explicitID, owner: owner, isUnary: isUnary, reuseID: 0)
     }
     
-    mutating func bind<H: Hashable>(explicitID: H, owner: AnyAttribute, isUnary: Bool, reuseID: Int) {
+    mutating func bind<H : Hashable>(explicitID: H, owner: AnyAttribute, isUnary: Bool, reuseID: Int) {
         /*
          owner -> x21
          isUnary -> x22
@@ -104,7 +104,7 @@ package struct _ViewList_ID: Hashable {
 }
 
 extension _ViewList_ID {
-    struct Explicit: Equatable {
+    struct Explicit : Equatable {
         let id: AnyHashable2
         let reuseID: Int
         let owner: AnyAttribute
@@ -216,11 +216,11 @@ extension _ViewListOutputs {
         assertUnimplemented()
     }
     
-    static func groupViewList<Parent: View, Footer: View>(parent: _GraphValue<Parent>, footer: Attribute<Footer>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    static func groupViewList<Parent : View, Footer : View>(parent: _GraphValue<Parent>, footer: Attribute<Footer>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    static func groupViewListCount<Content: View, Header: View, Footer: View>(inputs: _ViewListCountInputs, contentType: Content.Type, headerType: Header.Type, footerType: Footer.Type) -> Int? {
+    static func groupViewListCount<Content : View, Header : View, Footer : View>(inputs: _ViewListCountInputs, contentType: Content.Type, headerType: Header.Type, footerType: Footer.Type) -> Int? {
         assertUnimplemented()
     }
     
@@ -393,7 +393,7 @@ extension _ViewListOutputs {
         assertUnimplemented()
     }
     
-    mutating func multiModifier<T: ViewModifier>(_ value: _GraphValue<T>, inputs: _ViewListInputs) {
+    mutating func multiModifier<T : ViewModifier>(_ value: _GraphValue<T>, inputs: _ViewListInputs) {
         /*
          value -> w22
          inputs -> x23
@@ -443,7 +443,7 @@ extension _ViewListOutputs {
 }
 
 extension _ViewListOutputs {
-    package static func unaryViewList<Content: View>(view: _GraphValue<Content>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    package static func unaryViewList<Content : View>(view: _GraphValue<Content>, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          inputs -> x20
          */
@@ -695,7 +695,7 @@ extension _ViewListOutputs {
         }
     }
     
-    fileprivate struct ApplyModifiers: Rule, AsyncAttribute {
+    fileprivate struct ApplyModifiers : Rule, AsyncAttribute {
         @Attribute var base: any ViewList
         let modifier: _ViewListOutputs.ListModifier
         
@@ -708,7 +708,7 @@ extension _ViewListOutputs {
 }
 
 @available(*, unavailable)
-extension _ViewListOutputs: Sendable {
+extension _ViewListOutputs : Sendable {
 }
 
 protocol ViewList {
@@ -720,7 +720,7 @@ protocol ViewList {
     var traits: ViewTraitCollection { get }
     func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit?
-    func firstOffset<T: Hashable>(forID: T, style: _ViewList_IteratorStyle) -> Int?
+    func firstOffset<T : Hashable>(forID: T, style: _ViewList_IteratorStyle) -> Int?
     func print(into: inout SExpPrinter)
 }
 
@@ -846,7 +846,7 @@ fileprivate protocol UnaryViewGenerator {
     func makeView(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?) -> _ViewOutputs
 }
 
-fileprivate struct TypedUnaryViewGenerator: UnaryViewGenerator {
+fileprivate struct TypedUnaryViewGenerator : UnaryViewGenerator {
     private let view: AnyWeakAttribute
     private let viewType: any View.Type
     
@@ -869,7 +869,7 @@ fileprivate struct TypedUnaryViewGenerator: UnaryViewGenerator {
             return _ViewOutputs()
         }
         
-        func project<U: View>(type: U.Type) -> _ViewOutputs {
+        func project<U : View>(type: U.Type) -> _ViewOutputs {
             var casted = Attribute<U>(identifier: view)
             if let indirectMap {
                 casted.makeReusable(indirectMap: indirectMap)
@@ -882,7 +882,7 @@ fileprivate struct TypedUnaryViewGenerator: UnaryViewGenerator {
     }
 }
 
-fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
+fileprivate struct UnaryElements<T : UnaryViewGenerator>: _ViewList_Elements {
     private(set) var body: T
     private(set) var baseInputs: _GraphInputs
     
@@ -950,7 +950,7 @@ fileprivate struct UnaryElements<T: UnaryViewGenerator>: _ViewList_Elements {
     }
 }
 
-fileprivate struct BaseViewList: CustomStringConvertible {
+fileprivate struct BaseViewList : CustomStringConvertible {
     private(set) var elements: any _ViewList_Elements
     private(set) var implicitID: Int
     private(set) var traitKeys: ViewTraitKeys?
@@ -961,7 +961,7 @@ fileprivate struct BaseViewList: CustomStringConvertible {
     }
 }
 
-extension BaseViewList: ViewList {
+extension BaseViewList : ViewList {
     func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
         assertUnimplemented()
     }
@@ -1036,7 +1036,7 @@ extension BaseViewList: ViewList {
 }
 
 extension BaseViewList {
-    fileprivate struct Init: CustomStringConvertible, Rule, AsyncAttribute {
+    fileprivate struct Init : CustomStringConvertible, Rule, AsyncAttribute {
         let elements: any _ViewList_Elements
         let implicitID: Int
         let canTransition: Bool
@@ -1070,7 +1070,7 @@ extension BaseViewList {
     }
 }
 
-struct _ViewList_IteratorStyle: Equatable {
+struct _ViewList_IteratorStyle : Equatable {
     private var value: UInt
     
     var granularity: Int {
@@ -1151,7 +1151,7 @@ struct _ViewList_IteratorStyle: Equatable {
     }
 }
 
-@safe struct _ViewList_TemporarySublistTransform: ~Copyable {
+@safe struct _ViewList_TemporarySublistTransform : ~Copyable {
     private var storage: _ViewList_TemporarySublistTransform.Storage
     
     init() {
@@ -1187,7 +1187,7 @@ struct _ViewList_IteratorStyle: Equatable {
         assertUnimplemented()
     }
     
-    func withPushedItem<T, U: _ViewList_SublistTransform_Item>(_ item: U, do block: (borrowing _ViewList_TemporarySublistTransform) -> T) -> T {
+    func withPushedItem<T, U : _ViewList_SublistTransform_Item>(_ item: U, do block: (borrowing _ViewList_TemporarySublistTransform) -> T) -> T {
         let flags = U.flags
         
         switch unsafe storage {
@@ -1345,14 +1345,14 @@ enum _ViewList_Edit {
 }
 
 extension _ViewList_ID {
-    package struct Canonical: Hashable {
+    package struct Canonical : Hashable {
         private var _index: Int32
         private var implicitID: Int32
         private var explicitID: AnyHashable2?
     }
 }
 
-struct _ViewList_SublistTransform_ItemFlags: OptionSet {
+struct _ViewList_SublistTransform_ItemFlags : OptionSet {
     let rawValue: UInt8
     
     static var graphDependent: _ViewList_SublistTransform_ItemFlags {
@@ -1360,7 +1360,7 @@ struct _ViewList_SublistTransform_ItemFlags: OptionSet {
     }
 }
 
-struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
+struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
     var lists: [(list: any ViewList, attribute: Attribute<ViewList>)]
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
@@ -1426,7 +1426,7 @@ struct _ViewList_Group: ViewList, CustomDebugStringConvertible {
 }
 
 extension _ViewList_Group {
-    struct Init: Rule, AsyncAttribute, CustomStringConvertible {
+    struct Init : Rule, AsyncAttribute, CustomStringConvertible {
         fileprivate var lists: [Attribute<ViewList>]
         
         var value: ViewList {
@@ -1452,7 +1452,7 @@ struct _ViewList_Section {
     // TODO
 }
 
-fileprivate struct MergedElements: _ViewList_Elements {
+fileprivate struct MergedElements : _ViewList_Elements {
     var outputs: ArraySlice<_ViewListOutputs>
     
     var count: Int {
@@ -1573,7 +1573,7 @@ fileprivate struct MergedElements: _ViewList_Elements {
     }
 }
 
-fileprivate struct ModifiedElements: _ViewList_Elements {
+fileprivate struct ModifiedElements : _ViewList_Elements {
     let base: _ViewList_Elements
     let modifier: AnyWeakAttribute
     let modifierType: any ViewModifier.Type
@@ -1587,7 +1587,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
         self.baseInputs = baseInputs
     }
     
-    init<T: ViewModifier>(base: _ViewList_Elements, modifier: Attribute<T>, baseInputs: _GraphInputs) {
+    init<T : ViewModifier>(base: _ViewList_Elements, modifier: Attribute<T>, baseInputs: _GraphInputs) {
         assertUnimplemented()
     }
     
@@ -1646,7 +1646,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
                     }
                     
                     // <+348>
-                    func project<U: ViewModifier>(type: U.Type) -> _ViewOutputs {
+                    func project<U : ViewModifier>(type: U.Type) -> _ViewOutputs {
                         // $s7SwiftUI16ModifiedElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtFAL_SbtAL_SbtAN_AkNctcXEfU_AL_SbtAN_AkNctXEfU_AkNcfU_7projectL_yAKxmAA0S8ModifierRzlFTf0nnnnsn_n
                         // sp + 0xc
                         var attribute = Attribute<U>(identifier: attribute)
@@ -1674,7 +1674,7 @@ fileprivate struct ModifiedElements: _ViewList_Elements {
     }
 }
 
-fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
+fileprivate struct ModifiedViewList : ViewList, CustomDebugStringConvertible {
     let base: any ViewList
     let listModifier: ModifiedViewList.ListModifier
     
@@ -1740,7 +1740,7 @@ fileprivate struct ModifiedViewList: ViewList, CustomDebugStringConvertible {
 }
 
 extension ModifiedViewList {
-    final class ListModifier: _ViewListOutputs.ListModifier {
+    final class ListModifier : _ViewListOutputs.ListModifier {
         private let pred: _ViewListOutputs.ListModifier?
         let modifierType: any ViewModifier.Type
         let modifier: AnyWeakAttribute
@@ -1769,7 +1769,7 @@ extension ModifiedViewList {
         }
     }
     
-    struct Transform: _ViewList_SublistTransform_Item {
+    struct Transform : _ViewList_SublistTransform_Item {
         private(set) var listModifier: ModifiedViewList.ListModifier
         
         func apply(sublist: inout _ViewList_Sublist) {

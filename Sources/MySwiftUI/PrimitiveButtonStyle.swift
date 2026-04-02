@@ -3,7 +3,7 @@ public import MySwiftUICore
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 @preconcurrency @MainActor
 public protocol PrimitiveButtonStyle {
-    associatedtype Body: View
+    associatedtype Body : View
 
     @ViewBuilder @MainActor @preconcurrency
     func makeBody(configuration: Self.Configuration) -> Self.Body
@@ -15,14 +15,14 @@ public protocol PrimitiveButtonStyle {
 public struct PrimitiveButtonStyleConfiguration {
 //    @MainActor @preconcurrency
 //    public struct Label: View {
-//        public nonisolated static func _makeView(
+//        nonisolated public static func _makeView(
 //            view: _GraphValue<PrimitiveButtonStyleConfiguration.Label>,
 //            inputs: _ViewInputs
 //        ) -> _ViewOutputs {
 //            assertUnimplemented()
 //        }
 //
-//        public nonisolated static func _makeViewList(
+//        nonisolated public static func _makeViewList(
 //            view: _GraphValue<PrimitiveButtonStyleConfiguration.Label>,
 //            inputs: _ViewListInputs
 //        ) -> _ViewListOutputs {
@@ -30,7 +30,7 @@ public struct PrimitiveButtonStyleConfiguration {
 //        }
 //
 //        @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-//        public nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+//        nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
 //            assertUnimplemented()
 //        }
 //
@@ -56,7 +56,7 @@ public struct PrimitiveButtonStyleConfiguration {
 //
 //@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 //extension View {
-//    public nonisolated func buttonStyle<S>(_ style: S) -> some View where S: PrimitiveButtonStyle {
+//    nonisolated public func buttonStyle<S>(_ style: S) -> some View where S : PrimitiveButtonStyle {
 //        assertUnimplemented()
 //    }
 //}
@@ -64,7 +64,7 @@ public struct PrimitiveButtonStyleConfiguration {
 //@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 //extension Button where Label == PrimitiveButtonStyleConfiguration.Label {
 //    @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-//    public nonisolated init(_ configuration: PrimitiveButtonStyleConfiguration) {
+//    nonisolated public init(_ configuration: PrimitiveButtonStyleConfiguration) {
 //        assertUnimplemented()
 //    }
 //}

@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
     var body: some View {
@@ -24,7 +24,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class DynamicTypeSizeViewController: UIViewController {
+final class DynamicTypeSizeViewController : UIViewController {
     override func loadView() {
         let rootView = MyView()
         view = _UIHostingView(rootView: rootView)

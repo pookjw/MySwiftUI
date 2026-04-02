@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     var flag: Bool
     
     var body: some View {
@@ -24,7 +24,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class HostingViewController: UIViewController {
+final class HostingViewController : UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     @ViewLoading private var hostingController: UIHostingController<MyView>
     

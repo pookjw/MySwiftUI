@@ -14,12 +14,12 @@ final class UIKitResponderEventBindingBridge {
 //    }
 }
 
-final class UIKitResponderGestureRecognizer: UIKitGestureRecognizer {
+final class UIKitResponderGestureRecognizer : UIKitGestureRecognizer {
     
 }
 
 extension UIKitResponderEventBindingBridge {
-    struct Factory: EventBindingBridgeFactory {
+    struct Factory : EventBindingBridgeFactory {
         
     }
 }

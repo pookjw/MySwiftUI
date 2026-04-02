@@ -1,6 +1,6 @@
 package import Foundation
 
-package protocol UserDefaultKeyedFeature: Feature {
+package protocol UserDefaultKeyedFeature : Feature {
     static var key: String { get }
     static var defaultFeatureValue: Bool { get }
     static var defaults: UserDefaults { get }

@@ -1,5 +1,5 @@
 
-package enum AnchoredPlane: Hashable {
+package enum AnchoredPlane : Hashable {
     case horizontal
     case vertical
 }
@@ -18,7 +18,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct AnchoredPlaneKey: EnvironmentKey {
+    fileprivate struct AnchoredPlaneKey : EnvironmentKey {
         static var defaultValue: AnchoredPlane? {
             return nil
         }

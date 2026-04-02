@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-final class AnyEmptyViewController: UIViewController {
+final class AnyEmptyViewController : UIViewController {
     override func loadView() {
         view = _UIHostingView(rootView: AnyView(EmptyView()))
     }

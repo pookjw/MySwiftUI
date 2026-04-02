@@ -2,55 +2,55 @@ internal import _MySwiftUIShims
 public import QuartzCore
 
 @_spi(Internal) open class PlatformViewDefinition {
-    open class func setAllowsWindowActivationEvents(_ allowed: Bool?, for object: AnyObject) {
+    open class func setAllowsWindowActivationEvents(_ allowed : Bool?, for object: AnyObject) {
         preconditionFailure() // abstract
     }
     
-    open class func setHitTestsAsOpaque(_ flag: Bool, for object: AnyObject) {
+    open class func setHitTestsAsOpaque(_ flag : Bool, for object: AnyObject) {
         preconditionFailure() // abstract
     }
     
-    open class var system: System {
+    open class var system : System {
         preconditionFailure() // abstract
     }
     
-    open class func makeView(kind: PlatformViewDefinition.ViewKind, item: Any) -> AnyObject {
+    open class func makeView(kind : PlatformViewDefinition.ViewKind, item: Any) -> AnyObject {
         preconditionFailure() // abstract
     }
     
-    open class var supportsMixedHierarchy: Bool {
+    open class var supportsMixedHierarchy : Bool {
         fatalError() //abstract
     }
     
-    open class func makeView(kind: PlatformViewDefinition.ViewKind) -> AnyObject {
+    open class func makeView(kind : PlatformViewDefinition.ViewKind) -> AnyObject {
         fatalError() //abstract
     }
     
-    open class func makeLayerView(type: CALayer.Type, kind: PlatformViewDefinition.ViewKind) -> AnyObject {
+    open class func makeLayerView(type : CALayer.Type, kind: PlatformViewDefinition.ViewKind) -> AnyObject {
         preconditionFailure() // abstract
     }
     
-    open class func makePlatformView(view: AnyObject, kind: PlatformViewDefinition.ViewKind) {
+    open class func makePlatformView(view : AnyObject, kind: PlatformViewDefinition.ViewKind) {
         preconditionFailure() // abstract
     }
     
-    open class func makeDrawingView(options: PlatformDrawableOptions) -> any PlatformDrawable {
+    open class func makeDrawingView(options : PlatformDrawableOptions) -> any PlatformDrawable {
         preconditionFailure() // abstract
     }
     
-    open class func setPath(_ path: Path, shapeView: AnyObject) {
+    open class func setPath(_ path : Path, shapeView: AnyObject) {
         preconditionFailure() // abstract
     }
     
-    open class func setProjectionTransform(_ transform: ProjectionTransform, projectionView: AnyObject) {
+    open class func setProjectionTransform(_ transform : ProjectionTransform, projectionView: AnyObject) {
         preconditionFailure() // abstract
     }
     
-    open class func setIgnoresEvents(_ flag: Bool, of object: AnyObject) {
+    open class func setIgnoresEvents(_ flag : Bool, of object: AnyObject) {
         preconditionFailure() // abstract
     }
     
-    open class func setHiddenForReuse(_ flag: Bool, of object: AnyObject ) {
+    open class func setHiddenForReuse(_ flag : Bool, of object: AnyObject ) {
         preconditionFailure() // abstract
     }
     
@@ -69,7 +69,7 @@ public import QuartzCore
 }
 
 extension PlatformViewDefinition {
-    public struct System: Hashable {
+    public struct System : Hashable {
         public static var uiView: System { System(base: .uiView) }
         public static var nsView: System { System(base: .nsView) }
         
@@ -78,7 +78,7 @@ extension PlatformViewDefinition {
 }
 
 extension PlatformViewDefinition {
-    public enum ViewKind: Sendable, Hashable {
+    public enum ViewKind : Sendable, Hashable {
         case inherited
         case color
         case image

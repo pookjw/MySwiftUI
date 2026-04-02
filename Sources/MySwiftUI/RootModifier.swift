@@ -3,9 +3,9 @@ internal import MySwiftUICore
 internal import UIKit
 private import AttributeGraph
 
-fileprivate nonisolated(unsafe) var appRootViewWrappers: [(AnyView) -> AnyView] = []
+nonisolated(unsafe) fileprivate var appRootViewWrappers: [(AnyView) -> AnyView] = []
 
-func registerAppRootModifier<T: ViewModifier>(_ modifier: T) {
+func registerAppRootModifier<T : ViewModifier>(_ modifier: T) {
     assertUnimplemented()
 }
 
@@ -18,7 +18,7 @@ func resolveAppRootView(_ view: AnyView) -> AnyView {
     return view
 }
 
-struct RootModifier: ViewModifier {
+struct RootModifier : ViewModifier {
     private(set) weak var sceneBridge: SceneBridge?
     private(set) weak var sceneDelegateBox: AnyFallbackDelegateBox?
     private(set) weak var sceneStorageValues: SceneStorageValues?
@@ -50,7 +50,7 @@ struct RootModifier: ViewModifier {
     }
 }
 
-fileprivate struct RootEnvironmentModifier: PrimitiveViewModifier, _GraphInputsModifier {
+fileprivate struct RootEnvironmentModifier : PrimitiveViewModifier, _GraphInputsModifier {
     private(set) weak var sceneBridge: SceneBridge?
     private(set) weak var sceneDelegateBox: AnyFallbackDelegateBox?
     private(set) weak var sceneStorageValues: SceneStorageValues?
@@ -75,7 +75,7 @@ fileprivate struct RootEnvironmentModifier: PrimitiveViewModifier, _GraphInputsM
 }
 
 extension RootEnvironmentModifier {
-    @MainActor struct Child: StatefulRule {
+    @MainActor struct Child : StatefulRule {
         @Attribute private(set) var modifier: RootEnvironmentModifier // 0x0
         @Attribute private(set) var env: EnvironmentValues // 0x4
         private(set) var oldModifier: RootEnvironmentModifier? // 0x8

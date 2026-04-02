@@ -1,6 +1,6 @@
 private import AttributeGraph
 
-public struct EnvironmentValues: CustomStringConvertible {
+public struct EnvironmentValues : CustomStringConvertible {
     private var _plist: PropertyList
     
     package var plist: PropertyList {
@@ -54,7 +54,7 @@ public struct EnvironmentValues: CustomStringConvertible {
         assertUnimplemented()
     }
     
-    func getValue<Key: EnvironmentKey>(for key: Key.Type) -> Key.Value {
+    func getValue<Key : EnvironmentKey>(for key: Key.Type) -> Key.Value {
         /*
          _plist = x19
          tracker = x23
@@ -66,11 +66,11 @@ public struct EnvironmentValues: CustomStringConvertible {
         }
     }
     
-    mutating func setValue<K: EnvironmentKey>(_ value: K.Value, for type: K.Type) {
+    mutating func setValue<K : EnvironmentKey>(_ value: K.Value, for type: K.Type) {
         _set(value, for: type)
     }
     
-    private mutating func _set<Key: EnvironmentKey>(_ value: Key.Value, for key: Key.Type) {
+    private mutating func _set<Key : EnvironmentKey>(_ value: Key.Value, for key: Key.Type) {
         let old = _plist
         _plist[EnvironmentPropertyKey<Key>.self] = value
         if let tracker {
@@ -108,7 +108,7 @@ extension EnvironmentKey where Self.Value : Equatable {
   }
 }
 
-struct EnvironmentPropertyKey<T: EnvironmentKey>: PropertyKey {
+struct EnvironmentPropertyKey<T : EnvironmentKey>: PropertyKey {
     static var defaultValue: T.Value {
         return T.defaultValue
     }
@@ -137,7 +137,7 @@ extension EnvironmentValues {
 }
 
 @available(*, unavailable)
-extension EnvironmentValues: Sendable {}
+extension EnvironmentValues : Sendable {}
 
 protocol DerivedEnvironmentKey {
     associatedtype Value : Equatable

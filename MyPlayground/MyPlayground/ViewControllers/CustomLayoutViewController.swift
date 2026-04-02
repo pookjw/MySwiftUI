@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-private struct MyView: View {
+private struct MyView : View {
     var body: some View {
         MyLayout {
             Color.white
@@ -20,7 +20,7 @@ private struct MyView: View {
     }
 }
 
-private struct MyLayout: Layout {
+private struct MyLayout : Layout {
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         return CGSize(width: proposal.width!, height: proposal.height!)
     }
@@ -42,7 +42,7 @@ private struct MyLayout: Layout {
     }
 }
 
-final class CustomLayoutViewController: UIViewController {
+final class CustomLayoutViewController : UIViewController {
     override func loadView() {
         view = _UIHostingView(rootView: MyView())
     }

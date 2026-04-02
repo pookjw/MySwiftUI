@@ -19,7 +19,7 @@ fileprivate final class Model {
     var flag = false
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let model: Model
     let onAppear: () -> Void
     let onDisappear: () -> Void
@@ -41,7 +41,7 @@ fileprivate struct MyView: View {
     }
 }
 
-final class AppearanceActionViewListController: UIViewController {
+final class AppearanceActionViewListController : UIViewController {
     private let model = Model()
     @ViewLoading private var barButtonItem: UIBarButtonItem
     

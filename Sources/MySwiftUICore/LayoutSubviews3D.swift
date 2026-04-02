@@ -13,7 +13,7 @@ struct LayoutSubview3D {
     }
 }
 
-struct ViewLayoutEngine3D<L: Layout>: DefaultAlignmentFunction3D, LayoutEngine {
+struct ViewLayoutEngine3D<L : Layout>: DefaultAlignmentFunction3D, LayoutEngine {
     private var base: ViewLayoutEngine<L>
     private var depthCache: Cache3<_ProposedSize3D, CGFloat>
     private var cachedDepthAlignmentSize: ViewSize3D

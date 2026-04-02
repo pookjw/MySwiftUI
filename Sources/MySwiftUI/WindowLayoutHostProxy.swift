@@ -2,12 +2,12 @@
 internal import MySwiftUICore
 
 final class WindowLayoutHostProxy {
-    fileprivate static nonisolated(unsafe) var layoutProxiesAwaitingConnection: [SceneID: WindowLayoutHostProxy] = [:]
+    nonisolated(unsafe) fileprivate static var layoutProxiesAwaitingConnection: [SceneID: WindowLayoutHostProxy] = [:]
     
     private var host: ViewRendererHost
     private var viewType: any View.Type
     
-    init<Content: View>(rootView: Content) {
+    init<Content : View>(rootView: Content) {
         assertUnimplemented()
     }
     
@@ -24,7 +24,7 @@ final class WindowLayoutHostProxy {
     }
     
     @specialized(where Content == ModifiedContent<AnyView, RootModifier>)
-    static func pendingHost<Content: View>(item: SceneList.Item, rootViewType: Content.Type) -> UIHostingController<Content>? {
+    static func pendingHost<Content : View>(item: SceneList.Item, rootViewType: Content.Type) -> UIHostingController<Content>? {
         assert(Content.self == ModifiedContent<AnyView, RootModifier>.self, "나머지는 검증이 필요함")
         
         guard let pending = unsafe WindowLayoutHostProxy.layoutProxiesAwaitingConnection.removeValue(forKey: item.id) else {

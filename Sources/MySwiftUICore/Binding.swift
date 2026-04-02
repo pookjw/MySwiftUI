@@ -82,21 +82,21 @@ public struct Binding<Value> {
     }
 }
 
-extension Binding: @unchecked Sendable where Value : Sendable {}
+extension Binding : @unchecked Sendable where Value : Sendable {}
 
-extension Binding: Identifiable where Value : Identifiable {
+extension Binding : Identifiable where Value : Identifiable {
     public var id: Value.ID {
         assertUnimplemented()
     }
 }
 
-extension Binding: Sequence where Value : MutableCollection {
+extension Binding : Sequence where Value : MutableCollection {
     public typealias Element = Binding<Value.Element>
     public typealias Iterator = IndexingIterator<Binding<Value>>
     public typealias SubSequence = Slice<Binding<Value>>
 }
 
-extension Binding: Collection where Value : MutableCollection {
+extension Binding : Collection where Value : MutableCollection {
     public typealias Index = Value.Index
     public typealias Indices = Value.Indices
     
@@ -125,7 +125,7 @@ extension Binding: Collection where Value : MutableCollection {
     }
 }
 
-extension Binding: BidirectionalCollection where Value : BidirectionalCollection, Value : MutableCollection {
+extension Binding : BidirectionalCollection where Value : BidirectionalCollection, Value : MutableCollection {
     public func index(before i: Binding<Value>.Index) -> Binding<Value>.Index {
         assertUnimplemented()
     }
@@ -135,7 +135,7 @@ extension Binding: BidirectionalCollection where Value : BidirectionalCollection
     }
 }
 
-extension Binding: RandomAccessCollection where Value : MutableCollection, Value : RandomAccessCollection {
+extension Binding : RandomAccessCollection where Value : MutableCollection, Value : RandomAccessCollection {
 }
 
 extension Binding {
@@ -148,7 +148,7 @@ extension Binding {
     }
 }
 
-extension Binding: DynamicProperty {
+extension Binding : DynamicProperty {
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
         let box = Binding.Box(location: nil)
         buffer.append(box, fieldOffset: fieldOffset)
@@ -176,7 +176,7 @@ extension Binding where Value == Bool {
 }
 
 extension Binding {
-    fileprivate struct Box: DynamicPropertyBox {
+    fileprivate struct Box : DynamicPropertyBox {
         private(set) var location: LocationBox<Binding<Value>.ScopedLocation>?
         
         mutating func update(property: inout Binding<Value>, phase: _GraphInputs.Phase) -> Bool {
@@ -243,7 +243,7 @@ extension Binding {
         }
     }
     
-    fileprivate struct ScopedLocation: Equatable, Location {
+    fileprivate struct ScopedLocation : Equatable, Location {
         private(set) var base: AnyLocation<Value>
         var wasRead: Bool
         

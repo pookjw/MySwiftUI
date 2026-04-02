@@ -12,7 +12,7 @@ import SwiftUI
 import MySwiftUI
 #endif
 
-final class SwitchingColorsViewController: UIViewController {
+final class SwitchingColorsViewController : UIViewController {
     private var task: Task<Void, Never>?
     
     private var hostingView: _UIHostingView<Color> {

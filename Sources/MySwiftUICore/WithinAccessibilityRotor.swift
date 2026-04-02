@@ -1,4 +1,4 @@
-struct WithinAccessibilityRotor: ViewInputBoolFlag {
+struct WithinAccessibilityRotor : ViewInputBoolFlag {
     static var defaultValue: Bool {
         return false
     }

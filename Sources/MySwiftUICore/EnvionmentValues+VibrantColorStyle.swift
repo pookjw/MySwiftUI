@@ -30,15 +30,15 @@ protocol VibrantColorStyle {
 //    static func apply(_: SystemColorType, color: Color, material: Material, to: inout _ShapeStyle_Shape)
 }
 
-struct SystemVibrantColorStyle_Vision: VibrantColorStyle {
+struct SystemVibrantColorStyle_Vision : VibrantColorStyle {
     
 }
 
-struct SystemVibrantColorStyle: VibrantColorStyle {
+struct SystemVibrantColorStyle : VibrantColorStyle {
     
 }
 
-fileprivate struct VibrantColorStyleKey: EnvironmentKey {
+fileprivate struct VibrantColorStyleKey : EnvironmentKey {
     static var defaultValue: (any VibrantColorStyle.Type)? {
         return nil
     }

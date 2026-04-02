@@ -20,7 +20,7 @@ public struct _SceneOutputs {
 extension _SceneOutputs : Sendable {
 }
 
-fileprivate struct WriteSceneList: StatefulRule {
+fileprivate struct WriteSceneList : StatefulRule {
     private(set) var namespace: SceneList.Namespace
     @Attribute private(set) var list: SceneList // 0x14
     @Attribute private(set) var environment: EnvironmentValues // 0x18

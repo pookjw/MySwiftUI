@@ -8,8 +8,8 @@ private import Combine
 private import _SwiftPrivate
 
 // _TtC7SwiftUI16AppSceneDelegate
-final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
-    @safe fileprivate static nonisolated(unsafe) var hasConnectedFirstScene = false
+final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
+    @safe nonisolated(unsafe) fileprivate static var hasConnectedFirstScene = false
     
     var window: UIWindow? = nil // 0x10
     private(set) var sceneItemID: SceneID? = nil // 0x18
@@ -211,7 +211,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
                 
                 // <+5660>
                 if let casted = delegateClass as? Observable.Type {
-                    func project<T: Observable>(key: T.Type) {
+                    func project<T : Observable>(key: T.Type) {
                         self.sceneDelegateBox = ObjectFallbackDelegateBox(casted as! T.Type)
                     }
                     
@@ -369,7 +369,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         
         // <+9028>
         for type in sceneItem.connectionOptionPayloadStorage.types {
-            func _do<T: UISceneConnectionOptionDefinition>(_ type: T.Type) {
+            func _do<T : UISceneConnectionOptionDefinition>(_ type: T.Type) {
                 // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtF06handlemN9CallbacksL_yyAA0M20OptionPayloadStorageVF3_doL_yyxm5UIKit0kmQ10DefinitionRzlFTf4nnx_n
                 assertUnimplemented()
             }
@@ -381,7 +381,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { 
             // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU0_TA
             for type in sceneBridge.sceneDefinitionOptions.types {
-                func _do<T: UISceneConnectionOptionDefinition>(_ type: T.Type) {
+                func _do<T : UISceneConnectionOptionDefinition>(_ type: T.Type) {
                     // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtF06handlemN9CallbacksL_yyAA0M20OptionPayloadStorageVF3_doL_yyxm5UIKit0kmQ10DefinitionRzlFTf4nnx_n
                     assertUnimplemented()
                 }
@@ -626,7 +626,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
             return WindowLayoutHostProxy.pendingHost(item: sceneListItem, rootViewType: ModifiedContent<AnyView, RootModifier>.self)
         }
         
-        func configureHostingController<Content: View>(_ hostingController: UIHostingController<Content>) {
+        func configureHostingController<Content : View>(_ hostingController: UIHostingController<Content>) {
             // $s7SwiftUI16AppSceneDelegateC04makeD10HostWindow33_4475FD12FD59DEBA453321BD91F6EA04LL011restorationD6ItemID0O4Data17connectionOptions11urlContexts4role06windowD08delegateSo8UIWindowCAA0dQ0OSg_SDys11AnyHashableVypGSo017UISceneConnectionT0CShySo16UIOpenURLContextCGzSo18UISceneSessionRoleaSo0zD0CAA013UIHostingViewE0_ptF26configureHostingControllerL_yyAA19UIHostingControllerCyxGAA4ViewRzlFAA15ModifiedContentVyAA7AnyViewVAA12RootModifierVG_Tg5Tf4nnnenn_nAC_Tg5
             // <+772>
             let host = hostingController.host
@@ -1040,7 +1040,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     @specialized(where T == WindowGroupConfigurationAttributes)
     @specialized(where T == ImmersiveSpaceConfigurationAttributes)
     @specialized(where T == VolumeConfigurationAttributes)
-    fileprivate func openWindowPresentedValue<T: WindowSceneConfigurationAttributes>(
+    fileprivate func openWindowPresentedValue<T : WindowSceneConfigurationAttributes>(
         from connectionOptions: UIScene.ConnectionOptions,
         restorationData: [AnyHashable: Any],
         config: WindowSceneConfiguration<T>
@@ -1111,7 +1111,7 @@ final class AppSceneDelegate: NSObject, UIWindowSceneDelegate {
     }
 }
 
-extension AppSceneDelegate: UIHostingViewDelegate {
+extension AppSceneDelegate : UIHostingViewDelegate {
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore::View {
         // nop
     }
@@ -1148,7 +1148,7 @@ extension AppSceneDelegate: UIHostingViewDelegate {
     }
 }
 
-extension AppSceneDelegate: AppGraphObserver {
+extension AppSceneDelegate : AppGraphObserver {
     func scenesDidChange(phaseChanged: Bool) {
         /*
          self -> x20 -> x21

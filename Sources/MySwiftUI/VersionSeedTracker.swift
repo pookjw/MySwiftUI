@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-struct VersionSeedTracker<T: HostPreferenceKey> {
+struct VersionSeedTracker<T : HostPreferenceKey> {
     var seed: VersionSeed
     
     @discardableResult

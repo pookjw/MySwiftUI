@@ -1,5 +1,5 @@
 internal import UIKit
 
-final class UpdateCoalescingCollectionView: UICollectionView {
+final class UpdateCoalescingCollectionView : UICollectionView {
     // TODO
 }

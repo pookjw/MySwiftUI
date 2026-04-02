@@ -142,7 +142,7 @@ struct ContentScrollViewBox {
     // TODO
 }
 
-struct ContentScrollViewPreferenceKey: HostPreferenceKey {
+struct ContentScrollViewPreferenceKey : HostPreferenceKey {
     static let defaultValue: [ContentScrollViewBox] = []
     
     static func reduce(value: inout [ContentScrollViewBox], nextValue: () -> [ContentScrollViewBox]) {

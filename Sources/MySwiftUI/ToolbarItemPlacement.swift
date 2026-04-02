@@ -3,15 +3,15 @@ internal import MySwiftUICore
 public struct ToolbarItemPlacement {
     private(set) var role: ToolbarItemPlacement.Role
     
-    @safe public static nonisolated(unsafe) let automatic = ToolbarItemPlacement(role: .automatic)
+    @safe nonisolated(unsafe) public static let automatic = ToolbarItemPlacement(role: .automatic)
     
     @available(watchOS, unavailable)
-    @safe public static nonisolated(unsafe) let principal = ToolbarItemPlacement(role: .principal)
+    @safe nonisolated(unsafe) public static let principal = ToolbarItemPlacement(role: .principal)
     
     @available(watchOS, unavailable)
-    @safe public static nonisolated(unsafe) let navigation = ToolbarItemPlacement(role: .navigation)
+    @safe nonisolated(unsafe) public static let navigation = ToolbarItemPlacement(role: .navigation)
     
-    @safe public static nonisolated(unsafe) let primaryAction = ToolbarItemPlacement(role: .primaryAction(.automatic))
+    @safe nonisolated(unsafe) public static let primaryAction = ToolbarItemPlacement(role: .primaryAction(.automatic))
     
     static func primaryAction(initialVisibility: Visibility) -> ToolbarItemPlacement {
         return ToolbarItemPlacement(role: .primaryAction(initialVisibility))
@@ -20,23 +20,23 @@ public struct ToolbarItemPlacement {
     @available(iOS 16.0, macOS 13.0, *)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
-    @safe public static nonisolated(unsafe) let secondaryAction = ToolbarItemPlacement(role: .secondaryAction)
+    @safe nonisolated(unsafe) public static let secondaryAction = ToolbarItemPlacement(role: .secondaryAction)
     
     @available(tvOS 18.0, *)
     @available(watchOS, unavailable)
-    @safe public static nonisolated(unsafe) let status = ToolbarItemPlacement(role: .status)
+    @safe nonisolated(unsafe) public static let status = ToolbarItemPlacement(role: .status)
     
-    @safe public static nonisolated(unsafe) let confirmationAction = ToolbarItemPlacement(role: .confirmationAction)
+    @safe nonisolated(unsafe) public static let confirmationAction = ToolbarItemPlacement(role: .confirmationAction)
     
-    @safe public static nonisolated(unsafe) let cancellationAction = ToolbarItemPlacement(role: .cancellationAction)
+    @safe nonisolated(unsafe) public static let cancellationAction = ToolbarItemPlacement(role: .cancellationAction)
     
-    @safe public static nonisolated(unsafe) let destructiveAction = ToolbarItemPlacement(role: .destructiveAction)
+    @safe nonisolated(unsafe) public static let destructiveAction = ToolbarItemPlacement(role: .destructiveAction)
     
     @available(iOS 15.0, macOS 12.0, *)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     @available(visionOS, unavailable)
-    @safe public static nonisolated(unsafe) let keyboard = ToolbarItemPlacement(role: .keyboard)
+    @safe nonisolated(unsafe) public static let keyboard = ToolbarItemPlacement(role: .keyboard)
     
     @available(iOS 14.0, tvOS 14.0, watchOS 10.0, *)
     @backDeployed(before: iOS 17.0, tvOS 17.0)
@@ -77,14 +77,14 @@ public struct ToolbarItemPlacement {
     @available(macOS, unavailable)
     @available(watchOS, unavailable)
     @available(visionOS, introduced: 1.0, deprecated: 100000.0, message: "use topBarLeading instead")
-    @safe public static nonisolated(unsafe) let navigationBarLeading: ToolbarItemPlacement = .topBarLeading
+    @safe nonisolated(unsafe) public static let navigationBarLeading: ToolbarItemPlacement = .topBarLeading
     
     @available(iOS, introduced: 14.0, deprecated: 100000.0, message: "use topBarTrailing instead")
     @available(tvOS, introduced: 14.0, deprecated: 100000.0, message: "use topBarTrailing instead")
     @available(macOS, unavailable)
     @available(watchOS, unavailable)
     @available(visionOS, introduced: 1.0, deprecated: 100000.0, message: "use topBarTrailing instead")
-    @safe public static nonisolated(unsafe) let navigationBarTrailing: ToolbarItemPlacement = .topBarTrailing
+    @safe nonisolated(unsafe) public static let navigationBarTrailing: ToolbarItemPlacement = .topBarTrailing
     
     @available(iOS 14.0, *)
     @available(macOS, unavailable)
@@ -107,45 +107,45 @@ public struct ToolbarItemPlacement {
     @available(watchOS, unavailable)
     @available(visionOS, unavailable)
     @usableFromInline
-    @safe internal static nonisolated(unsafe) let _title = ToolbarItemPlacement(role: .title)
+    @safe nonisolated(unsafe) internal static let _title = ToolbarItemPlacement(role: .title)
     
     @available(iOS 26.0, *)
     @available(macOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     @available(visionOS, unavailable)
-    @safe public static nonisolated(unsafe) let largeTitle = ToolbarItemPlacement(role: .largeTitle)
+    @safe nonisolated(unsafe) public static let largeTitle = ToolbarItemPlacement(role: .largeTitle)
     
-    @safe static nonisolated(unsafe) let largeNavigationTitleAccessory = ToolbarItemPlacement(role: .largeNavigationTitleAccessory)
+    @safe nonisolated(unsafe) static let largeNavigationTitleAccessory = ToolbarItemPlacement(role: .largeNavigationTitleAccessory)
     
     @available(tvOS 18.0, watchOS 10.0, *)
     @available(macOS, unavailable)
-    @safe public static nonisolated(unsafe) let bottomBar = ToolbarItemPlacement(role: .bottomBar)
+    @safe nonisolated(unsafe) public static let bottomBar = ToolbarItemPlacement(role: .bottomBar)
     
-    @safe static nonisolated(unsafe) let _bottomBar = ToolbarItemPlacement(role: .bottomBar)
+    @safe nonisolated(unsafe) static let _bottomBar = ToolbarItemPlacement(role: .bottomBar)
     
     @available(visionOS 1.0, *)
     @available(iOS, unavailable)
     @available(macOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
-    @safe public static nonisolated(unsafe) let bottomOrnament = ToolbarItemPlacement(role: .bottomOrnament)
+    @safe nonisolated(unsafe) public static let bottomOrnament = ToolbarItemPlacement(role: .bottomOrnament)
     
     @available(iOS 26.0, *)
     @available(macOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     @available(visionOS, unavailable)
-    @safe public static nonisolated(unsafe) let subtitle = ToolbarItemPlacement(role: .subtitle)
+    @safe nonisolated(unsafe) public static let subtitle = ToolbarItemPlacement(role: .subtitle)
     
     @available(iOS 26.0, *)
     @available(macOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     @available(visionOS, unavailable)
-    @safe public static nonisolated(unsafe) let largeSubtitle = ToolbarItemPlacement(role: .largeTitle)
+    @safe nonisolated(unsafe) public static let largeSubtitle = ToolbarItemPlacement(role: .largeTitle)
     
-    @safe static nonisolated(unsafe) let tabSidebar = ToolbarItemPlacement(role: .automatic)
+    @safe nonisolated(unsafe) static let tabSidebar = ToolbarItemPlacement(role: .automatic)
 }
 
 @available(*, unavailable)
@@ -179,7 +179,7 @@ extension ToolbarItemPlacement {
      x8 -> AnyHashable
      x8 + 0x28 -> 0x1
      */
-    enum Role: Hashable {
+    enum Role : Hashable {
         case primaryAction(Visibility)
         case accessoryBar(AnyHashable)
         case automatic

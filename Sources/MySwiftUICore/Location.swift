@@ -1,4 +1,4 @@
-package protocol Location: Equatable {
+package protocol Location : Equatable {
     associatedtype Value
     
     var wasRead: Bool {
@@ -17,10 +17,10 @@ extension Location {
 }
 
 @_documentation(visibility: private)
-open class AnyLocationBase: @unchecked Sendable {}
+open class AnyLocationBase : @unchecked Sendable {}
 
 @_documentation(visibility: private)
-open class AnyLocation<Value>: AnyLocationBase, @unchecked Sendable {
+open class AnyLocation<Value> : AnyLocationBase, @unchecked Sendable {
     var wasRead: Bool {
         get {
             preconditionFailure() // abstract
@@ -41,7 +41,7 @@ open class AnyLocation<Value>: AnyLocationBase, @unchecked Sendable {
         preconditionFailure() // abstract
     }
     
-    func projecting<P: Projection>(_ projection: P) -> AnyLocation<P.Projected> where Value == P.Base {
+    func projecting<P : Projection>(_ projection: P) -> AnyLocation<P.Projected> where Value == P.Base {
         preconditionFailure() // abstract
     }
     
@@ -58,7 +58,7 @@ open class AnyLocation<Value>: AnyLocationBase, @unchecked Sendable {
     }
 }
 
-extension AnyLocation: Equatable {
+extension AnyLocation : Equatable {
     public static func == (lhs: AnyLocation<Value>, rhs: AnyLocation<Value>) -> Bool {
         return lhs.isEqual(to: rhs)
     }

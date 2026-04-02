@@ -2,12 +2,12 @@ public import MySwiftUICore
 public import Foundation
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-public struct WindowGroup<Content>: Scene where Content: View {
-    @safe private nonisolated(unsafe) var title: Text?
-    @safe private nonisolated(unsafe) var content: WindowGroupRootContent<Content>
-    @safe private nonisolated(unsafe) var id: String?
-    @safe private nonisolated(unsafe) var presentationDataType: Any.Type?
-    @safe private nonisolated(unsafe) var decoder: ((Data) -> AnyHashable?)?
+public struct WindowGroup<Content> : Scene where Content : View {
+    @safe nonisolated(unsafe) private var title: Text?
+    @safe nonisolated(unsafe) private var content: WindowGroupRootContent<Content>
+    @safe nonisolated(unsafe) private var id: String?
+    @safe nonisolated(unsafe) private var presentationDataType: Any.Type?
+    @safe nonisolated(unsafe) private var decoder: ((Data) -> AnyHashable?)?
     
     @available(iOS, introduced: 14.0, deprecated: 18.0, renamed: "init(id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(macOS, introduced: 11.0, deprecated: 15.0, renamed: "init(id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
@@ -41,7 +41,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(tvOS, introduced: 14.0, deprecated: 18.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(_:id:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(_:id:makeContent:)")
-    @_disfavoredOverload public init<S>(_ title: S, id: String, @ViewBuilder content: () -> Content) where S: StringProtocol {
+    @_disfavoredOverload public init<S>(_ title: S, id: String, @ViewBuilder content: () -> Content) where S : StringProtocol {
         assertUnimplemented()
     }
 
@@ -77,7 +77,7 @@ public struct WindowGroup<Content>: Scene where Content: View {
     @available(tvOS, introduced: 14.0, deprecated: 18.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(watchOS, introduced: 7.0, deprecated: 11.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
     @available(visionOS, introduced: 1.0, deprecated: 2.0, renamed: "init(_:makeContent:)", message: "Use the initializer which takes an escaping view builder instead.")
-    @_disfavoredOverload public init<S>(_ title: S, @ViewBuilder content: () -> Content) where S: StringProtocol {
+    @_disfavoredOverload public init<S>(_ title: S, @ViewBuilder content: () -> Content) where S : StringProtocol {
         assertUnimplemented()
     }
 
@@ -97,65 +97,65 @@ public struct WindowGroup<Content>: Scene where Content: View {
 }
 
 @available(*, unavailable)
-extension WindowGroup: Sendable {}
+extension WindowGroup : Sendable {}
 
 @available(iOS 16.0, macOS 13.0, *)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 extension WindowGroup {
-    nonisolated public init<D, C>(id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    nonisolated public init<D, C>(id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         self.init(Text(titleResource), id: id, for: type, content: content)
     }
 
-    @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, S: StringProtocol, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, id: String, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, S : StringProtocol, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    nonisolated public init<D, C>(for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    nonisolated public init<D, C>(for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         self.init(Text(titleResource), for: type, content: content)
     }
 
-    @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, S: StringProtocol, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, for type: D.Type, @ViewBuilder content: @escaping (Binding<D?>) -> C) where Content == PresentedWindowContent<D, C>, S : StringProtocol, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    nonisolated public init<D, C>(id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    nonisolated public init<D, C>(id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         self.init(
             Text(titleResource),
             id: id,
@@ -165,23 +165,23 @@ extension WindowGroup {
         )
     }
 
-    @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, S: StringProtocol, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, id: String, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, S : StringProtocol, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    nonisolated public init<D, C>(for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    nonisolated public init<D, C>(for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload nonisolated public init<D, C>(_ title: Text, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    nonisolated public init<D, C>(_ titleKey: LocalizedStringKey, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 
-    @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload @_alwaysEmitIntoClient nonisolated public init<D, C>(_ titleResource: LocalizedStringResource, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, D : Decodable, D : Encodable, D : Hashable, C : View {
         self.init(
             Text(titleResource),
             for: type,
@@ -190,7 +190,7 @@ extension WindowGroup {
         )
     }
 
-    @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, S: StringProtocol, D: Decodable, D: Encodable, D: Hashable, C: View {
+    @_disfavoredOverload nonisolated public init<S, D, C>(_ title: S, for type: D.Type = D.self, @ViewBuilder content: @escaping (Binding<D>) -> C, defaultValue: @escaping () -> D) where Content == PresentedWindowContent<D, C>, S : StringProtocol, D : Decodable, D : Encodable, D : Hashable, C : View {
         assertUnimplemented()
     }
 }
@@ -227,7 +227,7 @@ extension WindowGroup {
     }
 
     @MainActor // 원래 없음
-    @_disfavoredOverload @_alwaysEmitIntoClient /*nonisolated*/ public init<S>(_ title: S, id: String, @ViewBuilder makeContent: @escaping () -> Content) where S: StringProtocol {
+    @_disfavoredOverload @_alwaysEmitIntoClient /*nonisolated*/ public init<S>(_ title: S, id: String, @ViewBuilder makeContent: @escaping () -> Content) where S : StringProtocol {
         self.init(Text(title), id: id, makeContent: makeContent)
     }
 
@@ -261,7 +261,7 @@ extension WindowGroup {
     }
 
     @MainActor // 원래 없음
-    @_disfavoredOverload @_alwaysEmitIntoClient /*nonisolated*/ public init<S>(_ title: S, @ViewBuilder makeContent: @escaping () -> Content) where S: StringProtocol {
+    @_disfavoredOverload @_alwaysEmitIntoClient /*nonisolated*/ public init<S>(_ title: S, @ViewBuilder makeContent: @escaping () -> Content) where S : StringProtocol {
         self.init(Text(title), makeContent: makeContent)
     }
 }
@@ -278,7 +278,7 @@ extension WindowGroup {
     }
 }
 
-enum WindowGroupRootContent<T: View> {
+enum WindowGroupRootContent<T : View> {
     case eager(T)
     case lazy(() -> T)
     

@@ -99,14 +99,14 @@ private import AttributeGraph
     }
 }
 
-fileprivate struct SharingActivityPickerPresentation: @unchecked Sendable {
+fileprivate struct SharingActivityPickerPresentation : @unchecked Sendable {
     private var source: SharingPickerSource
     private var anchor: Anchor<CGRect?>
     private var environmentAttr: Attribute<EnvironmentValues>
 }
 
 extension SharingActivityPickerPresentation {
-    struct Key: HostPreferenceKey {
+    struct Key : HostPreferenceKey {
         static let defaultValue: [SharingActivityPickerPresentation] = []
         
         static func reduce(value: inout [SharingActivityPickerPresentation], nextValue: () -> [SharingActivityPickerPresentation]) {

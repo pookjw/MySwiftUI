@@ -1,7 +1,7 @@
 // 18671928047E57F039DC339288B6FAFB
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-public struct RedactionReasons: OptionSet, Sendable {
+public struct RedactionReasons : OptionSet, Sendable {
     public let rawValue: Int
     
     public init(rawValue: Int) {
@@ -48,7 +48,7 @@ extension EnvironmentValues {
         return self[ShouldRedactContentKey.self]
     }
     
-    fileprivate struct ShouldRedactContentKey: DerivedEnvironmentKey {
+    fileprivate struct ShouldRedactContentKey : DerivedEnvironmentKey {
         static func value(in environment: EnvironmentValues) -> Bool {
             if !environment.redactionReasons.isEmpty {
                 return true
@@ -59,7 +59,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct RedactionReasonsKey: EnvironmentKey {
+fileprivate struct RedactionReasonsKey : EnvironmentKey {
     static var defaultValue: RedactionReasons {
         return []
     }

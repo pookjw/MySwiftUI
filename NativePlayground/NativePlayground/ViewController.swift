@@ -18,7 +18,7 @@ import AttributeGraph
 import Spatial
 import Darwin.POSIX.dlfcn
 
-class ViewController: UIViewController {
+class ViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
     }
 }
 
-fileprivate struct MyViewControllerRepresentable: UIViewControllerRepresentable {
+fileprivate struct MyViewControllerRepresentable : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let uiViewController = UIViewController()
         uiViewController.view.backgroundColor = .systemOrange

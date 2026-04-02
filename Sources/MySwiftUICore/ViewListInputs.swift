@@ -28,7 +28,7 @@ public struct _ViewListInputs {
 }
 
 extension _ViewListInputs {
-    struct Options: OptionSet {
+    struct Options : OptionSet {
         static var canTransition: _ViewListInputs.Options {
             return _ViewListInputs.Options(rawValue: 1 << 0)
         }

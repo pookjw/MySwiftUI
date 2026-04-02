@@ -23,7 +23,7 @@ public struct SceneLaunchBehavior : Sendable {
 }
 
 extension SceneLaunchBehavior {
-    enum Role: Hashable {
+    enum Role : Hashable {
         case automatic
         case presented
         case suppressed

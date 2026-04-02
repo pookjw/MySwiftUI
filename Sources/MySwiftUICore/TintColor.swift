@@ -12,7 +12,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct TintKey: EnvironmentKey {
+fileprivate struct TintKey : EnvironmentKey {
     static var defaultValue: Color? {
         return nil
     }

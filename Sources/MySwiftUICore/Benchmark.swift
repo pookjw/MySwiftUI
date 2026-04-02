@@ -1,4 +1,4 @@
 
-public protocol _Benchmark: AnyObject {
+public protocol _Benchmark : AnyObject {
     
 }

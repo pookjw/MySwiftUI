@@ -1,4 +1,4 @@
-public struct _EventDebugTriggers: OptionSet, Sendable {
+public struct _EventDebugTriggers : OptionSet, Sendable {
     public let rawValue: Int
     
     public init(rawValue: Int) {
@@ -18,4 +18,4 @@ public struct _EventDebugTriggers: OptionSet, Sendable {
     }
 }
 
-@safe public nonisolated(unsafe) var _eventDebugTriggers = _EventDebugTriggers(rawValue: 1 << 1)
+@safe nonisolated(unsafe) public var _eventDebugTriggers = _EventDebugTriggers(rawValue: 1 << 1)

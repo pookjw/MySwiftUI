@@ -6,7 +6,7 @@ private import Darwin.POSIX.dlfcn
 private import _DarwinFoundation3._stdlib
 private import _MySwiftUIShims
 
-fileprivate nonisolated(unsafe) var threadAssertionTrace = unsafe Trace(
+nonisolated(unsafe) fileprivate var threadAssertionTrace = unsafe Trace(
     unknown_block_1: nil,
     unknown_block_2: nil,
     unknown_block_3: nil,
@@ -118,10 +118,10 @@ fileprivate let waitingForPreviewThunks: Bool = {
     return unsafe atoi(value) != 0
 }()
 
-fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = unsafe []
+nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = unsafe []
 
 @_spi(Internal) open class GraphHost {
-    @safe fileprivate static nonisolated(unsafe) let sharedGraph: Graph = {
+    @safe nonisolated(unsafe) fileprivate static let sharedGraph: Graph = {
         let graph = Graph()
         let assertLocks = unsafe getenv("SWIFTUI_ASSERT_LOCKS")
         
@@ -199,7 +199,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     private var pendingTransactions: [AsyncTransaction]
     private var inTransaction: Bool
     private var continuations: [any GraphMutation]
-    package private(set) nonisolated final var mayDeferUpdate: Bool
+    nonisolated package private(set) final var mayDeferUpdate: Bool
     var removedState: GraphHost.RemovedState
     
     final var isValid: Bool {
@@ -330,13 +330,13 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return .view
     }
     
-    package final func addPreference<T: HostPreferenceKey>(_ key: T.Type) {
+    package final func addPreference<T : HostPreferenceKey>(_ key: T.Type) {
         Graph.withoutUpdate {
             data.hostPreferenceKeys.add(key)
         }
     }
     
-    package final func removePreference<T: HostPreferenceKey>(_ key: T.Type) {
+    package final func removePreference<T : HostPreferenceKey>(_ key: T.Type) {
         Graph.withoutUpdate {
             data.hostPreferenceKeys.remove(key)
         }
@@ -617,7 +617,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
     }
     
-    package final func preferenceValue<T: HostPreferenceKey>(_: T.Type) -> T.Value {
+    package final func preferenceValue<T : HostPreferenceKey>(_: T.Type) -> T.Value {
         /*
          self -> x20 -> x25
          T -> x1 -> x19
@@ -683,7 +683,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     @discardableResult
-    package final func asyncTransaction<T: GraphMutation>(
+    package final func asyncTransaction<T : GraphMutation>(
         _ transaction: Transaction = Transaction(),
         id: Transaction.ID = Transaction.id,
         mutation: T,
@@ -834,7 +834,7 @@ fileprivate nonisolated(unsafe) var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return data.environment
     }
     
-    final func continueTransaction<T: GraphMutation>(_: T) {
+    final func continueTransaction<T : GraphMutation>(_: T) {
         assertUnimplemented()
     } 
 }
@@ -917,7 +917,7 @@ extension GraphHost {
         }
     }
     
-    package enum ConstantID: Int8, Hashable {
+    package enum ConstantID : Int8, Hashable {
         case defaultValue
         case implicitViewRoot
         case trueValue
@@ -929,7 +929,7 @@ extension GraphHost {
 }
 
 extension GraphHost {
-    struct RemovedState: OptionSet {
+    struct RemovedState : OptionSet {
         let rawValue: UInt8
         
         static var unattached: GraphHost.RemovedState { GraphHost.RemovedState(rawValue: 1 << 0) }
@@ -939,10 +939,10 @@ extension GraphHost {
 
 package protocol GraphMutation {
     func apply()
-    func combine<T: GraphMutation>(with other: T) -> Bool
+    func combine<T : GraphMutation>(with other: T) -> Bool
 }
 
-struct InvalidatingGraphMutation: GraphMutation {
+struct InvalidatingGraphMutation : GraphMutation {
     let attribute: AnyWeakAttribute
     
     func apply() {
@@ -958,7 +958,7 @@ struct InvalidatingGraphMutation: GraphMutation {
     }
 }
 
-struct AssignmentGraphMutation<T>: GraphMutation {
+struct AssignmentGraphMutation<T> : GraphMutation {
     private var target: WeakAttribute<T>?
     private var newValue: T
     
@@ -976,7 +976,7 @@ struct AssignmentGraphMutation<T>: GraphMutation {
     }
 }
 
-fileprivate struct ConstantKey: Hashable {
+fileprivate struct ConstantKey : Hashable {
     static func == (lhs: ConstantKey, rhs: ConstantKey) -> Bool {
         return (lhs.type == rhs.type) && (lhs.id == rhs.id)
     }
@@ -996,7 +996,7 @@ fileprivate struct ConstantKey: Hashable {
 }
 
 fileprivate struct AsyncTransaction {
-    @safe static nonisolated(unsafe) var nextTraceID: UInt32 = 1
+    @safe nonisolated(unsafe) static var nextTraceID: UInt32 = 1
     
     fileprivate let transaction: Transaction
     fileprivate let transactionID: Transaction.ID
@@ -1012,17 +1012,17 @@ fileprivate struct AsyncTransaction {
         self.mutations = mutations
     }
     
-    mutating func append<T: GraphMutation>(_ mutation: T) {
+    mutating func append<T : GraphMutation>(_ mutation: T) {
         mutations.append(mutation)
     }
 }
 
-package enum _GraphMutation_Style: Hashable {
+package enum _GraphMutation_Style : Hashable {
     case immediate
     case deferred
 }
 
-fileprivate struct EmptyGraphMutation: GraphMutation {
+fileprivate struct EmptyGraphMutation : GraphMutation {
     func apply() {
         // nop
     }

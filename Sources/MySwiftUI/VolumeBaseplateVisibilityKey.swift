@@ -1,7 +1,7 @@
 internal import MySwiftUICore
 internal import MRUIKit
 
-struct VolumeBaseplateVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey {
+struct VolumeBaseplateVisibilityKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     static var defaultValue: VolumeBaseplateVisibilityKey.PreferredValue? {
         return nil
     }
@@ -45,7 +45,7 @@ struct VolumeBaseplateVisibilityKey: MRUIBridgedPreferenceKey, HostPreferenceKey
 }
 
 extension VolumeBaseplateVisibilityKey {
-    struct PreferredValue: Equatable {
+    struct PreferredValue : Equatable {
         fileprivate private(set) var visibility: Visibility
         fileprivate private(set) var animation: Animation?
     }

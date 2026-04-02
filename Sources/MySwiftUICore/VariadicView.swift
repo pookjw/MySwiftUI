@@ -8,7 +8,7 @@ public enum _VariadicView {
     public typealias UnaryViewRoot = _VariadicView_UnaryViewRoot
     public typealias MultiViewRoot = _VariadicView_MultiViewRoot
     
-    @frozen public struct Tree<Root, Content> where Root: _VariadicView_Root {
+    @frozen public struct Tree<Root, Content> where Root : _VariadicView_Root {
         public var root: Root
         public var content: Content
         
@@ -24,10 +24,10 @@ public enum _VariadicView {
     }
 }
 
-extension _VariadicView.Tree: View where Root: _VariadicView_ViewRoot, Content: View {
+extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content : View {
     public typealias Body = Never
     
-    public static nonisolated func _makeView(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
         // sp + 0x260
         let copy_1 = inputs
         // view -> w28
@@ -63,23 +63,23 @@ extension _VariadicView.Tree: View where Root: _VariadicView_ViewRoot, Content: 
         }
     }
     
-    public static nonisolated func _makeViewList(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
 }
 
-extension _VariadicView.Tree: PrimitiveView where Root: _VariadicView_ViewRoot, Content: View {}
+extension _VariadicView.Tree : PrimitiveView where Root : _VariadicView_ViewRoot, Content : View {}
 
 @available(*, unavailable)
-extension _VariadicView.Tree: Sendable {
+extension _VariadicView.Tree : Sendable {
 }
 
 @available(*, unavailable)
-extension _VariadicView: Sendable {
+extension _VariadicView : Sendable {
 }
 
 public protocol _VariadicView_Root {
@@ -91,15 +91,15 @@ extension _VariadicView_Root {
         return 0
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
         assertUnimplemented()
     }
 }
 
-@preconcurrency @MainActor public protocol _VariadicView_ViewRoot: _VariadicView_Root {
-    static nonisolated func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs
-    static nonisolated func _makeViewList(root: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs
-    static nonisolated func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int?
+@preconcurrency @MainActor public protocol _VariadicView_ViewRoot : _VariadicView_Root {
+    nonisolated static func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs
+    nonisolated static func _makeViewList(root: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs
+    nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int?
     
     associatedtype Body : View
     @ViewBuilder @MainActor @preconcurrency func body(children: _VariadicView.Children) -> Self.Body
@@ -112,42 +112,42 @@ extension _VariadicView_ViewRoot where Self.Body == Never {
 }
 
 extension _VariadicView_ViewRoot {
-    public static nonisolated func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _makeViewList(root: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    nonisolated public static func _makeViewList(root: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
 }
 
-public protocol _VariadicView_UnaryViewRoot: _VariadicView_ViewRoot {
+public protocol _VariadicView_UnaryViewRoot : _VariadicView_ViewRoot {
 }
 
-public protocol _VariadicView_MultiViewRoot: _VariadicView_ViewRoot {
+public protocol _VariadicView_MultiViewRoot : _VariadicView_ViewRoot {
 }
 
 public struct _VariadicView_Children {
 }
 
-extension _VariadicView_Children: View, MultiView, PrimitiveView {
-    public static nonisolated func _makeViewList(view: _GraphValue<_VariadicView.Children>, inputs: _ViewListInputs) -> _ViewListOutputs {
+extension _VariadicView_Children : View, MultiView, PrimitiveView {
+    nonisolated public static func _makeViewList(view: _GraphValue<_VariadicView.Children>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
-    public static nonisolated func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
     
     public typealias Body = Never
 }
 
-extension _VariadicView_Children: RandomAccessCollection {
-    public struct Element: View, UnaryView, PrimitiveView, Identifiable {
+extension _VariadicView_Children : RandomAccessCollection {
+    public struct Element : View, UnaryView, PrimitiveView, Identifiable {
         public var id: AnyHashable {
             assertUnimplemented()
         }
@@ -165,7 +165,7 @@ extension _VariadicView_Children: RandomAccessCollection {
             }
         }
         
-        public static nonisolated func _makeView(view: _GraphValue<_VariadicView_Children.Element>, inputs: _ViewInputs) -> _ViewOutputs {
+        nonisolated public static func _makeView(view: _GraphValue<_VariadicView_Children.Element>, inputs: _ViewInputs) -> _ViewOutputs {
             assertUnimplemented()
         }
         
@@ -192,35 +192,35 @@ extension _VariadicView_Children: RandomAccessCollection {
 }
 
 @available(*, unavailable)
-extension _VariadicView_Children.Element: Sendable {
+extension _VariadicView_Children.Element : Sendable {
 }
 
 @available(*, unavailable)
-extension _VariadicView_Children: Sendable {
+extension _VariadicView_Children : Sendable {
 }
 
 protocol _VariadicView_ImplicitRootVisitor {
-    mutating func visit<T: _VariadicView_ImplicitRoot>(type: T.Type)
+    mutating func visit<T : _VariadicView_ImplicitRoot>(type: T.Type)
 }
 
-protocol _VariadicView_ImplicitRoot: _VariadicView_ViewRoot, _VariadicView_AnyImplicitRoot {
-    static nonisolated var implicitRoot: Self {
+protocol _VariadicView_ImplicitRoot : _VariadicView_ViewRoot, _VariadicView_AnyImplicitRoot {
+    nonisolated static var implicitRoot: Self {
         get
     }
 }
 
 extension _VariadicView_ImplicitRoot {
-    static nonisolated func visitType<T: _VariadicView_ImplicitRootVisitor>(visitor: inout T) {
+    nonisolated static func visitType<T : _VariadicView_ImplicitRootVisitor>(visitor: inout T) {
         visitor.visit(type: Self.self)
     }
 }
 
 protocol _VariadicView_AnyImplicitRoot {
-    static nonisolated func visitType<T: _VariadicView_ImplicitRootVisitor>(visitor: inout T)
+    nonisolated static func visitType<T : _VariadicView_ImplicitRootVisitor>(visitor: inout T)
 }
 
 extension View {
-    static nonisolated func makeImplicitRoot(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated static func makeImplicitRoot(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         var visitor = MakeViewRoot(
             inputs: inputs,
             body: { [view] graph, inputs in
@@ -241,7 +241,7 @@ extension View {
     }
 }
 
-fileprivate struct MakeViewRoot: _VariadicView_ImplicitRootVisitor {
+fileprivate struct MakeViewRoot : _VariadicView_ImplicitRootVisitor {
     var inputs: _ViewInputs
     var body: (_Graph, _ViewInputs) -> _ViewListOutputs
     var outputs: _ViewOutputs?
@@ -279,7 +279,7 @@ fileprivate struct MakeViewRoot: _VariadicView_ImplicitRootVisitor {
     }
 }
 
-fileprivate struct ImplicitRootType: ViewInput {
+fileprivate struct ImplicitRootType : ViewInput {
     static let defaultValue: any _VariadicView_AnyImplicitRoot.Type = _VStackLayout.self
 }
 
@@ -297,7 +297,7 @@ extension _ViewInputs {
     }
 }
 
-struct ViewListOptionsInput: ViewInput {
+struct ViewListOptionsInput : ViewInput {
     static var defaultValue: Int {
         return 0
     }

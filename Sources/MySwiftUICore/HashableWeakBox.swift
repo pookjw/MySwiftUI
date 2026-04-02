@@ -1,4 +1,4 @@
-package struct HashableWeakBox<T: AnyObject>: Hashable {
+package struct HashableWeakBox<T : AnyObject>: Hashable {
     package weak var base: T?
     private let basePointer: UnsafeMutableRawPointer
     

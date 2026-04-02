@@ -9,7 +9,7 @@ extension EnvironmentValues {
     }
 }
 
-struct IsVisionEnabledKey: EnvironmentKey {
+struct IsVisionEnabledKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

@@ -1,13 +1,13 @@
 
-package protocol ViewInput: GraphInput {
+package protocol ViewInput : GraphInput {
 }
 
-extension ViewInput where Self: ViewInputFlag {
+extension ViewInput where Self : ViewInputFlag {
     package typealias Input = Self
 }
 
-package protocol ViewInputFlag: _GraphInputsModifier, ViewInputPredicate {
-    associatedtype Input: ViewInput where Input.Value: Equatable
+package protocol ViewInputFlag : _GraphInputsModifier, ViewInputPredicate {
+    associatedtype Input : ViewInput where Input.Value : Equatable
     
     static var value: Input.Value {
         get
@@ -29,7 +29,7 @@ extension ViewInputFlag {
     }
 }
 
-package protocol ViewInputBoolFlag: ViewInput, ViewInputFlag where Value == Bool {
+package protocol ViewInputBoolFlag : ViewInput, ViewInputFlag where Value == Bool {
 }
 
 extension ViewInputBoolFlag {

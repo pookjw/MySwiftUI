@@ -10,7 +10,7 @@ public struct FocusedValues {
 }
 
 extension FocusedValues {
-    struct StorageOptions: OptionSet {
+    struct StorageOptions : OptionSet {
         let rawValue: UInt8
     }
 }

@@ -3,7 +3,7 @@ public import Foundation
 private import AttributeGraph
 
 @usableFromInline
-@frozen package struct PropertyList: CustomStringConvertible {
+@frozen package struct PropertyList : CustomStringConvertible {
     @usableFromInline
     var elements: Element?
     
@@ -44,7 +44,7 @@ private import AttributeGraph
         return unsafe !compareLists(Unmanaged.passUnretained(otherElements), Unmanaged.passUnretained(selfElements), ignoredTypes: &ignoredTypes)
     }
     
-    package subscript<Key: PropertyKey>(_ key: Key.Type) -> Key.Value {
+    package subscript<Key : PropertyKey>(_ key: Key.Type) -> Key.Value {
         get {
             // $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluig
             withExtendedLifetime(elements) { elements in
@@ -102,7 +102,7 @@ private import AttributeGraph
         }
     }
     
-    package func forEach<T: PropertyKey>(keyType: T.Type, _ handler: (T.Value, inout Bool) -> Void) -> Bool {
+    package func forEach<T : PropertyKey>(keyType: T.Type, _ handler: (T.Value, inout Bool) -> Void) -> Bool {
         assertUnimplemented()
     }
     
@@ -235,11 +235,11 @@ private import AttributeGraph
         return elements?.id ?? UniqueID(value: 0)
     }
     
-    package func valueWithSecondaryLookup<T: PropertyKeyLookup>(_ type: T.Type) -> T.Primary.Value {
+    package func valueWithSecondaryLookup<T : PropertyKeyLookup>(_ type: T.Type) -> T.Primary.Value {
         assertUnimplemented()
     }
     
-    package subscript<T: DerivedPropertyKey>(_ type: T.Type) -> T.Value {
+    package subscript<T : DerivedPropertyKey>(_ type: T.Type) -> T.Value {
         get {
             assertUnimplemented()
         }
@@ -248,13 +248,13 @@ private import AttributeGraph
         }
     }
     
-    package mutating func prependValue<T: PropertyKey>(_ value: T.Value, for type: T.Type) {
+    package mutating func prependValue<T : PropertyKey>(_ value: T.Value, for type: T.Type) {
         self.elements = TypedElement<T>(value: value, before: nil, after: elements)
     }
 }
 
 @available(*, unavailable)
-extension PropertyList: Sendable {}
+extension PropertyList : Sendable {}
 
 extension PropertyList {
     @usableFromInline
@@ -330,19 +330,19 @@ extension PropertyList {
             assertUnimplemented()
         }
         
-        package func valueWithSecondaryLookup<T: PropertyKeyLookup>(_ other: PropertyList, secondaryLookupHandler: T.Type) -> T.Primary.Value {
+        package func valueWithSecondaryLookup<T : PropertyKeyLookup>(_ other: PropertyList, secondaryLookupHandler: T.Type) -> T.Primary.Value {
             assertUnimplemented()
         }
         
-        package func value<T: PropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
+        package func value<T : PropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
             assertUnimplemented()
         }
         
-        package func invalidateValue<Key: PropertyKey>(for: Key.Type, from: PropertyList, to: PropertyList) {
+        package func invalidateValue<Key : PropertyKey>(for: Key.Type, from: PropertyList, to: PropertyList) {
             assertUnimplemented()
         }
         
-        package func derivedValue<T: DerivedPropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
+        package func derivedValue<T : DerivedPropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
             assertUnimplemented()
         }
         
@@ -354,7 +354,7 @@ extension PropertyList {
 
 extension PropertyList {
     @safe @usableFromInline
-    class Element: CustomStringConvertible {
+    class Element : CustomStringConvertible {
         fileprivate let keyType: Any.Type
         fileprivate let before: Element?
         fileprivate var after: Element?
@@ -425,11 +425,11 @@ extension PropertyList {
 }
 
 @available(*, unavailable)
-extension PropertyList.Element: Sendable {}
+extension PropertyList.Element : Sendable {}
 
 package protocol PropertyKeyLookup {
-    associatedtype Primary: PropertyKey
-    associatedtype Secondary: PropertyKey
+    associatedtype Primary : PropertyKey
+    associatedtype Secondary : PropertyKey
     
     static func lookup(in: Secondary.Value) -> Primary.Value?
 } 
@@ -460,7 +460,7 @@ package protocol DerivedPropertyKey {
     associatedtype Value
 }
 
-fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
+fileprivate func findValueWithSecondaryLookup<T : PropertyKeyLookup>(
     _ element: Unmanaged<PropertyList.Element>?,
     secondaryLookupHandler: T.Type,
     filter: BloomFilter,
@@ -527,7 +527,7 @@ fileprivate func findValueWithSecondaryLookup<T: PropertyKeyLookup>(
     return nil
 }
 
-fileprivate func find1<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type, filter: BloomFilter) -> Unmanaged<TypedElement<T>>? {
+fileprivate func find1<T : PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type, filter: BloomFilter) -> Unmanaged<TypedElement<T>>? {
     guard let element = unsafe element else {
         return nil
     }
@@ -611,11 +611,11 @@ fileprivate func compare(_ source: [ObjectIdentifier: AnyTrackedValue], against:
     return true
 }
 
-fileprivate func find<T: PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type) -> Unmanaged<TypedElement<T>>? {
+fileprivate func find<T : PropertyKey>(_ element: Unmanaged<PropertyList.Element>?, key: T.Type) -> Unmanaged<TypedElement<T>>? {
     return unsafe find1(element, key: key, filter: BloomFilter(type: key))
 }
 
-fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
+fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
     let value: Key.Value // 0x48
     
     @inlinable
@@ -641,7 +641,7 @@ fileprivate class TypedElement<Key: PropertyKey>: PropertyList.Element {
     }
 }
 
-@_spi(Internal) open class ViewGraphHostEnvironmentWrapper: NSObject, NSSecureCoding {
+@_spi(Internal) open class ViewGraphHostEnvironmentWrapper : NSObject, NSSecureCoding {
     public static var supportsSecureCoding: Bool {
         return true
     }
@@ -712,6 +712,6 @@ fileprivate protocol AnyTrackedValue {
     func hasMatchingValue(in propertyList: PropertyList) -> Bool
 }
 
-fileprivate struct EmptyKey: PropertyKey {
+fileprivate struct EmptyKey : PropertyKey {
     static let defaultValue: () = ()
 }

@@ -1,7 +1,7 @@
 #if SwiftUICompataibility
 package import _SwiftUIPrivate
 
-fileprivate struct MaterialBackdropProxyKey: EnvironmentKey {
+fileprivate struct MaterialBackdropProxyKey : EnvironmentKey {
     static var defaultValue: _SwiftUIPrivate::MaterialBackdropProxy? {
         return nil
     }
@@ -21,7 +21,7 @@ extension EnvironmentValues {
 #else
 private import os.lock
 
-package struct MaterialBackdropProxy: Equatable {
+package struct MaterialBackdropProxy : Equatable {
     package static func == (lhs: MaterialBackdropProxy, rhs: MaterialBackdropProxy) -> Bool {
         return ObjectIdentifier(lhs.storage) == ObjectIdentifier(rhs.storage)
     }
@@ -98,11 +98,11 @@ extension MaterialBackdropProxy.Storage {
     }
 }
 
-package protocol MaterialBackdropObserver: AnyObject {
+package protocol MaterialBackdropObserver : AnyObject {
     func luminanceDidChange(_ luminance: Float?)
 }
 
-fileprivate struct MaterialBackdropProxyKey: EnvironmentKey {
+fileprivate struct MaterialBackdropProxyKey : EnvironmentKey {
     static var defaultValue: MaterialBackdropProxy? {
         return nil
     }

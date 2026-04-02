@@ -5,7 +5,7 @@ private import os.log
 private import CoreText
 private import UIFoundation
 
-@frozen public struct Text: Equatable, Sendable {
+@frozen public struct Text : Equatable, Sendable {
     @usableFromInline
     @frozen package enum Storage : Equatable {
         case verbatim(String)
@@ -16,7 +16,7 @@ private import UIFoundation
             assertUnimplemented()
         }
         
-        func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, with options: Text.ResolveOptions) {
+        func resolve<T : ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, with options: Text.ResolveOptions) {
             switch self {
             case .verbatim(_):
                 assertUnimplemented()
@@ -99,7 +99,7 @@ private import UIFoundation
         }
     }
     
-    func resolve<T: ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, with options: Text.ResolveOptions) {
+    func resolve<T : ResolvedTextContainer>(into container: inout T, in environmentValues: EnvironmentValues, with options: Text.ResolveOptions) {
         let _ = container.style
         
         if modifiers.isEmpty {
@@ -110,14 +110,14 @@ private import UIFoundation
     }
 }
 
-extension Text: View {
+extension Text : View {
     public var body: Never {
         assertUnimplemented()
     }
 }
 
 extension Text {
-    package struct ResolveOptions: OptionSet {
+    package struct ResolveOptions : OptionSet {
         static var includeAccessibility: Text.ResolveOptions {
             return Text.ResolveOptions(rawValue: 1 << 0)
         }
@@ -161,7 +161,7 @@ extension Text {
         }
     }
     
-    struct Resolved: ResolvedTextContainer {
+    struct Resolved : ResolvedTextContainer {
         init() {
             assertUnimplemented()
         }
@@ -189,7 +189,7 @@ extension Text {
         }
     }
     
-    struct ResolvedString: ResolvedTextContainer {
+    struct ResolvedString : ResolvedTextContainer {
         var style: Text.Style
         var idiom: AnyInterfaceIdiom?
         var string: String
@@ -270,7 +270,7 @@ extension Text {
 package class AnyTextStorage {
     package init() {}
     
-    package func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C: ResolvedTextContainer {
+    package func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C : ResolvedTextContainer {
         assertUnimplemented()
     }
     
@@ -303,10 +303,10 @@ package protocol ResolvedTextContainer {
     var properties: Text.ResolvedProperties { get set }
     var idiom: AnyInterfaceIdiom? { get }
     
-    mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S: StringProtocol
+    mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S : StringProtocol
     mutating func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool)
     mutating func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions)
-    mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T: ResolvableStringAttribute
+    mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute
 }
 
 extension ResolvedTextContainer {
@@ -315,7 +315,7 @@ extension ResolvedTextContainer {
         append(attributedString, in: environment, with: options, isUniqueSizeVariant: isUniqueSizeVariant)
     }
     
-    mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions) where S: StringProtocol {
+    mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions) where S : StringProtocol {
         let isUniqueSizeVariant = environment.textSizeVariant == .regular
         append(string, in: environment, with: options, isUniqueSizeVariant: isUniqueSizeVariant)
     }

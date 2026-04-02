@@ -1,4 +1,4 @@
-struct HostingViewTransparentBackgroundReason: OptionSet, CustomStringConvertible {
+struct HostingViewTransparentBackgroundReason : OptionSet, CustomStringConvertible {
     static var `default`: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 0) }
     static var catalystSidebar: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 1) }
     static var catalystPresentation: HostingViewTransparentBackgroundReason { HostingViewTransparentBackgroundReason(rawValue: 1 << 2) }

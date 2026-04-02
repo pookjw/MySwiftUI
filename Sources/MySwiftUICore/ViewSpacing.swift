@@ -1,6 +1,6 @@
 public import CoreGraphics
 
-public struct ViewSpacing: Sendable {
+public struct ViewSpacing : Sendable {
     var spacing: Spacing
     private var layoutDirection: LayoutDirection?
     

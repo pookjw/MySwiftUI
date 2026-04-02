@@ -9,7 +9,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct PlatterGroundingShadowVisibilityKey: EnvironmentKey {
+fileprivate struct PlatterGroundingShadowVisibilityKey : EnvironmentKey {
     static var defaultValue: Visibility {
         return .automatic
     }

@@ -23,7 +23,7 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    fileprivate struct PlatformHiddenRepresentationKey: ViewInput {
+    fileprivate struct PlatformHiddenRepresentationKey : ViewInput {
         static var defaultValue: (any PlatformHiddenRepresentable.Type)? {
             return nil
         }

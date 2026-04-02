@@ -99,6 +99,6 @@ extension _ProposedSize {
     }
 }
 
-extension _ProposedSize: Sendable {}
+extension _ProposedSize : Sendable {}
 
-extension _ProposedSize: Hashable {}
+extension _ProposedSize : Hashable {}

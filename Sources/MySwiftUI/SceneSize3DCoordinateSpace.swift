@@ -1,3 +1,3 @@
-struct SceneSize3DCoordinateSpace: Hashable {
+struct SceneSize3DCoordinateSpace : Hashable {
     
 }

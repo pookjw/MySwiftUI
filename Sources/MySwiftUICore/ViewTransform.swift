@@ -81,7 +81,7 @@ package struct ViewTransform {
     
     // 원래 없음
     @inline(always)
-    mutating func updateHead<T: ViewTransformElement>(element: T) {
+    mutating func updateHead<T : ViewTransformElement>(element: T) {
         let element = Element(
             next: head,
             translation: pendingTranslation,
@@ -137,7 +137,7 @@ package struct ViewTransform {
     }
 }
 
-struct CoordinateSpaceTag: Hashable {
+struct CoordinateSpaceTag : Hashable {
     static var global: CoordinateSpaceTag {
         return CoordinateSpaceTag(base: 0)
     }
@@ -161,17 +161,17 @@ struct CoordinateSpaceTag: Hashable {
     }
 }
 
-protocol ViewTransformElement: Equatable {}
+protocol ViewTransformElement : Equatable {}
 
-fileprivate struct TranslationElement: ViewTransformElement {
+fileprivate struct TranslationElement : ViewTransformElement {
     var offset: CGSize
 }
 
-fileprivate struct Translation3DElement: ViewTransformElement {
+fileprivate struct Translation3DElement : ViewTransformElement {
     var offset: Size3D
 }
 
-fileprivate struct AffineTransformElement: ViewTransformElement {
+fileprivate struct AffineTransformElement : ViewTransformElement {
     private var matrix: CGAffineTransform
     private var inverse: Bool
     
@@ -181,12 +181,12 @@ fileprivate struct AffineTransformElement: ViewTransformElement {
     }
 }
 
-fileprivate struct SizedSpaceElement: ViewTransformElement {
+fileprivate struct SizedSpaceElement : ViewTransformElement {
     var space: CoordinateSpaceTag
     var size: CGSize
 }
 
-fileprivate struct CoordinateSpaceElement: ViewTransformElement {
+fileprivate struct CoordinateSpaceElement : ViewTransformElement {
     private var space: CoordinateSpaceTag
     
     init(space: CoordinateSpaceTag) {
@@ -194,11 +194,11 @@ fileprivate struct CoordinateSpaceElement: ViewTransformElement {
     }
 }
 
-fileprivate struct ProjectionTransformElement: ViewTransformElement {
+fileprivate struct ProjectionTransformElement : ViewTransformElement {
     // TODO
 }
 
-fileprivate final class Element<T>: AnyElement {
+fileprivate final class Element<T> : AnyElement {
     private let translation: CGSize
     private let element: T
     
@@ -213,7 +213,7 @@ fileprivate final class Element<T>: AnyElement {
     }
 }
 
-fileprivate final class BufferedElement: AnyElement {
+fileprivate final class BufferedElement : AnyElement {
     private let translation: CGSize
     private var elements: ViewTransform.UnsafeBuffer
     
@@ -276,7 +276,7 @@ fileprivate final class CoordinateSpaceNode {
     }
 }
 
-struct RootDepthTransform: Rule {
+struct RootDepthTransform : Rule {
     @Attribute var transform: ViewTransform
     @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute private var proposedSize: ViewSize
@@ -406,22 +406,22 @@ extension ViewTransform {
             }
         }
         
-        mutating func append<T: ViewTransformElement>(_ element: T) {
+        mutating func append<T : ViewTransformElement>(_ element: T) {
             contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<T>.self)
         }
     }
 }
 
 extension ViewTransform.UnsafeBuffer {
-    fileprivate class VTable: _UnsafeHeterogeneousBuffer_VTable {
+    fileprivate class VTable : _UnsafeHeterogeneousBuffer_VTable {
     }
     
-    fileprivate final class _VTable<Element: ViewTransformElement>: VTable {
-        override class var type: any Any.Type {
+    fileprivate final class _VTable<Element : ViewTransformElement>: VTable {
+        override class var type : any Any.Type {
             return Element.self
         }
         
-        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+        override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
             let eltPtr = unsafe elt.body(as: Element.self)
             let fromPtr = unsafe from.body(as: Element.self)
             
@@ -429,20 +429,20 @@ extension ViewTransform.UnsafeBuffer {
             unsafe eltPtr.initialize(to: element)
         }
         
-        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
+        override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
             let pointer = unsafe elt.body(as: Element.self)
             unsafe pointer.deinitialize(count: 1)
         }
         
-        class func forEach(elt: _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
+        class func forEach(elt : _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
             assertUnimplemented()
         }
         
-        class func description(elt: _UnsafeHeterogeneousBuffer_VTable) -> String {
+        class func description(elt : _UnsafeHeterogeneousBuffer_VTable) -> String {
             assertUnimplemented()
         }
         
-        class func equal(_ lhs: _UnsafeHeterogeneousBuffer_VTable, _ rhs: _UnsafeHeterogeneousBuffer_VTable) -> Bool {
+        class func equal(_ lhs : _UnsafeHeterogeneousBuffer_VTable, _ rhs: _UnsafeHeterogeneousBuffer_VTable) -> Bool {
             assertUnimplemented()
         }
     }
@@ -461,7 +461,7 @@ extension ViewTransform {
         case sizedSpace3D(CoordinateSpaceTag, size3D: Size3D)
     }
     
-    struct ScrollGeometryItem: ViewTransformElement {
+    struct ScrollGeometryItem : ViewTransformElement {
         private(set) var base: ScrollGeometry
         private(set) var isClipped: Bool
     }

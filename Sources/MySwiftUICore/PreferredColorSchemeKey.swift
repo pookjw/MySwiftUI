@@ -1,4 +1,4 @@
-public struct PreferredColorSchemeKey: HostPreferenceKey {
+public struct PreferredColorSchemeKey : HostPreferenceKey {
     public typealias Value = ColorScheme?
     
     public static func reduce(value: inout PreferredColorSchemeKey.Value, nextValue: () -> PreferredColorSchemeKey.Value) {
@@ -10,4 +10,4 @@ public struct PreferredColorSchemeKey: HostPreferenceKey {
 }
 
 @available(*, unavailable)
-extension PreferredColorSchemeKey: Sendable {}
+extension PreferredColorSchemeKey : Sendable {}

@@ -1,12 +1,12 @@
 internal import CoreGraphics
 
-struct ViewGeometry: Equatable, Animatable {
-    static nonisolated(unsafe) let invalidValue = unsafe ViewGeometry(
+struct ViewGeometry : Equatable, Animatable {
+    nonisolated(unsafe) static let invalidValue = unsafe ViewGeometry(
         origin: CGPoint(x: CGFloat.nan, y: CGFloat.nan),
         dimensions: .invalidValue
     )
     
-    static nonisolated(unsafe) let zero = unsafe ViewGeometry(origin: .zero, dimensions: .zero)
+    nonisolated(unsafe) static let zero = unsafe ViewGeometry(origin: .zero, dimensions: .zero)
     
     var origin: CGPoint
     var dimensions: ViewDimensions

@@ -5,7 +5,7 @@ internal import UIKit
 
 struct SceneNavigationStrategy_Phone {
     // $s7SwiftUI29SceneNavigationStrategy_PhoneV6shared_WZ
-    static nonisolated(unsafe) var shared = SceneNavigationStrategy_Phone(sceneNavigationEnabled: false, sceneRequestCache: SceneRequestCache())
+    nonisolated(unsafe) static var shared = SceneNavigationStrategy_Phone(sceneNavigationEnabled: false, sceneRequestCache: SceneRequestCache())
     
     var sceneNavigationEnabled: Bool
     private var sceneRequestCache: SceneRequestCache
@@ -24,7 +24,7 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    func sceneListItem<T: Codable & Hashable>(
+    func sceneListItem<T : Codable & Hashable>(
         namespace: SceneList.Namespace,
         presenting: T.Type,
         where: (SceneList.Item) -> Bool
@@ -32,7 +32,7 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    func sceneListItem<T: Codable & Hashable>(
+    func sceneListItem<T : Codable & Hashable>(
         namespace: SceneList.Namespace,
         id: String,
         presenting: T.Type,
@@ -41,7 +41,7 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    func openWindow<T: Codable & Hashable>(
+    func openWindow<T : Codable & Hashable>(
         namespace: SceneList.Namespace,
         presenting: T,
         withBehavior: SceneActivationBehavior
@@ -53,7 +53,7 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    func openWindow<T: Codable & Hashable>(
+    func openWindow<T : Codable & Hashable>(
         namespace: SceneList.Namespace,
         id: String,
         presenting: T,
@@ -71,14 +71,14 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    func openImmersiveSpace<T: Codable & Hashable>(
+    func openImmersiveSpace<T : Codable & Hashable>(
         namespace: SceneList.Namespace,
         presenting: T
     ) async -> SceneNavigationStrategy_Phone.Result {
         assertUnimplemented()
     }
     
-    func openImmersiveSpace<T: Codable & Hashable>(
+    func openImmersiveSpace<T : Codable & Hashable>(
         namespace: SceneList.Namespace,
         id: String,
         presenting: T
@@ -86,7 +86,7 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    fileprivate func handleSceneActivation<T: Codable & Hashable>(
+    fileprivate func handleSceneActivation<T : Codable & Hashable>(
         item: SceneList.Item,
         value: T,
         activationBehavior: SceneActivationBehavior,
@@ -111,11 +111,11 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    fileprivate func userActivityForOpeningWindow<T: Codable & Hashable>(id: SceneID, value: T) -> NSUserActivity? {
+    fileprivate func userActivityForOpeningWindow<T : Codable & Hashable>(id: SceneID, value: T) -> NSUserActivity? {
         assertUnimplemented()
     }
     
-    fileprivate func existingSession<T: Codable & Hashable>(id: SceneID, value: T) -> UISceneSession? {
+    fileprivate func existingSession<T : Codable & Hashable>(id: SceneID, value: T) -> UISceneSession? {
         assertUnimplemented()
     }
     
@@ -127,15 +127,15 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    fileprivate func handleSceneDestruction<T: Codable & Hashable>(id: SceneID, value: T) {
+    fileprivate func handleSceneDestruction<T : Codable & Hashable>(id: SceneID, value: T) {
         assertUnimplemented()
     }
     
-    func dismissWindow<T: Codable & Hashable>(namespace: SceneList.Namespace, value: T) {
+    func dismissWindow<T : Codable & Hashable>(namespace: SceneList.Namespace, value: T) {
         assertUnimplemented()
     }
     
-    func dismissWindow<T: Codable & Hashable>(namespace: SceneList.Namespace, id: String, value: T) {
+    func dismissWindow<T : Codable & Hashable>(namespace: SceneList.Namespace, id: String, value: T) {
         assertUnimplemented()
     }
     
@@ -183,13 +183,13 @@ extension SceneNavigationStrategy_Phone {
 fileprivate final class SceneRequestCache {
     var sceneActivationRequestCache: Set<SceneRequestCache.Item> = []
     
-    func requestInCacheAddIfNotPresent<T: Codable & Hashable>(id: SceneID, value: T) -> Bool {
+    func requestInCacheAddIfNotPresent<T : Codable & Hashable>(id: SceneID, value: T) -> Bool {
         assertUnimplemented()
     }
 }
 
 extension SceneRequestCache {
-    struct Item: Hashable {
+    struct Item : Hashable {
         let id: String
         let value: AnyHashable
     }

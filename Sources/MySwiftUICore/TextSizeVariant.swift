@@ -1,7 +1,7 @@
 // 22A2F77020526CCA53FF38DE37184183
 
-struct TextSizeVariant: Hashable, Comparable, Codable, RawRepresentable {
-    static func < (lhs: TextSizeVariant, rhs: TextSizeVariant) -> Bool {
+struct TextSizeVariant : Hashable, Comparable, Codable, RawRepresentable {
+    static func < (lhs : TextSizeVariant, rhs : TextSizeVariant) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
     
@@ -51,7 +51,7 @@ extension EnvironmentValues {
         }
     }
     
-    fileprivate struct TextSizeVariantKey: EnvironmentKey {
+    fileprivate struct TextSizeVariantKey : EnvironmentKey {
         static var defaultValue: TextSizeVariant {
             return .regular
         }

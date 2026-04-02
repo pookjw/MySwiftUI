@@ -1,5 +1,5 @@
 
-package struct AccessibilityVisibility: OptionSet, Hashable, Codable {
+package struct AccessibilityVisibility : OptionSet, Hashable, Codable {
     package static var element: AccessibilityVisibility {
         return AccessibilityVisibility(rawValue: 1 << 0)
     }

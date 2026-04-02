@@ -1,7 +1,7 @@
 private import MRUIKit
 public import MySwiftUICore
 
-public struct WorldTrackingLimitation: Hashable, Sendable {
+public struct WorldTrackingLimitation : Hashable, Sendable {
     public let value: UInt
     
     public static let translation = WorldTrackingLimitation(value: MRUIWorldTrackingCapabilities.translation.rawValue)
@@ -19,6 +19,6 @@ extension EnvironmentValues {
     }
 }
 
-struct WorldTrackingLimitationsKey: EnvironmentKey {
+struct WorldTrackingLimitationsKey : EnvironmentKey {
     static let defaultValue: Set<WorldTrackingLimitation> = []
 }

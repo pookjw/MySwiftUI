@@ -97,7 +97,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct InternalNavigationEnabledKey: EnvironmentKey {
+fileprivate struct InternalNavigationEnabledKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
     }

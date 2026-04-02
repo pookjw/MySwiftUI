@@ -13,7 +13,7 @@ class AnyFallbackDelegateBox {
     }
 }
 
-final class FallbackDelegateBox<T>: AnyFallbackDelegateBox {
+final class FallbackDelegateBox<T> : AnyFallbackDelegateBox {
     private var storage: FallbackDelegateBox<T>.DelegateStorage
     
     init(_ value: T?) {
@@ -28,7 +28,7 @@ extension FallbackDelegateBox {
     }
 }
 
-final class ObservableObjectFallbackDelegateBox<T>: AnyFallbackDelegateBox {
+final class ObservableObjectFallbackDelegateBox<T> : AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     override init() {
@@ -36,7 +36,7 @@ final class ObservableObjectFallbackDelegateBox<T>: AnyFallbackDelegateBox {
     }
 }
 
-final class ObservableFallbackDelegateBox<T>: AnyFallbackDelegateBox {
+final class ObservableFallbackDelegateBox<T> : AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     override init() {
@@ -44,7 +44,7 @@ final class ObservableFallbackDelegateBox<T>: AnyFallbackDelegateBox {
     }
 }
 
-final class ObjectFallbackDelegateBox<T>: AnyFallbackDelegateBox {
+final class ObjectFallbackDelegateBox<T> : AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     init(_ value: T) {
@@ -52,7 +52,7 @@ final class ObjectFallbackDelegateBox<T>: AnyFallbackDelegateBox {
     }
 }
 
-final class UnsafeObservableObjectFallbackDelegateBox<T>: AnyFallbackDelegateBox {
+final class UnsafeObservableObjectFallbackDelegateBox<T> : AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     init(_ value: T) {

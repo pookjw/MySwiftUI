@@ -19,7 +19,7 @@ fileprivate final class Model {
     var flag = false
 }
 
-fileprivate struct MyView: View {
+fileprivate struct MyView : View {
     let model: Model
     
     var body: some View {
@@ -28,7 +28,7 @@ fileprivate struct MyView: View {
     }
 }
 
-fileprivate struct MyChildView: View {
+fileprivate struct MyChildView : View {
     @Environment(Model.self) private var model
     
     var body: some View {
@@ -40,7 +40,7 @@ fileprivate struct MyChildView: View {
     }
 }
 
-final class ObservableEnvironmentViewController: UIViewController {
+final class ObservableEnvironmentViewController : UIViewController {
     @ViewLoading private var toggleBarButtonItem: UIBarButtonItem
     private let model = Model()
     private var task: Task<Void, Never>?

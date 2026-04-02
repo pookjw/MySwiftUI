@@ -2,10 +2,10 @@
 public import UIKit
 public import _UIKitPrivate
 
-@_spi(Internal) @MainActor open class UICorePlatformViewHost<Representable: CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView, CoreViewRepresentableHost {
+@_spi(Internal) @MainActor open class UICorePlatformViewHost<Representable : CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView, CoreViewRepresentableHost {
     private var environment: EnvironmentValues // 0x210
     private var viewPhase: ViewGraphHost.Phase // 0x220
-    @safe public nonisolated(unsafe) let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
+    @safe nonisolated(unsafe) public let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228
     package weak var host: ViewGraphRootValueUpdater? = nil // 0x230
     private var viewHierarchyMode: UICorePlatformViewHost.ViewControllerParentingMode? = nil // 0x240
     private var isInitialSafeAreaUpdate: Bool = true // 0x241
@@ -988,7 +988,7 @@ public import _UIKitPrivate
         return Representable.platformView(for: coreRepresentedViewProvider) as! UIView
     }
     
-    fileprivate final nonisolated var representedViewController: UIViewController {
+    nonisolated fileprivate final var representedViewController: UIViewController {
         return coreRepresentedViewProvider as! UIViewController
     }
     
@@ -1115,7 +1115,7 @@ extension UICorePlatformViewHost {
         case unknown1
     }
     
-    fileprivate final class SeparatedThicknessRegistration: NSObject {
+    fileprivate final class SeparatedThicknessRegistration : NSObject {
         private(set) var hostedView: Representable.PlatformViewProvider // 0x8
         private var observation: NSKeyValueObservation? = nil // 0x10
         private var traitChangeRegistration: (any UITraitChangeRegistration)? = nil // 0x18
@@ -1190,4 +1190,4 @@ extension UICorePlatformViewHost {
 }
 
 fileprivate let sizeThatFitsSEL = #selector(UIView.sizeThatFits(_:))
-fileprivate nonisolated(unsafe) let UIViewSizeThatFitsIMP = unsafe UIView.instanceMethod(for: sizeThatFitsSEL)
+nonisolated(unsafe) fileprivate let UIViewSizeThatFitsIMP = unsafe UIView.instanceMethod(for: sizeThatFitsSEL)

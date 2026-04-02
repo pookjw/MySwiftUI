@@ -3,7 +3,7 @@ internal import UIKit
 internal import _UIKitPrivate
 
 @MainActor
-final class ContextMenuBridge: NSObject {
+final class ContextMenuBridge : NSObject {
     weak var host: (any ViewRendererHost)? = nil
     private var interaction: UIContextMenuInteraction? = nil
     private var menuOrder: MenuOrder = .automatic
@@ -130,7 +130,7 @@ final class ContextMenuBridge: NSObject {
     }
 }
 
-extension ContextMenuBridge: _UIContextMenuInteractionDelegate3D {
+extension ContextMenuBridge : _UIContextMenuInteractionDelegate3D {
     func _contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation3D location3D: CAPoint3D) -> UIContextMenuConfiguration? {
         assertUnimplemented()
     }

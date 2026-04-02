@@ -8,5 +8,5 @@ public struct _IdentifiedViewProxy {
 }
 
 @available(*, unavailable)
-extension _IdentifiedViewProxy: Sendable {
+extension _IdentifiedViewProxy : Sendable {
 }

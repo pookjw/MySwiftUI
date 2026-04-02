@@ -48,7 +48,7 @@ public struct ViewDimensions3D {
     }
 }
 
-extension ViewDimensions3D: Sendable {}
+extension ViewDimensions3D : Sendable {}
 
 extension ViewDimensions3D {
     public subscript(guide: DepthAlignment) -> CGFloat {
@@ -91,7 +91,7 @@ extension ViewDimensions3D {
     static let zero = ViewDimensions3D(guideComputer: .defaultValue, size: .zero)
 }
 
-extension ViewDimensions3D: Equatable {
+extension ViewDimensions3D : Equatable {
     public static func == (lhs: ViewDimensions3D, rhs: ViewDimensions3D) -> Bool {
         return lhs.size == rhs.size && lhs.guideComputer == rhs.guideComputer
     }

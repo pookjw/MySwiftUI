@@ -1,4 +1,4 @@
-package struct UICoreTraitCollectionResolutionOptions: OptionSet {
+package struct UICoreTraitCollectionResolutionOptions : OptionSet {
     package static var forImageAssetsOnly: UICoreTraitCollectionResolutionOptions {
         return UICoreTraitCollectionResolutionOptions(rawValue: 1 << 0)
     }

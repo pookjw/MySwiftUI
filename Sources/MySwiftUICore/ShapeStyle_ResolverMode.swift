@@ -8,7 +8,7 @@ struct _ShapeStyle_ResolverMode {
 }
 
 extension _ShapeStyle_ResolverMode {
-    struct Options: OptionSet {
+    struct Options : OptionSet {
         let rawValue: UInt8
     }
 }

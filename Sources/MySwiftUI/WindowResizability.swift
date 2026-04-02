@@ -57,7 +57,7 @@ extension Scene {
 }
 
 extension WindowResizability {
-    enum Role: Hashable {
+    enum Role : Hashable {
         case automatic
         case contentSize
         case contentMinSize

@@ -1,5 +1,5 @@
 
-public struct SensoryFeedback: Equatable, Sendable {
+public struct SensoryFeedback : Equatable, Sendable {
     
 }
 
@@ -31,7 +31,7 @@ extension SensoryFeedback.Flexibility {
 }
 
 extension SensoryFeedback {
-    enum FeedbackType: Hashable {
+    enum FeedbackType : Hashable {
         case impactWeight(SensoryFeedback.Weight.Storage, Double)
         case impactFlexibility(SensoryFeedback.Flexibility.Storage, Double)
         case success

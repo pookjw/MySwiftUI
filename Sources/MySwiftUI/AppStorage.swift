@@ -6,7 +6,7 @@ private import Combine
 private import _DarwinFoundation3.pthread
 private import os.log
 
-@frozen @propertyWrapper public struct AppStorage<Value>: DynamicProperty {
+@frozen @propertyWrapper public struct AppStorage<Value> : DynamicProperty {
     @usableFromInline
     internal var location: UserDefaultLocation<Value>
     
@@ -55,7 +55,7 @@ private import os.log
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-extension AppStorage: Sendable where Value : Sendable {
+extension AppStorage : Sendable where Value : Sendable {
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
@@ -152,13 +152,13 @@ extension AppStorage {
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension View {
-    public nonisolated func defaultAppStorage(_ store: UserDefaults) -> some View {
+    nonisolated public func defaultAppStorage(_ store: UserDefaults) -> some View {
         assertUnimplemented()
     }
 }
 
 @usableFromInline
-class UserDefaultLocation<Value>: @unchecked Sendable, Location, Equatable {
+class UserDefaultLocation<Value> : @unchecked Sendable, Location, Equatable {
     init(key: String, transform: any UserDefaultsValueTransform.Type, store: UserDefaults?, defaultValue: Value, base: UserDefaultLocation<Value>?) {
         // <+208>
         self.customStore = store
@@ -289,7 +289,7 @@ protocol UserDefaultsValueTransform {
     static func writeValue(_ newValue: Any?, to store: UserDefaults, key: String)
 }
 
-fileprivate protocol ScalarUserDefaultsValueTransform: UserDefaultsValueTransform {
+fileprivate protocol ScalarUserDefaultsValueTransform : UserDefaultsValueTransform {
     associatedtype Scalar
 }
 
@@ -320,7 +320,7 @@ extension ScalarUserDefaultsValueTransform {
     }
 }
 
-fileprivate struct JSONCodableTransform: UserDefaultsValueTransform {
+fileprivate struct JSONCodableTransform : UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
         assertUnimplemented()
     }
@@ -330,7 +330,7 @@ fileprivate struct JSONCodableTransform: UserDefaultsValueTransform {
     }
 }
 
-fileprivate struct RawRepresentableTransform: UserDefaultsValueTransform {
+fileprivate struct RawRepresentableTransform : UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
         assertUnimplemented()
     }
@@ -340,7 +340,7 @@ fileprivate struct RawRepresentableTransform: UserDefaultsValueTransform {
     }
 }
 
-fileprivate struct PropertyListTransform: UserDefaultsValueTransform {
+fileprivate struct PropertyListTransform : UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
         assertUnimplemented()
     }
@@ -350,7 +350,7 @@ fileprivate struct PropertyListTransform: UserDefaultsValueTransform {
     }
 }
 
-fileprivate struct URLTransform: UserDefaultsValueTransform {
+fileprivate struct URLTransform : UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
         assertUnimplemented()
     }
@@ -360,7 +360,7 @@ fileprivate struct URLTransform: UserDefaultsValueTransform {
     }
 }
 
-fileprivate struct StringTransform: UserDefaultsValueTransform {
+fileprivate struct StringTransform : UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
         assertUnimplemented()
     }
@@ -370,15 +370,15 @@ fileprivate struct StringTransform: UserDefaultsValueTransform {
     }
 }
 
-fileprivate struct DoubleTransform: ScalarUserDefaultsValueTransform {
+fileprivate struct DoubleTransform : ScalarUserDefaultsValueTransform {
     typealias Scalar = Double
 }
 
-fileprivate struct IntegerTransform: ScalarUserDefaultsValueTransform {
+fileprivate struct IntegerTransform : ScalarUserDefaultsValueTransform {
     typealias Scalar = Int
 }
 
-fileprivate struct BoolTransform: ScalarUserDefaultsValueTransform {
+fileprivate struct BoolTransform : ScalarUserDefaultsValueTransform {
     typealias Scalar = Bool
 }
 
@@ -393,14 +393,14 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct DefaultAppStorageDefaultsKey: EnvironmentKey {
+fileprivate struct DefaultAppStorageDefaultsKey : EnvironmentKey {
     static var defaultValue: UserDefaults {
         return .standard
     }
 }
 
-fileprivate final class UserDefaultObserver: NSObject {
-    fileprivate static nonisolated(unsafe) var observationContext: Int = 0
+fileprivate final class UserDefaultObserver : NSObject {
+    nonisolated(unsafe) fileprivate static var observationContext: Int = 0
     fileprivate private(set) var state: UserDefaultObserver.State
     fileprivate private(set) var target: UserDefaultObserver.Target
     
@@ -576,7 +576,7 @@ extension UserDefaultObserver.Target {
     }
 }
 
-fileprivate struct UserDefaultPropertyBox<Value>: DynamicPropertyBox {
+fileprivate struct UserDefaultPropertyBox<Value> : DynamicPropertyBox {
     @Attribute private var environment: EnvironmentValues
     private let observer: UserDefaultObserver
     private var firstUpdate: Bool

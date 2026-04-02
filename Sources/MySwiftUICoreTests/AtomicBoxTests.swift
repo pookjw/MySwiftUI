@@ -5,7 +5,7 @@ private import MySwiftUITestUtils
 struct AtomicBoxTests {
     @Test
     func test() async {
-        class Context: @unchecked Sendable {
+        class Context : @unchecked Sendable {
             @AtomicBox var value: Int = 0
         }
         

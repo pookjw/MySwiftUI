@@ -12,14 +12,14 @@ import UIKit
 import Combine
 import _SwiftUICorePrivate
 
-fileprivate struct MyPredicate: ViewInputPredicate {
+fileprivate struct MyPredicate : ViewInputPredicate {
     static func evaluate(inputs: _GraphInputs) -> Bool {
         return true
     }
 }
 
 @main
-struct NativePlaygroundApp: App {
+struct NativePlaygroundApp : App {
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     init() {
         printOffsets()
@@ -36,7 +36,7 @@ struct NativePlaygroundApp: App {
     }
 }
 
-fileprivate struct ContentView: UIViewControllerRepresentable {
+fileprivate struct ContentView : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
@@ -48,7 +48,7 @@ fileprivate struct ContentView: UIViewControllerRepresentable {
     }
 }
 
-class HostingSceneDelegate: NSObject, UIHostingSceneDelegate, ObservableObject {
+class HostingSceneDelegate : NSObject, UIHostingSceneDelegate, ObservableObject {
     static var rootScene: some Scene {
         WindowGroup(for: Int.self) { _ in
             ContentView()

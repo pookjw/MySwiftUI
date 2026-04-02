@@ -1,4 +1,4 @@
 
-public protocol _VectorMath: Animatable {
+public protocol _VectorMath : Animatable {
     
 }
