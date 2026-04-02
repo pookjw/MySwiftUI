@@ -110,7 +110,7 @@ let package = Package(
                 .byName(name: "SoftLinking")
             ],
             cSettings: [
-                .unsafeFlags(["-fno-objc-arc"])
+                .unsafeFlags(["-fno-objc-arc", "-std=gnu23"])
             ]
         ),
         .target(
