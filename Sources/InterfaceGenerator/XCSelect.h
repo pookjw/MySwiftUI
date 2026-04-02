@@ -1,10 +1,3 @@
-//
-//  XCSelect.h
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 4/2/26.
-//
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN

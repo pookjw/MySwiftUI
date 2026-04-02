@@ -1,10 +1,3 @@
-//
-//  NSObject+UTType_Private.m
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 4/2/26.
-//
-
 #import "UTType+Private.h"
 #include <objc/runtime.h>
 

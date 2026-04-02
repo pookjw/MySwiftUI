@@ -1,10 +1,3 @@
-//
-//  SwiftInterfaceGenerator.m
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 4/2/26.
-//
-
 #import "SwiftInterfaceGenerator.h"
 
 @implementation SwiftInterfaceGenerator

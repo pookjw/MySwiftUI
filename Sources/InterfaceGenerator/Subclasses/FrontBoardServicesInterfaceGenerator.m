@@ -1,10 +1,3 @@
-//
-//  FrontBoardServicesInterfaceGenerator.m
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 4/2/26.
-//
-
 #import "FrontBoardServicesInterfaceGenerator.h"
 
 @implementation FrontBoardServicesInterfaceGenerator

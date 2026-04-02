@@ -1,10 +1,3 @@
-//
-//  NSObject+UTType_Private.h
-//  MySwiftUI
-//
-//  Created by Jinwoo Kim on 4/2/26.
-//
-
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #include "Define.h"
 
