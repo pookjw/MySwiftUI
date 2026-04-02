@@ -37,5 +37,5 @@ Class getSFSafariViewControllerClass(void) {
 }
 
 __kindof id _makeSafariViewController(NSURL *url) {
-    return [[getSFSafariViewControllerClass() alloc] initWithURL:url];
+    return [[[getSFSafariViewControllerClass() alloc] initWithURL:url] autorelease];
 }

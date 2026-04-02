@@ -6,7 +6,8 @@ import PackageDescription
 let package = Package(
     name: "MySwiftUI",
     platforms: [
-        .visionOS("26.5")
+        .visionOS("26.5"),
+        .macOS("26.5")
     ],
     products: [
         .library(
@@ -109,7 +110,7 @@ let package = Package(
                 .byName(name: "SoftLinking")
             ],
             cSettings: [
-                .unsafeFlags(["-fno-objc-arc", "-std=gnu23"])
+                .unsafeFlags(["-fno-objc-arc"])
             ]
         ),
         .target(
@@ -265,6 +266,12 @@ let package = Package(
         ),
         .target(
             name: "MySwiftUITestUtils"
+        ),
+        .executableTarget(
+            name: "InterfaceGenerator",
+            cSettings: [
+                .unsafeFlags(["-fno-objc-arc"])
+            ]
         ),
         .testTarget(
             name: "MySwiftUITests",
