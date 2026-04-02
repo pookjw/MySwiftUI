@@ -204,6 +204,10 @@
 }
 
 + (BOOL)_copyHeadersToURL:(NSURL *)toURL fromURL:(NSURL *)fromURL __attribute__((objc_direct)) {
+    if ([toURL isEqual:fromURL]) {
+        return YES;
+    }
+    
     NSFileManager *fileManager = NSFileManager.defaultManager;
     NSError * _Nullable error = nil;
     BOOL isDirectory;
@@ -274,8 +278,7 @@
     }
     
     // 없을 수도 있음
-    NSURL *baseHeadersURL = baseFrameworkURL;
-    baseHeadersURL = [baseHeadersURL URLByAppendingPathComponent:@"Headers" isDirectory:YES];
+    NSURL *baseHeadersURL = [baseFrameworkURL URLByAppendingPathComponent:@"Headers" isDirectory:YES];
     
     NSURL *baseSwiftInterfaceURL = baseFrameworkURL;
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
@@ -300,8 +303,7 @@
         }
         
         // 없을 수도 있음
-        NSURL *targetHeadersURL = targetFrameworkURL;
-        targetHeadersURL = [targetHeadersURL URLByAppendingPathComponent:@"Headers" isDirectory:YES];
+        NSURL *targetHeadersURL = [targetFrameworkURL URLByAppendingPathComponent:@"Headers" isDirectory:YES];
         
         NSArray<NSString *> *variantNames = libraryToVariants[libraryName];
         NSString *platform = libraryToPlatform[libraryName];
@@ -327,7 +329,7 @@
             }
         }
         
-        BOOL result = [InterfaceGeneratorBase _copyHeadersToURL:baseHeadersURL fromURL:targetHeadersURL];
+        BOOL result = [InterfaceGeneratorBase _copyHeadersToURL:targetHeadersURL fromURL:baseHeadersURL];
         if (!result) {
             return NO;
         }
