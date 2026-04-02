@@ -1,0 +1,4 @@
+framework module _ObservationPrivate_SPI {
+    export *
+    module * { export * }
+}

@@ -1,0 +1,18 @@
+#import <Accessibility/Accessibility.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+AX_EXTERN BOOL _AXSPhotosensitiveMitigationEnabled(void) NS_REFINED_FOR_SWIFT;
+AX_EXTERN BOOL _AXSHighContrastFocusIndicatorsEnabled(void) NS_REFINED_FOR_SWIFT;
+AX_EXTERN BOOL _AXSIncreaseButtonLegibility(void) NS_REFINED_FOR_SWIFT;
+AX_EXTERN BOOL _AXSFullKeyboardAccessEnabled(void) NS_REFINED_FOR_SWIFT;
+AX_EXTERN BOOL _AXSCommandAndControlEnabled(void) NS_REFINED_FOR_SWIFT;
+
+AX_EXTERN const NSNotificationName kAXSPhotosensitiveMitigationEnabledNotification NS_REFINED_FOR_SWIFT;
+AX_EXTERN const NSNotificationName kAXSHighContrastFocusIndicatorsEnabledNotification NS_REFINED_FOR_SWIFT;
+AX_EXTERN const NSNotificationName kAXSIncreaseButtonLegibilityNotification NS_REFINED_FOR_SWIFT;
+AX_EXTERN const NSNotificationName kAXSFullKeyboardAccessEnabledNotification NS_REFINED_FOR_SWIFT;
+AX_EXTERN const NSNotificationName kAXSCommandAndControlEnabledNotification NS_REFINED_FOR_SWIFT;
+AX_EXTERN const NSNotificationName kAXSHoverTextEnabledNotification NS_REFINED_FOR_SWIFT;
+
+NS_ASSUME_NONNULL_END

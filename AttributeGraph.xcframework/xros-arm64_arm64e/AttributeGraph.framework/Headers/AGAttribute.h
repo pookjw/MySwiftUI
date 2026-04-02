@@ -1,0 +1,22 @@
+#ifndef AGAttribute_h
+#define AGAttribute_h
+
+#import <AttributeGraph/Defines.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+AG_EXTERN const AGAttribute AGAttributeNil NS_SWIFT_NAME(AnyAttribute.empty);
+AG_EXTERN AGAttribute AGGraphCreateOffsetAttribute2(AGAttribute attribute, const unsigned long offset, const unsigned int size) NS_SWIFT_NAME(AnyAttribute.createOffsetAttribute2(self:offset:size:));
+AG_EXTERN void AGGraphSetIndirectDependency(AGAttribute, AGAttribute);
+AG_EXTERN AGAttribute AGGraphGetIndirectAttribute(AGAttribute) NS_SWIFT_NAME(getter:AnyAttribute.indirectAttribute(self:));
+AG_EXTERN void AGGraphSetIndirectAttribute(AGAttribute, AGAttribute) NS_SWIFT_NAME(setter:AnyAttribute.indirectAttribute(self:_:));
+AG_EXTERN AGAttribute AGGraphCreateIndirectAttribute2(AGAttribute, unsigned int) NS_SWIFT_NAME(AnyAttribute.createIndirectAttribute2(self:_:));
+AG_EXTERN AGAttribute AGGraphCreateIndirectAttribute3(AGAttribute, unsigned int, unsigned int) NS_SWIFT_NAME(AnyAttribute.createIndirectAttribute3(self:_:_:));
+AG_EXTERN AGAttribute AGGraphSetIndirectAttribute2(AGAttribute, AGAttribute, unsigned int) NS_SWIFT_NAME(AnyAttribute.setIndirectAttribute2(self:_:_:));
+
+AG_EXTERN uint32_t AGGraphGetFlags(AGAttribute);
+AG_EXTERN void AGGraphSetFlags(AGAttribute, uint32_t);
+
+NS_ASSUME_NONNULL_END
+
+#endif

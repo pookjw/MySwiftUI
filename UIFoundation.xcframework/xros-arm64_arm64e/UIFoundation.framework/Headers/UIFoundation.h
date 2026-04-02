@@ -1,3 +1,1 @@
-#pragma once
-
-/* Umbrella header for UIFoundation private framework shims. */
+#import <UIFoundation/Defines.h>

@@ -277,14 +277,16 @@
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:self.baseVariantIdentifier conformingToType:UTTypeSwiftInterface];
-    if (![InterfaceGeneratorBase _checkFileExists:baseSwiftInterfaceURL]) {
-        return NO;
-    }
+    NSString * _Nullable oldSwiftHeader = [InterfaceGeneratorBase _swiftInterfaceFromURL:baseSwiftInterfaceURL];
+    NSString * _Nullable declarations = [InterfaceGeneratorBase _interfaceDeclarationsFromURL:baseSwiftInterfaceURL];
     
-    NSString *oldSwiftHeader = [InterfaceGeneratorBase _swiftInterfaceFromURL:baseSwiftInterfaceURL];
-    if (oldSwiftHeader == nil) return NO;
-    NSString *declarations = [InterfaceGeneratorBase _interfaceDeclarationsFromURL:baseSwiftInterfaceURL];
-    if (declarations == nil) return NO;
+    NSURL *basePrivateSwiftInterfaceURL = baseFrameworkURL;
+    basePrivateSwiftInterfaceURL = [basePrivateSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
+    basePrivateSwiftInterfaceURL = [basePrivateSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
+    basePrivateSwiftInterfaceURL = [basePrivateSwiftInterfaceURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.private", self.baseVariantIdentifier] conformingToType:UTTypeSwiftInterface];
+    NSString * _Nullable oldPrivateSwiftHeader = [InterfaceGeneratorBase _swiftInterfaceFromURL:basePrivateSwiftInterfaceURL];
+    NSString * _Nullable privateDeclarations = [InterfaceGeneratorBase _interfaceDeclarationsFromURL:basePrivateSwiftInterfaceURL];
+    
     
     for (NSString *libraryName in libraryToVariants.allKeys) {
         NSURL *targetFrameworkURL = frameworkURL;
@@ -302,23 +304,45 @@
         NSString *platform = libraryToPlatform[libraryName];
         
         for (NSString *variant in variantNames) {
-            NSURL *targetSwiftInterfaceURL = targetFrameworkURL;
-            targetSwiftInterfaceURL = [targetSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
-            targetSwiftInterfaceURL = [targetSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
-            targetSwiftInterfaceURL = [targetSwiftInterfaceURL URLByAppendingPathComponent:variant conformingToType:UTTypeSwiftInterface];
-            if (![InterfaceGeneratorBase _checkFileExists:targetSwiftInterfaceURL]) {
-                return NO;
+            if (oldSwiftHeader != nil) {
+                assert(declarations != nil);
+                
+                NSURL *targetSwiftInterfaceURL = targetFrameworkURL;
+                targetSwiftInterfaceURL = [targetSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
+                targetSwiftInterfaceURL = [targetSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
+                targetSwiftInterfaceURL = [targetSwiftInterfaceURL URLByAppendingPathComponent:variant conformingToType:UTTypeSwiftInterface];
+                
+                NSString *xcodeSwiftHeader = [self _xcodeSwiftInterfaceHeaderWithVariant:variant platform:platform];
+                NSString *updatedSwiftHeader = [InterfaceGeneratorBase _updatedSwiftHeaderWithExisting:oldSwiftHeader source:xcodeSwiftHeader];
+                if (updatedSwiftHeader == nil) {
+                    return NO;
+                }
+                BOOL result = [InterfaceGeneratorBase _writeIntefaceToURL:targetSwiftInterfaceURL swiftHeader:updatedSwiftHeader delcarations:declarations];
+                
+                if (!result) {
+                    return NO;
+                }
             }
             
-            NSString *xcodeSwiftHeader = [self _xcodeSwiftInterfaceHeaderWithVariant:variant platform:platform];
-            NSString *updatedSwiftHeader = [InterfaceGeneratorBase _updatedSwiftHeaderWithExisting:oldSwiftHeader source:xcodeSwiftHeader];
-            if (updatedSwiftHeader == nil) {
-                return NO;
-            }
-            BOOL result = [InterfaceGeneratorBase _writeIntefaceToURL:targetSwiftInterfaceURL swiftHeader:updatedSwiftHeader delcarations:declarations];
+            //
             
-            if (!result) {
-                return NO;
+            if (oldPrivateSwiftHeader != nil) {
+                assert(privateDeclarations != nil);
+                NSURL *targetPrivateSwiftInterfaceURL = targetFrameworkURL;
+                targetPrivateSwiftInterfaceURL = [targetPrivateSwiftInterfaceURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
+                targetPrivateSwiftInterfaceURL = [targetPrivateSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
+                targetPrivateSwiftInterfaceURL = [targetPrivateSwiftInterfaceURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.private", variant] conformingToType:UTTypeSwiftInterface];
+                
+                NSString *xcodeSwiftHeader = [self _xcodeSwiftInterfaceHeaderWithVariant:variant platform:platform];
+                NSString *updatedSwiftHeader = [InterfaceGeneratorBase _updatedSwiftHeaderWithExisting:oldPrivateSwiftHeader source:xcodeSwiftHeader];
+                if (updatedSwiftHeader == nil) {
+                    return NO;
+                }
+                BOOL result = [InterfaceGeneratorBase _writeIntefaceToURL:targetPrivateSwiftInterfaceURL swiftHeader:updatedSwiftHeader delcarations:privateDeclarations];
+                
+                if (!result) {
+                    return NO;
+                }
             }
         }
         

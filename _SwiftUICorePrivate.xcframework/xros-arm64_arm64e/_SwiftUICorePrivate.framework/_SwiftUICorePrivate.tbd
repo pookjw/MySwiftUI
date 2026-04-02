@@ -1,8 +1,24 @@
 --- !tapi-tbd
 tbd-version:     4
 targets:         [ arm64-xros, arm64e-xros ]
+install-name:    '/System/Library/Frameworks/SwiftUI.framework/SwiftUI'
+swift-abi-version: 7
+exports:
+  - targets:         [ arm64-xros, arm64e-xros ]
+    symbols:              [  ]
+    objc-classes:         [  ]
+    objc-ivars:           [  ]
+reexported-libraries:
+  - targets:         [ arm64-xros, arm64e-xros ]
+    libraries:            [ '/System/Library/Frameworks/SwiftUICore.framework/SwiftUICore' ]
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ arm64-xros, arm64e-xros ]
 install-name:    '/System/Library/Frameworks/SwiftUICore.framework/SwiftUICore'
 swift-abi-version: 7
+allowable-clients:
+  - targets:         [ arm64-xros, arm64e-xros ]
+    clients:         [ SwiftUI ]
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
     symbols:              [  ]
