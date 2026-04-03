@@ -10,12 +10,12 @@ private import AttributeGraph
     @usableFromInline
     
     @MainActor @preconcurrency internal var body: Never {
-        assertUnimplemented()
+        sceneBodyError()
     }
     
     @usableFromInline
     @MainActor @preconcurrency internal init(_ value: T) {
-        assertUnimplemented()
+        self.value = value
     }
     
     @usableFromInline
@@ -30,7 +30,7 @@ private import AttributeGraph
         // x27
         let description = SceneDescriptor.tupleDescription(tupleType)
         // x24
-        var makeList = _TupleScene.MakeList.init(scene: scene, inputs: inputs, offset: 0, outputs: [])
+        var makeList = _TupleScene.MakeList(scene: scene, inputs: inputs, offset: 0, outputs: [])
         // tupleType -> x28 -> x29 - 0x98
         
         for contentType in description.contentTypes {
@@ -69,7 +69,7 @@ extension _TupleScene : Sendable {
 }
 
 extension _TupleScene {
-    fileprivate struct MakeList: SceneTypeVisitor {
+    fileprivate struct MakeList: @preconcurrency SceneTypeVisitor {
         private var scene: _GraphValue<_TupleScene<T>>
         private var inputs: _SceneInputs
         var offset: Int
@@ -82,8 +82,15 @@ extension _TupleScene {
             self.outputs = outputs
         }
         
-        func visit<U>(type: U.Type) where U : Scene {
-            assertUnimplemented()
+        @MainActor mutating func visit<U>(type: U.Type) where U : Scene {
+            // <+188>
+            let attribute = scene.value.identifier.createOffsetAttribute2(offset: numericCast(self.offset), size: numericCast(MemoryLayout<U>.size))
+            // x27
+            let value = _GraphValue(Attribute<U>(identifier: attribute))
+            let output = U._makeScene(scene: value, inputs: self.inputs)
+            self.outputs.append(output)
         }
     }
 }
+
+extension _TupleScene : PrimitiveScene {}

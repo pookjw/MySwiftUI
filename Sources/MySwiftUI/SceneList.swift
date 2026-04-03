@@ -241,7 +241,12 @@ extension SceneList {
         @safe nonisolated(unsafe) static let defaultValue: [SceneList.Namespace: SceneList] = [:]
         
         static func reduce(value: inout [SceneList.Namespace: SceneList], nextValue: () -> [SceneList.Namespace: SceneList]) {
-            assertUnimplemented()
+            let next = nextValue()
+            value.merge(next) { lhs, rhs in
+                var result = lhs
+                result.items.append(contentsOf: rhs.items)
+                return result
+            }
         }
     }
 }

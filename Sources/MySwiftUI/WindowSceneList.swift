@@ -63,6 +63,8 @@ struct WindowSceneList<T : WindowSceneConfigurationAttributes>: PrimitiveScene {
     }
 }
 
+fileprivate nonisolated(unsafe) var windowGroupCounter: UInt8 = 0
+
 extension WindowSceneList {
     fileprivate struct ResolvedConfiguration : Rule {
         private(set) var _configuration: Attribute<WindowSceneConfiguration<T>> // 0x0
@@ -167,7 +169,8 @@ extension WindowSceneList {
                     self.resolvedID = resolvedID
                 } else {
                     // <+336>
-                    resolvedID = .type(contentType, 1)
+                    unsafe windowGroupCounter &+= 1
+                    resolvedID = unsafe .type(contentType, windowGroupCounter)
                     self.resolvedID = resolvedID
                 }
             }

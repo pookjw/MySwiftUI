@@ -104,7 +104,7 @@ struct SceneDescriptor: TupleDescriptor {
 }
 
 protocol SceneTypeVisitor {
-    func visit<T: Scene>(type: T.Type)
+    mutating func visit<T: Scene>(type: T.Type)
 }
 
 extension TypeConformance where T == SceneDescriptor {

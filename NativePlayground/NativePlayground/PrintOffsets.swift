@@ -13,7 +13,9 @@ import Foundation
 import SwiftUI
 
 // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
+// expr -l swift -O -- type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self))
 // expr -l swift -O -- _mangledTypeName(unsafeBitCast(0x0000000238fede90, to: Any.Type.self))
+// expr -l swift -O -- unsafeBitCast(0x0000000238fede90, to: Any.Type.self)
 
 // $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluigAEyXEfU_
 
@@ -182,6 +184,7 @@ func printOffsets() {
     printFields(SizingPreferences.self, isClassType: false)
     printFields(ForEach<[String], Int, AnyView>.self, isClassType: false)
     printFields(ViewDepth.self, isClassType: false)
+    printFields(OpenWindowAction.self, isClassType: false)
     
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))

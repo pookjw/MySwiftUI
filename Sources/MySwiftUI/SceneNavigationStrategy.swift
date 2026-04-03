@@ -2,6 +2,7 @@
 internal import Foundation
 private import MySwiftUICore
 internal import UIKit
+private import os.log
 
 struct SceneNavigationStrategy_Phone {
     // $s7SwiftUI29SceneNavigationStrategy_PhoneV6shared_WZ
@@ -11,7 +12,12 @@ struct SceneNavigationStrategy_Phone {
     private var sceneRequestCache: SceneRequestCache
     
     fileprivate func withSceneList<T>(namespace: SceneList.Namespace, do: (SceneList) -> T?) -> T? {
-        assertUnimplemented()
+        guard let appGraph = AppGraph.shared else {
+            return nil
+        }
+        
+        let sceneList = appGraph.sceneList(namespace: namespace)
+        return `do`(sceneList)
     }
     
     fileprivate func performSceneActivation(
@@ -49,7 +55,35 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    func openWindow(namespace: SceneList.Namespace, id: String, withBehavior: SceneActivationBehavior) {
+    @MainActor func openWindow(namespace: SceneList.Namespace, id: String, withBehavior: SceneActivationBehavior) {
+        /*
+         namespace -> x0/x1/x2 -> x22/x23/x24
+         id -> x3/x4 -> x21/x25
+         */
+        // <+304>
+        guard UIApplication.shared.supportsMultipleScenes else {
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Unable to open a window when the app does not support multiple scenes")
+            return
+        }
+        
+        let sceneList = self.withSceneList(namespace: namespace) { sceneList in
+            // $s7SwiftUI29SceneNavigationStrategy_PhoneV04withC4List33_FB4D19B065EC4D2CC549DBA6E2D239A5LL9namespace2doxSgAA0cH0V9NamespaceO_AhJXEtlFAJyXEfU_TA.40
+            return sceneList
+        }
+        
+        guard let sceneList else {
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "No Scene with id '%s' is defined", id)
+            return
+        }
+        
+        // <+452>
+        for item in sceneList.items {
+            // <+528>
+            print(item.id.sessionID)
+//            assertUnimplemented()
+        }
+        
+        // <+1284>
         assertUnimplemented()
     }
     

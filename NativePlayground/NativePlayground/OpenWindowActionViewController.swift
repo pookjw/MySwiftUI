@@ -15,6 +15,9 @@ fileprivate struct MyView : View {
         MyButton(title: "Open Window") { 
             openWindow(id: "1")
         }
+        .onAppear { 
+            openWindow(id: "1")
+        }
     }
 }
 

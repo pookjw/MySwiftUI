@@ -41,8 +41,8 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-//        let item = DemoViewController.Item.openWindowActionView
-//        pushToItem(item)
+        let item = DemoViewController.Item.openWindowActionView
+        pushToItem(item)
         
 //        Task {
 //            try! await Task.sleep(for: .seconds(1))
