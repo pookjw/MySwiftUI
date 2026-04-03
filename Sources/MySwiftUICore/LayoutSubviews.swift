@@ -525,7 +525,7 @@ struct ViewSizeCache {
     }
 }
 
-struct LayoutProxy : Equatable {
+package struct LayoutProxy : Equatable {
     private var context: AnyRuleContext
     private var attributes: LayoutProxyAttributes
     

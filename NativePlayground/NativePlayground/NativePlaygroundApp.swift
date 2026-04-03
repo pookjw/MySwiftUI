@@ -33,6 +33,10 @@ struct NativePlaygroundApp : App {
         WindowGroup(id: "1") { 
             Color.black
         }
+        
+//        Window(Text("2"), id: "2") { 
+//            Color.white
+//        }
     }
 }
 

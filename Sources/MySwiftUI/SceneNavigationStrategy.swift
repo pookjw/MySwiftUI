@@ -27,6 +27,20 @@ struct SceneNavigationStrategy_Phone {
         activationBehavior: SceneActivationBehavior,
         errorHandler: ((SceneNavigationStrategy_Phone.Error) -> Void)?
     ) {
+        /*
+         item -> x0 -> x21
+         activity -> x1 -> x19 + 0xa0
+         matchingSession -> x2 -> x25
+         activationBehavior -> x3 -> x19 + 0x70
+         errorHandler -> x4/x5 -> x19 + 0xb8 / x19 + 0xc0
+         */
+        // <+764>
+        if let scenes = Log.scenes {
+            scenes.log(level: .info, "Performing scene activation for item \(item.sceneTypeDescription, privacy: .public): \(item.identifyingDescription, privacy: .public)")
+        }
+        
+        // <+1280>
+//        item.windowLayoutProvider ?? item.defaultPlacementProvider.
         assertUnimplemented()
     }
     
@@ -77,14 +91,89 @@ struct SceneNavigationStrategy_Phone {
         }
         
         // <+452>
-        for item in sceneList.items {
+        var targetItem: SceneList.Item?
+        itemsLoop: for item in sceneList.items {
             // <+528>
-            print(item.id.sessionID)
-//            assertUnimplemented()
+            guard id == item.id.sessionID else {
+                continue
+            }
+            
+            // <+800>
+            switch item.value {
+            case .windowGroup(_):
+                targetItem = item
+                break itemsLoop
+            case .immersiveSpace(_):
+                assertUnimplemented()
+            case .volume(_):
+                assertUnimplemented()
+            case .documentGroup(_):
+                assertUnimplemented()
+            case .settings(_):
+                assertUnimplemented()
+            case .menuBarExtra(_):
+                assertUnimplemented()
+            case .customScene(_):
+                assertUnimplemented()
+            case .singleWindow(_):
+                assertUnimplemented()
+            case .documentIntroduction(_):
+                assertUnimplemented()
+            case .alertDialog(_):
+                assertUnimplemented()
+            }
         }
         
-        // <+1284>
-        assertUnimplemented()
+        // <+1324>
+        // targetItem -> x20
+        guard let targetItem else {
+            // <+1660>
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "No Scene with id '%s' is defined", id)
+            return
+        }
+        
+        // <+1368>
+        // x23 (x19 + 0x30)
+        let copy_1 = targetItem
+        // x19 + 0xa0
+        let copy_2 = copy_1.value
+        
+        switch copy_2 {
+        case .windowGroup(_), .volume(_), .singleWindow(_):
+            // <+1428>
+            break
+        case .immersiveSpace(_), .documentGroup(_), .settings(_), .menuBarExtra(_), .customScene(_), .documentIntroduction(_), .alertDialog(_):
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Unable to present a window for Scene id '%s'", id)
+            return
+        }
+        
+        // <+1428>
+        // x19 + 0xa0
+        let copy_3 = copy_1.value
+        if case .singleWindow(_) = copy_3 {
+            // <+1464>
+            for session in UIApplication.shared.openSessions {
+                if
+                    let userInfo = session.userInfo,
+                    let sessionID = userInfo["com.apple.SwiftUI.sceneID"] as? String,
+                    sessionID == id
+                {
+                    // <+2768>
+                    let userActivity = self.userActivityForOpeningWindow(id: copy_1.id)
+                    self.performSceneActivation(item: copy_1, activity: userActivity, matchingSession: session, activationBehavior: .push(sceneSessionToBeReplaced: session), errorHandler: nil)
+                    return
+                }
+            }
+            
+            // <+2556>
+            // <+2600>
+        } else {
+            // <+2600>
+        }
+        
+        // <+2600>
+        let userActivity = self.userActivityForOpeningWindow(id: copy_1.id)
+        self.performSceneActivation(item: copy_1, activity: userActivity, matchingSession: nil, activationBehavior: .default, errorHandler: nil)
     }
     
     func openWindow<T : Codable & Hashable>(
@@ -142,7 +231,12 @@ struct SceneNavigationStrategy_Phone {
     }
     
     fileprivate func userActivityForOpeningWindow(id: SceneID) -> NSUserActivity {
-        assertUnimplemented()
+        // x19
+        let activity = NSUserActivity(activityType: NSUserActivity.userActivityTypeOpenWindowByID)
+        activity.userInfo = ["com.apple.SwiftUI.sceneID" : id.sessionID]
+        activity.requiredUserInfoKeys = ["com.apple.SwiftUI.sceneID"]
+        activity.isEligibleForHandoff = false
+        return activity
     }
     
     fileprivate func userActivityForOpeningWindow<T : Codable & Hashable>(id: SceneID, value: T) -> NSUserActivity? {
@@ -232,4 +326,8 @@ extension SceneRequestCache {
 enum SceneActivationBehavior {
     case push(sceneSessionToBeReplaced: UISceneSession?)
     case `default`
+}
+
+extension NSUserActivity {
+    static let userActivityTypeOpenWindowByID = "\(Bundle.main.bundleIdentifier ?? "com.apple.SwiftUI").openWindowByID"
 }

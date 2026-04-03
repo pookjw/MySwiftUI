@@ -2004,7 +2004,9 @@ extension _UIHostingView : PointerHost {
 }
 
 extension _UIHostingView : WindowLayoutHost {
-    
+    func windowLayoutComputerDidChange(computer: () -> WindowLayoutComputer) {
+        assertUnimplemented()
+    }
 }
 
 extension _UIHostingView : CurrentEventProvider {
