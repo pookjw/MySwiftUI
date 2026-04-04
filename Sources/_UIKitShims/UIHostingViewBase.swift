@@ -1071,7 +1071,11 @@ package final class UIHostingViewBase : NSObject {
     }
     
     @objc private func sceneDidResignKey() {
-        assertUnimplemented()
+        guard let delegate else {
+            return
+        }
+        
+        delegate.baseSceneBecameKey(self)
     }
     
     @objc private func sceneDidUpdateSystemSceneDisplacement() {

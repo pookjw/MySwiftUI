@@ -26,6 +26,8 @@
 #import "Subclasses/UIFoundationInterfaceGenerator.h"
 #import "Subclasses/UIIntelligenceSupportInterfaceGenerator.h"
 #import "Subclasses/UIKitInterfaceGenerator.h"
+#import "Subclasses/UIKitServicesInterfaceGenerator.h"
+#import "Subclasses/UserActivityInterfaceGenerator.h"
 
 NSURL * _Nullable resolveURL(const char *path) {
     NSString *string = [[NSString alloc] initWithCString:path encoding:NSUTF8StringEncoding];
@@ -84,6 +86,8 @@ int main(int argc, const char * argv[]) {
     assert([UIFoundationInterfaceGenerator generateToURL:resolvedURL]);
     assert([UIIntelligenceSupportInterfaceGenerator generateToURL:resolvedURL]);
     assert([UIKitInterfaceGenerator generateToURL:resolvedURL]);
+    assert([UIKitServicesInterfaceGenerator generateToURL:resolvedURL]);
+    assert([UserActivityInterfaceGenerator generateToURL:resolvedURL]);
     
     return EXIT_SUCCESS;
 }

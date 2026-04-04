@@ -21,6 +21,18 @@ tst    x21, #0x10
 ---
 
 ```asm
+tst    w20, #0x1
+mov    w8, #0x1
+cinc   x2, x8, ne
+```
+
+```c
+uint64_t x2 = 1 + ((w20 & 1) != 0);
+```
+
+---
+
+```asm
 bic    x22, x8, x24
 ```
 

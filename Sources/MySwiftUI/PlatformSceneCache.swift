@@ -35,7 +35,28 @@ final class PlatformSceneCache {
     }
     
     func removeHost(_ host: UIViewController, id: SceneID) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x22
+         host -> x0 -> x26
+         id -> x1/x2/x3 -> x25/x24/x23
+         */
+        guard var info = self.infoMap[id] else {
+            return
+        }
+        
+        let key = HashableWeakBox(host)
+        
+        guard info.scenes[key] != nil else {
+            return
+        }
+        
+        info.scenes.removeValue(forKey: key)
+        
+        if info.scenes.isEmpty {
+            self.infoMap.removeValue(forKey: id)
+        } else {
+            self.infoMap[id] = info
+        }
     }
     
     func setPhase(_ scnePhase: ScenePhase, id: SceneID, host: UIViewController) {

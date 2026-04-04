@@ -75,7 +75,7 @@ struct EnvironmentalViewChild<Content : EnvironmentalView>: AsyncAttribute, Cust
         if viewFlags != .changed {
             // <+560>
             let hasDiff: Bool
-            if envFlags != .unchanged {
+            if envFlags.contains(.changed) {
                 if tracker.hasDifferentUsedValues(env.plist) {
                     hasDiff = true 
                 } else {

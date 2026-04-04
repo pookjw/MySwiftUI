@@ -20,6 +20,11 @@ struct MyPlaygroundApp : App {
         WindowGroup(id: "1") { 
             Color.black
         }
+        
+        WindowGroup(id: "2") { 
+            Color.white
+        }
+        .windowStyle(.volumetric)
     }
 }
 

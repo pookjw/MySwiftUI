@@ -34,9 +34,10 @@ struct NativePlaygroundApp : App {
             Color.black
         }
         
-//        Window(Text("2"), id: "2") { 
-//            Color.white
-//        }
+        WindowGroup(id: "2") { 
+            Color.white
+        }
+        .windowStyle(.volumetric)
     }
 }
 

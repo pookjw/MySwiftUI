@@ -16,9 +16,9 @@ func swizzle_uncachedSolariumEnabledForCurrentDeviceIdiom() {
         let msuiResult = msui_uncachedSolariumEnabledForCurrentDeviceIdiom()
         assert(result == msuiResult)
         return result
-        #else
-        
-        #endif
+#else
+        return msui_uncachedSolariumEnabledForCurrentDeviceIdiom()
+#endif
     }
     
     unsafe method_setImplementation(method, unsafeBitCast(custom, to: IMP.self))

@@ -47,7 +47,22 @@ struct SceneList {
     }
     
     fileprivate func itemForUserActivity(_ userActivity: NSUserActivity) -> SceneList.Item? {
-        assertUnimplemented()
+        guard
+            userActivity.activityType == NSUserActivity.userActivityTypeOpenWindowByID,
+            let userInfo = userActivity.userInfo,
+            let sceneID = userInfo[AnyHashable("com.apple.SwiftUI.sceneID")] as? String
+        else {
+            return nil
+        }
+        
+        // <+468>
+        for item in items {
+            if item.id.sessionID == sceneID {
+                return item
+            }
+        }
+        
+        return nil
     }
 }
 

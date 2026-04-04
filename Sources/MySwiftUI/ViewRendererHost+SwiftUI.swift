@@ -12,4 +12,8 @@ extension ViewRendererHost {
         
         return hostingView.shouldCreateUIInteractions
     }
+    
+    var windowLayoutComputer: WindowLayoutComputer? {
+        assertUnimplemented()
+    }
 }

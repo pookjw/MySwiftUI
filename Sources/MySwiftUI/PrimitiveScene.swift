@@ -2,7 +2,7 @@ protocol PrimitiveScene : Scene {
 }
 
 extension PrimitiveScene {
-    var body: Never {
+    public var body: Never {
         sceneBodyError()
     }
 }

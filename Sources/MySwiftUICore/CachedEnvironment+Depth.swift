@@ -162,6 +162,6 @@ struct AnimatableDepthAttribute : ObservedAttribute, StatefulRule, AsyncAttribut
     }
     
     mutating func destroy() {
-        assertUnimplemented()
+        self.helper.removeListeners()
     }
 }

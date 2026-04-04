@@ -1,0 +1,5 @@
+framework module UserActivity {
+    umbrella header "UserActivity.h"
+    export *
+    module * { export * }
+}

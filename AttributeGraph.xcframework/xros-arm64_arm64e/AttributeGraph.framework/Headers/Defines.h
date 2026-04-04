@@ -36,19 +36,20 @@ typedef NS_ENUM(uint32_t, AGMetadataKind) {
 } NS_SWIFT_NAME(MetadataKind);
 
 typedef NS_OPTIONS(uint32_t, AGValueOptions) {
-    AGValueOptionsNone = 0
+    AGValueOptionsNone = 0,
+    AGValueOptionsUnknown1 = 1 << 1
 };
 
 typedef NS_ENUM(uint32_t, AGChangedValueFlags) {
     AGChangedValueFlagsUnchanged = 0,
-    AGChangedValueFlagsChanged = 1,
+    AGChangedValueFlagsChanged = 1
 };
 
 typedef NS_OPTIONS(uint32_t, AGGraphCounterOptions) {
     AGGraphCounterOptionsUnknown0 = 1 << 0,
     AGGraphCounterOptionsUnknown1 = 1 << 1,
     AGGraphCounterOptionsUnknown2 = 1 << 2,
-    AGGraphCounterOptionsUnknown3 = 1 << 3,
+    AGGraphCounterOptionsUnknown3 = 1 << 3
 };
 
 typedef NS_ENUM(NSUInteger, AGComparisonMode) {

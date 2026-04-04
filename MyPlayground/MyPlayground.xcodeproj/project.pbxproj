@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F0236FE2F80B0DD00DCCB88 /* UIKitServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0236FD2F80B0DD00DCCB88 /* UIKitServices.xcframework */; };
+		4F02377A2F80F54E00DCCB88 /* UserActivity.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0237792F80F54E00DCCB88 /* UserActivity.xcframework */; };
 		4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */; };
 		4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */; };
 		4F147CCE2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147CCD2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework */; };
@@ -40,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F0236FD2F80B0DD00DCCB88 /* UIKitServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UIKitServices.xcframework; path = ../UIKitServices.xcframework; sourceTree = "<group>"; };
+		4F0237792F80F54E00DCCB88 /* UserActivity.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UserActivity.xcframework; path = ../UserActivity.xcframework; sourceTree = "<group>"; };
 		4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoreRE.xcframework; path = ../CoreRE.xcframework; sourceTree = "<group>"; };
 		4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DesignLibrary.xcframework; path = ../DesignLibrary.xcframework; sourceTree = "<group>"; };
 		4F147CCD2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftUICorePrivate.xcframework; path = ../_SwiftUICorePrivate.xcframework; sourceTree = "<group>"; };
@@ -120,9 +124,11 @@
 				4FF929C22F73F525005C7882 /* Sample in Frameworks */,
 				4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */,
 				4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */,
+				4F0236FE2F80B0DD00DCCB88 /* UIKitServices.xcframework in Frameworks */,
 				4FD4A1F62E910B4300C9B545 /* TCC.xcframework in Frameworks */,
 				4F8F091E2E51DA7A00EFC573 /* AttributeGraph.xcframework in Frameworks */,
 				4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */,
+				4F02377A2F80F54E00DCCB88 /* UserActivity.xcframework in Frameworks */,
 				4FBA78242F65115D0038D3FD /* BoardServices.xcframework in Frameworks */,
 				4FC5B59B2F447524007D14DB /* MySwiftUI in Frameworks */,
 				4FBA77BA2F63D5230038D3FD /* _FoundationPrivate.xcframework in Frameworks */,
@@ -153,6 +159,8 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F0237792F80F54E00DCCB88 /* UserActivity.xcframework */,
+				4F0236FD2F80B0DD00DCCB88 /* UIKitServices.xcframework */,
 				4FBA78232F65115D0038D3FD /* BoardServices.xcframework */,
 				4FBA781F2F6506940038D3FD /* _CoreServicesPrivate.xcframework */,
 				4FBA781B2F64FD210038D3FD /* SoftLinking.xcframework */,

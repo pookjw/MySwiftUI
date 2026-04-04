@@ -64,3 +64,4 @@
 #import <_UIKitPrivate/UIKitFeatures.h>
 #import <_UIKitPrivate/UIDevice+Private.h>
 #import <_UIKitPrivate/UISceneRenderingEnvironmentClientComponent.h>
+#import <_UIKitPrivate/_UIApplicationSceneRequestBuilder.h>

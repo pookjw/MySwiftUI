@@ -58,7 +58,9 @@ let package = Package(
                 .byName(name: "_Elegibility"),
                 .byName(name: "_CoreServicesPrivate"),
                 .byName(name: "BoardServices"),
-                .byName(name: "_SwiftPrivate")
+                .byName(name: "_SwiftPrivate"),
+                .byName(name: "UIKitServices"),
+                .byName(name: "UserActivity")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -257,6 +259,14 @@ let package = Package(
         .binaryTarget(
             name: "BoardServices",
             path: "BoardServices.xcframework"
+        ),
+        .binaryTarget(
+            name: "UIKitServices",
+            path: "UIKitServices.xcframework"
+        ),
+        .binaryTarget(
+            name: "UserActivity",
+            path: "UserActivity.xcframework"
         ),
         .target(
             name: "_KernPrivate",

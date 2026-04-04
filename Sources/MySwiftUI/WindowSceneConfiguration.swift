@@ -1,6 +1,7 @@
 internal import MySwiftUICore
 internal import Foundation
 internal import UIKit
+internal import MRUIKit
 
 struct WindowSceneConfiguration<T : WindowSceneConfigurationAttributes> {
     var attributes: T
@@ -51,6 +52,10 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
         assertUnimplemented()
     }
     
+    func customizeSceneActivationRequestOptions(_ options: _MRUIImmersiveSpaceSceneActivationRequestOptions, isInternalScene: Bool) {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 
@@ -71,17 +76,15 @@ extension ImmersiveSpaceConfigurationAttributes {
 }
 
 struct VolumeConfigurationAttributes : WindowSceneConfigurationAttributes {
-    typealias RootModifier = Never // TODO
+    typealias RootModifier = ViewInputFlagModifier<IsInVolumetricContext> // TODO
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<VolumeConfigurationAttributes>) -> SceneList.Item.Value {
         assertUnimplemented()
     }
     
-    var rootModifier: Never {
-        assertUnimplemented()
+    var rootModifier: ViewInputFlagModifier<IsInVolumetricContext> {
+        return ViewInputFlagModifier(flag: IsInVolumetricContext())
     }
-    
-    // TODO
 }
 
 struct IdentifiedDocumentGroupConfiguration {
@@ -135,4 +138,8 @@ protocol WindowSceneConfigurationAttributes {
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<Self>) -> SceneList.Item.Value
     var rootModifier: Self.RootModifier { get }
+}
+
+struct IsInVolumetricContext: ViewInputBoolFlag {
+    
 }

@@ -22,7 +22,7 @@ final class ImmersiveSpaceAuthority {
     
     private var currentImmersiveSpace: SceneActivationState? = nil // 0x18
     private var immersiveSpaceBeingReplaced: SceneActivationState? = nil // 0x338
-    private var isRequestingSwiftUIScene: Bool = false // 0x653
+    var isRequestingSwiftUIScene: Bool = false // 0x653
     private(set) weak var currentRemoteSessionInfo: RemoteScenes.SessionInfo? = nil // 0x658
     weak var immersiveSpaceScene: UIScene? = nil // 0x660
     private var sceneCreationContinuations: [CheckedContinuation<SceneNavigationStrategy_Phone.Result, Never>] = [] // 0x668
@@ -41,6 +41,20 @@ final class ImmersiveSpaceAuthority {
          */
         // <+312>
         guard case .immersiveSpace(let _) = item.value else {
+            return
+        }
+        
+        assertUnimplemented()
+    }
+    
+    func sceneDisconnected(scene: UIScene, namespace: SceneList.Namespace, item: SceneList.Item) {
+        /*
+         scene -> dead
+         namespace -> x0/x1/x2 -> x29 - 0x188 / x29 - 0x190 / x29 - 0x17c
+         item -> x3 -> x27
+         */
+        // <+384>
+        guard case .immersiveSpace(_) = item.value else {
             return
         }
         

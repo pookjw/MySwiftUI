@@ -4,7 +4,7 @@ internal import MySwiftUICore
 final class WindowLayoutHostProxy {
     nonisolated(unsafe) fileprivate static var layoutProxiesAwaitingConnection: [SceneID: WindowLayoutHostProxy] = [:]
     
-    private var host: ViewRendererHost
+    private(set) var host: any ViewRendererHost
     private var viewType: any View.Type
     
     init<Content : View>(rootView: Content) {
@@ -12,7 +12,10 @@ final class WindowLayoutHostProxy {
     }
     
     func setLayout(_ layout: AnyWindowLayout) {
-        assertUnimplemented()
+        Update.ensure { 
+            // $s7SwiftUI21WindowLayoutHostProxyC03setD0yyAA03AnycD0VFyyXEfU_TA
+            assertUnimplemented()
+        }
     }
     
     func appendFeatures(volumetric: Bool) {
@@ -21,6 +24,11 @@ final class WindowLayoutHostProxy {
     
     static func removePendingLayoutHostProxy(id: SceneID) {
         assertUnimplemented()
+    }
+    
+    @inline(always) // 원래 없음
+    static func appendPendingLayoutHostProxy(id: SceneID, proxy: WindowLayoutHostProxy) {
+        WindowLayoutHostProxy.layoutProxiesAwaitingConnection[id] = proxy
     }
     
     @specialized(where Content == ModifiedContent<AnyView, RootModifier>)

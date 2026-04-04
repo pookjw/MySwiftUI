@@ -365,6 +365,11 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
         }
     }
     
+    @inline(always) // 원래 없음
+    func _publishEvent(event: Any, type: Any.Type, identifier: String) -> Bool {
+        self.publishEvent(event: event, type: type, identifier: identifier)
+    }
+    
     @discardableResult
     fileprivate func publishEvent(event: Any, type: Any.Type, identifier: String) -> Bool {
         /*
@@ -596,4 +601,9 @@ extension OpenURLOptions {
         case uiSceneOpenURLOption(UIScene.OpenURLOptions)
         case userActivity(NSUserActivity)
     }
+}
+
+struct OpenURLContext {
+    private(set) var url: URL
+    private(set) var options: OpenURLOptions?
 }

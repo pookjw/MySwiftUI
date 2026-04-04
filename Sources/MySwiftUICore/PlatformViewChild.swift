@@ -106,7 +106,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
             var modified = true
             if !updated {
                 // <+1572>
-                if hasLeafView, viewChanged == .unchanged, phaseChanged == .unchanged {
+                if hasLeafView, !viewChanged.contains(.changed), !phaseChanged.contains(.changed) {
                     // <+1588>
                     modified = Graph.currentAttributeWasModified
                 } else {

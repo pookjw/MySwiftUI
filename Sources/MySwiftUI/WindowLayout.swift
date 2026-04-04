@@ -60,8 +60,11 @@ protocol WindowLayoutHost : AnyObject {
 }
 
 struct AnyWindowLayout {
-    private var storage: AnyWindowLayoutStorageBase
-    // TODO
+    private(set) var storage: AnyWindowLayoutStorageBase
+    
+    init<T: WindowLayout>(_ layout: T) {
+        assertUnimplemented()
+    }
 }
 
 extension AnyWindowLayout {

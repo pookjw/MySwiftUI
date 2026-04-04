@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F0237022F80B13600DCCB88 /* UIKitServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0237012F80B13600DCCB88 /* UIKitServices.xcframework */; };
+		4F02377E2F80F55A00DCCB88 /* UserActivity.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F02377D2F80F55A00DCCB88 /* UserActivity.xcframework */; };
 		4F04861E2E92604600B91DAB /* AttributeGraph.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F04861D2E92604600B91DAB /* AttributeGraph.xcframework */; };
 		4F129C0C2E6C9DC100AE98B6 /* _UIKitPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F21100E2E668DC600803B98 /* _UIKitPrivate.xcframework */; };
 		4F129C0E2E6CA3BC00AE98B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F129C0D2E6CA3BC00AE98B6 /* UIKit.framework */; };
@@ -30,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F0237012F80B13600DCCB88 /* UIKitServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UIKitServices.xcframework; path = ../UIKitServices.xcframework; sourceTree = "<group>"; };
+		4F02377D2F80F55A00DCCB88 /* UserActivity.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UserActivity.xcframework; path = ../UserActivity.xcframework; sourceTree = "<group>"; };
 		4F04861D2E92604600B91DAB /* AttributeGraph.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AttributeGraph.xcframework; path = ../AttributeGraph.xcframework; sourceTree = "<group>"; };
 		4F129C0D2E6CA3BC00AE98B6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4F129C0F2E6CA3F000AE98B6 /* BaseBoard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BaseBoard.xcframework; path = ../BaseBoard.xcframework; sourceTree = "<group>"; };
@@ -87,7 +91,9 @@
 				4FBA78742F6516080038D3FD /* _CoreServicesPrivate.xcframework in Frameworks */,
 				4F93477A2EE1DCC90030B3A1 /* _ObservationPrivate.xcframework in Frameworks */,
 				4F659C7E2E6D92B3000BA8A3 /* SwiftUI.framework in Frameworks */,
+				4F02377E2F80F55A00DCCB88 /* UserActivity.xcframework in Frameworks */,
 				4F129C0C2E6C9DC100AE98B6 /* _UIKitPrivate.xcframework in Frameworks */,
+				4F0237022F80B13600DCCB88 /* UIKitServices.xcframework in Frameworks */,
 				4FBA78722F6516080038D3FD /* BoardServices.xcframework in Frameworks */,
 				4F48088C2E4CE8E3004F6972 /* _SwiftPrivate.xcframework in Frameworks */,
 				4F129C102E6CA3F000AE98B6 /* BaseBoard.xcframework in Frameworks */,
@@ -126,6 +132,8 @@
 		4F48088A2E4CE8E3004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F02377D2F80F55A00DCCB88 /* UserActivity.xcframework */,
+				4F0237012F80B13600DCCB88 /* UIKitServices.xcframework */,
 				4FBA78712F6516070038D3FD /* _CoreServicesPrivate.xcframework */,
 				4FBA78702F6516070038D3FD /* BoardServices.xcframework */,
 				4F9347792EE1DCC90030B3A1 /* _ObservationPrivate.xcframework */,

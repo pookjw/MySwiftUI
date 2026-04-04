@@ -1,5 +1,5 @@
 private import MySwiftUICore
-private import MRUIKit
+internal import MRUIKit
 
 extension Scene {
     @available(visionOS 2.0, *)
@@ -18,7 +18,7 @@ extension Scene {
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 public struct WorldScalingBehavior : Hashable, Sendable {
-    private var value: MRUISceneScalingBehavior?
+    private(set) var value: MRUISceneScalingBehavior?
     
     public static var automatic: WorldScalingBehavior {
         return WorldScalingBehavior(value: nil)

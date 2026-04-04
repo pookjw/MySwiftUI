@@ -6,10 +6,15 @@ private import _UIKitPrivate
 private import Observation
 private import Combine
 private import _SwiftPrivate
+private import UserActivity
 
 // _TtC7SwiftUI16AppSceneDelegate
 final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
     @safe nonisolated(unsafe) fileprivate static var hasConnectedFirstScene = false
+    
+    static func makeRootView(_ view: AnyView) -> ModifiedContent<AnyView, RootModifier> {
+        assertUnimplemented()
+    }
     
     var window: UIWindow? = nil // 0x10
     private(set) var sceneItemID: SceneID? = nil // 0x18
@@ -392,10 +397,34 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
         
         
         // <+9576>
-        if let _ = connectionOptions.userActivities.first {
+        if let userActivity = connectionOptions.userActivities.first {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
                 // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU1_TA
-                assertUnimplemented()
+                if
+                    userActivity._isUniversalLink,
+                    let webpageURL = userActivity.webpageURL
+                {
+                    // <+212>
+                    guard
+                        let self,
+                        let sceneBridge = self.sceneBridge
+                    else {
+                        return
+                    }
+                    
+                    let context = OpenURLContext(url: webpageURL, options: nil)
+                    sceneBridge._publishEvent(event: context, type: OpenURLContext.self, identifier: "OpenURLContext")
+                } else {
+                    // <+484>
+                    guard
+                        let self,
+                        let sceneBridge = self.sceneBridge
+                    else {
+                        return
+                    }
+                    
+                    sceneBridge._publishEvent(event: userActivity, type: NSUserActivity.self, identifier: userActivity.activityType)
+                }
             }
         }
         
@@ -449,7 +478,48 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x21
+         scene -> x0 -> x27
+         */
+        guard
+            let window,
+            let rootViewController = window.rootViewController,
+            let sceneItemID
+        else {
+            return
+        }
+        
+        if let scenes = Log.scenes {
+            scenes.log(level: .info, "Disconnected scene \(scene)")
+        }
+        
+        // <+524>
+        PlatformSceneCache.shared.removeHost(rootViewController, id: sceneItemID)
+        
+        if let delegate = sceneDelegateBox?.delegate as? UISceneDelegate {
+            delegate.sceneDidDisconnect?(scene)
+        }
+        
+        guard let appDelegate = AppDelegate.shared else {
+            return
+        }
+        
+        // <+768>
+        Update.ensure { 
+            // $s7SwiftUI16AppSceneDelegateC18sceneDidDisconnectyySo7UISceneCFyyXEfU_TA
+            appDelegate.immersiveSpaceAuthority.sceneDisconnected(scene: scene, namespace: self.sceneNamespace, item: self.sceneItem())
+        }
+        
+        guard let windowScene = scene as? UIWindowScene else {
+            return
+        }
+        
+        if let index = appDelegate.activeWindowProxies.firstIndex(where: { $0.backingScene === windowScene }) {
+            appDelegate.activeWindowProxies.remove(at: index)
+        }
+        
+        appDelegate.updateActiveWindows()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -1060,7 +1130,7 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
         assertUnimplemented()
     }
     
-    func makeRootView(_ view: AnyView) -> ModifiedContent<AnyView, RootModifier> {
+    fileprivate func makeRootView(_ view: AnyView) -> ModifiedContent<AnyView, RootModifier> {
         return ModifiedContent(content: resolveAppRootView(view), modifier: rootModifier)
     }
     

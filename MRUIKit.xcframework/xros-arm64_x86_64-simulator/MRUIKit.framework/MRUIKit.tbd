@@ -38,6 +38,7 @@ exports:
     MRUIDisplayContentModePreferenceKey,
     MRUISupportedVolumeViewpointsPreferenceKey,
     _MRUIApplicationImmersiveSpaceSceneRequestBuilder,
-    _MRUIApplicationCompositorServicesImmersiveSpaceSceneRequestBuilder ]
+    _MRUIApplicationCompositorServicesImmersiveSpaceSceneRequestBuilder,
+    _MRUIImmersiveSpaceSceneActivationRequestOptions ]
     objc-ivars:           [  ]
 ...

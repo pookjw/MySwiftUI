@@ -67,6 +67,29 @@ extension Attribute {
     func unsafeBitCast<U>(to type: U.Type) -> Attribute<U> {
         return self.unsafeOffset(at: 0, as: type)
     }
+    
+    func syncMainIfReferences<U>(do transform: (T) -> U) -> U {
+        // <+204>
+        let (value, flags) = self.valueAndFlags(options: [.unknown1])
+        
+        if flags.contains(.requiresMainThread) {
+            // 원래 UncheckedSendable, withoutActuallyEscaping 없음
+            return withoutActuallyEscaping(transform) { escapingClosure in
+                var result: UncheckedSendable<U>!
+                let _value = UncheckedSendable(value)
+                let _transform = UncheckedSendable(escapingClosure)
+                
+                Update.syncMain {
+                    // $s14AttributeGraph0A0V7SwiftUIE20syncMainIfReferences2doqd__qd__xXE_tlFyyXEfU_
+                    result = UncheckedSendable(_transform.value(_value.value))
+                }
+                
+                return result.value
+            }
+        } else {
+            return transform(value)
+        }
+    }
 }
 
 extension TypeID {
