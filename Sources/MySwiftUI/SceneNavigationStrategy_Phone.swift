@@ -350,7 +350,8 @@ struct SceneNavigationStrategy_Phone {
             case .immersiveSpace(_):
                 assertUnimplemented()
             case .volume(_):
-                assertUnimplemented()
+                targetItem = item
+                break itemsLoop
             case .documentGroup(_):
                 assertUnimplemented()
             case .settings(_):

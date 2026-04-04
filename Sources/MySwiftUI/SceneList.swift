@@ -6,7 +6,7 @@ private import _UIKitPrivate
 private import _SwiftPrivate
 
 struct SceneList {
-    private(set) var items: [SceneList.Item] = []
+    var items: [SceneList.Item] = []
     var environment = EnvironmentValues()
     
     func itemForConnectionOptions(_ options: UIScene.ConnectionOptions) -> SceneList.Item? {
@@ -68,7 +68,7 @@ struct SceneList {
 
 extension SceneList {
     struct Item : Identifiable {
-        private(set) var value: SceneList.Item.Value // 0x0
+        var value: SceneList.Item.Value // 0x0
         private(set) var id: SceneID // 0xe0
         private(set) var version: DisplayList.Version // 0xf8
         private(set) var environment: EnvironmentValues // 0x100
@@ -310,5 +310,54 @@ extension SceneList.Item {
         case volume
 #endif
         case alertDialog
+    }
+}
+
+struct _SceneItemProxy {
+    private(set) var value: SceneList.Item.Value
+    
+    mutating func applyAttributesToConfig<T: WindowSceneConfigurationAttributes>(_ attributes: T) {
+        switch value {
+        case .windowGroup(let configuration):
+            // <+208>
+            let newConfiguration = WindowSceneConfiguration(
+                attributes: attributes,
+                mainContent: configuration.mainContent,
+                title: configuration.title,
+                presentationDataType: configuration.presentationDataType,
+                decoder: configuration.decoder
+            )
+            
+            self.value = attributes.sceneListValue(newConfiguration)
+        case .volume(let configuration):
+            // <+560>
+            let newConfiguration = WindowSceneConfiguration(
+                attributes: attributes,
+                mainContent: configuration.mainContent,
+                title: configuration.title,
+                presentationDataType: configuration.presentationDataType,
+                decoder: configuration.decoder
+            )
+            
+            self.value = attributes.sceneListValue(newConfiguration)
+        case .immersiveSpace(_), .documentGroup(_), .settings(_), .menuBarExtra(_), .customScene(_), .documentIntroduction(_), .alertDialog(_):
+            // <+1164>
+            return
+        case .singleWindow(let configuration):
+            // <+928>
+            guard !(attributes is VolumeConfigurationAttributes) else {
+                return
+            }
+            
+            let newConfiguration = WindowSceneConfiguration(
+                attributes: attributes,
+                mainContent: configuration.mainContent,
+                title: configuration.title,
+                presentationDataType: configuration.presentationDataType,
+                decoder: configuration.decoder
+            )
+            
+            self.value = attributes.sceneListValue(newConfiguration)
+        }
     }
 }

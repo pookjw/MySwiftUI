@@ -17,8 +17,9 @@ extension Scene {
         return transformSceneList { sceneList in
             // $s7SwiftUI5ScenePAAE11windowStyleyQrqd__AA06WindowE0Rd__lFyAA0C4ListVzcfU_TA
             for index in sceneList.items.indices {
-//                sceneList[index]
-                assertUnimplemented()
+                var proxy = _SceneItemProxy(value: sceneList.items[index].value)
+                proxy.applyAttributesToConfig(VolumeConfigurationAttributes())
+                sceneList.items[index].value = proxy.value
             }
         }
     }

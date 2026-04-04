@@ -79,7 +79,7 @@ struct VolumeConfigurationAttributes : WindowSceneConfigurationAttributes {
     typealias RootModifier = ViewInputFlagModifier<IsInVolumetricContext> // TODO
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<VolumeConfigurationAttributes>) -> SceneList.Item.Value {
-        assertUnimplemented()
+        return .volume(configuration)
     }
     
     var rootModifier: ViewInputFlagModifier<IsInVolumetricContext> {
