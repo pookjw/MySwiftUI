@@ -35,7 +35,14 @@ extension EdgeInsets3D {
     }
     
     package var negatedInsets: EdgeInsets3D {
-        assertUnimplemented()
+        return EdgeInsets3D(
+            top: -top,
+            leading: -leading,
+            bottom: -bottom,
+            trailing: -trailing,
+            front: -front,
+            back: -back
+        )
     }
 }
 

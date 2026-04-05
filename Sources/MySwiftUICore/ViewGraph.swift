@@ -771,10 +771,19 @@ package final class ViewGraph : GraphHost {
     }
     
     package func sizeThatFits(_ size: _ProposedSize) -> CGSize {
-        assertUnimplemented()
+        guard self.requestedOutputs.contains(.layout) else {
+            preconditionFailure("Cannot fetch layout computer without layout output")
+        }
+        
+        self.instantiateIfNeeded()
+        return self.sizeThatFits(size, layoutComputer: self.rootLayoutComputer, insets: self.rootViewInsets)
     }
     
     package func depthThatFits(_ size: _ProposedSize3D) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(_ size: _ProposedSize, layoutComputer: LayoutComputer?, insets: EdgeInsets) -> CGSize {
         assertUnimplemented()
     }
 }

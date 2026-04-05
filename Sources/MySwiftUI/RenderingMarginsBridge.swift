@@ -71,8 +71,14 @@ extension EnvironmentValues {
     var effectiveWindowMargins: EdgeOutsets3D {
         let insets = self[WindowClippingMarginsKey.self]
         let negated = insets.negatedInsets
-        // TODO: fneg 있음
-        assertUnimplemented()
+        return EdgeOutsets3D(
+            top: -negated.top,
+            leading: -negated.leading,
+            bottom: -negated.bottom,
+            trailing: -negated.trailing,
+            front: -negated.front,
+            back: -negated.back
+        )
     }
 }
 

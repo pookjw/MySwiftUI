@@ -1,6 +1,6 @@
 package import CoreGraphics
 
-package struct EdgeOutsets3D : Equatable, Sendable {
+@frozen package struct EdgeOutsets3D : Equatable, Sendable, BitwiseCopyable {
     package var top: CGFloat
     package var leading: CGFloat
     package var bottom: CGFloat
@@ -10,6 +10,15 @@ package struct EdgeOutsets3D : Equatable, Sendable {
     
     package static var zero: EdgeOutsets3D {
         return EdgeOutsets3D(top: 0, leading: 0, bottom: 0, trailing: 0, front: 0, back: 0)
+    }
+    
+    @inlinable package init(top: CGFloat, leading: CGFloat, bottom: CGFloat, trailing: CGFloat, front: CGFloat, back: CGFloat) {
+        self.top = top
+        self.leading = leading
+        self.bottom = bottom
+        self.trailing = trailing
+        self.front = front
+        self.back = back
     }
     
     var insets3D: EdgeInsets3D {
