@@ -174,8 +174,7 @@ struct SceneNavigationStrategy_Phone {
             let defaultScalingBehavior = item.defaultScalingBehavior.value ?? .trueScale
             MainActor.assumeIsolatedIfLinkedOnOrAfter(.v6, context: nil) { 
                 // $s7SwiftUI18VolumeSceneBuilderC28buildWorkspaceRequestOptions3for16withContinuationySo024UISceneSessionActivationH0C_ySo012FBSWorkspacedhI0CSg_s5Error_pSgtctFyyScMYcXEfU0_TA
-                _ = defaultScalingBehavior
-                assertUnimplemented()
+                options.placementParameters.preferredScalingBehavior = defaultScalingBehavior
             }
             
             if _SemanticFeature<Semantics_v6>.isEnabled {
