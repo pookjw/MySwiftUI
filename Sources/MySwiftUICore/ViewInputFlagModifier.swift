@@ -1,6 +1,7 @@
-package struct ViewInputFlagModifier<T>: ViewModifier, PrimitiveViewModifier, _GraphInputsModifier {
+package struct ViewInputFlagModifier<T: _GraphInputsModifier>: ViewModifier, PrimitiveViewModifier, _GraphInputsModifier {
     package static func _makeInputs(modifier: _GraphValue<Self>, inputs: inout _GraphInputs) {
-        assertUnimplemented()
+        let value = modifier[{ .of(&$0.flag)} ]
+        T._makeInputs(modifier: value, inputs: &inputs)
     }
     
     package var flag: T

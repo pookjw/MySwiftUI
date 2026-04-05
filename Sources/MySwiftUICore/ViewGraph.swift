@@ -525,7 +525,13 @@ package final class ViewGraph : GraphHost {
         self.hostPreferenceValues = WeakAttribute()
     }
     
-    package var rootViewInsets: EdgeInsets {
+    fileprivate var rootViewInsets: EdgeInsets {
+        let insets = self.safeAreaInsets
+        
+        guard !insets.elements.isEmpty else {
+            return .zero
+        }
+        
         assertUnimplemented()
     }
     
@@ -776,14 +782,14 @@ package final class ViewGraph : GraphHost {
         }
         
         self.instantiateIfNeeded()
-        return self.sizeThatFits(size, layoutComputer: self.rootLayoutComputer, insets: self.rootViewInsets)
+        return ViewGraph.sizeThatFits(size, layoutComputer: self.rootLayoutComputer, insets: self.rootViewInsets)
     }
     
     package func depthThatFits(_ size: _ProposedSize3D) -> CGFloat {
         assertUnimplemented()
     }
     
-    func sizeThatFits(_ size: _ProposedSize, layoutComputer: LayoutComputer?, insets: EdgeInsets) -> CGSize {
+    static func sizeThatFits(_ size: _ProposedSize, layoutComputer: LayoutComputer?, insets: EdgeInsets) -> CGSize {
         assertUnimplemented()
     }
 }
@@ -949,12 +955,6 @@ extension ViewGraph : ViewGraphRenderHost {
             }
             return renderedTime
         }
-    }
-}
-
-extension ViewGraph {
-    static func sizeThatFits(_: _ProposedSize, layoutComputer: LayoutComputer?, insets: EdgeInsets) -> CGSize {
-        assertUnimplemented()
     }
 }
 
