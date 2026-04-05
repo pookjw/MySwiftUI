@@ -832,8 +832,7 @@ open class _UIHostingView<Content : View>: UIView {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super.sizeThatFits(size)
+        return base.sizeThatFits(size)
     }
 
     open override func tintColorDidChange() {

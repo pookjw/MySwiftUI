@@ -769,6 +769,14 @@ package final class ViewGraph : GraphHost {
             }
         }
     }
+    
+    package func sizeThatFits(_ size: _ProposedSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    package func depthThatFits(_ size: _ProposedSize3D) -> CGFloat {
+        assertUnimplemented()
+    }
 }
 
 extension ViewGraph {

@@ -1019,6 +1019,46 @@ package final class UIHostingViewBase : NSObject {
         }
     }
     
+    package func sizeThatFits(_ size: CGSize) -> CGSize {
+        return _sizeThatFits(size)
+    }
+    
+    // 이름 없음
+    private func _sizeThatFits(_ size: CGSize) -> CGSize {
+        // self -> x20
+        var d8 = size.height
+        var d9 = size.width
+        // <+160>
+        let viewGraph = self.viewGraph
+        guard let updateDelegate = viewGraph.updateDelegate else {
+            return .zero
+        }
+        
+        var d0 = CGFloat(bitPattern: 0x4145315880000000)
+        let w26 = !(d9 < d0)
+        let x27 = (d9 < d0) ? d9 : 0
+        let w28 = !(d8 < d0)
+        let x22 = (d8 < d0) ? d8 : 0
+        let d1: CGFloat
+        
+        do {
+            let result = updateDelegate._sizeThatFits(ProposedViewSize(width: !w26 ? x27 : 0, height: !w28 ? x22 : 0))
+            d0 = result.width
+            d1 = result.height
+        }
+        
+        d8 = d0
+        d9 = d1
+        
+        // <+292>
+        let rule = FloatingPointRoundingRule.up
+        let d10 = viewGraph.environment.pixelLength
+        
+        var size = CGSize(width: d0, height: d1)
+        size.round(rule, toMultipleOf: d10)
+        return size
+    }
+    
     @objc private func willBeginSnapshotSession() {
         assertUnimplemented()
     }

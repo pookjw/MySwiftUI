@@ -68,3 +68,4 @@
 #import <_UIKitPrivate/UIVolumetricWindowSceneActivationRequestOptions.h>
 #import <_UIKitPrivate/UISceneDisplayZoomBehaviorComponent.h>
 #import <_UIKitPrivate/UISceneWorldAlignmentBehaviorClientComponent.h>
+#import <_UIKitPrivate/UISceneClippingMarginsClientComponent.h>

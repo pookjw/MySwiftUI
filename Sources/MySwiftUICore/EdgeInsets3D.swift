@@ -30,7 +30,11 @@ public import CoreGraphics
 
 extension EdgeInsets3D {
     @usableFromInline
-    package init(_all: CoreFoundation.CGFloat) {
+    package init(_all: CGFloat) {
+        assertUnimplemented()
+    }
+    
+    package var negatedInsets: EdgeInsets3D {
         assertUnimplemented()
     }
 }

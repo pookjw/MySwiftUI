@@ -1,6 +1,8 @@
 // 76C8A4B3FC8EE0F99045B3425CD62255
+package import CoreGraphics
 
 package protocol ViewRendererHost : ViewGraphOwner, ViewGraphRootValueUpdater {
+    var responderNode: ResponderNode? { get }
 }
 
 extension ViewRendererHost {
@@ -65,6 +67,10 @@ extension ViewRendererHost {
         var hosts = parentHost.enclosingHosts
         hosts.append(self)
         return hosts
+    }
+    
+    package func sizeThatFits(_ size: _ProposedSize) -> CGSize {
+        assertUnimplemented()
     }
 }
 

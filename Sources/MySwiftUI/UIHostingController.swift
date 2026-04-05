@@ -998,10 +998,60 @@ open class UIHostingController<Content : View>: UIViewController {
         }
         
         // <+1248>
-        return Update.ensure { 
+        let value0 = hasUnknown2.contains(.unknown2)
+        let value1 = hasUnknown3.contains(.unknown3)
+        
+        Update.ensure {
             // $s7SwiftUI19UIHostingControllerC21hostSizingPreferences10volumetric21initialSceneSizeStateAA0fG0VSgSb_AA07InitialjkL0OtFyyXEfU_TA
-            assertUnimplemented()
+            /*
+             value0 -> w0 -> w20
+             self -> x1 -> x24
+             volumetric -> w2 -> x29 - 0xc4
+             preferences -> x3 -> x25
+             value1 -> w4 -> w19
+             */
+            // <+204>
+            if value0 {
+                // <+208>
+                let size = self.host.sizeThatFits(.zero)
+                
+                if volumetric {
+                    // <+236>
+                    let depth = self.host.viewGraph.depthThatFits(.zero)
+                    let size3D = Size3D(size, depth: depth)
+                    preferences.minimum3D = size3D
+                    // <+396>
+                } else {
+                    // <+652>
+                    preferences.minimum2D = size
+                    // <+396>
+                }
+            } else {
+                // <+396>
+            }
+            
+            // <+396>
+            if value1 {
+                // <+400>
+                let size = self.host.sizeThatFits(_ProposedSize.infinity)
+                
+                if volumetric {
+                    // <+520>
+                    let depth = self.host.viewGraph.depthThatFits(.infinity)
+                    let size3D = Size3D(size, depth: depth)
+                    preferences.maximum3D = size3D
+                    // <+700>
+                } else {
+                    // <+680>
+                    preferences.maximum2D = size
+                    // <+700>
+                }
+            } else {
+                // <+700>
+            }
         }
+        
+        return preferences
     }
     
     final func _viewWillLayoutSubviews() {

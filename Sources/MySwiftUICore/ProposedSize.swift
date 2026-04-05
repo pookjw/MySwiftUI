@@ -3,7 +3,7 @@ internal import Spatial
 
 public struct _ProposedSize {
     static let zero = _ProposedSize(width: 0, height: 0)
-    static let infinity = _ProposedSize(width: .infinity, height: .infinity)
+    package static let infinity = _ProposedSize(width: .infinity, height: .infinity)
     static let unspecified = _ProposedSize(width: nil, height: nil)
     
     var width: CGFloat?

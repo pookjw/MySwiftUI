@@ -186,54 +186,13 @@ func printOffsets() {
     printFields(ViewDepth.self, isClassType: false)
     printFields(OpenWindowAction.self, isClassType: false)
     
+    print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
+    print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
-//    debugTextResolveExample()
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {
     typealias Proposal = CGPoint
     typealias Size = CGSize
-}
-
-// Text.resolve example
-private struct _DebugResolvedTextContainer : ResolvedTextContainer {
-    var style: Text.Style {
-        get { Text.Resolved().style }
-        set {}
-    }
-    
-    var properties: Text.ResolvedProperties {
-        get { fatalError() }
-        set { fatalError() }
-    }
-    
-    var idiom: AnyInterfaceIdiom? { nil }
-    
-    mutating func append<S>(_ string: S, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) where S : StringProtocol {
-        fatalError()
-    }
-    
-    mutating func append(_ attributedString: NSAttributedString, in environment: EnvironmentValues, with options: Text.ResolveOptions, isUniqueSizeVariant: Bool) {
-        fatalError()
-    }
-    
-    mutating func append(_ image: Image.Resolved, in environment: EnvironmentValues, with options: Text.ResolveOptions) {
-        fatalError()
-    }
-    
-    mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
-        fatalError()
-    }
-}
-
-func debugTextResolveExample() {
-    var container = _DebugResolvedTextContainer()
-    Text("Hello Text.resolve").resolve(into: &container, in: .init(), with: [])
-}
-
-fileprivate struct DKey : DerivedEnvironmentKey {
-    static func value(in environment: EnvironmentValues) -> Int {
-        fatalError()
-    }
 }

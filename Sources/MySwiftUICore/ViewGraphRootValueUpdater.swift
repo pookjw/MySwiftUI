@@ -188,7 +188,10 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func _sizeThatFits(_ proposedSize: ProposedViewSize) -> CGSize {
-        assertUnimplemented()
+        return self._updateViewGraph { viewGraph in
+            // $s7SwiftUI25ViewGraphRootValueUpdaterPAAE13_sizeThatFitsySo6CGSizeVAA08ProposedC4SizeVFAfA0cD0CXEfU_TA
+            return viewGraph.sizeThatFits(_ProposedSize(width: proposedSize.width, height: proposedSize.height))
+        } ?? .zero
     }
     
     package func updateTransform() {
