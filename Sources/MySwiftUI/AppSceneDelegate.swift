@@ -7,6 +7,8 @@ private import Observation
 private import Combine
 private import _SwiftPrivate
 private import UserActivity
+private import MRUIKit
+internal import FeatureFlags
 
 // _TtC7SwiftUI16AppSceneDelegate
 final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
@@ -826,7 +828,9 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
             
             if role == .windowApplicationVolumetric {
                 // <+4316>
-                assertUnimplemented()
+                let bridge = RenderingMarginsBridge(hostingController.host)
+                hostingController.host.base.viewGraph.viewGraph.addPreference(RenderingMarginsKey.self)
+                hostingController.host.renderingMarginsBridge = bridge
             }
             
             // <+4600>
@@ -915,9 +919,220 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
         case .immersiveSpace(_):
             // <+2684>
             assertUnimplemented()
-        case .volume(_):
+        case .volume(let configuration):
             // <+3604>
-            assertUnimplemented()
+            self.presentationDataType = configuration.presentationDataType
+            
+            let presentedValue = openWindowPresentedValue(from: connectionOptions, restorationData: restorationData, config: configuration)
+            if let presentedValue {
+                self.presentationDataValue = presentedValue.0
+                self.rawPresentationDataValue = presentedValue.1
+            }
+            
+            // <+6448>
+            let hostingController: UIHostingController<ModifiedContent<AnyView, RootModifier>>
+            if let resolved = pendingHost {
+                hostingController = resolved
+                // <+6656>
+            } else {
+                // <+6464>
+                let anyView = AnyView(
+                    configuration
+                        .mainContent
+                        .modifier(configuration.attributes.rootModifier)
+                )
+                
+                let rootView = self.makeRootView(anyView)
+                hostingController = UIHostingController(rootView: rootView)
+                // <+6656>
+            }
+            _hostingController = hostingController
+            
+            // <+6656>
+            configureHostingController(hostingController)
+            
+            if isLinkedOnOrAfter(.v6), case .automatic = sceneListItem.resizability {
+                // <+6704>
+                hostingController.sizingOptions = [.unknown2, .unknown3]
+            }
+            
+            // <+6788>
+            if
+                let defaultSize = sceneListItem.defaultSize,
+                let depth = sceneListItem.depth
+            {
+                // <+6836>
+                let size3D = Size3D(width: defaultSize.width, height: defaultSize.height, depth: depth)
+                
+                if let sceneBridge {
+                    // <+6868>
+                    sceneBridge.initialSceneSizeState = .unset3D(_ProposedSize3D(size3D), sceneListItem.sizingUnit)
+                } else {
+                    // <+7040>
+                }
+            } else {
+                // <+7040>
+            }
+            
+            // <+7040>
+            let scaliingBehavior1 = sceneListItem.defaultScalingBehavior.value
+            let scaliingBehavior2 = windowScene.placement.preferredScalingBehavior
+            if scaliingBehavior1 != scaliingBehavior2 {
+                // <+7400>
+                windowScene.placement.preferredScalingBehavior = scaliingBehavior1
+            }
+            
+            // <+7484>
+            let displayZoomBehavior: UISceneDisplayZoomBehavior = (sceneListItem.defaultScalingBehavior.value == .dynamicScale) ? .unknown2 : .unknown1
+            
+            if
+                _SemanticFeature<Semantics_v6>.isEnabled,
+                windowScene.traitCollection._effectiveDisplayZoomBehavior() != displayZoomBehavior
+            {
+                // <+7688>
+                windowScene._displayZoomBehaviorComponent._preferredDisplayZoomBehavior = displayZoomBehavior
+            }
+            
+            // <+7720>
+            let isComposableScenesEnabled = isFeatureEnabled(ComposableScenesWorldAlignmentFeatureFlagKey())
+            let worldAlignmentBehavior = sceneListItem.worldAlignmentBehavior
+            
+            if isComposableScenesEnabled {
+                // <+7844>
+                // w23
+                let behavior: UISceneWorldAlignmentBehavior
+                switch worldAlignmentBehavior {
+                case .automatic:
+                    // <+11248>
+                    behavior = isLinkedOnOrAfter(.v6) ? .frontFacing : .floorAligned
+                    // <+11268>
+                case .adaptive:
+                    // <+11268>
+                    behavior = .frontFacing
+                case .gravityAligned:
+                    // <+11268>
+                    behavior = .floorAligned
+                }
+                
+                // <+11268>
+                let flag: Bool // true -> <+11312> / false -> <+11484>
+                if let component = windowScene._mrui_worldAlignmentBehaviorClientComponent {
+                    // <+11288>
+                    if behavior == component.worldAlignmentBehavior {
+                        // <+11484>
+                        flag = false
+                    } else {
+                        // <+11312>
+                        flag = true
+                    }
+                } else {
+                    // <+11312>
+                    flag = true
+                }
+                
+                if flag {
+                    // <+11312>
+                    if let component = windowScene._mrui_worldAlignmentBehaviorClientComponent {
+                        let behavior: UISceneWorldAlignmentBehavior
+                        // <+11332>
+                        if worldAlignmentBehavior == .automatic {
+                            // <+11340>
+                            behavior = isLinkedOnOrAfter(.v6) ? .frontFacing : .floorAligned
+                            // <+11468>
+                        } else {
+                            // <+11456>
+                            if worldAlignmentBehavior == .adaptive {
+                                // <+11468>
+                                behavior = .frontFacing
+                            } else {
+                                behavior = .floorAligned
+                                // <+11468>
+                            }
+                            // <+11468>
+                        }
+                        
+                        // <+11468>
+                        component.worldAlignmentBehavior = behavior
+                        // <+11484>
+                    } else {
+                        // <+11484>
+                    }
+                }
+                
+                // <+11484>
+            } else {
+                // <+7868>
+                // w23
+                let behavior: UISceneWorldAlignmentBehavior
+                switch worldAlignmentBehavior {
+                case .automatic:
+                    // <+11364>
+                    behavior = isLinkedOnOrAfter(.v6) ? .frontFacing : .floorAligned
+                    // <+11384>
+                case .adaptive:
+                    behavior = .frontFacing
+                    // <+11384>
+                case .gravityAligned:
+                    behavior = .floorAligned
+                    // <+11384>
+                }
+                
+                let flag: Bool // true -> <+11428> / false -> <+11484>
+                if let component = windowScene._worldAlignmentBehaviorClientComponent {
+                    // <+11404>
+                    if behavior == component.worldAlignmentBehavior {
+                        // <+11484>
+                        flag = false
+                    } else {
+                        // <+11428>
+                        flag = true
+                    }
+                } else {
+                    // <+11428>
+                    flag = true
+                }
+                
+                if flag {
+                    // <+11428>
+                    if let component = windowScene._worldAlignmentBehaviorClientComponent {
+                        let behavior: UISceneWorldAlignmentBehavior
+                        if worldAlignmentBehavior == .automatic {
+                            // <+11340>
+                            behavior = isLinkedOnOrAfter(.v6) ? .frontFacing : .floorAligned
+                            // <+11468>
+                        } else {
+                            // <+11456>
+                            if worldAlignmentBehavior == .adaptive {
+                                // <+11468>
+                                behavior = .frontFacing
+                            } else {
+                                behavior = .floorAligned
+                                // <+11468>
+                            }
+                            // <+11468>
+                        }
+                        
+                        // <+11468>
+                        component.worldAlignmentBehavior = behavior
+                    } else {
+                        // <+11484>
+                    }
+                }
+            }
+            
+            // <+11484>
+            if case .disabled = sceneListItem.restorationBehavior {
+                windowScene._destructionConditions.insert(.systemDisconnection)
+            }
+            
+            // <+11580>
+            if case .suppressed = sceneListItem.defaultLaunchBehavior {
+                windowScene._destructionConditions.insert(.userInitiatedDismissal)
+            }
+            
+            // <+11672>
+            window = UIWindow(windowScene: windowScene)
+            // <+12856>
         case .documentGroup(_):
             // <+2596>
             assertUnimplemented()
@@ -1115,7 +1330,6 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
         restorationData: [AnyHashable: Any],
         config: WindowSceneConfiguration<T>
     ) -> (AnyHashable, Data)? {
-        assert(T.self == WindowGroupConfigurationAttributes.self, "나머지는 검증이 필요함")
         /*
          connectionOptions -> x0 -> x20
          restorationData -> x1 -> x24
@@ -1414,4 +1628,9 @@ extension AppDelegate {
 
 func makeStableTypeData(_ type: Any.Type) -> StrongHash {
     assertUnimplemented()
+}
+
+struct ComposableScenesWorldAlignmentFeatureFlagKey: FeatureFlagsKey {
+    let domain: StaticString = "MRUIKit"
+    let feature: StaticString = "ComposableScenesVolumeWorldAlignment"
 }

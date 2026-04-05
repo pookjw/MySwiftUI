@@ -27,3 +27,4 @@
 #import <MRUIKit/MRUIApplicationCompositorServicesImmersiveSpaceSceneRequestBuilder.h>
 #import <MRUIKit/UIWindow+MRUIPrivate.h>
 #import <MRUIKit/MRUIImmersiveSpaceSceneActivationRequestOptions.h>
+#import <MRUIKit/MRUISceneWorldAlignmentBehaviorClientComponent.h>

@@ -39,6 +39,7 @@ public enum MRUISceneScalingBehavior : Swift.Hashable, Swift.CustomStringConvert
 
 extension UIKit.UIWindowScene {
   public var reScene: Swift.OpaquePointer { get }
+  public var placement: MRUIKit.MRUIWindowScenePlacement { get }
 }
 
 public class MRUILaunchPlacementParameters {
@@ -47,4 +48,8 @@ public class MRUILaunchPlacementParameters {
 
 extension UIKit.UIWindowScene.ActivationRequestOptions {
   public var placementParameters: MRUIKit.MRUILaunchPlacementParameters { get }
+}
+
+public class MRUIWindowScenePlacement {
+  public var preferredScalingBehavior : MRUIKit.MRUISceneScalingBehavior? { get set _modify }
 }

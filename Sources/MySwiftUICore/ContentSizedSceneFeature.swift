@@ -94,7 +94,10 @@ extension ContentSizedSceneFeature where GeometryMeasurer == SizeThatFitsMeasure
 
 extension ContentSizedSceneFeature where GeometryMeasurer == VolumeThatFitsMeasurer {
     package static func volume(graph: ViewGraph) -> ContentSizedSceneFeature<VolumeThatFitsMeasurer> {
-        assertUnimplemented()
+        return ContentSizedSceneFeature(graph: graph, delegate: nil) { proposals in
+            // $s7SwiftUI24ContentSizedSceneFeatureVA2A22VolumeThatFitsMeasurerVRszrlE6volume5graphACyAEGAA9ViewGraphC_tFZAA17SizingPreferencesVSDyAA15_ProposedSize3DVSo8SPSize3DaGcfU_
+            assertUnimplemented()
+        }
     }
 }
 

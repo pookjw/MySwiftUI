@@ -66,3 +66,5 @@
 #import <_UIKitPrivate/UISceneRenderingEnvironmentClientComponent.h>
 #import <_UIKitPrivate/UISceneRequestOptions.h>
 #import <_UIKitPrivate/UIVolumetricWindowSceneActivationRequestOptions.h>
+#import <_UIKitPrivate/UISceneDisplayZoomBehaviorComponent.h>
+#import <_UIKitPrivate/UISceneWorldAlignmentBehaviorClientComponent.h>

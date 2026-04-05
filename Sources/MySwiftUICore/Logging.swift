@@ -261,6 +261,10 @@ package enum ResizeLogs {
         assertUnimplemented()
     }
     
+    static func proposal(_ size: _ProposedSize3D) -> String {
+        assertUnimplemented()
+    }
+    
     static func size(_ size: CGSize?) -> String {
         if let size {
             return "(w:\(size.width.description), h:\(size.height.description))"

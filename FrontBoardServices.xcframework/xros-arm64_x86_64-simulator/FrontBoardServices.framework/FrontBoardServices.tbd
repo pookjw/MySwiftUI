@@ -11,6 +11,7 @@ exports:
     FBSSceneSpecification,
     FBSWorkspaceSceneRequestOptions,
     FBSSceneClientSettings,
-    FBSMutableSceneClientSettings ]
+    FBSMutableSceneClientSettings,
+    FBSSceneComponent ]
     objc-ivars:           [  ]
 ...

@@ -1,4 +1,4 @@
-internal import CoreGraphics
+package import CoreGraphics
 package import Spatial
 
 @_spi(Internal) public struct _ProposedSize3D : Hashable, Sendable {
@@ -145,7 +145,7 @@ package import Spatial
 }
 
 extension _ProposedSize3D {
-    init(_ size: Size3D) {
+    package init(_ size: Size3D) {
         self.width = size.width
         self.height = size.height
         self.depth = size.depth

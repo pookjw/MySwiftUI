@@ -119,7 +119,7 @@ open class _UIHostingView<Content : View>: UIView {
     private var pointerBridge: PointerBridge? = nil
     private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>? = nil
     private let mruiPreferenceExporter = MRUIPreferenceExporter()
-    private var renderingMarginsBridge: RenderingMarginsBridge<Content>? = nil
+    var renderingMarginsBridge: RenderingMarginsBridge<Content>? = nil
     private var objectManipluateBridge = UIKitObjectManipulationBridge<Content>()
     private var remoteSessionController: RemoteScenes.SessionController? = nil
     private lazy var feedbackCache = UIKitSensoryFeedbackCache()

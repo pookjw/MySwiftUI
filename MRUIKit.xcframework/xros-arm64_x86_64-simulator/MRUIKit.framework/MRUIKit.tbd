@@ -24,7 +24,11 @@ exports:
     __MRUISceneSessionRoleRepresentsImmersiveSpace,
     _$sSo13UIWindowSceneC7MRUIKitE02reB0s13OpaquePointerVvg,
     _$sSo37UIWindowSceneActivationRequestOptionsC7MRUIKitE19placementParametersAC019MRUILaunchPlacementH0Cvg,
-    _$s7MRUIKit29MRUILaunchPlacementParametersC24preferredScalingBehaviorAA09MRUIScenefG0OSgvsTj ]
+    _$s7MRUIKit29MRUILaunchPlacementParametersC24preferredScalingBehaviorAA09MRUIScenefG0OSgvsTj,
+    _$sSo13UIWindowSceneC7MRUIKitE9placementAC010MRUIWindowB9PlacementCvg,
+    _$s7MRUIKit24MRUIWindowScenePlacementC24preferredScalingBehaviorAA09MRUIScenefG0OSgvgTj,
+    _$s7MRUIKit24MRUIWindowScenePlacementC24preferredScalingBehaviorAA09MRUIScenefG0OSgvsTj,
+    _$s7MRUIKit24MRUIWindowScenePlacementC24preferredScalingBehaviorAA09MRUIScenefG0OSgvMTj ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,
@@ -41,6 +45,7 @@ exports:
     MRUISupportedVolumeViewpointsPreferenceKey,
     _MRUIApplicationImmersiveSpaceSceneRequestBuilder,
     _MRUIApplicationCompositorServicesImmersiveSpaceSceneRequestBuilder,
-    _MRUIImmersiveSpaceSceneActivationRequestOptions ]
+    _MRUIImmersiveSpaceSceneActivationRequestOptions,
+    MRUISceneWorldAlignmentBehaviorClientComponent ]
     objc-ivars:           [  ]
 ...

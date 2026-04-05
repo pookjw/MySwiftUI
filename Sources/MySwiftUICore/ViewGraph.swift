@@ -691,11 +691,43 @@ package final class ViewGraph : GraphHost {
     }
     
     package func observeVolumeResizeProposal(_ size: _ProposedSize3D) {
-        assertUnimplemented()
+        if let feature = self.features[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] {
+            // <+224>
+            if let resize = Log.resize {
+                resize.log(level: .debug, "Observe \(ResizeLogs.proposal(size))")
+            }
+            
+            // <+772>
+            feature.pointee.$sizesForProposals.mutateBody(as: SizeThatFitsRule<VolumeThatFitsMeasurer>.self, invalidating: true) { rule in
+                // $s7SwiftUI24ContentSizedSceneFeatureV11addObserver3fory8ProposalQz_tFyAA16SizeThatFitsRuleVyxGzXEfU_AA06VolumelM8MeasurerV_TG5TA
+                rule.proposals.insert(size)
+            }
+        } else {
+            // <+360>
+            if let resize = Log.resize {
+                resize.log(level: .error, "Missing ContentSizedVolumeFeature")
+            }
+        }
     }
     
     package func stopObservingVolumeResizeProposal(_ size: _ProposedSize3D) {
-        assertUnimplemented()
+        if let feature = self.features[ContentSizedSceneFeature<VolumeThatFitsMeasurer>.self] {
+            // <+224>
+            if let resize = Log.resize {
+                resize.log(level: .debug, "Remove \(ResizeLogs.proposal(size))")
+            }
+            
+            // <+772>
+            feature.pointee.$sizesForProposals.mutateBody(as: SizeThatFitsRule<VolumeThatFitsMeasurer>.self, invalidating: true) { rule in
+                // $s7SwiftUI24ContentSizedSceneFeatureV13stopObserving8proposaly8ProposalQz_tFyAA16SizeThatFitsRuleVyxGzXEfU_AA06VolumelM8MeasurerV_TG5TA
+                rule.proposals.remove(size)
+            }
+        } else {
+            // <+360>
+            if let resize = Log.resize {
+                resize.log(level: .error, "Missing ContentSizedVolumeFeature")
+            }
+        }
     }
     
     package func observeWindowResizeProposal(_ size: _ProposedSize) {
