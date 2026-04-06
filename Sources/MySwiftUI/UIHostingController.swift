@@ -119,7 +119,7 @@ open class UIHostingController<Content : View>: UIViewController {
     }
     
     open override dynamic var childForStatusBarStyle: UIViewController? {
-        assertUnimplemented()
+        return _childForStatusBarStyle
     }
     
     open override dynamic func didMove(toParent parent: UIViewController?) {
@@ -451,9 +451,61 @@ open class UIHostingController<Content : View>: UIViewController {
     }
     
     final var _childForStatusBarStyle: UIViewController? {
-        get {
-            assertUnimplemented()
+        // self -> x20 -> x29 - 0x58
+        // x25 -> x22
+        let hostColorScheme = self.host.colorScheme
+        // x26 -> x22 + x28
+        let colorScheme: ColorScheme? = nil
+        
+        if let hostColorScheme {
+            // <+536>
+            // hostColorScheme -> x22 -> x23
+            if let colorScheme {
+                // <+680>
+                if hostColorScheme == colorScheme {
+                    // <+872>
+                } else {
+                    return nil
+                }
+            } else {
+                // <+596>
+                // <+1332>
+                return nil
+            }
+        } else {
+            // <+428>
+            if let colorScheme {
+                // <+660>
+                // <+1332>
+                return nil
+            } else {
+                // <+500>
+                // <+872>
+            }
         }
+        
+        // <+872>
+        if
+            let barAppearanceBridge,
+            barAppearanceBridge.uiHasStatusBarOpinion
+        {
+            return nil
+        }
+        
+        if !self.host.shouldDeferToChildViewControllerForStatusBar {
+            return nil
+        }
+        
+        if let result = self.children.first?.childForStatusBarStyle {
+            return result
+        }
+        
+        if let result = self.children.first {
+            return result
+        }
+        
+        return nil
+
     }
     
     final var _childForStatusBarHidden: UIViewController? {

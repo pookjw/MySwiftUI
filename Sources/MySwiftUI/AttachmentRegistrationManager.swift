@@ -130,7 +130,7 @@ fileprivate final class AttachmentManager {
          registration -> x1 -> x24
          */
         scene
-            .subscribe(to: RealityFoundation.ComponentEvents.DidAdd.self, on: nil, componentType: nil) { event in
+            .subscribe(to: RealityFoundation::ComponentEvents.DidAdd.self, on: nil, componentType: nil) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO6DidAddVcfU_TA
                 guard registration.componentType == event.componentType else {
                     return
@@ -141,29 +141,85 @@ fileprivate final class AttachmentManager {
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityFoundation.ComponentEvents.WillRemove.self, on: nil, componentType: nil) { _ in
+            .subscribe(to: RealityFoundation::ComponentEvents.WillRemove.self, on: nil, componentType: nil) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO10WillRemoveVcfU0_TA
+                guard registration.componentType == event.componentType else {
+                    return
+                }
+                
                 assertUnimplemented()
             }
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityFoundation.ComponentEvents.DidActivate.self, on: nil, componentType: nil) { event in
+            .subscribe(to: RealityFoundation::ComponentEvents.DidActivate.self, on: nil, componentType: nil) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO11DidActivateVcfU1_TA
+                let id = event.entity.id
+                let componentType = registration.componentType
+                let entity = event.entity
+                
+                if var guts = registration.getGuts(entity) {
+                    guts.state = .active(AttachmentManager.PhaseKey(aID: id, typeID: ObjectIdentifier(componentType)))
+                    registration.setGuts(entity, guts)
+                }
+                
+                let _ = event.entity
+                
+                guard componentType == event.componentType else {
+                    return
+                }
+                
+                // <+388>
                 assertUnimplemented()
             }
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityFoundation.ComponentEvents.WillDeactivate.self, on: nil, componentType: nil) { _ in
+            .subscribe(to: RealityFoundation::ComponentEvents.WillDeactivate.self, on: nil, componentType: nil) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO14WillDeactivateVcfU2_TA
+                let entity = event.entity
+                
+                if var guts = registration.getGuts(entity) {
+                    guts.state = .inactive
+                    registration.setGuts(entity, guts)
+                }
+                
+                // <+332>
+                let _ = event.entity
+                
+                guard event.componentType == registration.componentType else {
+                    return
+                }
+                
+                // <+360>
                 assertUnimplemented()
             }
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityFoundation.ComponentEvents.DidChange.self, on: nil, componentType: nil) { _ in
+            .subscribe(to: RealityFoundation::ComponentEvents.DidChange.self, on: nil, componentType: nil) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO9DidChangeVcfU3_TA
+                guard unsafe ReentrancyGuard.seed == 0 else {
+                    return
+                }
+                
+                unsafe ReentrancyGuard.seed = 1
+                
+                let id = event.entity.id
+                let componentType = registration.componentType
+                let entity = event.entity
+                
+                if var guts = registration.getGuts(entity) {
+                    guts.state = .active(AttachmentManager.PhaseKey(aID: id, typeID: ObjectIdentifier(componentType)))
+                    registration.setGuts(entity, guts)
+                }
+                
+                // <+388>
+                guard componentType == event.componentType else {
+                    unsafe ReentrancyGuard.seed -= 1
+                    return
+                }
+                
                 assertUnimplemented()
             }
             .store(in: &bag)
@@ -176,8 +232,8 @@ extension AttachmentManager {
     }
     
     struct PhaseKey : Hashable {
-        let aID: UInt64
-        let typeID: ObjectIdentifier
+        fileprivate let aID: UInt64
+        fileprivate let typeID: ObjectIdentifier
     }
 }
 
@@ -186,7 +242,16 @@ fileprivate final class PhaseHolder {
 }
 
 struct AttachmentComponentGuts {
+    fileprivate let rootView: AnyView
+    fileprivate var state: ComponentEntityState
+    fileprivate let detachedID: UUID
+    
     // TODO
+}
+
+fileprivate enum ComponentEntityState {
+    case active(AttachmentManager.PhaseKey)
+    case inactive
 }
 
 struct _AttachmentComponent : RealityKit::Component {
@@ -195,4 +260,8 @@ struct _AttachmentComponent : RealityKit::Component {
 
 struct _PopoverComponent : RealityKit::Component {
     // TODO
+}
+
+fileprivate struct ReentrancyGuard {
+    static nonisolated(unsafe) var seed = 0
 }

@@ -173,6 +173,12 @@ private import _MySwiftUIShims
         return result
     }
     
+    var uiHasStatusBarOpinion: Bool {
+        // self -> x20 -> x28
+        // <+528>
+        assertUnimplemented()
+    }
+    
     fileprivate func updateNavigationTitleStorage(_ preferences: PreferenceValues) {
         /*
          self -> x20 -> x29 - 0x120

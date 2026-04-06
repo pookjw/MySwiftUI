@@ -1228,6 +1228,10 @@ open class _UIHostingView<Content : View>: UIView {
     final var wantsTransparentBackground: Bool {
         return !transparentBackgroundReasons.isEmpty
     }
+    
+    final var shouldDeferToChildViewControllerForStatusBar: Bool {
+        assertUnimplemented()
+    }
 }
 
 protocol UIHostingViewDelegate : AnyObject {
