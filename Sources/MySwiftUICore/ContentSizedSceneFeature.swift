@@ -181,19 +181,81 @@ struct SizeThatFitsRule<GeometryMeasurer : ViewGraphGeometryMeasurer>: StatefulR
         } else {
             // <+436>
             if
-                let _ = layoutComputer, // x29 - 0xf8
-                let _ = layoutDirection, // w25
-                let _ = safeAreaInsets // x29 - 0xf8 -> x19 + 0x38
+                let layoutComputer = self.layoutComputer, // x29 - 0xf8 -> x20 -> x19 + 0x40
+                let layoutDirection = self.layoutDirection, // w25
+                let safeAreaInsets = self.safeAreaInsets // x29 - 0xf8 -> x19 + 0x38 / x19 + 0x10
             {
                 // <+848>
+                /*
+                 layoutComputer -> x29 - 0xf8 -> x19 + 0x38
+                 */
                 // x29 - 0xf8
-                let _ = Graph.withoutUpdate {
+                let transaction = Graph.withoutUpdate {
                     // $s7SwiftUI16SizeThatFitsRuleV11updateValueyyFAA11TransactionVSgyXEfU_
                     return self.transaction
                 }
                 
-                // <+1056>
-                assertUnimplemented()
+                // inlined
+                let insets = safeAreaInsets.combined(layoutDirection: layoutDirection)
+                // <+1100>
+                // x19 + 0x20
+                let oldValue: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]
+                if !hasValue {
+                    // <+1184>
+                    oldValue = Dictionary()
+                } else {
+                    oldValue = self.value
+                }
+                
+                // <+1248>
+                var newValue: [GeometryMeasurer.Proposal: GeometryMeasurer.Size] = Dictionary()
+                
+                newValue = oldValue.reduce(into: newValue) { partialResult, incoming in
+                    // $s7SwiftUI16SizeThatFitsRuleV11updateValueyyFySDy8ProposalQz0C0QzGz_AFtXEfU1_TA
+                    let old = partialResult[incoming.key]
+                    let new = GeometryMeasurer.measure(proposal: incoming.key, layoutComputer: layoutComputer, insets: insets)
+                    
+                    if let old, old != new {
+                        partialResult[incoming.key] = incoming.value
+                    } else {
+                        partialResult[incoming.key] = incoming.value
+                    }
+                }
+                
+                // <+1468>
+                if hasValue {
+                    if newValue.isEmpty {
+                        // <+1976>
+                    } else {
+                        // <+1532>
+                        self.value.merge(newValue) { _, rhs in
+                            // $s7SwiftUI16SizeThatFitsRuleV11updateValueyyF0C0QzAF_AFtXEfU2_TA
+                            return rhs
+                        }
+                        
+                        // <+1972>
+                    }
+                } else {
+                    // <+1832>
+                    self.value = newValue
+                    // <+1976>
+                }
+                
+                // <+1976>
+                if newValue.isEmpty {
+                    // <+2156>
+                    // <+768>
+                } else if let dispatcher {
+                    // <+1996>
+                    let preferences = self.sizeRestrictionsCallback(newValue)
+                    dispatcher.contentSizeDidChange(sizingPreferences: preferences, transaction: transaction)
+                    // <+768>
+                } else {
+                    // <+2156>
+                    // <+768>
+                }
+                
+                return
             } else {
                 // <+508>
                 if !hasValue {

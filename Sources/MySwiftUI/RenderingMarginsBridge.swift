@@ -38,6 +38,15 @@ final class RenderingMarginsBridge<Content : View> : _UISceneEffectiveClippingMa
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
+        /*
+         self -> x20 -> x27
+         preferenceValues -> x0 -> x21
+         */
+        // <+380>
+        guard !preferenceValues[RenderingMarginsKey.self].seed.isEmpty else {
+            return
+        }
+        
         assertUnimplemented()
     }
     
@@ -51,9 +60,17 @@ final class RenderingMarginsBridge<Content : View> : _UISceneEffectiveClippingMa
 }
 
 struct RenderingMarginsKey: HostPreferenceKey {
-    static let defaultValue: RenderingMarginsKey.Value = {
-        assertUnimplemented()
-    }()
+    static let defaultValue = RenderingMarginsKey.Value(
+        margins: OptionalEdgeInsets3D(
+            top: nil,
+            leading: nil,
+            bottom: nil,
+            trailing: nil,
+            front: nil,
+            back: nil
+        ),
+        animation: nil
+    )
     
     static func reduce(value: inout Value, nextValue: () -> Value) {
         assertUnimplemented()
@@ -62,8 +79,8 @@ struct RenderingMarginsKey: HostPreferenceKey {
 
 extension RenderingMarginsKey {
     struct Value: Equatable {
-        private var margins: OptionalEdgeInsets3D
-        private var animation: Animation?
+        fileprivate private(set) var margins: OptionalEdgeInsets3D
+        fileprivate private(set) var animation: Animation?
     }
 }
 

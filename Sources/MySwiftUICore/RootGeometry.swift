@@ -37,32 +37,9 @@ struct RootGeometry : Rule, AsyncAttribute {
         // <+128>
         // d8/d9/d4/d5
         var insets = EdgeInsets.zero
-        if
-            let safeAreaInsets = safeAreaInsetsAttribute?.value,
-            !safeAreaInsets.elements.isEmpty
-        {
-            if safeAreaInsets.elements.count != 1 {
-                for element in safeAreaInsets.elements {
-                    if let cornerInsets = element.cornerInsets {
-                        insets.top += cornerInsets.topLeading.width + cornerInsets.bottomTrailing.width
-                        insets.leading += cornerInsets.topLeading.height + cornerInsets.bottomTrailing.height
-                        insets.trailing += cornerInsets.topTrailing.width + cornerInsets.bottomLeading.width
-                        insets.bottom += cornerInsets.topTrailing.height + cornerInsets.bottomLeading.height
-                        fatalError("cornerInsets 값을 제대로 읽어오는지 검증 필요")
-                    }
-                }
-            }
-            
-            for element in safeAreaInsets.elements {
-                insets.top += element.insets.top
-                insets.leading += element.insets.leading
-                insets.bottom += element.insets.bottom
-                insets.trailing += element.insets.trailing
-            }
-            
-            if let layoutDirection = layoutDirectionAttribute?.value {
-                insets.xFlipIfRightToLeft { return layoutDirection }
-            }
+        if let safeAreaInsets = safeAreaInsetsAttribute?.value {
+            // inlined
+            insets = safeAreaInsets.combined(layoutDirection: layoutDirectionAttribute?.value)
         }
         
         // <+388>

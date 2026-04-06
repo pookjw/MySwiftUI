@@ -17,7 +17,7 @@ fileprivate struct MyView : View {
     
     var body: some View {
         MyButton(title: "Open Window") { 
-            openWindow(id: "2")
+            openWindow(id: "1")
         }
         .onAppear { 
             openWindow(id: "2")

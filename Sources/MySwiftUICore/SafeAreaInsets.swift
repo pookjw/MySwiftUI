@@ -45,7 +45,37 @@ struct _SafeAreaInsetsModifier : PrimitiveViewModifier, MultiViewModifier {
         self.nextInsets = nextInsets
     }
     
-    @inlinable
+    @inline(always) // 원래 없음
+    func combined(layoutDirection: LayoutDirection?) -> EdgeInsets {
+        var insets = EdgeInsets.zero
+        
+        if !elements.isEmpty {
+            if elements.count != 1 {
+                for element in elements {
+                    if let cornerInsets = element.cornerInsets {
+                        insets.top += cornerInsets.topLeading.width + cornerInsets.bottomTrailing.width
+                        insets.leading += cornerInsets.topLeading.height + cornerInsets.bottomTrailing.height
+                        insets.trailing += cornerInsets.topTrailing.width + cornerInsets.bottomLeading.width
+                        insets.bottom += cornerInsets.topTrailing.height + cornerInsets.bottomLeading.height
+                    }
+                }
+            }
+            
+            for element in elements {
+                insets.top += element.insets.top
+                insets.leading += element.insets.leading
+                insets.bottom += element.insets.bottom
+                insets.trailing += element.insets.trailing
+            }
+            
+            if let layoutDirection {
+                insets.xFlipIfRightToLeft { return layoutDirection }
+            }
+        }
+        
+        return insets
+    }
+    
     @inline(always)
     static func _makeView(modifier: _GraphValue<_SafeAreaInsetsModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         // x29 = sp + 0x260

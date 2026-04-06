@@ -68,7 +68,7 @@ package struct OptionalEdgeInsets3D : Equatable {
     package var back: CGFloat?
     package var front: CGFloat?
     
-    init(top: CGFloat?, leading: CGFloat?, bottom: CGFloat?, trailing: CGFloat?, front: CGFloat?, back: CGFloat?) {
+    package init(top: CGFloat?, leading: CGFloat?, bottom: CGFloat?, trailing: CGFloat?, front: CGFloat?, back: CGFloat?) {
         self.top = top
         self.leading = leading
         self.bottom = bottom

@@ -36,7 +36,7 @@ package struct VersionSeed : CustomStringConvertible {
         self.value = merge32(self.value, other.value)
     }
     
-    var isEmpty: Bool {
+    package var isEmpty: Bool {
         return self.value == VersionSeed.empty.value
     }
     

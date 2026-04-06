@@ -527,12 +527,8 @@ package final class ViewGraph : GraphHost {
     
     fileprivate var rootViewInsets: EdgeInsets {
         let insets = self.safeAreaInsets
-        
-        guard !insets.elements.isEmpty else {
-            return .zero
-        }
-        
-        assertUnimplemented()
+        // inlined
+        return insets.combined(layoutDirection: self.environment.layoutDirection)
     }
     
     func setSize(_ size: ViewSize) {
@@ -1214,8 +1210,6 @@ package protocol ViewGraphGeometryMeasurer {
     static func measure(proposal: Proposal, layoutComputer: LayoutComputer, insets: EdgeInsets) -> Size
     static var invalidValue: Size { get }
 }
-
-#warning("TODO 아래 지우기")
 
 extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
     mutating func needsUpdate(graph: ViewGraph) -> Bool {
