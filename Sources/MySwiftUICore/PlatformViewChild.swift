@@ -384,7 +384,8 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
     static func willRemove(attribute: AnyAttribute) {
         // x19
         let bridge = unsafe attribute
-            ._bodyPointer
+            .info
+            .body
             .assumingMemoryBound(to: self)
             .pointee
             .bridge
@@ -395,13 +396,20 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
             return
         }
         
-//        for child in children {
-//            assertUnimplemented()
-//        }
+        for child in children {
+            assertUnimplemented()
+        }
     }
     
     static func willInvalidate(attribute: AnyAttribute) {
-        assertUnimplemented()
+        let bridge = attribute
+            .info
+            .body
+            .assumingMemoryBound(to: self)
+            .pointee
+            .bridge
+       
+        bridge.invalidate()
     }
     
     static func didReinsert(attribute: AnyAttribute) {

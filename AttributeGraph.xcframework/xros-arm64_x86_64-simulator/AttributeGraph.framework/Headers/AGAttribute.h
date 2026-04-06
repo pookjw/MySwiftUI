@@ -13,6 +13,7 @@ AG_EXTERN void AGGraphSetIndirectAttribute(AGAttribute, AGAttribute) NS_SWIFT_NA
 AG_EXTERN AGAttribute AGGraphCreateIndirectAttribute2(AGAttribute, unsigned int) NS_SWIFT_NAME(AnyAttribute.createIndirectAttribute2(self:_:));
 AG_EXTERN AGAttribute AGGraphCreateIndirectAttribute3(AGAttribute, unsigned int, unsigned int) NS_SWIFT_NAME(AnyAttribute.createIndirectAttribute3(self:_:_:));
 AG_EXTERN AGAttribute AGGraphSetIndirectAttribute2(AGAttribute, AGAttribute, unsigned int) NS_SWIFT_NAME(AnyAttribute.setIndirectAttribute2(self:_:_:));
+AG_EXTERN AGAttributeInfo AGGraphGetAttributeInfo(AGAttribute) NS_SWIFT_NAME(getter:AnyAttribute.info(self:));
 
 AG_EXTERN uint32_t AGGraphGetFlags(AGAttribute);
 AG_EXTERN void AGGraphSetFlags(AGAttribute, uint32_t);

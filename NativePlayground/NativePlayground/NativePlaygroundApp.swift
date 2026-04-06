@@ -45,7 +45,7 @@ fileprivate struct ContentView : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
-        navigationController.viewControllers = [PushViewController(), OpenWindowActionViewController()]
+        navigationController.viewControllers = [PushViewController(), TestViewController()]
         return navigationController
     }
     

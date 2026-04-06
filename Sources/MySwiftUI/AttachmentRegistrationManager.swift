@@ -130,8 +130,12 @@ fileprivate final class AttachmentManager {
          registration -> x1 -> x24
          */
         scene
-            .subscribe(to: RealityFoundation.ComponentEvents.DidAdd.self, on: nil, componentType: nil) { _ in
+            .subscribe(to: RealityFoundation.ComponentEvents.DidAdd.self, on: nil, componentType: nil) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO6DidAddVcfU_TA
+                guard registration.componentType == event.componentType else {
+                    return
+                }
+                
                 assertUnimplemented()
             }
             .store(in: &bag)
@@ -144,7 +148,7 @@ fileprivate final class AttachmentManager {
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityFoundation.ComponentEvents.DidActivate.self, on: nil, componentType: nil) { _ in
+            .subscribe(to: RealityFoundation.ComponentEvents.DidActivate.self, on: nil, componentType: nil) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO11DidActivateVcfU1_TA
                 assertUnimplemented()
             }

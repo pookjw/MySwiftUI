@@ -19,6 +19,11 @@ typedef struct AGTypeSignature {
     uint32_t words[5];
 } AGTypeSignature NS_SWIFT_NAME(Signature);
 
+typedef struct AGAttributeInfo {
+    const void *metadata; // TODO
+    const void *body;
+} AGAttributeInfo NS_SWIFT_NAME(AttributeInfo);
+
 /*
 AGTypeGetKind
 https://github.com/swiftlang/swift/blob/36a3c6e61101419f4557781da79f291445cdfa1b/stdlib/public/core/ReflectionMirror.swift#L228
