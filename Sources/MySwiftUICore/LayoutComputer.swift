@@ -433,6 +433,10 @@ extension DepthStashingLayoutComputer {
             }
         }
         
+        func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+            return base.depthThatFits(proposedSize)
+        }
+        
         func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
             assertUnimplemented()
         }

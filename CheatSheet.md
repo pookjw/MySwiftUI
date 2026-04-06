@@ -101,3 +101,47 @@ extr   x0, x1, x0, #0x20
 ```swift
 x0 = (x1 << 32) | (x0 >> 32)
 ```
+
+---
+
+```asm
+fcmp   d2, d3
+fccmp  d1, d4, #0x0, le
+fccmp  d0, d5, #0x0, le
+b.gt   0x1d36f97dc
+```
+
+```c
+// expanded
+if ((d2 > d3)
+    || (!(d2 > d3) && (d1 > d4))
+    || (!(d2 > d3) && !(d1 > d4) && (d0 > d5))) {
+    goto 0x1d36f97dc;
+}
+
+// simplified (equivalent)
+if ((d2 > d3) || (d1 > d4) || (d0 > d5)) {
+    goto 0x1d36f97dc;
+}
+```
+
+---
+
+```asm
+fcmp   d2, d3
+fccmp  d1, d4, #0x8, pl
+fccmp  d0, d5, #0x8, pl
+b.pl   0x1d36f9854
+```
+
+```c
+// NaN-aware
+if (!(d2 < d3) && !(d1 < d4) && !(d0 < d5)) {
+    goto 0x1d36f9854;
+}
+
+// simplified when NaN is ignored
+if ((d2 >= d3) && (d1 >= d4) && (d0 >= d5)) {
+    goto 0x1d36f9854;
+}
+```

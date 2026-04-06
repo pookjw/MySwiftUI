@@ -9,6 +9,7 @@ private import _SwiftPrivate
 private import UserActivity
 private import MRUIKit
 internal import FeatureFlags
+private import FrontBoardServices
 
 // _TtC7SwiftUI16AppSceneDelegate
 final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
@@ -1517,20 +1518,124 @@ extension AppSceneDelegate : AppGraphObserver {
             }
             
             // <+6272>
-            if let window = self.window {
-                window.applyAccessibilityProperties(from: sceneItem.accessibilityProperties)
-            }
-            
-            // <+6308>
-            self.lastVersion = sceneItem.version
-            Update.end()
-            return
         case .immersiveSpace(_):
             // <+1424>
             assertUnimplemented()
-        case .volume(_):
+        case .volume(let configuration):
             // <+4048>
-            assertUnimplemented()
+            if
+                let window = self.window,
+                let rootViewController = window.rootViewController,
+                let casted = rootViewController as? UIHostingController<ModifiedContent<AnyView, RootModifier>>
+            {
+                // <+4164>
+                let anyView = AnyView(
+                    configuration
+                        .mainContent
+                        .modifier(configuration.attributes.rootModifier)
+                    )
+                let rootView = self.makeRootView(anyView)
+                casted.host.rootView = rootView
+                
+                // <+4488>
+                casted.host.base.inheritedEnvironment = sceneItem.environment
+                
+                // <+4680>
+                if case .disabled = sceneItem.restorationBehavior {
+                    // <+4708>
+                    // (inserted: Bool, memberAfterInsert: UIScene._DestructionCondition)?을 생성하는 것을 보아 이렇게 Chaining 형태로 보임
+                    self.window?.windowScene?._destructionConditions.insert(.systemDisconnection)
+                    // <+8496>
+                    // <+8588>
+                } else {
+                    // <+6764>
+                    // UIScene._DestructionCondition?을 생성하는 것을 보아 이렇게 Chaining 형태로 보임
+                    self.window?.windowScene?._destructionConditions.remove(.systemDisconnection)
+                    // <+8580>
+                    // <+8588>
+                }
+                
+                // <+8588>
+                if isFeatureEnabled(ComposableScenesWorldAlignmentFeatureFlagKey()) {
+                    // <+8708>
+                    let component: MRUISceneWorldAlignmentBehaviorClientComponent?
+                    
+                    if
+                        let window = self.window,
+                        let windowScene = window.windowScene
+                    {
+                        component = windowScene._mrui_worldAlignmentBehaviorClientComponent
+                        // <+8784>
+                    } else {
+                        // <+8828>
+                        component = nil
+                    }
+                    
+                    if let component {
+                        // <+8800>
+                        let behavior: UISceneWorldAlignmentBehavior
+                        switch sceneItem.worldAlignmentBehavior {
+                        case .automatic:
+                            // <+8864>
+                            behavior = isLinkedOnOrAfter(.v6) ? .frontFacing : .floorAligned
+                        case .adaptive:
+                            behavior = .frontFacing
+                            // <+8884>
+                        case .gravityAligned:
+                            behavior = .floorAligned
+                            // <+8884>
+                        }
+                        
+                        component.worldAlignmentBehavior = behavior
+                        // <+8904>
+                    } else {
+                        // <+8828>
+                        // <+8904>
+                    }
+                } else {
+                    // <+8748>
+                    let component: _UISceneWorldAlignmentBehaviorClientComponent?
+                    
+                    if
+                        let window = self.window,
+                        let windowScene = window.windowScene
+                    {
+                        component = windowScene._worldAlignmentBehaviorClientComponent
+                        // <+8784>
+                    } else {
+                        // <+8828>
+                        component = nil
+                    }
+                    
+                    if let component {
+                        // <+8800>
+                        let behavior: UISceneWorldAlignmentBehavior
+                        switch sceneItem.worldAlignmentBehavior {
+                        case .automatic:
+                            // <+8864>
+                            behavior = isLinkedOnOrAfter(.v6) ? .frontFacing : .floorAligned
+                        case .adaptive:
+                            behavior = .frontFacing
+                            // <+8884>
+                        case .gravityAligned:
+                            behavior = .floorAligned
+                            // <+8884>
+                        }
+                        
+                        component.worldAlignmentBehavior = behavior
+                        // <+8904>
+                    } else {
+                        // <+8828>
+                        // <+8904>
+                    }
+                }
+                
+                // <+8904>
+                // <+6272>
+            } else {
+                // <+6256>
+                // <+6272>
+            }
         case .documentGroup(_):
             // <+1244>
             assertUnimplemented()
@@ -1554,7 +1659,14 @@ extension AppSceneDelegate : AppGraphObserver {
             _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
         }
         
-        assertUnimplemented()
+        // <+6272>
+        if let window = self.window {
+            window.applyAccessibilityProperties(from: sceneItem.accessibilityProperties)
+        }
+        
+        // <+6308>
+        self.lastVersion = sceneItem.version
+        Update.end()
     }
     
     func commandsDidChange() {

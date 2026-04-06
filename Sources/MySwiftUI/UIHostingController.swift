@@ -1715,10 +1715,123 @@ fileprivate let clientNeedsNestedToolbarBridgeSuppression: Bool = {
 
 extension SizingPreferences {
     var hasOutOfBoundsDefaultSize: Bool {
-        assertUnimplemented()
+        if self.use3D {
+            // <+32>
+            if let size3D {
+                // <+52>
+                // size3D -> x19, x21, x22
+                if let minimum3D {
+                    let d2 = minimum3D.width
+                    let d1 = minimum3D.height
+                    let d0 = minimum3D.depth
+                    let d3 = size3D.width
+                    let d4 = size3D.height
+                    let d5 = size3D.depth
+                    
+                    if (d2 > d3) || (d1 > d4) || (d0 > d5) {
+                        return true
+                    }
+                }
+                
+                // <+116>
+                if let maximum3D {
+                    // <+136>
+                    let d2 = maximum3D.width
+                    let d1 = maximum3D.height
+                    let d0 = maximum3D.depth
+                    let d3 = size3D.width
+                    let d4 = size3D.height
+                    let d5 = size3D.depth
+                    
+                    if (d2 < d3) || (d1 < d4) || (d0 < d5) {
+                        return false
+                    } else {
+                        return true
+                    }
+                } else {
+                    // <+292>
+                    return false
+                }
+            } else {
+                // <+292>
+                return false
+            }
+        } else {
+            // <+180>
+            if let size2D {
+                // <+196>
+                let d9 = size2D.width
+                let d8 = size2D.height
+                
+                if let minimum2D {
+                    // <+220>
+                    var d0 = minimum2D.width
+                    if d9 < d0 {
+                        return true
+                    }
+                    
+                    d0 = minimum2D.height
+                    if d8 < d0 {
+                        return true
+                    }
+                }
+                
+                // <+248>
+                if let maximum2D {
+                    // <+264>
+                    var d0 = maximum2D.width
+                    if d0 < d9 {
+                        return true
+                    }
+                    
+                    d0 = maximum2D.height
+                    if d0 < d8 {
+                        return true
+                    }
+                    
+                    return false
+                } else {
+                    // <+292>
+                    return false
+                }
+            } else {
+                // <+292>
+                return false
+            }
+        }
     }
     
     var geometryPreferences: UIWindowScene.GeometryPreferences.Vision {
-        assertUnimplemented()
+        let preferences = UIWindowScene.GeometryPreferences.Vision()
+        
+        if use3D {
+            preferences.mrui_volumetric = true
+            
+            if let size3D {
+                preferences._size3D = size3D
+            }
+            
+            if let minimum3D {
+                preferences._minimumSize3D = minimum3D
+            }
+            
+            if let maximum3D {
+                preferences._maximumSize3D = maximum3D
+            }
+        } else {
+            if let size2D {
+                preferences.size = size2D
+            }
+            
+            if let minimum2D {
+                preferences.minimumSize = minimum2D
+            }
+            
+            if let maximum2D {
+                preferences.maximumSize = maximum2D
+            }
+        }
+        
+        return preferences
     }
 }

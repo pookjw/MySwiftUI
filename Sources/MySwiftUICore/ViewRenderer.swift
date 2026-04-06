@@ -70,7 +70,7 @@ extension ViewRendererHost {
     }
     
     package func sizeThatFits(_ size: _ProposedSize) -> CGSize {
-        assertUnimplemented()
+        return self._sizeThatFits(ProposedViewSize(width: size.width, height: size.height))
     }
 }
 

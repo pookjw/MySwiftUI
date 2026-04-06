@@ -786,11 +786,153 @@ package final class ViewGraph : GraphHost {
     }
     
     package func depthThatFits(_ size: _ProposedSize3D) -> CGFloat {
-        assertUnimplemented()
+        guard self.requestedOutputs.contains(.layout) else {
+            preconditionFailure("Cannot fetch layout computer without layout output")
+        }
+        
+        self.instantiateIfNeeded()
+        return ViewGraph.depthThatFits(size, layoutComputer: self.rootLayoutComputer, insets: self.rootViewInsets)
     }
     
     static func sizeThatFits(_ size: _ProposedSize, layoutComputer: LayoutComputer?, insets: EdgeInsets) -> CGSize {
-        assertUnimplemented()
+        var d0 = insets.top
+        var d1 = insets.leading
+        var d2 = insets.bottom
+        let d3 = insets.trailing
+        let d8 = d0
+        let d10 = d1
+        let d11 = d2
+        let d9 = d3
+        
+        // layoutComputer -> x20
+        let w19: UInt8
+        var d12: CGFloat
+        if let _d12 = size.width {
+            w19 = 0
+            d0 = d10 + d9
+            d0 = _d12 - d0
+            d1 = 0
+            d12 = (d0 >= 0) ? d0 : d1
+        } else {
+            w19 = 1
+            d12 = 0
+        }
+        
+        // <+108>
+        let w21: UInt8
+        var d14 = size.height ?? 0
+        let d13: CGFloat
+        
+        if size.height != nil {
+            // <+252>
+            w21 = 0
+            d0 = d8 + d11
+            d0 = d14 - d0
+            d1 = 0
+            d14 = (d0 >= 0) ? d0 : d1
+        } else {
+            w21 = 1
+        }
+        
+        if let layoutComputer {
+            // <+128>
+            let size = layoutComputer.sizeThatFits(_ProposedSize(width: (w19 == 1) ? nil : d12, height: (w21 == 1) ? nil : d14))
+            d0 = size.width
+            d1 = size.height
+            d13 = d0
+            d12 = d1
+            // <+300>
+        } else {
+            // <+280>
+            d13 = d12 ?? 10
+            d12 = d14 ?? 10
+            // <+300>
+        }
+        
+        d1 = -d11
+        d0 = -d9
+        d0 = d0 - d10
+        d0 = d13 - d0
+        d2 = 0
+        d0 = (d0 >= 0) ? d0 : d2
+        d1 = d1 - d8
+        d1 = d12 - d1
+        d1 = (d1 >= 0) ? d1 : d2
+        
+        return CGSize(width: d0, height: d1)
+    }
+    
+    static func depthThatFits(_ size: _ProposedSize3D, layoutComputer: LayoutComputer?, insets: EdgeInsets) -> CGFloat {
+        var d0 = insets.top
+        var d1 = insets.leading
+        var d2 = insets.bottom
+        var d3 = insets.trailing
+        
+        var d8 = size.width ?? 0
+        let x9 = size.depth ?? 0
+        let w10: UInt8
+        if let width = size.width {
+            // <+64>
+            w10 = 0
+            d1 = d1 + d3
+            d1 = d8 - d1
+            d3 = 0
+            d1 = (d1 >= 0) ? d1 : d3
+            // <+88>
+        } else {
+            // <+52>
+            w10 = 1
+            d1 = d8
+            // <+88>
+        }
+        
+        // <+88>
+        let d9 = size.height ?? 0
+        let w11: UInt8
+        if let height = size.height {
+            // <+116>
+            w11 = 0
+            d0 = d0 + d2
+            d0 = d9 - d0
+            d2 = 0
+            d0 = (d0 >= 0) ? d0 : d2
+            // <+140>
+        } else {
+            // <+104>
+            w11 = 1
+            d0 = d9
+            // <+140>
+        }
+        
+        // <+140>
+        let d10 = x9
+        
+        if let layoutComputer {
+            // <+152>
+            d2 = 0
+            d2 = (d10 >= 0) ? d10 : d2
+            let w13 = (size.depth == nil)
+            let x12 = d2
+            let x9 = (size.depth == nil) ? x9 : x12
+            d0 = layoutComputer.depthThatFits(_ProposedSize3D(width: (w10 == 1) ? nil : d1, height: (w11 == 1) ? nil : d0, depth: w13 ? nil : x9))
+            d8 = d0
+            // <+312>
+        } else {
+            // <+248>
+            let defaultSize = _ProposedSize3D.defaultSize
+            d0 = defaultSize.width
+            d1 = defaultSize.height
+            d2 = defaultSize.depth
+            
+            d0 = (size.width == nil) ? d0 : d8
+            d1 = (size.height == nil) ? d1 : d9
+            d2 = (size.depth == nil) ? d2 : d10
+            let size = Size3D(width: d0, height: d1, depth: d2)
+            d8 = size.depth
+        }
+        
+        // <+312>
+        return d8
     }
 }
 
