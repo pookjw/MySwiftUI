@@ -25,6 +25,10 @@ struct MyPlaygroundApp : App {
             Color.white
         }
         .windowStyle(.volumetric)
+        
+        ImmersiveSpace(id: "3") { 
+            Color.white
+        }
     }
 }
 

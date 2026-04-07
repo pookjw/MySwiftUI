@@ -38,6 +38,11 @@ struct NativePlaygroundApp : App {
             Color.white
         }
         .windowStyle(.volumetric)
+        
+        ImmersiveSpace(id: "3") { 
+            Color.white
+        }
+        .immersionStyle(selection: .constant(.full), in: .full)
     }
 }
 
@@ -45,7 +50,7 @@ fileprivate struct ContentView : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
-        navigationController.viewControllers = [PushViewController(), AppStorageViewController()]
+        navigationController.viewControllers = [PushViewController(), OpenImmsersiveWindowViewController()]
         return navigationController
     }
     

@@ -32,17 +32,27 @@ struct WindowGroupConfigurationAttributes : WindowSceneConfigurationAttributes {
 struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttributes {
     private(set) var sceneSessionRole: UISceneSession.Role // 0x0
     private(set) var sceneWindowType: UIWindow.Type // 0x8
-    private(set) var activationBehavior: ImmersiveSpaceActivationBehavior.Storage // 0x10
-    private(set) var supportedImmersionStyles: [any ImmersionStyle]? // 0x18
-    private(set) var allowedImmersionStyles: [any ImmersionStyle]? // 0x20
-    var preferredUpperLimbVisibility: UpperLimbVisibility? // 0x28
-    var immersionStyleSelection: Binding<any ImmersionStyle>? // 0x30
-    var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition? // 0x68
-    var immersiveContentBrightness: ImmersiveContentBrightness? // 0x78
-    var immersiveEnvironmentBehavior: ImmersiveEnvironmentBehavior.Storage // 0x82
-    private(set) var orderOutSceneSessionIdentifiersProvider: () -> Set<String> // 0x88
+    private(set) var activationBehavior: ImmersiveSpaceActivationBehavior.Storage = .automatic // 0x10
+    private(set) var supportedImmersionStyles: [any ImmersionStyle]? = nil // 0x18
+    private(set) var allowedImmersionStyles: [any ImmersionStyle]? = nil // 0x20
+    var preferredUpperLimbVisibility: UpperLimbVisibility? = nil // 0x28
+    var immersionStyleSelection: Binding<any ImmersionStyle>? = nil // 0x30
+    var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition? = nil // 0x68
+    var immersiveContentBrightness: ImmersiveContentBrightness? = nil // 0x78
+    var immersiveEnvironmentBehavior: ImmersiveEnvironmentBehavior.Storage = .automatic // 0x82
+    private(set) var orderOutSceneSessionIdentifiersProvider: () -> Set<String> = {
+        // $s7SwiftUI37ImmersiveSpaceConfigurationAttributesV39orderOutSceneSessionIdentifiersProviderShySSGycvpfiAEycfU_
+        return []
+    } // 0x88
     
     typealias RootModifier = Never // TODO
+    
+    init<Data, Content>(
+        from content: PresentedContent<Data, PresentedImmersiveSpaceContent<Content>>
+    ) where Data : Decodable, Data : Encodable, Data : Hashable, Content : ImmersiveSpaceContent {
+        // <+180>
+        assertUnimplemented()
+    }
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<ImmersiveSpaceConfigurationAttributes>) -> SceneList.Item.Value {
         assertUnimplemented()
@@ -142,4 +152,22 @@ protocol WindowSceneConfigurationAttributes {
 
 struct IsInVolumetricContext: ViewInputBoolFlag {
     
+}
+
+extension ImmersiveSpaceContent {
+    static func _determineHasCompositorContent() -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func _determineSupportedImmersionStyles() -> [ImmersionStyle] {
+        assertUnimplemented()
+    }
+    
+    static func _determineSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
+    
+    static func _determineSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
 }
