@@ -147,7 +147,9 @@ extension ViewGraphRootValueUpdater {
     }
     
     package func _preferenceValue<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
-        assertUnimplemented()
+        return self._updateViewGraph { viewGraph in
+            return viewGraph.preferenceValue(key)
+        } ?? T.defaultValue
     }
     
     package func _addPreference<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {

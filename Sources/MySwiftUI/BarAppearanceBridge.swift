@@ -176,7 +176,75 @@ private import _MySwiftUIShims
     var uiHasStatusBarOpinion: Bool {
         // self -> x20 -> x28
         // <+528>
-        assertUnimplemented()
+        // x27 -> x23
+        guard let value = self.barConfigurations[.navigationBar] else {
+            return false
+        }
+        
+        do {
+            // x21 -> x26 + x27
+            let colorScheme: ColorScheme? = nil
+            // x26
+            let configColorScheme = value.colorScheme
+            
+            if let configColorScheme {
+                // <+952>
+                if let colorScheme {
+                    // <+1516>
+                    if configColorScheme == colorScheme {
+                        // <+1904>
+                        return value.toolbarLegibility.role != .unspecified
+                    } else {
+                        // <+1084>
+                    }
+                } else {
+                    // <+1008>
+                }
+            } else {
+                // <+824>
+                if let colorScheme {
+                    // <+1068>
+                } else {
+                    // <+1904>
+                    return value.toolbarLegibility.role != .unspecified
+                }
+            }
+        }
+        
+        // <+1084>
+        // x27 -> x22
+        let explicitPreferredColorScheme = self.lastEnvironment.explicitPreferredColorScheme
+        // x28 -> x22 + x23
+        let colorScheme: ColorScheme? = nil
+        
+        if let explicitPreferredColorScheme {
+            // <+1384>
+            if let colorScheme {
+                // <+1700>
+                if explicitPreferredColorScheme == colorScheme {
+                    // <+1884>
+                    return true
+                } else {
+                    // <+1904>
+                    return value.toolbarLegibility.role != .unspecified
+                }
+            } else {
+                // <+1440>
+            }
+        } else {
+            // <+1296>
+            if let colorScheme {
+                // <+1492>
+            } else {
+                // <+1352>
+                // <+1884>
+                return true
+            }
+        }
+        
+        // <+1492>
+        // <+1904>
+        return value.toolbarLegibility.role != .unspecified
     }
     
     fileprivate func updateNavigationTitleStorage(_ preferences: PreferenceValues) {
@@ -514,7 +582,7 @@ struct ToolbarAppearanceConfiguration : Equatable {
     private(set) var backgroundVisibilityOnScrollDistance: Double? = nil // 0x20/0x28
     private(set) var backgroundOpacity: Double? = nil // 0x30/0x38
     private(set) var colorScheme: ColorScheme? // 0x39 (actual), 0x38 (offset field)
-    private var toolbarLegibility: ToolbarLegibility = .init(role: .unspecified) // 0x3a (actual), 0x30 (offset field)
+    private(set) var toolbarLegibility: ToolbarLegibility = .init(role: .unspecified) // 0x3a (actual), 0x30 (offset field)
     private(set) var animation: Animation? = nil // 0x40 (actual), 0x34 (offset field)
     private var fullScreenVisibility: WindowToolbarFullScreenVisibility = .automatic // 0x48 (actual), 0x38 (offset field)
     

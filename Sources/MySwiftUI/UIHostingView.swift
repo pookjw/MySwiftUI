@@ -1230,7 +1230,7 @@ open class _UIHostingView<Content : View>: UIView {
     }
     
     final var shouldDeferToChildViewControllerForStatusBar: Bool {
-        assertUnimplemented()
+        return self.statusBarBridge.shouldDeferToChildViewController
     }
 }
 

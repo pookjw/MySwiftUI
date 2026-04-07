@@ -245,7 +245,12 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         
         self.data.graph!.onInvalidation { [weak self] attribute in
-            assertUnimplemented()
+            // $s7SwiftUI9GraphHostC4dataA2C4DataV_tcfcySo11AGAttributeacfU0_TA
+            guard let self else {
+                return
+            }
+            
+            self.graphInvalidation(from: attribute)
         }
         
         unsafe self.data.graph!.context = unsafe UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())

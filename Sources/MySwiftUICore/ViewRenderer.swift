@@ -15,7 +15,7 @@ extension ViewRendererHost {
     }
     
     package func preferenceValue<T : HostPreferenceKey>(_ type: T.Type) -> T.Value {
-        assertUnimplemented()
+        return _preferenceValue(type)
     }
     
     package var isRootHost: Bool {
