@@ -144,6 +144,7 @@ func printOffsets() {
     printFields("7SwiftUI24AnimatableDepthAttributeV", isClassType: false)
     printFields("7SwiftUI23ScenePresentationBridgeC", isClassType: true)
     printFields("7SwiftUI32ViewGraphBridgePropertiesFeatureV", isClassType: false)
+    printFields("7SwiftUI37ImmersiveSpaceConfigurationAttributesV13ClientOptionsV", isClassType: false)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)
@@ -185,6 +186,7 @@ func printOffsets() {
     printFields(ForEach<[String], Int, AnyView>.self, isClassType: false)
     printFields(ViewDepth.self, isClassType: false)
     printFields(OpenWindowAction.self, isClassType: false)
+    printFields(ProgressiveImmersionStyle.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

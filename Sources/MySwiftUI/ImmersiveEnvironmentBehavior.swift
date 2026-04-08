@@ -39,7 +39,14 @@ extension ImmersiveEnvironmentBehavior {
         case coexist
         
         var description: String {
-            assertUnimplemented()
+            switch self {
+            case .automatic:
+                return ".automatic"
+            case .hide:
+                return ".hide"
+            case .coexist:
+                return ".coexist"
+            }
         }
     }
 }

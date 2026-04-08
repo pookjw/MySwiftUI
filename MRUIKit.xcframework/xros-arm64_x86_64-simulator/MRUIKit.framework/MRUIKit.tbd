@@ -28,7 +28,10 @@ exports:
     _$sSo13UIWindowSceneC7MRUIKitE9placementAC010MRUIWindowB9PlacementCvg,
     _$s7MRUIKit24MRUIWindowScenePlacementC24preferredScalingBehaviorAA09MRUIScenefG0OSgvgTj,
     _$s7MRUIKit24MRUIWindowScenePlacementC24preferredScalingBehaviorAA09MRUIScenefG0OSgvsTj,
-    _$s7MRUIKit24MRUIWindowScenePlacementC24preferredScalingBehaviorAA09MRUIScenefG0OSgvMTj ]
+    _$s7MRUIKit24MRUIWindowScenePlacementC24preferredScalingBehaviorAA09MRUIScenefG0OSgvMTj,
+    __NSStringFromMRUIImmersiveEnvironmentBehavior,
+    __NSStringFromMRUIImmersionStyle,
+    __NSStringFromMRUIImmersionShape ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,

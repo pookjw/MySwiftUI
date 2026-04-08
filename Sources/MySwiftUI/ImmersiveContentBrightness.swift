@@ -7,7 +7,7 @@ internal import AttributeGraph
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 public struct ImmersiveContentBrightness : Equatable {
-    private let value: Double?
+    let value: Double?
     
     @safe nonisolated(unsafe) public static let dark = ImmersiveContentBrightness(value: 0)
     @safe nonisolated(unsafe) public static let dim = ImmersiveContentBrightness(value: 0.05)

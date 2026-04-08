@@ -42,7 +42,8 @@ struct NativePlaygroundApp : App {
         ImmersiveSpace(id: "3") { 
             Color.white
         }
-        .immersionStyle(selection: .constant(.full), in: .full)
+        .immersionStyle(selection: .constant(ProgressiveImmersionStyle()), in: .progressive, .full)
+//        .immersionStyle(selection: .constant(.full), in: .full)
     }
 }
 

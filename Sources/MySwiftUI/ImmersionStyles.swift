@@ -1,12 +1,22 @@
 // 13F48789A88A23B9FD7CB3B396306EF9
 public import MySwiftUICore
 internal import AttributeGraph
+internal import CoreGraphics
+internal import MRUIKit
 
 @available(macOS 26.0, visionOS 1.0, *)
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-public protocol ImmersionStyle {}
+public protocol ImmersionStyle {
+    @_spi(Internal) func _resolved() -> _ResolvedImmersionStyle
+}
+
+extension ImmersionStyle {
+    @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
+        return _ResolvedImmersionStyle(wrappedStyle: MixedImmersionStyle(), initialImmersionLevel: 0)
+    }
+}
 
 @available(macOS 26.0, visionOS 1.0, *)
 @available(iOS, unavailable)
@@ -38,7 +48,7 @@ extension ImmersionStyle where Self == AutomaticImmersionStyle {
 @available(tvOS, unavailable)
 public struct AutomaticImmersionStyle : ImmersionStyle {
     public init() {
-        assertUnimplemented()
+        // nop
     }
 }
 
@@ -226,6 +236,10 @@ public struct ProgressiveImmersionAspectRatio : Equatable, Sendable {
     public static var portrait: ProgressiveImmersionAspectRatio {
         return ProgressiveImmersionAspectRatio(storage: .portrait)
     }
+    
+    static var spatialSafari: ProgressiveImmersionAspectRatio {
+        return ProgressiveImmersionAspectRatio(storage: .spatialSafari)
+    }
 
     public static func == (
         a: ProgressiveImmersionAspectRatio,
@@ -254,4 +268,41 @@ struct AllowedImmersionStylesInput : SceneInput {
     static var defaultValue: OptionalAttribute<[any ImmersionStyle]> {
         return OptionalAttribute()
     }
+}
+
+@_spi(Internal) public struct _ResolvedImmersionStyle: Hashable {
+    let wrappedStyle: any ImmersionStyle
+    let initialImmersionLevel: CGFloat
+    
+    public static func == (lhs: _ResolvedImmersionStyle, rhs: _ResolvedImmersionStyle) -> Bool {
+        return lhs.initialImmersionLevel == rhs.initialImmersionLevel
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        var d0 = self.initialImmersionLevel
+        d0 = (d0 == 0) ? 0 : d0
+        hasher.combine(d0.bitPattern)
+    }
+}
+
+func immersionStyleForImmersionStyle<T: ImmersionStyle>(_ style: T) -> MRUIImmersionStyle {
+    let resolved = style._resolved()
+    let d0 = resolved.initialImmersionLevel
+    
+    if d0 == 0 {
+        return .mixed
+    } else {
+        let d1: CGFloat = 0.5
+        let d2: CGFloat = 1.0
+        
+        let w8 = MRUIImmersionStyle.progressive
+        var w9 = MRUIImmersionStyle.full
+        w9 = (d0 == d2) ? [] : w9
+        let x19 = (d0 == d1) ? w8 : w9
+        return x19
+    }
+}
+
+func _MRUIImmersionStyleFromString(_ string: String) -> MRUIImmersionStyle? {
+    assertUnimplemented()
 }

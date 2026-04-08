@@ -1,6 +1,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 internal import AttributeGraph
+private import os.log
 
 final class ImmersiveSpaceAuthority {
     @safe nonisolated(unsafe) static let shared = ImmersiveSpaceAuthority()
@@ -83,7 +84,19 @@ final class ImmersiveSpaceAuthority {
         forRemoteSessionInfo remoteSessionInfo: RemoteScenes.SessionInfo?,
         continuation: CheckedContinuation<SceneNavigationStrategy_Phone.Result, Never>
     ) {
-        assertUnimplemented()
+        // <+328>
+        guard case .immersiveSpace(let configuration) = item.value else {
+            return
+        }
+        
+        // <+360>
+        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription) is requested")
+        
+        // <+684>
+        self.currentImmersiveSpace = .requested(namespace: namespace, item: item)
+        NotificationCenter.default.post(name: ImmersiveSpaceAuthority.didChangeCurrentImmersiveSpace, object: self)
+        self.currentRemoteSessionInfo = remoteSessionInfo
+        self.sceneCreationContinuations.append(continuation)
     }
     
     func sceneDestructionRequested(namespace: SceneList.Namespace, item: SceneList.Item, continuation: CheckedContinuation<(), Never>) {

@@ -917,8 +917,46 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
             }
             
             // <+12856>
-        case .immersiveSpace(_):
+        case .immersiveSpace(let configuration):
             // <+2684>
+            // configuration -> x19 + 0x2b0
+            self.presentationDataType = configuration.presentationDataType
+            let presentedValue = self.openWindowPresentedValue(from: connectionOptions, restorationData: restorationData, config: configuration)
+            if let presentedValue {
+                self.presentationDataValue = presentedValue.0
+                self.rawPresentationDataValue = presentedValue.1
+            }
+            
+            // <+5668>
+            if !AppSceneDelegate.hasConnectedFirstScene {
+                // <+5684>
+                if let selection = configuration.attributes.immersionStyleSelection {
+                    // <+5716>
+                    // w21
+                    let immsersionStyle = immersionStyleForImmersionStyle(selection.wrappedValue)
+                    // w22
+                    let fromStyle = _MRUIImmersionStyleFromString(windowScene.session.configuration._initialImmersionStyleName!)
+                    
+                    if let fromStyle {
+                        if immsersionStyle != fromStyle {
+                            // <+11856>
+                            assertUnimplemented()
+                        } else {
+                            // <+12584>
+                            assertUnimplemented()
+                        }
+                    } else {
+                        // <+5960>
+                        assertUnimplemented()
+                    }
+                } else {
+                    // <+10264>
+                    assertUnimplemented()
+                }
+            } else {
+                // <+12592>
+                assertUnimplemented()
+            }
             assertUnimplemented()
         case .volume(let configuration):
             // <+3604>
