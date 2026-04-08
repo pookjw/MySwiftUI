@@ -429,13 +429,127 @@ struct SceneNavigationStrategy_Phone {
         assertUnimplemented()
     }
     
-    func openImmersiveSpace(
+    @MainActor func openImmersiveSpace(
         namespace: SceneList.Namespace,
         id: String,
         remoteSessionInfo: RemoteScenes.SessionInfo?,
         initialData: Data?
     ) async -> SceneNavigationStrategy_Phone.Result {
-        assertUnimplemented()
+        // $s7SwiftUI29SceneNavigationStrategy_PhoneV18openImmersiveSpace9namespace2id17remoteSessionInfo11initialDataAC6ResultOAA0C4ListV9NamespaceO_SSAA12RemoteScenesV0mN0CSg10Foundation0P0VSgtYaFTY0_
+        Log.immersiveSpace.log(level: .debug, "Received request to open immersive space with id: \(id)")
+        
+        // <+276>
+        if
+            remoteSessionInfo != nil,
+            let remoteScenes = Log.remoteScenes
+        {
+            remoteScenes.log(level: .debug, "Immersive space request contains a remoteSessionInfo. Will set up for remote streaming.")
+        }
+        
+        // <+536>
+        guard UIApplication.shared.supportsMultipleScenes else {
+            // <+1416>
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Unable to open an immersive space when the app does not support multiple scenes. Set UIApplicationSupportsMultipleScenes to YES in the UIApplicationSceneManifest dictionary in your Info.plist to indicate that your app supports displaying two or more scenes simultaneously.")
+            // <+2836>
+            return .failure(.invalidRequest)
+        }
+        
+        // <+580>
+        guard let appDelegate = AppDelegate.shared else {
+            // <+1480>
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Unable to present an Immersive Space when app delegate was changed")
+            // <+2836>
+            return .failure(.invalidRequest)
+        }
+        
+        // <+592>
+        let immersiveSpaceAuthority = appDelegate.immersiveSpaceAuthority
+        
+        if let initialData {
+            let decoder = JSONDecoder()
+            
+            if
+                let coder = try? decoder.decode(RemoteScenes.UpdateCoder.self, from: initialData),
+                let update = coder.updates.first,
+                let casted = update as? ImmersiveSpaceClientOptionsUpdate.V1
+            {
+                // <+2420>
+                if let remoteScenes = Log.remoteScenes {
+                    remoteScenes.log(level: .debug, "Got remote scene initial data from openImmersiveSpace request: \(String(describing: casted))")
+                }
+                
+                // <+3428>
+                let _ = casted.convertedToPrimary()
+                
+                Update.ensure { 
+                    // $s7SwiftUI23ImmersiveSpaceAuthorityC012updateRemotecD013clientOptionsyAA0cD23ConfigurationAttributesV06ClientI0V_tFyyXEfU_TA
+                    assertUnimplemented()
+                }
+                
+                // <+772>
+            } else {
+                // <+768>
+            }
+        }
+        
+        // <+772>
+        // inlined
+        let item = self.withSceneList(namespace: namespace) { sceneList in
+            for item in sceneList.items {
+                guard item.id.sessionID == id else {
+                    continue
+                }
+                
+                return item
+            }
+            
+            return nil
+        }
+        
+        // <+1664>
+        guard let item else {
+            // <+1708>
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "No Immersive Space with id '\(id)' is defined")
+            // <+2836>
+            return .failure(.invalidRequest)
+        }
+        
+        // <+1888>
+        guard case .immersiveSpace(let configuration) = item.value else {
+            // <+2532>
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Unable to present an Immersive Space for Scene id '\(id)'")
+            // <+2820>
+            return .failure(.invalidRequest)
+        }
+        
+        // <+1928>
+        guard immersiveSpaceAuthority.currentImmersiveSpace == nil else {
+            // <+2708>
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Unable to present another Immersive Space when one is already requested or connected")
+            return .failure(.invalidRequest)
+        }
+        
+        // <+2040>
+        return await withCheckedContinuation(isolation: MainActor.shared) { continuation in
+            // $s7SwiftUI29SceneNavigationStrategy_PhoneV18openImmersiveSpace9namespace2id17remoteSessionInfo11initialDataAC6ResultOAA0C4ListV9NamespaceO_SSAA12RemoteScenesV0mN0CSg10Foundation0P0VSgtYaFyScCyAJs5NeverOGXEfU0_TA
+            immersiveSpaceAuthority
+                .sceneRequested(
+                    namespace: namespace,
+                    item: item,
+                    forRemoteSessionInfo: remoteSessionInfo,
+                    continuation: continuation
+                )
+            
+            self.performSceneActivation(
+                item: item,
+                activity: self.userActivityForOpeningWindow(id: item.id),
+                matchingSession: nil,
+                activationBehavior: .default
+            ) { _ in
+                // $s7SwiftUI29SceneNavigationStrategy_PhoneV18openImmersiveSpace9namespace2id17remoteSessionInfo11initialDataAC6ResultOAA0C4ListV9NamespaceO_SSAA12RemoteScenesV0mN0CSg10Foundation0P0VSgtYaFyScCyAJs5NeverOGXEfU0_yAC5ErrorOcfU_TA
+                assertUnimplemented()
+            }
+        }
     }
     
     func openImmersiveSpace<T : Codable & Hashable>(
@@ -585,8 +699,8 @@ extension SceneNavigationStrategy_Phone {
     
     enum Error {
         case system(NSError)
-        case userActivityEncoding
-        case invalidRequest
+        case userActivityEncoding // 0
+        case invalidRequest // 1
     }
 }
 

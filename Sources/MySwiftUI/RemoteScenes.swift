@@ -17,6 +17,22 @@ extension RemoteScenes {
     class SessionInfo {
         // TODO
     }
+    
+    struct UpdateCoder: Encodable, Decodable {
+        let updates: [any RemoteScenes.Update]
+        
+        init(from decoder: any Decoder) throws {
+            assertUnimplemented()
+        }
+        
+        func encode(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+    }
+    
+    protocol Update: Encodable, Decodable {
+        // TODO
+    }
 }
 
 extension EnvironmentValues {
@@ -34,5 +50,19 @@ extension EnvironmentValues {
         static var defaultValue: RemoteScenes.SessionController? {
             return nil
         }
+    }
+}
+
+enum ImmersiveSpaceClientOptionsUpdate {
+    struct V1: CustomStringConvertible, Decodable, Encodable {
+        var description: String {
+            assertUnimplemented()
+        }
+        
+        func convertedToPrimary() -> ImmersiveSpaceConfigurationAttributes.ClientOptions {
+            assertUnimplemented()
+        }
+        
+        // TODO
     }
 }

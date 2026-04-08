@@ -1,3 +1,4 @@
+// 13F48789A88A23B9FD7CB3B396306EF9
 public import MySwiftUICore
 internal import AttributeGraph
 
@@ -61,7 +62,7 @@ extension ImmersionStyle where Self == FullImmersionStyle {
 @available(watchOS, unavailable)
 public struct FullImmersionStyle : ImmersionStyle {
     public init() {
-        assertUnimplemented()
+        // nop
     }
 }
 
@@ -87,7 +88,7 @@ extension ImmersionStyle where Self == MixedImmersionStyle {
 @available(watchOS, unavailable)
 public struct MixedImmersionStyle : ImmersionStyle {
     public init() {
-        assertUnimplemented()
+        // nop
     }
 }
 
@@ -197,7 +198,10 @@ public struct ProgressiveImmersionStyle : ImmersionStyle {
 
     @available(visionOS 1.0, *)
     public init() {
-        assertUnimplemented()
+        self.aspectRatio = .automatic
+        self.minimumImmersionAmount = nil
+        self.maximumImmersionAmount = nil
+        self.initialImmersionAmount = nil
     }
 }
 
@@ -209,22 +213,18 @@ extension ProgressiveImmersionStyle : Sendable {}
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 public struct ProgressiveImmersionAspectRatio : Equatable, Sendable {
+    private var storage: ProgressiveImmersionAspectRatio.Stroage
+    
     public static var automatic: ProgressiveImmersionAspectRatio {
-        get {
-            assertUnimplemented()
-        }
+        return ProgressiveImmersionAspectRatio(storage: .automatic)
     }
 
     public static var landscape: ProgressiveImmersionAspectRatio {
-        get {
-            assertUnimplemented()
-        }
+        return ProgressiveImmersionAspectRatio(storage: .landscape)
     }
 
     public static var portrait: ProgressiveImmersionAspectRatio {
-        get {
-            assertUnimplemented()
-        }
+        return ProgressiveImmersionAspectRatio(storage: .portrait)
     }
 
     public static func == (
@@ -232,6 +232,15 @@ public struct ProgressiveImmersionAspectRatio : Equatable, Sendable {
         b: ProgressiveImmersionAspectRatio
     ) -> Bool {
         assertUnimplemented()
+    }
+}
+
+extension ProgressiveImmersionAspectRatio {
+    fileprivate enum Stroage: Hashable {
+        case automatic
+        case landscape
+        case portrait
+        case spatialSafari
     }
 }
 

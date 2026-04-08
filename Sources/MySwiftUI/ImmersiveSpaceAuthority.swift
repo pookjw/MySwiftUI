@@ -20,7 +20,7 @@ final class ImmersiveSpaceAuthority {
         }
     }() // 0x10
     
-    private var currentImmersiveSpace: SceneActivationState? = nil // 0x18
+    private(set) var currentImmersiveSpace: SceneActivationState? = nil // 0x18
     private var immersiveSpaceBeingReplaced: SceneActivationState? = nil // 0x338
     var isRequestingSwiftUIScene: Bool = false // 0x653
     private(set) weak var currentRemoteSessionInfo: RemoteScenes.SessionInfo? = nil // 0x658
@@ -77,7 +77,12 @@ final class ImmersiveSpaceAuthority {
         assertUnimplemented()
     }
     
-    func sceneRequested(namespace: SceneList.Namespace, item: SceneList.Item, forRemoteSessionInfo: RemoteScenes.SessionInfo?, continuation: CheckedContinuation<SceneNavigationStrategy_Phone.Result, Never>) {
+    func sceneRequested(
+        namespace: SceneList.Namespace,
+        item: SceneList.Item,
+        forRemoteSessionInfo remoteSessionInfo: RemoteScenes.SessionInfo?,
+        continuation: CheckedContinuation<SceneNavigationStrategy_Phone.Result, Never>
+    ) {
         assertUnimplemented()
     }
     

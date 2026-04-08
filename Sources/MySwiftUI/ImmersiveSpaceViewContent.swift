@@ -1,9 +1,32 @@
+internal import UIKit
+internal import MySwiftUICore
+
 @available(visionOS 1.0, *)
 @available(iOS, unavailable)
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-public struct ImmersiveSpaceViewContent<Content>: ImmersiveSpaceContent where Content: View {
+public struct ImmersiveSpaceViewContent<Content>: ImmersiveSpaceContent, PrimitiveImmersiveSpaceContent where Content: View {
+    func _makeView() -> AnyView {
+        assertUnimplemented()
+    }
+    
+    static func _makeSceneSessionRole() -> UISceneSession.Role {
+        return .immersiveSpaceApplication
+    }
+    
+    static func _makeSceneWindowType() -> UIWindow.Type {
+        return UIWindow.self
+    }
+    
+    static func _makeSupportedImmersionStyles() -> [any ImmersionStyle] {
+        return [
+            .full,
+            .mixed,
+            .progressive
+        ]
+    }
+    
     private var content: Content
     
     @available(visionOS 26.0, *)

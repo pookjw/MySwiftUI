@@ -1,3 +1,6 @@
+internal import UIKit
+internal import MySwiftUICore
+
 @available(macOS 26.0, visionOS 26.0, *)
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
@@ -107,6 +110,22 @@ public struct AnyCompositorContent: CompositorContent, PrimitiveCompositorConten
             assertUnimplemented()
         }
     }
+    
+    nonisolated func _makeSupportedImmersionStyles() -> [any ImmersionStyle] {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _determineSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
+    
+    nonisolated func _makeSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
+    
+    nonisolated func _makeSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
 
     @available(visionOS 26.0, macOS 26.0, *)
     @available(iOS, unavailable)
@@ -182,6 +201,26 @@ extension _ConditionalContent: CompositorContent, PrimitiveCompositorContent whe
             assertUnimplemented()
         }
     }
+    
+    nonisolated func _makeSupportedImmersionStyles() -> [any ImmersionStyle] {
+        assertUnimplemented()
+    }
+    
+    nonisolated func _makeSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
+    
+    nonisolated func _makeSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _determineSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _determineSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
 
     @available(visionOS 26.0, macOS 26.0, *)
     @available(iOS, unavailable, introduced: 13.0)
@@ -247,6 +286,11 @@ public struct _CompositorContentBodyAdaptor<C>: View where C: CompositorContent 
 extension _CompositorContentBodyAdaptor: Sendable {}
 
 protocol PrimitiveCompositorContent : CompositorContent where Body == Never {
+    nonisolated func _makeSupportedImmersionStyles() -> [ImmersionStyle]
+    nonisolated static func _determineSceneWindowType() -> UIWindow.Type
+    nonisolated func _makeSceneWindowType() -> UIWindow.Type
+    nonisolated static func _determineSceneSessionRole() -> UISceneSession.Role
+    nonisolated func _makeSceneSessionRole() -> UISceneSession.Role
 }
 
 extension PrimitiveCompositorContent {
@@ -254,5 +298,72 @@ extension PrimitiveCompositorContent {
         preconditionFailure()
     }
     
+    nonisolated func _makeSupportedImmersionStyles() -> [ImmersionStyle] {
+        assertUnimplemented()
+    }
+    
+    nonisolated func _makeSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _determineSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
+    
+    nonisolated func _makeSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
+}
+
+extension PrimitiveCompositorContent where Self : PrimitiveImmersiveSpaceContent {
+    nonisolated func _makeSupportedImmersionStyles() -> [ImmersionStyle] {
+        assertUnimplemented()
+    }
+    
+    static func _determineSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
+    
+    static func _determineSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
+    
+    // TODO
+}
+
+protocol PrimitiveImmersiveSpaceContent {
+    func _makeView() -> AnyView
+    static func _hasCompositorContent() -> Bool
+    func _makePrimitiveCompositorContent() -> PrimitiveCompositorContent?
+    static func _makeSceneSessionRole() -> UISceneSession.Role
+    static func _makeSceneWindowType() -> UIWindow.Type
+    static func _configureSceneRequestOptions(_ options: StageSceneRequestOptions, for style: ImmersionStyle) -> StageSceneRequestOptions
+    static func _makeOverwriteImmersionStyle() -> ImmersionStyle
+    static func _makeSupportedImmersionStyles() -> [ImmersionStyle]
+}
+
+extension PrimitiveImmersiveSpaceContent {
+    static func _hasCompositorContent() -> Bool {
+        return false
+    }
+    
+    func _makePrimitiveCompositorContent() -> PrimitiveCompositorContent? {
+        return nil
+    }
+    
+    static func _configureSceneRequestOptions(_ options: StageSceneRequestOptions, for style: ImmersionStyle) -> StageSceneRequestOptions {
+        return options
+    }
+    
+    static func _makeOverwriteImmersionStyle() -> ImmersionStyle {
+        preconditionFailure()
+    }
+    
+    func _makeCompositorContent() -> AnyCompositorContent? {
+        return nil
+    }
+}
+
+struct StageSceneRequestOptions {
     // TODO
 }

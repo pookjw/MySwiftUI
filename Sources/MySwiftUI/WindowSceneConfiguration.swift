@@ -51,11 +51,47 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
         from content: PresentedContent<Data, PresentedImmersiveSpaceContent<Content>>
     ) where Data : Decodable, Data : Encodable, Data : Hashable, Content : ImmersiveSpaceContent {
         // <+180>
-        assertUnimplemented()
+        let supportedImmersionStyles: [ImmersionStyle]
+        let role: UISceneSession.Role
+        let windowType: UIWindow.Type
+        
+        if Content._determineHasCompositorContent() {
+            // <+200>
+            // x25 -> x29 - 0xb0
+            let immersiveSpaceContent = content.immersiveSpaceContent()
+            // x29 - 0x80 -> x29 - 0xa8
+            let compositorContent = immersiveSpaceContent._determinePrimitiveCompositorContent()
+            supportedImmersionStyles = compositorContent!._makeSupportedImmersionStyles()
+            role = compositorContent!._makeSceneSessionRole()
+            windowType = compositorContent!._makeSceneWindowType()
+            // <+760>
+        } else {
+            // <+616>
+            supportedImmersionStyles = Content._determineSupportedImmersionStyles()
+            role = Content._determineSceneSessionRole()
+            windowType = Content._determineSceneWindowType()
+            // <+760>
+        }
+        
+        // <+760>
+        self.sceneSessionRole = role
+        self.sceneWindowType = windowType
+        self.activationBehavior = .automatic
+        self.supportedImmersionStyles = supportedImmersionStyles
+        self.allowedImmersionStyles = nil
+        self.preferredUpperLimbVisibility = nil
+        self.immersionStyleSelection = nil
+        self.sceneUpdateTransitionAnimation = nil
+        self.immersiveContentBrightness = nil
+        self.immersiveEnvironmentBehavior = .automatic
+        self.orderOutSceneSessionIdentifiersProvider = {
+            // $s7SwiftUI37ImmersiveSpaceConfigurationAttributesV39orderOutSceneSessionIdentifiersProviderShySSGycvpfiAEycfU_
+            return []
+        }
     }
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<ImmersiveSpaceConfigurationAttributes>) -> SceneList.Item.Value {
-        assertUnimplemented()
+        return .immersiveSpace(configuration)
     }
     
     var rootModifier: Never {
@@ -155,19 +191,55 @@ struct IsInVolumetricContext: ViewInputBoolFlag {
 }
 
 extension ImmersiveSpaceContent {
-    static func _determineHasCompositorContent() -> Bool {
+    @_transparent // 원래 없음
+    private static var resolvedRrimitiveImmersiveSpaceContentType: any PrimitiveImmersiveSpaceContent.Type {
+        let casted: any PrimitiveImmersiveSpaceContent.Type
+        if let _casted = self as? PrimitiveImmersiveSpaceContent.Type {
+            casted = _casted
+        } else {
+            var body: (any ImmersiveSpaceContent.Type) = self.Body
+            while true {
+                if let _casted = body as? PrimitiveImmersiveSpaceContent.Type {
+                    casted = _casted
+                    break
+                } else {
+                    func project<T: ImmersiveSpaceContent>(_ type: T.Type) -> T.Body.Type {
+                        return type.Body
+                    }
+                    body = project(body)
+                }
+            }
+        }
+        
+        return casted
+    }
+    
+    nonisolated static func _determineHasCompositorContent() -> Bool {
+        return resolvedRrimitiveImmersiveSpaceContentType._hasCompositorContent()
+    }
+    
+    nonisolated func _determinePrimitiveCompositorContent() -> PrimitiveCompositorContent? {
         assertUnimplemented()
     }
     
-    static func _determineSupportedImmersionStyles() -> [ImmersionStyle] {
-        assertUnimplemented()
+    nonisolated static func _determineSupportedImmersionStyles() -> [ImmersionStyle] {
+        let styles = resolvedRrimitiveImmersiveSpaceContentType._makeSupportedImmersionStyles()
+        precondition(
+            !styles.isEmpty, // $s7SwiftUI21ImmersiveSpaceContentPAAE34_determineSupportedImmersionStylesSayAA0H5Style_pGyFZSbyXEfu_TA
+            "Content should define at least one supported immersion style."
+        )
+        return styles
     }
     
-    static func _determineSceneSessionRole() -> UISceneSession.Role {
-        assertUnimplemented()
+    nonisolated static func _determineSceneSessionRole() -> UISceneSession.Role {
+        return resolvedRrimitiveImmersiveSpaceContentType._makeSceneSessionRole()
     }
     
-    static func _determineSceneWindowType() -> UIWindow.Type {
+    nonisolated static func _determineSceneWindowType() -> UIWindow.Type {
+        return resolvedRrimitiveImmersiveSpaceContentType._makeSceneWindowType()
+    }
+    
+    func _determineView() -> AnyView {
         assertUnimplemented()
     }
 }

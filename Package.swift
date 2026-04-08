@@ -14,7 +14,8 @@ let package = Package(
             name: "MySwiftUI",
             targets: [
                 "MySwiftUI",
-                "_StopwatchSupportShims"
+                "_StopwatchSupportShims",
+                "_CompositorServices_MySwiftUI"
             ]
         ),
         .library(
@@ -151,6 +152,12 @@ let package = Package(
         ),
         .target(
             name: "_DyldPrivate"
+        ),
+        .target(
+            name: "_CompositorServices_MySwiftUI",
+            dependencies: [
+                .byName(name: "MySwiftUI")
+            ]
         ),
         .binaryTarget(
             name: "AttributeGraph",
