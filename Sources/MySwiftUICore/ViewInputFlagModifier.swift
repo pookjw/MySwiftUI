@@ -10,3 +10,9 @@ package struct ViewInputFlagModifier<T: _GraphInputsModifier>: ViewModifier, Pri
         self.flag = flag
     }
 }
+
+extension View {
+    package func input<T: ViewInputFlag>(_ type: T.Type) -> some View {
+        return self.modifier(ViewInputFlagModifier(flag: T()))
+    }
+}

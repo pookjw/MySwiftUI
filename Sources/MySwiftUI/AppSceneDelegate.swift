@@ -938,25 +938,52 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
                     let fromStyle = _MRUIImmersionStyleFromString(windowScene.session.configuration._initialImmersionStyleName!)
                     
                     if let fromStyle {
+                        // <+11848>
                         if immsersionStyle != fromStyle {
                             // <+11856>
-                            assertUnimplemented()
+                            let styleString: String
+                            if fromStyle == .mixed {
+                                styleString = "mixed"
+                            } else if fromStyle == .progressive {
+                                styleString = "progressive"
+                            } else if fromStyle == .full {
+                                styleString = "full"
+                            } else {
+                                styleString = "none"
+                            }
+                            
+                            Log.externalWarning("The initial immersion style defined in your app's Application Scene Manifest '\(styleString)' does not match the immersion style derived at runtime 'progressive. This may cause an inconsistency between your app's state and actual runtime behavior.")
+                            // <+12584>
                         } else {
                             // <+12584>
-                            assertUnimplemented()
                         }
                     } else {
                         // <+5960>
-                        assertUnimplemented()
+                        if immsersionStyle == .mixed {
+                            // <+12584>
+                        } else {
+                            // <+5968>
+                            let styleString: String
+                            if immsersionStyle == .progressive {
+                                styleString = "progressive"
+                            } else if immsersionStyle == .full {
+                                styleString = "full"
+                            } else {
+                                styleString = "none"
+                            }
+                            Log.externalWarning("Since your app does not define an initial immersion style in its Application Scene Manifest, the default immersion style will be applied. This does not match the immersion style defined at runtime '\(styleString)'. To make sure your app's state matches its runtime behavior define an initial immersion style.")
+                            // <+12584>
+                        }
                     }
                 } else {
                     // <+10264>
-                    assertUnimplemented()
+                    // <+12592>
                 }
             } else {
                 // <+12592>
-                assertUnimplemented()
             }
+            
+            // <+12592>
             assertUnimplemented()
         case .volume(let configuration):
             // <+3604>

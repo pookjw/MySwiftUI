@@ -506,7 +506,9 @@ protocol WindowSceneConfigurationAttributes {
 }
 
 struct IsInVolumetricContext: ViewInputBoolFlag {
-    
+}
+
+struct IsInImmersiveContext: ViewInputBoolFlag {
 }
 
 extension ImmersiveSpaceContent {
