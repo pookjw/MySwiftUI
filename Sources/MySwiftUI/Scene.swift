@@ -112,3 +112,14 @@ extension TypeConformance where T == SceneDescriptor {
         visitor.pointee.visit(type: unsafeExistentialMetatype((any Scene.Type).self))
     }
 }
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+extension _EnvironmentKeyWritingModifier : _SceneModifier {
+}
+
+extension Scene {
+    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+    @_alwaysEmitIntoClient nonisolated public func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, _ value: V) -> some Scene {
+        modifier(_EnvironmentKeyWritingModifier(keyPath: keyPath, value: value))
+    }
+}

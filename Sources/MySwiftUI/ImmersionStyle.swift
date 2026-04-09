@@ -20,19 +20,6 @@ extension ImmersionStyle {
 
 @available(macOS 26.0, visionOS 1.0, *)
 @available(iOS, unavailable)
-@available(tvOS, unavailable)
-@available(watchOS, unavailable)
-extension Scene {
-    nonisolated public func immersionStyle(
-        selection: Binding<any ImmersionStyle>,
-        in styles: any ImmersionStyle...
-    ) -> some Scene {
-        assertUnimplemented()
-    }
-}
-
-@available(macOS 26.0, visionOS 1.0, *)
-@available(iOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension ImmersionStyle where Self == AutomaticImmersionStyle {
@@ -305,4 +292,24 @@ func immersionStyleForImmersionStyle<T: ImmersionStyle>(_ style: T) -> MRUIImmer
 
 func _MRUIImmersionStyleFromString(_ string: String) -> MRUIImmersionStyle? {
     assertUnimplemented()
+}
+
+extension EnvironmentValues {
+    var allowedImmersionStyles : [_ResolvedImmersionStyle]? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    var _allowedImmersionStyles : [_ResolvedImmersionStyle] {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
 }

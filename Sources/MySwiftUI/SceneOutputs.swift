@@ -49,7 +49,7 @@ fileprivate struct TransformSceneListModifier: _SceneModifier, PrimitiveSceneMod
     let transform: (inout SceneList) -> ()
     
     static func _makeScene(modifier: _GraphValue<TransformSceneListModifier>, inputs: _SceneInputs, body: @escaping (_Graph, _SceneInputs) -> _SceneOutputs) -> _SceneOutputs {
-        let namespace = inputs.base[_SceneInputs.NamespaceInput.self]
+        let namespace = inputs.sceneNamespace
         let modifierAttribute = modifier.value
         let map = Map<TransformSceneListModifier, (inout SceneList) -> Void>(modifierAttribute) { modifier in
             // $s14AttributeGraph0A0VyACyxGqd__c5ValueQyd__RszAA4RuleRd__lufcADSPyqd__GXEfU_ySv_So11AGAttributeatcyXEfU_y7SwiftUI9SceneListVzc_AA3MapVyAK09TransformhI8Modifier33_51ADE71499A9765E37CE861215422D5DLLVyAMzcGTg5
@@ -79,6 +79,11 @@ extension Scene {
 }
 
 extension _SceneInputs {
+    @inline(always) // 원래 없음
+    var sceneNamespace: SceneList.Namespace {
+        return self.base[_SceneInputs.NamespaceInput.self]
+    }
+    
     fileprivate struct NamespaceInput: SceneInput {
         static var defaultValue: SceneList.Namespace {
             return .app

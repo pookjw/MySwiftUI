@@ -5,12 +5,12 @@ public struct _GraphInputs {
     package var customInputs = PropertyList()
     var time: Attribute<Time>
     package var cachedEnvironment: MutableBox<CachedEnvironment>
-    var phase: Attribute<_GraphInputs.Phase> {
+    package internal(set) var phase: Attribute<_GraphInputs.Phase> {
         didSet {
             changedDebugProperties.formUnion(.phase)
         }
     }
-    var transaction: Attribute<Transaction>
+    package internal(set) var transaction: Attribute<Transaction>
     var changedDebugProperties: _ViewDebug.Properties
     var options: _GraphInputs.Options
     var mergedInputs: Set<AnyAttribute>

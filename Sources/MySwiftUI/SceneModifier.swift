@@ -29,7 +29,9 @@ extension _SceneModifier where Self : _GraphInputsModifier, Body == Never {
         inputs: _SceneInputs,
         body: @escaping (_Graph, _SceneInputs) -> _SceneOutputs
     ) -> _SceneOutputs {
-        assertUnimplemented()
+        var inputs = inputs
+        self._makeInputs(modifier: modifier, inputs: &inputs.base)
+        return body(_Graph(), inputs)
     }
 }
 
