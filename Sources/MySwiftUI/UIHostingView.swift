@@ -1028,7 +1028,33 @@ open class _UIHostingView<Content : View>: UIView {
     }
     
     @objc private func immersiveSpaceAuthorityDidChangeImmersion() {
-        assertUnimplemented()
+        // self -> x20 -> x19
+        guard let appDelegate = AppDelegate.shared else {
+            return
+        }
+        
+        // x21
+        let immersiveSpaceAuthority = appDelegate.immersiveSpaceAuthority
+        
+        if self.viewGraph.environment.immersion != nil {
+            if immersiveSpaceAuthority.immersiveSpaceScene != nil {
+                // <+248>
+                // <+372>
+                return
+            } else {
+                // <+296>
+            }
+        } else {
+            if immersiveSpaceAuthority.immersiveSpaceScene == nil {
+                // <+364>
+                return
+            } else {
+                // <+296>
+            }
+        }
+        
+        // <+296>
+        self.invalidateProperties(.environment, mayDeferUpdate: true)
     }
     
     @objc private func sceneDidChangeImmersionState() {
@@ -1571,7 +1597,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
             
             if flag {
                 // <+4224>
-                pose.position = resolved.pointScale.convert(pose.position, to: .meters)
+                pose.position = resolved.pointScale.convert(pose.position, from: .meters, to: .points)
             }
             
             // <+4456>

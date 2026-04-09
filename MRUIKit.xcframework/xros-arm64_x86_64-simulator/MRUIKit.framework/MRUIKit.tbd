@@ -49,6 +49,7 @@ exports:
     _MRUIApplicationImmersiveSpaceSceneRequestBuilder,
     _MRUIApplicationCompositorServicesImmersiveSpaceSceneRequestBuilder,
     _MRUIImmersiveSpaceSceneActivationRequestOptions,
-    MRUISceneWorldAlignmentBehaviorClientComponent ]
+    MRUISceneWorldAlignmentBehaviorClientComponent,
+    MRUIImmersionState ]
     objc-ivars:           [  ]
 ...

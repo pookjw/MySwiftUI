@@ -10,6 +10,7 @@ private import UserActivity
 private import MRUIKit
 internal import FeatureFlags
 private import FrontBoardServices
+private import AttributeGraph
 
 // _TtC7SwiftUI16AppSceneDelegate
 final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
@@ -984,7 +985,19 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
             }
             
             // <+12592>
-            assertUnimplemented()
+            let anyView = AnyView(
+                configuration
+                    .mainContent
+                    .modifier(ImmersiveSpaceRootModifier())
+            )
+            
+            let rootView = self.makeRootView(anyView)
+            let hostingController = UIHostingController(rootView: rootView)
+            _hostingController = hostingController
+            configureHostingController(hostingController)
+            
+            window = UIWindow(windowScene: windowScene)
+            // <+12856>
         case .volume(let configuration):
             // <+3604>
             self.presentationDataType = configuration.presentationDataType
@@ -1583,9 +1596,30 @@ extension AppSceneDelegate : AppGraphObserver {
             }
             
             // <+6272>
-        case .immersiveSpace(_):
+        case .immersiveSpace(let configuration):
             // <+1424>
-            assertUnimplemented()
+            // configuration -> x19 + 0xf0
+            if
+                let window,
+                let rootViewController = window.rootViewController,
+                let casted = rootViewController as? UIHostingController<ModifiedContent<AnyView, RootModifier>>
+            {
+                // <+1644>
+                let anyView = AnyView(
+                    configuration
+                        .mainContent
+                        .modifier(ImmersiveSpaceRootModifier())
+                )
+                
+                let rootView = self.makeRootView(anyView)
+                casted.host.rootView = rootView
+                casted.host.base.inheritedEnvironment = sceneItem.environment
+                // <+2192>
+            }
+            
+            // <+2192>
+            ImmersiveSpaceAuthority.shared.updateCurrentImmersiveSpaceIfNeeded()
+            // <+6272>
         case .volume(let configuration):
             // <+4048>
             if
@@ -1804,7 +1838,9 @@ extension AppDelegate {
 }
 
 func makeStableTypeData(_ type: Any.Type) -> StrongHash {
-    assertUnimplemented()
+    let id = TypeID(type)
+    let signature = id.signature
+    return unsafeBitCast(signature, to: StrongHash.self)
 }
 
 struct ComposableScenesWorldAlignmentFeatureFlagKey: FeatureFlagsKey {

@@ -145,3 +145,24 @@ if ((d2 >= d3) && (d1 >= d4) && (d0 >= d5)) {
     goto 0x1d36f9854;
 }
 ```
+
+---
+
+```asm
+ldurb  w8, [x0, #0x25]
+tbnz   w8, #0x0, 0x1d463bf4c
+```
+
+```c
+// OptionSet rawValue(Int)가 x0 + 0x24에 있을 때 (ARM64 little-endian)
+// +0x24 byte -> bit 0...7
+// +0x25 byte -> bit 8...15
+if ((*(uint8_t *)(x0 + 0x25) & (1u << 0)) != 0) {
+    // 전체 rawValue 기준 bit 8 검사와 동일
+    goto 0x1d463bf4c;
+}
+```
+
+```swift
+(rawValue & (1 << 8)) != 0  // n = 8
+```

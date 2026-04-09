@@ -9,6 +9,13 @@ enum PresentedContent<Data, Content> : View where Content: View, Data: Decodable
     }
     
     var body: some View {
-        assertUnimplemented()
+        switch self {
+        case .view(let content):
+            // <+348>
+            content
+        case .data(let content):
+            // <+512>
+            content
+        }
     }
 }

@@ -166,7 +166,7 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
         return []
     } // 0x88
     
-    typealias RootModifier = Never // TODO
+    typealias RootModifier = ViewInputFlagModifier<IsInVolumetricContext>
     
     init<Data, Content>(
         from content: PresentedContent<Data, PresentedImmersiveSpaceContent<Content>>
@@ -215,8 +215,8 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
         return .immersiveSpace(configuration)
     }
     
-    var rootModifier: Never {
-        assertUnimplemented()
+    var rootModifier: ViewInputFlagModifier<IsInVolumetricContext> {
+        return ViewInputFlagModifier(flag: IsInVolumetricContext())
     }
     
     func customizeSceneActivationRequestOptions(_ options: _MRUIImmersiveSpaceSceneActivationRequestOptions, isInternalScene: Bool) {
@@ -535,6 +535,26 @@ extension ImmersiveSpaceContent {
         return casted
     }
     
+    @_transparent // 원래 없음
+    private var resolvedRrimitiveImmersiveSpaceContent: any PrimitiveImmersiveSpaceContent {
+        let casted: any PrimitiveImmersiveSpaceContent
+        if let _casted = self as? PrimitiveImmersiveSpaceContent {
+            casted = _casted
+        } else {
+            var body: (any ImmersiveSpaceContent) = self.body
+            while true {
+                if let _casted = body as? PrimitiveImmersiveSpaceContent {
+                    casted = _casted
+                    break
+                } else {
+                    body = self.body
+                }
+            }
+        }
+        
+        return casted
+    }
+    
     nonisolated static func _determineHasCompositorContent() -> Bool {
         return resolvedRrimitiveImmersiveSpaceContentType._hasCompositorContent()
     }
@@ -561,6 +581,6 @@ extension ImmersiveSpaceContent {
     }
     
     func _determineView() -> AnyView {
-        assertUnimplemented()
+        return resolvedRrimitiveImmersiveSpaceContent._makeView()
     }
 }

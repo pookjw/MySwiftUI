@@ -8,7 +8,9 @@ struct PresentedImmersiveSpaceContent<Content: ImmersiveSpaceContent>: View {
     }
     
     var body: some View {
-        assertUnimplemented()
+        rootContent
+            .makeContent
+            ._determineView()
     }
 }
 
@@ -16,5 +18,14 @@ extension PresentedImmersiveSpaceContent {
     enum ContentEvaluationBehavior {
         case eager(Content)
         case lazy(() -> Content)
+        
+        var makeContent: Content {
+            switch self {
+            case .eager(let content):
+                return content
+            case .lazy(let content):
+                return content()
+            }
+        }
     }
 }

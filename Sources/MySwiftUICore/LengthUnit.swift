@@ -26,6 +26,14 @@ package protocol LengthUnitConvertible {
     mutating func scale(by scale: Double)
 }
 
+extension LengthUnitConvertible {
+    package func scaled(by scale: Double) -> Self {
+        var result = self
+        result.scale(by: scale)
+        return result
+    }
+}
+
 extension Point3D : LengthUnitConvertible {
     package mutating func scale(by scale: Double) {
         self.x *= scale

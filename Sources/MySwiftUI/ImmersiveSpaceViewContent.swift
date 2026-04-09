@@ -8,7 +8,7 @@ internal import MySwiftUICore
 @available(watchOS, unavailable)
 public struct ImmersiveSpaceViewContent<Content>: ImmersiveSpaceContent, PrimitiveImmersiveSpaceContent where Content: View {
     func _makeView() -> AnyView {
-        assertUnimplemented()
+        return AnyView(self.content)
     }
     
     static func _makeSceneSessionRole() -> UISceneSession.Role {

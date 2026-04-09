@@ -141,6 +141,10 @@ public struct _DynamicPropertyBuffer {
             }
         case .sum(let type, let taggedFields):
             // <+60>
+            guard !taggedFields.isEmpty else {
+                return
+            }
+            
             let cases = unsafe taggedFields.map { taggedField -> (tag: Int, links: _DynamicPropertyBuffer) in
                 let buffer = unsafe _DynamicPropertyBuffer(
                     fields: DynamicPropertyCache.Fields(.product(taggedField.fields)),
@@ -273,19 +277,19 @@ fileprivate final class BoxVTable<U : DynamicPropertyBox>: BoxVTableBase {
 }
 
 fileprivate final class EnumVTable<T> : BoxVTableBase {
-    override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+    override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
         assertUnimplemented()
     }
     
-    override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
+    override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
         assertUnimplemented()
     }
     
-    override class func reset(elt : _UnsafeHeterogeneousBuffer_Element) {
+    override class func reset(elt: _UnsafeHeterogeneousBuffer_Element) {
         assertUnimplemented()
     }
     
-    override class func update(elt : _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
+    override class func update(elt: _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
         assertUnimplemented()
     }
 }

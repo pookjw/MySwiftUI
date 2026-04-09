@@ -5,6 +5,11 @@ internal import MySwiftUICore
 final class Immersion : Equatable {
     var amount: Double = 0
     
+    @inline(always) // 원래 없음
+    var __amount: Double {
+        return self._amount
+    }
+    
     init() {}
     
     static func == (lhs: Immersion, rhs: Immersion) -> Bool {

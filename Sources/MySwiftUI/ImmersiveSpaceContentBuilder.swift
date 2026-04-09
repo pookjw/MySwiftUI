@@ -4,7 +4,7 @@
 @available(watchOS, unavailable)
 @_functionBuilder public struct ImmersiveSpaceContentBuilder {
     public static func buildBlock<Content>(_ content: Content) -> Content where Content: ImmersiveSpaceContent {
-        assertUnimplemented()
+        return content
     }
 }
 

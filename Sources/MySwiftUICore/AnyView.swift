@@ -28,7 +28,7 @@ internal import AttributeGraph
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return self.makeDynamicViewList(metadata: (), view: view, inputs: inputs)
     }
 }
 
@@ -49,7 +49,7 @@ extension AnyView : DynamicView {
     }
     
     func makeChildViewList(metadata: Void, view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return storage.makeChildViewList(view: view, inputs: inputs)
     }
 }
 
@@ -126,7 +126,17 @@ fileprivate final class AnyViewStorage<Content : View>: AnyViewStorageBase {
     }
     
     override func makeChildViewList(view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        /*
+         view -> w0 -> w21
+         inputs -> x1 -> x9 -> x29 - 0xe0
+         */
+        inputs.base.pushStableType(Content.self)
+        
+        let child = Attribute(AnyViewChild<Content>(view: view))
+        child.value = self.view
+        let graphValue = _GraphValue(child)
+        
+        return Content.makeDebuggableViewList(view: graphValue, inputs: inputs)
     }
 }
 

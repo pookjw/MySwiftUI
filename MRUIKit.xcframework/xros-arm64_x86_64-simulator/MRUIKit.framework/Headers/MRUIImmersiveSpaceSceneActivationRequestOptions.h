@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import <MRUIKit/MRUIImmersionState.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -9,16 +10,6 @@ typedef NS_ENUM(NSInteger, MRUIImmersiveEnvironmentBehavior) {
 };
 
 MRUI_EXTERN NSString * _NSStringFromMRUIImmersiveEnvironmentBehavior(MRUIImmersiveEnvironmentBehavior);
-
-typedef NS_OPTIONS(NSUInteger, MRUIImmersionStyle) {
-    MRUIImmersionStyleUnspecified = 0,
-    MRUIImmersionStyleNone = 1 << 0,
-    MRUIImmersionStyleMixed = 1 << 1,
-    MRUIImmersionStyleProgressive = 1 << 2,
-    MRUIImmersionStyleFull = 1 << 3
-};
-
-MRUI_EXTERN NSString * _NSStringFromMRUIImmersionStyle(MRUIImmersionStyle);
 
 typedef NS_ENUM(NSUInteger, MRUIImmersionShape) {
     MRUIImmersionShapeAutomatic = 0,

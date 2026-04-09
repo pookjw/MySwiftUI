@@ -2,6 +2,7 @@
 internal import UIKit
 internal import AttributeGraph
 private import os.log
+internal import MRUIKit
 
 final class ImmersiveSpaceAuthority {
     @safe nonisolated(unsafe) static let shared = ImmersiveSpaceAuthority()
@@ -33,7 +34,7 @@ final class ImmersiveSpaceAuthority {
     init() {
     }
     
-    func sceneConnected(scene: UIScene, namespace: SceneList.Namespace, item: SceneList.Item) {
+    @MainActor func sceneConnected(scene: UIScene, namespace: SceneList.Namespace, item: SceneList.Item) {
         /*
          self -> x20 -> x29 - 0x150
          scene -> x0 -> x20
@@ -45,7 +46,27 @@ final class ImmersiveSpaceAuthority {
             return
         }
         
-        assertUnimplemented()
+        // <+352>
+        guard let windowScene = scene as? UIWindowScene else {
+            return
+        }
+        
+        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription) successfully connected")
+        
+        // <+728>
+        self.currentImmersiveSpace = .activated(namespace: namespace, item: item)
+        
+        // <+932>
+        NotificationCenter.default.post(name: ImmersiveSpaceAuthority.didChangeCurrentImmersiveSpace, object: self)
+        self.immersiveSpaceScene = windowScene
+        
+        let immersionState = windowScene._immersionState()
+        self.sceneDidUpdateImmersionState(scene: windowScene, immersionState: immersionState)
+        
+        // <+1080>
+        for continuation in self.sceneDestructionContinuations {
+            continuation.resume(returning: ())
+        }
     }
     
     func sceneDisconnected(scene: UIScene, namespace: SceneList.Namespace, item: SceneList.Item) {
@@ -63,7 +84,29 @@ final class ImmersiveSpaceAuthority {
     }
     
     func updateCurrentImmersiveSpaceIfNeeded() {
-        assertUnimplemented()
+        // <+368>
+        guard
+            let currentImmersiveSpace,
+            case .activated(let namespace, let item) = currentImmersiveSpace,
+            let appGraph = AppGraph.shared
+        else {
+            return
+        }
+        
+        // <+564>
+        // self -> x20 -> x29 - 0xc0
+        let sceneList = appGraph.sceneList(namespace: namespace)
+        // x24
+        let anotherItem = sceneList.item(id: item.id, where: nil)
+        
+        guard let anotherItem else {
+            return
+        }
+        
+        // <+800>
+        self.currentImmersiveSpace = .activated(namespace: namespace, item: anotherItem)
+        // <+948>
+        NotificationCenter.default.post(name: ImmersiveSpaceAuthority.didChangeCurrentImmersiveSpace, object: self)
     }
     
     func currentImmersiveSpaceClientOptions() -> ImmersiveSpaceConfigurationAttributes.ClientOptions? {
@@ -101,5 +144,20 @@ final class ImmersiveSpaceAuthority {
     
     func sceneDestructionRequested(namespace: SceneList.Namespace, item: SceneList.Item, continuation: CheckedContinuation<(), Never>) {
         assertUnimplemented()
+    }
+    
+    func sceneDidUpdateImmersionState(scene: UIScene, immersionState: MRUIImmersionState) {
+        /*
+         self -> x20
+         scene -> dead
+         immersionState -> x0 -> x21
+         */
+        let immersion = self._immersion
+        if immersion.__amount != immersionState.amountOfImmersion {
+            immersion.amount = immersionState.amountOfImmersion
+        }
+        
+        // <+256>
+        NotificationCenter.default.post(name: ImmersiveSpaceAuthority.didChangeImmersion, object: nil)
     }
 }
