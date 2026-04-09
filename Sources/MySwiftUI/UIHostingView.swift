@@ -1058,7 +1058,24 @@ open class _UIHostingView<Content : View>: UIView {
     }
     
     @objc private func sceneDidChangeImmersionState() {
-        assertUnimplemented()
+        guard
+            let window,
+            let windowScene = window.windowScene,
+            let appDelegate = AppDelegate.shared
+        else {
+            return
+        }
+        
+        let immersiveSpaceAuthority = appDelegate.immersiveSpaceAuthority
+        
+        guard
+            let immersiveSpaceScene = immersiveSpaceAuthority.immersiveSpaceScene,
+            windowScene == immersiveSpaceScene
+        else {
+            return
+        }
+        
+        immersiveSpaceAuthority.sceneDidUpdateImmersionState(scene: windowScene, immersionState: windowScene._immersionState())
     }
     
     public override func myswiftui_addManagedInteraction(_ interaction: any UIInteraction) {

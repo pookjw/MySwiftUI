@@ -14,7 +14,8 @@ public protocol ImmersionStyle {
 
 extension ImmersionStyle {
     @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
-        return _ResolvedImmersionStyle(wrappedStyle: MixedImmersionStyle(), initialImmersionLevel: 0)
+        fatalError("아마 extension이 있을 것")
+//        return _ResolvedImmersionStyle(wrappedStyle: MixedImmersionStyle(), initialImmersionLevel: 0)
     }
 }
 
@@ -65,6 +66,12 @@ public struct FullImmersionStyle : ImmersionStyle {
 
 @available(*, unavailable)
 extension FullImmersionStyle : Sendable {}
+
+extension FullImmersionStyle {
+    @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
+        return _ResolvedImmersionStyle(wrappedStyle: self, initialImmersionLevel: 0.5)
+    }
+}
 
 @available(visionOS 1.0, *)
 @available(iOS, unavailable)
@@ -202,6 +209,12 @@ public struct ProgressiveImmersionStyle : ImmersionStyle {
     }
 }
 
+extension ProgressiveImmersionStyle {
+    @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
+        return _ResolvedImmersionStyle(wrappedStyle: self, initialImmersionLevel: 0.5)
+    }
+}
+
 @available(*, unavailable)
 extension ProgressiveImmersionStyle : Sendable {}
 
@@ -257,21 +270,6 @@ struct AllowedImmersionStylesInput : SceneInput {
     }
 }
 
-@_spi(Internal) public struct _ResolvedImmersionStyle: Hashable {
-    let wrappedStyle: any ImmersionStyle
-    let initialImmersionLevel: CGFloat
-    
-    public static func == (lhs: _ResolvedImmersionStyle, rhs: _ResolvedImmersionStyle) -> Bool {
-        return lhs.initialImmersionLevel == rhs.initialImmersionLevel
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        var d0 = self.initialImmersionLevel
-        d0 = (d0 == 0) ? 0 : d0
-        hasher.combine(d0.bitPattern)
-    }
-}
-
 func immersionStyleForImmersionStyle<T: ImmersionStyle>(_ style: T) -> MRUIImmersionStyle {
     let resolved = style._resolved()
     let d0 = resolved.initialImmersionLevel
@@ -292,24 +290,4 @@ func immersionStyleForImmersionStyle<T: ImmersionStyle>(_ style: T) -> MRUIImmer
 
 func _MRUIImmersionStyleFromString(_ string: String) -> MRUIImmersionStyle? {
     assertUnimplemented()
-}
-
-extension EnvironmentValues {
-    var allowedImmersionStyles : [_ResolvedImmersionStyle]? {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    var _allowedImmersionStyles : [_ResolvedImmersionStyle] {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
 }

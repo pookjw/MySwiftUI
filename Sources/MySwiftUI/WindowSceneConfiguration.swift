@@ -155,7 +155,7 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
     private(set) var sceneWindowType: UIWindow.Type // 0x8
     private(set) var activationBehavior: ImmersiveSpaceActivationBehavior.Storage = .automatic // 0x10
     private(set) var supportedImmersionStyles: [any ImmersionStyle]? = nil // 0x18
-    private(set) var allowedImmersionStyles: [any ImmersionStyle]? = nil // 0x20
+    var allowedImmersionStyles: [any ImmersionStyle]? = nil // 0x20
     var preferredUpperLimbVisibility: UpperLimbVisibility? = nil // 0x28
     var immersionStyleSelection: Binding<any ImmersionStyle>? = nil // 0x30
     var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition? = nil // 0x68

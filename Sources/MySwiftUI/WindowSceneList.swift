@@ -130,6 +130,7 @@ extension WindowSceneList {
             // x21
             if var casted = self.configuration as? WindowSceneConfiguration<ImmersiveSpaceConfigurationAttributes> {
                 // <+1040>
+                casted.attributes.allowedImmersionStyles = allowedImmersionStyles
                 casted.attributes.immersionStyleSelection = immersionStyleSelection
                 casted.attributes.preferredUpperLimbVisibility = self.preferredUpperLimbVisibility
                 casted.attributes.immersiveContentBrightness = self.immersiveContentBrightness

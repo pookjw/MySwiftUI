@@ -12,4 +12,12 @@ package struct UpdateCycleDetector {
         self.ttl = .max
         self.hasLogged = false
     }
+    
+    package mutating func reset() {
+        assertUnimplemented()
+    }
+    
+    package func dispatch(label: @autoclosure () -> String, isDebug: Bool = false) -> Bool {
+        assertUnimplemented()
+    }
 }

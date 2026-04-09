@@ -57,13 +57,14 @@ fileprivate struct ImmersionStyleChangeObservation : StatefulRule {
     
     typealias Value = ImmersiveSpaceSceneUpdateTransition
     
-    func updateValue() {
+    mutating func updateValue() {
         // self -> x20 -> x19
         // sp + 0x60
         let modifier = self.modifier
         // x29 - 0x70
         let selection = modifier.selection.wrappedValue
         
+        let style: ImmersiveSpaceSceneUpdateTransition.Style
         if let previousImmersionStyle /* sp + 0x60 */ {
             // <+124>
             // sp + 0x38
@@ -75,16 +76,27 @@ fileprivate struct ImmersionStyleChangeObservation : StatefulRule {
             
             if prevResolved.initialImmersionLevel == newResolved.initialImmersionLevel {
                 // <+248>
-                assertUnimplemented()
+                // <+268>
+                style = .animated(nil)
             } else {
                 // <+276>
-                assertUnimplemented()
+                let transaction = Graph.withoutUpdate { 
+                    return self.transaction
+                }
+                
+                if transaction.disablesAnimations {
+                    style = .notAnimated
+                } else {
+                    style = .animated(transaction.animation)
+                }
             }
         } else {
             // <+260>
-            assertUnimplemented()
+            style = .animated(nil)
         }
         
-        assertUnimplemented()
+        var seed = self.seed
+        self.value = ImmersiveSpaceSceneUpdateTransition(style: style, seed: seed)
+        self.seed = seed &+ 1
     }
 }

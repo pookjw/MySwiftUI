@@ -180,7 +180,7 @@ extension _GraphInputs {
             self.value = 0
         }
         
-        var resetSeed: UInt32 {
+        package internal(set) var resetSeed: UInt32 {
             get {
                 return value &>> 1
             }

@@ -20,6 +20,26 @@ public struct Animation : Equatable, Sendable {
     }
 }
 
+extension Animation : Hashable {
+    public func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+
+extension Animation : CustomStringConvertible, CustomDebugStringConvertible, CustomReflectable {
+    public var description: String {
+        assertUnimplemented()
+    }
+    
+    public var debugDescription: String {
+        assertUnimplemented()
+    }
+    
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}
+
 extension Animation {
     public static let `default`: Animation = {
         assertUnimplemented()
