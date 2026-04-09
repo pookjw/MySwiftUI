@@ -81,6 +81,9 @@ final class ImmersiveSpaceAuthority {
         }
         
         // <+416>
+        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription) was disconnected")
+        
+        // <+724>
         assertUnimplemented()
     }
     
