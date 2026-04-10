@@ -313,9 +313,14 @@ extension DisplayList.ViewUpdater.Model {
                 requirements.formUnion(.unknown1)
                 // <+2648>
             }
-        case .effect(_, _):
+        case .effect(let effect, let displayList):
             // <+2712>
-            assertUnimplemented()
+            switch effect {
+            case .identity:
+                break
+            default:
+                assertUnimplemented()
+            }
         case .states(_):
             // <+6396>
             fatalError()
@@ -362,9 +367,14 @@ extension DisplayList.ViewUpdater.Model {
                 // <+1176>
                 return
             }
-        case .effect(_, _):
+        case .effect(let effect, _):
             // <+708>
-            assertUnimplemented()
+            switch effect {
+            case .identity:
+                return
+            default:
+                assertUnimplemented()
+            }
         default:
             // <+1176>
             return

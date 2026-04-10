@@ -164,9 +164,13 @@ extension DisplayList {
                     assertUnimplemented()
                 case .archive(_):
                     assertUnimplemented()
+                case .clip:
+                    assertUnimplemented()
                 case .platformGroup(_):
                     assertUnimplemented()
                 case .opacity(_):
+                    assertUnimplemented()
+                case .platform:
                     assertUnimplemented()
                 case .transform(_):
                     assertUnimplemented()
@@ -395,7 +399,35 @@ extension DisplayList {
              x20 -> value + 0x10
              */
             
+            let flag_1: Bool // true -> <+336> / false -> <+456>
             if d10 == 0 && separatedState != .separated {
+                // <+336>
+                flag_1 = true
+            } else if case .effect(let effect, let displayList) = value {
+                // <+132>
+                if displayList.items.count > 1 {
+                    return false
+                } else {
+                    // <+144>
+                    if case .transform(_) = effect {
+                        if d10 != 0 {
+                            // <+156>
+                            assertUnimplemented()
+                        } else {
+                            // <+336>
+                            flag_1 = true
+                        }
+                    } else {
+                        // <+336>
+                        flag_1 = true
+                    }
+                }
+            } else {
+                // <+456>
+                flag_1 = false
+            }
+            
+            if flag_1 {
                 // <+336>
                 if case .effect(let effect, let displayList) = value {
                     // <+344>
@@ -404,27 +436,48 @@ extension DisplayList {
                         assertUnimplemented()
                     } else {
                         // <+456>
-                        assertUnimplemented()
                     }
                 } else {
                     // <+456>
-                    assertUnimplemented()
                 }
-            } else if case .effect(let effect, let displayList) = value {
-                // <+132>
-                if displayList.items.count > 1 {
-                    return false
-                } else {
-                    // <+144>
-//                    if d10 != 0 &&
-                    assertUnimplemented()
-                }
-            } else {
-                // <+456>
-                assertUnimplemented()
             }
             
-            assertUnimplemented()
+            // <+456>
+            // hitTestsAsOpaque -> w21 -> sp + 0xc
+            // renderingTechnique -> w24 -> w21
+            switch value {
+            case .content(let content):
+                // <+476>
+                switch content.value {
+                case .backdrop(_), .color(_), .chameleonColor(_):
+                    // <+1008>
+                    return true
+                case .shape(let path, let anyResolvedPaint, let fillStyle):
+                    // <+496>
+                    assertUnimplemented()
+                default:
+                    // <+1124>
+                    let result = hoverEffectState.anyLeafEffectsSatisfy { _ in
+                        assertUnimplemented()
+                    }
+                    return !result
+                }
+            case .effect(let effect, let displayList):
+                // <+636>
+                switch effect {
+                case .clip:
+                    // <+1016>
+                    assertUnimplemented()
+                case .platform:
+                    // <+660>
+                    assertUnimplemented()
+                default:
+                    return true
+                }
+            default:
+                // <+1008>
+                return true
+            }
         }
         
         func offset3D(by: Size3D) {
@@ -570,7 +623,7 @@ extension DisplayList {
         case platformGroup(any PlatformGroupFactory)
         case opacity(Float)
 //        case blendMode(GraphicsBlendMode)
-//        case clip(Path, FillStyle, GraphicsContext.ClipOptions)
+        case clip/*(Path, FillStyle, GraphicsContext.ClipOptions)*/
 //        case mask(DisplayList, GraphicsContext.ClipOptions)
 //        case sdfShape(SDFShape)
         case transform(DisplayList.Transform)
@@ -579,7 +632,7 @@ extension DisplayList {
 //        case contentTransition(ContentTransition.State)
 //        case view(_DisplayList_ViewFactory)
 //        case accessibility([AccessibilityNodeAttachment])
-//        case platform(DisplayList.PlatformEffect)
+        case platform/*(DisplayList.PlatformEffect)*/
 //        case state(StrongHash)
 //        case interpolatorRoot(DisplayList.InterpolatorGroup, contentOrigin: CGPoint, SwiftOffset: CGSize)
 //        case interpolatorLayer(DisplayList.InterpolatorGroup, serial: UInt32)
@@ -594,12 +647,16 @@ extension DisplayList {
                 return []
             case .archive(_):
                 return []
+            case .clip:
+                assertUnimplemented()
             case .platformGroup(let factory):
                 return factory.features
             case .opacity(_):
                 return []
             case .transform(_):
                 return []
+            case .platform:
+                assertUnimplemented()
             case .identity:
                 return []
             }

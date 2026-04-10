@@ -83,9 +83,13 @@ extension DisplayList.ViewUpdater {
                     assertUnimplemented()
                 case .archive(_):
                     assertUnimplemented()
+                case .clip:
+                    assertUnimplemented()
                 case .platformGroup(_):
                     assertUnimplemented()
                 case .opacity(_):
+                    assertUnimplemented()
+                case .platform:
                     assertUnimplemented()
                 case .transform(_):
                     assertUnimplemented()
