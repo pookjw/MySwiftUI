@@ -157,9 +157,22 @@ extension DisplayList {
                     // <+120>
                     return DisplayList.Properties(rawValue: 0)
                 }
-            case .effect(_, _):
-                // <+128>
-                assertUnimplemented()
+            case .effect(let effect, let displayList):
+                // <+132>
+                switch effect {
+                case .backdropGroup(_):
+                    assertUnimplemented()
+                case .archive(_):
+                    assertUnimplemented()
+                case .platformGroup(_):
+                    assertUnimplemented()
+                case .opacity(_):
+                    assertUnimplemented()
+                case .transform(_):
+                    assertUnimplemented()
+                case .identity:
+                    return displayList.properties
+                }
             case .states(_):
                 // <+92>
                 assertUnimplemented()
@@ -348,109 +361,70 @@ extension DisplayList {
         }
         
         func canMergeWithPlatformState(state: DisplayList.ViewUpdater.Model.PlatformState) -> Bool {
-            // w23
+            /*
+             self -> x20
+             state -> x0
+             */
+            // w22
             let separatedState = state.separatedState
-            // value case = w28
+            // w26 -> value.effect (effect case)
+            // w27 -> value (case)
+            
             if
-                case .effect(let effect, _) = value,
+                case .effect(let effect, _) = self.value,
                 case .platformGroup(_) = effect,
-                separatedState == .separated
+                case .separated = separatedState
             {
                 return false
             }
             
-            // <+72>
-            // state = x21
-            // d10
-            let zPosition = state.zPosition
-            // w22
-            _ = state.renderingTechnique
-            // x23, sp + 0x10
-            let remoteEffects = state.remoteEffects
+            // state -> x0 -> x19
+            let d10 = state.zPosition
+            // w24
+            let renderingTechnique = state.renderingTechnique
+            // x23
+            let leafEffects = state.remoteEffects.hoverEffectState.leafEffects
+            // sp + 0x10
+            let hoverEffectState = state.remoteEffects.hoverEffectState
             // w21
-            _ = state.hitTestsAsOpaque
-            // d8, d9
-            _ = frame.size
+            let hitTestsAsOpaque = state.hitTestsAsOpaque
+            let d8 = self.frame.size.width
+            let d9 = self.frame.size.height
+            /*
+             x25 -> value + 0x0
+             x20 -> value + 0x10
+             */
             
-            // <+96>
-            // true = <+148>, false = <+264>
-            let flag: Bool
-            if (zPosition == 0) && (separatedState == .separated) {
-                // <+116>
-                if case .effect(let effect, _) = value {
-                    switch effect {
-                    case .backdropGroup(_):
-                        break
-                    case .archive(_):
-                        break
-                    default:
-                        return false
-                    }
-                    
-                    // <+136>
-                    if
-                        (zPosition != 0),
-                        case .transform(_) = effect
-                    {
-                        // <+840>
+            if d10 == 0 && separatedState != .separated {
+                // <+336>
+                if case .effect(let effect, let displayList) = value {
+                    // <+344>
+                    if hitTestsAsOpaque {
+                        // <+348>
+                        assertUnimplemented()
+                    } else {
+                        // <+456>
                         assertUnimplemented()
                     }
-                    // <+148>
-                    flag = true
                 } else {
-                    // <+264>
-                    flag = false
+                    // <+456>
+                    assertUnimplemented()
+                }
+            } else if case .effect(let effect, let displayList) = value {
+                // <+132>
+                if displayList.items.count > 1 {
+                    return false
+                } else {
+                    // <+144>
+//                    if d10 != 0 &&
+                    assertUnimplemented()
                 }
             } else {
-                // <+148>
-                flag = true
-            }
-            
-            if flag {
-                // <+148>
-                if case .effect(_, _) = value {
-                    // <+156>
-                    assertUnimplemented()
-                } else {
-                    // <+264>
-                }
-            }
-            
-            // <+264>
-            /*
-             hitTestsAsOpaque -> sp + 0x8
-             renderingTechnique -> sp + 0xc
-             */
-            switch value {
-            case .content(let content):
-                // <+280>
-                switch content.value {
-                case .backdrop(_):
-                    // <+728>
-                    return true
-                case .color(_):
-                    // <+728>
-                    return true
-                case .chameleonColor(_):
-                    // <+728>
-                    return true
-                case .shape(_, _, _):
-                    // <+300>
-                    assertUnimplemented()
-                default:
-                    // <+900>
-                    let result = remoteEffects.hoverEffectState.anyLeafEffectsSatisfy { _ in
-                        assertUnimplemented()
-                    }
-                    return !result
-                }
-            case .effect(_, _):
-                // <+428>
+                // <+456>
                 assertUnimplemented()
-            default:
-                // <+728>
-                return true
             }
+            
+            assertUnimplemented()
         }
         
         func offset3D(by: Size3D) {
@@ -615,7 +589,20 @@ extension DisplayList {
 //        case compositingGroup
         
         var features: DisplayList.Features {
-            assertUnimplemented()
+            switch self {
+            case .backdropGroup(_):
+                return []
+            case .archive(_):
+                return []
+            case .platformGroup(let factory):
+                return factory.features
+            case .opacity(_):
+                return []
+            case .transform(_):
+                return []
+            case .identity:
+                return []
+            }
         }
     }
 }

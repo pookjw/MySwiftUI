@@ -69,19 +69,30 @@ extension DisplayList.ViewUpdater {
             // <+132>
             switch item.value {
             case .content(let content):
-                // <+404>
+                // <+436>
                 switch content.value {
                 case .shape(let _, let _, let _):
-                    // <+416>
                     assertUnimplemented()
                 default:
                     return .infinity
                 }
-            case .effect(let _, let _):
-                // <+156>
-                assertUnimplemented()
+            case .effect(let effect, let displayList):
+                // <+132>
+                switch effect {
+                case .backdropGroup(_):
+                    assertUnimplemented()
+                case .archive(_):
+                    assertUnimplemented()
+                case .platformGroup(_):
+                    assertUnimplemented()
+                case .opacity(_):
+                    assertUnimplemented()
+                case .transform(_):
+                    assertUnimplemented()
+                case .identity:
+                    return .infinity
+                }
             default:
-                // <+676>
                 return .infinity
             }
         }

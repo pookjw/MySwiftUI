@@ -47,6 +47,10 @@ struct NativePlaygroundApp : App {
         ImmersiveSpace(id: "4") { 
             Color.white
         }
+        
+        WindowGroup(id: "AppModelView") { 
+            AppModelView()
+        }
     }
 }
 
@@ -54,7 +58,7 @@ fileprivate struct ContentView : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
-        navigationController.viewControllers = [PushViewController(), OpenImmsersiveWindowViewController()]
+        navigationController.viewControllers = [PushViewController(), AppModelViewController()]
         return navigationController
     }
     

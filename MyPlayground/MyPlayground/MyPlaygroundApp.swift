@@ -34,6 +34,10 @@ struct MyPlaygroundApp : App {
         ImmersiveSpace(id: "4") { 
             Color.white
         }
+        
+        WindowGroup(id: "AppModelView") { 
+            AppModelView()
+        }
     }
 }
 

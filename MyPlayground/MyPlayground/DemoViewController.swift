@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.openImmsersiveWindowView
+        let item = DemoViewController.Item.appModelView
         pushToItem(item)
         
 //        Task {
@@ -108,6 +108,7 @@ extension DemoViewController {
         case environmentView
         case observableEnvironmentView
         case appStorageView
+        case appModelView
         case hostingViewController
         case viewRepresentable
         case viewControllerRepresentable
@@ -165,6 +166,8 @@ extension DemoViewController {
                 return _typeName(ObservableEnvironmentViewController.self, qualified: false)
             case .appStorageView:
                 return _typeName(AppStorageViewController.self, qualified: false)
+            case .appModelView:
+                return _typeName(AppModelViewController.self, qualified: false)
             case .hostingViewController:
                 return _typeName(HostingViewController.self, qualified: false)
             case .viewRepresentable:
@@ -234,6 +237,8 @@ extension DemoViewController {
                 return ObservableEnvironmentViewController()
             case .appStorageView:
                 return AppStorageViewController()
+            case .appModelView:
+                return AppModelViewController()
             case .hostingViewController:
                 return HostingViewController()
             case .viewRepresentable:
