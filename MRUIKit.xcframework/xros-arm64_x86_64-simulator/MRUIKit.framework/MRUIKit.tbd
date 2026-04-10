@@ -31,7 +31,8 @@ exports:
     _$s7MRUIKit24MRUIWindowScenePlacementC24preferredScalingBehaviorAA09MRUIScenefG0OSgvMTj,
     __NSStringFromMRUIImmersiveEnvironmentBehavior,
     __NSStringFromMRUIImmersionStyle,
-    __NSStringFromMRUIImmersionShape ]
+    __NSStringFromMRUIImmersionShape,
+    _MRUISceneErrorDomain ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,

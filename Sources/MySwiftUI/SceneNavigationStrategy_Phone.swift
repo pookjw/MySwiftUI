@@ -692,9 +692,10 @@ struct SceneNavigationStrategy_Phone {
 }
 
 extension SceneNavigationStrategy_Phone {
+    // NSError 주소 또는 0, 1, 2
     enum Result {
         case failure(SceneNavigationStrategy_Phone.Error)
-        case opened
+        case opened // 2
     }
     
     enum Error {

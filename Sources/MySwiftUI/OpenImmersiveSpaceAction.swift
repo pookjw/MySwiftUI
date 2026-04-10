@@ -1,6 +1,7 @@
 // E9ADBE8A4025300D40698E090BDABFC1
 public import MySwiftUICore
 private import os.log
+private import MRUIKit
 
 @available(macOS 26.0, visionOS 1.0, *)
 @available(iOS, unavailable)
@@ -48,7 +49,30 @@ private import os.log
     }
     
     fileprivate func translatedResult(_ result: SceneNavigationStrategy_Phone.Result) -> OpenImmersiveSpaceAction.Result {
-        assertUnimplemented()
+        // result -> x0 -> x20
+        switch result {
+        case .failure(let error):
+            switch error {
+            case .system(let error):
+                // <+60>
+                for underlyingError in error.underlyingErrors {
+                    let nsError = (underlyingError as NSError)
+                    if nsError.domain == MRUISceneErrorDomain && nsError.code == MRUISceneError0xc8 {
+                        // <+336>
+                        return .userCancelled
+                    }
+                }
+                
+                return .error
+                assertUnimplemented()
+            case .userActivityEncoding:
+                return .error
+            case .invalidRequest:
+                return .error
+            }
+        case .opened:
+            return .opened
+        }
     }
 }
 

@@ -43,6 +43,12 @@ public struct AutomaticImmersionStyle : ImmersionStyle {
 @available(*, unavailable)
 extension AutomaticImmersionStyle : Sendable {}
 
+extension AutomaticImmersionStyle {
+    @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
+        return _ResolvedImmersionStyle(wrappedStyle: self, initialImmersionLevel: 0)
+    }
+}
+
 @available(macOS 26.0, visionOS 1.0, *)
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
@@ -98,6 +104,12 @@ public struct MixedImmersionStyle : ImmersionStyle {
 
 @available(*, unavailable)
 extension MixedImmersionStyle : Sendable {}
+
+extension MixedImmersionStyle {
+    @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
+        return _ResolvedImmersionStyle(wrappedStyle: self, initialImmersionLevel: 0)
+    }
+}
 
 @available(macOS 26.0, visionOS 1.0, *)
 @available(iOS, unavailable)

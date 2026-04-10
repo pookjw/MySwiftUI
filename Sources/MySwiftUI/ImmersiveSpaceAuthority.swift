@@ -64,16 +64,18 @@ final class ImmersiveSpaceAuthority {
         self.sceneDidUpdateImmersionState(scene: windowScene, immersionState: immersionState)
         
         // <+1080>
-        for continuation in self.sceneDestructionContinuations {
-            continuation.resume(returning: ())
+        for continuation in self.sceneCreationContinuations {
+            continuation.resume(returning: .opened)
         }
+        
+        self.sceneCreationContinuations = []
     }
     
     func sceneDisconnected(scene: UIScene, namespace: SceneList.Namespace, item: SceneList.Item) {
         /*
          scene -> dead
          namespace -> x0/x1/x2 -> x29 - 0x188 / x29 - 0x190 / x29 - 0x17c
-         item -> x3 -> x27
+         item -> x3 -> x27 -> x29 - 0x138
          */
         // <+384>
         guard case .immersiveSpace(_) = item.value else {
@@ -81,10 +83,53 @@ final class ImmersiveSpaceAuthority {
         }
         
         // <+416>
+        // self -> x20 -> x29 - 0x178
         Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription) was disconnected")
         
         // <+724>
-        assertUnimplemented()
+        // self -> x29 - 0x178 -> x20
+        // x27
+        let oldItem = self.immersiveSpaceBeingReplaced
+        
+        if let oldItem {
+            // <+880>
+            if case .destroying(let namespace, let item) = oldItem {
+                // <+900>
+                switch item.value {
+                case .windowGroup(let configuration):
+                    // <+1028>
+                    assertUnimplemented()
+                case .immersiveSpace(let configuration):
+                    // <+968>
+                    assertUnimplemented()
+                case .volume(let configuration):
+                    // <+1072>
+                    assertUnimplemented()
+                default:
+                    // <+1352>
+                    break
+                }
+            } else {
+                // <+1012>
+                // <+1368>
+            }
+        } else {
+            // <+852>
+            // <+1372>
+        }
+        
+        // <+1372>
+        self.immersiveSpaceScene = nil
+        self.currentImmersiveSpace = nil
+        NotificationCenter.default.post(name: ImmersiveSpaceAuthority.didChangeCurrentImmersiveSpace, object: self)
+        self.currentRemoteSessionInfo = nil
+        
+        for continuation in self.sceneDestructionContinuations {
+            continuation.resume(returning: ())
+        }
+        
+        self.sceneDestructionContinuations = []
+        // <+1732>
     }
     
     func updateCurrentImmersiveSpaceIfNeeded() {

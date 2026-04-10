@@ -30,6 +30,10 @@ struct MyPlaygroundApp : App {
             Color.white
         }
         .immersionStyle(selection: .constant(.progressive), in: .progressive)
+        
+        ImmersiveSpace(id: "4") { 
+            Color.white
+        }
     }
 }
 

@@ -29,3 +29,4 @@
 #import <MRUIKit/MRUIImmersiveSpaceSceneActivationRequestOptions.h>
 #import <MRUIKit/MRUISceneWorldAlignmentBehaviorClientComponent.h>
 #import <MRUIKit/MRUIImmersionState.h>
+#import <MRUIKit/MRUIKitErrors.h>

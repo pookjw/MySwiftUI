@@ -14,7 +14,7 @@ fileprivate struct MyView : View {
     var body: some View {
         MyButton(title: "Open Immersive Window") {
             Task {
-                await openImmersiveSpace(id: "3")
+                await openImmersiveSpace(id: "4")
             }
         }
         .onAppear {
