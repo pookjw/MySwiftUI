@@ -704,7 +704,7 @@ extension StackLayout {
                     var d0 = unsafe children[index].distanceToPrevious
                     d0 += d14
                     
-                    if d0.bitPattern & 0xfffffffffffff == 0 {
+                    if !d0.isNaN {
                         switch majorAxis {
                         case .horizontal:
                             unsafe children[index].geometry.origin.x = d0
@@ -723,7 +723,7 @@ extension StackLayout {
                     
                     d1 -= d13
                     
-                    if d1.bitPattern & 0xfffffffffffff == 0 {
+                    if !d1.isNaN {
                         switch majorAxis {
                         case .horizontal:
                             unsafe children[index].geometry.origin.y = d1
@@ -909,7 +909,7 @@ extension StackLayout {
                     // <+1264>
                     let x20 = x22 &+ sp40
                     var d1: CGFloat
-                    if explicitAlignment!.bitPattern & 0xfffffffffffff != 0 {
+                    if explicitAlignment!.isNaN {
                         d1 = .infinity
                     } else {
                         d1 = explicitAlignment!
@@ -935,17 +935,13 @@ extension StackLayout {
                     
                     d0 = d10 - d0
                     
-                    if d0.bitPattern & 0xfffffffffffff == 0 {
-                        d1 = d0
-                    } else {
+                    if d0.isNaN {
                         d1 = d10
+                    } else {
+                        d1 = d0
                     }
                     
-                    if d0.bitPattern & 0x7ff0000000000000 == 0 {
-                        d10 = d1
-                    } else {
-                        d10 = d0
-                    }
+                    d10 = d1
                     
                     if x20 == 0 {
                         break

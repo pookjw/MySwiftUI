@@ -697,8 +697,6 @@ extension DisplayList.ViewUpdater {
              state = x21
              viewInfo = x19
              */
-            // x25/w25
-            _ = encoding
             var d9 = size.width
             var d8 = size.height
             let d15 = viewInfo.state.size.width
