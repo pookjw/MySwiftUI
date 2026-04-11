@@ -20,7 +20,6 @@ struct MyLabel : UIViewRepresentable {
         label.text = text
         label.font = .preferredFont(forTextStyle: .extraLargeTitle)
         label.textAlignment = .center
-        label.backgroundColor = .systemOrange
         return label
     }
     

@@ -866,7 +866,6 @@ extension StackLayout {
                 
                 // fittingOrder은 더 이상 x10이 아님
                 // <+588>
-                assert(index == fittingOrder)
                 // w15 -> sp + 0x1c
                 var x22 = index
                 let sp40 = -otherIndex

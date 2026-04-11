@@ -260,7 +260,6 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
          size -> x22
          */
         let subviews = subviews
-        let _ = cache
         
         // inlined
         var sizeCache = sizeCache

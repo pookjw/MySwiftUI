@@ -112,7 +112,7 @@ protocol LayoutEngine {
     func requiresSpacingProjection() -> Bool
     func spacing() -> Spacing
     mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize
-    func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat
+    mutating func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat
     mutating func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry]
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat?
     func childPlacement(at viewSize: ViewSize) -> _Placement
@@ -140,20 +140,8 @@ extension LayoutEngine {
         return Spacing()
     }
     
-    func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
-        let width = proposedSize.width ?? 10
-        let height = proposedSize.height ?? 10
-        
-        switch axis {
-        case .horizontal:
-            return width
-        case .vertical:
-            return height
-        }
-    }
-    
-    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        assertUnimplemented()
+    mutating func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
+        return self.sizeThatFits(proposedSize)[axis]
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {

@@ -24,9 +24,9 @@ struct AppModelView : View {
     var body: some View {
         MyLabel(text: observableModel.count.description)
         MyStepper(value: $observableModel.count)
-//        MyButton(title: "Open Window") { 
-//            openWindow(id: "AppModelView")
-//        }
+        MyButton(title: "Open Window") { 
+            openWindow(id: "AppModelView")
+        }
     }
 }
 
