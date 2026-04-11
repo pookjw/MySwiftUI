@@ -687,7 +687,7 @@ extension DisplayList {
                 self.serial = 0
                 self.restored = .unknown1
             } else {
-                old.serial += 1
+                old.serial &+= 1
                 self.serial = old.serial
                 self.restored = []
             }

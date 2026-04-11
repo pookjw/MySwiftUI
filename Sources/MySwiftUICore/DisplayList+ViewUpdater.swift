@@ -312,7 +312,13 @@ extension DisplayList {
                 // <+924>
                 if !requirements.contains(.unknown0) {
                     // <+944>
-                    assertUnimplemented()
+                    if case .effect(_, let displayList) = copy_2.value {
+                        self.update(container: &container, from: displayList, parentState: parentState)
+                    }
+                    
+                    // <+1840>
+                    // <+1988>
+                    return
                 } else {
                     // <+1816>
                     self.updateItemView(container: &container, from: copy_2, localState: &parentStatePointee2)
@@ -370,6 +376,30 @@ extension DisplayList {
             
             // <+292>
             assertUnimplemented()
+        }
+        
+        fileprivate func update(
+            container: inout DisplayList.ViewUpdater.Container,
+            from displayList: DisplayList,
+            parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
+        ) {
+            for item in displayList.items {
+                /*
+                 self -> x20 -> x19
+                 parentState -> x2 -> x21
+                 container -> x0 -> x22
+                 */
+                // inlined
+                self.viewCache.index.enter(identity: item.identity)
+                var item = item
+                let time = self.viewCache.prepare(item: &item, platform: self.rootPlatform, parentState: parentState)
+                
+                if time < container.time {
+                    container.time = time
+                }
+                
+                self.updateInheritedView(container: &container, from: item, parentState: parentState)
+            }
         }
     }
 }
