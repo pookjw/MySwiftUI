@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.appModelView
+        let item = DemoViewController.Item.windowCounterView
         pushToItem(item)
         
 //        Task {
@@ -108,7 +108,8 @@ extension DemoViewController {
         case environmentView
         case observableEnvironmentView
         case appStorageView
-        case appModelView
+        case bindableView
+        case windowCounterView
         case hostingViewController
         case viewRepresentable
         case viewControllerRepresentable
@@ -166,8 +167,10 @@ extension DemoViewController {
                 return _typeName(ObservableEnvironmentViewController.self, qualified: false)
             case .appStorageView:
                 return _typeName(AppStorageViewController.self, qualified: false)
-            case .appModelView:
-                return _typeName(AppModelViewController.self, qualified: false)
+            case .bindableView:
+                return _typeName(BindableViewController.self, qualified: false)
+            case .windowCounterView:
+                return _typeName(WindowCounterViewController.self, qualified: false)
             case .hostingViewController:
                 return _typeName(HostingViewController.self, qualified: false)
             case .viewRepresentable:
@@ -237,8 +240,10 @@ extension DemoViewController {
                 return ObservableEnvironmentViewController()
             case .appStorageView:
                 return AppStorageViewController()
-            case .appModelView:
-                return AppModelViewController()
+            case .bindableView:
+                return BindableViewController()
+            case .windowCounterView:
+                return WindowCounterViewController()
             case .hostingViewController:
                 return HostingViewController()
             case .viewRepresentable:

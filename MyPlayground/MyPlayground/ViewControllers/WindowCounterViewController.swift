@@ -1,8 +1,8 @@
 //
-//  AppModelViewController.swift
+//  WindowCounterViewController.swift
 //  MyPlayground
 //
-//  Created by Jinwoo Kim on 4/10/26.
+//  Created by Jinwoo Kim on 4/12/26.
 //
 
 import UIKit
@@ -13,34 +13,26 @@ import MySwiftUI
 #endif
 import Observation
 
-@MainActor
-@Observable
-fileprivate final class ObservableAppModel {
-    static let shared = ObservableAppModel()
-    
-    var count = 0
-}
-
-struct AppModelView : View {
-    @Environment(\.openWindow) private var openWindow
-    @Bindable fileprivate var observableModel: ObservableAppModel = .shared
+struct WindowCounterView : View {
+    @Binding var count: Int
     
     var body: some View {
-        MyLabel(text: observableModel.count.description)
-        MyStepper(value: $observableModel.count)
-        MyButton(title: "Open Window") { 
-            openWindow(id: "AppModelView")
-        }
+        MyLabel(text: count.description)
+        MyStepper(value: $count)
     }
 }
 
 fileprivate struct MyView : View {
+    @Environment(\.openWindow) private var openWindow
+    
     var body: some View {
-        AppModelView()
+        MyButton(title: "Open Window") {
+            openWindow(id: "WindowCounter")
+        }
     }
 }
 
-final class AppModelViewController : UIViewController {
+final class WindowCounterViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -12,6 +12,8 @@ import UIKit
 
 @main
 struct MyPlaygroundApp : App {
+    @State private var count = 0
+    
     var body: some Scene {
         WindowGroup { 
             ContentView()
@@ -35,8 +37,12 @@ struct MyPlaygroundApp : App {
             Color.white
         }
         
-        WindowGroup(id: "AppModelView") { 
-            AppModelView()
+        WindowGroup(id: "BindableView") { 
+            BindableView()
+        }
+        
+        WindowGroup(id: "WindowCounter") { 
+            WindowCounterView(count: $count)
         }
     }
 }

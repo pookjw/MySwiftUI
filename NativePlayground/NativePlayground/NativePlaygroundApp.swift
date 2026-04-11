@@ -12,15 +12,10 @@ import UIKit
 import Combine
 import _SwiftUICorePrivate
 
-fileprivate struct MyPredicate : ViewInputPredicate {
-    static func evaluate(inputs: _GraphInputs) -> Bool {
-        return true
-    }
-}
-
 @main
 struct NativePlaygroundApp : App {
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    @State private var count = 0
+    
     init() {
         printOffsets()
     }
@@ -48,8 +43,8 @@ struct NativePlaygroundApp : App {
             Color.white
         }
         
-        WindowGroup(id: "AppModelView") { 
-            AppModelView()
+        WindowGroup(id: "WindowCounter") { 
+            WindowCounterView(count: $count)
         }
     }
 }
@@ -58,7 +53,7 @@ fileprivate struct ContentView : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
-        navigationController.viewControllers = [PushViewController(), AppModelViewController()]
+        navigationController.viewControllers = [PushViewController(), WindowCounterViewController()]
         return navigationController
     }
     

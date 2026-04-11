@@ -1,42 +1,46 @@
 //
-//  Untitled.swift
-//  NativePlayground
+//  BindableViewController.swift
+//  MyPlayground
 //
 //  Created by Jinwoo Kim on 4/10/26.
 //
 
 import UIKit
+#if USE_ORIGINAL_SWIFTUI
 import SwiftUI
+#else
+import MySwiftUI
+#endif
 import Observation
 
 @MainActor
 @Observable
-fileprivate final class ObservableAppModel {
-    static let shared = ObservableAppModel()
+fileprivate final class ObservableBindableModel {
+    static let shared = ObservableBindableModel()
     
     var count = 0
 }
 
-struct AppModelView : View {
+struct BindableView : View {
     @Environment(\.openWindow) private var openWindow
-    @Bindable fileprivate var observableModel: ObservableAppModel = .shared
+    @Bindable fileprivate var observableModel: ObservableBindableModel = .shared
     
     var body: some View {
         MyLabel(text: observableModel.count.description)
         MyStepper(value: $observableModel.count)
         MyButton(title: "Open Window") { 
-            openWindow(id: "AppModelView")
+            openWindow(id: "BindableView")
         }
     }
 }
 
 fileprivate struct MyView : View {
     var body: some View {
-        AppModelView()
+        BindableView()
     }
 }
 
-final class AppModelViewController : UIViewController {
+final class BindableViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
