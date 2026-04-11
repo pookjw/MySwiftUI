@@ -64,9 +64,9 @@ extension DisplayList.ViewUpdater {
         }
         
         struct MergedViewRequirements : OptionSet {
-            static let unknown1 = MergedViewRequirements(rawValue: 1 << 0)
-            static let unknown2 = MergedViewRequirements(rawValue: 1 << 1)
-            static let unknown4 = MergedViewRequirements(rawValue: 1 << 2)
+            static let unknown0 = MergedViewRequirements(rawValue: 1 << 0)
+            static let unknown1 = MergedViewRequirements(rawValue: 1 << 1)
+            static let unknown2 = MergedViewRequirements(rawValue: 1 << 2)
             
             let rawValue: UInt8
         }
@@ -210,7 +210,7 @@ extension DisplayList.ViewUpdater.Model {
         // w22
         var requirements = DisplayList.ViewUpdater.Model.MergedViewRequirements(rawValue: 0)
         if result {
-            requirements.formUnion(.unknown4)
+            requirements.formUnion(.unknown2)
         }
         
         if unsafe !state.clips.isEmpty {
@@ -221,7 +221,7 @@ extension DisplayList.ViewUpdater.Model {
         // <+1568>
         // x23
         _ = copy_1.version
-        if !requirements.contains(.unknown2) {
+        if !requirements.contains(.unknown1) {
             let transform = unsafe state.transform
             if (transform.a == 1) && (transform.b == 0) && (transform.c == 0) && (transform.d == 1) {
                 // <+1780>
@@ -232,20 +232,20 @@ extension DisplayList.ViewUpdater.Model {
         }
         
         // <+1780>
-        if unsafe !requirements.contains(.unknown2) && ((state.shadow != nil) || (!state.filters.isEmpty)) {
+        if unsafe !requirements.contains(.unknown1) && ((state.shadow != nil) || (!state.filters.isEmpty)) {
            // <+1804>
             assertUnimplemented()
         }
         
         // <+1892>
         // version -> x24
-        if unsafe !requirements.contains(.unknown2) && state.properties.contains(.ignoresEvents) {
+        if unsafe !requirements.contains(.unknown1) && state.properties.contains(.ignoresEvents) {
             // <+1908>
             assertUnimplemented()
         }
         
         // <+1988>
-        if !requirements.contains(.unknown2) {
+        if !requirements.contains(.unknown1) {
             // <+1992>
             // sp + 0x6e0
             let copy_5 = item
@@ -310,7 +310,7 @@ extension DisplayList.ViewUpdater.Model {
                 assertUnimplemented()
             default:
                 // <+2628>
-                requirements.formUnion(.unknown1)
+                requirements.formUnion(.unknown0)
                 // <+2648>
             }
         case .effect(let effect, let displayList):
@@ -326,7 +326,7 @@ extension DisplayList.ViewUpdater.Model {
             fatalError()
         case .empty:
             // <+2644>
-            requirements.subtract(.unknown2)
+            requirements.subtract(.unknown1)
             // <+2648>
             break
         }
@@ -346,7 +346,7 @@ extension DisplayList.ViewUpdater.Model {
          state = x19
          */
         
-        if unsafe !requirements.isSuperset(of: [.unknown1, .unknown2]) && !state.platformState.separatedModifiers.isEmpty,
+        if unsafe !requirements.isSuperset(of: [.unknown0, .unknown1]) && !state.platformState.separatedModifiers.isEmpty,
            case .states(_) = item.value 
         {
             // <+88>

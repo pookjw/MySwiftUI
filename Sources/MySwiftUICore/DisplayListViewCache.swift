@@ -6,17 +6,17 @@ private import _MySwiftUIShims
 
 extension DisplayList.ViewUpdater {
     @safe struct ViewCache {
-        var map: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewInfo] = [:]
-        var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key] = unsafe [:]
-        var removed: Set<DisplayList.ViewUpdater.ViewCache.Key> = []
-        fileprivate var animators: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewCache.AnimatorInfo] = [:]
-        fileprivate var asyncValues: [ObjectIdentifier: DisplayList.ViewUpdater.ViewCache.AsyncValues] = [:]
-        fileprivate var pendingAsyncValues: [ObjectIdentifier: [DisplayList.ViewUpdater.ViewCache.PendingAsyncValue]] = [:]
-        var asyncModifierGroup: CAPresentationModifierGroup? = nil
-        var pendingAsyncUpdates: [() -> Void] = []
-        var index = DisplayList.Index()
-        var cacheSeed: UInt32 = 0
-        var currentList = DisplayList()
+        var map: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewInfo] = [:] // 0x0
+        var reverseMap: [OpaquePointer: DisplayList.ViewUpdater.ViewCache.Key] = unsafe [:] // 0x8
+        var removed: Set<DisplayList.ViewUpdater.ViewCache.Key> = [] // 0x10
+        fileprivate var animators: [DisplayList.ViewUpdater.ViewCache.Key: DisplayList.ViewUpdater.ViewCache.AnimatorInfo] = [:] // 0x18
+        fileprivate var asyncValues: [ObjectIdentifier: DisplayList.ViewUpdater.ViewCache.AsyncValues] = [:] // 0x20
+        fileprivate var pendingAsyncValues: [ObjectIdentifier: [DisplayList.ViewUpdater.ViewCache.PendingAsyncValue]] = [:] // 0x28
+        var asyncModifierGroup: CAPresentationModifierGroup? = nil // 0x30
+        var pendingAsyncUpdates: [() -> Void] = [] // 0x38
+        var index = DisplayList.Index() // 0x40
+        var cacheSeed: UInt32 = 0 // 0x54
+        var currentList = DisplayList() // 0x58
         
         init() {}
         

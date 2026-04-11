@@ -666,11 +666,11 @@ extension DisplayList {
 
 extension DisplayList {
     struct Index {
-        var identity = _DisplayList_Identity(decodedValue: 0)
-        var serial: UInt32 = 0
-        fileprivate(set) var archiveIdentity = _DisplayList_Identity(decodedValue: 0)
-        fileprivate(set) var archiveSerial: UInt32 = 0
-        fileprivate var restored = DisplayList.Index.RestoreOptions(rawValue: 0)
+        var identity = _DisplayList_Identity(decodedValue: 0) // 0x0
+        var serial: UInt32 = 0 // 0x4
+        fileprivate(set) var archiveIdentity = _DisplayList_Identity(decodedValue: 0) // 0x8
+        fileprivate(set) var archiveSerial: UInt32 = 0 // 0xc
+        fileprivate var restored = DisplayList.Index.RestoreOptions(rawValue: 0) // 0x10
         
         init() {}
         

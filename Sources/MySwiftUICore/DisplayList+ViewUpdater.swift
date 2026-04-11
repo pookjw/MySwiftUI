@@ -12,17 +12,17 @@ extension DisplayList {
     @safe nonisolated(unsafe) static var overrideMayInsertCALayers: Bool? = nil
     
     package final class ViewUpdater : ViewRendererBase {
-        let rootPlatform: DisplayList.ViewUpdater.Platform
-        private weak var host: ViewRendererHost? = nil
-        private var viewCache: DisplayList.ViewUpdater.ViewCache
-        private var seed = DisplayList.Seed()
-        private var asyncSeed = DisplayList.Seed()
-        private var nextUpdate = Time()
-        private var lastEnv = DisplayList.ViewRenderer.Environment.invalid
-        private var lastList = DisplayList()
-        private var lastTime = Time()
-        private var isValid = true
-        private var wasValid = true
+        let rootPlatform: DisplayList.ViewUpdater.Platform // 0x10
+        private weak var host: ViewRendererHost? = nil // 0x18
+        private var viewCache: DisplayList.ViewUpdater.ViewCache // 0x28
+        private var seed = DisplayList.Seed() // 0x90
+        private var asyncSeed = DisplayList.Seed() // 0x92
+        private var nextUpdate = Time() // 0x98
+        private var lastEnv = DisplayList.ViewRenderer.Environment.invalid // 0xa0
+        private var lastList = DisplayList() // 0xa8
+        private var lastTime = Time() // 0xb8
+        private var isValid = true // 0xc0
+        private var wasValid = true // 0xc1
         
 #if !os(visionOS)
         var effectiveRootPlatform: DisplayList.ViewUpdater.Platform {
@@ -265,82 +265,66 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        // $s7SwiftUI11DisplayListV11ViewUpdaterC015updateInheritedE033_B86250B2E056EB47628ECF46032DFA4CLL9container4from11parentStateyAE9ContainerAGLLVz_AC4ItemVSPyAE5ModelO0R0VGtF
         fileprivate func updateInheritedView(
             container: inout DisplayList.ViewUpdater.Container,
             from item: DisplayList.Item,
             parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
-            // x29 = sp + 0x7f0
-            // x21 = sp + 0x580
-            // x27 = sp + 0x270
-            // x28 = sp + 0x160
             /*
-             self = x19
-             container = x22
-             parentState = x23
+             self -> x20 -> x19
+             container -> x0 -> x22
+             parentState -> x2 -> x23
              */
-            // sp + 0x5d0
-            _ = item
-            // sp + 0x580
+            // sp + 0x470
+            let copy_1 = item
+            // sp + 0x420
             var copy_2 = item
-            // sp + 0x628
-            _ = unsafe parentState.pointee
-            // sp + 0x430
-            var copy_4 = unsafe parentState.pointee
+            // sp + 0x4c8
+            let parentStatePointee1 = parentState.pointee
+            // sp + 0x2d0
+            var parentStatePointee2 = parentState.pointee
+            // sp + 0xf0
+            let index = self.viewCache.index
+            // sp + 0x160
+            let copy_3 = copy_1
             
-            // <+164>
-            // self = sp
-            // sp + 0x270
-            let index = viewCache.index
+            // <+232>
+            // x24
+            let requirements = DisplayList.ViewUpdater.Model.merge(item: &copy_2, index: index, into: &parentStatePointee2)
             
-            // <+208>
-            // w24
-            let requirements = unsafe DisplayList.ViewUpdater.Model.merge(item: &copy_2, index: index, into: &copy_4)
-            
-            // <+248>
-            if !requirements.contains(.unknown4) {
-                // <+256>
-                // sp + 0x2c0
-                let copy_3 = copy_2
-                // sp + 0x270 / w8
-                let features = copy_3.features
-                
-                if !features.contains(.required) {
-                    //<+300>
-                    if case .states(_) = copy_2.value {
-                        // <+320>
-                        assertUnimplemented()
-                    }  else {
-                        // <+1724>
-                        assertUnimplemented()
-                    }
-                } else {
-                    // <+496>
-                }
-            }
-            
-            // <+496>
             if !requirements.contains(.unknown2) {
-                // <+500>
-                if !requirements.contains(.unknown1) {
-                    // <+508>
+                // <+256>
+                switch copy_2.value {
+                case .content(let content):
+                    // <+288>
+                    assertUnimplemented()
+                case .effect(let effect, let displayList):
+                    // <+364>
+                    assertUnimplemented()
+                case .states(let array):
+                    // <+336>
+                    assertUnimplemented()
+                case .empty:
+                    // <+740>
+                    assertUnimplemented()
+                }
+            } else if !requirements.contains(.unknown1) {
+                // <+924>
+                if !requirements.contains(.unknown0) {
+                    // <+944>
                     assertUnimplemented()
                 } else {
-                    // <+1608>
-                    // sp + 0x270
-                    let copy_5 = copy_2
-                    // sp + 0x2c0
-                    _ = copy_5
-                    // sp + 0x220
-                    let copy_7 = copy_2
-                    unsafe updateItemView(container: &container, from: copy_7, localState: &copy_4)
+                    // <+1816>
+                    self.updateItemView(container: &container, from: copy_2, localState: &parentStatePointee2)
+                    // <+1988>
                     return
                 }
-            } else {   
-                // <+588>
+            } else {
+                // <+1012>
                 assertUnimplemented()
             }
+            
+            assertUnimplemented()
         }
         
         fileprivate func updateItemView(
