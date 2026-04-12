@@ -184,25 +184,25 @@ extension ForEach {
 }
 
 final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> {
-    private var inputs: _ViewListInputs
-    private var parentSubgraph: Subgraph
-    fileprivate var info: Attribute<ForEachState.Info>? = nil
-    fileprivate var list: Attribute<ViewList>? = nil
-    private var view: ForEach<Data, ID, Content>? = nil
-    private var viewsPerElementCount: ForEachState.ViewsPerElementCount = .uninitialized
-    private var viewCounts: [Int] = []
-    private var viewCountStyle = _ViewList_IteratorStyle(granularity: 1)
-    private var items: [ID: ForEachState.Item] = .init()
-    private var edits = ForEachState.LazyEdits()
-    private var lastTransaction = TransactionID()
-    private var firstInsertionOffset: Int = -1
-    private var contentID: Int = 0
-    private var seed: UInt32 = 0
-    private var createdAllItems: Bool = false
-    private var evictionSeed: UInt32 = 0
-    private var pendingEviction: Bool = false
-    private var evictedIDs: Set<ID> = .init()
-    private var matchingStrategyCache: [ObjectIdentifier: IDTypeMatchingStrategy] = .init()
+    private var inputs: _ViewListInputs // 0x10
+    private var parentSubgraph: Subgraph // 0x98
+    fileprivate var info: Attribute<ForEachState.Info>? = nil // 0xa0
+    fileprivate var list: Attribute<ViewList>? = nil // 0xa8
+    private var view: ForEach<Data, ID, Content>? = nil // 0xb0
+    private var viewsPerElementCount: ForEachState.ViewsPerElementCount = .uninitialized // 0xe8
+    private var viewCounts: [Int] = [] // 0xf8
+    private var viewCountStyle = _ViewList_IteratorStyle(granularity: 1) // 0x100
+    private var items: [ID: ForEachState.Item] = .init() // 0x108
+    private var edits = ForEachState.LazyEdits() // 0x110
+    private var lastTransaction = TransactionID() // 0x160
+    private var firstInsertionOffset: Int = -1 // 0x168
+    private var contentID: Int = 0 // 0x170
+    private var seed: UInt32 = 0 // 0x178
+    private var createdAllItems: Bool = false // 0x17c
+    private var evictionSeed: UInt32 = 0 // 0x180
+    private var pendingEviction: Bool = false // 0x184
+    private var evictedIDs: Set<ID> = .init() // 0x188
+    private var matchingStrategyCache: [ObjectIdentifier: IDTypeMatchingStrategy] = .init() // 0x190
     
     init(inputs: _ViewListInputs) {
         // <+500>
@@ -339,7 +339,9 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
             return true
         }
         
+        // x29 - 0xa8
         let endIndex = self.view!.data.endIndex
+        // x29 - 0xc8
         var startIndex = self.view!.data.startIndex
         
         if index < 1 {
@@ -367,7 +369,11 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
         }
         
         // <+1184>
+        // x23
+        var offset = 0
         while startIndex != endIndex {
+            // x28
+            let item = self.item(at: startIndex, offset: offset)
             assertUnimplemented()
         }
         
@@ -382,6 +388,29 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
     }
     
     func item(at index: Data.Index, offset: Int) -> ForEachState<Data, ID, Content>.Item {
+        /*
+         index -> x19 + 0xd8
+         offset -> x19 + 0xe0
+         */
+        // <+620>
+        self.pendingEviction = true
+        // self -> x20 -> x19 + 0xd0
+        // x22
+        let view = self.view!
+        // x24 (x19 + 0xe8)
+        let id = view.idGenerator.makeID(data: view.data, index: index, offset: offset)
+        _ = consume view
+        
+        self.evictedIDs.remove(id)
+        
+        if let existing = self.items[id] {
+            // <+1108>
+            assertUnimplemented()
+        } else {
+            // <+1440>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     
@@ -424,6 +453,33 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
 
 extension ForEachState {
     final class Item {
+        private let subgraph: Subgraph // 0x10
+        private var refCount: UInt32 // 0x18
+        private let id: ID // 0x20
+        private let reuseID: Int // 0x28
+        private let views: _ViewListOutputs.Views // 0x30
+        private weak var state: ForEachState<Data, ID, Content>? // 0x60
+        private var index: Data.Index // 0x68
+        private var offset: Int // 0x70
+        private var contentID: Int // 0x78
+        private var seed: UInt32 // 0x80
+        private var isConstant: Bool // 0x84
+        private var timeToLive: Int8 // 0x85
+        private var isRemoved: Bool // 0x86
+        private var hasWarned: Bool // 0x87
+        
+        init() {
+            assertUnimplemented()
+        }
+        
+        func applyTraits(to collection: inout ViewTraitCollection) {
+            assertUnimplemented()
+        }
+        
+        func invalidate() {
+            assertUnimplemented()
+        }
+        
         // TODO
     }
     
@@ -524,6 +580,19 @@ extension ForEach {
     enum IDGenerator {
         case keyPath(KeyPath<Data.Element, ID>)
         case offset
+        
+        var isConstant: Bool {
+            switch self {
+            case .keyPath(_):
+                return false
+            case .offset:
+                return true
+            }
+        }
+        
+        func makeID(data: Data, index: Data.Index, offset: Int) -> ID {
+            assertUnimplemented()
+        }
     }
 }
 
