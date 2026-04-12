@@ -187,7 +187,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return nil
     }
     
-    package var graphDelegate: ViewGraphDelegate? {
+    open var graphDelegate: GraphDelegate? {
         return nil
     }
     
@@ -407,8 +407,11 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             return
         }
         
+        Update.begin()
+        
         let pendingTransactions = pendingTransactions
         guard !pendingTransactions.isEmpty else {
+            Update.end()
             return
         }
         
@@ -434,6 +437,9 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         if let graphDelegate {
             graphDelegate.graphDidChange()
         }
+        
+        self.mayDeferUpdate = true
+        Update.end()
     }
     
     package final func runTransaction() {
@@ -453,7 +459,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         // inlined
         self.finishTransactionUpdate(in: data.globalSubgraph, id: id)
         
-        if let transaction, transaction.isEmpty {
+        if let transaction, !transaction.isEmpty {
             data.transaction = Transaction()
         }
     }

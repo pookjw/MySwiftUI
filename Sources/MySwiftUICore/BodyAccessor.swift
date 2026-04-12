@@ -38,7 +38,7 @@ extension BodyAccessor {
                     buffer.destroy()
                     let rule = StaticBody<Self, T>(accessor: self, container: container.value)
                     let graph = _GraphValue<Self.Body>(Attribute(rule))
-                    return (graph, buffer)
+                    return (graph, nil)
                 } else {
                     let rule = unsafe DynamicBody<Self, T>(accessor: self, _container: container.value, phase: pointer.pointee.phase, links: buffer, resetSeed: 0)
                     let graph = _GraphValue<Self.Body>(Attribute(rule))

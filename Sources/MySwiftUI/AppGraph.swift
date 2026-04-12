@@ -31,6 +31,10 @@ final class AppGraph : GraphHost {
     
     @safe nonisolated(unsafe) static var delegateBox: AnyFallbackDelegateBox?
     
+    override var graphDelegate: (any GraphDelegate)? {
+        return self
+    }
+    
     private var makeRootScene: (_SceneInputs) -> _SceneOutputs // 0xb0
     private var observers: Set<HashableWeakBox<AnyObject>> = [] // 0xc0
     @Attribute var rootScenePhase: ScenePhase // 0xc8
@@ -178,8 +182,7 @@ final class AppGraph : GraphHost {
         // <+284>
         self.rootSubgraph.apply { 
             if let attribute = outputs.preferences[SceneList.Key.self] {
-                let indirect = attribute.identifier.createIndirectAttribute2(8)
-                self.rootSceneLists = IndirectAttribute(source: Attribute(identifier: indirect))
+                self.rootSceneLists = IndirectAttribute(source: attribute)
             }
         }
         
@@ -251,6 +254,16 @@ extension AppGraph {
     }
 }
 
+extension AppGraph : GraphDelegate {
+    func updateGraph<T>(body: (GraphHost) -> T) -> T {
+        return body(self)
+    }
+    
+    func preferencesDidChange() {
+        assertUnimplemented()
+    }
+}
+
 protocol AppGraphObserver : AnyObject {
     func scenesDidChange(phaseChanged: Bool)
     func commandsDidChange()
@@ -279,6 +292,8 @@ fileprivate struct AppBodyAccessor<T : App>: BodyAccessor {
     typealias Body = T.Body
     
     func updateBody(of container: T, changed: Bool) {
+        guard changed else { return }
+        
         self.setBody {
             // $s7SwiftUI35TableRowContentModifierBodyAccessor33_3FCAC41ECA223CCA916A97D58BF9A4E6LLV06updateG02of7changedyx_SbtF0G0QzyXEfU_TA
             return container.body

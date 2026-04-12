@@ -89,6 +89,8 @@ struct ViewBodyAccessor<Container : View>: BodyAccessor {
     init() {}
     
     func updateBody(of container: Container, changed: Bool) {
+        guard changed else { return }
+        
         setBody { [unchecked = UncheckedSendable(container)] in
             return MainActor.assumeIsolated { 
                 return UncheckedSendable(unchecked.value.body)

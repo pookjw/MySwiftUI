@@ -6,4 +6,4 @@ package struct WeakBox<T : AnyObject> {
     }
 }
 
-extension WeakBox : Sendable where T : Sendable {}
+extension WeakBox : @unchecked Sendable {}

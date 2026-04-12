@@ -200,7 +200,7 @@ package final class ViewGraph : GraphHost {
         assertUnimplemented()
     }
     
-    package override var graphDelegate: (any ViewGraphDelegate)? {
+    package override var graphDelegate: (any GraphDelegate)? {
         return delegate
     }
     
