@@ -119,7 +119,10 @@ extension ForEach where Content : View {
 
 extension ForEach where Data == Range<Int>, ID == Int, Content : View {
     @_semantics("swiftui.requires_constant_range") public init(_ data: Range<Int>, @ViewBuilder content: @escaping (Int) -> Content) {
-        assertUnimplemented()
+        self.init(data, idGenerator: .offset) { offset in
+            // $sSiq0_Iegyr_Siq0_Iegnr_SnySiGRszSiRs_7SwiftUI4ViewR0_r1_lTRTA
+            content(offset)
+        }
     }
 }
 

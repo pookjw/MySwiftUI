@@ -24,28 +24,6 @@ struct NativePlaygroundApp : App {
         WindowGroup {
             ContentView()
         }
-        
-        WindowGroup(id: "1") { 
-            Color.black
-        }
-        
-        WindowGroup(id: "2") { 
-            Color.white
-        }
-        .windowStyle(.volumetric)
-        
-        ImmersiveSpace(id: "3") { 
-            Color.white
-        }
-        .immersionStyle(selection: .constant(.progressive), in: .progressive)
-        
-        ImmersiveSpace(id: "4") { 
-            Color.white
-        }
-        
-        WindowGroup(id: "WindowCounter") { 
-            WindowCounterView(count: $count)
-        }
     }
 }
 
@@ -53,7 +31,7 @@ fileprivate struct ContentView : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
-        navigationController.viewControllers = [PushViewController(), WindowCounterViewController()]
+        navigationController.viewControllers = [PushViewController(), ForEachViewController()]
         return navigationController
     }
     
