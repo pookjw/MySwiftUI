@@ -2,6 +2,7 @@
 internal import AttributeGraph
 private import Foundation
 private import os.log
+@_spi(SwiftUI) private import _ObservationPrivate
 
 public struct ForEach<Data, ID, Content> where Data : RandomAccessCollection, ID : Hashable {
     public var data: Data // 0x0
@@ -483,7 +484,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
             // <+2032>
             // countBox -> x21 -> x19 + 0x98
             // x26 (x19 + 0x60)
-            let content: Content = ObservationCenter.current._withObservation { 
+            let (content, accessList) = ObservationCenter.current._withObservation { 
                 // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFq0_yXEfU_TA
                 /*
                  self -> x0 -> x19
@@ -492,7 +493,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
                 // <+188>
                 let view = self.view!
                 return view.content(view.data[index])
-            }.value
+            }
             
             // <+2444>
             // x19 + 0x170
@@ -513,6 +514,16 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
                 childAttribute.value = content
                 
                 // <+924>
+                let accessLists: [ObservationTracking._AccessList]
+                if let accessList {
+                    accessLists = [accessList]
+                } else {
+                    accessLists = []
+                }
+                
+                ObservationCenter.current.invalidate(childAttribute, onChangeIn: accessLists)
+                
+                // <+1500>
                 assertUnimplemented()
             }
             
