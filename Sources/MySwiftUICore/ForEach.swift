@@ -1,13 +1,14 @@
 // 1A3DD35AB7F6976908CD7AF959F34D1F
 internal import AttributeGraph
 private import Foundation
+private import os.log
 
 public struct ForEach<Data, ID, Content> where Data : RandomAccessCollection, ID : Hashable {
-    public var data: Data
-    public var content: (Data.Element) -> Content
-    fileprivate private(set) var idGenerator: ForEach<Data, ID, Content>.IDGenerator
-    private var reuseID: KeyPath<Data.Element, Int>? = nil
-    private var obsoleteContentID: Int
+    public var data: Data // 0x0
+    public var content: (Data.Element) -> Content // 0x8
+    fileprivate private(set) var idGenerator: ForEach<Data, ID, Content>.IDGenerator // 0x18
+    fileprivate private(set) var reuseID: KeyPath<Data.Element, Int>? = nil // 0x20
+    fileprivate private(set) var obsoleteContentID: Int // 0x28
 }
 
 @available(*, unavailable)
@@ -184,7 +185,7 @@ extension ForEach {
 }
 
 final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> {
-    private var inputs: _ViewListInputs // 0x10
+    fileprivate var inputs: _ViewListInputs // 0x10
     private var parentSubgraph: Subgraph // 0x98
     fileprivate var info: Attribute<ForEachState.Info>? = nil // 0xa0
     fileprivate var list: Attribute<ViewList>? = nil // 0xa8
@@ -197,7 +198,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
     private var lastTransaction = TransactionID() // 0x160
     private var firstInsertionOffset: Int = -1 // 0x168
     private var contentID: Int = 0 // 0x170
-    private var seed: UInt32 = 0 // 0x178
+    fileprivate private(set) var seed: UInt32 = 0 // 0x178
     private var createdAllItems: Bool = false // 0x17c
     private var evictionSeed: UInt32 = 0 // 0x180
     private var pendingEviction: Bool = false // 0x184
@@ -396,22 +397,143 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
         self.pendingEviction = true
         // self -> x20 -> x19 + 0xd0
         // x22
-        let view = self.view!
+        let view = self.view
         // x24 (x19 + 0xe8)
-        let id = view.idGenerator.makeID(data: view.data, index: index, offset: offset)
-        _ = consume view
+        let id = view!.idGenerator.makeID(data: view!.data, index: index, offset: offset)
+        // view -> x19 + 0x58
         
         self.evictedIDs.remove(id)
         
-        if let existing = self.items[id] {
+        if let existing = self.items[id] /* x29 - 0x88 */ {
             // <+1108>
-            assertUnimplemented()
+            // id -> x24 -> x28
+            if existing.isRemoved {
+                self.uneraseItem(existing)
+            }
+            
+            // <+1160>
+            if existing.seed == self.seed {
+                if
+                    !existing.hasWarned,
+                    existing.index != index,
+                    isLinkedOnOrAfter(.v3)
+                {
+                    // <+3940>
+                    existing.hasWarned = true
+                    Log.externalWarning("\(_typeName(ForEach<Data, ID, Content>.self, qualified: false)): the ID \(id) occurs multiple times within the collection, this will give undefined results!")
+                    // <+2004>
+                } else {
+                    // <+2004>
+                }
+            } else {
+                // <+1908>
+                existing.index = index
+                existing.offset = offset
+                existing.contentID = self.contentID
+                existing.seed = self.seed
+                // <+2004>
+            }
+            
+            // <+2004>
+            existing.timeToLive = 8
+            // <+4460>
+            return existing
         } else {
             // <+1440>
+            // self -> x19 + 0xd0 -> x26
+            // x20
+            let subgraph1 = self.parentSubgraph
+            let graph = subgraph1.graph
+            // x22 -> x19 + 0xb0
+            let subgraph2 = graph.createSubgraph2(self.info!.identifier)
+            subgraph1.addChild(subgraph2)
+            
+            // <+1532>
+            // x19 + 0x258
+            var copy_1 = self.inputs
+            // x20
+            let cachedEnvironment = copy_1.base.cachedEnvironment
+            // x29 - 0x100
+            let copy_2 = cachedEnvironment.value
+            let newEnvironment = MutableBox(cachedEnvironment.value)
+            // x19 + 0x1d0
+            let copy_3 = copy_2
+            
+            var countBox: MutableBox<DebugReplaceableViewCount>?
+            if copy_1.base[IsInLazyContainer.self] {
+                // <+1768>
+                countBox = nil
+                
+                if case .uninitialized = self.viewsPerElementCount {
+                    // <+1828>
+                    // x21
+                    let _countBox = MutableBox<DebugReplaceableViewCount>(.uninitialized)
+                    countBox = _countBox
+                    copy_1.debugReplaceableViewCount = _countBox
+                    // <+2032>
+                } else {
+                    // <+2032>
+                }
+            } else {
+                // <+2024>
+                countBox = nil
+                // <+2032>
+            }
+            
+            // <+2032>
+            // countBox -> x21 -> x19 + 0x98
+            // x26 (x19 + 0x60)
+            let content: Content = ObservationCenter.current._withObservation { 
+                // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFq0_yXEfU_TA
+                /*
+                 self -> x0 -> x19
+                 index -> x1 -> x19 - 0xa8
+                 */
+                // <+188>
+                let view = self.view!
+                return view.content(view.data[index])
+            }.value
+            
+            // <+2444>
+            // x19 + 0x170
+            let outputs: _ViewListOutputs = subgraph2.apply { 
+                // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFAA16_ViewListOutputsVyXEfU0_
+                /*
+                 copy_1 -> x0 -> x29 - 0x130
+                 id -> x1 -> x22
+                 self -> x2 -> x29 - 0x138
+                 content -> x3 -> x29 - 0x150
+                 */
+                // <+492>
+                // id -> x22 -> x27
+                copy_1.base.pushStableID(id)
+                
+                let child = ForEachChild<Data, ID, Content>(info: self.info!, id: id)
+                let childAttribute = Attribute(child)
+                childAttribute.value = content
+                
+                // <+924>
+                assertUnimplemented()
+            }
+            
+            // <+2536>
+            view!.obsoleteContentID
+            
+//            let item = Self.Item(
+//                id: id,
+//                reuseID: <#T##Int#>,
+//                views: <#T##_ViewListOutputs.Views#>,
+//                subgraph: subgraph2,
+//                index: index,
+//                offset: offset,
+//                contentID: self.contentID,
+//                seed: self.seed,
+//                state: self,
+//                isConstant: view!.reuseID == nil
+//            )
+            
             assertUnimplemented()
         }
-        
-        assertUnimplemented()
     }
     
     func uneraseItem(_ item: ForEachState<Data, ID, Content>.Item) {
@@ -459,16 +581,27 @@ extension ForEachState {
         private let reuseID: Int // 0x28
         private let views: _ViewListOutputs.Views // 0x30
         private weak var state: ForEachState<Data, ID, Content>? // 0x60
-        private var index: Data.Index // 0x68
-        private var offset: Int // 0x70
-        private var contentID: Int // 0x78
-        private var seed: UInt32 // 0x80
+        fileprivate var index: Data.Index // 0x68
+        fileprivate var offset: Int // 0x70
+        fileprivate var contentID: Int // 0x78
+        fileprivate var seed: UInt32 // 0x80
         private var isConstant: Bool // 0x84
-        private var timeToLive: Int8 // 0x85
-        private var isRemoved: Bool // 0x86
-        private var hasWarned: Bool // 0x87
+        fileprivate var timeToLive: Int8 // 0x85
+        fileprivate private(set) var isRemoved: Bool // 0x86
+        fileprivate var hasWarned: Bool // 0x87
         
-        init() {
+        init(
+            id: ID,
+            reuseID: Int,
+            views: _ViewListOutputs.Views,
+            subgraph: Subgraph,
+            index: Data.Index,
+            offset: Int,
+            contentID: Int,
+            seed: UInt32,
+            state: ForEachState<Data, ID, Content>,
+            isConstant: Bool
+        ) {
             assertUnimplemented()
         }
         
@@ -591,7 +724,19 @@ extension ForEach {
         }
         
         func makeID(data: Data, index: Data.Index, offset: Int) -> ID {
-            assertUnimplemented()
+            /*
+             data -> x0 -> x19
+             index -> x1 -> x23
+             offset -> x2 -> x29 - 0x80
+             return pointer -> x8 -> x29 - 0x78
+             */
+            // <+140>
+            switch self {
+            case .keyPath(let keyPath):
+                return data[index][keyPath: keyPath]
+            case .offset:
+                return unsafeBitCast(offset, to: ID.self)
+            }
         }
     }
 }
@@ -688,5 +833,23 @@ extension ForEachList {
             let list = ForEachList(state: self.info.state, seed: self.seed)
             self.value = list
         }
+    }
+}
+
+struct IsInLazyContainer : ViewInputBoolFlag {
+}
+
+fileprivate struct ForEachChild<Data, ID, Content> : StatefulRule, CustomStringConvertible where Data : RandomAccessCollection, ID : Hashable {
+    @Attribute private(set) var info: ForEachState<Data, ID, Content>.Info
+    let id: ID
+    
+    var description: String {
+        assertUnimplemented()
+    }
+    
+    typealias Value = Content
+    
+    func updateValue() {
+        assertUnimplemented()
     }
 }

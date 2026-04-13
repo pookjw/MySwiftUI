@@ -7,7 +7,7 @@ public struct _ViewListInputs {
     @OptionalAttribute var traits: ViewTraitCollection? // 0x40
     private(set) var traitKeys: ViewTraitKeys? // 0x48
     private var containerContext: (any ContainerContext.Type)? // 0x58
-    private weak var debugReplaceableViewCount: MutableBox<Int?>? // 0x68
+    weak var debugReplaceableViewCount: MutableBox<DebugReplaceableViewCount>? // 0x68
     private(set) var contentOffset: ViewContentOffset? // 0x70
     
     init(_ base: _GraphInputs, implicitID: Int = 0, options: _ViewListInputs.Options = []) {

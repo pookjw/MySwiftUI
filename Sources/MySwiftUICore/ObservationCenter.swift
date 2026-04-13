@@ -19,6 +19,7 @@ final class ObservationCenter : @unchecked Sendable {
     private init() {
     }
     
+    @inline(always)
     func _withObservationStashed<T>(do block: () throws -> T) rethrows -> (value: T, accessOccurred: Bool) {
         /*
          x29 = sp + 0x140
@@ -45,6 +46,7 @@ final class ObservationCenter : @unchecked Sendable {
         }
     }
     
+    @inline(always)
     func _withObservation<T>(do block: () throws -> T) rethrows -> (value: T, accessList: ObservationTracking._AccessList?) {
         var accessList: ObservationTracking._AccessList?
         let result = try unsafe withUnsafeMutablePointer(to: &accessList) { pointer in
@@ -64,6 +66,7 @@ final class ObservationCenter : @unchecked Sendable {
         }
     }
     
+    @inline(always)
     func _withObservation<T, U>(attribute: Attribute<U>, do block: () throws -> T) rethrows -> T {
         var accessList: ObservationTracking._AccessList?
         let result = try unsafe withUnsafeMutablePointer(to: &accessList) { pointer in
@@ -264,5 +267,11 @@ extension ObservationTracking._AccessList {
                 unsafe selfEntries.pointee.merge(otherEntries.pointee) { $0.union($1) }
             }
         }
+    }
+}
+
+extension StatefulRule {
+    func withObservation<T>(observationCenter: ObservationCenter, do: () throws -> T) rethrows -> T {
+        assertUnimplemented()
     }
 }
