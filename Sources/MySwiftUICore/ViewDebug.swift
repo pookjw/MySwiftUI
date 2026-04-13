@@ -144,7 +144,7 @@ extension View {
     nonisolated static func makeDebuggableViewList<T : View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
         let shouldRecordTree = Subgraph.shouldRecordTree
         if shouldRecordTree {
-            Subgraph.beginTreeElement(value: view.value, flags: 0)
+            Subgraph.beginTreeElement(value: view.value, flags: 1)
         }
         defer {
             if shouldRecordTree {

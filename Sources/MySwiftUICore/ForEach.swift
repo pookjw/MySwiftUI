@@ -185,7 +185,7 @@ extension ForEach {
     }
 }
 
-final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> {
+final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content : View> {
     fileprivate var inputs: _ViewListInputs // 0x10
     private var parentSubgraph: Subgraph // 0x98
     fileprivate var info: Attribute<ForEachState.Info>? = nil // 0xa0
@@ -496,6 +496,8 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
             }
             
             // <+2444>
+            // x19 + 0x108
+            var countAttribute: Attribute<Int>?
             // x19 + 0x170
             let outputs: _ViewListOutputs = subgraph2.apply { 
                 // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFAA16_ViewListOutputsVyXEfU0_
@@ -522,8 +524,56 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content> 
                 }
                 
                 ObservationCenter.current.invalidate(childAttribute, onChangeIn: accessLists)
+                // childAttribute -> x29 - 0x148
                 
                 // <+1500>
+                // copy_1 -> x29 - 0x130 -> x24
+                if copy_1.options.contains(.requiresContentOffsets) {
+                    // <+1572>
+                    // w19
+                    let count: Attribute<Int>
+                    // x22
+                    let staticCount: Int
+                    if let contentOffset = self.inputs.contentOffset {
+                        // <+1616>
+                        switch contentOffset {
+                        case .staticCount(let _staticCount, _):
+                            // <+2136>
+                            let itemOffset = Self.ItemOffset(existingCount: OptionalAttribute(), item: nil)
+                            count = Attribute(itemOffset)
+                            staticCount = _staticCount
+                            // <+2376>
+                        case .dynamic(let _count, let _staticCount):
+                            // <+1636>
+                            let itemOffset = Self.ItemOffset(existingCount: OptionalAttribute(_count), item: nil)
+                            count = Attribute(itemOffset)
+                            staticCount = _staticCount
+                            // <+2376>
+                        }
+                    } else {
+                        // <+1884>
+                        let itemOffset = Self.ItemOffset(existingCount: OptionalAttribute(), item: nil)
+                        count = Attribute(itemOffset)
+                        staticCount = 0
+                        // <+2376>
+                    }
+                    
+                    // <+2376>
+                    copy_1.contentOffset = .dynamic(count: count, staticCount: staticCount)
+                    count.identifier.addInput(self.list!.identifier, options: .unknown2, token: 0)
+                    
+                    // <+2424>
+                    countAttribute = count
+                } else {
+                    // <+2440>
+                }
+                
+                // <+2440>
+                let view = _GraphValue(childAttribute)
+                // x25
+                let outputs = Content.makeDebuggableViewList(view: view, inputs: copy_1)
+                
+                // <+2580>
                 assertUnimplemented()
             }
             
@@ -772,7 +822,7 @@ struct ForEachEvictionInput : GraphInput {
     static let evictByDefault: Bool = isLinkedOnOrAfter(.v6)
 }
 
-fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Content>: ViewList, CustomStringConvertible {
+fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Content : View>: ViewList, CustomStringConvertible {
     private(set) var state: ForEachState<Data, ID, Content>
     private(set) var seed: UInt32
     
@@ -850,7 +900,7 @@ extension ForEachList {
 struct IsInLazyContainer : ViewInputBoolFlag {
 }
 
-fileprivate struct ForEachChild<Data, ID, Content> : StatefulRule, CustomStringConvertible where Data : RandomAccessCollection, ID : Hashable {
+fileprivate struct ForEachChild<Data : RandomAccessCollection, ID : Hashable, Content : View> : StatefulRule, CustomStringConvertible where Data : RandomAccessCollection, ID : Hashable {
     @Attribute private(set) var info: ForEachState<Data, ID, Content>.Info
     let id: ID
     
@@ -862,5 +912,16 @@ fileprivate struct ForEachChild<Data, ID, Content> : StatefulRule, CustomStringC
     
     func updateValue() {
         assertUnimplemented()
+    }
+}
+
+extension ForEachState {
+    fileprivate struct ItemOffset : Rule {
+        @OptionalAttribute var existingCount: Int?
+        var item: ForEachState<Data, ID, Content>.Item?
+        
+        var value: Int {
+            assertUnimplemented()
+        }
     }
 }
