@@ -376,6 +376,16 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
         while startIndex != endIndex {
             // x28
             let item = self.item(at: startIndex, offset: offset)
+            let result = body(&index, style, item)
+            
+            if result {
+                // <+1300>
+                assertUnimplemented()
+            } else {
+                // <+1296>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
         }
         
@@ -1083,9 +1093,23 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
         assertUnimplemented()
     }
     
-    func applyNodes(from index: inout Int, style: _ViewList_IteratorStyle, list: AttributeGraph::Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-        return self.state.forEachItem(from: &index, style: style) { index, style, state in
+    func applyNodes(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        list: Attribute<any ViewList>?,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to body: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
+        return self.state.forEachItem(from: &index, style: style) { [state] index, style, item in
             // $s7SwiftUI12ForEachStateC10applyNodes4from5style4list9transform2toSbSiz_AA23_ViewList_IteratorStyleV14AttributeGraph0Q0VyAA0mN0_pGSgAA01_mN26_TemporarySublistTransformVSbSiz_AkA01_mN5_NodeOAStXEtFSbSiz_AkC4ItemCyxq_q0__GtXEfU_TA
+            /*
+             index -> x0
+             style -> x1
+             item -> x2
+             state -> x3
+             transform -> x4/w5
+             body -> x6/x7
+             */
             assertUnimplemented()
         }
     }
