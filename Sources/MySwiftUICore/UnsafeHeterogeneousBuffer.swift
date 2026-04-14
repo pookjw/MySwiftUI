@@ -302,7 +302,7 @@ extension UnsafeHeterogeneousBuffer {
     
     func body<T>(as: T.Type) -> UnsafeMutablePointer<T> {
         return unsafe UnsafeMutableRawPointer(item)
-            .advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.size)
+            .advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.stride)
             .assumingMemoryBound(to: T.self)
     }
     

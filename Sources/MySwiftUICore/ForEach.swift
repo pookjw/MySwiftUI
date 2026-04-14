@@ -456,9 +456,9 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             let cachedEnvironment = copy_1.base.cachedEnvironment
             // x29 - 0x100
             let copy_2 = cachedEnvironment.value
+            // x19
             let newEnvironment = MutableBox(cachedEnvironment.value)
-            // x19 + 0x1d0
-            let copy_3 = copy_2
+            copy_1.base.cachedEnvironment = newEnvironment
             
             var countBox: MutableBox<DebugReplaceableViewCount>?
             if copy_1.base[IsInLazyContainer.self] {
@@ -482,6 +482,8 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             }
             
             // <+2032>
+            // x19 + 0x108
+            var countAttribute: Attribute<Int>?
             // countBox -> x21 -> x19 + 0x98
             // x26 (x19 + 0x60)
             let (content, accessList) = ObservationCenter.current._withObservation { 
@@ -496,8 +498,8 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             }
             
             // <+2444>
-            // x19 + 0x108
-            var countAttribute: Attribute<Int>?
+            // x19 + 0x110
+            var listAttribute: Attribute<any ViewList>? = nil
             // x19 + 0x170
             let outputs: _ViewListOutputs = subgraph2.apply { 
                 // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFAA16_ViewListOutputsVyXEfU0_
@@ -571,29 +573,197 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 // <+2440>
                 let view = _GraphValue(childAttribute)
                 // x25
-                let outputs = Content.makeDebuggableViewList(view: view, inputs: copy_1)
+                var outputs = Content.makeDebuggableViewList(view: view, inputs: copy_1)
                 
                 // <+2580>
-                assertUnimplemented()
+                if self.inputs.options.contains(.needsDynamicTraits) {
+                    let base = outputs.makeAttribute(inputs: self.inputs)
+                    let itemList = Self.ItemList(base: base, item: nil)
+                    // x29 - 0x1a8
+                    let attribute = Attribute(itemList)
+                    listAttribute = attribute
+                    attribute.identifier.addInput(self.list!.identifier, options: .unknown2, token: 0)
+                    outputs.views = .dynamicList(attribute, nil)
+                }
+                
+                // <+2868>
+                return outputs
             }
             
             // <+2536>
-            view!.obsoleteContentID
+            // x19 + 0x158
+            let reuseID = view!.reuseID.map { keyPath -> Int in
+                // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFSis7KeyPathCy7ElementQzSiGXEfU1_TA
+                /*
+                 element -> x0 -> x28
+                 self -> x1 -> x27
+                 index -> x2 -> x29 - 0xa8
+                 */
+                // <+192>
+                return self.view!.data[index][keyPath: keyPath]
+            }
             
-//            let item = Self.Item(
-//                id: id,
-//                reuseID: <#T##Int#>,
-//                views: <#T##_ViewListOutputs.Views#>,
-//                subgraph: subgraph2,
-//                index: index,
-//                offset: offset,
-//                contentID: self.contentID,
-//                seed: self.seed,
-//                state: self,
-//                isConstant: view!.reuseID == nil
-//            )
+            // x27
+            let item = Self.Item(
+                id: id,
+                reuseID: reuseID ?? 0,
+                views: outputs.views,
+                subgraph: subgraph2,
+                index: index,
+                offset: offset,
+                contentID: self.contentID,
+                seed: self.seed,
+                state: self,
+                isConstant: view!.reuseID == nil
+            )
             
-            assertUnimplemented()
+            // <+3008>
+            // x23 (x19 + 0x20)
+            let copy_4 = id
+            self.items[copy_4] = item
+            
+            // <+3148>
+            if let listAttribute {
+                listAttribute.mutateBody(as: Self.ItemList.self, invalidating: true) { itemList in
+                    // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFyAC0I4List33_1A3DD35AB7F6976908CD7AF959F34D1FLLVyxq_q0__GzXEfU2_TA
+                    itemList.item = item
+                }
+            }
+            
+            // <+3284>
+            if let countAttribute {
+                countAttribute.mutateBody(as: Self.ItemOffset.self, invalidating: true) { itemOffset in
+                    // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFyAC0I6Offset33_1A3DD35AB7F6976908CD7AF959F34D1FLLVyxq_q0__GzXEfU3_TA
+                    itemOffset.item = item
+                }
+            }
+            
+            // <+3416>
+            if offset >= self.firstInsertionOffset {
+                // <+3448>
+                self.edits.appendInsert(id: item.id)
+            }
+            
+            // x23 = x19 + 0x170
+            
+            // <+3548>
+            switch self.viewsPerElementCount {
+            case .countingDebugReplaceableViews(let mutableBox):
+                // <+3632>
+                // <+4424>
+                break
+            case .resolved(_), .indeterminate:
+                // <+3604>
+                // <+4424>
+                break
+            case .uninitialized:
+                // <+3664>
+                if let staticCount = outputs.staticCount {
+                    // <+4124>
+                    // <+4408>
+                    self.viewsPerElementCount = .resolved(staticCount)
+                    // <+4424>
+                } else if outputs.staticCount == nil {
+                    // <+3680>
+                    // x19 + 0xff
+                    var flag = false
+                    // x19 + 0x148
+                    var staticCount: Int? = nil
+                    // x19 + 0x1d0
+                    var countInputs = _ViewListCountInputs(
+                        customInputs: copy_1.base.customInputs,
+                        options: copy_1.options,
+                        baseOptions: copy_1.base.options,
+                        customViewCache: nil,
+                        debugReplaceableViewInfo: DebugReplaceableViewInfo(
+                            countAsZero: false,
+                            countedAsZero: nil
+                        )
+                    )
+                    
+                    withUnsafeMutablePointer(to: &flag) { pointer in
+                        // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFySpySbGXEfU4_
+                        /*
+                         pointer -> x0 -> x23
+                         self -> x1
+                         countInputs -> x2 -> x20
+                         staticCount -> x3 -> x22
+                         */
+                        if self.inputs.base[IsInLazyContainer.self] {
+                            countInputs.debugReplaceableViewInfo = DebugReplaceableViewInfo(
+                                countAsZero: true,
+                                countedAsZero: pointer
+                            )
+                        }
+                        
+                        // <+76>
+                        // x29 - 0x80
+                        let _ = countInputs
+                        // sp + 0x50
+                        let copy_2 = countInputs
+                        // sp
+                        let _ = copy_1
+                        staticCount = Content._viewListCount(inputs: copy_2)
+                    }
+                    
+                    if
+                        copy_1.base[IsInLazyContainer.self],
+                        let countBox,
+                        flag
+                    {
+                        // <+3812>
+                        if let staticCount {
+                            // staticCount -> x21
+                            // <+3824>
+                            // countBox -> x22
+                            switch countBox.value {
+                            case .counting(let count):
+                                // <+4564>
+                                countBox.value = .counting(staticCount + count)
+                                self.viewsPerElementCount = .countingDebugReplaceableViews(countBox)
+                                // <+4420>
+                            case .uninitialized:
+                                // <+4596>
+                                countBox.value = .counting(staticCount)
+                                self.viewsPerElementCount = .countingDebugReplaceableViews(countBox)
+                                // <+4420>
+                            case .indeterminate:
+                                // <+3892>
+                                self.viewsPerElementCount = .indeterminate
+                                // <+4420>
+                            }
+                        } else {
+                            // <+4172>
+                            self.viewsPerElementCount = .indeterminate
+                            // <+4196>
+                            if LogForEachSlowPath.isEnabled {
+                                Log.externalWarning("Unable to determine number of views per element in the collection \(_typeName(Data.self, qualified: false)). If this view only produces one view per element in the collection, consider wrapping views in a VStack to take the fast path.")
+                            }
+                            // <+4424>
+                        }
+                    } else {
+                        // <+4160>
+                        if let staticCount {
+                            // <+4368>
+                            self.viewsPerElementCount = .resolved(staticCount)
+                            // <+4420>
+                        } else {
+                            // <+4172>
+                            self.viewsPerElementCount = .indeterminate
+                            // <+4196>
+                            if LogForEachSlowPath.isEnabled {
+                                Log.externalWarning("Unable to determine number of views per element in the collection \(_typeName(Data.self, qualified: false)). If this view only produces one view per element in the collection, consider wrapping views in a VStack to take the fast path.")
+                            }
+                            // <+4424>
+                        }
+                    }
+                    
+                    // <+4416>
+                }
+            }
+            
+            // <+4424>
+            return item
         }
     }
     
@@ -638,18 +808,18 @@ extension ForEachState {
     final class Item {
         private let subgraph: Subgraph // 0x10
         private var refCount: UInt32 // 0x18
-        private let id: ID // 0x20
+        fileprivate let id: ID // 0x20
         private let reuseID: Int // 0x28
         private let views: _ViewListOutputs.Views // 0x30
-        private weak var state: ForEachState<Data, ID, Content>? // 0x60
+        private weak var state: ForEachState<Data, ID, Content>? = nil // 0x60
         fileprivate var index: Data.Index // 0x68
         fileprivate var offset: Int // 0x70
         fileprivate var contentID: Int // 0x78
         fileprivate var seed: UInt32 // 0x80
         private var isConstant: Bool // 0x84
-        fileprivate var timeToLive: Int8 // 0x85
-        fileprivate private(set) var isRemoved: Bool // 0x86
-        fileprivate var hasWarned: Bool // 0x87
+        fileprivate var timeToLive: Int8 = 8 // 0x85
+        fileprivate private(set) var isRemoved: Bool = false // 0x86
+        fileprivate var hasWarned: Bool = false // 0x87
         
         init(
             id: ID,
@@ -663,7 +833,30 @@ extension ForEachState {
             state: ForEachState<Data, ID, Content>,
             isConstant: Bool
         ) {
-            assertUnimplemented()
+            /*
+             id -> x0 -> x27
+             reuseID -> x1 -> x26
+             views -> x2 -> x25
+             subgraph -> x3 -> sp + 0x8
+             index -> x4 -> x24
+             offset -> x5 -> x23
+             contentID -> x6 -> x22
+             seed -> w7 -> sp + 0x4
+             state -> x28
+             isConstant -> sp
+             */
+            // <+136>
+            self.id = id
+            self.reuseID = reuseID
+            self.views = views
+            self.state = state
+            self.index = index
+            self.offset = offset
+            self.contentID = contentID
+            self.seed = seed
+            self.isConstant = isConstant
+            self.refCount = 1
+            self.subgraph = subgraph
         }
         
         func applyTraits(to collection: inout ViewTraitCollection) {
@@ -684,6 +877,12 @@ extension ForEachState {
         case noMatch
     }
     
+    /*
+     countingDebugReplaceableViews -> (value, 0)
+     resolved -> (value, 1)
+     uninitialized -> (0, 2)
+     indeterminate -> (1, 2)
+     */
     enum ViewsPerElementCount {
         case countingDebugReplaceableViews(MutableBox<DebugReplaceableViewCount>)
         case resolved(Int)
@@ -700,6 +899,10 @@ extension ForEachState {
         }
         
         func finalized() -> ForEachState<Data, ID, Content>.Edits {
+            assertUnimplemented()
+        }
+        
+        mutating func appendInsert(id: ID) {
             assertUnimplemented()
         }
     }
@@ -748,6 +951,15 @@ extension ForEachState {
         init(removes: Set<ID> = Set([]), inserts: Set<ID> = Set([])) {
             self.removes = removes
             self.inserts = inserts
+        }
+    }
+    
+    fileprivate struct ItemList : Rule {
+        @Attribute private(set) var base: ViewList
+        var item: ForEachState<Data, ID, Content>.Item?
+        
+        var value: any ViewList {
+            assertUnimplemented()
         }
     }
 }
@@ -807,6 +1019,11 @@ struct IndexSetBuilder {
     private var lastRange: Range<Int>? = nil
 }
 
+/*
+ counting -> (value, 0)
+ uninitialized -> (0, 1)
+ indeterminate -> (1, 1)
+ */
 enum DebugReplaceableViewCount {
     case counting(Int)
     case uninitialized
@@ -923,5 +1140,15 @@ extension ForEachState {
         var value: Int {
             assertUnimplemented()
         }
+    }
+}
+
+fileprivate struct LogForEachSlowPath : UserDefaultKeyedFeature {
+    static let key = "LogForEachSlowPath"
+    
+    static nonisolated(unsafe) var cachedValue: Bool? = nil
+    
+    static var defaultValue: Bool {
+        return false
     }
 }

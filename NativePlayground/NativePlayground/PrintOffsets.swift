@@ -188,6 +188,7 @@ func printOffsets() {
     printFields(ViewDepth.self, isClassType: false)
     printFields(OpenWindowAction.self, isClassType: false)
     printFields(ProgressiveImmersionStyle.self, isClassType: false)
+    printFields(_ViewListCountInputs.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

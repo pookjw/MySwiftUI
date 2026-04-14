@@ -74,11 +74,11 @@ package struct StrongHash : Hashable, StronglyHashableByBitPattern, Decodable, E
     
     package func hash(into hasher: inout Hasher) {
         unsafe withUnsafePointer(to: words) { pointer in
-            let buffer = unsafe UnsafeRawBufferPointer(
-                start: UnsafeRawPointer(pointer),
-                count: MemoryLayout<(UInt32, UInt32, UInt32, UInt32, UInt32)>.size
+            let buffer = unsafe UnsafeBufferPointer<UInt32>(
+                start: UnsafeRawPointer(pointer).assumingMemoryBound(to: UInt32.self),
+                count: 5
             )
-            unsafe hasher.combine(bytes: buffer)
+            unsafe hasher.combine(bytes: UnsafeRawBufferPointer(buffer))
         }
     }
     
