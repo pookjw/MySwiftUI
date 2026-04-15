@@ -175,15 +175,22 @@ struct _ViewList_SublistSubgraphStorage {
 }
 
 struct _ViewList_Sublist {
-    var start: Int
-    var count: Int
-    var id: _ViewList_ID
-    var elements: _ViewList_SubgraphElements
-    var traits: ViewTraitCollection
-    var list: Attribute<ViewList>?
+    var start: Int // 0x0
+    var count: Int // 0x8
+    var id: _ViewList_ID // 0x10
+    var elements: _ViewList_SubgraphElements // 0x20
+    var traits: ViewTraitCollection // 0x50
+    var list: Attribute<ViewList>? // 0x58
     
     @inline(always)
-    init(start: Int, count: Int, id: _ViewList_ID, elements: _ViewList_SubgraphElements, traits: ViewTraitCollection, list: Attribute<ViewList>?) {
+    init(
+        start: Int,
+        count: Int,
+        id: _ViewList_ID,
+        elements: _ViewList_SubgraphElements,
+        traits: ViewTraitCollection,
+        list: Attribute<ViewList>?
+    ) {
         self.start = start
         self.count = count
         self.id = id
@@ -457,8 +464,6 @@ extension _ViewListOutputs {
         // sp + 0xa8
         let elements = UnaryElements(body: viewGenerator, baseInputs: inputs.base)
         
-        // w25
-        _ = AnyAttribute.empty
         // x23/w22
         let scope: WeakAttribute<_DisplayList_StableIdentityScope>?
         if options.contains(.needsStableDisplayListIDs) {
@@ -475,9 +480,9 @@ extension _ViewListOutputs {
             let shouldTransition = inputs.options.contains(.canTransition) && !inputs.options.contains(.disableTransitions)
             let flag: Bool
             if shouldTransition {
-                flag = scope != nil
+                flag = false
             } else {
-                flag = scope == nil
+                flag = scope != nil
             }
             
             if flag {
@@ -509,8 +514,6 @@ extension _ViewListOutputs {
         }
         
         // <+364>
-        // sp + 0x18
-        _ = elements
         // x24
         let implicitID = inputs.implicitID
         // w27
@@ -1075,10 +1078,10 @@ struct _ViewList_IteratorStyle : Equatable {
     
     var granularity: Int {
         get {
-            return Int(bitPattern: value >> 1)
+            return Int(bitPattern: value &>> 1)
         }
         set {
-            value = (value & 1) | ((UInt(bitPattern: newValue) & ((1 << 63) - 1)) << 1)
+            value = (value & 1) | ((UInt(bitPattern: newValue) & ((1 &<< 63) - 1)) &<< 1)
         }
         _modify {
             assertUnimplemented()
@@ -1099,7 +1102,7 @@ struct _ViewList_IteratorStyle : Equatable {
     
     @inline(always)
     init(granularity: Int) {
-        value = UInt(bitPattern: granularity) << 1
+        value = UInt(bitPattern: granularity) &<< 1
     }
     
     func alignToNextGranularityMultiple(_ other: inout Int) {

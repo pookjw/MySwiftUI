@@ -1157,7 +1157,8 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
                     return true
                 } else {
                     // <+932>
-                    var viewListID = _ViewList_ID.init(implicitID: 0)
+                    // x29 - 0xd8
+                    var viewListID = _ViewList_ID(implicitID: 0)
                     
                     if let reuseID {
                         // <+952>
@@ -1203,7 +1204,30 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
                     }
                     
                     // <+1524>
-                    assertUnimplemented()
+                    // x19 + 0x108
+                    let sublist = _ViewList_Sublist(
+                        start: index,
+                        count: count,
+                        id: viewListID,
+                        elements: _ViewList_SubgraphElements(base: list, subgraphs: _ViewList_SublistSubgraphStorage(subgraphs: [])),
+                        traits: ViewTraitCollection(),
+                        list: nil
+                    )
+                    
+                    let forEachTransform = ForEachState<Data, ID, Content>
+                        .Transform(
+                            item: item,
+                            bindID: false,
+                            isUnary: state.viewsPerElementCount.resolvedCount() == 1,
+                            isConstant: reuseID == nil
+                        )
+                    
+                    let result: Bool = transform.withPushedItem(forEachTransform) { transform in
+                        // $s7SwiftUI12ForEachStateC10applyNodes4from5style4list9transform2toSbSiz_AA23_ViewList_IteratorStyleV14AttributeGraph0Q0VyAA0mN0_pGSgAA01_mN26_TemporarySublistTransformVSbSiz_AkA01_mN5_NodeOAStXEtFSbSiz_AkC4ItemCyxq_q0__GtXEfU_SbASXEfU_TA
+                        return body(&index, style, .sublist(sublist), transform)
+                    }
+                    
+                    return result
                 }
             case .dynamicList(let listAttribute, let modifier):
                 // <+344>
@@ -1227,9 +1251,9 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
                     isConstant: reuseID == nil
                 )
                 
-                let result: Bool = transform.withPushedItem(forEachTransform) { _ in
+                let result: Bool = transform.withPushedItem(forEachTransform) { transform in
                     // $s7SwiftUI12ForEachStateC10applyNodes4from5style4list9transform2toSbSiz_AA23_ViewList_IteratorStyleV14AttributeGraph0Q0VyAA0mN0_pGSgAA01_mN26_TemporarySublistTransformVSbSiz_AkA01_mN5_NodeOAStXEtFSbSiz_AkC4ItemCyxq_q0__GtXEfU_SbASXEfU0_TA
-                    assertUnimplemented()
+                    return viewList.applyNodes(from: &index, style: style, list: listAttribute, transform: transform, to: body)
                 }
                 
                 // <+1932>
