@@ -816,7 +816,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
 
 extension ForEachState {
     final class Item {
-        private let subgraph: Subgraph // 0x10
+        fileprivate let subgraph: Subgraph // 0x10
         private var refCount: UInt32 // 0x18
         fileprivate let id: ID // 0x20
         fileprivate let reuseID: Int // 0x28
@@ -1325,7 +1325,20 @@ extension ForEachState {
         }
         
         func apply(sublist: inout _ViewList_Sublist) {
-            assertUnimplemented()
+            /*
+             sublist -> x0 -> x21
+             self.item -> x1 -> x19
+             self.bindID/self.isUnary/self.isConstant -> w2
+             */
+            self.bindID(&sublist.id)
+            
+            sublist
+                .elements
+                .subgraphs
+                .subgraphs
+                .append(_ViewList_Subgraph(subgraph: self.item.subgraph))
+            
+            self.item.applyTraits(to: &sublist.traits)
         }
         
         func bindID(_ id: inout _ViewList_ID) {
