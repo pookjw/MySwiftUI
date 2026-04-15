@@ -190,8 +190,8 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
     private var parentSubgraph: Subgraph // 0x98
     fileprivate var info: Attribute<ForEachState.Info>? = nil // 0xa0
     fileprivate var list: Attribute<ViewList>? = nil // 0xa8
-    private var view: ForEach<Data, ID, Content>? = nil // 0xb0
-    private var viewsPerElementCount: ForEachState.ViewsPerElementCount = .uninitialized // 0xe8
+    fileprivate private(set) var view: ForEach<Data, ID, Content>? = nil // 0xb0
+    fileprivate var viewsPerElementCount: ForEachState.ViewsPerElementCount = .uninitialized // 0xe8
     private var viewCounts: [Int] = [] // 0xf8
     private var viewCountStyle = _ViewList_IteratorStyle(granularity: 1) // 0x100
     private var items: [ID: ForEachState.Item] = .init() // 0x108
@@ -819,8 +819,8 @@ extension ForEachState {
         private let subgraph: Subgraph // 0x10
         private var refCount: UInt32 // 0x18
         fileprivate let id: ID // 0x20
-        private let reuseID: Int // 0x28
-        private let views: _ViewListOutputs.Views // 0x30
+        fileprivate let reuseID: Int // 0x28
+        fileprivate let views: _ViewListOutputs.Views // 0x30
         private weak var state: ForEachState<Data, ID, Content>? = nil // 0x60
         fileprivate var index: Data.Index // 0x68
         fileprivate var offset: Int // 0x70
@@ -898,6 +898,31 @@ extension ForEachState {
         case resolved(Int)
         case uninitialized
         case indeterminate
+        
+        fileprivate mutating func resolvedCount() -> Int? {
+            switch self {
+            case .countingDebugReplaceableViews(let box):
+                switch box.value {
+                case .counting(let count):
+                    // <+124>
+                    self = .resolved(count)
+                    return count
+                case .uninitialized:
+                    // <+180>
+                    return nil
+                case .indeterminate:
+                    // <+92>
+                    self = .indeterminate
+                    return nil
+                }
+            case .resolved(let count):
+                return count
+            case .uninitialized:
+                return nil
+            case .indeterminate:
+                return nil
+            }
+        }
     }
     
     fileprivate enum LazyEdits {
@@ -1100,17 +1125,116 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
         transform: borrowing _ViewList_TemporarySublistTransform,
         to body: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
     ) -> Bool {
-        return self.state.forEachItem(from: &index, style: style) { [state] index, style, item in
+        let state = self.state
+        return state.forEachItem(from: &index, style: style) { index, style, item in
             // $s7SwiftUI12ForEachStateC10applyNodes4from5style4list9transform2toSbSiz_AA23_ViewList_IteratorStyleV14AttributeGraph0Q0VyAA0mN0_pGSgAA01_mN26_TemporarySublistTransformVSbSiz_AkA01_mN5_NodeOAStXEtFSbSiz_AkC4ItemCyxq_q0__GtXEfU_TA
             /*
-             index -> x0
-             style -> x1
-             item -> x2
-             state -> x3
-             transform -> x4/w5
-             body -> x6/x7
+             index -> x0 -> x19 + 0x90
+             style -> x1 -> x19 + 0x98
+             item -> x2 -> x21
+             state -> x3 -> x26
+             transform -> x4/w5 -> x19 + 0x60
+             body -> x6/x7 -> x19 + 0x70 / (x25 -> x19 + 0x58)
              */
-            assertUnimplemented()
+            // state.view -> x20
+            // x24
+            let reuseID = state.view!.reuseID
+            // x29 - 0xa0
+            let views = item.views
+            
+            switch views {
+            case .staticList(let list):
+                // <+824>
+                // reuseID -> x19 + 0x80
+                // x29 - 0xc8
+                let copy_1 = views
+                let count = list.count
+                let appliedCount = style.applyGranularity(to: count)
+                
+                if index >= appliedCount {
+                    // <+1200>
+                    index = appliedCount
+                    return true
+                } else {
+                    // <+932>
+                    var viewListID = _ViewList_ID.init(implicitID: 0)
+                    
+                    if let reuseID {
+                        // <+952>
+                        // x24
+                        let id = item.id
+                        // x19 + 0x8
+                        let listAttribute = state.list!
+                        // x20/w22
+                        let resolvedCount = state.viewsPerElementCount.resolvedCount()
+                        
+                        viewListID
+                            .bind(
+                                explicitID: id,
+                                owner: listAttribute.identifier,
+                                isUnary: resolvedCount == 1,
+                                reuseID: item.reuseID
+                            )
+                        
+                        // <+1524>
+                    } else {
+                        // <+1220>
+                        // w28
+                        let listAttribute = state.list!
+                        // x19 + 0x10
+                        let offset = item.offset
+                        // x20/w22
+                        let resolvedCount = state.viewsPerElementCount.resolvedCount()
+                        
+                        viewListID
+                            .bind(
+                                explicitID: AnyHashable2(
+                                    ForEachConstantID(
+                                        offset,
+                                        listAttribute
+                                    )
+                                ),
+                                owner: listAttribute.identifier,
+                                isUnary: resolvedCount == 1,
+                                reuseID: item.reuseID
+                            )
+                        
+                        // <+1524>
+                    }
+                    
+                    // <+1524>
+                    assertUnimplemented()
+                }
+            case .dynamicList(let listAttribute, let modifier):
+                // <+344>
+                // x19 + 0xb0
+                var viewList = RuleContext(attribute: state.info!).valueAndFlags(of: listAttribute, options: []).value
+                
+                if let modifier {
+                    modifier.apply(to: &viewList)
+                }
+                
+                // <+472>
+                // transform -> x19 + 0x60 -> x19 + 0xe0
+                // x20 / w26
+                let resolvedCount = state.viewsPerElementCount.resolvedCount()
+                
+                // x29 - 0xc8
+                let forEachTransform = ForEachState<Data, ID, Content>.Transform(
+                    item: item,
+                    bindID: true,
+                    isUnary: resolvedCount == 1,
+                    isConstant: reuseID == nil
+                )
+                
+                let result: Bool = transform.withPushedItem(forEachTransform) { _ in
+                    // $s7SwiftUI12ForEachStateC10applyNodes4from5style4list9transform2toSbSiz_AA23_ViewList_IteratorStyleV14AttributeGraph0Q0VyAA0mN0_pGSgAA01_mN26_TemporarySublistTransformVSbSiz_AkA01_mN5_NodeOAStXEtFSbSiz_AkC4ItemCyxq_q0__GtXEfU_SbASXEfU0_TA
+                    assertUnimplemented()
+                }
+                
+                // <+1932>
+                return result
+            }
         }
     }
 }
@@ -1165,6 +1289,29 @@ extension ForEachState {
             assertUnimplemented()
         }
     }
+    
+    fileprivate struct Transform : _ViewList_SublistTransform_Item {
+        private(set) var item: ForEachState<Data, ID, Content>.Item // 0x0
+        private(set) var bindID: Bool // 0x8
+        private(set) var isUnary: Bool // 0x9
+        private(set) var isConstant: Bool // 0xa
+        
+        static var flags: _ViewList_SublistTransform_ItemFlags {
+            return [.graphDependent]
+        }
+        
+        func apply(sublist: inout _ViewList_Sublist) {
+            assertUnimplemented()
+        }
+        
+        func bindID(_ id: inout _ViewList_ID) {
+            assertUnimplemented()
+        }
+        
+        func wrapSubgraph(into storage: inout _ViewList_SublistSubgraphStorage) {
+            assertUnimplemented()
+        }
+    }
 }
 
 fileprivate struct LogForEachSlowPath : UserDefaultKeyedFeature {
@@ -1174,5 +1321,20 @@ fileprivate struct LogForEachSlowPath : UserDefaultKeyedFeature {
     
     static var defaultValue: Bool {
         return false
+    }
+}
+
+struct ForEachConstantID : Hashable {
+    private var offset: Int
+    private var owner: AnyAttribute
+    
+    init(_ offset: Int, _ owner: AnyAttribute) {
+        self.offset = offset
+        self.owner = owner
+    }
+    
+    init<T>(_ offset: Int, _ owner: Attribute<T>) {
+        self.offset = offset
+        self.owner = owner.identifier
     }
 }

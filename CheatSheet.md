@@ -166,3 +166,18 @@ if ((*(uint8_t *)(x0 + 0x25) & (1u << 0)) != 0) {
 ```swift
 (rawValue & (1 << 8)) != 0  // n = 8
 ```
+
+---
+
+```asm
+subs   x8, x24, x8
+b.ge   0x1d411fb78
+```
+
+```c
+int64_t old_x8 = x8;
+x8 = x24 - old_x8;
+if ((int64_t)x24 >= old_x8) { // signed compare (GE)
+    goto 0x1d411fb78;
+}
+```

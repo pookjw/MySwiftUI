@@ -214,7 +214,7 @@ public struct RuleContext<T> : Swift.Equatable, Swift.Sendable {
   }
 
   public func valueAndFlags<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, flags: AGChangedValueFlags)
-  public func changedValue<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, changed: Swift.Bool)
+  public func changedValue<U>(of: AttributeGraph.Attribute<U>, options: AttributeGraph.AGValueOptions) -> (value: U, changed: Swift.Bool) // AGGraphGetInputValue
   public func update(body: () -> Void)
 }
 
