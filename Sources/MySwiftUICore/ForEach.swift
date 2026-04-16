@@ -228,18 +228,34 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
         }
         
         self.contentID = AGMakeUniqueID()
-        self.evictionSeed &+= 1
+        // x19 + 0x118
+        let oldSeed = self.seed
+        self.seed = oldSeed &+ 1
         self.invalidateViewCounts()
         
         // <+1192>
-        if (self.view != nil), case .offset = self.view!.idGenerator {
+        if
+            (self.view != nil),
+            case .offset = self.view!.idGenerator
+        {
             // <+2376>
+            // x27
+            let selfCount = self.view!.data.count
+            let incomingCount = view.data.count
+            
+            if selfCount != incomingCount {
+                // <+2496>
+                Log.externalWarning("\(_typeName(ForEach<Data, ID, Content>.self, qualified: false)) count (\(view.data.count.description) != its initial count (\(self.view!.data.count.description)). `ForEach(_:content:)` should only be used for *constant* data. Instead conform data to `Identifiable` or use `ForEach(_:id:content:)` and provide an explicit `id`!")
+            }
+            
+            // <+2864>
             assertUnimplemented()
         } else {
             // <+1404>
             self.view = view
             
             self.edits = ForEachState.LazyEdits()
+            // x19 + 0x80
             let editsBuilder = ForEachState.EditsBuilder(data: view.data, idGenerator: view.idGenerator)
             
             defer {
@@ -252,7 +268,29 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             // <+1828>
             if self.firstInsertionOffset >= 0 {
                 // <+1888>
+                // x21 -> x19 + 0x188
+                let items = self.items
+                // x22 -> x19 + 0x20 / x19 + 0x160
+                // x22 + 0x10
+                let itemsCount = items.count
+                // x24 -> x19 + 0x30
+                // x22
+                let evictedIDsCount = self.evictedIDs.count
+                // <+2096>
                 assertUnimplemented()
+                
+                if
+                    !view.data.isEmpty,
+                    let firstElement = view.data.first
+                {
+                    // <+3184>
+                    // firstElement -> x25 -> x26
+                    assertUnimplemented()
+                } else {
+                    // <+2368>
+                    // <+5644>
+                    assertUnimplemented()
+                }
             } else {
                 // <+2260>
                 // <+6612>
@@ -345,9 +383,12 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
         let endIndex = self.view!.data.endIndex
         // x29 - 0xc8
         var startIndex = self.view!.data.startIndex
+        // x23
+        var offset: Int
         
         if index < 1 {
             // <+896>
+            offset = 0
             // <+1184>
         } else {
             // <+568>
@@ -365,25 +406,46 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                         x290x110 = index / applied
                     }
                     
-                    let x23 = min(self.view!.data.count, x290x110)
-                    self.view!.data.formIndex(&startIndex, offsetBy: x23)
-                    index = index &- (applied * x23)
+                    offset = min(self.view!.data.count, x290x110)
+                    self.view!.data.formIndex(&startIndex, offsetBy: offset)
+                    index = index &- (applied * offset)
                     // <+1184>
                 } else {
+                    offset = 0
                     // <+1184>
                 }
             } else {
                 // <+588>
-                for count in self.viewCounts {
-                    assertUnimplemented()
+                let viewCounts = self.viewCounts
+                
+                if !viewCounts.isEmpty {
+                    offset = 0
+                    
+                    if self.viewCountStyle == style {
+                        let pivot = viewCounts.lowerBound { offset >= $0 }
+                        self.view!.data.formIndex(&startIndex, offsetBy: pivot)
+                        
+                        // <+792>
+                        if offset < 1 {
+                            // <+1164>
+                            // <+1184>
+                        } else {
+                            // <+816>
+                            index = index &- self.viewCounts[offset &- 1]
+                            // <+1184>
+                        }
+                    } else {
+                        // <+1164>
+                        // <+1184>
+                    }
+                } else {
+                    // <+1172>
+                    offset = 0
                 }
-                // <+1172>
             }
         }
         
         // <+1184>
-        // x23
-        var offset = 0
         while startIndex != endIndex {
             // x28
             let item = self.item(at: startIndex, offset: offset)
@@ -792,6 +854,18 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
     }
     
     func evictItems(seed: UInt32) {
+        /*
+         self -> x20 -> x19
+         seed -> w0
+         */
+        guard
+            self.evictionSeed != seed,
+            self.pendingEviction
+        else {
+            // <+1092>
+            return
+        }
+        
         assertUnimplemented()
     }
     
@@ -988,7 +1062,16 @@ extension ForEachState {
         @Attribute fileprivate private(set) var updateSeed: UInt32
         
         var value: Void {
-            assertUnimplemented()
+            /*
+             state -> x0 -> x20
+             updateSeed -> x2 -> x19
+             */
+            if self.isEnabled ?? ForEachEvictionInput.evictByDefault {
+                // <+52>
+                self.state.evictItems(seed: self.updateSeed)
+            } else {
+                // <+80>
+            }
         }
     }
     
