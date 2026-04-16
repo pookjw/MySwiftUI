@@ -1394,6 +1394,10 @@ public struct ViewTraitCollection {
     get
     mutating set
   }
+  public func value<Key : SwiftUI._ViewTraitKey>(for key: Key.Type, defaultValue: Key.Value) -> Key.Value
+  public func value<Key : SwiftUI._ViewTraitKey>(for key: Key.Type) -> Key.Value
+  public mutating func setValueIfUnset<Key : SwiftUI._ViewTraitKey>(_ value: Key.Value, for key: Key.Type)
+  public mutating func setTagIfUnset<Value : Swift.Hashable>(for type: Value.Type, value: Value)
 }
 
 @available(visionOS 26.0, *)

@@ -357,13 +357,24 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 
                 if index >= applied {
                     // <+908>
-                    assertUnimplemented()
+                    // applied -> x29 - 0x118
+                    let x290x110: Int
+                    if applied < 2 {
+                        x290x110 = index
+                    } else {
+                        x290x110 = index / applied
+                    }
+                    
+                    let x23 = min(self.view!.data.count, x290x110)
+                    self.view!.data.formIndex(&startIndex, offsetBy: x23)
+                    index = index &- (applied * x23)
+                    // <+1184>
                 } else {
                     // <+1184>
                 }
             } else {
                 // <+588>
-                for count in viewCounts {
+                for count in self.viewCounts {
                     assertUnimplemented()
                 }
                 // <+1172>
@@ -380,13 +391,12 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             
             if result {
                 // <+1300>
-                assertUnimplemented()
+                self.view!.data.formIndex(after: &startIndex)
+                // <+1220>
             } else {
-                // <+1296>
-                assertUnimplemented()
+                // <+1456>
+                return false
             }
-            
-            assertUnimplemented()
         }
         
         // <+1400>
@@ -821,7 +831,7 @@ extension ForEachState {
         fileprivate let id: ID // 0x20
         fileprivate let reuseID: Int // 0x28
         fileprivate let views: _ViewListOutputs.Views // 0x30
-        private weak var state: ForEachState<Data, ID, Content>? = nil // 0x60
+        fileprivate private(set) weak var state: ForEachState<Data, ID, Content>? = nil // 0x60
         fileprivate var index: Data.Index // 0x68
         fileprivate var offset: Int // 0x70
         fileprivate var contentID: Int // 0x78
@@ -870,7 +880,16 @@ extension ForEachState {
         }
         
         func applyTraits(to collection: inout ViewTraitCollection) {
-            assertUnimplemented()
+            collection.setValueIfUnset(self.contentID, for: DynamicViewContentIDTraitKey.self)
+            collection.setValueIfUnset(self.offset, for: DynamicViewContentOffsetTraitKey.self)
+            
+            if self.isConstant {
+                // <+84>
+                collection.setValueIfUnset(.tagged(self.offset), for: TagValueTraitKey<Int>.self)
+            } else {
+                // <+100>
+                collection.setTagIfUnset(for: ID.self, value: self.id)
+            }
         }
         
         func invalidate() {
@@ -1342,7 +1361,41 @@ extension ForEachState {
         }
         
         func bindID(_ id: inout _ViewList_ID) {
-            assertUnimplemented()
+            /*
+             id -> x0 -> x20
+             self.item -> x1 -> x23
+             self.bindID/self.isUnary/self.isConstant -> w2 -> w24
+             */
+            guard
+                isConstant,
+                let state = item.state,
+                let list = state.list
+            else {
+                return
+            }
+            
+            if !isUnary {
+                // <+100>
+                id
+                    .bind(
+                        explicitID: item.id,
+                        owner: list.identifier,
+                        isUnary: isUnary,
+                        reuseID: item.reuseID
+                    )
+            } else {
+                // <+140>
+                id
+                    .bind(
+                        explicitID: ForEachConstantID(
+                            item.offset,
+                            list.identifier
+                        ),
+                        owner: list.identifier,
+                        isUnary: isUnary,
+                        reuseID: item.reuseID
+                    )
+            }
         }
         
         func wrapSubgraph(into storage: inout _ViewList_SublistSubgraphStorage) {

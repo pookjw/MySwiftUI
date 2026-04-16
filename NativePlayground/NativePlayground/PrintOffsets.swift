@@ -194,9 +194,19 @@ func printOffsets() {
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
+    
+    var collection = ViewTraitCollection()
+    collection.setTagIfUnset(for: Int.self, value: 1)
+    collection.setTagIfUnset(for: Int.self, value: 2)
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {
     typealias Proposal = CGPoint
     typealias Size = CGSize
+}
+
+fileprivate struct TestKey : _ViewTraitKey {
+    static var defaultValue: Int {
+        return 0
+    }
 }

@@ -181,3 +181,16 @@ if ((int64_t)x24 >= old_x8) { // signed compare (GE)
     goto 0x1d411fb78;
 }
 ```
+
+---
+
+```asm
+cmn    x8, #0x1
+b.eq   0x1d38aa084
+```
+
+```c
+if (x8 == (uint64_t)-1) {
+    goto loc_1d38aa084;
+}
+```

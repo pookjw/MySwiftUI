@@ -1,5 +1,4 @@
 // 3FB6ABB0477B815AB3C89DD5EDC9F0F0
-
 internal import AttributeGraph
 
 @MainActor protocol DynamicView {
@@ -643,5 +642,17 @@ struct EmptyViewListElements : _ViewList_Elements {
 extension ViewList {
     func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
         assertUnimplemented()
+    }
+}
+
+struct DynamicViewContentIDTraitKey : _ViewTraitKey {
+    static var defaultValue: Int? {
+        return nil
+    }
+}
+
+struct DynamicViewContentOffsetTraitKey : _ViewTraitKey {
+    static var defaultValue: Int? {
+        return nil
     }
 }
