@@ -146,6 +146,7 @@ func printOffsets() {
     printFields("7SwiftUI32ViewGraphBridgePropertiesFeatureV", isClassType: false)
     printFields("7SwiftUI37ImmersiveSpaceConfigurationAttributesV13ClientOptionsV", isClassType: false)
     printFields("7SwiftUI12ForEachStateC4ItemCySnySiGSiAA5ColorV_G", isClassType: true)
+    printFields("7SwiftUI12ForEachStateCySaySiGSiAA5ColorVG", isClassType: true)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)
@@ -194,10 +195,6 @@ func printOffsets() {
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
-    
-    var collection = ViewTraitCollection()
-    collection.setTagIfUnset(for: Int.self, value: 1)
-    collection.setTagIfUnset(for: Int.self, value: 2)
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {

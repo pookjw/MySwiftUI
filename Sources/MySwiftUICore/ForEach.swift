@@ -194,7 +194,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
     fileprivate var viewsPerElementCount: ForEachState.ViewsPerElementCount = .uninitialized // 0xe8
     private var viewCounts: [Int] = [] // 0xf8
     private var viewCountStyle = _ViewList_IteratorStyle(granularity: 1) // 0x100
-    private var items: [ID: ForEachState.Item] = .init() // 0x108
+    fileprivate private(set) var items: [ID: ForEachState.Item] = .init() // 0x108
     private var edits = ForEachState.LazyEdits() // 0x110
     private var lastTransaction = TransactionID() // 0x160
     private var firstInsertionOffset: Int = -1 // 0x168
@@ -266,6 +266,9 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             self.lastTransaction = TransactionID(graph: self.list!.identifier.graph)
             
             // <+1828>
+            // x19 + 0x120
+            let copy_1 = view
+            
             if self.firstInsertionOffset >= 0 {
                 // <+1888>
                 // x21 -> x19 + 0x188
@@ -277,6 +280,8 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 // x22
                 let evictedIDsCount = self.evictedIDs.count
                 // <+2096>
+                // x24
+                let data = view.data
                 assertUnimplemented()
                 
                 if
@@ -285,6 +290,25 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 {
                     // <+3184>
                     // firstElement -> x25 -> x26
+                    guard let reuseID = view.reuseID else {
+                        preconditionFailure()
+                    }
+                    
+                    // x19 + 0x70 / x19 + 0xe8
+                    let function = reuseID.makeGetFunction()
+                    // x22
+                    let _ = withUnsafePointer(to: firstElement) { pointer in
+                        // $sSPy7ElementSTQzGq_Igyr_ACq_s5NeverOIegyrzr_SkRzSHR_7SwiftUI4ViewR0_r1_lTRTA
+                        return function(pointer)
+                    }
+                    
+                    // x28
+                    let _ = copy_1.data.startIndex
+                    copy_1.data.withContiguousStorageIfAvailable { buffer in
+                        // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tFySRy7ElementQzGXEfU_TA
+                        assertUnimplemented()
+                    }
+                    
                     assertUnimplemented()
                 } else {
                     // <+2368>
@@ -454,6 +478,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             if result {
                 // <+1300>
                 self.view!.data.formIndex(after: &startIndex)
+                offset &+= 1
                 // <+1220>
             } else {
                 // <+1456>
@@ -595,7 +620,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 // id -> x22 -> x27
                 copy_1.base.pushStableID(id)
                 
-                let child = ForEachChild<Data, ID, Content>(info: self.info!, id: id)
+                let child = ForEachChild<Data, ID, Content>(_info: self.info!, id: id)
                 let childAttribute = Attribute(child)
                 childAttribute.value = content
                 
@@ -866,7 +891,44 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             return
         }
         
-        assertUnimplemented()
+        // <+180>
+        self.evictionSeed = seed
+        
+        // x29 - 0x60
+        let items: [ForEachState.Item] = .init()
+        // x24/x26/x27
+        var startIndex = self.items.startIndex
+        // x29 - 0xe8 / x29 - 0xf0 / 0x29 - 0xf4
+        let endIndex = self.items.endIndex
+        var x290xe0 = 64
+        
+        while !(startIndex == endIndex) && (x290xe0 > 0) {
+            // <+552>
+            // x29 - 0xc0
+            let (id, item) = self.items[startIndex]
+            // item -> x24
+            
+            guard
+                !item.isRemoved,
+                item.timeToLive == 1
+            else {
+                // <+412>
+                item.timeToLive &-= 1
+                self.items.formIndex(after: &startIndex)
+                continue
+            }
+            
+            // <+652>
+            assertUnimplemented()
+            x290xe0 &-= 1
+        }
+        
+        // <+852>
+        for item in items {
+            self.eraseItem(item)
+        }
+        
+        self.pendingEviction = (x290xe0 == 0)
     }
     
     var traitKeys: ViewTraitKeys? {
@@ -1392,17 +1454,48 @@ struct IsInLazyContainer : ViewInputBoolFlag {
 }
 
 fileprivate struct ForEachChild<Data : RandomAccessCollection, ID : Hashable, Content : View> : StatefulRule, CustomStringConvertible where Data : RandomAccessCollection, ID : Hashable {
-    @Attribute private(set) var info: ForEachState<Data, ID, Content>.Info
+    private(set) var _info: Attribute<ForEachState<Data, ID, Content>.Info>
     let id: ID
     
     var description: String {
         assertUnimplemented()
     }
     
+    var info: ForEachState<Data, ID, Content>.Info {
+        return _info.value
+    }
+    
     typealias Value = Content
     
     func updateValue() {
-        assertUnimplemented()
+        // <+684>
+        // x25
+        let state = self.info.state
+        // x27
+        // x29 - 0xc8 -> x19
+        guard
+            let item = state.items[self.id],
+            item.seed == state.seed
+        else {
+            return
+        }
+        
+        let content: Content = ObservationCenter.current._withObservation(attribute: Attribute<Content>(identifier: .current!)) { 
+            // $s7SwiftUI12ForEachChild33_1A3DD35AB7F6976908CD7AF959F34D1FLLV11updateValueyyFq0_yXEfU_TA
+            /*
+             state -> x0 -> x22
+             item -> x1 -> x29 - 0xe8
+             */
+            // x20
+            let view = state.view!
+            // x28
+            let index = item.index
+            let element = view.data[index]
+            return view.content(element)
+        }
+        
+        // <+2104>
+        self.value = content
     }
 }
 

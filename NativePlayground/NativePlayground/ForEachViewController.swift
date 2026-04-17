@@ -10,10 +10,32 @@ import SwiftUI
 
 fileprivate struct MyView : View {
     var body: some View {
-        ForEach(0..<5) { _ in
-            Color.black
+        ForEach(0..<5) { index in
+            index % 2 == 0 ? Color.black : Color.white
         }
     }
+    
+//    @State private var list: [Int] = []
+//    
+//    var body: some View {
+//        ForEach(list, id: \.self) { _ in
+//            Color.clear
+//        }
+//        .task {
+//            while true {
+//                if list.isEmpty {
+//                    list.insert(.random(in: 0..<100), at: 0)
+//                } else {
+//                    list.insert(.random(in: 0..<100), at: .random(in: 0..<list.count))
+//                }
+//                do {
+//                    try await Task.sleep(for: .seconds(1))
+//                } catch {
+//                    return
+//                }
+//            }
+//        }
+//    }
 }
 
 final class ForEachViewController : UIViewController {

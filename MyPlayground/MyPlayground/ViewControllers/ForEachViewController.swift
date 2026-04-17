@@ -14,8 +14,8 @@ import MySwiftUI
 
 fileprivate struct MyView : View {
     var body: some View {
-        ForEach(0..<5) { _ in
-            Color.black
+        ForEach(0..<5) { index in
+            index % 2 == 0 ? Color.black : Color.white
         }
     }
 }
