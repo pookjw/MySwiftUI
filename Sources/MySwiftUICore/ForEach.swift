@@ -288,12 +288,15 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 // x20 -> x19 + 0x28
                 // x20 + 0x10
                 let ids = Set<ID>()
+                // x28
+                let evictedIDs = self.evictedIDs
                 
                 if
                     !view.data.isEmpty,
                     let firstElement = view.data.first
                 {
                     // <+3184>
+                    // evictedIDs -> x28 -> x19 + 0x90
                     // firstElement -> x25 -> x26
                     guard case .keyPath(let keyPath) = view.idGenerator else {
                         preconditionFailure()
@@ -309,11 +312,29 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                     
                     // x28
                     let startIndex = copy_1.data.startIndex
+                    let x190x250 = false
+                    
                     copy_1.data.withContiguousStorageIfAvailable { buffer in
                         // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tFySRy7ElementQzGXEfU_TA
                         /*
                          buffer -> x0
                          buffer.count -> x1
+                         
+                         x190x250 -> x2
+                         items -> x3
+                         firstValue -> x4
+                         evictedIDs -> x5
+                         editsBuilder -> x6
+                         function -> x7
+                         function -> sp
+                         itemsCount (box) -> sp + 0x8
+                         evictedIDsCount (box) -> sp + 0x10
+                         x19 + 0xb0 -> sp + 0x18
+                         x19 + 0x190 -> sp + 0x20
+                         x23 -> sp + 0x28
+                         x19 + 0x28 -> sp + 0x30
+                         x28 -> sp + 0x38
+                         x20 -> sp + 0x40
                          */
                         // <+292>
                         assertUnimplemented()
