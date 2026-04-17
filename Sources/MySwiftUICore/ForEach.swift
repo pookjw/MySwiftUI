@@ -277,12 +277,17 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 // x22 + 0x10
                 let itemsCount = items.count
                 // x24 -> x19 + 0x30
-                // x22
+                // x22 -> x24 + 0x10
                 let evictedIDsCount = self.evictedIDs.count
                 // <+2096>
                 // x24
                 let data = view.data
-                assertUnimplemented()
+                // x23 -> x19 + 0x8
+                // x23 + 0x10
+                let value = 0
+                // x20 -> x19 + 0x28
+                // x20 + 0x10
+                let ids = Set<ID>()
                 
                 if
                     !view.data.isEmpty,
@@ -290,22 +295,27 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 {
                     // <+3184>
                     // firstElement -> x25 -> x26
-                    guard let reuseID = view.reuseID else {
+                    guard case .keyPath(let keyPath) = view.idGenerator else {
                         preconditionFailure()
                     }
                     
                     // x19 + 0x70 / x19 + 0xe8
-                    let function = reuseID.makeGetFunction()
+                    let function = keyPath.makeGetFunction()
                     // x22
-                    let _ = withUnsafePointer(to: firstElement) { pointer in
+                    let firstValue = withUnsafePointer(to: firstElement) { pointer in
                         // $sSPy7ElementSTQzGq_Igyr_ACq_s5NeverOIegyrzr_SkRzSHR_7SwiftUI4ViewR0_r1_lTRTA
                         return function(pointer)
                     }
                     
                     // x28
-                    let _ = copy_1.data.startIndex
+                    let startIndex = copy_1.data.startIndex
                     copy_1.data.withContiguousStorageIfAvailable { buffer in
                         // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tFySRy7ElementQzGXEfU_TA
+                        /*
+                         buffer -> x0
+                         buffer.count -> x1
+                         */
+                        // <+292>
                         assertUnimplemented()
                     }
                     

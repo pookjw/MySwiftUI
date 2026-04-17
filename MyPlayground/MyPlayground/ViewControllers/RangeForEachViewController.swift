@@ -1,5 +1,5 @@
 //
-//  ForEachViewController.swift
+//  RangeForEachViewController.swift
 //  MyPlayground
 //
 //  Created by Jinwoo Kim on 4/12/26.
@@ -20,7 +20,7 @@ fileprivate struct MyView : View {
     }
 }
 
-final class ForEachViewController : UIViewController {
+final class RangeForEachViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

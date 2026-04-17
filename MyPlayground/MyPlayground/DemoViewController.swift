@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.forEachView
+        let item = DemoViewController.Item.arrayForEachView
         pushToItem(item)
         
 //        Task {
@@ -110,7 +110,8 @@ extension DemoViewController {
         case appStorageView
         case bindableView
         case windowCounterView
-        case forEachView
+        case rangeForEachView
+        case arrayForEachView
         case hostingViewController
         case viewRepresentable
         case viewControllerRepresentable
@@ -172,8 +173,10 @@ extension DemoViewController {
                 return _typeName(BindableViewController.self, qualified: false)
             case .windowCounterView:
                 return _typeName(WindowCounterViewController.self, qualified: false)
-            case .forEachView:
-                return _typeName(ForEachViewController.self, qualified: false)
+            case .rangeForEachView:
+                return _typeName(RangeForEachViewController.self, qualified: false)
+            case .arrayForEachView:
+                return _typeName(ArrayForEachViewController.self, qualified: false)
             case .hostingViewController:
                 return _typeName(HostingViewController.self, qualified: false)
             case .viewRepresentable:
@@ -247,8 +250,10 @@ extension DemoViewController {
                 return BindableViewController()
             case .windowCounterView:
                 return WindowCounterViewController()
-            case .forEachView:
-                return ForEachViewController()
+            case .rangeForEachView:
+                return RangeForEachViewController()
+            case .arrayForEachView:
+                return ArrayForEachViewController()
             case .hostingViewController:
                 return HostingViewController()
             case .viewRepresentable:
