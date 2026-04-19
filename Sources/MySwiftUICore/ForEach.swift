@@ -234,6 +234,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
         self.invalidateViewCounts()
         
         // <+1192>
+        // self -> x26 -> x19 + 0x190
         if
             (self.view != nil),
             case .offset = self.view!.idGenerator
@@ -256,7 +257,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             
             self.edits = ForEachState.LazyEdits()
             // x19 + 0x80
-            let editsBuilder = ForEachState.EditsBuilder(data: view.data, idGenerator: view.idGenerator)
+            var editsBuilder = ForEachState.EditsBuilder(data: view.data, idGenerator: view.idGenerator)
             
             defer {
                 // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tF6$deferL_yySkRzSHR_AA4ViewR0_r1_lF
@@ -275,19 +276,22 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 let items = self.items
                 // x22 -> x19 + 0x20 / x19 + 0x160
                 // x22 + 0x10
-                let itemsCount = items.count
+                var itemsCount = items.count
                 // x24 -> x19 + 0x30
                 // x22 -> x24 + 0x10
-                let evictedIDsCount = self.evictedIDs.count
+                var evictedIDsCount = self.evictedIDs.count
                 // <+2096>
                 // x24
                 let data = view.data
                 // x23 -> x19 + 0x8
                 // x23 + 0x10
-                let value = 0
+                var value_1 = 0
                 // x20 -> x19 + 0x28
                 // x20 + 0x10
-                let ids = Set<ID>()
+                var ids = Set<ID>()
+                // x26 -> x19 + 0xb0
+                // x26 + 0x10
+                let value_2 = 0
                 // x28
                 let evictedIDs = self.evictedIDs
                 
@@ -305,42 +309,143 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                     // x19 + 0x70 / x19 + 0xe8
                     let function = keyPath.makeGetFunction()
                     // x22
-                    let firstValue = withUnsafePointer(to: firstElement) { pointer in
+                    let firstKey = withUnsafePointer(to: firstElement) { pointer in
                         // $sSPy7ElementSTQzGq_Igyr_ACq_s5NeverOIegyrzr_SkRzSHR_7SwiftUI4ViewR0_r1_lTRTA
                         return function(pointer)
                     }
                     
                     // x28
-                    let startIndex = copy_1.data.startIndex
-                    let x190x250 = false
+                    var startIndex = copy_1.data.startIndex
+                    var x190x250 = false
                     
                     copy_1.data.withContiguousStorageIfAvailable { buffer in
                         // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tFySRy7ElementQzGXEfU_TA
                         /*
-                         buffer -> x0
-                         buffer.count -> x1
+                         buffer -> x0 -> x27
+                         buffer.count -> x1 -> x19 + 0xc0
                          
-                         x190x250 -> x2
-                         items -> x3
-                         firstValue -> x4
-                         evictedIDs -> x5
-                         editsBuilder -> x6
-                         function -> x7
-                         function -> sp
-                         itemsCount (box) -> sp + 0x8
-                         evictedIDsCount (box) -> sp + 0x10
-                         x19 + 0xb0 -> sp + 0x18
-                         x19 + 0x190 -> sp + 0x20
-                         x23 -> sp + 0x28
-                         x19 + 0x28 -> sp + 0x30
-                         x28 -> sp + 0x38
-                         x20 -> sp + 0x40
+                         x190x250 -> x2 -> x19 + 0xe8
+                         items -> x3 -> x19 + 0xd0
+                         firstKey -> x4 -> x19 + 0xe0
+                         evictedIDs -> x5 -> x19 + 0xd8
+                         editsBuilder -> x6 -> x19 + 0xb0
+                         function -> x7 -> x19 + 0xa8
+                         function (capture) -> sp (x29 + 0x10)
+                         itemsCount (box) -> sp + 0x8 (x29 + 0x18)
+                         evictedIDsCount (box) -> sp + 0x10 (x29 + 0x20)
+                         value_2 -> sp + 0x18 (x29 + 0x28)
+                         self -> sp + 0x20 (x29 + 0x30) -> x19 + 0x58
+                         value_1 -> sp + 0x28 (x29 + 0x38)
+                         ids -> sp + 0x30 (x29 + 0x40)
+                         startIndex -> sp + 0x38 (x29 + 0x48)
+                         copy_1 -> sp + 0x40 (x29 + 0x50)
                          */
                         // <+292>
-                        assertUnimplemented()
+                        // editsBuilder -> x19 + 0xb0 -> x26
+                        x190x250 = true
+                        // x29 - 0x88
+                        let _ = items[firstKey]
+                        // x29 - 0x88
+                        let containsID = evictedIDs.contains(firstKey)
+                        // editsBuilder -> x26 -> x19 + 0x18
+                        
+                        guard !buffer.isEmpty else {
+                            return
+                        }
+                        
+                        // <+560>
+                        /*
+                         copy_1 -> x29 + 0x50 -> x19 + 0x80
+                         ids -> x19 + 0x28
+                         startIndex -> x29 + 0x48 -> x25 -> x19 + 0x78
+                         value_1 -> x29 + 0x38 -> x19 + 0x10
+                         evictedIDsCount -> x29 + 0x20 -> x19 + 0x60
+                         value_2 -> x29 + 0x28 -> x23 -> x19 + 0x50
+                         function (capture) -> x29 + 0x10 -> x19 + 0x88
+                         itemsCount (box) -> x29 + 0x18 -> x20 -> x19 + 0xe0
+                         */
+                        
+                        for value in buffer {
+                            // <+1072>
+                            // x28
+                            let resolvedKey = withUnsafePointer(to: value) { pointer in
+                                function(pointer)
+                            }
+                            
+                            // x19 + 0xf0
+                            let copy_2 = startIndex
+                            
+                            guard itemsCount != 0 || evictedIDsCount != 0 else {
+                                // <+1460>
+                                return
+                            }
+                            
+                            let flag: Bool
+                            if let item = items[resolvedKey] {
+                                // <+1172>
+                                item.index = copy_2
+                                item.contentID = self.contentID
+                                item.offset = value_2
+                                item.seed = self.seed
+                                itemsCount &-= 1
+                                
+                                if !item.isRemoved {
+                                    value_1 = value_2
+                                    // <+1404>
+                                    if evictedIDs.contains(resolvedKey) {
+                                        // <+844>
+                                        flag = true
+                                    } else {
+                                        // <+1020>
+                                        flag = false
+                                    }
+                                } else {
+                                    // <+1332>
+                                    if evictedIDs.contains(resolvedKey) {
+                                        // <+844>
+                                        flag = true
+                                    } else {
+                                        // <+1356>
+                                        editsBuilder.appendInsert(atOffset: value_2)
+                                        // <+1020>
+                                        flag = false
+                                    }
+                                }
+                            } else {
+                                // <+1332>
+                                if evictedIDs.contains(resolvedKey) {
+                                    // <+844>
+                                    flag = true
+                                } else {
+                                    // <+1356>
+                                    editsBuilder.appendInsert(atOffset: value_2)
+                                    // <+1020>
+                                    flag = false
+                                }
+                            }
+                            
+                            if flag {
+                                // <+844>
+                                // x22 (x19 + 0x38)
+                                let copy_3 = resolvedKey
+                                ids.insert(copy_3)
+                                evictedIDsCount &-= 1
+                            }
+                            
+                            // <+1020>
+                            copy_1.data.formIndex(after: &startIndex)
+                            // <+1072>
+                        }
                     }
                     
-                    assertUnimplemented()
+                    // <+3548>
+                    if x190x250 {
+                        // <+3572>
+                        assertUnimplemented()
+                    } else {
+                        // <+4280>
+                        assertUnimplemented()
+                    }
                 } else {
                     // <+2368>
                     // <+5644>
