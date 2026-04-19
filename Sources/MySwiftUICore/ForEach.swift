@@ -308,14 +308,14 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                     
                     // x19 + 0x70 / x19 + 0xe8
                     let function = keyPath.makeGetFunction()
-                    // x22
+                    // x22 (x19 + 0x18)
                     let firstKey = withUnsafePointer(to: firstElement) { pointer in
                         // $sSPy7ElementSTQzGq_Igyr_ACq_s5NeverOIegyrzr_SkRzSHR_7SwiftUI4ViewR0_r1_lTRTA
                         return function(pointer)
                     }
                     
                     // x28
-                    var startIndex = copy_1.data.startIndex
+                    var index = copy_1.data.startIndex
                     var x190x250 = false
                     
                     copy_1.data.withContiguousStorageIfAvailable { buffer in
@@ -373,7 +373,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                             }
                             
                             // x19 + 0xf0
-                            let copy_2 = startIndex
+                            let copy_2 = index
                             
                             guard itemsCount != 0 || evictedIDsCount != 0 else {
                                 // <+1460>
@@ -433,17 +433,28 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                             }
                             
                             // <+1020>
-                            copy_1.data.formIndex(after: &startIndex)
+                            copy_1.data.formIndex(after: &index)
                             // <+1072>
                         }
                     }
                     
+                    // items -> x19 + 0x188 -> x26
                     // <+3548>
                     if x190x250 {
                         // <+3572>
+                        // <+5604>
                         assertUnimplemented()
                     } else {
                         // <+4280>
+                        // firstKey -> x19 + 0x18 -> x21
+                        // x29 - 0x90
+                        let _ = items.data[firstKey]
+                        // x29 - 0x90
+                        let containsEvictedIDs = evictedIDs.contains(firstKey)
+                        // <+4408>
+                        // x19 + 0xc0
+                        let endIndex = copy_1.data.endIndex
+                        // <+4444>
                         assertUnimplemented()
                     }
                 } else {
