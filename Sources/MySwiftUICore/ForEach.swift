@@ -269,29 +269,32 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             // <+1828>
             // x19 + 0x120
             let copy_1 = view
+            // x26 -> x19 + 0xb0
+            // x26 + 0x10
+            let value_2: Int
             
             if self.firstInsertionOffset >= 0 {
                 // <+1888>
                 // x21 -> x19 + 0x188
                 let items = self.items
-                // x22 -> x19 + 0x20 / x19 + 0x160
-                // x22 + 0x10
+                // x22 -> x19 + 0x20
+                // x22 + 0x10 (x19 + 0x160)
                 var itemsCount = items.count
                 // x24 -> x19 + 0x30
-                // x22 -> x24 + 0x10
+                // x22 -> x24 + 0x10 (x19 + 0xa8)
                 var evictedIDsCount = self.evictedIDs.count
                 // <+2096>
                 // x24
                 let data = view.data
                 // x23 -> x19 + 0x8
-                // x23 + 0x10
+                // x23 + 0x10 (x19 + 0x58)
                 var value_1 = 0
                 // x20 -> x19 + 0x28
-                // x20 + 0x10
+                // x20 + 0x10 (x19 + 0x88)
                 var ids = Set<ID>()
                 // x26 -> x19 + 0xb0
                 // x26 + 0x10
-                let value_2 = 0
+                value_2 = 0
                 // x28
                 let evictedIDs = self.evictedIDs
                 
@@ -314,7 +317,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                         return function(pointer)
                     }
                     
-                    // x28
+                    // x28 (x19 + 0xd8)
                     var index = copy_1.data.startIndex
                     var x190x250 = false
                     
@@ -448,13 +451,57 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                         // <+4280>
                         // firstKey -> x19 + 0x18 -> x21
                         // x29 - 0x90
-                        let _ = items.data[firstKey]
+                        let _ = items[firstKey]
+                        // evictedIDs -> x19 + 0x90 -> x22
                         // x29 - 0x90
                         let containsEvictedIDs = evictedIDs.contains(firstKey)
                         // <+4408>
                         // x19 + 0xc0
                         let endIndex = copy_1.data.endIndex
                         // <+4444>
+                        // index -> x19 + 0xd8 -> x26
+                        // evictedIDs -> x22 -> x24
+                        
+                        while true {
+                            // <+4804>
+                            if index == endIndex {
+                                // <+5420>
+                                // <+5604>
+                                assertUnimplemented()
+                            } else {
+                                // <+4836>
+                                // x27 (x19 + 0xb8)
+                                let element = copy_1.data[index]
+                                // <+4916>
+                                // x24
+                                let resolvedKey = withUnsafePointer(to: element) { pointer in
+                                    // $sSPy7ElementSTQzGq_Igyr_ACq_s5NeverOIegyrzr_SkRzSHR_7SwiftUI4ViewR0_r1_lTRTA.28
+                                    return function(pointer)
+                                }
+                                // x19 + 0x108
+                                let copy_2 = index
+                                
+                                if itemsCount != 0 || evictedIDsCount != 0 {
+                                    // <+5100>
+                                    // x29 - 0x90
+                                    let resolvedItem = items[resolvedKey]
+                                    
+                                    if let resolvedItem {
+                                        // <+5144>
+                                        assertUnimplemented()
+                                    } else {
+                                        // <+5352>
+                                        assertUnimplemented()
+                                    }
+                                    
+                                    assertUnimplemented()
+                                } else {
+                                    // <+5500>
+                                    assertUnimplemented()
+                                }
+                            }
+                        }
+                        
                         assertUnimplemented()
                     }
                 } else {
@@ -464,12 +511,13 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 }
             } else {
                 // <+2260>
+                value_2 = .max
                 // <+6612>
-                self.firstInsertionOffset = .max
             }
             
             // <+6612>
             self.createdAllItems = false
+            self.firstInsertionOffset = value_2
             return
         }
         
