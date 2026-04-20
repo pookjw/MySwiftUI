@@ -594,9 +594,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                             // <+6108>
                             array.append(item)
                             itemsCount &-= 1
-                            editsBuilder.appendInsert(id: item.id)
-                            assertUnimplemented()
-                            
+                            editsBuilder.removeInsert(id: item.id)
                             // <+5884>
                         }
                         
@@ -1433,6 +1431,15 @@ extension ForEachState {
         }
         
         func appendInsert(id: ID) {
+            assertUnimplemented()
+        }
+        
+        @inline(always) // 원래 없음
+        func removeInsert(id: ID) {
+            /*
+             SwiftUI.ForEachState.Edits.appendRemove(id: τ_0_1) -> ()
+             merged SwiftUI.ForEachState.EditsBuilder.appendInsert(id: τ_0_1) -> ()
+             */
             assertUnimplemented()
         }
     }
