@@ -256,7 +256,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             self.view = view
             
             self.edits = ForEachState.LazyEdits()
-            // x19 + 0x80
+            // x27 (x19 + 0x158)
             var editsBuilder = ForEachState.EditsBuilder(data: view.data, idGenerator: view.idGenerator)
             
             defer {
@@ -268,10 +268,10 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             
             // <+1828>
             // x19 + 0x120
-            let copy_1 = view
+            let copy_1 = view.data
             // x26 -> x19 + 0xb0
             // x26 + 0x10
-            let value_2: Int
+            var value_2: Int
             
             if self.firstInsertionOffset >= 0 {
                 // <+1888>
@@ -318,10 +318,10 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                     }
                     
                     // x28 (x19 + 0xd8)
-                    var index = copy_1.data.startIndex
+                    var index = copy_1.startIndex
                     var x190x250 = false
                     
-                    copy_1.data.withContiguousStorageIfAvailable { buffer in
+                    copy_1.withContiguousStorageIfAvailable { buffer in
                         // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tFySRy7ElementQzGXEfU_TA
                         /*
                          buffer -> x0 -> x27
@@ -436,7 +436,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                             }
                             
                             // <+1020>
-                            copy_1.data.formIndex(after: &index)
+                            copy_1.formIndex(after: &index)
                             // <+1072>
                         }
                     }
@@ -446,7 +446,6 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                     if x190x250 {
                         // <+3572>
                         // <+5604>
-                        assertUnimplemented()
                     } else {
                         // <+4280>
                         // firstKey -> x19 + 0x18 -> x21
@@ -457,21 +456,23 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                         let containsEvictedIDs = evictedIDs.contains(firstKey)
                         // <+4408>
                         // x19 + 0xc0
-                        let endIndex = copy_1.data.endIndex
+                        let endIndex = copy_1.endIndex
                         // <+4444>
                         // index -> x19 + 0xd8 -> x26
                         // evictedIDs -> x22 -> x24
+                        // x19 + 0x168
+                        var x190x168 = 0
                         
                         while true {
                             // <+4804>
                             if index == endIndex {
                                 // <+5420>
                                 // <+5604>
-                                assertUnimplemented()
+                                break
                             } else {
                                 // <+4836>
                                 // x27 (x19 + 0xb8)
-                                let element = copy_1.data[index]
+                                let element = copy_1[index]
                                 // <+4916>
                                 // x24
                                 let resolvedKey = withUnsafePointer(to: element) { pointer in
@@ -481,34 +482,108 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                                 // x19 + 0x108
                                 let copy_2 = index
                                 
+                                let flag: Bool // true -> <+4624> / false -> <+4748>
+                                // itemsCount -> x19 + 0x160 -> x21
                                 if itemsCount != 0 || evictedIDsCount != 0 {
                                     // <+5100>
                                     // x29 - 0x90
                                     let resolvedItem = items[resolvedKey]
+                                    // resolvedKey -> x24 -> x23
                                     
                                     if let resolvedItem {
                                         // <+5144>
-                                        assertUnimplemented()
+                                        value_2 = x190x168
+                                        resolvedItem.index = copy_2
+                                        resolvedItem.contentID = self.contentID
+                                        resolvedItem.offset = x190x168
+                                        resolvedItem.seed = self.seed
+                                        itemsCount &-= 1
+                                        
+                                        // evictedIDs -> x19 + 0x90 -> x24
+                                        if !resolvedItem.isRemoved {
+                                            // <+5312>
+                                            if evictedIDs.contains(resolvedKey) {
+                                                // <+4624>
+                                                flag = true
+                                            } else {
+                                                // <+5396>
+                                                // <+4748>
+                                                flag = false
+                                            }
+                                        } else {
+                                            // <+5356>
+                                            if evictedIDs.contains(resolvedKey) {
+                                                // <+4624>
+                                                flag = true
+                                            } else {
+                                                // <+5380>
+                                                editsBuilder.appendInsert(atOffset: x190x168)
+                                                // <+4748>
+                                                flag = false
+                                            }
+                                        }
                                     } else {
                                         // <+5352>
-                                        assertUnimplemented()
+                                        // <+5356>
+                                        if evictedIDs.contains(resolvedKey) {
+                                            // <+4624>
+                                            flag = true
+                                        } else {
+                                            // <+5380>
+                                            editsBuilder.appendInsert(atOffset: x190x168)
+                                            // <+4748>
+                                            flag = false
+                                        }
                                     }
                                     
-                                    assertUnimplemented()
+                                    if flag {
+                                        // <+4624>
+                                        // x20 (x19 + 0x78)
+                                        let copy_3 = resolvedKey
+                                        ids.insert(copy_3)
+                                        evictedIDsCount &+= 1
+                                        // <+4748>
+                                    }
+                                    
+                                    // <+4748>
+                                    copy_1.formIndex(after: &index)
+                                    
+                                    x190x168 += 1
+                                    // <+4804>
+                                    continue
                                 } else {
                                     // <+5500>
-                                    assertUnimplemented()
+                                    // <+5604>
+                                    break
                                 }
                             }
                         }
                         
-                        assertUnimplemented()
+                        // <+5604>
                     }
+                    
+                    // <+5604>
+                    // <+5644>
                 } else {
                     // <+2368>
                     // <+5644>
+                }
+                
+                // <+5644>
+                if !self.createdAllItems {
+                    editsBuilder.removeInserts(afterOffset: value_1)
+                }
+                
+                // <+5740>
+                if itemsCount != 0 {
+                    // <+5772>
+                    assertUnimplemented()
+                } else {
+                    // <+6464>
                     assertUnimplemented()
                 }
+                
+                assertUnimplemented()
             } else {
                 // <+2260>
                 value_2 = .max
