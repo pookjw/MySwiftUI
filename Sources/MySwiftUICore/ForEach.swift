@@ -217,7 +217,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
         self.viewCountStyle = _ViewList_IteratorStyle(granularity: 1)
     }
     
-    func update(view: ForEach<Data, ID, Content>) {
+    func update(view incomingView: ForEach<Data, ID, Content>) {
         /*
          self -> x20 -> x26
          view -> x0 -> x19 + 0xe8
@@ -235,29 +235,52 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
         
         // <+1192>
         // self -> x26 -> x19 + 0x190
+        // self.view (pointer) -> x25
         if
             (self.view != nil),
             case .offset = self.view!.idGenerator
         {
             // <+2376>
+            // self.view (pointer) -> x25 -> x19 + 0x180
             // x27
             let selfCount = self.view!.data.count
-            let incomingCount = view.data.count
+            let incomingCount = incomingView.data.count
             
             if selfCount != incomingCount {
                 // <+2496>
-                Log.externalWarning("\(_typeName(ForEach<Data, ID, Content>.self, qualified: false)) count (\(view.data.count.description) != its initial count (\(self.view!.data.count.description)). `ForEach(_:content:)` should only be used for *constant* data. Instead conform data to `Identifiable` or use `ForEach(_:id:content:)` and provide an explicit `id`!")
+                Log.externalWarning("\(_typeName(ForEach<Data, ID, Content>.self, qualified: false)) count (\(incomingView.data.count.description) != its initial count (\(self.view!.data.count.description)). `ForEach(_:content:)` should only be used for *constant* data. Instead conform data to `Identifiable` or use `ForEach(_:id:content:)` and provide an explicit `id`!")
             }
             
             // <+2864>
-            assertUnimplemented()
+            // self.view (pointer) -> x19 + 0x180 -> x28
+            // x20 (x19 + 0x70)
+            let copy_1 = self.view!.data
+            // x21 (x19 + 0xa8)
+            let copy_2: ForEach<Data, ID, Content>? = incomingView
+            self.view = copy_2
+            
+            // <+3024>
+            // x21 (x19 + 0x58)
+            let copy_3 = copy_1
+            self.view!.data = copy_1
+            
+            // <+3096>
+            for item in self.items.values {
+                // <+4164>
+                item.contentID = self.contentID
+                if item.seed == oldSeed {
+                    item.seed = self.seed
+                }
+            }
+            
+            // <+6700>
         } else {
             // <+1404>
-            self.view = view
+            self.view = incomingView
             
             self.edits = ForEachState.LazyEdits()
             // x27 (x19 + 0x158)
-            var editsBuilder = ForEachState.EditsBuilder(data: view.data, idGenerator: view.idGenerator)
+            var editsBuilder = ForEachState.EditsBuilder(data: incomingView.data, idGenerator: incomingView.idGenerator)
             
             defer {
                 // $s7SwiftUI12ForEachStateC6update4viewyAA0cD0Vyxq_q0_G_tF6$deferL_yySkRzSHR_AA4ViewR0_r1_lF
@@ -268,7 +291,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             
             // <+1828>
             // x19 + 0x120
-            let copy_1 = view.data
+            let copy_1 = incomingView.data
             // x26 -> x19 + 0xb0
             // x26 + 0x10
             var value_2: Int
@@ -285,7 +308,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 var evictedIDsCount = self.evictedIDs.count
                 // <+2096>
                 // x24
-                let data = view.data
+                let data = incomingView.data
                 // x23 -> x19 + 0x8
                 // x23 + 0x10 (x19 + 0x58)
                 var value_1 = 0
@@ -299,13 +322,13 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 let evictedIDs = self.evictedIDs
                 
                 if
-                    !view.data.isEmpty,
-                    let firstElement = view.data.first
+                    !incomingView.data.isEmpty,
+                    let firstElement = incomingView.data.first
                 {
                     // <+3184>
                     // evictedIDs -> x28 -> x19 + 0x90
                     // firstElement -> x25 -> x26
-                    guard case .keyPath(let keyPath) = view.idGenerator else {
+                    guard case .keyPath(let keyPath) = incomingView.idGenerator else {
                         preconditionFailure()
                     }
                     
@@ -636,10 +659,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             // <+6612>
             self.createdAllItems = false
             self.firstInsertionOffset = value_2
-            return
         }
-        
-        assertUnimplemented()
     }
     
     func appendViewIDs<V : ViewList>(into accumulator: inout HeterogeneousViewIDsAccumulator, viewList: V) {
