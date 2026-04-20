@@ -248,7 +248,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             
             if selfCount != incomingCount {
                 // <+2496>
-                Log.externalWarning("\(_typeName(ForEach<Data, ID, Content>.self, qualified: false)) count (\(incomingView.data.count.description) != its initial count (\(self.view!.data.count.description)). `ForEach(_:content:)` should only be used for *constant* data. Instead conform data to `Identifiable` or use `ForEach(_:id:content:)` and provide an explicit `id`!")
+                Log.externalWarning("\(_typeName(ForEach<Data, ID, Content>.self, qualified: false)) count (\(incomingView.data.count.description)) != its initial count (\(self.view!.data.count.description)). `ForEach(_:content:)` should only be used for *constant* data. Instead conform data to `Identifiable` or use `ForEach(_:id:content:)` and provide an explicit `id`!")
             }
             
             // <+2864>
@@ -564,7 +564,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                                         // x20 (x19 + 0x78)
                                         let copy_3 = resolvedKey
                                         ids.insert(copy_3)
-                                        evictedIDsCount &+= 1
+                                        evictedIDsCount &-= 1
                                         // <+4748>
                                     }
                                     
