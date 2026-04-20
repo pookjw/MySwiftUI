@@ -617,7 +617,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                             // <+6108>
                             array.append(item)
                             itemsCount &-= 1
-                            editsBuilder.removeInsert(id: item.id)
+                            editsBuilder.appendRemove(id: item.id)
                             // <+5884>
                         }
                         
@@ -1426,7 +1426,20 @@ extension ForEachState {
         }
         
         mutating func appendInsert(id: ID) {
-            assertUnimplemented()
+            /*
+             self -> x20 -> x21
+             id -> x0/x1 -> x22/x19
+             */
+            switch self {
+            case .builder(var builder):
+                // <+192>
+                builder.appendInsert(id: id)
+                self = .builder(builder)
+            case .raw(var edits):
+                // <+120>
+                edits.appendInsert(id: id)
+                self = .raw(edits)
+            }
         }
     }
     
@@ -1450,17 +1463,13 @@ extension ForEachState {
             assertUnimplemented()
         }
         
-        func appendInsert(id: ID) {
-            assertUnimplemented()
+        mutating func appendInsert(id: ID) {
+            self.edits.appendInsert(id: id)
         }
         
         @inline(always) // 원래 없음
-        func removeInsert(id: ID) {
-            /*
-             SwiftUI.ForEachState.Edits.appendRemove(id: τ_0_1) -> ()
-             merged SwiftUI.ForEachState.EditsBuilder.appendInsert(id: τ_0_1) -> ()
-             */
-            assertUnimplemented()
+        mutating func appendRemove(id: ID) {
+            self.edits.appendRemove(id: id)
         }
     }
     
@@ -1496,6 +1505,14 @@ extension ForEachState {
         init(removes: Set<ID> = Set([]), inserts: Set<ID> = Set([])) {
             self.removes = removes
             self.inserts = inserts
+        }
+        
+        mutating func appendInsert(id: ID) {
+            self.inserts.insert(id)
+        }
+        
+        mutating func appendRemove(id: ID) {
+            self.removes.insert(id)
         }
     }
     
@@ -1788,7 +1805,8 @@ extension ForEachList {
         
         typealias Value = any ViewList
         
-        func updateValue() {
+        mutating func updateValue() {
+            self.seed &+= 1
             self.info.state.invalidateViewCounts()
             let list = ForEachList(state: self.info.state, seed: self.seed)
             self.value = list

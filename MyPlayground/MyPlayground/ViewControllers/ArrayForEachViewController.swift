@@ -43,10 +43,15 @@ final class ArrayForEachViewController : UIViewController {
         
         task?.cancel()
         task = Task { [hostingController] in
-            while hostingController.rootView.array.count < 5 {
+            while true {
                 do {
-                    hostingController.rootView.array.append(hostingController.rootView.array.count)
                     try await Task.sleep(for: .seconds(1))
+                    
+                    if hostingController.rootView.array.count == 2 {
+                        hostingController.rootView.array = [0, 1, 2, 3]
+                    } else {
+                        hostingController.rootView.array = [0, 1]
+                    }
                 } catch {
                     return
                 }
@@ -54,3 +59,4 @@ final class ArrayForEachViewController : UIViewController {
         }
     }
 }
+
