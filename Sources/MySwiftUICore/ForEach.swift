@@ -570,6 +570,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 }
                 
                 // <+5644>
+                // items -> x19 + 0x188 -> x22
                 if !self.createdAllItems {
                     editsBuilder.removeInserts(afterOffset: value_1)
                 }
@@ -577,13 +578,57 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                 // <+5740>
                 if itemsCount != 0 {
                     // <+5772>
-                    assertUnimplemented()
+                    // x19 + 0x238
+                    var array: [ForEachState<Data, ID, Content>.Item] = .init()
+                    // x19 + 0x250 / x19 + 0x258 / x19 + 0x260
+                    var index = items.startIndex
+                    // x19 + 0x68 / x26 / x28
+                    let endIndex = items.endIndex
+                    
+                    while index != endIndex {
+                        // <+5988>
+                        // x19 + 0x1b8
+                        let (_, item) = items[index]
+                        
+                        if !item.isRemoved && (item.seed != self.seed) {
+                            // <+6108>
+                            array.append(item)
+                            itemsCount &-= 1
+                            editsBuilder.appendInsert(id: item.id)
+                            assertUnimplemented()
+                            
+                            // <+5884>
+                        }
+                        
+                        // <+5884>
+                        items.formIndex(after: &index)
+                        
+                        if itemsCount == 0 {
+                            break
+                        }
+                    }
+                    
+                    // <+6204>
+                    for item in array {
+                        self.eraseItem(item)
+                    }
+                    
+                    // <+6396>
+                    // <+6484>
                 } else {
                     // <+6464>
-                    assertUnimplemented()
+                    // <+6484>
                 }
                 
-                assertUnimplemented()
+                // <+6484>
+                if !self.createdAllItems {
+                    // <+6496>
+                    value_2 = .max
+                }
+                
+                // <+6524>
+                self.evictedIDs = ids
+                // <+6612>
             } else {
                 // <+2260>
                 value_2 = .max
@@ -1384,6 +1429,10 @@ extension ForEachState {
         }
         
         func removeInserts(afterOffset offset: Int) {
+            assertUnimplemented()
+        }
+        
+        func appendInsert(id: ID) {
             assertUnimplemented()
         }
     }
