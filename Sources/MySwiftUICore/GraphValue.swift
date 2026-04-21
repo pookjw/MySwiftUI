@@ -7,11 +7,11 @@ public struct _GraphValue<Value> : Equatable {
         self.value = value
     }
     
-    init<T : Rule>(_ rule: T) where T.Value == Value {
+    package init<T : Rule>(_ rule: T) where T.Value == Value {
         self.value = Attribute(rule)
     }
     
-    init<T : StatefulRule>(_ rule: T) where T.Value == Value {
+    package init<T : StatefulRule>(_ rule: T) where T.Value == Value {
         self.value = Attribute(rule)
     }
     
