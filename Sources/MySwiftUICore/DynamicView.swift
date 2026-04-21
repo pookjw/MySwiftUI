@@ -248,15 +248,7 @@ extension DynamicViewContainer {
                     }
                     
                     // <+812>
-                    lastItem.refcount &-= 1
-                    if lastItem.refcount == 0 {
-                        lastItem.invalidate()
-                        let subgraph = lastItem.subgraph
-                        if subgraph.isValid {
-                            subgraph.willInvalidate(isInserted: false)
-                            subgraph.invalidate()
-                        }
-                    }
+                    lastItem.invalidate(isInserted: false)
                     
                     // <+912>
                     self.lastItem = nil

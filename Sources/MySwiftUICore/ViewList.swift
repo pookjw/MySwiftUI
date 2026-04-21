@@ -29,8 +29,8 @@ final class _ViewList_SubgraphRelease {
 }
 
 class _ViewList_Subgraph {
-    final let subgraph: Subgraph
-    final var refcount: UInt32
+    final let subgraph: Subgraph // 0x10
+    final var refcount: UInt32 // 0x18
     
     init(subgraph: Subgraph) {
         self.refcount = 1
@@ -49,6 +49,19 @@ class _ViewList_Subgraph {
              .pointee
          */
         // nop
+    }
+    
+    @inline(always) // 원래 없음
+    final func invalidate(isInserted: Bool) {
+        self.refcount &-= 1
+        if self.refcount == 0 {
+            self.invalidate()
+            let subgraph = self.subgraph
+            if subgraph.isValid {
+                subgraph.willInvalidate(isInserted: isInserted)
+                subgraph.invalidate()
+            }
+        }
     }
 }
 

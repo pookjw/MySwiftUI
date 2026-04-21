@@ -89,7 +89,7 @@ extension ForEach : DynamicView, PrimitiveView where Content : View {
 
 extension ForEach where ID == Data.Element.ID, Content : View, Data.Element : Identifiable {
     public init(_ data: Data, @ViewBuilder content: @escaping (Data.Element) -> Content) {
-        assertUnimplemented()
+        self.init(data, idGenerator: .keyPath(\.id), content: content)
     }
 }
 
@@ -372,7 +372,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                         // x29 - 0x88
                         let _ = items[firstKey]
                         // x29 - 0x88
-                        let containsID = evictedIDs.contains(firstKey)
+                        let _ = evictedIDs.contains(firstKey)
                         // editsBuilder -> x26 -> x19 + 0x18
                         
                         guard !buffer.isEmpty else {
@@ -476,7 +476,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                         let _ = items[firstKey]
                         // evictedIDs -> x19 + 0x90 -> x22
                         // x29 - 0x90
-                        let containsEvictedIDs = evictedIDs.contains(firstKey)
+                        let _ = evictedIDs.contains(firstKey)
                         // <+4408>
                         // x19 + 0xc0
                         let endIndex = copy_1.endIndex
@@ -826,7 +826,16 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
     }
     
     func eraseItem(_ item: ForEachState<Data, ID, Content>.Item) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         item -> x0 -> x21
+         */
+        let subgraph = item.subgraph
+        subgraph.willRemove()
+        self.parentSubgraph.removeChild(subgraph)
+        item.isRemoved = true
+        item.timeToLive = 0
+        item.invalidate(isInserted: true)
     }
     
     func item(at index: Data.Index, offset: Int) -> ForEachState<Data, ID, Content>.Item {
@@ -1294,9 +1303,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
 }
 
 extension ForEachState {
-    final class Item {
-        fileprivate let subgraph: Subgraph // 0x10
-        private var refCount: UInt32 // 0x18
+    final class Item : _ViewList_Subgraph {
         fileprivate let id: ID // 0x20
         fileprivate let reuseID: Int // 0x28
         fileprivate let views: _ViewListOutputs.Views // 0x30
@@ -1307,7 +1314,7 @@ extension ForEachState {
         fileprivate var seed: UInt32 // 0x80
         private var isConstant: Bool // 0x84
         fileprivate var timeToLive: Int8 = 8 // 0x85
-        fileprivate private(set) var isRemoved: Bool = false // 0x86
+        fileprivate var isRemoved: Bool = false // 0x86
         fileprivate var hasWarned: Bool = false // 0x87
         
         init(
@@ -1344,8 +1351,7 @@ extension ForEachState {
             self.contentID = contentID
             self.seed = seed
             self.isConstant = isConstant
-            self.refCount = 1
-            self.subgraph = subgraph
+            super.init(subgraph: subgraph)
         }
         
         func applyTraits(to collection: inout ViewTraitCollection) {
@@ -1361,8 +1367,23 @@ extension ForEachState {
             }
         }
         
-        func invalidate() {
-            assertUnimplemented()
+        override func invalidate() {
+            guard let state else {
+                return
+            }
+            
+            // state -> x22
+            if let index = state.items.index(forKey: self.id) {
+                // <+280>
+                // existing -> x24
+                state.items.remove(at: index)
+            } else {
+                // <+436>
+                state.items = state.items.filter { (_, value) in
+                    // $s7SwiftUI12ForEachStateC4ItemC10invalidateyyFSbq_3key_AEyxq_q0__G5valuet_tXEfU_TA
+                    return value === self
+                }
+            }
         }
         
         // TODO
