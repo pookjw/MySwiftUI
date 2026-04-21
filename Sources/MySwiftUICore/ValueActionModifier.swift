@@ -13,17 +13,24 @@ extension View {
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension View {
     nonisolated public func onChange<V>(of value: V, initial: Bool = false, _ action: @escaping (_ oldValue: V, _ newValue: V) -> Void) -> some View where V : Equatable {
-        return modifier(
+        let valueActionModifier = modifier(
             _ValueActionModifier2(value: value, action: action)
         )
-        .modifier(
-            _AppearanceActionModifier(
-                appear: initial ? {
-                    action(value, value)
-                } : nil,
-                disappear: nil
+        
+        var appear: (() -> Void)?
+        if initial {
+            appear = {
+                action(value, value)
+            }
+        }
+        
+        return valueActionModifier
+            .modifier(
+                _AppearanceActionModifier(
+                    appear: appear,
+                    disappear: nil
+                )
             )
-        )
     }
     
     nonisolated public func onChange<V>(of value: V, initial: Bool = false, _ action: @escaping () -> Void) -> some View where V : Equatable {
