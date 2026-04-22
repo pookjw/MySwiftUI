@@ -20,6 +20,12 @@ fileprivate struct MyView : View {
             .onChange(of: value, initial: true) { oldValue, newValue in
                 print(oldValue, newValue)
             }
+            .onChange(of: value, initial: true) {
+                print(value)
+            }
+            .onChange(of: value) { newValue in
+                print(value, newValue)
+            }
     }
 }
 

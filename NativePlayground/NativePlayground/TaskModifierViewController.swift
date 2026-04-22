@@ -1,16 +1,12 @@
 //
 //  TaskModifierViewController.swift
-//  MyPlayground
+//  NativePlayground
 //
-//  Created by Jinwoo Kim on 4/21/26.
+//  Created by Jinwoo Kim on 4/22/26.
 //
 
 import UIKit
-#if USE_ORIGINAL_SWIFTUI
 import SwiftUI
-#else
-import MySwiftUI
-#endif
 
 fileprivate struct MyView : View {
     @State private var array: [Int] = []

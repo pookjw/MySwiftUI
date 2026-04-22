@@ -140,6 +140,8 @@ extension View {
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension _TaskModifier : Sendable {}
 
+extension _TaskModifier : PrimitiveViewModifier {}
+
 @available(iOS 26.4, macOS 26.4, tvOS 26.4, watchOS 26.4, visionOS 26.4, *)
 public struct _TaskModifier2 : ViewModifier {
     private var action: @isolated(any) () async -> Void // 0x0
@@ -241,8 +243,16 @@ extension _TaskModifier2 : Sendable {
 extension _TaskValueModifier : Sendable {
 }
 
+extension _TaskValueModifier : PrimitiveViewModifier {}
+
 @available(iOS 26.4, macOS 26.4, tvOS 26.4, watchOS 26.4, visionOS 26.4, *)
 public struct _TaskValueModifier2<ID> : ViewModifier where ID : Equatable {
+    private var action: @isolated(any) () async -> ()
+    private var priority: TaskPriority
+    private var id: ID
+    private var name: String
+    private var taskExecutor: TaskExecutor?
+    
     @usableFromInline
     internal nonisolated /* nonisolated는 원래 없음 */ init(
         id: ID,
@@ -286,6 +296,10 @@ public struct _TaskValueModifier2<ID> : ViewModifier where ID : Equatable {
 @available(*, unavailable)
 extension _TaskValueModifier2 : Sendable {
 }
+
+extension _TaskValueModifier2 : PrimitiveViewModifier {}
+
+extension _TaskModifier2 : PrimitiveViewModifier {}
 
 extension _TaskModifier2 {
     fileprivate struct Child : Rule, AsyncAttribute {
@@ -361,7 +375,23 @@ extension _TaskValueModifier2 {
         
         func body(content: Self.Content) -> some View {
             // <+444>
-            assertUnimplemented()
+            content
+                .modifier(
+                    _AppearanceActionModifier(
+                        appear: {
+                            // $s7SwiftUI19_TaskValueModifier2V13InnerModifier33_293A0AF83C78DECE53AFAAF3EDCBA9D4LLV4body7contentQrAA05_ViewG8_ContentVyAFyx_GG_tFyycfU_TA
+                            assertUnimplemented()
+                        },
+                        disappear: {
+                            // $s7SwiftUI19_TaskValueModifier2V13InnerModifier33_293A0AF83C78DECE53AFAAF3EDCBA9D4LLV4body7contentQrAA05_ViewG8_ContentVyAFyx_GG_tFyycfU0_TA
+                            assertUnimplemented()
+                        }
+                    )
+                )
+                .onChange(of: base.id, initial: false) { _, _ in
+                    // $s7SwiftUI19_TaskValueModifier2V13InnerModifier33_293A0AF83C78DECE53AFAAF3EDCBA9D4LLV4body7contentQrAA05_ViewG8_ContentVyAFyx_GG_tFyycfU1_TA
+                    assertUnimplemented()
+                }
         }
     }
 }

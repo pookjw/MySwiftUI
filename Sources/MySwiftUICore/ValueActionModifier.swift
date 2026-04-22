@@ -37,7 +37,26 @@ extension View {
     }
     
     nonisolated public func onChange<V>(of value: V, initial: Bool = false, _ action: @escaping () -> Void) -> some View where V : Equatable {
-        assertUnimplemented()
+        let valueActionModifier = modifier(
+            _ValueActionModifier2(value: value, action: { _, _ in
+                action()
+            })
+        )
+        
+        var appear: (() -> Void)?
+        if initial {
+            appear = {
+                action()
+            }
+        }
+        
+        return valueActionModifier
+            .modifier(
+                _AppearanceActionModifier(
+                    appear: appear,
+                    disappear: nil
+                )
+            )
     }
 }
 
@@ -55,7 +74,10 @@ extension View {
     }
     
     nonisolated public static func _makeView(modifier: _GraphValue<_ValueActionModifier<Value>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        let dispatcher = ValueActionDispatcher(modifier: modifier.value, phase: inputs.base.phase)
+        let attribute = Attribute(dispatcher)
+        attribute.flags = .unknown0
+        return body(_Graph(), inputs)
     }
     
     nonisolated public static func _makeViewList(modifier: _GraphValue<_ValueActionModifier<Value>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
@@ -71,7 +93,7 @@ extension _ValueActionModifier : PrimitiveViewModifier {}
 
 extension _ValueActionModifier : ValueActionModifierProtocol {
     func sendAction(old: _ValueActionModifier?) {
-        assertUnimplemented()
+        (old?.action ?? self.action)(self.value)
     }
 }
 
@@ -92,7 +114,7 @@ struct _ValueActionModifier2<Value : Equatable> : ViewModifier, PrimitiveViewMod
     }
     
     func sendAction(old: _ValueActionModifier2<Value>?) {
-        assertUnimplemented()
+        self.action(old?.value ?? self.value, self.value)
     }
     
     nonisolated static func _makeView(modifier: _GraphValue<_ValueActionModifier2<Value>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
