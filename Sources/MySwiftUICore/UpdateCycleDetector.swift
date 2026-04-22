@@ -1,10 +1,10 @@
-private import AttributeGraph
+internal import AttributeGraph
 
 package struct UpdateCycleDetector {
-    private var updateSeed: Attribute<UInt32>
-    private var lastSeed: UInt32
-    private var ttl: UInt32
-    private var hasLogged: Bool
+    private(set) var updateSeed: Attribute<UInt32>
+    var lastSeed: UInt32
+    var ttl: UInt32
+    var hasLogged: Bool
     
     package init() {
         self.updateSeed = GraphHost.currentHost.data.$updateSeed
