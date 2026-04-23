@@ -247,11 +247,11 @@ extension _TaskValueModifier : PrimitiveViewModifier {}
 
 @available(iOS 26.4, macOS 26.4, tvOS 26.4, watchOS 26.4, visionOS 26.4, *)
 public struct _TaskValueModifier2<ID> : ViewModifier where ID : Equatable {
-    private var action: @isolated(any) () async -> ()
-    private var priority: TaskPriority
-    private var id: ID
-    private var name: String
-    private var taskExecutor: TaskExecutor?
+    @safe private nonisolated(unsafe) var action: @isolated(any) () async -> ()
+    @safe private nonisolated(unsafe) var priority: TaskPriority
+    @safe private nonisolated(unsafe) var id: ID
+    @safe private nonisolated(unsafe) var name: String
+    @safe private nonisolated(unsafe) var taskExecutor: TaskExecutor?
     
     @usableFromInline
     internal nonisolated /* nonisolated는 원래 없음 */ init(
@@ -261,7 +261,11 @@ public struct _TaskValueModifier2<ID> : ViewModifier where ID : Equatable {
         priority: TaskPriority,
         action: sending @escaping @isolated(any) () async -> Void
     ) {
-        assertUnimplemented()
+        self.id = id
+        self.name = name
+        self.taskExecutor = taskExecutor
+        self.priority = priority
+        self.action = action
     }
 
     nonisolated public static func _makeView(
@@ -341,7 +345,7 @@ extension _TaskModifier2 {
                                     name: base.name,
                                     executorPreference: base.taskExecutor,
                                     priority: base.priority,
-                                    operation: unsafeBitCast(base.action, to: (@Sendable @isolated(any) () async -> Void).self)
+                                    operation: unsafeBitCast(base.action, to: (@Sendable () async -> Void).self)
                                 )
                             }
                             
@@ -365,13 +369,16 @@ extension _TaskValueModifier2 {
         @Attribute private(set) var modifier: _TaskValueModifier2<ID>
         
         var value: _TaskValueModifier2.InnerModifier {
-            assertUnimplemented()
+            return _TaskValueModifier2.InnerModifier(
+                base: modifier,
+                taskState: nil
+            )
         }
     }
     
     fileprivate struct InnerModifier : ViewModifier {
-        private var base: _TaskValueModifier2<ID>
-        @State private var taskState: _TaskValueModifier2<ID>.InnerModifier.TaskState?
+        private(set) var base: _TaskValueModifier2<ID>
+        @State private(set) var taskState: _TaskValueModifier2<ID>.InnerModifier.TaskState?
         
         func body(content: Self.Content) -> some View {
             // <+444>
@@ -380,25 +387,67 @@ extension _TaskValueModifier2 {
                     _AppearanceActionModifier(
                         appear: {
                             // $s7SwiftUI19_TaskValueModifier2V13InnerModifier33_293A0AF83C78DECE53AFAAF3EDCBA9D4LLV4body7contentQrAA05_ViewG8_ContentVyAFyx_GG_tFyycfU_TA
-                            assertUnimplemented()
+                            guard self.taskState == nil else {
+                                return
+                            }
+                            
+                            // inlined
+                            let task = makeTask()
+                            self.taskState = _TaskValueModifier2<ID>.InnerModifier.TaskState(task: task, id: base.id)
                         },
                         disappear: {
                             // $s7SwiftUI19_TaskValueModifier2V13InnerModifier33_293A0AF83C78DECE53AFAAF3EDCBA9D4LLV4body7contentQrAA05_ViewG8_ContentVyAFyx_GG_tFyycfU0_TA
-                            assertUnimplemented()
+                            guard let taskState else {
+                                return
+                            }
+                            
+                            taskState.task.cancel()
+                            self.taskState = nil
                         }
                     )
                 )
-                .onChange(of: base.id, initial: false) { _, _ in
+                .onChange(of: base.id, initial: false) { oldValue, newValue in
                     // $s7SwiftUI19_TaskValueModifier2V13InnerModifier33_293A0AF83C78DECE53AFAAF3EDCBA9D4LLV4body7contentQrAA05_ViewG8_ContentVyAFyx_GG_tFyycfU1_TA
-                    assertUnimplemented()
+                    guard
+                        let taskState,
+                        oldValue != newValue
+                    else {
+                        return
+                    }
+                    
+                    // <+500>
+                    taskState.task.cancel()
+                    self.taskState = _TaskValueModifier2<ID>.InnerModifier.TaskState(task: makeTask(), id: base.id)
                 }
+        }
+        
+        func makeTask() -> Task<Void, Never> {
+            let task: Task<Void, Never>
+            if isLinkedOnOrAfter(.v7_4) {
+                task = Task.immediate(
+                    name: base.name,
+                    priority: base.priority,
+                    executorPreference: base.taskExecutor,
+                    operation: {
+                        await base.action()
+                    }
+                )
+            } else {
+                task = Task.detached(
+                    name: base.name,
+                    priority: base.priority,
+                    operation: unsafeBitCast(base.action, to: (@Sendable () -> Void).self)
+                )
+            }
+            
+            return task
         }
     }
 }
 
 extension _TaskValueModifier2.InnerModifier {
     struct TaskState {
-        private var task: Task<Void, Never>
-        private var id: ID
+        fileprivate private(set) var task: Task<Void, Never>
+        fileprivate private(set) var id: ID
     }
 }

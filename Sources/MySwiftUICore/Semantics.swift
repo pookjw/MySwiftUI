@@ -60,8 +60,7 @@ package struct Semantics : Hashable, Comparable, CustomStringConvertible {
     }
     
     package var description: String {
-//        assertUnimplemented()
-        return "(TODO)"
+        assertUnimplemented()
     }
     
     package func test<T>(as: WritableKeyPath<Semantics.Forced, Semantics?>, _ body: () throws -> T) rethrows -> T {
@@ -287,17 +286,17 @@ package func SwiftUI_v7() -> dyld_build_version_t {
 
 @c(SwiftUI_v7_1_os_versions)
 package func SwiftUI_v7_1() -> dyld_build_version_t {
-    return dyld_build_version_t(platform: .max, version: 0x07e91000)
+    return dyld_build_version_t(platform: .max, version: 0x07e90100)
 }
 
 @c(SwiftUI_v7_2_os_versions)
 package func SwiftUI_v7_2() -> dyld_build_version_t {
-    return dyld_build_version_t(platform: .max, version: 0x07e92000)
+    return dyld_build_version_t(platform: .max, version: 0x07e90200)
 }
 
 @c(SwiftUI_v7_4_os_versions)
 package func SwiftUI_v7_4() -> dyld_build_version_t {
-    return dyld_build_version_t(platform: .max, version: 0x07e94000)
+    return dyld_build_version_t(platform: .max, version: 0x07e90400)
 }
 
 @c(SwiftUI_v8_os_versions)
