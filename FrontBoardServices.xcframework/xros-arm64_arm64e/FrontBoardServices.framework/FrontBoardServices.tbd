@@ -8,6 +8,10 @@ exports:
     symbols:              [  ]
     objc-classes:         [ FBSScene,
     FBSSceneSettings,
-    FBSSceneSpecification ]
+    FBSSceneSpecification,
+    FBSWorkspaceSceneRequestOptions,
+    FBSSceneClientSettings,
+    FBSMutableSceneClientSettings,
+    FBSSceneComponent ]
     objc-ivars:           [  ]
 ...

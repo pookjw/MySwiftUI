@@ -295,7 +295,10 @@ exports:
     _AGGraphCreateIndirectAttribute2,
     _$s14AttributeGraph04WeakA0V2eeoiySbACyxG_AEtFZ,
     _$s14AttributeGraph04WeakA0VyxGSQAAMc,
-    _AGTupleElementOffset ]
+    _AGTupleElementOffset,
+    _$s14AttributeGraph12StatefulRulePAAE5value5ValueQzvM,
+    _AGGraphGetAttributeInfo,
+    _$s14AttributeGraph11RuleContextV13valueAndFlags2of7optionsqd__0E0_So014AGChangedValueG0V5flagstAA0A0Vyqd__G_So14AGValueOptionsVtlF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

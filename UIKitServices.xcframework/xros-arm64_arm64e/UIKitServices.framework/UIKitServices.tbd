@@ -6,6 +6,6 @@ swift-abi-version: 7
 exports:
   - targets:         [ arm64-xros, arm64e-xros ]
     symbols:              [  ]
-    objc-classes:         [  ]
+    objc-classes:         [ UISSceneRequestOptions ]
     objc-ivars:           [  ]
 ...

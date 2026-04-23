@@ -1,5 +1,7 @@
 #import <FrontBoardServices/FrontBoardServices.h>
 #import <_UIKitPrivate/UIMutableApplicationSceneClientSettings.h>
+#import <UIKit/UIKit.h>
+#import <_UIKitPrivate/UISceneRequestOptions.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 

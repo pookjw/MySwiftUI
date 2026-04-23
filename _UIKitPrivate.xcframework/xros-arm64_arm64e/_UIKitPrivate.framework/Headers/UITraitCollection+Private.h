@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import <_UIKitPrivate/UIUserInterfaceContainerVibrancy.h>
 #import <_UIKitPrivate/UIGlassElevationLevel.h>
+#import <_UIKitPrivate/UIVolumetricWindowSceneActivationRequestOptions.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -48,6 +49,7 @@ UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_S
 - (UIUserInterfaceVibrancy)_vibrancy;
 @property (readonly, nonatomic) _UIGlassElevationLevel _glassElevationLevel;
 - (void)_setObject:(id _Nullable)object forTraitToken:(id<_UITraitTokenProtocol>)token;
+- (UISceneDisplayZoomBehavior)_effectiveDisplayZoomBehavior;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

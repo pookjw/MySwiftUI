@@ -19,6 +19,11 @@ typedef struct AGTypeSignature {
     uint32_t words[5];
 } AGTypeSignature NS_SWIFT_NAME(Signature);
 
+typedef struct AGAttributeInfo {
+    const void *metadata; // TODO
+    const void *body;
+} AGAttributeInfo NS_SWIFT_NAME(AttributeInfo);
+
 /*
 AGTypeGetKind
 https://github.com/swiftlang/swift/blob/36a3c6e61101419f4557781da79f291445cdfa1b/stdlib/public/core/ReflectionMirror.swift#L228
@@ -40,9 +45,10 @@ typedef NS_OPTIONS(uint32_t, AGValueOptions) {
     AGValueOptionsUnknown1 = 1 << 1
 };
 
-typedef NS_ENUM(uint32_t, AGChangedValueFlags) {
-    AGChangedValueFlagsUnchanged = 0,
-    AGChangedValueFlagsChanged = 1
+typedef NS_OPTIONS(uint32_t, AGChangedValueFlags) {
+    AGChangedValueFlagsNone = 0,
+    AGChangedValueFlagsChanged = 1 << 0,
+    AGChangedValueFlagsRequiresMainThread = 1 << 1
 };
 
 typedef NS_OPTIONS(uint32_t, AGGraphCounterOptions) {
