@@ -28,14 +28,19 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         
         // <+84>
         // modifier -> x0 -> x20
+        let childLayoutComputer = OptionalAttribute<LayoutComputer>()
         let layoutComputer = UnaryLayoutComputer<Self>(
             layout: modifier.value,
             environment: inputs.base.cachedEnvironment.value.environment,
-            childLayoutComputer: OptionalAttribute()
+            childLayoutComputer: childLayoutComputer
         )
         
-        // x29 - 0x48
+        // w22
         let layoutComputerAttribute = Attribute(layoutComputer)
+        // x29 - 0x90
+        var positionAttribute = inputs.position
+        // w26
+        let geometryAttribute: Attribute<ViewGeometry>!
         
         if options.contains(.viewNeedsGeometry) {
             // <+360>
@@ -51,7 +56,7 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
             )
             
             // w26
-            let geometryAttribute = Attribute(geometry)
+            geometryAttribute = Attribute(geometry)
             // x29 - 0x88
             let sizeAttribute = geometryAttribute[keyPath: \.dimensions.size]
             // x29 - 0x13c
@@ -63,15 +68,68 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
             )
             
             // x29 - 0x90
-            let queryAttribute = Attribute(query)
-            assertUnimplemented()
+            positionAttribute = Attribute(query)
+            // <+724>
         } else {
             // <+724>
-            // w26 = 0
-            assertUnimplemented()
+            geometryAttribute = nil
         }
         
-        assertUnimplemented()
+        // <+724>
+        // x29 - 0x140
+        var outputs = body(_Graph(), inputs)
+        
+        if inputs.base.options.contains(.viewNeedsGeometry) {
+            // <+768>
+            layoutComputerAttribute.mutateBody(as: UnaryLayoutComputer<Self>.self, invalidating: true) { rule in
+                // $s7SwiftUI13UnaryLayout3DPAAE05_makeC12LayoutView3D8modifier6inputs4bodyAA12_ViewOutputsVAA11_GraphValueVyxG_AA01_K6InputsVAiA01_M0V_ANtctFZyAA0cF10Computer3D33_ED0B38D5641AD05527359F0D11736A2CLLVyxGzXEfU1_AA012_AspectRatioD1DV_Tg5TA
+                rule.$childLayoutComputer = childLayoutComputer.attribute
+            }
+            
+            geometryAttribute.mutateBody(as: UnaryChildGeometry<Self>.self, invalidating: true) { rule in
+                // $s7SwiftUI11UnaryLayoutPA2A16PlacementContextV0eF4TypeRtzrlE12makeViewImpl8modifier6inputs4bodyAA01_I7OutputsVAA11_GraphValueVyxG_AA01_I6InputsVAmA01_O0V_ARtctFZyAA0C13ChildGeometry33_1C3B77B617AD058A6802F719E38F5D79LLVyxGzXEfU0_AA14MoveTransitionV04MoveD0V_Tg5TA
+                /*
+                 rule -> x0 -> x19
+                 inputs -> x1 -> x23
+                 layoutComputerAttribute -> w2 -> w22
+                 outputs -> x3 -> dead
+                 childLayoutComputer -> x4 -> x20 (x4 >> 32)
+                 */
+                if inputs[EnableLayoutDepthStashing.self] {
+                    // <+72>
+                    // w21
+                    let transformAttribute = inputs.transform
+                    let depthAttribute = transformAttribute[keyPath: \.depth]
+                    let layoutComputer = DepthStashingLayoutComputer(layoutComputer: layoutComputerAttribute, depth: depthAttribute)
+                    let parentLayoutComputer = Attribute(layoutComputer)
+                    rule.$parentLayoutComputer = parentLayoutComputer
+                    
+                    if let attribute = childLayoutComputer.attribute {
+                        // <+184>
+                        let layoutComputer = DepthStashingLayoutComputer(layoutComputer: attribute, depth: depthAttribute)
+                        let childLayoutComputer = Attribute(layoutComputer)
+                        // <+256>
+                        rule.$childLayoutComputer = childLayoutComputer
+                    } else {
+                        // <+256>
+                        rule.$childLayoutComputer = childLayoutComputer.attribute
+                    }
+                } else {
+                    // <+256>
+                    rule.$childLayoutComputer = childLayoutComputer.attribute
+                }
+            }
+        }
+        
+        // <+1036>
+        outputs.layoutComputer = childLayoutComputer.attribute
+        
+        if options.contains(.viewRequestsLayoutComputer) {
+            outputs.preferences.debugProperties.formUnion(.layoutComputer)
+            outputs.layoutComputer = layoutComputerAttribute
+        }
+        
+        return outputs
     }
 }
 
@@ -93,14 +151,32 @@ fileprivate struct UnaryLayoutComputer<T : UnaryLayout> : StatefulRule, AsyncAtt
     typealias Value = LayoutComputer
     
     func updateValue() {
-        assertUnimplemented()
+        // w19
+        let current = AnyAttribute.current!
+        // x27
+        let layout = self.layout
+        // x26
+        let engine = UnaryLayoutEngine<T>(
+            layout: layout,
+            layoutContext: SizeAndSpacingContext(
+                context: AnyRuleContext(attribute: current),
+                owner: current,
+                environment: $environment
+            ),
+            child: LayoutProxy(
+                context: AnyRuleContext(attribute: current),
+                layoutComputer: $childLayoutComputer
+            )
+        )
+        
+        self.update(to: engine)
     }
 }
 
 fileprivate struct UnaryChildGeometry<T> : Rule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var parentSize: ViewSize
     @Attribute private(set) var layoutDirection: LayoutDirection
-    @Attribute private(set) var parentLayoutComputer: LayoutComputer
+    @Attribute var parentLayoutComputer: LayoutComputer
     @OptionalAttribute var childLayoutComputer: LayoutComputer?
     
     var description: String {
@@ -117,6 +193,76 @@ struct LayoutPositionQuery : Rule, AsyncAttribute {
     @Attribute fileprivate private(set) var localPosition: CGPoint
     
     var value: CGPoint {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct UnaryLayoutEngine<T> : LayoutEngine {
+    private let layout: T
+    private let layoutContext: SizeAndSpacingContext
+    private let child: LayoutProxy
+    private var dimensionsCache = ViewSizeCache()
+    private var placementCache = ViewPlacementCache()
+    
+    init(layout: T, layoutContext: SizeAndSpacingContext, child: LayoutProxy) {
+        self.layout = layout
+        self.layoutContext = layoutContext
+        self.child = child
+    }
+    
+    func layoutPriority() -> Double {
+        assertUnimplemented()
+    }
+    
+    func ignoresAutomaticPadding() -> Bool {
+        assertUnimplemented()
+    }
+    
+    func requiresSpacingProjection() -> Bool {
+        assertUnimplemented()
+    }
+    
+    func spacing() -> Spacing {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func childPlacement(at viewSize: ViewSize) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func requiresTrueDepthLayout() -> Bool {
+        assertUnimplemented()
+    }
+    
+    var debugContentDescription: String? {
         assertUnimplemented()
     }
 }
