@@ -1,5 +1,6 @@
 // 73C64038119BBD0A6D8557B14379A404
 public import CoreGraphics
+private import os.log
 
 extension View {
     @inlinable nonisolated public func frame(width: CGFloat? = nil, height: CGFloat? = nil, alignment: Alignment = .center) -> some View {
@@ -20,7 +21,21 @@ extension View {
     
     @usableFromInline
     package init(width: CGFloat?, height: CGFloat?, alignment: Alignment) {
-        assertUnimplemented()
+        /*
+         width -> x0/x1 -> x24/x22
+         height -> x2/x3 -> x23/x25
+         alignment -> x4/x5 -> x20/x19
+         return pointer -> x8 -> x21
+         */
+        if isLinkedOnOrAfter(.v2) {
+            // <+176>
+            assertUnimplemented()
+        }
+        
+        // <+400>
+        self.width = width
+        self.height = height
+        self.alignment = alignment
     }
     
     public typealias AnimatableData = EmptyAnimatableData

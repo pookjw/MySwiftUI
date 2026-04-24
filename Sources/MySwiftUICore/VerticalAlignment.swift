@@ -16,20 +16,10 @@ extension VerticalAlignment {
 }
 
 extension VerticalAlignment {
-    public static let top: VerticalAlignment = {
-        assertUnimplemented()
-    }()
-    
-    public static let center: VerticalAlignment = {
-        assertUnimplemented()
-    }()
-    
-    public static let bottom: VerticalAlignment = {
-        assertUnimplemented()
-    }()
-    
+    public static let top = VerticalAlignment(VerticalAlignment.Top.self)
+    public static let center = VerticalAlignment(VerticalAlignment.Center.self)
+    public static let bottom = VerticalAlignment(VerticalAlignment.Bottom.self)
     public static let firstTextBaseline = VerticalAlignment(VerticalAlignment.FirstTextBaseline.self)
-    
     public static let lastTextBaseline = VerticalAlignment(VerticalAlignment.LastTextBaseline.self)
 }
 
@@ -37,6 +27,16 @@ extension VerticalAlignment : Sendable {}
 extension VerticalAlignment : BitwiseCopyable {}
 
 extension VerticalAlignment {
+    fileprivate enum Center : FrameAlignment {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            return context.height * 0.5
+        }
+        
+        static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
+            assertUnimplemented()
+        }
+    }
+    
     fileprivate enum FirstTextBaseline : AlignmentID {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             return context.height
@@ -48,6 +48,36 @@ extension VerticalAlignment {
     }
     
     fileprivate enum LastTextBaseline : AlignmentID {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            return context.height
+        }
+        
+        static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
+            assertUnimplemented()
+        }
+    }
+    
+    fileprivate enum FirstTextLineCenter : AlignmentID {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            assertUnimplemented()
+        }
+        
+        static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
+            assertUnimplemented()
+        }
+    }
+    
+    fileprivate enum Top : FrameAlignment {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            return 0
+        }
+        
+        static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
+            assertUnimplemented()
+        }
+    }
+    
+    fileprivate enum Bottom : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
             return context.height
         }
