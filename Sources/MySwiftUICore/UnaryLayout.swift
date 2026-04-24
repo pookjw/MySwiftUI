@@ -35,10 +35,35 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         )
         
         // x29 - 0x48
-        let attribute = Attribute(layoutComputer)
+        let layoutComputerAttribute = Attribute(layoutComputer)
         
         if options.contains(.viewNeedsGeometry) {
             // <+360>
+            let layoutDirectionAttribute = inputs.base.cachedEnvironment.value.attribute(id: .layoutDirection) { environment in
+                return environment.layoutDirection
+            }
+            
+            let geometry = UnaryChildGeometry<Self>(
+                parentSize: inputs.size,
+                layoutDirection: layoutDirectionAttribute,
+                parentLayoutComputer: layoutComputerAttribute,
+                childLayoutComputer: OptionalAttribute()
+            )
+            
+            // w26
+            let geometryAttribute = Attribute(geometry)
+            // x29 - 0x88
+            let sizeAttribute = geometryAttribute[keyPath: \.dimensions.size]
+            // x29 - 0x13c
+            let originAttribute = geometryAttribute[keyPath: \.origin]
+            
+            let query = LayoutPositionQuery(
+                parentPosition: inputs.position,
+                localPosition: originAttribute
+            )
+            
+            // x29 - 0x90
+            let queryAttribute = Attribute(query)
             assertUnimplemented()
         } else {
             // <+724>
@@ -68,6 +93,30 @@ fileprivate struct UnaryLayoutComputer<T : UnaryLayout> : StatefulRule, AsyncAtt
     typealias Value = LayoutComputer
     
     func updateValue() {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct UnaryChildGeometry<T> : Rule, AsyncAttribute, CustomStringConvertible {
+    @Attribute private(set) var parentSize: ViewSize
+    @Attribute private(set) var layoutDirection: LayoutDirection
+    @Attribute private(set) var parentLayoutComputer: LayoutComputer
+    @OptionalAttribute var childLayoutComputer: LayoutComputer?
+    
+    var description: String {
+        assertUnimplemented()
+    }
+    
+    var value: ViewGeometry {
+        assertUnimplemented()
+    }
+}
+
+struct LayoutPositionQuery : Rule, AsyncAttribute {
+    @Attribute fileprivate private(set) var parentPosition: CGPoint
+    @Attribute fileprivate private(set) var localPosition: CGPoint
+    
+    var value: CGPoint {
         assertUnimplemented()
     }
 }
