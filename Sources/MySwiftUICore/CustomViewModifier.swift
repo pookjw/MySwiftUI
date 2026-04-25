@@ -118,6 +118,14 @@ extension ViewModifier {
     }
 }
 
+extension ViewModifier {
+    nonisolated static func makeMultiViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        var outputs = body(_Graph(), inputs)
+        outputs.multiModifier(modifier, inputs: inputs)
+        return outputs
+    }
+}
+
 package protocol MultiViewModifier : ViewModifier where Body == Never {
     
 }

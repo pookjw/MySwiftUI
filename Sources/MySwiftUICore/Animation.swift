@@ -787,3 +787,7 @@ package class _AnyAnimatableDataVTable {
 @available(*, unavailable)
 extension _AnyAnimatableDataVTable : Sendable {
 }
+
+public func withAnimation<Result>(_ animation: Animation? = .default, _ body: () throws -> Result) rethrows -> Result {
+    assertUnimplemented()
+}

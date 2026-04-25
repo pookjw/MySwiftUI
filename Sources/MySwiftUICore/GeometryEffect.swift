@@ -17,7 +17,7 @@ extension GeometryEffect {
     }
     
     nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return Self.makeMultiViewList(modifier: modifier, inputs: inputs, body: body)
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
