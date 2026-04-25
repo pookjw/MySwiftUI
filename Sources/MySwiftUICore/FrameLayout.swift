@@ -29,7 +29,18 @@ extension View {
          */
         if isLinkedOnOrAfter(.v2) {
             // <+176>
-            assertUnimplemented()
+            let flag: Bool
+            if let width, (width < 0 || !width.isFinite) {
+                flag = true
+            } else if let height, (height < 0 || !height.isFinite) {
+                flag = true
+            } else {
+                flag = false
+            }
+            
+            if flag {
+                unsafe os_log(.fault, log: .runtimeIssuesLog, "Invalid frame dimension (negative or non-finite).")
+            }
         }
         
         // <+400>
@@ -65,11 +76,32 @@ extension _FrameLayout : UnaryLayout {
     }
     
     func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
-        assertUnimplemented()
+        return self.commonPlacement(of: proxy, in: context, childProposal: context.proposedSize)
     }
     
     func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {
-        assertUnimplemented()
+        if let width, let height {
+            return CGSize(width: width, height: height)
+        }
+        
+        // <+96>
+        var size = size
+        if let width {
+            size.width = width
+        }
+        if let height {
+            size.height = height
+        }
+        
+        var result = child.size(in: size)
+        if let width {
+            result.width = width
+        }
+        if let height {
+            result.height = height
+        }
+        
+        return result
     }
     
     func layoutPriority(child: LayoutProxy) -> Double {
@@ -81,8 +113,25 @@ extension _FrameLayout : UnaryLayout {
     }
 }
 
-extension _FrameLayout : FrameLayoutCommon {}
+extension _FrameLayout : FrameLayoutCommon {
+    func commonPlacement(
+        of proxy: LayoutProxy,
+        in context: PlacementContext,
+        childProposal: _ProposedSize
+    ) -> _Placement {
+        /*
+         proxy -> x0 -> x28
+         context -> x1 -> x23
+         childProposal -> x2 -> x22
+         return pointer -> x8 -> x21
+         */
+        // x27, sp + 0x8
+        let computer = LayoutComputer.defaultValue
+        
+        assertUnimplemented()
+    }
+}
 
 fileprivate protocol FrameLayoutCommon {
-    // TODO
+    func commonPlacement(of proxy: LayoutProxy, in context: PlacementContext, childProposal: _ProposedSize) -> _Placement
 }

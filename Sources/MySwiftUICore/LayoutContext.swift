@@ -5,8 +5,8 @@ internal import Spatial
 @dynamicMemberLookup
 struct SizeAndSpacingContext {
     var context: AnyRuleContext
-    private var owner: AnyAttribute
-    @Attribute private var environment: EnvironmentValues
+    fileprivate private(set) var owner: AnyAttribute
+    @Attribute fileprivate private(set) var environment: EnvironmentValues
     
     init(_ context: PlacementContext3D) {
         self.init(context.base)
@@ -61,7 +61,31 @@ struct PlacementContext {
     private let parentSize: PlacementContext.ParentSize
     
     var proposedSize: _ProposedSize {
-        assertUnimplemented()
+        if isLinkedOnOrAfter(.v3) {
+            // <+212>
+            var size: ViewSize
+            switch parentSize {
+            case .eager(let viewSize):
+                size = viewSize
+            case .lazy(let attribute):
+                size = attribute.value
+            }
+            
+            // <+248>
+            // inlined
+            return size.proposal
+        } else {
+            // <+148>
+            let size: ViewSize
+            switch parentSize {
+            case .eager(let viewSize):
+                size = viewSize
+            case .lazy(let attribute):
+                size = attribute.value
+            }
+            
+            return _ProposedSize(width: size.width, height: size.height)
+        }
     }
     
     var size: CGSize {
@@ -69,7 +93,10 @@ struct PlacementContext {
     }
     
     init(base: SizeAndSpacingContext, parentSize: ViewSize) {
-        assertUnimplemented()
+        self.context = base.context
+        self.owner = base.owner
+        self._environment = base.$environment
+        self.parentSize = .eager(parentSize)
     }
     
     init(

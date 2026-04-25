@@ -2349,3 +2349,7 @@ public enum DebugReplaceableViewCount {
   case uninitialized
   case indeterminate
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewSizeCache {}

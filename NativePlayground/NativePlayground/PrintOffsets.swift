@@ -191,6 +191,7 @@ func printOffsets() {
     printFields(ProgressiveImmersionStyle.self, isClassType: false)
     printFields(_ViewListCountInputs.self, isClassType: false)
     printFields(_TaskModifier2.self, isClassType: false)
+    print(String(format: "%lx", MemoryLayout<ViewSizeCache>.size))
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

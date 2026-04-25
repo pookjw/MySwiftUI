@@ -139,7 +139,7 @@ extension UnaryLayout where PlacementContextType == _PositionAwarePlacementConte
     }
 }
 
-fileprivate struct UnaryLayoutComputer<T : UnaryLayout> : StatefulRule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct UnaryLayoutComputer<T : UnaryLayout> : StatefulRule, AsyncAttribute, CustomStringConvertible where T.PlacementContextType == PlacementContext {
     @Attribute private(set) var layout: T
     @Attribute private(set) var environment: EnvironmentValues
     @OptionalAttribute var childLayoutComputer: LayoutComputer?
@@ -197,12 +197,13 @@ struct LayoutPositionQuery : Rule, AsyncAttribute {
     }
 }
 
-fileprivate struct UnaryLayoutEngine<T> : LayoutEngine {
-    private let layout: T
-    private let layoutContext: SizeAndSpacingContext
-    private let child: LayoutProxy
-    private var dimensionsCache = ViewSizeCache()
-    private var placementCache = ViewPlacementCache()
+fileprivate struct UnaryLayoutEngine<T : UnaryLayout> : LayoutEngine where T.PlacementContextType == PlacementContext {
+    // _FrameLayout 기준
+    private let layout: T // 0x0
+    private let layoutContext: SizeAndSpacingContext // 0x30
+    private let child: LayoutProxy // 0x3c
+    private var dimensionsCache = ViewSizeCache() // 0x48
+    private var placementCache = ViewPlacementCache() // 0x90
     
     init(layout: T, layoutContext: SizeAndSpacingContext, child: LayoutProxy) {
         self.layout = layout
@@ -218,51 +219,76 @@ fileprivate struct UnaryLayoutEngine<T> : LayoutEngine {
         assertUnimplemented()
     }
     
-    func requiresSpacingProjection() -> Bool {
-        assertUnimplemented()
-    }
-    
     func spacing() -> Spacing {
         assertUnimplemented()
     }
     
-    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        assertUnimplemented()
-    }
-    
-    func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
-        assertUnimplemented()
-    }
-    
-    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        assertUnimplemented()
+    mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        // self -> x20 -> x22
+        // x29 - 0x140
+        let copy_1 = proposedSize
+        let layout = self.layout
+        // d10 / x29 - 0x178
+        let layoutContext = self.layoutContext
+        // d11 / x29 - 0x17c
+        let child = self.child
+        // dimensionsCache -> x23
+        
+        // <+340>
+        return self.dimensionsCache.get(copy_1) { 
+            // <+1032>
+            return layout.sizeThatFits(in: copy_1, context: layoutContext, child: child)
+        }
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
         assertUnimplemented()
     }
     
-    func childPlacement(at viewSize: ViewSize) -> _Placement {
-        assertUnimplemented()
+    mutating func childPlacement(at viewSize: ViewSize) -> _Placement {
+        let layout = self.layout
+        let child = self.child
+        let layoutContext = self.layoutContext
+        
+        return self.placementCache.get(viewSize) { 
+            return layout.placement(of: child, in: PlacementContext(base: layoutContext, parentSize: viewSize))
+        }
     }
     
     func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
         assertUnimplemented()
     }
     
-    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        assertUnimplemented()
+    mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        /*
+         proposedSize -> x21/w22 / x23/w24 / x25/w26
+         */
+        let size = self.sizeThatFits(
+            _ProposedSize(
+                width: proposedSize.width,
+                height: proposedSize.height
+            )
+        )
+        
+        let placement = self.childPlacement(
+            at: ViewSize(
+                size,
+                proposal: _ProposedSize(width: proposedSize.width, height: proposedSize.height)
+            )
+        )
+        
+        let unspecified = placement.proposedSize_.fixingUnspecifiedDimensions()
+        
+        return child.depth(
+            in: _ProposedSize3D(
+                width: unspecified.width,
+                height: unspecified.height,
+                depth: proposedSize.depth
+            )
+        )
     }
     
     func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
-        assertUnimplemented()
-    }
-    
-    func requiresTrueDepthLayout() -> Bool {
-        assertUnimplemented()
-    }
-    
-    var debugContentDescription: String? {
         assertUnimplemented()
     }
 }

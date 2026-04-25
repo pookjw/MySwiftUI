@@ -13,7 +13,7 @@ fileprivate struct MyView : View {
     
     var body: some View {
         Color.black
-            .frame(width: 300, height: 300, alignment: .center)
+            .frame(width: 0, height: 0, alignment: .center)
     }
 }
 
