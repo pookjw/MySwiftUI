@@ -21,6 +21,10 @@ import SwiftUI
 
 private func dumpFieldOffsets(of type: Any.Type, options: _EachFieldOptions) {
     _forEachField(of: type, options: options) { name, offset, fieldType, _ in
+        guard String(cString: name) != "finishingDefinition" else {
+            return true
+        }
+        
         print(String(format: "%s (%@) (0x%lx)", name, _typeName(fieldType, qualified: true), offset))
         return true
     }
@@ -191,7 +195,7 @@ func printOffsets() {
     printFields(ProgressiveImmersionStyle.self, isClassType: false)
     printFields(_ViewListCountInputs.self, isClassType: false)
     printFields(_TaskModifier2.self, isClassType: false)
-    print(String(format: "%lx", MemoryLayout<ViewSizeCache>.size))
+    printFields(AnimatorState<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>>.self, isClassType: true)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

@@ -18,7 +18,7 @@ extension CustomAnimation {
     }
 }
 
-protocol InternalCustomAnimation {
+protocol InternalCustomAnimation : CustomAnimation {
     // TODO
 }
 

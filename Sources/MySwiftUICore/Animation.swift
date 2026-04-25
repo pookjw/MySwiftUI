@@ -15,8 +15,12 @@ public struct Animation : Equatable, Sendable {
         self.box = AnimationBox(base)
     }
     
+    init<A>(_ base: A) where A : InternalCustomAnimation {
+        self.box = InternalAnimationBox(base)
+    }
+    
     package var function: Function {
-        assertUnimplemented()
+        return box.function
     }
 }
 
@@ -41,9 +45,7 @@ extension Animation : CustomStringConvertible, CustomDebugStringConvertible, Cus
 }
 
 extension Animation {
-    public static let `default`: Animation = {
-        assertUnimplemented()
-    }()
+    public static let `default` = Animation(DefaultAnimation())
 }
 
 extension Animation {
@@ -539,27 +541,57 @@ struct AnimatableAttribute<T : Animatable>: CustomStringConvertible, AsyncAttrib
 }
 
 final class AnimatorState<Value : VectorArithmetic> {
-    //    var animation: Animation
-    //    var state: AnimationState<Value>
-    //    var interval: Value
-    //    var beginTime: Time
-    //    var quantizedFrameInterval: Double
-    //    var nextTime: Time
-    //    var previousAnimationValue: Value
-    //    var reason: UInt32?
-    //    var phase: AnimatorState<Value>.Phase
-    //    var listeners: [AnimationListener]
-    //    var logicalListeners: [AnimationListener]
-    //    var isLogicallyComplete: Bool
-    //    var finishingDefinition: (null)
-    //    var forks: AnimatorState<Value>.Fork
+    private var animation: Animation
+    private var state = AnimationState<Value>()
+    private var interval: Value = .zero
+    private var beginTime: Time
+    private var quantizedFrameInterval: Double
+    private var nextTime: Time = .zero
+    private var previousAnimationValue: Value = .zero
+    private var reason: UInt32? = nil
+    private var phase: AnimatorState<Value>.Phase = .pending
+    private var listeners: [AnimationListener] = []
+    private var logicalListeners: [AnimationListener] = []
+    private var isLogicallyComplete: Bool = false
+    private var finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)? = nil
+    private var forks: [AnimatorState<Value>.Fork] = []
     
-    init(animation: Animation, interval: Value, at: Time, in: Transaction) {
+    init(animation: Animation, interval: Value, at time: Time, in transaction: Transaction) {
         assertUnimplemented()
     }
     
-    init(animation: Animation, interval: Value, at: Time, in: Transaction, finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)?) {
-        assertUnimplemented()
+    init(animation: Animation, interval: Value, at time: Time, in transaction: Transaction, finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)?) {
+        self.animation = animation
+        self.interval = interval
+        self.finishingDefinition = finishingDefinition
+        self.beginTime = time
+        self.nextTime = time
+        
+        if let animationFrameInterval = transaction.animationFrameInterval {
+            if animationFrameInterval <= 0 {
+                // <+600>
+                self.quantizedFrameInterval = 0
+                self.reason = transaction.animationReason
+            } else {
+                // <+464>
+                var d0 = animationFrameInterval
+                d0 = log2(animationFrameInterval * 240.0)
+                d0 = d0 + 0.01
+                d0 = floor(d0)
+                d0 = exp2(d0)
+                d0 = d0 * (1.0 / 240.0)
+                self.quantizedFrameInterval = d0
+                
+                if d0 < (1.0 / 60.0) {
+                    self.reason = transaction.animationReason
+                } else {
+                    self.reason = nil
+                }
+            }
+        } else {
+            self.quantizedFrameInterval = 0
+            self.reason = nil
+        }
     }
     
     func removeListeners() {
@@ -789,5 +821,41 @@ extension _AnyAnimatableDataVTable : Sendable {
 }
 
 public func withAnimation<Result>(_ animation: Animation? = .default, _ body: () throws -> Result) rethrows -> Result {
-    assertUnimplemented()
+    let transaction = Transaction(animation: animation)
+    return try withTransaction(transaction, body)
+}
+
+struct DefaultAnimation: InternalCustomAnimation, Hashable, ProtobufEncodableMessage, ProtobufDecodableMessage, EncodableAnimation {
+    func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
+        assertUnimplemented()
+    }
+}
+
+protocol EncodableAnimation {
+    // TODO
+}
+
+struct AnimationState<Value : VectorArithmetic> {
+    private var storage: [ObjectIdentifier : Any]
+    
+    init() {
+        storage = Dictionary()
+    }
+}
+
+extension AnimatorState {
+    fileprivate enum Phase {
+        case pending
+        case first
+        case second
+        case running
+    }
+    
+    fileprivate struct Fork {
+        private(set) var animation: Animation
+        private(set) var state: AnimationState<Value>
+        private(set) var interval: Value
+        private(set) var finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)?
+        private(set) var listeners: [AnimationListener]
+    }
 }

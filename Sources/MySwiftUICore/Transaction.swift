@@ -53,7 +53,8 @@ public struct Transaction {
     }
     
     package init(animation: Animation?) {
-        assertUnimplemented()
+        self.plist = PropertyList()
+        self.animation = animation
     }
     
     public subscript<K : TransactionKey>(key: K.Type) -> K.Value {
