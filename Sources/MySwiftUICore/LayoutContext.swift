@@ -89,7 +89,12 @@ struct PlacementContext {
     }
     
     var size: CGSize {
-        assertUnimplemented()
+        switch parentSize {
+        case .eager(let viewSize):
+            return viewSize.value
+        case .lazy(let attribute):
+            return attribute.value.value
+        }
     }
     
     init(base: SizeAndSpacingContext, parentSize: ViewSize) {

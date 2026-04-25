@@ -121,14 +121,42 @@ extension _FrameLayout : FrameLayoutCommon {
     ) -> _Placement {
         /*
          proxy -> x0 -> x28
-         context -> x1 -> x23
-         childProposal -> x2 -> x22
+         context -> x1/x2 -> x23/x22
+         childProposal -> x3/w4/x5/w6 -> sp + 0x10 / sp + 0x1c / sp + 0x20 / sp + 0x2c
          return pointer -> x8 -> x21
          */
-        // x27, sp + 0x8
-        let computer = LayoutComputer.defaultValue
+        let alignment = self.alignment
+        let size = context.size
+        var d10 = size.width
+        var d9 = size.height
+        var d8 = d10
+        let d12 = d9
         
-        assertUnimplemented()
+        // sp + 0x58
+        // x28/x25/d13/d14/d15/d11
+        let dimensions = proxy.dimensions(in: childProposal)
+        let horizontalKey = alignment.horizontal.key
+        let verticalKey = alignment.vertical.key
+        
+        var d0 = horizontalKey.id.defaultValue(in: dimensions)
+        let d1 = d8
+        d8 = d0
+        
+        d0 = verticalKey.id.defaultValue(in: dimensions)
+        d9 = d0
+        
+        d0 = dimensions[horizontalKey]
+        d10 = d8 - d0
+        
+        d0 = dimensions[verticalKey]
+        d8 = d0
+        d0 = d9 - d8
+        
+        return _Placement(
+            proposedSize: childProposal,
+            anchoring: .zero,
+            at: CGPoint(x: d10, y: d0)
+        )
     }
 }
 

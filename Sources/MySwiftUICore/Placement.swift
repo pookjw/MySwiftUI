@@ -17,8 +17,10 @@ struct _Placement : Equatable {
         assertUnimplemented()
     }
     
-    init(proposedSize: _ProposedSize, anchoring: UnitPoint, at: CGPoint) {
-        assertUnimplemented()
+    init(proposedSize: _ProposedSize, anchoring anchor: UnitPoint, at anchorPosition: CGPoint) {
+        self.proposedSize_ = proposedSize
+        self.anchor = anchor
+        self.anchorPosition = anchorPosition
     }
     
     init(proposedSize: CGSize, aligning: UnitPoint, in: CGSize) {

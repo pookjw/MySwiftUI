@@ -15,15 +15,9 @@ extension HorizontalAlignment {
 }
 
 extension HorizontalAlignment {
-    public static let leading: HorizontalAlignment = {
-        assertUnimplemented()
-    }()
-    
+    public static let leading = HorizontalAlignment(HorizontalAlignment.Leading.self)
     public static let center = HorizontalAlignment(HorizontalAlignment.Center.self)
-    
-    public static let trailing: HorizontalAlignment = {
-        assertUnimplemented()
-    }()
+    public static let trailing = HorizontalAlignment(HorizontalAlignment.Trailing.self)
 }
 
 extension HorizontalAlignment {

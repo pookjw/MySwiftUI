@@ -70,6 +70,10 @@ extension ViewDimensions : Equatable {
 }
 
 extension ViewDimensions {
+    subscript(key: AlignmentKey) -> CGFloat {
+        return key.id.defaultValue(in: self)
+    }
+    
     subscript(explicit: AlignmentKey) -> CGFloat? {
         get {
             assertUnimplemented()
