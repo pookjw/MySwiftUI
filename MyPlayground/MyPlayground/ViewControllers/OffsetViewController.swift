@@ -13,8 +13,6 @@ import MySwiftUI
 #endif
 
 fileprivate struct MyView : View {
-    @State private var value = 0
-    
     var body: some View {
         Color.black
             .frame(width: 300, height: 200)
