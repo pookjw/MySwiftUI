@@ -19,7 +19,7 @@ extension CustomAnimation {
 }
 
 protocol InternalCustomAnimation : CustomAnimation {
-    // TODO
+    var function: Animation.Function { get }
 }
 
 protocol CustomAnimationModifier {

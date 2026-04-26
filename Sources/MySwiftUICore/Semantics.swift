@@ -9,8 +9,8 @@ package func isLinkedOnOrAfter(_ semantics: Semantics) -> Bool {
 }
 
 func isDeployedOnOrAfter(_ semantics: Semantics) -> Bool {
-    if let sdk = Semantics.forced.sdk {
-        return semantics.value <= sdk.value
+    if let deploymentTarget = Semantics.forced.deploymentTarget {
+        return semantics.value <= deploymentTarget.value
     } else {
         return dyld_program_minos_at_least(dyld_build_version_t(platform: .max, version: semantics.value))
     }

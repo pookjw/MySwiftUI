@@ -742,13 +742,13 @@ fileprivate class AnimationBox<T : CustomAnimation>: AnimationBoxBase {
     }
 }
 
-fileprivate final class InternalAnimationBox<T : CustomAnimation>: AnimationBox<T> {
+fileprivate final class InternalAnimationBox<T>: AnimationBox<T> where T : InternalCustomAnimation {
     override func modifier<A>(_ modifier: A) -> Animation where A : CustomAnimationModifier {
         assertUnimplemented()
     }
     
     override var function: Animation.Function {
-        assertUnimplemented()
+        return _base.function
     }
 }
 
@@ -792,6 +792,7 @@ fileprivate final class InternalAnimationBox<T : CustomAnimation>: AnimationBox<
         ret += rhs
         return ret
     }
+    
     @_transparent public static func - (lhs: _AnyAnimatableData, rhs: _AnyAnimatableData) -> _AnyAnimatableData {
         var ret = lhs
         ret -= rhs
@@ -826,8 +827,45 @@ public func withAnimation<Result>(_ animation: Animation? = .default, _ body: ()
 }
 
 struct DefaultAnimation: InternalCustomAnimation, Hashable, ProtobufEncodableMessage, ProtobufDecodableMessage, EncodableAnimation {
+    static func makeBaseAnimation() -> Animation {
+        if isDeployedOnOrAfter(.v5) {
+            // <+212>
+            return Animation(
+                FluidSpringAnimation(
+                    response: 0.5,
+                    dampingFraction: 1,
+                    blendDuration: 0
+                )
+            )
+        } else {
+            // <+112>
+            return Animation(
+                BezierAnimation(
+                    curve: UnitCurve
+                        .CubicSolver(
+                            ax: 0.35,
+                            bx: 0.52,
+                            cx: -0.78,
+                            ay: 1.26,
+                            by: -2,
+                            cy: 3
+                        ),
+                    duration: 0
+                )
+            )
+        }
+    }
+    
+    static let base = makeBaseAnimation()
+    
+    init() {}
+    
     func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
         assertUnimplemented()
+    }
+    
+    var function: Animation.Function {
+        return Self.base.function
     }
 }
 
@@ -858,4 +896,28 @@ extension AnimatorState {
         private(set) var finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)?
         private(set) var listeners: [AnimationListener]
     }
+}
+
+struct BezierAnimation : InternalCustomAnimation, Hashable, ProtobufEncodableMessage, ProtobufDecodableMessage, EncodableAnimation {
+    private var duration: Double
+    private var curve: UnitCurve.CubicSolver
+    
+    init(_: Double, _: Double, _: Double, _: Double, duration: Double) {
+        assertUnimplemented()
+    }
+    
+    init(curve: UnitCurve.CubicSolver, duration: Double) {
+        self.duration = duration
+        self.curve = curve
+    }
+    
+    var function: Animation.Function {
+        assertUnimplemented()
+    }
+    
+    func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
+        assertUnimplemented()
+    }
+    
+    // TODO
 }
