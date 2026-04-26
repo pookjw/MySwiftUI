@@ -22,6 +22,12 @@ public struct Animation : Equatable, Sendable {
     package var function: Function {
         return box.function
     }
+    
+    @_specialize(exported: false, kind: partial, where T == Double)
+    @_specialize(exported: false, kind: partial, where T == AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>)
+    func animate<T : VectorArithmetic>(value: T, time: Double, context: inout AnimationContext<T>) -> T? {
+        return self.box.animate(value: value, time: time, context: &context)
+    }
 }
 
 extension Animation : Hashable {
@@ -64,7 +70,67 @@ extension Animation {
 }
 
 public struct AnimationContext<Value : VectorArithmetic> {
+    var state: AnimationState<Value>
+    private var _environment: WeakAttribute<EnvironmentValues>?
+    var isLogicallyComplete: Bool
     
+    init(environment: WeakAttribute<EnvironmentValues>?) {
+        assertUnimplemented()
+    }
+    
+    init(state: AnimationState<Value>, environment: Attribute<EnvironmentValues>?, isLogicallyComplete: Bool) {
+        self.state = state
+        self._environment = WeakAttribute(environment)
+        self.isLogicallyComplete = isLogicallyComplete
+    }
+    
+    init(state: AnimationState<Value>, environment: WeakAttribute<EnvironmentValues>?, isLogicallyComplete: Bool) {
+        self.state = state
+        self._environment = environment
+        self.isLogicallyComplete = isLogicallyComplete
+    }
+    
+    init(state: AnimationState<Value>, environment: WeakAttribute<EnvironmentValues>?) {
+        assertUnimplemented()
+    }
+    
+    init(environment: WeakAttribute<EnvironmentValues>?, isLogicallyComplete: Bool) {
+        assertUnimplemented()
+    }
+    
+    init(state: AnimationState<Value>, environment: Attribute<EnvironmentValues>?) {
+        assertUnimplemented()
+    }
+    
+    init(environment: Attribute<EnvironmentValues>?, isLogicallyComplete: Bool) {
+        assertUnimplemented()
+    }
+    
+    init(environment: Attribute<EnvironmentValues>?) {
+        assertUnimplemented()
+    }
+    
+    var environment: EnvironmentValues {
+        assertUnimplemented()
+    }
+    
+    func withState<T : VectorArithmetic>(_ state: AnimationState<T>) -> AnimationContext<T> {
+        assertUnimplemented()
+    }
+}
+
+extension AnimationContext {
+    var finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
 }
 
 public protocol VectorArithmetic : AdditiveArithmetic {
@@ -631,10 +697,144 @@ final class AnimatorState<Value : VectorArithmetic> {
          environment -> x2 -> x24
          */
         // <+184>
-        assertUnimplemented()
+        let d9 = time.seconds
+        var d8 = self.nextTime.seconds
+        var d0 = self.quantizedFrameInterval
+        var d1: Double = -0.5
+        d1 = d0 * d1
+        d1 = d8 + d1
+        
+        if !(d1 < d9) {
+            // <+292>
+            // x23
+            value += self.previousAnimationValue
+            value -= self.interval
+            // <+968>
+            return false
+        }
+        
+        // <+220>
+        switch self.phase {
+        case .pending:
+            // <+276>
+            self.beginTime = Time(seconds: d9)
+            self.phase = .first
+            // <+584>
+        case .first:
+            // <+1320>
+            self.phase = .second
+            
+            if !CoreTesting.isRunning {
+                d0 = self.beginTime.seconds
+                d0 = d8 - d0
+                d0 = d9 + d0
+                self.nextTime = Time(seconds: d0)
+                self.beginTime = Time(seconds: d9)
+                value += self.previousAnimationValue
+                value -= self.interval
+                // <+464>
+                return false
+            }
+            
+            // <+584>
+        case .second:
+            // <+480>
+            d1 = 1.0 / 60.0
+            d0 = max(d0, d1)
+            d8 = d0 + d0
+            d0 = self.beginTime.seconds
+            d0 = d9 - d0
+            
+            if (d8 < d0) && !CoreTesting.isRunning {
+                // <+564>
+                d0 = d9 - d8
+                self.beginTime = Time(seconds: d0)
+            }
+            
+            // <+572>
+            self.phase = .running
+            // <+584>
+        case .running:
+            // <+584>
+            break
+        }
+        
+        // <+584>
+        d0 = self.beginTime.seconds
+        d8 = d9 - d0
+        
+        // x29 - 0xb0
+        var context = AnimationContext(
+            state: self.state,
+            environment: environment,
+            isLogicallyComplete: self.isLogicallyComplete
+        )
+        
+        if let finishingDefinition {
+            context.finishingDefinition = finishingDefinition
+        }
+        
+        // <+756>
+        d0 = d8
+        
+        let resolved = self.animation.animate(value: self.interval, time: d0, context: &context)
+        
+        if let resolved {
+            // <+1004>
+            d0 = d8
+            self.updateListeners(isLogicallyComplete: context.isLogicallyComplete, time: d0, environment: environment)
+            self.state = context.state
+            
+            // <+1084>
+            value += resolved
+            value -= self.interval
+            
+            // <+1180>
+            self.previousAnimationValue = resolved
+            self.nextTime = Time(seconds: d9)
+            
+            d0 = self.quantizedFrameInterval
+            if d0 <= 0 {
+                // <+1580>
+                return false
+            }
+            
+            // <+1268>
+            d0 = d9 / d0
+            d8 = round(d0)
+            d0 = 1.0
+            d0 = d8 + d0
+            d1 = self.quantizedFrameInterval
+            d0 = d0 * d1
+            self.nextTime = Time(seconds: d0)
+            return false
+        } else {
+            return true
+        }
     }
     
     func nextUpdate() {
+        CustomEventTrace.animationScheduleTick(attribute: .current, time: self.nextTime)
+        
+        // <+224>
+        let viewGraph_1 = ViewGraph.current
+        var d8 = self.nextTime.seconds
+        var d0 = viewGraph_1.nextUpdate.views.time.seconds
+        
+        if !(d8 < d0) {
+            viewGraph_1.nextUpdate.views.time = Time(seconds: d8)
+        }
+        
+        // <+312>
+        let viewGraph_2 = ViewGraph.current
+        d8 = self.quantizedFrameInterval
+        // w20/w22
+        let reason = self.reason
+        d0 = d8
+        viewGraph_1.nextUpdate.views.interval(d0, reason: reason)
+    }
+    
+    func updateListeners(isLogicallyComplete: Bool, time: Double, environment: Attribute<EnvironmentValues>?) {
         assertUnimplemented()
     }
 }

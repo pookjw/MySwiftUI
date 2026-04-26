@@ -50,7 +50,7 @@ package final class ViewGraph : GraphHost {
     }
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
     private var mainUpdates: Int = 0
-    private(set) var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
+    var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
     private(set) weak var _preferenceBridge: PreferenceBridge? = nil
     private(set) var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
     
@@ -972,12 +972,54 @@ extension ViewGraph {
 
 extension ViewGraph {
     package struct NextUpdate {
-        var time: Time = .infinity
-        var _internal: TimeInterval = .infinity
-        private var _defaultIntervalWasRequested: Bool = false
-        private var reasons: Set<UInt32> = []
+        var time: Time = .infinity // 0x0
+        var _interval: TimeInterval = .infinity // 0x8
+        private var _defaultIntervalWasRequested: Bool = false // 0x10
+        private var reasons: Set<UInt32> = [] // 0x18
         
         init() {}
+        
+        mutating func interval(_ time: Double, reason: UInt32?) {
+            var d0 = time
+            
+            let flag: Bool // true -> <+68> / false -> <+100>
+            if d0 != 0 {
+                // <+40>
+                let d1 = self._interval
+                d0 = (d0 < d1) ? d0 : d1
+                self._interval = d0
+                
+                if self._defaultIntervalWasRequested {
+                    // <+68>
+                    flag = true
+                } else {
+                    // <+100>
+                    flag = false
+                }
+            } else {
+                self._defaultIntervalWasRequested = true
+                // <+68>
+                flag = true
+            }
+            
+            if flag {
+                // <+68>
+                d0 = self._interval
+                let d1 = (1.0 / 60.0)
+                
+                if d0 <= d1 {
+                    // <+100>
+                } else {
+                    self._interval = .infinity
+                    // <+100>
+                }
+            }
+            
+            // <+100>
+            if let reason {
+                self.reasons.insert(reason)
+            }
+        }
     }
 }
 

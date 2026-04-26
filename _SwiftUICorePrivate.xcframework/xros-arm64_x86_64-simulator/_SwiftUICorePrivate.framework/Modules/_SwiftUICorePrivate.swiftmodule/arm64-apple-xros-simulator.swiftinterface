@@ -66,6 +66,8 @@ extension _SwiftUICorePrivate.GraphHost {
 public class ViewGraph : _SwiftUICorePrivate.GraphHost {
   public init<T : SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUICorePrivate.ViewGraph.Outputs)
   public final func updateGraphPhase(oldParentPhase: SwiftUICore._GraphInputs.Phase?, newParentPhase: SwiftUICore._GraphInputs.Phase)
+
+  public struct NextUpdate {}
 }
 
 @available(visionOS 26.0, *)

@@ -196,6 +196,7 @@ func printOffsets() {
     printFields(_ViewListCountInputs.self, isClassType: false)
     printFields(_TaskModifier2.self, isClassType: false)
     printFields(AnimatorState<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>>.self, isClassType: true)
+    printFields(ViewGraph.NextUpdate.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
