@@ -1,5 +1,6 @@
 // 580A00FC96845561BA69B57FCB8F7ECD
 internal import Foundation
+private import _DarwinFoundation1._math
 
 struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodableMessage, ProtobufDecodableMessage, EncodableAnimation {
     private var response: Double
@@ -83,7 +84,7 @@ fileprivate struct SpringModel {
         var d0 = epsilon
         var d8 = d0
         let d11 = self.b
-        d0 = 10.0
+        d0 = 1E-6
         
         let flag: Bool // true -> <+88> / false -> <+104>
         if d8 <= d0 {
@@ -118,38 +119,126 @@ fileprivate struct SpringModel {
             
             if !(d11 < d0) {
                 // <+196>
-                let d12: Double = 0
-                let d10: Double = -1
-                let d15: Double = .infinity
-                let d14: Double = 1
-                let d13: Double = -1
+                var d12: Double = 0
+                var d10: Double = -1
+                var d15: Double = .infinity
+                var x19 = 1023
+                var d14: Double = 1
+                let x22: Double = 0.1
+                var d13: Double = -1
                 
-                // <+276>
-                d0 = -d12
-                
-                if d11 < d14 {
-                    // <+288>
-                    assertUnimplemented()
+                while true {
+                    // <+276>
+                    d0 = -d12
+                    
+                    if d11 < d14 {
+                        // <+288>
+                        var d1 = self.c
+                        let d9 = d12 * d1
+                        d1 = self.a
+                        d1 = d11 * d1
+                        d0 = d1 * d0
+                        d0 = exp(d0)
+                        d10 = d0
+                        d14 = self.d
+                        d0 = d9
+                        
+                        do {
+                            let values = __sincos_stret(d0)
+                            d0 = values.__sinval
+                            d1 = values.__cosval
+                        }
+                        
+                        d1 = d14 * d1
+                        d14 = 1.0
+                        let d2 = self.e
+                        d0 = d0 * d2
+                        d0 = d1 + d0
+                        d0 = d10 * d0
+                        d10 = -1
+                        // <+388>
+                    } else {
+                        // <+360>
+                        var d1 = self.d
+                        var d2 = self.e
+                        d2 = d12 * d2
+                        var d9 = d1 + d2
+                        d1 = self.a
+                        d0 = d1 * d0
+                        d0 = exp(d0)
+                        d0 = d9 * d0
+                        // <+388>
+                    }
+                    
                     // <+388>
-                } else {
-                    // <+360>
-                    var d1 = self.d
-                    var d2 = self.e
-                    d2 = d12 * d2
-                    var d9 = d1 + d2
-                    d1 = self.a
-                    d0 = d1 * d0
-                    d0 = exp(d0)
-                    d0 = d9 * d0
-                    // <+388>
+                    d0 = d0 + d10
+                    var d1 = d0 + d14
+                    
+                    // <+396>
+                    d0 = 0
+                    if !d1.isFinite {
+                        // <+164>
+                        break
+                    } else {
+                        // <+416>
+                        d1 = abs(d1)
+                        
+                        if d15 < d8 {
+                            if d1 < d8 {
+                                // <+436>
+                                d0 = d12 - d13
+                                let v = d0 <= d14
+                                d0 = d13
+                                
+                                if v {
+                                    // <+256>
+                                    d0 = 0
+                                    
+                                    if x19 == 0 {
+                                        // <+164>
+                                        break
+                                    } else {
+                                        // <+264>
+                                    }
+                                } else {
+                                    // <+164>
+                                    break
+                                }
+                            } else {
+                                // <+456>
+                                if x19 == 0 {
+                                    // <+164>
+                                    break
+                                } else {
+                                    d15 = .infinity
+                                    // <+264>
+                                }
+                            }
+                        } else {
+                            // <+244>
+                            if d1 < d15 {
+                                d13 = d12
+                                d15 = d1
+                            }
+                            
+                            // <+256>
+                            d0 = 0
+                            
+                            if x19 == 0 {
+                                // <+164>
+                                break
+                            } else {
+                                // <+264>
+                            }
+                        }
+                    }
+                    
+                    // <+264>
+                    d0 = x22
+                    d12 = d12 + d0
+                    x19 &-= 1
+                    // <+276>
                 }
-                
-                // <+388>
-                d0 = d0 + d10
-                d1 = d0 + d14
-                
-                // <+396>
-                assertUnimplemented()
             } else {
                 // <+116>
                 d0 = self.d
@@ -163,6 +252,7 @@ fileprivate struct SpringModel {
                 d1 = d11 * d1
                 d0 = -d0
                 d0 = d0 / d1
+                d1 = 0
                 d0 = max(d0, d1)
                 // <+164>
             }

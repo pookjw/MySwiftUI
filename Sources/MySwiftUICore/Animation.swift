@@ -604,10 +604,33 @@ final class AnimatorState<Value : VectorArithmetic> {
     }
     
     func addListeners(transaction: Transaction) {
-        assertUnimplemented()
+        if let listener = transaction.animationListener {
+            self.listeners.append(listener)
+            listener.animationWasAdded()
+        }
+        
+        // <+160>
+        if let listener = transaction.animationLogicalListener {
+            listener.animationWasAdded()
+            
+            if isLogicallyComplete {
+                listener.animationWasRemoved()
+            } else {
+                self.logicalListeners.append(listener)
+            }
+        }
+        
+        // <+332>
     }
     
-    func update(_: inout Value, at: Time, environment: Attribute<EnvironmentValues>?) -> Bool {
+    func update(_ value: inout Value, at time: Time, environment: Attribute<EnvironmentValues>?) -> Bool {
+        /*
+         self -> x20 -> x21
+         value -> x0 -> x28
+         time -> x1 -> x20
+         environment -> x2 -> x24
+         */
+        // <+184>
         assertUnimplemented()
     }
     

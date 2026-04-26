@@ -403,8 +403,44 @@ package struct CustomEventTrace {
     
     nonisolated(unsafe) fileprivate static var enabledCategories: [Bool] = Array(repeating: false, count: 256)
     
-    fileprivate static func extractFunctionData(_ function: Animation.Function, _ d0: inout Double, _ d1: inout Double, _ d2: inout Double, _ d3: inout Double) {
-        assertUnimplemented()
+    fileprivate static func extractFunctionData(
+        _ function: Animation.Function,
+        _ a: inout Double,
+        _ b: inout Double,
+        _ c: inout Double,
+        _ d: inout Double
+    ) {
+        switch function {
+        case .linear(let duration):
+            a = duration
+        case .circularEaseIn(let duration):
+            a = duration
+        case .circularEaseOut(let duration):
+            a = duration
+        case .circularEaseInOut(let duration):
+            a = duration
+        case .bezier(let duration, _):
+            a = duration
+        case .spring(let duration, _, _, _, _):
+            a = duration
+        case .customFunction(_, _):
+            // <+212>
+            break
+        case .delay(let delay, let function):
+            // <+52>
+            if b.isNaN {
+                b = delay / c
+            }
+            CustomEventTrace.extractFunctionData(function, &a, &b, &c, &d)
+        case .speed(let speed, let function):
+            // <+128>
+            c = speed * c
+            CustomEventTrace.extractFunctionData(function, &a, &b, &c, &d)
+        case .repeat(let count, _, let function):
+            // <+164>
+            d = count * d
+            CustomEventTrace.extractFunctionData(function, &a, &b, &c, &d)
+        }
     }
 }
 

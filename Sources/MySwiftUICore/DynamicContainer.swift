@@ -1016,10 +1016,6 @@ extension DynamicViewContainer {
     }
 }
 
-class AnimationListener {
-    // TODO
-}
-
 fileprivate final class DynamicAnimationListener : AnimationListener {
     weak var viewGraph: ViewGraph?
     let asyncSignal: AnyWeakAttribute
@@ -1032,11 +1028,11 @@ fileprivate final class DynamicAnimationListener : AnimationListener {
         self.count = count
     }
     
-    func animationWasAdded() {
+    override func animationWasAdded() {
         count &+= 1
     }
     
-    func animationWasRemoved() {
+    override func animationWasRemoved() {
         var count = count
         count &-= 1
         self.count = count
@@ -1045,6 +1041,10 @@ fileprivate final class DynamicAnimationListener : AnimationListener {
             let invalidation = InvalidatingGraphMutation(attribute: asyncSignal)
             viewGraph.continueTransaction(invalidation)
         }
+    }
+    
+    override func finalizeTransaction() {
+        assertUnimplemented()
     }
 }
 
