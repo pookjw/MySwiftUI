@@ -20,34 +20,251 @@ struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodab
          context -> x1 -> x23 -> x29 - 0x130
          */
         var d0: Double = time
-        let d8 = d0
+        var d8 = d0
         
         // <+352>
         let d13 = self.response
-        let d10 = self.dampingFraction
+        var d10 = self.dampingFraction
         let d15 = self.blendDuration
         
         // context -> x29 - 0x130 -> x27
         // x28
-        let springState = context.springState
-        assertUnimplemented()
+        var springState = context.springState
+        d0 = d13
+        
+        if (d15 <= 0) || (springState.blendInterval == 0) {
+            // <+556>
+        } else {
+            // <+488>
+            let d1 = springState.blendInterval
+            var d0 = springState.blendStart
+            d0 = d8 - d0
+            d0 = d0 / d15
+            let d2: Double = 1.0
+            var d3 = (d0 > d2) ? d2 : d0
+            let f = (d0 >= 0)
+            d0 = 0
+            d0 = f ? d3 : d0
+            d3 = d0 * d0
+            d0 = d0 + d0
+            let d4: Double = 3.0
+            d0 = d4 - d0
+            d0 = d3 * d0
+            d0 = d2 - d0
+            d0 = d1 * d0
+            d0 = d13 + d0
+            // <+556>
+        }
+        
+        // <+556>
+        var d1: Double
+        if d0 <= 0 {
+            // <+700>
+            d1 = .infinity
+            // <+708>
+        } else {
+            // <+572>
+            d1 = Double.pi * 2
+            d1 = d1 / d0
+            d1 = d1 * d1
+            // <+708>
+        }
+        
+        // <+708>
+        let d2: Double = 45000
+        var d9 = (d1 > d2) ? d2 : d1
+        d1 = springState.startTime
+        d1 = d8 - d1
+        
+        if d0 > d1 {
+            // <+756>
+        } else {
+            // <+748>
+            context.isLogicallyComplete = true
+            // <+756>
+        }
+        
+        // <+756>
+        var d14 = springState.time
+        d0 = d8 - d14
+        d1 = 1
+        
+        if d0 <= d1 {
+            // <+808>
+        } else {
+            // <+788>
+            d0 = -1.0 / 60.0
+            d14 = d8 + d0
+            springState.time = d14
+            // <+808>
+        }
+        
+        if !(d14 < d8) {
+            // <+1472>
+        } else {
+            // <+824>
+            d0 = sqrt(d9)
+            d0 = d0 + d0
+            let x290x160 = d10
+            d10 = -(d10 * d0)
+            let d11: Double = 1.0 / 600.0
+            let d12: Double = 1.0 / 300.0
+            // <+964>
+            
+            repeat {
+                // <+964>
+                d0 = d11
+                // x23 (x29 - 0xc8)
+                var x23 = springState.force
+                x23.scale(by: d0)
+                x23 += springState.velocity
+                
+                // <+1064>
+                // x20 (x29 - 0xd8)
+                var x20 = x23
+                d0 = d12
+                x20.scale(by: d0)
+                springState.offset += x20
+                
+                // <+1124>
+                var x27 = x23
+                d0 = d10
+                x27.scale(by: d0)
+                
+                // x24 (x29 - 0xd0)
+                var x24 = value
+                x24 -= springState.offset
+                d0 = d9
+                x24.scale(by: d0)
+                
+                springState.force = x27
+                springState.force += x24
+                
+                // <+1272>
+                springState.velocity = springState.force
+                d0 = d11
+                springState.velocity.scale(by: d0)
+                springState.velocity += x23
+                
+                // <+1356>
+                d14 = d14 + d12
+            } while d14 < d8
+            
+            // <+1420>
+            springState.time = d14
+            d10 = x290x160
+            // <+1472>
+        }
+        
+        // <+1472>
+        context.springState = springState
+        
+        var x25 = value
+        x25 -= springState.offset
+        
+        let shouldFinishEarly = context.shouldFinishEarly(data: {
+            // $s7SwiftUI20FluidSpringAnimationV7animate5value4time7contextxSgx_SdAA0E7ContextVyxGztAA16VectorArithmeticRzlFAA0e8SettlingJ0V4DataVyx_GyXEfu0_TA
+            /*
+             x25 -> x0
+             springState -> x1 -> x20
+             d13 -> d0 -> d9
+             d10 -> d1 -> d8
+             d15 -> d2
+             */
+            var d0 = d13
+            var d1 = d10
+            let d2 = d15
+            
+            let d9 = d0
+            let d8 = d1
+            
+            let x25 = x25
+            let x23 = springState.velocity
+            d0 = Double.pi * 2
+            d0 = d0 / d9
+            d0 = d0 * d0
+            d1 = sqrt(d0)
+            d1 = d1 + d1
+            d1 = d8 * d1
+            d0 = d1 / d0
+            
+            let x24 = x23.scaled(by: d0)
+            
+            return AnimationSettlingContext<V>.Data(
+                delta: x25,
+                velocity: x24
+            )
+        }())
+        
+        if shouldFinishEarly {
+            // <+1620>
+            return nil
+        }
+        
+        // <+1660>
+        d0 = springState.velocity.magnitudeSquared
+        d8 = d0
+        d0 = springState.force.magnitudeSquared
+        d0 = (d8 <= d0) ? d0 : d8
+        d1 = 0.0036
+        
+        if d0 <= d1 {
+            // <+1884>
+            // springState -> x28 -> x29 - 0xc8
+            // x28 (x29 - 0x150)
+            var x28 = value
+            d0 = 0.01
+            x28.scale(by: d0)
+            d0 = x28.magnitudeSquared
+            
+            if d0 <= 0 {
+                // <+2096>
+                return nil
+            } else {
+                // <+1972>
+                d8 = d0
+                d0 = x25.magnitudeSquared
+                d9 = d0
+                
+                if !(d8 < d9) {
+                    // <+2116>
+                    return nil
+                } else {
+                    // <+2024>
+                    return springState.offset
+                }
+            }
+        } else {
+            // <+1744>
+            return springState.offset
+        }
     }
 }
 
 extension AnimationContext {
     fileprivate var springState: SpringState<Value> {
-        return self.state[SpringState<Value>.self]
+        get {
+            return self.state[SpringState<Value>.self]
+        }
+        set {
+            self.state[SpringState<Value>.self] = newValue
+        }
+    }
+    
+    func shouldFinishEarly(data: @autoclosure () -> AnimationSettlingContext<Value>.Data) -> Bool {
+        assertUnimplemented()
     }
 }
 
 fileprivate struct SpringState<V : VectorArithmetic> : AnimationStateKey {
-    private(set) var offset: V
-    private(set) var velocity: V
-    private(set) var force: V
-    private(set) var time: Double
-    private(set) var startTime: Double
-    private(set) var blendStart: Double
-    private(set) var blendInterval: Double
+    // CGFloat 기준
+    var offset: V // 0x0
+    var velocity: V // 0x8
+    var force: V // 0x10
+    var time: Double // 0x18
+    private(set) var startTime: Double // 0x20
+    private(set) var blendStart: Double // 0x28
+    private(set) var blendInterval: Double // 0x30
     
     init() {
         self.offset = .zero
@@ -61,5 +278,21 @@ fileprivate struct SpringState<V : VectorArithmetic> : AnimationStateKey {
     
     static var defaultValue: SpringState<V> {
         return SpringState<V>()
+    }
+}
+
+struct AnimationSettlingContext<Value : VectorArithmetic> {
+    fileprivate private(set) var data: AnimationSettlingContext<Value>.Data
+    fileprivate private(set) var environment: EnvironmentValues
+}
+
+extension AnimationSettlingContext {
+    struct Data {
+        init(delta: Value, velocity: Value) {
+            assertUnimplemented()
+        }
+        
+        private var delta: Value
+        private var velocity: Value
     }
 }

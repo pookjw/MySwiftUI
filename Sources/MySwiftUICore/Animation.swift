@@ -869,24 +869,6 @@ final class AnimatorState<Value : VectorArithmetic> {
     }
 }
 
-extension VectorArithmetic {
-    static var unitScale: Double {
-        return 128
-    }
-    
-    static var inverseUnitScale: Double {
-        return 1.0 / .unitScale
-    }
-    
-    mutating func applyUnitScale() {
-        scale(by: Self.unitScale)
-    }
-    
-    mutating func unapplyUnitScale() {
-        scale(by: Self.inverseUnitScale)
-    }
-}
-
 protocol AnimationFinishingDefinition<Value> : VectorArithmetic {
     associatedtype Value
 }
