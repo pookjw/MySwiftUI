@@ -932,8 +932,10 @@ fileprivate class AnimationBox<T : CustomAnimation>: AnimationBoxBase {
         self._base = base
     }
     
-    override func animate<A>(value: A, time: Double, context: inout AnimationContext<A>) -> A? where A : VectorArithmetic {
-        assertUnimplemented()
+    @_specialize(exported: false, kind: partial, where U == Double)
+    @_specialize(exported: false, kind: partial, where U == AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>)
+    override func animate<U>(value: U, time: Double, context: inout AnimationContext<U>) -> U? where U : VectorArithmetic {
+        return _base.animate(value: value, time: time, context: &context)
     }
     
     override func velocity<A>(value: A, time: Double, context: AnimationContext<A>) -> A? where A : VectorArithmetic {
@@ -1083,8 +1085,10 @@ struct DefaultAnimation: InternalCustomAnimation, Hashable, ProtobufEncodableMes
     
     init() {}
     
+    @_specialize(exported: false, kind: partial, where V == Double)
+    @_specialize(exported: false, kind: partial, where V == AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>)
     func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
-        assertUnimplemented()
+        return DefaultAnimation.base.animate(value: value, time: time, context: &context)
     }
     
     var function: Animation.Function {
@@ -1096,12 +1100,32 @@ protocol EncodableAnimation {
     // TODO
 }
 
-struct AnimationState<Value : VectorArithmetic> {
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+public struct AnimationState<Value : VectorArithmetic> {
     private var storage: [ObjectIdentifier : Any]
     
-    init() {
+    public init() {
         storage = Dictionary()
     }
+    
+    public subscript<K>(key: K.Type) -> K.Value where K : AnimationStateKey {
+        get {
+            if let existing = storage[ObjectIdentifier(K.self)] {
+                return existing as! K.Value
+            } else {
+                return K.defaultValue
+            }
+        }
+        set {
+            storage[ObjectIdentifier(K.self)] = newValue
+        }
+    }
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+public protocol AnimationStateKey {
+    associatedtype Value
+    static var defaultValue: Self.Value { get }
 }
 
 extension AnimatorState {
