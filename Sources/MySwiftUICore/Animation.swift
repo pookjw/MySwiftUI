@@ -119,20 +119,6 @@ public struct AnimationContext<Value : VectorArithmetic> {
     }
 }
 
-extension AnimationContext {
-    var finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)? {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
-        }
-    }
-}
-
 public protocol VectorArithmetic : AdditiveArithmetic {
     mutating func scale(by rhs: Double)
     var magnitudeSquared: Double { get }
@@ -140,11 +126,11 @@ public protocol VectorArithmetic : AdditiveArithmetic {
 
 extension CGFloat : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        assertUnimplemented()
+       self *= rhs
     }
     
     public var magnitudeSquared: Double {
-        assertUnimplemented()
+        return self * self
     }
 }
 
@@ -867,10 +853,6 @@ final class AnimatorState<Value : VectorArithmetic> {
     public static func == (a: EmptyAnimatableData, b: EmptyAnimatableData) -> Bool {
         assertUnimplemented()
     }
-}
-
-protocol AnimationFinishingDefinition<Value> : VectorArithmetic {
-    associatedtype Value
 }
 
 class AnimationBoxBase {

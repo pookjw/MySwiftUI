@@ -252,7 +252,16 @@ extension AnimationContext {
     }
     
     func shouldFinishEarly(data: @autoclosure () -> AnimationSettlingContext<Value>.Data) -> Bool {
-        assertUnimplemented()
+        guard let finishingDefinition else {
+            return false
+        }
+        
+        let context = AnimationSettlingContext<Value>(
+            data: data(),
+            environment: self.environment
+        )
+        
+        return finishingDefinition.shouldFinishEarly(in: context)
     }
 }
 
@@ -282,8 +291,12 @@ fileprivate struct SpringState<V : VectorArithmetic> : AnimationStateKey {
 }
 
 struct AnimationSettlingContext<Value : VectorArithmetic> {
-    fileprivate private(set) var data: AnimationSettlingContext<Value>.Data
-    fileprivate private(set) var environment: EnvironmentValues
+    private var data: AnimationSettlingContext<Value>.Data
+    private var environment: EnvironmentValues
+    
+    init(data: AnimationSettlingContext<Value>.Data, environment: EnvironmentValues) {
+        assertUnimplemented()
+    }
 }
 
 extension AnimationSettlingContext {
