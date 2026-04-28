@@ -73,7 +73,7 @@ extension DisplayList {
 }
 
 extension DisplayList {
-    package final class ViewRenderer : ViewRendererBase {
+    package final class ViewRenderer {
         let platform: DisplayList.ViewUpdater.Platform
         private(set) var configuration = _RendererConfiguration(renderer: .default)
         package weak var host: ViewRendererHost? = nil
@@ -93,17 +93,18 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        var rootPlatform: DisplayList.ViewUpdater.Platform {
-            assertUnimplemented()
-        }
-        
-        var exportedObject: AnyObject? {
-            assertUnimplemented()
-        }
-        
-        func render(rootView: AnyObject, from displayList: DisplayList, time: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: Environment) -> Time {
+        func render(rootView: AnyObject, from displayList: DisplayList, time: Time, nextTime: Time, version: DisplayList.Version, maxVersion: DisplayList.Version, environment: Environment) -> Time {
+            let d8 = time.seconds
+            let d9 = nextTime.seconds
             let renderer = updateRenderer(rootView: rootView)
-            return renderer.render(rootView: rootView, from: displayList, time: time, version: version, maxVersion: maxVersion, environment: environment)
+            var d0 = renderer.render(rootView: rootView, from: displayList, time: time, version: version, maxVersion: maxVersion, environment: environment).seconds
+            
+            d0 = (d9 < d0) ? d9 : d0
+            d0 = d0 - d8
+            let d1 = self.configuration.minFrameInterval
+            d0 = (d1 <= d0) ? d0 : d1
+            d0 = d8 + d0
+            return Time(seconds: d0)
         }
         
         func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {

@@ -63,7 +63,7 @@ extension ViewGraphRootValueUpdater {
             }
             
             Signpost.render.traceInterval(object: self, nil) {
-                // closure #1 () -> () in SwiftUI.ViewGraphRootValueUpdater.render(interval: Swift.Double, updateDisplayList: Swift.Bool, targetTimestamp: Swift.Optional<SwiftUI.Time>) -> ()
+                // $s7SwiftUI25ViewGraphRootValueUpdaterPAAE6render8interval17updateDisplayList15targetTimestampySd_SbAA4TimeVSgtFyyXEfU_
                 // x21
                 let viewGraph = owner.viewGraph
                 // nil 확인하는 코드가 없으며 nil이면 모두 0일 것이기에 Time.zero로 추정
@@ -135,8 +135,12 @@ extension ViewGraphRootValueUpdater {
                 // <+3160>
                 owner.renderingPhase = .none
                 
-                if abs(nextTime.seconds) <= Double.greatestFiniteMagnitude {
-                    self.requestUpdate(after: max(nextTime.seconds - currentTimestamp.seconds, 1e-6))
+                if nextTime.seconds.isFinite {
+                    var time: Double = (currentTimestamp.seconds < nextTime.seconds) ? nextTime.seconds : currentTimestamp.seconds
+                    time -= currentTimestamp.seconds
+                    time = (time <= 1e-6) ? 1e-6 : time
+                    
+                    self.requestUpdate(after: time)
                 }
             }
         }

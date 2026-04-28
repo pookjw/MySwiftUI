@@ -64,6 +64,8 @@ fileprivate struct MyView : View {
         
         withAnimation {
             insetAmount = Double.random(in: 10...90)
+        } completion: {
+            print("C")
         }
     }
 }

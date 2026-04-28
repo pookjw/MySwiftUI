@@ -161,7 +161,13 @@ internal import CoreGraphics
             }
         }
         
-        displayLink.setNextUpdate(delay: delay, interval: (delay.isFinite ? delay : 0), reasons: [])
+        displayLink
+            .setNextUpdate(
+                delay: delay,
+                interval: self.viewGraph.nextUpdate.views.interval,
+                reasons: self.viewGraph.nextUpdate.views.reasons
+            )
+        
         clearUpdateTimer()
     }
     

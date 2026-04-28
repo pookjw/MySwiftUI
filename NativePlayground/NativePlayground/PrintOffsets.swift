@@ -151,6 +151,7 @@ func printOffsets() {
     printFields("7SwiftUI37ImmersiveSpaceConfigurationAttributesV13ClientOptionsV", isClassType: false)
     printFields("7SwiftUI12ForEachStateC4ItemCySnySiGSiAA5ColorV_G", isClassType: true)
     printFields("7SwiftUI12ForEachStateCySaySiGSiAA5ColorVG", isClassType: true)
+    printFields("7SwiftUI20ViewGraphDisplayLinkC", isClassType: true)
     printFields(ViewTransform.self, isClassType: false)
     printFields(AnimatableAttributeHelper<Double>.self, isClassType: false)
     printFields(EnvironmentValues.self, isClassType: false)

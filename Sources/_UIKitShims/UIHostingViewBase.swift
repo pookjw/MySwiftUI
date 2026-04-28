@@ -362,7 +362,7 @@ package final class UIHostingViewBase : NSObject {
         return result
     }
     
-    nonisolated package func _requestUpdate(after time: Double) {
+    @MainActor package func _requestUpdate(after time: Double) {
         ViewGraphHostUpdate.lock()
         defer {
             ViewGraphHostUpdate.unlock()
@@ -390,13 +390,26 @@ package final class UIHostingViewBase : NSObject {
             return
         }
         
-        guard uiView != nil else {
+        guard let uiView else {
             return
         }
         
-        viewGraph.startDisplayLink(delay: actualTime) { _, _ in
-            // ___lldb_unnamed_symbol317443
-            assertUnimplemented()
+        viewGraph.startDisplayLink(delay: actualTime) { target, sel in
+            /*
+             link -> x0 -> x21
+             sel -> x1 -> x19
+             self -> x2 -> x20
+             uiView -> x3 -> x22
+             */
+            guard
+                self.updatesWillBeVisible,
+                let window = uiView.window
+            else {
+                return nil
+            }
+            
+            let screen = window.myUIScreen
+            return screen?.displayLink(withTarget: target, selector: sel)
         }
     }
     

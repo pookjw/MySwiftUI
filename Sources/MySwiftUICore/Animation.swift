@@ -3,6 +3,7 @@
 public import CoreGraphics
 public import Spatial
 internal import AttributeGraph
+private import Foundation
 
 public struct Animation : Equatable, Sendable {
     public static func == (lhs: Animation, rhs: Animation) -> Bool {
@@ -808,6 +809,8 @@ final class AnimatorState<Value : VectorArithmetic> {
         var d0 = viewGraph_1.nextUpdate.views.time.seconds
         
         if !(d8 < d0) {
+            // <+312>
+        } else {
             viewGraph_1.nextUpdate.views.time = Time(seconds: d8)
         }
         
@@ -821,7 +824,53 @@ final class AnimatorState<Value : VectorArithmetic> {
     }
     
     func updateListeners(isLogicallyComplete: Bool, time: Double, environment: Attribute<EnvironmentValues>?) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x19
+         isLogicallyComplete -> w0 -> w20
+         environment -> x1 -> x28
+         */
+        let d0 = time
+        let d8 = d0
+        
+        // <+180>
+        if !self.isLogicallyComplete && isLogicallyComplete {
+            // <+200>
+            self.isLogicallyComplete = isLogicallyComplete
+            
+            for listener in self.logicalListeners {
+                listener.animationWasRemoved()
+            }
+            
+            self.logicalListeners = []
+        }
+        
+        // <+424>
+        if !self.forks.isEmpty {
+            // x29 - 0xc0
+            var indexSet = IndexSet()
+            // x29 - 0xa0
+            let indices = self.forks.indices
+            
+            for index in indices {
+                // <+804>
+                let result = self.forks[index].update(time: time, environment: environment)
+                
+                guard result else {
+                    continue
+                }
+                
+                for listener in self.forks[index].listeners {
+                    listener.animationWasRemoved()
+                }
+                
+                indexSet.insert(index)
+            }
+            
+            // <+596>
+            self.forks.remove(atOffsets: indexSet)
+        }
+        
+        // <+704>
     }
 }
 
@@ -1106,6 +1155,10 @@ extension AnimatorState {
         private(set) var interval: Value
         private(set) var finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)?
         private(set) var listeners: [AnimationListener]
+        
+        mutating func update(time: Double, environment: Attribute<EnvironmentValues>?) -> Bool {
+            assertUnimplemented()
+        }
     }
 }
 

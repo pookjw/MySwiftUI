@@ -46,6 +46,12 @@ package struct MyUIScreen {
         let cmd = Selector(("traitCollection"))
         return casted(screen, cmd)
     }
+    
+    func displayLink(withTarget target: Any, selector sel: Selector) -> CADisplayLink? {
+        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, Any, Selector) -> CADisplayLink?).self)
+        let cmd = Selector(("displayLinkWithTarget:selector:"))
+        return casted(screen, cmd, target, sel)
+    }
 }
 
 extension UIWindow {

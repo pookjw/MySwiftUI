@@ -973,9 +973,13 @@ extension ViewGraph {
 extension ViewGraph {
     package struct NextUpdate {
         var time: Time = .infinity // 0x0
-        var _interval: TimeInterval = .infinity // 0x8
+        private var _interval: TimeInterval = .infinity // 0x8
         private var _defaultIntervalWasRequested: Bool = false // 0x10
-        private var reasons: Set<UInt32> = [] // 0x18
+        private(set) var reasons: Set<UInt32> = [] // 0x18
+        
+        var interval: TimeInterval {
+            return _interval.isFinite ? _interval : 0
+        }
         
         init() {}
         
@@ -1084,9 +1088,10 @@ extension ViewGraph : ViewGraphRenderHost {
             
             let renderingRootView = renderDelegate.renderingRootView
             return renderDelegate.withMainThreadRender(wasAsync: false) { [displayList = unchecked.value] in
-                // closure #1 () -> SwiftUI.Time in renderOnMainThread() -> SwiftUI.Time
+                // $s7SwiftUI9ViewGraphC17renderDisplayList_14asynchronously4time8nextTime15targetTimestamp7version10maxVersionAA0K0VAA0fG0V_SbA3LSgAN0P0VAQtF0E12OnMainThreadL_ALyFALyXEfU_
+                // inlined
                 let environment = DisplayList.ViewRenderer.Environment(contentsScale: viewRenderer.configuration.contentsScale ?? context.contentsScale)
-                return viewRenderer.render(rootView: renderingRootView, from: displayList, time: time, version: version, maxVersion: maxVersion, environment: environment)
+                return viewRenderer.render(rootView: renderingRootView, from: displayList, time: time, nextTime: nextTime, version: version, maxVersion: maxVersion, environment: environment)
             }
         }
         
