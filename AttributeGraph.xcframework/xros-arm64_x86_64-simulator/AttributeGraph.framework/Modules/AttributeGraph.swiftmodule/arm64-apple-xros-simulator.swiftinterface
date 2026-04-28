@@ -572,3 +572,11 @@ extension Swift.UnsafeMutablePointer {
   public static var comparisonMode: AttributeGraph.AGComparisonMode { get }
   public static func _update(_: Swift.UnsafeMutableRawPointer, attribute: AttributeGraph.AnyAttribute)
 }
+
+@_silgen_name("$s14AttributeGraph15withUnsafeTuple2of5count_ySo11AGTupleTypea_SiySo015AGUnsafeMutableE0aXEtF")
+public func withUnsafeTuple(of: AttributeGraph.TupleType, count: Swift.Int, _: (AttributeGraph.UnsafeMutableTuple) -> Void)
+
+extension AttributeGraph.UnsafeMutableTuple {
+  @_silgen_name("$sSo20AGUnsafeMutableTuplea14AttributeGraphE7address2asSpyxGxm_tlF")
+  public func address<T>(as: T.Type) -> Swift.UnsafeMutablePointer<T>
+}

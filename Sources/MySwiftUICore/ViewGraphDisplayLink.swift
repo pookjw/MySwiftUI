@@ -1,4 +1,6 @@
 internal import QuartzCore
+private import AttributeGraph
+private import _QuartzCorePrivate
 
 final class ViewGraphDisplayLink : NSObject {
     var link: CADisplayLink? = nil // 0x8
@@ -61,7 +63,7 @@ final class ViewGraphDisplayLink : NSObject {
         }
     }
     
-    private func setFrameInterval(_ interval: Double, reasons: Set<UInt32>) {
+    fileprivate func setFrameInterval(_ interval: Double, reasons: Set<UInt32>) {
         /*
          self -> x20
          reasons -> x0 -> x19
@@ -113,10 +115,37 @@ final class ViewGraphDisplayLink : NSObject {
         }
         
         // <+176>
-        assertUnimplemented()
+        guard !(self.reasons == reasons) else {
+            return
+        }
+        
+        // <+204>
+        self.reasons = reasons
+        
+        let count = reasons.count
+        withUnsafeTuple(of: TupleType(UInt32.self), count: count) { tuple in
+            /*
+             $s7SwiftUI20ViewGraphDisplayLinkC16setFrameInterval33_49A76CA1B5E4F66260081F1C9EDD4305LL_7reasonsySd_Shys6UInt32VGtFySo20AGUnsafeMutableTupleaXEfU_TA
+             tuple -> x0/x1
+             reasons -> x2
+             self -> x3
+             count -> x4
+             */
+            let address = tuple.address(as: UInt32.self)
+            
+            for (i, reason) in reasons.enumerated() {
+                address
+                    .advanced(by: i)
+                    .initialize(to: reason)
+            }
+            
+            if let link {
+                link.setHighFrameRateReasons(address, count: count)
+            }
+        }
     }
     
-    @objc func displayLinkTimer(_ displayLink: CADisplayLink) {
+    @objc fileprivate func displayLinkTimer(_ displayLink: CADisplayLink) {
         assertUnimplemented()
     }
     

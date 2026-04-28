@@ -15,14 +15,19 @@ typedef struct AGSwiftMetadata {} AGSwiftMetadata NS_SWIFT_NAME(Metadata);
 typedef const AGSwiftMetadata * AGTypeID __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TypeID);
 typedef const AGSwiftMetadata * AGTupleType __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TupleType);
 
-typedef struct AGTypeSignature {
+typedef struct NS_SWIFT_NAME(Signature) AGTypeSignature {
     uint32_t words[5];
-} AGTypeSignature NS_SWIFT_NAME(Signature);
+} AGTypeSignature;
 
-typedef struct AGAttributeInfo {
+typedef struct NS_SWIFT_NAME(AttributeInfo) AGAttributeInfo {
     const void *metadata; // TODO
     const void *body;
-} AGAttributeInfo NS_SWIFT_NAME(AttributeInfo);
+} AGAttributeInfo;
+
+typedef struct NS_SWIFT_NAME(UnsafeMutableTuple) AGUnsafeMutableTuple {
+    const AGTupleType type;
+    void *buffer;
+} AGUnsafeMutableTuple;
 
 /*
 AGTypeGetKind
