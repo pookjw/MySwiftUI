@@ -29,7 +29,7 @@ internal import CoreGraphics
     package var renderingPhase: ViewRenderingPhase = .none
     package var externalUpdateCount: Int = 0
     private var parentPhase: _GraphInputs.Phase? = nil
-    private var displayLink: ViewGraphDisplayLink? = nil
+    var displayLink: ViewGraphDisplayLink? = nil
     private var nextTimerTime: Time? = nil
     private var updateTimer: Timer? = nil
     
@@ -139,36 +139,6 @@ internal import CoreGraphics
         }
         
         return displayLink.nextUpdate != .infinity
-    }
-    
-    nonisolated package func startDisplayLink(delay: Double, makeCADisplayLink: (Any, Selector) -> CADisplayLink?) {
-        let displayLink: ViewGraphDisplayLink
-        if let _displayLink = self.displayLink {
-            displayLink = _displayLink
-        } else {
-            let _displayLink = ViewGraphDisplayLink(host: self)
-            if let caDisplayLink = makeCADisplayLink(_displayLink, #selector(ViewGraphDisplayLink.displayLinkTimer(_:))) {
-                _displayLink.link = caDisplayLink
-                caDisplayLink.add(to: .main, forMode: .common)
-                self.displayLink = _displayLink
-            }
-            
-            if let _displayLink = self.displayLink {
-                displayLink = _displayLink
-            } else {
-                startUpdateTimer(delay: delay)
-                return
-            }
-        }
-        
-        displayLink
-            .setNextUpdate(
-                delay: delay,
-                interval: self.viewGraph.nextUpdate.views.interval,
-                reasons: self.viewGraph.nextUpdate.views.reasons
-            )
-        
-        clearUpdateTimer()
     }
     
     package func startUpdateTimer(delay: Double) {

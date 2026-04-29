@@ -19,3 +19,4 @@
 #import "Localization.h"
 #import "NSAttributedString+MySwiftUI.h"
 #import "Safari.h"
+#import "NSThread+MySwiftUI.h"

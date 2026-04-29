@@ -1,8 +1,13 @@
-internal import QuartzCore
+// 49A76CA1B5E4F66260081F1C9EDD4305
+package import QuartzCore
 private import AttributeGraph
 private import _QuartzCorePrivate
 
 final class ViewGraphDisplayLink : NSObject {
+    fileprivate static nonisolated(unsafe) var asyncRunloop: RunLoop?
+    @safe fileprivate static nonisolated(unsafe) var asyncPending = false
+    fileprivate static nonisolated(unsafe) var asyncThread: Thread?
+    
     var link: CADisplayLink? = nil // 0x8
     private weak var host: ViewGraphHost? = nil // 0x10
     private(set) var nextUpdate: Time = .infinity // 0x18
@@ -145,11 +150,200 @@ final class ViewGraphDisplayLink : NSObject {
         }
     }
     
-    @objc fileprivate func displayLinkTimer(_ displayLink: CADisplayLink) {
-        assertUnimplemented()
+    @objc fileprivate func displayLinkTimer(_ link: CADisplayLink) {
+        /*
+         self -> x20
+         link -> x0 -> x21
+         */
+        guard let host else {
+            link.invalidate()
+            return
+        }
+        
+        // <+72>
+        // host -> x26
+        Update.locked {
+            if (self.currentThread != self.nextThread) || (self.link == nil) {
+                // <+412>
+            } else {
+                // <+156>
+                var d0 = link.timestamp
+                let d8 = d0
+                d0 = link.targetTimestamp
+                var d1 = self.nextUpdate.seconds
+                var d2: Double = -1.0 / 240.0
+                d2 = d1 + d2
+                
+                if !(d2 < d8) {
+                    // <+328>
+                } else {
+                    // <+212>
+                    self.currentUpdate = Time(seconds: d8)
+                    self.nextUpdate = .infinity
+                    
+                    host.displayLinkTimer(
+                        timestamp: Time(seconds: d8),
+                        targetTimestamp: Time(seconds: d0),
+                        isAsyncThread: self.currentThread == .async
+                    )
+                    
+                    self.currentUpdate = nil
+                    d1 = self.nextUpdate.seconds
+                    // <+328>
+                }
+                
+                // <+328>
+                d0 = .infinity
+                if d1 != d0 || self.nextThread == .main {
+                    // <+412>
+                } else {
+                    // <+352>
+                    self.nextThread = .main
+                    self.nextUpdate = Time(seconds: d8)
+                    // <+412>
+                }
+            }
+            
+            // <+412>
+            if (self.currentThread != self.nextThread), let link = self.link {
+                // <+436>
+                var flag = true // true -> <+912> / false -> <+1336>
+                if self.nextThread != .async {
+                    // <+908>
+                    // <+912>
+                } else {
+                    // <+456>
+                    ViewGraphDisplayLink.asyncPending = true
+                    
+                    mLoop: while ViewGraphDisplayLink.asyncRunloop == nil {
+                        // <+840>
+                        while ViewGraphDisplayLink.asyncThread != nil {
+                            // <+812>
+                            Update.wait()
+                            ViewGraphDisplayLink.asyncPending = true
+                            
+                            if ViewGraphDisplayLink.asyncRunloop != nil {
+                                // <+912>
+                                flag = true
+                                break mLoop
+                            }
+                        }
+                        
+                        // <+848>
+                        let thread = Thread(target: ViewGraphDisplayLink.self, selector: #selector(ViewGraphDisplayLink.asyncThread(arg:)), object: nil)
+                        thread.qualityOfService = .userInteractive
+                        thread.name = "com.apple.SwiftUI.AsyncRenderer"
+                        let result = thread._startAndReturnError()
+                        if result {
+                            unsafe ViewGraphDisplayLink.asyncThread = thread
+                            // <+812>
+                            Update.wait()
+                            ViewGraphDisplayLink.asyncPending = true
+                            
+                            if ViewGraphDisplayLink.asyncRunloop != nil {
+                                // <+912>
+                                flag = true
+                                break mLoop
+                            }
+                            
+                            // <+840>
+                        } else {
+                            // <+984>
+                            self.nextThread = .main
+                            
+                            switch self.currentThread {
+                            case .main:
+                                // <+928>
+                                // <+1336>
+                                flag = true
+                                break mLoop
+                            case .async:
+                                // <+1012>
+                                let main = RunLoop.main
+                                // <+1048>
+                                link.remove(from: .current, forMode: .common)
+                                
+                                let newLink = CADisplayLink(
+                                    display: link.display,
+                                    target: self,
+                                    selector: #selector(ViewGraphDisplayLink.displayLinkTimer(_:))
+                                )!
+                                
+                                newLink.add(to: main, forMode: .common)
+                                self.link = newLink
+                                
+                                let interval = self.interval
+                                let reasons = self.reasons
+                                self.interval = 0
+                                self.reasons = []
+                                self.setFrameInterval(interval, reasons: reasons)
+                                self.currentThread = .main
+                                // <+1336>
+                            }
+                            
+                            // <+1336>
+                            flag = true
+                            break mLoop
+                        }
+                    }
+                }
+                
+                if flag == true {
+                    // <+912>
+                    if self.nextThread != self.currentThread {
+                        // <+940>
+                        let isAsync = (self.nextThread == .async)
+                        let loop = isAsync ? ViewGraphDisplayLink.asyncRunloop! : .main
+                        // <+1048>
+                        link.remove(from: .current, forMode: .common)
+                        
+                        let newLink = CADisplayLink(
+                            display: link.display,
+                            target: self,
+                            selector: #selector(ViewGraphDisplayLink.displayLinkTimer(_:))
+                        )!
+                        
+                        newLink.add(to: loop, forMode: .common)
+                        self.link = newLink
+                        
+                        let interval = self.interval
+                        let reasons = self.reasons
+                        self.interval = 0
+                        self.reasons = []
+                        self.setFrameInterval(interval, reasons: reasons)
+                        self.currentThread = isAsync ? .async : .main
+                        // <+1336>
+                    } else {
+                        // <+1336>
+                    }
+                } else {
+                    // <+1336>
+                }
+            } else {
+                // <+1336>
+            }
+            
+            // <+1336>
+            if self.link == nil {
+                // <+1408>
+                link.invalidate()
+                // <+1416>
+            } else {
+                let d0 = self.nextUpdate.seconds
+                if d0 != .infinity || self.nextThread != self.currentThread {
+                    // <+1416>
+                } else {
+                    // <+1392>
+                    link.isPaused = true
+                    // <+1416>
+                }
+            }
+            
+            // <+1416>
+        }
     }
     
-    @objc static func asyncThreadWithArg(_: Any) {
+    @objc(asyncThreadWithArg:) fileprivate static func asyncThread(arg: Any) {
         assertUnimplemented()
     }
 }
@@ -158,5 +352,41 @@ extension ViewGraphDisplayLink {
     enum ThreadName {
         case main
         case async
+    }
+}
+
+extension ViewGraphHost {
+    nonisolated package func startDisplayLink(delay: Double, makeCADisplayLink: (Any, Selector) -> CADisplayLink?) {
+        let displayLink: ViewGraphDisplayLink
+        if let _displayLink = self.displayLink {
+            displayLink = _displayLink
+        } else {
+            let _displayLink = ViewGraphDisplayLink(host: self)
+            if let caDisplayLink = makeCADisplayLink(_displayLink, #selector(ViewGraphDisplayLink.displayLinkTimer(_:))) {
+                _displayLink.link = caDisplayLink
+                caDisplayLink.add(to: .main, forMode: .common)
+                self.displayLink = _displayLink
+            }
+            
+            if let _displayLink = self.displayLink {
+                displayLink = _displayLink
+            } else {
+                startUpdateTimer(delay: delay)
+                return
+            }
+        }
+        
+        displayLink
+            .setNextUpdate(
+                delay: delay,
+                interval: self.viewGraph.nextUpdate.views.interval,
+                reasons: self.viewGraph.nextUpdate.views.reasons
+            )
+        
+        clearUpdateTimer()
+    }
+    
+    func displayLinkTimer(timestamp: Time, targetTimestamp: Time, isAsyncThread: Bool) {
+        assertUnimplemented()
     }
 }

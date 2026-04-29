@@ -24,7 +24,8 @@ fileprivate struct MyView : View {
             Color.black
                 .offset(x: 100, y: y)
         }
-        .onAppear { 
+        .task {
+            try! await Task.sleep(for: .seconds(1))
             move()
         }
     }

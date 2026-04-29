@@ -69,7 +69,7 @@ package enum Update {
         }
     }
     
-    @inlinable
+    @inline(always)
     package static func ensure<T>(_ handler: () throws -> T) rethrows -> T {
         return try Update.locked { 
             Update.begin()
@@ -80,7 +80,7 @@ package enum Update {
         }
     }
     
-    @inlinable
+    @inline(always)
     package static func locked<T>(_ handler: () throws -> T) rethrows -> T {
         Update._lock.lock()
         defer {
@@ -110,12 +110,12 @@ package enum Update {
         Update._lock.unlock()
     }
     
-    @inlinable
+    @inline(always)
     package static func lock() {
         Update._lock.lock()
     }
     
-    @inlinable
+    @inline(always)
     package static func unlock() {
         Update._lock.unlock()
     }
@@ -135,7 +135,7 @@ package enum Update {
         return handler()
     }
     
-    @inlinable
+    @inline(always)
     package static func syncMain(_ handler: @MainActor () -> Void) {
         if Thread.isMainThread {
             MainActor.assumeIsolated {
@@ -171,8 +171,9 @@ package enum Update {
         }
     }
     
+    @inline(always)
     package static func wait() {
-        assertUnimplemented()
+        Update._lock.lockWait()
     }
     
     package static func broadcast() {
