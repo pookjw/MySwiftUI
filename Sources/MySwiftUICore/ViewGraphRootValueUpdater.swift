@@ -66,8 +66,7 @@ extension ViewGraphRootValueUpdater {
                 // $s7SwiftUI25ViewGraphRootValueUpdaterPAAE6render8interval17updateDisplayList15targetTimestampySd_SbAA4TimeVSgtFyyXEfU_
                 // x21
                 let viewGraph = owner.viewGraph
-                // nil 확인하는 코드가 없으며 nil이면 모두 0일 것이기에 Time.zero로 추정
-                owner.currentTimestamp = (targetTimestamp ?? .zero) + interval
+                owner.currentTimestamp += interval
                 
                 // x29 - 0xc0, d8
                 let currentTimestamp = owner.currentTimestamp

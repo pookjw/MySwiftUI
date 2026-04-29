@@ -146,15 +146,11 @@ internal import CoreGraphics
     }
     
     package func nextRenderInterval(interval: () -> Double) -> Double {
-        if let displayLink {
-            let nextUpdate = displayLink.nextUpdate
-            guard nextUpdate != .infinity else {
-                return 0
-            }
-            return interval()
-        } else {
-            return interval()
+        if let displayLink, displayLink.nextUpdate != .infinity {
+            return 0
         }
+        
+        return interval()
     }
     
     package func setEnvironment(_ environment: EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) {

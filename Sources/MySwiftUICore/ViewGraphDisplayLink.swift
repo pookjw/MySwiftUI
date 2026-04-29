@@ -49,6 +49,7 @@ final class ViewGraphDisplayLink : NSObject {
         if !(d1 < d0) {
             // <+172>
         }  else {
+            self.nextUpdate = Time(seconds: d1)
             if let link {
                 link.isPaused = false
             } else {
@@ -387,6 +388,54 @@ extension ViewGraphHost {
     }
     
     func displayLinkTimer(timestamp: Time, targetTimestamp: Time, isAsyncThread: Bool) {
+        /*
+         self -> x20 -> x22
+         isAsyncThread -> w2 -> w25
+         */
+        var d8 = timestamp.seconds
+        let d9 = targetTimestamp.seconds
+        
+        guard
+            let updateDelegate, // x19
+            let renderDelegate // x21
+        else {
+            return
+        }
+        
+        self.clearUpdateTimer()
+        var d0 = renderDelegate.renderIntervalForDisplayLink(timestamp: Time(seconds: d8))
+        d8 = d0
+        
+        if !isAsyncThread {
+            // <+300>
+            d0 = d8
+            updateDelegate.render(interval: d0, updateDisplayList: true, targetTimestamp: Time(seconds: d9))
+            
+            // x20
+            guard let displayLink else {
+                return
+            }
+            
+            // <+344>
+            d0 = displayLink.nextUpdate.seconds
+            
+            guard d0.isFinite else {
+                return
+            }
+            
+            // <+376>
+            // x23
+            let viewGraph = self.viewGraph
+            assertUnimplemented()
+        } else {
+            // <+192>
+            d0 = d8
+            // sp + 0x18
+            let renderTime = updateDelegate.renderAsync(interval: d0, targetTimestamp: Time(seconds: d9))
+            // <+228>
+            assertUnimplemented()
+            // <+560>
+        }
         assertUnimplemented()
     }
 }
