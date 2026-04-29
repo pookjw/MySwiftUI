@@ -343,7 +343,6 @@ package final class UIHostingViewBase : NSObject {
         delegate.invalidateProperties(.environment, mayDeferUpdate: true)
     }
     
-    // ___lldb_unnamed_symbol317399
     package func interval(time: Double) -> Double {
         // time = x19
         // x23
@@ -1217,7 +1216,6 @@ package final class UIHostingViewBase : NSObject {
         }
     }
     
-    // ___lldb_unnamed_symbol318822
     private func renderInterval(from time: MySwiftUICore::Time) -> Double {
         /*
          self = x21
@@ -1322,7 +1320,11 @@ extension UIHostingViewBase : ViewGraphRenderDelegate {
     }
     
     package func renderIntervalForDisplayLink(timestamp: MySwiftUICore::Time) -> Double {
-        assertUnimplemented()
+        var d0 = self.renderInterval(from: timestamp)
+        let d8 = d0
+        d0 = Double(UIAnimationDragCoefficient())
+        d0 = d8 / d0
+        return d0
     }
 }
 
