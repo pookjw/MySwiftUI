@@ -49,7 +49,7 @@ package final class ViewGraph : GraphHost {
         }
     }
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
-    private var mainUpdates: Int = 0
+    private(set) var mainUpdates: Int = 0
     var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
     private(set) weak var _preferenceBridge: PreferenceBridge? = nil
     private(set) var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []

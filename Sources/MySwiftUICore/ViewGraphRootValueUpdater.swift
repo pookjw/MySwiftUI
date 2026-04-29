@@ -145,7 +145,7 @@ extension ViewGraphRootValueUpdater {
         }
     }
     
-    package func renderAsync(interval: Double, targetTimestamp: Time?) {
+    package func renderAsync(interval: Double, targetTimestamp: Time?) -> Time? {
         assertUnimplemented()
     }
     

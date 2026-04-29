@@ -419,23 +419,71 @@ extension ViewGraphHost {
             // <+344>
             d0 = displayLink.nextUpdate.seconds
             
-            guard d0.isFinite else {
+            guard d0 != .infinity && !d0.isNaN else {
                 return
             }
             
             // <+376>
             // x23
             let viewGraph = self.viewGraph
-            assertUnimplemented()
+            // x22
+            let graph = viewGraph.data.graph!
+            let counter = graph.counter(options: [.unknown1, .unknown3])
+            let mainUpdates = viewGraph.mainUpdates
+            
+            guard counter == mainUpdates else {
+                return
+            }
+            
+            if isLinkedOnOrAfter(.v3) {
+                // <+844>
+                displayLink.nextThread = .async
+            }
+            
+            // <+860>
+            // <+780>
         } else {
             // <+192>
             d0 = d8
             // sp + 0x18
             let renderTime = updateDelegate.renderAsync(interval: d0, targetTimestamp: Time(seconds: d9))
             // <+228>
-            assertUnimplemented()
-            // <+560>
+            
+            if let renderTime {
+                // <+560>
+                if !renderTime.seconds.isFinite {
+                    // <+652>
+                } else {
+                    // <+576>
+                    d8 = renderTime.seconds
+                    d0 = self.currentTimestamp.seconds
+                    d0 = d8 - d0
+                    let d1 = 0.000001
+                    d0 = max(d0, d1)
+                    updateDelegate.requestUpdate(after: d0)
+                }
+                
+                // <+652>
+                let viewGraph = self.viewGraph
+                let counter = viewGraph.data.graph!.counter(options: [.unknown1, .unknown3])
+                let mainUpdates = viewGraph.mainUpdates
+                
+                if (counter != mainUpdates), let displayLink {
+                    displayLink.nextThread = .main
+                }
+                
+                // <+780>
+            } else {
+                // <+240>
+                if let displayLink {
+                    displayLink.nextThread = .main
+                }
+                
+                // <+260>
+                d0 = 0
+                updateDelegate.requestUpdate(after: d0)
+                // <+776>
+            }
         }
-        assertUnimplemented()
     }
 }
