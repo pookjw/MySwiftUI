@@ -27,6 +27,8 @@ fileprivate struct MyView : View {
         .task {
             try! await Task.sleep(for: .seconds(1))
             move()
+            try! await Task.sleep(for: .seconds(0.1))
+            move()
         }
     }
     
@@ -37,6 +39,8 @@ fileprivate struct MyView : View {
             } else {
                 y = 0
             }
+        } completion: {
+            print("C1")
         }
     }
 }

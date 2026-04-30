@@ -72,40 +72,6 @@ public struct Transaction {
     package func mayConcatenate(with other: Transaction) -> Bool {
         return !plist.mayNotBeEqual(to: other.plist)
     }
-    
-    package var disablesAnimations: Bool {
-        get {
-            assertUnimplemented()
-        }
-        nonmutating set {
-            assertUnimplemented()
-        }
-        nonmutating _modify {
-            assertUnimplemented()
-        }
-    }
-    
-    package func addAnimationListener(allFinished: () -> Void) {
-        assertUnimplemented()
-    }
-    
-    var effectiveAnimation: Animation? {
-        if let animation = self.animation {
-            return animation
-        }
-        
-        if tracksVelocity {
-            return Animation.velocityTracking
-        }
-        
-        return nil
-    }
-}
-
-extension Transaction {
-    func addAnimationListener(_: AnimationListener) {
-        assertUnimplemented()
-    }
 }
 
 @available(*, unavailable)

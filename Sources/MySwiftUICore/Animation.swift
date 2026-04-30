@@ -29,6 +29,24 @@ public struct Animation : Equatable, Sendable {
     func animate<T : VectorArithmetic>(value: T, time: Double, context: inout AnimationContext<T>) -> T? {
         return self.box.animate(value: value, time: time, context: &context)
     }
+    
+    func shouldMerge<Value : VectorArithmetic>(
+        previous: Animation,
+        value: Value,
+        time: Double,
+        context: inout AnimationContext<Value>
+    ) -> Bool {
+        return self.box.shouldMerge(previous: previous, value: value, time: time, context: &context)
+    }
+    
+    func velocity<Value : VectorArithmetic>(value: Value, time: Double, context: AnimationContext<Value>) -> Value? {
+        return self.box.velocity(value: value, time: time, context: context)
+    }
+    
+    @inline(always) // 원래 없음
+    func internalCustomAnimation<T : InternalCustomAnimation>() -> T? {
+        return (box as? InternalAnimationBox<T>)?._base
+    }
 }
 
 extension Animation : Hashable {
@@ -648,12 +666,169 @@ final class AnimatorState<Value : VectorArithmetic> {
     }
     
     func removeListeners() {
-        // v7_1 분기 있는듯
-        assertUnimplemented()
+        // self -> x20 -> x22
+        // <+136>
+        let listeners = self.listeners
+        if !listeners.isEmpty {
+            for listener in listeners {
+                listener.animationWasRemoved()
+            }
+            
+            self.listeners = []
+        }
+        
+        // <+352>
+        let logicalListeners = self.logicalListeners
+        if !logicalListeners.isEmpty {
+            for listener in logicalListeners {
+                listener.animationWasRemoved()
+            }
+            
+            self.logicalListeners = []
+        }
+        
+        // <+564>
+        if isLinkedOnOrAfter(.v7_1) {
+            // <+680>
+            let forks = self.forks
+            if !forks.isEmpty {
+                for fork in forks {
+                    for listener in fork.listeners {
+                        listener.animationWasRemoved()
+                    }
+                }
+                
+                self.forks.removeAll(keepingCapacity: false)
+            }
+            
+            // <+1232>
+        } else {
+            // <+1232>
+        }
     }
     
-    func combine(newAnimation: Animation, newInterval: Value, at: Time, in: Transaction, environment: Attribute<EnvironmentValues>?) {
-        assertUnimplemented()
+    func combine(
+        newAnimation: Animation,
+        newInterval: Value,
+        at time: Time,
+        in transaction: Transaction,
+        environment: Attribute<EnvironmentValues>?
+    ) {
+        /*
+         self -> x20 -> x19
+         newAnimation -> x0 -> x29 - 0x120
+         newInterval -> x1 -> x25
+         time -> x2
+         transaction -> x3 -> x24
+         environment -> x4 -> x20
+         */
+        let d9 = time.seconds
+        // <+116>
+        if self.phase == .pending && !isLinkedOnOrAfter(.v3) {
+            // <+1164>
+            self.animation = newAnimation
+            self.interval = newInterval
+            // <+840>
+        } else {
+            // <+132>
+            // newInterval -> x25 -> x29 - 0x130
+            var d0 = self.beginTime.seconds
+            var d8 = d9 - d0
+            // x29 - 0x80
+            var context = AnimationContext(
+                state: self.state,
+                environment: environment,
+                isLogicallyComplete: self.isLogicallyComplete
+            )
+            
+            if let finishingDefinition {
+                context.finishingDefinition = finishingDefinition
+            }
+            
+            // <+308>
+            self.forkListeners(
+                animation: self.animation,
+                state: self.state,
+                interval: self.interval
+            )
+            
+            // <+452>
+            self.isLogicallyComplete = false
+            d0 = d8
+            
+            let shouldMerge = newAnimation.shouldMerge(
+                previous: self.animation,
+                value: self.interval,
+                time: d0,
+                context: &context
+            )
+            
+            if !shouldMerge {
+                // <+628>
+                d0 = d8
+                
+                combineAnimation(
+                    into: &self.animation,
+                    state: &self.state,
+                    value: self.interval,
+                    elapsed: d0,
+                    newAnimation: newAnimation,
+                    newValue: newInterval
+                )
+                
+                // <+768>
+            } else {
+                // <+556>
+                self.state = context.state
+                self.animation = newAnimation
+                // <+768>
+            }
+            
+            // <+768>
+            self.interval += newInterval
+            self.nextTime = Time(seconds: d9)
+            // <+840>
+        }
+        
+        // <+840>
+        guard let animationFrameInterval = transaction.animationFrameInterval else {
+            return
+        }
+        
+        // <+864>
+        var d1 = animationFrameInterval
+        var d0: Double = 0
+        
+        if d1 <= 0 {
+            // <+944>
+        } else {
+            // <+880>
+            d0 = 240
+            d0 = d1 * d0
+            d0 = log2(d0)
+            d1 = 0.01
+            d0 = d0 + d1
+            d0 = floor(d0)
+            d0 = exp2(d0)
+            d1 = 1.0 / 240.0
+            d0 = d0 * d1
+            // <+944>
+        }
+        
+        // <+944>
+        d1 = self.quantizedFrameInterval
+        d0 = (d0 < d1) ? d0 : d1
+        self.quantizedFrameInterval = d0
+        d1 = 1.0 / 60.0
+        
+        if !(d0 < d1) {
+            // <+1132>
+            self.reason = nil
+            return
+        }
+        
+        // <+988>
+        self.reason = transaction.animationReason ?? self.reason
     }
     
     func addListeners(transaction: Transaction) {
@@ -872,6 +1047,34 @@ final class AnimatorState<Value : VectorArithmetic> {
         
         // <+704>
     }
+    
+    func forkListeners(animation: Animation, state: AnimationState<Value>, interval: Value) {
+        /*
+         self -> x20
+         animation -> x0 -> x29 - 0x88
+         state -> x1 -> x25
+         interval -> x2 -> x29 - 0x90
+         */
+        // <+184>
+        guard !self.isLogicallyComplete else {
+            return
+        }
+        
+        guard !self.logicalListeners.isEmpty else {
+            return
+        }
+        
+        let fork = AnimatorState<Value>.Fork(
+            animation: animation,
+            state: state,
+            interval: interval,
+            finishingDefinition: self.finishingDefinition,
+            listeners: self.logicalListeners
+        )
+        
+        self.forks.append(fork)
+        self.logicalListeners = []
+    }
 }
 
 @frozen public struct EmptyAnimatableData : VectorArithmetic {
@@ -952,11 +1155,16 @@ fileprivate class AnimationBox<T : CustomAnimation>: AnimationBoxBase {
     }
     
     override func velocity<A>(value: A, time: Double, context: AnimationContext<A>) -> A? where A : VectorArithmetic {
-        assertUnimplemented()
+        return _base.velocity(value: value, time: time, context: context)
     }
     
-    override func shouldMerge<A>(previous: Animation, value: A, time: Double, context: inout AnimationContext<A>) -> Bool where A : VectorArithmetic {
-        assertUnimplemented()
+    override func shouldMerge<A>(
+        previous: Animation,
+        value: A,
+        time: Double,
+        context: inout AnimationContext<A>
+    ) -> Bool where A : VectorArithmetic {
+        return _base.shouldMerge(previous: previous, value: value, time: time, context: &context)
     }
     
     override func modifier<A>(_ modifier: A) -> Animation where A : CustomAnimationModifier {
@@ -1059,11 +1267,6 @@ package class _AnyAnimatableDataVTable {
 extension _AnyAnimatableDataVTable : Sendable {
 }
 
-public func withAnimation<Result>(_ animation: Animation? = .default, _ body: () throws -> Result) rethrows -> Result {
-    let transaction = Transaction(animation: animation)
-    return try withTransaction(transaction, body)
-}
-
 struct DefaultAnimation: InternalCustomAnimation, Hashable, ProtobufEncodableMessage, ProtobufDecodableMessage, EncodableAnimation {
     static func makeBaseAnimation() -> Animation {
         if isDeployedOnOrAfter(.v5) {
@@ -1102,6 +1305,14 @@ struct DefaultAnimation: InternalCustomAnimation, Hashable, ProtobufEncodableMes
     @_specialize(exported: false, kind: partial, where V == AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>)
     func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
         return DefaultAnimation.base.animate(value: value, time: time, context: &context)
+    }
+    
+    nonisolated func shouldMerge<V>(previous: Animation, value: V, time: TimeInterval, context: inout AnimationContext<V>) -> Bool where V : VectorArithmetic {
+        return DefaultAnimation.base.shouldMerge(previous: previous, value: value, time: time, context: &context)
+    }
+    
+    nonisolated func velocity<V>(value: V, time: TimeInterval, context: AnimationContext<V>) -> V? where V : VectorArithmetic {
+        return DefaultAnimation.base.velocity(value: value, time: time, context: context)
     }
     
     var function: Animation.Function {
@@ -1184,4 +1395,15 @@ struct BezierAnimation : InternalCustomAnimation, Hashable, ProtobufEncodableMes
     }
     
     // TODO
+}
+
+func combineAnimation<Value : VectorArithmetic>(
+    into animation: inout Animation,
+    state: inout AnimationState<Value>,
+    value: Value,
+    elapsed: Double,
+    newAnimation: Animation,
+    newValue: Value
+) {
+    assertUnimplemented()
 }

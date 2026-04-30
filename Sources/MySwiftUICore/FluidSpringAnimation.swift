@@ -239,6 +239,74 @@ struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodab
             return springState.offset
         }
     }
+    
+    nonisolated func shouldMerge<V>(
+        previous: Animation,
+        value: V,
+        time: TimeInterval,
+        context: inout AnimationContext<V>
+    ) -> Bool where V : VectorArithmetic {
+        /*
+         self -> x20 -> x29 - 0x80
+         previous -> x0 -> x29 - 0x70
+         value -> x1 -> x29 - 0x78
+         context -> x2 -> x20
+         */
+        var d0 = time
+        let d8 = d0
+        // <+320>
+        let d9 = self.response
+        // x24
+        var springState = context.springState
+        d0 = d8
+        // x23 -> x19
+        let velocity = previous.velocity(value: value, time: d0, context: context)
+        
+        let x25: V
+        if let velocity {
+            // <+520>
+            x25 = velocity
+        } else {
+            // <+444>
+            x25 = springState.velocity
+            // <+544>
+        }
+        // <+544>
+        springState.velocity = x25
+        
+        d0 = d8
+        // x26
+        let animationTime = previous.animate(value: value, time: d0, context: &context)
+        if let animationTime {
+            springState.offset = animationTime
+        } else {
+            // <+672>
+            springState.offset = value
+        }
+        
+        // <+760>
+        springState.time = d8
+        springState.startTime = d8
+        
+        if let animation: FluidSpringAnimation = previous.internalCustomAnimation() {
+            d0 = animation.response
+            if d9 == d0 {
+                // <+856>
+            } else {
+                d0 = d0 - d9
+                springState.blendInterval = d0
+                springState.blendStart = d8
+            }
+        }
+        
+        // <+856>
+        context.springState = springState
+        return true
+    }
+    
+    nonisolated func velocity<V>(value: V, time: TimeInterval, context: AnimationContext<V>) -> V? where V : VectorArithmetic {
+        return context.springState.velocity
+    }
 }
 
 extension AnimationContext {
@@ -271,9 +339,9 @@ fileprivate struct SpringState<V : VectorArithmetic> : AnimationStateKey {
     var velocity: V // 0x8
     var force: V // 0x10
     var time: Double // 0x18
-    private(set) var startTime: Double // 0x20
-    private(set) var blendStart: Double // 0x28
-    private(set) var blendInterval: Double // 0x30
+    var startTime: Double // 0x20
+    var blendStart: Double // 0x28
+    var blendInterval: Double // 0x30
     
     init() {
         self.offset = .zero
