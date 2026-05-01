@@ -589,14 +589,16 @@ package struct LayoutProxy : Equatable {
     }
     
     func finallyPlaced(at placement: _Placement, in size: CGSize, layoutDirection: LayoutDirection) -> ViewGeometry {
-        assertUnimplemented()
+        let dimenstions = self.dimensions(in: placement.proposedSize_)
+        var geometry = ViewGeometry(placement: placement, dimensions: dimenstions)
+        geometry.finalizeLayoutDirection(layoutDirection, parentSize: size)
+        return geometry
     }
     
     func dimensions(in proposedSize: _ProposedSize) -> ViewDimensions {
         let layoutComputer = layoutComputer
         let size = layoutComputer.sizeThatFits(proposedSize)
         return ViewDimensions(guideComputer: layoutComputer, size: size, proposal: proposedSize)
-        
     }
     
     var layoutComputer: LayoutComputer {

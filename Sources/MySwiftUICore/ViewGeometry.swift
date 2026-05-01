@@ -22,7 +22,11 @@ struct ViewGeometry : Equatable, Animatable {
     }
     
     init(placement: _Placement, dimensions: ViewDimensions) {
-        assertUnimplemented()
+        self.origin = CGPoint(
+            x: placement.anchorPosition.x - placement.anchor.x * dimensions.size.width,
+            y: placement.anchorPosition.y - placement.anchor.y * dimensions.size.height
+        )
+        self.dimensions = dimensions
     }
     
     mutating func finalizeLayoutDirection(_ layoutDirection: LayoutDirection, parentSize: CGSize) {

@@ -87,6 +87,11 @@ package struct LayoutComputer : @unchecked Sendable {
         Update.assertIsLocked()
         return box.spacing()
     }
+    
+    func childPlacement(at size: ViewSize) -> _Placement {
+        Update.assertIsLocked()
+        return box.childPlacement(at: size)
+    }
 }
 
 extension LayoutComputer : Equatable {
@@ -301,6 +306,10 @@ fileprivate class AnyLayoutEngineBox {
     func spacing() -> Spacing {
         preconditionFailure() // abstract
     }
+    
+    func childPlacement(at size: ViewSize) -> _Placement {
+        preconditionFailure() // abstract
+    }
 }
 
 fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
@@ -352,6 +361,10 @@ fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
     
     override func spacing() -> Spacing {
         return engine.spacing()
+    }
+    
+    override func childPlacement(at size: ViewSize) -> _Placement {
+        return engine.childPlacement(at: size)
     }
 }
 
@@ -445,7 +458,19 @@ extension DepthStashingLayoutComputer {
         }
         
         func childPlacement(at viewSize: ViewSize) -> _Placement {
-            assertUnimplemented()
+            var depthProposal = depthProposal
+            
+            if EnableLayoutDepthStashing.isEnabled {
+                // <+72>
+                let old = unsafe _threadLayoutDepthData()
+                unsafe _setThreadLayoutDepthData(&depthProposal)
+                let placement = base.childPlacement(at: viewSize)
+                unsafe _setThreadLayoutDepthData(old)
+                return placement
+            } else {
+                // <+220>
+                return base.childPlacement(at: viewSize)
+            }
         }
         
         func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {

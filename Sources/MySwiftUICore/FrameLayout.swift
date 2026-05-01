@@ -51,23 +51,6 @@ extension View {
     
     public typealias AnimatableData = EmptyAnimatableData
     public typealias Body = Never
-    
-    public nonisolated static func _makeView(modifier: _GraphValue<_FrameLayout>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        return Self.makeViewImpl(modifier: modifier, inputs: inputs, body: body)
-    }
-    
-    public nonisolated static func _makeViewList(modifier: _GraphValue<_FrameLayout>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        /*
-         modifier -> x0 -> x22
-         inputs -> x1 -> x23
-         body -> x2/x3 -> x21/x19
-         */
-        assertUnimplemented()
-    }
-    
-    public nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        assertUnimplemented()
-    }
 }
 
 extension _FrameLayout : Animatable {}
@@ -81,7 +64,15 @@ extension _FrameLayout : UnaryLayout {
     }
     
     func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
-        return self.commonPlacement(of: proxy, in: context, childProposal: context.proposedSize)
+        var childProposal = context.proposedSize
+        if let width {
+            childProposal.width = width
+        }
+        if let height {
+            childProposal.height = height
+        }
+        
+        return self.commonPlacement(of: proxy, in: context, childProposal: childProposal)
     }
     
     func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {
@@ -137,17 +128,47 @@ extension _FrameLayout : FrameLayoutCommon {
         var d8 = d10
         let d12 = d9
         
+        // x27
+        let defaultComputer = LayoutComputer.defaultValue
         // sp + 0x58
         // x28/x25/d13/d14/d15/d11
         let dimensions = proxy.dimensions(in: childProposal)
         let horizontalKey = alignment.horizontal.key
         let verticalKey = alignment.vertical.key
         
-        var d0 = horizontalKey.id.defaultValue(in: dimensions)
+        var d0 = horizontalKey.id.defaultValue(
+            in: ViewDimensions(
+                guideComputer: defaultComputer,
+                size: ViewSize(
+                    CGSize(
+                        width: d8,
+                        height: d12
+                    ),
+                    proposal: _ProposedSize(
+                        width: d10,
+                        height: d9
+                    )
+                )
+            )
+        )
         let d1 = d8
         d8 = d0
         
-        d0 = verticalKey.id.defaultValue(in: dimensions)
+        d0 = verticalKey.id.defaultValue(
+            in: ViewDimensions(
+                guideComputer: defaultComputer,
+                size: ViewSize(
+                    CGSize(
+                        width: d1,
+                        height: d12
+                    ),
+                    proposal: _ProposedSize(
+                        width: d10,
+                        height: d9
+                    )
+                )
+            )
+        )
         d9 = d0
         
         d0 = dimensions[horizontalKey]

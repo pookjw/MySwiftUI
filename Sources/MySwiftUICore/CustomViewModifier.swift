@@ -127,11 +127,17 @@ extension ViewModifier {
 }
 
 package protocol MultiViewModifier : ViewModifier where Body == Never {
-    
+}
+
+extension MultiViewModifier {
+    public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        var outputs = body(_Graph(), inputs)
+        outputs.multiModifier(modifier, inputs: inputs)
+        return outputs
+    }
 }
 
 package protocol PrimitiveViewModifier : ViewModifier where Body == Never {
-    
 } 
 
 public struct _ViewModifier_Content<Modifier> : View where Modifier : ViewModifier {

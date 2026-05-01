@@ -620,10 +620,21 @@ extension StackLayout {
         }
         
         func proposalWhenPlacing(in size: ViewSize) -> ProposedViewSize {
-            return ProposedViewSize(
-                width: size.proposal.width,
-                height: size.proposal.height
-            )
+            // x11/w8/x12/w10
+            let proposal = size.proposal
+            let majorAxis = self.header.pointee.majorAxis
+            let w13 = (majorAxis == .horizontal) ? (proposal.height == nil) : (proposal.width == nil)
+            
+            if w13 {
+                // <+56>
+                return ProposedViewSize(
+                    width: (majorAxis != .horizontal) ? (proposal.width ?? size.width) : proposal.width,
+                    height: (majorAxis == .horizontal) ? (proposal.height ?? size.height) : proposal.height
+                )
+            } else {
+                // <+88>
+                return ProposedViewSize(width: proposal.width, height: proposal.height)
+            }
         }
         
         func resizeAnyChildrenWithTrailingOverflow(in size: ProposedViewSize) {

@@ -41,15 +41,16 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         var positionAttribute = inputs.position
         // w26
         let geometryAttribute: Attribute<ViewGeometry>!
+        var copy = inputs
         
         if options.contains(.viewNeedsGeometry) {
             // <+360>
-            let layoutDirectionAttribute = inputs.base.cachedEnvironment.value.attribute(id: .layoutDirection) { environment in
+            let layoutDirectionAttribute = copy.base.cachedEnvironment.value.attribute(id: .layoutDirection) { environment in
                 return environment.layoutDirection
             }
             
             let geometry = UnaryChildGeometry<Self>(
-                parentSize: inputs.size,
+                parentSize: copy.size,
                 layoutDirection: layoutDirectionAttribute,
                 parentLayoutComputer: layoutComputerAttribute,
                 childLayoutComputer: OptionalAttribute()
@@ -59,11 +60,12 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
             geometryAttribute = Attribute(geometry)
             // x29 - 0x88
             let sizeAttribute = geometryAttribute[keyPath: \.dimensions.size]
+            copy.size = sizeAttribute
             // x29 - 0x13c
             let originAttribute = geometryAttribute[keyPath: \.origin]
             
             let query = LayoutPositionQuery(
-                parentPosition: inputs.position,
+                parentPosition: copy.position,
                 localPosition: originAttribute
             )
             
@@ -77,9 +79,9 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         
         // <+724>
         // x29 - 0x140
-        var outputs = body(_Graph(), inputs)
+        var outputs = body(_Graph(), copy)
         
-        if inputs.base.options.contains(.viewNeedsGeometry) {
+        if copy.base.options.contains(.viewNeedsGeometry) {
             // <+768>
             layoutComputerAttribute.mutateBody(as: UnaryLayoutComputer<Self>.self, invalidating: true) { rule in
                 // $s7SwiftUI13UnaryLayout3DPAAE05_makeC12LayoutView3D8modifier6inputs4bodyAA12_ViewOutputsVAA11_GraphValueVyxG_AA01_K6InputsVAiA01_M0V_ANtctFZyAA0cF10Computer3D33_ED0B38D5641AD05527359F0D11736A2CLLVyxGzXEfU1_AA012_AspectRatioD1DV_Tg5TA
@@ -90,15 +92,15 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
                 // $s7SwiftUI11UnaryLayoutPA2A16PlacementContextV0eF4TypeRtzrlE12makeViewImpl8modifier6inputs4bodyAA01_I7OutputsVAA11_GraphValueVyxG_AA01_I6InputsVAmA01_O0V_ARtctFZyAA0C13ChildGeometry33_1C3B77B617AD058A6802F719E38F5D79LLVyxGzXEfU0_AA14MoveTransitionV04MoveD0V_Tg5TA
                 /*
                  rule -> x0 -> x19
-                 inputs -> x1 -> x23
+                 copy -> x1 -> x23
                  layoutComputerAttribute -> w2 -> w22
                  outputs -> x3 -> dead
                  childLayoutComputer -> x4 -> x20 (x4 >> 32)
                  */
-                if inputs[EnableLayoutDepthStashing.self] {
+                if copy[EnableLayoutDepthStashing.self] {
                     // <+72>
                     // w21
-                    let transformAttribute = inputs.transform
+                    let transformAttribute = copy.transform
                     let depthAttribute = transformAttribute[keyPath: \.depth]
                     let layoutComputer = DepthStashingLayoutComputer(layoutComputer: layoutComputerAttribute, depth: depthAttribute)
                     let parentLayoutComputer = Attribute(layoutComputer)
@@ -125,7 +127,6 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         outputs.layoutComputer = childLayoutComputer.attribute
         
         if options.contains(.viewRequestsLayoutComputer) {
-            outputs.preferences.debugProperties.formUnion(.layoutComputer)
             outputs.layoutComputer = layoutComputerAttribute
         }
         
@@ -136,6 +137,12 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
 extension UnaryLayout where PlacementContextType == _PositionAwarePlacementContext {
     static nonisolated func makeViewImpl(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
+    }
+}
+
+extension UnaryLayout {
+    public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        return Self.makeViewImpl(modifier: modifier, inputs: inputs, body: body)
     }
 }
 
@@ -184,7 +191,9 @@ fileprivate struct UnaryChildGeometry<T> : Rule, AsyncAttribute, CustomStringCon
     }
     
     var value: ViewGeometry {
-        assertUnimplemented()
+        let placement = self.parentLayoutComputer.childPlacement(at: self.parentSize)
+        let proxy = LayoutProxy(context: AnyRuleContext(context), layoutComputer: self.$childLayoutComputer)
+        return proxy.finallyPlaced(at: placement, in: self.parentSize.value, layoutDirection: self.layoutDirection)
     }
 }
 

@@ -25,16 +25,10 @@ fileprivate struct MyView : View {
                 .frame(width: 100, height: 100)
                 .offset(x: x)
         }
-        .task {
-            try! await Task.sleep(for: .seconds(1))
-            move()
-            try! await Task.sleep(for: .seconds(0.1))
-            move()
-        }
     }
     
     private func move() {
-        withAnimation {
+        withAnimation(completionCriteria: .removed) {
             if x == 0 {
                 x = 100
             } else {

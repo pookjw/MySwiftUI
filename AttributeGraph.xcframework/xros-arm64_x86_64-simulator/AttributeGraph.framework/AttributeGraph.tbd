@@ -300,7 +300,8 @@ exports:
     _AGGraphGetAttributeInfo,
     _$s14AttributeGraph11RuleContextV13valueAndFlags2of7optionsqd__0E0_So014AGChangedValueG0V5flagstAA0A0Vyqd__G_So14AGValueOptionsVtlF,
     _$s14AttributeGraph15withUnsafeTuple2of5count_ySo11AGTupleTypea_SiySo015AGUnsafeMutableE0aXEtF,
-    _$sSo20AGUnsafeMutableTuplea14AttributeGraphE7address2asSpyxGxm_tlF ]
+    _$sSo20AGUnsafeMutableTuplea14AttributeGraphE7address2asSpyxGxm_tlF,
+    _$s14AttributeGraph14AnyRuleContextVyAcA0dE0VyxGclufC ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
