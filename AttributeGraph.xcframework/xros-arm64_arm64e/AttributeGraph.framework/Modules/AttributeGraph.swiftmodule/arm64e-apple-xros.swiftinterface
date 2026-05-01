@@ -162,7 +162,6 @@ public struct AnyRuleContext : Swift.Equatable, Swift.Sendable {
     get set
   }
 
-  @_silgen_name("_$s14AttributeGraph14AnyRuleContextVyAcA0dE0VyxGclufC")
   public init(attribute: AttributeGraph.AnyAttribute)
   public init<T>(_: AttributeGraph.RuleContext<T>)
 

@@ -30,7 +30,7 @@ fileprivate struct MyView : View {
     private func move() {
         withAnimation(completionCriteria: .removed) {
             if x == 0 {
-                x = 100
+                x = 300
             } else {
                 x = 0
             }

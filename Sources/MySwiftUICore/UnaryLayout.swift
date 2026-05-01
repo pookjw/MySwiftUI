@@ -37,8 +37,6 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         
         // w22
         let layoutComputerAttribute = Attribute(layoutComputer)
-        // x29 - 0x90
-        var positionAttribute = inputs.position
         // w26
         let geometryAttribute: Attribute<ViewGeometry>!
         var copy = inputs
@@ -70,7 +68,8 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
             )
             
             // x29 - 0x90
-            positionAttribute = Attribute(query)
+            let positionAttribute = Attribute(query)
+            copy.position = positionAttribute
             // <+724>
         } else {
             // <+724>
@@ -202,7 +201,7 @@ struct LayoutPositionQuery : Rule, AsyncAttribute {
     @Attribute fileprivate private(set) var localPosition: CGPoint
     
     var value: CGPoint {
-        assertUnimplemented()
+        return parentPosition + localPosition
     }
 }
 
