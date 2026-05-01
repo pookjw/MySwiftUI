@@ -70,6 +70,7 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
             // x29 - 0x90
             let positionAttribute = Attribute(query)
             copy.position = positionAttribute
+            copy.requestsLayoutComputer = true
             // <+724>
         } else {
             // <+724>
@@ -80,11 +81,11 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         // x29 - 0x140
         var outputs = body(_Graph(), copy)
         
-        if copy.base.options.contains(.viewNeedsGeometry) {
+        if options.contains(.viewNeedsGeometry) {
             // <+768>
             layoutComputerAttribute.mutateBody(as: UnaryLayoutComputer<Self>.self, invalidating: true) { rule in
                 // $s7SwiftUI13UnaryLayout3DPAAE05_makeC12LayoutView3D8modifier6inputs4bodyAA12_ViewOutputsVAA11_GraphValueVyxG_AA01_K6InputsVAiA01_M0V_ANtctFZyAA0cF10Computer3D33_ED0B38D5641AD05527359F0D11736A2CLLVyxGzXEfU1_AA012_AspectRatioD1DV_Tg5TA
-                rule.$childLayoutComputer = childLayoutComputer.attribute
+                rule.$childLayoutComputer = outputs.layoutComputer
             }
             
             geometryAttribute.mutateBody(as: UnaryChildGeometry<Self>.self, invalidating: true) { rule in
@@ -94,7 +95,6 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
                  copy -> x1 -> x23
                  layoutComputerAttribute -> w2 -> w22
                  outputs -> x3 -> dead
-                 childLayoutComputer -> x4 -> x20 (x4 >> 32)
                  */
                 if copy[EnableLayoutDepthStashing.self] {
                     // <+72>
@@ -105,7 +105,7 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
                     let parentLayoutComputer = Attribute(layoutComputer)
                     rule.$parentLayoutComputer = parentLayoutComputer
                     
-                    if let attribute = childLayoutComputer.attribute {
+                    if let attribute = outputs.layoutComputer {
                         // <+184>
                         let layoutComputer = DepthStashingLayoutComputer(layoutComputer: attribute, depth: depthAttribute)
                         let childLayoutComputer = Attribute(layoutComputer)
@@ -113,11 +113,11 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
                         rule.$childLayoutComputer = childLayoutComputer
                     } else {
                         // <+256>
-                        rule.$childLayoutComputer = childLayoutComputer.attribute
+                        rule.$childLayoutComputer = outputs.layoutComputer
                     }
                 } else {
                     // <+256>
-                    rule.$childLayoutComputer = childLayoutComputer.attribute
+                    rule.$childLayoutComputer = outputs.layoutComputer
                 }
             }
         }
