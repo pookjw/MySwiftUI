@@ -1368,7 +1368,33 @@ extension AnimatorState {
         private(set) var listeners: [AnimationListener]
         
         mutating func update(time: Double, environment: Attribute<EnvironmentValues>?) -> Bool {
-            assertUnimplemented()
+            /*
+             self -> x20 -> x28
+             environment -> x0 -> x20
+             */
+            var d0 = time
+            let d8 = d0
+            // <+304>
+            // x29 - 0x78
+            var context = AnimationContext(
+                state: self.state,
+                environment: environment,
+                isLogicallyComplete: false
+            )
+            
+            if let finishingDefinition {
+                context.finishingDefinition = finishingDefinition
+            }
+            
+            d0 = d8
+            // x25
+            let animationTime = self.animation.animate(value: self.interval, time: d0, context: &context)
+            
+            if animationTime == nil {
+                return true
+            } else {
+                return context.isLogicallyComplete
+            }
         }
     }
 }

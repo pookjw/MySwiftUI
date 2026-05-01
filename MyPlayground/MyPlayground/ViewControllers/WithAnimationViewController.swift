@@ -13,7 +13,7 @@ import MySwiftUI
 #endif
 
 fileprivate struct MyView : View {
-    @State private var y: CGFloat = 0
+    @State private var x: CGFloat = 0
     
     var body: some View {
         _VStackLayout {
@@ -22,7 +22,8 @@ fileprivate struct MyView : View {
             }
             
             Color.black
-                .offset(x: 100, y: y)
+                .frame(width: 100, height: 100)
+                .offset(x: x)
         }
         .task {
             try! await Task.sleep(for: .seconds(1))
@@ -34,13 +35,13 @@ fileprivate struct MyView : View {
     
     private func move() {
         withAnimation {
-            if y == 0 {
-                y = 100
+            if x == 0 {
+                x = 100
             } else {
-                y = 0
+                x = 0
             }
         } completion: {
-            print("C1")
+            print("completion")
         }
     }
 }

@@ -5,13 +5,87 @@ extension Transaction {
     fileprivate static let pendingListeners = AtomicBox(wrappedValue: Transaction.PendingListeners(pending: [], next: nil))
     
     fileprivate static func dispatchPending() {
-        Transaction.pendingListeners.access { listeners in
+        // sp + 0x8
+        let listeners = Transaction.pendingListeners.access { listeners in
             // $s7SwiftUI11TransactionVAAE15dispatchPending33_390609F81ACEBEAF00AD8179BD31E870LLyyFZSayAcAE0E9ListenersAELLV12WeakListenerVGAGzXEfU_
-            assertUnimplemented()
+            /*
+             listeners -> x0 -> x23
+             */
+            // <+428>
+            // x20
+            guard let next = listeners.next else {
+                let result = listeners.pending
+                listeners.pending = []
+                return result
+            }
+            
+            // <+520>
+            // next -> x20 -> x28
+            listeners.next = nil
+            
+            // x29 - 0x90
+            let pending = listeners.pending
+            // x29 - 0x98
+            let count = pending.count
+            // x22
+            var array: [Transaction.PendingListeners.WeakListener] = []
+            
+            for listener in pending {
+                // <+712>
+                guard listener.time > next else {
+                    continue
+                }
+                
+                array.append(listener)
+            }
+            
+            // <+972>
+            listeners.pending = array
+            
+            if !array.isEmpty {
+                listeners.next = array.last!.time
+                
+                DispatchQueue.main.asyncAfter(deadline: listeners.next!) {
+                    // $s7SwiftUI11TransactionVAAE15dispatchPending33_390609F81ACEBEAF00AD8179BD31E870LLyyFZSayAcAE0E9ListenersAELLV12WeakListenerVGAGzXEfU_yyYbcfu_TA
+                    Transaction.dispatchPending()
+                }
+                
+                // <+1512>
+                if !pending.isEmpty {
+                    // x27
+                    var array: [Transaction.PendingListeners.WeakListener] = []
+                    
+                    for listener in pending {
+                        // <+1596>
+                        guard !(listener.time > next) else {
+                            continue
+                        }
+                        
+                        array.append(listener)
+                    }
+                    
+                    return array
+                } else {
+                    return []
+                }
+            } else {
+                // <+1828>
+                return pending
+            }
         }
         
         // <+100>
-        assertUnimplemented()
+        if !listeners.isEmpty {
+            Update.locked { 
+                // $s7SwiftUI11TransactionVAAE15dispatchPending33_390609F81ACEBEAF00AD8179BD31E870LLyyFZyyXEfU0_
+                // listeners -> x0 -> x20
+                for listener in listeners {
+                    if let l = listener.listener {
+                        l.finalizeTransaction()
+                    }
+                }
+            }
+        }
     }
     
     var animationListener: AnimationListener? {
@@ -77,8 +151,8 @@ extension Transaction {
             // <+180>
             let listener = AllFinishedListener(
                 allFinished: { _ in
-                    // $s7SwiftUI11TransactionV22addAnimationCompletion8criteria_yAA0eF8CriteriaV_yyctFyycfU0_TA
-                    assertUnimplemented()
+                    // $s7SwiftUI11TransactionV22addAnimationCompletion8criteria_yAA0eF8CriteriaV_yyctFyycfU_TA
+                    Update.enqueueAction(reason: .animationLogicallyCompleted, completion)
                 },
                 count: 0,
                 maxCount: 0,
@@ -90,8 +164,8 @@ extension Transaction {
             // <+36>
             let listener = AllFinishedListener(
                 allFinished: { _ in
-                    // $s7SwiftUI11TransactionV22addAnimationCompletion8criteria_yAA0eF8CriteriaV_yyctFyycfU_TA
-                    assertUnimplemented()
+                    // $s7SwiftUI11TransactionV22addAnimationCompletion8criteria_yAA0eF8CriteriaV_yyctFyycfU0_TA
+                    Update.enqueueAction(reason: .animationRemoved, completion)
                 },
                 count: 0,
                 maxCount: 0,
@@ -223,10 +297,16 @@ fileprivate final class AllFinishedListener : AnimationListener {
     private let allFinished: (Transaction.AnimationCompletionInfo) -> () // 0x10
     private var count: Int // 0x20
     private var maxCount: Int // 0x28
-    private var dispatched: Bool // 0x29
+    private var dispatched: Bool // 0x30
     
     override func finalizeTransaction() {
-        assertUnimplemented()
+        if self.count != 0 || self.dispatched {
+            return
+        }
+        
+        self.dispatched = true
+        let info = Transaction.AnimationCompletionInfo(completedCount: self.maxCount)
+        self.allFinished(info)
     }
     
     override func animationWasAdded() {
@@ -235,7 +315,17 @@ fileprivate final class AllFinishedListener : AnimationListener {
     }
     
     override func animationWasRemoved() {
-        assertUnimplemented()
+        var count = self.count
+        count -= 1
+        self.count = count
+        
+        if count != 0 || self.dispatched {
+            return
+        }
+        
+        self.dispatched = true
+        let info = Transaction.AnimationCompletionInfo(completedCount: self.maxCount)
+        self.allFinished(info)
     }
     
     init(
@@ -273,7 +363,7 @@ fileprivate final class ListenerPair : AnimationListener {
 
 extension Transaction {
     struct AnimationCompletionInfo {
-        private var completedCount: Int
+        fileprivate private(set) var completedCount: Int
     }
     
     fileprivate struct PendingListeners {
