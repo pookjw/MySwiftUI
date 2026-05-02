@@ -1299,13 +1299,19 @@ struct DynamicLayoutMap {
     
     subscript(_ containerID: DynamicContainerID) -> LayoutProxyAttributes {
         get {
-            for value in map {
-                if value.id == containerID {
-                    return value.value
-                }
+            let index = map.partitionPoint { value in
+                return value.id < containerID
             }
             
-            return LayoutProxyAttributes()
+            if index != map.count {
+                if map[index].id == containerID {
+                    return map[index].value
+                } else {
+                    return LayoutProxyAttributes()
+                }
+            } else {
+                return LayoutProxyAttributes()
+            }
         }
         set {
             /*
@@ -1371,61 +1377,92 @@ struct DynamicLayoutMap {
     }
     
     mutating func attributes(info: DynamicContainer.Info) -> [LayoutProxyAttributes] {
-        // self -> x25
         // w26
         let infoSeed = info.seed
-        // sp + 0x4c
+        // self -> x20 -> sp + 0x38
+        // sp + 0x2c
         let allUnary = info.allUnary
         
         guard sortedSeed != infoSeed else {
-            // <+760>
+            // <+912>
             return sortedArray
         }
         
         // <+56>
-        // x21
+        // x19
         let items = info.items
-        // x22
-        let removedCount = info.removedCount
         // x24
+        let removedCount = info.removedCount
+        // x25
         let unusedCount = info.unusedCount
         // sortedArray -> x20
         sortedArray.removeAll(keepingCapacity: true)
         
         // <+140>
-        var endIndex = items.count &- (unusedCount &+ removedCount)
-        let flag = ((endIndex &- 1) < 0) || allUnary
-        
-        guard flag || (endIndex < items.count) else {
-            // <+872>
-            fatalError("invalid view index")
-        }
+        // sp + 0x18
+        let total = unusedCount &+ removedCount
+        // x21
+        var endIndex = items.endIndex &- total
+        let flag = (endIndex < 1) || allUnary
         
         if !flag {
-            // <+216>
-            let item = items[endIndex]
+            // <+192>
+            let item = items[endIndex &- 1]
             endIndex = Int(item.precedingViewCount &+ item.viewCount)
         }
         
         // <+248>
-        var results: [LayoutProxyAttributes] = []
+        // infoSeed -> w26 -> sp + 0xc
+        // index -> x25
         for index in 0..<endIndex {
-            // <+500>
-            let precedingViewCount = items[index].precedingViewCount
-            // x26
-            let viewIndex = unusedCount - numericCast(precedingViewCount)
-            // w19
-            let uniqueId = items[index].uniqueId
-            // sp + 0x50
+            var x23 = index
+            if allUnary {
+                // <+476>
+            } else {
+                // <+316>
+                let itemsEndIndex = items.endIndex
+                let x24 = itemsEndIndex - total
+                x23 = 0
+                
+                repeat {
+                    if x24 == x23 {
+                        fatalError("invalid view index")
+                    }
+                    
+                    let item = items[x23]
+                    // <+404>
+                    let w26 = item.precedingViewCount
+                    let w22 = item.viewCount
+                    let w8 = w26 + w22
+                    x23 &+= 1
+                    
+                    if index >= w8 {
+                        continue
+                    } else {
+                        // <+472>
+                        x23 &-= 1
+                        // <+476>
+                        break
+                    }
+                } while true
+            }
+            
+            // <+476>
+            // x24
+            let precedingViewCount = items[x23].precedingViewCount
+            // x24
+            let viewIndex = index - numericCast(precedingViewCount)
+            
+            // <+556>
+            // w23
+            let uniqueId = items[x23].uniqueId
             let id = DynamicContainerID(uniqueId: uniqueId, viewIndex: Int32(viewIndex))
             // sp + 0x58
             let attributes = self[id]
-            results.append(attributes)
+            self.sortedArray.append(attributes)
         }
         
-        sortedArray = results
-        sortedSeed = infoSeed
-        
-        return results
+        self.sortedSeed = infoSeed
+        return self.sortedArray
     }
 }

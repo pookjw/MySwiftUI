@@ -580,7 +580,7 @@ extension Layout {
         let geometriesAttribute: Attribute<[ViewGeometry]>
         
         // options -> sp + 0x7c
-        if hasScrollable || options.isSuperset(of: [.viewRequestsLayoutComputer, .viewNeedsGeometry]) || withinAccessibilityRotor {
+        if hasScrollable || !options.intersection([.viewRequestsLayoutComputer, .viewNeedsGeometry]).isEmpty || withinAccessibilityRotor {
             // <+352>
             // w26
             let _layoutComputerAttribute = Attribute(

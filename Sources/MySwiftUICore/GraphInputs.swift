@@ -140,11 +140,11 @@ public struct _GraphInputs {
         self.changedDebugProperties.formUnion(other.changedDebugProperties)
         self.mergedInputs.formUnion(other.mergedInputs)
         
-        var options = self.options
-        options.formUnion(other.options)
-        options.formIntersection(.animationsDisabled)
-        options.formUnion(self.options)
-        self.options = options
+        var w8 = self.options
+        var w9 = w8.union(other.options)
+        w9.formIntersection(.animationsDisabled)
+        w8.formUnion(w9)
+        self.options = w8
     }
     
     package func mapEnvironment<T>(id: CachedEnvironment.ID, _ block: @escaping (EnvironmentValues) -> T) -> Attribute<T> {

@@ -227,7 +227,7 @@ fileprivate struct UnaryLayoutEngine<T : UnaryLayout> : LayoutEngine where T.Pla
     }
     
     func spacing() -> Spacing {
-        assertUnimplemented()
+        return layout.spacing(in: layoutContext, child: child)
     }
     
     mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
