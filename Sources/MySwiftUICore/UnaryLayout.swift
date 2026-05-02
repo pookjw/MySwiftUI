@@ -92,14 +92,15 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
                 // $s7SwiftUI11UnaryLayoutPA2A16PlacementContextV0eF4TypeRtzrlE12makeViewImpl8modifier6inputs4bodyAA01_I7OutputsVAA11_GraphValueVyxG_AA01_I6InputsVAmA01_O0V_ARtctFZyAA0C13ChildGeometry33_1C3B77B617AD058A6802F719E38F5D79LLVyxGzXEfU0_AA14MoveTransitionV04MoveD0V_Tg5TA
                 /*
                  rule -> x0 -> x19
-                 copy -> x1 -> x23
+                 inputs -> x1 -> x23
                  layoutComputerAttribute -> w2 -> w22
-                 outputs -> x3 -> dead
+                 outputs -> x3/x4
+                 outputs.layoutComputer -> w20
                  */
-                if copy[EnableLayoutDepthStashing.self] {
+                if inputs[EnableLayoutDepthStashing.self] {
                     // <+72>
                     // w21
-                    let transformAttribute = copy.transform
+                    let transformAttribute = inputs.transform
                     let depthAttribute = transformAttribute[keyPath: \.depth]
                     let layoutComputer = DepthStashingLayoutComputer(layoutComputer: layoutComputerAttribute, depth: depthAttribute)
                     let parentLayoutComputer = Attribute(layoutComputer)
@@ -123,8 +124,6 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         }
         
         // <+1036>
-        outputs.layoutComputer = childLayoutComputer.attribute
-        
         if options.contains(.viewRequestsLayoutComputer) {
             outputs.layoutComputer = layoutComputerAttribute
         }

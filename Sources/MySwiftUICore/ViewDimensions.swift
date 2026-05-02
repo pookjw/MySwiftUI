@@ -71,13 +71,11 @@ extension ViewDimensions : Equatable {
 
 extension ViewDimensions {
     subscript(key: AlignmentKey) -> CGFloat {
-        return key.id.defaultValue(in: self)
+        return self[explicit: key] ?? key.id.defaultValue(in: self)
     }
     
-    subscript(explicit: AlignmentKey) -> CGFloat? {
-        get {
-            assertUnimplemented()
-        }
+    subscript(explicit key: AlignmentKey) -> CGFloat? {
+        return guideComputer.explicitAlignment(key, at: size)
     }
     
     nonisolated(unsafe) static let invalidValue = ViewDimensions(guideComputer: .defaultValue, size: .invalidValue)
