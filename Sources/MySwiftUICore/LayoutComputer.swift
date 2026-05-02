@@ -92,6 +92,11 @@ package struct LayoutComputer : @unchecked Sendable {
         Update.assertIsLocked()
         return box.childPlacement(at: size)
     }
+    
+    func requiresSpacingProjection() -> Bool {
+        Update.assertIsLocked()
+        return box.requiresSpacingProjection()
+    }
 }
 
 extension LayoutComputer : Equatable {
@@ -310,6 +315,10 @@ fileprivate class AnyLayoutEngineBox {
     func childPlacement(at size: ViewSize) -> _Placement {
         preconditionFailure() // abstract
     }
+    
+    func requiresSpacingProjection() -> Bool {
+        preconditionFailure()
+    }
 }
 
 fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
@@ -365,6 +374,10 @@ fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
     
     override func childPlacement(at size: ViewSize) -> _Placement {
         return engine.childPlacement(at: size)
+    }
+    
+    override func requiresSpacingProjection() -> Bool {
+        return engine.requiresSpacingProjection()
     }
 }
 

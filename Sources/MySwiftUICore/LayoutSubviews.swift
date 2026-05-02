@@ -577,7 +577,7 @@ package struct LayoutProxy : Equatable {
     }
     
     var requiresSpacingProjection: Bool {
-        assertUnimplemented()
+        return layoutComputer.requiresSpacingProjection()
     }
     
     func spacing() -> Spacing {

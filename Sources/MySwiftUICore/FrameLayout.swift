@@ -60,7 +60,37 @@ extension _FrameLayout : BitwiseCopyable {}
 
 extension _FrameLayout : UnaryLayout {
     func spacing(in context: SizeAndSpacingContext, child: LayoutProxy) -> Spacing {
-        assertUnimplemented()
+        /*
+         context.owner -> w21
+         context.$environment -> w22
+         child.context -> w24
+         child.attributes.layoutComputer -> w25
+         child.attributes.traitsList -> d8
+         */
+        if !isLinkedOnOrAfter(.v3) || child.requiresSpacingProjection {
+            // <+204>
+            return child.spacing()
+        } else {
+            // <+380>
+            // x19
+            var spacing = child.spacing()
+            // w23
+            var edge = Edge.Set()
+            if self.height != nil {
+                edge.formUnion(.vertical)
+            }
+            if self.width != nil {
+                edge.formUnion(.horizontal)
+            }
+            
+            // sp + 0x60
+            let layoutDirection = context.layoutDirection
+            // sp + 0x18
+            let absoluteEdge = AbsoluteEdge.Set(edge, layoutDirection: layoutDirection)
+            
+            spacing.reset(absoluteEdge)
+            return spacing
+        }
     }
     
     func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {

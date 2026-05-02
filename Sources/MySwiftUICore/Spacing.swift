@@ -2,7 +2,7 @@
 internal import CoreGraphics
 
 package struct Spacing : Equatable, CustomStringConvertible {
-    var minima: [Spacing.Key: Spacing.Value]
+    var minima: [Spacing.Key : Spacing.Value]
     
     package var description: String {
         assertUnimplemented()
@@ -17,7 +17,7 @@ package struct Spacing : Equatable, CustomStringConvertible {
             Spacing.Key(category: .edgeBelowText, edge: .top): Spacing.Value(0),
             Spacing.Key(category: .edgeAboveText, edge: .bottom): Spacing.Value(0),
             Spacing.Key(category: .edgeRightText, edge: .left): Spacing.Value(0),
-            Spacing.Key(category: .edgeLeftText, edge: .right): Spacing.Value(0),
+            Spacing.Key(category: .edgeLeftText, edge: .right): Spacing.Value(0)
         ]
     }
     
@@ -25,8 +25,8 @@ package struct Spacing : Equatable, CustomStringConvertible {
         assertUnimplemented()
     }
     
-    func reset(_: Edge.Set, layoutDirection: LayoutDirection) {
-        assertUnimplemented()
+    mutating func reset(_ set: Edge.Set, layoutDirection: LayoutDirection) {
+        self.reset(AbsoluteEdge.Set(set, layoutDirection: layoutDirection))
     }
     
     func clear(_: Edge.Set, layoutDirection: LayoutDirection) {
@@ -100,7 +100,14 @@ package struct Spacing : Equatable, CustomStringConvertible {
         assertUnimplemented()
     }
     
-    func reset(_ set: AbsoluteEdge.Set) {
+    mutating func reset(_ set: AbsoluteEdge.Set) {
+        // set -> x0 -> w27
+        guard !set.isEmpty else {
+            return
+        }
+        
+        // self -> x20 -> x19
+        // set -> w27 -> sp + 0x24
         assertUnimplemented()
     }
     
