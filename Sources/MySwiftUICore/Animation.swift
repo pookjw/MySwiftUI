@@ -1433,3 +1433,67 @@ func combineAnimation<Value : VectorArithmetic>(
 ) {
     assertUnimplemented()
 }
+
+extension View {
+    @inlinable nonisolated public func animation<V>(_ animation: Animation?, value: V) -> some View where V : Equatable {
+        return modifier(_AnimationModifier(animation: animation, value: value))
+    }
+}
+
+//extension View {
+//    @available(iOS, introduced: 13.0, deprecated: 15.0, message: "Use withAnimation or animation(_:value:) instead.")
+//    @available(macOS, introduced: 10.15, deprecated: 12.0, message: "Use withAnimation or animation(_:value:) instead.")
+//    @available(tvOS, introduced: 13.0, deprecated: 15.0, message: "Use withAnimation or animation(_:value:) instead.")
+//    @available(watchOS, introduced: 6.0, deprecated: 8.0, message: "Use withAnimation or animation(_:value:) instead.")
+//    @available(visionOS, introduced: 1.0, deprecated: 1.0, message: "Use withAnimation or animation(_:value:) instead.")
+//    @_disfavoredOverload @inlinable nonisolated public func animation(_ animation: Animation?) -> some View {
+//        return transaction { t in
+//            if !t.disablesAnimations {
+//                t.animation = animation
+//            }
+//        }
+//    }
+//}
+//
+//extension ViewModifier {
+//    @inlinable @MainActor @preconcurrency public func animation(_ animation: Animation?) -> some ViewModifier {
+//        return transaction { t in
+//            if !t.disablesAnimations {
+//                t.animation = animation
+//            }
+//        }
+//    }
+//}
+
+@frozen public struct _AnimationModifier<Value> : ViewModifier where Value : Equatable {
+    @safe public nonisolated(unsafe) var animation: Animation?
+    @safe public nonisolated(unsafe) var value: Value
+    
+    @inlinable public nonisolated /* nonisolated는 원래 없음 */ init(animation: Animation?, value: Value) {
+        self.animation = animation
+        self.value = value
+    }
+    
+    nonisolated public static func _makeView(modifier: _GraphValue<_AnimationModifier<Value>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs{
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _makeViewList(modifier: _GraphValue<_AnimationModifier<Value>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    
+    public typealias Body = Swift.Never
+}
+
+@available(*, unavailable)
+extension _AnimationModifier : Sendable {
+}
+
+extension _AnimationModifier : PrimitiveViewModifier {}
+
+extension _AnimationModifier : Equatable {
+    public static func == (a: _AnimationModifier<Value>, b: _AnimationModifier<Value>) -> Bool {
+        assertUnimplemented()
+    }
+}
