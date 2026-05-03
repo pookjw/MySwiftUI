@@ -126,18 +126,6 @@ extension Transaction {
         }
     }
     
-    package var disablesAnimations: Bool {
-        get {
-            assertUnimplemented()
-        }
-        nonmutating set {
-            assertUnimplemented()
-        }
-        nonmutating _modify {
-            assertUnimplemented()
-        }
-    }
-    
     package func addAnimationListener(allFinished: () -> Void) {
         assertUnimplemented()
     }

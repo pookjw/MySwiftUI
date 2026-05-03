@@ -1,0 +1,107 @@
+extension View {
+    @inlinable nonisolated public func transaction(_ transform: @escaping (inout Transaction) -> Void) -> some View {
+        modifier(_TransactionModifier(transform: transform))
+    }
+    
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    @_alwaysEmitIntoClient nonisolated public func transaction(value: some Equatable, _ transform: @escaping (inout Transaction) -> Void) -> some View {
+        modifier(_ValueTransactionModifier(value: value, transform: transform))
+    }
+    
+    @available(iOS, introduced: 13.0, deprecated: 15.0, message: "Use withAnimation or animation(_:value:) instead.")
+    @available(macOS, introduced: 10.15, deprecated: 12.0, message: "Use withAnimation or animation(_:value:) instead.")
+    @available(tvOS, introduced: 13.0, deprecated: 15.0, message: "Use withAnimation or animation(_:value:) instead.")
+    @available(watchOS, introduced: 6.0, deprecated: 8.0, message: "Use withAnimation or animation(_:value:) instead.")
+    @available(visionOS, introduced: 1.0, deprecated: 1.0, message: "Use withAnimation or animation(_:value:) instead.")
+    @_disfavoredOverload @inlinable nonisolated public func animation(_ animation: Animation?) -> some View {
+        return transaction { t in
+            if !t.disablesAnimations {
+                t.animation = animation
+            }
+        }
+    }
+}
+
+extension ViewModifier {
+    @inlinable nonisolated public func transaction(_ transform: @escaping (inout Transaction) -> Void) -> some ViewModifier {
+        return _PushPopTransactionModifier(content: self, transform: transform)
+    }
+    
+    @inlinable @MainActor @preconcurrency public func animation(_ animation: Animation?) -> some ViewModifier {
+        return transaction { t in
+            if !t.disablesAnimations {
+                t.animation = animation
+            }
+        }
+    }
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+extension View {
+    nonisolated public func transaction<V>(_ transform: @escaping (inout Transaction) -> Void, @ViewBuilder body: (PlaceholderContentView<Self>) -> V) -> some View where V : View {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func animation<V>(_ animation: Animation?, @ViewBuilder body: (PlaceholderContentView<Self>) -> V) -> some View where V : View {
+        assertUnimplemented()
+    }
+}
+
+@frozen public struct _TransactionModifier : ViewModifier, _GraphInputsModifier {
+    @safe public nonisolated(unsafe) var transform: (inout Transaction) -> Void
+    
+    @inlinable public nonisolated init(transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+        self.transform = transform
+    }
+    
+    public static func _makeInputs(modifier: _GraphValue<_TransactionModifier>, inputs: inout _GraphInputs) {
+        assertUnimplemented()
+    }
+    
+    public typealias Body = Never
+}
+
+@available(*, unavailable)
+extension _TransactionModifier : Sendable {
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+@frozen public struct _ValueTransactionModifier<Value> : ViewModifier, _GraphInputsModifier where Value : Equatable {
+    @safe public nonisolated(unsafe) var value: Value
+    @safe public nonisolated(unsafe) var transform: (inout Transaction) -> Void
+    
+    @inlinable public nonisolated init(value: Value, transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+        self.value = value
+        self.transform = transform
+    }
+    
+    public static func _makeInputs(modifier: _GraphValue<_ValueTransactionModifier<Value>>, inputs: inout _GraphInputs) {
+        assertUnimplemented()
+    }
+    
+    public typealias Body = Never
+}
+
+@available(*, unavailable)
+extension _ValueTransactionModifier : Sendable {
+}
+
+@frozen public struct _PushPopTransactionModifier<Content> : ViewModifier where Content : ViewModifier {
+    @safe public nonisolated(unsafe) var content: Content
+    @safe public nonisolated(unsafe) var base: _TransactionModifier
+    
+    @inlinable public nonisolated init(content: Content, transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+        self.content = content
+        base = .init(transform: transform)
+    }
+    
+    nonisolated public static func _makeView(modifier: _GraphValue<_PushPopTransactionModifier<Content>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    public typealias Body = Never
+}
+
+@available(*, unavailable)
+extension _PushPopTransactionModifier : Sendable {
+}

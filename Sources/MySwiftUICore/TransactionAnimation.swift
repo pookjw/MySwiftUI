@@ -60,6 +60,15 @@ extension Transaction {
             yield &self.animationReason
         }
     }
+    
+    public var disablesAnimations: Bool {
+        get {
+            return self[DisablesAnimationsKey.self]
+        }
+        set {
+            self[DisablesAnimationsKey.self] = newValue
+        }
+    }
 }
 
 fileprivate struct AnimationKey : TransactionKey {
@@ -88,6 +97,16 @@ fileprivate struct AnimationReasonKey : TransactionKey {
     }
     
     static func _valuesEqual(_ lhs: UInt32?, _ rhs: UInt32?) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct DisablesAnimationsKey : TransactionKey {
+    static var defaultValue: Bool {
+        return false
+    }
+    
+    static func _valuesEqual(_ lhs: Bool, _ rhs: Bool) -> Bool {
         assertUnimplemented()
     }
 }

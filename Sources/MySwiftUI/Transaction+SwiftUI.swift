@@ -7,7 +7,7 @@ private import _QuartzCorePrivate
 extension Transaction {
     @MainActor static func currentUIViewTransaction(canDisableAnimations: Bool) -> Transaction? {
         if canDisableAnimations, !UIView.areAnimationsEnabled {
-            let transaction = Transaction()
+            var transaction = Transaction()
             transaction.disablesAnimations = true
             return transaction
         }

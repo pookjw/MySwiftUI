@@ -1,8 +1,8 @@
 //
-//  WithAnimationViewController.swift
+//  AnimationModifierViewController.swift
 //  NativePlayground
 //
-//  Created by Jinwoo Kim on 4/25/26.
+//  Created by Jinwoo Kim on 5/3/26.
 //
 
 import UIKit
@@ -20,23 +20,21 @@ fileprivate struct MyView : View {
             Color.black
                 .frame(width: 100, height: 100)
                 .offset(x: x)
+                .animation(.default, value: x)
         }
+//        .animation(.default, value: x)
     }
     
     private func move() {
-        withAnimation(completionCriteria: .removed) {
-            if x == 0 {
-                x = 100
-            } else {
-                x = 0
-            }
-        } completion: {
-            print("completion")
+        if x == 0 {
+            x = 300
+        } else {
+            x = 0
         }
     }
 }
 
-final class WithAnimationViewController : UIViewController {
+final class AnimationModifierViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {
