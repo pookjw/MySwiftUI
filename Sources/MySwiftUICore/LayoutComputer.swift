@@ -124,7 +124,7 @@ protocol LayoutEngine {
     mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize
     mutating func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat
     mutating func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry]
-    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat?
+    mutating func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat?
     mutating func childPlacement(at viewSize: ViewSize) -> _Placement
     func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement
     mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat

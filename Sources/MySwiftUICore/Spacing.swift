@@ -107,8 +107,52 @@ package struct Spacing : Equatable, CustomStringConvertible {
         }
         
         // self -> x20 -> x19
-        // set -> w27 -> sp + 0x24
-        assertUnimplemented()
+        // set -> w27
+        // sp + 0x24
+        var remaining = set
+        
+        for (key, _) in self.minima {
+            guard set.contains(key.edge) else {
+                continue
+            }
+            
+            if key == Spacing.Key(category: .edgeBelowText, edge: .top) {
+                self.minima[key] = Spacing.Value(0)
+                remaining.remove(.top)
+            } else if key == Spacing.Key(category: .edgeAboveText, edge: .bottom) {
+                self.minima[key] = Spacing.Value(0)
+                remaining.remove(.bottom)
+            } else if key == Spacing.Key(category: .edgeRightText, edge: .left) {
+                self.minima[key] = Spacing.Value(0)
+                remaining.remove(.left)
+            } else if key == Spacing.Key(category: .edgeLeftText, edge: .right) {
+                self.minima[key] = Spacing.Value(0)
+                remaining.remove(.right)
+            } else {
+                self.minima.removeValue(forKey: key)
+            }
+        }
+        
+        // <+1184>
+        for s in AbsoluteEdge.allCases {
+            guard remaining.contains(s) else {
+                continue
+            }
+            
+            let key: Spacing.Key
+            switch s {
+            case .top:
+                key = Spacing.Key(category: .edgeBelowText, edge: .top)
+            case .bottom:
+                key = Spacing.Key(category: .edgeAboveText, edge: .bottom)
+            case .left:
+                key = Spacing.Key(category: .edgeRightText, edge: .left)
+            case .right:
+                key = Spacing.Key(category: .edgeLeftText, edge: .right)
+            }
+            
+            self.minima[key] = Spacing.Value(0)
+        }
     }
     
     fileprivate func _distance(from: AbsoluteEdge, to: AbsoluteEdge, ofViewPreferring preferring: Spacing) -> CGFloat? {

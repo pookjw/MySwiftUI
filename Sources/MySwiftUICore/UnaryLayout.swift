@@ -219,7 +219,7 @@ fileprivate struct UnaryLayoutEngine<T : UnaryLayout> : LayoutEngine where T.Pla
     }
     
     func layoutPriority() -> Double {
-        assertUnimplemented()
+        return 0
     }
     
     func ignoresAutomaticPadding() -> Bool {
@@ -248,8 +248,42 @@ fileprivate struct UnaryLayoutEngine<T : UnaryLayout> : LayoutEngine where T.Pla
         }
     }
     
-    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-        assertUnimplemented()
+    mutating func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        /*
+         self -> x20 -> x21
+         alignmentKey -> x0 -> x19
+         viewSize -> x1 -> sp + 0x10
+         */
+        // sp + 0x30
+        let placement = self.childPlacement(at: viewSize)
+        let d10 = placement.anchor.x
+        let d9 = placement.anchor.y
+        let d8 = placement.anchorPosition.x
+        let d11 = placement.anchorPosition.y
+        // placement -> sp + 0x30 -> sp + 0x10
+        // sp + 0x30
+        let dimensions = self.child.dimensions(in: placement.proposedSize_)
+        let d12 = dimensions.width
+        let sp = dimensions.height
+        // <+132>
+        let alignment = self.child.explicitAlignment(alignmentKey, at: dimensions.size)
+        
+        guard let alignment else {
+            return nil
+        }
+        
+        var d0 = alignment
+        var d1 = d10 * d12
+        var d2 = d9 * sp
+        d2 = d11 - d2
+        d1 = d8 - d1
+        
+        if alignmentKey.axis == .vertical {
+            d1 = d2
+        }
+        
+        d0 = d1 + d0
+        return d0
     }
     
     mutating func childPlacement(at viewSize: ViewSize) -> _Placement {
