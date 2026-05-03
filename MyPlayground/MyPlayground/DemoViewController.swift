@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.animationModifierView
+        let item = DemoViewController.Item.transactionModifierView
         pushToItem(item)
         
 //        Task {
@@ -118,6 +118,7 @@ extension DemoViewController {
         case offsetView
         case withAnimationView
         case animationModifierView
+        case transactionModifierView
         case hostingViewController
         case viewRepresentable
         case viewControllerRepresentable
@@ -195,6 +196,8 @@ extension DemoViewController {
                 return _typeName(WithAnimationViewController.self, qualified: false)
             case .animationModifierView:
                 return _typeName(AnimationModifierViewController.self, qualified: false)
+            case .transactionModifierView:
+                return _typeName(TransactionModifierViewController.self, qualified: false)
             case .hostingViewController:
                 return _typeName(HostingViewController.self, qualified: false)
             case .viewRepresentable:
@@ -284,6 +287,8 @@ extension DemoViewController {
                 return WithAnimationViewController()
             case .animationModifierView:
                 return AnimationModifierViewController()
+            case .transactionModifierView:
+                return TransactionModifierViewController()
             case .hostingViewController:
                 return HostingViewController()
             case .viewRepresentable:

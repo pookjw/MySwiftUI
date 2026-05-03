@@ -1,12 +1,16 @@
 //
-//  AnimationModifierViewController.swift
-//  NativePlayground
+//  TransactionModifierViewController.swift
+//  MyPlayground
 //
-//  Created by Jinwoo Kim on 5/3/26.
+//  Created by Jinwoo Kim on 5/4/26.
 //
 
 import UIKit
+#if USE_ORIGINAL_SWIFTUI
 import SwiftUI
+#else
+import MySwiftUI
+#endif
 
 fileprivate struct MyView : View {
     @State private var x: CGFloat = 0
@@ -20,9 +24,9 @@ fileprivate struct MyView : View {
             Color.black
                 .frame(width: 100, height: 100)
                 .offset(x: x)
-                .animation(.default, value: x)
+                .animation(.default)
         }
-//        .animation(.default, value: x)
+//        .animation(.default)
     }
     
     private func move() {
@@ -34,7 +38,7 @@ fileprivate struct MyView : View {
     }
 }
 
-final class AnimationModifierViewController : UIViewController {
+final class TransactionModifierViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

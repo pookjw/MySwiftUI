@@ -1,3 +1,6 @@
+// A1B10B5AB036C34AB7DD2EE8825FCA93
+internal import AttributeGraph
+
 extension View {
     @inlinable nonisolated public func transaction(_ transform: @escaping (inout Transaction) -> Void) -> some View {
         modifier(_TransactionModifier(transform: transform))
@@ -55,7 +58,8 @@ extension View {
     }
     
     public static func _makeInputs(modifier: _GraphValue<_TransactionModifier>, inputs: inout _GraphInputs) {
-        assertUnimplemented()
+        let childTransaction = ChildTransaction(modifier: modifier.value, transaction: inputs.transaction)
+        inputs.transaction = Attribute(childTransaction)
     }
     
     public typealias Body = Never
@@ -64,6 +68,8 @@ extension View {
 @available(*, unavailable)
 extension _TransactionModifier : Sendable {
 }
+
+extension _TransactionModifier : PrimitiveViewModifier {}
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 @frozen public struct _ValueTransactionModifier<Value> : ViewModifier, _GraphInputsModifier where Value : Equatable {
@@ -86,6 +92,8 @@ extension _TransactionModifier : Sendable {
 extension _ValueTransactionModifier : Sendable {
 }
 
+extension _ValueTransactionModifier : PrimitiveViewModifier {}
+
 @frozen public struct _PushPopTransactionModifier<Content> : ViewModifier where Content : ViewModifier {
     @safe public nonisolated(unsafe) var content: Content
     @safe public nonisolated(unsafe) var base: _TransactionModifier
@@ -104,4 +112,65 @@ extension _ValueTransactionModifier : Sendable {
 
 @available(*, unavailable)
 extension _PushPopTransactionModifier : Sendable {
+}
+
+extension _PushPopTransactionModifier : MultiViewModifier, PrimitiveViewModifier {}
+
+extension _ViewInputs {
+    var savedTransactions: [Attribute<Transaction>] {
+        get {
+            return base.savedTransactions
+        }
+        set {
+            base.savedTransactions = newValue
+        }
+        _modify {
+            yield &base.savedTransactions
+        }
+    }
+}
+
+extension _GraphInputs {
+    var savedTransactions: [Attribute<Transaction>] {
+        get {
+            return self[SavedTransactionKey.self]
+        }
+        set {
+            self[SavedTransactionKey.self] = newValue
+        }
+        _modify {
+            yield &self[SavedTransactionKey.self]
+        }
+    }
+    
+    fileprivate struct SavedTransactionKey : ViewInput {
+        static let defaultValue: [Attribute<Transaction>] = [] 
+    }
+}
+
+fileprivate struct ChildTransaction : Rule, AsyncAttribute {
+    @Attribute private(set) var modifier: _TransactionModifier
+    @Attribute private(set) var transaction: Transaction
+    
+    var value: Transaction {
+        // <+480>
+        // x29 - 0x68
+        let transaction = self.transaction
+        /*
+         modifier attribute -> w20
+         transaction attribute -> w25
+         */
+        // modifier -> x29 - 0x110, x29 - 0x100
+        let (modifier, modifierChanged) = self.$modifier.changedValue(options: .unknown1)
+        
+        if !modifierChanged {
+            // <+568>
+            assertUnimplemented()
+        } else {
+            // <+1016>
+            assertUnimplemented()
+        }
+        
+        assertUnimplemented()
+    }
 }

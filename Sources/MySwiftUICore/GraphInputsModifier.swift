@@ -29,7 +29,9 @@ extension ViewModifier where Self : _GraphInputsModifier, Body == Never {
     }
     
     nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        var copy = inputs
+        Self._makeInputs(modifier: modifier, inputs: &copy.base)
+        return body(_Graph(), copy)
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
