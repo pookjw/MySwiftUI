@@ -1,5 +1,7 @@
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public struct ForEachSectionCollection<Content> : RandomAccessCollection where Content : View {
+    var substituteView: AnyView
+    
     public var startIndex: Int {
         assertUnimplemented()
     }
@@ -37,6 +39,14 @@ extension ForEach {
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension ForEach {
     public init<V>(subviews view: V, @ViewBuilder content: @escaping (Subview) -> Content) where Data == ForEachSubviewCollection<Content>, ID == Subview.ID, Content : View, V : View {
-        assertUnimplemented()
+        /*
+         view -> x0 -> x20
+         content -> x1/x2 -> x23/x22
+         */
+        // x27
+        let copy_1 = view
+        // x29 - 0x58
+        let collection = ForEachSubviewCollection(elementOf: copy_1, content: content)
+        self.init(collection, idGenerator: .keyPath(\Subview.id), content: content)
     }
 }

@@ -1,5 +1,17 @@
+internal import AttributeGraph
+
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public struct SubviewsCollection : RandomAccessCollection {
+    private var base: _VariadicView_Children
+    
+    init(_ base: _VariadicView_Children) {
+        self.base = base
+    }
+    
+    init(list: ViewList, contentSubgraph: Subgraph, transform: _ViewList_SublistTransform) {
+        assertUnimplemented()
+    }
+    
     public func index(before i: Int) -> Int {
         assertUnimplemented()
     }
@@ -71,3 +83,11 @@ public struct SubviewsCollectionSlice : RandomAccessCollection {
 
 @available(*, unavailable)
 extension SubviewsCollectionSlice : Sendable {}
+
+struct SubviewsRoot<Content : View> : _VariadicView_MultiViewRoot {
+    let content: (SubviewsCollection) -> Content
+    
+    func body(children: _VariadicView.Children) -> some View {
+        content(SubviewsCollection(children))
+    }
+}

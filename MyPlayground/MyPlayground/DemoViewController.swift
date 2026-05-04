@@ -121,6 +121,7 @@ extension DemoViewController {
         case transactionModifierView
         case groupView
         case subviewsView
+        case containerValueView
         case hostingViewController
         case viewRepresentable
         case viewControllerRepresentable
@@ -204,6 +205,8 @@ extension DemoViewController {
                 return _typeName(GroupViewController.self, qualified: false)
             case .subviewsView:
                 return _typeName(SubviewsViewController.self, qualified: false)
+            case .containerValueView:
+                return _typeName(ContainerValueViewController.self, qualified: false)
             case .hostingViewController:
                 return _typeName(HostingViewController.self, qualified: false)
             case .viewRepresentable:
@@ -299,6 +302,8 @@ extension DemoViewController {
                 return GroupViewController()
             case .subviewsView:
                 return SubviewsViewController()
+            case .containerValueView:
+                return ContainerValueViewController()
             case .hostingViewController:
                 return HostingViewController()
             case .viewRepresentable:

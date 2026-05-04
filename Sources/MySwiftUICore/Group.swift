@@ -46,8 +46,33 @@ extension Group {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public struct GroupElementsOfContent<Subviews, Content> : View where Subviews : View, Content : View {
+    @safe private nonisolated(unsafe) let storage: GroupElementsOfContent<Subviews, Content>.Storage
+    @safe private nonisolated(unsafe) let content: (SubviewsCollection) -> Content
+    
+    nonisolated init(subviews: Subviews, content: @escaping (SubviewsCollection) -> Content) {
+        if let collection = subviews as? SubviewsCollection {
+            self.storage = .subviewsCollection(collection)
+        } else {
+            self.storage = .view(subviews)
+        }
+        
+        self.content = content
+    }
+    
     @MainActor @preconcurrency public var body: some View {
-        assertUnimplemented()
+        switch storage {
+        case .subviewsCollection(let collection):
+            content(collection)
+        case .view(let subviews):
+            _VariadicView.Tree(root: SubviewsRoot(content: content), content: subviews)
+        }
+    }
+}
+
+extension GroupElementsOfContent {
+    enum Storage {
+        case subviewsCollection(SubviewsCollection)
+        case view(Subviews)
     }
 }
 

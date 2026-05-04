@@ -156,18 +156,24 @@ extension ForEach : DynamicViewContent where Content : View {}
 
 extension ForEach where Content : View {
     static func makeForEachView(view: _GraphValue<ForEach<Data, ID, Content>>, inputs: _ViewInputs) -> _ViewOutputs? {
-        if let _ = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>> {
+        if let casted = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>> {
             // <+288>
-            assertUnimplemented()
-        } else if let _ = view as? _GraphValue<ForEach<ForEachSectionCollection<Content>, SectionConfiguration.ID, Content>> {
+            let value = casted[{ (value: inout ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>) -> PointerOffset<ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>, AnyView> in
+                return .of(&value.data.substituteView)
+            }]
+            
+            return AnyView.makeDebuggableView(view: value, inputs: inputs)
+        } else if let casted = view as? _GraphValue<ForEach<ForEachSectionCollection<Content>, SectionConfiguration.ID, Content>> {
             // <+484>
-            assertUnimplemented()
+            let value = casted[{ (value: inout ForEach<ForEachSectionCollection<Content>, SectionConfiguration.ID, Content>) -> PointerOffset<ForEach<ForEachSectionCollection<Content>, SectionConfiguration.ID, Content>, AnyView> in
+                return .of(&value.data.substituteView)
+            }]
+            
+            return AnyView.makeDebuggableView(view: value, inputs: inputs)
         } else {
+            // <+768>
             return nil
         }
-        
-        // <+544>
-        assertUnimplemented()
     }
 }
 

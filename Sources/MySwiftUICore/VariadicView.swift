@@ -179,6 +179,9 @@ public protocol _VariadicView_MultiViewRoot : _VariadicView_ViewRoot {
 }
 
 public struct _VariadicView_Children {
+    private var list: ViewList
+    private var contentSubgraph: Subgraph
+    private var transform: _ViewList_SublistTransform
 }
 
 extension _VariadicView_Children : View, MultiView, PrimitiveView {
@@ -195,6 +198,9 @@ extension _VariadicView_Children : View, MultiView, PrimitiveView {
 
 extension _VariadicView_Children : RandomAccessCollection {
     public struct Element : View, UnaryView, PrimitiveView, Identifiable {
+        var view: _ViewList_View
+        var traits: ViewTraitCollection
+        
         public var id: AnyHashable {
             assertUnimplemented()
         }
