@@ -1,40 +1,27 @@
 //
-//  TransactionModifierViewController.swift
-//  NativePlayground
+//  GroupViewController.swift
+//  MyPlayground
 //
 //  Created by Jinwoo Kim on 5/4/26.
 //
 
 import UIKit
+#if USE_ORIGINAL_SWIFTUI
 import SwiftUI
+#else
+import MySwiftUI
+#endif
 
 fileprivate struct MyView : View {
-    @State private var x: CGFloat = 0
-    
     var body: some View {
-        _VStackLayout {
-            MyButton(title: "Move") { 
-                move()
-            }
-            
+        Group {
             Color.black
-                .frame(width: 100, height: 100)
-                .offset(x: x)
-                .animation(.default)
-        }
-//        .animation(.default)
-    }
-    
-    private func move() {
-        if x == 0 {
-            x = 300
-        } else {
-            x = 0
+            Color.white
         }
     }
 }
 
-final class TransactionModifierViewController : UIViewController {
+final class GroupViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

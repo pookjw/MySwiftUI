@@ -64,7 +64,21 @@ extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        /*
+         view -> x0 -> w28
+         */
+        // sp + 0x50
+        var copy_1 = inputs
+        // x20
+        let listOptions = Root._viewListOptions
+        copy_1.base[ViewListOptionsInput.self] = listOptions
+        
+        // <+140>
+        return Root._makeViewList(root: view[{ .of(&$0.root)} ], inputs: copy_1) { graph, inputs in
+            // $s7SwiftUI13_VariadicViewO4TreeVA2A01_cd1_D4RootRzAA0D0R_rlE05_makeD4List4view6inputsAA01_dH7OutputsVAA11_GraphValueVyAEy_xq_GG_AA01_dH6InputsVtFZAlA01_L0V_ARtcfU0_TA
+            let content = view[{ .of(&$0.content) }]
+            return Content.makeDebuggableViewList(view: content, inputs: inputs)
+        }
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
@@ -72,7 +86,7 @@ extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content
     }
 }
 
-extension _VariadicView.Tree : PrimitiveView where Root : _VariadicView_ViewRoot, Content : View {}
+extension _VariadicView.Tree : PrimitiveView, UnaryView where Root : _VariadicView_ViewRoot, Content : View {}
 
 @available(*, unavailable)
 extension _VariadicView.Tree : Sendable {
@@ -113,15 +127,48 @@ extension _VariadicView_ViewRoot where Self.Body == Never {
 
 extension _VariadicView_ViewRoot {
     nonisolated public static func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        return self.makeView(root: root, inputs: inputs, body: body)
     }
     
     nonisolated public static func _makeViewList(root: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        /*
+         root -> x0 -> w28
+         inputs -> x1 -> x27
+         */
+        // sp + 0xd8
+        let outputs_1 = body(_Graph(), inputs)
+        // x21
+        let copy_1 = inputs
+        // sp + 0x50
+        var copy_2 = copy_1
+        // w20
+        let listAttribute = outputs_1.makeAttribute(inputs: copy_2)
+        let fields = DynamicPropertyCache.fields(of: Self.self)
+        let (body, buffer) = self.makeBody(root: root, list: listAttribute, inputs: &copy_2.base, fields: fields)
+        let outputs_2 = Self.Body.makeDebuggableViewList(view: body, inputs: copy_2)
+        
+        if let buffer {
+            buffer.traceMountedProperties(to: body, fields: fields)
+        }
+        
+        return outputs_2
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
+    }
+    
+    nonisolated static func makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated fileprivate static func makeBody(root: _GraphValue<Self>, list: Attribute<ViewList>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
+        precondition(
+            TypeID(Self.self).isValueType,
+            "view roots must be value types (either a struct or an enum); \(_typeName(Self.self, qualified: false))"
+        )
+        
+        return unsafe ViewRootBodyAccessor<Self>(list: list, contentSubgraph: .current!).makeBody(container: root, inputs: &inputs, fields: fields)
     }
 }
 
@@ -300,5 +347,17 @@ extension _ViewInputs {
 struct ViewListOptionsInput : ViewInput {
     static var defaultValue: Int {
         return 0
+    }
+}
+
+fileprivate struct ViewRootBodyAccessor<Root : _VariadicView_ViewRoot> : BodyAccessor {
+    typealias Body = Root.Body
+    typealias Container = Root
+    
+    @Attribute private(set) var list: ViewList
+    private(set) var contentSubgraph: Subgraph
+    
+    func updateBody(of container: Root, changed: Bool) {
+        assertUnimplemented()
     }
 }

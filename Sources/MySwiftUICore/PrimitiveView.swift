@@ -1,5 +1,4 @@
 package protocol PrimitiveView : View {
-    
 }
 
 extension PrimitiveView {
