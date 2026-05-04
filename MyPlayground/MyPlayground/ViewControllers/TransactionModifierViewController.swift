@@ -24,7 +24,10 @@ fileprivate struct MyView : View {
             Color.black
                 .frame(width: 100, height: 100)
                 .offset(x: x)
-                .animation(.default)
+//                .animation(.default)
+                .transaction { transaction in
+                    transaction.animation = .default
+                }
         }
 //        .animation(.default)
     }

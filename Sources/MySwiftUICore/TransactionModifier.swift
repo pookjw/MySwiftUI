@@ -155,22 +155,34 @@ fileprivate struct ChildTransaction : Rule, AsyncAttribute {
     var value: Transaction {
         // <+480>
         // x29 - 0x68
-        let transaction = self.transaction
+        var transaction = self.transaction
         /*
          modifier attribute -> w20
          transaction attribute -> w25
          */
         // modifier -> x29 - 0x110, x29 - 0x100
-        let (modifier, modifierChanged) = self.$modifier.changedValue(options: .unknown1)
+        let (modifier, flags) = self.$modifier.valueAndFlags(options: .unknown1)
         
-        if !modifierChanged {
+        if !flags.contains(.requiresMainThread) {
             // <+568>
-            assertUnimplemented()
+            ObservationCenter.current._withObservation(attribute: Attribute<Transaction>(identifier: .current!)) {
+                modifier.transform(&transaction)
+            }
+            
+            return transaction
         } else {
             // <+1016>
-            assertUnimplemented()
+            // inlined
+            // UncheckedSendable은 원래 없음
+            var unchecked = UncheckedSendable(transaction)
+            Update.syncMain {
+                ObservationCenter.current._withObservation(attribute: Attribute<Transaction>(identifier: .current!)) {
+                    modifier.transform(&unchecked.value)
+                }
+            }
+            
+            // <+2632>
+            return unchecked.value
         }
-        
-        assertUnimplemented()
     }
 }

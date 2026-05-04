@@ -7,7 +7,7 @@ private import Foundation
 
 public struct Animation : Equatable, Sendable {
     public static func == (lhs: Animation, rhs: Animation) -> Bool {
-        assertUnimplemented()
+        return lhs.box.isEqual(to: rhs.box)
     }
     
     @safe nonisolated(unsafe) private var box: AnimationBoxBase
@@ -1116,7 +1116,7 @@ class AnimationBoxBase {
         preconditionFailure() // abstract
     }
     
-    func isEqual(to: AnimationBoxBase) -> Bool {
+    func isEqual(to other: AnimationBoxBase) -> Bool {
         preconditionFailure() // abstract
     }
     
@@ -1183,8 +1183,16 @@ fileprivate class AnimationBox<T : CustomAnimation>: AnimationBoxBase {
         assertUnimplemented()
     }
     
-    override func isEqual(to: AnimationBoxBase) -> Bool {
-        assertUnimplemented()
+    override func isEqual(to other: AnimationBoxBase) -> Bool {
+        /*
+         self -> x20 -> x19
+         other -> x0 -> x21
+         */
+        let casted = other as? AnimationBox<T>
+        return casted.map { other in
+            // $s7SwiftUI12AnimationBox33_4FD7A1D5440B1394D12A74675615ED20LLC7isEqual2toSbAA0cD4BaseC_tFSbADyxGXEfU_TA
+            return other._base == self._base
+        } ?? false
     }
 }
 

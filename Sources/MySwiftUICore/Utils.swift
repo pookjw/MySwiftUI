@@ -7,6 +7,11 @@ package func assertUnimplemented(message: String? = nil, file: StaticString = #f
     }
 }
 
+@_transparent
+package func _v_assertUnimplemented(message: String? = nil, file: StaticString = #file, line: UInt = #line) {
+    assertUnimplemented(message: message, file: file, line: line)
+}
+
 public func _assertUnimplemented(message: String? = nil) -> Never {
     assertUnimplemented()
 }
