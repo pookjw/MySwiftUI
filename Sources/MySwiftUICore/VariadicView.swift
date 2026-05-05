@@ -1,5 +1,5 @@
 // DC167C463E6601B3880A23A75ACAA63B
-private import AttributeGraph
+internal import AttributeGraph
 
 public enum _VariadicView {
     public typealias Root = _VariadicView_Root
@@ -178,10 +178,10 @@ public protocol _VariadicView_UnaryViewRoot : _VariadicView_ViewRoot {
 public protocol _VariadicView_MultiViewRoot : _VariadicView_ViewRoot {
 }
 
-public struct _VariadicView_Children {
-    private var list: ViewList
-    private var contentSubgraph: Subgraph
-    private var transform: _ViewList_SublistTransform
+public struct _VariadicView_Children : @unchecked Sendable {
+    private(set) var list: ViewList
+    private(set) var contentSubgraph: Subgraph
+    private(set) var transform: _ViewList_SublistTransform
 }
 
 extension _VariadicView_Children : View, MultiView, PrimitiveView {
@@ -364,6 +364,33 @@ fileprivate struct ViewRootBodyAccessor<Root : _VariadicView_ViewRoot> : BodyAcc
     private(set) var contentSubgraph: Subgraph
     
     func updateBody(of container: Root, changed: Bool) {
-        assertUnimplemented()
+        /*
+         container -> x0 -> x21
+         changed -> w1 -> w23
+         */
+        // (x29 - 0x88, x25)
+        let (list, listChanged) = self.$list.changedValue(options: [])
+        
+        guard changed || listChanged else {
+            return
+        }
+        
+        // <+428>
+        let contentSubgraph = self.contentSubgraph
+        let transform = _ViewList_SublistTransform(items: [], subgraphCount: 0)
+        // x19 + 0x50
+        let unchecked = UncheckedSendable(container)
+        let children = _VariadicView_Children(list: list, contentSubgraph: contentSubgraph, transform: transform)
+        
+        setBody {
+            // $s7SwiftUI20ViewRootBodyAccessor33_DC167C463E6601B3880A23A75ACAA63BLLV06updateE02of7changedyx_SbtF0E0QzyXEfU_
+            let body = MainActor.assumeIsolated {
+                // $s7SwiftUI20ViewRootBodyAccessor33_DC167C463E6601B3880A23A75ACAA63BLLV06updateE02of7changedyx_SbtF0E0QzyXEfU_AA17UncheckedSendableVyAIGyScMYcXEfU_
+                let body = unchecked.value.body(children: children)
+                return UncheckedSendable(body)
+            }
+            
+            return body.value
+        }
     }
 }

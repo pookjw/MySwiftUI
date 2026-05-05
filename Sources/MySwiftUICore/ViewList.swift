@@ -1271,8 +1271,8 @@ extension _ViewList_TemporarySublistTransform {
 }
 
 struct _ViewList_SublistTransform {
-    private var items: [any _ViewList_SublistTransform_Item]
-    private var subgraphCount: Int
+    private(set) var items: [any _ViewList_SublistTransform_Item]
+    private(set) var subgraphCount: Int
 }
 
 protocol _ViewList_SublistTransform_Item {
