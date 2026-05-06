@@ -18,6 +18,10 @@ public struct Subview : View, Identifiable {
             assertUnimplemented()
         }
     }
+    
+    init(_ base: _VariadicView_Children.Element) {
+        self.base = base
+    }
 
     public nonisolated var id: Subview.ID { // nonisolated는 원래 없음
         assertUnimplemented()

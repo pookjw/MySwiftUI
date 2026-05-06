@@ -2,10 +2,12 @@
 public struct ForEachSubviewCollection<Content> : RandomAccessCollection where Content : View {
     var substituteView: AnyView
     
-    nonisolated init<T: View>(elementOf subviews: T, content: (Subview) -> Content) {
-        let groupContent = GroupElementsOfContent<T, Content>(subviews: subviews) { collection in
+    nonisolated init<T: View>(elementOf subviews: T, content: @escaping (Subview) -> Content) {
+        let groupContent = GroupElementsOfContent<T, ForEach<SubviewsCollection, Subview.ID, Content>>(subviews: subviews) { collection in
             // $s7SwiftUI24ForEachSubviewCollectionV9elementOf7contentACyxGqd___xAA0E0VctcAA4ViewRd__lufcAA0cD0VyAA08SubviewsF0VAH2IDVxGAMcfU_TA
-            assertUnimplemented()
+            return ForEach(collection) { data in
+                content(data)
+            }
         }
         
         self.substituteView = AnyView(groupContent)
