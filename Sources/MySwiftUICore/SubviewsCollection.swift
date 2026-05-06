@@ -17,11 +17,16 @@ public struct SubviewsCollection : RandomAccessCollection {
     }
 
     public func index(after i: Int) -> Int {
-        assertUnimplemented()
+        return Update.ensure {
+            assert(i >= 0)
+            assert(!(i >= self.base.list.count))
+            return i &+ 1
+        }
     }
 
     public subscript(index: Int) -> Subview {
-        assertUnimplemented()
+        let element = self.base[index]
+        return Subview(element)
     }
 
     public subscript(bounds: Range<Int>) -> SubviewsCollectionSlice {
@@ -29,11 +34,13 @@ public struct SubviewsCollection : RandomAccessCollection {
     }
 
     public var startIndex: Int {
-        assertUnimplemented()
+        return 0
     }
 
     public var endIndex: Int {
-        assertUnimplemented()
+        return Update.ensure { 
+            return self.base.list.count
+        }
     }
 
     @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)

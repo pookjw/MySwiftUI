@@ -112,7 +112,11 @@ package struct _ViewList_ID : Hashable {
     package func hash(into hasher: inout Hasher) {
         hasher.combine(_index)
         hasher.combine(implicitID)
-        assertUnimplemented()
+        
+        for explicitID in explicitIDs {
+            explicitID.id.hash(into: &hasher)
+            hasher.combine(explicitID.owner)
+        }
     }
 }
 
@@ -742,7 +746,7 @@ protocol ViewList {
 
 extension ViewList {
     var count: Int {
-        assertUnimplemented()
+        return self.count(style: _ViewList_IteratorStyle(granularity: 1))
     }
     
     func applyIDs(from index: inout Int, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
@@ -983,7 +987,8 @@ extension BaseViewList : ViewList {
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        let count = self.elements.count
+        return style.applyGranularity(to: count)
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
@@ -1384,7 +1389,16 @@ struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        guard !lists.isEmpty else {
+            return 0
+        }
+        
+        var count = 0
+        for list in lists {
+            count += list.list.estimatedCount(style: style)
+        }
+        
+        return count
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {

@@ -6,17 +6,7 @@ public struct Subview : View, Identifiable {
     private var base: _VariadicView_Children.Element
     
     public struct ID : Hashable {
-        public static func == (a: Subview.ID, b: Subview.ID) -> Bool {
-            assertUnimplemented()
-        }
-
-        public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
-
-        public var hashValue: Int {
-            assertUnimplemented()
-        }
+        fileprivate let base: _ViewList_ID
     }
     
     init(_ base: _VariadicView_Children.Element) {
@@ -24,7 +14,9 @@ public struct Subview : View, Identifiable {
     }
 
     public nonisolated var id: Subview.ID { // nonisolated는 원래 없음
-        assertUnimplemented()
+        return Subview.ID(
+            base: _ViewList_ID(implicitID: Int(base.view.id.implicitID))
+        )
     }
 
     public var containerValues: ContainerValues {

@@ -1,5 +1,6 @@
 // DC167C463E6601B3880A23A75ACAA63B
 internal import AttributeGraph
+private import os.log
 
 public enum _VariadicView {
     public typealias Root = _VariadicView_Root
@@ -179,9 +180,15 @@ public protocol _VariadicView_MultiViewRoot : _VariadicView_ViewRoot {
 }
 
 public struct _VariadicView_Children : @unchecked Sendable {
-    private(set) var list: ViewList
-    private(set) var contentSubgraph: Subgraph
-    private(set) var transform: _ViewList_SublistTransform
+    var list: ViewList
+    var contentSubgraph: Subgraph
+    var transform: _ViewList_SublistTransform
+    
+    init(_ list: ViewList, contentSubgraph: Subgraph, transform: _ViewList_SublistTransform) {
+        self.list = list
+        self.contentSubgraph = contentSubgraph
+        self.transform = transform
+    }
 }
 
 extension _VariadicView_Children : View, MultiView, PrimitiveView {
@@ -198,8 +205,8 @@ extension _VariadicView_Children : View, MultiView, PrimitiveView {
 
 extension _VariadicView_Children : RandomAccessCollection {
     public struct Element : View, UnaryView, PrimitiveView, Identifiable {
-        var view: _ViewList_View
-        var traits: ViewTraitCollection
+        @safe nonisolated(unsafe) var view: _ViewList_View
+        @safe nonisolated(unsafe) var traits: ViewTraitCollection
         
         public var id: AnyHashable {
             assertUnimplemented()
@@ -235,7 +242,60 @@ extension _VariadicView_Children : RandomAccessCollection {
     }
     
     public subscript(index: Int) -> _VariadicView_Children.Element {
-        assertUnimplemented()
+        var element: _VariadicView_Children.Element?
+        
+        Update.ensure { 
+            // $s7SwiftUI22_VariadicView_ChildrenVyAC7ElementVSicigyyXEfU_
+            var index = index
+            self.list.applySublists(from: &index, list: nil) { sublist in
+                // $s7SwiftUI22_VariadicView_ChildrenVyAC7ElementVSicigyyXEfU_SbAA01_D30List_TemporarySublistTransformVXEfU_SbAA01_dg1_I0VXEfU_TA
+                /*
+                 sublist -> x0
+                 self -> x1
+                 element -> x2 -> x19
+                 */
+                if sublist.start >= sublist.count {
+                    return true
+                }
+                
+                let contentSubgraph = self.contentSubgraph
+                let elements = sublist.elements
+                
+                element = _VariadicView_Children.Element(
+                    view: _ViewList_View(
+                        elements: elements,
+                        releaseElements: elements.subgraphs.retain(),
+                        id: sublist.id,
+                        index: sublist.start,
+                        count: sublist.count,
+                        contentSubgraph: contentSubgraph
+                    ),
+                    traits: sublist.traits
+                )
+                
+                return false
+            }
+        }
+        
+        if let element {
+            return element
+        } else {
+            unsafe os_log(.fault, log: Log.internalErrorsLog, "Accessing invalid variadic view child at index %d", index)
+            return _VariadicView_Children.Element(
+                view: _ViewList_View(
+                    elements: _ViewList_SubgraphElements(
+                        base: EmptyViewListElements(),
+                        subgraphs: _ViewList_SublistSubgraphStorage(subgraphs: [])
+                    ),
+                    releaseElements: nil,
+                    id: _ViewList_ID(implicitID: ~index),
+                    index: 0,
+                    count: 0,
+                    contentSubgraph: nil
+                ),
+                traits: ViewTraitCollection()
+            )
+        }
     }
     
     public typealias Index = Int
@@ -380,7 +440,7 @@ fileprivate struct ViewRootBodyAccessor<Root : _VariadicView_ViewRoot> : BodyAcc
         let transform = _ViewList_SublistTransform(items: [], subgraphCount: 0)
         // x19 + 0x50
         let unchecked = UncheckedSendable(container)
-        let children = _VariadicView_Children(list: list, contentSubgraph: contentSubgraph, transform: transform)
+        let children = _VariadicView_Children(list, contentSubgraph: contentSubgraph, transform: transform)
         
         setBody {
             // $s7SwiftUI20ViewRootBodyAccessor33_DC167C463E6601B3880A23A75ACAA63BLLV06updateE02of7changedyx_SbtF0E0QzyXEfU_

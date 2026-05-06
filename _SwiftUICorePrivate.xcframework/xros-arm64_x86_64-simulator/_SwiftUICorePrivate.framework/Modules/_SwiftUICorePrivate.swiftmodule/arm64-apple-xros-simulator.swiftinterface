@@ -1325,6 +1325,8 @@ extension _SwiftUICorePrivate.DynamicContainerItem {
 public struct _ViewList_ID {
   public init(implicitID: Swift.Int)
   public init()
+
+  public struct Explicit {}
 }
 
 @available(visionOS 26.0, *)
@@ -2359,3 +2361,7 @@ public enum DebugReplaceableViewCount {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct ViewSizeCache {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ViewList_View {}

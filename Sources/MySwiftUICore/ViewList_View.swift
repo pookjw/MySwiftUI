@@ -2,18 +2,28 @@
 internal import AttributeGraph
 
 package struct _ViewList_View : View {
-    private var elements: _ViewList_SubgraphElements
-    private var releaseElements: _ViewList_SubgraphRelease?
-    var id: _ViewList_ID
-    private var index: Int
-    private var count: Int
-    private var contentSubgraph: Subgraph?
+    @safe private nonisolated(unsafe) var elements: _ViewList_SubgraphElements
+    @safe private nonisolated(unsafe) var releaseElements: _ViewList_SubgraphRelease?
+    @safe nonisolated(unsafe) var id: _ViewList_ID
+    @safe private nonisolated(unsafe) var index: Int
+    @safe private nonisolated(unsafe) var count: Int
+    @safe private nonisolated(unsafe) var contentSubgraph: Subgraph?
     
     var viewID: AnyHashable {
         assertUnimplemented()
     }
     
-    init(elements: _ViewList_SubgraphElements, id: _ViewList_ID, index: Int, count: Int, contentSubgraph: Subgraph) {
+    @inline(always) // 원래 없음
+    nonisolated init(elements: _ViewList_SubgraphElements, releaseElements: _ViewList_SubgraphRelease?, id: _ViewList_ID, index: Int, count: Int, contentSubgraph: Subgraph?) {
+        self.elements = elements
+        self.releaseElements = releaseElements
+        self.id = id
+        self.index = index
+        self.count = count
+        self.contentSubgraph = contentSubgraph
+    }
+    
+    nonisolated init(elements: _ViewList_SubgraphElements, id: _ViewList_ID, index: Int, count: Int, contentSubgraph: Subgraph) {
         assertUnimplemented()
     }
     
