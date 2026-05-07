@@ -66,9 +66,9 @@ class _ViewList_Subgraph {
 }
 
 package struct _ViewList_ID : Hashable {
-    var _index: Int32
-    var implicitID: Int32
-    var explicitIDs: [_ViewList_ID.Explicit]
+    private var _index: Int32
+    private(set) var implicitID: Int32
+    private var explicitIDs: [_ViewList_ID.Explicit]
     
     init(implicitID: Int) {
         self._index = 0
@@ -355,8 +355,6 @@ extension _ViewListOutputs {
             // sp + 0x58
             let _ = copy_2
             
-            // x22
-            let _ = inputs.implicitID
             // x20
             let options = inputs.options.intersection([.canTransition, .disableTransitions])
             
@@ -843,7 +841,11 @@ extension _ViewList_Elements {
     }
     
     func makeOneElement(at index: Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
-        assertUnimplemented()
+        var index = index
+        return self.makeElements(from: &index, inputs: inputs, indirectMap: indirectMap) { inputs, transform in
+            // $s7SwiftUI18_ViewList_ElementsPAAE14makeOneElement2at6inputs11indirectMap4bodyAA01_C7OutputsVSgSi_AA01_C6InputsVAA017IndirectAttributeL0CSgAkM_AjMctXEtFA2kM_AjMctcXEfU_AK_SbtAM_AjMctXEfU_TA
+            return (body(inputs, transform), false)
+        }.0
     }
     
     func makeOneElement(at index: Int, inputs: _ViewInputs, body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {

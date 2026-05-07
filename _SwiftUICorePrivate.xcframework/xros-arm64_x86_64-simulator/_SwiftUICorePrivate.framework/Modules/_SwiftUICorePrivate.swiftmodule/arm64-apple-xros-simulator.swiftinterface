@@ -2365,3 +2365,7 @@ public struct ViewSizeCache {}
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct _ViewList_View {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class _ViewList_SubgraphRelease {}

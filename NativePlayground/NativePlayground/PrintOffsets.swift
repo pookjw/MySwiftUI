@@ -200,7 +200,9 @@ func printOffsets() {
     printFields(ViewGraph.NextUpdate.self, isClassType: false)
     printFields(_ViewList_View.self, isClassType: false)
     printFields(_VariadicView_Children.self, isClassType: false)
+    printFields(_ViewList_ID.self, isClassType: false)
     printFields(_ViewList_ID.Explicit.self, isClassType: false)
+    printFields(_ViewList_SubgraphRelease.self, isClassType: true)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

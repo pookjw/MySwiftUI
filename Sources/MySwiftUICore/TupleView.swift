@@ -146,6 +146,7 @@ extension TupleView {
             // sp + 0x8
             let copy_2 = outputs
             self.outputs.append(copy_2)
+            self.inputs.implicitID = outputs.nextImplicitID
             
             // <+320>
             if includeOffsets {

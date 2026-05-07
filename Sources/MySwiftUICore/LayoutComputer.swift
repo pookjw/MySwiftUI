@@ -526,8 +526,8 @@ extension StatefulRule where Value == LayoutComputer {
     }
     
     func update<T : LayoutEngine>(modify: (inout T) -> Void, create: () -> T) {
-        if hasValue {
-            var value = self.value
+        if let ptr = AGGraphGetOutputValue(TypeID(Value.self)) {
+            var value = ptr.assumingMemoryBound(to: Value.self).pointee
             value.withMutableEngine(type: T.self, do: modify)
             value.seed &+= 1
             self.value = value

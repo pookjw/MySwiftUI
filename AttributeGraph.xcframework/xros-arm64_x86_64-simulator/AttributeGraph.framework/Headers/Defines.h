@@ -21,7 +21,7 @@ typedef struct NS_SWIFT_NAME(Signature) AGTypeSignature {
 
 typedef struct NS_SWIFT_NAME(AttributeInfo) AGAttributeInfo {
     const void *metadata; // TODO
-    const void *body;
+    void *body;
 } AGAttributeInfo;
 
 typedef struct NS_SWIFT_NAME(UnsafeMutableTuple) AGUnsafeMutableTuple {
