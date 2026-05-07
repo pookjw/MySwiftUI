@@ -59,6 +59,24 @@ public struct SubviewsCollection : RandomAccessCollection {
 extension SubviewsCollection : Sendable {}
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+extension SubviewsCollection : View {
+    nonisolated public static func _makeViewList(view: _GraphValue<SubviewsCollection>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)
+    public typealias Body = Never
+}
+
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+extension SubviewsCollection : MultiView, PrimitiveView {
+}
+
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public struct SubviewsCollectionSlice : RandomAccessCollection {
     public subscript(index: Int) -> Subview {
         assertUnimplemented()

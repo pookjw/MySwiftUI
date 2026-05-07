@@ -20,9 +20,17 @@ fileprivate struct MyView<Content : View> : View {
     }
     
     var body: some View {
-        ForEach(subviews: content()) { subview in
-            subview
-                .frame(width: 100, height: 100)
+        ForEach(sections: content()) { section in
+            section.header
+                .frame(width: 60, height: 60)
+            
+            ForEach(subviews: section.content) { subview in
+                subview
+                    .frame(width: 30, height: 30)
+            }
+            
+            section.footer
+                .frame(width: 60, height: 60)
         }
     }
 }
@@ -32,10 +40,26 @@ final class SubviewsViewController : UIViewController {
         super.viewDidLoad()
         
         let rootView = MyView {
+            Section { 
+                Color.white
+                Color.white
+            } header: { 
+                Color.white
+            } footer: {
+                Color.white
+            }
+            
             Color.black
-            Color.white
             Color.black
-            Color.white
+            
+            Section {
+                Color.white
+                Color.white
+            } header: { 
+                Color.white
+            } footer: {
+                Color.white
+            }
         }
         
         let hostingController = UIHostingController(rootView: rootView)

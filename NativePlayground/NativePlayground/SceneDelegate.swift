@@ -18,7 +18,7 @@ final class SceneDelegate : UIResponder, UIWindowSceneDelegate {
         
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
-        navigationController.viewControllers = [PushViewController(), ContainerValueViewController()]
+        navigationController.viewControllers = [PushViewController(), SubviewsViewController()]
         
         window.rootViewController = navigationController
         
