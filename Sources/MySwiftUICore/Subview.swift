@@ -20,7 +20,7 @@ public struct Subview : View, Identifiable {
     }
 
     public var containerValues: ContainerValues {
-        assertUnimplemented()
+        return ContainerValues(base: self.base.traits)
     }
 
     nonisolated public static func _makeView(view: _GraphValue<Subview>, inputs: _ViewInputs) -> _ViewOutputs {
