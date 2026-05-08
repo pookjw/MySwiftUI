@@ -22,11 +22,19 @@ extension Section : View where Parent : View, Content : View, Footer : View {
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        // $s7SwiftUI7SectionVA2A4ViewRzAaDR_AaDR0_rlE14_viewListCount6inputsSiSgAA01_dfG6InputsV_tFZ
         assertUnimplemented()
     }
 }
 
 extension Section : PrimitiveView where Parent : View, Content : View, Footer : View {
+}
+
+extension Section : PubliclyPrimitiveView where Parent : View, Content : View, Footer : View {
+    var internalBody: Never {
+        // $s7SwiftUI7SectionVA2A4ViewRzAaDR_AaDR0_rlE12internalBodyQrvg
+        assertUnimplemented()
+    }
 }
 
 extension Section where Parent : View, Content : View, Footer : View {

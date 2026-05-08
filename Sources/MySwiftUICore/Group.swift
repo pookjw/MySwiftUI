@@ -40,7 +40,10 @@ extension Group : PrimitiveView, MultiView where Content : View {}
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension Group {
     public init<Base, Result>(subviews view: Base, @ViewBuilder transform: @escaping (SubviewsCollection) -> Result) where Content == GroupElementsOfContent<Base, Result>, Base : View, Result : View {
-        assertUnimplemented()
+        self.init { 
+            // $s7SwiftUI5GroupV8sections9transformACyAA0C17SectionsOfContentVyqd__qd_0_GGqd___qd_0_AA17SectionCollectionVctcAHRszAA4ViewRd__AaLRd_0_r0_lufcAHyXEfU_TA
+            GroupElementsOfContent(subviews: view, content: transform)
+        }
     }
 }
 
