@@ -203,17 +203,12 @@ func printOffsets() {
     printFields(_ViewList_ID.self, isClassType: false)
     printFields(_ViewList_ID.Explicit.self, isClassType: false)
     printFields(_ViewList_SubgraphRelease.self, isClassType: true)
+    printFields(Section<Color, TupleView<(Color, Color)>, Color>.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
-    
-    let section = Section { 
-        Color.black
-    }
-    print(type(of: section.internalBody))
-    fatalError()
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {

@@ -28,23 +28,3 @@ public struct ViewTransform {}
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct ViewDepth {}
-
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol PubliclyPrimitiveView : _SwiftUICorePrivate.PrimitiveView {
-  associatedtype InternalBody : SwiftUI.View
-    
-  var internalBody: Self.InternalBody {
-    get
-  }
-}
-
-extension SwiftUI.Section : PrimitiveView where Parent : SwiftUI.View, Content : SwiftUI.View, Footer : SwiftUI.View {
-}
-
-extension SwiftUI.Section : _SwiftUIPrivate.PubliclyPrimitiveView where Parent : SwiftUI.View, Content : SwiftUI.View, Footer : SwiftUI.View {
-  @_silgen_name("$s7SwiftUI7SectionVA2A4ViewRzAaDR_AaDR0_rlE12internalBodyQrvg")
-  public var internalBody: some SwiftUI.View {
-    get
-  }
-}

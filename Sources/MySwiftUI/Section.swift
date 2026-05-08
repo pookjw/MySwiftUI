@@ -31,9 +31,25 @@ extension Section : PrimitiveView where Parent : View, Content : View, Footer : 
 }
 
 extension Section : PubliclyPrimitiveView where Parent : View, Content : View, Footer : View {
-    var internalBody: Never {
+    var internalBody: some View {
         // $s7SwiftUI7SectionVA2A4ViewRzAaDR_AaDR0_rlE12internalBodyQrvg
-        assertUnimplemented()
+        ResolvedSectionStyle(
+            configuration: SectionStyleConfiguration(
+                isExpanded: self.isExpanded
+            )
+        )
+        .viewAlias(SectionStyleConfiguration.Header.self) { 
+            // $s7SwiftUI19NavigationSplitViewV4bodyQrvgxyXEfU_TA
+            assertUnimplemented()
+        }
+        .viewAlias(SectionStyleConfiguration.Footer.self) { 
+            // $s7SwiftUI7SectionVA2A4ViewRzAaDR_AaDR0_rlE12internalBodyQrvgq0_yXEfU0_TA
+            assertUnimplemented()
+        }
+        .viewAlias(SectionStyleConfiguration.RawContent.self) { 
+            // $s7SwiftUI7SectionVA2A4ViewRzAaDR_AaDR0_rlE12internalBodyQrvgq_yXEfU1_TA
+            assertUnimplemented()
+        }
     }
 }
 
@@ -142,6 +158,18 @@ extension Section where Parent : View, Content : View, Footer == EmptyView {
 extension Section {
     @usableFromInline
     internal static func create(isExpanded: Binding<Bool>? = nil, content: Content, header: Parent, footer: Footer) -> Section<Parent, Content, Footer> {
+        assertUnimplemented()
+    }
+}
+
+struct ResolvedSectionStyle : StyleableView {
+    static var defaultStyleModifier: Never {
+        assertUnimplemented() // TODO
+    }
+    
+    private(set) var configuration: SectionStyleConfiguration
+    
+    var body: some View {
         assertUnimplemented()
     }
 }
