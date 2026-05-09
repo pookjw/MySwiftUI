@@ -6,7 +6,7 @@ internal import AttributeGraph
 protocol AccessibilityViewModifier : PrimitiveViewModifier, MultiViewModifier {
     static var options: AccessibilityModifierOptions { get }
     func willCreateNode(for nodes: [AccessibilityNode]) -> Bool
-    func initialAttachment(for node: AccessibilityNode) -> AccessibilityAttachment
+    func initialAttachment(for nodes: [AccessibilityNode]) -> AccessibilityAttachment
     func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment
     func createOrUpdateNode(viewRendererHost: ViewRendererHost?, existingNode: AccessibilityNode?) -> AccessibilityNode
     func scrapeableContent(environment: EnvironmentValues, idiom: AnyInterfaceIdiom) -> ScrapeableContent.Content?
@@ -224,7 +224,7 @@ struct AccessibilityContainerModifier : AccessibilityViewModifier {
         assertUnimplemented()
     }
     
-    func initialAttachment(for node: AccessibilityNode) -> AccessibilityAttachment {
+    func initialAttachment(for nodes: [AccessibilityNode]) -> AccessibilityAttachment {
         assertUnimplemented()
     }
     

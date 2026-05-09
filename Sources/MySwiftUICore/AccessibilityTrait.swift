@@ -1,4 +1,4 @@
-enum AccessibilityTrait : UInt64, Hashable, CaseIterable {
+package enum AccessibilityTrait : UInt64, Hashable, CaseIterable {
     case isButton
     case isHeader
     case isSelected
@@ -146,7 +146,7 @@ public struct AccessibilityTraits : SetAlgebra, Sendable {
 package struct AccessibilityTraitSet : OptionSet, Hashable, Codable {
     package let rawValue: UInt64
     
-    init(trait: AccessibilityTrait) {
+    package init(trait: AccessibilityTrait) {
         self.rawValue = trait.rawValue &<< 1
     }
     

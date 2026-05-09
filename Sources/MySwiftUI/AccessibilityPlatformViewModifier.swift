@@ -40,7 +40,7 @@ struct AccessibilityPlatformViewModifier : AccessibilityViewModifier {
         assertUnimplemented()
     }
     
-    func initialAttachment(for node: AccessibilityNode) -> MySwiftUICore::AccessibilityAttachment {
+    func initialAttachment(for nodes: [AccessibilityNode]) -> MySwiftUICore::AccessibilityAttachment {
         assertUnimplemented()
     }
     

@@ -169,7 +169,30 @@ struct ResolvedSectionStyle : StyleableView {
     
     private(set) var configuration: SectionStyleConfiguration
     
+    init(configuration: SectionStyleConfiguration) {
+        self.configuration = configuration
+    }
+    
     var body: some View {
+        Section(
+            header: configuration.header,
+            footer: configuration.footer,
+            content: configuration.rawContent
+        )
+        .viewAlias(SectionStyleConfiguration.Header.self) {
+            AccessibilitySectionHeaderModifier<SectionStyleConfiguration.Header>()
+                .body(content: configuration.header)
+        }
+        .viewAlias(SectionStyleConfiguration.RawContent.self) {
+            configuration
+                .rawContent
+                ._trait(SectionActionsTraitKey.self, configuration.actions)
+        }
+    }
+}
+
+struct SectionActionsTraitKey : _ViewTraitKey {
+    static var defaultValue: SectionStyleConfiguration.Actions {
         assertUnimplemented()
     }
 }
