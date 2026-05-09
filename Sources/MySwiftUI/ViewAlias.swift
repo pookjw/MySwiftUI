@@ -34,14 +34,88 @@ extension View {
     }
 }
 
-fileprivate struct StaticSourceWriter<T, U> : PrimitiveViewModifier, _GraphInputsModifier {
+fileprivate struct StaticSourceWriter<T, U : View> : PrimitiveViewModifier, _GraphInputsModifier {
     private(set) var source: U
     
     static func _makeInputs(modifier: _GraphValue<Self>, inputs: inout _GraphInputs) {
-        assertUnimplemented()
+        let sourceAttribute = modifier[{ .of(&$0.source) }]
+        let value = AnyWeakAttribute(sourceAttribute.value.identifier)
+        
+        let source = AnySource(
+            formula: SourceFormula<U>.self,
+            value: value,
+            valueIsNil: nil
+        )
+        
+        inputs.append(source, to: SourceInput<U>.self)
     }
     
     nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
         assertUnimplemented()
+    }
+}
+
+fileprivate protocol AnySourceFormula {
+    static func makeView<T : ViewAlias>(view: _GraphValue<T>, source: AnySource, inputs: _ViewInputs) -> _ViewOutputs
+    static func makeViewList<T : ViewAlias>(view: _GraphValue<T>, source: AnySource, inputs: _ViewListInputs) -> _ViewListOutputs
+    static func viewListCount(source: AnySource, inputs: _ViewListCountInputs) -> Int?
+}
+
+fileprivate struct AnySource : GraphReusable {
+    private let formula: any AnySourceFormula.Type
+    private var value: AnyWeakAttribute
+    private let valueIsNil: Attribute<Bool>?
+    
+    init<T : View>(_ input: Attribute<T?>) {
+        assertUnimplemented()
+    }
+    
+    @inline(always)
+    init(formula: any AnySourceFormula.Type, value: AnyWeakAttribute, valueIsNil: Attribute<Bool>?) {
+        self.formula = formula
+        self.value = value
+        self.valueIsNil = valueIsNil
+    }
+    
+    func makeReusable(indirectMap: IndirectAttributeMap) {
+        assertUnimplemented()
+    }
+    
+    func tryToReuse(by: Self, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static var isTriviallyReusable: Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AnySource {
+    struct IsNil<T> : Rule, AsyncAttribute {
+        @Attribute var input: T?
+        
+        var value: Bool {
+            assertUnimplemented()
+        }
+    }
+}
+
+fileprivate struct SourceFormula<U> : AnySourceFormula {
+    static func makeView<T : ViewAlias>(view: _GraphValue<T>, source: AnySource, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    static func makeViewList<T : ViewAlias>(view: _GraphValue<T>, source: AnySource, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    static func viewListCount(source: AnySource, inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct SourceInput<T> : ViewInput {
+    static var defaultValue: Stack<AnySource> {
+        return Stack()
     }
 }

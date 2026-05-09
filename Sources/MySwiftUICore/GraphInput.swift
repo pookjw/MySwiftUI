@@ -62,7 +62,7 @@ extension GraphReusable {
 }
 
 extension Stack : GraphReusable where Element : GraphReusable {
-    func tryToReuse(by: Stack<Element>, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+    package func tryToReuse(by: Stack<Element>, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
         assertUnimplemented()
     }
 }

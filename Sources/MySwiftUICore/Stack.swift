@@ -1,12 +1,12 @@
-enum Stack<Element> : Sequence, IteratorProtocol {
+package enum Stack<Element> : Sequence, IteratorProtocol {
     case empty
     indirect case node(value: Element, next: Stack<Element>)
     
-    init() {
+    package init() {
         self = .empty
     }
     
-    var isEmpty: Bool {
+    package var isEmpty: Bool {
         switch self {
         case .empty:
             return true
@@ -24,7 +24,7 @@ enum Stack<Element> : Sequence, IteratorProtocol {
         }
     }
     
-    var count: Int {
+    package var count: Int {
         var copy = self
         var result = 0
         while let _ = copy.pop() {
@@ -33,7 +33,7 @@ enum Stack<Element> : Sequence, IteratorProtocol {
         return result
     }
     
-    mutating func next() -> Element? {
+    package mutating func next() -> Element? {
         return pop()
     }
     

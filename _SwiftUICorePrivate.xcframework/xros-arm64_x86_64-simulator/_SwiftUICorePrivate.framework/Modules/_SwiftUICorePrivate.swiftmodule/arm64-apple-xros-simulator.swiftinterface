@@ -2369,3 +2369,53 @@ public struct _ViewList_View {}
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public class _ViewList_SubgraphRelease {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum AccessibilityTrait : Swift.UInt64, Swift.Hashable, Swift.CaseIterable {
+  case isButton
+  case isHeader
+  case isSelected
+  case isLink
+  case isSearchField
+  case isImage
+  case playsSound
+  case isKeyboardKey
+  case isStaticText
+  case isSummaryElement
+  case updatesFrequently
+  case startsMediaSession
+  case allowsDirectInteraction
+  case causesPageTurn
+  case isModal
+  case isCheckbox
+  case isSwitch
+  case isRadioButton
+  case isRadioGroup
+  case isLabel
+  case isSingleSiblingWithGesture
+  case isInteractive
+  case isTabBar
+  case isTabButton
+  case isBackButton
+  case excludeFromItemChooser
+  case isControlGroup
+  case isPopupButton
+  case isMenuButton
+  case isToggle
+  case isMathEquation
+  case isAccessory
+
+  public var rawValue: Swift.UInt64 {
+    get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct AccessibilityTraitSet : Swift.OptionSet, Swift.Hashable, Swift.Codable {
+    public let rawValue: Swift.UInt64
+    public init(trait: _SwiftUICorePrivate.AccessibilityTrait)
+    public init(rawValue: Swift.UInt64)
+    public init(traits: [_SwiftUICorePrivate.AccessibilityTrait])
+}

@@ -87,7 +87,7 @@ public struct _GraphInputs {
         customInputs[Input.self].push(value)
     }
     
-    mutating func append<Input : GraphInput, Reusable : GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
+    package mutating func append<Input : GraphInput, Reusable : GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
         recordReusableInput(input)
         customInputs[Input.self].push(reusable)
     }
