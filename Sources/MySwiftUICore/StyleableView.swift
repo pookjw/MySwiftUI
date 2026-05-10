@@ -32,11 +32,11 @@ extension StyleableView {
         assertUnimplemented()
     }
     
-    nonisolated package static func _makeView(view: _GraphValue<StyleableView>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated package static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    nonisolated package static func _makeViewList(view: _GraphValue<StyleableView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated package static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
