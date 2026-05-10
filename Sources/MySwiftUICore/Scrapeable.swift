@@ -1,5 +1,4 @@
 // 0EC4D15D4D4D8FD0340271BA6BA4D1B4
-
 package import AttributeGraph
 
 package struct ScrapeableID : Hashable, GraphReusable {
@@ -46,6 +45,34 @@ extension _ViewInputs {
     }
 }
 
+extension _ViewListInputs {
+    var scrapeableParentID: ScrapeableID {
+        get {
+            return self.base[_ViewInputs.ScrapeableParentID.self]
+        }
+        set {
+            self.base[_ViewInputs.ScrapeableParentID.self] = newValue
+        }
+        _modify {
+            yield &self.base[_ViewInputs.ScrapeableParentID.self]
+        }
+    }
+}
+
 package protocol ScrapeableAttribute : _AttributeBody {
+    static func scrapeContent(from attribute: AnyAttribute) -> ScrapeableContent.Item?
+}
+
+package struct ScrapeableContent {
     // TODO
+}
+
+extension ScrapeableContent {
+    package enum Content {
+        // TODO
+    }
+    
+    package struct Item {
+        // TODO
+    }
 }

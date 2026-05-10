@@ -201,7 +201,7 @@ fileprivate struct InterfaceIdiomBox<P : InterfaceIdiomProtocol>: AnyInterfaceId
     }
     
     static func isEqual(to box: any AnyInterfaceIdiomBox.Type) -> Bool {
-        return (box as? P) != nil
+        return (box as? InterfaceIdiomBox<P>.Type) != nil
     }
     
     static func hash(into hasher: inout Hasher) {

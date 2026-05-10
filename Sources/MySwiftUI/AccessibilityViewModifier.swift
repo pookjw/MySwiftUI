@@ -286,6 +286,10 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
         unsafe mutable[].removedParentNode = unsafe mutable[].parentNode
     }
     
+    static func scrapeContent(from attribute: AnyAttribute) -> ScrapeableContent.Item? {
+        assertUnimplemented()
+    }
+    
     static func didReinsert(attribute: AnyAttribute) {
         assertUnimplemented()
     }

@@ -163,8 +163,8 @@ extension Section {
 }
 
 struct ResolvedSectionStyle : StyleableView {
-    static var defaultStyleModifier: Never {
-        assertUnimplemented() // TODO
+    static var defaultStyleModifier: SectionStyleModifier<DefaultSectionStyle> {
+        assertUnimplemented()
     }
     
     private(set) var configuration: SectionStyleConfiguration
@@ -195,4 +195,20 @@ struct SectionActionsTraitKey : _ViewTraitKey {
     static var defaultValue: SectionStyleConfiguration.Actions {
         assertUnimplemented()
     }
+}
+
+struct SectionStyleModifier<Style> : StyleModifier {
+    var style: Style
+    
+    init(style: Style) {
+        assertUnimplemented()
+    }
+    
+    func styleBody(configuration: Never) -> Never {
+        assertUnimplemented()
+    }
+}
+
+struct DefaultSectionStyle {
+    // TODO
 }

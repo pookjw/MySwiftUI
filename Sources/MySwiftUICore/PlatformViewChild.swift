@@ -19,6 +19,10 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
     private var resetSeed: UInt32 // 0x58 (offset) / 0x54 (offset field)
     private let tracker: PropertyList.Tracker // 0x60 (offset) / 0x58 (offset field)
     
+    static func scrapeContent(from attribute: AnyAttribute) -> ScrapeableContent.Item? {
+        assertUnimplemented()
+    }
+    
     init(
         view: Attribute<Representable>,
         environment: Attribute<EnvironmentValues>,

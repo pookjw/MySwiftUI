@@ -200,6 +200,10 @@ fileprivate struct RendererEffectDisplayList<Effect : _RendererEffect>: Rule, As
     let localID: ScrapeableID
     let parentID: ScrapeableID
     
+    static func scrapeContent(from attribute: AnyAttribute) -> ScrapeableContent.Item? {
+        assertUnimplemented()
+    }
+    
     var value: DisplayList {
         // sp + 0x80
         let copy_1 = self
