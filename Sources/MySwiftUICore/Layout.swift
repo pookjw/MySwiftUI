@@ -349,3 +349,31 @@ extension _ViewListOutputs {
         }
     }
 }
+
+struct LayoutPriorityLayout : UnaryLayout {
+    var priority: Double
+    
+    init(priority: Double) {
+        self.priority = priority
+    }
+    
+    nonisolated func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    nonisolated func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    nonisolated func spacing(in context: SizeAndSpacingContext, child: LayoutProxy) -> Spacing {
+        assertUnimplemented()
+    }
+    
+    nonisolated func layoutPriority(child: LayoutProxy) -> Double {
+        assertUnimplemented()
+    }
+    
+    nonisolated func ignoresAutomaticPadding(child: LayoutProxy) -> Bool {
+        assertUnimplemented()
+    }
+}

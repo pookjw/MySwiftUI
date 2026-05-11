@@ -37,6 +37,10 @@ public struct _ViewListInputs {
             yield &self.base[type]
         }
     }
+    
+    func addTraitKey<T : _ViewTraitKey>(_: T.Type) {
+        assertUnimplemented()
+    }
 }
 
 extension _ViewListInputs {

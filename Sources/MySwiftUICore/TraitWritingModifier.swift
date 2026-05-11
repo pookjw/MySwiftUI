@@ -13,7 +13,24 @@ private import AttributeGraph
     }
     
     nonisolated public static func _makeViewList(modifier: _GraphValue<_TraitWritingModifier<Trait>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        /*
+         modifier -> x0 -> w28
+         inputs -> x1 -> x21
+         body -> x2/x3 -> x22/x23
+         */
+        if (Trait.self == LayoutPriorityTraitKey.self) && !inputs.options.contains(.layoutPriorityIsTrait) {
+            // <+108>
+            let layoutAttribute = modifier.value.unsafeBitCast(to: LayoutPriorityLayout.self)
+            assertUnimplemented()
+        } else {
+            // <+276>
+            // x29 - 0xe8
+            var copy_1 = inputs
+            let addTrait = _TraitWritingModifier.AddTrait(modifier: modifier.value, traits: OptionalAttribute(inputs.$traits))
+            let addTraitAttribute = Attribute(addTrait)
+            copy_1.addTraitKey(Trait.self)
+            return body(_Graph(), copy_1)
+        }
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {

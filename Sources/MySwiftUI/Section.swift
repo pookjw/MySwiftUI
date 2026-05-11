@@ -197,18 +197,27 @@ struct SectionActionsTraitKey : _ViewTraitKey {
     }
 }
 
-struct SectionStyleModifier<Style> : StyleModifier {
+struct SectionStyleModifier<Style : SectionStyle> : StyleModifier {
     var style: Style
     
     init(style: Style) {
         assertUnimplemented()
     }
     
-    func styleBody(configuration: SectionStyleConfiguration) -> Never {
-        assertUnimplemented()
+    func styleBody(configuration: SectionStyleConfiguration) -> some View {
+        style
+            .makeBody(configuration: configuration)
+            ._trait(IsExpandedTraitKey.self, configuration.isExpanded)
     }
 }
 
-struct DefaultSectionStyle {
-    // TODO
+protocol SectionStyle {
+    associatedtype Body : View
+    func makeBody(configuration: SectionStyleConfiguration) -> Self.Body
+}
+
+struct DefaultSectionStyle : SectionStyle {
+    func makeBody(configuration: SectionStyleConfiguration) -> some View {
+        assertUnimplemented()
+    }
 }

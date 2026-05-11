@@ -195,7 +195,30 @@ fileprivate struct StyleModifierType : AnyStyleModifierType {
     }
     
     static func makeStyleBody<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<T.DefaultStyleModifier.StyleBody>, _DynamicPropertyBuffer?) {
-        assertUnimplemented()
+        if isLinkedOnOrAfter(.v2_3) {
+            // <+188>
+            let kind = MetadataKind(TypeID(Self.self))
+            
+            switch kind {
+            case .struct, .enum, .optional, .tuple:
+                break
+            default:
+                var message = "styles must be value types (either a struct or an enum); "
+                message.append(_typeName(Self.self, qualified: false))
+                fatalError(message)
+            }
+        }
+        
+        // <+240>
+        let styleModifier = Attribute<T.DefaultStyleModifier>(identifier: modifier.value)
+        let container = _GraphValue<T.DefaultStyleModifier.Style>(
+            styleModifier[offset: { modifier in
+                return .of(&modifier.style)
+            }]
+        )
+        
+        let accessor = StyleBodyAccessor<T, T.DefaultStyleModifier>(view: view.value, styleModifier: styleModifier)
+        return accessor.makeBody(container: container, inputs: &inputs, fields: fields)
     }
 }
 
@@ -214,7 +237,7 @@ package protocol StyleModifier : MultiViewModifier, PrimitiveViewModifier {
     
     var style: Self.Style { get set }
     init(style: Self.Style)
-    func styleBody(configuration: Self.StyleConfiguration) -> Self.StyleBody
+    @ViewBuilder func styleBody(configuration: Self.StyleConfiguration) -> Self.StyleBody
 }
 
 extension StyleModifier {
@@ -243,5 +266,17 @@ extension StyleModifier {
 fileprivate struct StyleOverrideInput<T> : ViewInput {
     static var defaultValue: AnyStyleModifier? {
         return nil
+    }
+}
+
+fileprivate struct StyleBodyAccessor<T : StyleableView, U : StyleModifier> : BodyAccessor {
+    typealias Container = U.Style
+    typealias Body = U.StyleBody
+    
+    @Attribute private(set) var view: T
+    @Attribute private(set) var styleModifier: U
+    
+    func updateBody(of container: U.Style, changed: Bool) {
+        assertUnimplemented()
     }
 }
