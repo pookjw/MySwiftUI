@@ -76,6 +76,10 @@ struct ViewTraitKeys {
         types = []
         isDataDependent = false
     }
+    
+    mutating func insert<T : _ViewTraitKey>(_: T.Type) {
+        types.insert(ObjectIdentifier(T.self))
+    }
 }
 
 public protocol _ViewTraitKey {

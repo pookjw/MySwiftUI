@@ -38,8 +38,14 @@ public struct _ViewListInputs {
         }
     }
     
-    func addTraitKey<T : _ViewTraitKey>(_: T.Type) {
-        assertUnimplemented()
+    mutating func addTraitKey<T : _ViewTraitKey>(_ key: T.Type) {
+        guard var traitKeys else {
+            return
+        }
+        
+        self.traitKeys = nil
+        traitKeys.insert(key)
+        self.traitKeys = traitKeys
     }
 }
 

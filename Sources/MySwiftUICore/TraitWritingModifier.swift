@@ -20,8 +20,21 @@ private import AttributeGraph
          */
         if (Trait.self == LayoutPriorityTraitKey.self) && !inputs.options.contains(.layoutPriorityIsTrait) {
             // <+108>
-            let layoutAttribute = modifier.value.unsafeBitCast(to: LayoutPriorityLayout.self)
-            assertUnimplemented()
+            let layoutAttribute = modifier.unsafeBitCast(to: LayoutPriorityLayout.self)
+            
+            let shouldRecordTree = Subgraph.shouldRecordTree
+            if shouldRecordTree {
+                Subgraph.beginTreeElement(value: layoutAttribute.value, flags: 1)
+            }
+            
+            var outputs = body(_Graph(), inputs)
+            outputs.multiModifier(layoutAttribute, inputs: inputs)
+            
+            if shouldRecordTree {
+                Subgraph.endTreeElement(value: layoutAttribute.value)
+            }
+            
+            return outputs
         } else {
             // <+276>
             // x29 - 0xe8

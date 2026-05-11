@@ -218,6 +218,11 @@ protocol SectionStyle {
 
 struct DefaultSectionStyle : SectionStyle {
     func makeBody(configuration: SectionStyleConfiguration) -> some View {
+//        Section(
+//            header: configuration.header,
+//            footer: configuration.footer,
+//            content: configuration.rawContent
+//        )
         assertUnimplemented()
     }
 }
