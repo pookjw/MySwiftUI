@@ -1,153 +1,247 @@
-// F00DE100DEB1EA63E29A46C946A53E51
-private import _MySwiftUIShims
-private import _SwiftPrivate
+// AC59074524C298808AAD87A4737AEFFC
+private import AttributeGraph
+private import CoreGraphics
 
-package enum ViewStyleRegistry : Sendable {
-    package static func registerOverrides(_ overrides: ViewStyleOverrides, for idiom: ViewStyleRegistry.InterfaceIdiom) {
-        if let existing = unsafe registries[idiom.idiom] {
-            existing.merge(with: overrides)
-            unsafe registries[idiom.idiom]
+package protocol StyleableView : View {
+    associatedtype Configuration
+    associatedtype DefaultStyleModifier : StyleModifier
+    
+    var configuration: Self.Configuration {
+        get
+    }
+    
+    static var defaultStyleModifier: Self.DefaultStyleModifier {
+        get
+    }
+    
+    static var isScrapeable: Bool {
+        get
+    }
+    
+    var scrapeableContent: ScrapeableContent.Content? {
+        get
+    }
+}
+
+extension StyleableView {
+    package static var isScrapeable: Bool {
+        return false
+    }
+    
+    package var scrapeableContent: ScrapeableContent.Content? {
+        assertUnimplemented()
+    }
+    
+    package var body: some View {
+        assertUnimplemented()
+    }
+    
+    nonisolated package static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated package static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         view -> x0 -> w25
+         */
+        // x29 - 0xe0
+        var copy_1 = inputs
+        let viewType = copy_1.base[StyleableViewContextInput.self]
+        
+        if Self.self == viewType {
+            // <+212>
+            let pop = copy_1.base.popLast(StyleInput<Self.Configuration>.self)
+            if let pop {
+                // <+320>
+                let casted = pop._type as! any AnyStyleModifierType.Type
+                return casted.makeViewList(
+                    view: view,
+                    modifier: pop,
+                    inputs: copy_1
+                )
+            } else {
+                // <+596>
+                let rep = MakeDefaultRepresentation(view: view.value)
+                let repValue = _GraphValue(rep)
+                return ModifiedContent<Self, Self.DefaultStyleModifier>.makeDebuggableViewList(view: repValue, inputs: copy_1)
+            }
         } else {
-            unsafe registries[idiom.idiom] = overrides
+            // <+104>
+            copy_1.base[StyleableViewContextInput.self] = Self.self
+            
+            if Self.isScrapeable && !copy_1.options.contains(.sectionsConcatenateFooter) && copy_1.options.contains(.resetHeaderStyleContext) {
+                // <+168>
+                let parentID = copy_1.scrapeableParentID ?? .none
+                let localID = ScrapeableID()
+                copy_1.scrapeableParentID = localID
+                
+                let rep = MakeScrapeableResolvedRepresentation(
+                    view: view.value,
+                    position: OptionalAttribute(),
+                    size: OptionalAttribute(),
+                    transform: OptionalAttribute(),
+                    localID: localID,
+                    parentID: parentID
+                )
+                
+                let repAttribute = Attribute(rep)
+                repAttribute.flags = .scrapeable
+                let repValue = _GraphValue(repAttribute)
+                return Self.Body.makeDebuggableViewList(view: repValue, inputs: copy_1)
+            } else {
+                // <+372>
+                let rep = MakeResolvedRepresentation(view: view.value)
+                let repValue = _GraphValue(rep)
+                return Self.Body.makeDebuggableViewList(view: repValue, inputs: copy_1)
+            }
         }
     }
     
-    package static func overrides(for idiom: ViewStyleRegistry.InterfaceIdiom) -> ViewStyleOverrides {
-        return unsafe registries[idiom.idiom] ?? fallbackOverrides
+    nonisolated package static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
     }
-    
-    nonisolated(unsafe) static var registries: [AnyInterfaceIdiom: ViewStyleOverrides] = [:]
-    nonisolated(unsafe) static var fallbackOverrides = ViewStyleOverrides()
 }
 
-extension ViewStyleRegistry {
-    package struct InterfaceIdiom : Sendable {
-        package let idiom: AnyInterfaceIdiom
+fileprivate struct StyleableViewContextInput : ViewInput {
+    static var defaultValue: (any StyleableView.Type)? {
+        return nil
+    }
+}
+
+extension _ViewListCountInputs {
+    fileprivate mutating func setCurrentStyleableView<T : StyleableView>(_: T.Type) {
+        self.customInputs[StyleableViewContextInput.self] = T.self
+    }
+}
+
+fileprivate struct MakeResolvedRepresentation<T : View> : Rule {
+    @Attribute private(set) var view: T
+    
+    var value: T.Body {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct MakeScrapeableResolvedRepresentation<T : View> : Rule, ScrapeableAttribute {
+    @Attribute private(set) var view: T
+    @OptionalAttribute var position: CGPoint?
+    @OptionalAttribute var size: ViewSize?
+    @OptionalAttribute var transform: ViewTransform?
+    let localID: ScrapeableID
+    let parentID: ScrapeableID
+    
+    static func scrapeContent(from attribute: AnyAttribute) -> ScrapeableContent.Item? {
+        assertUnimplemented()
+    }
+    
+    var value: T.Body {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct StyleInput<T> : ViewInput {
+    static var defaultValue: Stack<AnyStyleModifier> {
+        return Stack()
+    }
+}
+
+fileprivate struct AnyStyleModifier : GraphReusable {
+    private(set) var value: AnyAttribute
+    let _type: Any.Type
+    
+    func makeReusable(indirectMap: IndirectAttributeMap) {
+        assertUnimplemented()
+    }
+    
+    func tryToReuse(by: Self, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+fileprivate protocol AnyStyleModifierType {
+    static func makeView<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewInputs) -> _ViewOutputs
+    static func makeViewList<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewListInputs) -> _ViewListOutputs
+    static func viewListCount(inputs: _ViewListCountInputs) -> Int?
+}
+
+fileprivate struct StyleModifierType : AnyStyleModifierType {
+    static func makeView<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    static func makeViewList<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         view -> x0 -> w27
+         modifier x1/w2 -> sp + 0x34 / sp + 0x38
+         inputs -> x3 -> x19
+         */
+        // x23/x23/w26/w20
+        let fields = DynamicPropertyCache.fields(of: T.DefaultStyleModifier.Style.self)
+        // sp + 0x88
+        var copy_1 = inputs
         
-        package init(idiom: AnyInterfaceIdiom) {
-            self.idiom = idiom
+        let (_body, buffer) = Self.makeStyleBody(view: view, modifier: modifier, inputs: &copy_1.base, fields: fields)
+        let outputs = T.DefaultStyleModifier.StyleBody.makeDebuggableViewList(view: _body, inputs: copy_1)
+        
+        if let buffer {
+            buffer.traceMountedProperties(to: view, fields: fields)
         }
         
-        package static let carPlay = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .carPlay))
-        package static let clarityUI = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .clarityUI))
-        package static let complication = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .complication))
-        package static let mac = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .mac))
-        package static let macCatalyst = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .macCatalyst))
-        package static let phone = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .phone))
-        package static let pad = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .pad))
-        package static let tv = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .tv))
-        package static let touchBar = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .touchBar))
-        package static let watch = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .watch))
-        @safe nonisolated(unsafe) package static var vision = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
-        @safe nonisolated(unsafe) package static var reality = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
+        return outputs
     }
-}
-
-package struct ViewStyleOverrides : Sendable {
-    package var registeredStyles: [ObjectIdentifier: Any.Type] = [:]
-    package var registeredStyleOverrides: [ObjectIdentifier: Any.Type] = [:]
-    package var registeredStyleWriterOverrides: [ObjectIdentifier: Any.Type] = [:]
     
-    package init() {}
-    
-    func registerStyleOverride<T, U : StyleModifier>(_: U.Type, style: T.Type) where U.Style : AnyDefaultStyle {
+    static func viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
     
-    package func register(in inputs: inout _ViewInputs) {
-        let defaultStyleModifierProtocolDescriptor = unsafe _defaultStyleModifierProtocolDescriptor()
-        registeredStyles
-            .forEach { key, value in
-                guard unsafe swift_conformsToProtocol(value, defaultStyleModifierProtocolDescriptor) != nil else {
-                    return
-                }
-                
-                unsafe unsafeBitCast(value, to: (any DefaultStyleModifier.Type).self).registerDefaultStyle(in: &inputs)
-            }
-        
-        let styleOverrideModifierProtocolDescriptor = unsafe _styleOverrideModifierProtocolDescriptor()
-        registeredStyleOverrides
-            .forEach { key, value in
-                guard unsafe swift_conformsToProtocol(value, styleOverrideModifierProtocolDescriptor) != nil else {
-                    return
-                }
-                
-                unsafe unsafeBitCast(value, to: (any StyleOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
-            }
-        
-        registeredStyleWriterOverrides
-            .forEach { key, value in
-                guard unsafe swift_conformsToProtocol(value, _styleWriterOverrideModifierProtocolDescriptor()) != nil else {
-                    return
-                }
-                
-                unsafe unsafeBitCast(value, to: (any StyleWriterOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
-            }
-    }
-    
-    func registerDefaultStyle(_: Any.Type?, in: inout _ViewInputs) {
-        assertUnimplemented()
-    }
-    
-    func registerStyleOverride(_: Any.Type?, in: inout _ViewInputs) {
-        assertUnimplemented()
-    }
-    
-    func registerStyleWriterOverride(_: Any.Type?, in: inout _ViewInputs) {
-        assertUnimplemented()
-    }
-    
-    fileprivate func merge(with: ViewStyleOverrides) {
-        assertUnimplemented()
-    }
-    
-    package mutating func registerStyleOverride<T, U : StyleModifier>(_: T.Type, style: U.Type) where U.Style : AnyDefaultStyle {
-        registeredStyleOverrides[ObjectIdentifier(U.self)] = T.self
-    }
-}
-
-package protocol AnyDefaultStyle {
-    init()
-}
-
-protocol DefaultStyleModifier : StyleModifier, AnyDefaultStyle {
-    associatedtype Style : AnyDefaultStyle
-}
-
-extension DefaultStyleModifier {
-    nonisolated static func registerDefaultStyle(in: inout _ViewInputs) {
+    static func makeStyleBody<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<T.DefaultStyleModifier.StyleBody>, _DynamicPropertyBuffer?) {
         assertUnimplemented()
     }
 }
 
-protocol StyleOverrideModifier : DefaultStyleModifier {
-    nonisolated static func injectStyleOverride(in: inout _ViewInputs)
-}
-
-extension StyleOverrideModifier {
-    nonisolated static func injectStyleOverride(in: inout _ViewInputs) {
-        assertUnimplemented()
-    }
-}
-
-protocol StyleWriterOverrideModifier : AnyDefaultStyle {
-    associatedtype OriginalStyle
-    associatedtype StyleOverride
+fileprivate struct MakeDefaultRepresentation<T : StyleableView> : Rule {
+    @Attribute private(set) var view: T
     
-    static func injectStyleOverride(in: inout _ViewInputs)
-    // TODO
-}
-
-extension StyleWriterOverrideModifier {
-    nonisolated static func injectStyleOverride<T : ViewInputPredicate>(in: inout _ViewInputs, requiring: T.Type) {
+    var value: ModifiedContent<T, T.DefaultStyleModifier> {
         assertUnimplemented()
     }
 }
 
-protocol DefaultStyleModifierTypeVisitor {
-    // TODO
+package protocol StyleModifier : MultiViewModifier, PrimitiveViewModifier {
+    associatedtype Style
+    associatedtype StyleConfiguration
+    associatedtype StyleBody : View
+    
+    var style: Self.Style { get set }
+    init(style: Self.Style)
+    func styleBody(configuration: Self.StyleConfiguration) -> Self.StyleBody
 }
 
-fileprivate struct RegisterDefaultStyleVisitor {
-    // TODO
+extension StyleModifier {
+    nonisolated package static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        /*
+         modifier -> x0 -> w26
+         */
+        // sp + 0x18
+        var copy_1 = inputs
+        // sp + 0x8
+        let styleInput = copy_1[StyleOverrideInput<Self.Style>.self] ?? AnyStyleModifier(value: modifier.value.identifier, _type: StyleModifierType.self)
+        // <+172>
+        copy_1.base.append(styleInput, to: StyleInput<Self.StyleConfiguration>.self)
+        return body(_Graph(), copy_1)
+    }
+    
+    nonisolated package static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        assertUnimplemented()
+    }
+    
+    nonisolated package static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct StyleOverrideInput<T> : ViewInput {
+    static var defaultValue: AnyStyleModifier? {
+        return nil
+    }
 }
