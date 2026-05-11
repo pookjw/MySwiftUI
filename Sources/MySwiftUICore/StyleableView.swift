@@ -4,7 +4,7 @@ private import CoreGraphics
 
 package protocol StyleableView : View {
     associatedtype Configuration
-    associatedtype DefaultStyleModifier : ViewModifier
+    associatedtype DefaultStyleModifier : StyleModifier
     
     var configuration: Self.Configuration {
         get
@@ -165,15 +165,36 @@ fileprivate protocol AnyStyleModifierType {
 }
 
 fileprivate struct StyleModifierType : AnyStyleModifierType {
-    static func makeView<T>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewInputs) -> _ViewOutputs where T : StyleableView {
+    static func makeView<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    static func makeViewList<T>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewListInputs) -> _ViewListOutputs where T : StyleableView {
-        assertUnimplemented()
+    static func makeViewList<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         view -> x0 -> w27
+         modifier x1/w2 -> sp + 0x34 / sp + 0x38
+         inputs -> x3 -> x19
+         */
+        // x23/x23/w26/w20
+        let fields = DynamicPropertyCache.fields(of: T.DefaultStyleModifier.Style.self)
+        // sp + 0x88
+        var copy_1 = inputs
+        
+        let (_body, buffer) = Self.makeStyleBody(view: view, modifier: modifier, inputs: &copy_1.base, fields: fields)
+        let outputs = T.DefaultStyleModifier.StyleBody.makeDebuggableViewList(view: _body, inputs: copy_1)
+        
+        if let buffer {
+            buffer.traceMountedProperties(to: view, fields: fields)
+        }
+        
+        return outputs
     }
     
     static func viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+    
+    static func makeStyleBody<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<T.DefaultStyleModifier.StyleBody>, _DynamicPropertyBuffer?) {
         assertUnimplemented()
     }
 }
