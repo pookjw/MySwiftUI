@@ -204,7 +204,7 @@ struct SectionStyleModifier<Style> : StyleModifier {
         assertUnimplemented()
     }
     
-    func styleBody(configuration: Never) -> Never {
+    func styleBody(configuration: SectionStyleConfiguration) -> Never {
         assertUnimplemented()
     }
 }

@@ -25,6 +25,18 @@ public struct _ViewListInputs {
     func updateContentOffset(outputs: _ViewListOutputs) {
         assertUnimplemented()
     }
+    
+    subscript<T : ViewInput>(_ type: T.Type) -> T.Value {
+        get {
+            return self.base[type]
+        }
+        set {
+            self.base[type] = newValue
+        }
+        _modify {
+            yield &self.base[type]
+        }
+    }
 }
 
 extension _ViewListInputs {

@@ -185,3 +185,42 @@ fileprivate struct MakeDefaultRepresentation<T : StyleableView> : Rule {
         assertUnimplemented()
     }
 }
+
+package protocol StyleModifier : MultiViewModifier, PrimitiveViewModifier {
+    associatedtype Style
+    associatedtype StyleConfiguration
+    associatedtype StyleBody : View
+    
+    var style: Self.Style { get set }
+    init(style: Self.Style)
+    func styleBody(configuration: Self.StyleConfiguration) -> Self.StyleBody
+}
+
+extension StyleModifier {
+    nonisolated package static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        /*
+         modifier -> x0 -> w26
+         */
+        // sp + 0x18
+        var copy_1 = inputs
+        // sp + 0x8
+        let styleInput = copy_1[StyleOverrideInput<Self.Style>.self] ?? AnyStyleModifier(value: modifier.value.identifier, _type: StyleModifierType.self)
+        // <+172>
+        copy_1.base.append(styleInput, to: StyleInput<Self.StyleConfiguration>.self)
+        return body(_Graph(), copy_1)
+    }
+    
+    nonisolated package static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        assertUnimplemented()
+    }
+    
+    nonisolated package static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct StyleOverrideInput<T> : ViewInput {
+    static var defaultValue: AnyStyleModifier? {
+        return nil
+    }
+}
