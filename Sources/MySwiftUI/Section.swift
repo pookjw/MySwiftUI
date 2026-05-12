@@ -218,11 +218,22 @@ protocol SectionStyle {
 
 struct DefaultSectionStyle : SectionStyle {
     func makeBody(configuration: SectionStyleConfiguration) -> some View {
-//        Section(
-//            header: configuration.header,
-//            footer: configuration.footer,
-//            content: configuration.rawContent
-//        )
-        assertUnimplemented()
+        Section(
+            header: configuration.header,
+            footer: configuration.footer,
+            content: configuration.rawContent
+        )
+        .modifier(
+            SectionStyleModifier(style: SidebarSectionStyle())
+                .requiring(SidebarListStyleContext())
+        )
+        .modifier(
+            SectionStyleModifier(style: MenuSectionStyle())
+                .requiring(.menu)
+        )
+        .modifier(
+            SectionStyleModifier(style: InlineActionsSectionStyle())
+                .requiring(AnyListStyleContext())
+        )
     }
 }
