@@ -218,7 +218,7 @@ fileprivate struct StyleModifierType : AnyStyleModifierType {
         )
         
         let accessor = StyleBodyAccessor<T, T.DefaultStyleModifier>(view: view.value, styleModifier: styleModifier)
-        return accessor.makeBody(container: container, inputs: &inputs, fields: fields)
+        return accessor.makeBody(container: view, inputs: &inputs, fields: fields)
     }
 }
 
@@ -270,13 +270,13 @@ fileprivate struct StyleOverrideInput<T> : ViewInput {
 }
 
 fileprivate struct StyleBodyAccessor<T : StyleableView, U : StyleModifier> : BodyAccessor {
-    typealias Container = U.Style
+    typealias Container = T
     typealias Body = U.StyleBody
     
     @Attribute private(set) var view: T
     @Attribute private(set) var styleModifier: U
     
-    func updateBody(of container: U.Style, changed: Bool) {
+    func updateBody(of container: T, changed: Bool) {
         assertUnimplemented()
     }
 }
