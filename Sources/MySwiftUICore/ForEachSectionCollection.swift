@@ -1,3 +1,6 @@
+private import os.log
+internal import AttributeGraph
+
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public struct ForEachSectionCollection<Content> : RandomAccessCollection where Content : View {
     var substituteView: AnyView
@@ -11,7 +14,7 @@ public struct ForEachSectionCollection<Content> : RandomAccessCollection where C
         // x27
         let copy_1 = subviews
         
-        let group = Group(subviews: copy_1) { collection in
+        let group = Group(sections: copy_1) { collection in
             // $s7SwiftUI24ForEachSectionCollectionV9subviewOf7contentACyxGqd___xAA0E13ConfigurationVctcAA4ViewRd__lufcAA0cD0VyAA0eF0VAH2IDVxGAMcfU_TA
             /*
              content -> x4/x5
@@ -25,15 +28,15 @@ public struct ForEachSectionCollection<Content> : RandomAccessCollection where C
     public var startIndex: Int {
         assertUnimplemented()
     }
-
+    
     public var endIndex: Int {
         assertUnimplemented()
     }
-
+    
     public subscript(index: Int) -> SectionConfiguration {
         assertUnimplemented()
     }
-
+    
     @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)
     public typealias Element = SectionConfiguration
     @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)
@@ -80,5 +83,81 @@ extension ForEach {
         // x29 - 0x58
         let collection = ForEachSubviewCollection(elementOf: copy_1, content: content)
         self.init(collection, idGenerator: .keyPath(\Subview.id), content: content)
+    }
+}
+
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+extension Group {
+    public init<Base, Result>(sections view: Base, @ViewBuilder transform: @escaping (SectionCollection) -> Result) where Content == GroupSectionsOfContent<Base, Result>, Base : View, Result : View {
+        self.init { () -> GroupSectionsOfContent<Base, Result> in
+            // $s7SwiftUI5GroupV8sections9transformACyAA0C17SectionsOfContentVyqd__qd_0_GGqd___qd_0_AA17SectionCollectionVctcAHRszAA4ViewRd__AaLRd_0_r0_lufcAHyXEfU_TA
+            return GroupSectionsOfContent<Base, Result>(
+                sections: view,
+                content: transform
+            )
+        }
+    }
+}
+
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+public struct GroupSectionsOfContent<Sections, Content> : View where Sections : View, Content : View {
+    @safe private nonisolated(unsafe) let sections: Sections
+    @safe private nonisolated(unsafe) let content: (SectionCollection) -> Content
+    
+    nonisolated init(sections: Sections, content: @escaping (SectionCollection) -> Content) {
+        if sections is SubviewsCollection {
+            Log.externalWarning("Group(sections:) or ForEach(sections:) was passed a SubviewsCollection. These APIs do not support nested sectioning. Attempting to use them this way will result in losing sectioning information.")
+        }
+        
+        self.sections = sections
+        self.content = content
+    }
+    
+    @MainActor @preconcurrency public var body: some View {
+        _VariadicView.Tree(
+            SectionsRoot(content: content),
+            content: {
+                // $s7SwiftUI22GroupSectionsOfContentV4bodyQrvgxyXEfU_TA
+                assertUnimplemented()
+            }
+        )
+    }
+}
+
+@available(*, unavailable)
+extension GroupSectionsOfContent : Sendable {
+}
+
+struct SectionsRoot<T> : _VariadicView_MultiViewRoot {
+    fileprivate let content: (SectionCollection) -> T
+    
+    nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _makeView(root: _GraphValue<SectionsRoot<T>>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _makeViewList(root: _GraphValue<SectionsRoot<T>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        /*
+         root -> x0 -> w25
+         inputs -> x1 -> x22
+         */
+        // sp + 0xb8
+        let outputs = body(_Graph(), inputs)
+        assertUnimplemented()
+    }
+}
+
+extension SectionsRoot {
+    struct Child : Rule {
+        @Attribute private var view: SectionsRoot<T>
+        @Attribute private var viewList: ViewList
+        private var contentSubgraph: Subgraph
+        
+        var value: T {
+            assertUnimplemented()
+        }
     }
 }

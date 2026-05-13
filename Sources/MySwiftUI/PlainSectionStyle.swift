@@ -41,7 +41,10 @@ fileprivate struct SectionContainer : _VariadicView_MultiViewRoot {
     }
     
     nonisolated static func _makeViewList(root: _GraphValue<SectionContainer>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        let parentValue = root[{ .of(&$0.parent)} ]
+        let footerValue = root[{ .of(&$0.footer)} ]
+        let outputs = _ViewListOutputs.groupViewList(parent: parentValue, footer: footerValue.value, inputs: inputs, body: body)
+        return outputs
     }
     
     nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {

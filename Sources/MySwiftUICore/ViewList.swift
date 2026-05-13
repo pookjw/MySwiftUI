@@ -1,5 +1,5 @@
 // E479C0E92CDD045BAF2EF653123E2E0B
-internal import AttributeGraph
+package import AttributeGraph
 
 final class _ViewList_SubgraphRelease {
     private let subgraphs: ArraySlice<_ViewList_Subgraph>
@@ -240,7 +240,29 @@ extension _ViewListOutputs {
         assertUnimplemented()
     }
     
-    static func groupViewList<Parent : View, Footer : View>(parent: _GraphValue<Parent>, footer: Attribute<Footer>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    package static func groupViewList<Parent : View, Footer : View>(parent: _GraphValue<Parent>, footer: Attribute<Footer>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        /*
+         parent -> x0 -> w24
+         footer -> x1 -> sp + 0x14
+         inputs -> x2 -> x22
+         body -> x3/x4 -> x25/sp + 0x8
+         */
+        // x29 - 0xe8
+        var copy_1 = inputs
+        
+        if inputs.options.contains(.allowsNestedSections) || copy_1.options.isDisjoint(with: [.requiresSections, .requiresNonEmptyGroupParent]) {
+            // <+132>
+        } else {
+            // <+120>
+            copy_1.options.subtract([.requiresSections, .requiresNonEmptyGroupParent])
+        }
+        
+        if inputs.options.contains(.requiresDepthAndSections) {
+            // <+136>
+            assertUnimplemented()
+        }
+        
+        // <+284>
         assertUnimplemented()
     }
     
