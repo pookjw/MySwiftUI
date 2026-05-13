@@ -16,10 +16,43 @@ fileprivate struct StyledView : PrimitiveView, MultiView {
     }
     
     nonisolated static func _makeViewList(view: _GraphValue<StyledView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        /*
+         view -> x0 -> x20
+         inputs -> x1 -> x19
+         */
+        let body = SectionBody(view: view.value)
+        let bodyAttribute = Attribute(body)
+        let bodyValue = _GraphValue(bodyAttribute)
+        let outputs = _VariadicView.Tree<SectionContainer, _ConditionalContent<SectionStyleConfiguration.RawContent, EmptyView>>.makeDebuggableViewList(view: bodyValue, inputs: inputs)
+        return outputs
     }
     
     nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct SectionContainer : _VariadicView_MultiViewRoot {
+    private(set) var parent: SectionStyleConfiguration.Header
+    private(set) var footer: SectionStyleConfiguration.Footer
+    
+    nonisolated static func _makeView(root: _GraphValue<SectionContainer>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _makeViewList(root: _GraphValue<SectionContainer>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct SectionBody : Rule {
+    @Attribute var view: StyledView
+    
+    var value: _VariadicView.Tree<SectionContainer, _ConditionalContent<SectionStyleConfiguration.RawContent, EmptyView>> {
         assertUnimplemented()
     }
 }
