@@ -67,7 +67,7 @@ extension ModifiedContent : View where Content : View, Modifier : ViewModifier {
     }
     
     @MainActor @preconcurrency public var body: ModifiedContent<Content, Modifier>.Body {
-        assertUnimplemented()
+        bodyError()
     }
 }
 

@@ -41,6 +41,7 @@ private import AttributeGraph
             var copy_1 = inputs
             let addTrait = _TraitWritingModifier.AddTrait(modifier: modifier.value, traits: OptionalAttribute(inputs.$traits))
             let addTraitAttribute = Attribute(addTrait)
+            copy_1.$traits = addTraitAttribute
             copy_1.addTraitKey(Trait.self)
             return body(_Graph(), copy_1)
         }
@@ -65,7 +66,7 @@ extension _TraitWritingModifier {
         @Attribute private(set) var modifier: _TraitWritingModifier<Trait>
         @OptionalAttribute var traits: ViewTraitCollection?
         
-        var value: Trait.Value {
+        var value: ViewTraitCollection {
             assertUnimplemented()
         }
     }
