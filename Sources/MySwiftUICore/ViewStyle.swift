@@ -164,24 +164,24 @@ fileprivate protocol AnyStyleModifierType {
     static func viewListCount(inputs: _ViewListCountInputs) -> Int?
 }
 
-fileprivate struct StyleModifierType : AnyStyleModifierType {
-    static func makeView<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewInputs) -> _ViewOutputs {
+fileprivate struct StyleModifierType<T : StyleModifier> : AnyStyleModifierType {
+    static func makeView<U : StyleableView>(view: _GraphValue<U>, modifier: AnyStyleModifier, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    static func makeViewList<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: _ViewListInputs) -> _ViewListOutputs {
+    static func makeViewList<U : StyleableView>(view: _GraphValue<U>, modifier: AnyStyleModifier, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          view -> x0 -> w27
          modifier x1/w2 -> sp + 0x34 / sp + 0x38
          inputs -> x3 -> x19
          */
         // x23/x23/w26/w20
-        let fields = DynamicPropertyCache.fields(of: T.DefaultStyleModifier.Style.self)
+        let fields = DynamicPropertyCache.fields(of: T.Style.self)
         // sp + 0x88
         var copy_1 = inputs
         
         let (_body, buffer) = Self.makeStyleBody(view: view, modifier: modifier, inputs: &copy_1.base, fields: fields)
-        let outputs = T.DefaultStyleModifier.StyleBody.makeDebuggableViewList(view: _body, inputs: copy_1)
+        let outputs = T.StyleBody.makeDebuggableViewList(view: _body, inputs: copy_1)
         
         if let buffer {
             buffer.traceMountedProperties(to: view, fields: fields)
@@ -194,7 +194,7 @@ fileprivate struct StyleModifierType : AnyStyleModifierType {
         assertUnimplemented()
     }
     
-    static func makeStyleBody<T : StyleableView>(view: _GraphValue<T>, modifier: AnyStyleModifier, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<T.DefaultStyleModifier.StyleBody>, _DynamicPropertyBuffer?) {
+    static func makeStyleBody<U : StyleableView>(view: _GraphValue<U>, modifier: AnyStyleModifier, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<T.StyleBody>, _DynamicPropertyBuffer?) {
         if isLinkedOnOrAfter(.v2_3) {
             // <+188>
             let kind = MetadataKind(TypeID(Self.self))
@@ -210,14 +210,14 @@ fileprivate struct StyleModifierType : AnyStyleModifierType {
         }
         
         // <+240>
-        let styleModifier = Attribute<T.DefaultStyleModifier>(identifier: modifier.value)
-        let container = _GraphValue<T.DefaultStyleModifier.Style>(
+        let styleModifier = Attribute<T>(identifier: modifier.value)
+        let container = _GraphValue<T.Style>(
             styleModifier[offset: { modifier in
                 return .of(&modifier.style)
             }]
         )
         
-        let accessor = StyleBodyAccessor<T, T.DefaultStyleModifier>(view: view.value, styleModifier: styleModifier)
+        let accessor = StyleBodyAccessor<U, T>(view: view.value, styleModifier: styleModifier)
         return accessor.makeBody(container: view, inputs: &inputs, fields: fields)
     }
 }
@@ -248,7 +248,7 @@ extension StyleModifier {
         // sp + 0x18
         var copy_1 = inputs
         // sp + 0x8
-        let styleInput = copy_1[StyleOverrideInput<Self.Style>.self] ?? AnyStyleModifier(value: modifier.value.identifier, _type: StyleModifierType.self)
+        let styleInput = copy_1[StyleOverrideInput<Self.Style>.self] ?? AnyStyleModifier(value: modifier.value.identifier, _type: StyleModifierType<Self>.self)
         // <+172>
         copy_1.base.append(styleInput, to: StyleInput<Self.StyleConfiguration>.self)
         return body(_Graph(), copy_1)

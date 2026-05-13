@@ -235,5 +235,6 @@ struct DefaultSectionStyle : SectionStyle {
             SectionStyleModifier(style: InlineActionsSectionStyle())
                 .requiring(AnyListStyleContext())
         )
+        .modifier(SectionStyleModifier(style: PlainSectionStyle()))
     }
 }
