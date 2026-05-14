@@ -118,7 +118,7 @@ public struct GroupSectionsOfContent<Sections, Content> : View where Sections : 
             SectionsRoot(content: content),
             content: {
                 // $s7SwiftUI22GroupSectionsOfContentV4bodyQrvgxyXEfU_TA
-                assertUnimplemented()
+                self.sections
             }
         )
     }
@@ -128,7 +128,7 @@ public struct GroupSectionsOfContent<Sections, Content> : View where Sections : 
 extension GroupSectionsOfContent : Sendable {
 }
 
-struct SectionsRoot<T> : _VariadicView_MultiViewRoot {
+struct SectionsRoot<T : View> : _VariadicView_MultiViewRoot {
     fileprivate let content: (SectionCollection) -> T
     
     nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
@@ -141,20 +141,41 @@ struct SectionsRoot<T> : _VariadicView_MultiViewRoot {
     
     nonisolated static func _makeViewList(root: _GraphValue<SectionsRoot<T>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         /*
-         root -> x0 -> w25
          inputs -> x1 -> x22
          */
+        // w25
+        let rootAttribute = root.value
         // sp + 0xb8
         let outputs = body(_Graph(), inputs)
-        assertUnimplemented()
+        // x29 - 0x70
+        let copy_1 = inputs.base
+        // sp + 0x30
+        let copy_2 = _ViewListInputs(copy_1, implicitID: 0, options: [])
+        // w20
+        let attribute = outputs.makeAttribute(inputs: copy_2)
+        
+        let child = SectionsRoot.Child(view: rootAttribute, viewList: attribute, contentSubgraph: .current!)
+        let childValue = _GraphValue(child)
+        
+        return T.makeDebuggableViewList(view: childValue, inputs: inputs)
+    }
+    
+    nonisolated static var _viewListOptions: Int {
+        let options: _ViewListInputs.Options = [
+            .requiresDepthAndSections,
+            .requiresSections,
+            .allowsNestedSections
+        ]
+        
+        return options.rawValue
     }
 }
 
 extension SectionsRoot {
     struct Child : Rule {
-        @Attribute private var view: SectionsRoot<T>
-        @Attribute private var viewList: ViewList
-        private var contentSubgraph: Subgraph
+        @Attribute private(set) var view: SectionsRoot<T>
+        @Attribute private(set) var viewList: ViewList
+        private(set) var contentSubgraph: Subgraph
         
         var value: T {
             assertUnimplemented()

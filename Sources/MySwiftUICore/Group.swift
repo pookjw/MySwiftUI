@@ -1,4 +1,5 @@
 // C1B8B6896BB94C69479F427820712D02
+package import AttributeGraph
 
 @frozen public struct Group<Content> {
     public typealias Body = Never
@@ -95,4 +96,216 @@ fileprivate struct GroupContainer : _VariadicView_MultiViewRoot {
     nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
         return body(inputs)
     }
+}
+
+extension _ViewListOutputs {
+    package static func groupViewList<Parent : View, Footer : View>(parent: _GraphValue<Parent>, footer: Attribute<Footer>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        /*
+         parent -> x0 -> w24
+         footer -> x1 -> sp + 0x14
+         inputs -> x2 -> x22
+         body -> x3/x4 -> x25/sp + 0x8
+         */
+        // x29 - 0xe8
+        var copy_1 = inputs
+        
+        if inputs.options.contains(.allowsNestedSections) || copy_1.options.isDisjoint(with: [.requiresSections, .requiresNonEmptyGroupParent]) {
+            // <+132>
+        } else {
+            // <+120>
+            copy_1.options.subtract([.requiresSections, .requiresNonEmptyGroupParent])
+        }
+        
+        if inputs.options.contains(.requiresDepthAndSections) {
+            // <+136>
+            let sectionedTrait = SectionedTrait(traits: OptionalAttribute(inputs.$traits))
+            copy_1.$traits = Attribute(sectionedTrait)
+            
+            // <+208>
+            if var traitKeys = copy_1.traitKeys {
+                // <+216>
+                // traitKeys -> sp + 0xd8
+                copy_1.traitKeys = nil
+                traitKeys.insert(IsSectionedTraitKey.self)
+                copy_1.traitKeys = traitKeys
+            } else {
+                // <+284>
+            }
+        }
+        
+        // <+284>
+        // sp + 0xd8
+        var copy_2 = copy_1
+        
+        if inputs.options.contains(.requiresNonEmptyGroupParent) {
+            copy_2.options.formUnion(.isNonEmptyParent)
+            
+            let headerTrait = SectionHeaderTrait(traits: OptionalAttribute(copy_1.$traits))
+            copy_2.$traits = Attribute(headerTrait)
+            
+            // <+384>
+            if var traitKeys = copy_2.traitKeys {
+                copy_2.traitKeys = nil
+                traitKeys.insert(IsSectionHeaderTraitKey.self)
+                copy_2.traitKeys = traitKeys
+            } else {
+                // <+460>
+            }
+        }
+        
+        // <+460>
+        if inputs.options.contains(.resetHeaderStyleContext) {
+            copy_2[StyleContextInput.self] = StyleContextInput.defaultValue
+        }
+        
+        // <+540>
+        // sp + 0x160
+        let outputs_1 = Parent.makeDebuggableViewList(view: parent, inputs: copy_2)
+        
+        if copy_1.options.contains(.previewContext) {
+            copy_1.updateContentOffset(outputs: outputs_1)
+        }
+        
+        // <+648>
+        if inputs.options.contains(.requiresDepthAndSections) {
+            let depthTrait = DepthTrait(traits: OptionalAttribute(copy_1.$traits))
+            copy_1.$traits = Attribute(depthTrait)
+            
+            if var traitKeys = copy_1.traitKeys {
+                copy_1.traitKeys = nil
+                traitKeys.insert(DepthTraitKey.self)
+                copy_1.traitKeys = traitKeys
+                assertUnimplemented()
+            } else {
+                // <+808>
+            }
+        }
+        
+        // <+808>
+        // sp + 0x90
+        let outputs_2 = body(_Graph(), copy_1)
+        
+        if copy_1.options.contains(.previewContext) {
+            copy_1.updateContentOffset(outputs: outputs_2)
+        }
+        
+        // <+848>
+        // sp + 0xd8
+        var copy_3 = copy_1
+        
+        if inputs.options.contains(.requiresNonEmptyGroupParent) {
+            if copy_3.options.contains(.requiresNonEmptyGroupParent) {
+                copy_3.options.subtract(.requiresNonEmptyGroupParent)
+            }
+            
+            // <+880>
+            let footerTrait = SectionFooterTrait(traits: OptionalAttribute(copy_1.$traits))
+            copy_3.$traits = Attribute(footerTrait)
+            
+            if var traitKeys = copy_3.traitKeys {
+                copy_3.traitKeys = nil
+                traitKeys.insert(IsSectionFooterTraitKey.self)
+                copy_3.traitKeys = traitKeys
+            } else {
+                // <+1028>
+            }
+        }
+        
+        // <+1028>
+        if inputs.options.contains(.resetFooterStyleContext) {
+            copy_3[StyleContextInput.self] = StyleContextInput.defaultValue
+        }
+        
+        // <+1104>
+        // sp + 0x48
+        let outputs_3 = Footer.makeDebuggableViewList(view: _GraphValue(footer), inputs: copy_3)
+        
+        // <+1204>
+        
+        assertUnimplemented()
+    }
+    
+    static func groupViewListCount<Content : View, Header : View, Footer : View>(inputs: _ViewListCountInputs, contentType: Content.Type, headerType: Header.Type, footerType: Footer.Type) -> Int? {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct SectionedTrait : Rule {
+    @OptionalAttribute var traits: ViewTraitCollection?
+    
+    var value: ViewTraitCollection {
+        assertUnimplemented()
+    }
+}
+
+@usableFromInline
+package struct IsSectionedTraitKey : _ViewTraitKey {
+    @inlinable package static var defaultValue: Bool {
+        return false
+    }
+}
+
+@available(*, unavailable)
+extension IsSectionedTraitKey : Sendable {
+}
+
+struct SectionHeaderTrait : Rule {
+    @OptionalAttribute var traits: ViewTraitCollection?
+    
+    init(traits: OptionalAttribute<ViewTraitCollection>) {
+        self._traits = traits
+    }
+    
+    var value: ViewTraitCollection {
+        assertUnimplemented()
+    }
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+@usableFromInline
+package struct IsSectionHeaderTraitKey : _ViewTraitKey {
+    @inlinable package static var defaultValue: Bool {
+        return false
+    }
+}
+
+@available(*, unavailable)
+extension IsSectionHeaderTraitKey : Sendable {
+}
+
+struct DepthTrait : Rule {
+    @OptionalAttribute private var traits: ViewTraitCollection?
+    
+    init(traits: OptionalAttribute<ViewTraitCollection>) {
+        self._traits = traits
+    }
+    
+    var value: ViewTraitCollection {
+        assertUnimplemented()
+    }
+}
+
+struct DepthTraitKey : _ViewTraitKey {
+    static var defaultValue: Int {
+        return 0
+    }
+}
+
+fileprivate struct SectionFooterTrait : Rule {
+    @OptionalAttribute var traits: ViewTraitCollection?
+    
+    var value: ViewTraitCollection {
+        assertUnimplemented()
+    }
+}
+
+@usableFromInline
+package struct IsSectionFooterTraitKey : _ViewTraitKey {
+    @inlinable package static var defaultValue: Bool {
+        return false
+    }
+}
+
+@available(*, unavailable)
+extension IsSectionFooterTraitKey : Sendable {
 }

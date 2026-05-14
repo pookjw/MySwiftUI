@@ -240,36 +240,6 @@ extension _ViewListOutputs {
         assertUnimplemented()
     }
     
-    package static func groupViewList<Parent : View, Footer : View>(parent: _GraphValue<Parent>, footer: Attribute<Footer>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        /*
-         parent -> x0 -> w24
-         footer -> x1 -> sp + 0x14
-         inputs -> x2 -> x22
-         body -> x3/x4 -> x25/sp + 0x8
-         */
-        // x29 - 0xe8
-        var copy_1 = inputs
-        
-        if inputs.options.contains(.allowsNestedSections) || copy_1.options.isDisjoint(with: [.requiresSections, .requiresNonEmptyGroupParent]) {
-            // <+132>
-        } else {
-            // <+120>
-            copy_1.options.subtract([.requiresSections, .requiresNonEmptyGroupParent])
-        }
-        
-        if inputs.options.contains(.requiresDepthAndSections) {
-            // <+136>
-            assertUnimplemented()
-        }
-        
-        // <+284>
-        assertUnimplemented()
-    }
-    
-    static func groupViewListCount<Content : View, Header : View, Footer : View>(inputs: _ViewListCountInputs, contentType: Content.Type, headerType: Header.Type, footerType: Footer.Type) -> Int? {
-        assertUnimplemented()
-    }
-    
     static func nonEmptyParentViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }

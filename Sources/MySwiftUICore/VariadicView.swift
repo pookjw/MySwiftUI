@@ -77,8 +77,16 @@ extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content
         // <+140>
         return Root._makeViewList(root: view[{ .of(&$0.root)} ], inputs: copy_1) { graph, inputs in
             // $s7SwiftUI13_VariadicViewO4TreeVA2A01_cd1_D4RootRzAA0D0R_rlE05_makeD4List4view6inputsAA01_dH7OutputsVAA11_GraphValueVyAEy_xq_GG_AA01_dH6InputsVtFZAlA01_L0V_ARtcfU0_TA
+            /*
+             inputs -> x1 -> x25
+             */
+            // x29 - 0xc8
+            var copy_1 = inputs
+            let listOptions = inputs.base[ViewListOptionsInput.self]
+            copy_1.options.formUnion(_ViewListInputs.Options(rawValue: listOptions))
+            
             let content = view[{ .of(&$0.content) }]
-            return Content.makeDebuggableViewList(view: content, inputs: inputs)
+            return Content.makeDebuggableViewList(view: content, inputs: copy_1)
         }
     }
     
