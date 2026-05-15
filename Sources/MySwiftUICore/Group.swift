@@ -108,15 +108,16 @@ extension _ViewListOutputs {
          */
         // x29 - 0xe8
         var copy_1 = inputs
+        let w26 = inputs.options
         
-        if inputs.options.contains(.allowsNestedSections) || copy_1.options.isDisjoint(with: [.requiresSections, .requiresNonEmptyGroupParent]) {
+        if w26.contains(.allowsNestedSections) || copy_1.options.isDisjoint(with: [.requiresSections, .requiresNonEmptyGroupParent]) {
             // <+132>
         } else {
             // <+120>
             copy_1.options.subtract([.requiresSections, .requiresNonEmptyGroupParent])
         }
         
-        if inputs.options.contains(.requiresDepthAndSections) {
+        if w26.contains(.requiresDepthAndSections) {
             // <+136>
             let sectionedTrait = SectionedTrait(traits: OptionalAttribute(inputs.$traits))
             copy_1.$traits = Attribute(sectionedTrait)
@@ -137,7 +138,7 @@ extension _ViewListOutputs {
         // sp + 0xd8
         var copy_2 = copy_1
         
-        if inputs.options.contains(.requiresNonEmptyGroupParent) {
+        if w26.contains(.requiresNonEmptyGroupParent) {
             copy_2.options.formUnion(.isNonEmptyParent)
             
             let headerTrait = SectionHeaderTrait(traits: OptionalAttribute(copy_1.$traits))
@@ -154,7 +155,7 @@ extension _ViewListOutputs {
         }
         
         // <+460>
-        if inputs.options.contains(.resetHeaderStyleContext) {
+        if w26.contains(.resetHeaderStyleContext) {
             copy_2[StyleContextInput.self] = StyleContextInput.defaultValue
         }
         
@@ -162,12 +163,13 @@ extension _ViewListOutputs {
         // sp + 0x160
         let outputs_1 = Parent.makeDebuggableViewList(view: parent, inputs: copy_2)
         
-        if copy_1.options.contains(.previewContext) {
+        let w24 = copy_1.options
+        if w24.contains(.previewContext) {
             copy_1.updateContentOffset(outputs: outputs_1)
         }
         
         // <+648>
-        if inputs.options.contains(.requiresDepthAndSections) {
+        if w26.contains(.requiresDepthAndSections) {
             let depthTrait = DepthTrait(traits: OptionalAttribute(copy_1.$traits))
             copy_1.$traits = Attribute(depthTrait)
             
@@ -185,7 +187,7 @@ extension _ViewListOutputs {
         // sp + 0x90
         let outputs_2 = body(_Graph(), copy_1)
         
-        if copy_1.options.contains(.previewContext) {
+        if w24.contains(.previewContext) {
             copy_1.updateContentOffset(outputs: outputs_2)
         }
         
@@ -193,7 +195,7 @@ extension _ViewListOutputs {
         // sp + 0xd8
         var copy_3 = copy_1
         
-        if inputs.options.contains(.requiresNonEmptyGroupParent) {
+        if w26.contains(.requiresNonEmptyGroupParent) {
             if copy_3.options.contains(.requiresNonEmptyGroupParent) {
                 copy_3.options.subtract(.requiresNonEmptyGroupParent)
             }
@@ -212,7 +214,7 @@ extension _ViewListOutputs {
         }
         
         // <+1028>
-        if inputs.options.contains(.resetFooterStyleContext) {
+        if w26.contains(.resetFooterStyleContext) {
             copy_3[StyleContextInput.self] = StyleContextInput.defaultValue
         }
         
@@ -221,6 +223,20 @@ extension _ViewListOutputs {
         let outputs_3 = Footer.makeDebuggableViewList(view: _GraphValue(footer), inputs: copy_3)
         
         // <+1204>
+        // x19
+        let outputs = [
+            outputs_1,
+            outputs_2,
+            outputs_3
+        ]
+        
+        if w26.contains(.requiresSections) {
+            // <+1364>
+            assertUnimplemented()
+        } else {
+            // <+1312>
+            assertUnimplemented()
+        }
         
         assertUnimplemented()
     }
