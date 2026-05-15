@@ -236,7 +236,21 @@ public struct _ViewListOutputs {
 }
 
 extension _ViewListOutputs {
-    static func sectionListOutputs(_: [_ViewListOutputs], inputs: _ViewListInputs) -> _ViewListOutputs {
+    static func sectionListOutputs(_ outputs: [_ViewListOutputs], inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         outputs -> x0 -> x20
+         inputs -> x1 -> x9
+         */
+        // x29 - 0xf0
+        let copy_1 = inputs
+        // x22
+        var lists: [Attribute<ViewList>] = []
+        
+        for output in outputs {
+            assertUnimplemented()
+        }
+        
+        // <+872>
         assertUnimplemented()
     }
     
