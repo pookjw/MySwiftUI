@@ -164,7 +164,7 @@ extension _ViewListOutputs {
         let outputs_1 = Parent.makeDebuggableViewList(view: parent, inputs: copy_2)
         
         let w24 = copy_1.options
-        if w24.contains(.previewContext) {
+        if w24.contains(.requiresContentOffsets) {
             copy_1.updateContentOffset(outputs: outputs_1)
         }
         
@@ -177,7 +177,6 @@ extension _ViewListOutputs {
                 copy_1.traitKeys = nil
                 traitKeys.insert(DepthTraitKey.self)
                 copy_1.traitKeys = traitKeys
-                assertUnimplemented()
             } else {
                 // <+808>
             }
@@ -187,7 +186,7 @@ extension _ViewListOutputs {
         // sp + 0x90
         let outputs_2 = body(_Graph(), copy_1)
         
-        if w24.contains(.previewContext) {
+        if w24.contains(.requiresContentOffsets) {
             copy_1.updateContentOffset(outputs: outputs_2)
         }
         
@@ -232,13 +231,14 @@ extension _ViewListOutputs {
         
         if w26.contains(.requiresSections) {
             // <+1364>
-            assertUnimplemented()
+            return _ViewListOutputs.sectionListOutputs(outputs, inputs: inputs)
         } else {
             // <+1312>
-            assertUnimplemented()
+            // sp + 0xd8
+            var copy_4 = inputs
+            copy_4.implicitID = outputs_3.nextImplicitID
+            return _ViewListOutputs.concat(outputs, inputs: copy_4)
         }
-        
-        assertUnimplemented()
     }
     
     static func groupViewListCount<Content : View, Header : View, Footer : View>(inputs: _ViewListCountInputs, contentType: Content.Type, headerType: Header.Type, footerType: Footer.Type) -> Int? {

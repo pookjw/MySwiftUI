@@ -244,7 +244,7 @@ extension _ViewListOutputs {
         assertUnimplemented()
     }
     
-    static func emptyViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
+    package static func emptyViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
          inputs -> x20
          return pointer -> x19

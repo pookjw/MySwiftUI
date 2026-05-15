@@ -7,12 +7,26 @@ protocol ViewAlias : PrimitiveView {
 }
 
 extension ViewAlias {
-    nonisolated public static func _makeView(view: _GraphValue<ViewAlias>, inputs: _ViewInputs) -> _ViewOutputs {
+    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    nonisolated public static func _makeViewList(view: _GraphValue<ViewAlias>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+    nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         view -> x0 -> x29 - 0x98
+         inputs -> x1 -> x26
+         */
+        // x23
+        var copy_1 = inputs
+        // x29 - 0x70
+        let pop = copy_1.base.popLast(SourceInput<Self>.self)
+        
+        if let pop {
+            copy_1.base.resetCurrentStyleableView()
+            return pop.formula.makeViewList(view: view, source: pop, inputs: copy_1)
+        } else {
+            return _ViewListOutputs.emptyViewList(inputs: inputs)
+        }
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
@@ -62,7 +76,7 @@ fileprivate protocol AnySourceFormula {
 }
 
 fileprivate struct AnySource : GraphReusable {
-    private let formula: any AnySourceFormula.Type
+    let formula: any AnySourceFormula.Type
     private var value: AnyWeakAttribute
     private let valueIsNil: Attribute<Bool>?
     

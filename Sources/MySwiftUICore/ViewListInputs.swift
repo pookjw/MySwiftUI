@@ -1,7 +1,7 @@
 internal import AttributeGraph
 
 public struct _ViewListInputs {
-    var base: _GraphInputs // 0x0
+    package var base: _GraphInputs // 0x0
     var implicitID: Int // 0x30
     var options: _ViewListInputs.Options // 0x38
     @OptionalAttribute var traits: ViewTraitCollection? // 0x40

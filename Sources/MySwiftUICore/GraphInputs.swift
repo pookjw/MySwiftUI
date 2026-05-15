@@ -92,7 +92,7 @@ public struct _GraphInputs {
         customInputs[Input.self].push(reusable)
     }
     
-    mutating func popLast<Input : GraphInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
+    package mutating func popLast<Input : GraphInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
         return customInputs[Input.self].pop()
     }
     
@@ -331,5 +331,11 @@ fileprivate struct MergedPhase : Rule, AsyncAttribute {
         }
         
         return rhs
+    }
+}
+
+extension _GraphInputs {
+    package func resetCurrentStyleableView() {
+        assertUnimplemented()
     }
 }
