@@ -1,5 +1,3 @@
-// E479C0E92CDD045BAF2EF653123E2E0B
-
 public import CoreGraphics
 internal import AttributeGraph
 
@@ -56,144 +54,6 @@ extension Layout where Self.Cache == () {
 extension Layout {
     @_alwaysEmitIntoClient @_disfavoredOverload public func callAsFunction<V>(@ViewBuilder _ content: () -> V) -> some View where V : View {
         return _VariadicView.Tree(_LayoutRoot(self)) { content() }
-    }
-}
-
-extension Layout {
-    public static func makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        // $s7SwiftUI6LayoutPAAE04makeC4View4root6inputs4bodyAA01_E7OutputsVAA11_GraphValueVyxG_AA01_E6InputsVAA01_e4ListI0VAA01_J0V_ANtXEtFZ
-        // sp + 0x44
-        var root = root
-        // sp + 0x380
-        let copy_1 = inputs
-        // sp + 0x320
-        var copy_2 = inputs
-        // sp + 0x2c0
-        var copy_3 = copy_1
-        
-        Self._makeAnimatable(value: &root, inputs: copy_2.base)
-        
-        // sp + 0x3e0
-        let _ = copy_2
-        
-        // <+196>
-        // w24
-        var options = copy_1.base.options
-        /*
-         copy_1.base.customInputs -> x27
-         */
-        
-        // w19/w28/sp + 0xc
-        let layoutProperties: LayoutProperties
-        if self != AnyLayout.self {
-            // <+252>
-            copy_3 = copy_1
-            layoutProperties = Self.layoutProperties
-            
-            // w19
-            if let stackOrientation = layoutProperties.stackOrientation {
-                // <+548>
-                options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
-                switch stackOrientation {
-                case .horizontal:
-                    options.formUnion(.viewStackOrientationIsDefined)
-                case .vertical:
-                    options.formUnion([.viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
-                }
-                copy_2.base.options = options
-                // <+572>
-            } else {
-                // <+316>
-                options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
-                copy_2.base.options = options
-                copy_2[DynamicStackOrientation.self] = OptionalAttribute()
-                // <+572>
-            }
-        } else {
-            // <+372>
-            options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
-            copy_2.base.options = options
-            copy_3 = copy_1
-            let rule = AnyLayoutProperties(layout: root.value.identifier.unsafeCast(to: AnyLayout.self))
-            let attribute = Attribute(rule)
-            copy_2[DynamicStackOrientation.self] = OptionalAttribute(attribute)
-            layoutProperties = LayoutProperties()
-            // <+572>
-        }
-        
-        // <+572>
-        let archivedViewInput = copy_3[ArchivedViewInput.self]
-        if archivedViewInput.flags.contains(.isArchived) {
-            // <+1260>
-            var options = _ViewListInputs.Options(rawValue: copy_2[ViewListOptionsInput.self])
-            options.formUnion(.needsArchivedAnimationTraits)
-            copy_2[ViewListOptionsInput.self] = options.rawValue
-        }
-        
-        // <+620>
-        if !options.contains(.needsDynamicLayout) {
-            copy_2.base.options = options
-        }
-        
-        // <+628>
-        // sp + 0x260
-        let copy_4 = copy_2
-        // sp + 0x1c0
-        let copy_5 = copy_2
-        copy_3 = copy_4
-        // sp + 0x218
-        let listOutputs = body(_Graph(), copy_5)
-        copy_3 = copy_4
-        // sp + 0x190
-        let views = listOutputs.views
-        // <+756>
-        switch views {
-        case .staticList(let elements):
-            // <+1076>
-            // sp + 0xa8
-            let _ = views
-            if options.contains(.needsDynamicLayout) {
-                // <+1304>
-                // sp + 0x130
-                let copy_7 = copy_2
-                // sp + 0xd0
-                let copy_8 = copy_2
-                // sp + 0x1c0
-                let copy_9 = copy_1
-                // sp + 0x50
-                let _ = copy_7
-                
-                let elements = listOutputs.makeAttribute(viewInputs: copy_9)
-                return Self.makeDynamicView(root: root, inputs: copy_8, properties: layoutProperties, list: elements)
-            } else {
-                // <+1092>
-                // sp + 0x130
-                let _ = copy_2
-                // sp + 0xd0
-                let copy_8 = copy_2
-                return Self.makeStaticView(root: root, inputs: copy_8, properties: layoutProperties, list: elements)
-            }
-        case .dynamicList(var attribute, let listModifier):
-            // <+764>
-            /*
-             attribute = w20
-             listModifier = x21
-             */
-            if let listModifier {
-                attribute = Attribute(_ViewListOutputs.ApplyModifiers(base: attribute, modifier: listModifier))
-            }
-            
-            // <+892>
-            // sp + 0x130
-            let copy_6 = copy_2
-            // sp + 0xd0
-            let copy_7 = copy_2
-            // sp + 0x1c0
-            _ = copy_6
-            
-            let outputs = Self.makeDynamicView(root: root, inputs: copy_7, properties: layoutProperties, list: attribute)
-            return outputs
-        }
     }
 }
 
@@ -330,23 +190,6 @@ struct AnyLayoutProperties : Rule, AsyncAttribute {
     
     var value: Axis? {
         assertUnimplemented()
-    }
-}
-
-extension _ViewListOutputs {
-    fileprivate struct ApplyModifiers : Rule, AsyncAttribute {
-        @Attribute private var base: ViewList
-        private let modifier: _ViewListOutputs.ListModifier
-        
-        @inline(always)
-        init(base: Attribute<ViewList>, modifier: _ViewListOutputs.ListModifier) {
-            self._base = base
-            self.modifier = modifier
-        }
-        
-        var value: ViewList {
-            assertUnimplemented()
-        }
     }
 }
 
