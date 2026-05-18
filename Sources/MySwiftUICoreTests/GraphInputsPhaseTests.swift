@@ -1,5 +1,5 @@
 private import _SwiftUICorePrivate
-@testable @_private(sourceFile: "_GraphInputs.swift") private import MySwiftUICore
+@testable @_private(sourceFile: "GraphInputs.swift") private import MySwiftUICore
 internal import Testing
 private import SwiftUI
 
