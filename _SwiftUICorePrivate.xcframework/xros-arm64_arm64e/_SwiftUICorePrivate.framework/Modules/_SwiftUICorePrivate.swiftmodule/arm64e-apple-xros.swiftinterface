@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.2 clang-2100.0.123.2)
-// swift-module-flags: -target arm64e-apple-xros26.5 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 7.5.1 -module-name _SwiftUICorePrivate -package-name _SwiftUICorePrivate -module-abi-name SwiftUI
+// swift-module-flags: -target arm64e-apple-xros26.5 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 7.5.3 -module-name _SwiftUICorePrivate -package-name _SwiftUICorePrivate -module-abi-name SwiftUI
 // swift-module-flags-ignorable: -public-module-name SwiftUI -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.2
 @_exported import Swift
 @_exported import _SwiftUICorePrivate
@@ -66,6 +66,8 @@ extension _SwiftUICorePrivate.GraphHost {
 public class ViewGraph : _SwiftUICorePrivate.GraphHost {
   public init<T : SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUICorePrivate.ViewGraph.Outputs)
   public final func updateGraphPhase(oldParentPhase: SwiftUICore._GraphInputs.Phase?, newParentPhase: SwiftUICore._GraphInputs.Phase)
+
+  public struct NextUpdate {}
 }
 
 @available(visionOS 26.0, *)
@@ -1323,6 +1325,8 @@ extension _SwiftUICorePrivate.DynamicContainerItem {
 public struct _ViewList_ID {
   public init(implicitID: Swift.Int)
   public init()
+
+  public struct Explicit {}
 }
 
 @available(visionOS 26.0, *)
@@ -1976,6 +1980,10 @@ public protocol PrimitiveViewModifier : ViewModifier where Body == Swift.Never {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol MultiView : SwiftUI.View {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 open class _ViewList_Subgraph {}
 
 @available(visionOS 26.0, *)
@@ -2349,3 +2357,93 @@ public enum DebugReplaceableViewCount {
   case uninitialized
   case indeterminate
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewSizeCache {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ViewList_View {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public class _ViewList_SubgraphRelease {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum AccessibilityTrait : Swift.UInt64, Swift.Hashable, Swift.CaseIterable {
+  case isButton
+  case isHeader
+  case isSelected
+  case isLink
+  case isSearchField
+  case isImage
+  case playsSound
+  case isKeyboardKey
+  case isStaticText
+  case isSummaryElement
+  case updatesFrequently
+  case startsMediaSession
+  case allowsDirectInteraction
+  case causesPageTurn
+  case isModal
+  case isCheckbox
+  case isSwitch
+  case isRadioButton
+  case isRadioGroup
+  case isLabel
+  case isSingleSiblingWithGesture
+  case isInteractive
+  case isTabBar
+  case isTabButton
+  case isBackButton
+  case excludeFromItemChooser
+  case isControlGroup
+  case isPopupButton
+  case isMenuButton
+  case isToggle
+  case isMathEquation
+  case isAccessory
+
+  public var rawValue: Swift.UInt64 {
+    get
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct AccessibilityTraitSet : Swift.OptionSet, Swift.Hashable, Swift.Codable {
+    public let rawValue: Swift.UInt64
+    public init(trait: _SwiftUICorePrivate.AccessibilityTrait)
+    public init(rawValue: Swift.UInt64)
+    public init(traits: [_SwiftUICorePrivate.AccessibilityTrait])
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct SectionAccumulator {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct HeterogeneousViewIDsAccumulator {
+  public init()
+  public func finalize()
+  public var count: Swift.Int { get }
+  public var isEmpty: Swift.Bool { get }
+  public func append<T : Swift.Hashable>(contentsOf contents: Swift.ContiguousArray<T>)
+  public func withBuffer<T : Swift.Hashable>(of type: T.Type, body: (inout Swift.ContiguousArray<T>) -> Swift.Void)
+  public func withExplicitID<T : Swift.Hashable>(_: T, isUnary: Swift.Bool, body: (inout _SwiftUICorePrivate.HeterogeneousViewIDsAccumulator) -> Swift.Void)
+  public func append<T : Swift.Hashable>(index: Swift.Int32, implicitID: Swift.Int32, explicitID: T)
+  public func append(index: Swift.Int32, implicitID: Swift.Int32)
+  public func append<T : Swift.Hashable>(_: _SwiftUICorePrivate.TypedCanonicalViewID<T>)
+  public func appendWithUnsafeOutputBuffer<T : Swift.Hashable>(explicitID: T.Type, count: Swift.Int, body: (_SwiftUICorePrivate.HeterogeneousViewIDsAccumulator.UnsafeOutputBuffer) -> Swift.Void)
+  public func appendWithoutExplicitID(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32)
+  public func append<T : Swift.Hashable>(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32, explicitID: T)
+
+  public struct UnsafeOutputBuffer {}
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct TypedCanonicalViewID<T> {}

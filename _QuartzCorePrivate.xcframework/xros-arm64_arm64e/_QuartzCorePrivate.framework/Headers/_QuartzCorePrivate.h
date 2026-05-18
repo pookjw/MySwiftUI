@@ -7,3 +7,5 @@
 #import <_QuartzCorePrivate/CAFilter.h>
 #import <_QuartzCorePrivate/CALayer+Private.h>
 #import <_QuartzCorePrivate/CATransactionCompletionItem.h>
+#import <_QuartzCorePrivate/CADisplayLink+Private.h>
+#import <_QuartzCorePrivate/CADisplay.h>
