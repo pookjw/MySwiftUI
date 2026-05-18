@@ -2419,3 +2419,31 @@ public struct AccessibilityTraitSet : Swift.OptionSet, Swift.Hashable, Swift.Cod
     public init(rawValue: Swift.UInt64)
     public init(traits: [_SwiftUICorePrivate.AccessibilityTrait])
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct SectionAccumulator {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct HeterogeneousViewIDsAccumulator {
+  public init()
+  public func finalize()
+  public var count: Swift.Int { get }
+  public var isEmpty: Swift.Bool { get }
+  public func append<T : Swift.Hashable>(contentsOf contents: Swift.ContiguousArray<T>)
+  public func withBuffer<T : Swift.Hashable>(of type: T.Type, body: (inout Swift.ContiguousArray<T>) -> Swift.Void)
+  public func withExplicitID<T : Swift.Hashable>(_: T, isUnary: Swift.Bool, body: (inout _SwiftUICorePrivate.HeterogeneousViewIDsAccumulator) -> Swift.Void)
+  public func append<T : Swift.Hashable>(index: Swift.Int32, implicitID: Swift.Int32, explicitID: T)
+  public func append(index: Swift.Int32, implicitID: Swift.Int32)
+  public func append<T : Swift.Hashable>(_: _SwiftUICorePrivate.TypedCanonicalViewID<T>)
+  public func appendWithUnsafeOutputBuffer<T : Swift.Hashable>(explicitID: T.Type, count: Swift.Int, body: (_SwiftUICorePrivate.HeterogeneousViewIDsAccumulator.UnsafeOutputBuffer) -> Swift.Void)
+  public func appendWithoutExplicitID(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32)
+  public func append<T : Swift.Hashable>(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32, explicitID: T)
+
+  public struct UnsafeOutputBuffer {}
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct TypedCanonicalViewID<T> {}

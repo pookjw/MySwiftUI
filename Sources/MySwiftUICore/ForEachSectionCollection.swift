@@ -201,6 +201,12 @@ extension SectionsRoot {
                 assertUnimplemented()
             } else {
                 // <+384>
+                // sp + 0xa0
+//                let accumulator = SectionAccumulator(
+//                    contentSubgraph: <#T##Subgraph?#>,
+//                    options: <#T##SectionAccumulator.Options#>,
+//                    accumulationStrategy: <#T##SectionAccumulator.RowIDAccumulationStrategy#>
+//                )
                 assertUnimplemented()
             }
             
