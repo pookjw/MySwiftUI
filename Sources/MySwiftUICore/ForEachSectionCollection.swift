@@ -5,7 +5,7 @@ internal import AttributeGraph
 public struct ForEachSectionCollection<Content> : RandomAccessCollection where Content : View {
     var substituteView: AnyView
     
-    init<T : View>(subviewOf subviews: T, content: (SectionConfiguration) -> Content) {
+    init<T : View>(subviewOf subviews: T, content: @escaping (SectionConfiguration) -> Content) {
         /*
          subviews -> x0 -> x22
          content -> x29 - 0xa0 / x29 - 0x98
@@ -14,12 +14,14 @@ public struct ForEachSectionCollection<Content> : RandomAccessCollection where C
         // x27
         let copy_1 = subviews
         
-        let group = Group(sections: copy_1) { collection in
+        let group = Group(sections: copy_1) { collection -> ForEach<SectionCollection, SectionConfiguration.ID, Content> in
             // $s7SwiftUI24ForEachSectionCollectionV9subviewOf7contentACyxGqd___xAA0E13ConfigurationVctcAA4ViewRd__lufcAA0cD0VyAA0eF0VAH2IDVxGAMcfU_TA
             /*
              content -> x4/x5
              */
-            assertUnimplemented()
+            ForEach(collection) { value in
+                content(value)
+            }
         }
         
         self.substituteView = AnyView(group)
@@ -178,6 +180,30 @@ extension SectionsRoot {
         private(set) var contentSubgraph: Subgraph
         
         var value: T {
+            /*
+             view -> w22
+             viewList -> w25
+             contentSubgraph -> x20
+             */
+            // sp + 0xa0
+            let viewList = self.viewList
+            // x21
+            let items = SectionAccumulator.processUnsectionedContent(
+                list: viewList,
+                contentSubgraph: self.contentSubgraph,
+                accumulationStrategy: .chunked
+            )
+            
+            if let items {
+                // <+136>
+                // x26/x22
+                let view = self.view
+                assertUnimplemented()
+            } else {
+                // <+384>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
         }
     }

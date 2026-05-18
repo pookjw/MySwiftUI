@@ -325,3 +325,79 @@ package struct IsSectionFooterTraitKey : _ViewTraitKey {
 @available(*, unavailable)
 extension IsSectionFooterTraitKey : Sendable {
 }
+
+extension _ViewListOutputs {
+    static func sectionListOutputs(_ outputs: [_ViewListOutputs], inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         outputs -> x0 -> x20
+         inputs -> x1 -> x9 -> sp + 0x10
+         */
+        // x29 - 0xf0
+        var copy_1 = inputs
+        // x22
+        var lists: [Attribute<any ViewList>] = []
+        // x27/w26
+        var staticCount: Int? = 0
+        
+        for output in outputs {
+            // inlined
+            // w20
+            let attribute = output.makeAttribute(inputs: copy_1)
+            // <+712>
+            lists.append(attribute)
+            copy_1.implicitID = output.nextImplicitID
+            
+            // <+784>
+            if let _staticCount = output.staticCount {
+                staticCount = (staticCount ?? 0) &+ _staticCount
+            } else {
+                staticCount = nil
+            }
+        }
+        
+        // <+872>
+        // inputs -> sp + 0x10 -> x19
+        // w24
+        let options = inputs.options
+        if options.contains(.sectionsConcatenateFooter) {
+            // <+872>
+            if !lists.isEmpty {
+                lists = Array(lists[1..<lists.count])
+            }
+            
+            // <+904>
+            let groupInit = _ViewList_Group.Init(lists: lists)
+            let groupAttributeInit = Attribute(groupInit)
+            lists[1] = groupAttributeInit
+            
+            // <+1016>
+            let attribute = GraphHost.currentHost.intern(EmptyViewList() as any ViewList, for: (any ViewList).self, id: .defaultValue)
+            lists[2] = attribute
+        }
+        
+        // <+1068>
+        // sp + 0x50
+        let makeSection = MakeSection(
+            lists: lists,
+            isHierarchical: options.contains(.sectionsAreHierarchical),
+            traits: OptionalAttribute(inputs.$traits)
+        )
+        let makeSectionAttribute = Attribute(makeSection)
+        
+        return _ViewListOutputs(
+            .dynamicList(makeSectionAttribute, nil),
+            nextImplicitID: copy_1.implicitID,
+            staticCount: staticCount
+        )
+    }
+}
+
+fileprivate struct MakeSection : Rule {
+    private(set) var lists: [Attribute<ViewList>]
+    private(set) var isHierarchical: Bool
+    @OptionalAttribute var traits: ViewTraitCollection?
+    
+    var value: any ViewList {
+        assertUnimplemented()
+    }
+}

@@ -236,69 +236,6 @@ public struct _ViewListOutputs {
 }
 
 extension _ViewListOutputs {
-    static func sectionListOutputs(_ outputs: [_ViewListOutputs], inputs: _ViewListInputs) -> _ViewListOutputs {
-        /*
-         outputs -> x0 -> x20
-         inputs -> x1 -> x9
-         */
-        // x29 - 0xf0
-        let copy_1 = inputs
-        // x22
-        var lists: [Attribute<ViewList>] = []
-        
-        for output in outputs {
-            // sp + 0x138
-            let copy_2 = output
-            // sp + 0xf0
-            let copy_3 = copy_2.views
-            // sp + 0xc0
-            let copy_4 = copy_3
-            // w20
-            let newList: Attribute<ViewList>
-            
-            switch copy_4 {
-            case .staticList(let elements):
-                // <+316>
-                // sp + 0x98
-                let copy_5 = elements
-                // sp + 0x28
-                let copy_6 = copy_5
-                // x24/w19
-                let scope: _DisplayList_StableIdentityScope?
-                if copy_1.base.options.contains(.needsStableDisplayListIDs) {
-                    // <+372>
-                    scope = copy_1[_DisplayList_StableIdentityScope.self].wrappedValue
-                    // <+444>
-                } else {
-                    scope = nil
-                    // <+444>
-                }
-                
-                assertUnimplemented()
-            case .dynamicList(let list, let modifier):
-                // <+212>
-                /*
-                 list -> w20
-                 modifier -> x24
-                 */
-                if let modifier {
-                    let modifiers = _ViewListOutputs.ApplyModifiers(base: list, modifier: modifier)
-                    newList = Attribute(modifiers)
-                    // <+712>
-                } else {
-                    newList = list
-                    // <+712>
-                }
-            }
-            
-            // <+712>
-            assertUnimplemented()
-        }
-        
-        // <+872>
-        assertUnimplemented()
-    }
-    
     static func nonEmptyParentViewList(inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
@@ -1510,7 +1447,7 @@ struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
 
 extension _ViewList_Group {
     struct Init : Rule, AsyncAttribute, CustomStringConvertible {
-        fileprivate var lists: [Attribute<ViewList>]
+        fileprivate(set) var lists: [Attribute<ViewList>]
         
         var value: ViewList {
             // 실제로는 $s14AttributeGraph0A0VyACyxGqd__c5ValueQyd__RszAA4RuleRd__lufcADSPyqd__GXEfU_ySv_So11AGAttributeatcyXEfU_ySv_AJtcfu_7SwiftUI8ViewList_p_AK01_hI6_GroupV4InitVTt1g5가 불림
