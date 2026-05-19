@@ -5,12 +5,14 @@ private import _SwiftUICorePrivate
 struct HeterogeneousViewIDsAccumulatorTests {
     @Test func test_finalize() {
         var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+        var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
         
         let values: ContiguousArray<Int> = [0, 1, 2]
         original.append(contentsOf: values)
+        impl.append(contentsOf: values)
         
-        let viewIDs = original.finalize()
-        fatalError()
+        let original_viewIDs = original.finalize()
+        let impl_viewIDs = original.finalize()
     }
     
     @Test func test_count() {

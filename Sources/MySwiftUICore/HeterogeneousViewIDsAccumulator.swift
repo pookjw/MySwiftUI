@@ -9,22 +9,44 @@ struct HeterogeneousViewIDsAccumulator {
     init() {
     }
     
-    func finalize() -> HeterogeneousViewIDs {
+    consuming func finalize() -> HeterogeneousViewIDs {
         // sp + 0x70 (x22)
-        let copy_1 = self
+        var copy_1 = self
         // sp + 0x18
         let copy_2 = copy_1.currentCollection
         
         if let copy_2 {
             // <+116>
-            assertUnimplemented()
+            // sp + 0x40
+            let copy_3 = copy_2
+            
+            func append<T : AbstractContiguousArray>(buffer: T) {
+                /*
+                 buffer -> x0 -> x20
+                 self -> x1 -> x19
+                 */
+                // x21
+                let contiguousArray = buffer.contiguousArray
+                // x23
+                let collection = HomogeneousCollection(contiguousArray)
+                copy_1.collections.append(collection)
+                copy_1._count += contiguousArray.count
+            }
+            
+            _openExistential(copy_3, do: append)
+            
+            // <+160>
+            copy_1.currentCollection = nil
+            // <+284>
         } else {
             // <+244>
-            assertUnimplemented()
+            // <+284>
         }
         
         // <+284>
-        assertUnimplemented()
+        return HeterogeneousViewIDs(
+            collection: HeterogeneousCollection(copy_1.collections)
+        )
     }
     
     var count: Int {
@@ -319,12 +341,25 @@ struct TypedCanonicalViewID<T> {
 
 struct HeterogeneousViewIDs {
     private var collection: HeterogeneousCollection
+    
+    init() {
+        self.collection = HeterogeneousCollection([])
+    }
+    
+    @inline(always) // 원래 없음
+    fileprivate init(collection: HeterogeneousCollection) {
+        self.collection = collection
+    }
 }
 
 struct HeterogeneousCollection {
     private let subCollections: ContiguousArray<AbstractHomogeneousCollection>
     private let runningTotal: [UInt32]
     private var lookupTableCache: HeterogeneousIndexLookupTable?
+    
+    init(_: ContiguousArray<AbstractHomogeneousCollection>) {
+        assertUnimplemented()
+    }
 }
 
 struct HeterogeneousIndexLookupTable {

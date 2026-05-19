@@ -2428,7 +2428,7 @@ public struct SectionAccumulator {}
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct HeterogeneousViewIDsAccumulator {
   public init()
-  public func finalize() -> _SwiftUICorePrivate.HeterogeneousViewIDs
+  public consuming func finalize() -> _SwiftUICorePrivate.HeterogeneousViewIDs
   public var count: Swift.Int { get }
   public var isEmpty: Swift.Bool { get }
   public mutating func append<T : Swift.Hashable>(contentsOf contents: Swift.ContiguousArray<T>)
