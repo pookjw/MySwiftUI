@@ -180,24 +180,58 @@ struct HeterogeneousViewIDsAccumulator {
         }
     }
     
-    func withExplicitID<T : Hashable>(_: T, isUnary: Bool, body: (inout HeterogeneousViewIDsAccumulator) -> Void) {
-        assertUnimplemented()
+    mutating func withExplicitID<T : Hashable>(_ explicitID: T, isUnary: Bool, body: (inout HeterogeneousViewIDsAccumulator) -> Void) {
+        /*
+         self -> x20 -> x19
+         explicitID -> x0 -> x25
+         isUnary -> w1 -> w24
+         body -> x2/x3 -> x23/x22
+         */
+        // sp + 0x30
+        let copy_1 = self.currentExplicitID
+        self.currentExplicitID = (explicitID, isUnary)
+        body(&self)
+        self.currentExplicitID = copy_1
     }
     
     fileprivate func append(_: _ViewList_ID.Canonical) {
         assertUnimplemented()
     }
     
-    func append<T : Hashable>(index: Int32, implicitID: Int32, explicitID: T) {
-        assertUnimplemented()
+    mutating func append<T : Hashable>(index: Int32 = 0, implicitID: Int32 = -1, explicitID: T) {
+        /*
+         self -> x20 -> x29 - 0x58
+         index -> x0 -> x24
+         implicitID -> x1 -> x23
+         explicitID -> x2 -> x20
+         */
+        if index != 0 || implicitID != -1 {
+            // <+244>
+            let id = TypedCanonicalViewID<T>(index: index, implicitID: implicitID, explicitID: explicitID)
+            self.append(id)
+        } else {
+            // <+172>
+            self.withBuffer(of: T.self) { array in
+                // $s7SwiftUI31HeterogeneousViewIDsAccumulatorV6append5index10implicitID08explicitJ0ys5Int32V_AIxtSHRzlFys15ContiguousArrayVyxGzXEfU_TA
+                /*
+                 array -> x0
+                 explicitID -> x1
+                 */
+                // x21
+                let copy_1 = explicitID
+                array.append(copy_1)
+            }
+        }
     }
     
     func append(index: Int32, implicitID: Int32) {
         assertUnimplemented()
     }
     
-    func append<T : Hashable>(_: TypedCanonicalViewID<T>) {
-        assertUnimplemented()
+    mutating func append<T : Hashable>(_ viewID: TypedCanonicalViewID<T>) {
+        self.withBuffer(of: TypedCanonicalViewID<T>.self) { array in
+            array.append(viewID)
+        }
     }
     
     func appendWithUnsafeOutputBuffer<T : Hashable>(explicitID: T.Type, count: Int, body: (HeterogeneousViewIDsAccumulator.UnsafeOutputBuffer) -> Void) {
@@ -333,10 +367,16 @@ extension ContiguousArray : AbstractContiguousArray {
     }
 }
 
-struct TypedCanonicalViewID<T> {
-    private var index: Int32
-    private var implicitID: Int32
-    private var explicitID: T
+struct TypedCanonicalViewID<T : Hashable> : Hashable {
+    var index: Int32
+    var implicitID: Int32
+    var explicitID: T
+    
+    init(index: Int32, implicitID: Int32, explicitID: T) {
+        self.index = index
+        self.implicitID = implicitID
+        self.explicitID = explicitID
+    }
 }
 
 struct HeterogeneousViewIDs {
@@ -350,14 +390,36 @@ struct HeterogeneousViewIDs {
     fileprivate init(collection: HeterogeneousCollection) {
         self.collection = collection
     }
-}
-
-struct HeterogeneousCollection {
-    private let subCollections: ContiguousArray<AbstractHomogeneousCollection>
-    private let runningTotal: [UInt32]
-    private var lookupTableCache: HeterogeneousIndexLookupTable?
     
-    init(_: ContiguousArray<AbstractHomogeneousCollection>) {
+    @safe static nonisolated(unsafe) let empty: HeterogeneousViewIDs = {
+        assertUnimplemented()
+    }()
+    
+    var count: Int {
+        assertUnimplemented()
+    }
+    
+    subscript(index: Int) -> _ViewList_ID.Canonical {
+        assertUnimplemented()
+    }
+    
+    func asCanonical() -> [_ViewList_ID.Canonical] {
+        assertUnimplemented()
+    }
+    
+    func forEach(_: (_ViewList_ID.Canonical) -> Void) {
+        assertUnimplemented()
+    }
+    
+    func makeIndexLookupTableIfNeeded() -> HeterogeneousViewIDIndexLookupTable {
+        assertUnimplemented()
+    }
+    
+    init(_ viewList: ViewList) {
+        assertUnimplemented()
+    }
+    
+    func difference(to ids: inout HeterogeneousViewIDs) -> DiffResult {
         assertUnimplemented()
     }
 }
@@ -365,4 +427,8 @@ struct HeterogeneousCollection {
 struct HeterogeneousIndexLookupTable {
     private let homogenousLookupTable: [ObjectIdentifier : HomogeneousLookupTable]
     private let count: Int
+}
+
+struct HeterogeneousViewIDIndexLookupTable {
+    private var lookupTable: HeterogeneousIndexLookupTable
 }

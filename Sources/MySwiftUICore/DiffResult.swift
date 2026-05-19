@@ -1,0 +1,5 @@
+// 03B0DC6BFF9190FEED42125CB5B4BFF9
+
+struct DiffResult {
+    // TODO
+}

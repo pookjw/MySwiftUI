@@ -2446,7 +2446,11 @@ public struct HeterogeneousViewIDsAccumulator {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct TypedCanonicalViewID<T> {}
+public struct TypedCanonicalViewID<T : Swift.Hashable> : Swift.Hashable {
+  public var index: Swift.Int32
+  public var implicitID: Swift.Int32
+  public var explicitID: T
+}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
