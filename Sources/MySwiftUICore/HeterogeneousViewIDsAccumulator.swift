@@ -224,8 +224,36 @@ struct HeterogeneousViewIDsAccumulator {
         }
     }
     
-    func append(index: Int32, implicitID: Int32) {
-        assertUnimplemented()
+    mutating func append(index: Int32, implicitID: Int32) {
+        /*
+         self -> x20
+         index -> w0 -> w21
+         implicitID -> w1 -> w19
+         */
+        // sp
+        let copy_1 = self.currentExplicitID
+        
+        if let copy_1 {
+            // <+88>
+            // sp + 0x30
+            let copy_2 = copy_1
+            // sp
+            let copy_3 = copy_2
+            self.append(
+                index: index,
+                implicitID: copy_3.isUnary ? -1 : implicitID,
+                explicitID: copy_2.0
+            )
+        } else {
+            // <+204>
+            self.append(
+                TypedCanonicalViewID<Nil>(
+                    index: index,
+                    implicitID: implicitID,
+                    explicitID: nil
+                )
+            )
+        }
     }
     
     mutating func append<T : Hashable>(_ viewID: TypedCanonicalViewID<T>) {
@@ -431,4 +459,9 @@ struct HeterogeneousIndexLookupTable {
 
 struct HeterogeneousViewIDIndexLookupTable {
     private var lookupTable: HeterogeneousIndexLookupTable
+}
+
+fileprivate struct Nil : Hashable, ExpressibleByNilLiteral {
+    init(nilLiteral: ()) {
+    }
 }

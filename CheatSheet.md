@@ -194,3 +194,14 @@ if (x8 == (uint64_t)-1) {
     goto loc_1d38aa084;
 }
 ```
+
+---
+
+```asm
+cmp    w26, #0x0
+csinv  w1, w19, wzr, eq
+```
+
+```c
+uint32_t w1 = (w26 == 0) ? w19 : UINT32_MAX; // else: ~wzr
+```

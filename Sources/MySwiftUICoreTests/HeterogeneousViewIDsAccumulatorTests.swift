@@ -1,5 +1,5 @@
 internal import Testing
-@testable private import MySwiftUICore
+@testable @_private(sourceFile: "HeterogeneousViewIDsAccumulator.swift") private import MySwiftUICore
 private import _SwiftUICorePrivate
 
 struct HeterogeneousViewIDsAccumulatorTests {
@@ -134,7 +134,25 @@ struct HeterogeneousViewIDsAccumulatorTests {
     }
     
     @Test func test_withExplicitID_() {
-        fatalError("TODO")
+        var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+        var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+        var called = false
+        
+        original.withExplicitID(3, isUnary: true) { original in
+            impl.withExplicitID(3, isUnary: true) { impl in
+                #expect(original.currentExplicitID?.0 as? Int == 3)
+                #expect(original.currentExplicitID?.1 == true)
+                
+                #expect(impl.currentExplicitID?.0 as? Int == 3)
+                #expect(impl.currentExplicitID?.1 == true)
+                
+                called = true
+            }
+        }
+        
+        #expect(called)
+        #expect(original.currentExplicitID == nil)
+        #expect(impl.currentExplicitID == nil)
     }
     
     @Test func test_append_index_implicitID_explicitID_() {
@@ -166,5 +184,29 @@ struct HeterogeneousViewIDsAccumulatorTests {
         impl.withBuffer(of: Int.self) { array in
             #expect(array[0] == 4)
         }
+    }
+    
+    @Test func test_append_index_implicitID_() {
+        var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+        var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+        
+        original.append(index: 0, implicitID: 1)
+        impl.append(index: 0, implicitID: 1)
+        
+        #expect(original.count == 1)
+        #expect(impl.count == 1)
+        
+        original.append(index: 1, implicitID: 2)
+        impl.append(index: 1, implicitID: 2)
+        
+        #expect(original.count == 2)
+        #expect(impl.count == 2)
+    }
+}
+
+extension _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator {
+    fileprivate var currentExplicitID: (any Hashable, isUnary: Bool)? {
+        return Mirror(reflecting: self)
+            .descendant("currentExplicitID") as? (any Hashable, isUnary: Bool)
     }
 }
