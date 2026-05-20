@@ -2454,4 +2454,6 @@ public struct TypedCanonicalViewID<T : Swift.Hashable> : Swift.Hashable {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct HeterogeneousViewIDs {}
+public struct HeterogeneousViewIDs {
+  public var count: Swift.Int { get }
+}

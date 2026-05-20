@@ -268,7 +268,7 @@ extension HeterogeneousViewIDsAccumulator {
 
 class AbstractHomogeneousCollection {
     let elementTypeID: ObjectIdentifier
-    private let count: Int
+    final let count: Int
     
     init(elementTypeID: ObjectIdentifier, count: Int) {
         self.elementTypeID = elementTypeID
@@ -396,7 +396,7 @@ struct HeterogeneousViewIDs {
     }()
     
     var count: Int {
-        assertUnimplemented()
+        return collection.count
     }
     
     subscript(index: Int) -> _ViewList_ID.Canonical {

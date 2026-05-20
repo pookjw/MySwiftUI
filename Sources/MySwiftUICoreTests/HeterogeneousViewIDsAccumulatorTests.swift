@@ -8,21 +8,15 @@ struct HeterogeneousViewIDsAccumulatorTests {
             var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
             var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
             
+            let values: ContiguousArray<Int> = [0, 1, 2]
+            original.append(contentsOf: values)
+            impl.append(contentsOf: values)
+            
             let original_viewIDs = original.finalize()
-            let impl_viewIDs = impl.finalize()
+            let impl_viewIDs = original.finalize()
+            
+            #expect(original_viewIDs.count == impl_viewIDs.count)
         }
-        
-//        do {
-//            var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
-//            var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
-//            
-//            let values: ContiguousArray<Int> = [0, 1, 2]
-//            original.append(contentsOf: values)
-//            impl.append(contentsOf: values)
-//            
-//            let original_viewIDs = original.finalize()
-//            let impl_viewIDs = original.finalize()
-//        }
     }
     
     @Test func test_count() {
