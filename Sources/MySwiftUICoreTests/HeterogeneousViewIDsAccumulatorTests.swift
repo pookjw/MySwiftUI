@@ -202,6 +202,62 @@ struct HeterogeneousViewIDsAccumulatorTests {
         #expect(original.count == 2)
         #expect(impl.count == 2)
     }
+    
+    @Test func test_appendWithUnsafeOutputBuffer() {
+        var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+        var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+        
+        original.appendWithUnsafeOutputBuffer(explicitID: Int.self, count: 3) { buffer in
+            buffer.initialize(at: 0, index: 0, implicitID: 1, explicitID: 2)
+            buffer.initialize(at: 1, index: 1, implicitID: 3, explicitID: 4)
+            buffer.initialize(at: 2, index: 2, implicitID: 5, explicitID: 6)
+        }
+        
+        unsafe impl.appendWithUnsafeOutputBuffer(explicitID: Int.self, count: 3) { buffer in
+            unsafe buffer.initialize(at: 0, index: 0, implicitID: 1, explicitID: 2)
+            unsafe buffer.initialize(at: 1, index: 1, implicitID: 3, explicitID: 4)
+            unsafe buffer.initialize(at: 2, index: 2, implicitID: 5, explicitID: 6)
+        }
+        
+        var called = false
+        
+        original.withBuffer(of: _SwiftUICorePrivate::TypedCanonicalViewID<Int>.self) { array in
+            #expect(array[0].index == 0)
+            #expect(array[0].implicitID == 1)
+            #expect(array[0].explicitID == 2)
+            
+            #expect(array[1].index == 1)
+            #expect(array[1].implicitID == 3)
+            #expect(array[1].explicitID == 4)
+            
+            #expect(array[2].index == 2)
+            #expect(array[2].implicitID == 5)
+            #expect(array[2].explicitID == 6)
+            
+            called = true
+        }
+        
+        #expect(called)
+        called = false
+        
+        impl.withBuffer(of: MySwiftUICore::TypedCanonicalViewID<Int>.self) { array in
+            #expect(array[0].index == 0)
+            #expect(array[0].implicitID == 1)
+            #expect(array[0].explicitID == 2)
+            
+            #expect(array[1].index == 1)
+            #expect(array[1].implicitID == 3)
+            #expect(array[1].explicitID == 4)
+            
+            #expect(array[2].index == 2)
+            #expect(array[2].implicitID == 5)
+            #expect(array[2].explicitID == 6)
+            
+            called = true
+        }
+        
+        #expect(called)
+    }
 }
 
 extension _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator {

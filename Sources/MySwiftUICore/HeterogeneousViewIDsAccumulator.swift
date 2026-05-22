@@ -262,8 +262,31 @@ struct HeterogeneousViewIDsAccumulator {
         }
     }
     
-    func appendWithUnsafeOutputBuffer<T : Hashable>(explicitID: T.Type, count: Int, body: (HeterogeneousViewIDsAccumulator.UnsafeOutputBuffer) -> Void) {
-        assertUnimplemented()
+    mutating func appendWithUnsafeOutputBuffer<T : Hashable>(
+        explicitID: T.Type = T.self,
+        count: Int,
+        body: (HeterogeneousViewIDsAccumulator.UnsafeOutputBuffer) -> Void
+    ) {
+        if count < 1 {
+            return
+        }
+        
+        let array = unsafe ContiguousArray<TypedCanonicalViewID<T>>(unsafeUninitializedCapacity: count) { buffer, initializedCount in
+            // $s7SwiftUI31HeterogeneousViewIDsAccumulatorV28appendWithUnsafeOutputBuffer10explicitID5count4bodyyxm_SiyAC0ijK0VXEtSHRzlFySryAA014TypedCanonicaldM0VyxGGz_SiztXEfU_TA
+            let buffer = unsafe HeterogeneousViewIDsAccumulator.UnsafeOutputBuffer(
+                pointer: UnsafeMutableRawPointer(buffer.baseAddress.unsafelyUnwrapped),
+                count: buffer.count,
+                stride: MemoryLayout<TypedCanonicalViewID<T>>.stride,
+                indexOffset: 0,
+                implicitIDOffset: 4,
+                explicitIDOffset: MemoryLayout<TypedCanonicalViewID<T>>.offset(of: \.explicitID).unsafelyUnwrapped
+            )
+            
+            unsafe body(buffer)
+            initializedCount = count
+        }
+        
+        self.append(contentsOf: array)
     }
     
     func appendWithoutExplicitID(indices: Range<Int32>, implicitID: Int32) {
@@ -284,13 +307,80 @@ struct HeterogeneousViewIDsAccumulator {
 }
 
 extension HeterogeneousViewIDsAccumulator {
-    struct UnsafeOutputBuffer {
-        private let pointer: UnsafeMutableRawPointer
-        private let count: Int
-        private let stride: Int
-        private let indexOffset: Int
-        private let implicitIDOffset: Int
-        private let explicitIDOffset: Int
+    @unsafe struct UnsafeOutputBuffer {
+        fileprivate let pointer: UnsafeMutableRawPointer // 0x0
+        fileprivate let count: Int // 0x8
+        fileprivate let stride: Int // 0x10
+        fileprivate let indexOffset: Int // 0x18
+        fileprivate let implicitIDOffset: Int // 0x20
+        fileprivate let explicitIDOffset: Int // 0x28
+        
+        func initialize<T : Hashable>(at fromIndex: Int, index toIndex: Int32, implicitID: Int32, explicitID: T) {
+            // x8
+            let offset = unsafe stride &* fromIndex
+            // x9
+            let implicitIDOffset = unsafe self.implicitIDOffset
+            // x22
+            let explicitIDOffset = unsafe self.explicitIDOffset
+            // x10
+            let indexOffset = unsafe self.indexOffset
+            // x11
+            let pointer = unsafe self.pointer
+                .advanced(by: offset)
+            
+            unsafe pointer
+                .advanced(by: indexOffset)
+                .assumingMemoryBound(to: Int32.self)
+                .initialize(to: toIndex)
+            
+            unsafe pointer
+                .advanced(by: implicitIDOffset)
+                .assumingMemoryBound(to: Int32.self)
+                .initialize(to: implicitID)
+            
+            unsafe pointer
+                .advanced(by: explicitIDOffset)
+                .assumingMemoryBound(to: T.self)
+                .initialize(to: explicitID)
+        }
+        
+        func initialize(at index: Int, index toIndex: Int32, implicitID: Int32) {
+            // x8
+            let offset = unsafe self.stride &* index
+            // x10
+            let indexOffset = unsafe self.indexOffset
+            // x9
+            let implicitIDOffset = unsafe self.implicitIDOffset
+            // x11
+            let pointer = unsafe self.pointer
+            // x8
+            let base = unsafe pointer
+                .advanced(by: offset)
+            
+            unsafe base
+                .advanced(by: indexOffset)
+                .assumingMemoryBound(to: Int32.self)
+                .initialize(to: toIndex)
+            
+            unsafe base
+                .advanced(by: implicitIDOffset)
+                .assumingMemoryBound(to: Int32.self)
+                .initialize(to: implicitID)
+        }
+        
+        func mutableExplicitIDPointer<T : Hashable>(at index: Int, for type: T.Type = T.self) -> UnsafeMutablePointer<T> {
+            // x8
+            let offset = unsafe self.stride &* index
+            // x9
+            let explicitIDOffset = unsafe self.explicitIDOffset
+            // x10
+            let pointer = unsafe self.pointer
+            
+            return unsafe pointer
+                .advanced(by: explicitIDOffset)
+                .advanced(by: offset)
+                .assumingMemoryBound(to: T.self)
+        }
     }
 }
 

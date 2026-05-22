@@ -2441,7 +2441,11 @@ public struct HeterogeneousViewIDsAccumulator {
   public mutating func appendWithoutExplicitID(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32)
   public mutating func append<T : Swift.Hashable>(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32, explicitID: T)
 
-  public struct UnsafeOutputBuffer {}
+  public struct UnsafeOutputBuffer {
+    public func initialize<T : Swift.Hashable>(at fromIndex: Swift.Int, index toIndex: Swift.Int32, implicitID: Swift.Int32, explicitID: T)
+    public func initialize(at index: Swift.Int, index toIndex: Swift.Int32, implicitID: Swift.Int32)
+    public func mutableExplicitIDPointer<T : Swift.Hashable>(at index: Swift.Int, for type: T.Type = T.self) -> Swift.UnsafeMutablePointer<T>
+  }
 }
 
 @available(visionOS 26.0, *)
