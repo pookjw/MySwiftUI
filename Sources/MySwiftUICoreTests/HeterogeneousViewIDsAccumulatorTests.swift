@@ -258,6 +258,12 @@ struct HeterogeneousViewIDsAccumulatorTests {
         
         #expect(called)
     }
+    
+    @Test func test_appendWithoutExplicitID() {
+        var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+        
+        original.appendWithoutExplicitID(indices: 0..<10, implicitID: 100)
+    }
 }
 
 extension _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator {

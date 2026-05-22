@@ -290,6 +290,33 @@ struct HeterogeneousViewIDsAccumulator {
     }
     
     func appendWithoutExplicitID(indices: Range<Int32>, implicitID: Int32) {
+        /*
+         self -> x20
+         indices.lowerBound -> w21
+         indices.upperBound -> w26
+         implicitID -> w19
+         */
+        // sp
+        let copy_1 = self.currentExplicitID
+        
+        if let copy_1 {
+            // <+100>
+            assertUnimplemented()
+        } else {
+            // <+216>
+            if
+                let currentCollection,
+                let array = currentCollection.asContiguousArray(of: TypedCanonicalViewID<Nil>.self)
+            {
+                // <+264>
+                // array -> x22
+                assertUnimplemented()
+            } else {
+                // <+444>
+                assertUnimplemented()
+            }
+        }
+        
         assertUnimplemented()
     }
     
