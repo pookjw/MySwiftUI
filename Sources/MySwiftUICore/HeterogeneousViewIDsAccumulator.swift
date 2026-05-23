@@ -310,7 +310,7 @@ struct HeterogeneousViewIDsAccumulator {
             // w26
             let isUnary = copy_1.isUnary
             
-            self.append(indices: indices, implicitID: isUnary ? implicitID : -1, explicitID: copy_1.0)
+            self.append(indices: indices, implicitID: isUnary ? -1 : implicitID, explicitID: copy_1.0)
         } else {
             // <+216>
             if
@@ -408,7 +408,7 @@ struct HeterogeneousViewIDsAccumulator {
                 explicitID: explicitID
             )
             
-            // <+172>
+            return
         }
         
         // <+172>
@@ -481,8 +481,20 @@ struct HeterogeneousViewIDsAccumulator {
         }
     }
     
-    func appendSlowPath<T : ViewList>(_: T) {
-        assertUnimplemented()
+    mutating func appendSlowPath<T : ViewList>(_ list: T) {
+        var index = 0
+        _ = list.applyIDs(
+            from: &index,
+            transform: _ViewList_TemporarySublistTransform(),
+            to: { id in
+                // $s7SwiftUI31HeterogeneousViewIDsAccumulatorV14appendSlowPathyyxAA0D4ListRzlFSbAA01_dJ3_IDVXEfU_TA
+                /*
+                 id -> x0 -> w21/w22/x20
+                 self -> x1 -> x19
+                 */
+                assertUnimplemented()
+            }
+        )
     }
 }
 
