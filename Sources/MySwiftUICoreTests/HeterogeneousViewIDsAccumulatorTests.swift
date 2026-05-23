@@ -260,9 +260,202 @@ struct HeterogeneousViewIDsAccumulatorTests {
     }
     
     @Test func test_appendWithoutExplicitID() {
-        var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+//        do {
+//            var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+//            var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+//            
+//            original.appendWithoutExplicitID(indices: 2..<5, implicitID: 11)
+//            impl.appendWithoutExplicitID(indices: 2..<5, implicitID: 11)
+//            
+//            let expected: [(index: Int32, implicitID: Int32)] = [
+//                (2, 11),
+//                (3, 11),
+//                (4, 11),
+//            ]
+//            
+//            #expect(original.count == expected.count)
+//            #expect(impl.count == expected.count)
+//            
+//            impl.withBuffer(of: MySwiftUICore::TypedCanonicalViewID<MySwiftUICore::Nil>.self) { array in
+//                #expect(array.count == expected.count)
+//                
+//                for offset in 0..<min(array.count, expected.count) {
+//                    #expect(array[offset].index == expected[offset].index)
+//                    #expect(array[offset].implicitID == expected[offset].implicitID)
+//                    #expect(array[offset].explicitID == nil)
+//                }
+//            }
+//        }
+//        
+//        do {
+//            var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+//            var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+//            
+//            original.appendWithoutExplicitID(indices: 4..<4, implicitID: 11)
+//            impl.appendWithoutExplicitID(indices: 4..<4, implicitID: 11)
+//            
+//            #expect(original.count == 0)
+//            #expect(impl.count == 0)
+//            #expect(original.isEmpty)
+//            #expect(impl.isEmpty)
+//            
+//            impl.withBuffer(of: MySwiftUICore::TypedCanonicalViewID<MySwiftUICore::Nil>.self) { array in
+//                #expect(array.isEmpty)
+//            }
+//        }
+//        
+//        do {
+//            var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+//            var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+//            
+//            original.append(index: 0, implicitID: 1)
+//            impl.append(index: 0, implicitID: 1)
+//            
+//            original.appendWithoutExplicitID(indices: 3..<6, implicitID: 9)
+//            impl.appendWithoutExplicitID(indices: 3..<6, implicitID: 9)
+//            
+//            let expected: [(index: Int32, implicitID: Int32)] = [
+//                (0, 1),
+//                (3, 9),
+//                (4, 9),
+//                (5, 9),
+//            ]
+//            
+//            #expect(original.count == expected.count)
+//            #expect(impl.count == expected.count)
+//            
+//            impl.withBuffer(of: MySwiftUICore::TypedCanonicalViewID<MySwiftUICore::Nil>.self) { array in
+//                #expect(array.count == expected.count)
+//                
+//                for offset in 0..<min(array.count, expected.count) {
+//                    #expect(array[offset].index == expected[offset].index)
+//                    #expect(array[offset].implicitID == expected[offset].implicitID)
+//                    #expect(array[offset].explicitID == nil)
+//                }
+//            }
+//        }
         
-        original.appendWithoutExplicitID(indices: 0..<10, implicitID: 100)
+        do {
+            var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+            var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+            let values: ContiguousArray<String> = ["A", "B"]
+            
+            original.append(contentsOf: values)
+            impl.append(contentsOf: values)
+            
+            original.appendWithoutExplicitID(indices: 8..<10, implicitID: 4)
+            impl.appendWithoutExplicitID(indices: 8..<10, implicitID: 4)
+            
+            let expected: [(index: Int32, implicitID: Int32)] = [
+                (8, 4),
+                (9, 4),
+            ]
+            
+            #expect(original.count == expected.count)
+            #expect(impl.count == expected.count)
+            
+            impl.withBuffer(of: MySwiftUICore::TypedCanonicalViewID<MySwiftUICore::Nil>.self) { array in
+                #expect(array.count == expected.count)
+                
+                for offset in 0..<min(array.count, expected.count) {
+                    #expect(array[offset].index == expected[offset].index)
+                    #expect(array[offset].implicitID == expected[offset].implicitID)
+                    #expect(array[offset].explicitID == nil)
+                }
+            }
+        }
+        
+        do {
+            var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+            var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+            
+            original.withExplicitID("explicit", isUnary: true) { original in
+                original.appendWithoutExplicitID(indices: 5..<8, implicitID: 12)
+            }
+            
+            impl.withExplicitID("explicit", isUnary: true) { impl in
+                impl.appendWithoutExplicitID(indices: 5..<8, implicitID: 12)
+            }
+            
+            let expected: [(index: Int32, implicitID: Int32, explicitID: String)] = [
+                (5, 12, "explicit"),
+                (6, 12, "explicit"),
+                (7, 12, "explicit"),
+            ]
+            
+            #expect(original.currentExplicitID == nil)
+            #expect(impl.currentExplicitID == nil)
+            
+            original.withBuffer(of: _SwiftUICorePrivate::TypedCanonicalViewID<String>.self) { array in
+                #expect(array.count == expected.count)
+                
+                for offset in 0..<min(array.count, expected.count) {
+                    #expect(array[offset].index == expected[offset].index)
+                    #expect(array[offset].implicitID == expected[offset].implicitID)
+                    #expect(array[offset].explicitID == expected[offset].explicitID)
+                }
+            }
+            
+            impl.withBuffer(of: MySwiftUICore::TypedCanonicalViewID<String>.self) { array in
+                #expect(array.count == expected.count)
+                
+                for offset in 0..<min(array.count, expected.count) {
+                    #expect(array[offset].index == expected[offset].index)
+                    #expect(array[offset].implicitID == expected[offset].implicitID)
+                    #expect(array[offset].explicitID == expected[offset].explicitID)
+                }
+            }
+        }
+        
+        do {
+            var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+            var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+            
+            original.withExplicitID(42, isUnary: false) { original in
+                original.appendWithoutExplicitID(indices: 1..<4, implicitID: 12)
+            }
+            
+            impl.withExplicitID(42, isUnary: false) { impl in
+                impl.appendWithoutExplicitID(indices: 1..<4, implicitID: 12)
+            }
+            
+            let expected: [(index: Int32, implicitID: Int32, explicitID: Int)] = [
+                (1, -1, 42),
+                (2, -1, 42),
+                (3, -1, 42),
+            ]
+            
+            #expect(original.currentExplicitID == nil)
+            #expect(impl.currentExplicitID == nil)
+            
+            original.withBuffer(of: _SwiftUICorePrivate::TypedCanonicalViewID<Int>.self) { array in
+                #expect(array.count == expected.count)
+                
+                for offset in 0..<min(array.count, expected.count) {
+                    #expect(array[offset].index == expected[offset].index)
+                    #expect(array[offset].implicitID == expected[offset].implicitID)
+                    #expect(array[offset].explicitID == expected[offset].explicitID)
+                }
+            }
+            
+            impl.withBuffer(of: MySwiftUICore::TypedCanonicalViewID<Int>.self) { array in
+                #expect(array.count == expected.count)
+                
+                for offset in 0..<min(array.count, expected.count) {
+                    #expect(array[offset].index == expected[offset].index)
+                    #expect(array[offset].implicitID == expected[offset].implicitID)
+                    #expect(array[offset].explicitID == expected[offset].explicitID)
+                }
+            }
+        }
+    }
+    
+    @Test func test_append_indices_implicitID_explicitID_() {
+        var original = _SwiftUICorePrivate::HeterogeneousViewIDsAccumulator()
+        var impl = MySwiftUICore::HeterogeneousViewIDsAccumulator()
+        
+        original.append(indices: 3..<10, implicitID: 100, explicitID: 200)
+        impl.append(indices: 3..<10, implicitID: 100, explicitID: 200)
     }
 }
 

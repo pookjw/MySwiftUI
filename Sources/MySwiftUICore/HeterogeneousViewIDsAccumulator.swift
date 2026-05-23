@@ -289,43 +289,196 @@ struct HeterogeneousViewIDsAccumulator {
         self.append(contentsOf: array)
     }
     
-    func appendWithoutExplicitID(indices: Range<Int32>, implicitID: Int32) {
+    mutating func appendWithoutExplicitID(indices: Range<Int32>, implicitID: Int32) {
         /*
          self -> x20
          indices.lowerBound -> w21
          indices.upperBound -> w26
          implicitID -> w19
          */
+        guard !indices.isEmpty else {
+            return
+        }
+        
         // sp
         let copy_1 = self.currentExplicitID
         
         if let copy_1 {
             // <+100>
-            assertUnimplemented()
+            // sp + 0x30
+            let _ = copy_1
+            // w26
+            let isUnary = copy_1.isUnary
+            
+            self.append(indices: indices, implicitID: isUnary ? implicitID : -1, explicitID: copy_1.0)
         } else {
             // <+216>
             if
                 let currentCollection,
-                let array = currentCollection.asContiguousArray(of: TypedCanonicalViewID<Nil>.self)
+                var array = currentCollection.asContiguousArray(of: TypedCanonicalViewID<Nil>.self)
             {
-                // <+264>
+                // <+328>
                 // array -> x22
-                assertUnimplemented()
+                self.currentCollection = nil
+                array.reserveCapacity(indices.count)
+                
+                for index in indices {
+                    let id = TypedCanonicalViewID<Nil>(
+                        index: index,
+                        implicitID: implicitID,
+                        explicitID: nil
+                    )
+                    
+                    array.append(id)
+                }
+                
+                self.currentCollection = array
             } else {
                 // <+444>
-                assertUnimplemented()
+                if let currentCollection {
+                    // <+496>
+                    // sp + 0x30
+                    let copy_2 = currentCollection
+                    
+                    func append<T : AbstractContiguousArray>(buffer: T) {
+                        let contiguousArray = buffer.contiguousArray
+                        let collection = HomogeneousCollection(contiguousArray)
+                        self.collections.append(collection)
+                        self._count += contiguousArray.count
+                    }
+                    
+                    append(buffer: copy_2)
+                    self.currentCollection = nil
+                    // <+708>
+                } else {
+                    // <+664>
+                    // <+708>
+                }
+                
+                // x23
+                var ids: ContiguousArray<TypedCanonicalViewID<Nil>> = []
+                ids.reserveCapacity(indices.count)
+                
+                for index in indices {
+                    let id = TypedCanonicalViewID<Nil>(
+                        index: index,
+                        implicitID: implicitID,
+                        explicitID: nil
+                    )
+                    
+                    ids.append(id)
+                }
+                
+                // <+864>
+                self.currentCollection = ids
             }
         }
+    }
+    
+    mutating func append<T : Hashable>(indices: Range<Int32>, implicitID: Int32, explicitID: T) {
+        /*
+         indices.lowerBound -> w0
+         indices.upperBound -> w25
+         */
+        guard !indices.isEmpty else {
+            return
+        }
         
-        assertUnimplemented()
+        if ((indices.lowerBound > 0) || (indices.upperBound < 1) || (implicitID != -1)) {
+            // <+172>
+        } else {
+            // <+64>
+            self.append(
+                indices: indices.lowerBound..<0,
+                implicitID: implicitID,
+                explicitID: explicitID
+            )
+            
+            // <+92>
+            self.append(
+                index: 0,
+                implicitID: -1,
+                explicitID: explicitID
+            )
+            
+            // <+116>
+            self.append(
+                indices: 1..<indices.upperBound,
+                implicitID: -1,
+                explicitID: explicitID
+            )
+            
+            // <+172>
+        }
+        
+        // <+172>
+        self.prepareForAppendWithSingleExplicitID(
+            explicitID: explicitID,
+            isUnary: implicitID == -1,
+            count: indices.count,
+            body: { transform in
+                // $s7SwiftUI31HeterogeneousViewIDsAccumulatorV6append7indices10implicitID08explicitJ0ySnys5Int32VG_AIxtSHRzlFyyAI5index_AiFt_tXEXEfU_TA
+                /*
+                 transform -> x0/x1
+                 indices -> x2
+                 implicitID -> w3
+                 */
+                guard !indices.isEmpty else {
+                    return
+                }
+                
+                var w23 = indices.lowerBound
+                repeat {
+                    transform((w23, implicitID))
+                    w23 &+= 1
+                } while indices.upperBound != w23
+            }
+        )
     }
     
-    func append<T : Hashable>(indices: Range<Int32>, implicitID: Int32, explicitID: T) {
-        assertUnimplemented()
-    }
-    
-    fileprivate func prepareForAppendWithSingleExplicitID<T : Hashable>(explicitID: T, isUnary: Bool, count: Int, body: (((index: Int32, implicitID: Int32)) -> Void) -> Void) {
-        assertUnimplemented()
+    fileprivate mutating func prepareForAppendWithSingleExplicitID<T : Hashable>(
+        explicitID: T,
+        isUnary: Bool,
+        count: Int,
+        body: (((index: Int32, implicitID: Int32)) -> Void) -> Void
+    ) {
+        /*
+         self -> x20
+         explicitID -> x0 -> x26
+         isUnary -> w1 -> w25
+         count -> x2 -> x24
+         body -> x3/x4 -> x23/x22
+         */
+        self.withBuffer(of: TypedCanonicalViewID<T>.self) { array in
+            // $s7SwiftUI31HeterogeneousViewIDsAccumulatorV36prepareForAppendWithSingleExplicitID33_BC35AC8A4C97141A50E9554AB9488792LL08explicitM07isUnary5count4bodyyx_SbSiyys5Int32V5index_AK08implicitM0t_tXEXEtSHRzlFys15ContiguousArrayVyAA014TypedCanonicaldM0VyxGGzXEfU_TA
+            /*
+             array -> x0 -> x20
+             count -> x1 -> x27
+             body -> x2/x3 -> x19/x21
+             isUnary -> w4 -> x24
+             explicitID -> x5 -> x22
+             */
+            array.reserveCapacity(array.count + count)
+            
+            body { input in
+                // $s7SwiftUI31HeterogeneousViewIDsAccumulatorV36prepareForAppendWithSingleExplicitID33_BC35AC8A4C97141A50E9554AB9488792LL08explicitM07isUnary5count4bodyyx_SbSiyys5Int32V5index_AK08implicitM0t_tXEXEtSHRzlFys15ContiguousArrayVyAA014TypedCanonicaldM0VyxGGzXEfU_yAkL_AkMt_tXEfU_TA
+                /*
+                 input.index -> x0 -> x24
+                 input.implicitID -> x1 -> x23
+                 array -> x2 -> x20
+                 isUnary -> w3 -> w22
+                 explicitID -> x4 -> x21
+                 */
+                // x27
+                let viewID = TypedCanonicalViewID(
+                    index: input.index,
+                    implicitID: isUnary ? -1 : input.implicitID,
+                    explicitID: explicitID
+                )
+                
+                array.append(viewID)
+            }
+        }
     }
     
     func appendSlowPath<T : ViewList>(_: T) {
@@ -502,7 +655,7 @@ fileprivate protocol AbstractContiguousArray {
     var isEmpty: Bool { get }
 }
 
-extension ContiguousArray : AbstractContiguousArray {
+extension ContiguousArray : AbstractContiguousArray where Self : Hashable {
     func asContiguousArray<T>(of type: T.Type) -> ContiguousArray<T>? {
         return self as? ContiguousArray<T>
     }
