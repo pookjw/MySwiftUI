@@ -398,6 +398,21 @@ fileprivate struct MakeSection : Rule {
     @OptionalAttribute var traits: ViewTraitCollection?
     
     var value: any ViewList {
+        /*
+         lists -> x0 -> x26
+         isHierarchical/traits -> x1 -> x19
+         */
+        // w21
+        let attribute = AnyAttribute.current!
+        // traits -> x23
+        // x28
+        var array: [(list: any ViewList, attribute: Attribute<any ViewList>)] = []
+        
+        for list in self.lists {
+            assertUnimplemented()
+        }
+        
+        // <+288>
         assertUnimplemented()
     }
 }
