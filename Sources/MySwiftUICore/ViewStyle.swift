@@ -6,7 +6,7 @@ package protocol StyleableView : View {
     associatedtype Configuration
     associatedtype DefaultStyleModifier : StyleModifier
     
-    var configuration: Self.Configuration {
+    nonisolated var configuration: Self.Configuration {
         get
     }
     
@@ -221,7 +221,7 @@ fileprivate struct StyleModifierType<T : StyleModifier> : AnyStyleModifierType {
         )
         
         let accessor = StyleBodyAccessor<U, T>(view: view.value, styleModifier: styleModifier)
-        return accessor.makeBody(container: view, inputs: &inputs, fields: fields)
+        return accessor.makeBody(container: container, inputs: &inputs, fields: fields)
     }
 }
 
@@ -241,7 +241,7 @@ package protocol StyleModifier : MultiViewModifier, PrimitiveViewModifier {
     
     var style: Self.Style { get set }
     init(style: Self.Style)
-    @ViewBuilder func styleBody(configuration: Self.StyleConfiguration) -> Self.StyleBody
+    @ViewBuilder nonisolated func styleBody(configuration: Self.StyleConfiguration) -> Self.StyleBody
 }
 
 extension StyleModifier {
@@ -274,14 +274,45 @@ fileprivate struct StyleOverrideInput<T> : ViewInput {
 }
 
 fileprivate struct StyleBodyAccessor<T : StyleableView, U : StyleModifier> : BodyAccessor {
-    typealias Container = T
+    typealias Container = U.Style
     typealias Body = U.StyleBody
     
     @Attribute private(set) var view: T
     @Attribute private(set) var styleModifier: U
     
-    func updateBody(of container: T, changed: Bool) {
-        assertUnimplemented()
+    func updateBody(of container: U.Style, changed: Bool) {
+        /*
+         container -> x0 -> x29 - 0x138
+         changed -> w1 -> w20
+         self -> x2 -> x27 -> x29 -> 0x128
+         */
+        // view -> x26, viewChanged -> w21
+        let (view, viewChanged) = self.$view.changedValue(options: [])
+        
+        guard changed || viewChanged else {
+            return
+        }
+        
+        // <+396>
+        self.setBody {
+            // $s7SwiftUI17StyleBodyAccessor33_AC59074524C298808AAD87A4737AEFFCLLV06updateD02of7changedy0C0Qy__SbtF0cD0Qy_yXEfU_
+            /*
+             self -> x0 -> x29 - 0x90
+             container -> x1 -> x29 - 0x78
+             view -> x2 -> x29 - 0x68
+             */
+            // <+340>
+            // x23
+            var styleModifier = self.styleModifier
+            // x26
+            let copy_1 = container
+            styleModifier.style = copy_1
+            // x24
+            let configuration = view.configuration as! U.StyleConfiguration
+            // x29 - 0x58
+            let body = styleModifier.styleBody(configuration: configuration)
+            return body
+        }
     }
 }
 
