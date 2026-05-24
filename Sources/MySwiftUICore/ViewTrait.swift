@@ -21,9 +21,6 @@ struct ViewTraitCollection {
             
             storage.append(Self.AnyTrait<Key>(value: newValue))
         }
-        _modify {
-            assertUnimplemented()
-        }
     }
     
     func value<Key : _ViewTraitKey>(for key: Key.Type, defaultValue: Key.Value) -> Key.Value {

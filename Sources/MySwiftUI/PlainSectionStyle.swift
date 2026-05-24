@@ -56,6 +56,12 @@ fileprivate struct SectionBody : Rule {
     @Attribute var view: StyledView
     
     var value: _VariadicView.Tree<SectionContainer, _ConditionalContent<SectionStyleConfiguration.RawContent, EmptyView>> {
-        assertUnimplemented()
+        _VariadicView.Tree(
+            root: SectionContainer(
+                parent: self.view.configuration.header,
+                footer: self.view.configuration.footer
+            ),
+            content: self.view.configuration.content
+        )
     }
 }

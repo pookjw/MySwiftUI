@@ -297,7 +297,9 @@ struct DepthTrait : Rule {
     }
     
     var value: ViewTraitCollection {
-        assertUnimplemented()
+        var collection = self.traits ?? ViewTraitCollection()
+        collection[DepthTraitKey.self] += 1
+        return collection
     }
 }
 

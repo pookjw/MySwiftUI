@@ -1,4 +1,3 @@
-
 @frozen public struct EmptyView : PrimitiveView {
     @inlinable nonisolated public init() {}
     
@@ -11,6 +10,6 @@
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<EmptyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return _ViewListOutputs.emptyViewList(inputs: inputs)
     }
 }
