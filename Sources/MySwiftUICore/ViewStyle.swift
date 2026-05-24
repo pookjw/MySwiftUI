@@ -118,7 +118,10 @@ fileprivate struct MakeResolvedRepresentation<T : View> : Rule {
     @Attribute private(set) var view: T
     
     var value: T.Body {
-        assertUnimplemented()
+        return MainActor.assumeIsolated {
+            // $s7SwiftUI26MakeResolvedRepresentation33_AC59074524C298808AAD87A4737AEFFCLLV5value4BodyQzvgAA17UncheckedSendableVyAGGyScMYcXEfU_
+            return UncheckedSendable(self.view.body)
+        }.value
     }
 }
 
@@ -226,7 +229,8 @@ fileprivate struct MakeDefaultRepresentation<T : StyleableView> : Rule {
     @Attribute private(set) var view: T
     
     var value: ModifiedContent<T, T.DefaultStyleModifier> {
-        assertUnimplemented()
+        self.view
+            .modifier(T.defaultStyleModifier)
     }
 }
 
@@ -278,5 +282,11 @@ fileprivate struct StyleBodyAccessor<T : StyleableView, U : StyleModifier> : Bod
     
     func updateBody(of container: T, changed: Bool) {
         assertUnimplemented()
+    }
+}
+
+extension _GraphInputs {
+    package mutating func resetCurrentStyleableView() {
+        self[StyleableViewContextInput.self] = nil
     }
 }

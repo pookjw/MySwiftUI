@@ -42,6 +42,6 @@ fileprivate struct MakeBody<Content : PubliclyPrimitiveView> : Rule {
     }
     
     var value: Content.InternalBody {
-        assertUnimplemented()
+        return self.view.internalBody
     }
 }

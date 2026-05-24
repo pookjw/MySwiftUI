@@ -39,7 +39,10 @@ private import AttributeGraph
             // <+276>
             // x29 - 0xe8
             var copy_1 = inputs
-            let addTrait = _TraitWritingModifier.AddTrait(modifier: modifier.value, traits: OptionalAttribute(inputs.$traits))
+            let addTrait = _TraitWritingModifier.AddTrait(
+                modifier: modifier.value,
+                _traits: OptionalAttribute(inputs.$traits)
+            )
             let addTraitAttribute = Attribute(addTrait)
             copy_1.$traits = addTraitAttribute
             copy_1.addTraitKey(Trait.self)
@@ -64,10 +67,17 @@ extension _TraitWritingModifier : PrimitiveViewModifier {}
 extension _TraitWritingModifier {
     fileprivate struct AddTrait : Rule, AsyncAttribute {
         @Attribute private(set) var modifier: _TraitWritingModifier<Trait>
-        @OptionalAttribute var traits: ViewTraitCollection?
+        private(set) var _traits: OptionalAttribute<ViewTraitCollection>
+        
+        var traits: ViewTraitCollection? {
+            return self._traits.wrappedValue
+        }
         
         var value: ViewTraitCollection {
-            assertUnimplemented()
+            // x24
+            var traits = self.traits ?? ViewTraitCollection()
+            traits[Trait.self] = self.modifier.value
+            return traits
         }
     }
 }

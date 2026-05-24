@@ -35,7 +35,7 @@ extension ViewAlias {
 }
 
 extension View {
-    func viewAlias<T : ViewAlias, U : View>(_ type: T.Type, _ block: () -> U) -> some View {
+    func viewAlias<T : ViewAlias, U : View>(_ type: T.Type, @ViewBuilder _ block: () -> U) -> some View {
         return self.modifier(StaticSourceWriter<T, U>(source: block()))
     }
     
@@ -120,6 +120,13 @@ fileprivate struct SourceFormula<U> : AnySourceFormula {
     }
     
     static func makeViewList<T : ViewAlias>(view: _GraphValue<T>, source: AnySource, inputs: _ViewListInputs) -> _ViewListOutputs {
+        /*
+         view -> x0
+         source -> x1/x2, x3, x4
+         inputs -> x5
+         T -> x6
+         */
+        // <+184>
         assertUnimplemented()
     }
     

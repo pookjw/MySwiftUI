@@ -333,9 +333,3 @@ fileprivate struct MergedPhase : Rule, AsyncAttribute {
         return rhs
     }
 }
-
-extension _GraphInputs {
-    package func resetCurrentStyleableView() {
-        assertUnimplemented()
-    }
-}
