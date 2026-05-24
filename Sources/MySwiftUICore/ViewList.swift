@@ -1468,8 +1468,71 @@ extension _ViewList_Group {
     }
 }
 
-struct _ViewList_Section {
-    // TODO
+struct _ViewList_Section : ViewList {
+    var id: UInt32
+    var base: _ViewList_Group
+    var traits: ViewTraitCollection
+    var isHierarchical: Bool
+    
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    var header: (list: ViewList, attribute: Attribute<any ViewList>) {
+        assertUnimplemented()
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_Section.Info, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func firstOffset<T : Hashable>(forID: T, style: _ViewList_IteratorStyle) -> Int? {
+        assertUnimplemented()
+    }
+    
+    var content: (list: any ViewList, attribute: Attribute<any ViewList>) {
+        assertUnimplemented()
+    }
+    
+    var footer: (list: any ViewList, attribute: Attribute<any ViewList>) {
+        assertUnimplemented()
+    }
+    
+    var traitKeys: ViewTraitKeys? {
+        assertUnimplemented()
+    }
+    
+    var viewIDs : _ViewList_ID_Views? {
+        assertUnimplemented()
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        assertUnimplemented()
+    }
+    
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
+        assertUnimplemented()
+    }
+    
+    func print(into: inout SExpPrinter) {
+        assertUnimplemented()
+    }
+}
+
+extension _ViewList_Section {
+    struct Info {
+        var id: UInt32
+        var isHeader: Bool
+        var isFooter: Bool
+    }
 }
 
 fileprivate struct MergedElements : _ViewList_Elements {

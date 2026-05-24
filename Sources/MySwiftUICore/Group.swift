@@ -250,7 +250,7 @@ fileprivate struct SectionedTrait : Rule {
     @OptionalAttribute var traits: ViewTraitCollection?
     
     var value: ViewTraitCollection {
-        assertUnimplemented()
+        return self.traits ?? ViewTraitCollection()
     }
 }
 
@@ -393,7 +393,7 @@ extension _ViewListOutputs {
 }
 
 fileprivate struct MakeSection : Rule {
-    private(set) var lists: [Attribute<ViewList>]
+    private(set) var lists: [Attribute<any ViewList>]
     private(set) var isHierarchical: Bool
     @OptionalAttribute var traits: ViewTraitCollection?
     
@@ -401,6 +401,7 @@ fileprivate struct MakeSection : Rule {
         /*
          lists -> x0 -> x26
          isHierarchical/traits -> x1 -> x19
+         return pointer -> x8 -> x22
          */
         // w21
         let attribute = AnyAttribute.current!
@@ -409,10 +410,17 @@ fileprivate struct MakeSection : Rule {
         var array: [(list: any ViewList, attribute: Attribute<any ViewList>)] = []
         
         for list in self.lists {
-            assertUnimplemented()
+            array.append((list: list.value, attribute: list))
         }
         
         // <+288>
-        assertUnimplemented()
+        let section = _ViewList_Section(
+            id: attribute.rawValue,
+            base: _ViewList_Group(lists: array),
+            traits: self.traits ?? ViewTraitCollection(),
+            isHierarchical: self.isHierarchical
+        )
+        
+        return section
     }
 }
