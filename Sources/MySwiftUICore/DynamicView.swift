@@ -507,7 +507,19 @@ extension DynamicViewList.WrappedList : ViewList {
     }
     
     var traitKeys: ViewTraitKeys? {
-        assertUnimplemented()
+        // x19
+        let keys = self.base.traitKeys
+        
+        guard Content.traitKeysDependOnView else {
+            return nil
+        }
+        
+        if var keys {
+            keys.isDataDependent = true
+            return keys
+        } else {
+            return nil
+        }
     }
     
     var viewIDs: _ViewList_ID_Views? {

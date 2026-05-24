@@ -841,14 +841,40 @@ extension _ViewList_Elements {
     }
 }
 
-class _ViewList_ID_Views {
-    private let isDataDependent: Bool
+class _ViewList_ID_Views : Equatable, RandomAccessCollection {
+    final let isDataDependent: Bool
     
-    init() {
-        assertUnimplemented()
+    init(isDataDependent: Bool) {
+        self.isDataDependent = isDataDependent
     }
     
-    // TODO
+    final var startIndex: Int {
+        return 0
+    }
+    
+    func withDataDependency() -> _ViewList_ID_Views {
+        if self.isDataDependent {
+            return self
+        } else {
+            return _ViewList_ID_Views(isDataDependent: true)
+        }
+    }
+    
+    static func == (lhs: _ViewList_ID_Views, rhs: _ViewList_ID_Views) -> Bool {
+        return lhs.isEqual(to: rhs)
+    }
+    
+    var endIndex: Int {
+        preconditionFailure() // abstract
+    }
+    
+    subscript(index: Int) -> _ViewList_ID {
+        preconditionFailure() // abstract
+    }
+    
+    func isEqual(to other: _ViewList_ID_Views) -> Bool {
+        preconditionFailure() // abstract
+    }
 }
 
 fileprivate protocol UnaryViewGenerator {
@@ -1414,7 +1440,22 @@ struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
     }
     
     var traitKeys: ViewTraitKeys? {
-        assertUnimplemented()
+        let lists = self.lists
+        var results = ViewTraitKeys()
+        
+        guard !lists.isEmpty else {
+            return results
+        }
+        
+        for list in lists {
+            guard let keys = list.list.traitKeys else {
+                return nil
+            }
+            
+            results.formUnion(keys)
+        }
+        
+        return results
     }
     
     var viewIDs: _ViewList_ID_Views? {
@@ -1502,7 +1543,7 @@ struct _ViewList_Section : ViewList {
     }
     
     var traitKeys: ViewTraitKeys? {
-        assertUnimplemented()
+        return self.base.traitKeys
     }
     
     var viewIDs : _ViewList_ID_Views? {

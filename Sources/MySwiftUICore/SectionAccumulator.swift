@@ -12,8 +12,42 @@ struct SectionAccumulator {
     private var viewCount: Int = 0 // 0xb8
     private var pendingEmptySectionTraits: [ViewTraitCollection] = [] // 0xc0
     
-    static func processUnsectionedContent(list: any ViewList, contentSubgraph: Subgraph?, accumulationStrategy: SectionAccumulator.RowIDAccumulationStrategy) -> [SectionAccumulator.Item]? {
-        assertUnimplemented()
+    static func processUnsectionedContent(
+        list: any ViewList,
+        contentSubgraph: Subgraph?,
+        accumulationStrategy: SectionAccumulator.RowIDAccumulationStrategy
+    ) -> [SectionAccumulator.Item]? {
+        /*
+         list -> x0 -> x22
+         contentSubgraph -> x1 -> x19
+         accumulationStrategy -> x2 -> w21
+         */
+        // sp + 0x10
+        guard
+            let traitKeys = list.traitKeys, // x20
+            !traitKeys.contains(IsSectionedTraitKey.self)
+        else {
+            return nil
+        }
+        
+        // <+120>
+        if
+            let viewIDs = list.viewIDs,
+            viewIDs.endIndex == 0
+        {
+            return []
+        }
+        
+        // <+192>
+        return Update.locked { 
+            // $s7SwiftUI18SectionAccumulatorV4ItemV16implicitSentinel_15contentSubgraph20accumulationStrategyAeA8ViewList_p_So13AGSubgraphRefaSgAC017RowIDAccumulationK0OtFZAEyXEfU_
+            /*
+             list -> x0
+             contentSubgraph -> x1
+             accumulationStrategy -> w2
+             */
+            assertUnimplemented()
+        }
     }
     
     init(

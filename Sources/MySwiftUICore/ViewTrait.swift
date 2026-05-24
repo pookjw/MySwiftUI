@@ -67,15 +67,24 @@ extension ViewTraitCollection {
 
 struct ViewTraitKeys {
     private var types: Set<ObjectIdentifier>
-    private var isDataDependent: Bool
+    var isDataDependent: Bool
     
     init() {
         types = []
         isDataDependent = false
     }
     
+    func contains<T : _ViewTraitKey>(_: T.Type) -> Bool {
+        return self.types.contains(ObjectIdentifier(T.self))
+    }
+    
     mutating func insert<T : _ViewTraitKey>(_: T.Type) {
-        types.insert(ObjectIdentifier(T.self))
+        self.types.insert(ObjectIdentifier(T.self))
+    }
+    
+    mutating func formUnion(_ keys: ViewTraitKeys) {
+        self.types.formUnion(keys.types)
+        self.isDataDependent = self.isDataDependent || keys.isDataDependent
     }
 }
 
