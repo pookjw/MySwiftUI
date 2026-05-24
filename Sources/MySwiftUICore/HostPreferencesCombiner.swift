@@ -14,7 +14,7 @@ struct HostPreferencesCombiner : Rule, AsyncAttribute {
         // w21
         let weakKeys = WeakAttribute(keys)
         for index in children.indices {
-            if children[index]._keys.base.attribute == keys.identifier {
+            if children[index]._keys.base.identifier == keys.identifier {
                 children[index] = HostPreferencesCombiner.Child(_keys: weakKeys, _values: values)
                 return
             }

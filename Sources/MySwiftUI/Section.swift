@@ -164,7 +164,7 @@ extension Section {
 
 struct ResolvedSectionStyle : StyleableView {
     static var defaultStyleModifier: SectionStyleModifier<DefaultSectionStyle> {
-        assertUnimplemented()
+        return SectionStyleModifier(style: DefaultSectionStyle())
     }
     
     private(set) var configuration: SectionStyleConfiguration
@@ -201,7 +201,7 @@ struct SectionStyleModifier<Style : SectionStyle> : StyleModifier {
     var style: Style
     
     init(style: Style) {
-        assertUnimplemented()
+        self.style = style
     }
     
     func styleBody(configuration: SectionStyleConfiguration) -> some View {

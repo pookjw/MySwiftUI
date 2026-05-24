@@ -194,7 +194,7 @@ struct AGTraceType {
 typedef struct AGTraceType AGTrace NS_SWIFT_NAME(Trace);
 
 typedef __attribute__((swift_wrapper(struct))) struct {
-    AGAttribute attribute;
+    AGAttribute identifier;
     uint32_t id;
 } AGWeakAttribute NS_SWIFT_NAME(AnyWeakAttribute);
 

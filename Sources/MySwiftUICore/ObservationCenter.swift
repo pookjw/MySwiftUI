@@ -220,8 +220,7 @@ struct ObservationGraphMutation : GraphMutation, @unchecked Sendable {
         // <+572>
         observationCenter.invalidations.removeValue(forKey: invalidatingMutation.attribute)
         
-        let attribute = invalidatingMutation.attribute.attribute
-        if attribute != .empty {
+        if let attribute = invalidatingMutation.attribute.attribute {
             attribute.invalidate()
         }
     }

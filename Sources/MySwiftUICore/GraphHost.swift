@@ -957,8 +957,7 @@ struct InvalidatingGraphMutation : GraphMutation {
     let attribute: AnyWeakAttribute
     
     func apply() {
-        let unwrapped = attribute.attribute
-        guard unwrapped != .empty else {
+        guard let unwrapped = attribute.attribute else {
             return
         }
         unwrapped.invalidate()

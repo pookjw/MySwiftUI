@@ -9,7 +9,7 @@ package enum AccessibilityAttachmentToken : Hashable, Codable {
     case identifier(UInt32)
     
     init(_ attribute: AnyAttribute) {
-        self = .attribute(AnyWeakAttribute(attribute: attribute, id: 0))
+        self = .attribute(AnyWeakAttribute(identifier: attribute, id: 0))
     }
     
     init<T>(_ attribute: Attribute<T>) {

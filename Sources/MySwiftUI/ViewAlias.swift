@@ -77,8 +77,8 @@ fileprivate protocol AnySourceFormula {
 
 fileprivate struct AnySource : GraphReusable {
     let formula: any AnySourceFormula.Type
-    private var value: AnyWeakAttribute
-    private let valueIsNil: Attribute<Bool>?
+    private(set) var value: AnyWeakAttribute
+    let valueIsNil: Attribute<Bool>?
     
     init<T : View>(_ input: Attribute<T?>) {
         assertUnimplemented()
@@ -121,13 +121,34 @@ fileprivate struct SourceFormula<U> : AnySourceFormula {
     
     static func makeViewList<T : ViewAlias>(view: _GraphValue<T>, source: AnySource, inputs: _ViewListInputs) -> _ViewListOutputs {
         /*
-         view -> x0
-         source -> x1/x2, x3, x4
-         inputs -> x5
-         T -> x6
+         source.value -> x3 -> x21
+         source.valueIsNil -> x4 -> x29 - 0x68
+         inputs -> x5 -> x20
+         T -> x6 -> x22
          */
         // <+184>
-        assertUnimplemented()
+        guard let attribute = source.value.attribute else {
+            return _ViewListOutputs.emptyViewList(inputs: inputs)
+        }
+        
+        // <+252>
+        // x23
+        let outputs: _ViewListOutputs
+        if source.valueIsNil != nil {
+            // <+328>
+            // x28
+            let view = _GraphValue(attribute.unsafeCast(to: T?.self))
+            outputs = T?.makeDebuggableViewList(view: view, inputs: inputs)
+            // <+408>
+        } else {
+            // <+272>
+            // x24
+            let view = _GraphValue(attribute.unsafeCast(to: T.self))
+            outputs = T.makeDebuggableViewList(view: view, inputs: inputs)
+            // <+408>
+        }
+        
+        return outputs
     }
     
     static func viewListCount(source: AnySource, inputs: _ViewListCountInputs) -> Int? {

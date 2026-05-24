@@ -302,7 +302,10 @@ exports:
     _$s14AttributeGraph15withUnsafeTuple2of5count_ySo11AGTupleTypea_SiySo015AGUnsafeMutableE0aXEtF,
     _$sSo20AGUnsafeMutableTuplea14AttributeGraphE7address2asSpyxGxm_tlF,
     _$s14AttributeGraph14AnyRuleContextVyAcA0dE0VyxGclufC,
-    _AGSubgraphAddChild2 ]
+    _AGSubgraphAddChild2,
+    _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvg,
+    _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvs,
+    _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvM ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

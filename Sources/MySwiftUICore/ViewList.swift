@@ -874,8 +874,7 @@ fileprivate struct TypedUnaryViewGenerator : UnaryViewGenerator {
         // sp
         let copy_1 = inputs
         
-        let view = view.attribute
-        guard view != .empty else {
+        guard let view = view.attribute else {
             return _ViewOutputs()
         }
         
@@ -1721,9 +1720,7 @@ fileprivate struct ModifiedElements : _ViewList_Elements {
                     
                     // <+228>
                     // x20
-                    let attribute = modifier.attribute
-                    
-                    guard attribute != .empty else {
+                    guard let attribute = modifier.attribute else {
                         // <+260>
                         return _ViewOutputs()
                     }
