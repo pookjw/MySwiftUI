@@ -445,7 +445,7 @@ fileprivate struct ViewRootBodyAccessor<Root : _VariadicView_ViewRoot> : BodyAcc
         
         // <+428>
         let contentSubgraph = self.contentSubgraph
-        let transform = _ViewList_SublistTransform(items: [], subgraphCount: 0)
+        let transform = _ViewList_SublistTransform()
         // x19 + 0x50
         let unchecked = UncheckedSendable(container)
         let children = _VariadicView_Children(list, contentSubgraph: contentSubgraph, transform: transform)

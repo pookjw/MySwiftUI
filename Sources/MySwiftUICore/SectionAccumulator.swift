@@ -138,6 +138,11 @@ struct SectionAccumulator {
                 switch self.rowIDAccumulator {
                 case .chunked(let chunked):
                     // <+1728>
+                    // inlined
+                    // x19 + 0x170
+                    let copiedTransform = transform.copy()
+                    
+                    // <+2932>
                     assertUnimplemented()
                 case .heterogeneous(let accumulator):
                     // <+1444>

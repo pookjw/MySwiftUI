@@ -1191,7 +1191,12 @@ struct _ViewList_IteratorStyle : Equatable {
     private var storage: _ViewList_TemporarySublistTransform.Storage
     
     init() {
-        unsafe storage = unsafe .node(nil)
+        unsafe self.storage = unsafe .node(nil)
+    }
+    
+    @inline(always) // 원래 없음
+    fileprivate init(storage: _ViewList_TemporarySublistTransform.Storage) {
+        unsafe self.storage = storage
     }
     
     func bindID(_ other: _ViewList_ID) {
@@ -1250,11 +1255,11 @@ struct _ViewList_IteratorStyle : Equatable {
                 unsafe transform.storage = unsafe .node(UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>(mutating: pointer))
                 return block(transform)
             }
-        case .transform(_):
+        case .transform(let sublist):
             // <+120>
-            push(item, flags: flags)
+            sublist.pointee.push(item, flags: flags)
             let result = block(self)
-            pop(flags: flags)
+            sublist.pointee.items.removeLast()
             return result
         }
     }
@@ -1264,15 +1269,28 @@ struct _ViewList_IteratorStyle : Equatable {
     }
     
     func copy() -> _ViewList_SublistTransform {
-        assertUnimplemented()
-    }
-    
-    fileprivate func push(_ item: any _ViewList_SublistTransform_Item, flags: _ViewList_SublistTransform_ItemFlags) {
-        assertUnimplemented()
-    }
-    
-    fileprivate func pop(flags: _ViewList_SublistTransform_ItemFlags) {
-        assertUnimplemented()
+        switch self.storage {
+        case .node(let pointer):
+            // <+68>
+            var transform = _ViewList_SublistTransform()
+            
+            var ptr = pointer
+            while let unwrapped = ptr {
+                // sp + 0x10
+                transform.push(unwrapped.pointee.value, flags: [])
+                ptr = unwrapped.pointee.next
+            }
+            
+            transform.items.reverse()
+            return transform
+        case .transform(let pointer):
+            // <+40>
+            let transform = pointer.pointee
+            return _ViewList_SublistTransform(
+                items: transform.items,
+                subgraphCount: transform.subgraphCount
+            )
+        }
     }
 }
 
@@ -1291,8 +1309,60 @@ extension _ViewList_TemporarySublistTransform {
 }
 
 struct _ViewList_SublistTransform {
-    private(set) var items: [any _ViewList_SublistTransform_Item]
-    private(set) var subgraphCount: Int
+    var items: [any _ViewList_SublistTransform_Item] = []
+    fileprivate private(set) var subgraphCount: Int = 0
+    
+    init() {
+    }
+    
+    @inline(always) // 원래 없음
+    fileprivate init(items: [any _ViewList_SublistTransform_Item], subgraphCount: Int) {
+        self.items = items
+        self.subgraphCount = subgraphCount
+    }
+    
+    var isEmpty: Bool {
+        return self.items.isEmpty
+    }
+    
+    func apply(sublist: inout _ViewList_Sublist) {
+        /*
+         sublist -> x0 -> x19
+         */
+        // x24
+        let items = self.items
+        sublist.elements.subgraphs.subgraphs.reserveCapacity(self.subgraphCount)
+        
+        for item in items {
+            item.apply(sublist: &sublist)
+        }
+    }
+    
+    func bindID(_ listID: inout _ViewList_ID) {
+        for item in self.items {
+            item.bindID(&listID)
+        }
+    }
+    
+    func wrapSubgraphs(into storage: inout _ViewList_SublistSubgraphStorage) {
+        let items = self.items
+        storage.subgraphs.reserveCapacity(self.subgraphCount)
+        
+        for item in items {
+            item.wrapSubgraph(into: &storage)
+        }
+    }
+    
+    mutating func withTemporaryTransform<T>(do block: (borrowing _ViewList_TemporarySublistTransform) -> T) -> T {
+        return withUnsafeMutablePointer(to: &self) { pointer in
+            // $s7SwiftUI26_ViewList_SublistTransformV013withTemporaryF02doxxAA01_cd1_heF0VXE_tlFxSpyACGXEfU_TA
+            return block(_ViewList_TemporarySublistTransform(storage: .transform(pointer)))
+        }
+    }
+    
+    fileprivate func push(_: any _ViewList_SublistTransform_Item, flags: _ViewList_SublistTransform_ItemFlags) {
+        assertUnimplemented()
+    } 
 }
 
 protocol _ViewList_SublistTransform_Item {
