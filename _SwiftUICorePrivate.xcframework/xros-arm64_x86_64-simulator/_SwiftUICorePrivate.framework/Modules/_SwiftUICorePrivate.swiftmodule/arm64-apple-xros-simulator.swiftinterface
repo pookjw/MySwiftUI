@@ -2422,7 +2422,9 @@ public struct AccessibilityTraitSet : Swift.OptionSet, Swift.Hashable, Swift.Cod
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct SectionAccumulator {}
+public struct SectionAccumulator {
+  public struct Item {}
+}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)

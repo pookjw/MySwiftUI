@@ -205,6 +205,7 @@ func printOffsets() {
     printFields(_ViewList_SubgraphRelease.self, isClassType: true)
     printFields(Section<Color, TupleView<(Color, Color)>, Color>.self, isClassType: false)
     printFields(SectionAccumulator.self, isClassType: false)
+    printFields(SectionAccumulator.Item.self, isClassType: false)
     printFields(HeterogeneousViewIDsAccumulator.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)

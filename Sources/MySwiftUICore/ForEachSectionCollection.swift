@@ -194,23 +194,42 @@ extension SectionsRoot {
                 accumulationStrategy: .chunked
             )
             
+            var configurations: [SectionConfiguration] = []
+            
+            // x21
             if let items {
                 // <+136>
                 // x26/x22
                 let view = self.view
-                assertUnimplemented()
+                
+                for item in items {
+                    configurations.append(SectionConfiguration(item: item))
+                }
+                
+                let collection = SectionCollection(base: configurations)
+                return view.content(collection)
             } else {
                 // <+384>
                 // sp + 0xa0
-//                let accumulator = SectionAccumulator(
-//                    contentSubgraph: <#T##Subgraph?#>,
-//                    options: <#T##SectionAccumulator.Options#>,
-//                    accumulationStrategy: <#T##SectionAccumulator.RowIDAccumulationStrategy#>
-//                )
-                assertUnimplemented()
+                let accumulator = SectionAccumulator(
+                    contentSubgraph: self.contentSubgraph,
+                    options: [],
+                    accumulationStrategy: .chunked
+                )
+                
+                accumulator.formResult(from: self.viewList, listAttribute: self.$viewList)
+                
+                // <+484>
+                // x25, x21
+                let view = self.view
+                
+                for item in accumulator.items {
+                    configurations.append(SectionConfiguration(item: item))
+                }
+                
+                let collection = SectionCollection(base: configurations)
+                return view.content(collection)
             }
-            
-            assertUnimplemented()
         }
     }
 }
