@@ -211,7 +211,7 @@ extension SectionsRoot {
             } else {
                 // <+384>
                 // sp + 0xa0
-                let accumulator = SectionAccumulator(
+                var accumulator = SectionAccumulator(
                     contentSubgraph: self.contentSubgraph,
                     options: [],
                     accumulationStrategy: .chunked

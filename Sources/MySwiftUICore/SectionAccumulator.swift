@@ -73,11 +73,118 @@ struct SectionAccumulator {
         }
     }
     
-    func formResult(from list: any ViewList, listAttribute: Attribute<any ViewList>?) {
+    mutating func formResult(from list: any ViewList, listAttribute: Attribute<any ViewList>?) {
+        /*
+         self -> x20 -> x19
+         list -> x0 -> x21
+         listAttribute -> x1 -> x20
+         */
+        self.list = list
+        Update.begin()
+        
+        // x29 - 0x38
+        var index = 0
+        list.applyNodes(
+            from: &index,
+            style: _ViewList_IteratorStyle(granularity: 1),
+            list: listAttribute,
+            transform: _ViewList_TemporarySublistTransform(),
+            to: { index, style, node, transform in
+                // $s7SwiftUI18SectionAccumulatorV10formResult4from13listAttributeyAA8ViewList_p_0I5Graph0I0VyAaG_pGSgtFSbSiz_AA01_jK14_IteratorStyleVAA01_jK5_NodeOAA01_jK26_TemporarySublistTransformVtXEfU_TA
+                return self.apply(
+                    start: &index,
+                    style: style,
+                    node: node,
+                    transform: transform
+                )
+            }
+        )
+        
         assertUnimplemented()
     }
     
-    fileprivate func apply(start: inout Int, style: _ViewList_IteratorStyle, node: _ViewList_Node, transform: borrowing _ViewList_TemporarySublistTransform) -> Bool {
+    fileprivate func apply(
+        start: inout Int,
+        style: _ViewList_IteratorStyle,
+        node: _ViewList_Node,
+        transform: borrowing _ViewList_TemporarySublistTransform
+    ) -> Bool {
+        /*
+         start -> x0 -> x23
+         style -> x1 -> x28
+         node -> x2
+         transform -> x3 -> x25/w27
+         */
+        // x29 - 0xc8
+        let copy_1 = node
+        
+        switch copy_1 {
+        case .list(let list):
+            // <+108>
+            // list -> x19 + 0x18
+            // x19 + 0x1c0
+            let traitKeys = list.0.traitKeys
+            
+            if
+                let traitKeys,
+                !traitKeys.contains(IsSectionedTraitKey.self)
+            {
+                // <+1368>
+                // x28
+                let listCount = list.0.count
+                // x20
+                let rowIDAccumulatorCount = self.rowIDAccumulator.count
+                
+                switch self.rowIDAccumulator {
+                case .chunked(let chunked):
+                    // <+1728>
+                    assertUnimplemented()
+                case .heterogeneous(let accumulator):
+                    // <+1444>
+                    assertUnimplemented()
+                }
+                
+                assertUnimplemented()
+            } else {
+                // <+216>
+                return list.0.applyNodes(
+                    from: &start,
+                    style: style,
+                    list: list.1,
+                    transform: transform,
+                    to: { index, style, node, transform in
+                        // $s7SwiftUI18SectionAccumulatorV5apply33_D22569EAA67164B36532D028EDA82857LL5start5style4node9transformSbSiz_AA23_ViewList_IteratorStyleVAA01_oP5_NodeOAA01_oP26_TemporarySublistTransformVtFSbSiz_AkmOtXEfU0_TA
+                        assertUnimplemented()
+                    }
+                )
+            }
+        case .sublist(let sublist):
+            // <+528>
+            assertUnimplemented()
+        case .group(let group):
+            // <+356>
+            // x22
+            let lists = group.lists
+            
+            for list in lists {
+                let result = self.apply(
+                    start: &start,
+                    style: style,
+                    node: .list(list.list, list.attribute),
+                    transform: transform
+                )
+                
+                guard result else {
+                    return false
+                }
+            }
+            
+            return true
+        case .section(let section):
+            // <+724>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     
@@ -133,6 +240,14 @@ extension SectionAccumulator {
     fileprivate enum RowIDAccumulator {
         case chunked([SectionAccumulator.RowIDs.Chunk])
         case heterogeneous(HeterogeneousViewIDsAccumulator)
+        
+        func finalize() -> SectionAccumulator.RowIDs {
+            assertUnimplemented()
+        }
+        
+        var count: Int {
+            assertUnimplemented()
+        }
     }
 }
 

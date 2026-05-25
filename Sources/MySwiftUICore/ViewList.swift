@@ -1317,7 +1317,7 @@ extension _ViewList_SublistTransform_Item {
 }
 
 enum _ViewList_Node {
-    case list(Attribute<any ViewList>?)
+    case list(any ViewList, Attribute<any ViewList>)
     case sublist(_ViewList_Sublist)
     case group(_ViewList_Group)
     case section(_ViewList_Section)
