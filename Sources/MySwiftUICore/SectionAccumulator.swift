@@ -103,13 +103,14 @@ struct SectionAccumulator {
         assertUnimplemented()
     }
     
-    fileprivate func apply(
+    fileprivate mutating func apply(
         start: inout Int,
         style: _ViewList_IteratorStyle,
         node: _ViewList_Node,
         transform: borrowing _ViewList_TemporarySublistTransform
     ) -> Bool {
         /*
+         self -> x20 -> x21
          start -> x0 -> x23
          style -> x1 -> x28
          node -> x2
@@ -121,7 +122,6 @@ struct SectionAccumulator {
         switch copy_1 {
         case .list(let list):
             // <+108>
-            // list -> x19 + 0x18
             // x19 + 0x1c0
             let traitKeys = list.0.traitKeys
             
@@ -136,20 +136,66 @@ struct SectionAccumulator {
                 let rowIDAccumulatorCount = self.rowIDAccumulator.count
                 
                 switch self.rowIDAccumulator {
-                case .chunked(let chunked):
+                case .chunked(var chunked):
                     // <+1728>
+                    // rowIDAccumulatorCount -> x20 -> x19 + 0x10
                     // inlined
-                    // x19 + 0x170
+                    // x27/x28
                     let copiedTransform = transform.copy()
                     
                     // <+2932>
-                    assertUnimplemented()
-                case .heterogeneous(let accumulator):
+                    // inlined
+                    let chunk = SectionAccumulator.RowIDs.Chunk(
+                        list: list.0,
+                        listAttribute: list.1,
+                        transform: copiedTransform,
+                        start: start,
+                        count: listCount,
+                        lowerBound: 0
+                    )
+                    
+                    // <+3868>
+                    chunked.append(chunk)
+                    self.rowIDAccumulator = .chunked(chunked)
+                    // <+4096>
+                case .heterogeneous(var accumulator):
                     // <+1444>
-                    assertUnimplemented()
+                    // x19 + 0x170
+                    var listID = _ViewList_ID()
+                    // inlined
+                    transform.bindID(&listID)
+                    // <+2684>
+                    if let first = listID.explicitIDs.first {
+                        let anyValue = first.id.anyValue
+                        
+                        func project<T : Hashable>(value: T) {
+                            accumulator
+                                .withExplicitID(
+                                    value,
+                                    isUnary: listID.explicitIDs.first?.isUnary ?? false,
+                                    body: { accumulator in
+                                        // $s7SwiftUI18SectionAccumulatorV5apply33_D22569EAA67164B36532D028EDA82857LL5start5style4node9transformSbSiz_AA23_ViewList_IteratorStyleVAA01_oP5_NodeOAA01_oP26_TemporarySublistTransformVtFyAA013Heterogeneouso3IDsD0VzXEfU_TA
+                                        list.0.appendViewIDs(into: &accumulator)
+                                    }
+                                )
+                        }
+                        
+                        _openExistential(anyValue, do: project)
+                        // <+4048>
+                    } else {
+                        // <+3624>
+                        list.0.appendViewIDs(into: &accumulator)
+                        // <+4048>
+                    }
+                    
+                    // <+4048>
+                    self.rowIDAccumulator = .heterogeneous(accumulator)
+                    // <+4096>
                 }
                 
-                assertUnimplemented()
+                // <+4096>
+                self.viewCount += listCount
+                return true
             } else {
                 // <+216>
                 return list.0.applyNodes(
@@ -271,11 +317,27 @@ extension SectionAccumulator.Item {
 }
 
 extension SectionAccumulator.RowIDs {
-    struct IDs {
-        // TODO
+    enum IDs {
+        case viewListIDs(_ViewList_ID_Views)
+        case idArray([_ViewList_ID])
+        case sublist(_ViewList_ID.ElementCollection)
+        case heterogeneousViewIDs(HeterogeneousViewIDs)
     }
     
     struct Chunk {
-        // TODO
+        var ids: SectionAccumulator.RowIDs.IDs
+        var count: Int
+        var lowerBound: Int
+        
+        init(
+            list: any ViewList,
+            listAttribute: Attribute<any ViewList>?,
+            transform: _ViewList_SublistTransform,
+            start: Int,
+            count: Int,
+            lowerBound: Int
+        ) {
+            assertUnimplemented()
+        }
     }
 }

@@ -68,12 +68,19 @@ class _ViewList_Subgraph {
 package struct _ViewList_ID : Hashable {
     private var _index: Int32
     private(set) var implicitID: Int32
-    private var explicitIDs: [_ViewList_ID.Explicit]
+    private(set) var explicitIDs: [_ViewList_ID.Explicit]
     
     init(implicitID: Int) {
         self._index = 0
         self.explicitIDs = []
         self.implicitID = Int32(implicitID)
+    }
+    
+    @inline(always) // 원래 없음
+    fileprivate init(index: Int32, implicitID: Int32, explicitIDs: [_ViewList_ID.Explicit]) {
+        self._index = index
+        self.implicitID = implicitID
+        self.explicitIDs = explicitIDs
     }
     
     init() {
@@ -126,6 +133,32 @@ extension _ViewList_ID {
         let reuseID: Int
         let owner: AnyAttribute
         let isUnary: Bool
+    }
+    
+    struct ElementCollection : Equatable, RandomAccessCollection {
+        var id: _ViewList_ID
+        var count: Int
+        
+        init(id: _ViewList_ID, count: Int) {
+            self.id = id
+            self.count = count
+        }
+        
+        var startIndex: Int {
+            return 0
+        }
+        
+        subscript(index: Int) -> _ViewList_ID {
+            return _ViewList_ID(
+                index: Int32(index),
+                implicitID: self.id.implicitID,
+                explicitIDs: self.id.explicitIDs
+            )
+        }
+        
+        var endIndex: Int {
+            return self.count
+        }
     }
 }
 
@@ -1199,14 +1232,27 @@ struct _ViewList_IteratorStyle : Equatable {
         unsafe self.storage = storage
     }
     
-    func bindID(_ other: _ViewList_ID) {
-        assertUnimplemented()
+    func bindID(_ other: inout _ViewList_ID) {
+        switch self.storage {
+        case .node(let pointer):
+            // <+84>
+            var ptr = pointer
+            
+            while let _ptr = ptr {
+                _ptr.pointee.value.bindID(&other)
+                ptr = _ptr.pointee.next
+            }
+        case .transform(let pointer):
+            // <+44>
+            pointer.pointee.bindID(&other)
+        }
     }
     
     func apply(sublist: inout _ViewList_Sublist) {
         // sublist -> x19
         switch unsafe storage {
         case .node(let pointer):
+            // <+200>
             guard let pointer = unsafe pointer else {
                 return
             }
@@ -1218,14 +1264,19 @@ struct _ViewList_IteratorStyle : Equatable {
                 unsafe _next.value.apply(sublist: &sublist)
                 unsafe next = unsafe _next.next?.pointee
             }
-        case .transform(_):
-            // _ViewList_SublistTransform.apply(sublist: inout _ViewList_Sublist)의 inline일 수도 있음
-            assertUnimplemented()
+        case .transform(let pointer):
+            // inlined
+            pointer.pointee.apply(sublist: &sublist)
         }
     }
     
     var isEmpty: Bool {
-        assertUnimplemented()
+        switch self.storage {
+        case .node(let pointer):
+            return pointer == nil
+        case .transform(let pointer):
+            return pointer.pointee.isEmpty
+        }
     }
     
     func withPushedItem<T, U : _ViewList_SublistTransform_Item>(_ item: U, do block: (borrowing _ViewList_TemporarySublistTransform) -> T) -> T {
@@ -1265,7 +1316,30 @@ struct _ViewList_IteratorStyle : Equatable {
     }
     
     func wrapSubgraphs(into storage: inout _ViewList_SublistSubgraphStorage) {
-        assertUnimplemented()
+        switch self.storage {
+        case .node(let pointer):
+            // <+200>
+            if let pointer {
+                // <+204>
+                storage.subgraphs.reserveCapacity(pointer.pointee.subgraphCount)
+                
+                var ptr: UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>? = pointer
+                while let _ptr = ptr {
+                    _ptr.pointee.value.wrapSubgraph(into: &storage)
+                    ptr = _ptr.pointee.next
+                }
+            } else {
+                // <+292>
+                storage.subgraphs.reserveCapacity(0)
+            }
+        case .transform(let pointer):
+            // <+48>
+            storage.subgraphs.reserveCapacity(pointer.pointee.subgraphCount)
+            
+            for item in pointer.pointee.items {
+                item.wrapSubgraph(into: &storage)
+            }
+        }
     }
     
     func copy() -> _ViewList_SublistTransform {
@@ -1387,7 +1461,7 @@ extension _ViewList_SublistTransform_Item {
 }
 
 enum _ViewList_Node {
-    case list(any ViewList, Attribute<any ViewList>)
+    case list(any ViewList, Attribute<any ViewList>?)
     case sublist(_ViewList_Sublist)
     case group(_ViewList_Group)
     case section(_ViewList_Section)
