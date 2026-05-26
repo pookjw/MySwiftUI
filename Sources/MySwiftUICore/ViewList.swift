@@ -1541,7 +1541,7 @@ struct _ViewList_SublistTransform_ItemFlags : OptionSet {
 }
 
 struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
-    var lists: [(list: any ViewList, attribute: Attribute<ViewList>)]
+    var lists: [(list: any ViewList, attribute: Attribute<ViewList>?)]
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
         assertUnimplemented()
@@ -1653,13 +1653,47 @@ extension _ViewList_Group {
 }
 
 struct _ViewList_Section : ViewList {
-    var id: UInt32
-    var base: _ViewList_Group
-    var traits: ViewTraitCollection
-    var isHierarchical: Bool
+    var id: UInt32 // 0x0
+    var base: _ViewList_Group // 0x8
+    var traits: ViewTraitCollection // 0x10
+    var isHierarchical: Bool // 0x18
+    
+    func appendViewIDs(into accumulator: inout HeterogeneousViewIDsAccumulator) {
+        /*
+         self -> x20
+         accumulator -> x0 -> x19
+         */
+        if self.isHierarchical {
+            // <+48>
+            self.base.lists.first!.list.appendViewIDs(into: &accumulator)
+        } else {
+            // <+140>
+            for list in self.base.lists {
+                list.list.appendViewIDs(into: &accumulator)
+            }
+        }
+    }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        /*
+         self -> x20
+         style -> x0 -> x24
+         */
+        if self.isHierarchical {
+            // <+48>
+            return self.base.lists.first!.list.count(style: style)
+        } else {
+            // <+152>
+            // x19
+            var count = self.base.lists[1].list.count(style: style)
+            // inlined
+            style.alignToNextGranularityMultiple(&count)
+            // <+300>
+            count += self.base.lists[0].list.count(style: style)
+            count += self.base.lists[2].list.count(style: style)
+            
+            return count
+        }
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
@@ -1699,10 +1733,6 @@ struct _ViewList_Section : ViewList {
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
-        assertUnimplemented()
-    }
-    
-    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
         assertUnimplemented()
     }
     

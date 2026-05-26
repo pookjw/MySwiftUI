@@ -207,6 +207,7 @@ func printOffsets() {
     printFields(SectionAccumulator.self, isClassType: false)
     printFields(SectionAccumulator.Item.self, isClassType: false)
     printFields(HeterogeneousViewIDsAccumulator.self, isClassType: false)
+    printFields(_ViewList_Section.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

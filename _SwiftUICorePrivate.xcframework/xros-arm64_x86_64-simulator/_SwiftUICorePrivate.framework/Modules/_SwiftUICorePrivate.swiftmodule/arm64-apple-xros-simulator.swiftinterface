@@ -2476,3 +2476,7 @@ public struct HeterogeneousCollection {
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 open class AbstractHomogeneousCollection {
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ViewList_Section {}
