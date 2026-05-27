@@ -363,7 +363,7 @@ extension _ViewListOutputs {
         }
     }
     
-    func makeAttribute(inputs: _ViewListInputs) -> Attribute<ViewList> {
+    func makeAttribute(inputs: _ViewListInputs) -> Attribute<any ViewList> {
         // inputs -> x19
         // sp + 0xf8
         let copy_1 = views
@@ -1040,7 +1040,8 @@ extension BaseViewList : ViewList {
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        return elements.count
+        let count = self.elements.count
+        return style.applyGranularity(to: count)
     }
     
     var viewIDs: _ViewList_ID_Views? {
@@ -1554,7 +1555,7 @@ struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
         
         var count = 0
         for list in lists {
-            count += list.list.estimatedCount(style: style)
+            count += list.list.count(style: style)
         }
         
         return count
@@ -1685,17 +1686,16 @@ struct _ViewList_Section : ViewList {
         } else {
             // <+152>
             // x19
-            Swift.print(type(of: self.content.list)) // WrappedList
+            Swift.print(base.count(style: style))
+            Swift.print(type(of: self.content.list)) // WrappedList -> BaseViewList
             Swift.print(type(of: self.header.list)) // BaseViewList
             Swift.print(type(of: self.footer.list)) // BaseViewList
-            // WrappedList -> _ViewList_Group
+            
             var count = self.content.list.count(style: style)
             // inlined
             style.alignToNextGranularityMultiple(&count)
             // <+300>
-            // SubgraphList
             count += self.header.list.count(style: style)
-            // BaseViewList
             count += self.footer.list.count(style: style)
             
             return count
