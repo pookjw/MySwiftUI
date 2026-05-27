@@ -3,7 +3,7 @@
 
 typedef struct __attribute__((aligned(16))) {
     Class isa;
-    void *pad;
+    id _Nullable recordType; // _UTDeclaredTypeRecord *
     NSString *identifier;
 } Tag;
 

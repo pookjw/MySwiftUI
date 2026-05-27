@@ -503,7 +503,7 @@ extension DynamicViewList.WrappedList : ViewList {
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        return self.base.count(style: style)
     }
     
     var traitKeys: ViewTraitKeys? {

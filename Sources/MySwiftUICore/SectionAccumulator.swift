@@ -244,6 +244,11 @@ struct SectionAccumulator {
             }
             
             // <+768>
+            let style = _ViewList_IteratorStyle(granularity: 1)
+            let count = section.count(style: style)
+            
+            // <+812>
+            // count가 안 맞음
             assertUnimplemented()
         }
         

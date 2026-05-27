@@ -1685,11 +1685,17 @@ struct _ViewList_Section : ViewList {
         } else {
             // <+152>
             // x19
+            Swift.print(type(of: self.content.list)) // WrappedList
+            Swift.print(type(of: self.header.list)) // BaseViewList
+            Swift.print(type(of: self.footer.list)) // BaseViewList
+            // WrappedList -> _ViewList_Group
             var count = self.content.list.count(style: style)
             // inlined
             style.alignToNextGranularityMultiple(&count)
             // <+300>
+            // SubgraphList
             count += self.header.list.count(style: style)
+            // BaseViewList
             count += self.footer.list.count(style: style)
             
             return count
