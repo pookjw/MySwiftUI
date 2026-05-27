@@ -205,7 +205,7 @@ struct SectionAccumulator {
                     transform: transform,
                     to: { index, style, node, transform in
                         // $s7SwiftUI18SectionAccumulatorV5apply33_D22569EAA67164B36532D028EDA82857LL5start5style4node9transformSbSiz_AA23_ViewList_IteratorStyleVAA01_oP5_NodeOAA01_oP26_TemporarySublistTransformVtFSbSiz_AkmOtXEfU0_TA
-                        assertUnimplemented()
+                        self.apply(start: &index, style: style, node: node, transform: transform)
                     }
                 )
             }
@@ -233,6 +233,17 @@ struct SectionAccumulator {
             return true
         case .section(let section):
             // <+724>
+            /*
+             0x68 -> lastExplicitSectionEnd
+             0xb8 -> viewCount
+             */
+            if self.lastExplicitSectionEnd >= self.viewCount {
+                // <+768>
+            } else {
+                self.appendImplicitSection()
+            }
+            
+            // <+768>
             assertUnimplemented()
         }
         

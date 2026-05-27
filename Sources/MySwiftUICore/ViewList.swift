@@ -1541,7 +1541,7 @@ struct _ViewList_SublistTransform_ItemFlags : OptionSet {
 }
 
 struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
-    var lists: [(list: any ViewList, attribute: Attribute<ViewList>?)]
+    var lists: [(list: any ViewList, attribute: Attribute<ViewList>)]
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
         assertUnimplemented()
@@ -1665,7 +1665,7 @@ struct _ViewList_Section : ViewList {
          */
         if self.isHierarchical {
             // <+48>
-            self.base.lists.first!.list.appendViewIDs(into: &accumulator)
+            self.header.list.appendViewIDs(into: &accumulator)
         } else {
             // <+140>
             for list in self.base.lists {
@@ -1681,30 +1681,47 @@ struct _ViewList_Section : ViewList {
          */
         if self.isHierarchical {
             // <+48>
-            return self.base.lists.first!.list.count(style: style)
+            return self.header.list.count(style: style)
         } else {
             // <+152>
             // x19
-            var count = self.base.lists[1].list.count(style: style)
+            var count = self.content.list.count(style: style)
             // inlined
             style.alignToNextGranularityMultiple(&count)
             // <+300>
-            count += self.base.lists[0].list.count(style: style)
-            count += self.base.lists[2].list.count(style: style)
+            count += self.header.list.count(style: style)
+            count += self.footer.list.count(style: style)
             
             return count
         }
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        if self.isHierarchical {
+            // <+48>
+            return self.base.lists.first!.list.estimatedCount(style: style)
+        } else {
+            // <+140>
+            var count = self.content.list.estimatedCount(style: style)
+            // inlined
+            style.alignToNextGranularityMultiple(&count)
+            count += self.header.list.estimatedCount(style: style)
+            count += self.footer.list.estimatedCount(style: style)
+            
+            return count
+        }
     }
     
     var header: (list: ViewList, attribute: Attribute<any ViewList>) {
-        assertUnimplemented()
+        return self.base.lists[0]
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_Section.Info, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+    func applyNodes(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_Section.Info, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
         assertUnimplemented()
     }
     
@@ -1713,11 +1730,11 @@ struct _ViewList_Section : ViewList {
     }
     
     var content: (list: any ViewList, attribute: Attribute<any ViewList>) {
-        assertUnimplemented()
+        return self.base.lists[1]
     }
     
     var footer: (list: any ViewList, attribute: Attribute<any ViewList>) {
-        assertUnimplemented()
+        return self.base.lists[2]
     }
     
     var traitKeys: ViewTraitKeys? {
@@ -1725,15 +1742,32 @@ struct _ViewList_Section : ViewList {
     }
     
     var viewIDs : _ViewList_ID_Views? {
-        assertUnimplemented()
+        if self.isHierarchical {
+            // <+36>
+            return self.content.list.viewIDs
+        } else {
+            // <+132>
+            return self.base.viewIDs
+        }
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-        assertUnimplemented()
+    func applyNodes(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        list: Attribute<any ViewList>?,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
+        return block(
+            &index,
+            style,
+            .section(self),
+            transform
+        )
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
-        assertUnimplemented()
+        return self.base.edit(forID: forID, since: since)
     }
     
     func print(into: inout SExpPrinter) {
