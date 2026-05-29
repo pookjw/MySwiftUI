@@ -625,7 +625,7 @@ extension _ViewListOutputs {
                     }
                     
                     // <+528>
-                    staticCount = outputs[x8].staticCount
+                    staticCount = outputs[from].staticCount
                 } else if x8 != 0 {
                     // <+220>
                     // to -> x1 -> x24
@@ -786,7 +786,7 @@ extension _ViewListOutputs {
                     // x21
                     let views = _ViewListOutputs.Views.staticList(elements)
                     // <+908>
-                    return _ViewListOutputs(views, nextImplicitID: x20, staticCount: w23 == true ? nil : x19)
+                    return _ViewListOutputs(views, nextImplicitID: inputsImplicitID, staticCount: w23 == true ? nil : x19)
                 }
             } else {
                 // <+692>
@@ -809,7 +809,7 @@ extension _ViewListOutputs {
                     return _ViewListOutputs(
                         .dynamicList(attribute, nil),
                         nextImplicitID: x20,
-                        staticCount: x19
+                        staticCount: w23 == true ? nil : x19
                     )
                 } else {
                     return _ViewListOutputs.emptyViewList(inputs: inputs)
@@ -1735,7 +1735,7 @@ struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
 
 extension _ViewList_Group {
     struct Init : Rule, AsyncAttribute, CustomStringConvertible {
-        fileprivate(set) var lists: [Attribute<ViewList>]
+        fileprivate(set) var lists: [Attribute<any ViewList>]
         
         var value: ViewList {
             // 실제로는 $s14AttributeGraph0A0VyACyxGqd__c5ValueQyd__RszAA4RuleRd__lufcADSPyqd__GXEfU_ySv_So11AGAttributeatcyXEfU_ySv_AJtcfu_7SwiftUI8ViewList_p_AK01_hI6_GroupV4InitVTt1g5가 불림
