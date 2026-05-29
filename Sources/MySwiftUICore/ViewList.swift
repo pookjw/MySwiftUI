@@ -518,7 +518,7 @@ extension _ViewListOutputs {
             if shouldTransition {
                 flag = false
             } else {
-                flag = scope != nil
+                flag = scope == nil
             }
             
             if flag {
@@ -582,6 +582,8 @@ extension _ViewListOutputs {
     static func concat(_ outputs: [_ViewListOutputs], inputs: _ViewListInputs) -> _ViewListOutputs {
         // inputs -> x24
         // return register -> sp + 0x10
+        var inputsImplicitID = inputs.implicitID
+        
         if !outputs.isEmpty {
             // <+60>
             // outputs -> x19 -> sp + 0x18
@@ -600,10 +602,110 @@ extension _ViewListOutputs {
             
             func mergeStatic(from: Int, to: Int) -> _ViewListOutputs {
                 /*
-                 x2 -> outputs
-                 x4 -> inputs
+                 from -> x0 -> x23
+                 to -> x1
+                 outputs -> x2 -> x21
+                 inputsImplicitID -> x3 -> x22
+                 inputs -> x4 -> x20
                  */
-                assertUnimplemented()
+                let x8 = to - from
+                // sp + 0x20
+                let elements: any _ViewList_Elements
+                // x25/w23
+                var staticCount: Int?
+                
+                let views: _ViewListOutputs.Views 
+                if x8 == 1 {
+                    // <+120>
+                    switch outputs[from].views {
+                    case .staticList(let _elements):
+                        elements = _elements
+                    case .dynamicList(_, _):
+                        preconditionFailure()
+                    }
+                    
+                    // <+528>
+                    staticCount = outputs[x8].staticCount
+                } else if x8 != 0 {
+                    // <+220>
+                    // to -> x1 -> x24
+                    let mergedElements = MergedElements(outputs: outputs[from..<to])
+                    elements = mergedElements
+                    
+                    if from != to {
+                        // <+348>
+                        for i in from..<to {
+                            // sp + 0x80
+                            let output = mergedElements.outputs[i]
+                            
+                            if let _staticCount = output.staticCount {
+                                // <+440>
+                                staticCount = (staticCount ?? 0) + _staticCount
+                            } else {
+                                staticCount = nil
+                                break
+                            }
+                        }
+                        
+                        // <+528>
+                    } else {
+                        staticCount = 0
+                        // <+528>
+                    }
+                } else {
+                    // <+88>
+                    elements = EmptyViewListElements()
+                    staticCount = 0
+                    // <+528>
+                }
+                
+                // <+528>
+                // sp + 0x58
+                let copy_1 = elements
+                // inputsImplicitID -> x22 -> x26
+                let x24 = inputs.options.intersection([.canTransition, .disableTransitions])
+                // x21/w27
+                let scope: WeakAttribute<_DisplayList_StableIdentityScope>?
+                if inputs.base.options.contains(.needsStableDisplayListIDs) {
+                    // <+572>
+                    let _scope = inputs[_DisplayList_StableIdentityScope.self]
+                    if _scope.projectedValue != nil {
+                        scope = _scope
+                    } else {
+                        scope = nil
+                    }
+                    // <+616>
+                } else {
+                    // <+560>
+                    scope = nil
+                    // <+616>
+                }
+                
+                // <+616>
+                var list = BaseViewList(
+                    elements: copy_1,
+                    implicitID: inputsImplicitID,
+                    traitKeys: ViewTraitKeys(),
+                    traits: ViewTraitCollection()
+                )
+                
+                if x24 == .canTransition {
+                    list.traits[CanTransitionTraitKey.self] = true
+                }
+                
+                if let scope {
+                    list.traits[_DisplayList_StableIdentityScope.self] = scope
+                }
+                
+                // <+748>
+                let listAttribute = Attribute(value: list as (any ViewList))
+                inputsImplicitID &+= 1
+                
+                return _ViewListOutputs(
+                    .dynamicList(listAttribute, nil),
+                    nextImplicitID: inputsImplicitID,
+                    staticCount: staticCount
+                )
             }
             
             repeat {
@@ -629,7 +731,8 @@ extension _ViewListOutputs {
                     // <+188>
                     break
                 case .dynamicList(let _, let _):
-                    if x20 < x27 {
+                    if x20 >= x27 {
+                    } else {
                         // <+288>
                         // sp + 0x38
                         let outputs_2 = mergeStatic(from: x20, to: x27)
@@ -690,7 +793,7 @@ extension _ViewListOutputs {
                 let count = x22.count
                 if count == 1 {
                     // <+764>
-                    x20 = inputs.implicitID
+                    x20 = inputsImplicitID
                     return _ViewListOutputs(
                         .dynamicList(x22[0], nil),
                         nextImplicitID: x20,
@@ -702,7 +805,7 @@ extension _ViewListOutputs {
                     let rule = _ViewList_Group.Init(lists: x22)
                     // x21
                     let attribute = Attribute(rule)
-                    x20 = inputs.implicitID
+                    x20 = inputsImplicitID
                     return _ViewListOutputs(
                         .dynamicList(attribute, nil),
                         nextImplicitID: x20,
@@ -724,7 +827,7 @@ extension _ViewListOutputs {
 extension _ViewListOutputs {
     enum Views {
         case staticList(any _ViewList_Elements)
-        case dynamicList(Attribute<ViewList>, _ViewListOutputs.ListModifier?)
+        case dynamicList(Attribute<any ViewList>, _ViewListOutputs.ListModifier?)
     }
     
     class ListModifier {
