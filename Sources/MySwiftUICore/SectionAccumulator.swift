@@ -353,7 +353,29 @@ struct SectionAccumulator {
         }
     }
     
-    fileprivate func appendImplicitSection() {
+    fileprivate mutating func appendImplicitSection() {
+        // self -> x20 -> x19
+        // sp + 0xb0
+        guard let copy_1 = self.list else {
+            preconditionFailure()
+        }
+        
+        // <+80>
+        // x29 - 0x78
+        let copy_2 = copy_1
+        // x29 - 0xe0
+        let rowIDAccumulator = self.rowIDAccumulator
+        
+        switch self.rowIDAccumulator {
+        case .chunked(let chunks):
+            // <+228>
+            self.rowIDAccumulator = .chunked([])
+        case .heterogeneous(let accumulator):
+            // <+164>
+            self.rowIDAccumulator = .heterogeneous(HeterogeneousViewIDsAccumulator())
+        }
+        
+        // <+244>
         assertUnimplemented()
     }
 }
@@ -439,8 +461,77 @@ extension SectionAccumulator {
         }
     }
     
-    struct TransformedIDs {
-        // TODO
+    struct TransformedIDs : RandomAccessCollection, Equatable {
+        static func == (lhs: SectionAccumulator.TransformedIDs, rhs: SectionAccumulator.TransformedIDs) -> Bool {
+            assertUnimplemented()
+        }
+        
+        private(set) var base: _ViewList_ID_Views
+        private(set) var transform: _ViewList_SublistTransform
+        
+        subscript(position: Int) -> _ViewList_ID {
+            assertUnimplemented()
+        }
+        
+        func index(before i: Int) -> Int {
+            assertUnimplemented()
+        }
+        
+        var startIndex: Int {
+            assertUnimplemented()
+        }
+        
+        var endIndex: Int {
+            assertUnimplemented()
+        }
+        
+        var indices: Range<Int> {
+            assertUnimplemented()
+        }
+        
+        func index(_ i: Int, offsetBy distance: Int) -> Int {
+            assertUnimplemented()
+        }
+        
+        func distance(from start: Int, to end: Int) -> Int {
+            assertUnimplemented()
+        }
+        
+        func index(after i: Int) -> Int {
+            assertUnimplemented()
+        }
+        
+        var isEmpty: Bool {
+            assertUnimplemented()
+        }
+        
+        func index(_ i: Int, offsetBy distance: Int, limitedBy limit: Int) -> Int? {
+            assertUnimplemented()
+        }
+        
+        func formIndex(before i: inout Int) {
+            assertUnimplemented()
+        }
+        
+        func formIndex(after i: inout Int) {
+            assertUnimplemented()
+        }
+        
+        func makeIterator() -> IndexingIterator<SectionAccumulator.TransformedIDs> {
+            assertUnimplemented()
+        }
+        
+        var count: Int {
+            assertUnimplemented()
+        }
+        
+        var underestimatedCount: Int {
+            assertUnimplemented()
+        }
+        
+        subscript(bounds: Range<Int>) -> Slice<SectionAccumulator.TransformedIDs> {
+            assertUnimplemented()
+        }
     }
     
     fileprivate enum RowIDAccumulator {
@@ -452,7 +543,22 @@ extension SectionAccumulator {
         }
         
         var count: Int {
-            assertUnimplemented()
+            // sp + 0x98
+            let copy_1 = self
+            
+            switch copy_1 {
+            case .chunked(let chunks):
+                // <+212>
+                if let chunk = chunks.last {
+                    return chunk.count + chunk.lowerBound
+                } else {
+                    return 0
+                }
+            case .heterogeneous(let accumulator):
+                // <+48>
+                // inlined
+                return accumulator.count
+            }
         }
     }
 }
@@ -511,8 +617,50 @@ extension SectionAccumulator.RowIDs {
              count -> x4 -> x21
              lowerBound -> x5 -> x29 - 0x98
              */
-            let viewIDs = list.viewIDs
-            assertUnimplemented()
+            if let viewIDs = list.viewIDs {
+                // <+112>
+                let views = _ViewList_ID._Views<SectionAccumulator.TransformedIDs>(
+                    SectionAccumulator.TransformedIDs(
+                        base: viewIDs,
+                        transform: transform
+                    ),
+                    isDataDependent: true
+                )
+                
+                // <+360>
+                self.ids = .viewListIDs(views)
+                // <+372>
+            } else {
+                // <+168>
+                var start = start
+                var count = count
+                
+                var ids: [_ViewList_ID] = []
+                ids.reserveCapacity(count)
+                
+                var transform = transform
+                
+                transform.withTemporaryTransform { transform in
+                    list.applyIDs(
+                        from: &start,
+                        listAttribute: listAttribute,
+                        transform: transform,
+                        to: { id in
+                            // $s7SwiftUI18SectionAccumulatorV6RowIDsV5ChunkV4list0H9Attribute9transform5start5count10lowerBoundAgA8ViewList_p_0I5Graph0I0VyAaN_pGSgAA01_oP17_SublistTransformVS3itcfcSbAA01_op10_TemporaryrS0VXEfU_SbAA01_oP3_IDVXEfU_TA.3
+                            ids.append(id)
+                            count -= 1
+                            return count != 0
+                        }
+                    )
+                }
+                
+                self.ids = .idArray(ids)
+                // <+372>
+            }
+            
+            // <+372>
+            self.count = count
+            self.lowerBound = lowerBound
         }
     }
 }

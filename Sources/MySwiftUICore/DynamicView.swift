@@ -467,8 +467,8 @@ extension DynamicViewList {
     }
     
     fileprivate struct WrappedIDs {
-        private let base: _ViewList_ID_Views
-        private let item: DynamicViewList<Content>.Item
+        let base: _ViewList_ID_Views
+        let item: DynamicViewList<Content>.Item
     }
     
     fileprivate struct Transform : _ViewList_SublistTransform_Item {
@@ -523,7 +523,17 @@ extension DynamicViewList.WrappedList : ViewList {
     }
     
     var viewIDs: _ViewList_ID_Views? {
-        assertUnimplemented()
+        return self.base.viewIDs
+            .map { viewIDs in
+                // $s7SwiftUI15DynamicViewList031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV07WrappedE0V7viewIDsAA01_dE9_ID_ViewsCSgvgA2IXEfU_
+                return _ViewList_ID._Views(
+                    DynamicViewList<Content>.WrappedIDs(
+                        base: viewIDs,
+                        item: self.item
+                    ),
+                    isDataDependent: true
+                )
+            }
     }
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {

@@ -932,6 +932,7 @@ extension ViewList {
         assertUnimplemented()
     }
     
+    @discardableResult
     func applyIDs(from: inout Int, listAttribute: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_ID) -> Bool) -> Bool {
         assertUnimplemented()
     }
@@ -1010,6 +1011,29 @@ class _ViewList_ID_Views : Equatable, RandomAccessCollection {
     
     func isEqual(to other: _ViewList_ID_Views) -> Bool {
         preconditionFailure() // abstract
+    }
+}
+
+extension _ViewList_ID {
+    final class _Views<T> : _ViewList_ID_Views {
+        let base: T
+        
+        init(_ base: T, isDataDependent: Bool) {
+            self.base = base
+            super.init(isDataDependent: isDataDependent)
+        }
+        
+        override var endIndex: Int {
+            assertUnimplemented()
+        }
+        
+        override subscript(index: Int) -> _ViewList_ID {
+            assertUnimplemented()
+        }
+        
+        override func isEqual(to other: _ViewList_ID_Views) -> Bool {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -1148,7 +1172,13 @@ extension BaseViewList : ViewList {
     }
     
     var viewIDs: _ViewList_ID_Views? {
-        assertUnimplemented()
+        return _ViewList_ID._Views(
+            _ViewList_ID.ElementCollection(
+                id: _ViewList_ID(implicitID: self.implicitID),
+                count: self.elements.count
+            ),
+            isDataDependent: false
+        )
     }
     
     func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
@@ -1531,7 +1561,7 @@ struct _ViewList_SublistTransform {
         }
     }
     
-    mutating func withTemporaryTransform<T>(do block: (borrowing _ViewList_TemporarySublistTransform) -> T) -> T {
+    mutating func withTemporaryTransform<T>(do block: (consuming _ViewList_TemporarySublistTransform) -> T) -> T {
         return withUnsafeMutablePointer(to: &self) { pointer in
             // $s7SwiftUI26_ViewList_SublistTransformV013withTemporaryF02doxxAA01_cd1_heF0VXE_tlFxSpyACGXEfU_TA
             return block(_ViewList_TemporarySublistTransform(storage: .transform(pointer)))
