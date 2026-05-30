@@ -233,10 +233,6 @@ struct SectionAccumulator {
             return true
         case .section(let section):
             // <+724>
-            /*
-             0x68 -> lastExplicitSectionEnd
-             0xb8 -> viewCount
-             */
             if self.lastExplicitSectionEnd >= self.viewCount {
                 // <+768>
             } else {
@@ -248,6 +244,70 @@ struct SectionAccumulator {
             let count = section.count(style: style)
             
             // <+812>
+            if count < 1 {
+                // <+1216>
+                self.lastExplicitSectionEnd = self.viewCount
+                
+                if !self.items.isEmpty {
+                    self.items[0].traits.append(section.traits)
+                } else {
+                    // <+1776>
+                    self.pendingEmptySectionTraits.append(section.traits)
+                }
+                
+                // <+4120>
+                return true
+            } else {
+                // <+820>
+                let contentCount = section.content.list.count
+                
+                if
+                    self.options.contains(.retainSubgraphs),
+                    var subgraphStorage
+                {
+                    transform.wrapSubgraphs(into: &subgraphStorage)
+                    self.subgraphStorage = subgraphStorage
+                }
+                
+                // <+948>
+                // inlined
+                let copy_1 = transform.copy()
+                // <+1888>
+                // x19 + 0x198
+                let footer = section.footer
+                // x19 + 0x60
+                let copy_2 = self.rowIDAccumulator
+                
+                switch copy_2 {
+                case .chunked(let array):
+                    // <+2196>
+                    // inlined
+                    // x25 + 0x20
+                    let chunk = SectionAccumulator.RowIDs.Chunk(
+                        list: footer.list,
+                        listAttribute: footer.attribute,
+                        transform: copy_1,
+                        start: 0,
+                        count: contentCount,
+                        lowerBound: 0
+                    )
+                    
+                    // <+3080>
+                case .heterogeneous(_):
+                    // <+1988>
+                    // x19 + 0x60
+                    var accumulator = HeterogeneousViewIDsAccumulator()
+                    footer.list.appendViewIDs(into: &accumulator)
+                    // x19 + 0x170 (x24)
+                    let viewIDs = accumulator.finalize()
+                    
+                    assertUnimplemented()
+                }
+                
+                // <+3080>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
         }
         
@@ -262,7 +322,7 @@ struct SectionAccumulator {
 extension SectionAccumulator {
     struct Item {
         var features: SectionAccumulator.Item.Features // 0x0
-        var list: ViewList // 0x8
+        var list: any ViewList // 0x8
         var contentSubgraph: Subgraph? // 0x30
         var sectionList: _ViewList_Section? // 0x38
         var transform: _ViewList_SublistTransform // 0x58
@@ -352,6 +412,15 @@ extension SectionAccumulator.RowIDs {
             count: Int,
             lowerBound: Int
         ) {
+            /*
+             list -> x0 -> x22
+             listAttribute -> x1 -> x24
+             transform -> x2 -> x25/x19
+             start -> x3 -> x26
+             count -> x4 -> x21
+             lowerBound -> x5 -> x29 - 0x98
+             */
+            let viewIDs = list.viewIDs
             assertUnimplemented()
         }
     }
