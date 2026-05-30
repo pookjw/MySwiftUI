@@ -363,12 +363,13 @@ extension _ViewListOutputs {
         let options = inputs.options
         if options.contains(.sectionsConcatenateFooter) {
             // <+872>
-            if !lists.isEmpty {
-                lists = Array(lists[1..<lists.count])
+            var trimmed = lists
+            if !trimmed.isEmpty {
+                trimmed = Array(trimmed[1..<trimmed.count])
             }
             
             // <+904>
-            let groupInit = _ViewList_Group.Init(lists: lists)
+            let groupInit = _ViewList_Group.Init(lists: trimmed)
             let groupAttributeInit = Attribute(groupInit)
             lists[1] = groupAttributeInit
             

@@ -248,7 +248,6 @@ struct SectionAccumulator {
             let count = section.count(style: style)
             
             // <+812>
-            // count가 안 맞음
             assertUnimplemented()
         }
         

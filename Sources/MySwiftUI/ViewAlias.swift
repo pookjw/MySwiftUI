@@ -61,7 +61,7 @@ fileprivate struct StaticSourceWriter<T, U : View> : PrimitiveViewModifier, _Gra
             valueIsNil: nil
         )
         
-        inputs.append(source, to: SourceInput<U>.self)
+        inputs.append(source, to: SourceInput<T>.self)
     }
     
     nonisolated static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
@@ -114,7 +114,7 @@ extension AnySource {
     }
 }
 
-fileprivate struct SourceFormula<U> : AnySourceFormula {
+fileprivate struct SourceFormula<U : View> : AnySourceFormula {
     static func makeView<T : ViewAlias>(view: _GraphValue<T>, source: AnySource, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
@@ -134,17 +134,17 @@ fileprivate struct SourceFormula<U> : AnySourceFormula {
         // <+252>
         // x23
         let outputs: _ViewListOutputs
-        if source.valueIsNil != nil {
-            // <+328>
+        if source.valueIsNil == nil {
+            // <+272>
             // x28
-            let view = _GraphValue(attribute.unsafeCast(to: T?.self))
-            outputs = T?.makeDebuggableViewList(view: view, inputs: inputs)
+            let view = _GraphValue(attribute.unsafeCast(to: U?.self))
+            outputs = U?.makeDebuggableViewList(view: view, inputs: inputs)
             // <+408>
         } else {
-            // <+272>
+            // <+328>
             // x24
-            let view = _GraphValue(attribute.unsafeCast(to: T.self))
-            outputs = T.makeDebuggableViewList(view: view, inputs: inputs)
+            let view = _GraphValue(attribute.unsafeCast(to: U.self))
+            outputs = U.makeDebuggableViewList(view: view, inputs: inputs)
             // <+408>
         }
         

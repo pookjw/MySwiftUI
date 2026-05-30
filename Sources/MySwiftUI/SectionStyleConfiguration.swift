@@ -9,10 +9,13 @@ struct SectionStyleConfiguration {
     
     @ViewBuilder
     var content: _ConditionalContent<SectionStyleConfiguration.RawContent, EmptyView> {
-        if
-            let isExpanded,
+        let cond = if let isExpanded {
             isExpanded.wrappedValue
-        {
+        } else {
+            true
+        }
+        
+        if cond {
             self.rawContent
         } else {
             EmptyView()

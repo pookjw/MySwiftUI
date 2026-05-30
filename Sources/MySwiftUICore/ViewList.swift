@@ -1785,15 +1785,12 @@ struct _ViewList_Section : ViewList {
          */
         if self.isHierarchical {
             // <+48>
+            var style = style
+            style.applyGranularity = (style.granularity != 1)
             return self.header.list.count(style: style)
         } else {
             // <+152>
             // x19
-            Swift.print(base.count(style: style))
-            Swift.print(type(of: self.content.list)) // WrappedList -> BaseViewList
-            Swift.print(type(of: self.header.list)) // BaseViewList
-            Swift.print(type(of: self.footer.list)) // BaseViewList
-            
             var count = self.content.list.count(style: style)
             // inlined
             style.alignToNextGranularityMultiple(&count)
@@ -2117,7 +2114,7 @@ fileprivate struct ModifiedViewList : ViewList, CustomDebugStringConvertible {
     let listModifier: ModifiedViewList.ListModifier
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        return self.base.count(style: style)
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
@@ -2125,7 +2122,7 @@ fileprivate struct ModifiedViewList : ViewList, CustomDebugStringConvertible {
     }
     
     var traitKeys: ViewTraitKeys? {
-        assertUnimplemented()
+        return self.base.traitKeys
     }
     
     var viewIDs: _ViewList_ID_Views? {
