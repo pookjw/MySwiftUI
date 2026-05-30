@@ -271,27 +271,42 @@ struct SectionAccumulator {
                 
                 // <+948>
                 // inlined
-                let copy_1 = transform.copy()
+                // x19 + 0x1c0
+                var item = SectionAccumulator.Item(
+                    features: [],
+                    list: section,
+                    contentSubgraph: self.contentSubgraph,
+                    sectionList: section,
+                    transform: transform.copy(), // inlined
+                    ids: SectionAccumulator.RowIDs(chunks: []), // 원래 초기값 없음
+                    headerCount: 0, // 원래 초기값 없음
+                    footerCount: 0, // 원래 초기값 없음
+                    id: section.id,
+                    start: 0,
+                    traits: self.pendingEmptySectionTraits
+                )
+                
                 // <+1888>
                 // x19 + 0x198
                 let footer = section.footer
                 // x19 + 0x60
                 let copy_2 = self.rowIDAccumulator
-                
+                // x25
+                let chunks: [SectionAccumulator.RowIDs.Chunk]
                 switch copy_2 {
                 case .chunked(let array):
                     // <+2196>
                     // inlined
-                    // x25 + 0x20
                     let chunk = SectionAccumulator.RowIDs.Chunk(
                         list: footer.list,
                         listAttribute: footer.attribute,
-                        transform: copy_1,
+                        transform: item.transform,
                         start: 0,
                         count: contentCount,
                         lowerBound: 0
                     )
                     
+                    chunks = [chunk]
                     // <+3080>
                 case .heterogeneous(_):
                     // <+1988>
@@ -301,17 +316,41 @@ struct SectionAccumulator {
                     // x19 + 0x170 (x24)
                     let viewIDs = accumulator.finalize()
                     
-                    assertUnimplemented()
+                    let chunk = SectionAccumulator.RowIDs.Chunk(
+                        ids: .heterogeneousViewIDs(viewIDs),
+                        count: viewIDs.count,
+                        lowerBound: 0
+                    )
+                    
+                    chunks = [chunk]
+                    // <+3080>
                 }
                 
                 // <+3080>
-                assertUnimplemented()
+                item.ids = SectionAccumulator.RowIDs(chunks: chunks)
+                // x26
+                let headerCount = section.header.list.count
+                // x27
+                let footerCount = section.footer.list.count
+                // <+3236>
+                item.traits.append(contentsOf: [section.traits])
+                item.headerCount = headerCount
+                item.footerCount = footerCount
+                
+                // <+3392>
+                // x19 + 0x60
+                let copy_3 = item
+                self.items.append(copy_3)
+                
+                // <+3504>
+                self.pendingEmptySectionTraits.removeAll(keepingCapacity: true)
+                // <+3588>
+                self.viewCount += count
+                self.lastExplicitSectionEnd = self.viewCount
+                
+                return true
             }
-            
-            assertUnimplemented()
         }
-        
-        assertUnimplemented()
     }
     
     fileprivate func appendImplicitSection() {
@@ -355,8 +394,49 @@ extension SectionAccumulator {
         }
     }
     
-    struct RowIDs {
-        // TODO
+    struct RowIDs : RandomAccessCollection {
+        private let chunks: [SectionAccumulator.RowIDs.Chunk]
+        
+        init(
+            list: any ViewList,
+            listAttribute: Attribute<any ViewList>?,
+            start: Int,
+            count: Int,
+            accumulationStrategy: SectionAccumulator.RowIDAccumulationStrategy
+        ) {
+            assertUnimplemented()
+        }
+        
+        var heterogeneous: HeterogeneousViewIDs? {
+            assertUnimplemented()
+        }
+        
+        init(ids: [_ViewList_ID]) {
+            self.chunks = [
+                SectionAccumulator.RowIDs.Chunk(
+                    ids: .idArray(ids),
+                    count: ids.count,
+                    lowerBound: 0
+                )
+            ]
+        }
+        
+        @inline(always) // 원래 없음
+        init(chunks: [SectionAccumulator.RowIDs.Chunk]) {
+            self.chunks = chunks
+        }
+        
+        var startIndex: Int {
+            assertUnimplemented()
+        }
+        
+        var endIndex: Int {
+            assertUnimplemented()
+        }
+        
+        subscript(index: Int) -> _ViewList_ID.Canonical {
+            assertUnimplemented()
+        }
     }
     
     struct TransformedIDs {
@@ -403,6 +483,17 @@ extension SectionAccumulator.RowIDs {
         var ids: SectionAccumulator.RowIDs.IDs
         var count: Int
         var lowerBound: Int
+        
+        @inline(always) // 원래 없음
+        init(
+            ids: SectionAccumulator.RowIDs.IDs,
+            count: Int,
+            lowerBound: Int
+        ) {
+            self.ids = ids
+            self.count = count
+            self.lowerBound = lowerBound
+        }
         
         init(
             list: any ViewList,
