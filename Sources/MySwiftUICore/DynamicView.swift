@@ -466,9 +466,65 @@ extension DynamicViewList {
         }
     }
     
-    fileprivate struct WrappedIDs {
+    fileprivate struct WrappedIDs : RandomAccessCollection, Equatable {
         let base: _ViewList_ID_Views
         let item: DynamicViewList<Content>.Item
+        
+        static func == (lhs: DynamicViewList<Content>.WrappedIDs, rhs: DynamicViewList<Content>.WrappedIDs) -> Bool {
+            assertUnimplemented()
+        }
+        
+        var startIndex: Int {
+            assertUnimplemented()
+        }
+        
+        var endIndex: Int {
+            assertUnimplemented()
+        }
+        
+        func makeIterator() -> IndexingIterator<DynamicViewList<Content>.WrappedIDs> {
+            assertUnimplemented()
+        }
+        
+        func index(before i: Int) -> Int {
+            assertUnimplemented()
+        }
+        
+        func formIndex(before i: inout Index) {
+            assertUnimplemented()
+        }
+        
+        subscript(position: Int) -> _ViewList_ID {
+            assertUnimplemented()
+        }
+        
+        var indices: Range<Int> {
+            assertUnimplemented()
+        }
+        
+        func index(after i: Int) -> Int {
+            assertUnimplemented()
+        }
+        
+        func formIndex(after i: inout Int) {
+            assertUnimplemented()
+        }
+        
+        var underestimatedCount: Int {
+            assertUnimplemented()
+        }
+        
+        func index(_ i: Int, offsetBy distance: Int, limitedBy limit: Int) -> Int? {
+            assertUnimplemented()
+        }
+        
+        func index(_ i: Int, offsetBy distance: Int) -> Int {
+            assertUnimplemented()
+        }
+        
+        func distance(from start: Int, to end: Int) -> Int {
+            assertUnimplemented()
+        }
     }
     
     fileprivate struct Transform : _ViewList_SublistTransform_Item {

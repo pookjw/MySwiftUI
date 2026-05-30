@@ -1018,7 +1018,7 @@ class _ViewList_ID_Views : Equatable, RandomAccessCollection {
 }
 
 extension _ViewList_ID {
-    final class _Views<T> : _ViewList_ID_Views {
+    final class _Views<T : Collection> : _ViewList_ID_Views where T.Index == Int {
         let base: T
         
         init(_ base: T, isDataDependent: Bool) {
@@ -1027,6 +1027,23 @@ extension _ViewList_ID {
         }
         
         override var endIndex: Int {
+            return self.base.endIndex
+        }
+        
+        override subscript(index: Int) -> _ViewList_ID {
+            assertUnimplemented()
+        }
+        
+        override func isEqual(to other: _ViewList_ID_Views) -> Bool {
+            assertUnimplemented()
+        }
+    }
+    
+    final class JoinedViews : _ViewList_ID_Views {
+        let views: [(views: _ViewList_ID_Views, endOffset: Int)]
+        let count: Int
+        
+        init(_ views: [_ViewList_ID_Views], isDataDependent: Bool) {
             assertUnimplemented()
         }
         
@@ -1035,6 +1052,10 @@ extension _ViewList_ID {
         }
         
         override func isEqual(to other: _ViewList_ID_Views) -> Bool {
+            assertUnimplemented()
+        }
+        
+        override var endIndex: Int {
             assertUnimplemented()
         }
     }
@@ -1740,12 +1761,42 @@ struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
     }
     
     var viewIDs: _ViewList_ID_Views? {
-        if self.lists.isEmpty {
-            // <+324>
-            assertUnimplemented()
+        // sp + 0x58 / x19
+        var array: [_ViewList_ID_Views] = []
+        // w25
+        var isDataDependent = false
+        
+        for list in self.lists {
+            guard let viewIDs = list.list.viewIDs else {
+                return nil
+            }
+            
+            guard !viewIDs.isEmpty else {
+                continue
+            }
+            
+            array.append(viewIDs)
+            
+            if !isDataDependent {
+                isDataDependent = viewIDs.isDataDependent
+            }
+        }
+        
+        // <+328>
+        let count = array.count
+        
+        if count == 1 {
+            // <+484>
+            return array[0]
+        } else if count != 0 {
+            // <+416>
+            return _ViewList_ID.JoinedViews(array, isDataDependent: isDataDependent)
         } else {
-            // <+56>
-            assertUnimplemented()
+            // <+356>
+            return _ViewList_ID._Views(
+                EmptyCollection<_ViewList_ID>(),
+                isDataDependent: false
+            )
         }
     }
     
