@@ -151,7 +151,7 @@ struct SectionAccumulator {
                         transform: copiedTransform,
                         start: start,
                         count: listCount,
-                        lowerBound: 0
+                        lowerBound: rowIDAccumulatorCount
                     )
                     
                     // <+3868>
@@ -211,7 +211,43 @@ struct SectionAccumulator {
             }
         case .sublist(let sublist):
             // <+528>
-            assertUnimplemented()
+            // x19 + 0x100
+            var copy_2 = sublist
+            transform.apply(sublist: &copy_2)
+            // x20
+            let count = self.rowIDAccumulator.count
+            // x19 + 0x1c0
+            let copy_3 = self.rowIDAccumulator
+            
+            switch copy_3 {
+            case .chunked(var chunks):
+                // <+1096>
+                let chunk = SectionAccumulator.RowIDs.Chunk(
+                    ids: .sublist(
+                        _ViewList_ID.ElementCollection(
+                            id: copy_2.id,
+                            count: copy_2.count
+                        )
+                    ),
+                    count: copy_2.count,
+                    lowerBound: count
+                )
+                
+                chunks.append(chunk)
+                self.rowIDAccumulator = .chunked(chunks)
+                // <+1188>
+            case .heterogeneous(let accumulator):
+                // <+628>
+                // x19 + 0x60
+                var copy_4 = accumulator
+                copy_2.appendViewIDs(into: &copy_4)
+                self.rowIDAccumulator = .heterogeneous(copy_4)
+                // <+1188>
+            }
+            
+            // <+1188>
+            self.viewCount += copy_2.count
+            return true
         case .group(let group):
             // <+356>
             // x22
@@ -248,8 +284,9 @@ struct SectionAccumulator {
                 // <+1216>
                 self.lastExplicitSectionEnd = self.viewCount
                 
-                if !self.items.isEmpty {
-                    self.items[0].traits.append(section.traits)
+                let itemsCount = self.items.count
+                if itemsCount != 0 {
+                    self.items[itemsCount &- 1].traits.append(section.traits)
                 } else {
                     // <+1776>
                     self.pendingEmptySectionTraits.append(section.traits)
@@ -288,7 +325,7 @@ struct SectionAccumulator {
                 
                 // <+1888>
                 // x19 + 0x198
-                let footer = section.footer
+                let content = section.content
                 // x19 + 0x60
                 let copy_2 = self.rowIDAccumulator
                 // x25
@@ -298,8 +335,8 @@ struct SectionAccumulator {
                     // <+2196>
                     // inlined
                     let chunk = SectionAccumulator.RowIDs.Chunk(
-                        list: footer.list,
-                        listAttribute: footer.attribute,
+                        list: content.list,
+                        listAttribute: content.attribute,
                         transform: item.transform,
                         start: 0,
                         count: contentCount,
@@ -312,7 +349,7 @@ struct SectionAccumulator {
                     // <+1988>
                     // x19 + 0x60
                     var accumulator = HeterogeneousViewIDsAccumulator()
-                    footer.list.appendViewIDs(into: &accumulator)
+                    content.list.appendViewIDs(into: &accumulator)
                     // x19 + 0x170 (x24)
                     let viewIDs = accumulator.finalize()
                     
@@ -357,7 +394,7 @@ struct SectionAccumulator {
         // self -> x20 -> x19
         // sp + 0xb0
         guard let copy_1 = self.list else {
-            preconditionFailure()
+            preconditionFailure("Missing list")
         }
         
         // <+80>
@@ -376,7 +413,24 @@ struct SectionAccumulator {
         }
         
         // <+244>
-        assertUnimplemented()
+        // sp + 0xb0
+        let item = SectionAccumulator.Item(
+            features: .implicit,
+            list: copy_2,
+            contentSubgraph: self.contentSubgraph,
+            sectionList: nil,
+            transform: _ViewList_SublistTransform(),
+            ids: rowIDAccumulator.finalize(),
+            headerCount: 0,
+            footerCount: 0,
+            id: UInt32(self.items.count),
+            start: self.lastExplicitSectionEnd,
+            traits: [copy_2.traits]
+        )
+        
+        // sp + 0x18
+        let copy_3 = item
+        self.items.append(copy_3)
     }
 }
 
@@ -539,7 +593,29 @@ extension SectionAccumulator {
         case heterogeneous(HeterogeneousViewIDsAccumulator)
         
         func finalize() -> SectionAccumulator.RowIDs {
-            assertUnimplemented()
+            switch self {
+            case .chunked(let chunks):
+                // <+212>
+                return SectionAccumulator.RowIDs(chunks: chunks)
+            case .heterogeneous(let accumulator):
+                // <+44>
+                // x29 - 0x98
+                let copy_1 = accumulator
+                // sp + 0x18
+                let copy_2 = copy_1
+                // sp + 0x80
+                let viewIDs = copy_2.finalize()
+                // <+124>
+                return SectionAccumulator.RowIDs(
+                    chunks: [
+                        SectionAccumulator.RowIDs.Chunk(
+                            ids: .heterogeneousViewIDs(viewIDs),
+                            count: viewIDs.count,
+                            lowerBound: 0
+                        )
+                    ]
+                )
+            }
         }
         
         var count: Int {

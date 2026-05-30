@@ -232,7 +232,10 @@ struct _ViewList_Sublist {
     var traits: ViewTraitCollection // 0x50
     var list: Attribute<ViewList>? // 0x58
     
-    @inline(always)
+    func appendViewIDs(into accumulator: inout HeterogeneousViewIDsAccumulator) {
+        assertUnimplemented()
+    }
+    
     init(
         start: Int,
         count: Int,
@@ -1737,7 +1740,13 @@ struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
     }
     
     var viewIDs: _ViewList_ID_Views? {
-        assertUnimplemented()
+        if self.lists.isEmpty {
+            // <+324>
+            assertUnimplemented()
+        } else {
+            // <+56>
+            assertUnimplemented()
+        }
     }
     
     func applyNodes(
@@ -1759,7 +1768,7 @@ struct _ViewList_Group : ViewList, CustomDebugStringConvertible {
     }
     
     var traits: ViewTraitCollection {
-        assertUnimplemented()
+        return ViewTraitCollection()
     }
 }
 
