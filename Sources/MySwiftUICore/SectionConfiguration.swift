@@ -3,21 +3,13 @@ public struct SectionConfiguration : Identifiable {
     let item: SectionAccumulator.Item
     
     public struct ID : Hashable {
-        public static func == (a: SectionConfiguration.ID, b: SectionConfiguration.ID) -> Bool {
-            assertUnimplemented()
-        }
-
-        public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
-
-        public var hashValue: Int {
-            assertUnimplemented()
-        }
+        fileprivate let base: AnyHashable
     }
 
     public var id: SectionConfiguration.ID {
-        assertUnimplemented()
+        return SectionConfiguration.ID(
+            base: AnyHashable(self.item.id)
+        )
     }
 
     public var containerValues: ContainerValues {

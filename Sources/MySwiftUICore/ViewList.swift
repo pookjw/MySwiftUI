@@ -1044,7 +1044,25 @@ extension _ViewList_ID {
         let count: Int
         
         init(_ views: [_ViewList_ID_Views], isDataDependent: Bool) {
-            assertUnimplemented()
+            /*
+             self -> x20 -> x19
+             views -> x0 -> x22
+             isDataDependent -> w1 -> sp + 0xc
+             */
+            var _views: [(views: _ViewList_ID_Views, endOffset: Int)] = []
+            var count = 0
+            
+            for view in views {
+                let endIndex = view.endIndex
+                assert(endIndex >= 0)
+                assert(view.endIndex >= endIndex)
+                count += view.endIndex
+                _views.append((views: view, endOffset: count))
+            }
+            
+            self.views = _views
+            self.count = count
+            super.init(isDataDependent: isDataDependent)
         }
         
         override subscript(index: Int) -> _ViewList_ID {

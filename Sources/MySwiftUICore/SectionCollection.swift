@@ -3,15 +3,15 @@ public struct SectionCollection : RandomAccessCollection {
     let base: [SectionConfiguration]
     
     public subscript(index: Int) -> SectionConfiguration {
-        assertUnimplemented()
+        return self.base[index]
     }
     
     public var startIndex: Int {
-        assertUnimplemented()
+        return 0
     }
     
     public var endIndex: Int {
-        assertUnimplemented()
+        return self.base.endIndex
     }
     
     @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)

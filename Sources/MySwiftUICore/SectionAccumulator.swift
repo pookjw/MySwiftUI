@@ -100,7 +100,40 @@ struct SectionAccumulator {
             }
         )
         
-        assertUnimplemented()
+        // <+176>
+        if self.lastExplicitSectionEnd >= self.viewCount {
+            // <+200>
+        } else {
+            self.appendImplicitSection()
+        }
+        
+        // <+200>
+        if self.items.isEmpty {
+            if self.viewCount < 1 {
+                self.items = []
+            } else {
+                let accumulationStrategy: RowIDAccumulationStrategy
+                switch self.rowIDAccumulator {
+                case .chunked(_):
+                    accumulationStrategy = .chunked
+                case .heterogeneous(_):
+                    accumulationStrategy = .heterogeneous
+                }
+                
+                self.items = [
+                    SectionAccumulator.Item.implicitSentinel(
+                        list,
+                        contentSubgraph: nil,
+                        accumulationStrategy: accumulationStrategy
+                    )
+                ]
+            }
+        }
+        
+        Update.end()
+        
+        // <+408>
+        self.list = nil
     }
     
     fileprivate mutating func apply(
@@ -454,6 +487,14 @@ extension SectionAccumulator {
         
         var hasRows: Bool {
             return self.traits.count > 0
+        }
+        
+        static func implicitSentinel(
+            _ list: any ViewList,
+            contentSubgraph: Subgraph?,
+            accumulationStrategy: SectionAccumulator.RowIDAccumulationStrategy
+        ) -> SectionAccumulator.Item {
+            assertUnimplemented()
         }
     }
     
