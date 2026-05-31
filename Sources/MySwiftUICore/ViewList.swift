@@ -2473,3 +2473,57 @@ extension Layout {
         }
     }
 }
+
+struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
+    private let base: any ViewList
+    private let bounds: Range<Int>
+    
+    init(base: any ViewList, bounds: Range<Int>) {
+        self.base = base
+        self.bounds = bounds
+    }
+    
+    var traitKeys: ViewTraitKeys? {
+        assertUnimplemented()
+    }
+    
+    var viewIDs: _ViewList_ID_Views? {
+        assertUnimplemented()
+    }
+    
+    func appendViewIDs(into: inout HeterogeneousViewIDsAccumulator) {
+        assertUnimplemented()
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {
+        assertUnimplemented()
+    }
+    
+    func firstOffset<T>(forID: T, style: _ViewList_IteratorStyle) -> Int? where T : Hashable {
+        assertUnimplemented()
+    }
+    
+    func print(into: inout SExpPrinter) {
+        assertUnimplemented()
+    }
+    
+    var debugDescription: String {
+        assertUnimplemented()
+    }
+    
+    var traits: ViewTraitCollection {
+        assertUnimplemented()
+    }
+}

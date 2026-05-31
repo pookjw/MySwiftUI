@@ -38,11 +38,45 @@ public struct SectionConfiguration : Identifiable {
     }
 
     public var footer: SubviewsCollection {
-        assertUnimplemented()
+        if
+            !(self.item.footerCount < 1),
+            let sectionList = self.item.sectionList
+        {
+            // <+44>
+            return SubviewsCollection(
+                list: sectionList.footer.list,
+                contentSubgraph: self.item.contentSubgraph!,
+                transform: self.item.transform
+            )
+        } else {
+            // <+196>
+            return SubviewsCollection(
+                list: EmptyViewList(),
+                contentSubgraph: self.item.contentSubgraph!,
+                transform: _ViewList_SublistTransform()
+            )
+        }
     }
 
     public var content: SubviewsCollection {
-        assertUnimplemented()
+        if let sectionList = self.item.sectionList {
+            // <+36>
+            return SubviewsCollection(
+                list: sectionList.content.list,
+                contentSubgraph: self.item.contentSubgraph!,
+                transform: self.item.transform
+            )
+        } else {
+            // <+196>
+            return SubviewsCollection(
+                list: ViewListSublistSlice(
+                    base: self.item.list,
+                    bounds: self.item.start..<(self.item.start + self.item.ids.count)
+                ),
+                contentSubgraph: self.item.contentSubgraph!,
+                transform: self.item.transform
+            )
+        }
     }
 }
 
