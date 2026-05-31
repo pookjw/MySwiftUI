@@ -17,7 +17,24 @@ public struct SectionConfiguration : Identifiable {
     }
 
     public var header: SubviewsCollection {
-        assertUnimplemented()
+        if
+            !(self.item.headerCount < 1),
+            let sectionList = self.item.sectionList
+        {
+            // <+44>
+            return SubviewsCollection(
+                list: sectionList.header.list,
+                contentSubgraph: self.item.contentSubgraph!,
+                transform: self.item.transform
+            )
+        } else {
+            // <+192>
+            return SubviewsCollection(
+                list: EmptyViewList(),
+                contentSubgraph: self.item.contentSubgraph!,
+                transform: _ViewList_SublistTransform()
+            )
+        }
     }
 
     public var footer: SubviewsCollection {

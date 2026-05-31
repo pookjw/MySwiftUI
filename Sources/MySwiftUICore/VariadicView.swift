@@ -188,7 +188,7 @@ public protocol _VariadicView_MultiViewRoot : _VariadicView_ViewRoot {
 }
 
 public struct _VariadicView_Children : @unchecked Sendable {
-    var list: ViewList
+    var list: any ViewList
     var contentSubgraph: Subgraph
     var transform: _ViewList_SublistTransform
     

@@ -8,8 +8,12 @@ public struct SubviewsCollection : RandomAccessCollection {
         self.base = base
     }
     
-    init(list: ViewList, contentSubgraph: Subgraph, transform: _ViewList_SublistTransform) {
-        assertUnimplemented()
+    init(list: any ViewList, contentSubgraph: Subgraph, transform: _ViewList_SublistTransform) {
+        self.base = _VariadicView_Children(
+            list,
+            contentSubgraph: contentSubgraph,
+            transform: transform
+        )
     }
     
     public func index(before i: Int) -> Int {
