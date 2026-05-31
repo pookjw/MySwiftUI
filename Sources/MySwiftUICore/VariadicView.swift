@@ -199,18 +199,6 @@ public struct _VariadicView_Children : @unchecked Sendable {
     }
 }
 
-extension _VariadicView_Children : View, MultiView, PrimitiveView {
-    nonisolated public static func _makeViewList(view: _GraphValue<_VariadicView.Children>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
-    }
-    
-    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        assertUnimplemented()
-    }
-    
-    public typealias Body = Never
-}
-
 extension _VariadicView_Children : RandomAccessCollection {
     public struct Element : View, UnaryView, PrimitiveView, Identifiable {
         @safe nonisolated(unsafe) var view: _ViewList_View

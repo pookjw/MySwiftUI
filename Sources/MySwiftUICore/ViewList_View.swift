@@ -359,3 +359,27 @@ fileprivate struct PlaceholderViewPhase : Rule, AsyncAttribute {
         assertUnimplemented()
     }
 }
+
+extension _VariadicView_Children : View, MultiView, PrimitiveView {
+    nonisolated public static func _makeViewList(view: _GraphValue<_VariadicView.Children>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        let child = _VariadicView_Children.Child(children: view.value)
+        let value = _GraphValue(child)
+        return ForEach<_VariadicView_Children, AnyHashable, _VariadicView_Children.Element>._makeViewList(view: value, inputs: inputs)
+    }
+    
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+    
+    public typealias Body = Never
+}
+
+extension _VariadicView_Children {
+    fileprivate struct Child : Rule, AsyncAttribute {
+        @Attribute private(set) var children: _VariadicView_Children
+        
+        var value: ForEach<_VariadicView_Children, AnyHashable, _VariadicView_Children.Element> {
+            assertUnimplemented()
+        }
+    }
+}

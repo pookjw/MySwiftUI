@@ -84,7 +84,34 @@ private import AttributeGraph
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        assertUnimplemented()
+        /*
+         inputs -> x0 -> x20
+         T -> x1 -> x19
+         */
+        // sp + 0xb0
+        let copy_1 = inputs
+        // sp + 0x50 / x21
+        let tupleDescription = ViewDescriptor.tupleDescription(TupleType(T.self))
+        
+        if copy_1.options.contains(.requiresSections) {
+            // <+312>
+            return tupleDescription.contentTypes.count
+        } else {
+            // <+104>
+            // sp + 0x50
+            var countedViews = TupleView<T>.CountViews(inputs: inputs, result: 0)
+            
+            for contentType in tupleDescription.contentTypes {
+                contentType.1.visitType(visitor: &countedViews)
+                
+                if countedViews.result == nil {
+                    return nil
+                }
+            }
+            
+            // <+256>
+            return countedViews.result
+        }
     }
     
     public var body: Never {
@@ -152,6 +179,15 @@ extension TupleView {
             if includeOffsets {
                 inputs.updateContentOffset(outputs: outputs)
             }
+        }
+    }
+    
+    fileprivate struct CountViews : ViewTypeVisitor {
+        private(set) var inputs: _ViewListCountInputs
+        private(set) var result: Int?
+        
+        func visit<Content>(type: Content.Type) where Content : View {
+            assertUnimplemented()
         }
     }
 }
