@@ -2,14 +2,68 @@
 internal import AttributeGraph
 
 package struct _ViewList_View : View {
-    @safe fileprivate private(set) nonisolated(unsafe) var elements: _ViewList_SubgraphElements
-    @safe private nonisolated(unsafe) var releaseElements: _ViewList_SubgraphRelease?
-    @safe nonisolated(unsafe) var id: _ViewList_ID
-    @safe fileprivate private(set) nonisolated(unsafe) var index: Int
-    @safe private nonisolated(unsafe) var count: Int
-    @safe fileprivate private(set) nonisolated(unsafe) var contentSubgraph: Subgraph?
+    @safe fileprivate private(set) nonisolated(unsafe) var elements: _ViewList_SubgraphElements // 0x0
+    @safe private nonisolated(unsafe) var releaseElements: _ViewList_SubgraphRelease? // 0x30
+    @safe nonisolated(unsafe) var id: _ViewList_ID // 0x38
+    @safe fileprivate private(set) nonisolated(unsafe) var index: Int // 0x48
+    @safe private nonisolated(unsafe) var count: Int // 0x50
+    @safe fileprivate private(set) nonisolated(unsafe) var contentSubgraph: Subgraph? // 0x58
     
     var viewID: AnyHashable {
+        /*
+         self -> x20
+         return pointer -> x19 -> x8
+         */
+        // w23
+        var implicitID = self.id.implicitID
+        // true -> <+124> / false -> <+284>
+        let flag: Bool
+        
+        if let firstID = self.id.explicitIDs.first {
+            // x21
+            let id = firstID.id
+            
+            if firstID.isUnary {
+                // <+80>
+                if self.count == 1 {
+                    // <+124>
+                    flag = true
+                } else {
+                    // <+92>
+                    implicitID = -1
+                    // <+284>
+                    flag = false
+                }
+            } else {
+                // <+108>
+                if (self.count != 1) || (implicitID < 0) {
+                    // <+284>
+                    flag = false
+                } else {
+                    // <+124>
+                    flag = true
+                }
+            }
+        } else {
+            // <+100>
+            // <+108>
+            if (self.count != 1) || (implicitID < 0) {
+                // <+284>
+                flag = false
+            } else {
+                // <+124>
+                flag = true
+            }
+        }
+        
+        if flag {
+            // <+124>
+            assertUnimplemented()
+        } else {
+            // <+284>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     
@@ -379,7 +433,24 @@ extension _VariadicView_Children {
         @Attribute private(set) var children: _VariadicView_Children
         
         var value: ForEach<_VariadicView_Children, AnyHashable, _VariadicView_Children.Element> {
-            assertUnimplemented()
+            // return pointer -> x8 -> x19
+            
+            var content = ForEach(
+                children,
+                idGenerator: .keyPath(\.id),
+                content: { element -> _VariadicView_Children.Element in
+                    // $s7SwiftUI22_VariadicView_ChildrenV5Child33_9B09D1820E97ECBB666F7560EA2A2D2CLLV5valueAA7ForEachVyACs11AnyHashableVAC7ElementVGvgA2McfU_
+                    assertUnimplemented()
+                }
+            )
+            
+            if isLinkedOnOrAfter(.v6) {
+                content.obsoleteContentID = 0
+            } else {
+                content.obsoleteContentID = AGMakeUniqueID()
+            }
+            
+            return content
         }
     }
 }

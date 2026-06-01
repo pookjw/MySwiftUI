@@ -9,7 +9,7 @@ public struct ForEach<Data, ID, Content> where Data : RandomAccessCollection, ID
     public var content: (Data.Element) -> Content // 0x8
     fileprivate private(set) var idGenerator: ForEach<Data, ID, Content>.IDGenerator // 0x18
     fileprivate private(set) var reuseID: KeyPath<Data.Element, Int>? = nil // 0x20
-    fileprivate private(set) var obsoleteContentID: Int // 0x28
+    var obsoleteContentID: Int // 0x28
 }
 
 @available(*, unavailable)

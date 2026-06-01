@@ -129,10 +129,10 @@ package struct _ViewList_ID : Hashable {
 
 extension _ViewList_ID {
     struct Explicit : Equatable {
-        let id: AnyHashable2
-        let reuseID: Int
-        let owner: AnyAttribute
-        let isUnary: Bool
+        let id: AnyHashable2 // 0x0
+        let reuseID: Int // 0x8
+        let owner: AnyAttribute // 0x10
+        let isUnary: Bool // 0x14
     }
     
     struct ElementCollection : Equatable, RandomAccessCollection {
@@ -1477,9 +1477,9 @@ struct _ViewList_IteratorStyle : Equatable {
             }
             
             var node = unsafe _ViewList_TemporarySublistTransform.ItemNode(next: node, value: item, subgraphCount: subgraphCount, depth: depth)
-            return unsafe withUnsafePointer(to: &node) { pointer in
+            return unsafe withUnsafeMutablePointer(to: &node) { pointer in
                 var transform = _ViewList_TemporarySublistTransform()
-                unsafe transform.storage = unsafe .node(UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>(mutating: pointer))
+                unsafe transform.storage = unsafe .node(pointer)
                 return block(transform)
             }
         case .transform(let sublist):
@@ -1702,9 +1702,9 @@ enum _ViewList_Edit {
 
 extension _ViewList_ID {
     package struct Canonical : Hashable {
-        private var _index: Int32
-        private var implicitID: Int32
-        private var explicitID: AnyHashable2?
+        private(set) var _index: Int32
+        private(set) var implicitID: Int32
+        private(set) var explicitID: AnyHashable2?
     }
 }
 

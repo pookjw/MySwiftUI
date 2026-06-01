@@ -204,8 +204,9 @@ extension _VariadicView_Children : RandomAccessCollection {
         @safe nonisolated(unsafe) var view: _ViewList_View
         @safe nonisolated(unsafe) var traits: ViewTraitCollection
         
-        public var id: AnyHashable {
-            assertUnimplemented()
+        // 원래 nonisolated는 없음
+        public nonisolated var id: AnyHashable {
+            return self.view.viewID
         }
         
         public func id<ID>(as _: ID.Type = ID.self) -> ID? where ID : Hashable {
@@ -230,11 +231,13 @@ extension _VariadicView_Children : RandomAccessCollection {
     }
     
     public var startIndex: Int {
-        assertUnimplemented()
+        return 0
     }
     
     public var endIndex: Int {
-        assertUnimplemented()
+        return Update.ensure { 
+            return self.list.count
+        }
     }
     
     public subscript(index: Int) -> _VariadicView_Children.Element {
