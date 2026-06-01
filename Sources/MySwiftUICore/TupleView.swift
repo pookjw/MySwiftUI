@@ -186,8 +186,16 @@ extension TupleView {
         private(set) var inputs: _ViewListCountInputs
         private(set) var result: Int?
         
-        func visit<Content>(type: Content.Type) where Content : View {
-            assertUnimplemented()
+        mutating func visit<Content>(type: Content.Type) where Content : View {
+            guard
+                let result,
+                let count = Content._viewListCount(inputs: self.inputs)
+            else {
+                self.result = nil
+                return
+            }
+            
+            self.result = result + count
         }
     }
 }

@@ -70,7 +70,12 @@ extension SubviewsCollection : View {
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        assertUnimplemented()
+        // inlined
+        return inputs.withUniqueBody(
+            type: ForEach<_VariadicView_Children, AnyHashable, _VariadicView_Children.Element>.self
+        ) { _ in
+            return nil
+        }
     }
     
     @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)

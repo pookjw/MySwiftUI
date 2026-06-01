@@ -47,7 +47,7 @@ extension ViewModifier where Self.Body == Swift.Never {
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        assertUnimplemented()
+        return body(inputs)
     }
 }
 

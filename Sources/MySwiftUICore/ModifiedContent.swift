@@ -63,7 +63,10 @@ extension ModifiedContent : View where Content : View, Modifier : ViewModifier {
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        assertUnimplemented()
+        return Modifier._viewListCount(inputs: inputs) { inputs in
+            // $s7SwiftUI15ModifiedContentVA2A4ViewRzAA0E8ModifierR_rlE14_viewListCount6inputsSiSgAA01_ehI6InputsV_tFZAhJXEfU_TA
+            return Content._viewListCount(inputs: inputs)
+        }
     }
     
     @MainActor @preconcurrency public var body: ModifiedContent<Content, Modifier>.Body {
