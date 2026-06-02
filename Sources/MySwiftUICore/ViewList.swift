@@ -1679,6 +1679,31 @@ enum _ViewList_Node {
         transform: borrowing _ViewList_TemporarySublistTransform,
         to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
     ) -> Bool {
+        /*
+         self -> x20
+         index -> x0 -> x19
+         style -> x1 -> x21
+         transform -> x2 -> x27/w25
+         block -> x3/x4 -> sp + 0x10 / sp + 0x18
+         */
+        // x29 - 0xc0
+        let copy_1 = self
+        
+        switch copy_1 {
+        case .list(let list, let attribute):
+            // <+80>
+            assertUnimplemented()
+        case .sublist(let sublist):
+            // <+380>
+            assertUnimplemented()
+        case .group(let group):
+            // <+192>
+            assertUnimplemented()
+        case .section(let section):
+            // <+540>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     
@@ -2579,9 +2604,12 @@ struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
          transform -> x3 -> x27/w28
          block -> x4/x4 -> x21/x22
          */
-        var block: ((inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool)!
-        
-        block = { index, style, node, transform in
+        func _block(
+            index: inout Int,
+            style: _ViewList_IteratorStyle,
+            node: _ViewList_Node,
+            transform: borrowing _ViewList_TemporarySublistTransform
+        ) -> Bool {
             // $s7SwiftUI20ViewListSublistSliceV10applyNodes4from5style4list9transform2toSbSiz_AA01_cD14_IteratorStyleV14AttributeGraph0P0VyAA0cD0_pGSgAA01_cd10_TemporaryE9TransformVSbSiz_AkA01_cD5_NodeOAStXEtF0gT0L_5startAF4nodeAH4bodySbSiz_AkuSSbSiz_AkuStXEtFSbSiz_AkuStXEfU_TA.196
             /*
              index -> x0 -> x26
@@ -2598,14 +2626,26 @@ struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
             switch copy_1 {
             case .sublist(let sublist):
                 // <+96>
-                assertUnimplemented()
+                // x19 + 0x60
+                let copy_2 = sublist
+                
+                if value >= self.bounds.upperBound {
+                    return false
+                }
+                
+                // <+176>
+                // x25
+                let granularity = style.applyGranularity(to: sublist.count)
+                value += granularity
+                
+                return block(&index, style, node, transform)
             default:
                 // <+296>
                 return node.applyNodes(
                     from: &index,
                     style: style,
                     transform: transform,
-                    to: block
+                    to: _block
                 )
             }
         }
@@ -2615,7 +2655,7 @@ struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
             style: style,
             list: list,
             transform: transform,
-            to: block
+            to: _block
         )
     }
     
