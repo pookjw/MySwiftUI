@@ -28,8 +28,9 @@ extension ForEach : View where Content : View {
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<ForEach<Data, ID, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        // makeForEachViewList
-        assertUnimplemented()
+        if let outputs = Self.makeForEachViewList(view: view, inputs: inputs) {
+            return outputs
+        }
         
         let state = ForEachState<Data, ID, Content>(inputs: inputs)
         let stateRule = ForEachState<Data, ID, Content>.Info.Init(view: view.value, state: state)
@@ -61,6 +62,26 @@ extension ForEach : View where Content : View {
         )
         
         return outputs
+    }
+    
+    nonisolated static func makeForEachViewList(view: _GraphValue<ForEach<Data, ID, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs? {
+        /*
+         view -> x0 -> w19
+         inputs -> x1 -> x29 - 0x90
+         */
+        let value: _GraphValue<AnyView>
+        if let casted = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>> {
+            // <+228>
+            value = casted[{ .of(&$0.data.substituteView) }]
+        } else if let casted = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, SectionConfiguration.ID, Content>> {
+            // <+416>
+            value = casted[{ .of(&$0.data.substituteView) }]
+        } else {
+            // <+580>
+            return nil
+        }
+        
+        return AnyView.makeDynamicViewList(metadata: (), view: value, inputs: inputs)
     }
 }
 

@@ -1665,6 +1665,40 @@ enum _ViewList_Node {
     case group(_ViewList_Group)
     case section(_ViewList_Section)
     
+    func count(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
+        assertUnimplemented()
+    }
+    
+    func applyNodes(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func applyNodes(
+        from index: inout Int,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func applyIDs(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to block: (_ViewList_ID) -> Bool
+    ) -> Bool {
+        assertUnimplemented()
+    }
+    
     func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, transform: borrowing _ViewList_TemporarySublistTransform, to block: (_ViewList_Sublist) -> Bool) -> Bool {
         /*
          index -> x21
@@ -1714,6 +1748,10 @@ enum _ViewList_Node {
     }
     
     func applySublists(from index: inout Int, transform: borrowing _ViewList_TemporarySublistTransform, to: (_ViewList_Sublist) -> Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func firstOffset<T : Hashable>(forID: T, style: _ViewList_IteratorStyle) -> Int? {
         assertUnimplemented()
     }
 }
@@ -2520,15 +2558,65 @@ struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
     }
     
     func estimatedCount(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        return self.bounds.upperBound - self.bounds.lowerBound
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        return self.estimatedCount(style: style)
     }
     
-    func applyNodes(from: inout Int, style: _ViewList_IteratorStyle, list: Attribute<any ViewList>?, transform: borrowing _ViewList_TemporarySublistTransform, to: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool) -> Bool {
-        assertUnimplemented()
+    func applyNodes(
+        from index: inout Int,
+        style: _ViewList_IteratorStyle,
+        list: Attribute<any ViewList>?,
+        transform: borrowing _ViewList_TemporarySublistTransform,
+        to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
+    ) -> Bool {
+        var value = self.bounds.lowerBound + index
+        /*
+         style -> x1 -> x26
+         list -> x2 -> x19
+         transform -> x3 -> x27/w28
+         block -> x4/x4 -> x21/x22
+         */
+        var block: ((inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool)!
+        
+        block = { index, style, node, transform in
+            // $s7SwiftUI20ViewListSublistSliceV10applyNodes4from5style4list9transform2toSbSiz_AA01_cD14_IteratorStyleV14AttributeGraph0P0VyAA0cD0_pGSgAA01_cd10_TemporaryE9TransformVSbSiz_AkA01_cD5_NodeOAStXEtF0gT0L_5startAF4nodeAH4bodySbSiz_AkuSSbSiz_AkuStXEtFSbSiz_AkuStXEfU_TA.196
+            /*
+             index -> x0 -> x26
+             style -> x1 -> x27
+             node -> x2 -> x20
+             transform -> x3 -> x21/w28
+             value -> x4 -> x24
+             self -> x5 -> x25
+             block -> x6/x7 -> x23/x22
+             */
+            // x19 + 0xc0
+            let copy_1 = node
+            
+            switch copy_1 {
+            case .sublist(let sublist):
+                // <+96>
+                assertUnimplemented()
+            default:
+                // <+296>
+                return node.applyNodes(
+                    from: &index,
+                    style: style,
+                    transform: transform,
+                    to: block
+                )
+            }
+        }
+        
+        return self.base.applyNodes(
+            from: &value,
+            style: style,
+            list: list,
+            transform: transform,
+            to: block
+        )
     }
     
     func edit(forID: _ViewList_ID, since: TransactionID) -> _ViewList_Edit? {

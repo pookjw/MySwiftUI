@@ -663,7 +663,7 @@ extension EmptyViewList : ViewList {
     }
     
     func count(style: _ViewList_IteratorStyle) -> Int {
-        assertUnimplemented()
+        return 0
     }
     
     var traitKeys: ViewTraitKeys? {

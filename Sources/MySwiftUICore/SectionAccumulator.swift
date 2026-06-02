@@ -544,11 +544,19 @@ extension SectionAccumulator {
         }
         
         var startIndex: Int {
-            assertUnimplemented()
+            if let chunk = self.chunks.first {
+                return chunk.lowerBound
+            } else {
+                return 0
+            }
         }
         
         var endIndex: Int {
-            assertUnimplemented()
+            if let chunk = self.chunks.last {
+                return chunk.lowerBound + chunk.count
+            } else {
+                return 0
+            }
         }
         
         subscript(index: Int) -> _ViewList_ID.Canonical {
