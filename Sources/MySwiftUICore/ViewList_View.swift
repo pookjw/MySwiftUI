@@ -18,10 +18,11 @@ package struct _ViewList_View : View {
         var implicitID = self.id.implicitID
         // true -> <+124> / false -> <+284>
         let flag: Bool
+        // x21
+        var id: AnyHashable2!
         
         if let firstID = self.id.explicitIDs.first {
-            // x21
-            let id = firstID.id
+            id = firstID.id
             
             if firstID.isUnary {
                 // <+80>
@@ -36,7 +37,7 @@ package struct _ViewList_View : View {
                 }
             } else {
                 // <+108>
-                if (self.count != 1) || (implicitID < 0) {
+                if (self.count != 1) || !(implicitID < 0) {
                     // <+284>
                     flag = false
                 } else {
@@ -47,7 +48,7 @@ package struct _ViewList_View : View {
         } else {
             // <+100>
             // <+108>
-            if (self.count != 1) || (implicitID < 0) {
+            if (self.count != 1) || !(implicitID < 0) {
                 // <+284>
                 flag = false
             } else {
@@ -58,13 +59,17 @@ package struct _ViewList_View : View {
         
         if flag {
             // <+124>
-            assertUnimplemented()
+            return id!.anyHashable
         } else {
             // <+284>
-            assertUnimplemented()
+            return AnyHashable(
+                _ViewList_ID.Canonical(
+                    _index: Int32(self.index),
+                    implicitID: implicitID,
+                    explicitID: id
+                )
+            )
         }
-        
-        assertUnimplemented()
     }
     
     @inline(always) // 원래 없음
@@ -440,7 +445,7 @@ extension _VariadicView_Children {
                 idGenerator: .keyPath(\.id),
                 content: { element -> _VariadicView_Children.Element in
                     // $s7SwiftUI22_VariadicView_ChildrenV5Child33_9B09D1820E97ECBB666F7560EA2A2D2CLLV5valueAA7ForEachVyACs11AnyHashableVAC7ElementVGvgA2McfU_
-                    assertUnimplemented()
+                    return element
                 }
             )
             

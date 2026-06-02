@@ -911,7 +911,21 @@ extension ViewList {
     }
     
     func applySublists(from index: inout Int, list: Attribute<ViewList>?, transform: consuming _ViewList_TemporarySublistTransform, to body: (_ViewList_Sublist) -> Bool) -> Bool {
-        assertUnimplemented()
+        return self.applyNodes(
+            from: &index,
+            style: _ViewList_IteratorStyle(granularity: 1),
+            list: list,
+            transform: transform,
+            to: { index, style, node, transform in
+                // $s7SwiftUI8ViewListPAAE13applySublists4from5style4list9transform2toSbSiz_AA01_cD14_IteratorStyleV14AttributeGraph0N0VyAaB_pGSgAA01_cD26_TemporarySublistTransformVSbAA01_cd1_Q0VXEtFSbSiz_AkA01_cD5_NodeOARtXEfU_TA
+                node.applySublists(
+                    from: &index,
+                    style: style,
+                    transform: transform,
+                    to: body
+                )
+            }
+        )
     }
     
     func applySublists(from index: inout Int, style: _ViewList_IteratorStyle, list: Attribute<ViewList>?, to body: (_ViewList_Sublist) -> Bool) -> Bool {
@@ -1397,7 +1411,7 @@ struct _ViewList_IteratorStyle : Equatable {
 }
 
 @safe struct _ViewList_TemporarySublistTransform : ~Copyable {
-    private var storage: _ViewList_TemporarySublistTransform.Storage
+    fileprivate private(set) var storage: _ViewList_TemporarySublistTransform.Storage
     
     init() {
         unsafe self.storage = unsafe .node(nil)
@@ -1478,8 +1492,10 @@ struct _ViewList_IteratorStyle : Equatable {
             
             var node = unsafe _ViewList_TemporarySublistTransform.ItemNode(next: node, value: item, subgraphCount: subgraphCount, depth: depth)
             return unsafe withUnsafeMutablePointer(to: &node) { pointer in
-                var transform = _ViewList_TemporarySublistTransform()
-                unsafe transform.storage = unsafe .node(pointer)
+                let transform = _ViewList_TemporarySublistTransform(
+                    storage: .node(pointer)
+                )
+                
                 return block(transform)
             }
         case .transform(let sublist):
@@ -1552,7 +1568,7 @@ extension _ViewList_TemporarySublistTransform {
     
     @unsafe fileprivate struct ItemNode {
         fileprivate private(set) var next: UnsafeMutablePointer<_ViewList_TemporarySublistTransform.ItemNode>?
-        fileprivate private(set) var value: _ViewList_SublistTransform_Item
+        fileprivate private(set) var value: any _ViewList_SublistTransform_Item
         fileprivate private(set) var subgraphCount: Int
         fileprivate private(set) var depth: Int
     }
@@ -1610,8 +1626,15 @@ struct _ViewList_SublistTransform {
         }
     }
     
-    fileprivate func push(_: any _ViewList_SublistTransform_Item, flags: _ViewList_SublistTransform_ItemFlags) {
-        assertUnimplemented()
+    fileprivate mutating func push(
+        _ item: any _ViewList_SublistTransform_Item,
+        flags: _ViewList_SublistTransform_ItemFlags
+    ) {
+        self.items.append(item)
+        
+        var subgraphCount = self.subgraphCount
+        subgraphCount &+= flags.contains(.graphDependent) ? 1 : 0
+        self.subgraphCount = subgraphCount
     } 
 }
 
@@ -2254,6 +2277,7 @@ fileprivate struct ModifiedViewList : ViewList, CustomDebugStringConvertible {
     ) -> Bool {
         // $s7SwiftUI16ModifiedViewList33_E479C0E92CDD045BAF2EF653123E2E0BLLVAA0dE0A2aEP10applyNodes4from5style4list9transform2toSbSiz_AA01_dE14_IteratorStyleV14AttributeGraph0W0VyAaE_pGSgAA01_dE26_TemporarySublistTransformVSbSiz_AnA01_dE5_NodeOAUtXEtFTW
         let item = ModifiedViewList.Transform(listModifier: listModifier)
+        
         return transform.withPushedItem(item) { transform in
             return base.applyNodes(
                 from: &index,

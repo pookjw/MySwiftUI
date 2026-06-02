@@ -223,7 +223,8 @@ extension _VariadicView_Children : RandomAccessCollection {
         }
         
         nonisolated public static func _makeView(view: _GraphValue<_VariadicView_Children.Element>, inputs: _ViewInputs) -> _ViewOutputs {
-            assertUnimplemented()
+            let view = view[{ .of(&$0.view) }]
+            return _ViewList_View.makeDebuggableView(view: view, inputs: inputs)
         }
         
         public typealias Body = Never
@@ -245,34 +246,38 @@ extension _VariadicView_Children : RandomAccessCollection {
         
         Update.ensure { 
             // $s7SwiftUI22_VariadicView_ChildrenVyAC7ElementVSicigyyXEfU_
-            var index = index
-            self.list.applySublists(from: &index, list: nil) { sublist in
-                // $s7SwiftUI22_VariadicView_ChildrenVyAC7ElementVSicigyyXEfU_SbAA01_D30List_TemporarySublistTransformVXEfU_SbAA01_dg1_I0VXEfU_TA
-                /*
-                 sublist -> x0
-                 self -> x1
-                 element -> x2 -> x19
-                 */
-                if sublist.start >= sublist.count {
-                    return true
+            var transform = self.transform
+            
+            transform.withTemporaryTransform { transform in
+                var index = index
+                self.list.applySublists(from: &index, list: nil, transform: transform) { sublist in
+                    // $s7SwiftUI22_VariadicView_ChildrenVyAC7ElementVSicigyyXEfU_SbAA01_D30List_TemporarySublistTransformVXEfU_SbAA01_dg1_I0VXEfU_TA
+                    /*
+                     sublist -> x0
+                     self -> x1
+                     element -> x2 -> x19
+                     */
+                    if sublist.start >= sublist.count {
+                        return true
+                    }
+                    
+                    let contentSubgraph = self.contentSubgraph
+                    let elements = sublist.elements
+                    
+                    element = _VariadicView_Children.Element(
+                        view: _ViewList_View(
+                            elements: elements,
+                            releaseElements: elements.subgraphs.retain(),
+                            id: sublist.id,
+                            index: sublist.start,
+                            count: sublist.count,
+                            contentSubgraph: contentSubgraph
+                        ),
+                        traits: sublist.traits
+                    )
+                    
+                    return false
                 }
-                
-                let contentSubgraph = self.contentSubgraph
-                let elements = sublist.elements
-                
-                element = _VariadicView_Children.Element(
-                    view: _ViewList_View(
-                        elements: elements,
-                        releaseElements: elements.subgraphs.retain(),
-                        id: sublist.id,
-                        index: sublist.start,
-                        count: sublist.count,
-                        contentSubgraph: contentSubgraph
-                    ),
-                    traits: sublist.traits
-                )
-                
-                return false
             }
         }
         

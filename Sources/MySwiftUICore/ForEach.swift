@@ -28,6 +28,9 @@ extension ForEach : View where Content : View {
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<ForEach<Data, ID, Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        // makeForEachViewList
+        assertUnimplemented()
+        
         let state = ForEachState<Data, ID, Content>(inputs: inputs)
         let stateRule = ForEachState<Data, ID, Content>.Info.Init(view: view.value, state: state)
         let stateAttribute = Attribute(stateRule)
