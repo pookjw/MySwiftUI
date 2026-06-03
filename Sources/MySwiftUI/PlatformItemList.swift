@@ -283,6 +283,13 @@ extension _ViewInputs {
     }
 }
 
+extension PreferencesInputs {
+    @inline(always) // 원래 없음
+    var hasPlatformItemList: Bool {
+        return self.contains(PlatformItemList.Key.self)
+    }
+}
+
 struct PlatformItemListTextRepresentable : PlatformTextRepresentable {
     static func shouldMakeRepresentation(inputs: MySwiftUICore::_ViewInputs) -> Bool {
         assertUnimplemented()

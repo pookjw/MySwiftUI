@@ -106,15 +106,47 @@ extension AccessibilityViewModifier {
             }
             
             // <+3640>
-            assertUnimplemented()
-            // <+3784>
+            let transformList = Self.makePropertiesTransform(
+                modifier: modifier.value.identifier,
+                inputs: inputs,
+                outputs: outputs,
+                includeGeometry: options.contains(.unknown0),
+                resolvableModifier: nil,
+                scrapeableID: id
+            )
+            
+            outputs[AccessibilityNodesKey.self] = transformList
+            return outputs
         } else {
             // <+1588>
+            // inputs -> x23 -> x21
+            if
+                inputs.preferences.hasPlatformItemList && inputs.preferences.contains(AccessibilityAttachment.Key.self)
+            {
+                // <+1720>
+                // x29 - 0x80
+                let flags = inputs[PlatformItemListFlagsInput.self]
+                // x29 - 0xb8
+                var copy_1 = inputs
+                
+                if flags.contains(.unknown4) {
+                    // <+1812>
+                    copy_1[PlatformItemListFlagsInput.self]
+                    assertUnimplemented()
+                } else {
+                    // <+2208>
+                    assertUnimplemented()
+                }
+                
+                assertUnimplemented()
+            } else {
+                // <+2176>
+                assertUnimplemented()
+            }
+            
+            // <+2244>
             assertUnimplemented()
-            // <+3784>
         }
-        
-        assertUnimplemented()
     }
     
     func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment {

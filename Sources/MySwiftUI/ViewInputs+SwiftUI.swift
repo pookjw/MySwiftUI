@@ -7,7 +7,11 @@ protocol PlatformItemListFlags {
 }
 
 struct PlatformItemListFlagsSet : OptionSet {
-    var rawValue: UInt32
+    private(set) var rawValue: UInt32
+    
+    static var unknown4: PlatformItemListFlagsSet {
+        return PlatformItemListFlagsSet(rawValue: 1 << 4)
+    }
 }
 
 extension PlatformItemListFlagsSet {
