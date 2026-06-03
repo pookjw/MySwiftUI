@@ -8,7 +8,7 @@ package struct ScrapeableID : Hashable, GraphReusable {
     
     private let value: UInt32
     
-    init() {
+    package init() {
         self.value = UInt32(AGMakeUniqueID())
     }
     
@@ -41,6 +41,18 @@ extension _ViewInputs {
     fileprivate struct ScrapeableParentID : ViewInput {
         static var defaultValue: ScrapeableID {
             return ScrapeableID(value: 0)
+        }
+    }
+    
+    package var isScrapeable: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
         }
     }
 }

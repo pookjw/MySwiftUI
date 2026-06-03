@@ -2,6 +2,7 @@
 
 internal import AttributeGraph
 @_spi(Internal) internal import MySwiftUICore
+private import CoreGraphics
 
 protocol AccessibilityViewModifier : PrimitiveViewModifier, MultiViewModifier {
     static var options: AccessibilityModifierOptions { get }
@@ -15,7 +16,7 @@ protocol AccessibilityViewModifier : PrimitiveViewModifier, MultiViewModifier {
 }
 
 extension AccessibilityViewModifier {
-    static func configureInputsForGeometry(_ inputs: inout _ViewInputs) {
+    nonisolated static func configureInputsForGeometry(_ inputs: inout _ViewInputs) {
         assertUnimplemented()
     }
     
@@ -29,10 +30,88 @@ extension AccessibilityViewModifier {
         // <+1076>
         if inputs.preferences.contains(AccessibilityNodesKey.self) {
             // <+1144>
+            // x29 - 0xb8
+            let options = Self.options
+            // x26
+            var copy_1 = inputs
+            Self.configureInputsForGeometry(&copy_1)
+            let needsAccessibilityGeometry = inputs.needsAccessibilityGeometry
+            // inputs -> x23 -> x21
+            
+            if needsAccessibilityGeometry {
+                // <+1256>
+                copy_1.containerPosition = inputs.animatedPosition()
+                // <+1272>
+            } else {
+                // <+1272>
+            }
+            
+            // <+1272>
+            // x23
+            var id = ScrapeableID.none
+            
+            if options.contains(.unknown1) && inputs.isScrapeable {
+                // <+1304>
+                id = ScrapeableID()
+                copy_1.scrapeableParentID = id
+                // <+1384>
+            } else {
+                // <+1384>
+            }
+            
+            // <+1384>
+            // modifier -> x29 - 0xa8 -> x28
+            // x22
+            var outputs = Self.makeAccessibilityViewModifier(
+                modifier: modifier,
+                inputs: copy_1,
+                body: body
+            )
+            
+            if inputs.needsDisplayListAccessibility {
+                // <+1452>
+                // x29 - 0xc0
+                let attachment: OptionalAttribute<AccessibilityAttachment.Tree>
+                if inputs.preferences.contains(AccessibilityAttachment.Key.self) {
+                    // <+1524>
+                    attachment = OptionalAttribute(outputs[AccessibilityAttachment.Key.self])
+                    // <+2840>
+                } else {
+                    // <+2824>
+                    attachment = OptionalAttribute()
+                    // <+2840>
+                }
+                
+                let transform = DisplayListTransform(
+                    identity: inputs.pushIdentity(),
+                    archivable: inputs[ArchivedViewInput.self].isArchived,
+                    idiom: inputs.base.interfaceIdiom,
+                    options: inputs[DisplayList.Options.self],
+                    accessor: AccessibilityViewModifierAccessor<Self>.self,
+                    modifier: modifier.value.identifier,
+                    size: inputs.animatedSize(),
+                    position: inputs.animatedPosition(),
+                    containerPosition: inputs.containerPosition,
+                    environment: inputs.environment,
+                    content: OptionalAttribute(outputs[DisplayList.Key.self]),
+                    deferredAttachment: attachment,
+                    nodeList: OptionalAttribute(outputs[AccessibilityNodesKey.self])
+                )
+                
+                let transformAttribute = Attribute(transform)
+                outputs[DisplayList.Key.self] = transformAttribute
+                // <+3640>
+            } else {
+                // <+3640>
+            }
+            
+            // <+3640>
             assertUnimplemented()
+            // <+3784>
         } else {
             // <+1588>
             assertUnimplemented()
+            // <+3784>
         }
         
         assertUnimplemented()
@@ -351,5 +430,37 @@ struct AccessibilityModifierOptions : OptionSet {
         return AccessibilityModifierOptions(rawValue: 1 << 0)
     }
     
+    static var unknown1: AccessibilityModifierOptions {
+        return AccessibilityModifierOptions(rawValue: 1 << 1)
+    }
+    
     let rawValue: UInt32
+}
+
+fileprivate struct DisplayListTransform : Rule, CustomStringConvertible {
+    let identity: _DisplayList_Identity
+    let archivable: Bool
+    let idiom: AnyInterfaceIdiom
+    let options: DisplayList.Options
+    let accessor: AnyAccessibilityViewModifierAccessor.Type
+    let modifier: AnyAttribute
+    @Attribute private(set) var size: ViewSize
+    @Attribute private(set) var position: CGPoint
+    @Attribute private(set) var containerPosition: CGPoint
+    @Attribute private(set) var environment: EnvironmentValues
+    @OptionalAttribute var content: DisplayList?
+    @OptionalAttribute var deferredAttachment: AccessibilityAttachment.Tree?
+    @OptionalAttribute var nodeList: AccessibilityNodeList?
+    
+    var value: DisplayList {
+        assertUnimplemented()
+    }
+    
+    func mergeAttachments(list: inout DisplayList, attachments: inout [AccessibilityAttachment], frame: CGRect) -> Bool {
+        assertUnimplemented()
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
 }

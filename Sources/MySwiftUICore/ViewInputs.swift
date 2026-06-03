@@ -176,7 +176,7 @@ extension _ViewInputs {
         }
     }
     
-    var needsDisplayListAccessibility: Bool {
+    package var needsDisplayListAccessibility: Bool {
         get {
             return base.options.contains(.viewDisplayListAccessibility)
         }

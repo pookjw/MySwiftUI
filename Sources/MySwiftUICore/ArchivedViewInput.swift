@@ -1,5 +1,5 @@
-struct ArchivedViewInput : ViewInput {
-    static let defaultValue = ArchivedViewInput.Value(flags: [], deploymentVersion: .current)
+package struct ArchivedViewInput : ViewInput {
+    package static let defaultValue = ArchivedViewInput.Value(flags: [], deploymentVersion: .current)
 }
 
 extension ArchivedViewInput {
@@ -31,7 +31,7 @@ extension ArchivedViewInput {
         let rawValue: UInt8
     }
     
-    struct Value : Equatable {
+    package struct Value : Equatable {
         static var isArchived: ArchivedViewInput.Value {
             return ArchivedViewInput.Value(flags: .isArchived, deploymentVersion: .current)
         }
@@ -44,7 +44,7 @@ extension ArchivedViewInput {
             self.deploymentVersion = deploymentVersion
         }
         
-        var isArchived: Bool {
+        package var isArchived: Bool {
             return flags.contains(.isArchived)
         }
         
