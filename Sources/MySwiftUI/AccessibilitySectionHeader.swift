@@ -53,7 +53,7 @@ extension AccessibilitySectionHeaderModifier {
         }
         
         static func makeAccessibilityViewModifier(modifier: _GraphValue<AccessibilitySectionHeaderModifier<T>.ChildModifier>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-            assertUnimplemented()
+            return body(_Graph(), inputs)
         }
         
         var supportsPlaceholders: Bool {

@@ -283,6 +283,20 @@ extension _ViewInputs {
     }
 }
 
+extension _ViewOutputs {
+    @inline(always)
+    mutating func transformPlatformItemList(
+        inputs: _ViewInputs,
+        transform: @autoclosure () -> Attribute<(inout PlatformItemList) -> Void>
+    ) {
+        self.preferences.makePreferenceTransformer(
+            inputs: inputs.preferences,
+            key: PlatformItemList.Key.self,
+            transform: transform()
+        )
+    }
+}
+
 extension PreferencesInputs {
     @inline(always) // 원래 없음
     var hasPlatformItemList: Bool {

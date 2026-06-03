@@ -1,8 +1,8 @@
 // C648E6A51A5817691B7DBFA00A618C21
-internal import _MySwiftUIShims
+package import _MySwiftUIShims
 
-// 원래 없음
 extension _GraphInputs {
+    @inline(always) // 원래 없음
     var corePlatformProvidersDefinition: CorePlatformProvidersDefinition.Type {
         get {
             return self[CorePlatfromProvidersDefinitionKey.self]
@@ -15,7 +15,7 @@ extension _GraphInputs {
         }
     }
     
-    var platformSystem: CoreSystem {
+    package var platformSystem: PlatformSystemDefinition {
         get {
             return self[PlatformSystemKey.self]
         }
@@ -47,8 +47,10 @@ fileprivate struct CorePlatfromProvidersDefinitionKey : GraphInput, EnvironmentK
     static let defaultValue: CorePlatformProvidersDefinition.Type = CorePlatformProvidersDefinition.self
 }
 
-fileprivate struct PlatformSystemKey : GraphInput {
-    static var defaultValue: CoreSystem {
-        return .uiKit
+extension _GraphInputs {
+    fileprivate struct PlatformSystemKey : GraphInput {
+        static var defaultValue: PlatformSystemDefinition {
+            return .uiKit
+        }
     }
 }

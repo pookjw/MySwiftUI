@@ -17,7 +17,26 @@ protocol AccessibilityViewModifier : PrimitiveViewModifier, MultiViewModifier {
 
 extension AccessibilityViewModifier {
     nonisolated static func configureInputsForGeometry(_ inputs: inout _ViewInputs) {
-        assertUnimplemented()
+        // <+156>
+        guard
+            inputs.needsGeometry &&
+            Self.options.contains(.unknown0) &&
+            inputs.preferences.contains(AccessibilityNodesKey.self)
+        else {
+            return
+        }
+        
+        // <+256>
+        if inputs.needsAccessibilityGeometry {
+            inputs.needsAccessibilityGeometry = false
+        }
+        
+        // <+280>
+        guard inputs.base.accessibilityCapturesViewResponders else {
+            return
+        }
+        
+        inputs.preferences.add(ViewRespondersKey.self)
     }
     
     nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
@@ -35,10 +54,10 @@ extension AccessibilityViewModifier {
             // x26
             var copy_1 = inputs
             Self.configureInputsForGeometry(&copy_1)
-            let needsAccessibilityGeometry = inputs.needsAccessibilityGeometry
+            let needsDisplayListAccessibility = inputs.needsDisplayListAccessibility
             // inputs -> x23 -> x21
             
-            if needsAccessibilityGeometry {
+            if needsDisplayListAccessibility {
                 // <+1256>
                 copy_1.containerPosition = inputs.animatedPosition()
                 // <+1272>
@@ -120,32 +139,95 @@ extension AccessibilityViewModifier {
         } else {
             // <+1588>
             // inputs -> x23 -> x21
+            // x29 - 0xb8
+            var copy_1: _ViewInputs
+            // x24
+            var outputs: _ViewOutputs
+            
             if
                 inputs.preferences.hasPlatformItemList && inputs.preferences.contains(AccessibilityAttachment.Key.self)
             {
                 // <+1720>
                 // x29 - 0x80
                 let flags = inputs[PlatformItemListFlagsInput.self]
-                // x29 - 0xb8
-                var copy_1 = inputs
+                copy_1 = inputs
                 
                 if flags.contains(.unknown4) {
                     // <+1812>
-                    copy_1[PlatformItemListFlagsInput.self]
-                    assertUnimplemented()
+                    copy_1[PlatformItemListFlagsInput.self].subtract(.unknown4)
+                    // <+1872>
+                    outputs = Self.makeAccessibilityViewModifier(
+                        modifier: modifier,
+                        inputs: inputs,
+                        body: body
+                    )
+                    
+                    let transform = Attribute(
+                        PlatformItemListTransform(
+                            deferredAttachment: OptionalAttribute(outputs[AccessibilityAttachment.Key.self]),
+                            environment: inputs.environment
+                        )
+                    )
+                    
+                    outputs.transformPlatformItemList(
+                        inputs: inputs,
+                        transform: transform
+                    )
+                    
+                    // <+2244>
                 } else {
                     // <+2208>
-                    assertUnimplemented()
+                    copy_1 = inputs
+                    outputs = Self.makeAccessibilityViewModifier(
+                        modifier: modifier,
+                        inputs: inputs,
+                        body: body
+                    )
+                    // <+2244>
                 }
-                
-                assertUnimplemented()
             } else {
                 // <+2176>
-                assertUnimplemented()
+                // <+2208>
+                copy_1 = inputs
+                outputs = Self.makeAccessibilityViewModifier(
+                    modifier: modifier,
+                    inputs: inputs,
+                    body: body
+                )
+                // <+2244>
             }
             
             // <+2244>
-            assertUnimplemented()
+            if inputs.requestsPlatformItem(for: .accessibility) {
+                // <+2308>
+                // w23
+                let attachment = OptionalAttribute(outputs[AccessibilityAttachment.Key.self])
+                // w19
+                let envAttribute = Attribute(
+                    PlatformAccessibilityEnv(
+                        environment: inputs.environment,
+                        tracker: PropertyList.Tracker()
+                    )
+                )
+                // outputs -> x24 -> x26
+                let system = inputs.base.platformSystem
+                
+                let transformAttribute = Attribute(
+                    PlatformAccessibilityTransform(
+                        deferredAttachment: attachment,
+                        environment: envAttribute,
+                        system: system
+                    )
+                )
+                
+                let transformValue = _GraphValue(transformAttribute)
+                AccessibilityPlatformItemTransform.transformPlatformItemsOutputs(&outputs, inputs: inputs, modifier: transformValue)
+                // <+2812>
+            }
+            
+            // <+2812>
+            // <+3784>
+            return outputs
         }
     }
     
@@ -495,4 +577,54 @@ fileprivate struct DisplayListTransform : Rule, CustomStringConvertible {
     var description: String {
         assertUnimplemented()
     }
+}
+
+fileprivate struct PlatformItemListTransform : Rule, CustomStringConvertible {
+    @OptionalAttribute var deferredAttachment: AccessibilityAttachment.Tree?
+    @Attribute private(set) var environment: EnvironmentValues
+    
+    var value: (inout PlatformItemList) -> Void {
+        assertUnimplemented()
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct PlatformAccessibilityEnv : StatefulRule {
+    @Attribute private(set) var environment: EnvironmentValues
+    let tracker: PropertyList.Tracker
+    
+    typealias Value = EnvironmentValues
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct PlatformAccessibilityTransform : StatefulRule {
+    @OptionalAttribute var deferredAttachment: AccessibilityAttachment.Tree?
+    @Attribute private(set) var environment: EnvironmentValues
+    let system: PlatformSystemDefinition
+    
+    typealias Value = AccessibilityPlatformItemTransform
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct AccessibilityPlatformItemTransform : PlatformItemsModifier, PrimitiveViewModifier {
+    var accessibility: PlatformItem.AccessibilityContent?
+    
+    static nonisolated var features: PlatformItem.Features {
+        assertUnimplemented()
+    }
+    
+    static nonisolated func updateItems(modifier: Self, items: inout PlatformItems) {
+        assertUnimplemented()
+    }
+    
+    // TODO
 }
