@@ -230,7 +230,7 @@ struct _ViewList_Sublist {
     var id: _ViewList_ID // 0x10
     var elements: _ViewList_SubgraphElements // 0x20
     var traits: ViewTraitCollection // 0x50
-    var list: Attribute<ViewList>? // 0x58
+    var list: Attribute<any ViewList>? // 0x58
     
     func appendViewIDs(into accumulator: inout HeterogeneousViewIDsAccumulator) {
         assertUnimplemented()
@@ -1692,19 +1692,73 @@ enum _ViewList_Node {
         switch copy_1 {
         case .list(let list, let attribute):
             // <+80>
-            assertUnimplemented()
+            return list.applyNodes(
+                from: &index,
+                style: style,
+                list: attribute,
+                transform: transform,
+                to: block
+            )
         case .sublist(let sublist):
             // <+380>
-            assertUnimplemented()
+            // sp + 0x80
+            let copy_2 = sublist
+            var count = copy_2.count
+            style.alignToPreviousGranularityMultiple(&count)
+            
+            let x20 = index &- count
+            if x20 >= 0 {
+                return true
+            }
+            
+            // <+456>
+            // sp + 0x20
+            let copy_3 = copy_2
+            return block(
+                &index,
+                style,
+                .sublist(copy_3),
+                transform
+            )
         case .group(let group):
             // <+192>
-            assertUnimplemented()
+            return group.applyNodes(
+                from: &index,
+                style: style,
+                transform: transform,
+                to: block
+            )
         case .section(let section):
             // <+540>
-            assertUnimplemented()
+            if section.isHierarchical {
+                // <+556>
+                let list = section.base.lists[0]
+                return list.list.applyNodes(
+                    from: &index,
+                    style: style,
+                    list: list.attribute,
+                    transform: transform,
+                    to: block
+                )
+            } else {
+                // <+732>
+                for list in section.base.lists {
+                    let result = list.list.applyNodes(
+                        from: &index,
+                        style: style,
+                        list: list.attribute,
+                        transform: transform,
+                        to: block
+                    )
+                    
+                    guard result else {
+                        return false
+                    }
+                }
+                
+                return true
+            }
         }
-        
-        assertUnimplemented()
     }
     
     func applyNodes(
@@ -2022,6 +2076,15 @@ struct _ViewList_Section : ViewList {
         transform: borrowing _ViewList_TemporarySublistTransform,
         to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, _ViewList_Section.Info, borrowing _ViewList_TemporarySublistTransform) -> Bool
     ) -> Bool {
+        /*
+         self -> x20
+         index -> x0 -> x24
+         style -> x1 -> x29 - 0xd0
+         transform -> x2 -> x23/w25
+         block -> x3/x4 -> x29 - 0xe0
+         */
+        style.alignToPreviousGranularityMultiple(&index)
+        // <+116>
         assertUnimplemented()
     }
     
@@ -2058,6 +2121,7 @@ struct _ViewList_Section : ViewList {
         transform: borrowing _ViewList_TemporarySublistTransform,
         to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
     ) -> Bool {
+        // $s7SwiftUI17_ViewList_SectionV10applyNodes4from5style4list9transform2toSbSiz_AA01_cD14_IteratorStyleV14AttributeGraph0O0VyAA0cD0_pGSgAA01_cD26_TemporarySublistTransformVSbSiz_AkA01_cD5_NodeOAStXEtF
         return block(
             &index,
             style,
@@ -2597,7 +2661,10 @@ struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
         transform: borrowing _ViewList_TemporarySublistTransform,
         to block: (inout Int, _ViewList_IteratorStyle, _ViewList_Node, borrowing _ViewList_TemporarySublistTransform) -> Bool
     ) -> Bool {
-        var value = self.bounds.lowerBound + index
+        // x29 - 0x58
+        var value_1 = self.bounds.lowerBound + index
+        // x23
+        var value_2 = value_1
         /*
          style -> x1 -> x26
          list -> x2 -> x19
@@ -2629,14 +2696,14 @@ struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
                 // x19 + 0x60
                 let copy_2 = sublist
                 
-                if value >= self.bounds.upperBound {
+                if value_2 >= self.bounds.upperBound {
                     return false
                 }
                 
                 // <+176>
                 // x25
                 let granularity = style.applyGranularity(to: sublist.count)
-                value += granularity
+                value_2 += granularity
                 
                 return block(&index, style, node, transform)
             default:
@@ -2651,7 +2718,7 @@ struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
         }
         
         return self.base.applyNodes(
-            from: &value,
+            from: &value_1,
             style: style,
             list: list,
             transform: transform,

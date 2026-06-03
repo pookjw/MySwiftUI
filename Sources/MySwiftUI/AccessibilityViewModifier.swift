@@ -20,6 +20,21 @@ extension AccessibilityViewModifier {
     }
     
     nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        /*
+         self -> x20 -> x29 - 0xb0
+         modifier -> x0 -> x29 - 0xa8
+         inputs -> x1 -> x23
+         body -> x2/x3 -> x29 - 0xc8
+         */
+        // <+1076>
+        if inputs.preferences.contains(AccessibilityNodesKey.self) {
+            // <+1144>
+            assertUnimplemented()
+        } else {
+            // <+1588>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     
