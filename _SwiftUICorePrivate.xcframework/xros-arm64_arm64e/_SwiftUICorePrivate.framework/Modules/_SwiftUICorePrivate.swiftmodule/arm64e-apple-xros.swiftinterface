@@ -2422,28 +2422,61 @@ public struct AccessibilityTraitSet : Swift.OptionSet, Swift.Hashable, Swift.Cod
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct SectionAccumulator {}
+public struct SectionAccumulator {
+  public struct Item {}
+}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct HeterogeneousViewIDsAccumulator {
   public init()
-  public func finalize()
+  public consuming func finalize() -> _SwiftUICorePrivate.HeterogeneousViewIDs
   public var count: Swift.Int { get }
   public var isEmpty: Swift.Bool { get }
-  public func append<T : Swift.Hashable>(contentsOf contents: Swift.ContiguousArray<T>)
-  public func withBuffer<T : Swift.Hashable>(of type: T.Type, body: (inout Swift.ContiguousArray<T>) -> Swift.Void)
-  public func withExplicitID<T : Swift.Hashable>(_: T, isUnary: Swift.Bool, body: (inout _SwiftUICorePrivate.HeterogeneousViewIDsAccumulator) -> Swift.Void)
-  public func append<T : Swift.Hashable>(index: Swift.Int32, implicitID: Swift.Int32, explicitID: T)
-  public func append(index: Swift.Int32, implicitID: Swift.Int32)
-  public func append<T : Swift.Hashable>(_: _SwiftUICorePrivate.TypedCanonicalViewID<T>)
-  public func appendWithUnsafeOutputBuffer<T : Swift.Hashable>(explicitID: T.Type, count: Swift.Int, body: (_SwiftUICorePrivate.HeterogeneousViewIDsAccumulator.UnsafeOutputBuffer) -> Swift.Void)
-  public func appendWithoutExplicitID(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32)
-  public func append<T : Swift.Hashable>(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32, explicitID: T)
+  public mutating func append<T : Swift.Hashable>(contentsOf contents: Swift.ContiguousArray<T>)
+  public mutating func withBuffer<T : Swift.Hashable>(of type: T.Type, body: (inout Swift.ContiguousArray<T>) -> Swift.Void)
+  public mutating func withExplicitID<T : Swift.Hashable>(_: T, isUnary: Swift.Bool, body: (inout _SwiftUICorePrivate.HeterogeneousViewIDsAccumulator) -> Swift.Void)
+  public mutating func append<T : Swift.Hashable>(index: Swift.Int32, implicitID: Swift.Int32, explicitID: T)
+  public mutating func append(index: Swift.Int32, implicitID: Swift.Int32)
+  public mutating func append<T : Swift.Hashable>(_: _SwiftUICorePrivate.TypedCanonicalViewID<T>)
+  public mutating func appendWithUnsafeOutputBuffer<T : Swift.Hashable>(explicitID: T.Type, count: Swift.Int, body: (_SwiftUICorePrivate.HeterogeneousViewIDsAccumulator.UnsafeOutputBuffer) -> Swift.Void)
+  public mutating func appendWithoutExplicitID(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32)
+  public mutating func append<T : Swift.Hashable>(indices: Swift.Range<Swift.Int32>, implicitID: Swift.Int32, explicitID: T)
 
-  public struct UnsafeOutputBuffer {}
+  public struct UnsafeOutputBuffer {
+    public func initialize<T : Swift.Hashable>(at fromIndex: Swift.Int, index toIndex: Swift.Int32, implicitID: Swift.Int32, explicitID: T)
+    public func initialize(at index: Swift.Int, index toIndex: Swift.Int32, implicitID: Swift.Int32)
+    public func mutableExplicitIDPointer<T : Swift.Hashable>(at index: Swift.Int, for type: T.Type = T.self) -> Swift.UnsafeMutablePointer<T>
+  }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public struct TypedCanonicalViewID<T> {}
+public struct TypedCanonicalViewID<T : Swift.Hashable> : Swift.Hashable {
+  public var index: Swift.Int32
+  public var implicitID: Swift.Int32
+  public var explicitID: T
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct HeterogeneousViewIDs {
+  public var count: Swift.Int { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct HeterogeneousCollection {
+  public init(_ subCollections: Swift.ContiguousArray<_SwiftUICorePrivate.AbstractHomogeneousCollection> = [])
+
+  public var count: Swift.Int { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+open class AbstractHomogeneousCollection {
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ViewList_Section {}

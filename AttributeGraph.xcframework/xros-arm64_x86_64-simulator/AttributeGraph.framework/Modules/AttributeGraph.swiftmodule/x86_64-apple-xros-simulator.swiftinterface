@@ -484,6 +484,10 @@ extension AttributeGraph.AnyAttribute {
 }
 
 extension AttributeGraph.AnyWeakAttribute {
+  public var attribute: AttributeGraph.AnyAttribute? {
+    get set _modify
+  }
+
   public func unsafeCast<A>(to: A.Type) -> AttributeGraph.WeakAttribute<A>
 }
 
