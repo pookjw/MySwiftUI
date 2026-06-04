@@ -7,6 +7,34 @@ public import Spatial
 @available(iOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
+extension RealityViewContent {
+    @MainActor @preconcurrency public struct Body<Placeholder> : View where Placeholder : View {
+        @MainActor @preconcurrency public var body: some View {
+            get {
+                assertUnimplemented()
+            }
+        }
+    }
+}
+
+@available(visionOS 26.0, *)
+@available(macOS, unavailable)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+@MainActor extension RealityViewContent {
+    @MainActor public func animate(body: () -> Void, completion: (() -> Void)? = nil) {
+        assertUnimplemented()
+    }
+}
+
+@available(visionOS 1.0, *)
+@available(macOS, unavailable)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
 public struct RealityViewContent : RealityViewContentProtocol {
     public var entities: RealityViewEntityCollection {
         get {
@@ -17,7 +45,7 @@ public struct RealityViewContent : RealityViewContentProtocol {
         }
     }
     
-    public func subscribe<E>(to event: E.Type, on sourceObject: (any EventSource)?, componentType: (any Component.Type)?, _ handler: @escaping (E) -> Swift.Void) -> EventSubscription where E : Event {
+    public func subscribe<E>(to event: E.Type, on sourceObject: (any EventSource)?, componentType: (any Component.Type)?, _ handler: @escaping (E) -> Void) -> EventSubscription where E : Event {
         assertUnimplemented()
     }
     
@@ -36,11 +64,17 @@ public struct RealityViewContent : RealityViewContentProtocol {
 @available(iOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-extension RealityViewContent {
-    @MainActor @preconcurrency public struct Body<Placeholder> : View where Placeholder : View {
-        @MainActor @preconcurrency public var body: some View {
-            assertUnimplemented()
-        }
+extension RealityViewContent : RealityCoordinateSpaceConverting, RealityCoordinateSpace {
+    public func _resolve(in context: __RealityCoordinateSpaceContext) -> __ResolvedRealityCoordinateSpace {
+        assertUnimplemented()
+    }
+    
+    public func transform(from: some RealityCoordinateSpace, to: some CoordinateSpaceProtocol) -> AffineTransform3D {
+        assertUnimplemented()
+    }
+    
+    public func transform(from: some CoordinateSpaceProtocol, to: some RealityCoordinateSpace) -> AffineTransform3D {
+        assertUnimplemented()
     }
 }
 
@@ -50,8 +84,4 @@ extension RealityViewContent {
 @available(iOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-extension RealityViewContent : RealityCoordinateSpaceConverting, RealityCoordinateSpace {
-    public func _resolve(in context: __RealityCoordinateSpaceContext) -> __ResolvedRealityCoordinateSpace
-    public func transform(from: some RealityCoordinateSpace, to: some CoordinateSpaceProtocol) -> AffineTransform3D
-    public func transform(from: some CoordinateSpaceProtocol, to: some RealityCoordinateSpace) -> AffineTransform3D
-}
+extension RealityViewContent.Body : Sendable {}

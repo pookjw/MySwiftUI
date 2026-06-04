@@ -1,4 +1,11 @@
-public import simd
+public import Spatial
+
+@available(visionOS 1.0, macOS 15.0, macCatalyst 18.0, iOS 18.0, tvOS 26.0, *)
+extension BoundingBox {
+    public init(_ rect3D: Rect3D) {
+        assertUnimplemented()
+    }
+}
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @frozen public struct BoundingBox : Hashable, Sendable {
@@ -6,23 +13,9 @@ public import simd
         assertUnimplemented()
     }()
     
-    public var min: SIMD3<Float> {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
+    public var min: SIMD3<Float> = .positiveInfinity
     
-    public var max: SIMD3<Float> {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
+    public var max: SIMD3<Float> = .negativeInfinity
     
     public init() {
         assertUnimplemented()
@@ -33,34 +26,45 @@ public import simd
     }
     
     @inlinable public static func == (lhs: BoundingBox, rhs: BoundingBox) -> Bool {
-        assertUnimplemented()
-    }
+                return lhs.min == rhs.min && lhs.max == rhs.max
+        }
     
     @inlinable public func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
-    }
+                hasher.combine(min)
+                hasher.combine(max)
+        }
     
     public var hashValue: Int {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension BoundingBox {
     public var center: SIMD3<Float> {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     public var extents: SIMD3<Float> {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     public var boundingRadius: Float {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     public var isEmpty: Bool {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     public func union(_ point: SIMD3<Float>) -> BoundingBox {
@@ -114,3 +118,6 @@ extension BoundingBox : Codable {
         assertUnimplemented()
     }
 }
+
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
+extension BoundingBox : BitwiseCopyable {}

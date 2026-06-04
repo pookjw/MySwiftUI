@@ -10,9 +10,6 @@ public struct BorderlessButtonStyle : PrimitiveButtonStyle {
     @MainActor @preconcurrency public func makeBody(configuration: BorderlessButtonStyle.Configuration) -> some View {
         assertUnimplemented()
     }
-    
-    //  @available(iOS 13.0, tvOS 17.0, watchOS 8.0, macOS 10.15, *)
-    //  public typealias Body = @_opaqueReturnTypeOf("$s7SwiftUI21BorderlessButtonStyleV8makeBody13configurationQrAA09PrimitivedE13ConfigurationV_tF", 0) __
 }
 
 @available(*, unavailable)

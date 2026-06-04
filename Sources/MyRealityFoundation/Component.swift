@@ -4,8 +4,11 @@ public protocol Component {
     @available(iOS, deprecated: 16.0, renamed: "componentName")
     @available(tvOS, unavailable)
     static var __typeName: String { get }
+    
     static var __size: Int { get }
+    
     static func __free(to buffer: UnsafeMutableRawPointer, offset: Int)
+    
     @preconcurrency @MainActor static func __fromCore(_ coreComponent: __ComponentRef) -> Self
     @preconcurrency @MainActor func __toCore(_ coreComponent: __ComponentRef)
     @preconcurrency @MainActor static func __addIntrospectionData(_ builder: OpaquePointer?)
@@ -19,11 +22,15 @@ extension Component {
     @available(macCatalyst, introduced: 13.0, deprecated: 16.0, renamed: "componentName")
     @available(tvOS, unavailable)
     public static var __typeName: String {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     public static var __size: Int {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     public static func __free(to buffer: UnsafeMutableRawPointer, offset: Int) {
@@ -43,28 +50,6 @@ extension Component {
     }
     
     public static func registerComponent() {
-        assertUnimplemented()
-    }
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public struct __ComponentRef {
-    public func __as<T>(_ type: T.Type) -> T {
-        assertUnimplemented()
-    }
-    
-    public static func __fromCore(_ core: Any) -> __ComponentRef {
-        assertUnimplemented()
-    }
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public struct __ComponentTypeRef {
-    public static func __fromCore(_ core: Any) -> __ComponentTypeRef {
-        assertUnimplemented()
-    }
-    
-    public func __as<T>(_ type: T.Type) -> T {
         assertUnimplemented()
     }
 }

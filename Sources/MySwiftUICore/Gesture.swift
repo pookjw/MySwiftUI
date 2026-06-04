@@ -3,6 +3,10 @@
     // TODO
 }
 
+extension Never : Gesture {
+  public typealias Value = Never
+}
+
 package protocol PrimitiveGesture {
     // TODO
 }

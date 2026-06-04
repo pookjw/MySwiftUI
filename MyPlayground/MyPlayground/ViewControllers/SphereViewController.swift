@@ -11,25 +11,25 @@ import UIKit
 
 fileprivate struct MyView : View {
     var body: some View {
-//        RealityView { content, _ in
-//            let entity = ModelEntity(
-//                mesh: .generateSphere(radius: 0.1),
-//                materials: [
-//                    SimpleMaterial(
-//                        color: .cyan,
-//                        isMetallic: true
-//                    )
-//                ]
-//            )
-//            
-//            content.add(entity)
-//        } update: { content, _ in
-//            
-//        } placeholder: { 
-//            
-//        } attachments: { 
-//            
-//        }
+        RealityView { content, _ in
+            let entity = ModelEntity(
+                mesh: .generateSphere(radius: 0.1),
+                materials: [
+                    SimpleMaterial(
+                        color: .cyan,
+                        isMetallic: true
+                    )
+                ]
+            )
+            
+            content.add(entity)
+        } update: { content, _ in
+            
+        } placeholder: { 
+            
+        } attachments: { 
+            
+        }
     }
 }
 

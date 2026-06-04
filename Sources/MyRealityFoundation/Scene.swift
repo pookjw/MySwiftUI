@@ -1,87 +1,8 @@
-public import AudioToolbox
-public import CoreMedia
-public import simd
-public import Spatial
 public import Combine
 public import Foundation
-
-@_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-@preconcurrency @MainActor public class Scene {
-    @MainActor @preconcurrency public var __coreScene: __SceneRef {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var name: String {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var __audioListener: Entity? {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    @discardableResult
-    @MainActor @preconcurrency public func __addPostProcessingAudioEffect(_ auDesc: AudioComponentDescription) -> AUAudioUnit? {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var __defaultCamera: Entity! {
-        assertUnimplemented()
-    }
-    
-    @available(visionOS, unavailable)
-    @MainActor @preconcurrency public var anchors: Scene.AnchorCollection {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
-        }
-    }
-    
-    @available(visionOS, unavailable)
-    @MainActor @preconcurrency public func addAnchor(_ anchor: any HasAnchoring) {
-        assertUnimplemented()
-    }
-    
-    @available(visionOS, unavailable)
-    @MainActor @preconcurrency public func removeAnchor(_ anchor: any HasAnchoring) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public static func __testInit(name: String) -> Scene {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func findEntity(named name: String) -> Entity? {
-        assertUnimplemented()
-    }
-    
-    @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, *)
-    @MainActor @preconcurrency public func findEntity(id: Entity.ID) -> Entity? {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var __interactionService: any __RKEntityInteractionService {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var synchronizationService: (any SynchronizationService)? {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-}
+public import AudioToolbox
+public import Spatial
+public import CoreMedia
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene {
@@ -138,8 +59,9 @@ extension Scene {
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene {
-    public struct Publisher<E> : Combine.Publisher where E : Event {
+    public struct Publisher<E> : Combine::Publisher where E : Event {
         public typealias Output = E
+        
         public typealias Failure = Never
         
         public func receive<S>(subscriber: S) where E == S.Input, S : Subscriber, S.Failure == Never {
@@ -152,9 +74,13 @@ extension Scene {
 extension Scene {
     @preconcurrency @MainActor public struct AnchorCollection : @MainActor Collection {
         public typealias Element = HasAnchoring
+        
         public typealias Index = Int
+        
         public typealias Indices = DefaultIndices<Scene.AnchorCollection>
+        
         public typealias Iterator = Entity.ChildCollection.IndexingIterator<Scene.AnchorCollection>
+        
         public typealias SubSequence = Slice<Scene.AnchorCollection>
         
         @MainActor @preconcurrency public __consuming func makeIterator() -> Scene.AnchorCollection.Iterator {
@@ -162,11 +88,15 @@ extension Scene {
         }
         
         @MainActor @preconcurrency public var startIndex: Int {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
         
         @MainActor @preconcurrency public var endIndex: Int {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
         
         @MainActor @preconcurrency public func index(after i: Int) -> Int {
@@ -217,14 +147,101 @@ extension Scene {
         @MainActor @preconcurrency public func replaceAll<S>(_ entities: S) where S : Sequence, S.Element : HasAnchoring {
             assertUnimplemented()
         }
-        
     }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
     @MainActor @preconcurrency public var description: String {
+        get {
+            assertUnimplemented()
+        }
+    }
+}
+
+@_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
+@preconcurrency @MainActor public class Scene {
+    @MainActor @preconcurrency public var __coreScene: __SceneRef {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var name: String {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var __audioListener: Entity? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    @discardableResult
+    @MainActor @preconcurrency public func __addPostProcessingAudioEffect(_ auDesc: AudioComponentDescription) -> AUAudioUnit? {
         assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public var __defaultCamera: Entity! {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @available(visionOS, unavailable)
+    @MainActor @preconcurrency public var anchors: Scene.AnchorCollection {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    @available(visionOS, unavailable)
+    @MainActor @preconcurrency public func addAnchor(_ anchor: any HasAnchoring) {
+        assertUnimplemented()
+    }
+    
+    @available(visionOS, unavailable)
+    @MainActor @preconcurrency public func removeAnchor(_ anchor: any HasAnchoring) {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public static func __testInit(name: String) -> Scene {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public func findEntity(named name: String) -> Entity? {
+        assertUnimplemented()
+    }
+    
+    @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, *)
+    @MainActor @preconcurrency public func findEntity(id: Entity.ID) -> Entity? {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public var __interactionService: any __RKEntityInteractionService {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var synchronizationService: (any SynchronizationService)? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -244,13 +261,24 @@ extension Scene : Hashable {
     nonisolated public static func == (lhs: Scene, rhs: Scene) -> Bool {
         assertUnimplemented()
     }
+    
+    nonisolated public var hashValue: Int {
+        get {
+            assertUnimplemented()
+        }
+    }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene : Identifiable {
     nonisolated public var id: UInt64 {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
+    
+    @available(iOS 13.0, tvOS 26.0, macOS 10.15, macCatalyst 13.0, *)
+    public typealias ID = UInt64
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
@@ -260,7 +288,9 @@ extension Scene : EventSource {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene {
     @MainActor @preconcurrency public var __corePointer: OpaquePointer {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -288,7 +318,9 @@ extension Scene {
 @available(visionOS 1.0, macOS 15.0, macCatalyst 18.0, iOS 18.0, tvOS 26.0, *)
 extension Scene {
     @MainActor @preconcurrency public var timebase: CMTimebase {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -320,7 +352,10 @@ extension Scene : @MainActor CoordinateSpace3DFloat {
     
     @available(macOS, unavailable, introduced: 26.0)
     @MainActor @preconcurrency public var ancestorSpace: (some CoordinateSpace3DFloat)? {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+            return self
+        }
     }
     
     @available(macOS, unavailable, introduced: 26.0)
@@ -333,11 +368,11 @@ extension Scene : @MainActor CoordinateSpace3DFloat {
 @available(visionOS, unavailable)
 extension Scene {
     @MainActor @preconcurrency public func pixelCast(origin: SIMD3<Float>, direction: SIMD3<Float>, length: Float = 100) async throws -> PixelCastHit? {
-        ssertUnimplemented()
+        assertUnimplemented()
     }
     
     @MainActor @preconcurrency public func pixelCast(from startPosition: SIMD3<Float>, to endPosition: SIMD3<Float>) async throws -> PixelCastHit? {
-        ssertUnimplemented()
+        assertUnimplemented()
     }
 }
 
@@ -346,14 +381,3 @@ extension Scene : Sendable {}
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene.AnchorCollection : Sendable {}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public struct __SceneRef {
-    public func __as<T>(_ type: T.Type) -> T {
-        assertUnimplemented()
-    }
-    
-    public static func __fromCore(_ core: Any) -> __SceneRef {
-        assertUnimplemented()
-    }
-}

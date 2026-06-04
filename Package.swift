@@ -131,6 +131,9 @@ let package = Package(
                 .byName(name: "MyRealityKit"),
                 .byName(name: "MySwiftUI"),
                 .byName(name: "_MySwiftUIUtils")
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-cross-import-overlays"])
             ]
         ),
         .target(

@@ -1,102 +1,7 @@
-public import CoreMedia
 public import Foundation
-public import Observation
 public import simd
+public import CoreMedia
 public import Spatial
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-@preconcurrency @MainActor open class Entity : HasHierarchy, HasSynchronization, HasTransform, Sendable {
-    @MainActor @preconcurrency public var __coreEntity: __EntityRef {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var components: Entity.ComponentSet {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public var scene: Scene? {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var name: String {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public var __boundingBox: __AABBRef {
-        assertUnimplemented()
-    }
-    
-    @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
-    @MainActor @preconcurrency public func __findAssetDependencies(_ closure: (__AssetRef) -> Void) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var isActive: Bool {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var isAnchored: Bool {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var isEnabled: Bool {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public var isEnabledInHierarchy: Bool {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public static var __disableUpdateInteractionEntities: [Entity]? {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
-    @MainActor @preconcurrency open var __accessibilityElements: [Any]? {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency required public init() {
-        assertUnimplemented()
-    }
-    
-    @usableFromInline
-    @MainActor @preconcurrency internal init(_coreEntity: __EntityRef) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public static func __testInit() -> Entity {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency open func didClone(from source: Entity) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func findEntity(named name: String) -> Entity? {
-        assertUnimplemented()
-    }
-}
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
@@ -125,7 +30,7 @@ extension Entity {
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 extension Entity {
     public struct ParameterSet {
-        @MainActor @preconcurrency public subscript<T>(name: String, type: T.Type = T.self) -> BindableValue<T>? where T : BindableData {
+        @preconcurrency @MainActor public subscript<T>(name: String, type: T.Type = T.self) -> BindableValue<T>? where T : BindableData {
             get {
                 assertUnimplemented()
             }
@@ -148,7 +53,9 @@ extension Entity {
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 extension Entity {
     @MainActor @preconcurrency public subscript(entityPath: BindTarget.EntityPath) -> Entity? {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -177,14 +84,14 @@ extension Entity {
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension Entity : RealityCoordinateSpace {
+extension Entity : @MainActor RealityCoordinateSpace {
     @MainActor @preconcurrency public func _resolve(in context: __RealityCoordinateSpaceContext) -> __ResolvedRealityCoordinateSpace {
         assertUnimplemented()
     }
 }
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension Entity.ComponentSet : Sequence {
+extension Entity.ComponentSet : @MainActor Sequence {
     @MainActor @preconcurrency public __consuming func makeIterator() -> Entity.ComponentSet.Iterator {
         assertUnimplemented()
     }
@@ -200,7 +107,7 @@ extension Entity.ComponentSet : Sequence {
 }
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension Entity.ComponentSet : Collection {
+extension Entity.ComponentSet : @MainActor Collection {
     public typealias Element = any Component
     
     public struct Index : Comparable, Sendable {
@@ -214,15 +121,21 @@ extension Entity.ComponentSet : Collection {
     }
     
     @MainActor @preconcurrency public var startIndex: Entity.ComponentSet.Index {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     @MainActor @preconcurrency public var endIndex: Entity.ComponentSet.Index {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     @MainActor @preconcurrency public var isEmpty: Bool {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     @MainActor @preconcurrency public func index(after index: Entity.ComponentSet.Index) -> Entity.ComponentSet.Index {
@@ -238,21 +151,30 @@ extension Entity.ComponentSet : Collection {
     }
     
     @MainActor @preconcurrency public subscript(position: Entity.ComponentSet.Index) -> any Component {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     public struct Indices : Collection, Sendable {
         public typealias Index = Entity.ComponentSet.Index
+        
         public typealias Element = Entity.ComponentSet.Index
+        
         public typealias Indices = Entity.ComponentSet.Indices
+        
         public typealias SubSequence = Entity.ComponentSet.Indices
         
         public var startIndex: Entity.ComponentSet.Indices.Index {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
         
         public var endIndex: Entity.ComponentSet.Indices.Index {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
         
         public func index(after i: Entity.ComponentSet.Indices.Index) -> Entity.ComponentSet.Indices.Index {
@@ -264,7 +186,7 @@ extension Entity.ComponentSet : Collection {
         }
         
         @inlinable public subscript(position: Entity.ComponentSet.Indices.Index) -> Entity.ComponentSet.Indices.Index {
-            assertUnimplemented()
+            get { position }
         }
         
         public func distance(from start: Entity.ComponentSet.Indices.Index, to end: Entity.ComponentSet.Indices.Index) -> Int {
@@ -272,11 +194,13 @@ extension Entity.ComponentSet : Collection {
         }
         
         public subscript(bounds: Range<Entity.ComponentSet.Indices.Index>) -> Entity.ComponentSet.Indices {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
         
         @inlinable public var indices: Entity.ComponentSet.Indices {
-            assertUnimplemented()
+            get { self }
         }
         
         @available(iOS 18.0, tvOS 26.0, visionOS 2.0, macOS 15.0, macCatalyst 18.0, *)
@@ -284,7 +208,9 @@ extension Entity.ComponentSet : Collection {
     }
     
     @MainActor @preconcurrency public var indices: Entity.ComponentSet.Indices {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     @available(iOS 18.0, tvOS 26.0, visionOS 2.0, macOS 15.0, macCatalyst 18.0, *)
@@ -299,7 +225,7 @@ extension Entity.ComponentSet.Indices : BidirectionalCollection {
 }
 
 @available(visionOS 26.0, macOS 26.0, iOS 26.0, macCatalyst 26.0, tvOS 26.0, *)
-extension Entity.ComponentSet : BidirectionalCollection {
+extension Entity.ComponentSet : @MainActor BidirectionalCollection {
     @MainActor @preconcurrency public func index(before index: Entity.ComponentSet.Index) -> Entity.ComponentSet.Index {
         assertUnimplemented()
     }
@@ -313,9 +239,11 @@ extension Entity {
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension Entity : CustomDebugStringConvertible {
+extension Entity : @MainActor CustomDebugStringConvertible {
     @MainActor @preconcurrency public var debugDescription: String {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -334,7 +262,9 @@ extension Entity {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
     @MainActor @preconcurrency public var availableAnimations: [AnimationResource] {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -382,11 +312,15 @@ extension Entity {
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
-    @MainActor @preconcurrency public struct ChildCollection : Collection {
+    @preconcurrency @MainActor public struct ChildCollection : @MainActor Collection {
         public typealias Element = Entity
+        
         public typealias Index = Int
+        
         public typealias Indices = DefaultIndices<Entity.ChildCollection>
+        
         public typealias Iterator = Entity.ChildCollection.IndexingIterator<Entity.ChildCollection>
+        
         public typealias SubSequence = Slice<Entity.ChildCollection>
         
         @MainActor @preconcurrency public __consuming func makeIterator() -> Entity.ChildCollection.Iterator {
@@ -394,11 +328,15 @@ extension Entity {
         }
         
         @MainActor @preconcurrency public var startIndex: Int {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
         
         @MainActor @preconcurrency public var endIndex: Int {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
         
         @MainActor @preconcurrency public func index(after i: Int) -> Int {
@@ -457,9 +395,11 @@ extension Entity {
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension Entity.ChildCollection : CustomStringConvertible {
+extension Entity.ChildCollection : @MainActor CustomStringConvertible {
     @MainActor @preconcurrency public var description: String {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -479,7 +419,9 @@ extension Entity.ChildCollection {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity.ChildCollection.IndexingIterator : IteratorProtocol, Sequence {
     public typealias Element = Elements.Element
+    
     public typealias Iterator = Entity.ChildCollection.IndexingIterator<Elements>
+    
     public typealias SubSequence = AnySequence<Entity.ChildCollection.IndexingIterator<Elements>.Element>
     
     public mutating func next() -> Elements.Element? {
@@ -488,7 +430,7 @@ extension Entity.ChildCollection.IndexingIterator : IteratorProtocol, Sequence {
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension Entity.ChildCollection : EntityCollection {
+extension Entity.ChildCollection : @MainActor EntityCollection {
     @MainActor @preconcurrency public func append<S>(contentsOf sequence: S) where S : Sequence, S.Element : Entity {
         assertUnimplemented()
     }
@@ -628,7 +570,9 @@ extension Entity {
         }
         
         public var hashValue: Int {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
     }
     
@@ -655,9 +599,7 @@ extension Entity {
     
     @available(visionOS 26.0, iOS 26.0, macCatalyst 26.0, tvOS 26.0, macOS 26.0, *)
     @frozen public struct Observable {
-        private let entity: Entity = {
-            assertUnimplemented()
-        }()
+        private let entity: Entity
         
         public var name: String {
             get {
@@ -762,7 +704,9 @@ extension Entity {
     public struct ConfigurationCatalog {
         public struct Configuration : Identifiable, Sendable {
             public var id: String {
-                assertUnimplemented()
+                get {
+                    assertUnimplemented()
+                }
             }
             
             public init(id: String) {
@@ -775,15 +719,21 @@ extension Entity {
         
         public struct ConfigurationSet : Identifiable, Sendable {
             public var id: String {
-                assertUnimplemented()
+                get {
+                    assertUnimplemented()
+                }
             }
             
             public var configurations: [String : Entity.ConfigurationCatalog.Configuration] {
-                assertUnimplemented()
+                get {
+                    assertUnimplemented()
+                }
             }
             
             public var defaultConfiguration: Entity.ConfigurationCatalog.Configuration {
-                assertUnimplemented()
+                get {
+                    assertUnimplemented()
+                }
             }
             
             public init(id: String, configurations: [String : Entity.ConfigurationCatalog.Configuration], defaultConfigurationId: String? = nil) throws {
@@ -803,13 +753,9 @@ extension Entity {
                 assertUnimplemented()
             }
             
-            public let entity: Entity = {
-                assertUnimplemented()
-            }()
+            public let entity: Entity
             
-            public let configurationSpecifications: [String : String] = {
-                assertUnimplemented()
-            }()
+            public let configurationSpecifications: [String : String]
         }
         
         public init(configurationSets: [String : Entity.ConfigurationCatalog.ConfigurationSet], combinations: [Entity.ConfigurationCatalog.ConfigurationCombination]) throws {
@@ -825,7 +771,9 @@ extension Entity {
         }
         
         public var configurationSets: [String : Entity.ConfigurationCatalog.ConfigurationSet] {
-            assertUnimplemented()
+            get {
+                assertUnimplemented()
+            }
         }
     }
     
@@ -863,13 +811,15 @@ extension Entity {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
     @MainActor @preconcurrency public var anchor: (any HasAnchoring)? {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
-    @MainActor @preconcurrency public struct ComponentSet {
+    @preconcurrency @MainActor public struct ComponentSet {
         @MainActor @preconcurrency public subscript<T>(componentType: T.Type) -> T? where T : Component {
             get {
                 assertUnimplemented()
@@ -915,8 +865,113 @@ extension Entity {
         }
         
         @MainActor @preconcurrency public var count: Int {
+            get {
+                assertUnimplemented()
+            }
+        }
+    }
+}
+
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
+@preconcurrency @MainActor open class Entity : HasHierarchy, HasSynchronization, HasTransform, Sendable {
+    @MainActor @preconcurrency public var __coreEntity: __EntityRef {
+        get {
             assertUnimplemented()
         }
+    }
+    
+    @MainActor @preconcurrency public var components: Entity.ComponentSet {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var scene: Scene? {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var name: String {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var __boundingBox: __AABBRef {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
+    @MainActor @preconcurrency public func __findAssetDependencies(_ closure: (__AssetRef) -> Void) {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public var isActive: Bool {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var isAnchored: Bool {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var isEnabled: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public var isEnabledInHierarchy: Bool {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency public static var __disableUpdateInteractionEntities: [Entity]? {
+        assertUnimplemented()
+    }
+    
+    @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
+    @MainActor @preconcurrency open var __accessibilityElements: [Any]? {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    @MainActor @preconcurrency required public init() {
+        assertUnimplemented()
+    }
+    
+    @usableFromInline
+    @MainActor @preconcurrency internal init(_coreEntity: __EntityRef) {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public static func __testInit() -> Entity {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency open func didClone(from source: Entity) {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public func findEntity(named name: String) -> Entity? {
+        assertUnimplemented()
     }
 }
 
@@ -929,13 +984,24 @@ extension Entity : Hashable {
     nonisolated public static func == (lhs: Entity, rhs: Entity) -> Bool {
         assertUnimplemented()
     }
+    
+    nonisolated open var hashValue: Int {
+        get {
+            assertUnimplemented()
+        }
+    }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity : Identifiable {
     nonisolated public var id: UInt64 {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
+    
+    @available(iOS 13.0, tvOS 26.0, macOS 10.15, macCatalyst 13.0, *)
+    public typealias ID = UInt64
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
@@ -972,6 +1038,12 @@ extension Entity {
         
         public func hash(into hasher: inout Hasher) {
             assertUnimplemented()
+        }
+        
+        public var hashValue: Int {
+            get {
+                assertUnimplemented()
+            }
         }
     }
 }
@@ -1097,59 +1169,24 @@ extension Entity {
     }
     
     public struct __LoadOptions {
-        public var downsamplingStrategy: (any __DownsamplingStrategy)? {
-            get {
-                assertUnimplemented()
-            }
-            set {
-                assertUnimplemented()
-            }
-        }
+        public var downsamplingStrategy: (any __DownsamplingStrategy)?
         
-        public var realityPerformanceReport: __REArchivalStats? {
-            get {
-                assertUnimplemented()
-            }
-            set {
-                assertUnimplemented()
-            }
-        }
+        public var realityPerformanceReport: __REArchivalStats?
         
-        public var generateDecimatedMesh: Bool {
-            get {
-                assertUnimplemented()
-            }
-            set {
-                assertUnimplemented()
-            }
-        }
+        public var generateDecimatedMesh: Bool
         
-        public var enforceMemoryConstraints: Bool {
-            get {
-                assertUnimplemented()
-            }
-            set {
-                assertUnimplemented()
-            }
-        }
+        public var enforceMemoryConstraints: Bool
         
-        public var memoryLimit: Int? {
-            get {
-                assertUnimplemented()
-            }
-            set {
-                assertUnimplemented()
-            }
-        }
+        public var memoryLimit: Int?
         
         public struct LoadableFeatures : OptionSet {
             public let rawValue: UInt32
             
-            public static let none: Entity.__LoadOptions.LoadableFeatures = {
+            @safe public static nonisolated(unsafe) let none: Entity.__LoadOptions.LoadableFeatures = {
                 assertUnimplemented()
             }()
             
-            public static let audio: Entity.__LoadOptions.LoadableFeatures = {
+            @safe public static nonisolated(unsafe) let audio: Entity.__LoadOptions.LoadableFeatures = {
                 assertUnimplemented()
             }()
             
@@ -1159,20 +1196,15 @@ extension Entity {
             
             @available(iOS 13.0, tvOS 26.0, macOS 10.15, macCatalyst 13.0, *)
             public typealias ArrayLiteralElement = Entity.__LoadOptions.LoadableFeatures
+            
             @available(iOS 13.0, tvOS 26.0, macOS 10.15, macCatalyst 13.0, *)
             public typealias Element = Entity.__LoadOptions.LoadableFeatures
+            
             @available(iOS 13.0, tvOS 26.0, macOS 10.15, macCatalyst 13.0, *)
             public typealias RawValue = UInt32
         }
         
-        public var featuresToSkip: Entity.__LoadOptions.LoadableFeatures {
-            get {
-                assertUnimplemented()
-            }
-            set {
-                assertUnimplemented()
-            }
-        }
+        public var featuresToSkip: Entity.__LoadOptions.LoadableFeatures
         
         public init(downsamplingStrategy: (any __DownsamplingStrategy)? = nil, realityPerformanceReport: __REArchivalStats? = nil) {
             assertUnimplemented()
@@ -1200,14 +1232,7 @@ extension Entity {
             }
         }
         
-        public var resourceSharingScheduling: __AssetLoadRequest.ResourceSharingSchedulingRequirement {
-            get {
-                assertUnimplemented()
-            }
-            set {
-                assertUnimplemented()
-            }
-        }
+        public var resourceSharingScheduling: __AssetLoadRequest.ResourceSharingSchedulingRequirement
         
         public init(loadOnResourceSharingClients: Bool = false, waitForResourceSharingClients: Bool = false) throws {
             assertUnimplemented()
@@ -1382,12 +1407,14 @@ extension Entity {
 @available(visionOS 1.0, macOS 10.15, iOS 13.0, macCatalyst 13.0, *)
 extension Entity {
     @_alwaysEmitIntoClient @inline(__always) @MainActor @preconcurrency convenience public init<each T>(components: repeat each T) where repeat each T : Component {
-        assertUnimplemented()
-    }
+                self.init()
+                repeat self.components.set(each components)
+        }
     
     @_alwaysEmitIntoClient @inline(__always) @MainActor @preconcurrency convenience public init(components: [any Component]) {
-        assertUnimplemented()
-    }
+                self.init()
+                self.components.set(components)
+        }
 }
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
@@ -1447,7 +1474,9 @@ extension Entity {
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 extension Entity {
     @MainActor @preconcurrency public var pins: EntityGeometricPins {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -1456,7 +1485,7 @@ extension Entity {
 @available(macOS, unavailable, introduced: 26.0)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-extension Entity : CoordinateSpace3DFloat {
+extension Entity : @MainActor CoordinateSpace3DFloat {
     public typealias AncestorCoordinateSpace = Scene
     
     @available(macOS, unavailable, introduced: 26.0)
@@ -1465,7 +1494,9 @@ extension Entity : CoordinateSpace3DFloat {
     }
     
     @MainActor @preconcurrency public var ancestorSpace: Entity.AncestorCoordinateSpace? {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     @MainActor @preconcurrency public func transform(from targetCoordinateSpace: Entity) throws -> ProjectiveTransform3D {
@@ -1474,270 +1505,27 @@ extension Entity : CoordinateSpace3DFloat {
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension Entity.ComponentSet : Sendable {
-}
+extension Entity.ComponentSet : Sendable {}
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension Entity.ChildCollection : Sendable {
-}
+extension Entity.ChildCollection : Sendable {}
 
 @available(visionOS 2.0, *)
 @available(macOS, unavailable)
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-extension Entity.CoordinateSpaceReference : Equatable {
-}
+extension Entity.CoordinateSpaceReference : Equatable {}
 
 @available(visionOS 2.0, *)
 @available(macOS, unavailable)
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-extension Entity.CoordinateSpaceReference : Hashable {
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension AnimationPlaybackController : Sendable {
-}
+extension Entity.CoordinateSpaceReference : Hashable {}
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension Entity.ForwardDirection : Equatable {
-}
+extension Entity.ForwardDirection : Equatable {}
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension Entity.ForwardDirection : Hashable {
-}
-
-@available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
-extension EntityGeometricPins : Sendable {
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public struct __EntityRef : Equatable {
-    public func __as<T>(_ type: T.Type) -> T {
-        assertUnimplemented()
-    }
-    
-    public static func __fromCore(_ core: Any) -> __EntityRef {
-        assertUnimplemented()
-    }
-    
-    public static func == (a: __EntityRef, b: __EntityRef) -> Bool {
-        assertUnimplemented()
-    }
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-@preconcurrency @MainActor public protocol HasHierarchy : Entity {
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension HasHierarchy {
-    @MainActor @preconcurrency public var parent: Entity? {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func setParent(_ parent: Entity?, preservingWorldTransform: Bool = false) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var children: Entity.ChildCollection {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public func addChild(_ entity: Entity, preservingWorldTransform: Bool = false) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func removeChild(_ entity: Entity, preservingWorldTransform: Bool = false) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func removeFromParent(preservingWorldTransform: Bool = false) {
-        assertUnimplemented()
-    }
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-@preconcurrency @MainActor public protocol HasSynchronization : Entity {
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension HasSynchronization {
-    @MainActor @preconcurrency public var synchronization: SynchronizationComponent? {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public var isOwner: Bool {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func requestOwnership(timeout: TimeInterval = 15, _ callback: @escaping (_ failure: SynchronizationComponent.OwnershipTransferCompletionResult) -> Void) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func withUnsynchronized(_ changes: () -> Void) {
-        assertUnimplemented()
-    }
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-@preconcurrency @MainActor public protocol HasTransform : Entity {
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension HasTransform {
-    @MainActor @preconcurrency public var transform: Transform {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public var scale: SIMD3<Float> {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public func scale(relativeTo referenceEntity: Entity?) -> SIMD3<Float> {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func setScale(_ scale: SIMD3<Float>, relativeTo referenceEntity: Entity?) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var position: SIMD3<Float> {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public func position(relativeTo referenceEntity: Entity?) -> SIMD3<Float> {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func setPosition(_ position: SIMD3<Float>, relativeTo referenceEntity: Entity?) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public var orientation: simd_quatf {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public func orientation(relativeTo referenceEntity: Entity?) -> simd_quatf {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func setOrientation(_ orientation: simd_quatf, relativeTo referenceEntity: Entity?) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func transformMatrix(relativeTo referenceEntity: Entity?) -> float4x4 {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func setTransformMatrix(_ transform: float4x4, relativeTo referenceEntity: Entity?) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func convert(position: SIMD3<Float>, from referenceEntity: Entity?) -> SIMD3<Float> {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func convert(direction: SIMD3<Float>, from referenceEntity: Entity?) -> SIMD3<Float> {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func convert(normal: SIMD3<Float>, from referenceEntity: Entity?) -> SIMD3<Float> {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func convert(transform: Transform, from referenceEntity: Entity?) -> Transform {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func convert(position: SIMD3<Float>, to referenceEntity: Entity?) -> SIMD3<Float> {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func convert(direction: SIMD3<Float>, to referenceEntity: Entity?) -> SIMD3<Float> {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func convert(normal: SIMD3<Float>, to referenceEntity: Entity?) -> SIMD3<Float> {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func convert(transform: Transform, to referenceEntity: Entity?) -> Transform {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func look(at target: SIMD3<Float>, from position: SIMD3<Float>, upVector: SIMD3<Float> = SIMD3<Float>(0, 1, 0), relativeTo referenceEntity: Entity?) {
-        assertUnimplemented()
-    }
-    
-    @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, *)
-    @MainActor @preconcurrency public func look(at target: SIMD3<Float>, from position: SIMD3<Float>, upVector: SIMD3<Float> = SIMD3<Float>(0, 1, 0), relativeTo referenceEntity: Entity?, forward: Entity.ForwardDirection = .negativeZ) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func move(to transform: Transform, relativeTo referenceEntity: Entity?) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func move(to transform: float4x4, relativeTo referenceEntity: Entity?) {
-        assertUnimplemented()
-    }
-    
-    @discardableResult
-    @MainActor @preconcurrency public func move(to target: Transform, relativeTo referenceEntity: Entity?, duration: TimeInterval, timingFunction: AnimationTimingFunction = .default) -> AnimationPlaybackController {
-        assertUnimplemented()
-    }
-    
-    @discardableResult
-    @MainActor @preconcurrency public func move(to target: float4x4, relativeTo referenceEntity: Entity?, duration: TimeInterval, timingFunction: AnimationTimingFunction = .default) -> AnimationPlaybackController {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency public func visualBounds(recursive: Bool = true, relativeTo referenceEntity: Entity?, excludeInactive: Bool = false) -> BoundingBox {
-        assertUnimplemented()
-    }
-}
+extension Entity.ForwardDirection : Hashable {}

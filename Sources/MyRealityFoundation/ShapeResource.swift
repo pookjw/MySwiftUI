@@ -1,15 +1,12 @@
-public import Foundation
 public import simd
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class ShapeResource : Resource, Hashable, Sendable {
     @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, *)
     nonisolated public var bounds: BoundingBox {
-        assertUnimplemented()
-    }
-    
-    @objc deinit {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
     
     nonisolated public static func == (lhs: ShapeResource, rhs: ShapeResource) -> Bool {
@@ -21,7 +18,9 @@ public import simd
     }
     
     nonisolated public var hashValue: Int {
-        assertUnimplemented()
+        get {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -77,28 +76,6 @@ extension ShapeResource {
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-public enum ShapeResourceError : LocalizedError {
-    case staticMeshGenerationFailed
-    case convexPolyhedronGenerationFailed
-    
-    public var errorDescription: String? {
-        assertUnimplemented()
-    }
-    
-    public static func == (a: ShapeResourceError, b: ShapeResourceError) -> Bool {
-        assertUnimplemented()
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
-    }
-    
-    public var hashValue: Int {
-        assertUnimplemented()
-    }
-}
-
-@available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension ShapeResource {
     nonisolated public static func generateStaticMesh(positions: [SIMD3<Float>], faceIndices: [UInt16]) async throws -> ShapeResource {
         assertUnimplemented()
@@ -110,12 +87,4 @@ extension ShapeResource {
     @MainActor @preconcurrency public static func generateStaticMesh(from mesh: MeshResource) async throws -> ShapeResource {
         assertUnimplemented()
     }
-}
-
-@available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension ShapeResourceError : Equatable {
-}
-
-@available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension ShapeResourceError : Hashable {
 }

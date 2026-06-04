@@ -18,9 +18,6 @@ public struct SwitchToggleStyle : ToggleStyle {
     @MainActor @preconcurrency public func makeBody(configuration: SwitchToggleStyle.Configuration) -> some View {
         assertUnimplemented()
     }
-    
-//    @available(iOS 13.0, tvOS 18.0, watchOS 6.0, macOS 10.15, *)
-//    public typealias Body = @_opaqueReturnTypeOf("$s7SwiftUI17SwitchToggleStyleV8makeBody13configurationQrAA0dE13ConfigurationV_tF", 0) __
 }
 
 @available(*, unavailable)
