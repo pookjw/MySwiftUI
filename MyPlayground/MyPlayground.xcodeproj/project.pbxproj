@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		4F0236FE2F80B0DD00DCCB88 /* UIKitServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0236FD2F80B0DD00DCCB88 /* UIKitServices.xcframework */; };
 		4F02377A2F80F54E00DCCB88 /* UserActivity.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0237792F80F54E00DCCB88 /* UserActivity.xcframework */; };
-		4F0BB5972FD104C500C93069 /* MyRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4F0BB5962FD104C500C93069 /* MyRealityKit */; };
-		4F0BB5992FD104C500C93069 /* MySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4F0BB5982FD104C500C93069 /* MySwiftUI */; };
-		4F0BB59B2FD104C500C93069 /* Sample in Frameworks */ = {isa = PBXBuildFile; productRef = 4F0BB59A2FD104C500C93069 /* Sample */; };
 		4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F12FB2A2E812BD600E88FF1 /* CoreRE.xcframework */; };
 		4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147C8A2E8D567A00FAE51D /* DesignLibrary.xcframework */; };
 		4F147CCE2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F147CCD2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework */; };
@@ -39,6 +36,9 @@
 		4FBA78202F6506950038D3FD /* _CoreServicesPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBA781F2F6506940038D3FD /* _CoreServicesPrivate.xcframework */; };
 		4FBA78242F65115D0038D3FD /* BoardServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBA78232F65115D0038D3FD /* BoardServices.xcframework */; };
 		4FD4A1F62E910B4300C9B545 /* TCC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD4A1F52E910B4300C9B545 /* TCC.xcframework */; };
+		4FE7D8432FD1FAF600630A98 /* MyRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4FE7D8422FD1FAF600630A98 /* MyRealityKit */; };
+		4FE7D8452FD1FAF600630A98 /* MySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4FE7D8442FD1FAF600630A98 /* MySwiftUI */; };
+		4FE7D8472FD1FAF600630A98 /* Sample in Frameworks */ = {isa = PBXBuildFile; productRef = 4FE7D8462FD1FAF600630A98 /* Sample */; };
 		4FE8D0FD2E56AA8200352E55 /* _QuartzCorePrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8D0FC2E56AA8200352E55 /* _QuartzCorePrivate.xcframework */; };
 /* End PBXBuildFile section */
 
@@ -102,9 +102,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FE7D8472FD1FAF600630A98 /* Sample in Frameworks */,
 				4F93472B2EE1C1670030B3A1 /* _ObservationPrivate.xcframework in Frameworks */,
 				4F1A0D862F61A2DB0090D7B0 /* _Elegibility.xcframework in Frameworks */,
-				4F0BB59B2FD104C500C93069 /* Sample in Frameworks */,
 				4F8F09292E51DA7A00EFC573 /* _SwiftUIPrivate.xcframework in Frameworks */,
 				4F39783B2EC09D1A005E1901 /* UIAccessibility.xcframework in Frameworks */,
 				4FBA78202F6506950038D3FD /* _CoreServicesPrivate.xcframework in Frameworks */,
@@ -112,9 +112,9 @@
 				4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */,
 				4F147CCE2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework in Frameworks */,
 				4F8923472ED5B5FF00FFF23C /* FrontBoardServices.xcframework in Frameworks */,
-				4F0BB5972FD104C500C93069 /* MyRealityKit in Frameworks */,
 				4F8F092B2E51DA7A00EFC573 /* MRUIKit.xcframework in Frameworks */,
 				4F8F09252E51DA7A00EFC573 /* _UIKitPrivate.xcframework in Frameworks */,
+				4FE7D8452FD1FAF600630A98 /* MySwiftUI in Frameworks */,
 				4F5D94E52EF8F105001F2E67 /* _AccessibilityPrivate.xcframework in Frameworks */,
 				4FBA781C2F64FD210038D3FD /* SoftLinking.xcframework in Frameworks */,
 				4F2688792EB771FE000AFBDD /* RenderBox.xcframework in Frameworks */,
@@ -123,13 +123,13 @@
 				4F5382232ED832050013392A /* UIIntelligenceSupport.xcframework in Frameworks */,
 				4FBA77B42F63B5D50038D3FD /* UIFoundation.xcframework in Frameworks */,
 				4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */,
+				4FE7D8432FD1FAF600630A98 /* MyRealityKit in Frameworks */,
 				4FE8D0FD2E56AA8200352E55 /* _QuartzCorePrivate.xcframework in Frameworks */,
 				4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */,
 				4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */,
 				4F0236FE2F80B0DD00DCCB88 /* UIKitServices.xcframework in Frameworks */,
 				4FD4A1F62E910B4300C9B545 /* TCC.xcframework in Frameworks */,
 				4F8F091E2E51DA7A00EFC573 /* AttributeGraph.xcframework in Frameworks */,
-				4F0BB5992FD104C500C93069 /* MySwiftUI in Frameworks */,
 				4F4808572E4CB056004F6972 /* AttributeGraph.xcframework in Frameworks */,
 				4F02377A2F80F54E00DCCB88 /* UserActivity.xcframework in Frameworks */,
 				4FBA78242F65115D0038D3FD /* BoardServices.xcframework in Frameworks */,
@@ -215,9 +215,9 @@
 			);
 			name = MyPlayground;
 			packageProductDependencies = (
-				4F0BB5962FD104C500C93069 /* MyRealityKit */,
-				4F0BB5982FD104C500C93069 /* MySwiftUI */,
-				4F0BB59A2FD104C500C93069 /* Sample */,
+				4FE7D8422FD1FAF600630A98 /* MyRealityKit */,
+				4FE7D8442FD1FAF600630A98 /* MySwiftUI */,
+				4FE7D8462FD1FAF600630A98 /* Sample */,
 			);
 			productName = MyPlayground;
 			productReference = 4F48083C2E4CAFAF004F6972 /* MyPlayground.app */;
@@ -560,7 +560,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				OTHER_SWIFT_FLAGS = "-DUSE_MYSWIFTUI_APP";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -enable-cross-import-overlays -Xfrontend -Rcross-import -Xfrontend -swift-module-cross-import -Xfrontend MyRealityKit -Xfrontend ../Sources/MyRealityKit/MySwiftUI.swiftoverlay -DUSE_MYSWIFTUI_APP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pookjw.MyPlayground;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -715,16 +715,19 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4F0BB5962FD104C500C93069 /* MyRealityKit */ = {
+		4FE7D8422FD1FAF600630A98 /* MyRealityKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 4F0BB5952FD104C500C93069 /* XCLocalSwiftPackageReference "../../MySwiftUI" */;
 			productName = MyRealityKit;
 		};
-		4F0BB5982FD104C500C93069 /* MySwiftUI */ = {
+		4FE7D8442FD1FAF600630A98 /* MySwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 4F0BB5952FD104C500C93069 /* XCLocalSwiftPackageReference "../../MySwiftUI" */;
 			productName = MySwiftUI;
 		};
-		4F0BB59A2FD104C500C93069 /* Sample */ = {
+		4FE7D8462FD1FAF600630A98 /* Sample */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 4F0BB5952FD104C500C93069 /* XCLocalSwiftPackageReference "../../MySwiftUI" */;
 			productName = Sample;
 		};
 /* End XCSwiftPackageProductDependency section */

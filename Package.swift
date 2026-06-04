@@ -116,6 +116,9 @@ let package = Package(
             name: "MyRealityFoundation",
             dependencies: [
                 .byName(name: "_MySwiftUIUtils")
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("ModuleInterfaceExportAs")
             ]
         ),
         .target(
@@ -123,6 +126,9 @@ let package = Package(
             dependencies: [
                 .byName(name: "MyRealityFoundation"),
                 .byName(name: "_MySwiftUIUtils")
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("ModuleInterfaceExportAs")
             ]
         ),
         .target(
@@ -133,7 +139,7 @@ let package = Package(
                 .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-enable-cross-import-overlays"])
+                .enableExperimentalFeature("ModuleInterfaceExportAs")
             ]
         ),
         .target(
