@@ -1,4 +1,5 @@
 @_transparent
+@usableFromInline
 package func assertUnimplemented(message: String? = nil, file: StaticString = #file, line: UInt = #line) -> Never {
     if let message {
         fatalError("TODO - \(message)", file: file, line: line)
@@ -12,6 +13,7 @@ package func _v_assertUnimplemented(message: String? = nil, file: StaticString =
     assertUnimplemented(message: message, file: file, line: line)
 }
 
-public func _assertUnimplemented(message: String? = nil) -> Never {
+@inlinable
+package func _assertUnimplemented(message: String? = nil) -> Never {
     assertUnimplemented()
 }

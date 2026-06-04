@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.subviewsView
+        let item = DemoViewController.Item.sphereView
         pushToItem(item)
         
 //        Task {
@@ -132,6 +132,7 @@ extension DemoViewController {
         case openURLActionView
         case openWindowActionView
         case openImmsersiveWindowView
+        case sphereView
         
         var title: String {
             switch self {
@@ -227,6 +228,8 @@ extension DemoViewController {
                 return _typeName(OpenWindowActionViewController.self, qualified: false)
             case .openImmsersiveWindowView:
                 return _typeName(OpenImmsersiveWindowViewController.self, qualified: false)
+            case .sphereView:
+                return _typeName(SphereViewController.self, qualified: false)
             }
         }
         
@@ -324,6 +327,8 @@ extension DemoViewController {
                 return OpenWindowActionViewController()
             case .openImmsersiveWindowView:
                 return OpenImmsersiveWindowViewController()
+            case .sphereView:
+                return SphereViewController()
             }
         }
     }

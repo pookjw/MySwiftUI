@@ -19,6 +19,14 @@ let package = Package(
             ]
         ),
         .library(
+            name: "MyRealityKit",
+            targets: [
+                "MyRealityFoundation",
+                "MyRealityKit",
+                "_MyRealityKit_MySwiftUI"
+            ]
+        ),
+        .library(
             name: "Sample",
             targets: [
                 "Sample"
@@ -61,7 +69,8 @@ let package = Package(
                 .byName(name: "BoardServices"),
                 .byName(name: "_SwiftPrivate"),
                 .byName(name: "UIKitServices"),
-                .byName(name: "UserActivity")
+                .byName(name: "UserActivity"),
+                .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -84,7 +93,8 @@ let package = Package(
                 .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"])),
                 .byName(name: "_ObservationPrivate"),
                 .byName(name: "UIFoundation"),
-                .byName(name: "_SwiftPrivate")
+                .byName(name: "_SwiftPrivate"),
+                .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -103,6 +113,27 @@ let package = Package(
             ]
         ),
         .target(
+            name: "MyRealityFoundation",
+            dependencies: [
+                .byName(name: "_MySwiftUIUtils")
+            ]
+        ),
+        .target(
+            name: "MyRealityKit",
+            dependencies: [
+                .byName(name: "MyRealityFoundation"),
+                .byName(name: "_MySwiftUIUtils")
+            ]
+        ),
+        .target(
+            name: "_MyRealityKit_MySwiftUI",
+            dependencies: [
+                .byName(name: "MyRealityKit"),
+                .byName(name: "MySwiftUI"),
+                .byName(name: "_MySwiftUIUtils")
+            ]
+        ),
+        .target(
             name: "_MySwiftUIShims",
             dependencies: [
                 .byName(name: "_UIKitPrivate"),
@@ -117,6 +148,9 @@ let package = Package(
             ]
         ),
         .target(
+            name: "_MySwiftUIUtils"
+        ),
+        .target(
             name: "_UIKitShims",
             dependencies: [
                 .byName(name: "_UIKitPrivate"),
@@ -125,7 +159,8 @@ let package = Package(
                 .byName(name: "_DesignLibraryShims"),
                 .byName(name: "_SwiftUICorePrivate", condition: .when(traits: ["SwiftUICompataibility"])),
                 .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"])),
-                .byName(name: "_SwiftPrivate")
+                .byName(name: "_SwiftPrivate"),
+                .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
