@@ -1,6 +1,6 @@
 // 1C3B77B617AD058A6802F719E38F5D79
 internal import CoreGraphics
-private import AttributeGraph
+internal import AttributeGraph
 
 protocol UnaryLayout : Animatable, MultiViewModifier, PrimitiveViewModifier {
     associatedtype PlacementContextType
@@ -196,8 +196,13 @@ fileprivate struct UnaryChildGeometry<T> : Rule, AsyncAttribute, CustomStringCon
 }
 
 struct LayoutPositionQuery : Rule, AsyncAttribute {
-    @Attribute fileprivate private(set) var parentPosition: CGPoint
-    @Attribute fileprivate private(set) var localPosition: CGPoint
+    @Attribute private var parentPosition: CGPoint
+    @Attribute private var localPosition: CGPoint
+    
+    init(parentPosition: Attribute<CGPoint>, localPosition: Attribute<CGPoint>) {
+        self._parentPosition = parentPosition
+        self._localPosition = localPosition
+    }
     
     var value: CGPoint {
         return parentPosition + localPosition
