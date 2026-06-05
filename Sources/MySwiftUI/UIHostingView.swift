@@ -5,7 +5,11 @@ public import UIKit
 public import _UIKitPrivate
 private import notify
 internal import MRUIKit
+#if UseMyRealityKit
+private import MyRealityKit
+#else
 private import RealityKit
+#endif
 private import TCC
 private import ARKit
 private import AttributeGraph
@@ -596,7 +600,7 @@ open class _UIHostingView<Content : View>: UIView {
         let serverHitTestedResponder = context.serverHitTestedResponder
         let serverHitTestedEntityID = context.serverHitTestedEntityID
         
-        var leafHitTestedEntity: RealityKit::Entity?
+        var leafHitTestedEntity: RE_Entity?
         if
             serverHitTestedEntityID != 0,
             let serverHitTestedResponder,
@@ -606,7 +610,7 @@ open class _UIHostingView<Content : View>: UIView {
             let serverHitTestedEntity = scene.findEntity(id: serverHitTestedEntityID)
         {
             // <+576>
-            let entityRef = __EntityRef.__fromCore(serverHitTestedEntity)
+            let entityRef = RE___EntityRef.__fromCore(serverHitTestedEntity)
             leafHitTestedEntity = .__fromCore(entityRef)
             // <+820>
         }

@@ -1,5 +1,9 @@
 @_spi(Internal) internal import MySwiftUICore
+#if UseMyRealityKit
+private import MyRealityKit
+#else
 private import RealityKit
+#endif
 private import _UIKitPrivate
 private import MRUIKit
 private import CoreRE
@@ -7,7 +11,7 @@ private import CoreRE
 @MainActor
 class UIKitFeedbackGeneratorBridge<Content : View> {
     weak var host: _UIHostingView<Content>? = nil
-    private var hostingEntity: RealityKit::Entity? = nil
+    private var hostingEntity: RE_Entity? = nil
     private var activeEntities: [ViewIdentity: AudioFeedbackEntity] = [:]
     private var processedFeedbackSeeds: Set<FeedbackRequest.Seed> = []
     private var feedbackSeed = VersionSeed.empty

@@ -1,5 +1,9 @@
 internal import MySwiftUICore
+#if UseMyRealityKit
+internal import MyRealityKit
+#else
 internal import RealityKit
+#endif
 
 extension EnvironmentValues {
     var realityScene: WeakBox<RealityKit::Scene> {

@@ -1,13 +1,17 @@
 // 9E986B268CC0E734F6C68F73260B58EE
 internal import MySwiftUICore
 internal import UIKit
+#if UseMyRealityKit
+internal import MyRealityKit
+#else
 internal import RealityKit
+#endif
 private import Spatial
 private import _QuartzCorePrivate
 private import _UIKitPrivate
 
 extension ServerHitTest {
-    @MainActor init(uiResponder: UIResponder?, leafHitTestedEntity: RealityKit::Entity?) {
+    @MainActor init(uiResponder: UIResponder?, leafHitTestedEntity: RE_Entity?) {
         /*
          uiResponder -> x0 -> x21
          leafHitTestedEntity -> x1 -> x19

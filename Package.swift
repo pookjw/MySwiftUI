@@ -35,6 +35,7 @@ let package = Package(
     ],
     traits: [
         .trait(name: "SwiftUICompataibility"),
+        .trait(name: "UseMyRealityKit"),
         .`default`(enabledTraits: ["SwiftUICompataibility"])
     ],
     dependencies: [
@@ -70,7 +71,8 @@ let package = Package(
                 .byName(name: "_SwiftPrivate"),
                 .byName(name: "UIKitServices"),
                 .byName(name: "UserActivity"),
-                .byName(name: "_MySwiftUIUtils")
+                .byName(name: "_MySwiftUIUtils"),
+                .byName(name: "MyRealityKit", condition: .when(traits: ["UseMyRealityKit"]))
             ],
             swiftSettings: [
                 .strictMemorySafety(),
