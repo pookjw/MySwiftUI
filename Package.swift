@@ -118,7 +118,7 @@ let package = Package(
                 .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
-                .enableExperimentalFeature("ModuleInterfaceExportAs")
+//                .enableExperimentalFeature("ModuleInterfaceExportAs")
             ]
         ),
         .target(
@@ -128,7 +128,7 @@ let package = Package(
                 .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
-                .enableExperimentalFeature("ModuleInterfaceExportAs")
+//                .enableExperimentalFeature("ModuleInterfaceExportAs")
             ]
         ),
         .target(
@@ -139,7 +139,19 @@ let package = Package(
                 .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
-                .enableExperimentalFeature("ModuleInterfaceExportAs")
+                /*
+                 "-Xfrontend", "-enable-cross-import-overlays",
+                 "-Xfrontend", "-Rcross-import",
+                 "-Xfrontend", "-swift-module-cross-import",
+                 "-Xfrontend", "MyRealityKit",
+                 "-Xfrontend", "../Sources/MyRealityKit/MySwiftUI.swiftoverlay"
+                 
+                 ---
+                 version: 1
+                 modules:
+                   - name: _MyRealityKit_MySwiftUI
+                 */
+//                .enableExperimentalFeature("ModuleInterfaceExportAs")
             ]
         ),
         .target(

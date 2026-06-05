@@ -7,6 +7,7 @@
 
 import MyRealityKit
 import MySwiftUI
+import _MyRealityKit_MySwiftUI
 import UIKit
 
 fileprivate struct MyView : View {
