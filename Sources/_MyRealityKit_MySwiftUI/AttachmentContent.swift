@@ -19,3 +19,11 @@ extension PrimitiveAttachmentContent {
         preconditionFailure()
     }
 }
+
+protocol AttachmentProtocol : Identifiable {
+    associatedtype ViewType
+    
+    var view: Self.ViewType {
+        get
+    }
+}

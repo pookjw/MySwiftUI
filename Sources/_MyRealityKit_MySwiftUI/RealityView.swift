@@ -5,10 +5,10 @@ public import MySwiftUICore
 @MainActor @preconcurrency public struct RealityView<Content> : View where Content : View {
     public typealias DefaultPlaceholder = RealityViewDefaultPlaceholder
     
+    private var _body: Content
+    
     @MainActor @preconcurrency public var body: some View {
-        get {
-            assertUnimplemented()
-        }
+        _body
     }
 }
 

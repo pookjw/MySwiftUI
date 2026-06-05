@@ -7,10 +7,23 @@ public import MySwiftUICore
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 @MainActor @preconcurrency public struct RealityViewAttachmentBuilderContent<Attachment, Content> : View where Attachment : AttachmentContent, Content : View {
+    private var attachmentList: _AttachmentListOutputs
+    private var content: (AttachmentStateController<Self.BuilderAttachment>) -> Content
+    @State private var attachmentState: AttachmentStateController<Self.BuilderAttachment>
+    @Environment(\.self) var environment: EnvironmentValues
+    
     @MainActor @preconcurrency public var body: some View {
-        get {
-            assertUnimplemented()
-        }
+        let _: Void = self.attachmentState.updateAttachmentList(
+            unsafeBitCast(self.makeAttachmentList(), to: [Self.BuilderAttachment].self),
+            with: self.environment
+        )
+        
+        self.content(self.attachmentState)
+    }
+    
+    func makeAttachmentList() -> [some AttachmentProtocol] {
+        assertUnimplemented()
+        return Array<Self.BuilderAttachment>()
     }
 }
 
@@ -21,3 +34,10 @@ public import MySwiftUICore
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension RealityViewAttachmentBuilderContent : Sendable {}
+
+extension RealityViewAttachmentBuilderContent {
+    struct BuilderAttachment : AttachmentProtocol {
+        private(set) var id: AnyHashable
+        private(set) var view: AnyView
+    }
+}

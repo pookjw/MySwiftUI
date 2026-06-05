@@ -11,6 +11,7 @@ import _SwiftUIPrivate
 import _UIKitPrivate
 import Foundation
 import SwiftUI
+import RealityKit
 
 // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
 // expr -l swift -O -- type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self))
@@ -208,6 +209,7 @@ func printOffsets() {
     printFields(SectionAccumulator.Item.self, isClassType: false)
     printFields(HeterogeneousViewIDsAccumulator.self, isClassType: false)
     printFields(_ViewList_Section.self, isClassType: false)
+    printFields(RealityViewAttachmentBuilderContent<EmptyAttachmentContent, RealityViewContent.Body<EmptyView>>.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
