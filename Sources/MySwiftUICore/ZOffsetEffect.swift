@@ -34,7 +34,7 @@ public struct _ZOffsetEffect {
     }
     
     nonisolated public init(offset: CGFloat) {
-        assertUnimplemented()
+        self.offset = offset
     }
 }
 
@@ -57,4 +57,4 @@ extension _ZOffsetEffect : ViewModifier {}
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-extension _ZOffsetEffect : GeometryEffect3D {}
+extension _ZOffsetEffect : _GeometryEffect3D {}
