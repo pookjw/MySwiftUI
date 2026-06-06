@@ -1,8 +1,8 @@
 //
-//  GeometryReaderViewController.swift
+//  ZIndexViewController.swift
 //  NativePlayground
 //
-//  Created by Jinwoo Kim on 6/5/26.
+//  Created by Jinwoo Kim on 6/6/26.
 //
 
 import SwiftUI
@@ -10,13 +10,13 @@ import UIKit
 
 fileprivate struct MyView : View {
     var body: some View {
-        GeometryReader { proxy in
-            MyLabel(text: "\(proxy.size)")
-        }
+        Color.white
+            .frame(width: 100, height: 100)
+            .offset(z: 100)
     }
 }
 
-final class GeometryReaderViewController : UIViewController {
+final class ZIndexViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
