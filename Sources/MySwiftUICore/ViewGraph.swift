@@ -18,7 +18,7 @@ package final class ViewGraph : GraphHost {
     private let rootView: AnyAttribute
     @Attribute private(set) var rootTransform: ViewTransform
     @Attribute var transform: ViewTransform
-    @Attribute private var zeroPoint: CGPoint
+    @Attribute private(set) var zeroPoint: CGPoint
     @Attribute var proposedSize: ViewSize
     @Attribute var safeAreaInsets: _SafeAreaInsetsModifier
     @Attribute private var containerShape: UnevenRoundedRectangle

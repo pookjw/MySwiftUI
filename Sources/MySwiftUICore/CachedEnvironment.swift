@@ -138,6 +138,15 @@ extension CachedEnvironment {
     }
 }
 
+extension _GraphInputs {
+    var pixelLength: Attribute<CGFloat> {
+        return self.cachedEnvironment.value.attribute(id: .pixelLength) { environmentValues in
+            // $s7SwiftUI17CachedEnvironmentV17withAnimatedFrame33_B62A4B04AF9F1325924A089D63071424LL3for4bodyxAA11_ViewInputsV_xAC0fG0VzXEtlF12CoreGraphics7CGFloatVAA0D6ValuesVcfU_
+            return environmentValues.pixelLength
+        }
+    }
+}
+
 extension CachedEnvironment {
     struct AnimatedFrame {
         fileprivate let position: Attribute<CGPoint>
