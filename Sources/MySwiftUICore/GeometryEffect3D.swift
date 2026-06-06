@@ -137,7 +137,7 @@ extension _GeometryEffect3D {
     }
 }
 
-fileprivate struct GeometryEffect3DTransform<T> : Rule, AsyncAttribute {
+fileprivate struct GeometryEffect3DTransform<T : _GeometryEffect3D> : Rule, AsyncAttribute {
     @Attribute private(set) var effect: T
     @Attribute private(set) var size: ViewSize
     @Attribute private(set) var position: CGPoint
@@ -147,6 +147,18 @@ fileprivate struct GeometryEffect3DTransform<T> : Rule, AsyncAttribute {
     @Attribute private(set) var pixelLength: CGFloat
     
     var value: ViewTransform {
+        var transform = self.transform
+        
+        do {
+            var position = self.position
+            position -= transform.positionAdjustment
+            position -= transform.pendingTranslation
+            transform.pendingTranslation = CGSize(position)
+            transform.positionAdjustment = .zero
+        }
+        
+        // <+228>
+        _ = T._affectsLayout
         assertUnimplemented()
     }
  }

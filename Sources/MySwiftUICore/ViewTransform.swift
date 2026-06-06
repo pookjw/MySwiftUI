@@ -5,11 +5,11 @@ internal import AttributeGraph
 package import Spatial
 
 package struct ViewTransform {
-    private var head: AnyElement?
-    private var spaces: CoordinateSpaceNode?
-    var positionAdjustment: CGSize
-    var pendingTranslation: CGSize
-    package var depth: ViewDepth
+    private var head: AnyElement? // 0x0
+    private var spaces: CoordinateSpaceNode? // 0x8
+    var positionAdjustment: CGSize // 0x10
+    var pendingTranslation: CGSize // 0x20
+    package var depth: ViewDepth // 0x30
     
     package init() {
         self.head = nil
