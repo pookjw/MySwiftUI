@@ -147,6 +147,18 @@ public struct _ViewInputs {
     package func mapEnvironment<T>(id: CachedEnvironment.ID, _ block: @escaping (EnvironmentValues) -> T) -> Attribute<T> {
         return base.mapEnvironment(id: id, block)
     }
+    
+    var stackOrientation: Axis? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
 }
 
 extension _ViewInputs {

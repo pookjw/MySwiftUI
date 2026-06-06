@@ -31,7 +31,18 @@ public struct GeometryProxy {
     }
     
     public var size: CGSize {
-        assertUnimplemented()
+        Update.begin()
+        
+        let result: CGSize
+        if let size = self._size.attribute {
+            let context = AnyRuleContext(attribute: owner.attribute ?? .empty)
+            result = context[size].value
+        } else {
+            result = .zero
+        }
+        
+        Update.end()
+        return result
     }
     
     public subscript<T>(anchor: Anchor<T>) -> T {

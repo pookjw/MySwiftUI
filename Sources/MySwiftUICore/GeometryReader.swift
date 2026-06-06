@@ -69,7 +69,7 @@ internal import CoreGraphics
         
         // <+764>
         // inlined
-        let outputs = _ViewOutputs.makePlatformRootGeometryTransform(inputs: copy_2) { inputs in
+        var outputs = _ViewOutputs.makePlatformRootGeometryTransform(inputs: copy_2) { inputs in
             // $s7SwiftUI14GeometryReaderV9_makeView4view6inputsAA01_F7OutputsVAA11_GraphValueVyACyxGG_AA01_F6InputsVtFZAhNXEfU_
             let view = _GraphValue(childAttribute)
             return _VariadicView.Tree<_LayoutRoot<GeometryReaderLayout>, Content>.makeDebuggableView(view: view, inputs: inputs)
@@ -83,6 +83,7 @@ internal import CoreGraphics
         }
         
         // <+1284>
+        outputs.layoutComputer = nil
         return outputs
     }
 }
@@ -95,33 +96,99 @@ extension GeometryReader : UnaryView, PrimitiveView where Content : View {}
 
 extension GeometryReader {
     fileprivate struct Child : StatefulRule, AsyncAttribute {
-        @Attribute private(set) var view: GeometryReader<Content>
-        @Attribute private(set) var size: ViewSize
-        @Attribute private(set) var position: CGPoint
-        @Attribute private(set) var transform: ViewTransform
-        @Attribute private(set) var environment: EnvironmentValues
-        @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
-        private(set) var seed: UInt32
+        @Attribute private(set) var view: GeometryReader<Content> // 0x0
+        @Attribute private(set) var size: ViewSize // 0x4
+        @Attribute private(set) var position: CGPoint // 0x8
+        @Attribute private(set) var transform: ViewTransform // 0xc
+        @Attribute private(set) var environment: EnvironmentValues // 0x10
+        @OptionalAttribute var safeAreaInsets: SafeAreaInsets? // 0x14
+        private(set) var seed: UInt32 // 0x18
         
         typealias Value = _VariadicView.Tree<_LayoutRoot<GeometryReaderLayout>, Content>
         
-        func updateValue() {
-            assertUnimplemented()
+        mutating func updateValue() {
+            // self -> x20 -> x26
+            // <+768>
+            // w22
+            let newSeed = self.seed &+ 1
+            self.seed = newSeed
+            
+            let proxy = GeometryProxy(
+                owner: .current!,
+                size: self.$size,
+                environment: self.$environment,
+                transform: self.$transform,
+                position: self.$position,
+                safeAreaInsets: self.$safeAreaInsets,
+                seed: newSeed
+            )
+            
+            // inlined
+            let content = ObservationCenter.current._withObservation(attribute: Attribute<Self.Value>(identifier: .current!)) { 
+                // $s7SwiftUI14GeometryReaderV5Child33_7D6D22DF7076CCC1FC5284D8E2D1B049LLV11updateValueyyFxyXEfU_TA
+                return self.$view.syncMainIfReferences { reader in
+                    // $s7SwiftUI14GeometryReaderV5Child33_7D6D22DF7076CCC1FC5284D8E2D1B049LLV11updateValueyyFxyXEfU_xACyxGXEfU_TA
+                    return reader.content(proxy)
+                }
+            }
+            
+            let value = _VariadicView.Tree<_LayoutRoot<GeometryReaderLayout>, Content>(
+                root: _LayoutRoot<GeometryReaderLayout>(GeometryReaderLayout()),
+                content: content
+            )
+            
+            self.value = value
         }
     }
 }
 
 fileprivate struct GeometryReaderLayout : Layout, Animatable {
     static var layoutProperties: LayoutProperties {
-        assertUnimplemented()
+        var properties = LayoutProperties()
+        
+        if isLinkedOnOrAfter(.v2) {
+            properties.stackOrientation = nil
+            properties.isDefaultEmptyLayout = false
+            properties.isIdentityUnaryLayout = false
+        } else {
+            properties.stackOrientation = nil
+            properties.isDefaultEmptyLayout = true
+            properties.isIdentityUnaryLayout = true
+        }
+        
+        return properties
     }
     
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        assertUnimplemented()
+        return proposal.replacingUnspecifiedDimensions(by: .zero)
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        assertUnimplemented()
+        /*
+         subviews -> x0/x1
+         */
+        for subview in subviews {
+            let guideComputer = LayoutComputer.defaultValue
+            let size = guideComputer.sizeThatFits(
+                _ProposedSize(
+                    width: bounds.size.width,
+                    height: bounds.size.height
+                )
+            )
+            
+            subview.place(
+                at: bounds.origin,
+                anchor: .topLeading,
+                dimensions: ViewDimensions(
+                    guideComputer: .defaultValue,
+                    size: size,
+                    proposal: _ProposedSize(
+                        width: bounds.size.width,
+                        height: bounds.size.height
+                    )
+                )
+            )
+        }
     }
     
     func spacing(subviews: Subviews, cache: inout ()) -> ViewSpacing {
@@ -129,16 +196,6 @@ fileprivate struct GeometryReaderLayout : Layout, Animatable {
     }
     
     static func _makeLayoutView(root: _GraphValue<GeometryReaderLayout>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        /*
-         root -> x0 0> x19
-         inputs -> x1 -> x24
-         body -> x2/x3 -> x25/x26
-         */
-        // sp + 0xd0
-        let copy_1 = inputs
-        // x29 - 0xc0
-        let copy_2 = inputs
-        
-        assertUnimplemented()
+        return Self.makeLayoutView(root: root, inputs: inputs, body: body)
     }
 }
