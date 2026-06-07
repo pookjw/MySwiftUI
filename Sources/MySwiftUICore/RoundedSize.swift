@@ -7,6 +7,8 @@ struct RoundedSize : Rule, AsyncAttribute {
     @Attribute private(set) var pixelLength: CGFloat
     
     var value: ViewSize {
-        assertUnimplemented()
+        var frame = ViewFrame(origin: self.position, size: self.size)
+        frame.round(toMultipleOf: self.pixelLength)
+        return frame.size
     }
 }

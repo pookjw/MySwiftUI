@@ -244,7 +244,7 @@ fileprivate struct GeometryEffect3DTransform<T : _GeometryEffect3D> : Rule, Asyn
     }
  }
 
-fileprivate struct GeometryEffect3DDisplayList<T> : Rule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, AsyncAttribute, CustomStringConvertible {
     let identity: _DisplayList_Identity
     @Attribute private(set) var effect: T
     @Attribute private(set) var position: CGPoint
