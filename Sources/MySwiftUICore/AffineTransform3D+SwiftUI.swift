@@ -9,7 +9,11 @@ extension AffineTransform3D {
          return pointer -> x8 -> x19
          */
         // sp + 0x20
-        let size = __SPSize3DMake(Double(srt.s.x), Double(srt.s.y), Double(srt.s.z))
+        let size = Size3D(
+            width: Double(srt.s.x),
+            height: Double(srt.s.y),
+            depth: Double(srt.s.z)
+        )
         // sp
         let roation = Rotation3D(
             simd_quatd(
@@ -19,7 +23,7 @@ extension AffineTransform3D {
         )
         
         // sp - 0x40
-        let point = __SPPoint3DMakeWithVector(
+        let point = Point3D(
             simd_double3(Double(srt.t.x), Double(srt.t.x), Double(srt.t.z))
         )
         

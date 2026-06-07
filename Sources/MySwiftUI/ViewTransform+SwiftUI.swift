@@ -54,7 +54,7 @@ extension ViewTransform {
                 d2 = 0
                 
                 // x19 + 0x380
-                let size2 = __SPSize3DMake(d0, d1, d2)
+                let size2 = Size3D(width: d0, height: d1, depth: d2)
                 // x19 + 0x100
                 let translation = AffineTransform3D(translation: Vector3D(vector: size2.vector))
                 // sp + 0x180
@@ -90,7 +90,7 @@ extension ViewTransform {
                     d0 = d8
                     d1 = d9
                     // x19 + 0x380
-                    let size = __SPSize3DMake(d0, d1, d2)
+                    let size = Size3D(width: d0, height: d1, depth: d2)
                     d8 = size.width
                     d9 = size.height
                     d10 = size.depth
@@ -119,7 +119,7 @@ extension ViewTransform {
                         }
                         
                         // x19 + 0x380
-                        let size = __SPSize3DMake(d0, d1, d2)
+                        let size = Size3D(width: d0, height: d1, depth: d2)
                         d8 = size.width
                         d9 = size.height
                         d10 = size.depth
@@ -167,7 +167,7 @@ extension ViewTransform {
                 d1 = d9
                 d2 = d10
                 // x19 + 0x380
-                let size_3 = __SPSize3DMake(d0, d1, d2)
+                let size_3 = Size3D(width: d0, height: d1, depth: d2)
                 // x19 + 0x18
                 let size_4 = size_3
                 let w27 = windowScene.session.role == .windowApplicationVolumetric

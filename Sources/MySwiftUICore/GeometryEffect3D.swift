@@ -2,6 +2,7 @@
 internal import Spatial
 private import AttributeGraph
 private import CoreGraphics
+private import os.log
 
 protocol _GeometryEffect3D : ViewModifier, VisualEffect {
     func effectValue(size: Size3D) -> AffineTransform3D
@@ -147,19 +148,99 @@ fileprivate struct GeometryEffect3DTransform<T : _GeometryEffect3D> : Rule, Asyn
     @Attribute private(set) var pixelLength: CGFloat
     
     var value: ViewTransform {
-        var transform = self.transform
+        var result = self.transform
         
         do {
             var position = self.position
-            position -= transform.positionAdjustment
-            position -= transform.pendingTranslation
-            transform.pendingTranslation = CGSize(position)
-            transform.positionAdjustment = .zero
+            position = position - result.positionAdjustment
+            position = -(position - result.pendingTranslation)
+            result.pendingTranslation = CGSize(position)
+            result.positionAdjustment = .zero
         }
         
         // <+228>
-        _ = T._affectsLayout
-        assertUnimplemented()
+        if T._affectsLayout {
+            // <+252>
+            let size = self.size
+            let depth = self.depth
+            
+            let size3D = Size3D(
+                width: size.width,
+                height: size.height,
+                depth: depth.value
+            )
+            
+            // x19 + 0x190
+            let effectValue = self.effect.effectValue(size: size3D)
+            // x19 + 0x110
+            let transform: AffineTransform3D
+            
+            switch self.layoutDirection {
+            case .leftToRight:
+                // <+680>
+                transform = effectValue
+                // <+712>
+            case .rightToLeft:
+                // <+440>
+                // x19 + 0x90
+                let point3D = Point3D(x: 1, y: 1, z: 1)
+                // x29 - 0x100
+                let transform_2 = AffineTransform3D(scale: Size3D(point3D))
+                // x19
+                var copy_1 = transform_2
+                copy_1.matrix.columns.0.x = -1
+                copy_1.matrix.columns.3.x = size3D[.horizontal]
+                
+                // x29 - 0x100
+                let copy_2 = copy_1
+                // x19 + 0x90
+                let transform_3 = copy_2.concatenating(effectValue)
+                
+                // <+612>
+                // x29 - 0x100
+                let copy_3 = copy_1
+                // x19 + 0x110
+                transform = transform_3.concatenating(copy_3)
+                // <+712>
+            }
+            
+            // <+712>
+            // x29 - 0x100
+            let copy_4 = transform
+            
+            if transform.isInvertible {
+                // <+756>
+                result.appendAffineTransform3D(copy_4, inverse: true)
+                // <+880>
+            } else {
+                // <+776>
+                Log.externalWarning("ignoring singular matrix: \(copy_4.description)")
+                // <+880>
+            }
+        } else {
+            // <+880>
+        }
+        
+        // <+880>
+        var d0 = self.pixelLength
+        var d1 = result.depth.value
+        let d2: CGFloat = 1
+        
+        if d0 != d2 {
+            // <+928>
+            d1 = d1 / d0
+            d1 = round(d1)
+            d0 = d0 * d1
+            // <+940>
+        } else {
+            // <+920>
+            d0 = round(d1)
+            // <+940>
+        }
+        
+        // <+940>
+        result.depth.value = d0
+        return result
     }
  }
 

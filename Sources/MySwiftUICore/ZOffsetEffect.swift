@@ -21,15 +21,23 @@ public struct _ZOffsetEffect {
     public var offset: CGFloat
     
     public func effectValue(size: Size3D) -> AffineTransform3D {
-        assertUnimplemented()
+        var d0 = size.width
+        let d1 = size.height
+        let d2 = size.depth
+        d0 = self.offset
+        // sp
+        let vector = Vector3D(x: d0, y: d1, z: d2)
+        // sp + 0x20
+        let translation = AffineTransform3D(translation: vector)
+        return translation
     }
     
     public var animatableData: Double {
         get {
-            assertUnimplemented()
+            return self.offset
         }
         set {
-            assertUnimplemented()
+            self.offset = newValue
         }
     }
     

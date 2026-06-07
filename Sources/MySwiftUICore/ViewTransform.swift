@@ -1,5 +1,4 @@
 // 1CC2FE016A82CF91549A64E942CE8ED4
-
 package import CoreGraphics
 internal import AttributeGraph
 package import Spatial
@@ -19,7 +18,43 @@ package struct ViewTransform {
         self.depth = ViewDepth(0, proposal: 0)
     }
     
-    package mutating func appendAffineTransform3D(_: AffineTransform3D, inverse: Bool) {
+    package mutating func appendAffineTransform3D(_ transform: AffineTransform3D, inverse: Bool) {
+        /*
+         self -> x20
+         transform -> x0 -> x19
+         inverse -> w1 -> w21
+         */
+        if transform.isTranslation {
+            // <+44>
+            // sp + 0x20
+            let translation = transform.translation
+            // sp
+            let size3D = Size3D(
+                Vector3D(
+                    x: translation.x,
+                    y: translation.y,
+                    z: translation.z
+                )
+            )
+            
+            let x10 = size3D.width
+            let x8 = size3D.height
+            let x9 = size3D.depth
+            
+            if inverse {
+                // <+80>
+                let d0 = x9
+                let d1 = x10
+                assertUnimplemented()
+            }
+            
+            // <+136>
+            assertUnimplemented()
+        } else {
+            // <+176>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     
