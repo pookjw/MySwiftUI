@@ -245,21 +245,22 @@ fileprivate struct GeometryEffect3DTransform<T : _GeometryEffect3D> : Rule, Asyn
  }
 
 fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, AsyncAttribute, CustomStringConvertible {
-    let identity: _DisplayList_Identity
-    @Attribute private(set) var effect: T
-    @Attribute private(set) var position: CGPoint
-    @Attribute private(set) var size: ViewSize
-    @Attribute private(set) var depth: ViewDepth
-    @Attribute private(set) var layoutDirection: LayoutDirection
-    @Attribute private(set) var containerPosition: CGPoint
-    private(set) var _content: OptionalAttribute<DisplayList>
-    let options: DisplayList.Options
+    let identity: _DisplayList_Identity // 0x0
+    @Attribute private(set) var effect: T // 0x4
+    @Attribute private(set) var position: CGPoint // 0x8
+    @Attribute private(set) var size: ViewSize // 0xc
+    @Attribute private(set) var depth: ViewDepth // 0x10
+    @Attribute private(set) var layoutDirection: LayoutDirection // 0x14
+    @Attribute private(set) var containerPosition: CGPoint // 0x18
+    private(set) var _content: OptionalAttribute<DisplayList> // 0x20
+    let options: DisplayList.Options // 0x2c
     
     var content: DisplayList? {
         assertUnimplemented()
     }
     
     var value: DisplayList {
+        // self -> x20
         assertUnimplemented()
     }
     
