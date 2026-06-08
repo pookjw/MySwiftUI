@@ -314,11 +314,51 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
         // <+812>
         // x19 + 0x1e0
         let copy_4 = copy_1
+        // x19 + 0x1e0
+        let displayListTransform: DisplayList.Transform
+        
         if copy_4.isInvertible {
             // <+868>
             if copy_2.isValid {
                 // <+880>
-                assertUnimplemented()
+                var d8: CGFloat
+                var d10: CGFloat
+                do {
+                    let position = self.position
+                    d8 = position.x
+                    d10 = position.y
+                }
+                
+                let d0: CGFloat
+                let d1: CGFloat
+                do {
+                    let containerPosition = self.containerPosition
+                    d0 = containerPosition.x
+                    d1 = containerPosition.y
+                }
+                
+                let d9 = d8 - d0
+                d8 = d10 - d1
+                
+                if copy_2.is3DTransform {
+                    // <+956>
+                    // x19 + 0x1e0
+                    let copy_5 = copy_1
+                    displayListTransform = DisplayList.Transform.affine3D(copy_5)
+                    // <+1444>
+                } else {
+                    // <+1248>
+                    // x19 + 0x1e0
+                    let copy_5 = copy_1
+                    
+                    if copy_5.isTranslation {
+                        // <+1304>
+                        assertUnimplemented()
+                    } else {
+                        // <+1396>
+                        assertUnimplemented()
+                    }
+                }
             } else {
                 // <+1124>
                 assertUnimplemented()
@@ -328,6 +368,7 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
             assertUnimplemented()
         }
         
+        // <+1444>
         assertUnimplemented()
     }
     

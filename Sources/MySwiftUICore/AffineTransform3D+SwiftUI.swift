@@ -39,4 +39,8 @@ extension AffineTransform3D {
     var isValid: Bool {
         assertUnimplemented()
     }
+    
+    var is3DTransform: Bool {
+        assertUnimplemented()
+    }
 }

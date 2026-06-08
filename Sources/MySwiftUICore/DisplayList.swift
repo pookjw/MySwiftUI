@@ -3,7 +3,7 @@ package import CoreGraphics
 internal import _MySwiftUIShims
 private import _QuartzCorePrivate
 internal import QuartzCore
-internal import Spatial
+package import Spatial
 internal import AttributeGraph
 internal import RenderBox
 
@@ -959,7 +959,7 @@ extension DisplayList {
     package enum Transform {
         case affine(CGAffineTransform)
         case projection(ProjectionTransform)
-//        case affine(AffineTransform3D)
+        case affine3D(AffineTransform3D)
 //        case rotation(RotationEffect.Data)
 //        case rotation3D(_Rotation3DEffect.Data)
     }
