@@ -261,6 +261,73 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
     
     var value: DisplayList {
         // self -> x20
+        let size = self.size
+        let depth = self.depth
+        let size3D = Size3D(
+            width: size.width,
+            height: size.height,
+            depth: depth.value
+        )
+        // x19 + 0x2f0
+        let transform = self.effect.effectValue(size: size3D)
+        // x19 + 0xc0
+        var copy_1 = transform
+        
+        // <+332>
+        switch self.layoutDirection {
+        case .leftToRight:
+            // <+664>
+            break
+        case .rightToLeft:
+            // <+360>
+            // x29 - 0x100
+            let point = Point3D(x: 1, y: 1, z: 1)
+            // x19 + 0x1e0
+            let transform = AffineTransform3D(scale: Size3D(point))
+            // x19 + 0x10
+            var copy_2 = transform
+            copy_2.matrix.columns.0.x = -1
+            copy_2.matrix.columns.3.x = size3D[.horizontal]
+            // x19 + 0x1e0
+            let copy_3 = copy_2
+            // x19 + 0x270
+            let transform_2 = copy_3.concatenating(copy_1)
+            // x19 + 0x1e0
+            let copy_4 = copy_2
+            // x29 - 0x100
+            let transform_3 = transform_2.concatenating(copy_4)
+            copy_1 = transform_3
+            // <+680>
+        }
+        
+        // <+680>
+        // <+700>
+        // x29 - 0x100
+        let copy_2 = copy_1
+        // x19 + 0x1e0
+        let copy_3 = self
+        // x19 + 0x270 -> x23/w28/w27
+        guard let content = copy_3.content else {
+            return DisplayList()
+        }
+        
+        // <+812>
+        // x19 + 0x1e0
+        let copy_4 = copy_1
+        if copy_4.isInvertible {
+            // <+868>
+            if copy_2.isValid {
+                // <+880>
+                assertUnimplemented()
+            } else {
+                // <+1124>
+                assertUnimplemented()
+            }
+        } else {
+            // <+1064>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     

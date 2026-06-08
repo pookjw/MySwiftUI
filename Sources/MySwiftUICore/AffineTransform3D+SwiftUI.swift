@@ -35,4 +35,8 @@ extension AffineTransform3D {
         let transform = AffineTransform3D(scale: copy_1, rotation: copy_2, translation: Vector3D(point))
         self = transform
     }
+    
+    var isValid: Bool {
+        assertUnimplemented()
+    }
 }
