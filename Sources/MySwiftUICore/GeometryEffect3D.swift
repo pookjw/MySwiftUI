@@ -263,11 +263,16 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
         // self -> x20
         let size = self.size
         let depth = self.depth
+        
         let size3D = Size3D(
             width: size.width,
             height: size.height,
             depth: depth.value
         )
+        var d8 = size3D.width
+        var d9 = size3D.height
+        var d10 = size3D.depth
+        
         // x19 + 0x2f0
         let transform = self.effect.effectValue(size: size3D)
         // x19 + 0xc0
@@ -304,30 +309,21 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
         // <+700>
         // x29 - 0x100
         let copy_2 = copy_1
-        // x19 + 0x1e0
-        let copy_3 = self
         // x19 + 0x270 -> x23/w28/w27
-        guard let content = copy_3.content else {
+        guard let content else {
             return DisplayList()
         }
         
         // <+812>
         // x19 + 0x1e0
         let copy_4 = copy_1
-        // x19 + 0x1e0
-        let displayListTransform: DisplayList.Transform
+        let effect: DisplayList.Effect
         
         if copy_4.isInvertible {
             // <+868>
             if copy_2.isValid {
                 // <+880>
-                var d8: CGFloat
-                var d10: CGFloat
-                do {
-                    let position = self.position
-                    d8 = position.x
-                    d10 = position.y
-                }
+                d8 = self.position.x
                 
                 let d0: CGFloat
                 let d1: CGFloat
@@ -337,15 +333,15 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
                     d1 = containerPosition.y
                 }
                 
-                let d9 = d8 - d0
+                d9 = d8 - d0
                 d8 = d10 - d1
                 
                 if copy_2.is3DTransform {
                     // <+956>
                     // x19 + 0x1e0
                     let copy_5 = copy_1
-                    displayListTransform = DisplayList.Transform.affine3D(copy_5)
-                    // <+1444>
+                    effect = .transform(.affine3D(copy_5))
+                    // <+1520>
                 } else {
                     // <+1248>
                     // x19 + 0x1e0
@@ -353,22 +349,54 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
                     
                     if copy_5.isTranslation {
                         // <+1304>
-                        assertUnimplemented()
+                        // x19 + 0x1e0
+                        let copy_6 = copy_1
+                        // x19 + 0x270
+                        let translation = copy_6.translation
+                        // x19 + 0x1e0
+                        let size = Size3D(vector: translation.vector)
+                        d9 = d9 + size.width
+                        d8 = d8 + size.height
+                        effect = .identity
+                        // <+1520>
                     } else {
                         // <+1396>
-                        assertUnimplemented()
+                        // x19 + 0x1e0
+                        let copy_5 = copy_1
+                        effect = .transform(.affine3D(copy_5))
+                        // <+1520>
                     }
+                    
+                    // <+1520>
                 }
             } else {
                 // <+1124>
-                assertUnimplemented()
+                Log.externalWarning("ignoring invalid matrix: \(copy_2.description)")
+                // <+1940>
+                return DisplayList()
             }
         } else {
             // <+1064>
-            assertUnimplemented()
+            Log.externalWarning("ignoring singular matrix: \(copy_2.description)")
+            // <+1940>
+            return DisplayList()
         }
         
-        // <+1444>
+        // <+1520>
+        // x19 + 0x270
+        var item = DisplayList.Item(
+            .effect(effect, content),
+            frame: CGRect(
+                origin: CGPoint(x: d9, y: d8),
+                size: self.size.value
+            ),
+            identity: self.identity,
+            version: DisplayList.Version()
+        )
+        
+        item.canonicalize(options: self.options)
+        
+        // <+1616>
         assertUnimplemented()
     }
     
