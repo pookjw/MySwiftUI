@@ -214,9 +214,6 @@ func printOffsets() {
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
-    
-    print(_ZOffsetEffect.init(offset: 100).effectValue(size: Size3D(width: 100, height: 100, depth: 0)).translation)
-    fatalError()
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {
