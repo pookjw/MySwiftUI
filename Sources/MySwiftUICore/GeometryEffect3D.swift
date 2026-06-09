@@ -256,7 +256,7 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
     let options: DisplayList.Options // 0x2c
     
     var content: DisplayList? {
-        assertUnimplemented()
+        return self._content.wrappedValue
     }
     
     var value: DisplayList {
@@ -310,7 +310,9 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
         // x29 - 0x100
         let copy_2 = copy_1
         // x19 + 0x270 -> x23/w28/w27
-        guard let content else {
+        let content = self.content ?? DisplayList()
+        
+        guard !content.isEmpty else {
             return DisplayList()
         }
         
@@ -363,7 +365,7 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
                         // <+1396>
                         // x19 + 0x1e0
                         let copy_5 = copy_1
-                        effect = .transform(.affine3D(copy_5))
+                        effect = .transform(.affine(CGAffineTransform(copy_5)))
                         // <+1520>
                     }
                     
@@ -373,13 +375,13 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
                 // <+1124>
                 Log.externalWarning("ignoring invalid matrix: \(copy_2.description)")
                 // <+1940>
-                return DisplayList()
+                return content
             }
         } else {
             // <+1064>
             Log.externalWarning("ignoring singular matrix: \(copy_2.description)")
             // <+1940>
-            return DisplayList()
+            return content
         }
         
         // <+1520>
@@ -391,13 +393,13 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
                 size: self.size.value
             ),
             identity: self.identity,
-            version: DisplayList.Version()
+            version: DisplayList.Version(forUpdate: ())
         )
         
         item.canonicalize(options: self.options)
         
         // <+1616>
-        assertUnimplemented()
+        return DisplayList(item)
     }
     
     var description: String {

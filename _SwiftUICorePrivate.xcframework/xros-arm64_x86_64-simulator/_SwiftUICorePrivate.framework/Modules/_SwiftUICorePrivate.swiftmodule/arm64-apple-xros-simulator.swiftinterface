@@ -55,9 +55,9 @@ extension _SwiftUICorePrivate.GraphHost {
   public struct Data {
     public init()
 
-    @AttributeGraph.Attribute public var phase: SwiftUICore._GraphInputs.Phase {
-      get set
-    }
+    //ributeGraph.Attribute public var phase: SwiftUICore._GraphInputs.Phase {
+    //  get set
+    //}
   }
 }
 
@@ -360,12 +360,12 @@ public struct PreferenceKeys : Swift.Equatable, Swift.RandomAccessCollection {
   public func union(_ keys: _SwiftUICorePrivate.PreferenceKeys) -> _SwiftUICorePrivate.PreferenceKeys
 }
 
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public enum Update {
-  public struct Action {
-  }
-}
+//@available(visionOS 26.0, *)
+//@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+//public enum Update {
+//  public struct Action {
+//  }
+//}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)

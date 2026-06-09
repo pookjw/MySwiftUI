@@ -166,7 +166,6 @@ func printOffsets() {
     printFields(ViewGraphHost.self, isClassType: true)
     printFields(ViewGraph.self, isClassType: true)
     printFields(ServerHitTest.self, isClassType: false)
-    printFields(Update.Action.self, isClassType: false)
     printFields(CustomEventTrace.Recorder.self, isClassType: true)
     printFields(ColorView.self, isClassType: false)
     printFields(DisplayList.Item.self, isClassType: false)
