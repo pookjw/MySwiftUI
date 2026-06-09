@@ -1,5 +1,5 @@
 //
-//  ZIndexViewController.swift
+//  ZOffsetViewController.swift
 //  MyPlayground
 //
 //  Created by Jinwoo Kim on 6/6/26.
@@ -16,7 +16,7 @@ fileprivate struct MyView : View {
     }
 }
 
-final class ZIndexViewController : UIViewController {
+final class ZOffsetViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

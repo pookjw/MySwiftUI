@@ -232,7 +232,7 @@ extension ViewSize3D : Equatable {
 extension ViewSize3D : Animatable {
     var animatableData: Vector3D {
         get {
-            return Vector3D(x: value.width, y: value.height, z: value.depth)
+            return Vector3D(value)
         }
         set {
             let newValue = Size3D(width: newValue.x, height: newValue.y, depth: newValue.z)

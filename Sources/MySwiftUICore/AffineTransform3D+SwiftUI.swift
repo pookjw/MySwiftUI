@@ -23,7 +23,7 @@ extension AffineTransform3D {
             )
         )
         
-        // sp - 0x40
+        // sp + 0x40
         let point = Point3D(
             simd_double3(Double(srt.t.x), Double(srt.t.x), Double(srt.t.z))
         )
@@ -38,11 +38,47 @@ extension AffineTransform3D {
     }
     
     var isValid: Bool {
-        assertUnimplemented()
+        return self.columns.0.x.isFinite &&
+        self.columns.0.y.isFinite &&
+        self.columns.0.z.isFinite &&
+        self.columns.1.x.isFinite &&
+        self.columns.1.y.isFinite &&
+        self.columns.1.z.isFinite &&
+        self.columns.2.x.isFinite &&
+        self.columns.2.y.isFinite &&
+        self.columns.2.z.isFinite &&
+        self.columns.3.x.isFinite &&
+        self.columns.3.y.isFinite &&
+        self.columns.3.z.isFinite
     }
     
     var is3DTransform: Bool {
-        assertUnimplemented()
+        // x29 - 0x20
+        let translation = self.translation
+        
+        if translation.z != 0 {
+            return true
+        }
+        
+        // sp + 0x20
+        if let rotation {
+            if (rotation.axis.x != 0) || (rotation.axis.y != 0) {
+                // <+100>
+                if abs(rotation.angle.degrees.remainder(dividingBy: 360)) < Double(bitPattern: 0x3e50000000000000) {
+                    // <+148>
+                } else {
+                    // <+180>
+                    return true
+                }
+            } else {
+                // <+148>
+            }
+        } else {
+            // <+148>
+        }
+        
+        // <+148>
+        return self.scale.depth != 1
     }
     
     package init(_ transform3D: CATransform3D) {
