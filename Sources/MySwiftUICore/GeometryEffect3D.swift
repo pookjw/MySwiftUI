@@ -17,7 +17,7 @@ extension _GeometryEffect3D {
     }
     
     nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return Self.makeMultiViewList(modifier: modifier, inputs: inputs, body: body)
     }
     
     nonisolated public static func _makeVisualEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
@@ -325,7 +325,11 @@ fileprivate struct GeometryEffect3DDisplayList<T : _GeometryEffect3D> : Rule, As
             // <+868>
             if copy_2.isValid {
                 // <+880>
-                d8 = self.position.x
+                do {
+                    let position = self.position
+                    d8 = position.x
+                    d10 = position.y
+                }
                 
                 let d0: CGFloat
                 let d1: CGFloat

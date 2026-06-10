@@ -2283,7 +2283,10 @@ fileprivate struct ModifiedElements : _ViewList_Elements {
     }
     
     init<T : ViewModifier>(base: _ViewList_Elements, modifier: Attribute<T>, baseInputs: _GraphInputs) {
-        assertUnimplemented()
+        self.base = base
+        self.modifier = AnyWeakAttribute(modifier.identifier)
+        self.modifierType = T.self
+        self.baseInputs = baseInputs
     }
     
     var count: Int {

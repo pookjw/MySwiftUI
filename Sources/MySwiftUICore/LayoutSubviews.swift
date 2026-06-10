@@ -349,11 +349,42 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
         return placementData.geometry
     }
     
-    func explicitAlignment(_: AlignmentKey, at: ViewSize) -> CGFloat? {
-        assertUnimplemented()
+    mutating func explicitAlignment(_ key: AlignmentKey, at size: ViewSize) -> CGFloat? {
+        /*
+         key -> x0 -> x21
+         size -> x1
+         L -> x2 -> x19
+         */
+        if !(self.cachedAlignmentSize == size) {
+            self.cachedAlignmentSize = size
+            self.cachedAlignmentGeometry = []
+            self.cachedAlignment = Cache3()
+        }
+        
+        // <+148>
+        // x24
+        let _key = ObjectIdentifier(key.id)
+        if let cached = self.cachedAlignment.find(_key) {
+            return cached
+        }
+        
+        let result: CGFloat? = withUnsafeMutablePointer(to: &self) { pointer in
+            // $s7SwiftUI16ViewLayoutEngineV17explicitAlignment_2at12CoreGraphics7CGFloatVSgAA0G3KeyV_AA0C4SizeVtFAISpyACyxGGXEfU_TA
+            /*
+             pointer -> x0
+             size -> d0/d1/d2/d3
+             key -> x1
+             _key -> x2/x3
+             L -> x4/x5
+             */
+            assertUnimplemented()
+        }
+        
+        self.cachedAlignment.put(_key, value: result)
+        return result
     }
     
-    func defaultAlignment(_: AlignmentKey, size: ViewSize, data: UnsafeMutableRawPointer) {
+    func defaultAlignment(_ key: AlignmentKey, size: ViewSize, data: UnsafeMutableRawPointer) {
         assertUnimplemented()
     }
     
