@@ -388,6 +388,15 @@ extension DisplayList.ViewUpdater.Model {
         case .effect(let effect, _):
             // <+708>
             switch effect {
+            case .transform(let transform):
+                switch transform {
+                case .affine(_):
+                    assertUnimplemented()
+                case .projection(_):
+                    assertUnimplemented()
+                case .affine3D(_):
+                    return
+                }
             case .identity:
                 return
             default:

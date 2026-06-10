@@ -813,7 +813,7 @@ protocol ViewRendererBase : AnyObject {
 @safe nonisolated(unsafe) fileprivate var lastIdentity: UInt32 = 0
 
 package struct _DisplayList_Identity : Hashable, Codable, CustomStringConvertible, Sendable {
-    var value: UInt32
+    package var value: UInt32
     
     init() {
         let identity = (lastIdentity &+ 1)

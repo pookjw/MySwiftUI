@@ -26,6 +26,12 @@ typedef unsigned long long REEntityID NS_SWIFT_NAME(Entity.ID);
 struct REScene {};
 typedef const struct REScene * RESceneRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Scene);
 
+struct REComponentType {};
+typedef const struct REComponentType * REComponentTypeRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ComponentType);
+
+struct REComponent {};
+typedef const struct REComponent * REComponentRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component);
+
 NS_ASSUME_NONNULL_END
 
 #endif

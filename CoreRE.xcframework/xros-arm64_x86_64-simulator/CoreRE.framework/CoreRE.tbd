@@ -6,7 +6,11 @@ swift-abi-version: 7
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
     symbols:              [ _REEntityGetSceneNullable,
-    _RESceneFindEntity ]
+    _RESceneFindEntity,
+    _RESelectableSceneContentIdentifierGetComponentType,
+    _REEntityGetOrAddComponentByClass,
+    _RESelectableSceneContentIdentifierComponentSetIdentifier,
+    _RESelectableSceneContentIdentifierComponentGetIdentifier ]
     objc-classes:         [ BSAnimationSettings ]
     objc-ivars:           [  ]
 ...

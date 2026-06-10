@@ -175,7 +175,6 @@ extension DisplayList.ViewUpdater {
             }
             
             // <+1272>
-            // fin
         }
         
         func updateDrawingView(
@@ -1177,8 +1176,23 @@ extension DisplayList.ViewUpdater {
             assertUnimplemented()
         }
         
-        func setZPosition(_: CGFloat, of: AnyObject, identity: _DisplayList_Identity) {
-            assertUnimplemented()
+        func setZPosition(_ zPosition: CGFloat, of object: AnyObject, identity: _DisplayList_Identity) {
+            /*
+             object -> x0 -> x19
+             identity -> x1 -> w22
+             */
+            let parameters = CoreGlue2.SetSeparatedStateParameters(
+                state: (zPosition == 0) ? .none : .separated,
+                view: object,
+                identity: identity,
+                reason: .affine3D,
+                platform: DisplayList.ViewUpdater.Platform(definition: self.definition)
+            )
+            
+            CoreGlue2.shared.setSeparatedState(parameters)
+            
+            let layer = CoreViewLayer(self.system, object)
+            layer.zPosition = zPosition
         }
         
         func updateSeparatedOptions(fromKeys: [any AnySeparatedOptionKey.Type], to: SeparatedOptionValues, for: AnyObject) {
@@ -1638,10 +1652,10 @@ extension DisplayList.ViewUpdater.ViewCache {
 }
 
 extension DisplayList.ViewUpdater.Platform {
-    package enum SeparationReason {
-        case separatedState
-        case linkEnabled
-        case affine3D
-        case separatedMask
+    package enum SeparationReason : String, Hashable {
+        case separatedState = "SwiftUI.SeparatedState"
+        case linkEnabled = "SwiftUI.LinkEnabled"
+        case affine3D = "SwiftUI.Transform3D"
+        case separatedMask = "SwiftUI.SeparatedMask"
     }
 }

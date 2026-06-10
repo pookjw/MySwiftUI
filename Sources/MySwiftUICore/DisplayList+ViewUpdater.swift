@@ -313,7 +313,7 @@ extension DisplayList {
                 if !requirements.contains(.unknown0) {
                     // <+944>
                     if case .effect(_, let displayList) = copy_2.value {
-                        self.update(container: &container, from: displayList, parentState: parentState)
+                        self.update(container: &container, from: displayList, parentState: &parentStatePointee2)
                     }
                     
                     // <+1840>
