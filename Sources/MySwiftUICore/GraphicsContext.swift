@@ -176,4 +176,17 @@ public import CoreGraphics
             }
         }
     }
+    
+    @frozen public struct ClipOptions : OptionSet {
+        public let rawValue: UInt32
+        
+        @inlinable public init(rawValue: UInt32) { self.rawValue = rawValue }
+        
+        @inlinable public static var inverse: GraphicsContext.ClipOptions {
+            get { Self(rawValue: 1 << 0) }
+        }
+    }
 }
+
+extension GraphicsContext.ClipOptions : Sendable {}
+extension GraphicsContext.ClipOptions : BitwiseCopyable {}

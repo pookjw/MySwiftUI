@@ -59,14 +59,11 @@ extension DisplayList.ViewUpdater {
             platform: DisplayList.ViewUpdater.Platform,
             parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Time {
-            // x29 = sp + 0x1d0
             /*
-             item = x24
-             platform = x27
-             parentState = sp + 0x210
+             item -> x0 -> x25
+             platform -> x1 -> x28
+             parentState -> x2 -> x26
              */
-            
-            // <+132>
             switch item.value {
             case .content(let content):
                 // <+436>
@@ -80,20 +77,12 @@ extension DisplayList.ViewUpdater {
                 // <+132>
                 switch effect {
                 case .backdropGroup(_):
+                    // <+436>
                     assertUnimplemented()
                 case .archive(_):
+                    // <+132>
                     assertUnimplemented()
-                case .clip:
-                    assertUnimplemented()
-                case .platformGroup(_):
-                    assertUnimplemented()
-                case .opacity(_):
-                    assertUnimplemented()
-                case .platform:
-                    assertUnimplemented()
-                case .transform(_):
-                    assertUnimplemented()
-                case .identity:
+                default:
                     return .infinity
                 }
             default:

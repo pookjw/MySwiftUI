@@ -16,7 +16,7 @@ fileprivate struct MyView : View {
     }
 }
 
-final class ZIndexViewController : UIViewController {
+final class ZOffsetViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -1,21 +1,21 @@
 // CA3A65C294B7CEBAC4D3EE28C528C257
-
 internal import CoreGraphics
+internal import Spatial
 
 extension DisplayList.ViewUpdater {
     enum Model {
         struct PlatformState {
-            private(set) var zPosition: CGFloat = 0 // 0x0
+            fileprivate(set) var zPosition: CGFloat = 0 // 0x0
             private(set) var renderingTechnique: RenderingTechnique = .texture // 0x8
             private(set) var separatedState: SeparatedState = .none // 0x9
             private(set) var separatedOptions = SeparatedOptionValues() // 0x10
             private(set) var remoteEffects = RemoteEffectsPlatformState() // 0x18
             private(set) var hitTestsAsOpaque: Bool = false // 0x30
-            private(set) var serverResponderID: UInt32? = nil // 0x38
+            private(set) var serverResponderID: UInt32? = nil // 0x34
             fileprivate private(set) var separatedModifiers: [any _DisplayList_SeparatedItemModifier] = [] // 0x40
             private(set) var hierarchicalProjectiveShadow: ProjectiveShadow? = nil // 0x48
-            private(set) var currentProjectiveShadow: ProjectiveShadow? = nil // 0x50
-            var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions() // 0x58
+            private(set) var currentProjectiveShadow: ProjectiveShadow? = nil // 0x49
+            var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions() // 0x50
             
             init() {}
         }
@@ -103,7 +103,7 @@ extension DisplayList.ViewUpdater.Model.State {
 
 extension DisplayList.ViewUpdater.Model.PlatformState {
     struct Versions {
-        private(set) var zPosition = DisplayList.Version() // 0x0
+        fileprivate(set) var zPosition = DisplayList.Version() // 0x0
         private(set) var separatedState = DisplayList.Version() // 0x8
         private(set) var separatedOptions = DisplayList.Version() // 0x10
         var remoteEffects = DisplayList.Version() // 0x18
@@ -316,6 +316,24 @@ extension DisplayList.ViewUpdater.Model {
         case .effect(let effect, let displayList):
             // <+2712>
             switch effect {
+            case .transform(let transform):
+                switch transform {
+                case .affine(_):
+                    assertUnimplemented()
+                case .projection(_):
+                    assertUnimplemented()
+                case .affine3D(let transform):
+                    let results = DisplayList
+                        .ViewUpdater
+                        .Model
+                        .mergeAffineTransform3D(
+                            transform,
+                            item: item,
+                            into: &state
+                        )
+                    
+                    requirements.formUnion(results)
+                }
             case .identity:
                 break
             default:
@@ -379,5 +397,54 @@ extension DisplayList.ViewUpdater.Model {
             // <+1176>
             return
         }
+    }
+    
+    fileprivate static func mergeAffineTransform3D(
+        _ transform: AffineTransform3D,
+        item: DisplayList.Item,
+        into state: inout DisplayList.ViewUpdater.Model.State
+    ) -> DisplayList.ViewUpdater.Model.MergedViewRequirements {
+        /*
+         transform -> x0 -> x20
+         state -> x2 -> x19
+         */
+        state.platformState.versions.zPosition = max(state.platformState.versions.zPosition, item.version)
+        
+        if transform.isIdentity {
+            return []
+        }
+        
+        // <+92>
+        if
+            case .effect(_, let displayList) = item.value,
+            displayList.items.count > 1
+        {
+            return .unknown0
+        }
+        
+        // sp + 0x60
+        var copy_1 = transform
+        let d8 = transform.translation.z
+        
+        // x29 - 0x80
+        var transform = transform.translation
+        transform.z = 0
+        copy_1.translation = transform
+        
+        if copy_1.is3DTransform {
+            return .unknown0
+        }
+        
+        // <+228>
+        // x29 - 0x80
+        let copy_2 = CGAffineTransform(copy_1)
+        // sp + 0x30
+        let copy_3 = state.transform
+        // sp
+        let concat = copy_2.concatenating(copy_3)
+        state.transform = concat
+        state.platformState.zPosition += d8
+        
+        return []
     }
 }

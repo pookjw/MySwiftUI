@@ -160,21 +160,16 @@ extension DisplayList {
             case .effect(let effect, let displayList):
                 // <+132>
                 switch effect {
-                case .backdropGroup(_):
+                case .properties(_):
+                    // <+436>
                     assertUnimplemented()
-                case .archive(_):
+                case .mask(_, _):
+                    // <+384>
                     assertUnimplemented()
-                case .clip:
+                case .interpolatorLayer(_, _):
+                    // <+176>
                     assertUnimplemented()
-                case .platformGroup(_):
-                    assertUnimplemented()
-                case .opacity(_):
-                    assertUnimplemented()
-                case .platform:
-                    assertUnimplemented()
-                case .transform(_):
-                    assertUnimplemented()
-                case .identity:
+                default:
                     return displayList.properties
                 }
             case .states(_):
@@ -292,6 +287,27 @@ extension DisplayList {
                             // <+4720>
                         } else {
                             // <+4720>
+                        }
+                        
+                        return
+                    case .transform(let transform):
+                        // <+1408>
+                        switch transform {
+                        case .affine(let transform):
+                            // <+2468>
+                            assertUnimplemented()
+                        case .affine3D(let transform):
+                            // <+1524>
+                            if transform.isIdentity {
+                                // <+1640>
+                                self.canonicalizeIdentityEffect(list: displsyList)
+                                // <+4648>
+                            } else {
+                                // <+4648>
+                            }
+                        default:
+                            // <+4648>
+                            break
                         }
                         
                         return
@@ -619,12 +635,12 @@ extension DisplayList {
     package enum Effect {
         case backdropGroup(DisplayList.BackdropGroup)
         case archive(DisplayList.ArchiveIDs?)
-//        case properties(DisplayList.Properties)
+        case properties(DisplayList.Properties)
         case platformGroup(any PlatformGroupFactory)
         case opacity(Float)
 //        case blendMode(GraphicsBlendMode)
         case clip/*(Path, FillStyle, GraphicsContext.ClipOptions)*/
-//        case mask(DisplayList, GraphicsContext.ClipOptions)
+        case mask(DisplayList, GraphicsContext.ClipOptions)
 //        case sdfShape(SDFShape)
         case transform(DisplayList.Transform)
 //        case filter(GraphicsFilter)
@@ -635,7 +651,7 @@ extension DisplayList {
         case platform/*(DisplayList.PlatformEffect)*/
 //        case state(StrongHash)
 //        case interpolatorRoot(DisplayList.InterpolatorGroup, contentOrigin: CGPoint, SwiftOffset: CGSize)
-//        case interpolatorLayer(DisplayList.InterpolatorGroup, serial: UInt32)
+        case interpolatorLayer(DisplayList.InterpolatorGroup, serial: UInt32)
 //        case interpolatorAnimation(DisplayList.InterpolatorAnimation)
         case identity
 //        case geometryGroup
@@ -645,9 +661,13 @@ extension DisplayList {
             switch self {
             case .backdropGroup(_):
                 return []
+            case .properties(_):
+                assertUnimplemented()
             case .archive(_):
                 return []
             case .clip:
+                assertUnimplemented()
+            case .mask(_, _):
                 assertUnimplemented()
             case .platformGroup(let factory):
                 return factory.features
@@ -656,6 +676,8 @@ extension DisplayList {
             case .transform(_):
                 return []
             case .platform:
+                assertUnimplemented()
+            case .interpolatorLayer(_, _):
                 assertUnimplemented()
             case .identity:
                 return []
@@ -962,5 +984,9 @@ extension DisplayList {
         case affine3D(AffineTransform3D)
 //        case rotation(RotationEffect.Data)
 //        case rotation3D(_Rotation3DEffect.Data)
+    }
+    
+    package final class InterpolatorGroup {
+        // TODO
     }
 }
