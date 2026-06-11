@@ -1,6 +1,6 @@
 internal import CoreGraphics
 
-struct DepthPlacement {
+package struct DepthPlacement {
     var proposal: CGFloat?
     var anchor: UnitDepth
     var offset: CGFloat

@@ -1,7 +1,68 @@
 // 638EB2064D6D992C8A48A894A8F58A16
 private import CoreGraphics
-private import Spatial
+public import Spatial
 private import AttributeGraph
+
+@available(visionOS 1.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+@frozen public struct GeometryReader3D<Content> : View where Content : View {
+    public var content: (GeometryProxy3D) -> Content
+    
+    @inlinable public init(@ViewBuilder content: @escaping (GeometryProxy3D) -> Content) {
+        self.content = content
+    }
+    
+    nonisolated public static func _makeView(view: _GraphValue<GeometryReader3D<Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+}
+
+@available(*, unavailable)
+extension GeometryReader3D : Sendable {
+}
+
+@available(visionOS 1.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension GeometryReader3D : UnaryView, PrimitiveView where Content : View {
+}
+
+@available(visionOS 1.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+public struct GeometryProxy3D {
+    public var size: Size3D {
+        assertUnimplemented()
+    }
+    
+    public subscript<T>(anchor: Anchor<T>) -> T {
+        assertUnimplemented()
+    }
+    
+    public func frame(in coordinateSpace: some CoordinateSpaceProtocol) -> Rect3D {
+        assertUnimplemented()
+    }
+    
+    public func transform(in coordinateSpace: some CoordinateSpaceProtocol) -> AffineTransform3D? {
+        assertUnimplemented()
+    }
+    
+    public var safeAreaInsets: EdgeInsets3D {
+        assertUnimplemented()
+    }
+}
+
+@available(*, unavailable)
+extension GeometryProxy3D : Sendable {
+}
 
 fileprivate struct GeometryReaderLayout3D : Layout3D {
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat {

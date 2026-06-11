@@ -3,7 +3,7 @@ internal import AttributeGraph
 internal import Spatial
 
 @dynamicMemberLookup
-struct SizeAndSpacingContext {
+package struct SizeAndSpacingContext {
     var context: AnyRuleContext
     fileprivate private(set) var owner: AnyAttribute
     @Attribute fileprivate private(set) var environment: EnvironmentValues
@@ -142,7 +142,7 @@ extension PlacementContext {
 }
 
 @dynamicMemberLookup
-struct PlacementContext3D {
+package struct PlacementContext3D {
     var base: PlacementContext
     private var _depth: ViewDepth
     
