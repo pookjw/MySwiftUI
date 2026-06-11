@@ -363,24 +363,60 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
         
         // <+148>
         // x24
-        let _key = ObjectIdentifier(key.id)
-        if let cached = self.cachedAlignment.find(_key) {
+        let _key = key.id
+        if let cached = self.cachedAlignment.find(ObjectIdentifier(_key)) {
             return cached
         }
         
-        let result: CGFloat? = withUnsafeMutablePointer(to: &self) { pointer in
+        let result: CGFloat? = withUnsafeMutablePointer(to: &self) { selfPtr in
             // $s7SwiftUI16ViewLayoutEngineV17explicitAlignment_2at12CoreGraphics7CGFloatVSgAA0G3KeyV_AA0C4SizeVtFAISpyACyxGGXEfU_TA
             /*
-             pointer -> x0
-             size -> d0/d1/d2/d3
-             key -> x1
-             _key -> x2/x3
-             L -> x4/x5
+             selfPtr -> x0 -> x26
+             size -> d0/d1/d2/d3 -> d11/d10/d9/d8
+             key -> x1 -> x25 -> x1
+             _key -> x2/x3 -> x24/x23
+             L -> x4/x5 -> x22/x20
              */
-            assertUnimplemented()
+            var alignmentData = AlignmentData(
+                flag: true,
+                function: Self.self,
+                size: size
+            )
+            
+            // inlined
+            return alignmentData.asCurrent { _ in
+                // $s7SwiftUI16ViewLayoutEngineV17explicitAlignment_2at12CoreGraphics7CGFloatVSgAA0G3KeyV_AA0C4SizeVtFAISpyACyxGGXEfU_AISpyAA0G4Data33_57DDCF0A00C1B77B475771403C904EF9LLVGXEfU_
+                /*
+                 _ -> x0
+                 key -> x1 -> x24
+                 selfPtr -> x2 -> x23
+                 _key -> x3/x4 -> x29 - 0xe0 / x29 - 0xd8
+                 L -> x5/x6
+                 size -> d0/d1/d2/d3 -> d10/d11/d8/d9
+                 */
+                // <+240>
+                switch key.axis {
+                case .horizontal:
+                    // <+248>
+                    // x19
+                    let copy_1 = selfPtr.pointee
+                    // selfPtr -> x23 -> x20
+                    
+                    // x24
+                    let newKey = AlignmentKey(id: _key, axis: .horizontal)
+                    
+                    // <+328>
+                    assertUnimplemented()
+                case .vertical:
+                    // <+580>
+                    assertUnimplemented()
+                }
+                
+                assertUnimplemented()
+            }
         }
         
-        self.cachedAlignment.put(_key, value: result)
+        self.cachedAlignment.put(ObjectIdentifier(_key), value: result)
         return result
     }
     
@@ -800,4 +836,31 @@ fileprivate struct PlacementData {
 fileprivate enum DataSignature {
     case placement
     case alignment
+}
+
+fileprivate struct AlignmentData {
+    let flag: Bool
+    let function: (any DefaultAlignmentFunction.Type)
+    let size: ViewSize
+    
+    @inline(always) // 원래 없음
+    mutating func asCurrent<T>(_ block: (UnsafeMutablePointer<AlignmentData>) -> T) -> T {
+        return withUnsafeMutablePointer(to: &self) { pointer in
+            let oldLayoutData = _threadLayoutData()
+            _setThreadLayoutData(pointer)
+            let result = block(pointer)
+            _setThreadLayoutData(oldLayoutData)
+            return result
+        }
+    }
+}
+
+fileprivate protocol DefaultAlignmentFunction {
+    static func defaultAlignment(_ key: AlignmentKey, size: ViewSize, data: UnsafeMutableRawPointer) -> CGFloat?
+}
+
+extension ViewLayoutEngine : DefaultAlignmentFunction {
+    static func defaultAlignment(_ key: AlignmentKey, size: ViewSize, data: UnsafeMutableRawPointer) -> CGFloat? {
+        assertUnimplemented()
+    }
 }
