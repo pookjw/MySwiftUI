@@ -133,12 +133,24 @@ extension HVStack {
         }
     }
     
-    nonisolated public func explicitAlignment(of: HorizontalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
-        assertUnimplemented()
+    nonisolated public func explicitAlignment(
+        of alignment: HorizontalAlignment,
+        in bounds: CGRect,
+        proposal: ProposedViewSize,
+        subviews: LayoutSubviews,
+        cache: inout _StackLayoutCache
+    ) -> CGFloat? {
+        return cache.stack.explicitAlignment(alignment.key, in: bounds, proposal: proposal)
     }
     
-    nonisolated public func explicitAlignment(of: VerticalAlignment, in: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGFloat? {
-        assertUnimplemented()
+    nonisolated public func explicitAlignment(
+        of alignment: VerticalAlignment,
+        in bounds: CGRect,
+        proposal: ProposedViewSize,
+        subviews: LayoutSubviews,
+        cache: inout _StackLayoutCache
+    ) -> CGFloat? {
+        return cache.stack.explicitAlignment(alignment.key, in: bounds, proposal: proposal)
     }
 }
 
@@ -154,8 +166,19 @@ struct StackLayout {
     fileprivate var header: StackLayout.Header
     fileprivate var children: [StackLayout.Child]
     
-    func explicitAlignment(_: AlignmentKey, in: CGRect, proposal: ProposedViewSize) -> CGFloat? {
-        assertUnimplemented()
+    mutating func explicitAlignment(
+        _ key: AlignmentKey,
+        in bounds: CGRect,
+        proposal: ProposedViewSize
+    ) -> CGFloat? {
+        let size = ViewSize(
+            bounds.size,
+            proposal: _ProposedSize(width: proposal.width, height: proposal.height)
+        )
+        
+        return withUnmanagedImplementation { unmanaged in
+            return unmanaged.explicitAlignment(key, at: size)
+        }
     }
     
     fileprivate mutating func makeChildren() {
@@ -220,13 +243,6 @@ extension StackLayout {
         fileprivate let distanceToPrevious: CGFloat // 0x28
         fileprivate var fittingOrder: Int // 0x30
         fileprivate var geometry: ViewGeometry
-        /*
-         origin.x -> 0x38
-         origin.y -> 0x40
-         dimensions.guideComputer -> 0x48/0x50
-         dimensions.size.value -> 0x58/0x60
-         dimensions.size._proposal -> 0x68/0x70
-         */
     }
     
     fileprivate struct MajorAxisRangeCache {
@@ -591,7 +607,37 @@ extension StackLayout {
         }
         
         func explicitAlignment(_ key: AlignmentKey, at size: ViewSize) -> CGFloat? {
-            assertUnimplemented()
+            /*
+             key -> x0 -> x21
+             size -> x1 -> sp + 0xb0
+             header -> x2 -> x22
+             children -> x3/x4 -> x19/x20
+             */
+            let proposal = self.proposalWhenPlacing(in: size)
+            self.placeChildren(in: proposal)
+            
+            var result: CGFloat? = nil
+            var x22 = 0
+            
+            for child in self.children {
+                // <+172>
+                guard let value: CGFloat = child.geometry[key] else {
+                    continue
+                }
+                
+                let d8: CGFloat
+                switch key.axis {
+                case .horizontal:
+                    d8 = child.geometry.origin.x
+                case .vertical:
+                    d8 = child.geometry.origin.y
+                }
+                
+                key.id._combineExplicit(childValue: d8 + value, x22, into: &result)
+                x22 += 1
+            }
+            
+            return result
         }
         
         func placeChildren(in size: ProposedViewSize) {

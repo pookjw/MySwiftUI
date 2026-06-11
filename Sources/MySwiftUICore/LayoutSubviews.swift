@@ -392,7 +392,7 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
                  selfPtr -> x2 -> x23
                  _key -> x3/x4 -> x29 - 0xe0 / x29 - 0xd8
                  L -> x5/x6
-                 size -> d0/d1/d2/d3 -> d10/d11/d8/d9
+                 size -> d0/d1/d2/d3 -> d9/d8/d11/d10
                  */
                 // <+240>
                 switch key.axis {
@@ -403,13 +403,59 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
                     // selfPtr -> x23 -> x20
                     
                     // x24
-                    let newKey = AlignmentKey(id: _key, axis: .horizontal)
+                    let alignment = HorizontalAlignment(_key)
                     
                     // <+328>
-                    assertUnimplemented()
+                    let proposal = ProposedViewSize(size.proposal)
+                    
+                    // x27
+                    let copy_2 = selfPtr.pointee
+                    
+                    let subviews = LayoutSubviews(
+                        context: copy_2.proxies.context,
+                        storage: .direct(copy_2.proxies.attributes),
+                        layoutDirection: copy_2.layoutDirection
+                    )
+                    
+                    let result = copy_1.layout.explicitAlignment(
+                        of: alignment,
+                        in: CGRect(origin: .zero, size: size.value),
+                        proposal: ProposedViewSize(size.proposal),
+                        subviews: subviews,
+                        cache: &selfPtr.pointee.cache
+                    )
+                    
+                    return result
                 case .vertical:
                     // <+580>
-                    assertUnimplemented()
+                    // x28
+                    let copy_1 = selfPtr.pointee
+                    // selfPtr -> x23 -> x20
+                    
+                    // x22
+                    let alignment = VerticalAlignment(_key)
+                    
+                    // <+660>
+                    let proposal = ProposedViewSize(size.proposal)
+                    
+                    // x27
+                    let copy_2 = selfPtr.pointee
+                    
+                    let subviews = LayoutSubviews(
+                        context: copy_2.proxies.context,
+                        storage: .direct(copy_2.proxies.attributes),
+                        layoutDirection: copy_2.layoutDirection
+                    )
+                    
+                    let result = copy_1.layout.explicitAlignment(
+                        of: alignment,
+                        in: CGRect(origin: .zero, size: size.value),
+                        proposal: proposal,
+                        subviews: subviews,
+                        cache: &selfPtr.pointee.cache
+                    )
+                    
+                    return result
                 }
                 
                 assertUnimplemented()

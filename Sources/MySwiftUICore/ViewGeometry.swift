@@ -64,7 +64,7 @@ struct ViewGeometry : Equatable, Animatable {
     }
     
     subscript(_ key: AlignmentKey) -> CGFloat {
-        assertUnimplemented()
+        return self.dimensions[key]
     }
     
     subscript(explicit: HorizontalAlignment) -> CGFloat? {
@@ -76,6 +76,6 @@ struct ViewGeometry : Equatable, Animatable {
     }
     
     subscript(explicit: AlignmentKey) -> CGFloat? {
-        assertUnimplemented()
+        return self.dimensions[explicit: explicit]
     }
 }
