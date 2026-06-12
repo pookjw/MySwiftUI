@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.geometryReaderView
+        let item = DemoViewController.Item.geometryReader3DView
         pushToItem(item)
         
 //        Task {
