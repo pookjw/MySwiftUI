@@ -147,7 +147,14 @@
         [splitedExisting release];
     }
     
-    for (NSString *key in @[@"-target", @"-swift-version", @"-user-module-version"]) {
+    NSArray<NSString *> *keys = @[
+        @"-target",
+        // Removed on Swift 6.4
+//        @"-swift-version",
+        @"-user-module-version"
+    ];
+    
+    for (NSString *key in keys) {
         NSMutableArray<NSString *> *splitedExisting = [[result componentsSeparatedByString:@" "] mutableCopy];
         NSArray<NSString *> *splitedSource = [source componentsSeparatedByString:@" "];
         

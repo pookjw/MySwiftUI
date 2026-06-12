@@ -1,4 +1,4 @@
-// swift-tools-version: 6.3
+// swift-tools-version: 6.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -36,7 +36,13 @@ let package = Package(
     traits: [
         .trait(name: "SwiftUICompataibility"),
         .trait(name: "UseMyRealityKit"),
-        .`default`(enabledTraits: ["SwiftUICompataibility"])
+        .trait(name: "Xcode27SDKCompataibility"),
+        .`default`(
+            enabledTraits: [
+                "SwiftUICompataibility",
+                "Xcode27SDKCompataibility"
+            ]
+        )
     ],
     dependencies: [
     ],

@@ -15,6 +15,12 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No longer supported", ios(26.0, 26.4));
 
+typedef NS_ENUM(NSInteger, _UIViewSeparatedState) {
+    _UIViewSeparatedStateNone = 0,
+    _UIViewSeparatedStateSeparated = 1,
+    _UIViewSeparatedStateTracked = 2
+};
+
 @interface UIView (Private) <UITraitChangeObservableInternal, _UIGestureRecognizerContainer, UIRealityCoordinateSpace>
 + (BOOL)_supportsInvalidatingFocusCache;
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
@@ -26,6 +32,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No
 @property (nonatomic, setter=_setUsesPerspectiveCorrectRendering:) BOOL _usesPerspectiveCorrectRendering;
 @property (nonatomic, setter=_setPreferredGroundingShadowVisibility:) _UIPlatterGroundingShadowVisibility _preferredGroundingShadowVisibility;
 @property (nonatomic, setter=_setExternalHitTestingId:) REEntityID _externalHitTestingId;
+@property (nonatomic, readonly, nullable) REEntityRef _reEntity;
 @property (nonatomic, readonly) UILayoutAxes _axesForDerivingIntrinsicContentSizeFromLayoutSize;
 @property (readonly, nonatomic, nullable) id<_UIGestureRecognizerContainer> _parentGestureRecognizerContainer;
 @property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers NS_SWIFT_NAME(_childContainers);
@@ -60,6 +67,7 @@ UIKIT_EXTERN BOOL _UIViewMaskingConfigurationSPIEnabled(void) API_DEPRECATED("No
 - (void)_noteTraitsDidChangeRecursively;
 - (CAPoint3D)convertPoint:(CAPoint3D)point fromRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
 - (CAPoint3D)convertPoint:(CAPoint3D)point toRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
+- (void)_requestSeparatedState:(_UIViewSeparatedState)state withReason:(NSString *)reason;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

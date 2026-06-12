@@ -18,7 +18,11 @@ fileprivate final class MyViewController : UIViewController {
     
     override func loadView() {
         let label = UILabel()
+#if swift(>=6.4)
+        label.font = .preferredFont(forTextStyle: .init(rawValue: "UICTFontTextStyleExtraLargeTitle"))
+#else
         label.font = .preferredFont(forTextStyle: .extraLargeTitle)
+#endif
         label.textAlignment = .center
         self.label = label
         self.view = label

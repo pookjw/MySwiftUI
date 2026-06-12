@@ -1,0 +1,9 @@
+#import <CoreRE/Defines.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+RE_EXTERN REComponentTypeRef _Nullable RESelectableSceneContentIdentifierGetComponentType(void) NS_SWIFT_NAME(getter:ComponentType.selectableSceneContentIdentifier());
+RE_EXTERN void RESelectableSceneContentIdentifierComponentSetIdentifier(REComponentRef, uint32_t) NS_SWIFT_NAME(setter:Component.selectableSceneContentIdentifier_identifier(self:identifier:));
+RE_EXTERN uint32_t RESelectableSceneContentIdentifierComponentGetIdentifier(REComponentRef) NS_SWIFT_NAME(getter:Component.selectableSceneContentIdentifier_identifier(self:));
+
+NS_ASSUME_NONNULL_END

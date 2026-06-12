@@ -18,7 +18,11 @@ struct MyLabel : UIViewRepresentable {
     func makeUIView(context: Context) -> UILabel {
         let label = UILabel()
         label.text = text
+#if swift(>=6.4)
+        label.font = .preferredFont(forTextStyle: .init(rawValue: "UICTFontTextStyleExtraLargeTitle"))
+#else
         label.font = .preferredFont(forTextStyle: .extraLargeTitle)
+#endif
         label.textAlignment = .center
         return label
     }
