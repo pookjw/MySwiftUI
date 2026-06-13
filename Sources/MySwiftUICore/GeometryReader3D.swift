@@ -17,6 +17,16 @@ private import AttributeGraph
     }
     
     nonisolated public static func _makeView(view: _GraphValue<GeometryReader3D<Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+        /*
+         view -> x0 -> w28
+         inputs -> x1 -> x20
+         */
+        // x27 + 0x130
+        let copy_1 = inputs
+        /*
+         copy_1.size -> w23
+         copy_1.transform -> w21
+         */
         assertUnimplemented()
     }
 }
