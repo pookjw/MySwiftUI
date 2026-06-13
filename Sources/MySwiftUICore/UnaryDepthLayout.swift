@@ -1,4 +1,5 @@
 package import CoreGraphics
+internal import AttributeGraph
 
 package protocol UnaryDepthLayout : Animatable, MultiViewModifier, PrimitiveViewModifier {
     func depthThatFits(in: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat
@@ -37,20 +38,38 @@ extension UnaryDepthLayout {
             var copy_4 = inputs
             copy_4.base.options = w27.union(.viewRequestsLayoutComputer)
             
+            // x19 + 0x24
+            let attribute = AnyAttribute.empty
+            
+            // x19 + 0x28
+            let copy_5 = copy_1
+            
             // x22
             let outputs = _ViewOutputs.makeDepthTransform(
                 inputs: copy_4,
-                depth: {
+                geometry: {
                     // $s7SwiftUI16UnaryDepthLayoutPAAE9_makeView8modifier6inputs4bodyAA01_G7OutputsVAA11_GraphValueVyxG_AA01_G6InputsVAiA01_L0V_ANtctFZ09AttributeL00O0VyAA0gD8GeometryVGyXEfU_TA
                     /*
-                     TODO
-                     
-                     animatableAttribute
-                     Self
+                     animatableAttribute -> w0 -> w23
+                     copy_1 -> x1 -> x22
+                     attribute -> x2 -> x19
+                     Self -> x3/x4 -> x21/x20
                      */
-                    assertUnimplemented()
+                    // sp + 0xc
+                    let geometryRule = UnaryDepthLayoutGeometry(
+                        layout: animatableAttribute,
+                        parentSize: copy_1.size,
+                        parentDepth: copy_1.transform[keyPath: \.depth],
+                        environment: copy_1.environment,
+                        childLayoutComputer: OptionalAttribute()
+                    )
+                    
+                    let geometryAttribute = Attribute(geometryRule)
+                    return geometryAttribute
                 },
-                body: body
+                body: { inputs in
+                    return body(_Graph(), inputs)
+                }
             )
             
             // <+364>
@@ -72,6 +91,32 @@ extension UnaryDepthLayout {
     }
     
     package func depthOffered(to: LayoutProxy, for: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
+        assertUnimplemented()
+    }
+}
+
+struct UnaryDepthLayoutGeometry<T> : Rule, AsyncAttribute {
+    @Attribute private var layout: T
+    @Attribute private var parentSize: ViewSize
+    @Attribute private var parentDepth: ViewDepth
+    @Attribute private var environment: EnvironmentValues
+    private var _childLayoutComputer: OptionalAttribute<LayoutComputer>
+    
+    init(
+        layout: Attribute<T>,
+        parentSize: Attribute<ViewSize>,
+        parentDepth: Attribute<ViewDepth>,
+        environment: Attribute<EnvironmentValues>,
+        childLayoutComputer: OptionalAttribute<LayoutComputer>
+    ) {
+        self._layout = layout
+        self._parentSize = parentSize
+        self._parentDepth = parentDepth
+        self._environment = environment
+        self._childLayoutComputer = childLayoutComputer
+    }
+    
+    var value: ViewDepthGeometry {
         assertUnimplemented()
     }
 }
