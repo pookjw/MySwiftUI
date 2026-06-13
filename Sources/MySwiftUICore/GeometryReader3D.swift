@@ -23,10 +23,26 @@ private import AttributeGraph
          */
         // x27 + 0x130
         let copy_1 = inputs
-        /*
-         copy_1.size -> w23
-         copy_1.transform -> w21
-         */
+        
+        // x19 + 0x180
+        let child = GeometryReader3D<Content>.Child(
+            view: view,
+            size: copy_1.size,
+            depth: copy_1.transform[keyPath: \.depth],
+            position: copy_1.position,
+            transform: copy_1.transform,
+            environment: copy_1.environment,
+            safeAreaInsets: copy_1.safeAreaInsets,
+            seed: 0
+        )
+        
+        // x19 + 0x14
+        let childAttribute = Attribute(child)
+        
+        // x27 + 0xc0
+        let copy_2 = inputs
+        
+        // <+408>
         assertUnimplemented()
     }
 }
@@ -137,5 +153,24 @@ extension _ViewOutputs {
         }
         
         return outputs
+    }
+}
+
+extension GeometryReader3D {
+    fileprivate struct Child : StatefulRule {
+        @Attribute private(set) var view: GeometryReader3D<Content>
+        @Attribute private(set) var size: ViewSize
+        @Attribute private(set) var depth: ViewDepth
+        @Attribute private(set) var position: CGPoint
+        @Attribute private(set) var transform: ViewTransform
+        @Attribute private(set) var environment: EnvironmentValues
+        @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
+        private(set) var seed: UInt32
+        
+        typealias Value = _LayoutRoot<GeometryReader3D<Content>>
+        
+        func updateValue() {
+            assertUnimplemented()
+        }
     }
 }
