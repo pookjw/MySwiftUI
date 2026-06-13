@@ -23,6 +23,8 @@ private import AttributeGraph
          */
         // x27 + 0x130
         let copy_1 = inputs
+        // x19 + 0x34
+        let options = copy_1.base.options
         
         // x19 + 0x180
         let child = GeometryReader3D<Content>.Child(
@@ -43,6 +45,14 @@ private import AttributeGraph
         let copy_2 = inputs
         
         // <+408>
+        if options.contains(.viewNeedsGeometry) {
+            // <+460>
+            assertUnimplemented()
+        } else {
+            // <+428>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
 }
