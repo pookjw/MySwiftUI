@@ -2480,3 +2480,11 @@ open class AbstractHomogeneousCollection {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct _ViewList_Section {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public protocol Layout3D : SwiftUI.Layout {}
+
+extension _SwiftUICorePrivate.Layout3D {
+  public static func makeLayoutView3D(root: SwiftUI._GraphValue<Self>, inputs: SwiftUI._ViewInputs, body: (SwiftUI._Graph, SwiftUI._ViewInputs) -> SwiftUI._ViewListOutputs) -> SwiftUI._ViewOutputs
+}

@@ -10,41 +10,28 @@ protocol Layout3D : Layout {
 }
 
 extension Layout3D {
-    static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
     func explicitAlignment(of alignment: DepthAlignment, in: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Cache) -> CGFloat? {
         assertUnimplemented()
     }
     
     static var depthProperties : LayoutDepthProperties {
-        assertUnimplemented()
+        return LayoutDepthProperties(stackOrientationIsDepth: false)
     }
     
     func updateLayoutComputer<T : StatefulRule>(rule: inout T, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) where T.Value == LayoutComputer {
         assertUnimplemented()
     }
-    
-    static func makeLayoutView3D(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
-    static func makeStaticView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
-    static func makeDynamicView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
-        assertUnimplemented()
-    }
 }
 
 struct LayoutDepthProperties {
-    private var stackOrientationIsDepth: Bool
+    private(set) var stackOrientationIsDepth: Bool
     // TODO
 }
 
-struct AnyLayoutDepthProperties {
-    @Attribute private var layout: AnyLayout
-    // TODO
+struct AnyLayoutDepthProperties : AsyncAttribute, Rule {
+    @Attribute private(set) var layout: AnyLayout
+    
+    var value: Bool {
+        assertUnimplemented()
+    }
 }

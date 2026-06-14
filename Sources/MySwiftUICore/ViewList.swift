@@ -2628,6 +2628,128 @@ extension Layout {
     }
 }
 
+extension Layout3D {
+    static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    static func makeLayoutView3D(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        /*
+         root -> x0 -> w23
+         inputs -> x1 -> x21
+         body -> x2/x3 -> x25/x24
+         */
+        // x29 - 0xc0
+        let copy_1 = inputs
+        // sp + 0xf0
+        let copy_2 = inputs.base
+        
+        guard IsVisionEnabledPredicate.evaluate(inputs: copy_2) else {
+            // sp + 0xf0
+            let copy_3 = inputs
+            return Self.makeLayoutView(root: root, inputs: copy_3, body: body)
+        }
+        
+        // <+152>
+        // sp + 0x38
+        var root = root
+        // sp + 0xf0
+        let copy_3 = inputs.base
+        // sp + 0x98
+        let _ = copy_1
+        Self._makeAnimatable(value: &root, inputs: copy_3)
+        
+        // sp + 0xf0
+        var copy_4 = copy_1
+        // sp + 0x3d
+        let layoutProperties: LayoutProperties
+        
+        if Self.self == AnyLayout.self {
+            // <+636>
+            copy_4.base.options = copy_1.base.options.subtracting([.viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal, .viewStackOrientationIsDepth])
+            // sp + 0x98
+            let _ = copy_1
+            // sp + 0x68
+            let axisRule = AnyLayoutProperties(layout: root.value.unsafeBitCast(to: AnyLayout.self))
+            // w20
+            let axisAttribute = Attribute(axisRule)
+            // sp + 0x98
+            let depthRule = AnyLayoutDepthProperties(layout: root.value.unsafeBitCast(to: AnyLayout.self))
+            // w28
+            let depthAttribute = Attribute(depthRule)
+            
+            copy_4[DynamicStackOrientation.self] = OptionalAttribute(axisAttribute)
+            copy_4[DynamicStackOrientationIsDepth.self] = OptionalAttribute(depthAttribute)
+            
+            // <+908>
+            layoutProperties = LayoutProperties()
+            // <+920>
+        } else {
+            // <+280>
+            // sp + 0x98
+            let _ = copy_1
+            // sp + 0x98 -> sp + 0x3d
+            layoutProperties = Self.layoutProperties
+            copy_4.stackOrientation = layoutProperties.stackOrientation
+            
+            // <+364>
+            // sp + 0x98
+            let depthProperties_1 = Self.depthProperties
+            
+            copy_4.base.options.subtract(.viewStackOrientationIsDepth)
+            if depthProperties_1.stackOrientationIsDepth {
+                copy_4.base.options.formUnion(.viewStackOrientationIsDepth)
+            }
+            
+            // <+424>
+            if layoutProperties.stackOrientation == nil {
+                copy_4[DynamicStackOrientation.self] = OptionalAttribute()
+            }
+            
+            // <+480>
+            // sp + 0x98
+            let depthProperties_2 = Self.depthProperties
+            
+            if depthProperties_2.stackOrientationIsDepth {
+                // <+920>
+            } else {
+                // <+520>
+                copy_4[DynamicStackOrientationIsDepth.self] = OptionalAttribute()
+            }
+            
+            // <+920>
+        }
+        
+        // <+920>
+        // sp + 0x98
+        let outputs = body(_Graph(), copy_4)
+        
+        switch outputs.views {
+        case .staticList(let elements):
+            // <+1128>
+            return Self.makeStaticView3D(root: root, inputs: copy_4, properties: layoutProperties, list: elements)
+        case .dynamicList(var list, let modifier):
+            // <+960>
+            if let modifier {
+                // <+976>
+                let modifiers = _ViewListOutputs.ApplyModifiers(base: list, modifier: modifier)
+                list = Attribute(modifiers)
+            }
+            
+            // <+1084>
+            return Self.makeDynamicView3D(root: root, inputs: copy_4, properties: layoutProperties, list: list)
+        }
+    }
+    
+    static func makeStaticView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    static func makeDynamicView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+}
+
 struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
     private let base: any ViewList
     private let bounds: Range<Int>

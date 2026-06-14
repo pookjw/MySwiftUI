@@ -12,6 +12,7 @@ import _UIKitPrivate
 import Foundation
 import SwiftUI
 import RealityKit
+import AttributeGraph
 
 // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
 // expr -l swift -O -- type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self))

@@ -150,13 +150,31 @@ public struct _ViewInputs {
     
     var stackOrientation: Axis? {
         get {
-            assertUnimplemented()
+            if self.base.options.contains(.viewStackOrientationIsDefined) {
+                return self.base.options.contains(.viewStackOrientationIsHorizontal) ? .horizontal : .vertical
+            } else {
+                return nil
+            }
         }
         set {
-            assertUnimplemented()
+            if let newValue {
+                switch newValue {
+                case .horizontal:
+                    self.base.options.formUnion([.viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
+                case .vertical:
+                    self.base.options.formUnion(.viewStackOrientationIsDefined)
+                    self.base.options.subtract(.viewStackOrientationIsHorizontal)
+                }
+            } else {
+                self.base.options.subtract([.viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
+            }
+            
+            self.base.options.subtract(.viewStackOrientationIsDepth)
         }
         _modify {
-            assertUnimplemented()
+            var value = self.stackOrientation
+            yield &value
+            self.stackOrientation = value
         }
     }
 }

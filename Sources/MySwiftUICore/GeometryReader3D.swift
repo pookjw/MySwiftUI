@@ -91,8 +91,11 @@ private import AttributeGraph
              childAttribute -> w1 -> w23
              Content -> x2/x3 -> x21/x20
              */
-//            _VariadicView.Tree<_VariadicView_ViewRoot, Content>.self
-            assertUnimplemented()
+            return _VariadicView.Tree<_LayoutRoot<GeometryReaderLayout3D>, Content>
+                .makeDebuggableView(
+                    view: _GraphValue(childAttribute),
+                    inputs: inputs
+                )
         }
         
         // <+1176>
@@ -112,6 +115,8 @@ private import AttributeGraph
             )
             
             outputs.layoutComputer = attribute
+        } else {
+            outputs.layoutComputer = nil
         }
         
         // <+1404>
@@ -176,7 +181,14 @@ fileprivate struct GeometryReaderLayout3D : Layout3D {
     }
     
     static var layoutProperties: LayoutProperties {
-        assertUnimplemented()
+        var properties = LayoutProperties()
+        
+        if !isLinkedOnOrAfter(.v2) {
+            properties.isDefaultEmptyLayout = true
+            properties.isIdentityUnaryLayout = true
+        }
+        
+        return properties
     }
     
     func spacing(subviews: Subviews, cache: inout ()) -> ViewSpacing {
@@ -200,7 +212,7 @@ fileprivate struct GeometryReaderLayout3D : Layout3D {
     }
     
     static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        return Self.makeLayoutView3D(root: root, inputs: inputs, body: body)
     }
 }
 
@@ -239,7 +251,7 @@ extension GeometryReader3D {
         @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
         private(set) var seed: UInt32
         
-        typealias Value = _LayoutRoot<GeometryReaderLayout3D>
+        typealias Value = _VariadicView.Tree<_LayoutRoot<GeometryReaderLayout3D>, Content>
         
         func updateValue() {
             assertUnimplemented()
