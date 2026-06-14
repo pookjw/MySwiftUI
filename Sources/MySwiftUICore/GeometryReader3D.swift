@@ -42,16 +42,57 @@ private import AttributeGraph
         let childAttribute = Attribute(child)
         
         // x27 + 0xc0
-        let copy_2 = inputs
+        var copy_2 = inputs
+        // x19 + 0x120
+        let copy_3: _ViewInputs
+        // x19 + 0x8
+        let geometryAttribute: Attribute<ViewGeometry>
         
         // <+408>
         if options.contains(.viewNeedsGeometry) {
             // <+460>
-            assertUnimplemented()
+            copy_2.base.options = options.union(.viewRequestsLayoutComputer)
+            copy_3 = copy_1
+            
+            // x19 + 0x120
+            let geometryRule = RootGeometry(
+                layoutDirection: copy_1.layoutDirection,
+                proposedSize: copy_1.size,
+                safeAreaInsets: OptionalAttribute(),
+                childLayoutComputer: OptionalAttribute()
+            )
+            geometryAttribute = Attribute(geometryRule)
+            
+            // <+652>
+            geometryAttribute[keyPath: \.origin]
+            
+            // x19 + 0x120
+            let queryRule = LayoutPositionQuery(
+                parentPosition: copy_1.position,
+                localPosition: geometryAttribute[keyPath: \.origin]
+            )
+            
+            copy_2.position = queryRule
+            
+            // <+752>
+            copy_2.size = geometryAttribute[keyPath: \.dimensions.size]
+            // <+784>
         } else {
             // <+428>
-            assertUnimplemented()
+            copy_3 = copy_1
+            geometryAttribute = Attribute(identifier: AnyAttribute(0))
+            // <+784>
         }
+        
+        // <+784>
+        // x27 + 0x60
+        let copy_4 = copy_2
+        // x27
+        let copy_5 = copy_2
+        // x19 + 0x68
+        let copy_6 = copy_3
+        
+        // <+860>
         
         assertUnimplemented()
     }
