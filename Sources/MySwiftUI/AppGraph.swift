@@ -278,7 +278,7 @@ fileprivate struct RootEnvironment : @preconcurrency Rule {
     @MainActor
     var value: EnvironmentValues {
         var result = self.environment
-        result.configuredForRoot()
+        result = result.configuredForRoot()
         result[ScenePhaseKey.self] = self.phase
         result.configureForPlatform(traitCollection: nil)
         result.sceneKeyboardShortcuts = self.sceneKeyboardShortcuts

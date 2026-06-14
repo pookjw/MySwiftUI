@@ -275,7 +275,7 @@ struct RootDepthTransform : Rule {
     @Attribute var transform: ViewTransform
     @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute var proposedSize: ViewSize
-    @OptionalAttribute private var safeAreaInsets: _SafeAreaInsetsModifier?
+    @OptionalAttribute var safeAreaInsets: _SafeAreaInsetsModifier?
     @OptionalAttribute var childLayoutComputer: LayoutComputer?
     
     init(

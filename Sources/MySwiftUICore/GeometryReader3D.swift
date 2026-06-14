@@ -28,7 +28,7 @@ private import AttributeGraph
         
         // x19 + 0x180
         let child = GeometryReader3D<Content>.Child(
-            view: view,
+            view: view.value,
             size: copy_1.size,
             depth: copy_1.transform[keyPath: \.depth],
             position: copy_1.position,
@@ -56,7 +56,7 @@ private import AttributeGraph
             
             // x19 + 0x120
             let geometryRule = RootGeometry(
-                layoutDirection: copy_1.layoutDirection,
+                layoutDirection: OptionalAttribute(copy_1.layoutDirection),
                 proposedSize: copy_1.size,
                 safeAreaInsets: OptionalAttribute(),
                 childLayoutComputer: OptionalAttribute()
@@ -64,15 +64,13 @@ private import AttributeGraph
             geometryAttribute = Attribute(geometryRule)
             
             // <+652>
-            geometryAttribute[keyPath: \.origin]
-            
             // x19 + 0x120
             let queryRule = LayoutPositionQuery(
                 parentPosition: copy_1.position,
                 localPosition: geometryAttribute[keyPath: \.origin]
             )
             
-            copy_2.position = queryRule
+            copy_2.position = Attribute(queryRule)
             
             // <+752>
             copy_2.size = geometryAttribute[keyPath: \.dimensions.size]
@@ -85,16 +83,39 @@ private import AttributeGraph
         }
         
         // <+784>
-        // x27 + 0x60
-        let copy_4 = copy_2
-        // x27
-        let copy_5 = copy_2
-        // x19 + 0x68
-        let copy_6 = copy_3
+        // inlined
+        var outputs = _ViewOutputs.makePlatformRootGeometryTransform(inputs: copy_2) { inputs in
+            // $s7SwiftUI16GeometryReader3DV9_makeView4view6inputsAA01_F7OutputsVAA11_GraphValueVyACyxGG_AA01_F6InputsVtFZAhNXEfU_
+            /*
+             inputs -> x0 -> x26
+             childAttribute -> w1 -> w23
+             Content -> x2/x3 -> x21/x20
+             */
+//            _VariadicView.Tree<_VariadicView_ViewRoot, Content>.self
+            assertUnimplemented()
+        }
         
-        // <+860>
+        // <+1176>
+        if options.contains(.viewNeedsGeometry) {
+            // <+1192>
+            geometryAttribute.mutateBody(as: RootGeometry.self, invalidating: true) { geometry in
+                geometry.$childLayoutComputer = outputs.layoutComputer
+            }
+        }
         
-        assertUnimplemented()
+        // <+1300>
+        if options.contains(.viewRequestsLayoutComputer) {
+            let attribute = ViewGraph.current.intern(
+                LayoutComputer.defaultValue3D,
+                for: LayoutComputer.self,
+                id: .defaultValue3D
+            )
+            
+            outputs.layoutComputer = attribute
+        }
+        
+        // <+1404>
+        return outputs
     }
 }
 
@@ -218,7 +239,7 @@ extension GeometryReader3D {
         @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
         private(set) var seed: UInt32
         
-        typealias Value = _LayoutRoot<GeometryReader3D<Content>>
+        typealias Value = _LayoutRoot<GeometryReaderLayout3D>
         
         func updateValue() {
             assertUnimplemented()

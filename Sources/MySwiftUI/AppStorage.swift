@@ -388,7 +388,7 @@ extension EnvironmentValues {
             return self[DefaultAppStorageDefaultsKey.self]
         }
         set {
-            self[DefaultAppStorageDefaultsKey.self]
+            self[DefaultAppStorageDefaultsKey.self] = newValue
         }
     }
 }

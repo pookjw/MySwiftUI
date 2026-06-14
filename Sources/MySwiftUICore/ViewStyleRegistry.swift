@@ -4,9 +4,9 @@ private import _SwiftPrivate
 
 package enum ViewStyleRegistry : Sendable {
     package static func registerOverrides(_ overrides: ViewStyleOverrides, for idiom: ViewStyleRegistry.InterfaceIdiom) {
-        if let existing = unsafe registries[idiom.idiom] {
+        if var existing = unsafe registries[idiom.idiom] {
             existing.merge(with: overrides)
-            unsafe registries[idiom.idiom]
+            registries[idiom.idiom] = existing
         } else {
             unsafe registries[idiom.idiom] = overrides
         }
@@ -97,7 +97,7 @@ package struct ViewStyleOverrides : Sendable {
         assertUnimplemented()
     }
     
-    fileprivate func merge(with: ViewStyleOverrides) {
+    fileprivate mutating func merge(with: ViewStyleOverrides) {
         assertUnimplemented()
     }
     
