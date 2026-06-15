@@ -2814,6 +2814,16 @@ extension Layout3D {
                 // <+1284>
             } else {
                 // <+620>
+                // x29 - 0xc8
+                let layoutComputerRule = StaticLayoutComputer(
+                    layout: root.value,
+                    environment: inputs.environment,
+                    childAttributes: []
+                )
+                // w26
+                let layoutComputerAttribute = Attribute(layoutComputerRule)
+                
+                // <+852>
                 assertUnimplemented()
                 // <+1284>
             }
