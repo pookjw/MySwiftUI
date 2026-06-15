@@ -42,7 +42,7 @@ extension _RendererEffect {
         let scrapeableID: ScrapeableID
         if isScrapeable && copy_1.needsGeometry {
             // <+700>
-            let hasDisplayList = unsafe copy_1.preferences.contains(DisplayList.Key.self)
+            let hasDisplayList = unsafe copy_1.preferences.contains(DisplayList.Key.self, includeHostPreferences: false)
             
             if !copy_1.base.options.contains(.doNotScrape) && hasDisplayList {
                 scrapeableID = ScrapeableID()
@@ -57,7 +57,7 @@ extension _RendererEffect {
         
         // <+208>
         // w22
-        let hasDisplayList = unsafe copy_1.preferences.contains(DisplayList.Key.self)
+        let hasDisplayList = unsafe copy_1.preferences.contains(DisplayList.Key.self, includeHostPreferences: false)
         if hasDisplayList {
             // <+236>
             // x27

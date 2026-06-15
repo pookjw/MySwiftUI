@@ -26,7 +26,7 @@ extension _RendererEffect3D {
         // <+488>
         var outputs = body(_Graph(), copy_1)
         
-        if inputs.preferences.contains(DisplayList.Key.self) {
+        if inputs.preferences.contains(DisplayList.Key.self, includeHostPreferences: false) {
             let rule = RendererEffect3DDisplayList(
                 identity: inputs.pushIdentity(),
                 effect: effect.value,

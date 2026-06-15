@@ -88,7 +88,7 @@ extension _GeometryEffect3D {
             var outputs = body(_Graph(), copy_3)
             
             // <+956>
-            if copy_1.preferences.contains(DisplayList.Key.self) {
+            if copy_1.preferences.contains(DisplayList.Key.self, includeHostPreferences: false) {
                 // <+972>
                 // w22
                 let displayListID: _DisplayList_Identity

@@ -604,7 +604,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
         // x29 - 0x118 (sp + 0x48)
         let copy_1 = inputs
         // <+152>
-        if unsafe inputs.preferences.contains(DisplayList.Key.self) {
+        if unsafe inputs.preferences.contains(DisplayList.Key.self, includeHostPreferences: false) {
             // <+196>
             // x29 - 0x158
             let identity: _DisplayList_Identity

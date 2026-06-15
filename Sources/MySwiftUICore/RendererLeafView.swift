@@ -22,7 +22,7 @@ extension RendererLeafView {
         var outputs = _ViewOutputs()
         let copy_1 = inputs
         
-        if unsafe copy_1.preferences.contains(DisplayList.Key.self) {
+        if unsafe copy_1.preferences.contains(DisplayList.Key.self, includeHostPreferences: false) {
             // <+284>
             let identity = _DisplayList_Identity()
             copy_1.pushIdentity(identity)

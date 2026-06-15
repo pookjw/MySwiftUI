@@ -131,7 +131,7 @@ extension CoreViewRepresentable {
             let flags: AnyAttribute.Flags
             if copy_2.base.options.contains(.viewNeedsGeometry) {
                 // <+1656>
-                if unsafe copy_2.preferences.contains(DisplayList.Key.self) {
+                if unsafe copy_2.preferences.contains(DisplayList.Key.self, includeHostPreferences: false) {
                     if copy_2.base.options.contains(.doNotScrape) {
                         flags = [.unknown0, .unknown1, .unknown2]
                     } else {

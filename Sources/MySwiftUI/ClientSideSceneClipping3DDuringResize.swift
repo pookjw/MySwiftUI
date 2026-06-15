@@ -77,7 +77,7 @@ fileprivate struct ConditionalClipping3DEffect : ViewModifier, PrimitiveViewModi
          body -> x2/x3 -> x29 - 0x60 / x29 - 0x58
          */
         // <+276>
-        if inputs.needsGeometry || inputs.preferences.contains(DisplayList.Key.self) {
+        if inputs.needsGeometry || inputs.preferences.contains(DisplayList.Key.self, includeHostPreferences: false) {
             // <+352>
             // x24
             var modifier = modifier
