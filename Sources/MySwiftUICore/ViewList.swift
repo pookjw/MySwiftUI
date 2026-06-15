@@ -2741,7 +2741,66 @@ extension Layout3D {
         }
     }
     
-    static func makeStaticView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
+    static func makeStaticView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: any _ViewList_Elements) -> _ViewOutputs {
+        /*
+         root -> x0 -> w23
+         inputs -> x1 -> x24
+         properties -> x2
+         list -> x3/x4 -> x28/x29 - 0x138
+         */
+        // w22
+        let isDefaultEmptyLayout = properties.isDefaultEmptyLayout
+        // w26
+        let isIdentityUnaryLayout = properties.isIdentityUnaryLayout
+        let count = list.count
+        
+        // true -> <+296> / false -> <+560>
+        let flag: Bool
+        if count == 1 {
+            // <+292>
+            if isIdentityUnaryLayout {
+                // <+296>
+                flag = true
+            } else {
+                // <+560>
+                flag = false
+            }
+        } else if count != 0 {
+            // <+560>
+            flag = false
+        } else {
+            // <+268>
+            if isDefaultEmptyLayout {
+                // <+272>
+                return _ViewOutputs()
+            } else {
+                // <+560>
+                flag = false
+            }
+        }
+        
+        if flag {
+            // <+296>
+            let block: (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? = { _ in
+                // $s7SwiftUI18_ViewList_ElementsPAAE07makeAllE06inputs11indirectMap4bodyAA01_C7OutputsVSgAA01_C6InputsV_AA017IndirectAttributeJ0CSgAjL_AiLctXEtFA2jL_AiLctcXEfU_AJ_SbtAL_AiLctXEfU_03$s7a5UI11_cm9VAcA01_C7l178VIegnr_AESgIgngr_A2cEIegnr_AFIegngr_TR03$s7a67UI8Layout3DPAAE16makeStaticView3D4root6inputs10properties4listAA12_ce28VAA11_GraphValueVyxG_AA01_K6D65VAA16LayoutPropertiesVAA01_K13d1_E32_ptFZAJSgAO_AjOctXEfU_Tf3nnnpf_nTf3nnnpf_n
+                assertUnimplemented()
+            }
+            
+            // x29 - 0xe0
+            let outputs = withoutActuallyEscaping(block) { escapingClosure in
+                list.makeAllElements(
+                    inputs: <#T##_ViewInputs#>,
+                    indirectMap: nil,
+                    body: escapingClosure
+                )
+            }
+            
+            assertUnimplemented()
+        } else {
+            // <+560>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     
