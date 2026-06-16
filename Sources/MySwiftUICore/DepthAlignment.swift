@@ -9,11 +9,11 @@ private import Spatial
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 @frozen public struct DepthAlignment : Equatable, Sendable {
-    public init(_ id: any DepthAlignmentID.Type) {
+    init(_ id: any AlignmentID.Type) {
         assertUnimplemented()
     }
     
-    init(_ id: any AlignmentID.Type) {
+    public init(_ id: any DepthAlignmentID.Type) {
         assertUnimplemented()
     }
     

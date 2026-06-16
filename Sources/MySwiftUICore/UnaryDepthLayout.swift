@@ -151,6 +151,74 @@ fileprivate struct UnaryDepthLayoutComputer<L> : AsyncAttribute, StatefulRule {
     typealias Value = LayoutComputer
     
     func updateValue() {
-        assertUnimplemented()
+        let current = AnyAttribute.current!
+        
+        let engine = UnaryDepthLayoutComputer<L>.Engine(
+            layout: self.layout,
+            layoutContext: SizeAndSpacingContext(
+                context: AnyRuleContext(attribute: current),
+                owner: current,
+                environment: self.$environment
+            ),
+            child: LayoutProxy(
+                context: AnyRuleContext(attribute: current),
+                attributes: LayoutProxyAttributes(
+                    layoutComputer: self._childLayoutComputer,
+                    traitsList: OptionalAttribute()
+                )
+            ),
+            cache: Cache3()
+        )
+        
+        self.update(to: engine)
+    }
+}
+
+extension UnaryDepthLayoutComputer {
+    struct Engine : LayoutEngine {
+        let layout: L
+        let layoutContext: SizeAndSpacingContext
+        let child: LayoutProxy
+        private(set) var cache: Cache3<_ProposedSize3D, CGFloat>
+        
+        func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+            assertUnimplemented()
+        }
+        
+        func layoutPriority() -> Double {
+            assertUnimplemented()
+        }
+        
+        func ignoresAutomaticPadding() -> Bool {
+            assertUnimplemented()
+        }
+        
+        func requiresSpacingProjection() -> Bool {
+            assertUnimplemented()
+        }
+        
+        func requiresTrueDepthLayout() -> Bool {
+            assertUnimplemented()
+        }
+        
+        func spacing() -> Spacing {
+            assertUnimplemented()
+        }
+        
+        func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+            assertUnimplemented()
+        }
+        
+        func withUpdatedDepthProposal<T>(proposal2D: _ProposedSize, run: () -> T) -> T {
+            assertUnimplemented()
+        }
+        
+        func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+            assertUnimplemented()
+        }
+        
+        func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
+            assertUnimplemented()
+        }
     }
 }
