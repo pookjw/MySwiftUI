@@ -337,7 +337,7 @@ extension Layout3D {
             // x29 - 0x108
             var attrbitues: [LayoutProxyAttributes] = []
             // x29 - 0x110
-            var count = 0
+            var index = 0
             // x29 - 0xc8
             let copy_2 = copy_1
             
@@ -349,13 +349,75 @@ extension Layout3D {
                     // $s7SwiftUI8Layout3DPAAE16makeStaticView3D4root6inputs10properties4listAA12_ViewOutputsVAA11_GraphValueVyxG_AA01_K6InputsVAA16LayoutPropertiesVAA01_K13List_Elements_ptFZAJSgAO_AjOctXEfU0_TA
                     /*
                      inputs -> x0
-                     transform -> x1/x2
+                     transform -> x1/x2 -> x23/x20
                      geometries -> x3
-                     count -> x4
-                     depthGeometries -> x5
-                     attrbitues -> x6
+                     index -> x4 -> x19
+                     depthGeometries -> x5 -> x24
+                     attrbitues -> x6 -> x22
                      */
-                    assertUnimplemented()
+                    // sp + 0xd0
+                    let copy_1 = inputs
+                    // sp + 0x70
+                    var copy_2 = inputs
+                    // sp + 0x18
+                    let copy_3: _ViewInputs
+                    
+                    if copy_1.base.options.contains(.viewNeedsGeometry) {
+                        // <+164>
+                        copy_3 = copy_1
+                        
+                        let geometryRule = LayoutChildGeometry(
+                            childGeometries: geometries!,
+                            index: index
+                        )
+                        
+                        let geometryAttribute = Attribute(geometryRule)
+                        
+                        copy_2.position = geometryAttribute[keyPath: \.origin]
+                        copy_2.size = geometryAttribute[keyPath: \.dimensions.size]
+                        // <+312>
+                    } else {
+                        // <+148>
+                        copy_3 = copy_1
+                        // <+312>
+                    }
+                    
+                    // <+312>
+                    let outputs: _ViewOutputs
+                    if let depthGeometries {
+                        // <+420>
+                        outputs = _ViewOutputs.makeDepthTransform(
+                            inputs: copy_2,
+                            geometry: {
+                                let geometry = LayoutChildDepthGeometry(
+                                    childGeometries: depthGeometries,
+                                    index: index
+                                )
+                                
+                                return Attribute(geometry)
+                            },
+                            body: transform
+                        )
+                    } else {
+                        // <+324>
+                        outputs = transform(copy_2)
+                    }
+                    
+                    if copy_1.base.options.contains(.viewNeedsGeometry) {
+                        // <+340>
+                        let attribute = LayoutProxyAttributes(
+                            layoutComputer: OptionalAttribute(outputs.layoutComputer),
+                            traitsList: OptionalAttribute()
+                        )
+                        
+                        attrbitues.append(attribute)
+                        // <+460>
+                    } else {
+                        // <+460>
+                    }
+                    
+                    index &+= 1
+                    return outputs
                 }
             ) ?? _ViewOutputs()
             
@@ -420,6 +482,15 @@ struct LayoutChildDepthGeometries<L> : Rule, AsyncAttribute {
     @Attribute var layoutComputer: LayoutComputer
     
     var value: [ViewDepthGeometry] {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct LayoutChildDepthGeometry : AsyncAttribute, Rule {
+    @Attribute private(set) var childGeometries: [ViewDepthGeometry]
+    let index: Int
+    
+    var value: ViewDepthGeometry {
         assertUnimplemented()
     }
 }
