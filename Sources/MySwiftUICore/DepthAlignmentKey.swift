@@ -1,58 +1,6 @@
 // F1D30FA54A33EC0F4C1C5265C087A467
 public import CoreGraphics
 private import Synchronization
-private import Spatial
-
-@available(visionOS 1.0, *)
-@available(iOS, unavailable)
-@available(macOS, unavailable)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
-@frozen public struct DepthAlignment : Equatable, Sendable {
-    init(_ id: any AlignmentID.Type) {
-        let key = AlignmentKey(id: id, axis: <#T##Axis#>)
-        assertUnimplemented()
-    }
-    
-    public init(_ id: any DepthAlignmentID.Type) {
-        self.depthKey = DepthAlignmentKey(id: id)
-    }
-    
-    @_documentation(visibility: private) public var depthKey: DepthAlignmentKey
-    
-    public func combineExplicit<S>(_ values: S) -> CGFloat? where S : Swift.Sequence, S.Element == CGFloat? {
-        assertUnimplemented()
-    }
-}
-
-@available(iOS, unavailable)
-@available(macOS, unavailable)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
-extension DepthAlignment {
-    static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
-        assertUnimplemented()
-    }
-}
-
-@available(visionOS 1.0, *)
-@available(iOS, unavailable)
-@available(macOS, unavailable)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
-extension DepthAlignment {
-    public static let front: DepthAlignment = {
-        assertUnimplemented()
-    }()
-    
-    public static let center: DepthAlignment = {
-        assertUnimplemented()
-    }()
-    
-    public static let back: DepthAlignment = {
-        assertUnimplemented()
-    }()
-}
 
 @available(visionOS 1.0, *)
 @available(iOS, unavailable)
@@ -136,3 +84,58 @@ extension DepthAlignmentID {
         assertUnimplemented()
     }
 }
+
+@available(visionOS 1.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension DepthAlignment {
+    public static let front = DepthAlignment(DepthAlignment.Front.self as any DepthAlignmentID.Type)
+    public static let center = DepthAlignment(DepthAlignment.Center.self as any DepthAlignmentID.Type)
+    public static let back = DepthAlignment(DepthAlignment.Back.self as any DepthAlignmentID.Type)
+    
+    fileprivate enum Front : LegacyDepthAlignmentID {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            assertUnimplemented()
+        }
+        
+        static func defaultValue(in context: ViewDimensions3D) -> CGFloat {
+            assertUnimplemented()
+        }
+        
+        static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
+            assertUnimplemented()
+        }
+    }
+    
+    fileprivate enum Center : LegacyDepthAlignmentID {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            assertUnimplemented()
+        }
+        
+        static func defaultValue(in context: ViewDimensions3D) -> CGFloat {
+            assertUnimplemented()
+        }
+        
+        static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
+            assertUnimplemented()
+        }
+    }
+    
+    fileprivate enum Back : LegacyDepthAlignmentID {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            assertUnimplemented()
+        }
+        
+        static func defaultValue(in context: ViewDimensions3D) -> CGFloat {
+            assertUnimplemented()
+        }
+        
+        static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
+            assertUnimplemented()
+        }
+    }
+}
+
+protocol LegacyDepthAlignmentID : AlignmentID, DepthAlignmentID {}
