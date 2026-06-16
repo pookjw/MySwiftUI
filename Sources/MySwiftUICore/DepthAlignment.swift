@@ -10,11 +10,12 @@ private import Spatial
 @available(tvOS, unavailable)
 @frozen public struct DepthAlignment : Equatable, Sendable {
     init(_ id: any AlignmentID.Type) {
+        let key = AlignmentKey(id: id, axis: <#T##Axis#>)
         assertUnimplemented()
     }
     
     public init(_ id: any DepthAlignmentID.Type) {
-        assertUnimplemented()
+        self.depthKey = DepthAlignmentKey(id: id)
     }
     
     @_documentation(visibility: private) public var depthKey: DepthAlignmentKey
