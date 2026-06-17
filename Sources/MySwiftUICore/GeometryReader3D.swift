@@ -1,7 +1,7 @@
 // 638EB2064D6D992C8A48A894A8F58A16
-private import CoreGraphics
+internal import CoreGraphics
 public import Spatial
-private import AttributeGraph
+internal import AttributeGraph
 
 @available(visionOS 1.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -142,8 +142,103 @@ extension GeometryReader3D : UnaryView, PrimitiveView where Content : View {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 public struct GeometryProxy3D {
+    private var owner: AnyWeakAttribute // 0x0
+    private var _size: WeakAttribute<ViewSize> // 0x8
+    @WeakAttribute private var depth: ViewDepth? // 0x10
+    private var _environment: WeakAttribute<EnvironmentValues> // 0x18
+    @WeakAttribute private var transform: ViewTransform? // 0x20
+    @WeakAttribute private var position: CGPoint? // 0x28
+    private var _safeAreaInsets: WeakAttribute<SafeAreaInsets> // 0x30
+    private var unit: LengthUnit? = nil // 0x38
+    private var seed: UInt32 // 0x40
+    
+    init(
+        owner: AnyAttribute,
+        size: Attribute<ViewSize>,
+        depth: Attribute<ViewDepth>,
+        environment: Attribute<EnvironmentValues>,
+        transform: Attribute<ViewTransform>,
+        position: Attribute<CGPoint>,
+        safeAreaInsets: Attribute<SafeAreaInsets>?,
+        seed: UInt32
+    ) {
+        self.owner = AnyWeakAttribute(owner)
+        self._size = WeakAttribute(size)
+        self._depth = WeakAttribute(depth)
+        self._environment = WeakAttribute(environment)
+        self._transform = WeakAttribute(transform)
+        self._position = WeakAttribute(position)
+        self._safeAreaInsets = WeakAttribute(safeAreaInsets ?? Attribute(identifier: .empty))
+        self.seed = seed
+    }
+    
     public var size: Size3D {
-        assertUnimplemented()
+        // self -> x20 -> x19
+        // sp + 0xc0
+        let copy_1 = self
+        // sp + 0x70
+        let copy_2 = self
+        
+        var d0: CGFloat
+        var d1: CGFloat
+        var d2: CGFloat
+        do {
+            let sizeInPoints = copy_2.sizeInPoints
+            d0 = sizeInPoints.width
+            d1 = sizeInPoints.height
+            d2 = sizeInPoints.depth
+        }
+        
+        let d8 = d0
+        let d9 = d1
+        let d10 = d2
+        
+        // x22
+        let unitLength: UnitLength?
+        switch self.unit {
+        case .length(let length):
+            unitLength = length
+        default:
+            unitLength = nil
+        }
+        
+        // sp + 0x10
+        let _ = copy_1
+        // sp + 0x60
+        let environment = self.environment
+        // sp + 0x8
+        let pointScale = environment[PointScaleKey.self]
+        var d11: CGFloat
+        
+        if let unitLength {
+            // <+192>
+            let d12 = pointScale.pointsPerMeter
+            
+            if unitLength == UnitLength.meters {
+                // <+276>
+                d0 = 1
+                d11 = d0 / d12
+                // <+352>
+            } else {
+                // <+300>
+                let d13: CGFloat = 1
+                d0 = 1
+                d0 = unitLength.converter.baseUnitValue(fromValue: d0)
+                d11 = d0
+                d0 = d12 * d11
+                d11 = d13 / d0
+                // <+352>
+            }
+        } else {
+            // <+292>
+            d11 = 1
+            // <+352>
+        }
+        
+        var result = Size3D(width: d8, height: d9, depth: d10)
+        d0 = d11
+        result.scale(by: d0)
+        return result
     }
     
     public subscript<T>(anchor: Anchor<T>) -> T {
@@ -159,6 +254,14 @@ public struct GeometryProxy3D {
     }
     
     public var safeAreaInsets: EdgeInsets3D {
+        assertUnimplemented()
+    }
+    
+    var environment: EnvironmentValues {
+        assertUnimplemented()
+    }
+    
+    fileprivate var sizeInPoints: Size3D {
         assertUnimplemented()
     }
 }
@@ -242,23 +345,49 @@ extension _ViewOutputs {
 
 extension GeometryReader3D {
     fileprivate struct Child : StatefulRule {
-        @Attribute private(set) var view: GeometryReader3D<Content>
-        @Attribute private(set) var size: ViewSize
-        @Attribute private(set) var depth: ViewDepth
-        @Attribute private(set) var position: CGPoint
-        @Attribute private(set) var transform: ViewTransform
-        @Attribute private(set) var environment: EnvironmentValues
-        @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
-        private(set) var seed: UInt32
+        @Attribute private(set) var view: GeometryReader3D<Content> // 0x0
+        @Attribute private(set) var size: ViewSize // 0x4
+        @Attribute private(set) var depth: ViewDepth // 0x8
+        @Attribute private(set) var position: CGPoint // 0xc
+        @Attribute private(set) var transform: ViewTransform // 0x10
+        @Attribute private(set) var environment: EnvironmentValues // 0x14
+        @OptionalAttribute var safeAreaInsets: SafeAreaInsets? // 0x18
+        private(set) var seed: UInt32 // 0x1c
         
         typealias Value = _VariadicView.Tree<_LayoutRoot<GeometryReaderLayout3D>, Content>
         
-        func updateValue() {
+        mutating func updateValue() {
             /*
              self -> x20 -> x26
              Self -> x0 -> x25
              */
-            assertUnimplemented()
+            // <+768>
+            let newSeed = self.seed &+ 1
+            self.seed = newSeed
+            
+            // inlined
+            let proxy = GeometryProxy3D(
+                owner: .current!,
+                size: self._size,
+                depth: self._depth,
+                environment: self._environment,
+                transform: self._transform,
+                position: self._position,
+                safeAreaInsets: self.$safeAreaInsets,
+                seed: newSeed
+            )
+            
+            // inlined
+            // x24 -> x29 - 0x1f0 (x19)
+            let content = ObservationCenter.current._withObservation(attribute: Attribute<Self.Value>(identifier: .current!)) { 
+                // $s7SwiftUI16GeometryReader3DV5Child33_638EB2064D6D992C8A48A894A8F58A16LLV11updateValueyyFxyXEfU_TA
+                return self.view.content(proxy)
+            }
+            
+            // <+2360>
+            // x29 - 0x1e0 (x22)
+            let value = _VariadicView.Tree(root: _LayoutRoot(GeometryReaderLayout3D()), content: content)
+            self.value = value
         }
     }
 }

@@ -69,7 +69,7 @@ final class ObservationCenter : @unchecked Sendable {
     @inline(always)
     func _withObservation<T, U>(attribute: Attribute<U>, do block: () throws -> T) rethrows -> T {
         var accessList: ObservationTracking._AccessList?
-        let result = try unsafe withUnsafeMutablePointer(to: &accessList) { pointer in
+        let result = try withUnsafeMutablePointer(to: &accessList) { pointer in
             let key: pthread_key_t = 106 // tls_key::observation_transaction
             let old = unsafe pthread_getspecific(key)
             unsafe pthread_setspecific(key, pointer)
