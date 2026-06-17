@@ -173,6 +173,7 @@ struct AnimatableDepthOriginAttribute : ObservedAttribute, AsyncAttribute, State
     typealias Value = ViewDepthOrigin
     
     func updateValue() {
+        // self -> x20
         assertUnimplemented()
     }
     
@@ -210,7 +211,16 @@ fileprivate struct RoundedSizeIfOffset : AsyncAttribute, Rule {
     
     var value: ViewSize {
         // self -> x0/x1 -> x21/x22
-        assertUnimplemented()
+        let d0 = self.depthPosition.value
+        
+        guard d0 != 0 else {
+            return self.size
+        }
+        
+        // <+100>
+        var frame = ViewFrame(origin: self.position, size: self.size)
+        frame.round(toMultipleOf: self.pixelLength)
+        return frame.size
     }
 }
 
