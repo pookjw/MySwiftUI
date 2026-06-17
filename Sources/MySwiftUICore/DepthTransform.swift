@@ -172,8 +172,32 @@ struct AnimatableDepthOriginAttribute : ObservedAttribute, AsyncAttribute, State
     
     typealias Value = ViewDepthOrigin
     
-    func updateValue() {
+    mutating func updateValue() {
         // self -> x20
+        let (position, positionChanged) = self.$position.changedValue(options: [])
+        let d8 = position.value
+        let (pixelLength, pixelLengthChanged) = self.$pixelLength.changedValue(options: [])
+        var d0 = pixelLength
+        
+        let sp0x10 = positionChanged || pixelLengthChanged
+        var d1: CGFloat = 1
+        
+        if d0 =! d1 {
+            // <+132>
+            d1 = d8 / d0
+            d1 = round(d1)
+            d0 = d0 * d1
+            // <+144>
+        } else {
+            d0 = round(d8)
+            // <+144>
+        }
+        
+        // sp + 0x8
+        var value = (value: d0, changed: sp0x10)
+        
+        // <+144>
+        self.helper.update(value: &<#T##(value: ViewDepthOrigin, changed: Bool)#>, defaultAnimation: <#T##Animation?#>, environment: <#T##Attribute<EnvironmentValues>#>)
         assertUnimplemented()
     }
     
