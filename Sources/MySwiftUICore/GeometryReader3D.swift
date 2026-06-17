@@ -262,7 +262,40 @@ public struct GeometryProxy3D {
     }
     
     fileprivate var sizeInPoints: Size3D {
-        assertUnimplemented()
+        var d8: CGFloat = 0
+        var d1: CGFloat
+        var d2: CGFloat
+        let d0: CGFloat
+        
+        // w21
+        guard let sizeAttribute = self._size.attribute else {
+            return .zero
+        }
+        
+        // <+68>
+        // x20
+        let size = AnyRuleContext(attribute: self.owner._attribute)[sizeAttribute]
+        
+        d1 = 0
+        d2 = 0
+        
+        // w21
+        guard let depthAttribute = self._depth.attribute else {
+            d0 = d8
+            return .zero
+        }
+        
+        // <+136>
+        let ownerAttribute = AnyRuleContext(attribute: self.owner._attribute)
+        let d9 = size.width
+        d8 = size.height
+        
+        let depth = ownerAttribute[depthAttribute]
+        d2 = depth.value
+        d0 = d9
+        d1 = d8
+        
+        return Size3D(width: d0, height: d1, depth: d2)
     }
 }
 

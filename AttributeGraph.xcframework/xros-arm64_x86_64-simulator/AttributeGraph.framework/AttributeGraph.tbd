@@ -305,7 +305,8 @@ exports:
     _AGSubgraphAddChild2,
     _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvg,
     _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvs,
-    _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvM ]
+    _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvM,
+    _AGWeakAttributeGetAttribute ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
