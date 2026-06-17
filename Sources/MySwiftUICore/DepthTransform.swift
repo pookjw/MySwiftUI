@@ -209,6 +209,7 @@ fileprivate struct RoundedSizeIfOffset : AsyncAttribute, Rule {
     @Attribute private(set) var pixelLength: CGFloat
     
     var value: ViewSize {
+        // self -> x0/x1 -> x21/x22
         assertUnimplemented()
     }
 }
