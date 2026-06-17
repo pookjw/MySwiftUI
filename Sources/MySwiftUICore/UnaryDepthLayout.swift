@@ -3,9 +3,9 @@ package import CoreGraphics
 internal import AttributeGraph
 
 package protocol UnaryDepthLayout : Animatable, MultiViewModifier, PrimitiveViewModifier {
-    func depthThatFits(in: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat
-    func depthPlacement(of: LayoutProxy, in: PlacementContext3D) -> DepthPlacement
-    func depthOffered(to: LayoutProxy, for: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat?
+    nonisolated func depthThatFits(in: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat
+    nonisolated func depthPlacement(of: LayoutProxy, in: PlacementContext3D) -> DepthPlacement
+    nonisolated func depthOffered(to: LayoutProxy, for: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat?
 }
 
 extension UnaryDepthLayout {
@@ -143,7 +143,7 @@ struct UnaryDepthLayoutGeometry<T> : Rule, AsyncAttribute {
     }
 }
 
-fileprivate struct UnaryDepthLayoutComputer<L> : AsyncAttribute, StatefulRule {
+fileprivate struct UnaryDepthLayoutComputer<L : UnaryDepthLayout> : AsyncAttribute, StatefulRule {
     @Attribute var layout: L
     @Attribute var environment: EnvironmentValues
     @OptionalAttribute var childLayoutComputer: LayoutComputer?
@@ -177,12 +177,27 @@ fileprivate struct UnaryDepthLayoutComputer<L> : AsyncAttribute, StatefulRule {
 extension UnaryDepthLayoutComputer {
     struct Engine : LayoutEngine {
         let layout: L
-        let layoutContext: SizeAndSpacingContext
-        let child: LayoutProxy
-        private(set) var cache: Cache3<_ProposedSize3D, CGFloat>
+        let layoutContext: SizeAndSpacingContext // 0x24
+        let child: LayoutProxy // 0x28
+        private(set) var cache: Cache3<_ProposedSize3D, CGFloat> // 0x2c
         
-        func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-            assertUnimplemented()
+        mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+            /*
+             proposedSize -> x0 -> x21
+             self -> x20 -> x23
+             Self -> x1 -> x22
+             */
+            // <+148>
+            let copy = self
+            
+            // <+196>
+            return self.cache.get(proposedSize) { 
+                return copy.layout.depthThatFits(
+                    in: proposedSize,
+                    context: copy.layoutContext,
+                    child: copy.child
+                )
+            }
         }
         
         func layoutPriority() -> Double {
@@ -206,11 +221,30 @@ extension UnaryDepthLayoutComputer {
         }
         
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-            assertUnimplemented()
+            return self.withUpdatedDepthProposal(proposal2D: proposedSize) { 
+                // $s7SwiftUI24UnaryDepthLayoutComputer33_34D3AEC4362799DA2D0B148FCF3EBBB0LLV6EngineV12sizeThatFitsySo6CGSizeVAA13_ProposedSizeVFAIyXEfU_TA
+                return self.child.size(in: proposedSize)
+            }
         }
         
         func withUpdatedDepthProposal<T>(proposal2D: _ProposedSize, run: () -> T) -> T {
-            assertUnimplemented()
+            if EnableLayoutDepthStashing.isEnabled {
+                return withStashedDepthProposal { depth in
+                    // $s7SwiftUI24UnaryDepthLayoutComputer33_34D3AEC4362799DA2D0B148FCF3EBBB0LLV6EngineV011withUpdatedD8Proposal10proposal2D3runqd__AA13_ProposedSizeV_qd__yXEtlF
+                    let depthOffered = self.layout.depthOffered(
+                        to: self.child,
+                        for: _ProposedSize3D(proposal2D, depth: depth),
+                        context: self.layoutContext
+                    )
+                    
+                    return withDepthProposalStashing(depth: depthOffered) { 
+                        // $s7SwiftUI14LayoutComputerV17withMutableEngine4type2doq_xm_q_xzXEtAA0cG0Rzr0_lFq_xzXEfU_TA
+                        return run()
+                    }
+                }
+            } else {
+                return run()
+            }
         }
         
         func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {

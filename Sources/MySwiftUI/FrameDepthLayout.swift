@@ -118,16 +118,24 @@ extension _FrameDepthLayout : Animatable {}
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension _FrameDepthLayout : ViewModifier, FrameDepthLayout {
-    package func depthThatFits(in: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat {
-        assertUnimplemented()
+    package func depthThatFits(in size: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat {
+        if let depth {
+            return depth
+        }
+        
+        return child.depth(in: size)
     }
     
     package func depthPlacement(of: LayoutProxy, in: PlacementContext3D) -> DepthPlacement {
         assertUnimplemented()
     }
     
-    package func depthOffered(to: LayoutProxy, for: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
-        assertUnimplemented()
+    package func depthOffered(to: LayoutProxy, for size: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
+        if let depth {
+            return depth
+        }
+        
+        return size.depth
     }
 }
 

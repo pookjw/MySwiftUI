@@ -653,7 +653,7 @@ package struct LayoutProxy : Equatable {
         assertUnimplemented()
     }
     
-    func depth(in proposedSize: _ProposedSize3D) -> CGFloat {
+    package func depth(in proposedSize: _ProposedSize3D) -> CGFloat {
         return layoutComputer.depthThatFits(proposedSize)
     }
     

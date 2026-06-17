@@ -10,7 +10,7 @@ package import Spatial
     
     var width: CGFloat?
     var height: CGFloat?
-    var depth: CGFloat?
+    package var depth: CGFloat?
     
     init(width: CGFloat?, height: CGFloat?, depth: CGFloat?) {
         self.width = width

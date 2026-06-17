@@ -266,7 +266,7 @@ extension LayoutComputer {
         }
         
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-            assertUnimplemented()
+            return proposedSize.fixingUnspecifiedDimensions()
         }
         
         func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
@@ -503,7 +503,30 @@ struct EnableLayoutDepthStashing : UserDefaultKeyedFeature, PropertyKey {
 }
 
 func withStashedDepthProposal<T>(execute: (CGFloat?) -> T) -> T {
-    assertUnimplemented()
+    let depth: CGFloat?
+    if let data = _threadLayoutDepthData() {
+        depth = data.assumingMemoryBound(to: CGFloat?.self).pointee
+    } else {
+        depth = nil
+    }
+    
+    return execute(depth)
+}
+
+func withDepthProposalStashing<T>(depth: CGFloat?, execute: () -> T) -> T {
+    if EnableLayoutDepthStashing.isEnabled {
+        var data = LayoutDepthData(depthProposal: depth)
+        
+        return withUnsafeMutablePointer(to: &data) { ptr in
+            let old = unsafe LayoutDepthData.current
+            unsafe LayoutDepthData.current = unsafe ptr
+            let result = execute()
+            unsafe LayoutDepthData.current = unsafe old
+            return result
+        }
+    } else {
+        return execute()
+    }
 }
 
 extension StatefulRule where Value == LayoutComputer {
@@ -548,5 +571,27 @@ extension StatefulRule where Value == LayoutComputer {
                 return engine
             }
         )
+    }
+}
+
+struct LayoutDepthData {
+    var depthProposal: CGFloat?
+    
+    static var current: UnsafeMutablePointer<LayoutDepthData>? {
+        get {
+            if let ptr = unsafe _threadLayoutDepthData() {
+                return unsafe ptr.assumingMemoryBound(to: LayoutDepthData.self)
+            } else {
+                return nil
+            }
+        }
+        set {
+            unsafe _setThreadLayoutDepthData(newValue)
+        }
+        _modify {
+            var value = unsafe current
+            yield unsafe &value
+            unsafe current = unsafe value
+        }
     }
 }

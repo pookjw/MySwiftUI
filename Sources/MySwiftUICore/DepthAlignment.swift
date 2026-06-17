@@ -9,13 +9,13 @@ public import CoreGraphics
 @frozen public struct DepthAlignment : Equatable, Sendable {
     init(_ id: any AlignmentID.Type) {
         // axis는 알 수 없음 - typeCache에 저장만 하는 용도
-        let _ = AlignmentKey(id: id, axis: .horizontal)
+        let key = AlignmentKey(id: id, axis: .horizontal)
         
         func project<T : AlignmentID>(_ type: T.Type) -> DepthAlignmentKey {
             return DepthAlignmentKey(id: ToDepthAlignmentIDAdaptor<T>.self)
         }
         
-        self.depthKey = _openExistential(id, do: project)
+        self.depthKey = _openExistential(key.id, do: project)
     }
     
     public init(_ id: any DepthAlignmentID.Type) {
