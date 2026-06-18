@@ -117,7 +117,7 @@ extension UnaryDepthLayout {
     }
 }
 
-struct UnaryDepthLayoutGeometry<T> : Rule, AsyncAttribute {
+struct UnaryDepthLayoutGeometry<T : UnaryDepthLayout> : Rule, AsyncAttribute {
     @Attribute private var layout: T
     @Attribute private var parentSize: ViewSize
     @Attribute private var parentDepth: ViewDepth
@@ -140,6 +140,41 @@ struct UnaryDepthLayoutGeometry<T> : Rule, AsyncAttribute {
     
     var value: ViewDepthGeometry {
         // self -> x20
+        // w26
+        let current = AnyAttribute.current!
+        
+        // x29 - 0xc0
+        let context = PlacementContext3D(
+            base: PlacementContext(
+                base: SizeAndSpacingContext(
+                    context: AnyRuleContext(attribute: current),
+                    owner: current,
+                    environment: self.$environment
+                ),
+                parentSize: self.parentSize
+            ),
+            _depth: self.parentDepth
+        )
+        
+        // <+300>
+        // x20
+        let depth = self.layout.depthOffered(
+            to: LayoutProxy(
+                context: AnyRuleContext(attribute: current),
+                attributes: LayoutProxyAttributes(
+                    layoutComputer: self.$childLayoutComputer,
+                    traitsList: OptionalAttribute()
+                )
+            ),
+            for: context.proposedSize, // inlined
+            context: SizeAndSpacingContext(
+                context: AnyRuleContext(attribute: current),
+                owner: current,
+                environment: self.$environment
+            )
+        )
+        
+        // <+628>
         assertUnimplemented()
     }
 }

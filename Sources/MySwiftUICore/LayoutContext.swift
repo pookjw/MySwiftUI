@@ -144,12 +144,13 @@ extension PlacementContext {
 @dynamicMemberLookup
 package struct PlacementContext3D {
     var base: PlacementContext
-    private var _depth: ViewDepth
-    
-    // init은 존재하지 않는데 만든다면 fileprivate일듯
+    private(set) var _depth: ViewDepth
     
     var proposedSize: _ProposedSize3D {
-        assertUnimplemented()
+        return _ProposedSize3D(
+            self.base.proposedSize,
+            depth: self._depth.proposal
+        )
     }
     
     var depth: CGFloat {
