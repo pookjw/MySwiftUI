@@ -182,7 +182,7 @@ struct AnimatableDepthOriginAttribute : ObservedAttribute, AsyncAttribute, State
         let sp0x10 = positionChanged || pixelLengthChanged
         var d1: CGFloat = 1
         
-        if d0 =! d1 {
+        if d0 != d1 {
             // <+132>
             d1 = d8 / d0
             d1 = round(d1)
@@ -194,11 +194,20 @@ struct AnimatableDepthOriginAttribute : ObservedAttribute, AsyncAttribute, State
         }
         
         // sp + 0x8
-        var value = (value: d0, changed: sp0x10)
+        var value = (value: ViewDepthOrigin(d0), changed: sp0x10)
         
         // <+144>
-        self.helper.update(value: &<#T##(value: ViewDepthOrigin, changed: Bool)#>, defaultAnimation: <#T##Animation?#>, environment: <#T##Attribute<EnvironmentValues>#>)
-        assertUnimplemented()
+        self.helper.update(
+            value: &value,
+            defaultAnimation: nil,
+            environment: self.$environment,
+            sampleCollector: { _, _ in
+            }
+        )
+        
+        if value.changed || !self.hasValue {
+            self.value = value.value
+        }
     }
     
     func destroy() {

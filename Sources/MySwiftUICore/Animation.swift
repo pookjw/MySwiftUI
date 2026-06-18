@@ -393,10 +393,12 @@ struct AnimatableAttributeHelper<T : Animatable> {
         self.resetSeed = 0
     }
     
-    mutating func update(value: inout (value: T, changed: Bool), defaultAnimation: Animation?, environment: Attribute<EnvironmentValues>) {
-        // $s7SwiftUI25AnimatableAttributeHelperV6update5value16defaultAnimation11environment15sampleCollectoryxAE_Sb7changedtz_AA0I0VSg0D5Graph0D0VyAA17EnvironmentValuesVGy0C4DataQz_AA4TimeVtXEtF
-        // $s7SwiftUI25AnimatableAttributeHelperV6update5value16defaultAnimation11environment15sampleCollectoryxAE_Sb7changedtz_AA0I0VSg0D5Graph0D0VyAA17EnvironmentValuesVGy0C4DataQz_AA4TimeVtXEtFAA9ViewFrameV_Tg503$s7a4UI25cde88V6update5value16defaultAnimation11environmentyxAE_Sb7changedtz_AA0I0VSg0D5Graph0D0VyAA17op8VGtFy0C4q6Qz_AA4r10VtXEfU_AA9sT5V_TG5Tf1nnncn_n
-        
+    mutating func update(
+        value: inout (value: T, changed: Bool),
+        defaultAnimation: Animation?,
+        environment: Attribute<EnvironmentValues>,
+        sampleCollector: (T.AnimatableData, Time) -> ()
+    ) {
         // x29 = sp + 0x2f0
         /*
          value = x26
@@ -542,11 +544,25 @@ struct AnimatableAttributeHelper<T : Animatable> {
             // <+6052>
             CustomEventTrace.animationAttrUpdate(.current)
             animatorState.nextUpdate()
+            sampleCollector(animatableData, time)
         }
         
         // <+7204>
         value.value.animatableData = animatableData
         value.changed = true
+    }
+    
+    mutating func update(
+        value: inout (value: T, changed: Bool),
+        defaultAnimation: Animation?,
+        environment: Attribute<EnvironmentValues>
+    ) {
+        self.update(
+            value: &value,
+            defaultAnimation: defaultAnimation,
+            environment: environment,
+            sampleCollector: { _, _ in }
+        )
     }
     
     func checkReset() -> Bool {
