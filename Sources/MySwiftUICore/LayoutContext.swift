@@ -1,6 +1,6 @@
 // BA60BF7120E939C5C25B2A488163D4AC
 internal import AttributeGraph
-internal import Spatial
+package import Spatial
 
 @dynamicMemberLookup
 package struct SizeAndSpacingContext {
@@ -24,7 +24,7 @@ package struct SizeAndSpacingContext {
         self._environment = context.$environment
     }
     
-    subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
+    package subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
         let fetch = EnvironmentFetch<Value>(environment: $environment, keyPath: dynamicMember)
         
         return unsafe withUnsafePointer(to: fetch) { pointer in
@@ -146,7 +146,7 @@ package struct PlacementContext3D {
     var base: PlacementContext
     private(set) var _depth: ViewDepth
     
-    var proposedSize: _ProposedSize3D {
+    package var proposedSize: _ProposedSize3D {
         return _ProposedSize3D(
             self.base.proposedSize,
             depth: self._depth.proposal
@@ -154,15 +154,15 @@ package struct PlacementContext3D {
     }
     
     var depth: CGFloat {
-        assertUnimplemented()
+        return self._depth.value
     }
     
     var proposedDepth: CGFloat? {
         assertUnimplemented()
     }
     
-    var size: Size3D {
-        assertUnimplemented()
+    package var size: Size3D {
+        return Size3D(self.base.size, depth: self.depth)
     }
     
     subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {

@@ -2488,3 +2488,11 @@ public protocol Layout3D : SwiftUI.Layout {}
 extension _SwiftUICorePrivate.Layout3D {
   public static func makeLayoutView3D(root: SwiftUI._GraphValue<Self>, inputs: SwiftUI._ViewInputs, body: (SwiftUI._Graph, SwiftUI._ViewInputs) -> SwiftUI._ViewListOutputs) -> SwiftUI._ViewOutputs
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PlacementContext {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct PlacementContext3D {}

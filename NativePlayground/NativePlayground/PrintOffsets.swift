@@ -211,6 +211,8 @@ func printOffsets() {
     printFields(_ViewList_Section.self, isClassType: false)
     printFields(RealityViewAttachmentBuilderContent<EmptyAttachmentContent, RealityViewContent.Body<EmptyView>>.self, isClassType: false)
     printFields(GeometryProxy3D.self, isClassType: false)
+    printFields(PlacementContext.self, isClassType: false)
+    printFields(PlacementContext3D.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

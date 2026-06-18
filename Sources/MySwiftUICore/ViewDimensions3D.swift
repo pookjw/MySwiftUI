@@ -1,5 +1,5 @@
 public import CoreGraphics
-internal import Spatial
+package import Spatial
 
 public struct ViewDimensions3D {
     let guideComputer: LayoutComputer
@@ -37,7 +37,7 @@ public struct ViewDimensions3D {
         }
     }
     
-    init(guideComputer: LayoutComputer, size: Size3D, proposal: _ProposedSize3D) {
+    package init(guideComputer: LayoutComputer, size: Size3D, proposal: _ProposedSize3D) {
         self.guideComputer = guideComputer
         self.size = ViewSize3D(size, proposal: proposal)
     }

@@ -11,7 +11,7 @@ private import Synchronization
     private static let typeCache = Mutex(DepthAlignmentKey.TypeCache())
     private let bits: UInt
     
-    var id: any DepthAlignmentID.Type {
+    package var id: any DepthAlignmentID.Type {
         return DepthAlignmentKey.typeCache.withLock { cache in
             return cache.ids[Int(bits - 1)]
         }

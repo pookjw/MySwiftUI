@@ -126,11 +126,41 @@ extension _FrameDepthLayout : ViewModifier, FrameDepthLayout {
         return child.depth(in: size)
     }
     
-    package func depthPlacement(of: LayoutProxy, in: PlacementContext3D) -> DepthPlacement {
-        assertUnimplemented()
+    package func depthPlacement(of proxy: LayoutProxy, in context: PlacementContext3D) -> DepthPlacement {
+        /*
+         self -> x20 -> x22
+         proxy -> x0 -> x29 - 0x90
+         context -> x1 -> x19
+         */
+        // <+388>
+        // x24
+        var proposedSize = context.proposedSize
+        
+        if let depth {
+            proposedSize.depth = depth
+        } 
+        
+        // <+424>
+        // x27
+        let dimensions_1 = ViewDimensions3D(
+            guideComputer: .defaultValue,
+            size: context.size,
+            proposal: context.proposedSize
+        )
+        
+        // x25
+        let dimensions_2 = proxy.dimensions3D(in: proposedSize)
+        // <+608>
+        var d8 = self.alignment.depthKey.id.defaultValue(in: dimensions_1)
+        let d0 = dimensions_2[self.alignment]
+        d8 = d8 - d0
+        
+        // x29 - 0x78
+        let placement = DepthPlacement(proposal: proposedSize.depth, offset: d8)
+        return placement
     }
     
-    package func depthOffered(to: LayoutProxy, for size: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
+    package func depthOffered(to proxy: LayoutProxy, for size: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
         if let depth {
             return depth
         }

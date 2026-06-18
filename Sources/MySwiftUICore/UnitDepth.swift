@@ -1,6 +1,6 @@
-internal import CoreGraphics
+package import CoreGraphics
 
-struct UnitDepth {
+package struct UnitDepth {
     var value: CGFloat
     
     // TODO

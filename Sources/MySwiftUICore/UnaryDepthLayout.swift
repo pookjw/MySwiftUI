@@ -141,14 +141,14 @@ struct UnaryDepthLayoutGeometry<T : UnaryDepthLayout> : Rule, AsyncAttribute {
     var value: ViewDepthGeometry {
         // self -> x20
         // w26
-        let current = AnyAttribute.current!
+        let current_1 = AnyAttribute.current!
         
         // x29 - 0xc0
         let context = PlacementContext3D(
             base: PlacementContext(
                 base: SizeAndSpacingContext(
-                    context: AnyRuleContext(attribute: current),
-                    owner: current,
+                    context: AnyRuleContext(attribute: current_1),
+                    owner: current_1,
                     environment: self.$environment
                 ),
                 parentSize: self.parentSize
@@ -157,25 +157,81 @@ struct UnaryDepthLayoutGeometry<T : UnaryDepthLayout> : Rule, AsyncAttribute {
         )
         
         // <+300>
+        // w25
+        let current_2 = AnyAttribute.current!
+        
+        let proxy = LayoutProxy(
+            context: AnyRuleContext(attribute: current_2),
+            attributes: LayoutProxyAttributes(
+                layoutComputer: self._childLayoutComputer,
+                traitsList: OptionalAttribute()
+            )
+        )
+        
         // x20
         let depth = self.layout.depthOffered(
-            to: LayoutProxy(
-                context: AnyRuleContext(attribute: current),
-                attributes: LayoutProxyAttributes(
-                    layoutComputer: self.$childLayoutComputer,
-                    traitsList: OptionalAttribute()
-                )
-            ),
+            to: proxy,
             for: context.proposedSize, // inlined
             context: SizeAndSpacingContext(
-                context: AnyRuleContext(attribute: current),
-                owner: current,
+                context: AnyRuleContext(attribute: current_2),
+                owner: current_2,
                 environment: self.$environment
             )
         )
         
         // <+628>
-        assertUnimplemented()
+        let block: () -> DepthPlacement = {
+            // $s7SwiftUI24UnaryDepthLayoutGeometryV5valueAA04ViewdF0VvgAA0D9PlacementVyXEfU_
+            return self.layout.depthPlacement(
+                of: proxy,
+                in: context
+            )
+        }
+        
+        // x29 - 0x110
+        let placement: DepthPlacement
+        
+        if EnableLayoutDepthStashing.isEnabled {
+            // <+636>
+            var data = LayoutDepthData(depthProposal: depth)
+            
+            placement = withUnsafeMutablePointer(to: &data) { pointer in
+                let old = unsafe LayoutDepthData.current
+                unsafe LayoutDepthData.current = unsafe pointer
+                let result = block()
+                unsafe LayoutDepthData.current = unsafe old
+                return result
+            }
+            
+            // <+816>
+        } else {
+            // <+748>
+            placement = block()
+            // <+816>
+        }
+        
+        // <+816>
+        let d8 = placement.anchor.value
+        let d9 = placement.offset
+        
+        let parentSize = self.parentSize
+        
+        let d0 = proxy.depth(
+            in: _ProposedSize3D(
+                width: parentSize.proposal.width,
+                height: parentSize.proposal.height,
+                depth: placement.proposal
+            )
+        )
+        
+        var d1 = d8 * d0
+        d1 = d9 - d1
+        
+        return ViewDepthGeometry(
+            origin: d1,
+            size: d0,
+            proposal: placement.proposal
+        )
     }
 }
 

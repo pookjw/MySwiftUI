@@ -5,11 +5,13 @@ struct ViewDepthGeometry : Equatable, Animatable {
     var size: ViewDepth
     
     init(origin: ViewDepthOrigin, size: ViewDepth) {
-        assertUnimplemented()
+        self.origin = origin
+        self.size = size
     }
     
     init(origin: CGFloat, size: CGFloat, proposal: CGFloat?) {
-        assertUnimplemented()
+        self.origin = ViewDepthOrigin(origin)
+        self.size = ViewDepth(size, proposal: proposal)
     }
     
     init(origin: CGFloat, dimensions: ViewDimensions3D) {

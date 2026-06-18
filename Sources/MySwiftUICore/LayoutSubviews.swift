@@ -645,7 +645,7 @@ package struct LayoutProxy : Equatable {
         return layoutComputer.requiresTrueDepthLayout()
     }
     
-    func dimensions3D(in proposedSize: _ProposedSize3D) -> ViewDimensions3D {
+    package func dimensions3D(in proposedSize: _ProposedSize3D) -> ViewDimensions3D {
         assertUnimplemented()
     }
     
