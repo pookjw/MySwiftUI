@@ -1,7 +1,7 @@
 // 91FCB5522C30220AE13689E45789FEF2
-
 internal import AttributeGraph
 internal import CoreGraphics
+internal import Spatial
 private import _MySwiftUIShims
 
 // ViewDimensions3D이 그냥 Sendable인 것을 보아 LayoutComputer이 @unchecked Sendable
@@ -52,6 +52,12 @@ package struct LayoutComputer : @unchecked Sendable {
             _ = proposedSize
             return box.depthThatFits(proposedSize)
         }
+    }
+    
+    func volumeThatFits(_ size: _ProposedSize3D) -> Size3D {
+        Update.assertIsLocked()
+        
+        assertUnimplemented()
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {

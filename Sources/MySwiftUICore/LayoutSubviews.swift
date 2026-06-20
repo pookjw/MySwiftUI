@@ -646,7 +646,13 @@ package struct LayoutProxy : Equatable {
     }
     
     package func dimensions3D(in proposedSize: _ProposedSize3D) -> ViewDimensions3D {
-        assertUnimplemented()
+        let volume = self.layoutComputer.volumeThatFits(proposedSize)
+        
+        return ViewDimensions3D(
+            guideComputer: self.layoutComputer,
+            size: volume,
+            proposal: proposedSize
+        )
     }
     
     func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
@@ -716,8 +722,7 @@ package struct LayoutProxy : Equatable {
     
     var layoutComputer: LayoutComputer {
         if let layoutComputer = attributes.$layoutComputer {
-            let rule = context.unsafeCast(to: LayoutComputer.self)
-            return rule[layoutComputer]
+            return self.context[layoutComputer]
         } else {
             return .defaultValue
         }
