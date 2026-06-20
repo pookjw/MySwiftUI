@@ -57,7 +57,51 @@ package struct LayoutComputer : @unchecked Sendable {
     func volumeThatFits(_ size: _ProposedSize3D) -> Size3D {
         Update.assertIsLocked()
         
-        assertUnimplemented()
+        if EnableLayoutDepthStashing.isEnabled {
+            // <+204>
+            var data = LayoutDepthData(depthProposal: size.depth)
+            
+            return withUnsafeMutablePointer(to: &data) { pointer in
+                let old = unsafe LayoutDepthData.current
+                unsafe LayoutDepthData.current = unsafe pointer
+                
+                let size2D = self.sizeThatFits(
+                    _ProposedSize(
+                        width: size.width,
+                        height: size.height
+                    )
+                )
+                
+                let depth = self.depthThatFits(size)
+                
+                let result = Size3D(
+                    width: size2D.width,
+                    height: size2D.height,
+                    depth: depth
+                )
+                
+                unsafe LayoutDepthData.current = old
+                return result
+            }
+        } else {
+            // <+396>
+            let size2D = self.sizeThatFits(
+                _ProposedSize(
+                    width: size.width,
+                    height: size.height
+                )
+            )
+            
+            let depth = self.depthThatFits(size)
+            
+            let result = Size3D(
+                width: size2D.width,
+                height: size2D.height,
+                depth: depth
+            )
+            
+            return result
+        }
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
@@ -85,8 +129,25 @@ package struct LayoutComputer : @unchecked Sendable {
         return box.lengthThatFits(size, in: axis)
     }
     
-    func explicitDepthAlignment(_: DepthAlignmentKey, at: ViewSize3D) -> CGFloat? {
-        assertUnimplemented()
+    func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        Update.assertIsLocked()
+        
+        if EnableLayoutDepthStashing.isEnabled {
+            var data = LayoutDepthData(depthProposal: size.depth)
+            
+            return withUnsafeMutablePointer(to: &data) { pointer in
+                let old = unsafe LayoutDepthData.current
+                unsafe LayoutDepthData.current = unsafe pointer
+                
+                let result = self.box.explicitDepthAlignment(key, at: size)
+                
+                unsafe LayoutDepthData.current = old
+                return result
+            }
+        } else {
+            let result = self.box.explicitDepthAlignment(key, at: size)
+            return result
+        }
     }
     
     func spacing() -> Spacing {
@@ -181,7 +242,7 @@ extension LayoutEngine {
     }
     
     func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
-        assertUnimplemented()
+        return nil
     }
     
     func requiresTrueDepthLayout() -> Bool {
@@ -268,7 +329,9 @@ extension LayoutComputer {
     
     struct DefaultEngine3D : LayoutEngine {
         func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-            assertUnimplemented()
+            return proposedSize
+                .fixingUnspecifiedDimensions()
+                .depth
         }
         
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
@@ -286,23 +349,23 @@ fileprivate class AnyLayoutEngineBox {
         preconditionFailure() // abstract
     }
     
-    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        preconditionFailure() // abstract
-    }
-    
-    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        preconditionFailure() // abstract
-    }
-    
-    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        preconditionFailure() // abstract
-    }
-    
-    func requiresTrueDepthLayout() -> Bool {
-        preconditionFailure() // abstract
-    }
-    
     func layoutPriority() -> Double {
+        preconditionFailure() // abstract
+    }
+    
+    func ignoresAutomaticPadding() -> Bool {
+        preconditionFailure() // abstract
+    }
+    
+    func requiresSpacingProjection() -> Bool {
+        preconditionFailure()
+    }
+    
+    func spacing() -> Spacing {
+        preconditionFailure() // abstract
+    }
+    
+    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
         preconditionFailure() // abstract
     }
     
@@ -310,11 +373,11 @@ fileprivate class AnyLayoutEngineBox {
         preconditionFailure() // abstract
     }
     
-    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
         preconditionFailure() // abstract
     }
     
-    func spacing() -> Spacing {
+    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
         preconditionFailure() // abstract
     }
     
@@ -322,8 +385,20 @@ fileprivate class AnyLayoutEngineBox {
         preconditionFailure() // abstract
     }
     
-    func requiresSpacingProjection() -> Bool {
-        preconditionFailure()
+    func childPlacement(at size: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        preconditionFailure() // abstract
+    }
+    
+    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        preconditionFailure() // abstract
+    }
+    
+    func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        preconditionFailure() // abstract
+    }
+    
+    func requiresTrueDepthLayout() -> Bool {
+        preconditionFailure() // abstract
     }
 }
 
@@ -346,44 +421,48 @@ fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
         }
     }
     
-    override func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        return engine.sizeThatFits(proposedSize)
-    }
-    
-    override func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        return engine.depthThatFits(proposedSize)
-    }
-    
-    override func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        return engine.childGeometries(at: viewSize, origin: origin)
-    }
-    
-    override func requiresTrueDepthLayout() -> Bool {
-        return engine.requiresTrueDepthLayout()
-    }
-    
     override func layoutPriority() -> Double {
         return engine.layoutPriority()
     }
     
-    override func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
-        return engine.lengthThatFits(size, in: axis)
-    }
-    
-    override func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-        return engine.explicitAlignment(alignmentKey, at: viewSize)
+    override func requiresSpacingProjection() -> Bool {
+        return engine.requiresSpacingProjection()
     }
     
     override func spacing() -> Spacing {
         return engine.spacing()
     }
     
+    override func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        return engine.sizeThatFits(proposedSize)
+    }
+    
+    override func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
+        return engine.lengthThatFits(size, in: axis)
+    }
+    
+    override func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        return engine.childGeometries(at: viewSize, origin: origin)
+    }
+    
+    override func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        return engine.explicitAlignment(alignmentKey, at: viewSize)
+    }
+    
     override func childPlacement(at size: ViewSize) -> _Placement {
         return engine.childPlacement(at: size)
     }
     
-    override func requiresSpacingProjection() -> Bool {
-        return engine.requiresSpacingProjection()
+    override func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        return engine.depthThatFits(proposedSize)
+    }
+    
+    override func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        return engine.explicitDepthAlignment(key, at: size)
+    }
+    
+    override func requiresTrueDepthLayout() -> Bool {
+        return engine.requiresTrueDepthLayout()
     }
 }
 

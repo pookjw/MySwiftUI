@@ -52,9 +52,7 @@ extension ViewDimensions3D : Sendable {}
 
 extension ViewDimensions3D {
     public subscript(guide: DepthAlignment) -> CGFloat {
-        get {
-            assertUnimplemented()
-        }
+        return self[guide.depthKey]
     }
     
     public subscript(explicit guide: DepthAlignment) -> CGFloat? {
@@ -76,8 +74,10 @@ extension ViewDimensions3D {
     }
     
     subscript(_ key: DepthAlignmentKey) -> CGFloat {
-        get {
-            assertUnimplemented()
+        if let depth = self.guideComputer.explicitDepthAlignment(key, at: self.size) {
+            return depth
+        } else {
+            return key.id.defaultValue(in: self)
         }
     }
     
