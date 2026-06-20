@@ -258,7 +258,23 @@ public struct GeometryProxy3D {
     }
     
     var environment: EnvironmentValues {
-        assertUnimplemented()
+        if let attribute = self._environment.attribute {
+            // <+120>
+            return AnyRuleContext(attribute: self.owner._attribute)[attribute]
+        } else {
+            // <+52>
+            var result = EnvironmentValues()
+            
+            if ViewGraphHost.isDefaultEnvironmentConfigured {
+                // <+96>
+                result.plist = unsafe ViewGraphHost.defaultEnvironment.plist
+            } else {
+                // <+188>
+                CoreGlue2.shared.configureEmptyEnvironment(&result)
+            }
+            
+            return result
+        }
     }
     
     fileprivate var sizeInPoints: Size3D {
@@ -332,11 +348,32 @@ fileprivate struct GeometryReaderLayout3D : Layout3D {
     }
     
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        assertUnimplemented()
+        return proposal.replacingUnspecifiedDimensions(by: .zero)
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        assertUnimplemented()
+        for subview in subviews {
+            let guideComputer = LayoutComputer.defaultValue
+            let size = guideComputer.sizeThatFits(
+                _ProposedSize(
+                    width: bounds.size.width,
+                    height: bounds.size.height
+                )
+            )
+            
+            subview.place(
+                at: bounds.origin,
+                anchor: .topLeading,
+                dimensions: ViewDimensions(
+                    guideComputer: .defaultValue,
+                    size: size,
+                    proposal: _ProposedSize(
+                        width: bounds.size.width,
+                        height: bounds.size.height
+                    )
+                )
+            )
+        }
     }
     
     func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGFloat? {

@@ -491,6 +491,6 @@ fileprivate struct LayoutChildDepthGeometry : AsyncAttribute, Rule {
     let index: Int
     
     var value: ViewDepthGeometry {
-        assertUnimplemented()
+        return self.childGeometries[self.index]
     }
 }

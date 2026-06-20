@@ -223,7 +223,47 @@ fileprivate struct DepthGeometryTransform : Rule, AsyncAttribute {
     @Attribute private(set) var pixelLength: CGFloat
     
     var value: ViewTransform {
-        assertUnimplemented()
+        var result = self.transform
+        result.depth = self.depthSize
+        
+        let depth = self.depthPosition.value
+        if depth != 0 {
+            result.appendDepthTranslation(-depth)
+            result.pendingTranslation = .zero
+        }
+        
+        // <+264>
+        if self.depthPosition.value != 0 {
+            var d0 = self.pixelLength
+            var d1: CGFloat = 1
+            let flag = d0 == d1
+            let d2 = result.depth.value
+            d1 = d2 / d0
+            d1 = round(d1)
+            d0 = d0 * d1
+            d1 = round(d2)
+            d0 = !flag ? d0 : d1
+            result.depth.value = d0
+            
+            let d10 = result.positionAdjustment.width
+            let d11 = result.positionAdjustment.height
+            
+            do {
+                let position = self.position
+                d0 = position.x
+                d1 = position.y
+            }
+            
+            d0 = d0 - d10
+            d1 = d1 - d11
+            d0 = result.pendingTranslation.width - d0
+            d1 = result.pendingTranslation.height - d1
+            result.pendingTranslation = CGSize(width: d0, height: d1)
+            result.positionAdjustment = .zero
+        }
+        
+        // <+416>
+        return result
     }
 }
 
@@ -232,7 +272,11 @@ fileprivate struct ResetPositionIfOffset : AsyncAttribute, Rule {
     @Attribute var depthPosition: ViewDepthOrigin
     
     var value: CGPoint {
-        assertUnimplemented()
+        if self.depthPosition.value == 0 {
+            return self.position
+        } else {
+            return .zero
+        }
     }
 }
 

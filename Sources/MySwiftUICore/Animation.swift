@@ -185,7 +185,7 @@ extension Vector3D : VectorArithmetic {
 
 extension Size3D : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        assertUnimplemented()
+        self.uniformlyScale(by: rhs)
     }
     
     public var magnitudeSquared: Double {

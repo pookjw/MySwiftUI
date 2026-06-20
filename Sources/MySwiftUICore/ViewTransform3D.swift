@@ -1,6 +1,6 @@
 // C7EC178EDED3447B2AB780EC0082CA22
 package import Spatial
-private import CoreGraphics
+internal import CoreGraphics
 
 extension ViewTransform {
     package mutating func appendSizedSpace3D(name: AnyHashable, size3D: Size3D) {
@@ -75,6 +75,11 @@ extension ViewTransform {
     
     mutating func appendTranslation3D(_ size: Size3D) {
         let element = Translation3DElement(offset: size)
+        self.updateHead(element: element)
+    }
+    
+    mutating func appendDepthTranslation(_ depth: CGFloat) {
+        let element = DepthTranslationElement(depth: depth)
         self.updateHead(element: element)
     }
 }
