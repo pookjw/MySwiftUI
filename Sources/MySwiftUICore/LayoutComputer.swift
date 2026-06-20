@@ -414,7 +414,7 @@ fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
             fatalError("Mismatched engine type")
         }
         
-        return unsafe withUnsafePointer(to: &engine) { pointer in
+        return withUnsafePointer(to: &engine) { pointer in
             let pointer = unsafe UnsafeMutableRawPointer(mutating: pointer)
                 .assumingMemoryBound(to: T.self)
             return unsafe body(&pointer.pointee)
@@ -616,7 +616,23 @@ func withDepthProposalStashing<T>(depth: CGFloat?, execute: () -> T) -> T {
 
 extension StatefulRule where Value == LayoutComputer {
     mutating func updateLayoutComputer<T : Layout>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
-        // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE06updategH06layout11environment10attributesyqd___AA0A0VyAD17EnvironmentValuesVGSayAD0G15ProxyAttributesVGtAD0G0Rd__lF
+        let currentAttribute = AnyAttribute.current!
+        
+        layout.updateLayoutComputer(
+            rule: &self,
+            layoutContext: SizeAndSpacingContext(
+                context: AnyRuleContext(attribute: currentAttribute),
+                owner: currentAttribute,
+                environment: environment
+            ),
+            children: LayoutProxyCollection(
+                context: AnyRuleContext(attribute: currentAttribute),
+                attributes: attributes
+            )
+        )
+    }
+    
+    mutating func updateLayoutComputer3D<T : Layout3D>(layout: T, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
         let currentAttribute = AnyAttribute.current!
         
         layout.updateLayoutComputer(

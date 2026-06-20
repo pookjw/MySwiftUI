@@ -321,7 +321,7 @@ extension GeometryProxy3D : Sendable {
 
 fileprivate struct GeometryReaderLayout3D : Layout3D {
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat {
-        assertUnimplemented()
+        return proposal.depth ?? 0
     }
     
     func explicitAlignment(of alignment: DepthAlignment, in: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat? {

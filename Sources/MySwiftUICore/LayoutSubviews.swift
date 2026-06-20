@@ -171,7 +171,7 @@ extension LayoutSubviews.Storage {
 }
 
 struct ViewLayoutEngine<L : Layout>: LayoutEngine {
-    private var layout: L
+    private(set) var layout: L
     private var proxies: LayoutProxyCollection // 0x24
     private var layoutDirection: LayoutDirection // 0x28
     private var sizeCache = ViewSizeCache() // 0x2c

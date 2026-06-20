@@ -2,7 +2,7 @@ internal import CoreGraphics
 internal import Spatial
 
 struct LayoutSubviews3D {
-    private var storage: LayoutSubviews
+    var storage: LayoutSubviews
 }
 
 struct LayoutSubview3D {
@@ -13,23 +13,23 @@ struct LayoutSubview3D {
     }
 }
 
-struct ViewLayoutEngine3D<L : Layout>: DefaultAlignmentFunction3D, LayoutEngine {
+struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngine {
     private var base: ViewLayoutEngine<L>
-    private var depthCache: Cache3<_ProposedSize3D, CGFloat>
-    private var cachedDepthAlignmentSize: ViewSize3D
-    private var cachedDepthAlignmentGeometry: [ViewDepthGeometry]
-    private var cachedDepthAlignment: Cache3<ObjectIdentifier, CGFloat?>
+    private var depthCache = Cache3<_ProposedSize3D, CGFloat>() // 0x24
+    private var cachedDepthAlignmentSize = ViewSize3D.zero // 0x28
+    private var cachedDepthAlignmentGeometry: [ViewDepthGeometry] = [] // 0x2c
+    private var cachedDepthAlignment = Cache3<ObjectIdentifier, CGFloat?>() // 0x30
     
     func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
         assertUnimplemented()
     }
     
     init(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
-        assertUnimplemented()
+        self.base = ViewLayoutEngine(layout: layout, context: context, children: children)
     }
     
     var subviews: LayoutSubviews3D {
-        assertUnimplemented()
+        return LayoutSubviews3D(storage: self.base.subviews)
     }
     
     func spacing() -> Spacing {
@@ -40,16 +40,27 @@ struct ViewLayoutEngine3D<L : Layout>: DefaultAlignmentFunction3D, LayoutEngine 
         assertUnimplemented()
     }
     
-    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        assertUnimplemented()
+    mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        return self.base.sizeThatFits(proposedSize)
     }
     
-    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        assertUnimplemented()
+    mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        var depthCache = self.depthCache
+        
+        let result = depthCache.get(proposedSize) {
+            return self.base.layout.depthThatFits(
+                proposal: proposedSize,
+                subviews: self.subviews,
+                cache: &self.base.cache
+            )
+        }
+        
+        self.depthCache = depthCache
+        return result
     }
     
-    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        assertUnimplemented()
+    mutating func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        return self.base.childGeometries(at: viewSize, origin: origin)
     }
     
     func childDepthGeometries(at viewSize: ViewSize3D, origin: Size3D) -> [ViewDepthGeometry] {
