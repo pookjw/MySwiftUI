@@ -63,8 +63,77 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
         return self.base.childGeometries(at: viewSize, origin: origin)
     }
     
-    func childDepthGeometries(at viewSize: ViewSize3D, origin: Size3D) -> [ViewDepthGeometry] {
-        assertUnimplemented()
+    mutating func childDepthGeometries(at viewSize: ViewSize3D, origin: Size3D) -> [ViewDepthGeometry] {
+        /*
+         self -> x20 -> x19
+         viewSize -> x0 -> x20
+         origin -> d0/d1/d2 -> d10/d9/d8
+         */
+        // x23 (x29 - 0xb0)
+        let copy_1 = viewSize
+        // x24
+        let count = self.base.proxies.count
+        // x29 - 0x120
+        let copy_2 = viewSize
+        
+        if
+            self.cachedDepthAlignmentSize == copy_2 &&
+                origin == .zero &&
+                self.cachedDepthAlignmentGeometry.count == count
+        {
+            return self.cachedDepthAlignmentGeometry
+        }
+        
+        // <+240>
+        // x29 - 0x100
+        let copy_3 = copy_1
+        // x29 - 0x160
+        let copy_4 = viewSize
+        // x29 - 0xe0
+        let proposal = copy_4.proposal
+        // x29 - 0x160
+        let subviews = self.subviews
+        
+        return withUnsafeMutablePointer(to: &self) { pointer in
+            // $s7SwiftUI18ViewLayoutEngine3DV20childDepthGeometries2at6originSayAA0cG8GeometryVGAA0C6Size3DV_So9SPPoint3DatFAISpyAA0cD6EngineVyxGGXEfU_TA
+            /*
+             pointer -> x0 -> x19
+             
+             ViewLayoutEngine.self -> x10/x11 -> sp
+             count -> x9 -> x1 -> x24
+             copy_2 -> x2 -> x28
+             proposal -> x3 -> x23
+             subviews -> w4/x5/w6 -> w4/sp + 0x28/w27
+             copy_1 -> x7 -> sp + 0x30
+             */
+            let layoutDirection = pointer.pointee.base.layoutDirection
+            let geometries: [ViewDepthGeometry]
+            
+            if count == 0 {
+                // <+200>
+                geometries = []
+                // <+388>
+            } else {
+                // <+128>
+                // layoutDirection -> sp + 0x24
+                geometries = unsafe Array<ViewDepthGeometry>(unsafeUninitializedCapacity: count) { buffer, initializedCount in
+                    initializedCount = count
+                    
+                    if count >= 8 {
+                        // <+236>
+                        assertUnimplemented()
+                    } else {
+                        // <+168>
+                        assertUnimplemented()
+                    }
+                }
+                
+                assertUnimplemented()
+            }
+            
+            // <+388>
+            assertUnimplemented()
+        }
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
