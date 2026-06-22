@@ -328,12 +328,15 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
                             origin = d11
                         }
                         
+                        // FIXME
+                        assert(origin == 0)
+                        
                         unsafe pointer_2.pointee.geometry[i] = ViewDepthGeometry(
                             origin: origin,
                             dimensions: dimensions
                         )
                         
-                        pointer_2.pointee.validCount &+= 1
+                        unsafe pointer_2.pointee.validCount &+= 1
                     }
                 }
                 

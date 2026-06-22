@@ -302,7 +302,7 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
             layoutDirection: layoutDirection
         )
         
-        unsafe withUnsafeMutablePointer(to: &placementData) { pointer in
+        withUnsafeMutablePointer(to: &placementData) { pointer in
             // $s7SwiftUI16ViewLayoutEngineV15childGeometries2at6originSayAA0C8GeometryVGAA0C4SizeV_So7CGPointVtFySpyAA13PlacementData33_57DDCF0A00C1B77B475771403C904EF9LLVGXEfU_
             /*
              origin -> d0, d1 -> d13, d12
