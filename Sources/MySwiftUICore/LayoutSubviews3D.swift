@@ -1,5 +1,7 @@
+// 49D9DAADFF4E358BF2B81421BD17CDAA
 internal import CoreGraphics
 internal import Spatial
+private import _MySwiftUIShims
 
 struct LayoutSubviews3D {
     var storage: LayoutSubviews
@@ -85,8 +87,13 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
         }
         
         // <+240>
+        // x29 - 0x120
+        let copy_3 = Rect3D(
+            origin: Point3D(origin),
+            size: copy_1.value
+        )
         // x29 - 0x100
-        let copy_3 = copy_1
+        let _ = copy_1
         // x29 - 0x160
         let copy_4 = viewSize
         // x29 - 0xe0
@@ -94,19 +101,19 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
         // x29 - 0x160
         let subviews = self.subviews
         
-        return withUnsafeMutablePointer(to: &self) { pointer in
+        return withUnsafeMutablePointer(to: &self) { pointer_1 in
             // $s7SwiftUI18ViewLayoutEngine3DV20childDepthGeometries2at6originSayAA0cG8GeometryVGAA0C6Size3DV_So9SPPoint3DatFAISpyAA0cD6EngineVyxGGXEfU_TA
             /*
              pointer -> x0 -> x19
              
              ViewLayoutEngine.self -> x10/x11 -> sp
              count -> x9 -> x1 -> x24
-             copy_2 -> x2 -> x28
+             copy_3 -> x2 -> x28
              proposal -> x3 -> x23
-             subviews -> w4/x5/w6 -> w4/sp + 0x28/w27
+             subviews -> w4/x5/w6 -> w25/sp + 0x28/w27
              copy_1 -> x7 -> sp + 0x30
              */
-            let layoutDirection = pointer.pointee.base.layoutDirection
+            let layoutDirection = unsafe pointer_1.pointee.base.layoutDirection
             let geometries: [ViewDepthGeometry]
             
             if count == 0 {
@@ -115,24 +122,103 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
                 // <+388>
             } else {
                 // <+128>
-                // layoutDirection -> sp + 0x24
-                geometries = unsafe Array<ViewDepthGeometry>(unsafeUninitializedCapacity: count) { buffer, initializedCount in
-                    initializedCount = count
-                    
-                    if count >= 8 {
-                        // <+236>
-                        assertUnimplemented()
-                    } else {
-                        // <+168>
-                        assertUnimplemented()
-                    }
-                }
-                
-                assertUnimplemented()
+                geometries = Array<ViewDepthGeometry>(
+                    repeating: ViewDepthGeometry(
+                        origin: .invalidValue,
+                        size: .invalidValue
+                    ),
+                    count: count
+                )
+                // <+388>
             }
             
             // <+388>
-            assertUnimplemented()
+            // sp + 0x40
+            var data = unsafe PlacementData3D(
+                signature: .depthPlacement,
+                geometry: geometries,
+                validCount: 0,
+                bounds: copy_3,
+                layoutDirection: layoutDirection,
+                layoutEngine: OpaquePointer(pointer_1),
+                type: L.self
+            )
+            
+            return withUnsafeMutablePointer(to: &data) { pointer_2 in
+                // $s7SwiftUI18ViewLayoutEngine3DV20childDepthGeometries2at6originSayAA0cG8GeometryVGAA0C6Size3DV_So9SPPoint3DatFAISpyAA0cD6EngineVyxGGXEfU_ySpyAA15PlacementData3D33_49D9DAADFF4E358BF2B81421BD17CDAALLVGXEfU_
+                /*
+                 pointer_2 -> x0 -> x25
+                 pointer_1 -> x1 -> x23
+                 copy_3 -> x2 -> x19 + 0x10
+                 proposal -> x3 -> x20
+                 subviews -> w4/x5/w6 -> x19 + 0x98
+                 count -> x7 -> x19 + 0x18
+                 */
+                // <+124>
+                // x19 + 0x8
+                let old = unsafe _threadLayoutData()
+                unsafe _setThreadLayoutData(pointer_2)
+                
+                // x28
+                let copy_5 = unsafe pointer_1.pointee.base.layout
+                // x19 + 0xd0
+                let copy_6 = proposal
+                
+                unsafe copy_5.placeSubviewDepths(
+                    in: copy_3,
+                    proposal: copy_6,
+                    subviews: subviews,
+                    cache: &pointer_1.pointee.base.cache
+                )
+                
+                /*
+                 pointer_1 -> x23 -> x26
+                 count -> x19 + 0x18 -> x23
+                 */
+                unsafe _setThreadLayoutData(old)
+                
+                // <+300>
+                if unsafe pointer_2.pointee.validCount != count {
+                    for i in 0..<count {
+                        // <+384>
+                        guard unsafe pointer_2.pointee.geometry[i].isInvalid else {
+                            continue
+                        }
+                        
+                        // <+428>
+                        let proxy = unsafe pointer_1.pointee.base.proxies[i]
+                        // x19 + 0xd0 -> x19 + 0x40
+                        let dimensions = proxy.dimensions3D(in: proposal)
+                        
+                        let origin: CGFloat
+                        do {
+                            let bounds = unsafe pointer_2.pointee.bounds
+                            
+                            var d0 = bounds.origin.x
+                            var d1 = bounds.origin.y
+                            var d2 = bounds.origin.z
+                            var d3 = bounds.size.width
+                            let d4 = bounds.size.height
+                            let d5 = bounds.size.depth
+                            
+                            d3 = d3 * 0.5
+                            d0 = d0 + d3
+                            d3 = d4 * 0.5
+                            d1 = d1 + d3
+                            d3 = d5 * 0.5
+                            d2 = d2 + d3
+                            origin = Point3D(x: d0, y: d1, z: d2).z
+                        }
+                        
+                        unsafe pointer_2.pointee.geometry[i] = ViewDepthGeometry(
+                            origin: origin,
+                            dimensions: dimensions
+                        )
+                    }
+                }
+                
+                return unsafe pointer_2.pointee.geometry
+            }
         }
     }
     
@@ -155,4 +241,19 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
 
 protocol DefaultAlignmentFunction3D {
     static func defaultAlignment(_ alignmentKey: DepthAlignmentKey, size: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? 
+}
+
+fileprivate struct PlacementData3D {
+    private(set) var signature: DepthDataSignature // 0x0
+    var geometry: [ViewDepthGeometry] // 0x8
+    private(set) var validCount: Int // 0x10
+    private(set) var bounds: Rect3D // 0x20
+    private(set) var layoutDirection: LayoutDirection // 0x60
+    private(set) var layoutEngine: OpaquePointer // 0x68
+    private(set) var type: any Layout3D.Type // 0x70
+}
+
+enum DepthDataSignature {
+    case depthPlacement
+    case depthAlignment
 }

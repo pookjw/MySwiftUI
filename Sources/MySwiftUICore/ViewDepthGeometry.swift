@@ -15,7 +15,11 @@ struct ViewDepthGeometry : Equatable, Animatable {
     }
     
     init(origin: CGFloat, dimensions: ViewDimensions3D) {
-        assertUnimplemented()
+        self.origin = ViewDepthOrigin(origin)
+        self.size = ViewDepth(
+            dimensions.size.depth,
+            proposal: dimensions.size.proposal.depth
+        )
     }
     
     init(_: ClosedRange<CGFloat>, proposal: CGFloat?) {
@@ -23,7 +27,7 @@ struct ViewDepthGeometry : Equatable, Animatable {
     }
     
     var isInvalid: Bool {
-        assertUnimplemented()
+        return self.origin.isInvalid
     }
     
     var animatableData: AnimatablePair<CGFloat, CGFloat> {
@@ -63,7 +67,7 @@ struct ViewDepthOrigin : Equatable, Animatable {
     }
     
     var isInvalid: Bool {
-        return !value.isFinite
+        return value.isNaN
     }
     
     var animatableData: CGFloat {
