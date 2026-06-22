@@ -1,6 +1,7 @@
 // 7155BC0A5DB12E9050135C0952700740
 internal import AttributeGraph
 private import CoreGraphics
+private import Spatial
 
 extension _ViewOutputs {
     static func makeDepthTransform(inputs: _ViewInputs, depth: () -> Attribute<ViewDepth>, body: (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
@@ -311,6 +312,56 @@ fileprivate struct DisplayListZOrigin : AsyncAttribute, Rule {
     let options: DisplayList.Options
     
     var value: DisplayList {
-        assertUnimplemented()
+        let content = self.content ?? DisplayList()
+        let origin = self.origin
+        
+        if content.isEmpty || origin.value == 0 {
+            // <+556>
+            return content
+        }
+        
+        let d8 = origin.value
+        
+        // <+200>
+        var d9: CGFloat
+        var d10: CGFloat
+        do {
+            let position = self.position
+            d9 = position.x
+            d10 = position.y
+        }
+        
+        var d0: CGFloat
+        let d1: CGFloat
+        do {
+            let containerPosition = self.containerPosition
+            d0 = containerPosition.x
+            d1 = containerPosition.y
+        }
+        
+        d9 = d9 - d0
+        d10 = d10 - d1
+        d0 = d8
+        
+        // x29 - 0xd0
+        let vector = Vector3D(x: 0, y: 0, z: d0)
+        // sp + 0xf0
+        let translation = AffineTransform3D(translation: vector)
+        
+        // sp + 0xa0
+        var item = DisplayList.Item(
+            .effect(.transform(.affine3D(translation)), content),
+            frame: CGRect(
+                origin: CGPoint(x: d9, y: d10),
+                size: self.size.value
+            ),
+            identity: self.identity,
+            version: DisplayList.Version(forUpdate: ())
+        )
+        
+        item.canonicalize(options: self.options)
+        
+        // <+460>
+        return DisplayList(item)
     }
 }
