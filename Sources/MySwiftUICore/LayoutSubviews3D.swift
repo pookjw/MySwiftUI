@@ -3,15 +3,67 @@ internal import CoreGraphics
 internal import Spatial
 private import _MySwiftUIShims
 
-struct LayoutSubviews3D {
+struct LayoutSubviews3D : Equatable, RandomAccessCollection {
+    subscript(position: Int) -> LayoutSubview3D {
+        assertUnimplemented()
+    }
+    
     var storage: LayoutSubviews
+    
+    var startIndex: Int {
+        return 0
+    }
+    
+    var endIndex: Int {
+        assertUnimplemented()
+    }
+    
+    subscript(bounds: Range<Int>) -> LayoutSubviews3D {
+        assertUnimplemented()
+    }
+    
+    subscript<T : Sequence>(indices: T) -> LayoutSubviews3D where T.Element == Int {
+        assertUnimplemented()
+    }
+    
+    static func == (lhs: LayoutSubviews3D, rhs: LayoutSubviews3D) -> Bool {
+        assertUnimplemented()
+    }
 }
 
-struct LayoutSubview3D {
+struct LayoutSubview3D : Equatable {
     var base: LayoutSubview
     
     func depthThatFits(_ size: _ProposedSize3D) -> CGFloat {
         return base.proxy.depth(in: size)
+    }
+    
+    var priority: Double {
+        assertUnimplemented()
+    }
+    
+    func placeDepth(in geometry: ViewDepthGeometry) {
+        assertUnimplemented()
+    }
+    
+    func dimensions(in size: _ProposedSize3D) -> ViewDimensions3D {
+        assertUnimplemented()
+    }
+    
+    func placeDepth(at depth: CGFloat, anchor: CGFloat, dimensions: ViewDimensions3D) {
+        assertUnimplemented()
+    }
+    
+    func placeDepth(at depth: CGFloat, anchor: CGFloat, proposal: _ProposedSize3D) {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(_ size: ProposedViewSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    static func == (lhs: LayoutSubview3D, rhs: LayoutSubview3D) -> Bool {
+        assertUnimplemented()
     }
 }
 
