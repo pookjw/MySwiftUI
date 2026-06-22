@@ -207,13 +207,19 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
                             d1 = d1 + d3
                             d3 = d5 * 0.5
                             d2 = d2 + d3
-                            origin = Point3D(x: d0, y: d1, z: d2).z
+                            var d11 = Point3D(x: d0, y: d1, z: d2).z
+                            
+                            d0 = dimensions.size.value.depth * 0.5
+                            d11 = d11 - d0
+                            origin = d11
                         }
                         
                         unsafe pointer_2.pointee.geometry[i] = ViewDepthGeometry(
                             origin: origin,
                             dimensions: dimensions
                         )
+                        
+                        pointer_2.pointee.validCount &+= 1
                     }
                 }
                 
@@ -246,7 +252,7 @@ protocol DefaultAlignmentFunction3D {
 fileprivate struct PlacementData3D {
     private(set) var signature: DepthDataSignature // 0x0
     var geometry: [ViewDepthGeometry] // 0x8
-    private(set) var validCount: Int // 0x10
+    var validCount: Int // 0x10
     private(set) var bounds: Rect3D // 0x20
     private(set) var layoutDirection: LayoutDirection // 0x60
     private(set) var layoutEngine: OpaquePointer // 0x68
