@@ -110,7 +110,7 @@ package struct LayoutComputer : @unchecked Sendable {
         }
     }
     
-    mutating func withMutableEngine<T : LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
+    func withMutableEngine<T : LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {
         Update.assertIsLocked()
         return box.mutateEngine(as: type, do: block)
     }

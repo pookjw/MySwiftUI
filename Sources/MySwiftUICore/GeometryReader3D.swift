@@ -329,7 +329,17 @@ fileprivate struct GeometryReaderLayout3D : Layout3D {
     }
     
     func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) {
-        assertUnimplemented()
+        for subview in subviews {
+            let dimensions = subview.base.proxy.dimensions3D(
+                in: _ProposedSize3D(
+                    width: rect.size.width,
+                    height: rect.size.height,
+                    depth: rect.size.depth
+                )
+            )
+            
+            subview.placeDepth(at: rect.origin.z, anchor: 0, dimensions: dimensions)
+        }
     }
     
     static var layoutProperties: LayoutProperties {
