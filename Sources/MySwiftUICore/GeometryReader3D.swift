@@ -363,7 +363,7 @@ fileprivate struct GeometryReaderLayout3D : Layout3D {
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         for subview in subviews {
-            let guideComputer = LayoutComputer.defaultValue
+            let guideComputer = subview.proxy.layoutComputer
             let size = guideComputer.sizeThatFits(
                 _ProposedSize(
                     width: bounds.size.width,
@@ -375,7 +375,7 @@ fileprivate struct GeometryReaderLayout3D : Layout3D {
                 at: bounds.origin,
                 anchor: .topLeading,
                 dimensions: ViewDimensions(
-                    guideComputer: .defaultValue,
+                    guideComputer: guideComputer,
                     size: size,
                     proposal: _ProposedSize(
                         width: bounds.size.width,

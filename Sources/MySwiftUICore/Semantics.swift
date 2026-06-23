@@ -1,3 +1,4 @@
+// 6401BBC0F2663213443101ED0E1CE437
 package import _DyldPrivate
 
 package func isLinkedOnOrAfter(_ semantics: Semantics) -> Bool {
@@ -89,18 +90,15 @@ extension Semantics {
 
 extension Semantics {
     package struct UnifiedLayout : Feature {
+        static var introduced: Semantics {
+            return Semantics.maximal
+        }
+        
         package static var isEnabled: Bool {
-            if isLinkedOnOrAfter(.maximal) {
+            if isLinkedOnOrAfter(Semantics.UnifiedLayout.introduced) {
                 return true
             } else {
-                let key = "com.apple.SwiftUI.EnableUnifiedLayout"
-                let defaults = UserDefaults.standard
-                
-                guard defaults.object(forKey: key) != nil else {
-                    return false
-                }
-                
-                return defaults.bool(forKey: key)
+                return EnableUnifiedLayoutFeature.isEnabled
             }
         }
         
@@ -339,4 +337,16 @@ package struct _SemanticFeature<T : SemanticProtocol>: SemanticFeature {
 package enum SemanticRequirement {
     case linkedOnOrAfter
     case deployedOnOrAfter
+}
+
+fileprivate struct EnableUnifiedLayoutFeature : UserDefaultKeyedFeature {
+    static var key: String {
+        return "com.apple.SwiftUI.EnableUnifiedLayout"
+    }
+    
+    static var defaultFeatureValue: Bool {
+        return false
+    }
+    
+    @safe nonisolated(unsafe) static var cachedValue: Bool?
 }
