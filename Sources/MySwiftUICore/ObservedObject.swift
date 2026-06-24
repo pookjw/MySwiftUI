@@ -1,3 +1,4 @@
+// C212C242BFEB175E53A59438AB276A7C
 public import Combine
 internal import AttributeGraph
 
@@ -26,7 +27,14 @@ internal import AttributeGraph
     }
     
     nonisolated static func makeBoxAndSignal<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int) -> Attribute<Void> {
-        assertUnimplemented()
+        let attribute = Attribute(value: ())
+        let box = ObservedObjectPropertyBox<ObjectType>(
+            host: .currentHost,
+            invalidation: WeakAttribute(attribute)
+        )
+        
+        buffer.append(box, fieldOffset: fieldOffset)
+        return attribute
     }
 }
 
@@ -43,5 +51,20 @@ extension ObservedObject {
 extension ObservedObject {
     nonisolated public static var _propertyBehaviors: UInt32 {
         return 2
+    }
+}
+
+fileprivate struct ObservedObjectPropertyBox<ObjectType : ObservableObject> : DynamicPropertyBox {
+    private let subscriber: AttributeInvalidatingSubscriber<ObservableObjectPublisher>
+    private let lifetime = SubscriptionLifetime<ObservableObjectPublisher>()
+    private var seed: Int = 0
+    private var lastObject: ObjectType? = nil
+    
+    init(host: GraphHost, invalidation: WeakAttribute<Void>) {
+        self.subscriber = AttributeInvalidatingSubscriber<ObservableObjectPublisher>(host: host, attribute: invalidation)
+    }
+    
+    func update(property: inout ObservedObject<ObjectType>, phase: _GraphInputs.Phase) -> Bool {
+        assertUnimplemented()
     }
 }
