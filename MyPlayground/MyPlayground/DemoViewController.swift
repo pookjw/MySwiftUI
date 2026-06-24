@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.geometryReader3DView
+        let item = DemoViewController.Item.observedObjectView
         pushToItem(item)
         
 //        Task {
@@ -103,6 +103,7 @@ extension DemoViewController {
         case appearanceActionView
         case appearanceActionListView
         case stateView
+        case observedObjectView
         case bindingView
         case dynamicTypeSizeView
         case environmentView
@@ -173,6 +174,8 @@ extension DemoViewController {
                 return _typeName(AppearanceActionViewListController.self, qualified: false)
             case .stateView:
                 return _typeName(StateViewController.self, qualified: false)
+            case .observedObjectView:
+                return _typeName(ObservedObjectViewController.self, qualified: false)
             case .bindingView:
                 return _typeName(BindingViewController.self, qualified: false)
             case .dynamicTypeSizeView:
@@ -278,6 +281,8 @@ extension DemoViewController {
                 return AppearanceActionViewListController()
             case .stateView:
                 return StateViewController()
+            case .observedObjectView:
+                return ObservedObjectViewController()
             case .bindingView:
                 return BindingViewController()
             case .dynamicTypeSizeView:
