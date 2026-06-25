@@ -57,14 +57,17 @@ extension ObservedObject {
     }
 }
 
-fileprivate struct ObservedObjectPropertyBox<ObjectType : ObservableObject> : DynamicPropertyBox {
-    private let subscriber: AttributeInvalidatingSubscriber<ObservableObjectPublisher> // 0x0
-    private let lifetime = SubscriptionLifetime<ObservableObjectPublisher>() // 0x8
+extension ObservedObject : Sendable {}
+extension ObservedObject.Wrapper : Sendable {}
+
+fileprivate struct ObservedObjectPropertyBox<ObjectType : ObservableObject> : DynamicPropertyBox, @unchecked Sendable {
+    private let subscriber: AttributeInvalidatingSubscriber<ObjectType.ObjectWillChangePublisher> // 0x0
+    private let lifetime = SubscriptionLifetime<ObjectType.ObjectWillChangePublisher>() // 0x8
     private var seed: Int = 0 // 0x10
     private var lastObject: ObjectType? = nil // 0x18
     
     init(host: GraphHost, invalidation: WeakAttribute<Void>) {
-        self.subscriber = AttributeInvalidatingSubscriber<ObservableObjectPublisher>(host: host, attribute: invalidation)
+        self.subscriber = AttributeInvalidatingSubscriber(host: host, attribute: invalidation)
     }
     
     mutating func update(property: inout ObservedObject<ObjectType>, phase: _GraphInputs.Phase) -> Bool {
@@ -79,7 +82,33 @@ fileprivate struct ObservedObjectPropertyBox<ObjectType : ObservableObject> : Dy
              property -> x0 -> x19
              self -> x1 -> x22
              */
-            assertUnimplemented()
+            // x24
+            let wrappedValue = property.wrappedValue
+            
+            let w28: Bool
+            if isLinkedOnOrAfter(.v6) {
+                w28 = false
+            } else {
+                w28 = (ObjectType.self != Combine::ObservableObjectPublisher.self)
+            }
+            
+            // <+284>
+            if let lastObject, wrappedValue === lastObject {
+                // <+300>
+                let isUninitialized = self.lifetime.isUninitialized
+                
+                guard isUninitialized || w28 else {
+                    self.lastObject = wrappedValue
+                    return
+                }
+                
+                // <+336>
+            }
+            
+            // <+336>
+            let objectWillChange = wrappedValue.objectWillChange
+            self.lifetime.subscribe(subscriber: self.subscriber, to: objectWillChange)
+            self.lastObject = wrappedValue
         }
         
         let changed = self.subscriber.attribute.changedValue(options: [])?.changed ?? false

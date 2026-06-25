@@ -2,7 +2,7 @@
 internal import AttributeGraph
 internal import Combine
 
-final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::Subscriber, Combine::CustomCombineIdentifierConvertible {
+final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::Subscriber, Combine::Cancellable, Combine::CustomCombineIdentifierConvertible {
     private weak var host: GraphHost? = nil
     let attribute: WeakAttribute<Void>
     private var state: AttributeInvalidatingSubscriber<T>.StateType = .unsubscribed
