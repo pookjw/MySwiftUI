@@ -64,7 +64,12 @@ final class SubscriptionLifetime<T : Combine::Publisher> {
         assertUnimplemented()
     }
     
-    fileprivate func shouldAcceptSubscription(_: any Combine::Subscription, for: Int) -> Bool {
+    fileprivate func shouldAcceptSubscription(_ subscription: any Combine::Subscription, for id: Int) -> Bool {
+        /*
+         subscription -> x0 -> x21
+         id -> x1 -> x24
+         */
+        // <+184>
         assertUnimplemented()
     }
     
@@ -78,7 +83,7 @@ final class SubscriptionLifetime<T : Combine::Publisher> {
 }
 
 extension SubscriptionLifetime {
-    fileprivate struct Connection<U> : Combine::CustomCombineIdentifierConvertible, Combine::Subscriber {
+    fileprivate struct Connection<U : Combine::Subscriber> : Combine::CustomCombineIdentifierConvertible, Combine::Subscriber {
         fileprivate var combineIdentifier = Combine::CombineIdentifier()
         private weak var parent: SubscriptionLifetime<T>? = nil
         private let downstream: U
@@ -91,7 +96,15 @@ extension SubscriptionLifetime {
         }
         
         func receive(subscription: any Combine::Subscription) {
-            assertUnimplemented()
+            guard
+                let parent,
+                parent.shouldAcceptSubscription(subscription, for: self.subscriptionID)
+            else {
+                return
+            }
+            
+            self.downstream.receive(subscription: subscription)
+            subscription.request(.unlimited)
         }
         
         func receive(_ output: T.Output) -> Combine::Subscribers.Demand {
