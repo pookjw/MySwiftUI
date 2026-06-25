@@ -178,7 +178,11 @@ public struct _TaskModifier2 : ViewModifier {
         inputs: _ViewListInputs,
         body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs
     ) -> _ViewListOutputs {
-        assertUnimplemented()
+        // <+152>
+        let rule = _TaskModifier2.Child(modifier: modifier.value)
+        let attribute = Attribute(rule)
+        let graphValue = _GraphValue(attribute)
+        return _TaskModifier2.InnerModifier.makeDebuggableViewList(modifier: graphValue, inputs: inputs, body: body)
     }
 
     nonisolated public static func _viewListCount(

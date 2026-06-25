@@ -13,7 +13,13 @@ final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::S
     }
     
     func receive(subscription: Combine::Subscription) {
-        assertUnimplemented()
+        switch self.state {
+        case .subscribed(_):
+            subscription.cancel()
+        case .unsubscribed, .complete:
+            self.state = .subscribed(subscription)
+            subscription.request(.unlimited)
+        }
     }
     
     func receive(_: T.Output) -> Combine::Subscribers.Demand {

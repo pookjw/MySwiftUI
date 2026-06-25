@@ -21,7 +21,7 @@ extension ViewModifier {
     }
     
     nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return Self.makeViewList(modifier: modifier, inputs: inputs, body: body)
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
@@ -92,10 +92,10 @@ extension ViewModifier {
          inputs -> x1 -> x26
          body -> x2/x3 -> x28/x27
          */
-        let fields = DynamicPropertyCache.fields(of: self)
+        let fields = unsafe DynamicPropertyCache.fields(of: self)
         // x19 + 0x120
         var copy_1 = inputs
-        let (_body, buffer) = Self.makeBody(modifier: modifier, inputs: &copy_1.base, fields: fields)
+        let (_body, buffer) = unsafe Self.makeBody(modifier: modifier, inputs: &copy_1.base, fields: fields)
         
         let input = BodyInputElement.view(body)
         copy_1.append(input, to: BodyInput<Content>.self)
@@ -103,7 +103,32 @@ extension ViewModifier {
         let outputs = Body.makeDebuggableView(view: _body, inputs: copy_1)
         
         if let buffer {
-            buffer.traceMountedProperties(to: modifier, fields: fields)
+            unsafe buffer.traceMountedProperties(to: modifier, fields: fields)
+        }
+        
+        return outputs
+    }
+    
+    nonisolated static func makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        /*
+         modifier -> x0 -> w24
+         inputs -> x1 -> x26
+         body -> x2/x3 -> x28 / sp + 0x8
+         */
+        let fields = unsafe DynamicPropertyCache.fields(of: self)
+        // sp + 0x68
+        var copy_1 = inputs
+        
+        // sp + 0x34 / sp + 0x50
+        let (_body, buffer) = unsafe Self.makeBody(modifier: modifier, inputs: &copy_1.base, fields: fields)
+        
+        let input = BodyInputElement.list(body)
+        copy_1.base.append(input, to: BodyInput<Content>.self)
+        
+        let outputs = Body.makeDebuggableViewList(view: _body, inputs: copy_1)
+        
+        if let buffer {
+            unsafe buffer.traceMountedProperties(to: modifier, fields: fields)
         }
         
         return outputs
@@ -146,7 +171,7 @@ public struct _ViewModifier_Content<Modifier> : View where Modifier : ViewModifi
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<_ViewModifier_Content<Modifier>>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return Self.providerMakeViewList(view: view, inputs: inputs)
     }
     
     
@@ -260,7 +285,7 @@ extension ViewModifierContentProvider {
                 let _ = copy_3
                 let outputs = transform(_Graph(), copy_4)
                 return outputs
-            case .list(let _):
+            case .list(_):
                 // <+184>
                 assertUnimplemented()
             }

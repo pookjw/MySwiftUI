@@ -31,6 +31,16 @@ fileprivate struct MyView : View {
                 }
             )
         )
+        .task {
+            do {
+                while true {
+                    try await Task.sleep(for: .seconds(1))
+                    viewModel.count &+= 1
+                }
+            } catch {
+                return
+            }
+        }
         
         MyLabel(text: viewModel.count.description)
     }

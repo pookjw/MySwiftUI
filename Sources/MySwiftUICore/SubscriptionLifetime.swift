@@ -70,7 +70,28 @@ final class SubscriptionLifetime<T : Combine::Publisher> {
          id -> x1 -> x24
          */
         // <+184>
-        assertUnimplemented()
+        // x27
+        guard case .requestedSubscription(let p, let s, let i) = self.state else {
+            subscription.cancel()
+            return false
+        }
+       
+        // <+296>
+        guard i == id else {
+            // <+708>
+            subscription.cancel()
+            return false
+        }
+        
+        // <+400>
+        self.state = .subscribed(
+            to: p,
+            subscriber: s,
+            subscription: subscription,
+            AnyID: id
+        )
+        
+        return true
     }
     
     fileprivate func shouldAcceptValue(for: Int) -> Bool {
