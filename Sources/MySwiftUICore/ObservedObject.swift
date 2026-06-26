@@ -46,7 +46,7 @@ extension ObservedObject {
         let attribute = makeBoxAndSignal(in: &buffer, container: container, fieldOffset: fieldOffset)
         
         if Subgraph.shouldRecordTree {
-            addTreeValueSlow(attribute.identifier, as: ObjectType.self, in: V.self, fieldOffset: fieldOffset, flags: .stateSignal)
+            addTreeValueSlow(attribute.identifier, as: ObjectType.self, in: V.self, fieldOffset: fieldOffset, flags: .observedObjectSignal)
         }
     }
 }
