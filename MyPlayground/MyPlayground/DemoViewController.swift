@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.observedObjectView
+        let item = DemoViewController.Item.stateObjectView
         pushToItem(item)
         
 //        Task {
@@ -104,6 +104,7 @@ extension DemoViewController {
         case appearanceActionListView
         case stateView
         case observedObjectView
+        case stateObjectView
         case bindingView
         case dynamicTypeSizeView
         case environmentView
@@ -176,6 +177,8 @@ extension DemoViewController {
                 return _typeName(StateViewController.self, qualified: false)
             case .observedObjectView:
                 return _typeName(ObservedObjectViewController.self, qualified: false)
+            case .stateObjectView:
+                return _typeName(StateObjectViewController.self, qualified: false)
             case .bindingView:
                 return _typeName(BindingViewController.self, qualified: false)
             case .dynamicTypeSizeView:
@@ -283,6 +286,8 @@ extension DemoViewController {
                 return StateViewController()
             case .observedObjectView:
                 return ObservedObjectViewController()
+            case .stateObjectView:
+                return StateObjectViewController()
             case .bindingView:
                 return BindingViewController()
             case .dynamicTypeSizeView:

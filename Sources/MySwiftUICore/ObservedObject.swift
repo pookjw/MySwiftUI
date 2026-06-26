@@ -26,7 +26,7 @@ private import os.log
     @MainActor @preconcurrency public var wrappedValue: ObjectType
     
     @MainActor @preconcurrency public var projectedValue: ObservedObject<ObjectType>.Wrapper {
-        assertUnimplemented()
+        return ObservedObject<ObjectType>.Wrapper(root: self.wrappedValue)
     }
     
     nonisolated static func makeBoxAndSignal<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int) -> Attribute<Void> {

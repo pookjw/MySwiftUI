@@ -1,12 +1,16 @@
 //
-//  ObservedObjectViewController.swift
-//  NativePlayground
+//  StateObjectViewController.swift
+//  MyPlayground
 //
-//  Created by Jinwoo Kim on 6/24/26.
+//  Created by Jinwoo Kim on 6/26/26.
 //
 
 import UIKit
+#if USE_ORIGINAL_SWIFTUI
 import SwiftUI
+#else
+import MySwiftUI
+#endif
 import Combine
 
 fileprivate final class ViewModel : ObservableObject {
@@ -14,7 +18,7 @@ fileprivate final class ViewModel : ObservableObject {
 }
 
 fileprivate struct MyView : View {
-    @ObservedObject private var viewModel = ViewModel()
+    @StateObject private var viewModel = ViewModel()
     
     var body: some View {
         MyStepper(
@@ -27,22 +31,22 @@ fileprivate struct MyView : View {
                 }
             )
         )
-//        .task {
-//            do {
-//                while true {
-//                    try await Task.sleep(for: .seconds(1))
-//                    viewModel.count &+= 1
-//                }
-//            } catch {
-//                return
-//            }
-//        }
+        .task {
+            do {
+                while true {
+                    try await Task.sleep(for: .seconds(1))
+                    viewModel.count &+= 1
+                }
+            } catch {
+                return
+            }
+        }
         
         MyLabel(text: viewModel.count.description)
     }
 }
 
-final class ObservedObjectViewController : UIViewController {
+final class StateObjectViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {
@@ -56,9 +60,9 @@ final class ObservedObjectViewController : UIViewController {
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
         
-        Task {
-            try! await Task.sleep(for: .seconds(1))
-            self.navigationController?.popViewController(animated: true)
-        }
+//        Task {
+//            try! await Task.sleep(for: .seconds(1))
+//            self.navigationController?.popViewController(animated: true)
+//        }
     }
 }

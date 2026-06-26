@@ -1,16 +1,12 @@
 //
-//  ObservedObjectViewController.swift
-//  MyPlayground
+//  StateObjectViewController.swift
+//  NativePlayground
 //
-//  Created by Jinwoo Kim on 6/24/26.
+//  Created by Jinwoo Kim on 6/26/26.
 //
 
 import UIKit
-#if USE_ORIGINAL_SWIFTUI
 import SwiftUI
-#else
-import MySwiftUI
-#endif
 import Combine
 
 fileprivate final class ViewModel : ObservableObject {
@@ -18,7 +14,7 @@ fileprivate final class ViewModel : ObservableObject {
 }
 
 fileprivate struct MyView : View {
-    @ObservedObject private var viewModel = ViewModel()
+    @StateObject private var viewModel = ViewModel()
     
     var body: some View {
         MyStepper(
@@ -46,7 +42,7 @@ fileprivate struct MyView : View {
     }
 }
 
-final class ObservedObjectViewController : UIViewController {
+final class StateObjectViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {
