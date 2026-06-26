@@ -267,36 +267,65 @@ extension PlaceholderContentView : ViewModifierContentProvider {}
 
 extension ViewModifierContentProvider {
     nonisolated static func providerMakeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
-        // sp + 0x230
-        let _ = inputs
-        // sp + 0x1d0
-        var copy_2 = inputs
+        // x29 - 0x100
+        var copy_1 = inputs
+        // x29 - 0xa0
+        let copy_2 = inputs.base
+        // sp + 0x80
+        let _ = copy_2
         
-        if let last = copy_2.popLast(BodyInput<Self>.self) {
+        if let last = copy_1.popLast(BodyInput<Self>.self) {
             // <+176>
             switch last {
             case .view(let transform):
-                // <+664>
-                // sp + 0x160
-                let copy_3 = copy_2
-                // sp + 0x80
-                let copy_4 = copy_2
-                // sp + 0xe0
-                let _ = copy_3
-                let outputs = transform(_Graph(), copy_4)
+                // <+576>
+                let outputs = transform(_Graph(), copy_1)
                 return outputs
-            case .list(_):
-                // <+184>
-                assertUnimplemented()
+            case .list(let transform):
+                // <+228>
+                return _ViewOutputs.multiView(inputs: copy_1) { graph, inputs in
+                    // $s7SwiftUI27ViewModifierContentProvider33_2BA0A33A15B7F322F46AFB9D0D1A262DLLPAAE012providerMakeC04view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListU0VAA01_V0V_ANtcfU_TA
+                    /*
+                     graph -> x0
+                     inputs -> x1
+                     copy_2 -> x2
+                     transform -> x3/x4 -> x19/x20
+                     */
+                    let listInputs = _ViewListInputs(
+                        inputs.base,
+                        implicitID: 0,
+                        options: _ViewListInputs.Options(rawValue: copy_2[ViewListOptionsInput.self])
+                    )
+                    
+                    return transform(_Graph(), listInputs)
+                }
             }
         } else {
-            // <+588>
+            // <+188>
             return _ViewOutputs()
         }
     }
     
     nonisolated static func providerMakeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        // sp + 0x18
+        var copy_1 = inputs
+        
+        if let last = copy_1.base.popLast(BodyInput<Self>.self) {
+            switch last {
+            case .view(let transform):
+                // <+156>
+                return _ViewListOutputs.unaryViewList(viewType: self, inputs: copy_1) { inputs in
+                    // $s7SwiftUI22makeSpatialOverlayView9alignment13primaryInputs0H7Outputs09secondaryI04bodyAA01_fJ0V14AttributeGraph0M0VyAA11Alignment3DVG_AA01_fI0VAiqiA01_N0V_AQtctFAiQXEfU0_TA
+                    return transform(_Graph(), inputs)
+                }
+            case .list(let transform):
+                // <+128>
+                return transform(_Graph(), copy_1)
+            }
+        } else {
+            // <+112>
+            return _ViewListOutputs.emptyViewList(inputs: copy_1)
+        }
     }
 }
 

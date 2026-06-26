@@ -61,7 +61,13 @@ final class SubscriptionLifetime<T : Combine::Publisher> {
     }
     
     func cancel() {
-        assertUnimplemented()
+        guard case .subscribed(_, let c, let s, _) = self.state else {
+            return
+        }
+        
+        c.cancel()
+        s.cancel()
+        self.state = .uninitialized
     }
     
     fileprivate func shouldAcceptSubscription(_ subscription: any Combine::Subscription, for id: Int) -> Bool {
@@ -94,8 +100,14 @@ final class SubscriptionLifetime<T : Combine::Publisher> {
         return true
     }
     
-    fileprivate func shouldAcceptValue(for: Int) -> Bool {
-        assertUnimplemented()
+    fileprivate func shouldAcceptValue(for id: Int) -> Bool {
+        // id -> x0 -> x19
+        guard case .subscribed(_, _, _, let i) = self.state else {
+            return false
+        }
+        
+        // <+160>
+        return id == i
     }
     
     fileprivate func shouldAcceptCompletion(for: Int) -> Bool {
@@ -104,7 +116,7 @@ final class SubscriptionLifetime<T : Combine::Publisher> {
 }
 
 extension SubscriptionLifetime {
-    fileprivate struct Connection<U : Combine::Subscriber> : Combine::CustomCombineIdentifierConvertible, Combine::Subscriber {
+    fileprivate struct Connection<U : Combine::Subscriber> : Combine::CustomCombineIdentifierConvertible, Combine::Subscriber where T.Failure == U.Failure, T.Output == U.Input {
         fileprivate var combineIdentifier = Combine::CombineIdentifier()
         private weak var parent: SubscriptionLifetime<T>? = nil
         private let downstream: U
@@ -129,7 +141,14 @@ extension SubscriptionLifetime {
         }
         
         func receive(_ output: T.Output) -> Combine::Subscribers.Demand {
-            assertUnimplemented()
+            if
+                let parent,
+                parent.shouldAcceptValue(for: self.subscriptionID)
+            {
+                _ = self.downstream.receive(output)
+            }
+            
+            return .none
         }
         
         func receive(completion: Combine::Subscribers.Completion<T.Failure>) {

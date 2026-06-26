@@ -338,23 +338,35 @@ protocol _VariadicView_AnyImplicitRoot {
 
 extension View {
     nonisolated static func makeImplicitRoot(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        return _ViewOutputs.multiView(inputs: inputs) { [view] graph, inputs in
+            // $s7SwiftUI4ViewPAAE16makeImplicitRoot4view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListI0VAA01_J0V_AMtcfU_
+            let listInputs = inputs.implicitRootBodyInputs
+            // x23 register는 활용하지 않음
+            _ = Self._makeViewList(view: view, inputs: listInputs)
+            
+            return MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, listInputs))] in
+                return UncheckedSendable(Self.Body.makeDebuggableViewList(view: unchecked.value.0, inputs: unchecked.value.1))
+            }.value
+        }
+    }
+}
+
+extension _ViewOutputs {
+    static func multiView(inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
         var visitor = MakeViewRoot(
             inputs: inputs,
-            body: { [view] graph, inputs in
-                // $s7SwiftUI4ViewPAAE16makeImplicitRoot4view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListI0VAA01_J0V_AMtcfU_
-                let listInputs = inputs.implicitRootBodyInputs
-                // x23 register는 활용하지 않음
-                _ = Self._makeViewList(view: view, inputs: listInputs)
-                
-                return MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, listInputs))] in
-                    return UncheckedSendable(Self.Body.makeDebuggableViewList(view: unchecked.value.0, inputs: unchecked.value.1))
-                }.value
-            },
+            body: body,
             outputs: nil
         )
         inputs.implicitRootType.visitType(visitor: &visitor)
         
         return visitor.outputs!
+    }
+}
+
+extension _ViewListOutputs {
+    static func unaryViewList<T : View>(viewType: T.Type = T.self, inputs: _ViewListInputs, body: (_ViewInputs) -> _ViewOutputs) -> _ViewListOutputs {
+        assertUnimplemented()
     }
 }
 

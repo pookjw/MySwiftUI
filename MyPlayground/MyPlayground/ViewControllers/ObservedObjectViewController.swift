@@ -31,16 +31,16 @@ fileprivate struct MyView : View {
                 }
             )
         )
-        .task {
-            do {
-                while true {
-                    try await Task.sleep(for: .seconds(1))
-                    viewModel.count &+= 1
-                }
-            } catch {
-                return
-            }
-        }
+//        .task {
+//            do {
+//                while true {
+//                    try await Task.sleep(for: .seconds(1))
+//                    viewModel.count &+= 1
+//                }
+//            } catch {
+//                return
+//            }
+//        }
         
         MyLabel(text: viewModel.count.description)
     }
@@ -59,5 +59,10 @@ final class ObservedObjectViewController : UIViewController {
         hostingController.view.frame = view.bounds
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
+        
+        Task {
+            try! await Task.sleep(for: .seconds(1))
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
