@@ -466,8 +466,8 @@ extension StackLayout {
             var d3 = bounds.size.height
             var d13 = d0
             var d10 = d1
-            var d15 = d2
-            var d11 = d3
+            let d15 = d2
+            let d11 = d3
             
             let proposal = proposalWhenPlacing(
                 in: ViewSize(
@@ -493,7 +493,7 @@ extension StackLayout {
                 // sp + 0x250
                 let copy_1 = unsafe header.pointee
                 // sp + 0x1d0
-                let copy_2 = copy_1
+                let _ = copy_1
                 
                 // children -> x26
                 // x28(index), x26, x25
@@ -507,7 +507,7 @@ extension StackLayout {
                     let dimensions = child.geometry.dimensions
                     var d14 = copy_3.geometry.origin.x
                     d0 = copy_3.distanceToPrevious
-                    var d8 = d13 + d0
+                    let d8 = d13 + d0
                     
                     // <+672>
                     d0 = copy_3.geometry.origin.y
@@ -546,7 +546,7 @@ extension StackLayout {
                     d3 = d11
                     
                     d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minX
-                    var d9 = d14 + d0
+                    let d9 = d14 + d0
                     proxy.place(
                         in: ViewGeometry(
                             origin: CGPoint(x: d9, y: d12),
@@ -579,7 +579,7 @@ extension StackLayout {
                 
                 // <+1108>
                 // sp + 0x1d0
-                let copy_2 = copy_1
+                let _ = copy_1
                 
                 guard unsafe !children.isEmpty else {
                     return
@@ -615,7 +615,7 @@ extension StackLayout {
                     case .rightToLeft:
                         // <+1540>
                         d1 = d12 - d1
-                        d2 = copy_3.geometry.dimensions.size.width
+                        d2 = copy_3.geometry.dimensions.size.value.width
                         d12 = d1 - d2
                         // <+1552>
                         
@@ -632,7 +632,7 @@ extension StackLayout {
                         }
                         
                         d2 = dimensions.size.value.width
-                        d12 = d1 - d2
+                        d12 = d1 + d2
                         // <+1616>
                     }
                     

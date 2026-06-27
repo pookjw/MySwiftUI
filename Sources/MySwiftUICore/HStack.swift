@@ -13,7 +13,8 @@ public import CoreGraphics
     }
     
     nonisolated public static func _makeView(view: _GraphValue<HStack<Content>>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        let value = view[{ .of(&$0._tree) }]
+        return _VariadicView.Tree<_HStackLayout, Content>.makePlatformSubstitutableView(view: value, inputs: inputs)
     }
     
     public typealias Body = Swift.Never
