@@ -1,19 +1,23 @@
 //
-//  VStackViewController.swift
-//  NativePlayground
+//  HStackViewController.swift
+//  MyPlayground
 //
 //  Created by Jinwoo Kim on 6/27/26.
 //
 
 import UIKit
+#if USE_ORIGINAL_SWIFTUI
 import SwiftUI
+#else
+import MySwiftUI
+#endif
 
 fileprivate struct MyView : View {
-    @State private var alignment: HorizontalAlignment = .center
+    @State private var alignment: VerticalAlignment = .center
     @State private var spacing: CGFloat? = nil
     
     var body: some View {
-        VStack(
+        HStack(
             alignment: alignment,
             spacing: spacing
         ) { 
@@ -38,10 +42,10 @@ fileprivate struct MyView : View {
     private func toggleAlignment() {
         switch alignment {
         case .center:
-            alignment = .leading
-        case .leading:
-            alignment = .trailing
-        case .trailing:
+            alignment = .top
+        case .top:
+            alignment = .bottom
+        case .bottom:
             alignment = .center
         default:
             fatalError()
@@ -58,7 +62,7 @@ fileprivate struct MyView : View {
     }
 }
 
-final class VStackViewController : UIViewController {
+final class HStackViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

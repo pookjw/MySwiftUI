@@ -23,9 +23,6 @@ extension VerticalAlignment {
     public static let lastTextBaseline = VerticalAlignment(VerticalAlignment.LastTextBaseline.self)
 }
 
-extension VerticalAlignment : Sendable {}
-extension VerticalAlignment : BitwiseCopyable {}
-
 extension VerticalAlignment {
     fileprivate enum Center : FrameAlignment {
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
@@ -86,4 +83,10 @@ extension VerticalAlignment {
             assertUnimplemented()
         }
     }
+}
+
+extension VerticalAlignment : Sendable {}
+extension VerticalAlignment : BitwiseCopyable {}
+
+extension VerticalAlignment : AlignmentGuide {
 }

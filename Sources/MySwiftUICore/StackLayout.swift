@@ -15,6 +15,10 @@ extension _VStackLayout {
     public typealias Body = Never
 }
 
+extension _VStackLayout : BitwiseCopyable {}
+extension _VStackLayout : _VariadicView_UnaryViewRoot {}
+extension _VStackLayout : _VariadicView_ViewRoot {}
+
 extension _VStackLayout : _VariadicView_ImplicitRoot {
     nonisolated static var implicitRoot: _VStackLayout {
         return _VStackLayout(alignment: .center, spacing: nil)
@@ -32,6 +36,45 @@ extension _VStackLayout : Layout, HVStack {
 
 extension _VStackLayout : DepthAlignmentWritable {
     func withDepthAlignment(_ alignment: DepthAlignment) -> DepthAlignedLayout<_VStackLayout> {
+        _assertUnimplemented()
+    }
+}
+
+@frozen public struct _HStackLayout {
+  public var alignment: VerticalAlignment
+  public var spacing: CGFloat?
+    
+  @inlinable public init(alignment: VerticalAlignment = .center, spacing: CGFloat? = nil) {
+        self.alignment = alignment
+        self.spacing = spacing
+    }
+}
+
+extension _HStackLayout {
+    public typealias Body = Never
+}
+
+extension _HStackLayout : BitwiseCopyable {}
+extension _HStackLayout : _VariadicView_UnaryViewRoot {}
+extension _HStackLayout : _VariadicView_ViewRoot {}
+
+extension _HStackLayout : _VariadicView_ImplicitRoot {
+    static var implicitRoot: _HStackLayout {
+        return _HStackLayout(alignment: .center, spacing: nil)
+    }
+}
+
+extension _HStackLayout : Layout, HVStack {
+    public typealias Cache = _StackLayoutCache
+    public typealias AnimatableData = EmptyAnimatableData
+    
+    static var majorAxis: Axis {
+        return .horizontal
+    }
+}
+
+extension _HStackLayout : DepthAlignmentWritable {
+    func withDepthAlignment(_ alignment: DepthAlignment) -> DepthAlignedLayout<_HStackLayout> {
         _assertUnimplemented()
     }
 }
