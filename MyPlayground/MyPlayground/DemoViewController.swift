@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.stateObjectView
+        let item = DemoViewController.Item.vStackView
         pushToItem(item)
         
 //        Task {
@@ -119,6 +119,7 @@ extension DemoViewController {
         case geometryReaderView
         case geometryReader3DView
         case zOffsetView
+        case vStackView
         case frameLayoutView
         case offsetView
         case withAnimationView
@@ -207,6 +208,8 @@ extension DemoViewController {
                 return _typeName(GeometryReader3DViewController.self, qualified: false)
             case .zOffsetView:
                 return _typeName(ZOffsetViewController.self, qualified: false)
+            case .vStackView:
+                return _typeName(VStackViewController.self, qualified: false)
             case .frameLayoutView:
                 return _typeName(FrameLayoutViewController.self, qualified: false)
             case .offsetView:
@@ -316,6 +319,8 @@ extension DemoViewController {
                 return GeometryReader3DViewController()
             case .zOffsetView:
                 return ZOffsetViewController()
+            case .vStackView:
+                return VStackViewController()
             case .frameLayoutView:
                 return FrameLayoutViewController()
             case .offsetView:

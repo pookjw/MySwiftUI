@@ -30,6 +30,12 @@ extension _VStackLayout : Layout, HVStack {
     }
 }
 
+extension _VStackLayout : DepthAlignmentWritable {
+    func withDepthAlignment(_ alignment: DepthAlignment) -> DepthAlignedLayout<_VStackLayout> {
+        _assertUnimplemented()
+    }
+}
+
 protocol HVStack : Layout, _VariadicView_UnaryViewRoot {
     associatedtype MinorAxisAlignment : AlignmentGuide
     
