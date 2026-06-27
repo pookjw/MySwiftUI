@@ -24,7 +24,7 @@ private import os.log
     }
     
     @MainActor @preconcurrency public var projectedValue: ObservedObject<ObjectType>.Wrapper {
-        assertUnimplemented()
+        return self.objectValue.projectedValue
     }
     
     nonisolated public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
@@ -44,7 +44,13 @@ private import os.log
     }
     
     @MainActor @preconcurrency var objectValue: ObservedObject<ObjectType> {
-        assertUnimplemented()
+        switch self.storage {
+        case .initially(let block):
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Accessing StateObject<\(_typeName(ObjectType.self, qualified: false))>'s object without being installed on a View. This will create a new instance each time.")
+            return ObservedObject<ObjectType>(wrappedValue: block())
+        case .object(let object):
+            return object
+        }
     }
 }
 
