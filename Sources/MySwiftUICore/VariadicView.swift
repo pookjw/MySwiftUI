@@ -97,12 +97,6 @@ extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content
 
 extension _VariadicView.Tree : PrimitiveView, UnaryView where Root : _VariadicView_ViewRoot, Content : View {}
 
-extension _VariadicView.Tree where Root : DepthAlignmentWritable, Content : View {
-    static func makePlatformSubstitutableView(view: _GraphValue<_VariadicView.Tree<Root, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-}
-
 @available(*, unavailable)
 extension _VariadicView.Tree : Sendable {
 }
@@ -475,10 +469,4 @@ fileprivate struct ViewRootBodyAccessor<Root : _VariadicView_ViewRoot> : BodyAcc
             return body.value
         }
     }
-}
-
-protocol DepthAlignmentWritable : _VariadicView_UnaryViewRoot {
-    associatedtype DepthAligned : _VariadicView_UnaryViewRoot
-    
-    func withDepthAlignment(_ alignment: DepthAlignment) -> DepthAligned
 }
