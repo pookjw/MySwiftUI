@@ -294,63 +294,30 @@ struct DepthAlignedLayout<L : Layout> : DerivedLayout, Layout3D, _VariadicView_U
     var base: L
     var depthAlignment: DepthAlignment
     
-    nonisolated static func _makeViewList(root: _GraphValue<DepthAlignedLayout<L>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    fileprivate func placeChildren<T : Sequence>(
+        _: T,
+        proposal: _ProposedSize3D,
+        place: (LayoutSubview3D, DepthAlignedLayout<T>.DepthGeometry) -> ()
+    ) where T.Element == (_ proxy: LayoutSubview3D, _ geo: ViewGeometry) -> Double {
         assertUnimplemented()
     }
     
-    static nonisolated var layoutProperties: LayoutProperties {
+    nonisolated func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat {
         assertUnimplemented()
     }
     
-    nonisolated func makeCache(subviews: Subviews) -> L.Cache {
-        assertUnimplemented()
-    }
-    
-    nonisolated func updateCache(_ cache: inout L.Cache, subviews: Subviews) {
-        assertUnimplemented()
-    }
-    
-    nonisolated func spacing(subviews: Subviews, cache: inout L.Cache) -> ViewSpacing {
-        assertUnimplemented()
-    }
-    
-    nonisolated func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout L.Cache) -> CGSize {
-        assertUnimplemented()
-    }
-    
-    nonisolated func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout L.Cache) {
-        assertUnimplemented()
-    }
-    
-    nonisolated func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout L.Cache) -> CGFloat? {
-        assertUnimplemented()
-    }
-    
-    nonisolated func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout L.Cache) -> CGFloat? {
+    nonisolated func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) {
         assertUnimplemented()
     }
     
     nonisolated static func _makeLayoutView(root: _GraphValue<DepthAlignedLayout<L>>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
-    
-    nonisolated func explicitAlignment(of alignment: DepthAlignment, in: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout L.Cache) -> CGFloat? {
-        assertUnimplemented()
-    }
-    
-    nonisolated static var depthProperties: LayoutDepthProperties {
-        assertUnimplemented()
-    }
-    
-    nonisolated func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout L.Cache) -> CGFloat {
-        assertUnimplemented()
-    }
-    
-    nonisolated func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout L.Cache) {
-        assertUnimplemented()
-    }
-    
-    nonisolated static func _makeView(root: _GraphValue<DepthAlignedLayout<L>>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+}
+
+extension DepthAlignedLayout {
+    struct DepthGeometry {
+        private let offset: Double
+        private let dimensions: ViewDimensions3D
     }
 }

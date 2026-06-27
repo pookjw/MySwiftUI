@@ -32,3 +32,26 @@ extension VStack : Sendable {
 }
 
 extension VStack : UnaryView, PrimitiveView {}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+@frozen public struct VStackLayout : Layout {
+    public var alignment: HorizontalAlignment
+    public var spacing: CGFloat?
+    
+    @inlinable public init(alignment: HorizontalAlignment = .center, spacing: CGFloat? = nil) {
+        self.alignment = alignment
+        self.spacing = spacing
+    }
+    
+    public typealias AnimatableData = EmptyAnimatableData
+    public typealias Cache = _VStackLayout.Cache
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+extension VStackLayout : BitwiseCopyable {}
+
+extension VStackLayout : DerivedLayout {
+    var base: _VStackLayout {
+        return _VStackLayout(alignment: self.alignment, spacing: self.spacing)
+    }
+}
