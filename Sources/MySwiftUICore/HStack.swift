@@ -25,3 +25,26 @@ extension HStack : Sendable {
 }
 
 extension HStack : UnaryView, PrimitiveView {}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+@frozen public struct HStackLayout : Layout {
+    public var alignment: VerticalAlignment
+    public var spacing: CGFloat?
+    
+    @inlinable public init(alignment: VerticalAlignment = .center, spacing: CGFloat? = nil) {
+        self.alignment = alignment
+        self.spacing = spacing
+    }
+    
+    public typealias AnimatableData = EmptyAnimatableData
+    public typealias Cache = _HStackLayout.Cache
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+extension HStackLayout : BitwiseCopyable {}
+
+extension HStackLayout : DerivedLayout {
+    var base: _HStackLayout {
+        return _HStackLayout(alignment: self.alignment, spacing: self.spacing)
+    }
+}

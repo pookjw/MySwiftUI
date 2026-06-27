@@ -1,19 +1,23 @@
 //
-//  HStackViewController.swift
-//  NativePlayground
+//  HStackLayoutViewController.swift
+//  MyPlayground
 //
 //  Created by Jinwoo Kim on 6/27/26.
 //
 
 import UIKit
+#if USE_ORIGINAL_SWIFTUI
 import SwiftUI
+#else
+import MySwiftUI
+#endif
 
 fileprivate struct MyView : View {
     @State private var alignment: VerticalAlignment = .center
     @State private var spacing: CGFloat? = nil
     
     var body: some View {
-        HStack(
+        HStackLayout(
             alignment: alignment,
             spacing: spacing
         ) { 
@@ -58,7 +62,7 @@ fileprivate struct MyView : View {
     }
 }
 
-final class HStackViewController : UIViewController {
+final class HStackLayoutViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

@@ -302,11 +302,11 @@ struct DepthAlignedLayout<L : Layout> : DerivedLayout, Layout3D, _VariadicView_U
         assertUnimplemented()
     }
     
-    nonisolated func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat {
+    nonisolated func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout L.Cache) -> CGFloat {
         assertUnimplemented()
     }
     
-    nonisolated func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) {
+    nonisolated func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout L.Cache) {
         assertUnimplemented()
     }
     
