@@ -36,6 +36,7 @@
 		4FBA78202F6506950038D3FD /* _CoreServicesPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBA781F2F6506940038D3FD /* _CoreServicesPrivate.xcframework */; };
 		4FBA78242F65115D0038D3FD /* BoardServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBA78232F65115D0038D3FD /* BoardServices.xcframework */; };
 		4FD4A1F62E910B4300C9B545 /* TCC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD4A1F52E910B4300C9B545 /* TCC.xcframework */; };
+		4FE563BF2FF14CDE00F93C4A /* CoreUI.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE563BE2FF14CDE00F93C4A /* CoreUI.xcframework */; };
 		4FE7D8472FD1FAF600630A98 /* Sample in Frameworks */ = {isa = PBXBuildFile; productRef = 4FE7D8462FD1FAF600630A98 /* Sample */; };
 		4FE7D92D2FD28EF000630A98 /* MyRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4FE7D8422FD1FAF600630A98 /* MyRealityKit */; };
 		4FE7D9A02FD28F0900630A98 /* MySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4FE7D8442FD1FAF600630A98 /* MySwiftUI */; };
@@ -73,6 +74,7 @@
 		4FBA781F2F6506940038D3FD /* _CoreServicesPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _CoreServicesPrivate.xcframework; path = ../_CoreServicesPrivate.xcframework; sourceTree = "<group>"; };
 		4FBA78232F65115D0038D3FD /* BoardServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BoardServices.xcframework; path = ../BoardServices.xcframework; sourceTree = "<group>"; };
 		4FD4A1F52E910B4300C9B545 /* TCC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TCC.xcframework; path = ../TCC.xcframework; sourceTree = "<group>"; };
+		4FE563BE2FF14CDE00F93C4A /* CoreUI.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoreUI.xcframework; path = ../CoreUI.xcframework; sourceTree = "<group>"; };
 		4FE8D0FC2E56AA8200352E55 /* _QuartzCorePrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _QuartzCorePrivate.xcframework; path = ../_QuartzCorePrivate.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,6 +114,7 @@
 				4FBA78202F6506950038D3FD /* _CoreServicesPrivate.xcframework in Frameworks */,
 				4F2777122E5247CD00867E37 /* BaseBoard.xcframework in Frameworks */,
 				4F12FB2B2E812BD600E88FF1 /* CoreRE.xcframework in Frameworks */,
+				4FE563BF2FF14CDE00F93C4A /* CoreUI.xcframework in Frameworks */,
 				4F147CCE2E8F924100FAE51D /* _SwiftUICorePrivate.xcframework in Frameworks */,
 				4F8923472ED5B5FF00FFF23C /* FrontBoardServices.xcframework in Frameworks */,
 				4F8F092B2E51DA7A00EFC573 /* MRUIKit.xcframework in Frameworks */,
@@ -161,6 +164,7 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FE563BE2FF14CDE00F93C4A /* CoreUI.xcframework */,
 				4F0237792F80F54E00DCCB88 /* UserActivity.xcframework */,
 				4F0236FD2F80B0DD00DCCB88 /* UIKitServices.xcframework */,
 				4FBA78232F65115D0038D3FD /* BoardServices.xcframework */,

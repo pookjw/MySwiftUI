@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.19.103 clang-2100.3.19.4)
-// swift-module-flags: -target x86_64-apple-xros27.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 8.0.66.1.501 -module-name CoreRE -package-name CoreRE
+// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.23.102 clang-2100.3.23.3)
+// swift-module-flags: -target x86_64-apple-xros27.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature Macros -enable-experimental-feature ExtensionMacros -enable-experimental-feature IsolatedAny2 -enable-upcoming-feature InferSendableFromCaptures -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 8.0.71.1.501 -module-name CoreRE -package-name CoreRE
 // swift-module-flags-ignorable: -public-module-name SwiftUI -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4
 @_exported import CoreRE

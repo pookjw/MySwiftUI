@@ -102,7 +102,8 @@ let package = Package(
                 .byName(name: "_ObservationPrivate"),
                 .byName(name: "UIFoundation"),
                 .byName(name: "_SwiftPrivate"),
-                .byName(name: "_MySwiftUIUtils")
+                .byName(name: "_MySwiftUIUtils"),
+                .byName(name: "CoreUI")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -338,6 +339,10 @@ let package = Package(
         .binaryTarget(
             name: "UserActivity",
             path: "UserActivity.xcframework"
+        ),
+        .binaryTarget(
+            name: "CoreUI",
+            path: "CoreUI.xcframework"
         ),
         .target(
             name: "_KernPrivate",

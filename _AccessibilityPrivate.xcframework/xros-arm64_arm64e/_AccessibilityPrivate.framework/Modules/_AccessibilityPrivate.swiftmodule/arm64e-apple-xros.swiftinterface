@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.19.103 clang-2100.3.19.4)
-// swift-module-flags: -target arm64e-apple-xros27.0 -enable-objc-interop -autolink-force-load -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -module-abi-name Accessibility -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 576.1.1 -module-name _AccessibilityPrivate
+// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.23.102 clang-2100.3.23.3)
+// swift-module-flags: -target arm64e-apple-xros27.0 -enable-objc-interop -autolink-force-load -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -module-abi-name Accessibility -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 579 -module-name _AccessibilityPrivate
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4
 @_exported import Accessibility
 @_exported import _AccessibilityPrivate

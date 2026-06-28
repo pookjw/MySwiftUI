@@ -6,6 +6,7 @@
 #import "Subclasses/CoreFoundationInterfaceGenerator.h"
 #import "Subclasses/CoreREInterfaceGenerator.h"
 #import "Subclasses/CoreServicesInterfaceGenerator.h"
+#import "Subclasses/CoreUIInterfaceGenerator.h"
 #import "Subclasses/DesignLibraryInterfaceGenerator.h"
 #import "Subclasses/ElegibilityInterfaceGenerator.h"
 #import "Subclasses/FeatureFlagsInterfaceGenerator.h"
@@ -66,6 +67,7 @@ int main(int argc, const char * argv[]) {
     assert([CoreFoundationInterfaceGenerator generateToURL:resolvedURL]);
     assert([CoreREInterfaceGenerator generateToURL:resolvedURL]);
     assert([CoreServicesInterfaceGenerator generateToURL:resolvedURL]);
+    assert([CoreUIInterfaceGenerator generateToURL:resolvedURL]);
     assert([DesignLibraryInterfaceGenerator generateToURL:resolvedURL]);
     assert([ElegibilityInterfaceGenerator generateToURL:resolvedURL]);
     assert([FeatureFlagsInterfaceGenerator generateToURL:resolvedURL]);

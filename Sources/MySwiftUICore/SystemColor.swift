@@ -1,6 +1,6 @@
 // 9E3352CE4697DF56A738786E16992848
-
 internal import CoreGraphics
+internal import CoreUI
 
 enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     case red
