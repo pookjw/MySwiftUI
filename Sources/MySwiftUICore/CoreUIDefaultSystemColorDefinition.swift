@@ -41,9 +41,9 @@ struct CoreUIDefaultSystemColorDefinition : SystemColorDefinition {
         case .quinary:
             return CoreUIDefaultSystemColorDefinition.value(named: .quinary, in: environment)
         case .primaryFill:
-            return DefaultSystemColorDefinition_Vision.value(for: .quaternary, environment: environment)
+            return DefaultSystemColorDefinition_Vision.value(for: .primaryFill, environment: environment)
         case .secondaryFill:
-            return DefaultSystemColorDefinition_Vision.value(for: .quinary, environment: environment)
+            return DefaultSystemColorDefinition_Vision.value(for: .secondaryFill, environment: environment)
         case .tertiaryFill:
             return DefaultSystemColorDefinition_Vision.value(for: .tertiaryFill, environment: environment)
         case .quaternaryFill:
