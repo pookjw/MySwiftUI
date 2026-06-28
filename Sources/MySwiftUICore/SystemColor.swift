@@ -1,6 +1,5 @@
 // 9E3352CE4697DF56A738786E16992848
 internal import CoreGraphics
-internal import CoreUI
 
 enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     case red
@@ -96,12 +95,8 @@ fileprivate struct SystemColorDefinitionKey : EnvironmentKey {
     }
 }
 
-struct CoreUIDefaultSystemColorDefinition : SystemColorDefinition {
+struct DefaultSystemColorDefinition_Vision {
     static func value(for type: SystemColorType, environment: EnvironmentValues) -> Color.ResolvedHDR {
-        assertUnimplemented()
-    }
-    
-    static func opacity(at: Int, environment: EnvironmentValues) -> Float {
         assertUnimplemented()
     }
 }

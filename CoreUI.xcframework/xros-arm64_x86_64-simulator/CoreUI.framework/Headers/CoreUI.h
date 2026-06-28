@@ -1,1 +1,1 @@
-#pragma once
+#import <CoreUI/CUIColorName.h>
