@@ -53,15 +53,15 @@
     }
     
     public mutating func scale(by rhs: Double) {
-        assertUnimplemented()
+        return self.vtable.scale(&self.value, by: rhs)
     }
     
     public var magnitudeSquared: Double {
-        assertUnimplemented()
+        return self.vtable.magnitudeSquared(self.value)
     }
     
     init<A : Animatable>(_ animatable: A) {
-        self.value = animatable
+        self.value = animatable.animatableData
         self.vtable = VTable<A>.self
     }
     
@@ -76,7 +76,11 @@
     }
     
     func update<A : Animatable>(_ animatable: inout A) {
-        assertUnimplemented()
+        guard self.vtable == VTable<A>.self else {
+            return
+        }
+        
+        animatable.animatableData = (self.value as! A.AnimatableData)
     }
 }
 
@@ -127,27 +131,33 @@ fileprivate final class VTable<A : Animatable> : _AnyAnimatableDataVTable {
     }
     
     override class func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {
-        assertUnimplemented()
+        return (lhs as! A.AnimatableData) == (rhs as! A.AnimatableData)
     }
     
     override class func add(_ toValue: inout Any, _ from: Any) {
-        assertUnimplemented()
+        var casted = (toValue as! A.AnimatableData)
+        casted += (from as! A.AnimatableData)
+        toValue = casted
     }
     
     override class func subtract(_ toValue: inout Any, _ from: Any) {
-        assertUnimplemented()
+        var casted = (toValue as! A.AnimatableData)
+        casted -= (from as! A.AnimatableData)
+        toValue = casted
     }
     
     override class func negate(_ value: inout Any) {
-        assertUnimplemented()
+        value = A.AnimatableData.zero - (value as! A.AnimatableData)
     }
     
     override class func scale(_ value: inout Any, by scale: Double) {
-        assertUnimplemented()
+        var casted = (value as! A.AnimatableData)
+        casted.scale(by: scale)
+        value = casted
     }
     
     override class func magnitudeSquared(_ value: Any) -> Double {
-        assertUnimplemented()
+        return (value as! A.AnimatableData).magnitudeSquared
     }
 }
 

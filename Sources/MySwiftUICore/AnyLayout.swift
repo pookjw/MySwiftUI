@@ -149,8 +149,18 @@ final class _AnyLayoutBox<L : Layout> : AnyLayoutBox, @unchecked Sendable {
         return AnyLayout.Cache(type: L.self, value: cache)
     }
     
-    override func updateCache(_: inout AnyLayout.Cache, subviews: LayoutSubviews) {
-        assertUnimplemented()
+    override func updateCache(_ cache: inout AnyLayout.Cache, subviews: LayoutSubviews) {
+        guard L.self == cache.type else {
+            cache = self.makeCache(subviews: subviews)
+            return
+        }
+        
+        var layoutCache = cache.value as! L.Cache
+        defer {
+            cache.value = layoutCache
+        }
+        
+        self.layout.updateCache(&layoutCache, subviews: subviews)
     }
     
     override func spacing(subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> ViewSpacing {
