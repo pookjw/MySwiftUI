@@ -65,7 +65,15 @@ extension Color : Paint {
     typealias ResolvedPaintType = Never // TODO
 }
 
-extension Color : Serializable {}
+extension Color : Serializable {
+    func serialize(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    static func deserialize(from decoder: Decoder) throws -> Color {
+        assertUnimplemented()
+    }
+}
 
 @usableFromInline
 package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
@@ -134,6 +142,14 @@ struct ResolvedColorProvider : Hashable, ColorProvider {
     }
     
     func opacity(at: Int, environment: EnvironmentValues) -> Float {
+        assertUnimplemented()
+    }
+    
+    func serialize(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    static func deserialize(from decoder: Decoder) throws -> ResolvedColorProvider {
         assertUnimplemented()
     }
 }
@@ -520,134 +536,25 @@ extension Color {
 extension Color.ResolvedHDR : BitwiseCopyable, ShapeStyle {}
 
 extension Color {
-    nonisolated public static let red: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let orange: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let yellow: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let green: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let mint: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let teal: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let cyan: Color = {
-        assertUnimplemented()
-    }()
-    
+    nonisolated public static let red = Color(box: ColorBox(SystemColorType.red))
+    nonisolated public static let orange = Color(box: ColorBox(SystemColorType.orange))
+    nonisolated public static let yellow = Color(box: ColorBox(SystemColorType.yellow))
+    nonisolated public static let green = Color(box: ColorBox(SystemColorType.green))
+    nonisolated public static let mint = Color(box: ColorBox(SystemColorType.mint))
+    nonisolated public static let teal = Color(box: ColorBox(SystemColorType.teal))
+    nonisolated public static let cyan = Color(box: ColorBox(SystemColorType.cyan))
     nonisolated public static let blue = Color(box: ColorBox(SystemColorType.blue))
-    
-    nonisolated public static let indigo: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let purple: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let pink: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let brown: Color = {
-        assertUnimplemented()
-    }()
-    
+    nonisolated public static let indigo = Color(box: ColorBox(SystemColorType.indigo))
+    nonisolated public static let purple = Color(box: ColorBox(SystemColorType.purple))
+    nonisolated public static let pink = Color(box: ColorBox(SystemColorType.pink))
+    nonisolated public static let brown = Color(box: ColorBox(SystemColorType.brown))
     nonisolated public static let white = Color(.white)
-    
-    nonisolated public static let gray: Color = {
-        assertUnimplemented()
-    }()
-    
+    nonisolated public static let gray = Color(box: ColorBox(SystemColorType.gray))
     nonisolated public static let black = Color(.black)
-    
     nonisolated public static let clear = Color(.clear)
-    
-    nonisolated public static let primary: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated public static let secondary: Color = {
-        assertUnimplemented()
-    }()
-    
-    nonisolated package static let _background: Color = {
-        assertUnimplemented()
-    }()
-}
-
-enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
-    case red
-    case orange
-    case yellow
-    case green
-    case teal
-    case mint
-    case cyan
-    case blue
-    case indigo
-    case purple
-    case pink
-    case brown
-    case gray
-    case primary
-    case secondary
-    case tertiary
-    case quaternary
-    case quinary
-    case primaryFill
-    case secondaryFill
-    case tertiaryFill
-    case quaternaryFill
-    
-    var tag: Color.ProviderTag {
-        assertUnimplemented()
-    }
-    
-    func resolve(in: EnvironmentValues) -> Color.Resolved {
-        assertUnimplemented()
-    }
-    
-    func resolveHDR(in: EnvironmentValues) -> Color.ResolvedHDR {
-        assertUnimplemented()
-    }
-    
-    func apply(color: Color, to: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
-    }
-    
-    var staticColor: CGColor? {
-        assertUnimplemented()
-    }
-    
-    var kitColor: AnyObject? {
-        assertUnimplemented()
-    }
-    
-    var colorDescription: String {
-        assertUnimplemented()
-    }
-    
-    func opacity(at: Int, environment: EnvironmentValues) -> Float {
-        assertUnimplemented()
-    }
-    
-    // TODO: CodingKeys
-    
-    
+    nonisolated public static let primary = Color(box: ColorBox(SystemColorType.primary))
+    nonisolated public static let secondary = Color(box: ColorBox(SystemColorType.secondary))
+    nonisolated package static let _background = Color(box: ColorBox(BackgroundColorProvider()))
 }
 
 struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializable {
@@ -724,6 +631,14 @@ struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializabl
     }
     
     func opacity(at: Int, environment: EnvironmentValues) -> Float {
+        assertUnimplemented()
+    }
+    
+    func serialize(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    static func deserialize(from decoder: Decoder) throws -> UIKitPlatformColorProvider {
         assertUnimplemented()
     }
 }
@@ -1299,5 +1214,43 @@ extension Color.Resolved {
         self.linearGreen = s10
         self.linearBlue = s9
         self.opacity = s8
+    }
+}
+
+extension Color {
+    struct BackgroundColorProvider : ColorProvider, EmptySerializable, Hashable {
+        init() {}
+        
+        var tag: Color.ProviderTag {
+            return ._background
+        }
+        
+        func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+            assertUnimplemented()
+        }
+        
+        func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+            assertUnimplemented()
+        }
+        
+        func apply(color: Color, to: inout _ShapeStyle_Shape) {
+            assertUnimplemented()
+        }
+        
+        var staticColor: CGColor? {
+            return nil
+        }
+        
+        var kitColor: AnyObject? {
+            return nil
+        }
+        
+        var colorDescription: String {
+            assertUnimplemented()
+        }
+        
+        func opacity(at: Int, environment: EnvironmentValues) -> Float {
+            assertUnimplemented()
+        }
     }
 }

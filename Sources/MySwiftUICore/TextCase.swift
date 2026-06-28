@@ -27,7 +27,15 @@ extension EnvironmentValues {
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-extension Text.Case : Hashable, /*CodableByProxy,*/ Serializable {}
+extension Text.Case : Hashable, /*CodableByProxy,*/ Serializable {
+    func serialize(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    static func deserialize(from decoder: Decoder) throws -> Text.Case {
+        assertUnimplemented()
+    }
+}
 
 fileprivate struct TextCaseKey : EnvironmentKey {
     static var defaultValue: Text.Case? {

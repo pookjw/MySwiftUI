@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.anyLayoutView
+        let item = DemoViewController.Item.colorsView
         pushToItem(item)
         
 //        Task {
@@ -88,8 +88,7 @@ extension DemoViewController {
     private enum Item : CaseIterable {
         case emptyView
         case anyEmptyView
-        case colorBlackView
-        case colorWhiteView
+        case colorsView
         case switchingColorsView
         case anyViewSwitchingView
         case bodyView
@@ -150,10 +149,8 @@ extension DemoViewController {
                 return _typeName(EmptyViewController.self, qualified: false)
             case .anyEmptyView:
                 return _typeName(AnyEmptyViewController.self, qualified: false)
-            case .colorBlackView:
-                return _typeName(ColorBlackViewController.self, qualified: false)
-            case .colorWhiteView:
-                return _typeName(ColorWhiteViewController.self, qualified: false)
+            case .colorsView:
+                return _typeName(ColorsViewController.self, qualified: false)
             case .switchingColorsView:
                 return _typeName(SwitchingColorsViewController.self, qualified: false)
             case .anyViewSwitchingView:
@@ -269,10 +266,8 @@ extension DemoViewController {
                 return EmptyViewController()
             case .anyEmptyView:
                 return AnyEmptyViewController()
-            case .colorBlackView:
-                return ColorBlackViewController()
-            case .colorWhiteView:
-                return ColorWhiteViewController()
+            case .colorsView:
+                return ColorsViewController()
             case .switchingColorsView:
                 return SwitchingColorsViewController()
             case .anyViewSwitchingView:
