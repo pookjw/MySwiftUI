@@ -29,6 +29,17 @@ fileprivate struct MyView : View {
             Color.white
                 .frame(width: 200, height: 200)
         }
+        .task {
+            do {
+                while true {
+                    try await Task.sleep(for: .seconds(1))
+                    withAnimation {
+                        flag.toggle()
+                    }
+                }
+            } catch {
+            }
+        }
     }
     
     private var layout: AnyLayout {

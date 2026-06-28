@@ -10,45 +10,50 @@ private import Spatial
         self.storage = _AnyLayoutBox(layout)
     }
     
-    public struct Cache : Sendable {
+    public struct Cache : @unchecked Sendable {
+        fileprivate private(set) var type: Any.Type
+        fileprivate var value: Any
     }
     
     public typealias AnimatableData = _AnyAnimatableData
     
     public func makeCache(subviews: AnyLayout.Subviews) -> AnyLayout.Cache {
-        assertUnimplemented()
+        return self.storage.makeCache(subviews: subviews)
     }
     
     public func updateCache(_ cache: inout AnyLayout.Cache, subviews: AnyLayout.Subviews) {
-        assertUnimplemented()
+        return self.storage.updateCache(&cache, subviews: subviews)
     }
     
     public func spacing(subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> ViewSpacing {
-        assertUnimplemented()
+        return self.storage.spacing(subviews: subviews, cache: &cache)
     }
     
     public func sizeThatFits(proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGSize {
-        assertUnimplemented()
+        return self.storage.sizeThatFits(proposal: proposal, subviews: subviews, cache: &cache)
     }
     
     public func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) {
-        assertUnimplemented()
+        return self.storage.placeSubviews(in: bounds, proposal: proposal, subviews: subviews, cache: &cache)
     }
     
     public func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGFloat? {
-        assertUnimplemented()
+        return self.storage.explicitAlignment(of: guide, in: bounds, proposal: proposal, subviews: subviews, cache: &cache)
     }
     
     public func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: AnyLayout.Subviews, cache: inout AnyLayout.Cache) -> CGFloat? {
-        assertUnimplemented()
+        return self.storage.explicitAlignment(of: guide, in: bounds, proposal: proposal, subviews: subviews, cache: &cache)
     }
     
-    public var animatableData: AnyLayout.AnimatableData {
+    public var animatableData: _AnyAnimatableData {
         get {
-            assertUnimplemented()
+            return self.storage.animatableData
         }
         set {
-            assertUnimplemented()
+            self.storage.animatableData = newValue
+        }
+        _modify {
+            yield &self.storage.animatableData
         }
     }
 }
@@ -118,8 +123,16 @@ final class _AnyLayoutBox<L : Layout> : AnyLayoutBox, @unchecked Sendable {
     private var layout: L
     
     init(_ layout: L) {
-        // 단순 할당 아님
-        assertUnimplemented()
+        self.layout = layout
+        super.init(layout3DBox: DefaultLayoutBox3D())
+        
+        if let layout3D = layout as? (any Layout3D) {
+            func project<T : Layout3D>(_ layout3D: T) {
+                self.layout3DBox = _AnyLayout3DBox(layout3D)
+            }
+            
+            _openExistential(layout3D, do: project)
+        }
     }
     
     fileprivate init(_ layout: L, layout3DBox: AnyLayout3DBox) {
@@ -132,7 +145,8 @@ final class _AnyLayoutBox<L : Layout> : AnyLayoutBox, @unchecked Sendable {
     }
     
     override func makeCache(subviews: LayoutSubviews) -> AnyLayout.Cache {
-        assertUnimplemented()
+        let cache = self.layout.makeCache(subviews: subviews)
+        return AnyLayout.Cache(type: L.self, value: cache)
     }
     
     override func updateCache(_: inout AnyLayout.Cache, subviews: LayoutSubviews) {
@@ -144,11 +158,21 @@ final class _AnyLayoutBox<L : Layout> : AnyLayoutBox, @unchecked Sendable {
     }
     
     override func sizeThatFits(proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGSize {
-        assertUnimplemented()
+        var layoutCache = cache.value as! L.Cache
+        defer {
+            cache.value = layoutCache
+        }
+        
+        return self.layout.sizeThatFits(proposal: proposal, subviews: subviews, cache: &layoutCache)
     }
     
     override func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) {
-        assertUnimplemented()
+        var layoutCache = cache.value as! L.Cache
+        defer {
+            cache.value = layoutCache
+        }
+        
+        self.layout.placeSubviews(in: bounds, proposal: proposal, subviews: subviews, cache: &layoutCache)
     }
     
     override func explicitAlignment(of alignment: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGFloat {
@@ -161,10 +185,10 @@ final class _AnyLayoutBox<L : Layout> : AnyLayoutBox, @unchecked Sendable {
     
     override var animatableData: _AnyAnimatableData {
         get {
-            assertUnimplemented()
+            return _AnyAnimatableData(self.layout)
         }
         set {
-            assertUnimplemented()
+            newValue.update(&self.layout)
         }
     }
     
@@ -198,8 +222,10 @@ fileprivate class AnyLayout3DBox {
 fileprivate final class _AnyLayout3DBox<L : Layout3D> : AnyLayout3DBox {
     private let layout3D: L
     
-    override init() { // 없음
-        assertUnimplemented()
+    @inline(__always) // 원래 없음
+    init(_ layout3D: L) {
+        self.layout3D = layout3D
+        super.init()
     }
     
     override var depthProperties: LayoutDepthProperties {
@@ -219,6 +245,12 @@ fileprivate final class _AnyLayout3DBox<L : Layout3D> : AnyLayout3DBox {
     }
     
     override func withAnimatableData(_ animatableData: _AnyAnimatableData) -> AnyLayout3DBox {
+        assertUnimplemented()
+    }
+}
+
+fileprivate final class DefaultLayoutBox3D : AnyLayout3DBox {
+    override func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout AnyLayout.Cache) -> CGFloat {
         assertUnimplemented()
     }
 }
