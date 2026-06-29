@@ -1,8 +1,10 @@
-
-public enum ColorScheme {
+public enum ColorScheme : CaseIterable, Sendable {
     case light
     case dark
 }
+
+extension ColorScheme : Equatable {}
+extension ColorScheme : Hashable {}
 
 extension EnvironmentValues {
     package var systemColorScheme: ColorScheme {

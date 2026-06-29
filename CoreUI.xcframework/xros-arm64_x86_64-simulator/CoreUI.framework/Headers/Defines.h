@@ -1,6 +1,9 @@
+#ifndef Defines_h
+#define Defines_h
+
 #import <Foundation/Foundation.h>
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, CUIColorName) {
     CUIColorNameRed = 0,
@@ -23,4 +26,23 @@ typedef NS_ENUM(NSUInteger, CUIColorName) {
     CUIColorNameQuinary = 19
 };
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+typedef NS_ENUM(NSUInteger, CUIDesignStyling) {
+    CUIDesignStylingUnknown0 = 0,
+    CUIDesignStylingUnknown1 = 1,
+    CUIDesignStylingUnknown2 = 2
+};
+
+typedef struct CUIDesignColorTraits {
+    NSUInteger value0;
+    NSUInteger value1;
+    CUIColorName colorName;
+    NSUInteger value3;
+    NSUInteger value4;
+    NSUInteger value5;
+    NSUInteger value6;
+    CUIDesignStyling styling;
+} CUIDesignColorTraits;
+
+NS_ASSUME_NONNULL_END
+
+#endif

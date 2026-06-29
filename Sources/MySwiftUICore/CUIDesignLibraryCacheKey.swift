@@ -1,6 +1,11 @@
+// EBD1C829A869D5EC3C2FDA55F4467D9A
 internal import CoreUI
+private import Synchronization
+private import CoreGraphics
 
-struct CUIDesignLibraryCacheKey : Hashable {
+struct CUIDesignLibraryCacheKey : Hashable, Sendable {
+    fileprivate static let cache = Mutex<[CUIDesignLibraryCacheKey: CUIDesignLibraryCacheKey.Entry]>([:])
+    
     var name: CUIColorName
     var props: CUIDesignLibraryCacheKey.Props
     
@@ -14,12 +19,37 @@ struct CUIDesignLibraryCacheKey : Hashable {
     }
     
     func fetch() -> CUIDesignLibraryCacheKey.Entry {
+        if let cached = CUIDesignLibraryCacheKey.cache.withLock({ cache in
+            return cache[self]
+        }) {
+            return cached
+        }
+        
+        let traits = CUIDesignColorTraits(
+            value0: self.props.gamut != .sGRB ? 1 : 0,
+            value1: 0,
+            colorName: self.name,
+            value3: 0,
+            value4: 0,
+            value5: self.props.scheme == .dark ? 1 : 0,
+            value6: self.props.contrast == .increased ? 1 : 0,
+            styling: self.props.styling
+        )
+        
+        do {
+            let color = try CUIDesignLibrary.color(with: traits)
+//            color.cgColor
+        } catch {
+            Log.internalWarning("A color was requested from CoreUI but was not found. Returning clear color instead. - \(error)")
+        }
+        
+        // <+828>
         assertUnimplemented()
     }
 }
 
 extension CUIDesignLibraryCacheKey {
-    struct Entry : Hashable {
+    struct Entry : Hashable, Sendable {
         var color: Color.ResolvedHDR
         var blendMode: BlendMode
         
@@ -29,7 +59,7 @@ extension CUIDesignLibraryCacheKey {
         }
     }
     
-    struct Props : Hashable, DerivedEnvironmentKey {
+    struct Props : Hashable, DerivedEnvironmentKey, Sendable {
         var scheme: ColorScheme
         var contrast: ColorSchemeContrast
         var gamut: DisplayGamut

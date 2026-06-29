@@ -1,2 +1,3 @@
-#import <CoreUI/CUIColorName.h>
-#import <CoreUI/CUIDesignStyling.h>
+#import <CoreUI/Defines.h>
+#import <CoreUI/CUIDesignLibrary.h>
+#import <CoreUI/CUIDesignColor.h>
