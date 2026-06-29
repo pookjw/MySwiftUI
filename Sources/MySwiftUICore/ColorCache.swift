@@ -73,6 +73,9 @@ extension Color.ResolvedHDR {
                     
                     s1 = Float(bitPattern: 0x3f870a3d)
                     s0 *= s1
+                    
+                    s1 = Float(bitPattern: 0xbd6147ae)
+                    s1 += s0
                     // <+320>
                 }
             }
