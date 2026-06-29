@@ -36,15 +36,58 @@ struct CUIDesignLibraryCacheKey : Hashable, Sendable {
             value2: 0
         )
         
+        let entry: CUIDesignLibraryCacheKey.Entry
         do {
             let color = try CUIDesignLibrary.color(with: traits)
-            print(color.cgColor)
+            let cgColor = color.cgColor
+            let resoledHDR: Color.ResolvedHDR
+            
+            if let resolved = Color.Resolved(failableCGColor: cgColor) {
+                let contentHeadroom = cgColor.contentHeadroom
+                resoledHDR = Color.ResolvedHDR(resolved, headroom: contentHeadroom)
+            } else {
+                resoledHDR = Color
+                    .ResolvedHDR(
+                        Color
+                            .Resolved(
+                                linearRed: 0,
+                                linearGreen: 0,
+                                linearBlue: 0,
+                                opacity: 0
+                            ),
+                        headroom: nil
+                    )
+            }
+            
+            entry = CUIDesignLibraryCacheKey.Entry(
+                color: resoledHDR,
+                blendMode: BlendMode(color.blendMode)
+            )
         } catch {
             Log.internalWarning("A color was requested from CoreUI but was not found. Returning clear color instead. - \(error)")
+            
+            entry = CUIDesignLibraryCacheKey.Entry(
+                color: Color
+                    .ResolvedHDR(
+                        Color
+                            .Resolved(
+                                linearRed: 0,
+                                linearGreen: 0,
+                                linearBlue: 0,
+                                opacity: 0
+                            ),
+                        headroom: nil
+                    ),
+                blendMode: .normal
+            )
         }
         
         // <+828>
-        assertUnimplemented()
+        CUIDesignLibraryCacheKey.cache.withLock { cache in
+            cache[self] = entry
+        }
+        
+        return entry
     }
     
     var cuiDisplayGamut: CUIDisplayGamut {

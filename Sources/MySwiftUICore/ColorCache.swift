@@ -244,7 +244,7 @@ extension Color.Resolved {
         // <+456>
         let components = [sp20, sp28, sp30, sp38]
         
-        return unsafe components.withUnsafeBufferPointer { buffer in
+        return components.withUnsafeBufferPointer { buffer in
             let color = unsafe CGColor(colorSpace: Color.Resolved.srgbExtended, components: buffer.baseAddress.unsafelyUnwrapped)!
             return color
         }
