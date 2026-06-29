@@ -26,25 +26,34 @@ struct CUIDesignLibraryCacheKey : Hashable, Sendable {
         }
         
         let traits = CUIDesignColorTraits(
-            value0: self.props.gamut != .sGRB ? 1 : 0,
-            value1: 0,
             colorName: self.name,
-            value3: 0,
-            value4: 0,
-            value5: self.props.scheme == .dark ? 1 : 0,
-            value6: self.props.contrast == .increased ? 1 : 0,
-            styling: self.props.styling
+            value0: 0,
+            value1: 0,
+            colorScheme: self.props.scheme == .dark ? .dark : .light,
+            contrast: self.props.contrast == .increased ? .increased : .standard,
+            styling: self.props.styling,
+            gamut: self.cuiDisplayGamut,
+            value2: 0
         )
         
         do {
             let color = try CUIDesignLibrary.color(with: traits)
-//            color.cgColor
+            print(color.cgColor)
         } catch {
             Log.internalWarning("A color was requested from CoreUI but was not found. Returning clear color instead. - \(error)")
         }
         
         // <+828>
         assertUnimplemented()
+    }
+    
+    var cuiDisplayGamut: CUIDisplayGamut {
+        switch self.props.gamut {
+        case .sGRB:
+            return .SRGB
+        case .displayP3:
+            return .displayP3
+        }
     }
 }
 

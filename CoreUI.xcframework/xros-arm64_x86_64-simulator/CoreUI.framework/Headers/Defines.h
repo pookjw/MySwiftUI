@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, CUIColorName) {
+typedef NS_ENUM(NSInteger, CUIColorName) {
     CUIColorNameRed = 0,
     CUIColorNameOrange = 1,
     CUIColorNameYellow = 2,
@@ -26,21 +26,36 @@ typedef NS_ENUM(NSUInteger, CUIColorName) {
     CUIColorNameQuinary = 19
 };
 
-typedef NS_ENUM(NSUInteger, CUIDesignStyling) {
+typedef NS_ENUM(NSInteger, CUIDesignStyling) {
     CUIDesignStylingUnknown0 = 0,
     CUIDesignStylingUnknown1 = 1,
     CUIDesignStylingUnknown2 = 2
 };
 
+typedef NS_ENUM(NSInteger, CUIDisplayGamut) {
+    CUIDisplayGamutSRGB = 0,
+    CUIDisplayGamutDisplayP3 = 1
+};
+
+typedef NS_ENUM(NSInteger, CUIContrast) {
+    CUIContrastStandard = 0,
+    CUIContrastIncreased = 1
+};
+
+typedef NS_ENUM(NSInteger, CUIColorScheme) {
+    CUIColorSchemeLight = 0,
+    CUIColorSchemeDark = 1
+};
+
 typedef struct CUIDesignColorTraits {
+    CUIColorName colorName;
     NSInteger value0;
     NSInteger value1;
-    CUIColorName colorName;
-    NSInteger value3;
-    NSInteger value4;
-    NSInteger value5;
-    NSInteger value6;
+    CUIColorScheme colorScheme;
+    CUIContrast contrast;
     CUIDesignStyling styling;
+    CUIDisplayGamut gamut;
+    NSInteger value2;
 } CUIDesignColorTraits;
 
 NS_ASSUME_NONNULL_END
