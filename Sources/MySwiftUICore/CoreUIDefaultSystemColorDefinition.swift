@@ -56,6 +56,8 @@ struct CoreUIDefaultSystemColorDefinition : SystemColorDefinition {
     }
     
     static func value(named: CUIColorName, in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        assertUnimplemented()
+        let key = CUIDesignLibraryCacheKey(name: named, in: environment, allowsBlendMode: false)
+        let entry = key.fetch()
+        return entry.color
     }
 }

@@ -2496,3 +2496,10 @@ public struct PlacementContext {}
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct PlacementContext3D {}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct CUIDesignLibraryCacheKey {
+  public struct Entry {}
+  public struct Props {}
+}
