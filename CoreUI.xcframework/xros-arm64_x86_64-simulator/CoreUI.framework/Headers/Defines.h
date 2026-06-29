@@ -33,13 +33,13 @@ typedef NS_ENUM(NSUInteger, CUIDesignStyling) {
 };
 
 typedef struct CUIDesignColorTraits {
-    NSUInteger value0;
-    NSUInteger value1;
+    NSInteger value0;
+    NSInteger value1;
     CUIColorName colorName;
-    NSUInteger value3;
-    NSUInteger value4;
-    NSUInteger value5;
-    NSUInteger value6;
+    NSInteger value3;
+    NSInteger value4;
+    NSInteger value5;
+    NSInteger value6;
     CUIDesignStyling styling;
 } CUIDesignColorTraits;
 
