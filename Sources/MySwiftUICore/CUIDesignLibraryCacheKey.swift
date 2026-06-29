@@ -43,7 +43,11 @@ struct CUIDesignLibraryCacheKey : Hashable, Sendable {
             let resoledHDR: Color.ResolvedHDR
             
             if let resolved = Color.Resolved(failableCGColor: cgColor) {
-                let contentHeadroom = cgColor.contentHeadroom
+                var contentHeadroom: Float? = cgColor.contentHeadroom
+                if contentHeadroom == 0 {
+                    contentHeadroom = nil
+                }
+                
                 resoledHDR = Color.ResolvedHDR(resolved, headroom: contentHeadroom)
             } else {
                 resoledHDR = Color

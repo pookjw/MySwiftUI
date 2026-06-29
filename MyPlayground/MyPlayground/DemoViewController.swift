@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.colorsView
+        let item = DemoViewController.Item.cgColorView
         pushToItem(item)
         
 //        Task {
@@ -89,6 +89,7 @@ extension DemoViewController {
         case emptyView
         case anyEmptyView
         case colorsView
+        case cgColorView
         case switchingColorsView
         case anyViewSwitchingView
         case bodyView
@@ -151,6 +152,8 @@ extension DemoViewController {
                 return _typeName(AnyEmptyViewController.self, qualified: false)
             case .colorsView:
                 return _typeName(ColorsViewController.self, qualified: false)
+            case .cgColorView:
+                return _typeName(CGColorViewController.self, qualified: false)
             case .switchingColorsView:
                 return _typeName(SwitchingColorsViewController.self, qualified: false)
             case .anyViewSwitchingView:
@@ -268,6 +271,8 @@ extension DemoViewController {
                 return AnyEmptyViewController()
             case .colorsView:
                 return ColorsViewController()
+            case .cgColorView:
+                return CGColorViewController()
             case .switchingColorsView:
                 return SwitchingColorsViewController()
             case .anyViewSwitchingView:

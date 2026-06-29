@@ -12,6 +12,35 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
     
     package var provider: AnyColorBox
     
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    public init<T>(_ color: T) where T : Swift.Hashable, T : ShapeStyle, T.Resolved == Color.Resolved {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+    public init<T>(_ color: T) where T : Hashable, T : ShapeStyle, T.Resolved == Color.ResolvedHDR {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    public func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+        return self.provider.resolve(in: environment)
+    }
+    
+    @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+    public func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+        return self.provider.resolveHDR(in: environment)
+    }
+    
+    @available(iOS, introduced: 14.0, deprecated: 100000.0, renamed: "resolve(in:)")
+    @available(macOS, introduced: 11.0, deprecated: 100000.0, renamed: "resolve(in:)")
+    @available(tvOS, introduced: 14.0, deprecated: 100000.0, renamed: "resolve(in:)")
+    @available(watchOS, introduced: 7.0, deprecated: 100000.0, renamed: "resolve(in:)")
+    @available(visionOS, introduced: 1.0, deprecated: 100000.0, renamed: "resolve(in:)")
+    public var cgColor: CGColor? {
+        assertUnimplemented()
+    }
+    
     nonisolated package init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
         self.provider = ColorBox(UIKitPlatformColorProvider(platformColor: _platformColor))
     }
@@ -37,11 +66,8 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
     }
 }
 
-extension Color : ShapeStyle {
-    nonisolated public func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        return provider.resolve(in: environment)
-    }
-    
+extension Color : @preconcurrency ShapeStyle {
+    @available(*, deprecated, message: "obsolete")
     @_alwaysEmitIntoClient nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Color>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
         _ShapeView<S, Self>._makeView(view: view, inputs: inputs)
     }
@@ -518,7 +544,7 @@ extension Color {
             }
         }
         
-        public var cgColor: CGColor? {
+        var cgColor: CGColor? {
             assertUnimplemented()
         }
         
@@ -1252,5 +1278,19 @@ extension Color {
         func opacity(at: Int, environment: EnvironmentValues) -> Float {
             assertUnimplemented()
         }
+    }
+}
+
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+extension Color {
+    public init(cgColor: CGColor) {
+        self.provider = ColorBox(cgColor)
+    }
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+extension Color.Resolved {
+    public var cgColor: CGColor {
+        assertUnimplemented()
     }
 }
