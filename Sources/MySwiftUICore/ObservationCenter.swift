@@ -49,7 +49,7 @@ final class ObservationCenter : @unchecked Sendable {
     @inline(always)
     func _withObservation<T>(do block: () throws -> T) rethrows -> (value: T, accessList: ObservationTracking._AccessList?) {
         var accessList: ObservationTracking._AccessList?
-        let result = try unsafe withUnsafeMutablePointer(to: &accessList) { pointer in
+        let result = try withUnsafeMutablePointer(to: &accessList) { pointer in
             let key: pthread_key_t = 106 // tls_key::observation_transaction
             let old = unsafe pthread_getspecific(key)
             unsafe pthread_setspecific(key, pointer)
@@ -256,8 +256,8 @@ fileprivate struct ObservationEntry {
 
 extension ObservationTracking._AccessList {
     fileprivate mutating func merge(_ other: ObservationTracking._AccessList) {
-        unsafe withUnsafeMutablePointer(to: &self) { selfPointer in
-            unsafe withUnsafePointer(to: other) { otherPointer in
+        withUnsafeMutablePointer(to: &self) { selfPointer in
+            withUnsafePointer(to: other) { otherPointer in
                 let selfEntries = unsafe UnsafeMutableRawPointer(selfPointer)
                     .assumingMemoryBound(to: [ObjectIdentifier: ObservationEntry].self)
                 let otherEntries = unsafe UnsafeRawPointer(otherPointer)

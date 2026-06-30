@@ -94,10 +94,10 @@ extension Environment : Sendable where Value : Sendable {
 }
 
 fileprivate struct FullEnvironmentBox<Value> : DynamicPropertyBox {
-    @Attribute private(set) var environment: EnvironmentValues
-    private(set) var keyPath: KeyPath<EnvironmentValues, Value>?
-    private(set) var value: EnvironmentValues?
-    private(set) var tracker: PropertyList.Tracker
+    @Attribute private(set) var environment: EnvironmentValues // 0x0
+    private(set) var keyPath: KeyPath<EnvironmentValues, Value>? // 0x8
+    private(set) var value: EnvironmentValues? // 0x10 (0x24)
+    private(set) var tracker: PropertyList.Tracker // 0x20
     
     func destroy() {
         assertUnimplemented()
@@ -108,6 +108,72 @@ fileprivate struct FullEnvironmentBox<Value> : DynamicPropertyBox {
     }
     
     mutating func update(property: inout Environment<Value>, phase: _GraphInputs.Phase) -> Bool {
+        /*
+         self -> x20 -> x29 - 0xc8
+         property -> x0 -> x21
+         */
+        // <+672>
+        guard case .keyPath(let incomingKeyPath) = property.content else {
+            return false
+        }
+        
+        // <+736>
+        // incomingKeyPath -> x27
+        // self -> x29 - 0xc8 -> x20
+        
+        // x29 - 0x78 / x29 - 0x68
+        var (environment, envChanged) = self.$environment.changedValue(options: [])
+        
+        // true -> <+1048> / false -> <+2316>
+        let flag: Bool
+        
+        // incomingKeyPath -> x27 -> x29 - 0x98
+        if let keyPath = self.keyPath {
+            // <+840>
+            // keyPath -> x21 -> x29 - 0xb0
+            if incomingKeyPath == keyPath {
+                // <+936>
+                if envChanged || self.value == nil {
+                    // <+1048>
+                    flag = true
+                } else {
+                    // <+2316>
+                    flag = false
+                }
+            } else {
+                // <+1020>
+                // <+1028>
+                envChanged = true
+                self.keyPath = incomingKeyPath
+                // <+1048>
+                flag = true
+            }
+        } else {
+            // <+992>
+            // <+1028>
+            envChanged = true
+            self.keyPath = incomingKeyPath
+            // <+1048>
+            flag = true
+        }
+        
+        if flag {
+            // <+1048>
+            let value: Value = ObservationCenter.current._withObservation { 
+                // $s7SwiftUI14EnvironmentBox33_24E0E088473ED74681D096110CC5FC9ALLV6update8property5phaseSbAA0C0VyxGz_AA12_GraphInputsV5PhaseVtFxyXEfU_TA
+                /*
+                 environment -> x0
+                 incomingKeyPath -> x1
+                 */
+                return environment[keyPath: incomingKeyPath]
+            }.value
+            
+            // <+1932>
+            print(incomingKeyPath)
+            assertUnimplemented()
+        }
+        
+        // <+2316>
         assertUnimplemented()
     }
     
