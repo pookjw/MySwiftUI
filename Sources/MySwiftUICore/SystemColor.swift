@@ -1,5 +1,6 @@
 // 9E3352CE4697DF56A738786E16992848
 internal import CoreGraphics
+private import _MySwiftUIShims
 
 enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     case red
@@ -46,7 +47,52 @@ enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     }
     
     var kitColor: AnyObject? {
-        assertUnimplemented()
+        switch self {
+        case .red:
+            return CoreColor.systemRedColor(with: .uiKit)
+        case .orange:
+            return CoreColor.systemOrangeColor(with: .uiKit)
+        case .yellow:
+            return CoreColor.systemYellowColor(with: .uiKit)
+        case .green:
+            return CoreColor.systemGreenColor(with: .uiKit)
+        case .teal:
+            return CoreColor.systemTealColor(with: .uiKit)
+        case .mint:
+            return CoreColor.systemMintColor(with: .uiKit)
+        case .cyan:
+            return CoreColor.systemCyanColor(with: .uiKit)
+        case .blue:
+            return CoreColor.systemBlueColor(with: .uiKit)
+        case .indigo:
+            return CoreColor.systemIndigoColor(with: .uiKit)
+        case .purple:
+            return CoreColor.systemPurpleColor(with: .uiKit)
+        case .pink:
+            return CoreColor.systemPinkColor(with: .uiKit)
+        case .brown:
+            return CoreColor.systemBrownColor(with: .uiKit)
+        case .gray:
+            return CoreColor.systemGrayColor(with: .uiKit)
+        case .primary:
+            return nil
+        case .secondary:
+            return nil
+        case .tertiary:
+            return nil
+        case .quaternary:
+            return nil
+        case .quinary:
+            return nil
+        case .primaryFill:
+            return nil
+        case .secondaryFill:
+            return nil
+        case .tertiaryFill:
+            return nil
+        case .quaternaryFill:
+            return nil
+        }
     }
     
     var colorDescription: String {

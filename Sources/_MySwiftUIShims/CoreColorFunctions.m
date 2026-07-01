@@ -22,7 +22,7 @@ BOOL CoreColorDependsOnEnvironment(id color, CoreSystem system) {
     return method != incomingMethod;
 }
 
-CGColorRef _Nullable CGColorForCoreColor(CoreSystem system, id _Nullable color) {
+CGColorRef _Nullable CGColorForCoreColor(CoreSystem system, id<NSObject> _Nullable color) {
     if (color == nil) return nil;
     return [color CGColor];
 }
@@ -55,11 +55,11 @@ BOOL CoreColorPlatformColorGetComponents(CoreSystem system, id color, CGFloat *r
     CGColorRef _color;
 }
 
-+ (id _Nullable)blackColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)blackColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) blackColor];
 }
 
-+ (id _Nullable)colorWithSystem:(CoreSystem)system cgColor:(CGColorRef)color {
++ (id<NSObject> _Nullable)colorWithSystem:(CoreSystem)system cgColor:(CGColorRef)color {
     Class _Nullable uiClass = CoreColorClass(system);
     
     if (uiClass) {
@@ -69,55 +69,55 @@ BOOL CoreColorPlatformColorGetComponents(CoreSystem system, id color, CGFloat *r
     }
 }
 
-+ (id _Nullable)systemBlueColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemBlueColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemBlueColor];
 }
 
-+ (id _Nullable)systemBrownColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemBrownColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemBrownColor];
 }
 
-+ (id _Nullable)systemCyanColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemCyanColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemCyanColor];
 }
 
-+ (id _Nullable)systemGrayColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemGrayColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemGrayColor];
 }
 
-+ (id _Nullable)systemGreenColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemGreenColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemGreenColor];
 }
 
-+ (id _Nullable)systemIndigoColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemIndigoColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemIndigoColor];
 }
 
-+ (id _Nullable)systemMintColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemMintColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemMintColor];
 }
 
-+ (id _Nullable)systemOrangeColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemOrangeColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemOrangeColor];
 }
 
-+ (id _Nullable)systemPinkColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemPinkColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemPinkColor];
 }
 
-+ (id _Nullable)systemPurpleColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemPurpleColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemPurpleColor];
 }
 
-+ (id _Nullable)systemRedColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemRedColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemRedColor];
 }
 
-+ (id _Nullable)systemTealColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemTealColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemTealColor];
 }
 
-+ (id _Nullable)systemYellowColorWithSystem:(CoreSystem)system {
++ (id<NSObject> _Nullable)systemYellowColorWithSystem:(CoreSystem)system {
     return [CoreColorClass(system) systemYellowColor];
 }
 

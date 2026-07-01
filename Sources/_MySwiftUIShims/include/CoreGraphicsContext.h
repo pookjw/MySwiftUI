@@ -3,6 +3,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(CoreGraphicsContext)
 @interface MySwiftUI_CoreGraphicsContext : NSObject
 + (MySwiftUI_CoreGraphicsContext *)current;
 @property (nonatomic, readonly) CGContextRef CGContext;

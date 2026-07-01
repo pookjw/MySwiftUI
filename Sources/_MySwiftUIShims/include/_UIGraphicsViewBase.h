@@ -2,7 +2,8 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-@interface _MSUI_UIGraphicsViewBase : UIView
+NS_SWIFT_NAME(_UIGraphicsViewBase)
+@interface MySwiftUI_UIGraphicsViewBase : UIView
 
 @end
 

@@ -267,6 +267,33 @@ package protocol ColorProvider : Hashable, Serializable {
 
 package protocol PlatformColorProvider : ColorProvider {}
 
+extension PlatformColorProvider where Self == UIKitPlatformColorProvider {
+    package func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+        // x20
+        let safeDefinition = Self.safeDefinition!
+        let system = safeDefinition.system
+        let depends = CoreColorDependsOnEnvironment(self.platformColor, system.base)
+        
+        if depends {
+            // <+100>
+            return autoreleasepool { 
+                return safeDefinition.resolvedColor(self.platformColor, environment: environment) ?? Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
+            }
+        } else {
+            // <+192>
+            if let cgColor = CGColorForCoreColor(system.base, self.platformColor) {
+                return Color.Resolved(failableCGColor: cgColor) ?? Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
+            } else {
+                return Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
+            }
+        }
+    }
+    
+    package func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+        assertUnimplemented()
+    }
+}
+
 extension Color {
     package enum ProviderTag {
         case platform(Color.ProviderTag.PlatformTag)
@@ -659,13 +686,16 @@ extension Color {
 
 package struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializable {
     static let safeDefinition: PlatformColorDefinition.Type? = {
-       // $s7SwiftUI26UIKitPlatformColorProviderV14safeDefinition_WZ
+        // $s7SwiftUI26UIKitPlatformColorProviderV14safeDefinition_WZ
         if let uiKitInternal = PlatformColorDefinition.uiKitInternal {
             return uiKitInternal
         } else if let uiKit = PlatformColorDefinition.uiKit {
             return uiKit
-        } else if let colorClass = CoreColorGetKitColorClass(.uiKit) as? (NSObject.Type) {
-            return colorClass as! (PlatformColorDefinition.Type)
+        } else if
+            let colorClass = CoreColorGetKitColorClass(.uiKit) as? (NSObject.Type),
+            let type = colorClass._mySwiftUI_platformColorDefinition()
+        {
+            return (type as! PlatformColorDefinition.Type)
         } else {
             return nil
         }
@@ -689,31 +719,6 @@ package struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Ser
         assertUnimplemented()
     }
     
-    package func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        // x20
-        let safeDefinition = Self.safeDefinition!
-        let system = safeDefinition.system
-        let depends = CoreColorDependsOnEnvironment(platformColor, system.base)
-        
-        if depends {
-            // <+100>
-            return autoreleasepool { 
-                return safeDefinition.resolvedColor(platformColor, environment: environment) ?? Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
-            }
-        } else {
-            // <+192>
-            if let cgColor = CGColorForCoreColor(system.base, platformColor) {
-                return Color.Resolved(failableCGColor: cgColor) ?? Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
-            } else {
-                return Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
-            }
-        }
-    }
-    
-    package func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        assertUnimplemented()
-    }
-    
     package func apply(color: Color, to: inout _ShapeStyle_Shape) {
         assertUnimplemented()
     }
@@ -723,7 +728,7 @@ package struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Ser
     }
     
     package var kitColor: AnyObject? {
-        assertUnimplemented()
+        return nil
     }
     
     package var colorDescription: String {

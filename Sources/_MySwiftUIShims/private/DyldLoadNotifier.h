@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSUIDyldLoadNotifier : NSObject
+@interface MySwiftUI_DyldLoadNotifier : NSObject
 @end
 
 NS_ASSUME_NONNULL_END
