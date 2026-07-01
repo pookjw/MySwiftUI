@@ -8,7 +8,7 @@ public import MySwiftUICore
 @available(visionOS, introduced: 1.0, deprecated: 100000.0, message: "Use Color(uiColor:) when converting a UIColor, or create a standard Color directly")
 extension Color {
     @_disfavoredOverload public init(_ color: UIColor) {
-        assertUnimplemented()
+        self.init(uiColor: color)
     }
 }
 
@@ -16,7 +16,7 @@ extension Color {
 @available(macOS, unavailable)
 extension Color {
     public init(uiColor: UIColor) {
-        assertUnimplemented()
+        self.init(_platformColor: uiColor, definition: UIKitPlatformColorDefinition.self)
     }
 }
 

@@ -38,7 +38,7 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
     @available(watchOS, introduced: 7.0, deprecated: 100000.0, renamed: "resolve(in:)")
     @available(visionOS, introduced: 1.0, deprecated: 100000.0, renamed: "resolve(in:)")
     public var cgColor: CGColor? {
-        assertUnimplemented()
+        return self.provider.staticColor
     }
     
     nonisolated package init(_platformColor: NSObject & NSSecureCoding, definition: PlatformColorDefinition.Type) {
@@ -103,15 +103,43 @@ extension Color : Serializable {
 
 @usableFromInline
 package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
-    package func hash(into hasher: inout Hasher) {
+    var tag: Color.ProviderTag {
         preconditionFailure() // abstract
     }
     
-    package func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+    override func apply(to: inout _ShapeStyle_Shape) {
+        assertUnimplemented()
+    }
+    
+    func resolve(in environment: EnvironmentValues) -> Color.Resolved {
         preconditionFailure() // abstract
     }
     
-    package func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+    func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+        preconditionFailure() // abstract
+    }
+    
+    func apply(color: Color, to shape: inout _ShapeStyle_Shape) {
+        preconditionFailure() // abstract
+    }
+    
+    var staticColor: CGColor? {
+        preconditionFailure() // abstract
+    }
+    
+    var kitColor: AnyObject? {
+        preconditionFailure() // abstract
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        preconditionFailure() // abstract
+    }
+    
+    var description: String {
+        preconditionFailure() // abstract
+    }
+    
+    func opacity(at: Int, environment: EnvironmentValues) {
         preconditionFailure() // abstract
     }
 }
@@ -123,12 +151,44 @@ final class ColorBox<T : ColorProvider>: AnyColorBox, @unchecked Sendable {
         self.base = base
     }
     
+    override var tag: Color.ProviderTag {
+        return self.base.tag
+    }
+    
     override func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        return base.resolve(in: environment)
+        return self.base.resolve(in: environment)
     }
     
     override func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        return base.resolveHDR(in: environment)
+        return self.base.resolveHDR(in: environment)
+    }
+    
+    override func apply(color: Color, to shape: inout _ShapeStyle_Shape) {
+        self.base.apply(color: color, to: &shape)
+    }
+    
+    override var staticColor: CGColor? {
+        return self.base.staticColor
+    }
+    
+    override var kitColor: AnyObject? {
+        return self.base.kitColor
+    }
+    
+    override func isEqual(to other: AnyShapeStyleBox) -> Bool {
+        assertUnimplemented()
+    }
+    
+    override func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+    
+    override var description: String {
+        assertUnimplemented()
+    }
+    
+    override func opacity(at: Int, environment: EnvironmentValues) {
+        assertUnimplemented()
     }
 }
 

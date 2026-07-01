@@ -22,11 +22,11 @@ extension AnyShapeStyle {
 package class AnyShapeStyleBox : @unchecked Sendable {
     init() {}
     
-    package func apply(to: inout _ShapeStyle_Shape) {
+    func apply(to: inout _ShapeStyle_Shape) {
         // nop
     }
     
-    package func isEqual(to other: AnyShapeStyleBox) -> Bool {
+    func isEqual(to other: AnyShapeStyleBox) -> Bool {
         return false
     }
 }
