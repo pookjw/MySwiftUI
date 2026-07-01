@@ -69,7 +69,7 @@ private import AttributeGraph
             buffer.append(box, fieldOffset: fieldOffset)
         } else {
             // <+248>
-            let box = FullEnvironmentBox<Value>(
+            let box = FullEnvironmentBox(
                 environment: inputs.environment,
                 keyPath: nil,
                 value: nil,
@@ -93,10 +93,10 @@ private import AttributeGraph
 extension Environment : Sendable where Value : Sendable {
 }
 
-fileprivate struct FullEnvironmentBox<Value> : DynamicPropertyBox {
+fileprivate struct FullEnvironmentBox : DynamicPropertyBox {
     @Attribute private(set) var environment: EnvironmentValues // 0x0
-    private(set) var keyPath: KeyPath<EnvironmentValues, Value>? // 0x8
-    private(set) var value: EnvironmentValues? // 0x10 (0x24)
+    private(set) var keyPath: KeyPath<EnvironmentValues, EnvironmentValues>? // 0x8
+    private(set) var value: EnvironmentValues? // 0x10
     private(set) var tracker: PropertyList.Tracker // 0x20
     
     func destroy() {
@@ -107,74 +107,89 @@ fileprivate struct FullEnvironmentBox<Value> : DynamicPropertyBox {
         assertUnimplemented()
     }
     
-    mutating func update(property: inout Environment<Value>, phase: _GraphInputs.Phase) -> Bool {
-        /*
-         self -> x20 -> x29 - 0xc8
-         property -> x0 -> x21
-         */
-        // <+672>
+    mutating func update(property: inout Environment<EnvironmentValues>, phase: _GraphInputs.Phase) -> Bool {
+        // x23
         guard case .keyPath(let incomingKeyPath) = property.content else {
             return false
         }
         
-        // <+736>
-        // incomingKeyPath -> x27
-        // self -> x29 - 0xc8 -> x20
+        /*
+         self -> x20 -> x24
+         property -> x0 -> x19
+         */
+        // sp + 0x18 / sp + 0x28
+        let (env, envChanged) = self.$environment.changedValue(options: [])
         
-        // x29 - 0x78 / x29 - 0x68
-        var (environment, envChanged) = self.$environment.changedValue(options: [])
+        // x26 -> sp
+        let keyPath = self.keyPath
+        // incomingKeyPath -> x23 -> sp + 0x8
         
-        // true -> <+1048> / false -> <+2316>
+        // true -> <+336> / false -> <+532>
         let flag: Bool
+        var updated: Bool!
         
-        // incomingKeyPath -> x27 -> x29 - 0x98
-        if let keyPath = self.keyPath {
-            // <+840>
-            // keyPath -> x21 -> x29 - 0xb0
+        if let keyPath {
             if incomingKeyPath == keyPath {
-                // <+936>
-                if envChanged || self.value == nil {
-                    // <+1048>
+                // <+232>
+                if envChanged {
+                    // <+336>
                     flag = true
                 } else {
-                    // <+2316>
+                    // <+532>
+                    updated = false
                     flag = false
                 }
             } else {
-                // <+1020>
-                // <+1028>
-                envChanged = true
+                // <+316>
                 self.keyPath = incomingKeyPath
-                // <+1048>
+                // <+336>
                 flag = true
             }
         } else {
-            // <+992>
-            // <+1028>
-            envChanged = true
+            // <+260>
+            // <+320>
             self.keyPath = incomingKeyPath
-            // <+1048>
+            // <+336>
             flag = true
         }
         
         if flag {
-            // <+1048>
-            let value: Value = ObservationCenter.current._withObservation { 
-                // $s7SwiftUI14EnvironmentBox33_24E0E088473ED74681D096110CC5FC9ALLV6update8property5phaseSbAA0C0VyxGz_AA12_GraphInputsV5PhaseVtFxyXEfU_TA
-                /*
-                 environment -> x0
-                 incomingKeyPath -> x1
-                 */
-                return environment[keyPath: incomingKeyPath]
-            }.value
+            // <+336>
+            // sp + 0x8
+            let resolved = env[keyPath: incomingKeyPath]
             
-            // <+1932>
-            print(incomingKeyPath)
-            assertUnimplemented()
+            // true -> <+384> / false -> <+508>
+            let flag: Bool
+            if self.value != nil {
+                if self.tracker.hasDifferentUsedValues(env.plist) {
+                    // <+384>
+                    flag = true
+                } else {
+                    // <+508>
+                    flag = false
+                }
+            } else {
+                // <+384>
+                flag = true
+            }
+            
+            if flag {
+                // <+384>
+                self.tracker.reset()
+                // <+408>
+                self.value = EnvironmentValues(resolved.plist, tracker: self.tracker)
+                updated = true
+            } else {
+                // <+508>
+                updated = false
+            }
+            
+            // <+532>
         }
         
-        // <+2316>
-        assertUnimplemented()
+        // <+532>
+        property.content = .value(self.value!)
+        return updated
     }
     
     func getState<T>(type: T.Type) -> Binding<T>? {
