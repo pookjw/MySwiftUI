@@ -20,3 +20,5 @@
 #import "NSAttributedString+MySwiftUI.h"
 #import "Safari.h"
 #import "NSThread+MySwiftUI.h"
+#import "UIColor+MySwiftUI.h"
+#import "CoreGraphicsContext.h"

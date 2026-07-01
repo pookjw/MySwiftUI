@@ -18,6 +18,7 @@ fileprivate struct MyView : View {
             Color(uiColor: .systemBlue)
             Color(UIColor.systemPink)
             Color(uiColor: UIColor(Color.green))
+            Color(uiColor: UIColor(Color(uiColor: .systemOrange)))
         }
     }
 }

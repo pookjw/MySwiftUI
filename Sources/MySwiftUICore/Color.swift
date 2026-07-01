@@ -10,7 +10,7 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
         return lhs.provider.isEqual(to: rhs.provider)
     }
     
-    package var provider: AnyColorBox
+    @safe package nonisolated(unsafe) var provider: AnyColorBox
     
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     public init<T>(_ color: T) where T : Swift.Hashable, T : ShapeStyle, T.Resolved == Color.Resolved {
@@ -92,11 +92,11 @@ extension Color : Paint {
 }
 
 extension Color : Serializable {
-    func serialize(to encoder: any Encoder) throws {
+    package func serialize(to encoder: any Encoder) throws {
         assertUnimplemented()
     }
     
-    static func deserialize(from decoder: Decoder) throws -> Color {
+    package static func deserialize(from decoder: Decoder) throws -> Color {
         assertUnimplemented()
     }
 }
@@ -127,7 +127,7 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
         preconditionFailure() // abstract
     }
     
-    var kitColor: AnyObject? {
+    package var kitColor: AnyObject? {
         preconditionFailure() // abstract
     }
     
@@ -144,8 +144,18 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     }
 }
 
+extension AnyColorBox {
+    package func `as`<T : ColorProvider>(_: T.Type) -> T? {
+        guard let casted = self as? ColorBox<T> else {
+            return nil
+        }
+        
+        return casted.base
+    }
+}
+
 final class ColorBox<T : ColorProvider>: AnyColorBox, @unchecked Sendable {
-    private let base: T
+    fileprivate let base: T
     
     init(_ base: T) {
         self.base = base
@@ -176,11 +186,15 @@ final class ColorBox<T : ColorProvider>: AnyColorBox, @unchecked Sendable {
     }
     
     override func isEqual(to other: AnyShapeStyleBox) -> Bool {
-        assertUnimplemented()
+        guard let casted = other as? Self else {
+            return false
+        }
+        
+        return self.base == casted.base
     }
     
     override func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
+        hasher.combine(self.base)
     }
     
     override var description: String {
@@ -240,7 +254,7 @@ struct ResolvedColorProvider : Hashable, ColorProvider {
     }
 }
 
-protocol ColorProvider : Serializable {
+package protocol ColorProvider : Hashable, Serializable {
     var tag: Color.ProviderTag { get }
     func resolve(in environment: EnvironmentValues) -> Color.Resolved
     func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR
@@ -251,10 +265,10 @@ protocol ColorProvider : Serializable {
     func opacity(at: Int, environment: EnvironmentValues) -> Float
 }
 
-protocol PlatformColorProvider : ColorProvider {}
+package protocol PlatformColorProvider : ColorProvider {}
 
 extension Color {
-    enum ProviderTag {
+    package enum ProviderTag {
         case platform(Color.ProviderTag.PlatformTag)
         case custom
         case customHDR
@@ -288,7 +302,7 @@ extension Color {
 }
 
 extension Color.ProviderTag {
-    struct PlatformTag {
+    package struct PlatformTag {
         var tag: Color.ProviderTag.AnyPlatformTag
     }
     
@@ -643,7 +657,7 @@ extension Color {
     nonisolated package static let _background = Color(box: ColorBox(BackgroundColorProvider()))
 }
 
-struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializable {
+package struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializable {
     static let safeDefinition: PlatformColorDefinition.Type? = {
        // $s7SwiftUI26UIKitPlatformColorProviderV14safeDefinition_WZ
         if let uiKitInternal = PlatformColorDefinition.uiKitInternal {
@@ -657,25 +671,25 @@ struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializabl
         }
     }()
     
-    private var platformColor: (NSObject & NSSecureCoding)
+    package var platformColor: (NSObject & NSSecureCoding)
     
     init(platformColor: NSObject & NSSecureCoding) {
         self.platformColor = platformColor
     }
     
-    func hash(into hasher: inout Hasher) {
+    package func hash(into hasher: inout Hasher) {
         hasher.combine(platformColor)
     }
     
-    static func == (lhs: UIKitPlatformColorProvider, rhs: UIKitPlatformColorProvider) -> Bool {
+    package static func == (lhs: UIKitPlatformColorProvider, rhs: UIKitPlatformColorProvider) -> Bool {
         return lhs.platformColor.isEqual(rhs.platformColor)
     }
     
-    var tag: Color.ProviderTag {
+    package var tag: Color.ProviderTag {
         assertUnimplemented()
     }
     
-    func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+    package func resolve(in environment: EnvironmentValues) -> Color.Resolved {
         // x20
         let safeDefinition = Self.safeDefinition!
         let system = safeDefinition.system
@@ -696,35 +710,35 @@ struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializabl
         }
     }
     
-    func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+    package func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
         assertUnimplemented()
     }
     
-    func apply(color: Color, to: inout _ShapeStyle_Shape) {
+    package func apply(color: Color, to: inout _ShapeStyle_Shape) {
         assertUnimplemented()
     }
     
-    var staticColor: CGColor? {
+    package var staticColor: CGColor? {
         assertUnimplemented()
     }
     
-    var kitColor: AnyObject? {
+    package var kitColor: AnyObject? {
         assertUnimplemented()
     }
     
-    var colorDescription: String {
+    package var colorDescription: String {
         assertUnimplemented()
     }
     
-    func opacity(at: Int, environment: EnvironmentValues) -> Float {
+    package func opacity(at: Int, environment: EnvironmentValues) -> Float {
         assertUnimplemented()
     }
     
-    func serialize(to encoder: any Encoder) throws {
+    package func serialize(to encoder: any Encoder) throws {
         assertUnimplemented()
     }
     
-    static func deserialize(from decoder: Decoder) throws -> UIKitPlatformColorProvider {
+    package static func deserialize(from decoder: Decoder) throws -> UIKitPlatformColorProvider {
         assertUnimplemented()
     }
 }

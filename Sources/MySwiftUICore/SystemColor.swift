@@ -42,7 +42,7 @@ enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     }
     
     var staticColor: CGColor? {
-        assertUnimplemented()
+        return nil
     }
     
     var kitColor: AnyObject? {

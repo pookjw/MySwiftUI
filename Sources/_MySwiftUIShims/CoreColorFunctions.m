@@ -11,14 +11,14 @@
 #include <objc/runtime.h>
 
 BOOL CoreColorDependsOnEnvironment(id color, CoreSystem system) {
-    static Method method;
+    static IMP method;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Class colorClass = CoreColorClass(system);
         method = [colorClass instanceMethodForSelector:@selector(resolvedColorWithTraitCollection:)];
     });
     
-    Method incomingMethod = [color methodForSelector:@selector(resolvedColorWithTraitCollection:)];
+    IMP incomingMethod = [color methodForSelector:@selector(resolvedColorWithTraitCollection:)];
     return method != incomingMethod;
 }
 
@@ -31,16 +31,16 @@ Class _Nullable CoreColorGetKitColorClass(CoreSystem system) {
     abort();
 }
 
-Class CoreColorClass(CoreSystem system) {
-    static Class colorClass;
+Class _Nullable CoreColorClass(CoreSystem system) {
+    static Class uiClass = nil;
     static dispatch_once_t uiOnce;
     dispatch_once(&uiOnce, ^{
         if (system == CoreSystemUIKit) {
-            colorClass = NSClassFromString(@"UIColor");
+            uiClass = NSClassFromString(@"UIColor");
         }
     });
     
-    return colorClass;
+    return uiClass;
 }
 
 BOOL CoreColorPlatformColorGetComponents(CoreSystem system, id color, CGFloat *red, CGFloat *green, CGFloat *blue, CGFloat *alpha) {
@@ -49,3 +49,111 @@ BOOL CoreColorPlatformColorGetComponents(CoreSystem system, id color, CGFloat *r
     
     return [color getRed:red green:green blue:blue alpha:alpha];
 }
+
+
+@implementation MySwiftUI_CoreColor {
+    CGColorRef _color;
+}
+
++ (id _Nullable)blackColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) blackColor];
+}
+
++ (id _Nullable)colorWithSystem:(CoreSystem)system cgColor:(CGColorRef)color {
+    Class _Nullable uiClass = CoreColorClass(system);
+    
+    if (uiClass) {
+        return [uiClass colorWithCGColor:color];
+    } else {
+        return [[[MySwiftUI_CoreColor alloc] initWithCGColor:color] autorelease];
+    }
+}
+
++ (id _Nullable)systemBlueColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemBlueColor];
+}
+
++ (id _Nullable)systemBrownColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemBrownColor];
+}
+
++ (id _Nullable)systemCyanColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemCyanColor];
+}
+
++ (id _Nullable)systemGrayColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemGrayColor];
+}
+
++ (id _Nullable)systemGreenColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemGreenColor];
+}
+
++ (id _Nullable)systemIndigoColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemIndigoColor];
+}
+
++ (id _Nullable)systemMintColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemMintColor];
+}
+
++ (id _Nullable)systemOrangeColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemOrangeColor];
+}
+
++ (id _Nullable)systemPinkColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemPinkColor];
+}
+
++ (id _Nullable)systemPurpleColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemPurpleColor];
+}
+
++ (id _Nullable)systemRedColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemRedColor];
+}
+
++ (id _Nullable)systemTealColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemTealColor];
+}
+
++ (id _Nullable)systemYellowColorWithSystem:(CoreSystem)system {
+    return [CoreColorClass(system) systemYellowColor];
+}
+
+- (void)dealloc {
+    CGColorRelease(_color);
+    [super dealloc];
+}
+
+- (void)set {
+    abort();
+}
+
+- (CGColorRef)CGColor {
+    return _color;
+}
+
+- (instancetype)initWithCGColor:(CGColorRef)color {
+    abort();
+}
+
+- (id)colorWithAlphaComponent:(CGFloat)alpha {
+    CGColorRef newColor = CGColorCreateCopyWithAlpha(_color, alpha);
+    
+    // FIXME
+    MySwiftUI_CoreColor *result = [MySwiftUI_CoreColor colorWithCGColor:newColor];
+    CGColorRelease(newColor);
+    
+    return result;
+}
+
+- (void)setStroke {
+    abort();
+}
+
+- (void)setFill {
+    abort();
+}
+
+@end

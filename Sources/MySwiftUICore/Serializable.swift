@@ -1,4 +1,4 @@
-protocol Serializable {
+package protocol Serializable {
     func serialize(to encoder: any Encoder) throws
     static func deserialize(from decoder: Decoder) throws -> Self
 }
