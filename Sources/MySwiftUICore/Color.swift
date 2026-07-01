@@ -269,7 +269,6 @@ package protocol PlatformColorProvider : ColorProvider {}
 
 extension PlatformColorProvider where Self == UIKitPlatformColorProvider {
     package func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        // x20
         let safeDefinition = Self.safeDefinition!
         let system = safeDefinition.system
         let depends = CoreColorDependsOnEnvironment(self.platformColor, system.base)
@@ -281,8 +280,11 @@ extension PlatformColorProvider where Self == UIKitPlatformColorProvider {
             }
         } else {
             // <+192>
-            if let cgColor = CGColorForCoreColor(system.base, self.platformColor) {
-                return Color.Resolved(failableCGColor: cgColor) ?? Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
+            if
+                let cgColor = CGColorForCoreColor(system.base, self.platformColor),
+                let resolved = Color.Resolved(failableCGColor: cgColor)
+            {
+                return resolved
             } else {
                 return Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
             }
@@ -290,7 +292,31 @@ extension PlatformColorProvider where Self == UIKitPlatformColorProvider {
     }
     
     package func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        assertUnimplemented()
+        let safeDefinition = Self.safeDefinition!
+        let system = safeDefinition.system
+        let depends = CoreColorDependsOnEnvironment(self.platformColor, system.base)
+        
+        if depends {
+            // <+100>
+            return autoreleasepool { 
+                return safeDefinition.resolvedHDRColor(self.platformColor, environment: environment) ?? Color.ResolvedHDR(Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0), headroom: nil)
+            }
+        } else {
+            // <+172>
+            if
+                let cgColor = CGColorForCoreColor(system.base, self.platformColor),
+                let resolved = Color.Resolved(failableCGColor: cgColor)
+            {
+                var headroom: Float? = cgColor.contentHeadroom
+                if headroom == 0 {
+                    headroom = nil
+                }
+                
+                return Color.ResolvedHDR(resolved, headroom: headroom)
+            } else {
+                return Color.ResolvedHDR(Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0), headroom: nil)
+            }
+        }
     }
 }
 

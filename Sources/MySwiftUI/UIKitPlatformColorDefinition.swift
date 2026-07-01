@@ -12,6 +12,10 @@ final class UIKitPlatformColorDefinition : PlatformColorDefinition {
         return .uiKit
     }
     
+    override class var deserializationType: any (NSObject & NSSecureCoding).Type {
+        assertUnimplemented()
+    }
+    
     override class func resolvedColor(_ color : AnyObject, environment: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::Color.Resolved? {
         /*
          color -> x0 -> x19
@@ -48,6 +52,15 @@ final class UIKitPlatformColorDefinition : PlatformColorDefinition {
         } else {
             return nil
         }
+    }
+    
+    override class func resolvedHDRColor(_ color: AnyObject, environment: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::Color.ResolvedHDR? {
+        /*
+         color -> x0 -> x19
+         environment -> x1 -> x21
+         */
+        // <+96>
+        assertUnimplemented()
     }
 }
 
