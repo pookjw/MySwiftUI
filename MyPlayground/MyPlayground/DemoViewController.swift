@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.environmentObjectView
+        let item = DemoViewController.Item.zStackView
         pushToItem(item)
         
 //        Task {
@@ -123,6 +123,7 @@ extension DemoViewController {
         case zOffsetView
         case vStackView
         case hStackView
+        case zStackView
         case vStackLayoutView
         case hStackLayoutView
         case anyLayoutView
@@ -222,6 +223,8 @@ extension DemoViewController {
                 return _typeName(VStackViewController.self, qualified: false)
             case .hStackView:
                 return _typeName(HStackViewController.self, qualified: false)
+            case .zStackView:
+                return _typeName(ZStackViewController.self, qualified: false)
             case .vStackLayoutView:
                 return _typeName(VStackLayoutViewController.self, qualified: false)
             case .hStackLayoutView:
@@ -345,6 +348,8 @@ extension DemoViewController {
                 return VStackViewController()
             case .hStackView:
                 return HStackViewController()
+            case .zStackView:
+                return ZStackViewController()
             case .vStackLayoutView:
                 return VStackLayoutViewController()
             case .hStackLayoutView:

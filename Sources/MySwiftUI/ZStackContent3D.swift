@@ -1,0 +1,67 @@
+public import MySwiftUICore
+public import CoreGraphics
+
+@available(visionOS 2.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension ZStack {
+    @inlinable public init<V>(alignment: Alignment = .center, spacing: CGFloat?, @ViewBuilder content: () -> V) where Content == ZStackContent3D<V>, V : View {
+        self.init(alignment: alignment) {
+            ZStackContent3D(spacing: spacing, content: content())
+        }
+    }
+}
+
+@available(visionOS 2.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+@frozen public struct ZStackContent3D<Content> where Content : View {
+    public var spacing: CGFloat?
+    public var content: Content
+    
+    @inlinable public init(spacing: CGFloat?, content: Content) {
+        self.spacing = spacing
+        self.content = content
+    }
+    
+    nonisolated public static func _makeViewList(view: _GraphValue<ZStackContent3D<Content>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+    
+    @available(visionOS 2.0, *)
+    @available(iOS, unavailable)
+    @available(tvOS, unavailable)
+    @available(watchOS, unavailable)
+    @available(macOS, unavailable)
+    public typealias Body = Never
+}
+
+@available(*, unavailable)
+extension ZStackContent3D : Sendable {
+}
+
+@available(visionOS 2.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension ZStackContent3D : View, PrimitiveView, MultiView {}
+
+@available(visionOS 2.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension ZStackContent3D : ZStackParameterSmuggler {
+    package static func makeParameterSmuggledZStackView<C>(view: _GraphValue<_VariadicView.Tree<_ZStackLayout, C>>, inputs: _ViewInputs) -> _ViewOutputs where C : View {
+        assertUnimplemented()
+    }
+}
