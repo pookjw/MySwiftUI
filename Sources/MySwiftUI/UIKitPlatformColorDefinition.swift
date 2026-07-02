@@ -6,6 +6,7 @@ private import SwiftUI
 #endif
 private import RealitySimulationServices
 private import _UIKitPrivate
+private import _UIKitShims
 
 final class UIKitPlatformColorDefinition : PlatformColorDefinition {
     override class var system : PlatformSystemDefinition {
@@ -60,7 +61,25 @@ final class UIKitPlatformColorDefinition : PlatformColorDefinition {
          environment -> x1 -> x21
          */
         // <+96>
-        assertUnimplemented()
+        // x24
+        let wrapper = ViewGraphHostEnvironmentWrapper()
+        // x23
+        let env1 = environment.removingTracker()
+        // x26
+        let traitCollection = env1[InheritedTraitCollectionKey.self] ?? .current
+        // x20
+        let resolved1 = traitCollection.resolvedTraitCollection(environment: environment, wrapper: wrapper)
+        let options = UICoreTraitCollectionResolutionOptions(rawValue: 0)
+        // x25 -> x20
+        let resolved2 = resolved1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: options)
+        // x25
+        let resolved3 = resolved2.coreResolvedGlassMaterialTraitCollection(environment: environment, wrapper: wrapper)
+        // x29 - 0x5c
+        let _ = environment[InheritedColorSeedKey.self]
+        
+        // <+376>
+        let resolvedColor = color.resolvedColor(with: resolved3)
+        return Color.ResolvedHDR(platformColor: resolvedColor)
     }
 }
 
@@ -75,8 +94,6 @@ extension UITraitCollection {
         return resolved
     }
     
-    @inline(always)
-    @MainActor
     func resolvedTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
         let resolved_1 = self.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
         let resolved_2 = resolved_1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: [])
