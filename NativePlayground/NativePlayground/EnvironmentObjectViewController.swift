@@ -28,6 +28,7 @@ fileprivate struct MyView : View {
             )
         )
         .task {
+            $viewModel
             do {
                 while true {
                     try await Task.sleep(for: .seconds(1))

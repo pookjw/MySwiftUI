@@ -6,4 +6,8 @@ extension Combine::ObservableObject {
         let key = EnvironmentObjectKey<Self>()
         return \EnvironmentValues[key]
     }
+    
+    static var hasDefaultPublisher: Bool {
+        return ObjectWillChangePublisher.self == Combine::ObservableObjectPublisher.self
+    }
 }

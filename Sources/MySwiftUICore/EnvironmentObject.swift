@@ -7,7 +7,11 @@ private import AttributeGraph
         @MainActor @preconcurrency internal let root: ObjectType
         
         @MainActor @preconcurrency public subscript<Subject>(dynamicMember keyPath: ReferenceWritableKeyPath<ObjectType, Subject>) -> Binding<Subject> {
-            assertUnimplemented()
+            return Binding(
+                self.root,
+                keyPath: keyPath,
+                isolation: nil
+            )
         }
     }
     
@@ -31,12 +35,16 @@ private import AttributeGraph
     @MainActor @preconcurrency internal var _seed: Int = 0
     
     @MainActor @preconcurrency public var projectedValue: EnvironmentObject<ObjectType>.Wrapper {
-        assertUnimplemented()
+        if let store = unsafe _store {
+            return EnvironmentObject<ObjectType>.Wrapper(root: store)
+        } else {
+            error()
+        }
     }
     
     @usableFromInline
     @MainActor @preconcurrency internal func error() -> Never {
-        assertUnimplemented()
+        preconditionFailure("No ObservableObject of type \(_typeName(ObjectType.self, qualified: false)) found. A View.environmentObject(_:) for \(_typeName(ObjectType.self, qualified: false)) may be missing as an ancestor of this view.")
     }
     
     @MainActor @preconcurrency public init() {
@@ -50,7 +58,7 @@ private import AttributeGraph
         
         let box = StoreBox<ObjectType>(
             host: host,
-            environment: GraphHost.currentHost.data.$environment,
+            environment: inputs.environment,
             signal: WeakAttribute(attribute)
         )
         
@@ -92,7 +100,98 @@ fileprivate struct StoreBox<ObjectType : Combine::ObservableObject> : DynamicPro
         self.oldStore = nil
     }
     
-    func update(property: inout EnvironmentObject<ObjectType>, phase: _GraphInputs.Phase) -> Bool {
-        assertUnimplemented()
+    mutating func update(property: inout EnvironmentObject<ObjectType>, phase: _GraphInputs.Phase) -> Bool {
+        /*
+         self -> x20 -> x19
+         property -> x0 -> x29 - 0x98
+         */
+        // <+136>
+        // x29 - 0x68 / x29 - 0x58
+        var (environment, envChanged) = self.$environment.changedValue(options: [])
+        // x22
+        let oldStore = self.oldStore
+        // x25
+        let value: ObjectType?
+        
+        // true -> <+436> / false -> <+804>
+        if let oldStore, !envChanged {
+            // <+196>
+            unsafe property._store = oldStore
+            value = oldStore
+            // <+436>
+        } else {
+            // <+260>
+            let keyPath: KeyPath<EnvironmentValues, ObjectType?> = \EnvironmentValues.[EnvironmentObjectKey<ObjectType>()]
+            // x25
+            value = environment[keyPath: keyPath]
+            unsafe property._store = value
+            
+            if oldStore === value {
+                envChanged = false
+            }
+            
+            // <+424>
+            if value == nil {
+                // <+804>
+            } else {
+                // <+436>
+            }
+        }
+        
+        if let value {
+            // <+436>
+            let w27: Bool
+            if isLinkedOnOrAfter(.v6) {
+                w27 = false
+            } else {
+                w27 = !ObjectType.hasDefaultPublisher
+            }
+            
+            // <+584>
+            let isUninitialized = self.lifetime.isUninitialized
+            if
+                let oldStore,
+                !isUninitialized,
+                oldStore === value,
+                !w27
+            {
+                // <+612>
+                // <+804>
+            } else {
+                // <+628>
+                // x28 (x29 - 0xd8)
+                self.lifetime.subscribe(subscriber: self.subscriber, to: value.objectWillChange)
+                // <+804>
+            }
+        }
+        
+        // <+804>
+        var w23: Bool
+        if let (_, changed) = self.signal.changedValue(options: []) {
+            // <+832>
+            if changed || envChanged {
+                // <+896>
+                self.seed &+= 1
+                w23 = changed || envChanged
+                // <+908>
+            } else {
+                w23 = false
+                // <+908>
+            }
+        } else {
+            // <+868>
+            w23 = false
+            
+            if envChanged {
+                self.seed &+= 1
+                w23 = true
+            }
+            // <+908>
+        }
+        
+        // <+908>
+        property._seed = self.seed
+        self.oldStore = value
+        return w23
     }
 }
