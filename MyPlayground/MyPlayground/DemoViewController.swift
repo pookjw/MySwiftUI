@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.uiColorView
+        let item = DemoViewController.Item.environmentObjectView
         pushToItem(item)
         
 //        Task {
@@ -109,6 +109,7 @@ extension DemoViewController {
         case bindingView
         case dynamicTypeSizeView
         case environmentView
+        case environmentObjectView
         case observableEnvironmentView
         case appStorageView
         case bindableView
@@ -193,6 +194,8 @@ extension DemoViewController {
                 return _typeName(DynamicTypeSizeViewController.self, qualified: false)
             case .environmentView:
                 return _typeName(EnvironmentViewController.self, qualified: false)
+            case .environmentObjectView:
+                return _typeName(EnvironmentObjectViewController.self, qualified: false)
             case .observableEnvironmentView:
                 return _typeName(ObservableEnvironmentViewController.self, qualified: false)
             case .appStorageView:
@@ -314,6 +317,8 @@ extension DemoViewController {
                 return DynamicTypeSizeViewController()
             case .environmentView:
                 return EnvironmentViewController()
+            case .environmentObjectView:
+                return EnvironmentObjectViewController()
             case .observableEnvironmentView:
                 return ObservableEnvironmentViewController()
             case .appStorageView:

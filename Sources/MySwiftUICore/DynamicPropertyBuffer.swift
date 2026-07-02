@@ -192,7 +192,7 @@ package protocol DynamicPropertyBox {
     associatedtype Property : DynamicProperty
     
     func destroy()
-    func reset()
+    mutating func reset()
     mutating func update(property: inout Self.Property, phase: _GraphInputs.Phase) -> Bool
     func getState<T>(type: T.Type) -> Binding<T>?
 }

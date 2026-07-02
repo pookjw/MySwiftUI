@@ -7,9 +7,8 @@ extension View {
         return environment(\EnvironmentValues[key], object)
     }
     
-    @inlinable nonisolated public func environmentObject<T>(_ object: T) -> some View where T : ObservableObject {
-//        environment(T.environmentStore, object)
-        _assertUnimplemented()
+    @inlinable nonisolated public func environmentObject<T>(_ object: T) -> some View where T : Combine::ObservableObject {
+        environment(T.environmentStore, object)
     }
 }
 
