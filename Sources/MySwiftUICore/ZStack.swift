@@ -1,5 +1,6 @@
 public import CoreGraphics
 internal import Spatial
+private import AttributeGraph
 
 @frozen public struct ZStack<Content> : View where Content : View {
     @usableFromInline
@@ -89,14 +90,60 @@ extension _ZStackLayout : DerivedSpatialLayout {
 
 extension _VariadicView.Tree where Root == _ZStackLayout, Content : View {
     static func makePlatformSubstitutableView(view: _GraphValue<_VariadicView.Tree<_ZStackLayout, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+        /*
+         view -> x0 -> w25
+         inputs -> x1 -> x20
+         */
+        // x29 - 0xc0
+        let copy_1 = inputs
+        
         if let smuggler = Content.self as? ZStackParameterSmuggler.Type {
             return smuggler.makeParameterSmuggledZStackView(view: view, inputs: inputs)
         }
         
+        // <+208>
+        guard copy_1[EnableZStackTrueDepthLayout.self] else {
+            // <+780>
+            return _VariadicView.Tree<_ZStackLayout, Content>.makeDebuggableView(view: view, inputs: inputs)
+        }
+        
+        // <+228>
+        // x19 + 0x180
+        var copy_2 = inputs
+        // x19 + 0x1e0
+        let _ = copy_1
+        
+        copy_2[ViewListOptionsInput.self] = 0
+        // w26
+        let layoutValue = view[{ .of(&$0.root) }]
+        
+        // <+424>
+        // x19 + 0x120
+        let copy_3 = copy_2
+        // x19 + 0xc0
+        var copy_4 = copy_2
+        // x19 + 0x1e0
+        let _ = copy_3
+        
+        copy_4.stackOrientation = nil
+        copy_4.base.options.formUnion(.needsStableDisplayListIDs)
+        copy_4[DynamicStackOrientation.self] = OptionalAttribute()
+        
+        // <+556>
         assertUnimplemented()
     }
 }
 
 package protocol ZStackParameterSmuggler {
     static func makeParameterSmuggledZStackView<C : View>(view: _GraphValue<_VariadicView.Tree<_ZStackLayout, C>>, inputs: _ViewInputs) -> _ViewOutputs
+}
+
+struct EnableZStackTrueDepthLayout : UserDefaultKeyedFeature, ViewInputFlag {
+    init() {}
+    
+    static var key: String {
+        return "com.apple.SwiftUI.EnableZStackTrueDepthLayout"
+    }
+    
+    @safe nonisolated(unsafe) static var cachedValue: Bool?
 }
