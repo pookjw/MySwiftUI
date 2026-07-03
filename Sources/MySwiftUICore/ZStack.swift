@@ -89,8 +89,8 @@ extension _ZStackLayout : _VariadicView_ImplicitRoot {
 extension _ZStackLayout : DerivedSpatialLayout {
     @_implements(SpatialLayout, layoutProperties)
     nonisolated static var spatialLayoutProperties: SpatialLayoutProperties {
-        // $s7SwiftUI13_VariadicViewO4TreeVA2A13_ZStackLayoutVRszAA0D0R_rlE025makePlatformSubstitutableD04view6inputsAA01_D7OutputsVAA11_GraphValueVyAEy_AGq_GG_AA01_D6InputsVtFZ에 inline으로 정의된 것으로 추정
-        return SpatialLayoutProperties(value: 0x01010002)
+        // s7SwiftUI13SpatialLayoutPAAE010makeStaticcD4View4root6inputs10properties4listAA01_G7OutputsVAA11_GraphValueVyxG_AA01_G6InputsVAA0cD10PropertiesVAA01_G13List_Elements_ptFZAA07_ZStackD0V_Tt4B5에 inline으로 정의된 것으로 추정
+        return SpatialLayoutProperties(value: 0x22)
     }
     
     nonisolated func makeCache(subviews: SpatialLayoutSubviews) -> ZStackSpatialLayout.Cache3D {
@@ -126,55 +126,6 @@ extension _ZStackLayout : DerivedSpatialLayout {
     }
     
     nonisolated static func _makeSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
-    nonisolated static func makeDynamicSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
-        /*
-         root -> x0
-         inputs -> x1
-         properties -> dead
-         list -> x2
-         */
-        assertUnimplemented()
-    }
-    
-    nonisolated static func makeStaticSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: any _ViewList_Elements) -> _ViewOutputs {
-        /*
-         root -> x0 -> x21
-         inputs -> x1 -> x22
-         properties -> x2 -> x24
-         list -> x3 -> x23
-         */
-        let count = list.count
-        // true -> <+128> / false -> <+592>
-        let flag: Bool
-        
-        if count == 1 {
-            // <+124>
-            if ((properties.value & (1 &<< 10)) != 0) {
-                // <+592>
-                flag = false
-            } else {
-                // <+128>
-                flag = true
-            }
-        } else if count != 0 || ((properties.value & (1 &<< 8)) != 0) {
-            // <+128>
-            flag = true
-        } else {
-            // <+752>
-            return _ViewOutputs()
-        }
-        
-        if flag {
-            // <+128>
-            assertUnimplemented()
-        } else {
-            // <+592>
-            assertUnimplemented()
-        }
-        
         assertUnimplemented()
     }
     

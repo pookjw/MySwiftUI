@@ -2944,7 +2944,7 @@ extension _VariadicView.Tree where Root == _ZStackLayout, Content : View {
             return Root.makeStaticSpatialLayoutView(
                 root: layoutValue,
                 inputs: copy_5,
-                properties: Root.spatialLayoutProperties, // 임의로 정의,
+                properties: SpatialLayoutProperties(value: 0x01010002),
                 list: elements
             )
         case .dynamicList(var list, let modifier):
@@ -2960,7 +2960,7 @@ extension _VariadicView.Tree where Root == _ZStackLayout, Content : View {
             return Root.makeDynamicSpatialLayoutView(
                 root: layoutValue,
                 inputs: copy_5,
-                properties: Root.spatialLayoutProperties, // 임의로 정의
+                properties: SpatialLayoutProperties(value: 0x01010002), // dead
                 list: list
             )
         }
