@@ -1,6 +1,6 @@
 public import CoreGraphics
 internal import Spatial
-private import AttributeGraph
+internal import AttributeGraph
 
 @frozen public struct ZStack<Content> : View where Content : View {
     @usableFromInline
@@ -37,7 +37,7 @@ extension ZStack : UnaryView, PrimitiveView {}
     }
     
     nonisolated public static func _makeView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        return Self.makeLayoutView3D(root: root, inputs: inputs, body: body)
     }
     
     public typealias AnimatableData = EmptyAnimatableData
@@ -47,7 +47,10 @@ extension ZStack : UnaryView, PrimitiveView {}
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 extension _ZStackLayout : @preconcurrency Layout {
     public static var layoutProperties: LayoutProperties {
-        assertUnimplemented()
+        var layoutProperties = LayoutProperties()
+        layoutProperties.isDefaultEmptyLayout = true
+        layoutProperties.isIdentityUnaryLayout = true
+        return layoutProperties
     }
     
     public func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: _ZStackLayout.Subviews, cache: inout Void) {
@@ -84,54 +87,99 @@ extension _ZStackLayout : _VariadicView_ImplicitRoot {
 }
 
 extension _ZStackLayout : DerivedSpatialLayout {
-    typealias SpatialBase = Never // TODO
-    typealias Cache3D = Never // TODO
-}
-
-extension _VariadicView.Tree where Root == _ZStackLayout, Content : View {
-    static func makePlatformSubstitutableView(view: _GraphValue<_VariadicView.Tree<_ZStackLayout, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
-        /*
-         view -> x0 -> w25
-         inputs -> x1 -> x20
-         */
-        // x29 - 0xc0
-        let copy_1 = inputs
-        
-        if let smuggler = Content.self as? ZStackParameterSmuggler.Type {
-            return smuggler.makeParameterSmuggledZStackView(view: view, inputs: inputs)
-        }
-        
-        // <+208>
-        guard copy_1[EnableZStackTrueDepthLayout.self] else {
-            // <+780>
-            return _VariadicView.Tree<_ZStackLayout, Content>.makeDebuggableView(view: view, inputs: inputs)
-        }
-        
-        // <+228>
-        // x19 + 0x180
-        var copy_2 = inputs
-        // x19 + 0x1e0
-        let _ = copy_1
-        
-        copy_2[ViewListOptionsInput.self] = 0
-        // w26
-        let layoutValue = view[{ .of(&$0.root) }]
-        
-        // <+424>
-        // x19 + 0x120
-        let copy_3 = copy_2
-        // x19 + 0xc0
-        var copy_4 = copy_2
-        // x19 + 0x1e0
-        let _ = copy_3
-        
-        copy_4.stackOrientation = nil
-        copy_4.base.options.formUnion(.needsStableDisplayListIDs)
-        copy_4[DynamicStackOrientation.self] = OptionalAttribute()
-        
-        // <+556>
+    @_implements(SpatialLayout, layoutProperties)
+    nonisolated static var spatialLayoutProperties: SpatialLayoutProperties {
+        // $s7SwiftUI13_VariadicViewO4TreeVA2A13_ZStackLayoutVRszAA0D0R_rlE025makePlatformSubstitutableD04view6inputsAA01_D7OutputsVAA11_GraphValueVyAEy_AGq_GG_AA01_D6InputsVtFZ에 inline으로 정의된 것으로 추정
+        return SpatialLayoutProperties(value: 0x01010002)
+    }
+    
+    nonisolated func makeCache(subviews: SpatialLayoutSubviews) -> ZStackSpatialLayout.Cache3D {
+        return ZStackSpatialLayout.Cache3D(partialPlacements: [:])
+    }
+    
+    nonisolated func updateCache(_ cache: inout ZStackSpatialLayout.Cache3D, subviews: SpatialLayoutSubviews) {
         assertUnimplemented()
     }
+    
+    nonisolated func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> Size3D {
+        assertUnimplemented()
+    }
+    
+    nonisolated func placeSubviews(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) {
+        assertUnimplemented()
+    }
+    
+    nonisolated func spacing(subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> ViewSpacing3D {
+        assertUnimplemented()
+    }
+    
+    nonisolated func explicitAlignment(of guide: DepthAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    nonisolated func explicitAlignment(of guide: HorizontalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    nonisolated func explicitAlignment(of guide: VerticalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func _makeSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func makeDynamicSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
+        /*
+         root -> x0
+         inputs -> x1
+         properties -> dead
+         list -> x2
+         */
+        assertUnimplemented()
+    }
+    
+    nonisolated static func makeStaticSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: any _ViewList_Elements) -> _ViewOutputs {
+        /*
+         root -> x0 -> x21
+         inputs -> x1 -> x22
+         properties -> x2 -> x24
+         list -> x3 -> x23
+         */
+        let count = list.count
+        // true -> <+128> / false -> <+592>
+        let flag: Bool
+        
+        if count == 1 {
+            // <+124>
+            if ((properties.value & (1 &<< 10)) != 0) {
+                // <+592>
+                flag = false
+            } else {
+                // <+128>
+                flag = true
+            }
+        } else if count != 0 || ((properties.value & (1 &<< 8)) != 0) {
+            // <+128>
+            flag = true
+        } else {
+            // <+752>
+            return _ViewOutputs()
+        }
+        
+        if flag {
+            // <+128>
+            assertUnimplemented()
+        } else {
+            // <+592>
+            assertUnimplemented()
+        }
+        
+        assertUnimplemented()
+    }
+    
+    typealias SpatialBase = _ZStackLayout
+    typealias Cache3D = ZStackSpatialLayout.Cache3D
 }
 
 package protocol ZStackParameterSmuggler {
@@ -146,4 +194,44 @@ struct EnableZStackTrueDepthLayout : UserDefaultKeyedFeature, ViewInputFlag {
     }
     
     @safe nonisolated(unsafe) static var cachedValue: Bool?
+    @safe nonisolated(unsafe) static var defaultValue: Bool = true
+}
+
+struct ZStackSpatialLayout {
+    var base: ZStackLayout3D
+}
+
+extension ZStackSpatialLayout {
+    struct Cache3D {
+        fileprivate private(set) var partialPlacements: [_ProposedSize3D: ZStackSpatialLayout.PartialPlacement]
+    }
+    
+    struct PartialPlacement {
+        private var children: [ZStackSpatialLayout.PartialPlacement.Child]
+        private var volume: Size3D
+    }
+}
+
+extension ZStackSpatialLayout.PartialPlacement {
+    struct Child {
+        private var dimensions: ViewDimensions3D
+        private var depthPlacement: CGFloat
+        private var priority: Double
+    }
+}
+
+struct ZStackLayout3D {
+    // TODO
+}
+
+struct StaticSpatialLayoutComputer<L : SpatialLayout> : StatefulRule {
+    @Attribute var layout: L
+    @Attribute var environment: EnvironmentValues
+    var childAttributes: [LayoutProxyAttributes]
+    
+    typealias Value = LayoutComputer
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
 }

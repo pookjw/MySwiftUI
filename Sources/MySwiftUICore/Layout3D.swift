@@ -150,7 +150,7 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
     }
     
     func spacing() -> Spacing {
-        assertUnimplemented()
+        return self.base.spacing()
     }
     
     func layoutPriority() -> Double {
@@ -352,7 +352,7 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        assertUnimplemented()
+        return self.base.requiresTrueDepthLayout()
     }
     
     static func defaultAlignment(_ alignmentKey: DepthAlignmentKey, size: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {

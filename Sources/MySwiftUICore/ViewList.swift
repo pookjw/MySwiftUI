@@ -2867,3 +2867,102 @@ struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {
         assertUnimplemented()
     }
 }
+
+extension _VariadicView.Tree where Root == _ZStackLayout, Content : View {
+    static func makePlatformSubstitutableView(view: _GraphValue<_VariadicView.Tree<_ZStackLayout, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+        /*
+         view -> x0 -> w25
+         inputs -> x1 -> x20
+         */
+        // x29 - 0xc0
+        let copy_1 = inputs
+        
+        if let smuggler = Content.self as? ZStackParameterSmuggler.Type {
+            return smuggler.makeParameterSmuggledZStackView(view: view, inputs: inputs)
+        }
+        
+        // <+208>
+        guard copy_1[EnableZStackTrueDepthLayout.self] else {
+            // <+780>
+            return _VariadicView.Tree<_ZStackLayout, Content>.makeDebuggableView(view: view, inputs: inputs)
+        }
+        
+        // <+228>
+        // x19 + 0x180
+        var copy_2 = inputs
+        // x19 + 0x1e0
+        let _ = copy_1
+        
+        copy_2[ViewListOptionsInput.self] = 0
+        // w26
+        let layoutValue = view[{ .of(&$0.root) }]
+        
+        // <+424>
+        // x19 + 0x120
+        let copy_3 = copy_2
+        // x19 + 0xc0
+        var copy_4 = copy_2
+        // x19 + 0x1e0
+        let _ = copy_3
+        
+        copy_4.stackOrientation = nil
+        copy_4.base.options.formUnion(.viewStackOrientationIsDepth)
+        copy_4[DynamicStackOrientation.self] = OptionalAttribute()
+        
+        // <+556>
+        let block: (_Graph, _ViewInputs) -> _ViewListOutputs = { _, inputs in
+            // $s7SwiftUI13_VariadicViewO4TreeVA2A13_ZStackLayoutVRszAA0D0R_rlE025makePlatformSubstitutableD04view6inputsAA01_D7OutputsVAA11_GraphValueVyAEy_AGq_GG_AA01_D6InputsVtFZAA01_d4ListM0VAA01_N0V_AStXEfU0_
+            /*
+             inputs -> x1 -> x23
+             view -> x2 -> x20
+             Content.self -> x3 -> x21
+             Content.self - View -> x4 -> x19
+             return pointer -> x8 -> x22
+             */
+            let listOptions = _ViewListInputs.Options(rawValue: inputs[ViewListOptionsInput.self])
+            // x29 - 0x98
+            let contentValue = view[{ .of(&$0.content) }]
+            
+            // x29 - 0xf0
+            let listInputs = _ViewListInputs(
+                inputs.base,
+                implicitID: 0,
+                options: listOptions
+            )
+            
+            return Content.makeDebuggableViewList(view: contentValue, inputs: listInputs)
+        }
+        
+        // x19 + 0x78
+        let listOutputs = block(_Graph(), copy_4)
+        
+        switch listOutputs.views {
+        case .staticList(let elements):
+            // <+1072>
+            // x19 + 0x1e0
+            let copy_5 = copy_4
+            return Root.makeStaticSpatialLayoutView(
+                root: layoutValue,
+                inputs: copy_5,
+                properties: Root.spatialLayoutProperties, // 임의로 정의,
+                list: elements
+            )
+        case .dynamicList(var list, let modifier):
+            // <+604>
+            if let modifier {
+                let modifiers = _ViewListOutputs.ApplyModifiers(base: list, modifier: modifier)
+                list = Attribute(modifiers)
+            }
+            
+            // <+716>
+            // x19 + 0x1e0
+            let copy_5 = copy_4
+            return Root.makeDynamicSpatialLayoutView(
+                root: layoutValue,
+                inputs: copy_5,
+                properties: Root.spatialLayoutProperties, // 임의로 정의
+                list: list
+            )
+        }
+    }
+}

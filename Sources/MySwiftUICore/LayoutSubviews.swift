@@ -546,7 +546,7 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        assertUnimplemented()
+        return self.proxies.requiresTrueDepthLayout()
     }
     
     mutating func childDepths(at size: ViewSize3D, childGeometries: [ViewGeometry]) -> [ViewDepth] {

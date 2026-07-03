@@ -32,6 +32,13 @@ extension _VStackLayout : Layout, HVStack {
     static var majorAxis: Axis {
         return .vertical
     }
+    
+    public static var layoutProperties: LayoutProperties {
+        var properties = LayoutProperties()
+        properties.stackOrientation = .vertical
+        properties.isIdentityUnaryLayout = true
+        return properties
+    }
 }
 
 extension _VStackLayout : DepthAlignmentWritable {
@@ -70,6 +77,13 @@ extension _HStackLayout : Layout, HVStack {
     
     static var majorAxis: Axis {
         return .horizontal
+    }
+    
+    public static var layoutProperties: LayoutProperties {
+        var properties = LayoutProperties()
+        properties.stackOrientation = .horizontal
+        properties.isIdentityUnaryLayout = true
+        return properties
     }
 }
 
