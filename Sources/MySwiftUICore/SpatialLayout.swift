@@ -130,6 +130,19 @@ extension SpatialLayout where Self == _ZStackLayout {
                  index -> x4 -> x19
                  array -> x5
                  */
+                // sp + 0x70
+                let copy_1 = inputs
+                // sp + 0xd0
+                let copy_2 = inputs
+                
+                if copy_2.base.options.contains(.viewNeedsGeometry) {
+                    // <+180>
+                    assertUnimplemented()
+                } else {
+                    // <+632>
+                    assertUnimplemented()
+                }
+                
                 assertUnimplemented()
             }
             
