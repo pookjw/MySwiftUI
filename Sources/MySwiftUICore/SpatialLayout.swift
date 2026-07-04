@@ -45,6 +45,7 @@ extension SpatialLayout where Self == _ZStackLayout {
          inputs -> x1 -> x22
          properties -> x2 -> x24
          list -> x3 -> x23
+         return pointer -> x8 -> x19
          */
         let count = list.count
         // true -> <+128> / false -> <+592>
@@ -52,7 +53,7 @@ extension SpatialLayout where Self == _ZStackLayout {
         
         if count == 1 {
             // <+124>
-            if ((properties.value & (1 &<< 10)) != 0) {
+            if ((properties.value & (1 &<< 16)) != 0) {
                 // <+592>
                 flag = false
             } else {
@@ -73,12 +74,14 @@ extension SpatialLayout where Self == _ZStackLayout {
             var geometriesAttribute: Attribute<[ViewGeometry3D]>? = nil
             // x29 - 0x110 / w27
             let layoutComputerAttribute: Attribute<LayoutComputer>?
+            // x29 - 0x10c
+            let options = inputs.base.options
             
             if ((properties.value & Self.layoutProperties.value) != 0) ||
                 (inputs.preferences.contains(DisplayList.Key.self, includeHostPreferences: false)) {
                 // <+184>
                 // x29 - 0xd0
-                let layoutComputer = StaticSpatialLayoutComputer(
+                let layoutComputer = StaticSpatialLayoutComputer<_ZStackLayout>(
                     layout: root.value,
                     environment: inputs.environment,
                     childAttributes: []
@@ -121,7 +124,7 @@ extension SpatialLayout where Self == _ZStackLayout {
             // x29 - 0xf8
             var attributes: [LayoutProxyAttributes] = []
             
-            let outputs = list.makeAllElements(inputs: inputs) { inputs, transform in
+            var outputs = list.makeAllElements(inputs: inputs) { inputs, transform in
                 // $s7SwiftUI13SpatialLayoutPAAE010makeStaticcD4View4root6inputs10properties4listAA01_G7OutputsVAA11_GraphValueVyxG_AA01_G6InputsVAA0cD10PropertiesVAA01_G13List_Elements_ptFZAJSgAO_AjOctXEfU0_TA.20
                 /*
                  inputs -> x0
@@ -177,13 +180,30 @@ extension SpatialLayout where Self == _ZStackLayout {
             } ?? _ViewOutputs()
             
             // <+1144>
-            assertUnimplemented()
+            if let layoutComputerAttribute {
+                layoutComputerAttribute.mutateBody(as: StaticSpatialLayoutComputer<_ZStackLayout>.self, invalidating: true) { layoutComputer in
+                    layoutComputer.childAttributes = attributes
+                }
+            }
+            
+            // <+1312>
+            if options.contains(.viewRequestsLayoutComputer) {
+                outputs.layoutComputer = layoutComputerAttribute
+            }
+            
+            return outputs
         } else {
             // <+592>
-            assertUnimplemented()
+            // x29 - 0xd0
+            let copy_1 = inputs
+            
+            let outputs = list.makeAllElements(inputs: copy_1) { inputs, transform in
+                // $s7SwiftUI18_ViewList_ElementsPAAE07makeAllE06inputs11indirectMap4bodyAA01_C7OutputsVSgAA01_C6InputsV_AA017IndirectAttributeJ0CSgAjL_AiLctXEtFA2jL_AiLctcXEfU_AJ_SbtAL_AiLctXEfU_03$s7a5UI11_cm9VAcA01_C7l178VIegnr_AESgIgngr_A2cEIegnr_AFIegngr_TR03$s7a67UI8Layout3DPAAE16makeStaticView3D4root6inputs10properties4listAA12_ce28VAA11_GraphValueVyxG_AA01_K6D65VAA16LayoutPropertiesVAA01_K13d1_E32_ptFZAJSgAO_AjOctXEfU_Tf3nnnpf_nTf3nnnpf_n
+                return transform(inputs)
+            } ?? _ViewOutputs()
+            
+            return outputs
         }
-        
-        assertUnimplemented()
     }
 }
 
@@ -240,6 +260,6 @@ struct IndexedValue<T> : Rule, AsyncAttribute {
     fileprivate let index: Int
     
     var value: T {
-        assertUnimplemented()
+        return self.values[self.index]
     }
 }
