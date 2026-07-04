@@ -2503,3 +2503,7 @@ public struct CUIDesignLibraryCacheKey {
   public struct Entry {}
   public struct Props {}
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct ViewGeometry3D {}

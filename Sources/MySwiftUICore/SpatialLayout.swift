@@ -117,7 +117,7 @@ extension SpatialLayout where Self == _ZStackLayout {
             
             // <+796>
             // x29 - 0x100
-            var index = 0
+            var count = 0
             // x29 - 0xf8
             var attributes: [LayoutProxyAttributes] = []
             
@@ -127,25 +127,56 @@ extension SpatialLayout where Self == _ZStackLayout {
                  inputs -> x0
                  transform -> x1/2 -> x23/x24
                  geometriesAttribute -> x3
-                 index -> x4 -> x19
+                 count -> x4 -> x19
                  array -> x5
                  */
                 // sp + 0x70
-                let copy_1 = inputs
-                // sp + 0xd0
+                var copy_1 = inputs
+                // sp + 0xd0 (x29 - 0xc0)
                 let copy_2 = inputs
                 
+                // sp + 0x18
+                let outputs: _ViewOutputs
                 if copy_2.base.options.contains(.viewNeedsGeometry) {
                     // <+180>
-                    assertUnimplemented()
-                } else {
+                    // array -> x5 -> x20
+                    let geometry = IndexedValue<ViewGeometry3D>(values: geometriesAttribute!, index: count)
+                    // w24
+                    let geometryAtribute = Attribute<ViewGeometry3D>(geometry)
+                    // w25
+                    let sizeAttribute: Attribute<ViewSize> = geometryAtribute[keyPath: \.dimensions][keyPath: \.size].size2D
+                    copy_1.size = sizeAttribute
+                    let originAttribute = geometryAtribute[keyPath: \.origin][keyPath: \.origin2D]
+                    copy_1.position = originAttribute
+                    
+                    outputs = _ViewOutputs.makeDepthTransform(
+                        inputs: copy_1,
+                        geometry: { 
+                            return geometryAtribute.depthGeometry
+                        },
+                        body: transform
+                    )
+                    
+                    let layoutAttribute = LayoutProxyAttributes(
+                        layoutComputer: OptionalAttribute(outputs.layoutComputer),
+                        traitsList: OptionalAttribute()
+                    )
+                    attributes.append(layoutAttribute)
                     // <+632>
-                    assertUnimplemented()
+                } else {
+                    // <+140>
+                    // sp + 0x18
+                    let _ = copy_2
+                    outputs = transform(copy_1)
+                    // <+632>
                 }
                 
-                assertUnimplemented()
-            }
+                // <+632>
+                count &+= 1
+                return outputs
+            } ?? _ViewOutputs()
             
+            // <+1144>
             assertUnimplemented()
         } else {
             // <+592>
@@ -202,4 +233,13 @@ protocol SpatialLayoutEngine {
 
 fileprivate protocol DefaultSpatialAlignmentFunctions {
     // TODO
+}
+
+struct IndexedValue<T> : Rule, AsyncAttribute {
+    @Attribute fileprivate private(set) var values: [T]
+    fileprivate let index: Int
+    
+    var value: T {
+        assertUnimplemented()
+    }
 }

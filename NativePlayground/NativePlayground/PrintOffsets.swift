@@ -214,6 +214,7 @@ func printOffsets() {
     printFields(PlacementContext.self, isClassType: false)
     printFields(PlacementContext3D.self, isClassType: false)
     printFields(CUIDesignLibraryCacheKey.Props.self, isClassType: false)
+    printFields(ViewGeometry3D.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
