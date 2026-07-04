@@ -60,7 +60,7 @@ extension SpatialLayout where Self == _ZStackLayout {
                 // <+128>
                 flag = true
             }
-        } else if count != 0 || ((properties.value & (1 &<< 8)) != 0) {
+        } else if count != 0 || ((properties.value & (1 &<< 8)) == 0) {
             // <+128>
             flag = true
         } else {
@@ -76,9 +76,9 @@ extension SpatialLayout where Self == _ZStackLayout {
             let layoutComputerAttribute: Attribute<LayoutComputer>?
             // x29 - 0x10c
             let options = inputs.base.options
+            let requests = !options.intersection([.viewRequestsLayoutComputer, .viewNeedsGeometry]).isEmpty
             
-            if ((properties.value & Self.layoutProperties.value) != 0) ||
-                (inputs.preferences.contains(DisplayList.Key.self, includeHostPreferences: false)) {
+            if (requests || inputs.preferences.contains(DisplayList.Key.self, includeHostPreferences: false)) {
                 // <+184>
                 // x29 - 0xd0
                 let layoutComputer = StaticSpatialLayoutComputer<_ZStackLayout>(
@@ -90,7 +90,7 @@ extension SpatialLayout where Self == _ZStackLayout {
                 let _layoutComputerAttribute = Attribute(layoutComputer)
                 layoutComputerAttribute = _layoutComputerAttribute
                 
-                if properties.value == 0 {
+                if !requests {
                     // <+584>
                     // <+796>
                 } else {
