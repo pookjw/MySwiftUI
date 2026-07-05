@@ -1,6 +1,8 @@
+// _182E3E8D4B483E7956A2DBDA9F7535A2
 internal import CoreGraphics
 internal import Spatial
 internal import AttributeGraph
+private import _MySwiftUIShims
 
 protocol SpatialLayout : Animatable {
     associatedtype Cache3D
@@ -239,20 +241,155 @@ struct LayoutChildGeometries3D<E : SpatialLayoutEngine> : Rule, AsyncAttribute {
     @Attribute fileprivate private(set) var layoutComputer: LayoutComputer
     
     var value: [ViewGeometry3D] {
-        assertUnimplemented()
+        let position = self.parentPosition
+        
+        let size3D = Size3D(
+            width: position.x,
+            height: position.y,
+            depth: 0
+        )
+        
+        let parentSize = self.parentSize
+        let layoutComputer = self.layoutComputer
+        
+        return layoutComputer.withMutableEngine(type: StashedDepthLayoutEngine<E>.self) { engine in
+            return engine.base.childGeometries3D(
+                at: ViewSize3D(
+                    parentSize.value,
+                    proposal: parentSize.proposal
+                ),
+                origin: Point3D(size3D)
+            )
+        }
     }
 }
 
 struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, DefaultSpatialAlignmentFunctions {
-    // TODO
+    typealias Cache3D = L.Cache3D
+    
+    private var layout: L
+    private let layoutContext: SizeAndSpacingContext
+    private var children: LayoutProxyCollection
+    private var layoutDirection: LayoutDirection
+    private var cache: L.Cache3D
+    private var volumeCache: ViewVolumeCache
+    private var cachedAlignmentVolume: ViewSize3D
+    private var cachedAlignmentGeometry: [ViewGeometry3D]
+    private var cachedAlignment: Cache3<ObjectIdentifier, CGFloat?>
+    private var preferredSpacing: Spacing3D?
+    
+    init(layout: L, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) {
+        assertUnimplemented()
+    }
+    
+    func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
+        assertUnimplemented()
+    }
+    
+    func volumeThatFits(_ size: _ProposedSize3D) -> Size3D {
+        assertUnimplemented()
+    }
+    
+    func layoutPriority() -> Double {
+        assertUnimplemented()
+    }
+    
+    func spacing() -> Spacing3D {
+        assertUnimplemented()
+    }
+    
+    func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D] {
+        assertUnimplemented()
+    }
+    
+    func requiresTrueDepthLayout() -> Bool {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    fileprivate func explicitAlignment(_ alignment: AlignmentKey3D, at: ViewSize3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func explicitDepthAlignment(_ alignment: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    static func defaultAlignment(_ alignment: DepthAlignmentKey, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    fileprivate static func defaultAlignmen(_ alignment: AlignmentKey3D, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    static func defaultAlignment(_ alignment: AlignmentKey, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
+        assertUnimplemented()
+    }
 }
 
 protocol SpatialLayoutEngine {
-    // TODO
+    associatedtype Cache3D
+    
+    func volumeThatFits(_ proposedSize: _ProposedSize3D) -> Size3D
+    func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D]
+    func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat?
+    func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat?
+    func layoutPriority() -> Double
+    func ignoresAutomaticPadding() -> Bool
+    func requiresSpacingProjection() -> Bool
+    func spacing() -> Spacing3D
+    func lengthThatFits(_ size: _ProposedSize3D, in axis: _Axis3D) -> CGFloat
+    func requiresTrueDepthLayout() -> Bool
+}
+
+extension SpatialLayoutEngine {
+    func ignoresAutomaticPadding() -> Bool {
+        assertUnimplemented()
+    }
+    
+    func requiresSpacingProjection() -> Bool {
+        assertUnimplemented()
+    }
+    
+    func lengthThatFits(_ size: _ProposedSize3D, in axis: _Axis3D) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func layoutPriority() -> Double {
+        assertUnimplemented()
+    }
+    
+    func spacing() -> Spacing3D {
+        assertUnimplemented()
+    }
+}
+
+struct Spacing3D {
+    let spacing2D: Spacing
+    let depthSpacing: Spacing3D.DepthSpacing
+}
+
+extension Spacing3D {
+    struct DepthSpacing {
+        let value: CGFloat?
+    }
 }
 
 fileprivate protocol DefaultSpatialAlignmentFunctions {
-    // TODO
+    static func defaultAlignment(_ alignment: AlignmentKey, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat?
+    static func defaultAlignment(_ alignment: DepthAlignmentKey, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat?
 }
 
 struct IndexedValue<T> : Rule, AsyncAttribute {
@@ -262,4 +399,94 @@ struct IndexedValue<T> : Rule, AsyncAttribute {
     var value: T {
         return self.values[self.index]
     }
+}
+
+struct StashedDepthLayoutEngine<E : SpatialLayoutEngine> : LayoutEngine {
+    var base: E
+    
+    func layoutPriority() -> Double {
+        return 0
+    }
+    
+    func ignoresAutomaticPadding() -> Bool {
+        return false
+    }
+    
+    func requiresSpacingProjection() -> Bool {
+        return false
+    }
+    
+    func spacing() -> Spacing {
+        return self.base.spacing().spacing2D
+    }
+    
+    mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        let depth: CGFloat?
+        if let data = unsafe _threadLayoutDepthData() {
+            depth = unsafe data
+                .assumingMemoryBound(to: CGFloat?.self)
+                .pointee
+        } else {
+            depth = nil
+        }
+        
+        let size = _ProposedSize3D(
+            width: proposedSize.width,
+            height: proposedSize.height,
+            depth: depth
+        )
+        
+        let size3D = self.base.volumeThatFits(size)
+        return CGSize(width: size3D.width, height: size3D.height)
+    }
+    
+    mutating func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
+        let size = self.sizeThatFits(proposedSize)
+        switch axis {
+        case .horizontal:
+            return size.width
+        case .vertical:
+            return size.height
+        }
+    }
+    
+    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        preconditionFailure("implement or don't call me!")
+    }
+    
+    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func childPlacement(at viewSize: ViewSize) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func requiresTrueDepthLayout() -> Bool {
+        return self.base.requiresTrueDepthLayout()
+    }
+    
+    var debugContentDescription: String? {
+        return nil
+    }
+}
+
+struct ViewVolumeCache {
+    // TODO
+}
+
+struct AlignmentKey3D {
+    // TODO
 }
