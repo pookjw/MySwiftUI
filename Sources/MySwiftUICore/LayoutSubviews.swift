@@ -13,6 +13,17 @@ public struct LayoutSubviews : Equatable, RandomAccessCollection, Sendable {
     fileprivate var storage: LayoutSubviews.Storage
     public var layoutDirection: LayoutDirection
     
+    @inline(always) // 원래 없음
+    init(
+        context: AnyRuleContext,
+        attributes: [LayoutProxyAttributes],
+        layoutDirection: LayoutDirection
+    ) {
+        self.context = context
+        self.storage = .direct(attributes)
+        self.layoutDirection = layoutDirection
+    }
+    
     public var startIndex: Int {
         return 0
     }
@@ -242,7 +253,7 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
     var subviews: LayoutSubviews {
         return LayoutSubviews(
             context: proxies.context,
-            storage: .direct(proxies.attributes),
+            attributes: proxies.attributes,
             layoutDirection: layoutDirection
         )
     }
@@ -384,7 +395,7 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
             )
             
             // inlined
-            return alignmentData.asCurrent { _ in
+            return alignmentData.asCurrent { _ -> CGFloat? in
                 // $s7SwiftUI16ViewLayoutEngineV17explicitAlignment_2at12CoreGraphics7CGFloatVSgAA0G3KeyV_AA0C4SizeVtFAISpyACyxGGXEfU_AISpyAA0G4Data33_57DDCF0A00C1B77B475771403C904EF9LLVGXEfU_
                 /*
                  _ -> x0
@@ -413,7 +424,7 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
                     
                     let subviews = LayoutSubviews(
                         context: copy_2.proxies.context,
-                        storage: .direct(copy_2.proxies.attributes),
+                        attributes: copy_2.proxies.attributes,
                         layoutDirection: copy_2.layoutDirection
                     )
                     
@@ -443,7 +454,7 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
                     
                     let subviews = LayoutSubviews(
                         context: copy_2.proxies.context,
-                        storage: .direct(copy_2.proxies.attributes),
+                        attributes: copy_2.proxies.attributes,
                         layoutDirection: copy_2.layoutDirection
                     )
                     
@@ -751,8 +762,8 @@ package struct LayoutProxy : Equatable {
 }
 
 struct LayoutProxyCollection : RandomAccessCollection {
-    fileprivate private(set) var context: AnyRuleContext
-    fileprivate private(set) var attributes: [LayoutProxyAttributes]
+    private(set) var context: AnyRuleContext
+    private(set) var attributes: [LayoutProxyAttributes]
     
     init(context: AnyRuleContext, attributes: [LayoutProxyAttributes]) {
         self.context = context

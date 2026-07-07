@@ -28,6 +28,7 @@ extension SpatialLayout {
     func updateSpatialLayoutComputer<T : StatefulRule>(rule: inout T, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) where T.Value == LayoutComputer {
         rule.update(
             modify: { (engine: inout StashedDepthLayoutEngine<ViewSpatialLayoutEngine<Self>>) in
+                // $s7SwiftUI13SpatialLayoutPAAE06updatecD8Computer4rule13layoutContext8childrenyqd__z_AA014SizeAndSpacingI0VAA0D15ProxyCollectionVt14AttributeGraph12StatefulRuleRd__AA0dF0V5ValueRtd__lFyAA012StashedDepthD6EngineVyAA04ViewcdW0VyxGGzXEfU_TA
                 engine.base
                     .update(
                         layout: self,
@@ -36,6 +37,7 @@ extension SpatialLayout {
                     )
             },
             create: {
+                // $s7SwiftUI13SpatialLayoutPAAE06updatecD8Computer4rule13layoutContext8childrenyqd__z_AA014SizeAndSpacingI0VAA0D15ProxyCollectionVt14AttributeGraph12StatefulRuleRd__AA0dF0V5ValueRtd__lFAA012StashedDepthD6EngineVyAA04ViewcdW0VyxGGyXEfU0_TA
                 let engine = ViewSpatialLayoutEngine<Self>(
                     layout: self,
                     layoutContext: layoutContext,
@@ -237,11 +239,11 @@ struct SpatialLayoutSubview {
 }
 
 struct SpatialLayoutSubviews {
-    // TODO
+    let subviews: LayoutSubviews
 }
 
 struct ViewSpacing3D {
-    // TODO
+    let spacing: Spacing3D // 0x0
 }
 
 struct ParentSize3D : Rule, AsyncAttribute {
@@ -287,19 +289,33 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     
     private var layout: L
     private let layoutContext: SizeAndSpacingContext // 0x24
-    private var children: LayoutProxyCollection
-    private var layoutDirection: LayoutDirection
-    private var cache: L.Cache3D
-    private var volumeCache: ViewVolumeCache
-    private var cachedAlignmentVolume: ViewSize3D
-    private var cachedAlignmentGeometry: [ViewGeometry3D]
-    private var cachedAlignment: Cache3<ObjectIdentifier, CGFloat?>
-    private var preferredSpacing: Spacing3D?
+    private var children: LayoutProxyCollection // 0x28
+    private var layoutDirection: LayoutDirection // 0x2c
+    private var cache: L.Cache3D // 0x30
+    private var volumeCache = ViewVolumeCache() // 0x34
+    private var cachedAlignmentVolume = ViewSize3D.zero // 0x38
+    private var cachedAlignmentGeometry: [ViewGeometry3D] = [] // 0x3c
+    private var cachedAlignment = Cache3<ObjectIdentifier, CGFloat?>() // 0x40
+    private var preferredSpacing: Spacing3D? = nil // 0x44
     
     init(layout: L, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) {
+        // <+256>
         self.layout = layout
         self.layoutContext = layoutContext
-        assertUnimplemented()
+        self.children = children
+        
+        // <+320>
+        let layoutDirection = layoutContext.layoutDirection
+        self.layoutDirection = layoutDirection
+        
+        let subviews = SpatialLayoutSubviews(
+            subviews: LayoutSubviews(
+                context: children.context,
+                attributes: children.attributes,
+                layoutDirection: layoutDirection
+            )
+        )
+        self.cache = layout.makeCache(subviews: subviews)
     }
     
     func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
@@ -314,8 +330,22 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         assertUnimplemented()
     }
     
-    func spacing() -> Spacing3D {
-        assertUnimplemented()
+    mutating func spacing() -> Spacing3D {
+        if let preferredSpacing {
+            return preferredSpacing
+        }
+        
+        let subviews = SpatialLayoutSubviews(
+            subviews: LayoutSubviews(
+                context: children.context,
+                attributes: children.attributes,
+                layoutDirection: layoutDirection
+            )
+        )
+        
+        let spacing = self.layout.spacing(subviews: subviews, cache: &self.cache)
+        self.preferredSpacing = spacing.spacing
+        return self.preferredSpacing!
     }
     
     func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D] {
@@ -323,7 +353,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        assertUnimplemented()
+        return self.children.requiresTrueDepthLayout()
     }
     
     func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat? {
@@ -361,7 +391,7 @@ protocol SpatialLayoutEngine {
     func layoutPriority() -> Double
     func ignoresAutomaticPadding() -> Bool
     func requiresSpacingProjection() -> Bool
-    func spacing() -> Spacing3D
+    mutating func spacing() -> Spacing3D
     func lengthThatFits(_ size: _ProposedSize3D, in axis: _Axis3D) -> CGFloat
     func requiresTrueDepthLayout() -> Bool
 }
@@ -392,7 +422,10 @@ extension SpatialLayoutEngine {
     }
     
     func spacing() -> Spacing3D {
-        assertUnimplemented()
+        return Spacing3D(
+            spacing2D: Spacing(),
+            depthSpacing: Spacing3D.DepthSpacing(value: nil)
+        )
     }
 }
 
@@ -436,7 +469,7 @@ struct StashedDepthLayoutEngine<E : SpatialLayoutEngine> : LayoutEngine {
         return false
     }
     
-    func spacing() -> Spacing {
+    mutating func spacing() -> Spacing {
         return self.base.spacing().spacing2D
     }
     
@@ -504,7 +537,11 @@ struct StashedDepthLayoutEngine<E : SpatialLayoutEngine> : LayoutEngine {
 }
 
 struct ViewVolumeCache {
-    // TODO
+    private var cache = Cache3<_ProposedSize3D, Size3D>()
+    
+    mutating func get(_ key: _ProposedSize3D, makeValue: () -> Size3D) -> Size3D {
+        return self.cache.get(key, makeValue: makeValue)
+    }
 }
 
 struct AlignmentKey3D {

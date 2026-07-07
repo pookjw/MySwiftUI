@@ -110,7 +110,15 @@ extension _ZStackLayout : DerivedSpatialLayout {
     }
     
     nonisolated func spacing(subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> ViewSpacing3D {
-        assertUnimplemented()
+        var cache: () = Void()
+        let spacing = self.spacing(subviews: subviews.subviews, cache: &cache)
+        
+        return ViewSpacing3D(
+            spacing: Spacing3D(
+                spacing2D: spacing.spacing,
+                depthSpacing: Spacing3D.DepthSpacing(value: 0)
+            )
+        )
     }
     
     nonisolated func explicitAlignment(of guide: DepthAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> CGFloat? {

@@ -187,7 +187,7 @@ protocol LayoutEngine {
     func layoutPriority() -> Double
     func ignoresAutomaticPadding() -> Bool
     func requiresSpacingProjection() -> Bool
-    func spacing() -> Spacing
+    mutating func spacing() -> Spacing
     mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize
     mutating func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat
     mutating func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry]
