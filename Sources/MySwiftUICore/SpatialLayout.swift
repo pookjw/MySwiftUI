@@ -26,7 +26,25 @@ protocol SpatialLayout : Animatable {
 
 extension SpatialLayout {
     func updateSpatialLayoutComputer<T : StatefulRule>(rule: inout T, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) where T.Value == LayoutComputer {
-        assertUnimplemented()
+        rule.update(
+            modify: { (engine: inout StashedDepthLayoutEngine<ViewSpatialLayoutEngine<Self>>) in
+                engine.base
+                    .update(
+                        layout: self,
+                        context: layoutContext,
+                        children: children
+                    )
+            },
+            create: {
+                let engine = ViewSpatialLayoutEngine<Self>(
+                    layout: self,
+                    layoutContext: layoutContext,
+                    children: children
+                )
+                
+                return StashedDepthLayoutEngine(base: engine)
+            }
+        )
     }
 }
 
@@ -268,7 +286,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     typealias Cache3D = L.Cache3D
     
     private var layout: L
-    private let layoutContext: SizeAndSpacingContext
+    private let layoutContext: SizeAndSpacingContext // 0x24
     private var children: LayoutProxyCollection
     private var layoutDirection: LayoutDirection
     private var cache: L.Cache3D
@@ -279,6 +297,8 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     private var preferredSpacing: Spacing3D?
     
     init(layout: L, layoutContext: SizeAndSpacingContext, children: LayoutProxyCollection) {
+        self.layout = layout
+        self.layoutContext = layoutContext
         assertUnimplemented()
     }
     

@@ -182,7 +182,11 @@ struct StaticSpatialLayoutComputer<L : SpatialLayout> : StatefulRule {
     
     typealias Value = LayoutComputer
     
-    func updateValue() {
-        assertUnimplemented()
+    mutating func updateValue() {
+        self.updateSpatialLayoutComputer(
+            layout: self.layout,
+            environment: self.$environment,
+            attributes: self.childAttributes
+        )
     }
 }

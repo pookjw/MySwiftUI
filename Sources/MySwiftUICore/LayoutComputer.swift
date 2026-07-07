@@ -649,6 +649,23 @@ extension StatefulRule where Value == LayoutComputer {
         )
     }
     
+    mutating func updateSpatialLayoutComputer<L : SpatialLayout>(layout: L, environment: Attribute<EnvironmentValues>, attributes: [LayoutProxyAttributes]) {
+        let currentAttribute = AnyAttribute.current!
+        
+        layout.updateSpatialLayoutComputer(
+            rule: &self,
+            layoutContext: SizeAndSpacingContext(
+                context: AnyRuleContext(attribute: currentAttribute),
+                owner: currentAttribute,
+                environment: environment
+            ),
+            children: LayoutProxyCollection(
+                context: AnyRuleContext(attribute: currentAttribute),
+                attributes: attributes
+            )
+        )
+    }
+    
     func update<T : LayoutEngine>(modify: (inout T) -> Void, create: () -> T) {
         if let ptr = AGGraphGetOutputValue(TypeID(Value.self)) {
             var value = ptr.assumingMemoryBound(to: Value.self).pointee
