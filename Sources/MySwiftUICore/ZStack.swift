@@ -58,7 +58,31 @@ extension _ZStackLayout : @preconcurrency Layout {
     }
     
     public func spacing(subviews: _ZStackLayout.Subviews, cache: inout Void) -> ViewSpacing {
-        assertUnimplemented()
+        let priority = subviews
+            .lazy
+            .map { subview -> Double in
+                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSdAA0D7SubviewVcfU_
+                return subview.proxy.layoutPriority
+            }
+            .max() ?? 0
+        
+        // <+152>
+        for subview in subviews {
+            if subview.proxy.layoutPriority == priority {
+                // <+836>
+                var spacing = Spacing(minima: [:])
+                
+                for subview in subviews {
+                    if subview.proxy.layoutPriority == priority {
+                        spacing.incorporate(.all, of: subview.proxy.spacing())
+                    }
+                }
+                
+                return ViewSpacing(spacing, layoutDirection: subviews.layoutDirection)
+            }
+        }
+        
+        return .zero
     }
     
     public func sizeThatFits(proposal: ProposedViewSize, subviews: _ZStackLayout.Subviews, cache: inout Void) -> CGSize {

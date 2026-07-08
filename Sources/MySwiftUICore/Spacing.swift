@@ -21,7 +21,16 @@ package struct Spacing : Equatable, CustomStringConvertible {
         ]
     }
     
-    func incorporate(_: AbsoluteEdge.Set, of: Spacing) {
+    mutating func incorporate(_ edge: AbsoluteEdge.Set, of spacing: Spacing) {
+        guard !edge.isEmpty else {
+            return
+        }
+        
+        /*
+         edge -> x0 -> w22
+         self -> x20 -> x19
+         spacing -> x1 -> x21 -> x23
+         */
         assertUnimplemented()
     }
     
