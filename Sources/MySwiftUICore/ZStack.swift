@@ -126,7 +126,9 @@ extension _ZStackLayout : DerivedSpatialLayout {
     }
     
     nonisolated func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> Size3D {
-        assertUnimplemented()
+        let layout3D = ZStackLayout3D(alignment: self.alignment, spacing: nil)
+        let layout = ZStackSpatialLayout(base: layout3D)
+        return layout.volumeThatFits(proposal: proposal, subviews: subviews, cache: &cache)
     }
     
     nonisolated func placeSubviews(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) {
@@ -180,8 +182,63 @@ struct EnableZStackTrueDepthLayout : UserDefaultKeyedFeature, ViewInputFlag {
     @safe nonisolated(unsafe) static var defaultValue: Bool = true
 }
 
-struct ZStackSpatialLayout {
-    var base: ZStackLayout3D
+struct ZStackSpatialLayout : SpatialLayout, Animatable {
+    fileprivate private(set) var base: ZStackLayout3D
+    
+    static var layoutProperties: SpatialLayoutProperties {
+        assertUnimplemented()
+    }
+    
+    func makeCache(subviews: SpatialLayoutSubviews) -> Self.Cache3D {
+        assertUnimplemented()
+    }
+    
+    func updateCache(_ cache: inout Self.Cache3D, subviews: SpatialLayoutSubviews) {
+        assertUnimplemented()
+    }
+    
+    func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> Size3D {
+        /*
+         proposal -> x0
+         subviews -> x1
+         cache -> x2
+         base.alignment -> x3/x4
+         base.spacing -> x5/w6
+         */
+        assertUnimplemented()
+    }
+    
+    func placeSubviews(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) {
+        assertUnimplemented()
+    }
+    
+    func spacing(subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> ViewSpacing3D {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: DepthAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: HorizontalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: VerticalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    static func _makeSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    static func makeDynamicSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    static func makeStaticSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
+        assertUnimplemented()
+    }
 }
 
 extension ZStackSpatialLayout {
@@ -204,7 +261,124 @@ extension ZStackSpatialLayout.PartialPlacement {
 }
 
 struct ZStackLayout3D {
-    // TODO
+    private var alignment: Alignment
+    private var spacing: CGFloat?
+    
+    init(alignment: Alignment, spacing: CGFloat?) {
+        self.alignment = alignment
+        self.spacing = spacing
+    }
+}
+
+extension ZStackLayout3D : Layout3D {
+    static var depthProperties: LayoutDepthProperties {
+        return LayoutDepthProperties(stackOrientationIsDepth: true)
+    }
+    
+    func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of alignment: DepthAlignment, in: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat? {
+        assertUnimplemented()
+    }
+}
+
+extension ZStackLayout3D : DerivedSpatialLayout {
+    typealias SpatialBase = ZStackSpatialLayout
+    typealias Cache3D = ZStackSpatialLayout.Cache3D
+    
+    static var layoutProperties: SpatialLayoutProperties {
+        assertUnimplemented()
+    }
+    
+    func makeCache(subviews: SpatialLayoutSubviews) -> Self.Cache3D {
+        assertUnimplemented()
+    }
+    
+    func updateCache(_ cache: inout Self.Cache3D, subviews: SpatialLayoutSubviews) {
+        assertUnimplemented()
+    }
+    
+    func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> Size3D {
+        assertUnimplemented()
+    }
+    
+    func placeSubviews(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) {
+        assertUnimplemented()
+    }
+    
+    func spacing(subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> ViewSpacing3D {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: DepthAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: HorizontalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: VerticalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    static func _makeSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    static func makeDynamicSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    static func makeStaticSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+}
+
+extension ZStackLayout3D : _VariadicView_UnaryViewRoot {
+    
+}
+
+extension ZStackLayout3D : Layout {
+    typealias Cache = Void
+    
+    func makeCache(subviews: Self.Subviews) -> Self.Cache {
+        assertUnimplemented()
+    }
+    
+    func updateCache(_ cache: inout Self.Cache, subviews: Self.Subviews) {
+        assertUnimplemented()
+    }
+    
+    func spacing(subviews: Self.Subviews, cache: inout Self.Cache) -> ViewSpacing {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
 }
 
 struct StaticSpatialLayoutComputer<L : SpatialLayout> : StatefulRule {

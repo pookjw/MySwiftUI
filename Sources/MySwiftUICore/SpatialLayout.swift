@@ -322,8 +322,23 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         assertUnimplemented()
     }
     
-    func volumeThatFits(_ size: _ProposedSize3D) -> Size3D {
-        assertUnimplemented()
+    mutating func volumeThatFits(_ size: _ProposedSize3D) -> Size3D {
+        return self.volumeCache.get(size) { 
+            // $s7SwiftUI23ViewSpatialLayoutEngineV14volumeThatFitsySo8SPSize3DaAA15_ProposedSize3DVFAFyXEfU_TA
+            let subviews = SpatialLayoutSubviews(
+                subviews: LayoutSubviews(
+                    context: children.context,
+                    attributes: children.attributes,
+                    layoutDirection: layoutDirection
+                )
+            )
+            
+            return self.layout.volumeThatFits(
+                proposal: size,
+                subviews: subviews,
+                cache: &self.cache
+            )
+        }
     }
     
     func layoutPriority() -> Double {
@@ -384,7 +399,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
 protocol SpatialLayoutEngine {
     associatedtype Cache3D
     
-    func volumeThatFits(_ proposedSize: _ProposedSize3D) -> Size3D
+    mutating func volumeThatFits(_ proposedSize: _ProposedSize3D) -> Size3D
     func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D]
     func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat?
     func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat?

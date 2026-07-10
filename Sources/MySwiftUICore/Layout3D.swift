@@ -36,7 +36,6 @@ extension Layout3D {
 
 struct LayoutDepthProperties {
     private(set) var stackOrientationIsDepth: Bool
-    // TODO
 }
 
 struct AnyLayoutDepthProperties : AsyncAttribute, Rule {
