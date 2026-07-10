@@ -29,9 +29,16 @@ package struct Spacing : Equatable, CustomStringConvertible {
         /*
          edge -> x0 -> w22
          self -> x20 -> x19
-         spacing -> x1 -> x21 -> x23
+         spacing -> x1 -> x21
          */
-        assertUnimplemented()
+        var pair: [(key: Spacing.Key, value: Spacing.Value)] = []
+        for (key, value) in spacing.minima {
+            if edge.contains(AbsoluteEdge.Set(key.edge)) {
+                pair.append((key, value))
+            }
+        }
+        
+        self.minima.merge(pair, uniquingKeysWith: max)
     }
     
     mutating func reset(_ set: Edge.Set, layoutDirection: LayoutDirection) {
