@@ -118,7 +118,7 @@ extension _ZStackLayout : DerivedSpatialLayout {
     }
     
     nonisolated func makeCache(subviews: SpatialLayoutSubviews) -> ZStackSpatialLayout.Cache3D {
-        return ZStackSpatialLayout.Cache3D(partialPlacements: [:])
+        return ZStackSpatialLayout.Cache3D(partialPlacements: Dictionary())
     }
     
     nonisolated func updateCache(_ cache: inout ZStackSpatialLayout.Cache3D, subviews: SpatialLayoutSubviews) {
@@ -201,10 +201,44 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
         /*
          proposal -> x0
          subviews -> x1
-         cache -> x2
-         base.alignment -> x3/x4
-         base.spacing -> x5/w6
+         cache -> x2 -> x19
+         base.alignment -> x3/x4 -> sp + 0x48 / sp + 0x40
+         base.spacing -> x5/w6 -> x27/w28
          */
+        // sp + 0x1f0
+        let copy_1 = proposal
+        // sp + 0x60
+        let copy_2 = subviews
+        
+        if let cached = cache.partialPlacements[proposal] {
+            return cached.volume
+        }
+        
+        // <+172>
+        guard subviews.subviews.isEmpty else {
+            cache.partialPlacements = [:]
+            return .zero
+        }
+        
+        let d14 = self.base.spacing ?? 0
+        
+        // sp + 0x80
+        let priority = subviews
+            .subviews
+            .lazy
+            .map { subview -> Double in
+                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSdAA0D7SubviewVcfU_
+                return subview.proxy.layoutPriority
+            }
+            .max() ?? 0
+        
+        // <+464>
+        for (index, subview) in subviews.subviews.reversed().enumerated() {
+            let d9 = d14 * CGFloat(index)
+            // sp + 0x68 / d15 (값 순서 다름)
+            let invalidValue = ZStackSpatialLayout.PlanarExtents.invalidValue
+            let d8 = Size3D(width: 0, height: 0, depth: d9).depth
+        }
         assertUnimplemented()
     }
     
@@ -243,12 +277,26 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
 
 extension ZStackSpatialLayout {
     struct Cache3D {
-        fileprivate private(set) var partialPlacements: [_ProposedSize3D: ZStackSpatialLayout.PartialPlacement]
+        fileprivate var partialPlacements: [_ProposedSize3D: ZStackSpatialLayout.PartialPlacement]
     }
     
     struct PartialPlacement {
         private var children: [ZStackSpatialLayout.PartialPlacement.Child]
-        private var volume: Size3D
+        fileprivate private(set) var volume: Size3D
+    }
+    
+    struct PlanarExtents {
+        static let invalidValue = ZStackSpatialLayout.PlanarExtents(
+            unknown0: -.infinity,
+            unknown1: -.infinity,
+            unknown2: -.infinity,
+            unknown3: -.infinity
+        )
+        
+        let unknown0: CGFloat
+        let unknown1: CGFloat
+        let unknown2: CGFloat
+        let unknown3: CGFloat
     }
 }
 
@@ -262,7 +310,7 @@ extension ZStackSpatialLayout.PartialPlacement {
 
 struct ZStackLayout3D {
     private var alignment: Alignment
-    private var spacing: CGFloat?
+    fileprivate private(set) var spacing: CGFloat?
     
     init(alignment: Alignment, spacing: CGFloat?) {
         self.alignment = alignment
