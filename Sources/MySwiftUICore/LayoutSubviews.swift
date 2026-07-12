@@ -675,7 +675,7 @@ package struct LayoutProxy : Equatable {
     }
     
     func idealDepth() -> CGFloat {
-        assertUnimplemented()
+        return layoutComputer.depthThatFits(.unspecified)
     }
     
     func finallyPlaced3D(at placement: Placement3D, in size: Size3D, layoutDirection: LayoutDirection) -> ViewGeometry3D {

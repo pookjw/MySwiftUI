@@ -1,3 +1,4 @@
+// 8EE795473C30656CB19FF09054F439FA
 public import CoreGraphics
 internal import Spatial
 internal import AttributeGraph
@@ -198,48 +199,8 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
     }
     
     func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> Size3D {
-        /*
-         proposal -> x0
-         subviews -> x1
-         cache -> x2 -> x19
-         base.alignment -> x3/x4 -> sp + 0x48 / sp + 0x40
-         base.spacing -> x5/w6 -> x27/w28
-         */
-        // sp + 0x1f0
-        let copy_1 = proposal
-        // sp + 0x60
-        let copy_2 = subviews
-        
-        if let cached = cache.partialPlacements[proposal] {
-            return cached.volume
-        }
-        
-        // <+172>
-        guard subviews.subviews.isEmpty else {
-            cache.partialPlacements = [:]
-            return .zero
-        }
-        
-        let d14 = self.base.spacing ?? 0
-        
-        // sp + 0x80
-        let priority = subviews
-            .subviews
-            .lazy
-            .map { subview -> Double in
-                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSdAA0D7SubviewVcfU_
-                return subview.proxy.layoutPriority
-            }
-            .max() ?? 0
-        
-        // <+464>
-        for (index, subview) in subviews.subviews.reversed().enumerated() {
-            let d9 = d14 * CGFloat(index)
-            // sp + 0x68 / d15 (값 순서 다름)
-            let invalidValue = ZStackSpatialLayout.PlanarExtents.invalidValue
-            let d8 = Size3D(width: 0, height: 0, depth: d9).depth
-        }
-        assertUnimplemented()
+        let placement = self.partialPlacement(proposal: proposal, subviews: subviews, cache: &cache)
+        return placement.volume
     }
     
     func placeSubviews(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) {
@@ -273,6 +234,115 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
     static func makeStaticSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
         assertUnimplemented()
     }
+    
+    // $s7SwiftUI19ZStackSpatialLayoutV16partialPlacement33_8EE795473C30656CB19FF09054F439FALL8proposal8subviews5cacheAC07PartialG0VAA15_ProposedSize3DV_AA0dE8SubviewsVAC7Cache3DVztF
+    fileprivate func partialPlacement(
+        proposal: _ProposedSize3D,
+        subviews: SpatialLayoutSubviews,
+        cache: inout ZStackSpatialLayout.Cache3D
+    ) -> ZStackSpatialLayout.PartialPlacement {
+        /*
+         proposal -> x0
+         subviews -> x1
+         cache -> x2 -> x19
+         base.alignment -> x3/x4 -> sp + 0x48 / sp + 0x40
+         base.spacing -> x5/w6 -> x27/w28
+         */
+        struct Item {
+            var index: Int // 0x0
+            var proxy: SpatialLayoutSubview // 0x8
+            var priority: Double // 0x20
+            var minDepth: CGFloat // 0x28
+        }
+        
+        // sp + 0x1f0
+        let copy_1 = proposal
+        // sp + 0x60
+        let copy_2 = subviews
+        
+        if let cached = cache.partialPlacements[proposal] {
+            return cached
+        }
+        
+        // <+172>
+        guard !subviews.subviews.isEmpty else {
+            return ZStackSpatialLayout.PartialPlacement(children: [], volume: .zero)
+        }
+        
+        // x22
+        let count = subviews.subviews.count
+        let d14 = self.base.spacing ?? 0
+        
+        // sp + 0x80
+        let priority = subviews
+            .subviews
+            .lazy
+            .map { subview -> Double in
+                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSdAA0D7SubviewVcfU_
+                return subview.proxy.layoutPriority
+            }
+            .max() ?? 0
+        
+        let d9 = d14 * CGFloat(subviews.subviews.count &- 1)
+        // sp + 0x68 / d15 (값 순서 다름)
+        let invalidValue = ZStackSpatialLayout.PlanarExtents.invalidValue
+        // d8 / x26
+        let depth_1 = Size3D(width: 0, height: 0, depth: d9).depth
+        
+        // <+528>
+        if let depth_2 = copy_1.depth {
+            // <+2240>
+            // x23
+            let items = subviews
+                .subviews
+                .enumerated()
+                .map { (index, subview) -> Item in
+                    return Item(
+                        index: index,
+                        proxy: SpatialLayoutSubview(subview: subview),
+                        priority: subview.priority,
+                        minDepth: subview.proxy.depth(in: proposal)
+                    )
+                }
+                .sorted { lhs, rhs in
+                    if lhs.priority < rhs.priority {
+                        return false
+                    } else if rhs.priority < lhs.priority {
+                        return true
+                    }
+                    
+                    // <+276>
+                    let d0 = rhs.proxy.subview.proxy.depth(in: proposal) - rhs.minDepth
+                    let d1 = lhs.proxy.subview.proxy.depth(in: proposal) - lhs.minDepth
+                    
+                    if d0 < d1 {
+                        return false
+                    } else if (d1 < d0) && (rhs.index < lhs.index) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            
+            // x21
+            let children = Array(
+                repeating: ZStackSpatialLayout
+                    .PartialPlacement
+                    .Child(
+                        dimensions: .invalidValue,
+                        depthPlacement: 0,
+                        priority: -1
+                    ),
+                count: count
+            )
+            
+            // <+2476>
+            assertUnimplemented()
+        } else {
+            // <+540>
+            assertUnimplemented()
+        }
+    }
 }
 
 extension ZStackSpatialLayout {
@@ -281,7 +351,7 @@ extension ZStackSpatialLayout {
     }
     
     struct PartialPlacement {
-        private var children: [ZStackSpatialLayout.PartialPlacement.Child]
+        fileprivate private(set) var children: [ZStackSpatialLayout.PartialPlacement.Child]
         fileprivate private(set) var volume: Size3D
     }
     
@@ -302,9 +372,9 @@ extension ZStackSpatialLayout {
 
 extension ZStackSpatialLayout.PartialPlacement {
     struct Child {
-        private var dimensions: ViewDimensions3D
-        private var depthPlacement: CGFloat
-        private var priority: Double
+        fileprivate private(set) var dimensions: ViewDimensions3D
+        fileprivate private(set) var depthPlacement: CGFloat
+        fileprivate private(set) var priority: Double
     }
 }
 

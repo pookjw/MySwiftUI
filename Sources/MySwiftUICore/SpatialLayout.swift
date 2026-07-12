@@ -235,7 +235,7 @@ struct SpatialLayoutProperties {
 }
 
 struct SpatialLayoutSubview {
-    // TODO
+    let subview: LayoutSubview
 }
 
 struct SpatialLayoutSubviews {
