@@ -286,11 +286,11 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
         let d9 = d14 * CGFloat(subviews.subviews.count &- 1)
         // sp + 0x68 / d15 (값 순서 다름)
         let invalidValue = ZStackSpatialLayout.PlanarExtents.invalidValue
-        // d8 / x26
+        // x26
         let depth_1 = Size3D(width: 0, height: 0, depth: d9).depth
         
         // <+528>
-        if let depth_2 = copy_1.depth {
+        if let d8 = copy_1.depth {
             // <+2240>
             // x23
             let items = subviews
@@ -325,7 +325,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                 }
             
             // x21
-            let children = Array(
+            var children = Array(
                 repeating: ZStackSpatialLayout
                     .PartialPlacement
                     .Child(
@@ -337,6 +337,62 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             )
             
             // <+2476>
+            var d0: CGFloat = items.reduce(0) { partialResult, item in
+                return item.minDepth + partialResult
+            }
+            
+            // <+3084>
+            if !(count < 1) {
+                d0 = d9 - d0
+                d0 = d8 - d0
+                
+                var i = 0
+                while true {
+                    // <+3180>
+                    let priority = items[i].priority
+                    var x14 = i
+                    for i2 in i..<count {
+                        // <+3240>
+                        let p2 = items[i2].priority
+                        if priority != p2 {
+                            // <+3280>
+                            break
+                        }
+                        x14 &+= 1
+                        if count != x14 {
+                            // <+3240>
+                            continue
+                        } else {
+                            // <+3276>
+                            x14 = count
+                            // <+3280>
+                            break
+                        }
+                    } 
+                    
+                    // <+3280>
+                    if i == x14 {
+                        // <+3168>
+                        i = x14
+                        if x14 >= count {
+                            break
+                        } else {
+                            // <+3180>
+                            continue
+                        }
+                    }
+                    
+                    // <+3288>
+                    let d1 = items[i].minDepth
+                    let d15 = d0 + d1
+                    let d14 = depth_1
+                    
+                    // <+3340>
+                    assertUnimplemented()
+                }
+            }
+            
+            // <+4312>
             assertUnimplemented()
         } else {
             // <+540>
