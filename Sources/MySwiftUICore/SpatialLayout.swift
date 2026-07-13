@@ -449,6 +449,8 @@ struct Spacing3D {
     let depthSpacing: Spacing3D.DepthSpacing
 }
 
+let defaultSpacing3DValue = Size3D(width: 0, height: 0, depth: 0)
+
 extension Spacing3D {
     struct DepthSpacing {
         let value: CGFloat?

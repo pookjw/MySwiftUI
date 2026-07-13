@@ -270,7 +270,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
         
         // x22
         let count = subviews.subviews.count
-        let d14 = self.base.spacing ?? 0
+        let d14 = self.base.spacing ?? defaultSpacing3DValue.depth
         
         // sp + 0x80
         let priority = subviews
