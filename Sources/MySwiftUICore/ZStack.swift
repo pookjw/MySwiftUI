@@ -437,7 +437,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     
                     // <+3556>
                     // sp + 0x150
-                    var dimensions = ViewDimensions3D(
+                    let dimensions = ViewDimensions3D(
                         guideComputer: item.proxy.subview.proxy.layoutComputer,
                         size: volume,
                         proposal: _ProposedSize3D(
