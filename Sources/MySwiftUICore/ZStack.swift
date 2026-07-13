@@ -297,6 +297,11 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
         // <+528>
         if var d8 = copy_1.depth {
             // <+2240>
+            var x290xd0 = proposal
+            x290xd0.depth = 0
+            var x290x100 = proposal
+            x290x100.depth = .infinity
+            
             // x23
             let items = subviews
                 .subviews
@@ -306,19 +311,19 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                         index: index,
                         proxy: SpatialLayoutSubview(subview: subview),
                         priority: subview.priority,
-                        minDepth: subview.proxy.depth(in: proposal)
+                        minDepth: subview.proxy.depth(in: x290xd0)
                     )
                 }
                 .sorted { lhs, rhs in
-                    if rhs.priority < lhs.priority {
+                    if lhs.priority < rhs.priority {
                         return false
-                    } else if lhs.priority < rhs.priority {
+                    } else if rhs.priority < lhs.priority {
                         return true
                     }
                     
                     // <+276>
-                    let d0 = lhs.proxy.subview.proxy.depth(in: proposal) - lhs.minDepth
-                    let d1 = rhs.proxy.subview.proxy.depth(in: proposal) - rhs.minDepth
+                    let d0 = lhs.proxy.subview.proxy.depth(in: x290x100) - lhs.minDepth
+                    let d1 = rhs.proxy.subview.proxy.depth(in: x290x100) - rhs.minDepth
                     
                     // <+1376>
                     if d0 < d1 {
@@ -571,7 +576,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                             sp0x60 = d2
                             d0 = d9 - d0
                             d1 = extents.unknown3
-                            d1 = (d0 <= d0) ? d0 : d1
+                            d1 = (d1 <= d0) ? d0 : d1
                             extents.unknown3 = d1
                             extents.unknown1 = d12
                             // <+4236>
@@ -696,7 +701,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                         d15 = (d15 <= d2) ? d2 : d15
                         d1 = extents.unknown3
                         
-                        if !(d1 > d0) {
+                        if d1 <= d0 {
                             extents.unknown3 = d0
                         }
                         
@@ -720,9 +725,12 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     d8 = d8 + d0
                     d11 = d10 + d0
                 }
+                
+                x26 = d8
+                // <+2876>
             }
             
-            // <+2868>
+            // <+2876>
             var d1 = extents.unknown0
             let d0 = extents.unknown3
             let d8 = d15 + d1
