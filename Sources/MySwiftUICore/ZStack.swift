@@ -291,7 +291,8 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
          */
         var extents = ZStackSpatialLayout.PlanarExtents.invalidValue
         var d15 = extents.unknown2
-        var x26 = Size3D(width: 0, height: 0, depth: d9).depth
+        var d8 = Size3D(width: 0, height: 0, depth: d9).depth
+        var x26 = d8
         
         // <+528>
         if var d8 = copy_1.depth {
@@ -309,22 +310,23 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     )
                 }
                 .sorted { lhs, rhs in
-                    if lhs.priority < rhs.priority {
+                    if rhs.priority < lhs.priority {
                         return false
-                    } else if rhs.priority < lhs.priority {
+                    } else if lhs.priority < rhs.priority {
                         return true
                     }
                     
                     // <+276>
-                    let d0 = rhs.proxy.subview.proxy.depth(in: proposal) - rhs.minDepth
-                    let d1 = lhs.proxy.subview.proxy.depth(in: proposal) - lhs.minDepth
+                    let d0 = lhs.proxy.subview.proxy.depth(in: proposal) - lhs.minDepth
+                    let d1 = rhs.proxy.subview.proxy.depth(in: proposal) - rhs.minDepth
                     
+                    // <+1376>
                     if d0 < d1 {
-                        return false
-                    } else if (d1 < d0) && (rhs.index < lhs.index) {
                         return true
-                    } else {
+                    } else if (d1 < d0) || (lhs.index >= rhs.index) {
                         return false
+                    } else {
+                        return true
                     }
                 }
             
@@ -347,7 +349,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             
             // <+3084>
             if !(count < 1) {
-                d0 = d9 - d0
+                d0 = d9 + d0
                 d0 = d8 - d0
                 let sp0x20 = d14
                 
@@ -412,7 +414,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     // <+3356>
                     d0 = CGFloat(x9)
                     d0 = d15 / d0
-                    d1 = 1
+                    d1 = 0
                     var d11: CGFloat = (d0 >= 0) ? d0 : d1
                     
                     // x26, x27, x24
@@ -430,14 +432,15 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     
                     // <+3556>
                     // sp + 0x150
-                    var dimensions = item.proxy.subview.proxy.dimensions3D(
-                        in: _ProposedSize3D(
+                    var dimensions = ViewDimensions3D(
+                        guideComputer: item.proxy.subview.proxy.layoutComputer,
+                        size: volume,
+                        proposal: _ProposedSize3D(
                             width: proposal.width,
                             height: proposal.height,
                             depth: d11
                         )
                     )
-                    dimensions.size.value = volume
                     
                     children[item.index].dimensions = dimensions
                     d1 = priority
@@ -502,7 +505,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                                     sp0x60 = d2
                                     d0 = d9 - d0
                                     d1 = extents.unknown3
-                                    d1 = (d0 <= d0) ? d0 : d1
+                                    d1 = (d1 <= d0) ? d0 : d1
                                     extents.unknown3 = d1
                                     extents.unknown1 = d12
                                     // <+4236>
@@ -518,7 +521,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                                         sp0x60 = d2
                                         d0 = d9 - d0
                                         d1 = extents.unknown3
-                                        d1 = (d0 <= d0) ? d0 : d1
+                                        d1 = (d1 <= d0) ? d0 : d1
                                         extents.unknown3 = d1
                                         extents.unknown1 = d12
                                         // <+4236>
@@ -606,11 +609,15 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             }
             
             // <+4312>
-            for index in children.indices {
-                d0 = d14 + d8
-                children[index].depthPlacement = d0
-                let d1 = children[index].dimensions.size.depth
-                d8 = d0 + d1
+            if !children.isEmpty {
+                d8 = -d14
+                
+                for index in children.indices {
+                    d0 = d14 + d8
+                    children[index].depthPlacement = d0
+                    let d1 = children[index].dimensions.size.depth
+                    d8 = d0 + d1
+                }
             }
             
             // <+4412>
@@ -638,7 +645,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             
             if !subviews.subviews.isEmpty {
                 // <+556>
-                let d11 = -d14
+                var d11 = -d14
                 let d12: CGFloat = 0
                 
                 for subview in subviews.subviews {
@@ -707,6 +714,11 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     )
                     
                     children.append(child)
+                    
+                    // <+2020>
+                    d0 = dimensions.size.value.depth
+                    d8 = d8 + d0
+                    d11 = d10 + d0
                 }
             }
             
