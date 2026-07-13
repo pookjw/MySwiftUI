@@ -235,7 +235,6 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
         assertUnimplemented()
     }
     
-    // $s7SwiftUI19ZStackSpatialLayoutV16partialPlacement33_8EE795473C30656CB19FF09054F439FALL8proposal8subviews5cacheAC07PartialG0VAA15_ProposedSize3DV_AA0dE8SubviewsVAC7Cache3DVztF
     fileprivate func partialPlacement(
         proposal: _ProposedSize3D,
         subviews: SpatialLayoutSubviews,
@@ -258,7 +257,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
         // sp + 0x1f0
         let copy_1 = proposal
         // sp + 0x60
-        let copy_2 = subviews
+        let _ = subviews
         
         if let cached = cache.partialPlacements[proposal] {
             return cached
@@ -290,10 +289,9 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
          unknown2 -> d15
          unknown3 -> sp + 0x70
          */
-        var invalidValue = ZStackSpatialLayout.PlanarExtents.invalidValue
-        var d15 = invalidValue.unknown2
-        // x26
-        let depth_1 = Size3D(width: 0, height: 0, depth: d9).depth
+        var extents = ZStackSpatialLayout.PlanarExtents.invalidValue
+        var d15 = extents.unknown2
+        var x26 = Size3D(width: 0, height: 0, depth: d9).depth
         
         // <+528>
         if var d8 = copy_1.depth {
@@ -351,58 +349,71 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             if !(count < 1) {
                 d0 = d9 - d0
                 d0 = d8 - d0
+                let sp0x20 = d14
                 
                 var i = 0
+                var flag = true
+                var priority_2: Double!
+                var x14: Int!
+                var x9: Int!
+                var d1: CGFloat!
+                var sp0x60: CGFloat!
+                var d14: CGFloat!
+                
                 while true {
-                    // <+3180>
-                    // sp + 0x88
-                    let priority_2 = items[i].priority
-                    var x14 = i
-                    for i2 in i..<count {
-                        // <+3240>
-                        let p2 = items[i2].priority
-                        if priority_2 != p2 {
-                            // <+3280>
-                            break
-                        }
-                        x14 &+= 1
-                        if count != x14 {
+                    if flag {
+                        // <+3180>
+                        // sp + 0x88
+                        priority_2 = items[i].priority
+                        x14 = i
+                        for i2 in i..<count {
                             // <+3240>
-                            continue
-                        } else {
-                            // <+3276>
-                            x14 = count
-                            // <+3280>
-                            break
+                            let p2 = items[i2].priority
+                            if priority_2 != p2 {
+                                // <+3280>
+                                break
+                            }
+                            x14 &+= 1
+                            if count != x14 {
+                                // <+3240>
+                                continue
+                            } else {
+                                // <+3276>
+                                x14 = count
+                                // <+3280>
+                                break
+                            }
+                        } 
+                        
+                        // <+3280>
+                        if i == x14 {
+                            // <+3168>
+                            i = x14
+                            if x14 >= count {
+                                break
+                            } else {
+                                // <+3180>
+                                continue
+                            }
                         }
-                    } 
-                    
-                    // <+3280>
-                    if i == x14 {
-                        // <+3168>
-                        i = x14
-                        if x14 >= count {
-                            break
-                        } else {
-                            // <+3180>
-                            continue
-                        }
+                        
+                        // <+3288>
+                        sp0x60 = d15
+                        x9 = x14 &- i
+                        d1 = items[i].minDepth
+                        d15 = d0 + d1
+                        d14 = x26
                     }
-                    
-                    // <+3288>
-                    var sp0x60 = d15
-                    let x9 = x14 &- i
-                    var d1 = items[i].minDepth
-                    d15 = d0 + d1
-                    var d14 = depth_1
                     
                     // <+3340>
                     let item = items[i]
                     i &+= 1
+                    
+                    // <+3356>
                     d0 = CGFloat(x9)
                     d0 = d15 / d0
                     d1 = 1
-                    var d11 = (d0 >= 0) ? d0 : d1
+                    var d11: CGFloat = (d0 >= 0) ? d0 : d1
                     
                     // x26, x27, x24
                     let volume = item.proxy.subview.proxy.volume(
@@ -415,16 +426,18 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     let d10 = volume.width
                     d9 = volume.height
                     d8 = volume.depth
+                    x26 = d10
                     
                     // <+3556>
                     // sp + 0x150
-                    let dimensions = item.proxy.subview.proxy.dimensions3D(
+                    var dimensions = item.proxy.subview.proxy.dimensions3D(
                         in: _ProposedSize3D(
                             width: proposal.width,
                             height: proposal.height,
                             depth: d11
                         )
                     )
+                    dimensions.size.value = volume
                     
                     children[item.index].dimensions = dimensions
                     d1 = priority
@@ -451,11 +464,11 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                                 d0 = d12
                                 d1 = d11
                                 // <+4156>
-                                var d2 = invalidValue.unknown0
+                                var d2 = extents.unknown0
                                 d11 = (d2 <= d11) ? d11 : d2
                                 // <+4176>
-                                invalidValue.unknown0 = d11
-                                d2 = invalidValue.unknown1
+                                extents.unknown0 = d11
+                                d2 = extents.unknown1
                                 d12 = (d2 <= d12) ? d12 : d2
                                 d11 = d1
                                 // <+4196>
@@ -464,22 +477,22 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                                 d2 = (d2 <= d1) ? d1 : d2
                                 sp0x60 = d2
                                 d0 = d9 - d0
-                                d1 = invalidValue.unknown3
-                                d1 = (d0 <= d0) ? d0 : d1
-                                invalidValue.unknown3 = d1
-                                invalidValue.unknown1 = d12
+                                d1 = extents.unknown3
+                                d1 = (d1 <= d0) ? d0 : d1
+                                extents.unknown3 = d1
+                                extents.unknown1 = d12
                                 // <+4236>
                             } else {
                                 // <+4064>
                                 d0 = 0
-                                d1 = invalidValue.unknown0
+                                d1 = extents.unknown0
                                 
                                 if d1 <= d11 {
                                     // <+4276>
                                     d1 = d11
                                     // <+4176>
-                                    invalidValue.unknown0 = d11
-                                    var d2 = invalidValue.unknown1
+                                    extents.unknown0 = d11
+                                    var d2 = extents.unknown1
                                     d12 = (d2 <= d12) ? d12 : d2
                                     d11 = d1
                                     // <+4196>
@@ -488,34 +501,34 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                                     d2 = (d2 <= d1) ? d1 : d2
                                     sp0x60 = d2
                                     d0 = d9 - d0
-                                    d1 = invalidValue.unknown3
+                                    d1 = extents.unknown3
                                     d1 = (d0 <= d0) ? d0 : d1
-                                    invalidValue.unknown3 = d1
-                                    invalidValue.unknown1 = d12
+                                    extents.unknown3 = d1
+                                    extents.unknown1 = d12
                                     // <+4236>
                                 } else {
-                                    d1 = invalidValue.unknown1
+                                    d1 = extents.unknown1
                                     
                                     if d1 <= d12 {
                                         // <+4288>
                                         // <+4196>
                                         d1 = d10 - d11
-                                        var d2 = sp0x60
+                                        var d2: CGFloat = sp0x60
                                         d2 = (d2 <= d1) ? d1 : d2
                                         sp0x60 = d2
                                         d0 = d9 - d0
-                                        d1 = invalidValue.unknown3
+                                        d1 = extents.unknown3
                                         d1 = (d0 <= d0) ? d0 : d1
-                                        invalidValue.unknown3 = d1
-                                        invalidValue.unknown1 = d12
+                                        extents.unknown3 = d1
+                                        extents.unknown1 = d12
                                         // <+4236>
                                     } else {
                                         // <+4096>
                                         d0 = d10 - d11
                                         d1 = .infinity
-                                        var d2 = invalidValue.unknown3
+                                        var d2 = extents.unknown3
                                         d2 = (d2 <= d1) ? d1 : d2
-                                        invalidValue.unknown3 = d2
+                                        extents.unknown3 = d2
                                         d1 = sp0x60
                                         d1 = (d1 <= d0) ? d0 : d1
                                         sp0x60 = d1
@@ -541,11 +554,11 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                             }
                             
                             // <+4156>
-                            var d2 = invalidValue.unknown0
+                            var d2 = extents.unknown0
                             d11 = (d2 <= d11) ? d11 : d2
                             // <+4176>
-                            invalidValue.unknown0 = d11
-                            d2 = invalidValue.unknown1
+                            extents.unknown0 = d11
+                            d2 = extents.unknown1
                             d12 = (d2 <= d12) ? d12 : d2
                             d11 = d1
                             // <+4196>
@@ -554,10 +567,10 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                             d2 = (d2 <= d1) ? d1 : d2
                             sp0x60 = d2
                             d0 = d9 - d0
-                            d1 = invalidValue.unknown3
+                            d1 = extents.unknown3
                             d1 = (d0 <= d0) ? d0 : d1
-                            invalidValue.unknown3 = d1
-                            invalidValue.unknown1 = d12
+                            extents.unknown3 = d1
+                            extents.unknown1 = d12
                             // <+4236>
                         }
                         
@@ -567,15 +580,151 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     // <+4236>
                     d14 = d14 + d8
                     d0 = d15 - d8
-                    assertUnimplemented()
+                    
+                    if x14 == i {
+                        flag = true
+                        // <+3144>
+                        x26 = d14
+                        d14 = sp0x20
+                        d15 = sp0x60
+                        // <+3168>
+                        i = x14
+                        if x14 >= count {
+                            break
+                        } else {
+                            // <+3180>
+                            continue
+                        }
+                    } else {
+                        // <+4252>
+                        d1 = items[i].minDepth
+                        d15 = d0 + d1
+                        flag = false
+                        // <+3340> (<+3356>)
+                    }
                 }
             }
             
             // <+4312>
-            assertUnimplemented()
+            for index in children.indices {
+                d0 = d14 + d8
+                children[index].depthPlacement = d0
+                let d1 = children[index].dimensions.size.depth
+                d8 = d0 + d1
+            }
+            
+            // <+4412>
+            var d1 = extents.unknown0
+            d0 = extents.unknown3
+            d8 = d15 + d1
+            d1 = extents.unknown1
+            d9 = d0 + d1
+            let d10 = x26
+            d0 = d8
+            d1 = d9
+            let d2 = d10
+            
+            let placement = ZStackSpatialLayout.PartialPlacement(
+                children: children,
+                volume: Size3D(width: d0, height: d1, depth: d2)
+            )
+            
+            cache.partialPlacements[proposal] = placement
+            return placement
         } else {
             // <+540>
-            assertUnimplemented()
+            // x21
+            var children: [ZStackSpatialLayout.PartialPlacement.Child] = []
+            
+            if !subviews.subviews.isEmpty {
+                // <+556>
+                let d11 = -d14
+                let d12: CGFloat = 0
+                
+                for subview in subviews.subviews {
+                    // <+624>
+                    // sp + 0x1a0 -> sp + 0x220
+                    let dimensions = subview.proxy.dimensions3D(in: proposal)
+                    var d9 = subview.priority
+                    var d0 = priority
+                    
+                    if d9 != d0 {
+                        // <+1696>
+                    } else {
+                        // <+980>
+                        if let value = dimensions[explicit: self.base.alignment.horizontal.key] {
+                            d9 = value
+                            // <+1292>
+                        } else {
+                            // <+1028>
+                            d9 = self.base.alignment.horizontal.key.id.defaultValue(in: ViewDimensions(dimensions))
+                            // <+1292>
+                        }
+                        
+                        // <+1292>
+                        let d10: CGFloat
+                        if let value = dimensions[explicit: self.base.alignment.vertical.key] {
+                            d10 = value
+                            // <+1600>
+                        } else {
+                            // <+1340>
+                            d10 = self.base.alignment.vertical.key.id.defaultValue(in: ViewDimensions(dimensions))
+                            // <+1600>
+                        }
+                        
+                        // <+1600>
+                        d0 = dimensions.size.value.width
+                        var d1 = dimensions.size.value.height
+                        var d2 = CGFloat.infinity
+                        let d3 = (d1 == d2) ? d12 : d10
+                        d2 = (d0 == d2) ? d12 : d9
+                        d2 = d0 - d2
+                        d0 = d1 - d3
+                        d1 = extents.unknown0
+                        d1 = (d1 <= d9) ? d9 : d1
+                        extents.unknown0 = d1
+                        d1 = extents.unknown1
+                        d1 = (d1 <= d10) ? d10 : d1
+                        extents.unknown1 = d1
+                        d15 = (d15 <= d2) ? d2 : d15
+                        d1 = extents.unknown3
+                        
+                        if !(d1 > d0) {
+                            extents.unknown3 = d0
+                        }
+                        
+                        // <+1696>
+                    }
+                    
+                    // <+1696>
+                    d9 = subview.priority
+                    let d10 = d14 + d11
+                    
+                    let child = ZStackSpatialLayout.PartialPlacement.Child(
+                        dimensions: dimensions,
+                        depthPlacement: d10,
+                        priority: d9
+                    )
+                    
+                    children.append(child)
+                }
+            }
+            
+            // <+2868>
+            var d1 = extents.unknown0
+            let d0 = extents.unknown3
+            let d8 = d15 + d1
+            d1 = extents.unknown1
+            d9 = d0 + d1
+            let d10 = x26
+            
+            let placement = ZStackSpatialLayout.PartialPlacement(
+                children: children,
+                volume: Size3D(width: d8, height: d9, depth: d10)
+            )
+            
+            cache.partialPlacements[proposal] = placement
+            return placement
         }
     }
 }
