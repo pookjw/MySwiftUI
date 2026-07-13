@@ -382,7 +382,11 @@ extension StackLayout {
                     rhsRangeMin = min
                 } else {
                     let min = unsafe header.pointee.proxies[rhs].lengthThatFits(
-                        ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                        ProposedViewSize(
+                            0,
+                            in: header.pointee.majorAxis,
+                            by: proposedSize[header.pointee.majorAxis == .horizontal ? .vertical : .horizontal]
+                        ),
                         in: header.pointee.majorAxis
                     )
                     unsafe majorAxisRangeCacheBuffer[rhs].min = min
@@ -396,7 +400,7 @@ extension StackLayout {
                     rhsRangeMax = max
                 } else {
                     let max = unsafe header.pointee.proxies[rhs].lengthThatFits(
-                        ProposedViewSize(.infinity, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                        ProposedViewSize(.infinity, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis == .horizontal ? .vertical : .horizontal]),
                         in: header.pointee.majorAxis
                     )
                     unsafe majorAxisRangeCacheBuffer[rhs].max = max
@@ -410,7 +414,7 @@ extension StackLayout {
                     lhsRangeMin = min
                 } else {
                     let min = unsafe header.pointee.proxies[lhs].lengthThatFits(
-                        ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                        ProposedViewSize(0, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis == .horizontal ? .vertical : .horizontal]),
                         in: header.pointee.majorAxis
                     )
                     unsafe majorAxisRangeCacheBuffer[lhs].min = min
@@ -424,7 +428,7 @@ extension StackLayout {
                     lhsRangeMax = max
                 } else {
                     let max = unsafe header.pointee.proxies[lhs].lengthThatFits(
-                        ProposedViewSize(.infinity, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis]),
+                        ProposedViewSize(.infinity, in: header.pointee.majorAxis, by: proposedSize[header.pointee.majorAxis == .horizontal ? .vertical : .horizontal]),
                         in: header.pointee.majorAxis
                     )
                     unsafe majorAxisRangeCacheBuffer[lhs].max = max
@@ -458,7 +462,7 @@ extension StackLayout {
                     ProposedViewSize(
                         0,
                         in: header.pointee.majorAxis,
-                        by: proposedSize[header.pointee.majorAxis]
+                        by: proposedSize[header.pointee.majorAxis == .horizontal ? .vertical : .horizontal]
                     ),
                     in: header.pointee.majorAxis
                 )

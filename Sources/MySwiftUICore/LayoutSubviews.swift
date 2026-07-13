@@ -683,7 +683,7 @@ package struct LayoutProxy : Equatable {
     }
     
     func volume(in proposedSize: _ProposedSize3D) -> Size3D {
-        assertUnimplemented()
+        return layoutComputer.volumeThatFits(proposedSize)
     }
     
     func size(in proposedSize: _ProposedSize) -> CGSize {

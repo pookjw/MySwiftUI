@@ -39,7 +39,7 @@ public import CoreGraphics
         }
     }
     
-    subscript(_ axis: Axis) -> CGFloat? {
+    subscript(axis: Axis) -> CGFloat? {
         get {
             switch axis {
             case .horizontal:

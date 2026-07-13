@@ -33,10 +33,14 @@ private func dumpFieldOffsets(of type: Any.Type, options: _EachFieldOptions) {
 }
 
 private func printFields(_ type: Any.Type, isClassType: Bool) {
-    let options: _EachFieldOptions = isClassType ? [.classType] : []
-    print(_typeName(type, qualified: true))
-    dumpFieldOffsets(of: type, options: options)
-    print("===")
+    func project<T>(key: T.Type) {
+        let options: _EachFieldOptions = isClassType ? [.classType] : []
+        print(_typeName(type, qualified: true), String(format: "(0x%lx)", MemoryLayout<T>.size))
+        dumpFieldOffsets(of: type, options: options)
+        print("===")
+    }
+    
+    _openExistential(type, do: project)
 }
 
 private func printFields(_ mangledName: String, isClassType: Bool) {

@@ -349,12 +349,13 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                 var i = 0
                 while true {
                     // <+3180>
-                    let priority = items[i].priority
+                    // sp + 0x88
+                    let priority_2 = items[i].priority
                     var x14 = i
                     for i2 in i..<count {
                         // <+3240>
                         let p2 = items[i2].priority
-                        if priority != p2 {
+                        if priority_2 != p2 {
                             // <+3280>
                             break
                         }
@@ -383,11 +384,45 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     }
                     
                     // <+3288>
-                    let d1 = items[i].minDepth
+                    let x9 = x14 &- i
+                    var d1 = items[i].minDepth
                     let d15 = d0 + d1
                     let d14 = depth_1
                     
                     // <+3340>
+                    let item = items[i]
+                    i &+= 1
+                    d0 = CGFloat(x9)
+                    d0 = d15 / d0
+                    d1 = 1
+                    let d11 = (d0 >= 0) ? d0 : d1
+                    
+                    // x26, x27, x24
+                    let volume = item.proxy.subview.proxy.volume(
+                        in: _ProposedSize3D(
+                            width: proposal.width,
+                            height: proposal.height,
+                            depth: d11
+                        )
+                    )
+                    
+                    // <+3556>
+                    // sp + 0x150
+                    let dimensions = item.proxy.subview.proxy.dimensions3D(
+                        in: _ProposedSize3D(
+                            width: proposal.width,
+                            height: proposal.height,
+                            depth: d11
+                        )
+                    )
+                    
+                    children[item.index].dimensions = dimensions
+                    d1 = priority
+                    d0 = priority_2
+                    children[item.index].priority = d0
+                    d0 = item.priority
+                    
+                    // <+3896>
                     assertUnimplemented()
                 }
             }
@@ -428,9 +463,9 @@ extension ZStackSpatialLayout {
 
 extension ZStackSpatialLayout.PartialPlacement {
     struct Child {
-        fileprivate private(set) var dimensions: ViewDimensions3D
-        fileprivate private(set) var depthPlacement: CGFloat
-        fileprivate private(set) var priority: Double
+        fileprivate var dimensions: ViewDimensions3D // 0x0
+        fileprivate var depthPlacement: CGFloat // 0x50
+        fileprivate var priority: Double // 0x58
     }
 }
 
