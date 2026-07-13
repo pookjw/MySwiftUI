@@ -283,14 +283,20 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             }
             .max() ?? 0
         
-        let d9 = d14 * CGFloat(subviews.subviews.count &- 1)
-        // sp + 0x68 / d15 (값 순서 다름)
-        let invalidValue = ZStackSpatialLayout.PlanarExtents.invalidValue
+        var d9 = d14 * CGFloat(subviews.subviews.count &- 1)
+        /*
+         unknown0 -> sp + 0x68
+         unknown1 -> sp + 0x78
+         unknown2 -> d15
+         unknown3 -> sp + 0x70
+         */
+        var invalidValue = ZStackSpatialLayout.PlanarExtents.invalidValue
+        var d15 = invalidValue.unknown2
         // x26
         let depth_1 = Size3D(width: 0, height: 0, depth: d9).depth
         
         // <+528>
-        if let d8 = copy_1.depth {
+        if var d8 = copy_1.depth {
             // <+2240>
             // x23
             let items = subviews
@@ -384,10 +390,11 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     }
                     
                     // <+3288>
+                    var sp0x60 = d15
                     let x9 = x14 &- i
                     var d1 = items[i].minDepth
-                    let d15 = d0 + d1
-                    let d14 = depth_1
+                    d15 = d0 + d1
+                    var d14 = depth_1
                     
                     // <+3340>
                     let item = items[i]
@@ -395,7 +402,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     d0 = CGFloat(x9)
                     d0 = d15 / d0
                     d1 = 1
-                    let d11 = (d0 >= 0) ? d0 : d1
+                    var d11 = (d0 >= 0) ? d0 : d1
                     
                     // x26, x27, x24
                     let volume = item.proxy.subview.proxy.volume(
@@ -405,6 +412,9 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                             depth: d11
                         )
                     )
+                    let d10 = volume.width
+                    d9 = volume.height
+                    d8 = volume.depth
                     
                     // <+3556>
                     // sp + 0x150
@@ -423,6 +433,140 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                     d0 = item.priority
                     
                     // <+3896>
+                    if d0 != d1 {
+                        // <+4032>
+                        // <+4236>
+                    } else {
+                        d11 = dimensions[self.base.alignment.horizontal.key]
+                        var d12 = dimensions[self.base.alignment.vertical.key]
+                        
+                        // <+3992>
+                        d0 = .infinity
+                        
+                        if d10 != d0 {
+                            // <+4052>
+                            d0 = .infinity
+                            if d9 != d0 {
+                                // <+4148>
+                                d0 = d12
+                                d1 = d11
+                                // <+4156>
+                                var d2 = invalidValue.unknown0
+                                d11 = (d2 <= d11) ? d11 : d2
+                                // <+4176>
+                                invalidValue.unknown0 = d11
+                                d2 = invalidValue.unknown1
+                                d12 = (d2 <= d12) ? d12 : d2
+                                d11 = d1
+                                // <+4196>
+                                d1 = d10 - d11
+                                d2 = sp0x60
+                                d2 = (d2 <= d1) ? d1 : d2
+                                sp0x60 = d2
+                                d0 = d9 - d0
+                                d1 = invalidValue.unknown3
+                                d1 = (d0 <= d0) ? d0 : d1
+                                invalidValue.unknown3 = d1
+                                invalidValue.unknown1 = d12
+                                // <+4236>
+                            } else {
+                                // <+4064>
+                                d0 = 0
+                                d1 = invalidValue.unknown0
+                                
+                                if d1 <= d11 {
+                                    // <+4276>
+                                    d1 = d11
+                                    // <+4176>
+                                    invalidValue.unknown0 = d11
+                                    var d2 = invalidValue.unknown1
+                                    d12 = (d2 <= d12) ? d12 : d2
+                                    d11 = d1
+                                    // <+4196>
+                                    d1 = d10 - d11
+                                    d2 = sp0x60
+                                    d2 = (d2 <= d1) ? d1 : d2
+                                    sp0x60 = d2
+                                    d0 = d9 - d0
+                                    d1 = invalidValue.unknown3
+                                    d1 = (d0 <= d0) ? d0 : d1
+                                    invalidValue.unknown3 = d1
+                                    invalidValue.unknown1 = d12
+                                    // <+4236>
+                                } else {
+                                    d1 = invalidValue.unknown1
+                                    
+                                    if d1 <= d12 {
+                                        // <+4288>
+                                        // <+4196>
+                                        d1 = d10 - d11
+                                        var d2 = sp0x60
+                                        d2 = (d2 <= d1) ? d1 : d2
+                                        sp0x60 = d2
+                                        d0 = d9 - d0
+                                        d1 = invalidValue.unknown3
+                                        d1 = (d0 <= d0) ? d0 : d1
+                                        invalidValue.unknown3 = d1
+                                        invalidValue.unknown1 = d12
+                                        // <+4236>
+                                    } else {
+                                        // <+4096>
+                                        d0 = d10 - d11
+                                        d1 = .infinity
+                                        var d2 = invalidValue.unknown3
+                                        d2 = (d2 <= d1) ? d1 : d2
+                                        invalidValue.unknown3 = d2
+                                        d1 = sp0x60
+                                        d1 = (d1 <= d0) ? d0 : d1
+                                        sp0x60 = d1
+                                        // <+4044>
+                                        // <+4236>
+                                    }
+                                }
+                            }
+                            
+                            // <+4236>
+                        } else {
+                            // <+4008>
+                            d1 = 0
+                            d0 = .infinity
+                            
+                            if d9 != d0 {
+                                // <+4140>
+                                d0 = d12
+                                // <+4156>
+                            } else {
+                                d0 = 0
+                                // <+4156>
+                            }
+                            
+                            // <+4156>
+                            var d2 = invalidValue.unknown0
+                            d11 = (d2 <= d11) ? d11 : d2
+                            // <+4176>
+                            invalidValue.unknown0 = d11
+                            d2 = invalidValue.unknown1
+                            d12 = (d2 <= d12) ? d12 : d2
+                            d11 = d1
+                            // <+4196>
+                            d1 = d10 - d11
+                            d2 = sp0x60
+                            d2 = (d2 <= d1) ? d1 : d2
+                            sp0x60 = d2
+                            d0 = d9 - d0
+                            d1 = invalidValue.unknown3
+                            d1 = (d0 <= d0) ? d0 : d1
+                            invalidValue.unknown3 = d1
+                            invalidValue.unknown1 = d12
+                            // <+4236>
+                        }
+                        
+                        // <+4236>
+                    }
+                    
+                    // <+4236>
+                    d14 = d14 + d8
+                    d0 = d15 - d8
                     assertUnimplemented()
                 }
             }
@@ -454,10 +598,10 @@ extension ZStackSpatialLayout {
             unknown3: -.infinity
         )
         
-        let unknown0: CGFloat
-        let unknown1: CGFloat
-        let unknown2: CGFloat
-        let unknown3: CGFloat
+        fileprivate var unknown0: CGFloat
+        fileprivate var unknown1: CGFloat
+        fileprivate let unknown2: CGFloat
+        fileprivate var unknown3: CGFloat
     }
 }
 
@@ -470,7 +614,7 @@ extension ZStackSpatialLayout.PartialPlacement {
 }
 
 struct ZStackLayout3D {
-    private var alignment: Alignment
+    fileprivate private(set) var alignment: Alignment
     fileprivate private(set) var spacing: CGFloat?
     
     init(alignment: Alignment, spacing: CGFloat?) {

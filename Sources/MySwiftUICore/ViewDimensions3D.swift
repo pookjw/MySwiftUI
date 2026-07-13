@@ -62,9 +62,8 @@ extension ViewDimensions3D {
     }
     
     subscript(_ key: AlignmentKey) -> CGFloat {
-        get {
-            assertUnimplemented()
-        }
+        let dimensions = ViewDimensions(self)
+        return key.id.defaultValue(in: dimensions)
     }
     
     subscript(explicit key: AlignmentKey) -> CGFloat? {

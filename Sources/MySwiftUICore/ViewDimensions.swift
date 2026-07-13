@@ -94,6 +94,7 @@ extension ViewDimensions {
     }
     
     init(_ dimensions3D: ViewDimensions3D) {
-        assertUnimplemented()
+        self.guideComputer = dimensions3D.guideComputer
+        self.size = ViewSize(dimensions3D.size)
     }
 }
