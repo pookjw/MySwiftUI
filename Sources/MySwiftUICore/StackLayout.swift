@@ -305,7 +305,7 @@ extension StackLayout {
         fileprivate var majorAxisRangeCache: StackLayout.MajorAxisRangeCache // 0x8
         fileprivate let distanceToPrevious: CGFloat // 0x28
         fileprivate var fittingOrder: Int // 0x30
-        fileprivate var geometry: ViewGeometry
+        fileprivate var geometry: ViewGeometry // 0x38
     }
     
     fileprivate struct MajorAxisRangeCache {
@@ -313,7 +313,7 @@ extension StackLayout {
         var max: CGFloat?
     }
     
-    fileprivate struct UnmanagedImplementation {
+    @unsafe fileprivate struct UnmanagedImplementation {
         let header: UnsafeMutablePointer<StackLayout.Header>
         let children: UnsafeMutableBufferPointer<StackLayout.Child>
         
@@ -889,192 +889,72 @@ extension StackLayout {
         func sizeChildrenGenerallyWithConcreteMajorProposal(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
             // $s7SwiftUI11StackLayoutV23UnmanagedImplementation33_00690F480F8D293143B214DBE6D72CD0LLV46sizeChildrenGenerallyWithConcreteMajorProposal2in05minorT8ForChildyAA16ProposedViewSizeV_12CoreGraphics7CGFloatVSgAC0X0AELLVXEtF03$s7a4UI11cd3V23e22Implementation33_00690ghijklm26LLV13placeChildren2inyAA16yz36SizeV_tF12CoreGraphics7CGFloatVSgAC5X10AELLVXEfU_AOTf1ncn_n
             /*
-             children -> x25, x21
+             size -> x0/w1/x2/w3 -> x24/_/x23/_
+             header -> x4 -> x22
+             children -> x5/x6 -> x21/x20
+             result of minorProposalForChild -> x7 -> sp + 0x10
              */
-            // w19
-            let majorAxis = unsafe header.pointee.majorAxis
-            unsafe assert(size[header.pointee.majorAxis] != nil)
-            let internalSpacing = unsafe header.pointee.internalSpacing
-            unsafe prioritize(children, proposedSize: size)
+            let w19 = unsafe self.header.pointee.majorAxis
+            do {
+                let w8 = (w19 == .horizontal) ? (size.width == nil) : (size.height == nil)
+                assert(!w8)
+            }
             
-            guard unsafe !children.isEmpty else {
+            // <+80>
+            var d8 = unsafe self.header.pointee.internalSpacing
+            unsafe self.prioritize(self.children, proposedSize: size)
+            
+            guard unsafe !self.children.isEmpty else {
                 return
             }
             
-            // x14
-            let fittingOrderBuffer = unsafe UnsafeMutableBufferProjectionPointer(children, \.fittingOrder)
-            // d0
-            let length = size[majorAxis]!
-            var d10 = length - internalSpacing
-            // d11 -> 0
-            var w15: Bool
-            // x8
-            var index = 0
-            repeat {
-                // x10 / x9 (offset from fittingOrderBuffer)
-                let fittingOrder = unsafe fittingOrderBuffer[index]
-                w15 = unsafe (index == children.count)
+            let d0 = (w19 == .horizontal) ? size.width! : size.height!
+            d8 = d0 - d8
+            let d9: CGFloat = 0
+            var x26 = 0
+            
+            while true {
+                // <+216>
+                let x9 = unsafe self.children[x26].fittingOrder
+                let d10 = unsafe self.children[x9].layoutPriority
+                var x28 = x26
+                var d11: CGFloat
                 
-                var otherIndex: Int
-                if !w15 {
-                    // d0
-                    let layoutPriority = unsafe children[fittingOrder].layoutPriority
+                while true {
+                    d11 = unsafe self.children[x26].layoutPriority
                     
-                    // x19
-                    otherIndex = index
-                    // d1
-                    var otherLayoutPriority: CGFloat
-                    while true {
-                        otherLayoutPriority = unsafe children[fittingOrderBuffer[otherIndex]].layoutPriority
-                        guard otherLayoutPriority == layoutPriority else {
-                            break
-                        }
-                        
-                        otherIndex &+= 1
-                        w15 = unsafe (children.count == otherIndex)
-                        
-                        if unsafe otherIndex == children.count {
-                            otherIndex = unsafe children.count
-                            break
-                        }
-                    }
-                } else {
-                    otherIndex = unsafe children.count
-                }
-                
-                // <+368>
-                assert(otherIndex >= index)
-                unsafe assert(otherIndex <= children.count)
-                
-                // <+388>
-                // x11
-                let firstFittingOrder = unsafe fittingOrderBuffer[0]
-                // d0
-                var total: CGFloat = 0
-                // x28
-                var dist: Int
-                if fittingOrder == firstFittingOrder {
-                    // <+404>
-                    var x10 = otherIndex
-                    while unsafe children.count != x10 {
-                        // d1
-                        let min = unsafe children[fittingOrderBuffer[x10]].majorAxisRangeCache.min!
-                        x10 &+= 1
-                        total += min
-                    }
-                    
-                    // <+476>
-                    d10 -= total
-                    dist = otherIndex &- index
-                    if dist == 0 {
-                        index = otherIndex
-                        continue
-                    }
-                } else {
-                    // <+492>
-                    if otherIndex != index {
-                        var x11 = index
-                        repeat {
-                            let min = unsafe children[fittingOrderBuffer[x11]].majorAxisRangeCache.min!
-                            x11 &+= 1
-                            total += min
-                        } while x11 != otherIndex
-                    }
-                    
-                    dist = otherIndex &- index
-                    if dist == 0 {
-                        index = otherIndex
-                        continue
-                    }
-                }
-                
-                // fittingOrder은 더 이상 x10이 아님
-                // <+588>
-                // w15 -> sp + 0x1c
-                var x22 = index
-                let sp40 = -otherIndex
-                let sp48 = unsafe -max(index, children.count)
-                assert(sp48 &+ x22 != 1)
-                // <+636>
-                repeat {
-                    // x21
-                    let fittingOrder2 = unsafe fittingOrderBuffer[x22]
-                    x22 &+= 1
-                    var d0 = d10 / CGFloat(dist)
-                    if d0 <= 0 {
-                        d0 = 0
-                    }
-                    // index는 더 이상 x8이 아님
-                    // sp + 0x60
-                    let size2 = unsafe ProposedViewSize(
-                        d0,
-                        in: header.pointee.majorAxis,
-                        by: minorProposalForChild(children[fittingOrder2])
-                    )
-                    let proxy = unsafe header.pointee.proxies[fittingOrder2]
-                    // d9/d8
-                    let sizeThatFits = proxy.sizeThatFits(size2)
-                    // d0
-                    var explicitAlignment = unsafe proxy.proxy.explicitAlignment(
-                        header.pointee.minorAxisAlignment,
-                        at: ViewSize(sizeThatFits, proposal: _ProposedSize(width: size.width, height: size.height))
-                    )
-                    if explicitAlignment == nil {
-                        let dimensions = ViewDimensions(
-                            guideComputer: proxy.proxy.layoutComputer,
-                            size: sizeThatFits,
-                            proposal: _ProposedSize(width: size.width, height: size.height)
-                        )
-                        
-                        explicitAlignment = unsafe header.pointee.minorAxisAlignment.id.defaultValue(in: dimensions)
-                    }
-                    
-                    // <+1264>
-                    let x20 = x22 &+ sp40
-                    var d1: CGFloat
-                    if explicitAlignment!.isNaN {
-                        d1 = .infinity
-                    } else {
-                        d1 = explicitAlignment!
-                    }
-                    
-                    explicitAlignment = -explicitAlignment!
-                    unsafe children[fittingOrder2].geometry = unsafe ViewGeometry(
-                        origin: CGPoint(0, in: header.pointee.majorAxis, by: explicitAlignment!),
-                        dimensions: ViewDimensions(
-                            guideComputer: proxy.proxy.layoutComputer,
-                            size: sizeThatFits,
-                            proposal: _ProposedSize(width: size.width, height: size.height)
-                        )
-                    )
-                    
-                    // <+1412>
-                    switch unsafe header.pointee.majorAxis {
-                    case .horizontal:
-                        d0 = unsafe children[fittingOrder2].geometry.dimensions.size.width
-                    case .vertical:
-                        d0 = unsafe children[fittingOrder2].geometry.dimensions.size.height
-                    }
-                    
-                    d0 = d10 - d0
-                    
-                    if d0.isNaN {
-                        d1 = d10
-                    } else {
-                        d1 = d0
-                    }
-                    
-                    d10 = d1
-                    
-                    if x20 == 0 {
+                    if d11 != d10 {
                         break
+                    } else {
+                        x28 &+= 1
+                        if unsafe self.children.count != x28 {
+                            continue
+                        } else {
+                            x28 = unsafe self.children.count
+                            break
+                        }
                     }
-                    
-                    dist &-= 1
-                } while true
+                }
                 
-                index = otherIndex
-            } while !w15
+                // <+316>
+                assert(!(x28 < x26))
+                unsafe assert(!(self.children.count < x28))
+                
+                let x10 = unsafe self.children[0].fittingOrder
+                
+                if x9 != x10 {
+                    // <+436>
+                    assertUnimplemented()
+                } else if unsafe x28 == self.children.count {
+                    // <+420>
+                    assertUnimplemented()
+                } else {
+                    // <+356>
+                    assertUnimplemented()
+                }
+                
+                assertUnimplemented()
+            }
         }
         
         func resize(_ child: inout StackLayout.Child, proposal: ProposedViewSize, proxy: LayoutSubview) {
