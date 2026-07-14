@@ -908,10 +908,10 @@ fileprivate struct AlignmentData {
     @inline(always) // 원래 없음
     mutating func asCurrent<T>(_ block: (UnsafeMutablePointer<AlignmentData>) -> T) -> T {
         return withUnsafeMutablePointer(to: &self) { pointer in
-            let oldLayoutData = _threadLayoutData()
-            _setThreadLayoutData(pointer)
-            let result = block(pointer)
-            _setThreadLayoutData(oldLayoutData)
+            let oldLayoutData = unsafe _threadLayoutData()
+            unsafe _setThreadLayoutData(pointer)
+            let result = unsafe block(pointer)
+            unsafe _setThreadLayoutData(oldLayoutData)
             return result
         }
     }

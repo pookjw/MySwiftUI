@@ -770,9 +770,9 @@ extension StackLayout {
             var d14: CGFloat = 0
             var d13: CGFloat = 0
             var d12: CGFloat = 0
-            var d15: CGFloat = 0
+            let d15: CGFloat = 0
             
-            for child in unsafe children {
+            for unsafe child in unsafe children {
                 // sp + 0x80
                 let copy = child
                 // w26
@@ -1075,6 +1075,10 @@ extension StackLayout {
                 
                 index = otherIndex
             } while !w15
+        }
+        
+        func resize(_ child: inout StackLayout.Child, proposal: ProposedViewSize, proxy: LayoutSubview) {
+            assertUnimplemented()
         }
     }
 }

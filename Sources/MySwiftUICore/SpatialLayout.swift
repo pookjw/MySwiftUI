@@ -1,4 +1,4 @@
-// _182E3E8D4B483E7956A2DBDA9F7535A2
+// 182E3E8D4B483E7956A2DBDA9F7535A2
 internal import CoreGraphics
 internal import Spatial
 internal import AttributeGraph
@@ -371,12 +371,64 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         return self.children.requiresTrueDepthLayout()
     }
     
-    func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat? {
-        assertUnimplemented()
+    mutating func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat? {
+        return self.explicitAlignment(
+            AlignmentKey3D(key: alignment, unknown0: false),
+            at: size
+        )
     }
     
-    fileprivate func explicitAlignment(_ alignment: AlignmentKey3D, at: ViewSize3D) -> CGFloat? {
-        assertUnimplemented()
+    fileprivate mutating func explicitAlignment(_ alignment: AlignmentKey3D, at size: ViewSize3D) -> CGFloat? {
+        /*
+         self -> x20 -> x21
+         L -> x2 -> x19
+         size -> x1 -> x20
+         alignment -> x2/w3 -> x24/w23
+         */
+        // x29 - 0x80
+        let copy_1 = size
+        // x29 - 0xc0
+        let copy_2 = size
+        
+        if !(self.cachedAlignmentVolume == copy_2) {
+            // <+104>
+            self.cachedAlignmentVolume = size
+            self.cachedAlignmentGeometry = []
+            self.cachedAlignment = Cache3()
+        }
+        
+        // <+176>
+        if let found = self.cachedAlignment.find(alignment.objectIdentifier) {
+            return found
+        }
+        
+        // <+280>
+        let newValue: CGFloat? = withUnsafeMutablePointer(to: &self) { pointer1 in
+            // $s7SwiftUI23ViewSpatialLayoutEngineV17explicitAlignment031_182E3E8D4B483E7956A2DBDA9F7535N0LL_2at12CoreGraphics7CGFloatVSgAA0H5Key3DV_AA0C6Size3DVtFAJSpyACyxGGXEfU_TA
+            /*
+             pointer1 -> x0 -> x26
+             copy_1 -> x1 -> x25
+             alignment -> x2/w3 -> x24/w23
+             */
+            var alignmentData = SpatialAlignmentData(flag: true, function: type(of: self), size: copy_1)
+            
+            return unsafe alignmentData.asCurrent { _ in
+                // $s7SwiftUI23ViewSpatialLayoutEngineV17explicitAlignment031_182E3E8D4B483E7956A2DBDA9F7535N0LL_2at12CoreGraphics7CGFloatVSgAA0H5Key3DV_AA0C6Size3DVtFAJSpyACyxGGXEfU_AJSpyAA0dH4DataAELLVGXEfU_
+                /*
+                 _ -> x0
+                 copy_1 -> x1 -> x20
+                 alignment -> x2/w3 -> x27/w28
+                 pointer1 -> x4 -> x24
+                 */
+                // <+176>
+                print(copy_1.value)
+                print(copy_1.proposal)
+                assertUnimplemented()
+            }
+        }
+        
+        self.cachedAlignment.put(alignment.objectIdentifier, value: newValue)
+        return newValue
     }
     
     func explicitDepthAlignment(_ alignment: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
@@ -401,7 +453,7 @@ protocol SpatialLayoutEngine {
     
     mutating func volumeThatFits(_ proposedSize: _ProposedSize3D) -> Size3D
     func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D]
-    func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat?
+    mutating func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat?
     func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat?
     func layoutPriority() -> Double
     func ignoresAutomaticPadding() -> Bool
@@ -524,8 +576,25 @@ struct StashedDepthLayoutEngine<E : SpatialLayoutEngine> : LayoutEngine {
         preconditionFailure("implement or don't call me!")
     }
     
-    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-        assertUnimplemented()
+    mutating func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        return LayoutDepthData.withCurrent { depth in
+            // $s7SwiftUI24StashedDepthLayoutEngineV17explicitAlignment_2at12CoreGraphics7CGFloatVSgAA0H3KeyV_AA8ViewSizeVtFA2IXEfU_
+            let volume = self.base.volumeThatFits(
+                _ProposedSize3D(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    depth: depth
+                )
+            )
+            
+            return self.base.explicitAlignment(
+                of: alignmentKey,
+                at: ViewSize3D(
+                    viewSize,
+                    depth: ViewDepth(volume.depth, proposal: depth)
+                )
+            )
+        }
     }
     
     func childPlacement(at viewSize: ViewSize) -> _Placement {
@@ -562,5 +631,33 @@ struct ViewVolumeCache {
 }
 
 struct AlignmentKey3D {
-    // TODO
+    fileprivate let key: AlignmentKey
+    fileprivate let unknown0: Bool
+    
+    var objectIdentifier: ObjectIdentifier {
+        if self.unknown0 {
+            // <+32>
+            return unsafe ObjectIdentifier(unsafeBitCast(self.key, to: DepthAlignmentKey.self).id)
+        } else {
+            // <+108>
+            return ObjectIdentifier(self.key.id)
+        }
+    }
+}
+
+fileprivate struct SpatialAlignmentData {
+    let flag: Bool
+    let function: (any DefaultSpatialAlignmentFunctions.Type)
+    let size: ViewSize3D
+    
+    @inline(always) // 원래 없음
+    mutating func asCurrent<T>(_ block: (UnsafeMutablePointer<SpatialAlignmentData>) -> T) -> T {
+        return withUnsafeMutablePointer(to: &self) { pointer in
+            let oldLayoutData = unsafe _threadLayoutData()
+            unsafe _setThreadLayoutData(pointer)
+            let result = unsafe block(pointer)
+            unsafe _setThreadLayoutData(oldLayoutData)
+            return result
+        }
+    }
 }

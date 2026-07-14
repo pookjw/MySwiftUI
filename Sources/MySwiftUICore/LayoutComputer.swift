@@ -712,4 +712,10 @@ extension StatefulRule where Value == LayoutComputer {
             unsafe current = unsafe value
         }
     }
+    
+    @inline(always) // 원래 없음
+    static func withCurrent<T>(_ block: (CGFloat?) throws -> T) rethrows -> T {
+        let value = unsafe LayoutDepthData.current?.pointee.depthProposal
+        return try block(value)
+    }
 }
