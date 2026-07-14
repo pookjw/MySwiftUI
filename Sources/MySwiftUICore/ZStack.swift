@@ -152,10 +152,6 @@ extension _ZStackLayout : DerivedSpatialLayout {
         assertUnimplemented()
     }
     
-    nonisolated func explicitAlignment(of guide: HorizontalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> CGFloat? {
-        assertUnimplemented()
-    }
-    
     nonisolated func explicitAlignment(of guide: VerticalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> CGFloat? {
         assertUnimplemented()
     }

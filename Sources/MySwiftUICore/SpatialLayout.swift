@@ -410,9 +410,14 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
              copy_1 -> x1 -> x25
              alignment -> x2/w3 -> x24/w23
              */
-            var alignmentData = SpatialAlignmentData(flag: true, function: type(of: self), size: copy_1)
+            var alignmentData = unsafe SpatialAlignmentData(
+                flag: true,
+                function: type(of: self),
+                data: UnsafeMutableRawPointer(pointer1),
+                size: copy_1
+            )
             
-            return unsafe alignmentData.asCurrent { _ in
+            return unsafe alignmentData.asCurrent { _ -> CGFloat? in
                 // $s7SwiftUI23ViewSpatialLayoutEngineV17explicitAlignment031_182E3E8D4B483E7956A2DBDA9F7535N0LL_2at12CoreGraphics7CGFloatVSgAA0H5Key3DV_AA0C6Size3DVtFAJSpyACyxGGXEfU_AJSpyAA0dH4DataAELLVGXEfU_
                 /*
                  _ -> x0
@@ -421,7 +426,54 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
                  pointer1 -> x4 -> x24
                  */
                 // <+176>
-                assertUnimplemented()
+                if alignment.unknown0 {
+                    let depthKey = unsafe unsafeBitCast(alignment.key, to: DepthAlignmentKey.self)
+                    
+                    return unsafe pointer1.pointee.layout.explicitAlignment(
+                        of: DepthAlignment(depthKey.id),
+                        in: .zero,
+                        proposal: copy_1.proposal,
+                        subviews: SpatialLayoutSubviews(
+                            subviews: LayoutSubviews(
+                                context: pointer1.pointee.children.context,
+                                attributes: pointer1.pointee.children.attributes,
+                                layoutDirection: pointer1.pointee.layoutDirection
+                            )
+                        ),
+                        cache: &pointer1.pointee.cache
+                    )
+                } else {
+                    switch alignment.key.axis {
+                    case .horizontal:
+                        return unsafe pointer1.pointee.layout.explicitAlignment(
+                            of: HorizontalAlignment(alignment.key.id),
+                            in: .zero,
+                            proposal: copy_1.proposal,
+                            subviews: SpatialLayoutSubviews(
+                                subviews: LayoutSubviews(
+                                    context: pointer1.pointee.children.context,
+                                    attributes: pointer1.pointee.children.attributes,
+                                    layoutDirection: pointer1.pointee.layoutDirection
+                                )
+                            ),
+                            cache: &pointer1.pointee.cache
+                        )
+                    case .vertical:
+                        return unsafe pointer1.pointee.layout.explicitAlignment(
+                            of: VerticalAlignment(alignment.key.id),
+                            in: .zero,
+                            proposal: copy_1.proposal,
+                            subviews: SpatialLayoutSubviews(
+                                subviews: LayoutSubviews(
+                                    context: pointer1.pointee.children.context,
+                                    attributes: pointer1.pointee.children.attributes,
+                                    layoutDirection: pointer1.pointee.layoutDirection
+                                )
+                            ),
+                            cache: &pointer1.pointee.cache
+                        )
+                    }
+                }
             }
         }
         
@@ -438,11 +490,20 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     }
     
     fileprivate static func defaultAlignmen(_ alignment: AlignmentKey3D, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
+        /*
+         alignment -> x0
+         volume -> x1
+         data -> x2
+         */
         assertUnimplemented()
     }
     
     static func defaultAlignment(_ alignment: AlignmentKey, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
-        assertUnimplemented()
+        return unsafe defaultAlignmen(
+            AlignmentKey3D(key: alignment, unknown0: false),
+            volume: volume,
+            data: data
+        )
     }
 }
 
@@ -629,8 +690,8 @@ struct ViewVolumeCache {
 }
 
 struct AlignmentKey3D {
-    fileprivate let key: AlignmentKey
-    fileprivate let unknown0: Bool
+    let key: AlignmentKey
+    let unknown0: Bool
     
     var objectIdentifier: ObjectIdentifier {
         if self.unknown0 {
@@ -644,9 +705,10 @@ struct AlignmentKey3D {
 }
 
 fileprivate struct SpatialAlignmentData {
-    let flag: Bool
-    let function: (any DefaultSpatialAlignmentFunctions.Type)
-    let size: ViewSize3D
+    let flag: Bool // 0x0
+    let function: (any DefaultSpatialAlignmentFunctions.Type) // 0x8
+    let data: UnsafeMutableRawPointer
+    let size: ViewSize3D // 0x20
     
     @inline(always) // 원래 없음
     mutating func asCurrent<T>(_ block: (UnsafeMutablePointer<SpatialAlignmentData>) -> T) -> T {
@@ -657,5 +719,30 @@ fileprivate struct SpatialAlignmentData {
             unsafe _setThreadLayoutData(oldLayoutData)
             return result
         }
+    }
+}
+
+protocol DerivedSpatialLayout : SpatialLayout {
+    associatedtype SpatialBase/* : SpatialLayout*/
+}
+
+extension DerivedSpatialLayout {
+    nonisolated func explicitAlignment(of guide: HorizontalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> CGFloat? {
+        guard let data = _threadLayoutData() else {
+            return nil
+        }
+        
+        
+        let ptr = unsafe data
+            .assumingMemoryBound(to: SpatialAlignmentData.self)
+        
+        return unsafe ptr
+            .pointee
+            .function
+            .defaultAlignment(
+                guide.key,
+                volume: ptr.pointee.size,
+                data: ptr.pointee.data
+            )
     }
 }
