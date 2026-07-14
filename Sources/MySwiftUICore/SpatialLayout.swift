@@ -100,7 +100,7 @@ extension SpatialLayout where Self == _ZStackLayout {
             let options = inputs.base.options
             let requests = !options.intersection([.viewRequestsLayoutComputer, .viewNeedsGeometry]).isEmpty
             
-            if (requests || inputs.preferences.contains(DisplayList.Key.self, includeHostPreferences: false)) {
+            if unsafe (requests || inputs.preferences.contains(DisplayList.Key.self, includeHostPreferences: false)) {
                 // <+184>
                 // x29 - 0xd0
                 let layoutComputer = StaticSpatialLayoutComputer<_ZStackLayout>(
@@ -373,7 +373,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     
     mutating func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat? {
         return self.explicitAlignment(
-            AlignmentKey3D(key: alignment, unknown0: false),
+            AlignmentKey3D.alignment(alignment),
             at: size
         )
     }
@@ -426,27 +426,12 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
                  pointer1 -> x4 -> x24
                  */
                 // <+176>
-                if alignment.unknown0 {
-                    let depthKey = unsafe unsafeBitCast(alignment.key, to: DepthAlignmentKey.self)
-                    
-                    return unsafe pointer1.pointee.layout.explicitAlignment(
-                        of: DepthAlignment(depthKey.id),
-                        in: .zero,
-                        proposal: copy_1.proposal,
-                        subviews: SpatialLayoutSubviews(
-                            subviews: LayoutSubviews(
-                                context: pointer1.pointee.children.context,
-                                attributes: pointer1.pointee.children.attributes,
-                                layoutDirection: pointer1.pointee.layoutDirection
-                            )
-                        ),
-                        cache: &pointer1.pointee.cache
-                    )
-                } else {
-                    switch alignment.key.axis {
+                switch alignment {
+                case .alignment(let key):
+                    switch key.axis {
                     case .horizontal:
                         return unsafe pointer1.pointee.layout.explicitAlignment(
-                            of: HorizontalAlignment(alignment.key.id),
+                            of: HorizontalAlignment(key.id),
                             in: .zero,
                             proposal: copy_1.proposal,
                             subviews: SpatialLayoutSubviews(
@@ -460,7 +445,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
                         )
                     case .vertical:
                         return unsafe pointer1.pointee.layout.explicitAlignment(
-                            of: VerticalAlignment(alignment.key.id),
+                            of: VerticalAlignment(key.id),
                             in: .zero,
                             proposal: copy_1.proposal,
                             subviews: SpatialLayoutSubviews(
@@ -473,6 +458,20 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
                             cache: &pointer1.pointee.cache
                         )
                     }
+                case .depthAlignment(let depthKey):
+                    return unsafe pointer1.pointee.layout.explicitAlignment(
+                        of: DepthAlignment(depthKey.id),
+                        in: .zero,
+                        proposal: copy_1.proposal,
+                        subviews: SpatialLayoutSubviews(
+                            subviews: LayoutSubviews(
+                                context: pointer1.pointee.children.context,
+                                attributes: pointer1.pointee.children.attributes,
+                                layoutDirection: pointer1.pointee.layoutDirection
+                            )
+                        ),
+                        cache: &pointer1.pointee.cache
+                    )
                 }
             }
         }
@@ -491,16 +490,21 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     
     fileprivate static func defaultAlignmen(_ alignment: AlignmentKey3D, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
         /*
-         alignment -> x0
+         alignment -> x0 -> sp + 0xf0 / w24
          volume -> x1
-         data -> x2
+         data -> x2 -> x20
          */
+        guard volume.value.isFinite else {
+            return nil
+        }
+        
+        // <+116>
         assertUnimplemented()
     }
     
     static func defaultAlignment(_ alignment: AlignmentKey, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
         return unsafe defaultAlignmen(
-            AlignmentKey3D(key: alignment, unknown0: false),
+            AlignmentKey3D.alignment(alignment),
             volume: volume,
             data: data
         )
@@ -689,22 +693,25 @@ struct ViewVolumeCache {
     }
 }
 
-struct AlignmentKey3D {
-    let key: AlignmentKey
-    let unknown0: Bool
+/*
+ key -> 0x0
+ case -> 0x8 (size: 0x1)
+ */
+enum AlignmentKey3D {
+    case alignment(AlignmentKey) // 0x0
+    case depthAlignment(DepthAlignmentKey) // 0x1
     
     var objectIdentifier: ObjectIdentifier {
-        if self.unknown0 {
-            // <+32>
-            return unsafe ObjectIdentifier(unsafeBitCast(self.key, to: DepthAlignmentKey.self).id)
-        } else {
-            // <+108>
-            return ObjectIdentifier(self.key.id)
+        switch self {
+        case .alignment(let key):
+            return ObjectIdentifier(key.id)
+        case .depthAlignment(let key):
+            return ObjectIdentifier(key.id)
         }
     }
 }
 
-fileprivate struct SpatialAlignmentData {
+@unsafe fileprivate struct SpatialAlignmentData {
     let flag: Bool // 0x0
     let function: (any DefaultSpatialAlignmentFunctions.Type) // 0x8
     let data: UnsafeMutableRawPointer
@@ -728,7 +735,7 @@ protocol DerivedSpatialLayout : SpatialLayout {
 
 extension DerivedSpatialLayout {
     nonisolated func explicitAlignment(of guide: HorizontalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> CGFloat? {
-        guard let data = _threadLayoutData() else {
+        guard let data = unsafe _threadLayoutData() else {
             return nil
         }
         
