@@ -887,13 +887,13 @@ extension StackLayout {
         }
         
         func sizeChildrenGenerallyWithConcreteMajorProposal(in size: ProposedViewSize, minorProposalForChild: (StackLayout.Child) -> CGFloat?) {
-            // $s7SwiftUI11StackLayoutV23UnmanagedImplementation33_00690F480F8D293143B214DBE6D72CD0LLV46sizeChildrenGenerallyWithConcreteMajorProposal2in05minorT8ForChildyAA16ProposedViewSizeV_12CoreGraphics7CGFloatVSgAC0X0AELLVXEtF03$s7a4UI11cd3V23e22Implementation33_00690ghijklm26LLV13placeChildren2inyAA16yz36SizeV_tF12CoreGraphics7CGFloatVSgAC5X10AELLVXEfU_AOTf1ncn_n
             /*
              size -> x0/w1/x2/w3 -> x24/_/x23/_
              header -> x4 -> x22
              children -> x5/x6 -> x21/x20
              result of minorProposalForChild -> x7 -> sp + 0x10
              */
+            let count = unsafe self.children.count
             let w19 = unsafe self.header.pointee.majorAxis
             do {
                 let w8 = (w19 == .horizontal) ? (size.width == nil) : (size.height == nil)
@@ -908,57 +908,231 @@ extension StackLayout {
                 return
             }
             
-            let d0 = (w19 == .horizontal) ? size.width! : size.height!
+            var d0 = (w19 == .horizontal) ? size.width! : size.height!
             d8 = d0 - d8
             let d9: CGFloat = 0
             var x26 = 0
+            var flag = true
+            var x9: Int!
+            var x19: Int!
+            var x28: Int!
+            var d10: CGFloat!
+            var d11: CGFloat!
             
             while true {
-                // <+216>
-                let x9 = unsafe self.children[x26].fittingOrder
-                let d10 = unsafe self.children[x9].layoutPriority
-                var x28 = x26
-                var d11: CGFloat
-                
-                while true {
-                    d11 = unsafe self.children[x26].layoutPriority
+                if flag {
+                    // <+216>
+                    x9 = unsafe self.children[x26].fittingOrder
+                    d10 = unsafe self.children[x9].layoutPriority
+                    x28 = x26
                     
-                    if d11 != d10 {
-                        break
-                    } else {
-                        x28 &+= 1
-                        if unsafe self.children.count != x28 {
-                            continue
-                        } else {
-                            x28 = unsafe self.children.count
+                    while true {
+                        let x10 = unsafe self.children[x28].fittingOrder
+                        d11 = unsafe self.children[x10].layoutPriority
+                        
+                        if d11 != d10 {
                             break
+                        } else {
+                            x28 &+= 1
+                            if count != x28 {
+                                continue
+                            } else {
+                                x28 = count
+                                break
+                            }
                         }
                     }
+                    
+                    // <+316>
+                    assert(!(x28 < x26))
+                    assert(!(count < x28))
+                    
+                    var x10 = unsafe self.children[0].fittingOrder
+                    d0 = 0
+                    
+                    if x9 != x10 {
+                        // <+436>
+                        if x28 == x26 {
+                            // <+508>
+                        } else {
+                            // <+444>
+                            var x9 = x26
+                            
+                            while true {
+                                x10 = unsafe self.children[x9].fittingOrder
+                                let d1 = unsafe self.children[x10].majorAxisRangeCache.min!
+                                x9 &+= 1
+                                d0 = d0 + d1
+                                
+                                if x28 != x9 {
+                                    continue
+                                } else {
+                                    break
+                                }
+                            }
+                            
+                            // <+508>
+                        }
+                        
+                        // <+508>
+                        d8 = d8 + d0
+                        x19 = x28 &- x26
+                        
+                        if x28 == x26 {
+                            // <+204>
+                            x26 = x28
+                            if d11 == d10 {
+                                // <+896>
+                                return
+                            } else {
+                                // <+216>
+                                continue
+                            }
+                        } else {
+                            // <+520>
+                        }
+                    } else if x28 == count {
+                        // <+420>
+                        d8 = d8 - d0
+                        x19 = x28 &- x26
+                        
+                        if x28 == x26 {
+                            // <+204>
+                            x26 = x28
+                            if d11 == d10 {
+                                // <+896>
+                                return
+                            } else {
+                                // <+216>
+                                continue
+                            }
+                        } else {
+                            // <+520>
+                        }
+                    } else {
+                        // <+356>
+                        x9 = x28
+                        
+                        while true {
+                            x10 = unsafe self.children[x9].fittingOrder
+                            x9 &+= 1
+                            let d1 = unsafe self.children[x10].majorAxisRangeCache.min!
+                            d0 = d0 + d1
+                            
+                            if count != x9 {
+                                continue
+                            } else {
+                                break
+                            }
+                        }
+                        
+                        // <+420>
+                        d8 = d8 - d0
+                        x19 = x28 &- x26
+                        
+                        if x28 == x26 {
+                            // <+204>
+                            x26 = x28
+                            if d11 == d10 {
+                                // <+896>
+                                return
+                            } else {
+                                // <+216>
+                                continue
+                            }
+                        } else {
+                            // <+520>
+                        }
+                    }
+                    
+                    // <+520>
+                    assert(!(x28 <= x26))
                 }
                 
-                // <+316>
-                assert(!(x28 < x26))
-                unsafe assert(!(self.children.count < x28))
+                // <+524>
+                assert(!(count == x26))
                 
-                let x10 = unsafe self.children[0].fittingOrder
+                d0 = CGFloat(x19)
+                d0 = d8 / d0
+                d0 = (d0 <= 0) ? d9 : d0
                 
-                if x9 != x10 {
-                    // <+436>
-                    assertUnimplemented()
-                } else if unsafe x28 == self.children.count {
-                    // <+420>
-                    assertUnimplemented()
+                let proposal: ProposedViewSize
+                switch unsafe self.header.pointee.majorAxis {
+                case .horizontal:
+                    // <+576>
+                    proposal = unsafe ProposedViewSize(
+                        width: d0,
+                        height: minorProposalForChild(self.children[x26])
+                    )
+                case .vertical:
+                    // <+560>
+                    proposal = unsafe ProposedViewSize(
+                        width: minorProposalForChild(self.children[x26]),
+                        height: d0
+                    )
+                }
+                
+                // <+592>
+                let x8_1 = unsafe self.children[x26].fittingOrder
+                let subview = unsafe self.header.pointee.proxies[x8_1]
+                unsafe self.resize(
+                    &self.children[x8_1],
+                    proposal: proposal,
+                    proxy: subview
+                )
+                
+                // <+828>
+                let d12: CGFloat
+                switch unsafe self.header.pointee.majorAxis {
+                case .horizontal:
+                    d12 = unsafe self.children[x8_1].geometry.dimensions.size.value.width
+                case .vertical:
+                    d12 = unsafe self.children[x8_1].geometry.dimensions.size.value.height
+                }
+                
+                d0 = d8 - d12
+                d8 = d0.isNaN ? d8 : d0
+                
+                x19 &-= 1
+                if x19 == 0 {
+                    // <+204>
+                    flag = true
+                    x26 = x28
+                    if d11 == d10 {
+                        break
+                    } else {
+                        continue
+                    }
                 } else {
-                    // <+356>
-                    assertUnimplemented()
+                    x26 &+= 1
+                    // <+524>
+                    flag = false
+                    continue
                 }
-                
-                assertUnimplemented()
             }
         }
         
         func resize(_ child: inout StackLayout.Child, proposal: ProposedViewSize, proxy: LayoutSubview) {
-            assertUnimplemented()
+            /*
+             child -> x0 -> x19
+             proposal -> x1/w2/x3/w4
+             proxy -> x5
+             header -> x6 -> x21
+             */
+            let dimensions = proxy.dimensions(in: proposal)
+            var d0 = unsafe dimensions[self.header.pointee.minorAxisAlignment]
+            d0 = d0.isNaN ? .infinity : d0
+            
+            let w8 = unsafe self.header.pointee.majorAxis
+            d0 = -d0
+            let d1: CGFloat = 0
+            let d12 = (w8 == .horizontal) ? d1 : d0
+            let d13 = (w8 == .horizontal) ? d0 : d1
+            
+            child.geometry = ViewGeometry(
+                origin: CGPoint(x: d12, y: d13),
+                dimensions: dimensions
+            )
         }
     }
 }

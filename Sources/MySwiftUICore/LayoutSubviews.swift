@@ -110,7 +110,7 @@ public struct LayoutSubview : Equatable {
     }
     
     public func dimensions(in proposal: ProposedViewSize) -> ViewDimensions {
-        assertUnimplemented()
+        return proxy.dimensions(in: _ProposedSize(width: proposal.width, height: proposal.height))
     }
     
     public var spacing: ViewSpacing {

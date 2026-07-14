@@ -421,8 +421,6 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
                  pointer1 -> x4 -> x24
                  */
                 // <+176>
-                print(copy_1.value)
-                print(copy_1.proposal)
                 assertUnimplemented()
             }
         }
