@@ -1011,9 +1011,7 @@ extension ViewGraph {
                 d0 = self._interval
                 let d1 = (1.0 / 60.0)
                 
-                if d0 <= d1 {
-                    // <+100>
-                } else {
+                if d0 > d1 {
                     self._interval = .infinity
                     // <+100>
                 }

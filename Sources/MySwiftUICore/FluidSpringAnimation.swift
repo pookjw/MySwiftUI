@@ -32,12 +32,10 @@ struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodab
         var springState = context.springState
         d0 = d13
         
-        if (d15 <= 0) || (springState.blendInterval == 0) {
-            // <+556>
-        } else {
+        if (d15 > 0) && (springState.blendInterval != 0) {
             // <+488>
             let d1 = springState.blendInterval
-            var d0 = springState.blendStart
+            d0 = springState.blendStart
             d0 = d8 - d0
             d0 = d0 / d15
             let d2: Double = 1.0
@@ -71,14 +69,12 @@ struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodab
         }
         
         // <+708>
-        let d2: Double = 45000
+        let d2: Double = 45000.nextDown
         var d9 = (d1 > d2) ? d2 : d1
         d1 = springState.startTime
         d1 = d8 - d1
         
-        if d0 > d1 {
-            // <+756>
-        } else {
+        if d0 <= d1 {
             // <+748>
             context.isLogicallyComplete = true
             // <+756>
@@ -89,9 +85,7 @@ struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodab
         d0 = d8 - d14
         d1 = 1
         
-        if d0 <= d1 {
-            // <+808>
-        } else {
+        if d0 > d1 {
             // <+788>
             d0 = -1.0 / 60.0
             d14 = d8 + d0
@@ -208,7 +202,7 @@ struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodab
         d0 = (d8 <= d0) ? d0 : d8
         d1 = 0.0036
         
-        if d0 <= d1 {
+        if !(d0 > d1) {
             // <+1884>
             // springState -> x28 -> x29 - 0xc8
             // x28 (x29 - 0x150)
@@ -217,7 +211,7 @@ struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodab
             x28.scale(by: d0)
             d0 = x28.magnitudeSquared
             
-            if d0 <= 0 {
+            if !(d0 > 0) {
                 // <+2096>
                 return nil
             } else {

@@ -815,9 +815,7 @@ final class AnimatorState<Value : VectorArithmetic> {
         var d1 = animationFrameInterval
         var d0: Double = 0
         
-        if d1 <= 0 {
-            // <+944>
-        } else {
+        if d1 > 0 {
             // <+880>
             d0 = 240
             d0 = d1 * d0
@@ -1011,7 +1009,7 @@ final class AnimatorState<Value : VectorArithmetic> {
         // w20/w22
         let reason = self.reason
         d0 = d8
-        viewGraph_1.nextUpdate.views.interval(d0, reason: reason)
+        viewGraph_2.nextUpdate.views.interval(d0, reason: reason)
     }
     
     func updateListeners(isLogicallyComplete: Bool, time: Double, environment: Attribute<EnvironmentValues>?) {
