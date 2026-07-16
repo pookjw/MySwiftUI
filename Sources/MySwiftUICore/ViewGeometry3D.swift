@@ -5,7 +5,8 @@ struct ViewGeometry3D {
     var dimensions: ViewDimensions3D
     
     init(origin: ViewOrigin3D, dimensions: ViewDimensions3D) {
-        assertUnimplemented()
+        self.origin = origin
+        self.dimensions = dimensions
     }
     
     func finalizeLayoutDirection(_: LayoutDirection, parentSize: Size3D) {
@@ -13,7 +14,7 @@ struct ViewGeometry3D {
     }
     
     var isInvalid: Bool {
-        assertUnimplemented()
+        return self.origin.value.x.isNaN
     }
     
     var frame: Rect3D {
@@ -32,9 +33,10 @@ struct ViewGeometry3D {
         }
     }
     
-    static let invalidValue: ViewGeometry3D = {
-        assertUnimplemented()
-    }()
+    static let invalidValue = ViewGeometry3D(
+        origin: .invalidValue,
+        dimensions: .invalidValue
+    )
     
     static let zero: ViewGeometry3D = {
         assertUnimplemented()

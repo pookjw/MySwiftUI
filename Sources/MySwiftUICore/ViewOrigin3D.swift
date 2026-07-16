@@ -5,19 +5,23 @@ struct ViewOrigin3D {
     var origin2D: CGPoint
     var depthOrigin: ViewDepthOrigin
     
-    init(_ size: Size3D) {
-        assertUnimplemented()
+    init(_ point: Point3D) {
+        self.origin2D = CGPoint(x: point.x, y: point.z)
+        self.depthOrigin = ViewDepthOrigin(point.z)
     }
     
     var value: Point3D {
         get {
-            assertUnimplemented()
+            return Point3D(
+                x: self.origin2D.x,
+                y: self.origin2D.y,
+                z: self.depthOrigin.value
+            )
         }
         set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
+            self.origin2D.x = newValue.x
+            self.origin2D.y = newValue.y
+            self.depthOrigin.value = newValue.z
         }
     }
     
@@ -43,5 +47,9 @@ struct ViewOrigin3D {
         _modify {
             assertUnimplemented()
         }
+    }
+    
+    static var invalidValue: ViewOrigin3D {
+        return ViewOrigin3D(Point3D(x: Double.nan, y: Double.nan, z: Double.nan))
     }
 }

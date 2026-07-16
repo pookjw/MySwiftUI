@@ -442,7 +442,69 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
             
             for i in 0..<count {
                 // <+436>
-                assertUnimplemented()
+                guard unsafe pointer.pointee.geometries[i].isInvalid else {
+                    continue
+                }
+                
+                // x19 + 0x50 -> x19 + 0xf0
+                let dimensions3D = self.children[i].dimensions3D(in: proposal)
+                
+                // <+584>
+                var d0: CGFloat
+                var d1: CGFloat
+                var d2: CGFloat
+                var d3: CGFloat
+                let d4: CGFloat
+                let d5: CGFloat
+                do {
+                    let origin = unsafe pointer.pointee.origin
+                    d0 = origin.x
+                    d1 = origin.y
+                    d2 = origin.z
+                    
+                    let size = unsafe pointer.pointee.size
+                    d3 = size.width
+                    d4 = size.height
+                    d5 = size.depth
+                }
+                
+                d3 = d3 * 0.5
+                d0 = d0 + d3
+                d3 = d4 * 0.5
+                d1 = d1 + d3
+                d3 = d5 * 0.5
+                d2 = d2 + d3
+                
+                // x19 + 0x50 -> x19 + 0x40 / d9
+                let point_2 = Point3D(x: d0, y: d1, z: d2)
+                let halfSize = dimensions3D.size.value * 0.5
+                
+                // x19 + 0xc0
+                let point_3 = Point3D(
+                    vector: simd_double3(
+                        halfSize.width,
+                        halfSize.height,
+                        halfSize.depth
+                    )
+                )
+                
+                // x19 + 0xc0
+                let point_4 = Point3D(
+                    vector: simd_double3(
+                        point_2.x - point_3.x,
+                        point_2.y - point_3.y,
+                        point_2.z - point_3.z
+                    )
+                )
+                
+                unsafe pointer.pointee.setGeometry3D(
+                    ViewGeometry3D(
+                        origin: ViewOrigin3D(point_4),
+                        dimensions: dimensions3D
+                    ),
+                    at: i,
+                    layoutDirection: .leftToRight
+                )
             }
         }
         
@@ -911,6 +973,10 @@ enum AlignmentKey3D {
             unsafe _setThreadLayoutData(oldLayoutData)
             return result
         }
+    }
+    
+    func setGeometry3D(_: ViewGeometry3D, at: Int, layoutDirection: LayoutDirection) {
+        assertUnimplemented()
     }
 }
 
