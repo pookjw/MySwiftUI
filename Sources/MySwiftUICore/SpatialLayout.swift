@@ -362,15 +362,91 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         return self.preferredSpacing!
     }
     
-    func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D] {
+    mutating func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D] {
         /*
          self -> x20 -> x19
+         L -> x1 -> x21
          size -> x0
          origin -> d0/d1/d2
          */
         // x29 - 0xf0
         let copy_1 = size
-        assertUnimplemented()
+        // sp + 0x8
+        let count = self.children.count
+        
+        if
+            (self.cachedAlignmentVolume == copy_1) &&
+            origin.isZero &&
+            self.cachedAlignmentGeometry.count == count
+        {
+            return self.cachedAlignmentGeometry
+        }
+        
+        // sp + 0xe0
+        let copy_2 = origin
+        // sp + 0x100
+        let copy_3 = size.value
+        // x29 - 0xf0
+        let copy_4 = size
+        // sp + 0x120
+        let proposal = copy_4.proposal
+        
+        // <+248>
+        // w23
+        let layoutDirection = self.layoutDirection
+        // x29 - 0xf0
+        let invalidValue = ViewGeometry3D.invalidValue
+        // sp + 0x10
+        let _ = invalidValue
+        // x20
+        let geometries = Array<ViewGeometry3D>(repeating: invalidValue, count: count)
+        
+        // <+360>
+        // sp + 0x80
+        var data = SpatialPlacementData(
+            geometries: geometries,
+            unknown0: 0,
+            origin: copy_2,
+            size: copy_3,
+            layoutDirection: layoutDirection,
+            flag: false
+        )
+        
+        unsafe data.asCurrent { pointer in
+            // $s7SwiftUI23ViewSpatialLayoutEngineV17childGeometries3D2at8origin3DSayAA0C10Geometry3DVGAA0C6Size3DV_So9SPPoint3DatFySpyAA0D13PlacementData031_182E3E8D4B483E7956A2DBDA9F7535U0LLVGXEfU_
+            /*
+             pointer -> x0 -> x24
+             self -> x1 -> x27
+             copy_2 + copy_3 -> x2 -> x19 + 0x40
+             proposal -> x3 -> x22
+             count -> x4 -> x25
+             */
+            // <+176>
+            self.layout.placeSubviews(
+                in: Rect3D(origin: copy_2, size: copy_3),
+                proposal: proposal,
+                subviews: SpatialLayoutSubviews(
+                    subviews: LayoutSubviews(
+                        context: self.children.context,
+                        attributes: self.children.attributes,
+                        layoutDirection: self.layoutDirection
+                    )
+                ),
+                cache: &self.cache
+            )
+            
+            // <+368>
+            if unsafe pointer.pointee.unknown0 == count {
+                return
+            }
+            
+            for i in 0..<count {
+                // <+436>
+                assertUnimplemented()
+            }
+        }
+        
+        return data.geometries
     }
     
     func requiresTrueDepthLayout() -> Bool {
@@ -604,7 +680,7 @@ protocol SpatialLayoutEngine {
     associatedtype Cache3D
     
     mutating func volumeThatFits(_ proposedSize: _ProposedSize3D) -> Size3D
-    func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D]
+    mutating func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D]
     mutating func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat?
     func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat?
     func layoutPriority() -> Double
@@ -808,6 +884,26 @@ enum AlignmentKey3D {
     
     @inline(always) // 원래 없음
     mutating func asCurrent<T>(_ block: (UnsafeMutablePointer<SpatialAlignmentData>) -> T) -> T {
+        return withUnsafeMutablePointer(to: &self) { pointer in
+            let oldLayoutData = unsafe _threadLayoutData()
+            unsafe _setThreadLayoutData(pointer)
+            let result = unsafe block(pointer)
+            unsafe _setThreadLayoutData(oldLayoutData)
+            return result
+        }
+    }
+}
+
+@safe fileprivate struct SpatialPlacementData {
+    let geometries: [ViewGeometry3D] // 0x0
+    let unknown0: Int // 0x8
+    let origin: Point3D // 0x10
+    let size: Size3D // 0x30
+    let layoutDirection: LayoutDirection // 0x50
+    let flag: Bool // 0x51
+    
+    @inline(always) // 원래 없음
+    mutating func asCurrent<T>(_ block: (UnsafeMutablePointer<SpatialPlacementData>) -> T) -> T {
         return withUnsafeMutablePointer(to: &self) { pointer in
             let oldLayoutData = unsafe _threadLayoutData()
             unsafe _setThreadLayoutData(pointer)
