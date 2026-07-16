@@ -229,7 +229,6 @@ extension SpatialLayout where Self == _ZStackLayout {
     }
 }
 
-// type descriptor가 존재하지 않음
 struct SpatialLayoutProperties {
     let value: UInt32
 }
@@ -364,6 +363,13 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     }
     
     func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D] {
+        /*
+         self -> x20 -> x19
+         size -> x0
+         origin -> d0/d1/d2
+         */
+        // x29 - 0xf0
+        let copy_1 = size
         assertUnimplemented()
     }
     
@@ -488,7 +494,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         assertUnimplemented()
     }
     
-    fileprivate static func defaultAlignmen(_ alignment: AlignmentKey3D, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
+    fileprivate static func defaultAlignment(_ alignment: AlignmentKey3D, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
         /*
          alignment -> x0 -> sp + 0xf0 / w24
          volume -> x1
@@ -499,11 +505,94 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         }
         
         // <+116>
-        assertUnimplemented()
+        // x20
+        let casted = unsafe data.assumingMemoryBound(to: Self.self)
+        // sp + 0x58 / x22
+        let children = unsafe casted.pointee.children
+        // x21
+        var geometries = unsafe casted.pointee.cachedAlignmentGeometry
+        
+        if children.count != geometries.count {
+            // <+220>
+            geometries = unsafe casted.pointee.childGeometries3D(at: volume, origin: .zero)
+            unsafe casted.pointee.cachedAlignmentGeometry = geometries
+        }
+        
+        // x29 - 0xc0
+        var result: CGFloat?
+        
+        // children.array -> x22 -> x26
+        // <+316>
+        guard !geometries.isEmpty else {
+            return nil
+        }
+        
+        // <+344>
+        var sp0xc8 = 0
+        
+        let sp0x54: UInt8
+        switch alignment {
+        case .alignment(let key):
+            sp0x54 = (key.axis == .horizontal) ? 0 : 1
+        case .depthAlignment(_):
+            sp0x54 = 2
+        }
+        
+        for x25 in 0..<geometries.count {
+            // <+516>
+            // x27/w26
+            let explicitAlignment: CGFloat?
+            switch alignment {
+            case .alignment(let key):
+                explicitAlignment = children[x25].layoutComputer.explicitAlignment(key, at: geometries[x25].dimensions.size.size2D)
+            case .depthAlignment(let key):
+                explicitAlignment = children[x25].layoutComputer.explicitDepthAlignment(key, at: geometries[x25].dimensions.size)
+            }
+            
+            // <+1504>
+            guard let explicitAlignment else {
+                continue
+            }
+            
+            var d0: CGFloat
+            var d1: CGFloat
+            let d2: CGFloat
+            do {
+                let geoOrigin = geometries[x25].origin
+                
+                let origin = Size3D(
+                    width: geoOrigin.value.x,
+                    height: geoOrigin.value.y,
+                    depth: geoOrigin.value.z
+                )
+                
+                d0 = origin.width
+                d1 = origin.height
+                d2 = origin.depth
+            }
+            
+            if sp0x54 != 0 {
+                d0 = (sp0x54 == 1) ? d1 : d2
+            }
+            
+            d1 = explicitAlignment
+            let d8 = d0 + d1
+            
+            switch alignment {
+            case .alignment(let key):
+                key.id._combineExplicit(childValue: d8, sp0xc8, into: &result)
+            case .depthAlignment(let key):
+                key.id._combineExplicit(childValue: d8, sp0xc8, into: &result)
+            }
+            
+            sp0xc8 += 1
+        }
+        
+        return result
     }
     
     static func defaultAlignment(_ alignment: AlignmentKey, volume: ViewSize3D, data: UnsafeMutableRawPointer) -> CGFloat? {
-        return unsafe defaultAlignmen(
+        return unsafe defaultAlignment(
             AlignmentKey3D.alignment(alignment),
             volume: volume,
             data: data
