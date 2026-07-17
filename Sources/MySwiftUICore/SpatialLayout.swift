@@ -236,7 +236,51 @@ struct SpatialLayoutProperties {
 struct SpatialLayoutSubview {
     let subview: LayoutSubview
     
-    func place(at: Point3D, anchor: UnitPoint3D, dimensions: ViewDimensions3D) {
+    func place(at origin: Point3D, anchor: UnitPoint3D, dimensions: ViewDimensions3D) {
+        /*
+         origin -> d0/d1/d2
+         anchor -> v3/v4/v5
+         dimensions -> x0
+         */
+        let d0 = origin.x
+        let d1 = origin.y
+        let d2 = origin.z
+        let d3 = anchor.x
+        let d4 = anchor.y
+        let d5 = anchor.z
+        
+        // x29 - 0x80
+        let copy_1 = dimensions
+        
+        let v6 = (d3, d4)
+        var v7 = (copy_1.size.value.width, copy_1.size.value.height)
+        var v16 = (v6.0 * v7.0, v6.1 * v7.1)
+        v7 = (d0, d1)
+        v16.0 = (v6.0 == 0) ? v7.0 : (v7.0 - v16.0)
+        v16.1 = (v6.1 == 0) ? v7.1 : (v7.1 - v16.1)
+        
+        // <+84>
+        var d6 = copy_1.size.value.depth
+        d6 = d5 * d6
+        d6 = d2 - d6
+        let d7 = (d5 == 0) ? d2 : d6
+        d6 = v16.1
+        
+        if v16.0.isNaN || d6.isNaN || d7.isNaN {
+            preconditionFailure("view origin is invalid: \(origin), \(anchor), \(copy_1.size.value)")
+        }
+        
+        let geometry = ViewGeometry3D(
+            origin: ViewOrigin3D(
+                Point3D(x: v16.0, y: v16.1, z: d7)
+            ),
+            dimensions: dimensions
+        )
+        
+        self.place(in: geometry, layoutDirection: .leftToRight)
+    }
+    
+    func place(in geometry: ViewGeometry3D, layoutDirection: LayoutDirection) {
         assertUnimplemented()
     }
 }

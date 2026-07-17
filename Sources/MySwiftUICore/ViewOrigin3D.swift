@@ -6,7 +6,7 @@ struct ViewOrigin3D {
     var depthOrigin: ViewDepthOrigin
     
     init(_ point: Point3D) {
-        self.origin2D = CGPoint(x: point.x, y: point.z)
+        self.origin2D = CGPoint(x: point.x, y: point.y)
         self.depthOrigin = ViewDepthOrigin(point.z)
     }
     

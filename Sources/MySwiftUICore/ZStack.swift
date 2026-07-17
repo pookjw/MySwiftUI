@@ -253,7 +253,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             let child = placement.children[index]
             
             let d8: CGFloat
-            if let horizontal = child.dimensions[explicit: self.base.alignment.horizontal] {
+            if let horizontal = child.dimensions[explicit: self.base.alignment.horizontal.key] {
                 d8 = horizontal
             } else {
                 // <+1040>
@@ -273,7 +273,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             
             // <+1272>
             let d9: CGFloat
-            if let vertical = child.dimensions[explicit: self.base.alignment.vertical] {
+            if let vertical = child.dimensions[explicit: self.base.alignment.vertical.key] {
                 d9 = vertical
             } else {
                 // <+1040>

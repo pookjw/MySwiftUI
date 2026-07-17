@@ -4,7 +4,6 @@ internal import CoreGraphics
 internal import Spatial
 private import _MySwiftUIShims
 
-// ViewDimensions3D이 그냥 Sendable인 것을 보아 LayoutComputer이 @unchecked Sendable
 package struct LayoutComputer : @unchecked Sendable {
     @safe package static let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())
     @safe static let defaultValue3D = LayoutComputer(LayoutComputer.DefaultEngine3D())

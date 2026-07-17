@@ -1,5 +1,6 @@
 public import CoreGraphics
 package import Spatial
+private import _MySwiftUIShims
 
 public struct ViewDimensions3D {
     let guideComputer: LayoutComputer
@@ -62,13 +63,24 @@ extension ViewDimensions3D {
     }
     
     subscript(_ key: AlignmentKey) -> CGFloat {
+        if let value = self[explicit: key] {
+            return value
+        }
+        
         let dimensions = ViewDimensions(self)
         return key.id.defaultValue(in: dimensions)
     }
     
     subscript(explicit key: AlignmentKey) -> CGFloat? {
-        get {
-            assertUnimplemented()
+        if EnableLayoutDepthStashing.isEnabled {
+            var depth = self.size.proposal.depth
+            let old = unsafe _threadLayoutDepthData()
+            unsafe _setThreadLayoutDepthData(&depth)
+            let result = self.guideComputer.explicitAlignment(key, at: self.size.size2D)
+            unsafe _setThreadLayoutDepthData(old)
+            return result
+        } else {
+            return self.guideComputer.explicitAlignment(key, at: self.size.size2D)
         }
     }
     
