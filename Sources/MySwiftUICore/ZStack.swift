@@ -133,7 +133,14 @@ extension _ZStackLayout : DerivedSpatialLayout {
     }
     
     nonisolated func placeSubviews(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) {
-        assertUnimplemented()
+        let layout = ZStackSpatialLayout(
+            base: ZStackLayout3D(
+                alignment: self.alignment,
+                spacing: nil
+            )
+        )
+        
+        return layout.placeSubviews(in: bounds, proposal: proposal, subviews: subviews, cache: &cache)
     }
     
     nonisolated func spacing(subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> ViewSpacing3D {
@@ -200,6 +207,32 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
     }
     
     func placeSubviews(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) {
+        /*
+         bounds -> x0 -> x22
+         self.base.alignment.vertical -> sp + 0x38
+         self.base.alignment.horizontal -> sp + 0x40
+         */
+        // x29 - 0xf0
+        let proposal_2 = _ProposedSize3D(
+            width: bounds.size.width,
+            height: bounds.size.height,
+            depth: proposal.depth
+        )
+        // sp + 0xa0
+        let copy_1 = subviews
+        // x23
+        let placement = self.partialPlacement(proposal: proposal_2, subviews: copy_1, cache: &cache)
+        // d9
+        let priority = subviews
+            .subviews
+            .lazy
+            .map { subview -> Double in
+                // $s7SwiftUI19ZStackSpatialLayoutV13placeSubviews2in8proposal8subviews5cacheySo8SPRect3Da_AA15_ProposedSize3DVAA0deG0VAC7Cache3DVztFSdAA0dE7SubviewVcfU_
+                return subview.proxy.layoutPriority
+            }
+            .max() ?? 0
+        
+        // <+256>
         assertUnimplemented()
     }
     
