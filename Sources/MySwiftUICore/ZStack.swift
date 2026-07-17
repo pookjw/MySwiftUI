@@ -233,7 +233,83 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
             .max() ?? 0
         
         // <+256>
-        assertUnimplemented()
+        var d10 = -CGFloat.infinity
+        var d11 = d10
+        
+        for child in placement.children {
+            guard child.priority == priority else {
+                continue
+            }
+            
+            let horizontal = child.dimensions[self.base.alignment.horizontal.key]
+            d11 = (d11 <= horizontal) ? horizontal : d11
+            let vertical = child.dimensions[self.base.alignment.vertical.key]
+            d10 = (d10 <= vertical) ? vertical : d10
+        }
+        
+        // <+564>
+        for (index, subview) in subviews.subviews.enumerated() {
+            // <+916>
+            let child = placement.children[index]
+            
+            let d8: CGFloat
+            if let horizontal = child.dimensions[explicit: self.base.alignment.horizontal] {
+                d8 = horizontal
+            } else {
+                // <+1040>
+                let proposal = child.dimensions.size.proposal
+                
+                let dimensions = ViewDimensions(
+                    guideComputer: child.dimensions.guideComputer,
+                    size: CGSize(
+                        width: child.dimensions.size.value.width,
+                        height: child.dimensions.size.value.height
+                    ),
+                    proposal: _ProposedSize(width: proposal.width, height: proposal.height)
+                )
+                
+                d8 = self.base.alignment.horizontal.key.id.defaultValue(in: dimensions)
+            }
+            
+            // <+1272>
+            let d9: CGFloat
+            if let vertical = child.dimensions[explicit: self.base.alignment.vertical] {
+                d9 = vertical
+            } else {
+                // <+1040>
+                let proposal = child.dimensions.size.proposal
+                
+                let dimensions = ViewDimensions(
+                    guideComputer: child.dimensions.guideComputer,
+                    size: CGSize(
+                        width: child.dimensions.size.value.width,
+                        height: child.dimensions.size.value.height
+                    ),
+                    proposal: _ProposedSize(width: proposal.width, height: proposal.height)
+                )
+                
+                d9 = self.base.alignment.vertical.key.id.defaultValue(in: dimensions)
+            }
+            
+            // <+752>
+            var d0 = bounds.origin.x
+            var d1 = bounds.origin.y
+            var d2 = d11 - d8
+            let d3 = d2 + d0
+            d2 = d10 - d9
+            let d4 = d2 + d1
+            d2 = child.depthPlacement
+            d0 = (d11 == d8) ? d0 : d3
+            d1 = (d10 == d9) ? d1 : d4
+            
+            let spatialSubview = SpatialLayoutSubview(subview: subview)
+            
+            spatialSubview.place(
+                at: Point3D(x: d0, y: d1, z: d2),
+                anchor: UnitPoint3D(x: 0, y: 0, z: 0),
+                dimensions: child.dimensions
+            )
+        }
     }
     
     func spacing(subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> ViewSpacing3D {

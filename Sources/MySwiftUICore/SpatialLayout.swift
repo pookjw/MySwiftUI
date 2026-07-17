@@ -235,6 +235,10 @@ struct SpatialLayoutProperties {
 
 struct SpatialLayoutSubview {
     let subview: LayoutSubview
+    
+    func place(at: Point3D, anchor: UnitPoint3D, dimensions: ViewDimensions3D) {
+        assertUnimplemented()
+    }
 }
 
 struct SpatialLayoutSubviews {
