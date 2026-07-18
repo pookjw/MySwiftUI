@@ -784,7 +784,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
                     return lastTransaction.traceID
                 } else {
                     // <+708>
-                    if w22 {
+                    if !w22 {
                         flushTransactions()
                     }
                     // <+736>
