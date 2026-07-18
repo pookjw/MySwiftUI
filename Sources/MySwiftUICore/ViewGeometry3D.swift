@@ -23,7 +23,11 @@ struct ViewGeometry3D {
     
     var depthGeometry: ViewDepthGeometry {
         get {
-            assertUnimplemented()
+            return ViewDepthGeometry(
+                origin: self.origin.depthOrigin.value,
+                size: self.dimensions.size.value.depth,
+                proposal: self.dimensions.size.proposal.depth
+            )
         }
         set {
             assertUnimplemented()

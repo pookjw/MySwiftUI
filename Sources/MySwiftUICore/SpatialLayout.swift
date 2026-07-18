@@ -281,7 +281,13 @@ struct SpatialLayoutSubview {
     }
     
     func place(in geometry: ViewGeometry3D, layoutDirection: LayoutDirection) {
-        assertUnimplemented()
+        let pointer = unsafe SpatialPlacementData.current!
+        unsafe assert(!pointer.pointee.flag)
+        unsafe pointer.pointee.setGeometry3D(
+            geometry,
+            at: Int(self.subview.index),
+            layoutDirection: layoutDirection
+        )
     }
 }
 
@@ -298,7 +304,24 @@ struct ParentSize3D : Rule, AsyncAttribute {
     @Attribute fileprivate private(set) var depth: ViewDepth
     
     var value: ViewSize3D {
-        assertUnimplemented()
+        let size_1 = self.size
+        let depth_1 = self.depth
+        let size_2 = self.size
+        let depth_2 = self.depth
+        
+        let value = Size3D(
+            width: size_2.value.width,
+            height: size_2.value.height,
+            depth: depth_2.value
+        )
+        
+        let proposal = _ProposedSize3D(
+            width: size_1.proposal.width,
+            height: size_1.proposal.height,
+            depth: depth_1.proposal
+        )
+        
+        return ViewSize3D(value, proposal: proposal)
     }
 }
 
@@ -943,8 +966,8 @@ struct StashedDepthLayoutEngine<E : SpatialLayoutEngine> : LayoutEngine {
         assertUnimplemented()
     }
     
-    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        assertUnimplemented()
+    mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        return self.base.volumeThatFits(proposedSize).depth
     }
     
     func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
@@ -1005,12 +1028,31 @@ enum AlignmentKey3D {
 }
 
 @safe fileprivate struct SpatialPlacementData {
-    let geometries: [ViewGeometry3D] // 0x0
-    let unknown0: Int // 0x8
+    private(set) var geometries: [ViewGeometry3D] // 0x0
+    private(set) var unknown0: Int // 0x8
     let origin: Point3D // 0x10
     let size: Size3D // 0x30
     let layoutDirection: LayoutDirection // 0x50
     let flag: Bool // 0x51
+    
+    @inline(always) // 원래 없음
+    static var current: UnsafeMutablePointer<SpatialPlacementData>? {
+        get {
+            if let ptr = unsafe _threadLayoutData() {
+                return unsafe ptr.assumingMemoryBound(to: SpatialPlacementData.self)
+            } else {
+                return nil
+            }
+        }
+        set {
+            unsafe _setThreadLayoutData(newValue)
+        }
+        _modify {
+            var value = unsafe current
+            yield unsafe &value
+            unsafe current = unsafe value
+        }
+    }
     
     @inline(always) // 원래 없음
     mutating func asCurrent<T>(_ block: (UnsafeMutablePointer<SpatialPlacementData>) -> T) -> T {
@@ -1023,8 +1065,57 @@ enum AlignmentKey3D {
         }
     }
     
-    func setGeometry3D(_: ViewGeometry3D, at: Int, layoutDirection: LayoutDirection) {
-        assertUnimplemented()
+    mutating func setGeometry3D(_ geometry: ViewGeometry3D, at index: Int, layoutDirection: LayoutDirection) {
+        /*
+         geometry -> x0
+         index -> x1 -> x21
+         layoutDirection -> x2 -> w22
+         */
+        // sp + 0x70
+        let copy_1 = geometry
+        
+        var d8: CGFloat
+        var d9: CGFloat
+        var d10: CGFloat
+        do {
+            let origin = self.geometries[index].origin
+            d8 = origin.origin2D.x
+            d9 = origin.origin2D.y
+            d10 = origin.depthOrigin.value
+        }
+        
+        let size = Size3D(width: d8, height: d9, depth: d10)
+        
+        if size.width.isNaN {
+            // <+348>
+            self.unknown0 &+= 1
+        }
+        
+        // <+156>
+        self.geometries[index] = copy_1
+        
+        if self.layoutDirection != layoutDirection {
+            // <+216>
+            d8 = copy_1.origin.origin2D.x
+            d9 = copy_1.origin.origin2D.y
+            d10 = copy_1.origin.depthOrigin.value
+            let d11 = copy_1.dimensions.size.value.width
+            let d12 = self.origin.x
+            var d0 = self.size.width
+            let d13 = d12 + d0
+            d0 = copy_1.origin.value.x
+            
+            d0 = d11 + d0
+            d0 = d0 - d12
+            d0 = d13 - d0
+            self.geometries[index].origin.origin2D.x = d0
+            // <+284>
+        } else {
+            // <+200>
+            // <+284>
+        }
+        
+        // <+284>
     }
 }
 
