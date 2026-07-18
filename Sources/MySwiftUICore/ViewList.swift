@@ -2966,3 +2966,48 @@ extension _VariadicView.Tree where Root == _ZStackLayout, Content : View {
         }
     }
 }
+
+extension SpatialLayout where Self == ZStackLayout3D {
+    static func _makeSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        /*
+         root -> x0 -> x19
+         inputs -> x1 -> x21
+         body -> x2/x3 -> x23/x24
+         */
+        // sp + 0xb0
+        var copy_1 = inputs
+        // x29 - 0xa0
+        let copy_2 = inputs
+        
+        copy_1.stackOrientation = nil
+        copy_1.base.options.formUnion(.viewStackOrientationIsDepth)
+        copy_1[DynamicStackOrientation.self] = OptionalAttribute()
+        
+        // sp + 0x68
+        let outputs = body(_Graph(), copy_1)
+        
+        // <+200>
+        switch outputs.views {
+        case .staticList(let elements):
+            // <+416>
+            return Self.makeStaticSpatialLayoutView(
+                root: root,
+                inputs: copy_2,
+                properties: SpatialLayoutProperties(value: 0x01010002),
+                list: elements
+            )
+        case .dynamicList(var attribute, let listModifier):
+            // <+224>
+            if let listModifier {
+                attribute = Attribute(_ViewListOutputs.ApplyModifiers(base: attribute, modifier: listModifier))
+            }
+            
+            return Self.makeDynamicSpatialLayoutView(
+                root: root,
+                inputs: copy_2,
+                properties: SpatialLayoutProperties(value: 0x01010002), // dead,
+                list: attribute
+            )
+        }
+    }
+}

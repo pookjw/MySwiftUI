@@ -229,6 +229,20 @@ extension SpatialLayout where Self == _ZStackLayout {
     }
 }
 
+extension SpatialLayout where Self == ZStackLayout3D {
+    static func makeStaticSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
+        /*
+         root -> x0 -> x21
+         inputs -> x1 -> x22
+         properties -> x2 -> x24
+         list -> x3 -> x23
+         return pointer -> x8 -> x19
+         */
+        // <+68>
+        assertUnimplemented()
+    }
+}
+
 struct SpatialLayoutProperties {
     let value: UInt32
 }

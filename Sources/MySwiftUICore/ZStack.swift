@@ -895,6 +895,14 @@ package struct ZStackLayout3D {
         self.alignment = alignment
         self.spacing = spacing
     }
+    
+    package nonisolated static func _makeView(root: _GraphValue<ZStackLayout3D>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        if inputs[EnableZStackTrueDepthLayout.self] {
+            return Self._makeSpatialLayoutView(root: root, inputs: inputs, body: body)
+        } else {
+            return Self.makeLayoutView3D(root: root, inputs: inputs, body: body)
+        }
+    }
 }
 
 extension ZStackLayout3D : Layout3D {
@@ -955,21 +963,12 @@ extension ZStackLayout3D : DerivedSpatialLayout {
         assertUnimplemented()
     }
     
-    static func _makeSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
     static func makeDynamicSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
-    static func makeStaticSpatialLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: _ViewList_Elements) -> _ViewOutputs {
         assertUnimplemented()
     }
 }
 
 extension ZStackLayout3D : _VariadicView_UnaryViewRoot {
-    
 }
 
 extension ZStackLayout3D : Layout {

@@ -130,7 +130,7 @@ extension _VariadicView_Root {
 
 extension _VariadicView_ViewRoot where Self.Body == Never {
     @MainActor @preconcurrency public func body(children: _VariadicView.Children) -> Never {
-        assertUnimplemented()
+        preconditionFailure("body() should not be called on \(_typeName(Self.self, qualified: false))")
     }
 }
 
@@ -152,12 +152,12 @@ extension _VariadicView_ViewRoot {
         var copy_2 = copy_1
         // w20
         let listAttribute = outputs_1.makeAttribute(inputs: copy_2)
-        let fields = DynamicPropertyCache.fields(of: Self.self)
-        let (body, buffer) = self.makeBody(root: root, list: listAttribute, inputs: &copy_2.base, fields: fields)
+        let fields = unsafe DynamicPropertyCache.fields(of: Self.self)
+        let (body, buffer) = unsafe self.makeBody(root: root, list: listAttribute, inputs: &copy_2.base, fields: fields)
         let outputs_2 = Self.Body.makeDebuggableViewList(view: body, inputs: copy_2)
         
         if let buffer {
-            buffer.traceMountedProperties(to: body, fields: fields)
+            unsafe buffer.traceMountedProperties(to: body, fields: fields)
         }
         
         return outputs_2
@@ -172,16 +172,32 @@ extension _VariadicView_ViewRoot {
          root -> x0 -> w27
          inputs -> x1
          body -> x2/x3
+         return pointer -> sp + 0x28
          */
-        // x28 + 0x1b0
-        let copy_1 = inputs
-        // x28 + 0x120 (sp + 0x1b0)
-        let copy_2 = inputs
+        var copy = inputs
         // sp + 0x150
-        let listOutputs = body(_Graph(), copy_2)
+        let listOutputs = body(_Graph(), copy)
         
         // <+164>
-        assertUnimplemented()
+        // sp + 0x1b0
+        let listInputs = _ViewListInputs(
+            copy.base,
+            implicitID: 0,
+            options: []
+        )
+        
+        // w20
+        let listAttribute = listOutputs.makeAttribute(inputs: listInputs)
+        // sp + 0x1b0
+        let fields = unsafe DynamicPropertyCache.fields(of: Self.self)
+        let (body, buffer) = unsafe self.makeBody(root: root, list: listAttribute, inputs: &copy.base, fields: fields)
+        let outputs = Self.Body.makeDebuggableView(view: body, inputs: copy)
+        
+        if let buffer {
+            unsafe buffer.traceMountedProperties(to: body, fields: fields)
+        }
+        
+        return outputs
     }
     
     nonisolated fileprivate static func makeBody(root: _GraphValue<Self>, list: Attribute<ViewList>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
