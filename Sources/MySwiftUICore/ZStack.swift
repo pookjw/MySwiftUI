@@ -123,7 +123,7 @@ extension _ZStackLayout : DerivedSpatialLayout {
     }
     
     nonisolated func updateCache(_ cache: inout ZStackSpatialLayout.Cache3D, subviews: SpatialLayoutSubviews) {
-        assertUnimplemented()
+        cache = ZStackSpatialLayout.Cache3D(partialPlacements: Dictionary())
     }
     
     nonisolated func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> Size3D {

@@ -140,7 +140,7 @@ package class StoredLocationBase<Value> : AnyLocation<Value> {
     
     fileprivate final func beginUpdate() {
         $data.access { value in
-            value.savedValues.removeFirst()
+            _ = value.savedValues.removeFirst()
         }
         
         notifyObservers()

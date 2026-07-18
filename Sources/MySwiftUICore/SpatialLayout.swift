@@ -388,8 +388,35 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         self.cache = layout.makeCache(subviews: subviews)
     }
     
-    func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
-        assertUnimplemented()
+    mutating func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
+        /*
+         self -> x20 -> x19
+         layout -> x0 -> x21
+         context -> x1 -> dead
+         children -> x2 -> w25/x20
+         */
+        self.children = children
+        
+        // <+108>
+        self.layoutDirection = context.layoutDirection
+        
+        // <+356>
+        self.layout = layout
+        self.volumeCache = ViewVolumeCache()
+        self.cachedAlignmentGeometry = []
+        self.cachedAlignment = Cache3<ObjectIdentifier, CGFloat?>()
+        self.preferredSpacing = nil
+        
+        layout.updateCache(
+            &self.cache,
+            subviews: SpatialLayoutSubviews(
+                subviews: LayoutSubviews(
+                    context: children.context,
+                    attributes: children.attributes,
+                    layoutDirection: layoutDirection
+                )
+            )
+        )
     }
     
     mutating func volumeThatFits(_ size: _ProposedSize3D) -> Size3D {
