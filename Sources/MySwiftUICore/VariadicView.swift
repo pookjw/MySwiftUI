@@ -168,6 +168,19 @@ extension _VariadicView_ViewRoot {
     }
     
     nonisolated static func makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        /*
+         root -> x0 -> w27
+         inputs -> x1
+         body -> x2/x3
+         */
+        // x28 + 0x1b0
+        let copy_1 = inputs
+        // x28 + 0x120 (sp + 0x1b0)
+        let copy_2 = inputs
+        // sp + 0x150
+        let listOutputs = body(_Graph(), copy_2)
+        
+        // <+164>
         assertUnimplemented()
     }
     

@@ -22,8 +22,8 @@ fileprivate struct MyView : View {
                 updateSpacing()
             }
             
-//            ZStack(alignment: alignment, spacing: spacing) {
-            ZStack(alignment: alignment) {
+            ZStack(alignment: alignment, spacing: spacing) {
+//            ZStack(alignment: alignment) {
                 Color.red.frame(width: 300, height: 300)
                 Color.green.frame(width: 200, height: 200)
                 Color.blue.frame(width: 100, height: 100)

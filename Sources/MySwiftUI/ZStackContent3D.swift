@@ -1,5 +1,6 @@
 public import MySwiftUICore
 public import CoreGraphics
+internal import AttributeGraph
 
 @available(visionOS 2.0, *)
 @available(iOS, unavailable)
@@ -61,7 +62,48 @@ extension ZStackContent3D : View, PrimitiveView, MultiView {}
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension ZStackContent3D : ZStackParameterSmuggler {
-    package static func makeParameterSmuggledZStackView<C>(view: _GraphValue<_VariadicView.Tree<_ZStackLayout, C>>, inputs: _ViewInputs) -> _ViewOutputs where C : View {
-        assertUnimplemented()
+    package nonisolated static func makeParameterSmuggledZStackView<C>(view: _GraphValue<_VariadicView.Tree<_ZStackLayout, C>>, inputs: _ViewInputs) -> _ViewOutputs where C : View {
+        /*
+         view -> x0 -> x20
+         return pointer -> x8 -> x29 - 0x80
+         inputs -> x1 -> x29 - 0x78
+         */
+        // <+260>
+        // x28
+        let casted = view
+            .unsafeBitCast(to: _VariadicView.Tree<_ZStackLayout, Self>.self)
+        // w25
+        let alignment = view.value[offset: { .of(&$0.root.alignment) }]
+        // w19
+        let spacing = casted.value[offset: { .of(&$0.content.spacing) }]
+        // <+440>
+        let content = casted.value[offset: { .of(&$0.content.content) }]
+        
+        let stack = Self._SpacedZStack(
+            alignment: alignment,
+            spacing: spacing,
+            content: content
+        )
+        
+        let stackValue = _GraphValue(stack)
+        return _VariadicView.Tree<ZStackLayout3D, Content>
+            .makeDebuggableView(view: stackValue, inputs: inputs)
+    }
+}
+
+@available(visionOS 2.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension ZStackContent3D {
+    struct _SpacedZStack : Rule {
+        @Attribute fileprivate private(set) var alignment: Alignment
+        @Attribute fileprivate private(set) var spacing: CGFloat?
+        @Attribute fileprivate private(set) var content: Content
+        
+        var value: _VariadicView.Tree<ZStackLayout3D, Content> {
+            assertUnimplemented()
+        }
     }
 }

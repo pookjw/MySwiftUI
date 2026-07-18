@@ -526,7 +526,7 @@ extension DisplayList {
                 w9 = (w10 ^ w9)
                 w10 = 1
                 w9 = (w10 | (w9 &<< 1))
-                value = UInt16(w9)
+                value = UInt16(truncatingIfNeeded: w9)
             }
         }
         

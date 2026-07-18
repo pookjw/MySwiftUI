@@ -31,7 +31,7 @@ extension ZStack : Sendable {
 extension ZStack : UnaryView, PrimitiveView {}
 
 @frozen public struct _ZStackLayout : _VariadicView.UnaryViewRoot, Animatable {
-    public var alignment: Alignment
+    @safe public nonisolated(unsafe) var alignment: Alignment
     
     @inlinable public init(alignment: Alignment = .center) {
         self.alignment = alignment
@@ -887,7 +887,7 @@ extension ZStackSpatialLayout.PartialPlacement {
     }
 }
 
-struct ZStackLayout3D {
+package struct ZStackLayout3D {
     fileprivate private(set) var alignment: Alignment
     fileprivate private(set) var spacing: CGFloat?
     
@@ -973,37 +973,37 @@ extension ZStackLayout3D : _VariadicView_UnaryViewRoot {
 }
 
 extension ZStackLayout3D : Layout {
-    typealias Cache = Void
+    package typealias Cache = Void
     
-    func makeCache(subviews: Self.Subviews) -> Self.Cache {
+    package func makeCache(subviews: Self.Subviews) -> Self.Cache {
         assertUnimplemented()
     }
     
-    func updateCache(_ cache: inout Self.Cache, subviews: Self.Subviews) {
+    package func updateCache(_ cache: inout Self.Cache, subviews: Self.Subviews) {
         assertUnimplemented()
     }
     
-    func spacing(subviews: Self.Subviews, cache: inout Self.Cache) -> ViewSpacing {
+    package func spacing(subviews: Self.Subviews, cache: inout Self.Cache) -> ViewSpacing {
         assertUnimplemented()
     }
     
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGSize {
+    package func sizeThatFits(proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGSize {
         assertUnimplemented()
     }
     
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) {
+    package func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) {
         assertUnimplemented()
     }
     
-    func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
+    package func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
         assertUnimplemented()
     }
     
-    func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
+    package func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Self.Subviews, cache: inout Self.Cache) -> CGFloat? {
         assertUnimplemented()
     }
     
-    static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+    package static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
 }
