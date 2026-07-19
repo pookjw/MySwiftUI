@@ -681,7 +681,6 @@ extension View {
          body -> x2/x3 -> x21/x19
          return pointer -> x8 -> x22
          */
-        print(self is _PreferenceWritingModifier<Key>.Type)
         if
             isLinkedOnOrAfter(.v2_3),
             inputs.options.contains(.previewContext),
