@@ -19,7 +19,48 @@ package struct UpdateCycleDetector {
         self.hasLogged = false
     }
     
-    package func dispatch(label: @autoclosure () -> String, isDebug: Bool = false) -> Bool {
-        assertUnimplemented()
+    package mutating func dispatch(label: @autoclosure () -> String, isDebug: Bool = false) -> Bool {
+        /*
+         label -> x0/x1 -> x19/x21
+         isDebug -> w2 -> w22
+         */
+        // w24
+        let updateSeed = Graph.withoutUpdate { 
+            return self.updateSeed.value
+        }
+        
+        if self.lastSeed != updateSeed {
+            // <+116>
+            self.lastSeed = updateSeed
+            self.ttl = 2
+            return true
+        }
+        
+        // <+88>
+        if self.ttl == 0 {
+            // <+132>
+        } else {
+            self.ttl &-= 1
+            if self.ttl == 0 {
+                // <+132>
+            } else {
+                return true
+            }
+        }
+        
+        // <+132>
+        if self.hasLogged {
+            return false
+        }
+        
+        // <+148>
+        if isDebug {
+            self.hasLogged = true
+            return false
+        }
+        
+        Log.externalWarning("\(label()) tried to update multiple times per frame.")
+        self.hasLogged = true
+        return false
     }
 }

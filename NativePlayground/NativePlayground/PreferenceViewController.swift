@@ -37,6 +37,9 @@ fileprivate struct ChildView : View {
     var body: some View {
         MyStepper(value: $value)
             .preference(key: MyPreferenceKey.self, value: value)
+            .transformPreference(MyPreferenceKey.self) { value in
+                value &*= 2
+            }
     }
 }
 
