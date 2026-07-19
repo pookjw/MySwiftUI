@@ -21,7 +21,17 @@ extension View {
          inputs -> x1
          body -> x2/x3 -> x23/x24
          */
-        assertUnimplemented()
+        var copy = inputs
+        copy.preferences.remove(Key.self)
+        var outputs = body(_Graph(), copy)
+        
+        outputs.preferences.makePreferenceWriter(
+            inputs: inputs.preferences,
+            key: Key.self,
+            value: modifier.value[offset: { .of(&$0.value) }]
+        )
+        
+        return outputs
     }
     
     nonisolated public static func _makeViewList(modifier: _GraphValue<_PreferenceWritingModifier<Key>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {

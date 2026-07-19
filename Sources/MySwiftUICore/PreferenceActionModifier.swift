@@ -82,7 +82,20 @@ fileprivate struct PreferenceBinder<Key : PreferenceKey> : StatefulRule, AsyncAt
     
     typealias Value = Void
     
-    func updateValue() {
+    mutating func updateValue() {
+        /*
+         self -> x20 -> x21
+         Key -> x0 -> x20
+         */
+        // <+448>
+        if self.phase.resetSeed != self.lastResetSeed {
+            // <+488>
+            self.lastResetSeed = self.phase.resetSeed
+            self.cycleDetector.reset()
+            self.lastValue = nil
+        }
+        
+        // <+584>
         assertUnimplemented()
     }
 }
