@@ -30,10 +30,8 @@ public struct _GraphInputs {
             return cachedEnvironment.value.environment
         }
         set {
-            cachedEnvironment.value.environment = newValue
-        }
-        _modify {
-            yield &cachedEnvironment.value.environment
+            cachedEnvironment = MutableBox(wrappedValue: CachedEnvironment(environment: newValue))
+            self.changedDebugProperties.formUnion(.environment)
         }
     }
     
