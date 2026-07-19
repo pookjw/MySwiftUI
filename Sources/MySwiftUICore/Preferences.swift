@@ -136,7 +136,7 @@ package struct PreferenceKeys : Equatable, RandomAccessCollection {
     }
 }
 
-package protocol PreferenceKey {
+public protocol PreferenceKey {
     associatedtype Value
     
     static var defaultValue: Value {
@@ -155,16 +155,15 @@ package protocol PreferenceKey {
 }
 
 extension PreferenceKey {
-    package static func _delay<Content : View>(_: (_PreferenceValue<Value>) -> Content) -> some View {
-        assertUnimplemented()
-        return EmptyView()
+    @inlinable public static func _delay<T>(_ transform: @escaping (_PreferenceValue<Self>) -> T) -> some View where T : View {
+        return _DelayedPreferenceView(transform: transform)
     }
     
-    package static var _isReadableByHost: Bool {
+    public static var _isReadableByHost: Bool {
         return false
     }
     
-    package static var _includesRemovedValues: Bool {
+    public static var _includesRemovedValues: Bool {
         return false
     }
     
@@ -178,17 +177,39 @@ extension PreferenceKey {
 }
 
 extension PreferenceKey where Value : ExpressibleByNilLiteral {
-    package static var defaultValue: Value {
+    public static var defaultValue: Value {
         return nil
     }
 }
 
-package struct _PreferenceValue<Key : PreferenceKey> {
+public struct _PreferenceValue<Key : PreferenceKey> {
     private var attribute: WeakAttribute<Key.Value>
 }
 
 package protocol PreferenceKeyVisitor {
     mutating func visit<Key : PreferenceKey>(key: Key.Type)
+}
+
+@frozen public struct _DelayedPreferenceView<Key, Content> : View where Key : PreferenceKey, Content : View {
+    @safe public nonisolated(unsafe) var transform: (_PreferenceValue<Key>) -> Content
+    
+    @inlinable public nonisolated init(transform: @escaping (_PreferenceValue<Key>) -> Content) {
+        self.transform = transform
+    }
+    
+    nonisolated public static func _makeView(view: _GraphValue<_DelayedPreferenceView<Key, Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    public typealias Body = Never
+}
+
+extension _DelayedPreferenceView : UnaryView, PrimitiveView {
+}
+
+@available(*, unavailable)
+extension _DelayedPreferenceView : Sendable {
 }
 
 package struct PreferenceValues {
@@ -295,7 +316,7 @@ package struct PreferenceValues {
                             break
                         }
                     }
-                   
+                    
                     if shoudContinue {
                         continue
                     }
@@ -605,5 +626,86 @@ extension PreferenceValues {
             
             reduce(key: other.key)
         }
+    }
+}
+
+extension View {
+    @inlinable nonisolated public func onPreferenceChange<K>(_ key: K.Type = K.self, perform action: @escaping (K.Value) -> Void) -> some View where K : PreferenceKey, K.Value : Equatable {
+        return modifier(_PreferenceActionModifier<K>(action: action))
+    }
+}
+
+@frozen public struct _PreferenceActionModifier<Key> : ViewModifier where Key : PreferenceKey, Key.Value : Equatable {
+    @safe public nonisolated(unsafe) var action: (Key.Value) -> Void
+    
+    @inlinable public nonisolated init(action: @escaping (Key.Value) -> Swift.Void) {
+        self.action = action
+    }
+    
+    nonisolated public static func _makeView(modifier: _GraphValue<_PreferenceActionModifier<Key>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    public typealias Body = Never
+}
+
+@available(*, unavailable)
+extension _PreferenceActionModifier : Sendable {
+}
+
+extension _PreferenceActionModifier : MultiViewModifier, PrimitiveViewModifier {}
+
+extension View {
+    @inlinable nonisolated public func preference<K>(key: K.Type = K.self, value: K.Value) -> some View where K : PreferenceKey {
+        return modifier(_PreferenceWritingModifier<K>(value: value))
+    }
+}
+
+@frozen public struct _PreferenceWritingModifier<Key> : ViewModifier where Key : PreferenceKey {
+    @safe public nonisolated(unsafe) var value: Key.Value
+    public typealias Body = Never
+    
+    @inlinable public nonisolated init(key: Key.Type = Key.self, value: Key.Value) {
+        self.value = value
+    }
+    
+    nonisolated public static func _makeView(modifier: _GraphValue<_PreferenceWritingModifier<Key>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _makeViewList(modifier: _GraphValue<_PreferenceWritingModifier<Key>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        /*
+         modifier -> x0 -> w26
+         inputs -> x1 -> x23
+         body -> x2/x3 -> x21/x19
+         return pointer -> x8 -> x22
+         */
+        print(self is _PreferenceWritingModifier<Key>.Type)
+        if
+            isLinkedOnOrAfter(.v2_3),
+            inputs.options.contains(.previewContext),
+            self is _PreferenceWritingModifier<PreferredColorSchemeKey>.Type,
+            let cassted = modifier as? _GraphValue<_PreferenceWritingModifier<PreferredColorSchemeKey>>
+        {
+            // <+332>
+            // cassted -> w27
+            // sp + 0x38
+            let copy_1 = inputs
+            assertUnimplemented()
+        } else {
+            // <+868>
+            assertUnimplemented()
+        }
+    }
+}
+
+@available(*, unavailable)
+extension _PreferenceWritingModifier : Sendable {
+}
+
+extension _PreferenceWritingModifier : Equatable where Key.Value : Equatable {
+    public static func == (a: _PreferenceWritingModifier<Key>, b: _PreferenceWritingModifier<Key>) -> Bool {
+        assertUnimplemented()
     }
 }

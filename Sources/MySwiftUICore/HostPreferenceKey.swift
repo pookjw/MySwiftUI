@@ -3,7 +3,7 @@ package protocol HostPreferenceKey : PreferenceKey {
 }
 
 extension HostPreferenceKey {
-    package static var _isReadableByHost: Bool {
+    public static var _isReadableByHost: Bool {
         return true
     }
 }
