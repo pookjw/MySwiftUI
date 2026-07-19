@@ -887,11 +887,12 @@ extension ZStackSpatialLayout.PartialPlacement {
     }
 }
 
+@frozen // ZStackContent3D._SpacedZStack.value에서 init 이후 크기를 알고 있음
 package struct ZStackLayout3D {
     fileprivate private(set) var alignment: Alignment
     fileprivate private(set) var spacing: CGFloat?
     
-    init(alignment: Alignment, spacing: CGFloat?) {
+    package init(alignment: Alignment, spacing: CGFloat?) {
         self.alignment = alignment
         self.spacing = spacing
     }
@@ -932,30 +933,38 @@ extension ZStackLayout3D : DerivedSpatialLayout {
     }
     
     func makeCache(subviews: SpatialLayoutSubviews) -> Self.Cache3D {
-        assertUnimplemented()
+        return ZStackSpatialLayout.Cache3D(partialPlacements: Dictionary())
     }
     
     func updateCache(_ cache: inout Self.Cache3D, subviews: SpatialLayoutSubviews) {
-        assertUnimplemented()
+        cache = ZStackSpatialLayout.Cache3D(partialPlacements: Dictionary())
     }
     
     func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> Size3D {
-        assertUnimplemented()
+        let layout = ZStackSpatialLayout(base: self)
+        let placement = layout.partialPlacement(proposal: proposal, subviews: subviews, cache: &cache)
+        return placement.volume
     }
     
     func placeSubviews(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) {
-        assertUnimplemented()
+        let layout = ZStackSpatialLayout(base: self)
+        return layout.placeSubviews(in: bounds, proposal: proposal, subviews: subviews, cache: &cache)
     }
     
     func spacing(subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> ViewSpacing3D {
-        assertUnimplemented()
+        let layout = _ZStackLayout(alignment: self.alignment)
+        var cache: Void = ()
+        let spacing = layout.spacing(subviews: subviews.subviews, cache: &cache)
+        
+        return ViewSpacing3D(
+            spacing: Spacing3D(
+                spacing2D: spacing.spacing,
+                depthSpacing: Spacing3D.DepthSpacing(value: 0)
+            )
+        )
     }
     
     func explicitAlignment(of guide: DepthAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> CGFloat? {
-        assertUnimplemented()
-    }
-    
-    func explicitAlignment(of guide: HorizontalAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> CGFloat? {
         assertUnimplemented()
     }
     

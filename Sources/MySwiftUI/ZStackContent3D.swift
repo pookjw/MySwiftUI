@@ -103,7 +103,12 @@ extension ZStackContent3D {
         @Attribute fileprivate private(set) var content: Content
         
         var value: _VariadicView.Tree<ZStackLayout3D, Content> {
-            assertUnimplemented()
+            let layout = ZStackLayout3D(
+                alignment: self.alignment,
+                spacing: self.spacing
+            )
+            
+            return _VariadicView.Tree(root: layout, content: self.content)
         }
     }
 }
