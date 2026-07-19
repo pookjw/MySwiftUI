@@ -13,6 +13,7 @@ public import MySwiftUICore
     @Environment(\.self) var environment: EnvironmentValues
     
     @MainActor @preconcurrency public var body: some View {
+        fatalError("FIXME")
         let _: Void = self.attachmentState.updateAttachmentList(
             unsafeBitCast(self.makeAttachmentList(), to: [Self.BuilderAttachment].self),
             with: self.environment
