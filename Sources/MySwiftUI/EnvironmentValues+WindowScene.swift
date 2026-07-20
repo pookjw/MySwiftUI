@@ -1,5 +1,5 @@
-internal import MySwiftUICore
-internal import UIKit
+package import MySwiftUICore
+package import UIKit
 
 extension EnvironmentValues {
     var windowScene: UIWindowScene? {
@@ -8,6 +8,15 @@ extension EnvironmentValues {
         }
         set {
             self[WindowSceneKey.self] = WeakBox(newValue)
+        }
+    }
+    
+    package var sceneSession : UISceneSession? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
         }
     }
 }

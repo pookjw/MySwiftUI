@@ -1,5 +1,6 @@
 public import MySwiftUICore
 public import Spatial
+private import CoreGraphics
 
 @available(visionOS 1.0, *)
 @available(macOS, unavailable)
@@ -9,10 +10,60 @@ public import Spatial
 @available(tvOS, unavailable)
 extension RealityViewContent {
     @MainActor @preconcurrency public struct Body<Placeholder> : View where Placeholder : View {
+        private let placeholder: Placeholder // 0x0
+        private let controller: AttachmentStateControllerBase? // 0x24
+        private let make: @MainActor @Sendable (inout RealityViewContent) async -> Void // 0x28
+        private let update: (@MainActor (inout RealityViewContent) -> Void)? // 0x2c
+        private var _strongModel: State<_RealityViewModel> // 0x30
+        
+        var strongModel: _RealityViewModel {
+            return self._strongModel.wrappedValue
+        }
+        
+        init(
+            placeholder: Placeholder,
+            controller: AttachmentStateControllerBase?,
+            make: @MainActor @Sendable @escaping (inout RealityViewContent) async -> Void,
+            update: (@MainActor (inout RealityViewContent) -> Void)?,
+            strongModel: _RealityViewModel
+        ) {
+            self.placeholder = placeholder
+            self.controller = controller
+            self.make = make
+            self.update = update
+            self._strongModel = State(wrappedValue: strongModel)
+        }
+        
         @MainActor @preconcurrency public var body: some View {
-            get {
-                assertUnimplemented()
+            GeometryReader3D { proxy in
+                // $s19_RealityKit_SwiftUI0A11ViewContentV4BodyV4bodyQrvgAA01_aE5AsyncVyxG0cD015GeometryProxy3DVcfU_TA
+                _RealityViewAsync(
+                    make: unsafeBitCast(self.make, to: (@Sendable (inout RealityViewContent) async -> Void).self),
+                    update: self.update,
+                    placeholder: self.placeholder,
+                    proxy: proxy,
+                    controller: self.controller,
+                    model: self.strongModel,
+                    scene: Environment(\.realityKitScene),
+                    pointsPerMeter: Environment(\.pointsPerMeter),
+                    role: Environment(\.sceneSession?.role),
+                    uiScene: Environment(\.sceneSession?.scene),
+                    layoutOption: Environment(\.realityViewLayoutOption),
+                    componentAddedSubscription: nil
+                )
             }
+            .frame(
+                minWidth: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.width : nil,
+                idealWidth: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.width : nil,
+                maxWidth: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.width : nil,
+                minHeight: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.height : nil,
+                idealHeight: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.height : nil,
+                maxHeight: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.height : nil,
+                minDepth: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.depth : nil,
+                idealDepth: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.depth : nil,
+                maxDepth: (self.strongModel.idealSize != nil) ? self.strongModel.idealSize!.depth : nil,
+                alignment: .back
+            )
         }
     }
 }

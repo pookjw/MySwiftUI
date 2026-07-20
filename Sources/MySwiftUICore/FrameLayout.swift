@@ -1,6 +1,6 @@
 // 73C64038119BBD0A6D8557B14379A404
 public import CoreGraphics
-private import os.log
+public import os.log
 
 extension View {
     @inlinable nonisolated public func frame(width: CGFloat? = nil, height: CGFloat? = nil, alignment: Alignment = .center) -> some View {
@@ -219,3 +219,93 @@ extension _FrameLayout : FrameLayoutCommon {
 fileprivate protocol FrameLayoutCommon {
     func commonPlacement(of proxy: LayoutProxy, in context: PlacementContext, childProposal: _ProposedSize) -> _Placement
 }
+
+@frozen public struct _FlexFrameLayout {
+    internal let minWidth: CGFloat?
+    internal let idealWidth: CGFloat?
+    internal let maxWidth: CGFloat?
+    internal let minHeight: CGFloat?
+    internal let idealHeight: CGFloat?
+    internal let maxHeight: CGFloat?
+    internal let alignment: Alignment
+    
+    @usableFromInline
+    package init(minWidth: CGFloat? = nil, idealWidth: CGFloat? = nil, maxWidth: CGFloat? = nil, minHeight: CGFloat? = nil, idealHeight: CGFloat? = nil, maxHeight: CGFloat? = nil, alignment: Alignment) {
+        assertUnimplemented()
+    }
+    
+    public typealias AnimatableData = EmptyAnimatableData
+    public typealias Body = Never
+}
+
+extension View {
+    @inlinable nonisolated public func frame(minWidth: CGFloat? = nil, idealWidth: CGFloat? = nil, maxWidth: CGFloat? = nil, minHeight: CGFloat? = nil, idealHeight: CGFloat? = nil, maxHeight: CGFloat? = nil, alignment: Alignment = .center) -> some View {
+        func areInNondecreasingOrder(
+            _ min: CGFloat?, _ ideal: CGFloat?, _ max: CGFloat?
+        ) -> Bool {
+            let min = min ?? -.infinity
+            let ideal = ideal ?? min
+            let max = max ?? ideal
+            return min <= ideal && ideal <= max
+        }
+        
+        if !areInNondecreasingOrder(minWidth, idealWidth, maxWidth)
+            || !areInNondecreasingOrder(minHeight, idealHeight, maxHeight)
+        {
+            unsafe os_log(
+                .fault, log: Log.runtimeIssuesLog,
+                "Contradictory frame constraints specified.")
+        }
+        
+        return modifier(
+            _FlexFrameLayout(
+                minWidth: minWidth,
+                idealWidth: idealWidth, maxWidth: maxWidth,
+                minHeight: minHeight,
+                idealHeight: idealHeight, maxHeight: maxHeight,
+                alignment: alignment))
+    }
+    
+}
+
+extension _FlexFrameLayout : Animatable {}
+extension _FlexFrameLayout : ViewModifier {}
+extension _FlexFrameLayout : Sendable {}
+extension _FlexFrameLayout : BitwiseCopyable {}
+
+extension _FlexFrameLayout : UnaryLayout {
+    typealias PlacementContextType = Never // TODO
+    
+    func spacing(in context: SizeAndSpacingContext, child: LayoutProxy) -> Spacing {
+        assertUnimplemented()
+    }
+    
+    func placement(of proxy: LayoutProxy, in context: Never) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    func layoutPriority(child: LayoutProxy) -> Double {
+        assertUnimplemented()
+    }
+    
+    func ignoresAutomaticPadding(child: LayoutProxy) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func makeViewImpl(modifier: _GraphValue<_FlexFrameLayout>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+}
+
+extension _FlexFrameLayout : FrameLayoutCommon {
+    func commonPlacement(of proxy: LayoutProxy, in context: PlacementContext, childProposal: _ProposedSize) -> _Placement {
+        assertUnimplemented()
+    }
+}
+
+extension _FlexFrameLayout : MultiViewModifier {}
+extension _FlexFrameLayout : PrimitiveViewModifier {}

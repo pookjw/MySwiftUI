@@ -1,3 +1,4 @@
+// 0F59DFD0F0165AB30F47E486AD5D1F7C
 public import MySwiftUICore
 
 @available(visionOS 1.0, *)
@@ -13,11 +14,12 @@ public import MySwiftUICore
     @Environment(\.self) var environment: EnvironmentValues
     
     @MainActor @preconcurrency public var body: some View {
-        fatalError("FIXME")
-        let _: Void = self.attachmentState.updateAttachmentList(
-            unsafeBitCast(self.makeAttachmentList(), to: [Self.BuilderAttachment].self),
-            with: self.environment
-        )
+        let _: Void = self
+            .attachmentState
+            .updateAttachmentList(
+                unsafeBitCast(self.makeAttachmentList(), to: [Self.BuilderAttachment].self),
+                with: self.environment
+            )
         
         self.content(self.attachmentState)
     }
