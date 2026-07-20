@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.sphereView
+        let item = DemoViewController.Item.flexFrameLayoutView
         pushToItem(item)
         
 //        Task {
@@ -129,6 +129,7 @@ extension DemoViewController {
         case hStackLayoutView
         case anyLayoutView
         case frameLayoutView
+        case flexFrameLayoutView
         case offsetView
         case withAnimationView
         case animationModifierView
@@ -236,6 +237,8 @@ extension DemoViewController {
                 return _typeName(AnyLayoutViewController.self, qualified: false)
             case .frameLayoutView:
                 return _typeName(FrameLayoutViewController.self, qualified: false)
+            case .flexFrameLayoutView:
+                return _typeName(FlexFrameLayoutViewController.self, qualified: false)
             case .offsetView:
                 return _typeName(OffsetViewController.self, qualified: false)
             case .withAnimationView:
@@ -363,6 +366,8 @@ extension DemoViewController {
                 return AnyLayoutViewController()
             case .frameLayoutView:
                 return FrameLayoutViewController()
+            case .flexFrameLayoutView:
+                return FlexFrameLayoutViewController()
             case .offsetView:
                 return OffsetViewController()
             case .withAnimationView:

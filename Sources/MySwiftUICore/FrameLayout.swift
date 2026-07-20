@@ -221,17 +221,147 @@ fileprivate protocol FrameLayoutCommon {
 }
 
 @frozen public struct _FlexFrameLayout {
-    internal let minWidth: CGFloat?
-    internal let idealWidth: CGFloat?
-    internal let maxWidth: CGFloat?
-    internal let minHeight: CGFloat?
-    internal let idealHeight: CGFloat?
-    internal let maxHeight: CGFloat?
-    internal let alignment: Alignment
+    internal let minWidth: CGFloat? // 0x0
+    internal let idealWidth: CGFloat? // 0x10
+    internal let maxWidth: CGFloat? // 0x20
+    internal let minHeight: CGFloat? // 0x30
+    internal let idealHeight: CGFloat? // 0x40
+    internal let maxHeight: CGFloat? // 0x50
+    internal let alignment: Alignment // 0x60
     
     @usableFromInline
     package init(minWidth: CGFloat? = nil, idealWidth: CGFloat? = nil, maxWidth: CGFloat? = nil, minHeight: CGFloat? = nil, idealHeight: CGFloat? = nil, maxHeight: CGFloat? = nil, alignment: Alignment) {
-        assertUnimplemented()
+        if var minWidth {
+            if minWidth <= 0 {
+                minWidth = 0
+            }
+            self.minWidth = minWidth
+        } else {
+            self.minWidth = minWidth
+        }
+        
+        // <+76>
+        if let idealWidth {
+            let d0 = (self.minWidth ?? 0)
+            self.idealWidth = (d0 >= idealWidth) ? d0 : idealWidth
+        } else {
+            self.idealWidth = idealWidth
+        }
+        
+        // <+128>
+        if let maxWidth {
+            let d2 = (self.idealWidth ?? 0)
+            self.maxWidth = (d2 >= maxWidth) ? d2 : maxWidth
+        } else {
+            self.maxWidth = maxWidth
+        }
+        
+        // <+200>
+        if var minHeight {
+            if minHeight <= 0 {
+                minHeight = 0
+            }
+            self.minHeight = minHeight
+        } else {
+            self.minHeight = minHeight
+        }
+        
+        // <+240>
+        if let idealHeight {
+            let d2 = (self.minHeight ?? 0)
+            self.idealHeight = (d2 >= idealHeight) ? d2 : idealHeight
+        } else {
+            self.idealHeight = idealHeight
+        }
+        
+        // <+300>
+        if let maxHeight {
+            let d3 = (self.idealHeight ?? 0)
+            self.maxHeight = (d3 >= maxHeight) ? d3 : maxHeight
+        } else {
+            self.maxHeight = maxHeight
+        }
+        
+        // <+364>
+        var d1 = minWidth ?? 0
+        let w12: Bool
+        if (idealWidth != nil) || (maxWidth != nil) {
+            // <+436>
+            var d2 = idealWidth ?? maxWidth!
+            if d1 <= d2 {
+                // <+916>
+                d2 = idealWidth ?? 0
+                
+                if let d3 = maxWidth {
+                    // <+948>
+                    if d2 <= d3 {
+                        // <+412>
+                        w12 = (d1 == .infinity)
+                    } else {
+                        // <+456>
+                        w12 = true
+                    }
+                } else {
+                    // <+1012>
+                    if d2.isNaN {
+                        w12 = true
+                    } else {
+                        w12 = (d1 == .infinity)
+                    }
+                }
+            } else {
+                w12 = true
+            }
+            
+            // <+460>
+        } else {
+            // <+404>
+            w12 = d1.isNaN || (d1 == .infinity)
+            // <+460>
+        }
+        
+        // <+460>
+        // w12 -> sp + 0x4
+        d1 = 0
+        let d0 = minHeight ?? d1
+        let w24: Bool
+        if (idealHeight != nil) || (maxHeight != nil) {
+            // <+552>
+            d1 = idealHeight ?? maxHeight!
+            if d0 <= d1 {
+                // <+964>
+                d1 = idealHeight ?? 0
+                
+                if let d2 = maxHeight {
+                    if d1 <= d2 {
+                        // <+524>
+                        w24 = (d0 == .infinity)
+                    } else {
+                        // <+572>
+                        w24 = true
+                    }
+                } else {
+                    // <+1024>
+                    if d1.isNaN {
+                        w24 = true
+                    } else {
+                        w24 = (d0 == .infinity)
+                    }
+                }
+            } else {
+                w24 = true
+            }
+        } else {
+            // <+516>
+            w24 = d0.isNaN || (d0 == .infinity)
+        }
+        
+        // <+580>
+        if isLinkedOnOrAfter(.v3) && (w12 || w24) {
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Invalid frame dimension (negative or non-finite).")
+        }
+        
+        self.alignment = alignment
     }
     
     public typealias AnimatableData = EmptyAnimatableData
@@ -265,7 +395,6 @@ extension View {
                 idealHeight: idealHeight, maxHeight: maxHeight,
                 alignment: alignment))
     }
-    
 }
 
 extension _FlexFrameLayout : Animatable {}
@@ -274,13 +403,13 @@ extension _FlexFrameLayout : Sendable {}
 extension _FlexFrameLayout : BitwiseCopyable {}
 
 extension _FlexFrameLayout : UnaryLayout {
-    typealias PlacementContextType = Never // TODO
+    typealias PlacementContextType = PlacementContext
     
     func spacing(in context: SizeAndSpacingContext, child: LayoutProxy) -> Spacing {
         assertUnimplemented()
     }
     
-    func placement(of proxy: LayoutProxy, in context: Never) -> _Placement {
+    func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
         assertUnimplemented()
     }
     
@@ -293,10 +422,6 @@ extension _FlexFrameLayout : UnaryLayout {
     }
     
     func ignoresAutomaticPadding(child: LayoutProxy) -> Bool {
-        assertUnimplemented()
-    }
-    
-    static func makeViewImpl(modifier: _GraphValue<_FlexFrameLayout>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
 }
