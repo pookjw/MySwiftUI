@@ -366,6 +366,14 @@ fileprivate protocol FrameLayoutCommon {
     
     public typealias AnimatableData = EmptyAnimatableData
     public typealias Body = Never
+    
+    fileprivate func childProposal(myProposal: _ProposedSize) -> _ProposedSize {
+        assertUnimplemented()
+    }
+    
+    fileprivate func childPlacementProposal(of proxy: LayoutProxy, context: PlacementContext) -> _ProposedSize {
+        assertUnimplemented()
+    }
 }
 
 extension View {
@@ -406,7 +414,35 @@ extension _FlexFrameLayout : UnaryLayout {
     typealias PlacementContextType = PlacementContext
     
     func spacing(in context: SizeAndSpacingContext, child: LayoutProxy) -> Spacing {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x23
+         context.owner/environment -> w21/w22
+         child -> w24/w25/d8
+         */
+        if isLinkedOnOrAfter(.v3) && !child.requiresSpacingProjection {
+            // <+380>
+            var spacing = child.spacing()
+            var set: Edge.Set
+            
+            if (self.minHeight != nil) || (self.idealHeight != nil) || (self.maxHeight != nil) {
+                set = .vertical
+            } else {
+                set = []
+            }
+            
+            if (self.minWidth != nil) || (self.idealWidth != nil) || (self.maxWidth != nil) {
+                set.formUnion(.horizontal)
+            }
+            
+            // sp + 0x18
+            let edge = AbsoluteEdge.Set(set, layoutDirection: context.layoutDirection)
+            spacing.reset(edge)
+            
+            return spacing
+        } else {
+            // <+204>
+            return child.spacing()
+        }
     }
     
     func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
@@ -414,6 +450,11 @@ extension _FlexFrameLayout : UnaryLayout {
     }
     
     func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {
+        /*
+         size -> x0
+         context -> x1
+         child -> x2
+         */
         assertUnimplemented()
     }
     
