@@ -57,7 +57,7 @@
     public static let trailingFront: Alignment3D = { assertUnimplemented() }()
     public static let front: Alignment3D = { assertUnimplemented() }()
     public static let back: Alignment3D = { assertUnimplemented() }()
-    public static let center: Alignment3D = { assertUnimplemented() }()
+    public static let center = Alignment3D(horizontal: .center, vertical: .center, depth: .center)
     
     public static func == (a: Alignment3D, b: Alignment3D) -> Bool {
         assertUnimplemented()

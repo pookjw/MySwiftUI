@@ -15,7 +15,7 @@ private import Synchronization
         return a.horizontal == b.horizontal && a.vertical == b.vertical
     }
     
-    init(_ alignment3D: Alignment3D) {
+    package init(_ alignment3D: Alignment3D) {
         self.horizontal = alignment3D.horizontal
         self.vertical = alignment3D.vertical
     }

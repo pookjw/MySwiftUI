@@ -20,3 +20,20 @@ extension SwiftUI._UIHostingView {
   //  get
   //}
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.View {
+  public func frame(
+    minWidth: CoreFoundation.CGFloat?,
+    idealWidth: CoreFoundation.CGFloat?,
+    maxWidth: CoreFoundation.CGFloat?,
+    minHeight: CoreFoundation.CGFloat?,
+    idealHeight: CoreFoundation.CGFloat?,
+    maxHeight: CoreFoundation.CGFloat?,
+    minDepth: CoreFoundation.CGFloat?,
+    idealDepth: CoreFoundation.CGFloat?,
+    maxDepth: CoreFoundation.CGFloat?,
+    alignment: SwiftUI.Alignment3D
+  ) -> some SwiftUI.View
+}

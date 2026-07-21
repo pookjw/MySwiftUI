@@ -24,7 +24,7 @@ extension View {
         }
         
         if !areInNondecreasingOrder(minDepth, idealDepth, maxDepth) {
-            os_log(
+            unsafe os_log(
                 .fault, log: Log.runtimeIssuesLog,
                 "Contradictory frame constraints specified.")
         }
@@ -182,16 +182,26 @@ extension _FlexFrameDepthLayout : Animatable {}
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension _FlexFrameDepthLayout : ViewModifier, FrameDepthLayout {
-    package func depthThatFits(in: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat {
+    package func depthThatFits(in size: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat {
+        /*
+         self -> x20 -> x22
+         size -> x0 -> x20
+         child -> x2 -> x23
+         */
+        // <+96>
         assertUnimplemented()
     }
     
-    package func depthPlacement(of: LayoutProxy, in: PlacementContext3D) -> DepthPlacement {
+    package func depthPlacement(of proxy: LayoutProxy, in context: PlacementContext3D) -> DepthPlacement {
         assertUnimplemented()
     }
     
-    package func depthOffered(to: LayoutProxy, for: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
-        assertUnimplemented()
+    package func depthOffered(to: LayoutProxy, for size: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
+        if let minDepth {
+            return minDepth
+        } else {
+            return size.depth
+        }
     }
 }
 

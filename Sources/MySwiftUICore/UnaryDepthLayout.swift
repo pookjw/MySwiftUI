@@ -3,9 +3,9 @@ package import CoreGraphics
 internal import AttributeGraph
 
 package protocol UnaryDepthLayout : Animatable, MultiViewModifier, PrimitiveViewModifier {
-    nonisolated func depthThatFits(in: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat
-    nonisolated func depthPlacement(of: LayoutProxy, in: PlacementContext3D) -> DepthPlacement
-    nonisolated func depthOffered(to: LayoutProxy, for: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat?
+    nonisolated func depthThatFits(in size: _ProposedSize3D, context: SizeAndSpacingContext, child: LayoutProxy) -> CGFloat
+    nonisolated func depthPlacement(of proxy: LayoutProxy, in context: PlacementContext3D) -> DepthPlacement
+    nonisolated func depthOffered(to: LayoutProxy, for size: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat?
 }
 
 extension UnaryDepthLayout {
@@ -301,7 +301,7 @@ extension UnaryDepthLayoutComputer {
         }
         
         func requiresSpacingProjection() -> Bool {
-            assertUnimplemented()
+            return self.child.requiresSpacingProjection
         }
         
         func requiresTrueDepthLayout() -> Bool {
@@ -309,7 +309,7 @@ extension UnaryDepthLayoutComputer {
         }
         
         func spacing() -> Spacing {
-            assertUnimplemented()
+            return self.child.spacing()
         }
         
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
@@ -340,7 +340,10 @@ extension UnaryDepthLayoutComputer {
         }
         
         func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-            assertUnimplemented()
+            return withUpdatedDepthProposal(proposal2D: viewSize.proposal) { 
+                // $s7SwiftUI24UnaryDepthLayoutComputer33_34D3AEC4362799DA2D0B148FCF3EBBB0LLV6EngineV17explicitAlignment_2at12CoreGraphics7CGFloatVSgAA0P3KeyV_AA8ViewSizeVtFALyXEfU_TA
+                return self.child.explicitAlignment(alignmentKey, at: viewSize)
+            }
         }
         
         func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {

@@ -1,13 +1,5 @@
-//
-//  FlexFrameLayout3DViewController.swift
-//  NativePlayground
-//
-//  Created by Jinwoo Kim on 7/21/26.
-//
-
-import SwiftUI
-import UIKit
-import _SwiftUIPrivate
+public import UIKit
+private import MySwiftUI
 
 fileprivate struct MyView : View {
     var body: some View {
@@ -78,8 +70,8 @@ fileprivate struct MyView : View {
     }
 }
 
-final class FlexFrameLayout3DViewController : UIViewController {
-    override func viewDidLoad() {
+public final class FlexFrameLayout3DViewController : UIViewController {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         let hostingController = UIHostingController(rootView: MyView())
