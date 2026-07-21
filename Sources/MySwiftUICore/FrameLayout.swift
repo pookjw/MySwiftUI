@@ -368,6 +368,20 @@ fileprivate protocol FrameLayoutCommon {
     public typealias Body = Never
     
     fileprivate func childProposal(myProposal: _ProposedSize) -> _ProposedSize {
+        // w9
+        let d0: CGFloat?
+        if let width = myProposal.width {
+            // <+52>
+        } else {
+            if let idealWidth {
+                // <+56>
+            } else {
+                // <+108>
+                d0 = nil
+            }
+        }
+        
+        // <+108>
         assertUnimplemented()
     }
     
@@ -455,7 +469,162 @@ extension _FlexFrameLayout : UnaryLayout {
          context -> x1
          child -> x2
          */
-        assertUnimplemented()
+        // w22
+        let d8: CGFloat?
+        if let proposedWidth = size.width {
+            // <+88>
+            if let minWidth, let maxWidth {
+                var d1 = minWidth
+                let d0 = maxWidth
+                
+                if d1 <= d0 {
+                    // <+472>
+                    let d2 = proposedWidth
+                    d1 = (d1 <= d2) ? d2 : d1
+                    d8 = (d1 > d0) ? d0 : d1
+                    // <+128>
+                } else {
+                    d8 = nil
+                }
+            } else {
+                d8 = nil
+            }
+        } else {
+            d8 = self.idealWidth
+        }
+        
+        // <+128>
+        // w25
+        let d9: CGFloat?
+        if let proposedHeight = size.height {
+            // <+204>
+            if let minHeight, let maxHeight {
+                // <+220>
+                var d1 = minHeight
+                let d0 = maxHeight
+                
+                if d1 <= d0 {
+                    // <+500>
+                    let d2 = proposedHeight
+                    d1 = (d1 <= d2) ? d2 : d1
+                    d9 = (d1 > d0) ? d0 : d1
+                    
+                    // <+172>
+                    if let d8 {
+                        return CGSize(width: d8, height: d9!)
+                    } else {
+                        // <+252>
+                    }
+                } else {
+                    // <+236>
+                    d9 = nil
+                }
+            } else {
+                // <+236>
+                d9 = nil
+            }
+        } else {
+            // <+164>
+            d9 = self.idealHeight
+            
+            if let d8 {
+                if let idealHeight {
+                    // <+424>
+                    return CGSize(width: d8, height: idealHeight)
+                } else {
+                    // <+252>
+                }
+            } else {
+                // <+252>
+            }
+        }
+        
+        // <+252>
+        // sp + 0x50
+        let childProposal = self.childProposal(myProposal: size)
+        let childSize = child.size(in: childProposal)
+        
+        func dimension(min: CGFloat?, max: CGFloat?, childProposal: CGFloat?, childActual: CGFloat) -> CGFloat {
+            /*
+             min -> x0/w1
+             max -> x2/w3
+             childProposal -> x4/w5
+             childActual -> d0
+             */
+            var d0 = childActual
+            
+            if let min {
+                // <+76>
+                let d1 = min
+                
+                if let max {
+                    let d2 = max
+                    
+                    if d1 <= d2 {
+                        // <+160>
+                        d0 = (d0 >= d1) ? d0 : d1
+                        d0 = (d0 > d2) ? d2: d0
+                        return d0
+                    } else {
+                        // <+104>
+                    }
+                } else {
+                    // <+104>
+                }
+                
+                // <+104>
+                var d2 = childProposal ?? .infinity
+                d2 = (d2 < d0) ? d2 : d0
+                d0 = d1
+                
+                if d2 >= d1 {
+                    return d2
+                } else {
+                    return d0
+                }
+            } else if let max {
+                // <+24>
+                let d2 = -CGFloat.infinity
+                var d1 = childProposal ?? d2
+                d1 = (d0 <= d1) ? d1 : d0
+                d0 = max
+                
+                if !(d1 < d0) {
+                    // <+148>
+                    return d0
+                } else {
+                    return d1
+                }
+            } else {
+                return childActual
+            }
+        }
+        
+        let width: CGFloat
+        if let d8 {
+            width = d8
+        } else {
+            width = dimension(
+                min: self.minWidth,
+                max: self.maxWidth,
+                childProposal: childProposal.width,
+                childActual: childSize.width
+            )
+        }
+        
+        // <+392>
+        let height: CGFloat
+        if let d9 {
+            height = d9
+        } else {
+            height = dimension(
+                min: self.minHeight,
+                max: self.maxHeight,
+                childProposal: childProposal.height,
+                childActual: childSize.height
+            )
+        }
+        return CGSize(width: width, height: height)
     }
     
     func layoutPriority(child: LayoutProxy) -> Double {
