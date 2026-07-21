@@ -139,7 +139,13 @@ extension _FrameLayout : UnaryLayout {
     }
 }
 
-extension _FrameLayout : FrameLayoutCommon {
+extension _FrameLayout : FrameLayoutCommon {}
+
+fileprivate protocol FrameLayoutCommon {
+    func commonPlacement(of proxy: LayoutProxy, in context: PlacementContext, childProposal: _ProposedSize) -> _Placement
+}
+
+extension FrameLayoutCommon where Self == _FrameLayout {
     func commonPlacement(
         of proxy: LayoutProxy,
         in context: PlacementContext,
@@ -216,8 +222,75 @@ extension _FrameLayout : FrameLayoutCommon {
     }
 }
 
-fileprivate protocol FrameLayoutCommon {
-    func commonPlacement(of proxy: LayoutProxy, in context: PlacementContext, childProposal: _ProposedSize) -> _Placement
+extension FrameLayoutCommon where Self == _FlexFrameLayout {
+    func commonPlacement(
+        of proxy: LayoutProxy,
+        in context: PlacementContext,
+        childProposal: _ProposedSize
+    ) -> _Placement {
+        let alignment = self.alignment
+        let size = context.size
+        var d10 = size.width
+        var d9 = size.height
+        var d8 = d10
+        let d12 = d9
+        
+        // x27
+        let defaultComputer = LayoutComputer.defaultValue
+        // sp + 0x58
+        // x28/x25/d13/d14/d15/d11
+        let dimensions = proxy.dimensions(in: childProposal)
+        let horizontalKey = alignment.horizontal.key
+        let verticalKey = alignment.vertical.key
+        
+        var d0 = horizontalKey.id.defaultValue(
+            in: ViewDimensions(
+                guideComputer: defaultComputer,
+                size: ViewSize(
+                    CGSize(
+                        width: d8,
+                        height: d12
+                    ),
+                    proposal: _ProposedSize(
+                        width: d10,
+                        height: d9
+                    )
+                )
+            )
+        )
+        let d1 = d8
+        d8 = d0
+        
+        d0 = verticalKey.id.defaultValue(
+            in: ViewDimensions(
+                guideComputer: defaultComputer,
+                size: ViewSize(
+                    CGSize(
+                        width: d1,
+                        height: d12
+                    ),
+                    proposal: _ProposedSize(
+                        width: d10,
+                        height: d9
+                    )
+                )
+            )
+        )
+        d9 = d0
+        
+        d0 = dimensions[horizontalKey]
+        d10 = d8 - d0
+        
+        d0 = dimensions[verticalKey]
+        d8 = d0
+        d0 = d9 - d8
+        
+        return _Placement(
+            proposedSize: childProposal,
+            anchoring: .zero,
+            at: CGPoint(x: d10, y: d0)
+        )
+    }
 }
 
 @frozen public struct _FlexFrameLayout {
@@ -372,9 +445,23 @@ fileprivate protocol FrameLayoutCommon {
         let d0: CGFloat?
         if let width = myProposal.width {
             // <+52>
+            var _d0 = width
+            let d2 = self.minWidth ?? -.infinity
+            _d0 = (d2 <= _d0) ? _d0 : d2
+            let d1 = self.maxWidth ?? .infinity
+            _d0 = (d1 < _d0) ? d1 : _d0
+            d0 = _d0
+            // <+108>
         } else {
             if let idealWidth {
                 // <+56>
+                var _d0 = idealWidth
+                let d2 = self.minWidth ?? -.infinity
+                _d0 = (d2 <= _d0) ? _d0 : d2
+                let d1 = self.maxWidth ?? .infinity
+                _d0 = (d1 < _d0) ? d1 : _d0
+                d0 = _d0
+                // <+108>
             } else {
                 // <+108>
                 d0 = nil
@@ -382,11 +469,139 @@ fileprivate protocol FrameLayoutCommon {
         }
         
         // <+108>
-        assertUnimplemented()
+        // w10
+        let d1: CGFloat?
+        if let height = myProposal.height {
+            // <+152>
+            var _d1 = height
+            let d3 = self.minHeight ?? -.infinity
+            _d1 = (d3 <= _d1) ? _d1 : d3
+            let d2 = self.maxHeight ?? .infinity
+            _d1 = (d2 < _d1) ? d2 : _d1
+            d1 = _d1
+        } else {
+            // <+132>
+            if let idealHeight {
+                // <+156>
+                var _d1 = idealHeight
+                let d3 = self.minHeight ?? -.infinity
+                _d1 = (d3 <= _d1) ? _d1 : d3
+                let d2 = self.maxHeight ?? .infinity
+                _d1 = (d2 < _d1) ? d2 : _d1
+                d1 = _d1
+            } else {
+                // <+208>
+                d1 = nil
+            }
+        }
+        
+        // <+208>
+        return _ProposedSize(width: d0, height: d1)
     }
     
     fileprivate func childPlacementProposal(of proxy: LayoutProxy, context: PlacementContext) -> _ProposedSize {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x24
+         proxy -> x0
+         context -> x1 -> x21
+         */
+        var d9 = context.size.width
+        
+        // <+136>
+        // w27
+        let d8: CGFloat?
+        if self.idealWidth != nil {
+            d8 = d9
+            // <+288>
+        } else {
+            // <+144>
+            // sp + 0x8
+            let proposedSize = context.proposedSize
+            if proposedSize.width != nil {
+                d8 = d9
+                // <+288>
+            } else {
+                // <+204>
+                let d0 = self.minWidth ?? -.infinity
+                
+                if let maxWidth {
+                    // <+268>
+                    if (d0 < d9) && (d9 < maxWidth) {
+                        // <+584>
+                        d8 = nil
+                    } else {
+                        d8 = d9
+                    }
+                    // <+288>
+                } else if !(d0 < d9) {
+                    d8 = d9
+                    // <+288>
+                } else {
+                    // <+236>
+                    if (d9 < .infinity) || (d9 > .infinity) {
+                        d8 = nil
+                    } else {
+                        d8 = d9
+                    }
+                    // <+288>
+                }
+            }
+        }
+        
+        // <+280>
+        d9 = context.size.height
+        
+        // <+360>
+        // w8
+        let d0: CGFloat?
+        if self.idealHeight != nil {
+            // <+520>
+            d0 = d9
+            // <+528>
+        } else {
+            // <+368>
+            // sp + 0x8
+            let proposedSize = context.proposedSize
+            
+            if proposedSize.height != nil {
+                // <+520>
+                d0 = d9
+                // <+528>
+            } else {
+                // <+428>
+                let _d0 = self.minHeight ?? -.infinity
+                
+                if let maxHeight {
+                    // <+492>
+                    if !(_d0 < d9) || !(d9 < maxHeight) {
+                        // <+520>
+                        d0 = d9
+                        // <+528>
+                    } else {
+                        d0 = nil
+                    }
+                } else {
+                    // <+452>
+                    if !(_d0 < d9) {
+                        // <+520>
+                        d0 = d9
+                        // <+528>
+                    } else {
+                        if (d9 < .infinity) || (d9 > .infinity) {
+                            d0 = nil
+                            // <+528>
+                        } else {
+                            // <+520>
+                            d0 = d9
+                            // <+528>
+                        }
+                    }
+                }
+            }
+        }
+        
+        // <+528>
+        return _ProposedSize(width: d8, height: d0)
     }
 }
 
@@ -460,7 +675,22 @@ extension _FlexFrameLayout : UnaryLayout {
     }
     
     func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
-        assertUnimplemented()
+        /*
+         proxy -> x0 -> w24/w25/w21
+         context -> x1
+         return pointer -> x8 -> x19
+         */
+        let childProposal: _ProposedSize
+        if isLinkedOnOrAfter(.v5) {
+            // <+232>
+            childProposal = self.childPlacementProposal(of: proxy, context: context)
+        } else {
+            // <+164>
+            childProposal = _ProposedSize(context.size)
+        }
+        
+        // <+312>
+        return self.commonPlacement(of: proxy, in: context, childProposal: childProposal)
     }
     
     func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {
@@ -636,11 +866,6 @@ extension _FlexFrameLayout : UnaryLayout {
     }
 }
 
-extension _FlexFrameLayout : FrameLayoutCommon {
-    func commonPlacement(of proxy: LayoutProxy, in context: PlacementContext, childProposal: _ProposedSize) -> _Placement {
-        assertUnimplemented()
-    }
-}
-
+extension _FlexFrameLayout : FrameLayoutCommon {}
 extension _FlexFrameLayout : MultiViewModifier {}
 extension _FlexFrameLayout : PrimitiveViewModifier {}
