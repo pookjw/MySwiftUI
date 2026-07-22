@@ -233,10 +233,10 @@ extension CGSize {
         var d1 = height
         let d3 = traits.width.min
         let d2 = traits.width.max
-        assert(!(d3 > d2))
+        assert(d3 <= d2)
         let d5 = traits.height.min
         let d4 = traits.height.max
-        assert(!(d5 > d4))
+        assert(d5 <= d4)
         
         d0 = (d3 <= d0) ? d0 : d3
         d0 = (d2 < d0) ? d2 : d0

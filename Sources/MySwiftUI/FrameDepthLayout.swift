@@ -189,11 +189,97 @@ extension _FlexFrameDepthLayout : ViewModifier, FrameDepthLayout {
          child -> x2 -> x23
          */
         // <+96>
-        assertUnimplemented()
+        if size.depth == nil, let idealDepth {
+            return idealDepth
+        }
+        
+        // <+124>
+        if
+            let depth = size.depth,
+            let minDepth,
+            let maxDepth,
+            minDepth <= maxDepth
+        {
+            let d1 = minDepth
+            let d0 = maxDepth
+            // <+640>
+            let d2 = depth
+            let d8 = (d1 <= d2) ? d2 : d1
+            if !(d0 < d8) {
+                return d8
+            } else {
+                return d0
+            }
+        }
+        
+        // <+180>
+        // x21
+        var copy_1 = size
+        
+        if var d0 = copy_1.depth ?? self.idealDepth {
+            // <+244>
+            var d1 = self.minDepth ?? -.infinity
+            d0 = (d1 <= d0) ? d0 : d1
+            d1 = self.maxDepth ?? .infinity
+            d0 = (d1 < d0) ? d1 : d0
+            copy_1.depth = d0
+        } else {
+            // <+320>
+            copy_1.depth = nil
+        }
+        
+        // <+328>
+        var d8 = child.depth(in: copy_1)
+        
+        if let d9 = self.minDepth {
+            // <+388>
+            if let d10 = self.maxDepth {
+                // <+560>
+                assert(d9 <= d10)
+                let d0 = (d9 <= d8) ? d8 : d9
+                d8 = (d10 < d0) ? d10 : d0
+                return d8
+            } else {
+                // <+404>
+                var d0 = copy_1.depth ?? .infinity
+                d0 = (d0 < d8) ? d0 : d8
+                d8 = (d9 <= d0) ? d0 : d9
+                return d8
+            }
+        } else if let d9 = self.maxDepth {
+            // <+484>
+            var d0 = copy_1.depth ?? -.infinity
+            d0 = (d8 <= d0) ? d0 : d8
+            d8 = (d0 < d9) ? d0 : d9
+            return d8
+        } else {
+            return d8
+        }
     }
     
     package func depthPlacement(of proxy: LayoutProxy, in context: PlacementContext3D) -> DepthPlacement {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x27
+         proxy -> x0 -> x29 - 0x88
+         context -> x1 -> x20
+         */
+        // <+384>
+        // x19
+        let proposed = _ProposedSize3D(context.size)
+        // x26
+        let dimensions_1 = ViewDimensions3D(
+            guideComputer: .defaultValue,
+            size: context.size,
+            proposal: context.proposedSize
+        )
+        // x24
+        let dimensions_2 = proxy.dimensions3D(in: proposed)
+        var d8 = self.alignment.depthKey.id.defaultValue(in: dimensions_1)
+        let d0 = dimensions_2[self.alignment]
+        d8 = d8 - d0
+        // x29 - 0x78
+        let placement = DepthPlacement(proposal: proposed.depth, offset: d8)
+        return placement
     }
     
     package func depthOffered(to: LayoutProxy, for size: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
