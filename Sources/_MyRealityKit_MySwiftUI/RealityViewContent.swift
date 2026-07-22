@@ -1,6 +1,9 @@
 public import MySwiftUICore
 public import Spatial
 private import CoreGraphics
+internal import UIKit
+internal import MyRealityFoundation
+private import CoreRE
 
 @available(visionOS 1.0, *)
 @available(macOS, unavailable)
@@ -87,6 +90,19 @@ extension RealityViewContent {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 public struct RealityViewContent : RealityViewContentProtocol {
+    static let linkedOnOrAfterFall2024OSVersions = RELinkedOnOrAfterFall2024OSVersions()
+    
+    private var _base: MyRealityFoundation.Entity // 0x0
+    private var _rep: MyRealityFoundation.Entity // 0x8
+    private var contentStorage: RealityViewContent.ContentStorage
+    private var transaction: Transaction?
+    private var debugOptions: DebugOptions
+    var proxy: GeometryProxy3D? // 0x24 (field)
+    var role: UISceneSession.Role? // 0x28 (field)
+    weak var model: _RealityViewModel? // 0x2c (field)
+    var pointsPerMeter: CGFloat // 0x30 (field)
+    var scene: MyRealityFoundation.Scene? // 0x34 (field)
+    
     public var entities: RealityViewEntityCollection {
         get {
             assertUnimplemented()
@@ -96,7 +112,7 @@ public struct RealityViewContent : RealityViewContentProtocol {
         }
     }
     
-    public func subscribe<E>(to event: E.Type, on sourceObject: (any EventSource)?, componentType: (any Component.Type)?, _ handler: @escaping (E) -> Void) -> EventSubscription where E : Event {
+    public func subscribe<E>(to event: E.Type, on sourceObject: (any EventSource)?, componentType: (any MyRealityFoundation.Component.Type)?, _ handler: @escaping (E) -> Void) -> EventSubscription where E : Event {
         assertUnimplemented()
     }
     
@@ -107,6 +123,15 @@ public struct RealityViewContent : RealityViewContentProtocol {
     @available(macOS, unavailable)
     @available(macCatalyst, unavailable)
     public typealias Entities = RealityViewEntityCollection
+    
+    @inline(always) // 원래 없음
+    var entity: MyRealityFoundation.Entity {
+        if RealityViewContent.linkedOnOrAfterFall2024OSVersions {
+            return self._rep
+        } else {
+            return self._base
+        }
+    }
 }
 
 @available(visionOS 1.0, *)
@@ -136,3 +161,9 @@ extension RealityViewContent : RealityCoordinateSpaceConverting, RealityCoordina
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension RealityViewContent.Body : Sendable {}
+
+extension RealityViewContent {
+    final class ContentStorage {
+        // TODO
+    }
+}

@@ -10,7 +10,20 @@ exports:
     _RESelectableSceneContentIdentifierGetComponentType,
     _REEntityGetOrAddComponentByClass,
     _RESelectableSceneContentIdentifierComponentSetIdentifier,
-    _RESelectableSceneContentIdentifierComponentGetIdentifier ]
+    _RESelectableSceneContentIdentifierComponentGetIdentifier,
+    _RELinkedOnOrAfterFall2020OSVersions,
+    _RELinkedOnOrAfterFall2021OSVersions,
+    _RELinkedOnOrAfterFall2022OSVersions,
+    _RELinkedOnOrAfterFall2024OSVersions,
+    _RELinkedOnOrAfterFall2025OSVersions,
+    _RELinkedOnOrAfterVisionOS1_1AlignedOSVersions,
+    _RERenderOptionsComponentGetComponentType,
+    _RESceneSpaceRootComponentGetComponentType,
+    _REEntityGetComponentByClass,
+    _RESceneSpaceRootComponentGetIsSelfInImmersiveSpace,
+    _RESceneSpaceRootComponentSetIsSelfInImmersiveSpace,
+    _REImmersiveSpaceTrackerComponentGetComponentType,
+    _RERenderOptionsComponentOverrideContributeToCombinedVignetting ]
     objc-classes:         [ BSAnimationSettings ]
     objc-ivars:           [  ]
 ...

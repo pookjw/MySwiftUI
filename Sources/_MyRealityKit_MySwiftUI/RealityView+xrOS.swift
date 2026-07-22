@@ -7,6 +7,7 @@ internal import Combine
 internal import Spatial
 private import Observation
 internal import UIKit
+private import CoreRE
 
 struct _RealityViewAsync<Placeholder : View> : View {
     private let make: @Sendable (inout RealityViewContent) async -> Void // 0x0
@@ -109,8 +110,9 @@ struct _RealityViewAsync<Placeholder : View> : View {
          SwiftUI._AppearanceActionModifier
      >
      */
-    // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvg0cD005TupleE0VyAE6ZStackVyAE0E0PAEE5frame7minSize05idealL003maxL09alignmentQrSo8SPSize3DaSg_A2sE11Alignment3DVtFQOyx_Qo_SgG_AkEE10preference3key5valueQrqd__m_5ValueQyd__tAE13PreferenceKeyRd__lFQOyAE15ModifiedContentVyAA13EntityWrapperVAA29TransformInteractionIfEnabled33_587BE5026F01C2416D8EB2E1012BACCALLVG_AA0ae11ConvertibleW0VQo_SgtGSgyXEfU0_
     var body: some View {
+        let _: Void = register()
+        
         Group {
             // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvg0cD005TupleE0VyAE6ZStackVyAE0E0PAEE5frame7minSize05idealL003maxL09alignmentQrSo8SPSize3DaSg_A2sE11Alignment3DVtFQOyx_Qo_SgG_AkEE10preference3key5valueQrqd__m_5ValueQyd__tAE13PreferenceKeyRd__lFQOyAE15ModifiedContentVyAA13EntityWrapperVAA29TransformInteractionIfEnabled33_587BE5026F01C2416D8EB2E1012BACCALLVG_AA0ae11ConvertibleW0VQo_SgtGSgyXEfU0_TA
             if let model {
@@ -153,6 +155,74 @@ struct _RealityViewAsync<Placeholder : View> : View {
         .onDisappear { 
             assertUnimplemented()
         }
+    }
+    
+    @_transparent
+    private func register() {
+        // self -> x20 -> x22
+        guard let model else {
+            return
+        }
+        
+        // model -> x19
+        // x20
+        let role = self.role
+        // <+1136>
+        model.content.role = role
+        // self -> x22 -> x21
+        model.content.proxy = self.proxy
+        
+        // <+1296>
+        model.content.model = self.model
+        
+        // <+1352>
+        // self -> x21 -> x20
+        model.content.pointsPerMeter = self.pointsPerMeter
+        model.content.entity.components.set(RealityViewComponent(model: self.model))
+        
+        // <+1596>
+        // x19
+        let coreEntity_1 = unsafeBitCast(model.content.entity.coreEntity, to: CoreRE.Entity.self)
+        // x19
+        let renderOptionsComponent = coreEntity_1.getOrAddComponent(ofType: .renderOptions)
+        
+        if
+            let role,
+            role == .immersiveSpaceApplication
+        {
+            // <+1832>
+            let coreEntity_2 = unsafeBitCast(model.content.entity.coreEntity, to: CoreRE.Entity.self)
+            if let spaceRootComponent = coreEntity_2.getComponent(ofType: .sceneSpaceRoot) {
+                spaceRootComponent.sceneSpaceRoot_isSelfInImmersiveSpace = true
+                
+                // <+1936>
+                let coreEntity_3 = unsafeBitCast(model.content.entity.coreEntity, to: CoreRE.Entity.self)
+                _ = coreEntity_3.getOrAddComponent(ofType: .immersiveSpaceTracker)
+                // <+2028>
+            }
+            
+            // <+2028>
+        }
+        
+        // <+2028>
+        renderOptionsComponent.renderOptions_overrideContributeToCombinedVignetting(false, true)
+        
+        // self -> x22 -> x20
+        if self.uiScene is UIWindowScene {
+            // <+2100>
+            _ = SpatialTrackingManager.shared
+            // <+2140>
+        }
+        
+        // <+2140>
+        model.content.scene = self.scene
+        
+        if let scene {
+            // <+2184>
+            assertUnimplemented()
+        }
+        
+        assertUnimplemented()
     }
 }
 
