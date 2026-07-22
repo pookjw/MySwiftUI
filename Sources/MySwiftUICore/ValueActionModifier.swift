@@ -126,7 +126,11 @@ struct _ValueActionModifier2<Value : Equatable> : ViewModifier, PrimitiveViewMod
     }
     
     nonisolated static func _makeViewList(modifier: _GraphValue<_ValueActionModifier2<Value>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        let dispatcher = ValueActionDispatcher(modifier: modifier.value, phase: inputs.base.phase)
+        let attribute = Attribute(dispatcher)
+        attribute.flags = .unknown0
+        
+        return body(_Graph(), inputs)
     }
 }
 

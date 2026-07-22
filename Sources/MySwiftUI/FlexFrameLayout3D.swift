@@ -1,6 +1,7 @@
 package import CoreGraphics
 package import MySwiftUICore
 private import os.log
+package import Spatial
 
 extension View {
     package func frame(
@@ -29,6 +30,10 @@ extension View {
                 alignment: alignment
             )
         )
+    }
+    
+    package func frame(minSize: Size3D?, idealSize: Size3D?, maxSize: Size3D?, alignment: Alignment3D) -> some View {
+        assertUnimplemented()
     }
 }
 

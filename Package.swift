@@ -36,11 +36,13 @@ let package = Package(
     traits: [
         .trait(name: "SwiftUICompataibility"),
         .trait(name: "UseMyRealityKit"),
+        .trait(name: "UseMyRealityKitOnExportedSymbols"),
         .trait(name: "Xcode27SDKCompataibility"),
         .`default`(
             enabledTraits: [
                 "SwiftUICompataibility",
-                "Xcode27SDKCompataibility"
+                "Xcode27SDKCompataibility",
+                "UseMyRealityKitOnExportedSymbols"
             ]
         )
     ],
