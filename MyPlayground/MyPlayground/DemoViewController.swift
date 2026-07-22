@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.sphereView
+        let item = DemoViewController.Item.minMax3DFrameView
         pushToItem(item)
         
 //        Task {
@@ -131,6 +131,7 @@ extension DemoViewController {
         case frameLayoutView
         case flexFrameLayoutView
         case flexFrameLayout3DView
+        case minMax3DFrameView
         case offsetView
         case withAnimationView
         case animationModifierView
@@ -242,6 +243,8 @@ extension DemoViewController {
                 return _typeName(FlexFrameLayoutViewController.self, qualified: false)
             case .flexFrameLayout3DView:
                 return _typeName(FlexFrameLayout3DViewController.self, qualified: false)
+            case .minMax3DFrameView:
+                return _typeName(MinMax3DFrameViewController.self, qualified: false)
             case .offsetView:
                 return _typeName(OffsetViewController.self, qualified: false)
             case .withAnimationView:
@@ -373,6 +376,8 @@ extension DemoViewController {
                 return FlexFrameLayoutViewController()
             case .flexFrameLayout3DView:
                 return FlexFrameLayout3DViewController()
+            case .minMax3DFrameView:
+                return MinMax3DFrameViewController()
             case .offsetView:
                 return OffsetViewController()
             case .withAnimationView:

@@ -32,7 +32,12 @@ extension View {
         )
     }
     
-    package func frame(minSize: Size3D?, idealSize: Size3D?, maxSize: Size3D?, alignment: Alignment3D) -> some View {
+    package func frame(
+        minSize: Size3D?,
+        idealSize: Size3D?,
+        maxSize: Size3D?,
+        alignment: Alignment3D
+    ) -> some View {
         assertUnimplemented()
     }
 }

@@ -91,6 +91,9 @@ extension RealityViewContent {
 @available(tvOS, unavailable)
 public struct RealityViewContent : RealityViewContentProtocol {
     static let linkedOnOrAfterFall2024OSVersions = RELinkedOnOrAfterFall2024OSVersions()
+    static let clientNeedsUninformedMakeClosure: Bool = {
+        assertUnimplemented()
+    }()
     
     private var _base: MyRealityFoundation.Entity // 0x0
     private var _rep: MyRealityFoundation.Entity // 0x8
@@ -125,7 +128,7 @@ public struct RealityViewContent : RealityViewContentProtocol {
     public typealias Entities = RealityViewEntityCollection
     
     @inline(always) // 원래 없음
-    var entity: MyRealityFoundation.Entity {
+    var baseEntity: MyRealityFoundation.Entity {
         if RealityViewContent.linkedOnOrAfterFall2024OSVersions {
             return self._rep
         } else {

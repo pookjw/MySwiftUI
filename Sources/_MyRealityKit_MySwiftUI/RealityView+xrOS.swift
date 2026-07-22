@@ -67,93 +67,76 @@ struct _RealityViewAsync<Placeholder : View> : View {
         assertUnimplemented()
     }
     
-    /*
-     SwiftUI.ModifiedContent<
-         SwiftUI.ModifiedContent<
-             SwiftUI.ModifiedContent<
-                 SwiftUI.Group<
-                     Swift.Optional<
-                         SwiftUI.TupleView<
-                             (
-                                 SwiftUI.ZStack<
-                                     Swift.Optional<
-                                         SwiftUI.ModifiedContent<
-                                             SwiftUI.EmptyView,
-                                             SwiftUI._FlexFrameLayout3D
-                                         >
-                                     >
-                                 >,
-
-                                 Swift.Optional<
-                                     SwiftUI.ModifiedContent<
-                                         SwiftUI.ModifiedContent<
-                                             _RealityKit_SwiftUI.EntityWrapper,
-                                             _RealityKit_SwiftUI.TransformInteractionIfEnabled
-                                         >,
-                                         SwiftUI._PreferenceWritingModifier<
-                                             _RealityKit_SwiftUI.RealityViewConvertibleKey
-                                         >
-                                     >
-                                 >
-                             )
-                         >
-                     >
-                 >,
-                 SwiftUI._TaskModifier2
-             >,
-             SwiftUI._ValueActionModifier2<
-                 Swift.Optional<
-                     RealityKit.Scene
-                 >
-             >
-         >,
-         SwiftUI._AppearanceActionModifier
-     >
-     */
     var body: some View {
         let _: Void = register()
         
+        // <+2484>
         Group {
             // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvg0cD005TupleE0VyAE6ZStackVyAE0E0PAEE5frame7minSize05idealL003maxL09alignmentQrSo8SPSize3DaSg_A2sE11Alignment3DVtFQOyx_Qo_SgG_AkEE10preference3key5valueQrqd__m_5ValueQyd__tAE13PreferenceKeyRd__lFQOyAE15ModifiedContentVyAA13EntityWrapperVAA29TransformInteractionIfEnabled33_587BE5026F01C2416D8EB2E1012BACCALLVG_AA0ae11ConvertibleW0VQo_SgtGSgyXEfU0_TA
+            // <+608>
             if let model {
                 ZStack(alignment: .center) {
                     // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvg0cD005TupleE0VyAE6ZStackVyAE0E0PAEE5frame7minSize05idealL003maxL09alignmentQrSo8SPSize3DaSg_A2sE11Alignment3DVtFQOyx_Qo_SgG_AkEE10preference3key5valueQrqd__m_5ValueQyd__tAE13PreferenceKeyRd__lFQOyAE15ModifiedContentVyAA13EntityWrapperVAA29TransformInteractionIfEnabled33_587BE5026F01C2416D8EB2E1012BACCALLVG_AA0ae11ConvertibleW0VQo_SgtGSgyXEfU0_AWyXEfU_TA
                     if model.loadingPhase == .loading {
                         self.placeholder
                             .frame(
-                                minSize: { assertUnimplemented() }(),
-                                idealSize: { assertUnimplemented() }(),
-                                maxSize: { assertUnimplemented() }(),
-                                alignment: { assertUnimplemented() }()
+                                minSize: nil,
+                                idealSize: nil,
+                                maxSize: Size3D(
+                                    width: .infinity,
+                                    height: .infinity,
+                                    depth: .infinity
+                                ),
+                                alignment: .back
                             )
                     }
                 }
                 
-                if true /* TODO */ {
+                if
+                    !RealityViewContent.clientNeedsUninformedMakeClosure ||
+                        (model.loadingPhase == .loaded) ||
+                        (model.loadingPhase == .connected)
+                {
+                    // <+1032>
                     EntityWrapper(
-                        baseEntity: { assertUnimplemented() }(),
-                        updateCallback: { assertUnimplemented() }(),
-                        proxy: { assertUnimplemented() }(),
-                        model: { assertUnimplemented() }(),
-                        controller: { assertUnimplemented() }()
+                        baseEntity: model.content.baseEntity,
+                        updateCallback: self.update ?? { _ in
+                            // $s19_RealityKit_SwiftUI0A11ViewContentVIegl_ACytIeglr_TRTA
+                            assertUnimplemented()
+                        },
+                        proxy: self.proxy,
+                        model: model,
+                        controller: self.controller
                     )
                     .modifier(
                         TransformInteractionIfEnabled(
-                            transformInteractionEnabled: { assertUnimplemented() }()
+                            transformInteractionEnabled: model.hasTransformInteractionComponents
                         )
                     )
-                    .preference(key: RealityViewConvertibleKey.self, value: { assertUnimplemented() }())
+                    .preference(
+                        key: RealityViewConvertibleKey.self,
+                        value: [
+                            RealityViewConvertible(
+                                base: model.content.baseEntity,
+                                proxy: self.proxy,
+                                role: self.role
+                            )
+                        ]
+                    )
                 }
             }
         }
-        .task {
+        .task { [weak model] in
+            // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyyYacfU1_TATu
             assertUnimplemented()
         }
-        .onChange(of: 3 /* TODO */, initial: false) { oldValue, newValue in
+        .onChange(of: self.scene, initial: false) {
+            // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyycfU2_TA
             assertUnimplemented()
         }
         .onDisappear { 
-            assertUnimplemented()
+            // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyycfU3_TA
+            self.stopObservingRelativeTransform()
         }
     }
     
@@ -178,25 +161,25 @@ struct _RealityViewAsync<Placeholder : View> : View {
         // <+1352>
         // self -> x21 -> x20
         model.content.pointsPerMeter = self.pointsPerMeter
-        model.content.entity.components.set(RealityViewComponent(model: self.model))
+        model.content.baseEntity.components.set(RealityViewComponent(model: self.model))
         
         // <+1596>
         // x19
-        let coreEntity_1 = unsafeBitCast(model.content.entity.coreEntity, to: CoreRE.Entity.self)
+        let coreEntity_1 = unsafeBitCast(model.content.baseEntity.coreEntity, to: CoreRE.Entity.self)
         // x19
         let renderOptionsComponent = coreEntity_1.getOrAddComponent(ofType: .renderOptions)
         
         if
-            let role,
+            let role = self.role,
             role == .immersiveSpaceApplication
         {
             // <+1832>
-            let coreEntity_2 = unsafeBitCast(model.content.entity.coreEntity, to: CoreRE.Entity.self)
+            let coreEntity_2 = unsafeBitCast(model.content.baseEntity.coreEntity, to: CoreRE.Entity.self)
             if let spaceRootComponent = coreEntity_2.getComponent(ofType: .sceneSpaceRoot) {
                 spaceRootComponent.sceneSpaceRoot_isSelfInImmersiveSpace = true
                 
                 // <+1936>
-                let coreEntity_3 = unsafeBitCast(model.content.entity.coreEntity, to: CoreRE.Entity.self)
+                let coreEntity_3 = unsafeBitCast(model.content.baseEntity.coreEntity, to: CoreRE.Entity.self)
                 _ = coreEntity_3.getOrAddComponent(ofType: .immersiveSpaceTracker)
                 // <+2028>
             }
@@ -217,11 +200,40 @@ struct _RealityViewAsync<Placeholder : View> : View {
         // <+2140>
         model.content.scene = self.scene
         
+        let transformInteractionComponentWasAdded: (any Cancellable)?
         if let scene {
             // <+2184>
-            assertUnimplemented()
+            transformInteractionComponentWasAdded = scene.subscribe(
+                to: MyRealityFoundation.ComponentEvents.DidActivate.self,
+                on: nil,
+                componentType: MyRealityFoundation.ManipulationComponent.self
+            ) { [weak model] _ in
+                // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgy0A10Foundation15ComponentEventsO11DidActivateVcfU_TA
+                assertUnimplemented()
+            }
+            
+            // <+2368>
+        } else {
+            transformInteractionComponentWasAdded = nil
+            // <+2368>
         }
         
+        // <+2368>
+        model.transformInteractionComponentWasAdded = transformInteractionComponentWasAdded
+        
+        if !model.isObservingRelativeTransform {
+            self.stopObservingRelativeTransform()
+            self.startObservingRelativeTransform()
+        }
+        
+        // <+2460>
+    }
+    
+    fileprivate func stopObservingRelativeTransform() {
+        assertUnimplemented()
+    }
+    
+    fileprivate func startObservingRelativeTransform() {
         assertUnimplemented()
     }
 }

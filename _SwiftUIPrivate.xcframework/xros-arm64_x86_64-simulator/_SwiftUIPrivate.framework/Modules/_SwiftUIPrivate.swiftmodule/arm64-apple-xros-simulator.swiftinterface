@@ -10,6 +10,7 @@
 @_exported import QuartzCore
 @_exported import ObjectiveC
 @_exported import CoreGraphics
+@_exported import Spatial
 import _UIKitPrivate
 @_exported import _SwiftUICorePrivate
 
@@ -36,4 +37,11 @@ extension SwiftUI.View {
     maxDepth: CoreFoundation.CGFloat?,
     alignment: SwiftUI.Alignment3D
   ) -> some SwiftUI.View
+
+  public func frame(
+    minSize: Spatial.Size3D?,
+    idealSize: Spatial.Size3D?,
+    maxSize: Spatial.Size3D?,
+    alignment: SwiftUI.Alignment3D
+  ) -> some SwiftUI.View 
 }
