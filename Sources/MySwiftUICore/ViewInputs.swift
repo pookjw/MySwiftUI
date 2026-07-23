@@ -2,26 +2,26 @@ package import AttributeGraph
 internal import CoreGraphics
 
 public struct _ViewInputs {
-    package var base: _GraphInputs
-    package var preferences: PreferencesInputs
-    package var transform: Attribute<ViewTransform> {
+    package var base: _GraphInputs // 0x0
+    package var preferences: PreferencesInputs // 0x30
+    package var transform: Attribute<ViewTransform> { // 0x3c
         didSet {
             base.changedDebugProperties.formUnion(.transform)
         }
     }
-    package internal(set) var position: Attribute<CGPoint> {
+    package internal(set) var position: Attribute<CGPoint> { // 0x40
         didSet {
             base.changedDebugProperties.formUnion(.position)
         }
     }
-    package var containerPosition: Attribute<CGPoint>
-    package internal(set) var size: Attribute<ViewSize> {
+    package var containerPosition: Attribute<CGPoint> // 0x44
+    package internal(set) var size: Attribute<ViewSize> { // 0x48
         didSet {
             base.changedDebugProperties.formUnion(.size)
         }
     }
-    package internal(set) var safeAreaInsets: OptionalAttribute<SafeAreaInsets>
-    var containerSize: OptionalAttribute<ViewSize>
+    package internal(set) var safeAreaInsets: OptionalAttribute<SafeAreaInsets> // 0x4c
+    var containerSize: OptionalAttribute<ViewSize> // 0x50
     
     package var time: Attribute<Time> {
         get {

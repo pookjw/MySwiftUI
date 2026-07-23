@@ -42,12 +42,16 @@ extension DynamicLayoutViewAdaptor {
 extension Layout3D {
     static func makeDynamicView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
         /*
+         x29 = sp + 0x220
+         x26 = sp + 0x140
+         */
+        /*
          root -> x0 -> w24
          inputs -> x1
          properties -> x2 (dead)
          list -> w3 -> x19 + 0x60
          */
-        // x26 + 0xc0
+        // x26 + 0xc0 (sp + 0x200)
         let copy_1 = inputs
         // x19 + 0x78
         let hasScrollable = copy_1.preferences.contains(ScrollablePreferenceKey.self)
@@ -64,9 +68,11 @@ extension Layout3D {
         let hasScrollContent = copy_1.preferences.contains(ScrollTargetRole.ContentKey.self)
         // x19 + 0x28
         let scrollTargetRemovePreference = copy_1.scrollTargetRemovePreference
+        // w28
+        let options = copy_1.base.options
         // x19 + 0x8c
         let withinAccessibilityRotor: Bool
-        if copy_1.base.options.contains(.needsAccessibility) {
+        if options.contains(.needsAccessibility) {
             // <+248>
             withinAccessibilityRotor = copy_1[WithinAccessibilityRotor.self]
         } else {
@@ -74,6 +80,61 @@ extension Layout3D {
         }
         
         // <+260>
+        // x23
+        var layoutComputerAttribute: Attribute<LayoutComputer>? = nil
+        // <+300>
+        // x19 + 0x78
+        let x190x78 = !options.intersection([.viewRequestsLayoutComputer, .viewNeedsGeometry]).isEmpty || hasScrollable
+        // options -> w28 -> x19 + 0x6c
+        
+        // x19 + 0x58
+        let geometriesAttribute: OptionalAttribute<[ViewGeometry]>
+        // w24
+        let depthGeometriesAttribute: OptionalAttribute<[ViewDepthGeometry]>
+        if x190x78 || withinAccessibilityRotor {
+            // <+368>
+            let dynamicLayoutComputer = DynamicLayoutComputer<Self>(
+                layout: root.value,
+                environment: copy_1.environment,
+                containerInfo: OptionalAttribute(),
+                layoutMap: DynamicLayoutMap(
+                    map: [],
+                    sortedArray: [],
+                    sortedSeed: 0
+                )
+            )
+            
+            // w25
+            let _layoutComputerAttribute = Attribute(dynamicLayoutComputer)
+            layoutComputerAttribute = _layoutComputerAttribute
+            
+            // <+628>
+            // x19 + 0x1a0
+            let geometries = LayoutChildGeometries(
+                parentSize: copy_1.size,
+                parentPosition: copy_1.position,
+                layoutComputer: _layoutComputerAttribute
+            )
+            
+            geometriesAttribute = OptionalAttribute(Attribute(geometries))
+            
+            // x19 + 0x1a0
+            let depthGeometries = LayoutChildDepthGeometries<Self>(
+                parentSize: copy_1.size,
+                parentPosition: copy_1.position,
+                parentDepth: copy_1.transform[keyPath: \.depth],
+                layoutComputer: _layoutComputerAttribute
+            )
+            
+            depthGeometriesAttribute = OptionalAttribute(Attribute(depthGeometries))
+            // <+964>
+        } else {
+            depthGeometriesAttribute = OptionalAttribute()
+            geometriesAttribute = OptionalAttribute()
+            // <+964>
+        }
+        
+        // <+964>
         assertUnimplemented()
     }
 }

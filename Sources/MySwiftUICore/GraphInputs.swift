@@ -2,18 +2,18 @@
 package import AttributeGraph
 
 public struct _GraphInputs {
-    package var customInputs = PropertyList()
-    var time: Attribute<Time>
-    package var cachedEnvironment: MutableBox<CachedEnvironment>
-    package internal(set) var phase: Attribute<_GraphInputs.Phase> {
+    package var customInputs = PropertyList() // 0x0
+    var time: Attribute<Time> // 0x8
+    package var cachedEnvironment: MutableBox<CachedEnvironment> // 0x10
+    package internal(set) var phase: Attribute<_GraphInputs.Phase> { // 0x18
         didSet {
             changedDebugProperties.formUnion(.phase)
         }
     }
-    package internal(set) var transaction: Attribute<Transaction>
-    var changedDebugProperties: _ViewDebug.Properties
-    var options: _GraphInputs.Options
-    var mergedInputs: Set<AnyAttribute>
+    package internal(set) var transaction: Attribute<Transaction> // 0x1c
+    var changedDebugProperties: _ViewDebug.Properties // 0x20
+    var options: _GraphInputs.Options // 0x24
+    var mergedInputs: Set<AnyAttribute> // 0x28
     
     init(time: Attribute<Time>, phase: Attribute<_GraphInputs.Phase>, environment: Attribute<EnvironmentValues>, transaction: Attribute<Transaction>) {
         self.changedDebugProperties = _ViewDebug.Properties(rawValue: .max)
