@@ -40,11 +40,7 @@ extension DynamicLayoutViewAdaptor {
 }
 
 extension Layout3D {
-    static func makeDynamicView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
-        /*
-         x29 = sp + 0x220
-         x26 = sp + 0x140
-         */
+    static func makeDynamicView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
         /*
          root -> x0 -> w24
          inputs -> x1
@@ -135,6 +131,58 @@ extension Layout3D {
         }
         
         // <+964>
+        func mapMutator(thunk: (inout DynamicLayoutMap) -> Void) {
+            // $s7SwiftUI8Layout3DPAAE17makeDynamicView3D4root6inputs10properties4listAA12_ViewOutputsVAA11_GraphValueVyxG_AA01_K6InputsVAA16LayoutPropertiesV09AttributeM00R0VyAA0K4List_pGtFZ10mapMutatorL_5thunkyyAA0eP3MapVzXE_tAaBRzlFTA
+            /*
+             thunk -> x0/x1 -> x22/x21
+             layoutComputerAttribute -> x2 -> x23
+             */
+            guard let layoutComputerAttribute else {
+                return
+            }
+            
+            layoutComputerAttribute.mutateBody(as: DynamicLayoutComputer<Self>.self, invalidating: true) { layoutComputer in
+                // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_TA
+                thunk(&layoutComputer.layoutMap)
+            }
+        }
+        
+        // <+1012>
+        var copy_2 = copy_1
+        copy_2.base.options = options.subtracting(.viewRequestsLayoutComputer)
+        
+        if !hasScrollContent || !scrollTargetRemovePreference {
+            // <+1136>
+            assertUnimplemented()
+        } else {
+            // <+1068>
+            assertUnimplemented()
+        }
+        
+        assertUnimplemented()
+        
+        let childDepthData: DynamicLayoutViewAdaptor.ChildDepthData
+        if let attribute = depthGeometriesAttribute.attribute {
+            childDepthData = .geometries(attribute)
+        } else {
+            childDepthData = .none
+        }
+        
+        let adaptor = DynamicLayoutViewAdaptor(
+            items: list,
+            childGeometries: geometriesAttribute,
+            childDepthData: childDepthData,
+            mutateLayoutMap: mapMutator(thunk:)
+        )
+        
+        // x19 + 0xa4 / x19 + 0x90
+        let (infoAttribute, outputs) = DynamicContainer
+            .makeContainer(
+                adaptor: adaptor,
+                inputs: copy_2
+            )
+        
+        // <+1508>
         assertUnimplemented()
     }
 }
