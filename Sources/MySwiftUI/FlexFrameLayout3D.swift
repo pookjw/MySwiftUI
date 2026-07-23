@@ -38,7 +38,81 @@ extension View {
         maxSize: Size3D?,
         alignment: Alignment3D
     ) -> some View {
-        assertUnimplemented()
+        let minWidth: CGFloat?
+        if let _minWidth = minSize?.width {
+            minWidth = CGFloat(_minWidth)
+        } else {
+            minWidth = nil
+        }
+        
+        let idealWidth: CGFloat?
+        if let _idealWidth = idealSize?.width {
+            idealWidth = CGFloat(_idealWidth)
+        } else {
+            idealWidth = nil
+        }
+        
+        let maxWidth: CGFloat?
+        if let _maxWidth = maxSize?.width {
+            maxWidth = CGFloat(_maxWidth)
+        } else {
+            maxWidth = nil
+        }
+        
+        let minHeight: CGFloat?
+        if let _minHeight = minSize?.height {
+            minHeight = CGFloat(_minHeight)
+        } else {
+            minHeight = nil
+        }
+        
+        let idealHeight: CGFloat?
+        if let _idealHeight = idealSize?.height {
+            idealHeight = CGFloat(_idealHeight)
+        } else {
+            idealHeight = nil
+        }
+        
+        let maxHeight: CGFloat?
+        if let _maxHeight = maxSize?.height {
+            maxHeight = CGFloat(_maxHeight)
+        } else {
+            maxHeight = nil
+        }
+        
+        let minDepth: CGFloat?
+        if let _minDepth = minSize?.depth {
+            minDepth = CGFloat(_minDepth)
+        } else {
+            minDepth = nil
+        }
+        
+        let idealDepth: CGFloat?
+        if let _idealDepth = idealSize?.depth {
+            idealDepth = CGFloat(_idealDepth)
+        } else {
+            idealDepth = nil
+        }
+        
+        let maxDepth: CGFloat?
+        if let _maxDepth = maxSize?.depth {
+            maxDepth = CGFloat(_maxDepth)
+        } else {
+            maxDepth = nil
+        }
+        
+        return self.frame(
+            minWidth: minWidth,
+            idealWidth: idealWidth,
+            maxWidth: maxWidth,
+            minHeight: minHeight,
+            idealHeight: idealHeight,
+            maxHeight: maxHeight,
+            minDepth: minDepth,
+            idealDepth: idealDepth,
+            maxDepth: maxDepth,
+            alignment: alignment
+        )
     }
 }
 

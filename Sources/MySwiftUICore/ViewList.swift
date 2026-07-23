@@ -2740,10 +2740,6 @@ extension Layout3D {
             return Self.makeDynamicView3D(root: root, inputs: copy_4, properties: layoutProperties, list: list)
         }
     }
-    
-    static func makeDynamicView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
-        assertUnimplemented()
-    }
 }
 
 struct ViewListSublistSlice : ViewList, CustomDebugStringConvertible {

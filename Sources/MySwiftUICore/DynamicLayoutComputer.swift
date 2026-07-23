@@ -39,6 +39,45 @@ extension DynamicLayoutViewAdaptor {
     }
 }
 
+extension Layout3D {
+    static func makeDynamicView3D(root: _GraphValue<Self>, inputs: _ViewInputs, properties: LayoutProperties, list: Attribute<ViewList>) -> _ViewOutputs {
+        /*
+         root -> x0 -> w24
+         inputs -> x1
+         properties -> x2 (dead)
+         list -> w3 -> x19 + 0x60
+         */
+        // x26 + 0xc0
+        let copy_1 = inputs
+        // x19 + 0x78
+        let hasScrollable = copy_1.preferences.contains(ScrollablePreferenceKey.self)
+        // x19 + 0x9c
+        let scrollTargetRole: OptionalAttribute<ScrollTargetRole.Role?> 
+        if copy_1.preferences.contains(ScrollTargetRole.ContentKey.self) {
+            scrollTargetRole = copy_1.scrollTargetRole
+        } else {
+            scrollTargetRole = OptionalAttribute()
+        }
+        
+        // <+188>
+        // x19 + 0x48
+        let hasScrollContent = copy_1.preferences.contains(ScrollTargetRole.ContentKey.self)
+        // x19 + 0x28
+        let scrollTargetRemovePreference = copy_1.scrollTargetRemovePreference
+        // x19 + 0x8c
+        let withinAccessibilityRotor: Bool
+        if copy_1.base.options.contains(.needsAccessibility) {
+            // <+248>
+            withinAccessibilityRotor = copy_1[WithinAccessibilityRotor.self]
+        } else {
+            withinAccessibilityRotor = false
+        }
+        
+        // <+260>
+        assertUnimplemented()
+    }
+}
+
 fileprivate struct DynamicLayoutComputer<T : Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var layout: T
     @Attribute private(set) var environment: EnvironmentValues
