@@ -25,8 +25,18 @@ extension ScrollTargetRole {
         }
     }
     
-    struct SetLayout {
-        // TODO
+    struct SetLayout : Rule {
+        @Attribute private var role: ScrollTargetRole.Role?
+        @Attribute private var collection: any ScrollableCollection
+        
+        init(role: Attribute<ScrollTargetRole.Role?>, collection: Attribute<any ScrollableCollection>) {
+            self._role = role
+            self._collection = collection
+        }
+        
+        var value: (inout [ScrollTargetRole.Role : [any ScrollableCollection]]) -> Void {
+            assertUnimplemented()
+        }
     }
 }
 
