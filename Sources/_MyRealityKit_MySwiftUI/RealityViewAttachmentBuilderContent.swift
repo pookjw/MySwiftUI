@@ -8,10 +8,10 @@ public import MySwiftUICore
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 @MainActor @preconcurrency public struct RealityViewAttachmentBuilderContent<Attachment, Content> : View where Attachment : AttachmentContent, Content : View {
-    private var attachmentList: _AttachmentListOutputs
-    private var content: (AttachmentStateController<Self.BuilderAttachment>) -> Content
-    @State private var attachmentState: AttachmentStateController<Self.BuilderAttachment>
-    @Environment(\.self) var environment: EnvironmentValues
+    private var attachmentList: _AttachmentListOutputs // 0x0
+    private var content: (AttachmentStateController<Self.BuilderAttachment>) -> Content // 0x10
+    @State private var attachmentState: AttachmentStateController<Self.BuilderAttachment> // 0x20
+    @Environment(\.self) var environment: EnvironmentValues // 0x3c (field)
     
     @MainActor @preconcurrency public var body: some View {
         let _: Void = self
