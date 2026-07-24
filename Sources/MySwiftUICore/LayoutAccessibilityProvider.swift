@@ -1,5 +1,5 @@
 package protocol LayoutAccessibilityProvider {
-    
+    static func makeAccessibility(inputs: _ViewInputs, outputs: inout _ViewOutputs)
 }
 
 extension _GraphInputs {
@@ -16,10 +16,12 @@ extension _GraphInputs {
     }
     
     fileprivate struct LayoutAccessibilityProviderKey : GraphInput {
-        static let defaultValue: (any LayoutAccessibilityProvider.Type) = EmptyLayoutAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any LayoutAccessibilityProvider.Type) = EmptyLayoutAccessibilityProvider.self
     }
 }
 
 struct EmptyLayoutAccessibilityProvider : LayoutAccessibilityProvider {
-    
+    static func makeAccessibility(inputs: _ViewInputs, outputs: inout _ViewOutputs) {
+        // nop
+    }
 }

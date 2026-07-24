@@ -6,11 +6,11 @@
 @available(tvOS, unavailable)
 @MainActor @preconcurrency public struct EmptyAttachmentContent : AttachmentContent, PrimitiveAttachmentContent {
     @MainActor @preconcurrency public init() {
-        assertUnimplemented()
+        // nop
     }
     
     @MainActor @preconcurrency public static func _makeAttachmentList(content: EmptyAttachmentContent, inputs: _AttachmentListInputs) -> _AttachmentListOutputs {
-        assertUnimplemented()
+        return _AttachmentListOutputs()
     }
     
     @available(visionOS 1.0, *)

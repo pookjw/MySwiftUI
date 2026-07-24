@@ -24,6 +24,16 @@ public import MySwiftUICore
         self.content(self.attachmentState)
     }
     
+    init(
+        attachmentList: _AttachmentListOutputs,
+        content: @escaping (AttachmentStateController<RealityViewAttachmentBuilderContent<Attachment, Content>.BuilderAttachment>) -> Content
+    ) {
+        self.attachmentState = AttachmentStateController<Self.BuilderAttachment>()
+        self._environment = Environment(\.self)
+        self.attachmentList = attachmentList
+        self.content = content
+    }
+    
     func makeAttachmentList() -> [some AttachmentProtocol] {
         assertUnimplemented()
         return Array<Self.BuilderAttachment>()

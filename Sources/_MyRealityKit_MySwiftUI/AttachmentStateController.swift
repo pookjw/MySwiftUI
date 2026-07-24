@@ -12,7 +12,8 @@ final class AttachmentStateController<U> : AttachmentStateControllerBase {
     private var statesByID: [AnyHashable : AttachmentStateController<U>.AttachmentState]
     
     override init() {
-        assertUnimplemented()
+        self.statesByID = Dictionary(minimumCapacity: 0)
+        super.init()
     }
     
     override func initialize<V>(with: EntityRepresentableContext<V>) {

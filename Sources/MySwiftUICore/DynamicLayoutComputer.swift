@@ -161,7 +161,7 @@ extension Layout3D {
         
         // <+1224>
         if scrollTargetRole.attribute != nil {
-            copy_2.scrollTargetRole = scrollTargetRole
+            copy_2.scrollTargetRole = OptionalAttribute()
             // <+1288>
             copy_2.preferences.keys.remove(ScrollTargetRole.ContentKey.self)
         }
@@ -217,26 +217,41 @@ extension Layout3D {
             // <+2340>
             if let scrollTargetRoleAttribute = scrollTargetRole.attribute {
                 // <+2360>
-                let setLayout = ScrollTargetRole.SetLayout(
-                    role: scrollTargetRoleAttribute,
-                    collection: Attribute(value: scrollable as (any ScrollableCollection))
-                )
                 // w21
-                let setLayoutAttribute = Attribute(setLayout)
+                let collection = Attribute(value: scrollable as (any ScrollableCollection))
                 
                 // <+2544>
-                assertUnimplemented()
+                if copy_1.preferences.keys.contains(ScrollTargetRole.ContentKey.self) {
+                    // <+2616>
+                    let setLayout = ScrollTargetRole.SetLayout(
+                        role: scrollTargetRoleAttribute,
+                        collection: collection
+                    )
+                    
+                    // w21
+                    let setLayoutAttribute = Attribute(setLayout)
+                    outputs.preferences.makePreferenceTransformer(inputs: copy_1.preferences, key: ScrollTargetRole.ContentKey.self, transform: setLayoutAttribute)
+                    // <+2836>
+                } else {
+                    // <+2836>
+                }
             } else {
                 // <+2836>
-                assertUnimplemented()
             }
             
-            assertUnimplemented()
-            // <+1896>
+            // <+2836>
+            if withinAccessibilityRotor {
+                copy_1.base.layoutAccessibilityProvider.makeAccessibility(inputs: copy_1, outputs: &outputs)
+            }
+            
+            // <+2920>
         } else {
             // <+1848>
-            assertUnimplemented()
-            // <+1896>
+        }
+        
+        if options.contains(.viewRequestsLayoutComputer) {
+            // <+1860>
+            outputs.layoutComputer = layoutComputerAttribute
         }
         
         // <+1896>

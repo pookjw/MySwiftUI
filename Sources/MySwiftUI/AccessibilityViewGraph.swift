@@ -174,7 +174,9 @@ struct SwiftUIPrivacyReductionAccessibilityProvider : PrivacyReductionAccessibil
 }
 
 struct SwiftUILayoutAccessibilityProvider : LayoutAccessibilityProvider {
-    
+    static func makeAccessibility(inputs: _ViewInputs, outputs: inout _ViewOutputs) {
+        assertUnimplemented()
+    }
 }
 
 struct SwiftUIGestureAccessibilityProvider : GestureAccessibilityProvider {
