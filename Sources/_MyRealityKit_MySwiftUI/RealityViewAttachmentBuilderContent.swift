@@ -35,8 +35,10 @@ public import MySwiftUICore
     }
     
     func makeAttachmentList() -> [some AttachmentProtocol] {
-        assertUnimplemented()
-        return Array<Self.BuilderAttachment>()
+        return self.attachmentList.attachments.map { (key, value) -> Self.BuilderAttachment in
+            // $s19_RealityKit_SwiftUI0A28ViewAttachmentBuilderContentV04makeF4ListQryFAC0gF0Vyxq__Gs11AnyHashableV3key_AA08ResolvedF0V5valuet_tXEfU_TA
+            return Self.BuilderAttachment(id: key, view: value.view)
+        }
     }
 }
 

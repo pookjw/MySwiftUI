@@ -240,18 +240,19 @@ struct _RealityViewAsync<Placeholder : View> : View {
 
 @Observable
 final class _RealityViewModel {
-    @ObservationIgnored var content: RealityViewContent
-    @ObservationIgnored var relativeTransformObservers: [NSObject]
-    @ObservationIgnored var isObservingRelativeTransform: Bool
-    @ObservationIgnored var transformInteractionComponentWasAdded: (any Cancellable)?
+    @ObservationIgnored var content: RealityViewContent // 0x10
+    @ObservationIgnored var relativeTransformObservers: [NSObject] // 0xa0
+    @ObservationIgnored var isObservingRelativeTransform: Bool // 0xa8
+    @ObservationIgnored var transformInteractionComponentWasAdded: (any Cancellable)? // 0xb0
     
     var useNewMakeClosureBehavior: Bool {
         assertUnimplemented()
     }
     
-    var idealSize: Size3D?
-    var loadingPhase: _RealityViewModel.LoadingPhase
-    var hasTransformInteractionComponents: Bool
+    var idealSize: Size3D? // 0xe0
+    var loadingPhase: _RealityViewModel.LoadingPhase // 0x101
+    var hasTransformInteractionComponents: Bool // 0x102
+    // _$observationRegistrar -> 0x108
     
     init() {
         assertUnimplemented()

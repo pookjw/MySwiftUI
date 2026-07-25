@@ -11,7 +11,7 @@ import UIKit
 
 fileprivate struct MyView : View {
     var body: some View {
-        RealityView { content, _ in
+        RealityView { content, attachments in
             let entity = ModelEntity(
                 mesh: .generateSphere(radius: 0.1),
                 materials: [
@@ -23,12 +23,22 @@ fileprivate struct MyView : View {
             )
             
             content.add(entity)
+            
+//            if let glassCubeAttachment = attachments.entity(for: "GlassCubeLabel") {
+//                glassCubeAttachment.position = [0, -0.1, 0]
+//                entity.addChild(glassCubeAttachment)
+//            }
         } update: { content, _ in
             
         } placeholder: { 
             
         } attachments: { 
-            
+//            Attachment(id: "GlassCubeLabel") {
+//                Text("Glass Cube")
+//                    .font(.extraLargeTitle)
+//                    .padding()
+//                    .glassBackgroundEffect()
+//            }
         }
     }
 }

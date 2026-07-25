@@ -1,5 +1,5 @@
 // E8F69B151E7FF7603B12DB8BB9C18C89
-private import MySwiftUICore
+internal import MySwiftUICore
 
 @available(visionOS 1.0, *)
 @available(macOS, unavailable)
@@ -11,7 +11,7 @@ public struct _AttachmentListOutputs {
     fileprivate nonisolated(unsafe) static var currentSeed = 0
     
     private let seed: Int
-    private var attachments: [AnyHashable : ResolvedAttachment]
+    var attachments: [AnyHashable : ResolvedAttachment]
     
     @inline(always) // 원래 없음
     init() {
@@ -22,5 +22,5 @@ public struct _AttachmentListOutputs {
 }
 
 struct ResolvedAttachment {
-    private var view: AnyView
+    private(set) var view: AnyView
 }

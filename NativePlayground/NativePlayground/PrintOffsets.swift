@@ -19,8 +19,6 @@ import AttributeGraph
 // expr -l swift -O -- _mangledTypeName(unsafeBitCast(0x0000000238fede90, to: Any.Type.self))
 // expr -l swift -O -- unsafeBitCast(0x0000000238fede90, to: Any.Type.self)
 
-// $s7SwiftUI12PropertyListVy5ValueQzxmcAA0C3KeyRzluigAEyXEfU_
-
 private func dumpFieldOffsets(of type: Any.Type, options: _EachFieldOptions) {
     _forEachField(of: type, options: options) { name, offset, fieldType, _ in
         guard String(cString: name) != "finishingDefinition" else {
