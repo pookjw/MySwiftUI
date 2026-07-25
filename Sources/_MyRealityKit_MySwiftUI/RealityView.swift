@@ -112,15 +112,19 @@ extension RealityView {
             attachmentList: attachmentList
         ) { controller in
             // $s19_RealityKit_SwiftUI0A4ViewV4make6update11placeholder11attachmentsACyAA0aE24AttachmentBuilderContentVyqd__AA0aeL0V4BodyVy_qd_0_GGGyAKz_AA0aE11AttachmentsVtYaYbScMYcc_yAKz_ARtScMYccSgqd_0_yXEqd__yctcAORszAA0jL0Rd__0cD00E0Rd_0_r0_lufcAnA0J15StateControllerCyAI0kJ0Vyqd__AN_GGcfU_TA
-            /*
-             controller -> x0 -> x23
-             */
-            // <+204>
-            // x29 - 0x80
-            let copy_2 = copy_1
-            
-            let viewModel = _RealityViewModel.ini
-            assertUnimplemented()
+            RealityViewContent.Body(
+                placeholder: copy_1,
+                controller: controller,
+                make: { content in
+                    // $s19_RealityKit_SwiftUI0A4ViewV4make6update11placeholder11attachmentsACyAA0aE24AttachmentBuilderContentVyqd__AA0aeL0V4BodyVy_qd_0_GGGyAKz_AA0aE11AttachmentsVtYaYbScMYcc_yAKz_ARtScMYccSgqd_0_yXEqd__yctcAORszAA0jL0Rd__0cD00E0Rd_0_r0_lufcAnA0J15StateControllerCyAI0kJ0Vyqd__AN_GGcfU_yAKzYaYbScMYccfU_TATu
+                    assertUnimplemented()
+                },
+                update: { content in
+                    // $s19_RealityKit_SwiftUI0A4ViewV4make6update11placeholder11attachmentsACyAA0aE24AttachmentBuilderContentVyqd__AA0aeL0V4BodyVy_qd_0_GGGyAKz_AA0aE11AttachmentsVtYaYbScMYcc_yAKz_ARtScMYccSgqd_0_yXEqd__yctcAORszAA0jL0Rd__0cD00E0Rd_0_r0_lufcAnA0J15StateControllerCyAI0kJ0Vyqd__AN_GGcfU_yAKzScMYccfU0_TA
+                    assertUnimplemented()
+                },
+                strongModel: _RealityViewModel()
+            )
         }
         
         self._body = content

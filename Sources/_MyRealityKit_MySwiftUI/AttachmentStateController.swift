@@ -50,7 +50,7 @@ final class AttachmentStateController<U : AttachmentProtocol> : AttachmentStateC
             }
             
             // <+1016>
-            ids.remove(AnyHashable(attachment.id))
+            ids.remove(attachment.id)
         }
         
         // <+1996>

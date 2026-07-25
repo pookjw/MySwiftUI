@@ -23,7 +23,12 @@ exports:
     _RESceneSpaceRootComponentGetIsSelfInImmersiveSpace,
     _RESceneSpaceRootComponentSetIsSelfInImmersiveSpace,
     _REImmersiveSpaceTrackerComponentGetComponentType,
-    _RERenderOptionsComponentOverrideContributeToCombinedVignetting ]
+    _RERenderOptionsComponentOverrideContributeToCombinedVignetting,
+    _REHideEntity,
+    _REEntitySetSwiftObject,
+    _REEntityGetSwiftObject,
+    _REEntityCreate,
+    _RERelease ]
     objc-classes:         [ BSAnimationSettings ]
     objc-ivars:           [  ]
 ...

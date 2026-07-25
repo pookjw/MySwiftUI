@@ -1,7 +1,9 @@
+// F4E16A453D8AE199771F0745BF89049E
 public import Foundation
 public import simd
 public import CoreMedia
 public import Spatial
+private import CoreRE
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
@@ -954,12 +956,26 @@ extension Entity {
     }
     
     @MainActor @preconcurrency required public init() {
+        let entity = CoreRE.Entity()
+        unsafe self.coreEntity = unsafeBitCast(entity, to: OpaquePointer.self)
+        unsafe unsafeBitCast(entity, to: CoreRE.Entity.self)
+            .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+        unsafe RERelease(unsafeBitCast(self.coreEntity, to: UnsafeRawPointer.self))
+        
+        // <+44>
         assertUnimplemented()
     }
     
     @usableFromInline
     @MainActor @preconcurrency internal init(_coreEntity: __EntityRef) {
-        assertUnimplemented()
+        unsafe self.coreEntity = _coreEntity.core
+        unsafe unsafeBitCast(_coreEntity.core, to: CoreRE.Entity.self)
+            .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+    }
+    
+    isolated deinit {
+        unsafe unsafeBitCast(self.coreEntity, to: CoreRE.Entity.self)
+            .swiftObject = nil
     }
     
     @MainActor @preconcurrency public static func __testInit() -> Entity {
@@ -974,9 +990,7 @@ extension Entity {
         assertUnimplemented()
     }
     
-    package var coreEntity: OpaquePointer {
-        assertUnimplemented()
-    }
+    package private(set) var coreEntity: OpaquePointer
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
@@ -1533,3 +1547,9 @@ extension Entity.ForwardDirection : Equatable {}
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension Entity.ForwardDirection : Hashable {}
+
+fileprivate struct SetupPair {
+    init<T, U>(_: T.Type, _: U.Type) where U : DefaultInitializable {
+        assertUnimplemented()
+    }
+}

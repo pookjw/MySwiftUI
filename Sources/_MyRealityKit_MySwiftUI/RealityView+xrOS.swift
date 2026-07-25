@@ -254,8 +254,14 @@ final class _RealityViewModel {
     var hasTransformInteractionComponents: Bool // 0x102
     // _$observationRegistrar -> 0x108
     
-    init() {
-        assertUnimplemented()
+    @MainActor init() {
+        self.content = RealityViewContent()
+        self.relativeTransformObservers = []
+        self.isObservingRelativeTransform = false
+        self.transformInteractionComponentWasAdded = nil
+        self._idealSize = nil
+        self._loadingPhase = .empty
+        self._hasTransformInteractionComponents = false
     }
     
     func setSceneToImmersiveSpaceTransform(using windowScene: UIWindowScene) {
@@ -277,5 +283,15 @@ fileprivate struct TransformInteractionIfEnabled : ViewModifier {
     
     func body(content: Content) -> some View {
         assertUnimplemented()
+    }
+}
+
+extension RealityViewContent {
+    final class ContentStorage {
+        private var storedSubscriptions: [MyRealityFoundation.EventSubscription]
+        
+        init() {
+            self.storedSubscriptions = []
+        }
     }
 }

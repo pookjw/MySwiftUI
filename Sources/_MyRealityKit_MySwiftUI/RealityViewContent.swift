@@ -97,14 +97,29 @@ public struct RealityViewContent : RealityViewContentProtocol {
     
     private var _base: MyRealityFoundation.Entity // 0x0
     private var _rep: MyRealityFoundation.Entity // 0x8
-    private var contentStorage: RealityViewContent.ContentStorage
-    private var transaction: Transaction?
-    private var debugOptions: DebugOptions
-    var proxy: GeometryProxy3D? // 0x24 (field)
-    var role: UISceneSession.Role? // 0x28 (field)
-    weak var model: _RealityViewModel? // 0x2c (field)
-    var pointsPerMeter: CGFloat // 0x30 (field)
-    var scene: MyRealityFoundation.Scene? // 0x34 (field)
+    private var contentStorage = RealityViewContent.ContentStorage() // 0x10
+    private var transaction: Transaction? = nil // 0x18
+    private var debugOptions: DebugOptions = .none // 0x20
+    var proxy: GeometryProxy3D? = nil // 0x24 (field)
+    var role: UISceneSession.Role? = nil // 0x28 (field)
+    weak var model: _RealityViewModel? = nil // 0x2c (field)
+    var pointsPerMeter: CGFloat = 0 // 0x30 (field)
+    var scene: MyRealityFoundation.Scene? = nil // 0x34 (field)
+    
+    @inline(always) // 원래 없음
+    @MainActor init() {
+        self._base = MyRealityFoundation.Entity()
+        self._rep = MyRealityFoundation.Entity()
+        
+        unsafeBitCast(self.baseEntity.coreEntity, to: CoreRE.Entity.self)
+            .getOrAddComponent(ofType: .sceneSpaceRoot)
+        
+        unsafeBitCast(self._rep, to: CoreRE.Entity.self)
+            .hide()
+        
+        unsafeBitCast(self._base, to: CoreRE.Entity.self)
+            .hide()
+    }
     
     public var entities: RealityViewEntityCollection {
         get {
@@ -164,9 +179,3 @@ extension RealityViewContent : RealityCoordinateSpaceConverting, RealityCoordina
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension RealityViewContent.Body : Sendable {}
-
-extension RealityViewContent {
-    final class ContentStorage {
-        // TODO
-    }
-}

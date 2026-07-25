@@ -129,6 +129,7 @@ let package = Package(
                 .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
+                .strictMemorySafety()
 //                .enableExperimentalFeature("ModuleInterfaceExportAs")
             ]
         ),
@@ -139,6 +140,7 @@ let package = Package(
                 .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
+                .strictMemorySafety()
 //                .enableExperimentalFeature("ModuleInterfaceExportAs")
             ]
         ),
@@ -150,6 +152,7 @@ let package = Package(
                 .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
+                .strictMemorySafety()
                 /*
                  "-Xfrontend", "-enable-cross-import-overlays",
                  "-Xfrontend", "-Rcross-import",

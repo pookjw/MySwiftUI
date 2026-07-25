@@ -32,6 +32,8 @@ typedef const struct REComponentType * REComponentTypeRef __attribute__((swift_w
 struct REComponent {};
 typedef const struct REComponent * REComponentRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component);
 
+RE_EXTERN void RERelease(const void *);
+
 NS_ASSUME_NONNULL_END
 
 #endif

@@ -53,3 +53,7 @@ extension Component {
         assertUnimplemented()
     }
 }
+
+protocol DefaultInitializable : MyRealityFoundation.Component {
+    init()
+}
