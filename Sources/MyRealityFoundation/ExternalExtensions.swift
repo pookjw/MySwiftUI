@@ -63,9 +63,7 @@ extension simd_float4x4 {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension simd_quatf {
     @usableFromInline
-    internal static let identity: simd_quatf = {
-        assertUnimplemented()
-    }()
+    internal static let identity = simd_quatf(ix: 0, iy: 0, iz: 0, r: 1)
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)

@@ -73,7 +73,6 @@ extension Transform {
     }
     
     public init() {
-        assertUnimplemented()
     }
     
     @inlinable public init(scale: SIMD3<Float> = SIMD3<Float>(x: 1, y: 1, z: 1), rotation: simd_quatf = simd_quaternion(0, 0, 0, 1), translation: SIMD3<Float> = SIMD3<Float>(x: 0, y: 0, z: 0)) {

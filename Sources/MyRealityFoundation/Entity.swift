@@ -847,7 +847,7 @@ extension Entity {
         }
         
         @MainActor @preconcurrency public func set<T>(_ component: T) where T : Component {
-            assertUnimplemented()
+            self.doSet(T.self, newValue: component, returnStrongReference: false)
         }
         
         @MainActor @preconcurrency public func set(_ components: [any Component]) {
@@ -872,7 +872,16 @@ extension Entity {
             }
         }
         
-        func doSet<T : Component>(_: T.Type, newValue: T?, returnStrongReference: Bool) {
+        var entity: Entity
+        
+        func doSet<T : Component>(_ type: T.Type, newValue: T?, returnStrongReference: Bool) {
+            /*
+             self -> x20
+             type -> x0 -> x22
+             newValue -> x1 -> x29 - 0x68
+             returnStrongReference -> w2 -> x29 - 0x88
+             */
+            // <+220>
             assertUnimplemented()
         }
     }
@@ -888,10 +897,10 @@ extension Entity {
     
     @MainActor @preconcurrency public var components: Entity.ComponentSet {
         get {
-            assertUnimplemented()
+            return Entity.ComponentSet(entity: self)
         }
         set {
-            assertUnimplemented()
+            self.coreEntity = unsafe newValue.entity.coreEntity
         }
     }
     
