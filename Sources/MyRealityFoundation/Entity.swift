@@ -871,6 +871,10 @@ extension Entity {
                 assertUnimplemented()
             }
         }
+        
+        func doSet<T : Component>(_: T.Type, newValue: T?, returnStrongReference: Bool) {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -958,12 +962,19 @@ extension Entity {
     @MainActor @preconcurrency required public init() {
         let entity = CoreRE.Entity()
         unsafe self.coreEntity = unsafeBitCast(entity, to: OpaquePointer.self)
-        unsafe unsafeBitCast(entity, to: CoreRE.Entity.self)
-            .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+        unsafe entity.swiftObject = Unmanaged.passUnretained(self).toOpaque()
         unsafe RERelease(unsafeBitCast(self.coreEntity, to: UnsafeRawPointer.self))
         
         // <+44>
-        assertUnimplemented()
+        for setup in baseTraitSetups {
+            setup(self)
+        }
+        
+        // <+140>
+        unsafe unsafeBitCast(self.coreEntity, to: CoreRE.Entity.self)
+            .getOrAddComponent(ofType: CoreRE::ComponentType.network)
+        
+        self.components.set(__EntityInfoComponent(entity: self))
     }
     
     @usableFromInline
@@ -1548,8 +1559,53 @@ extension Entity.ForwardDirection : Equatable {}
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension Entity.ForwardDirection : Hashable {}
 
-fileprivate struct SetupPair {
-    init<T, U>(_: T.Type, _: U.Type) where U : DefaultInitializable {
-        assertUnimplemented()
+fileprivate struct SetupPair<T, U : DefaultInitializable> {
+    init(_: T.Type, _: U.Type) {
+    }
+    
+    @_transparent // 원래 없음
+    @MainActor func setup(entity: MyRealityFoundation.Entity) {
+        guard entity is T else {
+            return
+        }
+        
+        entity.components.set(U())
     }
 }
+
+fileprivate let baseTraitSetups: [@MainActor (MyRealityFoundation.Entity) -> Void] = [
+    { entity in
+        SetupPair(HasAnchoring.self, AnchoringComponent.self)
+            .setup(entity: entity)
+    },
+    
+    { entity in
+        SetupPair(HasTransform.self, Transform.self)
+            .setup(entity: entity)
+    },
+    
+    { entity in
+        SetupPair(HasSynchronization.self, SynchronizationComponent.self)
+            .setup(entity: entity)
+    },
+    
+    { entity in
+        SetupPair(HasPerspectiveCamera.self, PerspectiveCameraComponent.self)
+            .setup(entity: entity)
+    },
+    
+    { entity in
+        SetupPair(HasSpotLight.self, SpotLightComponent.self)
+            .setup(entity: entity)
+    },
+    
+    { entity in
+        SetupPair(HasDirectionalLight.self, DirectionalLightComponent.self)
+            .setup(entity: entity)
+    },
+    
+    { entity in
+        SetupPair(HasPointLight.self, PointLightComponent.self)
+            .setup(entity: entity)
+    },
+]

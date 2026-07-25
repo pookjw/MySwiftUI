@@ -586,3 +586,9 @@ extension AnchoringComponent {
         }
     }
 }
+
+extension AnchoringComponent : DefaultInitializable {
+    init() {
+        assertUnimplemented()
+    }
+}

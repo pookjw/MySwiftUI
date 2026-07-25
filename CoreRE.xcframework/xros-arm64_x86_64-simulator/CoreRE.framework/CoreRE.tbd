@@ -28,7 +28,8 @@ exports:
     _REEntitySetSwiftObject,
     _REEntityGetSwiftObject,
     _REEntityCreate,
-    _RERelease ]
+    _RERelease,
+    _REEntityGetOrAddComponent ]
     objc-classes:         [ BSAnimationSettings ]
     objc-ivars:           [  ]
 ...
