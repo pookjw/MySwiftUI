@@ -9,6 +9,10 @@ import RealityKit
 import SwiftUI
 import UIKit
 
+fileprivate struct MyComponent : Component {
+    
+}
+
 fileprivate struct MyView : View {
     var body: some View {
         RealityView { content, attachments in
@@ -23,6 +27,7 @@ fileprivate struct MyView : View {
             )
             
             content.add(entity)
+            entity.components.set(MyComponent())
             
 //            if let glassCubeAttachment = attachments.entity(for: "GlassCubeLabel") {
 //                glassCubeAttachment.position = [0, -0.1, 0]

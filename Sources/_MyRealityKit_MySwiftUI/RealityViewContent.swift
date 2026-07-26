@@ -95,8 +95,8 @@ public struct RealityViewContent : RealityViewContentProtocol {
         assertUnimplemented()
     }()
     
-    private var _base: MyRealityFoundation.Entity // 0x0
-    private var _rep: MyRealityFoundation.Entity // 0x8
+    private var _base: MyRealityFoundation::Entity // 0x0
+    private var _rep: MyRealityFoundation::Entity // 0x8
     private var contentStorage = RealityViewContent.ContentStorage() // 0x10
     private var transaction: Transaction? = nil // 0x18
     private var debugOptions: DebugOptions = .none // 0x20
@@ -104,12 +104,12 @@ public struct RealityViewContent : RealityViewContentProtocol {
     var role: UISceneSession.Role? = nil // 0x28 (field)
     weak var model: _RealityViewModel? = nil // 0x2c (field)
     var pointsPerMeter: CGFloat = 0 // 0x30 (field)
-    var scene: MyRealityFoundation.Scene? = nil // 0x34 (field)
+    var scene: MyRealityFoundation::Scene? = nil // 0x34 (field)
     
     @inline(always) // 원래 없음
     @MainActor init() {
-        self._base = MyRealityFoundation.Entity()
-        self._rep = MyRealityFoundation.Entity()
+        self._base = MyRealityFoundation::Entity()
+        self._rep = MyRealityFoundation::Entity()
         
         unsafeBitCast(self.baseEntity.coreEntity, to: CoreRE.Entity.self)
             .getOrAddComponent(ofType: .sceneSpaceRoot)
@@ -130,7 +130,7 @@ public struct RealityViewContent : RealityViewContentProtocol {
         }
     }
     
-    public func subscribe<E>(to event: E.Type, on sourceObject: (any EventSource)?, componentType: (any MyRealityFoundation.Component.Type)?, _ handler: @escaping (E) -> Void) -> EventSubscription where E : Event {
+    public func subscribe<E>(to event: E.Type, on sourceObject: (any EventSource)?, componentType: (any MyRealityFoundation::Component.Type)?, _ handler: @escaping (E) -> Void) -> EventSubscription where E : Event {
         assertUnimplemented()
     }
     
@@ -143,7 +143,7 @@ public struct RealityViewContent : RealityViewContentProtocol {
     public typealias Entities = RealityViewEntityCollection
     
     @inline(always) // 원래 없음
-    var baseEntity: MyRealityFoundation.Entity {
+    var baseEntity: MyRealityFoundation::Entity {
         if RealityViewContent.linkedOnOrAfterFall2024OSVersions {
             return self._rep
         } else {

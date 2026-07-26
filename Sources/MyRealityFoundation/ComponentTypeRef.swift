@@ -1,5 +1,9 @@
+internal import CoreRE
+
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct __ComponentTypeRef {
+    var core: ComponentType
+    
     public static func __fromCore(_ core: Any) -> __ComponentTypeRef {
         assertUnimplemented()
     }

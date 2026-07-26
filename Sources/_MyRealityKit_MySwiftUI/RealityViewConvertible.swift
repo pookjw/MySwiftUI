@@ -12,7 +12,7 @@ struct RealityViewConvertibleKey : PreferenceKey {
 }
 
 struct RealityViewConvertible : Equatable {
-    let base: MyRealityFoundation.Entity
+    let base: MyRealityFoundation::Entity
     let proxy: any GeometryProxy3DTestProtocol
     let role: UISceneSession.Role?
     

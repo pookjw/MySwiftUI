@@ -5,6 +5,9 @@ public import ARKit
 @available(macCatalyst, unavailable)
 @available(tvOS, unavailable)
 public struct ARKitAnchorComponent : TransientComponent {
+    package static var __coreComponentType: __ComponentTypeRef {
+        assertUnimplemented()
+    }
 }
 
 @available(visionOS 26.0, *)

@@ -30,11 +30,14 @@ struct _REComponentTypeClass {};
 typedef const struct _REComponentTypeClass * REComponentTypeClass __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ComponentTypeClass);
 
 typedef NS_ENUM(uint32_t, REComponentType) {
-    REComponentTypeNetwork = 9
+    REComponentTypeNetwork = 9,
+    REComponentTypeCustom = 36
 } NS_SWIFT_NAME(ComponentType);
 
 struct REComponent {};
 typedef const struct REComponent * REComponentRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component);
+
+typedef const void * REComponentClassPtr NS_SWIFT_NAME(Component.ClassPtr);
 
 RE_EXTERN void RERelease(const void *);
 

@@ -52,8 +52,12 @@ extension Component {
     public static func registerComponent() {
         assertUnimplemented()
     }
+    
+    package static var __coreComponentType: __ComponentTypeRef {
+        return __ComponentTypeRef(core: .custom)
+    }
 }
 
-protocol DefaultInitializable : MyRealityFoundation.Component {
+protocol DefaultInitializable : MyRealityFoundation::Component {
     init()
 }

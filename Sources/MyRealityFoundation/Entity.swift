@@ -882,6 +882,34 @@ extension Entity {
              returnStrongReference -> w2 -> x29 - 0x88
              */
             // <+220>
+            // x29 - 0x70
+            let entity = self.entity
+            let coreType = T.__coreComponentType
+            
+            if coreType.core == .custom {
+                // <+268>
+                // x26
+                let componentType = unsafe unsafeBitCast(SceneManager.customComponentType(type), to: CoreRE::ComponentTypeClass.self)
+                // x25
+                let component = unsafe unsafeBitCast(entity.coreEntity, to: CoreRE::Entity.self)
+                    .getComponent(ofType: componentType)
+                
+                // x24
+                if let copy_1 = newValue {
+                    // <+632>
+                    assertUnimplemented()
+                } else {
+                    // <+356>
+                    assertUnimplemented()
+                }
+                
+                assertUnimplemented()
+            } else {
+                // <+444>
+                assertUnimplemented()
+            }
+            
+            // <+604>
             assertUnimplemented()
         }
     }
@@ -1573,7 +1601,7 @@ fileprivate struct SetupPair<T, U : DefaultInitializable> {
     }
     
     @_transparent // 원래 없음
-    @MainActor func setup(entity: MyRealityFoundation.Entity) {
+    @MainActor func setup(entity: MyRealityFoundation::Entity) {
         guard entity is T else {
             return
         }
@@ -1582,7 +1610,7 @@ fileprivate struct SetupPair<T, U : DefaultInitializable> {
     }
 }
 
-fileprivate let baseTraitSetups: [@MainActor (MyRealityFoundation.Entity) -> Void] = [
+fileprivate let baseTraitSetups: [@MainActor (MyRealityFoundation::Entity) -> Void] = [
     { entity in
         SetupPair(HasAnchoring.self, AnchoringComponent.self)
             .setup(entity: entity)

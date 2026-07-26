@@ -9,7 +9,7 @@ enum ImplicitAnimationStack {
 }
 
 protocol EntityChangeModifier : Sendable {
-    func setComponent<T : _ImplicitlyAnimatableBuiltinComponent>(entity: MyRealityFoundation.Entity, component: T, from: ComponentAnimatableData<T>, to: ComponentAnimatableData<T>)
+    func setComponent<T : _ImplicitlyAnimatableBuiltinComponent>(entity: MyRealityFoundation::Entity, component: T, from: ComponentAnimatableData<T>, to: ComponentAnimatableData<T>)
 }
 
 struct ComponentAnimatableData<T> {

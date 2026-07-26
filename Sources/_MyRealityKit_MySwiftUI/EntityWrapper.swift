@@ -12,11 +12,11 @@ struct EntityWrapper : EntityRepresentable {
     private(set) var model: _RealityViewModel
     let controller: AttachmentStateControllerBase?
     
-    func makeEntity(context: MySwiftUI.EntityRepresentableContext<EntityWrapper>) -> MyRealityFoundation.Entity {
+    func makeEntity(context: MySwiftUI.EntityRepresentableContext<EntityWrapper>) -> MyRealityFoundation::Entity {
         assertUnimplemented()
     }
     
-    func updateEntity(_ type: MyRealityFoundation.Entity, context: MySwiftUI.EntityRepresentableContext<EntityWrapper>) {
+    func updateEntity(_ type: MyRealityFoundation::Entity, context: MySwiftUI.EntityRepresentableContext<EntityWrapper>) {
         assertUnimplemented()
     }
     

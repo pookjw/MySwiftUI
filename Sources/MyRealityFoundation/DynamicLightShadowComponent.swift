@@ -5,4 +5,8 @@ public struct DynamicLightShadowComponent : Component {
     public init(castsShadow: Bool) {
         assertUnimplemented()
     }
+
+    package static var __coreComponentType: __ComponentTypeRef {
+        assertUnimplemented()
+    }
 }

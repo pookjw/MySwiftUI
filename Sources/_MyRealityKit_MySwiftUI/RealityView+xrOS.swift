@@ -16,7 +16,7 @@ struct _RealityViewAsync<Placeholder : View> : View {
     private let proxy: GeometryProxy3D // 0x2c (field)
     private let controller: AttachmentStateControllerBase? // 0x30 (field)
     private weak var model: _RealityViewModel? // 0x34 (field)
-    @Environment private var scene: MyRealityFoundation.Scene? // 0x38 (field)
+    @Environment private var scene: MyRealityFoundation::Scene? // 0x38 (field)
     private var _pointsPerMeter: Environment<CGFloat> // 0x3c (field)
     private var _role: Environment<UISceneSession.Role?> // 0x40 (field)
     private var _uiScene: Environment<UIScene?> // 0x44 (field)
@@ -38,7 +38,7 @@ struct _RealityViewAsync<Placeholder : View> : View {
         proxy: GeometryProxy3D,
         controller: AttachmentStateControllerBase?,
         model: _RealityViewModel?,
-        scene: Environment<MyRealityFoundation.Scene?>,
+        scene: Environment<MyRealityFoundation::Scene?>,
         pointsPerMeter: Environment<CGFloat>,
         role: Environment<UISceneSession.Role?>,
         uiScene: Environment<UIScene?>,
@@ -204,9 +204,9 @@ struct _RealityViewAsync<Placeholder : View> : View {
         if let scene {
             // <+2184>
             transformInteractionComponentWasAdded = scene.subscribe(
-                to: MyRealityFoundation.ComponentEvents.DidActivate.self,
+                to: MyRealityFoundation::ComponentEvents.DidActivate.self,
                 on: nil,
-                componentType: MyRealityFoundation.ManipulationComponent.self
+                componentType: MyRealityFoundation::ManipulationComponent.self
             ) { [weak model] _ in
                 // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgy0A10Foundation15ComponentEventsO11DidActivateVcfU_TA
                 assertUnimplemented()
@@ -288,7 +288,7 @@ fileprivate struct TransformInteractionIfEnabled : ViewModifier {
 
 extension RealityViewContent {
     final class ContentStorage {
-        private var storedSubscriptions: [MyRealityFoundation.EventSubscription]
+        private var storedSubscriptions: [MyRealityFoundation::EventSubscription]
         
         init() {
             self.storedSubscriptions = []

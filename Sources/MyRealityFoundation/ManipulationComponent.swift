@@ -66,6 +66,10 @@ public struct ManipulationComponent : Component {
         public init(redirectedEntity: Entity? = nil) {
             assertUnimplemented()
         }
+
+        package static var __coreComponentType: __ComponentTypeRef {
+            assertUnimplemented()
+        }
     }
     
     public struct InputDevice : Hashable, Sendable {
@@ -337,6 +341,10 @@ public struct ManipulationComponent : Component {
         public init() {
             assertUnimplemented()
         }
+    }
+
+    package static var __coreComponentType: __ComponentTypeRef {
+        assertUnimplemented()
     }
 }
 
