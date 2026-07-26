@@ -29,7 +29,14 @@ exports:
     _REEntityGetSwiftObject,
     _REEntityCreate,
     _RERelease,
-    _REEntityGetOrAddComponent ]
-    objc-classes:         [ BSAnimationSettings ]
+    _REEntityGetOrAddComponent,
+    _REEntityAddComponentNoEvents,
+    _RECustomComponentGetObject,
+    _REEntityRemoveComponentByClass,
+    _REEntitySendAddAndActivateComponentEvents,
+    _RENetworkMarkComponentDirty,
+    _REComponentClassFromType,
+    _REEntityGetObservationRegistrar ]
+    objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

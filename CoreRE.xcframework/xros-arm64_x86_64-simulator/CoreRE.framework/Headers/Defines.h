@@ -31,6 +31,7 @@ typedef const struct _REComponentTypeClass * REComponentTypeClass __attribute__(
 
 typedef NS_ENUM(uint32_t, REComponentType) {
     REComponentTypeNetwork = 9,
+    REComponentTypeTransform = 28,
     REComponentTypeCustom = 36
 } NS_SWIFT_NAME(ComponentType);
 

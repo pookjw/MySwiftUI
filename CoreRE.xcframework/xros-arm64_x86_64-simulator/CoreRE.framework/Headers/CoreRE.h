@@ -6,3 +6,4 @@
 #import <CoreRE/RERenderOptionsComponentGetComponent.h>
 #import <CoreRE/RESceneSpaceRootComponent.h>
 #import <CoreRE/REImmersiveSpaceTrackerComponent.h>
+#import <CoreRE/REComponent.h>

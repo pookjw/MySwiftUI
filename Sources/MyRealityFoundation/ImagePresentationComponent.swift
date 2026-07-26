@@ -137,12 +137,6 @@ public struct ImagePresentationComponent : Component {
         assertUnimplemented()
     }
     
-    public static var __coreComponentType: __ComponentTypeRef {
-        get {
-            assertUnimplemented()
-        }
-    }
-    
     public struct ViewingMode : Sendable, Hashable {
         public static let mono: ImagePresentationComponent.ViewingMode = {
             assertUnimplemented()
@@ -177,5 +171,33 @@ public struct ImagePresentationComponent : Component {
                 assertUnimplemented()
             }
         }
+    }
+
+    @_spi(Internal) public static var componentName: String {
+        get {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
+        get {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
+        assertUnimplemented()
     }
 }

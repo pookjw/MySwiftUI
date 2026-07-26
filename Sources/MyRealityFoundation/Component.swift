@@ -4,14 +4,17 @@ public protocol Component {
     @available(iOS, deprecated: 16.0, renamed: "componentName")
     @available(tvOS, unavailable)
     static var __typeName: String { get }
-    
+    @_spi(Internal) static var componentName: String { get }
     static var __size: Int { get }
-    
+    @_spi(Internal) static func __load(from ref: UnsafeRawPointer)
+    @_spi(Internal) static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool)
+    @_spi(Internal) static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int)
     static func __free(to buffer: UnsafeMutableRawPointer, offset: Int)
-    
     @preconcurrency @MainActor static func __fromCore(_ coreComponent: __ComponentRef) -> Self
     @preconcurrency @MainActor func __toCore(_ coreComponent: __ComponentRef)
+    @_spi(Internal) static var __coreComponentType: __ComponentTypeRef { get }
     @preconcurrency @MainActor static func __addIntrospectionData(_ builder: OpaquePointer?)
+    @_spi(Internal) static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
@@ -53,8 +56,28 @@ extension Component {
         assertUnimplemented()
     }
     
-    package static var __coreComponentType: __ComponentTypeRef {
-        return __ComponentTypeRef(core: .custom)
+    @_spi(Internal) public static var componentName: String {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
+        assertUnimplemented()
     }
 }
 

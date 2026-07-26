@@ -35,13 +35,35 @@ public struct DirectionalLightComponent : Component, Equatable {
             assertUnimplemented()
         }
         
-        public static var __coreComponentType: __ComponentTypeRef {
+        public static func == (a: DirectionalLightComponent.Shadow, b: DirectionalLightComponent.Shadow) -> Bool {
+            assertUnimplemented()
+        }
+
+        @_spi(Internal) public static var componentName: String {
             get {
                 assertUnimplemented()
             }
         }
-        
-        public static func == (a: DirectionalLightComponent.Shadow, b: DirectionalLightComponent.Shadow) -> Bool {
+
+        @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
+            assertUnimplemented()
+        }
+
+        @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
+            assertUnimplemented()
+        }
+
+        @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
+            assertUnimplemented()
+        }
+
+        @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
+            get {
+                assertUnimplemented()
+            }
+        }
+
+        @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
             assertUnimplemented()
         }
     }
@@ -61,13 +83,35 @@ public struct DirectionalLightComponent : Component, Equatable {
         assertUnimplemented()
     }
     
-    public static var __coreComponentType: __ComponentTypeRef {
+    public static func == (a: DirectionalLightComponent, b: DirectionalLightComponent) -> Bool {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static var componentName: String {
         get {
             assertUnimplemented()
         }
     }
-    
-    public static func == (a: DirectionalLightComponent, b: DirectionalLightComponent) -> Bool {
+
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
+        assertUnimplemented()
+    }
+
+    @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
+        get {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
         assertUnimplemented()
     }
 }

@@ -28,6 +28,7 @@ fileprivate struct MyView : View {
             
             content.add(entity)
             entity.components.set(MyComponent())
+            entity.components.set(MyComponent())
             
 //            if let glassCubeAttachment = attachments.entity(for: "GlassCubeLabel") {
 //                glassCubeAttachment.position = [0, -0.1, 0]
