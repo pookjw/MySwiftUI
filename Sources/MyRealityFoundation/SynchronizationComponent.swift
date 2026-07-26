@@ -1,3 +1,5 @@
+private import CoreRE
+
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct SynchronizationComponent : Component, Equatable {
     public enum OwnershipTransferMode {
@@ -38,22 +40,18 @@ public struct SynchronizationComponent : Component, Equatable {
         }
     }
     
-    public var identifier: UInt64 {
-        get {
-            assertUnimplemented()
-        }
-    }
-    
-    public var isOwner: Bool {
-        get {
-            assertUnimplemented()
-        }
-    }
-    
-    public var ownershipTransferMode: SynchronizationComponent.OwnershipTransferMode
+    public private(set) var identifier: UInt64 // 0x0
+    public private(set) var isOwner: Bool // 0x8
+    private var _shouldMigrateOwnershipWhenAbandoned: Bool // 0x9
+    public private(set) var ownershipTransferMode: SynchronizationComponent.OwnershipTransferMode // 0xa
+    private var ownershipCompletion: (Double, ((SynchronizationComponent.OwnershipTransferCompletionResult) -> Void)?)? // 0x10
     
     public init() {
-        assertUnimplemented()
+        self.identifier = 0
+        self.isOwner = false
+        self._shouldMigrateOwnershipWhenAbandoned = false
+        self.ownershipTransferMode = .autoAccept
+        self.ownershipCompletion = nil
     }
     
     @MainActor @preconcurrency public static func __fromCore(_ coreComponent: __ComponentRef) -> SynchronizationComponent {
@@ -61,7 +59,68 @@ public struct SynchronizationComponent : Component, Equatable {
     }
     
     @MainActor @preconcurrency public func __toCore(_ coreComponent: __ComponentRef) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         coreComponent -> x0 -> x19
+         */
+        // x25
+        let core = unsafe unsafeBitCast(coreComponent.core, to: CoreRE::Component.self)
+        core.network_setAlwaysMigrate()
+        
+        if core.isOwnershipLocked {
+            switch self.ownershipTransferMode {
+            case .manual:
+                // <+180>
+                break
+            default:
+                // <+192>
+                core.network_unlockEntity()
+            }
+        } else {
+            // <+160>
+            switch self.ownershipTransferMode {
+            case .autoAccept:
+                // <+180>
+                break
+            case .manual:
+                // <+172>
+                core.network_lockEntity()
+            }
+        }
+        
+        guard let ownershipCompletion else {
+            return
+        }
+        
+        // <+208>
+        if core.network_isAuthoritative {
+            if let block = ownershipCompletion.1 {
+                block(.granted)
+            }
+        } else {
+            // <+300>
+            core.network_requestOwnershipV2(
+                core.isOwnershipLocked,
+                nil,
+                0,
+                ownershipCompletion.0
+            )
+            
+            guard let block = ownershipCompletion.1 else {
+                return
+            }
+            
+            if let scene = core.entity.scene {
+                // <+368>
+                // scene -> x20
+                assertUnimplemented()
+            } else {
+                // <+476>
+                assertUnimplemented()
+            }
+            
+            assertUnimplemented()
+        }
     }
     
     public static func == (lhs: SynchronizationComponent, rhs: SynchronizationComponent) -> Bool {
@@ -87,9 +146,7 @@ public struct SynchronizationComponent : Component, Equatable {
     }
 
     @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
-        get {
-            assertUnimplemented()
-        }
+        return __ComponentTypeRef(core: .network)
     }
 
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {

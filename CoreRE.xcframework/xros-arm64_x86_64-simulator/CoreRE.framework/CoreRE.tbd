@@ -38,7 +38,14 @@ exports:
     _REComponentClassFromType,
     _REEntityGetObservationRegistrar,
     _RETransformComponentGetLocalSRT,
-    _RETransformComponentSetLocalSRT ]
+    _RETransformComponentSetLocalSRT,
+    _RENetworkComponentSetAlwaysMigrate,
+    _RENetworkComponentIsOwnershipLocked,
+    _RENetworkComponentLockEntity,
+    _RENetworkComponentUnlockEntity,
+    _RENetworkComponentIsAuthoritative,
+    _RENetworkComponentRequestOwnershipV2,
+    _REComponentGetEntity ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
