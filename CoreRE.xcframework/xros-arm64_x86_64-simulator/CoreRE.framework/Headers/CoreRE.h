@@ -7,3 +7,4 @@
 #import <CoreRE/RESceneSpaceRootComponent.h>
 #import <CoreRE/REImmersiveSpaceTrackerComponent.h>
 #import <CoreRE/REComponent.h>
+#import <CoreRE/RETransformComponent.h>

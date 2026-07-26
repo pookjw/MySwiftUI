@@ -1,5 +1,6 @@
 public import Spatial
 public import simd
+private import CoreRE
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 extension Transform : BindableData {
@@ -46,16 +47,20 @@ extension Transform {
         assertUnimplemented()
     }()
     
-    public var scale: SIMD3<Float> = .one
+    public var scale: SIMD3<Float> = .one // 0x0
     
-    public var rotation: simd_quatf = .identity
+    public var rotation: simd_quatf = .identity // 0x10
     
-    public var translation: SIMD3<Float> = .zero
+    public var translation: SIMD3<Float> = .zero // 0x20
     
     public var __coreSRT: __SRTRef {
-        get {
-            assertUnimplemented()
-        }
+        return __SRTRef(
+            core: CoreRE::SRT(
+                s: self.scale,
+                r: self.rotation,
+                t: self.translation
+            )
+        )
     }
     
     @inlinable public var matrix: float4x4 {
@@ -120,7 +125,9 @@ extension Transform {
     }
     
     public func __toCore(_ coreComponent: __ComponentRef) {
-        assertUnimplemented()
+        let core = unsafe unsafeBitCast(coreComponent.core, to: CoreRE::Component.self)
+        core.transform_localSRT = self.__coreSRT.core
+        core.networkMarkComponentDirty()
     }
 
     @_spi(Internal) public static var componentName: String {

@@ -1,5 +1,6 @@
 // DEDB7026E54141B3B16F1E48333B73DE
 private import CoreRE
+private import Observation
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
@@ -17,6 +18,18 @@ extension Entity {
         }
 
         @_disfavoredOverload @MainActor @preconcurrency public subscript(componentType: any Component.Type) -> (any Component)? {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+            _modify {
+                assertUnimplemented()
+            }
+        }
+        
+        subscript<T : Component>(metaType: HashableMetatype<T>) -> T? {
             get {
                 assertUnimplemented()
             }
@@ -359,11 +372,30 @@ extension Entity {
          block -> x1/x2 -> x29 - 0x80 / x29 - 0x88
          */
         // x22
-        let observationRegistrar = unsafe unsafeBitCast(
+        let observationRegistrar: ObservationRegistrar?
+        if let ptr = unsafe unsafeBitCast(
             self.coreEntity,
             to: CoreRE::Entity.self
-        ).observationRegistrar
+        ).observationRegistrar {
+            observationRegistrar = unsafe ptr
+                .assumingMemoryBound(to: ObservationRegistrar?.self)
+                .pointee
+        } else {
+            observationRegistrar = nil
+        }
         
-        assertUnimplemented()
+        // <+352>
+        if observationRegistrar != nil {
+            // <+528>
+            return try self.withMutation(
+                keyPath: \MyRealityFoundation::Entity.components[HashableMetatype<T>(componentType)],
+                block
+            )
+        } else {
+            // <+428>
+            // <+500>
+            // <+904>
+            return try block()
+        }
     }
 }

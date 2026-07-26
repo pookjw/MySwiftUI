@@ -675,7 +675,7 @@ extension Entity {
             return Entity.ComponentSet(entity: self)
         }
         set {
-            self.coreEntity = unsafe newValue.entity.coreEntity
+            unsafe self.coreEntity = newValue.entity.coreEntity
         }
     }
     

@@ -1,5 +1,9 @@
+internal import CoreRE
+
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct __SRTRef {
+    private(set) var core: CoreRE::SRT
+    
     public func __as<T>(_ type: T.Type) -> T {
         assertUnimplemented()
     }

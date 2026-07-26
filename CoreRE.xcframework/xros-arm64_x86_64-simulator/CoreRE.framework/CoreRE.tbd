@@ -36,7 +36,9 @@ exports:
     _REEntitySendAddAndActivateComponentEvents,
     _RENetworkMarkComponentDirty,
     _REComponentClassFromType,
-    _REEntityGetObservationRegistrar ]
+    _REEntityGetObservationRegistrar,
+    _RETransformComponentGetLocalSRT,
+    _RETransformComponentSetLocalSRT ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
