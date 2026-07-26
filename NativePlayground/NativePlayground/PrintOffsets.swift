@@ -220,8 +220,6 @@ func printOffsets() {
     printFields("19_RealityKit_SwiftUI01_A9ViewModelC", isClassType: true)
     printFields(RealityKit.Transform.self, isClassType: false)
     
-    print(MemoryLayout<__SRTRef>.size)
-    
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
