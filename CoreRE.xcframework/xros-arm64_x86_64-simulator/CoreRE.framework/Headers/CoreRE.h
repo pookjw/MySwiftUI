@@ -9,3 +9,4 @@
 #import <CoreRE/REComponent.h>
 #import <CoreRE/RETransformComponent.h>
 #import <CoreRE/RENetworkComponent.h>
+#import <CoreRE/RECIntrospection.h>

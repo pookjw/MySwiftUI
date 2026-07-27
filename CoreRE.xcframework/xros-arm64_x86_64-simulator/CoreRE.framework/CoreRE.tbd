@@ -47,7 +47,9 @@ exports:
     _RENetworkComponentRequestOwnershipV2,
     _REComponentGetEntity,
     _RESceneGetSwiftObject,
-    _RESceneSetSwiftObject ]
+    _RESceneSetSwiftObject,
+    _RECIntrospectionAlloc,
+    _RECIntrospectionFree ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -1,15 +1,26 @@
 // 3EFA80965656F6F81A2234FCA75D4466
 private import Foundation
+private import CoreRE
+private import _DarwinFoundation2._string
 
-struct __EntityInfoComponent : MyRealityFoundation::Component, Codable, DisableRESync {
+@safe struct __EntityInfoComponent : MyRealityFoundation::Component, Codable, DisableRESync {
     private var rawData: UnsafeMutableRawPointer?
     private var cleanupHelper: IntrospectionDataCleanupHelper?
     
     init(entity: MyRealityFoundation::Entity) {
-//        var className = NSStringFromClass(type(of: entity))
-//        var array: [String] = []
-//        className.append(className)
-        assertUnimplemented()
+        let className = NSStringFromClass(type(of: entity))
+        var array: [UInt8] = []
+        array.append(0xd)
+        array.append(contentsOf: className.utf8)
+        array.append(0x0)
+        
+        let rawData = RECIntrospectionAlloc(UInt32(truncatingIfNeeded: array.count))
+        array.withUnsafeBufferPointer { pointer in
+            _ = unsafe memmove(rawData, pointer.baseAddress.unsafelyUnwrapped, pointer.count)
+        }
+        
+        self.rawData = rawData
+        self.cleanupHelper = IntrospectionDataCleanupHelper(rawData: rawData)
     }
     
     init(from decoder: any Decoder) throws {
@@ -39,7 +50,7 @@ struct __EntityInfoComponent : MyRealityFoundation::Component, Codable, DisableR
     }
 
     @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
-        assertUnimplemented()
+        return __ComponentTypeRef(core: .info)
     }
 
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
@@ -52,5 +63,9 @@ final class IntrospectionDataCleanupHelper {
     
     fileprivate init(rawData: UnsafeMutableRawPointer) {
         self.rawData = rawData
+    }
+    
+    deinit {
+        RECIntrospectionFree(self.rawData)
     }
 }
