@@ -12,4 +12,17 @@ public enum SynchronizationEvents {
         
         @safe public nonisolated(unsafe) let newOwner: (any SynchronizationPeerID)?
     }
+    
+    struct OwnershipResponse : Event {
+        let entity: Entity
+        @safe private nonisolated(unsafe) let previousOwner: (any SynchronizationPeerID)?
+        let response: SynchronizationEvents.OwnershipResponse.Response
+    }
+}
+
+extension SynchronizationEvents.OwnershipResponse {
+    enum Response : Hashable {
+        case granted
+        case timedOut
+    }
 }

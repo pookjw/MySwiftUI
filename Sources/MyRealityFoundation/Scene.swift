@@ -243,6 +243,10 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
             assertUnimplemented()
         }
     }
+    
+    init(coreScene: OpaquePointer) {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)

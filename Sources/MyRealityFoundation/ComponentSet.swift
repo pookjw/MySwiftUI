@@ -197,6 +197,10 @@ extension Entity {
                 }
             }
         }
+        
+        func doGet<T : Component>(_: T.Type, borrowStrongReference: Bool) -> T? {
+            assertUnimplemented()
+        }
     }
 }
 

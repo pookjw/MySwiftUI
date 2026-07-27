@@ -65,10 +65,11 @@ public struct SynchronizationComponent : Component, Equatable {
          */
         // x25
         let core = unsafe unsafeBitCast(coreComponent.core, to: CoreRE::Component.self)
-        core.network_setAlwaysMigrate()
+        let copy_1 = self
+        core.network_setAlwaysMigrate(copy_1._shouldMigrateOwnershipWhenAbandoned)
         
         if core.isOwnershipLocked {
-            switch self.ownershipTransferMode {
+            switch copy_1.ownershipTransferMode {
             case .manual:
                 // <+180>
                 break
@@ -78,7 +79,7 @@ public struct SynchronizationComponent : Component, Equatable {
             }
         } else {
             // <+160>
-            switch self.ownershipTransferMode {
+            switch copy_1.ownershipTransferMode {
             case .autoAccept:
                 // <+180>
                 break
@@ -110,16 +111,48 @@ public struct SynchronizationComponent : Component, Equatable {
                 return
             }
             
-            if let scene = core.entity.scene {
+            if let reScene = core.entity.scene {
                 // <+368>
                 // scene -> x20
-                assertUnimplemented()
+                let subscription = BoxedSubscription()
+                
+                let scene: MyRealityFoundation.Scene
+                if let swiftObject = unsafe reScene.swiftObject {
+                    scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation.Scene
+                } else {
+                    scene = unsafe MyRealityFoundation.Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
+                }
+                
+                // <+572>
+                let cancellable = scene
+                    .publisher(for: SynchronizationEvents.OwnershipResponse.self, on: nil, componentType: nil)
+                    .first { [identifier = copy_1.identifier] response in
+                        // $s10RealityKit24SynchronizationComponentV8__toCoreyyAA02__D3RefVFSbAA0C6EventsO17OwnershipResponseVcfU_TA
+                        guard let component = response
+                            .entity
+                            .components
+                            .doGet(SynchronizationComponent.self, borrowStrongReference: false)
+                        else {
+                            return false
+                        }
+                        
+                        return component.identifier == identifier
+                    }
+                    .sink { output in
+                        // $s10RealityKit24SynchronizationComponentV8__toCoreyyAA02__D3RefVFyAA0C6EventsO17OwnershipResponseVcfU0_TA
+                        /*
+                         output -> x0
+                         subscription -> x1
+                         block -> x2/x3
+                         */
+                        subscription.value!.cancel()
+                        block((output.response != .granted) ? .timedOut : .granted)
+                    }
+                
+                subscription.value = cancellable
             } else {
                 // <+476>
-                assertUnimplemented()
             }
-            
-            assertUnimplemented()
         }
     }
     

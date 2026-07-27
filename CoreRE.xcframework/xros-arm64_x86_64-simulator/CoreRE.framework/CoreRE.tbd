@@ -45,7 +45,9 @@ exports:
     _RENetworkComponentUnlockEntity,
     _RENetworkComponentIsAuthoritative,
     _RENetworkComponentRequestOwnershipV2,
-    _REComponentGetEntity ]
+    _REComponentGetEntity,
+    _RESceneGetSwiftObject,
+    _RESceneSetSwiftObject ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
