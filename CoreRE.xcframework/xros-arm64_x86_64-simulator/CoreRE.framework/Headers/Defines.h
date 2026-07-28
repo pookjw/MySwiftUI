@@ -51,7 +51,7 @@ RE_EXTERN void RERelease(const void *);
 RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (* _Nullable)(void *, void *, const int8_t *), bool (* _Nullable)(void *, void *, CFDataRef, const int8_t *));
 
 struct RECustomComponentTypeInfoContext {
-    uint32_t unknown0;
+    uint64_t unknown0;
     uint32_t unknown1;
     uint64_t unknown2;
     bool (*unknown3)(void * _Nullable, void *, void *, void *, const void *, int64_t);

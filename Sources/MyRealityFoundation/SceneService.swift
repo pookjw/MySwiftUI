@@ -63,8 +63,8 @@ private import Foundation
         // w20
         let result = typeName_2.utf8CString.withUnsafeBufferPointer { pointer in
             return unsafe builder.initialize(
-                Int32(size),
                 pointer.baseAddress.unsafelyUnwrapped,
+                Int32(size),
                 nil,
                 nil
             )
@@ -91,7 +91,7 @@ private import Foundation
         let flag_1: Bool
         if codableType != nil {
             // <+436>
-            flag_1 = (type as? (any DisableRESync.Type)) != nil
+            flag_1 = (type as? (any DisableRESync.Type)) == nil
         } else {
             // <+556>
             flag_1 = false
@@ -184,18 +184,20 @@ private import Foundation
                 
                 return withUnsafePointer(to: info) { pointer_3 in
                     // x23
-                    guard let componentClass = unsafe ComponentTypeClass.createCustomComponentType(info: pointer_3, flag_3) else {
-                        preconditionFailure("Could not create custom component type.")
+                    guard let componentClass = unsafe ComponentTypeClass.createCustomComponentType(info: pointer_3, isTransient: flag_3) else {
+                        assertionFailure("Could not create custom component type.")
                     }
                     
                     unsafe componentClass.setCloneCallback { p1 in
-                        return unsafe cloneComponent(
+                        let result = unsafe cloneComponent(
                             unsafeBitCast(p1, to: OpaquePointer.self)
                         )
+                        
+                        return unsafe unsafeBitCast(result, to: UnsafeMutableRawPointer.self)
                     }
                     
                     if flag_2 {
-                        unsafe CoreRE::Component.registerSwiftCodableComponent("CustomComponentRealityKit.\(typeName_2)")
+                        unsafe CoreRE::Component.registerSwiftCodableComponent("CustomComponent\(typeName_2)")
                     }
                     
                     // <+240>
@@ -215,7 +217,7 @@ private import Foundation
                     }
                     
                     // <+376>
-                    unsafe SceneManager.customComponentTypesToHandles[typeName_2] = unsafeBitCast(componentClass, to: OpaquePointer.self)
+                    unsafe SceneManager.customComponentTypesToHandles[handleKey] = unsafeBitCast(componentClass, to: OpaquePointer.self)
                     unsafe SceneManager.handlesToCustomComponentTypes[unsafeBitCast(componentClass, to: OpaquePointer.self)] = type
                     
                     return unsafe unsafeBitCast(componentClass, to: OpaquePointer.self)
