@@ -2,6 +2,7 @@
 #define Defines_h
 
 #import <Foundation/Foundation.h>
+#import <CoreFoundation/CoreFoundation.h>
 #include <simd/simd.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -47,6 +48,7 @@ typedef const struct REComponent * REComponentRef __attribute__((swift_wrapper(s
 typedef const void * REComponentClassPtr NS_SWIFT_NAME(Component.ClassPtr);
 
 RE_EXTERN void RERelease(const void *);
+RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (^ _Nullable)(void *, void *, const int8_t *), BOOL (^ _Nullable)(void *, void *, CFDataRef, const int8_t *));
 
 NS_ASSUME_NONNULL_END
 

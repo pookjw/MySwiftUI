@@ -52,7 +52,9 @@ exports:
     _RECIntrospectionFree,
     _REStructBuilderCreate,
     _REStructBuilderInit,
-    _RECIntrospectionStructRegister ]
+    _RECIntrospectionStructRegister,
+    _REStructBuilderDestroy,
+    _RERegisterSwiftCodableCallbacks ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -1,5 +1,7 @@
 // 78C7AC4C62C2AF6C307D1A28F168722B
 internal import CoreRE
+private import os.log
+private import CoreFoundation
 
 @safe final class SceneManager {
     static func customComponentType(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer {
@@ -81,6 +83,42 @@ internal import CoreRE
         
         // <+388>
         builder.destroy()
+        
+        // x28
+        let codableType = (type as? any Codable.Type)
+        // w20 -> x29 - 0x68
+        let flag_1: Bool
+        if codableType != nil {
+            // <+436>
+            flag_1 = (type as? (any DisableRESync.Type)) != nil
+        } else {
+            // <+556>
+            flag_1 = false
+        }
+        
+        // <+560>
+        if let codableType {
+            // <+616>
+            unsafe RERegisterSwiftCodableCallbacks(
+                unsafeBitCast(encodeComponent, to: ((UnsafeMutableRawPointer, UnsafeMutableRawPointer, UnsafePointer<Int8>) -> Unmanaged<CFData>?).self),
+                unsafeBitCast(decodeComponent, to: ((UnsafeMutableRawPointer, UnsafeMutableRawPointer, CFData, UnsafePointer<Int8>) -> Bool).self)
+            )
+            // <+968>
+        } else {
+            // <+640>
+            unsafe os_log(.default, log: .default, "%s", "CustomComponent of type \(_typeName(type, qualified: false)) does not conform to Codable. Component state network sync disabled.")
+            // <+968>
+        }
+        
+        // <+968>
+        // w19
+        let flag_2 = (codableType != nil)
+        // w20 -> w1
+        let flag_3 = (type is (any TransientComponent.Type))
+        // w8 -> w25
+        let flag_4 = (type is (any HiddenComponent.Type))
+        
+        // <+1040>
         assertUnimplemented()
     }
     
@@ -126,4 +164,12 @@ public protocol __SceneService {
     func append(scene: Scene)
     func remove(scene: Scene)
     var coreECSManager: __REECSManagerRef { get }
+}
+
+fileprivate nonisolated func encodeComponent(_: OpaquePointer, _: OpaquePointer, _: UnsafePointer<Int8>) -> Unmanaged<CFData>? {
+    assertUnimplemented()
+}
+
+fileprivate nonisolated func decodeComponent(_: OpaquePointer, _: OpaquePointer, P: CFData, _: UnsafePointer<Int8>) -> Bool {
+    assertUnimplemented()
 }
