@@ -103,7 +103,16 @@ private import Foundation
             unknown0: 0x30,
             unknown1: 1,
             unknown2: 0,
-            unknown3: { p1, p2, p3, p4, p5, p6 in
+            unknown3: { p1, p2, p3, p4, p5 in
+                return unsafe ecsNetSyncWriteSnapshot(
+                    p1,
+                    unsafeBitCast(p2, to: OpaquePointer.self),
+                    unsafeBitCast(p3, to: OpaquePointer.self),
+                    unsafeBitCast(p4, to: OpaquePointer.self),
+                    p5
+                )
+            },
+            unknown4: { p1, p2, p3, p4, p5, p6 in
                 return unsafe ecsNetSyncReadSnapshot(
                     p1,
                     unsafeBitCast(p2, to: OpaquePointer.self),
@@ -111,15 +120,6 @@ private import Foundation
                     unsafeBitCast(p4, to: OpaquePointer.self),
                     p5,
                     p6
-                )
-            },
-            unknown4: { p1, p2, p3, p4, p5 in
-                return unsafe ecsNetSyncWriteSnapshot(
-                    p1,
-                    unsafeBitCast(p2, to: OpaquePointer.self),
-                    unsafeBitCast(p3, to: OpaquePointer.self),
-                    unsafeBitCast(p4, to: OpaquePointer.self),
-                    p5
                 )
             },
             unknown5: flag_1

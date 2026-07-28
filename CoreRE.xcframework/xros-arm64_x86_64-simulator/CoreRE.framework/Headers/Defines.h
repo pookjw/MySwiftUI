@@ -54,8 +54,8 @@ struct RECustomComponentTypeInfoContext {
     uint64_t unknown0;
     uint32_t unknown1;
     uint64_t unknown2;
-    bool (*unknown3)(void * _Nullable, void *, void *, void *, const void *, int64_t);
-    bool (*unknown4)(void * _Nullable, void *, void *, void *, void *);
+    bool (*unknown3)(void * _Nullable, void *, void *, void *, void *);
+    bool (*unknown4)(void * _Nullable, void *, void *, void *, const void *, int64_t);
     bool unknown5;
 } NS_SWIFT_NAME(CustomComponentTypeInfoContext);
 typedef struct RECustomComponentTypeInfoContext RECustomComponentTypeInfoContext;
