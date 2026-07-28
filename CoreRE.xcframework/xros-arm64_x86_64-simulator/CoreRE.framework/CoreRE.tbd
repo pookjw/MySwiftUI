@@ -49,7 +49,9 @@ exports:
     _RESceneGetSwiftObject,
     _RESceneSetSwiftObject,
     _RECIntrospectionAlloc,
-    _RECIntrospectionFree ]
+    _RECIntrospectionFree,
+    _REStructBuilderCreate,
+    _REStructBuilderInit ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

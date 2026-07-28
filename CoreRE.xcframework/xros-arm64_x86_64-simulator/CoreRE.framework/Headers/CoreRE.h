@@ -10,3 +10,4 @@
 #import <CoreRE/RETransformComponent.h>
 #import <CoreRE/RENetworkComponent.h>
 #import <CoreRE/RECIntrospection.h>
+#import <CoreRE/REStructBuilder.h>

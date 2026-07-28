@@ -29,6 +29,9 @@ typedef const struct REScene * RESceneRef __attribute__((swift_wrapper(struct)))
 struct _REComponentTypeClass {};
 typedef const struct _REComponentTypeClass * REComponentTypeClass __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ComponentTypeClass);
 
+struct REStructBuilder {};
+typedef const struct REStructBuilder * REStructBuilderRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(StructBuilder);
+
 typedef NS_ENUM(uint32_t, REComponentType) {
     REComponentTypeNetwork = 9,
     REComponentTypeTransform = 28,
