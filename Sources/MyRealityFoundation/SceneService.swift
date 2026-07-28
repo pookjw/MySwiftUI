@@ -72,6 +72,15 @@ internal import CoreRE
         }
         
         // <+344>
+        unsafe type.__addIntrospectionData(unsafeBitCast(builder, to: OpaquePointer?.self))
+        
+        // x27
+        guard let introspectionStruct = builder.registerIntrospectionStruct() else {
+            assertionFailure("Failed to register type info for custom component.")
+        }
+        
+        // <+388>
+        builder.destroy()
         assertUnimplemented()
     }
     

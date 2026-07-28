@@ -29,6 +29,9 @@ typedef const struct REScene * RESceneRef __attribute__((swift_wrapper(struct)))
 struct _REComponentTypeClass {};
 typedef const struct _REComponentTypeClass * REComponentTypeClass __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ComponentTypeClass);
 
+struct RECIntrospectionStruct {};
+typedef const struct RECIntrospectionStruct * RECIntrospectionStructRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CIntrospectionStruct);
+
 struct REStructBuilder {};
 typedef const struct REStructBuilder * REStructBuilderRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(StructBuilder);
 
