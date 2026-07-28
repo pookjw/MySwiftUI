@@ -2,6 +2,7 @@
 internal import CoreRE
 private import os.log
 private import CoreFoundation
+private import Foundation
 
 @safe final class SceneManager {
     static func customComponentType(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer {
@@ -97,11 +98,51 @@ private import CoreFoundation
         }
         
         // <+560>
-        if let codableType {
+        // x29 - 0x90
+        let context = unsafe CoreRE::CustomComponentTypeInfoContext(
+            unknown0: 0x30,
+            unknown1: 1,
+            unknown2: 0,
+            unknown3: { p1, p2, p3, p4, p5, p6 in
+                return unsafe ecsNetSyncReadSnapshot(
+                    p1,
+                    unsafeBitCast(p2, to: OpaquePointer.self),
+                    unsafeBitCast(p3, to: OpaquePointer.self),
+                    unsafeBitCast(p4, to: OpaquePointer.self),
+                    p5,
+                    p6
+                )
+            },
+            unknown4: { p1, p2, p3, p4, p5 in
+                return unsafe ecsNetSyncWriteSnapshot(
+                    p1,
+                    unsafeBitCast(p2, to: OpaquePointer.self),
+                    unsafeBitCast(p3, to: OpaquePointer.self),
+                    unsafeBitCast(p4, to: OpaquePointer.self),
+                    p5
+                )
+            },
+            unknown5: flag_1
+        )
+        
+        if codableType != nil {
             // <+616>
             unsafe RERegisterSwiftCodableCallbacks(
-                unsafeBitCast(encodeComponent, to: ((UnsafeMutableRawPointer, UnsafeMutableRawPointer, UnsafePointer<Int8>) -> Unmanaged<CFData>?).self),
-                unsafeBitCast(decodeComponent, to: ((UnsafeMutableRawPointer, UnsafeMutableRawPointer, CFData, UnsafePointer<Int8>) -> Bool).self)
+                { p1, p2, p3 in
+                    return unsafe encodeComponent(
+                        unsafeBitCast(p1, to: OpaquePointer.self),
+                        unsafeBitCast(p2, to: OpaquePointer.self),
+                        p3
+                    )
+                },
+                { p1, p2, p3, p4 in
+                    return unsafe decodeComponent(
+                        unsafeBitCast(p1, to: OpaquePointer.self),
+                        unsafeBitCast(p2, to: OpaquePointer.self),
+                        p3,
+                        p4
+                    )
+                }
             )
             // <+968>
         } else {
@@ -119,7 +160,68 @@ private import CoreFoundation
         let flag_4 = (type is (any HiddenComponent.Type))
         
         // <+1040>
-        assertUnimplemented()
+        return typeName_2.withCString { pointer_1 in
+            // $s17RealityFoundation12SceneManagerC25customComponentTypeHelper_8typeNames13OpaquePointerV0A3Kit0F0_pXp_SSSgtFZAGSPys4Int8VGXEfU_TA
+            return withUnsafePointer(to: context) { pointer_2 in
+                let info = unsafe CustomComponentTypeInfo(
+                    unknown0: 2,
+                    unknown1: pointer_1,
+                    unknown2: 0,
+                    unknown3: 0,
+                    unknown4: { p1, p2 in
+                        unsafe deinitComponent(
+                            componentTypeHandle: unsafeBitCast(p1, to: OpaquePointer.self),
+                            rawPointer: p2
+                        )
+                    },
+                    unknown5: 0,
+                    unknown6: 0,
+                    unknown7: 0,
+                    unknown8: 0,
+                    unknown9: introspectionStruct,
+                    unknown10: pointer_2
+                )
+                
+                return withUnsafePointer(to: info) { pointer_3 in
+                    // x23
+                    guard let componentClass = unsafe ComponentTypeClass.createCustomComponentType(info: pointer_3, flag_3) else {
+                        preconditionFailure("Could not create custom component type.")
+                    }
+                    
+                    unsafe componentClass.setCloneCallback { p1 in
+                        return unsafe cloneComponent(
+                            unsafeBitCast(p1, to: OpaquePointer.self)
+                        )
+                    }
+                    
+                    if flag_2 {
+                        unsafe CoreRE::Component.registerSwiftCodableComponent("CustomComponentRealityKit.\(typeName_2)")
+                    }
+                    
+                    // <+240>
+                    if flag_4 {
+                        let bundle = Bundle(for: SceneManager.self)
+                        
+                        unsafe type.registerBuiltin(
+                            bundle: bundle,
+                            reComponentClass: nil,
+                            access: .internal,
+                            availability: ComponentInfo.Availability(
+                                introduced: [],
+                                deprecated: nil,
+                                obsoleted: nil
+                            )
+                        )
+                    }
+                    
+                    // <+376>
+                    unsafe SceneManager.customComponentTypesToHandles[typeName_2] = unsafeBitCast(componentClass, to: OpaquePointer.self)
+                    unsafe SceneManager.handlesToCustomComponentTypes[unsafeBitCast(componentClass, to: OpaquePointer.self)] = type
+                    
+                    return unsafe unsafeBitCast(componentClass, to: OpaquePointer.self)
+                }
+            }
+        }
     }
     
     func registerBuiltInType(_: any MyRealityFoundation::Component.Type, typeEnum: CoreRE::ComponentType) {
@@ -146,8 +248,8 @@ private import CoreFoundation
         assertUnimplemented()
     }
     
-    @safe static nonisolated(unsafe) let customComponentTypesToHandles: [String : OpaquePointer] = unsafe [:]
-    @safe static nonisolated(unsafe) let handlesToCustomComponentTypes: [OpaquePointer : any MyRealityFoundation::Component.Type] = unsafe [:]
+    static nonisolated(unsafe) var customComponentTypesToHandles: [String : OpaquePointer] = unsafe [:]
+    static nonisolated(unsafe) var handlesToCustomComponentTypes: [OpaquePointer : any MyRealityFoundation::Component.Type] = unsafe [:]
     static let customComponentTypesToKeys: [ObjectIdentifier : String] = [:]
     static nonisolated(unsafe) var customComponentTypeObjectIdToHandles: [ObjectIdentifier : OpaquePointer] = unsafe [:]
 }
@@ -170,6 +272,22 @@ fileprivate nonisolated func encodeComponent(_: OpaquePointer, _: OpaquePointer,
     assertUnimplemented()
 }
 
-fileprivate nonisolated func decodeComponent(_: OpaquePointer, _: OpaquePointer, P: CFData, _: UnsafePointer<Int8>) -> Bool {
+fileprivate nonisolated func decodeComponent(_: OpaquePointer, _: OpaquePointer, _: CFData, _: UnsafePointer<Int8>) -> Bool {
+    assertUnimplemented()
+}
+
+fileprivate nonisolated func deinitComponent(componentTypeHandle: OpaquePointer, rawPointer: UnsafeMutableRawPointer) {
+    assertUnimplemented()
+}
+
+fileprivate nonisolated func ecsNetSyncReadSnapshot(_: UnsafeMutableRawPointer?, _: OpaquePointer, _: OpaquePointer, _: OpaquePointer, _: UnsafeRawPointer, _: Int64) -> Bool {
+    assertUnimplemented()
+}
+
+fileprivate nonisolated func ecsNetSyncWriteSnapshot(_: UnsafeMutableRawPointer?, _: OpaquePointer, _: OpaquePointer, _: OpaquePointer, _: UnsafeMutableRawPointer) -> Bool {
+    assertUnimplemented()
+}
+
+fileprivate nonisolated func cloneComponent(_: OpaquePointer) -> OpaquePointer {
     assertUnimplemented()
 }

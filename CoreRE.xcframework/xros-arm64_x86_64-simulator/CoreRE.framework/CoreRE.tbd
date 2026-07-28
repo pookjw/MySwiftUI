@@ -54,7 +54,11 @@ exports:
     _REStructBuilderInit,
     _RECIntrospectionStructRegister,
     _REStructBuilderDestroy,
-    _RERegisterSwiftCodableCallbacks ]
+    _RERegisterSwiftCodableCallbacks,
+    _RECustomComponentTypeCreate,
+    _RECustomComponentTypeCreateWithIsTransient,
+    _REComponentTypeSetCloneCallback,
+    _RERegisterSwiftCodableComponent ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

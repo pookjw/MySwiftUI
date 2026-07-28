@@ -1,4 +1,5 @@
 internal import CoreRE
+internal import Foundation
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public protocol Component {
@@ -100,5 +101,52 @@ extension CoreComponentType {
     @unsafe enum OriginType {
         case system(CoreRE::Component.ClassPtr)
         case custom
+    }
+}
+
+extension Component {
+    static func registerBuiltin(
+        bundle: Bundle,
+        reComponentClass: CoreRE::Component.ClassPtr?,
+        access: ComponentInfo.Access,
+        availability: ComponentInfo.Availability
+    ) {
+        assertUnimplemented()
+    }
+}
+
+struct ComponentInfo {
+    // TODO
+}
+
+extension ComponentInfo {
+    enum Access {
+        case `internal`
+        case spi
+        case api
+    }
+    
+    struct Availability {
+        private let introduced: [ComponentInfo.SupportedPlatform]
+        private let deprecated: [ComponentInfo.SupportedPlatform]?
+        private let obsoleted: [ComponentInfo.SupportedPlatform]?
+        
+        init(
+            introduced: [ComponentInfo.SupportedPlatform],
+            deprecated: [ComponentInfo.SupportedPlatform]?,
+            obsoleted: [ComponentInfo.SupportedPlatform]?
+        ) {
+            self.introduced = introduced
+            self.deprecated = deprecated
+            self.obsoleted = obsoleted
+        }
+    }
+    
+    struct Platform {
+        // TODO
+    }
+    
+    struct SupportedPlatform {
+        // TODO
     }
 }

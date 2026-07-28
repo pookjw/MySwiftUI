@@ -48,7 +48,32 @@ typedef const struct REComponent * REComponentRef __attribute__((swift_wrapper(s
 typedef const void * REComponentClassPtr NS_SWIFT_NAME(Component.ClassPtr);
 
 RE_EXTERN void RERelease(const void *);
-RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (^ _Nullable)(void *, void *, const int8_t *), BOOL (^ _Nullable)(void *, void *, CFDataRef, const int8_t *));
+RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (* _Nullable)(void *, void *, const int8_t *), bool (* _Nullable)(void *, void *, CFDataRef, const int8_t *));
+
+struct RECustomComponentTypeInfoContext {
+    uint32_t unknown0;
+    uint32_t unknown1;
+    uint64_t unknown2;
+    bool (*unknown3)(void * _Nullable, void *, void *, void *, const void *, int64_t);
+    bool (*unknown4)(void * _Nullable, void *, void *, void *, void *);
+    bool unknown5;
+} NS_SWIFT_NAME(CustomComponentTypeInfoContext);
+typedef struct RECustomComponentTypeInfoContext RECustomComponentTypeInfoContext;
+
+struct RECustomComponentTypeInfo {
+    uint32_t unknown0;
+    const int8_t *unknown1;
+    uint64_t unknown2;
+    uint64_t unknown3;
+    void (*unknown4)(void *, void *);
+    uint64_t unknown5;
+    uint64_t unknown6;
+    uint64_t unknown7;
+    uint64_t unknown8;
+    RECIntrospectionStructRef unknown9;
+    const RECustomComponentTypeInfoContext *unknown10;
+} NS_SWIFT_NAME(CustomComponentTypeInfo);
+typedef struct RECustomComponentTypeInfo RECustomComponentTypeInfo;
 
 NS_ASSUME_NONNULL_END
 
