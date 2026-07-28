@@ -238,8 +238,21 @@ private import Foundation
         assertUnimplemented()
     }
     
-    fileprivate static func makeComponentTypeHandleKey(_ type: MyRealityFoundation::Component.Type, typeName: String?) -> String {
-        assertUnimplemented()
+    fileprivate static func makeComponentTypeHandleKey(_ type: (any MyRealityFoundation::Component.Type), typeName: String?) -> String {
+        if let typeName {
+            // <+32>
+            return "\(UInt(bitPattern: ObjectIdentifier(type)).description)_\(typeName)"
+        } else {
+            // <+156>
+            if let key = unsafe SceneManager.customComponentTypesToKeys[ObjectIdentifier(type)] {
+                return key
+            } else {
+                // <+264>
+                let key = UInt(bitPattern: ObjectIdentifier(type)).description
+                unsafe SceneManager.customComponentTypesToKeys[ObjectIdentifier(type)] = key
+                return key
+            }
+        }
     }
     
     static func unregisterCustomComponents() {
@@ -252,7 +265,7 @@ private import Foundation
     
     static nonisolated(unsafe) var customComponentTypesToHandles: [String : OpaquePointer] = unsafe [:]
     static nonisolated(unsafe) var handlesToCustomComponentTypes: [OpaquePointer : any MyRealityFoundation::Component.Type] = unsafe [:]
-    static let customComponentTypesToKeys: [ObjectIdentifier : String] = [:]
+    static nonisolated(unsafe) var customComponentTypesToKeys: [ObjectIdentifier : String] = [:]
     static nonisolated(unsafe) var customComponentTypeObjectIdToHandles: [ObjectIdentifier : OpaquePointer] = unsafe [:]
 }
 

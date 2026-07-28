@@ -30,6 +30,10 @@ private import _DarwinFoundation2._string
     func encode(to encoder: any Encoder) throws {
         assertUnimplemented()
     }
+    
+    static var __typeName: String {
+        return "RealityKit.__EntityInfoComponent"
+    }
 
     @_spi(Internal) public static var componentName: String {
         get {

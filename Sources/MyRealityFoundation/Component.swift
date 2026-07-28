@@ -35,9 +35,7 @@ extension Component {
     }
     
     public static var __size: Int {
-        get {
-            assertUnimplemented()
-        }
+        return MemoryLayout<Self>.size
     }
     
     public static func __free(to buffer: UnsafeMutableRawPointer, offset: Int) {
