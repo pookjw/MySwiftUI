@@ -45,6 +45,10 @@ public struct OpacityComponent : Component, Equatable {
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
         assertUnimplemented()
     }
+
+    @_spi(Internal) public static var coreComponentType: CoreComponentType {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)

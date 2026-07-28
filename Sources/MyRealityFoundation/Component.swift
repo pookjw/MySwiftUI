@@ -1,3 +1,5 @@
+internal import CoreRE
+
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public protocol Component {
     @available(macOS, deprecated: 13.0, renamed: "componentName")
@@ -15,6 +17,7 @@ public protocol Component {
     @_spi(Internal) static var __coreComponentType: __ComponentTypeRef { get }
     @preconcurrency @MainActor static func __addIntrospectionData(_ builder: OpaquePointer?)
     @_spi(Internal) static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component
+    @_spi(Internal) static var coreComponentType: CoreComponentType { get }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
@@ -41,11 +44,11 @@ extension Component {
     }
     
     @preconcurrency @MainActor public static func __fromCore(_ coreComponent: __ComponentRef) -> Self {
-        assertUnimplemented()
+        preconditionFailure("Built-in component did not provide __fromCore method.")
     }
     
     @preconcurrency @MainActor public func __toCore(_ coreComponent: __ComponentRef) {
-        assertUnimplemented()
+        preconditionFailure("Built-in component did not provide __toCore method.")
     }
     
     public static func __addIntrospectionData(_ builder: OpaquePointer?) {
@@ -73,14 +76,29 @@ extension Component {
     }
 
     @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
-        assertUnimplemented()
+        return __ComponentTypeRef(core: .custom)
     }
 
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
         assertUnimplemented()
     }
+
+    @_spi(Internal) public static var coreComponentType: CoreComponentType {
+        return unsafe CoreComponentType(originType: .custom)
+    }
 }
 
 protocol DefaultInitializable : MyRealityFoundation::Component {
     init()
+}
+
+@unsafe @_spi(Internal) public struct CoreComponentType {
+    fileprivate private(set) var originType: CoreComponentType.OriginType
+}
+
+extension CoreComponentType {
+    @unsafe enum OriginType {
+        case system(CoreRE::Component.ClassPtr)
+        case custom
+    }
 }

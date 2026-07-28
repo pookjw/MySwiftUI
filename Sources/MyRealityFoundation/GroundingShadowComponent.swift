@@ -44,6 +44,10 @@ extension GroundingShadowComponent {
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
         assertUnimplemented()
     }
+
+    @_spi(Internal) public static var coreComponentType: CoreComponentType {
+        assertUnimplemented()
+    }
 }
 
 @available(visionOS 2.0, iOS 18.0, macCatalyst 18.0, macOS 15.0, tvOS 26.0, *)

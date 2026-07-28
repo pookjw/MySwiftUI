@@ -80,4 +80,8 @@ extension ViewAttachmentComponent {
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
         assertUnimplemented()
     }
+
+    @_spi(Internal) public static var coreComponentType: CoreComponentType {
+        assertUnimplemented()
+    }
 }

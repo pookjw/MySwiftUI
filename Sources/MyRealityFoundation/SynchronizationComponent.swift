@@ -185,6 +185,10 @@ public struct SynchronizationComponent : Component, Equatable {
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
         assertUnimplemented()
     }
+
+    @_spi(Internal) public static var coreComponentType: CoreComponentType {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)

@@ -14,13 +14,13 @@ private import _DarwinFoundation2._string
         array.append(contentsOf: className.utf8)
         array.append(0x0)
         
-        let rawData = RECIntrospectionAlloc(UInt32(truncatingIfNeeded: array.count))
+        let rawData = unsafe RECIntrospectionAlloc(UInt32(truncatingIfNeeded: array.count))
         array.withUnsafeBufferPointer { pointer in
             _ = unsafe memmove(rawData, pointer.baseAddress.unsafelyUnwrapped, pointer.count)
         }
         
-        self.rawData = rawData
-        self.cleanupHelper = IntrospectionDataCleanupHelper(rawData: rawData)
+        unsafe self.rawData = rawData
+        unsafe self.cleanupHelper = IntrospectionDataCleanupHelper(rawData: rawData)
     }
     
     init(from decoder: any Decoder) throws {
@@ -49,23 +49,23 @@ private import _DarwinFoundation2._string
         assertUnimplemented()
     }
 
-    @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
-        return __ComponentTypeRef(core: .info)
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
+        assertUnimplemented()
     }
 
-    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
+    @_spi(Internal) public static var coreComponentType: CoreComponentType {
         assertUnimplemented()
     }
 }
 
-final class IntrospectionDataCleanupHelper {
+@unsafe final class IntrospectionDataCleanupHelper {
     private var rawData: UnsafeMutableRawPointer
     
     fileprivate init(rawData: UnsafeMutableRawPointer) {
-        self.rawData = rawData
+        unsafe self.rawData = rawData
     }
     
     deinit {
-        RECIntrospectionFree(self.rawData)
+        unsafe RECIntrospectionFree(self.rawData)
     }
 }

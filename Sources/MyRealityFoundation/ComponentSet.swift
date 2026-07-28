@@ -83,7 +83,7 @@ extension Entity {
             let coreEntity = unsafe unsafeBitCast(entity.coreEntity, to: CoreRE::Entity.self)
             
             let coreType = T.__coreComponentType
-
+            
             if coreType.core == .custom {
                 // <+268>
                 // x26
