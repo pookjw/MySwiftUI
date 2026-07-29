@@ -1,5 +1,6 @@
 public import MySwiftUICore
 public import MyRealityKit
+private import RealityKit
 
 @available(visionOS 1.0, *)
 @available(macOS, unavailable)
@@ -8,8 +9,13 @@ public import MyRealityKit
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension EnvironmentValues {
-    public var realityKitScene: MyRealityKit::Scene? {
-        return self.realityScene
+    public var realityKitScene: MyRealityFoundation::Scene? {
+        guard let scene = self.realityScene else {
+            return nil
+        }
+        
+        let ref = unsafe scene.__coreScene.__as(OpaquePointer.self)
+        return unsafe MyRealityFoundation::Scene(coreScene: ref)
     }
 }
 
@@ -18,7 +24,7 @@ extension EnvironmentValues {
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 extension EnvironmentValues {
-    public var realityViewCameraControls: CameraControls {
+    public var realityViewCameraControls: MyRealityFoundation::CameraControls {
         get {
             assertUnimplemented()
         }

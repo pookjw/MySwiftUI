@@ -600,7 +600,7 @@ open class _UIHostingView<Content : View>: UIView {
         let serverHitTestedResponder = context.serverHitTestedResponder
         let serverHitTestedEntityID = context.serverHitTestedEntityID
         
-        var leafHitTestedEntity: RE_Entity?
+        var leafHitTestedEntity: RealityKit::Entity?
         if
             serverHitTestedEntityID != 0,
             let serverHitTestedResponder,
@@ -610,7 +610,7 @@ open class _UIHostingView<Content : View>: UIView {
             let serverHitTestedEntity = scene.findEntity(id: serverHitTestedEntityID)
         {
             // <+576>
-            let entityRef = RE___EntityRef.__fromCore(serverHitTestedEntity)
+            let entityRef = RealityKit::__EntityRef.__fromCore(serverHitTestedEntity)
             leafHitTestedEntity = .__fromCore(entityRef)
             // <+820>
         }

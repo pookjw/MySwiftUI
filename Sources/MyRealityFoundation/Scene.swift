@@ -244,7 +244,7 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
         }
     }
     
-    init(coreScene: OpaquePointer) {
+    package init(coreScene: OpaquePointer) {
         assertUnimplemented()
     }
 }

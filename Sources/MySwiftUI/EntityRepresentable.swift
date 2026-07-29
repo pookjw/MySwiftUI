@@ -18,7 +18,7 @@ internal import UIKit
     func makeCoordinator() -> Self.Coordinator
     func _sizeThatFits(in size: _ProposedSize3D, entity: Self.EntityType) -> Size3D
     func _identifiedViewTree(in type: Self.EntityType) -> _IdentifiedViewTree
-    func _gatherEntitiesWithGesture(from entity: RE_Entity_Exported) -> [any EntityWithGesture]
+    func _gatherEntitiesWithGesture(from entity: RealityKit::Entity) -> [any EntityWithGesture]
 }
 
 extension EntityRepresentable {
@@ -34,7 +34,7 @@ extension EntityRepresentable {
         assertUnimplemented()
     }
     
-    public func _gatherEntitiesWithGesture(from entity: RE_Entity_Exported) -> [any EntityWithGesture] {
+    public func _gatherEntitiesWithGesture(from entity: RealityKit::Entity) -> [any EntityWithGesture] {
         assertUnimplemented()
     }
     
@@ -108,6 +108,6 @@ extension GestureProxy {
     }
 }
 
-final class EntityHost<T> : RE_Entity {
+final class EntityHost<T> : RealityKit::Entity {
     // TODO
 }

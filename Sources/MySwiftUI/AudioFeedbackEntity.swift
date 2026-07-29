@@ -4,4 +4,4 @@ internal import MyRealityKit
 internal import RealityKit
 #endif
 
-class AudioFeedbackEntity : RE_Entity {}
+class AudioFeedbackEntity : RealityKit::Entity {}

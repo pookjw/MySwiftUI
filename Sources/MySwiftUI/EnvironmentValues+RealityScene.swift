@@ -1,8 +1,8 @@
 internal import MySwiftUICore
-internal import RealityKit
+package import RealityKit
 
 extension EnvironmentValues {
-    package var realityScene: RE_Scene? {
+    package var realityScene: RealityKit::Scene? {
         get {
             return self[RealitySceneKey.self]?.base
         }
@@ -17,5 +17,5 @@ extension EnvironmentValues {
 }
 
 fileprivate struct RealitySceneKey : EnvironmentKey {
-    static let defaultValue: WeakBox<RE_Scene>? = nil
+    static let defaultValue: WeakBox<RealityKit::Scene>? = nil
 }
