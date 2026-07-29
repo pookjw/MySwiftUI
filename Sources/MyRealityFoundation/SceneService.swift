@@ -167,16 +167,16 @@ private import Foundation
                     unknown0: 2,
                     unknown1: pointer_1,
                     unknown2: 0,
-                    unknown3: 0,
+                    unknown3: nil,
                     unknown4: { p1, p2 in
                         unsafe deinitComponent(
                             componentTypeHandle: unsafeBitCast(p1, to: OpaquePointer.self),
                             rawPointer: p2
                         )
                     },
-                    unknown5: 0,
-                    unknown6: 0,
-                    unknown7: 0,
+                    unknown5: nil,
+                    unknown6: nil,
+                    unknown7: nil,
                     unknown8: 0,
                     unknown9: introspectionStruct,
                     unknown10: pointer_2

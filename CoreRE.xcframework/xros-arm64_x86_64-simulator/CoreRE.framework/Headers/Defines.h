@@ -70,14 +70,14 @@ struct RECustomComponentTypeInfo {
     uint32_t unknown0;
     const int8_t *unknown1;
     uint64_t unknown2;
-    uint64_t unknown3;
+    void * (* _Nullable unknown3)(void *);
     void (*unknown4)(void *, void *);
-    uint64_t unknown5;
-    uint64_t unknown6;
-    uint64_t unknown7;
+    void (* _Nullable unknown5)(void *);
+    void (* _Nullable unknown6)(void *);
+    void (* _Nullable unknown7)(void *);
     uint64_t unknown8;
     RECIntrospectionStructRef unknown9;
-    const RECustomComponentTypeInfoContext *unknown10;
+    const RECustomComponentTypeInfoContext * _Nullable unknown10;
 } NS_SWIFT_NAME(CustomComponentTypeInfo);
 typedef struct RECustomComponentTypeInfo RECustomComponentTypeInfo;
 

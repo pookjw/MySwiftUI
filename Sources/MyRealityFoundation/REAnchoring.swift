@@ -19,3 +19,13 @@ public struct __REAnchoring {
         assertUnimplemented()
     }
 }
+
+extension __REAnchoring : RegisterableComponent {
+    static func register() throws {
+        assertUnimplemented()
+    }
+    
+    static func unregister() {
+        assertUnimplemented()
+    }
+}

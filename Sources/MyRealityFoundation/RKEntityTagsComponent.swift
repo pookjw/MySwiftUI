@@ -16,3 +16,13 @@ public struct __RKEntityTagsComponent {
         assertUnimplemented()
     }
 }
+
+extension __RKEntityTagsComponent : RegisterableComponent {
+    static func register() throws {
+        assertUnimplemented()
+    }
+    
+    static func unregister() {
+        assertUnimplemented()
+    }
+}

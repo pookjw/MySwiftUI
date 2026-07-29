@@ -2,13 +2,38 @@
 public import Dispatch
 public import Metal
 private import CoreRE
+private import os.log
 
 fileprivate let interactionComponentInitializer: Void = {
-    assertUnimplemented()
+    guard unsafe !__Engine.interactionsComponentsRegistered else {
+        return
+    }
+    
+    unsafe __Engine.interactionsComponentsRegistered = true
+    
+    do {
+        unsafe __RKEntityInteractionsComponent.registration = try __RKEntityInteractionsComponent.Registration()
+    } catch {
+        unsafe os_log(.default, log: .default, "%s", "Error initializing Interaction Component: \(error)")
+    }
 }()
 
 fileprivate let builtInComponentsInitializer: Void = {
-    assertUnimplemented()
+    guard unsafe !__Engine.customComponentsRegistered else {
+        return
+    }
+    
+    unsafe __Engine.customComponentsRegistered = true
+    _ = unsafe SceneManager.customComponentType(__EntityInfoComponent.self)
+    
+    for component in __Engine.customComponents {
+        do {
+            try component.register()
+        } catch {
+            unsafe os_log(.default, log: .default, "%s", "Error initializing custom components: \(error)")
+            break
+        }
+    }
 }()
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
@@ -226,10 +251,10 @@ fileprivate let builtInComponentsInitializer: Void = {
         self.queue = configurationRef.engineQueue!
         
         if self.configuration.enableInteractions {
-            _ = interactionComponentInitializer
-            _ = builtInComponentsInitializer
+            __Engine.__ensureInteractionsComponentIsRegistered()
+            __Engine.__ensureBuiltInComponentsAreRegistered()
         } else {
-            _ = builtInComponentsInitializer
+            __Engine.__ensureBuiltInComponentsAreRegistered()
         }
         
         // <+260>
@@ -246,7 +271,7 @@ fileprivate let builtInComponentsInitializer: Void = {
         
         // <+372>
         if __ServiceLocator.hasSharedServiceLocator {
-            unsafe __ServiceLocator.__sharedEngine = self
+            __ServiceLocator.__sharedEngine = self
         }
         
         self.commonPostInit()
@@ -274,11 +299,11 @@ fileprivate let builtInComponentsInitializer: Void = {
     }
     
     public static func __ensureBuiltInComponentsAreRegistered() {
-        assertUnimplemented()
+        _ = builtInComponentsInitializer
     }
     
     public static func __ensureInteractionsComponentIsRegistered() {
-        assertUnimplemented()
+        _ = interactionComponentInitializer
     }
     
     public static func __registerInteractionComponent() throws {
@@ -300,6 +325,17 @@ fileprivate let builtInComponentsInitializer: Void = {
     fileprivate func commonPostInit() {
         assertUnimplemented()
     }
+    
+    @safe nonisolated(unsafe) static let customComponents : [any RegisterableComponent.Type] = [
+        __RKSceneUUIDComponent.self,
+        __RKScenePhysics.self,
+        __REAnchoring.self,
+        __RKEntityUUIDComponent.self,
+        __RKEntityTagsComponent.self
+    ]
+    
+    fileprivate nonisolated(unsafe) static var customComponentsRegistered = false
+    fileprivate nonisolated(unsafe) static var interactionsComponentsRegistered = false
 }
 
 final class EngineConfiguration {

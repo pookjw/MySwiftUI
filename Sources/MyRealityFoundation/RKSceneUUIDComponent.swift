@@ -10,3 +10,13 @@ public struct __RKSceneUUIDComponent {
         assertUnimplemented()
     }
 }
+
+extension __RKSceneUUIDComponent : RegisterableComponent {
+    static func register() throws {
+        assertUnimplemented()
+    }
+    
+    static func unregister() {
+        assertUnimplemented()
+    }
+}

@@ -71,7 +71,8 @@ exports:
     _REEngineSetCallbacksEx,
     _REEngineSetSwiftObject,
     _REEngineGetSwiftObject,
-    _REEngineSetShared ]
+    _REEngineSetShared,
+    _RECustomComponentTypeCreate ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -14,3 +14,13 @@ public struct __RKScenePhysics {
         assertUnimplemented()
     }
 }
+
+extension __RKScenePhysics : RegisterableComponent {
+    static func register() throws {
+        assertUnimplemented()
+    }
+    
+    static func unregister() {
+        assertUnimplemented()
+    }
+}
