@@ -223,6 +223,7 @@ func printOffsets() {
     printFields("17RealityFoundation9LoadTraceV", isClassType: false)
     printFields(RealityKit.__Engine.self, isClassType: true)
     printFields(RealityKit.__ServiceLocator.self, isClassType: true)
+    printFields(RealityKit.Scene.self, isClassType: true)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

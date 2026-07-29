@@ -120,23 +120,19 @@ public struct SynchronizationComponent : Component, Equatable {
                 let subscription = BoxedSubscription()
                 
                 let scene: MyRealityFoundation::Scene
-                if let swiftObject = unsafe reScene.swiftObject {
 #if RealityKitCompataibility
-                    let casted = unsafe unsafeBitCast(swiftObject, to: AnyObject.self)
-                    if let nativeObject = casted as? RealityKit::Scene {
-                        let ref = unsafe nativeObject.__coreScene.__as(OpaquePointer.self)
-                        scene = unsafe MyRealityFoundation::Scene(__compataibility_coreScene: ref)
-                    } else if let implObject = casted as? MyRealityFoundation::Scene {
-                        scene = implObject
-                    } else {
-                        assertUnimplemented()
-                    }
-#else
-                    scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Scene
-#endif
+                if let bridgedScene = reScene.bridgedScene {
+                    scene = bridgedScene
                 } else {
                     scene = unsafe MyRealityFoundation::Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
                 }
+#else
+                if let swiftObject = unsafe reScene.swiftObject {
+                    scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Scene
+                } else {
+                    scene = unsafe MyRealityFoundation::Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
+                }
+#endif
                 
                 // <+572>
                 let cancellable = scene

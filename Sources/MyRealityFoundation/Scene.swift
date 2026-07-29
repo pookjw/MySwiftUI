@@ -1,8 +1,10 @@
+// DA45B996DED25E91FC52ACD404A5FDFE
 public import Combine
 public import Foundation
 public import AudioToolbox
 public import Spatial
 public import CoreMedia
+private import CoreRE
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene {
@@ -160,9 +162,21 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
 }
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-@preconcurrency @MainActor public class Scene {
-    private let coreScene: OpaquePointer
-    // TODO: Ivars
+@safe @preconcurrency @MainActor public class Scene {
+    private let coreScene: OpaquePointer // 0x10
+    private var realityAssetCollisionSubscription: (any Cancellable)? = nil // 0x18
+    private var session = WeakSessionAR()
+    @MainActor @preconcurrency public var __audioListener: Entity? = nil // 0x40
+    private var internalAudioListener: Entity? = nil // 0x48
+    private var defaultCamera: Entity? = nil // 0x50
+    private var audioMixerEntity: Entity? = nil // 0x58
+    private var audioReverbEntity: Entity? = nil // 0x60
+    private weak var activeCamera: Entity? = nil // 0x68
+    private lazy var eventService: any EventService = { assertUnimplemented() }() // 0x70
+    private var engineEventBus: REEventBus? = nil // 0x98
+    private var updateEventCancellable: (any Cancellable)? = nil // 0xa0
+    @MainActor @preconcurrency public private(set) lazy var __interactionService: any __RKEntityInteractionService = { assertUnimplemented() }() // 0xc8
+    @MainActor @preconcurrency public var synchronizationService: (any SynchronizationService)? = nil // 0xd8
     
     @MainActor @preconcurrency public var __coreScene: __SceneRef {
         get {
@@ -172,15 +186,6 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
     
     @MainActor @preconcurrency public var name: String {
         get {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public var __audioListener: Entity? {
-        get {
-            assertUnimplemented()
-        }
-        set {
             assertUnimplemented()
         }
     }
@@ -232,30 +237,17 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
         assertUnimplemented()
     }
     
-    @MainActor @preconcurrency public var __interactionService: any __RKEntityInteractionService {
-        get {
-            assertUnimplemented()
-        }
-    }
-    
-    @MainActor @preconcurrency public var synchronizationService: (any SynchronizationService)? {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
     init(coreScene: OpaquePointer) {
-        assertUnimplemented()
-    }
-    
-#if RealityKitCompataibility
-    package init(__compataibility_coreScene coreScene: OpaquePointer) {
         unsafe self.coreScene = coreScene
-    }
+        
+#if RealityKitCompataibility
+        unsafe unsafeBitCast(coreScene, to: CoreRE::Scene.self)
+            .bridgedScene = self
+#else
+        unsafe unsafeBitCast(coreScene, to: CoreRE::Scene.self)
+            .swiftObject = Unmanaged.passUnretained(self).toOpaque()
 #endif
+    }
     
     deinit {
         assertUnimplemented()
@@ -398,3 +390,9 @@ extension Scene : Sendable {}
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene.AnchorCollection : Sendable {}
+
+extension Scene {
+    struct CorePublisher<T> {
+        // TODO
+    }
+}

@@ -2,6 +2,7 @@ public import MySwiftUICore
 public import MyRealityKit
 #if RealityKitCompataibility
 private import RealityKit
+private import CoreRE
 #endif
 
 @available(visionOS 1.0, *)
@@ -18,7 +19,8 @@ extension EnvironmentValues {
         }
         
         let ref = unsafe scene.__coreScene.__as(OpaquePointer.self)
-        return unsafe MyRealityFoundation::Scene(__compataibility_coreScene: ref)
+        let casted = unsafe unsafeBitCast(ref, to: CoreRE::Scene.self)
+        return casted.bridgedScene
 #else
         assertUnimplemented()
 #endif
