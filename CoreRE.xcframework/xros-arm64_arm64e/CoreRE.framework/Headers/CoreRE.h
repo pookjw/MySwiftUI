@@ -2,3 +2,14 @@
 #import <CoreRE/REScene.h>
 #import <CoreRE/REEntity.h>
 #import <CoreRE/RESelectableSceneContentIdentifierComponent.h>
+#import <CoreRE/RELinkedOnOrAfter.h>
+#import <CoreRE/RERenderOptionsComponentGetComponent.h>
+#import <CoreRE/RESceneSpaceRootComponent.h>
+#import <CoreRE/REImmersiveSpaceTrackerComponent.h>
+#import <CoreRE/REComponent.h>
+#import <CoreRE/RETransformComponent.h>
+#import <CoreRE/RENetworkComponent.h>
+#import <CoreRE/RECIntrospection.h>
+#import <CoreRE/REStructBuilder.h>
+#import <CoreRE/RECIntrospectionStruct.h>
+#import <CoreRE/REEngine.h>
