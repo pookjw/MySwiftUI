@@ -17,17 +17,13 @@ struct _RealityViewAsync<Placeholder : View> : View {
     private let controller: AttachmentStateControllerBase? // 0x30 (field)
     private weak var model: _RealityViewModel? // 0x34 (field)
     @Environment private var scene: MyRealityFoundation::Scene? // 0x38 (field)
-    private var _pointsPerMeter: Environment<CGFloat> // 0x3c (field)
-    private var _role: Environment<UISceneSession.Role?> // 0x40 (field)
-    private var _uiScene: Environment<UIScene?> // 0x44 (field)
+    @Environment var pointsPerMeter: CGFloat // 0x3c (field)
+    @Environment var role: UISceneSession.Role? // 0x40 (field)
+    @Environment var uiScene: UIScene? // 0x44 (field)
     @Environment private var layoutOption: RealityViewLayoutOption // 0x48 (field)
     @State private var componentAddedSubscription: (any Cancellable)? // 0x4c (field)
     
     func setIdealSize() {
-        assertUnimplemented()
-    }
-    
-    var pointsPerMeter: CGFloat {
         assertUnimplemented()
     }
     
@@ -57,14 +53,6 @@ struct _RealityViewAsync<Placeholder : View> : View {
         self._uiScene = uiScene
         self._layoutOption = layoutOption
         self._componentAddedSubscription = State(wrappedValue: componentAddedSubscription)
-    }
-    
-    var role: UISceneSession.Role? {
-        assertUnimplemented()
-    }
-    
-    var uiScene: UIScene? {
-        assertUnimplemented()
     }
     
     var body: some View {

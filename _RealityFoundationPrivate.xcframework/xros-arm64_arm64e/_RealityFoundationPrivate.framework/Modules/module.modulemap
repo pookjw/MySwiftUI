@@ -1,0 +1,4 @@
+framework module _RealityFoundationPrivate {
+    export *
+    module * { export * }
+}

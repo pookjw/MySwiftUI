@@ -1,6 +1,8 @@
 public import MySwiftUICore
 public import MyRealityKit
+#if RealityKitCompataibility
 private import RealityKit
+#endif
 
 @available(visionOS 1.0, *)
 @available(macOS, unavailable)
@@ -10,12 +12,16 @@ private import RealityKit
 @available(tvOS, unavailable)
 extension EnvironmentValues {
     public var realityKitScene: MyRealityFoundation::Scene? {
+#if RealityKitCompataibility
         guard let scene = self.realityScene else {
             return nil
         }
         
         let ref = unsafe scene.__coreScene.__as(OpaquePointer.self)
-        return unsafe MyRealityFoundation::Scene(coreScene: ref)
+        return unsafe MyRealityFoundation::Scene(__compataibility_coreScene: ref)
+#else
+        assertUnimplemented()
+#endif
     }
 }
 

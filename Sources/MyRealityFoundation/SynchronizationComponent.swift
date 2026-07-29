@@ -1,4 +1,7 @@
 private import CoreRE
+#if RealityKitCompataibility
+private import RealityKit
+#endif
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct SynchronizationComponent : Component, Equatable {
@@ -118,7 +121,19 @@ public struct SynchronizationComponent : Component, Equatable {
                 
                 let scene: MyRealityFoundation.Scene
                 if let swiftObject = unsafe reScene.swiftObject {
-                    scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation.Scene
+#if RealityKitCompataibility
+                    let casted = unsafe unsafeBitCast(swiftObject, to: AnyObject.self)
+                    if let nativeObject = casted as? RealityKit::Scene {
+                        let ref = unsafe nativeObject.__coreScene.__as(OpaquePointer.self)
+                        scene = unsafe MyRealityFoundation::Scene(__compataibility_coreScene: ref)
+                    } else if let implObject = casted as? MyRealityFoundation::Scene {
+                        scene = implObject
+                    } else {
+                        assertUnimplemented()
+                    }
+#else
+                    scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Scene
+#endif
                 } else {
                     scene = unsafe MyRealityFoundation.Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
                 }

@@ -1,0 +1,11 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ arm64e-xros ]
+install-name:    '/System/Library/Frameworks/RealityFoundation.framework/RealityFoundation'
+current-version: 403.120.2
+swift-abi-version: 7
+exports:
+  - targets:         [ arm64e-xros ]
+    symbols:         [ ]
+    objc-classes:    [ ]
+...

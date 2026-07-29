@@ -161,6 +161,9 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class Scene {
+    private let coreScene: OpaquePointer
+    // TODO: Ivars
+    
     @MainActor @preconcurrency public var __coreScene: __SceneRef {
         get {
             assertUnimplemented()
@@ -244,7 +247,17 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
         }
     }
     
-    package init(coreScene: OpaquePointer) {
+    init(coreScene: OpaquePointer) {
+        assertUnimplemented()
+    }
+    
+#if RealityKitCompataibility
+    package init(__compataibility_coreScene coreScene: OpaquePointer) {
+        unsafe self.coreScene = coreScene
+    }
+#endif
+    
+    deinit {
         assertUnimplemented()
     }
 }

@@ -1,5 +1,6 @@
 package import MySwiftUICore
 package import UIKit
+private import os.log
 
 extension EnvironmentValues {
     var windowScene: UIWindowScene? {
@@ -13,10 +14,14 @@ extension EnvironmentValues {
     
     package var sceneSession : UISceneSession? {
         get {
-            assertUnimplemented()
+            guard let windowScene else {
+                return nil
+            }
+            
+            return windowScene.session
         }
         set {
-            assertUnimplemented()
+            unsafe os_log(.fault, log: .runtimeIssuesLog, "Setting the scene session is not supported.")
         }
     }
 }
