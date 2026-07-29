@@ -1655,9 +1655,9 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         
         // <+5068>
         if let layerEntity = window?.layerEntity {
-            resolved.realityScene = WeakBox(layerEntity.scene)
+            resolved.realityScene = layerEntity.scene
         } else {
-            resolved.realityScene = WeakBox(nil)
+            resolved.realityScene = nil
         }
         
         // <+5268>

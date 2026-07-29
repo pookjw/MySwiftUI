@@ -58,7 +58,8 @@ exports:
     _RECustomComponentTypeCreate,
     _RECustomComponentTypeCreateWithIsTransient,
     _REComponentTypeSetCloneCallback,
-    _RERegisterSwiftCodableComponent ]
+    _RERegisterSwiftCodableComponent,
+    _REStructBuilderAddMemberDataTypeWithTag ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

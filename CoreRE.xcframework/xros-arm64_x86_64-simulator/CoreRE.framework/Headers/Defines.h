@@ -42,6 +42,10 @@ typedef NS_ENUM(uint32_t, REComponentType) {
     REComponentTypeCustom = 36
 } NS_SWIFT_NAME(ComponentType);
 
+typedef NS_ENUM(uint32_t, REIntrospectedDataType) {
+    REIntrospectedDataTypeUnknown17 = 17
+} NS_SWIFT_NAME(IntrospectedDataType);
+
 struct REComponent {};
 typedef const struct REComponent * REComponentRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component);
 

@@ -32,7 +32,8 @@ private import _DarwinFoundation2._string
     }
     
     static var __typeName: String {
-        return "RealityKit.__EntityInfoComponent"
+//        return "RealityKit.__EntityInfoComponent"
+        return "MyRealityKit.__EntityInfoComponent"
     }
 
     @_spi(Internal) public static var componentName: String {
@@ -46,11 +47,34 @@ private import _DarwinFoundation2._string
     }
 
     @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
-        assertUnimplemented()
+        /*
+         attribute -> x0
+         ref -> x1
+         offset -> x2
+         deinitialize -> w3
+         */
+        if deinitialize {
+            unsafe ref
+                .assumingMemoryBound(to: __EntityInfoComponent.self)
+                .deinitialize(count: 1)
+        }
+        
+        unsafe ref
+            .assumingMemoryBound(to: __EntityInfoComponent.self)
+            .initialize(to: attribute as! __EntityInfoComponent)
     }
 
     @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
         assertUnimplemented()
+    }
+    
+    static func __addIntrospectionData(_ builder: OpaquePointer?) {
+        guard let builder = unsafe builder else {
+            return
+        }
+        
+        let casted = unsafe unsafeBitCast(builder, to: CoreRE::StructBuilder.self)
+        unsafe casted.addMemberDataTypeWithTag(1, "rawData", .unknown17, 0)
     }
 
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {

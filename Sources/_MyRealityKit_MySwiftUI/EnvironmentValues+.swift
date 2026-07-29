@@ -9,9 +9,7 @@ public import MyRealityKit
 @available(tvOS, unavailable)
 extension EnvironmentValues {
     public var realityKitScene: MyRealityKit::Scene? {
-        get {
-            assertUnimplemented()
-        }
+        return self.realityScene
     }
 }
 
