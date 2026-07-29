@@ -1,9 +1,29 @@
+// C8EB66E8704C9F048957B956D65526C0
 public import Dispatch
 public import Metal
+private import CoreRE
+
+fileprivate let interactionComponentInitializer: Void = {
+    assertUnimplemented()
+}()
+
+fileprivate let builtInComponentsInitializer: Void = {
+    assertUnimplemented()
+}()
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public class __Engine {
+@safe public class __Engine {
+    final public let configuration: __Engine.Configuration // 0x10
+    let coreEngine: OpaquePointer // 0x18
+    @available(*, deprecated, message: "Custom engine queues are no longer supported in Swift. Use CoreRE instead.")
+    final public let queue: DispatchQueue // 0x20
+    public private(set) var services: __ServiceLocator! = nil // 0x28
+    private var hasRenderedThisFrame: Bool = false // 0x30
+    private let namedFileAssetResolver = NamedFileAssetResolver() // 0x38
+    
     public struct Configuration {
+        private var core: EngineConfiguration
+        
         public var clockMode: __EngineClockModeRef {
             get {
                 assertUnimplemented()
@@ -149,14 +169,34 @@ public class __Engine {
             }
         }
         
+        var enableInteractions: Bool {
+            get {
+                return self.core.coreConfiguration.enableInteractions
+            }
+            set {
+                self.core.coreConfiguration.enableInteractions = newValue
+            }
+            _modify {
+                var value = self.enableInteractions
+                yield &value
+                self.enableInteractions = value
+            }
+        }
+        
         public init() {
             assertUnimplemented()
         }
+        
+        init(configuration: EngineConfiguration) {
+            let ref = configuration.coreConfiguration.clone()
+            self.core = EngineConfiguration(coreConfiguration: ref)
+        }
+        
+        @inline(always) // 원래 없음
+        fileprivate init(coreConfiguration: CoreRE::Engine.Configuration) {
+            self.core = EngineConfiguration(coreConfiguration: coreConfiguration.clone())
+        }
     }
-    
-    @safe final public nonisolated(unsafe) let configuration: __Engine.Configuration = {
-        assertUnimplemented()
-    }()
     
     public var __coreEngine: __EngineRef {
         get {
@@ -164,18 +204,56 @@ public class __Engine {
         }
     }
     
-    @available(*, deprecated, message: "Custom engine queues are no longer supported in  Use CoreRE instead.")
-    @safe final public nonisolated(unsafe) let queue: DispatchQueue = {
+    public init(configuration: __Engine.Configuration) {
         assertUnimplemented()
-    }()
-    
-    public var services: __ServiceLocator! {
-        get {
-            assertUnimplemented()
-        }
     }
     
-    public init(configuration: __Engine.Configuration) {
+    init(coreEngine: OpaquePointer) {
+        // <+112>
+        unsafe __RERetain(coreEngine)
+        unsafe self.coreEngine = coreEngine
+        
+        let configurationRef = unsafe CoreRE::Engine.Configuration(
+            engine: unsafeBitCast(coreEngine, to: CoreRE::Engine.self)
+        )
+        unsafe __RERetain(unsafeBitCast(configurationRef, to: OpaquePointer.self))
+        self.configuration = __Engine.Configuration(
+            coreConfiguration: configurationRef
+        )
+        unsafe __RERelease(unsafeBitCast(configurationRef, to: OpaquePointer.self))
+        
+        // <+188>
+        self.queue = configurationRef.engineQueue!
+        
+        if self.configuration.enableInteractions {
+            _ = interactionComponentInitializer
+            _ = builtInComponentsInitializer
+        } else {
+            _ = builtInComponentsInitializer
+        }
+        
+        // <+260>
+        self.services = __ServiceLocator(engine: self)
+        
+        // <+340>
+        unsafe unsafeBitCast(coreEngine, to: CoreRE::Engine.self)
+            .setCallbacksEx(nil) { ptr in
+                return unsafe engineRenderCallback(coreEngine: unsafeBitCast(ptr, to: OpaquePointer.self))
+            }
+        
+        unsafe unsafeBitCast(coreEngine, to: CoreRE::Engine.self)
+            .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+        
+        // <+372>
+        if __ServiceLocator.hasSharedServiceLocator {
+            unsafe __ServiceLocator.__sharedEngine = self
+        }
+        
+        self.commonPostInit()
+        unsafe __RERelease(unsafeBitCast(configurationRef, to: OpaquePointer.self))
+    }
+    
+    deinit {
         assertUnimplemented()
     }
     
@@ -218,4 +296,29 @@ public class __Engine {
     public static func __unregisterInteractionComponent() {
         assertUnimplemented()
     }
+    
+    fileprivate func commonPostInit() {
+        assertUnimplemented()
+    }
+}
+
+final class EngineConfiguration {
+    fileprivate private(set) var coreConfiguration: CoreRE::Engine.Configuration
+    
+    init() {
+        assertUnimplemented()
+    }
+    
+    @inline(__always) // 원래 없음
+    fileprivate init(coreConfiguration: CoreRE::Engine.Configuration) {
+        self.coreConfiguration = coreConfiguration
+    }
+    
+    deinit {
+        assertUnimplemented()
+    }
+}
+
+fileprivate nonisolated func engineRenderCallback(coreEngine: OpaquePointer) -> CoreRE::EventHandlerResult {
+    assertUnimplemented()
 }

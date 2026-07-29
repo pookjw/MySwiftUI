@@ -52,6 +52,8 @@ typedef const struct REComponent * REComponentRef __attribute__((swift_wrapper(s
 typedef const void * REComponentClassPtr NS_SWIFT_NAME(Component.ClassPtr);
 
 RE_EXTERN void RERelease(const void *);
+RE_EXTERN const void * RERetain(const void *);
+RE_EXTERN bool REIsRSCompatible(void);
 RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (* _Nullable)(void *, void *, const int8_t *), bool (* _Nullable)(void *, void *, CFDataRef, const int8_t *));
 
 struct RECustomComponentTypeInfoContext {
@@ -78,6 +80,18 @@ struct RECustomComponentTypeInfo {
     const RECustomComponentTypeInfoContext *unknown10;
 } NS_SWIFT_NAME(CustomComponentTypeInfo);
 typedef struct RECustomComponentTypeInfo RECustomComponentTypeInfo;
+
+typedef uint32_t RELoadTraceType __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(LoadTraceType);
+
+struct REEngine {};
+typedef const struct REEngine * REEngineRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Engine);
+
+struct REEngineConfiguration {};
+typedef const struct REEngineConfiguration * REEngineConfigurationRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Engine.Configuration);
+
+typedef NS_ENUM(uint32_t, REEventHandlerResult) {
+    REEventHandlerResultUnknown0 = 0
+} NS_SWIFT_NAME(EventHandlerResult);
 
 NS_ASSUME_NONNULL_END
 

@@ -1,4 +1,5 @@
 public import Darwin
+private import CoreRE
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 public func blend(_ x: any BlendTreeNode, _ y: any BlendTreeNode, name: String = "", isAdditive: Bool = false) -> any BlendTreeNode {
@@ -27,10 +28,14 @@ public func blend(sources: [any BlendTreeNode], name: String = "", isAdditive: B
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public func __RERetain(_ ptr: OpaquePointer?) {
-    assertUnimplemented()
+    if let ptr {
+        unsafe RERetain(unsafeBitCast(ptr, to: UnsafeRawPointer.self))
+    }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public func __RERelease(_ ptr: OpaquePointer?) {
-    assertUnimplemented()
+    if let ptr {
+        unsafe RERelease(unsafeBitCast(ptr, to: UnsafeRawPointer.self))
+    }
 }

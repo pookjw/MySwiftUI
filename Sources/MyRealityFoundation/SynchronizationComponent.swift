@@ -119,7 +119,7 @@ public struct SynchronizationComponent : Component, Equatable {
                 // scene -> x20
                 let subscription = BoxedSubscription()
                 
-                let scene: MyRealityFoundation.Scene
+                let scene: MyRealityFoundation::Scene
                 if let swiftObject = unsafe reScene.swiftObject {
 #if RealityKitCompataibility
                     let casted = unsafe unsafeBitCast(swiftObject, to: AnyObject.self)
@@ -135,7 +135,7 @@ public struct SynchronizationComponent : Component, Equatable {
                     scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Scene
 #endif
                 } else {
-                    scene = unsafe MyRealityFoundation.Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
+                    scene = unsafe MyRealityFoundation::Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
                 }
                 
                 // <+572>
@@ -197,7 +197,7 @@ public struct SynchronizationComponent : Component, Equatable {
         return __ComponentTypeRef(core: .network)
     }
 
-    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
         assertUnimplemented()
     }
 

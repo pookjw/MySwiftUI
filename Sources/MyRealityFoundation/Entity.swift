@@ -747,7 +747,7 @@ extension Entity {
         let entity = CoreRE.Entity()
         unsafe self.coreEntity = unsafeBitCast(entity, to: OpaquePointer.self)
         unsafe entity.swiftObject = Unmanaged.passUnretained(self).toOpaque()
-        unsafe RERelease(unsafeBitCast(self.coreEntity, to: UnsafeRawPointer.self))
+        unsafe __RERelease(self.coreEntity)
         
         // <+44>
         for setup in baseTraitSetups {

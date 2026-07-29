@@ -220,6 +220,9 @@ func printOffsets() {
     printFields("19_RealityKit_SwiftUI01_A9ViewModelC", isClassType: true)
     printFields(RealityKit.Transform.self, isClassType: false)
     printFields(RealityKit.SynchronizationComponent.self, isClassType: false)
+    printFields("17RealityFoundation9LoadTraceV", isClassType: false)
+    printFields(RealityKit.__Engine.self, isClassType: true)
+    printFields(RealityKit.__ServiceLocator.self, isClassType: true)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

@@ -77,7 +77,7 @@ private import _DarwinFoundation2._string
         unsafe casted.addMemberDataTypeWithTag(1, "rawData", .unknown17, 0)
     }
 
-    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
         assertUnimplemented()
     }
 

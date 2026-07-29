@@ -59,7 +59,19 @@ exports:
     _RECustomComponentTypeCreateWithIsTransient,
     _REComponentTypeSetCloneCallback,
     _RERegisterSwiftCodableComponent,
-    _REStructBuilderAddMemberDataTypeWithTag ]
+    _REStructBuilderAddMemberDataTypeWithTag,
+    _REIsRSCompatible,
+    _REEngineGetShared,
+    _RERetain,
+    _REEngineConfigurationCreateFromEngine,
+    _REEngineConfigurationClone,
+    _REEngineConfigurationGetEngineQueue,
+    _REEngineConfigurationGetEnableInteractions,
+    _REEngineConfigurationSetEnableInteractions,
+    _REEngineSetCallbacksEx,
+    _REEngineSetSwiftObject,
+    _REEngineGetSwiftObject,
+    _REEngineSetShared ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

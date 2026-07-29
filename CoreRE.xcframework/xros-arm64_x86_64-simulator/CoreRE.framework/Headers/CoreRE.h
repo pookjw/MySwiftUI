@@ -12,3 +12,4 @@
 #import <CoreRE/RECIntrospection.h>
 #import <CoreRE/REStructBuilder.h>
 #import <CoreRE/RECIntrospectionStruct.h>
+#import <CoreRE/REEngine.h>

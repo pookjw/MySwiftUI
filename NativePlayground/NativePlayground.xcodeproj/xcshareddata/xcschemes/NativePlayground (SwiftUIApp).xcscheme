@@ -54,11 +54,15 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-com.apple.SwiftUI.OpenSceneLogging YES"
-            isEnabled = "YES">
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-privateEngineMode"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-com.apple.SwiftUI.EnableSceneLogging YES"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

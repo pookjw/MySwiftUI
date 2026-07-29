@@ -17,7 +17,7 @@ public protocol Component {
     @preconcurrency @MainActor func __toCore(_ coreComponent: __ComponentRef)
     @_spi(Internal) static var __coreComponentType: __ComponentTypeRef { get }
     @preconcurrency @MainActor static func __addIntrospectionData(_ builder: OpaquePointer?)
-    @_spi(Internal) static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component
+    @_spi(Internal) static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component
     @_spi(Internal) static var coreComponentType: CoreComponentType { get }
 }
 
@@ -29,9 +29,7 @@ extension Component {
     @available(macCatalyst, introduced: 13.0, deprecated: 16.0, renamed: "componentName")
     @available(tvOS, unavailable)
     public static var __typeName: String {
-        get {
-            assertUnimplemented()
-        }
+        return Self.componentName
     }
     
     public static var __size: Int {
@@ -51,7 +49,7 @@ extension Component {
     }
     
     public static func __addIntrospectionData(_ builder: OpaquePointer?) {
-        assertUnimplemented()
+        // nop
     }
     
     public static func registerComponent() {
@@ -59,7 +57,7 @@ extension Component {
     }
     
     @_spi(Internal) public static var componentName: String {
-        assertUnimplemented()
+        return String(reflecting: self)
     }
 
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
@@ -78,7 +76,7 @@ extension Component {
         return __ComponentTypeRef(core: .custom)
     }
 
-    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
         assertUnimplemented()
     }
 
@@ -109,6 +107,14 @@ extension Component {
         access: ComponentInfo.Access,
         availability: ComponentInfo.Availability
     ) {
+        /*
+         bundle -> x0 -> x27
+         reComponentClass -> x1 -> x25
+         access -> x2 -> w28
+         availability -> x3 -> x22/x21/x23
+         */
+        // x24
+        let engine = __ServiceLocator.__sharedEngine!
         assertUnimplemented()
     }
 }

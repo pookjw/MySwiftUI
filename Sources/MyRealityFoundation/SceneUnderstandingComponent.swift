@@ -107,7 +107,7 @@ extension SceneUnderstandingComponent {
         }
     }
 
-    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation.Component {
+    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
         assertUnimplemented()
     }
 
