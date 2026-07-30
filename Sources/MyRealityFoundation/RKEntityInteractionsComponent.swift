@@ -9,7 +9,15 @@ public struct __RKEntityInteractionsComponent {
         
         init() throws {
             let builder = CoreRE::StructBuilder()
-            let result = unsafe builder.initialize("RAInteractions", 0x29, nil, nil)
+//            let componentName = "RAInteractions
+            let componentName = "MRAInteractions"
+            
+            let result = unsafe builder.initialize(
+                componentName,
+                Int32(MemoryLayout<__RKEntityInteractionsComponent>.size),
+                nil,
+                nil
+            )
             
             guard result else {
                 builder.destroy()
@@ -25,7 +33,7 @@ public struct __RKEntityInteractionsComponent {
             
             unsafe self.introspectionStruct = unsafeBitCast(introspection, to: OpaquePointer.self)
             
-            let componentType = "RAInteractions".utf8CString.withUnsafeBufferPointer { pointer in
+            let componentType = componentName.utf8CString.withUnsafeBufferPointer { pointer in
                 let info = unsafe CoreRE::CustomComponentTypeInfo(
                     unknown0: 1,
                     unknown1: pointer.baseAddress.unsafelyUnwrapped,
@@ -92,9 +100,7 @@ public struct __RKEntityInteractionsComponent {
     public static nonisolated(unsafe) var registration: __RKEntityInteractionsComponent.Registration?
     
     public static var componentType: OpaquePointer? {
-        get {
-            assertUnimplemented()
-        }
+        return unsafe __RKEntityInteractionsComponent.registration?.componentType
     }
 }
 

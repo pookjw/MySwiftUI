@@ -43,6 +43,10 @@ typedef NS_ENUM(uint32_t, REComponentType) {
 } NS_SWIFT_NAME(ComponentType);
 
 typedef NS_ENUM(uint32_t, REIntrospectedDataType) {
+    REIntrospectedDataTypeUnknown0 = 0,
+    REIntrospectedDataTypeUnknown2 = 2,
+    REIntrospectedDataTypeUnknown5 = 5,
+    REIntrospectedDataTypeUnknown12 = 12,
     REIntrospectedDataTypeUnknown17 = 17
 } NS_SWIFT_NAME(IntrospectedDataType);
 
@@ -59,7 +63,7 @@ RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (* _Nullable)
 struct RECustomComponentTypeInfoContext {
     uint64_t unknown0;
     uint32_t unknown1;
-    uint64_t unknown2;
+    void * _Nullable unknown2;
     bool (*unknown3)(void * _Nullable, void *, void *, void *, void *);
     bool (*unknown4)(void * _Nullable, void *, void *, void *, const void *, int64_t);
     bool unknown5;
@@ -71,7 +75,7 @@ struct RECustomComponentTypeInfo {
     const int8_t *unknown1;
     uint64_t unknown2;
     void * (* _Nullable unknown3)(void *);
-    void (*unknown4)(void *, void *);
+    void (* _Nullable unknown4)(void *, void *);
     void (* _Nullable unknown5)(void *);
     void (* _Nullable unknown6)(void *);
     void (* _Nullable unknown7)(void *);

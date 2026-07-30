@@ -102,7 +102,7 @@ final class SceneManager {
         let context = unsafe CoreRE::CustomComponentTypeInfoContext(
             unknown0: 0x30,
             unknown1: 1,
-            unknown2: 0,
+            unknown2: nil,
             unknown3: { p1, p2, p3, p4, p5 in
                 return unsafe ecsNetSyncWriteSnapshot(
                     p1,

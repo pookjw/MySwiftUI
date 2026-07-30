@@ -72,7 +72,9 @@ exports:
     _REEngineSetSwiftObject,
     _REEngineGetSwiftObject,
     _REEngineSetShared,
-    _RECustomComponentTypeCreate ]
+    _RECustomComponentTypeCreate,
+    _REStructBuilderAddMemberCStyleArrayDataTypeWithTag,
+    _REStructBuilderAddMemberArrayWithCountDataTypeWithTag ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
