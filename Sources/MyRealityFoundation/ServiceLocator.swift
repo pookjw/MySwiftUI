@@ -32,7 +32,7 @@ public let __privateEngineMode: Bool = {
 }()
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public class __ServiceLocator {
+@safe public class __ServiceLocator {
     fileprivate static nonisolated(unsafe) var sharedEngine:  __Engine?
     static let lock = OSAllocatedUnfairLock(initialState: ())
     fileprivate nonisolated(unsafe) static var createdSharedEngine = false
