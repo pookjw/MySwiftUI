@@ -1,6 +1,6 @@
 private import Foundation
 
-@safe final class NamedFileAssetResolver {
+final class NamedFileAssetResolver {
     private var assets: [String : URL] = [:]
     private let assetsLock = NSLock()
     private var callback: @convention(c) (UnsafePointer<Int8>, UnsafePointer<Int8>, UnsafeMutableRawPointer?) -> UnsafePointer<Int8>? = { _, _, _ in

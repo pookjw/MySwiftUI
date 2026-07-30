@@ -5,7 +5,7 @@ public struct __RKScenePhysics {
     public var adaptiveTimeStep: Bool
     
     @_hasMissingDesignatedInitializers public class Registration {
-        @safe final public nonisolated(unsafe) let componentType: OpaquePointer = {
+        final public nonisolated(unsafe) let componentType: OpaquePointer = {
             assertUnimplemented()
         }()
         }

@@ -501,7 +501,7 @@ extension PhysicallyBasedMaterial {
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 extension PhysicallyBasedMaterial {
     @_hasMissingDesignatedInitializers final public class Program : Equatable, Hashable, Sendable {
-        @safe final public nonisolated(unsafe) let descriptor: PhysicallyBasedMaterial.Program.Descriptor = {
+        final public nonisolated(unsafe) let descriptor: PhysicallyBasedMaterial.Program.Descriptor = {
             assertUnimplemented()
         }()
         

@@ -10,7 +10,7 @@ public struct __REAnchoring {
     }
     
     @_hasMissingDesignatedInitializers public class Registration {
-        @safe final public nonisolated(unsafe) let componentType: OpaquePointer = {
+        final public nonisolated(unsafe) let componentType: OpaquePointer = {
             assertUnimplemented()
         }()
         }

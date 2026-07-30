@@ -12,7 +12,7 @@ final public class LowLevelBuffer {
         }
     }
     
-    @safe final public nonisolated(unsafe) let descriptor: LowLevelBuffer.Descriptor = {
+    final public nonisolated(unsafe) let descriptor: LowLevelBuffer.Descriptor = {
         assertUnimplemented()
     }()
     

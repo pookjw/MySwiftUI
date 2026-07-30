@@ -1,6 +1,6 @@
 // C907048D367572FD9E6EC4CB4F65EE59
 
-@safe final class REEventBus {
+final class REEventBus {
     private let coreHandle: OpaquePointer
     private var dispatchersByHandle: [REEventBus.DispatcherHandle : Any]
     

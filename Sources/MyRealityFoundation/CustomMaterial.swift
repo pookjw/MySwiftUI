@@ -5,15 +5,15 @@ public import Metal
 @available(visionOS, unavailable)
 extension CustomMaterial {
     @_hasMissingDesignatedInitializers final public class Program : Equatable, Hashable, Sendable {
-        @safe final public nonisolated(unsafe) let surfaceShader: CustomMaterial.SurfaceShader = {
+        final public nonisolated(unsafe) let surfaceShader: CustomMaterial.SurfaceShader = {
             assertUnimplemented()
         }()
         
-        @safe final public nonisolated(unsafe) let geometryModifier: CustomMaterial.GeometryModifier? = {
+        final public nonisolated(unsafe) let geometryModifier: CustomMaterial.GeometryModifier? = {
             assertUnimplemented()
         }()
         
-        @safe final public nonisolated(unsafe) let descriptor: CustomMaterial.Program.Descriptor = {
+        final public nonisolated(unsafe) let descriptor: CustomMaterial.Program.Descriptor = {
             assertUnimplemented()
         }()
         

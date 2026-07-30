@@ -136,7 +136,7 @@ extension UnlitMaterial {
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 extension UnlitMaterial {
     @_hasMissingDesignatedInitializers final public class Program : Equatable, Hashable, Sendable {
-        @safe final public nonisolated(unsafe) let descriptor: UnlitMaterial.Program.Descriptor = {
+        final public nonisolated(unsafe) let descriptor: UnlitMaterial.Program.Descriptor = {
             assertUnimplemented()
         }()
         

@@ -5,7 +5,7 @@ private import CoreRE
 public struct __RKEntityInteractionsComponent {
     @safe @_hasMissingDesignatedInitializers public class Registration {
         private let introspectionStruct: OpaquePointer
-        @safe final public nonisolated(unsafe) let componentType: OpaquePointer
+        final public nonisolated(unsafe) let componentType: OpaquePointer
         
         init() throws {
             let builder = CoreRE::StructBuilder()

@@ -65,7 +65,7 @@ public struct IKComponent : Component {
     @_hasMissingDesignatedInitializers public class Joint : Identifiable {
         public typealias ID = IKRig.Joint.ID
         
-        @safe final public nonisolated(unsafe) let id: IKComponent.Joint.ID = {
+        final public nonisolated(unsafe) let id: IKComponent.Joint.ID = {
             assertUnimplemented()
         }()
         
@@ -116,7 +116,7 @@ public struct IKComponent : Component {
             public typealias RawValue = UInt
         }
         
-        @safe final public nonisolated(unsafe) let id: IKComponent.Constraint.ID = {
+        final public nonisolated(unsafe) let id: IKComponent.Constraint.ID = {
             assertUnimplemented()
         }()
         

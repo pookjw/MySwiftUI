@@ -26,11 +26,11 @@ public class __RKEntityCustomAction : __RKEntityAction {
     
     public var handler: ((Entity?) -> Void)?
     
-    @safe final public nonisolated(unsafe) let identifier: String = {
+    final public nonisolated(unsafe) let identifier: String = {
         assertUnimplemented()
     }()
     
-    @safe final public nonisolated(unsafe) let customArguments: [String : String] = {
+    final public nonisolated(unsafe) let customArguments: [String : String] = {
         assertUnimplemented()
     }()
     

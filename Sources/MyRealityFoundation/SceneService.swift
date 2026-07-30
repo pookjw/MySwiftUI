@@ -4,7 +4,7 @@ private import os.log
 private import CoreFoundation
 private import Foundation
 
-@safe final class SceneManager {
+final class SceneManager {
     static func customComponentType(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer {
         /*
          type -> x0/x1 -> x19/x22
