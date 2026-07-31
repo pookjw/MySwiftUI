@@ -55,16 +55,16 @@ extension _SwiftUICorePrivate.GraphHost {
   public struct Data {
     public init()
 
-    //ributeGraph.Attribute public var phase: SwiftUICore._GraphInputs.Phase {
-    //  get set
-    //}
+    public var phase: SwiftUICore._GraphInputs.Phase {
+      get set
+    }
   }
 }
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public class ViewGraph : _SwiftUICorePrivate.GraphHost {
-  public init<T : SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUICorePrivate.ViewGraph.Outputs)
+  // public init<T : SwiftUI.View>(rootViewType: T.Type, requestedOutputs: _SwiftUICorePrivate.ViewGraph.Outputs)
   public final func updateGraphPhase(oldParentPhase: SwiftUICore._GraphInputs.Phase?, newParentPhase: SwiftUICore._GraphInputs.Phase)
 
   public struct NextUpdate {}
@@ -1998,19 +1998,19 @@ extension ProtocolDescriptor {
   public static func conformance(of type: Any.Type) -> _SwiftUICorePrivate.TypeConformance<Self>?
 }
 
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-public protocol TupleDescriptor : _SwiftUICorePrivate.ProtocolDescriptor {
-  static var typeCache: [Swift.ObjectIdentifier: _SwiftUICorePrivate.TupleTypeDescription<Self>] {
-    get set
-  }
-}
+//@available(visionOS 26.0, *)
+//@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+//public protocol TupleDescriptor : _SwiftUICorePrivate.ProtocolDescriptor {
+//  static var typeCache: [Swift.ObjectIdentifier: _SwiftUICorePrivate.TupleTypeDescription<Self>] {
+//    get set
+//  }
+//}
 
-@available(visionOS 26.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-extension _SwiftUICorePrivate.TupleDescriptor {
-  public static func tupleDescription(_ tupleType: AttributeGraph.TupleType) -> _SwiftUICorePrivate.TupleTypeDescription<Self>
-}
+//@available(visionOS 26.0, *)
+//@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+//extension _SwiftUICorePrivate.TupleDescriptor {
+//  public static func tupleDescription(_ tupleType: AttributeGraph.TupleType) -> _SwiftUICorePrivate.TupleTypeDescription<Self>
+//}
 
 
 @available(visionOS 26.0, *)

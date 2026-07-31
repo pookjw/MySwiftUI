@@ -397,6 +397,19 @@ let package = Package(
                 .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
                 .enableUpcomingFeature("InferIsolatedConformances")
             ]
+        ),
+        .testTarget(
+            name: "MyRealityFoundationTests",
+            dependencies: [
+                .byName(name: "MyRealityFoundation"),
+                .byName(name: "_RealityFoundationPrivate")
+            ],
+            swiftSettings: [
+                .strictMemorySafety(),
+//                .defaultIsolation(MainActor.self),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
+            ]
         )
     ]
 )

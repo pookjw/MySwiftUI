@@ -269,6 +269,8 @@ private import Foundation
     }
     
     func registerBuiltInComponents() {
+        // self -> x20 -> x19 + 0x68
+        let platforms: [ComponentInfo.SupportedPlatform]
         assertUnimplemented()
     }
     

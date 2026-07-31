@@ -13,6 +13,7 @@ import Foundation
 import SwiftUI
 import RealityKit
 import AttributeGraph
+import _RealityFoundationPrivate
 
 // expr -l swift -O -- _mangledTypeName(type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self)))
 // expr -l swift -O -- type(of: unsafeBitCast(0x106a5ee80, to: AnyObject.self))
@@ -225,6 +226,7 @@ func printOffsets() {
     printFields(RealityKit.__ServiceLocator.self, isClassType: true)
     printFields(RealityKit.Scene.self, isClassType: true)
     printFields("17RealityFoundation12SceneManagerC", isClassType: true)
+    printFields(_RealityFoundationPrivate.ComponentInfo.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

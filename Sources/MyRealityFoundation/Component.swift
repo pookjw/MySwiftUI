@@ -118,39 +118,3 @@ extension Component {
         assertUnimplemented()
     }
 }
-
-struct ComponentInfo {
-    // TODO
-}
-
-extension ComponentInfo {
-    enum Access {
-        case `internal`
-        case spi
-        case api
-    }
-    
-    struct Availability {
-        private let introduced: [ComponentInfo.SupportedPlatform]
-        private let deprecated: [ComponentInfo.SupportedPlatform]?
-        private let obsoleted: [ComponentInfo.SupportedPlatform]?
-        
-        init(
-            introduced: [ComponentInfo.SupportedPlatform],
-            deprecated: [ComponentInfo.SupportedPlatform]?,
-            obsoleted: [ComponentInfo.SupportedPlatform]?
-        ) {
-            self.introduced = introduced
-            self.deprecated = deprecated
-            self.obsoleted = obsoleted
-        }
-    }
-    
-    struct Platform {
-        // TODO
-    }
-    
-    struct SupportedPlatform {
-        // TODO
-    }
-}
