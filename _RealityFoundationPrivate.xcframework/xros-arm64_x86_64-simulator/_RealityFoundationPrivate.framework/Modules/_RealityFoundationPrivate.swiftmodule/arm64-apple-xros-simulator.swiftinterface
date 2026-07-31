@@ -58,27 +58,14 @@ public struct ComponentInfo : Swift.CustomStringConvertible {
   }
 
   public struct Platform : Swift.Equatable, Swift.CustomStringConvertible {
+    public let name: Swift.String
     public let oldestSupportedVersion: _RealityFoundationPrivate.ComponentInfo.PlatformVersion
 
-    public static var macOS: _RealityFoundationPrivate.ComponentInfo.Platform {
-      get
-    }
-
-    public static var macCatalyst: _RealityFoundationPrivate.ComponentInfo.Platform {
-      get
-    }
-
-    public static var iOS: _RealityFoundationPrivate.ComponentInfo.Platform {
-      get
-    }
-
-    public static var xrOS: _RealityFoundationPrivate.ComponentInfo.Platform {
-      get
-    }
-
-    public static var tvOS: _RealityFoundationPrivate.ComponentInfo.Platform {
-      get
-    }
+    public static let macOS: _RealityFoundationPrivate.ComponentInfo.Platform
+    public static let macCatalyst: _RealityFoundationPrivate.ComponentInfo.Platform 
+    public static let iOS: _RealityFoundationPrivate.ComponentInfo.Platform
+    public static let xrOS: _RealityFoundationPrivate.ComponentInfo.Platform
+    public static let tvOS: _RealityFoundationPrivate.ComponentInfo.Platform
 
     public var description: Swift.String {
       get
@@ -134,9 +121,7 @@ public struct ComponentInfo : Swift.CustomStringConvertible {
       rhs: _RealityFoundationPrivate.ComponentInfo.PlatformVersion
     ) -> Swift.Bool
 
-    public static var unknown: _RealityFoundationPrivate.ComponentInfo.PlatformVersion {
-      get
-    }
+    public static let unknown: _RealityFoundationPrivate.ComponentInfo.PlatformVersion
   }
 
   public struct Version : Swift.Comparable, Swift.CustomStringConvertible {

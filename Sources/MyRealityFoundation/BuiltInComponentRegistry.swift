@@ -2,7 +2,7 @@ private import CoreRE
 
 @safe final class BuiltInComponentRegistry {
     private var componentInfoByType: [ObjectIdentifier : ComponentInfo] = Dictionary()
-    private var componentInfoByREComponentClass: [OpaquePointer : ComponentInfo] = Dictionary()
+    private var componentInfoByREComponentClass: [OpaquePointer : ComponentInfo] = unsafe Dictionary()
     
     func register(_: ComponentInfo) {
         assertUnimplemented()
@@ -62,7 +62,9 @@ private import CoreRE
     }
     
     var description: String {
-        assertUnimplemented()
+        var result = "ComponentInfo"
+        result.append("(type: \(_typeName(self.type, qualified: false)), access: \(self.access), \(self.availability))")
+        return result
     }
 }
 
@@ -89,69 +91,118 @@ extension ComponentInfo {
         }
         
         var description: String {
-            assertUnimplemented()
+            let introducedDescription = "introduced: \(self.introduced.description)"
+            
+            let deprecatedDescription: String?
+            if let deprecated {
+                deprecatedDescription = "deprecated: \(deprecated.description)"
+            } else {
+                deprecatedDescription = nil
+            }
+            
+            let obsoletedDescription: String?
+            if let obsoleted {
+                obsoletedDescription = "obsoleted: \(obsoleted.description)"
+            } else {
+                obsoletedDescription = nil
+            }
+            
+            var result: [String] = []
+            
+            result.append(introducedDescription)
+            
+            if let deprecatedDescription {
+                result.append(deprecatedDescription)
+            }
+            
+            if let obsoletedDescription {
+                result.append(obsoletedDescription)
+            }
+            
+            return result.joined(separator: ", ")
         }
     }
     
     struct Platform : Equatable, CustomStringConvertible {
-        private let name: String
+        let name: String
         let oldestSupportedVersion: ComponentInfo.PlatformVersion
         
-        static var macOS: ComponentInfo.Platform {
-            assertUnimplemented()
-        }
+        static let macOS = ComponentInfo.Platform(
+            name: "macOS",
+            oldestSupportedVersion: ComponentInfo.PlatformVersion("10.15")
+        )
         
-        static var macCatalyst: ComponentInfo.Platform {
-            assertUnimplemented()
-        }
+        static let macCatalyst = ComponentInfo.Platform(
+            name: "maccatalyst",
+            oldestSupportedVersion: ComponentInfo.PlatformVersion("13.0")
+        )
         
-        static var iOS: ComponentInfo.Platform {
-            assertUnimplemented()
-        }
+        static let iOS = ComponentInfo.Platform(
+            name: "ios",
+            oldestSupportedVersion: ComponentInfo.PlatformVersion("13.0")
+        )
         
-        static var xrOS: ComponentInfo.Platform {
-            assertUnimplemented()
-        }
+        static let xrOS = ComponentInfo.Platform(
+            name: "xros",
+            oldestSupportedVersion: ComponentInfo.PlatformVersion("1.0")
+        )
         
-        static var tvOS: ComponentInfo.Platform {
-            assertUnimplemented()
-        }
+        static let tvOS = ComponentInfo.Platform(
+            name: "tvos",
+            oldestSupportedVersion: ComponentInfo.PlatformVersion("26.0")
+        )
         
         var description: String {
-            assertUnimplemented()
+            return self.name
         }
     }
     
     struct SupportedPlatform : Equatable, CustomStringConvertible {
         static func macOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
-            assertUnimplemented()
+            return ComponentInfo.SupportedPlatform(
+                platform: .macOS,
+                version: version
+            )
         }
         
         static func macCatalyst(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
-            assertUnimplemented()
+            return ComponentInfo.SupportedPlatform(
+                platform: .macCatalyst,
+                version: version
+            )
         }
         
         static func iOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
-            assertUnimplemented()
+            return ComponentInfo.SupportedPlatform(
+                platform: .iOS,
+                version: version
+            )
         }
         
         static func visionOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
-            assertUnimplemented()
+            return ComponentInfo.SupportedPlatform(
+                platform: .xrOS,
+                version: version
+            )
         }
         
         static func tvOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
-            assertUnimplemented()
+            return ComponentInfo.SupportedPlatform(
+                platform: .tvOS,
+                version: version
+            )
         }
         
         let platform: ComponentInfo.Platform
         let version: ComponentInfo.PlatformVersion
         
         init(platform: ComponentInfo.Platform, version: ComponentInfo.PlatformVersion) {
-            assertUnimplemented()
+            self.platform = platform
+            self.version = version
         }
         
         var description: String {
-            assertUnimplemented()
+            return "\(self.platform) \(self.version)"
         }
     }
     
@@ -169,36 +220,58 @@ extension ComponentInfo {
              */
             // x23
             let split = value.split(separator: ".")
-            assertUnimplemented()
+            
+            var values: [Int] = []
+            
+            for value in split {
+                if let converted = Int(value) {
+                    values.append(converted)
+                }
+            }
+            
+            // <+560>
+            if values.count == 1 {
+                self.version = ComponentInfo.Version(values[0], 0, 0)
+            } else if values.count == 2 {
+                self.version = ComponentInfo.Version(values[0], values[1], 0)
+            } else if values.count == 3 {
+                self.version = ComponentInfo.Version(values[0], values[1], values[2])
+            } else {
+                preconditionFailure("Unexpected number of components \(values)")
+            }
         }
         
         var versionString: String {
-            assertUnimplemented()
+            var result = "\(self.major).\(self.minor)"
+            
+            if self.patch != 0 {
+                result.append(".\(self.patch)")
+            }
+            
+            return result
         }
         
         var major: Int {
-            assertUnimplemented()
+            return self.version.major
         }
         
         var minor: Int {
-            assertUnimplemented()
+            return self.version.minor
         }
         
         var patch: Int {
-            assertUnimplemented()
+            return self.version.patch
         }
         
         var description: String {
-            assertUnimplemented()
+            return self.version.description
         }
         
         static func < (lhs: ComponentInfo.PlatformVersion, rhs: ComponentInfo.PlatformVersion) -> Bool {
-            assertUnimplemented()
+            return lhs.version < rhs.version
         }
         
-        static var unknown: ComponentInfo.PlatformVersion {
-            assertUnimplemented()
-        }
+        static let unknown = ComponentInfo.PlatformVersion("0.0.0")
     }
     
     struct Version : Comparable, CustomStringConvertible {
@@ -214,7 +287,7 @@ extension ComponentInfo {
         }
         
         var description: String {
-            assertUnimplemented()
+            return "\(self.major).\(self.minor).\(self.patch)"
         }
         
         let major: Int
