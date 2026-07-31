@@ -128,7 +128,7 @@ extension ComponentInfo {
         let oldestSupportedVersion: ComponentInfo.PlatformVersion
         
         static let macOS = ComponentInfo.Platform(
-            name: "macOS",
+            name: "macos",
             oldestSupportedVersion: ComponentInfo.PlatformVersion("10.15")
         )
         
