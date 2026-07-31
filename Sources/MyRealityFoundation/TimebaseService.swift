@@ -1,7 +1,7 @@
-final class TimebaseService {
-    private let timebaseServiceHandle: OpaquePointer?
+@safe final class TimebaseService {
+    let timebaseServiceHandle: OpaquePointer?
     
-    init() {
-        assertUnimplemented()
+    init(handle: OpaquePointer?) {
+        unsafe self.timebaseServiceHandle = unsafe handle
     }
 }

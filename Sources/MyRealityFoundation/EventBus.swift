@@ -1,11 +1,18 @@
 // C907048D367572FD9E6EC4CB4F65EE59
+private import CoreRE
 
-final class REEventBus {
+@safe final class REEventBus {
     private let coreHandle: OpaquePointer
     private var dispatchersByHandle: [REEventBus.DispatcherHandle : Any]
     
-    init() {
-        assertUnimplemented()
+    @inline(__always) // 원래 없음
+    init(coreHandle: OpaquePointer) {
+        unsafe self.coreHandle = coreHandle
+        self.dispatchersByHandle = [:]
+        
+        unsafe __RERetain(coreHandle)
+        unsafe unsafeBitCast(coreHandle, to: CoreRE::EventBus.self)
+            .swiftObject = Unmanaged.passUnretained(self).toOpaque()
     }
     
     deinit {

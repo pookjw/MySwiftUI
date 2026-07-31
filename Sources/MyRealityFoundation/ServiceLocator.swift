@@ -3,6 +3,7 @@ private import CoreRE
 private import Foundation
 private import os.log
 internal import os.lock
+private import Darwin.POSIX.dlfcn
 
 @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 26.0, *)
 public let __privateEngineMode: Bool = {
@@ -40,15 +41,15 @@ public let __privateEngineMode: Bool = {
     private var coreServiceLocator: OpaquePointer // 0x10
     public unowned var engine: __Engine // 0x18
     private var eventBus: REEventBus // 0x20
-    private var renderServiceActual: __RenderService? // 0x28
-    public var sceneService: __SceneService // 0x50
-    public var assetService: __REAssetService // 0x78
+    private var renderServiceActual: __RenderService? = nil // 0x28
+    public var sceneService: any __SceneService // 0x50
+    public var assetService: any __REAssetService // 0x78
     private var timebaseService: TimebaseService // 0xa0
     private var loadService: LoadManager // 0xa8
-    private var usdImportService: (any USDImportService)? // 0xb0
-    private var isValid: Bool // 0xd8
-    private var usingRealityIO: Bool // 0xd9
-    private var realityIOHandle: UnsafeMutableRawPointer? // 0xe0
+    private var usdImportService: (any USDImportService)? = nil // 0xb0
+    private var isValid: Bool = true // 0xd8
+    private var usingRealityIO: Bool = false // 0xd9
+    private var realityIOHandle: UnsafeMutableRawPointer? = nil // 0xe0
     
     public static var __sharedEngine: __Engine! {
         get {
@@ -117,6 +118,85 @@ public let __privateEngineMode: Bool = {
     }
     
     init(engine: __Engine) {
+        let coreEngine = unsafe unsafeBitCast(engine.coreEngine, to: CoreRE::Engine.self)
+        let serviceLocator = coreEngine.serviceLocator
+        
+        unsafe self.coreServiceLocator = unsafeBitCast(serviceLocator, to: OpaquePointer.self)
+        self.engine = engine
+        
+        let ecsService = serviceLocator.ecsService!
+        let eventBus = unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self)
+            .eventBus!
+        
+        self.eventBus = unsafe REEventBus(
+            coreHandle: unsafeBitCast(eventBus, to: OpaquePointer.self)
+        )
+        
+        // <+228>
+        self.sceneService = unsafe SceneManager(
+            coreECSManager: unsafeBitCast(ecsService, to: OpaquePointer.self)
+        )
+        
+        let assetManager = unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self)
+            .assetManager!
+        self.assetService = unsafe __REAssetManager(
+            handle: unsafeBitCast(assetManager, to: OpaquePointer.self)
+        )
+        
+        // <+372>
+        let timebaseService = unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self)
+            .timebaseService
+        self.timebaseService = unsafe TimebaseService(
+            handle: unsafeBitCast(timebaseService, to: OpaquePointer?.self)
+        )
+        
+        self.loadService = LoadManager()
+        
+        if engine.configuration.useRealityIO {
+            // <+460>
+            let USDImportServiceType: any Any.Type
+            if let type = _typeByName("9RealityIO16USDImportServiceC") {
+                USDImportServiceType = type
+            } else {
+                guard let realityIOHandle = unsafe dlopen("/System/Library/PrivateFrameworks/RealityIO.framework/RealityIO", RTLD_LAZY) else {
+                    preconditionFailure("Could not load RealityIO.")
+                }
+                
+                unsafe self.realityIOHandle = unsafe realityIOHandle
+                USDImportServiceType = _typeByName("9RealityIO16USDImportServiceC")!
+            }
+            
+            // <+544>
+            let casted = USDImportServiceType as! (any USDImportService.Type)
+            self.usdImportService = casted.init()
+            self.usingRealityIO = true
+        }
+        
+        // <+684>
+        unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self)
+            .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+        
+        if let renderManager = unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self).renderManager
+            {
+            // <+708>
+            self.renderService = unsafe RERenderManager(
+                manager: unsafeBitCast(renderManager, to: OpaquePointer.self)
+            )
+        } else {
+            // <+828>
+            let clone = __Engine.Configuration(configuration: engine.configuration.core)
+            let useMetal = clone.useMetal
+            _ = consume clone
+            
+            guard !useMetal else {
+                preconditionFailure("Could not create render service.")
+            }
+        }
+        
+        // <+860>
+    }
+    
+    deinit {
         assertUnimplemented()
     }
     

@@ -224,6 +224,7 @@ func printOffsets() {
     printFields(RealityKit.__Engine.self, isClassType: true)
     printFields(RealityKit.__ServiceLocator.self, isClassType: true)
     printFields(RealityKit.Scene.self, isClassType: true)
+    printFields("17RealityFoundation12SceneManagerC", isClassType: true)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

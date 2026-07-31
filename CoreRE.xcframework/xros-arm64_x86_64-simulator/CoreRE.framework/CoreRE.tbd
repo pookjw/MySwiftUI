@@ -74,7 +74,24 @@ exports:
     _REEngineSetShared,
     _RECustomComponentTypeCreate,
     _REStructBuilderAddMemberCStyleArrayDataTypeWithTag,
-    _REStructBuilderAddMemberArrayWithCountDataTypeWithTag ]
+    _REStructBuilderAddMemberArrayWithCountDataTypeWithTag,
+    _REEngineGetServiceLocator,
+    _REServiceLocatorGetECSService,
+    _REServiceLocatorGetEventBus,
+    _REEventBusSetSwiftObject,
+    _REEventBusGetSwiftObject,
+    _REServiceLocatorGetAssetManager,
+    _REServiceLocatorGetTimebaseService,
+    _REEngineConfigurationGetUseRealityIO,
+    _REEngineConfigurationSetUseRealityIO,
+    _REServiceLocatorSetSwiftObject,
+    _REServiceLocatorGetSwiftObject,
+    _REServiceLocatorGetRenderManager,
+    _RERenderManagerWaitUntilScheduled,
+    _REEngineConfigurationGetUseMetal,
+    _REEngineConfigurationSetUseMetal,
+    _REECSManagerSetSwiftObject,
+    _REECSManagerGetSwiftObject ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

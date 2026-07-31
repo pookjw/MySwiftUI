@@ -1,7 +1,7 @@
 // C8EB66E8704C9F048957B956D65526C0
 public import Dispatch
 public import Metal
-private import CoreRE
+internal import CoreRE
 private import os.log
 
 fileprivate let interactionComponentInitializer: Void = {
@@ -47,7 +47,7 @@ fileprivate let builtInComponentsInitializer: Void = {
     private let namedFileAssetResolver = NamedFileAssetResolver() // 0x38
     
     public struct Configuration {
-        private var core: EngineConfiguration
+        private(set) var core: EngineConfiguration
         
         public var clockMode: __EngineClockModeRef {
             get {
@@ -60,10 +60,10 @@ fileprivate let builtInComponentsInitializer: Void = {
         
         public var useMetal: Bool {
             get {
-                assertUnimplemented()
+                return self.core.coreConfiguration.useMetal
             }
             set {
-                assertUnimplemented()
+                self.core.coreConfiguration.useMetal = newValue
             }
         }
         
@@ -96,10 +96,10 @@ fileprivate let builtInComponentsInitializer: Void = {
         
         public var useRealityIO: Bool {
             get {
-                assertUnimplemented()
+                return self.core.coreConfiguration.useRealityIO
             }
             set {
-                assertUnimplemented()
+                self.core.coreConfiguration.useRealityIO = newValue
             }
         }
         
@@ -339,19 +339,19 @@ fileprivate let builtInComponentsInitializer: Void = {
 }
 
 final class EngineConfiguration {
-    fileprivate private(set) var coreConfiguration: CoreRE::Engine.Configuration
+    private(set) var coreConfiguration: CoreRE::Engine.Configuration
     
     init() {
         assertUnimplemented()
     }
     
     @inline(__always) // 원래 없음
-    fileprivate init(coreConfiguration: CoreRE::Engine.Configuration) {
+    init(coreConfiguration: CoreRE::Engine.Configuration) {
         self.coreConfiguration = coreConfiguration
     }
     
     deinit {
-        assertUnimplemented()
+        unsafe __RERelease(unsafeBitCast(self.coreConfiguration, to: OpaquePointer.self))
     }
 }
 

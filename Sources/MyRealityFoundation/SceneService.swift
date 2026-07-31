@@ -4,7 +4,7 @@ private import os.log
 private import CoreFoundation
 private import Foundation
 
-final class SceneManager {
+@safe final class SceneManager {
     static func customComponentType(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer {
         /*
          type -> x0/x1 -> x19/x22
@@ -19,11 +19,11 @@ final class SceneManager {
         return unsafe componentType
     }
     
-    private(set) var builtinComponentRegistry: BuiltInComponentRegistry
-    let coreECSManager: __REECSManagerRef
-    var scenes: [MyRealityFoundation::Scene]
-    private var builtInComponentTypeToClassTable: [ObjectIdentifier : CoreRE::Component.ClassPtr]
-    private var builtInComponentClassToTypeTable: [CoreRE::Component.ClassPtr : any Component.Type]
+    private(set) var builtinComponentRegistry: BuiltInComponentRegistry // 0x10
+    let coreECSManager: __REECSManagerRef // 0x18
+    var scenes: [MyRealityFoundation::Scene] = [] // 0x20
+    private var builtInComponentTypeToClassTable: [ObjectIdentifier : CoreRE::Component.ClassPtr] = unsafe Dictionary() // 0x28
+    private var builtInComponentClassToTypeTable: [CoreRE::Component.ClassPtr : any Component.Type] = unsafe Dictionary() // 0x30
     
     func append(scene: MyRealityFoundation::Scene) {
         assertUnimplemented()
@@ -34,7 +34,16 @@ final class SceneManager {
     }
     
     init(coreECSManager: OpaquePointer) {
-        assertUnimplemented()
+        self.builtinComponentRegistry = BuiltInComponentRegistry()
+        self.coreECSManager = unsafe __REECSManagerRef(core: coreECSManager)
+        unsafe __RERetain(coreECSManager)
+        
+        unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSService.self)
+            .swiftObject = unsafe Unmanaged.passUnretained(self).toOpaque()
+        
+        _ = InteractionNotificationsManager.sharedManager
+        self.registerBuiltInComponents()
+        self.registerObservableComponents()
     }
     
     deinit {
@@ -263,17 +272,15 @@ final class SceneManager {
         assertUnimplemented()
     }
     
+    func registerObservableComponents() {
+        assertUnimplemented()
+    }
+    
     static nonisolated(unsafe) var customComponentTypesToHandles: [String : OpaquePointer] = unsafe [:]
     static nonisolated(unsafe) var handlesToCustomComponentTypes: [OpaquePointer : any MyRealityFoundation::Component.Type] = unsafe [:]
     static nonisolated(unsafe) var customComponentTypesToKeys: [ObjectIdentifier : String] = [:]
     static nonisolated(unsafe) var customComponentTypeObjectIdToHandles: [ObjectIdentifier : OpaquePointer] = unsafe [:]
 }
-
-final class BuiltInComponentRegistry {
-//    private var componentInfoByType: [ObjectIdentifier : ComponentInfo]
-//    private var componentInfoByREComponentClass: [OpaquePointer : ComponentInfo]
-}
-
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public protocol __SceneService {
@@ -306,3 +313,5 @@ fileprivate nonisolated func ecsNetSyncWriteSnapshot(_: UnsafeMutableRawPointer?
 fileprivate nonisolated func cloneComponent(_: OpaquePointer) -> OpaquePointer {
     assertUnimplemented()
 }
+
+extension SceneManager : __SceneService {}

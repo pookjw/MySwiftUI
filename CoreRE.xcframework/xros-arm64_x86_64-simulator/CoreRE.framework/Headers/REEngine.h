@@ -13,5 +13,10 @@ RE_EXTERN void REEngineConfigurationSetEnableInteractions(REEngineConfigurationR
 RE_EXTERN void REEngineSetCallbacksEx(REEngineRef, const void * _Nullable, REEventHandlerResult (* _Nullable)(void *)) NS_SWIFT_NAME(Engine.setCallbacksEx(self:_:_:));
 RE_EXTERN void REEngineSetSwiftObject(REEngineRef, void * _Nullable) NS_SWIFT_NAME(setter:Engine.swiftObject(self:_:));
 RE_EXTERN void * _Nullable REEngineGetSwiftObject(REEngineRef) NS_SWIFT_NAME(getter:Engine.swiftObject(self:));
+RE_EXTERN REServiceLocatorRef REEngineGetServiceLocator(REEngineRef) NS_SWIFT_NAME(getter:Engine.serviceLocator(self:));
+RE_EXTERN bool REEngineConfigurationGetUseRealityIO(REEngineConfigurationRef) NS_SWIFT_NAME(getter:Engine.Configuration.useRealityIO(self:));
+RE_EXTERN void REEngineConfigurationSetUseRealityIO(REEngineConfigurationRef, bool) NS_SWIFT_NAME(setter:Engine.Configuration.useRealityIO(self:_:));
+RE_EXTERN bool REEngineConfigurationGetUseMetal(REEngineConfigurationRef) NS_SWIFT_NAME(getter:Engine.Configuration.useMetal(self:));
+RE_EXTERN void REEngineConfigurationSetUseMetal(REEngineConfigurationRef, bool) NS_SWIFT_NAME(setter:Engine.Configuration.useMetal(self:_:));
 
 NS_ASSUME_NONNULL_END

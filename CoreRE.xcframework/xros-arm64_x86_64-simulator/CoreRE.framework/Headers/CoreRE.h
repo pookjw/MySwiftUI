@@ -13,3 +13,7 @@
 #import <CoreRE/REStructBuilder.h>
 #import <CoreRE/RECIntrospectionStruct.h>
 #import <CoreRE/REEngine.h>
+#import <CoreRE/REServiceLocator.h>
+#import <CoreRE/REECSService.h>
+#import <CoreRE/REEventBus.h>
+#import <CoreRE/RERenderManager.h>

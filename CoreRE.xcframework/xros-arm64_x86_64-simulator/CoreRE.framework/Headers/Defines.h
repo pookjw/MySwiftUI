@@ -97,6 +97,24 @@ typedef NS_ENUM(uint32_t, REEventHandlerResult) {
     REEventHandlerResultUnknown0 = 0
 } NS_SWIFT_NAME(EventHandlerResult);
 
+struct REServiceLocator {};
+typedef const struct REServiceLocator * REServiceLocatorRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ServiceLocator);
+
+struct REECSService {};
+typedef const struct REECSService * REECSServiceRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ECSService);
+
+struct REEventBus {};
+typedef const struct REEventBus * REEventBusRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(EventBus);
+
+struct REAssetManager {};
+typedef const struct REAssetManager * REAssetManagerRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AssetManager);
+
+struct RETimebaseService {};
+typedef const struct RETimebaseService * RETimebaseServiceRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TimebaseService);
+
+struct RERenderManager {};
+typedef const struct RERenderManager * RERenderManagerRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(RenderManager);
+
 NS_ASSUME_NONNULL_END
 
 #endif
