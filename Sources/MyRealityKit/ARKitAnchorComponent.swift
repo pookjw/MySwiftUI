@@ -1,6 +1,7 @@
 public import ARKit
 @_spi(Internal) package import MyRealityFoundation
 package import CoreRE
+private import RealityFusion
 
 @available(visionOS 26.0, iOS 26.0, *)
 @available(macOS, unavailable)
@@ -47,11 +48,13 @@ public struct ARKitAnchorComponent : TransientComponent {
             obsoleted: nil
         )
         
-//        block(
-//            ARKitAnchorComponent.self,
-//            
-//        )
-        assertUnimplemented()
+        block(
+            ARKitAnchorComponent.self,
+            RFGetAnchorSourceComponentType(),
+            nil,
+            .api,
+            availability
+        )
     }
 }
 

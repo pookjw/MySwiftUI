@@ -1,0 +1,5 @@
+framework module RealityFusion {
+    umbrella header "RealityFusion.h"
+    export *
+    module * { export * }
+}
