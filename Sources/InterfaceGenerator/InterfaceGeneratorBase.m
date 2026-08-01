@@ -131,7 +131,7 @@
     return [[splited subarrayWithRange:NSMakeRange(4, splited.count - 4)] componentsJoinedByString:@"\n"];
 }
 
-+ (NSString * _Nullable)_updatedSwiftHeaderWithExisting:(NSString *)existing source:(NSString *)source __attribute__((objc_direct)) {
++ (NSString * _Nullable)_updatedSwiftHeaderWithExisting:(NSString *)existing source:(NSString *)source {
     if (([existing componentsSeparatedByString:@"\n"].count < 4) || ([source componentsSeparatedByString:@"\n"].count < 4)) {
         NSLog(@"Invalid swiftinterface.");
         return NO;
@@ -180,7 +180,19 @@
     {
         NSMutableArray<NSString *> *splitedExisting = [[result componentsSeparatedByString:@"\n"] mutableCopy];
         NSArray<NSString *> *splitedSource = [source componentsSeparatedByString:@"\n"];
-        splitedExisting[3] = splitedSource[3];
+        
+        NSString *splited = [splitedSource[3] stringByReplacingOccurrencesOfString:@"-public-module-name SwiftUI" withString:[NSString stringWithFormat:@"-public-module-name %@", self.frameworkName]];
+        
+        if ([splited containsString:@"-public-module-name"]) {
+            NSMutableArray<NSString *> *splitedHeader = [[splited componentsSeparatedByString:@" "] mutableCopy];
+            NSInteger index = [splitedHeader indexOfObject:@"-public-module-name"];
+            assert(index != NSNotFound);
+            splitedHeader[index + 1] = self.frameworkName;
+            splited = [splitedHeader componentsJoinedByString:@" "];
+            [splitedHeader release];
+        } 
+        
+        splitedExisting[3] = splited;
         result = [splitedExisting componentsJoinedByString:@"\n"];
         [splitedExisting release];
     }
@@ -369,7 +381,7 @@
                 targetSwiftInterfaceURL = [targetSwiftInterfaceURL URLByAppendingPathComponent:variant conformingToType:UTTypeSwiftInterface];
                 
                 NSString *xcodeSwiftHeader = [self _xcodeSwiftInterfaceHeaderWithVariant:variant platform:platform];
-                NSString *updatedSwiftHeader = [InterfaceGeneratorBase _updatedSwiftHeaderWithExisting:oldSwiftHeader source:xcodeSwiftHeader];
+                NSString *updatedSwiftHeader = [self _updatedSwiftHeaderWithExisting:oldSwiftHeader source:xcodeSwiftHeader];
                 if (updatedSwiftHeader == nil) {
                     return NO;
                 }
@@ -390,7 +402,7 @@
                 targetPrivateSwiftInterfaceURL = [targetPrivateSwiftInterfaceURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.private", variant] conformingToType:UTTypeSwiftInterface];
                 
                 NSString *xcodeSwiftHeader = [self _xcodeSwiftInterfaceHeaderWithVariant:variant platform:platform];
-                NSString *updatedSwiftHeader = [InterfaceGeneratorBase _updatedSwiftHeaderWithExisting:oldPrivateSwiftHeader source:xcodeSwiftHeader];
+                NSString *updatedSwiftHeader = [self _updatedSwiftHeaderWithExisting:oldPrivateSwiftHeader source:xcodeSwiftHeader];
                 if (updatedSwiftHeader == nil) {
                     return NO;
                 }
