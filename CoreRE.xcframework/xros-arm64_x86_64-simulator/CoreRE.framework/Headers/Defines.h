@@ -38,8 +38,10 @@ typedef const struct REStructBuilder * REStructBuilderRef __attribute__((swift_w
 
 typedef NS_ENUM(uint32_t, REComponentType) {
     REComponentTypeNetwork = 9,
+    REComponentTypeRigidBody = 22,
     REComponentTypeTransform = 28,
-    REComponentTypeCustom = 36
+    REComponentTypeCustom = 36,
+    REComponentTypePhysicsMotion = 58
 } NS_SWIFT_NAME(ComponentType);
 
 typedef NS_ENUM(uint32_t, REIntrospectedDataType) {

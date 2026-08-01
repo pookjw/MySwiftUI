@@ -270,7 +270,202 @@ private import Foundation
     
     func registerBuiltInComponents() {
         // self -> x20 -> x19 + 0x68
-        let platforms: [ComponentInfo.SupportedPlatform]
+        // x23 -> x19 + 0x60
+        let platforms_1: [ComponentInfo.SupportedPlatform] = [
+            .macOS("10.15"),
+            .macCatalyst("13.0"),
+            .iOS("13.0"),
+            .visionOS("1.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+532>
+        // x23 -> x19 + 0x40
+        let platforms_2: [ComponentInfo.SupportedPlatform] = [
+            .macOS("10.15.4"),
+            .macCatalyst("13.4"),
+            .iOS("13.4"),
+            .visionOS("1.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+916>
+        // x23 -> x19 + 0x38
+        let platforms_3: [ComponentInfo.SupportedPlatform] = [
+            .macOS("10.15"),
+            .macCatalyst("14.0"),
+            .iOS("13.0"),
+            .visionOS("1.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+1288>
+        // x21 -> x19 + 0x20
+        let platforms_4: [ComponentInfo.SupportedPlatform] = [
+            .macCatalyst("14.0"),
+            .iOS("13.0"),
+            .visionOS("1.0")
+        ]
+        
+        // <+1516>
+        // x23 -> x19 + 0x48
+        let platforms_5: [ComponentInfo.SupportedPlatform] = [
+            .macOS("11.0"),
+            .macCatalyst("14.0"),
+            .iOS("14.0"),
+            .visionOS("1.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+1896>
+        // x23 -> x19 + 0x8
+        let platforms_6: [ComponentInfo.SupportedPlatform] = [
+            .macOS("12.0"),
+            .macCatalyst("15.0"),
+            .iOS("15.0"),
+            .visionOS("1.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+2260>
+        // x23 -> x19 + 0x50
+        let platforms_7: [ComponentInfo.SupportedPlatform] = [
+            .macOS("14.0"),
+            .macCatalyst("17.0"),
+            .iOS("17.0"),
+            .visionOS("1.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+2616>
+        // x23 -> x19 + 0x10
+        let platforms_8: [ComponentInfo.SupportedPlatform] = [
+            .macOS("15.0"),
+            .macCatalyst("18.0"),
+            .iOS("18.0"),
+            .visionOS("1.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+2972>
+        // x24 -> x19
+        let platforms_9: [ComponentInfo.SupportedPlatform] = [
+            .macOS("10.15"),
+            .macCatalyst("13.0"),
+            .iOS("13.0"),
+            .visionOS("2.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+3340>
+        // x23 -> x19 + 0x30
+        let platforms_10: [ComponentInfo.SupportedPlatform] = [
+            .macOS("15.0"),
+            .macCatalyst("18.0"),
+            .iOS("18.0"),
+            .visionOS("2.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+3700>
+        // x21 -> x19 + 0x18
+        let platforms_11: [ComponentInfo.SupportedPlatform] = [
+            .visionOS("2.0"),
+        ]
+        
+        // <+3804>
+        // x23 -> x19 + 0x28
+        let platforms_12: [ComponentInfo.SupportedPlatform] = [
+            .macOS("15.1"),
+            .macCatalyst("18.1"),
+            .iOS("18.1"),
+            .visionOS("2.1"),
+            .tvOS("26.0")
+        ]
+        
+        // <+4172>
+        // x23 -> x19 + 0x70
+        let platforms_13: [ComponentInfo.SupportedPlatform] = [
+            .macOS("26.0"),
+            .macCatalyst("26.0"),
+            .iOS("26.0"),
+            .visionOS("26.0"),
+            .tvOS("26.0")
+        ]
+        
+        // <+4532>
+        let bundleIdentifier = Bundle(for: BuiltInComponentRegistry.self).bundleIdentifier ?? "com.apple.RealityFoundation"
+        
+        func register(
+            type: any MyRealityFoundation::Component.Type,
+            reComponentClass: CoreRE::Component.ClassPtr?,
+            reComponentType: CoreRE::ComponentType?,
+            access: ComponentInfo.Access,
+            availability: ComponentInfo.Availability
+        ) {
+            let componentClass: OpaquePointer?
+            if let reComponentClass = unsafe reComponentClass {
+                unsafe componentClass = unsafe unsafeBitCast(reComponentClass, to: OpaquePointer.self)
+            } else {
+                unsafe componentClass = unsafe self.componentTypeToComponentClass(type)
+            }
+            
+            let componentInfo = unsafe ComponentInfo(
+                bundleIdentifier: bundleIdentifier,
+                type: type,
+                reComponentClass: componentClass,
+                access: access,
+                availability: availability
+            )
+            
+            // inlined
+            self.builtinComponentRegistry.register(componentInfo)
+            
+            // <+5032>
+            if let reComponentType {
+                _ = ComponentTypeClass.fromType(reComponentType)
+                self.registerBuiltInType(type, typeEnum: reComponentType)
+            }
+        }
+        
+        // <+4672>
+        // inlined
+        register(
+            type: PhysicsBodyComponent.self,
+            reComponentClass: CoreRE::ComponentTypeClass.rigidBody,
+            reComponentType: .rigidBody,
+            access: .api,
+            availability: platforms_1
+        )
+        
+        // <+5084>
+//        let motionStateComponentType: OpaquePointer?
+//        if let type = ComponentTypeClass.motionState {
+//            motionStateComponentType = type
+//        } else {
+//            motionStateComponentType = self.componentTypeToComponentClass(PhysicsMotionComponent.self)
+//        }
+//        
+//        // x29 - 0x100
+//        let physicsMotionComponentInfo = unsafe ComponentInfo(
+//            bundleIdentifier: bundleIdentifier,
+//            type: PhysicsMotionComponent.self,
+//            reComponentClass: motionStateComponentType,
+//            access: .api,
+//            availability: ComponentInfo.Availability(
+//                introduced: platforms_1,
+//                deprecated: nil,
+//                obsoleted: nil
+//            )
+//        )
+//        
+//        // <+5176>
+//        // inlined
+//        self.builtinComponentRegistry.register(physicsMotionComponentInfo)
+//        
+//        // <+5408>
+//        _ = ComponentTypeClass.fromType(.physicsMotion)
+//        self.registerBuiltInType(PhysicsMotionComponent.self, typeEnum: .physicsMotion)
         assertUnimplemented()
     }
     

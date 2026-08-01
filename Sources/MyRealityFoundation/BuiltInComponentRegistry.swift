@@ -4,24 +4,31 @@ private import CoreRE
     private var componentInfoByType: [ObjectIdentifier : ComponentInfo] = Dictionary()
     private var componentInfoByREComponentClass: [OpaquePointer : ComponentInfo] = unsafe Dictionary()
     
-    func register(_: ComponentInfo) {
-        assertUnimplemented()
+    func register(_ info: ComponentInfo) {
+        self.componentInfoByType[ObjectIdentifier(info.type)] = info
+        
+        if let reComponentClass = unsafe info.reComponentClass {
+            unsafe self.componentInfoByREComponentClass[reComponentClass] = info
+        }
     }
     
     var allComponentInfo: [ComponentInfo] {
-        assertUnimplemented()
+        return Array(self.componentInfoByType.values)
     }
     
-    func componentInfo(for component: (any MyRealityFoundation::Component.Type)) -> ComponentInfo? {
-        assertUnimplemented()
+    func componentInfo(for type: (any MyRealityFoundation::Component.Type)) -> ComponentInfo? {
+        return self.componentInfoByType[ObjectIdentifier(type)]
     }
     
-    func componentInfo(forClassOpaquePointer: OpaquePointer) -> ComponentInfo? {
-        assertUnimplemented()
+    func componentInfo(forClassOpaquePointer componentClass: OpaquePointer) -> ComponentInfo? {
+        return unsafe self.componentInfoByREComponentClass[componentClass]
     }
     
     func componentInfo(ofComponentsAccessableAs access: ComponentInfo.Access) -> [ComponentInfo] {
-        assertUnimplemented()
+        return self
+            .componentInfoByType
+            .values
+            .filter { $0.access == access }
     }
 }
 

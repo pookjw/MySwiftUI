@@ -17,3 +17,5 @@
 #import <CoreRE/REECSService.h>
 #import <CoreRE/REEventBus.h>
 #import <CoreRE/RERenderManager.h>
+#import <CoreRE/RERigidBodyComponent.h>
+#import <CoreRE/REMotionStateComponent.h>

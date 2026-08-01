@@ -91,7 +91,9 @@ exports:
     _REEngineConfigurationGetUseMetal,
     _REEngineConfigurationSetUseMetal,
     _REECSManagerSetSwiftObject,
-    _REECSManagerGetSwiftObject ]
+    _REECSManagerGetSwiftObject,
+    _RERigidBodyComponentGetComponentType,
+    _REMotionStateComponentGetComponentType ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
