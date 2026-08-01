@@ -78,8 +78,7 @@ let package = Package(
                 .byName(name: "_SwiftPrivate"),
                 .byName(name: "UIKitServices"),
                 .byName(name: "UserActivity"),
-                .byName(name: "_MySwiftUIUtils"),
-                .byName(name: "MyRealityKit", condition: .when(traits: ["UseMyRealityKit"]))
+                .byName(name: "_MySwiftUIUtils")
             ],
             swiftSettings: [
                 .strictMemorySafety(),

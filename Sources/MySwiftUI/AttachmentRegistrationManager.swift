@@ -1,11 +1,8 @@
 // 63347F5D9A046616B0D46410809E3D2B
 internal import UIKit
 private import MySwiftUICore
-#if UseMyRealityKit
-internal import MyRealityKit
-#else
+package import MyRealityKit
 internal import RealityKit
-#endif
 private import Combine
 private import _UIKitPrivate
 private import MRUIKit
@@ -245,7 +242,7 @@ fileprivate final class PhaseHolder {
     // TODO
 }
 
-struct AttachmentComponentGuts {
+package struct AttachmentComponentGuts {
     fileprivate let rootView: AnyView
     fileprivate var state: ComponentEntityState
     fileprivate let detachedID: UUID
@@ -268,4 +265,44 @@ struct _PopoverComponent : RealityKit::Component {
 
 fileprivate struct ReentrancyGuard {
     static nonisolated(unsafe) var seed = 0
+}
+
+func registerExternalAttachment<T : RealityKit::Component>(type: T.Type, _: (T) -> AttachmentComponentGuts?) {
+    assertUnimplemented()
+}
+
+package func registerExternalAttachment<T : MyRealityFoundation::Component>(type: T.Type, _: (T) -> AttachmentComponentGuts?) {
+    assertUnimplemented()
+}
+
+func registerExternalAttachment<T : RealityKit::Component>(
+    type: T.Type,
+    getGuts: (T) -> AttachmentComponentGuts?,
+    setGuts: (inout T, AttachmentComponentGuts) -> Void
+) {
+    assertUnimplemented()
+}
+
+package func registerExternalAttachment<T : MyRealityFoundation::Component>(
+    type: T.Type,
+    getGuts: (T) -> AttachmentComponentGuts?,
+    setGuts: (inout T, AttachmentComponentGuts) -> Void
+) {
+    assertUnimplemented()
+}
+
+func registerExternalAttachmentV2<T : RealityKit::Component>(
+    type: T.Type,
+    getGuts: (RealityKit::Entity) -> AttachmentComponentGuts?,
+    setGuts:  (RealityKit::Entity, AttachmentComponentGuts) -> Void
+) {
+    assertUnimplemented()
+}
+
+package func registerExternalAttachmentV2<T : MyRealityFoundation::Component>(
+    type: T.Type,
+    getGuts: (MyRealityFoundation::Entity) -> AttachmentComponentGuts?,
+    setGuts:  (MyRealityFoundation::Entity, AttachmentComponentGuts) -> Void
+) {
+    assertUnimplemented()
 }

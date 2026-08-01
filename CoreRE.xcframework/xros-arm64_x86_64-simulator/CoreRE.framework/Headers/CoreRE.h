@@ -85,3 +85,5 @@
 #import <CoreRE/REOcclusionComponent.h>
 #import <CoreRE/RETransformInteractionComponent.h>
 #import <CoreRE/REAudioGroupPlaybackComponent.h>
+#import <CoreRE/REViewAttachmentComponent.h>
+#import <CoreRE/REPresentationComponent.h>

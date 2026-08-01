@@ -161,7 +161,9 @@ exports:
     _REVideoComponentGetComponentType,
     _REVideoPlayerComponentGetComponentType,
     _REVirtualEnvironmentProbeComponentGetComponentType,
-    _REWorldRootComponentGetComponentType ]
+    _REWorldRootComponentGetComponentType,
+    _REViewAttachmentComponentGetComponentType,
+    _REPresentationComponentGetComponentType ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

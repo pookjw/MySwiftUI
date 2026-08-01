@@ -1,11 +1,7 @@
 // BB8F5ECFA8AF74AE8152DD1EB3C8CC7B
 public import Spatial
 @_spi(Internal) public import MySwiftUICore
-#if UseMyRealityKit
-public import MyRealityKit
-#else
 public import RealityKit
-#endif
 internal import UIKit
 
 @_spi(Reality) public protocol EntityRepresentable : View {

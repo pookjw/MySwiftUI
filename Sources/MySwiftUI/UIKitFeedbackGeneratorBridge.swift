@@ -1,9 +1,5 @@
 @_spi(Internal) internal import MySwiftUICore
-#if UseMyRealityKit
-private import MyRealityKit
-#else
 private import RealityKit
-#endif
 private import _UIKitPrivate
 private import MRUIKit
 private import CoreRE

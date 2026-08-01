@@ -89,6 +89,7 @@ typedef NS_ENUM(uint32_t, REComponentType) {
     REComponentTypePhysicsSimulation = 4005,
     REComponentTypeAdaptiveResolution = 4006,
     REComponentTypeGroundingShadow = 4009,
+    REComponentTypeViewAttachment = 4001,
     REComponentTypeInputTarget = 4010,
     REComponentTypePhysicsJoints = 4012,
     REComponentTypeReverb = 5000,
@@ -104,7 +105,8 @@ typedef NS_ENUM(uint32_t, REComponentType) {
     REComponentTypeAudioGroupPlayback = 6010,
     REComponentTypeEnvironmentBlending = 6015,
     REComponentTypeMeshPartInstances = 6016,
-    REComponentTypeTransformInteraction = 6020
+    REComponentTypeTransformInteraction = 6020,
+    REComponentTypePresentation = 6021
 } NS_SWIFT_NAME(ComponentType);
 
 typedef NS_ENUM(uint32_t, REIntrospectedDataType) {

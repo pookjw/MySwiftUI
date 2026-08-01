@@ -5,11 +5,7 @@ public import UIKit
 public import _UIKitPrivate
 private import notify
 internal import MRUIKit
-#if UseMyRealityKit
-private import MyRealityKit
-#else
 private import RealityKit
-#endif
 private import TCC
 private import ARKit
 private import AttributeGraph
