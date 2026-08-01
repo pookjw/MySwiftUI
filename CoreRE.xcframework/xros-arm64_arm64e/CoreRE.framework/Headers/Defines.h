@@ -1,5 +1,5 @@
-#ifndef Defines_h
-#define Defines_h
+#ifndef RE_Defines_h
+#define RE_Defines_h
 
 #import <Foundation/Foundation.h>
 #import <CoreFoundation/CoreFoundation.h>

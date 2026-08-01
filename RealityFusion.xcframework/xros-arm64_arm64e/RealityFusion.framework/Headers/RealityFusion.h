@@ -1,1 +1,1 @@
-#pragma once
+#import <RealityFusion/RFAnchorSourceComponent.h>
