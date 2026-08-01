@@ -89,12 +89,16 @@ protocol DefaultInitializable : MyRealityFoundation::Component {
     init()
 }
 
-@unsafe @_spi(Internal) public struct CoreComponentType {
-    fileprivate private(set) var originType: CoreComponentType.OriginType
+@safe @_spi(Internal) public struct CoreComponentType {
+    private(set) var originType: CoreComponentType.OriginType
+    
+    init(originType: CoreComponentType.OriginType) {
+        self.originType = originType
+    }
 }
 
 extension CoreComponentType {
-    @unsafe enum OriginType {
+    @safe enum OriginType {
         case system(CoreRE::Component.ClassPtr)
         case custom
     }

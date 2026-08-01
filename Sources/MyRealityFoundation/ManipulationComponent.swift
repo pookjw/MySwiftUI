@@ -94,7 +94,7 @@ public struct ManipulationComponent : Component {
         }
 
         @_spi(Internal) public static var coreComponentType: CoreComponentType {
-            assertUnimplemented()
+            return CoreComponentType(originType: .custom)
         }
     }
     

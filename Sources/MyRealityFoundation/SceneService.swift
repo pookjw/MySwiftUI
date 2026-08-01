@@ -22,8 +22,8 @@ private import Foundation
     private(set) var builtinComponentRegistry: BuiltInComponentRegistry // 0x10
     let coreECSManager: __REECSManagerRef // 0x18
     var scenes: [MyRealityFoundation::Scene] = [] // 0x20
-    private var builtInComponentTypeToClassTable: [ObjectIdentifier : CoreRE::Component.ClassPtr] = unsafe Dictionary() // 0x28
-    private var builtInComponentClassToTypeTable: [CoreRE::Component.ClassPtr : any Component.Type] = unsafe Dictionary() // 0x30
+    private var builtInComponentTypeToClassTable: [ObjectIdentifier : CoreRE::Component.ClassPtr] = Dictionary() // 0x28
+    private var builtInComponentClassToTypeTable: [CoreRE::Component.ClassPtr : any Component.Type] = Dictionary() // 0x30
     
     func append(scene: MyRealityFoundation::Scene) {
         assertUnimplemented()
@@ -235,12 +235,26 @@ private import Foundation
         }
     }
     
-    func registerBuiltInType(_: any MyRealityFoundation::Component.Type, typeEnum: CoreRE::ComponentType) {
-        assertUnimplemented()
+    func registerBuiltInType(_ type: any MyRealityFoundation::Component.Type, typeEnum: CoreRE::ComponentType) {
+        let componentClassPtr = CoreRE::Component.ClassPtr.fromType(typeEnum)!
+        self.builtInComponentTypeToClassTable[ObjectIdentifier(type)] = componentClassPtr
     }
     
     func componentTypeToComponentClass(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer? {
-        assertUnimplemented()
+        if let componentType = self.builtInComponentTypeToClassTable[ObjectIdentifier(type)] {
+            return unsafe unsafeBitCast(componentType, to: OpaquePointer.self)
+        }
+        
+        switch type.coreComponentType.originType {
+        case .system(let classPtr):
+            // <+132>
+            self.builtInComponentTypeToClassTable[ObjectIdentifier(type)] = classPtr
+            return unsafe unsafeBitCast(classPtr, to: OpaquePointer.self)
+        case .custom:
+            // <+240>
+            let key = SceneManager.makeComponentTypeHandleKey(type, typeName: nil)
+            return unsafe SceneManager.customComponentTypesToHandles[key]
+        }
     }
     
     func componentClassToComponentType(_ componentClass: OpaquePointer) -> any MyRealityFoundation::Component.Type? {
