@@ -27,9 +27,6 @@ typedef unsigned long long REEntityID NS_SWIFT_NAME(Entity.ID);
 struct REScene {};
 typedef const struct REScene * RESceneRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Scene);
 
-struct _REComponentTypeClass {};
-typedef const struct _REComponentTypeClass * REComponentTypeClass __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ComponentTypeClass);
-
 struct RECIntrospectionStruct {};
 typedef const struct RECIntrospectionStruct * RECIntrospectionStructRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CIntrospectionStruct);
 
@@ -55,7 +52,8 @@ typedef NS_ENUM(uint32_t, REIntrospectedDataType) {
 struct REComponent {};
 typedef const struct REComponent * REComponentRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component);
 
-typedef const void * REComponentClassPtr NS_SWIFT_NAME(Component.ClassPtr);
+struct REComponentClass {};
+typedef const struct REComponentClass * REComponentClassPtr __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component.ClassPtr);
 
 RE_EXTERN void RERelease(const void *);
 RE_EXTERN const void * RERetain(const void *);

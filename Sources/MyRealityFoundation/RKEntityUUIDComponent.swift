@@ -122,7 +122,7 @@ public struct __RKEntityUUIDComponent {
                     )
                     
                     return withUnsafePointer(to: info) { pointer in
-                        return unsafe CoreRE::ComponentTypeClass.createCustomComponentType(
+                        return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(
                             info: pointer
                         )
                     }
@@ -134,7 +134,7 @@ public struct __RKEntityUUIDComponent {
                 throw __RKEntityUUIDComponent.Registration.RegistrationError.builderFailed
             }
             
-            unsafe self.componentType = unsafeBitCast(componentType, to: OpaquePointer.self)
+            self.componentType = unsafe unsafeBitCast(componentType, to: OpaquePointer.self)
             builder.destroy()
         }
         

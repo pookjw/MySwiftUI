@@ -89,7 +89,7 @@ extension Entity {
                 // x26
                 let componentType = unsafe unsafeBitCast(
                     SceneManager.customComponentType(type),
-                    to: CoreRE::ComponentTypeClass.self
+                    to: CoreRE::Component.ClassPtr.self
                 )
                 
                 // x25
@@ -146,7 +146,7 @@ extension Entity {
             } else {
                 // <+444>
                 // coreEntity -> x20
-                if let componentClass = CoreRE::ComponentTypeClass.fromType(coreType.core) {
+                if let componentClass = CoreRE::Component.ClassPtr.fromType(coreType.core) {
                     // componentClass -> x25
                     // x26
                     let copy_1 = newValue

@@ -81,13 +81,13 @@ public struct __RKEntityTagsComponent {
                 )
                 
                 return withUnsafePointer(to: info) { pointer in
-                    return unsafe CoreRE::ComponentTypeClass.createCustomComponentType(
+                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(
                         info: pointer
                     )
                 }
             }
             
-            unsafe self.componentType = unsafeBitCast(componentType, to: OpaquePointer.self)
+            self.componentType = unsafe unsafeBitCast(componentType, to: OpaquePointer.self)
             builder.destroy()
         }
         

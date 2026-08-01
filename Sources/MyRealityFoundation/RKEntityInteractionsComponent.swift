@@ -70,7 +70,7 @@ public struct __RKEntityInteractionsComponent {
                 )
                 
                 return withUnsafePointer(to: info) { pointer in
-                    return unsafe ComponentTypeClass.createCustomComponentType(info: pointer)
+                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(info: pointer)
                 }
             }
             
@@ -88,7 +88,7 @@ public struct __RKEntityInteractionsComponent {
                 return unsafe unsafeBitCast(result, to: UnsafeMutableRawPointer.self)
             }
             
-            unsafe self.componentType = unsafeBitCast(componentType, to: OpaquePointer.self)
+            self.componentType = unsafe unsafeBitCast(componentType, to: OpaquePointer.self)
             builder.destroy()
         }
         

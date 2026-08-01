@@ -193,7 +193,7 @@ private import Foundation
                 
                 return withUnsafePointer(to: info) { pointer_3 in
                     // x23
-                    guard let componentClass = unsafe ComponentTypeClass.createCustomComponentType(info: pointer_3, isTransient: flag_3) else {
+                    guard let componentClass = unsafe CoreRE::Component.ClassPtr.createCustomComponentType(info: pointer_3, isTransient: flag_3) else {
                         assertionFailure("Could not create custom component type.")
                     }
                     
@@ -404,7 +404,7 @@ private import Foundation
             availability: ComponentInfo.Availability
         ) {
             let componentClass: OpaquePointer?
-            if let reComponentClass = unsafe reComponentClass {
+            if let reComponentClass {
                 unsafe componentClass = unsafe unsafeBitCast(reComponentClass, to: OpaquePointer.self)
             } else {
                 unsafe componentClass = unsafe self.componentTypeToComponentClass(type)
@@ -423,7 +423,7 @@ private import Foundation
             
             // <+5032>
             if let reComponentType {
-                _ = ComponentTypeClass.fromType(reComponentType)
+                _ = CoreRE::Component.ClassPtr.fromType(reComponentType)
                 self.registerBuiltInType(type, typeEnum: reComponentType)
             }
         }
@@ -432,40 +432,34 @@ private import Foundation
         // inlined
         register(
             type: PhysicsBodyComponent.self,
-            reComponentClass: CoreRE::ComponentTypeClass.rigidBody,
+            reComponentClass: CoreRE::Component.ClassPtr.rigidBody,
             reComponentType: .rigidBody,
             access: .api,
-            availability: platforms_1
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
         )
         
         // <+5084>
-//        let motionStateComponentType: OpaquePointer?
-//        if let type = ComponentTypeClass.motionState {
-//            motionStateComponentType = type
-//        } else {
-//            motionStateComponentType = self.componentTypeToComponentClass(PhysicsMotionComponent.self)
-//        }
-//        
-//        // x29 - 0x100
-//        let physicsMotionComponentInfo = unsafe ComponentInfo(
-//            bundleIdentifier: bundleIdentifier,
-//            type: PhysicsMotionComponent.self,
-//            reComponentClass: motionStateComponentType,
-//            access: .api,
-//            availability: ComponentInfo.Availability(
-//                introduced: platforms_1,
-//                deprecated: nil,
-//                obsoleted: nil
-//            )
-//        )
-//        
-//        // <+5176>
-//        // inlined
-//        self.builtinComponentRegistry.register(physicsMotionComponentInfo)
-//        
-//        // <+5408>
-//        _ = ComponentTypeClass.fromType(.physicsMotion)
-//        self.registerBuiltInType(PhysicsMotionComponent.self, typeEnum: .physicsMotion)
+        // inlined
+        register(
+            type: PhysicsMotionComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.motionState,
+            reComponentType: .physicsMotion,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        // <+5472>
+        // TODO
+        
+        // <+22232>
         assertUnimplemented()
     }
     

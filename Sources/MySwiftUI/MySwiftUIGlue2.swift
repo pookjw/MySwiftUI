@@ -47,7 +47,7 @@ private import CoreRE
         if
             state == separatedState,
             let reEntity = view._reEntity,
-            let componentType = CoreRE::ComponentTypeClass.selectableSceneContentIdentifier
+            let componentType = CoreRE::Component.ClassPtr.selectableSceneContentIdentifier
         {
             // <+672>
             let component = reEntity.getOrAddComponent(ofType: componentType)

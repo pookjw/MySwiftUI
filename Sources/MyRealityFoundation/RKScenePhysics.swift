@@ -73,7 +73,7 @@ public struct __RKScenePhysics {
                 )
                 
                 return withUnsafePointer(to: info) { pointer in
-                    return unsafe CoreRE::ComponentTypeClass.createCustomComponentType(
+                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(
                         info: pointer
                     )
                 }
