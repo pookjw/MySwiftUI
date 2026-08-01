@@ -1,6 +1,8 @@
 @_spi(Internal) public import MyRealityFoundation
 internal import CoreRE
-private import RealityKit
+#if RealityKitCompataibility
+private import _RealityKit_SwiftUI
+#endif
 private import MySwiftUI
 
 @objc final class __RealityKitOverlayRegistry : ExternalBuiltInComponentRegistry {
@@ -30,8 +32,14 @@ private import MySwiftUI
         )
         
         // <+652>
+#if RealityKitCompataibility
+        let viewAttachmentComponentType = _RealityKit_SwiftUI::ViewAttachmentComponent.self
+#else
+        let viewAttachmentComponentType = _MyRealityKit_MySwiftUI::ViewAttachmentComponent.self
+#endif
+        
         registerExternalAttachment(
-            type: ViewAttachmentComponent.self,
+            type: viewAttachmentComponentType,
             getGuts: { _ in
                 // $s19_RealityKit_SwiftUI02__aB15OverlayRegistryC26registerVisionOSComponentsyyy0aB09Component_pXp_So19REComponentClassPtraSgSo0K4TypeVSg0A10Foundation0J4InfoV6AccessOAO12AvailabilityVtXEFZ0cD0010AttachmentJ4GutsVSgAA04ViewsJ0VcfU_
                 assertUnimplemented()
@@ -51,7 +59,13 @@ private import MySwiftUI
             availability
         )
         
-        registerExternalAttachment(type: PresentationComponent.self) { _ in
+#if RealityKitCompataibility
+        let presentationComponentType = _RealityKit_SwiftUI::PresentationComponent.self
+#else
+        let presentationComponentType = _MyRealityKit_MySwiftUI::PresentationComponent.self
+#endif
+        
+        registerExternalAttachment(type: presentationComponentType) { _ in
             // $s19_RealityKit_SwiftUI02__aB15OverlayRegistryC26registerVisionOSComponentsyyy0aB09Component_pXp_So19REComponentClassPtraSgSo0K4TypeVSg0A10Foundation0J4InfoV6AccessOAO12AvailabilityVtXEFZ0cD0010AttachmentJ4GutsVSgAA012PresentationJ0VcfU1_
             assertUnimplemented()
         }

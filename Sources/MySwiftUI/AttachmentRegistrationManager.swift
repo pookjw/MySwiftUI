@@ -2,7 +2,7 @@
 internal import UIKit
 private import MySwiftUICore
 package import MyRealityKit
-internal import RealityKit
+package import RealityKit
 private import Combine
 private import _UIKitPrivate
 private import MRUIKit
@@ -10,10 +10,10 @@ private import MRUIKit
 final class AttachmentRegistrationManager {
     @safe nonisolated(unsafe) static let shared = AttachmentRegistrationManager()
     
-    var registrations: [Registration]
-    private var registeredSceneIdentifiers: Set<AttachmentRegistrationManager.SceneRegistration>
-    private var activeScenes: Set<HashableWeakBox<UIWindowScene>>
-    private let manager: AttachmentManager
+    var registrations: [Registration] // 0x10
+    private var registeredSceneIdentifiers: Set<AttachmentRegistrationManager.SceneRegistration> // 0x18
+    private var activeScenes: Set<HashableWeakBox<UIWindowScene>> // 0x20
+    private let manager: AttachmentManager // 0x28
     
     init() {
         self.registrations = [
@@ -71,8 +71,35 @@ final class AttachmentRegistrationManager {
         }
     }
     
-    func registerExternalAttachment(_ registration: Registration) {
-        assertUnimplemented()
+    @MainActor func registerExternalAttachment(_ registration: Registration) {
+        /*
+         self -> x20
+         registration -> x0 -> x21
+         */
+        for box in self.activeScenes {
+            guard let scene = box.base else {
+                continue
+            }
+            
+            let sceneIdentifier = scene._sceneIdentifier
+            
+            let sceneRegistration = SceneRegistration(
+                sceneID: sceneIdentifier,
+                componentID: ObjectIdentifier(registration.componentType)
+            )
+            
+            let (inserted, _) = self.registeredSceneIdentifiers.insert(sceneRegistration)
+            guard inserted else {
+                continue
+            }
+            
+            let sceneRef = unsafe RealityKit::__SceneRef.__fromCore(scene.reScene)
+            let reScene = RealityKit::Scene.__fromCore(sceneRef)
+            
+            self.manager.setupWithScene(reScene, registration: registration)
+        }
+        
+        self.registrations.append(registration)
     }
 }
 
@@ -85,12 +112,12 @@ extension AttachmentRegistrationManager {
 
 struct Registration {
     fileprivate let componentType: any RealityKit::Component.Type
-    fileprivate let getGuts: @MainActor (RealityKit::Entity) -> AttachmentComponentGuts?
-    fileprivate let setGuts: @MainActor (RealityKit::Entity, AttachmentComponentGuts) -> Void
+    fileprivate let getGuts: (RealityKit::Entity) -> AttachmentComponentGuts?
+    fileprivate let setGuts: (RealityKit::Entity, AttachmentComponentGuts) -> Void
     
     init<T : RealityKit::Component>(
-        setGuts: @MainActor @escaping (inout T, AttachmentComponentGuts) -> Void,
-        getGuts: @MainActor @escaping (T) -> AttachmentComponentGuts?
+        setGuts: @escaping (inout T, AttachmentComponentGuts) -> Void,
+        getGuts: @escaping (T) -> AttachmentComponentGuts?
     ) {
         self.componentType = T.self
         
@@ -110,6 +137,15 @@ struct Registration {
             setGuts(&component, guts)
             entity.components[T.self] = component
         }
+    }
+    
+    init<T : RealityKit::Component>(getGuts: @escaping (T) -> AttachmentComponentGuts?) {
+        self.init(
+            setGuts: { _, _ in
+                // nop
+            },
+            getGuts: getGuts
+        )
     }
 }
 
@@ -267,42 +303,61 @@ fileprivate struct ReentrancyGuard {
     static nonisolated(unsafe) var seed = 0
 }
 
-func registerExternalAttachment<T : RealityKit::Component>(type: T.Type, _: (T) -> AttachmentComponentGuts?) {
+@MainActor @preconcurrency package func registerExternalAttachment<T : RealityKit::Component>(type: T.Type, _ getGuts: @escaping (T) -> AttachmentComponentGuts?) {
+    AttachmentRegistrationManager
+        .shared
+        .registerExternalAttachment(
+            Registration(
+                getGuts: getGuts
+            )
+        )
+}
+
+@MainActor @preconcurrency package func registerExternalAttachment<T : MyRealityFoundation::Component>(type: T.Type, _: @escaping (T) -> AttachmentComponentGuts?) {
     assertUnimplemented()
 }
 
-package func registerExternalAttachment<T : MyRealityFoundation::Component>(type: T.Type, _: (T) -> AttachmentComponentGuts?) {
-    assertUnimplemented()
-}
-
-func registerExternalAttachment<T : RealityKit::Component>(
+@MainActor @preconcurrency package func registerExternalAttachment<T : RealityKit::Component>(
     type: T.Type,
-    getGuts: (T) -> AttachmentComponentGuts?,
-    setGuts: (inout T, AttachmentComponentGuts) -> Void
+    getGuts: @escaping (T) -> AttachmentComponentGuts?,
+    setGuts: @escaping (inout T, AttachmentComponentGuts) -> Void
+) {
+    AttachmentRegistrationManager
+        .shared
+        .registerExternalAttachment(
+            Registration(
+                setGuts: { (_: inout T, _: AttachmentComponentGuts) in
+                    // $s7SwiftUI12RegistrationV7setGuts03getE0ACyxz_AA019AttachmentComponentE0Vtc_AGSgxctc10RealityKit0H0RzlufcAhI6EntityCcfU_TA
+                    assertUnimplemented()
+                },
+                getGuts: { (_: T) in
+                    // $s7SwiftUI12RegistrationV7setGuts03getE0ACyxz_AA019AttachmentComponentE0Vtc_AGSgxctc10RealityKit0H0RzlufcyAI6EntityC_AGtcfU0_TA
+                    assertUnimplemented()
+                }
+            )
+        )
+}
+
+@MainActor @preconcurrency package func registerExternalAttachment<T : MyRealityFoundation::Component>(
+    type: T.Type,
+    getGuts: @escaping (T) -> AttachmentComponentGuts?,
+    setGuts: @escaping (inout T, AttachmentComponentGuts) -> Void
 ) {
     assertUnimplemented()
 }
 
-package func registerExternalAttachment<T : MyRealityFoundation::Component>(
+@MainActor @preconcurrency package func registerExternalAttachmentV2<T : RealityKit::Component>(
     type: T.Type,
-    getGuts: (T) -> AttachmentComponentGuts?,
-    setGuts: (inout T, AttachmentComponentGuts) -> Void
+    getGuts: @escaping (RealityKit::Entity) -> AttachmentComponentGuts?,
+    setGuts: @escaping (RealityKit::Entity, AttachmentComponentGuts) -> Void
 ) {
     assertUnimplemented()
 }
 
-func registerExternalAttachmentV2<T : RealityKit::Component>(
+@MainActor @preconcurrency package func registerExternalAttachmentV2<T : MyRealityFoundation::Component>(
     type: T.Type,
-    getGuts: (RealityKit::Entity) -> AttachmentComponentGuts?,
-    setGuts:  (RealityKit::Entity, AttachmentComponentGuts) -> Void
-) {
-    assertUnimplemented()
-}
-
-package func registerExternalAttachmentV2<T : MyRealityFoundation::Component>(
-    type: T.Type,
-    getGuts: (MyRealityFoundation::Entity) -> AttachmentComponentGuts?,
-    setGuts:  (MyRealityFoundation::Entity, AttachmentComponentGuts) -> Void
+    getGuts: @escaping (MyRealityFoundation::Entity) -> AttachmentComponentGuts?,
+    setGuts: @escaping (MyRealityFoundation::Entity, AttachmentComponentGuts) -> Void
 ) {
     assertUnimplemented()
 }
