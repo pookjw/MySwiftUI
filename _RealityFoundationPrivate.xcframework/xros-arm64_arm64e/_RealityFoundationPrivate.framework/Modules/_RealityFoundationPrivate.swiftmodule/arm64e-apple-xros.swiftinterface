@@ -3,3 +3,143 @@
 // swift-module-flags: -target arm64e-apple-xros27.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level api -enable-experimental-feature ModuleInterfaceExportAs -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -user-module-version 453.0.5.507.1 -module-name _RealityFoundationPrivate -package-name _RealityFoundationPrivate -module-abi-name RealityFoundation
 // swift-module-flags-ignorable: -public-module-name RealityKit -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4
 @_exported import RealityKit
+@_exported import RealityFoundation
+import Swift
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "RealityFoundation", visionOS 26.0)
+public struct ComponentInfo : Swift.CustomStringConvertible {
+  public let bundleIdentifier: Swift.String
+  public let type: any RealityKit.Component.Type
+
+  public var reComponentType: Any? {
+    get
+  }
+
+  public var reComponentClass: Swift.OpaquePointer? {
+    get
+  }
+
+  public let access: _RealityFoundationPrivate.ComponentInfo.Access
+  public let availability: _RealityFoundationPrivate.ComponentInfo.Availability
+
+  public init(
+    bundleIdentifier: Swift.String,
+    type: any RealityKit.Component.Type,
+    reComponentClass: Swift.OpaquePointer?,
+    access: _RealityFoundationPrivate.ComponentInfo.Access,
+    availability: _RealityFoundationPrivate.ComponentInfo.Availability
+  )
+
+  public var description: Swift.String {
+    get
+  }
+
+  public enum Access : Swift.Hashable {
+    case `internal`
+    case spi
+    case api
+  }
+
+  public struct Availability : Swift.CustomStringConvertible {
+    public let introduced: [_RealityFoundationPrivate.ComponentInfo.SupportedPlatform]
+    public let deprecated: [_RealityFoundationPrivate.ComponentInfo.SupportedPlatform]?
+    public let obsoleted: [_RealityFoundationPrivate.ComponentInfo.SupportedPlatform]?
+
+    public init(
+      introduced: [_RealityFoundationPrivate.ComponentInfo.SupportedPlatform],
+      deprecated: [_RealityFoundationPrivate.ComponentInfo.SupportedPlatform]?,
+      obsoleted: [_RealityFoundationPrivate.ComponentInfo.SupportedPlatform]?
+    )
+
+    public var description: Swift.String {
+      get
+    }
+  }
+
+  public struct Platform : Swift.Equatable, Swift.CustomStringConvertible {
+    public let name: Swift.String
+    public let oldestSupportedVersion: _RealityFoundationPrivate.ComponentInfo.PlatformVersion
+
+    public static let macOS: _RealityFoundationPrivate.ComponentInfo.Platform
+    public static let macCatalyst: _RealityFoundationPrivate.ComponentInfo.Platform 
+    public static let iOS: _RealityFoundationPrivate.ComponentInfo.Platform
+    public static let xrOS: _RealityFoundationPrivate.ComponentInfo.Platform
+    public static let tvOS: _RealityFoundationPrivate.ComponentInfo.Platform
+
+    public var description: Swift.String {
+      get
+    }
+  }
+
+  public struct SupportedPlatform : Swift.Equatable, Swift.CustomStringConvertible {
+    public static func macOS(_ version: _RealityFoundationPrivate.ComponentInfo.PlatformVersion) -> _RealityFoundationPrivate.ComponentInfo.SupportedPlatform
+    public static func macCatalyst(_ version: _RealityFoundationPrivate.ComponentInfo.PlatformVersion) -> _RealityFoundationPrivate.ComponentInfo.SupportedPlatform
+    public static func iOS(_ version: _RealityFoundationPrivate.ComponentInfo.PlatformVersion) -> _RealityFoundationPrivate.ComponentInfo.SupportedPlatform
+    public static func visionOS(_ version: _RealityFoundationPrivate.ComponentInfo.PlatformVersion) -> _RealityFoundationPrivate.ComponentInfo.SupportedPlatform
+    public static func tvOS(_ version: _RealityFoundationPrivate.ComponentInfo.PlatformVersion) -> _RealityFoundationPrivate.ComponentInfo.SupportedPlatform
+
+    public let platform: _RealityFoundationPrivate.ComponentInfo.Platform
+    public let version: _RealityFoundationPrivate.ComponentInfo.PlatformVersion
+
+    public init(
+      platform: _RealityFoundationPrivate.ComponentInfo.Platform,
+      version: _RealityFoundationPrivate.ComponentInfo.PlatformVersion
+    )
+
+    public var description: Swift.String {
+      get
+    }
+  }
+
+  public struct PlatformVersion : Swift.Comparable, Swift.ExpressibleByStringLiteral, Swift.CustomStringConvertible {
+    public init(stringLiteral value: Swift.String)
+    public init(_ value: Swift.String)
+
+    public var versionString: Swift.String {
+      get
+    }
+
+    public var major: Swift.Int {
+      get
+    }
+
+    public var minor: Swift.Int {
+      get
+    }
+
+    public var patch: Swift.Int {
+      get
+    }
+
+    public var description: Swift.String {
+      get
+    }
+
+    public static func < (
+      lhs: _RealityFoundationPrivate.ComponentInfo.PlatformVersion,
+      rhs: _RealityFoundationPrivate.ComponentInfo.PlatformVersion
+    ) -> Swift.Bool
+
+    public static let unknown: _RealityFoundationPrivate.ComponentInfo.PlatformVersion
+  }
+
+  public struct Version : Swift.Comparable, Swift.CustomStringConvertible {
+    public init(major: Swift.Int, minor: Swift.Int, patch: Swift.Int)
+
+    public static func < (
+      lhs: _RealityFoundationPrivate.ComponentInfo.Version,
+      rhs: _RealityFoundationPrivate.ComponentInfo.Version
+    ) -> Swift.Bool
+
+    public var description: Swift.String {
+      get
+    }
+
+    public let major: Swift.Int
+    public let minor: Swift.Int
+    public let patch: Swift.Int
+
+    public init(_: Swift.Int, _: Swift.Int, _: Swift.Int)
+  }
+}

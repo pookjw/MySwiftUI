@@ -2,6 +2,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+RE_EXTERN REComponentClassPtr _Nullable RENetworkComponentGetComponentType(void) NS_SWIFT_NAME(getter:Component.ClassPtr.network());
+
 RE_EXTERN void RENetworkComponentSetAlwaysMigrate(REComponentRef, BOOL) NS_SWIFT_NAME(Component.network_setAlwaysMigrate(self:_:));
 RE_EXTERN BOOL RENetworkComponentIsOwnershipLocked(REComponentRef) NS_SWIFT_NAME(getter:Component.isOwnershipLocked(self:));
 RE_EXTERN void RENetworkComponentLockEntity(REComponentRef) NS_SWIFT_NAME(Component.network_lockEntity(self:));

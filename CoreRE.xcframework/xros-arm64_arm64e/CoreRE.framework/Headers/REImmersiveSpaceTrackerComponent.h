@@ -2,6 +2,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-RE_EXTERN REComponentTypeClass REImmersiveSpaceTrackerComponentGetComponentType(void) NS_SWIFT_NAME(getter:ComponentTypeClass.immersiveSpaceTracker());
+RE_EXTERN REComponentClassPtr REImmersiveSpaceTrackerComponentGetComponentType(void) NS_SWIFT_NAME(getter:Component.ClassPtr.immersiveSpaceTracker());
 
 NS_ASSUME_NONNULL_END
