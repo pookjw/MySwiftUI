@@ -1,4 +1,4 @@
-private import CoreRE
+internal import CoreRE
 
 @safe final class BuiltInComponentRegistry {
     private var componentInfoByType: [ObjectIdentifier : ComponentInfo] = Dictionary()
@@ -32,11 +32,11 @@ private import CoreRE
     }
 }
 
-@safe struct ComponentInfo : CustomStringConvertible {
-    let bundleIdentifier: String // 0x0
-    let type: any MyRealityFoundation::Component.Type // 0x10
+@safe @_spi(Internal) public struct ComponentInfo : CustomStringConvertible {
+    public let bundleIdentifier: String // 0x0
+    public let type: any MyRealityFoundation::Component.Type // 0x10
     
-    var reComponentType: Any? {
+    public var reComponentType: Any? {
         guard let _reComponentType else {
             return nil
         }
@@ -44,16 +44,16 @@ private import CoreRE
         return _reComponentType
     }
     
-    var reComponentClass: OpaquePointer? {
+    public var reComponentClass: OpaquePointer? {
         return unsafe unsafeBitCast(self._reComponentClass, to: OpaquePointer?.self)
     }
     
     private let _reComponentType: CoreRE::ComponentType? // 0x20
     private let _reComponentClass: CoreRE::Component.ClassPtr? // 0x28
-    let access: ComponentInfo.Access // 0x30
-    let availability: ComponentInfo.Availability // 0x38
+    public let access: ComponentInfo.Access // 0x30
+    public let availability: ComponentInfo.Availability // 0x38
     
-    init(
+    public init(
         bundleIdentifier: String,
         type: any MyRealityFoundation::Component.Type,
         reComponentClass: OpaquePointer?,
@@ -68,7 +68,24 @@ private import CoreRE
         self.availability = availability
     }
     
-    var description: String {
+    @inline(always) // 원래 없음
+    init(
+        bundleIdentifier: String,
+        type: any MyRealityFoundation::Component.Type,
+        reComponentType: CoreRE::ComponentType?,
+        reComponentClass: CoreRE::Component.ClassPtr?,
+        access: ComponentInfo.Access,
+        availability: ComponentInfo.Availability
+    ) {
+        self.bundleIdentifier = bundleIdentifier
+        self.type = type
+        self._reComponentType = reComponentType
+        self._reComponentClass = reComponentClass
+        self.access = access
+        self.availability = availability
+    }
+    
+    public var description: String {
         var result = "ComponentInfo"
         result.append("(type: \(_typeName(self.type, qualified: false)), access: \(self.access), \(self.availability))")
         return result
@@ -76,18 +93,18 @@ private import CoreRE
 }
 
 extension ComponentInfo {
-    enum Access : Hashable {
+    public enum Access : Hashable, Sendable {
         case `internal`
         case spi
         case api
     }
     
-    struct Availability : CustomStringConvertible {
-        let introduced: [ComponentInfo.SupportedPlatform]
-        let deprecated: [ComponentInfo.SupportedPlatform]?
-        let obsoleted: [ComponentInfo.SupportedPlatform]?
+    public struct Availability : CustomStringConvertible, Sendable {
+        public let introduced: [ComponentInfo.SupportedPlatform]
+        public let deprecated: [ComponentInfo.SupportedPlatform]?
+        public let obsoleted: [ComponentInfo.SupportedPlatform]?
         
-        init(
+        public init(
             introduced: [ComponentInfo.SupportedPlatform],
             deprecated: [ComponentInfo.SupportedPlatform]?,
             obsoleted: [ComponentInfo.SupportedPlatform]?
@@ -97,7 +114,7 @@ extension ComponentInfo {
             self.obsoleted = obsoleted
         }
         
-        var description: String {
+        public var description: String {
             let introducedDescription = "introduced: \(self.introduced.description)"
             
             let deprecatedDescription: String?
@@ -130,97 +147,97 @@ extension ComponentInfo {
         }
     }
     
-    struct Platform : Equatable, CustomStringConvertible {
-        let name: String
-        let oldestSupportedVersion: ComponentInfo.PlatformVersion
+    public struct Platform : Equatable, CustomStringConvertible, Sendable {
+        public let name: String
+        public let oldestSupportedVersion: ComponentInfo.PlatformVersion
         
-        static let macOS = ComponentInfo.Platform(
+        public static let macOS = ComponentInfo.Platform(
             name: "macos",
             oldestSupportedVersion: ComponentInfo.PlatformVersion("10.15")
         )
         
-        static let macCatalyst = ComponentInfo.Platform(
+        public static let macCatalyst = ComponentInfo.Platform(
             name: "maccatalyst",
             oldestSupportedVersion: ComponentInfo.PlatformVersion("13.0")
         )
         
-        static let iOS = ComponentInfo.Platform(
+        public static let iOS = ComponentInfo.Platform(
             name: "ios",
             oldestSupportedVersion: ComponentInfo.PlatformVersion("13.0")
         )
         
-        static let xrOS = ComponentInfo.Platform(
+        public static let xrOS = ComponentInfo.Platform(
             name: "xros",
             oldestSupportedVersion: ComponentInfo.PlatformVersion("1.0")
         )
         
-        static let tvOS = ComponentInfo.Platform(
+        public static let tvOS = ComponentInfo.Platform(
             name: "tvos",
             oldestSupportedVersion: ComponentInfo.PlatformVersion("26.0")
         )
         
-        var description: String {
+        public var description: String {
             return self.name
         }
     }
     
-    struct SupportedPlatform : Equatable, CustomStringConvertible {
-        static func macOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
+    public struct SupportedPlatform : Equatable, CustomStringConvertible, Sendable {
+        public static func macOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
             return ComponentInfo.SupportedPlatform(
                 platform: .macOS,
                 version: version
             )
         }
         
-        static func macCatalyst(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
+        public static func macCatalyst(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
             return ComponentInfo.SupportedPlatform(
                 platform: .macCatalyst,
                 version: version
             )
         }
         
-        static func iOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
+        public static func iOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
             return ComponentInfo.SupportedPlatform(
                 platform: .iOS,
                 version: version
             )
         }
         
-        static func visionOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
+        public static func visionOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
             return ComponentInfo.SupportedPlatform(
                 platform: .xrOS,
                 version: version
             )
         }
         
-        static func tvOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
+        public static func tvOS(_ version: ComponentInfo.PlatformVersion) -> ComponentInfo.SupportedPlatform {
             return ComponentInfo.SupportedPlatform(
                 platform: .tvOS,
                 version: version
             )
         }
         
-        let platform: ComponentInfo.Platform
-        let version: ComponentInfo.PlatformVersion
+        public let platform: ComponentInfo.Platform
+        public let version: ComponentInfo.PlatformVersion
         
-        init(platform: ComponentInfo.Platform, version: ComponentInfo.PlatformVersion) {
+        public init(platform: ComponentInfo.Platform, version: ComponentInfo.PlatformVersion) {
             self.platform = platform
             self.version = version
         }
         
-        var description: String {
+        public var description: String {
             return "\(self.platform) \(self.version)"
         }
     }
     
-    struct PlatformVersion : Comparable, ExpressibleByStringLiteral, CustomStringConvertible {
+    public struct PlatformVersion : Comparable, ExpressibleByStringLiteral, CustomStringConvertible, Sendable {
         private let version: ComponentInfo.Version
         
-        init(stringLiteral value: String) {
+        public init(stringLiteral value: String) {
             self.init(value)
         }
         
-        init(_ value: String) {
+        public init(_ value: String) {
             /*
              value -> x0/x1 -> x21/x20
              return pointer -> x8 -> x19
@@ -248,7 +265,7 @@ extension ComponentInfo {
             }
         }
         
-        var versionString: String {
+        public var versionString: String {
             var result = "\(self.major).\(self.minor)"
             
             if self.patch != 0 {
@@ -258,31 +275,31 @@ extension ComponentInfo {
             return result
         }
         
-        var major: Int {
+        public var major: Int {
             return self.version.major
         }
         
-        var minor: Int {
+        public var minor: Int {
             return self.version.minor
         }
         
-        var patch: Int {
+        public var patch: Int {
             return self.version.patch
         }
         
-        var description: String {
+        public var description: String {
             return self.version.description
         }
         
-        static func < (lhs: ComponentInfo.PlatformVersion, rhs: ComponentInfo.PlatformVersion) -> Bool {
+        public static func < (lhs: ComponentInfo.PlatformVersion, rhs: ComponentInfo.PlatformVersion) -> Bool {
             return lhs.version < rhs.version
         }
         
-        static let unknown = ComponentInfo.PlatformVersion("0.0.0")
+        public static let unknown = ComponentInfo.PlatformVersion("0.0.0")
     }
     
-    struct Version : Comparable, CustomStringConvertible {
-        static func < (lhs: ComponentInfo.Version, rhs: ComponentInfo.Version) -> Bool {
+    public struct Version : Comparable, CustomStringConvertible, Sendable {
+        public static func < (lhs: ComponentInfo.Version, rhs: ComponentInfo.Version) -> Bool {
             let lhsArray = [lhs.major, lhs.minor, lhs.patch]
             let rhsArray = [rhs.major, rhs.minor, rhs.patch]
             
@@ -293,15 +310,15 @@ extension ComponentInfo {
             return lhsArray.lexicographicallyPrecedes(rhsArray)
         }
         
-        var description: String {
+        public var description: String {
             return "\(self.major).\(self.minor).\(self.patch)"
         }
         
-        let major: Int
-        let minor: Int
-        let patch: Int
+        public let major: Int
+        public let minor: Int
+        public let patch: Int
         
-        init(_ major: Int, _ minor: Int, _ patch: Int) {
+        public init(_ major: Int, _ minor: Int, _ patch: Int) {
             self.major = major
             self.minor = minor
             self.patch = patch

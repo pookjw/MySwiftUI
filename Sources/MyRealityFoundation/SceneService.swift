@@ -403,16 +403,17 @@ private import Foundation
             access: ComponentInfo.Access,
             availability: ComponentInfo.Availability
         ) {
-            let componentClass: OpaquePointer?
+            let componentClass: CoreRE::Component.ClassPtr?
             if let reComponentClass {
-                unsafe componentClass = unsafe unsafeBitCast(reComponentClass, to: OpaquePointer.self)
+                componentClass = reComponentClass
             } else {
-                unsafe componentClass = unsafe self.componentTypeToComponentClass(type)
+                componentClass = unsafe unsafeBitCast(self.componentTypeToComponentClass(type), to: CoreRE::Component.ClassPtr?.self)
             }
             
-            let componentInfo = unsafe ComponentInfo(
+            let componentInfo = ComponentInfo(
                 bundleIdentifier: bundleIdentifier,
                 type: type,
+                reComponentType: reComponentType,
                 reComponentClass: componentClass,
                 access: access,
                 availability: availability
@@ -421,7 +422,6 @@ private import Foundation
             // inlined
             self.builtinComponentRegistry.register(componentInfo)
             
-            // <+5032>
             if let reComponentType {
                 _ = CoreRE::Component.ClassPtr.fromType(reComponentType)
                 self.registerBuiltInType(type, typeEnum: reComponentType)
@@ -457,10 +457,952 @@ private import Foundation
         )
         
         // <+5472>
-        // TODO
+        register(
+            type: PointLightComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.pointLight,
+            reComponentType: .pointLight,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_9,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: CollisionComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.collider,
+            reComponentType: .collider,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: DirectionalLightComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.directionalLight,
+            reComponentType: .directionalLight,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_9,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: DirectionalLightComponent.Shadow.self,
+            reComponentClass: CoreRE::Component.ClassPtr.shadowMap,
+            reComponentType: .shadowMap,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ModelComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.mesh,
+            reComponentType: .mesh,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: PerspectiveCameraComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.perspectiveCamera,
+            reComponentType: .perspectiveCamera,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: SpotLightComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.spotLight,
+            reComponentType: .spotLight,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_9,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: SpotLightComponent.Shadow.self,
+            reComponentClass: nil,
+            reComponentType: nil,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: SynchronizationComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.network,
+            reComponentType: .network,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: Transform.self,
+            reComponentClass: CoreRE::Component.ClassPtr.transform,
+            reComponentType: .transform,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AnchoringComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.anchoring,
+            reComponentType: .anchoring,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_3,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: __EntityInfoComponent.self,
+            reComponentClass: nil,
+            reComponentType: nil,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AREnvironmentProbeComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.arEnvironmentProbe,
+            reComponentType: .arEnvironmentProbe,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: VideoComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.video,
+            reComponentType: .video,
+            access: .internal,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: VFXComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.vfxScene,
+            reComponentType: .vfxScene,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: __AccessibilityComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.accessibility,
+            reComponentType: .accessibility,
+            access: .internal,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_2,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: __AmbientLightComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.ambientLight,
+            reComponentType: .ambientLight,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: RKARSegmentationComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.arSegmentation,
+            reComponentType: .arSegmentation,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_1,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ModelDebugOptionsComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.debugMesh,
+            reComponentType: .debugMesh,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_5,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: CharacterControllerComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.characterController,
+            reComponentType: .characterController,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_6,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: CharacterControllerStateComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.characterControllerState,
+            reComponentType: .characterControllerState,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_6,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: __ImageBasedLightComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.imageBasedLight,
+            reComponentType: .imageBasedLight,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_6,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: __SkyboxComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.skybox,
+            reComponentType: .skybox,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_6,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: EventSubscriptionComponent.self,
+            reComponentClass: nil,
+            reComponentType: nil,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_6,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: SceneOriginComponent.self,
+            reComponentClass: nil,
+            reComponentType: nil,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_6,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AccessibilityComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.accessibility,
+            reComponentType: .accessibility,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_7,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: VideoPlayerComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.videoPlayer,
+            reComponentType: .videoPlayer,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: PhysicsSimulationComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.physicsSimulation,
+            reComponentType: .physicsSimulation,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ImageBasedLightComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.imageBasedLight,
+            reComponentType: .imageBasedLight,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ImageBasedLightReceiverComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.imageBasedLightReceiver,
+            reComponentType: .imageBasedLightReceiver,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: DirectionalLightComponent.Shadow.self,
+            reComponentClass: CoreRE::Component.ClassPtr.directionalLightShadowMap,
+            reComponentType: .directionalLightShadowMap,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: SpotLightComponent.Shadow.self,
+            reComponentClass: CoreRE::Component.ClassPtr.spotLightShadowMap,
+            reComponentType: .spotLightShadowMap,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: OpacityComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.hierarchicalFade,
+            reComponentType: .hierarchicalFade,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: PointLightComponent.Shadow.self,
+            reComponentClass: CoreRE::Component.ClassPtr.pointLightShadowMap,
+            reComponentType: .pointLightShadowMap,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ModelSortGroupComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.meshSorting,
+            reComponentType: .meshSorting,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AdaptiveResolutionComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.adaptiveResolution,
+            reComponentType: .adaptiveResolution,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ChannelAudioComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.channelAudio,
+            reComponentType: .channelAudio,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AmbientAudioComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.ambientAudio,
+            reComponentType: .ambientAudio,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: SpatialAudioComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.spatialAudio,
+            reComponentType: .spatialAudio,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AudioMixGroupsComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.audioMixGroups,
+            reComponentType: .audioMixGroups,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ParticleEmitterComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.vfxEmitter,
+            reComponentType: .vfxEmitter,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: PortalComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.portal,
+            reComponentType: .portal,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: WorldComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.worldRoot,
+            reComponentType: .worldRoot,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: TextComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.text,
+            reComponentType: .text,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: GroundingShadowComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.groundingShadow,
+            reComponentType: .groundingShadow,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: InputTargetComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.inputTarget,
+            reComponentType: .inputTarget,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: HoverEffectComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.remoteEffects,
+            reComponentType: .remoteEffects,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AcousticModelComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.acousticMesh,
+            reComponentType: .acousticMesh,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: SceneUnderstandingComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.sceneUnderstanding,
+            reComponentType: .sceneUnderstanding,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_4,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: __CGContextComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.cgContext,
+            reComponentType: .cgContext,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_8,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: GeometricPinsComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.pin,
+            reComponentType: .pin,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: PhysicsJointsComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.physicsJoints,
+            reComponentType: .physicsJoints,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: OrthographicCameraComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.orthographicCamera,
+            reComponentType: .orthographicCamera,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ProjectiveTransformCameraComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.customMatrixCamera,
+            reComponentType: .customMatrixCamera,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: VirtualEnvironmentProbeComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.virtualEnvironmentProbe,
+            reComponentType: .virtualEnvironmentProbe,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: IKComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.ikParameters,
+            reComponentType: .ikParameters,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: SkeletalPosesComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.skeletalPose,
+            reComponentType: .skeletalPose,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: BlendShapeWeightsComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.blendShapeWeights,
+            reComponentType: .blendShapeWeights,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ReferenceComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.reference,
+            reComponentType: .reference,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: EnvironmentLightingConfigurationComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.environmentLightingConfiguration,
+            reComponentType: .environmentLightingConfiguration,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: DynamicLightShadowComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.dynamicLightShadow,
+            reComponentType: .dynamicLightShadow,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ReverbComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.reverb,
+            reComponentType: .reverb,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ForceEffectComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.forceEffect,
+            reComponentType: .forceEffect,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AudioLibraryComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.audioLibrary,
+            reComponentType: .audioLibrary,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: BillboardComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.billboard,
+            reComponentType: .billboard,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AnimationLibraryComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.animationLibrary,
+            reComponentType: .animationLibrary,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_10,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: DockingRegionComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.dockingRegion,
+            reComponentType: .dockingRegion,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_11,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ClippingPrimitiveComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.clippingPrimitive,
+            reComponentType: .clippingPrimitive,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_12,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: MeshInstancesComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.meshPartInstances,
+            reComponentType: .meshPartInstances,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_13,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AttachedTransformComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.attachedTransform,
+            reComponentType: .attachedTransform,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_13,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ImagePresentationComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.imagePresentation,
+            reComponentType: .imagePresentation,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_13,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: EnvironmentBlendingComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.occlusion,
+            reComponentType: .environmentBlending,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_13,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ManipulationComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.transformInteraction,
+            reComponentType: .transformInteraction,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_13,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ManipulationComponent.HitTarget.self,
+            reComponentClass: nil,
+            reComponentType: nil,
+            access: .api,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_13,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: ClippingExceptionComponent.self,
+            reComponentClass: nil,
+            reComponentType: nil,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_13,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
+        
+        register(
+            type: AudioGroupPlaybackComponent.self,
+            reComponentClass: CoreRE::Component.ClassPtr.audioGroupPlayback,
+            reComponentType: .audioGroupPlayback,
+            access: .spi,
+            availability: ComponentInfo.Availability(
+                introduced: platforms_13,
+                deprecated: nil,
+                obsoleted: nil
+            )
+        )
         
         // <+22232>
-        assertUnimplemented()
+//        if let registryClass = NSClassFromString("_RealityKit_SwiftUI.__RealityKitOverlayRegistry") {
+        if let registryClass = NSClassFromString("_MyRealityKit_MySwiftUI.__RealityKitOverlayRegistry") as? ExternalBuiltInComponentRegistry.Type {
+            let bundleIdentifier = Bundle(for: registryClass).bundleIdentifier ?? "com.apple._RealityKit_SwiftUI"
+            
+            registryClass.registerBuiltInComponents { type, reComponentClass, reComponentType, access, availability in
+                // $s17RealityFoundation12SceneManagerC25registerBuiltInComponentsyyF0E8ExternalL_4type16reComponentClass0kL4Type6access12availabilityy0A3Kit0L0_pXp_So011REComponentM3PtraSgSo0rN0VSgAA0L4InfoV6AccessOAT12AvailabilityVtFTA
+                let componentClass: CoreRE::Component.ClassPtr?
+                if let reComponentClass {
+                    componentClass = reComponentClass
+                } else {
+                    componentClass = unsafe unsafeBitCast(self.componentTypeToComponentClass(type), to: CoreRE::Component.ClassPtr?.self)
+                }
+                
+                let componentInfo = ComponentInfo(
+                    bundleIdentifier: bundleIdentifier,
+                    type: type,
+                    reComponentType: reComponentType,
+                    reComponentClass: componentClass,
+                    access: access,
+                    availability: availability
+                )
+                
+                // inlined
+                self.builtinComponentRegistry.register(componentInfo)
+                
+                if let reComponentType {
+                    _ = CoreRE::Component.ClassPtr.fromType(reComponentType)
+                    self.registerBuiltInType(type, typeEnum: reComponentType)
+                }
+            }
+        }
+        
+        // <+22488>
     }
     
     func registerObservableComponents() {
