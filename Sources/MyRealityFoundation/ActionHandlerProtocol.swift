@@ -54,6 +54,22 @@ extension ActionHandlerProtocol {
     public static func register(_ creationHandler: @escaping (Self.EventType) -> (any ActionHandlerProtocol)?) {
         assertUnimplemented()
     }
+    
+    static func __register(engine: __Engine?, _: (ActionEvent<Self.ActionType>) -> (any ActionHandlerProtocol)?) {
+        assertUnimplemented()
+    }
+    
+    static func __registerCommon(engine: __Engine?, _: (ActionEvent<Self.ActionType>) -> (any ActionHandlerProtocol)?) {
+        assertUnimplemented()
+    }
+    
+    static func subscribe(_: __Engine?) {
+        assertUnimplemented()
+    }
+    
+    static func actionHandler(_: ActionEvent<Self.ActionType>) -> Self? {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)

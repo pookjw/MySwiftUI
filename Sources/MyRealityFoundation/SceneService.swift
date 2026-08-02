@@ -23,8 +23,8 @@ private import Observation
     private(set) var builtinComponentRegistry: BuiltInComponentRegistry // 0x10
     let coreECSManager: __REECSManagerRef // 0x18
     var scenes: [MyRealityFoundation::Scene] = [] // 0x20
-    private var builtInComponentTypeToClassTable: [ObjectIdentifier : CoreRE::Component.ClassPtr] = Dictionary() // 0x28
-    private var builtInComponentClassToTypeTable: [CoreRE::Component.ClassPtr : any Component.Type] = Dictionary() // 0x30
+    private var builtInComponentTypeToClassTable: [ObjectIdentifier : CoreRE::Component.ClassPtr] = [:] // 0x28
+    private var builtInComponentClassToTypeTable: [CoreRE::Component.ClassPtr : any Component.Type] = [:] // 0x30
     
     func append(scene: MyRealityFoundation::Scene) {
         assertUnimplemented()

@@ -1,7 +1,7 @@
 // 65F9A3124753291160F9C93A735AF52F
 internal import Foundation
 
-final class __REAssetManager {
+@safe final class __REAssetManager {
     private(set) lazy var mainBundle: __REAssetBundle = {
         assertUnimplemented()
     }()
@@ -35,7 +35,7 @@ extension __REAssetManager : __REAssetService {
     }
     
     var __handle: OpaquePointer {
-        assertUnimplemented()
+        return self.handle
     }
     
     func __getDependencies(asset: __REAsset) -> [__REAsset] {

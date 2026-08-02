@@ -172,7 +172,7 @@ struct SizeThatFitsRule<GeometryMeasurer : ViewGraphGeometryMeasurer>: StatefulR
                 // <+768>
             } else {
                 // <+288>
-                self.value = Dictionary()
+                self.value = [:]
                 // <+716>
                 // <+768>
             }
@@ -202,13 +202,13 @@ struct SizeThatFitsRule<GeometryMeasurer : ViewGraphGeometryMeasurer>: StatefulR
                 let oldValue: [GeometryMeasurer.Proposal: GeometryMeasurer.Size]
                 if !hasValue {
                     // <+1184>
-                    oldValue = Dictionary()
+                    oldValue = [:]
                 } else {
                     oldValue = self.value
                 }
                 
                 // <+1248>
-                var newValue: [GeometryMeasurer.Proposal: GeometryMeasurer.Size] = Dictionary()
+                var newValue: [GeometryMeasurer.Proposal: GeometryMeasurer.Size] = [:]
                 
                 newValue = oldValue.reduce(into: newValue) { partialResult, incoming in
                     // $s7SwiftUI16SizeThatFitsRuleV11updateValueyyFySDy8ProposalQz0C0QzGz_AFtXEfU1_TA
@@ -259,7 +259,7 @@ struct SizeThatFitsRule<GeometryMeasurer : ViewGraphGeometryMeasurer>: StatefulR
             } else {
                 // <+508>
                 if !hasValue {
-                    self.value = Dictionary()
+                    self.value = [:]
                     // <+768>
                 } else {
                     // <+768>

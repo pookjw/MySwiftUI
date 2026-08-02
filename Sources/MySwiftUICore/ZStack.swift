@@ -119,11 +119,11 @@ extension _ZStackLayout : DerivedSpatialLayout {
     }
     
     nonisolated func makeCache(subviews: SpatialLayoutSubviews) -> ZStackSpatialLayout.Cache3D {
-        return ZStackSpatialLayout.Cache3D(partialPlacements: Dictionary())
+        return ZStackSpatialLayout.Cache3D(partialPlacements: [:])
     }
     
     nonisolated func updateCache(_ cache: inout ZStackSpatialLayout.Cache3D, subviews: SpatialLayoutSubviews) {
-        cache = ZStackSpatialLayout.Cache3D(partialPlacements: Dictionary())
+        cache = ZStackSpatialLayout.Cache3D(partialPlacements: [:])
     }
     
     nonisolated func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout ZStackSpatialLayout.Cache3D) -> Size3D {
@@ -933,11 +933,11 @@ extension ZStackLayout3D : DerivedSpatialLayout {
     }
     
     func makeCache(subviews: SpatialLayoutSubviews) -> Self.Cache3D {
-        return ZStackSpatialLayout.Cache3D(partialPlacements: Dictionary())
+        return ZStackSpatialLayout.Cache3D(partialPlacements: [:])
     }
     
     func updateCache(_ cache: inout Self.Cache3D, subviews: SpatialLayoutSubviews) {
-        cache = ZStackSpatialLayout.Cache3D(partialPlacements: Dictionary())
+        cache = ZStackSpatialLayout.Cache3D(partialPlacements: [:])
     }
     
     func volumeThatFits(proposal: _ProposedSize3D, subviews: SpatialLayoutSubviews, cache: inout Self.Cache3D) -> Size3D {

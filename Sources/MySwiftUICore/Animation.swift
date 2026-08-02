@@ -1282,7 +1282,7 @@ public struct AnimationState<Value : VectorArithmetic> {
     private var storage: [ObjectIdentifier : Any]
     
     public init() {
-        storage = Dictionary()
+        storage = [:]
     }
     
     public subscript<K>(key: K.Type) -> K.Value where K : AnimationStateKey {

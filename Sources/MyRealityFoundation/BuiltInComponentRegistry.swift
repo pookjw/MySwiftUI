@@ -1,8 +1,8 @@
 internal import CoreRE
 
 @safe final class BuiltInComponentRegistry {
-    private var componentInfoByType: [ObjectIdentifier : ComponentInfo] = Dictionary()
-    private var componentInfoByREComponentClass: [OpaquePointer : ComponentInfo] = unsafe Dictionary()
+    private var componentInfoByType: [ObjectIdentifier : ComponentInfo] = [:]
+    private var componentInfoByREComponentClass: [OpaquePointer : ComponentInfo] = unsafe [:]
     
     func register(_ info: ComponentInfo) {
         self.componentInfoByType[ObjectIdentifier(info.type)] = info

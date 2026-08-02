@@ -35,6 +35,10 @@ extension EntityAction {
     @preconcurrency @MainActor public static func unsubscribeAll() {
         assertUnimplemented()
     }
+    
+    static func __register() {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
@@ -44,6 +48,10 @@ extension EntityAction where Self : Decodable, Self : Encodable, Self.EventParam
     }
     
     @preconcurrency @MainActor public static func subscribe(to eventType: ActionEventType, _ handler: @escaping @MainActor (ActionEvent<Self>) -> Void) {
+        assertUnimplemented()
+    }
+    
+    static func __registerCodable() {
         assertUnimplemented()
     }
 }

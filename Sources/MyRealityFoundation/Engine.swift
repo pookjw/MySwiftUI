@@ -323,6 +323,23 @@ fileprivate let builtInComponentsInitializer: Void = {
     }
     
     final func __registerREKitBuiltInActions() {
+        PlayAnimationAction.__register()
+        PlayAnimationAction.__registerCodable()
+        
+        PlayAnimationActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE013PlayAnimationJ0VGcfU_
+            assertUnimplemented()
+        }
+        
+        NotificationAction.__register()
+        NotificationAction.__registerCodable()
+        
+        NotificationActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE012NotificationJ0VGcfU0_
+            assertUnimplemented()
+        }
+        
+        // TODO
         assertUnimplemented()
     }
     
