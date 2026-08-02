@@ -1424,7 +1424,7 @@ private import Observation
         CoreRE::ObservationKeyPathTable.entityModifyChildrenKeyPath = CoreRE::ObservationKeyPathTable.Value(
             subjectType: MyRealityFoundation::Entity.self,
             memberType: MyRealityFoundation::Entity.ChildCollection.self,
-            keyPath: \MyRealityFoundation::Entity.observable.children
+            keyPath: \MyRealityFoundation::Entity.children
         )
         
         let transformComponentPtr = unsafe unsafeBitCast(
