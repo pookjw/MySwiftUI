@@ -3,31 +3,31 @@ struct PlayAnimationActionHandler : ActionHandlerProtocol {
     
     typealias ActionType = PlayAnimationAction
     
-    mutating func actionStarted(event: Self.EventType) {
+    func actionStarted(event: Self.EventType) {
         assertUnimplemented()
     }
     
-    mutating func actionUpdated(event: Self.EventType) {
+    func actionUpdated(event: Self.EventType) {
         assertUnimplemented()
     }
     
-    mutating func actionEnded(event: Self.EventType) {
+    func actionEnded(event: Self.EventType) {
         assertUnimplemented()
     }
     
-    mutating func actionSkipped(event: Self.EventType) {
+    func actionSkipped(event: Self.EventType) {
         assertUnimplemented()
     }
     
-    mutating func actionPaused(event: Self.EventType) {
+    func actionPaused(event: Self.EventType) {
         assertUnimplemented()
     }
     
-    mutating func actionResumed(event: Self.EventType) {
+    func actionResumed(event: Self.EventType) {
         assertUnimplemented()
     }
     
-    mutating func actionTerminated(event: Self.EventType) {
+    func actionTerminated(event: Self.EventType) {
         assertUnimplemented()
     }
     

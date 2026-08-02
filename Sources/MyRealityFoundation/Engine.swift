@@ -339,8 +339,187 @@ fileprivate let builtInComponentsInitializer: Void = {
             assertUnimplemented()
         }
         
-        // TODO
-        assertUnimplemented()
+        SetEntityEnabledAction.__register()
+        SetEntityEnabledAction.__registerCodable()
+        SetEntityEnabledActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE016SetEntityEnabledJ0VGcfU1_
+            assertUnimplemented()
+        }
+        
+        ImpulseAction.__register()
+        ImpulseAction.__registerCodable()
+        ImpulseActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE07ImpulseJ0VGcfU2_
+            assertUnimplemented()
+        }
+        
+        OrbitEntityAction.__register()
+        OrbitEntityAction.__registerCodable()
+        OrbitEntityActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE011OrbitEntityJ0VGcfU3_
+            assertUnimplemented()
+        }
+        
+        SpinAction.__register()
+        SpinAction.__registerCodable()
+        SpinActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE04SpinJ0VGcfU4_
+            assertUnimplemented()
+        }
+        
+        BillboardAction.__register()
+        BillboardAction.__registerCodable()
+        BillboardActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE09BillboardJ0VGcfU5_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<Float>.__register()
+        FromToByAction<Float>.__registerCodable()
+        FromToByActionHandler<Float>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0VySfGGcfU6_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<Double>.__register()
+        FromToByAction<Double>.__registerCodable()
+        FromToByActionHandler<Double>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0VySdGGcfU7_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<SIMD2<Float>>.__register()
+        FromToByAction<SIMD2<Float>>.__registerCodable()
+        FromToByActionHandler<SIMD2<Float>>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0Vys5SIMD2VySfGGGcfU8_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<SIMD3<Float>>.__register()
+        FromToByAction<SIMD3<Float>>.__registerCodable()
+        FromToByActionHandler<SIMD3<Float>>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0Vys5SIMD3VySfGGGcfU9_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<SIMD4<Float>>.__register()
+        FromToByAction<SIMD4<Float>>.__registerCodable()
+        FromToByActionHandler<SIMD4<Float>>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0Vys5SIMD4VySfGGGcfU10_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<simd_quatf>.__register()
+        FromToByAction<simd_quatf>.__registerCodable()
+        FromToByActionHandler<simd_quatf>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0VySo10simd_quatfaGGcfU11_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<Transform>.__register()
+        FromToByAction<Transform>.__registerCodable()
+        FromToByActionHandler<Transform>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0VyAA9TransformVGGcfU12_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<JointTransforms>.__register()
+        FromToByAction<JointTransforms>.__registerCodable()
+        FromToByActionHandler<JointTransforms>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0VyAE15JointTransformsVGGcfU13_
+            assertUnimplemented()
+        }
+        
+        FromToByAction<BlendShapeWeights>.__register()
+        FromToByAction<BlendShapeWeights>.__registerCodable()
+        FromToByActionHandler<BlendShapeWeights>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE08FromToByJ0VyAE17BlendShapeWeightsVGGcfU14_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<Float>.__register()
+        SetEntityPropertyAction<Float>.__registerCodable()
+        SetEntityPropertyActionHandler<Float>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0VySfGGcfU15_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<Double>.__register()
+        SetEntityPropertyAction<Double>.__registerCodable()
+        SetEntityPropertyActionHandler<Double>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0VySdGGcfU16_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<SIMD2<Float>>.__register()
+        SetEntityPropertyAction<SIMD2<Float>>.__registerCodable()
+        SetEntityPropertyActionHandler<SIMD2<Float>>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0Vys5SIMD2VySfGGGcfU17_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<SIMD3<Float>>.__register()
+        SetEntityPropertyAction<SIMD3<Float>>.__registerCodable()
+        SetEntityPropertyActionHandler<SIMD3<Float>>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0Vys5SIMD3VySfGGGcfU18_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<SIMD4<Float>>.__register()
+        SetEntityPropertyAction<SIMD4<Float>>.__registerCodable()
+        SetEntityPropertyActionHandler<SIMD4<Float>>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0Vys5SIMD4VySfGGGcfU19_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<simd_quatf>.__register()
+        SetEntityPropertyAction<simd_quatf>.__registerCodable()
+        SetEntityPropertyActionHandler<simd_quatf>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0VySo10simd_quatfaGGcfU20_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<Int>.__register()
+        SetEntityPropertyAction<Int>.__registerCodable()
+        SetEntityPropertyActionHandler<Int>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0VySiGGcfU21_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<Bool>.__register()
+        SetEntityPropertyAction<Bool>.__registerCodable()
+        SetEntityPropertyActionHandler<Bool>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0VySbGGcfU22_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<String>.__register()
+        SetEntityPropertyAction<String>.__registerCodable()
+        SetEntityPropertyActionHandler<String>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0VySSGGcfU23_
+            assertUnimplemented()
+        }
+        
+        SetEntityPropertyAction<Transform>.__register()
+        SetEntityPropertyAction<Transform>.__registerCodable()
+        SetEntityPropertyActionHandler<Transform>.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE017SetEntityPropertyJ0VyAA9TransformVGGcfU24_
+            assertUnimplemented()
+        }
+        
+        PlayAudioAction.__register()
+        PlayAudioAction.__registerCodable()
+        PlayAudioActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE09PlayAudioJ0VGcfU25_
+            assertUnimplemented()
+        }
+        
+        EmphasizeAction.__register()
+        EmphasizeAction.__registerCodable()
+        EmphasizeActionHandler.__registerCommon(engine: self) { _ in
+            // $s10RealityKit8__EngineC29__registerREKitBuiltInActionsyyF0A10Foundation21ActionHandlerProtocol_pSgAE0J5EventVyAE09EmphasizeJ0VGcfU26_
+            assertUnimplemented()
+        }
     }
     
     final func __registerREKitBuiltInForceEffects() {
