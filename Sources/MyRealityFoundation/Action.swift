@@ -36,7 +36,32 @@ extension EntityAction {
         assertUnimplemented()
     }
     
-    static func __register() {
+    @preconcurrency @MainActor static func __register() {
+        let typeName = _typeName(self, qualified: true)
+        
+        if let existing = unsafe AnimationResource.actionTypeMap[typeName] {
+            if existing != self {
+                preconditionFailure("Action type name \(typeName) already registered for type \(String(describing: existing))")
+            }
+            
+            return
+        }
+        
+        unsafe AnimationResource.actionTypeMap[typeName] = self
+    }
+    
+    @preconcurrency @MainActor static func __subscribe(
+        to event: ActionEventType,
+        _ engine: __Engine?,
+        _ block: (ActionEvent<Self>) -> Void
+    ) {
+        assertUnimplemented()
+    }
+    
+    @preconcurrency @MainActor static func __unsubscribe(
+        from event: ActionEventType,
+        _ engine: __Engine?
+    ) {
         assertUnimplemented()
     }
 }
@@ -51,7 +76,18 @@ extension EntityAction where Self : Decodable, Self : Encodable, Self.EventParam
         assertUnimplemented()
     }
     
-    static func __registerCodable() {
-        assertUnimplemented()
+    @preconcurrency @MainActor static func __registerCodable() {
+        let typeName = _typeName(self, qualified: true)
+        
+        if let existing = unsafe AnimationResource.codableActionTypeMap[typeName] {
+            if existing.parameter != self {
+                preconditionFailure("Action type name \(typeName) already registered for type \(String(describing: existing))")
+            }
+            
+            return
+        }
+        
+        // <+200>
+        unsafe AnimationResource.codableActionTypeMap[typeName] = (action: self, parameter: EventParameterType.self)
     }
 }

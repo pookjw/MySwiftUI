@@ -2,6 +2,12 @@ public import Foundation
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class AnimationResource : Resource {
+    static nonisolated(unsafe) var codableActionTypeMap: [String : (action: any (EntityAction & Codable).Type, parameter: any Codable.Type)] = [:]
+//    static nonisolated(unsafe) var actionSubscriptions: [ObjectIdentifier : [any ActionEventType : RESubscriptionHandle]] = [:]
+    static nonisolated(unsafe) var actionTypeMap: [String : any EntityAction.Type] = [:]
+    static nonisolated(unsafe) var actionHandlerCreators: [ObjectIdentifier : (AnimationPlaybackController, ActionEventData, Bool, Double, Double, __Engine, UnsafeRawPointer, MyRealityFoundation::Entity?) -> (any ActionHandlerProtocol)?] = unsafe [:]
+    static nonisolated(unsafe) var actionHandlers: [UnsafeRawPointer : any ActionHandlerProtocol] = unsafe [:]
+    
     @MainActor @preconcurrency public var __coreAsset: __AssetRef {
         get {
             assertUnimplemented()
