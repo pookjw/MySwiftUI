@@ -1,7 +1,13 @@
+// E37E9A4A00F7A4D3DDD061C85B1FFBD5
 public import Foundation
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public class __RealityFileURLResolver {
+    private(set) var assetService: any __REAssetService // 0x10
+    private var resolvedURLByAssetPathPrefixQueue: DispatchQueue // 0x38
+    private var resolvedURLByAssetPathPrefix: [String : String] // 0x40
+    private var extraUrlsToDeleteDuringUnregistration: [URL] // 0x48
+    
     @available(*, deprecated, message: "Don't use this variable")
     public static var weakShared: __RealityFileURLResolver? {
         get {
@@ -23,8 +29,14 @@ public class __RealityFileURLResolver {
         assertUnimplemented()
     }
     
+    @safe static nonisolated(unsafe) let instances = AssetServiceScopedRegistry<__RealityFileURLResolver>()
+    
     @available(*, deprecated, message: "use the \"init(_ assetService: __REAssetService)\" instead")
     public init() {
+        assertUnimplemented()
+    }
+    
+    init(_: any __REAssetService) {
         assertUnimplemented()
     }
     

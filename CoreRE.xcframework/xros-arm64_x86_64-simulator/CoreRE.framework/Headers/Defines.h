@@ -183,6 +183,15 @@ typedef const struct RETimebaseService * RETimebaseServiceRef __attribute__((swi
 struct RERenderManager {};
 typedef const struct RERenderManager * RERenderManagerRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(RenderManager);
 
+struct REAudioSceneService {};
+typedef const struct REAudioSceneService * REAudioSceneServiceRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AudioSceneService);
+
+typedef NS_OPTIONS(uint32_t, REEngineServiceMask) {
+    REEngineServiceMaskNone = 0,
+    REEngineServiceMaskUnknown2 = (1 << 2),
+    REEngineServiceMaskUnknown5 = (1 << 5)
+}  NS_SWIFT_NAME(Engine.ServiceMask);
+
 NS_ASSUME_NONNULL_END
 
 #endif

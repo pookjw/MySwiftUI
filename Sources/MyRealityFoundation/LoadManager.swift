@@ -9,20 +9,18 @@ final class LoadManager {
     private let sceneResourceCache: __SceneResourceCache
     
     init() {
-        assertUnimplemented()
+        self.queue = DispatchQueue(label: "com.apple.RealityKit.load-queue")
+        self.loadTracer = LoadTracer()
+        self.sceneResourceCache = __SceneResourceCache()
     }
 }
 
 final class LoadTracer {
-    private var currentId: UInt32
-    private var loadTraces: [UInt32 : LoadTrace]
-    private let logger: Logger
-    private let logPrefix: String
-    private let unknownLoadTypeMsg: String
-    
-    init() {
-        assertUnimplemented()
-    }
+    private var currentId: UInt32 = 1 // 0x10
+    private var loadTraces: [UInt32 : LoadTrace] = Dictionary() // 0x18
+    private let logger = Logger(subsystem: "com.apple.re", category: "Assets") // 0x20
+    private let logPrefix: String = "" // 0x28
+    private let unknownLoadTypeMsg: String = "(with unknown load type)" // 0x30
 }
 
 struct LoadTrace {

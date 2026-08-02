@@ -124,7 +124,15 @@ let package = Package(
         .target(
             name: "MyRealityFoundation",
             dependencies: [
-                .byName(name: "_MySwiftUIUtils")
+                .byName(name: "_MySwiftUIUtils"),
+                .byName(
+                    name: "_RealityFoundationPrivate",
+                    condition: .when(
+                        traits: [
+                            "RealityKitCompataibility"
+                        ]
+                    )
+                )
             ],
             swiftSettings: [
                 .strictMemorySafety()

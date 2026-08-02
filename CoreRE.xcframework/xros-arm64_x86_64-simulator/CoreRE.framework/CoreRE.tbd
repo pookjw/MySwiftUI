@@ -180,7 +180,16 @@ exports:
     _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvgZ,
     _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvsZ,
     _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvMZ,
-    _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvMZ.resume.0 ]
+    _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvMZ.resume.0,
+    _REAssetManagerRegisterAssetResolver,
+    _REServiceLocatorGetAudioSceneService,
+    _REAudioSceneServiceSetSTSControl,
+    _REAudioSceneServiceGetSTSControl,
+    _REAudioSceneServiceSetExternalSourceControl,
+    _REAudioSceneServiceGetExternalSourceControl,
+    _REEngineConfigurationSetServicesToCreate,
+    _REEngineConfigurationGetServicesToCreate,
+    _REAssetManagerAddCleanupCallback ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

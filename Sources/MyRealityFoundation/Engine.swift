@@ -151,10 +151,10 @@ fileprivate let builtInComponentsInitializer: Void = {
         
         public var __createServices: __EngineServiceMaskRef {
             get {
-                assertUnimplemented()
+                return __EngineServiceMaskRef(core: self.core.coreConfiguration.servicesToCreate)
             }
             set {
-                assertUnimplemented()
+                self.core.coreConfiguration.servicesToCreate = newValue.core
             }
         }
         
@@ -322,8 +322,87 @@ fileprivate let builtInComponentsInitializer: Void = {
         assertUnimplemented()
     }
     
-    fileprivate func commonPostInit() {
+    final func __registerREKitBuiltInActions() {
         assertUnimplemented()
+    }
+    
+    final func __registerREKitBuiltInForceEffects() {
+        ConstantForceEffect.__register(engine: self) { _ in
+            // $s10RealityKit8__EngineC34__registerREKitBuiltInForceEffectsyyFy0A10Foundation0H11EffectEventVyAE08ConstanthK0VGzcfU_
+            assertUnimplemented()
+        }
+        
+        ConstantRadialForceEffect.__register(engine: self) { _ in
+            // $s10RealityKit8__EngineC34__registerREKitBuiltInForceEffectsyyFy0A10Foundation0H11EffectEventVyAE014ConstantRadialhK0VGzcfU0_
+            assertUnimplemented()
+        }
+        
+        RadialForceEffect.__register(engine: self) { _ in
+            // $s10RealityKit8__EngineC34__registerREKitBuiltInForceEffectsyyFy0A10Foundation0H11EffectEventVyAE06RadialhK0VGzcfU1_
+            assertUnimplemented()
+        }
+        
+        VortexForceEffect.__register(engine: self) { _ in
+            // $s10RealityKit8__EngineC34__registerREKitBuiltInForceEffectsyyFy0A10Foundation0H11EffectEventVyAE06VortexhK0VGzcfU2_
+            assertUnimplemented()
+        }
+        
+        DragForceEffect.__register(engine: self) { _ in
+            // $s10RealityKit8__EngineC34__registerREKitBuiltInForceEffectsyyFy0A10Foundation0H11EffectEventVyAE04DraghK0VGzcfU3_
+            assertUnimplemented()
+        }
+        
+        TurbulenceForceEffect.__register(engine: self) { _ in
+            // $s10RealityKit8__EngineC34__registerREKitBuiltInForceEffectsyyFy0A10Foundation0H11EffectEventVyAE010TurbulencehK0VGzcfU4_
+            assertUnimplemented()
+        }
+    }
+    
+    fileprivate final func commonPostInit() {
+        // sp + 0x30
+        let copy_1 = self.services.assetService
+        // x21
+        let instance = __RealityFileURLResolver.instances
+            .instance(for: copy_1)
+        
+        _ = self.services!
+        _ = unsafe instance.assetService.__handle
+        
+        // x20
+        let services = self.services!
+        // x21
+        let namedFileAssetResolver = self.namedFileAssetResolver
+        // x20
+        let handle = unsafe services.assetService.__handle
+        
+        unsafe unsafeBitCast(handle, to: CoreRE::AssetManager.self)
+            .registerAssetResolver(
+                "localfile",
+                Unmanaged.passUnretained(namedFileAssetResolver).toOpaque(),
+                namedFileAssetResolver.callback
+            )
+        
+        // <+376>
+        let serviceLocator = unsafe unsafeBitCast(self.coreEngine, to: CoreRE::Engine.self)
+            .serviceLocator
+        
+        if let audioSceneService = serviceLocator.audioSceneService {
+            audioSceneService.stsControl = true
+            audioSceneService.externalSourceControl = true
+        }
+        
+        // <+416>
+        let configuration = self.configuration
+        
+        if configuration.__createServices.core.contains(.unknown2) {
+            self.__registerREKitBuiltInActions()
+        }
+        
+        if configuration.__createServices.core.contains(.unknown5) {
+            self.__registerREKitBuiltInForceEffects()
+        }
+        
+        // <+572>
     }
     
     @safe nonisolated(unsafe) static let customComponents : [any RegisterableComponent.Type] = [

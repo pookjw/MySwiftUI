@@ -4,6 +4,9 @@ private import Foundation
 private import os.log
 internal import os.lock
 private import Darwin.POSIX.dlfcn
+#if RealityKitCompataibility
+private import _RealityFoundationPrivate
+#endif
 
 @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 26.0, *)
 public let __privateEngineMode: Bool = {
@@ -41,12 +44,16 @@ public let __privateEngineMode: Bool = {
     private var coreServiceLocator: OpaquePointer // 0x10
     public unowned var engine: __Engine // 0x18
     private var eventBus: REEventBus // 0x20
-    private var renderServiceActual: __RenderService? = nil // 0x28
+    private var renderServiceActual: (any __RenderService)? = nil // 0x28
     public var sceneService: any __SceneService // 0x50
     public var assetService: any __REAssetService // 0x78
     private var timebaseService: TimebaseService // 0xa0
     private var loadService: LoadManager // 0xa8
-    private var usdImportService: (any USDImportService)? = nil // 0xb0
+#if RealityKitCompataibility
+    private var usdImportService: (any _RealityFoundationPrivate::USDImportService)? = nil // 0xb0
+#else
+    private var usdImportService: (any MyRealityFoundation::USDImportService)? = nil // 0xb0
+#endif
     private var isValid: Bool = true // 0xd8
     private var usingRealityIO: Bool = false // 0xd9
     private var realityIOHandle: UnsafeMutableRawPointer? = nil // 0xe0
@@ -167,7 +174,12 @@ public let __privateEngineMode: Bool = {
             }
             
             // <+544>
-            let casted = USDImportServiceType as! (any USDImportService.Type)
+#if RealityKitCompataibility
+            let casted = USDImportServiceType as! (any _RealityFoundationPrivate::USDImportService.Type)
+#else
+            let casted = USDImportServiceType as! (any MyRealityFoundation::USDImportService.Type)
+#endif
+            
             self.usdImportService = casted.init()
             self.usingRealityIO = true
         }
@@ -214,10 +226,10 @@ public let __privateEngineMode: Bool = {
     
     public var renderService: any __RenderService {
         get {
-            assertUnimplemented()
+            return self.renderServiceActual!
         }
         set {
-            assertUnimplemented()
+            self.renderServiceActual = newValue
         }
     }
     

@@ -92,3 +92,5 @@
 #import <CoreRE/REImagePresentationStatusComponent.h>
 #import <CoreRE/RESpatialMediaStatusComponent.h>
 #import <CoreRE/REVideoPlayerStatusComponent.h>
+#import <CoreRE/REAssetManager.h>
+#import <CoreRE/REAudioSceneService.h>
