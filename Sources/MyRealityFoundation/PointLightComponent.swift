@@ -58,12 +58,12 @@ public struct PointLightComponent : Component, Equatable {
 }
 
 extension PointLightComponent {
-    public struct Shadow : Component {
-        @MainActor @preconcurrency public static func __fromCore(_ coreComponent: __ComponentRef) -> PointLightComponent.Shadow {
+    struct Shadow : Component {
+        @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> PointLightComponent.Shadow {
             assertUnimplemented()
         }
 
-        @MainActor @preconcurrency public func __toCore(_ coreComponent: __ComponentRef) {
+        @MainActor @preconcurrency func __toCore(_ coreComponent: __ComponentRef) {
             assertUnimplemented()
         }
 

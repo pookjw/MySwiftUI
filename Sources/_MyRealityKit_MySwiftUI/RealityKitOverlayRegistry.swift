@@ -5,7 +5,7 @@ private import _RealityKit_SwiftUI
 #endif
 private import MySwiftUI
 
-@objc final class __RealityKitOverlayRegistry : ExternalBuiltInComponentRegistry {
+@objc @MainActor final class __RealityKitOverlayRegistry : ExternalBuiltInComponentRegistry {
     override class func registerBuiltInComponents(_ block: (any MyRealityFoundation::Component.Type, CoreRE::Component.ClassPtr?, CoreRE::ComponentType?, ComponentInfo.Access, ComponentInfo.Availability) -> Void) {
         ARKitAnchorComponent.registerBuiltinComponent(block)
         __RealityKitOverlayRegistry.registerVisionOSComponents(block)

@@ -303,7 +303,7 @@ fileprivate struct ReentrancyGuard {
     static nonisolated(unsafe) var seed = 0
 }
 
-@MainActor @preconcurrency package func registerExternalAttachment<T : RealityKit::Component>(type: T.Type, _ getGuts: @escaping (T) -> AttachmentComponentGuts?) {
+@MainActor package func registerExternalAttachment<T : RealityKit::Component>(type: T.Type, _ getGuts: @escaping (T) -> AttachmentComponentGuts?) {
     AttachmentRegistrationManager
         .shared
         .registerExternalAttachment(
@@ -313,11 +313,11 @@ fileprivate struct ReentrancyGuard {
         )
 }
 
-@MainActor @preconcurrency package func registerExternalAttachment<T : MyRealityFoundation::Component>(type: T.Type, _: @escaping (T) -> AttachmentComponentGuts?) {
+@MainActor package func registerExternalAttachment<T : MyRealityFoundation::Component>(type: T.Type, _: @escaping (T) -> AttachmentComponentGuts?) {
     assertUnimplemented()
 }
 
-@MainActor @preconcurrency package func registerExternalAttachment<T : RealityKit::Component>(
+@MainActor package func registerExternalAttachment<T : RealityKit::Component>(
     type: T.Type,
     getGuts: @escaping (T) -> AttachmentComponentGuts?,
     setGuts: @escaping (inout T, AttachmentComponentGuts) -> Void
@@ -338,7 +338,7 @@ fileprivate struct ReentrancyGuard {
         )
 }
 
-@MainActor @preconcurrency package func registerExternalAttachment<T : MyRealityFoundation::Component>(
+@MainActor package func registerExternalAttachment<T : MyRealityFoundation::Component>(
     type: T.Type,
     getGuts: @escaping (T) -> AttachmentComponentGuts?,
     setGuts: @escaping (inout T, AttachmentComponentGuts) -> Void
@@ -346,7 +346,7 @@ fileprivate struct ReentrancyGuard {
     assertUnimplemented()
 }
 
-@MainActor @preconcurrency package func registerExternalAttachmentV2<T : RealityKit::Component>(
+@MainActor package func registerExternalAttachmentV2<T : RealityKit::Component>(
     type: T.Type,
     getGuts: @escaping (RealityKit::Entity) -> AttachmentComponentGuts?,
     setGuts: @escaping (RealityKit::Entity, AttachmentComponentGuts) -> Void
@@ -354,7 +354,7 @@ fileprivate struct ReentrancyGuard {
     assertUnimplemented()
 }
 
-@MainActor @preconcurrency package func registerExternalAttachmentV2<T : MyRealityFoundation::Component>(
+@MainActor package func registerExternalAttachmentV2<T : MyRealityFoundation::Component>(
     type: T.Type,
     getGuts: @escaping (MyRealityFoundation::Entity) -> AttachmentComponentGuts?,
     setGuts: @escaping (MyRealityFoundation::Entity, AttachmentComponentGuts) -> Void

@@ -1,9 +1,9 @@
-public struct RKARSegmentationComponent : Component {
-    @MainActor @preconcurrency public static func __fromCore(_ coreComponent: __ComponentRef) -> RKARSegmentationComponent {
+struct RKARSegmentationComponent : Component {
+    @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> RKARSegmentationComponent {
         assertUnimplemented()
     }
 
-    @MainActor @preconcurrency public func __toCore(_ coreComponent: __ComponentRef) {
+    @MainActor @preconcurrency func __toCore(_ coreComponent: __ComponentRef) {
         assertUnimplemented()
     }
 

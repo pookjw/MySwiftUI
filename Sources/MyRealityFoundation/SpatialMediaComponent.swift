@@ -1,5 +1,5 @@
-struct VideoComponent : Component {
-    @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> VideoComponent {
+struct SpatialMediaComponent : Component {
+    @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> SpatialMediaComponent {
         assertUnimplemented()
     }
 

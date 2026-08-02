@@ -163,7 +163,24 @@ exports:
     _REVirtualEnvironmentProbeComponentGetComponentType,
     _REWorldRootComponentGetComponentType,
     _REViewAttachmentComponentGetComponentType,
-    _REPresentationComponentGetComponentType ]
+    _REPresentationComponentGetComponentType,
+    _$s9REECSCore23ObservationKeyPathTableVMa,
+    _$s9REECSCore23ObservationKeyPathTableV5ValueVMa,
+    _$s9REECSCore23ObservationKeyPathTableVMn,
+    _$s9REECSCore23ObservationKeyPathTableV5ValueVMn,
+    _$s9REECSCore23ObservationKeyPathTableV5ValueV11subjectType06memberH003keyD0AE0B010Observable_pXp_ypXps03AnycD0CtcfC,
+    _$s9REECSCore23ObservationKeyPathTableV,
+    _$s9REECSCore23ObservationKeyPathTableV5ValueVN,
+    _REMaterialParameterBlockArrayComponentGetComponentType,
+    _REAdaptiveResolutionStateComponentGetComponentType,
+    _REImagePresentationStatusComponentGetComponentType,
+    _RESpatialMediaStatusComponentGetComponentType,
+    _REVideoPlayerStatusComponentGetComponentType,
+    _$s9REECSCore23ObservationKeyPathTableV16initializeTables5table06stringE0ySDys13OpaquePointerVAC5ValueVG_SDySays4Int8VGAJGtFZ,
+    _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvgZ,
+    _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvsZ,
+    _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvMZ,
+    _$s9REECSCore23ObservationKeyPathTableV020entityModifyChildrencD0AC5ValueVSgvMZ.resume.0 ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -3,9 +3,10 @@ internal import CoreRE
 private import os.log
 private import CoreFoundation
 private import Foundation
+private import Observation
 
-@safe final class SceneManager {
-    static func customComponentType(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer {
+@safe @MainActor @preconcurrency final class SceneManager {
+    static nonisolated func customComponentType(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer {
         /*
          type -> x0/x1 -> x19/x22
          */
@@ -50,7 +51,7 @@ private import Foundation
         assertUnimplemented()
     }
     
-    static func customComponentTypeHelper(_ type: any MyRealityFoundation::Component.Type, typeName: String?) -> OpaquePointer {
+    static nonisolated func customComponentTypeHelper(_ type: any MyRealityFoundation::Component.Type, typeName: String?) -> OpaquePointer {
         /*
          type -> x0/x1 -> x22/x21
          typeName -> x2/x3 -> x26/x24
@@ -261,7 +262,7 @@ private import Foundation
         assertUnimplemented()
     }
     
-    fileprivate static func makeComponentTypeHandleKey(_ type: (any MyRealityFoundation::Component.Type), typeName: String?) -> String {
+    fileprivate static nonisolated func makeComponentTypeHandleKey(_ type: (any MyRealityFoundation::Component.Type), typeName: String?) -> String {
         if let typeName {
             // <+32>
             return "\(UInt(bitPattern: ObjectIdentifier(type)).description)_\(typeName)"
@@ -1420,7 +1421,206 @@ private import Foundation
     }
     
     func registerObservableComponents() {
-        assertUnimplemented()
+        CoreRE::ObservationKeyPathTable.entityModifyChildrenKeyPath = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::Entity.ChildCollection.self,
+            keyPath: \MyRealityFoundation::Entity.observable.children
+        )
+        
+        let transformComponentPtr = unsafe unsafeBitCast(
+            CoreRE::Component.ClassPtr.transform,
+            to: OpaquePointer.self
+        )
+        
+        let transformValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::Transform?.self,
+            keyPath: \MyRealityFoundation::Entity.components[HashableMetatype(MyRealityFoundation::Transform.self)]
+        )
+        
+        var table: [OpaquePointer : CoreRE::ObservationKeyPathTable.Value] = unsafe [:]
+        
+        unsafe table[transformComponentPtr] = transformValue
+        
+        // <+248>
+        let hierarchicalFadeComponentPtr = unsafe unsafeBitCast(
+            CoreRE::Component.ClassPtr.hierarchicalFade,
+            to: OpaquePointer.self
+        )
+        
+        let hierarchicalFadeValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::OpacityComponent?.self,
+            keyPath: \MyRealityFoundation::Entity.components[HashableMetatype(MyRealityFoundation::OpacityComponent.self)]
+        )
+        
+        unsafe table[hierarchicalFadeComponentPtr] = hierarchicalFadeValue
+        
+        // <+360>
+        let materialParameterBlockArrayComponentPtr = unsafe unsafeBitCast(
+            CoreRE::Component.ClassPtr.materialParameterBlockArray,
+            to: OpaquePointer.self
+        )
+        
+        let materialParameterBlockArrayValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::ModelComponent?.self,
+            keyPath: \MyRealityFoundation::Entity.components[HashableMetatype(MyRealityFoundation::ModelComponent.self)]
+        )
+        
+        unsafe table[materialParameterBlockArrayComponentPtr] = materialParameterBlockArrayValue
+        
+        // <+472>
+        let isPausedKey = Array("AnimationPlaybackController.isPaused".utf8CString)
+        
+        let isPausedValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::AnimationPlaybackController.self,
+            memberType: Bool.self,
+            keyPath: \MyRealityFoundation::AnimationPlaybackController.isPaused
+        )
+        
+        var stringTable: [[Int8] : CoreRE::ObservationKeyPathTable.Value] = [:]
+        stringTable[isPausedKey] = isPausedValue
+        
+        // <+632>
+        let isStoppedKey = Array("AnimationPlaybackController.isStopped".utf8CString)
+        
+        let isStoppedValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::AnimationPlaybackController.self,
+            memberType: Bool.self,
+            keyPath: \MyRealityFoundation::AnimationPlaybackController.isStopped
+        )
+        
+        stringTable[isStoppedKey] = isStoppedValue
+        
+        // <+736>
+        let isPlayingKey = Array("AnimationPlaybackController.isPlaying".utf8CString)
+        
+        let isPlayingValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::AnimationPlaybackController.self,
+            memberType: Bool.self,
+            keyPath: \MyRealityFoundation::AnimationPlaybackController.isPlaying
+        )
+        
+        stringTable[isPlayingKey] = isPlayingValue
+        
+        // <+840>
+        let timeKey = Array("AnimationPlaybackController.time".utf8CString)
+        
+        let timeValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::AnimationPlaybackController.self,
+            memberType: TimeInterval.self,
+            keyPath: \MyRealityFoundation::AnimationPlaybackController.time
+        )
+        
+        stringTable[timeKey] = timeValue
+        
+        // <+944>
+        let isCompleteKey = Array("AnimationPlaybackController.isComplete".utf8CString)
+        
+        let isCompleteValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::AnimationPlaybackController.self,
+            memberType: Bool.self,
+            keyPath: \MyRealityFoundation::AnimationPlaybackController.isComplete
+        )
+        
+        stringTable[isCompleteKey] = isCompleteValue
+        
+        // <+1044>
+        let isValidKey = Array("AnimationPlaybackController.isValid".utf8CString)
+        
+        let isValidValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::AnimationPlaybackController.self,
+            memberType: Bool.self,
+            keyPath: \MyRealityFoundation::AnimationPlaybackController.isValid
+        )
+        
+        stringTable[isValidKey] = isValidValue
+        
+        // <+1140>
+        let isEnabledKey = Array("Entity.isEnabled".utf8CString)
+        
+        let isEnabledValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: Bool.self,
+            keyPath: \MyRealityFoundation::Entity.isEnabled
+        )
+        
+        stringTable[isEnabledKey] = isEnabledValue
+        
+        // <+1244>
+        let adaptiveResolutionStateClassPtr = unsafe unsafeBitCast(
+            CoreRE::Component.ClassPtr.adaptiveResolutionState,
+            to: OpaquePointer.self
+        )
+        
+        let adaptiveResolutionStateValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::AdaptiveResolutionComponent?.self,
+            keyPath: \MyRealityFoundation::Entity.components[HashableMetatype(MyRealityFoundation::AdaptiveResolutionComponent.self)]
+        )
+        
+        unsafe table[adaptiveResolutionStateClassPtr] = adaptiveResolutionStateValue
+        
+        // <+1352>
+        let referenceClassPtr = unsafe unsafeBitCast(
+            CoreRE::Component.ClassPtr.reference,
+            to: OpaquePointer.self
+        )
+        
+        let referenceValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::ReferenceComponent?.self,
+            keyPath: \MyRealityFoundation::Entity.components[HashableMetatype(MyRealityFoundation::ReferenceComponent.self)]
+        )
+        
+        unsafe table[referenceClassPtr] = referenceValue
+        
+        // <+1464>
+        let imagePresentationStatusClassPtr = unsafe unsafeBitCast(
+            CoreRE::Component.ClassPtr.imagePresentationStatus,
+            to: OpaquePointer.self
+        )
+        
+        let imagePresentationStatusValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::ImagePresentationComponent?.self,
+            keyPath: \MyRealityFoundation::Entity.components[HashableMetatype(MyRealityFoundation::ImagePresentationComponent.self)]
+        )
+        
+        unsafe table[imagePresentationStatusClassPtr] = imagePresentationStatusValue
+        
+        // <+1576>
+        let spatialMediaStatusClassPtr = unsafe unsafeBitCast(
+            CoreRE::Component.ClassPtr.spatialMediaStatus,
+            to: OpaquePointer.self
+        )
+        
+        let spatialMediaStatusValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::SpatialMediaComponent?.self,
+            keyPath: \MyRealityFoundation::Entity.components[HashableMetatype(MyRealityFoundation::SpatialMediaComponent.self)]
+        )
+        
+        unsafe table[spatialMediaStatusClassPtr] = spatialMediaStatusValue
+        
+        // <+1688>
+        let videoPlayerStatusClassPtr = unsafe unsafeBitCast(
+            CoreRE::Component.ClassPtr.videoPlayerStatus,
+            to: OpaquePointer.self
+        )
+        
+        let videoPlayerStatusValue = CoreRE::ObservationKeyPathTable.Value(
+            subjectType: MyRealityFoundation::Entity.self,
+            memberType: MyRealityFoundation::VideoPlayerComponent?.self,
+            keyPath: \MyRealityFoundation::Entity.components[HashableMetatype(MyRealityFoundation::VideoPlayerComponent.self)]
+        )
+        
+        unsafe table[videoPlayerStatusClassPtr] = videoPlayerStatusValue
+        
+        // <+1800>
+        unsafe CoreRE::ObservationKeyPathTable
+            .initializeTables(table: table, stringTable: stringTable)
     }
     
     static nonisolated(unsafe) var customComponentTypesToHandles: [String : OpaquePointer] = unsafe [:]
@@ -1461,4 +1661,4 @@ fileprivate nonisolated func cloneComponent(_: OpaquePointer) -> OpaquePointer {
     assertUnimplemented()
 }
 
-extension SceneManager : __SceneService {}
+extension SceneManager : @preconcurrency __SceneService {}
