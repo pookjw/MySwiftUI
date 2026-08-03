@@ -44,4 +44,12 @@ public enum ManipulationEvents {
         
         public let newInputDeviceSet: ManipulationEvents.InputDeviceSet
     }
+    
+    struct DidReachMovementThreshold {
+        // TODO
+    }
+    
+    struct DidChangeGestureAnchorPoint {
+        // TODO
+    }
 }

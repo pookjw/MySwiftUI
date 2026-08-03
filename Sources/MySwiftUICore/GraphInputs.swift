@@ -53,7 +53,7 @@ public struct _GraphInputs {
     
     package subscript<T : GraphInput>(_ type: T.Type) -> T.Value {
         get {
-            return customInputs[type]
+            return customInputs[T.self]
         }
         set {
             customInputs[type] = newValue
@@ -65,7 +65,7 @@ public struct _GraphInputs {
     
     subscript<T : GraphInput>(_ type: T.Type) -> T.Value where T.Value : GraphReusable {
         get {
-            return customInputs[type]
+            return customInputs[T.self]
         }
         set {
             recordReusableInput(T.self)
@@ -86,7 +86,7 @@ public struct _GraphInputs {
     }
     
     package mutating func append<Input : GraphInput, Reusable : GraphReusable>(_ reusable: Reusable, to input: Input.Type) where Input.Value == Stack<Reusable> {
-        recordReusableInput(input)
+        recordReusableInput(Input.self)
         customInputs[Input.self].push(reusable)
     }
     

@@ -225,6 +225,150 @@ typedef struct RESubscriptionHandle RESubscriptionHandle;
 
 RE_EXTERN const void * RETimelineEventFilter(const char *);
 
+struct REEngineDoUpdateEvent {};
+typedef const struct REEngineDoUpdateEvent REEngineDoUpdateEvent __attribute__((swift_wrapper(struct)));
+
+struct REEngineDoRenderEvent {};
+typedef const struct REEngineDoRenderEvent REEngineDoRenderEvent __attribute__((swift_wrapper(struct)));
+
+struct RESceneAnchoredStateChangedEvent {};
+typedef const struct RESceneAnchoredStateChangedEvent RESceneAnchoredStateChangedEvent __attribute__((swift_wrapper(struct)));
+
+struct RESceneEntityDidAddEvent {};
+typedef const struct RESceneEntityDidAddEvent RESceneEntityDidAddEvent __attribute__((swift_wrapper(struct)));
+
+struct RESceneEntityDidActivateEvent {};
+typedef const struct RESceneEntityDidActivateEvent RESceneEntityDidActivateEvent __attribute__((swift_wrapper(struct)));
+
+struct RESceneEntityWillDeactivateEvent {};
+typedef const struct RESceneEntityWillDeactivateEvent RESceneEntityWillDeactivateEvent __attribute__((swift_wrapper(struct)));
+
+struct RESceneEntityWillRemoveEvent {};
+typedef const struct RESceneEntityWillRemoveEvent RESceneEntityWillRemoveEvent __attribute__((swift_wrapper(struct)));
+
+struct RESceneEntityDidReparentEvent {};
+typedef const struct RESceneEntityDidReparentEvent RESceneEntityDidReparentEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnimationHasCompletedEvent {};
+typedef const struct REAnimationHasCompletedEvent REAnimationHasCompletedEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnimationHasLoopedEvent {};
+typedef const struct REAnimationHasLoopedEvent REAnimationHasLoopedEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnimationHasTerminatedEvent {};
+typedef const struct REAnimationHasTerminatedEvent REAnimationHasTerminatedEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnimationHasStartedEvent {};
+typedef const struct REAnimationHasStartedEvent REAnimationHasStartedEvent __attribute__((swift_wrapper(struct)));
+
+struct RECollisionDidStartEventEx {};
+typedef const struct RECollisionDidStartEventEx RECollisionDidStartEventEx __attribute__((swift_wrapper(struct)));
+
+struct RECollisionDidUpdateEventEx {};
+typedef const struct RECollisionDidUpdateEventEx RECollisionDidUpdateEventEx __attribute__((swift_wrapper(struct)));
+
+struct RECollisionDidStopEvent {};
+typedef const struct RECollisionDidStopEvent RECollisionDidStopEvent __attribute__((swift_wrapper(struct)));
+
+struct REComponentDidAddEvent {};
+typedef const struct REComponentDidAddEvent REComponentDidAddEvent __attribute__((swift_wrapper(struct)));
+
+struct REComponentDidActivateEvent {};
+typedef const struct REComponentDidActivateEvent REComponentDidActivateEvent __attribute__((swift_wrapper(struct)));
+
+struct REComponentWillDeactivateEvent {};
+typedef const struct REComponentWillDeactivateEvent REComponentWillDeactivateEvent __attribute__((swift_wrapper(struct)));
+
+struct REComponentWillRemoveEvent {};
+typedef const struct REComponentWillRemoveEvent REComponentWillRemoveEvent __attribute__((swift_wrapper(struct)));
+
+struct REComponentDidChangeEvent {};
+typedef const struct REComponentDidChangeEvent REComponentDidChangeEvent __attribute__((swift_wrapper(struct)));
+
+struct REMotionStateDidChangeEvent {};
+typedef const struct REMotionStateDidChangeEvent REMotionStateDidChangeEvent __attribute__((swift_wrapper(struct)));
+
+struct REOwnershipRequestEvent {};
+typedef const struct REOwnershipRequestEvent REOwnershipRequestEvent __attribute__((swift_wrapper(struct)));
+
+struct REOwnershipResponseEvent {};
+typedef const struct REOwnershipResponseEvent REOwnershipResponseEvent __attribute__((swift_wrapper(struct)));
+
+struct REOwnershipChangedEvent {};
+typedef const struct REOwnershipChangedEvent REOwnershipChangedEvent __attribute__((swift_wrapper(struct)));
+
+struct REAudioPlayerDidStartEvent {};
+typedef const struct REAudioPlayerDidStartEvent REAudioPlayerDidStartEvent __attribute__((swift_wrapper(struct)));
+
+struct REAudioPlayerDidCompleteEvent {};
+typedef const struct REAudioPlayerDidCompleteEvent REAudioPlayerDidCompleteEvent __attribute__((swift_wrapper(struct)));
+
+struct REEntityPhysicsWillSimulateEvent {};
+typedef const struct REEntityPhysicsWillSimulateEvent REEntityPhysicsWillSimulateEvent __attribute__((swift_wrapper(struct)));
+
+struct REEntityPhysicsDidSimulateEvent {};
+typedef const struct REEntityPhysicsDidSimulateEvent REEntityPhysicsDidSimulateEvent __attribute__((swift_wrapper(struct)));
+
+struct REEntityForceEffectComputeForcesEvent {};
+typedef const struct REEntityForceEffectComputeForcesEvent REEntityForceEffectComputeForcesEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnimationSkeletalPoseUpdateCompleteEvent {};
+typedef const struct REAnimationSkeletalPoseUpdateCompleteEvent REAnimationSkeletalPoseUpdateCompleteEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerContentTypeChangedEvent {};
+typedef const struct REVideoPlayerContentTypeChangedEvent REVideoPlayerContentTypeChangedEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerVideoSizeChangedEvent {};
+typedef const struct REVideoPlayerVideoSizeChangedEvent REVideoPlayerVideoSizeChangedEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerViewingModeChangedEvent {};
+typedef const struct REVideoPlayerViewingModeChangedEvent REVideoPlayerViewingModeChangedEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerVideoReceiverEndpointChangedEvent {};
+typedef const struct REVideoPlayerVideoReceiverEndpointChangedEvent REVideoPlayerVideoReceiverEndpointChangedEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnchorStateDidAnchorEvent {};
+typedef const struct REAnchorStateDidAnchorEvent REAnchorStateDidAnchorEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnchorStateWillUnanchorEvent {};
+typedef const struct REAnchorStateWillUnanchorEvent REAnchorStateWillUnanchorEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnchorStateDidFailToAnchorEvent {};
+typedef const struct REAnchorStateDidFailToAnchorEvent REAnchorStateDidFailToAnchorEvent __attribute__((swift_wrapper(struct)));
+
+struct REAnchoringTrackingStateEvent {};
+typedef const struct REAnchoringTrackingStateEvent REAnchoringTrackingStateEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerContentProfileChangedEvent {};
+typedef const struct REVideoPlayerContentProfileChangedEvent REVideoPlayerContentProfileChangedEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerImmersiveViewingModeDidChangeEvent {};
+typedef const struct REVideoPlayerImmersiveViewingModeDidChangeEvent REVideoPlayerImmersiveViewingModeDidChangeEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerImmersiveViewingModeWillTransitionEvent {};
+typedef const struct REVideoPlayerImmersiveViewingModeWillTransitionEvent REVideoPlayerImmersiveViewingModeWillTransitionEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerImmersiveViewingModeDidTransitionEvent {};
+typedef const struct REVideoPlayerImmersiveViewingModeDidTransitionEvent REVideoPlayerImmersiveViewingModeDidTransitionEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerVideoComfortViolationEvent {};
+typedef const struct REVideoPlayerVideoComfortViolationEvent REVideoPlayerVideoComfortViolationEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerSpatialVideoModeChangedEvent {};
+typedef const struct REVideoPlayerSpatialVideoModeChangedEvent REVideoPlayerSpatialVideoModeChangedEvent __attribute__((swift_wrapper(struct)));
+
+struct REVideoPlayerRenderingStatusEvent {};
+typedef const struct REVideoPlayerRenderingStatusEvent REVideoPlayerRenderingStatusEvent __attribute__((swift_wrapper(struct)));
+
+struct REImagePresentationTransitionStartedEvent {};
+typedef const struct REImagePresentationTransitionStartedEvent REImagePresentationTransitionStartedEvent __attribute__((swift_wrapper(struct)));
+
+struct REImagePresentationTransitionCompletedEvent {};
+typedef const struct REImagePresentationTransitionCompletedEvent REImagePresentationTransitionCompletedEvent __attribute__((swift_wrapper(struct)));
+
+struct RESpatialMediaImmersiveFrameSizeDidChangeEvent {};
+typedef const struct RESpatialMediaImmersiveFrameSizeDidChangeEvent RESpatialMediaImmersiveFrameSizeDidChangeEvent __attribute__((swift_wrapper(struct)));
+
 NS_ASSUME_NONNULL_END
 
 #endif
