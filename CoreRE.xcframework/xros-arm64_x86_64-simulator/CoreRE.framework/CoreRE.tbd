@@ -194,7 +194,8 @@ exports:
     _REEngineGetEventBus,
     _REServiceLocatorGetEventBus,
     _RETimelineEventFilter,
-    _REEventBusSubscribeWithMatch ]
+    _REEventBusSubscribeWithMatch,
+    _REEventBusMakeID ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -205,3 +205,41 @@ public struct ImagePresentationComponent : Component {
         assertUnimplemented()
     }
 }
+
+@available(visionOS 26.0, *)
+@available(macOS, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
+@available(macCatalyst, unavailable)
+extension ImagePresentationComponent.Spatial3DImage {
+    struct GenerationStartedEvent : PublishingEvent {
+        func publish(_ service: any EventService, on source: (any EventSource)?, componentType: (any Component.Type)?) {
+            assertUnimplemented()
+        }
+    }
+    
+    struct GenerationFailedEvent : PublishingEvent {
+        func publish(_ service: any EventService, on source: (any EventSource)?, componentType: (any Component.Type)?) {
+            assertUnimplemented()
+        }
+    }
+    
+    struct GenerationCancelledEvent : PublishingEvent {
+        func publish(_ service: any EventService, on source: (any EventSource)?, componentType: (any Component.Type)?) {
+            assertUnimplemented()
+        }
+    }
+    
+    struct GenerationCompletedEvent : PublishingEvent {
+        func publish(_ service: any EventService, on source: (any EventSource)?, componentType: (any Component.Type)?) {
+            assertUnimplemented()
+        }
+    }
+    
+    struct GenerationProgressUpdatedEvent : PublishingEvent {
+        func publish(_ service: any EventService, on source: (any EventSource)?, componentType: (any Component.Type)?) {
+            assertUnimplemented()
+        }
+    }
+}
