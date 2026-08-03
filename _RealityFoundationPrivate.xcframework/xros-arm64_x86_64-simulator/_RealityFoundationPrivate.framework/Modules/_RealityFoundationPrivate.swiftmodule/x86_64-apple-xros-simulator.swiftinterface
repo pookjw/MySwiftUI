@@ -5,6 +5,7 @@
 @_exported import RealityKit
 @_exported import RealityFoundation
 import Swift
+import Foundation
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "RealityFoundation", visionOS 26.0)
@@ -142,4 +143,14 @@ public struct ComponentInfo : Swift.CustomStringConvertible {
 
     public init(_: Swift.Int, _: Swift.Int, _: Swift.Int)
   }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "RealityFoundation", visionOS 26.0)
+public protocol USDImportService {
+    init()
+    func canLoad(named: Swift.String, in bundle: Foundation.Bundle) -> Bool
+    func canLoad(contentsOf url: Foundation.URL) -> Bool
+    func load(with options: [Swift.String : Any]) throws -> RealityKit.Entity
+    func loadAsync(with options: [Swift.String : Any]) throws
 }

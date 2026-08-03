@@ -87,3 +87,10 @@
 #import <CoreRE/REAudioGroupPlaybackComponent.h>
 #import <CoreRE/REViewAttachmentComponent.h>
 #import <CoreRE/REPresentationComponent.h>
+#import <CoreRE/REMaterialParameterBlockArrayComponent.h>
+#import <CoreRE/REAdaptiveResolutionStateComponent.h>
+#import <CoreRE/REImagePresentationStatusComponent.h>
+#import <CoreRE/RESpatialMediaStatusComponent.h>
+#import <CoreRE/REVideoPlayerStatusComponent.h>
+#import <CoreRE/REAssetManager.h>
+#import <CoreRE/REAudioSceneService.h>
