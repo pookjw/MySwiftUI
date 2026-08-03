@@ -207,14 +207,14 @@ typedef const struct REAnimationTimelineEventPause REAnimationTimelineEventPause
 struct REAnimationTimelineEventResume {};
 typedef const struct REAnimationTimelineEventResume REAnimationTimelineEventResume __attribute__((swift_wrapper(struct)));
 
-struct REAnimationTimelineEventStart {};
-typedef const struct REAnimationTimelineEventStart REAnimationTimelineEventStart __attribute__((swift_wrapper(struct)));
+struct REAnimationHasTimelineEventStart {};
+typedef const struct REAnimationHasTimelineEventStart REAnimationHasTimelineEventStart __attribute__((swift_wrapper(struct)));
 
-struct REAnimationTimelineEventUpdate {};
-typedef const struct REAnimationTimelineEventUpdate REAnimationTimelineEventUpdate __attribute__((swift_wrapper(struct)));
+struct REAnimationHasTimelineEventUpdate {};
+typedef const struct REAnimationHasTimelineEventUpdate REAnimationHasTimelineEventUpdate __attribute__((swift_wrapper(struct)));
 
-struct REAnimationTimelineEventEnd {};
-typedef const struct REAnimationTimelineEventEnd REAnimationTimelineEventEnd __attribute__((swift_wrapper(struct)));
+struct REAnimationHasTimelineEventEnd {};
+typedef const struct REAnimationHasTimelineEventEnd REAnimationHasTimelineEventEnd __attribute__((swift_wrapper(struct)));
 
 struct RESubscriptionHandle {
     unsigned long long eventID;

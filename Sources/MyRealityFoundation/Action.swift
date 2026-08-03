@@ -55,7 +55,7 @@ extension EntityAction {
     static func __subscribe(
         to event: ActionEventType,
         _ engine: __Engine?,
-        _ block: (ActionEvent<Self>) -> Void
+        _ block: @escaping (ActionEvent<Self>) -> Void
     ) {
         /*
          event -> x0 -> x22
@@ -78,11 +78,11 @@ extension EntityAction {
         
         let eventID: UInt64
         if event == .started {
-            eventID = getEventID(REAnimationTimelineEventStart.self)
+            eventID = getEventID(REAnimationHasTimelineEventStart.self)
         } else if event == .updated {
-            eventID = getEventID(REAnimationTimelineEventUpdate.self)
+            eventID = getEventID(REAnimationHasTimelineEventUpdate.self)
         } else if event == .ended {
-            eventID = getEventID(REAnimationTimelineEventEnd.self)
+            eventID = getEventID(REAnimationHasTimelineEventEnd.self)
         } else if event == .skipped {
             eventID = getEventID(REAnimationTimelineEventSkipped.self)
         } else if event == .paused {
@@ -118,7 +118,7 @@ extension EntityAction {
         )
         
         let handle = unsafe eventBus
-            .subscribe(
+            .subscribeWithMatch(
                 eventID,
                 nil,
                 { sourceObject, payloadRef in
