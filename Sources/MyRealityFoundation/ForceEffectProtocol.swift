@@ -45,7 +45,7 @@ extension ForceEffectProtocol {
                 __ServiceLocator.shared.coreServiceLocator,
                 to: CoreRE::ServiceLocator.self
             )
-            let eventBus = coreServiceLocator.eventBus
+            let eventBus = coreServiceLocator.eventBus!
             return unsafe unsafeBitCast(eventBus, to: OpaquePointer.self)
         }
     }
