@@ -71,11 +71,7 @@ final class AppDelegate : UIResponder, UIApplicationDelegate {
         let _ = (options._specification as? MRUIStageSceneSpecification)?.isSwiftUIStageManaged ?? false
         
         let volumetricRole: UISceneSession.Role
-#if Xcode27SDKCompataibility
-        volumetricRole = .windowApplicationVolumetric
-#else
-        volumetricRole = _UIWindowSceneSessionRoleVolumetricApplication
-#endif
+        volumetricRole = UISceneSession.Role._UIWindowSceneSessionRoleVolumetricApplication
         
         switch connectingSceneSession.role {
         case

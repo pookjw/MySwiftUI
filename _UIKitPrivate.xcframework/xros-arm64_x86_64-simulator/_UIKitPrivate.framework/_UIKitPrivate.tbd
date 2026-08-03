@@ -5,7 +5,15 @@ install-name:    '/System/Library/Frameworks/UIKit.framework/UIKit'
 swift-abi-version: 7
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
-    symbols:              [  ]
+    symbols:              [ _$sSo7UISceneC5UIKitE21_DestructionConditionV19systemDisconnectionAEvgZ,
+    _$sSo7UISceneC5UIKitE21_DestructionConditionVMn,
+    _$sSo7UISceneC5UIKitE21_DestructionConditionV19systemDisconnectionAEvgZ,
+    _$sSo7UISceneC5UIKitE21_DestructionConditionV22userInitiatedDismissalAEvgZ,
+    _$sSo7UISceneC5UIKitE21_DestructionConditionVMa,
+    _$sSo7UISceneC5UIKitE22_destructionConditionsShyAbCE21_DestructionConditionVGvM,
+    _$sSo7UISceneC5UIKitE22_destructionConditionsShyAbCE21_DestructionConditionVGvg,
+    _$sSo7UISceneC5UIKitE22_destructionConditionsShyAbCE21_DestructionConditionVGvs,
+    __UIWindowSceneSessionRoleVolumetricApplication ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 --- !tapi-tbd

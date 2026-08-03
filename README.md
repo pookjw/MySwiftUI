@@ -4,8 +4,7 @@ SwiftUI & RealityKit Disassembly
 
 ## Requirements
 
-- Xcode 26
-    - If you use Xcode 27, use the [`Xcode27SDKCompataibility`](https://github.com/pookjw/MySwiftUI/blob/c7d534f836a58df0f3e30fa257bd59b9936ef953/Package.swift#L39) trait.
+- Xcode 26.6, 27.0
 
 - visionOS 26.5
 

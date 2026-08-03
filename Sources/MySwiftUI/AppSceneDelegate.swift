@@ -892,28 +892,16 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
             
             // <+9452>
             if case .disabled = sceneListItem.restorationBehavior {
-#if Xcode27SDKCompataibility
-                var conditions = windowScene.destructionConditions
-                conditions.insert(.systemDisconnection)
-                windowScene.destructionConditions = conditions
-#else
                 var conditions = windowScene._destructionConditions
                 conditions.insert(.systemDisconnection)
                 windowScene._destructionConditions = conditions
-#endif
             }
             
             // <+9552>
             if case .suppressed = sceneListItem.defaultLaunchBehavior {
-#if Xcode27SDKCompataibility
-                var conditions = windowScene.destructionConditions
-                conditions.insert(.userInitiatedDismissal)
-                windowScene.destructionConditions = conditions
-#else
                 var conditions = windowScene._destructionConditions
                 conditions.insert(.userInitiatedDismissal)
                 windowScene._destructionConditions = conditions
-#endif
             }
             
             // <+9644>
@@ -1213,20 +1201,12 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
             
             // <+11484>
             if case .disabled = sceneListItem.restorationBehavior {
-#if Xcode27SDKCompataibility
-                windowScene.destructionConditions.insert(.systemDisconnection)
-#else
                 windowScene._destructionConditions.insert(.systemDisconnection)
-#endif
             }
             
             // <+11580>
             if case .suppressed = sceneListItem.defaultLaunchBehavior {
-#if Xcode27SDKCompataibility
-                windowScene.destructionConditions.insert(.userInitiatedDismissal)
-#else
                 windowScene._destructionConditions.insert(.userInitiatedDismissal)
-#endif
             }
             
             // <+11672>
@@ -1579,15 +1559,9 @@ extension AppSceneDelegate : AppGraphObserver {
                         let windowScene = window.windowScene
                     {
                         // <+3892>
-#if Xcode27SDKCompataibility
-                        var destructionConditions = windowScene.destructionConditions
-                        destructionConditions.insert(.systemDisconnection)
-                        windowScene.destructionConditions = destructionConditions
-#else
                         var destructionConditions = windowScene._destructionConditions
                         destructionConditions.insert(.systemDisconnection)
                         windowScene._destructionConditions = destructionConditions
-#endif
                         // <+8248>
                         // <+6272>
                     } else {
@@ -1603,15 +1577,9 @@ extension AppSceneDelegate : AppGraphObserver {
                         let windowScene = window.windowScene
                     {
                         // <+6496>
-#if Xcode27SDKCompataibility
-                        var destructionConditions = windowScene.destructionConditions
-                        destructionConditions.remove(.systemDisconnection)
-                        windowScene.destructionConditions = destructionConditions
-#else
                         var destructionConditions = windowScene._destructionConditions
                         destructionConditions.remove(.systemDisconnection)
                         windowScene._destructionConditions = destructionConditions
-#endif
                         // <+2228>
                         // <+6272>
                     } else {
@@ -1674,20 +1642,12 @@ extension AppSceneDelegate : AppGraphObserver {
                 // <+4680>
                 if case .disabled = sceneItem.restorationBehavior {
                     // <+4708>
-#if Xcode27SDKCompataibility
-                    self.window?.windowScene?.destructionConditions.insert(.systemDisconnection)
-#else
                     self.window?.windowScene?._destructionConditions.insert(.systemDisconnection)
-#endif
                     // <+8496>
                     // <+8588>
                 } else {
                     // <+6764>
-#if Xcode27SDKCompataibility
-                    self.window?.windowScene?.destructionConditions.remove(.systemDisconnection)
-#else
                     self.window?.windowScene?._destructionConditions.remove(.systemDisconnection)
-#endif
                     // <+8580>
                     // <+8588>
                 }
