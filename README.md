@@ -1,5 +1,12 @@
 # MySwiftUI
 
+## Requirements
+
+- Xcode 26
+    - If you use Xcode 27, use the [`Xcode27SDKCompataibility`](https://github.com/pookjw/MySwiftUI/blob/c7d534f836a58df0f3e30fa257bd59b9936ef953/Package.swift#L39) trait.
+
+- visionOS 26.5
+
 ## Implemented APIs
 
 ### SwiftUI
