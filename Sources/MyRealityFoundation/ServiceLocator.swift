@@ -41,7 +41,7 @@ public let __privateEngineMode: Bool = {
     static let lock = OSAllocatedUnfairLock(initialState: ())
     fileprivate nonisolated(unsafe) static var createdSharedEngine = false
     
-    private var coreServiceLocator: OpaquePointer // 0x10
+    private(set) var coreServiceLocator: OpaquePointer // 0x10
     public unowned var engine: __Engine // 0x18
     private var eventBus: REEventBus // 0x20
     private var renderServiceActual: (any __RenderService)? = nil // 0x28

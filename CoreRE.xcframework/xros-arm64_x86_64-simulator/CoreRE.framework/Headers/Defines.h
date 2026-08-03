@@ -190,7 +190,40 @@ typedef NS_OPTIONS(uint32_t, REEngineServiceMask) {
     REEngineServiceMaskNone = 0,
     REEngineServiceMaskUnknown2 = (1 << 2),
     REEngineServiceMaskUnknown5 = (1 << 5)
-}  NS_SWIFT_NAME(Engine.ServiceMask);
+} NS_SWIFT_NAME(Engine.ServiceMask);
+
+struct REAnimationTimelineEventCreated {};
+typedef const struct REAnimationTimelineEventCreated REAnimationTimelineEventCreated __attribute__((swift_wrapper(struct)));
+
+struct REAnimationTimelineEventTerminated {};
+typedef const struct REAnimationTimelineEventTerminated REAnimationTimelineEventTerminated __attribute__((swift_wrapper(struct)));
+
+struct REAnimationTimelineEventSkipped {};
+typedef const struct REAnimationTimelineEventSkipped REAnimationTimelineEventSkipped __attribute__((swift_wrapper(struct)));
+
+struct REAnimationTimelineEventPause {};
+typedef const struct REAnimationTimelineEventPause REAnimationTimelineEventPause __attribute__((swift_wrapper(struct)));
+
+struct REAnimationTimelineEventResume {};
+typedef const struct REAnimationTimelineEventResume REAnimationTimelineEventResume __attribute__((swift_wrapper(struct)));
+
+struct REAnimationTimelineEventStart {};
+typedef const struct REAnimationTimelineEventStart REAnimationTimelineEventStart __attribute__((swift_wrapper(struct)));
+
+struct REAnimationTimelineEventUpdate {};
+typedef const struct REAnimationTimelineEventUpdate REAnimationTimelineEventUpdate __attribute__((swift_wrapper(struct)));
+
+struct REAnimationTimelineEventEnd {};
+typedef const struct REAnimationTimelineEventEnd REAnimationTimelineEventEnd __attribute__((swift_wrapper(struct)));
+
+struct RESubscriptionHandle {
+    unsigned long long eventID;
+    unsigned long long subscriptionID;
+
+} NS_SWIFT_NAME(SubscriptionHandle);
+typedef struct RESubscriptionHandle RESubscriptionHandle;
+
+RE_EXTERN const void * RETimelineEventFilter(const char *);
 
 NS_ASSUME_NONNULL_END
 

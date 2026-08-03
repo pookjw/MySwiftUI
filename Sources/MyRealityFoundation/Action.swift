@@ -1,3 +1,5 @@
+private import CoreRE
+
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 public protocol EntityAction {
     associatedtype EventParameterType = Never
@@ -50,12 +52,86 @@ extension EntityAction {
         unsafe AnimationResource.actionTypeMap[typeName] = self
     }
     
-    @preconcurrency @MainActor static func __subscribe(
+    static func __subscribe(
         to event: ActionEventType,
         _ engine: __Engine?,
         _ block: (ActionEvent<Self>) -> Void
     ) {
-        assertUnimplemented()
+        /*
+         event -> x0 -> x22
+         engine -> x1 -> x28
+         block -> x2/x3 -> x20/x26
+         */
+        // x19
+        weak var engine_2 = engine ?? __ServiceLocator.shared.engine
+        
+        // <+112>
+        func dispatchEvent(sourceObject: UnsafeMutableRawPointer?, payloadRef: UnsafeRawPointer) -> CoreRE::EventHandlerResult {
+            guard let engine_2 else {
+                assertUnimplemented()
+            }
+            
+            assertUnimplemented()
+        }
+        
+        let typeName = _typeName(self, qualified: true)
+        
+        let eventID: UInt64
+        if event == .started {
+            eventID = getEventID(REAnimationTimelineEventStart.self)
+        } else if event == .updated {
+            eventID = getEventID(REAnimationTimelineEventUpdate.self)
+        } else if event == .ended {
+            eventID = getEventID(REAnimationTimelineEventEnd.self)
+        } else if event == .skipped {
+            eventID = getEventID(REAnimationTimelineEventSkipped.self)
+        } else if event == .paused {
+            eventID = getEventID(REAnimationTimelineEventPause.self)
+        } else if event == .resumed {
+            eventID = getEventID(REAnimationTimelineEventResume.self)
+        } else if event == .terminated {
+            eventID = getEventID(REAnimationTimelineEventTerminated.self)
+        } else if event == .created {
+            eventID = getEventID(REAnimationTimelineEventCreated.self)
+        } else {
+            return
+        }
+        
+        // <+388>
+        var subscriptions = unsafe AnimationResource.actionSubscriptions[ObjectIdentifier(self)] ?? [:]
+        
+        // <+516>
+        if let handle = subscriptions[event] {
+            // ConstantForceEffect인지 확실하지 않음
+            unsafe unsafeBitCast(
+                ConstantForceEffect.eventBus(engine),
+                to: CoreRE::EventBus.self
+            )
+                .unsubscribe(handle)
+        }
+        
+        // <+572>
+        // x28
+        let eventBus = unsafe unsafeBitCast(
+            ConstantForceEffect.eventBus(engine),
+            to: CoreRE::EventBus.self
+        )
+        
+        let handle = unsafe eventBus
+            .subscribe(
+                eventID,
+                nil,
+                { sourceObject, payloadRef in
+                    unsafe dispatchEvent(sourceObject: sourceObject, payloadRef: payloadRef)
+                },
+                typeName.utf8CString.withUnsafeBufferPointer { pointer in
+                    return unsafe RETimelineEventFilter(pointer.baseAddress.unsafelyUnwrapped)
+                }
+            )
+        
+        // <+800>
+        subscriptions[event] = handle
+        unsafe AnimationResource.actionSubscriptions[ObjectIdentifier(self)] = subscriptions
     }
     
     @preconcurrency @MainActor static func __unsubscribe(

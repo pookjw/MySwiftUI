@@ -189,7 +189,12 @@ exports:
     _REAudioSceneServiceGetExternalSourceControl,
     _REEngineConfigurationSetServicesToCreate,
     _REEngineConfigurationGetServicesToCreate,
-    _REAssetManagerAddCleanupCallback ]
+    _REAssetManagerAddCleanupCallback,
+    _REEventBusUnsubscribe,
+    _REEngineGetEventBus,
+    _REServiceLocatorGetEventBus,
+    _RETimelineEventFilter,
+    _REEventBusSubscribe ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

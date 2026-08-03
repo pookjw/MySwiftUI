@@ -40,3 +40,7 @@ extension REEventBus {
         }
     }
 }
+
+func getEventID<T>(_ type: T.Type) -> UInt64 {
+    assertUnimplemented()
+}

@@ -1,3 +1,5 @@
+private import CoreRE
+
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 public protocol ForceEffectProtocol {
     var parameterTypes: PhysicsBodyParameterTypes { get }
@@ -31,6 +33,21 @@ extension ForceEffectProtocol {
     
     static func createFromCoreAndUserForceEffect<T : ForceEffectProtocol>(_: Int, _: OpaquePointer, _: T) -> any ForceEffectBase {
         assertUnimplemented()
+    }
+    
+    static func eventBus(_ engine: __Engine?) -> OpaquePointer {
+        if let engine {
+            let coreEngine = unsafe unsafeBitCast(engine.coreEngine, to: CoreRE::Engine.self)
+            let eventBus = coreEngine.eventBus
+            return unsafe unsafeBitCast(eventBus, to: OpaquePointer.self)
+        } else {
+            let coreServiceLocator = unsafe unsafeBitCast(
+                __ServiceLocator.shared.coreServiceLocator,
+                to: CoreRE::ServiceLocator.self
+            )
+            let eventBus = coreServiceLocator.eventBus
+            return unsafe unsafeBitCast(eventBus, to: OpaquePointer.self)
+        }
     }
 }
 

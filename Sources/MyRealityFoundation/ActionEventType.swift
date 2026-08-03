@@ -1,49 +1,39 @@
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 public struct ActionEventType : OptionSet, Hashable {
     public static var started: ActionEventType {
-        get {
-            assertUnimplemented()
-        }
+        return ActionEventType(rawValue: 1 << 0)
     }
     
     public static var updated: ActionEventType {
-        get {
-            assertUnimplemented()
-        }
+        return ActionEventType(rawValue: 1 << 1)
     }
     
     public static var ended: ActionEventType {
-        get {
-            assertUnimplemented()
-        }
+        return ActionEventType(rawValue: 1 << 2)
     }
     
     public static var skipped: ActionEventType {
-        get {
-            assertUnimplemented()
-        }
+        return ActionEventType(rawValue: 1 << 3)
     }
     
     public static var paused: ActionEventType {
-        get {
-            assertUnimplemented()
-        }
+        return ActionEventType(rawValue: 1 << 4)
     }
     
     public static var resumed: ActionEventType {
-        get {
-            assertUnimplemented()
-        }
+        return ActionEventType(rawValue: 1 << 5)
     }
     
     public static var terminated: ActionEventType {
-        get {
-            assertUnimplemented()
-        }
+        return ActionEventType(rawValue: 1 << 6)
+    }
+    
+    static var created: ActionEventType {
+        return ActionEventType(rawValue: 1 << 7)
     }
     
     public init(rawValue: UInt) {
-        assertUnimplemented()
+        self.rawValue = rawValue
     }
     
     public let rawValue: UInt

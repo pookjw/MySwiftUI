@@ -99,12 +99,69 @@ extension ActionHandlerProtocol {
     }
     
     static func subscribe(_ engine: __Engine?) {
-//        Self.ActionType.__subscribe(
-//            to: <#T##ActionEventType#>,
-//            engine,
-//            <#T##block: (ActionEvent<EntityAction>) -> Void##(ActionEvent<EntityAction>) -> Void#>
-//        )
-        assertUnimplemented()
+        Self.ActionType.__subscribe(
+            to: .started,
+            engine
+        ) { event in
+            // $s17RealityFoundation21ActionHandlerProtocolPAAE9subscribeyy0A3Kit8__EngineCSgFZyAA0C5EventVy0C4TypeQzGcfU_TA
+            assertUnimplemented()
+        }
+        
+        Self.ActionType.__subscribe(
+            to: .updated,
+            engine
+        ) { event in
+            // $s17RealityFoundation21ActionHandlerProtocolPAAE9subscribeyy0A3Kit8__EngineCSgFZyAA0C5EventVy0C4TypeQzGcfU0_TA
+            assertUnimplemented()
+        }
+        
+        Self.ActionType.__subscribe(
+            to: .ended,
+            engine
+        ) { event in
+            // $s17RealityFoundation21ActionHandlerProtocolPAAE9subscribeyy0A3Kit8__EngineCSgFZyAA0C5EventVy0C4TypeQzGcfU1_TA
+            assertUnimplemented()
+        }
+        
+        Self.ActionType.__subscribe(
+            to: .skipped,
+            engine
+        ) { event in
+            // $s17RealityFoundation21ActionHandlerProtocolPAAE9subscribeyy0A3Kit8__EngineCSgFZyAA0C5EventVy0C4TypeQzGcfU2_TA
+            assertUnimplemented()
+        }
+        
+        Self.ActionType.__subscribe(
+            to: .paused,
+            engine
+        ) { event in
+            // $s17RealityFoundation21ActionHandlerProtocolPAAE9subscribeyy0A3Kit8__EngineCSgFZyAA0C5EventVy0C4TypeQzGcfU3_TA
+            assertUnimplemented()
+        }
+        
+        Self.ActionType.__subscribe(
+            to: .resumed,
+            engine
+        ) { event in
+            // $s17RealityFoundation21ActionHandlerProtocolPAAE9subscribeyy0A3Kit8__EngineCSgFZyAA0C5EventVy0C4TypeQzGcfU4_TA
+            assertUnimplemented()
+        }
+        
+        Self.ActionType.__subscribe(
+            to: .terminated,
+            engine
+        ) { event in
+            // $s17RealityFoundation21ActionHandlerProtocolPAAE9subscribeyy0A3Kit8__EngineCSgFZyAA0C5EventVy0C4TypeQzGcfU5_TA
+            assertUnimplemented()
+        }
+        
+        Self.ActionType.__subscribe(
+            to: .created,
+            engine
+        ) { event in
+            // $s17RealityFoundation21ActionHandlerProtocolPAAE9subscribeyy0A3Kit8__EngineCSgFZyAA0C5EventVy0C4TypeQzGcfU6_TA
+            assertUnimplemented()
+        }
     }
     
     static func actionHandler(_: ActionEvent<Self.ActionType>) -> Self? {

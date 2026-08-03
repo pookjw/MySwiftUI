@@ -20,5 +20,6 @@ RE_EXTERN bool REEngineConfigurationGetUseMetal(REEngineConfigurationRef) NS_SWI
 RE_EXTERN void REEngineConfigurationSetUseMetal(REEngineConfigurationRef, bool) NS_SWIFT_NAME(setter:Engine.Configuration.useMetal(self:_:));
 RE_EXTERN void REEngineConfigurationSetServicesToCreate(REEngineConfigurationRef, REEngineServiceMask) NS_SWIFT_NAME(setter:Engine.Configuration.servicesToCreate(self:_:));
 RE_EXTERN REEngineServiceMask REEngineConfigurationGetServicesToCreate(REEngineConfigurationRef) NS_SWIFT_NAME(getter:Engine.Configuration.servicesToCreate(self:));
+RE_EXTERN REEventBusRef REEngineGetEventBus(REEngineRef) NS_SWIFT_NAME(getter:Engine.eventBus(self:));
 
 NS_ASSUME_NONNULL_END
