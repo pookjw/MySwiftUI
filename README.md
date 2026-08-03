@@ -140,8 +140,6 @@ SwiftUI & RealityKit Disassembly
   - [`ColorScheme`](https://developer.apple.com/documentation/swiftui/colorscheme)
   - [`ColorSchemeContrast`](https://developer.apple.com/documentation/swiftui/colorschemecontrast)
   - [`DynamicTypeSize`](https://developer.apple.com/documentation/swiftui/dynamictypesize)
-  - [`UnitPoint`](https://developer.apple.com/documentation/swiftui/unitpoint)
-  - [`UnitPoint3D`](https://developer.apple.com/documentation/swiftui/unitpoint3d)
   - [`ContainerValues`](https://developer.apple.com/documentation/swiftui/containervalues)
   - [`ContainerValueKey`](https://developer.apple.com/documentation/swiftui/containervalues/containervaluekey)
 
