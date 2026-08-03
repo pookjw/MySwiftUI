@@ -127,16 +127,12 @@
 
 - Additional implemented SwiftUI APIs
   - [`Animation`](https://developer.apple.com/documentation/swiftui/animation)
-  - [`Animation.init(_:)`](https://developer.apple.com/documentation/swiftui/animation/init(_:))
-  - [`Animation.default`](https://developer.apple.com/documentation/swiftui/animation/default)
   - [`Transaction`](https://developer.apple.com/documentation/swiftui/transaction)
   - [`ColorScheme`](https://developer.apple.com/documentation/swiftui/colorscheme)
   - [`ColorSchemeContrast`](https://developer.apple.com/documentation/swiftui/colorschemecontrast)
   - [`DynamicTypeSize`](https://developer.apple.com/documentation/swiftui/dynamictypesize)
   - [`UnitPoint`](https://developer.apple.com/documentation/swiftui/unitpoint)
-  - [`UnitPoint.init(x:y:)`](https://developer.apple.com/documentation/swiftui/unitpoint/init(x:y:))
   - [`UnitPoint3D`](https://developer.apple.com/documentation/swiftui/unitpoint3d)
-  - [`UnitPoint3D.init(x:y:z:)`](https://developer.apple.com/documentation/swiftui/unitpoint3d/init(x:y:z:))
   - [`ContainerValues`](https://developer.apple.com/documentation/swiftui/containervalues)
   - [`ContainerValueKey`](https://developer.apple.com/documentation/swiftui/containervalues/containervaluekey)
 
