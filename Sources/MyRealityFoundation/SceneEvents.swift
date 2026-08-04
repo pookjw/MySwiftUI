@@ -13,6 +13,10 @@ public enum SceneEvents {
         
         public let anchor: any HasAnchoring
     }
+    
+    struct Render {
+        // TODO
+    }
 }
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)

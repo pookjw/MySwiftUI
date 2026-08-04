@@ -103,22 +103,3 @@ extension CoreComponentType {
         case custom
     }
 }
-
-extension Component {
-    static func registerBuiltin(
-        bundle: Bundle,
-        reComponentClass: CoreRE::Component.ClassPtr?,
-        access: ComponentInfo.Access,
-        availability: ComponentInfo.Availability
-    ) {
-        /*
-         bundle -> x0 -> x27
-         reComponentClass -> x1 -> x25
-         access -> x2 -> w28
-         availability -> x3 -> x22/x21/x23
-         */
-        // x24
-        let engine = __ServiceLocator.__sharedEngine!
-        assertUnimplemented()
-    }
-}

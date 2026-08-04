@@ -8,7 +8,15 @@ struct RealityViewComponent : HiddenComponent {
     }
 
     @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
-        assertUnimplemented()
+        if deinitialize {
+            unsafe ref
+                .assumingMemoryBound(to: RealityViewComponent.self)
+                .deinitialize(count: 1)
+        }
+        
+        unsafe ref
+            .assumingMemoryBound(to: RealityViewComponent.self)
+            .initialize(to: attribute as! RealityViewComponent)
     }
 
     @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {

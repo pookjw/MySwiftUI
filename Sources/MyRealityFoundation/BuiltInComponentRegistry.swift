@@ -325,3 +325,44 @@ extension ComponentInfo {
         }
     }
 }
+
+extension Component {
+    static func registerBuiltin(
+        bundle: Bundle,
+        reComponentClass: CoreRE::Component.ClassPtr?,
+        access: ComponentInfo.Access,
+        availability: ComponentInfo.Availability
+    ) {
+        /*
+         bundle -> x0 -> x27
+         reComponentClass -> x1 -> x25
+         access -> x2 -> w28
+         availability -> x3 -> x22/x21/x23
+         */
+        // x29 - 0xa8
+        let sceneService = __ServiceLocator
+            .__sharedEngine
+            .services
+            .sceneService
+        
+        guard let sceneManager = sceneService as? SceneManager else {
+            assertionFailure("Could not get builtinComponentRegistry")
+        }
+        
+        // <+228>
+        unsafe sceneManager
+            .builtinComponentRegistry
+            .register(
+                ComponentInfo(
+                    bundleIdentifier: bundle.bundleIdentifier ?? "<unknown bundle>",
+                    type: self,
+                    reComponentClass: unsafeBitCast(
+                        reComponentClass,
+                        to: OpaquePointer.self
+                    ),
+                    access: access,
+                    availability: availability
+                )
+            )
+    }
+}

@@ -181,7 +181,7 @@ struct _RealityViewAsync<Placeholder : View> : View {
         // self -> x22 -> x20
         if self.uiScene is UIWindowScene {
             // <+2100>
-            _ = SpatialTrackingManager.shared
+            _ = unsafe SpatialTrackingManager.shared
             // <+2140>
         }
         

@@ -50,11 +50,47 @@ extension Scene {
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene {
-    @preconcurrency @MainActor public func subscribe<E>(to event: E.Type, on sourceObject: (any EventSource)? = nil, componentType: (any Component.Type)?, _ handler: @escaping (E) -> Void) -> any Cancellable where E : Event {
-        assertUnimplemented()
+    @preconcurrency @MainActor public func subscribe<E>(
+        to event: E.Type,
+        on sourceObject: (any EventSource)? = nil,
+        componentType: (any Component.Type)?,
+        _ handler: @escaping (E) -> Void
+    ) -> any Cancellable where E : Event {
+        return self.subscribe(
+            to: event,
+            on: sourceObject,
+            componentType: componentType,
+            rootEntity: nil,
+            matching: nil,
+            handler
+        )
     }
     
-    @preconcurrency @MainActor public func publisher<E>(for event: E.Type, on sourceObject: (any EventSource)? = nil, componentType: (any Component.Type)?) -> Scene.Publisher<E> where E : Event {
+    func subscribe<E : Event>(
+        to event: E.Type,
+        on sourceObject: (any EventSource)?,
+        componentType: (any Component.Type)?,
+        rootEntity: MyRealityFoundation::Entity?,
+        matching: String?,
+        _ handler: @escaping (E) -> Void
+    ) -> any Cancellable {
+        if event == SynchronizationEvents.OwnershipRequest.self {
+            // <+300>
+            assertUnimplemented()
+        } else if (event != SceneEvents.Update.self) && (event != SceneEvents.Render.self) {
+            // <+564>
+            assertUnimplemented()
+        } else {
+            // <+92>
+            assertUnimplemented()
+        }
+    }
+    
+    @preconcurrency @MainActor public func publisher<E>(
+        for event: E.Type,
+        on sourceObject: (any EventSource)? = nil,
+        componentType: (any Component.Type)?
+    ) -> Scene.Publisher<E> where E : Event {
         assertUnimplemented()
     }
 }

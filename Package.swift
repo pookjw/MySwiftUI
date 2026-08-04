@@ -130,7 +130,8 @@ let package = Package(
                             "RealityKitCompataibility"
                         ]
                     )
-                )
+                ),
+                .byName(name: "RealityFusion")
             ],
             swiftSettings: [
                 .strictMemorySafety()
