@@ -229,6 +229,7 @@ func printOffsets() {
     printFields(_RealityFoundationPrivate.ComponentInfo.self, isClassType: false)
     printFields("17RealityFoundation10LoadTracerC", isClassType: true)
     printFields(__RealityFileURLResolver.self, isClassType: true)
+    printFields(ForceEffectParameters.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

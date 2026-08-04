@@ -1,4 +1,5 @@
 // 26648CD2CA3ECBBEA91C492555385A6A
+private import CoreRE
 
 struct SceneOriginComponent : Component, Codable {
     static var __typeName: String {
@@ -56,7 +57,35 @@ struct SceneOriginComponent : Component, Codable {
 }
 
 extension SceneOriginComponent {
-    enum CodingKeys : CodingKey, CustomDebugStringConvertible, CustomStringConvertible {
-        
+    fileprivate enum CodingKeys : CodingKey, CustomDebugStringConvertible, CustomStringConvertible {
     }
+}
+
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
+extension Entity {
+    @MainActor @preconcurrency public static func __fromCore(_ coreEntity: __EntityRef) -> Entity {
+        let core = unsafe unsafeBitCast(coreEntity.core, to: CoreRE::Entity.self)
+        
+        if let swiftObject = unsafe core.swiftObject {
+            return unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Entity
+        } else {
+            assert(!core.isBeingDestroyed)
+            
+            if let infoType = unsafe MyRealityFoundation::Entity.entityInfoType(coreEntity.core) {
+                let result = infoType.init()
+                unsafe core.swiftObject = Unmanaged.passUnretained(result).toOpaque()
+                return result
+            } else {
+                return unsafe makeEntity(for: coreEntity.core)
+            }
+        }
+    }
+    
+    fileprivate static func entityInfoType(_: OpaquePointer) -> MyRealityFoundation::Entity.Type? {
+        assertUnimplemented()
+    }
+}
+
+fileprivate func makeEntity(for core: OpaquePointer) -> MyRealityFoundation::Entity {
+    assertUnimplemented()
 }

@@ -819,13 +819,6 @@ extension Entity : Identifiable {
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
-    @MainActor @preconcurrency public static func __fromCore(_ coreEntity: __EntityRef) -> Entity {
-        assertUnimplemented()
-    }
-}
-
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension Entity {
     @MainActor @preconcurrency public func clone(recursive: Bool) -> Self {
         assertUnimplemented()
     }

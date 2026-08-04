@@ -1,5 +1,7 @@
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
-public struct UnsafeForceEffectBuffer<T> : Sequence {
+@unsafe public struct UnsafeForceEffectBuffer<T> : @unsafe Sequence {
+    let storage: UnsafeBufferPointer<T>
+    
     public subscript(index: Int) -> T {
         get {
             assertUnimplemented()

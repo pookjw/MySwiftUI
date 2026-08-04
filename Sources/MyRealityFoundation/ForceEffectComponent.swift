@@ -3,7 +3,7 @@ private import CoreRE
 
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 public struct ForceEffectComponent : Component {
-    @safe fileprivate static nonisolated(unsafe) var _registeredForceEffectsCodable = MyRealityFoundation::Atomic<[ObjectIdentifier : any (ForceEffectProtocol & Codable).Type]>(wrappedValue: [:])
+    fileprivate static let _registeredForceEffectsCodable = MyRealityFoundation::Atomic<[ObjectIdentifier : any (ForceEffectProtocol & Codable).Type]>(wrappedValue: [:])
     
     public var effects: [any ForceEffectBase]
     
@@ -145,7 +145,48 @@ extension ForceEffectProtocol where Self : Decodable, Self : Encodable {
         engine: __Engine?,
         _ block: ((inout ForceEffectEvent<Self>) -> Void)?
     ) {
-        assertUnimplemented()
+        var map = ForceEffectComponent._registeredForceEffectsCodable.wrappedValue
+        map[ObjectIdentifier(self)] = self
+        ForceEffectComponent._registeredForceEffectsCodable.wrappedValue = map
+        
+        // <+244>
+        guard let block else {
+            return
+        }
+        
+        let eventBus = unsafe self.eventBus(engine)
+        let eventID = getEventID(REEntityForceEffectComputeForcesEvent.self)
+        
+        unsafe unsafeBitCast(eventBus, to: CoreRE::EventBus.self)
+            .subscribeWithMatch(
+                eventID,
+                nil,
+                { _, core in
+                    // $s17RealityFoundation19ForceEffectProtocolPAASeRzSERzrlE10__register6engine_y0A3Kit8__EngineCSg_yAA0cD5EventVyxGzcSgtFZ08dispatchJ0L_12sourceObject10payloadRefSo20REEventHandlerResultVSvSg_SVtAaBRzSeRzSERzlFTA
+                    // x19 + 0x208
+                    let parameters = unsafe ForceEffectParameters.__fromCore(core)
+                    
+                    let casted = unsafe unsafeBitCast(core, to: CoreRE::ForceEffectParameters.self)
+                    let effectData = unsafe Data(
+                        bytes: casted.effectData,
+                        count: casted.effectDataCount
+                    )
+                    
+                    if var event = try? ForceEffectEvent<Self>(
+                        effectData: effectData,
+                        parameters: parameters
+                    ) {
+                        block(&event)
+                    }
+                    
+                    return .unknown0
+                },
+                UnsafeRawPointer(
+                    bitPattern: UInt(
+                        bitPattern: ObjectIdentifier(Int.self)
+                    )
+                ).unsafelyUnwrapped
+            )
     }
     
     static func create(_: Int, _: OpaquePointer) throws -> any ForceEffectBase {
