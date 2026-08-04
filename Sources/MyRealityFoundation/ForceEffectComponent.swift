@@ -166,13 +166,16 @@ extension ForceEffectProtocol where Self : Decodable, Self : Encodable {
                     // x19 + 0x208
                     let parameters = unsafe ForceEffectParameters.__fromCore(core)
                     
-                    let casted = unsafe unsafeBitCast(core, to: CoreRE::ForceEffectParameters.self)
+                    let casted = unsafe core
+                        .assumingMemoryBound(to: CoreRE::ForceEffectParameters.self)
+                        .pointee
+                    
                     let effectData = unsafe Data(
                         bytes: casted.effectData,
                         count: casted.effectDataCount
                     )
                     
-                    if var event = try? ForceEffectEvent<Self>(
+                    if var event = try? unsafe ForceEffectEvent<Self>(
                         effectData: effectData,
                         parameters: parameters
                     ) {
@@ -183,7 +186,7 @@ extension ForceEffectProtocol where Self : Decodable, Self : Encodable {
                 },
                 UnsafeRawPointer(
                     bitPattern: UInt(
-                        bitPattern: ObjectIdentifier(Int.self)
+                        bitPattern: ObjectIdentifier(self)
                     )
                 ).unsafelyUnwrapped
             )

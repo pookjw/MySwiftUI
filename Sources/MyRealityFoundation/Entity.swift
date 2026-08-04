@@ -785,7 +785,7 @@ extension Entity {
         assertUnimplemented()
     }
     
-    package private(set) var coreEntity: OpaquePointer
+    package internal(set) var coreEntity: OpaquePointer
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)

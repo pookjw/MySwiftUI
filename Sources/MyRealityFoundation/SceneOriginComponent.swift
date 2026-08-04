@@ -2,16 +2,8 @@
 private import CoreRE
 
 struct SceneOriginComponent : Component, Codable {
-    static var __typeName: String {
-        assertUnimplemented()
-    }
-    
     @_spi(Internal) public static var componentName: String {
-        assertUnimplemented()
-    }
-    
-    static var __size: Int {
-        assertUnimplemented()
+        return String(reflecting: self)
     }
     
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
@@ -43,7 +35,6 @@ struct SceneOriginComponent : Component, Codable {
     }
     
     @preconcurrency @MainActor static func __addIntrospectionData(_ builder: OpaquePointer?) {
-        assertUnimplemented()
     }
     
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
@@ -73,6 +64,9 @@ extension Entity {
             
             if let infoType = unsafe MyRealityFoundation::Entity.entityInfoType(coreEntity.core) {
                 let result = infoType.init()
+                unsafe unsafeBitCast(result.coreEntity, to: CoreRE::Entity.self)
+                    .swiftObject = nil
+                unsafe result.coreEntity = unsafeBitCast(core, to: OpaquePointer.self)
                 unsafe core.swiftObject = Unmanaged.passUnretained(result).toOpaque()
                 return result
             } else {
