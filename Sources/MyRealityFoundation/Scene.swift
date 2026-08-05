@@ -160,6 +160,7 @@ extension Scene {
         assertUnimplemented()
     }
     
+    // $s10RealityKit5SceneC0A10FoundationE9publisher3for2on13componentType10rootEntity8matchingAC9PublisherVy_xGxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgtAA0N0RzlF
     func publisher<T : Event>(
         for type: T.Type,
         on eventSource: EventSource?,
@@ -170,7 +171,7 @@ extension Scene {
         /*
          self -> x20 -> x29 - 0xd0
          type -> x0 -> x29 - 0xd8
-         eventSource -> x1 -> x29 - 0xe0
+         eventSource -> x1 -> x29 - 0xf8
          componentType -> x2/x3 -> x29 - 0x330
          rootEntity -> x4 -> x20
          matching -> x5/x6
@@ -179,16 +180,183 @@ extension Scene {
         // <+4032>
         // x29 - 0x100
         let coreEntity = unsafe rootEntity?.coreEntity
-        assertUnimplemented()
+        
+        if type is SceneEvents.Update.Type {
+            assertUnimplemented()
+        } else if type is SceneEvents.Render.Type {
+            assertUnimplemented()
+        } else if type is SceneEvents.AnchoredStateChanged.Type {
+            assertUnimplemented()
+        } else if type is AnchorStateEvents.DidAnchor.Type {
+            assertUnimplemented()
+        } else if type is AnchorStateEvents.WillUnanchor.Type {
+            assertUnimplemented()
+        } else if type is AnchorStateEvents.DidFailToAnchor.Type {
+            assertUnimplemented()
+        } else if type is SceneEvents.TrackingStateUpdate.Type {
+            assertUnimplemented()
+        } else if type is SceneEvents.DidAddEntity.Type {
+            assertUnimplemented()
+        } else if type is SceneEvents.DidActivateEntity.Type {
+            assertUnimplemented()
+        } else if type is SceneEvents.WillDeactivateEntity.Type {
+            assertUnimplemented()
+        } else if type is SceneEvents.WillRemoveEntity.Type {
+            assertUnimplemented()
+        } else if type is SceneEvents.DidReparentEntity.Type {
+            assertUnimplemented()
+        } else if type is AnimationEvents.SkeletalPoseUpdateComplete.Type {
+            assertUnimplemented()
+        } else if type is AnimationEvents.PlaybackCompleted.Type {
+            assertUnimplemented()
+        } else if type is AnimationEvents.PlaybackLooped.Type {
+            assertUnimplemented()
+        } else if type is AnimationEvents.PlaybackTerminated.Type {
+            assertUnimplemented()
+        } else if type is AnimationEvents.PlaybackStarted.Type {
+            assertUnimplemented()
+        } else if type is CollisionEvents.Began.Type {
+            assertUnimplemented()
+        } else if type is CollisionEvents.Updated.Type {
+            assertUnimplemented()
+        } else if type is CollisionEvents.Ended.Type {
+            assertUnimplemented()
+        } else if type is PhysicsSimulationEvents.WillSimulate.Type {
+            assertUnimplemented()
+        } else if type is PhysicsSimulationEvents.DidSimulate.Type {
+            assertUnimplemented()
+        } else if type is MotionStateEvents.DidChange.Type {
+            assertUnimplemented()
+        } else if type is SynchronizationEvents.OwnershipRequest.Type {
+            assertUnimplemented()
+        } else if type is SynchronizationEvents.OwnershipResponse.Type {
+            assertUnimplemented()
+        } else if type is SynchronizationEvents.OwnershipChanged.Type {
+            assertUnimplemented()
+        } else if type is AudioEvents.PlaybackCompleted.Type {
+            assertUnimplemented()
+        } else if type is ComponentEvents.DidAdd.Type {
+            assertUnimplemented()
+        } else if type is ComponentEvents.DidActivate.Type {
+            let publisher = self.eventService
+                .publisher(
+                    for: CoreRE::REComponentDidActivateEvent.self,
+                    on: eventSource,
+                    componentType: componentType
+                )
+                
+            return unsafe MyRealityFoundation::Scene.Publisher(corePublisher: publisher) { event -> ComponentEvents.DidActivate? in
+                // $s10RealityKit5SceneC0A10FoundationE9publisher3for2on13componentType10rootEntity8matchingAC9PublisherVy_xGxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgtAA0N0RzlFAD0P6EventsO14WillDeactivateVSgSo011REComponentrsN0VcfU28_TA
+                guard
+                    let componentType = unsafe MyRealityFoundation::Scene
+                        .getPublicComponentType(
+                            unsafeBitCast(event.componentClass, to: OpaquePointer.self)
+                        ),
+                    unsafe event.entity.isNonHiddenAndInHierarchy(
+                        unsafeBitCast(coreEntity, to: CoreRE::Entity?.self)
+                    )
+                else {
+                    return nil
+                }
+                
+                let entity = unsafe MyRealityFoundation::Entity.__fromCore(
+                    __EntityRef(
+                        core: unsafeBitCast(event.entity, to: OpaquePointer.self)
+                    )
+                )
+                
+                return ComponentEvents.DidActivate(
+                    entity: entity,
+                    componentType: componentType
+                )
+            } as! MyRealityFoundation::Scene.Publisher<T>
+        } else if type is ComponentEvents.WillDeactivate.Type {
+            assertUnimplemented()
+        } else if type is ComponentEvents.WillRemove.Type {
+            assertUnimplemented()
+        } else if type is ComponentEvents.DidChange.Type {
+            assertUnimplemented()
+        } else if type is (any AccessibilityActivateEvent.Type) {
+            assertUnimplemented()
+        } else if type is (any AccessibilityIncrementEvent.Type) {
+            assertUnimplemented()
+        } else if type is (any AccessibilityDecrementEvent.Type) {
+            assertUnimplemented()
+        } else if type is (any AccessibilityCustomActionEvent.Type) {
+            assertUnimplemented()
+        } else if type is (any AccessibilityRotorNavigationEvent.Type) {
+            assertUnimplemented()
+        } else if type is ManipulationEvents.WillBegin.Type {
+            assertUnimplemented()
+        } else if type is ManipulationEvents.WillEnd.Type {
+            assertUnimplemented()
+        } else if type is ManipulationEvents.WillRelease.Type {
+            assertUnimplemented()
+        } else if type is ManipulationEvents.DidUpdateTransform.Type {
+            assertUnimplemented()
+        } else if type is ManipulationEvents.DidHandOff.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.ContentTypeDidChange.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.VideoSizeDidChange.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.ViewingModeDidChange.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.VideoReceiverEndpointDidChange.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.VideoReceiverEndpointDidChanged.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.ImmersiveViewingModeWillTransition.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.ImmersiveViewingModeDidChange.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.ImmersiveViewingModeDidTransition.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.VideoComfortMitigationDidOccur.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.MediaModeDidChange.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.SpatialVideoModeDidChange.Type {
+            assertUnimplemented()
+        } else if type is VideoPlayerEvents.RenderingStatusDidChange.Type {
+            assertUnimplemented()
+        } else if type is ImagePresentationEvents.TransitionStarted.Type {
+            assertUnimplemented()
+        } else if type is ImagePresentationEvents.TransitionCompleted.Type {
+            assertUnimplemented()
+        } else if type is SpatialMediaEvents.ImmersiveFrameSizeDidChange.Type {
+            assertUnimplemented()
+        } else if type is ImagePresentationComponent.Spatial3DImage.GenerationStartedEvent.Type {
+            assertUnimplemented()
+        } else if type is ImagePresentationComponent.Spatial3DImage.GenerationFailedEvent.Type {
+            assertUnimplemented()
+        } else if type is ImagePresentationComponent.Spatial3DImage.GenerationCancelledEvent.Type {
+            assertUnimplemented()
+        } else if type is ImagePresentationComponent.Spatial3DImage.GenerationCompletedEvent.Type {
+            assertUnimplemented()
+        } else if type is ImagePresentationComponent.Spatial3DImage.GenerationProgressUpdatedEvent.Type {
+            assertUnimplemented()
+        } else {
+            preconditionFailure("Unsupported event encountered")
+        }
     }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Scene {
     public struct Publisher<E> : Combine::Publisher where E : Event {
+        private let inner: Combine::AnyPublisher<E, Never>?
+        
         public typealias Output = E
         
         public typealias Failure = Never
+        
+        init<T : Sendable>(
+            corePublisher: MyRealityFoundation::Scene.CorePublisher<T>?,
+            transform: (T) -> E?
+        ) {
+            assertUnimplemented()
+        }
         
         public func receive<S>(subscriber: S) where E == S.Input, S : Subscriber, S.Failure == Never {
             assertUnimplemented()
@@ -374,6 +542,14 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
     }
     
     deinit {
+        assertUnimplemented()
+    }
+    
+    var engineEventService: (any EventService)? {
+        assertUnimplemented()
+    }
+    
+    static func getPublicComponentType(_: OpaquePointer) -> (any MyRealityFoundation::Component.Type)? {
         assertUnimplemented()
     }
 }

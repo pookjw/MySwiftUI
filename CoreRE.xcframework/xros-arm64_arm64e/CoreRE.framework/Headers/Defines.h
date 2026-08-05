@@ -273,7 +273,10 @@ typedef const struct RECollisionDidStopEvent RECollisionDidStopEvent __attribute
 struct REComponentDidAddEvent {};
 typedef const struct REComponentDidAddEvent REComponentDidAddEvent __attribute__((swift_wrapper(struct)));
 
-struct REComponentDidActivateEvent {};
+struct REComponentDidActivateEvent {
+    REEntityRef entity;
+    REComponentClassPtr componentClass;
+};
 typedef const struct REComponentDidActivateEvent REComponentDidActivateEvent __attribute__((swift_wrapper(struct)));
 
 struct REComponentWillDeactivateEvent {};
@@ -289,7 +292,9 @@ struct REMotionStateDidChangeEvent {};
 typedef const struct REMotionStateDidChangeEvent REMotionStateDidChangeEvent __attribute__((swift_wrapper(struct)));
 
 struct REOwnershipRequestEvent {
+    REEntityRef _Nullable entity;
     unsigned long long identifier;
+    bool * _Nullable unknown0;
 };
 typedef const struct REOwnershipRequestEvent REOwnershipRequestEvent __attribute__((swift_wrapper(struct)));
 
@@ -370,6 +375,27 @@ typedef const struct REImagePresentationTransitionCompletedEvent REImagePresenta
 
 struct RESpatialMediaImmersiveFrameSizeDidChangeEvent {};
 typedef const struct RESpatialMediaImmersiveFrameSizeDidChangeEvent RESpatialMediaImmersiveFrameSizeDidChangeEvent __attribute__((swift_wrapper(struct)));
+
+struct REForceEffectParameters {
+    REEntityRef _Nullable entity; // 0x0
+    float fixedDeltaTime; // 0x8
+    double elapsedTime; // 0x10
+    NSInteger physicsBodyCount; // 0x18
+    const float * _Nullable distances; // 0x20
+    const simd_float3 * _Nullable positions; // 0x28
+    const simd_quatf * _Nullable orientations; // 0x30
+    const simd_float3 * _Nullable velocities; // 0x38
+    const simd_float3 * _Nullable angularVelocities; // 0x40
+    const float * _Nullable masses; // 0x48
+    const simd_float3x3 * _Nullable inertiaTensors; // 0x50
+    const void * _Nullable unknown0; // 0x58
+    const void * _Nullable unknown1; // 0x60
+    const simd_float3 *forceBuffer; // 0x68
+    const simd_float3 *torqueBuffer; // 0x70
+    const void *effectData; // 0x78
+    NSInteger effectDataCount; // 0x80
+} NS_SWIFT_NAME(ForceEffectParameters);
+typedef struct REForceEffectParameters REForceEffectParameters;
 
 NS_ASSUME_NONNULL_END
 

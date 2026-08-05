@@ -16,5 +16,6 @@ RE_EXTERN REComponentRef REEntityGetOrAddComponent(REEntityRef, REComponentType)
 RE_EXTERN void REEntitySendAddAndActivateComponentEvents(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.sendAddAndActivateComponentEvents(self:ofType:));
 RE_EXTERN void * _Nullable REEntityGetObservationRegistrar(REEntityRef) NS_SWIFT_NAME(getter:Entity.observationRegistrar(self:));
 RE_EXTERN bool REEntityIsBeingDestroyed(REEntityRef) NS_SWIFT_NAME(getter:Entity.isBeingDestroyed(self:));
+RE_EXTERN bool REEntityIsNonHiddenAndInHierarchy(REEntityRef, REEntityRef _Nullable) NS_SWIFT_NAME(Entity.isNonHiddenAndInHierarchy(self:_:));
 
 NS_ASSUME_NONNULL_END

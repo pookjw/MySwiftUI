@@ -195,7 +195,10 @@ exports:
     _REServiceLocatorGetEventBus,
     _RETimelineEventFilter,
     _REEventBusSubscribeWithMatch,
-    _REEventBusMakeID ]
+    _REEventBusMakeID,
+    _REEntityIsBeingDestroyed,
+    _RESceneIsFromActiveRealityRendererSceneGroup,
+    _REEntityIsNonHiddenAndInHierarchy ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

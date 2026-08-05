@@ -273,7 +273,10 @@ typedef const struct RECollisionDidStopEvent RECollisionDidStopEvent __attribute
 struct REComponentDidAddEvent {};
 typedef const struct REComponentDidAddEvent REComponentDidAddEvent __attribute__((swift_wrapper(struct)));
 
-struct REComponentDidActivateEvent {};
+struct REComponentDidActivateEvent {
+    REEntityRef entity;
+    REComponentClassPtr componentClass;
+};
 typedef const struct REComponentDidActivateEvent REComponentDidActivateEvent __attribute__((swift_wrapper(struct)));
 
 struct REComponentWillDeactivateEvent {};

@@ -197,7 +197,8 @@ exports:
     _REEventBusSubscribeWithMatch,
     _REEventBusMakeID,
     _REEntityIsBeingDestroyed,
-    _RESceneIsFromActiveRealityRendererSceneGroup ]
+    _RESceneIsFromActiveRealityRendererSceneGroup,
+    _REEntityIsNonHiddenAndInHierarchy ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

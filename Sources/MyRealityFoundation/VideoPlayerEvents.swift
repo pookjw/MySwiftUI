@@ -107,6 +107,18 @@ public enum VideoPlayerEvents {
         public let videoDimension: SIMD2<Float>
     }
     
+    struct VideoReceiverEndpointDidChanged {
+        // TODO
+    }
+    
+    struct VideoReceiverEndpointDidChange {
+        // TODO
+    }
+    
+    struct MediaModeDidChange {
+        // TODO
+    }
+    
     @available(visionOS 26.0, *)
     @available(macOS, unavailable)
     @available(iOS, unavailable)
