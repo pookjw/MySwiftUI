@@ -241,7 +241,7 @@ private import Observation
         self.builtInComponentTypeToClassTable[ObjectIdentifier(type)] = componentClassPtr
     }
     
-    func componentTypeToComponentClass(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer? {
+    nonisolated func componentTypeToComponentClass(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer? {
         if let componentType = self.builtInComponentTypeToClassTable[ObjectIdentifier(type)] {
             return unsafe unsafeBitCast(componentType, to: OpaquePointer.self)
         }

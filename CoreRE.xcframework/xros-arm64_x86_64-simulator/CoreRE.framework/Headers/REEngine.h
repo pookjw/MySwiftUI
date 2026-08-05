@@ -21,5 +21,7 @@ RE_EXTERN void REEngineConfigurationSetUseMetal(REEngineConfigurationRef, bool) 
 RE_EXTERN void REEngineConfigurationSetServicesToCreate(REEngineConfigurationRef, REEngineServiceMask) NS_SWIFT_NAME(setter:Engine.Configuration.servicesToCreate(self:_:));
 RE_EXTERN REEngineServiceMask REEngineConfigurationGetServicesToCreate(REEngineConfigurationRef) NS_SWIFT_NAME(getter:Engine.Configuration.servicesToCreate(self:));
 RE_EXTERN REEventBusRef REEngineGetEventBus(REEngineRef) NS_SWIFT_NAME(getter:Engine.eventBus(self:));
+RE_EXTERN RECALayerServiceFlags REEngineConfigurationGetCALayerServiceFlags(REEngineConfigurationRef) NS_SWIFT_NAME(getter:Engine.Configuration.caLayerServiceFlags(self:));
+RE_EXTERN void REEngineConfigurationSetCALayerServiceFlags(REEngineConfigurationRef, RECALayerServiceFlags) NS_SWIFT_NAME(setter:Engine.Configuration.caLayerServiceFlags(self:_:));
 
 NS_ASSUME_NONNULL_END

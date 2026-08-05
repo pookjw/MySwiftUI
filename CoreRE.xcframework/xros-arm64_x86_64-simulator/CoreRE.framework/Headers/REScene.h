@@ -6,5 +6,6 @@ RE_EXTERN REEntityRef _Nullable RESceneFindEntity(RESceneRef, REEntityID) NS_SWI
 RE_EXTERN void RESceneSetSwiftObject(RESceneRef, void * _Nullable) NS_SWIFT_NAME(setter:Scene.swiftObject(self:_:));
 RE_EXTERN void * _Nullable RESceneGetSwiftObject(RESceneRef) NS_SWIFT_NAME(getter:Scene.swiftObject(self:));
 RE_EXTERN bool RESceneIsFromActiveRealityRendererSceneGroup(RESceneRef) NS_SWIFT_NAME(getter:Scene.isFromActiveRealityRendererSceneGroup(self:));
+RE_EXTERN REEventBusRef RESceneGetEventBus(RESceneRef) NS_SWIFT_NAME(getter:Scene.eventBus(self:));
 
 NS_ASSUME_NONNULL_END

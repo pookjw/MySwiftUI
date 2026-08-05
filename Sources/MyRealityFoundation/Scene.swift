@@ -464,7 +464,11 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
     private var audioMixerEntity: Entity? = nil // 0x58
     private var audioReverbEntity: Entity? = nil // 0x60
     private weak var activeCamera: Entity? = nil // 0x68
-    private lazy var eventService: any EventService = { assertUnimplemented() }() // 0x70
+    private lazy var eventService: any EventService = unsafe REEventBus(
+        coreHandle: unsafeBitCast(
+            unsafeBitCast(self.coreScene, to: CoreRE::Scene.self).eventBus,
+            to: OpaquePointer.self)
+    ) // 0x70
     private var engineEventBus: REEventBus? = nil // 0x98
     private var updateEventCancellable: (any Cancellable)? = nil // 0xa0
     @MainActor @preconcurrency public private(set) lazy var __interactionService: any __RKEntityInteractionService = { assertUnimplemented() }() // 0xc8

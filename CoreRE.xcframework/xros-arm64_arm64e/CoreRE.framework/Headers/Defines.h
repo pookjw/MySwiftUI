@@ -397,6 +397,10 @@ struct REForceEffectParameters {
 } NS_SWIFT_NAME(ForceEffectParameters);
 typedef struct REForceEffectParameters REForceEffectParameters;
 
+typedef NS_OPTIONS(uint32_t, RECALayerServiceFlags) {
+    RECALayerServiceFlagsNone = 0
+} NS_SWIFT_NAME(CALayerServiceFlags);
+
 NS_ASSUME_NONNULL_END
 
 #endif

@@ -198,7 +198,10 @@ exports:
     _REEventBusMakeID,
     _REEntityIsBeingDestroyed,
     _RESceneIsFromActiveRealityRendererSceneGroup,
-    _REEntityIsNonHiddenAndInHierarchy ]
+    _REEntityIsNonHiddenAndInHierarchy,
+    _RESceneGetEventBus,
+    _REEngineConfigurationGetCALayerServiceFlags,
+    _REEngineConfigurationSetCALayerServiceFlags ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

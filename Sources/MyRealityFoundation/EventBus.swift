@@ -18,17 +18,99 @@ private import CoreRE
     deinit {
         assertUnimplemented()
     }
+    
+    fileprivate func getOrCreateDispatcher<T : Sendable>(handle: REEventBus.DispatcherHandle, of type: T.Type) -> REEventDispatcher<T> {
+        assertUnimplemented()
+    }
+}
+
+extension REEventBus : EventService {
+    func publisher<T : Sendable>(for type: T.Type, on eventSource: EventSource?, componentType: (any Component.Type)?) -> MyRealityFoundation::Scene.CorePublisher<T> {
+        let handle = REEventBus.DispatcherHandle(event: T.self, sourceObject: eventSource, componentType: componentType, matching: nil)
+        let dispatcher = self.getOrCreateDispatcher(handle: handle, of: T.self)
+        return unsafe MyRealityFoundation::Scene.CorePublisher(
+            dispatcher: dispatcher,
+            sourceObject: handle.sourceObject,
+            componentType: handle.componentType
+        )
+    }
+    
+    func subscriber<T : Sendable>(for type: T.Type, on eventSource: EventSource?, componentType: (any Component.Type)?) -> __REEventSubscriber<T>{
+        assertUnimplemented()
+    }
+    
+    func publisher<T : Sendable>(for type: T.Type, on eventSource: EventSource?, matching: String?) -> MyRealityFoundation::Scene.CorePublisher<T>{
+        assertUnimplemented()
+    }
+    
+    func subscriber<T : Sendable>(for type: T.Type, on eventSource: EventSource?) -> __REEventSubscriber<T>{
+        assertUnimplemented()
+    }
 }
 
 extension REEventBus {
     @safe fileprivate struct DispatcherHandle : Hashable {
         private let eventID: UInt64
-        private let sourceObject: OpaquePointer?
-        private let componentType: OpaquePointer?
+        let sourceObject: OpaquePointer?
+        let componentType: OpaquePointer?
         private let matching: String?
         
         init<T>(event: T.Type, sourceObject: EventSource?, componentType: (any MyRealityFoundation::Component.Type)?, matching: String?) {
-            assertUnimplemented()
+            /*
+             event -> x0
+             sourceObject -> x1 -> x24
+             componentType -> x2/x3 -> x27/x26
+             matching -> x4/x5 -> x21/x28
+             T -> x6
+             */
+            let eventID = getEventID(T.self)
+            let _sourceObject: OpaquePointer?
+            let componentClass: OpaquePointer?
+            
+            if let componentType {
+                // <+76>
+                let sceneManager = __ServiceLocator.shared.sceneService as! SceneManager
+                
+                if let _componentClass = unsafe sceneManager.componentTypeToComponentClass(componentType) {
+                    unsafe  componentClass = _componentClass
+                    // <+284>
+                    // <+296>
+                } else {
+                    // <+232>
+                    if componentType.__coreComponentType.core == .custom {
+                        // <+268>
+                        unsafe componentClass = SceneManager.customComponentType(componentType)
+                        // <+284>
+                        // <+296>
+                    } else {
+                        // <+760>
+                        unsafe componentClass = nil
+                        // <+284>
+                        // <+296>
+                    }
+                }
+            } else {
+                unsafe componentClass = nil
+            }
+            
+            if let __sourceObject = sourceObject {
+                // <+316>
+                if let casted = __sourceObject as? (any RECoreBridging) {
+                    // <+416>
+                    unsafe _sourceObject = casted.corePointer
+                    // <+716>
+                } else {
+                    // <+600>
+                    unsafe _sourceObject = unsafe unsafeBitCast(sourceObject as AnyObject, to: OpaquePointer?.self)
+                }
+            } else {
+                unsafe _sourceObject = nil
+            }
+            
+            self.eventID = eventID
+            unsafe self.sourceObject = _sourceObject
+            unsafe self.componentType = componentClass
+            self.matching = matching
         }
 
         func hash(into hasher: inout Hasher) {

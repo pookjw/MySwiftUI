@@ -208,6 +208,22 @@ fileprivate let builtInComponentsInitializer: Void = {
             }
         }
         
+        var caLayerServiceFlags: MyRealityFoundation::CALayerServiceFlags {
+            get {
+                return MyRealityFoundation::CALayerServiceFlags(
+                    core: self.core.coreConfiguration.caLayerServiceFlags
+                )
+            }
+            set {
+                self.core.coreConfiguration.caLayerServiceFlags = newValue.core
+            }
+            _modify {
+                var value = self.caLayerServiceFlags
+                yield &value
+                self.caLayerServiceFlags = value
+            }
+        }
+        
         public init() {
             assertUnimplemented()
         }
