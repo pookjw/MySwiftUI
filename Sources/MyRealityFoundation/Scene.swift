@@ -76,13 +76,81 @@ extension Scene {
     ) -> any Cancellable {
         if event == SynchronizationEvents.OwnershipRequest.self {
             // <+300>
-            assertUnimplemented()
+            return unsafe self.eventService
+                .publisher(for: CoreRE::REOwnershipRequestEvent.self, on: sourceObject)
+                .sink { [weak self] event in
+                    // $s10RealityKit5SceneC0A10FoundationE9subscribe2to2on13componentType10rootEntity8matching_7Combine11Cancellable_pxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgyxctAA0O0RzlFySo018REOwnershipRequestO0VcfU_TA
+                    guard
+                        let self,
+                        let synchronizationService
+                    else {
+                        return
+                    }
+                    
+                    // <+172>
+                    guard let peerID = unsafe synchronizationService.__fromCore(
+                        peerID: __PeerIDRef(core: event.identifier)
+                    ) else {
+                        return
+                    }
+                    
+                    // <+256>
+                    var flag = false
+                    
+                    let ownership = unsafe SynchronizationEvents.OwnershipRequest(
+                        entity: MyRealityFoundation::Entity.__fromCore(
+                            __EntityRef(
+                                core: unsafeBitCast(event.entity!, to: OpaquePointer.self)
+                            )
+                        ),
+                        requester: peerID,
+                        accept: {
+                            // $s10RealityKit5SceneC0A10FoundationE9subscribe2to2on13componentType10rootEntity8matching_7Combine11Cancellable_pxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgyxctAA0O0RzlFySo018REOwnershipRequestO0VcfU_yycfU_TA
+                            flag = true
+                        }
+                    )
+                    
+                    let casted = handler as! ((SynchronizationEvents.OwnershipRequest) -> Void)
+                    casted(ownership)
+                    
+                    unsafe event.unknown0!.pointee = flag
+                }
         } else if (event != SceneEvents.Update.self) && (event != SceneEvents.Render.self) {
             // <+564>
-            assertUnimplemented()
+            return self.publisher(
+                for: event,
+                on: sourceObject,
+                componentType: componentType,
+                rootEntity: rootEntity,
+                matching: matching
+            )
+            .sink { [weak self] event in
+                // $s10RealityKit5SceneC0A10FoundationE9subscribe2to2on13componentType10rootEntity8matching_7Combine11Cancellable_pxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgyxctAA0O0RzlFyxcfU0_TA
+                guard let self else {
+                    return
+                }
+                
+                let scene = unsafe unsafeBitCast(self.coreScene, to: CoreRE::Scene.self)
+                
+                guard scene.isFromActiveRealityRendererSceneGroup else {
+                    return
+                }
+                
+                handler(event)
+            }
         } else {
             // <+92>
-            assertUnimplemented()
+            return self.publisher(
+                for: event,
+                on: sourceObject,
+                componentType: componentType,
+                rootEntity: rootEntity,
+                matching: matching
+            )
+            .sink { event in
+                // $s10RealityKit5SceneC0A10FoundationE9subscribe2to2on13componentType10rootEntity8matching_7Combine11Cancellable_pxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgyxctAA0O0RzlFyxcfU1_TA
+                handler(event)
+            }
         }
     }
     
@@ -91,6 +159,16 @@ extension Scene {
         on sourceObject: (any EventSource)? = nil,
         componentType: (any Component.Type)?
     ) -> Scene.Publisher<E> where E : Event {
+        assertUnimplemented()
+    }
+    
+    func publisher<T : Event>(
+        for type: T.Type,
+        on eventSource: EventSource?,
+        componentType: any MyRealityFoundation::Component.Type?,
+        rootEntity: MyRealityFoundation::Entity?,
+        matching: String?
+    ) -> MyRealityFoundation::Scene.Publisher<T> {
         assertUnimplemented()
     }
 }
@@ -428,7 +506,47 @@ extension Scene : Sendable {}
 extension Scene.AnchorCollection : Sendable {}
 
 extension Scene {
-    struct CorePublisher<T> {
-        // TODO
+    @safe struct CorePublisher<T> : Combine::Publisher {
+        typealias Output = T
+        typealias Failure = Never
+        
+        private let sourceObject: OpaquePointer?
+        private let componentType: OpaquePointer?
+        private let dispatcher: REEventDispatcher<T>
+        
+        init(dispatcher: REEventDispatcher<T>, sourceObject: OpaquePointer?, componentType: OpaquePointer?) {
+            unsafe self.sourceObject = sourceObject
+            unsafe self.componentType = componentType
+            self.dispatcher = dispatcher
+        }
+        
+        func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, T == S.Input {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension Scene.CorePublisher {
+    fileprivate struct Inner<U> : Combine::CustomCombineIdentifierConvertible, Combine::Subscriber {
+        typealias Input = U
+        typealias Failure = Never
+        
+        private let downstream: U
+        
+        var combineIdentifier: CombineIdentifier {
+            assertUnimplemented()
+        }
+        
+        func receive(subscription: any Subscription) {
+            assertUnimplemented()
+        }
+        
+        func receive(_ input: Input) -> Subscribers.Demand {
+            assertUnimplemented()
+        }
+        
+        func receive(completion: Subscribers.Completion<Failure>) {
+            assertUnimplemented()
+        }
     }
 }

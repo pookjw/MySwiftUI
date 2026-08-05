@@ -288,7 +288,9 @@ typedef const struct REComponentDidChangeEvent REComponentDidChangeEvent __attri
 struct REMotionStateDidChangeEvent {};
 typedef const struct REMotionStateDidChangeEvent REMotionStateDidChangeEvent __attribute__((swift_wrapper(struct)));
 
-struct REOwnershipRequestEvent {};
+struct REOwnershipRequestEvent {
+    unsigned long long identifier;
+};
 typedef const struct REOwnershipRequestEvent REOwnershipRequestEvent __attribute__((swift_wrapper(struct)));
 
 struct REOwnershipResponseEvent {};

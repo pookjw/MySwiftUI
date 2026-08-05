@@ -196,7 +196,8 @@ exports:
     _RETimelineEventFilter,
     _REEventBusSubscribeWithMatch,
     _REEventBusMakeID,
-    _REEntityIsBeingDestroyed ]
+    _REEntityIsBeingDestroyed,
+    _RESceneIsFromActiveRealityRendererSceneGroup ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

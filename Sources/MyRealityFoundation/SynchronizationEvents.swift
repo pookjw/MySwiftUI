@@ -1,3 +1,5 @@
+internal import CoreRE
+
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public enum SynchronizationEvents {
     public struct OwnershipRequest : Event {
@@ -26,3 +28,5 @@ extension SynchronizationEvents.OwnershipResponse {
         case timedOut
     }
 }
+
+extension CoreRE::REOwnershipRequestEvent : @retroactive @unchecked Sendable {}
