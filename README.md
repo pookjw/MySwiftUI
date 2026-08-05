@@ -4,7 +4,7 @@ SwiftUI & RealityKit Disassembly
 
 ## Requirements
 
-- Xcode 26.6, 27.0
+- Xcode 27.0
 
 - visionOS 26.5
 
