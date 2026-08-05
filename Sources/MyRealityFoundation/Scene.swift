@@ -95,7 +95,7 @@ extension Scene {
                     }
                     
                     // <+256>
-                    var flag = MyRealityFoundation::MutableBox(value: false)
+                    let flag = MyRealityFoundation::MutableBox(value: false)
                     
                     let ownership = unsafe SynchronizationEvents.OwnershipRequest(
                         entity: MyRealityFoundation::Entity.__fromCore(
