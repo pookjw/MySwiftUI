@@ -95,7 +95,7 @@ extension Scene {
                     }
                     
                     // <+256>
-                    var flag = false
+                    var flag = MyRealityFoundation::MutableBox(value: false)
                     
                     let ownership = unsafe SynchronizationEvents.OwnershipRequest(
                         entity: MyRealityFoundation::Entity.__fromCore(
@@ -106,16 +106,27 @@ extension Scene {
                         requester: peerID,
                         accept: {
                             // $s10RealityKit5SceneC0A10FoundationE9subscribe2to2on13componentType10rootEntity8matching_7Combine11Cancellable_pxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgyxctAA0O0RzlFySo018REOwnershipRequestO0VcfU_yycfU_TA
-                            flag = true
+                            flag.value = true
                         }
                     )
                     
-                    let casted = handler as! ((SynchronizationEvents.OwnershipRequest) -> Void)
-                    casted(ownership)
-                    
-                    unsafe event.unknown0!.pointee = flag
+                    handler(ownership as! E)
+                    unsafe event.unknown0!.pointee = flag.value
                 }
         } else if (event != SceneEvents.Update.self) && (event != SceneEvents.Render.self) {
+            // <+92>
+            return self.publisher(
+                for: event,
+                on: sourceObject,
+                componentType: componentType,
+                rootEntity: nil,
+                matching: matching
+            )
+            .sink { event in
+                // $s10RealityKit5SceneC0A10FoundationE9subscribe2to2on13componentType10rootEntity8matching_7Combine11Cancellable_pxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgyxctAA0O0RzlFyxcfU1_TA
+                handler(event)
+            }
+        } else {
             // <+564>
             return self.publisher(
                 for: event,
@@ -138,19 +149,6 @@ extension Scene {
                 
                 handler(event)
             }
-        } else {
-            // <+92>
-            return self.publisher(
-                for: event,
-                on: sourceObject,
-                componentType: componentType,
-                rootEntity: rootEntity,
-                matching: matching
-            )
-            .sink { event in
-                // $s10RealityKit5SceneC0A10FoundationE9subscribe2to2on13componentType10rootEntity8matching_7Combine11Cancellable_pxm_AA11EventSource_pSgAA9Component_pXpSgAA0K0CSgSSSgyxctAA0O0RzlFyxcfU1_TA
-                handler(event)
-            }
         }
     }
     
@@ -169,6 +167,18 @@ extension Scene {
         rootEntity: MyRealityFoundation::Entity?,
         matching: String?
     ) -> MyRealityFoundation::Scene.Publisher<T> {
+        /*
+         self -> x20 -> x29 - 0xd0
+         type -> x0 -> x29 - 0xd8
+         eventSource -> x1 -> x29 - 0xe0
+         componentType -> x2/x3 -> x29 - 0x330
+         rootEntity -> x4 -> x20
+         matching -> x5/x6
+         T -> x7 -> x29 - 0xe8
+         */
+        // <+4032>
+        // x29 - 0x100
+        let coreEntity = unsafe rootEntity?.coreEntity
         assertUnimplemented()
     }
 }
