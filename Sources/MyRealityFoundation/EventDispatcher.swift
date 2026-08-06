@@ -6,7 +6,7 @@ private import CoreRE
 @safe final class REEventDispatcher<T> : Combine::Subscriber, Combine::Publisher, Combine::CustomCombineIdentifierConvertible {
     typealias Input = T
     typealias Failure = Never
-    typealias Output = Void
+    typealias Output = T
     
     private unowned let eventBus: REEventBus // 0x10
     private let coreHandle: OpaquePointer // 0x18
@@ -39,6 +39,18 @@ private import CoreRE
     }
     
     func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, Output == S.Input {
+        /*
+         subscriber -> x0 -> x24
+         S -> x1 -> x25
+         self -> x20 -> x29 - 0xd8
+         */
+        // <+568>
+//        if let casted = subscriber as? Combine::AnySubscriber<T, Never> {
+//            // <+624>
+//            assertUnimplemented()
+//        } else {
+//            
+//        }
         assertUnimplemented()
     }
     

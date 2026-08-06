@@ -353,13 +353,31 @@ extension Scene {
         
         init<T : Sendable>(
             corePublisher: MyRealityFoundation::Scene.CorePublisher<T>?,
-            transform: (T) -> E?
+            transform: @escaping (T) -> E?
         ) {
-            assertUnimplemented()
+            /*
+             corePublisher -> x0 -> x20
+             transform -> x1/x2 -> x29 - 0x80 / x21
+             T -> x3 -> x22
+             */
+            // <+208>
+            guard let corePublisher else {
+                self.inner = nil
+                return
+            }
+            
+            let publisher = corePublisher
+                .compactMap(transform)
+            
+            self.inner = Combine::AnyPublisher(publisher)
         }
         
         public func receive<S>(subscriber: S) where E == S.Input, S : Subscriber, S.Failure == Never {
-            assertUnimplemented()
+            guard let inner else {
+                return
+            }
+            
+            inner.subscribe(subscriber)
         }
     }
 }
@@ -710,15 +728,15 @@ extension Scene {
             self.dispatcher = dispatcher
         }
         
-        func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, T == S.Input {
-            assertUnimplemented()
+        func receive<S>(subscriber: S) where S : Subscriber, S.Failure == Never, T == S.Input {
+            self.dispatcher.subscribe(subscriber)
         }
     }
 }
 
 extension Scene.CorePublisher {
     fileprivate struct Inner<U> : Combine::CustomCombineIdentifierConvertible, Combine::Subscriber {
-        typealias Input = U
+        typealias Input = T
         typealias Failure = Never
         
         private let downstream: U

@@ -69,10 +69,10 @@ extension REEventBus : EventService {
 
 extension REEventBus {
     @safe fileprivate struct DispatcherHandle : Hashable {
-        private let eventID: UInt64
-        let sourceObject: OpaquePointer?
-        let componentType: OpaquePointer?
-        let matching: String?
+        private let eventID: UInt64 // 0x0
+        let sourceObject: OpaquePointer? // 0x8
+        let componentType: OpaquePointer? // 0x10
+        let matching: String? // 0x18
         
         init<T>(event: T.Type, sourceObject: EventSource?, componentType: (any MyRealityFoundation::Component.Type)?, matching: String?) {
             /*
@@ -133,7 +133,28 @@ extension REEventBus {
         }
 
         func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
+            hasher.combine(self.eventID)
+            
+            if let sourceObject = unsafe self.sourceObject {
+                hasher.combine(UInt8(1))
+                hasher.combine(UInt(bitPattern: sourceObject))
+            } else {
+                hasher.combine(UInt8(0))
+            }
+            
+            if let componentType = unsafe self.componentType {
+                hasher.combine(UInt8(1))
+                hasher.combine(UInt(bitPattern: componentType))
+            } else {
+                hasher.combine(UInt8(0))
+            }
+            
+            if let matching {
+                hasher.combine(UInt8(1))
+                matching.hash(into: &hasher)
+            } else {
+                hasher.combine(UInt8(0))
+            }
         }
         
         static func == (lhs: REEventBus.DispatcherHandle, rhs: REEventBus.DispatcherHandle) -> Bool {
