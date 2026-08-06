@@ -54,16 +54,26 @@ private import CoreRE
         lock.unlock()
         
         // <+1940>
-//        let eventSubscription = REEventDispatcher.EventSubscription(
-//            eventBus: self.eventBus,
-//            coreHandle: self.coreHandle,
-//            sourceObject: self.sourceObject,
-//            componentType: self.componentType,
-//            matching: self.matching,
-//            downstream: <#T##U#>,
-//            cancellationHandler: <#T##() -> Void#>
-//        )
-        assertUnimplemented()
+        let eventSubscription = unsafe REEventDispatcher.EventSubscription(
+            eventBus: self.eventBus,
+            coreHandle: self.coreHandle,
+            sourceObject: self.sourceObject,
+            componentType: self.componentType,
+            matching: self.matching,
+            downstream: subscriber
+        ) { [weak self] in
+            // $s17RealityFoundation17REEventDispatcherC7receive10subscriberyqd___t5InputQyd__Rsz7Combine10SubscriberRd__s5NeverO7FailureRtd__lFyycfU_TA
+            guard let self else {
+                return
+            }
+            
+            let lock = self.lock
+            lock.lock()
+            self.subscribers.remove(ticket)
+            lock.unlock()
+        }
+        
+        subscriber.receive(subscription: eventSubscription)
     }
     
     func receive(subscription: any Subscription) {
@@ -72,7 +82,7 @@ private import CoreRE
 }
 
 extension REEventDispatcher {
-    @safe fileprivate final class EventSubscription<U> {
+    @safe fileprivate final class EventSubscription<U> : Combine::CustomCombineIdentifierConvertible, Combine::Cancellable, Combine::Subscription {
         private weak var eventBus: REEventBus? = nil // 0x10
         private var coreHandle: OpaquePointer // 0x18
         private var coreSubscription: CoreRE::SubscriptionHandle? = nil // 0x20
@@ -147,7 +157,7 @@ extension REEventDispatcher {
             self.cancellationHandler = cancellationHandler
         }
         
-        func request(demand: Combine::Subscribers.Demand) {
+        func request(_ demand: Combine::Subscribers.Demand) {
             assertUnimplemented()
         }
         
