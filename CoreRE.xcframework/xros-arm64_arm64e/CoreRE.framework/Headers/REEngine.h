@@ -23,5 +23,6 @@ RE_EXTERN REEngineServiceMask REEngineConfigurationGetServicesToCreate(REEngineC
 RE_EXTERN REEventBusRef REEngineGetEventBus(REEngineRef) NS_SWIFT_NAME(getter:Engine.eventBus(self:));
 RE_EXTERN RECALayerServiceFlags REEngineConfigurationGetCALayerServiceFlags(REEngineConfigurationRef) NS_SWIFT_NAME(getter:Engine.Configuration.caLayerServiceFlags(self:));
 RE_EXTERN void REEngineConfigurationSetCALayerServiceFlags(REEngineConfigurationRef, RECALayerServiceFlags) NS_SWIFT_NAME(setter:Engine.Configuration.caLayerServiceFlags(self:_:));
+RE_EXTERN REEngineConfigurationRef REEngineConfigurationCreateDefault(void) NS_SWIFT_NAME(Engine.Configuration.init());
 
 NS_ASSUME_NONNULL_END

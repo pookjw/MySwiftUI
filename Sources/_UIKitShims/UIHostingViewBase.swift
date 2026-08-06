@@ -576,7 +576,6 @@ package final class UIHostingViewBase : NSObject {
         viewGraph.tearDown(delegate: updateDelegate)
     }
     
-    // ___lldb_unnamed_symbol317396
     @MainActor
     private func windowSceneDidChange() {
         guard let uiView else {

@@ -8,6 +8,8 @@ internal import Spatial
 private import Observation
 internal import UIKit
 private import CoreRE
+private import MRUIKit
+private import simd
 
 struct _RealityViewAsync<Placeholder : View> : View {
     private let make: @Sendable (inout RealityViewContent) async -> Void // 0x0
@@ -218,18 +220,74 @@ struct _RealityViewAsync<Placeholder : View> : View {
     }
     
     fileprivate func stopObservingRelativeTransform() {
-        assertUnimplemented()
+        guard let model else {
+            return
+        }
+        
+        for observer in model.relativeTransformObservers {
+            NotificationCenter.default.removeObserver(
+                observer,
+                name: NSNotification.Name._MRUISceneDidChangeRelativeTransform,
+                object: self.uiScene
+            )
+        }
+        
+        model.relativeTransformObservers = []
     }
     
     fileprivate func startObservingRelativeTransform() {
-        assertUnimplemented()
+        guard
+            let uiScene,
+            let uiWindowScene = uiScene as? UIWindowScene
+        else {
+            return
+        }
+        
+        guard
+            (uiWindowScene.session.role == .windowApplication) ||
+                (uiWindowScene.session.role == .windowApplicationVolumetric)
+        else {
+            return
+        }
+        
+        // <+344>
+        if let model {
+            model.setSceneToImmersiveSpaceTransform(using: uiWindowScene)
+        }
+        
+        let observer = NotificationCenter
+            .default
+            .addObserver(
+                forName: NSNotification.Name._MRUISceneDidChangeRelativeTransform,
+                object: uiWindowScene,
+                queue: .main
+            ) { [weak model] notification in
+                // $s19_RealityKit_SwiftUI01_A9ViewAsyncV31startObservingRelativeTransform33_587BE5026F01C2416D8EB2E1012BACCALLyyFy10Foundation12NotificationVYbcfU_TA
+                guard
+                    let model,
+                    let object = notification.object,
+                    let windowScene = object as? UIWindowScene
+                else {
+                    return
+                }
+                
+                model.setSceneToImmersiveSpaceTransform(using: windowScene)
+            }
+        
+        if let model {
+            model.relativeTransformObservers.append(observer)
+        }
+        
+        if let model {
+            model.isObservingRelativeTransform = true
+        }
     }
 }
 
 @Observable
 final class _RealityViewModel {
     @ObservationIgnored var content: RealityViewContent // 0x10
-    @ObservationIgnored var relativeTransformObservers: [NSObject] // 0xa0
+    @ObservationIgnored var relativeTransformObservers: [any NSObjectProtocol] // 0xa0
     @ObservationIgnored var isObservingRelativeTransform: Bool // 0xa8
     @ObservationIgnored var transformInteractionComponentWasAdded: (any Cancellable)? // 0xb0
     
@@ -253,6 +311,16 @@ final class _RealityViewModel {
     }
     
     func setSceneToImmersiveSpaceTransform(using windowScene: UIWindowScene) {
+        /*
+         self -> x20
+         windowScene -> x0 -> x25
+         */
+        // <+236>
+        guard windowScene._mrui_supportsRelativeTransform else {
+            return
+        }
+        
+        let srtMatrix = RESRTMatrix(windowScene._mrui_relativeTransform)
         assertUnimplemented()
     }
 }

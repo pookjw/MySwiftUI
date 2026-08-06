@@ -129,6 +129,7 @@ RE_EXTERN NSUInteger REGetRetainCount(const void *);
 
 RE_EXTERN bool REIsRSCompatible(void);
 RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (* _Nullable)(void *, void *, const int8_t *), bool (* _Nullable)(void *, void *, CFDataRef, const int8_t *));
+RE_EXTERN simd_float4x4 RESRTMatrix(RESRT);
 
 struct RECustomComponentTypeInfoContext {
     uint64_t unknown0;

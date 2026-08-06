@@ -156,7 +156,9 @@ let package = Package(
             dependencies: [
                 .byName(name: "MyRealityKit"),
                 .byName(name: "MySwiftUI"),
-                .byName(name: "_MySwiftUIUtils")
+                .byName(name: "_MySwiftUIUtils"),
+                .byName(name: "MRUIKit"),
+                .byName(name: "CoreRE")
             ],
             swiftSettings: [
                 .strictMemorySafety()

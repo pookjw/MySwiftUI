@@ -203,7 +203,8 @@ exports:
     _REEngineConfigurationGetCALayerServiceFlags,
     _REEngineConfigurationSetCALayerServiceFlags,
     _REGetRetainCount,
-    _REEngineConfigurationCreateDefault ]
+    _REEngineConfigurationCreateDefault,
+    _RESRTMatrix ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

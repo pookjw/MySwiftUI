@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define MRUI_EXTERN           extern
 #endif
 
+MRUI_EXTERN NSNotificationName const _MRUISceneDidChangeRelativeTransformNotification NS_SWIFT_NONISOLATED;
+
 NS_ASSUME_NONNULL_END
 
 #endif

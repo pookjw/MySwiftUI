@@ -201,7 +201,10 @@ exports:
     _REEntityIsNonHiddenAndInHierarchy,
     _RESceneGetEventBus,
     _REEngineConfigurationGetCALayerServiceFlags,
-    _REEngineConfigurationSetCALayerServiceFlags ]
+    _REEngineConfigurationSetCALayerServiceFlags,
+    _REGetRetainCount,
+    _REEngineConfigurationCreateDefault,
+    _RESRTMatrix ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
