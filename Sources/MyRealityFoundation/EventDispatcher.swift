@@ -45,12 +45,16 @@ private import CoreRE
          self -> x20 -> x29 - 0xd8
          */
         // <+568>
-//        if let casted = subscriber as? Combine::AnySubscriber<T, Never> {
-//            // <+624>
-//            assertUnimplemented()
-//        } else {
-//            
-//        }
+        let anySubscriber = Combine::AnySubscriber<T, Never>(subscriber)
+        
+        // <+1844>
+        let lock = self.lock
+        lock.lock()
+        let ticket = self.subscribers.append(anySubscriber)
+        lock.unlock()
+        
+        // <+1940>
+//        REEventDispatcher.EventSubscription
         assertUnimplemented()
     }
     
@@ -61,17 +65,86 @@ private import CoreRE
 
 extension REEventDispatcher {
     @safe fileprivate final class EventSubscription<U> {
-        private weak var eventBus: REEventBus?
-        private var coreHandle: OpaquePointer
-        private var coreSubscription: CoreRE::SubscriptionHandle?
-        private var downstream: U?
-        private var cancellationHandler: (() -> (Void))?
-        private var pendingDemand: Subscribers.Demand
+        private weak var eventBus: REEventBus? = nil // 0x10
+        private var coreHandle: OpaquePointer // 0x18
+        private var coreSubscription: CoreRE::SubscriptionHandle? = nil // 0x20
+        private var downstream: U? = nil // 0x80 (field)
+        private var cancellationHandler: (() -> (Void))? = nil // 0x88 (field)
+        private var pendingDemand: Subscribers.Demand = .max(0) // 0x90 (field)
         
-        init() {
+        // $s17RealityFoundation17REEventDispatcherC17EventSubscription33_9E3AD6BA34D478C65D106D94F4542597LLC8eventBus10coreHandle12sourceObject13componentType8matching10downstream19cancellationHandlerAFyx_qd__GAA0cP0C_s13OpaquePointerVARSgASSSSgqd__yyctcfc
+        init(
+            eventBus: REEventBus,
+            coreHandle: OpaquePointer,
+            sourceObject: OpaquePointer?,
+            componentType: OpaquePointer?,
+            matching: String?,
+            downstream: U,
+            cancellationHandler: @escaping () -> Void
+        ) {
+            /*
+             eventBus -> x0 -> x24
+             coreHandle -> x1 -> x29 - 0xd0
+             sourceObject -> x2 -> x29 - 0xa8
+             componentType -> x3 -> x29 - 0xe0
+             matching -> x4/x5 -> x29 - 0xd8 / x29 - 0xc0
+             downstream -> x6 -> x26
+             cancellationHandler -> x29 - 0x88 / x29 - 0x90
+             Self -> x29 - 0xb8
+             */
+            // <+216>
+            self.eventBus = eventBus
+            unsafe self.coreHandle = coreHandle
+            self.downstream = downstream
+            
+            let coreSubscription: CoreRE::SubscriptionHandle
+            if let matching {
+                // <+348>
+                let eventID = getEventID(Self.self)
+                
+                coreSubscription = unsafe unsafeBitCast(eventBus.coreHandle, to: CoreRE::EventBus.self)
+                    .subscribeWithMatch(
+                        eventID,
+                        unsafeBitCast(sourceObject, to: UnsafeMutableRawPointer?.self),
+                        { _, _ in
+                            // $s17RealityFoundation17REEventDispatcherC17EventSubscription33_9E3AD6BA34D478C65D106D94F4542597LLC8eventBus10coreHandle12sourceObject13componentType8matching10downstream19cancellationHandlerAFyx_qd__GAA0cP0C_s13OpaquePointerVARSgASSSSgqd__yyctcfcSo0cZ6ResultVSvSg_SVtcANcfu_AvW_SVtcfu0_TA
+                            assertUnimplemented()
+                        },
+                        matching.utf8CString.withUnsafeBufferPointer { pointer in
+                            return unsafe RETimelineEventFilter(pointer.baseAddress.unsafelyUnwrapped)
+                        }
+                    )
+                
+                // <+648>
+            } else {
+                // <+520>
+                let eventID = getEventID(Self.self)
+                
+                coreSubscription = unsafe unsafeBitCast(eventBus.coreHandle, to: CoreRE::EventBus.self)
+                    .subscribeWithMatch(
+                        eventID,
+                        unsafeBitCast(sourceObject, to: UnsafeMutableRawPointer?.self),
+                        { _, _ in
+                            // $s17RealityFoundation17REEventDispatcherC17EventSubscription33_9E3AD6BA34D478C65D106D94F4542597LLC8eventBus10coreHandle12sourceObject13componentType8matching10downstream19cancellationHandlerAFyx_qd__GAA0cP0C_s13OpaquePointerVARSgASSSSgqd__yyctcfcSo0cZ6ResultVSvSg_SVtcANcfu1_AvW_SVtcfu2_TA
+                            assertUnimplemented()
+                        },
+                        unsafeBitCast(componentType, to: UnsafeRawPointer.self)
+                    )
+                
+                // <+648>
+            }
+            
+            // <+648>
+            self.coreSubscription = coreSubscription
+            self.cancellationHandler = cancellationHandler
+        }
+        
+        func request(demand: Combine::Subscribers.Demand) {
             assertUnimplemented()
         }
         
-        // TODO
+        func cancel() {
+            assertUnimplemented()
+        }
     }
 }

@@ -2,7 +2,7 @@
 private import CoreRE
 
 @safe final class REEventBus {
-    private let coreHandle: OpaquePointer // 0x10
+    let coreHandle: OpaquePointer // 0x10
     private var dispatchersByHandle: [REEventBus.DispatcherHandle : Any] // 0x18
     
     @inline(__always) // 원래 없음
