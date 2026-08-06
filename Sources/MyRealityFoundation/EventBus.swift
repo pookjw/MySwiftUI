@@ -2,8 +2,8 @@
 private import CoreRE
 
 @safe final class REEventBus {
-    private let coreHandle: OpaquePointer
-    private var dispatchersByHandle: [REEventBus.DispatcherHandle : Any]
+    private let coreHandle: OpaquePointer // 0x10
+    private var dispatchersByHandle: [REEventBus.DispatcherHandle : Any] // 0x18
     
     @inline(__always) // 원래 없음
     init(coreHandle: OpaquePointer) {
@@ -20,7 +20,26 @@ private import CoreRE
     }
     
     fileprivate func getOrCreateDispatcher<T : Sendable>(handle: REEventBus.DispatcherHandle, of type: T.Type) -> REEventDispatcher<T> {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x19
+         handle -> x0 -> x21
+         T -> x2 -> x22
+         */
+        if let dispatcher = self.dispatchersByHandle[handle] as? REEventDispatcher<T> {
+            return dispatcher
+        }
+        
+        // <+200>
+        let dispatcher = unsafe REEventDispatcher<T>(
+            eventBus: self,
+            coreHandle: self.coreHandle,
+            sourceObject: handle.sourceObject,
+            componentType: handle.componentType,
+            matching: handle.matching
+        )
+        
+        self.dispatchersByHandle[handle] = dispatcher
+        return dispatcher
     }
 }
 
@@ -53,7 +72,7 @@ extension REEventBus {
         private let eventID: UInt64
         let sourceObject: OpaquePointer?
         let componentType: OpaquePointer?
-        private let matching: String?
+        let matching: String?
         
         init<T>(event: T.Type, sourceObject: EventSource?, componentType: (any MyRealityFoundation::Component.Type)?, matching: String?) {
             /*
