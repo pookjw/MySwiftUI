@@ -54,7 +54,15 @@ private import CoreRE
         lock.unlock()
         
         // <+1940>
-//        REEventDispatcher.EventSubscription
+//        let eventSubscription = REEventDispatcher.EventSubscription(
+//            eventBus: self.eventBus,
+//            coreHandle: self.coreHandle,
+//            sourceObject: self.sourceObject,
+//            componentType: self.componentType,
+//            matching: self.matching,
+//            downstream: <#T##U#>,
+//            cancellationHandler: <#T##() -> Void#>
+//        )
         assertUnimplemented()
     }
     
@@ -100,13 +108,13 @@ extension REEventDispatcher {
             let coreSubscription: CoreRE::SubscriptionHandle
             if let matching {
                 // <+348>
-                let eventID = getEventID(Self.self)
+                let eventID = getEventID(T.self)
                 
-                coreSubscription = unsafe unsafeBitCast(eventBus.coreHandle, to: CoreRE::EventBus.self)
+                coreSubscription = unsafe unsafeBitCast(coreHandle, to: CoreRE::EventBus.self)
                     .subscribeWithMatch(
                         eventID,
                         unsafeBitCast(sourceObject, to: UnsafeMutableRawPointer?.self),
-                        { _, _ in
+                        { [self] _, _ in
                             // $s17RealityFoundation17REEventDispatcherC17EventSubscription33_9E3AD6BA34D478C65D106D94F4542597LLC8eventBus10coreHandle12sourceObject13componentType8matching10downstream19cancellationHandlerAFyx_qd__GAA0cP0C_s13OpaquePointerVARSgASSSSgqd__yyctcfcSo0cZ6ResultVSvSg_SVtcANcfu_AvW_SVtcfu0_TA
                             assertUnimplemented()
                         },
@@ -118,13 +126,13 @@ extension REEventDispatcher {
                 // <+648>
             } else {
                 // <+520>
-                let eventID = getEventID(Self.self)
+                let eventID = getEventID(T.self)
                 
-                coreSubscription = unsafe unsafeBitCast(eventBus.coreHandle, to: CoreRE::EventBus.self)
+                coreSubscription = unsafe unsafeBitCast(coreHandle, to: CoreRE::EventBus.self)
                     .subscribeWithMatch(
                         eventID,
                         unsafeBitCast(sourceObject, to: UnsafeMutableRawPointer?.self),
-                        { _, _ in
+                        { [self] _, _ in
                             // $s17RealityFoundation17REEventDispatcherC17EventSubscription33_9E3AD6BA34D478C65D106D94F4542597LLC8eventBus10coreHandle12sourceObject13componentType8matching10downstream19cancellationHandlerAFyx_qd__GAA0cP0C_s13OpaquePointerVARSgASSSSgqd__yyctcfcSo0cZ6ResultVSvSg_SVtcANcfu1_AvW_SVtcfu2_TA
                             assertUnimplemented()
                         },
