@@ -158,7 +158,7 @@ extension REEventDispatcher {
         }
         
         func request(_ demand: Combine::Subscribers.Demand) {
-            assertUnimplemented()
+            self.pendingDemand += demand
         }
         
         func cancel() {
