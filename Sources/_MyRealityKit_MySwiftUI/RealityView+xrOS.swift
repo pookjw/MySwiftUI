@@ -285,6 +285,7 @@ struct _RealityViewAsync<Placeholder : View> : View {
 }
 
 @Observable
+@MainActor
 final class _RealityViewModel {
     @ObservationIgnored var content: RealityViewContent // 0x10
     @ObservationIgnored var relativeTransformObservers: [any NSObjectProtocol] // 0xa0
@@ -300,7 +301,7 @@ final class _RealityViewModel {
     var hasTransformInteractionComponents: Bool // 0x102
     // _$observationRegistrar -> 0x108
     
-    @MainActor init() {
+    init() {
         self.content = RealityViewContent()
         self.relativeTransformObservers = []
         self.isObservingRelativeTransform = false
