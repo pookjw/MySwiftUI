@@ -28,14 +28,14 @@ public func blend(sources: [any BlendTreeNode], name: String = "", isAdditive: B
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public func __RERetain(_ ptr: OpaquePointer?) {
-    if let ptr {
+    if let ptr = unsafe ptr {
         unsafe RERetain(unsafeBitCast(ptr, to: UnsafeRawPointer.self))
     }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public func __RERelease(_ ptr: OpaquePointer?) {
-    if let ptr {
+    if let ptr = unsafe ptr {
         unsafe RERelease(unsafeBitCast(ptr, to: UnsafeRawPointer.self))
     }
 }

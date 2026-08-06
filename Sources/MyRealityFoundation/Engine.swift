@@ -56,14 +56,20 @@ fileprivate let builtInComponentsInitializer: Void = {
             set {
                 assertUnimplemented()
             }
+            _modify {
+                assertUnimplemented()
+            }
         }
         
         public var useMetal: Bool {
             get {
-                return self.core.coreConfiguration.useMetal
+                assertUnimplemented()
             }
             set {
-                self.core.coreConfiguration.useMetal = newValue
+                assertUnimplemented()
+            }
+            _modify {
+                assertUnimplemented()
             }
         }
         
@@ -72,6 +78,9 @@ fileprivate let builtInComponentsInitializer: Void = {
                 assertUnimplemented()
             }
             set {
+                assertUnimplemented()
+            }
+            _modify {
                 assertUnimplemented()
             }
         }
@@ -83,6 +92,9 @@ fileprivate let builtInComponentsInitializer: Void = {
             set {
                 assertUnimplemented()
             }
+            _modify {
+                assertUnimplemented()
+            }
         }
         
         public var enablePreloadMXIAssets: Bool {
@@ -92,6 +104,9 @@ fileprivate let builtInComponentsInitializer: Void = {
             set {
                 assertUnimplemented()
             }
+            _modify {
+                assertUnimplemented()
+            }
         }
         
         public var useRealityIO: Bool {
@@ -99,7 +114,10 @@ fileprivate let builtInComponentsInitializer: Void = {
                 return self.core.coreConfiguration.useRealityIO
             }
             set {
-                self.core.coreConfiguration.useRealityIO = newValue
+                assertUnimplemented()
+            }
+            _modify {
+                assertUnimplemented()
             }
         }
         
@@ -108,6 +126,9 @@ fileprivate let builtInComponentsInitializer: Void = {
                 assertUnimplemented()
             }
             set {
+                assertUnimplemented()
+            }
+            _modify {
                 assertUnimplemented()
             }
         }
@@ -119,6 +140,9 @@ fileprivate let builtInComponentsInitializer: Void = {
             set {
                 assertUnimplemented()
             }
+            _modify {
+                assertUnimplemented()
+            }
         }
         
         public var device: (any MTLDevice)? {
@@ -128,6 +152,9 @@ fileprivate let builtInComponentsInitializer: Void = {
             set {
                 assertUnimplemented()
             }
+            _modify {
+                assertUnimplemented()
+            }
         }
         
         public var isHostingSharedAudioSimulation: Bool {
@@ -135,6 +162,9 @@ fileprivate let builtInComponentsInitializer: Void = {
                 assertUnimplemented()
             }
             set {
+                assertUnimplemented()
+            }
+            _modify {
                 assertUnimplemented()
             }
         }
@@ -147,14 +177,35 @@ fileprivate let builtInComponentsInitializer: Void = {
             set {
                 assertUnimplemented()
             }
+            _modify {
+                assertUnimplemented()
+            }
         }
         
         public var __createServices: __EngineServiceMaskRef {
             get {
-                return __EngineServiceMaskRef(core: self.core.coreConfiguration.servicesToCreate)
+                return self.core.engineServicesToCreate
             }
             set {
-                self.core.coreConfiguration.servicesToCreate = newValue.core
+                let retainCount = unsafe CoreRE::REGetRetainCount(
+                    unsafeBitCast(
+                        self.core.coreConfiguration,
+                        to: UnsafeRawPointer.self
+                    )
+                )
+                
+                if retainCount < 2 {
+                    self.core.engineServicesToCreate = newValue
+                } else {
+                    let clone = self.core.clone()
+                    self.core = clone
+                    clone.engineServicesToCreate = newValue
+                }
+            }
+            _modify {
+                var value = self.__createServices
+                yield &value
+                self.__createServices = value
             }
         }
         
@@ -163,6 +214,9 @@ fileprivate let builtInComponentsInitializer: Void = {
                 assertUnimplemented()
             }
             set {
+                assertUnimplemented()
+            }
+            _modify {
                 assertUnimplemented()
             }
         }
@@ -174,6 +228,9 @@ fileprivate let builtInComponentsInitializer: Void = {
             set {
                 assertUnimplemented()
             }
+            _modify {
+                assertUnimplemented()
+            }
         }
         
         public var __renderFlags: __RenderFlagsRef {
@@ -181,6 +238,9 @@ fileprivate let builtInComponentsInitializer: Void = {
                 assertUnimplemented()
             }
             set {
+                assertUnimplemented()
+            }
+            _modify {
                 assertUnimplemented()
             }
         }
@@ -192,30 +252,30 @@ fileprivate let builtInComponentsInitializer: Void = {
             set {
                 assertUnimplemented()
             }
-        }
-        
-        var enableInteractions: Bool {
-            get {
-                return self.core.coreConfiguration.enableInteractions
-            }
-            set {
-                self.core.coreConfiguration.enableInteractions = newValue
-            }
             _modify {
-                var value = self.enableInteractions
-                yield &value
-                self.enableInteractions = value
+                assertUnimplemented()
             }
         }
         
         var caLayerServiceFlags: MyRealityFoundation::CALayerServiceFlags {
             get {
-                return MyRealityFoundation::CALayerServiceFlags(
-                    core: self.core.coreConfiguration.caLayerServiceFlags
-                )
+                return self.core.caLayerServiceFlags
             }
             set {
-                self.core.coreConfiguration.caLayerServiceFlags = newValue.core
+                let retainCount = unsafe CoreRE::REGetRetainCount(
+                    unsafeBitCast(
+                        self.core.coreConfiguration,
+                        to: UnsafeRawPointer.self
+                    )
+                )
+                
+                if retainCount < 2 {
+                    self.core.caLayerServiceFlags = newValue
+                } else {
+                    let clone = self.core.clone()
+                    self.core = clone
+                    clone.caLayerServiceFlags = newValue
+                }
             }
             _modify {
                 var value = self.caLayerServiceFlags
@@ -224,18 +284,24 @@ fileprivate let builtInComponentsInitializer: Void = {
             }
         }
         
+        var renderThreadPriority: Int32 {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+            _modify {
+                assertUnimplemented()
+            }
+        }
+        
         public init() {
             assertUnimplemented()
         }
         
         init(configuration: EngineConfiguration) {
-            let ref = configuration.coreConfiguration.clone()
-            self.core = EngineConfiguration(coreConfiguration: ref)
-        }
-        
-        @inline(always) // 원래 없음
-        fileprivate init(coreConfiguration: CoreRE::Engine.Configuration) {
-            self.core = EngineConfiguration(coreConfiguration: coreConfiguration.clone())
+            self.core = configuration.clone()
         }
     }
     
@@ -257,16 +323,16 @@ fileprivate let builtInComponentsInitializer: Void = {
         let configurationRef = unsafe CoreRE::Engine.Configuration(
             engine: unsafeBitCast(coreEngine, to: CoreRE::Engine.self)
         )
-        unsafe __RERetain(unsafeBitCast(configurationRef, to: OpaquePointer.self))
         self.configuration = __Engine.Configuration(
-            coreConfiguration: configurationRef
+            configuration: EngineConfiguration(
+                coreConfiguration: configurationRef
+            )
         )
-        unsafe __RERelease(unsafeBitCast(configurationRef, to: OpaquePointer.self))
         
         // <+188>
         self.queue = configurationRef.engineQueue!
         
-        if self.configuration.enableInteractions {
+        if self.configuration.core.enableInteractions {
             __Engine.__ensureInteractionsComponentIsRegistered()
             __Engine.__ensureBuiltInComponentsAreRegistered()
         } else {
@@ -633,19 +699,349 @@ final class EngineConfiguration {
     private(set) var coreConfiguration: CoreRE::Engine.Configuration
     
     init() {
-        assertUnimplemented()
+        self.coreConfiguration = CoreRE::Engine.Configuration()
     }
     
     @inline(__always) // 원래 없음
     init(coreConfiguration: CoreRE::Engine.Configuration) {
+        unsafe __RERetain(unsafeBitCast(coreConfiguration, to: OpaquePointer.self))
         self.coreConfiguration = coreConfiguration
     }
     
     deinit {
         unsafe __RERelease(unsafeBitCast(self.coreConfiguration, to: OpaquePointer.self))
     }
+    
+    var instanceID: String {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var unsafeUserDataPointer: UnsafeMutableRawPointer? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var engineClockMode: __EngineClockModeRef {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var engineServicesToCreate: __EngineServiceMaskRef {
+        get {
+            return __EngineServiceMaskRef(
+                core: self.coreConfiguration.servicesToCreate
+            )
+        }
+        set {
+            self.coreConfiguration.servicesToCreate = newValue.core
+        }
+        _modify {
+            var value = __EngineServiceMaskRef(
+                core: self.coreConfiguration.servicesToCreate
+            )
+            yield &value
+            self.coreConfiguration.servicesToCreate = value.core
+        }
+    }
+    
+    var engineServicesToUpdate: __EngineServiceMaskRef {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var engineStartupOptions: __StartupOptionsRef {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var engineQueue: DispatchQueue? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var metalDevice: (any MTLDevice)? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var useMetal: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var forExportOnly: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var enableVideoSupport: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var enablePreloadEngineAssets: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var enablePreloadMXIAssets: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var useRealityIO: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var usePhysicsSceneSystem: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var assetRuntimeSizeLimit: UInt64 {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var disableRenderGraphCaching: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var engineRenderFlags: __RenderFlagsRef {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var isHostingSharedAudioSimulation: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var caLayerServicesServer: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var caLayerServiceFlags: MyRealityFoundation::CALayerServiceFlags {
+        get {
+            return MyRealityFoundation::CALayerServiceFlags(
+                core: self.coreConfiguration.caLayerServiceFlags
+            )
+        }
+        set {
+            self.coreConfiguration.caLayerServiceFlags = newValue.core
+        }
+        _modify {
+            var value = MyRealityFoundation::CALayerServiceFlags(
+                core: self.coreConfiguration.caLayerServiceFlags
+            )
+            yield &value
+            self.coreConfiguration.caLayerServiceFlags = value.core
+        }
+    }
+    
+    var enableInteractions: Bool {
+        get {
+            return self.coreConfiguration.enableInteractions
+        }
+        set {
+            self.coreConfiguration.enableInteractions = newValue
+        }
+        _modify {
+            var value = self.coreConfiguration.enableInteractions
+            yield &value
+            self.coreConfiguration.enableInteractions = value
+        }
+    }
+    
+    var enableCommitSynchronously: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    func setRenderThreadInitCallback(_: () -> Void) {
+        assertUnimplemented()
+    }
+    
+    var renderThreadPriority: Int32 {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var renderFrameOverlap: Int32 {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    func clone() -> EngineConfiguration {
+        let ref = self.coreConfiguration.clone()
+        return EngineConfiguration(coreConfiguration: ref)
+    }
 }
 
 fileprivate nonisolated func engineRenderCallback(coreEngine: OpaquePointer) -> CoreRE::EventHandlerResult {
     assertUnimplemented()
+}
+
+extension __Engine {
+    static func makeSharedEngine(_: __Engine.Configuration) -> __Engine {
+        assertUnimplemented()
+    }
 }

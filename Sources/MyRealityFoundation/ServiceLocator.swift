@@ -115,9 +115,73 @@ public let __privateEngineMode: Bool = {
     }
     
     public static var shared: __ServiceLocator {
-        get {
-            assertUnimplemented()
+        if __ServiceLocator.__sharedEngine != nil {
+            // <+280>
+        } else {
+            // <+36>
+            if __privateEngineMode {
+                // <+68>
+                var configuration = __Engine.Configuration()
+                configuration.caLayerServiceFlags.core.formUnion(.unknown4)
+                
+                // <+180>
+                if __ServiceLocator.__sharedEngine == nil {
+                    unsafe __ServiceLocator.sharedEngine = .makeSharedEngine(configuration)
+                    unsafe __ServiceLocator.createdSharedEngine = true
+                }
+                
+                // <+240>
+            } else {
+                // <+340>
+                if
+                    let handle = unsafe dlopen("/System/Library/PrivateFrameworks/MRUIKit.framework/MRUIKit", RTLD_LAZY),
+                    let symbol = unsafe dlsym(handle, "MRUICreateEngine")
+                {
+                    // <+376>
+                    let casted = unsafe unsafeBitCast(
+                        symbol,
+                        to: (@convention(c) () -> OpaquePointer).self
+                    )
+                    
+                    let coreEngine = unsafe casted()
+                    let engine = unsafe __Engine(coreEngine: coreEngine)
+                    
+                    unsafe CoreRE::Engine.shared = unsafeBitCast(
+                        engine.coreEngine,
+                        to: CoreRE::Engine.self
+                    )
+                    
+                    unsafe __ServiceLocator.sharedEngine = engine
+                    unsafe __ServiceLocator.createdSharedEngine = true
+                    
+                    // <+240>
+                } else {
+                    // <+456>
+                    let configuration = __Engine.Configuration()
+                    
+                    if __ServiceLocator.__sharedEngine == nil {
+                        // <+184>
+                        if __ServiceLocator.__sharedEngine == nil {
+                            unsafe __ServiceLocator.sharedEngine = .makeSharedEngine(configuration)
+                            unsafe __ServiceLocator.createdSharedEngine = true
+                        }
+                        
+                        // <+240>
+                    } else {
+                        // <+232>
+                        // <+240>
+                    }
+                }
+            }
+            
+            // <+240>
+            _ = unsafe SceneManager.customComponentType(__EntityInfoComponent.self)
+            _ = unsafe SceneManager.customComponentType(SceneOriginComponent.self)
+            // <+280>
         }
+        
+        // <+280>
+        return __ServiceLocator.__sharedEngine.services
     }
     
     public static func __createSharedIfNeeded(with configuration: __Engine.Configuration) {

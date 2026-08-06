@@ -125,6 +125,8 @@ typedef const struct REComponentClass * REComponentClassPtr __attribute__((swift
 
 RE_EXTERN void RERelease(const void *);
 RE_EXTERN const void * RERetain(const void *);
+RE_EXTERN NSUInteger REGetRetainCount(const void *);
+
 RE_EXTERN bool REIsRSCompatible(void);
 RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (* _Nullable)(void *, void *, const int8_t *), bool (* _Nullable)(void *, void *, CFDataRef, const int8_t *));
 
@@ -398,7 +400,8 @@ struct REForceEffectParameters {
 typedef struct REForceEffectParameters REForceEffectParameters;
 
 typedef NS_OPTIONS(uint32_t, RECALayerServiceFlags) {
-    RECALayerServiceFlagsNone = 0
+    RECALayerServiceFlagsNone = 0,
+    RECALayerServiceFlagsUnknown4 = (1 << 4)
 } NS_SWIFT_NAME(CALayerServiceFlags);
 
 NS_ASSUME_NONNULL_END
