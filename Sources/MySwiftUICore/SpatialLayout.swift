@@ -54,7 +54,7 @@ extension SpatialLayout where Self == _ZStackLayout {
     // $s7SwiftUI13SpatialLayoutPAAE011makeDynamiccD4View4root6inputs10properties4listAA01_G7OutputsVAA11_GraphValueVyxG_AA01_G6InputsVAA0cD10PropertiesV09AttributeM00Q0VyAA0G4List_pGtFZAA07_ZStackD0V_Tt2t4B5
     nonisolated static func makeDynamicSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
         /*
-         root -> x0 -> x26
+         root -> x0 -> w26
          inputs -> x1 -> x23
          properties -> dead
          list -> w2 -> x19 + 0x60
@@ -87,7 +87,11 @@ extension SpatialLayout where Self == _ZStackLayout {
         
         // <+228>
         // x28
-        var layoutComputer: Attribute<LayoutComputer>? = nil
+        var layoutComputerAttribute: Attribute<LayoutComputer>? = nil
+        // x19 + 0x78
+        var childViewGeometriesAttribute = OptionalAttribute<[ViewGeometry]>()
+        // w24
+        var childDepthGeometriesAttribute = OptionalAttribute<[ViewDepthGeometry]>()
         
         if
             !options.intersection([.viewNeedsGeometry, .viewRequestsLayoutComputer]).isEmpty ||
@@ -95,7 +99,36 @@ extension SpatialLayout where Self == _ZStackLayout {
                 withinAccessibilityRotor
         {
             // <+316>
-            assertUnimplemented()
+            // x19 + 0x150
+            let layoutComputer = DynamicLayoutComputer<_ZStackLayout>(
+                layout: root.value,
+                environment: copy_1.environment,
+                containerInfo: OptionalAttribute(),
+                layoutMap: DynamicLayoutMap()
+            )
+            
+            let _layoutComputerAttribute = Attribute(layoutComputer)
+            layoutComputerAttribute = _layoutComputerAttribute
+            
+            // x19 + 0x150
+            let parentSize3D = ParentSize3D(
+                size: inputs.size,
+                depth: inputs.transform.depth
+            )
+            
+            let viewSize3D = Attribute(parentSize3D)
+            
+            let layoutChildGeometries3D = LayoutChildGeometries3D<ViewSpatialLayoutEngine<_ZStackLayout>>(
+                parentSize: viewSize3D,
+                parentPosition: inputs.position,
+                layoutComputer: _layoutComputerAttribute
+            )
+            
+            let geometries3D = Attribute(layoutChildGeometries3D)
+            let childViewGeometries = ChildViewGeometries(geometries3D: geometries3D)
+            childViewGeometriesAttribute = OptionalAttribute(Attribute(childViewGeometries))
+            let childDepthGeometries = ChildDepthGeometries(geometries3D: geometries3D)
+            childDepthGeometriesAttribute = OptionalAttribute(Attribute(childDepthGeometries))
             // <+932>
         }
         
@@ -1400,5 +1433,38 @@ extension DerivedSpatialLayout where Self == ZStackLayout3D {
                 volume: ptr.pointee.size,
                 data: ptr.pointee.data
             )
+    }
+}
+
+fileprivate struct DynamicLayoutComputer<T> : CustomStringConvertible, AsyncAttribute, StatefulRule {
+    @Attribute private(set) var layout: T
+    @Attribute private(set) var environment: EnvironmentValues
+    @OptionalAttribute var containerInfo: DynamicContainer.Info?
+    private(set) var layoutMap: DynamicLayoutMap
+    
+    typealias Value = LayoutComputer
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct ChildViewGeometries : AsyncAttribute, Rule {
+    @Attribute private(set) var geometries3D: [ViewGeometry3D]
+    
+    var value: [ViewGeometry] {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct ChildDepthGeometries : AsyncAttribute, Rule {
+    @Attribute private(set) var geometries3D: [ViewGeometry3D]
+    
+    var value: [ViewDepthGeometry] {
+        assertUnimplemented()
     }
 }
