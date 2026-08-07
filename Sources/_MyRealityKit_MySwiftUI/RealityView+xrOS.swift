@@ -400,15 +400,7 @@ final class _RealityViewModel {
             let x290xd0 = v4
             
             // <+860>
-            v1.lowHalf = simd_rsqrt(v0.lowHalf)
-            v2.lowHalf = v1.lowHalf * v1.lowHalf
-            v2.lowHalf = (3.0 - v0.lowHalf * v2.lowHalf) * 0.5
-            
-            v1.lowHalf = v1.lowHalf * v2.lowHalf
-            v2.lowHalf = v1.lowHalf * v1.lowHalf
-            v0.lowHalf = (3.0 - v0.lowHalf * v2.lowHalf) * 0.5
-            
-            v0.lowHalf = v1.lowHalf * v0.lowHalf
+            v0.lowHalf = simd_rsqrt(v0.lowHalf)
             v0 = v6 * v0.x
             
             // <+896>
@@ -422,15 +414,7 @@ final class _RealityViewModel {
             v1.y = 0
             
             v2.lowHalf = simd_rsqrt(v1.lowHalf)
-            v3 = v2 * v2
-            v3.lowHalf = (3.0 - v1.lowHalf * v3.lowHalf) * 0.5
-            
-            v2.lowHalf = v2.lowHalf * v3.lowHalf
-            v3.lowHalf = v2.lowHalf * v2.lowHalf
-            v1.lowHalf = (3.0 - v1.lowHalf * v3.lowHalf) * 0.5
-            
-            v1.lowHalf = v2.lowHalf * v1.lowHalf
-            v1 = v16 * v1.x
+            v1 = v16 * v2.x
             
             // <+956>
             v3 = simd_float4(converted, 0)
