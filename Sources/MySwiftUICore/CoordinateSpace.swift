@@ -1,4 +1,3 @@
-
 package let hostingViewCoordinateSpace = CoordinateSpace.ID()
 
 /*
@@ -6,34 +5,34 @@ package let hostingViewCoordinateSpace = CoordinateSpace.ID()
  ptr.initialize(to: .local)
  
  print(UnsafeRawPointer(ptr)
-     .advanced(by: 0x0)
-     .assumingMemoryBound(to: UInt64.self)
-     .pointee)
+ .advanced(by: 0x0)
+ .assumingMemoryBound(to: UInt64.self)
+ .pointee)
  
  print(UnsafeRawPointer(ptr)
-     .advanced(by: 0x8)
-     .assumingMemoryBound(to: UInt64.self)
-     .pointee)
+ .advanced(by: 0x8)
+ .assumingMemoryBound(to: UInt64.self)
+ .pointee)
  
  print(UnsafeRawPointer(ptr)
-     .advanced(by: 0x10)
-     .assumingMemoryBound(to: UInt64.self)
-     .pointee)
+ .advanced(by: 0x10)
+ .assumingMemoryBound(to: UInt64.self)
+ .pointee)
  
  print(UnsafeRawPointer(ptr)
-     .advanced(by: 0x18)
-     .assumingMemoryBound(to: UInt64.self)
-     .pointee)
+ .advanced(by: 0x18)
+ .assumingMemoryBound(to: UInt64.self)
+ .pointee)
  
  print(UnsafeRawPointer(ptr)
-     .advanced(by: 0x20)
-     .assumingMemoryBound(to: UInt64.self)
-     .pointee)
+ .advanced(by: 0x20)
+ .assumingMemoryBound(to: UInt64.self)
+ .pointee)
  
  print(UnsafeRawPointer(ptr)
-     .advanced(by: 0x28)
-     .assumingMemoryBound(to: UInt8.self)
-     .pointee)
+ .advanced(by: 0x28)
+ .assumingMemoryBound(to: UInt8.self)
+ .pointee)
  */
 public enum CoordinateSpace {
     case global
@@ -42,14 +41,6 @@ public enum CoordinateSpace {
     
     @_spi(Internal)
     case id(CoordinateSpace.ID)
-    
-    public var isGlobal: Bool {
-        assertUnimplemented()
-    }
-    
-    public var isLocal: Bool {
-        assertUnimplemented()
-    }
 }
 
 @available(*, unavailable)
@@ -57,6 +48,16 @@ extension CoordinateSpace : Sendable {}
 
 extension CoordinateSpace : Hashable {
     public func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+
+extension CoordinateSpace {
+    public var isGlobal: Bool {
+        assertUnimplemented()
+    }
+    
+    public var isLocal: Bool {
         assertUnimplemented()
     }
 }
@@ -106,4 +107,55 @@ public struct NamedCoordinateSpace : CoordinateSpaceProtocol, Equatable {
 
 @available(*, unavailable)
 extension NamedCoordinateSpace : Sendable {
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+extension CoordinateSpaceProtocol where Self == NamedCoordinateSpace {
+    public static func named(_ name: some Hashable) -> NamedCoordinateSpace {
+        assertUnimplemented()
+    }
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+public struct LocalCoordinateSpace : CoordinateSpaceProtocol {
+    public init() {
+        assertUnimplemented()
+    }
+    
+    public var coordinateSpace: CoordinateSpace {
+        assertUnimplemented()
+    }
+}
+
+@available(*, unavailable)
+extension LocalCoordinateSpace : Sendable {
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+extension CoordinateSpaceProtocol where Self == LocalCoordinateSpace {
+    public static var local: LocalCoordinateSpace {
+        assertUnimplemented()
+    }
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+public struct GlobalCoordinateSpace : CoordinateSpaceProtocol {
+    public init() {
+        assertUnimplemented()
+    }
+    
+    public var coordinateSpace: CoordinateSpace {
+        assertUnimplemented()
+    }
+}
+
+@available(*, unavailable)
+extension GlobalCoordinateSpace : Sendable {
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+extension CoordinateSpaceProtocol where Self == GlobalCoordinateSpace {
+    public static var global: GlobalCoordinateSpace {
+        assertUnimplemented()
+    }
 }

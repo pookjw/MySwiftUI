@@ -158,7 +158,8 @@ let package = Package(
                 .byName(name: "MySwiftUI"),
                 .byName(name: "_MySwiftUIUtils"),
                 .byName(name: "MRUIKit"),
-                .byName(name: "CoreRE")
+                .byName(name: "CoreRE"),
+                .byName(name: "_UIKitPrivate")
             ],
             swiftSettings: [
                 .strictMemorySafety()

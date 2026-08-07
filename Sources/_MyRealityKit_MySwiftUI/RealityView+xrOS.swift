@@ -10,6 +10,7 @@ internal import UIKit
 private import CoreRE
 private import MRUIKit
 private import simd
+private import _UIKitPrivate
 
 struct _RealityViewAsync<Placeholder : View> : View {
     private let make: @Sendable (inout RealityViewContent) async -> Void // 0x0
@@ -321,8 +322,185 @@ final class _RealityViewModel {
             return
         }
         
-        let srtMatrix = RESRTMatrix(windowScene._mrui_relativeTransform)
-        assertUnimplemented()
+        /*
+         columns.0 -> x29 - 0xc0
+         columns.1 -> x29 - 0xe0
+         columns.2 -> x29 - 0xf0
+         columns.3 -> x29 - 0xd0
+         */
+        var srtMatrix = RESRTMatrix(windowScene._mrui_relativeTransform)
+        
+        if windowScene.session.role == .windowApplicationVolumetric {
+            // <+468>
+            // x26
+            let content = self.content
+            let size = windowScene.effectiveGeometry._size
+            let localSpace = LocalCoordinateSpace.local
+            let realitySpace = MyRealityFoundation::SceneRealityCoordinateSpace()
+            
+            // x29 - 0x140
+            let converted = content.convert(size, from: localSpace, to: realitySpace)
+            
+            var value0 = SIMD3<Float>([1, 0, 0])
+            value0 *= Float(bitPattern: 0x3f3504f3)
+            
+            let value1 = simd_float4x4(
+                simd_quatf(
+                    ix: value0.x,
+                    iy: value0.y,
+                    iz: value0.z,
+                    r: Float(bitPattern: 0x3f3504f4)
+                )
+            )
+            
+            let q5 = srtMatrix.columns.3
+            let q4 = srtMatrix.columns.0
+            var v16 = q4 * value1.columns.0.x
+            let q7 = srtMatrix.columns.2
+            let q6 = srtMatrix.columns.1
+            v16 = v16 + (q6 * value1.columns.0.y)
+            v16 = v16 + (q7 * value1.columns.0.z)
+            v16 = v16 + (q5 * value1.columns.0.w)
+            // x29 - 0x110
+            let x290x110 = v16
+            
+            // <+760>
+            var v0 = q4 * value1.columns.1.x
+            v0 = v0 + (q6 * value1.columns.1.y)
+            v0 = v0 + (q7 * value1.columns.1.z)
+            v0 = v0 + (q5 * value1.columns.1.w)
+            
+            // <+776>
+            var v1 = v0
+            v0 = q4 * value1.columns.2.x
+            v0 = v0 + (q6 * value1.columns.2.y)
+            v0 = v0 + (q7 * value1.columns.2.z)
+            v0 = v0 + (q5 * value1.columns.2.w)
+            
+            // <+796>
+            v16 = v0
+            v0 = q4 * value1.columns.3.x
+            v0 = v0 + (q6 * value1.columns.3.y)
+            v0 = v0 + (q7 * value1.columns.3.z)
+            var v4 = v0
+            let v6 = v1
+            // x29 - 0x120
+            let x290x120 = v1
+            
+            v0 = v1 * v1
+            v1 = simd_float4(repeating: v0.z)
+            var v2 = simd_float4(repeating: v0.y)
+            
+            v0 = v0 + v2
+            v0 = v1 + v0
+            v0.y = 0
+            v4 = v4 + (q5 * value1.columns.3.w)
+            
+            // x29 - 0xd0
+            let x290xd0 = v4
+            
+            // <+860>
+            v1.lowHalf = simd_rsqrt(v0.lowHalf)
+            v2.lowHalf = v1.lowHalf * v1.lowHalf
+            v2.lowHalf = (3.0 - v0.lowHalf * v2.lowHalf) * 0.5
+            
+            v1.lowHalf = v1.lowHalf * v2.lowHalf
+            v2.lowHalf = v1.lowHalf * v1.lowHalf
+            v0.lowHalf = (3.0 - v0.lowHalf * v2.lowHalf) * 0.5
+            
+            v0.lowHalf = v1.lowHalf * v0.lowHalf
+            v0 = v6 * v0.x
+            
+            // <+896>
+            let x290x130 = v16
+            v1 = v16 * v16
+            v2 = simd_float4(repeating: v1.z)
+            var v3 = simd_float4(repeating: v1.y)
+            
+            v1.lowHalf = v1.lowHalf + v3.lowHalf
+            v1.lowHalf = v2.lowHalf + v1.lowHalf
+            v1.y = 0
+            
+            v2.lowHalf = simd_rsqrt(v1.lowHalf)
+            v3 = v2 * v2
+            v3.lowHalf = (3.0 - v1.lowHalf * v3.lowHalf) * 0.5
+            
+            v2.lowHalf = v2.lowHalf * v3.lowHalf
+            v3.lowHalf = v2.lowHalf * v2.lowHalf
+            v1.lowHalf = (3.0 - v1.lowHalf * v3.lowHalf) * 0.5
+            
+            v1.lowHalf = v2.lowHalf * v1.lowHalf
+            v1 = v16 * v1.x
+            
+            // <+956>
+            v3 = simd_float4(converted, 0)
+            v2 = simd_float4(lowHalf: v3.highHalf, highHalf: v3.lowHalf)
+            v2.lowHalf = simd_float2(v3.y, v2.x)
+            
+            // <+972>
+            v3.lowHalf = simd_float2(-0.5, -0.5)
+            v2.lowHalf = v2.lowHalf * v3.lowHalf
+            v3 = simd_float4(v0.z, v1.z, v0.w, v1.w)
+            v3.lowHalf = v2.lowHalf * v3.lowHalf
+            v0.lowHalf = v0.lowHalf * v2.x
+            v1.lowHalf = v1.lowHalf * v2.y
+            v2.lowHalf = simd_float2(repeating: v3.y)
+            v0.lowHalf = v0.lowHalf + v1.lowHalf
+            v1.lowHalf = v3.lowHalf + v2.lowHalf
+            v0.z = v1.x
+            v0.w = 0
+            
+            let value2 = simd_float4x4(translation: SIMD3<Float>(v0.x, v0.y, v0.z))
+            v0 = value2.columns.0
+            v1 = value2.columns.1
+            v2 = value2.columns.2
+            v3 = value2.columns.3
+            
+            var v5 = x290x110
+            
+            v4 = v0 * v5.x
+            v4 = v4 + (v1 * v5.y)
+            v4 = v4 + (v2 * v5.z)
+            v4 = v4 + (v3 * v5.w)
+            
+            srtMatrix.columns.0 = v4
+            
+            v5 = x290x120
+            v4 = v0 * v5.x
+            v4 = v4 + (v1 * v5.y)
+            v4 = v4 + (v2 * v5.z)
+            v4 = v4 + (v3 * v5.w)
+            
+            v5 = x290x130
+            
+            srtMatrix.columns.1 = v4
+            
+            v4 = v0 * v5.x
+            v4 = v4 + (v1 * v5.y)
+            v4 = v4 + (v2 * v5.z)
+            v4 = v4 + (v3 * v5.w)
+            
+            srtMatrix.columns.2 = v4
+            
+            v4 = x290xd0
+            v0 = v0 * v4.x
+            v0 = v0 + (v1 * v4.y)
+            v0 = v0 + (v2 * v4.z)
+            v0 = v0 + (v3 * v4.w)
+            
+            srtMatrix.columns.3 = v0
+            // <+1136>
+        } else {
+            // <+1132>
+            // <+1136>
+        }
+        
+        // <+1136>
+        let entity = unsafe unsafeBitCast(self.content.baseEntity.coreEntity, to: CoreRE::Entity.self)
+        
+        if let component = entity.getComponent(ofType: .sceneSpaceRoot) {
+            component.sceneSpaceRoot_sceneToImmersiveTransform = srtMatrix
+        }
     }
 }
 
@@ -339,7 +517,20 @@ fileprivate struct TransformInteractionIfEnabled : ViewModifier {
     private(set) var transformInteractionEnabled: Bool
     
     func body(content: Content) -> some View {
-        assertUnimplemented()
+        /*
+         _ConditionalContent<
+         
+         SwiftUI.ModifiedContent<SwiftUI._ViewModifier_Content<_RealityKit_SwiftUI.TransformInteractionIfEnabled>, SwiftUI.CoreInteractionRepresentableModifier<SwiftUI.CoreInteractionRepresentableAdaptor<_RealityKit_SwiftUI.TransformInteractionRepresentable>, Int>>
+         
+         SwiftUI._ViewModifier_Content<_RealityKit_SwiftUI.TransformInteractionIfEnabled>
+         
+         >
+         */
+        if self.transformInteractionEnabled {
+            assertUnimplemented()
+        } else {
+            assertUnimplemented()
+        }
     }
 }
 

@@ -92,7 +92,14 @@ extension RealityViewContent {
 public struct RealityViewContent : RealityViewContentProtocol {
     static let linkedOnOrAfterFall2024OSVersions = RELinkedOnOrAfterFall2024OSVersions()
     static let clientNeedsUninformedMakeClosure: Bool = {
-        assertUnimplemented()
+        guard
+            let bundleIdentifier = Bundle.main.bundleIdentifier,
+            bundleIdentifier == "com.borderleap.illustrated"
+        else {
+            return false
+        }
+        
+        return !RealityViewContent.linkedOnOrAfterFall2024OSVersions
     }()
     
     private var _base: MyRealityFoundation::Entity // 0x0
