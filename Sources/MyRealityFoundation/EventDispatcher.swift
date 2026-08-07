@@ -50,7 +50,7 @@ private import CoreRE
         // <+1844>
         let lock = self.lock
         lock.lock()
-        let ticket = self.subscribers.append(anySubscriber)
+        let ticket = unsafe self.subscribers.append(anySubscriber)
         lock.unlock()
         
         // <+1940>
@@ -69,7 +69,7 @@ private import CoreRE
             
             let lock = self.lock
             lock.lock()
-            self.subscribers.remove(ticket)
+            unsafe self.subscribers.remove(ticket)
             lock.unlock()
         }
         

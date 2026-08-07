@@ -1,5 +1,5 @@
 // 587BE5026F01C2416D8EB2E1012BACCA
-internal import MySwiftUICore
+internal import MySwiftUI
 internal import MyRealityFoundation
 internal import CoreGraphics
 private import Foundation
@@ -8,7 +8,7 @@ internal import Spatial
 private import Observation
 internal import UIKit
 private import CoreRE
-private import MRUIKit
+internal import MRUIKit
 private import simd
 private import _UIKitPrivate
 
@@ -501,19 +501,11 @@ fileprivate struct TransformInteractionIfEnabled : ViewModifier {
     private(set) var transformInteractionEnabled: Bool
     
     func body(content: Content) -> some View {
-        /*
-         _ConditionalContent<
-         
-         SwiftUI.ModifiedContent<SwiftUI._ViewModifier_Content<_RealityKit_SwiftUI.TransformInteractionIfEnabled>, SwiftUI.CoreInteractionRepresentableModifier<SwiftUI.CoreInteractionRepresentableAdaptor<_RealityKit_SwiftUI.TransformInteractionRepresentable>, Int>>
-         
-         SwiftUI._ViewModifier_Content<_RealityKit_SwiftUI.TransformInteractionIfEnabled>
-         
-         >
-         */
         if self.transformInteractionEnabled {
-            assertUnimplemented()
+            content
+                .interactionRepresentable(TransformInteractionRepresentable())
         } else {
-            assertUnimplemented()
+            content
         }
     }
 }
@@ -525,5 +517,23 @@ extension RealityViewContent {
         init() {
             self.storedSubscriptions = []
         }
+    }
+}
+
+struct TransformInteractionRepresentable : _UIInteractionRepresentable {
+    @State private var delegate = TransformInteractionRepresentable.Delegate()
+    
+    func makeUIInteraction() -> _MRUIObjectTransformInteraction {
+        assertUnimplemented()
+    }
+    
+    func updateUIInteraction(_ interacton: _MRUIObjectTransformInteraction) {
+        assertUnimplemented()
+    }
+}
+
+extension TransformInteractionRepresentable {
+    final class Delegate : _MRUIObjectTransformInteraction.Delegate {
+        // TODO
     }
 }

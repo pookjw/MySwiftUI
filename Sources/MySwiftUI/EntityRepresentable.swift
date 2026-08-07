@@ -39,7 +39,7 @@ extension EntityRepresentable {
     }
     
     public nonisolated static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return _ViewListOutputs.unaryViewList(view: view, inputs: inputs)
     }
     
     public var body: Never {

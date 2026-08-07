@@ -51,13 +51,55 @@ extension SpatialLayout {
 }
 
 extension SpatialLayout where Self == _ZStackLayout {
+    // $s7SwiftUI13SpatialLayoutPAAE011makeDynamiccD4View4root6inputs10properties4listAA01_G7OutputsVAA11_GraphValueVyxG_AA01_G6InputsVAA0cD10PropertiesV09AttributeM00Q0VyAA0G4List_pGtFZAA07_ZStackD0V_Tt2t4B5
     nonisolated static func makeDynamicSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
         /*
-         root -> x0
-         inputs -> x1
+         root -> x0 -> x26
+         inputs -> x1 -> x23
          properties -> dead
-         list -> x2
+         list -> w2 -> x19 + 0x60
          */
+        // w24
+        let hasScrollablePreference = inputs.preferences.contains(ScrollablePreferenceKey.self)
+        // x19 + 0x48
+        let hasScrollTargetRoleContent = inputs.preferences.contains(ScrollTargetRole.ContentKey.self)
+        
+        // x29 - 0xf0
+        let copy_1 = inputs.base
+        // x19 + 0x150
+        let _ = copy_1
+        // x19 + 0x84
+        let scrollTargetRole = copy_1.scrollTargetRole
+        // x19 + 0x38
+        let scrollTargetRemovePreference = copy_1.scrollTargetRemovePreference
+        
+        // <+180>
+        // x19 + 0x8c
+        let options = copy_1.options
+        
+        // x19 + 0x88
+        let withinAccessibilityRotor: Bool
+        if options.contains(.needsAccessibility) {
+            withinAccessibilityRotor = copy_1[WithinAccessibilityRotor.self]
+        } else {
+            withinAccessibilityRotor = false
+        }
+        
+        // <+228>
+        // x28
+        var layoutComputer: Attribute<LayoutComputer>? = nil
+        
+        if
+            !options.intersection([.viewNeedsGeometry, .viewRequestsLayoutComputer]).isEmpty ||
+                hasScrollablePreference ||
+                withinAccessibilityRotor
+        {
+            // <+316>
+            assertUnimplemented()
+            // <+932>
+        }
+        
+        // <+932>
         assertUnimplemented()
     }
     

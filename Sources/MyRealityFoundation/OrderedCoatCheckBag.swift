@@ -1,19 +1,19 @@
 // 0656128EEB3DF59F097DD6F4D641F2F1
 
-struct OrderedCoatCheckBag<T> : Sequence, CustomDebugStringConvertible {
+@safe struct OrderedCoatCheckBag<T> : Sequence, CustomDebugStringConvertible {
     private var _ref: _OrderedCoatCheckBagRef<T>? = nil
     
     fileprivate mutating func _checkForSharedOwnership() {
-        if self._ref == nil {
-            self._ref = _OrderedCoatCheckBagRef<T>()
-        } else if !isKnownUniquelyReferenced(&self._ref!) {
+        if unsafe self._ref == nil {
+            unsafe self._ref = _OrderedCoatCheckBagRef<T>()
+        } else if unsafe !isKnownUniquelyReferenced(&self._ref!) {
             assertionFailure("Attempting to form more than one copy of a bag. These should be held by at most one reference type.")
         }
     }
     
     mutating func append(_ element: T) -> OrderedCoatCheckBag<T>.Ticket {
         self._checkForSharedOwnership()
-        return self._ref!.append(element)
+        return unsafe self._ref!.append(element)
     }
     
     @discardableResult
@@ -31,7 +31,7 @@ struct OrderedCoatCheckBag<T> : Sequence, CustomDebugStringConvertible {
 }
 
 extension OrderedCoatCheckBag {
-    @safe struct Ticket : Hashable {
+    @unsafe struct Ticket : Hashable {
         fileprivate private(set) var _key: Int
         fileprivate private(set) var _ptr: UnsafeRawPointer
         
@@ -41,13 +41,13 @@ extension OrderedCoatCheckBag {
     }
 }
 
-fileprivate final class _OrderedCoatCheckBagRef<T> : Sequence, CustomDebugStringConvertible {
+@unsafe fileprivate final class _OrderedCoatCheckBagRef<T> : @unsafe Sequence, CustomDebugStringConvertible {
     private var _storage: ContiguousArray<(key: OrderedCoatCheckBag<T>.Ticket, element: T)>?
     private var _nextKey: Int
     
     init() {
-        self._storage = nil
-        self._nextKey = 0
+        unsafe self._storage = nil
+        unsafe self._nextKey = 0
     }
     
     func asPointer() -> UnsafeRawPointer {
@@ -66,18 +66,18 @@ fileprivate final class _OrderedCoatCheckBagRef<T> : Sequence, CustomDebugString
         )
         
         var storage: ContiguousArray<(key: OrderedCoatCheckBag<T>.Ticket, element: T)>
-        if let _storage {
-            storage = _storage
+        if let _storage = unsafe self._storage {
+            unsafe storage = _storage
         } else {
-            storage = ContiguousArray()
-            self._storage = storage
+            unsafe storage = ContiguousArray()
+            unsafe self._storage = storage
         }
         
-        storage.append((key: ticket, element: element))
-        self._storage = storage
-        self._nextKey += 1
+        unsafe storage.append((key: ticket, element: element))
+        unsafe self._storage = storage
+        unsafe self._nextKey += 1
         
-        return ticket
+        return unsafe ticket
     }
     
     func remove(_ ticket: OrderedCoatCheckBag<T>.Ticket) -> T? {

@@ -16,6 +16,10 @@ extension MRUIKit._MRUIObjectTransformInteraction {
   public struct Target {
     // TODO
   }
+
+  public protocol Delegate : Swift.AnyObject {
+    // TODO
+  }
 }
 
 extension MRUIKit._MRUIObjectTransformInteraction.Target {

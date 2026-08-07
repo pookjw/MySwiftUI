@@ -6,10 +6,22 @@ extension DynamicLayoutViewAdaptor {
         let original = body
         
         switch depthData {
-        case .geometries(let _):
-            body = { _ in
+        case .geometries(let geometries):
+            body = { inputs in
                 // $s7SwiftUI24DynamicLayoutViewAdaptorV18makeDepthTransform9depthData13containerInfo2id4bodyyAC05ChildhK0O_14AttributeGraph0Q0VyAA0C9ContainerV0M0VGAA0cS2IDVAA01_E7OutputsVAA01_E6InputsVcztFZAvXcfU_TA
-                assertUnimplemented()
+                return _ViewOutputs.makeDepthTransform(
+                    inputs: inputs,
+                    geometry: {
+                        return Attribute(
+                            DynamicLayoutViewChildDepthGeometry(
+                                containerInfo: containerInfo,
+                                childGeometries: geometries,
+                                id: id
+                            )
+                        )
+                    },
+                    body: original
+                )
             }
         case .depths(let depths):
             body = { inputs in
@@ -312,11 +324,17 @@ fileprivate struct DynamicLayoutViewChildDepth : StatefulRule, AsyncAttribute {
     }
 }
 
-fileprivate struct DynamicLayoutViewChildDepthGeometry {
+fileprivate struct DynamicLayoutViewChildDepthGeometry : AsyncAttribute, StatefulRule {
     @Attribute private(set) var containerInfo: DynamicContainer.Info
     @Attribute private(set) var childGeometries: [ViewDepthGeometry]
 
     let id: DynamicContainerID
+    
+    typealias Value = ViewDepthGeometry
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
 }
 
 struct DynamicLayoutScrollable : ScrollableCollection, ScrollableContainer {
