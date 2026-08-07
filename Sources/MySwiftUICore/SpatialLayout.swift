@@ -206,42 +206,44 @@ extension SpatialLayout where Self == _ZStackLayout {
                 list: WeakAttribute(list),
                 container: WeakAttribute(containerInfo),
                 childGeometries: WeakAttribute(childViewGeometriesAttribute.attribute),
-                position: WeakAttribute(copy_2.position),
-                transform: WeakAttribute(copy_2.transform),
-                parent: WeakAttribute(copy_2.scrollable.attribute),
+                position: WeakAttribute(inputs.position),
+                transform: WeakAttribute(inputs.transform),
+                parent: WeakAttribute(copy_1.scrollable.attribute),
                 children: WeakAttribute(outputs.preferences[ScrollablePreferenceKey.self])
             )
             
-            outputs.preferences[ScrollablePreferenceKey.self] = Attribute(
-                value: [scrollable as (any Scrollable)]
-            )
+            if withinAccessibilityRotor || hasScrollablePreference {
+                outputs.preferences[ScrollablePreferenceKey.self] = Attribute(
+                    value: [scrollable as (any Scrollable)]
+                )
+            }
             
             if let scrollTargetRoleAttribute = scrollTargetRole.attribute {
                 let collection = Attribute(value: scrollable as (any ScrollableCollection))
                 
-                if copy_2.preferences.keys.contains(ScrollTargetRole.ContentKey.self) {
+                if inputs.preferences.keys.contains(ScrollTargetRole.ContentKey.self) {
                     let setLayout = ScrollTargetRole.SetLayout(
                         role: scrollTargetRoleAttribute,
                         collection: collection
                     )
                     
                     let setLayoutAttribute = Attribute(setLayout)
-                    outputs.preferences.makePreferenceTransformer(inputs: copy_2.preferences, key: ScrollTargetRole.ContentKey.self, transform: setLayoutAttribute)
+                    outputs.preferences.makePreferenceTransformer(inputs: inputs.preferences, key: ScrollTargetRole.ContentKey.self, transform: setLayoutAttribute)
                 }
                 
                 let transform = ScrollStateRequestTransform(
                     collection: collection,
-                    inputs: copy_2
+                    inputs: inputs
                 )
                 
-                if copy_2.preferences.keys.contains(UpdateScrollStateRequestKey.self) {
+                if inputs.preferences.keys.contains(UpdateScrollStateRequestKey.self) {
                     let requestAttribute = Attribute(transform)
-                    outputs.preferences.makePreferenceTransformer(inputs: copy_2.preferences, key: UpdateScrollStateRequestKey.self, transform: requestAttribute)
+                    outputs.preferences.makePreferenceTransformer(inputs: inputs.preferences, key: UpdateScrollStateRequestKey.self, transform: requestAttribute)
                 }
             }
             
             if withinAccessibilityRotor {
-                copy_2.base.layoutAccessibilityProvider.makeAccessibility(inputs: copy_2, outputs: &outputs)
+                copy_1.layoutAccessibilityProvider.makeAccessibility(inputs: inputs, outputs: &outputs)
             }
         }
         

@@ -35,6 +35,12 @@ extension EntityRepresentable {
     }
     
     public nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        /*
+         view -> x0 -> x29 - 0x158
+         inputs -> x1 -> x20
+         Self -> x2 -> x22 -> x29 - 0xc0
+         */
+        // <+1080>
         assertUnimplemented()
     }
     

@@ -104,11 +104,7 @@ extension Layout3D {
                 layout: root.value,
                 environment: copy_1.environment,
                 containerInfo: OptionalAttribute(),
-                layoutMap: DynamicLayoutMap(
-                    map: [],
-                    sortedArray: [],
-                    sortedSeed: 0
-                )
+                layoutMap: DynamicLayoutMap()
             )
             
             // w25

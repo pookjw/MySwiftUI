@@ -561,14 +561,14 @@ extension Layout {
         // w26
         let options = copy_2.options
         // x24
-        let inputs = copy_2.customInputs
+        let customInputs = copy_2.customInputs
         
         // sp + 0x9c
         let withinAccessibilityRotor: Bool
         if options.contains(.needsAccessibility) {
-            withinAccessibilityRotor = false
+            withinAccessibilityRotor = customInputs[WithinAccessibilityRotor.self]
         } else {
-            withinAccessibilityRotor = inputs[WithinAccessibilityRotor.self]
+            withinAccessibilityRotor = false
         }
         
         // <+252>
@@ -620,7 +620,7 @@ extension Layout {
                 )
             )
             
-            let enableLayoutDepthStashing = inputs[EnableLayoutDepthStashing.self]
+            let enableLayoutDepthStashing = customInputs[EnableLayoutDepthStashing.self]
             if enableLayoutDepthStashing, let geometriesAttribute = geometriesAttribute.attribute {
                 // <+944>
                 geometriesAttribute.mutateBody(as: LayoutChildGeometries.self, invalidating: true) { rule in
@@ -706,7 +706,49 @@ extension Layout {
         // <+1908>
         if (scrollTargetRole.attribute != nil) || hasScrollable || withinAccessibilityRotor {
             // <+1936>
-            assertUnimplemented()
+            let scrollable = DynamicLayoutScrollable(
+                list: WeakAttribute(list),
+                container: WeakAttribute(containerInfo),
+                childGeometries: WeakAttribute(geometriesAttribute.attribute),
+                position: WeakAttribute(copy_1.position),
+                transform: WeakAttribute(copy_1.transform),
+                parent: WeakAttribute(copy_2.scrollable.attribute),
+                children: WeakAttribute(outputs.preferences[ScrollablePreferenceKey.self])
+            )
+            
+            if withinAccessibilityRotor || hasScrollable {
+                outputs.preferences[ScrollablePreferenceKey.self] = Attribute(
+                    value: [scrollable as (any Scrollable)]
+                )
+            }
+            
+            if let scrollTargetRoleAttribute = scrollTargetRole.attribute {
+                let collection = Attribute(value: scrollable as (any ScrollableCollection))
+                
+                if copy_1.preferences.keys.contains(ScrollTargetRole.ContentKey.self) {
+                    let setLayout = ScrollTargetRole.SetLayout(
+                        role: scrollTargetRoleAttribute,
+                        collection: collection
+                    )
+                    
+                    let setLayoutAttribute = Attribute(setLayout)
+                    outputs.preferences.makePreferenceTransformer(inputs: copy_1.preferences, key: ScrollTargetRole.ContentKey.self, transform: setLayoutAttribute)
+                }
+                
+                let transform = ScrollStateRequestTransform(
+                    collection: collection,
+                    inputs: copy_1
+                )
+                
+                if copy_1.preferences.keys.contains(UpdateScrollStateRequestKey.self) {
+                    let requestAttribute = Attribute(transform)
+                    outputs.preferences.makePreferenceTransformer(inputs: copy_1.preferences, key: UpdateScrollStateRequestKey.self, transform: requestAttribute)
+                }
+            }
+            
+            if withinAccessibilityRotor {
+                copy_2.layoutAccessibilityProvider.makeAccessibility(inputs: copy_1, outputs: &outputs)
+            }
         } else {
             // <+2064>
             // <+3312>
