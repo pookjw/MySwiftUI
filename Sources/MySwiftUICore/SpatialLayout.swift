@@ -51,7 +51,6 @@ extension SpatialLayout {
 }
 
 extension SpatialLayout where Self == _ZStackLayout {
-    // $s7SwiftUI13SpatialLayoutPAAE011makeDynamiccD4View4root6inputs10properties4listAA01_G7OutputsVAA11_GraphValueVyxG_AA01_G6InputsVAA0cD10PropertiesV09AttributeM00Q0VyAA0G4List_pGtFZAA07_ZStackD0V_Tt2t4B5
     nonisolated static func makeDynamicSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: Attribute<any ViewList>) -> _ViewOutputs {
         /*
          root -> x0 -> w26
@@ -86,6 +85,7 @@ extension SpatialLayout where Self == _ZStackLayout {
         }
         
         // <+228>
+        // hasScrollablePreference -> w24 -> x19 + 0x6c
         // x28
         var layoutComputerAttribute: Attribute<LayoutComputer>? = nil
         // x19 + 0x78
@@ -100,7 +100,7 @@ extension SpatialLayout where Self == _ZStackLayout {
         {
             // <+316>
             // x19 + 0x150
-            let layoutComputer = DynamicLayoutComputer<_ZStackLayout>(
+            let layoutComputer = DynamicLayoutComputer<Self>(
                 layout: root.value,
                 environment: copy_1.environment,
                 containerInfo: OptionalAttribute(),
@@ -133,7 +133,124 @@ extension SpatialLayout where Self == _ZStackLayout {
         }
         
         // <+932>
-        assertUnimplemented()
+        // x19 + 0x1e0
+        var copy_2 = inputs
+        copy_2.base.options = options.subtracting(.viewRequestsLayoutComputer)
+        
+        if !hasScrollTargetRoleContent || !scrollTargetRemovePreference {
+            // <+1060>
+            // x19 + 0x150
+            let _ = inputs
+        } else {
+            copy_2.preferences.remove(ScrollTargetRole.ContentKey.self)
+            copy_2.preferences.remove(UpdateScrollStateRequestKey.self)
+            
+            // x19 + 0x150
+            let _ = inputs
+            // <+1080>
+        }
+        
+        // <+1080>
+        if scrollTargetRole.attribute != nil {
+            copy_2.scrollTargetRole = OptionalAttribute()
+            copy_2.scrollTargetRemovePreference = true
+            copy_2.base.resetScrollPosition(kind: .scrollContent)
+        }
+        
+        // <+1244>
+        func mapMutator(thunk: (inout DynamicLayoutMap) -> Void) {
+            // $s7SwiftUI13SpatialLayoutPAAE011makeDynamiccD4View4root6inputs10properties4listAA01_G7OutputsVAA11_GraphValueVyxG_AA01_G6InputsVAA0cD10PropertiesV09AttributeM00Q0VyAA0G4List_pGtFZ10mapMutatorL_5thunkyyAA0fD3MapVzXE_tAaBRzlFAA07_ZStackD0V_Tg5TA
+            guard let layoutComputerAttribute else {
+                return
+            }
+            
+            layoutComputerAttribute.mutateBody(as: DynamicLayoutComputer<Self>.self, invalidating: true) { dynamicLayoutComputer in
+                thunk(&dynamicLayoutComputer.layoutMap)
+            }
+        }
+        
+        let childDepthData: DynamicLayoutViewAdaptor.ChildDepthData
+        if let depthsAttribute = childDepthGeometriesAttribute.attribute {
+            childDepthData = .geometries(depthsAttribute)
+        } else {
+            childDepthData = .none
+        }
+        
+        let adaptor = DynamicLayoutViewAdaptor(
+            items: list,
+            childGeometries: childViewGeometriesAttribute,
+            childDepthData: childDepthData,
+            mutateLayoutMap: mapMutator(thunk:)
+        )
+        
+        // x29 - 0xc0
+        let copy_3 = copy_2
+        // x19 + 0xb4 / x26
+        var (containerInfo, outputs) = DynamicContainer.makeContainer(adaptor: adaptor, inputs: copy_3)
+        
+        if let layoutComputerAttribute {
+            // <+1368>
+            layoutComputerAttribute.mutateBody(as: DynamicLayoutComputer<Self>.self, invalidating: true) { dynamicLayoutComputer in
+                // $s7SwiftUI8Layout3DPAAE17makeDynamicView3D4root6inputs10properties4listAA12_ViewOutputsVAA11_GraphValueVyxG_AA01_K6InputsVAA16LayoutPropertiesV09AttributeM00R0VyAA0K4List_pGtFZyAA0eP8Computer33_20EDA2BED32E8B299AFBDA7A4F5BCE87LLVyxGzXEfU_AA06ZStackC1DV_Tg5TA
+                dynamicLayoutComputer.$containerInfo = containerInfo
+            }
+        }
+        
+        // <+1520>
+        if
+            scrollTargetRole.attribute != nil ||
+                withinAccessibilityRotor ||
+                hasScrollablePreference
+        {
+            let scrollable = DynamicLayoutScrollable(
+                list: WeakAttribute(list),
+                container: WeakAttribute(containerInfo),
+                childGeometries: WeakAttribute(childViewGeometriesAttribute.attribute),
+                position: WeakAttribute(copy_2.position),
+                transform: WeakAttribute(copy_2.transform),
+                parent: WeakAttribute(copy_2.scrollable.attribute),
+                children: WeakAttribute(outputs.preferences[ScrollablePreferenceKey.self])
+            )
+            
+            outputs.preferences[ScrollablePreferenceKey.self] = Attribute(
+                value: [scrollable as (any Scrollable)]
+            )
+            
+            if let scrollTargetRoleAttribute = scrollTargetRole.attribute {
+                let collection = Attribute(value: scrollable as (any ScrollableCollection))
+                
+                if copy_2.preferences.keys.contains(ScrollTargetRole.ContentKey.self) {
+                    let setLayout = ScrollTargetRole.SetLayout(
+                        role: scrollTargetRoleAttribute,
+                        collection: collection
+                    )
+                    
+                    let setLayoutAttribute = Attribute(setLayout)
+                    outputs.preferences.makePreferenceTransformer(inputs: copy_2.preferences, key: ScrollTargetRole.ContentKey.self, transform: setLayoutAttribute)
+                }
+                
+                let transform = ScrollStateRequestTransform(
+                    collection: collection,
+                    inputs: copy_2
+                )
+                
+                if copy_2.preferences.keys.contains(UpdateScrollStateRequestKey.self) {
+                    let requestAttribute = Attribute(transform)
+                    outputs.preferences.makePreferenceTransformer(inputs: copy_2.preferences, key: UpdateScrollStateRequestKey.self, transform: requestAttribute)
+                }
+            }
+            
+            if withinAccessibilityRotor {
+                copy_2.base.layoutAccessibilityProvider.makeAccessibility(inputs: copy_2, outputs: &outputs)
+            }
+        }
+        
+        // <+1700>
+        if options.contains(.viewRequestsLayoutComputer) {
+            outputs.layoutComputer = layoutComputerAttribute
+        }
+        
+        return outputs
     }
     
     nonisolated static func makeStaticSpatialLayoutView(root: _GraphValue<_ZStackLayout>, inputs: _ViewInputs, properties: SpatialLayoutProperties, list: any _ViewList_Elements) -> _ViewOutputs {
@@ -1440,7 +1557,7 @@ fileprivate struct DynamicLayoutComputer<T> : CustomStringConvertible, AsyncAttr
     @Attribute private(set) var layout: T
     @Attribute private(set) var environment: EnvironmentValues
     @OptionalAttribute var containerInfo: DynamicContainer.Info?
-    private(set) var layoutMap: DynamicLayoutMap
+    var layoutMap: DynamicLayoutMap
     
     typealias Value = LayoutComputer
     

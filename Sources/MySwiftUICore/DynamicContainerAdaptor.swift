@@ -575,9 +575,9 @@ extension Layout {
         // x27 / sp + 0x70
         var layoutComputerAttribute: Attribute<LayoutComputer>?
         // w23
-        let depthsAttribute: Attribute<[ViewDepth]>
+        let depthsAttribute: OptionalAttribute<[ViewDepth]>
         // w25
-        let geometriesAttribute: Attribute<[ViewGeometry]>
+        let geometriesAttribute: OptionalAttribute<[ViewGeometry]>
         
         // options -> sp + 0x7c
         if hasScrollable || !options.intersection([.viewRequestsLayoutComputer, .viewNeedsGeometry]).isEmpty || withinAccessibilityRotor {
@@ -587,7 +587,7 @@ extension Layout {
                 DynamicLayoutComputer(
                     layout: root.value,
                     environment: copy_2.environment,
-                    _containerInfo: OptionalAttribute(),
+                    containerInfo: OptionalAttribute(),
                     layoutMap: DynamicLayoutMap()
                 )
             )
@@ -597,7 +597,7 @@ extension Layout {
             let sizeAttribute = copy_1.size
             
             // w25
-            geometriesAttribute = Attribute(
+            let _geometriesAttribute = Attribute(
                 LayoutChildGeometries(
                     parentSize: sizeAttribute,
                     parentPosition: copy_1.position,
@@ -605,19 +605,23 @@ extension Layout {
                 )
             )
             
+            geometriesAttribute = OptionalAttribute(_geometriesAttribute)
+            
             // <+724>
             // w23
-            depthsAttribute = Attribute(
-                LayoutChildDepths<Self>(
-                    parentSize: sizeAttribute,
-                    parentDepth: copy_1.transform[keyPath: \.depth],
-                    childGeometries: geometriesAttribute,
-                    layoutComputer: _layoutComputerAttribute
+            depthsAttribute = OptionalAttribute(
+                Attribute(
+                    LayoutChildDepths<Self>(
+                        parentSize: sizeAttribute,
+                        parentDepth: copy_1.transform.depth,
+                        childGeometries: _geometriesAttribute,
+                        layoutComputer: _layoutComputerAttribute
+                    )
                 )
             )
             
             let enableLayoutDepthStashing = inputs[EnableLayoutDepthStashing.self]
-            if enableLayoutDepthStashing && geometriesAttribute.identifier != .empty {
+            if enableLayoutDepthStashing, let geometriesAttribute = geometriesAttribute.attribute {
                 // <+944>
                 geometriesAttribute.mutateBody(as: LayoutChildGeometries.self, invalidating: true) { rule in
                     // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_7SwiftUI21DynamicLayoutComputer33_20EDA2BED32E8B299AFBDA7A4F5BCE87LLVyAG22GeometryReaderLayout3D33_638EB2064D6D992C8A48A894A8F58A16LLVG_Tg5TA
@@ -635,8 +639,8 @@ extension Layout {
             }
         } else {
             // <+340>
-            depthsAttribute = Attribute(identifier: .empty)
-            geometriesAttribute = Attribute(identifier: .empty)
+            depthsAttribute = OptionalAttribute()
+            geometriesAttribute = OptionalAttribute()
             // <+1088>
         }
         
@@ -667,10 +671,10 @@ extension Layout {
         let copy_5 = copy_3
         
         let childDepthData: DynamicLayoutViewAdaptor.ChildDepthData
-        if depthsAttribute.identifier == .empty {
-            childDepthData = .none
-        } else {
+        if let depthsAttribute = depthsAttribute.attribute {
             childDepthData = .depths(depthsAttribute)
+        } else {
+            childDepthData = .none
         }
         
         func mapMutator(thunk: (inout DynamicLayoutMap) -> Void) {
@@ -686,7 +690,7 @@ extension Layout {
         
         let adapter = DynamicLayoutViewAdaptor(
             items: list,
-            childGeometries: OptionalAttribute(geometriesAttribute),
+            childGeometries: geometriesAttribute,
             childDepthData: childDepthData,
             mutateLayoutMap: mapMutator(thunk:)
         )
@@ -695,7 +699,7 @@ extension Layout {
         
         if let layoutComputerAttribute {
             layoutComputerAttribute.mutateBody(as: DynamicLayoutComputer<Self>.self, invalidating: true) { dynamicLayoutComputer in
-                dynamicLayoutComputer._containerInfo = OptionalAttribute(containerInfo)
+                dynamicLayoutComputer.$containerInfo = containerInfo
             }
         }
         
@@ -720,7 +724,7 @@ extension Layout {
 fileprivate struct DynamicLayoutComputer<T : Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var layout: T
     @Attribute private(set) var environment: EnvironmentValues
-    var _containerInfo: OptionalAttribute<DynamicContainer.Info>
+    @OptionalAttribute var containerInfo: DynamicContainer.Info?
     var layoutMap: DynamicLayoutMap
     
     var description: String {
@@ -740,10 +744,6 @@ fileprivate struct DynamicLayoutComputer<T : Layout>: StatefulRule, AsyncAttribu
             environment: $environment,
             attributes: attributes
         )
-    }
-    
-    var containerInfo: DynamicContainer.Info? {
-        return _containerInfo.attribute?.value
     }
 }
 
