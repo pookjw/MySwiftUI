@@ -204,7 +204,9 @@ exports:
     _REEngineConfigurationSetCALayerServiceFlags,
     _REGetRetainCount,
     _REEngineConfigurationCreateDefault,
-    _RESRTMatrix ]
+    _RESRTMatrix,
+    _RESceneSpaceRootComponentGetSceneToImmersiveTransform,
+    _RESceneSpaceRootComponentSetSceneToImmersiveTransform ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

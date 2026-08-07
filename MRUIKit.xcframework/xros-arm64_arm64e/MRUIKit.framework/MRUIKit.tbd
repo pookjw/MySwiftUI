@@ -33,7 +33,9 @@ exports:
     __NSStringFromMRUIImmersionStyle,
     __NSStringFromMRUIImmersionShape,
     _MRUISceneErrorDomain,
-    __MRUISceneDidChangeRelativeTransformNotification ]
+    __MRUISceneDidChangeRelativeTransformNotification,
+    _$s7MRUIKit31_MRUIObjectTransformInteractionC8DelegateMp,
+    _$s7MRUIKit31_MRUIObjectTransformInteractionCMn ]
     objc-classes:         [ MRUIPreferenceKey,
     MRUIPreferenceHost,
     MRUISharedApplicationSceneSettings,
