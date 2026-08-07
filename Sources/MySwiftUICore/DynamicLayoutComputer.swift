@@ -214,7 +214,7 @@ extension Layout3D {
                 childGeometries: WeakAttribute(geometriesAttribute.attribute),
                 position: WeakAttribute(copy_2.position),
                 transform: WeakAttribute(copy_2.transform),
-                parent: WeakAttribute(copy_2.scrollable.attribute),
+                parent: WeakAttribute(inputs.scrollable.attribute),
                 children: WeakAttribute(outputs.preferences[ScrollablePreferenceKey.self])
             )
             
