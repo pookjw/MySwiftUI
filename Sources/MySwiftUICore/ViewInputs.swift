@@ -32,7 +32,7 @@ public struct _ViewInputs {
         }
     }
     
-    var transaction: Attribute<Transaction> {
+    package var transaction: Attribute<Transaction> {
         get {
             return base.transaction
         }

@@ -174,7 +174,7 @@ extension _GraphInputs {
             self.value = value
         }
         
-        init() {
+        package init() {
             self.value = 0
         }
         

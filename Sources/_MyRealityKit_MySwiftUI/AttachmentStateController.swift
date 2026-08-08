@@ -1,4 +1,4 @@
-@_spi(Reality) internal import MySwiftUI
+internal import MySwiftUI
 
 class AttachmentStateControllerBase {
     init() {}

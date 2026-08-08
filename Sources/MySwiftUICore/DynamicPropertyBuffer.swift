@@ -4,8 +4,7 @@ private import AttributeGraph
 public struct _DynamicPropertyBuffer {
     private var contents: UnsafeHeterogeneousBuffer
     
-    @inline(always)
-    init<T>(fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs) {
+    package init<T>(fields: DynamicPropertyCache.Fields, container: _GraphValue<T>, inputs: inout _GraphInputs) {
         contents = UnsafeHeterogeneousBuffer()
         unsafe addFields(fields, container: container, inputs: &inputs, baseOffset: 0)
     }

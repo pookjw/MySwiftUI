@@ -1,5 +1,5 @@
 
-protocol UnaryView : View {
+package protocol UnaryView : View {
 }
 
 extension UnaryView {

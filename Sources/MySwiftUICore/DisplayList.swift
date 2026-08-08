@@ -815,7 +815,7 @@ protocol ViewRendererBase : AnyObject {
 package struct _DisplayList_Identity : Hashable, Codable, CustomStringConvertible, Sendable {
     package var value: UInt32
     
-    init() {
+    package init() {
         let identity = (lastIdentity &+ 1)
         lastIdentity = identity
         self.value = identity

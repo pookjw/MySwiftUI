@@ -161,6 +161,6 @@ final class LeafViewResponder<T : ContentResponder>: ViewResponder {
     }
 }
 
-protocol LeafViewLayout {
-    
+package protocol LeafViewLayout {
+    // TODO
 }

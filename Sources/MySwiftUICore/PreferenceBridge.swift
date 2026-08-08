@@ -1,4 +1,4 @@
-// 
+// DF57A19C61B44C613EB77C1D47FC679A
 internal import AttributeGraph
 
 @safe package final class PreferenceBridge {
@@ -11,7 +11,7 @@ internal import AttributeGraph
     @WeakAttribute var hostPreferencesCombiner: PreferenceValues? // 0x40
     private var bridgedPreferences: [PreferenceBridge.BridgedPreference] = [] // 0x48
     
-    init() {
+    package init() {
         // <+60>
         self.viewGraph = .current
     }
@@ -31,7 +31,7 @@ internal import AttributeGraph
         inputs.preferences.hostKeys = Attribute(merged)
     }
     
-    func wrapOutputs(_ outputs: inout PreferencesOutputs, inputs: _ViewInputs) {
+    package func wrapOutputs(_ outputs: inout PreferencesOutputs, inputs: _ViewInputs) {
         /*
          self -> x20 -> x22
          outputs -> x0 -> x20

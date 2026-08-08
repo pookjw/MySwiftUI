@@ -1,5 +1,5 @@
 private import MyRealityFoundation
-@_spi(Reality) @_spi(Internal) internal import MySwiftUI
+@_spi(Internal) internal import MySwiftUI
 internal import Spatial
 
 struct EntityWrapper : EntityRepresentable {
