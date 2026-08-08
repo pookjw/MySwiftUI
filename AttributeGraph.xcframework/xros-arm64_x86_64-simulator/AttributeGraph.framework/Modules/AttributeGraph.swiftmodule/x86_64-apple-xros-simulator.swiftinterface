@@ -218,8 +218,14 @@ public struct RuleContext<T> : Swift.Equatable, Swift.Sendable {
   public func update(body: () -> Void)
 }
 
-public struct Focus<Key, Value> {
-
+@frozen
+public struct Focus<Root, Value> : Swift.CustomStringConvertible, AttributeGraph.Rule {
+  public var description: Swift.String { get }
+  init(root: AttributeGraph.Attribute<Root>, keyPath: Swift.KeyPath<Root, Value>)
+  static var flags: AttributeGraph.AnyAttribute.Flags { get }
+  @_hasStorage public var root: AttributeGraph.Attribute<Root>
+  @_hasStorage public var keyPath: Swift.KeyPath<Root, Value>
+  public var value: Value { get }
 }
 
 @frozen
